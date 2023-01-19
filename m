@@ -1,43 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9271672DE2
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 02:13:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1B7672DED
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 02:17:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C83F10E221;
-	Thu, 19 Jan 2023 01:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A60410E224;
+	Thu, 19 Jan 2023 01:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C1510E21E;
- Thu, 19 Jan 2023 01:13:16 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Ny4Pc5V6hz4xN4;
- Thu, 19 Jan 2023 12:13:08 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1674090789;
- bh=38gPF9WCNIwlhkWACirRWDyLEnGY8N9VoQR90tcBLPk=;
- h=Date:From:To:Cc:Subject:From;
- b=O41Z/jl7V5AgTg3n9R89wwqYHhQ9FBmo8jn4bbdq+gNvn9l8LLXZtDBUuK/qEDKm0
- fEu/SDHgizpb6gt7U+H5uL/bqEjlV/5OtR/ru/gFZV8vJ+9BgZGrdfClFJzp9tBzK0
- K2dylru46iFKsrsLaRZIljFdFLAKyk2Hu80pag74XGEydZjo8ssmHaySWGNCkKzxRc
- 7bzNiUapvHuBqbZCZH8blOSqpawUw871sW/U1m4gYpbuOCkufbrNZbBXBxwSaBYAw6
- rRhVPec2HTD4E7VkptANc5f1VzfczIUuX6WoBrkMQdG6lKZkEqnn7ne0QBW1FbJgmT
- x0kvLn+5rwxSw==
-Date: Thu, 19 Jan 2023 12:13:07 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
-Message-ID: <20230119121307.4366ac4e@canb.auug.org.au>
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A026410E21E;
+ Thu, 19 Jan 2023 01:16:56 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id p133so518262oig.8;
+ Wed, 18 Jan 2023 17:16:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=z3r1JR3MPSsFBpDWpSJ61vE3nIfb3dVZfnc0GIpbrWQ=;
+ b=upnErD7JPbg0gFzAwmwHC9wEpySzjgTSUPtsIJMxibS2Jen/rZcbbirYl9+6GxJCjs
+ 14sr8XGt7zJB47ydzRKIM0ssGYJqwQIX9VItqdIS9hkOIDucLxzt3FERBVoiYvLvLZIU
+ LT6pIhQ1WOY7F+krXqwrFY3f73ca00wyotK4TEvVxMSS1Yzm7GBSLZxv/0kwn3DlR1U5
+ I1zO74xNILhY4Bw585teY2bFWlTKqBaBcIHBiA48GtZRm73fZD+pKfP4tDnTACuQ7Spf
+ 48ZzsAy52m7LBUsu7eGbFOE0yl3qs0Gzf9xwQmq98w2po5xdlWHL1M6C3srPRO7bVGRo
+ s6/w==
+X-Gm-Message-State: AFqh2krOXhQPtHXLWtJKwt8HRNW+4PDqhP0zQQxdhXlM41oMyENzZZP4
+ 8hznAHz0AC2xDn+vulppaQ==
+X-Google-Smtp-Source: AMrXdXtzdGuzM2xjuyJk74WyjD1MxXFw6y69PVYfiCmiJk6lZ/KGyd6qJxoZ1ER0uDYmhmc0ENYnXg==
+X-Received: by 2002:a05:6808:1a2a:b0:35e:66a4:1b19 with SMTP id
+ bk42-20020a0568081a2a00b0035e66a41b19mr5883257oib.8.1674091015714; 
+ Wed, 18 Jan 2023 17:16:55 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ 2-20020aca0602000000b0036508145326sm5878098oig.9.2023.01.18.17.16.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 17:16:55 -0800 (PST)
+Received: (nullmailer pid 12835 invoked by uid 1000);
+ Thu, 19 Jan 2023 01:16:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/0hwf36qt=q.5jX13Fkq2FrR";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+From: Rob Herring <robh@kernel.org>
+To: Mark Yacoub <markyacoub@chromium.org>
+In-Reply-To: <20230118193015.911074-9-markyacoub@google.com>
+References: <20230118193015.911074-1-markyacoub@google.com>
+ <20230118193015.911074-9-markyacoub@google.com>
+Message-Id: <167409094385.4360.15863185798758300987.robh@kernel.org>
+Subject: Re: [PATCH v6 08/10] dt-bindings: msm/dp: Add bindings for HDCP
+ registers
+Date: Wed, 18 Jan 2023 19:16:53 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,91 +64,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: quic_sbillaka@quicinc.com, konrad.dybcio@somainline.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, arun.r.murthy@intel.com, marex@denx.de,
+ manasi.d.navare@intel.com, abhinavk@codeaurora.org, javierm@redhat.com,
+ quic_khsieh@quicinc.com, stanislav.lisovskiy@intel.com, agross@kernel.org,
+ Mark Yacoub <markyacoub@chromiu.org>, quic_jesszhan@quicinc.com,
+ ankit.k.nautiyal@intel.com, hbh25y@gmail.com, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ lucas.demarchi@intel.com, quic_abhinavk@quicinc.com, jose.souza@intel.com,
+ swboyd@chromium.org, robh+dt@kernel.org, seanpaul@chromium.org,
+ maxime@cerno.tech, rodrigo.vivi@intel.com, bjorn.andersson@linaro.org,
+ sean@poorly.run, johan+linaro@kernel.org, tvrtko.ursulin@linux.intel.com,
+ andersson@kernel.org, dianders@chromium.org, swati2.sharma@intel.com,
+ ashutosh.dixit@intel.com, tzimmermann@suse.de, bhanuprakash.modem@intel.com,
+ dmitry.baryshkov@linaro.org, christophe.jaillet@wanadoo.fr,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/0hwf36qt=q.5jX13Fkq2FrR
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+On Wed, 18 Jan 2023 19:30:13 +0000, Mark Yacoub wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> This patch adds the bindings for the MSM DisplayPort HDCP registers
+> which are required to write the HDCP key into the display controller as
+> well as the registers to enable HDCP authentication/key
+> exchange/encryption.
+> 
+> We'll use a new compatible string for this since the fields are optional.
+> 
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Mark Yacoub <markyacoub@chromiu.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-13-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-13-sean@poorly.run #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-13-sean@poorly.run #v3
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-13-sean@poorly.run #v4
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211115202153.117244-1-sean@poorly.run #v4.5
+> Link: https://patchwork.freedesktop.org/patch/msgid/20220411204741.1074308-9-sean@poorly.run #v5
+> 
+> Changes in v2:
+> -Drop register range names (Stephen)
+> -Fix yaml errors (Rob)
+> Changes in v3:
+> -Add new compatible string for dp-hdcp
+> -Add descriptions to reg
+> -Add minItems/maxItems to reg
+> -Make reg depend on the new hdcp compatible string
+> Changes in v4:
+> -Rebase on Bjorn's multi-dp patchset
+> Changes in v4.5:
+> -Remove maxItems from reg (Rob)
+> -Remove leading zeros in example (Rob)
+> Changes in v5:
+> -None
+> Changes in v6:
+> -Rebased: modify minItems instead of adding it as new line.
+> 
+> ---
+>  .../devicetree/bindings/display/msm/dp-controller.yaml    | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
 
-Today's linux-next merge of the drm-misc tree got a conflict in:
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-  drivers/gpu/drm/vmwgfx/ttm_object.h
+yamllint warnings/errors:
 
-between commit:
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.example.dtb: displayport-controller@ae90000: reg: [[183042048, 512], [183042560, 512], [183043072, 3072], [183046144, 1024], [183047168, 1024], [183308288, 372], [183373824, 44]] is too long
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sc7280-mdss.example.dtb: edp@aea0000: reg: [[183107584, 512], [183108096, 512], [183108608, 3072], [183111680, 1024]] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
 
-  a309c7194e8a ("drm/vmwgfx: Remove rcu locks from user resources")
+doc reference errors (make refcheckdocs):
 
-from Linus' tree and commit:
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230118193015.911074-9-markyacoub@google.com
 
-  13acb368bf02 ("drm/ttm/vmwgfx: move ttm_bo_wait into VMWGFX")
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-from the drm-misc tree.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+pip3 install dtschema --upgrade
 
---=20
-Cheers,
-Stephen Rothwell
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-diff --cc drivers/gpu/drm/vmwgfx/ttm_object.h
-index 8098a3846bae,95a9679f9d39..000000000000
---- a/drivers/gpu/drm/vmwgfx/ttm_object.h
-+++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
-@@@ -307,4 -309,27 +309,12 @@@ extern int ttm_prime_handle_to_fd(struc
-  #define ttm_prime_object_kfree(__obj, __prime)		\
-  	kfree_rcu(__obj, __prime.base.rhead)
- =20
- -struct ttm_base_object *
- -ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint64_t key);
- -
- -/**
- - * ttm_base_object_noref_release - release a base object pointer looked up
- - * without reference
- - *
- - * Releases a base object pointer looked up with ttm_base_object_noref_lo=
-okup().
- - */
- -static inline void ttm_base_object_noref_release(void)
- -{
- -	__acquire(RCU);
- -	rcu_read_unlock();
- -}
- -
-+ static inline int ttm_bo_wait(struct ttm_buffer_object *bo, bool intr,
-+ 			      bool no_wait)
-+ {
-+ 	struct ttm_operation_ctx ctx =3D { intr, no_wait };
-+=20
-+ 	return ttm_bo_wait_ctx(bo, &ctx);
-+ }
-+=20
-  #endif
-
---Sig_/0hwf36qt=q.5jX13Fkq2FrR
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPImSMACgkQAVBC80lX
-0GzCQAf/fIL3znz6gmPHSw9S8jB8gAKcOvfDx0QLArZSqxKxRDe+Oj0DkYOA7e2L
-mBvET7giBmk9c2WcmTWv5vrHqSN3hNaXWySj0f3EzJd7PTkfigxKd4EOJEJOHnOz
-tB8P0T/gykg2kJoGPQ10/FHd9d19Wx7r1rB5Wd7Lw3r8YHmudkKiDii89EH7aYX+
-RZ8gD919W10NfaeKFjU7Ea6vkL+bIezQB28GOZFqXNSXupsI12BI+C1ivr17HSQD
-fqgH49OfuOR7xkWUiT+YVJnWaXq+oYSACTxFJtYTIFfmEDYJUGnxhiMHP1uy99sD
-xk19NQbhmoshnAiLvBexpnMB+yGS/g==
-=IJWR
------END PGP SIGNATURE-----
-
---Sig_/0hwf36qt=q.5jX13Fkq2FrR--
