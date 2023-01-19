@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C1F673261
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 08:24:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C35A5673263
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 08:24:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B04DB10E8B6;
-	Thu, 19 Jan 2023 07:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D80810E8B8;
+	Thu, 19 Jan 2023 07:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9BE10E8B6
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 07:24:22 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id z5so914661wrt.6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 23:24:22 -0800 (PST)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C5110E8B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 07:24:54 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id j17so805678wms.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jan 2023 23:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BuvvxU5SQjrPNh/tsenI3bDuTK1r+L/h3C2FusTkVJM=;
- b=naPlxqGjiqVsWt05MsYVWdzKkcBus4Gbs4pbt/tn1HcDoe3V89aXmti61qphNonjLY
- 7xcsJSm+V2e1WNwIb52SN9OF/FOzQibPCPORVLt3So/RfhORVa/769EFquj2bA23dujL
- fcyu3Q2k3Anr+CMEbYiReJa5vfqn/H1rrcHY1GwVNrsy9x3smdC9hntNrgDAxQkNAfba
- 0mxuG6Jv0Q9cFhrhwhkHKKsrc+AJzFFNi8VMxBvfmOTUDmlejKtaiwxCFpbKCRZZRUl4
- AQt0wGDkiaYSvHkdNxB9lNvGFAYv9OlQH7nzkyqKfGUg+0Ic4bqF7dbZ7RHXGkg4QRAH
- zlyw==
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=aEd8ywzEyZqNLP8z3RvHNAWRLYCIYe43IS8HvDJaJlU=;
+ b=dovgD9io5K1IKRnUJXgbCsePY8SoKt2zeVtMeGplnip4hXjRluS3V1kRANIT/yg9Eh
+ sBvas0MtKInpFh2WvZMDZGD3Wj1BFr6wtUaddPf0CgiIaKIYj7DW0nHgw07EPLwsLICA
+ /YJBb7XqcbVOnF3fundG0IU6TrVXPde3WKeX5zV1BBcjDyrGFy3iM6D+D+uv7AiN+wqi
+ UFVV7L5wtOQ9bysrRQeFGXT1XaepbkupuX35grDiBrzR3MWI2DbH9jw8T4ZcyPq+JZjJ
+ 70f+uvBQcl+lUsT19ZpiEMJIrIVxdTD6vWqmoSPygRyzbGsdnT77i+EAURw0pdHZ6C7w
+ GRqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BuvvxU5SQjrPNh/tsenI3bDuTK1r+L/h3C2FusTkVJM=;
- b=LKgchZvk+FlIr+6lbGPVIewup627tSzw6+hAfBGe7QWhadDJyRjjfbk43405GaK/8t
- EomKaEfesuAuhgWnhbag3kZzM6ryVj8fckO65lITypSzaBuO1C5GAN8nZUM/GXBDc0hV
- Un8txhxVLVQU0evUJKqk0MHgRT9ZhcQaELPp2uIBOR8uBL97Yw9IltV8SUEHOwpxJc4i
- m/4zbcREY19i31HJCq9q6VVSR/gCvNNUbiap9YI1LzwCi6YuUM33uicouzcM1k+JAA+J
- W9/Ureu4qtEEOlGWlJYP+endAsieN89Gom6EsfH2JHcUZDYEA7+xb+EDD5qRIWc5kMl5
- HVEA==
-X-Gm-Message-State: AFqh2kpoSp3LP1TQao/eccav7PVm09o3jLZn3BqgCsR2lBDwhRLFaQqz
- Sv0Xdf7hkFslUhBjJomH/st9bulAzUqflyAQASM=
-X-Google-Smtp-Source: AMrXdXs2UyDs6MMmSx1HD83ql/F8H3MVkRcUOF5XNTPpk8+TtFKjPT9nGENMak1zYW6i+qrg+2qEKQ==
-X-Received: by 2002:adf:dd01:0:b0:289:773c:59ee with SMTP id
- a1-20020adfdd01000000b00289773c59eemr8341444wrm.6.1674113060803; 
- Wed, 18 Jan 2023 23:24:20 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aEd8ywzEyZqNLP8z3RvHNAWRLYCIYe43IS8HvDJaJlU=;
+ b=1A1J5dNQ2AnRxx1tUm5QAK90aVdCjoABlAdb7QAdE65nWUogsY+npqmUHbNhoSLRTa
+ HxSvnIdUlmm84Hpwxm3K80ru6y6H+I5K69sctS55dRv4tbQn8ku9fuKU+f3/yqOpxYac
+ Ax5mB89L0jJwVBDd75IUv+KVCoW89vKMrkk6TMgbeOjcUF2ySUj8uXHLfmwpjnW4CzFn
+ 1CzpJL17Fqzkb4oJl2re6LwoZTXyOymXE3B1EnDiE1N6FYtcuHEq6K7X/R+IfFICR3An
+ hDCgxIlJ1Byyy+D8fJ65IKKaS4NYXkrdxq3W4He1XR+XrAlynV+yJi8zhrySWbD+hrNA
+ H7oA==
+X-Gm-Message-State: AFqh2kqv8ERBTImfxt1jOK2f6DE9SQuqgwJ0UeAZjp/F/J+3RSqjmyys
+ xw3r/bQ0ZmOglgj0WWaU1UZSkg==
+X-Google-Smtp-Source: AMrXdXuTtMWRoLVJs60XnsQgHoSm9apaQuv0n+Pfe2Ca847eT4R/09muekNZk/GQTSH5iTPhPianFw==
+X-Received: by 2002:a05:600c:4928:b0:3d3:4aa6:4fe6 with SMTP id
+ f40-20020a05600c492800b003d34aa64fe6mr9323563wmp.3.1674113093343; 
+ Wed, 18 Jan 2023 23:24:53 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:3936:d49c:4a01:ee1e?
+ ([2a01:e0a:982:cbb0:3936:d49c:4a01:ee1e])
  by smtp.gmail.com with ESMTPSA id
- r11-20020adff70b000000b002bdf290efdasm10397537wrp.58.2023.01.18.23.24.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 23:24:20 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.l.velikov@gmail.com>, Vinay Simha BN <simhavcs@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Richard Acayan <mailingradian@gmail.com>
-In-Reply-To: <20230116224909.23884-1-mailingradian@gmail.com>
-References: <20230116224909.23884-1-mailingradian@gmail.com>
-Subject: Re: [RFC PATCH v3 0/3] drm/mipi-dsi: 16-bit Brightness Endianness Fix
-Message-Id: <167411305980.243807.4478206402643640808.b4-ty@linaro.org>
-Date: Thu, 19 Jan 2023 08:24:19 +0100
+ p15-20020a05600c468f00b003d9b87296a9sm4032602wmo.25.2023.01.18.23.24.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 23:24:52 -0800 (PST)
+Message-ID: <a7a9d6cc-3602-7a41-86a8-c8be564c4062@linaro.org>
+Date: Thu, 19 Jan 2023 08:24:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [RFC PATCH v3 0/3] drm/mipi-dsi: 16-bit Brightness Endianness Fix
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>, Richard Acayan <mailingradian@gmail.com>
+References: <20230116224909.23884-1-mailingradian@gmail.com>
+ <Y8jtucG3MMk8Oqk8@ravnborg.org>
+Organization: Linaro Developer Services
+In-Reply-To: <Y8jtucG3MMk8Oqk8@ravnborg.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,30 +78,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Caleb Connolly <caleb@connolly.tech>, Daniel Mentz <danielmentz@google.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Caleb Connolly <caleb@connolly.tech>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Vinay Simha BN <simhavcs@gmail.com>, Daniel Mentz <danielmentz@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, 16 Jan 2023 17:49:06 -0500, Richard Acayan wrote:
-> Changes since v2 (20230114010006.50471-1-mailingradian@gmail.com):
->  - patch vtdr6130 to use _large (3/3)
->  - remove Change-Id again (1/3)
->  - change patch subject (1-2/3)
->  - correct function name in patch description (2/3)
->  - add Tested-by tags (1-2/3)
+On 19/01/2023 08:14, Sam Ravnborg wrote:
+> Hi Richard.
+> On Mon, Jan 16, 2023 at 05:49:06PM -0500, Richard Acayan wrote:
+>> Changes since v2 (20230114010006.50471-1-mailingradian@gmail.com):
+>>   - patch vtdr6130 to use _large (3/3)
+>>   - remove Change-Id again (1/3)
+>>   - change patch subject (1-2/3)
+>>   - correct function name in patch description (2/3)
+>>   - add Tested-by tags (1-2/3)
+>>
+>> Changes since v1 (20230113041848.200704-1-mailingradian@gmail.com):
+>>   - move 16-bit brightness handling to new functions and revert API
+>>     change (1/2)
+>>   - remove Change-Id in compliance with checkpatch.pl (1/2)
+>>   - separate panel driver changes (2/2)
+>>
+>> This series adds proper support for 16-bit MIPI DSI brightness and
+>> cleans up existing panel drivers with 16-bit brightness.
 > 
-> [...]
+> The series is:
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> 
+> Neil - I hope you can land this in drm-misc.
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Sure, done !
 
-[1/3] drm/mipi-dsi: Fix byte order of 16-bit DCS set/get brightness
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c9d27c6be518b4ef2966d9564654ef99292ea1b3
-[2/3] drm/panel: sofef00: Use 16-bit brightness function
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=fd40749a4f62a03d0aebe6eb446ea84a9901795a
-[3/3] drm/panel: vtdr6130: Use 16-bit brightness function
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=9402cde9347eca050e14ea9e47270e84a6899162
-
--- 
+Thanks,
 Neil
+
+> 
+> 	Sam
+
