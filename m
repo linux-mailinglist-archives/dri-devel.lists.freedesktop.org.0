@@ -2,95 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B39673D1C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 16:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7057673D26
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 16:10:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3220F10E97F;
-	Thu, 19 Jan 2023 15:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E68010E975;
+	Thu, 19 Jan 2023 15:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12olkn2029.outbound.protection.outlook.com [40.92.22.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DBAA10E975
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 15:09:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J4C+atf6qm52WiLXRJPwPrIrfjmsVt+hTyOIHK/dZ5t7v3Za0NsVJfalXooolzy6kM42jRlkvux0Un3GP/TCfnIEO7fLGBTVg6AGsyMlZqUwnG7prFun/lA2sNR6Ky6hAKVta1nctXvbkB4eUKEXSZ8RvRY2pb8mhOtYPrvRHbBdVEIU22w6StWW539/SECbpKb98YQEtpvOer00lXWOVY/2v7eFjxL9kIxPUuFKhgBS5ghOQ7Vn/A/MgWn8I5HJV1KnWwCnzpEiGHr8zxbeyeayvuWS6Jn58buw9AmFgHOfAq2xxbfWWkVCAuYKwR7KrguuJ83yyFH3rGoFIjll+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/5zU96Nfw/1LfWDeN6rJMurXno7exiwm3mBlMPvRfec=;
- b=XFxV3x95m0TiIymi8tI41aUbqjffckCKJnoVuAducAs5d+yiH3GrhP+YQwyz26bu15GBZEGyE3SaHOnrNBY9h7SQou3Pv7KLWrVDZW6z22A2n7t4L6slEVX7JWngpPBO0T1AryTXUK07347oyVYiFmDmJ6VHV16iZsnTDnPgHT7mOfvGXcvbQ5tO8FOPNQxzIRdST1cY4Q04IUE18CRcHw5jQyAmJdrlDV5Ea5T9XN/GZ+vUi/zsLVViwlaQcbZSzOzIU8Una/gQSMWIge2jhZR/l4S5QkTmGmSBRTtdebIhSuLkGcqnxDD1mq8nZL2VctFT97wBO9ezXIQGn+FpVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/5zU96Nfw/1LfWDeN6rJMurXno7exiwm3mBlMPvRfec=;
- b=jbvAN4vY05MzWU9bAzOJ57Fi0J0tXlCDNX/yMmiMC3WO9GCTaz2ixqf6yMZSgkQL2fFCAy2+6d3XqBn1OHZsC+PZlH4LpAbIJkuHMKA2yWnG30aT8uhSgJqC2dc5KUY+DXG5f7n9Eg9gfiQ6na6PLsp8uN6FZ+xXGa4uboIhaH/4nJHzyA053/lUv/LTgNXqoiA9waDmvcBtTifgOH6P3jtbjpzDIvRJJsnUoZyxILysDilK9muNVvsVhPPc3eQxsFKs3abqY4/1GMe/KzrG6+I6V9GbcOoRbzpt/0RvhmwsrJ9WlvhYlp96RxNYXqQHzOG/NGyxcWdQ4rtNB2jJmg==
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com (2603:10b6:805:f9::31)
- by SJ0PR06MB7083.namprd06.prod.outlook.com (2603:10b6:a03:2e0::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.26; Thu, 19 Jan
- 2023 15:09:08 +0000
-Received: from SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::ff4f:2e64:cf70:cc68]) by SN6PR06MB5342.namprd06.prod.outlook.com
- ([fe80::ff4f:2e64:cf70:cc68%5]) with mapi id 15.20.5986.018; Thu, 19 Jan 2023
- 15:09:08 +0000
-Date: Thu, 19 Jan 2023 09:09:03 -0600
-From: Chris Morgan <macromorgan@hotmail.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH V11 1/4] drm: of: Add drm_of_get_dsi_bus helper function
-Message-ID: <SN6PR06MB5342B2ABF5C08A2A62CF8715A5C49@SN6PR06MB5342.namprd06.prod.outlook.com>
-References: <20230118233135.1174859-1-macroalpha82@gmail.com>
- <20230118233135.1174859-2-macroalpha82@gmail.com>
- <20230119081542.lfgvaj6lwwdb2eaa@houat>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119081542.lfgvaj6lwwdb2eaa@houat>
-X-TMN: [lcnx6urk4fvGOQ1Lc0ulVO7l3+aFfhFs]
-X-ClientProxiedBy: DM6PR07CA0058.namprd07.prod.outlook.com
- (2603:10b6:5:74::35) To SN6PR06MB5342.namprd06.prod.outlook.com
- (2603:10b6:805:f9::31)
-X-Microsoft-Original-Message-ID: <Y8ldDwb13TG98X7o@wintermute.localhost.fail>
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 353D110E975
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 15:10:11 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id v10so3202840edi.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 07:10:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b3hWPa5eaE1VlRQVh/vMNXzrQxeXSBHyXqQOtX9y708=;
+ b=e0fz5LvLSsENChDm0SAC0yL0oNM0POBFQiCdbDweehEDuMJIEONyAGgtdUPGFCiqqR
+ Id/h6C/GazpqSxZamu9mjDNvex5dlA4fvF0jc+PtHw3gABqKvJPtUMEVkOcXcj8J1AAR
+ PLnRLIaYYudfxKXoyTbYwC728sbH/Vp/SYtuqM2fpiS+nF//YyLm6+ZVhWrxrT4Q0hRY
+ a0hOqlk1Pq1a/Ske4YxV88ZkoibTzl5/lm2iQWzGROYUNhTFj+PXvZ5oyDZul+1npUtc
+ /aWgddo2LOXbI2ntusjEDbihUUDWi123jkrB+cgnn/akq4wL7jLWwAljnm3yAd/mP764
+ vDEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b3hWPa5eaE1VlRQVh/vMNXzrQxeXSBHyXqQOtX9y708=;
+ b=iLio8Pe9VhjjMIhbEHfGqvYBg0hQ6Csp+OEkAduB5h5dC5gjr444kxoa/InUB2PkX1
+ 4EmVgK4l7bIrrjQ775Dijvli1L3p5U0cXhfk//hxynkuoI6x6q9euXN/kwuNO4ne+jhO
+ pHEQdUId7N9UoWeArf81ObjDguKwPh3ro/tRRAjkB5wUJmBMusp8EWPwGLqGS/kv8VVb
+ p9pMxUuDc5M2NeemABcsvMN+JAKEnalsNkJvnLlN4ASDj3IMTNP5fruPJDchSGp7Tw8O
+ aHbDN2hH2SP6810OaC5RuHDWibh5M1dStW7YvBahlggg0k/a2udwkSoclx7C1RhzuBMz
+ 2v6A==
+X-Gm-Message-State: AFqh2krGEGppiXPphw289phxY3s8c+FBinJaJjCe+qqlOIV7+SOhhPez
+ rSQbmom1yin9Q64SEBNFeoM=
+X-Google-Smtp-Source: AMrXdXsTwyv07suDfVAoeVH9mB1DXCTlXvaAj3SNIzmRc1ujB0XCruBScq2XQFPO2DZi0mB2a8FvoA==
+X-Received: by 2002:aa7:c994:0:b0:499:bf81:be6 with SMTP id
+ c20-20020aa7c994000000b00499bf810be6mr12264790edt.37.1674141009481; 
+ Thu, 19 Jan 2023 07:10:09 -0800 (PST)
+Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ d9-20020a1709063ec900b007c0d6b34d54sm16278717ejj.129.2023.01.19.07.10.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 07:10:08 -0800 (PST)
+Date: Thu, 19 Jan 2023 16:10:07 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 8/8] arm64: tegra: Add simple framebuffer on Jetson
+ Xavier NX
+Message-ID: <Y8ldT2CdwFpNAZoB@orome>
+References: <20221117184039.2291937-1-thierry.reding@gmail.com>
+ <20221117184039.2291937-9-thierry.reding@gmail.com>
+ <12cff1b1-b8dc-7fb4-2228-8af4b30c09c5@suse.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR06MB5342:EE_|SJ0PR06MB7083:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7461db61-9c75-4c32-fe3f-08dafa2f1c79
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n1jMsbDLiHxoZBZkzDdG+4Ixi8aSG//4F4y+F8KDKO5aaHcQOMRs83LqAzrUqtuO8GZe5f8wM3PiSUTcO7cXIdsHqxRrBODGYdcJjrBwUNWY6KV4aYsScbtlgoUkEPandjeVO00OOk8EmX3FempD8w6zDyHP7Awj2jgFaQDddNz5mnX1Y6kq0SVbyE5OGKoUX50EgHaGbeutJzWvNIBX7DoXsyIFXC9IKA2CB4gn2COlQ2R5kf+SVogfZ+n1Va2On+FfZ4fdQ2BsK+RJkftJ0eqF/QieKZt42qbTK6Jrlm8LNnFy33o7NLlHpzI2sACC8LoFsgcup1jps9gy4dJd/dnERpHpX2iHsD21P5So1GrB4YGkNRX871etzkR8Bu5RR9XCbKdx4KZZHIAJGV0fk0wCYApLou7gxJ3HJlQGi+D/MXceCHTHzep2t56/IhDd2/ZCjdSVh2Ll+2nDZo03rMJ1NyOkbJ4d4tDJw9hq+Y7Snf1MgvV8VYI6dP/6Vqoi9U8LrxWovNVqvvdrFLSbezUVpCl8loVij20cFQ4af4jBW15odQNmC44SQBPECHM/IEjn0iJqpWKDzuhDP53SkowCVYRI5Ai7Wjo+EiABAj4b4E0GT9FI7gWeVflNtWRFVGRCw8d/L+bmhqwLdjoooA==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+4oWPLIeOhAscu1k3fMExSmB1m2fe+3dSo4aqYwSgX4s/iVKKAa5a2AEDF45?=
- =?us-ascii?Q?JObpPk0yhd6CNdscqx2w9kosNqi38RfVEIlTO+E5S7ORxrJeqaZbI1DMOS48?=
- =?us-ascii?Q?O/pilwirZAZ1IUXCcttBvf0PlPLxVfKaK8IBG8BZYFtUYwLV3ebehPsjwaVS?=
- =?us-ascii?Q?AQa0Xii3TDA6/9xDUMWp99ALe9CcvIWYEmtJ16UKyQQ2U4H3ubFf1bHN1Kvl?=
- =?us-ascii?Q?8gRCVKUyFXL+JeQyt+7KM1ucVZheWSMW1eY7GMz4cDbMvW1DgEjy8mhSmbl0?=
- =?us-ascii?Q?5dLgSHWKGBtnABAygjiPscBwlDWlUxJasO0NTbo+9Sg//rdNIPzkEgDBJJT3?=
- =?us-ascii?Q?usQ7q/TBWoVp7ZtZcBAye1O74vYIIv5J8AHzfn7a5D63AyO+knjM5yylTs7p?=
- =?us-ascii?Q?Wg+TtX+PIekcuLHQbI7bFJx97sxqbtW66KbH27Epg1oq4h8xeiyvIztsnGAy?=
- =?us-ascii?Q?sRmbg2HM+6FDjL9yAf0/01jn0MWNcPPOhSu+b/OPVgHQMI3P580mnl3khd43?=
- =?us-ascii?Q?DEOs2sBLwMjzGb4+KBC8lIwQ4mqChbrKP42JxPKQyxmgcvgPCDQN7RR+N+Ns?=
- =?us-ascii?Q?kgZKXt1CD+0F0vEFyidyDUgYH0oKV8HyaBfaJV4SRDqBe9NmSChghRa99nnL?=
- =?us-ascii?Q?lmdt0hRFZ86uvEf5oI8yoN8l23LqOEvUFfDe1MOQAsC+Q+HwwmocVSUOV8h9?=
- =?us-ascii?Q?IEv/3/wBGvndQ5wc+D5MCOXyR/TX83Y8QnExYTQHxCShHHZaLHMEWDyzlHtR?=
- =?us-ascii?Q?EgqF8kIZDQA3CEVVb+D5jrcJT+hdmeMlJlWyRNeR4h23eoGcHMuxHF3rYGb5?=
- =?us-ascii?Q?JknrKO7vHbMB4xIif4pEgHcf12i8VS8bdJqQ2tCi78Y1xFWbEb2RQE7WTzO7?=
- =?us-ascii?Q?Bm8axZIcnKq+SJ7YTZS0USRv2h1hEa66ICCWaA5cER1jBZhTaMaNJ+qqcYCX?=
- =?us-ascii?Q?qdYc7F59hIyRo1KriyDW0eL+M2QbmZ94YLGQWyMvTEVwIa0CUIOalCTO1rVK?=
- =?us-ascii?Q?G+eUqsk45H1Dh2KaKT7y26K0o1w8UfOrPhM510uQPTC7Xl/YfxxTcVrAJR35?=
- =?us-ascii?Q?vU0gUa+qUZ8M7nyHPPYatlytLc76xUkvVc9M/lEnGoNg1ZNdJQA0eT672xzd?=
- =?us-ascii?Q?4geKZ+fXYH+MKGmgzbFKwVjwgtnp9MwHYDgPf8e7VM6fWnjYa/WMV5i6jz4R?=
- =?us-ascii?Q?rHDRGKmqf72PSQeVmEQUE4pH8qrBvTD/UH1O5DwupuFwOWglmiAFnt3tq8WQ?=
- =?us-ascii?Q?Kquxw5qDA4Y55mCZ9YfdxD9NrqLLhCNV2IvNNwJXSw=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-89723.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7461db61-9c75-4c32-fe3f-08dafa2f1c79
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR06MB5342.namprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 15:09:08.8103 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR06MB7083
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bQw0EXWTigETpFy5"
+Content-Disposition: inline
+In-Reply-To: <12cff1b1-b8dc-7fb4-2228-8af4b30c09c5@suse.de>
+User-Agent: Mutt/2.2.9 (2022-11-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,43 +77,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- sam@ravnborg.org, dri-devel@lists.freedesktop.org,
- Chris Morgan <macroalpha82@gmail.com>, linux-rockchip@lists.infradead.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, tzimmermann@suse.de,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+ David Airlie <airlied@redhat.com>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 19, 2023 at 09:15:42AM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Wed, Jan 18, 2023 at 05:31:32PM -0600, Chris Morgan wrote:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> > 
-> > Add helper function to find DSI host for devices where DSI panel is not
-> > a minor of a DSI bus (such as the Samsung AMS495QA01 panel or the
-> > official Raspberry Pi touchscreen display).
-> > 
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> > Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> 
-> Sorry for not noticing this earlier, but this is a bit confusing.
-> Signed-off-by is there usually to follow either the authors or the
-> maintainers (or people that passed the patch along).
-> 
-> Given the order, the SoB here indicates that it's Maya Matuszczyk that
-> committed/submitted that patch, while you are the author. Obviously,
-> that isn't the case since you are both the author and submitter.
 
-I borrowed a few lines of code from her, which is why she is listed
-here. If this is not correct let me know.
+--bQw0EXWTigETpFy5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you.
+On Tue, Jan 17, 2023 at 03:55:21PM +0100, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 17.11.22 um 19:40 schrieb Thierry Reding:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > Add the framebuffer carveout reserved memory node as well as a simple-
+> > framebuffer node that is used to bind to the framebuffer that the
+> > bootloader has set up.
+>=20
+> I don't know about the current status of this patchset, but feel free to
+> send whatever update you have.
 
-> 
-> So what's going on?
-> 
-> Maxime
+Sorry, got side-tracked a few times during the last few weeks. I've had
+to rework some parts of this for the recent changes to the format
+helpers, but nothing major. I'll send out the updated version shortly
+once I've tested all cases.
 
+Thierry
 
+--bQw0EXWTigETpFy5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmPJXU4ACgkQ3SOs138+
+s6Hlww/+IzPc1AX147Ir+grpgjfk1Xmbl2ycd89CjRpRo6yWlN4RZ8Yuc9D8nWjI
+oed/TJUnvyih1nZwL6OrqR2m1H9yo2fE10w9bRCTO4dde/4p0H+8oKJbOSyLnzFk
+y7e7QaJXGqZWOj9wl6g1ba1aqnRPsucDfpwXQcf8xHuhcHuZZtBAJCAJ6sV6aC97
++2IGqM6ExaLhEw8CIB6EFpl2r/SA0ig/qrEQhZ/YqqZNw/TShUlNs++C1HH9CN3X
+hVMBe4IoK28yuAfg+P95ESHdF3V9sqi4j9bUtc7cpTFu2+7HwRBzeePA0bEtsMIm
+AKknYPEM+fKfT0K2MrcAm9VNzGLaFhuAaq20O5VK/cm1SCCBCMEgpyw38w51pOBh
+P6i+zZHDub/lRsPP/mOfM1yKD9HvbKLMH4jsKnhivD1o3eMOY3XWC6mpCXjyXlaV
+4kB+EdmcLB/a9rFU4YClFIASgeruC6oQOyfcKgAXpFer9FarKzyxLGjNNUnz4eHw
+QTucGI0Lwzubyws7HfhFgbexIRHQrI0U3iSJ7j9dc9iiC6V8Nu9pkvQQuBfLU62B
+D0VyuqOp/Y7sVFQL7fLIqXVrJ9wr/IrmDRVo3ylbQX8Xs4AoqtGyQwUTd/59Jsb7
+MoYbuKJPP+qQBesE2cY2hhS+LfpIIP5RdP2VUe6knqEA8ercDRI=
+=c2qP
+-----END PGP SIGNATURE-----
+
+--bQw0EXWTigETpFy5--
