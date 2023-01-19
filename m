@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05505674666
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 23:54:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E872674667
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 23:54:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD9FC10E099;
-	Thu, 19 Jan 2023 22:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E5C10E27E;
+	Thu, 19 Jan 2023 22:54:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
- [IPv6:2607:f8b0:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF45510E27E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 22:54:16 +0000 (UTC)
-Received: by mail-pf1-x431.google.com with SMTP id x4so2694777pfj.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 14:54:16 -0800 (PST)
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DDE210E283
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 22:54:18 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id q9so2791271pgq.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 14:54:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=zK3flFM0os1/8RqnL1ay80xg11/2BKbjIWxrUwGK7M4=;
- b=l0YGmDqm5C5ZhFisPOG8kWvvPg+hny4gYE6MbwBI5yi73o/1HpUgvAkTv3j8dXpYM9
- Ixm8iUPoPa5UcQsX1xWPU7Wz5THBMvuryxFUyyxvYbi0XpOEYsvBiz50xR7FTsw1AFqk
- cNqikGYSy1tbV2U/r6xCg6bFxTUznjMcXY7Rg=
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bV+jI6lHrlyCpT8hI1E9uFmq1lCM9hqs/OL2V3boQaE=;
+ b=Ts36WXoetdK/kuBnP/3bXmmdbice3lQOwq3KgC9YMZHHh/9bkWvWiXXpyOGqTkrVbP
+ JP8odoCRTIdWVSkyw56A7sEYaCd0wKdER9uukA02FiVT3duIzNC+NiRYEHwHckIFGc6K
+ jcte3cW3B8HAcsGWK3pu8Uz8b0MsOQ7HjIzk0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zK3flFM0os1/8RqnL1ay80xg11/2BKbjIWxrUwGK7M4=;
- b=ZMkgdbCmzHZIDzEuJJ/fZ8vewaA1l5PD+5rU6MrFi5FoeaUTeCfd/Gr36VYYCUesYm
- ctPCL4XPfU4MQdqTqhl18Ui5iaXnoWDBylEEE3LZzCP2WJQUesdQVQK3MqcN4SfIkPu3
- ahILJVdNIq18zzmzb9hedwctQv1HlztP72I4xh9XIeC9EXkPEHVz3TKittZIW6qRkiZR
- 7X5YjDMO18vqkUqtCsaycj1MJwr89lyI3oWl/y+JY42lF994MGHh4H4+xS+aYv3XW6v4
- J5jtRcp+cqFNN3ke4dyaj5eqs7ZSCv6Ndu7bl/RHRG8uM9hiRZS508GVkMRc+VJt4KDV
- 8CRQ==
-X-Gm-Message-State: AFqh2krkco7aeK+V2iz/dN4YGEHg7e7Uo9+or5GQS9ggN0mOVVH8Id94
- tTf0s4A9mN+qEHkwAWdhb40ndQ==
-X-Google-Smtp-Source: AMrXdXu2jarmgnJu+XMOfvSpUtlep5ac5fI1E3AykXlbD+WuT0fjuAUr8JWkOxb+bTrnjCdinbYWbw==
-X-Received: by 2002:a05:6a00:1585:b0:578:8864:b25c with SMTP id
- u5-20020a056a00158500b005788864b25cmr16151179pfk.25.1674168856101; 
- Thu, 19 Jan 2023 14:54:16 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bV+jI6lHrlyCpT8hI1E9uFmq1lCM9hqs/OL2V3boQaE=;
+ b=lM2nKGfQO2v9CgC/5IAAM2LQeEx288kxZQT9OODCZ1r8dRKKTUK8/Val1RvnqC+Lph
+ F6xRULIBYC8Kf/C6YMs+YjkU8rJlP4wQdt3uhC8SrHa2+cBELkg0liPRidzNh2+ljftf
+ JmgRCJmIY4PoKdbF3YcEk6AaWcNj776EnjQvhnllSzKOmcSmCkdWWRvENNH56XIjI34P
+ +h2xeiXtAYwdLcgxPVcoTs9k7+MC1H9jHDrPyoH/EYt80VphrDj28l7E5+7CUw60upNY
+ XKS9ctfn34vOnx6ycdhjY2vBuIkjFhEq1y1mqZRCZC2eaEEMrTNjxU/KSccwSdgd04vW
+ x5sA==
+X-Gm-Message-State: AFqh2kpBwhKWK+01XNqmbgEHTb+A+DvsGk3p0PaUJHZHA1Jfa+orHrkg
+ ov/q16jdMF/MzOS9z4X8BVvwWA==
+X-Google-Smtp-Source: AMrXdXtRnADtKAaTFpO64J23UQ+t8DSanqxd4c8YjrAsYNvh+UDn+K6XNoDRQbeFMfn3ZHkjA2jLUA==
+X-Received: by 2002:aa7:96f7:0:b0:582:5b8d:52be with SMTP id
+ i23-20020aa796f7000000b005825b8d52bemr13909854pfq.8.1674168857972; 
+ Thu, 19 Jan 2023 14:54:17 -0800 (PST)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:9d:2:62c2:e2e0:4fda:849e])
  by smtp.gmail.com with ESMTPSA id
- f127-20020a623885000000b00588cb819473sm20198839pfa.39.2023.01.19.14.54.14
+ f127-20020a623885000000b00588cb819473sm20198839pfa.39.2023.01.19.14.54.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 14:54:15 -0800 (PST)
+ Thu, 19 Jan 2023 14:54:17 -0800 (PST)
 From: Douglas Anderson <dianders@chromium.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 1/2] drm/msm/dp: Clean up handling of DP AUX interrupts
-Date: Thu, 19 Jan 2023 14:53:42 -0800
-Message-Id: <20230119145248.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
+Subject: [PATCH 2/2] drm/msm/dp: Return IRQ_NONE for unhandled interrupts
+Date: Thu, 19 Jan 2023 14:53:43 -0800
+Message-Id: <20230119145248.2.I2d7aec2fadb9c237cd0090a47d6a8ba2054bf0f8@changeid>
 X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
+In-Reply-To: <20230119145248.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
+References: <20230119145248.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,210 +71,209 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>, linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
  Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
  Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-kernel@vger.kernel.org
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DP AUX interrupt handling was a bit of a mess.
-* There were two functions (one for "native" transfers and one for
-  "i2c" transfers) that were quite similar. It was hard to say how
-  many of the differences between the two functions were on purpose
-  and how many of them were just an accident of how they were coded.
-* Each function sometimes used "else if" to test for error bits and
-  sometimes didn't and again it was hard to say if this was on purpose
-  or just an accident.
-* The two functions wouldn't notice whether "unknown" bits were
-  set. For instance, there seems to be a bit "DP_INTR_PLL_UNLOCKED"
-  and if it was set there would be no indication.
-* The two functions wouldn't notice if more than one error was set.
+If our interrupt handler gets called and we don't really handle the
+interrupt then we should return IRQ_NONE. The current interrupt
+handler didn't do this, so let's fix it.
 
-Let's fix this by being more consistent / explicit about what we're
-doing.
+NOTE: for some of the cases it's clear that we should return IRQ_NONE
+and some cases it's clear that we should return IRQ_HANDLED. However,
+there are a few that fall somewhere in between. Specifically, the
+documentation for when to return IRQ_NONE vs. IRQ_HANDLED is probably
+best spelled out in the commit message of commit d9e4ad5badf4
+("Document that IRQ_NONE should be returned when IRQ not actually
+handled"). That commit makes it clear that we should return
+IRQ_HANDLED if we've done something to make the interrupt stop
+happening.
 
-By design this could cause different handling for AUX transfers,
-though I'm not actually aware of any bug fixed as a result of
-this patch (this patch was created because we simply noticed how odd
-the old code was by code inspection). Specific notes here:
-1. In the old native transfer case if we got "done + wrong address"
-   we'd ignore the "wrong address" (because of the "else if"). Now we
-   won't.
-2. In the old native transfer case if we got "done + timeout" we'd
-   ignore the "timeout" (because of the "else if"). Now we won't.
-3. In the old native transfer case we'd see "nack_defer" and translate
-   it to the error number for "nack". This differed from the i2c
-   transfer case where "nack_defer" was given the error number for
-   "nack_defer". This 100% can't matter because the only user of this
-   error number treats "nack defer" the same as "nack", so it's clear
-   that the difference between the "native" and "i2c" was pointless
-   here.
-4. In the old i2c transfer case if we got "done" plus any error
-   besides "nack" or "defer" then we'd ignore the error. Now we don't.
-5. If there is more than one error signaled by the hardware it's
-   possible that we'll report a different one than we used to. I don't
-   know if this matters. If someone is aware of a case this matters we
-   should document it and change the code to make it explicit.
-6. One quirk we keep (I don't know if this is important) is that in
-   the i2c transfer case if we see "done + defer" we report that as a
-   "nack". That seemed too intentional in the old code to just drop.
+The case where it's unclear is, for instance, in dp_aux_isr() after
+we've read the interrupt using dp_catalog_aux_get_irq() and confirmed
+that "isr" is non-zero. The function dp_catalog_aux_get_irq() not only
+reads the interrupts but it also "ack"s all the interrupts that are
+returned. For an "unknown" interrupt this has a very good chance of
+actually stopping the interrupt from happening. That would mean we've
+identified that it's our device and done something to stop them from
+happening and should return IRQ_HANDLED. Specifically, it should be
+noted that most interrupts that need "ack"ing are ones that are
+one-time events and doing an "ack" is enough to clear them. However,
+since these interrupts are unknown then, by definition, it's unknown
+if "ack"ing them is truly enough to clear them. It's possible that we
+also need to remove the original source of the interrupt. In this
+case, IRQ_NONE would be a better choice.
 
-After this change we will add extra logging, including:
-* A warning if we see more than one error bit set.
-* A warning if we see an unexpected interrupt.
-* A warning if we get an AUX transfer interrupt when shouldn't.
-
-It actually turns out that as a result of this change then at boot we
-sometimes see an error:
-  [drm:dp_aux_isr] *ERROR* Unexpected DP AUX IRQ 0x01000000 when not busy
-That means that, during init, we are seeing DP_INTR_PLL_UNLOCKED. For
-now I'm going to say that leaving this error reported in the logs is
-OK-ish and hopefully it will encourage someone to track down what's
-going on at init time.
-
-One last note here is that this change renames one of the interrupt
-bits. The bit named "i2c done" clearly was used for native transfers
-being done too, so I renamed it to indicate this.
+Given that returning an occasional IRQ_NONE isn't the absolute end of
+the world, however, let's choose that course of action. The IRQ
+framework will forgive a few IRQ_NONE returns now and again (and it
+won't even log them, which is why we have to log them ourselves). This
+means that if we _do_ end hitting an interrupt where "ack"ing isn't
+enough the kernel will eventually detect the problem and shut our
+device down.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
-I don't have good test coverage for this change and it does have the
-potential to change behavior. I confirmed that eDP and DP still
-continue to work OK on one machine. Hopefully folks can test it more.
 
- drivers/gpu/drm/msm/dp/dp_aux.c     | 80 ++++++++++++-----------------
- drivers/gpu/drm/msm/dp/dp_catalog.c |  2 +-
- drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
- 3 files changed, 36 insertions(+), 48 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 12 +++++++-----
+ drivers/gpu/drm/msm/dp/dp_aux.h     |  2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 10 ++++++++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c |  8 +++++---
+ 5 files changed, 22 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index cc3efed593aa..34ad08ae6eb9 100644
+index 34ad08ae6eb9..59e323b7499d 100644
 --- a/drivers/gpu/drm/msm/dp/dp_aux.c
 +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -162,47 +162,6 @@ static ssize_t dp_aux_cmd_fifo_rx(struct dp_aux_private *aux,
- 	return i;
+@@ -368,14 +368,14 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
+ 	return ret;
  }
  
--static void dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
--{
--	if (isr & DP_INTR_AUX_I2C_DONE)
--		aux->aux_error_num = DP_AUX_ERR_NONE;
--	else if (isr & DP_INTR_WRONG_ADDR)
--		aux->aux_error_num = DP_AUX_ERR_ADDR;
--	else if (isr & DP_INTR_TIMEOUT)
--		aux->aux_error_num = DP_AUX_ERR_TOUT;
--	if (isr & DP_INTR_NACK_DEFER)
--		aux->aux_error_num = DP_AUX_ERR_NACK;
--	if (isr & DP_INTR_AUX_ERROR) {
--		aux->aux_error_num = DP_AUX_ERR_PHY;
--		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
--	}
--}
--
--static void dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
--{
--	if (isr & DP_INTR_AUX_I2C_DONE) {
--		if (isr & (DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER))
--			aux->aux_error_num = DP_AUX_ERR_NACK;
--		else
--			aux->aux_error_num = DP_AUX_ERR_NONE;
--	} else {
--		if (isr & DP_INTR_WRONG_ADDR)
--			aux->aux_error_num = DP_AUX_ERR_ADDR;
--		else if (isr & DP_INTR_TIMEOUT)
--			aux->aux_error_num = DP_AUX_ERR_TOUT;
--		if (isr & DP_INTR_NACK_DEFER)
--			aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
--		if (isr & DP_INTR_I2C_NACK)
--			aux->aux_error_num = DP_AUX_ERR_NACK;
--		if (isr & DP_INTR_I2C_DEFER)
--			aux->aux_error_num = DP_AUX_ERR_DEFER;
--		if (isr & DP_INTR_AUX_ERROR) {
--			aux->aux_error_num = DP_AUX_ERR_PHY;
--			dp_catalog_aux_clear_hw_interrupts(aux->catalog);
--		}
--	}
--}
--
- static void dp_aux_update_offset_and_segment(struct dp_aux_private *aux,
- 					     struct drm_dp_aux_msg *input_msg)
+-void dp_aux_isr(struct drm_dp_aux *dp_aux)
++irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux)
  {
-@@ -427,13 +386,42 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
+ 	u32 isr;
+ 	struct dp_aux_private *aux;
+ 
+ 	if (!dp_aux) {
+ 		DRM_ERROR("invalid input\n");
+-		return;
++		return IRQ_NONE;
+ 	}
+ 
+ 	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
+@@ -384,11 +384,11 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
+ 
+ 	/* no interrupts pending, return immediately */
  	if (!isr)
- 		return;
+-		return;
++		return IRQ_NONE;
  
--	if (!aux->cmd_busy)
-+	if (!aux->cmd_busy) {
-+		DRM_ERROR("Unexpected DP AUX IRQ %#010x when not busy\n", isr);
- 		return;
-+	}
+ 	if (!aux->cmd_busy) {
+ 		DRM_ERROR("Unexpected DP AUX IRQ %#010x when not busy\n", isr);
+-		return;
++		return IRQ_NONE;
+ 	}
  
--	if (aux->native)
--		dp_aux_native_handler(aux, isr);
--	else
--		dp_aux_i2c_handler(aux, isr);
-+	/*
-+	 * The logic below assumes only one error bit is set (other than "done"
-+	 * which can apparently be set at the same time as some of the other
-+	 * bits). Warn if more than one get set so we know we need to improve
-+	 * the logic.
-+	 */
-+	if (hweight32(isr & ~DP_INTR_AUX_XFER_DONE) > 1)
-+		DRM_WARN("Some DP AUX interrupts unhandled: %#010x\n", isr);
-+
-+	if (isr & DP_INTR_AUX_ERROR) {
-+		aux->aux_error_num = DP_AUX_ERR_PHY;
-+		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
-+	} else if (isr & DP_INTR_NACK_DEFER) {
-+		aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
-+	} else if (isr & DP_INTR_WRONG_ADDR) {
-+		aux->aux_error_num = DP_AUX_ERR_ADDR;
-+	} else if (isr & DP_INTR_TIMEOUT) {
-+		aux->aux_error_num = DP_AUX_ERR_TOUT;
-+	} else if (isr & DP_INTR_AUX_XFER_DONE) {
-+		aux->aux_error_num = DP_AUX_ERR_NONE;
-+	} else if (!aux->native && (isr & DP_INTR_I2C_NACK)) {
-+		aux->aux_error_num = DP_AUX_ERR_NACK;
-+	} else if (!aux->native && (isr & DP_INTR_I2C_DEFER)) {
-+		if (isr & DP_INTR_AUX_XFER_DONE)
-+			aux->aux_error_num = DP_AUX_ERR_NACK;
-+		else
-+			aux->aux_error_num = DP_AUX_ERR_DEFER;
-+	} else {
-+		DRM_WARN("Unexpected interrupt: %#010x\n", isr);
-+		return;
-+	}
+ 	/*
+@@ -420,10 +420,12 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
+ 			aux->aux_error_num = DP_AUX_ERR_DEFER;
+ 	} else {
+ 		DRM_WARN("Unexpected interrupt: %#010x\n", isr);
+-		return;
++		return IRQ_NONE;
+ 	}
  
  	complete(&aux->comp);
++
++	return IRQ_HANDLED;
  }
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 676279d0ca8d..421391755427 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -27,7 +27,7 @@
- #define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
  
- #define DP_INTERRUPT_STATUS1 \
--	(DP_INTR_AUX_I2C_DONE| \
-+	(DP_INTR_AUX_XFER_DONE| \
- 	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
- 	DP_INTR_NACK_DEFER | DP_INTR_WRONG_DATA_CNT | \
- 	DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER | \
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 1f717f45c115..f36b7b372a06 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -13,7 +13,7 @@
+ void dp_aux_reconfig(struct drm_dp_aux *dp_aux)
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
+index e930974bcb5b..511305da4f66 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.h
++++ b/drivers/gpu/drm/msm/dp/dp_aux.h
+@@ -11,7 +11,7 @@
  
- /* interrupts */
- #define DP_INTR_HPD		BIT(0)
--#define DP_INTR_AUX_I2C_DONE	BIT(3)
-+#define DP_INTR_AUX_XFER_DONE	BIT(3)
- #define DP_INTR_WRONG_ADDR	BIT(6)
- #define DP_INTR_TIMEOUT		BIT(9)
- #define DP_INTR_NACK_DEFER	BIT(12)
+ int dp_aux_register(struct drm_dp_aux *dp_aux);
+ void dp_aux_unregister(struct drm_dp_aux *dp_aux);
+-void dp_aux_isr(struct drm_dp_aux *dp_aux);
++irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux);
+ void dp_aux_init(struct drm_dp_aux *dp_aux);
+ void dp_aux_deinit(struct drm_dp_aux *dp_aux);
+ void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index dd26ca651a05..1a5377ef1967 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1979,27 +1979,33 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+ 	return ret;
+ }
+ 
+-void dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
++irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
+ {
+ 	struct dp_ctrl_private *ctrl;
+ 	u32 isr;
++	irqreturn_t ret = IRQ_NONE;
+ 
+ 	if (!dp_ctrl)
+-		return;
++		return IRQ_NONE;
+ 
+ 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+ 
+ 	isr = dp_catalog_ctrl_get_interrupt(ctrl->catalog);
+ 
++
+ 	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
+ 		drm_dbg_dp(ctrl->drm_dev, "dp_video_ready\n");
+ 		complete(&ctrl->video_comp);
++		ret = IRQ_HANDLED;
+ 	}
+ 
+ 	if (isr & DP_CTRL_INTR_IDLE_PATTERN_SENT) {
+ 		drm_dbg_dp(ctrl->drm_dev, "idle_patterns_sent\n");
+ 		complete(&ctrl->idle_comp);
++		ret = IRQ_HANDLED;
+ 	}
++
++	return ret;
+ }
+ 
+ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+index 9f29734af81c..c3af06dc87b1 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+@@ -25,7 +25,7 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
+ int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
+ void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
+-void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
++irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
+ void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl);
+ struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
+ 			struct dp_panel *panel,	struct drm_dp_aux *aux,
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 7ff60e5ff325..8996adbc5bd3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1192,7 +1192,7 @@ static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv)
+ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+ {
+ 	struct dp_display_private *dp = dev_id;
+-	irqreturn_t ret = IRQ_HANDLED;
++	irqreturn_t ret = IRQ_NONE;
+ 	u32 hpd_isr_status;
+ 
+ 	if (!dp) {
+@@ -1220,13 +1220,15 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+ 
+ 		if (hpd_isr_status & DP_DP_HPD_UNPLUG_INT_MASK)
+ 			dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
++
++		ret = IRQ_HANDLED;
+ 	}
+ 
+ 	/* DP controller isr */
+-	dp_ctrl_isr(dp->ctrl);
++	ret |= dp_ctrl_isr(dp->ctrl);
+ 
+ 	/* DP aux isr */
+-	dp_aux_isr(dp->aux);
++	ret |= dp_aux_isr(dp->aux);
+ 
+ 	return ret;
+ }
 -- 
 2.39.0.246.g2a6d74b583-goog
 
