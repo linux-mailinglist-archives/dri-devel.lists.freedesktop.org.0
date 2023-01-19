@@ -2,52 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B10067453D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 22:50:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9793967454C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 22:57:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D66F610E081;
-	Thu, 19 Jan 2023 21:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D4910E098;
+	Thu, 19 Jan 2023 21:56:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A62C210E098
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 21:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674165032; x=1705701032;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=HNIirhcJm/i2U/wvNniwD1sNwMfcd5wBrLe+4N5kx5E=;
- b=Bsp4uRb731yPVqgYwHq6ZBQnxD54p4t6u0+qDgn3yY8dSldPAjOdj0X1
- qUv6a8mjPfvfE5UR90wLYEiknB/4vC81cz3Cm510AQLAPms9AUW/LdaiR
- aUuU8eSMpUYrLco1mYp3pABnUvuH2Pf/G+HBkqTroXjNLKINR6CZHEzb6
- U0BRbrNg0wL7jCZIVFquD90CLvp1lmEEBOqpsoYSXN4F7BOdynOXuRqWT
- IiZbb/iz6v9ZzioFDFLS1Aot8NHbMPmkNf9ChMk4VNvOP+NYP8+9+5XiH
- wDAHoBfgTn3eb2VfuJXG3xxKcvDf6ReWctUTIe5ZKFyekqE9g2zDVxDP2 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="325474670"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; d="scan'208";a="325474670"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 13:50:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="690792705"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; d="scan'208";a="690792705"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 19 Jan 2023 13:50:25 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pIcng-0001tY-1u;
- Thu, 19 Jan 2023 21:50:24 +0000
-Date: Fri, 20 Jan 2023 05:49:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/shmem: Cleanup drm_gem_shmem_create_with_handle()
-Message-ID: <202301200511.h6Af907u-lkp@intel.com>
-References: <20230119181325.2834875-1-robdclark@gmail.com>
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0F1710E098;
+ Thu, 19 Jan 2023 21:56:57 +0000 (UTC)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30JLT8bu030467; Thu, 19 Jan 2023 21:56:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=xHuzXeNDiIwndNWeKonBxc5KI/X0aMeH30RDkuA23Fg=;
+ b=D0cDcR8t7UzfNGwH0forG3q5QiVPdLRMK1YjkWalcDmqA6U2UGQMCtlCBfemNRT2ntfS
+ SR1PhBUFqr9Ao4MsJnQolfs+mkiDm+H6M4jfKa30SWkI1c5tzG3nk65NlFhDhZK8KqY5
+ 0hlNVGLoMZ7FjiR6VVSLb63oge3vJDIHiUObNV1fzayr8835Bl1L9DNUmsMv9Lh3ZtOv
+ +whCbWcBOmd1ZMKKAYksDP5iicxIibLX+kVbwnWxkMxZqnEzhwQEXDYaAaestpqVbOKw
+ rcbzvJJk4qWz8J/US57JALqxYIx14Nln2nL0zUXcEjye2WlvcDnWLl7vq2IeP02YzvRI mA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n7dtqrkwq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Jan 2023 21:56:48 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30JLulA7031690;
+ Thu, 19 Jan 2023 21:56:47 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n7dtqrkwj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Jan 2023 21:56:47 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30JJeXoe005711;
+ Thu, 19 Jan 2023 21:56:46 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
+ by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3n3m180852-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Jan 2023 21:56:46 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
+ [10.39.53.228])
+ by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30JLuiOH6750758
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Jan 2023 21:56:45 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D8E7E5804B;
+ Thu, 19 Jan 2023 21:56:44 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3A2C158055;
+ Thu, 19 Jan 2023 21:56:41 +0000 (GMT)
+Received: from [9.160.87.67] (unknown [9.160.87.67])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 19 Jan 2023 21:56:41 +0000 (GMT)
+Message-ID: <7eac2ce1-7ee9-7783-a9f2-9ec2f7019096@linux.ibm.com>
+Date: Thu, 19 Jan 2023 16:56:40 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230119181325.2834875-1-robdclark@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 09/10] iommu/s390: Push the gfp parameter to the
+ kmem_cache_alloc()'s
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+ Robin Murphy <robin.murphy@arm.com>
+References: <9-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <9-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: a1NkOyV4AkAwQdPDo6-7oJAzOHK_-aAo
+X-Proofpoint-ORIG-GUID: V_h4SUwdpkFLvdx1u4mhG5SO4ES7urEl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-19_14,2023-01-19_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 bulkscore=0 clxscore=1011 adultscore=0 malwarescore=0
+ lowpriorityscore=0 mlxlogscore=853 priorityscore=1501 mlxscore=0
+ spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301190181
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,82 +100,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev
+Cc: linux-s390@vger.kernel.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>,
+ linux-remoteproc@vger.kernel.org, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ Alex Williamson <alex.williamson@redhat.com>, netdev@vger.kernel.org,
+ ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+ linux-tegra@vger.kernel.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ virtualization@lists.linux-foundation.org, ath11k@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+On 1/18/23 1:00 PM, Jason Gunthorpe wrote:
+> dma_alloc_cpu_table() and dma_alloc_page_table() are eventually called by
+> iommufd through s390_iommu_map_pages() and it should not be forced to
+> atomic. Thread the gfp parameter through the call chain starting from
+> s390_iommu_map_pages().
+> 
+> Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  arch/s390/include/asm/pci_dma.h |  5 +++--
+>  arch/s390/pci/pci_dma.c         | 31 +++++++++++++++++--------------
+>  drivers/iommu/s390-iommu.c      | 15 +++++++++------
+>  3 files changed, 29 insertions(+), 22 deletions(-)
+> 
 
-I love your patch! Perhaps something to improve:
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.2-rc4 next-20230119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-shmem-Cleanup-drm_gem_shmem_create_with_handle/20230120-021440
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230119181325.2834875-1-robdclark%40gmail.com
-patch subject: [PATCH] drm/shmem: Cleanup drm_gem_shmem_create_with_handle()
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230120/202301200511.h6Af907u-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0de4f64a7edc0dcbf8ac711d79e203698fcd95a7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Rob-Clark/drm-shmem-Cleanup-drm_gem_shmem_create_with_handle/20230120-021440
-        git checkout 0de4f64a7edc0dcbf8ac711d79e203698fcd95a7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/drm_gem_shmem_helper.c: In function 'drm_gem_shmem_create_with_handle':
->> drivers/gpu/drm/drm_gem_shmem_helper.c:428:24: warning: returning 'struct drm_gem_shmem_object *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
-     428 |                 return shmem;
-         |                        ^~~~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c: In function 'drm_gem_shmem_dumb_create':
-   drivers/gpu/drm/drm_gem_shmem_helper.c:521:38: warning: unused variable 'shmem' [-Wunused-variable]
-     521 |         struct drm_gem_shmem_object *shmem;
-         |                                      ^~~~~
-
-
-vim +428 drivers/gpu/drm/drm_gem_shmem_helper.c
-
-2194a63a818db7 Noralf Trønnes 2019-03-12  417  
-0de4f64a7edc0d Rob Clark      2023-01-19  418  static int
-2194a63a818db7 Noralf Trønnes 2019-03-12  419  drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
-2194a63a818db7 Noralf Trønnes 2019-03-12  420  				 struct drm_device *dev, size_t size,
-2194a63a818db7 Noralf Trønnes 2019-03-12  421  				 uint32_t *handle)
-2194a63a818db7 Noralf Trønnes 2019-03-12  422  {
-2194a63a818db7 Noralf Trønnes 2019-03-12  423  	struct drm_gem_shmem_object *shmem;
-2194a63a818db7 Noralf Trønnes 2019-03-12  424  	int ret;
-2194a63a818db7 Noralf Trønnes 2019-03-12  425  
-cfe28f909ddd6c Daniel Vetter  2020-06-16  426  	shmem = drm_gem_shmem_create(dev, size);
-2194a63a818db7 Noralf Trønnes 2019-03-12  427  	if (IS_ERR(shmem))
-2194a63a818db7 Noralf Trønnes 2019-03-12 @428  		return shmem;
-2194a63a818db7 Noralf Trønnes 2019-03-12  429  
-2194a63a818db7 Noralf Trønnes 2019-03-12  430  	/*
-2194a63a818db7 Noralf Trønnes 2019-03-12  431  	 * Allocate an id of idr table where the obj is registered
-2194a63a818db7 Noralf Trønnes 2019-03-12  432  	 * and handle has the id what user can see.
-2194a63a818db7 Noralf Trønnes 2019-03-12  433  	 */
-2194a63a818db7 Noralf Trønnes 2019-03-12  434  	ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
-2194a63a818db7 Noralf Trønnes 2019-03-12  435  	/* drop reference from allocate - handle holds it now. */
-be6ee102341bc4 Emil Velikov   2020-05-15  436  	drm_gem_object_put(&shmem->base);
-2194a63a818db7 Noralf Trønnes 2019-03-12  437  
-0de4f64a7edc0d Rob Clark      2023-01-19  438  	return ret;
-2194a63a818db7 Noralf Trønnes 2019-03-12  439  }
-2194a63a818db7 Noralf Trønnes 2019-03-12  440  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
