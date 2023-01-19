@@ -1,139 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AE0674337
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 20:58:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB8D67433C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 20:59:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A905210E23E;
-	Thu, 19 Jan 2023 19:58:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F371210E9E6;
+	Thu, 19 Jan 2023 19:59:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CEBB10E23E;
- Thu, 19 Jan 2023 19:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674158289; x=1705694289;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=Wt75wH82D7vQfs9wHHzwRIdbtwAEnWkd+I1TBHEVyH4=;
- b=OWxGQN3geuE6+OeFVLali2PY8RLlDPXKM0Z4YY6Q8h0hbtmhAxlIboN1
- 7KLHI1EdoxBV/mFYCQQimYHL5zOP1i6Bnb+subgIgEVl4YISisH4WB0dD
- rmOCYQ+Cacty/OJmgTOo3BMoCbGar5HrTC+kF3V0BhwealjwmTs4opsFu
- fCY1yCJFvHGPZxCdjjmPQfr8RkTFNBz1TUQQa6/5x9GnOX0uolJUCAQnR
- M03GoxdKAA/ZNoqzeYLSXFmH97F70mpscjmPRBlY7btlQFV2XPhF6CzpI
- rYlU+84nGhJxTPskmbru8tkNmM+E1NQjMf1tJcgWoZ8FzlH9MjIucaMKc Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="411638955"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="411638955"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 11:58:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="784192402"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="784192402"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga004.jf.intel.com with ESMTP; 19 Jan 2023 11:58:08 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 11:58:08 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 11:58:07 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 11:58:07 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 19 Jan 2023 11:58:06 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 173BD10E9E0;
+ Thu, 19 Jan 2023 19:59:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eZ/+m09SSBckw778l8j530BEPhRzVLRAG8sZVX0NJt2B3/Re+H5E0bw929RmEuDDABC2IO8Q1dGhYfM5Sw5D/EItpxgLdC4rNMGpykrl712UkJS5xK9Pe3XJgtXcZ0LUaZhbG9T9V44dA6v61cLRlXoI7nvMhrYbxNpUPjf9QdvsnX03qyutHF1e4XdSV6ElRpijSI+DgZufliUAWyiMs58atujfVoFHzQKl/kuMCoQP8oXPbDmjM4Fv8i907GALMdbcXQs4Cx0rAV6AenJE34deKbeufDhazuJsbDR2kntg0jkCOJKeBhJhho2ppPPypFjQ1xf2wX4H4oEEARbCRw==
+ b=VNd7xaEXVEKBI11gJd/IWB5DvtsHmAUG+625K5wjk0/XOiSuL9e4zEZoWEogYlEq3xF6Eh3BaYOE6qvuK4vlE9BmCoGrKbn4eQbZXtuaaAFOgBMR3i7iGn18pFQH43cVfEs06pAGuKjSto1p5oCkG/VPAGJD+tAvHEWECvx+3S75Kv7TS23meeeMbIeLF11drq2ejlS+2SDvebKokbPftD+P1Rqrj2iR04REaDm0N5kahKJjU8LPmzCeeJRdpDfXDbQu9QLywXk13UC0P+tEKGjxPjOnbB1hwRftFTbOQuK42v2ZgborsGWPOjINCtCvG+WOzOSx8Re7e2T2/lzrOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N1U+kHwyG6B1X7Fk2fgiDyw32wCuC1R3HcO8QGhbqoY=;
- b=dxFoA/DttSmlxWofAE1lQcCNRv3DfFjKrA7LuGMilEHM6htBRTxzBYxe0G6OLC7CGnQtprXzQXAuJsEO71PhI/ZjaTY36GtZhT84xeZqy6ZnrTNYkA1uAXnb9nBC62JesbPaw1EVrrntx+hTNiKNYTna+pakTIAlT9UU0vu26NwEomXh4kRWTNClFmBSKQ+F9GId7Tr31DuPM5QJj8eQJfArpf6b1h1jaSkjAPWDEg4ZJxxq8s5YUJh9oH3A/ozxT922jTup8F27zItzybkGxcQUxTTg2mlPl3iUb1LYo6N+kX2Ye0JN+3vzDDBRPziHdgwyDbh5K6d1XF9+H7ytiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by SA0PR11MB4718.namprd11.prod.outlook.com (2603:10b6:806:98::24)
+ bh=muBOUG0/dYaMTyxCVRSPAPqo57PhTafMCZSy/RUFfcY=;
+ b=KWIanlMPVhsl2Qun8SzseVpJGO/6Lgn5IDinHOl50o/PzQuwY4++lGsy7j1KfGZWkFutdJGs4e6zrjwZw1JHS4PV+tHs7UDKDTOyp5pJxensQgklvVMp0acZHJIvaa2rLFTM4Sy4NDDmqFlJF4TYi2auO3i5k2xPSh2NU7zUVvSoRfvXcon0jMXe5OACAkQTTX0hilLYzqAQXW+cOIhqDOsTlQJOEBMQyOMkzyyyJ7fGKA6PORo395dbb3vQH0ruCeFbCfeBWi3DNtONGnWS4am30sURoENS+kmFw2Cq2puiLmux3OqwcB7/DR/odieEeExYfGOI+aofmiJxAPWf4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=muBOUG0/dYaMTyxCVRSPAPqo57PhTafMCZSy/RUFfcY=;
+ b=DefQAzoa2N8OonmGZZWBT44GD+KX5wYYH/lGeoK/Xa9hBm7rfZh6c5eKqh+IlxKeGpxYeAKSqO/3dCFSSj6f1K/AdVqFOBugJziKDE4+xC2C2t0BDwDuhGrSGMGuapYlPD8/lXYyNB7e81wjZ+GaQ/Vz7sPFNNWC+MdUtOM96gM=
+Received: from MW4PR04CA0035.namprd04.prod.outlook.com (2603:10b6:303:6a::10)
+ by IA1PR12MB7567.namprd12.prod.outlook.com (2603:10b6:208:42d::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Thu, 19 Jan
- 2023 19:58:04 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.6002.025; Thu, 19 Jan 2023
- 19:58:03 +0000
-Date: Thu, 19 Jan 2023 14:57:59 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Alan Previn <alan.previn.teres.alexis@intel.com>
-Subject: Re: [PATCH 1/1] drm/i915/gsc: Fix the Driver-FLR completion
-Message-ID: <Y8mgx1uank7lzPDL@intel.com>
-References: <20230119194955.2426167-1-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230119194955.2426167-1-alan.previn.teres.alexis@intel.com>
-X-ClientProxiedBy: BYAPR07CA0054.namprd07.prod.outlook.com
- (2603:10b6:a03:60::31) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Thu, 19 Jan
+ 2023 19:59:27 +0000
+Received: from CO1NAM11FT072.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:6a:cafe::21) by MW4PR04CA0035.outlook.office365.com
+ (2603:10b6:303:6a::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.19 via Frontend
+ Transport; Thu, 19 Jan 2023 19:59:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT072.mail.protection.outlook.com (10.13.174.106) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6023.16 via Frontend Transport; Thu, 19 Jan 2023 19:59:26 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
+ 2023 13:59:23 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-6.2
+Date: Thu, 19 Jan 2023 14:59:08 -0500
+Message-ID: <20230119195908.7670-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SA0PR11MB4718:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd5306eb-36b6-48b7-9876-08dafa577981
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT072:EE_|IA1PR12MB7567:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69da97d8-7a0e-47c9-c1e5-08dafa57ab30
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n22JQgSLQLkbjLgaSrkp4tz3OuU0d74gmHYc7sWd3HM54ln0ezfgJu0eL1c9FYKkhJM6rBuZH7ihxcKhtYEUouTi3kEXJCXfl136sYUzeTWq87n59XQ4dP1p8kZufuBBRmGtpQ3iCedWCHlmJy/tSIb6L9UsUJUNTvPA4fausT7VeHwmwfYtvrWMxI/ma3uFxZI9eQqq9KAGjuPej6we9yJ0s2MJVMhCrUGP3sjX6ZhEReTRfVMCTSN3G3jC/5qPq8AeJGHnfuAXvn7TYzv/ON14CyPhcdBRiX8aeMPx2hZxDNYW1W/dPnHEhcqGurOX3+EGj/HNWq8pO6+ynfNzAgKn+4xyXzLzTiiMqCSJJw3sq/kzVhBBpA1NyFIq1BAeivYr/q462jkr7tO8sUx5ufbppjOslduHgtPHIJf95j9Xw5KNt8liSsR3TUkeDoM6dyzhDDjn161N2Ldkdd5mHzUszd291FXKjKKMH/rm8kG8Rd8IAevnZMSAz8Fi/0lO5ALTTjETvxF+C82q88NvwxMJst0w6LyaxtMKTFxZG0qFZGJZaYSIrCThaR/yNshyEDp/2BN58B8vH33tP6hlVbjFekCa7PALQdtHhguKd+fHfeBwCpzMML6V2E9/d4Y3UuznRC6m+8E5bk+b2LRzrw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(39860400002)(376002)(366004)(396003)(346002)(451199015)(86362001)(66556008)(44832011)(2906002)(66946007)(6862004)(8936002)(5660300002)(66476007)(82960400001)(38100700002)(478600001)(316002)(6636002)(37006003)(6666004)(6506007)(6486002)(36756003)(26005)(8676002)(4326008)(41300700001)(2616005)(6512007)(186003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ye5ItqOdGwaaa/ZyHCCzO7R0A5BFrSj7iCYBZ2ADIb7c/ldoezEk8y/GvjE0?=
- =?us-ascii?Q?WkwSUUFqQXVCtiE1Cd/EVCnOfIcD60TrcN36aWBf7csIb1bX/Y4H8VHHlYcN?=
- =?us-ascii?Q?BvB1xJOgtjf7hx8zjO+lw/8lRwH4oZoyWZXfwUaHDJ1gWvlHb6rYGVgs6Dyy?=
- =?us-ascii?Q?bVXkP1bETVR+uL27azQOevJC9WQLSj6MBLjo0j+7ClIXl2Nq46oTRD5rgXLo?=
- =?us-ascii?Q?O9ZDy+0mOuq+CDzXrvk4J71zKuw6550rK1TS6hmlU9iAgo5SluDQY93BKAL2?=
- =?us-ascii?Q?8NcLP8Qxand40Sh05gAabJ3r3IuEGHGCpefDqLHYDEfkVukHEynaFIFMaQv1?=
- =?us-ascii?Q?f03b3YCWozNFmwqSOcRsRY4bHUUtOrGO1PlMuGhY5RihSaYF+OKVZApJkslj?=
- =?us-ascii?Q?bbO8FXb4HDyGBOenon8AJ1zWtiM8lk0LguJ3ieRaC09ACIWOnkeDCIvQenJO?=
- =?us-ascii?Q?9Efwn/BfiphI/52HNCAmjPJegoD1FAjGCduol1g98eudIjkB06FpemfCCp/4?=
- =?us-ascii?Q?7Vb2dabB4xt/NY3HyC16LAaqd1pK5VY/Xojp+EJhaKdx+yBZfSy1GutfTKnE?=
- =?us-ascii?Q?/J5TBH76geZ1hTrJrV5MvTZQYKKa2SM0CISScJ5utTNhML0MMHfHK2VNWD+A?=
- =?us-ascii?Q?ieRuQ7nIj+DIzZuleYfcm8zSdiITSsxT6w4SMh4CIwDCLp5biOwk0aVGqj6p?=
- =?us-ascii?Q?KAVlwl5BmNn5cQOteeLn3Ml5RePC+eaGuQ7FI9QRY/4b11Tfgg/5p7omrF5P?=
- =?us-ascii?Q?7F124eR/Cb6OFJYKWIxAtKoxlE8sxjaq0IBlUNJJu358WR8nQXwhneYOCUVY?=
- =?us-ascii?Q?aVSGsoijlpz672dPCeeDqCGBSqGb/4wEVDheBzWchmtZ82tcIAZxVIjHDjVk?=
- =?us-ascii?Q?XXcwmYixdCmeEgmY6yMBEEhrRtgkaBrzPD4OzQDD+nC67EjfklfcMB7vRkM3?=
- =?us-ascii?Q?mQgzzMUFZtZspqWPXkTrAt4RFUCARqpKnP89DkmOVYF9LZfVdY5nojo30n1C?=
- =?us-ascii?Q?oJ0A5hHOT05hRtFEDBC5/OI43xTU/Np2KwOnZ7mt7+uG/0Vb3/ERaPxDTghz?=
- =?us-ascii?Q?n9tyXyukXFtOp7OflrHJ2SSswlfTiW02wCPd6O1CbzJwBwm12CfjvLzOBTrH?=
- =?us-ascii?Q?isUHDDJqMwugMxMIIE2hT416n995sp04Bbgh1nwOmGJTBW6wT4VwkFFLhRnO?=
- =?us-ascii?Q?b2g+IMdxxE9oXpA+OMcfUhFB/oGmAFqYCkntbyuHPh3cx9BxL5ZSd8lf1Cev?=
- =?us-ascii?Q?+uazobM9GIBaXVGKrsMJeLj9gIUZys7WWQ3LpFI5B1D+yGrwNu/XAACTG9Hm?=
- =?us-ascii?Q?KdrTDuu+lzcSHYHlNjcn4Zk5kbJAZXhsLiptARaKilwMklOBGOVqw/W4tCjP?=
- =?us-ascii?Q?hxICf8rdt9JsD+i9TWZ0RcdiVJx5TMkpD28MSlFiBKo/ZDXhU4GfMRyu4ju/?=
- =?us-ascii?Q?UjO/NqRVIne2xCxLrMBfr/T7U0qO7bKwRgVl23cei3KRothZMrOtG665ISOA?=
- =?us-ascii?Q?L69QpfE2bdm7m6X21Kt+ylP6TYXxq7Ikjl+bWTxYBZUb+e9n7WhOdv11mW9v?=
- =?us-ascii?Q?dpfrANUGQcjPeswFRMmXBqX+M7L3WN4ni6RBBT2x8PKbPpKsa2oX1XKpw32E?=
- =?us-ascii?Q?Xw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd5306eb-36b6-48b7-9876-08dafa577981
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 19:58:03.6168 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t93nmzLkzGGtM/qnvkD4zjOM8myNoT8ScUmNw2eU7+3CdOF635Fy1ODzovaVQtuAwhkO7ov7+Qr/g36q5sbLVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4718
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam-Message-Info: ArLGP/rKt/x157YfwnPE2TF/moIDnM1i8wJgOJe+JxSfxfkGkC0q2ROB7e4RmFNQyr3vQdJfHwbzEc83qS5/2GNO567vqbvxG9JNK7HiR77+50BTlbmSASk7g15yjZuCxbsTZM+VkVTbLgCgIgm4HWjrp9ukmUWQCOxEvxeoA7p/zUfwlBnA7i5MpRqFccumUMFp2vHuCtkOyQaweAxbn+huvGW+mx/Tfc2yDd9a7TFPuFpP9rKFqcW8iMx0/cAEILnppnCUvFKooPrWGGJk+GE5OQ6BqmSjOFFYx9b/7vEulLNcQzkSxtLvKn0oGiHZkTwvh29mU4PxzO/ES6Z/1Olo0O88UCvXZyKM/4Hj+Ulnk5xuzWPgkQv59vKR7tHWQN0VaYUyv+FGWeExF+4S6eQaVcI7xDfqbbxSg9rB6aTWpR2VH0Oe7s+bTENc4zfrzlWpb8FuzfUJ17wU2O3glTwamBv+nhE3o8pRKp67KaKn2vhzAzd+7o/Qxam55cfNhjG/0t4dsfvffmJOhXlIu0fCNt+OKQTOg0WRSqZxKo5rcs4MbSMg61Oku2l4cppjAi1Nfvjv5GX+jz93Eq0X50qsYaezAm4Emv+qSaF/2N0NSobyyS437Otzq3edQ6SNjEzy6eu51Q3AqILNfMEN7KFbieh7UZrakor+1bqmJBjxyOB38jKVhHueKSK+Qdh7HfxpNMIyDXBA6/rXqK5j2OKXtYNlUR7fMOZopdPJS9xsAUB/lsdaN/K6y1ngzAcG
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(136003)(346002)(396003)(376002)(451199015)(46966006)(36840700001)(40470700004)(86362001)(81166007)(356005)(5660300002)(41300700001)(8936002)(36860700001)(82740400003)(36756003)(40460700003)(186003)(7696005)(110136005)(478600001)(966005)(83380400001)(26005)(16526019)(6666004)(316002)(8676002)(82310400005)(4326008)(70206006)(70586007)(66574015)(336012)(1076003)(426003)(2616005)(47076005)(40480700001)(2906002)(36900700001)(473944003)(414714003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 19:59:26.5982 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69da97d8-7a0e-47c9-c1e5-08dafa57ab30
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT072.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7567
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,58 +99,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Daniele
- Ceraolo Spurio <daniele.ceraolospurio@intel.com>, Vivi@freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 19, 2023 at 11:49:55AM -0800, Alan Previn wrote:
-> The Driver-FLR flow may inadvertently exit early before the full
-> completion of the re-init of the internal HW state if we only poll
-> GU_DEBUG Bit31 (polling for it to toggle from 0 -> 1). Instead
-> we need a two-step completion wait-for-completion flow that also
-> involves GU_CNTL. See the patch and new code comments for detail.
-> This is new direction from HW architecture folks.
+Hi Dave, Daniel,
 
-Do we have this documented anywhere?
+Fixes for 6.2.
 
-but the patch looks good to me...
+The following changes since commit e695bc7e542358978434c8489a5a164d2bbefae8:
 
-> 
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> Fixes: 5a44fcd73498 ("drm/i915/gsc: Do a driver-FLR on unload if GSC was loaded")
-> ---
->  drivers/gpu/drm/i915/intel_uncore.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index 8dee9e62a73e..959869e2ff05 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2748,6 +2748,12 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
->  	/* Trigger the actual Driver-FLR */
->  	intel_uncore_rmw_fw(uncore, GU_CNTL, 0, DRIVERFLR);
->  
-> +	/* Completion Step 1 - poll for 'CNTL-BIT31 = 0' wait for hw teardown to complete */
-> +	ret = intel_wait_for_register_fw(uncore, GU_CNTL,
-> +					 DRIVERFLR_STATUS, 0,
-> +					 flr_timeout_ms);
-> +
-> +	/* Completion: Step 2 - poll for 'DEBUG-BIT31 = 1' for hw/fw re-init to complete */
->  	ret = intel_wait_for_register_fw(uncore, GU_DEBUG,
->  					 DRIVERFLR_STATUS, DRIVERFLR_STATUS,
->  					 flr_timeout_ms);
-> @@ -2756,6 +2762,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
->  		return;
->  	}
->  
-> +	/* Write 1 to clear GU_DEBUG's sticky completion status bit */
->  	intel_uncore_write_fw(uncore, GU_DEBUG, DRIVERFLR_STATUS);
->  }
->  
-> 
-> base-commit: 0a0ee61784df01ac098a92bd43673ee30c629f13
-> -- 
-> 2.39.0
-> 
+  Merge tag 'drm-msm-fixes-2023-01-12' of https://gitlab.freedesktop.org/drm/msm into drm-fixes (2023-01-13 13:01:22 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.2-2023-01-19
+
+for you to fetch changes up to a52287d66dfa1cca32e6273623b63ba39d87f126:
+
+  drm/amd/display: disable S/G display on DCN 3.1.4 (2023-01-18 23:23:24 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.2-2023-01-19:
+
+amdgpu:
+- Fix display scaling
+- Fix RN/CZN power reporting on some firmware versions
+- Colorspace fixes
+- Fix resource freeing in error case in CS IOCTL
+- Fix warning on driver unload
+- GC11 fixes
+- DCN 3.1.4/5 S/G display workarounds
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      drm/amd/display: disable S/G display on DCN 3.1.5
+      drm/amd/display: disable S/G display on DCN 3.1.4
+
+Christian König (2):
+      drm/amdgpu: fix cleaning up reserved VMID on release
+      drm/amdgpu: fix amdgpu_job_free_resources v2
+
+Hamza Mahfooz (1):
+      drm/amd/display: fix issues with driver unload
+
+Joshua Ashton (2):
+      drm/amd/display: Calculate output_color_space after pixel encoding adjustment
+      drm/amd/display: Fix COLOR_SPACE_YCBCR2020_TYPE matrix
+
+Lang Yu (2):
+      drm/amdgpu: correct MEC number for gfx11 APUs
+      drm/amdgpu: allow multipipe policy on ASICs with one MEC
+
+hongao (1):
+      drm/amd/display: Fix set scaling doesn's work
+
+jie1zhan (1):
+      drm/amdgpu: Correct the power calcultion for Renior/Cezanne.
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c                    |  3 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c                    |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c                    | 10 ++++++++--
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c                     | 11 +++++++++--
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c          | 14 ++++----------
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  1 -
+ drivers/gpu/drm/amd/display/dc/core/dc_hw_sequencer.c      |  4 ++--
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c            |  7 ++++++-
+ 8 files changed, 33 insertions(+), 18 deletions(-)
