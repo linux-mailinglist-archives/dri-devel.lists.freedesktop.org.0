@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDCB6731F9
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 07:51:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 023506731F8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 07:51:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A938810E8C2;
-	Thu, 19 Jan 2023 06:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54E8810E8BB;
+	Thu, 19 Jan 2023 06:50:40 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAD8710E8B4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE6310E8B1;
  Thu, 19 Jan 2023 06:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1674111033; x=1705647033;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lN1PKyfSRaitUElCbMEHcFcMq/tB6Np8kNukyO4+dTY=;
- b=l6KykHWbbelKwcjmIjdUDGPi9XqjRLGc/DHeGRxN5v/cOB3CRaeEcYg8
- H8JzwnB0aZlpiZlE0mA/PynZ+AcBCmuR1k/nFRDRTVZUkyXJ0mELYEKNj
- 4B3RkKk8rVI5uSBPpKLLi3uAa+h7xbDbT3QUuDiU3uLy33yYZGSkk8fvj
- oF8FfZfG8IJ7ZHIHGbdQUz9hwpPNXNZnMYc/q/r4y+11jh8rIS/y5NXxB
- Jcp5Qb8ZAZrsCqRtetU+Ok3hlrGm5vHJ3FIEo0XsY2B8U6Ofay5pzgkoB
- iT1Nd/7hElJ+MglPUuf/FDmd/IU3fKTS17OtrZsE/AMjQ8bSMXas1lR31 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323897863"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; d="scan'208";a="323897863"
+ bh=ApBBVQEaos4a6GRX2pfjG8CAy0S+vGQGh3ubPkQY46g=;
+ b=Ug9MTBVsx028ogDDhSYVOtRQg66cuQvcbbasmR2Cb3SU5DLEFRbh6XRH
+ qjWfl2B3Xn9ZklgU4SyFmDOq4VIsGfF/FpI15hVKraEMLQ6Myr023+hzY
+ 7tBJFyKWp6346Gbpe6jezJDcWcUGJ1qRGt+RYHF6yoMwGYOaly0M7Zmer
+ nXNc4L7pp0jtgrVm2+dXvyxQEXVmkaZvUJP9HjGgbVCoakBsuxdjj5Ndi
+ bEkuR9WzAt7ojCspJKP3qUqGDpVUBevL8GQ4a1VXViQj6M1jv0d1/blnq
+ VsyNYKNn7jItR0uSFqbORwmlbzpKoeMsibvbH+kyQab7HecCAbukK/Jt7 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="323897864"
+X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; d="scan'208";a="323897864"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  18 Jan 2023 22:50:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="723385741"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; d="scan'208";a="723385741"
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="723385745"
+X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; d="scan'208";a="723385745"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by fmsmga008.fm.intel.com with ESMTP; 18 Jan 2023 22:50:21 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 3/6] drm/i915: Allow error capture without a request
-Date: Wed, 18 Jan 2023 22:49:57 -0800
-Message-Id: <20230119065000.1661857-4-John.C.Harrison@Intel.com>
+Subject: [PATCH v3 4/6] drm/i915: Allow error capture of a pending request
+Date: Wed, 18 Jan 2023 22:49:58 -0800
+Message-Id: <20230119065000.1661857-5-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119065000.1661857-1-John.C.Harrison@Intel.com>
 References: <20230119065000.1661857-1-John.C.Harrison@Intel.com>
@@ -58,171 +58,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org,
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-There was a report of error captures occurring without any hung
-context being indicated despite the capture being initiated by a 'hung
-context notification' from GuC. The problem was not reproducible.
-However, it is possible to happen if the context in question has no
-active requests. For example, if the hang was in the context switch
-itself then the breadcrumb write would have occurred and the KMD would
-see an idle context.
+A hang situation has been observed where the only requests on the
+context were either completed or not yet started according to the
+breaadcrumbs. However, the register state claimed a batch was (maybe)
+in progress. So, allow capture of the pending request on the grounds
+that this might be better than nothing.
 
-In the interests of attempting to provide as much information as
-possible about a hang, it seems wise to include the engine info
-regardless of whether a request was found or not. As opposed to just
-prentending there was no hang at all.
-
-So update the error capture code to always record engine information
-if a context is given. Which means updating record_context() to take a
-context instead of a request (which it only ever used to find the
-context anyway). And split the request agnostic parts of
-intel_engine_coredump_add_request() out into a seaprate function.
-
-v2: Remove a duplicate 'if' statement (Umesh) and fix a put of a null
-pointer.
-v3: Tidy up request locking code flow (Tvrtko)
+v2: Reword 'not started' warning message (Tvrtko)
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/gpu/drm/i915/i915_gpu_error.c | 70 ++++++++++++++++++---------
- 1 file changed, 48 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/i915/i915_gpu_error.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 78cf95e4dd230..743614fff5472 100644
+index 743614fff5472..0d1e68830b75e 100644
 --- a/drivers/gpu/drm/i915/i915_gpu_error.c
 +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -1370,14 +1370,14 @@ static void engine_record_execlists(struct intel_engine_coredump *ee)
- }
- 
- static bool record_context(struct i915_gem_context_coredump *e,
--			   const struct i915_request *rq)
-+			   struct intel_context *ce)
- {
- 	struct i915_gem_context *ctx;
- 	struct task_struct *task;
- 	bool simulated;
- 
- 	rcu_read_lock();
--	ctx = rcu_dereference(rq->context->gem_context);
-+	ctx = rcu_dereference(ce->gem_context);
- 	if (ctx && !kref_get_unless_zero(&ctx->ref))
- 		ctx = NULL;
- 	rcu_read_unlock();
-@@ -1396,8 +1396,8 @@ static bool record_context(struct i915_gem_context_coredump *e,
- 	e->guilty = atomic_read(&ctx->guilty_count);
- 	e->active = atomic_read(&ctx->active_count);
- 
--	e->total_runtime = intel_context_get_total_runtime_ns(rq->context);
--	e->avg_runtime = intel_context_get_avg_runtime_ns(rq->context);
-+	e->total_runtime = intel_context_get_total_runtime_ns(ce);
-+	e->avg_runtime = intel_context_get_avg_runtime_ns(ce);
- 
- 	simulated = i915_gem_context_no_error_capture(ctx);
- 
-@@ -1532,15 +1532,37 @@ intel_engine_coredump_alloc(struct intel_engine_cs *engine, gfp_t gfp, u32 dump_
- 	return ee;
- }
- 
-+static struct intel_engine_capture_vma *
-+engine_coredump_add_context(struct intel_engine_coredump *ee,
-+			    struct intel_context *ce,
-+			    gfp_t gfp)
-+{
-+	struct intel_engine_capture_vma *vma = NULL;
-+
-+	ee->simulated |= record_context(&ee->context, ce);
-+	if (ee->simulated)
-+		return NULL;
-+
-+	/*
-+	 * We need to copy these to an anonymous buffer
-+	 * as the simplest method to avoid being overwritten
-+	 * by userspace.
-+	 */
-+	vma = capture_vma(vma, ce->ring->vma, "ring", gfp);
-+	vma = capture_vma(vma, ce->state, "HW context", gfp);
-+
-+	return vma;
-+}
-+
- struct intel_engine_capture_vma *
- intel_engine_coredump_add_request(struct intel_engine_coredump *ee,
- 				  struct i915_request *rq,
- 				  gfp_t gfp)
- {
--	struct intel_engine_capture_vma *vma = NULL;
-+	struct intel_engine_capture_vma *vma;
- 
--	ee->simulated |= record_context(&ee->context, rq);
--	if (ee->simulated)
-+	vma = engine_coredump_add_context(ee, rq->context, gfp);
-+	if (!vma)
- 		return NULL;
- 
- 	/*
-@@ -1550,8 +1572,6 @@ intel_engine_coredump_add_request(struct intel_engine_coredump *ee,
- 	 */
- 	vma = capture_vma_snapshot(vma, rq->batch_res, gfp, "batch");
- 	vma = capture_user(vma, rq, gfp);
--	vma = capture_vma(vma, rq->ring->vma, "ring", gfp);
--	vma = capture_vma(vma, rq->context->state, "HW context", gfp);
- 
- 	ee->rq_head = rq->head;
- 	ee->rq_post = rq->postfix;
-@@ -1604,25 +1624,31 @@ capture_engine(struct intel_engine_cs *engine,
+@@ -1624,12 +1624,9 @@ capture_engine(struct intel_engine_cs *engine,
  		return NULL;
  
  	intel_get_hung_entity(engine, &ce, &rq);
--	if (!rq || !i915_request_started(rq))
--		goto no_request_capture;
-+	if (rq && !i915_request_started(rq)) {
-+		drm_info(&engine->gt->i915->drm, "Got hung context on %s with no active request!\n",
-+			 engine->name);
-+		i915_request_put(rq);
-+		rq = NULL;
-+	}
-+
-+	if (rq) {
-+		capture = intel_engine_coredump_add_request(ee, rq, ATOMIC_MAYFAIL);
-+		i915_request_put(rq);
-+	} else if (ce) {
-+		capture = engine_coredump_add_context(ee, ce, ATOMIC_MAYFAIL);
-+	}
- 
--	capture = intel_engine_coredump_add_request(ee, rq, ATOMIC_MAYFAIL);
--	if (!capture)
--		goto no_request_capture;
- 	if (dump_flags & CORE_DUMP_FLAG_IS_GUC_CAPTURE)
- 		intel_guc_capture_get_matching_node(engine->gt, ee, ce);
- 
--	intel_engine_coredump_add_vma(ee, capture, compress);
--	i915_request_put(rq);
-+	if (capture) {
-+		intel_engine_coredump_add_vma(ee, capture, compress);
-+	} else {
-+		kfree(ee);
-+		ee = NULL;
-+	}
- 
- 	return ee;
--
--no_request_capture:
--	if (rq)
+-	if (rq && !i915_request_started(rq)) {
+-		drm_info(&engine->gt->i915->drm, "Got hung context on %s with no active request!\n",
+-			 engine->name);
 -		i915_request_put(rq);
--	kfree(ee);
--	return NULL;
- }
+-		rq = NULL;
+-	}
++	if (rq && !i915_request_started(rq))
++		drm_info(&engine->gt->i915->drm, "Got hung context on %s with active request %lld:%lld [0x%04X] not yet started\n",
++			 engine->name, rq->fence.context, rq->fence.seqno, ce->guc_id.id);
  
- static void
+ 	if (rq) {
+ 		capture = intel_engine_coredump_add_request(ee, rq, ATOMIC_MAYFAIL);
 -- 
 2.39.0
 
