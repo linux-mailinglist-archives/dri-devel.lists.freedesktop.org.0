@@ -2,148 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EC8672E94
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 03:01:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DAF672E9C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 03:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBC610E228;
-	Thu, 19 Jan 2023 02:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31CD810E88A;
+	Thu, 19 Jan 2023 02:05:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF5C10E228;
- Thu, 19 Jan 2023 02:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674093707; x=1705629707;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=rLVXE+oomhYsB9kRrGp4Xw1jGeG5e3ACIHR9pbTJ/FE=;
- b=jQgVzBcEEYdrbGKGT3KMU4TtmZuTjc/SIYpLf2IgwI5vrhGVWgS4Ngke
- 8RbhixoRZq8oaJMak7lrcxkOnKFTRZordvvQvVgVta6fF8c4DFTk11o23
- ctqv1i29oPUMeZblWNOWGVyFQAqns0TGqurMu8EPgHXX+W8oUyY/y12Gu
- ffToHV5xEJYWZHrOe/bCYD/W0HK4F2vMbEKPv6SozoUBQzYSx4vsomIrr
- 3OXGMH1RZULSkIKd6G8sQG7jQsf9s8TChvUZNNRIjmVBiz0KRkiVgYoFZ
- fMeeeUbba9TJTjdzf9zmWtAmPwR7IB2UcoaYKKVrZ+Ijl300/12VyTEem w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="322853204"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="322853204"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 18:01:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="768003115"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="768003115"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 18:01:46 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 18 Jan 2023 18:01:46 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 18 Jan 2023 18:01:46 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.106)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 18 Jan 2023 18:01:45 -0800
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur01on2082.outbound.protection.outlook.com [40.107.15.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7112010E229
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 02:05:17 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TI1Vhe2F7+H9gPgYwAClAqdXJK4xfX64kXdVBuOq74S/llkcUMqS7btzAx7CkJF4Z74+QFiLnZWB5dEu1c1RBgzN7oac9gsU+tgiXqucdODzc3OSxd5W7CKMCsAlcyUjAjKquurgUiLnCz+37koxpkimJ2GsE/aCVPyZDJtA7k2y/exN7QH/lqKuoiLUflWlRjKnWjb6/HHqLgZZlLTd/KzggpN+tCf2dnG/2yo0ujP2/2797DbvdTSec6Ga/NnWygegp1nuk69rvznZQrlEeff2qAqT7OBgGKr2N5nGsrkcwVP1V2nQsnh/KxYhRoLvgBIRkX0+V7wEkGYkIYZ5+Q==
+ b=TdI02PUN+Igss4dqvfRBMRgmEkCbqeBk4R7RFA73UlhAvRJ7Svaw6gsqLpa3Q7PW7rzfHI++punUD3GAVDCeMF0BaR0HeR23HM+fLF5KYOfi9fF/GNy5LQeGo783ptL8JKrBnumFYu6oTngAObab4modYLOCcv09+UKfzd7KYUEuwW4sRR3kvJXx1o/J0MasYE7DmNi0L3JtXb2U+romIV4ETBHE//HUs5WUy0DSmWLa05Ab4nWKhU3D939i9WGmwxuIcC2UNL9FXX1TShH/b8phT6lvOSvTEY2ROildjFiyHl7HvHzQ/TRYIpZcj+ULc79YjF8W1P2xsR1VZwR/ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=46kZhtHaDtK9FsrzQRr7aYvTDomYQ0mKLk5WiJPj340=;
- b=SZuE5ZYE/njQsarT4g77sCUTiRBCCyniN2xDQOb46B/FwQUQPWbEYUy5DNc4EXr9ax5d+VtuDtLeSKzcNnDFpMDLk/mJHdVW7TVZhixsDU8/k6QfyE7oUJUDR7aOmrfOH3ybGwtwvIglsjH9CLCF9/SS6AKd7LDnDeFlaTWq5/lnBdkCFViZ9OkEeG8Sfi07S/eAqGIqe4e2RxUoCAuxYuHO5rgC8CA35OCMMUvd0CLUSwcc0Gzu2j4nJ1enu6cTG0fwHzeRKt6wCqfye40KCgk57lkSoT05MF63SxYd0MhA/Ft9wEIyvj7B3gkG6Tgeh4bA5Hzv5yjUXev2x5wN4A==
+ bh=qBlmcPN22kU9aI8S+aAfv8vDJQ7zbBMgie+/C5izEJs=;
+ b=eiq9RDTkBSpomxcbLqZEiMKoqAz9qvZYmrjmL1hb0SENOJM0cMwfwjDYenENVPfp40mA28z3KDQXpZRvC7CGZVS0SzzWky4HpgFVI/RcZgLzQFyt0bRrvi93IdRk2i038juDQ9Am6hG9G/D/Wr83/d4x0HMCDlnL3bQNnn1+sLhMOwnD1p3OKRzkhY1gxWSbqp79MnEI/YjsuozyoerG9Xs84jUUdDAoGTkTWXkLJTN6W5t2HeOpeCyQVgA9VaF6CkbKHxI/JkJT+8MDxNaR2I/xoWUw4aSEDuRvsfuzq9CVsvUYH7KJAZQICwhxEhedvLMeiZbKbh6S9q+3Y8hWpg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qBlmcPN22kU9aI8S+aAfv8vDJQ7zbBMgie+/C5izEJs=;
+ b=mzsho9PTtho3LL0n8nlqt8Eh+i2ZBCMvAfVgU/tnudKsOvO3IF8yDv9FEwf3DGFDEvOWZ1jbM7ENVToRqVDDYCxxYxn7Mtx7Iuscy9V2MAljRRLCcxlwvGKZpqH4Ex9Ea1dOe+uKNSUFYYm3Ef1mqozIjB2ywf3WOHEkZa+4n1Y=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- IA1PR11MB7246.namprd11.prod.outlook.com (2603:10b6:208:42e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Thu, 19 Jan
- 2023 02:01:42 +0000
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::62c1:155c:1857:167a]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::62c1:155c:1857:167a%9]) with mapi id 15.20.6002.025; Thu, 19 Jan 2023
- 02:01:42 +0000
-Message-ID: <c8b6c0a9-0030-c356-f6dc-64fda4f90559@intel.com>
-Date: Wed, 18 Jan 2023 18:01:33 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 7/9] drm/i915/pxp: MTL-KCR interrupt ctrl's are in GT-0
-Content-Language: en-US
-To: Alan Previn <alan.previn.teres.alexis@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20230111214226.907536-1-alan.previn.teres.alexis@intel.com>
- <20230111214226.907536-8-alan.previn.teres.alexis@intel.com>
-From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20230111214226.907536-8-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DU2PR04MB8568.eurprd04.prod.outlook.com (2603:10a6:10:2d7::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Thu, 19 Jan
+ 2023 02:05:14 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5725:92ec:f43e:f5fc%3]) with mapi id 15.20.6002.024; Thu, 19 Jan 2023
+ 02:05:14 +0000
+Message-ID: <6aead6b78540d30ab2db5a8e8d062bc3cde711f9.camel@nxp.com>
+Subject: Re: [PATCH v13 5/6] drm/imx: Introduce i.MX8qm/qxp DPU DRM
+From: Liu Ying <victor.liu@nxp.com>
+To: Marcel Ziswiler <marcel.ziswiler@toradex.com>, 
+ "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Date: Thu, 19 Jan 2023 10:04:33 +0800
+In-Reply-To: <549bf1f26b8212de2d4890a27e396250257aa027.camel@toradex.com>
+References: <20221019020226.2340782-1-victor.liu@nxp.com>
+ <20221019020226.2340782-6-victor.liu@nxp.com>
+ <549bf1f26b8212de2d4890a27e396250257aa027.camel@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR20CA0001.namprd20.prod.outlook.com
- (2603:10b6:a03:1f4::14) To DM4PR11MB5488.namprd11.prod.outlook.com
- (2603:10b6:5:39d::5)
+X-ClientProxiedBy: SGXP274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::23)
+ To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|IA1PR11MB7246:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3bb37aef-e78f-4af6-0f5c-08daf9c11bf8
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DU2PR04MB8568:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7dedcf8-06ab-4369-9fe3-08daf9c199d0
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EvZFgONDhpUpiYyoRZBp9jVyI5eFro0enhghb6NqsHsspDbIwJvI+K+XCTa4upcS9XqcdSmt7e0wSVdQOkm9unZppUQxf/s8SXNP+DWo2arYOr1vCpF9sZ+gkMfhXPdd0uBc77urxpvs1eIUEiT7Zp+dinC5m14a3/3QNPpnT66e+zX1vZDqa36SED+hHD02uzDgOfzeTVvcOFt7UylGDksdw665iNtT0ca5K+/HkLCJBkXd4RMqiyC74NKwVZLtYAGnnq+8o60OpvNmYeg1TGXIEtGhiSzKMOxYzexndwfLkmaO46OOSeryXC8U5ZkmynuDN4mCuWJYSayh7uSWf9q6NrhnCWqJTBQrEynIq9bF79UFTyT/oEaHOrL6rT74PynibQ0LxBfQ/+vF+WdZgkssiD9zoJ6V9fnQLvTHtEgV4CxMZrizFOjk3c1CxrDReUAIxmkwF1NQkuOb2Gif91Y55AF2zriUk2p+1aQpW0CUaTTJmKZ7LwU4szvCUuXLzGmiexq7Vk22zAsKptr2DAOSSQvwjh2Xn4CD64EwJ3WbgcxI0vVwtL31SCZQXZP1z2aO9X+EDOA4k6w+AwLd8cE9E/qQg9ddO95UKL0WxdsZqnlnJk6EBcgvDeEKn2ZFMYIC5HRG5hifRGuGIyFiIqqx2aj84bUTx7LtuXsxYZPBYnVV7F/8T9QG9UcESgK+6o9M9KD8EOgnKBjOHVZy5Hk0k/U++vRhVXiJPE2dThg=
+X-Microsoft-Antispam-Message-Info: vopjH+xllM+8HoJk9u/ePmaUWqQP3xTvoLLjQCW1PcW+bhkZX12oyGkOX5WoSaRWy1YYRFM5KKHb9BxUmcPT01lZ4La/9wGtKI7laxjXi3VHlz9urfuzB/NUDi4Os9vOMpvZyBhprfWIfb/FhtqZRle1MAAdREypPQAPjGLCRzpuVPh6MRi/NDyk5ukqLKJc4OTJrOsB9gU5zJajIGJkXL6DxJRAfYOekAVJI/wSZhghyRIv4ewRzIQ+oEV/n14XwQHoCL72mJdIyF7JXxq1WMevRei9bxRQS4OAciqZUaqQn+XGVd49xvITyGDomEA/DscMJe7hVzZW9mUWZLezpBG6JxcXcnQMJY9LluyEkGlhmtznAH2BOp3/yHi9nF06AiymclB8FP0q1jIhybQSPUnJmct/Wxrxnk4Bgd4OxdthyBV01LJrhfNDR/UONBJk4sVu577Yjg+sfYsgaUdqxUTjOZgK0d44mgcMvA975tJ7pYYA/5nUGCD2S+wOsL6aEowVNHkuA9ef0El4HdzD++q8AVD6wLoVet5o2HNUPRR4UnyUVzlEH9QYqjVB3QFNBx71wgGvXQKcWL0hML4XUzkNg+cfHpWqj3tPO5T+rSMs2jG7JcoH7+5lnRVaiLtPlnucCWx9CVBNAyNeTbsgI0ni0OH3EZDPVOGvBX48n375eM0g2Szbr2unW59Wh290GwMBftB0Q+Cc0LLXChXbIvfP+y7LSEgtJ33FmFrJEIaMz6j+Hj3CK6T6m5U9W1/b8X7OI1C4bHTrAY+3P8VusMW68dtSBMZU32p8JcUU9v8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(136003)(366004)(376002)(346002)(39860400002)(451199015)(31686004)(66946007)(2616005)(6512007)(66476007)(26005)(41300700001)(4326008)(53546011)(8676002)(36756003)(186003)(86362001)(66556008)(31696002)(82960400001)(5660300002)(8936002)(316002)(6666004)(6506007)(83380400001)(478600001)(2906002)(38100700002)(6486002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(366004)(396003)(376002)(39860400002)(136003)(451199015)(38350700002)(38100700002)(36756003)(86362001)(8936002)(41300700001)(30864003)(5660300002)(7416002)(316002)(4326008)(8676002)(66946007)(66476007)(66556008)(2906002)(4001150100001)(2616005)(83380400001)(478600001)(52116002)(6486002)(966005)(110136005)(54906003)(45080400002)(26005)(186003)(84970400001)(6512007)(6506007)(6666004)(99106002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VnRMYmhVdXljcFgzWUFBUktMZWtUMit3cXdNMkNSL1plNDNqM3ZKUzNvblhm?=
- =?utf-8?B?VUVxaisvZE0vK0ZnV0M4TTdaNFRWZERQYlRQQWR1SHZHT1BYeWFRczNmdzJ1?=
- =?utf-8?B?RUdrUUFxRUpQcm80QmtaTFFJQlRoRnBqbVFDUlRtV29WbG12N25Sb092YWhn?=
- =?utf-8?B?WFJoNzV5SG1Dd2JQbjFYQXJIOVgxYW10ci80dDhsc3JCTFUyY3dyVlpaRXJO?=
- =?utf-8?B?b0lORkU2alluUkZ6QVdRWHFIbTZtdUdqbjh2NGwycTczVGR2ZFVzR3ppWXls?=
- =?utf-8?B?ekJub3hDTkZERzJNN2dWY25XcGE5YXljenhYVmM2UWpyTVdHL2lXcXZXV1Uy?=
- =?utf-8?B?SGIrZFh5Y1RzSHRVUVRXcHhmS1Y3R2tBbnVuOFQ3THdTVzFqby9vMTlHazhU?=
- =?utf-8?B?cExkZmJ0QUxmaG1EVjVFeUtSaGZXV01iMUh0MEJqdzRWbmNzMWxYVUlYUEdp?=
- =?utf-8?B?QkVBVkxVemM1WXNQTURRbGEvTDFpNTlCanhSZFlKVUxmTEl2ZGRWRkhHS05j?=
- =?utf-8?B?U3UrQURYY0VVSElzZUk5WjdnK0kyMTdSN3ZHNWllMUtzdzVOK1lDTWVYMXo5?=
- =?utf-8?B?YjAzT3B1emRMVEVVM1J6Z0ZJdThwN2pjRFFIRENFSkZDYWV5VDlqUkFZNTlO?=
- =?utf-8?B?YXdKMDdKbWJkYXV2Q3FINGtvUjlVN3Z0M3M1WEk2djY5MnpwZVk0QlplczRh?=
- =?utf-8?B?VnVTSnlZL2xpVCtzY21NYmwwOTRVemdzNXVLOFNIYVRrRXFHWkQ0bzZLaGI4?=
- =?utf-8?B?aG9VcGZ3QWx4dHZUYXRQWWFONXRvcWY0eWVVLzNuYitUY2t0NnB6YmFIWjhx?=
- =?utf-8?B?M1FqMkhsKzl5SVhkODBYdUIycVE3WlZkN2U5dW5PemZkNm5VV3I3NmJkRFVo?=
- =?utf-8?B?WmZkTTVsbVRJZHczam1oQUp2TzRvNTVDM253ZmtSTVlLODVMRk9KNTExOVRw?=
- =?utf-8?B?WEU3NXUrMlh3bE5vMWRMVmVFYlE4QlVzWjBVelNRTUkvM1gwWjhYOVlKMXZh?=
- =?utf-8?B?M0wybmJnN3Z6VWNaZkhROERuOHFVamN3N3hKbTBVNHFaazhvRTVVTjM0dWpH?=
- =?utf-8?B?MUdCMTJsNmdkMllLQjVHbmh0cTk0YktjNHdpbi9MQWdIelVMclh2Z3dUa3Fj?=
- =?utf-8?B?SnEvREh1cE1WWENhall6dEV0cHZKMWpqRGg5Y3pNRTdXejNaUXNjZHBHZ2xX?=
- =?utf-8?B?a0RGMmovT3NDTWdsbDhYMEJ4TTMyc2ZZMGhkSmo4cC9LTld3dmhJZFEyZ3pW?=
- =?utf-8?B?WDRDOE81QlRoQ1FZZVM5UnFBVnRIQkdKVFZSRDdwcVh0dUNlSlBVditnazc2?=
- =?utf-8?B?ZUljY1pySWk2TmJCS2wwcVVjZFVpZytObE5OaXRGMFF3QkN3dWtGQzQ2TVM3?=
- =?utf-8?B?UjFIWEUzRTBtSklrRGc5c3VSaHBGb0c0bHg4ZHR2TTQ0VmhMbFR1SnUyNm02?=
- =?utf-8?B?bEtvU1B1K25PbzBaUE1zb1Q3R0Nkbm1jQytSejFnWUFzakVxNmt6bkthTW1M?=
- =?utf-8?B?eXBUbHVaTWcxRktndjBmK2daWUhESDlCMERTYmpYdktEOHVmVU9BRlBNdjAv?=
- =?utf-8?B?QjA5MXVhWWFCNmR4eHNsdDFzZTFVWHdaSWJaN1B4Uk9qRld4amVRS01sQy85?=
- =?utf-8?B?b2h0VEpNN0tSOVBJL29LdGU2K016OWFndnBtWXZlQVBHNXFEcHo4R25qZmFo?=
- =?utf-8?B?Z25TR1FXUHJ5NWg0cEMvU21BTGJTeXJlUGl1ZWg3SlhQY3MvTytlRk1JYzF0?=
- =?utf-8?B?TFdQeG12S1o4eWRYZCtrUE9peEVpS0NPcktEeG9ZSFRxSlpDVXg3VmRxYzB4?=
- =?utf-8?B?b08rU2Z6Vlh3ZDBRYVlOdlhrdFdmRzVRWUVaTCtOZVFEMXN1SzZLVmdZR0hv?=
- =?utf-8?B?bCtEbGJRR2RTdExaMXNsMEFYdEgwRUVJV0NmYmVwd1JodzFZdElaS1RsRzZ1?=
- =?utf-8?B?NTllSTlPQlZaODI1aFRTY0MvbFlDejRVQmh5WTRvbmtITWtSa1ZuMnBNOTRN?=
- =?utf-8?B?dy9DdEJ3SnYrL2Mzc2dlTmFBRThQaVR0UTNGRjhtd0hIZ2p2R0VxclFLaTlp?=
- =?utf-8?B?R3I5dTVoc0JDWVJzS1NybzIvczRnVUd6TDR4ak92aDhoNkNIa0plN1FBazEw?=
- =?utf-8?B?dWlTZUo4TFljU1RkU1hYNTY5VStwZjJUZVh0ZklRQ2VKZUVPY3liNU1qQjAz?=
- =?utf-8?Q?NysSSyNKqtN9CUk1+bL1D2w=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bb37aef-e78f-4af6-0f5c-08daf9c11bf8
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGp3T1VlUmRHYXh2d0F3YVBJcHFMVGswWndpNExDa3Vsck1mN01wcWpyUUQz?=
+ =?utf-8?B?QjUzR2VqS3d4SXlSRUxRMmJOUEdIUS8vTEU1K2R0MDFqY3pXaGYvTVpISDJK?=
+ =?utf-8?B?a3poYmU0MXRGSVFya0NNcWZuVXBxTEI5WXhMRGtETk1FeVBkNngwdlJDUmdo?=
+ =?utf-8?B?Wk9jYWRNR0k5NFBSY0dnMWJyWndYaUZWQ0xjWEpTaWZnTCtyV3Q3MmwrRmJV?=
+ =?utf-8?B?czZFUjdEU3hkN25YS1REaFZwZ2pWaVhlV1hNdHlBektVNW5KZFZDcEY3VlVX?=
+ =?utf-8?B?V1BMWEhvcGQzdWhabFM3aStLcVRMWXRneUVwYTZIWkdwZUc0WjlpQy9yQXVr?=
+ =?utf-8?B?ZkN3MGE0anpxRitjazlLb2J2dUJrQytSYW45OURwZ3c4aElaS3hzTTQyWWl4?=
+ =?utf-8?B?bmhObjFXU1NNM1BTQUhwd1VWRTRZK0ZKMkgwRWZqYzF0Wmxjd2ExTG1CWW9O?=
+ =?utf-8?B?UkRUR2U3UUFsKzFPUm10bWdzd2Q4VTY0cXpsOFBCKzhtNUxoSDdqcGxHNjNG?=
+ =?utf-8?B?R0ZxVVZLSWxxMmoxQUo1N1dJM2kzbFptQjV6S0p2SG5kc3ZndmJCRHdIa01I?=
+ =?utf-8?B?dWREU1kwYkZzWERkT3E2Vm0zRFpqZ3lkaENrc3JKMTdWc0ZYRDlnSVh0czdl?=
+ =?utf-8?B?RVNvb2R3K0w3OS92ZDNUbVdwQml3aHd0VFU5eThHNUFQcGoxZm5YSjVxZFh4?=
+ =?utf-8?B?U3d6Q05WcDJ5UkJaV2NjcDF6RXBuMGVOSk9uayt6VmdTcmpnK3Z0cm9ZZk1U?=
+ =?utf-8?B?bHdKZFcyWGRUN0xjTWVmLzhtL3BkZFBqWnE0anpITk0xekpXS3V3ZUgrd3Ja?=
+ =?utf-8?B?VTZONms0OWNhOGRNd1FrbEtrOWd6N2Rma3hPdVF6UWErSG55cjk1UE5nNDhO?=
+ =?utf-8?B?NXZQQnp0MUpRZU9MbXptQUMrWTVPeEFBT3p2K0hERERKODNVK2JXS1RoZnZD?=
+ =?utf-8?B?blNtUHJtdzltRXlKNnc1bzNXcDBnTVA4cnhndXVlb1AwR1VwSXpRNEZXN05m?=
+ =?utf-8?B?Ny9OSm13VC9lbzA5ZmhpbDJvRmZRZ1BxWGpyZWJiVW9JSFBWcHpQaW1JcjI2?=
+ =?utf-8?B?cWRteVhORUZlSFp6K005T1U2VU1mKzhaa3EzZ25obzY5aDFlUUpvMWt3Nm9m?=
+ =?utf-8?B?d2RrS3BNR0pCTmVqR3hTR1hBSldkVUM5VDJhaVRkZmppbVEzOGNUdWgvanFk?=
+ =?utf-8?B?VTFnZU0rQ0xoWWlvNTBpeXhVbEt6dU9zNHBLQ1JiYVYzbzA1NDFkK2hjakJW?=
+ =?utf-8?B?enBoTklDQUk0djIrRldROEhoNldqMUJrQUVJdmFGcWdlNk9IYUllYUo2RGdq?=
+ =?utf-8?B?QnF4VjFJYVdDQlVGQnl0K2E5R0R0OHZ5Ty9VdDJtaXo5cmxTUGFaS1J0bGZn?=
+ =?utf-8?B?b0NrS2FKVDZkdWhTdDBCdE43eVRnRllqTjBaQi9qNG1WZnZGVGZXYVdKN200?=
+ =?utf-8?B?eFhIV04yNVVFckRVanR1enpKUlh5Q2ZvWVpJeit6elhDNis2RFRQS3pxems0?=
+ =?utf-8?B?bGJGeEFtd0VCU2hmMHlEeHpnaURZRjRFNHJPTHUrOXdMaGNaRk9jT2EwdkFQ?=
+ =?utf-8?B?NkNQK3BweFIySks1SXhwVElHT1VEM2pBbktDSWtLNDJ3UDlmVlprK1ZGcndV?=
+ =?utf-8?B?bDA0dEFLdHJOeUE5ZDFuejc2dUVXMW8yRU5mY2tVbUNUclVkQ3JIZmFTdG00?=
+ =?utf-8?B?MlNuUHZyYkVkRnZJSkN5TjBQbnBVUzU1Y3liZ0NzZ090Q1A0UTExZG9MRXFD?=
+ =?utf-8?B?N1ZTa3dSTmFyQnZhbWV3VmUzbkFLRG1TS0dDTUNSa1NJSENaTnlKWEZ1c0Ft?=
+ =?utf-8?B?ZHFLMHNMUmhOREJRMXEvdHRncno3eGw3aUl0a0lYdk1FREVqcmMzazFxZFU2?=
+ =?utf-8?B?U2Y5VkxVWHNuV2M3Z3JNWmRzNHNoSisweFVzWDJEQ09ULyt1bTlWOWlhanRU?=
+ =?utf-8?B?bFVYS3dlcWMrdnVKME5GVzlueW9ZVTgvOCttK0pWcGJiVVhIUUhKZ04wTjJn?=
+ =?utf-8?B?M0JDL2pMOXZZUkVoam5LNk5FY3l2RmVhc0FqRytXVTVuVE5Yc05HUnJSTmNm?=
+ =?utf-8?B?ZENTY1RTblYzRldKZEp6NmQrWGY1Q3FBcUs1anJWSXBZNlN0eTJWRzFGcy9i?=
+ =?utf-8?Q?eX4BpfVoCP579nCjRTEMybAX+?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7dedcf8-06ab-4369-9fe3-08daf9c199d0
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 02:01:42.1778 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 02:05:13.7342 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jTzqkvZ7pdaS0aZ+LvhdaYZYIUQq4+hKIhybjExK+PacQgUmzcofySdW4vQlI5ZHMBO6rKyLW+vpzk+1ZCxTcEjT74/yGu13euCkRunhWxc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7246
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6v7GaVaXDHPSmb7lmCvdlH69tg4hWgSm9+JoeDPd2hZW/U6cJhP6ElLwM1AX9oK4X1tZo0m+nhqEelKS1JALnQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8568
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,155 +130,338 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juston Li <justonli@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-imx@nxp.com" <linux-imx@nxp.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "laurentiu.palcu@oss.nxp.com" <laurentiu.palcu@oss.nxp.com>,
+ "guido.gunther@puri.sm" <guido.gunther@puri.sm>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Marcel,
 
+On Wed, 2023-01-04 at 10:01 +0000, Marcel Ziswiler wrote:
+> Hi Liu
+> 
+> Thank you very much!
+> 
+> On Wed, 2022-10-19 at 10:02 +0800, Liu Ying wrote:
+> > This patch introduces i.MX8qm/qxp Display Processing Unit(DPU) DRM
+> > support.
+> > 
+> > DPU is comprised of two main components that include a blit engine
+> > for
+> > 2D graphics accelerations(with composition support) and a display
+> > controller for display output processing, as well as a command
+> > sequencer.
+> > Outside of DPU, optional prefetch engines, a.k.a, Prefetch Resolve
+> > Gasket(PRG) and Display Prefetch Resolve(DPR), can fetch data from
+> > memory
+> > prior to some DPU fetchunits of blit engine and display
+> > controller.  The
+> > prefetch engines support reading linear formats and resolving
+> > Vivante GPU
+> > tile formats.
+> > 
+> > This patch adds kernel modesetting support for the display
+> > controller part.
+> > The driver supports two CRTCs per display controller, planes backed
+> > by
+> > four fetchunits(decode0/1, fetchlayer, fetchwarp), fetchunit
+> > allocation
+> > logic for the two CRTCs, prefetch engines(with tile resolving
+> > supported),
+> > plane upscaling/deinterlacing/yuv2rgb CSC/alpha blending and CRTC
+> > gamma
+> > correction.  The registers of the controller is accessed without
+> > command
+> > sequencer involved, instead just by using CPU.
+> > 
+> > Reference manual can be found at:
+> > 
+https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.nxp.com%2Fwebapp%2FDownload%3FcolCode%3DIMX8DQXPRM&data=05%7C01%7Cvictor.liu%40nxp.com%7Cf90aa93b0cb145ed962e08daee3a9c4e%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638084232760483936%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=4oy%2BQF%2BnTzinsMhjq5swmvVDZSZwK8h%2BtUbOIxveqHE%3D&reserved=0
+> > 
+> > Reviewed-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> > v12->v13:
+> > * Drop 'drm->irq_enabled = true;' to fix a potential build break
+> >   reported by 'kernel test robot <lkp@intel.com>'. drm->irq_enabled
+> >   should not be used by imx-dpu drm as it is only used by legacy
+> >   drivers with userspace modesetting.
+> > 
+> > v11->v12:
+> > * Rebase upon v6.1-rc1.
+> > * Minor update on Kconfigs, struct names and macro names due to the
+> > rebase.
+> > 
+> > v10->v11:
+> > * Rebase upon v6.0-rc1.
+> > * Include drm_blend.h and drm_framebuffer.h in dpu-kms.c and dpu-
+> > plane.c
+> >   to fix build errors due to the rebase.
+> > * Fix a checkpatch warning for dpu-crtc.c.
+> > * Properly use dev_err_probe() to return it's return value directly
+> > where
+> >   possible.
+> > 
+> > v9->v10:
+> > * Make 'checkpatch.pl --strict' happier.
+> > * Add Laurentiu's R-b tag.
+> > 
+> > v8->v9:
+> > * Use drm_atomic_get_new_plane_state() in
+> > dpu_plane_atomic_update(). (Laurentiu)
+> > * Drop getting DPU DT alias ID, as it is unused.
+> > * Get the DPR interrupt(dpr_wrap) by name.
+> > 
+> > v7->v8:
+> > * Update dpu_plane_atomic_check() and dpu_plane_atomic_update(),
+> > due to DRM
+> >   plane helper functions API change(atomic_check and atomic_update)
+> > from DRM
+> >   atomic core.  Also, rename plane->state variables and relevant
+> > DPU plane
+> >   state variables in those two functions to reflect they are new
+> > states, like
+> >   the patch 'drm: Rename plane->state variables in atomic update
+> > and disable'
+> >   recently landed in drm-misc-next.
+> > * Replace drm_gem_fb_prepare_fb() with
+> > drm_gem_plane_helper_prepare_fb(),
+> >   due to DRM core API change.
+> > * Use 256byte DPR burst length for GPU standard tile and 128byte
+> > DPR burst
+> >   length for 32bpp GPU super tile to align with the latest version
+> > of internal
+> >   HW documention.
+> > 
+> > v6->v7:
+> > * Fix return value of dpu_get_irqs() if platform_get_irq() fails.
+> > (Laurentiu)
+> > * Use the function array dpu_irq_handler[] to store individual DPU
+> > irq handlers.
+> >   (Laurentiu)
+> > * Call get/put() hooks directly to get/put DPU fetchunits for DPU
+> > plane groups.
+> >   (Laurentiu)
+> > * Shorten the names of individual DPU irq handlers by using DPU
+> > unit abbrev
+> >   names to make writing dpu_irq_handler[] easier.
+> > 
+> > v5->v6:
+> > * Do not use macros where possible. (Laurentiu)
+> > * Break dpu_plane_atomic_check() into some smaller functions.
+> > (Laurentiu)
+> > * Address some minor comments from Laurentiu.
+> > * Add dpu_crtc_err() helper marco to tell dmesg which CRTC
+> > generates error.
+> > * Drop calling dev_set_drvdata() from dpu_drm_bind/unbind() as it
+> > is done
+> >   in dpu_drm_probe().
+> > * Some trivial tweaks.
+> > 
+> > v4->v5:
+> > * Rebase up onto the latest drm-misc-next branch and remove the
+> > hook to
+> >   drm_atomic_helper_legacy_gamma_set(), because it was dropped by
+> > the newly
+> >   landed commit 'drm: automatic legacy gamma support'.
+> > * Remove a redundant blank line from dpu_plane_atomic_update().
+> > 
+> > v3->v4:
+> > * No change.
+> > 
+> > v2->v3:
+> > * Fix build warnings Reported-by: kernel test robot <lkp@intel.com>
+> > .
+> > * Drop build dependency on IMX_SCU, as dummy SCU functions have
+> > been added in
+> >   header files by the patch 'firmware: imx: add dummy functions'
+> > which has
+> >   landed in linux-next/master branch.
+> > 
+> > v1->v2:
+> > * Add compatible for i.MX8qm DPU, as this is tested with i.MX8qm
+> > LVDS displays.
+> >   (Laurentiu)
+> > * Fix PRG burst size and stride. (Laurentiu)
+> > * Put 'ports' OF node to fix the bail-out logic in dpu_drm_probe().
+> > (Laurentiu)
+> > 
+> >  drivers/gpu/drm/imx/Kconfig               |    1 +
+> >  drivers/gpu/drm/imx/Makefile              |    1 +
+> >  drivers/gpu/drm/imx/dpu/Kconfig           |    9 +
+> >  drivers/gpu/drm/imx/dpu/Makefile          |   10 +
+> >  drivers/gpu/drm/imx/dpu/dpu-constframe.c  |  171 ++++
+> >  drivers/gpu/drm/imx/dpu/dpu-core.c        | 1044
+> > +++++++++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-crtc.c        |  969
+> > +++++++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-crtc.h        |   72 ++
+> >  drivers/gpu/drm/imx/dpu/dpu-disengcfg.c   |  117 +++
+> >  drivers/gpu/drm/imx/dpu/dpu-dprc.c        |  715 ++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-dprc.h        |   40 +
+> >  drivers/gpu/drm/imx/dpu/dpu-drv.c         |  290 ++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-drv.h         |   28 +
+> >  drivers/gpu/drm/imx/dpu/dpu-extdst.c      |  299 ++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c |  292 ++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetcheco.c    |  224 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c  |  152 +++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchunit.c   |  610 ++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchunit.h   |  195 ++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c   |  248 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-framegen.c    |  395 ++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-gammacor.c    |  223 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-hscaler.c     |  275 ++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-kms.c         |  542 +++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-kms.h         |   23 +
+> >  drivers/gpu/drm/imx/dpu/dpu-layerblend.c  |  348 +++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-plane.c       |  804 ++++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-plane.h       |   59 ++
+> >  drivers/gpu/drm/imx/dpu/dpu-prg.c         |  433 +++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-prg.h         |   45 +
+> >  drivers/gpu/drm/imx/dpu/dpu-prv.h         |  231 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-tcon.c        |  250 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-vscaler.c     |  308 ++++++
+> >  drivers/gpu/drm/imx/dpu/dpu.h             |  385 ++++++++
+> >  34 files changed, 9808 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/Kconfig
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/Makefile
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-constframe.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-core.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-disengcfg.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-extdst.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetcheco.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-framegen.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-gammacor.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-hscaler.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-layerblend.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prv.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-tcon.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-vscaler.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu.h
+> 
+> [snip]
+> 
+> > diff --git a/drivers/gpu/drm/imx/dpu/dpu-drv.c
+> > b/drivers/gpu/drm/imx/dpu/dpu-drv.c
+> > new file mode 100644
+> > index 000000000000..2a2dd92269c8
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/imx/dpu/dpu-drv.c
+> > @@ -0,0 +1,290 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +
+> > +/*
+> > + * Copyright 2019,2020,2022 NXP
+> > + */
+> > +
+> > +#include <linux/component.h>
+> > +#include <linux/dma-mapping.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of.h>
+> > +#include <linux/platform_device.h>
+> > +
+> > +#include <drm/drm_atomic_helper.h>
+> > +#include <drm/drm_drv.h>
+> 
+> This may also need the following addition:
+> 
+> #include <drm/drm_fbdev_generic.h>
+> 
+> Otherwise I do get the following error on compilation:
+> 
+>   CC [M]  drivers/gpu/drm/imx/dpu/dpu-drv.o
+> /var/home/zim/Sources/linux-next.git/drivers/gpu/drm/imx/dpu/dpu-
+> drv.c: In function 'dpu_drm_bind':
+> /var/home/zim/Sources/linux-next.git/drivers/gpu/drm/imx/dpu/dpu-
+> drv.c:99:9: error: implicit declaration of
+> function 'drm_fbdev_generic_setup' [-Werror=implicit-function-
+> declaration]
+>    99 |         drm_fbdev_generic_setup(drm, legacyfb_depth);
+>       |         ^~~~~~~~~~~~~~~~~~~~~~~
+> cc1: some warnings being treated as errors
+> make[7]: *** [/var/home/zim/Sources/linux-
+> next.git/scripts/Makefile.build:252: drivers/gpu/drm/imx/dpu/dpu-
+> drv.o] Error 1
+> make[7]: *** Waiting for unfinished jobs....
 
-On 1/11/2023 1:42 PM, Alan Previn wrote:
-> Despite KCR subsystem being in the media-tile (close to the
-> GSC-CS), the IRQ controls for it are on GT-0 with other global
-> IRQ controls. Thus, add a helper for KCR hw interrupt
-> enable/disable functions to get the correct gt structure (for
-> uncore) for MTL.
->
-> In the helper, we get GT-0's handle for uncore when touching
-> IRQ registers despite the pxp->ctrl_gt being the media-tile.
-> No difference for legacy of course.
->
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> ---
->   drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c |  2 +-
->   drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     | 23 +++++++++++++++++---
->   drivers/gpu/drm/i915/pxp/intel_pxp_irq.h     |  8 +++++++
->   3 files changed, 29 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-> index 4b8e70caa3ad..9f6e300486b4 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-> @@ -44,7 +44,7 @@ static int pxp_terminate_get(void *data, u64 *val)
->   static int pxp_terminate_set(void *data, u64 val)
->   {
->   	struct intel_pxp *pxp = data;
-> -	struct intel_gt *gt = pxp->ctrl_gt;
-> +	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
+This build break is caused by the below commit introduced in v6.2-rc1. 
+The include/drm/drm_fbdev_generic.h head file was newly introduced in
+the commit.
+8ab59da26bc0 (drm/fb-helper: Move generic fbdev emulation into separate
+source file)
 
-This doesn't seem to be required here. The only use of gt in this 
-function is an assert below and both the root and media gt point to the 
-same irq_lock, so it doesn't matter which one we're using. Should we 
-keep it anyway just for safety in case things change in the future? or 
-just add a comment instead?
+I've rebased this patch set upon drm-misc-next to fix this build break
+by including the head file and sent v14 for review.
 
->   
->   	if (!intel_pxp_is_active(pxp))
->   		return -ENODEV;
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> index 91e9622c07d0..2eef0c19e91a 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> @@ -8,6 +8,7 @@
->   #include "gt/intel_gt_regs.h"
->   #include "gt/intel_gt_types.h"
->   
-> +#include "i915_drv.h"
->   #include "i915_irq.h"
->   #include "i915_reg.h"
->   
-> @@ -17,6 +18,22 @@
->   #include "intel_pxp_types.h"
->   #include "intel_runtime_pm.h"
->   
-> +/**
-> + * intel_pxp_get_irq_gt - Find the correct GT that owns KCR interrupts
-> + * @pxp: pointer to pxp struct
-> + *
-> + * For platforms with a single GT, we return the pxp->ctrl_gt (as expected)
-> + * but for MTL+ that has a media-tile, although the KCR engine is in the
-> + * media-tile (i.e. pxp->ctrl_gt), the IRQ controls are on the root tile.
-> + */
-> +struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp)
-> +{
-> +	if (pxp->uses_gsccs)
-> +		return to_gt(pxp->ctrl_gt->i915);
-> +
-> +	return pxp->ctrl_gt;
+> 
+> > +#include <drm/drm_fb_helper.h>
+> > +#include <drm/drm_gem_dma_helper.h>
+> > +#include <drm/drm_modeset_helper.h>
+> > +#include <drm/drm_of.h>
+> > +#include <drm/drm_print.h>
+> > +#include <drm/drm_probe_helper.h>
+> > +
+> > +#include "dpu-drv.h"
+> > +#include "dpu-kms.h"
+> > +
+> > +#define DRIVER_NAME    "imx-dpu-drm"
+> 
+> [snip]
+> 
+> I am trying to actually get this to work on Apalis iMX8 [1] and
+> Colibri iMX8X [2] but so far I am still missing
+> some crucial recent changes on the SoC device tree side for the dc-
+> pixel-link (e.g. fsl,dc-id and fsl,dc-
+> stream-id),  lvds-csr (e.g. dropped clock-names) and/or dpr-channel
+> (e.g. interrupts-extended especially the
+> resp. dc0_irqsteer numbers) parts. If you know of a recent complete
+> git tree with working examples like back in
+> the day [3], let me know. Let's see...
 
-AFAICT here we can skip the if and always return the root gt, because 
-that's what happens in both cases. If you want to make sure we don't get 
-issues in the future maybe instead add a:
+Like I commented in another thread(
+https://patchwork.kernel.org/project/linux-arm-kernel/patch/20230118072656.18845-6-marcel@ziswiler.com/
+), I'll see if I can share some local patches/changes to you in some
+way as we don't have any official git to share them, or please wait
+until they are submitted for review.
 
-GEM_BUG_ON(!i915->media_gt && !gt_is_root(pxp->ctrl_gt))
+Regards,
+Liu Ying
 
-> +}
-> +
->   /**
->    * intel_pxp_irq_handler - Handles PXP interrupts.
->    * @pxp: pointer to pxp struct
-> @@ -29,7 +46,7 @@ void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
->   	if (GEM_WARN_ON(!intel_pxp_is_enabled(pxp)))
->   		return;
->   
-> -	gt = pxp->ctrl_gt;
-> +	gt = intel_pxp_get_irq_gt(pxp);
-
-Here also we only have the assert below
-
-Daniele
-
->   
->   	lockdep_assert_held(gt->irq_lock);
->   
-> @@ -68,7 +85,7 @@ static inline void pxp_irq_reset(struct intel_gt *gt)
->   
->   void intel_pxp_irq_enable(struct intel_pxp *pxp)
->   {
-> -	struct intel_gt *gt = pxp->ctrl_gt;
-> +	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
->   
->   	spin_lock_irq(gt->irq_lock);
->   
-> @@ -83,7 +100,7 @@ void intel_pxp_irq_enable(struct intel_pxp *pxp)
->   
->   void intel_pxp_irq_disable(struct intel_pxp *pxp)
->   {
-> -	struct intel_gt *gt = pxp->ctrl_gt;
-> +	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
->   
->   	/*
->   	 * We always need to submit a global termination when we re-enable the
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
-> index 8c292dc86f68..eea87c9eb62b 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
-> @@ -9,6 +9,7 @@
->   #include <linux/types.h>
->   
->   struct intel_pxp;
-> +struct intel_gt;
->   
->   #define GEN12_DISPLAY_PXP_STATE_TERMINATED_INTERRUPT BIT(1)
->   #define GEN12_DISPLAY_APP_TERMINATED_PER_FW_REQ_INTERRUPT BIT(2)
-> @@ -23,6 +24,8 @@ struct intel_pxp;
->   void intel_pxp_irq_enable(struct intel_pxp *pxp);
->   void intel_pxp_irq_disable(struct intel_pxp *pxp);
->   void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir);
-> +struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp);
-> +
->   #else
->   static inline void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
->   {
-> @@ -35,6 +38,11 @@ static inline void intel_pxp_irq_enable(struct intel_pxp *pxp)
->   static inline void intel_pxp_irq_disable(struct intel_pxp *pxp)
->   {
->   }
-> +
-> +static inline struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp)
-> +{
-> +	return NULL;
-> +}
->   #endif
->   
->   #endif /* __INTEL_PXP_IRQ_H__ */
+> 
+> [1] 
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20230102171023.33853-1-marcel%40ziswiler.com%2F&data=05%7C01%7Cvictor.liu%40nxp.com%7Cf90aa93b0cb145ed962e08daee3a9c4e%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638084232760483936%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=YanxvVSRTkpMaRifVM%2B%2BiCGcTMb9mAumtUCyoBwAGks%3D&reserved=0
+> [2]
+> 
+https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2Fcommit%2F%3Fid%3Dba5a5615d54f8adfeb4edd005bbd0dfeb65feb9f&data=05%7C01%7Cvictor.liu%40nxp.com%7Cf90aa93b0cb145ed962e08daee3a9c4e%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638084232760640140%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=WZZfPkLL9HWqykuRtj96eMePEAbpIRW63DTZXqAPuEA%3D&reserved=0
+> [3] 
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2Fc4c93c217d21dc20435fd7615c146397d4fcafc7.camel%40nxp.com%2F&data=05%7C01%7Cvictor.liu%40nxp.com%7Cf90aa93b0cb145ed962e08daee3a9c4e%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638084232760640140%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=bZyeEQeUAXuYq9UXYYXjPCjoeTln7kT8Y8B2xAj%2Fp2o%3D&reserved=0
+> 
+> Cheers
+> 
+> Marcel
 
