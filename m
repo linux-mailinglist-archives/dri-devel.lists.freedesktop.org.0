@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0935673FE3
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 18:27:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D1A674001
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 18:33:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A005010E94A;
-	Thu, 19 Jan 2023 17:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A1910E97C;
+	Thu, 19 Jan 2023 17:33:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAFDA10E94A
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 17:27:32 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- m3-20020a17090a414300b00229ef93c5b0so1750266pjg.2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 09:27:32 -0800 (PST)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A0410E08A;
+ Thu, 19 Jan 2023 17:33:21 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ m3-20020a17090a414300b00229ef93c5b0so1765272pjg.2; 
+ Thu, 19 Jan 2023 09:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+yByDB22HCudt49W/UmVaOb7KMALvWI5oNh+3zy2EdM=;
- b=YysEOaic5JVNZ5gOMnYf04BSi94eSQzxcKt0U77fM2sd5uXJM+gIX3K0rZtfNlzJGK
- nLBpzOC8kIYXV/FMbakdlfEqaZliLn4b89TpA6xSCW6+hyt/1RB2zqH6IHmJrvLzvHyw
- 8gr13J6nkfOS6bW4VzfthYQX0v+0698pOvCfdtjFsTaN/1dazGKEbDShKdt6KE2MXcxQ
- PzSsEPUmbbxMgxFwloIi6BLaMf3Es5/UVsb08Lf3fn34gQJn29+RL8U8TZAQzCk5/cZ9
- 9zsv8LtzYh8UFNPI9AyaeucIXSevdwuwNpB6MAZjtdX86FE2wrLFzMWjLkah3+Wmrf31
- HT+w==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LPLlNSnzLIud/SdIjCx832sULylUvnbc8QUJ7Ss0K9I=;
+ b=k1cvGWKFMNGBv17/1p6v1IzvK0wT7IqiQaY0qVkC9tFtXwvnQeVPQI2Ave2sLVk2e0
+ MfuORfn+YssgcdOkxHddBrrGWaafBL5IURnRtFlvY+e5+W4Og+ghhiUHLxN4jjdybZKd
+ FTeoilFVWhfnfVDBFSUBRG0PTbJLHyco19q4i/XPJ48+lVMv3yAtRMr/YaPoKBbjGOhr
+ 5r5sfXajaygIY7QmIfKP9AM0yOgw+qMvcpeb6kxlZbXJ7cxkoupDp3VMRiLePsuT87AT
+ IVokInBr9wvB6h6eApokTwZZ5nH2Br01Jrkn5i6jgjOiJE0U4l0EnAWYj1t5TRUonDU0
+ l/oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=+yByDB22HCudt49W/UmVaOb7KMALvWI5oNh+3zy2EdM=;
- b=16AU8nFDoXe+5g/2NCpcwMnLtqX3VKrutUQvpxPwKVGnWe0NySsOTBwKdd/nnbO9+3
- y+FBEGPRg4q3zFZKbtR4atoiui84HcZxxPKqmtxUkRJ81jYGRLDvp/bjF+uvjLXeAD8Z
- ml1VrouGXmfYJ437y4TEV9I8uwKvqvl64tSjn4KOLqvTOp2mquE6q2TACEssNMuh1gIU
- Wc0UcpTPT54NLKCFzGOOXBALy4z9YsFUTJqjj/ElvZ8/evKFcsiPuuEYuXp1fpULJQU9
- nF6G9TL8w2934n05nEvghbnUFgO52ZMTDqH/uV5QxgG9WgR067g/Aaud604L+0ihDYU/
- ox5g==
-X-Gm-Message-State: AFqh2koxQofmTd9umt1Hzf/MkMlQUzw8DGa1y2+eV82ddd86+wB1FpLA
- C98W+p3hZEWnRVOnf7Bax/2dkrM2BPw7caSTssg=
-X-Google-Smtp-Source: AMrXdXv/g8vYV6jhwbL6XrS6ExuEFvgvSA5QzaUfxtJGoTacWqzI+vDaZ0qiUZmd9vjmvVKxQXXMvEa6kSgqIXSflos=
-X-Received: by 2002:a17:90b:83:b0:229:5037:d9 with SMTP id
- bb3-20020a17090b008300b00229503700d9mr1197103pjb.195.1674149252291; 
- Thu, 19 Jan 2023 09:27:32 -0800 (PST)
+ bh=LPLlNSnzLIud/SdIjCx832sULylUvnbc8QUJ7Ss0K9I=;
+ b=vaVmr8tBI+gO73UExU7TXzSPBzQnR9S9FiAShiL5FoGfPziZXI4YGv+cMzE4qJ/dwL
+ MSoVGTdOVZp1QfzJg/Si04IGMnaykvrT14fozOy4Nq9vFSu/g1GkEO3iElSZuU2NGRF5
+ Oc/EnnER30ilKXrbXCJzqSmymaSuH/0olnC0WmS0rIuwwR02CxLWwhA2ofA0HGe7Jwt/
+ ZujElM7rPOmloGTlXm1Nst4+elaib3rOCgzFdez3iT7ztvwlioo4f9MIJ+bG3s4ohS7Z
+ tWcikCmHrVNu2pfVUjHagcGt81E8EyEOJdekQcG6HZLI5c7zvx6h5Wc3ZYzldjinmWu3
+ ki+Q==
+X-Gm-Message-State: AFqh2krr9++9FebBpy6GMG/O71xKps2ow5VMBcY6rTQeS5j0g9kWOdyy
+ LUQ4AuvuhAMZjnuffuZI5KmMHJwH1H0=
+X-Google-Smtp-Source: AMrXdXv2qS952OsbhGL/YPtOfwGxEviqVp97NLihSuTFSqNi0Ri2Pdr4RxBMsphukL35cOs0qRhcEA==
+X-Received: by 2002:a05:6a20:d045:b0:ac:3f3f:9fbd with SMTP id
+ hv5-20020a056a20d04500b000ac3f3f9fbdmr13438174pzb.48.1674149600323; 
+ Thu, 19 Jan 2023 09:33:20 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ k36-20020a635a64000000b0048988ed9e4bsm20523336pgm.19.2023.01.19.09.33.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 09:33:19 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Avoid potential vm use-after-free
+Date: Thu, 19 Jan 2023 09:32:58 -0800
+Message-Id: <20230119173321.2825472-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221214125907.376148-1-jagan@amarulasolutions.com>
- <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
-In-Reply-To: <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Thu, 19 Jan 2023 14:27:17 -0300
-Message-ID: <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
-Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,29 +69,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, katrinzhou <katrinzhou@tencent.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
+From: Rob Clark <robdclark@chromium.org>
 
-On Thu, Jan 5, 2023 at 7:24 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+Adding the vm to the vm_xa table makes it visible to userspace, which
+could try to race with us to close the vm.  So we need to take our extra
+reference before putting it in the table.
 
-> Does anyone have any other comments on this? I would like to send v11
-> with a few nits on v10. Please let me know.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+Note, you could list commit e1a7ab4fca0c ("drm/i915: Remove the vm open
+count") as the "fixed" commit, but really the issue seems to go back
+much further (with the fix needing some backporting in the process).
 
-What is blocking this series to be applied?
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index 6250de9b9196..e4b78ab4773b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -1861,11 +1861,19 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
+ 	vm = ctx->vm;
+ 	GEM_BUG_ON(!vm);
+ 
++	/*
++	 * Get a reference for the allocated handle.  Once the handle is
++	 * visible in the vm_xa table, userspace could try to close it
++	 * from under our feet, so we need to hold the extra reference
++	 * first.
++	 */
++	i915_vm_get(vm);
++
+ 	err = xa_alloc(&file_priv->vm_xa, &id, vm, xa_limit_32b, GFP_KERNEL);
+-	if (err)
++	if (err) {
++		i915_vm_put(vm);
+ 		return err;
+-
+-	i915_vm_get(vm);
++	}
+ 
+ 	GEM_BUG_ON(id == 0); /* reserved for invalid/unassigned ppgtt */
+ 	args->value = id;
+-- 
+2.38.1
+
