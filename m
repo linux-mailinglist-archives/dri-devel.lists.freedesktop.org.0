@@ -1,51 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37480673EEC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 17:33:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C50673EE3
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 17:32:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 584F110E9BD;
-	Thu, 19 Jan 2023 16:33:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2422B10E9B5;
+	Thu, 19 Jan 2023 16:32:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06A010E9BD
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 16:33:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674145982; x=1705681982;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=ypde+LN+g2wDNHqn9/Asfg7XhMoC21zejHshDH5glOw=;
- b=TA2sQ9KEbOGDm5W2OfPJtAzCkKBxCz4KUpy66Rtl4dFOcc6Owkxjm8qw
- o2m4vX7sTwxipUxvnGjudL19Rw5Bat2qYTvLVxcuGin57l7L8iBHjahpS
- SuS1cOP1qUgDH3DDdQSkn8ETLnzDtApYZQ617tAzZY604L6kP2yCZs4g1
- EUx/NE916UPtGKobniWSki00Yd23VLnK+DbwdmQa3bKzhiby1qYa/otha
- LTsS2E2ypmRhRJA1CtImTfiNzs8oOZGS+SQ+0qs40a7w3GoYNuLoTmZ9T
- uyypGPcmLh/9PQgkZ/oVRCWAyOt38qWMrvpNXsbU9lmUXwLwPPUuXHGJP A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="325377964"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="325377964"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 08:33:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="784119243"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="784119243"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 19 Jan 2023 08:33:00 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pIXqV-0001dC-17;
- Thu, 19 Jan 2023 16:32:59 +0000
-Date: Fri, 20 Jan 2023 00:32:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Acayan <mailingradian@gmail.com>
-Subject: [drm-misc:drm-misc-next 3/7]
- drivers/gpu/drm/panel/panel-visionox-vtdr6130.c:249:6: warning: variable
- 'ret' is uninitialized when used here
-Message-ID: <202301200041.hwrKmLMy-lkp@intel.com>
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E67D410E9B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 16:32:16 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ m5-20020a05600c4f4500b003db03b2559eso1671754wmq.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 08:32:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kISsw3ka351W71cdTlHfeqvj1tDvB34A5YrxX8eaPhY=;
+ b=NSkj7iMOP2CnoZNIaPDjSKL+KKbshuGz1XlGid8CesKFWQes8jnfg7LV5VtSmrraMS
+ 4tR3Ms9c3Ea8vM5JnC4FPTfui6ag0x7JhjwkdG+EhvtZlddPLFr1VYagyWzDyxLJX/NV
+ OgWCLU8qqBpnGmAvPLyEXPJbtgPiSsXtFDwcggKhzVYAYHGbYubjEkp12f0WK1NNymvv
+ /jvkTZr+i5oi9sYME7TkSchyaT/pOjy5TG0ciQRQwiLiHXeeMY7268YO+ZosuXuq1tGA
+ mpUg42XC2S12FRBRwFo81tmmkDCFCLzwniZxI/NU4Y2gDmmrWvefRcxBFnqkWDRFiNR9
+ q60Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kISsw3ka351W71cdTlHfeqvj1tDvB34A5YrxX8eaPhY=;
+ b=yg+NWcP8B8lvzwoF5AO8SBb6p8TdUESgsYHXbRDonFeLAXXTBYFXiS6tW0Y1H9YDtt
+ CfXl9t1wl6DCK9HbWQHSWNYdGPl7GpwCTOMU96h1Pf3wrfaeI7bdNltdF7a2J4cGbaPR
+ ugotQ0WfYTgYhVs/nWvvoQ6pwXPFzIlaURY3om0D2qa39hG10JZMsK1Uzs1wV1uNXLlc
+ xSndwqW7A+qQiKeEW9LwiwVnuff5X5IMju+734apmoR4dgDKCDd95/sEsJB+KCNsdXMm
+ dbc8Dj12Fa2ZrtbZj4B4IbISHB6mb/m+NElGGMVs4IyKk0iFf8e3biiktBn0fd30fr7l
+ GsNg==
+X-Gm-Message-State: AFqh2kqYRimH7uv+3evUlGcivItfOBby+isRO3xWHcKX2CH9gRCK3Luj
+ fOS0JKuPfW5p6JX8B/oTjQI=
+X-Google-Smtp-Source: AMrXdXv9EBtbXnsYULYPFoJNloy6O/ErN/hAcWIoch5i2nj40w/DPTMPhwgaX6fLP3mKWsam8/XI7A==
+X-Received: by 2002:a05:600c:c16:b0:3da:26e5:10b6 with SMTP id
+ fm22-20020a05600c0c1600b003da26e510b6mr11197814wmb.30.1674145935484; 
+ Thu, 19 Jan 2023 08:32:15 -0800 (PST)
+Received: from [192.168.2.177] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ fk6-20020a05600c0cc600b003a84375d0d1sm5193380wmb.44.2023.01.19.08.32.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 08:32:15 -0800 (PST)
+Message-ID: <c0026ce0-caca-1ca2-dc4c-72d14078de6f@gmail.com>
+Date: Thu, 19 Jan 2023 17:32:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 8/9] dt-bindings: display: mediatek: Fix the fallback
+ for mediatek,mt8186-disp-ccorr
+Content-Language: en-US
+To: Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Stephen Boyd <sboyd@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230118091829.755-1-allen-kh.cheng@mediatek.com>
+ <20230118091829.755-9-allen-kh.cheng@mediatek.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230118091829.755-9-allen-kh.cheng@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,68 +84,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, llvm@lists.linux.dev,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   43bde505d66a41c2ad706d603e97b2c8aa2fbe4a
-commit: 9402cde9347eca050e14ea9e47270e84a6899162 [3/7] drm/panel: vtdr6130: Use 16-bit brightness function
-config: mips-randconfig-r031-20230119 (https://download.01.org/0day-ci/archive/20230120/202301200041.hwrKmLMy-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 4196ca3278f78c6e19246e54ab0ecb364e37d66a)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
-        git fetch --no-tags drm-misc drm-misc-next
-        git checkout 9402cde9347eca050e14ea9e47270e84a6899162
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/panel/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/panel/panel-visionox-vtdr6130.c:249:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-           if (ret < 0)
-               ^~~
-   drivers/gpu/drm/panel/panel-visionox-vtdr6130.c:246:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   1 warning generated.
 
 
-vim +/ret +249 drivers/gpu/drm/panel/panel-visionox-vtdr6130.c
+On 18/01/2023 10:18, Allen-KH Cheng wrote:
+> The mt8186-disp-ccorr is not fully compatible with the mt8183-disp-ccorr
+> implementation. It causes a crash when system resumes if it binds to the
+> device.
+> 
+> We should use mt8192-disp-ccorr as fallback of mt8186-disp-ccorr.
+> 
+> Fixes: 8a26ea19d4dc ("dt-bindings: display: mediatek: add MT8186 SoC binding")
+> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-2349183d32d83a7 Neil Armstrong 2023-01-09  241  
-2349183d32d83a7 Neil Armstrong 2023-01-09  242  static int visionox_vtdr6130_bl_update_status(struct backlight_device *bl)
-2349183d32d83a7 Neil Armstrong 2023-01-09  243  {
-2349183d32d83a7 Neil Armstrong 2023-01-09  244  	struct mipi_dsi_device *dsi = bl_get_data(bl);
-2349183d32d83a7 Neil Armstrong 2023-01-09  245  	u16 brightness = backlight_get_brightness(bl);
-2349183d32d83a7 Neil Armstrong 2023-01-09  246  	int ret;
-2349183d32d83a7 Neil Armstrong 2023-01-09  247  
-9402cde9347eca0 Richard Acayan 2023-01-16  248  	mipi_dsi_dcs_set_display_brightness_large(dsi, brightness);
-2349183d32d83a7 Neil Armstrong 2023-01-09 @249  	if (ret < 0)
-2349183d32d83a7 Neil Armstrong 2023-01-09  250  		return ret;
-2349183d32d83a7 Neil Armstrong 2023-01-09  251  
-2349183d32d83a7 Neil Armstrong 2023-01-09  252  	return 0;
-2349183d32d83a7 Neil Armstrong 2023-01-09  253  }
-2349183d32d83a7 Neil Armstrong 2023-01-09  254  
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
-:::::: The code at line 249 was first introduced by commit
-:::::: 2349183d32d83a7635baa804934813bcad13fd62 drm/panel: add visionox vtdr6130 DSI panel driver
-
-:::::: TO: Neil Armstrong <neil.armstrong@linaro.org>
-:::::: CC: Neil Armstrong <neil.armstrong@linaro.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> ---
+>   .../devicetree/bindings/display/mediatek/mediatek,ccorr.yaml    | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> index 63fb02014a56..117e3db43f84 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> @@ -32,7 +32,7 @@ properties:
+>         - items:
+>             - enum:
+>                 - mediatek,mt8186-disp-ccorr
+> -          - const: mediatek,mt8183-disp-ccorr
+> +          - const: mediatek,mt8192-disp-ccorr
+>   
+>     reg:
+>       maxItems: 1
