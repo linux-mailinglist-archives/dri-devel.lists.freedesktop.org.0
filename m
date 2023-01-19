@@ -2,32 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58944672DC3
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 01:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9271672DE2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 02:13:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2DE810E041;
-	Thu, 19 Jan 2023 00:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C83F10E221;
+	Thu, 19 Jan 2023 01:13:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id CBD1210E041
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 00:58:41 +0000 (UTC)
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
- by 156.147.23.53 with ESMTP; 19 Jan 2023 09:58:39 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: byungchul.park@lge.com
-Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
- by 156.147.1.151 with ESMTP; 19 Jan 2023 09:58:39 +0900
-X-Original-SENDERIP: 10.177.244.38
-X-Original-MAILFROM: byungchul.park@lge.com
-From: Byungchul Park <byungchul.park@lge.com>
-To: torvalds@linux-foundation.org
-Subject: Re: [PATCH RFC v7 00/23] DEPT(Dependency Tracker)
-Date: Thu, 19 Jan 2023 09:58:27 +0900
-Message-Id: <1674089907-31690-1-git-send-email-byungchul.park@lge.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAHk-=whpkWbdeZE1zask8YPzVYevJU2xOXqOposBujxZsa2-tQ@mail.gmail.com>
-References: <CAHk-=whpkWbdeZE1zask8YPzVYevJU2xOXqOposBujxZsa2-tQ@mail.gmail.com>
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9C1510E21E;
+ Thu, 19 Jan 2023 01:13:16 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Ny4Pc5V6hz4xN4;
+ Thu, 19 Jan 2023 12:13:08 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1674090789;
+ bh=38gPF9WCNIwlhkWACirRWDyLEnGY8N9VoQR90tcBLPk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=O41Z/jl7V5AgTg3n9R89wwqYHhQ9FBmo8jn4bbdq+gNvn9l8LLXZtDBUuK/qEDKm0
+ fEu/SDHgizpb6gt7U+H5uL/bqEjlV/5OtR/ru/gFZV8vJ+9BgZGrdfClFJzp9tBzK0
+ K2dylru46iFKsrsLaRZIljFdFLAKyk2Hu80pag74XGEydZjo8ssmHaySWGNCkKzxRc
+ 7bzNiUapvHuBqbZCZH8blOSqpawUw871sW/U1m4gYpbuOCkufbrNZbBXBxwSaBYAw6
+ rRhVPec2HTD4E7VkptANc5f1VzfczIUuX6WoBrkMQdG6lKZkEqnn7ne0QBW1FbJgmT
+ x0kvLn+5rwxSw==
+Date: Thu, 19 Jan 2023 12:13:07 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
+Message-ID: <20230119121307.4366ac4e@canb.auug.org.au>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/0hwf36qt=q.5jX13Fkq2FrR";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,84 +50,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, mhocko@kernel.org, linux-mm@kvack.org,
- kernel-team@lge.com, adilger.kernel@dilger.ca, chris.p.wilson@intel.com,
- joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
- duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
- damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
- mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
- rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
- ngupta@vflare.org, johannes.berg@intel.com, dan.j.williams@intel.com,
- josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, tglx@linutronix.de, vbabka@suse.cz,
- melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, linux-ide@vger.kernel.org,
- gregkh@linuxfoundation.org, jlayton@kernel.org, linux-kernel@vger.kernel.org,
- penberg@kernel.org, minchan@kernel.org, max.byungchul.park@gmail.com,
- hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Torvalds wrote:
-> On Sun, Jan 8, 2023 at 7:33 PM Byungchul Park <byungchul.park@lge.com> wrote:
->>
->> I've been developing a tool for detecting deadlock possibilities by
->> tracking wait/event rather than lock(?) acquisition order to try to
->> cover all synchonization machanisms. It's done on v6.2-rc2.
-> 
-> Ugh. I hate how this adds random patterns like
+--Sig_/0hwf36qt=q.5jX13Fkq2FrR
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I undertand what you mean.. But all the synchronization primitives
-should let DEPT know the beginning and the end of each. However, I will
-remove the 'if' statement that looks ugly from the next spin, and place
-the pattern to a better place if possible.
+Hi all,
 
-> 	if (timeout == MAX_SCHEDULE_TIMEOUT)
-> 		sdt_might_sleep_strong(NULL);
-> 	else
-> 		sdt_might_sleep_strong_timeout(NULL);
-> 	...
-> 	sdt_might_sleep_finish();
-> 
-> to various places, it seems so very odd and unmaintainable.
-> 
-> I also recall this giving a fair amount of false positives, are they all fixed?
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-Yes. Of course I removed all the false positives we found.
+  drivers/gpu/drm/vmwgfx/ttm_object.h
 
-> Anyway, I'd really like the lockdep people to comment and be involved.
-> We did have a fairly recent case of "lockdep doesn't track page lock
-> dependencies because it fundamentally cannot" issue, so DEPT might fix
-> those kinds of missing dependency analysis. See
+between commit:
 
-Sure. That's exactly what DEPT works for e.g. PG_locked.
+  a309c7194e8a ("drm/vmwgfx: Remove rcu locks from user resources")
 
-> 	https://lore.kernel.org/lkml/00000000000060d41f05f139aa44@google.com/
+from Linus' tree and commit:
 
-I will reproduce it and share the result.
+  13acb368bf02 ("drm/ttm/vmwgfx: move ttm_bo_wait into VMWGFX")
 
-> for some context to that one, but at teh same time I would *really*
-> want the lockdep people more involved and acking this work.
-> 
-> Maybe I missed the email where you reported on things DEPT has found
-> (and on the lack of false positives)?
+from the drm-misc tree.
 
-Maybe you didn't miss. It's still too hard to make a decision between:
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
-	Aggressive detection with false alarms that need to be fixed by
-	manual classification as Lockdep did, focusing on potential
-	possibility more.
+--=20
+Cheers,
+Stephen Rothwell
 
-	versus
+diff --cc drivers/gpu/drm/vmwgfx/ttm_object.h
+index 8098a3846bae,95a9679f9d39..000000000000
+--- a/drivers/gpu/drm/vmwgfx/ttm_object.h
++++ b/drivers/gpu/drm/vmwgfx/ttm_object.h
+@@@ -307,4 -309,27 +309,12 @@@ extern int ttm_prime_handle_to_fd(struc
+  #define ttm_prime_object_kfree(__obj, __prime)		\
+  	kfree_rcu(__obj, __prime.base.rhead)
+ =20
+ -struct ttm_base_object *
+ -ttm_base_object_noref_lookup(struct ttm_object_file *tfile, uint64_t key);
+ -
+ -/**
+ - * ttm_base_object_noref_release - release a base object pointer looked up
+ - * without reference
+ - *
+ - * Releases a base object pointer looked up with ttm_base_object_noref_lo=
+okup().
+ - */
+ -static inline void ttm_base_object_noref_release(void)
+ -{
+ -	__acquire(RCU);
+ -	rcu_read_unlock();
+ -}
+ -
++ static inline int ttm_bo_wait(struct ttm_buffer_object *bo, bool intr,
++ 			      bool no_wait)
++ {
++ 	struct ttm_operation_ctx ctx =3D { intr, no_wait };
++=20
++ 	return ttm_bo_wait_ctx(bo, &ctx);
++ }
++=20
+  #endif
 
-	Conservative detection with few false alarms, which requires us
-	to test much longer to get result we expect, focusing on actual
-	happening.
+--Sig_/0hwf36qt=q.5jX13Fkq2FrR
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> 
-> 	Linus
+-----BEGIN PGP SIGNATURE-----
 
-	Byungchul
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPImSMACgkQAVBC80lX
+0GzCQAf/fIL3znz6gmPHSw9S8jB8gAKcOvfDx0QLArZSqxKxRDe+Oj0DkYOA7e2L
+mBvET7giBmk9c2WcmTWv5vrHqSN3hNaXWySj0f3EzJd7PTkfigxKd4EOJEJOHnOz
+tB8P0T/gykg2kJoGPQ10/FHd9d19Wx7r1rB5Wd7Lw3r8YHmudkKiDii89EH7aYX+
+RZ8gD919W10NfaeKFjU7Ea6vkL+bIezQB28GOZFqXNSXupsI12BI+C1ivr17HSQD
+fqgH49OfuOR7xkWUiT+YVJnWaXq+oYSACTxFJtYTIFfmEDYJUGnxhiMHP1uy99sD
+xk19NQbhmoshnAiLvBexpnMB+yGS/g==
+=IJWR
+-----END PGP SIGNATURE-----
+
+--Sig_/0hwf36qt=q.5jX13Fkq2FrR--
