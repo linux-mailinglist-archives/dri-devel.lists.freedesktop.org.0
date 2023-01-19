@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE139673AC0
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 14:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1598A673A81
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 14:39:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2001310E12F;
-	Thu, 19 Jan 2023 13:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD43610E93D;
+	Thu, 19 Jan 2023 13:39:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1057 seconds by postgrey-1.36 at gabe;
- Thu, 19 Jan 2023 13:52:28 UTC
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F03010E12F
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 13:52:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Dd4KE++vWIKamqThkehHj7fJpHW3aChCNzZyFef73OI=; b=ZiBP9IU8e0RQ32NiZKka8MnWTR
- Dn0s9lTcFdzt4feEZuNn6vIgEPzmD5cviY4HNiw+EGim/+fdqSp83CwedDaJFyd2q2vePAOMF7R47
- /mT/pV3FrXZ0OCNIOm/rgdNiJAiF9udqbmgCvdv8tlfjrQES8QDp+06hIwoNapYXBTR+i6XKWX5ij
- qkK3CEH0iS8hZp+JgId9L10gYqA1yZnepzrHrEzU/DThBM4jGZH4pD6906x9w3V5a2ZVJlG7+GsLd
- IX8t76QoYPJmUT+lx0lOj7EEt0PIr724UtBaPXC85udHqrL+r1umcOCxsWYgULtsg+F/hymdVlFkZ
- MS0yEAZA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pIV3G-00106x-OP; Thu, 19 Jan 2023 13:33:58 +0000
-Date: Thu, 19 Jan 2023 13:33:58 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Byungchul Park <byungchul.park@lge.com>
-Subject: Re: [PATCH RFC v7 00/23] DEPT(Dependency Tracker)
-Message-ID: <Y8lGxkBrls6qQOdM@casper.infradead.org>
-References: <Y8bmeffIQ3iXU3Ux@boqun-archlinux>
- <1674109388-6663-1-git-send-email-byungchul.park@lge.com>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9102110E931
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 13:39:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=wZnguLYFHx/nkdscInTbXfSlsq7FjSguDdlCNRKnzBw=; b=XicZjbPhRQCftEw6C0ulux3+3Q
+ /7XEYhsGvVsTGkhvq8KI+QJiiiTtFOfLCqIsTw0z1LMfudM+KZkBrw4iX2PHXOnvSBE46SM1lDmqO
+ X8wzj2XCbiBM+3J3wUbXun/RqGwx88cW7X9nzse1wYa5RMwB6XcTJ2OTQeDF6xNwbcYozB6s6dFvK
+ 221GgG6W+UxloSROcn/RTISqqsRwO/BhPMX/nOMR1UdLWe2w1bsk7XVcLJ7Z5+RwY23GnywXF/IqL
+ b2hDLYHuHZp3ziuh3TRsJMcnowUTDFmz1ATTL/qZq6zgSh3pZL1rfWl8Fgijf4DizxXcRbUoE0fOn
+ 2qkzdqcQ==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <cyndis@kapsi.fi>)
+ id 1pIV8G-0016bd-DX; Thu, 19 Jan 2023 15:39:08 +0200
+From: Mikko Perttunen <cyndis@kapsi.fi>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>
+Subject: [PATCH 1/4] arm64: tegra: Mark host1x as dma-coherent on Tegra194/234
+Date: Thu, 19 Jan 2023 15:38:58 +0200
+Message-Id: <20230119133901.1892413-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1674109388-6663-1-git-send-email-byungchul.park@lge.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,49 +53,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
- daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
- dri-devel@lists.freedesktop.org, mhocko@kernel.org, linux-mm@kvack.org,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, joel@joelfernandes.org,
- 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org, duyuyang@gmail.com,
- sashal@kernel.org, paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
- chris.p.wilson@intel.com, hch@infradead.org, mingo@redhat.com,
- djwong@kernel.org, vdavydov.dev@gmail.com, rientjes@google.com,
- dennis@kernel.org, linux-ext4@vger.kernel.org, ngupta@vflare.org,
- johannes.berg@intel.com, boqun.feng@gmail.com, dan.j.williams@intel.com,
- josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
- linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
- viro@zeniv.linux.org.uk, longman@redhat.com, tglx@linutronix.de,
- vbabka@suse.cz, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
- rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
- jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
- minchan@kernel.org, max.byungchul.park@gmail.com, hannes@cmpxchg.org,
- tj@kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 19, 2023 at 03:23:08PM +0900, Byungchul Park wrote:
-> Boqun wrote:
-> > *	Looks like the DEPT dependency graph doesn't handle the
-> > 	fair/unfair readers as lockdep current does. Which bring the
-> > 	next question.
-> 
-> No. DEPT works better for unfair read. It works based on wait/event. So
-> read_lock() is considered a potential wait waiting on write_unlock()
-> while write_lock() is considered a potential wait waiting on either
-> write_unlock() or read_unlock(). DEPT is working perfect for it.
-> 
-> For fair read (maybe you meant queued read lock), I think the case
-> should be handled in the same way as normal lock. I might get it wrong.
-> Please let me know if I miss something.
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-From the lockdep/DEPT point of view, the question is whether:
+Ensure appropriate configuration is done to make the host1x device
+and context devices DMA coherent by adding the dma-coherent flag.
 
-	read_lock(A)
-	read_lock(A)
+Fixes: b35f5b53a87b ("arm64: tegra: Add context isolation domains on Tegra234")
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+---
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 1 +
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi | 1 +
+ 2 files changed, 2 insertions(+)
 
-can deadlock if a writer comes in between the two acquisitions and
-sleeps waiting on A to be released.  A fair lock will block new
-readers when a writer is waiting, while an unfair lock will allow
-new readers even while a writer is waiting.
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index 4afcbd60e144..d8169920b33b 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -1918,6 +1918,7 @@ host1x@13e00000 {
+ 			interconnects = <&mc TEGRA194_MEMORY_CLIENT_HOST1XDMAR &emc>;
+ 			interconnect-names = "dma-mem";
+ 			iommus = <&smmu TEGRA194_SID_HOST1X>;
++			dma-coherent;
+ 
+ 			/* Context isolation domains */
+ 			iommu-map = <0 &smmu TEGRA194_SID_HOST1X_CTX0 1>,
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+index eaf05ee9acd1..77ceed615b7f 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+@@ -571,6 +571,7 @@ host1x@13e00000 {
+ 			interconnects = <&mc TEGRA234_MEMORY_CLIENT_HOST1XDMAR &emc>;
+ 			interconnect-names = "dma-mem";
+ 			iommus = <&smmu_niso1 TEGRA234_SID_HOST1X>;
++			dma-coherent;
+ 
+ 			/* Context isolation domains */
+ 			iommu-map = <0 &smmu_niso0 TEGRA234_SID_HOST1X_CTX0 1>,
+-- 
+2.39.0
 
