@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34433674F12
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 09:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12AB9674F18
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 09:08:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65AFC10EA81;
-	Fri, 20 Jan 2023 08:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D99E010EA70;
+	Fri, 20 Jan 2023 08:08:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E923310E8E2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 08:38:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0538310E8E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 08:49:33 +0000 (UTC)
 Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
  [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 384D57EC;
- Thu, 19 Jan 2023 09:38:58 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 397267EC;
+ Thu, 19 Jan 2023 09:49:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1674117538;
- bh=DeiHX1qNbCKawlrBL7AbCC2x+6+M3rF4fH3NawDfTNs=;
+ s=mail; t=1674118171;
+ bh=J23izYBcvCMQej7kG7YCu/n9+2PG1tMQWi/kC6w/aMU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=H4af+7Zu21Ff10xfIqRiUEiXZ+Q6l8zJKFt1q5YrFpdrutqC9nRtjqIrZGJN94vzV
- XXd17SwIoEiQE006TYEQjgbajPSlxXmrxT931qmARD1Xl7zZ631p5r/r3chNIg0VQr
- A+krJlQc4g3W1gvjYT4lDMJq9OxAFhwy8r0EWQ2k=
-Message-ID: <664db873-6bdf-c3d3-cc69-bca5521e29a7@ideasonboard.com>
-Date: Thu, 19 Jan 2023 10:38:55 +0200
+ b=KHjNfYrHmiw/xNTiML/XRVYPoiHOFr5ACwG7/WsRRCR0B+1kGNQbNG4OJHfe4YyXc
+ twc93EJitmPColvkR8wwHfVzTDz0/F5xZEh7TKNPubpjnfsjmr4n66tBjpeN1WYhzR
+ ElQcgwyXlO3/Qg1ypFYc5NRVHVcZV1HmdD+ii+oQ=
+Message-ID: <5e0fea45-0e5c-ef7c-007e-69ba69d2b08c@ideasonboard.com>
+Date: Thu, 19 Jan 2023 10:49:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 2/6] drm: rcar-du: lvds: Add reset control
+Subject: Re: [PATCH 3/6] drm: rcar-du: Fix LVDS stop sequence
 Content-Language: en-US
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20230117135154.387208-3-tomi.valkeinen+renesas@ideasonboard.com>
- <Y8hfQy9zp9WKluq/@pendragon.ideasonboard.com>
+ <20230117135154.387208-4-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y8hg0m7cidkscHkN@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <Y8hfQy9zp9WKluq/@pendragon.ideasonboard.com>
+In-Reply-To: <Y8hg0m7cidkscHkN@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 20 Jan 2023 08:07:34 +0000
@@ -59,87 +59,88 @@ Cc: linux-renesas-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/01/2023 23:06, Laurent Pinchart wrote:
+On 18/01/2023 23:12, Laurent Pinchart wrote:
 > Hi Tomi,
 > 
 > Thank you for the patch.
 > 
-> On Tue, Jan 17, 2023 at 03:51:50PM +0200, Tomi Valkeinen wrote:
+> On Tue, Jan 17, 2023 at 03:51:51PM +0200, Tomi Valkeinen wrote:
 >> From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 >>
->> Reset LVDS using the reset control as CPG reset/release is required in
->> H/W manual sequence.
+>> According to H/W manual, LVDCR0 register must be cleared bit by bit when
 > 
-> s@H/W@the hardware@
+> s@H/W@the hardware/
+> 
+>> disabling LVDS.
+> 
+> I don't like this much, but I think I'll stop fighting :-)
 > 
 >> Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 >> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
->> [tomi.valkeinen: Rewrite the patch description]
+>> [tomi.valkeinen: simplified the code a bit]
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >> ---
->>   drivers/gpu/drm/rcar-du/Kconfig     |  1 +
->>   drivers/gpu/drm/rcar-du/rcar_lvds.c | 15 +++++++++++++++
->>   2 files changed, 16 insertions(+)
+>>   drivers/gpu/drm/rcar-du/rcar_lvds.c | 27 ++++++++++++++++++++++++++-
+>>   1 file changed, 26 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
->> index a8f862c68b4f..151e400b996d 100644
->> --- a/drivers/gpu/drm/rcar-du/Kconfig
->> +++ b/drivers/gpu/drm/rcar-du/Kconfig
->> @@ -43,6 +43,7 @@ config DRM_RCAR_LVDS
->>   	select DRM_PANEL
->>   	select OF_FLATTREE
->>   	select OF_OVERLAY
->> +	select RESET_CONTROLLER
->>   
->>   config DRM_RCAR_USE_MIPI_DSI
->>   	bool "R-Car DU MIPI DSI Encoder Support"
 >> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
->> index 81a060c2fe3f..674b727cdaa2 100644
+>> index 674b727cdaa2..01800cef1c33 100644
 >> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
 >> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
->> @@ -16,6 +16,7 @@
->>   #include <linux/of_device.h>
->>   #include <linux/of_graph.h>
->>   #include <linux/platform_device.h>
->> +#include <linux/reset.h>
->>   #include <linux/slab.h>
->>   #include <linux/sys_soc.h>
+>> @@ -87,6 +87,11 @@ static void rcar_lvds_write(struct rcar_lvds *lvds, u32 reg, u32 data)
+>>   	iowrite32(data, lvds->mmio + reg);
+>>   }
 >>   
->> @@ -60,6 +61,7 @@ struct rcar_lvds_device_info {
->>   struct rcar_lvds {
->>   	struct device *dev;
->>   	const struct rcar_lvds_device_info *info;
->> +	struct reset_control *rstc;
->>   
->>   	struct drm_bridge bridge;
->>   
->> @@ -316,6 +318,8 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
->>   
->>   	dev_dbg(lvds->dev, "enabling LVDS PLL, freq=%luHz\n", freq);
->>   
->> +	reset_control_deassert(lvds->rstc);
+>> +static u32 rcar_lvds_read(struct rcar_lvds *lvds, u32 reg)
+>> +{
+>> +	return ioread32(lvds->mmio + reg);
+>> +}
 > 
-> Can this fail ? Same in __rcar_lvds_atomic_enable().
+> Could you please move read before write ?
 
-Yes. Too hasty in picking a patch from the BSP =).
+Sure.
 
 >> +
->>   	ret = clk_prepare_enable(lvds->clocks.mod);
+>>   /* -----------------------------------------------------------------------------
+>>    * PLL Setup
+>>    */
+>> @@ -549,8 +554,28 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+>>   				     struct drm_bridge_state *old_bridge_state)
+>>   {
+>>   	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+>> +	u32 lvdcr0;
+>> +
+>> +	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
+>> +
+>> +	lvdcr0 &= ~LVDCR0_LVRES;
+>> +	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+>> +
+>> +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
+>> +		lvdcr0 &= ~LVDCR0_LVEN;
+>> +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+>> +	}
+>> +
+>> +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
+>> +		lvdcr0 &= ~LVDCR0_PWD;
+>> +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+>> +	}
+>> +
+>> +	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+>> +		lvdcr0 &= ~LVDCR0_PLLON;
+>> +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+>> +	}
 > 
-> It would be nice to switch this driver to runtime PM and move reset and
-> clock handling to the suspend/resume handlers. A candidate for a future
-> patch.
+> This will leave LVDCR0_BEN and LVDCR0_LVEN on Gen2. Is that fine ?
 
-I have the runtime PM patch in my work branch, but on top. I'll pick 
-that into this series, before adding the reset control. Makes error 
-handling a bit simpler.
+I don't know, I don't have the manuals or HW. But your point is a bit 
+worrying.
 
->>   	if (ret < 0)
-> 
-> Missing reset_control_assert(). Same in other error paths if applicable,
-> here and in __rcar_lvds_atomic_enable().
+I think we can just do a rcar_lvds_write(lvds, LVDCR0, 0) after the 
+above shenanigans, to make sure everything is disabled. The HW manual 
+doesn't tell us to do that, though, on gen3. Do you think that will be a 
+problem?
 
-Yep.
+And I'm not fully serious with the last sentence...
 
   Tomi
 
