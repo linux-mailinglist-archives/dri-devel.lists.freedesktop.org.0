@@ -2,47 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157B4673992
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 14:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C7D673997
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 14:10:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5131410E924;
-	Thu, 19 Jan 2023 13:09:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED9D110E928;
+	Thu, 19 Jan 2023 13:10:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 099D810E242
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 13:09:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=3MUFW1CfWqbN3yWzOzLyDN6ndFRfS8BtwjxRAMF39DU=; b=LWDSh2RF65bmmQFQT5tr3uLhRb
- jNNBvSKwR3ffyKVZRdPfblu2B4UYAGNp2wPbJG30nHsw+MuqvmFaN2hDJ2PSd6Q42i0K6yHaMCxn1
- AwGYab4uV7+ZcitFO3MbyrIuSo1Gju+XY+9Yd7eQgC99p3HJFfQkumHtXGdTreawImq5wb8WB2kd+
- yIXSMRkvskllX4YTKvkyrX9SOdDELnTNgR6QSmcuucZZnFLPWFymc26UumavAH+5PcPJv8XeeXIhg
- eIuL5E8Qh8Oao9w2kSlD7E4XxfxOqmQzEzJXTGFcNTXgbUL7Qbzr4WO2o2eQK0SZJZQgovX/od/Iq
- FP7nJkpA==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <cyndis@kapsi.fi>)
- id 1pIUff-000zLh-NW; Thu, 19 Jan 2023 15:09:35 +0200
-From: Mikko Perttunen <cyndis@kapsi.fi>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 4/4] gpu: host1x: External timeout/cancellation for fences
-Date: Thu, 19 Jan 2023 15:09:21 +0200
-Message-Id: <20230119130921.1882602-4-cyndis@kapsi.fi>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230119130921.1882602-1-cyndis@kapsi.fi>
-References: <20230119130921.1882602-1-cyndis@kapsi.fi>
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD7710E929
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 13:10:39 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id h16so1783184wrz.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 05:10:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=blNpZwh2SZlig8QQ/nC77W3/O0N7mDjpaqH8VDOv2eU=;
+ b=DzFy88bDZoVlfwhHlTp6yaa4pDvXz2S+rRv+4hM9hJnwR6Pea0ryUtzFRVDKTcUUsl
+ M4WGeBQ4f5np3UXyL67X+o7x7P/J5qmVp0R5lkDakCtZEQtlusfYKHLxzghATAV4nd0a
+ z98YCC83E6ttozJrFFjGynwEZszZmhKvl9UoIjEdSD7XkJiDRHgQRbis6wO6FxJADvfK
+ cktGAaPSDhZo4THEOHj8dKlw+WulH7V4oQJ2on2nX0h1OfkOosTQ7XIRanih5OYRUAxK
+ ltD8viS7fmAMLiiNqe9YAR8H52ZHuJTSCfhfO8zLeGpcQBwvgn9pof+aob41Ehwdclxf
+ BgQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=blNpZwh2SZlig8QQ/nC77W3/O0N7mDjpaqH8VDOv2eU=;
+ b=YsMCls32wESPrczyxFq8lhVmqGTmwigCc5eGlGN+OBeVq6mYYeNDagoRLytwHq959T
+ 3x4Jn8oaBMoKZlNFGLCnoD4mj+l2FtSkdkBt5GYefON6rqZK1jFJ6S4Z5YLx7wceXtDp
+ FUc0FnF/AixhE085s3XtW+Hjd7hrwvr8IZsBjxV9v0jIl43Ti2kMHVUEAQRKQqrN3xR5
+ qUFyFC8bQPHG1tstNe4kwGGI7T2l1DHqY4XuZQheoSLB77ff1xUqfUjJYVimwriPd5vM
+ Yai8GzPI2EIHp4uieqZKRxdCPhJMj4kgg3Ywhv6QeAvcURSWsqb/M/anRv02k39cPQmy
+ 7sOw==
+X-Gm-Message-State: AFqh2koVCWydzBsi/t0RPGzJiVaS8S3SaAYGaWpQ7yjy+fsvIb2vErE+
+ YKLp88ZoFJpEOLpUxYW5QLK1NA==
+X-Google-Smtp-Source: AMrXdXvrY6LK2dvL+iGhjr8puYL3YHweG43wf3Hfc7anlN9+EMnZ5/F6pOfVqjpVCAvI/2eVrdRgvw==
+X-Received: by 2002:a05:6000:1816:b0:2bd:fe5a:b579 with SMTP id
+ m22-20020a056000181600b002bdfe5ab579mr8424345wrh.70.1674133837495; 
+ Thu, 19 Jan 2023 05:10:37 -0800 (PST)
+Received: from krzk-bin.. ([178.197.216.144]) by smtp.gmail.com with ESMTPSA id
+ f16-20020a5d50d0000000b002755e301eeasm15881791wrt.100.2023.01.19.05.10.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 05:10:37 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Kevin Hilman <khilman@kernel.org>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Subject: [PATCH] dt-bindings: drop type for operating-points-v2
+Date: Thu, 19 Jan 2023 14:10:33 +0100
+Message-Id: <20230119131033.117324-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,200 +83,251 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
+The type for operating-points-v2 property is coming from dtschema
+(/schemas/opp/opp.yaml), so individual bindings can just use simple
+"true".
 
-Currently all fences have a 30 second timeout to ensure they are
-cleaned up if the fence never completes otherwise. However, this
-one size fits all solution doesn't actually fit in every case,
-such as syncpoint waiting where we want to be able to have timeouts
-longer than 30 seconds. As such, we want to be able to give control
-over fence cancellation to the caller (and maybe eventually get rid
-of the internal timeout altogether).
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Here we add this cancellation mechanism by essentially adding a
-function for entering the timeout path by function call, and changing
-the syncpoint wait function to use it.
-
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/tegra/submit.c     |  2 +-
- drivers/gpu/host1x/fence.c         | 40 ++++++++++++++++++++----------
- drivers/gpu/host1x/fence.h         |  1 +
- drivers/gpu/host1x/hw/channel_hw.c |  2 +-
- drivers/gpu/host1x/syncpt.c        |  4 ++-
- include/linux/host1x.h             |  4 ++-
- 6 files changed, 36 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
-index 066f88564169..f4688fcafe93 100644
---- a/drivers/gpu/drm/tegra/submit.c
-+++ b/drivers/gpu/drm/tegra/submit.c
-@@ -654,7 +654,7 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
- 	args->syncpt.value = job->syncpt_end;
+This depends on my pull request, at least logically:
+https://github.com/devicetree-org/dt-schema/pull/95
+
+Patch could be applied in parallel but only if above PULL is
+accepted/correct.
+---
+ .../devicetree/bindings/display/msm/dp-controller.yaml         | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml   | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml  | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml  | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml | 3 +--
+ .../bindings/display/tegra/nvidia,tegra20-host1x.yaml          | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml  | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml  | 3 +--
+ .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml   | 3 +--
+ .../devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml          | 3 +--
+ .../devicetree/bindings/mmc/nvidia,tegra20-sdhci.yaml          | 3 +--
+ Documentation/devicetree/bindings/power/power-domain.yaml      | 3 ---
+ Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.yaml  | 3 +--
+ 15 files changed, 14 insertions(+), 31 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index 3e54956e57db..d7678fcd1710 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -71,8 +71,7 @@ properties:
+     items:
+       - const: dp
  
- 	if (syncobj) {
--		struct dma_fence *fence = host1x_fence_create(job->syncpt, job->syncpt_end);
-+		struct dma_fence *fence = host1x_fence_create(job->syncpt, job->syncpt_end, true);
- 		if (IS_ERR(fence)) {
- 			err = PTR_ERR(fence);
- 			SUBMIT_ERR(context, "failed to create postfence: %d", err);
-diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
-index df5b56692d2c..139ad1afd935 100644
---- a/drivers/gpu/host1x/fence.c
-+++ b/drivers/gpu/host1x/fence.c
-@@ -37,8 +37,7 @@ static bool host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
- 	if (host1x_syncpt_is_expired(sf->sp, sf->threshold))
- 		return false;
+-  operating-points-v2:
+-    maxItems: 1
++  operating-points-v2: true
  
--	/* One reference for interrupt path, one for timeout path. */
--	dma_fence_get(f);
-+	/* Reference for interrupt path. */
- 	dma_fence_get(f);
+   opp-table: true
  
- 	/*
-@@ -46,11 +45,15 @@ static bool host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
- 	 * reference to any fences for which 'enable_signaling' has been
- 	 * called (and that have not been signalled).
- 	 *
--	 * We cannot (for now) normally guarantee that all fences get signalled.
--	 * As such, setup a timeout, so that long-lasting fences will get
--	 * reaped eventually.
-+	 * We cannot currently always guarantee that all fences get signalled
-+	 * or cancelled. As such, for such situations, set up a timeout, so
-+	 * that long-lasting fences will get reaped eventually.
- 	 */
--	schedule_delayed_work(&sf->timeout_work, msecs_to_jiffies(30000));
-+	if (sf->timeout) {
-+		/* Reference for timeout path. */
-+		dma_fence_get(f);
-+		schedule_delayed_work(&sf->timeout_work, msecs_to_jiffies(30000));
-+	}
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
+index 6eedee503aa0..69be95afd562 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
+@@ -59,8 +59,7 @@ properties:
+   iommus:
+     maxItems: 1
  
- 	host1x_intr_add_fence_locked(sf->sp->host, sf);
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
-@@ -80,7 +83,7 @@ void host1x_fence_signal(struct host1x_syncpt_fence *f)
- 		return;
- 	}
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
+index 75546f250ad7..511cbe74e729 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
+@@ -47,8 +47,7 @@ properties:
+     items:
+       - const: dsi
  
--	if (cancel_delayed_work(&f->timeout_work)) {
-+	if (f->timeout && cancel_delayed_work(&f->timeout_work)) {
- 		/*
- 		 * We know that the timeout path will not be entered.
- 		 * Safe to drop the timeout path's reference now.
-@@ -99,8 +102,9 @@ static void do_fence_timeout(struct work_struct *work)
- 		container_of(dwork, struct host1x_syncpt_fence, timeout_work);
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
- 	if (atomic_xchg(&f->signaling, 1)) {
--		/* Already on interrupt path, drop timeout path reference. */
--		dma_fence_put(&f->base);
-+		/* Already on interrupt path, drop timeout path reference if any. */
-+		if (f->timeout)
-+			dma_fence_put(&f->base);
- 		return;
- 	}
+   power-domains:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
+index 0d55e6206b5e..3c095a5491fe 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
+@@ -46,8 +46,7 @@ properties:
+   interconnect-names:
+     maxItems: 4
  
-@@ -114,12 +118,12 @@ static void do_fence_timeout(struct work_struct *work)
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
- 	dma_fence_set_error(&f->base, -ETIMEDOUT);
- 	dma_fence_signal(&f->base);
--
--	/* Drop timeout path reference. */
--	dma_fence_put(&f->base);
-+	if (f->timeout)
-+		dma_fence_put(&f->base);
- }
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
+index bf38accd98eb..1026b0bc3dc8 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
+@@ -49,8 +49,7 @@ properties:
+   interconnect-names:
+     maxItems: 4
  
--struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold)
-+struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold,
-+				      bool timeout)
- {
- 	struct host1x_syncpt_fence *fence;
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
-@@ -129,6 +133,7 @@ struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold)
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
+index 4755a73473c7..59a52e732ca3 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
+@@ -51,8 +51,7 @@ properties:
+     minItems: 4
+     maxItems: 10
  
- 	fence->sp = sp;
- 	fence->threshold = threshold;
-+	fence->timeout = timeout;
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
- 	dma_fence_init(&fence->base, &host1x_syncpt_fence_ops, &sp->fences.lock,
- 		       dma_fence_context_alloc(1), 0);
-@@ -138,3 +143,12 @@ struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold)
- 	return &fence->base;
- }
- EXPORT_SYMBOL(host1x_fence_create);
-+
-+void host1x_fence_cancel(struct dma_fence *f)
-+{
-+	struct host1x_syncpt_fence *sf = to_host1x_fence(f);
-+
-+	schedule_delayed_work(&sf->timeout_work, 0);
-+	flush_delayed_work(&sf->timeout_work);
-+}
-+EXPORT_SYMBOL(host1x_fence_cancel);
-diff --git a/drivers/gpu/host1x/fence.h b/drivers/gpu/host1x/fence.h
-index 4352d046f92c..f3c644c73cad 100644
---- a/drivers/gpu/host1x/fence.h
-+++ b/drivers/gpu/host1x/fence.h
-@@ -13,6 +13,7 @@ struct host1x_syncpt_fence {
+   power-domains:
+     minItems: 1
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+index 035b9f1f2eb5..f65e59cfffa7 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+@@ -50,8 +50,7 @@ properties:
+     items:
+       - const: hdmi
  
- 	struct host1x_syncpt *sp;
- 	u32 threshold;
-+	bool timeout;
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
- 	struct delayed_work timeout_work;
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
+index 913ca104c871..94c5242c03b2 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
+@@ -90,8 +90,7 @@ properties:
+     items:
+       - const: dma-mem # read
  
-diff --git a/drivers/gpu/host1x/hw/channel_hw.c b/drivers/gpu/host1x/hw/channel_hw.c
-index 8a3119fc5a77..0a528573a792 100644
---- a/drivers/gpu/host1x/hw/channel_hw.c
-+++ b/drivers/gpu/host1x/hw/channel_hw.c
-@@ -325,7 +325,7 @@ static int channel_submit(struct host1x_job *job)
- 	 * Create fence before submitting job to HW to avoid job completing
- 	 * before the fence is set up.
- 	 */
--	job->fence = host1x_fence_create(sp, syncval);
-+	job->fence = host1x_fence_create(sp, syncval, true);
- 	if (WARN(IS_ERR(job->fence), "Failed to create submit complete fence")) {
- 		job->fence = NULL;
- 	} else {
-diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
-index 75f58ec2ae23..2d2007760eac 100644
---- a/drivers/gpu/host1x/syncpt.c
-+++ b/drivers/gpu/host1x/syncpt.c
-@@ -236,11 +236,13 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
- 	else if (timeout == 0)
- 		return -EAGAIN;
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
--	fence = host1x_fence_create(sp, thresh);
-+	fence = host1x_fence_create(sp, thresh, false);
- 	if (IS_ERR(fence))
- 		return PTR_ERR(fence);
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
+index 5f4f0fb4b692..2cd3e60cd0a8 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
+@@ -47,8 +47,7 @@ properties:
+   interconnect-names:
+     maxItems: 6
  
- 	wait_err = dma_fence_wait_timeout(fence, true, timeout);
-+	if (wait_err == 0)
-+		host1x_fence_cancel(fence);
- 	dma_fence_put(fence);
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
- 	if (value)
-diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index db6cf6f34361..9a9de4b97a25 100644
---- a/include/linux/host1x.h
-+++ b/include/linux/host1x.h
-@@ -222,7 +222,9 @@ u32 host1x_syncpt_base_id(struct host1x_syncpt_base *base);
- void host1x_syncpt_release_vblank_reservation(struct host1x_client *client,
- 					      u32 syncpt_id);
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
+index 467b015e5700..6c84d8b7eb7b 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
+@@ -30,8 +30,7 @@ properties:
+     items:
+       - description: module clock
  
--struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold);
-+struct dma_fence *host1x_fence_create(struct host1x_syncpt *sp, u32 threshold,
-+				      bool timeout);
-+void host1x_fence_cancel(struct dma_fence *fence);
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
  
- /*
-  * host1x channel
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+index 782a4b10150a..a42bf33d1e7d 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+@@ -55,8 +55,7 @@ properties:
+     minItems: 4
+     maxItems: 5
+ 
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
+ 
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml b/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml
+index 481901269872..02f0b0462377 100644
+--- a/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml
++++ b/Documentation/devicetree/bindings/fuse/nvidia,tegra20-fuse.yaml
+@@ -44,8 +44,7 @@ properties:
+     items:
+       - const: fuse
+ 
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
+ 
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.yaml b/Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.yaml
+index fe0270207622..fda0b45ee577 100644
+--- a/Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.yaml
++++ b/Documentation/devicetree/bindings/mmc/nvidia,tegra20-sdhci.yaml
+@@ -82,8 +82,7 @@ properties:
+   iommus:
+     maxItems: 1
+ 
+-  operating-points-v2:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++  operating-points-v2: true
+ 
+   power-domains:
+     items:
+diff --git a/Documentation/devicetree/bindings/power/power-domain.yaml b/Documentation/devicetree/bindings/power/power-domain.yaml
+index 889091b9814f..d1235e562041 100644
+--- a/Documentation/devicetree/bindings/power/power-domain.yaml
++++ b/Documentation/devicetree/bindings/power/power-domain.yaml
+@@ -43,9 +43,6 @@ properties:
+       domain would be considered as capable of being powered-on or powered-off.
+ 
+   operating-points-v2:
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+-    items:
+-      maxItems: 1
+     description:
+       Phandles to the OPP tables of power domains provided by a power domain
+       provider. If the provider provides a single power domain only or all
+diff --git a/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.yaml b/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.yaml
+index 739d3155dd32..41cea4979132 100644
+--- a/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/nvidia,tegra20-pwm.yaml
+@@ -63,8 +63,7 @@ properties:
+   pinctrl-1:
+     description: configuration for the sleep state
+ 
+-  operating-points-v2:
+-    $ref: /schemas/types.yaml#/definitions/phandle
++  operating-points-v2: true
+ 
+   power-domains:
+     items:
 -- 
-2.39.0
+2.34.1
 
