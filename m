@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3B9673848
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 13:23:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF82B6738F8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 13:50:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A585110E0B6;
-	Thu, 19 Jan 2023 12:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D3E10E91C;
+	Thu, 19 Jan 2023 12:50:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08FEF10E0B6;
- Thu, 19 Jan 2023 12:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674131023; x=1705667023;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=8xISEwGDFrbmtnm+Q1hhBiJ22kkm+vjGB7sb6mTVTvk=;
- b=kUo0KxQbxO5T676Y31FFCSvQaog9jl1DcXS3cZOLneWw/sPPZnKr8wSR
- i21uFH8aF/W6L6D0tZR5rBXZqoK8dzUAoTSDM23j/ElFyUBoQEyTQ1UXy
- k/ycXxZYifzFZ6tNkIgjg44k9j1LDsCD1eLnTZmDLfHik6nYJxQlfZdZE
- 68cA2XFvf0xz+RKmvJKjWCJGVoTd6VEWMBW6QAkhSgl3LYpKPCCcuv0ir
- FShBB0qrRTkmA+z5Vli4DN9xSPrgCVfsHgfbGQzlb21v9HyYj+Ccov3C4
- baDtUdk+SX/YIVmOy4AwONZDosgiH6Z4BZ710NisF2EMcCWRioLRDHqTs A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="389770023"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="389770023"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 04:23:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="723478911"
-X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="723478911"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by fmsmga008.fm.intel.com with SMTP; 19 Jan 2023 04:23:39 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 19 Jan 2023 14:23:38 +0200
-Date: Thu, 19 Jan 2023 14:23:38 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v7 18/22] drm/edid: remove redundant
- _drm_connector_update_edid_property()
-Message-ID: <Y8k2SvV0kFl7CFJv@intel.com>
-References: <cover.1672826282.git.jani.nikula@intel.com>
- <8a3bd5efa7faab2f4d00e8e00cd8d1b680443a2e.1672826282.git.jani.nikula@intel.com>
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9038210E91C
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 12:50:25 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-4a263c4ddbaso25970487b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 04:50:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=XWPe8lMsNIn5MpU7AWRIX9vNDGuy1qSft5sgquaATHc=;
+ b=HoMgkebZ3+T/seK808jm3kekSni4b8f1A2IriZ9VTyWqhxV9+lZfDMmvLHLQm+HQcU
+ fGgU0Xtp3RaKBx6f2CAv225v6hWEexeFZqBk4fJ8q1EszJHxDhwRwjm93lUlOwFlveY/
+ rcHopcFI9Wac9A/YaYx0Lr0hDZVa7xV+loiEFjKopdOLpoAw4SX7es9cKTl0jOtsPUMy
+ G97zXzZKn+pfVS1zlSC88/BZcauI8GeoKkDMSkkZBCwCDKUKt4hsBufmCC46iBtNmaFS
+ EIStqGsX/PGfYK+JsjPU66n3tov1UwC0Sd28omsaHNl9ZKSVcIu+S3XDYWPcRrfIdrkc
+ E6qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XWPe8lMsNIn5MpU7AWRIX9vNDGuy1qSft5sgquaATHc=;
+ b=wky+FClH/38cSyv8M8XtLuflaETtSEPxbzDP2xqW5W5LSLoF8Bxf5dP2coG6aBFoz6
+ qpF5XStpMI0H2OS1khqHBR3M7BpJoP2ow5/cuf82pSm8EmRacgICiDQukegU0x7/8H3Y
+ FDX7oEESnM2+SU+33lCFQtt4rkUG8kyAtopFqxarf0dGO3RKqsbSy9aYfT3wLEZ5IR0m
+ xfqFKIcdXddhgs6V+Rzc+cHrCfoHgX3X68w9ZbLQfWv3KJXkR5od9XmQzZTUDLErv8T3
+ sX9AONdUppbnfaA+IHCgMrjfSO7nnZow6DjnrxYhL4rPfzQzkyNlfQ79EMHal4CxEwkR
+ i+ew==
+X-Gm-Message-State: AFqh2kqMMLewMDoM39p1Vv5O9Q6hGvQlvzSdlQBfN1E9JudTL30ngQ1P
+ 6Jz+WIc9FOvMeYaDwqJZBNLW+2RABqYFyK6pAQw=
+X-Google-Smtp-Source: AMrXdXujEFtTCFJvUY2a98P/h5K4WuhJ3AH9H35P8e06ZNdnJ1KvvZ8Iabcow+S3Rzql8EBeLIu8H8b3uhfPXqKup4E=
+X-Received: by 2002:a81:351:0:b0:36c:aaa6:e571 with SMTP id
+ 78-20020a810351000000b0036caaa6e571mr975201ywd.467.1674132624237; Thu, 19 Jan
+ 2023 04:50:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8a3bd5efa7faab2f4d00e8e00cd8d1b680443a2e.1672826282.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+References: <Y8arJvmo7dLsAYlX@kili>
+In-Reply-To: <Y8arJvmo7dLsAYlX@kili>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Thu, 19 Jan 2023 14:49:57 +0200
+Message-ID: <CAFCwf110g-KLNmLOOA2dwPqzp2=WKiHP8V5TzhzwDOhCYmD2Xw@mail.gmail.com>
+Subject: Re: [bug report] habanalabs: add debugfs support
+To: Dan Carpenter <error27@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,66 +65,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 04, 2023 at 12:05:33PM +0200, Jani Nikula wrote:
-> Realize that drm_edid_connector_update() and
-> _drm_connector_update_edid_property() are now the same thing. Drop the
-> latter.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Tue, Jan 17, 2023 at 4:05 PM Dan Carpenter <error27@gmail.com> wrote:
+>
+> Hello Oded Gabbay,
+>
+> The patch c216477363a3: "habanalabs: add debugfs support" from Feb
+> 16, 2019, leads to the following Smatch static checker warning:
+>
+>         drivers/accel/habanalabs/common/debugfs.c:272 vm_show()
+>         warn: sleeping in atomic context
+>
+> drivers/accel/habanalabs/common/debugfs.c
+>     241 static int vm_show(struct seq_file *s, void *data)
+>     242 {
+>     243         struct hl_debugfs_entry *entry = s->private;
+>     244         struct hl_dbg_device_entry *dev_entry = entry->dev_entry;
+>     245         struct hl_vm_hw_block_list_node *lnode;
+>     246         struct hl_ctx *ctx;
+>     247         struct hl_vm *vm;
+>     248         struct hl_vm_hash_node *hnode;
+>     249         struct hl_userptr *userptr;
+>     250         struct hl_vm_phys_pg_pack *phys_pg_pack = NULL;
+>     251         struct hl_va_range *va_range;
+>     252         struct hl_vm_va_block *va_block;
+>     253         enum vm_type *vm_type;
+>     254         bool once = true;
+>     255         u64 j;
+>     256         int i;
+>     257
+>     258         if (!dev_entry->hdev->mmu_enable)
+>     259                 return 0;
+>     260
+>     261         spin_lock(&dev_entry->ctx_mem_hash_spinlock);
+>                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> This is holding a spinlock.
+>
+>     262
+>     263         list_for_each_entry(ctx, &dev_entry->ctx_mem_hash_list, debugfs_list) {
+>     264                 once = false;
+>     265                 seq_puts(s, "\n\n----------------------------------------------------");
+>     266                 seq_puts(s, "\n----------------------------------------------------\n\n");
+>     267                 seq_printf(s, "ctx asid: %u\n", ctx->asid);
+>     268
+>     269                 seq_puts(s, "\nmappings:\n\n");
+>     270                 seq_puts(s, "    virtual address        size          handle\n");
+>     271                 seq_puts(s, "----------------------------------------------------\n");
+> --> 272                 mutex_lock(&ctx->mem_hash_lock);
+>                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> so it can't take a mutex or it leads to a sleeping in atomic bug.  These
+> can be detected at runtime by enabling CONFIG_DEBUG_ATOMIC_SLEEP.
+>
+> regards,
+> dan carpenter
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-> ---
->  drivers/gpu/drm/drm_edid.c | 21 +--------------------
->  1 file changed, 1 insertion(+), 20 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index a64c0807e97f..ae50f533fea3 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -6810,24 +6810,6 @@ int drm_edid_connector_add_modes(struct drm_connector *connector)
->  }
->  EXPORT_SYMBOL(drm_edid_connector_add_modes);
->  
-> -static int _drm_connector_update_edid_property(struct drm_connector *connector,
-> -					       const struct drm_edid *drm_edid)
-> -{
-> -	/*
-> -	 * Set the display info, using edid if available, otherwise resetting
-> -	 * the values to defaults. This duplicates the work done in
-> -	 * drm_add_edid_modes, but that function is not consistently called
-> -	 * before this one in all drivers and the computation is cheap enough
-> -	 * that it seems better to duplicate it rather than attempt to ensure
-> -	 * some arbitrary ordering of calls.
-> -	 */
-> -	update_display_info(connector, drm_edid);
-> -
-> -	_drm_update_tile_info(connector, drm_edid);
-> -
-> -	return _drm_edid_connector_property_update(connector, drm_edid);
-> -}
-> -
->  /**
->   * drm_connector_update_edid_property - update the edid property of a connector
->   * @connector: drm connector
-> @@ -6849,8 +6831,7 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
->  {
->  	struct drm_edid drm_edid;
->  
-> -	return _drm_connector_update_edid_property(connector,
-> -						   drm_edid_legacy_init(&drm_edid, edid));
-> +	return drm_edid_connector_update(connector, drm_edid_legacy_init(&drm_edid, edid));
->  }
->  EXPORT_SYMBOL(drm_connector_update_edid_property);
->  
-> -- 
-> 2.34.1
-
--- 
-Ville Syrjälä
-Intel
+Thanks Dan,
+We will fix that.
+Oded
