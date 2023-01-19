@@ -1,54 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061B26734AB
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 10:44:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E4767356A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 11:24:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C376410E8FB;
-	Thu, 19 Jan 2023 09:44:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD3D710E8FE;
+	Thu, 19 Jan 2023 10:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85E9910E8F9;
- Thu, 19 Jan 2023 09:44:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674121490; x=1705657490;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=U3EqrDiAkrpvGPp19lKpBXSBAnqRZO17cVfx+J/OnfI=;
- b=PGffCXOadDgV7uhowGYdL4QdqEdqkVckLZaNJrtAjK82yPk/MgoMUKjP
- Dy6PKbRtCszg2WLf8w2fHN1/9rBoNar7GACnWoRgkMPYN6c7xOCPl7Rzv
- fWRTf3+hr+Xk/8uHP+TfQv6FX4yMA9m97XyD5d/xZdB7IuQajoyHEkVwV
- YZx89yh4LPqS06FHIaPIgB26v0ks8UxNabEKZt6eie8u+o3+VbiB6Qdse
- mJUwGUj8Zdf5TaSRBuXSCmEMeojG2qpCNwjBPhOpipDOLPg9gBKJNanLj
- OF6zI659p2sjLNr6UBFzLfCOVQMs+Ja7YLusn4HTi2ov/RMXBFPqXiJoS g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="304926344"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; d="scan'208";a="304926344"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 01:44:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="653299927"
-X-IronPort-AV: E=Sophos;i="5.97,228,1669104000"; d="scan'208";a="653299927"
-Received: from sarahgar-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.15.69])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 01:44:48 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v7 10/22] drm/edid: add helper for HDMI VSDB audio
- latency field length
-In-Reply-To: <Y8gTdsLisZ5byN2d@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1672826282.git.jani.nikula@intel.com>
- <da4293203ef2ddeb0bf66a2bfdbc129ab609c543.1672826282.git.jani.nikula@intel.com>
- <Y8gTdsLisZ5byN2d@intel.com>
-Date: Thu, 19 Jan 2023 11:44:45 +0200
-Message-ID: <875yd2dfjm.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B56E10E8FE
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 10:24:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1674123859; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:in-reply-to:
+ references; bh=MexWMAAPO1Zh1CATb6mBtlhRejxxlbRYWMErPKpphY8=;
+ b=DkQu+igpCxs0VXRX9mEafilPWcM+DSVxuBvl8NPT7ih5EicJCFiAwirwUe4TI6QHERSoNL
+ 3+M2PPlS8gn/86fS49aGYNpX869wSOSZRqK3iq6ekraB8elCaoOLhg3CD3z11fKfB3mO4a
+ DGJ7wNV8wYKvyiezgc7RBo416FmiK+k=
+Message-ID: <730e5a40874c0e5bf66ddcb9fe7b2e4f28e09b1a.camel@crapouillou.net>
+Subject: RFC: dma_resv_unlock() and ww_acquire_ctx scope
+From: Paul Cercueil <paul@crapouillou.net>
+To: Sumit Semwal <sumit.semwal@linaro.org>, Christian Koenig
+ <christian.koenig@amd.com>
+Date: Thu, 19 Jan 2023 10:24:17 +0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,78 +42,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 18 Jan 2023, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Wed, Jan 04, 2023 at 12:05:25PM +0200, Jani Nikula wrote:
->> Add a helper for skipping the HDMI VSDB audio latency fields.
->>=20
->> There's a functional change for HDMI VSDB blocks that do not respect the
->> spec: "I_Latency_Fields_Present shall be zero if Latency_Fields_Present
->> is zero". We assume this to hold when skipping the latency fields, and
->> ignore non-zero I_Latency_Fields_Present if Latency_Fields_Present is
->> zero.
->>=20
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+Hi,
 
-Thanks for the reviews so far, pushed up to and including this patch to
-drm-misc-next.
+Just a reflexion I have after an intensive (and intense) debugging
+session.
 
-BR,
-Jani.
+I had the following code:
 
 
->
->> ---
->>  drivers/gpu/drm/drm_edid.c | 18 +++++++++++-------
->>  1 file changed, 11 insertions(+), 7 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 847076b29594..93067b8dd9f6 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -4695,6 +4695,16 @@ static bool hdmi_vsdb_i_latency_present(const u8 =
-*db)
->>  	return hdmi_vsdb_latency_present(db) && db[8] & BIT(6);
->>  }
->>=20=20
->> +static int hdmi_vsdb_latency_length(const u8 *db)
->> +{
->> +	if (hdmi_vsdb_i_latency_present(db))
->> +		return 4;
->> +	else if (hdmi_vsdb_latency_present(db))
->> +		return 2;
->> +	else
->> +		return 0;
->> +}
->> +
->>  /*
->>   * do_hdmi_vsdb_modes - Parse the HDMI Vendor Specific data block
->>   * @connector: connector corresponding to the HDMI sink
->> @@ -4720,13 +4730,7 @@ do_hdmi_vsdb_modes(struct drm_connector *connecto=
-r, const u8 *db, u8 len)
->>  	if (!(db[8] & (1 << 5)))
->>  		goto out;
->>=20=20
->> -	/* Latency_Fields_Present */
->> -	if (db[8] & (1 << 7))
->> -		offset +=3D 2;
->> -
->> -	/* I_Latency_Fields_Present */
->> -	if (db[8] & (1 << 6))
->> -		offset +=3D 2;
->> +	offset +=3D hdmi_vsdb_latency_length(db);
->>=20=20
->>  	/* the declared length is not long enough for the 2 first bytes
->>  	 * of additional video format capabilities */
->> --=20
->> 2.34.1
+int my_dma_resv_lock(struct dma_buf *dmabuf)
+{
+	struct ww_acquire_ctx ctx;
+	int ret;
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+	ww_acquire_init(&ctx, &reservation_ww_class);
+
+	ret =3D dma_resv_lock_interruptible(dmabuf->resv, &ctx);
+	if (ret) {
+		if (ret !=3D -EDEADLK)
+			return ret;
+
+		ret =3D dma_resv_lock_slow_interruptible(dmabuf->resv,
+						       &ctx);
+	}
+
+	return ret;
+}
+
+
+Then I would eventually unlock the dma_resv object in the caller
+function. What made me think this was okay, was that the API itself
+suggests it's okay - as dma_resv_unlock() does not take the
+"ww_acquire_ctx" object as argument, my assumption was that after the
+dma_resv was locked, the variable could go out of scope.
+
+I wonder if it would be possible to change the API a little bit, so
+that it is less prone to errors like this. Maybe by doing a struct copy
+of the initialized ctx into the dma_resv object (if at all possible),
+so that the original can actually go out of scope, or maybe having
+dma_resv_unlock() take the ww_acquire_ctx as argument, even if it is
+not actually used in the function body - just to make it obvious that
+it is needed all the way to the point where the dma_resv is unlocked.
+
+This email doesn't have to result in anything, I just thought I'd share
+one point where I feel the API could be made less error-prone.
+
+Cheers,
+-Paul
