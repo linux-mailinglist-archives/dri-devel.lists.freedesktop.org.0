@@ -2,68 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3176739FB
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 14:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F52673A16
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 14:26:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF02A10E93C;
-	Thu, 19 Jan 2023 13:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CAB10E934;
+	Thu, 19 Jan 2023 13:26:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD7E510E932
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 13:22:40 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id b4so2909666edf.0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 05:22:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=M5lFrlvCIHoFB2+uziz/1ge4iw3F4JUj7qisClGGYZE=;
- b=BZyQsTr5ZebjrhxCYNrobbQBYaHncBi9ZTdl09BDOy/d3/0CNMz5/ewJezf59QRx2M
- ijZ7Dv9RVwYCeUMqVQ0vIFeOoEF1lmaJ8QbGGPIT/Ab6jV+maIbW4msr6kY0a5wT6QHJ
- 05zkUwIjrOah3leYeVOfngbpKLUhbd/F39Apuj825I0KnSPIn1D/FY1VWfiKzk7U/AlS
- OeY+kljH/TsTD/HmKje0dm7kDrXdiWgetHOy+AL/bD3Jgkw8Sdo+vWPuv/mCfJKhdQc2
- cit750FVs8sscTMuSmiIdKBsj5wfQVLhBpV3aHaKWaJspkiwqvFZzm4kbmC9IJqoaJKG
- POcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=M5lFrlvCIHoFB2+uziz/1ge4iw3F4JUj7qisClGGYZE=;
- b=OvMYcXHGorQxkLeiIrNEwShfpj+hOhz3raMCgNqIRwiNt1DXgIFIlrYERZkhawLIkz
- 5mGzcwCZLilzBXyRITDl+sr9zkmNIN1WduRbiQ8272VmEnl6CZsOia5iQqnexytqYeSn
- mZCyFu5BjmpV0q0oeQ3LNo2YjpYVI1MlMxdyWePXx7C8ZS4iOed9Ow0IhD4etTU0xQ5s
- jiCGBQet0/4bywPtHTB05L5lf8QAPxP75N36tm9U1Lqd3YhKHJvpK7KXR7SMVDgq/Iwq
- DagBJCxF6RJ6d4af2cFROMtXrzFDGXk/ME4K4wyHL26lvvMilimzHnbBwe4M8eKIQEWK
- RZtw==
-X-Gm-Message-State: AFqh2krcKv2ZnSOpgU37dLwGP5ZtLhr/kmeBWu0mRvBzL40CixFwy5f3
- OZaG6kol/hjrTSXN32upGCGuif+x6hCS3B81
-X-Google-Smtp-Source: AMrXdXte67q8fD3ofpSt16K0O4y/76/t1vXA+qk0uMaBlzCGEPaAUZSL9km91H6eh7t0eNEap7FqfQ==
-X-Received: by 2002:a17:906:60d0:b0:877:612e:516e with SMTP id
- f16-20020a17090660d000b00877612e516emr16289651ejk.61.1674134547974; 
- Thu, 19 Jan 2023 05:22:27 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- bt16-20020a0564020a5000b00482e0c55e2bsm15532646edb.93.2023.01.19.05.22.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 05:22:27 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 6/6] ARM: dts: qcom: apq8064: use hdmi_phy for the MMCC's
- hdmipll clock
-Date: Thu, 19 Jan 2023 15:22:19 +0200
-Message-Id: <20230119132219.2479775-7-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230119132219.2479775-1-dmitry.baryshkov@linaro.org>
-References: <20230119132219.2479775-1-dmitry.baryshkov@linaro.org>
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4381110E92B;
+ Thu, 19 Jan 2023 13:26:19 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 83C973200995;
+ Thu, 19 Jan 2023 08:26:15 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 19 Jan 2023 08:26:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1674134775; x=
+ 1674221175; bh=Ge6AXz0IkBOoUK6IsNSpF6xnWknO8KEpb5p3HGJKSp4=; b=r
+ +p3YPLicjauQQkS6jFy074V3rahxv/RyUuwD2ZaiLnDC3/RMgpySDZM/g0S9eQ1y
+ TdbOhdhXWnCtrdDeyfxE329+lHnXwVmo7IG4fDF2RTkBnHArM56FnL+gPABq/qaf
+ JX+srhmS/98sEmMg6o9VBPTjiK1V8ls0TA75b/9HAf9xY6gKhsViT0i4cFXwsuss
+ TJYlwNFkpYzAYmTVcyYl3XNAXuKSpgOCUNuYwgX0JVy2EvFI25ZUPTlyivc53anH
+ /3yjanuHaaNmoPzbkwr4bjSHWQiBPeZ7psvvBRerJOxVuvBwOGMcbfwNKZOWAIDK
+ EGFLpqEA0if+N4DO9Ijyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674134775; x=
+ 1674221175; bh=Ge6AXz0IkBOoUK6IsNSpF6xnWknO8KEpb5p3HGJKSp4=; b=e
+ f1Cu+ddqmkYINnY5rLwhijPgjrsmFGoV4cug8l1bJXfq+GGI89zFPAufnGiH1W0u
+ IrLHScTQAb4e5LaABzjNdwFX2v7D0nzi6W3wRDVH9hGP5snGdPW+egt5lTBCPWKh
+ xnD4dkm7koux+RJDV8uVhlkqGMSdzbnWj3i4TVNRqOQ7SU7hx3jphL5AOYLwZ3Du
+ KzpUmXuY3ayhsGJi+jhUAvD+RIhaETO8J32uhofW5bylHh31mh2xFwlQfFvCWvNN
+ AQJYYhDTZoHuCywza3ElQ+4ODJFskr8lG4k5N0MXkp9vMkHn2CzZvjPDz91EmdNP
+ 8VHcBdz394Im+XZfVdumw==
+X-ME-Sender: <xms:9kTJY9HL_Kxpd7o0Wo5seMpLFZGyeuhHCedbhmYmip4WClNHd9a6_Q>
+ <xme:9kTJYyWqYjFcdQq1h091RpAkScuMdcWgrNFBs1gzpku-JfY5e8P4dGBxCUCJMq_QS
+ 2_MJw9gbuu-SlUIhJo>
+X-ME-Received: <xmr:9kTJY_IHXJNm3oqprj6jMlWu8qRoAAzH1CieGBNYRkttSyfIoXvGhFfF4IIpwjr4I2MuwKkMCawbhfMAIKap0I3L0mweXKIGp5VP84DZi7oB2w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddutddgheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepleeifffgvdetjeejueejieehuedvteeigeehtefhhfeifeegleekudek
+ teegueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:9kTJYzE6TuHHGdLJqrOU0ff_seQWjmXo22fcaEX_pdbVgAGZK5Pr2Q>
+ <xmx:9kTJYzWRBpb9WCWERImmc9EdOXVr8YmuS1JsNOWYRb0N14wIM0O1jg>
+ <xmx:9kTJY-MNBBu5eeAulYyAFPgpUFHu37V21r7U_gi1PxDifJXLS_T4MA>
+ <xmx:90TJY0uHmkdJxRqC45cm5HiC9MFOkqyeMREZYOvqKp5CGJrVYIHOOQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Jan 2023 08:26:13 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: intel-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
+In-Reply-To: <20230117175236.22317-1-nirmoy.das@intel.com>
+References: <20230117175236.22317-1-nirmoy.das@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/drm_vma_manager: Add
+ drm_vma_node_allow_once()
+Message-Id: <167413471736.3247301.2506243938133853546.b4-ty@cerno.tech>
+Date: Thu, 19 Jan 2023 14:25:17 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.11.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,32 +85,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Link hdmi_phy as a clock provider of "hdmipll" clock to the MMCC.
+On Tue, 17 Jan 2023 18:52:35 +0100, Nirmoy Das wrote:
+> Currently there is no easy way for a drm driver to safely check and allow
+> drm_vma_offset_node for a drm file just once. Allow drm drivers to call
+> non-refcounted version of drm_vma_node_allow() so that a driver doesn't
+> need to keep track of each drm_vma_node_allow() to call subsequent
+> drm_vma_node_revoke() to prevent memory leak.
+> 
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> 
+> [...]
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm/boot/dts/qcom-apq8064.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to drm/drm-misc (drm-misc-fixes).
 
-diff --git a/arch/arm/boot/dts/qcom-apq8064.dtsi b/arch/arm/boot/dts/qcom-apq8064.dtsi
-index 82c795beb8a1..b7e5b45e1c04 100644
---- a/arch/arm/boot/dts/qcom-apq8064.dtsi
-+++ b/arch/arm/boot/dts/qcom-apq8064.dtsi
-@@ -867,7 +867,7 @@ mmcc: clock-controller@4000000 {
- 				 <&dsi0_phy 0>,
- 				 <0>,
- 				 <0>,
--				 <0>;
-+				 <&hdmi_phy>;
- 			clock-names = "pxo",
- 				      "pll3",
- 				      "pll8_vote",
--- 
-2.39.0
-
+Thanks!
+Maxime
