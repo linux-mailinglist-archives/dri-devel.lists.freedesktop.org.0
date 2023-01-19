@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646A9673CC7
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 15:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926A1673CCC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 15:51:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75AA810E968;
-	Thu, 19 Jan 2023 14:49:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB8D10E96B;
+	Thu, 19 Jan 2023 14:51:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1895B10E968
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 14:49:47 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AAEA10E975
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 14:51:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A590BB824B4;
- Thu, 19 Jan 2023 14:49:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29F10C433D2;
- Thu, 19 Jan 2023 14:49:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8D2316199A;
+ Thu, 19 Jan 2023 14:51:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF61EC433D2;
+ Thu, 19 Jan 2023 14:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674139784;
- bh=Nj0bt9bd3JDbtdvpPvykPH8iGTPAgO0G9hvoRoH1WvE=;
+ s=k20201202; t=1674139885;
+ bh=xtZhu85yI1u7Kgj39/pnsqD82RG/N8l/7M+Kp1PAgpw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o3skYmbaykIsDQm0MwcnKr1N0B5E4FJTX8qU/BP4V4S+KQBewh9UpgUpEtj+BtCnK
- jk9fUR3XI7DCmUDxh6+vDnQcUFs89GqjSKN/FsTfqLeDaCjPiikpNq3lvfOn8WQHx/
- 3UdBh8j8uHgE04Bw5/dZRERlT0/WqBs5IIA5mrtHs8iXu5CXopi651X6xY+MJ1sktt
- jxhUrMKTxTFtfzy/bGgaDxWv3Kw5uaSELV1L3e2kKBTpiG+0aMVVUr/sX0DPk84dxh
- mwLUGx7XV/BHORoyqt9dZez1csDTmEnE7hwEGMequ1icEY3mbolIlpvnArSpb4FOxn
- uh4YDtDHPCZWg==
-Date: Thu, 19 Jan 2023 14:49:38 +0000
+ b=RBFMKN/XsXhcnvYft01O0rVKCwHsEGq1kUf5T2rFoUby4h2rVxesIEP3fvbTajexh
+ zoH0+uZk5FUlk5XemnYvlyXu17UGn4jOFBKqzetLSt47LztUzTly9OumOoX4j+R5NY
+ +8I2VpBkFPS11MUI9j440mjNm1z2V0/+XW1ub5hpN++J8VjD1D3oGLXF5a7T1479vg
+ 81C6Xs1X79dvW7XUOBrRvLqKokcLUiD27D9RULp8pLy+mMs1B1daBOECXW678jvolK
+ C3rHNTsted3bQa12R4b8OOogiDyrtTSUIWpyhMWkeZArPNzKe38Z7M3PeICPyajEvx
+ MZQizlgN8HIew==
+Date: Thu, 19 Jan 2023 14:51:19 +0000
 From: Lee Jones <lee@kernel.org>
 To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] backlight: sky81452: fix sky81452_bl_platform_data
- kernel-doc
-Message-ID: <Y8lYgv2LP1Ywbq7z@google.com>
-References: <20230113064118.30169-1-rdunlap@infradead.org>
+Subject: Re: [PATCH] backlight: ili922x: fix kernel-doc warnings
+Message-ID: <Y8lY56324WB3Shlo@google.com>
+References: <20230113064108.29172-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230113064118.30169-1-rdunlap@infradead.org>
+In-Reply-To: <20230113064108.29172-1-rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,11 +61,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 12 Jan 2023, Randy Dunlap wrote:
 
-> Correct the struct name and add a short struct description to fix the
-> kernel-doc notation.
+> Convert comments for START_BYTE() and CHECK_FREQ_REG() macros into
+> kernel-doc notation to avoid these kernel-doc warnings:
 > 
-> Prevents this kernel-doc warning:
-> drivers/video/backlight/sky81452-backlight.c:64: warning: expecting prototype for struct sky81452_platform_data. Prototype was for struct sky81452_bl_platform_data instead
+> drivers/video/backlight/ili922x.c:85: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>  * START_BYTE(id, rs, rw)
+> drivers/video/backlight/ili922x.c:118: warning: expecting prototype for CHECK_FREQ_REG(spi_device s, spi_transfer x)(). Prototype was for CHECK_FREQ_REG() instead
 > 
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > Cc: Lee Jones <lee@kernel.org>
@@ -77,8 +76,8 @@ On Thu, 12 Jan 2023, Randy Dunlap wrote:
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-fbdev@vger.kernel.org
 > ---
->  drivers/video/backlight/sky81452-backlight.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/video/backlight/ili922x.c |   24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
 
 Applied, thanks
 
