@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559856735E8
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 11:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7086735FB
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 11:48:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6579B10E902;
-	Thu, 19 Jan 2023 10:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902C210E8DC;
+	Thu, 19 Jan 2023 10:48:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCB0410E902
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 10:44:08 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8A7785CC56;
- Thu, 19 Jan 2023 10:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674125047; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DE6DjIh2+OCWnSX4O1vkl7/cVDbUnoAIzLVcw5LlXvA=;
- b=wiDnWHLAMnoNymfoRWBT9OXwLRkzvJ7kTLvCFaVVHyjjHxAq2XOSInTLEJtQQUThPzYb1b
- 31CRytLbYNkTRvMdV50iwdnSC4jiGTJJu+wOp/xWXHh2yFaO5zAkb6+gOWS9n08dwOmztu
- X5mHTHPvDuzeF6lWDLpyyWJDq1ZTUAE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674125047;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DE6DjIh2+OCWnSX4O1vkl7/cVDbUnoAIzLVcw5LlXvA=;
- b=tmQPo9Y3CxQMhh4vVICn8UsgrI6YpUMn3I4pGkM0qSOqrm8vKvWawa4AnOVs9a7VIvhGH0
- /LD0OHsKVArLjdBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 646C9139ED;
- Thu, 19 Jan 2023 10:44:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id BFVVF/ceyWNMJgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 19 Jan 2023 10:44:07 +0000
-Message-ID: <9acf95f1-0bce-62c7-b524-4eac408b4207@suse.de>
-Date: Thu, 19 Jan 2023 11:44:06 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1470110E8DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 10:48:53 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id E0E257EC;
+ Thu, 19 Jan 2023 11:48:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1674125332;
+ bh=efI6hWKy2foKAm/kjAwG8l8atHAgTky58niVaMokBYM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Tv+hy5BHF/V+WQOSf79D6oSKjFY/ltLpzHGIM4AK8B5ujIAiREruCPLN4zSIW0bkV
+ hJVvaWJ9NJ43HTZ1sHGvbVl8K9ezqvC08lSZDBi+FWcpAbQJzFxNP/XkCDntPk2wF7
+ cZwUTj7lpTbnVFqfEF7rM+UY+GVPNLB8yvOgx8Bg=
+Date: Thu, 19 Jan 2023 12:48:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH 3/6] drm: rcar-du: Fix LVDS stop sequence
+Message-ID: <Y8kgEXlS45NUuC1j@pendragon.ideasonboard.com>
+References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230117135154.387208-4-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y8hg0m7cidkscHkN@pendragon.ideasonboard.com>
+ <5e0fea45-0e5c-ef7c-007e-69ba69d2b08c@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [RFC PATCH] drm/simpledrm: Allow physical width and height
- configuration via DT
-Content-Language: en-US
-To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
-References: <20230118184817.608551-1-rayyan@ansari.sh>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230118184817.608551-1-rayyan@ansari.sh>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------7CJxnm1qoxQINzwr000tyfEV"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5e0fea45-0e5c-ef7c-007e-69ba69d2b08c@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,189 +49,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, asahi@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Koji Matsuoka <koji.matsuoka.xm@renesas.com>, dri-devel@lists.freedesktop.org,
+ LUU HOAI <hoai.luu.ub@renesas.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------7CJxnm1qoxQINzwr000tyfEV
-Content-Type: multipart/mixed; boundary="------------E80qTy40WGnctAhqUwyuEWVV";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, asahi@lists.linux.dev
-Message-ID: <9acf95f1-0bce-62c7-b524-4eac408b4207@suse.de>
-Subject: Re: [RFC PATCH] drm/simpledrm: Allow physical width and height
- configuration via DT
-References: <20230118184817.608551-1-rayyan@ansari.sh>
-In-Reply-To: <20230118184817.608551-1-rayyan@ansari.sh>
+Hi Tomi,
 
---------------E80qTy40WGnctAhqUwyuEWVV
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, Jan 19, 2023 at 10:49:28AM +0200, Tomi Valkeinen wrote:
+> On 18/01/2023 23:12, Laurent Pinchart wrote:
+> > On Tue, Jan 17, 2023 at 03:51:51PM +0200, Tomi Valkeinen wrote:
+> >> From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+> >>
+> >> According to H/W manual, LVDCR0 register must be cleared bit by bit when
+> > 
+> > s@H/W@the hardware/
+> > 
+> >> disabling LVDS.
+> > 
+> > I don't like this much, but I think I'll stop fighting :-)
+> > 
+> >> Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+> >> Signed-off-by: LUU HOAI <hoai.luu.ub@renesas.com>
+> >> [tomi.valkeinen: simplified the code a bit]
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >> ---
+> >>   drivers/gpu/drm/rcar-du/rcar_lvds.c | 27 ++++++++++++++++++++++++++-
+> >>   1 file changed, 26 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> >> index 674b727cdaa2..01800cef1c33 100644
+> >> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> >> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> >> @@ -87,6 +87,11 @@ static void rcar_lvds_write(struct rcar_lvds *lvds, u32 reg, u32 data)
+> >>   	iowrite32(data, lvds->mmio + reg);
+> >>   }
+> >>   
+> >> +static u32 rcar_lvds_read(struct rcar_lvds *lvds, u32 reg)
+> >> +{
+> >> +	return ioread32(lvds->mmio + reg);
+> >> +}
+> > 
+> > Could you please move read before write ?
+> 
+> Sure.
+> 
+> >> +
+> >>   /* -----------------------------------------------------------------------------
+> >>    * PLL Setup
+> >>    */
+> >> @@ -549,8 +554,28 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+> >>   				     struct drm_bridge_state *old_bridge_state)
+> >>   {
+> >>   	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> >> +	u32 lvdcr0;
+> >> +
+> >> +	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
+> >> +
+> >> +	lvdcr0 &= ~LVDCR0_LVRES;
+> >> +	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> >> +
+> >> +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
+> >> +		lvdcr0 &= ~LVDCR0_LVEN;
+> >> +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> >> +	}
+> >> +
+> >> +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
+> >> +		lvdcr0 &= ~LVDCR0_PWD;
+> >> +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> >> +	}
+> >> +
+> >> +	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+> >> +		lvdcr0 &= ~LVDCR0_PLLON;
+> >> +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> >> +	}
+> > 
+> > This will leave LVDCR0_BEN and LVDCR0_LVEN on Gen2. Is that fine ?
+> 
+> I don't know, I don't have the manuals or HW. But your point is a bit 
+> worrying.
+> 
+> I think we can just do a rcar_lvds_write(lvds, LVDCR0, 0) after the 
+> above shenanigans, to make sure everything is disabled. The HW manual 
+> doesn't tell us to do that, though, on gen3. Do you think that will be a 
+> problem?
+> 
+> And I'm not fully serious with the last sentence...
 
-KGNjOiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZywgYXNhaGlAbGlzdHMubGludXguZGV2
-KQ0KDQpIaSwNCg0KdGhhbmtzIGZvciB0aGUgcGF0Y2guIEkgYWxyZWFkeSB3b25kZXJlZCBp
-ZiB0aGUgRFBJIHZhbHVlIHNob3VsZCBiZSANCmNvbmZpZ3VyYWJsZSBpbiBzb21lIHdheS4N
-Cg0KQW0gMTguMDEuMjMgdW0gMTk6NDggc2NocmllYiBSYXl5YW4gQW5zYXJpOg0KPiBIZWxs
-bywNCj4gVGhlIGZvbGxvd2luZyBkcmFmdCBwYXRjaCBhZGRzIHN1cHBvcnQgZm9yIGNvbmZp
-Z3VyaW5nIHRoZQ0KPiBoZWlnaHQtbW0gYW5kIHdpZHRoLW1tIERSTSBwcm9wZXJ0aWVzIGlu
-IHRoZSBzaW1wbGVkcm0gZHJpdmVyDQo+IHZpYSBkZXZpY2V0cmVlLg0KPiBUaGlzIGlzIHVz
-ZWZ1bCB0byBnZXQgcHJvcGVyIHNjYWxpbmcgaW4gVUlzIHN1Y2ggYXMgUGhvc2guDQo+IEFu
-IGV4YW1wbGUgb2YgdXNpbmcgdGhpcyBwcm9wZXJ0eSBpcyB0aGlzLCB0YWtlbiBmcm9tIG15
-IGxvY2FsIHRyZWU6DQo+IA0KPiAJCWZyYW1lYnVmZmVyMDogZnJhbWVidWZmZXJAMzIwMDAw
-MCB7DQo+IAkJCWNvbXBhdGlibGUgPSAic2ltcGxlLWZyYW1lYnVmZmVyIjsNCj4gCQkJcmVn
-ID0gPDB4MzIwMDAwMCAweDgwMDAwMD47DQo+IAkJCWZvcm1hdCA9ICJhOHI4ZzhiOCI7DQo+
-IAkJCXdpZHRoID0gPDcyMD47DQo+IAkJCWhlaWdodCA9IDwxMjgwPjsNCj4gCQkJc3RyaWRl
-ID0gPCg3MjAgKiA0KT47DQo+IAkJCXdpZHRoLW1tID0gL2JpdHMvIDE2IDw1OD47DQo+IAkJ
-CWhlaWdodC1tbSA9IC9iaXRzLyAxNiA8MTAzPjsNCj4gDQo+IAkJCWNsb2NrcyA9IDwmbW1j
-YyBNRFNTX0FIQl9DTEs+LA0KPiAJCQkJIDwmbW1jYyBNRFNTX0FYSV9DTEs+LA0KPiAJCQkJ
-IDwmbW1jYyBNRFNTX0JZVEUwX0NMSz4sDQo+IAkJCQkgPCZtbWNjIE1EU1NfTURQX0NMSz4s
-DQo+IAkJCQkgPCZtbWNjIE1EU1NfUENMSzBfQ0xLPiwNCj4gCQkJCSA8Jm1tY2MgTURTU19W
-U1lOQ19DTEs+Ow0KPiAJCQlwb3dlci1kb21haW5zID0gPCZtbWNjIE1EU1NfR0RTQz47DQo+
-IAkJfTsNCj4gDQo+IEkgaGF2ZSB0ZXN0ZWQgdGhpcyBvbiBteSBMdW1pYSA3MzUsIGFuZCBp
-dCBkb2VzIGluZGVlZA0KPiBhbGxvdyBQaG9zaCB0byBzY2FsZSBjb3JyZWN0bHkgb24gdGhl
-IHNjcmVlbi4NCg0KSXMgdGhpcyBzb21ldGhpbmcgdGhhdCBpcyBhbHJlYWR5IHN1cHBvcnRl
-ZCBieSBzb21lIGRldmljZSwgb3IganVzdCBhIA0KcGV0IHByb2plY3Qgb2YgeW91cnM/DQoN
-Cj4gDQo+IEhvd2V2ZXIsIEkgd291bGQgbGlrZSB0byBnZXQgc29tZSBmZWVkYmFjayBiZWZv
-cmUgSSB3cml0ZSB0aGUNCj4gZG9jdW1lbnRhdGlvbi4NCj4gLSBXaGF0IGRhdGEgdHlwZSBz
-aG91bGQgYmUgdXNlZD8NCj4gCVRoZSB3aWR0aF9tbSBhbmQgaGVpZ2h0X21tIHByb3BlcnRp
-ZXMgb2YgdGhlIGRybV9kaXNwbGF5X21vZGUNCj4gCXN0cnVjdCBhcmUgZGVmaW5lZCBhcyB1
-MTYuIEkgaGF2ZSBhbHNvIG1hZGUgdGhlIGRldmljZXRyZWUNCj4gCXByb3BlcnRpZXMgYXMg
-dGhlIHUxNiB0eXBlLCBidXQgdGhpcyByZXF1aXJlcyBzcGVjaWZ5aW5nDQo+IAkiL2JpdHMv
-IDE2IiBiZWZvcmUgdGhlIHZhbHVlLiBTaG91bGQgdTMyIGJlIHVzZWQgaW5zdGVhZCB0byBn
-ZXQNCj4gCXJpZCBvZiB0aGlzPyBJZiBzbywgaG93IGNvdWxkIHRoZSBjb252ZXJzaW9uIGZy
-b20gdTMyLT51MTYgYmUNCj4gCWhhbmRsZWQ/DQoNCkknZCB1c2UgMzIgYml0cyBpbiB0aGUg
-RFQsIGp1c3QgbGlrZSB0aGUgb3RoZXIgcHJvcGVydGllcy4NCg0KPiAtIFN0eWxlPw0KPiAJ
-SSBoYXZlIHNwbGl0IHRoZSBhcmd1bWVudHMgdG8gdGhlIERSTV9NT0RFX0lOSVQgbWFjcm8g
-YWNyb3NzDQo+IAltdWx0aXBsZSBsaW5lcyB0byBpbmNyZWFzZSByZWFkYWJpbGl0eS4gSSdt
-IG5vdCBzdXJlIGlmIHRoaXMNCj4gCWlzIHRoZSBjb3JyZWN0IHN0eWxlIHRob3VnaC4NCj4g
-LSBBbnl0aGluZyBlbHNlPw0KPiAJVGhpcyBpcyBteSBmaXJzdCB0aW1lIHdyaXRpbmcgY29k
-ZSBmb3IgYSBMaW51eCBkcml2ZXIsIHNvIEkNCj4gCXdvdWxkIGJlIGdyYXRlZnVsIGlmIHlv
-dSBoYXZlIGFueSBzdWdnZXN0aW9ucyBmb3IgaW1wcm92ZW1lbnRzLg0KPiAgIA0KPiBUaGFu
-a3MsDQo+IFJheXlhbi4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxl
-ZHJtLmMgfCA0OSArKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLQ0KPiAgIDEgZmls
-ZSBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jIGIvZHJpdmVycy9n
-cHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gaW5kZXggMTYyZWI0NGRjYmE4Li45MjEwOWY4
-NzBiMzUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5j
-DQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+IEBAIC0xMTYs
-NiArMTE2LDE1IEBAIHNpbXBsZWZiX2dldF9mb3JtYXRfcGQoc3RydWN0IGRybV9kZXZpY2Ug
-KmRldiwNCj4gICAJcmV0dXJuIHNpbXBsZWZiX2dldF92YWxpZGF0ZWRfZm9ybWF0KGRldiwg
-cGQtPmZvcm1hdCk7DQo+ICAgfQ0KPiAgIA0KPiArc3RhdGljIHZvaWQNCj4gK3NpbXBsZWZi
-X3JlYWRfdTE2X29mX29wdGlvbmFsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBk
-ZXZpY2Vfbm9kZSAqb2Zfbm9kZSwNCg0KTWF5YmUgY2FsbCBpdCBzaW1wbGVmYl9yZWFkX3Ux
-Nl9vZl9vcHQoKQ0KDQo+ICsJCSAgICAgY29uc3QgY2hhciAqbmFtZSwgdTE2ICp2YWx1ZSkN
-Cg0KVGhlIGFsaWdubWVudCBsb29rcyBvZmYuDQoNCj4gK3sNCj4gKwlpbnQgcmV0ID0gb2Zf
-cHJvcGVydHlfcmVhZF91MTYob2Zfbm9kZSwgbmFtZSwgdmFsdWUpOw0KPiArCWlmIChyZXQp
-DQo+ICsJCXZhbHVlID0gMDsNCg0KWW91IG1lYW4gKnZhbHVlID0gMCA/DQoNCkkgdGhpbmsg
-d2Ugc2hvdWxkIGJlIHN0cmljdGVyIGhlcmUuIExvb2sgYXQgdGhlIGRvY3MgYXQgWzFdLiBB
-IHJlc3VsdCBvZiANCjAgbWVhbnMgc3VjY2VzcyBhbmQgLUVJTlZBTCBtZWFucyB0aGF0IHRo
-ZSBwcm9wZXJ0eSBkb2VzIG5vdCBleGlzdC4gV2UgDQpzaG91bGQgc3RpbGwgcmVwb3J0IGVy
-cm9ycyBmb3IgdGhlIG90aGVyIGVycm5vIGNvZGVzLg0KDQpTb21ldGhpbmcgbGlrZQ0KDQog
-ICByZXQgPSBvZl9wcm9wZXJ0eV9yZWFkX3UxNigpDQoNCiAgIGlmIChyZXQpIHsNCiAgICAg
-aWYocmV0ID09IC1FSU5WQUwpIHsNCiAgICAgICAgICp2YWx1ZSA9IDA7DQoJcmV0PSAwOw0K
-ICAgICB9IGVsc2Ugew0KCQlkcm1fZXJyKGRldiwgInNpbXBsZWZiOiBjYW5ub3QgcGFyc2Ug
-ZnJhbWVidWZmZXIgJXM6DQoJCQkiZXJyb3IgJWRcbiIsIG5hbWUsIHJldCk7DQogICAgIH0N
-CiAgIH0NCg0KICAgcmV0dXJuIHJldDsNCg0KWzFdIGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4u
-Y29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvaW5jbHVkZS9saW51eC9vZi5oI0wxMjAyDQoNCj4g
-K30NCj4gKw0KPiAgIHN0YXRpYyBpbnQNCj4gICBzaW1wbGVmYl9yZWFkX3UzMl9vZihzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm9mX25vZGUsDQo+ICAg
-CQkgICAgIGNvbnN0IGNoYXIgKm5hbWUsIHUzMiAqdmFsdWUpDQo+IEBAIC0xODQsNiArMTkz
-LDIxIEBAIHNpbXBsZWZiX2dldF9mb3JtYXRfb2Yoc3RydWN0IGRybV9kZXZpY2UgKmRldiwg
-c3RydWN0IGRldmljZV9ub2RlICpvZl9ub2RlKQ0KPiAgIAlyZXR1cm4gc2ltcGxlZmJfZ2V0
-X3ZhbGlkYXRlZF9mb3JtYXQoZGV2LCBmb3JtYXQpOw0KPiAgIH0NCj4gICANCj4gK3N0YXRp
-YyB1MTYNCj4gK3NpbXBsZWZiX2dldF93aWR0aF9tbV9vZihzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm9mX25vZGUpDQo+ICt7DQo+ICsJdTE2IHdpZHRo
-X21tOw0KPiArCXNpbXBsZWZiX3JlYWRfdTE2X29mX29wdGlvbmFsKGRldiwgb2Zfbm9kZSwg
-IndpZHRoLW1tIiwgJndpZHRoX21tKTsNCj4gKwlyZXR1cm4gd2lkdGhfbW07DQo+ICt9DQo+
-ICsNCj4gK3N0YXRpYyB1MTYNCj4gK3NpbXBsZWZiX2dldF9oZWlnaHRfbW1fb2Yoc3RydWN0
-IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRldmljZV9ub2RlICpvZl9ub2RlKQ0KPiArew0K
-PiArCXUxNiBoZWlnaHRfbW07DQo+ICsJc2ltcGxlZmJfcmVhZF91MTZfb2Zfb3B0aW9uYWwo
-ZGV2LCBvZl9ub2RlLCAiaGVpZ2h0LW1tIiwgJmhlaWdodF9tbSk7DQo+ICsJcmV0dXJuIGhl
-aWdodF9tbTsNCj4gK30NCj4gICAvKg0KPiAgICAqIFNpbXBsZSBGcmFtZWJ1ZmZlciBkZXZp
-Y2UNCj4gICAgKi8NCj4gQEAgLTU5OSwxNiArNjIzLDI0IEBAIHN0YXRpYyBjb25zdCBzdHJ1
-Y3QgZHJtX21vZGVfY29uZmlnX2Z1bmNzIHNpbXBsZWRybV9tb2RlX2NvbmZpZ19mdW5jcyA9
-IHsNCj4gICAgKi8NCj4gICANCj4gICBzdGF0aWMgc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
-c2ltcGxlZHJtX21vZGUodW5zaWduZWQgaW50IHdpZHRoLA0KPiAtCQkJCQkgICAgICB1bnNp
-Z25lZCBpbnQgaGVpZ2h0KQ0KPiArCQkJCQkgICAgICB1bnNpZ25lZCBpbnQgaGVpZ2h0LA0K
-PiArCQkJCQkgICAgICB1MTYgd2lkdGhfbW0sDQo+ICsJCQkJCSAgICAgIHUxNiBoZWlnaHRf
-bW0pDQo+ICAgew0KPiAgIAkvKg0KPiAtCSAqIEFzc3VtZSBhIG1vbml0b3IgcmVzb2x1dGlv
-biBvZiA5NiBkcGkgdG8NCj4gLQkgKiBnZXQgYSBzb21ld2hhdCByZWFzb25hYmxlIHNjcmVl
-biBzaXplLg0KPiArCSAqIEFzc3VtZSBhIG1vbml0b3IgcmVzb2x1dGlvbiBvZiA5NiBkcGkg
-aWYgcGh5c2ljYWwNCj4gKwkgKiBkaW1lbnNpb25zIGFyZSBub3Qgc3BlY2lmaWVkIHRvIGdl
-dCBhIHNvbWV3aGF0IHJlYXNvbmFibGUNCg0KUGxlYXNlIG1vdmUgJ2RpbWVuc2lvbnMnIHRv
-IHRoZSBwcmV2aW91cyBsaW5lIHRvIG1ha2UgaXQgbW9yZSBwbGVhc2FudCANCnRvIHRoZSBl
-eWVzLg0KDQo+ICsJICogc2NyZWVuIHNpemUuDQo+ICAgCSAqLw0KPiArDQo+ICAgCWNvbnN0
-IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIG1vZGUgPSB7DQo+IC0JCURSTV9NT0RFX0lOSVQo
-NjAsIHdpZHRoLCBoZWlnaHQsDQo+IC0JCQkgICAgICBEUk1fTU9ERV9SRVNfTU0od2lkdGgs
-IDk2dWwpLA0KPiAtCQkJICAgICAgRFJNX01PREVfUkVTX01NKGhlaWdodCwgOTZ1bCkpDQo+
-ICsJCURSTV9NT0RFX0lOSVQoDQo+ICsJCQk2MCwNCj4gKwkJCXdpZHRoLA0KPiArCQkJaGVp
-Z2h0LA0KPiArCQkJKHdpZHRoX21tID8gd2lkdGhfbW0gOiBEUk1fTU9ERV9SRVNfTU0od2lk
-dGgsIDk2dWwpKSwNCj4gKwkJCShoZWlnaHRfbW0gPyBoZWlnaHRfbW0gOiBEUk1fTU9ERV9S
-RVNfTU0oaGVpZ2h0LCA5NnVsKSkNCj4gKwkJCSkNCg0KVGhlIGNvZGluZyBzdHlsZSBpcyBh
-d2t3YXJkIGFuZCB0aGUgPzogZG9lc24ndCBiZWxvbmcgaGVyZS4gUGxlYXNlIHNlZSANCmZ1
-cnRoZXIgYmVsb3cuDQoNCj4gICAJfTsNCj4gICANCj4gICAJcmV0dXJuIG1vZGU7DQo+IEBA
-IC02MjIsNiArNjU0LDcgQEAgc3RhdGljIHN0cnVjdCBzaW1wbGVkcm1fZGV2aWNlICpzaW1w
-bGVkcm1fZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgZHJtX2RyaXZlciAqZHJ2LA0KPiAgIAlzdHJ1
-Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldjsNCj4gICAJc3RydWN0IGRybV9kZXZpY2UgKmRl
-djsNCj4gICAJaW50IHdpZHRoLCBoZWlnaHQsIHN0cmlkZTsNCj4gKwl1MTYgd2lkdGhfbW0s
-IGhlaWdodF9tbTsNCg0KSW5pdCB0aG9zZSB0d28gdmFyaWFibGVzIHRvIHplcm8uDQoNCj4g
-ICAJY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0Ow0KPiAgIAlzdHJ1Y3Qg
-cmVzb3VyY2UgKnJlcywgKm1lbTsNCj4gICAJdm9pZCBfX2lvbWVtICpzY3JlZW5fYmFzZTsN
-Cj4gQEAgLTY3Niw2ICs3MDksOCBAQCBzdGF0aWMgc3RydWN0IHNpbXBsZWRybV9kZXZpY2Ug
-KnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0cnVjdCBkcm1fZHJpdmVyICpkcnYsDQo+ICAg
-CQlmb3JtYXQgPSBzaW1wbGVmYl9nZXRfZm9ybWF0X29mKGRldiwgb2Zfbm9kZSk7DQo+ICAg
-CQlpZiAoSVNfRVJSKGZvcm1hdCkpDQo+ICAgCQkJcmV0dXJuIEVSUl9DQVNUKGZvcm1hdCk7
-DQo+ICsJCXdpZHRoX21tID0gc2ltcGxlZmJfZ2V0X3dpZHRoX21tX29mKGRldiwgb2Zfbm9k
-ZSk7DQo+ICsJCWhlaWdodF9tbSA9IHNpbXBsZWZiX2dldF9oZWlnaHRfbW1fb2YoZGV2LCBv
-Zl9ub2RlKTsNCj4gICAJfSBlbHNlIHsNCj4gICAJCWRybV9lcnIoZGV2LCAibm8gc2ltcGxl
-ZmIgY29uZmlndXJhdGlvbiBmb3VuZFxuIik7DQo+ICAgCQlyZXR1cm4gRVJSX1BUUigtRU5P
-REVWKTsNCj4gQEAgLTY4Niw3ICs3MjEsNyBAQCBzdGF0aWMgc3RydWN0IHNpbXBsZWRybV9k
-ZXZpY2UgKnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0cnVjdCBkcm1fZHJpdmVyICpkcnYs
-DQo+ICAgCQkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7DQo+ICAgCX0NCg0KSnVzdCBsaWtl
-IHdpdGggdGhlIGZyYW1lYnVmZmVyIHN0cmlkZSwgaGVyZSdzIHRoZSBwbGFjZSB0byBkZXRl
-Y3QgDQpkZWZhdWx0IHZhbHVlcy4gU28gYXQgdGhpcyBwb2ludCwgZG8gc29tZXRoaW5nIGxp
-a2UNCg0KICAJaWYgKCF3aWR0aF9tbSkNCgkJd2lkdGhfbW0gPSBEUk1fTU9ERV9SRVNfTU0o
-d2lkdGgsIDk2dWwpOw0KICAJaWYgKCFoZWlnaHRfbW0pDQoJCWhlaWdodF9tbSA9IERSTV9N
-T0RFX1JFU19NTShoZWlnaHQsIDk2dWwpOw0KDQpBbmQgcGFzcyB0aGUgaW5pdGlhbGl6ZWQg
-cGh5c2ljYWwgZGltZW5zaW9ucyB0byBzaW1wbGRybV9tb2RlKCkuIFlvdSBjYW4gDQptb3Zl
-IHRoZSBjb21tZW50IGluIHNpbXBsZWRybV9tb2RlKCkgYmVmb3JlIHRoZSBicmFuY2hlcy4N
-Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAgIA0KPiAtCXNkZXYtPm1vZGUgPSBzaW1w
-bGVkcm1fbW9kZSh3aWR0aCwgaGVpZ2h0KTsNCj4gKwlzZGV2LT5tb2RlID0gc2ltcGxlZHJt
-X21vZGUod2lkdGgsIGhlaWdodCwgd2lkdGhfbW0sIGhlaWdodF9tbSk7DQo+ICAgCXNkZXYt
-PmZvcm1hdCA9IGZvcm1hdDsNCj4gICAJc2Rldi0+cGl0Y2ggPSBzdHJpZGU7DQo+ICAgDQoN
-Ci0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNV
-U0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0
-MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNj
-aMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+:-)
 
---------------E80qTy40WGnctAhqUwyuEWVV--
+A write(lvds, LVDCR0, 0) should fix it, I'm fine with that.
 
---------------7CJxnm1qoxQINzwr000tyfEV
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+-- 
+Regards,
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPJHvYFAwAAAAAACgkQlh/E3EQov+CT
-bw//Y/ca/6rctvzBsu86GjN9OITgO5E0JyeRWnHZuk0n+DVq4nLeAJFLjP7rfbIvzpgrx229fFc4
-Z6dr3ALCVsLIgzz4RiP9cYM68p4t0YTIcn4dVKoZHPhS+hCV5W/CQjqqjy5cW/YQFX6KYYbQBwws
-JFnaIT00e+YuT3Hcnk/LpTZaRXMYlJEWvKU+p4bpnswmLI1zxl1RkaGPkt+DfZc0r4YnsNYO+L6d
-Sr/Ra/jovMErUfmHPH/qrwFDllycSmvhdOXYVWStvzDlutzB7XVc6OKV1ugVzoWMSYMx0SXNvB4c
-MDxUL9dQ/6hEMhtXpmToyKxZWQHwoFys2/Dm0PVrQCvBCxgtT3fsmEJsqaLNLSVfQ17mGw6VTUwn
-AE7n6++n48EBHRdzkh/RIPIsDdKl08kFNnQgtsqQYE43CHb5wnBN/cIsAmrf+0Ynu2YkJrQvaHe1
-ziD/0vGrNjSWKx0C+iZUD8/VFaafQ5omkbVvIaCyIqpfrCCEz+1fz3GfIG76lMAyG+JqfgxiIm0J
-8Hnv86XJdKhT0cxuUOjZyZdubDbK5I6lSUnMt12/7tXiVnjCNX/b2eI+tNbY/nGUzAjw3uY3xCRv
-Gyj7q+jropFqDYH4udndIwxVGFNMfNX6DJNA3vSh6VotoLCK2yvgRfd8UmUuqpdSt1w9Sa6oFu9I
-eLw=
-=ZK19
------END PGP SIGNATURE-----
-
---------------7CJxnm1qoxQINzwr000tyfEV--
+Laurent Pinchart
