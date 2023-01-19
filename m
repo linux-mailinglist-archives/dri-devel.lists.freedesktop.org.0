@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A876744C7
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 22:38:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1E66744D4
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 22:39:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A979610E073;
-	Thu, 19 Jan 2023 21:38:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2987810E262;
+	Thu, 19 Jan 2023 21:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2094310E26A
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 21:38:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8A7D10E262
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 21:39:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7ACD161D84;
- Thu, 19 Jan 2023 21:38:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB3EEC433EF;
- Thu, 19 Jan 2023 21:38:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3449E61CBE;
+ Thu, 19 Jan 2023 21:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902BBC433F0;
+ Thu, 19 Jan 2023 21:39:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674164324;
- bh=FQJpoqxB6OaO61PvKyPRMDj1dmn+wD7csP9DHZDao1Q=;
+ s=k20201202; t=1674164375;
+ bh=yQT7vF8YUwj4dpk5uOYW6ZI2HJbDbf0PuVFcTzzBj/s=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oM6m0WwBPsUWLaDpmDqxpqLwFwJQr0g2vnqyvRQ8PLnZvtZQshzk8GZa/qFTfOkc7
- 2Ed9CgwtStzfPTesAmGmg+1CrFAdEqcVXehS/NdoHWgWgOGlQO7moagoYDGdi6b+R6
- EAyPCr352T35mGNsPlQivTjAHIgrGVAFgWikOupsxBd1eVIFe50nrhDfPtod11wrjd
- Rjwlx23za76bHDQoRt36xnIZZS4NlVWOBbF96B44b9we8dXbdKm0+gKEm2X6UTW4PI
- Zznzy3JnY6gR4JGCkCc8Z0Y7q2BaxnZnKuqaL7O19SFI1+xP59D3nmtSvoiLo7SpaT
- mOt7eHuRbtRqg==
-Date: Thu, 19 Jan 2023 21:38:39 +0000
+ b=pW/EJdAhnBZ70wuOAsx/7rczHPj006EtmoxDD+J6Ce2Zw+Nanrs7JqMej38VCsGfu
+ w8x7ze74AHlVv7fjBNnd+nHIqwQuL4mKA/e17XE0iav6L8XfugKQp8l15PAIYhd8Ec
+ WyCDvGyPoKvLRryTge0rzzAJqffxADf1pnrYgyfyBiAVhT34+Xek1K0eWTWns9lox6
+ udROIv+bL+htcolekcNqfSdqWzsI7UFO0CG/DAP8eODuq360y+JjrPCZMQIT2uph05
+ +q1i82sD8VBVDqp47gKyyb0CQmIzXAeOdmSVYY1Ltzws1lQr8EZxjHY625K13H1BFv
+ R3+Uo/3FdQXHA==
+Date: Thu, 19 Jan 2023 21:39:30 +0000
 From: Lee Jones <lee@kernel.org>
 To: Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH RESEND 2/4] backlight: arcxcnn: Use backlight helper
-Message-ID: <Y8m4X1pB5h6sryFl@google.com>
-References: <20230106164856.1453819-3-steve@sk2.org>
+Subject: Re: [PATCH RESEND 3/4] backlight: ipaq_micro: Use backlight helper
+Message-ID: <Y8m4krH0nh6sh5NM@google.com>
+References: <20230106164856.1453819-4-steve@sk2.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230106164856.1453819-3-steve@sk2.org>
+In-Reply-To: <20230106164856.1453819-4-steve@sk2.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,8 +68,8 @@ On Fri, 06 Jan 2023, Stephen Kitt wrote:
 > 
 > Signed-off-by: Stephen Kitt <steve@sk2.org>
 > ---
->  drivers/video/backlight/arcxcnn_bl.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/video/backlight/ipaq_micro_bl.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 
 Applied, thanks
 
