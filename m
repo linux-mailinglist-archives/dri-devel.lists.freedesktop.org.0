@@ -2,77 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC9F673579
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 11:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE636735A3
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 11:35:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64D5810E8FF;
-	Thu, 19 Jan 2023 10:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4897010E904;
+	Thu, 19 Jan 2023 10:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 510EA10E077
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 10:26:39 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id v13so2245470eda.11
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 02:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=39SgUHKju2DkTVJDuCLF0GlqoNQjOGP2rscjucek0WY=;
- b=OYYE6KjfLMIIu6kvxFyNsRIlxJPTCtMRs2MqUjKnitJyJaghBNlaulIHD/vXm2dLLH
- 0TRLTUE0apvKLCTbRagDBl8mUy+45M2YH1Ld4NRepymOa+3FmoL00iIYcPoL3hQYiQpG
- yTKA0HK9doDcpbWaUTu4iWL6WBOXjyByo7gXc=
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC6D10E905
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 10:35:38 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id h16so1371034wrz.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 02:35:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VtMyXO+XFAd7bhjLH/6eN7IyGN6nezPLZZSqRmEiMMs=;
+ b=Zq5fEPrYoJ5p66SaptrWOmIBuVV3Ru3K6GuVs5q+LWxwE4Odxsdf+D0Olxhm9ERWlU
+ rE+ArNSWDYZkQT0zjlN+gS0exZ5D4BAj7rJgAJ1jcIv5FMMea2jp070lyySIE8ZniMwp
+ 8fryby50Vd5FIzLrYDQhJygsbYXNs4E22MQWOV8/a0g1vcpVlfJ7zSBNq1QJHb1i5gG8
+ oTbr9WNcxQpeTNpw7MfJma5R3QXMguN1ArLvuLY3NIn4jd7v92J3AA3BQljhVhYHqabF
+ 1QjIzRyAjoZogl/RuCvc2iyWofZIb/VjsViHg71g5MpXAKulKsbFEDPp9am8+c3CJR4v
+ tdzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=39SgUHKju2DkTVJDuCLF0GlqoNQjOGP2rscjucek0WY=;
- b=bBYfpIRCpUkF0hGvPpgCOvvJmpZ5bp8vqcsxCQvtRbsRFqRVd3LvuAh76AXIqsLBx0
- iuatTgmLRo/oqbfWX/qAXyBe++7IT3nxt6ODigLIjLlwhhtbgPtQWX1dbSkkE5GKwLjp
- IHWrlTIREX0DJHQjOsKDg9K5dVHACK6/dYcKRFB33yvQDfobKS5ilPmEK3U4KcRqGMvZ
- odbqaQywn3bSm9xYXLfOUeVy+gzT9Y9PY65zsm08vxp2RteJA5vMqM0EJxZsoXNaz4nq
- p+nXtGTOj6fg+r4E4/27K2pMzTZeUl1oc/kCUkudHoesuQXWYEsB4WNgR/mxRJ5Hfqdi
- qh3A==
-X-Gm-Message-State: AFqh2krRmzDOXgRCoMhfQ/gIU4Iv9rfY3Slq+ux4vnc/kCDM6MqUAwD7
- Y/dls0nGdOK2klbEn3Dqu3y9fA==
-X-Google-Smtp-Source: AMrXdXtSf8VW8Q/vL39YHAO5amRe9Z3IC59IA2VRhTytO9iyk7Mb4JVWli/JMWVsTPfw2LxTJyJ+LQ==
-X-Received: by 2002:aa7:c845:0:b0:497:b6bc:b811 with SMTP id
- g5-20020aa7c845000000b00497b6bcb811mr9808530edt.33.1674123997712; 
- Thu, 19 Jan 2023 02:26:37 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ bh=VtMyXO+XFAd7bhjLH/6eN7IyGN6nezPLZZSqRmEiMMs=;
+ b=70b7xpk0J0RwqSrnGrwjQKmNGM8d+WOPNSGmlWXjTGXd9qykzYMSA/AuBPqXhj1Q7Z
+ UxxZdXDRqBZv8ixkXTAo8/r9Ys9ZwXo9dZfZKxxK3pvmg/vMeLWbGtUUh6LBlh3E/i9l
+ R5SIVFEQ3B5LX0MmpoSj2m2HbYFhMrtP4Nos5jTnGg06MxXpFjVdQX7Eg/qJEGYBWe7c
+ Mcft9qxeULb0bsRT+0W83KllGAe2zNaL83cDBESwl4FD414gbG0QX+M4FGChX74oW504
+ 01Sf5+Eug46+I7+FmiObU3ec1M4qm2odANvJepns6qglssFHBIT8D1Ea3P8pkZUFCvRw
+ O53Q==
+X-Gm-Message-State: AFqh2krAwopUKsNA+ZkWPS3FElQy1pQ0MiTiY4+hOwdF8hIscYCKoWJD
+ lJgB1YwC508+Z2UEufNgiADh+w==
+X-Google-Smtp-Source: AMrXdXvx+FBmmoMdPtes6WLfL4U/PKZM2tRc6m6sgE2QM3WyiD511MetmxVKIvnYStyWu5TeGl5PJQ==
+X-Received: by 2002:a5d:5224:0:b0:2ba:a771:5812 with SMTP id
+ i4-20020a5d5224000000b002baa7715812mr8496539wra.24.1674124537156; 
+ Thu, 19 Jan 2023 02:35:37 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- eo9-20020a056402530900b00463bc1ddc76sm7648926edb.28.2023.01.19.02.26.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 02:26:37 -0800 (PST)
-Date: Thu, 19 Jan 2023 11:26:34 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 5.10 1/1] drm/amdkfd: Check for null pointer after
- calling kmemdup
-Message-ID: <Y8ka2khSlK6E/XbF@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
- Dragos-Marian Panait <dragos.panait@windriver.com>,
- stable@vger.kernel.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Oded Gabbay <oded.gabbay@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Kent Russell <kent.russell@amd.com>,
- Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230104175633.1420151-1-dragos.panait@windriver.com>
- <20230104175633.1420151-2-dragos.panait@windriver.com>
- <Y8ABeXQLzWdoaGAY@kroah.com>
- <CAKMK7uEgzJU8ukgR3sQtSUB5+wrD9VyMwCHOA-SReFWd0tKzzw@mail.gmail.com>
- <Y8A5NgtGLDJv4sON@kroah.com>
+ e20-20020a5d5954000000b002be099f78c0sm9198986wri.69.2023.01.19.02.35.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 02:35:36 -0800 (PST)
+Message-ID: <aee03688-54b6-ed9f-e32c-b46e31d72198@linaro.org>
+Date: Thu, 19 Jan 2023 11:35:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8A5NgtGLDJv4sON@kroah.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v6 09/10] arm64: dts: qcom: sc7180: Add support for HDCP
+ in dp-controller
+Content-Language: en-US
+To: Mark Yacoub <markyacoub@chromium.org>, quic_khsieh@quicinc.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org
+References: <20230118193015.911074-1-markyacoub@google.com>
+ <20230118193015.911074-10-markyacoub@google.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230118193015.911074-10-markyacoub@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,92 +79,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Dragos-Marian Panait <dragos.panait@windriver.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Kent Russell <kent.russell@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: quic_sbillaka@quicinc.com, konrad.dybcio@somainline.org,
+ jose.souza@intel.com, bjorn.andersson@linaro.org,
+ krzysztof.kozlowski+dt@linaro.org, hbh25y@gmail.com, marex@denx.de,
+ ashutosh.dixit@intel.com, sean@poorly.run, abhinavk@codeaurora.org,
+ javierm@redhat.com, arun.r.murthy@intel.com, stanislav.lisovskiy@intel.com,
+ agross@kernel.org, quic_jesszhan@quicinc.com, ankit.k.nautiyal@intel.com,
+ lucas.demarchi@intel.com, quic_abhinavk@quicinc.com, swboyd@chromium.org,
+ robh+dt@kernel.org, christophe.jaillet@wanadoo.fr, maxime@cerno.tech,
+ rodrigo.vivi@intel.com, johan+linaro@kernel.org,
+ tvrtko.ursulin@linux.intel.com, andersson@kernel.org, dianders@chromium.org,
+ swati2.sharma@intel.com, manasi.d.navare@intel.com, tzimmermann@suse.de,
+ bhanuprakash.modem@intel.com, dmitry.baryshkov@linaro.org,
+ seanpaul@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 12, 2023 at 05:45:42PM +0100, Greg KH wrote:
-> On Thu, Jan 12, 2023 at 04:26:45PM +0100, Daniel Vetter wrote:
-> > On Thu, 12 Jan 2023 at 13:47, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > On Wed, Jan 04, 2023 at 07:56:33PM +0200, Dragos-Marian Panait wrote:
-> > > > From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> > > >
-> > > > [ Upstream commit abfaf0eee97925905e742aa3b0b72e04a918fa9e ]
-> > > >
-> > > > As the possible failure of the allocation, kmemdup() may return NULL
-> > > > pointer.
-> > > > Therefore, it should be better to check the 'props2' in order to prevent
-> > > > the dereference of NULL pointer.
-> > > >
-> > > > Fixes: 3a87177eb141 ("drm/amdkfd: Add topology support for dGPUs")
-> > > > Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> > > > Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > > > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> > > > Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
-> > > > ---
-> > > >  drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-> > > > index 86b4dadf772e..02e3c650ed1c 100644
-> > > > --- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-> > > > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-> > > > @@ -408,6 +408,9 @@ static int kfd_parse_subtype_iolink(struct crat_subtype_iolink *iolink,
-> > > >                       return -ENODEV;
-> > > >               /* same everything but the other direction */
-> > > >               props2 = kmemdup(props, sizeof(*props2), GFP_KERNEL);
-> > > > +             if (!props2)
-> > > > +                     return -ENOMEM;
-> > >
-> > > Not going to queue this up as this is a bogus CVE.
-> > 
-> > Are we at the point where CVE presence actually contraindicates
-> > backporting?
+On 18/01/2023 20:30, Mark Yacoub wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> Some would say that that point passed a long time ago :)
-> 
-> > At least I'm getting a bit the feeling there's a surge of
-> > automated (security) fixes that just don't hold up to any scrutiny.
-> 
-> That has been happening a lot more in the past 6-8 months than in years
-> past with the introduction of more automated tools being present.
+> This patch adds the register ranges required for HDCP key injection and
 
-Ok, gut feeling confirmed, I'll try and keep more a lookout for these.
+Do not use "This commit/patch".
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
-I guess next step is that people will use chatgpt to write the patches for
-these bugs.
+This applies to all your patches. Fix it everywhere.
 
-> > Last week I had to toss out an fbdev locking patch due to static
-> > checker that has no clue at all how refcounting works, and so
-> > complained that things need more locking ... (that was -fixes, but
-> > would probably have gone to stable too if I didn't catch it).
-> > 
-> > Simple bugfixes from random people was nice when it was checkpatch
-> > stuff and I was fairly happy to take these aggressively in drm. But my
-> > gut feeling says things seem to be shifting towards more advanced
-> > tooling, but without more advanced understanding by submitters. Does
-> > that holder in other areas too?
+> HDCP TrustZone interaction as described in the dt-bindings for the
+> sc7180 dp controller. Now that these are supported, change the
+> compatible string to "dp-hdcp".
+
+What does it mean? Where do you do it?
+
 > 
-> Again, yes, I have seen that a lot recently, especially with regards to
-> patches that purport to fix bugs yet obviously were never tested.
-> 
-> That being said, there are a few developers who are doing great things
-> with fault-injection testing and providing good patches for that.  So we
-> can't just say that everyone using these tools has no clue.
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-15-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-14-sean@poorly.run #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-14-sean@poorly.run #v3
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-14-sean@poorly.run #v4
+> Link: https://patchwork.freedesktop.org/patch/msgid/20220411204741.1074308-10-sean@poorly.run #v5
 
-Oh yes there's definitely awesome stuff happening, which is why I do not
-want to throw them all out. And waiting until the name is recognizeable
-for individual maintainers like me that don't see the entire fixes flood
-is also not really an approach.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Drop the links.
+
+> 
+> Changes in v3:
+> -Split off into a new patch containing just the dts change (Stephen)
+> -Add hdcp compatible string (Stephen)
+> Changes in v4:
+> -Rebase on Bjorn's multi-dp patchset
+> Changes in v5:
+> -Put the tz register offsets in trogdor dtsi (Rob C)
+> Changes in v6:
+> -Rebased: Removed modifications in sc7180.dtsi as it's already upstream
+> 
+> ---
+
+Changelog after --- .
+
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+
+Best regards,
+Krzysztof
+
