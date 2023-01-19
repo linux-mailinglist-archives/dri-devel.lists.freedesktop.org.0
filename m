@@ -2,39 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36E5673C17
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 15:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD35673C18
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 15:34:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE5110E964;
-	Thu, 19 Jan 2023 14:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E06B10E95B;
+	Thu, 19 Jan 2023 14:34:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8491410E95F;
- Thu, 19 Jan 2023 14:33:54 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:4bc7:2566:28bd:b73c]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1pIVzD-0002Km-CV; Thu, 19 Jan 2023 15:33:51 +0100
-Message-ID: <fcec3c78-b5d9-eb48-0fc0-d1f27de87f23@leemhuis.info>
-Date: Thu, 19 Jan 2023 15:33:50 +0100
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A36710E968
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 14:34:01 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so3696959wml.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 06:34:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yx2sgR4I+PCqSdEJtAUh2LY7zlVFeams01kArMc5MAQ=;
+ b=Hz0ugRV4NBOTO6QAdNbUHpUtlQLtvH6+/rvMt+dL9gK4pvFOCbn0EGhSaYRAnqMTYd
+ rUGzPAV3+WrHZCog/auxZ4IFl3CVihBlMfMkLdkhfXFTIsVmwxVSmEKLInlefFnOshbr
+ ldbdX5Aiks1Wd1enfa4K5FJ+SQuoxlzFmnx52wjB4Ybge1nzzykkv2ANTIXKMXOHXAKo
+ PMk/GhsoKvGT9cLDsSMY0m6jLyejTS/JgX71IPmZvgoKcXm3ipkdZJz4fU/yQGg9du3c
+ KeN/VMpUlVHX6QkfDFjpp8oyqWHx2EvCDnnR1GQxEP7Oy+MOU7ovfVlZsyBBnKSfvylB
+ 7ZCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yx2sgR4I+PCqSdEJtAUh2LY7zlVFeams01kArMc5MAQ=;
+ b=tTaRmJAN9d/yVpi6tgWBaWMpfIPSE+TpZBlmHiyfhffICDQyoso61YCcMV5k+0mBuM
+ 12oNtuz2/6jF8b1muL9u5WIxu85t5yQNMp+TYd0+QOgntysAVukVSsab+oZMjj/bDwID
+ gqY30HMxhoB0fpsGMgpZRiXAN1cRJ13pDFKDKE8AlHfQ8XErl2Y3Z8hNRZGc2k9yoMcs
+ 1c6Q33lqsvDnel/vo0Aumt+/79Pc3/Qsxn1mOOEOlcOQK5ZLqPmeqRnZkPwI8fjCWoxt
+ Ad9uRZ4DDJ5kzMcsYjOaVX+t3etEMTh31msLWcd9c3gaEPRGk60qVq7zPURaVAZd1fzt
+ NeHw==
+X-Gm-Message-State: AFqh2kp5YWMoWQba1G1ZCgobSWHTZJKF4OKxdFKJkYXV0VM3j2Zwps4H
+ E0ntNooGa02r2YjNkGd5h53lPw==
+X-Google-Smtp-Source: AMrXdXsgEg/Qm0W/QIFawUu26Bw1sWppVEJ4LAUXOnzVHWIuhwj3UOeKLF7fV5+pQcGTFgqIRBsMFg==
+X-Received: by 2002:a05:600c:995:b0:3da:f4f5:ad0e with SMTP id
+ w21-20020a05600c099500b003daf4f5ad0emr10396023wmp.9.1674138840071; 
+ Thu, 19 Jan 2023 06:34:00 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ m27-20020a05600c3b1b00b003db012d49b7sm7832926wms.2.2023.01.19.06.33.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 06:33:59 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Richard Acayan <mailingradian@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20230119-topic-sm8550-vtdr6130-fixup-v1-1-82c4fb008138@linaro.org>
+References: <20230119-topic-sm8550-vtdr6130-fixup-v1-1-82c4fb008138@linaro.org>
+Subject: Re: [PATCH] drm/panel: vtdr6130: fix unused ret in
+ visionox_vtdr6130_bl_update_status
+Message-Id: <167413883934.668266.5467309619492454547.b4-ty@linaro.org>
+Date: Thu, 19 Jan 2023 15:33:59 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
-Content-Language: en-US, de-DE
-To: bskeggs@redhat.com, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>
-References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
-From: "Linux kernel regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-In-Reply-To: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1674138834;
- c1a870af; 
-X-HE-SMSGID: 1pIVzD-0002Km-CV
+X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,118 +76,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: ML nouveau <nouveau@lists.freedesktop.org>,
- Chris Clayton <chris2553@googlemail.com>, LKML <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Linux kernel regressions list <regressions@lists.linux.dev>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[adding various lists and the two other nouveau maintainers to the list
-of recipients]
+Hi,
 
-For the rest of this mail:
+On Thu, 19 Jan 2023 15:04:12 +0100, Neil Armstrong wrote:
+> Fix the following warning:
+> panel-visionox-vtdr6130.c:249:12: warning: 'ret' is used uninitialized [-Wuninitialized]
+> 
+> 
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-On 18.01.23 21:59, Chris Clayton wrote:
-> Hi.
-> 
-> I build and installed the lastest development kernel earlier this week. I've found that when I try the laptop down (or
-> reboot it), it hangs right at the end of closing the current session. The last line I see on  the screen when rebooting is:
-> 
-> 	sd 4:0:0:0: [sda] Synchronising SCSI cache
-> 
-> when closing down I see one additional line:
-> 
-> 	sd 4:0:0:0 [sda]Stopping disk
-> 
-> In both cases the machine then hangs and I have to hold down the power button fot a few seconds to switch it off.
-> 
-> Linux 6.1 is OK but 6.2-rc1 hangs, so I bisected between this two and landed on:
-> 
-> 	# first bad commit: [0e44c21708761977dcbea9b846b51a6fb684907a] drm/nouveau/flcn: new code to load+boot simple HS FWs
-> (VPR scrubber)
-> 
-> I built and installed a kernel with f15cde64b66161bfa74fb58f4e5697d8265b802e (the parent of the bad commit) checked out
-> and that shuts down and reboots fine. It the did the same with the bad commit checked out and that does indeed hang, so
-> I'm confident the bisect outcome is OK.
-> 
-> Kernels 6.1.6 and 5.15.88 are also OK.
-> 
-> My system had dual GPUs - one intel and one NVidia. Related extracts from 'lscpi -v' is:
-> 
-> 00:02.0 VGA compatible controller: Intel Corporation CometLake-H GT2 [UHD Graphics] (rev 05) (prog-if 00 [VGA controller])
->         Subsystem: CLEVO/KAPOK Computer CometLake-H GT2 [UHD Graphics]
-> 
->         Flags: bus master, fast devsel, latency 0, IRQ 142
-> 
->         Memory at c2000000 (64-bit, non-prefetchable) [size=16M]
-> 
->         Memory at a0000000 (64-bit, prefetchable) [size=256M]
-> 
->         I/O ports at 5000 [size=64]
-> 
->         Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
-> 
->         Capabilities: [40] Vendor Specific Information: Len=0c <?>
-> 
->         Capabilities: [70] Express Root Complex Integrated Endpoint, MSI 00
-> 
->         Capabilities: [ac] MSI: Enable+ Count=1/1 Maskable- 64bit-
-> 
->         Capabilities: [d0] Power Management version 2
-> 
->         Kernel driver in use: i915
-> 
->         Kernel modules: i915
-> 
-> 
-> 01:00.0 VGA compatible controller: NVIDIA Corporation TU117M [GeForce GTX 1650 Ti Mobile] (rev a1) (prog-if 00 [VGA
-> controller])
->         Subsystem: CLEVO/KAPOK Computer TU117M [GeForce GTX 1650 Ti Mobile]
->         Flags: bus master, fast devsel, latency 0, IRQ 141
->         Memory at c4000000 (32-bit, non-prefetchable) [size=16M]
->         Memory at b0000000 (64-bit, prefetchable) [size=256M]
->         Memory at c0000000 (64-bit, prefetchable) [size=32M]
->         I/O ports at 4000 [size=128]
->         Expansion ROM at c3000000 [disabled] [size=512K]
->         Capabilities: [60] Power Management version 3
->         Capabilities: [68] MSI: Enable+ Count=1/1 Maskable- 64bit+
->         Capabilities: [78] Express Legacy Endpoint, MSI 00
->         Kernel driver in use: nouveau
->         Kernel modules: nouveau
-> 
-> DRI_PRIME=1 is exported in one of my init scripts (yes, I am still using sysvinit).
-> 
-> I've attached the bisect.log, but please let me know if I can provide any other diagnostics. Please cc me as I'm not
-> subscribed.
+[1/1] drm/panel: vtdr6130: fix unused ret in visionox_vtdr6130_bl_update_status
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ebd05c0e12edc568243056711ce00f79e19eab68
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
-
-#regzbot ^introduced e44c2170876197
-#regzbot title drm: nouveau: hangs on poweroff/reboot
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+-- 
+Neil
