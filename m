@@ -2,116 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2553674258
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 20:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121A2674256
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 20:11:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC58E10E211;
-	Thu, 19 Jan 2023 19:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE9710E1FB;
+	Thu, 19 Jan 2023 19:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com
  (mail-vi1eur05on2067.outbound.protection.outlook.com [40.107.21.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CAD510E009;
- Thu, 19 Jan 2023 19:10:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7687910E009
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 19:10:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q8oNTPs96fwsTN2J1iHzUe8T4NzzRhrKnpWH8FK8qfhxZ/9fpUNozNil65JI0cdrdVV32SZaL8Z0SVhrIJlm2okKCVcXOQvyDbCWuiaponfc2DTn3w9Nz//cnMJ9WEOIuh6rDUFbuIT45UAio1ahBFf0SzjVTnm/rAwdAu0mK/9qw+tCIpq7jk+rm/pDgkcCmZvuMIUSBz2xjaqn+pc7ar1f3y9ITZcRjrhnc0zA6Yq+LarwdorLiH9+bOzDu+eZf6XzoCNddRjDUTHzlEIYL1Y8gShyawl1NauVQbdI5uFEUig2zPxbDTR2dT6MN9elADmbfTLbKGwoCvrmsSMiYg==
+ b=JnMHfewCgjP2FNx//CkAbca12RiGa+W919BPbcxSzkroV/k0qKtX9JI4zgodh7JDtQx2gdtRyox6z9OKYvFvN1SdDuVwHZm3N41/PdiiKoxX35uq1vqAXMg/UWr9NUyxU1sC8KgUlz+WGnu6dZoFWqUtnGHF7sv/lW4xSsvvsvFSUP5SPyfJhLbjZOJg7weKXqQvJhdG4nlaetUpg9Oif12orOPqm12++prhfg8r338NkVvPPFOKY37rnSwYvp+gfdE+R02gec3kNBbyFUbNCemJnEs+7jtvj0Ii5+QJb5ZpfoQlMdL90BavTandZmX6WFKrMpNQY3ydNT0sDw7hig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q4yVKGEYAJ1JxUJ3P+i0jWX8PR5LYdfiOQPVsQw9op0=;
- b=L2c9Z++JOFRThXIXaPxG/JAbUY7T8fsi0Hatc5XRcGfeL1zBqALnPuvpkQEg8I4cK6DiKgo9DMPszTHMOv6MT+5FfxPVq9aqyS04ppGO4yicFWDTAsvyq38DhHFqlIQ7l1cLZWLaF897QKqK07ZdnjcfnwjA7mfzbYhtbxE+YQFGSAzYMKM92qOYe4FsdUWjDUeG8+crjqzqfRo4EQ3CDp1d6s1abppje5/PR3gYMUyPI/rnJTtPlmIeUajTXmzvfxW0F/6/0TyvJcYdyGrXSdGY2RGLaT4fpVlXxiYO+zMlC5sSASoqWXinzlHrzfAIPFEXNQ8FdV8jNCUgH/yMpg==
+ bh=+qtd7Gexc5Wvbqmm6TKQo3l/jWme77CL39jcSGG46bc=;
+ b=QIW8k+wSarEAVqAwqSyOew4x0TFWx7kRI67yjsTBZRfbiVQQwBaBowkwmPaAtbmLyfoiyZv7o0+LzCziyFgu2CAXANbehSjJJ8rYzW/qYND0ECwgZJsfMZlg0ml84ZjBV01gRi67BVuHqBiQqkkMf8O1m34gRR/b5GCB7BDQZj+DSHNuSvnxN5FRwHCAp789lDWMhi0fPt7hTVRPgnpEJqaSMLsAWf0PfJlmJ0xFAk6/j0XtvrDal7JnG+0jl/rE1qUFfYvp66oRxtErGOaPi/fgPm/CsgoVBGTmwVkg8oPSpHPz8AwHwKTayV+6VESd6Dxo5WUlrwKoGCTrnyrrgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
  dkim=pass header.d=seco.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q4yVKGEYAJ1JxUJ3P+i0jWX8PR5LYdfiOQPVsQw9op0=;
- b=WG4gSkqWYVxfNPP2lYLVeljWWsY1F37O0gL66e23yfs7efAWHl8Jhhg5kxzvTnNg9oD7H0J8eMYD0eTiqvRRgGWmkZfJ5r5ap65rXNLh79ikbjqWvcVlCip9GhothfXLCuh0MtxM/zzc4gq6tdekPURUn8wC6nWRQ04Rgf9g7Ua26D57wvRitq3BxBQILOm7Das0dGerm8vWwEZ6xBei4+CvLfzaYXsPgSkGpSKgFxhruC46jqcnQUba7sbSFnboymLVaUsQ7k4D7+LDFdXL2PdjQMM7WuEOJqb5/lHAB9SbefgFe5X39fITivAnlQ489hxMxCKox//+9Swo/NXVQw==
+ bh=+qtd7Gexc5Wvbqmm6TKQo3l/jWme77CL39jcSGG46bc=;
+ b=L5a0giWxlm8r7BzRZA3s4AS/GXAePAOUt1s9e8Lll1sCDaJL4Kgu9R1yoOiP+U++UAJuj1W/cLCjGPxr4YdJ4mpjYcnVpG0XrMIDzMBK/U6k9AgznMLKO6LIVYV6DqClFf1Q8Uzj6Iz8N+4HDYXe/9W0t/JBwybRhrYB6Wl9mAC8ZNv2r2MfOC3deC1Qi9Rxv6vDpN2g+ACLdnmAKgZ74afDyLvVnCfgBvnNCp0gPQIgauwwVrdFNhT6vZPbXtsO2yEDPz40cD5NZTYzXI9qHzzThLWGXPtI0cAsjika81GppXn/RmdOQYqsmi4jNY0lVqQlhaMU6z77Rs9C8O1cBA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=seco.com;
 Received: from DB9PR03MB8847.eurprd03.prod.outlook.com (2603:10a6:10:3dd::13)
  by DB9PR03MB8259.eurprd03.prod.outlook.com (2603:10a6:10:307::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.19; Thu, 19 Jan
- 2023 19:10:54 +0000
+ 2023 19:10:55 +0000
 Received: from DB9PR03MB8847.eurprd03.prod.outlook.com
  ([fe80::6b03:ac16:24b5:9166]) by DB9PR03MB8847.eurprd03.prod.outlook.com
  ([fe80::6b03:ac16:24b5:9166%2]) with mapi id 15.20.5986.023; Thu, 19 Jan 2023
- 19:10:54 +0000
+ 19:10:55 +0000
 From: Sean Anderson <sean.anderson@seco.com>
 To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 0/3] drm: Add component_match_add_of and convert users of
- drm_of_component_match_add
-Date: Thu, 19 Jan 2023 14:10:36 -0500
-Message-Id: <20230119191040.1637739-1-sean.anderson@seco.com>
+Subject: [PATCH v3 1/3] component: Add helper for device nodes
+Date: Thu, 19 Jan 2023 14:10:37 -0500
+Message-Id: <20230119191040.1637739-2-sean.anderson@seco.com>
 X-Mailer: git-send-email 2.35.1.1320.gc452695387.dirty
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20230119191040.1637739-1-sean.anderson@seco.com>
+References: <20230119191040.1637739-1-sean.anderson@seco.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: BL0PR02CA0047.namprd02.prod.outlook.com
  (2603:10b6:207:3d::24) To DB9PR03MB8847.eurprd03.prod.outlook.com
  (2603:10a6:10:3dd::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB9PR03MB8847:EE_|DB9PR03MB8259:EE_
-X-MS-Office365-Filtering-Correlation-Id: acee74f2-4797-4454-9ac2-08dafa50e2fb
+X-MS-Office365-Filtering-Correlation-Id: b4744fa8-134b-4674-0c38-08dafa50e3c4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2OjThEFm+mVkWgaYQIqcDEN9IEMpLSdBEmxordzg5y+hZbEPS2sIbcfgNSCUNmkLHib3/Ke+R/X7FySfz5hy4Td9UfpOGfZsvHfnQ62ZAqtD6PQM92F7a/EyyVB1CE7AR81l9Q9RCR3bil38k8AY2JywUMxW/ypSznUPmO9FCE8o/bIQ0Qw2NeS1rgNWOOrNPLkKwR9Nqn5NvjoZlb1oyKwtCCSybvD8Xfmgm7B9NLm5c8M+PWDL0XDKt9/o9LrFUdwLUb3YjCidMpXWDlEe9aqcl73jDaK3RBL3g0n6Pq7VRSDYqb+w/CXddYR8aB4oXBh/LpzDD5SpYK9L5M6GtJJ7CA3xQvC6usVYJaaVTqijsIxdtWZlvfJQIOixvbv3sYbyz9cB2ZgGoydLhpCxjwuytqXkhfBM1LJ3Ks8iBmQ+kNLoN+iSedI0QHo463FdDwzbczz61QOGAkDq5AQSye2GC1P6zSEnIExZO7ol8cIrD/fuCndPP2sCjWlVjv2RhYIkb/t/ulUnv/Boha+zxuAjO0wAcsq0X5FtvsIayuZqb3lRZv181nWe/sD3+QCg8LcrP/kStnPZ+OZiY0YIgRi3gGvFIl7p+RMrz06uUy77qclT3IA7tmczw/RoNjsiHS0Y4BKx6PYiHylHGzgdSQd7Hl9l1EvayRRXD5LVkc0XJx6RSgCGg0LI1uISObQGdLHCEOH3RbNZusRdYqHtAg==
+X-Microsoft-Antispam-Message-Info: iL+wGpVUT8/tK9SfNHgcx7HVZy5tlrIo/Pae9cBDhEaPtUVN+gfTqCu4vJSMNSdsyDkzHvaZs7GpmYK5JI6x0VmxwygG5gxUzLtdiv/19ZExGWH3Ro9+kWlwRYO+wHVRQ3lVVN1DSJ4kgSIbsAthJzTNKUMK0o+iqu/+zxSkg0UmpXMNf+3TVQQQ0b8iplvsng73/G59GqAWDmVZH6Wx5/+EeW1oNCZVmmjSkIQjLxRoVz+y6g3iQm7ySrnVBuuJn9T/fNcrwdSX1et5RQZIgo6/J/gJNtax3gESb0x6BMFwQ5AzN0yOe0/ShIu/npWa0/SGzy335KteNf8hSsH+vGDoqIgK7nN3ioruXXnyGF+81IOiXlkb9EwPCyKCCu6/60nnTuBDRFW1Bz9nVJO7qmKgexEoV5ROD8xOUzdJpsREbve87KNKjuMcP+7ty6mE8ETz/EiBOTtf3VpuGmdUpcf2o0E9qNTcapMZsxD5bjLBXDFTEheE74H2o6ipM/wCj59DMlix1Sp0e/zFQHad7o+KRNMfgzGbSATc22wpG6YXdMz6bioer491ihL+a7Ju6e6drTAY73mTBHd1URo9xr2CYMhYyCEWgtWsnXPXd16jbHk74ymsfldJy2/9jE/HjgollhCp62u6I8b7dLGnOMJN6gOGdYqvVaiVlJ74EqewfRgB36s04L8FDNBUudao
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DB9PR03MB8847.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39850400004)(366004)(346002)(136003)(396003)(376002)(451199015)(66556008)(44832011)(5660300002)(8936002)(7416002)(7406005)(7366002)(54906003)(41300700001)(2906002)(316002)(66946007)(4326008)(110136005)(8676002)(66476007)(478600001)(38350700002)(6486002)(52116002)(38100700002)(26005)(6512007)(6506007)(36756003)(6666004)(186003)(1076003)(86362001)(2616005)(83380400001);
+ SFS:(13230022)(39850400004)(366004)(346002)(136003)(396003)(376002)(451199015)(66556008)(44832011)(5660300002)(8936002)(41300700001)(2906002)(316002)(66946007)(4326008)(110136005)(8676002)(66476007)(478600001)(38350700002)(6486002)(107886003)(52116002)(38100700002)(26005)(6512007)(6506007)(36756003)(6666004)(186003)(1076003)(86362001)(2616005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z1dEZDVwM2lNSXJuQW85aXJibkZJWXRoT256SFNRM3Qra2NTdEx4SFBMcXRL?=
- =?utf-8?B?L2hUUlRJU3BSZFRBM2luT1orWUVSc0tpaXZYMlpZMTBFYklCMFhHVG1JYytn?=
- =?utf-8?B?eVJsTnBHcEpaUmprd2Q5TmlsWnVETEpPU0VPZ0dCNFdYNGpiTFZjU1h5ZitB?=
- =?utf-8?B?SERNa0U0R2lmQ0lWQTZ5U0llTUxrYU5BRUIzVUtIaTN0YnFFWkl3U1BSdFZS?=
- =?utf-8?B?SFFCZXRzQ0dSV3l5NHVET2Vhc3ZubDJyekhNYmpTYzlGOTd2T1NoMnZ5czdj?=
- =?utf-8?B?YkZiYUdUaXpRMXBuNE9EcXdWU1owSnpheWp4TkFmUHZhUHA3aXE2bjRqTWRH?=
- =?utf-8?B?VTRMcDNiY3pBcmhHTjNocDNJbTVTbTdlMTZYb2N0R2VmMG9yTmY5aUxqWDA4?=
- =?utf-8?B?dHlqOXdCbi8yZTloR2Y2VE9tSWhrUnNqckpkWHc0NmtQWENTOWVlQ2hITlla?=
- =?utf-8?B?enFwV0FYOTdwTkpxLytFenpOSEh6OWgxeExIQU54WEhUZnArWnB2eDBhZ3My?=
- =?utf-8?B?QTU5WmNsSnc1QXp4bmVLYzNreHlKVkVaZmdrdXVBKzhDSzRFclBwcHVOU0Iy?=
- =?utf-8?B?TFhIWVVuZlJiTDA2SkN1bDZRc1ZhVWo4OTcvUkFUbnQrWXhwZFo0SHRzVXVm?=
- =?utf-8?B?SGFXeDBKWVlZZEYxUUttYzd3Z0FWd3RSWHBsQmpiMDAxT2ZVQ2tXblh5QVBD?=
- =?utf-8?B?OVVGZHlkdFZxc2VLMENEeGVsQ21KdmQ3RzA3YTZWOVI1R0tISjhNUm5SZ3E1?=
- =?utf-8?B?eGZTaEwxUVA2SlJCdGQ4RlQ4ei92TFJxTlVoN2VZVXQ0WUZ3SG5BY2RnU1NB?=
- =?utf-8?B?SWF1UWx4Zi9pOHQ2M1ZXekdxUWdKQTZnVnhyejhMdWJxNzZFS3RMUDhYdTJu?=
- =?utf-8?B?eUUyNGYrSVJnaEh5cnhYamFmTVhFRXEwREhYVlJzbmg0MVVEVkRBVUFUWXpR?=
- =?utf-8?B?UDM4Rk1ZVm5mVGUvRTJjV0tOWHRpYndIOEErMTdqTDB1NVc2S0NwVzFaTm8y?=
- =?utf-8?B?dENEcC8raThkQUV6Z2taNWh3K1dUMzF6UWIxQlczMzRPZitSWmYzd1VHWXNq?=
- =?utf-8?B?T3FwYW9MUXN2QkhtY1hhSlA4MVc2NXhJRyt2cGZCR2FjTWpNcmh6TVRCRjVP?=
- =?utf-8?B?dExGdWVlcG1yOGpsZzFWalhzVGdlQmVMSXRrSmlzNkhDMmZiNzkzTXViQUZu?=
- =?utf-8?B?L2ppdjlTQ2Q5Si9KVU1xQmlIclBBaWttbGxuNTMwU3hiRTAySGliaWd5dVc1?=
- =?utf-8?B?T1YwRld0cHBJblVIVnVXZXB4NiszSjFWVTlxcEFmWDBBQjBaMC9pbEdVWm16?=
- =?utf-8?B?Sk5BNkRoeHBjM1dBMGFyQnVWWnZqZkhtTHE0T3NoblphUFd3NXVJVWRvbWxI?=
- =?utf-8?B?UWU3RlRuOEJhSlQxZm9UdlNIYkM1VlpTbG5TNDd0eXAvM0hBei9abVBTZ01z?=
- =?utf-8?B?VDl6a2MrckdBTmZkQWp1VjExZmd5c2ZXQ1A4QU02VGxhYi9CMDZnRmM0QllR?=
- =?utf-8?B?NEZ5Z2RVY1ZIRGRZb0lJaHd5MERZeVlXWVZ5ZUxTellRNVhFV0gwR1J3bVRD?=
- =?utf-8?B?NUZZQ05FZEFiUWdsa1o0Zi9WQkJvaE4xbXZXOTNydVgvU2tybnRNZmVsLzNH?=
- =?utf-8?B?ZitFQkovUDhGKzBhZ2NUVWh0a3FQbWR3cmhFdjZKQ3ZvM09YSkwwVmVWNDM3?=
- =?utf-8?B?bzcvNXdnRTdvNzliTnBlZHQ0bGNmczRmd3Z0MlREL0ozVnJ6cit6UDltNDda?=
- =?utf-8?B?amtQYzdxYUtEOEpvS25uLzNlZ2M4dDFKeHZuMWtEUjdveDliSVpXY0ZOSmVR?=
- =?utf-8?B?YkYxYmlESHRDeERLczRiK05wd3kzNnpRQ2JRV1pYQnkyTHZKcEdITFdhUG5V?=
- =?utf-8?B?bVFPTFJYRmJIUmJ3eThxRjh4cjlEOGw5Q01JUVpDTWJoQURhNDRvMUwzOWEz?=
- =?utf-8?B?WFB2Q2J3QURjQmlnTlpPWnFTblhuV2pKMUQ2ZmorNm1WTTNXUXNlMnV1NmpP?=
- =?utf-8?B?bFdYK0JZQWFtdlBVMnJmMEFhRDM3ZytqS083cmxKamRoUm42UUxsUXFML0Z6?=
- =?utf-8?B?TVhRSkc1YzRwZVEvaUZXb1UxREQvZnhKMDI3ejBQK2JaQU85M3hSODJhdFZs?=
- =?utf-8?B?U3Zxd1JoZVRZRUo5SnVIQUNZV0hrZEFGdmk4NEZGUnNtUjk2UlpwY2Q1TUhy?=
- =?utf-8?B?RWc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NirrV57d7hFSZjQYA6DnD2JBxSX60pwpDlE0wx0k/feKELj3OWJGJpNLAWBv?=
+ =?us-ascii?Q?jXVAdPPipdtvKqYLp3I5YgINyfGT1WCRxOoDrWHPmntiANUeH7JTS2TUQi/5?=
+ =?us-ascii?Q?VGiwHbquG9OtB9jvggnYr43AOTTpNk1BHH6mhmpDwiypZoqikTBSlQRZC6ZQ?=
+ =?us-ascii?Q?sEG5OT5R8xWtpvYEuoFJVeWXF2SR54pMOZ4vWXUCN9N5+ot1MZs0NiXKKCc4?=
+ =?us-ascii?Q?cZYRG2wZeIfiqPDfG/w45Ea7PDX+dDQP9LQBHqyQl/xi+GOL/a+2qDfQdkXB?=
+ =?us-ascii?Q?RrIfNm6RD/nQz2ZT8m9EVZNT1Z9NgvgIR63RfpT3zMrEcfeq+HNYjd0NiBxN?=
+ =?us-ascii?Q?PBT1R7H5eqwa1ehDmxJ7jBBFO4FusbEFonj9YpgvDqRVEwSgWgI21WH4EeK1?=
+ =?us-ascii?Q?QJUSLnHGVukArjR5MsRNT9nsHPtTv9V/rQHeTNh59zky0uAykLLw77z/w5M/?=
+ =?us-ascii?Q?fm4uXdHeD5z6rvH8w+bvr4L3rMJ6tZeL34BZwYUlftaPHp7GfPPmAoLROmyl?=
+ =?us-ascii?Q?9R0q5U2VZ90na5GNozWTkDxbovH6WR9qwy+WKIvXvPuzVLDYeKXrBf13gpcw?=
+ =?us-ascii?Q?P+VSTuVLZItaO1zXYt8WnECpU8pV0yMXqq2ZNet4WldRSxy20uSoEtshFRQY?=
+ =?us-ascii?Q?4OgNV+LH6vUsUoG6jtDVi5g+8hxDVPUKG0DnT1WX/HrfJXLndJVZU/elWUl1?=
+ =?us-ascii?Q?CRpRNm1ZVcUZMci77ScziGdaI5xdhzvLGRDyHXRIQNs9QPI+ZSt6EhnltKPg?=
+ =?us-ascii?Q?KP4IBDDvz08MSg3mP/wTUcYsoYn0Hdo3guDH3f0mMjaMevrjJMY04Gwpjyra?=
+ =?us-ascii?Q?eMz6IueTMxa6FRuWC/eg8ktJkmKIvAWVho1GSybgdr4xqx+X8cLbLPIWQtl+?=
+ =?us-ascii?Q?5jtij6IoNoV3vGM1XEGDUxvULHVLpAHYjEHV16nKdms7QNGyU33Xq311cPFg?=
+ =?us-ascii?Q?r8cuHOfPvuuEjV/++BIzjOK9LTTH7yaY2+ertQfQ6KUreGmqbMwrc/g5NgDL?=
+ =?us-ascii?Q?rTKuRXvLphZsIUozjeKLvV1BLzpjGJZgn++z0g+j9w+Ls13HS6E2dtDZT0kt?=
+ =?us-ascii?Q?iDqCFUfDd5TzIHW90uzS0TdG0o7ccnayXcY4kj0FKcZds/xqVyPCxHlK02XM?=
+ =?us-ascii?Q?PzePg4HjfgENQ9CJ00vZjWAxm8X00xmykkex02PMfyVa5vPFNqQGTIEL5t5n?=
+ =?us-ascii?Q?oIhvWmgXiKyxMwj/XBOhWUa+lIah1jTPSMSqWAcX/KPimF2UXLk3D4p+/heD?=
+ =?us-ascii?Q?fRNOx/lys0vpEELT6UP0nndm92T16KepSXQDSykUcjy1ZNYZARz+4Z+W/xRA?=
+ =?us-ascii?Q?LE1bZUABqgheEZRhc/gANATfKj9AOMogZXZjZuu5s+i09++W2od10dmpPXFE?=
+ =?us-ascii?Q?C6Vc5D5vG7PG+4cOlht3Sy7DZwwJT9FyMkbU5cwH1591VOtfKSJYCcBYyzWS?=
+ =?us-ascii?Q?7uv7AXyMvcXV/xYL9Uk/nhLUUTgm0mhH6Q+yRXt0yu89r1uARsoc05+KAcl/?=
+ =?us-ascii?Q?eEovbi9k4E1lu4qtkm77i0fpyixSkUJ1X8/dRx7UIMdO/0I05hwAxieavYR8?=
+ =?us-ascii?Q?kqx3ZErTTuwxigq0Nw5jYeweIdeCbaqMezlqrigYZ/okO1/4GrKVjXwWMpDf?=
+ =?us-ascii?Q?8Q=3D=3D?=
 X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acee74f2-4797-4454-9ac2-08dafa50e2fb
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4744fa8-134b-4674-0c38-08dafa50e3c4
 X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB8847.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 19:10:54.0688 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 19:10:55.4136 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TExj+ppozAjreSiOV9g4J2ykelKHdKd0NP0WBONLswrnOPWFM+8GVX0rfp3A3TZoY2g0nV9DtTpWGarMmalpFQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: yJez9lrl6/M0xk3RJgb5mZopZ7T/ANJT0sZedM8N30z7z3GdaeQb1uRVRE8SVg0qDPfuSQJvBwHzj00hvPRlhA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR03MB8259
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,70 +117,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Xinliang Liu <xinliang.liu@linaro.org>,
- Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, John Stultz <jstultz@google.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Will Deacon <will@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Sean Anderson <sean.anderson@seco.com>,
- Joerg Roedel <joro@8bytes.org>, Takashi Iwai <tiwai@suse.com>,
- Russell King <linux@armlinux.org.uk>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Mali DP Maintainers <malidp@foss.arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- Alain Volmat <alain.volmat@foss.st.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, linux-sunxi@lists.linux.dev,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
- freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- etnaviv@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Sean Paul <sean@poorly.run>,
- Yong Wu <yong.wu@mediatek.com>, linux-mips@vger.kernel.org,
- Tomi Valkeinen <tomba@kernel.org>, iommu@lists.linux.dev,
- Robin Murphy <robin.murphy@arm.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Tian Tao <tiantao6@hisilicon.com>, Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Sean Anderson <sean.anderson@seco.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds a new function component_match_add_of to simplify the
-common case of calling component_match_add_release with
-component_release_of and component_compare_of. There is already
-drm_of_component_match_add, which allows for a custom compare function.
-However, all existing users just use component_compare_of (or an
-equivalent).
+There is a common case where component_patch_add_release is called with
+component_release_of/component_compare_of and a device node. Add a
+helper.
 
-Changes in v3:
-- Rebase onto drm/drm-next
+Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+---
+
+(no changes since v2)
 
 Changes in v2:
 - Split off conversion from helper addition
-- Rebase onto drm/drm-next
 
-Sean Anderson (3):
-  component: Add helper for device nodes
-  iommu/sound: Use component_match_add_of helper
-  drm: Convert users of drm_of_component_match_add to
-    component_match_add_of
+ include/linux/component.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
- .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 ++--
- drivers/gpu/drm/arm/hdlcd_drv.c               |  9 +-----
- drivers/gpu/drm/arm/malidp_drv.c              | 11 +------
- drivers/gpu/drm/armada/armada_drv.c           | 10 ++++---
- drivers/gpu/drm/drm_of.c                      | 29 +++----------------
- drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  4 +--
- .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  3 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  3 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  4 +--
- drivers/gpu/drm/msm/msm_drv.c                 | 14 ++++-----
- drivers/gpu/drm/sti/sti_drv.c                 |  3 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c             |  3 +-
- drivers/gpu/drm/tilcdc/tilcdc_external.c      | 10 ++-----
- drivers/iommu/mtk_iommu_v1.c                  |  3 +-
- include/drm/drm_of.h                          | 12 --------
- include/linux/component.h                     |  9 ++++++
- sound/soc/codecs/wcd938x.c                    |  6 ++--
- 17 files changed, 45 insertions(+), 94 deletions(-)
-
+diff --git a/include/linux/component.h b/include/linux/component.h
+index df4aa75c9e7c..fb5d2dbc34d8 100644
+--- a/include/linux/component.h
++++ b/include/linux/component.h
+@@ -6,6 +6,7 @@
+ 
+ 
+ struct device;
++struct device_node;
+ 
+ /**
+  * struct component_ops - callbacks for component drivers
+@@ -128,4 +129,12 @@ static inline void component_match_add(struct device *parent,
+ 				    compare_data);
+ }
+ 
++static inline void component_match_add_of(struct device *parent,
++					  struct component_match **matchptr,
++					  struct device_node *node)
++{
++	component_match_add_release(parent, matchptr, component_release_of,
++				    component_compare_of, node);
++}
++
+ #endif
 -- 
 2.35.1.1320.gc452695387.dirty
 
