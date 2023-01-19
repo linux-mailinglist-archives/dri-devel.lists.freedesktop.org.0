@@ -2,145 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238B667457E
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 23:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70397674593
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 23:11:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1400910E277;
-	Thu, 19 Jan 2023 22:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD41B10E275;
+	Thu, 19 Jan 2023 22:11:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82DE010E269;
- Thu, 19 Jan 2023 22:06:06 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB27710E275;
+ Thu, 19 Jan 2023 22:11:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674165966; x=1705701966;
+ t=1674166306; x=1705702306;
  h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=7Gbcpl+Lav+jvU7PIvH2NlsAuLetOrzRpdQhhoF/wuI=;
- b=B3zqRi9d58uT6u4bP7UtUTuL881L7q1vbxciLVf7x8wv/Z5fhOa3WDvW
- iYrC+GK55YjaTshED6P3lEyxHZQ8HGrwMD8R0sSHd9T9JFaqj4U7IuTFo
- UQqslupyCCjMbKUvdztcNwjcKjYsnIW3Ozsi4JbmqEPIPDJf1ycZXphmQ
- 7GDmrrkb+Mg0WYoKVzB9iVauaIs1f6f5W8yVsDFDd1YHL1zIUVU+kURdo
- ZCE2YylkoDD0IRLU+DsVJCeEfh1LT2il2pmn/QSJpTCPHIus6R17GQVFJ
- 7n9PR6zhIdYLsVrVlcgO2JDOES3NhLipdINwftEnmSQeRW7gYAqVPEWRj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="309016940"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; d="scan'208";a="309016940"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 14:06:05 -0800
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=updzMQ74X/QiFpN6nlsmFJKfZFNn55SJEZQyMONzavY=;
+ b=PD3rUTSQOVNbID7Oj6VpD+Gdb1csOLlMmiSaKluPR9t7ygWml+Al5aci
+ 26YJIdiIQIeWBAtsIxouxWKPt2w61CTdB0iyLNLOedrCWviRsQ6PRuR4o
+ p1yhl3CWSQFi6/X9i1tFCG3kT2MvmvLrYO39/6T4IlixhKGLZYXtTG4ql
+ FEj28ION2zD+sNBNQj4O/AUMKo68/4gZS9G8OnDiDZ3DlpRv6epLqMIYJ
+ 0okwyL9+A3ACO15RsHimG5oz3ZCUcsJVjoMRbdUgPEXl8BLho7TNZOe1Z
+ 7N83nrEQyiJBFaGegXUxZ7dzHF0J13ErWDIjlR5PaWlqO1t+eu9wEw7tj w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305807466"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; d="scan'208";a="305807466"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2023 14:10:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="723683526"
-X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; d="scan'208";a="723683526"
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="653550890"
+X-IronPort-AV: E=Sophos;i="5.97,230,1669104000"; d="scan'208";a="653550890"
 Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmsmga008.fm.intel.com with ESMTP; 19 Jan 2023 14:06:05 -0800
+ by orsmga007.jf.intel.com with ESMTP; 19 Jan 2023 14:10:46 -0800
 Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
  ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 14:06:04 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 19 Jan 2023 14:06:04 -0800
+ 15.1.2507.16; Thu, 19 Jan 2023 14:10:46 -0800
 Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
  orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 14:06:04 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ 15.1.2507.16 via Frontend Transport; Thu, 19 Jan 2023 14:10:46 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
  by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 19 Jan 2023 14:06:04 -0800
+ 15.1.2507.16; Thu, 19 Jan 2023 14:10:45 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NENhUUZQmR2NiGpjXlp0bNhRJySvVPR7s0J458xviYr9hp2wgVjtdZn2mDC9ltXRaKsFOsci9rWuQq18sclKxVCnn7Un1I17CQvSqSOHltYlzFIn2gXDT39C9W/NooR/NFk3j2hbLk3Acs2ZeKyX6HOsRqSWomCYcOiy/iG9EwvdEZZdJT+Oiklr/DI6P5jkfb/5DWgHI4iLuW1xy6WqtfukVtkajMzUVSDRhJq/t21DmyvXzbVdvNyyD7gHptiKMFFQfQmMKCgDNdN5EoV7Ru57zajTg7HEtPeWSxydpRTIvxR4HuEAJu8rmNnIijy1lGcjUYZcYypawTSgS273Lg==
+ b=ahghHEUdEhE4x46cR5fc8BmY0mnCErFKm7EQnWpEth3iRi6quSmmJHJF5JO591RJtU43rQ7vW5BH3bsECsTwNjCSofFaB5UqyabdP8UCyfky42uFGWAJoET9PEOXqRetcBcBVqMeeG4/eZ5Kfi4XHRwHqs35S9xSMK3zQG+GUpWCK20WkxxeYlx/TZzRvxHcfzz7h0+rheROcYOdBhvz/w+nFESq5K12NnFEU9T9J4yxpMFQZb3VUWMx3XAogJeESkg/1b9NrZsne1/XJwDsGZbMVGQhJ/1lT87Hdu0Xd0YrWkdWML9mzY0Khu4sBSYCh5TaQhsgu/UOSKaC1eMG0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o4W/akzkeUC24Iyj+B08ERmZp6mX0V0s7w/TWnYzFGU=;
- b=bjXLdaIt2s9rncI3KQR0E4Yt3i4DNYfw5uQaURZsQWuiHZD97XQSZMrKbeWdVwxeUry2+kRhXEob5ee/8SKXPTcpZ3v4CSinpUnW8oXN7HT6ki6fLnWMfkqxSTVMcOOeadO8mLgu2ZfVQYO7lfjqgvYqveE9VrVw9Anlj+wZWQk+11CgugqHEPkHDscBoQiQ+AV6JUMrTp7yDvBJnGS4B51Ahpop9LeyxuMWd8iTURmWuoUi9dT38X7vwIlNYmIUUYC0jhsKsZFewvzgLJZ4fuLq9cFCKTomDIjTW+juPR9jpDDxwQ/ycfKiJJNvXWxzMXjxKk/lXUXuI1SDkKF7Fw==
+ bh=hry/Fc9zeC/bQjbzoy12+bSd1Kt2qSZd0IhtMoO1yKU=;
+ b=jYdf/Dk5kd7GcgN/mGsQVD4uvDmX/BXt1JLpVG9qNhsxeLxxcfIciSOD287XafBMBisXki4d5ANTo0MZmXa34kfm4WE+9elz3//pH64/Cr9reaUvLbnNrsU0GicakwqpGWL9fLqdDl7Sb1gWhS53L/wYwv3nSZTA1VBSFfVti+fXJt3dbdL0YALb3mWpQXu8T1CrVoq+q1jPQp0MC1C4Ce8+DGNsQn1WYaZlF+aSUHy3Drhp9zhBczGn4KAx6BWdkEW5IiNAi3OS2Dsd8HuoWzC2w6yUKG+dGVz/imLvxJdSjhRQhdKaJ2x/1BA8IqMSEdItSUEOFZ0JqwhBaClJeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by PH0PR11MB5045.namprd11.prod.outlook.com (2603:10b6:510:3f::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.24; Thu, 19 Jan
- 2023 22:06:01 +0000
+ by DM8PR11MB5655.namprd11.prod.outlook.com (2603:10b6:8:28::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Thu, 19 Jan
+ 2023 22:10:37 +0000
 Received: from MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
  ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.6002.025; Thu, 19 Jan 2023
- 22:06:01 +0000
-Date: Thu, 19 Jan 2023 17:05:56 -0500
+ 22:10:37 +0000
+Date: Thu, 19 Jan 2023 17:10:25 -0500
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/gvt: Avoid full proxy f_ops for
- vgpu_status debug attributes
-Message-ID: <Y8m+xBhGCa3kgcO2@intel.com>
-References: <cover.1673375066.git.drv@mailo.com>
- <188df08e0feba0cda2c92145f513dd4e57c6e6cf.1673375066.git.drv@mailo.com>
- <Y72zVXYLVHXuyK05@intel.com>
- <Y8TkTi+/GQwhiMvO@zhen-hp.sh.intel.com>
- <Y8b3IRhx976Ke99X@intel.com>
- <Y8d6CwD3dHLKOUZ5@ubun2204.myguest.virtualbox.org>
- <Y8giB988U5cqsGdd@intel.com>
- <Y8icPEqkdF+7mg7E@zhen-hp.sh.intel.com>
-Content-Type: text/plain; charset="us-ascii"
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [Intel-gfx] [PATCH v2 2/3] drm/fb-helper: Set framebuffer for
+ vga-switcheroo clients
+Message-ID: <Y8m/0UZl/aXxOnBS@intel.com>
+References: <20230112201156.26849-1-tzimmermann@suse.de>
+ <20230112201156.26849-3-tzimmermann@suse.de>
+ <Y8hGsX+yafmFbq4g@intel.com>
+ <7ec650c7-d530-54f7-5323-45c05ee50802@suse.de>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <Y8icPEqkdF+7mg7E@zhen-hp.sh.intel.com>
-X-ClientProxiedBy: BYAPR08CA0040.namprd08.prod.outlook.com
- (2603:10b6:a03:117::17) To MN0PR11MB6059.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7ec650c7-d530-54f7-5323-45c05ee50802@suse.de>
+X-ClientProxiedBy: BYAPR04CA0017.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::30) To MN0PR11MB6059.namprd11.prod.outlook.com
  (2603:10b6:208:377::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|PH0PR11MB5045:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8939b6e-d5c1-4ba9-7464-08dafa6959f8
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DM8PR11MB5655:EE_
+X-MS-Office365-Filtering-Correlation-Id: f411d7a1-1695-4330-935f-08dafa69fdac
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LnsYCvuXcGdQYz8XQFQsOPgh/Bcy+o6ZwhKPaik8neJv1JmFqa64vdIvT8mxwuLnump0Lj7Zjx547rY1mRCP1iqRjoteshxXkc0w5jcs4X0b4b4MI9KO/EX8fDRX1Xa56wDZcttqcP86de/v4A+zf213ZuiUaBhkg7Eu32fVcrAKsx1qpE7rRT4ZhNmsJ+prBkGwNLLWN4/+YXsi0v1NhCv77tOeUMtrfl1Fcut9l4hYfvOU9BAP7eG9qP8l+J/VnDpRD8/kfFuQHGcqgHsY7KCzFfP7uYV0k4NxtMrGBjF58pEtoH0ZDo7s91bqlTChN17sJ7nfWyigQu8C/H3wrJGPa/e1w4KmSuVmDtZm+zbMsfsoJIiBUZaoEqbrT3Qsm5VkYVb3wW+dXQHNMtADHHjw1CvlfFHGGL9O8A9vE2/fEDyzcIqGhAIvBxJalWn+MuoCdJd633NBhM4fdr7XIfrbQ3peHsUVlloA5oapiPUuM8UOeoaloOYbgzmrmg5UQUsZFKgj1YXnuUaO4K9FS6W+ipMZHnmPg4N9VMaGJYhCg5+9Q324STInWp+sltl1c6qtzs7VlLthny3M7NAVGr9P2jBZL3P5jcAXcOJvKTGNK6AQLXw4pxCb4gtIyDQhGDQywJYo2F6UexmskxfXb1oJyZ3Jbm7P0KeSn+2Ij9UUnHPuIsyJqFJdCNmoAUMSNz7ZHZlW5+vw0A6ExWh7iJOv9VKPof8MPOaLQjrkGL0=
+X-Microsoft-Antispam-Message-Info: Dj4DXeuqaoK+4KnW2uTYgwBJ4/Ru3GeF8JblWcVE2DrmYzh5ZRSkfHn4IYlmGbc6YIUu8GhiUWYYan5yi8qTVGnNHyYOD66y5uh0L8XWlbBwOCb6kN0jEbccNN6xAeHFWO9MsM9iUVQeGN1sYr3l0Fo+scRZcOpdQ+mEGSXeOZtSt3z+SUNICKDLde3o8emH9arivXnSOO13GxzrmVjWMXXB9tHpRAtRqd9wHhQpri6cUlhpx1KfeVEv5l2sDbDCxO1daND7+GKdym9eziTCE0HDy2lZfGPJqbPQ0MQq0ucXqkf+R6hbHPQu5TJM1j6uruc4BuWiJY8LbEfvy/cTtuuiu/qZ9Sn25Uedln8zrTMGgktm4BtxpCqj2opb7aFX3bQRosWtvBuCIUSc+KsWrt8g0tHoKYcrmRLPR+pOOpklAcjn1YwJqKFvN2d3gmA3CiNLx6LU5FLHZM4O36EoaCNTst4wgJhh5MVe2q5YGwXTwdHjHkSNalyMJuyOCYdsTHJqXOVXQUenjcX3ByHA5A/7tbUrEmP0M3Ur4zu1B9AOi7LV3vvkap+p5igIPqrFDogV2jUWi7z150mW7ZLGvFMEdJdKUsI2JkP0zo1f1MFCOzlv8oI7kmFIm/7shv2GOGKgag+4cVfXuU1jIpf/uQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(376002)(366004)(396003)(136003)(346002)(451199015)(38100700002)(36756003)(82960400001)(86362001)(2616005)(6666004)(186003)(6506007)(53546011)(6486002)(478600001)(44832011)(26005)(966005)(6512007)(5660300002)(8936002)(7416002)(2906002)(41300700001)(66556008)(66946007)(6916009)(66476007)(54906003)(4326008)(8676002)(316002)(83380400001)(67856001);
+ SFS:(13230022)(346002)(396003)(39860400002)(136003)(376002)(366004)(451199015)(86362001)(6506007)(6486002)(6666004)(478600001)(36756003)(8936002)(5660300002)(316002)(6916009)(38100700002)(66946007)(82960400001)(66476007)(4326008)(7416002)(66556008)(8676002)(7406005)(26005)(6512007)(186003)(41300700001)(83380400001)(2906002)(54906003)(44832011)(66574015)(2616005);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3l9Xxy53yxM7MMT09jR/OHPecoxN4a3PYoVKaal9W8zNvWWqrmIWF2Lkg8FZ?=
- =?us-ascii?Q?+dFLHyt232QhQu442sdCWxuIV9GMm5B/gk2yrcLB6PTA9nJaR39CQk2K2kzd?=
- =?us-ascii?Q?eD6WsjK/SGp3liJrJiOD8nmlRFTfZeNap796SAKmhqqv/eczw5oBBt7yjm6m?=
- =?us-ascii?Q?1untaf7bFh0f17B0bnND0pkRvIw1rSjuaGiu5BZkNiwR3RhEf+9wn4veUid3?=
- =?us-ascii?Q?JrZQ100vw1StftMgHZKGRIS1RQYPPl9MD4B5wiEsO2T35c8BWInOTTQUd/sc?=
- =?us-ascii?Q?rl4biSAEpoxEtLUlPNgB2InE3kzxnvClP3Zra3IGamNFnF1Vs0VSCJRlaHxM?=
- =?us-ascii?Q?G/CUN3NbzFovGEEp1Hc+mGaG4jUEVNLpGc11gh6gCLtlE+Mc+HzVINlZgmVg?=
- =?us-ascii?Q?g4SHfIxnDD2Gz0oWl8PLh8+HT/msTWmnrrKBPjpOdjKKPrxV6MWYqbQtMico?=
- =?us-ascii?Q?I1IVKcfGgPexrYVXVh5f8Zi1m6BxlWtME6q1iD7HO31Ab0zSzyxNgWGm3oDk?=
- =?us-ascii?Q?Ofi7HuN/BGLQl4pCHEw1rdwq2gY36wFi0iw+R1dPrdcgi7RPqcyOnd7KziSI?=
- =?us-ascii?Q?TuFa7BzJrUHvV+1naL1FqsCnNa04sbDYzY+GgWLKOKF7GH2cWnv8lC15dwvp?=
- =?us-ascii?Q?Nzdiwyd2/8DwxYnGIiSfk3keR5sCC3me1ANFJZ2KgY98y1T9HxW4sty+kJih?=
- =?us-ascii?Q?LWvN9dJa1oqvl0y460KNclHzuIK8SeYJvPlhjNXJMF1FnEREHlXLnCzLG+tS?=
- =?us-ascii?Q?Ql0yclcf5Bup2jDJUfK5zLb5iD6lZ3EOjTUpANSeF7tJO9jZUwlsIhYSbwUe?=
- =?us-ascii?Q?6BDRcpsdUFkDrBciWYf5XTO5rL2FTJAIm6sQuNB/VGlcIPLSjHgjnb99BuQH?=
- =?us-ascii?Q?ufNHMTbvMK1Bxnwy8/wcxLNp7Rkdn03fp/Ok/N2We65sjFXqjhJgs+sdfO0d?=
- =?us-ascii?Q?2jg7SA8PHXv3nyoPdIMQ91NsJajBOCMzpiDaVNrILI8z9VdbWUqNad6cSswp?=
- =?us-ascii?Q?LNHQH0xIgOrn4r+XtuyZEEm9JK/+ba6Gswl8vppmNwIUr+bvSco1q+bwn7IE?=
- =?us-ascii?Q?bT8NsG71B5ioj52K0k5cU3IsHYYdOXpcrOcY8Bw7U6lcbmGnUkYhdCI8UJUf?=
- =?us-ascii?Q?xDVd0YIT0bZ2y+raAVrHbAqifA7jy8PPxmeJHLL0lgY2Ics3kN6HNQnLlwwd?=
- =?us-ascii?Q?2vBbx3cVD3eJUHt158bEcpkdG77j4K9wDZ7pljLaof5hbJCTfoXxyh92AdTE?=
- =?us-ascii?Q?q3dq+rpmUTBOOMHKwqmqTrdIPAo0biI11YDW4/29HlOxQF5tk8i7KjRSGati?=
- =?us-ascii?Q?s/AO133pACRpR4dyKO87oYrj91kP/eq8M3TOr8ByeZeNdEF1vnfoK5FLQYFq?=
- =?us-ascii?Q?i5HpjJdjhk6EhcED+V0atUqIAldjQMScVi7LpRlK4IqmGqm/MFScZk/c1Yem?=
- =?us-ascii?Q?h/mCQNscpl7Ij/bo8NpF+cXMokit7KHS4eJMCOVQWXHU0RlyMoiPDcgPiZGt?=
- =?us-ascii?Q?a7z4Td380fAsxRQ+BTyaVDTw7Q4/tVpI9BTtt8cb//6GW6zsJpyc/68DQNrX?=
- =?us-ascii?Q?82hMp6lT5PGQ6kn11qresZ0uc3S1j8/mwtw8qAFT886rWyOh4zqbRZXjvT2r?=
- =?us-ascii?Q?kA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8939b6e-d5c1-4ba9-7464-08dafa6959f8
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cy9rMllEKzczejNhUFk3eWYveWg4SmNmWEZKRXo0a2RFVlc0M3Fka2xISUk1?=
+ =?utf-8?B?RDZyVWN6OStIZVBtUklhakgrZWNCLzJ5UWJjWGFEelgvOWQ4c2tUUHVaTDg5?=
+ =?utf-8?B?R0syVHlTdWphSEY4YjBZZGIyTWxSaVVHNkllakJLSjM5L1VHKzNFMEJvSGFq?=
+ =?utf-8?B?TlhTckNLZUFkN2FwK1F0V0VTb0FqcUhOUmF4VFFWMGdaemx0VStNc2xBT0hx?=
+ =?utf-8?B?NDJvQU5rVHVjaFZNaTVDOEpBR1hGSkxRbVZwNTRPUFVzT0ZVMzB2ZkxrQ1I3?=
+ =?utf-8?B?OVptS0J0ZHozOThvMkRudzZaVDQyUWpIMXJ4SG5pNW85L200dFRTVTM5d21Y?=
+ =?utf-8?B?ekI1LytHcnVIaWZTZFh6b3VOS1pRUkhLdjFUemNnSkdHZzgyZitoMW1wS01z?=
+ =?utf-8?B?Z1ZnSFFTaDVzNE42alFVZUdxRW9ReEp4aXB5bmZwdWhnWTVnaSt6N3NHeWdM?=
+ =?utf-8?B?czRKR0ViWHhvUzAwVGJkL2VJaHlmc0VCUDdVN0x4Y0hhN1pTbTkrU0YzSVRt?=
+ =?utf-8?B?RnhobjBIb3FpWnByeDdBdHlHeGtQNEhJd0ZkUUR4TWhFL0k4RTgvMnZPY2N3?=
+ =?utf-8?B?eXdoQ2RqTWJzQjJleXZlek5TRkxma3pCZWc1UXViM0dkQnBPeWkwWmhUbE5n?=
+ =?utf-8?B?VWs5a2tHN28wK3hSQjhSWHFBZ0drVDlRR2Vqc2tHRzI3MTVxSTV1UmhEOCtK?=
+ =?utf-8?B?dThGcTZyc2g4SldtWnZCYmdaWU5nc2R2Ky9MWUpOMDdsZFE2cGdqL0VtaEpQ?=
+ =?utf-8?B?ZkVySjAxT0JFNTBGRVN2QzhSbDdZVWtlTEZrNTVmRDlpaDcvSjhFaER5SDFu?=
+ =?utf-8?B?YVJURnBvL0cyN2ZGNk5SS2VBbVY4MFo1Y2F2TXEzVmJIYzhENXVKRkY4S3J2?=
+ =?utf-8?B?MlNBU2lYNDhZdWgvbDN6dnZYdDdoRXpIdjBzMG1OS0FMUzhSTEt4NTBaNnN0?=
+ =?utf-8?B?VWdtVThuMm5OVStPRk5uNlVkZ25VMkdpRW8xRmk2NGtreG1VcDcrclZ1QTdL?=
+ =?utf-8?B?b1l5cFB6MU1MZmE4amIyZ3lGMTBoR1JvWFNpRDhkN0hHQWJqK3Y0bHZ3QndU?=
+ =?utf-8?B?SmdGNkNma0FrVktFWmZQRnVKemcxeEtDVWNnQnEwak9reG9MQkwrdFF0SS9t?=
+ =?utf-8?B?TWFhbTlBYUM4S25QcnlDUGFncktETG81a1dkUTk1ZCt2N3U2OUkyV1lrNVc2?=
+ =?utf-8?B?dVBwQkRsbTR0OWluVGg4cXdPMXc0TjBwVCtnUm5KdU5jNjBmT1U3SG5CUTBU?=
+ =?utf-8?B?bnRnOWlMdWhiOUh0cm1YTjdBNFU1aDF0UHJxL3BoeS9rL0RBaHlhb2g5NXhz?=
+ =?utf-8?B?TFEyT3ZpMnhlVW9ncGh1V1dGOFRoQkpGWFg1VkVJclA2RzlnZmJ5QWRhLzIx?=
+ =?utf-8?B?VVdMRmRpUFUzOXoreUlrZFBKRWVCdzZ3YVFFQXE5V0RBNFJ5UjlKOEh5ZFI0?=
+ =?utf-8?B?VVpQRFp3ME9kYjlRNmRlQmZLbFhQbjdySU5COGluVlhNeGlyQytSRGx5Y1JT?=
+ =?utf-8?B?OEhxYWtqdXVmZ3U3Q1FiNmJKZTdsa0JpN3YvWG81aTd4MldyWjFtYmRiVi9h?=
+ =?utf-8?B?ai8vZ0pkOEZzNVNaVHJYenNnNEE0QTRkRGNzU1R3UDFVV3FaU1R1V1Z6RGQ3?=
+ =?utf-8?B?Q1oyaVNLUUtYOFdCU2cxK1l0ZVU1SDFYMjdOa0REYU9ZdXN4Wi9ZNGVQeEZY?=
+ =?utf-8?B?YkhBci82Ym1RdUFrTUljUjJLMVRxNzhiQS9OYUFCckJTMVBJTDhqd0VRN0Qz?=
+ =?utf-8?B?SXpOL2g2S3ZHTFArMC9KVk9JUlNBMk5rd0FpWU0zZ3dySnJuQ1NFQjdXUjV2?=
+ =?utf-8?B?Q2ZrbUpXZk1YdzhVdGhBTWRIY1JxSnQyTVk4TC9XMlRMZkVyNDI2TkM1ZDAy?=
+ =?utf-8?B?Ni9CMlcyb2RtVDFVR3FXNDFMbkV6VnM1QnNrdktjcXdhcTFRSU8rU2FzUjI4?=
+ =?utf-8?B?VStSOWtpMkt6ZXEzQzB6QmN2d24xMVc2UjFwWitPRmxFOGtPamlFdUk3WG1U?=
+ =?utf-8?B?QVJ4QzlVOGJjS3U1QnRGVjQ5b3BVSmkyT1VsNWJPc09TU1F1T1B4NmliSnd1?=
+ =?utf-8?B?a01NdlZjRk1lZjBtbmFiN3cyZnFwKzlNTHlMNVQzK2p3SXlDam9GWW83QlZ2?=
+ =?utf-8?B?cEMyN3I4blVXTDdIVk1TYUUvN0tyejJlYWxvRFhnZ1ZUd3RIRWRCNDc5T1Rl?=
+ =?utf-8?B?SGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f411d7a1-1695-4330-935f-08dafa69fdac
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 22:06:01.7137 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 22:10:37.1728 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qz7Q4wKYj1yt1F0vDx+Xxgx85nGeqhdFDcl1oX4m6GjADUJgQyBHsFY5vXWXI90tgTpbMleHq991pMxGHQPnIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5045
+X-MS-Exchange-CrossTenant-UserPrincipalName: v1vrK0RHOA33U9YGxG8WtGG17eb/s0Ho8PUUmPas+dO9spS0ZMJUqH37MjPkdcGWQ3vp0N9kNKElHfxc/HlWrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR11MB5655
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -154,116 +157,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak R Varma <drv@mailo.com>, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Saurabh Singh Sengar <ssengar@microsoft.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, kherbst@redhat.com,
+ Daniel
+ Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org, YiPeng
+ Chai <YiPeng.Chai@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Likun Gao <Likun.Gao@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Guchun Chen <guchun.chen@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Stanley Yang <Stanley.Yang@amd.com>, bskeggs@redhat.com,
+ nouveau@lists.freedesktop.org, airlied@redhat.com,
+ intel-gfx@lists.freedesktop.org, Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Jani Nikula <jani.nikula@intel.com>, Bokun Zhang <Bokun.Zhang@amd.com>,
+ Marek =?utf-8?B?T2zFocOhaw==?= <marek.olsak@amd.com>,
+ "Tianci.Yin" <tianci.yin@amd.com>, Hans de Goede <hdegoede@redhat.com>,
+ jose.souza@intel.com, evan.quan@amd.com, tvrtko.ursulin@linux.intel.com,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Xiaojian Du <Xiaojian.Du@amd.com>, Felix
+ Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com, stable@vger.kernel.org,
+ Solomon Chiu <solomon.chiu@amd.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>, alexander.deucher@amd.com,
+ Hawking Zhang <Hawking.Zhang@amd.com>, christian.koenig@amd.com,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 19, 2023 at 09:26:20AM +0800, Zhenyu Wang wrote:
-> On 2023.01.18 11:44:55 -0500, Rodrigo Vivi wrote:
-> > On Wed, Jan 18, 2023 at 10:18:11AM +0530, Deepak R Varma wrote:
-> > > On Tue, Jan 17, 2023 at 02:29:37PM -0500, Rodrigo Vivi wrote:
-> > > > On Mon, Jan 16, 2023 at 01:44:46PM +0800, Zhenyu Wang wrote:
-> > > > > On 2023.01.10 13:49:57 -0500, Rodrigo Vivi wrote:
-> > > > > > On Wed, Jan 11, 2023 at 12:00:12AM +0530, Deepak R Varma wrote:
-> > > > > > > Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> > > > > > > function adds the overhead of introducing a proxy file operation
-> > > > > > > functions to wrap the original read/write inside file removal protection
-> > > > > > > functions. This adds significant overhead in terms of introducing and
-> > > > > > > managing the proxy factory file operations structure and function
-> > > > > > > wrapping at runtime.
-> > > > > > > As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> > > > > > > with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> > > > > > > DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> > > > > > > debugfs_file_put() wrappers to protect the original read and write
-> > > > > > > function calls for the debug attributes. There is no need for any
-> > > > > > > runtime proxy file operations to be managed by the debugfs core.
-> > > > > > > Following coccicheck make command helped identify this change:
-> > > > > > > 
-> > > > > > > make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> > > > > > > 
-> > > > > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > > > > 
-> > > > > > I believe these 2 gvt cases could be done in one patch.
-> > > > > > But anyways,
-> > > > > > 
-> > > > > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > > > > 
-> > > > > > for both patches... and will leave these 2 patches for gvt folks
-> > > > > > to apply. Unless they ack and I apply in the drm-intel along with the other ones.
-> > > > > >
-> > > > > 
-> > > > > yeah, they're fine with me, feel free to apply them directly.
-> > > > > 
-> > > > > Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
-> > > > 
-> > > > Unfortunately I got some conflicts when trying to apply on drm-intel-next.
-> > > > 
-> > > > We probably need a new version, and probably through gvt branches it
-> > > > will be easier to handle conflicts if they appear.
+On Thu, Jan 19, 2023 at 09:06:54AM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 18.01.23 um 20:21 schrieb Rodrigo Vivi:
+> > On Thu, Jan 12, 2023 at 09:11:55PM +0100, Thomas Zimmermann wrote:
+> > > Set the framebuffer info for drivers that support VGA switcheroo. Only
+> > > affects the amdgpu and nouveau drivers, which use VGA switcheroo and
+> > > generic fbdev emulation. For other drivers, this does nothing.
 > > > 
-> > > Hello Rodrigo,
-> > > Sure. I will send in a new version. I am current using linux-next git repo as my
-> > > remote origin [tag 20230113]. Are there any specific instruction/location from
-> > > where I should access the gvt branch?
+> > > This fixes a potential regression in the console code. Both, amdgpu and
+> > > nouveau, invoked vga_switcheroo_client_fb_set() from their internal fbdev
+> > > code. But the call got lost when the drivers switched to the generic
+> > > emulation.
+> > > 
+> > > Fixes: 087451f372bf ("drm/amdgpu: use generic fb helpers instead of setting up AMD own's.")
+> > > Fixes: 4a16dd9d18a0 ("drm/nouveau/kms: switch to drm fbdev helpers")
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > > Cc: Karol Herbst <kherbst@redhat.com>
+> > > Cc: Lyude Paul <lyude@redhat.com>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: Javier Martinez Canillas <javierm@redhat.com>
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Cc: Jani Nikula <jani.nikula@intel.com>
+> > > Cc: Dave Airlie <airlied@redhat.com>
+> > > Cc: Evan Quan <evan.quan@amd.com>
+> > > Cc: Christian König <christian.koenig@amd.com>
+> > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+> > > Cc: Likun Gao <Likun.Gao@amd.com>
+> > > Cc: "Christian König" <christian.koenig@amd.com>
+> > > Cc: Stanley Yang <Stanley.Yang@amd.com>
+> > > Cc: "Tianci.Yin" <tianci.yin@amd.com>
+> > > Cc: Xiaojian Du <Xiaojian.Du@amd.com>
+> > > Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> > > Cc: YiPeng Chai <YiPeng.Chai@amd.com>
+> > > Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> > > Cc: Bokun Zhang <Bokun.Zhang@amd.com>
+> > > Cc: Guchun Chen <guchun.chen@amd.com>
+> > > Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+> > > Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+> > > Cc: Mario Limonciello <mario.limonciello@amd.com>
+> > > Cc: Solomon Chiu <solomon.chiu@amd.com>
+> > > Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > > Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Cc: "Marek Olšák" <marek.olsak@amd.com>
+> > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Hans de Goede <hdegoede@redhat.com>
+> > > Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Cc: nouveau@lists.freedesktop.org
+> > > Cc: <stable@vger.kernel.org> # v5.17+
+> > > ---
+> > >   drivers/gpu/drm/drm_fb_helper.c | 8 ++++++++
+> > >   1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> > > index 427631706128..5e445c61252d 100644
+> > > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > @@ -30,7 +30,9 @@
+> > >   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > >   #include <linux/console.h>
+> > > +#include <linux/pci.h>
+> > >   #include <linux/sysrq.h>
+> > > +#include <linux/vga_switcheroo.h>
+> > >   #include <drm/drm_atomic.h>
+> > >   #include <drm/drm_drv.h>
+> > > @@ -1940,6 +1942,7 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+> > >   					 int preferred_bpp)
+> > >   {
+> > >   	struct drm_client_dev *client = &fb_helper->client;
+> > > +	struct drm_device *dev = fb_helper->dev;
 > > 
-> > https://github.com/intel/gvt-linux.git
+> > On drm-tip, this commit has a silent conflict with
+> > cff84bac9922 ("drm/fh-helper: Split fbdev single-probe helper")
+> > that's already in drm-next.
 > > 
-> > but with the linux-next your patch is probably right for them.
-> > 
+> > I had created a fix-up patch in drm-tip re-introducing this line.
 > 
-> yeah, I think so as currently from last pull request I don't have
-> other updates in gvt tree, maybe it's just d-i-n hasn't included
-> recent gvt change.
-> 
-> I saw Deepak sent a new one, feel free to apply. Let me know if
-> there's still any issue.
+> Thank you. Is it fixed for now?
 
-It still doesn't apply in drm-intel-next.
-Could you please take it through your branch?
+Fixed in drm-tip, yes. But broke linux-next as well. This
+resolution will need to go up with any merge...
 
 > 
-> thanks!
+> > 
+> > We probably need a backmerge from drm-next into drm-misc-fixes with
+> > the resolution applied there. And probably propagated that resolution
+> > later...
 > 
-> > > > > 
-> > > > > > > ---
-> > > > > > >  drivers/gpu/drm/i915/gvt/debugfs.c | 6 +++---
-> > > > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/gpu/drm/i915/gvt/debugfs.c b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > > > > index 03f081c3d9a4..baccbf1761b7 100644
-> > > > > > > --- a/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > > > > +++ b/drivers/gpu/drm/i915/gvt/debugfs.c
-> > > > > > > @@ -165,7 +165,7 @@ static int vgpu_status_get(void *data, u64 *val)
-> > > > > > >  	return 0;
-> > > > > > >  }
-> > > > > > >  
-> > > > > > > -DEFINE_SIMPLE_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > > > > > > +DEFINE_DEBUGFS_ATTRIBUTE(vgpu_status_fops, vgpu_status_get, NULL, "0x%llx\n");
-> > > > > > >  
-> > > > > > >  /**
-> > > > > > >   * intel_gvt_debugfs_add_vgpu - register debugfs entries for a vGPU
-> > > > > > > @@ -182,8 +182,8 @@ void intel_gvt_debugfs_add_vgpu(struct intel_vgpu *vgpu)
-> > > > > > >  			    &vgpu_mmio_diff_fops);
-> > > > > > >  	debugfs_create_file_unsafe("scan_nonprivbb", 0644, vgpu->debugfs, vgpu,
-> > > > > > >  				   &vgpu_scan_nonprivbb_fops);
-> > > > > > > -	debugfs_create_file("status", 0644, vgpu->debugfs, vgpu,
-> > > > > > > -			    &vgpu_status_fops);
-> > > > > > > +	debugfs_create_file_unsafe("status", 0644, vgpu->debugfs, vgpu,
-> > > > > > > +				   &vgpu_status_fops);
-> > > > > > >  }
-> > > > > > >  
-> > > > > > >  /**
-> > > > > > > -- 
-> > > > > > > 2.34.1
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > 
-> > > > 
+> Backmerging from -next into -fixes branches is a problem, as -fixes should
+> be close to the latest release.
+
+doh! Indeed I should've known this by heart... -ENOTEHOUGHCOFFEE
+
+> 
+> Can we solve this by merging -fixes into upstream and backmerging this into
+> our -next branches?
+
+hmmm... probably better just wait and let folks know the resolution
+when the patches are moving up...
+
+> 
+> Best regards
+> Thomas
+> 
+> > 
+> > >   	struct drm_fb_helper_surface_size sizes;
+> > >   	int ret;
+> > > @@ -1961,6 +1964,11 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+> > >   		return ret;
+> > >   	strcpy(fb_helper->fb->comm, "[fbcon]");
+> > > +
+> > > +	/* Set the fb info for vgaswitcheroo clients. Does nothing otherwise. */
+> > > +	if (dev_is_pci(dev->dev))
+> > > +		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), fb_helper->info);
+> > > +
+> > >   	return 0;
+> > >   }
+> > > -- 
+> > > 2.39.0
 > > > 
-> > > 
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Ivo Totev
+
 
 
