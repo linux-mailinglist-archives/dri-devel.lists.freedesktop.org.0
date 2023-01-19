@@ -2,32 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDB8674EFE
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 09:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F17674F06
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 09:08:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D2610E0C9;
-	Fri, 20 Jan 2023 08:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C275210EA6B;
+	Fri, 20 Jan 2023 08:07:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 506 seconds by postgrey-1.36 at gabe;
- Thu, 19 Jan 2023 10:09:32 UTC
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6172D10E02C
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 10:09:32 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
- id 4C68D26F685; Thu, 19 Jan 2023 11:01:04 +0100 (CET)
-Date: Thu, 19 Jan 2023 11:01:04 +0100
-From: Janne Grunau <janne@jannau.net>
-To: Rayyan Ansari <rayyan@ansari.sh>
-Subject: Re: [RFC PATCH] drm/simpledrm: Allow physical width and height
- configuration via DT
-Message-ID: <20230119100104.GE3576@jannau.net>
-References: <20230118184817.608551-1-rayyan@ansari.sh>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21D7810E077
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 10:24:52 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 816967EC;
+ Thu, 19 Jan 2023 11:24:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1674123890;
+ bh=2x4uESUSmqIxqrNQ6PKyZwpgxVhEslL7kGp0IzwbORc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=UaoYkpm1dB1q9MZ7stndJa93SUIFpLiSdMubzn3Bv4RTLTA20UU/z32Eja5zHyFOz
+ 62hW8MR3d8PTZ6inl2kZahgcwv+by998D5pI03kZDJ/R2zjaNAQ/HdKMuYdQwQUbqI
+ WLKFu5T2ePpihr2vQbGCsP8N6zB115ShdiKBv4+s=
+Message-ID: <fed77104-43d8-e608-a2b8-dbf3d0b32f00@ideasonboard.com>
+Date: Thu, 19 Jan 2023 12:24:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230118184817.608551-1-rayyan@ansari.sh>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 5/6] drm: rcar-du: Fix setting a reserved bit in DPLLCR
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230117135154.387208-6-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y8hm54mvZEcBaBo8@pendragon.ideasonboard.com>
+ <9b2a6b63-3712-3acb-aa17-6d223237c07d@ideasonboard.com>
+ <Y8kQCmdyEwOWna5A@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <Y8kQCmdyEwOWna5A@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 20 Jan 2023 08:07:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,212 +54,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- asahi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hej,
-
-adding devicetree@vger.kernel.org and asahi@lists.linux.dev to cc:, the 
-former for the obvious devictree/bindings related questions,
-asahi for the prospect of supporting high DPI displays during early boot 
-and in u-boot.
-
-On 2023-01-18 18:48:17 +0000, Rayyan Ansari wrote:
-> Hello,
-> The following draft patch adds support for configuring the
-> height-mm and width-mm DRM properties in the simpledrm driver
-> via devicetree.
-> This is useful to get proper scaling in UIs such as Phosh.
-> An example of using this property is this, taken from my local tree:
+On 19/01/2023 11:40, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> 		framebuffer0: framebuffer@3200000 {
-> 			compatible = "simple-framebuffer";
-> 			reg = <0x3200000 0x800000>;
-> 			format = "a8r8g8b8";
-> 			width = <720>;
-> 			height = <1280>;
-> 			stride = <(720 * 4)>;
-> 			width-mm = /bits/ 16 <58>;
-> 			height-mm = /bits/ 16 <103>;
+> On Thu, Jan 19, 2023 at 11:17:58AM +0200, Tomi Valkeinen wrote:
+>> On 18/01/2023 23:38, Laurent Pinchart wrote:
+>>> On Tue, Jan 17, 2023 at 03:51:53PM +0200, Tomi Valkeinen wrote:
+>>>> On H3 ES1 two bits in DPLLCR are used to select the DU input dot clock
+>>>
+>>> s/ES1/ES1.x/
+>>>
+>>> Same below.
+>>
+>> Ok. But I do wonder, is there a difference? What's the case when ES1
+>> could be mistaken to mean something else?
 > 
-> 			clocks = <&mmcc MDSS_AHB_CLK>,
-> 				 <&mmcc MDSS_AXI_CLK>,
-> 				 <&mmcc MDSS_BYTE0_CLK>,
-> 				 <&mmcc MDSS_MDP_CLK>,
-> 				 <&mmcc MDSS_PCLK0_CLK>,
-> 				 <&mmcc MDSS_VSYNC_CLK>;
-> 			power-domains = <&mmcc MDSS_GDSC>;
-> 		};
+> It's just for consistency I suppose. No big deal.
 > 
-> I have tested this on my Lumia 735, and it does indeed
-> allow Phosh to scale correctly on the screen.
+>>>> source. These are bits 20 and 21 for DU2, and bits 22 and 23 for DU1. On
+>>>> non-ES1, only the higher bits are used (bits 21 and 23), and the lower
+>>>> bits are reserved and should be set to 0 (or not set at all).
+>>>
+>>> How do you not set a bit ? :-)
+>>
+>> By leaving it to the value the register already has. But as we don't
+>> read the register as a base value here, I guess that comment is a bit
+>> misleading.
+>>
+>>>> The current code always sets the lower bits, even on non-ES1.
+>>>
+>>> I think that's harmless, and not worth making the driver more complex,
+>>> but I'll stop fighting.
+>>>
+>>>> For both DU1 and DU2, on all SoC versions, when writing zeroes to those
+>>>> bits the input clock is DCLKIN, and thus there's no difference between
+>>>> ES1 and non-ES1.
+>>>>
+>>>> For DU1, writing 0b10 to the bits (or only writing the higher bit)
+>>>> results in using PLL0 as the input clock, so in this case there's also
+>>>> no difference between ES1 and non-ES1.
+>>>>
+>>>> However, for DU2, writing 0b10 to the bits results in using PLL0 as the
+>>>> input clock on ES1, whereas on non-ES1 it results in using PLL1. On ES1
+>>>> you need to write 0b11 to select PLL1.
+>>>>
+>>>> The current code always writes 0b11 to PLCS0 field to select PLL1 on all
+>>>> SoC versions, which works but causes an illegal (in the sense of not
+>>>> allowed by the documentation) write to a reserved bit field.
+>>>>
+>>>> To remove the illegal bit write on PLSC0 we need to handle the input dot
+>>>> clock selection differently for ES1 and non-ES1.
+>>>>
+>>>> Add a new quirk, RCAR_DU_QUIRK_H3_ES1_PLL, for this, and a new
+>>>> rcar_du_device_info entry for the ES1 SoC. Using these, we can always
+>>>
+>>> The new entry was added in the previous patch already.
+>>
+>> Indeed.
+>>
+>>>> set the bit 21 on PLSC0 when choosing the PLL as the source clock, and
+>>>> additionally set the bit 20 when on ES1.
+>>>>
+>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>> ---
+>>>>    drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 12 ++++++++++--
+>>>>    drivers/gpu/drm/rcar-du/rcar_du_drv.c  |  3 ++-
+>>>>    drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  1 +
+>>>>    drivers/gpu/drm/rcar-du/rcar_du_regs.h |  3 ++-
+>>>>    4 files changed, 15 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>>>> index f2d3266509cc..8d660a6141bf 100644
+>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+>>>> @@ -245,12 +245,20 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+>>>>    		       | DPLLCR_N(dpll.n) | DPLLCR_M(dpll.m)
+>>>>    		       | DPLLCR_STBY;
+>>>>    
+>>>> -		if (rcrtc->index == 1)
+>>>> +		if (rcrtc->index == 1) {
+>>>>    			dpllcr |= DPLLCR_PLCS1
+>>>>    			       |  DPLLCR_INCS_DOTCLKIN1;
+>>>> -		else
+>>>> +		} else {
+>>>>    			dpllcr |= DPLLCR_PLCS0
+>>>>    			       |  DPLLCR_INCS_DOTCLKIN0;
+>>>> +			/*
+>>>> +			 * On H3 ES1.x, in addition to setting bit 21 (PLCS0),
+>>>> +			 * also bit 20 has to be set to select PLL1 as the
+>>>> +			 * clock source.
+>>>
+>>> I'd add "On ES2 and newer, PLL1 is selected unconditionally.".
+>>
+>> It's not selected unconditionally, we need to set bit 21. And possibly
+>> we need to set bit 20 to 0, although it's not documented what bit 20
+>> would do when set to 1.
 > 
-> However, I would like to get some feedback before I write the
-> documentation.
-> - What data type should be used?
-> 	The width_mm and height_mm properties of the drm_display_mode
-> 	struct are defined as u16. I have also made the devicetree
-> 	properties as the u16 type, but this requires specifying
-> 	"/bits/ 16" before the value. Should u32 be used instead to get
-> 	rid of this? If so, how could the conversion from u32->u16 be
-> 	handled?
+> We currently set bit 20 to 1 and it works, so I concluded that bit 20 is
 
-u32 is the appropriate type. The device tree describes the hardware and 
-not the data types used in a "random" linux driver/subsystem. 65m is 
-probably enough for all practical purposes but u32 is the better choice.  
-Documentation/devicetree/bindings/display/panel/panel-common.yaml 
-already specifies "height-mm" and "width-mm" and all device tree files 
-using this binding code the properties as u32.
+Ah, right, we do set it to 1.
 
-We probably do not want add height and width properties to the 
-simple-framebuffer node directly. At least for the static case I would 
-expect that it duplicates information already present in a panel node.  
-For that case parsing the panel dimensions via a phandle reference to 
-that panel node would be preferred.
-
-I'm not sure if it worth considering the dynamic case. The bootloader 
-may be able to provide dimensions of HDMI, DP, ...  connected displays 
-from the EDID. In that case "height-mm" and "width-mm" properties would 
-make sense.
-
-The existing panel drivers seem to ignore the u32 -> u16 conversion 
-problem.
-
-> - Style?
-> 	I have split the arguments to the DRM_MODE_INIT macro across
-> 	multiple lines to increase readability. I'm not sure if this
-> 	is the correct style though.
-
-I think the code would be more readable if width_mm and height_mm would 
-be calculated outside of DRM_MODE_INIT if they are zero.
-
-> - Anything else?
-> 	This is my first time writing code for a Linux driver, so I
-> 	would be grateful if you have any suggestions for improvements.
-
-Documentation/devicetree/bindings/display/simple-framebuffer.yaml needs 
-to be updates to list and document the properties added to the node.
-
-> ---
->  drivers/gpu/drm/tiny/simpledrm.c | 49 +++++++++++++++++++++++++++-----
->  1 file changed, 42 insertions(+), 7 deletions(-)
+> ignored. That's what I meant by PLL1 being selected automatically,
+> between PLL0 and PLL1. We still need to select PLL instead of DCLKIN
+> with bit 21.
 > 
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index 162eb44dcba8..92109f870b35 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -116,6 +116,15 @@ simplefb_get_format_pd(struct drm_device *dev,
->  	return simplefb_get_validated_format(dev, pd->format);
->  }
->  
-> +static void
-> +simplefb_read_u16_of_optional(struct drm_device *dev, struct device_node *of_node,
-> +		     const char *name, u16 *value)
-> +{
-> +	int ret = of_property_read_u16(of_node, name, value);
-> +	if (ret)
-> +		value = 0;
-> +}
-> +
->  static int
->  simplefb_read_u32_of(struct drm_device *dev, struct device_node *of_node,
->  		     const char *name, u32 *value)
-> @@ -184,6 +193,21 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
->  	return simplefb_get_validated_format(dev, format);
->  }
->  
-> +static u16
-> +simplefb_get_width_mm_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +	u16 width_mm;
-> +	simplefb_read_u16_of_optional(dev, of_node, "width-mm", &width_mm);
-> +	return width_mm;
-> +}
-> +
-> +static u16
-> +simplefb_get_height_mm_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +	u16 height_mm;
-> +	simplefb_read_u16_of_optional(dev, of_node, "height-mm", &height_mm);
-> +	return height_mm;
-> +}
+>> And is that "ES2.x"? =)
+> 
+> Good point :-)
+> 
+>> How about:
+>>
+>>    * On ES2.x and newer, PLL1 is selected by setting bit
+>>    * 21 (PLCS0) to 1 and keeping the (reserved) bit 20 as
+>>    * 0. On H3 ES1.x, in addition to setting bit 21, also
+>>    * bit 20 has to be set to select PLL1 as the clock source.
+> 
+> What I'd like to capture in the comment is that the clock topology is
+> 
+>          bit 20
+>            |     bit 21
+>            v       |
+>           |\       v
+> PLL0 --> |0|     |\
+> PLL1 --> |1| --> |1| -->
+>           |/  /-> |0|
+>               |   |/
+> DCLKIN ------/
+> 
+> on H3 ES1.x, while on newer revisions, bit 20 is ignored and the first
+> mux is hardcoded to PLL1.
 
-I don't think it makes sense to have these two mostly identical wrapper 
-functions. Please pass the name of the property as parameter. It could 
-make sense to have a function to both height and width. I think we 
-should ignore both height and width if one fails to parse or is 0.
-That could of course also be done in simpledrm_mode() for example like:
+Isn't that the stuff that's supposed to be found by reading the manual? 
+I could, of course, copy the above picture, and draw a similar one for 
+ES2+, but that feels like just useless copying of the manual...
 
-|	if (!width_mm || !height_mm) {
-|		width_mm = DRM_MODE_RES_MM(width, 96ul);
-|		height_mm = DRM_MODE_RES_MM(height, 96ul);
-|	}
+Doesn't the above comment already describe why we set the bits as we do? 
+I could change the comment to talk about muxes, if you think that's a 
+better approach. But, if I recall right, the manuals don't talk about 
+muxes, just "set this to X to use PLL1", so my comment above approaches 
+from that direction.
 
->  /*
->   * Simple Framebuffer device
->   */
-> @@ -599,16 +623,24 @@ static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
->   */
->  
->  static struct drm_display_mode simpledrm_mode(unsigned int width,
-> -					      unsigned int height)
-> +					      unsigned int height,
-> +					      u16 width_mm,
-> +					      u16 height_mm)
->  {
->  	/*
-> -	 * Assume a monitor resolution of 96 dpi to
-> -	 * get a somewhat reasonable screen size.
-> +	 * Assume a monitor resolution of 96 dpi if physical
-> +	 * dimensions are not specified to get a somewhat reasonable
-> +	 * screen size.
->  	 */
-> +
->  	const struct drm_display_mode mode = {
-> -		DRM_MODE_INIT(60, width, height,
-> -			      DRM_MODE_RES_MM(width, 96ul),
-> -			      DRM_MODE_RES_MM(height, 96ul))
-> +		DRM_MODE_INIT(
-> +			60,
-> +			width,
-> +			height,
-> +			(width_mm ? width_mm : DRM_MODE_RES_MM(width, 96ul)),
-> +			(height_mm ? height_mm : DRM_MODE_RES_MM(height, 96ul))
-> +			)
->  	};
->  
->  	return mode;
-> @@ -622,6 +654,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->  	struct simpledrm_device *sdev;
->  	struct drm_device *dev;
->  	int width, height, stride;
-> +	u16 width_mm, height_mm;
+Maybe something in this direction, then:
 
-these need to be initialized to 0 otherwise they may end up used 
-unitialized if pd is not NULL.
+On ES2.x we have a single mux controlled via bit 21, which selects 
+between DCLKIN source (bit 21 = 0) and a PLL source (bit 21 = 1), where 
+the PLL is always PLL1. On ES1.x we have an additional mux, controlled 
+via bit 20, for choosing between PLL0 (bit 20 = 0) and PLL1 (bit 20 = 
+1). We always want to use PLL1, so on ES1.x, in addition to setting bit 
+21, we need to set the bit 20.
 
->  	const struct drm_format_info *format;
->  	struct resource *res, *mem;
->  	void __iomem *screen_base;
-> @@ -676,6 +709,8 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->  		format = simplefb_get_format_of(dev, of_node);
->  		if (IS_ERR(format))
->  			return ERR_CAST(format);
-> +		width_mm = simplefb_get_width_mm_of(dev, of_node);
-> +		height_mm = simplefb_get_height_mm_of(dev, of_node);
->  	} else {
->  		drm_err(dev, "no simplefb configuration found\n");
->  		return ERR_PTR(-ENODEV);
-> @@ -686,7 +721,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->  			return ERR_PTR(-EINVAL);
->  	}
->  
-> -	sdev->mode = simpledrm_mode(width, height);
-> +	sdev->mode = simpledrm_mode(width, height, width_mm, height_mm);
->  	sdev->format = format;
->  	sdev->pitch = stride;
+  Tomi
 
-Janne
