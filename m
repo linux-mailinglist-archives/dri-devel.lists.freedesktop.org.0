@@ -1,53 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8C9673ED1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 17:29:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BFA673EDC
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 17:32:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0DA910E9B4;
-	Thu, 19 Jan 2023 16:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76C5610E9B2;
+	Thu, 19 Jan 2023 16:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE0210E9AF
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 16:29:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C9D06B825FC
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 16:29:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51A7DC433F2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 16:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674145746;
- bh=Y5UiC66tqjbPnVN0nMB0hJCiOc1aq8w1rujscyAbAOc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=pBEWI2cZxBjwWoG76BSiadQrL5rjRWkcrWf+0CgygDYfm1QuBPzaVVfdmo+xoN+W2
- 8KJCTBBG+25CHcDO+7Dc/PZ9UQnxvagbdyUyPVP2eXMICKzNAsTPWg2MAyrDaG/4qI
- o7AolPMH3wfdckZancCh1UwUVs3zBuJfDABJ0Q+0viKdCtSAGY1QqG4LflyFK96C5N
- Eylb3IvU8AGHTvcqjlfJMC1u9CrcxIOb0c3KU+VrQrnNFNk3xffavpy7AZ9yXglLbx
- cqmNkMaznpvv6ByiO99+g8ljW1W9Mq2Digz3bQu0dTWWD9YNmUPc0zxTcliC1ms4gH
- nP3Ek6GR2iJiA==
-Received: by mail-yb1-f179.google.com with SMTP id x4so1474861ybp.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 08:29:06 -0800 (PST)
-X-Gm-Message-State: AFqh2koDU+i5L7jiAEIUP6B4fzPPG+ri4IAxdDByMyVPYuyMa7yozjhp
- P1Py4U1Vm0IF5ujrmUOlOrYtA2yFBtFADi1Yhl4=
-X-Google-Smtp-Source: AMrXdXtaiaQPjHwUwKJVxb9BtKPFxfA/UNiZ4AIsS8iQjR5R8XxfhbuY1rB1EJe1OUu9UVA4FmofH0FqpMv0XKKEgJo=
-X-Received: by 2002:a25:e407:0:b0:754:e501:8b51 with SMTP id
- b7-20020a25e407000000b00754e5018b51mr1433625ybh.197.1674145745379; Thu, 19
- Jan 2023 08:29:05 -0800 (PST)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B381C10E9B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 16:32:07 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id y11so3458684edd.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 08:32:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YE4kxjCoA8g22WKPVKZXkJ+ZWFhCgt4Gpj2pAo7Vofg=;
+ b=pINpCCbJuokFvEfsZ52A6K7wsjl18I2oknNeiQJ3ynhH3vOP35dZ86H2EQk+jZLamm
+ uSi0+B4zjimfQTbOUGOrr1sxlCrj7SdzFa90u0J3qz6kdV0yN0iCk27WhipVl7S66LW4
+ qQl+HvzQTcG4DcML//YwR1b0nW1FyOggmPkYm9uqtQ7u+HLE5N/4rI1rZkCk92OgPSTi
+ ncIl89IWWMOoizVO/b7W8dH1YqoW5H231eow9nIOEthNHwM1W6ftRUfT2N+228kpfHrb
+ 4L+oeUVMx4nv9PGaDpZyJZg3ARr4a3y0tKOUOTTGE1YRyqM3mOoxo1MbaXVlqhQ4CXIj
+ YImQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YE4kxjCoA8g22WKPVKZXkJ+ZWFhCgt4Gpj2pAo7Vofg=;
+ b=xoY+nROWrKo2vddJsOMgoaZCeKI+fn/EmADVfGTPa6SUn0NZycbgeHhQxUhRH61Q3h
+ B269qI8tFoeCwiAoU8CDnM8PtSWC+ONQb+hgMSXcEWu8/jPQgQPtmJ4z0dUFX8Vw9Af7
+ 4uoBST9Q+dmQ3sYwZ+LQfdlfhz448LWRmVVEPdza/+m/Vm5fiic4ylR++JCnXMr+2Zqw
+ la0ceQ53YZR1nkKGbQpzywaAJWI0Kix01UGdOpG3IyuEdcOdqTW6rYPQnBuCJoqYQsd7
+ K4mzp1Y67jn8rku/8XJvswi1p0P36KD5PpWAN2BViyxtgtiPOSYE2nB7/XfxcDZ+RD2C
+ V7ew==
+X-Gm-Message-State: AFqh2koAJA5jbrsC7DppKX4uZRl0nAlYDJ9gpx5krwPFd2Cx1yMPjkYM
+ 5msWIADFPspKTCCJlMxLQeA6Dg==
+X-Google-Smtp-Source: AMrXdXv0JD7ArwgvLKwUjKMA3A7LLoYNY+CcCHNC2j9dwsvXlVKHekCHCKeXSxiUkSXs/UeW80N1lQ==
+X-Received: by 2002:a05:6402:1ad1:b0:460:5706:d1fa with SMTP id
+ ba17-20020a0564021ad100b004605706d1famr12010299edb.18.1674145926252; 
+ Thu, 19 Jan 2023 08:32:06 -0800 (PST)
+Received: from localhost.localdomain (abyk37.neoplus.adsl.tpnet.pl.
+ [83.9.30.37]) by smtp.gmail.com with ESMTPSA id
+ fg11-20020a056402548b00b004873927780bsm15669466edb.20.2023.01.19.08.32.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 08:32:05 -0800 (PST)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
+ krzysztof.kozlowski@linaro.org
+Subject: [PATCH v4 1/2] dt-bindings: display/panel: Add Sony Tama TD4353 JDI
+ display panel
+Date: Thu, 19 Jan 2023 17:31:59 +0100
+Message-Id: <20230119163201.580858-1-konrad.dybcio@linaro.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <1674145568-31513-1-git-send-email-quic_jhugo@quicinc.com>
-In-Reply-To: <1674145568-31513-1-git-send-email-quic_jhugo@quicinc.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Thu, 19 Jan 2023 18:28:38 +0200
-X-Gmail-Original-Message-ID: <CAFCwf13SAQMu1ssTtDHru5KSRMb2g_x-K_GBJn5bSG21_QYXdg@mail.gmail.com>
-Message-ID: <CAFCwf13SAQMu1ssTtDHru5KSRMb2g_x-K_GBJn5bSG21_QYXdg@mail.gmail.com>
-Subject: Re: [PATCH] docs: accel: Fix debugfs path
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,43 +70,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, corbet@lwn.net
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ marijn.suijten@somainline.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 19, 2023 at 6:26 PM Jeffrey Hugo <quic_jhugo@quicinc.com> wrote:
->
-> The device specific directory in debugfs does not have "accel".  For
-> example, the documentation says device 0 should have a debugfs entry as
-> /sys/kernel/debug/accel/accel0/ but in reality the entry is
-> /sys/kernel/debug/accel/0/
->
-> Fix the documentation to match the implementation.
->
-> Fixes: 8c5577a5ccc6 ("doc: add documentation for accel subsystem")
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  Documentation/accel/introduction.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
-> index 6f31af1..11cade5 100644
-> --- a/Documentation/accel/introduction.rst
-> +++ b/Documentation/accel/introduction.rst
-> @@ -69,7 +69,7 @@ The accelerator devices will be exposed to the user space with the dedicated
->
->  - device char files - /dev/accel/accel*
->  - sysfs             - /sys/class/accel/accel*/
-> -- debugfs           - /sys/kernel/debug/accel/accel*/
-> +- debugfs           - /sys/kernel/debug/accel/*/
->
->  Getting Started
->  ===============
-> --
-> 2.7.4
->
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
 
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Thanks,
-Oded
+Add bindings for the display panel used on some Sony Xperia XZ2 and XZ2
+Compact smartphones.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+v3 -> v4:
+- Pick up rb
+
+Link to v3:
+https://lore.kernel.org/lkml/20220930180812.32210-1-konrad.dybcio@somainline.org/
+
+ .../display/panel/sony,td4353-jdi.yaml        | 82 +++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+new file mode 100644
+index 000000000000..b6b885b4c22d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/sony,td4353-jdi.yaml
+@@ -0,0 +1,82 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/sony,td4353-jdi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony TD4353 JDI 5 / 5.7" 2160x1080 MIPI-DSI Panel
++
++maintainers:
++  - Konrad Dybcio <konrad.dybcio@somainline.org>
++
++description: |
++  The Sony TD4353 JDI is a 5 (XZ2c) / 5.7 (XZ2) inch 2160x1080
++  MIPI-DSI panel, used in Xperia XZ2 and XZ2 Compact smartphones.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: sony,td4353-jdi-tama
++
++  reg: true
++
++  backlight: true
++
++  vddio-supply:
++    description: VDDIO 1.8V supply
++
++  vsp-supply:
++    description: Positive 5.5V supply
++
++  vsn-supply:
++    description: Negative 5.5V supply
++
++  panel-reset-gpios:
++    description: Display panel reset pin
++
++  touch-reset-gpios:
++    description: Touch panel reset pin
++
++  port: true
++
++required:
++  - compatible
++  - reg
++  - vddio-supply
++  - vsp-supply
++  - vsn-supply
++  - panel-reset-gpios
++  - touch-reset-gpios
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel: panel@0 {
++            compatible = "sony,td4353-jdi-tama";
++            reg = <0>;
++
++            backlight = <&pmi8998_wled>;
++            vddio-supply = <&vreg_l14a_1p8>;
++            vsp-supply = <&lab>;
++            vsn-supply = <&ibb>;
++            panel-reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
++            touch-reset-gpios = <&tlmm 99 GPIO_ACTIVE_HIGH>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&dsi0_out>;
++                };
++            };
++        };
++    };
++...
+-- 
+2.39.1
+
