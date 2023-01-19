@@ -2,62 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E872674667
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 23:54:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F36067466A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 23:54:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70E5C10E27E;
-	Thu, 19 Jan 2023 22:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B4A10E280;
+	Thu, 19 Jan 2023 22:54:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DDE210E283
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 22:54:18 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id q9so2791271pgq.5
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 14:54:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bV+jI6lHrlyCpT8hI1E9uFmq1lCM9hqs/OL2V3boQaE=;
- b=Ts36WXoetdK/kuBnP/3bXmmdbice3lQOwq3KgC9YMZHHh/9bkWvWiXXpyOGqTkrVbP
- JP8odoCRTIdWVSkyw56A7sEYaCd0wKdER9uukA02FiVT3duIzNC+NiRYEHwHckIFGc6K
- jcte3cW3B8HAcsGWK3pu8Uz8b0MsOQ7HjIzk0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bV+jI6lHrlyCpT8hI1E9uFmq1lCM9hqs/OL2V3boQaE=;
- b=lM2nKGfQO2v9CgC/5IAAM2LQeEx288kxZQT9OODCZ1r8dRKKTUK8/Val1RvnqC+Lph
- F6xRULIBYC8Kf/C6YMs+YjkU8rJlP4wQdt3uhC8SrHa2+cBELkg0liPRidzNh2+ljftf
- JmgRCJmIY4PoKdbF3YcEk6AaWcNj776EnjQvhnllSzKOmcSmCkdWWRvENNH56XIjI34P
- +h2xeiXtAYwdLcgxPVcoTs9k7+MC1H9jHDrPyoH/EYt80VphrDj28l7E5+7CUw60upNY
- XKS9ctfn34vOnx6ycdhjY2vBuIkjFhEq1y1mqZRCZC2eaEEMrTNjxU/KSccwSdgd04vW
- x5sA==
-X-Gm-Message-State: AFqh2kpBwhKWK+01XNqmbgEHTb+A+DvsGk3p0PaUJHZHA1Jfa+orHrkg
- ov/q16jdMF/MzOS9z4X8BVvwWA==
-X-Google-Smtp-Source: AMrXdXtRnADtKAaTFpO64J23UQ+t8DSanqxd4c8YjrAsYNvh+UDn+K6XNoDRQbeFMfn3ZHkjA2jLUA==
-X-Received: by 2002:aa7:96f7:0:b0:582:5b8d:52be with SMTP id
- i23-20020aa796f7000000b005825b8d52bemr13909854pfq.8.1674168857972; 
- Thu, 19 Jan 2023 14:54:17 -0800 (PST)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:9d:2:62c2:e2e0:4fda:849e])
- by smtp.gmail.com with ESMTPSA id
- f127-20020a623885000000b00588cb819473sm20198839pfa.39.2023.01.19.14.54.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 14:54:17 -0800 (PST)
-From: Douglas Anderson <dianders@chromium.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 2/2] drm/msm/dp: Return IRQ_NONE for unhandled interrupts
-Date: Thu, 19 Jan 2023 14:53:43 -0800
-Message-Id: <20230119145248.2.I2d7aec2fadb9c237cd0090a47d6a8ba2054bf0f8@changeid>
-X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
-In-Reply-To: <20230119145248.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
-References: <20230119145248.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4EB010E280;
+ Thu, 19 Jan 2023 22:54:50 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30JLpARG016061; Thu, 19 Jan 2023 22:54:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=NIYQYElbAUGqiT8yCF2DhxDCLyd/qkQ2Bwi98kWDv+8=;
+ b=n9fCmVbfYBg4p4FKGIY+IrGjyIjI5i66fR1n0NCxmYTMiSAp0Liao0T3U4KfJd8NDSQ2
+ r+JpqPXY4YavuvPWwU+jYAUE0AsO/bYOI05i8jqXzhoK48Frfy7ouLpM5n4KBuh206wq
+ Ga+POEeRswbm9OxN150iE7+zJor8sdAKCXa5WkqZxHMrNZEVeZTxFhKfzncWiKEymW0J
+ +75q0tv/xUR6D1WRxskJaFx0MvsgdjHW3MHfT0XaxJcugWpv+oTGf6EX+MvHNWIYmpqd
+ K0weIv4MgsOFynwNVuLdWJCASx8BUxuW8Wj3mcvAaAbfNF6Hv1kJPnRqI72Al5BosWu6 Ag== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7593sc3q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Jan 2023 22:54:44 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30JMshL1028487
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Jan 2023 22:54:43 GMT
+Received: from [10.110.69.104] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 19 Jan
+ 2023 14:54:43 -0800
+Message-ID: <2a5c8934-a479-6ea7-4236-9e156e26b29a@quicinc.com>
+Date: Thu, 19 Jan 2023 14:54:42 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 1/3] drm/msm/mdss: convert UBWC setup to use match data
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230118010428.1671443-1-dmitry.baryshkov@linaro.org>
+ <20230118010428.1671443-2-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230118010428.1671443-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ukCx1ZU5cKgz9cSkCENPifZfCg32lSiH
+X-Proofpoint-ORIG-GUID: ukCx1ZU5cKgz9cSkCENPifZfCg32lSiH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-19_14,2023-01-19_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=999 spamscore=0 suspectscore=0 mlxscore=0 adultscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0
+ malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2301190194
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,210 +84,321 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Johan Hovold <johan+linaro@kernel.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If our interrupt handler gets called and we don't really handle the
-interrupt then we should return IRQ_NONE. The current interrupt
-handler didn't do this, so let's fix it.
 
-NOTE: for some of the cases it's clear that we should return IRQ_NONE
-and some cases it's clear that we should return IRQ_HANDLED. However,
-there are a few that fall somewhere in between. Specifically, the
-documentation for when to return IRQ_NONE vs. IRQ_HANDLED is probably
-best spelled out in the commit message of commit d9e4ad5badf4
-("Document that IRQ_NONE should be returned when IRQ not actually
-handled"). That commit makes it clear that we should return
-IRQ_HANDLED if we've done something to make the interrupt stop
-happening.
 
-The case where it's unclear is, for instance, in dp_aux_isr() after
-we've read the interrupt using dp_catalog_aux_get_irq() and confirmed
-that "isr" is non-zero. The function dp_catalog_aux_get_irq() not only
-reads the interrupts but it also "ack"s all the interrupts that are
-returned. For an "unknown" interrupt this has a very good chance of
-actually stopping the interrupt from happening. That would mean we've
-identified that it's our device and done something to stop them from
-happening and should return IRQ_HANDLED. Specifically, it should be
-noted that most interrupts that need "ack"ing are ones that are
-one-time events and doing an "ack" is enough to clear them. However,
-since these interrupts are unknown then, by definition, it's unknown
-if "ack"ing them is truly enough to clear them. It's possible that we
-also need to remove the original source of the interrupt. In this
-case, IRQ_NONE would be a better choice.
+On 1/17/2023 5:04 PM, Dmitry Baryshkov wrote:
+> To simplify adding new platforms and to make settings more obvious,
+> rewrite the UBWC setup to use the data structure to pass platform config
+> rather than just calling the functions direcly.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Given that returning an occasional IRQ_NONE isn't the absolute end of
-the world, however, let's choose that course of action. The IRQ
-framework will forgive a few IRQ_NONE returns now and again (and it
-won't even log them, which is why we have to log them ourselves). This
-means that if we _do_ end hitting an interrupt where "ack"ing isn't
-enough the kernel will eventually detect the problem and shut our
-device down.
+I was reviewing this series and 
+https://patchwork.freedesktop.org/series/111732/ together.
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+More I think about it, it seems like we are duplicating the same values 
+here and in the catalog.
 
- drivers/gpu/drm/msm/dp/dp_aux.c     | 12 +++++++-----
- drivers/gpu/drm/msm/dp/dp_aux.h     |  2 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 10 ++++++++--
- drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
- drivers/gpu/drm/msm/dp/dp_display.c |  8 +++++---
- 5 files changed, 22 insertions(+), 12 deletions(-)
+Yes, these two are different drivers.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index 34ad08ae6eb9..59e323b7499d 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -368,14 +368,14 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
- 	return ret;
- }
- 
--void dp_aux_isr(struct drm_dp_aux *dp_aux)
-+irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux)
- {
- 	u32 isr;
- 	struct dp_aux_private *aux;
- 
- 	if (!dp_aux) {
- 		DRM_ERROR("invalid input\n");
--		return;
-+		return IRQ_NONE;
- 	}
- 
- 	aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
-@@ -384,11 +384,11 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
- 
- 	/* no interrupts pending, return immediately */
- 	if (!isr)
--		return;
-+		return IRQ_NONE;
- 
- 	if (!aux->cmd_busy) {
- 		DRM_ERROR("Unexpected DP AUX IRQ %#010x when not busy\n", isr);
--		return;
-+		return IRQ_NONE;
- 	}
- 
- 	/*
-@@ -420,10 +420,12 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
- 			aux->aux_error_num = DP_AUX_ERR_DEFER;
- 	} else {
- 		DRM_WARN("Unexpected interrupt: %#010x\n", isr);
--		return;
-+		return IRQ_NONE;
- 	}
- 
- 	complete(&aux->comp);
-+
-+	return IRQ_HANDLED;
- }
- 
- void dp_aux_reconfig(struct drm_dp_aux *dp_aux)
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
-index e930974bcb5b..511305da4f66 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.h
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-@@ -11,7 +11,7 @@
- 
- int dp_aux_register(struct drm_dp_aux *dp_aux);
- void dp_aux_unregister(struct drm_dp_aux *dp_aux);
--void dp_aux_isr(struct drm_dp_aux *dp_aux);
-+irqreturn_t dp_aux_isr(struct drm_dp_aux *dp_aux);
- void dp_aux_init(struct drm_dp_aux *dp_aux);
- void dp_aux_deinit(struct drm_dp_aux *dp_aux);
- void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index dd26ca651a05..1a5377ef1967 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1979,27 +1979,33 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
- 	return ret;
- }
- 
--void dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
-+irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl)
- {
- 	struct dp_ctrl_private *ctrl;
- 	u32 isr;
-+	irqreturn_t ret = IRQ_NONE;
- 
- 	if (!dp_ctrl)
--		return;
-+		return IRQ_NONE;
- 
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 
- 	isr = dp_catalog_ctrl_get_interrupt(ctrl->catalog);
- 
-+
- 	if (isr & DP_CTRL_INTR_READY_FOR_VIDEO) {
- 		drm_dbg_dp(ctrl->drm_dev, "dp_video_ready\n");
- 		complete(&ctrl->video_comp);
-+		ret = IRQ_HANDLED;
- 	}
- 
- 	if (isr & DP_CTRL_INTR_IDLE_PATTERN_SENT) {
- 		drm_dbg_dp(ctrl->drm_dev, "idle_patterns_sent\n");
- 		complete(&ctrl->idle_comp);
-+		ret = IRQ_HANDLED;
- 	}
-+
-+	return ret;
- }
- 
- struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-index 9f29734af81c..c3af06dc87b1 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-@@ -25,7 +25,7 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
- int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
--void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
-+irqreturn_t dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
- void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl);
- struct dp_ctrl *dp_ctrl_get(struct device *dev, struct dp_link *link,
- 			struct dp_panel *panel,	struct drm_dp_aux *aux,
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 7ff60e5ff325..8996adbc5bd3 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1192,7 +1192,7 @@ static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv)
- static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
- {
- 	struct dp_display_private *dp = dev_id;
--	irqreturn_t ret = IRQ_HANDLED;
-+	irqreturn_t ret = IRQ_NONE;
- 	u32 hpd_isr_status;
- 
- 	if (!dp) {
-@@ -1220,13 +1220,15 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
- 
- 		if (hpd_isr_status & DP_DP_HPD_UNPLUG_INT_MASK)
- 			dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
-+
-+		ret = IRQ_HANDLED;
- 	}
- 
- 	/* DP controller isr */
--	dp_ctrl_isr(dp->ctrl);
-+	ret |= dp_ctrl_isr(dp->ctrl);
- 
- 	/* DP aux isr */
--	dp_aux_isr(dp->aux);
-+	ret |= dp_aux_isr(dp->aux);
- 
- 	return ret;
- }
--- 
-2.39.0.246.g2a6d74b583-goog
+But now that you are adding the UBWC entries here using the compatible 
+string so you are creating something like a "catalog" here.
 
+In that case, why dont we remove the entries from dpu catalog and in the 
+DPU driver get the parent's match data as we know that the msm_mdss is 
+the parent of DPU driver
+
+Let me know your thoughts.
+
+> ---
+>   drivers/gpu/drm/msm/msm_mdss.c | 181 +++++++++++++++++++--------------
+>   1 file changed, 105 insertions(+), 76 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index 02646e4bb4cd..799672b88716 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -16,9 +16,6 @@
+>   #include "msm_drv.h"
+>   #include "msm_kms.h"
+>   
+> -/* for DPU_HW_* defines */
+> -#include "disp/dpu1/dpu_hw_catalog.h"
+> -
+>   #define HW_REV				0x0
+>   #define HW_INTR_STATUS			0x0010
+>   
+> @@ -29,6 +26,16 @@
+>   
+>   #define MIN_IB_BW	400000000UL /* Min ib vote 400MB */
+>   
+> +struct msm_mdss_data {
+> +	u32 ubwc_version;
+> +	/* can be read from register 0x58 */
+> +	u32 ubwc_dec_version;
+> +	u32 ubwc_swizzle;
+> +	u32 ubwc_static;
+> +	u32 highest_bank_bit;
+> +	u32 macrotile_mode;
+> +};
+> +
+>   struct msm_mdss {
+>   	struct device *dev;
+>   
+> @@ -40,6 +47,7 @@ struct msm_mdss {
+>   		unsigned long enabled_mask;
+>   		struct irq_domain *domain;
+>   	} irq_controller;
+> +	const struct msm_mdss_data *mdss_data;
+>   	struct icc_path *path[2];
+>   	u32 num_paths;
+>   };
+> @@ -182,46 +190,40 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
+>   #define UBWC_3_0 0x30000000
+>   #define UBWC_4_0 0x40000000
+>   
+> -static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss,
+> -				       u32 ubwc_static)
+> +static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss)
+>   {
+> -	writel_relaxed(ubwc_static, msm_mdss->mmio + UBWC_STATIC);
+> +	const struct msm_mdss_data *data = msm_mdss->mdss_data;
+> +
+> +	writel_relaxed(data->ubwc_static, msm_mdss->mmio + UBWC_STATIC);
+>   }
+>   
+> -static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss,
+> -				       unsigned int ubwc_version,
+> -				       u32 ubwc_swizzle,
+> -				       u32 highest_bank_bit,
+> -				       u32 macrotile_mode)
+> +static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss)
+>   {
+> -	u32 value = (ubwc_swizzle & 0x1) |
+> -		    (highest_bank_bit & 0x3) << 4 |
+> -		    (macrotile_mode & 0x1) << 12;
+> +	const struct msm_mdss_data *data = msm_mdss->mdss_data;
+> +	u32 value = (data->ubwc_swizzle & 0x1) |
+> +		    (data->highest_bank_bit & 0x3) << 4 |
+> +		    (data->macrotile_mode & 0x1) << 12;
+>   
+> -	if (ubwc_version == UBWC_3_0)
+> +	if (data->ubwc_version == UBWC_3_0)
+>   		value |= BIT(10);
+>   
+> -	if (ubwc_version == UBWC_1_0)
+> +	if (data->ubwc_version == UBWC_1_0)
+>   		value |= BIT(8);
+>   
+>   	writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+>   }
+>   
+> -static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss,
+> -				       unsigned int ubwc_version,
+> -				       u32 ubwc_swizzle,
+> -				       u32 ubwc_static,
+> -				       u32 highest_bank_bit,
+> -				       u32 macrotile_mode)
+> +static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
+>   {
+> -	u32 value = (ubwc_swizzle & 0x7) |
+> -		    (ubwc_static & 0x1) << 3 |
+> -		    (highest_bank_bit & 0x7) << 4 |
+> -		    (macrotile_mode & 0x1) << 12;
+> +	const struct msm_mdss_data *data = msm_mdss->mdss_data;
+> +	u32 value = (data->ubwc_swizzle & 0x7) |
+> +		    (data->ubwc_static & 0x1) << 3 |
+> +		    (data->highest_bank_bit & 0x7) << 4 |
+> +		    (data->macrotile_mode & 0x1) << 12;
+>   
+>   	writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+>   
+> -	if (ubwc_version == UBWC_3_0) {
+> +	if (data->ubwc_version == UBWC_3_0) {
+>   		writel_relaxed(1, msm_mdss->mmio + UBWC_CTRL_2);
+>   		writel_relaxed(0, msm_mdss->mmio + UBWC_PREDICTION_MODE);
+>   	} else {
+> @@ -233,7 +235,6 @@ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss,
+>   static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+>   {
+>   	int ret;
+> -	u32 hw_rev;
+>   
+>   	/*
+>   	 * Several components have AXI clocks that can only be turned on if
+> @@ -249,57 +250,36 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+>   	}
+>   
+>   	/*
+> -	 * HW_REV requires MDSS_MDP_CLK, which is not enabled by the mdss on
+> -	 * mdp5 hardware. Skip reading it for now.
+> +	 * Register access requires MDSS_MDP_CLK, which is not enabled by the
+> +	 * mdss on mdp5 hardware. Skip it for now.
+>   	 */
+> -	if (msm_mdss->is_mdp5)
+> +	if (msm_mdss->is_mdp5 || !msm_mdss->mdss_data)
+>   		return 0;
+>   
+> -	hw_rev = readl_relaxed(msm_mdss->mmio + HW_REV);
+> -	dev_dbg(msm_mdss->dev, "HW_REV: 0x%x\n", hw_rev);
+> -	dev_dbg(msm_mdss->dev, "UBWC_DEC_HW_VERSION: 0x%x\n",
+> -		readl_relaxed(msm_mdss->mmio + UBWC_DEC_HW_VERSION));
+> -
+>   	/*
+>   	 * ubwc config is part of the "mdss" region which is not accessible
+>   	 * from the rest of the driver. hardcode known configurations here
+>   	 *
+>   	 * Decoder version can be read from the UBWC_DEC_HW_VERSION reg,
+> -	 * UBWC_n and the rest of params comes from hw_catalog.
+> -	 * Unforunately this driver can not access hw catalog, so we have to
+> -	 * hardcode them here.
+> +	 * UBWC_n and the rest of params comes from hw data.
+>   	 */
+> -	switch (hw_rev) {
+> -	case DPU_HW_VER_500:
+> -	case DPU_HW_VER_501:
+> -		msm_mdss_setup_ubwc_dec_30(msm_mdss, UBWC_3_0, 0, 2, 0);
+> -		break;
+> -	case DPU_HW_VER_600:
+> -		/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> -		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 3, 1);
+> +	switch (msm_mdss->mdss_data->ubwc_dec_version) {
+> +	case UBWC_2_0:
+> +		msm_mdss_setup_ubwc_dec_20(msm_mdss);
+>   		break;
+> -	case DPU_HW_VER_620:
+> -		/* UBWC_2_0 */
+> -		msm_mdss_setup_ubwc_dec_20(msm_mdss, 0x1e);
+> +	case UBWC_3_0:
+> +		msm_mdss_setup_ubwc_dec_30(msm_mdss);
+>   		break;
+> -	case DPU_HW_VER_630:
+> -		/* UBWC_2_0 */
+> -		msm_mdss_setup_ubwc_dec_20(msm_mdss, 0x11f);
+> +	case UBWC_4_0:
+> +		msm_mdss_setup_ubwc_dec_40(msm_mdss);
+>   		break;
+> -	case DPU_HW_VER_700:
+> -		/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> -		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 3, 1);
+> -		break;
+> -	case DPU_HW_VER_720:
+> -		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_3_0, 6, 1, 1, 1);
+> -		break;
+> -	case DPU_HW_VER_800:
+> -		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 2, 1);
+> -		break;
+> -	case DPU_HW_VER_810:
+> -	case DPU_HW_VER_900:
+> -		/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> -		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 3, 1);
+> +	default:
+> +		dev_err(msm_mdss->dev, "Unuspported UBWC decoder version %x\n",
+> +			msm_mdss->mdss_data->ubwc_dec_version);
+> +		dev_err(msm_mdss->dev, "HW_REV: 0x%x\n",
+> +			readl_relaxed(msm_mdss->mmio + HW_REV));
+> +		dev_err(msm_mdss->dev, "UBWC_DEC_HW_VERSION: 0x%x\n",
+> +			readl_relaxed(msm_mdss->mmio + UBWC_DEC_HW_VERSION));
+
+Why do you still have these register reads in default?
+If the purpose was to catch any missed chipsets, that would not be 
+possible right? Because that means the compat table entry is missing for 
+this in that case the msm_mdss driver wont probe.
+
+
+>   		break;
+>   	}
+>   
+> @@ -490,6 +470,8 @@ static int mdss_probe(struct platform_device *pdev)
+>   	if (IS_ERR(mdss))
+>   		return PTR_ERR(mdss);
+>   
+> +	mdss->mdss_data = of_device_get_match_data(&pdev->dev);
+> +
+>   	platform_set_drvdata(pdev, mdss);
+>   
+>   	/*
+> @@ -519,21 +501,68 @@ static int mdss_remove(struct platform_device *pdev)
+>   	return 0;
+>   }
+>   
+> +static const struct msm_mdss_data sc7180_data = {
+> +	.ubwc_version = UBWC_2_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.ubwc_static = 0x1e,
+> +};
+> +
+> +static const struct msm_mdss_data sc7280_data = {
+> +	.ubwc_version = UBWC_3_0,
+> +	.ubwc_dec_version = UBWC_4_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_static = 1,
+> +	.highest_bank_bit = 1,
+> +	.macrotile_mode = 1,
+> +};
+> +
+> +static const struct msm_mdss_data sc8280xp_data = {
+> +	.ubwc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_4_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_static = 1,
+> +	.highest_bank_bit = 2,
+> +	.macrotile_mode = 1,
+> +};
+> +
+> +static const struct msm_mdss_data sm8150_data = {
+> +	.ubwc_version = UBWC_3_0,
+> +	.ubwc_dec_version = UBWC_3_0,
+> +	.highest_bank_bit = 2,
+> +};
+> +
+> +static const struct msm_mdss_data sm6115_data = {
+> +	.ubwc_version = UBWC_1_0,
+> +	.ubwc_dec_version = UBWC_2_0,
+> +	.ubwc_swizzle = 7,
+> +	.ubwc_static = 0x11f,
+> +};
+> +
+> +static const struct msm_mdss_data sm8250_data = {
+> +	.ubwc_version = UBWC_4_0,
+> +	.ubwc_dec_version = UBWC_3_0,
+> +	.ubwc_swizzle = 6,
+> +	.ubwc_static = 1,
+> +	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
+> +	.highest_bank_bit = 3,
+> +	.macrotile_mode = 1,
+> +};
+> +
+>   static const struct of_device_id mdss_dt_match[] = {
+>   	{ .compatible = "qcom,mdss" },
+>   	{ .compatible = "qcom,msm8998-mdss" },
+>   	{ .compatible = "qcom,qcm2290-mdss" },
+>   	{ .compatible = "qcom,sdm845-mdss" },
+> -	{ .compatible = "qcom,sc7180-mdss" },
+> -	{ .compatible = "qcom,sc7280-mdss" },
+> +	{ .compatible = "qcom,sc7180-mdss", .data = &sc7180_data },
+> +	{ .compatible = "qcom,sc7280-mdss", .data = &sc7280_data },
+>   	{ .compatible = "qcom,sc8180x-mdss" },
+> -	{ .compatible = "qcom,sc8280xp-mdss" },
+> -	{ .compatible = "qcom,sm6115-mdss" },
+> -	{ .compatible = "qcom,sm8150-mdss" },
+> -	{ .compatible = "qcom,sm8250-mdss" },
+> -	{ .compatible = "qcom,sm8350-mdss" },
+> -	{ .compatible = "qcom,sm8450-mdss" },
+> -	{ .compatible = "qcom,sm8550-mdss" },
+> +	{ .compatible = "qcom,sc8280xp-mdss", .data = &sc8280xp_data },
+> +	{ .compatible = "qcom,sm6115-mdss", .data = &sm6115_data },
+> +	{ .compatible = "qcom,sm8150-mdss", .data = &sm8150_data },
+> +	{ .compatible = "qcom,sm8250-mdss", .data = &sm8250_data },
+> +	{ .compatible = "qcom,sm8350-mdss", .data = &sm8250_data },
+> +	{ .compatible = "qcom,sm8450-mdss", .data = &sm8250_data },
+> +	{ .compatible = "qcom,sm8550-mdss", .data = &sm8250_data },
+>   	{}
+>   };
+>   MODULE_DEVICE_TABLE(of, mdss_dt_match);
