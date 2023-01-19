@@ -2,73 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E33673BE1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 15:28:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36E5673C17
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 15:34:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB29610E954;
-	Thu, 19 Jan 2023 14:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE5110E964;
+	Thu, 19 Jan 2023 14:33:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E19710E95F;
- Thu, 19 Jan 2023 14:28:10 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30JDtCPM007859; Thu, 19 Jan 2023 14:28:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=7xRvwaEisCkBO6uMLPK1HkqxKLEGDfsEwaD0lWMlcsU=;
- b=WonlJu9GpWljSWHAbZwTiRvQYyE66AK5JsPZDLaAVshHMla1Ojjvc8WG9stCwsWp0b4d
- wtGE8Dn4QyK3UZLEz9UA3ZeqF63LDnFCN0ytB4olHtER3m/px+PQATv5z2rGaEZMv23D
- Paej+tO7uMU6rk1xBsAqknc3J3J8YVET6R0miwo8T4M4VwDwg9il7nFaGP/we5nH5FzZ
- g089NAM6wogIadcAwYTK+HJRolXHPTl7u3VWyk6DOihCPzyqwzfQEH2YcjnX+pIO25Rn
- sj1y+NOlSoIjdJKCWnT2O/hGCVRofOq8Gn4FE7hkoN6Pf0Q/OKrdLygEUXoItkYThvRp qg== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n75w3g5uh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Jan 2023 14:28:08 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30JES7BS009065
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Jan 2023 14:28:07 GMT
-Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 19 Jan 2023 06:28:01 -0800
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH Resend v11 15/15] drm/msm/disp/dpu: update dpu_enc crtc state
- on crtc enable/disable during self refresh
-Date: Thu, 19 Jan 2023 19:56:33 +0530
-Message-ID: <1674138393-475-16-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1674138393-475-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <1674138393-475-1-git-send-email-quic_vpolimer@quicinc.com>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8491410E95F;
+ Thu, 19 Jan 2023 14:33:54 +0000 (UTC)
+Received: from [2a02:8108:963f:de38:4bc7:2566:28bd:b73c]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1pIVzD-0002Km-CV; Thu, 19 Jan 2023 15:33:51 +0100
+Message-ID: <fcec3c78-b5d9-eb48-0fc0-d1f27de87f23@leemhuis.info>
+Date: Thu, 19 Jan 2023 15:33:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ztp5r9OANjaLqnvdyRWV7D9FQ94fNnr1
-X-Proofpoint-GUID: ztp5r9OANjaLqnvdyRWV7D9FQ94fNnr1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-19_09,2023-01-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015 mlxscore=0
- spamscore=0 priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301190115
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
+Content-Language: en-US, de-DE
+To: bskeggs@redhat.com, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>
+References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
+From: "Linux kernel regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1674138834;
+ c1a870af; 
+X-HE-SMSGID: 1pIVzD-0002Km-CV
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,93 +47,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, swboyd@chromium.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: ML nouveau <nouveau@lists.freedesktop.org>,
+ Chris Clayton <chris2553@googlemail.com>, LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux kernel regressions list <regressions@lists.linux.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Populate the enocder software structure to reflect the updated
-crtc appropriately during crtc enable/disable for a new commit
-while taking care of the self refresh transitions when crtc
-disable is triggered from the drm self refresh library.
+[adding various lists and the two other nouveau maintainers to the list
+of recipients]
 
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 31 ++++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+For the rest of this mail:
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index d513aeb4..e8e456a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1013,14 +1013,23 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- 									      crtc);
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
--	struct drm_encoder *encoder;
-+	struct drm_encoder *encoder = NULL;
- 	unsigned long flags;
- 	bool release_bandwidth = false;
- 
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
- 
--	if (old_crtc_state->self_refresh_active)
-+	/* If disable is triggered while in self refresh mode,
-+	 * reset the encoder software state so that in enable
-+	 * it won't trigger a warn while assigning crtc.
-+	 */
-+	if (old_crtc_state->self_refresh_active) {
-+		drm_for_each_encoder_mask(encoder, crtc->dev,
-+					old_crtc_state->encoder_mask) {
-+			dpu_encoder_assign_crtc(encoder, NULL);
-+		}
- 		return;
-+	}
- 
- 	/* Disable/save vblank irq handling */
- 	drm_crtc_vblank_off(crtc);
-@@ -1033,7 +1042,14 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- 		 */
- 		if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_VIDEO)
- 			release_bandwidth = true;
--		dpu_encoder_assign_crtc(encoder, NULL);
-+
-+		/*
-+		 * If disable is triggered during psr active(e.g: screen dim in PSR),
-+		 * we will need encoder->crtc connection to process the device sleep &
-+		 * preserve it during psr sequence.
-+		 */
-+		if (!crtc->state->self_refresh_active)
-+			dpu_encoder_assign_crtc(encoder, NULL);
- 	}
- 
- 	/* wait for frame_event_done completion */
-@@ -1081,6 +1097,9 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct drm_encoder *encoder;
- 	bool request_bandwidth = false;
-+	struct drm_crtc_state *old_crtc_state;
-+
-+	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
- 
- 	pm_runtime_get_sync(crtc->dev->dev);
- 
-@@ -1103,8 +1122,10 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
- 	dpu_crtc->enabled = true;
- 
--	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
--		dpu_encoder_assign_crtc(encoder, crtc);
-+	if (!old_crtc_state->self_refresh_active) {
-+		drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
-+			dpu_encoder_assign_crtc(encoder, crtc);
-+	}
- 
- 	/* Enable/restore vblank irq handling */
- 	drm_crtc_vblank_on(crtc);
--- 
-2.7.4
+[TLDR: I'm adding this report to the list of tracked Linux kernel
+regressions; the text you find below is based on a few templates
+paragraphs you might have encountered already in similar form.
+See link in footer if these mails annoy you.]
 
+On 18.01.23 21:59, Chris Clayton wrote:
+> Hi.
+> 
+> I build and installed the lastest development kernel earlier this week. I've found that when I try the laptop down (or
+> reboot it), it hangs right at the end of closing the current session. The last line I see on  the screen when rebooting is:
+> 
+> 	sd 4:0:0:0: [sda] Synchronising SCSI cache
+> 
+> when closing down I see one additional line:
+> 
+> 	sd 4:0:0:0 [sda]Stopping disk
+> 
+> In both cases the machine then hangs and I have to hold down the power button fot a few seconds to switch it off.
+> 
+> Linux 6.1 is OK but 6.2-rc1 hangs, so I bisected between this two and landed on:
+> 
+> 	# first bad commit: [0e44c21708761977dcbea9b846b51a6fb684907a] drm/nouveau/flcn: new code to load+boot simple HS FWs
+> (VPR scrubber)
+> 
+> I built and installed a kernel with f15cde64b66161bfa74fb58f4e5697d8265b802e (the parent of the bad commit) checked out
+> and that shuts down and reboots fine. It the did the same with the bad commit checked out and that does indeed hang, so
+> I'm confident the bisect outcome is OK.
+> 
+> Kernels 6.1.6 and 5.15.88 are also OK.
+> 
+> My system had dual GPUs - one intel and one NVidia. Related extracts from 'lscpi -v' is:
+> 
+> 00:02.0 VGA compatible controller: Intel Corporation CometLake-H GT2 [UHD Graphics] (rev 05) (prog-if 00 [VGA controller])
+>         Subsystem: CLEVO/KAPOK Computer CometLake-H GT2 [UHD Graphics]
+> 
+>         Flags: bus master, fast devsel, latency 0, IRQ 142
+> 
+>         Memory at c2000000 (64-bit, non-prefetchable) [size=16M]
+> 
+>         Memory at a0000000 (64-bit, prefetchable) [size=256M]
+> 
+>         I/O ports at 5000 [size=64]
+> 
+>         Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
+> 
+>         Capabilities: [40] Vendor Specific Information: Len=0c <?>
+> 
+>         Capabilities: [70] Express Root Complex Integrated Endpoint, MSI 00
+> 
+>         Capabilities: [ac] MSI: Enable+ Count=1/1 Maskable- 64bit-
+> 
+>         Capabilities: [d0] Power Management version 2
+> 
+>         Kernel driver in use: i915
+> 
+>         Kernel modules: i915
+> 
+> 
+> 01:00.0 VGA compatible controller: NVIDIA Corporation TU117M [GeForce GTX 1650 Ti Mobile] (rev a1) (prog-if 00 [VGA
+> controller])
+>         Subsystem: CLEVO/KAPOK Computer TU117M [GeForce GTX 1650 Ti Mobile]
+>         Flags: bus master, fast devsel, latency 0, IRQ 141
+>         Memory at c4000000 (32-bit, non-prefetchable) [size=16M]
+>         Memory at b0000000 (64-bit, prefetchable) [size=256M]
+>         Memory at c0000000 (64-bit, prefetchable) [size=32M]
+>         I/O ports at 4000 [size=128]
+>         Expansion ROM at c3000000 [disabled] [size=512K]
+>         Capabilities: [60] Power Management version 3
+>         Capabilities: [68] MSI: Enable+ Count=1/1 Maskable- 64bit+
+>         Capabilities: [78] Express Legacy Endpoint, MSI 00
+>         Kernel driver in use: nouveau
+>         Kernel modules: nouveau
+> 
+> DRI_PRIME=1 is exported in one of my init scripts (yes, I am still using sysvinit).
+> 
+> I've attached the bisect.log, but please let me know if I can provide any other diagnostics. Please cc me as I'm not
+> subscribed.
+
+Thanks for the report. To be sure the issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+tracking bot:
+
+#regzbot ^introduced e44c2170876197
+#regzbot title drm: nouveau: hangs on poweroff/reboot
+#regzbot ignore-activity
+
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply and tell me -- ideally
+while also telling regzbot about it, as explained by the page listed in
+the footer of this mail.
+
+Developers: When fixing the issue, remember to add 'Link:' tags pointing
+to the report (the parent of this mail). See page linked in footer for
+details.
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
