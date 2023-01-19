@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB62F674F17
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 09:08:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6102674F04
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 09:08:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A421210EA7B;
-	Fri, 20 Jan 2023 08:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 150A110EA67;
+	Fri, 20 Jan 2023 08:07:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8187710E243
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 08:58:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A620A10E8F0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 09:18:02 +0000 (UTC)
 Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
  [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08E117EC;
- Thu, 19 Jan 2023 09:58:30 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 021F17EC;
+ Thu, 19 Jan 2023 10:18:00 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1674118711;
- bh=Jj9znI46CA5ppdBOQkcRAyp0VhOq6GAVCkPX/fwslrM=;
+ s=mail; t=1674119881;
+ bh=h+kk1ZgOaXD3TspPxvJxoQTgWtbAcbzje36fmdS8pzE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kAX+ecxRR6quwALvmcqKIIDlxdU28IBNP1aw4Hm5QV7ISqmA5JbQAelCqPpcx3CDr
- SjAm7Uaon6obr1qd17FroIOHH7ZB+PwkvsYdBTkmLm0x0/KOrpLgzRILvjRheoNyUl
- 72/xfk4+xH/JuAdLaHFMWGhA4zkHCPthlWlHhRHk=
-Message-ID: <fbf5e571-8fd4-a3e9-273e-8bb6e8c6a439@ideasonboard.com>
-Date: Thu, 19 Jan 2023 10:58:28 +0200
+ b=paQtkxSe8jjqeDiJGZdsfRw73m+hKC9qmah2tqFdhaE3HqZ4oHQyccKMhniLrx6Uv
+ vN90JQYynoVI2LcE12CzPew+l3Q2RKg6KrAItK2M8zam0p+/pfEMLQNctvG38cvYTA
+ udsPcxPJejU2yCgvNI2mc5E0c0mHBxT5jFWvKK1g=
+Message-ID: <9b2a6b63-3712-3acb-aa17-6d223237c07d@ideasonboard.com>
+Date: Thu, 19 Jan 2023 11:17:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 4/6] drm: rcar-du: Add quirk for H3 ES1 pclk WA
+Subject: Re: [PATCH 5/6] drm: rcar-du: Fix setting a reserved bit in DPLLCR
 Content-Language: en-US
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20230117135154.387208-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20230117135154.387208-5-tomi.valkeinen+renesas@ideasonboard.com>
- <Y8hiStARYk1b2tdS@pendragon.ideasonboard.com>
+ <20230117135154.387208-6-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y8hm54mvZEcBaBo8@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <Y8hiStARYk1b2tdS@pendragon.ideasonboard.com>
+In-Reply-To: <Y8hm54mvZEcBaBo8@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Fri, 20 Jan 2023 08:07:34 +0000
@@ -58,177 +58,173 @@ Cc: linux-renesas-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/01/2023 23:19, Laurent Pinchart wrote:
+On 18/01/2023 23:38, Laurent Pinchart wrote:
 > Hi Tomi,
 > 
 > Thank you for the patch.
 > 
-> On Tue, Jan 17, 2023 at 03:51:52PM +0200, Tomi Valkeinen wrote:
->> rcar_du_crtc.c does a soc_device_match() in
->> rcar_du_crtc_set_display_timing() to find out if the SoC is H3 ES1, and
+> On Tue, Jan 17, 2023 at 03:51:53PM +0200, Tomi Valkeinen wrote:
+>> On H3 ES1 two bits in DPLLCR are used to select the DU input dot clock
 > 
 > s/ES1/ES1.x/
 > 
 > Same below.
-> 
->> if so, apply a WA.
-> 
-> s/WA/workaround/
-> 
-> Same below.
 
-Ok.
+Ok. But I do wonder, is there a difference? What's the case when ES1 
+could be mistaken to mean something else?
 
->> We will need another H3 ES1 check in the following patch, so rather than
->> adding more soc_device_match() calls, let's add a rcar_du_device_info
->> entry for the ES1, and a quirk flag,
->> RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY, for the WA.
+>> source. These are bits 20 and 21 for DU2, and bits 22 and 23 for DU1. On
+>> non-ES1, only the higher bits are used (bits 21 and 23), and the lower
+>> bits are reserved and should be set to 0 (or not set at all).
+> 
+> How do you not set a bit ? :-)
+
+By leaving it to the value the register already has. But as we don't 
+read the register as a base value here, I guess that comment is a bit 
+misleading.
+
+>> The current code always sets the lower bits, even on non-ES1.
+> 
+> I think that's harmless, and not worth making the driver more complex,
+> but I'll stop fighting.
+> 
+>> For both DU1 and DU2, on all SoC versions, when writing zeroes to those
+>> bits the input clock is DCLKIN, and thus there's no difference between
+>> ES1 and non-ES1.
+>>
+>> For DU1, writing 0b10 to the bits (or only writing the higher bit)
+>> results in using PLL0 as the input clock, so in this case there's also
+>> no difference between ES1 and non-ES1.
+>>
+>> However, for DU2, writing 0b10 to the bits results in using PLL0 as the
+>> input clock on ES1, whereas on non-ES1 it results in using PLL1. On ES1
+>> you need to write 0b11 to select PLL1.
+>>
+>> The current code always writes 0b11 to PLCS0 field to select PLL1 on all
+>> SoC versions, which works but causes an illegal (in the sense of not
+>> allowed by the documentation) write to a reserved bit field.
+>>
+>> To remove the illegal bit write on PLSC0 we need to handle the input dot
+>> clock selection differently for ES1 and non-ES1.
+>>
+>> Add a new quirk, RCAR_DU_QUIRK_H3_ES1_PLL, for this, and a new
+>> rcar_du_device_info entry for the ES1 SoC. Using these, we can always
+> 
+> The new entry was added in the previous patch already.
+
+Indeed.
+
+>> set the bit 21 on PLSC0 when choosing the PLL as the source clock, and
+>> additionally set the bit 20 when on ES1.
 >>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >> ---
->>   drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  8 +---
->>   drivers/gpu/drm/rcar-du/rcar_du_drv.c  | 51 +++++++++++++++++++++++++-
+>>   drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 12 ++++++++++--
+>>   drivers/gpu/drm/rcar-du/rcar_du_drv.c  |  3 ++-
 >>   drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  1 +
->>   3 files changed, 52 insertions(+), 8 deletions(-)
+>>   drivers/gpu/drm/rcar-du/rcar_du_regs.h |  3 ++-
+>>   4 files changed, 15 insertions(+), 4 deletions(-)
 >>
 >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->> index 3619e1ddeb62..f2d3266509cc 100644
+>> index f2d3266509cc..8d660a6141bf 100644
 >> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
 >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->> @@ -10,7 +10,6 @@
->>   #include <linux/clk.h>
->>   #include <linux/mutex.h>
->>   #include <linux/platform_device.h>
->> -#include <linux/sys_soc.h>
+>> @@ -245,12 +245,20 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+>>   		       | DPLLCR_N(dpll.n) | DPLLCR_M(dpll.m)
+>>   		       | DPLLCR_STBY;
 >>   
->>   #include <drm/drm_atomic.h>
->>   #include <drm/drm_atomic_helper.h>
->> @@ -204,11 +203,6 @@ static void rcar_du_escr_divider(struct clk *clk, unsigned long target,
->>   	}
->>   }
+>> -		if (rcrtc->index == 1)
+>> +		if (rcrtc->index == 1) {
+>>   			dpllcr |= DPLLCR_PLCS1
+>>   			       |  DPLLCR_INCS_DOTCLKIN1;
+>> -		else
+>> +		} else {
+>>   			dpllcr |= DPLLCR_PLCS0
+>>   			       |  DPLLCR_INCS_DOTCLKIN0;
+>> +			/*
+>> +			 * On H3 ES1.x, in addition to setting bit 21 (PLCS0),
+>> +			 * also bit 20 has to be set to select PLL1 as the
+>> +			 * clock source.
+> 
+> I'd add "On ES2 and newer, PLL1 is selected unconditionally.".
+
+It's not selected unconditionally, we need to set bit 21. And possibly 
+we need to set bit 20 to 0, although it's not documented what bit 20 
+would do when set to 1.
+
+And is that "ES2.x"? =)
+
+How about:
+
+  * On ES2.x and newer, PLL1 is selected by setting bit
+  * 21 (PLCS0) to 1 and keeping the (reserved) bit 20 as
+  * 0. On H3 ES1.x, in addition to setting bit 21, also
+  * bit 20 has to be set to select PLL1 as the clock source.
+
+>> +			 */
+>> +			if (rcdu->info->quirks & RCAR_DU_QUIRK_H3_ES1_PLL)
+>> +				dpllcr |= DPLLCR_PLCS0_H3ES1X_PLL1_SEL;
+>> +		}
 >>   
->> -static const struct soc_device_attribute rcar_du_r8a7795_es1[] = {
->> -	{ .soc_id = "r8a7795", .revision = "ES1.*" },
->> -	{ /* sentinel */ }
->> -};
->> -
->>   static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->>   {
->>   	const struct drm_display_mode *mode = &rcrtc->crtc.state->adjusted_mode;
->> @@ -238,7 +232,7 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->>   		 * no post-divider when a display PLL is present (as shown by
->>   		 * the workaround breaking HDMI output on M3-W during testing).
->>   		 */
->> -		if (soc_device_match(rcar_du_r8a7795_es1)) {
->> +		if (rcdu->info->quirks & RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY) {
->>   			target *= 2;
->>   			div = 1;
->>   		}
+>>   		rcar_du_group_write(rcrtc->group, DPLLCR, dpllcr);
+>>   
 >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->> index c7c5217cfc1a..ba2e069fc0f7 100644
+>> index ba2e069fc0f7..d689f2510081 100644
 >> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
 >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->> @@ -16,6 +16,7 @@
->>   #include <linux/platform_device.h>
->>   #include <linux/pm.h>
->>   #include <linux/slab.h>
->> +#include <linux/sys_soc.h>
->>   #include <linux/wait.h>
+>> @@ -394,7 +394,8 @@ static const struct rcar_du_device_info rcar_du_r8a7795_es1_info = {
+>>   		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>>   		  | RCAR_DU_FEATURE_INTERLACED
+>>   		  | RCAR_DU_FEATURE_TVM_SYNC,
+>> -	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY,
+>> +	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY
+>> +		| RCAR_DU_QUIRK_H3_ES1_PLL,
+>>   	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
+>>   	.routes = {
+>>   		/*
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> index df87ccab146f..acc3673fefe1 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+>> @@ -35,6 +35,7 @@ struct rcar_du_device;
 >>   
->>   #include <drm/drm_atomic_helper.h>
->> @@ -386,6 +387,42 @@ static const struct rcar_du_device_info rcar_du_r8a7795_info = {
->>   	.dpll_mask =  BIT(2) | BIT(1),
->>   };
+>>   #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
+>>   #define RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY BIT(1)	/* H3 ES1 has pclk stability issue */
+>> +#define RCAR_DU_QUIRK_H3_ES1_PLL	BIT(2)	/* H3 ES1 PLL setup differs from non-ES1 */
 >>   
->> +static const struct rcar_du_device_info rcar_du_r8a7795_es1_info = {
->> +	.gen = 3,
->> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
->> +		  | RCAR_DU_FEATURE_CRTC_CLOCK
->> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
->> +		  | RCAR_DU_FEATURE_INTERLACED
->> +		  | RCAR_DU_FEATURE_TVM_SYNC,
->> +	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY,
->> +	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
->> +	.routes = {
->> +		/*
->> +		 * R8A7795 has one RGB output, two HDMI outputs and one
->> +		 * LVDS output.
->> +		 */
->> +		[RCAR_DU_OUTPUT_DPAD0] = {
->> +			.possible_crtcs = BIT(3),
->> +			.port = 0,
->> +		},
->> +		[RCAR_DU_OUTPUT_HDMI0] = {
->> +			.possible_crtcs = BIT(1),
->> +			.port = 1,
->> +		},
->> +		[RCAR_DU_OUTPUT_HDMI1] = {
->> +			.possible_crtcs = BIT(2),
->> +			.port = 2,
->> +		},
->> +		[RCAR_DU_OUTPUT_LVDS0] = {
->> +			.possible_crtcs = BIT(0),
->> +			.port = 3,
->> +		},
->> +	},
->> +	.num_lvds = 1,
->> +	.num_rpf = 5,
->> +	.dpll_mask =  BIT(2) | BIT(1),
->> +};
->> +
->>   static const struct rcar_du_device_info rcar_du_r8a7796_info = {
->>   	.gen = 3,
->>   	.features = RCAR_DU_FEATURE_CRTC_IRQ
->> @@ -576,6 +613,11 @@ static const struct of_device_id rcar_du_of_table[] = {
->>   
->>   MODULE_DEVICE_TABLE(of, rcar_du_of_table);
->>   
->> +static const struct soc_device_attribute rcar_du_soc_table[] = {
->> +	{ .soc_id = "r8a7795", .revision = "ES1.*", .data = &rcar_du_r8a7795_es1_info },
->> +	{ /* sentinel */ }
->> +};
->> +
->>   const char *rcar_du_output_name(enum rcar_du_output output)
->>   {
->>   	static const char * const names[] = {
->> @@ -670,6 +712,7 @@ static int rcar_du_probe(struct platform_device *pdev)
->>   	struct rcar_du_device *rcdu;
->>   	unsigned int mask;
->>   	int ret;
->> +	const struct soc_device_attribute *soc_attr;
+>>   enum rcar_du_output {
+>>   	RCAR_DU_OUTPUT_DPAD0,
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+>> index c1bcb0e8b5b4..94d913f66c8f 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+>> @@ -288,7 +288,8 @@
+>>    * isn't implemented by other SoC in the Gen3 family it can safely be set
+>>    * unconditionally.
+>>    */
 > 
-> Please move this up before rcdu.
+> This comment should be dropped.
 
-Sure.
+Ah, true.
 
->>   
->>   	if (drm_firmware_drivers_only())
->>   		return -ENODEV;
->> @@ -681,7 +724,13 @@ static int rcar_du_probe(struct platform_device *pdev)
->>   		return PTR_ERR(rcdu);
->>   
->>   	rcdu->dev = &pdev->dev;
->> -	rcdu->info = of_device_get_match_data(rcdu->dev);
->> +
->> +	soc_attr = soc_device_match(rcar_du_soc_table);
->> +	if (soc_attr)
->> +		rcdu->info = soc_attr->data;
->> +
->> +	if (!rcdu->info)
->> +		rcdu->info = of_device_get_match_data(rcdu->dev);
+>> -#define DPLLCR_PLCS0		(3 << 20)
+>> +#define DPLLCR_PLCS0		(1 << 21)
+>> +#define DPLLCR_PLCS0_H3ES1X_PLL1_SEL	(1 << 20)
 > 
-> As Geert mentioned,
+> Bit 21 selects between DCLKIN (when 0) and PLL (when 1). On ES1.x, bit
+> 20 selects between PLL0 (when 0) and PLL1 (when 1), while on ES2 and
+> newer, PLL1 is selected unconditionally. Could we name the two bits
+> accodingly ? Maybe
 > 
-> 	rcdu->info = of_device_get_match_data(rcdu->dev);
-> 
-> 	soc_attr = soc_device_match(rcar_du_soc_table);
-> 	if (soc_attr)
-> 		rcdu->info = soc_attr->data;
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> #define DPLLCR_PLCS0_PLL	(1 << 21)
+> #define DPLLCR_PLCS0_PLL1	(1 << 20)
 
-Ok. Thanks!
+I'm fine with DPLLCR_PLCS0_PLL, but I do like to make it a bit more 
+obvious that a bit is only for a particular ES/SoC version if it's 
+simple to do. Especially here, as "DPLLCR_PLCS0_PLL1" sounds like you 
+need to set it to use PLL1.
+
+Would you be ok with "DPLLCR_PLCS0_H3ES1X_PLL1"?
 
   Tomi
-
 
