@@ -2,69 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7057673D26
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 16:10:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C4673D5F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 16:21:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E68010E975;
-	Thu, 19 Jan 2023 15:10:13 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 353D110E975
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 15:10:11 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id v10so3202840edi.8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 07:10:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b3hWPa5eaE1VlRQVh/vMNXzrQxeXSBHyXqQOtX9y708=;
- b=e0fz5LvLSsENChDm0SAC0yL0oNM0POBFQiCdbDweehEDuMJIEONyAGgtdUPGFCiqqR
- Id/h6C/GazpqSxZamu9mjDNvex5dlA4fvF0jc+PtHw3gABqKvJPtUMEVkOcXcj8J1AAR
- PLnRLIaYYudfxKXoyTbYwC728sbH/Vp/SYtuqM2fpiS+nF//YyLm6+ZVhWrxrT4Q0hRY
- a0hOqlk1Pq1a/Ske4YxV88ZkoibTzl5/lm2iQWzGROYUNhTFj+PXvZ5oyDZul+1npUtc
- /aWgddo2LOXbI2ntusjEDbihUUDWi123jkrB+cgnn/akq4wL7jLWwAljnm3yAd/mP764
- vDEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=b3hWPa5eaE1VlRQVh/vMNXzrQxeXSBHyXqQOtX9y708=;
- b=iLio8Pe9VhjjMIhbEHfGqvYBg0hQ6Csp+OEkAduB5h5dC5gjr444kxoa/InUB2PkX1
- 4EmVgK4l7bIrrjQ775Dijvli1L3p5U0cXhfk//hxynkuoI6x6q9euXN/kwuNO4ne+jhO
- pHEQdUId7N9UoWeArf81ObjDguKwPh3ro/tRRAjkB5wUJmBMusp8EWPwGLqGS/kv8VVb
- p9pMxUuDc5M2NeemABcsvMN+JAKEnalsNkJvnLlN4ASDj3IMTNP5fruPJDchSGp7Tw8O
- aHbDN2hH2SP6810OaC5RuHDWibh5M1dStW7YvBahlggg0k/a2udwkSoclx7C1RhzuBMz
- 2v6A==
-X-Gm-Message-State: AFqh2krGEGppiXPphw289phxY3s8c+FBinJaJjCe+qqlOIV7+SOhhPez
- rSQbmom1yin9Q64SEBNFeoM=
-X-Google-Smtp-Source: AMrXdXsTwyv07suDfVAoeVH9mB1DXCTlXvaAj3SNIzmRc1ujB0XCruBScq2XQFPO2DZi0mB2a8FvoA==
-X-Received: by 2002:aa7:c994:0:b0:499:bf81:be6 with SMTP id
- c20-20020aa7c994000000b00499bf810be6mr12264790edt.37.1674141009481; 
- Thu, 19 Jan 2023 07:10:09 -0800 (PST)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- d9-20020a1709063ec900b007c0d6b34d54sm16278717ejj.129.2023.01.19.07.10.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 07:10:08 -0800 (PST)
-Date: Thu, 19 Jan 2023 16:10:07 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 8/8] arm64: tegra: Add simple framebuffer on Jetson
- Xavier NX
-Message-ID: <Y8ldT2CdwFpNAZoB@orome>
-References: <20221117184039.2291937-1-thierry.reding@gmail.com>
- <20221117184039.2291937-9-thierry.reding@gmail.com>
- <12cff1b1-b8dc-7fb4-2228-8af4b30c09c5@suse.de>
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1C8D10E97A;
+	Thu, 19 Jan 2023 15:21:10 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1F6B10E97A;
+ Thu, 19 Jan 2023 15:21:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674141668; x=1705677668;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4dB+bt3aRHg6hYiUPg05BOd4Z/eqHo3Wst37KVXzPBM=;
+ b=Obk4LS7w3b/7TvtSFIhdN/cq2RNhNjEkcj5cdEsX9h+Qyii4/5MjQtAP
+ oeXBTMrvsqoNrORtt/69nYtBg4TQP0EAH/GnCO9Lfgci5f8xvSBHpNG8O
+ EN7RjVKlV50iCleBTBMZpmUGER9GV4LU2FhbhtfMMwLS6o9FELdPCrb9d
+ tDquMeLH8N2MphR3kPq7XBWdVGc713AzbakIwpjID9Lj2fqgYtOAvKGhD
+ 4hiCBdrnMHwehXDNzJJN3tIfd6+wQ50EGyzFaVn+9XaB393o/1IXdpvU6
+ Bb0ono3D5e3gs+TCCcfgbkmDPJryXYIEgMltFpoCxvof84Yv0QoZmjZ11 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="322998701"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="322998701"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2023 07:16:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="653411322"
+X-IronPort-AV: E=Sophos;i="5.97,229,1669104000"; d="scan'208";a="653411322"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga007.jf.intel.com with ESMTP; 19 Jan 2023 07:16:39 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1pIWeb-00Bizh-39; Thu, 19 Jan 2023 17:16:37 +0200
+Date: Thu, 19 Jan 2023 17:16:37 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: John.C.Harrison@intel.com
+Subject: Re: [PATCH v3 1/6] drm/i915: Fix request locking during error
+ capture & debugfs dump
+Message-ID: <Y8le1Z1nfSR2QWrg@smile.fi.intel.com>
+References: <20230119065000.1661857-1-John.C.Harrison@Intel.com>
+ <20230119065000.1661857-2-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bQw0EXWTigETpFy5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <12cff1b1-b8dc-7fb4-2228-8af4b30c09c5@suse.de>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+In-Reply-To: <20230119065000.1661857-2-John.C.Harrison@Intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +62,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jon Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
- David Airlie <airlied@redhat.com>, Robin Murphy <robin.murphy@arm.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Bruce Chang <yu.bruce.chang@intel.com>,
+ Michael Cheng <michael.cheng@intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ Intel-GFX@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ DRI-Devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jan 18, 2023 at 10:49:55PM -0800, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> When GuC support was added to error capture, the locking around the
+> request object was broken. Fix it up.
+> 
+> The context based search manages the spinlocking around the search
+> internally. So it needs to grab the reference count internally as
+> well. The execlist only request based search relies on external
+> locking, so it needs an external reference count but within the
+> spinlock not outside it.
+> 
+> The only other caller of the context based search is the code for
+> dumping engine state to debugfs. That code wasn't previously getting
+> an explicit reference at all as it does everything while holding the
+> execlist specific spinlock. So, that needs updaing as well as that
+> spinlock doesn't help when using GuC submission. Rather than trying to
+> conditionally get/put depending on submission model, just change it to
+> always do the get/put.
+> 
+> In addition, intel_guc_find_hung_context() was not acquiring the
+> correct spinlock before searching the request list. So fix that up
+> too. While at it, add some extra whitespace padding for readability.
 
---bQw0EXWTigETpFy5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
-On Tue, Jan 17, 2023 at 03:55:21PM +0100, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 17.11.22 um 19:40 schrieb Thierry Reding:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Add the framebuffer carveout reserved memory node as well as a simple-
-> > framebuffer node that is used to bind to the framebuffer that the
-> > bootloader has set up.
->=20
-> I don't know about the current status of this patchset, but feel free to
-> send whatever update you have.
+> +		found = false;
+> +		spin_lock(&ce->guc_state.lock);
+>  		list_for_each_entry(rq, &ce->guc_state.requests, sched.link) {
+>  			if (i915_test_request_state(rq) != I915_REQUEST_ACTIVE)
+>  				continue;
+>  
+> +			found = true;
+> +			break;
+> +		}
 
-Sorry, got side-tracked a few times during the last few weeks. I've had
-to rework some parts of this for the recent changes to the format
-helpers, but nothing major. I'll send out the updated version shortly
-once I've tested all cases.
+This can be combined to (see also below)
 
-Thierry
+		list_for_each_entry(rq, &ce->guc_state.requests, sched.link) {
+			if (i915_test_request_state(rq) == I915_REQUEST_ACTIVE)
+				break;
+		}
 
---bQw0EXWTigETpFy5
-Content-Type: application/pgp-signature; name="signature.asc"
+> +		spin_unlock(&ce->guc_state.lock);
 
------BEGIN PGP SIGNATURE-----
+Instead of 'found' you can check the current entry pointer
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmPJXU4ACgkQ3SOs138+
-s6Hlww/+IzPc1AX147Ir+grpgjfk1Xmbl2ycd89CjRpRo6yWlN4RZ8Yuc9D8nWjI
-oed/TJUnvyih1nZwL6OrqR2m1H9yo2fE10w9bRCTO4dde/4p0H+8oKJbOSyLnzFk
-y7e7QaJXGqZWOj9wl6g1ba1aqnRPsucDfpwXQcf8xHuhcHuZZtBAJCAJ6sV6aC97
-+2IGqM6ExaLhEw8CIB6EFpl2r/SA0ig/qrEQhZ/YqqZNw/TShUlNs++C1HH9CN3X
-hVMBe4IoK28yuAfg+P95ESHdF3V9sqi4j9bUtc7cpTFu2+7HwRBzeePA0bEtsMIm
-AKknYPEM+fKfT0K2MrcAm9VNzGLaFhuAaq20O5VK/cm1SCCBCMEgpyw38w51pOBh
-P6i+zZHDub/lRsPP/mOfM1yKD9HvbKLMH4jsKnhivD1o3eMOY3XWC6mpCXjyXlaV
-4kB+EdmcLB/a9rFU4YClFIASgeruC6oQOyfcKgAXpFer9FarKzyxLGjNNUnz4eHw
-QTucGI0Lwzubyws7HfhFgbexIRHQrI0U3iSJ7j9dc9iiC6V8Nu9pkvQQuBfLU62B
-D0VyuqOp/Y7sVFQL7fLIqXVrJ9wr/IrmDRVo3ylbQX8Xs4AoqtGyQwUTd/59Jsb7
-MoYbuKJPP+qQBesE2cY2hhS+LfpIIP5RdP2VUe6knqEA8ercDRI=
-=c2qP
------END PGP SIGNATURE-----
+		if (!list_entry_is_head(...))
 
---bQw0EXWTigETpFy5--
+And because requests can only be messed up with the guc_state itself, I think
+you don't need to perform the above check under spinlock, so it's safe.
+
+> +		if (found) {
+>  			intel_engine_set_hung_context(engine, ce);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
