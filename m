@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A53C673BAE
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 15:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187F1673BB2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 15:27:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40F3B10E952;
-	Thu, 19 Jan 2023 14:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B517910E955;
+	Thu, 19 Jan 2023 14:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6030C10E952;
- Thu, 19 Jan 2023 14:26:52 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3604210E953;
+ Thu, 19 Jan 2023 14:26:57 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30JBG1wK004497; Thu, 19 Jan 2023 14:26:50 GMT
+ 30JEG2gb026909; Thu, 19 Jan 2023 14:26:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=4Pn59qtyMyi+QgSrqA0HVtuffjJmhvxU2SjjmhNp3kc=;
- b=dAjbDX3qCdwpHcKJ1CNKtyz4wmt2LT8zumCXmE6bOaUslU2STLRN5Uy0INHo1t0jYhLC
- rmmKcb3r8dLbWpqLlK+r3TbXn7hBjk0PocRzjAIQOnZYmG8AXktBkYVJ9wdb12pM2PeP
- G+C/j6SpbhScOgEKudlgOsu/G3Luj7b9rzkstQATEtpk6r/Z3pLE2SEdyh4RtzThQSFA
- qNNiUR924q3bvBE0c78G6ooEF9jSyCLYlXVHvnSTNg0q6WVJXt+3xSp92DWAZ4Nu/REx
- 3Ge0Rki4pEOS9Sj0oqrgtDDr09A8T+2BZYKn2goVAqvueZv6u2wqDxG+H4wV0veUcqzW Mw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=2JfiH7rrGsL6/4b8onYDg69kGSKyZR3HZOBZhBH1CjU=;
+ b=OeNfN9tOjKfNQFms5yERk+YfiuevU6bEkoHC+5RLpjHihstq+23jOc0ODQ1vcM9GcRBn
+ ihgKNsH2WAFLZlgYZdwYjCOEbjvfr7QBQqYqAAfNYv7r2Tk6nbmz1nWE/bZ7J1g53sVa
+ opplvwZNzRKthUlAi2DfQ+wLs35mc3sljUi6bRMBHGAFN6uNRvmfm26ckNFltipNdqNJ
+ X6rRyJ9/nOcX8tzwJVbyMRZA2IrWfgbvTEIprXXccw0ukgXGYH+sW7qSdpQjhKLrYtAA
+ J7W9wpXukinuqfeZGuhm3B0oeH6P0y4s2zcK7rumFkLqGw8Gw6HX1HjVzg5H3/iSi8wW CQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n6vg01mb2-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7593r96j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Jan 2023 14:26:49 +0000
+ Thu, 19 Jan 2023 14:26:55 +0000
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
  [10.47.209.197])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30JEQm5Z014784
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30JEQsVQ008181
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Jan 2023 14:26:48 GMT
+ Thu, 19 Jan 2023 14:26:54 GMT
 Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 19 Jan 2023 06:26:43 -0800
+ 15.2.986.36; Thu, 19 Jan 2023 06:26:48 -0800
 From: Vinod Polimera <quic_vpolimer@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH Resend v11 00/15] Add PSR support for eDP 
-Date: Thu, 19 Jan 2023 19:56:18 +0530
-Message-ID: <1674138393-475-1-git-send-email-quic_vpolimer@quicinc.com>
+Subject: [PATCH Resend v11 01/15] drm: add helper functions to retrieve old
+ and new crtc
+Date: Thu, 19 Jan 2023 19:56:19 +0530
+Message-ID: <1674138393-475-2-git-send-email-quic_vpolimer@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1674138393-475-1-git-send-email-quic_vpolimer@quicinc.com>
+References: <1674138393-475-1-git-send-email-quic_vpolimer@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -54,17 +58,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: _CPPNIasIQOiGyU80UAeeyfysH110h2o
-X-Proofpoint-GUID: _CPPNIasIQOiGyU80UAeeyfysH110h2o
+X-Proofpoint-GUID: K9JaGNLrY3gdPyWyPdNDK8WM4oDKaXTI
+X-Proofpoint-ORIG-GUID: K9JaGNLrY3gdPyWyPdNDK8WM4oDKaXTI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-19_09,2023-01-19_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- spamscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- bulkscore=0 impostorscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301190115
+ lowpriorityscore=0
+ mlxlogscore=827 spamscore=0 suspectscore=0 mlxscore=0 adultscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0
+ malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2301190115
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,113 +89,107 @@ Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes in v2:
-  - Use dp bridge to set psr entry/exit instead of dpu_enocder.
-  - Don't modify whitespaces.
-  - Set self refresh aware from atomic_check.
-  - Set self refresh aware only if psr is supported.
-  - Provide a stub for msm_dp_display_set_psr.
-  - Move dp functions to bridge code.
+Add new helper functions, drm_atomic_get_old_crtc_for_encoder
+and drm_atomic_get_new_crtc_for_encoder to retrieve the
+corresponding crtc for the encoder.
 
-Changes in v3:
-  - Change callback names to reflect atomic interfaces.
-  - Move bridge callback change to separate patch as suggested by Dmitry.
-  - Remove psr function declaration from msm_drv.h.
-  - Set self_refresh_aware flag only if psr is supported.
-  - Modify the variable names to simpler form.
-  - Define bit fields for PSR settings.
-  - Add comments explaining the steps to enter/exit psr.
-  - Change DRM_INFO to drm_dbg_db. 
+Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+---
+ drivers/gpu/drm/drm_atomic.c | 60 ++++++++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_atomic.h     |  7 ++++++
+ 2 files changed, 67 insertions(+)
 
-Changes in v4:
-  - Move the get crtc functions to drm_atomic.
-  - Add atomic functions for DP bridge too.
-  - Add ternary operator to choose eDP or DP ops.
-  - Return true/false instead of 1/0.
-  - mode_valid missing in the eDP bridge ops.
-  - Move the functions to get crtc into drm_atomic.c.
-  - Fix compilation issues.
-  - Remove dpu_assign_crtc and get crtc from drm_enc instead of dpu_enc.
-  - Check for crtc state enable while reserving resources.
-
-Changes in v5:
-  - Move the mode_valid changes into a different patch.
-  - Complete psr_op_comp only when isr is set.
-  - Move the DP atomic callback changes to a different patch.
-  - Get crtc from drm connector state crtc.
-  - Move to separate patch for check for crtc state enable while
-reserving resources.
-
-Changes in v6:
-  - Remove crtc from dpu_encoder_virt struct.
-  - fix crtc check during vblank toggle crtc.
-  - Misc changes. 
-
-Changes in v7:
-  - Add fix for underrun issue on kasan build.
-
-Changes in v8:
-  - Drop the enc spinlock as it won't serve any purpose in
-protetcing conn state.(Dmitry/Doug)
-
-Changes in v9:
-  - Update commit message and fix alignment using spaces.(Marijn)
-  - Misc changes.(Marijn)
-
-Changes in v10:
-  - Get crtc cached in dpu_enc during obj init.(Dmitry)
-
-Changes in v11:
-  - Remove crtc cached in dpu_enc during obj init.
-  - Update dpu_enc crtc state on crtc enable/disable during self refresh.
-
-Sankeerth Billakanti (1):
-  drm/msm/dp: disable self_refresh_aware after entering psr
-
-Vinod Polimera (14):
-  drm: add helper functions to retrieve old and new crtc
-  drm/msm/dp: use atomic callbacks for DP bridge ops
-  drm/msm/dp: Add basic PSR support for eDP
-  drm/msm/dp: use the eDP bridge ops to validate eDP modes
-  drm/bridge: use atomic enable/disable callbacks for panel bridge
-  drm/bridge: add psr support for panel bridge callbacks
-  drm/msm/disp/dpu: use atomic enable/disable callbacks for encoder
-    functions
-  drm/msm/disp/dpu: check for crtc enable rather than crtc active to
-    release shared resources
-  drm/msm/disp/dpu: add PSR support for eDP interface in dpu driver
-  drm/msm/disp/dpu: get timing engine status from intf status register
-  drm/msm/disp/dpu: wait for extra vsync till timing engine status is
-    disabled
-  drm/msm/disp/dpu: reset the datapath after timing engine disable
-  drm/msm/disp/dpu: clear active interface in the datapath cleanup
-  drm/msm/disp/dpu: update dpu_enc crtc state on crtc enable/disable
-    during self refresh
-
- drivers/gpu/drm/bridge/panel.c                     |  68 ++++++-
- drivers/gpu/drm/drm_atomic.c                       |  60 +++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  42 ++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  29 ++-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  22 +++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  12 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |   8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +-
- drivers/gpu/drm/msm/dp/dp_catalog.c                |  80 +++++++++
- drivers/gpu/drm/msm/dp/dp_catalog.h                |   4 +
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  80 +++++++++
- drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   3 +
- drivers/gpu/drm/msm/dp/dp_display.c                |  36 ++--
- drivers/gpu/drm/msm/dp/dp_display.h                |   2 +
- drivers/gpu/drm/msm/dp/dp_drm.c                    | 196 ++++++++++++++++++++-
- drivers/gpu/drm/msm/dp/dp_drm.h                    |   9 +-
- drivers/gpu/drm/msm/dp/dp_link.c                   |  36 ++++
- drivers/gpu/drm/msm/dp/dp_panel.c                  |  22 +++
- drivers/gpu/drm/msm/dp/dp_panel.h                  |   6 +
- drivers/gpu/drm/msm/dp/dp_reg.h                    |  27 +++
- include/drm/drm_atomic.h                           |   7 +
- 22 files changed, 710 insertions(+), 44 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 5457c02..7cc39f6 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -985,6 +985,66 @@ drm_atomic_get_new_connector_for_encoder(const struct drm_atomic_state *state,
+ EXPORT_SYMBOL(drm_atomic_get_new_connector_for_encoder);
+ 
+ /**
++ * drm_atomic_get_old_crtc_for_encoder - Get old crtc for an encoder
++ * @state: Atomic state
++ * @encoder: The encoder to fetch the crtc state for
++ *
++ * This function finds and returns the crtc that was connected to @encoder
++ * as specified by the @state.
++ *
++ * Returns: The old crtc connected to @encoder, or NULL if the encoder is
++ * not connected.
++ */
++struct drm_crtc *
++drm_atomic_get_old_crtc_for_encoder(struct drm_atomic_state *state,
++				    struct drm_encoder *encoder)
++{
++	struct drm_connector *connector;
++	struct drm_connector_state *conn_state;
++
++	connector = drm_atomic_get_old_connector_for_encoder(state, encoder);
++	if (!connector)
++		return NULL;
++
++	conn_state = drm_atomic_get_old_connector_state(state, connector);
++	if (!conn_state)
++		return NULL;
++
++	return conn_state->crtc;
++}
++EXPORT_SYMBOL(drm_atomic_get_old_crtc_for_encoder);
++
++/**
++ * drm_atomic_get_new_crtc_for_encoder - Get new crtc for an encoder
++ * @state: Atomic state
++ * @encoder: The encoder to fetch the crtc state for
++ *
++ * This function finds and returns the crtc that will be connected to @encoder
++ * as specified by the @state.
++ *
++ * Returns: The new crtc connected to @encoder, or NULL if the encoder is
++ * not connected.
++ */
++struct drm_crtc *
++drm_atomic_get_new_crtc_for_encoder(struct drm_atomic_state *state,
++				    struct drm_encoder *encoder)
++{
++	struct drm_connector *connector;
++	struct drm_connector_state *conn_state;
++
++	connector = drm_atomic_get_new_connector_for_encoder(state, encoder);
++	if (!connector)
++		return NULL;
++
++	conn_state = drm_atomic_get_new_connector_state(state, connector);
++	if (!conn_state)
++		return NULL;
++
++	return conn_state->crtc;
++}
++EXPORT_SYMBOL(drm_atomic_get_new_crtc_for_encoder);
++
++/**
+  * drm_atomic_get_connector_state - get connector state
+  * @state: global atomic state object
+  * @connector: connector to get state object for
+diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+index 92586ab..9a022ca 100644
+--- a/include/drm/drm_atomic.h
++++ b/include/drm/drm_atomic.h
+@@ -528,6 +528,13 @@ struct drm_connector *
+ drm_atomic_get_new_connector_for_encoder(const struct drm_atomic_state *state,
+ 					 struct drm_encoder *encoder);
+ 
++struct drm_crtc *
++drm_atomic_get_old_crtc_for_encoder(struct drm_atomic_state *state,
++					 struct drm_encoder *encoder);
++struct drm_crtc *
++drm_atomic_get_new_crtc_for_encoder(struct drm_atomic_state *state,
++					 struct drm_encoder *encoder);
++
+ /**
+  * drm_atomic_get_existing_crtc_state - get CRTC state, if it exists
+  * @state: global atomic state object
 -- 
 2.7.4
 
