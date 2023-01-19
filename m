@@ -2,73 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430C4673383
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 09:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA736733D4
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jan 2023 09:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2F710E8EA;
-	Thu, 19 Jan 2023 08:21:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 085D810E8EC;
+	Thu, 19 Jan 2023 08:37:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2923910E8E1;
- Thu, 19 Jan 2023 08:21:05 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 541962B063E5;
- Thu, 19 Jan 2023 03:21:02 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 19 Jan 2023 03:21:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm1; t=
- 1674116461; x=1674123661; bh=mtmi+oMGv5IhxOpYCVbvotdaNSDJ50djyOC
- tdmyYaG4=; b=QvOtEnQj4Fm1sluBvmsuqKg4kwMXjpL1cGC9BSprGihT9FpRuXD
- dOvbaPBGQKlv5+gPTOQpKpkpPG+UU6ZV7J1PBd6OiidpB8GtfJ7TpC+fJryvHD0g
- oJGu7fchNhvb3knYnl+xqA2b0579o8tCfz0iTwog5g2ngDGvd9i/puGgw4hhg/eA
- J5ds9+C3JseaXAVqTnOuAYZwkn4oEXGipWquCXxOW1oRo10zNfqE7lr8G56Ef2mG
- Bm/4VswGeTGGLMSyXlLHqz+59wnEGdA/23/yb7vkmdczgOUOpjRdw9/7s/VKQmXG
- moWnRQ2zXHwXdbOYyrxxUJrtLbbiSwIDWjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674116461; x=
- 1674123661; bh=mtmi+oMGv5IhxOpYCVbvotdaNSDJ50djyOCtdmyYaG4=; b=P
- p+Or4iDPUvVFtEIIOCubrg77Mq7RB3MTrKTrlJmeUbELLvN/7JWF7lVHfE49gLhx
- 8SIIIntV8X8wg/ID8GLpzEoaRUWAdvY0kDLakz/oaAblHuabdJVh0deopm9q/lLz
- 2oGSr7eKVmvkRm2XoINVU7BL8neFUggKBkQFYTjczMP2vnfVHfTewA33VPaQgDQK
- TlwEvQJQHDJxSX8I4840ONYWaMVIWnCbeTi2MOc8b7ssMHvpS5wAbQ4xxU+AA1JG
- VdB0rubElmyZHmMoM41sQaVvUO8nGwhVkqB0ZHzsoklkVvmdpEsN3veKIgy7XXwZ
- 39GHuqwWYHEN4IrusSFuw==
-X-ME-Sender: <xms:bf3IYzACQ_7HFhn3Anwrkze7RWbakxjS9DNqPKAVYLOuZOEi7Gx_HA>
- <xme:bf3IY5gqtWI_jzFwcWQmGbS2-vK2ZhszwkAvr6cZIm-eqPjmoLdkJLls5ujf2zniF
- 2VWrVnHrEmOMz28ctA>
-X-ME-Received: <xmr:bf3IY-kK6NbU5qSg4rjAp2fnV6fBiUmdtjm1WEOhcTxomioUkO_hzPoJVCqqDaNYQu7MatxTFYgIH45RNBDejLwkB5Q6Y8M46ACTQHTItlEuiA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtledguddulecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepueeiheejhfeivedtheduffdttefgtdeuvddvueegtefgveegvedugeffudev
- jeeinecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrh
- fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhho
- rdhtvggthh
-X-ME-Proxy: <xmx:bf3IY1xnSVyyhtsEtCj3-gDuncVVb812NREKHum_fXi5NCLJai40-Q>
- <xmx:bf3IY4RuMYudc9pYtIe4mOkRRsZOCARielm8eYyUPWnjPlEl9EzZLA>
- <xmx:bf3IY4ZC7YfTBPvZa-e3SoYPgfOH31VljWB0yjw6j8GwtnRlXppyyA>
- <xmx:bf3IY3D0VM4BsONncXIHzLQxnJvzi-VE_Znfq9YKyDFEkstFcuGGhUyifaY>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Jan 2023 03:21:01 -0500 (EST)
-Date: Thu, 19 Jan 2023 09:20:59 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20230119082059.h32bs7zqoxmjbcvn@houat>
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 293FA10E8E3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 08:37:11 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id a12so266217ybm.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 00:37:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5W30qCxVKf0KARy+TLTjIt9Y3WaxPoZtvKimLdjidWI=;
+ b=dZmYHThxSgG/zloX7Dz/TblAHFGnQhaqJk3S0H4Co64uzDBruSrZJJAa414xkyUiZ6
+ GqXevocPagiBF441A9XBAHat6S7FH48JHWwnnC6LPJeYmsq8zWSIsyMKf8KlBU8TV0qU
+ csfJ8Ic2UG8OkBQU6W5nggtagyfFDQ9pK7fquszs+FGyc/ZoNNrgVV2pa4SexUZjrT13
+ ocq/z2jBesQxSbF6VdXdyKsudFED0HQsJL0Kv1j/+WOZs4HxCL6BxUeaYzzYYmafDaeb
+ dVddQeLZDMbbY/TRxhw5YKERjHg1IZ6NqcVmnKueThsnwWgJSCmYhVWZD1b1yKKEUd1A
+ +1pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5W30qCxVKf0KARy+TLTjIt9Y3WaxPoZtvKimLdjidWI=;
+ b=lUiI0wH+pJDGu6PzRk+iA6oO5Z496R3wl+zmbUl35cIVdkG4Re/90OjKap9gAIcHgM
+ 6IA6ce20T5qOIfa4/0v855c80I11FRYhZIfvXPiKZiAAP1SNlJDgYlDE7J1FvATdku+Q
+ FLnCnrG2QrGna2si4ZIdol7Lxibbg15PY0p67X361V023K8TeAadsVHpJrKlyUiNDWA7
+ kG6/WXzoAusM1GFtVJYhdec98cVKi2TGTGo//jrQ3jyIDvDqraOs1RRBCKW8yRIS3Yuz
+ Ai04DQymztDq5N+oABGcTClYcfGHirDtk3otMtsDmhzhVITelDSKcFB8XZVXgVpbbS7A
+ 29/A==
+X-Gm-Message-State: AFqh2kopR0EATgidGS8OCDf/YqNGdFcj9qc/Iw3133/PyITEYI5VK1F7
+ /3NZpP775pQNu7UQa+vJXJ/Rt7ya60TGKLpJKgoTcw==
+X-Google-Smtp-Source: AMrXdXuaEM66ZFVHU3adMHT8v6p6wBn0BYXl02ic25ZtL9O2RpLvMcfl5xsbyGaABZf1lpRV0+JwNKzTNmOGQDTLOdI=
+X-Received: by 2002:a5b:592:0:b0:7ed:9cee:464 with SMTP id
+ l18-20020a5b0592000000b007ed9cee0464mr1308159ybp.194.1674117430262; 
+ Thu, 19 Jan 2023 00:37:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="dy6za6a4l5z47ieb"
-Content-Disposition: inline
+References: <20230118193015.911074-1-markyacoub@google.com>
+ <20230118193015.911074-9-markyacoub@google.com>
+In-Reply-To: <20230118193015.911074-9-markyacoub@google.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 19 Jan 2023 10:36:59 +0200
+Message-ID: <CAA8EJpq689pt0VXEjo_F48W8JQ+MGnEX3TH1z2ACdD_49YG-mg@mail.gmail.com>
+Subject: Re: [PATCH v6 08/10] dt-bindings: msm/dp: Add bindings for HDCP
+ registers
+To: Mark Yacoub <markyacoub@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,77 +66,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, konrad.dybcio@somainline.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ arun.r.murthy@intel.com, krzysztof.kozlowski+dt@linaro.org, hbh25y@gmail.com,
+ marex@denx.de, ashutosh.dixit@intel.com, abhinavk@codeaurora.org,
+ javierm@redhat.com, quic_khsieh@quicinc.com, stanislav.lisovskiy@intel.com,
+ agross@kernel.org, Mark Yacoub <markyacoub@chromiu.org>,
+ quic_jesszhan@quicinc.com, ankit.k.nautiyal@intel.com,
+ devicetree@vger.kernel.org, tzimmermann@suse.de, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, lucas.demarchi@intel.com,
+ quic_abhinavk@quicinc.com, swboyd@chromium.org, robh+dt@kernel.org,
+ christophe.jaillet@wanadoo.fr, jose.souza@intel.com, rodrigo.vivi@intel.com,
+ bjorn.andersson@linaro.org, sean@poorly.run, johan+linaro@kernel.org,
+ tvrtko.ursulin@linux.intel.com, andersson@kernel.org,
+ linux-kernel@vger.kernel.org, swati2.sharma@intel.com,
+ manasi.d.navare@intel.com, bhanuprakash.modem@intel.com, seanpaul@chromium.org,
+ freedreno@lists.freedesktop.org, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 18 Jan 2023 at 21:30, Mark Yacoub <markyacoub@chromium.org> wrote:
+>
+> From: Sean Paul <seanpaul@chromium.org>
+>
+> This patch adds the bindings for the MSM DisplayPort HDCP registers
+> which are required to write the HDCP key into the display controller as
+> well as the registers to enable HDCP authentication/key
+> exchange/encryption.
+>
+> We'll use a new compatible string for this since the fields are optional.
 
---dy6za6a4l5z47ieb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This doesn't correspond to patch contents.
 
-Hi Dave, Daniel,
+>
+> Cc: Rob Herring <robh@kernel.org>
 
-Here's this week drm-misc-fixes PR
+This should be a
 
-Thanks!
-Maxime
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Mark Yacoub <markyacoub@chromiu.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-13-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-13-sean@poorly.run #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-13-sean@poorly.run #v3
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-13-sean@poorly.run #v4
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211115202153.117244-1-sean@poorly.run #v4.5
+> Link: https://patchwork.freedesktop.org/patch/msgid/20220411204741.1074308-9-sean@poorly.run #v5
 
-drm-misc-fixes-2023-01-19:
-A fix for vc4 to address a memory leak when allocating a buffer, a
-Kconfig fix for panfrost and two fixes for i915 and fb-helper to
-address some bugs with vga-switcheroo.
-The following changes since commit 5640e81607152d7f2d2558227c0f6cb78b8f39cf:
+Please, clean this up. I suspect that the long list of previous
+iterations might belong to the cover letter, but not to the series
+themselves.
 
-  drm: Optimize drm buddy top-down allocation method (2023-01-12 13:50:28 +0100)
+>
+> Changes in v2:
+> -Drop register range names (Stephen)
+> -Fix yaml errors (Rob)
+> Changes in v3:
+> -Add new compatible string for dp-hdcp
+> -Add descriptions to reg
+> -Add minItems/maxItems to reg
+> -Make reg depend on the new hdcp compatible string
+> Changes in v4:
+> -Rebase on Bjorn's multi-dp patchset
+> Changes in v4.5:
+> -Remove maxItems from reg (Rob)
+> -Remove leading zeros in example (Rob)
+> Changes in v5:
+> -None
+> Changes in v6:
+> -Rebased: modify minItems instead of adding it as new line.
+>
+> ---
+>  .../devicetree/bindings/display/msm/dp-controller.yaml    | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index f2515af8256f..17d741f9af86 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -24,13 +24,15 @@ properties:
+>        - qcom,sm8350-dp
+>
+>    reg:
+> -    minItems: 4
+> +    minItems: 5
 
-are available in the Git repository at:
+No. eDP uses 4 register blocks.
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-01-19
+>      items:
+>        - description: ahb register block
+>        - description: aux register block
+>        - description: link register block
+>        - description: p0 register block
+>        - description: p1 register block
+> +      - description: (Optional) Registers for HDCP device key injection
+> +      - description: (Optional) Registers for HDCP TrustZone interaction
+>
+>    interrupts:
+>      maxItems: 1
+> @@ -154,7 +156,9 @@ examples:
+>                <0xae90200 0x200>,
+>                <0xae90400 0xc00>,
+>                <0xae91000 0x400>,
+> -              <0xae91400 0x400>;
+> +              <0xae91400 0x400>,
+> +              <0xaed1000 0x174>,
+> +              <0xaee1000 0x2c>;
+>          interrupt-parent = <&mdss>;
+>          interrupts = <12>;
+>          clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
+> --
+> 2.39.0.246.g2a6d74b583-goog
+>
 
-for you to fetch changes up to 2293a73ad4f3b6c37c06713ff1b67659d92ef43d:
 
-  drm/i915: Remove unused variable (2023-01-18 13:33:15 -0500)
-
-----------------------------------------------------------------
-A fix for vc4 to address a memory leak when allocating a buffer, a
-Kconfig fix for panfrost and two fixes for i915 and fb-helper to
-address some bugs with vga-switcheroo.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      drm/panfrost: fix GENERIC_ATOMIC64 dependency
-
-Maxime Ripard (2):
-      drm/vc4: bo: Fix drmm_mutex_init memory hog
-      drm/vc4: bo: Fix unused variable warning
-
-Nirmoy Das (1):
-      drm/i915: Remove unused variable
-
-Thomas Zimmermann (2):
-      drm/i915: Allow switching away via vga-switcheroo if uninitialized
-      drm/fb-helper: Set framebuffer for vga-switcheroo clients
-
- drivers/gpu/drm/drm_fb_helper.c        | 7 +++++++
- drivers/gpu/drm/i915/i915_driver.c     | 5 +----
- drivers/gpu/drm/i915/i915_switcheroo.c | 6 +++++-
- drivers/gpu/drm/panfrost/Kconfig       | 3 ++-
- drivers/gpu/drm/vc4/vc4_bo.c           | 6 ++----
- 5 files changed, 17 insertions(+), 10 deletions(-)
-
---dy6za6a4l5z47ieb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY8j9awAKCRDj7w1vZxhR
-xb5NAP9u9dOuTyFsVNGNIjwDhLlXufpzHxQFn9m/U93OfiPEoAEArNgft2uWAK9Z
-VUvWrF6tCm23hXi5dZCkVQPV41WtfQs=
-=/mXd
------END PGP SIGNATURE-----
-
---dy6za6a4l5z47ieb--
+-- 
+With best wishes
+Dmitry
