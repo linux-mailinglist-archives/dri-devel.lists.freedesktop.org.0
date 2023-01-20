@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2C667541B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:06:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E2F675428
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:08:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D820D10EA29;
-	Fri, 20 Jan 2023 12:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8490610EA36;
+	Fri, 20 Jan 2023 12:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE90A10EA29
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:06:22 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id a184so3772254pfa.9
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 04:06:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0fHoLFugivtMZ86kgSLqMbkMyqartt/N4bdBqj9xnEE=;
- b=EDQ3LbZIORQv6Wc6NXt5iUyV4RuaokaUOgR77k1Aa/RMyX/8Y5U4RwLjSG/K6XkFWP
- rhFm1GCcdTA+Q0BXiAKOY0Bxh5yQede1Occ/2SSErgBbcnS3xWcilhSwZx1AU2+/nAg8
- uqdZooE11ryi6UPO+/rAAjZMQST0xvB2xZc9zI+XgeYp1EgXXkswaO3NtVuR/9cpM9Yv
- BdC46FAv2X7txfFbeb6oPEGBVqwlx4NJLPv7tvaLUIAgnysFuyvTJJJVoki3NrpCOezS
- NUELWOty/dGfgX1jYEbg7BiYaMQH1ckN+Js0KjADAJ313RtBPyZIqlnX5jpNItnzkGJr
- pTNA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AC9210EA34
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:08:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674216518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EorP74j3x4AQpp4pYb79LEKPx0NRfoi7hoT0sE5jwxk=;
+ b=g8FAOpfL7N9sp9mzPADjbpQpb7G+UttcA4Pwz3Slt979owvJsU4/dDUVaSFXz4adMKtQdF
+ Ggr6BvPHWGv2vUvxyf9mpOZso2AcO3/Kw3V0C7V4IdOzU3z2dMTWVD0NrUZdKSVhkdS+sb
+ +eEqr/alDf2Osq8zOh+Bulxbjy9fIPI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-611-VJqEU2OnO--HZdVJXNjBOA-1; Fri, 20 Jan 2023 07:08:28 -0500
+X-MC-Unique: VJqEU2OnO--HZdVJXNjBOA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ j8-20020a05600c190800b003db2dc83dafso1496894wmq.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 04:08:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=0fHoLFugivtMZ86kgSLqMbkMyqartt/N4bdBqj9xnEE=;
- b=VJMynu0XKvD593jcoC2a6fe+L+HXtA8oOlAw6+HSduy+8UFj26fYLWI0vKNYhNNo10
- dGw5ssitTPVWKyfdWJC/ZPjC4KuMVPyeejeOAboLBxcg2MfIDnfK272vsrGSzbyhxWEf
- Ci+kKSVRyXD5IoO/Q5KtADS3BFfA+xrPtyOaX8Ue1wZz9pKFRs7254RdTG6kqvf//QK5
- x08yDWr99omJS16Y6rMJQRxrFBYTg2Cpji/+nLStlOXlPThKhmHlp/YQ991ax74Lr/Hu
- DtMTpu323zji+4Q+wpcX0+D3BWFc7NLNYolBVwvc3Hnj0y3H5eVdHAoRel06pdXq/47X
- q7UA==
-X-Gm-Message-State: AFqh2kqTcOseB0dwoplSYqeOibrMj0jMDVKUqkyF/KM9RhnCa4f1Sknu
- AllZcxNvkovTvPC0X0Ovs3GzCCf9JoOC2z9VkiA=
-X-Google-Smtp-Source: AMrXdXuRpBSOGSkq99Qq3DZEX5OA7nhrBDuhQ3ECyo4J1HInmfP5JWg/z7eNUFrp4cEL7c4dz3gFndCovBaeoHW2mdg=
-X-Received: by 2002:a63:e23:0:b0:4cf:122f:2102 with SMTP id
- d35-20020a630e23000000b004cf122f2102mr1043434pgl.98.1674216382168; Fri, 20
- Jan 2023 04:06:22 -0800 (PST)
+ bh=EorP74j3x4AQpp4pYb79LEKPx0NRfoi7hoT0sE5jwxk=;
+ b=RpWWMpUdZAzGVE7fgNBXap2HlWSGEZJgsVlCV2VXbRVvzg3RcBwLEQorhDXajAgKNc
+ I9xpUopyWVnGSE82c6m50rBH+MqONC2yakxxpUVboglFOfV1+Ihj+5Z7kV1rGWB2b+vT
+ 66QkJVRLMj9smy10dQFiYgL025U6dsXgcY5Eo2FYrAfLJJetXr4RYvv3061i10Rc6hUS
+ ZHHvVpTDKQiqiaTjzvYX65XpN6FgU3tjvXsxihwvUycfvvxYob1rjaFpNDOpS2JtAOvB
+ 8WXtEJMaksnhbr27pzTN1HzgChl/YYxm8ax46aJLNlpqpSNw5Pi4jQP4ez4/mbLV0hxr
+ NwGQ==
+X-Gm-Message-State: AFqh2koqgzBBdmkP78CoKL7cxkQ0pyGMGYVwNfU17KpzMFZod116EDPj
+ 3TIoiek/xcKrmwrZ3rP7SRs642WINslDoiKBeof5z7K63pxlUr5OUp6y5OxWhmolwUfWOaO89+z
+ JNBUHSsAXXgGkTm1L6jFjvoxNXT2q
+X-Received: by 2002:adf:c645:0:b0:2bf:81e9:cdc5 with SMTP id
+ u5-20020adfc645000000b002bf81e9cdc5mr954315wrg.42.1674216507050; 
+ Fri, 20 Jan 2023 04:08:27 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtxVGUJbmsvWQFDyiPS9CLawvVjvF3wsxeOlNhZMZ27WAF18x2qJNgpWWaTBA3nDIrWCUDtEA==
+X-Received: by 2002:adf:c645:0:b0:2bf:81e9:cdc5 with SMTP id
+ u5-20020adfc645000000b002bf81e9cdc5mr954296wrg.42.1674216506809; 
+ Fri, 20 Jan 2023 04:08:26 -0800 (PST)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l4-20020a05600012c400b002bbb2d43f65sm32766336wrx.14.2023.01.20.04.08.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 04:08:25 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] Fixes and cleanup for DRM fbdev emulation and deferred I/O
+Date: Fri, 20 Jan 2023 13:08:19 +0100
+Message-Id: <20230120120822.2536032-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20221214125907.376148-1-jagan@amarulasolutions.com>
- <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
- <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
- <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
-In-Reply-To: <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Fri, 20 Jan 2023 09:06:10 -0300
-Message-ID: <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
-Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,31 +80,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ dri-devel@lists.freedesktop.org, Jaya Kumar <jayalk@intworks.biz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
+Hello,
 
-On Thu, Jan 19, 2023 at 2:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+This patch series contains two fixes and a cleanup for things that I noticed
+while debugging a regression in the fbdev emulation for a DRM driver.
 
-> There are two patch series prior to this need to apply.
->
-> https://patchwork.kernel.org/project/dri-devel/patch/20221212145745.15387-1-jagan@amarulasolutions.com/
-> https://patchwork.kernel.org/project/dri-devel/cover/20221212182923.29155-1-jagan@amarulasolutions.com/
+The first two patches are trivial and shoulnd't be controversial, the third
+patch is less trivial, but it has been already reviewed by Thomas and I did
+test it to make sure that works as expected. With it, I got rid of the WARN
+that happened due a mutex used after it has been destroyed.
 
-Would it make sense to re-submit these two patches as part of your series?
+Best regards,
+Javier
+
+
+Javier Martinez Canillas (3):
+  fbdev: Remove unused struct fb_deferred_io .first_io field
+  drm/fb-helper: Check fb_deferred_io_init() return value
+  drm/fb-helper: Use a per-driver FB deferred I/O handler
+
+ drivers/gpu/drm/drm_fbdev_generic.c | 15 ++++++++-------
+ drivers/video/fbdev/core/fb_defio.c |  4 ----
+ include/drm/drm_fb_helper.h         | 10 ++++++++++
+ include/linux/fb.h                  |  1 -
+ 4 files changed, 18 insertions(+), 12 deletions(-)
+
+-- 
+2.39.0
+
