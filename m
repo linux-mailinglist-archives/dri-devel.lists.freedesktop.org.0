@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEAD5675346
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 12:15:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E18675372
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 12:32:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2DDB10EA06;
-	Fri, 20 Jan 2023 11:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A553610EA1E;
+	Fri, 20 Jan 2023 11:32:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D81E10EA04
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 11:15:27 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E1AB96602D25;
- Fri, 20 Jan 2023 11:15:24 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1674213325;
- bh=pk0IDna2rdFOCASraCLd7evCkGbMHFk7ARo77hGlbMo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=K2MOTQvLN7GOlV57FsPI26ZCkig6YDHIcebXCASlOI+Dtrp0mjLBJCY6iy95WiFvl
- 1mnskzibbi3R6xOjsgp1d8CLmRCYv94hF8xjwpcWPQ0xSHRc90X2XsfYNBxL+HZuJ3
- IJ+qtg9RzoV6K81BA87zEV9pQWcsZEKN2ysjtGynroVr7hYF2hsqD4Q5JC6iAltSmB
- xwnSWQrafRZ0QtcA/Psi//KI3ntUbP0OInTF52KXaU44UkekjRDP3Wge9BUTRne+Lg
- EV8p4arvjD/f0WjC8EAc6Qb+OW7TF5akWw32mYkdQbtjYvMMTaMzk/G/cqgeFLTnfI
- QftUW5bfliLTw==
-Message-ID: <8f7bda23-7063-d2ff-9b5d-b1604052a502@collabora.com>
-Date: Fri, 20 Jan 2023 12:15:23 +0100
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA4A10EA07;
+ Fri, 20 Jan 2023 11:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674214338; x=1705750338;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qONkOFP8DnyyZBcwCooPKjF7KSBVfCQkJzSd5SQ/tIY=;
+ b=Hu9HcD4bpt5phsAJABS6k2zOC5PE4llHGGMJ/9FdZmkguikrT+8aSAA2
+ KKDvxpQHYBTgLdFHDquKs1jNYZ90VZY8W9pZu+9PyMMxPNTojvA5RSXZN
+ eUSUnhDNW3PqSMoozxbFo5U6l+X3hXLHTZn+lzqopuIsD+zBxlQtDKqSl
+ mJE7QFyIQRli5HPQgfot5+UQ5OaeXJieSMJx5jobpFFMJVNZs8jWU9pZ2
+ wBe91ZoPWhNOkBbcWcs0m+UUZqi/Vwsa6j0gCjDww7kKdj3+O8nAJ8Oad
+ 6lVYSCSYgavnofjlJ+SIVUAT/HTM1Y+ntJOM7iGXcCzmGWNR/eG01Bakc Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="327654579"
+X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; d="scan'208";a="327654579"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2023 03:32:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="638136969"
+X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; d="scan'208";a="638136969"
+Received: from melsaid-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.222.199])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2023 03:32:13 -0800
+Date: Fri, 20 Jan 2023 12:32:10 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/selftest: fix
+ intel_selftest_modify_policy argument types
+Message-ID: <Y8p7uvNmJlpPFWRC@ashyti-mobl2.lan>
+References: <20230117163743.1003219-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 2/3] iommu/sound: Use component_match_add_of helper
-Content-Language: en-US
-To: Sean Anderson <sean.anderson@seco.com>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-References: <20230119191040.1637739-1-sean.anderson@seco.com>
- <20230119191040.1637739-3-sean.anderson@seco.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230119191040.1637739-3-sean.anderson@seco.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230117163743.1003219-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,24 +58,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Will Deacon <will@kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Robin Murphy <robin.murphy@arm.com>, Yong Wu <yong.wu@mediatek.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 19/01/23 20:10, Sean Anderson ha scritto:
-> Convert users of component_match_add_release with component_release_of
-> and component_compare_of to component_match_add_of.
+Hi Arnd,
+
+On Tue, Jan 17, 2023 at 05:37:29PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
-> Acked-by: Mark Brown <broonie@kernel.org>
+> The definition of intel_selftest_modify_policy() does not match the
+> declaration, as gcc-13 points out:
+> 
+> drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c:29:5: error: conflicting types for 'intel_selftest_modify_policy' due to enum/integer mismatch; have 'int(struct intel_engine_cs *, struct intel_selftest_saved_policy *, u32)' {aka 'int(struct intel_engine_cs *, struct intel_selftest_saved_policy *, unsigned int)'} [-Werror=enum-int-mismatch]
+>    29 | int intel_selftest_modify_policy(struct intel_engine_cs *engine,
+>       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In file included from drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c:11:
+> drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h:28:5: note: previous declaration of 'intel_selftest_modify_policy' with type 'int(struct intel_engine_cs *, struct intel_selftest_saved_policy *, enum selftest_scheduler_modify)'
+>    28 | int intel_selftest_modify_policy(struct intel_engine_cs *engine,
+>       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Change the type in the definition to match.
+> 
+> Fixes: 617e87c05c72 ("drm/i915/selftest: Fix hangcheck self test for GuC submission")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
+Pushed to drm-intel-gt-next.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Thanks,
+Andi
 
-
+> ---
+>  drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+> index 310fb83c527e..2990dd4d4a0d 100644
+> --- a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+> +++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
+> @@ -28,8 +28,7 @@ struct intel_engine_cs *intel_selftest_find_any_engine(struct intel_gt *gt)
+>  
+>  int intel_selftest_modify_policy(struct intel_engine_cs *engine,
+>  				 struct intel_selftest_saved_policy *saved,
+> -				 u32 modify_type)
+> -
+> +				 enum selftest_scheduler_modify modify_type)
+>  {
+>  	int err;
+>  
+> -- 
+> 2.39.0
