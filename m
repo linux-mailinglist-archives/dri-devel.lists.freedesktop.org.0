@@ -1,59 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E4D675798
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 15:41:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0E66757EA
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 16:00:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77ACF10E033;
-	Fri, 20 Jan 2023 14:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CFE810E0ED;
+	Fri, 20 Jan 2023 15:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56A9010E033
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 14:41:29 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id 123so6914834ybv.6
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 06:41:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ody2VwbWyzJCEoTCrPWuZTMErMgICWUGOLVYILw0XoA=;
- b=Eae9Of/Ov1XhcCmov+o08TB7ndmw04F4U9QlIiHCWqegFzyQicvUpYy9ALP6GmPL1d
- Uil5SoEzJYNYz/MkJl9Yxr5yLe1DkJV6a4Ckzzpwo17R9IL5VIFdSr+z66Tqlqymp4VK
- wcegKTLIGammf1WrCXoPS18e3xYQlObfQJS9M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ody2VwbWyzJCEoTCrPWuZTMErMgICWUGOLVYILw0XoA=;
- b=xnWJJ8y4oDtq6YyJ2fXEPnWCscwBO2woZGpuEV2QzL2bxlx2geoUTDPOfM7pvEXc1h
- 6GVyCkhpHR/f0aHvqEsw6neSwZNfYvblIyjmuQK537BnPaMtNOLTyukCJvlqIjcGnQ9J
- UDAMLSLdEq2tq4ec7RHhbANNu14yyTN6OUHgP7YsTRvkFbLk+h3iGO3bHwQf1eRmlT5L
- wUl56bj4afDothScBQkJginrA2kjxKn9012y2ZTDLuo7bseK8XcDm9x1B7kj68ScIEyb
- efcsg0elUzW38Y6yy/JwuokZ5RyqeNgHjEZrvgtFo08un2hafzfyd4FfQSz10DDy1RU0
- xrsg==
-X-Gm-Message-State: AFqh2krS5L0hoNuqDSqdQdEiSHZ0KtgZVVmDroa9PTWMTrJTIQZ+sRji
- 2F6H7HyKFK9AiPW07Q5axsFz6ZWLHGxs9wYsICzmRw==
-X-Google-Smtp-Source: AMrXdXs+dnVURFc+udtKNceuDm29bsMaET8vGrIITAFJcxpO5SeW7X85UMxRmvAoWDnQk+iWyE1bwHwtLPEi+HNOqTE=
-X-Received: by 2002:a25:ac66:0:b0:800:5d4e:8063 with SMTP id
- r38-20020a25ac66000000b008005d4e8063mr353173ybd.126.1674225688483; Fri, 20
- Jan 2023 06:41:28 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AFBB10E0ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 15:00:03 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30KEx1X8000559; Fri, 20 Jan 2023 14:59:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=3HrTy6KRH0c8nn8RZz4UfVbeho7HoRu2+7rX1+TKX6o=;
+ b=NrU0ke3Gq12txpQ4inx0oalb6FODLnpl/63NNfyMI4fRK915a1sfFJm+ZGTnSS6XUrmu
+ 6JDQbXXMyz+2t8MbTxD29cp9Xpd5/s2d9L7019nVyU9S0p6FtIO7AXRxqP4O+Em0crSd
+ TRf3FojLW1/lbKiJeWDql6YEtTvYMF7NuF1wFVFgVcjgtQdR9uXTE32YwyPGz6DGz0eG
+ 2VX9BXcRazJ0GM4DZHR4jJ1+58AiC4pLsm+wo+SNYERuIBSLfmp2ZDR4NQdZENhSDlHA
+ 8HgUC93d+ZbYBetZ7ze5TMKhAmDbckmxTTKJqbn6+ZPeA9+uTO0p7cuJZFybsIlviJzj 8w== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n7c28hwv5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Jan 2023 14:59:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30KExfev006092
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Jan 2023 14:59:41 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 20 Jan
+ 2023 06:59:40 -0800
+Message-ID: <8a5c3cc6-c1e5-b6c4-e69d-441cf3a1fa7d@quicinc.com>
+Date: Fri, 20 Jan 2023 07:59:39 -0700
 MIME-Version: 1.0
-References: <20221214125907.376148-1-jagan@amarulasolutions.com>
- <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
- <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
- <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
- <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
-In-Reply-To: <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 20 Jan 2023 20:11:16 +0530
-Message-ID: <CAMty3ZAc=t5FEphQkd=O1eaA70-779zhESwPFqoiGs8x569H2w@mail.gmail.com>
-Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
-To: Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH linux-next 1/3] Documentation: accel: escape wildcard in
+ special file path
+Content-Language: en-US
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Freedesktop DRI List
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux KVM <kvm@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>
+References: <20230120123534.137413-1-bagasdotme@gmail.com>
+ <20230120123534.137413-2-bagasdotme@gmail.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230120123534.137413-2-bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: c49osEI-LfEgRsTJD9aA3ZchrnIv8A_-
+X-Proofpoint-ORIG-GUID: c49osEI-LfEgRsTJD9aA3ZchrnIv8A_-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-20_09,2023-01-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxlogscore=954
+ clxscore=1011 mlxscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301200142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,39 +88,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Aaron Lewis <aaronlewis@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabio,
+On 1/20/2023 5:35 AM, Bagas Sanjaya wrote:
+> Stephen Rothwell reported htmldocs warning then merging accel tree:
+> 
+> Documentation/accel/introduction.rst:72: WARNING: Inline emphasis start-string without end-string.
+> 
+> Sphinx confuses the file wildcards with inline emphasis (italics), hence
+> the warning.
+> 
+> Fix the warning by escaping wildcards.
+> 
+> Link: https://lore.kernel.org/linux-next/20230120132116.21de1104@canb.auug.org.au/
+> Fixes: f65c5dac207322 ("docs: accel: Fix debugfs path")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-On Fri, Jan 20, 2023 at 5:36 PM Fabio Estevam <festevam@gmail.com> wrote:
->
-> Hi Jagan,
->
-> On Thu, Jan 19, 2023 at 2:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> > There are two patch series prior to this need to apply.
-> >
-> > https://patchwork.kernel.org/project/dri-devel/patch/20221212145745.15387-1-jagan@amarulasolutions.com/
-> > https://patchwork.kernel.org/project/dri-devel/cover/20221212182923.29155-1-jagan@amarulasolutions.com/
->
-> Would it make sense to re-submit these two patches as part of your series?
+Thanks for addressing this before I even saw the warning report.
 
-The previous version's comment was to separate them from the DSIM series.
-
-Jagan.
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
