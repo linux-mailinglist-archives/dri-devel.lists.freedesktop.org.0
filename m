@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D684675E2A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 20:35:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10F6675E29
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 20:35:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D76110EB06;
-	Fri, 20 Jan 2023 19:35:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C35C510EB03;
+	Fri, 20 Jan 2023 19:35:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BB3A10EAFC;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EDE310EAFD;
  Fri, 20 Jan 2023 19:35:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1674243319; x=1705779319;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=RmHp35HZdITzZMST9XxXP5+dDBzZpKoMgvb3vxaufVA=;
- b=ZCVPObySSsBqmFVO66OA2vyzu9Bq+AJQ3WUF4Ze2KnmMSDWaTO+qvycH
- K5LHe1cTCMhWFNb3quGPnSQXC7PgITVUnZlKHwPaof0zjWYTz/71jQnjL
- pR8JnONOMnIxj3RrfxhNDsukXGPAX8/ebQCr65LEgtlrBPkIeXdbHxVBx
- QFMaYGaW8mkMSmhxA12Y7LZmFGsQv4ORfQa0LzejVQMSXskynDdJcFrsQ
- aNalsxWduR7FfQaUyacU8vVgCQKrGL23XZEybp9BouNZrRhn0jiTIQkjX
- fQ7yo2h6J7WfKZU/ZGw6gmKPYRKLRexVtcBfMZqj8hHXg7q0HFzM/qtYo w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="411903545"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="411903545"
+ bh=JZy+a1wh/irdNN2NOvJaI18iXOd/CkgSTUrviirubLQ=;
+ b=e8pX+0kZu0jNushX+pN/PZ9E8X9ynnPOuWEh0ruRZxpj4kL46wSvw/7Z
+ YNGOPsy0EN04LRJItCMIuPaSBA6Bqwd5nzGamqArLrE3l/gstM2+tOqzw
+ Y9RY3HQttmrUWv4jAFzsTbaM2kb1G/Rjk/wlr5WxGQcwBcXXm3erspOLI
+ aBamjNAu6/5tjOjX+nC4RvY6PX1yj4A7IV8mbDNG2F9fT7TcEYwDwyABi
+ eCYdFDQlovzPz7zk4Sl1tpInAHqKrPfrmM7E3eC+LfZG345QAyygyKuDC
+ sppUDJ92wuSF25XG1dCgcFVj0XnBPhQgf8zyWUy1BBcmKelrsKghG/N20 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="411903546"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="411903546"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Jan 2023 11:35:18 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="834518320"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="834518320"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="834518325"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="834518325"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  20 Jan 2023 11:35:16 -0800
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 7/8] drm/i915: Convert MBUS_ABOX_CTL() to
- _PICK_EVEN_2RANGES()
-Date: Fri, 20 Jan 2023 11:34:56 -0800
-Message-Id: <20230120193457.3295977-8-lucas.demarchi@intel.com>
+Subject: [PATCH v2 8/8] drm/i915: Convert PALETTE() to _PICK_EVEN_2RANGES()
+Date: Fri, 20 Jan 2023 11:34:57 -0800
+Message-Id: <20230120193457.3295977-9-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120193457.3295977-1-lucas.demarchi@intel.com>
 References: <20230120193457.3295977-1-lucas.demarchi@intel.com>
@@ -61,33 +60,34 @@ Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MBUS_ABOX_CTL() can use _PICK_EVEN_2RANGES instead of _PICK, which
+PALETTE() can use _PICK_EVEN_2RANGES instead of _PICK, which
 reduces the size and is safer.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
- drivers/gpu/drm/i915/i915_reg.h | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/i915_reg.h | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index fe6385443c4a..3d6ad4424265 100644
+index 3d6ad4424265..b134a1f357c8 100644
 --- a/drivers/gpu/drm/i915/i915_reg.h
 +++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -1040,9 +1040,11 @@
- #define _MBUS_ABOX0_CTL			0x45038
- #define _MBUS_ABOX1_CTL			0x45048
- #define _MBUS_ABOX2_CTL			0x4504C
--#define MBUS_ABOX_CTL(x)		_MMIO(_PICK(x, _MBUS_ABOX0_CTL, \
--						    _MBUS_ABOX1_CTL, \
--						    _MBUS_ABOX2_CTL))
-+#define MBUS_ABOX_CTL(x)							\
-+	_MMIO(_PICK_EVEN_2RANGES(x, 2,						\
-+				 _MBUS_ABOX0_CTL, _MBUS_ABOX1_CTL,		\
-+				 _MBUS_ABOX2_CTL, _MBUS_ABOX2_CTL))
-+
- #define MBUS_ABOX_BW_CREDIT_MASK	(3 << 20)
- #define MBUS_ABOX_BW_CREDIT(x)		((x) << 20)
- #define MBUS_ABOX_B_CREDIT_MASK		(0xF << 16)
+@@ -1734,10 +1734,11 @@
+ #define   PALETTE_10BIT_BLUE_EXP_MASK	REG_GENMASK(7, 6)
+ #define   PALETTE_10BIT_BLUE_MANT_MASK	REG_GENMASK(5, 2)
+ #define   PALETTE_10BIT_BLUE_UDW_MASK	REG_GENMASK(1, 0)
+-#define PALETTE(pipe, i)	_MMIO(DISPLAY_MMIO_BASE(dev_priv) + \
+-				      _PICK((pipe), _PALETTE_A,		\
+-					    _PALETTE_B, _CHV_PALETTE_C) + \
+-				      (i) * 4)
++#define PALETTE(pipe, i) _MMIO(DISPLAY_MMIO_BASE(dev_priv) +			\
++			       _PICK_EVEN_2RANGES(pipe, 2,			\
++						  _PALETTE_A, _PALETTE_B,	\
++						  _CHV_PALETTE_C, _CHV_PALETTE_C) + \
++						  (i) * 4)
+ 
+ #define PEG_BAND_GAP_DATA	_MMIO(0x14d68)
+ 
 -- 
 2.39.0
 
