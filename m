@@ -2,42 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAE06752F3
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 12:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444E167534A
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 12:15:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3463210EA03;
-	Fri, 20 Jan 2023 11:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B54F210EA08;
+	Fri, 20 Jan 2023 11:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FAA910EA03
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 11:04:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1674212667; bh=pFcAewn2quaVufqt8MmtsTzaNaBvytUqO76gWo5SNjg=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:In-Reply-To;
- b=Cbb6j9H2bD7Z7FDGGrPST7s+1kdY9TCjD4K3FrcuhfnGD+4tZZvWgNsTN90ih9UdU
- EpQ5VNhgs0wbFFIIKpp6oX+tTWm4CljmBXK/uz6lgzg1gaobzDbEp1HY40oT/qGeYy
- fXqqx0CgRBPtsicPkkdPDLBSCZFq/R40B3Etysx8=
-Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Fri, 20 Jan 2023 12:04:26 +0100 (CET)
-X-EA-Auth: 0ot/tZiiKTi0F/QTRJLyBwwxTY3M0aSyzIriddrSvkKfXh3ZFiTX2FktA6AgT6MOmBjuSX2ydcws6gMFGL5Br+buUxxSQm4+
-Date: Fri, 20 Jan 2023 16:34:21 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/tegra: sor: Remove redundant error logging
-Message-ID: <Y8p1NbUH16avUefO@ubun2204.myguest.virtualbox.org>
-References: <Y5a4z0TZSqUPfRkr@qemulion>
- <Y6DQTkTMhEefCkBL@qemulion>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3290210EA2D;
+ Fri, 20 Jan 2023 11:15:26 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CD80A660230B;
+ Fri, 20 Jan 2023 11:15:21 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1674213324;
+ bh=CASdzRtoHYplP6yd6/mt/6hm04+ftfOht/MoW2dAnK8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=YaLvVsczluXVfnE14rTAqsOFML8ibEN1/3WdsV84rBmyv56rm0yhbjdLUhD+eXUI3
+ yKn2Ye+ICWEX+swXtC8nTyojSyi5j8aVZuPYvhCHx1sWbnW1CWR4J/WG6G5TcHOWq+
+ 13fRRh3EqjgwoQo7KnaqPqj0ur/D2OH2xexc1gB7gf/Hlbt7rT5ZQgwX6J3xN0YQdo
+ SrTxkQ28Dw8AuQNXaTwK75BGopNLRf82Lq2KW9Jw2yZz9otY2jWkfw+0AnSgNmiMk3
+ /A+CAQqcuPdlo4xosz+MWz7duPvfGPQgBCRsPxfwYxeslWq4G5I77YLn6dGajAqHo7
+ NKDsK9qZMT2Aw==
+Message-ID: <1e924d3b-1283-b9f9-d2a0-0e42db656d4e@collabora.com>
+Date: Fri, 20 Jan 2023 12:15:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6DQTkTMhEefCkBL@qemulion>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 3/3] drm: Convert users of drm_of_component_match_add
+ to component_match_add_of
+Content-Language: en-US
+To: Sean Anderson <sean.anderson@seco.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
+References: <20230119191040.1637739-1-sean.anderson@seco.com>
+ <20230119191040.1637739-4-sean.anderson@seco.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230119191040.1637739-4-sean.anderson@seco.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,73 +61,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ John Stultz <jstultz@google.com>, Mihail Atanassov <mihail.atanassov@arm.com>,
+ Samuel Holland <samuel@sholland.org>, Russell King <linux@armlinux.org.uk>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Mali DP Maintainers <malidp@foss.arm.com>, linux-arm-msm@vger.kernel.org,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, linux-sunxi@lists.linux.dev,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, etnaviv@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org,
+ Tomi Valkeinen <tomba@kernel.org>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Tian Tao <tiantao6@hisilicon.com>, Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 20, 2022 at 02:27:50AM +0530, Deepak R Varma wrote:
-> On Mon, Dec 12, 2022 at 10:44:55AM +0530, Deepak R Varma wrote:
+Il 19/01/23 20:10, Sean Anderson ha scritto:
+> Every user of this function either uses component_compare_of or
+> something equivalent. Most of them immediately put the device node as
+> well. Convert these users to component_match_add_of and remove
+> drm_of_component_match_add.
 > 
-> Hello,
-> May I please request a review and feedback on this patch proposal?
-> 
-> Also, I was able to build the changes for ARM arch verified using modinfo
-> tegr-drm.ko command.
+> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
+> Acked-by: Jyri Sarha <jyri.sarhaı@iki.fi>
+> Tested-by: Jyri Sarha <jyri.sarha@iki.fi>
 
-Hello,
-I am waiting on a feedback on this patch proposal. Do I need to resend it to get
-maintainer attention? Please advise.
+For MediaTek mtk_drm_drv:
 
-Thank you,
-./drv
-
-> 
-> 
-> Thank you,
-> ./drv
-> 
-> 
-> > A call to platform_get_irq() already prints an error on failure within
-> > its own implementation. So printing another error based on its return
-> > value in the caller is redundant and should be removed. The clean up
-> > also makes if condition block braces unnecessary. Remove that as well.
-> >
-> > Issue identified using platform_get_irq.cocci coccicheck script.
-> >
-> > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > ---
-> > Please note: I was not able to build this driver since I did not find the
-> > DRM_TEGRA option in menu config. All dependencies listed in the KConfig are
-> > enabled, however, I was still not able to find the DRM_TEGRA module in the
-> > Graphics-Drivers list. Since the proposed change is known, minor and obvious, I
-> > am sending in this patch without build testing.
-> >
-> > Any advise on how to enable the DRM_TEGRA module in menuconfig selection list
-> > will be helpful. Thank you.
-> >
-> >
-> >  drivers/gpu/drm/tegra/sor.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-> > index 8af632740673..ceaebd33408d 100644
-> > --- a/drivers/gpu/drm/tegra/sor.c
-> > +++ b/drivers/gpu/drm/tegra/sor.c
-> > @@ -3799,10 +3799,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
-> >  	}
-> >
-> >  	err = platform_get_irq(pdev, 0);
-> > -	if (err < 0) {
-> > -		dev_err(&pdev->dev, "failed to get IRQ: %d\n", err);
-> > +	if (err < 0)
-> >  		goto remove;
-> > -	}
-> >
-> >  	sor->irq = err;
-> >
-> > --
-> > 2.34.1
-> >
+Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
