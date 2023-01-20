@@ -1,48 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC02067520B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 11:08:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98258675234
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 11:19:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFA110E0E7;
-	Fri, 20 Jan 2023 10:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7402510E0DF;
+	Fri, 20 Jan 2023 10:19:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53AC110E0E7;
- Fri, 20 Jan 2023 10:08:38 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6CD116602AAA;
- Fri, 20 Jan 2023 10:08:36 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1674209316;
- bh=mGZMRhz079cBUS3es9XAvPfXNBT914As8zfpB8Pu9n4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZWHBopnaIcDi261qkYCZ/g4fD7bEZ1Ek8PwKjhKVuNsNx1nenWz+K7ID4TSR7SWO5
- XFvWgQ2lRRZE5EzQkG92UzEV8UExou8CWSm5mjZJPVQTZuHO+7+6X3vUv8rJCsVc85
- iubV3oJ1y0d+jEIMqMySOLl0Zyx2y9f6RX8DV78Vt9W19exCH3eumax91ZnZZ5qCrJ
- LA/ahTmOejcx+9iWNauPHVSAz0xPmhcAJSLTeUpATtXNBKMcdF4SszpfmF4WURSDHV
- cU9sHbYnW0giNFNPwFCJLP0GQa8bbkAbt6oI+Eyo4IoEijpplAPvWdmk7FHtahrGSy
- DFhERHKe3a5FQ==
-Date: Fri, 20 Jan 2023 11:08:33 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH drm-next 13/14] drm/nouveau: implement new VM_BIND UAPI
-Message-ID: <20230120110833.76cc7864@collabora.com>
-In-Reply-To: <Y8jOCE/PyNZ2Z6aX@DUT025-TGLU.fm.intel.com>
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-14-dakr@redhat.com>
- <e371e8a1-88f8-1309-07ca-f48f4157fec8@shipmail.org>
- <8e10b46c-f934-8eee-904e-b3d8a7644a71@redhat.com>
- <Y8jOCE/PyNZ2Z6aX@DUT025-TGLU.fm.intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D56510E0DF
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 10:19:01 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id q10so4420387wrs.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 02:19:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=d8BcJzXSs607af8t7kqUBgjRke129BH5lCDD+YUTH7w=;
+ b=LpfSiNltaoV7bWfi3yQR6wIwTKqlLH7Cjtwa/XneNU61Ua5EWCgWLAmqQW4ko0k8hT
+ 7nuNnorRsj8t9/48i19w6P2TUdPkm4CyGE2Yz2+MfpMRt0T7BdOQ55DOkkwsEVlOCXzE
+ hS5JDPHJU3BA2gZU16GZAw37kzK3q/u9bQQ0UtRPyu/TLBIhpD6usPD828f08UdUSxXS
+ YySKUR3JB5bmEdzRIKnZps+lJwVscq4/xFDjvBmGNpVL0ybJO9d2/TfrNZYppcH6tnfS
+ GxiR3AYWsyaulrms7NLKr3R/Ms8Bs/W4errDUbskI+8/qTbdpiSCp4oZIPL+CCIB5nEp
+ T9WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=d8BcJzXSs607af8t7kqUBgjRke129BH5lCDD+YUTH7w=;
+ b=C16C/xALAtK9qRkrUoDnAyAqV3E/q5c8+3OE+N/XDWMZ4RJu3WfHEv1WeJ1/5V2xc9
+ o2bNkVeRImGVtOlQXlE3Jb1n9I/8r81CyaXEwBVbOYGSC7hJtA37DFU3Ltc80mn9wu8T
+ uuZ4EAm7gFQAk8tUu1UIwZmAmi5Y8YKEdxhG3Ph+fFw9OeBCaJt4a19vc2v6yHWvxn3/
+ jf3fQ7vbVu75JdghqaKOsV+DddTVpRD3Q8WNdtP3URikfDG4Sh7GNVK8g8/K85rz7pFz
+ jb7j0AQVUOZPxNoP3Fi73DQEcKy5HdMpT4KVr1omSQe6KHGTaT88UHRgGwQ9Xp5Mwv8P
+ +dMA==
+X-Gm-Message-State: AFqh2kpY2UtpndzZvtXy78yAkJfZEMA0tyWk4HUDM5lGKqujj+JCd3fP
+ 5mFB1uAb22eFNGGKMWefadG8ww==
+X-Google-Smtp-Source: AMrXdXuKdhKIqJEou6IJmM5yvUMjMnUD67NRnsbGkBHfaQP6Ex2vg3VDK1+5I1ULAcU+W6HSfx0aeA==
+X-Received: by 2002:adf:f0cd:0:b0:2bd:d783:377 with SMTP id
+ x13-20020adff0cd000000b002bdd7830377mr12934188wro.22.1674209939686; 
+ Fri, 20 Jan 2023 02:18:59 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ r9-20020adff709000000b00291f1a5ced6sm14862170wrp.53.2023.01.20.02.18.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Jan 2023 02:18:59 -0800 (PST)
+Message-ID: <a9c47e2f-aacb-4c8f-3a0b-67274ef15376@linaro.org>
+Date: Fri, 20 Jan 2023 11:18:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v7 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
+ backlight
+Content-Language: en-US
+To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Helge Deller <deller@gmx.de>
+References: <20230120094728.19967-1-lujianhua000@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230120094728.19967-1-lujianhua000@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,36 +80,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason@jlekstrand.net, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- \(Intel\)" <thomas_os@shipmail.org>, corbet@lwn.net,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>, bskeggs@redhat.com, tzimmermann@suse.de,
- airlied@redhat.com, christian.koenig@amd.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 19 Jan 2023 04:58:48 +0000
-Matthew Brost <matthew.brost@intel.com> wrote:
-
-> > For the ops structures the drm_gpuva_manager allocates for reporting the
-> > split/merge steps back to the driver I have ideas to entirely avoid
-> > allocations, which also is a good thing in respect of Christians feedback
-> > regarding the huge amount of mapping requests some applications seem to
-> > generate.
-> >  
+On 20/01/2023 10:47, Jianhua Lu wrote:
+> Add Kinetic KTZ8866 backlight binding documentation.
 > 
-> It should be fine to have allocations to report the split/merge step as
-> this step should be before a dma-fence is published, but yea if possible
-> to avoid extra allocs as that is always better.
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> ---
+> Changes in v2:
+>   - Remove "items" between "compatible" and "const: kinetic,ktz8866".
+>   - Change "additionalProperties" to "unevaluatedProperties".
 > 
-> Also BTW, great work on drm_gpuva_manager too. We will almost likely
-> pick this up in Xe rather than open coding all of this as we currently
-> do. We should probably start the port to this soon so we can contribute
-> to the implementation and get both of our drivers upstream sooner.
+> Changes in v3:
+>   - Add Krzysztof's R-b.
+> 
+> Changes in v4:
+>   - Drop Krzysztof's R-b.
+>   - Add some new properties.
+> 
+> Changes in v5:
+>   - Add missing enum under property description.
+>   - Rename uncorrect properties.
+> 
+> Changes in v6:
+>   - Correct wrong property suffix and description.
+> 
+> Changes in v7:
+>   - Add vddpos and vddeg supply.
+>   - Use enable-gpios instead of defining enable pin.
+> 
+>  .../leds/backlight/kinetic,ktz8866.yaml       | 74 +++++++++++++++++++
+>  1 file changed, 74 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> new file mode 100644
+> index 000000000000..b1d0ade0dfb6
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
+> @@ -0,0 +1,74 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Kinetic Technologies KTZ8866 backlight
+> +
+> +maintainers:
+> +  - Jianhua Lu <lujianhua000@gmail.com>
+> +
+> +description: |
+> +  The Kinetic Technologies KTZ8866 is a high efficiency 6-channels-current-sinks
+> +  led backlight with dual lcd bias power.
+> +  https://www.kinet-ic.com/ktz8866/
+> +
+> +allOf:
+> +  - $ref: common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: kinetic,ktz8866
+> +
+> +  vddpos-supply:
+> +    description: positive boost supply regulator.
+> +
+> +  vddneg-supply:
+> +    description: negative boost supply regulator.
+> +
+> +  enable-gpios:
+> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
+> +    maxItems: 1
+> +
+> +  current-num-sinks:
+> +    description: number of the LED current sinks' channels.
+> +    enum: [1, 2, 3, 4, 5, 6]
+> +
+> +  current-ramping-time-ms:
+> +    description: LED current ramping time in milliseconds.
+> +    enum: [2, 4, 8, 16, 32, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640]
 
-Also quite interested in using this drm_gpuva_manager for pancsf, since
-I've been open-coding something similar. Didn't have the
-gpuva_region concept to make sure VA mapping/unmapping requests don't
-don't go outside a pre-reserved region, but it seems to automate some
-of the stuff I've been doing quite nicely.
+kinetic,current-ramp-delay-ms
+
+> +
+> +  led-ramping-time-ms:
+
+kinetic,led-enable-ramp-delay-ms
+
+So both are similar to existing regulator properties.
+
+Best regards,
+Krzysztof
+
