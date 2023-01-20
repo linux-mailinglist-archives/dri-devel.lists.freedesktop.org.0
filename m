@@ -1,46 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11404675922
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 16:53:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E5167594D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 16:55:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B426510E013;
-	Fri, 20 Jan 2023 15:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE1F10EA93;
+	Fri, 20 Jan 2023 15:55:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C344E10E013
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 15:53:25 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown
- [IPv6:2a01:e0a:120:3210:39c:df77:ee30:30ed])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: benjamin.gaignard)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1516D660230B;
- Fri, 20 Jan 2023 15:53:24 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1674230004;
- bh=Cp5VUuqqJWZfxAGM2uaTUY9gCqzgtCRO8doDbJe8GqU=;
- h=From:To:Cc:Subject:Date:From;
- b=M9FJRCXumXZyllfBUymJDAg/xqqBxgux2WaLhsqhCKIrAjfXjcilBwr7G1XiPTcbg
- 9sHeggBzESOuYrHxZDbzQ2iRMtL/okHAY2zis9Nrkq9J4i/cvMbvJIJtQmilvUzzh/
- BCupkNeJhvg3EJj+bXpTuEAKvx3+pacIZI8A1hR513p7pwVSy6bqy1j1IMuOC4Zz3P
- TTr74jFzrH8J/ShW9G7RPd4jAOSYzWikhEUFmcy43YO4aWUQ+6xPVSWYRE7nYxZNRb
- Aua1yVCinmdNZ9p2wpiW4EvHBwBuZLWWzDqmV9QUQRtaMKDBGdMRQKjqaq6AJg2kV6
- nqhNuUrOK0PNw==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: inki.dae@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- airlied@gmail.com, daniel@ffwll.ch, krzysztof.kozlowski@linaro.org,
- alim.akhtar@samsung.com, m.szyprowski@samsung.com
-Subject: [PATCH] drm: exynos: Make g2d_open() and g2d_close() static
-Date: Fri, 20 Jan 2023 16:53:17 +0100
-Message-Id: <20230120155317.819786-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
+ [IPv6:2607:f8b0:4864:20::82b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29ECC10E012
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 15:55:00 +0000 (UTC)
+Received: by mail-qt1-x82b.google.com with SMTP id d16so4427457qtw.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 07:55:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cIZBov414cRAviPU8wwR8NqtPTpO7JU2x/UOZjpaEK8=;
+ b=I+/367Wr7qAl4QZ19Xa8tMaf6OqBl6nT+owiFtMqLB3/Pk1nuu/DhyGmoEK7Lb+cBd
+ //6UGaGGTvOGvzJ/mWDIIYHpM5WkOc2aTbH28Z5mpomge2PFcZWk0jPPE8ng1P9KJICw
+ kYEMN9hgS7OBMWqEVVXpEj+uPpGaVXdsBHwT1L5aA7FsjQPf0Z3TStJ+iaepVd5A72HF
+ wvf5b52cvYfFrjB5l0ouephNq/+wZXsmyY1xI7jEACR3zpiFVnJGl1fUMjGlE8xgQr2+
+ 9GwZy1WuKMfqeSoyDSpeMrCnVUYV9UONb7Y8Ru7Xa3AMfHs1LyJSouAVHeWITYRdqKw5
+ NHYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cIZBov414cRAviPU8wwR8NqtPTpO7JU2x/UOZjpaEK8=;
+ b=WFuYR+pxJ9kd4gHO/2+Kvf0AYIy9MVsoznMJxFolklSAO4Kq75pb8SfCQiJWM2e//f
+ wOsxpeFOqLgnv+smpwg0kRLJzvrk4cnbsZ8Q1W7xRKo+W8zHyrkTNGMRHaODqiACI1J6
+ KdFxddfFDMp4uOOtFW555Aat1pEQYPoUBHI8IRfTK7wband0qEVv0dzw/+iyOhfTFmrn
+ CjDIdhVjXvnfi+05b8nYw6mxRqheaiC4IVUSBWyhdUVwzl3iC1W2Suuy8jaYJaiswvJP
+ teCe3EJN1GZSxg3w/6nyvHizJQJ+XrNK50hkVFnBcfAE+9cHDl/JUs0BoEZaCXEgvvjU
+ CKmg==
+X-Gm-Message-State: AFqh2koMU7+Mo0yYq2rqKTQyUBjZsm0GR12WRauGbr+hJsd440CCOZ6y
+ kp0mqwj2YJcHmXzq0v/B5Xc0jg==
+X-Google-Smtp-Source: AMrXdXsjEvmwrWcwoIJKQJn80PQaEbBtBLRSxwKE/E0XlC2LInWRVyvOb56cD5VovaJaFNuBUXq/4w==
+X-Received: by 2002:ac8:7ed1:0:b0:3ab:5a62:453b with SMTP id
+ x17-20020ac87ed1000000b003ab5a62453bmr21415426qtj.53.1674230099206; 
+ Fri, 20 Jan 2023 07:54:59 -0800 (PST)
+Received: from localhost (200.234.86.34.bc.googleusercontent.com.
+ [34.86.234.200]) by smtp.gmail.com with ESMTPSA id
+ g19-20020a05620a40d300b006cec8001bf4sm26567015qko.26.2023.01.20.07.54.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 07:54:58 -0800 (PST)
+Date: Fri, 20 Jan 2023 15:54:57 +0000
+From: Sean Paul <sean@poorly.run>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v6 09/10] arm64: dts: qcom: sc7180: Add support for HDCP
+ in dp-controller
+Message-ID: <Y8q5UfpIg0+qnAuG@art_vandelay>
+References: <20230118193015.911074-1-markyacoub@google.com>
+ <20230118193015.911074-10-markyacoub@google.com>
+ <aee03688-54b6-ed9f-e32c-b46e31d72198@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aee03688-54b6-ed9f-e32c-b46e31d72198@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,40 +73,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org
+Cc: quic_sbillaka@quicinc.com, konrad.dybcio@somainline.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ arun.r.murthy@intel.com, krzysztof.kozlowski+dt@linaro.org, hbh25y@gmail.com,
+ marex@denx.de, ashutosh.dixit@intel.com, abhinavk@codeaurora.org,
+ javierm@redhat.com, quic_khsieh@quicinc.com, stanislav.lisovskiy@intel.com,
+ agross@kernel.org, quic_jesszhan@quicinc.com, ankit.k.nautiyal@intel.com,
+ devicetree@vger.kernel.org, tzimmermann@suse.de, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, lucas.demarchi@intel.com,
+ quic_abhinavk@quicinc.com, swboyd@chromium.org, robh+dt@kernel.org,
+ christophe.jaillet@wanadoo.fr, jose.souza@intel.com, rodrigo.vivi@intel.com,
+ bjorn.andersson@linaro.org, sean@poorly.run, johan+linaro@kernel.org,
+ tvrtko.ursulin@linux.intel.com, Mark Yacoub <markyacoub@chromium.org>,
+ andersson@kernel.org, linux-kernel@vger.kernel.org, swati2.sharma@intel.com,
+ manasi.d.navare@intel.com, bhanuprakash.modem@intel.com,
+ dmitry.baryshkov@linaro.org, seanpaul@chromium.org,
+ freedreno@lists.freedesktop.org, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix "no previous prototype" warning when compiling with W=1 by making
-the functions static like the ones above them.
+On Thu, Jan 19, 2023 at 11:35:32AM +0100, Krzysztof Kozlowski wrote:
+> On 18/01/2023 20:30, Mark Yacoub wrote:
+> > From: Sean Paul <seanpaul@chromium.org>
+> > 
+> > This patch adds the register ranges required for HDCP key injection and
+> 
+> Do not use "This commit/patch".
+> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+> 
+> This applies to all your patches. Fix it everywhere.
 
-Fixes: eb4d9796fa34 ("drm/exynos: g2d: Convert to driver component API")
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/gpu/drm/exynos/exynos_drm_g2d.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+My goodness, this is peak bikeshedding. Surely we have better things to do with
+our time?
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.h b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-index 74ea3c26dead..4631c0579fb9 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.h
-@@ -34,11 +34,11 @@ static inline int exynos_g2d_exec_ioctl(struct drm_device *dev, void *data,
- 	return -ENODEV;
- }
- 
--int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
-+static int g2d_open(struct drm_device *drm_dev, struct drm_file *file)
- {
- 	return 0;
- }
- 
--void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
-+static void g2d_close(struct drm_device *drm_dev, struct drm_file *file)
- { }
- #endif
+> 
+> > HDCP TrustZone interaction as described in the dt-bindings for the
+> > sc7180 dp controller. Now that these are supported, change the
+> > compatible string to "dp-hdcp".
+> 
+> What does it mean? Where do you do it?
+> 
+> > 
+> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-15-sean@poorly.run #v1
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-14-sean@poorly.run #v2
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-14-sean@poorly.run #v3
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-14-sean@poorly.run #v4
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20220411204741.1074308-10-sean@poorly.run #v5
+> 
+> Drop the links.
+
+Why? I've always done this, it seems helpful to me?
+
+> 
+> > 
+> > Changes in v3:
+> > -Split off into a new patch containing just the dts change (Stephen)
+> > -Add hdcp compatible string (Stephen)
+> > Changes in v4:
+> > -Rebase on Bjorn's multi-dp patchset
+> > Changes in v5:
+> > -Put the tz register offsets in trogdor dtsi (Rob C)
+> > Changes in v6:
+> > -Rebased: Removed modifications in sc7180.dtsi as it's already upstream
+> > 
+> > ---
+> 
+> Changelog after --- .
+
+It's common practice in drm subsystem to include this in the commit message.
+
+Sean
+
+
+> 
+> >  arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> > 
+> 
+> Best regards,
+> Krzysztof
+> 
+
 -- 
-2.34.1
-
+Sean Paul, Software Engineer, Google / Chromium OS
