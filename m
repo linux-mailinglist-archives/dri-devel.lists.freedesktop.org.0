@@ -2,52 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9798C6752ED
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 12:01:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EAE06752F3
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 12:04:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7EB10E942;
-	Fri, 20 Jan 2023 11:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3463210EA03;
+	Fri, 20 Jan 2023 11:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46C1D10E0EA
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 11:01:44 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 836CD6007C22;
- Fri, 20 Jan 2023 11:01:42 +0000 (WET)
-X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
- tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
- with LMTP id jmPLsTe-JPvq; Fri, 20 Jan 2023 11:01:40 +0000 (WET)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 093D8600883C;
- Fri, 20 Jan 2023 11:01:40 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
- s=mail; t=1674212500;
- bh=iCLdm+39drENTTmwybKXG+FGuENGab22xxEPBh0q9Zw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=Ye34XcBVE7NAwOtMQTggr5Z5a0CsKpXhaWXzYRr7o99sTM1LHAM77PMffe1yXkmyQ
- odnmDKCsBoaAduOh6u1PufVvgcMZyua5KCumUsRXL3Bv7MS8tPZ5OMvfjadGH1b3sy
- yoSQ2/0N/2Ygs3C1RPJiJd3HAqj6IR4/ZUnNjGc8=
-Received: from wslaptop.lan (unknown
- [IPv6:2001:818:dcb5:dc00:d990:b664:f16:4cb2])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id D93A036008A;
- Fri, 20 Jan 2023 11:01:39 +0000 (WET)
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-To: diogo.ivo@tecnico.ulisboa.pt, thierry.reding@gmail.com, airlied@redhat.com,
- daniel@ffwll.ch, jonathanh@nvidia.com
-Subject: [PATCH 2/2] drm/tegra: add scanout support for implicit tiling
- parameters
-Date: Fri, 20 Jan 2023 10:58:58 +0000
-Message-Id: <20230120105858.214440-3-diogo.ivo@tecnico.ulisboa.pt>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230120105858.214440-1-diogo.ivo@tecnico.ulisboa.pt>
-References: <20230120105858.214440-1-diogo.ivo@tecnico.ulisboa.pt>
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FAA910EA03
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 11:04:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1674212667; bh=pFcAewn2quaVufqt8MmtsTzaNaBvytUqO76gWo5SNjg=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To;
+ b=Cbb6j9H2bD7Z7FDGGrPST7s+1kdY9TCjD4K3FrcuhfnGD+4tZZvWgNsTN90ih9UdU
+ EpQ5VNhgs0wbFFIIKpp6oX+tTWm4CljmBXK/uz6lgzg1gaobzDbEp1HY40oT/qGeYy
+ fXqqx0CgRBPtsicPkkdPDLBSCZFq/R40B3Etysx8=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Fri, 20 Jan 2023 12:04:26 +0100 (CET)
+X-EA-Auth: 0ot/tZiiKTi0F/QTRJLyBwwxTY3M0aSyzIriddrSvkKfXh3ZFiTX2FktA6AgT6MOmBjuSX2ydcws6gMFGL5Br+buUxxSQm4+
+Date: Fri, 20 Jan 2023 16:34:21 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: sor: Remove redundant error logging
+Message-ID: <Y8p1NbUH16avUefO@ubun2204.myguest.virtualbox.org>
+References: <Y5a4z0TZSqUPfRkr@qemulion>
+ <Y6DQTkTMhEefCkBL@qemulion>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y6DQTkTMhEefCkBL@qemulion>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,107 +50,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When importing buffers from the GPU to scan out, it may happen
-that the buffer object has non-trivial tiling parameters, which
-currently go by undetected. This leads to the framebuffer being
-read and displayed in the wrong order. Explicitly check for this
-case and reconstruct the adequate modifier so that the framebuffer
-is correctly scanned out.
+On Tue, Dec 20, 2022 at 02:27:50AM +0530, Deepak R Varma wrote:
+> On Mon, Dec 12, 2022 at 10:44:55AM +0530, Deepak R Varma wrote:
+> 
+> Hello,
+> May I please request a review and feedback on this patch proposal?
+> 
+> Also, I was able to build the changes for ARM arch verified using modinfo
+> tegr-drm.ko command.
 
-Signed-off-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
----
- drivers/gpu/drm/tegra/fb.c | 59 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 57 insertions(+), 2 deletions(-)
+Hello,
+I am waiting on a feedback on this patch proposal. Do I need to resend it to get
+maintainer attention? Please advise.
 
-diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
-index 9291209154a7..31f381262345 100644
---- a/drivers/gpu/drm/tegra/fb.c
-+++ b/drivers/gpu/drm/tegra/fb.c
-@@ -116,11 +116,63 @@ static struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
- 	struct drm_framebuffer *fb;
- 	unsigned int i;
- 	int err;
-+	struct drm_mode_fb_cmd2 mode_cmd_local;
- 
- 	fb = kzalloc(sizeof(*fb), GFP_KERNEL);
- 	if (!fb)
- 		return ERR_PTR(-ENOMEM);
- 
-+	/* Check for implicitly defined modifiers using
-+	 * the state defined by tegra_gem_set_tiling().
-+	 */
-+	if (!(mode_cmd->flags & DRM_MODE_FB_MODIFIERS)) {
-+		uint64_t modifier;
-+
-+		mode_cmd_local = *mode_cmd;
-+
-+		switch (planes[0]->tiling.mode) {
-+		case TEGRA_BO_TILING_MODE_PITCH:
-+			modifier = DRM_FORMAT_MOD_LINEAR;
-+			break;
-+
-+		case TEGRA_BO_TILING_MODE_TILED:
-+			modifier = DRM_FORMAT_MOD_NVIDIA_TEGRA_TILED;
-+			break;
-+
-+		/* With all rigour this reconstruction of the modifier is
-+		 * incomplete, as it skips some fields (like page kind).
-+		 * However, along with the sector layout below it should
-+		 * contain all the bits of information needed by the
-+		 * scanout hardware.
-+		 */
-+		case TEGRA_BO_TILING_MODE_BLOCK:
-+			unsigned long height = planes[0]->tiling.value;
-+
-+			if (height > 5) {
-+				dev_err(drm->dev, "invalid block height value: %ld\n",
-+					height);
-+
-+				err = -EINVAL;
-+				goto cleanup;
-+			}
-+
-+			modifier = DRM_FORMAT_MOD_NVIDIA_16BX2_BLOCK(height);
-+			break;
-+
-+		default:
-+			dev_err(drm->dev, "invalid tiling mode\n");
-+			err = -EINVAL;
-+			goto cleanup;
-+		}
-+
-+		if (planes[0]->tiling.sector_layout == DRM_TEGRA_GEM_SECTOR_LAYOUT_GPU)
-+			modifier |= DRM_FORMAT_MOD_NVIDIA_SECTOR_LAYOUT;
-+
-+		mode_cmd_local.modifier[0] = modifier;
-+
-+		mode_cmd = &mode_cmd_local;
-+	}
-+
- 	drm_helper_mode_fill_fb_struct(drm, fb, mode_cmd);
- 
- 	for (i = 0; i < fb->format->num_planes; i++)
-@@ -130,11 +182,14 @@ static struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
- 	if (err < 0) {
- 		dev_err(drm->dev, "failed to initialize framebuffer: %d\n",
- 			err);
--		kfree(fb);
--		return ERR_PTR(err);
-+		goto cleanup;
- 	}
- 
- 	return fb;
-+
-+cleanup:
-+	kfree(fb);
-+	return ERR_PTR(err);
- }
- 
- struct drm_framebuffer *tegra_fb_create(struct drm_device *drm,
--- 
-2.39.1
+Thank you,
+./drv
+
+> 
+> 
+> Thank you,
+> ./drv
+> 
+> 
+> > A call to platform_get_irq() already prints an error on failure within
+> > its own implementation. So printing another error based on its return
+> > value in the caller is redundant and should be removed. The clean up
+> > also makes if condition block braces unnecessary. Remove that as well.
+> >
+> > Issue identified using platform_get_irq.cocci coccicheck script.
+> >
+> > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > ---
+> > Please note: I was not able to build this driver since I did not find the
+> > DRM_TEGRA option in menu config. All dependencies listed in the KConfig are
+> > enabled, however, I was still not able to find the DRM_TEGRA module in the
+> > Graphics-Drivers list. Since the proposed change is known, minor and obvious, I
+> > am sending in this patch without build testing.
+> >
+> > Any advise on how to enable the DRM_TEGRA module in menuconfig selection list
+> > will be helpful. Thank you.
+> >
+> >
+> >  drivers/gpu/drm/tegra/sor.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> > index 8af632740673..ceaebd33408d 100644
+> > --- a/drivers/gpu/drm/tegra/sor.c
+> > +++ b/drivers/gpu/drm/tegra/sor.c
+> > @@ -3799,10 +3799,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
+> >  	}
+> >
+> >  	err = platform_get_irq(pdev, 0);
+> > -	if (err < 0) {
+> > -		dev_err(&pdev->dev, "failed to get IRQ: %d\n", err);
+> > +	if (err < 0)
+> >  		goto remove;
+> > -	}
+> >
+> >  	sor->irq = err;
+> >
+> > --
+> > 2.34.1
+> >
+
 
