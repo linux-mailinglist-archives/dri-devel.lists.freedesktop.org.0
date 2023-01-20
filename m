@@ -2,48 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD71675149
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 10:36:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35976675114
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 10:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0B7C10E9F9;
-	Fri, 20 Jan 2023 09:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0FD410E93F;
+	Fri, 20 Jan 2023 09:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 668 seconds by postgrey-1.36 at gabe;
- Fri, 20 Jan 2023 09:36:07 UTC
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0AB3710E9F8;
- Fri, 20 Jan 2023 09:36:06 +0000 (UTC)
-Received: from 8bytes.org
- (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de
- [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPSA id E12D62626D1;
- Fri, 20 Jan 2023 10:24:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1674206697;
- bh=N0Ez9jlBhYWiOK7+xYABfIe0+VmfRPgpACpzUje2F4A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lOLKVLD4dyMYfuGfszt0Aqi18MMtbwUvgwVbHoDO6hE/pu3jlsoFnfOvfV2sSJ6i8
- k3lOBgDA7x9bkKbnD+qVSk6qrzEVOc/9/JS99/CzblV3IjUWMNUsDLegoejr0hYkyT
- NIAGgbjvSNtqhO8clUAYjH7vWYcGoTKi2kDTgKFmFcsSDinl9Vo2l2M2oUTe7UNJh3
- 4hHtdAX4so62XBRGFWlRKgCJW94p/lPduMMBp2SCZ238xwGOe1m0xh9F5SouN8x7NO
- 06U5w+umYu9ogUcIQK1YpQ4ciXMhW+H2quzpMMrP7f3cTLkb2U0hf6Ab3xk/GMJY5E
- 1P63Vv4/HChRw==
-Date: Fri, 20 Jan 2023 10:24:55 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH 1/8] iommu: Add a gfp parameter to iommu_map()
-Message-ID: <Y8pd50mdNShTyVRX@8bytes.org>
-References: <1-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
- <4fd1b194-29ef-621d-4059-a8336058f217@arm.com>
- <Y7hZOwerwljDKoQq@nvidia.com>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B57910E93F
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:28:45 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so5379272wml.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 01:28:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=csxV7SBcRMOtyGwXXr6VYNEIrNsBq0mzq7uR5oLy8sw=;
+ b=VYpnC/cOlpiHsNoVzbSFm5Pp66EorTVLht/M0vNOywX6Jw6WZGYBYlLa4V+WQGI2TX
+ 3lhve4nIMd91sJcMEMKN+7W0JPNrdfo1qYfCUktVTqjJuopusR3wrPB2pA4/HLpIIrEw
+ FmFzPYhL7p23K2XPFxqOL8mgkV6g9jASqSe1WYwSguYIOnyYjoLDbytDLibSkJ+E1ahV
+ CKYRL7mJ+4OTnR9e8cCaq4r60zv0UvR/ShCGhiTxmUC0Z3L1xmLCcNi3RnZyNqIeADHN
+ EKVQYhkbOVNCm8kSkDfb5KLFu7dlM3yW4mu3jrcZ2D/mFR/HqAtrVUPfw2kksem9BmjX
+ rIoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=csxV7SBcRMOtyGwXXr6VYNEIrNsBq0mzq7uR5oLy8sw=;
+ b=pcvSugAua+CeXMKR5sf/CnSqPQSdzY5BK5za2FF0Be/nGz1LJpPlTNQDKiv+l8LrIC
+ dA7CnjiGaud612TphYdnuB03jfHgvi8jI6HkeTkMU2yo3lNfuaSUXjv2BFfEOdImGBiO
+ VJquH6bUnaqfDGBcIGnKAcU53Feb7sjKtLcplUCyqxCWHwP0OuX0GXm9OUnxtEuIAz8k
+ /qH3uU2+MweG4bQu7BWqFs2j/TOXHBa6j+TGNRieqq2+5AvsVCbISkRfnJ1bz2jnrJaO
+ nqmJV8fzabiSymTrL9uGmvap/MCebvs227nGNseWpzeHKKeJWjlU26L1tMItt7wXp7mJ
+ gpCA==
+X-Gm-Message-State: AFqh2krTcGh8/VgcMsCsG6yhBS0LM+qxfyyW1AIGoKbC8i8qfCQcRtd/
+ VTB5ycxqX5o6m4KJudENsZc=
+X-Google-Smtp-Source: AMrXdXtAnv1VnjoW886QL9Vu3rdysDqbLp9waCd/Qgh+W86DERrCHcfZk/wkz5cU7w1CwOKs5L0/Vw==
+X-Received: by 2002:a05:600c:54eb:b0:3da:2090:d404 with SMTP id
+ jb11-20020a05600c54eb00b003da2090d404mr13381883wmb.18.1674206923943; 
+ Fri, 20 Jan 2023 01:28:43 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ d19-20020a05600c34d300b003a6125562e1sm1675318wmq.46.2023.01.20.01.28.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 01:28:43 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] accel/ivpu: Fix spelling mistake "tansition" ->
+ "transition"
+Date: Fri, 20 Jan 2023 09:28:42 +0000
+Message-Id: <20230120092842.79238-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y7hZOwerwljDKoQq@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,35 +73,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-s390@vger.kernel.org,
- Matthew Rosato <mjrosato@linux.ibm.com>, linux-rdma@vger.kernel.org,
- ath10k@lists.infradead.org, iommu@lists.linux.dev,
- Christian Borntraeger <borntraeger@linux.ibm.com>, ath11k@lists.infradead.org,
- linux-media@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
- Niklas Schnelle <schnelle@linux.ibm.com>, linux-arm-msm@vger.kernel.org,
- Alex Williamson <alex.williamson@redhat.com>, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 06, 2023 at 01:24:11PM -0400, Jason Gunthorpe wrote:
-> I think it is just better to follow kernel convention and have
-> allocation functions include the GFP because it is a clear signal to
-> the user that there is an allocation hidden inside the API. The whole
-> point of gfp is not to have multitudes of every function for every
-> allocation mode.
+There are spelling mistakes in two ivpu_err error messages. Fix them.
 
-Well, having GFP parameters is not a strict kernel convention. There are
-places doing it differently and have sleeping and atomic variants of
-APIs. I have to say I like the latter more. But given that this leads to
-an invasion of API functions here which all do the same under the hood, I
-agree it is better to go with a GFP parameter here.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/accel/ivpu/ivpu_hw_mtl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
+diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
+index b59b1f472b40..62bfaa9081c4 100644
+--- a/drivers/accel/ivpu/ivpu_hw_mtl.c
++++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
+@@ -608,7 +608,7 @@ static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
+ 
+ 	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
+ 	if (ret) {
+-		ivpu_err(vdev, "Failed to sync before D0i3 tansition: %d\n", ret);
++		ivpu_err(vdev, "Failed to sync before D0i3 transition: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+@@ -621,7 +621,7 @@ static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
+ 
+ 	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
+ 	if (ret)
+-		ivpu_err(vdev, "Failed to sync after D0i3 tansition: %d\n", ret);
++		ivpu_err(vdev, "Failed to sync after D0i3 transition: %d\n", ret);
+ 
+ 	return ret;
+ }
+-- 
+2.30.2
 
-	Joerg
