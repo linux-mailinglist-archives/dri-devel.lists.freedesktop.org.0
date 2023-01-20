@@ -1,79 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B056754A4
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:36:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB3E6754CE
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:41:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 708EF10EA55;
-	Fri, 20 Jan 2023 12:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A6210E0F6;
+	Fri, 20 Jan 2023 12:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B49110EA4D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:35:45 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- x2-20020a17090a46c200b002295ca9855aso8934607pjg.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 04:35:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EMRe8eLbb8kiHFG5rJAk+PE3/E/OOzFPOQcaCCbQAoA=;
- b=h9ZDQEpdJpvry7XWWAXJlAu+RImAffJ6mJRokPSxuAcl2ojeIUAJU0hYBM87Wef3Y8
- qcYv78OCB4+F0a2EHi0QexCUL6KQ0DtM1FFTJEVsXO11eHp0daCIkA4LMm0Opmi+FPN3
- jhn32UKAz8788V4RxXr8quDOe1L/wp0akqP6LII6QaCnyU271LrAxphlEh1tXgYq6pYP
- QuW5RwUWCDp2ACemGyrEa02k6zfNs9MnZC8GkkI6LUp5eX8Ct37FpjcEQEeWK4iX6BHf
- YoUFBXj0jO4eAJ2UdSeXQVt/b85CUCo/eEy8yh/UYWZvoGkemlhiTVLDWdEd1GEuoE2H
- 6q2Q==
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DFB810E0F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:41:41 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id m15so3953193wms.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 04:41:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=t9XjszmF/8qhTNMVuwNrRvWRLQzv4zG/c00mk2PH32o=;
+ b=zwYVWKeymyLDPGAhMwebRVizSWIuFyjkJQGM7f7yQ8reSiP+lA0ujMEGQuyugAGhY7
+ iKSap2wY46XvmlGSQkNI+nIyCkpJE1YXRlXJv8IIHqA4CGlLtavZwSZN4m8wzIE9KQ1Z
+ S1NDMEjEgDKAGH252dUZgKDcLruOR5VlBLMWLr36t2YC3V2JJkfIGaLajrIeo4mxYCer
+ BME8ng65YAtSoXL4GPNZBZDOqOLIu5hw5UL2OHFPc2HDxBR1S8pWRdR0fOaviH1tpbvO
+ FXiCdRmbxOVoFv3e+qb30PGkkoSGslp/SVzL4FpYSKVq7odm46JnOwo/zjTVS+agBEgr
+ wqkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EMRe8eLbb8kiHFG5rJAk+PE3/E/OOzFPOQcaCCbQAoA=;
- b=4v112iWL7nzAPV7KZsV1W8MFxTTC1Yc5hfHYkFegf4xt3jvmajvrPS7iMN4y/f5MkY
- 2wssOwArgcyRTaSZQWFRFhQsIrcMScQCFawETk4j3Ri5apPFeK2DLlzXuxLkrq+HJnTo
- 3VyAFMiGyNE1eOouUWwBk8qZDjzFXkqlTvCN7BCMGM86vqluJr+LxMNIDtqBuOrR2PmN
- uOmwWfqEnB8Cr3ZgpK6a/nowBljEnigV8edRKbkRFzRC5AqTgrXnIXbRqc0WkYIrDHmk
- m56j9vcbR8tU8T6EjgXlxVSqsg/LUW+kLHIuxepJcRfhADM7iTNqPsK3iGHClK9zNX4y
- fj1A==
-X-Gm-Message-State: AFqh2kqperLeydieN7WI/y6w8kgiGMp1AhBLe/G1X805TMH5XOoDR3aW
- knoy2vWmBHpeQkCvFhyzhlg=
-X-Google-Smtp-Source: AMrXdXvVos2ggTL5T7HwbpOP+GXCUldlSyFLCZin7OjMSnh1W6yxJ50nEOUR/Xc6pUbJWCAKcPjonA==
-X-Received: by 2002:a05:6a21:398b:b0:b6:a58c:d01 with SMTP id
- ad11-20020a056a21398b00b000b6a58c0d01mr16824076pzc.30.1674218144599; 
- Fri, 20 Jan 2023 04:35:44 -0800 (PST)
-Received: from debian.me (subs02-180-214-232-6.three.co.id. [180.214.232.6])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=t9XjszmF/8qhTNMVuwNrRvWRLQzv4zG/c00mk2PH32o=;
+ b=OQgUfUhxBDC+WKfuMTxpp0yDL8b3o6FwzZ3NFeb9eteYk7OaQyWYYr7CKViH0G0znN
+ 2Q/DptvzNCYmrmgWbG+SnH9LxWDaM1I6wsYIuzaKlwjRlnNoq/592YaQa2SEVlVwXk4P
+ OZCNgCqJ7yz3/7sEAzme60qBkHPBQ8ZqTCbqQRjAVN0k8OHLDoAWlWTjMjuSwDexQjgT
+ tLQ4V6AfN32FRjP0azfkwOjAxzuah82VYvTQ7AEk6cquQJ8zP5MDvtWmr5wgwtBHmHJt
+ LkZTW8h/A1KBDCIsmajmUKreoeI6xgIST3qNxsSX+psVHja9CDi0iAiRx0Zk48XydbR/
+ S8jA==
+X-Gm-Message-State: AFqh2kp2h1yci7Xhw44XqKh0IiJeCWZkxIdjL2GCGv3sZABTw2Fp7OoO
+ OZVWhyTpQVUppXFSN9BUYc3lOg==
+X-Google-Smtp-Source: AMrXdXtCnq9tonQJY2m5G5BpVoNm8ayoj+6Kt5jmzGEGo3iBBKKX+GncF/gsCodgvhIMAjlMrRZcRQ==
+X-Received: by 2002:a05:600c:4f86:b0:3db:66e:cfdd with SMTP id
+ n6-20020a05600c4f8600b003db066ecfddmr12768043wmq.9.1674218499637; 
+ Fri, 20 Jan 2023 04:41:39 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- z189-20020a6233c6000000b0058de3516c3esm5534003pfz.142.2023.01.20.04.35.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 04:35:42 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
- id 2CA5310189D; Fri, 20 Jan 2023 19:35:37 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Freedesktop DRI List <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux KVM <kvm@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: [PATCH linux-next 3/3] kvm: x86/pmu: Add blank line separator before
- KVM_CAP_PMU_EVENT_MASKED_EVENTS code path list
-Date: Fri, 20 Jan 2023 19:35:34 +0700
-Message-Id: <20230120123534.137413-4-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230120123534.137413-1-bagasdotme@gmail.com>
-References: <20230120123534.137413-1-bagasdotme@gmail.com>
+ u3-20020a7bc043000000b003d1d5a83b2esm2163940wmc.35.2023.01.20.04.41.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Jan 2023 04:41:39 -0800 (PST)
+Message-ID: <858a06e9-1141-4b1e-cd8c-75ca70330fc2@linaro.org>
+Date: Fri, 20 Jan 2023 13:41:36 +0100
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1281; i=bagasdotme@gmail.com;
- h=from:subject; bh=ztjmBXMVnQA+Q8YPslWD2ffuuyTaZSosFKC4Wud/mqs=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmnuqblvYpfyPXs1e8DP07fz4sKKRN5eY/58eVV/IEWT1Vv
- Kmzf31HKwiDGxSArpsgyKZGv6fQuI5EL7WsdYeawMoEMYeDiFICJnLvGyLBLoHBL85E3pyuuRp/+xf
- +y3l5IOY01q1D5xHmXgHn8/rcYGf4FlBw+lH5Gneue8eWN89Sf5jfYbNh89/ir5stxBk9Ou7EBAA==
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
- fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v8 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
+ backlight
+Content-Language: en-US
+To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Helge Deller <deller@gmx.de>
+References: <20230120123857.16124-1-lujianhua000@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230120123857.16124-1-lujianhua000@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,41 +80,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, Aaron Lewis <aaronlewis@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Oded Gabbay <ogabbay@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ofir Bitton <obitton@habana.ai>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stephen Rothwell reported htmldocs warning when merging kvm-x86 tree:
+On 20/01/2023 13:38, Jianhua Lu wrote:
+> Add Kinetic KTZ8866 backlight binding documentation.
+> 
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> ---
 
-Documentation/virt/kvm/api.rst:5070: ERROR: Unexpected indentation.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Fix the warning by adding a blank line separator before
-KVM_CAP_PMU_EVENT_MASKED_EVENTS code path list to determine guest access.
-
-Link: https://lore.kernel.org/linux-next/20230120130927.3100f935@canb.auug.org.au/
-Fixes: 651daa44b11c0e ("kvm: x86/pmu: Introduce masked events to the pmu event filter")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/virt/kvm/api.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index a477186c57c193..83e3acc9e3211d 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5067,6 +5067,7 @@ An encoded event will follow this layout::
- 
- When the guest attempts to program the PMU, these steps are followed in
- determining if the guest should have access:
-+
-  1. Match the event select from the guest against the filter events.
-  2. If a match is found, match the guest's unit mask to the mask and match
-     values of the included filter events.
--- 
-An old man doll... just what I always wanted! - Clara
+Best regards,
+Krzysztof
 
