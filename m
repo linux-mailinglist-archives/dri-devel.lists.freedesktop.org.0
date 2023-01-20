@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83358675B7E
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 18:31:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC979675B7D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 18:31:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDF810E37F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA45210E10B;
 	Fri, 20 Jan 2023 17:31:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F59410E10B
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 17:31:15 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id t5so5498621wrq.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:31:15 -0800 (PST)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63DC310E10B
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 17:31:16 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id h16so5455111wrz.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nZwFqfU6/YlqXS0KBaaVZd4JCQGAwP0xqxEd37sKS24=;
- b=ZraDywh9d7ehyDd9uKX3TzphmkT+E5LNT1jeGuMQiAwElzDgSj32j/nA8VVs53vtxb
- DIs82zif+vzWKP7v+s/OuPziFrvvXXt5szsSjD4j8FsDTLrZ9AHKuRco4wHJCbA4+Bw3
- S0b00m67OTdztpqXchCIY5nc5ds0HV7jYmvtNersWalRGSREGllMl9GGvvgboBCuXGg5
- kWld85tqFRFu2sNSSKSG1wnTGsiDFSRSpivVwHyTkp1TLGxBbim8VlO/2ecc745x+bnu
- sBusHCcwNWB7nLCGGeS+nvF0ciOEfBkGaw+Vvxbgjy302bRCbIpJk/dEigJ2Y5zKCAIM
- z7Ig==
+ bh=kXw2j+x/kse2yPakxaPEW51TbrZ6J1HBieALff4c+rE=;
+ b=HxB+Fql78ZELN8ESqJE0nr2QjjtSelDWlhBG63jeCWznR746a2arSU5WR3Dewrng8J
+ hpKPCB/+XGVCnjaTSb1hBPnnCks1ywfdHU+gPv3prNvf2m9uSypF49PArI3DIbh+dhY7
+ 4nVMQ4nvctMibIveBehx3EiUs32eAwRfj6lK57zOYWSAtKFH4lWEpBYZGqeGbe9KSThS
+ 04EFH383Mi+M8yIjSXIltHW3DxMU4XvnnpWXjQ0sSXERqs9JfRb2KWddyQcV84rKHvjs
+ bMNZ0JF7OgQ40n613YIyLOzpeSBfnd7bwq5wCtQ1EbPLfPanVxxa+hjUM/JnY9bEAgX/
+ bhoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nZwFqfU6/YlqXS0KBaaVZd4JCQGAwP0xqxEd37sKS24=;
- b=5b6/RdUcfEueTmnenf1fHFKTKlM0cd36/IDqbQpSsFfrKm11yjbiefFImolvCllabo
- rRQX9U4d7uu886M7F8CAxF2YFiraKteNuBWEOSxeGKH7CnCBgwOOmj082K7zq7YX0nW2
- qU7jtD+DEfMlY/GFNoNxDaKQ5IOOzPhaaANQB/xZPrkmiqNfbBzJtHANERAezpGofALt
- hd7V6HIJ0gegA4YdghlDlipLcIQIwtcgMH8F0JbMDmT5/BECeUudZse5qByyS98A484g
- wDgakjMgGvzFwbquZa3eIm64VPbYQ55IGK906bbFNSa4fsrT8KnqFKq2iU82Ml1X+RtA
- jSNg==
-X-Gm-Message-State: AFqh2kpcFm116HRZA6gI2/XLUPI81jewkYIoSjaABDd6bS5enEYLXHs4
- nh7JHz2/7cags6otUJ2c6Kk=
-X-Google-Smtp-Source: AMrXdXvjz/KDGIlKl769j7Os1enZRYBV2a7KiNGRFtoo8j34hnu9C0I3CKnEFtbtc2qSZ9NCcV11hg==
-X-Received: by 2002:adf:ec88:0:b0:256:ff7d:2346 with SMTP id
- z8-20020adfec88000000b00256ff7d2346mr13712276wrn.51.1674235873809; 
- Fri, 20 Jan 2023 09:31:13 -0800 (PST)
+ bh=kXw2j+x/kse2yPakxaPEW51TbrZ6J1HBieALff4c+rE=;
+ b=egy53gugyxnYDKn/6tnz9TBAK/AnsJnbpFB44bN1wRipmYU+qP+y4aL1i/3fqRo8Eu
+ nKGFbHzowg51Mk0xjvmtKXYTGj0zB+7HF7mBCQVOYEVpHFYbWtE8kq1dJOILDHRunmUJ
+ v756AR6TqHfwuk1BHZ4fKB6lBB2802VRWCp47Xxrs+Tge/IuUxEs9UI7IvmAFaY4KaFJ
+ KGZ7EyVFhToQ/eBUSTdb72A1ICt3JEy56iDyafqH9yWkqlOMXZDlS1RpP2zfXAqQdwjY
+ UCCS9KGL12bstoFaER2z99gHSgk2tzzFGNkIwdbqNgv57brhLH/TrKj8Q/4KTs2/sTb0
+ +IyQ==
+X-Gm-Message-State: AFqh2kqszVDYaVTo6DC+bfT/PnFH2rnPgNItE6hauaHuIge1f6dsq3Wx
+ VNPRGMivI+eYiEQLwWUC/nw=
+X-Google-Smtp-Source: AMrXdXsb64RJIKDpmJTAga1GYyceTGETa/aMFyd6rGzsds7lxOLOWxwF53TLNJ7Cy29mMswL5rWqhA==
+X-Received: by 2002:adf:ce90:0:b0:2bb:edc7:504 with SMTP id
+ r16-20020adfce90000000b002bbedc70504mr14353213wrn.26.1674235874883; 
+ Fri, 20 Jan 2023 09:31:14 -0800 (PST)
 Received: from localhost
  (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- g11-20020a5d488b000000b002bc7e5a1171sm29510955wrq.116.2023.01.20.09.31.13
+ z12-20020adfd0cc000000b002bdff778d87sm13470524wrh.34.2023.01.20.09.31.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 09:31:13 -0800 (PST)
+ Fri, 20 Jan 2023 09:31:14 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: David Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 7/8] drm/simpledrm: Support the XB24/AB24 format
-Date: Fri, 20 Jan 2023 18:31:02 +0100
-Message-Id: <20230120173103.4002342-8-thierry.reding@gmail.com>
+Subject: [PATCH v4 8/8] arm64: tegra: Add simple framebuffer on Jetson Xavier
+ NX
+Date: Fri, 20 Jan 2023 18:31:03 +0100
+Message-Id: <20230120173103.4002342-9-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120173103.4002342-1-thierry.reding@gmail.com>
 References: <20230120173103.4002342-1-thierry.reding@gmail.com>
@@ -82,33 +83,85 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Add XB24 and AB24 to the list of supported formats. The format helpers
-support conversion to these formats and they are documented in the
-simple-framebuffer device tree bindings.
+Add the framebuffer carveout reserved memory node as well as a simple-
+framebuffer node that is used to bind to the framebuffer that the
+bootloader has set up.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
-Changes in v4:
-- rebase on top of latest drm-format-helper rework
-
 Changes in v2:
-- treat AB24 as XB24 and support both at the same time
+- clear out dynamic fields and leave it up to firmware to fill them in
+- mark simple-framebuffer node as disabled by default
 
- include/linux/platform_data/simplefb.h | 1 +
- 1 file changed, 1 insertion(+)
+ .../nvidia/tegra194-p3509-0000+p3668-0001.dts | 43 +++++++++++++++++++
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  2 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/platform_data/simplefb.h b/include/linux/platform_data/simplefb.h
-index 27ea99af6e1d..4f94d52ac99f 100644
---- a/include/linux/platform_data/simplefb.h
-+++ b/include/linux/platform_data/simplefb.h
-@@ -22,6 +22,7 @@
- 	{ "r8g8b8", 24, {16, 8}, {8, 8}, {0, 8}, {0, 0}, DRM_FORMAT_RGB888 }, \
- 	{ "x8r8g8b8", 32, {16, 8}, {8, 8}, {0, 8}, {0, 0}, DRM_FORMAT_XRGB8888 }, \
- 	{ "a8r8g8b8", 32, {16, 8}, {8, 8}, {0, 8}, {24, 8}, DRM_FORMAT_ARGB8888 }, \
-+	{ "x8b8g8r8", 32, {0, 8}, {8, 8}, {16, 8}, {0, 0}, DRM_FORMAT_XBGR8888 }, \
- 	{ "a8b8g8r8", 32, {0, 8}, {8, 8}, {16, 8}, {24, 8}, DRM_FORMAT_ABGR8888 }, \
- 	{ "x2r10g10b10", 32, {20, 10}, {10, 10}, {0, 10}, {0, 0}, DRM_FORMAT_XRGB2101010 }, \
- 	{ "a2r10g10b10", 32, {20, 10}, {10, 10}, {0, 10}, {30, 2}, DRM_FORMAT_ARGB2101010 }, \
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts
+index 238fd98e8e45..85b4aaa2ad4e 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts
+@@ -7,4 +7,47 @@
+ / {
+ 	model = "NVIDIA Jetson Xavier NX Developer Kit (eMMC)";
+ 	compatible = "nvidia,p3509-0000+p3668-0001", "nvidia,tegra194";
++
++	chosen {
++		framebuffer {
++			compatible = "simple-framebuffer";
++			status = "disabled";
++			memory-region = <&fb>;
++			power-domains = <&bpmp TEGRA194_POWER_DOMAIN_DISP>;
++			clocks = <&bpmp TEGRA194_CLK_SOR1_REF>,
++				 <&bpmp TEGRA194_CLK_SOR1_OUT>,
++				 <&bpmp TEGRA194_CLK_SOR1_PAD_CLKOUT>,
++				 <&bpmp TEGRA194_CLK_PLLD2>,
++				 <&bpmp TEGRA194_CLK_PLLDP>,
++				 <&bpmp TEGRA194_CLK_NVDISPLAY_DISP>,
++				 <&bpmp TEGRA194_CLK_NVDISPLAYHUB>,
++				 <&bpmp TEGRA194_CLK_NVDISPLAY_P0>;
++			width = <0>;
++			height = <0>;
++			stride = <0>;
++			format = "x8b8g8r8";
++		};
++	};
++
++	reserved-memory {
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++
++		fb: framebuffer@0,0 {
++			compatible = "framebuffer";
++			reg = <0x0 0x0 0x0 0x0>;
++			iommu-addresses = <&dc0 0x0 0x0 0x0 0x0>;
++		};
++	};
++
++	bus@0 {
++		host1x@13e00000 {
++			display-hub@15200000 {
++				display@15200000 {
++					memory-region = <&fb>;
++				};
++			};
++		};
++	};
+ };
+diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+index 5ce2650128b1..e0ce54eae17d 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
+@@ -1975,7 +1975,7 @@ display-hub@15200000 {
+ 				#size-cells = <2>;
+ 				ranges = <0x0 0x15200000 0x0 0x15200000 0x0 0x40000>;
+ 
+-				display@15200000 {
++				dc0: display@15200000 {
+ 					compatible = "nvidia,tegra194-dc";
+ 					reg = <0x0 0x15200000 0x0 0x10000>;
+ 					interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
 -- 
 2.39.0
 
