@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFE467541D
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:07:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41327675406
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:00:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6457E10EA2F;
-	Fri, 20 Jan 2023 12:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25ADC10EA24;
+	Fri, 20 Jan 2023 12:00:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1442 seconds by postgrey-1.36 at gabe;
- Fri, 20 Jan 2023 12:07:37 UTC
-Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6912610EA2F
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:07:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=metanate.com; s=stronger; h=Content-Transfer-Encoding:Message-Id:Date:
- Subject:Cc:To:From:Content-Type:Reply-To:Content-ID:Content-Description:
- In-Reply-To:References; bh=KN0W4cFj0cNukrPJD6vipzylE7T5CRhghDMb5r+iSYY=; b=v5
- LlvNmiAVpTvzhcvCm9UDD3fHdLaOC9AIG32VqlGioRrnvWSVTGPQRBxk/a/SrnJh+kG1idogG0Z5F
- 4gbBv281XQ2Mfr2I2IaOrBr6QhrdMHutJ+OKB+vHDhbldcFLyWRK4gB/21dBlA6jiPEX9bS4nQij2
- cOIrDRjAAQfuw+NVcskI6ufqqYoz+333++G3Kovk3f4IsT37JeWk27MZ03XqOh8Blwue1vacnYGMI
- 7aZQ3SuKgiuyLEZT2kOTlRjLgmk6q3bFO6ZMZl6ccrCIeiHNwkeTRTQCnD0amvjDeOz0Qs036gyAO
- /77HeurpSJmlwjYr+2lVEaqX0nRNkMwg==;
-Received: from [81.174.171.191] (helo=donbot.metanate.com)
- by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.95) (envelope-from <john@metanate.com>) id 1pIpnr-00007e-Tn;
- Fri, 20 Jan 2023 11:43:28 +0000
-From: John Keeping <john@metanate.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: panel: Set orientation on panel_bridge connector
-Date: Fri, 20 Jan 2023 11:43:12 +0000
-Message-Id: <20230120114313.2087015-1-john@metanate.com>
-X-Mailer: git-send-email 2.39.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D94D10EA24
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:00:32 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pIq4F-0001AQ-D2; Fri, 20 Jan 2023 13:00:23 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pIq4E-007MQ6-9Z; Fri, 20 Jan 2023 13:00:22 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pIq4D-00ENfu-7V; Fri, 20 Jan 2023 13:00:21 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+Subject: [PATCH v2 0/2] backlight: pwm_bl: Two PWM releated changes
+Date: Fri, 20 Jan 2023 13:00:16 +0100
+Message-Id: <20230120120018.161103-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=786;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=KWR8xlGWNM7f1L8ELAgTyW8p2nhEF2JfQQPr6GCZVNA=;
+ b=owGbwMvMwMV48I9IxdpTbzgZT6slMSSfanJYe0ORiWv2PNsDWna23Pu8ORQlI2REuo4Exv/lVw2r
+ 7fjVyWjMwsDIxSArpshSV6QlNkFizX+7kiXcMINYmUCmMHBxCsBEPvKy/xWYJ+m2Jrgld4bTjbVNXh
+ lz9Tj7XbOkE52/b26QFfw5vTa1L/FJ8TbVq+3nN9f6PdzcxFu+2VZHc6JTQK4nY57VlqbjJirla/bv
+ 9vonLDPbwD06dtvSncJOzhdcsmzmTJ/g9GpemA1P7V7+m04T2uy3TuD+7if5YRaTze2Zk7f27/jXOi
+ HyTC7TUvX63RM3C3wTOdfxk7P+k2pz61l/ydnxWqlsZdP7g+pYO6W/1j7+kJtwbPXRki6N7Sy/+m70
+ XNpjOler5p38mb83U3N0TO7OfhlrtYNNOXf+uvhvC45oTQu5sIFFLJlfPG1P+D/9BRmRbDd0J7Dopm
+ x4IfUpSniyUq3j5RbvVSZRJ/ntAQ==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-Authenticated: YES
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,49 +65,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 15b9ca1641f0 ("drm: Config orientation property if panel provides
-it") added a helper to set the panel panel orientation early but only
-connected this for drm_bridge_connector, which constructs a panel bridge
-with DRM_BRIDGE_ATTACH_NO_CONNECTOR and creates the connector itself.
+Hello,
 
-When the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is not specified and the
-panel_bridge creates its own connector the orientation is not set unless
-the panel does it in .get_modes which is too late and leads to a warning
-splat from __drm_mode_object_add() because the device is already
-registered.
+here comes the promised v2 of this series. Implicit v1 is available at
+https://lore.kernel.org/dri-devel/20230109204758.610400-1-u.kleine-koenig@pengutronix.de
+.
 
-Call the necessary function to set add the orientation property when the
-connector is created so that it is available before the device is
-registered.
+Changes since (implicit) v1 all due to feedback by Daniel Thompson:
 
-Fixes: 15b9ca1641f0 ("drm: Config orientation property if panel provides it")
-Signed-off-by: John Keeping <john@metanate.com>
----
- drivers/gpu/drm/bridge/panel.c | 2 ++
- 1 file changed, 2 insertions(+)
+ - Update changelogs
+ - Still disable PWM if there is an enable gpio or a regulator
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index e8aae3cdc73d..d4b112911a99 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -81,6 +81,8 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
- 		return ret;
- 	}
- 
-+	drm_panel_bridge_set_orientation(connector, bridge);
-+
- 	drm_connector_attach_encoder(&panel_bridge->connector,
- 					  bridge->encoder);
- 
+Best regards
+Uwe
+
+Uwe Kleine-König (2):
+  backlight: pwm_bl: Configure pwm only once per backlight toggle
+  backlight: pwm_bl: Don't rely on a disabled PWM emiting inactive state
+
+ drivers/video/backlight/pwm_bl.c | 56 ++++++++++++++++++--------------
+ 1 file changed, 31 insertions(+), 25 deletions(-)
+
+
+base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+prerequisite-patch-id: a0c7497a32092d284bc47eda60e4b3690338ba6e
 -- 
-2.39.1
+2.39.0
 
