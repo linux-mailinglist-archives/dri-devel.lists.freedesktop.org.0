@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C3467540A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:00:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2C667541B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:06:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 667F310EA26;
-	Fri, 20 Jan 2023 12:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D820D10EA29;
+	Fri, 20 Jan 2023 12:06:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA2810EA26
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:00:33 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pIq4F-0001AP-D5; Fri, 20 Jan 2023 13:00:23 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pIq4E-007MQ3-8T; Fri, 20 Jan 2023 13:00:22 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pIq4D-00ENg0-Hm; Fri, 20 Jan 2023 13:00:21 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Subject: [PATCH v2 2/2] backlight: pwm_bl: Don't rely on a disabled PWM
- emiting inactive state
-Date: Fri, 20 Jan 2023 13:00:18 +0100
-Message-Id: <20230120120018.161103-3-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230120120018.161103-1-u.kleine-koenig@pengutronix.de>
-References: <20230120120018.161103-1-u.kleine-koenig@pengutronix.de>
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE90A10EA29
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:06:22 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id a184so3772254pfa.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 04:06:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=0fHoLFugivtMZ86kgSLqMbkMyqartt/N4bdBqj9xnEE=;
+ b=EDQ3LbZIORQv6Wc6NXt5iUyV4RuaokaUOgR77k1Aa/RMyX/8Y5U4RwLjSG/K6XkFWP
+ rhFm1GCcdTA+Q0BXiAKOY0Bxh5yQede1Occ/2SSErgBbcnS3xWcilhSwZx1AU2+/nAg8
+ uqdZooE11ryi6UPO+/rAAjZMQST0xvB2xZc9zI+XgeYp1EgXXkswaO3NtVuR/9cpM9Yv
+ BdC46FAv2X7txfFbeb6oPEGBVqwlx4NJLPv7tvaLUIAgnysFuyvTJJJVoki3NrpCOezS
+ NUELWOty/dGfgX1jYEbg7BiYaMQH1ckN+Js0KjADAJ313RtBPyZIqlnX5jpNItnzkGJr
+ pTNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0fHoLFugivtMZ86kgSLqMbkMyqartt/N4bdBqj9xnEE=;
+ b=VJMynu0XKvD593jcoC2a6fe+L+HXtA8oOlAw6+HSduy+8UFj26fYLWI0vKNYhNNo10
+ dGw5ssitTPVWKyfdWJC/ZPjC4KuMVPyeejeOAboLBxcg2MfIDnfK272vsrGSzbyhxWEf
+ Ci+kKSVRyXD5IoO/Q5KtADS3BFfA+xrPtyOaX8Ue1wZz9pKFRs7254RdTG6kqvf//QK5
+ x08yDWr99omJS16Y6rMJQRxrFBYTg2Cpji/+nLStlOXlPThKhmHlp/YQ991ax74Lr/Hu
+ DtMTpu323zji+4Q+wpcX0+D3BWFc7NLNYolBVwvc3Hnj0y3H5eVdHAoRel06pdXq/47X
+ q7UA==
+X-Gm-Message-State: AFqh2kqTcOseB0dwoplSYqeOibrMj0jMDVKUqkyF/KM9RhnCa4f1Sknu
+ AllZcxNvkovTvPC0X0Ovs3GzCCf9JoOC2z9VkiA=
+X-Google-Smtp-Source: AMrXdXuRpBSOGSkq99Qq3DZEX5OA7nhrBDuhQ3ECyo4J1HInmfP5JWg/z7eNUFrp4cEL7c4dz3gFndCovBaeoHW2mdg=
+X-Received: by 2002:a63:e23:0:b0:4cf:122f:2102 with SMTP id
+ d35-20020a630e23000000b004cf122f2102mr1043434pgl.98.1674216382168; Fri, 20
+ Jan 2023 04:06:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3378;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=3M18JepJfTGb5m9P8ayAdk02ozkDerKKEZZRJa5QyAI=;
- b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBjyoJJt15jx6Kow8IBg/U6EFtJQCoxDIfgvjhFmyDp
- lLphq6mJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY8qCSQAKCRDB/BR4rcrsCba/B/
- 9BccL7O6OygZX40tqrIMZFJcxCFqDYsp1WQ2xg+Ag+GGW4eHBSOJI51XnGPp/Bje3wH4ZtAf7RCffS
- gQdyPbNWla2Vo3m5Zqk0qC0g7pknzOraRxrd4suD1s4s1xBIwoOnmJGVV3egHYiLSXd957QGs7BkTH
- 7mrpV61OUHQwEcJb+QYEZcrXkBtuG5T+6zK04qKR48kgENjz9JElhUMLJaI3zRdcqrYtXRZmnJmiMe
- X8FnYT1YlMycu0WHQ37Nmj5FP8PgmaGwZzUBrNLrJKEfr+plvrxwpkcBrAqIjdsOcCJL5GbKAt7DJ9
- j11B6BSD1qrcLKa0d2kHxgvuOBfHQU
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20221214125907.376148-1-jagan@amarulasolutions.com>
+ <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
+ <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
+ <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
+In-Reply-To: <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 20 Jan 2023 09:06:10 -0300
+Message-ID: <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
+Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,106 +67,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Most but not all PWMs drive the PWM pin to its inactive state when
-disabled. However if there is no enable_gpio and no regulator the PWM
-must drive the inactive state to actually disable the backlight.
+Hi Jagan,
 
-So keep the PWM on in this case.
+On Thu, Jan 19, 2023 at 2:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
 
-Note that to determine if there is a regulator some effort is required
-because it might happen that there isn't actually one but the regulator
-core gave us a dummy. (A nice side effect is that this makes the
-regulator actually optional even on fully constrained systems.)
+> There are two patch series prior to this need to apply.
+>
+> https://patchwork.kernel.org/project/dri-devel/patch/20221212145745.15387-1-jagan@amarulasolutions.com/
+> https://patchwork.kernel.org/project/dri-devel/cover/20221212182923.29155-1-jagan@amarulasolutions.com/
 
-This fixes backlight disabling e.g. on i.MX6 when an inverted PWM is
-used.
-
-Hint for the future: If this change results in a regression, the bug is
-in the lowlevel PWM driver.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/video/backlight/pwm_bl.c | 30 ++++++++++++++++++++++--------
- 1 file changed, 22 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
-index 0509fecd5715..fb388148d98f 100644
---- a/drivers/video/backlight/pwm_bl.c
-+++ b/drivers/video/backlight/pwm_bl.c
-@@ -45,9 +45,11 @@ static void pwm_backlight_power_on(struct pwm_bl_data *pb)
- 	if (pb->enabled)
- 		return;
- 
--	err = regulator_enable(pb->power_supply);
--	if (err < 0)
--		dev_err(pb->dev, "failed to enable power supply\n");
-+	if (pb->power_supply) {
-+		err = regulator_enable(pb->power_supply);
-+		if (err < 0)
-+			dev_err(pb->dev, "failed to enable power supply\n");
-+	}
- 
- 	if (pb->post_pwm_on_delay)
- 		msleep(pb->post_pwm_on_delay);
-@@ -69,7 +71,8 @@ static void pwm_backlight_power_off(struct pwm_bl_data *pb)
- 	if (pb->pwm_off_delay)
- 		msleep(pb->pwm_off_delay);
- 
--	regulator_disable(pb->power_supply);
-+	if (pb->power_supply)
-+		regulator_disable(pb->power_supply);
- 	pb->enabled = false;
- }
- 
-@@ -109,8 +112,16 @@ static int pwm_backlight_update_status(struct backlight_device *bl)
- 		pwm_backlight_power_off(pb);
- 
- 		pwm_get_state(pb->pwm, &state);
--		state.enabled = false;
- 		state.duty_cycle = 0;
-+		/*
-+		 * We cannot assume a disabled PWM to drive its output to the
-+		 * inactive state. If we have an enable GPIO and/or a regulator
-+		 * we assume that this isn't relevant and we can disable the PWM
-+		 * to save power. If however there is neither an enable GPIO nor
-+		 * a regulator keep the PWM on be sure to get a constant
-+		 * inactive output.
-+		 */
-+		state.enabled = !pb->power_supply && !pb->enable_gpio;
- 		pwm_apply_state(pb->pwm, &state);
- 	}
- 
-@@ -408,7 +419,7 @@ static int pwm_backlight_initial_power_state(const struct pwm_bl_data *pb)
- 	if (pb->enable_gpio && gpiod_get_value_cansleep(pb->enable_gpio) == 0)
- 		active = false;
- 
--	if (!regulator_is_enabled(pb->power_supply))
-+	if (pb->power_supply && !regulator_is_enabled(pb->power_supply))
- 		active = false;
- 
- 	if (!pwm_is_enabled(pb->pwm))
-@@ -489,10 +500,13 @@ static int pwm_backlight_probe(struct platform_device *pdev)
- 		goto err_alloc;
- 	}
- 
--	pb->power_supply = devm_regulator_get(&pdev->dev, "power");
-+	pb->power_supply = devm_regulator_get_optional(&pdev->dev, "power");
- 	if (IS_ERR(pb->power_supply)) {
- 		ret = PTR_ERR(pb->power_supply);
--		goto err_alloc;
-+		if (ret == -ENODEV)
-+			pb->power_supply = NULL;
-+		else
-+			goto err_alloc;
- 	}
- 
- 	pb->pwm = devm_pwm_get(&pdev->dev, NULL);
--- 
-2.39.0
-
+Would it make sense to re-submit these two patches as part of your series?
