@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDB367581A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 16:06:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 839EC67582D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 16:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D81D10E0F8;
-	Fri, 20 Jan 2023 15:06:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49B3910E107;
+	Fri, 20 Jan 2023 15:10:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8CFE10EA8E
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 15:06:15 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D428C82A24;
- Fri, 20 Jan 2023 16:06:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1674227172;
- bh=Q+GtcqYVcRCyforgDMEOvrZe/K4O2oZLi3dROtOs6DA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=xEkgFbvql9TdclCnOShK3oy7AQezqlWlmrbnCte9WmqZmoSRojetE5WBSB5hkWLxt
- w7xqteKzcbAUUrhGSMQZpW02MLQ2A7cOKbJvfDPyTyXZPVWHH+DFYMDQJJ9OZkfeE/
- clZ29Lh+UQiClmgcL3ILBxucqtmZ6VjyPJQhYcwFNVxyy85H5NJ4rs7cmh1qCC9ZM/
- UJ8H7Zja180ndE2/uh6KUM7KhFk+gBu+aWC+Gso/6hsa4dYXklrRDApxFXWnF7GgFk
- e60HpFtCAuXxJtyxPdHPYfLbZ2v8YZP5ce4Dvfbb9v15q/rZyN+x5BH4+TKQIHDj2p
- J/8JLWmX8cRbQ==
-Message-ID: <ea400d44-a6cb-2f26-9c03-ee1ede2cdf09@denx.de>
-Date: Fri, 20 Jan 2023 16:06:09 +0100
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7F710E114
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 15:10:27 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id e8so4352217qts.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 07:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3qynH7wRRlnqTqa2NIiMdtT+b1iluHvbfZvKdXE4uF8=;
+ b=AOxownWYi1lRgUTXvK9o54UKSBae7UVLgmMr12UgRHKs42DWHSP3bGyWesy0YD9DdO
+ KdCKIbl479liOXVSdm+8ZVN7ZXwEErbpOBc9aVzGR608vshsSJt51MWmPbH4YcSWH7Wu
+ h/Ia/2EEYh6zx1ljxSMZ8xsJeHcapUz6gPIPw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3qynH7wRRlnqTqa2NIiMdtT+b1iluHvbfZvKdXE4uF8=;
+ b=LZCWfh79L/y6Cmt0H8zVYfSb2dN9nfq5u/2ooAAUNtPhJY3Djox0bkNv3DfiXiXX8s
+ 0PwyYDHhQxGJC1DxaTyRT6Y5Jjeq+eyDOM78tbSIbissURPAaOtPtlcE5d/KAiTH2w4L
+ WAalofjifzsB4TmHD/RrSdtYH5nSzZ296B5JFUL1v0OZA8thk6bUXZ4jduK4aP6PDIUh
+ hdGFElzf7H6p8REriLtA1tb9BB95PNkcHNJH6E+k1KZfKr9HTh9okik2rqGquaehdkwV
+ ffu6nNJlPSutAQNM5+n4I0Lx5N1+v7lsrD/AYgd4Qxzg9b8OZbfKPAtc5KJOAX8Tivxy
+ WwDQ==
+X-Gm-Message-State: AFqh2krX29dEDSSNzC3V0qy/fpZj17u6vmo1mVHGyccrhYOa+A45Lzpc
+ +quPeuIyH78BIR32KWyttVrPBQ==
+X-Google-Smtp-Source: AMrXdXuZEDWx9RpG93Q8i2C8MXF9ZEaEQMBHhvpqOaUuYD6TE0O7mJk8AO2PqUhi2thJTS1H4LwujQ==
+X-Received: by 2002:ac8:730a:0:b0:3b6:3a71:e939 with SMTP id
+ x10-20020ac8730a000000b003b63a71e939mr21813597qto.7.1674227426855; 
+ Fri, 20 Jan 2023 07:10:26 -0800 (PST)
+Received: from meerkat.local
+ (bras-base-mtrlpq5031w-grc-30-209-226-106-7.dsl.bell.ca. [209.226.106.7])
+ by smtp.gmail.com with ESMTPSA id
+ cb15-20020a05622a1f8f00b003ab43dabfb1sm7786009qtb.55.2023.01.20.07.10.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 07:10:26 -0800 (PST)
+Date: Fri, 20 Jan 2023 10:10:24 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: pr-tracker-bot for drm subsystem?
+Message-ID: <20230120151024.nflfvgl55wfl6ppj@meerkat.local>
+References: <87a670spdw.fsf@intel.com>
+ <87a62dadi9.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Fabio Estevam <festevam@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maxime Ripard <maxime@cerno.tech>
-References: <20221214125907.376148-1-jagan@amarulasolutions.com>
- <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
- <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
- <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
- <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
- <CAMty3ZAc=t5FEphQkd=O1eaA70-779zhESwPFqoiGs8x569H2w@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZAc=t5FEphQkd=O1eaA70-779zhESwPFqoiGs8x569H2w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87a62dadi9.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +70,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ tools@linux.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/20/23 15:41, Jagan Teki wrote:
-> Hi Fabio,
-
-Hello all,
-
-> On Fri, Jan 20, 2023 at 5:36 PM Fabio Estevam <festevam@gmail.com> wrote:
->>
->> Hi Jagan,
->>
->> On Thu, Jan 19, 2023 at 2:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
->>
->>> There are two patch series prior to this need to apply.
->>>
->>> https://patchwork.kernel.org/project/dri-devel/patch/20221212145745.15387-1-jagan@amarulasolutions.com/
->>> https://patchwork.kernel.org/project/dri-devel/cover/20221212182923.29155-1-jagan@amarulasolutions.com/
->>
->> Would it make sense to re-submit these two patches as part of your series?
+On Fri, Jan 20, 2023 at 09:09:18AM +0200, Jani Nikula wrote:
 > 
-> The previous version's comment was to separate them from the DSIM series.
+> Konstantin?
 
-Hmmmmm, seems like those first two patches got stuck. I fixed up the 
-malformed Fixes: line (it was split across two lines and had angular 
-brackets around it) and picked the first series via drm-misc-next .
+Sorry, I didn't mean to scholz you around. The pr-tracker-bot is very much a
+bespoke solution for Linus, so adapting it to other subsystems is not very
+trivial, which is why I've been sitting on this request without any movement.
 
-Can you send a subsequent patch to convert the DSIM_* macros to BIT() 
-macro , since checkpatch --strict complains about it ?
+The code for the bot is available here:
+https://git.kernel.org/pub/scm/linux/kernel/git/mricon/korg-helpers.git/tree/pr-tracker-bot.py
 
-For the second series, you likely want a RB from Maxime Ripard and Dave 
-Stevenson first about the probe order handling.
+I can take a look at it in the future, but at the moment I'm still not able to
+work on it, sorry. :(
+
+-K
