@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA216751C1
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 10:55:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC02067520B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 11:08:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE8B610E9FF;
-	Fri, 20 Jan 2023 09:55:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFA110E0E7;
+	Fri, 20 Jan 2023 10:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0275B10E9FF
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:54:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674208499; x=1705744499;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=+nvvEu/BOUFSCsUyjF17UjmDZnCUyvy9snQzL3mM8lQ=;
- b=V+HWo2icsGfLJZKsv2xmsyxOZgesxKfonzSbKCpMmaWqWKBgJD7hnt+0
- MXg7YOGrDp/TBqJ1AK5ybk4XxkBEpXlVcKOm5fzy2zDP+ZTtx4HtkPw20
- KMI4jA0s1hTX/dzX8KbRr9/XNmRdfS/q+hNW1kiP12C/2XTZ51j4LrFY9
- 1Wvr+dX9DxzJSGLJb+ywKL2ZkPfLSXjEERX1Z4F+fV6WG7rHaLnA3O6Yy
- H77WPjVLyhK4hqDnSuzpOP79Eq4qIHU0SJHCJENVe1roS/7PcdOi57tQK
- f1lTFxFQR5Yl/Oi9aRpiX0XoM1pZiIueqfXuGyoeSLOdegR0di7H6SrBL w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305912521"
-X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; d="scan'208";a="305912521"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2023 01:54:58 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="834364601"
-X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; d="scan'208";a="834364601"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2023 01:54:56 -0800
-Date: Fri, 20 Jan 2023 10:54:54 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-Subject: Re: [PATCH][next] accel/ivpu: Fix spelling mistake "tansition" ->
- "transition"
-Message-ID: <20230120095454.GA56856@linux.intel.com>
-References: <20230120092842.79238-1-colin.i.king@gmail.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53AC110E0E7;
+ Fri, 20 Jan 2023 10:08:38 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6CD116602AAA;
+ Fri, 20 Jan 2023 10:08:36 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1674209316;
+ bh=mGZMRhz079cBUS3es9XAvPfXNBT914As8zfpB8Pu9n4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ZWHBopnaIcDi261qkYCZ/g4fD7bEZ1Ek8PwKjhKVuNsNx1nenWz+K7ID4TSR7SWO5
+ XFvWgQ2lRRZE5EzQkG92UzEV8UExou8CWSm5mjZJPVQTZuHO+7+6X3vUv8rJCsVc85
+ iubV3oJ1y0d+jEIMqMySOLl0Zyx2y9f6RX8DV78Vt9W19exCH3eumax91ZnZZ5qCrJ
+ LA/ahTmOejcx+9iWNauPHVSAz0xPmhcAJSLTeUpATtXNBKMcdF4SszpfmF4WURSDHV
+ cU9sHbYnW0giNFNPwFCJLP0GQa8bbkAbt6oI+Eyo4IoEijpplAPvWdmk7FHtahrGSy
+ DFhERHKe3a5FQ==
+Date: Fri, 20 Jan 2023 11:08:33 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH drm-next 13/14] drm/nouveau: implement new VM_BIND UAPI
+Message-ID: <20230120110833.76cc7864@collabora.com>
+In-Reply-To: <Y8jOCE/PyNZ2Z6aX@DUT025-TGLU.fm.intel.com>
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-14-dakr@redhat.com>
+ <e371e8a1-88f8-1309-07ca-f48f4157fec8@shipmail.org>
+ <8e10b46c-f934-8eee-904e-b3d8a7644a71@redhat.com>
+ <Y8jOCE/PyNZ2Z6aX@DUT025-TGLU.fm.intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230120092842.79238-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,45 +56,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, kernel-janitors@vger.kernel.org,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: jason@jlekstrand.net, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ \(Intel\)" <thomas_os@shipmail.org>, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Danilo Krummrich <dakr@redhat.com>, bskeggs@redhat.com, tzimmermann@suse.de,
+ airlied@redhat.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 20, 2023 at 09:28:42AM +0000, Colin Ian King wrote:
-> There are spelling mistakes in two ivpu_err error messages. Fix them.
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+On Thu, 19 Jan 2023 04:58:48 +0000
+Matthew Brost <matthew.brost@intel.com> wrote:
 
+> > For the ops structures the drm_gpuva_manager allocates for reporting the
+> > split/merge steps back to the driver I have ideas to entirely avoid
+> > allocations, which also is a good thing in respect of Christians feedback
+> > regarding the huge amount of mapping requests some applications seem to
+> > generate.
+> >  
+> 
+> It should be fine to have allocations to report the split/merge step as
+> this step should be before a dma-fence is published, but yea if possible
+> to avoid extra allocs as that is always better.
+> 
+> Also BTW, great work on drm_gpuva_manager too. We will almost likely
+> pick this up in Xe rather than open coding all of this as we currently
+> do. We should probably start the port to this soon so we can contribute
+> to the implementation and get both of our drivers upstream sooner.
 
-> ---
->  drivers/accel/ivpu/ivpu_hw_mtl.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
-> index b59b1f472b40..62bfaa9081c4 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_mtl.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
-> @@ -608,7 +608,7 @@ static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
->  
->  	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
->  	if (ret) {
-> -		ivpu_err(vdev, "Failed to sync before D0i3 tansition: %d\n", ret);
-> +		ivpu_err(vdev, "Failed to sync before D0i3 transition: %d\n", ret);
->  		return ret;
->  	}
->  
-> @@ -621,7 +621,7 @@ static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
->  
->  	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
->  	if (ret)
-> -		ivpu_err(vdev, "Failed to sync after D0i3 tansition: %d\n", ret);
-> +		ivpu_err(vdev, "Failed to sync after D0i3 transition: %d\n", ret);
->  
->  	return ret;
->  }
-> -- 
-> 2.30.2
-> 
+Also quite interested in using this drm_gpuva_manager for pancsf, since
+I've been open-coding something similar. Didn't have the
+gpuva_region concept to make sure VA mapping/unmapping requests don't
+don't go outside a pre-reserved region, but it seems to automate some
+of the stuff I've been doing quite nicely.
