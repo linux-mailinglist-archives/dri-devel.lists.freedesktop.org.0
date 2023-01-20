@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA380674CFF
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 07:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6BF674D00
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 07:06:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2F710EA4C;
-	Fri, 20 Jan 2023 06:04:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C867610EA4A;
+	Fri, 20 Jan 2023 06:06:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41DC410EA49;
- Fri, 20 Jan 2023 06:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674194685; x=1705730685;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=trNCxGnSP4ZToFQVZRvV2mLowfUfMjvj7+tgltCb35Q=;
- b=MynkQOruHekU+tn2NESyM3HHGpVgSaktLiabrB17ETWnoWCRg5skqQVf
- zuIOUa/0lSkziZa9sI1W9AVrkzS6F/ykyoPIhdbn2yk73ZeuqipNiG4u2
- ap8CvOMUAKQwVLZUuG2tPZKlGvZBUuQ2iV3PZiilgtRE/ZLPzqdWJ0m5X
- YRB2ao5FjaLtQSTilkQqG5gAVubFUhJhF4+JNbuh8bOYHfjio85qRTSCg
- nTcyJxn1F4hmEom1mzmdbgdOYhJRxK/nIUpNkz3ws5zOpfVeUuZakwtwe
- 1vZo0YTVMMSEL0SIqm9mKg+qWSRQN/iPZDJ0kHiM61f6FP9bzRW4/Wt7v g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="305880040"
-X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; d="scan'208";a="305880040"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 22:04:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="784408782"
-X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; d="scan'208";a="784408782"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orsmga004.jf.intel.com with ESMTP; 19 Jan 2023 22:04:43 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jani.nikula@intel.com
-Subject: [RESEND PATCHv2 2/2] i915/display/dp: SDP CRC16 for 128b132b link
- layer
-Date: Fri, 20 Jan 2023 11:29:12 +0530
-Message-Id: <20230120055912.1450647-2-arun.r.murthy@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230120055912.1450647-1-arun.r.murthy@intel.com>
-References: <20230113043653.795183-1-arun.r.murthy@intel.com>
- <20230120055912.1450647-1-arun.r.murthy@intel.com>
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D079A10EA4A
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 06:06:37 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-4d59d518505so59227367b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 22:06:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qYSDc0B7KD+ubtZdheB3KaxlEaF1j+0CJdxBaF6gP+g=;
+ b=Zf+Y6IFxHLJFmNSvgnDrN9LB4xXTZzLb4bIK7/sFOldukCb5dQNZ1JMHsMeQVF703J
+ 7y0srT22t6HhdStCtw/k0ia2Emq3YG1WAjFCKrRHYSWG58yh4Pdst+O1dUQsJQQAhhcy
+ F5dkzBGCS+RGC8a2FoMwIBg3sflhfn5F5YhWE+zxjOrIbwcNtiJQM+Y9qQk9s9NyMSGa
+ r3rUUaPYBPc1dLqy4/ROQXmUkHJbz9F0o6ozYBa2hZ2qMJKpClOT3rPcs2xu0M1MBMAQ
+ Pa7Tb9KiRLeGyM4GVGR8+6F2c8O/dFUlGTeJCPoCxncBgpfAP63VZKPDpKcz1Zo5Um2V
+ 44dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qYSDc0B7KD+ubtZdheB3KaxlEaF1j+0CJdxBaF6gP+g=;
+ b=gVqDsEKlt33mn7gN/D91eIC4JOTGCPu1Ho1xagH26vGDx6EY1Cu2ZSYtcp80bxBYRk
+ E0t52TaOXc6oMV3AiV1T58vrJU/HUdmYSccjx/zlU/Nb5DrKP7XbmMChYkOk5xVZZacJ
+ IrPEvIw7B2pWQGV3MDmt1LdTe2iy88J/kPAmoUI3CXVJ3qVlHLTSElxZI6Y0cEkRdqpt
+ +Odj49os+J16niB5I7LcP1MNm03mgqX2V3u0KGr6IFH7koH6ZzWso6pE8LiYMr2sktJ7
+ jBGAjkFPv6yWNbFEK1HbdClw+D/n/BRLPSmgg+O6SbNqoEGh1cwTYiPKccFyIvqSM4gd
+ I3VA==
+X-Gm-Message-State: AFqh2kpRtX/S74ONKX6qnI31oL3iWRpwYjWyMTSVlAmOWcDFQGBEY/oq
+ iDjRLMKDgdDIN5YzndM2yqMqHTvfkHpxi94jSpHqWHyA6mgo9ks=
+X-Google-Smtp-Source: AMrXdXtrebisz+Wtw4lXdITn1C6XRLRglAlL62lvqjqZy+ZaPKNi7gMRPBHbVd9XWEAMKq/MtsVC+y+XiPEcxbn0FL0=
+X-Received: by 2002:a81:7dd7:0:b0:4bb:c96d:f685 with SMTP id
+ y206-20020a817dd7000000b004bbc96df685mr1671269ywc.208.1674194796877; Thu, 19
+ Jan 2023 22:06:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230119190045.1619043-1-sean.anderson@seco.com>
+In-Reply-To: <20230119190045.1619043-1-sean.anderson@seco.com>
+From: John Stultz <jstultz@google.com>
+Date: Thu, 19 Jan 2023 22:06:24 -0800
+Message-ID: <CANDhNCrtzvKK5qbW9ZnD-MZRo139hw+jnF+tEKFEH6zH50vOOA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm: kirin: Enable COMPILE_TEST
+To: Sean Anderson <sean.anderson@seco.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,46 +65,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: Amit Pundir <amit.pundir@linaro.org>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Yongqin Liu <yongqin.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable SDP error detection configuration, this will set CRC16 in
-128b/132b link layer.
-For Display version 13 a hardware bit31 in register VIDEO_DIP_CTL is
-added to enable/disable SDP CRC applicable for DP2.0 only, but the
-default value of this bit will enable CRC16 in 128b/132b hence
-skipping this write.
-Corrective actions on SDP corruption is yet to be defined.
+On Thu, Jan 19, 2023 at 11:01 AM Sean Anderson <sean.anderson@seco.com> wrote:
+>
+> Make various small changes to allow compile-testing on other arches.
+> This is helpful to allow testing changes to 32-bit arm drivers in the
+> same build.
+>
+> The primary changes is to use macros for 64-bit divisions and shifts,
+> but we also need some other fixes to deal with larger constants and
+> differences in includes.
+>
+> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
 
-v2: Moved the CRC enable to link training init(Jani N)
+No objection from me (though I'm not sure I really see the benefit of
+test building this driver on 32bit).
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
----
- .../gpu/drm/i915/display/intel_dp_link_training.c    | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I no longer have hardware to test with, so adding YongQin and Amit.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-index 3d3efcf02011..7064e465423b 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-@@ -1453,4 +1453,16 @@ void intel_dp_start_link_train(struct intel_dp *intel_dp,
- 
- 	if (!passed)
- 		intel_dp_schedule_fallback_link_training(intel_dp, crtc_state);
-+
-+	/* DP v2.0 SCR on SDP CRC16 for 128b/132b Link Layer */
-+	if (intel_dp_is_uhbr(crtc_state) && passed)
-+		drm_dp_dpcd_writeb(&intel_dp->aux,
-+				   DP_SDP_ERROR_DETECTION_CONFIGURATION,
-+				   DP_SDP_CRC16_128B132B_EN);
-+		/*
-+		 * VIDEO_DIP_CTL register bit 31 should be set to '0' to not
-+		 * disable SDP CRC. This is applicable for Display version 13.
-+		 * Default value of bit 31 is '0' hence discarding the write
-+		 */
-+		/* TODO: Corrective actions on SDP corruption yet to be defined */
- }
--- 
-2.25.1
+So maybe a tentative Acked-by: John Stultz <jstultz@google.com>
 
+thanks
+-john
+
+
+> ---
+>
+> Changes in v3:
+> - Include io.h for readl/writel
+>
+> Changes in v2:
+> - Use BIT_ULL
+>
+>  drivers/gpu/drm/hisilicon/kirin/Kconfig         |  2 +-
+>  drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c    | 10 +++++-----
+>  drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h    |  2 ++
+>  drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h |  2 +-
+>  4 files changed, 9 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/Kconfig b/drivers/gpu/drm/hisilicon/kirin/Kconfig
+> index c5265675bf0c..0772f79567ef 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/Kconfig
+> +++ b/drivers/gpu/drm/hisilicon/kirin/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  config DRM_HISI_KIRIN
+>         tristate "DRM Support for Hisilicon Kirin series SoCs Platform"
+> -       depends on DRM && OF && ARM64
+> +       depends on DRM && OF && (ARM64 || COMPILE_TEST)
+>         select DRM_KMS_HELPER
+>         select DRM_GEM_DMA_HELPER
+>         select DRM_MIPI_DSI
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+> index d9978b79828c..1cfeffefd4b4 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+> +++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+> @@ -157,8 +157,8 @@ static u32 dsi_calc_phy_rate(u32 req_kHz, struct mipi_phy_params *phy)
+>                         q_pll = 0x10 >> (7 - phy->hstx_ckg_sel);
+>
+>                 temp = f_kHz * (u64)q_pll * (u64)ref_clk_ps;
+> -               m_n_int = temp / (u64)1000000000;
+> -               m_n = (temp % (u64)1000000000) / (u64)100000000;
+> +               m_n_int = div_u64_rem(temp, 1000000000, &m_n);
+> +               m_n /= 100000000;
+>
+>                 if (m_n_int % 2 == 0) {
+>                         if (m_n * 6 >= 50) {
+> @@ -229,8 +229,8 @@ static u32 dsi_calc_phy_rate(u32 req_kHz, struct mipi_phy_params *phy)
+>                         phy->pll_fbd_div5f = 1;
+>                 }
+>
+> -               f_kHz = (u64)1000000000 * (u64)m_pll /
+> -                       ((u64)ref_clk_ps * (u64)n_pll * (u64)q_pll);
+> +               f_kHz = div64_u64((u64)1000000000 * (u64)m_pll,
+> +                                 (u64)ref_clk_ps * (u64)n_pll * (u64)q_pll);
+>
+>                 if (f_kHz >= req_kHz)
+>                         break;
+> @@ -490,7 +490,7 @@ static void dsi_set_mode_timing(void __iomem *base,
+>         hsa_time = (hsw * lane_byte_clk_kHz) / pixel_clk_kHz;
+>         hbp_time = (hbp * lane_byte_clk_kHz) / pixel_clk_kHz;
+>         tmp = (u64)htot * (u64)lane_byte_clk_kHz;
+> -       hline_time = DIV_ROUND_UP(tmp, pixel_clk_kHz);
+> +       hline_time = DIV64_U64_ROUND_UP(tmp, pixel_clk_kHz);
+>
+>         /* all specified in byte-lane clocks */
+>         writel(hsa_time, base + VID_HSA_TIME);
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h b/drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h
+> index d79fc031e53d..a87d1135856f 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h
+> +++ b/drivers/gpu/drm/hisilicon/kirin/dw_dsi_reg.h
+> @@ -7,6 +7,8 @@
+>  #ifndef __DW_DSI_REG_H__
+>  #define __DW_DSI_REG_H__
+>
+> +#include <linux/io.h>
+> +
+>  #define MASK(x)                                (BIT(x) - 1)
+>
+>  /*
+> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h b/drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h
+> index be9e789c2d04..36f923cc7594 100644
+> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h
+> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_ade_reg.h
+> @@ -10,7 +10,7 @@
+>  /*
+>   * ADE Registers
+>   */
+> -#define MASK(x)                                (BIT(x) - 1)
+> +#define MASK(x)                                (BIT_ULL(x) - 1)
+>
+>  #define ADE_CTRL                       0x0004
+>  #define FRM_END_START_OFST             0
+> --
+> 2.35.1.1320.gc452695387.dirty
+>
