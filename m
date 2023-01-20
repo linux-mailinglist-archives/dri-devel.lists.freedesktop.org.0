@@ -1,77 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B922675DB8
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 20:13:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56356675E08
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 20:28:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B21F910E39B;
-	Fri, 20 Jan 2023 19:13:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1486710E13F;
+	Fri, 20 Jan 2023 19:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39D6F10E39B
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 19:13:48 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 4A0703200955;
- Fri, 20 Jan 2023 14:13:46 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 20 Jan 2023 14:13:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1674242025; x=
- 1674328425; bh=KDAu4lflKAilT2GeujzJmvpfE31X4Cxo27fbXFr0VBc=; b=a
- xGlY6uH4dKzA5Ak0SqAdKXq/ZgWFop97HDOAFyzic+zQoUptBIDdnRlDw9uXICJ/
- 4NRFkSR5m0w7O+zgjJVihHOAnf06Wn/k++VvUHrrDCjpQeJ7kryo6ChXiNAFsqHz
- nd0bM3k5gGTy74fzYp9lu/33iSwq9TPKGEHeFiFJoxo33H/KttiPnxsmbE+xhJpw
- 5PCFl89nSbfBCv+4MDCKHPF9vb6odcWJRppDPrINR5614W9/FY24CBZAAOdGUPmY
- 2XbfML5RPjBrJjVratqgTIHAxCo7meh4+Nq9a6aMWeKkkXAkPZB7hTy8+MO2/20U
- bllpwyfpVU2O+u1x9ernQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674242025; x=
- 1674328425; bh=KDAu4lflKAilT2GeujzJmvpfE31X4Cxo27fbXFr0VBc=; b=X
- P0NbZCRrYM001QH5WcRFP8VKlwYWlrH2gpyHoEfpvyOHkJqYDwJI4s61BjBKo06F
- 2GppP+Q2cUWuvJqqTvhG9uDBIqnbc8gghkZWQl2Kyp4zvk9brlXjucmyM3pgbh3G
- ItZJitmzNw57V9sWMcC5+XG0Tk740ZxfTHzkA13Jykk9965Y1NVrdc4kxdc82xMP
- f+n4CR4uNM1+53L4gEy5mz47ZUQno1gZU0Tpc44RZS4xn7pzJ92K3iAjAN0e97WQ
- rSi5Tmy0YfjD6naN+lv1HxHwP2nNslL1FBJYik+TSxh2/NuwzjIAnVUMoBgGQasS
- nDxDgIOAd6tsHQG/jBUtw==
-X-ME-Sender: <xms:6efKY04FYgYDEnhZVDPd_YAAbTmplPgdvvs0S8wqOkE6st0yDWdHIA>
- <xme:6efKY15yXpiNS-l2fn1YNh1ti4SDp9CetlrTF4iEGUDhijMz3l5Pxvu1CFbyB6RSE
- 8SDsCL3w6895V6NCVk>
-X-ME-Received: <xmr:6efKYzd-_6STEbxydb7L5Q7l41aic4l6raUpRHsacdQA-2Ac1BU8wl4Q1OCVtwAlhaYqs9vIkBt4W4xEdvVgzs5L4TSy-j1N07rS7CCk1fHaRw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddguddvgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgr
- gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
- frrghtthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeu
- teefteefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:6efKY5KTxR3drEDWgRCVIFAc_WMiOgax68SczL9p6PbUIuKkfhldoQ>
- <xmx:6efKY4LFkBK8qeTAqzqifiXfZVnjx6uG8ZDbqJ0AW5LWzrxtEnAjiw>
- <xmx:6efKY6yA1UnlfUwofXSob7G9EPFf_fd9JcJp4i60B1c2Y0mYOswrPw>
- <xmx:6efKY9FHfqdDTf8EEE8lOtRhTt1XMt07toEPWWAecUVlujG4nxCyiQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Jan 2023 14:13:45 -0500 (EST)
-Date: Fri, 20 Jan 2023 20:13:44 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH] drm/vc4: hdmi: make CEC adapter name unique
-Message-ID: <20230120191344.xldhudsmb4xar4u3@houat>
-References: <dcf1db75-d9cc-62cc-fa12-baf1b2b3bf31@xs4all.nl>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1B06F10E13F;
+ Fri, 20 Jan 2023 19:28:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB11511FB;
+ Fri, 20 Jan 2023 11:29:08 -0800 (PST)
+Received: from [10.57.89.132] (unknown [10.57.89.132])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6FF03F445;
+ Fri, 20 Jan 2023 11:28:23 -0800 (PST)
+Message-ID: <f24fcba7-2fcb-ed43-05da-60763dbb07bf@arm.com>
+Date: Fri, 20 Jan 2023 19:28:19 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <dcf1db75-d9cc-62cc-fa12-baf1b2b3bf31@xs4all.nl>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 04/10] iommu/dma: Use the gfp parameter in
+ __iommu_dma_alloc_noncontiguous()
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>
+References: <4-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <4-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,21 +46,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: linux-s390@vger.kernel.org, kvm@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>,
+ linux-remoteproc@vger.kernel.org, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ Alex Williamson <alex.williamson@redhat.com>, netdev@vger.kernel.org,
+ ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+ linux-tegra@vger.kernel.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ virtualization@lists.linux-foundation.org, ath11k@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
+On 2023-01-18 18:00, Jason Gunthorpe wrote:
+> Change the sg_alloc_table_from_pages() allocation that was hardwired to
+> GFP_KERNEL to use the gfp parameter like the other allocations in this
+> function.
+> 
+> Auditing says this is never called from an atomic context, so it is safe
+> as is, but reads wrong.
 
-On Thu, Jan 19, 2023 at 10:02:19AM +0100, Hans Verkuil wrote:
-> The bcm2711 has two HDMI outputs, each with their own CEC adapter.
-> The CEC adapter name has to be unique, but it is currently
-> hardcoded to "vc4" for both outputs. Change this to use the card_name
-> from the variant information in order to make the adapter name unique.
->=20
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+I think the point may have been that the sgtable metadata is a 
+logically-distinct allocation from the buffer pages themselves. Much 
+like the allocation of the pages array itself further down in 
+__iommu_dma_alloc_pages(). I see these days it wouldn't be catastrophic 
+to pass GFP_HIGHMEM into __get_free_page() via sg_kmalloc(), but still, 
+allocating implementation-internal metadata with all the same 
+constraints as a DMA buffer has just as much smell of wrong about it IMO.
 
-The patch looks good but should we Cc stable and add a Fixes tag here?
+I'd say the more confusing thing about this particular context is why 
+we're using iommu_map_sg_atomic() further down - that seems to have been 
+an oversight in 781ca2de89ba, since this particular path has never 
+supported being called in atomic context.
 
-Thanks!
+Overall I'm starting to wonder if it might not be better to stick a "use 
+GFP_KERNEL_ACCOUNT if you allocate" flag in the domain for any level of 
+the API internals to pick up as appropriate, rather than propagate 
+per-call gfp flags everywhere. As it stands we're still missing 
+potential pagetable and other domain-related allocations by drivers in 
+.attach_dev and even (in probably-shouldn't-really-happen cases) 
+.unmap_pages...
+
+Thanks,
+Robin.
+
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>   drivers/iommu/dma-iommu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 8c2788633c1766..e4bf1bb159f7c7 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -822,7 +822,7 @@ static struct page **__iommu_dma_alloc_noncontiguous(struct device *dev,
+>   	if (!iova)
+>   		goto out_free_pages;
+>   
+> -	if (sg_alloc_table_from_pages(sgt, pages, count, 0, size, GFP_KERNEL))
+> +	if (sg_alloc_table_from_pages(sgt, pages, count, 0, size, gfp))
+>   		goto out_free_iova;
+>   
+>   	if (!(ioprot & IOMMU_CACHE)) {
