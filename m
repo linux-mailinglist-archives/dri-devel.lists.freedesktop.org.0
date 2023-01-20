@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193FB674DD2
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 08:09:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD17674EA9
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 08:49:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0865710EA58;
-	Fri, 20 Jan 2023 07:09:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC67910E0D7;
+	Fri, 20 Jan 2023 07:49:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAA1710EA58
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 07:09:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674198563; x=1705734563;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=tKm+bO/Vgerfp3hhNVj9ktg62zDE7O3jfNPDVmPjMMI=;
- b=idZsro9cF+GQGAIxylx7ZnUcAp7FAEExrkH/7PFw3/88SI/jcNLqeYb1
- mV5gXkyPi5Nie9PVi01XAH9vHWQAkeL8CYI4fLqEt2JfxQLSrCouEFYxS
- z4W+myt88TSgZ+KlCUo/AEvWpkjW0ytAY1g2x2BLHaa8tupSHvc/POwms
- 4N4cOo5SgXrcIchx43+rRy4GCnszLZbL1gUwe5hAdmJvtfVy3oDduA0Gh
- 0cvuMmkH0A9mXRV0WsnEtYGFdEo671Caz9JKZNurcsuCKHcwo/gHdOSLH
- JmQlbJV1thOiLfwYT6VVNCgEBNaYj+tDxeeGWOwoz+MwBSxxJmdeU0oaC g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="390036146"
-X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; d="scan'208";a="390036146"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 23:09:23 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="692773205"
-X-IronPort-AV: E=Sophos;i="5.97,231,1669104000"; d="scan'208";a="692773205"
-Received: from bjforde-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.29.176])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2023 23:09:21 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: tools@linux.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: pr-tracker-bot for drm subsystem?
-In-Reply-To: <87a670spdw.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <87a670spdw.fsf@intel.com>
-Date: Fri, 20 Jan 2023 09:09:18 +0200
-Message-ID: <87a62dadi9.fsf@intel.com>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3218510E0D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 07:49:48 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id kt14so11875873ejc.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 23:49:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BdhCjSy3SqnjWjDLB4IHqxMmPrap4fRlZrofYhguHhQ=;
+ b=kr0qXC5yFUKl0L2KrHHQGmSu2kxGGeqtAIMq38iN7JnKS1Y/kmoTfYqWxV0GQvuej2
+ krhEokJynI8KXyI8u8QUBHbYZobaDqApZZQHq8CuczZtsSYH92bVOEhvNKkYdR4MVrdz
+ WjN9YY39rexcT18tPKx1BORtglR8DF7uAnFO3eh+uWB6oPA6/TE2/FS/OUf4lCf17F+k
+ ifou1LFvh3lfdivSXjgtawzs+GgkdMY3zBUzhxmKuyb5138aeGmFkg2Vb1V+QCeQ+gOT
+ zwuYNTEVK6A3FTRJdbg4SqqkqH8450+RopzwjSe4xwaT6Flwmiud+d8X3HHCPmN1mmVJ
+ XjAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BdhCjSy3SqnjWjDLB4IHqxMmPrap4fRlZrofYhguHhQ=;
+ b=iwvNhnVOGOyW2xWkmkMaZw2IWQiIZ5RHrNIIC26hy3F6aQLliUj+sM6JGfCT/E5GF2
+ MSzZy4A95yrCfmLKA1UZVWQJuWJNvtjV8D/gJLzf9IbbpVMLnjX6iQdg4Rfl5Wh0Sh43
+ SWtOJwNtnugOGW5r1nxvCoVW4jNVmYlqFOkBkzyZf7NFs7p42kTOOAW5R75eorbzPXDj
+ O6vbEZ8zl0BcIEAfxJPctZxa6pvU2a43BCaPqRqvYwF7SuNEpY3KhIycH0S+A5ul0YYg
+ +DEouIpUjpvxE34CIIJcqons5s6Blov3iGFGFOgduWeFZKxINtGDevRrSAkFMccbqevw
+ u0Sw==
+X-Gm-Message-State: AFqh2ko27/DdzXd7D+L7NAEe6K9p24/4xUmUo+raO595FJrvG/f8dh5F
+ MCECvN7LQEw28w8DC/SjRDhddg==
+X-Google-Smtp-Source: AMrXdXu+nKsOpir3oVd9sIYTS7eJGx8vz6+wj1IeM5SC24ERfXKmFDBCCEcIUoQmMocvOYiZZ7lKnw==
+X-Received: by 2002:a17:906:a393:b0:7c1:1fcf:266c with SMTP id
+ k19-20020a170906a39300b007c11fcf266cmr14312899ejz.14.1674200986580; 
+ Thu, 19 Jan 2023 23:49:46 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ bi12-20020a170906a24c00b00868ef175e6asm10221725ejb.74.2023.01.19.23.49.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 23:49:45 -0800 (PST)
+Message-ID: <6873374c-d221-534e-7a28-78836c6da4ad@linaro.org>
+Date: Fri, 20 Jan 2023 09:49:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3] drm/msm/dpu: Reapply CTM if modeset is needed
+Content-Language: en-GB
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
+References: <20230118233848.611-1-quic_jesszhan@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230118233848.611-1-quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,36 +75,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 19/01/2023 01:38, Jessica Zhang wrote:
+> Add a !drm_atomic_crtc_needs_modeset() check to
+> _dpu_crtc_setup_cp_blocks() so that CTM is reapplied if the LM/DSPP
+> blocks were reallocated during modeset or after a suspend/resume.
+> 
+> Changes in V2:
+> - Fixed commit message
+> 
+> Changes in V3:
+> - Added mention of suspend/resume case back to commit message
+> 
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/23
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Konstantin?
-
-On Thu, 15 Sep 2022, Jani Nikula <jani.nikula@intel.com> wrote:
-> Hey all, I'd be interested in having the pr-tracker-bot [1] set up for
-> the drm subsystem, following the dri-devel mailing list [2] and
-> notifying when the pull requests have been merged to either the drm-next
-> or drm-fixes branches of the main drm repository [3].
->
-> What would this require in terms of the tracker bot code?
->
-> Is the idea that the service could be expanded to cover subsystems
-> instead of just LKML and mainline, or would all subsystems have to set
-> it up for themselves with their own cron jobs on their own servers?
->
-> Other considerations?
->
->
-> BR,
-> Jani.
->
->
-> [1] https://korg.docs.kernel.org/prtracker.html
-> [2] https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> [3] https://cgit.freedesktop.org/drm/drm/
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+With best wishes
+Dmitry
+
