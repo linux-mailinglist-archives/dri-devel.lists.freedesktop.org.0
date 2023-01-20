@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A473675B72
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 18:31:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6291F675B78
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 18:31:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 359BC10E11F;
-	Fri, 20 Jan 2023 17:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C44310E004;
+	Fri, 20 Jan 2023 17:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966BB10E11F
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 17:31:13 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id h12so1480094wrv.10
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:31:13 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F13510E10B
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 17:31:14 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ o17-20020a05600c511100b003db021ef437so4234877wms.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:31:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YOqgdpqToWA5S18UMLkfS63Q0Xl2lO+o2375eUlRgI8=;
- b=Fn5m8NLD2sIpmyLtR/VrUuV3fgp+Xy4nvnxpCrxirKNblkgociu5lzX1mVT78Fg3Tp
- DfI+ajWMD53UpjZFoCDaYzZIwgwh7oPwgyvJ3gLcttwV2rwWbU2XWP0cIpVs24ha79z0
- Bbz8rcK3zpt7EFQZS7Cx6gbM9d5uVT2hcHqSYbolDVqMPwworHPQtKgza+lqCqjUY49P
- sWYaP6sYWSLnJ8kxgoU8LR4rDmearyXrkPK1DnCIYPRZP32qWKOO1BO4aCA64GKz70t3
- 6vMCOccfxd7C0UDVdZ7r6yEde6m0zaWtESJ4ba9AnTmsWbZNkIdo4HSFU6DNDSQqJBaN
- uTYA==
+ bh=78W7IXXHqgUZh6eEXtc3i7yBwKfecEIjh9aXPYe7GEA=;
+ b=SEm/NiYw03IrJVONYxj8S6CudMwJbwnQfEfMv8WLW+xrm/hl+XwebXhF8UgZukrwEQ
+ jEv1Rtvs+sMjog6lwpKrVMWAdjWu010pPjDx+WW4QkKGsTndKABZNJiJ+rvtclb6RMVN
+ M1Sd0fFcCG00kXHifJF8Msn4iIDPEsq7nastKIeqsyv0hPcKNsJUj6I8Pc0PtlL9kLSV
+ H0r0Ruqec02yVK5SNpbCM0LfHjQmulKCvAOHPRZrK5qjSfYMW3ZONTLefeEtpIivMyLe
+ fmo36tXCle53zltWf++reGaIShW4IzLLaZjB0x77h/FLc4I1R7UI2hjG4VwdOEfRQ32u
+ vAjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YOqgdpqToWA5S18UMLkfS63Q0Xl2lO+o2375eUlRgI8=;
- b=zgHTrz2YJ4olCFautKHoZEcumCKVARk8Gl0KGwtNZdstJbKQQHKzCCsZCghKx+4NtG
- Eu8mCPxgL8dWHMLRWltxBIPBBTV4vysEse7dw+vyO4gnXROMimhJGgR+FwK2vfuFUySv
- j1HEiJ3MSv5oN25vzUcB4qXfCJMO6TbO0pq4eL2aYexlSx0IabBYCLw+ScnguoiL96PU
- 7GMxREHlK3nKOH0yJbKOiYn0fE5DaT448/0o1K0R8HS+TInsIdQdyDl/zSnT6+zCMBOe
- hmui9GNaYBfqfhxbhDjtailzNk/lTga7J6MRgZplIZ4AfdHxwqncyp7651mWsy0ym2La
- 1a4Q==
-X-Gm-Message-State: AFqh2kpKoRz4UT74lCHuM+k44Qjc0NkYg4ot55rwMapc0oGbm958arIF
- wR9A7BXtvm3qNHWc7TlLgx0=
-X-Google-Smtp-Source: AMrXdXuPyUil8dJ4H1vXqJh1dFD3RGgBy+Yg2OV3pzxReYLYgMKMw5l6i3wq1EvjMMzZ84xqKCoJgQ==
-X-Received: by 2002:a05:6000:16ce:b0:2be:d04:3667 with SMTP id
- h14-20020a05600016ce00b002be0d043667mr16249463wrf.26.1674235871963; 
- Fri, 20 Jan 2023 09:31:11 -0800 (PST)
+ bh=78W7IXXHqgUZh6eEXtc3i7yBwKfecEIjh9aXPYe7GEA=;
+ b=lmP4DL+2smL9sK+j+dS2OdZcGIUtsx20Cbz85ppdUOql6MBVCHdv3lZ4wme+C44I/n
+ 1zGNEeCDeRs18HNlIWM+3FwFK4VncfzdU31a6/RqPNBdcIKk0J8uYgqjOJGywSlY8AWU
+ HN6L59rUJMuyTKwsux3d5zeDsEf1g2PoTzvc3EeTXREJlO96gZSEci+ENj3r2lsY43dc
+ lzVEWxVh6pb3wAIIxrPaD8bLAo7utWoxE3XSKpUUm7R0t/cuR3IV5Zh/aa9WtvTOD+hp
+ DZSMwKdKErDMUN0kFzmnS8UlXJn7y0ba/0sJKQqZmi67kbg2fCp9ZeGe6OZWJulVuhkm
+ JKdg==
+X-Gm-Message-State: AFqh2kp6s12P3XCdFDal65gedriNeysPH4Jje6U1ZamPWZbxGRXnPmwb
+ NGizUm1ZQXZ95aw7s0Kul1I=
+X-Google-Smtp-Source: AMrXdXvzEgbI7Tp8Tw5Ds4T0d245b1GQLC4LVo8SfXduEZQri0QCyUWQpHLjGRzU3haJg1/JO1ieQA==
+X-Received: by 2002:a7b:cc14:0:b0:3da:50b0:e96a with SMTP id
+ f20-20020a7bcc14000000b003da50b0e96amr15053406wmh.29.1674235872923; 
+ Fri, 20 Jan 2023 09:31:12 -0800 (PST)
 Received: from localhost
  (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- b11-20020a05600018ab00b002be2279f100sm11342632wri.96.2023.01.20.09.31.11
+ g10-20020a05600c310a00b003d99da8d30asm3193070wmo.46.2023.01.20.09.31.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 09:31:11 -0800 (PST)
+ Fri, 20 Jan 2023 09:31:12 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: David Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 5/8] drm/simpledrm: Add support for system memory
- framebuffers
-Date: Fri, 20 Jan 2023 18:31:00 +0100
-Message-Id: <20230120173103.4002342-6-thierry.reding@gmail.com>
+Subject: [PATCH v4 6/8] drm/format-helper: Support the AB24/XB24 formats
+Date: Fri, 20 Jan 2023 18:31:01 +0100
+Message-Id: <20230120173103.4002342-7-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120173103.4002342-1-thierry.reding@gmail.com>
 References: <20230120173103.4002342-1-thierry.reding@gmail.com>
@@ -83,171 +83,109 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Simple framebuffers can be set up in system memory, which cannot be
-requested and/or I/O remapped using the I/O resource helpers. Add a
-separate code path that obtains system memory framebuffers from the
-reserved memory region referenced in the memory-region property.
+Add a conversion helper for the AB24 and XB24 formats to use in
+drm_fb_blit().
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
 Changes in v4:
-- rebase onto latest format helper changes
-- turn drm_info() into drm_dbg()
+- rebased on top of latest drm-format-helper rework, add back AB24 support
 - add Reviewed-by from Thomas
 
 Changes in v3:
-- simplify memory code and move back to simpledrm_device_create()
-- extract screen_base iosys_map fix into separate patch
+- rebase onto latest drm-next
 
 Changes in v2:
-- make screen base a struct iosys_map to avoid sparse warnings
+- support XB24 format instead of AB24
 
- drivers/gpu/drm/tiny/simpledrm.c | 99 ++++++++++++++++++++++++--------
- 1 file changed, 75 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/drm_format_helper.c | 66 +++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index c1ed6dd426ec..2acc0eb32489 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -3,6 +3,7 @@
- #include <linux/clk.h>
- #include <linux/of_clk.h>
- #include <linux/minmax.h>
-+#include <linux/of_address.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-@@ -184,6 +185,31 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
- 	return simplefb_get_validated_format(dev, format);
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index 994f8fb71f45..f93a4efcee90 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -649,6 +649,66 @@ void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int *dst_
  }
+ EXPORT_SYMBOL(drm_fb_xrgb8888_to_argb8888);
  
-+static struct resource *
-+simplefb_get_memory_of(struct drm_device *dev, struct device_node *of_node)
++static void drm_fb_xrgb8888_to_abgr8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
 +{
-+	struct device_node *np;
-+	struct resource *res;
-+	int err;
++	__le32 *dbuf32 = dbuf;
++	const __le32 *sbuf32 = sbuf;
++	unsigned int x;
++	u32 pix;
 +
-+	np = of_parse_phandle(of_node, "memory-region", 0);
-+	if (!np)
-+		return NULL;
-+
-+	res = devm_kzalloc(dev->dev, sizeof(*res), GFP_KERNEL);
-+	if (!res)
-+		return ERR_PTR(-ENOMEM);
-+
-+	err = of_address_to_resource(np, 0, res);
-+	if (err)
-+		return ERR_PTR(err);
-+
-+	if (of_get_property(of_node, "reg", NULL))
-+		drm_warn(dev, "preferring \"memory-region\" over \"reg\" property\n");
-+
-+	return res;
++	for (x = 0; x < pixels; x++) {
++		pix = le32_to_cpu(sbuf32[x]);
++		pix = ((pix & 0x00ff0000) >> 16) <<  0 |
++		      ((pix & 0x0000ff00) >>  8) <<  8 |
++		      ((pix & 0x000000ff) >>  0) << 16 |
++		      GENMASK(31, 24); /* fill alpha bits */
++		*dbuf32++ = cpu_to_le32(pix);
++	}
 +}
 +
- /*
-  * Simple Framebuffer device
-  */
-@@ -604,8 +630,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 	struct drm_device *dev;
- 	int width, height, stride;
- 	const struct drm_format_info *format;
--	struct resource *res, *mem;
--	void __iomem *screen_base;
-+	struct resource *res, *mem = NULL;
- 	struct drm_plane *primary_plane;
- 	struct drm_crtc *crtc;
- 	struct drm_encoder *encoder;
-@@ -657,6 +682,9 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 		format = simplefb_get_format_of(dev, of_node);
- 		if (IS_ERR(format))
- 			return ERR_CAST(format);
-+		mem = simplefb_get_memory_of(dev, of_node);
-+		if (IS_ERR(mem))
-+			return ERR_CAST(mem);
- 	} else {
- 		drm_err(dev, "no simplefb configuration found\n");
- 		return ERR_PTR(-ENODEV);
-@@ -679,32 +707,55 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 	 * Memory management
- 	 */
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res)
--		return ERR_PTR(-EINVAL);
-+	if (mem) {
-+		void *screen_base;
- 
--	ret = devm_aperture_acquire_from_firmware(dev, res->start, resource_size(res));
--	if (ret) {
--		drm_err(dev, "could not acquire memory range %pr: error %d\n", res, ret);
--		return ERR_PTR(ret);
--	}
-+		ret = devm_aperture_acquire_from_firmware(dev, mem->start, resource_size(mem));
-+		if (ret) {
-+			drm_err(dev, "could not acquire memory range %pr: %d\n", mem, ret);
-+			return ERR_PTR(ret);
-+		}
- 
--	mem = devm_request_mem_region(&pdev->dev, res->start, resource_size(res), drv->name);
--	if (!mem) {
--		/*
--		 * We cannot make this fatal. Sometimes this comes from magic
--		 * spaces our resource handlers simply don't know about. Use
--		 * the I/O-memory resource as-is and try to map that instead.
--		 */
--		drm_warn(dev, "could not acquire memory region %pr\n", res);
--		mem = res;
--	}
-+		drm_dbg(dev, "using system memory framebuffer at %pr\n", mem);
- 
--	screen_base = devm_ioremap_wc(&pdev->dev, mem->start, resource_size(mem));
--	if (!screen_base)
--		return ERR_PTR(-ENOMEM);
-+		screen_base = devm_memremap(dev->dev, mem->start, resource_size(mem), MEMREMAP_WC);
-+		if (!screen_base)
-+			return ERR_PTR(-ENOMEM);
++static void drm_fb_xrgb8888_to_abgr8888(struct iosys_map *dst, const unsigned int *dst_pitch,
++					const struct iosys_map *src,
++					const struct drm_framebuffer *fb,
++					const struct drm_rect *clip)
++{
++	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
++		4,
++	};
 +
-+		iosys_map_set_vaddr(&sdev->screen_base, screen_base);
-+	} else {
-+		void __iomem *screen_base;
++	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
++		    drm_fb_xrgb8888_to_abgr8888_line);
++}
 +
-+		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+		if (!res)
-+			return ERR_PTR(-EINVAL);
- 
--	iosys_map_set_vaddr_iomem(&sdev->screen_base, screen_base);
-+		ret = devm_aperture_acquire_from_firmware(dev, res->start, resource_size(res));
-+		if (ret) {
-+			drm_err(dev, "could not acquire memory range %pr: %d\n", &res, ret);
-+			return ERR_PTR(ret);
-+		}
++static void drm_fb_xrgb8888_to_xbgr8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
++{
++	__le32 *dbuf32 = dbuf;
++	const __le32 *sbuf32 = sbuf;
++	unsigned int x;
++	u32 pix;
 +
-+		drm_dbg(dev, "using I/O memory framebuffer at %pr\n", res);
-+
-+		mem = devm_request_mem_region(&pdev->dev, res->start, resource_size(res),
-+					      drv->name);
-+		if (!mem) {
-+			/*
-+			 * We cannot make this fatal. Sometimes this comes from magic
-+			 * spaces our resource handlers simply don't know about. Use
-+			 * the I/O-memory resource as-is and try to map that instead.
-+			 */
-+			drm_warn(dev, "could not acquire memory region %pr\n", res);
-+			mem = res;
-+		}
-+
-+		screen_base = devm_ioremap_wc(&pdev->dev, mem->start, resource_size(mem));
-+		if (!screen_base)
-+			return ERR_PTR(-ENOMEM);
-+
-+		iosys_map_set_vaddr_iomem(&sdev->screen_base, screen_base);
++	for (x = 0; x < pixels; x++) {
++		pix = le32_to_cpu(sbuf32[x]);
++		pix = ((pix & 0x00ff0000) >> 16) <<  0 |
++		      ((pix & 0x0000ff00) >>  8) <<  8 |
++		      ((pix & 0x000000ff) >>  0) << 16 |
++		      ((pix & 0xff000000) >> 24) << 24;
++		*dbuf32++ = cpu_to_le32(pix);
 +	}
- 
- 	/*
- 	 * Modesetting
++}
++
++static void drm_fb_xrgb8888_to_xbgr8888(struct iosys_map *dst, const unsigned int *dst_pitch,
++					const struct iosys_map *src,
++					const struct drm_framebuffer *fb,
++					const struct drm_rect *clip)
++{
++	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
++		4,
++	};
++
++	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false,
++		    drm_fb_xrgb8888_to_xbgr8888_line);
++}
++
+ static void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void *sbuf, unsigned int pixels)
+ {
+ 	__le32 *dbuf32 = dbuf;
+@@ -868,6 +928,12 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
+ 		} else if (dst_format == DRM_FORMAT_ARGB8888) {
+ 			drm_fb_xrgb8888_to_argb8888(dst, dst_pitch, src, fb, clip);
+ 			return 0;
++		} else if (dst_format == DRM_FORMAT_XBGR8888) {
++			drm_fb_xrgb8888_to_xbgr8888(dst, dst_pitch, src, fb, clip);
++			return 0;
++		} else if (dst_format == DRM_FORMAT_ABGR8888) {
++			drm_fb_xrgb8888_to_abgr8888(dst, dst_pitch, src, fb, clip);
++			return 0;
+ 		} else if (dst_format == DRM_FORMAT_XRGB2101010) {
+ 			drm_fb_xrgb8888_to_xrgb2101010(dst, dst_pitch, src, fb, clip);
+ 			return 0;
 -- 
 2.39.0
 
