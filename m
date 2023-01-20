@@ -1,67 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE09867580F
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 16:04:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDB367581A
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 16:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F86A10E108;
-	Fri, 20 Jan 2023 15:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D81D10E0F8;
+	Fri, 20 Jan 2023 15:06:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 628A710E108
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 15:04:43 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id d2so5094044wrp.8
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 07:04:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=uM/AZbTE0N3wZ9K7Id9185G9SFTYGVUQ4zyUZJh9c2w=;
- b=CMZNxqXQ9bGvQVB4/W/6bW3PRwNIRC70HtD6CJVTdSa9HMXFonB3kv/2HjpA3yAJYZ
- 2Eej0Hg0oKuHk7A7GvhK911K0PUvz6QcPBrxWwUzAmK1zU7vF8JS0A4dTmjdTVo0WLxz
- bMao64u/Dkp3wTuQpMD898RVrGzo2AYyEll6Yg1fjU1Sm6o2M6W7181K66UiYEufB089
- I3SjVlGJ+o3k1ujThb7R7A+ZvC7uYm3vOdHlq+Y68eAhAkRjQpnzCpU5sfCZZw5P84OY
- yxBmT1RS1Kv5Ywa4oW1Hg9Y95w9I2ZogmB+44X6Gf6eVa/FkQW+I3vOT+PNh6u8GpUMe
- hLNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uM/AZbTE0N3wZ9K7Id9185G9SFTYGVUQ4zyUZJh9c2w=;
- b=bRDkhTw76g4/iHj+/UMZs6aLfp/jAIf39Uf/oWW1ebejGQ9jLNUzhdoni3/cLPLkfA
- 5VAsfDx4BJFAuwUZpKiXoqqfURhR59nwVNfrLE/efQHRG6/xUlSOTD1dvO1cxPwqOhnr
- bnhsju5YoIDybvsmzmmLo/4Va//fPx63Ivc+VeC33AkOO2nLewW5keKrGtFhPaqX5FBT
- luviyVJfZ+0shkWNfA3HciYZZT6q+mL77o0uJzZvBB3+fj6Nt2+d9V3y3p2D2qyPHlu7
- xs3lCejjSoOPeMvdCTQy2PzM++cbeXfXw9orCDEBiOKj29A8O+6Yx4ym+o09G/858+iy
- qDqA==
-X-Gm-Message-State: AFqh2kqTgpLzAd6n2fXe2uCD3cVumI6HJwk//7josWE4Uby2lmUe0WRD
- UXayAB0lh99R7EPmyjU2c2YhRQ==
-X-Google-Smtp-Source: AMrXdXsPQxYA6ZUOJLdOPKyWDyB3wvLu9sSjvk0brOwg0HIxvtJpTyjbgqStno4YTK6idzKQeiT5Sw==
-X-Received: by 2002:a5d:5190:0:b0:2bd:fde4:885c with SMTP id
- k16-20020a5d5190000000b002bdfde4885cmr12005062wrv.63.1674227081607; 
- Fri, 20 Jan 2023 07:04:41 -0800 (PST)
-Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- j15-20020adfd20f000000b002be2a4b521fsm8858850wrh.45.2023.01.20.07.04.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 07:04:40 -0800 (PST)
-Date: Fri, 20 Jan 2023 15:04:38 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] backlight: pwm_bl: Don't rely on a disabled PWM
- emiting inactive state
-Message-ID: <Y8qthjHiCTO3OK/R@aspen.lan>
-References: <20230120120018.161103-1-u.kleine-koenig@pengutronix.de>
- <20230120120018.161103-3-u.kleine-koenig@pengutronix.de>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8CFE10EA8E
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 15:06:15 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D428C82A24;
+ Fri, 20 Jan 2023 16:06:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1674227172;
+ bh=Q+GtcqYVcRCyforgDMEOvrZe/K4O2oZLi3dROtOs6DA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=xEkgFbvql9TdclCnOShK3oy7AQezqlWlmrbnCte9WmqZmoSRojetE5WBSB5hkWLxt
+ w7xqteKzcbAUUrhGSMQZpW02MLQ2A7cOKbJvfDPyTyXZPVWHH+DFYMDQJJ9OZkfeE/
+ clZ29Lh+UQiClmgcL3ILBxucqtmZ6VjyPJQhYcwFNVxyy85H5NJ4rs7cmh1qCC9ZM/
+ UJ8H7Zja180ndE2/uh6KUM7KhFk+gBu+aWC+Gso/6hsa4dYXklrRDApxFXWnF7GgFk
+ e60HpFtCAuXxJtyxPdHPYfLbZ2v8YZP5ce4Dvfbb9v15q/rZyN+x5BH4+TKQIHDj2p
+ J/8JLWmX8cRbQ==
+Message-ID: <ea400d44-a6cb-2f26-9c03-ee1ede2cdf09@denx.de>
+Date: Fri, 20 Jan 2023 16:06:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230120120018.161103-3-u.kleine-koenig@pengutronix.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maxime Ripard <maxime@cerno.tech>
+References: <20221214125907.376148-1-jagan@amarulasolutions.com>
+ <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
+ <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
+ <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
+ <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
+ <CAMty3ZAc=t5FEphQkd=O1eaA70-779zhESwPFqoiGs8x569H2w@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAMty3ZAc=t5FEphQkd=O1eaA70-779zhESwPFqoiGs8x569H2w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,39 +63,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- dri-devel@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 20, 2023 at 01:00:18PM +0100, Uwe Kleine-König wrote:
-> Most but not all PWMs drive the PWM pin to its inactive state when
-> disabled. However if there is no enable_gpio and no regulator the PWM
-> must drive the inactive state to actually disable the backlight.
->
-> So keep the PWM on in this case.
->
-> Note that to determine if there is a regulator some effort is required
-> because it might happen that there isn't actually one but the regulator
-> core gave us a dummy. (A nice side effect is that this makes the
-> regulator actually optional even on fully constrained systems.)
->
-> This fixes backlight disabling e.g. on i.MX6 when an inverted PWM is
-> used.
->
-> Hint for the future: If this change results in a regression, the bug is
-> in the lowlevel PWM driver.
+On 1/20/23 15:41, Jagan Teki wrote:
+> Hi Fabio,
 
-:-)
+Hello all,
 
+> On Fri, Jan 20, 2023 at 5:36 PM Fabio Estevam <festevam@gmail.com> wrote:
+>>
+>> Hi Jagan,
+>>
+>> On Thu, Jan 19, 2023 at 2:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+>>
+>>> There are two patch series prior to this need to apply.
+>>>
+>>> https://patchwork.kernel.org/project/dri-devel/patch/20221212145745.15387-1-jagan@amarulasolutions.com/
+>>> https://patchwork.kernel.org/project/dri-devel/cover/20221212182923.29155-1-jagan@amarulasolutions.com/
+>>
+>> Would it make sense to re-submit these two patches as part of your series?
+> 
+> The previous version's comment was to separate them from the DSIM series.
 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Hmmmmm, seems like those first two patches got stuck. I fixed up the 
+malformed Fixes: line (it was split across two lines and had angular 
+brackets around it) and picked the first series via drm-misc-next .
 
-Thanks for the changes. Looks good:
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Can you send a subsequent patch to convert the DSIM_* macros to BIT() 
+macro , since checkpatch --strict complains about it ?
 
-
-Daniel.
+For the second series, you likely want a RB from Maxime Ripard and Dave 
+Stevenson first about the probe order handling.
