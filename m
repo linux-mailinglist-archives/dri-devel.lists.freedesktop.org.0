@@ -1,44 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17783675064
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 10:13:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E0D675026
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 10:05:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9002310E27D;
-	Fri, 20 Jan 2023 09:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1413110E376;
+	Fri, 20 Jan 2023 09:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 574 seconds by postgrey-1.36 at gabe;
- Fri, 20 Jan 2023 09:13:33 UTC
-Received: from hi1smtp01.de.adit-jv.com (smtp1.de.adit-jv.com [93.241.18.167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9BC10E27D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:13:33 +0000 (UTC)
-Received: from hi2exch02.adit-jv.com (hi2exch02.adit-jv.com [10.72.92.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by hi1smtp01.de.adit-jv.com (Postfix) with ESMTPS id D74EB520251;
- Fri, 20 Jan 2023 10:03:56 +0100 (CET)
-Received: from vmlxhi-182 (10.72.94.8) by hi2exch02.adit-jv.com (10.72.92.28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.17; Fri, 20 Jan
- 2023 10:03:56 +0100
-Date: Fri, 20 Jan 2023 10:03:48 +0100
-From: Michael Rodin <mrodin@de.adit-jv.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] drm: override detected status for connectors which are
- forced on
-Message-ID: <20230120090348.GA860002@vmlxhi-182>
-References: <20221107123657.24vbgep3jqeklb2s@houat>
- <20221215170359.92422-1-mrodin@de.adit-jv.com>
- <20221222174054.tsj4rfzejrl3cc7g@penduick>
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F06910E371
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:05:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 3BC22FB03;
+ Fri, 20 Jan 2023 10:05:08 +0100 (CET)
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 325fNfHe7kgh; Fri, 20 Jan 2023 10:05:06 +0100 (CET)
+Date: Fri, 20 Jan 2023 10:05:04 +0100
+From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
+To: Chris Morgan <macroalpha82@gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: panel: Add compatible for Anbernic
+ RG353V-V2 panel
+Message-ID: <Y8pZQH+NbOs6UmbZ@qwark.sigxcpu.org>
+References: <20230119230415.1283379-1-macroalpha82@gmail.com>
+ <20230119230415.1283379-2-macroalpha82@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221222174054.tsj4rfzejrl3cc7g@penduick>
-X-Originating-IP: [10.72.94.8]
-X-ClientProxiedBy: hi2exch02.adit-jv.com (10.72.92.28) To
- hi2exch02.adit-jv.com (10.72.92.28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230119230415.1283379-2-macroalpha82@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,63 +43,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, michael@rodin.online,
- Michael Rodin <mrodin@de.adit-jv.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- erosca@de.adit-jv.com
+Cc: megous@megous.com, devicetree@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ Chris Morgan <macromorgan@hotmail.com>, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, thierry.reding@gmail.com, kernel@puri.sm
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-thank you for your feedback!
-On Thu, Dec 22, 2022 at 06:40:54PM +0100, Maxime Ripard wrote:
-> Hi,
+Hi,
+On Thu, Jan 19, 2023 at 05:04:14PM -0600, Chris Morgan wrote:
+> From: Chris Morgan <macromorgan@hotmail.com>
 > 
-> On Thu, Dec 15, 2022 at 06:03:59PM +0100, Michael Rodin wrote:
-> > The detected status of a connector should be ignored when a connector is
-> > forced as hinted in the commit d50ba256b5f1 ("drm/kms: start
-> > adding command line interface using fb."). One negative side effect of
-> > not ignoring this is observed on the RCar3 SoCs which use the dw-hdmi
-> > driver. It continues executing drm_helper_hpd_irq_event even if its
-> > connector is forced to ON. As consequence drm_helper_hpd_irq_event calls
-> > "detect" so the connector status is updated to "disconnected":
-> > 
-> > [  420.201527] [drm:drm_helper_hpd_irq_event] [CONNECTOR:76:HDMI-A-1] status updated from connected to disconnected
-> > 
-> > This status is corrected by drm_helper_probe_single_connector_modes shortly
-> > after this because this function checks if a connector is forced:
-> > 
-> > [  420.218703] [drm:drm_helper_probe_single_connector_modes] [CONNECTOR:76:HDMI-A-1] status updated from disconnected to connected
-> > 
-> > To avoid similar issues this commit adapts functions which call "detect"
-> > so they check additionally if a connector is forced and override the status
-> > returned by "detect".
-> > 
-> > Fixes: 816da85a0990 ("drm: handle HPD and polled connectors separately")
-> > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+> The Anbernic RG353V-V2 panel is a 5 inch 640x480 MIPI-DSI LCD panel.
+> It's based on the ST7703 LCD controller just like rocktech,jh057n00900.
+> It's used in a 2nd revision of the Anbernic RG353V handheld gaming
+> device. Like the first revision of the RG353V the control chip is known
+> but the panel itself is unknown, so name it for the device.
 > 
-> As reported here, this breaks vc4, and probably i915:
-> https://lore.kernel.org/dri-devel/20221107123657.24vbgep3jqeklb2s@houat/
+> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> ---
+>  .../devicetree/bindings/display/panel/rocktech,jh057n00900.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Maxime
+> diff --git a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+> index 09b5eb7542f8..150e81090af2 100644
+> --- a/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/rocktech,jh057n00900.yaml
+> @@ -20,6 +20,8 @@ allOf:
+>  properties:
+>    compatible:
+>      enum:
+> +      # Anberic RG353V-V2 5.0" 640x480 TFT LCD panel
+> +      - anbernic,rg353v-panel-v2
+>        # Rocktech JH057N00900 5.5" 720x1440 TFT LCD panel
+>        - rocktech,jh057n00900
+>        # Xingbangda XBD599 5.99" 720x1440 TFT LCD panel
 
-My understanding from [1,2] was that the way to avoid such regressions is
-to make sure that the "detect" callbacks of connector drivers are always
-called even if a connector is forced. This is what I have implemented in my
-second patch where "detect" is called first and then the return value is
-adjusted based on the "force" status. If my understanding was wrong, I
-would very much appreciate if you could give me some hints for the
-implementation of an acceptable solution. Maybe it would be safer to simply
-avoid calling drm_helper_hpd_irq_event in the dw-hdmi driver when the
-connector is forced like mentioned by Laurent [3]? Although this would fix
-this global problem only for one particular driver.
+Acked-by: Guido Günther <agx@sigxcpu.org>
 
-[1] https://lore.kernel.org/dri-devel/20221107123657.24vbgep3jqeklb2s@houat/
-[2] https://lore.kernel.org/dri-devel/20221107122504.tejlb24bjbaxw5t6@houat/
-[3] https://lore.kernel.org/dri-devel/YzYrNJbfGcch1UtX@pendragon.ideasonboard.com/
+Cheers,
+ -- Guido
 
--- 
-Best Regards,
-Michael
+> -- 
+> 2.34.1
+> 
