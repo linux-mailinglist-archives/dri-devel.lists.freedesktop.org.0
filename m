@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F066754A2
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:35:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217BA6754A0
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:35:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B3D10EA4D;
-	Fri, 20 Jan 2023 12:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC5FA10EA49;
+	Fri, 20 Jan 2023 12:35:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D36710EA49
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E295910EA49
  for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:35:43 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id lp10so2035099pjb.4
+Received: by mail-pf1-x42c.google.com with SMTP id i1so3849771pfk.3
  for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 04:35:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+XT9kad4yNYrmYBEVNX5sJ/vTlzpH7jOnDJsBQpKUaY=;
- b=o1DizLMpkK/XWtupOkGIL0XJkwy5IvcKxYbOInCIMcgwXpUlGb3XbnVWRRSXoVptUZ
- qvJIFMD1FvcHncGKgonqG1rlQKlgeVxcU9cPYCyiDRijYNw7cd3YgGzwuTqGjv6Upxo1
- dfwwz08WXNvcRbhCrGhevuFpZlnx/6vLcAxHq55K754d7q1I/7k3BpXeBwcZjrYObJlH
- xWMg5+igvxefRAE0dr77Y3pJezVM13Xu7UAHiKJ4k+5xQXfphuxdFQeLprWYZOA855fJ
- yauL6r3ayGXFR6o9GcJGOFR8ZTl8GLzdQBeOcFuHxPUU0lL+V3e6tXtEFp3JkK0+Lfcc
- YkMg==
+ bh=Lvj+lN3n7gefBrB84WznopDQnyQbloNFZJdkxIWwwlI=;
+ b=ZfW1d0HR/tk/QCHoZnAMTXPdoeTVIT2gV3uMXWQzT31Mdof6xlOLODGS0vst1zBZS4
+ CCRjOqDiJBHMLCYX8bcdF4wSwTJUAe3h+tOzX1pwue5irt+hVJ0mFE5Wvql40VLysVl2
+ mi1AVGI9o5zTyIHpqUkINK4BZcV3J/Ir0nX2llGk9OTbPthamRiAEfTkkCNgt5Y2SeZt
+ 7Am4smTPmyoY5pvr8pjx0qiHjuAg2w5lYIk7uyZ7HE7lAcUeJHv4u9XpHfxcTmcmlaax
+ SYgaHTUjDIntLvPXlLZtZNvYljq6URzR4B+e2A+TuDb6ZGSGA8YoqyURoPTi7laUPjrz
+ cDqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+XT9kad4yNYrmYBEVNX5sJ/vTlzpH7jOnDJsBQpKUaY=;
- b=vsNpxJwod1qBrZenVt3czbPMuazgW8Mf4Lzft2Gp4K/yzgxFG1nK2/W60x7aRGi3ap
- jHbJ739vXDyrDjh/sqYJJpvphm0EE9Pl0wMJkkJo71Q7RtNJpg0FXiZzzstJN9gk7me9
- hveoJWhLxOWxBbuGsVC2z8bv2v2Ko2vsDp8sbgCiqhej6lIL+/OZTZ8s8jmREtYG5O++
- yUVcM+3Cx9b2xyM11dzfMfpCCkrhe/uB8Qs+wk1wssRbujqTuOG6112D1tez1ipCz8Ca
- EnY1LdNHZ5lgHeDFkCqGSer6EYKviWYyL8Gh0m8N31oKnymEwc66ZakQM8KO3wyMazzt
- +caw==
-X-Gm-Message-State: AFqh2kpdJzfQ8M7CHvob99koNhhDjyOPYMNbI/SrOkhMi9v3TwwGcq0q
- AZQfJVNQ7VkHS28DvCIpnps=
-X-Google-Smtp-Source: AMrXdXtR2dp2lGd836pplDAnvwEYyR4FgT1yvTQphEkpDyqJKKc/zFKYkS4KybH4feu7AhdF/DFATQ==
-X-Received: by 2002:a05:6a20:12d0:b0:b6:a6c4:87b0 with SMTP id
- v16-20020a056a2012d000b000b6a6c487b0mr20697785pzg.41.1674218143103; 
+ bh=Lvj+lN3n7gefBrB84WznopDQnyQbloNFZJdkxIWwwlI=;
+ b=Px83RfX27tX6m044UUDy2Q8ylTJ7mWy1mTE8OBLQeHn/HfcfP/13EYjdveZb1nhqyc
+ nJgz697IsjvOB8QFeVDNuRDY6cRFbf/TwslXYFqvCsOJgCW61DlHyMMy6HCslpDWtbdx
+ SLTjpqmOi0HQgE5RVDQxtbN72Z9UnLk21ZNe7ky8stTH6zVlfLNasVVU5+VQ5ZIseCQ9
+ 0L4E7CDJVqs3Q6vpfMj+fc2ohH++wtDgHV/bgFSvLC2pvTgYbMBR4W3Nl7+qzAEcjlNI
+ KXG2+518VkUipTf91Ujb2fvFf9uN6UZTYXApez11QlZ88p24mFBBX3nFOuF+p1JhdYvM
+ 8aLw==
+X-Gm-Message-State: AFqh2krKrICnJ5G2ZOvyGid4QJUEhmEs+/Clc74Q6z/ildWVGtTGxoz6
+ w6MrnX5pVGvwY+TyJ0pYOys=
+X-Google-Smtp-Source: AMrXdXtZ/M/gTDupP1SLugiGMDeZsFeFVq5ip3UIWgzNz4DvstctcAj8vF4TfiG0adZJw226cSjXwg==
+X-Received: by 2002:a62:aa0c:0:b0:58d:af0c:92f with SMTP id
+ e12-20020a62aa0c000000b0058daf0c092fmr14179055pff.27.1674218143425; 
  Fri, 20 Jan 2023 04:35:43 -0800 (PST)
 Received: from debian.me (subs02-180-214-232-6.three.co.id. [180.214.232.6])
  by smtp.gmail.com with ESMTPSA id
- nm1-20020a17090b19c100b0022717d8d835sm1422965pjb.16.2023.01.20.04.35.42
+ 128-20020a620586000000b0058b9dc62071sm15752917pff.6.2023.01.20.04.35.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 20 Jan 2023 04:35:42 -0800 (PST)
 Received: by debian.me (Postfix, from userid 1000)
- id 44717104FA4; Fri, 20 Jan 2023 19:35:37 +0700 (WIB)
+ id 5A7E5104FA0; Fri, 20 Jan 2023 19:35:37 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Freedesktop DRI List <dri-devel@lists.freedesktop.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Documentation <linux-doc@vger.kernel.org>,
  Linux KVM <kvm@vger.kernel.org>,
  Linux Next Mailing List <linux-next@vger.kernel.org>
-Subject: [PATCH linux-next 1/3] Documentation: accel: escape wildcard in
- special file path
-Date: Fri, 20 Jan 2023 19:35:32 +0700
-Message-Id: <20230120123534.137413-2-bagasdotme@gmail.com>
+Subject: [PATCH linux-next 2/3] habanalabs: Fix list of
+ /sys/class/habanalabs/hl<n>/status
+Date: Fri, 20 Jan 2023 19:35:33 +0700
+Message-Id: <20230120123534.137413-3-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230120123534.137413-1-bagasdotme@gmail.com>
 References: <20230120123534.137413-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1452; i=bagasdotme@gmail.com;
- h=from:subject; bh=1v1ZVN3QD/qaEbSGAKvpr7+XFzT7pgg0PCoXuklJFvo=;
- b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmnuqZa5MVnegeFrN/LpCgsEKFssnv28cyqSyuvH1voFf3k
- rL9ORykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACZyrpnhv1dNBkdmUOZE7x515wDLSc
- 9DDPZLtaVuKN20l0FwSdSxPQz/3ZdM/7P784x1RZ7frfOjK45z9torf7sa/DTWsVbUa8dkdgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2954; i=bagasdotme@gmail.com;
+ h=from:subject; bh=xOFrJ7qMCcoxa1ECSCebtHmj8ODJRFVzE+m4j/iDdnc=;
+ b=owGbwMvMwCX2bWenZ2ig32LG02pJDMmnuqbeEXh1nd/aolWu1juU49p54U+xwWqVWwMfn1EV2bzf
+ /ldQRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACYi7M3IsP6SoMTCC1xWYhNMViqZfm
+ 3/53r29KqM49VitaEPFVQrdjMyzIxuln19YPMTNe9i51DHGQm9IaV9LjWC4euaA2LZFK4zAwA=
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp;
  fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
@@ -93,40 +93,58 @@ Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stephen Rothwell reported htmldocs warning then merging accel tree:
+Stephen Rothwell reported htmldocs warnings when merging accel tree:
 
-Documentation/accel/introduction.rst:72: WARNING: Inline emphasis start-string without end-string.
+Documentation/ABI/testing/sysfs-driver-habanalabs:201: ERROR: Unexpected indentation.
+Documentation/ABI/testing/sysfs-driver-habanalabs:201: WARNING: Block quote ends without a blank line; unexpected unindent.
+Documentation/ABI/testing/sysfs-driver-habanalabs:201: ERROR: Unexpected indentation.
+Documentation/ABI/testing/sysfs-driver-habanalabs:201: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-Sphinx confuses the file wildcards with inline emphasis (italics), hence
-the warning.
+Fix these by fixing alignment of list of card status returned by
+/sys/class/habanalabs/hl<n>/status.
 
-Fix the warning by escaping wildcards.
-
-Link: https://lore.kernel.org/linux-next/20230120132116.21de1104@canb.auug.org.au/
-Fixes: f65c5dac207322 ("docs: accel: Fix debugfs path")
+Link: https://lore.kernel.org/linux-next/20230120130634.61c3e857@canb.auug.org.au/
+Fixes: 0a14c331682f61 ("habanalabs: update device status sysfs documentation")
 Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/accel/introduction.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../ABI/testing/sysfs-driver-habanalabs       | 23 ++++++++++---------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/accel/introduction.rst b/Documentation/accel/introduction.rst
-index 11cade51f387a6..89984dfececf0b 100644
---- a/Documentation/accel/introduction.rst
-+++ b/Documentation/accel/introduction.rst
-@@ -67,9 +67,9 @@ tree - drivers/accel/.
- The accelerator devices will be exposed to the user space with the dedicated
- 261 major number and will have the following convention:
+diff --git a/Documentation/ABI/testing/sysfs-driver-habanalabs b/Documentation/ABI/testing/sysfs-driver-habanalabs
+index df2ca1a401b5a1..1b98b6503b23f5 100644
+--- a/Documentation/ABI/testing/sysfs-driver-habanalabs
++++ b/Documentation/ABI/testing/sysfs-driver-habanalabs
+@@ -202,17 +202,18 @@ Date:           Jan 2019
+ KernelVersion:  5.1
+ Contact:        ogabbay@kernel.org
+ Description:    Status of the card:
+-                "operational" - Device is available for work.
+-                "in reset" - Device is going through reset, will be available
+-                        shortly.
+-                "disabled" - Device is not usable.
+-                "needs reset" - Device is not usable until a hard reset will
+-                        be initiated.
+-                "in device creation" - Device is not available yet, as it is
+-                        still initializing.
+-                "in reset after device release" - Device is going through
+-                        a compute-reset which is executed after a device release
+-                        (relevant for Gaudi2 only).
++
++                  * "operational" - Device is available for work.
++                  * "in reset" - Device is going through reset, will be
++                    available shortly.
++                  * "disabled" - Device is not usable.
++                  * "needs reset" - Device is not usable until a hard reset
++                    is initiated.
++                  * "in device creation" - Device is not available yet, as it
++                    is still initializing.
++                  * "in reset after device release" - Device is going through
++                    a compute-reset which is executed after a device release
++                    (relevant for Gaudi2 only).
  
--- device char files - /dev/accel/accel*
--- sysfs             - /sys/class/accel/accel*/
--- debugfs           - /sys/kernel/debug/accel/*/
-+- device char files - /dev/accel/accel\*
-+- sysfs             - /sys/class/accel/accel\*/
-+- debugfs           - /sys/kernel/debug/accel/\*/
- 
- Getting Started
- ===============
+ What:           /sys/class/habanalabs/hl<n>/thermal_ver
+ Date:           Jan 2019
 -- 
 An old man doll... just what I always wanted! - Clara
 
