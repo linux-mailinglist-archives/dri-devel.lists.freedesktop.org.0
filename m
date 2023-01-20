@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EAB9675D30
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 19:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26A1675D3F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 19:59:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A54C310E0FB;
-	Fri, 20 Jan 2023 18:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B28110E10E;
+	Fri, 20 Jan 2023 18:59:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB95F10E0FB
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 18:56:47 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id d10so4814878pgm.13
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 10:56:47 -0800 (PST)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5D5410E10E
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 18:59:33 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id jm10so6097312plb.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 10:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nIwPhiEFv+N+HnO/9vbkWfRKpLaygDm0DMDT40PA8a4=;
- b=L91Kfv5WjiGm9Cdj7yNCzGFUpOockh0uE0TGIkEa5oVdF9YcgFXdjzP6yDuJ5Y5IyO
- V9fn3EYMoxW2IBcRxfN99mauDEwFy2CoO4dOcXm72EV0I2gHMvQWqz35PwdsA3DWSfrN
- 0aHh4mac2GdYwX1nLdXukWlfCB9qHGh7iGZiP04iKQAhjvtp8Lypz59ffsyN31Pg3BiK
- Ght5E4QU5kWdP0bMJJ2FCMYB5QOR8qm7gCo6uKeI08KqSTbZ0sXpw2OixOkercFPjnhs
- kLQhFOEr1+2ByRQRjxh7uWeQ+0WDldbm8sPCEAy2BbC2r1XDt9jKfPNxmm4NJQwrWmgz
- DxkA==
+ bh=CSpcr6BECwbKqN5C4mS2QoXyKqAo8YI4sEb7as9mMCA=;
+ b=KRSjIZAv+ErWFqsr1QieUudw00ZQ/GVCFpPHe8W2nhOfddYbmFpo959RykA0kpK8TD
+ Fu5eLt60+46fFthd4RyUXPuIbaENX6lMR8PnOS4J7eJ5KtoYFcf48oLC3GeiqYZzfxfC
+ OGVCGo0IYXqIohXVOTI2PfqQa632eS/ItjJIFTqIGX6z//lHtv/jgJ/QhQR+NTdllExj
+ BB6OXAPy0fMBpwgaMHsF7JpFHzPJdBcxK56kagHNBwzEMwqCtNT9DwYxenqkBbteuF4e
+ PCk3sJEbXyEd711OXL/Y7htNL3Pp+cp0ymqdcVrs7H7BYzf4i5/OxBrwqBq2QJBTSLB/
+ ddYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=nIwPhiEFv+N+HnO/9vbkWfRKpLaygDm0DMDT40PA8a4=;
- b=3v9lhfKhpMzWEYDGwkY1FUdQTwUxfWF57P0S7wbtB+QJSUW59og1WWMMkf5XvW02bY
- Stze6KL/6avUIY/YVyCK5+r55rxDSotx44fwGw3CE3ZxOMQg7rgTMcMTd/ASjU/AmjDA
- Dv8cqV1iiov9kdoHPeV9UAdnhP5wffGV283ixheWlOUPHXt1R0b2IugO3/4VakGB6k1j
- 4FxA3hyi2Cg7vzXLrWqD2Y+p5Vh9exNGrxNZoFFv6wxsxe/Euy+YeuTZi9VFP9qd4VBz
- fURRY9tpp7onD+upTqlwgnezFg2lBZsb+IO3+S2pIMELhqH93uSaiGOt12fCbjGWono0
- /ObA==
-X-Gm-Message-State: AFqh2koxqzy7E/pMcj3TxcLQUcWRlafV5gtE91tam34aXsxKHraoiymu
- uirc7Qdx0kW9VQY8jz6n6h60l16swRl46w6BQZYVBA==
-X-Google-Smtp-Source: AMrXdXtEwACEaIBAtmPEu0Lt6Ae6Q3ZcY7u0A74//4jzAfe2sdmPcntzHMI3MG+uNbCEReKR/T6M+CUisATC8ZnHa9A=
-X-Received: by 2002:aa7:8c0f:0:b0:577:1b6:ee7b with SMTP id
- c15-20020aa78c0f000000b0057701b6ee7bmr1729871pfd.5.1674241007360; Fri, 20 Jan
- 2023 10:56:47 -0800 (PST)
+ bh=CSpcr6BECwbKqN5C4mS2QoXyKqAo8YI4sEb7as9mMCA=;
+ b=h0WuVacFaW4AtvyC5T53Oil++u8NU1R4KnOpF+dRh39fEUxxxhOxUlJmFPt/4kqSKx
+ vnrKEo6ouqNp2bOO5OPBqmhd2C9G255l2wc1D+t8OOq4s10map7rgHPMEWMO7a7b+18u
+ xJFVToMqKR1EOPTOMbi2AtYVCpy8VRUJexP4InR4i2z/uyQd6oH2JnE1fPXZ8jIiTXEj
+ XqA1uDA57a+UHB60oCtMB+/U8H0p8JSpCQa4vCbFhBdg/X9x33JnXuhSXC4f8WuOODWQ
+ f1uwkWBPJ+LUonOqCqpDQDsIRK4LroJQLBKwLPSvU9ifghEO/PDhg8dd1Du4QdgmV7KH
+ 9QDw==
+X-Gm-Message-State: AFqh2krSDyLECv+u0yKKBcX/sYNPsxR6LVz5UB3GZyvGnuQ8CO3t+kA7
+ oVz1GXS0+lAaXonQJZ0Kz1Szd7saBgHGDmz/naaw0Q==
+X-Google-Smtp-Source: AMrXdXv1/Neiv/1e/D5P3hmgshhPwFZKpYyhL6uK8A1HX8UY+b2o3mE5r+RLm2T1i2rglg86eoRy2FTS+aDvDiQOgmA=
+X-Received: by 2002:a17:902:d894:b0:193:405:1704 with SMTP id
+ b20-20020a170902d89400b0019304051704mr1621761plz.31.1674241173411; Fri, 20
+ Jan 2023 10:59:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20221212182923.29155-1-jagan@amarulasolutions.com>
- <20221212182923.29155-4-jagan@amarulasolutions.com>
-In-Reply-To: <20221212182923.29155-4-jagan@amarulasolutions.com>
+References: <20221214125907.376148-1-jagan@amarulasolutions.com>
+ <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
+ <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
+ <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
+ <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
+ <CAMty3ZAc=t5FEphQkd=O1eaA70-779zhESwPFqoiGs8x569H2w@mail.gmail.com>
+ <ea400d44-a6cb-2f26-9c03-ee1ede2cdf09@denx.de>
+In-Reply-To: <ea400d44-a6cb-2f26-9c03-ee1ede2cdf09@denx.de>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 20 Jan 2023 18:56:29 +0000
-Message-ID: <CAPY8ntCBL2Tq2sz6poJZzqP4qWS+OE7NQQqpqX+evfWZgCzwCA@mail.gmail.com>
-Subject: Re: [PATCH v11 3/3] drm: exynos: dsi: Restore proper bridge chain
- order
-To: Jagan Teki <jagan@amarulasolutions.com>
+Date: Fri, 20 Jan 2023 18:59:15 +0000
+Message-ID: <CAPY8ntDUeWMXY_VuNyXUzuerXbnt8SmVL3M6KEpmfsc041G_2w@mail.gmail.com>
+Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,96 +71,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Matteo Lisi <matteo.lisi@engicam.com>,
+ Maxime Ripard <maxime@cerno.tech>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
  Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan
+Hi Marek & Jagan
 
-Responding due to Marek's comment on the "Add Samsung MIPI DSIM
-bridge" series, although I know very little about the Exynos
-specifics, and may well be missing context of what you're trying to
-achieve.
+On Fri, 20 Jan 2023 at 15:06, Marek Vasut <marex@denx.de> wrote:
+>
+> On 1/20/23 15:41, Jagan Teki wrote:
+> > Hi Fabio,
+>
+> Hello all,
+>
+> > On Fri, Jan 20, 2023 at 5:36 PM Fabio Estevam <festevam@gmail.com> wrote:
+> >>
+> >> Hi Jagan,
+> >>
+> >> On Thu, Jan 19, 2023 at 2:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >>
+> >>> There are two patch series prior to this need to apply.
+> >>>
+> >>> https://patchwork.kernel.org/project/dri-devel/patch/20221212145745.15387-1-jagan@amarulasolutions.com/
+> >>> https://patchwork.kernel.org/project/dri-devel/cover/20221212182923.29155-1-jagan@amarulasolutions.com/
+> >>
+> >> Would it make sense to re-submit these two patches as part of your series?
+> >
+> > The previous version's comment was to separate them from the DSIM series.
+>
+> Hmmmmm, seems like those first two patches got stuck. I fixed up the
+> malformed Fixes: line (it was split across two lines and had angular
+> brackets around it) and picked the first series via drm-misc-next .
+>
+> Can you send a subsequent patch to convert the DSIM_* macros to BIT()
+> macro , since checkpatch --strict complains about it ?
+>
+> For the second series, you likely want a RB from Maxime Ripard and Dave
+> Stevenson first about the probe order handling.
 
-On Mon, 12 Dec 2022 at 18:29, Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> Restore the proper bridge chain by finding the previous bridge
-> in the chain instead of passing NULL.
->
-> This establishes a proper bridge chain while attaching downstream
-> bridges.
->
-> Reviewed-by: Marek Vasut <marex@denx.de>
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Changes for v11:
-> - add bridge.pre_enable_prev_first
-> Changes for v10:
-> - collect Marek review tag
->
->  drivers/gpu/drm/exynos/exynos_drm_dsi.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> index ec673223d6b7..9d10a89d28f1 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> @@ -1428,7 +1428,8 @@ static int exynos_dsi_attach(struct drm_bridge *bridge,
->  {
->         struct exynos_dsi *dsi = bridge_to_dsi(bridge);
->
-> -       return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL, flags);
-> +       return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
-> +                                flags);
+Not sure what I can add for "Enable prepare_prev_first flag for
+samsung-s6e panels" and "tc358764: Enable pre_enable_prev_first flag"
+as I have no datasheet for those devices.
+On the basis that they are wanting the DSI host to be in LP-11 before
+prepare/pre_enable, then setting the flag is the right thing. More
+than happy to say
+Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+to those two (I can't find them quickly in my mail to respond directly).
 
-Agreed on this change.
-
->  }
->
->  static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
-> @@ -1474,7 +1475,10 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
->
->         drm_bridge_add(&dsi->bridge);
->
-> -       drm_bridge_attach(encoder, &dsi->bridge, NULL, 0);
-> +       drm_bridge_attach(encoder, &dsi->bridge,
-> +                         list_first_entry_or_null(&encoder->bridge_chain,
-> +                                                  struct drm_bridge,
-> +                                                  chain_node), 0);
-
-What bridge are you expecting between the encoder and this bridge?
-The encoder is the drm_simple_encoder_init encoder that you've created
-in exynos_dsi_bind, so separating that from the bridge you're also
-creating here seems weird.
-
->
->         /*
->          * This is a temporary solution and should be made by more generic way.
-> @@ -1709,6 +1713,7 @@ static int exynos_dsi_probe(struct platform_device *pdev)
->         dsi->bridge.funcs = &exynos_dsi_bridge_funcs;
->         dsi->bridge.of_node = dev->of_node;
->         dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
-> +       dsi->bridge.pre_enable_prev_first = true;
-
-Setting dsi->bridge.pre_enable_prev_first on what is presumably the
-DSI host controller seems a little odd.
-Same question again - what bridge are you expecting to be upstream of
-the DSI host that needs to be preenabled before it? Whilst it's
-possible that there's another bridge, I'd have expected that to be the
-first link from your encoder as they appear to both belong to the same
-bit of driver.
+I have just sent a separate response on the third patch.
 
   Dave
-
->         ret = component_add(dev, &exynos_dsi_component_ops);
->         if (ret)
-> --
-> 2.25.1
->
