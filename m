@@ -2,75 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A4E675429
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:08:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F3B675444
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 13:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 826CF10EA39;
-	Fri, 20 Jan 2023 12:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDE7E10E26C;
+	Fri, 20 Jan 2023 12:18:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DAC210EA34
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:08:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674216516;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEC7510E26C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 12:18:01 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3CC9D5F95D;
+ Fri, 20 Jan 2023 12:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674217080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oqUuYSilJanvI6AcOWoQdMxrU3ZSpibdQFaGNCu/ttw=;
- b=EGhDdAldprAOYtuzq3wXJYYYKi1ihFDe8wRkvQYaf4M4KpPRaYxkzEfqsqAhRR7qjhkvFP
- hSug8f/hkSXLQIhR1p0+9thCsUljNaveChbCTdjyaZklX50zfXDmysbPTfqI9ycX3yzGLh
- i33eINac/RzeI67Yfs2CXIyyU7ScDyc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-184-mCo79_AcMhyl8xtdDEIZnQ-1; Fri, 20 Jan 2023 07:08:34 -0500
-X-MC-Unique: mCo79_AcMhyl8xtdDEIZnQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- u12-20020a05600c210c00b003da1c092b83so1249911wml.7
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 04:08:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oqUuYSilJanvI6AcOWoQdMxrU3ZSpibdQFaGNCu/ttw=;
- b=JN8qQI4xBwyKNbIU3nvzqmAnoeouIIHVkCj9YWNWuPH+ewLxYiINF+D5k1sZDR8mXx
- Lw+Zwx+zZuu4vMlx895rJRcvEpN3qqt2+5eN611fL4wp5TJ3BKc3IGVcpSRI4llJydFm
- CCL8bWBLxc27efbyWYp8Pp8A2ajLFEq38+0h8/y6AsjXQ+ktNqBm/0vh/C4Uop8dvamz
- 57uZwKn3FxIuNqNi3p5vhuWm/IocER/4dTCl7RH2Rw/OrWl0yACEGDaP8zdb7Bur8HF7
- qUaDz9cIpROYwPFALgGE9ck4t/WRqSeInejOCVtYbGgf1RcvzucR/Q8XJGflTnvwhKzB
- WjXg==
-X-Gm-Message-State: AFqh2ko+unXYUPQlkTCK+GhJpl0IABpNC/dtnT+bvJ+CTKigNOGAgORc
- wNsBd2a/J0hTEaVh7NREx2YjRDazDhde1Wy1bCn0bwGshJ6WrUgqLIfWYisE131bY+Ewd9o7kdT
- rBSJ4g/MjiGOYWRA5GhKr73tDilDP
-X-Received: by 2002:a05:600c:1d19:b0:3db:1838:3f01 with SMTP id
- l25-20020a05600c1d1900b003db18383f01mr8394114wms.32.1674216513529; 
- Fri, 20 Jan 2023 04:08:33 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsltWTsS74K+GwUiFBdFMOU5E3E3rABKvdj8rYfh/a6M4rEvqwkD4GXcTg7GFO09fFZSogS7g==
-X-Received: by 2002:a05:600c:1d19:b0:3db:1838:3f01 with SMTP id
- l25-20020a05600c1d1900b003db18383f01mr8394099wms.32.1674216513271; 
- Fri, 20 Jan 2023 04:08:33 -0800 (PST)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- l4-20020a05600012c400b002bbb2d43f65sm32766336wrx.14.2023.01.20.04.08.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 04:08:32 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] drm/fb-helper: Use a per-driver FB deferred I/O handler
-Date: Fri, 20 Jan 2023 13:08:22 +0100
-Message-Id: <20230120120822.2536032-4-javierm@redhat.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230120120822.2536032-1-javierm@redhat.com>
-References: <20230120120822.2536032-1-javierm@redhat.com>
+ bh=u+/VJGuYhUCQQXXN+d6ccIA04nnHUmUtUbhkDUXZRqw=;
+ b=PpqPzCoOTaZf5Gv37q9XfZTCESdFBMJxW+AWqsbS6oz/br2HAYNZHmV26UlTcpR/UMDXOI
+ F835RkQ5RxqWJ4oH84hW3WOxIC/nxcuKOGiRddfVK8XcXTs52HGy9td+Vley7xbY4CoYnz
+ b9YH7rRTPVlf98Vx1gHWw4LZleaks7Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674217080;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=u+/VJGuYhUCQQXXN+d6ccIA04nnHUmUtUbhkDUXZRqw=;
+ b=rScskB1xbeSRFdWOgOlom2v6xIKguv6B2CCswdkubVq6xHJkQz5M3a7O9wMeSIlEjEB4Nw
+ 1VneLLX5RhH4HcDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0AA161390C;
+ Fri, 20 Jan 2023 12:18:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kniRAXiGymMIFAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 20 Jan 2023 12:18:00 +0000
+Message-ID: <cb48988f-a08b-72a6-fd61-b699cb47178b@suse.de>
+Date: Fri, 20 Jan 2023 13:17:59 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/3] fbdev: Remove unused struct fb_deferred_io .first_io
+ field
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20230120120822.2536032-1-javierm@redhat.com>
+ <20230120120822.2536032-2-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230120120822.2536032-2-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------WiBJJqCEHhufjvr78bYXfsH9"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,133 +71,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Jaya Kumar <jayalk@intworks.biz>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM fbdev emulation layer sets the struct fb_info .fbdefio field to
-a struct fb_deferred_io pointer, that is shared across all drivers that
-use the generic drm_fbdev_generic_setup() helper function.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------WiBJJqCEHhufjvr78bYXfsH9
+Content-Type: multipart/mixed; boundary="------------qnsZINDCEcl9MHDtmleRMUyX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Jaya Kumar <jayalk@intworks.biz>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Message-ID: <cb48988f-a08b-72a6-fd61-b699cb47178b@suse.de>
+Subject: Re: [PATCH 1/3] fbdev: Remove unused struct fb_deferred_io .first_io
+ field
+References: <20230120120822.2536032-1-javierm@redhat.com>
+ <20230120120822.2536032-2-javierm@redhat.com>
+In-Reply-To: <20230120120822.2536032-2-javierm@redhat.com>
 
-It is a problem because the fbdev core deferred I/O logic assumes that
-the struct fb_deferred_io data is not shared between devices, and it's
-stored there state such as the list of pages touched and a mutex that
-is use to synchronize between the fb_deferred_io_track_page() function
-that track the dirty pages and fb_deferred_io_work() workqueue handler
-doing the actual deferred I/O.
+--------------qnsZINDCEcl9MHDtmleRMUyX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The latter can lead to the following error, since it may happen that two
-drivers are probed and then one is removed, which causes the mutex bo be
-destroyed and not existing anymore by the time the other driver tries to
-grab it for the fbdev deferred I/O logic:
+DQoNCkFtIDIwLjAxLjIzIHVtIDEzOjA4IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
+bGFzOg0KPiBUaGlzIG9wdGlvbmFsIGNhbGxiYWNrIHdhcyBhZGRlZCBpbiB0aGUgY29tbWl0
+IDFmNDVmOWRiYjM5MiAoImZiX2RlZmlvOg0KPiBhZGQgZmlyc3RfaW8gY2FsbGJhY2siKSBi
+dXQgaXQgd2FzIG5ldmVyIHVzZWQgYnkgYSBkcml2ZXIuIExldCdzIHJlbW92ZQ0KPiBpdCBz
+aW5jZSBpdCdzIHVubGlrZWx5IHRoYXQgd2lsbCBiZSB1c2VkIGFmdGVyIGEgZGVjYWRlIHRo
+YXQgd2FzIGFkZGVkLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENh
+bmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQoNCkkgdmFndWVseSByZW1lbWJlciB0aGF0
+IHRoaXMgd2FzIGltcG9ydGFudCBhdCBzb21lIHBvaW50LiBNYXliZSBiZWZvcmUgDQp0aGUg
+YmlnIHJld29yayBvZiB0aGUgcGFnZWxpc3Q/IERvbid0IGtub3c7IGl0J3MgdW51c2VkIG5v
+dy4NCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
+LmRlPg0KDQo+IC0tLQ0KPiANCj4gICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJfZGVm
+aW8uYyB8IDQgLS0tLQ0KPiAgIGluY2x1ZGUvbGludXgvZmIuaCAgICAgICAgICAgICAgICAg
+IHwgMSAtDQo+ICAgMiBmaWxlcyBjaGFuZ2VkLCA1IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5jIGIvZHJpdmVy
+cy92aWRlby9mYmRldi9jb3JlL2ZiX2RlZmlvLmMNCj4gaW5kZXggYzczMDI1M2FiODVjLi4x
+YjY4MDc0MmI3ZjMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9m
+Yl9kZWZpby5jDQo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5j
+DQo+IEBAIC0xNTcsMTAgKzE1Nyw2IEBAIHN0YXRpYyB2bV9mYXVsdF90IGZiX2RlZmVycmVk
+X2lvX3RyYWNrX3BhZ2Uoc3RydWN0IGZiX2luZm8gKmluZm8sIHVuc2lnbmVkIGxvbmcNCj4g
+ICAJLyogcHJvdGVjdCBhZ2FpbnN0IHRoZSB3b3JrcXVldWUgY2hhbmdpbmcgdGhlIHBhZ2Ug
+bGlzdCAqLw0KPiAgIAltdXRleF9sb2NrKCZmYmRlZmlvLT5sb2NrKTsNCj4gICANCj4gLQkv
+KiBmaXJzdCB3cml0ZSBpbiB0aGlzIGN5Y2xlLCBub3RpZnkgdGhlIGRyaXZlciAqLw0KPiAt
+CWlmIChmYmRlZmlvLT5maXJzdF9pbyAmJiBsaXN0X2VtcHR5KCZmYmRlZmlvLT5wYWdlcmVm
+bGlzdCkpDQo+IC0JCWZiZGVmaW8tPmZpcnN0X2lvKGluZm8pOw0KPiAtDQo+ICAgCXBhZ2Vy
+ZWYgPSBmYl9kZWZlcnJlZF9pb19wYWdlcmVmX2dldChpbmZvLCBvZmZzZXQsIHBhZ2UpOw0K
+PiAgIAlpZiAoV0FSTl9PTl9PTkNFKCFwYWdlcmVmKSkgew0KPiAgIAkJcmV0ID0gVk1fRkFV
+TFRfT09NOw0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9mYi5oIGIvaW5jbHVkZS9s
+aW51eC9mYi5oDQo+IGluZGV4IDMwMTgzZmQyNTlhZS4uZGFmMzM2Mzg1NjEzIDEwMDY0NA0K
+PiAtLS0gYS9pbmNsdWRlL2xpbnV4L2ZiLmgNCj4gKysrIGIvaW5jbHVkZS9saW51eC9mYi5o
+DQo+IEBAIC0yMTUsNyArMjE1LDYgQEAgc3RydWN0IGZiX2RlZmVycmVkX2lvIHsNCj4gICAJ
+c3RydWN0IG11dGV4IGxvY2s7IC8qIG11dGV4IHRoYXQgcHJvdGVjdHMgdGhlIHBhZ2VyZWYg
+bGlzdCAqLw0KPiAgIAlzdHJ1Y3QgbGlzdF9oZWFkIHBhZ2VyZWZsaXN0OyAvKiBsaXN0IG9m
+IHBhZ2VyZWZzIGZvciB0b3VjaGVkIHBhZ2VzICovDQo+ICAgCS8qIGNhbGxiYWNrICovDQo+
+IC0Jdm9pZCAoKmZpcnN0X2lvKShzdHJ1Y3QgZmJfaW5mbyAqaW5mbyk7DQo+ICAgCXZvaWQg
+KCpkZWZlcnJlZF9pbykoc3RydWN0IGZiX2luZm8gKmluZm8sIHN0cnVjdCBsaXN0X2hlYWQg
+KnBhZ2VsaXN0KTsNCj4gICB9Ow0KPiAgICNlbmRpZg0KDQotLSANClRob21hcyBaaW1tZXJt
+YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
+cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
+eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
+b3Rldg0K
 
-[  369.756553] ------------[ cut here ]------------
-[  369.756604] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-[  369.756631] WARNING: CPU: 2 PID: 1023 at kernel/locking/mutex.c:582 __mutex_lock+0x348/0x424
-[  369.756744] Modules linked in: nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ip
-v6 nf_defrag_ipv4 ip_set nf_tables nfnetlink qrtr btsdio bluetooth sunrpc brcmfmac snd_soc_hdmi_codec cpufreq_dt cfg80211 vfat fat vc4 rfkill brcmutil raspberrypi_cpufreq i2c_bcm2835 iproc_rng200 bcm2711_thermal snd_soc_core snd_pcm_dmaen
-gine leds_gpio nvmem_rmem joydev hid_cherry uas usb_storage gpio_raspberrypi_exp v3d snd_pcm raspberrypi_hwmon gpu_sched bcm2835_wdt broadcom bcm_phy_lib snd_timer genet snd mdio_bcm_unimac clk_bcm2711_dvp soundcore drm_display_helper pci
-e_brcmstb cec ip6_tables ip_tables fuse
-[  369.757400] CPU: 2 PID: 1023 Comm: fbtest Not tainted 5.19.0-rc6+ #94
-[  369.757455] Hardware name: raspberrypi,4-model-b Raspberry Pi 4 Model B Rev 1.4/Raspberry Pi 4 Model B Rev 1.4, BIOS 2022.10 10/01/2022
-[  369.757538] pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  369.757596] pc : __mutex_lock+0x348/0x424
-[  369.757635] lr : __mutex_lock+0x348/0x424
-[  369.757672] sp : ffff80000953bb00
-[  369.757703] x29: ffff80000953bb00 x28: ffff17fdc087c000 x27: 0000000000000002
-[  369.757771] x26: ffff17fdc349f9b0 x25: fffffc5ff72e0100 x24: 0000000000000000
-[  369.757838] x23: 0000000000000000 x22: 0000000000000002 x21: ffffa618df636f10
-[  369.757903] x20: ffff80000953bb68 x19: ffffa618e0f18138 x18: 0000000000000001
-[  369.757968] x17: 0000000020000000 x16: 0000000000000002 x15: 0000000000000000
-[  369.758032] x14: 0000000000000000 x13: 284e4f5f4e524157 x12: 5f534b434f4c5f47
-[  369.758097] x11: 00000000ffffdfff x10: ffffa618e0c79f88 x9 : ffffa618de472484
-[  369.758162] x8 : 000000000002ffe8 x7 : c0000000ffffdfff x6 : 00000000000affa8
-[  369.758227] x5 : 0000000000001fff x4 : 0000000000000000 x3 : 0000000000000027
-[  369.758292] x2 : 0000000000000001 x1 : ffff17fdc087c000 x0 : 0000000000000028
-[  369.758357] Call trace:
-[  369.758383]  __mutex_lock+0x348/0x424
-[  369.758420]  mutex_lock_nested+0x4c/0x5c
-[  369.758459]  fb_deferred_io_mkwrite+0x78/0x1d8
-[  369.758507]  do_page_mkwrite+0x5c/0x19c
-[  369.758550]  wp_page_shared+0x70/0x1a0
-[  369.758590]  do_wp_page+0x3d0/0x510
-[  369.758628]  handle_pte_fault+0x1c0/0x1e0
-[  369.758670]  __handle_mm_fault+0x250/0x380
-[  369.758712]  handle_mm_fault+0x17c/0x3a4
-[  369.758753]  do_page_fault+0x158/0x530
-[  369.758792]  do_mem_abort+0x50/0xa0
-[  369.758831]  el0_da+0x78/0x19c
-[  369.758864]  el0t_64_sync_handler+0xbc/0x150
-[  369.758904]  el0t_64_sync+0x190/0x194
-[  369.758942] irq event stamp: 11395
-[  369.758973] hardirqs last  enabled at (11395): [<ffffa618de472554>] __up_console_sem+0x74/0x80
-[  369.759042] hardirqs last disabled at (11394): [<ffffa618de47254c>] __up_console_sem+0x6c/0x80
-[  369.760554] softirqs last  enabled at (11392): [<ffffa618de330a74>] __do_softirq+0x4c4/0x6b8
-[  369.762060] softirqs last disabled at (11383): [<ffffa618de3c9124>] __irq_exit_rcu+0x104/0x214
-[  369.763564] ---[ end trace 0000000000000000 ]---
+--------------qnsZINDCEcl9MHDtmleRMUyX--
 
-Fixes: d536540f304c ("drm/fb-helper: Add generic fbdev emulation .fb_probe function")
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
+--------------WiBJJqCEHhufjvr78bYXfsH9
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
- drivers/gpu/drm/drm_fbdev_generic.c | 11 +++++------
- include/drm/drm_fb_helper.h         | 10 ++++++++++
- 2 files changed, 15 insertions(+), 6 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index b2df8c03594c..bd1f8f28297c 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -171,11 +171,6 @@ static const struct fb_ops drm_fbdev_fb_ops = {
- 	.fb_imageblit	= drm_fbdev_fb_imageblit,
- };
- 
--static struct fb_deferred_io drm_fbdev_defio = {
--	.delay		= HZ / 20,
--	.deferred_io	= drm_fb_helper_deferred_io,
--};
--
- /*
-  * This function uses the client API to create a framebuffer backed by a dumb buffer.
-  */
-@@ -222,7 +217,11 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
- 			return -ENOMEM;
- 		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
- 
--		fbi->fbdefio = &drm_fbdev_defio;
-+		/* Set a default deferred I/O handler */
-+		fb_helper->fbdefio.delay = HZ / 20;
-+		fb_helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
-+
-+		fbi->fbdefio = &fb_helper->fbdefio;
- 		ret = fb_deferred_io_init(fbi);
- 		if (ret)
- 			return ret;
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index f443e1f11654..39b42c1a1954 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -203,6 +203,16 @@ struct drm_fb_helper {
- 	 * the smem_start field should always be cleared to zero.
- 	 */
- 	bool hint_leak_smem_start;
-+
-+	/**
-+	 * @fbdefio:
-+	 *
-+	 * Temporary storage for the driver's FB deferred I/O handler. If the
-+	 * driver uses the DRM fbdev emulation layer, this is set by the core
-+	 * to a generic deferred I/O handler if a driver is preferring to use
-+	 * a shadow buffer.
-+	 */
-+	struct fb_deferred_io fbdefio;
- };
- 
- static inline struct drm_fb_helper *
--- 
-2.39.0
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPKhncFAwAAAAAACgkQlh/E3EQov+Aa
+vA//fuhnEoAEcWGWMQnHwx0j4rnc/dnQY1+Nys5OJX8tDMPx3vQGfdvx5CcCCwIshV0nWY4z2add
+xDkOox0VbhgWfrfeqSwQlSxIgsYp/aDJb0aDg59Qo+tMnGoRwK8w7enOqguEB7Szr77OhgR/WA4R
+bumztgrsK0HZag0dKZmwlsC1MD6moregjFjdhcMxjWBeZ2hJZAuASzQh4b7/3ZcVEi6SOAAZldim
+0vKtP+/6qHCM7sgYCHngmBUi22Xph6fJ9jpdIEtbB1E3sqvzNOWtxbJQH36L2ZjkSpWhPgUR6GvT
+IGeoPE8pQ7cQ0XZ4iSh7/0XsPra20/ar+nlFMCLr79iNoqM+48+4jGDHB0wZWEMh2EN+6wqn7/nQ
+n78M2W+aRqO18BSuH713rArVc3UyxgtiZTUiftdrSsGtw9twRrxcDKuJR3t+U43zBQAizCGGGqx/
+GgnFI/54lErdDmNqQ2AId6K8SmOQ/YE2dhugV2SP/BpARQjwZrejqpxXiomkTer+haos8sE5HbVu
+wrAVRnBmFWM0vQSdUNTj84j9PCthoAQUMH5xW2Iz3EXy1wrhkjzkd5/XQfRJWcP6UncCXAs2s+Ae
+L84B7rmoeNlVhr1I4xBpBJMQEqI1qspHQ0DmYWDM9o0IJ2xo2SJWf9ibufFlvsrHqXPLLtFfDSGQ
+zGE=
+=5o0V
+-----END PGP SIGNATURE-----
 
+--------------WiBJJqCEHhufjvr78bYXfsH9--
