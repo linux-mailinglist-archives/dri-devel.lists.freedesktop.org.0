@@ -1,41 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F4C675AC1
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 18:05:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CD1675AC4
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 18:07:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBA810E02B;
-	Fri, 20 Jan 2023 17:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE70110E0D9;
+	Fri, 20 Jan 2023 17:07:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9233210E02B
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 17:05:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4890514;
- Fri, 20 Jan 2023 18:05:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1674234338;
- bh=b8VUFbYiJ3TngBo7JvJhQkGt5UVU26kqsS/qDkl+99Q=;
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66BA910E0D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 17:07:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id B16CBCE298C;
+ Fri, 20 Jan 2023 17:07:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71900C433EF;
+ Fri, 20 Jan 2023 17:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1674234433;
+ bh=yrSqpcs8yxwI9UUhr3/WzrPeWuyl/ClrxQ9Yls6h0KE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CBOuSAOrP1NmBiCCPrbQeFSS64uxHCVONb6xX1Fh5/4ZJv7koigSWf/AnvIiW46VP
- DPkiaWo8qeHHd4xb6TE95YvSa5L9dqC4EuqT3qTsvHQxViNMlk/NMlXxLCNMHFAk2R
- eTnzpaJ5RD2FT6RzqfRw5DoCGxl7fSNhDyoCRMr0=
-Date: Fri, 20 Jan 2023 19:05:35 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 3/7] drm: rcar-du: lvsd: Add reset control
-Message-ID: <Y8rJ32P/T4JFcz4O@pendragon.ideasonboard.com>
-References: <20230120085009.604797-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20230120085009.604797-4-tomi.valkeinen+renesas@ideasonboard.com>
- <Y8q+vUks4HzLZA1U@pendragon.ideasonboard.com>
+ b=UbQUQKw3wAPAPV336MhRFF45ylggW2RQ5swyP56hsO5qG6lYQXwjOgdXbIJK4EfKi
+ WDxoQpoWj/httmpiZv+qhGJh1V++68dn0wNBwgyipWyhK+IUZ0I9eko6a3V0jmVRL4
+ I7+TCZnIuhIIDjYlNjkCa2ylM06AheCq4i3MRLn4pA3qZsFR+1ayoHrR3trFpGUoZR
+ qOtb8TMpRGsJ5/VHi9iWMyYvv7bNboa+vZZ7UXF36GmNx+JBMUCRRTou4IVJkS0KIR
+ QHIbguy5y1rQ1IW4sp+X/hvMawSzwEankSx6otN3GvRXFfRCwidyOqbR/B8q6v4by8
+ uhwk713JliSyA==
+Date: Fri, 20 Jan 2023 17:07:06 +0000
+From: Lee Jones <lee@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v2 1/2] backlight: pwm_bl: Configure pwm only once per
+ backlight toggle
+Message-ID: <Y8rKOozBnOGg2Sxg@google.com>
+References: <20230120120018.161103-1-u.kleine-koenig@pengutronix.de>
+ <20230120120018.161103-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y8q+vUks4HzLZA1U@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230120120018.161103-2-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,117 +54,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org
+Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 20, 2023 at 06:18:07PM +0200, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
+On Fri, 20 Jan 2023, Uwe Kleine-König wrote:
 
-Another small comment: in the commit message, s/lvsd/lvds/
+> When the function pwm_backlight_update_status() was called with
+> brightness > 0, pwm_get_state() was called twice (once directly and once
+> in compute_duty_cycle). Also pwm_apply_state() was called twice (once in
+> pwm_backlight_power_on() and once directly).
+> 
+> Optimize this to do both calls only once.
+> 
+> Note that with this affects the order of regulator and PWM setup. It's
+> not expected to have a relevant effect on hardware. The rationale for
+> this is that the regulator (and the GPIO) are reasonable to switch in
+> pwm_backlight_power_on()/pwm_backlight_power_off() but the PWM has
+> nothing to do with power. (The post_pwm_on_delay and pwm_off_delay are
+> still there though.)
+> 
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  drivers/video/backlight/pwm_bl.c | 28 ++++++++++------------------
+>  1 file changed, 10 insertions(+), 18 deletions(-)
 
-> On Fri, Jan 20, 2023 at 10:50:05AM +0200, Tomi Valkeinen wrote:
-> > Reset LVDS using the reset control as CPG reset/release is required in
-> > the hardware manual sequence.
-> > 
-> > Based on a BSP patch from Koji Matsuoka <koji.matsuoka.xm@renesas.com>.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/Kconfig     |  1 +
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 19 ++++++++++++++++++-
-> >  2 files changed, 19 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> > index a8f862c68b4f..151e400b996d 100644
-> > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > @@ -43,6 +43,7 @@ config DRM_RCAR_LVDS
-> >  	select DRM_PANEL
-> >  	select OF_FLATTREE
-> >  	select OF_OVERLAY
-> > +	select RESET_CONTROLLER
-> >  
-> >  config DRM_RCAR_USE_MIPI_DSI
-> >  	bool "R-Car DU MIPI DSI Encoder Support"
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index 8e1be51fbee6..668604616bfd 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -17,6 +17,7 @@
-> >  #include <linux/of_graph.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/pm_runtime.h>
-> > +#include <linux/reset.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/sys_soc.h>
-> >  
-> > @@ -61,6 +62,7 @@ struct rcar_lvds_device_info {
-> >  struct rcar_lvds {
-> >  	struct device *dev;
-> >  	const struct rcar_lvds_device_info *info;
-> > +	struct reset_control *rstc;
-> >  
-> >  	struct drm_bridge bridge;
-> >  
-> > @@ -845,6 +847,10 @@ static int rcar_lvds_probe(struct platform_device *pdev)
-> >  	if (ret < 0)
-> >  		return ret;
-> >  
-> > +	lvds->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> > +	if (IS_ERR(lvds->rstc))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(lvds->rstc),
-> > +				     "failed to get cpg reset\n");
-> 
-> Missing blank line.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> >  	pm_runtime_enable(&pdev->dev);
-> >  
-> >  	drm_bridge_add(&lvds->bridge);
-> > @@ -924,6 +930,8 @@ static int rcar_lvds_runtime_suspend(struct device *dev)
-> >  
-> >  	clk_disable_unprepare(lvds->clocks.mod);
-> >  
-> > +	reset_control_assert(lvds->rstc);
-> > +
-> >  	return 0;
-> >  }
-> >  
-> > @@ -932,11 +940,20 @@ static int rcar_lvds_runtime_resume(struct device *dev)
-> >  	struct rcar_lvds *lvds = dev_get_drvdata(dev);
-> >  	int ret;
-> >  
-> > +	ret = reset_control_deassert(lvds->rstc);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >  	ret = clk_prepare_enable(lvds->clocks.mod);
-> >  	if (ret < 0)
-> > -		return ret;
-> > +		goto err_reset_assert;
-> >  
-> >  	return 0;
-> > +
-> > +err_reset_assert:
-> > +	reset_control_assert(lvds->rstc);
-> > +
-> > +	return ret;
-> >  }
-> >  
-> >  static const struct dev_pm_ops rcar_lvds_pm_ops = {
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Applied, thanks
 
 -- 
-Regards,
-
-Laurent Pinchart
+Lee Jones [李琼斯]
