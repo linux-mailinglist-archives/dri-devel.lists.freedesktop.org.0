@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087AB675F3C
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 22:01:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4CF675F41
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 22:01:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDBB10EAA9;
-	Fri, 20 Jan 2023 21:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F21D10E3A5;
+	Fri, 20 Jan 2023 21:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5615B10E29C
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 21:01:14 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id bk15so16943521ejb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 13:01:14 -0800 (PST)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10DDE10E3A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 21:01:17 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id w14so8194608edi.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 13:01:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9zrT9/RXPPXhnEVoW0aJsCVkHusFjlZ161d+oX04STE=;
- b=VhpZPNA/QWJFVRprlhHEdvq+/+4H7v3FVGVD04GyVD/EUEJFdD8RyMe84kgUEPUhWd
- CSPM+LH1fCURhYgTQa64yUSi3WnWL6zjKgNrnJwZnLqsAmscVxGSMUxPpNSJBAWPLAR6
- lUsuDtnasVrrYyhkGq9VB/ZHvxzTw2o3nc/q6OBvDQRT+WN28CE+7zlbdJTO/DrtdM9P
- kAx4wx9IGN1sWaBT2h3CHNexWt7VBNhIZ3a/7+uxHYWSNjz8Z+AJSA1c4l4/oVMG9q+R
- ZHPNZRWukpuWZCcns72TNlvqN2y/UGD3CjG94LU1GCQloe+M1+8iPwj7GTWVCD3mPjBg
- 2frA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5vdvlTIe2SoUdgzeTBXtkOHkXv6c2FDuAp1y22eD7Ng=;
+ b=rhSCbwWbjcUJKlgvQOopMWTQNS4FyCSdDOWhsdPizT6q+UQu4iVeyAmPOW5WKRQJgT
+ +Nz4dkQwNjkwv6zsd0mbsgyNLAqj00cjWXRd69Cp5ucpmXVs1bV/fVM8wGV4BvO04Je8
+ YeNmEXt7GOD9+3EqM/LVf1SyCiMqIlaBhijJ3nmrRCEMxwo0pX950AGQbeZq06vsaiGP
+ IZ3hvWDZW/EI2BbE1Tl+kXiI2M//dNGYiYPsZjYiRFunyCT1lgNapZ0DFehZcWGvCW9X
+ WYhAvM5EiJsEx0eKK9GRR3X7pu8e8HBGpq+oqpJe4fsIhXAYmvNxCkD0LYMDZngfwGsX
+ tg0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9zrT9/RXPPXhnEVoW0aJsCVkHusFjlZ161d+oX04STE=;
- b=kpdd8E/Bk/qtrofXGUDFjPHE4YvsVj6MIEzk7pMirbx3sD8GryqEkZ2CNccdeW9yIU
- qjA3R3elytt6O3GsLQgvRqYRkzJ/4DbudF7vNMf5eBscLHYHxbxLtIc/Wx8GYd9VXgxr
- Tr2lmEdISJ+MEHk6w0cstTRRKGf0Mc+Ad+ZdWkaWs2u8Fqe0ga0vwG1RS4U5Qh3O/jVU
- TMsbbPLZyNEgnZUXkGNICwi9A1FMWnyyeq7+mOPGbDBvI5UeN6BwDt2LANqzAKoPp4oK
- QUMWNpqXSFZqSNO/bXueogl1Re8/lNpfAImVJCVhzNekubWnVhnswBcqr88FiM/K7/j8
- fG6w==
-X-Gm-Message-State: AFqh2ko3M78levdZOQqVZUi6JUC0a8tO46gRoplOs3qGBhnUil52pQcK
- sIgisKSBgONqcDSA0UCWhL8HBw==
-X-Google-Smtp-Source: AMrXdXuKJBPk9bfYe2DX44R2Ihfk454JoHlIi3euiHm+P/rLKqXOFKfrzF2JNOubZZ/RoJp5TRlvPg==
-X-Received: by 2002:a17:906:3741:b0:861:eb6e:8019 with SMTP id
- e1-20020a170906374100b00861eb6e8019mr14749113ejc.69.1674248472796; 
- Fri, 20 Jan 2023 13:01:12 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5vdvlTIe2SoUdgzeTBXtkOHkXv6c2FDuAp1y22eD7Ng=;
+ b=vydW1zboaWe/ey3zC49gE6KW6ArdsnbKeMm0Go6bjYR9PDYp89O2RdPz3PQAiH3oPg
+ 1VG+Bmt7jp+G9VElS9+bNpQ6eAVWmhwt/k7Bb/+wxuWmRE4z8DcVI054wVqGGSFBv14g
+ 3/fzDRvhhcR86/kqKcHrNT28yyws57ONgrZCb2PDVbmSlvRCWbOjtrLkKj7cfFipVCzu
+ dnRx1u5NjCmWwaxnVo1/JzgO9ZXx5txTukpznKyxkdQEcVJuTYLcrZaUBJnh1PkLVLxz
+ rfUg3ngRBrA+zJHxdRUY89nJhsEHswfGlc9KaxrlFeotXOIYSbIgjGRupMUnfoumvRCi
+ /c0w==
+X-Gm-Message-State: AFqh2kqrxyJgWhQTwKfLinEvAIFuWhSY13vPzZnxNvlka0Lc1djd13Rm
+ emC6cA6KaVaD6E7xZ6FDL0LcsQ==
+X-Google-Smtp-Source: AMrXdXuA4bZe2r10Fa2xb6v7gUYLSpFAEboZqxVdFXr3Y8zk2kJnKU4qwAoDJTd+CPD8UbAuF6ivag==
+X-Received: by 2002:a05:6402:1946:b0:48b:c8de:9d20 with SMTP id
+ f6-20020a056402194600b0048bc8de9d20mr17986061edz.32.1674248475600; 
+ Fri, 20 Jan 2023 13:01:15 -0800 (PST)
 Received: from localhost.localdomain (abyk37.neoplus.adsl.tpnet.pl.
  [83.9.30.37]) by smtp.gmail.com with ESMTPSA id
- g22-20020a170906595600b0087221268e49sm6581229ejr.186.2023.01.20.13.01.10
+ g22-20020a170906595600b0087221268e49sm6581229ejr.186.2023.01.20.13.01.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 13:01:12 -0800 (PST)
+ Fri, 20 Jan 2023 13:01:15 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
  krzysztof.kozlowski@linaro.org
-Subject: [PATCH 1/8] drm/msm/dsi: Allow 2 CTRLs on v2.5.0
-Date: Fri, 20 Jan 2023 22:00:53 +0100
-Message-Id: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
+Subject: [PATCH 2/8] arm64: dts: qcom: sm8350: Add missing #address/size-cells
+ to DSIn
+Date: Fri, 20 Jan 2023 22:00:54 +0100
+Message-Id: <20230120210101.2146852-2-konrad.dybcio@linaro.org>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
+References: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,10 +74,12 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Loic Poulain <loic.poulain@linaro.org>, freedreno@lists.freedesktop.org,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, freedreno@lists.freedesktop.org,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
  Douglas Anderson <dianders@chromium.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
  Rajeev Nandan <quic_rajeevny@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
  Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
@@ -81,34 +87,39 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2.5.0 support was originally added for SC7280, but this hw is also
-present on SM8350, which has one more DSI host. Bump up the dsi count
-and fill in the register of the secondary host to allow it to probe.
+Panels/DRM bridges definitely don't need 64bits of address space and
+are usually not 32-bit wide. Set address-cells to 1 and size-cells to
+0.
 
-This should not have any adverse effects on SC7280, as the secondary
-CTRL will only be touched if it's defined, anyway.
-
-Fixes: 65c391b31994 ("drm/msm/dsi: Add DSI support for SC7280")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_cfg.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sm8350.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-index 33884ebd2f86..6d21f0b33411 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-@@ -223,8 +223,8 @@ static const struct msm_dsi_config sc7280_dsi_cfg = {
- 	.num_regulators = ARRAY_SIZE(sc7280_dsi_regulators),
- 	.bus_clk_names = dsi_sc7280_bus_clk_names,
- 	.num_bus_clks = ARRAY_SIZE(dsi_sc7280_bus_clk_names),
--	.io_start = { 0xae94000 },
--	.num_dsi = 1,
-+	.io_start = { 0xae94000, 0xae96000 },
-+	.num_dsi = 2,
- };
+diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+index dc84dbed81bb..c0ba67747c24 100644
+--- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+@@ -2989,6 +2989,9 @@ mdss_dsi0: dsi@ae94000 {
  
- static const char * const dsi_qcm2290_bus_clk_names[] = {
+ 				phys = <&mdss_dsi0_phy>;
+ 
++				#address-cells = <1>;
++				#size-cells = <0>;
++
+ 				status = "disabled";
+ 
+ 				dsi0_opp_table: opp-table {
+@@ -3084,6 +3087,9 @@ mdss_dsi1: dsi@ae96000 {
+ 
+ 				phys = <&mdss_dsi1_phy>;
+ 
++				#address-cells = <1>;
++				#size-cells = <0>;
++
+ 				status = "disabled";
+ 
+ 				dsi1_opp_table: opp-table {
 -- 
 2.39.1
 
