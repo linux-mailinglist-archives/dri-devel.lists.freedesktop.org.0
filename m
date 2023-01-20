@@ -1,39 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56356675E08
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 20:28:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F21A675E1B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 20:35:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1486710E13F;
-	Fri, 20 Jan 2023 19:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730ED10E39D;
+	Fri, 20 Jan 2023 19:35:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1B06F10E13F;
- Fri, 20 Jan 2023 19:28:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB11511FB;
- Fri, 20 Jan 2023 11:29:08 -0800 (PST)
-Received: from [10.57.89.132] (unknown [10.57.89.132])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6FF03F445;
- Fri, 20 Jan 2023 11:28:23 -0800 (PST)
-Message-ID: <f24fcba7-2fcb-ed43-05da-60763dbb07bf@arm.com>
-Date: Fri, 20 Jan 2023 19:28:19 +0000
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25E3110E39D;
+ Fri, 20 Jan 2023 19:35:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674243317; x=1705779317;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=JkJ/6DM+yJ+S9/cGDmr03heCuMLdJmi6DdGD4GNk6pU=;
+ b=hzxhJ6DkMf07b7jIwTsDNlxaTWd9OYigbijVcl3UBD7WlFENINwrBhC4
+ uYkhcoYZw0pIvpQWClmLg+yyE4KAd8nLtz7I2GcZXBzP1Oob9qeP/dJzs
+ Fpa8F3IyPtM91CdOIajp6Pkpd2sjOrd6MB56TxcVYUkzbFfftUC47p3ab
+ SMRXGf8vapxBZrwRNXUAre3bjDRq2a3Bsdp9RQYw0WuA/IwOLX5cSi2A0
+ wjjq5c3qIUKQ0+O9h49WOL5lIlyQEOxh3RZpmRz1h2rfWS97iaSxIM2mv
+ adAbIkdhUplhAwLuKDFFg1rjBBKSr4ko8aCa8sNbFqoVxoaXGG+D2suv+ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="411903527"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="411903527"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2023 11:35:16 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="834518293"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="834518293"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2023 11:35:16 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/8] Add _PICK_EVEN_2RANGES
+Date: Fri, 20 Jan 2023 11:34:49 -0800
+Message-Id: <20230120193457.3295977-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 04/10] iommu/dma: Use the gfp parameter in
- __iommu_dma_alloc_noncontiguous()
-Content-Language: en-GB
-To: Jason Gunthorpe <jgg@nvidia.com>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
-References: <4-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <4-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,66 +54,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, kvm@vger.kernel.org,
- nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>,
- linux-remoteproc@vger.kernel.org, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Alex Williamson <alex.williamson@redhat.com>, netdev@vger.kernel.org,
- ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
- linux-tegra@vger.kernel.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- virtualization@lists.linux-foundation.org, ath11k@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-01-18 18:00, Jason Gunthorpe wrote:
-> Change the sg_alloc_table_from_pages() allocation that was hardwired to
-> GFP_KERNEL to use the gfp parameter like the other allocations in this
-> function.
-> 
-> Auditing says this is never called from an atomic context, so it is safe
-> as is, but reads wrong.
+Add a new macro, _PICK_EVEN_2RANGES, that supports using 2 address
+ranges. This can be considered a v2 of
+https://patchwork.freedesktop.org/series/109606/
 
-I think the point may have been that the sgtable metadata is a 
-logically-distinct allocation from the buffer pages themselves. Much 
-like the allocation of the pages array itself further down in 
-__iommu_dma_alloc_pages(). I see these days it wouldn't be catastrophic 
-to pass GFP_HIGHMEM into __get_free_page() via sg_kmalloc(), but still, 
-allocating implementation-internal metadata with all the same 
-constraints as a DMA buffer has just as much smell of wrong about it IMO.
+I think I converted all the _PICK() uses that could be easily done
+without making it much harder to read. We do have some cases of 3
+ranges: I left those alone.
 
-I'd say the more confusing thing about this particular context is why 
-we're using iommu_map_sg_atomic() further down - that seems to have been 
-an oversight in 781ca2de89ba, since this particular path has never 
-supported being called in atomic context.
+As commented in the original series and like Jani I think we may need
+something else to cover all the use cases in future. Right now I don't
+think we have a good alternative though. This new macro both improves
+the current code and can be used for cases the ranges change in new
+platforms, so I think it's good enough.  In future I think just saving
+the reg during initialization and using different functions if the
+bitfields change may be an alternative.
 
-Overall I'm starting to wonder if it might not be better to stick a "use 
-GFP_KERNEL_ACCOUNT if you allocate" flag in the domain for any level of 
-the API internals to pick up as appropriate, rather than propagate 
-per-call gfp flags everywhere. As it stands we're still missing 
-potential pagetable and other domain-related allocations by drivers in 
-.attach_dev and even (in probably-shouldn't-really-happen cases) 
-.unmap_pages...
+This was lightly tested on ADL-S and DG2.
 
-Thanks,
-Robin.
+Lucas De Marchi (8):
+  drm/i915: Add _PICK_EVEN_2RANGES()
+  drm/i915: Fix coding style on DPLL*_ENABLE defines
+  drm/i915: Convert pll macros to _PICK_EVEN_2RANGES
+  drm/i915: Replace _MMIO_PHY3() with _PICK_EVEN_2RANGES()
+  drm/i915: Convert PIPE3/PORT3 to _PICK_EVEN_2RANGES()
+  drm/i915: Convert _FIA() to _PICK_EVEN_2RANGES()
+  drm/i915: Convert MBUS_ABOX_CTL() to _PICK_EVEN_2RANGES()
+  drm/i915: Convert PALETTE() to _PICK_EVEN_2RANGES()
 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   drivers/iommu/dma-iommu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 8c2788633c1766..e4bf1bb159f7c7 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -822,7 +822,7 @@ static struct page **__iommu_dma_alloc_noncontiguous(struct device *dev,
->   	if (!iova)
->   		goto out_free_pages;
->   
-> -	if (sg_alloc_table_from_pages(sgt, pages, count, 0, size, GFP_KERNEL))
-> +	if (sg_alloc_table_from_pages(sgt, pages, count, 0, size, gfp))
->   		goto out_free_iova;
->   
->   	if (!(ioprot & IOMMU_CACHE)) {
+ .../drm/i915/display/intel_display_reg_defs.h |  10 +-
+ .../gpu/drm/i915/display/intel_mg_phy_regs.h  |   4 +-
+ drivers/gpu/drm/i915/i915_reg.h               | 106 +++++++++---------
+ drivers/gpu/drm/i915/i915_reg_defs.h          |  28 +++++
+ 4 files changed, 89 insertions(+), 59 deletions(-)
+
+-- 
+2.39.0
+
