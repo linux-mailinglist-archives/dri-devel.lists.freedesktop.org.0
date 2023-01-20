@@ -1,51 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E18675372
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 12:32:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 148AD67537E
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 12:37:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A553610EA1E;
-	Fri, 20 Jan 2023 11:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E27310EA27;
+	Fri, 20 Jan 2023 11:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA4A10EA07;
- Fri, 20 Jan 2023 11:32:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674214338; x=1705750338;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qONkOFP8DnyyZBcwCooPKjF7KSBVfCQkJzSd5SQ/tIY=;
- b=Hu9HcD4bpt5phsAJABS6k2zOC5PE4llHGGMJ/9FdZmkguikrT+8aSAA2
- KKDvxpQHYBTgLdFHDquKs1jNYZ90VZY8W9pZu+9PyMMxPNTojvA5RSXZN
- eUSUnhDNW3PqSMoozxbFo5U6l+X3hXLHTZn+lzqopuIsD+zBxlQtDKqSl
- mJE7QFyIQRli5HPQgfot5+UQ5OaeXJieSMJx5jobpFFMJVNZs8jWU9pZ2
- wBe91ZoPWhNOkBbcWcs0m+UUZqi/Vwsa6j0gCjDww7kKdj3+O8nAJ8Oad
- 6lVYSCSYgavnofjlJ+SIVUAT/HTM1Y+ntJOM7iGXcCzmGWNR/eG01Bakc Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="327654579"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; d="scan'208";a="327654579"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2023 03:32:17 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10595"; a="638136969"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; d="scan'208";a="638136969"
-Received: from melsaid-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.222.199])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2023 03:32:13 -0800
-Date: Fri, 20 Jan 2023 12:32:10 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/selftest: fix
- intel_selftest_modify_policy argument types
-Message-ID: <Y8p7uvNmJlpPFWRC@ashyti-mobl2.lan>
-References: <20230117163743.1003219-1-arnd@kernel.org>
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3482010EA36;
+ Fri, 20 Jan 2023 11:37:22 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 769D26008831;
+ Fri, 20 Jan 2023 11:37:20 +0000 (WET)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+ tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+ with LMTP id ycM_b9OLVerz; Fri, 20 Jan 2023 11:37:18 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id C98626008828;
+ Fri, 20 Jan 2023 11:37:17 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+ s=mail; t=1674214638;
+ bh=Xceh/ltBYNbtbQTxGHxOIwMD72Lbmf8kpmBAZEASpkE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=JdyXvczcQUGMYfdwQuGfdfmR0IQNaf9xCiY1/23qDPJ7xLEsyMrqH6u3MIJg/IeiA
+ YxzvXehwCSosD+ViCsPFh1yxnEW3kXfxrfWzgibHKiUAYa7B0gstWThkQ1HoYHxhpj
+ rflecTJF3he+AV99L3OvDpP5AMdFEExGDSOzz5Tg=
+Received: from wslaptop (unknown [IPv6:2001:818:dcb5:dc00:d990:b664:f16:4cb2])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 66A0F360079;
+ Fri, 20 Jan 2023 11:37:17 +0000 (WET)
+Date: Fri, 20 Jan 2023 11:34:43 +0000
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: Ben Skeggs <skeggsb@gmail.com>
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+Message-ID: <20230120113443.wgwhwp7tm6rnc6je@wslaptop>
+References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+ <CAMwc25rY4xpn0yvCScMr6Hk9pFSdvt=9QOypSQDfj1d5tWmtvA@mail.gmail.com>
+ <20230116122403.upk5ci4mbebw23m7@wslaptop>
+ <CACAvsv48vH6hbacQCN+yKP8ZcDjFMWciBt6U_Xv-LEYJHZ1q9g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230117163743.1003219-1-arnd@kernel.org>
+In-Reply-To: <CACAvsv48vH6hbacQCN+yKP8ZcDjFMWciBt6U_Xv-LEYJHZ1q9g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,56 +60,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: regressions@lists.linux.dev, kherbst@redhat.com, kwizart@gmail.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com, David Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
+On Wed, Jan 18, 2023 at 11:28:49AM +1000, Ben Skeggs wrote:
+> On Mon, 16 Jan 2023 at 22:27, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
+> > On Mon, Jan 16, 2023 at 07:45:05AM +1000, David Airlie wrote:
+> > > As a quick check can you try changing
+> > >
+> > > drivers/gpu/drm/nouveau/nvkm/core/firmware.c:nvkm_firmware_mem_target
+> > > from NVKM_MEM_TARGET_HOST to NVKM_MEM_TARGET_NCOH ?
 
-On Tue, Jan 17, 2023 at 05:37:29PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+> In addition to Dave's change, can you try changing the
+> nvkm_falcon_load_dmem() call in gm20b_pmu_init() to:
 > 
-> The definition of intel_selftest_modify_policy() does not match the
-> declaration, as gcc-13 points out:
-> 
-> drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c:29:5: error: conflicting types for 'intel_selftest_modify_policy' due to enum/integer mismatch; have 'int(struct intel_engine_cs *, struct intel_selftest_saved_policy *, u32)' {aka 'int(struct intel_engine_cs *, struct intel_selftest_saved_policy *, unsigned int)'} [-Werror=enum-int-mismatch]
->    29 | int intel_selftest_modify_policy(struct intel_engine_cs *engine,
->       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> In file included from drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c:11:
-> drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.h:28:5: note: previous declaration of 'intel_selftest_modify_policy' with type 'int(struct intel_engine_cs *, struct intel_selftest_saved_policy *, enum selftest_scheduler_modify)'
->    28 | int intel_selftest_modify_policy(struct intel_engine_cs *engine,
->       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Change the type in the definition to match.
-> 
-> Fixes: 617e87c05c72 ("drm/i915/selftest: Fix hangcheck self test for GuC submission")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> nvkm_falcon_pio_wr(falcon, (u8 *)&args, 0, 0, DMEM, addr_args,
+> sizeof(args), 0, false);
 
-Pushed to drm-intel-gt-next.
+Hello!
 
-Thanks,
-Andi
+Chiming in just to say that with this change I see the same as Nicolas
+except that the init message size is 255 instead of 0:
 
-> ---
->  drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
-> index 310fb83c527e..2990dd4d4a0d 100644
-> --- a/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
-> +++ b/drivers/gpu/drm/i915/selftests/intel_scheduler_helpers.c
-> @@ -28,8 +28,7 @@ struct intel_engine_cs *intel_selftest_find_any_engine(struct intel_gt *gt)
->  
->  int intel_selftest_modify_policy(struct intel_engine_cs *engine,
->  				 struct intel_selftest_saved_policy *saved,
-> -				 u32 modify_type)
-> -
-> +				 enum selftest_scheduler_modify modify_type)
->  {
->  	int err;
->  
-> -- 
-> 2.39.0
+[    2.196934] nouveau 57000000.gpu: pmu: unexpected init message size 255 vs 42
