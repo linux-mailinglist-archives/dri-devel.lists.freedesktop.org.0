@@ -1,74 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD33B675F39
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 22:00:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 087AB675F3C
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 22:01:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D814610E196;
-	Fri, 20 Jan 2023 21:00:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDBB10EAA9;
+	Fri, 20 Jan 2023 21:01:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
- [IPv6:2607:f8b0:4864:20::c33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D518010E196;
- Fri, 20 Jan 2023 21:00:44 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id
- c145-20020a4a4f97000000b004f505540a20so1219737oob.1; 
- Fri, 20 Jan 2023 13:00:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:sender
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CDDzVfb3PboGUZ1ek82m5PLa0K8UtUGpbjnyxxvLkcI=;
- b=byii7Hj+8+LKxY69s+XuNvu6mpQvxsu7DtCFHAIen3WyhQhMAJAhm8joJwO2qVZqIv
- FcyaJyFJIWeLm04YUTU8SbTNDg+k83ogniWSoNAj6l/TDlRO815cSI/GQ7d7xbx7Kdxo
- IegEC6IpE1NOhx1xEN+sur71tSQMTXXSypwz922VlbXOXoBnnwePaCAy37SJ6YpJPbx0
- N5Ygtd6rnpDdhT5opZuD7czRTPM6oeywjm9NUpBG6yxgZfUQBv01H7cyC3FswEH1NOjs
- d51aiAfTOwwufO+5n00boGQd00mjshUba9xivbU2eR9k+8FuJJinAwk3PVfcShYJ8l0m
- omiA==
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5615B10E29C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 21:01:14 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id bk15so16943521ejb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 13:01:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9zrT9/RXPPXhnEVoW0aJsCVkHusFjlZ161d+oX04STE=;
+ b=VhpZPNA/QWJFVRprlhHEdvq+/+4H7v3FVGVD04GyVD/EUEJFdD8RyMe84kgUEPUhWd
+ CSPM+LH1fCURhYgTQa64yUSi3WnWL6zjKgNrnJwZnLqsAmscVxGSMUxPpNSJBAWPLAR6
+ lUsuDtnasVrrYyhkGq9VB/ZHvxzTw2o3nc/q6OBvDQRT+WN28CE+7zlbdJTO/DrtdM9P
+ kAx4wx9IGN1sWaBT2h3CHNexWt7VBNhIZ3a/7+uxHYWSNjz8Z+AJSA1c4l4/oVMG9q+R
+ ZHPNZRWukpuWZCcns72TNlvqN2y/UGD3CjG94LU1GCQloe+M1+8iPwj7GTWVCD3mPjBg
+ 2frA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id:sender
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CDDzVfb3PboGUZ1ek82m5PLa0K8UtUGpbjnyxxvLkcI=;
- b=EtAaB8nTv/joud86DxWhqtRA0ZqeFiICRHQyvpAB0V/vVgt6Ua5CJk3UOITuhstGH4
- b+7y+KN4dFw2aTjTKf+J4kDAVocSgV8EjVafBYa5pE3knnmxaYBuFaQ5uFm+Zoi6cMvK
- hdlZIkDBbxJm878EwmMgjSmgZ37cAuydLDxoDIdMbQZZzDzirlWVDbAuTDw6/n2ESAim
- XKctGWJDkmZftWC9IusSX+KCMWnRpPpHoBROrz13ARL3tvkoX1qyCAf3chR5pkxQBBPj
- 5n6hfngR8pt3oylDfjhd4FsJL18akj/C9Z+8PHAAq1Xpki/acH5DqDIXAOSMOtVtj9ly
- aIIQ==
-X-Gm-Message-State: AFqh2kpwSwXkYS6kKT01Ky7Z7PJ1/+W4yTpDIY8JAgYxaUxxjnc5+P9p
- d7PPrItussTUTomL3gt/sUI=
-X-Google-Smtp-Source: AMrXdXux2SadVMxuQYTh+X9u46rTjIh0ZWTNszXZy2RR0PyWcpRHbLUCf0qTMXzi+38BJtTTclMrug==
-X-Received: by 2002:a4a:acc4:0:b0:4f2:a1c1:4dfc with SMTP id
- c4-20020a4aacc4000000b004f2a1c14dfcmr7510500oon.6.1674248443947; 
- Fri, 20 Jan 2023 13:00:43 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- m22-20020a4ac696000000b0049bfbf7c5a8sm19766449ooq.38.2023.01.20.13.00.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 13:00:42 -0800 (PST)
-Message-ID: <9927d839-4abc-0daf-36cd-e547beb7c87d@roeck-us.net>
-Date: Fri, 20 Jan 2023 13:00:40 -0800
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9zrT9/RXPPXhnEVoW0aJsCVkHusFjlZ161d+oX04STE=;
+ b=kpdd8E/Bk/qtrofXGUDFjPHE4YvsVj6MIEzk7pMirbx3sD8GryqEkZ2CNccdeW9yIU
+ qjA3R3elytt6O3GsLQgvRqYRkzJ/4DbudF7vNMf5eBscLHYHxbxLtIc/Wx8GYd9VXgxr
+ Tr2lmEdISJ+MEHk6w0cstTRRKGf0Mc+Ad+ZdWkaWs2u8Fqe0ga0vwG1RS4U5Qh3O/jVU
+ TMsbbPLZyNEgnZUXkGNICwi9A1FMWnyyeq7+mOPGbDBvI5UeN6BwDt2LANqzAKoPp4oK
+ QUMWNpqXSFZqSNO/bXueogl1Re8/lNpfAImVJCVhzNekubWnVhnswBcqr88FiM/K7/j8
+ fG6w==
+X-Gm-Message-State: AFqh2ko3M78levdZOQqVZUi6JUC0a8tO46gRoplOs3qGBhnUil52pQcK
+ sIgisKSBgONqcDSA0UCWhL8HBw==
+X-Google-Smtp-Source: AMrXdXuKJBPk9bfYe2DX44R2Ihfk454JoHlIi3euiHm+P/rLKqXOFKfrzF2JNOubZZ/RoJp5TRlvPg==
+X-Received: by 2002:a17:906:3741:b0:861:eb6e:8019 with SMTP id
+ e1-20020a170906374100b00861eb6e8019mr14749113ejc.69.1674248472796; 
+ Fri, 20 Jan 2023 13:01:12 -0800 (PST)
+Received: from localhost.localdomain (abyk37.neoplus.adsl.tpnet.pl.
+ [83.9.30.37]) by smtp.gmail.com with ESMTPSA id
+ g22-20020a170906595600b0087221268e49sm6581229ejr.186.2023.01.20.13.01.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 13:01:12 -0800 (PST)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
+ krzysztof.kozlowski@linaro.org
+Subject: [PATCH 1/8] drm/msm/dsi: Allow 2 CTRLs on v2.5.0
+Date: Fri, 20 Jan 2023 22:00:53 +0100
+Message-Id: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US
-To: "Limonciello, Mario" <Mario.Limonciello@amd.com>
-References: <20230112085044.1706379-1-Wayne.Lin@amd.com>
- <20230120174634.GA889896@roeck-us.net>
- <a9deecb3-5955-ee4e-c76f-2654ee9f1a92@amd.com>
- <20230120181806.GA890663@roeck-us.net>
- <MN0PR12MB6101FE67D355FF2A47470C37E2C59@MN0PR12MB6101.namprd12.prod.outlook.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] Revert "drm/display/dp_mst: Move all payload info into
- the atomic state"
-In-Reply-To: <MN0PR12MB6101FE67D355FF2A47470C37E2C59@MN0PR12MB6101.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,42 +69,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "stanislav.lisovskiy@intel.com" <stanislav.lisovskiy@intel.com>, "Zuo,
- Jerry" <Jerry.Zuo@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Lin,
- Wayne" <Wayne.Lin@amd.com>, "bskeggs@redhat.com" <bskeggs@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/20/23 10:39, Limonciello, Mario wrote:
-[ ... ]
->>>
->>> Wayne is OOO for CNY, but let me update you.
->>>
->>> Harry has sent out this series which is a collection of proper fixes.
->>> https://patchwork.freedesktop.org/series/113125/
->>>
->>> Once that's reviewed and accepted, 4 of them are applicable for 6.1.
->>
->> Thanks a lot for the update. There is talk about abandoning v6.1.y as
->> LTS candidate, in large part due to this problem, so it would be great
->> to get the problem fixed before that happens.
-> 
-> Any idea how soon that decision is happening?  It seems that we have line
-> of sight to a solution including back to 6.1.y pending that review.  So perhaps
-> we can put off the decision until those are landed.
+v2.5.0 support was originally added for SC7280, but this hw is also
+present on SM8350, which has one more DSI host. Bump up the dsi count
+and fill in the register of the secondary host to allow it to probe.
 
-I honestly don't know. All I know is that Greg is concerned about
-the number of regressions in v6.1.y, and this problem was one
-he specifically mentioned to me as potential reason to not designate
-6.1.y as LTS kernel. The extensive discussion at [1] may be an
-indication that there is a problem, though that mostly refers to
-[lack of] test coverage and does not point to specific regressions.
+This should not have any adverse effects on SC7280, as the secondary
+CTRL will only be touched if it's defined, anyway.
 
-Guenter
-
+Fixes: 65c391b31994 ("drm/msm/dsi: Add DSI support for SC7280")
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
-[1] https://lore.kernel.org/lkml/CAPDLWs-Z8pYkwQ13dEgHXqSCjiq4xVnjuAXTy26H3=8NZCpV_g@mail.gmail.com/
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+index 33884ebd2f86..6d21f0b33411 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+@@ -223,8 +223,8 @@ static const struct msm_dsi_config sc7280_dsi_cfg = {
+ 	.num_regulators = ARRAY_SIZE(sc7280_dsi_regulators),
+ 	.bus_clk_names = dsi_sc7280_bus_clk_names,
+ 	.num_bus_clks = ARRAY_SIZE(dsi_sc7280_bus_clk_names),
+-	.io_start = { 0xae94000 },
+-	.num_dsi = 1,
++	.io_start = { 0xae94000, 0xae96000 },
++	.num_dsi = 2,
+ };
+ 
+ static const char * const dsi_qcm2290_bus_clk_names[] = {
+-- 
+2.39.1
 
