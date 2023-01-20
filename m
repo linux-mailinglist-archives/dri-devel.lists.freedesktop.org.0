@@ -1,62 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A339675E3A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 20:42:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 612DA675E67
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 20:49:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B1BF10E134;
-	Fri, 20 Jan 2023 19:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CFDE10E13A;
+	Fri, 20 Jan 2023 19:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
- [IPv6:2607:f8b0:4864:20::e2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1680610E134
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 19:42:25 +0000 (UTC)
-Received: by mail-vs1-xe2f.google.com with SMTP id 3so6790135vsq.7
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 11:42:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2smM+yAWTiv5fXgEcxXSH5+gacjV2/xa7Y1VVuSpHVc=;
- b=dnbrvAFHX7LrcoYnwpJ/yzadPtwbcD2GTtvYuQk3deWwHwbho5aK5Kw3a33NE7qF80
- woqxumQwC6rgQ11cWHKeAsQQwNdOAV3oHUMA0cDBumNvLnF9b0r/dK1eghXfGTFO7bhF
- NytFYxYSfaAVBcgHj3nTa1jcFQ0v6bwMl56OYWyESwTakEoK9EUOOpQJAk23/0msE7ov
- NxPGuWwiebeic1yh8fEHZhZYaLBjD88abMUznBmim5riu4Xoy331xl8zqE7ztjHWHM80
- GmYQ9ZeOACOil3SNTuRtds9EM1JVLhB7wNKKS/EA5tQcZIToaavDxcpRIH9qHUR/VC6B
- gEwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2smM+yAWTiv5fXgEcxXSH5+gacjV2/xa7Y1VVuSpHVc=;
- b=Sc7RiMiKD5MBU/jorZic9Jy/yKku8XeLqtkW/1vTHGHMLo3W4mbSWWjVhxf2fMbkZr
- lZb2F3hGUnLe1GsXGI6VOplFMqtepcg5nDJM950YhzfMdb2a+RIUTScGgLB11LPyrKhK
- diQlEsXcTilMcLkVnygkN/Qyq9SsxUCGr9Vbw8IraV3fAaaDQsLBvRtZk5Z68K6bOGiW
- 5BCvyUSYtXzPhjIMmnGp150l+v8GZtsqEy8SqxlHK1ulQ+5xomW+SMK2lE2uXoccJnXz
- 53xLVlS7FRIrhXHoBQk3doayOdNfokDf5U6EUN04gIyhG4Nl9a8ivBFEnct06IJkLVpc
- 9CKA==
-X-Gm-Message-State: AFqh2kozwr3RFgeIuIVqiC/ET22qE3mBAFrr2l7vTfgc3rXkE5BYnvkQ
- xFSlzs+yuU26cDmEgG4j59cI/6pj8ximJ88L4IJBBw==
-X-Google-Smtp-Source: AMrXdXuVv09inmDMzECR3rvJhE7sMfC0Zb6V5CzqpmUDPa/fQN1hNEg6zum3S7L+bKt2Zwp44qqTbZlREFFQPNIUTaQ=
-X-Received: by 2002:a67:d312:0:b0:3d4:542:12ad with SMTP id
- a18-20020a67d312000000b003d4054212admr2192444vsj.84.1674243744070; Fri, 20
- Jan 2023 11:42:24 -0800 (PST)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46CB810E139;
+ Fri, 20 Jan 2023 19:49:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674244162; x=1705780162;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=LkaUdd4OdIGIWum9Mt3m0Zi5T8RTEMrbZghJ58jlido=;
+ b=ViQcXzWUZFmljH1+ngm+NK3TxWQ0/SuO6Nc5xmWU66ghzCpZbn9F7iBB
+ dgw6gV1PTZ9FPkgncgrDwsOPPdz7U7lyHc34+psTg0YInNNK54wq9/uOt
+ A/Dg/tmdhFNoia/BZPap8NWAvrtGavGJH1E+wPgl/38HSrVD82LQ5FJOy
+ dGMmF3+U25Tl+2l69KEVhTlG2sGtBRcGCfYzSWG2I71wOanVJ965aMRIK
+ sDSWng+A0Q8lbwl+X9lX8C2DrVlqfuBoHmrihRaZxEg7Y6En0w9TdGKQh
+ S4H3mkm3AvlVvGKnOzVjFs7Iv4JaTwgBWaW/FEY4Z5G2YdJi060VDixMB A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="324363974"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="324363974"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2023 11:49:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="906072162"
+X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="906072162"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 20 Jan 2023 11:49:19 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pIxO3-0002rK-05;
+ Fri, 20 Jan 2023 19:49:19 +0000
+Date: Sat, 21 Jan 2023 03:49:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 4/8] drm/i915/guc: Update GuC messages in intel_guc_ct.c
+Message-ID: <202301210330.zvfxkqjp-lkp@intel.com>
+References: <20230120164050.1765-5-michal.wajdeczko@intel.com>
 MIME-Version: 1.0
-References: <20221212182923.29155-1-jagan@amarulasolutions.com>
- <20221212182923.29155-4-jagan@amarulasolutions.com>
- <CAPY8ntCBL2Tq2sz6poJZzqP4qWS+OE7NQQqpqX+evfWZgCzwCA@mail.gmail.com>
- <CAMty3ZCGn+ickyA5qaEYcB16P_xpgXjoOsYMsDMz2ELuspifgQ@mail.gmail.com>
-In-Reply-To: <CAMty3ZCGn+ickyA5qaEYcB16P_xpgXjoOsYMsDMz2ELuspifgQ@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 20 Jan 2023 19:42:07 +0000
-Message-ID: <CAPY8ntAtY45nnx_X6cBafoUBG3Z8kpROFt7kZs7mVC1NBsnAxw@mail.gmail.com>
-Subject: Re: [PATCH v11 3/3] drm: exynos: dsi: Restore proper bridge chain
- order
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230120164050.1765-5-michal.wajdeczko@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,126 +60,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>, llvm@lists.linux.dev,
+ John Harrison <John.C.Harrison@intel.com>, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan
+Hi Michal,
 
-On Fri, 20 Jan 2023 at 19:10, Jagan Teki <jagan@amarulasolutions.com> wrote:
->
-> Hi Dave,
->
-> On Sat, Jan 21, 2023 at 12:26 AM Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
-> >
-> > Hi Jagan
-> >
-> > Responding due to Marek's comment on the "Add Samsung MIPI DSIM
-> > bridge" series, although I know very little about the Exynos
-> > specifics, and may well be missing context of what you're trying to
-> > achieve.
-> >
-> > On Mon, 12 Dec 2022 at 18:29, Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > >
-> > > Restore the proper bridge chain by finding the previous bridge
-> > > in the chain instead of passing NULL.
-> > >
-> > > This establishes a proper bridge chain while attaching downstream
-> > > bridges.
-> > >
-> > > Reviewed-by: Marek Vasut <marex@denx.de>
-> > > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > > ---
-> > > Changes for v11:
-> > > - add bridge.pre_enable_prev_first
-> > > Changes for v10:
-> > > - collect Marek review tag
-> > >
-> > >  drivers/gpu/drm/exynos/exynos_drm_dsi.c | 9 +++++++--
-> > >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > > index ec673223d6b7..9d10a89d28f1 100644
-> > > --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > > +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> > > @@ -1428,7 +1428,8 @@ static int exynos_dsi_attach(struct drm_bridge *bridge,
-> > >  {
-> > >         struct exynos_dsi *dsi = bridge_to_dsi(bridge);
-> > >
-> > > -       return drm_bridge_attach(bridge->encoder, dsi->out_bridge, NULL, flags);
-> > > +       return drm_bridge_attach(bridge->encoder, dsi->out_bridge, bridge,
-> > > +                                flags);
-> >
-> > Agreed on this change.
-> >
-> > >  }
-> > >
-> > >  static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
-> > > @@ -1474,7 +1475,10 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
-> > >
-> > >         drm_bridge_add(&dsi->bridge);
-> > >
-> > > -       drm_bridge_attach(encoder, &dsi->bridge, NULL, 0);
-> > > +       drm_bridge_attach(encoder, &dsi->bridge,
-> > > +                         list_first_entry_or_null(&encoder->bridge_chain,
-> > > +                                                  struct drm_bridge,
-> > > +                                                  chain_node), 0);
-> >
-> > What bridge are you expecting between the encoder and this bridge?
-> > The encoder is the drm_simple_encoder_init encoder that you've created
-> > in exynos_dsi_bind, so separating that from the bridge you're also
-> > creating here seems weird.
-> >
-> > >
-> > >         /*
-> > >          * This is a temporary solution and should be made by more generic way.
-> > > @@ -1709,6 +1713,7 @@ static int exynos_dsi_probe(struct platform_device *pdev)
-> > >         dsi->bridge.funcs = &exynos_dsi_bridge_funcs;
-> > >         dsi->bridge.of_node = dev->of_node;
-> > >         dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
-> > > +       dsi->bridge.pre_enable_prev_first = true;
-> >
-> > Setting dsi->bridge.pre_enable_prev_first on what is presumably the
-> > DSI host controller seems a little odd.
-> > Same question again - what bridge are you expecting to be upstream of
-> > the DSI host that needs to be preenabled before it? Whilst it's
-> > possible that there's another bridge, I'd have expected that to be the
-> > first link from your encoder as they appear to both belong to the same
-> > bit of driver.
->
-> Let me answer all together here. I can explain a bit about one of the
-> pipelines used in Exynos. Exynos DSI DRM drivers have some strict host
-> initialization which is not the same as what we used in i.MX8M even
-> though it uses the same DSIM IP.
->
-> Exynos5433 Decon -> Exynos MIC -> Exynos DSI -> s6e3ha2 DSI panel
->
-> Here MIC is the bridge, Exynos DSI is the bridge and the requirement
-> is to expect the upstream bridge to pre_enable first from DSI which
-> means the MIC.
+Thank you for the patch! Perhaps something to improve:
 
-That makes sense for the pre_enable_prev_first flag.
+[auto build test WARNING on drm-tip/drm-tip]
 
-The drm_bridge_attach(... list_first_entry_or_null) still seems a
-little weird. I think you are making the assumption that there is only
-ever going to be the zero or one bridge (the MIC) between encoder and
-DSI bridge - the DSI bridge is linking itself to the first entry off
-the encoder bridge_chain (or NULL to link to the encoder). Is that
-reasonable? I've no idea!
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wajdeczko/drm-i915-guc-Add-GuC-oriented-print-macros/20230121-004232
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230120164050.1765-5-michal.wajdeczko%40intel.com
+patch subject: [PATCH 4/8] drm/i915/guc: Update GuC messages in intel_guc_ct.c
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230121/202301210330.zvfxkqjp-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e3ee219e703a4153b750288ac3e28cd2ea4130c1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Michal-Wajdeczko/drm-i915-guc-Add-GuC-oriented-print-macros/20230121-004232
+        git checkout e3ee219e703a4153b750288ac3e28cd2ea4130c1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-I must confess to not having looked at the attaching sequence
-recently, and I'm about to head home for the weekend.
-I have no real knowledge of how Exynos is working, and am aware that
-you're having to rejuggle stuff to try and support i.MX8M and Exynos,
-so leave that one up to you.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
 
-Cheers
-  Dave
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c:27:40: warning: unused function 'ct_to_i915' [-Wunused-function]
+   static inline struct drm_i915_private *ct_to_i915(struct intel_guc_ct *ct)
+                                          ^
+   1 warning generated.
+
+
+vim +/ct_to_i915 +27 drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+
+6fb086e5e6ba82d Daniele Ceraolo Spurio 2021-06-02  26  
+6fb086e5e6ba82d Daniele Ceraolo Spurio 2021-06-02 @27  static inline struct drm_i915_private *ct_to_i915(struct intel_guc_ct *ct)
+6fb086e5e6ba82d Daniele Ceraolo Spurio 2021-06-02  28  {
+6fb086e5e6ba82d Daniele Ceraolo Spurio 2021-06-02  29  	return ct_to_gt(ct)->i915;
+6fb086e5e6ba82d Daniele Ceraolo Spurio 2021-06-02  30  }
+6fb086e5e6ba82d Daniele Ceraolo Spurio 2021-06-02  31  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
