@@ -2,66 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD17674EA9
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 08:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735EC674EE5
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 09:04:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC67910E0D7;
-	Fri, 20 Jan 2023 07:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6990F10E08C;
+	Fri, 20 Jan 2023 08:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3218510E0D7
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 07:49:48 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id kt14so11875873ejc.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jan 2023 23:49:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BdhCjSy3SqnjWjDLB4IHqxMmPrap4fRlZrofYhguHhQ=;
- b=kr0qXC5yFUKl0L2KrHHQGmSu2kxGGeqtAIMq38iN7JnKS1Y/kmoTfYqWxV0GQvuej2
- krhEokJynI8KXyI8u8QUBHbYZobaDqApZZQHq8CuczZtsSYH92bVOEhvNKkYdR4MVrdz
- WjN9YY39rexcT18tPKx1BORtglR8DF7uAnFO3eh+uWB6oPA6/TE2/FS/OUf4lCf17F+k
- ifou1LFvh3lfdivSXjgtawzs+GgkdMY3zBUzhxmKuyb5138aeGmFkg2Vb1V+QCeQ+gOT
- zwuYNTEVK6A3FTRJdbg4SqqkqH8450+RopzwjSe4xwaT6Flwmiud+d8X3HHCPmN1mmVJ
- XjAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BdhCjSy3SqnjWjDLB4IHqxMmPrap4fRlZrofYhguHhQ=;
- b=iwvNhnVOGOyW2xWkmkMaZw2IWQiIZ5RHrNIIC26hy3F6aQLliUj+sM6JGfCT/E5GF2
- MSzZy4A95yrCfmLKA1UZVWQJuWJNvtjV8D/gJLzf9IbbpVMLnjX6iQdg4Rfl5Wh0Sh43
- SWtOJwNtnugOGW5r1nxvCoVW4jNVmYlqFOkBkzyZf7NFs7p42kTOOAW5R75eorbzPXDj
- O6vbEZ8zl0BcIEAfxJPctZxa6pvU2a43BCaPqRqvYwF7SuNEpY3KhIycH0S+A5ul0YYg
- +DEouIpUjpvxE34CIIJcqons5s6Blov3iGFGFOgduWeFZKxINtGDevRrSAkFMccbqevw
- u0Sw==
-X-Gm-Message-State: AFqh2ko27/DdzXd7D+L7NAEe6K9p24/4xUmUo+raO595FJrvG/f8dh5F
- MCECvN7LQEw28w8DC/SjRDhddg==
-X-Google-Smtp-Source: AMrXdXu+nKsOpir3oVd9sIYTS7eJGx8vz6+wj1IeM5SC24ERfXKmFDBCCEcIUoQmMocvOYiZZ7lKnw==
-X-Received: by 2002:a17:906:a393:b0:7c1:1fcf:266c with SMTP id
- k19-20020a170906a39300b007c11fcf266cmr14312899ejz.14.1674200986580; 
- Thu, 19 Jan 2023 23:49:46 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- bi12-20020a170906a24c00b00868ef175e6asm10221725ejb.74.2023.01.19.23.49.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 23:49:45 -0800 (PST)
-Message-ID: <6873374c-d221-534e-7a28-78836c6da4ad@linaro.org>
-Date: Fri, 20 Jan 2023 09:49:44 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6180010E08C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 08:04:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C362461E50;
+ Fri, 20 Jan 2023 08:04:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95B49C433EF;
+ Fri, 20 Jan 2023 08:04:14 +0000 (UTC)
+Message-ID: <26aff75c-8550-957d-ffcd-76b647aaaad9@xs4all.nl>
+Date: Fri, 20 Jan 2023 09:04:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v3] drm/msm/dpu: Reapply CTM if modeset is needed
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20230118233848.611-1-quic_jesszhan@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230118233848.611-1-quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v3 0/7] media/drm: renesas: Add new pixel formats
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,32 +50,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/01/2023 01:38, Jessica Zhang wrote:
-> Add a !drm_atomic_crtc_needs_modeset() check to
-> _dpu_crtc_setup_cp_blocks() so that CTM is reapplied if the LM/DSPP
-> blocks were reallocated during modeset or after a suspend/resume.
+On 21/12/2022 10:24, Tomi Valkeinen wrote:
+> From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > 
-> Changes in V2:
-> - Fixed commit message
+> Hi,
 > 
-> Changes in V3:
-> - Added mention of suspend/resume case back to commit message
+> These add new pixel formats for Renesas V3U and V4H SoCs.
 > 
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/23
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> As the display pipeline is split between DRM and V4L2 components, this
+> series touches both subsystems. I'm sending all these together to
+> simplify review. If needed, I can later split this to V4L2 and DRM
+> parts, of which the V4L2 part needs to be merged first.
+> 
+> Changes in v3:
+> - Addressed all the review comments
+> - Added Y212
+> - Updated the kernel docs for the new formats
+> - Changed the RGB format names to match the DRM's format names
+> - Updated RPF register field macros according to the comments
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+For this series:
 
--- 
-With best wishes
-Dmitry
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Thanks,
+
+	Hans
+
+> 
+>  Tomi
+> 
+> Tomi Valkeinen (7):
+>   media: Add 2-10-10-10 RGB formats
+>   media: Add Y210, Y212 and Y216 formats
+>   media: renesas: vsp1: Change V3U to be gen4
+>   media: renesas: vsp1: Add V4H SoC version
+>   media: renesas: vsp1: Add new formats (2-10-10-10 ARGB, Y210, Y212)
+>   drm: rcar-du: Bump V3U to gen 4
+>   drm: rcar-du: Add new formats (2-10-10-10 ARGB, Y210)
+> 
+>  .../media/v4l/pixfmt-packed-yuv.rst           |  49 ++++-
+>  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 194 ++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c         |   2 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  30 +++
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  50 ++++-
+>  .../media/platform/renesas/vsp1/vsp1_drv.c    |   4 +-
+>  .../media/platform/renesas/vsp1/vsp1_hgo.c    |   4 +-
+>  .../media/platform/renesas/vsp1/vsp1_lif.c    |   1 +
+>  .../media/platform/renesas/vsp1/vsp1_pipe.c   |  18 ++
+>  .../media/platform/renesas/vsp1/vsp1_regs.h   |  26 ++-
+>  .../media/platform/renesas/vsp1/vsp1_rpf.c    |  64 +++++-
+>  .../media/platform/renesas/vsp1/vsp1_video.c  |   4 +-
+>  .../media/platform/renesas/vsp1/vsp1_wpf.c    |   4 +-
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   6 +
+>  include/uapi/linux/videodev2.h                |  11 +
+>  15 files changed, 447 insertions(+), 20 deletions(-)
+> 
 
