@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73069675A42
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 17:41:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A366675A3D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 17:41:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEE7210EAB1;
-	Fri, 20 Jan 2023 16:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9964F10EAAC;
+	Fri, 20 Jan 2023 16:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3704610EAAC;
- Fri, 20 Jan 2023 16:41:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 660E510EAAC;
+ Fri, 20 Jan 2023 16:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674232892; x=1705768892;
+ t=1674232893; x=1705768893;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=K4sks/tWjjU94q+T+5oqy1RrpX6yVaDhq0CWj3DZ+5k=;
- b=FIhEsFfTjIFBUDCVq0h/CoKvCJ1xnfZZJE9bDwH1AcNtGiE7Gd46B3H6
- Al99aqfceK36spkVzFMO32tKkASvrpGzmNussAklEwh58mw7SZWjlQYMV
- He8H65kS8LOst7VE6NVVH3WUZeR+DGDln8gACypkJmT8HukUQfUYLHZmN
- f7X76HQCWyZGT6ZCzSruz9xDCYgqf2aZYKS61Os7VmVNQVUdFQhFriA5a
- vZDyx/Yl9t5OstIKRnopxQyvvIcpkcG4C5SInmXmBRy+koAoKpXjOktoR
- bbqvoq6jXunlQnkQkro0WCGNkF/nrBFEfhEumckq81aJGgrXRXQQ2QlQQ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="325656830"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; d="scan'208";a="325656830"
+ bh=B9MB3zjJZuPl6eTSb0o/zxh2hOkds/UGrCDypYzuaUs=;
+ b=PMYPetDs8tGphXYUWrfX4zg09FosAX/ZH5jX8oHLHu6xt6WLFVqj7ItC
+ 1KsjpMv7MBbgNJUDO5O78uQodvqUn8+tD0B2S0zYh/biQ6tx6Mx2HeC6I
+ d3mcHqOgnhTz7KupN0vo0R6uTip1jVzSlhHJRRRJYihEWh1yrhQelenjc
+ suWQpdHcaL3yj75TIR1eU6g9/WBDOjCZCuEFpIXoXihsEJQRM4XRCQHSe
+ IetHeyBCKAjpLrKO/lklXfp/DhSspVQHnsAOtYgL3fgR6H7OG6hXMX+yd
+ Ot+ohUOPCSg4sg4C8ZSsS6NdvCxngIjTnZf0L4JMsXh03dIn3bShaGMnD g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="325656840"
+X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; d="scan'208";a="325656840"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2023 08:41:32 -0800
+ 20 Jan 2023 08:41:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="749398897"
-X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; d="scan'208";a="749398897"
+X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="749398901"
+X-IronPort-AV: E=Sophos;i="5.97,232,1669104000"; d="scan'208";a="749398901"
 Received: from irvmail001.ir.intel.com ([10.43.11.63])
- by FMSMGA003.fm.intel.com with ESMTP; 20 Jan 2023 08:41:30 -0800
+ by FMSMGA003.fm.intel.com with ESMTP; 20 Jan 2023 08:41:32 -0800
 Received: from mwajdecz-MOBL.ger.corp.intel.com
  (mwajdecz-MOBL.ger.corp.intel.com [10.249.145.153])
  by irvmail001.ir.intel.com (8.14.3/8.13.6/MailSET/Hub) with ESMTP id
- 30KGfEfh023485; Fri, 20 Jan 2023 16:41:30 GMT
+ 30KGfEfi023485; Fri, 20 Jan 2023 16:41:31 GMT
 From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/8] drm/i915/guc: Update GuC messages in
- intel_guc_submission.c
-Date: Fri, 20 Jan 2023 17:40:49 +0100
-Message-Id: <20230120164050.1765-8-michal.wajdeczko@intel.com>
+Subject: [PATCH 8/8] drm/i915/guc: Update GT/GuC messages in intel_uc.c
+Date: Fri, 20 Jan 2023 17:40:50 +0100
+Message-Id: <20230120164050.1765-9-michal.wajdeczko@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20230120164050.1765-1-michal.wajdeczko@intel.com>
 References: <20230120164050.1765-1-michal.wajdeczko@intel.com>
@@ -71,221 +70,210 @@ Use new macros to have common prefix that also include GT#.
 Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 Cc: John Harrison <John.C.Harrison@Intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 60 ++++++++-----------
- 1 file changed, 26 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c | 74 +++++++++++++--------------
+ 1 file changed, 36 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b436dd7f12e4..bb98206304ee 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -27,6 +27,7 @@
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+index 9a8a1abf71d7..e94f0d7119c4 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+@@ -6,11 +6,13 @@
+ #include <linux/string_helpers.h>
  
+ #include "gt/intel_gt.h"
++#include "gt/intel_gt_print.h"
+ #include "gt/intel_reset.h"
+ #include "intel_gsc_fw.h"
+ #include "intel_gsc_uc.h"
+ #include "intel_guc.h"
  #include "intel_guc_ads.h"
- #include "intel_guc_capture.h"
 +#include "intel_guc_print.h"
  #include "intel_guc_submission.h"
+ #include "gt/intel_rps.h"
+ #include "intel_uc.h"
+@@ -67,14 +69,14 @@ static int __intel_uc_reset_hw(struct intel_uc *uc)
  
- #include "i915_drv.h"
-@@ -1443,8 +1444,7 @@ static void guc_init_engine_stats(struct intel_guc *guc)
- 		int ret = guc_action_enable_usage_stats(guc);
+ 	ret = intel_reset_guc(gt);
+ 	if (ret) {
+-		DRM_ERROR("Failed to reset GuC, ret = %d\n", ret);
++		gt_err(gt, "Failed to reset GuC, ret = %d\n", ret);
+ 		return ret;
+ 	}
  
- 		if (ret)
--			drm_err(&gt->i915->drm,
--				"Failed to enable usage stats: %d!\n", ret);
-+			guc_err(guc, "Failed to enable usage stats: %pe\n", ERR_PTR(ret));
+ 	guc_status = intel_uncore_read(gt->uncore, GUC_STATUS);
+-	WARN(!(guc_status & GS_MIA_IN_RESET),
+-	     "GuC status: 0x%x, MIA core expected to be in reset\n",
+-	     guc_status);
++	gt_WARN(gt, !(guc_status & GS_MIA_IN_RESET),
++		"GuC status: 0x%x, MIA core expected to be in reset\n",
++		guc_status);
+ 
+ 	return ret;
+ }
+@@ -252,15 +254,13 @@ static int guc_enable_communication(struct intel_guc *guc)
+ 	intel_guc_ct_event_handler(&guc->ct);
+ 	spin_unlock_irq(gt->irq_lock);
+ 
+-	drm_dbg(&i915->drm, "GuC communication enabled\n");
++	guc_dbg(guc, "communication enabled\n");
+ 
+ 	return 0;
+ }
+ 
+ static void guc_disable_communication(struct intel_guc *guc)
+ {
+-	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
+-
+ 	/*
+ 	 * Events generated during or after CT disable are logged by guc in
+ 	 * via mmio. Make sure the register is clear before disabling CT since
+@@ -280,11 +280,12 @@ static void guc_disable_communication(struct intel_guc *guc)
+ 	 */
+ 	guc_get_mmio_msg(guc);
+ 
+-	drm_dbg(&i915->drm, "GuC communication disabled\n");
++	guc_dbg(guc, "communication disabled\n");
+ }
+ 
+ static void __uc_fetch_firmwares(struct intel_uc *uc)
+ {
++	struct intel_gt *gt = uc_to_gt(uc);
+ 	int err;
+ 
+ 	GEM_BUG_ON(!intel_uc_wants_guc(uc));
+@@ -293,15 +294,13 @@ static void __uc_fetch_firmwares(struct intel_uc *uc)
+ 	if (err) {
+ 		/* Make sure we transition out of transient "SELECTED" state */
+ 		if (intel_uc_wants_huc(uc)) {
+-			drm_dbg(&uc_to_gt(uc)->i915->drm,
+-				"Failed to fetch GuC: %d disabling HuC\n", err);
++			gt_dbg(gt, "Failed to fetch GuC fw (%pe) disabling HuC\n", ERR_PTR(err));
+ 			intel_uc_fw_change_status(&uc->huc.fw,
+ 						  INTEL_UC_FIRMWARE_ERROR);
+ 		}
+ 
+ 		if (intel_uc_wants_gsc_uc(uc)) {
+-			drm_dbg(&uc_to_gt(uc)->i915->drm,
+-				"Failed to fetch GuC: %d disabling GSC\n", err);
++			gt_dbg(gt, "Failed to fetch GuC fw (%pe) disabling GSC\n", ERR_PTR(err));
+ 			intel_uc_fw_change_status(&uc->gsc.fw,
+ 						  INTEL_UC_FIRMWARE_ERROR);
+ 		}
+@@ -382,7 +381,7 @@ static int uc_init_wopcm(struct intel_uc *uc)
+ 	int err;
+ 
+ 	if (unlikely(!base || !size)) {
+-		i915_probe_error(gt->i915, "Unsuccessful WOPCM partitioning\n");
++		gt_probe_error(gt, "Unsuccessful WOPCM partitioning\n");
+ 		return -E2BIG;
+ 	}
+ 
+@@ -413,13 +412,13 @@ static int uc_init_wopcm(struct intel_uc *uc)
+ 	return 0;
+ 
+ err_out:
+-	i915_probe_error(gt->i915, "Failed to init uC WOPCM registers!\n");
+-	i915_probe_error(gt->i915, "%s(%#x)=%#x\n", "DMA_GUC_WOPCM_OFFSET",
+-			 i915_mmio_reg_offset(DMA_GUC_WOPCM_OFFSET),
+-			 intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET));
+-	i915_probe_error(gt->i915, "%s(%#x)=%#x\n", "GUC_WOPCM_SIZE",
+-			 i915_mmio_reg_offset(GUC_WOPCM_SIZE),
+-			 intel_uncore_read(uncore, GUC_WOPCM_SIZE));
++	gt_probe_error(gt, "Failed to init uC WOPCM registers!\n");
++	gt_probe_error(gt, "%s(%#x)=%#x\n", "DMA_GUC_WOPCM_OFFSET",
++		       i915_mmio_reg_offset(DMA_GUC_WOPCM_OFFSET),
++		       intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET));
++	gt_probe_error(gt, "%s(%#x)=%#x\n", "GUC_WOPCM_SIZE",
++		       i915_mmio_reg_offset(GUC_WOPCM_SIZE),
++		       intel_uncore_read(uncore, GUC_WOPCM_SIZE));
+ 
+ 	return err;
+ }
+@@ -451,18 +450,17 @@ static int __uc_check_hw(struct intel_uc *uc)
+ 
+ static void print_fw_ver(struct intel_uc *uc, struct intel_uc_fw *fw)
+ {
+-	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
+-
+-	drm_info(&i915->drm, "%s firmware %s version %u.%u.%u\n",
+-		 intel_uc_fw_type_repr(fw->type), fw->file_selected.path,
+-		 fw->file_selected.ver.major,
+-		 fw->file_selected.ver.minor,
+-		 fw->file_selected.ver.patch);
++	gt_info(uc_to_gt(uc), "%s firmware %s version %u.%u.%u\n",
++		intel_uc_fw_type_repr(fw->type), fw->file_selected.path,
++		fw->file_selected.ver.major,
++		fw->file_selected.ver.minor,
++		fw->file_selected.ver.patch);
+ }
+ 
+ static int __uc_init_hw(struct intel_uc *uc)
+ {
+-	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
++	struct intel_gt *gt = uc_to_gt(uc);
++	struct drm_i915_private *i915 = gt->i915;
+ 	struct intel_guc *guc = &uc->guc;
+ 	struct intel_huc *huc = &uc->huc;
+ 	int ret, attempts;
+@@ -514,8 +512,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+ 		if (ret == 0)
+ 			break;
+ 
+-		DRM_DEBUG_DRIVER("GuC fw load failed: %d; will reset and "
+-				 "retry %d more time(s)\n", ret, attempts);
++		gt_dbg(gt, "GuC fw load failed (%pe) will reset and retry %d more time(s)\n",
++		       ERR_PTR(ret), attempts);
+ 	}
+ 
+ 	/* Did we succeded or run out of retries? */
+@@ -551,10 +549,10 @@ static int __uc_init_hw(struct intel_uc *uc)
+ 
+ 	intel_gsc_uc_load_start(&uc->gsc);
+ 
+-	drm_info(&i915->drm, "GuC submission %s\n",
+-		 str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
+-	drm_info(&i915->drm, "GuC SLPC %s\n",
+-		 str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
++	gt_info(gt, "GuC submission %s\n",
++		str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
++	gt_info(gt, "GuC SLPC %s\n",
++		str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
+ 
+ 	return 0;
+ 
+@@ -572,12 +570,12 @@ static int __uc_init_hw(struct intel_uc *uc)
+ 	__uc_sanitize(uc);
+ 
+ 	if (!ret) {
+-		drm_notice(&i915->drm, "GuC is uninitialized\n");
++		gt_notice(gt, "GuC is uninitialized\n");
+ 		/* We want to run without GuC submission */
+ 		return 0;
+ 	}
+ 
+-	i915_probe_error(i915, "GuC initialization failed %d\n", ret);
++	gt_probe_error(gt, "GuC initialization failed %pe\n", ERR_PTR(ret));
+ 
+ 	/* We want to keep KMS alive */
+ 	return -EIO;
+@@ -690,7 +688,7 @@ void intel_uc_suspend(struct intel_uc *uc)
+ 	with_intel_runtime_pm(&uc_to_gt(uc)->i915->runtime_pm, wakeref) {
+ 		err = intel_guc_suspend(guc);
+ 		if (err)
+-			DRM_DEBUG_DRIVER("Failed to suspend GuC, err=%d", err);
++			gt_dbg(uc_to_gt(uc), "Failed to suspend GuC, %pe", ERR_PTR(err));
  	}
  }
  
-@@ -3585,8 +3585,7 @@ static int guc_request_alloc(struct i915_request *rq)
- 		intel_context_sched_disable_unpin(ce);
- 	else if (intel_context_is_closed(ce))
- 		if (wait_for(context_close_done(ce), 1500))
--			drm_warn(&guc_to_gt(guc)->i915->drm,
--				 "timed out waiting on context sched close before realloc\n");
-+			guc_warn(guc, "timed out waiting on context sched close before realloc\n");
- 	/*
- 	 * Call pin_guc_id here rather than in the pinning step as with
- 	 * dma_resv, contexts can be repeatedly pinned / unpinned trashing the
-@@ -4349,11 +4348,14 @@ static int __guc_action_set_scheduling_policies(struct intel_guc *guc,
+@@ -718,7 +716,7 @@ static int __uc_resume(struct intel_uc *uc, bool enable_communication)
  
- 	ret = intel_guc_send(guc, (u32 *)&policy->h2g,
- 			     __guc_scheduling_policy_action_size(policy));
--	if (ret < 0)
-+	if (ret < 0) {
-+		guc_probe_error(guc, "Failed to configure global scheduling policies: %pe!\n",
-+				ERR_PTR(ret));
- 		return ret;
-+	}
- 
- 	if (ret != policy->count) {
--		drm_warn(&guc_to_gt(guc)->i915->drm, "GuC global scheduler policy processed %d of %d KLVs!",
-+		guc_warn(guc, "global scheduler policy processed %d of %d KLVs!",
- 			 ret, policy->count);
- 		if (ret > policy->count)
- 			return -EPROTO;
-@@ -4367,7 +4369,7 @@ static int guc_init_global_schedule_policy(struct intel_guc *guc)
- 	struct scheduling_policy policy;
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	intel_wakeref_t wakeref;
--	int ret = 0;
-+	int ret;
- 
- 	if (GUC_SUBMIT_VER(guc) < MAKE_GUC_VER(1, 1, 0))
- 		return 0;
-@@ -4385,10 +4387,6 @@ static int guc_init_global_schedule_policy(struct intel_guc *guc)
- 						yield, ARRAY_SIZE(yield));
- 
- 		ret = __guc_action_set_scheduling_policies(guc, &policy);
--		if (ret)
--			i915_probe_error(gt->i915,
--					 "Failed to configure global scheduling policies: %pe!\n",
--					 ERR_PTR(ret));
+ 	err = intel_guc_resume(guc);
+ 	if (err) {
+-		DRM_DEBUG_DRIVER("Failed to resume GuC, err=%d", err);
++		gt_dbg(gt, "Failed to resume GuC, %pe", ERR_PTR(err));
+ 		return err;
  	}
  
- 	return ret;
-@@ -4487,21 +4485,18 @@ g2h_context_lookup(struct intel_guc *guc, u32 ctx_id)
- 	struct intel_context *ce;
- 
- 	if (unlikely(ctx_id >= GUC_MAX_CONTEXT_ID)) {
--		drm_err(&guc_to_gt(guc)->i915->drm,
--			"Invalid ctx_id %u\n", ctx_id);
-+		guc_err(guc, "Invalid ctx_id %u\n", ctx_id);
- 		return NULL;
- 	}
- 
- 	ce = __get_context(guc, ctx_id);
- 	if (unlikely(!ce)) {
--		drm_err(&guc_to_gt(guc)->i915->drm,
--			"Context is NULL, ctx_id %u\n", ctx_id);
-+		guc_err(guc, "Context is NULL, ctx_id %u\n", ctx_id);
- 		return NULL;
- 	}
- 
- 	if (unlikely(intel_context_is_child(ce))) {
--		drm_err(&guc_to_gt(guc)->i915->drm,
--			"Context is child, ctx_id %u\n", ctx_id);
-+		guc_err(guc, "Context is child, ctx_id %u\n", ctx_id);
- 		return NULL;
- 	}
- 
-@@ -4516,7 +4511,7 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 	u32 ctx_id;
- 
- 	if (unlikely(len < 1)) {
--		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
-+		guc_err(guc, "Invalid length %u\n", len);
- 		return -EPROTO;
- 	}
- 	ctx_id = msg[0];
-@@ -4568,7 +4563,7 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
- 	u32 ctx_id;
- 
- 	if (unlikely(len < 2)) {
--		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
-+		guc_err(guc, "Invalid length %u\n", len);
- 		return -EPROTO;
- 	}
- 	ctx_id = msg[0];
-@@ -4580,8 +4575,7 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
- 	if (unlikely(context_destroyed(ce) ||
- 		     (!context_pending_enable(ce) &&
- 		     !context_pending_disable(ce)))) {
--		drm_err(&guc_to_gt(guc)->i915->drm,
--			"Bad context sched_state 0x%x, ctx_id %u\n",
-+		guc_err(guc, "Bad context sched_state 0x%x, ctx_id %u\n",
- 			ce->guc_state.sched_state, ctx_id);
- 		return -EPROTO;
- 	}
-@@ -4669,7 +4663,7 @@ static void guc_handle_context_reset(struct intel_guc *guc,
- 		capture_error_state(guc, ce);
- 		guc_context_replay(ce);
- 	} else {
--		drm_info(&guc_to_gt(guc)->i915->drm,
-+		guc_info(guc,
- 			 "Ignoring context reset notification of exiting context 0x%04X on %s",
- 			 ce->guc_id.id, ce->engine->name);
- 	}
-@@ -4683,7 +4677,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
- 	int ctx_id;
- 
- 	if (unlikely(len != 1)) {
--		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-+		guc_err(guc, "Invalid length %u", len);
- 		return -EPROTO;
- 	}
- 
-@@ -4716,13 +4710,13 @@ int intel_guc_error_capture_process_msg(struct intel_guc *guc,
- 	u32 status;
- 
- 	if (unlikely(len != 1)) {
--		drm_dbg(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-+		guc_dbg(guc, "Invalid length %u", len);
- 		return -EPROTO;
- 	}
- 
- 	status = msg[0] & INTEL_GUC_STATE_CAPTURE_EVENT_STATUS_MASK;
- 	if (status == INTEL_GUC_STATE_CAPTURE_EVENT_STATUS_NOSPACE)
--		drm_warn(&guc_to_gt(guc)->i915->drm, "G2H-Error capture no space");
-+		guc_warn(guc, "G2H-Error capture no space");
- 
- 	intel_guc_capture_process(guc);
- 
-@@ -4765,13 +4759,12 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
- 					 const u32 *msg, u32 len)
- {
- 	struct intel_engine_cs *engine;
--	struct intel_gt *gt = guc_to_gt(guc);
- 	u8 guc_class, instance;
- 	u32 reason;
- 	unsigned long flags;
- 
- 	if (unlikely(len != 3)) {
--		drm_err(&gt->i915->drm, "Invalid length %u", len);
-+		guc_err(guc, "Invalid length %u", len);
- 		return -EPROTO;
- 	}
- 
-@@ -4781,8 +4774,7 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
- 
- 	engine = intel_guc_lookup_engine(guc, guc_class, instance);
- 	if (unlikely(!engine)) {
--		drm_err(&gt->i915->drm,
--			"Invalid engine %d:%d", guc_class, instance);
-+		guc_err(guc, "Invalid engine %d:%d", guc_class, instance);
- 		return -EPROTO;
- 	}
- 
-@@ -4790,7 +4782,7 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
- 	 * This is an unexpected failure of a hardware feature. So, log a real
- 	 * error message not just the informational that comes with the reset.
- 	 */
--	drm_err(&gt->i915->drm, "GuC engine reset request failed on %d:%d (%s) because 0x%08X",
-+	guc_err(guc, "GuC engine reset request failed on %d:%d (%s) because 0x%08X",
- 		guc_class, instance, engine->name, reason);
- 
- 	spin_lock_irqsave(&guc->submission_state.lock, flags);
-@@ -5342,8 +5334,8 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
- 
- 		GEM_BUG_ON(!is_power_of_2(sibling->mask));
- 		if (sibling->mask & ve->base.mask) {
--			DRM_DEBUG("duplicate %s entry in load balancer\n",
--				  sibling->name);
-+			guc_dbg(guc, "duplicate %s entry in load balancer\n",
-+				sibling->name);
- 			err = -EINVAL;
- 			goto err_put;
- 		}
-@@ -5352,8 +5344,8 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
- 		ve->base.logical_mask |= sibling->logical_mask;
- 
- 		if (n != 0 && ve->base.class != sibling->class) {
--			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
--				  sibling->class, ve->base.class);
-+			guc_dbg(guc, "invalid mixing of engine class, sibling %d, already %d\n",
-+				sibling->class, ve->base.class);
- 			err = -EINVAL;
- 			goto err_put;
- 		} else if (n == 0) {
 -- 
 2.25.1
 
