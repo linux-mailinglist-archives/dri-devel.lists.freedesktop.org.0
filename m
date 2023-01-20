@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F8675F4C
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 22:01:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5534675F59
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 22:01:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DED810E3AF;
-	Fri, 20 Jan 2023 21:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1700D10E29C;
+	Fri, 20 Jan 2023 21:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4207210E3A6
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 21:01:25 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id b4so8257882edf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 13:01:25 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0169610E3AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 21:01:27 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id tz11so17109602ejc.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 13:01:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LXpRK66Qxpazw7ZBSDhL2VuarYJmczwhTFpn31yFY6A=;
- b=h0j0tqp1w3CO7sLntH/Nj7Q3502f/+thyrgH/kZl+06qK6bFfQainS6HYKgabaCqZa
- 2SenyT+Zynf64H7S77s/s4ZA7ZPqXiFqgJBPzO6GIf9QgOuopU7d+AvYUgVShhWzUPsa
- ccl3Wgrfy4LY1sxsVXfPKKmjzgHM8nTE/ZjFHhkhRKfpqvECIK0CaDIX75+JOdXE0jQU
- HOG9f3TJau/PDMyyun9j5IlkZ/TqbuQHlFFqqG66fjcSehSWaGKm2m7lwl9z5YEnwli3
- 9TLmbAnSkUxdtRVgJIZL8LY6WH8dJ31ntenfHEcXkAoK78JYd3yzXFCbUv9ttCr2CmVb
- qp8A==
+ bh=vMsCj9RG25O4A3HEOR6OR/jKZMnByaByNeXu250+UU0=;
+ b=UblonUr+s3jct0bytTz09CEi/dhtVtIrCOEUydaKUCV/nj16FhVjCmy54wjNSZm3+J
+ ilMkrDQHn9ekTI+QHM7HysK9lmccuS18P7DqbuUnIAHp1vxkoiUdP8jTxlyGqBHOrApL
+ 95czCWtwnx3dVgFJ9x6Qa6L4CdiFEUuTlrff5BsWS0WB/XvshTs+WnF2fvlcveY2+bRd
+ 8Gs6f4pmBQx6Jytc3dBfH7Ia0NZ8yYgBcDQ463zYzUpU0VtJwUodwawbWHH76FuenpAv
+ 180PMagFbFmzpRk2XcLSTA5IVHgWiciW8XotlLwTP+US0JryCSTsCwqy99RK2ANUZMjK
+ +OZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LXpRK66Qxpazw7ZBSDhL2VuarYJmczwhTFpn31yFY6A=;
- b=iJjlMQpiXFs7pDc977lXrXetKn+rxLlVu7pzIB9hMITaTaMwXNVdbhzUOVnTdkl53d
- oRvJ153Wka448rFYjl6q0ywcfPKgKFcvaGFR5gN8Gjm8BidmjJODLUWoBVwqClxTl3pk
- FRqOOtpJhP9xssEN04MnDSdIXNNy2GU2q4kRuLiXvEFK5BBwaQOiczrywWlJqljYgCB8
- pHSSYh2T9MaAJlp1WySId/H5wMgicGTfFfLJLp+VAUjSlUCZdGlJg+mS1C+L/HMw205F
- Vf66j7a0dbrOk0BlYtScRlCNoH30VkwvIOmAVRudG9muXptOZceim2pw3rKrZz2k+B2T
- lDUw==
-X-Gm-Message-State: AFqh2kqK/SWkLTFRHnft1AOpdgzXV5IPdyvELlhdpZlXy6VExhd+H3un
- hePGpaaP3rOk2IDfCmCiPMPJ1Q==
-X-Google-Smtp-Source: AMrXdXvc3+ZcD59sVWvBuYUWfY+UrxFOxehiFF1cS8qCPTMQQJktRtG9mdhI20ZezkeaPgmLt7Piuw==
-X-Received: by 2002:a05:6402:454:b0:492:8c77:7dad with SMTP id
- p20-20020a056402045400b004928c777dadmr15808302edw.8.1674248483799; 
- Fri, 20 Jan 2023 13:01:23 -0800 (PST)
+ bh=vMsCj9RG25O4A3HEOR6OR/jKZMnByaByNeXu250+UU0=;
+ b=hxvrl23R6qGdVJmpoASOYnyMjDt8b8S7hxdex+kTcOpqu/vEf3NX+O7zet1zDK9YYC
+ oUCNEc3fo9PGtD/EL9lLwfrIi5v9/fNY04FH3USAsUht4JxcEaRaiqruHZGmdx4Njg7+
+ RaTaRjFicOTjEdNp+TrJuEvXbw5yEGpJGX5I3vVytPhdlBkF8vZ8EZKClQtlJYmPb+gO
+ a6VlGCl33XRVMoolG6ZtaiMWe/XOwRh2wFHdRd5NuKoQSl7Ix1BIirD63b1iDAq82C+j
+ xB24gRQ9K6FMIJ5f4TeH5p7tGD3ukfJiSQzNiE1G1958DwLgNsOw5XNcFwicFEnNwHym
+ 9FWQ==
+X-Gm-Message-State: AFqh2ko847GT9UUWKrwWjLmWw/jJMx54u3DP001rnx50vxm+980Bslu+
+ gYhW/mjkyvXG+rh1YtB2QT2UfQ==
+X-Google-Smtp-Source: AMrXdXsnKTMnn8pBggT8wypvx4ly24qXZso6gSXtYC3gBFgndudQ2tx35A3eKs1c9jb4wVpBxKIXeg==
+X-Received: by 2002:a17:906:3610:b0:7c1:8ba7:3182 with SMTP id
+ q16-20020a170906361000b007c18ba73182mr17143993ejb.69.1674248486565; 
+ Fri, 20 Jan 2023 13:01:26 -0800 (PST)
 Received: from localhost.localdomain (abyk37.neoplus.adsl.tpnet.pl.
  [83.9.30.37]) by smtp.gmail.com with ESMTPSA id
- g22-20020a170906595600b0087221268e49sm6581229ejr.186.2023.01.20.13.01.21
+ g22-20020a170906595600b0087221268e49sm6581229ejr.186.2023.01.20.13.01.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 13:01:23 -0800 (PST)
+ Fri, 20 Jan 2023 13:01:26 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
  krzysztof.kozlowski@linaro.org
-Subject: [PATCH 5/8] arm64: dts: qcom: sm8350: Fix DSI PHY compatibles
-Date: Fri, 20 Jan 2023 22:00:57 +0100
-Message-Id: <20230120210101.2146852-5-konrad.dybcio@linaro.org>
+Subject: [PATCH 6/8] arm64: dts: qcom: sm8350: Fix DSI PLL size
+Date: Fri, 20 Jan 2023 22:00:58 +0100
+Message-Id: <20230120210101.2146852-6-konrad.dybcio@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
 References: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
@@ -86,8 +86,8 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The compatibles were wrong, resulting in the driver not probing. Fix
-that.
+As downstream indicates, DSI PLL is actually 0x27c and not 0x260-
+wide. Fix that to reserve the correct registers.
 
 Fixes: d4a4410583ed ("arm64: dts: qcom: sm8350: Add display system nodes")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
@@ -96,27 +96,27 @@ Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-index c964d939289b..22bf6239c757 100644
+index 22bf6239c757..b09eb8880376 100644
 --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-@@ -3038,7 +3038,7 @@ dsi0_out: endpoint {
- 			};
- 
- 			mdss_dsi0_phy: phy@ae94400 {
--				compatible = "qcom,dsi-phy-5nm-8350";
-+				compatible = "qcom,sm8350-dsi-phy-5nm";
+@@ -3041,7 +3041,7 @@ mdss_dsi0_phy: phy@ae94400 {
+ 				compatible = "qcom,sm8350-dsi-phy-5nm";
  				reg = <0 0x0ae94400 0 0x200>,
  				      <0 0x0ae94600 0 0x280>,
- 				      <0 0x0ae94900 0 0x260>;
-@@ -3135,7 +3135,7 @@ dsi1_out: endpoint {
- 			};
- 
- 			mdss_dsi1_phy: phy@ae96400 {
--				compatible = "qcom,dsi-phy-5nm-8350";
-+				compatible = "qcom,sm8350-dsi-phy-5nm";
+-				      <0 0x0ae94900 0 0x260>;
++				      <0 0x0ae94900 0 0x27c>;
+ 				reg-names = "dsi_phy",
+ 					    "dsi_phy_lane",
+ 					    "dsi_pll";
+@@ -3138,7 +3138,7 @@ mdss_dsi1_phy: phy@ae96400 {
+ 				compatible = "qcom,sm8350-dsi-phy-5nm";
  				reg = <0 0x0ae96400 0 0x200>,
  				      <0 0x0ae96600 0 0x280>,
- 				      <0 0x0ae96900 0 0x260>;
+-				      <0 0x0ae96900 0 0x260>;
++				      <0 0x0ae96900 0 0x27c>;
+ 				reg-names = "dsi_phy",
+ 					    "dsi_phy_lane",
+ 					    "dsi_pll";
 -- 
 2.39.1
 
