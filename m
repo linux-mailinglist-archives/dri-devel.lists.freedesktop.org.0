@@ -1,73 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98258675234
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 11:19:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D44675246
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 11:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7402510E0DF;
-	Fri, 20 Jan 2023 10:19:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C73210E0E8;
+	Fri, 20 Jan 2023 10:22:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D56510E0DF
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 10:19:01 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id q10so4420387wrs.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 02:19:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=d8BcJzXSs607af8t7kqUBgjRke129BH5lCDD+YUTH7w=;
- b=LpfSiNltaoV7bWfi3yQR6wIwTKqlLH7Cjtwa/XneNU61Ua5EWCgWLAmqQW4ko0k8hT
- 7nuNnorRsj8t9/48i19w6P2TUdPkm4CyGE2Yz2+MfpMRt0T7BdOQ55DOkkwsEVlOCXzE
- hS5JDPHJU3BA2gZU16GZAw37kzK3q/u9bQQ0UtRPyu/TLBIhpD6usPD828f08UdUSxXS
- YySKUR3JB5bmEdzRIKnZps+lJwVscq4/xFDjvBmGNpVL0ybJO9d2/TfrNZYppcH6tnfS
- GxiR3AYWsyaulrms7NLKr3R/Ms8Bs/W4errDUbskI+8/qTbdpiSCp4oZIPL+CCIB5nEp
- T9WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=d8BcJzXSs607af8t7kqUBgjRke129BH5lCDD+YUTH7w=;
- b=C16C/xALAtK9qRkrUoDnAyAqV3E/q5c8+3OE+N/XDWMZ4RJu3WfHEv1WeJ1/5V2xc9
- o2bNkVeRImGVtOlQXlE3Jb1n9I/8r81CyaXEwBVbOYGSC7hJtA37DFU3Ltc80mn9wu8T
- uuZ4EAm7gFQAk8tUu1UIwZmAmi5Y8YKEdxhG3Ph+fFw9OeBCaJt4a19vc2v6yHWvxn3/
- jf3fQ7vbVu75JdghqaKOsV+DddTVpRD3Q8WNdtP3URikfDG4Sh7GNVK8g8/K85rz7pFz
- jb7j0AQVUOZPxNoP3Fi73DQEcKy5HdMpT4KVr1omSQe6KHGTaT88UHRgGwQ9Xp5Mwv8P
- +dMA==
-X-Gm-Message-State: AFqh2kpY2UtpndzZvtXy78yAkJfZEMA0tyWk4HUDM5lGKqujj+JCd3fP
- 5mFB1uAb22eFNGGKMWefadG8ww==
-X-Google-Smtp-Source: AMrXdXuKdhKIqJEou6IJmM5yvUMjMnUD67NRnsbGkBHfaQP6Ex2vg3VDK1+5I1ULAcU+W6HSfx0aeA==
-X-Received: by 2002:adf:f0cd:0:b0:2bd:d783:377 with SMTP id
- x13-20020adff0cd000000b002bdd7830377mr12934188wro.22.1674209939686; 
- Fri, 20 Jan 2023 02:18:59 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- r9-20020adff709000000b00291f1a5ced6sm14862170wrp.53.2023.01.20.02.18.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 02:18:59 -0800 (PST)
-Message-ID: <a9c47e2f-aacb-4c8f-3a0b-67274ef15376@linaro.org>
-Date: Fri, 20 Jan 2023 11:18:56 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 467B310E0E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 10:22:50 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D9DA9660230B;
+ Fri, 20 Jan 2023 10:22:48 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1674210169;
+ bh=ptuRG7LsHsZU+oAQngzoPiiWincIk39cXkLHaUC2kH4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=aguffQLM2OByZw7hYXQQsNkRpGNUop95upx6HL0+VNyx2geBnfNqmKDkfm8o62Le0
+ pwo/nZquimhIuwVefdXM2IoMjYgw00WAU1hk8oN/dv+DE2O7z1sFT26kZtvOCoSjTT
+ VM2L4kGi0IAZZnXSzD/U9TgDhFocasHvYGutEF3uyPfdirZ6czeG0AVJGY+SF5e4P2
+ +92ZYVZzSLyFJ8Z2TJgVaKT0CWrN0fbhvkgi7l7CsW8ydBIrB3ONqhb2IUlc6S1bkB
+ 8jIZ6wezoyDPjds5luE8Zfldya1mUFcrhGGuT6vlenyrSQwNuDt9smC6eaHf+M8Xhr
+ bdsVgQIWOF9ag==
+Date: Fri, 20 Jan 2023 11:22:45 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH drm-next 13/14] drm/nouveau: implement new VM_BIND UAPI
+Message-ID: <20230120112245.0fc88338@collabora.com>
+In-Reply-To: <Y8lx7nAh/PEqiWSl@DUT025-TGLU.fm.intel.com>
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-14-dakr@redhat.com>
+ <e371e8a1-88f8-1309-07ca-f48f4157fec8@shipmail.org>
+ <8e10b46c-f934-8eee-904e-b3d8a7644a71@redhat.com>
+ <Y8jOCE/PyNZ2Z6aX@DUT025-TGLU.fm.intel.com>
+ <6f7d3389-aaf7-ce79-afbb-76abc446d442@redhat.com>
+ <Y8lx7nAh/PEqiWSl@DUT025-TGLU.fm.intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v7 1/2] dt-bindings: leds: backlight: Add Kinetic KTZ8866
- backlight
-Content-Language: en-US
-To: Jianhua Lu <lujianhua000@gmail.com>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Helge Deller <deller@gmx.de>
-References: <20230120094728.19967-1-lujianhua000@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230120094728.19967-1-lujianhua000@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,99 +58,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Danilo Krummrich <dakr@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/01/2023 10:47, Jianhua Lu wrote:
-> Add Kinetic KTZ8866 backlight binding documentation.
-> 
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
-> Changes in v2:
->   - Remove "items" between "compatible" and "const: kinetic,ktz8866".
->   - Change "additionalProperties" to "unevaluatedProperties".
-> 
-> Changes in v3:
->   - Add Krzysztof's R-b.
-> 
-> Changes in v4:
->   - Drop Krzysztof's R-b.
->   - Add some new properties.
-> 
-> Changes in v5:
->   - Add missing enum under property description.
->   - Rename uncorrect properties.
-> 
-> Changes in v6:
->   - Correct wrong property suffix and description.
-> 
-> Changes in v7:
->   - Add vddpos and vddeg supply.
->   - Use enable-gpios instead of defining enable pin.
-> 
->  .../leds/backlight/kinetic,ktz8866.yaml       | 74 +++++++++++++++++++
->  1 file changed, 74 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> new file mode 100644
-> index 000000000000..b1d0ade0dfb6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/kinetic,ktz8866.yaml
-> @@ -0,0 +1,74 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/kinetic,ktz8866.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Kinetic Technologies KTZ8866 backlight
-> +
-> +maintainers:
-> +  - Jianhua Lu <lujianhua000@gmail.com>
-> +
-> +description: |
-> +  The Kinetic Technologies KTZ8866 is a high efficiency 6-channels-current-sinks
-> +  led backlight with dual lcd bias power.
-> +  https://www.kinet-ic.com/ktz8866/
-> +
-> +allOf:
-> +  - $ref: common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: kinetic,ktz8866
-> +
-> +  vddpos-supply:
-> +    description: positive boost supply regulator.
-> +
-> +  vddneg-supply:
-> +    description: negative boost supply regulator.
-> +
-> +  enable-gpios:
-> +    description: GPIO to use to enable/disable the backlight (HWEN pin).
-> +    maxItems: 1
-> +
-> +  current-num-sinks:
-> +    description: number of the LED current sinks' channels.
-> +    enum: [1, 2, 3, 4, 5, 6]
-> +
-> +  current-ramping-time-ms:
-> +    description: LED current ramping time in milliseconds.
-> +    enum: [2, 4, 8, 16, 32, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640]
+On Thu, 19 Jan 2023 16:38:06 +0000
+Matthew Brost <matthew.brost@intel.com> wrote:
 
-kinetic,current-ramp-delay-ms
+> On Thu, Jan 19, 2023 at 04:36:43PM +0100, Danilo Krummrich wrote:
+> > On 1/19/23 05:58, Matthew Brost wrote: =20
+> > > On Thu, Jan 19, 2023 at 04:44:23AM +0100, Danilo Krummrich wrote: =20
+> > > > On 1/18/23 21:37, Thomas Hellstr=C3=B6m (Intel) wrote: =20
+> > > > >=20
+> > > > > On 1/18/23 07:12, Danilo Krummrich wrote: =20
+> > > > > > This commit provides the implementation for the new uapi motiva=
+ted by the
+> > > > > > Vulkan API. It allows user mode drivers (UMDs) to:
+> > > > > >=20
+> > > > > > 1) Initialize a GPU virtual address (VA) space via the new
+> > > > > >  =C2=A0=C2=A0=C2=A0 DRM_IOCTL_NOUVEAU_VM_INIT ioctl for UMDs to=
+ specify the portion of VA
+> > > > > >  =C2=A0=C2=A0=C2=A0 space managed by the kernel and userspace, =
+respectively.
+> > > > > >=20
+> > > > > > 2) Allocate and free a VA space region as well as bind and unbi=
+nd memory
+> > > > > >  =C2=A0=C2=A0=C2=A0 to the GPUs VA space via the new DRM_IOCTL_=
+NOUVEAU_VM_BIND ioctl.
+> > > > > >  =C2=A0=C2=A0=C2=A0 UMDs can request the named operations to be=
+ processed either
+> > > > > >  =C2=A0=C2=A0=C2=A0 synchronously or asynchronously. It support=
+s DRM syncobjs
+> > > > > >  =C2=A0=C2=A0=C2=A0 (incl. timelines) as synchronization mechan=
+ism. The management of the
+> > > > > >  =C2=A0=C2=A0=C2=A0 GPU VA mappings is implemented with the DRM=
+ GPU VA manager.
+> > > > > >=20
+> > > > > > 3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioc=
+tl. The
+> > > > > >  =C2=A0=C2=A0=C2=A0 execution happens asynchronously. It suppor=
+ts DRM syncobj (incl.
+> > > > > >  =C2=A0=C2=A0=C2=A0 timelines) as synchronization mechanism. DR=
+M GEM object locking is
+> > > > > >  =C2=A0=C2=A0=C2=A0 handled with drm_exec.
+> > > > > >=20
+> > > > > > Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC, use=
+ the DRM
+> > > > > > GPU scheduler for the asynchronous paths.
+> > > > > >=20
+> > > > > > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+> > > > > > ---
+> > > > > >  =C2=A0 Documentation/gpu/driver-uapi.rst=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/Kbuild=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/nouveau_abi16.c |=C2=A0 16 +
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/nouveau_abi16.h |=C2=A0=C2=A0 1=
+ +
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/nouveau_drm.c=C2=A0=C2=A0 |=C2=
+=A0 23 +-
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/nouveau_drv.h=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 9 +-
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/nouveau_exec.c=C2=A0 | 310 ++++=
+++++++
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/nouveau_exec.h=C2=A0 |=C2=A0 55=
+ ++
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/nouveau_sched.c | 780 +++++++++=
++++++++++++++++
+> > > > > >  =C2=A0 drivers/gpu/drm/nouveau/nouveau_sched.h |=C2=A0 98 +++
+> > > > > >  =C2=A0 11 files changed, 1295 insertions(+), 4 deletions(-)
+> > > > > >  =C2=A0 create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec=
+.c
+> > > > > >  =C2=A0 create mode 100644 drivers/gpu/drm/nouveau/nouveau_exec=
+.h
+> > > > > >  =C2=A0 create mode 100644 drivers/gpu/drm/nouveau/nouveau_sche=
+d.c
+> > > > > >  =C2=A0 create mode 100644 drivers/gpu/drm/nouveau/nouveau_sche=
+d.h =20
+> > > > > ... =20
+> > > > > >=20
+> > > > > > +static struct dma_fence *
+> > > > > > +nouveau_bind_job_run(struct nouveau_job *job)
+> > > > > > +{
+> > > > > > +=C2=A0=C2=A0=C2=A0 struct nouveau_bind_job *bind_job =3D to_no=
+uveau_bind_job(job);
+> > > > > > +=C2=A0=C2=A0=C2=A0 struct nouveau_uvmm *uvmm =3D nouveau_cli_u=
+vmm(job->cli);
+> > > > > > +=C2=A0=C2=A0=C2=A0 struct bind_job_op *op;
+> > > > > > +=C2=A0=C2=A0=C2=A0 int ret =3D 0;
+> > > > > > + =20
+> > > > >=20
+> > > > > I was looking at how nouveau does the async binding compared to h=
+ow xe
+> > > > > does it.
+> > > > > It looks to me that this function being a scheduler run_job callb=
+ack is
+> > > > > the main part of the VM_BIND dma-fence signalling critical sectio=
+n for
+> > > > > the job's done_fence and if so, needs to be annotated as such? =20
+> > > >=20
+> > > > Yes, that's the case.
+> > > >  =20
+> > > > >=20
+> > > > > For example nouveau_uvma_region_new allocates memory, which is not
+> > > > > allowed if in a dma_fence signalling critical section and the loc=
+king
+> > > > > also looks suspicious? =20
+> > > >=20
+> > > > Thanks for pointing this out, I missed that somehow.
+> > > >=20
+> > > > I will change it to pre-allocate new regions, mappings and page tab=
+les
+> > > > within the job's submit() function.
+> > > >  =20
+> > >=20
+> > > Yea that what we basically do in Xe, in the IOCTL step allocate all t=
+he
+> > > backing store for new page tables, populate new page tables (these are
+> > > not yet visible in the page table structure), and in last step which =
+is
+> > > executed after all the dependencies are satified program all the leaf
+> > > entires making the new binding visible.
+> > >=20
+> > > We screwed have this up by defering most of the IOCTL to a worker but
+> > > will fix this fix this one way or another soon - get rid of worker or
+> > > introduce a type of sync that is signaled after the worker + publish =
+the
+> > > dma-fence in the worker. I'd like to close on this one soon. =20
+> > > > For the ops structures the drm_gpuva_manager allocates for reportin=
+g the
+> > > > split/merge steps back to the driver I have ideas to entirely avoid
+> > > > allocations, which also is a good thing in respect of Christians fe=
+edback
+> > > > regarding the huge amount of mapping requests some applications see=
+m to
+> > > > generate.
+> > > >  =20
+> > >=20
+> > > It should be fine to have allocations to report the split/merge step =
+as
+> > > this step should be before a dma-fence is published, but yea if possi=
+ble
+> > > to avoid extra allocs as that is always better. =20
+> >=20
+> > I think we can't really ask for the split/merge steps before actually
+> > running the job, since it requires the particular VA space not to change
+> > while performing those operations.
+> >=20
+> > E.g. if we'd run the split/merge steps at job submit() time the underly=
+ing
+> > VA space could be changed by other bind jobs executing before this one,
+> > which would make the calculated split/merge steps obsolete and wrong.
+> >  =20
+>=20
+> Hmm, maybe I'm not understanding this implementation, admittedly I
+> haven't studied the gpuva manager code in detail.
+>=20
+> Let me explain what we are doing in Xe.
+>=20
+> Map 0x0000 - 0x3000 -> this resolves into 1 bind operation and 1 VMA
+> Unmap 0x1000-0x2000 -> this resolves into 1 unbind and 2 rebind operations
+>=20
+> 1. unbind 0x0000-0x3000 -> destroy old VMA
+> 2. rebind 0x0000-0x1000 -> new VMA
+> 3. rebind 0x2000-0x3000 -> new VMA
+>=20
+> All of the above steps resolving the operations can be done in the IOCTL
+> phase and VM's VMA structure is also updated. When the dependencies
+> are resolved the actual bindings are done on the GPU. We use the BO's
+> dma-resv slots to ensure there is never a window 0x0000-0x1000 and
+> 0x2000-0x3000 are never mapped with respect to execs (I forget the exact
+> details of how we do this but if you want to know I'll explain further).
+>=20
 
-> +
-> +  led-ramping-time-ms:
-
-kinetic,led-enable-ramp-delay-ms
-
-So both are similar to existing regulator properties.
-
-Best regards,
-Krzysztof
-
+Ok, so I've been contemplating the idea of pre-reserving memory for any
+future page-table updates, so I can guarantee the bind/unbind op in
+->run_job() never fails (that's actually made more complicated in my
+case, because we don't directly control the page table updates, but
+defer that to the iommu/iopagetbl framework which does the allocation,
+so I didn't really go as far as you did). But with bind ops happening in
+a queue with dependencies to wait on, guessing what the page-table will
+look like is a bit challenging. Sure, we can pre-allocate pages for all
+levels needed to reach the leaf node(s) we're trying to insert or plan
+for the worst case scenario in case of 2MB -> 4K block splits for
+partial unmaps, but it sounds like a lot of memory reservation,
+especially if we get lot of bind requests queued. Just curious to hear
+how you solved that.
