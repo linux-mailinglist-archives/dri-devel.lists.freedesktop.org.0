@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262ED675F43
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 22:01:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C66675F46
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 22:01:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80D2610E3A6;
-	Fri, 20 Jan 2023 21:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4E310E3AA;
+	Fri, 20 Jan 2023 21:01:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF3610E29C
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 21:01:20 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id ud5so17024830ejc.4
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 13:01:20 -0800 (PST)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1E110E3A7
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 21:01:23 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id u19so16963477ejm.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 13:01:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HZI0mGZqPWNWXo10nShEsAnlud3zWKZXf/8L1lgJABU=;
- b=VKHyVpdfr1VP8s+ttJ18P1ptwa5pjtcz8Pd4A71OK+zYUz7QfN9HCLCaEf6v3vXD7I
- Po3EdOboLWrqsQe68s4V9be5TB/HvlFC2v6PCuE6NoX7JMgveySJRdFlTCGWkcrZG2C6
- Lgb8KW+orzRBZe6Wp0GI+CVCYgOMUUs6Jvxte9riSrqcGxlIsoF87FAE+e5L43I7+VrK
- 6Qyv4kFRgi92nF1tKNB/YiDiEbBc7Uz8KKacz0fKEerLTYk6fOVjnmNv19GF98gEBCtL
- wpPKK6yjdp7zyJ98+Z+ciRWf66F6mQRhNfeObR+D3eSYK1bosWkpGjqPXolURzJLg6fM
- wIMA==
+ bh=Veplr5IplpsIE+N/JtztnF6OOoAX9f7YpVDcqrasHfM=;
+ b=Xls9h+sYxcvDr5UTEpAeFZMPxFyMeCNqBGGV7vygDNLUNL+XxP8sxdaL1TXOzP/NEN
+ Uba+eSQOUlOscqZ/ysX0/G5a1PQ58eo9JjVOlhlPMK/JkjAzoZOlVJxs9jxTAznK/4bQ
+ gmF6latMIRPTBp5X0pDHLu38t4lZ6w/XmXKhiMfd1FkNwFt+dgjjL4fz6XO4u9RA6mV6
+ YIRr81WWZJLEKILxG/vyq2gkFliFC5fQN2l+Qo3oIVFcX4v2/i7L17WA8U2N/bOtXnr4
+ d/2lSTaYG+BmxoJYIjbM4J6IYAIxNytRW/c44R03mmcWJY7gHAwPvqw64COrjEHf2Tbd
+ yYqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HZI0mGZqPWNWXo10nShEsAnlud3zWKZXf/8L1lgJABU=;
- b=LgFUTY6NoazZCoAoZpKwHiS2i3egdHh1HMXkIX+jzmwhrnUx96fvim3OD07Ht1zbwF
- +yrKDKBbW78bP2pOU4M211eDRevIvP7BeGhCQQbN1fAUMHxY6Guan2KhkOT/WyIdXsp0
- EK3x7CqEpWoURTKEUv6Nj4D1+hSkkdtTvLRJcyc6hUMAECZnmnXaB8nGVmOI2Nj0rh5Q
- CM4twqtbTWtyR0TEgIr8FxuChXpckNGBLm0eP7R1PRQqgPwUsyB9neTEIY+bfzWpfdM6
- S6dJKI/td4x4KxQo9QJcDcjkyXBkNUkI6EL2bgxL6wbIGS3iWq9zOtu0mEwVgt0V2VfI
- +1wg==
-X-Gm-Message-State: AFqh2kr3OXENvf2F0WJdJArkCoxfQr25NNSwRa+vg2MV35Xs9tPqRUxJ
- eCQK9/WLi9U1YpKe2EMKyBQbbw==
-X-Google-Smtp-Source: AMrXdXtGHb97GiTH9eM7hMgq/1duL22/HTOfybkpkkSEk6RfbLNX2jepelJYZxwPa5Um3RKUWXJi6Q==
-X-Received: by 2002:a17:906:1605:b0:872:41a5:7c78 with SMTP id
- m5-20020a170906160500b0087241a57c78mr21938890ejd.3.1674248478851; 
- Fri, 20 Jan 2023 13:01:18 -0800 (PST)
+ bh=Veplr5IplpsIE+N/JtztnF6OOoAX9f7YpVDcqrasHfM=;
+ b=eoRcMQFo+UWCMy0Lu/OYKLE6SMKpaYKtS/K5SWdZX9FfeKrk/s+Cg8fUKXCgQ2isuV
+ nG3F5jqnk8F7nJ7WJF47vd8r2UrrC+jHwKSR86AuRiz+mqCEWIfcWPN2nbLhEPuJXveJ
+ yCRP66g9ZxcOzcaTofxS5PgjEp0DuRzYZoVUbbUDunVPrNQVv6D0oHlsZD7dGVvnJEVE
+ lqMtQiQ4jr/0zRR+houTsEHlf38U2fmPWmd3WTJHsxAxYNXa1h8NTUSkkeQuoS4CRHRK
+ 5jXDYk5EF9RrYH51jGk7lnPTxiOUN4BIhDgmJAV/HXaWJJqHll24zCuwoHp26ct+HJdw
+ i79A==
+X-Gm-Message-State: AFqh2koqNyHLBQJKfP9B3c0uyHm5B0mnAE5epBHpGdasS9Y7b37OSuVm
+ 57B2etUSAlbqYxm3DlGRIAXnvQ==
+X-Google-Smtp-Source: AMrXdXsGSpMHspdo9UKJBzUTwC3A7SP/koad8iFC23sChS1yCaQRgkl0iJPOCJHE71sUkuP+nLdtKg==
+X-Received: by 2002:a17:906:5f82:b0:871:45b2:19fb with SMTP id
+ a2-20020a1709065f8200b0087145b219fbmr16125826eju.25.1674248481420; 
+ Fri, 20 Jan 2023 13:01:21 -0800 (PST)
 Received: from localhost.localdomain (abyk37.neoplus.adsl.tpnet.pl.
  [83.9.30.37]) by smtp.gmail.com with ESMTPSA id
- g22-20020a170906595600b0087221268e49sm6581229ejr.186.2023.01.20.13.01.15
+ g22-20020a170906595600b0087221268e49sm6581229ejr.186.2023.01.20.13.01.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 13:01:18 -0800 (PST)
+ Fri, 20 Jan 2023 13:01:21 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
  krzysztof.kozlowski@linaro.org
-Subject: [PATCH 3/8] arm64: dts: qcom: sm8350: Fix DSI1 interrupt
-Date: Fri, 20 Jan 2023 22:00:55 +0100
-Message-Id: <20230120210101.2146852-3-konrad.dybcio@linaro.org>
+Subject: [PATCH 4/8] arm64: dts: qcom: sm8350: Feed DSI1 PHY clocks to DISPCC
+Date: Fri, 20 Jan 2023 22:00:56 +0100
+Message-Id: <20230120210101.2146852-4-konrad.dybcio@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
 References: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
@@ -86,7 +86,7 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The interrupt was wrong, likely copypasted from DSI0. Fix it.
+This was omitted but is necessary for DSI1 to function. Fix it.
 
 Fixes: d4a4410583ed ("arm64: dts: qcom: sm8350: Add display system nodes")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
@@ -95,18 +95,18 @@ Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-index c0ba67747c24..ed0106829cb9 100644
+index ed0106829cb9..c964d939289b 100644
 --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-@@ -3062,7 +3062,7 @@ mdss_dsi1: dsi@ae96000 {
- 				reg-names = "dsi_ctrl";
- 
- 				interrupt-parent = <&mdss>;
--				interrupts = <4>;
-+				interrupts = <5>;
- 
- 				clocks = <&dispcc DISP_CC_MDSS_BYTE1_CLK>,
- 					 <&dispcc DISP_CC_MDSS_BYTE1_INTF_CLK>,
+@@ -3159,7 +3159,7 @@ dispcc: clock-controller@af00000 {
+ 			reg = <0 0x0af00000 0 0x10000>;
+ 			clocks = <&rpmhcc RPMH_CXO_CLK>,
+ 				 <&mdss_dsi0_phy 0>, <&mdss_dsi0_phy 1>,
+-				 <0>, <0>,
++				 <&mdss_dsi1_phy 0>, <&mdss_dsi1_phy 1>,
+ 				 <0>,
+ 				 <0>;
+ 			clock-names = "bi_tcxo",
 -- 
 2.39.1
 
