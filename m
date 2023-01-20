@@ -1,66 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35976675114
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 10:28:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B0A675161
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jan 2023 10:41:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0FD410E93F;
-	Fri, 20 Jan 2023 09:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9B2010E9FC;
+	Fri, 20 Jan 2023 09:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B57910E93F
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:28:45 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so5379272wml.3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 01:28:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=csxV7SBcRMOtyGwXXr6VYNEIrNsBq0mzq7uR5oLy8sw=;
- b=VYpnC/cOlpiHsNoVzbSFm5Pp66EorTVLht/M0vNOywX6Jw6WZGYBYlLa4V+WQGI2TX
- 3lhve4nIMd91sJcMEMKN+7W0JPNrdfo1qYfCUktVTqjJuopusR3wrPB2pA4/HLpIIrEw
- FmFzPYhL7p23K2XPFxqOL8mgkV6g9jASqSe1WYwSguYIOnyYjoLDbytDLibSkJ+E1ahV
- CKYRL7mJ+4OTnR9e8cCaq4r60zv0UvR/ShCGhiTxmUC0Z3L1xmLCcNi3RnZyNqIeADHN
- EKVQYhkbOVNCm8kSkDfb5KLFu7dlM3yW4mu3jrcZ2D/mFR/HqAtrVUPfw2kksem9BmjX
- rIoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=csxV7SBcRMOtyGwXXr6VYNEIrNsBq0mzq7uR5oLy8sw=;
- b=pcvSugAua+CeXMKR5sf/CnSqPQSdzY5BK5za2FF0Be/nGz1LJpPlTNQDKiv+l8LrIC
- dA7CnjiGaud612TphYdnuB03jfHgvi8jI6HkeTkMU2yo3lNfuaSUXjv2BFfEOdImGBiO
- VJquH6bUnaqfDGBcIGnKAcU53Feb7sjKtLcplUCyqxCWHwP0OuX0GXm9OUnxtEuIAz8k
- /qH3uU2+MweG4bQu7BWqFs2j/TOXHBa6j+TGNRieqq2+5AvsVCbISkRfnJ1bz2jnrJaO
- nqmJV8fzabiSymTrL9uGmvap/MCebvs227nGNseWpzeHKKeJWjlU26L1tMItt7wXp7mJ
- gpCA==
-X-Gm-Message-State: AFqh2krTcGh8/VgcMsCsG6yhBS0LM+qxfyyW1AIGoKbC8i8qfCQcRtd/
- VTB5ycxqX5o6m4KJudENsZc=
-X-Google-Smtp-Source: AMrXdXtAnv1VnjoW886QL9Vu3rdysDqbLp9waCd/Qgh+W86DERrCHcfZk/wkz5cU7w1CwOKs5L0/Vw==
-X-Received: by 2002:a05:600c:54eb:b0:3da:2090:d404 with SMTP id
- jb11-20020a05600c54eb00b003da2090d404mr13381883wmb.18.1674206923943; 
- Fri, 20 Jan 2023 01:28:43 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- d19-20020a05600c34d300b003a6125562e1sm1675318wmq.46.2023.01.20.01.28.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 01:28:43 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] accel/ivpu: Fix spelling mistake "tansition" ->
- "transition"
-Date: Fri, 20 Jan 2023 09:28:42 +0000
-Message-Id: <20230120092842.79238-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81ECF10E9FC
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jan 2023 09:41:27 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1pInth-0006vW-Qz; Fri, 20 Jan 2023 10:41:21 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1pIntd-00064S-Gh; Fri, 20 Jan 2023 10:41:17 +0100
+Date: Fri, 20 Jan 2023 10:41:17 +0100
+From: "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
+Subject: Re: [PATCH 1/3] drm/rockchip: lvds: add rk3568 support
+Message-ID: <20230120094117.GM24755@pengutronix.de>
+References: <20230119184807.171132-1-a1ba.omarov@gmail.com>
+ <20230119184807.171132-2-a1ba.omarov@gmail.com>
+ <20230120091641.GL24755@pengutronix.de>
+ <9fe2678da0ae10e6996889971a3137799a68c4b9.camel@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <9fe2678da0ae10e6996889971a3137799a68c4b9.camel@siemens.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,39 +57,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: "pgwipeout@gmail.com" <pgwipeout@gmail.com>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "frank-w@public-files.de" <frank-w@public-files.de>,
+ "hjc@rock-chips.com" <hjc@rock-chips.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "frattaroli.nicolas@gmail.com" <frattaroli.nicolas@gmail.com>,
+ "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "michael.riesch@wolfvision.net" <michael.riesch@wolfvision.net>,
+ "macromorgan@hotmail.com" <macromorgan@hotmail.com>,
+ "ezequiel@vanguardiasur.com.ar" <ezequiel@vanguardiasur.com.ar>,
+ "a1ba.omarov@gmail.com" <a1ba.omarov@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are spelling mistakes in two ivpu_err error messages. Fix them.
+On Fri, Jan 20, 2023 at 09:31:43AM +0000, Sverdlin, Alexander wrote:
+> Hello Sascha,
+> 
+> On Fri, 2023-01-20 at 10:16 +0100, Sascha Hauer wrote:
+> > > +       /* Enable LVDS mode */
+> > > +       return regmap_update_bits(lvds->grf, RK3568_GRF_VO_CON2,
+> > > +                                 RK3568_LVDS0_MODE_EN(1),
+> > > +                                 RK3568_LVDS0_MODE_EN(1));
+> > 
+> > Isn't this the same as:
+> > 
+> >         regmap_write(lvds->grf, RK3568_GRF_VO_CON2,
+> > RK3568_LVDS0_MODE_EN(1));
+> > 
+> > Unless I am missing something I find a plain regmap_write() easier to
+> > read.
+> 
+> the former is setting a bit in a RMW operation, the latter is a plain
+> write, isn't it?
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/accel/ivpu/ivpu_hw_mtl.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+That's right from the view what the function itself does. Note the
+registers that are accessed here are a bit special. They effectively
+are 16bit wide, the upper 16bit contain a mask. Only the bits set in the
+mask are actually modified in the lower bits. See the register bit
+definitions:
 
-diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
-index b59b1f472b40..62bfaa9081c4 100644
---- a/drivers/accel/ivpu/ivpu_hw_mtl.c
-+++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
-@@ -608,7 +608,7 @@ static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
- 
- 	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
- 	if (ret) {
--		ivpu_err(vdev, "Failed to sync before D0i3 tansition: %d\n", ret);
-+		ivpu_err(vdev, "Failed to sync before D0i3 transition: %d\n", ret);
- 		return ret;
- 	}
- 
-@@ -621,7 +621,7 @@ static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
- 
- 	ret = REGB_POLL_FLD(MTL_BUTTRESS_VPU_D0I3_CONTROL, INPROGRESS, 0, TIMEOUT_US);
- 	if (ret)
--		ivpu_err(vdev, "Failed to sync after D0i3 tansition: %d\n", ret);
-+		ivpu_err(vdev, "Failed to sync after D0i3 transition: %d\n", ret);
- 
- 	return ret;
- }
+#define HIWORD_UPDATE(v, h, l)  ((GENMASK(h, l) << 16) | ((v) << (l)))
+
+#define   RK3568_LVDS0_SELECT(val)             HIWORD_UPDATE(val,  5, 4)
+
+Sascha
+
 -- 
-2.30.2
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
