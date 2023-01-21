@@ -1,53 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADC0676A4F
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 00:20:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF0D676A60
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 00:58:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B65E10E07E;
-	Sat, 21 Jan 2023 23:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD2A10E0CD;
+	Sat, 21 Jan 2023 23:58:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F05C10E07E
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 23:19:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674343192; x=1705879192;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Tl4GLLg2pR9Ullfx+oNBNfH7suL+KxUNqsSZitlY8Lw=;
- b=Pu0hHsv47x/vIWnhyHPfGdt5qZ3p+tTzGtETpSsxhg/OV4BIVy/9P6mu
- FrGFd2GwrxWnsyd24Xv9RITZCU3dNoGTJNCn3zTHClMBQ9g4PurXwxBnd
- 6dLlffNFj7fGllv11MMPhwfdgEBzuTFLfmL3xu9YiSM4ui/fTwe8WUwGZ
- ohCIpjihDDkeuRRDy91ouaEXATj8ZcKNNlw8OYe0SeD9WP7Wszl8eLm2f
- JTYwNkeUkGCpYD8M7zPFZ9d0oOiwkLeFfAUFRwpNnouKU7Knwf+GNiSmV
- XzTL4YcX3eT4qC2Yz3Pgu7QW6ObdinURPoK2v93lDF/SstZfIsgu+5N4m A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="324532027"
-X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; d="scan'208";a="324532027"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2023 15:19:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="906364193"
-X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; d="scan'208";a="906364193"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 21 Jan 2023 15:19:49 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pJN9I-0004ZC-24;
- Sat, 21 Jan 2023 23:19:48 +0000
-Date: Sun, 22 Jan 2023 07:19:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sam Ravnborg via B4 Submission Endpoint
- <devnull+sam.ravnborg.org@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 16/86] drm/drm_print: Minimize include footprint
-Message-ID: <202301220750.HzZm1ZHu-lkp@intel.com>
-References: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A28910E0CD
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 23:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1674345516; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LOTZNZoe9/jeAoJ7IBepOKMorILY/t9e6aLl7ATDqAI=;
+ b=3yBBk9MZa5Ncu6Fk59+Hrsq1sqAKQKxu2rj+Zh5Cd/JjpcQKdW0Ffj1aU/1f6Ii6j+aXeU
+ tbdzOTFyAsS/zZ15IcuSmSFK2Tl85JniN0UgTHlmib+azuQ1x10TOW4ScgbtXNCM3AfXWd
+ n7zIxNND18MtJeQ1gyZC73dxreWN0xc=
+Message-ID: <f58e422fc85c808eb80bda5bb5e21a94df1bd086.camel@crapouillou.net>
+Subject: Re: [PATCH v4 2/2] drm/panel: Add driver for the AUO A030JTN01 TFT LCD
+From: Paul Cercueil <paul@crapouillou.net>
+To: Christophe Branchereau <cbranchereau@gmail.com>,
+ thierry.reding@gmail.com,  sam@ravnborg.org, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org,  krzysztof.kozlowski+dt@linaro.org,
+ dri-devel@lists.freedesktop.org,  devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Sat, 21 Jan 2023 23:58:33 +0000
+In-Reply-To: <20230121162419.284523-3-cbranchereau@gmail.com>
+References: <20230121162419.284523-1-cbranchereau@gmail.com>
+ <20230121162419.284523-3-cbranchereau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,394 +49,260 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, Sam Ravnborg <sam@ravnborg.org>,
- oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+TGUgc2FtZWRpIDIxIGphbnZpZXIgMjAyMyDDoCAxNzoyNCArMDEwMCwgQ2hyaXN0b3BoZSBCcmFu
+Y2hlcmVhdSBhCsOpY3JpdMKgOgo+IEFkZCBkcml2ZXIgZm9yIHRoZSBBVU8gQTAzMEpUTjAxIHBh
+bmVsLCB3aGljaCBpcyBhIDMyMHg0ODAgMy4wIiA0OjMKPiAyNC1iaXQgVEZUIExDRCBwYW5lbCB3
+aXRoIG5vbi1zcXVhcmUgcGl4ZWxzIGFuZCBhIGRlbHRhLVJHQiA4LWJpdAo+IGludGVyZmFjZS4K
+PiAKPiBTaWduZWQtb2ZmLWJ5OiBQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4K
+PiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGhlIEJyYW5jaGVyZWF1IDxjYnJhbmNoZXJlYXVAZ21h
+aWwuY29tPgoKV29ya3MgZmluZS4KVGVzdGVkLWJ5OiBQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBv
+dWlsbG91Lm5ldD4KCkkgbmVlZCBzb21lb25lIGVsc2UgdG8gcmV2aWV3IHRoaXMgcGF0Y2ggYmVm
+b3JlIEkgY2FuIGFwcGx5IGl0LiBTYW0/IDopCgpDaGVlcnMsCi1QYXVsCgo+IC0tLQo+IMKgZHJp
+dmVycy9ncHUvZHJtL3BhbmVsL0tjb25maWfCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzC
+oMKgIDggKwo+IMKgZHJpdmVycy9ncHUvZHJtL3BhbmVsL01ha2VmaWxlwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgfMKgwqAgMSArCj4gwqBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtYXVv
+LWEwMzBqdG4wMS5jIHwgMzA4Cj4gKysrKysrKysrKysrKysrKysrKysKPiDCoDMgZmlsZXMgY2hh
+bmdlZCwgMzE3IGluc2VydGlvbnMoKykKPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
+dS9kcm0vcGFuZWwvcGFuZWwtYXVvLWEwMzBqdG4wMS5jCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9wYW5lbC9LY29uZmlnCj4gYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvS2NvbmZp
+Zwo+IGluZGV4IDczN2VkY2RmOWVlZi4uMjNjZjBmNGJhMmU2IDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9wYW5lbC9LY29uZmlnCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL0tj
+b25maWcKPiBAQCAtOCw2ICs4LDE0IEBAIGNvbmZpZyBEUk1fUEFORUwKPiDCoG1lbnUgIkRpc3Bs
+YXkgUGFuZWxzIgo+IMKgwqDCoMKgwqDCoMKgwqBkZXBlbmRzIG9uIERSTSAmJiBEUk1fUEFORUwK
+PiDCoAo+ICtjb25maWcgRFJNX1BBTkVMX0FVT19BMDMwSlROMDEKPiArwqDCoMKgwqDCoMKgwqB0
+cmlzdGF0ZSAiQVVPIEEwMzBKVE4wMSIKPiArwqDCoMKgwqDCoMKgwqBkZXBlbmRzIG9uIFNQSQo+
+ICvCoMKgwqDCoMKgwqDCoHNlbGVjdCBSRUdNQVBfU1BJCj4gK8KgwqDCoMKgwqDCoMKgaGVscAo+
+ICvCoMKgwqDCoMKgwqDCoMKgIFNheSBZIGhlcmUgdG8gZW5hYmxlIHN1cHBvcnQgZm9yIHRoZSBB
+VU8gQTAzMEpUTjAxIDMyMHg0ODAKPiAzLjAiIHBhbmVsCj4gK8KgwqDCoMKgwqDCoMKgwqAgYXMg
+Zm91bmQgaW4gdGhlIFlMTSBSUy05NyBoYW5kaGVsZCBnYW1pbmcgY29uc29sZS4KPiArCj4gwqBj
+b25maWcgRFJNX1BBTkVMX0FCVF9ZMDMwWFgwNjdBCj4gwqDCoMKgwqDCoMKgwqDCoHRyaXN0YXRl
+ICJBQlQgWTAzMFhYMDY3QSAzMjB4NDgwIExDRCBwYW5lbCIKPiDCoMKgwqDCoMKgwqDCoMKgZGVw
+ZW5kcyBvbiBPRiAmJiBTUEkKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL01h
+a2VmaWxlCj4gYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvTWFrZWZpbGUKPiBpbmRleCBmOGY5ZDlm
+NmEzMDcuLmFmODg2NThhYmNhYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwv
+TWFrZWZpbGUKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvTWFrZWZpbGUKPiBAQCAtMSw0
+ICsxLDUgQEAKPiDCoCMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKPiArb2JqLSQo
+Q09ORklHX0RSTV9QQU5FTF9BVU9fQTAzMEpUTjAxKSArPSBwYW5lbC1hdW8tYTAzMGp0bjAxLm8K
+PiDCoG9iai0kKENPTkZJR19EUk1fUEFORUxfQUJUX1kwMzBYWDA2N0EpICs9IHBhbmVsLWFidC15
+MDMweHgwNjdhLm8KPiDCoG9iai0kKENPTkZJR19EUk1fUEFORUxfQVJNX1ZFUlNBVElMRSkgKz0g
+cGFuZWwtYXJtLXZlcnNhdGlsZS5vCj4gwqBvYmotJChDT05GSUdfRFJNX1BBTkVMX0FTVVNfWjAw
+VF9UTTVQNV9OVDM1NTk2KSArPSBwYW5lbC1hc3VzLXowMHQtCj4gdG01cDUtbjM1NTk2Lm8KPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWF1by1hMDMwanRuMDEuYwo+
+IGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWF1by1hMDMwanRuMDEuYwo+IG5ldyBmaWxl
+IG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi4zYzk3NmE5OGRlNmEKPiAtLS0gL2Rl
+di9udWxsCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWF1by1hMDMwanRuMDEu
+Ywo+IEBAIC0wLDAgKzEsMzA4IEBACj4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwt
+Mi4wCj4gKy8qCj4gKyAqIEFVIE9wdHJvbmljcyBBMDMwSlROMDEuMCBURlQgTENEIHBhbmVsIGRy
+aXZlcgo+ICsgKgo+ICsgKiBDb3B5cmlnaHQgKEMpIDIwMjMsIFBhdWwgQ2VyY3VlaWwgPHBhdWxA
+Y3JhcG91aWxsb3UubmV0Pgo+ICsgKiBDb3B5cmlnaHQgKEMpIDIwMjMsIENocmlzdG9waGUgQnJh
+bmNoZXJlYXUKPiA8Y2JyYW5jaGVyZWF1QGdtYWlsLmNvbT4KPiArICovCj4gKwo+ICsjaW5jbHVk
+ZSA8bGludXgvYml0ZmllbGQuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+Cj4gKyNpbmNs
+dWRlIDxsaW51eC9kZXZpY2UuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3VtZXIuaD4K
+PiArI2luY2x1ZGUgPGxpbnV4L21lZGlhLWJ1cy1mb3JtYXQuaD4KPiArI2luY2x1ZGUgPGxpbnV4
+L21vZHVsZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvb2ZfZGV2aWNlLmg+Cj4gKyNpbmNsdWRlIDxs
+aW51eC9yZWdtYXAuaD4KPiArI2luY2x1ZGUgPGxpbnV4L3JlZ3VsYXRvci9jb25zdW1lci5oPgo+
+ICsjaW5jbHVkZSA8bGludXgvc3BpL3NwaS5oPgo+ICsKPiArI2luY2x1ZGUgPGRybS9kcm1fbW9k
+ZXMuaD4KPiArI2luY2x1ZGUgPGRybS9kcm1fcGFuZWwuaD4KPiArCj4gKyNkZWZpbmUgUkVHMDXC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDA1Cj4gKyNkZWZpbmUgUkVHMDbC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDA2Cj4gKyNkZWZpbmUgUkVHMDfC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAweDA3Cj4gKwo+ICsjZGVmaW5lIFJF
+RzA1X1NUREJZwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgQklUKDApCj4gKyNkZWZpbmUgUkVHMDZf
+VkJMS8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgR0VOTUFTSyg0LCAwKQo+ICsjZGVmaW5lIFJF
+RzA3X0hCTEvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoEdFTk1BU0soNywgMCkKPiArCj4gKwo+
+ICtzdHJ1Y3QgYTAzMGp0bjAxX2luZm8gewo+ICvCoMKgwqDCoMKgwqDCoGNvbnN0IHN0cnVjdCBk
+cm1fZGlzcGxheV9tb2RlICpkaXNwbGF5X21vZGVzOwo+ICvCoMKgwqDCoMKgwqDCoHVuc2lnbmVk
+IGludCBudW1fbW9kZXM7Cj4gK8KgwqDCoMKgwqDCoMKgdTE2IHdpZHRoX21tLCBoZWlnaHRfbW07
+Cj4gK8KgwqDCoMKgwqDCoMKgdTMyIGJ1c19mb3JtYXQsIGJ1c19mbGFnczsKPiArfTsKPiArCj4g
+K3N0cnVjdCBhMDMwanRuMDEgewo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fcGFuZWwgcGFu
+ZWw7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IHNwaV9kZXZpY2UgKnNwaTsKPiArwqDCoMKgwqDC
+oMKgwqBzdHJ1Y3QgcmVnbWFwICptYXA7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGNvbnN0IHN0cnVj
+dCBhMDMwanRuMDFfaW5mbyAqcGFuZWxfaW5mbzsKPiArCj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0
+IHJlZ3VsYXRvciAqc3VwcGx5Owo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBncGlvX2Rlc2MgKnJl
+c2V0X2dwaW87Cj4gK307Cj4gKwo+ICtzdGF0aWMgaW5saW5lIHN0cnVjdCBhMDMwanRuMDEgKnRv
+X2EwMzBqdG4wMShzdHJ1Y3QgZHJtX3BhbmVsCj4gKnBhbmVsKQo+ICt7Cj4gK8KgwqDCoMKgwqDC
+oMKgcmV0dXJuIGNvbnRhaW5lcl9vZihwYW5lbCwgc3RydWN0IGEwMzBqdG4wMSwgcGFuZWwpOwo+
+ICt9Cj4gKwo+ICtzdGF0aWMgaW50IGEwMzBqdG4wMV9wcmVwYXJlKHN0cnVjdCBkcm1fcGFuZWwg
+KnBhbmVsKQo+ICt7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGEwMzBqdG4wMSAqcHJpdiA9IHRv
+X2EwMzBqdG4wMShwYW5lbCk7Cj4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IGRldmljZSAqZGV2ID0g
+JnByaXYtPnNwaS0+ZGV2Owo+ICvCoMKgwqDCoMKgwqDCoHVuc2lnbmVkIGludCBkdW1teTsKPiAr
+wqDCoMKgwqDCoMKgwqBpbnQgZXJyOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBlcnIgPSByZWd1bGF0
+b3JfZW5hYmxlKHByaXYtPnN1cHBseSk7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKGVycikgewo+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBkZXZfZXJyKGRldiwgIkZhaWxlZCB0byBlbmFi
+bGUgcG93ZXIgc3VwcGx5OiAlZFxuIiwKPiBlcnIpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqByZXR1cm4gZXJyOwo+ICvCoMKgwqDCoMKgwqDCoH0KPiArCj4gK8KgwqDCoMKgwqDC
+oMKgdXNsZWVwX3JhbmdlKDEwMDAsIDgwMDApOwo+ICsKPiArwqDCoMKgwqDCoMKgwqAvKiBSZXNl
+dCB0aGUgY2hpcCAqLwo+ICvCoMKgwqDCoMKgwqDCoGdwaW9kX3NldF92YWx1ZV9jYW5zbGVlcChw
+cml2LT5yZXNldF9ncGlvLCAxKTsKPiArwqDCoMKgwqDCoMKgwqB1c2xlZXBfcmFuZ2UoMTAwLCA4
+MDAwKTsKPiArwqDCoMKgwqDCoMKgwqBncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAocHJpdi0+cmVz
+ZXRfZ3BpbywgMCk7Cj4gK8KgwqDCoMKgwqDCoMKgdXNsZWVwX3JhbmdlKDIwMDAsIDgwMDApOwo+
+ICsKPiArwqDCoMKgwqDCoMKgwqAvKgo+ICvCoMKgwqDCoMKgwqDCoCAqIE5vIGlkZWEgd2h5LCBi
+dXQgYSByZWdpc3RlciByZWFkIChkb2Vzbid0IG1hdHRlciB3aGljaCkgaXMKPiBuZWVkZWQgdG8K
+PiArwqDCoMKgwqDCoMKgwqAgKiBwcm9wZXJseSBpbml0aWFsaXplIHRoZSBjaGlwIGFmdGVyIGEg
+cmVzZXQ7IG90aGVyd2lzZSwgdGhlCj4gY29sb3JzCj4gK8KgwqDCoMKgwqDCoMKgICogd2lsbCBi
+ZSB3cm9uZy4gSXQgZG9lc24ndCBzZWVtIHRvIGJlIHRpbWluZy1yZWxhdGVkIGFzIGEKPiBtc2xl
+ZXAoMjAwKQo+ICvCoMKgwqDCoMKgwqDCoCAqIGRvZXNuJ3QgZml4IGl0Lgo+ICvCoMKgwqDCoMKg
+wqDCoCAqLwo+ICvCoMKgwqDCoMKgwqDCoGVyciA9IHJlZ21hcF9yZWFkKHByaXYtPm1hcCwgUkVH
+MDUsICZkdW1teSk7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKGVycikKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgZ290byBlcnJfZGlzYWJsZV9yZWd1bGF0b3I7Cj4gKwo+ICvCoMKgwqDC
+oMKgwqDCoC8qIFVzZSAoMjQgKyA2KSA9PSAweDFlIGFzIHRoZSB2ZXJ0aWNhbCBiYWNrIHBvcmNo
+ICovCj4gK8KgwqDCoMKgwqDCoMKgZXJyID0gcmVnbWFwX3dyaXRlKHByaXYtPm1hcCwgUkVHMDYs
+IEZJRUxEX1BSRVAoUkVHMDZfVkJMSywKPiAweDFlKSk7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKGVy
+cikKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZ290byBlcnJfZGlzYWJsZV9yZWd1
+bGF0b3I7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoC8qIFVzZSAoNDIgKyAzMCkgKiAzID09IDB4ZDgg
+YXMgdGhlIGhvcml6b250YWwgYmFjayBwb3JjaCAqLwo+ICvCoMKgwqDCoMKgwqDCoGVyciA9IHJl
+Z21hcF93cml0ZShwcml2LT5tYXAsIFJFRzA3LCBGSUVMRF9QUkVQKFJFRzA3X0hCTEssCj4gMHhk
+OCkpOwo+ICvCoMKgwqDCoMKgwqDCoGlmIChlcnIpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoGdvdG8gZXJyX2Rpc2FibGVfcmVndWxhdG9yOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBy
+ZXR1cm4gMDsKPiArCj4gK2Vycl9kaXNhYmxlX3JlZ3VsYXRvcjoKPiArwqDCoMKgwqDCoMKgwqBn
+cGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAocHJpdi0+cmVzZXRfZ3BpbywgMSk7Cj4gK8KgwqDCoMKg
+wqDCoMKgcmVndWxhdG9yX2Rpc2FibGUocHJpdi0+c3VwcGx5KTsKPiArwqDCoMKgwqDCoMKgwqBy
+ZXR1cm4gZXJyOwo+ICt9Cj4gKwo+ICtzdGF0aWMgaW50IGEwMzBqdG4wMV91bnByZXBhcmUoc3Ry
+dWN0IGRybV9wYW5lbCAqcGFuZWwpCj4gK3sKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgYTAzMGp0
+bjAxICpwcml2ID0gdG9fYTAzMGp0bjAxKHBhbmVsKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgZ3Bp
+b2Rfc2V0X3ZhbHVlX2NhbnNsZWVwKHByaXYtPnJlc2V0X2dwaW8sIDEpOwo+ICvCoMKgwqDCoMKg
+wqDCoHJlZ3VsYXRvcl9kaXNhYmxlKHByaXYtPnN1cHBseSk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDC
+oHJldHVybiAwOwo+ICt9Cj4gKwo+ICtzdGF0aWMgaW50IGEwMzBqdG4wMV9lbmFibGUoc3RydWN0
+IGRybV9wYW5lbCAqcGFuZWwpCj4gK3sKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgYTAzMGp0bjAx
+ICpwcml2ID0gdG9fYTAzMGp0bjAxKHBhbmVsKTsKPiArwqDCoMKgwqDCoMKgwqBpbnQgcmV0Owo+
+ICsKPiArwqDCoMKgwqDCoMKgwqByZXQgPSByZWdtYXBfc2V0X2JpdHMocHJpdi0+bWFwLCBSRUcw
+NSwgUkVHMDVfU1REQlkpOwo+ICvCoMKgwqDCoMKgwqDCoGlmIChyZXQpCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiByZXQ7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoC8qIFdh
+aXQgZm9yIHRoZSBwaWN0dXJlIHRvIGJlIHN0YWJsZSAqLwo+ICvCoMKgwqDCoMKgwqDCoGlmIChw
+YW5lbC0+YmFja2xpZ2h0KQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBtc2xlZXAo
+MTAwKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4gK30KPiArCj4gK3N0YXRpYyBp
+bnQgYTAzMGp0bjAxX2Rpc2FibGUoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCj4gK3sKPiArwqDC
+oMKgwqDCoMKgwqBzdHJ1Y3QgYTAzMGp0bjAxICpwcml2ID0gdG9fYTAzMGp0bjAxKHBhbmVsKTsK
+PiArCj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIHJlZ21hcF9jbGVhcl9iaXRzKHByaXYtPm1hcCwg
+UkVHMDUsIFJFRzA1X1NUREJZKTsKPiArfQo+ICsKPiArc3RhdGljIGludCBhMDMwanRuMDFfZ2V0
+X21vZGVzKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fY29ubmVj
+dG9yICpjb25uZWN0b3IpCj4gK3sKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgYTAzMGp0bjAxICpw
+cml2ID0gdG9fYTAzMGp0bjAxKHBhbmVsKTsKPiArwqDCoMKgwqDCoMKgwqBjb25zdCBzdHJ1Y3Qg
+YTAzMGp0bjAxX2luZm8gKnBhbmVsX2luZm8gPSBwcml2LT5wYW5lbF9pbmZvOwo+ICvCoMKgwqDC
+oMKgwqDCoHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlOwo+ICvCoMKgwqDCoMKgwqDCoHVu
+c2lnbmVkIGludCBpOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBmb3IgKGkgPSAwOyBpIDwgcGFuZWxf
+aW5mby0+bnVtX21vZGVzOyBpKyspIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+bW9kZSA9IGRybV9tb2RlX2R1cGxpY2F0ZShjb25uZWN0b3ItPmRldiwKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgJnBhbmVsX2luZm8tCj4gPmRpc3BsYXlfbW9kZXNbaV0pOwo+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAoIW1vZGUpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVOT01FTTsKPiArCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRybV9tb2RlX3NldF9uYW1lKG1vZGUpOwo+ICsKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbW9kZS0+dHlwZSA9IERSTV9NT0RFX1RZUEVfRFJJ
+VkVSOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocGFuZWxfaW5mby0+bnVt
+X21vZGVzID09IDEpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBtb2RlLT50eXBlIHw9IERSTV9NT0RFX1RZUEVfUFJFRkVSUkVEOwo+ICsKPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZHJtX21vZGVfcHJvYmVkX2FkZChjb25uZWN0b3IsIG1v
+ZGUpOwo+ICvCoMKgwqDCoMKgwqDCoH0KPiArCj4gK8KgwqDCoMKgwqDCoMKgY29ubmVjdG9yLT5k
+aXNwbGF5X2luZm8uYnBjID0gODsKPiArwqDCoMKgwqDCoMKgwqBjb25uZWN0b3ItPmRpc3BsYXlf
+aW5mby53aWR0aF9tbSA9IHBhbmVsX2luZm8tPndpZHRoX21tOwo+ICvCoMKgwqDCoMKgwqDCoGNv
+bm5lY3Rvci0+ZGlzcGxheV9pbmZvLmhlaWdodF9tbSA9IHBhbmVsX2luZm8tPmhlaWdodF9tbTsK
+PiArCj4gK8KgwqDCoMKgwqDCoMKgZHJtX2Rpc3BsYXlfaW5mb19zZXRfYnVzX2Zvcm1hdHMoJmNv
+bm5lY3Rvci0+ZGlzcGxheV9pbmZvLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJnBhbmVsX2lu
+Zm8tPmJ1c19mb3JtYXQsIDEpOwo+ICvCoMKgwqDCoMKgwqDCoGNvbm5lY3Rvci0+ZGlzcGxheV9p
+bmZvLmJ1c19mbGFncyA9IHBhbmVsX2luZm8tPmJ1c19mbGFnczsKPiArCj4gK8KgwqDCoMKgwqDC
+oMKgcmV0dXJuIHBhbmVsX2luZm8tPm51bV9tb2RlczsKPiArfQo+ICsKPiArc3RhdGljIGNvbnN0
+IHN0cnVjdCBkcm1fcGFuZWxfZnVuY3MgYTAzMGp0bjAxX2Z1bmNzID0gewo+ICvCoMKgwqDCoMKg
+wqDCoC5wcmVwYXJlwqDCoMKgwqDCoMKgwqDCoD0gYTAzMGp0bjAxX3ByZXBhcmUsCj4gK8KgwqDC
+oMKgwqDCoMKgLnVucHJlcGFyZcKgwqDCoMKgwqDCoD0gYTAzMGp0bjAxX3VucHJlcGFyZSwKPiAr
+wqDCoMKgwqDCoMKgwqAuZW5hYmxlwqDCoMKgwqDCoMKgwqDCoMKgPSBhMDMwanRuMDFfZW5hYmxl
+LAo+ICvCoMKgwqDCoMKgwqDCoC5kaXNhYmxlwqDCoMKgwqDCoMKgwqDCoD0gYTAzMGp0bjAxX2Rp
+c2FibGUsCj4gK8KgwqDCoMKgwqDCoMKgLmdldF9tb2Rlc8KgwqDCoMKgwqDCoD0gYTAzMGp0bjAx
+X2dldF9tb2RlcywKPiArfTsKPiArCj4gK3N0YXRpYyBib29sIGEwMzBqdG4wMV9oYXNfcmVnKHN0
+cnVjdCBkZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IHJlZykKPiArewo+ICvCoMKgwqDCoMKgwqDC
+oHN0YXRpYyBjb25zdCB1MzIgYTAzMGp0bjAxX3JlZ3NfbWFzayA9IDB4MDAxODIzZjFmYjsKPiAr
+Cj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIGEwMzBqdG4wMV9yZWdzX21hc2sgJiBCSVQocmVnKTsK
+PiArfTsKPiArCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgcmVnbWFwX2NvbmZpZyBhMDMwanRuMDFf
+cmVnbWFwX2NvbmZpZyA9IHsKPiArwqDCoMKgwqDCoMKgwqAucmVnX2JpdHMgPSA4LAo+ICvCoMKg
+wqDCoMKgwqDCoC52YWxfYml0cyA9IDgsCj4gK8KgwqDCoMKgwqDCoMKgLnJlYWRfZmxhZ19tYXNr
+ID0gMHg0MCwKPiArwqDCoMKgwqDCoMKgwqAubWF4X3JlZ2lzdGVyID0gMHgxYywKPiArwqDCoMKg
+wqDCoMKgwqAucmVhZGFibGVfcmVnID0gYTAzMGp0bjAxX2hhc19yZWcsCj4gK8KgwqDCoMKgwqDC
+oMKgLndyaXRlYWJsZV9yZWcgPSBhMDMwanRuMDFfaGFzX3JlZywKPiArfTsKPiArCj4gK3N0YXRp
+YyBpbnQgYTAzMGp0bjAxX3Byb2JlKHN0cnVjdCBzcGlfZGV2aWNlICpzcGkpCj4gK3sKPiArwqDC
+oMKgwqDCoMKgwqBzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmc3BpLT5kZXY7Cj4gK8KgwqDCoMKgwqDC
+oMKgc3RydWN0IGEwMzBqdG4wMSAqcHJpdjsKPiArwqDCoMKgwqDCoMKgwqBpbnQgZXJyOwo+ICsK
+PiArwqDCoMKgwqDCoMKgwqBzcGktPm1vZGUgfD0gU1BJX01PREVfMyB8IFNQSV8zV0lSRTsKPiAr
+Cj4gK8KgwqDCoMKgwqDCoMKgcHJpdiA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigqcHJpdiks
+IEdGUF9LRVJORUwpOwo+ICvCoMKgwqDCoMKgwqDCoGlmICghcHJpdikKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgcmV0dXJuIC1FTk9NRU07Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHBy
+aXYtPnNwaSA9IHNwaTsKPiArwqDCoMKgwqDCoMKgwqBzcGlfc2V0X2RydmRhdGEoc3BpLCBwcml2
+KTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgcHJpdi0+bWFwID0gZGV2bV9yZWdtYXBfaW5pdF9zcGko
+c3BpLAo+ICZhMDMwanRuMDFfcmVnbWFwX2NvbmZpZyk7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKElT
+X0VSUihwcml2LT5tYXApKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4g
+ZGV2X2Vycl9wcm9iZShkZXYsIFBUUl9FUlIocHJpdi0+bWFwKSwgIlVuYWJsZQo+IHRvIGluaXQg
+cmVnbWFwIik7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHByaXYtPnBhbmVsX2luZm8gPSBzcGlfZ2V0
+X2RldmljZV9tYXRjaF9kYXRhKHNwaSk7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKCFwcml2LT5wYW5l
+bF9pbmZvKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVJTlZBTDsK
+PiArCj4gK8KgwqDCoMKgwqDCoMKgcHJpdi0+c3VwcGx5ID0gZGV2bV9yZWd1bGF0b3JfZ2V0KGRl
+diwgInBvd2VyIik7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKElTX0VSUihwcml2LT5zdXBwbHkpKQo+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gZGV2X2Vycl9wcm9iZShkZXYs
+IFBUUl9FUlIocHJpdi0+c3VwcGx5KSwKPiAiRmFpbGVkIHRvIGdldCBwb3dlciBzdXBwbHkiKTsK
+PiArCj4gK8KgwqDCoMKgwqDCoMKgcHJpdi0+cmVzZXRfZ3BpbyA9IGRldm1fZ3Bpb2RfZ2V0KGRl
+diwgInJlc2V0IiwKPiBHUElPRF9PVVRfSElHSCk7Cj4gK8KgwqDCoMKgwqDCoMKgaWYgKElTX0VS
+Uihwcml2LT5yZXNldF9ncGlvKSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmV0
+dXJuIGRldl9lcnJfcHJvYmUoZGV2LCBQVFJfRVJSKHByaXYtPnJlc2V0X2dwaW8pLAo+ICJGYWls
+ZWQgdG8gZ2V0IHJlc2V0IEdQSU8iKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgZHJtX3BhbmVsX2lu
+aXQoJnByaXYtPnBhbmVsLCBkZXYsICZhMDMwanRuMDFfZnVuY3MsCj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBEUk1fTU9ERV9DT05ORUNUT1JfRFBJKTsKPiAr
+Cj4gK8KgwqDCoMKgwqDCoMKgZXJyID0gZHJtX3BhbmVsX29mX2JhY2tsaWdodCgmcHJpdi0+cGFu
+ZWwpOwo+ICvCoMKgwqDCoMKgwqDCoGlmIChlcnIpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoHJldHVybiBlcnI7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGRybV9wYW5lbF9hZGQoJnBy
+aXYtPnBhbmVsKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIDA7Cj4gK30KPiArCj4gK3N0
+YXRpYyB2b2lkIGEwMzBqdG4wMV9yZW1vdmUoc3RydWN0IHNwaV9kZXZpY2UgKnNwaSkKPiArewo+
+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBhMDMwanRuMDEgKnByaXYgPSBzcGlfZ2V0X2RydmRhdGEo
+c3BpKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgZHJtX3BhbmVsX3JlbW92ZSgmcHJpdi0+cGFuZWwp
+Owo+ICvCoMKgwqDCoMKgwqDCoGRybV9wYW5lbF9kaXNhYmxlKCZwcml2LT5wYW5lbCk7Cj4gK8Kg
+wqDCoMKgwqDCoMKgZHJtX3BhbmVsX3VucHJlcGFyZSgmcHJpdi0+cGFuZWwpOwo+ICt9Cj4gKwo+
+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgYTAzMGp0bjAxX21vZGVzW10g
+PSB7Cj4gK8KgwqDCoMKgwqDCoMKgeyAvKiA2MCBIeiAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAuY2xvY2sgPSAxNDQwMCwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgLmhkaXNwbGF5ID0gMzIwLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAuaHN5
+bmNfc3RhcnQgPSAzMjAgKyA4LAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAuaHN5
+bmNfZW5kID0gMzIwICsgOCArIDQyLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAu
+aHRvdGFsID0gMzIwICsgOCArIDQyICsgMzAsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoC52ZGlzcGxheSA9IDQ4MCwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLnZz
+eW5jX3N0YXJ0ID0gNDgwICsgOTAsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC52
+c3luY19lbmQgPSA0ODAgKyA5MCArIDI0LAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAudnRvdGFsID0gNDgwICsgOTAgKyAyNCArIDYsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoC5mbGFncyA9IERSTV9NT0RFX0ZMQUdfTkhTWU5DIHwgRFJNX01PREVfRkxBR19OVlNZ
+TkMsCj4gK8KgwqDCoMKgwqDCoMKgfSwKPiArwqDCoMKgwqDCoMKgwqB7IC8qIDUwIEh6ICovCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC5jbG9jayA9IDEyMDAwLAo+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAuaGRpc3BsYXkgPSAzMjAsCj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoC5oc3luY19zdGFydCA9IDMyMCArIDgsCj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoC5oc3luY19lbmQgPSAzMjAgKyA4ICsgNDIsCj4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoC5odG90YWwgPSAzMjAgKyA4ICsgNDIgKyAzMCwKPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLnZkaXNwbGF5ID0gNDgwLAo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAudnN5bmNfc3RhcnQgPSA0ODAgKyA5MCwKPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgLnZzeW5jX2VuZCA9IDQ4MCArIDkwICsgMjQsCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoC52dG90YWwgPSA0ODAgKyA5MCArIDI0ICsgNiwKPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgLmZsYWdzID0gRFJNX01PREVfRkxBR19OSFNZTkMg
+fCBEUk1fTU9ERV9GTEFHX05WU1lOQywKPiArwqDCoMKgwqDCoMKgwqB9LAo+ICt9Owo+ICsKPiAr
+c3RhdGljIGNvbnN0IHN0cnVjdCBhMDMwanRuMDFfaW5mbyBhMDMwanRuMDFfaW5mbyA9IHsKPiAr
+wqDCoMKgwqDCoMKgwqAuZGlzcGxheV9tb2RlcyA9IGEwMzBqdG4wMV9tb2RlcywKPiArwqDCoMKg
+wqDCoMKgwqAubnVtX21vZGVzID0gQVJSQVlfU0laRShhMDMwanRuMDFfbW9kZXMpLAo+ICvCoMKg
+wqDCoMKgwqDCoC53aWR0aF9tbSA9IDcwLAo+ICvCoMKgwqDCoMKgwqDCoC5oZWlnaHRfbW0gPSA1
+MSwKPiArwqDCoMKgwqDCoMKgwqAuYnVzX2Zvcm1hdCA9IE1FRElBX0JVU19GTVRfUkdCODg4XzNY
+OF9ERUxUQSwKPiArwqDCoMKgwqDCoMKgwqAuYnVzX2ZsYWdzID0gRFJNX0JVU19GTEFHX1BJWERB
+VEFfRFJJVkVfTkVHRURHRSwKPiArfTsKPiArCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qgc3BpX2Rl
+dmljZV9pZCBhMDMwanRuMDFfaWRbXSA9IHsKPiArwqDCoMKgwqDCoMKgwqB7ICJhMDMwanRuMDEi
+LCAoa2VybmVsX3Vsb25nX3QpICZhMDMwanRuMDFfaW5mbyB9LAo+ICvCoMKgwqDCoMKgwqDCoHsg
+Lyogc2VudGluZWwgKi8gfQo+ICt9Owo+ICtNT0RVTEVfREVWSUNFX1RBQkxFKHNwaSwgYTAzMGp0
+bjAxX2lkKTsKPiArCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGEwMzBqdG4w
+MV9vZl9tYXRjaFtdID0gewo+ICvCoMKgwqDCoMKgwqDCoHsgLmNvbXBhdGlibGUgPSAiYXVvLGEw
+MzBqdG4wMSIgfSwKPiArwqDCoMKgwqDCoMKgwqB7IC8qIHNlbnRpbmVsICovIH0KPiArfTsKPiAr
+TU9EVUxFX0RFVklDRV9UQUJMRShvZiwgYTAzMGp0bjAxX29mX21hdGNoKTsKPiArCj4gK3N0YXRp
+YyBzdHJ1Y3Qgc3BpX2RyaXZlciBhMDMwanRuMDFfZHJpdmVyID0gewo+ICvCoMKgwqDCoMKgwqDC
+oC5kcml2ZXIgPSB7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC5uYW1lID0gImF1
+by1hMDMwanRuMDEiLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAub2ZfbWF0Y2hf
+dGFibGUgPSBhMDMwanRuMDFfb2ZfbWF0Y2gsCj4gK8KgwqDCoMKgwqDCoMKgfSwKPiArwqDCoMKg
+wqDCoMKgwqAuaWRfdGFibGUgPSBhMDMwanRuMDFfaWQsCj4gK8KgwqDCoMKgwqDCoMKgLnByb2Jl
+ID0gYTAzMGp0bjAxX3Byb2JlLAo+ICvCoMKgwqDCoMKgwqDCoC5yZW1vdmUgPSBhMDMwanRuMDFf
+cmVtb3ZlLAo+ICt9Owo+ICttb2R1bGVfc3BpX2RyaXZlcihhMDMwanRuMDFfZHJpdmVyKTsKPiAr
+Cj4gK01PRFVMRV9BVVRIT1IoIlBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PiIp
+Owo+ICtNT0RVTEVfQVVUSE9SKCJDaHJpc3RvcGhlIEJyYW5jaGVyZWF1IDxjYnJhbmNoZXJlYXVA
+Z21haWwuY29tPiIpOwo+ICtNT0RVTEVfTElDRU5TRSgiR1BMIik7Cgo=
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on 2e337a8d14bd4b04913d52ccf076be29d846acd7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
-base:   2e337a8d14bd4b04913d52ccf076be29d846acd7
-patch link:    https://lore.kernel.org/r/20230113-drm-include-v1-v1-16-c5cf72d8a5a2%40ravnborg.org
-patch subject: [PATCH 16/86] drm/drm_print: Minimize include footprint
-config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230122/202301220750.HzZm1ZHu-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/530d852970d1a75527031a4f23689f89f0a85804
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
-        git checkout 530d852970d1a75527031a4f23689f89f0a85804
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_mode_object.c:195:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
-                   ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_mode_object.c:212:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
-                   ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   2 errors generated.
---
->> drivers/gpu/drm/drm_plane.c:278:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG_KMS("out of memory when allocating plane\n");
-                   ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:305:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG_KMS("out of memory when allocating plane\n");
-                   ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:789:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG_KMS("Invalid crtc for plane\n");
-                   ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:797:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG_KMS("Invalid pixel format %p4cc, modifier 0x%llx\n",
-                   ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:807:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG_KMS("Invalid CRTC coordinates %ux%u+%d+%d\n",
-                   ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:985:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG_KMS("Unknown plane ID %d\n",
-                   ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:993:4: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           DRM_DEBUG_KMS("Unknown framebuffer ID %d\n",
-                           ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:1001:4: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           DRM_DEBUG_KMS("Unknown crtc ID %d\n",
-                           ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:1051:5: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                   DRM_DEBUG_KMS("failed to wrap cursor buffer in drm framebuffer\n");
-                                   ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:1122:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG_KMS("Unknown CRTC ID %d\n", req->crtc_id);
-                   ^
-   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
-           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:1263:5: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                   DRM_DEBUG("Invalid absolute flip target %u, "
-                                   ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_plane.c:1272:5: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                                   DRM_DEBUG("Invalid relative flip target %u, "
---
->> drivers/gpu/drm/drm_syncobj.c:301:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   DRM_DEBUG("You are adding an unorder point to timeline!\n");
-                   ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   1 error generated.
---
->> drivers/gpu/drm/drm_vblank.c:318:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   drm_dbg_vbl(dev, "crtc %u: Calculating number of vblanks."
-                   ^
-   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:342:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   drm_dbg_vbl(dev,
-                   ^
-   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:348:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           drm_dbg_vbl(dev, "updating vblank count on crtc %u:"
-           ^
-   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:494:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   drm_dbg_core(dev, "disabling vblank on crtc %u\n", pipe);
-                   ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:649:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           drm_dbg_core(dev,
-           ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:726:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   drm_dbg_core(dev, "crtc %u: Noop due to uninitialized mode.\n",
-                   ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:751:4: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           drm_dbg_core(dev,
-                           ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:767:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   drm_dbg_core(dev,
-                   ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:793:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           drm_dbg_vbl(dev,
-           ^
-   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:1140:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   drm_dbg_core(dev, "enabling vblank on crtc %u, ret: %d\n",
-                   ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:1319:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
-           ^
-   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_vblank.c:1452:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
---
->> drivers/gpu/drm/drm_vblank_work.c:141:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   drm_dbg_core(dev,
-                   ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   1 error generated.
---
->> drivers/gpu/drm/drm_ioctl.c:443:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           drm_dbg_core(dev, "\n");
-           ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   drivers/gpu/drm/drm_ioctl.c:859:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           drm_dbg_core(dev, "comm=\"%s\" pid=%d, dev=0x%lx, auth=%d, %s\n",
-           ^
-   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
-           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
-           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-           ^
-   2 errors generated.
---
->> drivers/gpu/drm/drm_bufs.c:174:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           DRM_DEBUG("offset = 0x%08llx, size = 0x%08lx, type = %d\n",
-           ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_bufs.c:911:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           DRM_DEBUG("count=%d, size=%d (%d), order=%d\n",
-           ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_bufs.c:1139:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           DRM_DEBUG("count:      %d\n", count);
-           ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_bufs.c:1343:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           DRM_DEBUG("count = %d\n", count);
-           ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_bufs.c:1420:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           DRM_DEBUG("%d, %d, %d\n",
-           ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_bufs.c:1468:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           DRM_DEBUG("%d\n", request->count);
-           ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   drivers/gpu/drm/drm_bufs.c:1568:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           DRM_DEBUG("%d buffers, retcode = %d\n", *p, retcode);
-           ^
-   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^
-   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
-           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
-           ^
-   7 errors generated.
-..
-
-
-vim +/_dynamic_func_call_cls +195 drivers/gpu/drm/drm_mode_object.c
-
-949619f32eee37 Daniel Vetter  2016-08-29  183  
-949619f32eee37 Daniel Vetter  2016-08-29  184  /**
-020a218f95bd3c Thierry Reding 2017-02-28  185   * drm_mode_object_put - release a mode object reference
-020a218f95bd3c Thierry Reding 2017-02-28  186   * @obj: DRM mode object
-949619f32eee37 Daniel Vetter  2016-08-29  187   *
-a2511a557eb868 Daniel Vetter  2016-08-29  188   * This function decrements the object's refcount if it is a refcounted modeset
-949619f32eee37 Daniel Vetter  2016-08-29  189   * object. It is a no-op on any other object. This is used to drop references
-020a218f95bd3c Thierry Reding 2017-02-28  190   * acquired with drm_mode_object_get().
-949619f32eee37 Daniel Vetter  2016-08-29  191   */
-020a218f95bd3c Thierry Reding 2017-02-28  192  void drm_mode_object_put(struct drm_mode_object *obj)
-949619f32eee37 Daniel Vetter  2016-08-29  193  {
-949619f32eee37 Daniel Vetter  2016-08-29  194  	if (obj->free_cb) {
-2c935bc57221cc Peter Zijlstra 2016-11-14 @195  		DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
-949619f32eee37 Daniel Vetter  2016-08-29  196  		kref_put(&obj->refcount, obj->free_cb);
-949619f32eee37 Daniel Vetter  2016-08-29  197  	}
-949619f32eee37 Daniel Vetter  2016-08-29  198  }
-020a218f95bd3c Thierry Reding 2017-02-28  199  EXPORT_SYMBOL(drm_mode_object_put);
-949619f32eee37 Daniel Vetter  2016-08-29  200  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
