@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC3D6768F8
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C4D6768CB
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:08:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15F2E10E425;
-	Sat, 21 Jan 2023 20:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DAC610E3D9;
+	Sat, 21 Jan 2023 20:08:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17D9610E3E0
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA99110E3D9
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:52 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6D324B80925;
- Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6470AC43444;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A7A7A60B80;
+ Sat, 21 Jan 2023 20:07:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B908C43445;
  Sat, 21 Jan 2023 20:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331671;
- bh=tL2dzU6TgyJih64cfU82Yw8kWjhIrGQh30S1oYZBsOo=;
+ bh=rGLDLtG313FhG2Sam56l8P+JqmCOd8CDn4aiYzN/eZs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=noJJPNYokFjScXuZClM2iU8iGtG4jLSSJd30SqYGOB/k47MR+JX6cHjnh0XXkwuPk
- 50uGUofpGy6ZNVyzeh8VV6BD565TYv2SwJztNPCdbb1MiNUNTqIyeVtpU4NfoNo0dy
- O7RFhBUNcVFB1icd8Li7+RfXngMPTynAlRgausHFppumGvnUS69aoTv5BlPn0yMXEc
- VmVsrBWJ+0JK37tVcbw+NHrsRkqka9DPYLVT3GiyDfH7LnZzJg6uQQpyL9yFN4yXxV
- R4vK3x5RaOPWWoLcoUuCtBKTfSJp6iCJ9Pdysbpo2V71JW5gP4Ni9uhPY3RcgmG37v
- 22sFg2G+W9hmA==
+ b=j81cfpikObbI4YRfvCNQdE/LVow99bd+w8bKzQUfx7E3G7dll4l6TdKpx3kHmqT4V
+ XMhE4PaEwKhVfWgGtq1NSVAdtZGCaiSjCBMGX32QWPLAK+RiuX0cF99v+GquuEDF0o
+ ryPTDtHjxHcxUeS6hMNfSMsxXOgXVc32w/M0HBrEZe3ubwsPZgF9qwztoKkYTmvRLE
+ 46mv2Sc6i5Oy6KJXTXjpFU2xeemi7wGprVN1yUM9vrBPIRzSCNAsXMmyFI6fFgBOwq
+ 6gVs3gN/EZA9Gx1+CddXuj+zFp8vt8Lkwp1v3w98JSB7cUzM8XkpVWqJbQwJZMQDSS
+ fDKW9ZcVsfk8g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 55940C38159;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 7D489C38159;
  Sat, 21 Jan 2023 20:07:51 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:07:59 +0100
-Subject: [PATCH 21/86] drm/arm/malidp: Direct include headers from
+Date: Sat, 21 Jan 2023 21:08:00 +0100
+Subject: [PATCH 22/86] drm/armada: Direct include headers from
  drm_atomic_helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-21-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-22-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331666; l=2801;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331666; l=1920;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=h/8ITS2uYbRjLHul50Y5zNZ6H2ZfDcjjLEgTwWRq0V0=; =?utf-8?q?b=3DLkDCcerF7Nyc?=
- =?utf-8?q?Rgccl2PDel1/vBGtYpJDIh3W3aWuBcYhfBW4euSDKZeI2nfbHunkrQTEoB4kst77?=
- xk1UKxmKBrFa3vTbWYz9mBLfqfccOsSiwh9gY91bjBAUsF41kOk3
+ bh=F/PFqK5fzfBIr84dBElMn3Pjk8hbGzis9NnpfDnPC3A=; =?utf-8?q?b=3DNZn3W8X25L4U?=
+ =?utf-8?q?9EEpjAPA+w2jBmfsuq4fLYoeRGIQ2Wx8eHsHyekpj3OWiJ/NCenpL8+8RNW9xnYx?=
+ 7ta4cUfCBvPznlZFUnxBbq7Q7sAwKSJqD9qMJ0OMHpUhV9piognA
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -81,78 +81,52 @@ include only the minimal set of headers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/arm/malidp_crtc.c   | 2 ++
- drivers/gpu/drm/arm/malidp_drv.c    | 1 +
- drivers/gpu/drm/arm/malidp_mw.c     | 2 ++
- drivers/gpu/drm/arm/malidp_planes.c | 2 ++
- 4 files changed, 7 insertions(+)
+ drivers/gpu/drm/armada/armada_crtc.c    | 2 ++
+ drivers/gpu/drm/armada/armada_overlay.c | 2 ++
+ drivers/gpu/drm/armada/armada_plane.c   | 2 ++
+ 3 files changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/arm/malidp_crtc.c b/drivers/gpu/drm/arm/malidp_crtc.c
-index dc01c43f6193..8637663cd8e8 100644
---- a/drivers/gpu/drm/arm/malidp_crtc.c
-+++ b/drivers/gpu/drm/arm/malidp_crtc.c
-@@ -13,8 +13,10 @@
+diff --git a/drivers/gpu/drm/armada/armada_crtc.c b/drivers/gpu/drm/armada/armada_crtc.c
+index 15dd667aa2e7..a2a6a94339de 100644
+--- a/drivers/gpu/drm/armada/armada_crtc.c
++++ b/drivers/gpu/drm/armada/armada_crtc.c
+@@ -12,6 +12,8 @@
  
  #include <drm/drm_atomic.h>
  #include <drm/drm_atomic_helper.h>
 +#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_framebuffer.h>
 +#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_print.h>
  #include <drm/drm_probe_helper.h>
  #include <drm/drm_vblank.h>
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index 589c1c66a6dc..e2af7f3371d6 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -25,6 +25,7 @@
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modeset_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_module.h>
- #include <drm/drm_of.h>
- #include <drm/drm_probe_helper.h>
-diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
-index 626709bec6f5..cfe029225245 100644
---- a/drivers/gpu/drm/arm/malidp_mw.c
-+++ b/drivers/gpu/drm/arm/malidp_mw.c
-@@ -8,12 +8,14 @@
  
+diff --git a/drivers/gpu/drm/armada/armada_overlay.c b/drivers/gpu/drm/armada/armada_overlay.c
+index f21eb8fb76d8..f273570eb92e 100644
+--- a/drivers/gpu/drm/armada/armada_overlay.c
++++ b/drivers/gpu/drm/armada/armada_overlay.c
+@@ -8,7 +8,9 @@
  #include <drm/drm_atomic.h>
  #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_atomic_uapi.h>
 +#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fb_dma_helper.h>
  #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_dma_helper.h>
 +#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_writeback.h>
+ #include <drm/drm_plane_helper.h>
  
-diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-index 34547edf1ee3..cd9d32479a9e 100644
---- a/drivers/gpu/drm/arm/malidp_planes.c
-+++ b/drivers/gpu/drm/arm/malidp_planes.c
-@@ -11,6 +11,7 @@
+ #include "armada_crtc.h"
+diff --git a/drivers/gpu/drm/armada/armada_plane.c b/drivers/gpu/drm/armada/armada_plane.c
+index cc47c032dbc1..1f8810f969ec 100644
+--- a/drivers/gpu/drm/armada/armada_plane.c
++++ b/drivers/gpu/drm/armada/armada_plane.c
+@@ -6,7 +6,9 @@
  
  #include <drm/drm_atomic.h>
  #include <drm/drm_atomic_helper.h>
 +#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_dma_helper.h>
-@@ -18,6 +19,7 @@
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_fourcc.h>
 +#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_print.h>
+ #include <drm/drm_plane_helper.h>
  
- #include "malidp_hw.h"
+ #include "armada_crtc.h"
 
 -- 
 2.34.1
