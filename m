@@ -1,155 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19516761E6
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 01:08:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAFF676325
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 03:41:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5086010EB44;
-	Sat, 21 Jan 2023 00:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A250410E0C8;
+	Sat, 21 Jan 2023 02:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0914A10EB42;
- Sat, 21 Jan 2023 00:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674259728; x=1705795728;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=yBhCPAic6JvGg/bYmE9i1MRfjSej08rw/Cnxo9cGM8E=;
- b=oB2ZtX3bcTGYPtfk73ARGYFkHElct8rrYM63Ue6HYj1QCNXTIE8SBTgI
- gX2mY5njRZZ/qEHrT1OOdaOtVZTJg+MP7hjp4CFbQTtO6+mg+w9T1NUbP
- 2nRFhoHJTUn9mP1OaRzyoA5DYAvMYRcaqtE5J7eZtLr8GhNtI0yZVCfBi
- IqW/63hq/YklniAdmi9veO0RpSuDX/KVmyXHrsk23Q6HlABBepelpMVck
- XLMqcEy8P2e480XwdnGm4i4AKZCPHEAeTpa4jiKoqgrrX4EdaGxPcy6yK
- D4b2zv/OahygU68Bg9kfb37OOaO41XRivkjcE+6IjOdegEIMLcqz5mazK g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="327820975"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="327820975"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2023 16:08:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="906135031"
-X-IronPort-AV: E=Sophos;i="5.97,233,1669104000"; d="scan'208";a="906135031"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga006.fm.intel.com with ESMTP; 20 Jan 2023 16:08:46 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Fri, 20 Jan 2023 16:08:46 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Fri, 20 Jan 2023 16:08:46 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Fri, 20 Jan 2023 16:08:46 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c7tQRqfxq5aiT51J32acEgva2rcvPujR72xw743NxEJvJTZqQ18iUn5VUn2rdlTI+yeEcnhN7R2QF3XnJ1BymfXEBO6hZ3ZYQJku6m2Im5H8gUrzkFVQESrFDcn1Sq9AOltGpnl0s7TJaxTFhqyNRRtnioxY/F/QZ9bfzMlJbWEd8spLvxvFO1f0gCtqGogV75pRBnHoxMk2kaOJFTVcksbD8DQVZLZsCUcpXbhEMUcNWN7aGt1vzmb9wUhOVfdPpcelgj4emDekthzpkm0OSPKPjMdtj6FsdkNJrBK/ZTBDDXcA/4jneMmtLoq/G9nN9mA/u8XCP+qXL5CuNLgYAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yBhCPAic6JvGg/bYmE9i1MRfjSej08rw/Cnxo9cGM8E=;
- b=J3uFXIBQoVlVTJHmmwXRT3YWkzkLsnNX+q5OSPqOrVABGP6IGVlJXSurt+JmvCCVi40yumE2VaFDf295o5nIQS4Vb6Dn9iuMCn3EdT9O/+N8KW/+NjFYGXNEv4i6VkAJ/PkcoBnEFU3o3oH7/mLjC4KybXl/OfGOOPr+UQNh6SWwEPP0VhA/FH6A0FD0SQQWMoYXjVaPPWH0jJK/5D+Jhw4BlW0nDbUbnQt6hNt5vvFdMxvGMZFEBclgYrvUBJOWjxzl+Tu3Xk7ZtnyRGwP0FvFBsjN5vePMT0XO5OocAqQUnxTpmS2dbnrbIRrm9+zj4Jozd/8csiBRH0Te0QdlTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
- CH0PR11MB5441.namprd11.prod.outlook.com (2603:10b6:610:d0::16) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6002.27; Sat, 21 Jan 2023 00:08:45 +0000
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::8901:2af2:6e02:c95c]) by DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::8901:2af2:6e02:c95c%4]) with mapi id 15.20.6002.027; Sat, 21 Jan 2023
- 00:08:45 +0000
-From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [Intel-gfx] [PATCH v2 5/9] drm/i915/pxp: Add GSC-CS backend to
- send GSC fw messages
-Thread-Topic: [Intel-gfx] [PATCH v2 5/9] drm/i915/pxp: Add GSC-CS backend to
- send GSC fw messages
-Thread-Index: AQHZJgWkB/l6OWEoC0+CwRsbOqUQZq6lAgGAgAMEtYCAAAZKgA==
-Date: Sat, 21 Jan 2023 00:08:44 +0000
-Message-ID: <ebe9e56a1b28e0321f2c818a99162a5fc1408081.camel@intel.com>
-References: <20230111214226.907536-1-alan.previn.teres.alexis@intel.com>
- <20230111214226.907536-6-alan.previn.teres.alexis@intel.com>
- <2516e7ef-1766-6441-46c9-4de2a1306e79@intel.com>
- <ab7de37fa39b8c63076fcb71f3da8c969eb33693.camel@intel.com>
-In-Reply-To: <ab7de37fa39b8c63076fcb71f3da8c969eb33693.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.46.1-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|CH0PR11MB5441:EE_
-x-ms-office365-filtering-correlation-id: 17c08415-6a0e-4d32-6069-08dafb43a969
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8KeKrvQYbLDnxGt00ZVhqjoOTwFRW5x0rL4qgU++r3TSYKmvNqxMn7i9VmLN5YVTE4w0oWzCp9HEgkZjevcfs3XuByz4T2cxcVfyAvZWVZnsPCjRWP4D21biJrOrPlUw5Qj7k6cNvNQQSA0fVuZ6Jbggqv7rGC+IKCDLuIzoubHggABQq2Yy9+6uyiMf90wkQ01BlUxH6+//1A0FMJ2WQcJasWA4uiqLjUf0AEqMTy7/9Y/HqzgvWDTsbzN6nmHVY6TivogTha+H1jNaPx4V9e5pQSh7ldkAdT7Fs0rPe0TJaskMYJXBgw0lQcnWrybbhKrZ4C74U0hkPNKdmj1ZPURUm+L94embKcUQraApyLQrzkvgAsqzmwkMF06dMo2M+9U9NuJ8UADSaxhfJLQraRdlMVOAnZ7v/c0NnYULUXeUDElEwuI61sjxxCbvUIwND6nBLqTvKt/vIo8TQgFqeE1mmT3riWBYOZrVwdhMXl3aJbgW72UJp/p9Yw6j7KVSTozvuE55tAkFz+UD0zPozWMa2xflvtIGXpfgyobz5JWVxHnCvfQwL1f01wyw9ygtKXkQ2uQAvM+5X0cia5SBXevhVs5XKGMjWlW3PJR5M6K3e+3yn9p6c6hGMkpEcRY9pzQ6L8bZnoLO8SB6m2kUmvsg/HLYKZQTPCPT5EFrqUllq87WljAekun0KaSh5+VtyP3/+dGZee22TJrzo8u8kg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(39860400002)(366004)(376002)(136003)(396003)(346002)(451199015)(6506007)(478600001)(71200400001)(110136005)(6486002)(4326008)(186003)(66476007)(76116006)(8676002)(66556008)(316002)(66946007)(26005)(6512007)(91956017)(38100700002)(450100002)(5660300002)(8936002)(2616005)(36756003)(41300700001)(4744005)(2906002)(83380400001)(86362001)(15650500001)(64756008)(82960400001)(66446008)(38070700005)(122000001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cEdlRVFNYWhSWUFKdDNhMjhBZ0RCNDJzL1pKZzl3Q2dYWUxmNnduYVpjcE16?=
- =?utf-8?B?Z3FHUlR6L0VIRWRsb0FtQmI3UG9uVmUwWWtJUnN5YUM3b1VJdklBWFk0U1RG?=
- =?utf-8?B?VVo4VUp4QVExL3hjcGRhTnByOFdSUDFDODBtK0NRcW80dDFWdE5GSHV3VHJu?=
- =?utf-8?B?dnJHZzNqWFgxV2pGNG1CMkZXLy9hdkNnNjZjZnhZUU10ei94SExUam5zdWxY?=
- =?utf-8?B?eGhjM0tMTXNtbjg5RkxFZEpuNTBRZTJTQm92Y1pPVzdOdlNHaW9PTFRRQnJY?=
- =?utf-8?B?WFIybXpkVTNCeDQ2RWFhWU02dkMrelQ1WDNTQ3gvZDdZbXpqYktvWENFUVd1?=
- =?utf-8?B?WTd2K2tJanF5TWM4MHVWUGE5YjVkWENGRVJrZTRrL1dkSWRoQ0szMHZiSlNE?=
- =?utf-8?B?RWFVVFdRL3BwQTBFZkZkMFpIVlB2SHovMGdWbUJId1hPbjd5ZFNwZzBDcG9x?=
- =?utf-8?B?RHFBclJWRlZDSGZHcGtHdzREaHFkN01xWWNkV3hVL1VKQ1VraXA0OUlNZnRo?=
- =?utf-8?B?MHpGQm9xbXlhYk9OU1JVU2xoRitiVm03STAwdWVEZUNNQytrMWxma09FVjMr?=
- =?utf-8?B?UVFXUmdaMThJcUU1QnV0NHJXb0VncmxQdmd0cW5ya0ovMEl4V2V6cE9EaEN2?=
- =?utf-8?B?UGd0aVQ3ZFNhaktuSG11SmtHSk4vMXorOFovV3pra1A3aEpoTUt1MnRna0k3?=
- =?utf-8?B?M09yMmZzQ0lOZHdQUnhsRUpKSGxQMDFIZHRGREtEWEdNU1QyeGdTZWJEc1gv?=
- =?utf-8?B?c1RDcFkxR0U2bFVRb1hkSzhGMy9nTnNkcW9mNnQvenEvR3A1K3VxQWxURFQ2?=
- =?utf-8?B?MVdvdW9qRWZSZE10WGw4TEJOSlhpN3huZ1gyY1hJbXFvdkZTNU9qblppODZP?=
- =?utf-8?B?Yko4N1BkanZLVjBZa09PYnA0NnlHVktwVmtUbWZ3NVdjaHRPdVphMG5Fa2Jv?=
- =?utf-8?B?Y2dKUllWbnhQZzF3WW9RbVN1aVFuTW0zci9na1d0ZTFyY0NLQVZUZzhVOXF4?=
- =?utf-8?B?SERvMS82eGx5NU9hMlQyVGMwckU1NzhqOHdtOUlwQ0FrTmtSQkpWVmx6ekw2?=
- =?utf-8?B?OU0vd1h0SVUzWURuQW1QdThEWnp0K3QrYjEwUktITHFaRXYwSk5XUE9qYTNM?=
- =?utf-8?B?RnkzYWkvY1BhdGhEdjczRHBIU2Jya1NTVW9acXFWYUVYWUhLUm03aUdOWWlJ?=
- =?utf-8?B?RzVVQTlnWGI0M2h0bGNMWjFMS2grVzl3NjJaVitrUkpGRGFVVThscjJhdW82?=
- =?utf-8?B?NXZVOTJvbDRVeG1XbTBhVGh4Zll3aklKVG8yaFFQM1pjS3ZsdnExbzRaMmhz?=
- =?utf-8?B?OUVrMU0xNERKRTlSZkJURmRXeDFpZmVjRWFmVDFKelNxNXpQTUdTVkt1NkJR?=
- =?utf-8?B?U3draURVcmdZS3lQdk9kN2VucjMzOUxCVzJtSWZzdUQ1Zjc1MVMzM1huN3Br?=
- =?utf-8?B?M3hHS3BGYTRzUEpwVzN3cWxaZFRaZStKaTdGd2xRYW9EUTFDeVEzKzhlR0l6?=
- =?utf-8?B?KzZ3VjZxblVlRjdubVhJd2RNdHJwMWJLK09qSzJDNURHaXA4TFFiZFZaYjl3?=
- =?utf-8?B?TGN6UzBPUTRKSE1XTmUvc1pNM2paU2lzQ0p4Z3ZmcW9sWlR4d29EWWFSTXI2?=
- =?utf-8?B?eDU1aEl5OHFKVWljSjRFWmxXZE00d01yN1N3dDZEd1I2NEFMZ29xQWhnSE0w?=
- =?utf-8?B?blQ0QXJkR0pmMDZCQlU2Y2Q4dktIbWx3a0ZtanQwR2JueTB0MTlnbENkaXJG?=
- =?utf-8?B?TWxzbDNJYUFoNW9oL1I5dyt6NDhPT01kOUd2WHFqbU15NFVMK2k3ek9VZEF2?=
- =?utf-8?B?Z3NOalVXSGJoZ3AzTUNXWHRFVzdFeUpVU0FzOG5nellQcFNabVZrbUFqWWJn?=
- =?utf-8?B?TDQ3QzhZVk02aU9DbTcwRjczVjM0Q1lybmlxVFA2L3VuV1UwSE1JTXNFSDdu?=
- =?utf-8?B?TkhFc1JSZVh0L3JIeHpNcU1EY2M5anBGSERhRFRTTmxyMHpaU0pIK2xsU1J2?=
- =?utf-8?B?M0gxYkU4UmFCRG1BRGp4V0JLanFhQzQ2NXQ0V2EwOVZ5V2JRbm1FTzRHNGE4?=
- =?utf-8?B?cWMyY1JST3FBY3lLWWNYa0YyanMzNWJmR3ZZdUJRUW9UTXQxSm9CODFVYUtD?=
- =?utf-8?B?RW82b2ZWZk9UdmpPWmJvVmgwV24vK3luZHlTb1JJcVlsS1l3SExRdHYvdzFh?=
- =?utf-8?Q?v9Ff7uY6H5aXKQVhBXIujE0d1B6+c0uZSUQ9Zaloxuwl?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <953C28FE2F458740BA744B51BB24C343@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17c08415-6a0e-4d32-6069-08dafb43a969
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2023 00:08:44.9826 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VKIMhixARXpjRpcQffD7ygiocqGx0VfFzQnbCXPmUtCr7zsaUJdDHDLhLfzRe6NG5BnIvGuHgEl+Ne49D4coQc+w2k2wbKSQTiWvny52Z1R2pNVt8AUOZZWK0hEOTK+l
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5441
-X-OriginatorOrg: intel.com
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BA20A10E0E1
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 02:41:13 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
+ by 156.147.23.51 with ESMTP; 21 Jan 2023 11:41:11 +0900
+X-Original-SENDERIP: 156.147.1.125
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
+ by 156.147.1.125 with ESMTP; 21 Jan 2023 11:41:11 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+From: Byungchul Park <byungchul.park@lge.com>
+To: torvalds@linux-foundation.org
+Subject: Re: [PATCH RFC v7 00/23] DEPT(Dependency Tracker)
+Date: Sat, 21 Jan 2023 11:40:56 +0900
+Message-Id: <1674268856-31807-1-git-send-email-byungchul.park@lge.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1674089907-31690-1-git-send-email-byungchul.park@lge.com>
+References: <1674089907-31690-1-git-send-email-byungchul.park@lge.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,24 +40,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, mhocko@kernel.org, linux-mm@kvack.org,
+ kernel-team@lge.com, adilger.kernel@dilger.ca, chris.p.wilson@intel.com,
+ joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
+ duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
+ damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
+ mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
+ ngupta@vflare.org, johannes.berg@intel.com, boqun.feng@gmail.com,
+ dan.j.williams@intel.com, josef@toxicpanda.com, rostedt@goodmis.org,
+ gwan-gyeong.mun@intel.com, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
+ longman@redhat.com, tglx@linutronix.de, vbabka@suse.cz, melissa.srw@gmail.com,
+ sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
+ linux-ide@vger.kernel.org, gregkh@linuxfoundation.org, jlayton@kernel.org,
+ linux-kernel@vger.kernel.org, penberg@kernel.org, minchan@kernel.org,
+ max.byungchul.park@gmail.com, hannes@cmpxchg.org, tj@kernel.org,
+ akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDIzLTAxLTIwIGF0IDIzOjQ2ICswMDAwLCBUZXJlcyBBbGV4aXMsIEFsYW4gUHJl
-dmluIHdyb3RlOg0KPiBUaGFua3MgZm9yIHRoZSByZXZpZXcgY29tbWVudC4uLiANCj4gDQoNClJl
-cGx5aW5nIGhlcmUgd2l0aCB0aGUgc3VtbWFyeSBvZiBvdXIgb2ZmbGluZSBjaGF0Og0KU28gd2Ug
-Y29uY2x1ZGVkIHRoYXQgZm9yIHRoZSBuZXh0IHJldiwgbGV0cyBtb3ZlIHRoZQ0KYnVmZmVyL3Zt
-YSBhbGxvY2F0aW9ucyBmcm9tIHBhdGNoICMyIGludG8gdGhpcyBwYXRjaCANCiM1LXNlbmQtbWVz
-c2FnZS4gQnV0IGZvciBub3cgd2Ugc2hhbGwga2VlcCBwYXRjaA0KIzYtY3JlYXRlLXNlc3Npb24g
-YXMgc2VwYXJhdGUgYmVjYXVzZSB3aGVuIGZ1dHVyZQ0KdGVybWluYXRlLXNlc3Npb24gam9pbnMg
-dGhpcyBzZXJpZXMsIGl0IHdpbGwgam9pbg0KIzYuIFRoYXQgc2FpZCwgIzUgYW5kICM2IHRvZ3Ro
-ZXIgd291bGQgdGhlbiBhcHBlYXINCnJhdGhlciBsYXJnZS4gSG93ZXZlciwgd2UgYm90aCBhZ3Jl
-ZWQgdGhhdCB3ZSBjYW4NCmFsd2F5cyBtYWtlIHRoZSBmaW5hbCBjYWxsIHRvIHNxdWFzaCBhbGwg
-b2YgdGhvc2UNCnRvZ2V0aGVyIChhbGxvYy9mcmVlICsgc2VuZC1tZXNzYWdlICsgY3JlYXRlLXNl
-c3Npb24gKw0KdGVybWluYXRlLXNlc3Npb24pIGF0IHRoZSBlbmQgd2hlbiB3ZSBhcmUgbWVyZ2lu
-ZyBpZg0Kd2Ugc2VlIGZpdC4gVGhhdCB3b3VsZCBiZSBlYXN5IGFuZCBwYWlubGVzcyAoYXMgb3Bw
-b3NlZCB0bw0Kc3F1YXNoaW5nIG5vdyBhbmQgdGhlbiBnZXR0aW5nIGEgcmVxdWVzdCB0byByZS1z
-cGxpdA0KbGF0ZXIpLiBOT1RFOiBhbGwgbnVtYmVyaW5nIGFib3ZlIHdpbGwgYXBwZWFyIGFzIG4t
-bWludXMtMQ0Kb24gbmV4dCByZXYgYmVjYXVzZSBQYXRjaC0jMSBpcyBnb2luZyBhd2F5ICh0aGUg
-c3R1YnMpLg0KDQp0aGFua3MgYWdhaW4uLi5hbGFuDQo=
+Byungchul wrote:
+> Torvalds wrote:
+> > On Sun, Jan 8, 2023 at 7:33 PM Byungchul Park <byungchul.park@lge.com> wrote:
+> > >
+> > > I've been developing a tool for detecting deadlock possibilities by
+> > > tracking wait/event rather than lock(?) acquisition order to try to
+> > > cover all synchonization machanisms. It's done on v6.2-rc2.
+> > 
+> > Ugh. I hate how this adds random patterns like
+> 
+> I undertand what you mean.. But all the synchronization primitives
+> should let DEPT know the beginning and the end of each. However, I will
+> remove the 'if' statement that looks ugly from the next spin, and place
+> the pattern to a better place if possible.
+> 
+> >	if (timeout == MAX_SCHEDULE_TIMEOUT)
+> >		sdt_might_sleep_strong(NULL);
+> >	else
+> >		sdt_might_sleep_strong_timeout(NULL);
+> >	...
+> >	sdt_might_sleep_finish();
+> > 
+> > to various places, it seems so very odd and unmaintainable.
+> > 
+> > I also recall this giving a fair amount of false positives, are they all fixed?
+> 
+> Yes. Of course I removed all the false positives we found.
+> 
+> > Anyway, I'd really like the lockdep people to comment and be involved.
+> > We did have a fairly recent case of "lockdep doesn't track page lock
+> > dependencies because it fundamentally cannot" issue, so DEPT might fix
+> > those kinds of missing dependency analysis. See
+> 
+> Sure. That's exactly what DEPT works for e.g. PG_locked.
+> 
+> >	https://lore.kernel.org/lkml/00000000000060d41f05f139aa44@google.com/
+> 
+> I will reproduce it and share the result.
+
+Hi Torvalds and folks,
+
+I reproduced the issue with DEPT on (after making DEPT work a lil more
+aggressively for PG_locked), and obtain a DEPT report. I wish this is
+the true positive, explaining the issue correctly!
+
+Let me remind you guys again, "DEPT is designed exactly for that kind of
+deadlock issue by e.g. PG_locked, PG_writeback and any wait APIs".
+
+I attach the report and add how to interpret it at the end.
+
+---
+
+[  227.854322] ===================================================
+[  227.854880] DEPT: Circular dependency has been detected.
+[  227.855341] 6.2.0-rc1-00025-gb0c20ebf51ac-dirty #28 Not tainted
+[  227.855864] ---------------------------------------------------
+[  227.856367] summary
+[  227.856601] ---------------------------------------------------
+[  227.857107] *** DEADLOCK ***
+
+[  227.857551] context A
+[  227.857803]     [S] lock(&ni->ni_lock:0)
+[  227.858175]     [W] folio_wait_bit_common(PG_locked_map:0)
+[  227.858658]     [E] unlock(&ni->ni_lock:0)
+
+[  227.859233] context B
+[  227.859484]     [S] (unknown)(PG_locked_map:0)
+[  227.859906]     [W] lock(&ni->ni_lock:0)
+[  227.860277]     [E] folio_unlock(PG_locked_map:0)
+
+[  227.860883] [S]: start of the event context
+[  227.861263] [W]: the wait blocked
+[  227.861581] [E]: the event not reachable
+[  227.861941] ---------------------------------------------------
+[  227.862436] context A's detail
+[  227.862738] ---------------------------------------------------
+[  227.863242] context A
+[  227.863490]     [S] lock(&ni->ni_lock:0)
+[  227.863865]     [W] folio_wait_bit_common(PG_locked_map:0)
+[  227.864356]     [E] unlock(&ni->ni_lock:0)
+
+[  227.864929] [S] lock(&ni->ni_lock:0):
+[  227.865279] [<ffffffff82b396fb>] ntfs3_setattr+0x54b/0xd40
+[  227.865803] stacktrace:
+[  227.866064]       ntfs3_setattr+0x54b/0xd40
+[  227.866469]       notify_change+0xcb3/0x1430
+[  227.866875]       do_truncate+0x149/0x210
+[  227.867277]       path_openat+0x21a3/0x2a90
+[  227.867692]       do_filp_open+0x1ba/0x410
+[  227.868110]       do_sys_openat2+0x16d/0x4e0
+[  227.868520]       __x64_sys_creat+0xcd/0x120
+[  227.868925]       do_syscall_64+0x41/0xc0
+[  227.869322]       entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+[  227.870019] [W] folio_wait_bit_common(PG_locked_map:0):
+[  227.870491] [<ffffffff81b228b0>] truncate_inode_pages_range+0x9b0/0xf20
+[  227.871074] stacktrace:
+[  227.871335]       folio_wait_bit_common+0x5e0/0xaf0
+[  227.871796]       truncate_inode_pages_range+0x9b0/0xf20
+[  227.872287]       truncate_pagecache+0x67/0x90
+[  227.872730]       ntfs3_setattr+0x55a/0xd40
+[  227.873152]       notify_change+0xcb3/0x1430
+[  227.873578]       do_truncate+0x149/0x210
+[  227.873981]       path_openat+0x21a3/0x2a90
+[  227.874395]       do_filp_open+0x1ba/0x410
+[  227.874803]       do_sys_openat2+0x16d/0x4e0
+[  227.875215]       __x64_sys_creat+0xcd/0x120
+[  227.875623]       do_syscall_64+0x41/0xc0
+[  227.876035]       entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+[  227.876738] [E] unlock(&ni->ni_lock:0):
+[  227.877105] (N/A)
+[  227.877331] ---------------------------------------------------
+[  227.877850] context B's detail
+[  227.878169] ---------------------------------------------------
+[  227.878699] context B
+[  227.878956]     [S] (unknown)(PG_locked_map:0)
+[  227.879381]     [W] lock(&ni->ni_lock:0)
+[  227.879774]     [E] folio_unlock(PG_locked_map:0)
+
+[  227.880429] [S] (unknown)(PG_locked_map:0):
+[  227.880825] (N/A)
+
+[  227.881249] [W] lock(&ni->ni_lock:0):
+[  227.881607] [<ffffffff82b009ec>] attr_data_get_block+0x32c/0x19f0
+[  227.882151] stacktrace:
+[  227.882421]       attr_data_get_block+0x32c/0x19f0
+[  227.882877]       ntfs_get_block_vbo+0x264/0x1330
+[  227.883316]       __block_write_begin_int+0x3bd/0x14b0
+[  227.883809]       block_write_begin+0xb9/0x4d0
+[  227.884231]       ntfs_write_begin+0x27e/0x480
+[  227.884650]       generic_perform_write+0x256/0x570
+[  227.885155]       __generic_file_write_iter+0x2ae/0x500
+[  227.885658]       ntfs_file_write_iter+0x66d/0x1d70
+[  227.886136]       do_iter_readv_writev+0x20b/0x3c0
+[  227.886596]       do_iter_write+0x188/0x710
+[  227.887015]       vfs_iter_write+0x74/0xa0
+[  227.887425]       iter_file_splice_write+0x745/0xc90
+[  227.887913]       direct_splice_actor+0x114/0x180
+[  227.888364]       splice_direct_to_actor+0x33b/0x8b0
+[  227.888831]       do_splice_direct+0x1b7/0x280
+[  227.889256]       do_sendfile+0xb49/0x1310
+
+[  227.889854] [E] folio_unlock(PG_locked_map:0):
+[  227.890265] [<ffffffff81f10222>] generic_write_end+0xf2/0x440
+[  227.890788] stacktrace:
+[  227.891056]       generic_write_end+0xf2/0x440
+[  227.891484]       ntfs_write_end+0x42e/0x980
+[  227.891920]       generic_perform_write+0x316/0x570
+[  227.892393]       __generic_file_write_iter+0x2ae/0x500
+[  227.892899]       ntfs_file_write_iter+0x66d/0x1d70
+[  227.893378]       do_iter_readv_writev+0x20b/0x3c0
+[  227.893838]       do_iter_write+0x188/0x710
+[  227.894253]       vfs_iter_write+0x74/0xa0
+[  227.894660]       iter_file_splice_write+0x745/0xc90
+[  227.895133]       direct_splice_actor+0x114/0x180
+[  227.895585]       splice_direct_to_actor+0x33b/0x8b0
+[  227.896082]       do_splice_direct+0x1b7/0x280
+[  227.896521]       do_sendfile+0xb49/0x1310
+[  227.896926]       __x64_sys_sendfile64+0x1d0/0x210
+[  227.897389]       do_syscall_64+0x41/0xc0
+[  227.897804]       entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[  227.898332] ---------------------------------------------------
+[  227.898858] information that might be helpful
+[  227.899278] ---------------------------------------------------
+[  227.899817] CPU: 1 PID: 8060 Comm: a.out Not tainted 6.2.0-rc1-00025-gb0c20ebf51ac-dirty #28
+[  227.900547] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Bochs 01/01/2011
+[  227.901249] Call Trace:
+[  227.901527]  <TASK>
+[  227.901778]  dump_stack_lvl+0xf2/0x169
+[  227.902167]  print_circle.cold+0xca4/0xd28
+[  227.902593]  ? lookup_dep+0x240/0x240
+[  227.902989]  ? extend_queue+0x223/0x300
+[  227.903392]  cb_check_dl+0x1e7/0x260
+[  227.903783]  bfs+0x27b/0x610
+[  227.904102]  ? print_circle+0x240/0x240
+[  227.904493]  ? llist_add_batch+0x180/0x180
+[  227.904901]  ? extend_queue_rev+0x300/0x300
+[  227.905317]  ? __add_dep+0x60f/0x810
+[  227.905689]  add_dep+0x221/0x5b0
+[  227.906041]  ? __add_idep+0x310/0x310
+[  227.906432]  ? add_iecxt+0x1bc/0xa60
+[  227.906821]  ? add_iecxt+0x1bc/0xa60
+[  227.907210]  ? add_iecxt+0x1bc/0xa60
+[  227.907599]  ? add_iecxt+0x1bc/0xa60
+[  227.907997]  __dept_wait+0x600/0x1490
+[  227.908392]  ? add_iecxt+0x1bc/0xa60
+[  227.908778]  ? truncate_inode_pages_range+0x9b0/0xf20
+[  227.909274]  ? check_new_class+0x790/0x790
+[  227.909700]  ? dept_enirq_transition+0x519/0x9c0
+[  227.910162]  dept_wait+0x159/0x3b0
+[  227.910535]  ? truncate_inode_pages_range+0x9b0/0xf20
+[  227.911032]  folio_wait_bit_common+0x5e0/0xaf0
+[  227.911482]  ? filemap_get_folios_contig+0xa30/0xa30
+[  227.911975]  ? dept_enirq_transition+0x519/0x9c0
+[  227.912440]  ? lock_is_held_type+0x10e/0x160
+[  227.912868]  ? lock_is_held_type+0x11e/0x160
+[  227.913300]  truncate_inode_pages_range+0x9b0/0xf20
+[  227.913782]  ? truncate_inode_partial_folio+0xba0/0xba0
+[  227.914304]  ? setattr_prepare+0x142/0xc40
+[  227.914718]  truncate_pagecache+0x67/0x90
+[  227.915135]  ntfs3_setattr+0x55a/0xd40
+[  227.915535]  ? ktime_get_coarse_real_ts64+0x1e5/0x2f0
+[  227.916031]  ? ntfs_extend+0x5c0/0x5c0
+[  227.916431]  ? mode_strip_sgid+0x210/0x210
+[  227.916861]  ? ntfs_extend+0x5c0/0x5c0
+[  227.917262]  notify_change+0xcb3/0x1430
+[  227.917661]  ? do_truncate+0x149/0x210
+[  227.918061]  do_truncate+0x149/0x210
+[  227.918449]  ? file_open_root+0x430/0x430
+[  227.918871]  ? process_measurement+0x18c0/0x18c0
+[  227.919337]  ? ntfs_file_release+0x230/0x230
+[  227.919784]  path_openat+0x21a3/0x2a90
+[  227.920185]  ? path_lookupat+0x840/0x840
+[  227.920595]  ? dept_enirq_transition+0x519/0x9c0
+[  227.921047]  ? lock_is_held_type+0x10e/0x160
+[  227.921460]  do_filp_open+0x1ba/0x410
+[  227.921839]  ? may_open_dev+0xf0/0xf0
+[  227.922214]  ? find_held_lock+0x2d/0x110
+[  227.922612]  ? lock_release+0x43c/0x830
+[  227.922992]  ? dept_ecxt_exit+0x31a/0x590
+[  227.923395]  ? _raw_spin_unlock+0x3b/0x50
+[  227.923793]  ? alloc_fd+0x2de/0x6e0
+[  227.924148]  do_sys_openat2+0x16d/0x4e0
+[  227.924529]  ? __ia32_sys_get_robust_list+0x3b0/0x3b0
+[  227.925013]  ? build_open_flags+0x6f0/0x6f0
+[  227.925414]  ? dept_enirq_transition+0x519/0x9c0
+[  227.925870]  ? dept_enirq_transition+0x519/0x9c0
+[  227.926331]  ? lock_is_held_type+0x4e/0x160
+[  227.926751]  ? lock_is_held_type+0x4e/0x160
+[  227.927168]  __x64_sys_creat+0xcd/0x120
+[  227.927561]  ? __x64_compat_sys_openat+0x1f0/0x1f0
+[  227.928031]  do_syscall_64+0x41/0xc0
+[  227.928416]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+[  227.928912] RIP: 0033:0x7f8b9e4e4469
+[  227.929285] Code: 00 f3 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d ff 49 2b 00 f7 d8 64 89 01 48
+[  227.930793] RSP: 002b:00007f8b9eea4ef8 EFLAGS: 00000202 ORIG_RAX: 0000000000000055
+[  227.931456] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f8b9e4e4469
+[  227.932062] RDX: 0000000000737562 RSI: 0000000000000000 RDI: 0000000020000000
+[  227.932661] RBP: 00007f8b9eea4f20 R08: 0000000000000000 R09: 0000000000000000
+[  227.933252] R10: 0000000000000000 R11: 0000000000000202 R12: 00007fffa75511ee
+[  227.933845] R13: 00007fffa75511ef R14: 00007f8b9ee85000 R15: 0000000000000003
+[  227.934443]  </TASK>
+
+---
+
+This part is the most important.
+
+[  227.857551] context A
+[  227.857803]     [S] lock(&ni->ni_lock:0)
+[  227.858175]     [W] folio_wait_bit_common(PG_locked_map:0)
+[  227.858658]     [E] unlock(&ni->ni_lock:0)
+
+[  227.859233] context B
+[  227.859484]     [S] (unknown)(PG_locked_map:0)
+[  227.859906]     [W] lock(&ni->ni_lock:0)
+[  227.860277]     [E] folio_unlock(PG_locked_map:0)
+
+[  227.860883] [S]: start of the event context
+[  227.861263] [W]: the wait blocked
+[  227.861581] [E]: the event not reachable
+
+Dependency 1. A's unlock(&ni_lock:0) cannot happen if A's
+              folio_wait_bit_common(PG_locked_map:0) is stuck waiting on
+	      folio_ulock(PG_locked_map:0) that will wake up A.
+
+Dependency 2. B's folio_unlock(PG_locked_map:0) cannot happend if B's
+              lock(&ni->ni_lock:0) is stuck waiting on
+	      unlock(&ni->ni_lock:0) that will release &ni->ni_lock.
+
+So if these two contexts run at the same time, a deadlock is gonna
+happen. DEPT reports it based on the two dependencies above. You can
+check the stacktrace of each [W] and [E] in context's detail section.
+
+It'd be appreciated if you share your opinion. I will work on it and
+post the next spin, after getting back to work in 4 days.
+
+	Byungchul
