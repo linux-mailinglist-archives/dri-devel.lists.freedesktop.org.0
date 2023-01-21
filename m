@@ -2,39 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C01676733
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 16:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754B967675D
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 17:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B917710E2DD;
-	Sat, 21 Jan 2023 15:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD0410E03A;
+	Sat, 21 Jan 2023 16:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA0910E2CE
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 15:36:26 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ansari.sh; s=key1;
- t=1674315384;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M8lIE+6WE9tMl1ZMBNy5CDlevzKnMkbivuT3ciwYp14=;
- b=M7hXj4cJw6RZF9uP8KLgmLQDXunN7Qm53brTFHZS4XI4bqRtYqKkPUa5kS1tgs81nIhYyX
- Xvo74sWyjF5tOPeeLlkNwEQEoBz2/4MGbWD0ONVuXAZ5ASJu3lZISESewHbSNzMCzaCxUB
- P/FyRiTLpqgS1pja107xW1VfFp3U+lo=
-From: Rayyan Ansari <rayyan@ansari.sh>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] dt-bindings: display: simple-framebuffer: Document
- physical width and height properties
-Date: Sat, 21 Jan 2023 15:35:44 +0000
-Message-Id: <20230121153544.467126-3-rayyan@ansari.sh>
-In-Reply-To: <20230121153544.467126-1-rayyan@ansari.sh>
-References: <20230121153544.467126-1-rayyan@ansari.sh>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4A210E010
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 16:24:25 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ o17-20020a05600c511100b003db021ef437so5700789wms.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 08:24:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YN0RgsGY5sjGwWchYqHougYTE34oL9zgVxdSvXbiA+I=;
+ b=axs0MMcnoNP58RZQ0NnQKFxcaprb/RIXNjgNOzL6Ntr6HXXK5XkH+IjMLEIe1BQ4t8
+ uHU32xccS8zpmJt+2inu9E7omuQg8IsrTKOWjylFTchtEoYlrV/md/E4WjmdRqztUPui
+ CLjVRAJBnA+zyQPh8+2hSnwDtjY6YRsUvSaGrglIBM+iZUbGR2z1v7hcurAuo5hZrbab
+ JVdPO7ZUTqBeEzHlliyEl/+A5lZroKlSqIxE17QDMJkyBCRnhlW007rlHe/e3d+PPKDi
+ IR491Fz2OFXvByAedeasXzfLAAXDlO3AZZfjKogGLYLGis7ILZwWw5Kztkv1ce6Mr1uU
+ BAwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YN0RgsGY5sjGwWchYqHougYTE34oL9zgVxdSvXbiA+I=;
+ b=rCENrwCft58rodbPUrGlam22VbexXjL4AXeAWZi4SJwzcruyD/GAIMQGpUQQndh8vy
+ w76gMXgnx2BQAxKtvnmL0X0ku+pHqciWL/d0MvUsR/RxTkCPgQfao7vBxkFgIhdvfroC
+ 384jj+9Do9NXecshKvR2QIQGomPAWxJXfAt7PSxGh9E2wiCwyhJF6AU99Sa4DgAA+Vsu
+ IIfvw+GO4jcvPuWe+rO2pfX7rnePbLdiEaPGQGNmhHUigNKTa1cPf8sX5DGQT9+r54Gk
+ E88Ydtj0bkGwU5NEV0snMzYvc03/brvaAUOV5mmJgkjzk0TZM8Hj+aau7Up05C8j8dB9
+ pk+A==
+X-Gm-Message-State: AFqh2kqJKXnY8PDtoZ8RqY+3wsUoGLlFtsPmG63vna8Z586/r08797HJ
+ BIr80NtDB9ybh/s2usuvx74=
+X-Google-Smtp-Source: AMrXdXueG+30f15FM6ZNJFdngtP8IrOmcwx4tufP2MpKVjvv5woJcynb6f9jfv42oBWUVemFbct+Sg==
+X-Received: by 2002:a05:600c:1604:b0:3c6:e61e:ae74 with SMTP id
+ m4-20020a05600c160400b003c6e61eae74mr19145049wmn.4.1674318263594; 
+ Sat, 21 Jan 2023 08:24:23 -0800 (PST)
+Received: from localhost.localdomain
+ (2a02-8428-46a0-7c01-43c0-f52a-beed-541b.rev.sfr.net.
+ [2a02:8428:46a0:7c01:43c0:f52a:beed:541b])
+ by smtp.gmail.com with ESMTPSA id
+ k21-20020a05600c1c9500b003db30be4a54sm5831443wms.38.2023.01.21.08.24.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 21 Jan 2023 08:24:23 -0800 (PST)
+From: Christophe Branchereau <cbranchereau@gmail.com>
+To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ paul@crapouillou.net, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] Add support for the AUO A030JTN01 TFT LCD
+Date: Sat, 21 Jan 2023 17:24:17 +0100
+Message-Id: <20230121162419.284523-1-cbranchereau@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,39 +74,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, janne@jannau.net,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rayyan Ansari <rayyan@ansari.sh>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev
+Cc: Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Rayyan Ansari <rayyan@ansari.sh>
----
- .../devicetree/bindings/display/simple-framebuffer.yaml   | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Changes since v3:
+  Reworked the few init registers that are used for hblk, vblk and standby
+  Use of dev_err_probe() instead of dev_err()
+  priv->panel_info = spi_get_device_match_data(spi);
 
-diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-index dd64f70b5014..eb33bfd805db 100644
---- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-+++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-@@ -106,6 +106,14 @@ properties:
-       - x2r10g10b10
-       - x8r8g8b8
- 
-+  width-mm:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: Physical width of the display in millimetres
-+
-+  height-mm:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: Physical height of the display in millimetres
-+
-   display:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description: Primary display hardware node
+  restored spi node to dt-bindings that was missing in v3
+----
+
+Changes since v2:
+ - added macros for stanby mode (untested, please review @pcercuei)
+ - added SPI table_id
+ - changed description in the bindings to describe the hw more
+
+Changes since v1:
+- fixed the dt-bindings maintainer email adress
+- dropped backlight, port, power-supply and reset-gpios as they're
+  provided by panel-common.yaml as pointed by Krzysztof Kozlowski
+- changed reg: true to reg : maxItems: 1
+
+
+Christophe Branchereau (1):
+  drm/panel: Add driver for the AUO A030JTN01 TFT LCD
+
+Paul Cercueil (1):
+  dt-bindings: display/panel: Add AUO A030JTN01
+
+ .../bindings/display/panel/auo,a030jtn01.yaml |  60 ++++
+ drivers/gpu/drm/panel/Kconfig                 |   8 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-auo-a030jtn01.c   | 308 ++++++++++++++++++
+ 4 files changed, 377 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/auo,a030jtn01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+
 -- 
 2.39.0
 
