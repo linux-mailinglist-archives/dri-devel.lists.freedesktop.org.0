@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534A86768D5
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A6D6768CC
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:09:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA0D10E401;
-	Sat, 21 Jan 2023 20:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8637010E3F1;
+	Sat, 21 Jan 2023 20:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC1110E3D8
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 539F410E406
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2994760BBC;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 31BE560B6E;
  Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F17F9C433D2;
- Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 05651C4339E;
+ Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331674;
- bh=CPGr3VRhQbbetsXaPje1tpYK6Lvk3tVV0mHH1th56Mg=;
+ bh=rNJ/elHciVzAhs1AtD3p8lPgukpfK92EAjyY8LbRHxI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=sEehNSNXXxo7oGak9TexEJT6TQTcG1ZnXbuD7cp5N9IfjqGgtRzuQulyUBStuVCrL
- BjKrw8cJ1c92xSdtLW2pC2MNd11u/pOOBEt/FfY1JlteAczHj0r/T7+YzvLABsKlpB
- 4oWIEJIrAmZv4/WO7PHeEFnGFjJasn6HaYWFYIYatti/FAapYGVyDODBF6Tntqw8eb
- SIAXWUnbbLgdphqtQjUilEfLBnQr/VZ0MINBEoLCSfgrpzoz19nN9ZQxvfvAniJC5W
- UohtxuZYBbMEocrN3g+KcoBirg+/2YJMiqmM4CFxaF1z4nQ5SSdstv/glk3rtsygls
- ZTge+VhSum8mg==
+ b=ehkLGkHwbdgouea278O5182N4OafXzOLasnavEhTLIv2MonQyHRwYhWEqMiqBshdS
+ 5kv8Iy/ZEU+4CaEP7Yhsn3eMuwtHt9GeZiQ78Bxt7Xgl7p1bXE4QIhfkK486nsAebx
+ oMLxK5kuAQ9dcHq92pNtj48zpJdsWh54vX8vXMuB60zdXv3+hxcDXJoy+h4hSKa0UD
+ gkaOuSO+05tHdGDvKZxeAWgiqfM7whuvVJmKFqTNFk3K5x0SrOhTA+Y9QC/+mMRozI
+ jjCOei9sY79ACh6W1Yh7h76Y1H5+LfVdaE6Pf/17XSxZXZq2JVdjIUyPBqHILQhsPs
+ EWul7cAdyBXCA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id E2F8FC54EAA;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id EAC13C54E94;
  Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:08:58 +0100
-Subject: [PATCH 80/86] drm/virtio: Direct include headers from
- drm_atomic_helper
+Date: Sat, 21 Jan 2023 21:08:59 +0100
+Subject: [PATCH 81/86] drm/vkms: Direct include headers from drm_atomic_helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-80-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-81-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=1510;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=3046;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=pMd8haXpuQzhdhfsb5QIvZj/rNkq3BMQdrHRZ82WU1U=; =?utf-8?q?b=3DjAR8vawYdNsH?=
- =?utf-8?q?5SgEHnDYd264P3NYSSGoIG/eHrfd9SsNsC2rXjul7ghnuIbeBf2TignC+Jss1AQg?=
- nHMQdJnPBRk2Hps/8OlwhjXZxmrwq6HT29OHXqi4PHxSUJ8f2Muk
+ bh=Ltk4KGrdtE7DzbmYT3euW35w1Fu6cTWQcVHGutwJdOs=; =?utf-8?q?b=3DhVbCz3iedpX1?=
+ =?utf-8?q?nNmZj253l6nM4ACCF+co30jw38ZBaAMQDEYQ7MJbz/ZPtFXpWOhc2NIzfjmZRaza?=
+ +h3XYtYJDkdksJ42Trg0u+Xe2asmr3zjsneo58+v4hGx7RYvCjU+
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -82,43 +81,84 @@ include only the minimal set of headers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_display.c | 3 +++
- drivers/gpu/drm/virtio/virtgpu_plane.c   | 2 ++
- 2 files changed, 5 insertions(+)
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 2 ++
+ drivers/gpu/drm/vkms/vkms_drv.c       | 1 +
+ drivers/gpu/drm/vkms/vkms_output.c    | 2 ++
+ drivers/gpu/drm/vkms/vkms_plane.c     | 1 +
+ drivers/gpu/drm/vkms/vkms_writeback.c | 2 ++
+ 5 files changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
-index 9ea7611a9e0f..712c98535f4d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_display.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_display.c
-@@ -26,10 +26,13 @@
-  */
+diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+index 57bbd32e9beb..7d540ed0466b 100644
+--- a/drivers/gpu/drm/vkms/vkms_crtc.c
++++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+@@ -4,6 +4,8 @@
  
+ #include <drm/drm_atomic.h>
  #include <drm/drm_atomic_helper.h>
 +#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fourcc.h>
++#include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 6d3a2d57d992..eb62b6171f77 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -22,6 +22,7 @@
  #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_modeset_helper.h>
+ #include <drm/drm_ioctl.h>
+ #include <drm/drm_managed.h>
++#include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_gem_shmem_helper.h>
+ #include <drm/drm_vblank.h>
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 991857125bb4..2a6fbb1f4d71 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -2,7 +2,9 @@
+ 
+ #include "vkms_drv.h"
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_edid.h>
 +#include <drm/drm_modeset_helper_vtables.h>
  #include <drm/drm_probe_helper.h>
  #include <drm/drm_simple_kms_helper.h>
  
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 4c09e313bebc..d0fc333f6b3f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -24,8 +24,10 @@
-  */
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_damage_helper.h>
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index b3f8a115cc23..45e53110b581 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -7,6 +7,7 @@
  #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
 +#include <drm/drm_modeset_helper_vtables.h>
  
- #include "virtgpu_drv.h"
+ #include "vkms_drv.h"
+ #include "vkms_formats.h"
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index 84a51cd281b9..33fd8437e320 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -3,6 +3,7 @@
+ #include <linux/iosys-map.h>
  
+ #include <drm/drm_atomic.h>
++#include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_writeback.h>
+@@ -10,6 +11,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_modeset_helper_vtables.h>
+ 
+ #include "vkms_drv.h"
+ #include "vkms_formats.h"
 
 -- 
 2.34.1
