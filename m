@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543446768E7
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49CD6768FB
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:11:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7969F10E413;
-	Sat, 21 Jan 2023 20:10:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95A4410E429;
+	Sat, 21 Jan 2023 20:10:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67F3310E3D3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFFA10E409
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 449B460B72;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4A94460BC2;
  Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 168D1C4339B;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D710C433A1;
  Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331674;
- bh=Q0hzBvhkYRvL3+RhjNwIHXfHfXuNAPsza7XXaSmgDoQ=;
+ bh=bLA+Md4GdDl2TeCuBfoYUlFv707i2BU4sfLFk5t13vo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=CFmqekT/AyyCu2GLGxZ9L+k+Fpink+u9Ms94bWf4m2w99sqMd6gKzeYk5Vztcds3A
- meQRPpk5E6jv4uYz8Dz4gLjSuDWnaDsnfZh3qOmqX5mgoQSIt7HJPVhVp2+Kzu1d1C
- gEDuvefH5X1CKCkevHuYNlgKT7mPiNNoV0Jbna98mpwcTRoI46z2PHmcAifPseRLxD
- HTWFSPkKQcgI59joSanAW1fmmkHGF/lnAzFMWqzLTCvbldcoBxMrcGSjZ6BaWApyM/
- CsMft3iotfMVoKt1tYPnUQIPMDIj+O14cfzwzODvR/PmqdJ0u6opSJmmnQmc6a19XC
- OnG0o4XRjr6hw==
+ b=nDpUvkLybRp4umcxs9V/hzmclEMeDVf/AiD9dJP5OB4OpnrZMinWcU5tqixrYwCeb
+ lXUd3U1cFwaCLizepQ1sIEIBVLzhcrquAtbO/xWVI3uXMYIC6wcN+obeN2N3/fmh0C
+ wWq8veXCsA2xjLPrTIJUj50cDGfVcfN77HR398mgQYqgT0sVsUJXGDuLp0MTOw/hGh
+ DygDKBNoBe7wRFmhVSin1FC4wrVCdSqbq8LUwB4B1wNsVI87EBJLpwMhh6s+jLqzRj
+ nTzDfjuWtFaFKuy9b2yWr2f0NdirdBV0VwhxTBtAS58sVEqdnvEyCXlStO3Ub2Nvc/
+ LM2wynoVuUiLQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 07F45C61D97;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE9DC38142;
  Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:09:01 +0100
-Subject: [PATCH 83/86] drm/xen: Direct include headers from drm_atomic_helper
+Date: Sat, 21 Jan 2023 21:09:02 +0100
+Subject: [PATCH 84/86] drm/drm_atomic_helper: Minimize include footprint
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-83-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-84-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=841;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=1468;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=SxDO6n2x0DH9C8qV7B220M04D/fc/HUQDkSZfSqJrBQ=; =?utf-8?q?b=3DspPHf7HoOrT/?=
- =?utf-8?q?29Kx8qX4cW2e2QL5oW1Qny+FeA0wJaYa5IJC23Uod+rPFrtGdGgC1lKBCRABXZAV?=
- lfw0QTMlDKXpa5gFXvAACHGyfa7zTe4XeQs9O6vTNttPazhvH+RB
+ bh=zJMm7dzYnLnxIUkQaPpznHgQB5PDGjDdaSZxy+nXRsY=; =?utf-8?q?b=3DpJuWc0PUjXTz?=
+ =?utf-8?q?JAkxcoDrQYfkxTc1R/gaoZEWroVm8LPkVPp5qgtduXd9xBwNZIFnmyx3L2tUWcnj?=
+ eCRR3yFPB+/Y1TTJARVT4B3dGjE14p3wmM4TomCG5hCWXQ/o/PlU
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -75,30 +75,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-Direct include the headers that otherwise comes indirect from
-drm_atomic_helper, because drm_atomic_helper will be reduced to
-include only the minimal set of headers.
+Reduce drm_atomic_helper.h to include or forward the minimal set of
+files/symbols - to minimize the impact of the files that includes this
+header file.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/xen/xen_drm_front_conn.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/drm/drm_atomic_helper.h | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_conn.c b/drivers/gpu/drm/xen/xen_drm_front_conn.c
-index a1ba6d3d0568..04fa1cdf7205 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_conn.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_conn.c
-@@ -9,8 +9,10 @@
-  */
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 33f982cd1a27..c7f2bc46bd24 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -28,11 +28,9 @@
+ #ifndef DRM_ATOMIC_HELPER_H_
+ #define DRM_ATOMIC_HELPER_H_
  
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_probe_helper.h>
+-#include <drm/drm_crtc.h>
+-#include <drm/drm_modeset_helper_vtables.h>
+-#include <drm/drm_modeset_helper.h>
+-#include <drm/drm_atomic_state_helper.h>
+-#include <drm/drm_util.h>
++#include <linux/types.h>
++
++#include <drm/drm_plane.h>
  
- #include <video/videomode.h>
+ /*
+  * Drivers that don't allow primary plane scaling may pass this macro in place
+@@ -44,8 +42,17 @@
+ #define DRM_PLANE_NO_SCALING (1<<16)
+ 
+ struct drm_atomic_state;
+-struct drm_private_obj;
+-struct drm_private_state;
++struct drm_bridge;
++struct drm_bridge_state;
++struct drm_connector_state;
++struct drm_crtc_state;
++struct drm_device;
++struct drm_encoder;
++struct drm_framebuffer;
++struct drm_mode_set;
++struct drm_modeset_acquire_ctx;
++struct drm_pending_vblank_event;
++
+ 
+ int drm_atomic_helper_check_modeset(struct drm_device *dev,
+ 				struct drm_atomic_state *state);
 
 -- 
 2.34.1
