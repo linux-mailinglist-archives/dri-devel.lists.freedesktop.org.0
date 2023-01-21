@@ -1,76 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA86A676865
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 20:25:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1C1676864
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 20:25:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B52C10E3BC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B34810E2C0;
 	Sat, 21 Jan 2023 19:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BC410E031
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 19:24:50 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A399C10E031
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 19:24:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674329089;
+ s=mimecast20190719; t=1674329091;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7oGQt8CSMw4GzppBRa4wPVT549mMixHHzNT+6I/9DSU=;
- b=ewRkp11S/ks1j34yYhB0VkW12ujNCW62ycpfS6GK0AjQInu/jhBg3g+BIGutce0tNPEL2k
- PpQ3DSppb/Rwt4BgJs01KkfgOthrZGCxD+lqyxVVHhHYUHF88FKfMnLYWd82/L+GJjoFta
- vvu3vLWEbwigTd9YznZmTYg8STxTbbk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=INOBbY8qYhywRYADqD7lShWma79A4nWuRgcVD0ZUPcY=;
+ b=dmKJNqLpqdgzd1WLC8KJNUYQ+BvLtsuFfzI+4u8u3UKqF8leVxT1pofpiSVHTDCmQgfpBD
+ C5a1zCigVoD/7H4CL+zCVhQiNfIyKqBalQ1nKcaKNEKVbEoCZkXoe4IVh9wUL/xH6IWgX4
+ j2bTyjtYduiLdl6e2PEUytrzaGqVYf0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-369-7DbNCKU1NsWMs-_Vx08m-w-1; Sat, 21 Jan 2023 14:24:48 -0500
-X-MC-Unique: 7DbNCKU1NsWMs-_Vx08m-w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k11-20020adfe3cb000000b002be503e7f28so1133382wrm.2
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 11:24:47 -0800 (PST)
+ us-mta-386-wnCU4GimMPKq2jNSpiqK1g-1; Sat, 21 Jan 2023 14:24:49 -0500
+X-MC-Unique: wnCU4GimMPKq2jNSpiqK1g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bi18-20020a05600c3d9200b003d991844dbcso6843902wmb.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 11:24:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7oGQt8CSMw4GzppBRa4wPVT549mMixHHzNT+6I/9DSU=;
- b=VxOMOISftVCw1i6NquVj0jsrNtkIdWY286QbG1pHlay5dg7Wpb+aEvLjcqKyWJ63I5
- ATFcTB5S5CIjPUtjSwI9dfe4vUBXOoKCJrUsRpqnrUs4Yv16/V7QpxcY5NcMivw52Ed9
- O1qGgvnltXuH7hoK47b7BrFv7APscIUnL3QmoZMKU8x5ICaBZlQw+fl1qfvlqW4b7f4Z
- md6upD+pE5EXk4+9AFWPovIRndYhyIWpgPTj2X+KN6WTLwzUMgVZmkARDXBcAP2Y6UbV
- T0DQDzEBGjRyV5sDvPFJx8VGXYsZE9elORFlhmm8vBeYoIto2Y5uvsI2fVKaCGZ5M0rG
- e4NQ==
-X-Gm-Message-State: AFqh2krz3MwLzrRzix75MR535IpL1SsZSiBinxAMn9xZMrk11kR4lQKs
- bdRfTvyr6AhRKUaZo+fThbwjetTtp3nF/3twhTig5KMfDY5LtZYruT8mOe68x3s9yLOfZ0wEvcU
- YkreHf7TJuimWMAVrOWFi+iQBKdMx
-X-Received: by 2002:a05:600c:1c23:b0:3db:b9f:f2e with SMTP id
- j35-20020a05600c1c2300b003db0b9f0f2emr16681539wms.14.1674329087149; 
- Sat, 21 Jan 2023 11:24:47 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvo4YuYvz9GiFn0zs6xKas3bTc88JqL7+8XVAEOB/6LyNKyp/RA7k5MmpDB75tEJqJVBJytCg==
-X-Received: by 2002:a05:600c:1c23:b0:3db:b9f:f2e with SMTP id
- j35-20020a05600c1c2300b003db0b9f0f2emr16681525wms.14.1674329086970; 
- Sat, 21 Jan 2023 11:24:46 -0800 (PST)
+ bh=INOBbY8qYhywRYADqD7lShWma79A4nWuRgcVD0ZUPcY=;
+ b=uBPeDwhQg2/Iqdg9FVtWo3c9RqG5PghCwM8mxZgi/YTFPEaXE1jXKnJYKh+lSHk1cU
+ mrPtizt8IurYVLp9s6jZ82tw6xVuSl1s/v4wL3OXRmDBFV//X2ziv2LcdFPrJ4Ewgtkz
+ zMnYLbg0c1QTcbgTddklStxD2i/GTl39KT96liIjRy9qWhbijEI8owIFoG1RIcjZZZM0
+ krL3o8E0guequf3rLw+zVia0B4z3vm7hezaMXKQR7qluedAjSSu+tFXH/Wdq+DVRsTAI
+ jRjuiHRq2ZpDbKzdH+8/h0hawgShYUdndNm1weodB3OZSsIo6ZfUHi0lpssE3UN2cP3+
+ U/FA==
+X-Gm-Message-State: AFqh2kpdXLUyBRNDfb8bw/dUn82n70u174aGEB7HE2grl7599rODH7TM
+ NdRCMBWOtDWQwxXWhQwNBbybWkcuC9eDHe7wYzM5Nd0PZVCwARMPziXNQwvn2uHVVZGL2B0LOko
+ PaKQfiNeIhmvRjKgb7B2zNWyLabbG
+X-Received: by 2002:a05:600c:54d0:b0:3da:f9c9:cec9 with SMTP id
+ iw16-20020a05600c54d000b003daf9c9cec9mr18418288wmb.1.1674329088537; 
+ Sat, 21 Jan 2023 11:24:48 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvRF+1BpKpjkKKFNhIKm10zLlitXgLbR6X+h9GBEQt3mPozJt0PcCzSaxJShUwAjj3LaAyTAw==
+X-Received: by 2002:a05:600c:54d0:b0:3da:f9c9:cec9 with SMTP id
+ iw16-20020a05600c54d000b003daf9c9cec9mr18418274wmb.1.1674329088340; 
+ Sat, 21 Jan 2023 11:24:48 -0800 (PST)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c154e00b003daff80f16esm8544321wmg.27.2023.01.21.11.24.45
+ f14-20020a05600c154e00b003daff80f16esm8544321wmg.27.2023.01.21.11.24.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Jan 2023 11:24:46 -0800 (PST)
+ Sat, 21 Jan 2023 11:24:48 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/3] drm/fb-helper: Check fb_deferred_io_init() return value
-Date: Sat, 21 Jan 2023 20:24:17 +0100
-Message-Id: <20230121192418.2814955-3-javierm@redhat.com>
+Subject: [PATCH v2 3/3] drm/fb-helper: Use a per-driver FB deferred I/O handler
+Date: Sat, 21 Jan 2023 20:24:18 +0100
+Message-Id: <20230121192418.2814955-4-javierm@redhat.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230121192418.2814955-1-javierm@redhat.com>
 References: <20230121192418.2814955-1-javierm@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,36 +90,132 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fb_deferred_io_init() can fail and return an errno code but currently
-there is no check for its return value.
+The DRM fbdev emulation layer sets the struct fb_info .fbdefio field to
+a struct fb_deferred_io pointer, that is shared across all drivers that
+use the generic drm_fbdev_generic_setup() helper function.
 
-Fix that and propagate to errno to the caller in the case of a failure.
+It is a problem because the fbdev core deferred I/O logic assumes that
+the struct fb_deferred_io data is not shared between devices, and it's
+stored there state such as the list of pages touched and a mutex that
+is use to synchronize between the fb_deferred_io_track_page() function
+that track the dirty pages and fb_deferred_io_work() workqueue handler
+doing the actual deferred I/O.
+
+The latter can lead to the following error, since it may happen that two
+drivers are probed and then one is removed, which causes the mutex bo be
+destroyed and not existing anymore by the time the other driver tries to
+grab it for the fbdev deferred I/O logic:
+
+[  369.756553] ------------[ cut here ]------------
+[  369.756604] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+[  369.756631] WARNING: CPU: 2 PID: 1023 at kernel/locking/mutex.c:582 __mutex_lock+0x348/0x424
+[  369.756744] Modules linked in: nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ip
+v6 nf_defrag_ipv4 ip_set nf_tables nfnetlink qrtr btsdio bluetooth sunrpc brcmfmac snd_soc_hdmi_codec cpufreq_dt cfg80211 vfat fat vc4 rfkill brcmutil raspberrypi_cpufreq i2c_bcm2835 iproc_rng200 bcm2711_thermal snd_soc_core snd_pcm_dmaen
+gine leds_gpio nvmem_rmem joydev hid_cherry uas usb_storage gpio_raspberrypi_exp v3d snd_pcm raspberrypi_hwmon gpu_sched bcm2835_wdt broadcom bcm_phy_lib snd_timer genet snd mdio_bcm_unimac clk_bcm2711_dvp soundcore drm_display_helper pci
+e_brcmstb cec ip6_tables ip_tables fuse
+[  369.757400] CPU: 2 PID: 1023 Comm: fbtest Not tainted 5.19.0-rc6+ #94
+[  369.757455] Hardware name: raspberrypi,4-model-b Raspberry Pi 4 Model B Rev 1.4/Raspberry Pi 4 Model B Rev 1.4, BIOS 2022.10 10/01/2022
+[  369.757538] pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  369.757596] pc : __mutex_lock+0x348/0x424
+[  369.757635] lr : __mutex_lock+0x348/0x424
+[  369.757672] sp : ffff80000953bb00
+[  369.757703] x29: ffff80000953bb00 x28: ffff17fdc087c000 x27: 0000000000000002
+[  369.757771] x26: ffff17fdc349f9b0 x25: fffffc5ff72e0100 x24: 0000000000000000
+[  369.757838] x23: 0000000000000000 x22: 0000000000000002 x21: ffffa618df636f10
+[  369.757903] x20: ffff80000953bb68 x19: ffffa618e0f18138 x18: 0000000000000001
+[  369.757968] x17: 0000000020000000 x16: 0000000000000002 x15: 0000000000000000
+[  369.758032] x14: 0000000000000000 x13: 284e4f5f4e524157 x12: 5f534b434f4c5f47
+[  369.758097] x11: 00000000ffffdfff x10: ffffa618e0c79f88 x9 : ffffa618de472484
+[  369.758162] x8 : 000000000002ffe8 x7 : c0000000ffffdfff x6 : 00000000000affa8
+[  369.758227] x5 : 0000000000001fff x4 : 0000000000000000 x3 : 0000000000000027
+[  369.758292] x2 : 0000000000000001 x1 : ffff17fdc087c000 x0 : 0000000000000028
+[  369.758357] Call trace:
+[  369.758383]  __mutex_lock+0x348/0x424
+[  369.758420]  mutex_lock_nested+0x4c/0x5c
+[  369.758459]  fb_deferred_io_mkwrite+0x78/0x1d8
+[  369.758507]  do_page_mkwrite+0x5c/0x19c
+[  369.758550]  wp_page_shared+0x70/0x1a0
+[  369.758590]  do_wp_page+0x3d0/0x510
+[  369.758628]  handle_pte_fault+0x1c0/0x1e0
+[  369.758670]  __handle_mm_fault+0x250/0x380
+[  369.758712]  handle_mm_fault+0x17c/0x3a4
+[  369.758753]  do_page_fault+0x158/0x530
+[  369.758792]  do_mem_abort+0x50/0xa0
+[  369.758831]  el0_da+0x78/0x19c
+[  369.758864]  el0t_64_sync_handler+0xbc/0x150
+[  369.758904]  el0t_64_sync+0x190/0x194
+[  369.758942] irq event stamp: 11395
+[  369.758973] hardirqs last  enabled at (11395): [<ffffa618de472554>] __up_console_sem+0x74/0x80
+[  369.759042] hardirqs last disabled at (11394): [<ffffa618de47254c>] __up_console_sem+0x6c/0x80
+[  369.760554] softirqs last  enabled at (11392): [<ffffa618de330a74>] __do_softirq+0x4c4/0x6b8
+[  369.762060] softirqs last disabled at (11383): [<ffffa618de3c9124>] __irq_exit_rcu+0x104/0x214
+[  369.763564] ---[ end trace 0000000000000000 ]---
 
 Fixes: d536540f304c ("drm/fb-helper: Add generic fbdev emulation .fb_probe function")
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
 
-(no changes since v1)
+Changes in v2:
+- Re-introduce the CONFIG_FB_DEFERRED_IO ifdef guard for the @fbdefio field
+  declaration since the kernel test robot reported that's needed at the end.
 
- drivers/gpu/drm/drm_fbdev_generic.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_fbdev_generic.c | 11 +++++------
+ include/drm/drm_fb_helper.h         | 12 ++++++++++++
+ 2 files changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index 0a4c160e0e58..b2df8c03594c 100644
+index b2df8c03594c..bd1f8f28297c 100644
 --- a/drivers/gpu/drm/drm_fbdev_generic.c
 +++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -223,7 +223,9 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+@@ -171,11 +171,6 @@ static const struct fb_ops drm_fbdev_fb_ops = {
+ 	.fb_imageblit	= drm_fbdev_fb_imageblit,
+ };
+ 
+-static struct fb_deferred_io drm_fbdev_defio = {
+-	.delay		= HZ / 20,
+-	.deferred_io	= drm_fb_helper_deferred_io,
+-};
+-
+ /*
+  * This function uses the client API to create a framebuffer backed by a dumb buffer.
+  */
+@@ -222,7 +217,11 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+ 			return -ENOMEM;
  		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
  
- 		fbi->fbdefio = &drm_fbdev_defio;
--		fb_deferred_io_init(fbi);
-+		ret = fb_deferred_io_init(fbi);
-+		if (ret)
-+			return ret;
- 	} else {
- 		/* buffer is mapped for HW framebuffer */
- 		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
+-		fbi->fbdefio = &drm_fbdev_defio;
++		/* Set a default deferred I/O handler */
++		fb_helper->fbdefio.delay = HZ / 20;
++		fb_helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
++
++		fbi->fbdefio = &fb_helper->fbdefio;
+ 		ret = fb_deferred_io_init(fbi);
+ 		if (ret)
+ 			return ret;
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index f443e1f11654..497bb3a0b943 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -203,6 +203,18 @@ struct drm_fb_helper {
+ 	 * the smem_start field should always be cleared to zero.
+ 	 */
+ 	bool hint_leak_smem_start;
++
++#ifdef CONFIG_FB_DEFERRED_IO
++	/**
++	 * @fbdefio:
++	 *
++	 * Temporary storage for the driver's FB deferred I/O handler. If the
++	 * driver uses the DRM fbdev emulation layer, this is set by the core
++	 * to a generic deferred I/O handler if a driver is preferring to use
++	 * a shadow buffer.
++	 */
++	struct fb_deferred_io fbdefio;
++#endif
+ };
+ 
+ static inline struct drm_fb_helper *
 -- 
 2.39.0
 
