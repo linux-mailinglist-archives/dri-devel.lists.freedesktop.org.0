@@ -2,52 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0721567639C
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 05:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 983766763DF
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 05:48:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6CF10E08E;
-	Sat, 21 Jan 2023 04:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F051A10E0E1;
+	Sat, 21 Jan 2023 04:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D597010E08E
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 04:01:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674273709; x=1705809709;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=vD/Ve1nwrwqAAg8Tpgetd8FB3iEsTZOQYNqwUJDbm80=;
- b=n7tNGnkSmsZeVP8RL0QRCd5UWIy2pLL2uQq/441Bsd/Mdtr0eFRwmtI4
- wT0YhHx4IbH7xg68030gOWISvy2nUTFo0NDu7I5ZOr+AbuNMedKgszCWv
- KgSIirqUMA6qxfKpdp3YQY7rkkQt5i7fo148rxRDd1uydErC+9LuHMr33
- khIQQXDTPuSRSb/bHWmroLZYKuHxR8rSOHKzoqYoPVBnWmKLN85g6jlC1
- BkxZMQZFnY9SQajDOkqFqhjTk697aU9XTpSkrU8KBJfUcK5rawbPHMfxc
- A+ptkYqDMk13Kk93LiztneRrmMLQuYgDMK7B8kaZiIWLqsDwhZpw194hz g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="323444180"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; d="scan'208";a="323444180"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2023 20:01:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10596"; a="660824113"
-X-IronPort-AV: E=Sophos;i="5.97,234,1669104000"; d="scan'208";a="660824113"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 20 Jan 2023 20:01:46 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pJ54c-0003O0-0X;
- Sat, 21 Jan 2023 04:01:46 +0000
-Date: Sat, 21 Jan 2023 12:00:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/fb-helper: Use a per-driver FB deferred I/O
- handler
-Message-ID: <202301211139.vzFLFznY-lkp@intel.com>
-References: <20230120120822.2536032-4-javierm@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230120120822.2536032-4-javierm@redhat.com>
+Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0F4C810E0E1
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 04:48:05 +0000 (UTC)
+Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
+ by 156.147.23.53 with ESMTP; 21 Jan 2023 13:48:04 +0900
+X-Original-SENDERIP: 156.147.1.151
+X-Original-MAILFROM: byungchul.park@lge.com
+Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
+ by 156.147.1.151 with ESMTP; 21 Jan 2023 13:48:04 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: byungchul.park@lge.com
+From: Byungchul Park <byungchul.park@lge.com>
+To: boqun.feng@gmail.com
+Subject: Re: [PATCH RFC v7 00/23] DEPT(Dependency Tracker)
+Date: Sat, 21 Jan 2023 13:47:49 +0900
+Message-Id: <1674276469-31793-1-git-send-email-byungchul.park@lge.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <Y8tfgYNZ//feEDvC@Boquns-Mac-mini.local>
+References: <Y8tfgYNZ//feEDvC@Boquns-Mac-mini.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,168 +40,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev
+Cc: hamohammed.sa@gmail.com, jack@suse.cz, peterz@infradead.org,
+ daniel.vetter@ffwll.ch, amir73il@gmail.com, david@fromorbit.com,
+ dri-devel@lists.freedesktop.org, mhocko@kernel.org, linux-mm@kvack.org,
+ linux-ide@vger.kernel.org, adilger.kernel@dilger.ca, chris.p.wilson@intel.com,
+ joel@joelfernandes.org, 42.hyeyoo@gmail.com, cl@linux.com, will@kernel.org,
+ duyuyang@gmail.com, sashal@kernel.org, paolo.valente@linaro.org,
+ damien.lemoal@opensource.wdc.com, willy@infradead.org, hch@infradead.org,
+ mingo@redhat.com, djwong@kernel.org, vdavydov.dev@gmail.com,
+ rientjes@google.com, dennis@kernel.org, linux-ext4@vger.kernel.org,
+ ngupta@vflare.org, johannes.berg@intel.com, dan.j.williams@intel.com,
+ josef@toxicpanda.com, rostedt@goodmis.org, gwan-gyeong.mun@intel.com,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jglisse@redhat.com,
+ viro@zeniv.linux.org.uk, longman@redhat.com, tglx@linutronix.de,
+ vbabka@suse.cz, melissa.srw@gmail.com, sj@kernel.org, tytso@mit.edu,
+ rodrigosiqueiramelo@gmail.com, kernel-team@lge.com, gregkh@linuxfoundation.org,
+ jlayton@kernel.org, linux-kernel@vger.kernel.org, penberg@kernel.org,
+ minchan@kernel.org, max.byungchul.park@gmail.com, hannes@cmpxchg.org,
+ tj@kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Boqun wrote:
+> On Sat, Jan 21, 2023 at 12:28:14PM +0900, Byungchul Park wrote:
+> > On Thu, Jan 19, 2023 at 07:07:59PM -0800, Boqun Feng wrote:
+> > > On Thu, Jan 19, 2023 at 06:23:49PM -0800, Boqun Feng wrote:
+> > > > On Fri, Jan 20, 2023 at 10:51:45AM +0900, Byungchul Park wrote:
+> > 
+> > [...]
+> > 
+> > > > > T0		T1		T2
+> > > > > --		--		--
+> > > > > unfair_read_lock(A);
+> > > > >			write_lock(B);
+> > > > >					write_lock(A);
+> > > > > write_lock(B);
+> > > > >			fair_read_lock(A);
+> > > > > write_unlock(B);
+> > > > > read_unlock(A);
+> > > > >			read_unlock(A);
+> > > > >			write_unlock(B);
+> > > > >					write_unlock(A);
+> > > > > 
+> > > > > T0: read_unlock(A) cannot happen if write_lock(B) is stuck by a B owner
+> > > > >     not doing either write_unlock(B) or read_unlock(B). In other words:
+> > > > > 
+> > > > >       1. read_unlock(A) happening depends on write_unlock(B) happening.
+> > > > >       2. read_unlock(A) happening depends on read_unlock(B) happening.
+> > > > > 
+> > > > > T1: write_unlock(B) cannot happen if fair_read_lock(A) is stuck by a A
+> > > > >     owner not doing either write_unlock(A) or read_unlock(A). In other
+> > > > >     words:
+> > > > > 
+> > > > >       3. write_unlock(B) happening depends on write_unlock(A) happening.
+> > > > >       4. write_unlock(B) happening depends on read_unlock(A) happening.
+> > > > > 
+> > > > > 1, 2, 3 and 4 give the following dependencies:
+> > > > > 
+> > > > >     1. read_unlock(A) -> write_unlock(B)
+> > > > >     2. read_unlock(A) -> read_unlock(B)
+> > > > >     3. write_unlock(B) -> write_unlock(A)
+> > > > >     4. write_unlock(B) -> read_unlock(A)
+> > > > > 
+> > > > > With 1 and 4, there's a circular dependency so DEPT definitely report
+> > > > > this as a problem.
+> > > > > 
+> > > > > REMIND: DEPT focuses on waits and events.
+> > > > 
+> > > > Do you have the test cases showing DEPT can detect this?
+> > > > 
+> > > 
+> > > Just tried the following on your latest GitHub branch, I commented all
+> > > but one deadlock case. Lockdep CAN detect it but DEPT CANNOT detect it.
+> > > Feel free to double check.
+> > 
+> > I tried the 'queued read lock' test cases with DEPT on. I can see DEPT
+> > detect and report it. But yeah.. it's too verbose now. It's because DEPT
+> > is not aware of the test environment so it's just working hard to report
+> > every case.
+> > 
+> > To make DEPT work with the selftest better, some works are needed. I
+> > will work on it later or you please work on it.
+> > 
+> > The corresponding report is the following.
+> > 
+> [...]
+> > [    4.593037] context A's detail
+> > [    4.593351] ---------------------------------------------------
+> > [    4.593944] context A
+> > [    4.594182]     [S] lock(&rwlock_A:0)
+> > [    4.594577]     [W] lock(&rwlock_B:0)
+> > [    4.594952]     [E] unlock(&rwlock_A:0)
+> > [    4.595341] 
+> > [    4.595501] [S] lock(&rwlock_A:0):
+> > [    4.595848] [<ffffffff814eb244>] queued_read_lock_hardirq_ER_rE+0xf4/0x170
+> > [    4.596547] stacktrace:
+> > [    4.596797]       _raw_read_lock+0xcf/0x110
+> > [    4.597215]       queued_read_lock_hardirq_ER_rE+0xf4/0x170
+> > [    4.597766]       dotest+0x30/0x7bc
+> > [    4.598118]       locking_selftest+0x2c6f/0x2ead
+> > [    4.598602]       start_kernel+0x5aa/0x6d5
+> > [    4.599017]       secondary_startup_64_no_verify+0xe0/0xeb
+> > [    4.599562] 
+> [...]
+> > [    4.608427] [<ffffffff814eb3b4>] queued_read_lock_hardirq_RE_Er+0xf4/0x170
+> > [    4.609113] stacktrace:
+> > [    4.609366]       _raw_write_lock+0xc3/0xd0
+> > [    4.609788]       queued_read_lock_hardirq_RE_Er+0xf4/0x170
+> > [    4.610371]       dotest+0x30/0x7bc
+> > [    4.610730]       locking_selftest+0x2c41/0x2ead
+> > [    4.611195]       start_kernel+0x5aa/0x6d5
+> > [    4.611615]       secondary_startup_64_no_verify+0xe0/0xeb
+> > [    4.612164] 
+> > [    4.612325] [W] lock(&rwlock_A:0):
+> > [    4.612671] [<ffffffff814eb3c0>] queued_read_lock_hardirq_RE_Er+0x100/0x170
+> > [    4.613369] stacktrace:
+> > [    4.613622]       _raw_read_lock+0xac/0x110
+> > [    4.614047]       queued_read_lock_hardirq_RE_Er+0x100/0x170
+> > [    4.614652]       dotest+0x30/0x7bc
+> > [    4.615007]       locking_selftest+0x2c41/0x2ead
+> > [    4.615468]       start_kernel+0x5aa/0x6d5
+> > [    4.615879]       secondary_startup_64_no_verify+0xe0/0xeb
+> > [    4.616607] 
+> [...]
+> 
+> > As I told you, DEPT treats a queued lock as a normal type lock, no
+> > matter whether it's a read lock. That's why it prints just
+> > 'lock(&rwlock_A:0)' instead of 'read_lock(&rwlock_A:0)'. If needed, I'm
+> > gonna change the format.
+> > 
+> > I checked the selftest code and found, LOCK(B) is transformed like:
+> > 
+> > 	LOCK(B) -> WL(B) -> write_lock(&rwlock_B)
+> > 
+> > That's why '&rwlock_B' is printed instead of just 'B', JFYI.
+> > 
+> 
+> Nah, you output shows that you've run at least both function
+> 
+> 	queued_read_lock_hardirq_RE_Er()
+> 	queued_read_lock_hardirq_ER_rE()
 
-I love your patch! Yet something to improve:
+Indeed! I'm sorry for that.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.2-rc4 next-20230120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> but if you apply my diff
+> 
+> 	https://lore.kernel.org/lkml/Y8oFj9A19cw3enHB@boqun-archlinux/
+> 
+> you should only run
+> 
+> 	queued_read_lock_hardirq_RE_Er()
+> 
+> one test.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/fbdev-Remove-unused-struct-fb_deferred_io-first_io-field/20230120-201143
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230120120822.2536032-4-javierm%40redhat.com
-patch subject: [PATCH 3/3] drm/fb-helper: Use a per-driver FB deferred I/O handler
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230121/202301211139.vzFLFznY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/21185713f8ccb3dc34c91fcecff9464c4a8790fa
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Javier-Martinez-Canillas/fbdev-Remove-unused-struct-fb_deferred_io-first_io-field/20230120-201143
-        git checkout 21185713f8ccb3dc34c91fcecff9464c4a8790fa
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+I checked it. DEPT doesn't assume a rwlock switches between recursive
+read lock and non-recursive read lock in a run time. Maybe it switches
+since read lock needs to switch to recursive one in interrupt context.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+By forcing read_lock_is_recursive() to always return false, DEPT works
+as we expect. Otherwise, it doesn't.
 
-All errors (new ones prefixed by >>):
+Probabily I need to fix it.
 
-   In file included from drivers/gpu/drm/drm_modeset_helper.c:24:
->> include/drm/drm_fb_helper.h:215:31: error: field 'fbdefio' has incomplete type
-     215 |         struct fb_deferred_io fbdefio;
-         |                               ^~~~~~~
+Thanks.
 
-
-vim +/fbdefio +215 include/drm/drm_fb_helper.h
-
-   103	
-   104	/**
-   105	 * struct drm_fb_helper - main structure to emulate fbdev on top of KMS
-   106	 * @fb: Scanout framebuffer object
-   107	 * @dev: DRM device
-   108	 * @funcs: driver callbacks for fb helper
-   109	 * @info: emulated fbdev device info struct
-   110	 * @pseudo_palette: fake palette of 16 colors
-   111	 * @damage_clip: clip rectangle used with deferred_io to accumulate damage to
-   112	 *                the screen buffer
-   113	 * @damage_lock: spinlock protecting @damage_clip
-   114	 * @damage_work: worker used to flush the framebuffer
-   115	 * @resume_work: worker used during resume if the console lock is already taken
-   116	 *
-   117	 * This is the main structure used by the fbdev helpers. Drivers supporting
-   118	 * fbdev emulation should embedded this into their overall driver structure.
-   119	 * Drivers must also fill out a &struct drm_fb_helper_funcs with a few
-   120	 * operations.
-   121	 */
-   122	struct drm_fb_helper {
-   123		/**
-   124		 * @client:
-   125		 *
-   126		 * DRM client used by the generic fbdev emulation.
-   127		 */
-   128		struct drm_client_dev client;
-   129	
-   130		/**
-   131		 * @buffer:
-   132		 *
-   133		 * Framebuffer used by the generic fbdev emulation.
-   134		 */
-   135		struct drm_client_buffer *buffer;
-   136	
-   137		struct drm_framebuffer *fb;
-   138		struct drm_device *dev;
-   139		const struct drm_fb_helper_funcs *funcs;
-   140		struct fb_info *info;
-   141		u32 pseudo_palette[17];
-   142		struct drm_clip_rect damage_clip;
-   143		spinlock_t damage_lock;
-   144		struct work_struct damage_work;
-   145		struct work_struct resume_work;
-   146	
-   147		/**
-   148		 * @lock:
-   149		 *
-   150		 * Top-level FBDEV helper lock. This protects all internal data
-   151		 * structures and lists, such as @connector_info and @crtc_info.
-   152		 *
-   153		 * FIXME: fbdev emulation locking is a mess and long term we want to
-   154		 * protect all helper internal state with this lock as well as reduce
-   155		 * core KMS locking as much as possible.
-   156		 */
-   157		struct mutex lock;
-   158	
-   159		/**
-   160		 * @kernel_fb_list:
-   161		 *
-   162		 * Entry on the global kernel_fb_helper_list, used for kgdb entry/exit.
-   163		 */
-   164		struct list_head kernel_fb_list;
-   165	
-   166		/**
-   167		 * @delayed_hotplug:
-   168		 *
-   169		 * A hotplug was received while fbdev wasn't in control of the DRM
-   170		 * device, i.e. another KMS master was active. The output configuration
-   171		 * needs to be reprobe when fbdev is in control again.
-   172		 */
-   173		bool delayed_hotplug;
-   174	
-   175		/**
-   176		 * @deferred_setup:
-   177		 *
-   178		 * If no outputs are connected (disconnected or unknown) the FB helper
-   179		 * code will defer setup until at least one of the outputs shows up.
-   180		 * This field keeps track of the status so that setup can be retried
-   181		 * at every hotplug event until it succeeds eventually.
-   182		 *
-   183		 * Protected by @lock.
-   184		 */
-   185		bool deferred_setup;
-   186	
-   187		/**
-   188		 * @preferred_bpp:
-   189		 *
-   190		 * Temporary storage for the driver's preferred BPP setting passed to
-   191		 * FB helper initialization. This needs to be tracked so that deferred
-   192		 * FB helper setup can pass this on.
-   193		 *
-   194		 * See also: @deferred_setup
-   195		 */
-   196		int preferred_bpp;
-   197	
-   198		/**
-   199		 * @hint_leak_smem_start:
-   200		 *
-   201		 * Hint to the fbdev emulation to store the framebuffer's physical
-   202		 * address in struct &fb_info.fix.smem_start. If the hint is unset,
-   203		 * the smem_start field should always be cleared to zero.
-   204		 */
-   205		bool hint_leak_smem_start;
-   206	
-   207		/**
-   208		 * @fbdefio:
-   209		 *
-   210		 * Temporary storage for the driver's FB deferred I/O handler. If the
-   211		 * driver uses the DRM fbdev emulation layer, this is set by the core
-   212		 * to a generic deferred I/O handler if a driver is preferring to use
-   213		 * a shadow buffer.
-   214		 */
- > 215		struct fb_deferred_io fbdefio;
-   216	};
-   217	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+	Byungchul
