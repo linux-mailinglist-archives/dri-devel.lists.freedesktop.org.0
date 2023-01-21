@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9F46768FC
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:11:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A426768FA
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD0D010E418;
-	Sat, 21 Jan 2023 20:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC04C10E41D;
+	Sat, 21 Jan 2023 20:10:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24C810E3FC
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 011E810E3FE
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CCC6360BAF;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D3F5460BB1;
  Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A0F19C433EF;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A64B1C433D2;
  Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331673;
- bh=AIZR3+3BImbTGgO8yO2t/W17GJL3vYtzcR+PKELd/eU=;
+ bh=4aAEorgeYraNBxDvU8RdVnK/1gFx7N9TdkLyTvtzSC8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=p0+QtiR5PvLuf9i30m8Twf1fiwGsRtDucOXjMIbqt1Ap9dCjg2VUIpfwbE1LI6SnF
- Vtr/tdhF7DuFmRSkxEa82Y2njQOpHT9qdDA2GR7F7sTsyxexDhDXYz+ImZPxWlUuZW
- Apv9N27+vU2VlnN4ithG+5QoyXYTM05JFS9zJJrd04czAYq8TQ6Z6LPe1/pTAio61S
- t+SB+BO077aRxQVON/1yGM6Zr2yvG2W2RETjNwfsMlm7RzNnqJZhA1e6q1H6grVxwK
- VCvXfBWhWJXKSSWi/0qWSEmZK23z6jCt8+9youYhoveygAbb74aYFwufYlLsJ2mX4P
- 1lgLahJHIBx9A==
+ b=RddNYdQuosQwsabR9TMVCp4PFkKj6pEYk2rDmSkuAEO6AxAJNNvoxznwSYTszVFFT
+ Dq5SgfLnILNm8EomZBPoXx2pFJ5pXNmajoZ5yIj0EqHj+/AbOXGNWDcyjrhLrI1qy+
+ jmue+RtQzTVykr0Q466Hv1uRXQ6vlnLpPr3FmsYsySEXFsLDGBrldlPc7nNn4W2h6w
+ 0Mi3eajp2nDtOnbK1PdTyL5Yf6m6liSz1PUdfFr4hcShipoeEL+OjCADnIuDmUjutz
+ bSbttplijCOGkHtUyNq5f8YcErNHBc1MWfbjuAPTOiHF7r/L7K/h9gcrgllXBbG4hm
+ Jl2R2I5TuJV8g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 91D8BC54EAA;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 993A1C54E94;
  Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:08:50 +0100
-Subject: [PATCH 72/86] drm/tegra: Direct include headers from drm_atomic_helper
+Date: Sat, 21 Jan 2023 21:08:51 +0100
+Subject: [PATCH 73/86] drm/tests: Direct include headers from drm_atomic_helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-72-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-73-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=4536;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=787;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=29ohjk2gSMfGnUnxKiY2/9FzVeVHCFgptQjYBkXlX6U=; =?utf-8?q?b=3DlmEnmglIvNGt?=
- =?utf-8?q?YOMLgvuaFLPeEmkycUNVfW2ZLB7VS6imXCrKkv0/GEWFxbQqIT61Vsr9L5jC3GN9?=
- HV5kU5hfAZS8o11Esf/T7TeGlu4lBc+ER206hF2HvEGOyI+WBk30
+ bh=/EPWbRXhHWpJFzHaQ9iJw9SB3A3ydh89ywhjZ+0vneY=; =?utf-8?q?b=3DoOMIdIeLeLVc?=
+ =?utf-8?q?upkDri7fjd6ZtmjIy4rsNbYU/qDDiUP5+2NiAGHGVDuf2XZNRUgz0QBU/LjT8SwZ?=
+ IrwGYTGlALLv9NezZzRCUSQ7CT7LDjoVFO/jIyRD4B3szf8qC8jS
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -80,134 +81,21 @@ include only the minimal set of headers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/tegra/dc.c    | 2 ++
- drivers/gpu/drm/tegra/drm.c   | 2 ++
- drivers/gpu/drm/tegra/dsi.c   | 2 ++
- drivers/gpu/drm/tegra/hdmi.c  | 2 ++
- drivers/gpu/drm/tegra/hub.c   | 2 ++
- drivers/gpu/drm/tegra/plane.c | 1 +
- drivers/gpu/drm/tegra/rgb.c   | 1 +
- drivers/gpu/drm/tegra/sor.c   | 2 ++
- 8 files changed, 14 insertions(+)
+ drivers/gpu/drm/tests/drm_plane_helper_test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index a67453cee883..36e40458e73e 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -22,10 +22,12 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_vblank.h>
- 
- #include "dc.h"
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 7bd2e65c2a16..dec52df5b0f6 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -20,6 +20,8 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_ioctl.h>
-+#include <drm/drm_modeset_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_prime.h>
- #include <drm/drm_vblank.h>
- 
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index de1333dc0d86..b6205e30eabe 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -18,9 +18,11 @@
- #include <video/mipi_display.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_file.h>
- #include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_simple_kms_helper.h>
- 
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index 40ec3e6cf204..3b6a45bcddda 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -20,10 +20,12 @@
- #include <sound/hdmi-codec.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_file.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
- 
-diff --git a/drivers/gpu/drm/tegra/hub.c b/drivers/gpu/drm/tegra/hub.c
-index b872527a123c..2fded0b6db24 100644
---- a/drivers/gpu/drm/tegra/hub.c
-+++ b/drivers/gpu/drm/tegra/hub.c
-@@ -17,9 +17,11 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_probe_helper.h>
- 
- #include "drm.h"
-diff --git a/drivers/gpu/drm/tegra/plane.c b/drivers/gpu/drm/tegra/plane.c
-index 10090116895f..79201ac67194 100644
---- a/drivers/gpu/drm/tegra/plane.c
-+++ b/drivers/gpu/drm/tegra/plane.c
-@@ -9,6 +9,7 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
-diff --git a/drivers/gpu/drm/tegra/rgb.c b/drivers/gpu/drm/tegra/rgb.c
-index ff8fce36d2aa..f737f768d24d 100644
---- a/drivers/gpu/drm/tegra/rgb.c
-+++ b/drivers/gpu/drm/tegra/rgb.c
+diff --git a/drivers/gpu/drm/tests/drm_plane_helper_test.c b/drivers/gpu/drm/tests/drm_plane_helper_test.c
+index 0f392146b233..745e35db65db 100644
+--- a/drivers/gpu/drm/tests/drm_plane_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_plane_helper_test.c
 @@ -8,6 +8,7 @@
+ #include <kunit/test.h>
  
  #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge_connector.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "drm.h"
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 8af632740673..e0b4e71f0fbe 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -19,8 +19,10 @@
- #include <drm/display/drm_dp_helper.h>
- #include <drm/display/drm_scdc_helper.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_file.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_simple_kms_helper.h>
- 
++#include <drm/drm_crtc.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_modes.h>
+ #include <drm/drm_rect.h>
 
 -- 
 2.34.1
