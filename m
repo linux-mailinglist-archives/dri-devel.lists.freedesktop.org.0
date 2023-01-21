@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6D66768EE
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBA76768F7
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2032B10E421;
-	Sat, 21 Jan 2023 20:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CE410E415;
+	Sat, 21 Jan 2023 20:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB6010E412
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:55 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF88910E3CB
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:52 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A86D7B8092B;
- Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D6B20C43322;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9BE9060B7B;
+ Sat, 21 Jan 2023 20:07:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E2A8AC43323;
  Sat, 21 Jan 2023 20:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331671;
- bh=wPT1h45zpDJ3Y5Q4PHJLBqPCIOB/vDhqUF/cVUUusys=;
+ bh=hLwuqyWtVjhYdpbdvWnKkNFEe9VY9of2RG+XKbzsW0I=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=tkceMsnmCA9GsyIZ9CstTwgyf2lhg2RqIQ1vH5YJ0Fe2Cj4Zj/ZhtK2CGGbMhFF9x
- umYhHDA7StoF7wqzMiJ0tOSn0zO2SRX5xPeT1LjtWGDz2foFEiY/zzJlddUiyfs9f6
- KFri8E5FeqC+0vnrY9iphn1+YbJx1kQnGrDmrm8xoSKOswIcUP6NTH3/Rh99d4uS5H
- E6yZDZmCmcU/WMV7+hc8oNQj1gIAarSUf3JaLM2tT/O0kK2fg+E6UqMzDTRPwF/stT
- fGR2GoWevK71Q4UezZFZySHH0hGSqylIjCQ6wpaqgnJk0M7xoJ0uTNns1T6OUYwlzB
- ebnhw7McKbacA==
+ b=EHhvVy+qDMy5fP5IxAWzQUbT9PANjCYQiusY/xJXxAgS1c8TTllemJQo+OHl0hw2U
+ U/CRy3+oBZlVLCBXis69Gxd9vnqo2nA+SO1VxT3GZ+eGhZCVKiaSFSVcLRL4dx8N3n
+ oxUu2GaZ0NmQOjcGXg+AQHIMYdHsQexSZjgeoKIjAF0lkb0Q/Ve0ZJ6lCHcwXzWRf/
+ crANcupoA6EMwGlRNz3vg72FGqCdV1BiPjBe1Fvnx4Y9U24KU1iR2NZyE+xAB5dhx9
+ HkH0T3OH0/DadICqYeOtRbhvlBkhoCKDEiKioIpBzIBYRlbAxv00VG7q8506OappwZ
+ IztvujYfLe7UA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id C8FA7C54EB4;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id D2F4AC38A23;
  Sat, 21 Jan 2023 20:07:51 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:08:08 +0100
-Subject: [PATCH 30/86] drm/bridge: display-connector: Direct include
- headers from drm_atomic_helper
+Date: Sat, 21 Jan 2023 21:08:09 +0100
+Subject: [PATCH 31/86] drm/bridge: fsl-ldb: Direct include headers from
+ drm_atomic_helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-30-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-31-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=772;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=734;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=I7Yzas/t0eZoVp0CPgskdF0Neucg8xsi4DO+6R6U52Q=; =?utf-8?q?b=3DgCshByEk62Fm?=
- =?utf-8?q?Pgz5joxRjwQcsgksHdPQw7Q48mS3q+chsLfrcf2U/6ADdefBTJcjE8Xv30rsMvPj?=
- hwAZ4xYfDyKKFWkUI3NH43xl36ooEBCG58zrOfzP/V3ChE1v138x
+ bh=+NAzLP8uzIEBqjWb27BVyqfXxaxgqnr02cU2Xbb9VBw=; =?utf-8?q?b=3D0F6ayEr0u2nm?=
+ =?utf-8?q?nHOhfKXtxd195caEyIYHHY1OgyU03JqNua9F4eMlIBZo5tGE89L9JraieIhVcFhy?=
+ g9p/OhHdDCKjVxBtN1Z+tEmLeEkXLNz5PjGaMxThKlkggk/B4I1p
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -82,21 +82,21 @@ include only the minimal set of headers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/bridge/display-connector.c | 1 +
+ drivers/gpu/drm/bridge/fsl-ldb.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index 9a12449ad7b8..f6b5a894b286 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -15,6 +15,7 @@
- #include <linux/regulator/consumer.h>
+diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+index 9bcba8fc57e7..0950052a4182 100644
+--- a/drivers/gpu/drm/bridge/fsl-ldb.c
++++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+@@ -14,6 +14,7 @@
+ #include <linux/regmap.h>
  
  #include <drm/drm_atomic_helper.h>
 +#include <drm/drm_atomic_state_helper.h>
  #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
- 
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
 
 -- 
 2.34.1
