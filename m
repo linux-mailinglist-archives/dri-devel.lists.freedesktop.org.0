@@ -2,50 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AA16767C4
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 18:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 393636767E2
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 18:58:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDBE910E2AB;
-	Sat, 21 Jan 2023 17:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6C410E04C;
+	Sat, 21 Jan 2023 17:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 214A810E1A7;
- Sat, 21 Jan 2023 17:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674322901; x=1705858901;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=bZbzLBRSYHALctzAHZ0CNb5mY62MyzVCgbG2fg+bYig=;
- b=PnUDeG58qLpLoPsj0oMFTR6UybxOpV1DlqQqarXIlQgQXZR/585p2Oxh
- Dvt1wlRdphZr/llrO08hP/0Mo1Q2Gp+FzF/9rDkLQHqWAAp3iVFtirwlk
- LeNQT/C5OxQo4GhSj0v6Z5mgNkZnnPK/ZZhm3fT3XXy64AIF9SYFGnkYW
- 2E4jvhit/bdFuU/4r1A1O3SEFOlJnk+ppApddhV8ubmTmfJ9JIZBMEft2
- fginQLCVIx5vOL7PbxqSxzwIkIt6WFf0y7YL+0YY8othQyn/cX5qmBvU6
- YiTQTOCFsV0Df8KQOLYJUZJvrs45GxIoedw0xLXzGPWgGSOpxzjp2S52Z w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="388167995"
-X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; d="scan'208";a="388167995"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2023 09:41:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="729472795"
-X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; d="scan'208";a="729472795"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 21 Jan 2023 09:41:38 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pJHs1-0004KA-0n;
- Sat, 21 Jan 2023 17:41:37 +0000
-Date: Sun, 22 Jan 2023 01:41:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gustavo Sousa <gustavo.sousa@intel.com>
-Subject: [drm-intel:drm-intel-gt-next 1/2] htmldocs:
- Documentation/gpu/i915:64: ./drivers/gpu/drm/i915/gt/intel_workarounds.c:32:
- WARNING: Inline emphasis start-string without end-string.
-Message-ID: <202301220116.qlw4dHOC-lkp@intel.com>
+Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 885B010E04C
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 17:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
+ Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description; bh=EUyECha8HaxVxgq1F1KoFMr1DGt4Ij3T1L3mz8LljAM=; b=1MAQ0
+ 3rGGQF+HQYx+iCsXN4SYOL1zEHCSG4P0IMdvNTbjw/ou4gvoaCnWEAf7Ii1Xqjrj2CxtM0KAa0qtO
+ 6xzlg7iPuMMlh4GDH2X8oIOEfg1R0qjdAQtqAKxvnFWxl35Jgyfur1jFsBeiBSv1e523z8ERWsDHk
+ 0xs7/I2CiPAjoBzo+QjTXQnIjvrEar62l3ifB6KZ9VbKEIJWwGkm2sEULdLyFY4asptqb0F+zoK9A
+ hez1cbWN3HmBCfjbqPAJFvbGTnvvzapYWS9J0gPoCCwyNkvhd1Er7UCUB+OVTj9ost81ArzpfJ+dt
+ t37w7Tr11kn6TjSQj9hQj+rjsFfOA==;
+Received: from [81.174.171.191] (helo=donbot)
+ by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.95) (envelope-from <john@metanate.com>) id 1pJI8A-0004Ik-P2;
+ Sat, 21 Jan 2023 17:58:18 +0000
+Date: Sat, 21 Jan 2023 17:58:11 +0000
+From: John Keeping <john@metanate.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH] drm/bridge: panel: Set orientation on panel_bridge
+ connector
+Message-ID: <Y8wnswk++tvr9xMe@donbot>
+References: <20230120114313.2087015-1-john@metanate.com>
+ <CAD=FV=UPD6c+NY8Ub37N7LmrRFpcr6gKOh0Os14DaKrf3bKo2A@mail.gmail.com>
+ <Y8uo7vIcQ6caH9pu@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Y8uo7vIcQ6caH9pu@ravnborg.org>
+X-Authenticated: YES
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,30 +51,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm-intel drm-intel-gt-next
-head:   8d7eb8ed3f83f248e01a4f548d9c500a950a2c2d
-commit: 0c3064cf33fbfa8a25871d847e715f33b64f323e [1/2] drm/i915/doc: Document where to implement register workarounds
-reproduce:
-        git remote add drm-intel git://anongit.freedesktop.org/drm-intel
-        git fetch --no-tags drm-intel drm-intel-gt-next
-        git checkout 0c3064cf33fbfa8a25871d847e715f33b64f323e
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Hi Sam & Doug,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+On Sat, Jan 21, 2023 at 09:57:18AM +0100, Sam Ravnborg wrote:
+> On Fri, Jan 20, 2023 at 01:44:38PM -0800, Doug Anderson wrote:
+> > On Fri, Jan 20, 2023 at 3:43 AM John Keeping <john@metanate.com> wrote:
+> > >
+> > > Commit 15b9ca1641f0 ("drm: Config orientation property if panel provides
+> > > it") added a helper to set the panel panel orientation early but only
+> > > connected this for drm_bridge_connector, which constructs a panel bridge
+> > > with DRM_BRIDGE_ATTACH_NO_CONNECTOR and creates the connector itself.
+> > >
+> > > When the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is not specified and the
+> > > panel_bridge creates its own connector the orientation is not set unless
+> > > the panel does it in .get_modes which is too late and leads to a warning
+> > > splat from __drm_mode_object_add() because the device is already
+> > > registered.
+> > >
+> > > Call the necessary function to set add the orientation property when the
+> > > connector is created so that it is available before the device is
+> > > registered.
+> > 
+> > I have no huge objection to your patch and it looks OK to me. That
+> > being said, my understanding is that:
+> > 
+> > 1. DRM_BRIDGE_ATTACH_NO_CONNECTOR is "the future" and not using the
+> > flag is "deprecated".
+> Correct.
+> Could we take a look at how much is required to move the relevant driver
+> to use DRM_BRIDGE_ATTACH_NO_CONNECTOR?
+>
+> If this is too much work now we may land this simple patch, but the
+> preference is to move all drivers to the new bridge handling and thus
+> asking display drivers to create the connector.
+> 
+> What display driver are we dealing with here?
 
-All warnings (new ones prefixed by >>):
+This is dw-mipi-dsi-rockchip which uses the component path in
+dw-mipi-dsi (and, in fact, is the only driver using that mode of
+dw-mipi-dsi).
 
->> Documentation/gpu/i915:64: ./drivers/gpu/drm/i915/gt/intel_workarounds.c:32: WARNING: Inline emphasis start-string without end-string.
+I'm not familiar enough with DRM to say whether it's easy to convert to
+DRM_BRIDGE_ATTACH_NO_CONNECTOR - should dw-mipi-dsi-rockchip be moving
+to use dw-mipi-dsi as a bridge driver or should dw_mipi_dsi_bind() have
+a drm_bridge_attach_flags argument?  But I'm happy to test patches if it
+looks easy to convert to you :-)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+John
