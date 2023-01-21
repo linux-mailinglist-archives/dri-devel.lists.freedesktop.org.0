@@ -2,61 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2476768EF
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EADC0676A4F
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 00:20:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2274510E426;
-	Sat, 21 Jan 2023 20:10:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B65E10E07E;
+	Sat, 21 Jan 2023 23:19:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0D510E3D0
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5C66B60BC5;
- Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2DC53C433A7;
- Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674331674;
- bh=PK4HsnboUXgpnfL1UJJxPlP3DzJX+6Bsjb9I5Ql2w38=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=inlO6pBj/EU4SXx8ueye6Mn0mCp+XrsFgUTDJAoZdtZ/8JDmMW8yFrN1fh+qWDHFT
- PoBNsYtmM8JF3AE0tmL6AdhIL2reN1oKbqhnChnW16NNrbd8EorHOS5HrKDanqF7ik
- 7JAJUwnwJWkC8twd5h667tEPctZm2DtyFew0tfAafazdGcZgn6cGYjGjc+helI/7g7
- J3Qgv56GdO/+piy77IYjJgGjIiuoW8JGRwHMKbQjXjIZJoUcalpBz89nOgW1wmmYhb
- a0CY7on4Q3v+hr/sWGPmq44TZ5FTzs/Nt7ykMXTiMWpbOneRIjxHp+uah6+2USaczX
- Q5IwrztpYtIUw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 20CD8C54E94;
- Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
-From: Sam Ravnborg via B4 Submission Endpoint
- <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:09:04 +0100
-Subject: [PATCH 86/86] drm: Move drm_get_panel_orientation_quirk prototype
- to drm_panel
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F05C10E07E
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 23:19:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674343192; x=1705879192;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Tl4GLLg2pR9Ullfx+oNBNfH7suL+KxUNqsSZitlY8Lw=;
+ b=Pu0hHsv47x/vIWnhyHPfGdt5qZ3p+tTzGtETpSsxhg/OV4BIVy/9P6mu
+ FrGFd2GwrxWnsyd24Xv9RITZCU3dNoGTJNCn3zTHClMBQ9g4PurXwxBnd
+ 6dLlffNFj7fGllv11MMPhwfdgEBzuTFLfmL3xu9YiSM4ui/fTwe8WUwGZ
+ ohCIpjihDDkeuRRDy91ouaEXATj8ZcKNNlw8OYe0SeD9WP7Wszl8eLm2f
+ JTYwNkeUkGCpYD8M7zPFZ9d0oOiwkLeFfAUFRwpNnouKU7Knwf+GNiSmV
+ XzTL4YcX3eT4qC2Yz3Pgu7QW6ObdinURPoK2v93lDF/SstZfIsgu+5N4m A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="324532027"
+X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; d="scan'208";a="324532027"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2023 15:19:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10597"; a="906364193"
+X-IronPort-AV: E=Sophos;i="5.97,235,1669104000"; d="scan'208";a="906364193"
+Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 21 Jan 2023 15:19:49 -0800
+Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pJN9I-0004ZC-24;
+ Sat, 21 Jan 2023 23:19:48 +0000
+Date: Sun, 22 Jan 2023 07:19:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sam Ravnborg via B4 Submission Endpoint
+ <devnull+sam.ravnborg.org@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 16/86] drm/drm_print: Minimize include footprint
+Message-ID: <202301220750.HzZm1ZHu-lkp@intel.com>
+References: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-86-c5cf72d8a5a2@ravnborg.org>
-References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
-In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=3297;
- i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=ZsBaKl2SrwvcyrN3qfNa9m8+QTAVcEdj8gRaVh06Jtc=; =?utf-8?q?b=3DOrxWFm2Gz2Zk?=
- =?utf-8?q?dkYFuiY7dbEe7/RE+lXrwGbtf/i5gvPa4KtY4sAkozvqvoT4fuRfyFVumgYyKA9j?=
- sD2YuIp6C8Jbo32bsJ2I8bux5UvhjLEgyhFqTEMIJ3v8GMEtAjyg
-X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
- pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
-X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
- with auth_id=22
-X-Original-From: Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,106 +60,394 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: sam@ravnborg.org
-Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: llvm@lists.linux.dev, Sam Ravnborg <sam@ravnborg.org>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sam Ravnborg <sam@ravnborg.org>
+Hi Sam,
 
-drm_panel already contain some panel orientation stuff,
-So this is a good home for the prototype.
+I love your patch! Yet something to improve:
 
-Update all users of drm_get_panel_orientation_quirk.
-Remove drm_utils.h header as it is no longer used.
+[auto build test ERROR on 2e337a8d14bd4b04913d52ccf076be29d846acd7]
 
-Suggested-by: Daniel Vetter <daniel@ffwll.ch>
-[https://lore.kernel.org/dri-devel/20190527185311.GS21222@phenom.ffwll.local/]
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/drm_connector.c                |  1 -
- drivers/gpu/drm/drm_panel_orientation_quirks.c |  2 +-
- drivers/video/fbdev/efifb.c                    |  2 +-
- include/drm/drm_panel.h                        |  1 +
- include/drm/drm_utils.h                        | 17 -----------------
- 5 files changed, 3 insertions(+), 20 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
+base:   2e337a8d14bd4b04913d52ccf076be29d846acd7
+patch link:    https://lore.kernel.org/r/20230113-drm-include-v1-v1-16-c5cf72d8a5a2%40ravnborg.org
+patch subject: [PATCH 16/86] drm/drm_print: Minimize include footprint
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230122/202301220750.HzZm1ZHu-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/530d852970d1a75527031a4f23689f89f0a85804
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
+        git checkout 530d852970d1a75527031a4f23689f89f0a85804
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 9d0250c28e9b..b39f4e807685 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -31,7 +31,6 @@
- #include <drm/drm_print.h>
- #include <drm/drm_privacy_screen_consumer.h>
- #include <drm/drm_sysfs.h>
--#include <drm/drm_utils.h>
- 
- #include <linux/fb.h>
- #include <linux/uaccess.h>
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index ca531dbb749d..589adb3e26c6 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -11,7 +11,7 @@
- #include <linux/dmi.h>
- #include <linux/module.h>
- #include <drm/drm_connector.h>
--#include <drm/drm_utils.h>
-+#include <drm/drm_panel.h>
- 
- #ifdef CONFIG_DMI
- 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index a5779fb453a2..37487b945007 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -20,8 +20,8 @@
- #include <linux/pm_runtime.h>
- #include <video/vga.h>
- #include <asm/efi.h>
--#include <drm/drm_utils.h> /* For drm_get_panel_orientation_quirk */
- #include <drm/drm_connector.h>  /* For DRM_MODE_PANEL_ORIENTATION_* */
-+#include <drm/drm_panel.h> /* For drm_get_panel_orientation_quirk */
- 
- struct bmp_file_header {
- 	u16 id;
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index 432fab2347eb..95e509feba75 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -200,6 +200,7 @@ struct drm_panel {
- 	bool prepare_prev_first;
- };
- 
-+int drm_get_panel_orientation_quirk(int width, int height);
- void drm_panel_init(struct drm_panel *panel, struct device *dev,
- 		    const struct drm_panel_funcs *funcs,
- 		    int connector_type);
-diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
-deleted file mode 100644
-index bae225f0a24b..000000000000
---- a/include/drm/drm_utils.h
-+++ /dev/null
-@@ -1,17 +0,0 @@
--/* SPDX-License-Identifier: MIT */
--/*
-- * Function prototypes for misc. drm utility functions.
-- * Specifically this file is for function prototypes for functions which
-- * may also be used outside of drm code (e.g. in fbdev drivers).
-- *
-- * Copyright (C) 2017 Hans de Goede <hdegoede@redhat.com>
-- */
--
--#ifndef __DRM_UTILS_H__
--#define __DRM_UTILS_H__
--
--#include <linux/types.h>
--
--int drm_get_panel_orientation_quirk(int width, int height);
--
--#endif
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_mode_object.c:195:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
+                   ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_mode_object.c:212:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
+                   ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   2 errors generated.
+--
+>> drivers/gpu/drm/drm_plane.c:278:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG_KMS("out of memory when allocating plane\n");
+                   ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:305:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG_KMS("out of memory when allocating plane\n");
+                   ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:789:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG_KMS("Invalid crtc for plane\n");
+                   ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:797:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG_KMS("Invalid pixel format %p4cc, modifier 0x%llx\n",
+                   ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:807:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG_KMS("Invalid CRTC coordinates %ux%u+%d+%d\n",
+                   ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:985:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG_KMS("Unknown plane ID %d\n",
+                   ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:993:4: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           DRM_DEBUG_KMS("Unknown framebuffer ID %d\n",
+                           ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:1001:4: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           DRM_DEBUG_KMS("Unknown crtc ID %d\n",
+                           ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:1051:5: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                                   DRM_DEBUG_KMS("failed to wrap cursor buffer in drm framebuffer\n");
+                                   ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:1122:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG_KMS("Unknown CRTC ID %d\n", req->crtc_id);
+                   ^
+   include/drm/drm_print.h:573:2: note: expanded from macro 'DRM_DEBUG_KMS'
+           __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:1263:5: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                                   DRM_DEBUG("Invalid absolute flip target %u, "
+                                   ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_plane.c:1272:5: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                                   DRM_DEBUG("Invalid relative flip target %u, "
+--
+>> drivers/gpu/drm/drm_syncobj.c:301:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   DRM_DEBUG("You are adding an unorder point to timeline!\n");
+                   ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   1 error generated.
+--
+>> drivers/gpu/drm/drm_vblank.c:318:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   drm_dbg_vbl(dev, "crtc %u: Calculating number of vblanks."
+                   ^
+   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:342:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   drm_dbg_vbl(dev,
+                   ^
+   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:348:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           drm_dbg_vbl(dev, "updating vblank count on crtc %u:"
+           ^
+   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:494:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   drm_dbg_core(dev, "disabling vblank on crtc %u\n", pipe);
+                   ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:649:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           drm_dbg_core(dev,
+           ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:726:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   drm_dbg_core(dev, "crtc %u: Noop due to uninitialized mode.\n",
+                   ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:751:4: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           drm_dbg_core(dev,
+                           ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:767:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   drm_dbg_core(dev,
+                   ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:793:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           drm_dbg_vbl(dev,
+           ^
+   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:1140:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   drm_dbg_core(dev, "enabling vblank on crtc %u, ret: %d\n",
+                   ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:1319:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
+           ^
+   include/drm/drm_print.h:499:2: note: expanded from macro 'drm_dbg_vbl'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_vblank.c:1452:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
+--
+>> drivers/gpu/drm/drm_vblank_work.c:141:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   drm_dbg_core(dev,
+                   ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   1 error generated.
+--
+>> drivers/gpu/drm/drm_ioctl.c:443:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           drm_dbg_core(dev, "\n");
+           ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   drivers/gpu/drm/drm_ioctl.c:859:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           drm_dbg_core(dev, "comm=\"%s\" pid=%d, dev=0x%lx, auth=%d, %s\n",
+           ^
+   include/drm/drm_print.h:489:2: note: expanded from macro 'drm_dbg_core'
+           drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:412:2: note: expanded from macro 'drm_dev_dbg'
+           _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
+           ^
+   2 errors generated.
+--
+>> drivers/gpu/drm/drm_bufs.c:174:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           DRM_DEBUG("offset = 0x%08llx, size = 0x%08lx, type = %d\n",
+           ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_bufs.c:911:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           DRM_DEBUG("count=%d, size=%d (%d), order=%d\n",
+           ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_bufs.c:1139:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           DRM_DEBUG("count:      %d\n", count);
+           ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_bufs.c:1343:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           DRM_DEBUG("count = %d\n", count);
+           ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_bufs.c:1420:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           DRM_DEBUG("%d, %d, %d\n",
+           ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_bufs.c:1468:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           DRM_DEBUG("%d\n", request->count);
+           ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   drivers/gpu/drm/drm_bufs.c:1568:2: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           DRM_DEBUG("%d buffers, retcode = %d\n", *p, retcode);
+           ^
+   include/drm/drm_print.h:565:2: note: expanded from macro 'DRM_DEBUG'
+           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+           ^
+   include/drm/drm_print.h:526:2: note: expanded from macro '__drm_dbg'
+           _dynamic_func_call_cls(cat, fmt, ___drm_dbg,                    \
+           ^
+   7 errors generated.
+..
+
+
+vim +/_dynamic_func_call_cls +195 drivers/gpu/drm/drm_mode_object.c
+
+949619f32eee37 Daniel Vetter  2016-08-29  183  
+949619f32eee37 Daniel Vetter  2016-08-29  184  /**
+020a218f95bd3c Thierry Reding 2017-02-28  185   * drm_mode_object_put - release a mode object reference
+020a218f95bd3c Thierry Reding 2017-02-28  186   * @obj: DRM mode object
+949619f32eee37 Daniel Vetter  2016-08-29  187   *
+a2511a557eb868 Daniel Vetter  2016-08-29  188   * This function decrements the object's refcount if it is a refcounted modeset
+949619f32eee37 Daniel Vetter  2016-08-29  189   * object. It is a no-op on any other object. This is used to drop references
+020a218f95bd3c Thierry Reding 2017-02-28  190   * acquired with drm_mode_object_get().
+949619f32eee37 Daniel Vetter  2016-08-29  191   */
+020a218f95bd3c Thierry Reding 2017-02-28  192  void drm_mode_object_put(struct drm_mode_object *obj)
+949619f32eee37 Daniel Vetter  2016-08-29  193  {
+949619f32eee37 Daniel Vetter  2016-08-29  194  	if (obj->free_cb) {
+2c935bc57221cc Peter Zijlstra 2016-11-14 @195  		DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
+949619f32eee37 Daniel Vetter  2016-08-29  196  		kref_put(&obj->refcount, obj->free_cb);
+949619f32eee37 Daniel Vetter  2016-08-29  197  	}
+949619f32eee37 Daniel Vetter  2016-08-29  198  }
+020a218f95bd3c Thierry Reding 2017-02-28  199  EXPORT_SYMBOL(drm_mode_object_put);
+949619f32eee37 Daniel Vetter  2016-08-29  200  
 
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
