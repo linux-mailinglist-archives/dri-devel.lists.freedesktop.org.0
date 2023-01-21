@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795EE6768C0
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:08:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2476768EF
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF06A10E3E2;
-	Sat, 21 Jan 2023 20:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2274510E426;
+	Sat, 21 Jan 2023 20:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8469D10E40A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0D510E3D0
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5449660BC1;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5C66B60BC5;
  Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 26D8DC4339C;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2DC53C433A7;
  Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331674;
- bh=0pdPHwywLCm6baLIUOibjXTh6ADlI5faVPtHbSvThU0=;
+ bh=PK4HsnboUXgpnfL1UJJxPlP3DzJX+6Bsjb9I5Ql2w38=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=V7UZqn/Tn1I39uE0QJZ7YzpQG3Ptvfzsf4L3FKQfaO0pixQsVxhKZq0hHtP+edhby
- 33IkPxSX6Xx/1lpAtbaB7epvtMpMBzZUnG9e/KDz22tnZlrgoMU39P/BbmfK3Xas4Y
- BviHon2R35D6Sy1iHIEyd9OzRRzKEnOyDZxyg62xSfUSXcN/mEpqq+9Iau2un6F1di
- 0vqFd5rcjNnZYC4OPc6XLm9QaKdjInR8QtzIipQI1RMWCR3Ak5eCkL9VglcOHagCMe
- cdKaF4rDUdhSSABYuT1K4OAmEjEkLeQqmeyY0hL+sfIcbrsmfZfwx1VzIh7BPmfqqG
- m2F1rgNs7MLaQ==
+ b=inlO6pBj/EU4SXx8ueye6Mn0mCp+XrsFgUTDJAoZdtZ/8JDmMW8yFrN1fh+qWDHFT
+ PoBNsYtmM8JF3AE0tmL6AdhIL2reN1oKbqhnChnW16NNrbd8EorHOS5HrKDanqF7ik
+ 7JAJUwnwJWkC8twd5h667tEPctZm2DtyFew0tfAafazdGcZgn6cGYjGjc+helI/7g7
+ J3Qgv56GdO/+piy77IYjJgGjIiuoW8JGRwHMKbQjXjIZJoUcalpBz89nOgW1wmmYhb
+ a0CY7on4Q3v+hr/sWGPmq44TZ5FTzs/Nt7ykMXTiMWpbOneRIjxHp+uah6+2USaczX
+ Q5IwrztpYtIUw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 1864EC54EAA;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 20CD8C54E94;
  Sat, 21 Jan 2023 20:07:54 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:09:03 +0100
-Subject: [PATCH 85/86] drm: move drm_timeout_abs_to_jiffies to drm_util
+Date: Sat, 21 Jan 2023 21:09:04 +0100
+Subject: [PATCH 86/86] drm: Move drm_get_panel_orientation_quirk prototype
+ to drm_panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-85-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-86-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=6458;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=3297;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=Ft05c74akxNTHJxFQ9ehVrx+kpAGDuMtbGIH0qCBRik=; =?utf-8?q?b=3D5lIsnO59eVs9?=
- =?utf-8?q?anYN76R3tzqRirk8Y/R6fYgCJO6p6Wer7B4FLa3QVU92saGgIw1IeWb4EgWHjGvG?=
- 6U0UQ2ZCCL4g9Fdrb3B6a/p2N3K5TgksUtzUwfLgXWlsNHkkzozs
+ bh=ZsBaKl2SrwvcyrN3qfNa9m8+QTAVcEdj8gRaVh06Jtc=; =?utf-8?q?b=3DOrxWFm2Gz2Zk?=
+ =?utf-8?q?dkYFuiY7dbEe7/RE+lXrwGbtf/i5gvPa4KtY4sAkozvqvoT4fuRfyFVumgYyKA9j?=
+ sD2YuIp6C8Jbo32bsJ2I8bux5UvhjLEgyhFqTEMIJ3v8GMEtAjyg
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -75,209 +76,98 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sam Ravnborg <sam@ravnborg.org>
 
-drm_timeout_abs_to_jiffies() was implmented in drm_syncobj where
-it really did not belong. Create a drm_util file and move the
-implementation. Likewise move the prototype and update all users.
+drm_panel already contain some panel orientation stuff,
+So this is a good home for the prototype.
+
+Update all users of drm_get_panel_orientation_quirk.
+Remove drm_utils.h header as it is no longer used.
 
 Suggested-by: Daniel Vetter <daniel@ffwll.ch>
 [https://lore.kernel.org/dri-devel/20190527185311.GS21222@phenom.ffwll.local/]
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/accel/ivpu/ivpu_gem.c           |  2 +-
- drivers/gpu/drm/Makefile                |  1 +
- drivers/gpu/drm/drm_syncobj.c           | 34 ----------------------------
- drivers/gpu/drm/drm_util.c              | 40 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/lima/lima_gem.c         |  2 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c |  2 +-
- drivers/gpu/drm/tegra/uapi.c            |  2 +-
- include/drm/drm_util.h                  |  1 +
- include/drm/drm_utils.h                 |  2 --
- 9 files changed, 46 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/drm_connector.c                |  1 -
+ drivers/gpu/drm/drm_panel_orientation_quirks.c |  2 +-
+ drivers/video/fbdev/efifb.c                    |  2 +-
+ include/drm/drm_panel.h                        |  1 +
+ include/drm/drm_utils.h                        | 17 -----------------
+ 5 files changed, 3 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-index d1f923971b4c..55aa94ba6c10 100644
---- a/drivers/accel/ivpu/ivpu_gem.c
-+++ b/drivers/accel/ivpu/ivpu_gem.c
-@@ -12,7 +12,7 @@
- #include <drm/drm_cache.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_file.h>
--#include <drm/drm_utils.h>
-+#include <drm/drm_util.h>
- 
- #include "ivpu_drv.h"
- #include "ivpu_gem.h"
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index ab4460fcd63f..561b93d19685 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -42,6 +42,7 @@ drm-y := \
- 	drm_syncobj.o \
- 	drm_sysfs.o \
- 	drm_trace_points.o \
-+	drm_util.o \
- 	drm_vblank.o \
- 	drm_vblank_work.o \
- 	drm_vma_manager.o \
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 0c2be8360525..35f5416c5cfe 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -197,7 +197,6 @@
- #include <drm/drm_gem.h>
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 9d0250c28e9b..b39f4e807685 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -31,7 +31,6 @@
  #include <drm/drm_print.h>
- #include <drm/drm_syncobj.h>
+ #include <drm/drm_privacy_screen_consumer.h>
+ #include <drm/drm_sysfs.h>
 -#include <drm/drm_utils.h>
  
- #include "drm_internal.h"
- 
-@@ -1114,39 +1113,6 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
- 	return timeout;
- }
- 
--/**
-- * drm_timeout_abs_to_jiffies - calculate jiffies timeout from absolute value
-- *
-- * @timeout_nsec: timeout nsec component in ns, 0 for poll
-- *
-- * Calculate the timeout in jiffies from an absolute time in sec/nsec.
-- */
--signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec)
--{
--	ktime_t abs_timeout, now;
--	u64 timeout_ns, timeout_jiffies64;
--
--	/* make 0 timeout means poll - absolute 0 doesn't seem valid */
--	if (timeout_nsec == 0)
--		return 0;
--
--	abs_timeout = ns_to_ktime(timeout_nsec);
--	now = ktime_get();
--
--	if (!ktime_after(abs_timeout, now))
--		return 0;
--
--	timeout_ns = ktime_to_ns(ktime_sub(abs_timeout, now));
--
--	timeout_jiffies64 = nsecs_to_jiffies64(timeout_ns);
--	/*  clamp timeout to avoid infinite timeout */
--	if (timeout_jiffies64 >= MAX_SCHEDULE_TIMEOUT - 1)
--		return MAX_SCHEDULE_TIMEOUT - 1;
--
--	return timeout_jiffies64 + 1;
--}
--EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
--
- static int drm_syncobj_array_wait(struct drm_device *dev,
- 				  struct drm_file *file_private,
- 				  struct drm_syncobj_wait *wait,
-diff --git a/drivers/gpu/drm/drm_util.c b/drivers/gpu/drm/drm_util.c
-new file mode 100644
-index 000000000000..5494fa6b8193
---- /dev/null
-+++ b/drivers/gpu/drm/drm_util.c
-@@ -0,0 +1,40 @@
-+// SPDX-License-Identifier: MIT
-+
-+#include <linux/export.h>
-+#include <linux/ktime.h>
-+#include <linux/timekeeping.h>
-+
-+#include <drm/drm_util.h>
-+
-+/**
-+ * drm_timeout_abs_to_jiffies - calculate jiffies timeout from absolute value
-+ *
-+ * @timeout_nsec: timeout nsec component in ns, 0 for poll
-+ *
-+ * Calculate the timeout in jiffies from an absolute time in sec/nsec.
-+ */
-+signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec)
-+{
-+	ktime_t abs_timeout, now;
-+	u64 timeout_ns, timeout_jiffies64;
-+
-+	/* make 0 timeout means poll - absolute 0 doesn't seem valid */
-+	if (timeout_nsec == 0)
-+		return 0;
-+
-+	abs_timeout = ns_to_ktime(timeout_nsec);
-+	now = ktime_get();
-+
-+	if (!ktime_after(abs_timeout, now))
-+		return 0;
-+
-+	timeout_ns = ktime_to_ns(ktime_sub(abs_timeout, now));
-+
-+	timeout_jiffies64 = nsecs_to_jiffies64(timeout_ns);
-+	/*  clamp timeout to avoid infinite timeout */
-+	if (timeout_jiffies64 >= MAX_SCHEDULE_TIMEOUT - 1)
-+		return MAX_SCHEDULE_TIMEOUT - 1;
-+
-+	return timeout_jiffies64 + 1;
-+}
-+EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index 0f1ca0b0db49..5cdd06682afe 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -10,7 +10,7 @@
- 
- #include <drm/drm_file.h>
- #include <drm/drm_syncobj.h>
--#include <drm/drm_utils.h>
-+#include <drm/drm_util.h>
- 
- #include <drm/lima_drm.h>
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index fa619fe72086..581df5b724e2 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+ #include <linux/fb.h>
+ #include <linux/uaccess.h>
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index ca531dbb749d..589adb3e26c6 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
 @@ -11,7 +11,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_syncobj.h>
+ #include <linux/dmi.h>
+ #include <linux/module.h>
+ #include <drm/drm_connector.h>
 -#include <drm/drm_utils.h>
-+#include <drm/drm_util.h>
++#include <drm/drm_panel.h>
  
- #include "panfrost_device.h"
- #include "panfrost_gem.h"
-diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
-index 5adab6b22916..6d5601517a34 100644
---- a/drivers/gpu/drm/tegra/uapi.c
-+++ b/drivers/gpu/drm/tegra/uapi.c
-@@ -7,7 +7,7 @@
+ #ifdef CONFIG_DMI
  
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
--#include <drm/drm_utils.h>
-+#include <drm/drm_util.h>
+diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+index a5779fb453a2..37487b945007 100644
+--- a/drivers/video/fbdev/efifb.c
++++ b/drivers/video/fbdev/efifb.c
+@@ -20,8 +20,8 @@
+ #include <linux/pm_runtime.h>
+ #include <video/vga.h>
+ #include <asm/efi.h>
+-#include <drm/drm_utils.h> /* For drm_get_panel_orientation_quirk */
+ #include <drm/drm_connector.h>  /* For DRM_MODE_PANEL_ORIENTATION_* */
++#include <drm/drm_panel.h> /* For drm_get_panel_orientation_quirk */
  
- #include "drm.h"
- #include "uapi.h"
-diff --git a/include/drm/drm_util.h b/include/drm/drm_util.h
-index 79952d8c4bba..3d719190cfd9 100644
---- a/include/drm/drm_util.h
-+++ b/include/drm/drm_util.h
-@@ -80,4 +80,5 @@ static inline bool drm_can_sleep(void)
- 	return true;
- }
+ struct bmp_file_header {
+ 	u16 id;
+diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+index 432fab2347eb..95e509feba75 100644
+--- a/include/drm/drm_panel.h
++++ b/include/drm/drm_panel.h
+@@ -200,6 +200,7 @@ struct drm_panel {
+ 	bool prepare_prev_first;
+ };
  
-+signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec);
- #endif
++int drm_get_panel_orientation_quirk(int width, int height);
+ void drm_panel_init(struct drm_panel *panel, struct device *dev,
+ 		    const struct drm_panel_funcs *funcs,
+ 		    int connector_type);
 diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
-index 70775748d243..bae225f0a24b 100644
+deleted file mode 100644
+index bae225f0a24b..000000000000
 --- a/include/drm/drm_utils.h
-+++ b/include/drm/drm_utils.h
-@@ -14,6 +14,4 @@
- 
- int drm_get_panel_orientation_quirk(int width, int height);
- 
--signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec);
++++ /dev/null
+@@ -1,17 +0,0 @@
+-/* SPDX-License-Identifier: MIT */
+-/*
+- * Function prototypes for misc. drm utility functions.
+- * Specifically this file is for function prototypes for functions which
+- * may also be used outside of drm code (e.g. in fbdev drivers).
+- *
+- * Copyright (C) 2017 Hans de Goede <hdegoede@redhat.com>
+- */
 -
- #endif
+-#ifndef __DRM_UTILS_H__
+-#define __DRM_UTILS_H__
+-
+-#include <linux/types.h>
+-
+-int drm_get_panel_orientation_quirk(int width, int height);
+-
+-#endif
 
 -- 
 2.34.1
