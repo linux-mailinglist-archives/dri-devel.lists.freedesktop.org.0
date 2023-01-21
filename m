@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED301676861
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 20:24:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA86A676865
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 20:25:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB9EC10E331;
-	Sat, 21 Jan 2023 19:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B52C10E3BC;
+	Sat, 21 Jan 2023 19:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B5BC10E3BC
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 19:24:49 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58BC410E031
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 19:24:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674329088;
+ s=mimecast20190719; t=1674329089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5yb3FH8jX0MWRXyzAKd1yTC1HwTjMT1KOtJHzdpTmLM=;
- b=HJKYABfG95WWJlDm2YCjpgkSomuS1KRjTmsLzRDQoTy3AXvS527wFcXY0k8+W3brz/dA4C
- XUGXLzOeiZFaau2o4pDpwG+Ia9UnUg8h7poh+uHWCD9ZVFOLRdsQJGmTG8aPCni7oxz7l2
- gwds1dRrW8wLXhVQBP8I03LkvwQxm6I=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7oGQt8CSMw4GzppBRa4wPVT549mMixHHzNT+6I/9DSU=;
+ b=ewRkp11S/ks1j34yYhB0VkW12ujNCW62ycpfS6GK0AjQInu/jhBg3g+BIGutce0tNPEL2k
+ PpQ3DSppb/Rwt4BgJs01KkfgOthrZGCxD+lqyxVVHhHYUHF88FKfMnLYWd82/L+GJjoFta
+ vvu3vLWEbwigTd9YznZmTYg8STxTbbk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-74-FdwyvzHNO2GDPD57mGg9EA-1; Sat, 21 Jan 2023 14:24:47 -0500
-X-MC-Unique: FdwyvzHNO2GDPD57mGg9EA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v20-20020adfc5d4000000b002bdfcdb4c51so1410326wrg.9
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 11:24:46 -0800 (PST)
+ us-mta-369-7DbNCKU1NsWMs-_Vx08m-w-1; Sat, 21 Jan 2023 14:24:48 -0500
+X-MC-Unique: 7DbNCKU1NsWMs-_Vx08m-w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ k11-20020adfe3cb000000b002be503e7f28so1133382wrm.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 11:24:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5yb3FH8jX0MWRXyzAKd1yTC1HwTjMT1KOtJHzdpTmLM=;
- b=w068caedxwqxPafJWN6D5eXWucYuVxdiR+l1afWtzZAyeBmx/WzlKA5BQVOx8y68UB
- Tbrr3Q7rTR6FzBBha3Uiwe+LbvS/lobmjrQ1f4oCgtSL2zWZni5i/jT8rGNE+RiAKgXa
- S26M9aeVxU2P67e+pOQNvIfuibhNrgiRRIEbmght3z+NJ8mhOTS/jZXu+LyBWQaf2kh/
- sqwjjmj73lzQxkpaPaXXrEkRaoADa+TJyV0/gk1yJHFY+N6yq85BXCA6jnlffwH0uAQj
- r/L8HuxZ6lAmowgM/nrIw/3Moj5glppATm7REaLfsZ2KCNRp+CkMwp0zELpkAyiY005a
- wDkA==
-X-Gm-Message-State: AFqh2kp+RxRJbj6PEV0MbYZrZxqBNo9Pjn2HGn1qffLqh6qMxR0INkEV
- kYxVCUbD3wIJULbEeMHzyxgSrJj0zodvBkK5dqNSA85NDrfEzR+hUQG/Dh/dCdHUt8EGBI+LAp5
- 1XrJu/uUh3PDmCt4jHY4EAM0mabUF
-X-Received: by 2002:a05:600c:2255:b0:3da:f950:8168 with SMTP id
- a21-20020a05600c225500b003daf9508168mr17593299wmm.35.1674329085899; 
- Sat, 21 Jan 2023 11:24:45 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu7/XGYvbQvHdPX4KdE971lVGAfQ0ExgfrXkYtLzVOSmg7BGN71xkjtA3ao8ZGPeTndCrBicQ==
-X-Received: by 2002:a05:600c:2255:b0:3da:f950:8168 with SMTP id
- a21-20020a05600c225500b003daf9508168mr17593290wmm.35.1674329085743; 
- Sat, 21 Jan 2023 11:24:45 -0800 (PST)
+ bh=7oGQt8CSMw4GzppBRa4wPVT549mMixHHzNT+6I/9DSU=;
+ b=VxOMOISftVCw1i6NquVj0jsrNtkIdWY286QbG1pHlay5dg7Wpb+aEvLjcqKyWJ63I5
+ ATFcTB5S5CIjPUtjSwI9dfe4vUBXOoKCJrUsRpqnrUs4Yv16/V7QpxcY5NcMivw52Ed9
+ O1qGgvnltXuH7hoK47b7BrFv7APscIUnL3QmoZMKU8x5ICaBZlQw+fl1qfvlqW4b7f4Z
+ md6upD+pE5EXk4+9AFWPovIRndYhyIWpgPTj2X+KN6WTLwzUMgVZmkARDXBcAP2Y6UbV
+ T0DQDzEBGjRyV5sDvPFJx8VGXYsZE9elORFlhmm8vBeYoIto2Y5uvsI2fVKaCGZ5M0rG
+ e4NQ==
+X-Gm-Message-State: AFqh2krz3MwLzrRzix75MR535IpL1SsZSiBinxAMn9xZMrk11kR4lQKs
+ bdRfTvyr6AhRKUaZo+fThbwjetTtp3nF/3twhTig5KMfDY5LtZYruT8mOe68x3s9yLOfZ0wEvcU
+ YkreHf7TJuimWMAVrOWFi+iQBKdMx
+X-Received: by 2002:a05:600c:1c23:b0:3db:b9f:f2e with SMTP id
+ j35-20020a05600c1c2300b003db0b9f0f2emr16681539wms.14.1674329087149; 
+ Sat, 21 Jan 2023 11:24:47 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvo4YuYvz9GiFn0zs6xKas3bTc88JqL7+8XVAEOB/6LyNKyp/RA7k5MmpDB75tEJqJVBJytCg==
+X-Received: by 2002:a05:600c:1c23:b0:3db:b9f:f2e with SMTP id
+ j35-20020a05600c1c2300b003db0b9f0f2emr16681525wms.14.1674329086970; 
+ Sat, 21 Jan 2023 11:24:46 -0800 (PST)
 Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c154e00b003daff80f16esm8544321wmg.27.2023.01.21.11.24.44
+ f14-20020a05600c154e00b003daff80f16esm8544321wmg.27.2023.01.21.11.24.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Jan 2023 11:24:45 -0800 (PST)
+ Sat, 21 Jan 2023 11:24:46 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] fbdev: Remove unused struct fb_deferred_io .first_io
- field
-Date: Sat, 21 Jan 2023 20:24:16 +0100
-Message-Id: <20230121192418.2814955-2-javierm@redhat.com>
+Subject: [PATCH v2 2/3] drm/fb-helper: Check fb_deferred_io_init() return value
+Date: Sat, 21 Jan 2023 20:24:17 +0100
+Message-Id: <20230121192418.2814955-3-javierm@redhat.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230121192418.2814955-1-javierm@redhat.com>
 References: <20230121192418.2814955-1-javierm@redhat.com>
@@ -84,54 +83,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
  =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org, Jaya Kumar <jayalk@intworks.biz>
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This optional callback was added in the commit 1f45f9dbb392 ("fb_defio:
-add first_io callback") but it was never used by a driver. Let's remove
-it since it's unlikely that will be used after a decade that was added.
+The fb_deferred_io_init() can fail and return an errno code but currently
+there is no check for its return value.
 
+Fix that and propagate to errno to the caller in the case of a failure.
+
+Fixes: d536540f304c ("drm/fb-helper: Add generic fbdev emulation .fb_probe function")
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
 
 (no changes since v1)
 
- drivers/video/fbdev/core/fb_defio.c | 4 ----
- include/linux/fb.h                  | 1 -
- 2 files changed, 5 deletions(-)
+ drivers/gpu/drm/drm_fbdev_generic.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-index c730253ab85c..1b680742b7f3 100644
---- a/drivers/video/fbdev/core/fb_defio.c
-+++ b/drivers/video/fbdev/core/fb_defio.c
-@@ -157,10 +157,6 @@ static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, unsigned long
- 	/* protect against the workqueue changing the page list */
- 	mutex_lock(&fbdefio->lock);
+diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+index 0a4c160e0e58..b2df8c03594c 100644
+--- a/drivers/gpu/drm/drm_fbdev_generic.c
++++ b/drivers/gpu/drm/drm_fbdev_generic.c
+@@ -223,7 +223,9 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+ 		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
  
--	/* first write in this cycle, notify the driver */
--	if (fbdefio->first_io && list_empty(&fbdefio->pagereflist))
--		fbdefio->first_io(info);
--
- 	pageref = fb_deferred_io_pageref_get(info, offset, page);
- 	if (WARN_ON_ONCE(!pageref)) {
- 		ret = VM_FAULT_OOM;
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 30183fd259ae..daf336385613 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -215,7 +215,6 @@ struct fb_deferred_io {
- 	struct mutex lock; /* mutex that protects the pageref list */
- 	struct list_head pagereflist; /* list of pagerefs for touched pages */
- 	/* callback */
--	void (*first_io)(struct fb_info *info);
- 	void (*deferred_io)(struct fb_info *info, struct list_head *pagelist);
- };
- #endif
+ 		fbi->fbdefio = &drm_fbdev_defio;
+-		fb_deferred_io_init(fbi);
++		ret = fb_deferred_io_init(fbi);
++		if (ret)
++			return ret;
+ 	} else {
+ 		/* buffer is mapped for HW framebuffer */
+ 		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
 -- 
 2.39.0
 
