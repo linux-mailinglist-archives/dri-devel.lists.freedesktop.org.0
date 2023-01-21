@@ -1,44 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393636767E2
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 18:58:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 519E3676822
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 19:54:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6C410E04C;
-	Sat, 21 Jan 2023 17:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0C7010E021;
+	Sat, 21 Jan 2023 18:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 885B010E04C
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 17:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description; bh=EUyECha8HaxVxgq1F1KoFMr1DGt4Ij3T1L3mz8LljAM=; b=1MAQ0
- 3rGGQF+HQYx+iCsXN4SYOL1zEHCSG4P0IMdvNTbjw/ou4gvoaCnWEAf7Ii1Xqjrj2CxtM0KAa0qtO
- 6xzlg7iPuMMlh4GDH2X8oIOEfg1R0qjdAQtqAKxvnFWxl35Jgyfur1jFsBeiBSv1e523z8ERWsDHk
- 0xs7/I2CiPAjoBzo+QjTXQnIjvrEar62l3ifB6KZ9VbKEIJWwGkm2sEULdLyFY4asptqb0F+zoK9A
- hez1cbWN3HmBCfjbqPAJFvbGTnvvzapYWS9J0gPoCCwyNkvhd1Er7UCUB+OVTj9ost81ArzpfJ+dt
- t37w7Tr11kn6TjSQj9hQj+rjsFfOA==;
-Received: from [81.174.171.191] (helo=donbot)
- by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.95) (envelope-from <john@metanate.com>) id 1pJI8A-0004Ik-P2;
- Sat, 21 Jan 2023 17:58:18 +0000
-Date: Sat, 21 Jan 2023 17:58:11 +0000
-From: John Keeping <john@metanate.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH] drm/bridge: panel: Set orientation on panel_bridge
- connector
-Message-ID: <Y8wnswk++tvr9xMe@donbot>
-References: <20230120114313.2087015-1-john@metanate.com>
- <CAD=FV=UPD6c+NY8Ub37N7LmrRFpcr6gKOh0Os14DaKrf3bKo2A@mail.gmail.com>
- <Y8uo7vIcQ6caH9pu@ravnborg.org>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BC5310E021
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 18:54:25 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id g10so6308671wmo.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 10:54:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yHlRS4tTUF+pE273cablIaIcmSDSf47IWgdXnZSwkGE=;
+ b=KjHbVHatwK0tD8m7Hx+j+EgCOIfiVXtw1NcSb3VFwxQfQfrXjgCX9iquP0dlcY9Bsk
+ orgCLHG1Q12CSP5J89vrFm/S4r4SXv8o1v+/i5fzZrBYThFLbxhdzN/HWzRlX8DB9Wa1
+ CFa9MSHdOgnAUXQ7K9b6N7pVR5agu5gNZLaY32JjYBPkTccbCe3baSUPfk+Yup2yga9i
+ wWpAVv/R1x96OoAjty4W1p2PmXQFQsihqXlYORwrOQfbvj2X7vas9cLGbGeowuAhCEml
+ /DJwgQ/4E5vDj2bF2pGP/WWcGGRYjVYKzfM1bGhzvg2yFi7jbAKVE57N6JHu2vbDsz6r
+ 3IdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yHlRS4tTUF+pE273cablIaIcmSDSf47IWgdXnZSwkGE=;
+ b=u3fTDKDrQ3Kv0ntHwhTzCZJrqOP+oVvqk28zfvkM66c0Rfq+Yn3Z0G807msGmXA9tV
+ ZbZc9O4jRuzR26PTF8GvV6QltHBsI6CRtpIgk+tnhpMkRSMRu7YYUljtIkOg4Y/cntGY
+ 2lu11VQU5Q1Q1n/DV7RWbaBKM6NvMBFF4d4e47zg8r0tej+85EP4NKjgZRJDxhF2fpNb
+ 6CMko3ncrsTqfGtjwZ+y+8o1GRF4ZLffdGXaAIr0LHbGLeVGJ2Wg8V9a+DMS/s8ZPGSL
+ iu6pjQsM6xLtQDk59mAXHCpGSZanj7prSNWyYrlSEyMxeVyTiMzomRn43oQ23IIX4Oq7
+ Mx4Q==
+X-Gm-Message-State: AFqh2koZ6lNiYm6fReNsxZlq55Yor+w9jb0Wgq5+J9b7xV3oDjmjtdo0
+ eSV6yNY8ktJECcgpbCuumQwsDg==
+X-Google-Smtp-Source: AMrXdXvWfDyS7nCTlBLmBYH8ggLkgqo3w/dFfyJArIkg5qVFrZbPE41kcAlomNxkx5x9YS9O9pTpvQ==
+X-Received: by 2002:a1c:f617:0:b0:3d2:191d:2420 with SMTP id
+ w23-20020a1cf617000000b003d2191d2420mr17693396wmc.7.1674327263619; 
+ Sat, 21 Jan 2023 10:54:23 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ f14-20020a05600c154e00b003daff80f16esm8468327wmg.27.2023.01.21.10.54.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Jan 2023 10:54:23 -0800 (PST)
+Message-ID: <65e15459-16ce-bb5e-a523-6ad35b1fcfb6@linaro.org>
+Date: Sat, 21 Jan 2023 19:54:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8uo7vIcQ6caH9pu@ravnborg.org>
-X-Authenticated: YES
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v4 1/2] dt-bindings: display/panel: Add AUO A030JTN01
+Content-Language: en-US
+To: Christophe Branchereau <cbranchereau@gmail.com>,
+ thierry.reding@gmail.com, sam@ravnborg.org, airlied@gmail.com,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ paul@crapouillou.net, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230121162419.284523-1-cbranchereau@gmail.com>
+ <20230121162419.284523-2-cbranchereau@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230121162419.284523-2-cbranchereau@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,61 +79,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam & Doug,
-
-On Sat, Jan 21, 2023 at 09:57:18AM +0100, Sam Ravnborg wrote:
-> On Fri, Jan 20, 2023 at 01:44:38PM -0800, Doug Anderson wrote:
-> > On Fri, Jan 20, 2023 at 3:43 AM John Keeping <john@metanate.com> wrote:
-> > >
-> > > Commit 15b9ca1641f0 ("drm: Config orientation property if panel provides
-> > > it") added a helper to set the panel panel orientation early but only
-> > > connected this for drm_bridge_connector, which constructs a panel bridge
-> > > with DRM_BRIDGE_ATTACH_NO_CONNECTOR and creates the connector itself.
-> > >
-> > > When the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is not specified and the
-> > > panel_bridge creates its own connector the orientation is not set unless
-> > > the panel does it in .get_modes which is too late and leads to a warning
-> > > splat from __drm_mode_object_add() because the device is already
-> > > registered.
-> > >
-> > > Call the necessary function to set add the orientation property when the
-> > > connector is created so that it is available before the device is
-> > > registered.
-> > 
-> > I have no huge objection to your patch and it looks OK to me. That
-> > being said, my understanding is that:
-> > 
-> > 1. DRM_BRIDGE_ATTACH_NO_CONNECTOR is "the future" and not using the
-> > flag is "deprecated".
-> Correct.
-> Could we take a look at how much is required to move the relevant driver
-> to use DRM_BRIDGE_ATTACH_NO_CONNECTOR?
->
-> If this is too much work now we may land this simple patch, but the
-> preference is to move all drivers to the new bridge handling and thus
-> asking display drivers to create the connector.
+On 21/01/2023 17:24, Christophe Branchereau wrote:
+> From: Paul Cercueil <paul@crapouillou.net>
 > 
-> What display driver are we dealing with here?
+> Add binding for the AUO A030JTN01 panel, which is a 320x480 3.0" 4:3
+> 24-bit TFT LCD panel with non-square pixels and a delta-RGB 8-bit
+> interface.
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+> ---
 
-This is dw-mipi-dsi-rockchip which uses the component path in
-dw-mipi-dsi (and, in fact, is the only driver using that mode of
-dw-mipi-dsi).
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I'm not familiar enough with DRM to say whether it's easy to convert to
-DRM_BRIDGE_ATTACH_NO_CONNECTOR - should dw-mipi-dsi-rockchip be moving
-to use dw-mipi-dsi as a bridge driver or should dw_mipi_dsi_bind() have
-a drm_bridge_attach_flags argument?  But I'm happy to test patches if it
-looks easy to convert to you :-)
+Best regards,
+Krzysztof
 
-
-John
