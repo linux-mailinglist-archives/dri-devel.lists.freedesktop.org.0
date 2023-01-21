@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5581E67652B
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 09:47:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA53676530
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 09:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 689E710E16C;
-	Sat, 21 Jan 2023 08:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5833010E29F;
+	Sat, 21 Jan 2023 08:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
  [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A0110E29A
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 08:47:14 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id f34so11239262lfv.10
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 00:47:14 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19D7B10E29A
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 08:47:28 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id f34so11239669lfv.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 00:47:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Cm74fKZ7PZKO31bFrqMzbCutmQbZrACGraN6keA/CmQ=;
- b=uj6cCnvWG0/ZX8xm8FR+j1zcbSNOW3rIXuCUo4T7P5iCD6z0owTIqRJjIDmlXFZWTO
- ui/Vo+4rRrrh8YGN1DZd73mD06Aa4/qrDZja9bF3CTb69ulx1Gm5ONYd5PpPKtwycV3i
- 1ga251Lw3HlSsEA3BM2McwlgV+51FombUViiXBjRfZALziGab9ooI/gKYysiIYy9xVMj
- cqwZXI9YlXxzilhpS36wa6k9GmQQtt6jGSuIw69qnL6U/FpnCx4gvoBuvV2komsSF7BY
- MTA578W+8PmZ3jCkn/HCliatmpe+0E6Pwte4avVRyTCw58kpB8Au/kbGevdLgzLESum5
- t2Fg==
+ bh=2YTLThmpv4cn2/MrHGWOqrwv4z8fZYWsyGoTrJwWTZ4=;
+ b=pBZRz9QbNDbN6j3B8e7fgWAqnKS7AS3L1aWds0Je3Y0DC9zNHT3o3bOqZJI7ybIOlm
+ gUipeAlS4bXUqmX6s3s2dXwXum7IW/4uD+B6+Fw1sbDcRhNpT43ZXWmBuKMewK15JetP
+ POZ9U4vTSN91TVAkGc0SWqHKsmvLneFFJ4MMHnVPsYwtlTg3GYwODXNV10AIhA8plvXQ
+ Rmp1JO3Tq5gB8NySMp4ScD+h8DGmkPPzgwMfWZXP1mcYlrjyFGp2sAvP/x9RYFRcJHmb
+ X8I5TGPF1Za5WZhxwE8yvzapXYia9rxyCyD5GS+jf2FGyKq7KRZ2uk5VaYQ/cu4oZBAV
+ ZLrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Cm74fKZ7PZKO31bFrqMzbCutmQbZrACGraN6keA/CmQ=;
- b=glKBa1HF5LfxoiYHw8pS/BDsRyyawIkw7FLAyYnSNLUBIiQtsEKiwOsKXlWXIh9gZW
- 46ncmr9X/JANFDLT5rkll/Wg9xIRo/3Q9OJ8lsCwik8AYW9Yfpmu/HBqeTGDf1zhSABk
- 2POMjAu/3/i7yewP09Q0ednKgwzGKUw4VIpIzbwfd85vK/78fbXfh7+12bh2ydm7eabI
- VHET6GrhBv/L/JI5maG3QG0IAzA76OKeXiz70Cnxls4fsy4fg+GWTmfUWYCsfHblI7JR
- hPkDvaGnu1CtPLxWN+q+qwNQYlN0/RJZidUCJV5IslmQqimJd9/wrR68whov4ldb066B
- lbEA==
-X-Gm-Message-State: AFqh2kqQANmKrrXs+03KI2mLmuNG9wjOC0E+acReSxLsU8d59n0UHAjn
- Ot2HUQqKH4gY61ToqEGJZeVyCQ==
-X-Google-Smtp-Source: AMrXdXvf4thwlAFvQa5ElA008GmdQU1GQgdTR0z3t1Z5PgAMFsJ/qN1VUM0x207OjxGo8TxT3dJ14g==
-X-Received: by 2002:ac2:4bd2:0:b0:4a4:68b7:f878 with SMTP id
- o18-20020ac24bd2000000b004a468b7f878mr5454709lfq.28.1674290832741; 
- Sat, 21 Jan 2023 00:47:12 -0800 (PST)
+ bh=2YTLThmpv4cn2/MrHGWOqrwv4z8fZYWsyGoTrJwWTZ4=;
+ b=NLZBan/f99Ax6hiunK4kolegwJi4zkEcapnkfBsZKLdjXOjoE5bk15rxLlEUUD4hnN
+ 5JA1Lv43uJzw1gTyi5onc6b11tqDTDehcomvYDVD21Vu3vDd2YvC+cQPrX7JrVg+82Z6
+ 9mdKhXQUWOoOJY4Yz8NLDiRXhZ5eE0EnqzfpplLplQPiRzAY3vmY2SqhmTJylOoFr6le
+ aWf5CWUiTG1X+s9tVQtKftERICFMyzoFL2iInr9OR/1Jh8CFS8IXDy2JCf9fMTqX8Vyc
+ g5Okw0qu6TU1ojr0NyfNQzEnwdryAXRtaLLL2b6JndeSN/HryzbYL5/DObRu7Bklcn9w
+ lXoQ==
+X-Gm-Message-State: AFqh2koJ/ngrJhxPQwSnFeMFnV+SesGlL9zJ5UPOxkM4l1tBMKvqiwSo
+ o06y0bQRJUhFPTtKwYbWV7NXqw==
+X-Google-Smtp-Source: AMrXdXuz4HheEdSEFU8haYbpupq3Tp4b+KV5QwfsX6By2llk+vFNZAkPAruXsOzpBen+K3Nga94zRw==
+X-Received: by 2002:a05:6512:b84:b0:4cd:f060:d657 with SMTP id
+ b4-20020a0565120b8400b004cdf060d657mr6659259lfv.51.1674290847647; 
+ Sat, 21 Jan 2023 00:47:27 -0800 (PST)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- p9-20020a2eb989000000b0027fb76a4b44sm2074958ljp.97.2023.01.21.00.47.11
+ q16-20020a2eb4b0000000b002862cc92061sm4158704ljm.76.2023.01.21.00.47.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Jan 2023 00:47:12 -0800 (PST)
-Message-ID: <26fc1ff5-d150-35cc-867c-23683f104521@linaro.org>
-Date: Sat, 21 Jan 2023 10:47:11 +0200
+ Sat, 21 Jan 2023 00:47:27 -0800 (PST)
+Message-ID: <78f53b83-25a8-748b-de78-c6931555f8b7@linaro.org>
+Date: Sat, 21 Jan 2023 10:47:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 4/8] arm64: dts: qcom: sm8350: Feed DSI1 PHY clocks to
- DISPCC
+Subject: Re: [PATCH 5/8] arm64: dts: qcom: sm8350: Fix DSI PHY compatibles
 Content-Language: en-GB
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
  andersson@kernel.org, agross@kernel.org, krzysztof.kozlowski@linaro.org
 References: <20230120210101.2146852-1-konrad.dybcio@linaro.org>
- <20230120210101.2146852-4-konrad.dybcio@linaro.org>
+ <20230120210101.2146852-5-konrad.dybcio@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230120210101.2146852-4-konrad.dybcio@linaro.org>
+In-Reply-To: <20230120210101.2146852-5-konrad.dybcio@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,16 +89,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/01/2023 23:00, Konrad Dybcio wrote:
-> This was omitted but is necessary for DSI1 to function. Fix it.
+> The compatibles were wrong, resulting in the driver not probing. Fix
+> that.
 > 
 > Fixes: d4a4410583ed ("arm64: dts: qcom: sm8350: Add display system nodes")
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->   arch/arm64/boot/dts/qcom/sm8350.dtsi | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-
+>   arch/arm64/boot/dts/qcom/sm8350.dtsi | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 -- 
 With best wishes
 Dmitry
