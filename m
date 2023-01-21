@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35CD6768E1
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2D56768DA
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B2410E40D;
-	Sat, 21 Jan 2023 20:10:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBAD210E404;
+	Sat, 21 Jan 2023 20:10:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9854310E3F0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A003A10E3F1
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6FEE160BA0;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7DF4A60BA1;
  Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 42FB0C433A0;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E974C433A7;
  Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331673;
- bh=THZ/L61pBR+lfT7ZxVJrZGQLR5xpVdQa0Jf56a6CdCg=;
+ bh=QOjRRiap6jw1y7lUK8hedkHXcDhhbIK9dTMp6rudbP0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=tqKPdqp0QrMSl2E06vbLXSi9MtSN8jLdgy+mWXx5JDLzZecyDrd4ypDGu8yhz85Xz
- 4jDJAQK1dcc6Qe7ypFGpiRsOoSjxmslAsoR9Epju7m1ztAC9fOszkDQZB1IHirK7Ea
- E1h9BI8VK7flBRV5Wht2+WvgiI/J8DfjMgyphAjY6ZlF3UoM1OwxKsuM10emieETmb
- RyMWk132IlPnYH0AEAu1KX8N5igAKXTl7GMGWJb2+qgFQ3kUPx+uZWOCr2jcrkvBsi
- msuyzdXVXKIB0SNC66IjJWhkxy5OtsPjPPr5KG77qh8b6cQIpFP8Z+8pofbzKw5t/g
- YOTgKD3xaF2wg==
+ b=QhElf9nEfBai+djZbL6UwkGcJg3F1YbjAT7E8af2M3athhr2QEt2J8IkokYTMXpIz
+ Q4o1SCsFq95fdM40VT0OquvUSpmfDp2EHKnfKlr6OPa7UvEkHYHodC1QdGB1IxZbH2
+ ab/4bNWJFBEP8KfPtXmXQ7SwTthxnK0Znj2TDFjh1tkZc4E526AXdFWBMMRdkUejIq
+ /7Y5pY0pUno+mKz11x16y9QAmBpwp137/MboYeNQiSgdGjPYf0sFDuL340X/n9xNcA
+ HjNdloqBGAkN0qMD/ruhQQzdiiiIgdmq23nnJgpzCxugOb+WG45uxh/eU/MB7DI6Xk
+ 9ZVodwpJPk3Fw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 31EBFC54EAA;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 3EBC8C54EE1;
  Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:08:40 +0100
-Subject: [PATCH 62/86] drm/nouveau: Direct include headers from
+Date: Sat, 21 Jan 2023 21:08:41 +0100
+Subject: [PATCH 63/86] drm/omapdrm: Direct include headers from
  drm_atomic_helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-62-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-63-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=3082;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=2220;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=PwDwa3gwtMxEN2fKWTUk4wlKkPz4tZGP+oq8FzoWB0I=; =?utf-8?q?b=3D35ghuvcCR+TP?=
- =?utf-8?q?kW/FEmv8Ab8VKuD80JP9QOw7MPC68wtAyxqAE/uRFSaJlCYC1/xlgF56S4gNIWKq?=
- OMvYISjeDS5J8TBPPz4S3/Fq08KTBx/1Qo1YIx8sid970yvWYnym
+ bh=1ggm+clLwsFkQ/hz8gc+hdZM2D9KZMWU1BLKxQOcxvc=; =?utf-8?q?b=3DA9UHc/6BE6+N?=
+ =?utf-8?q?N5LedcoWS5sALu5M9CS3I0JdYPYT50eFaV/ayZztnk9W1iDPrvxP6Ia03VMIUBlm?=
+ atJfyUVWAJkqAlIss7NF1E7nPvYon+ShaRLw7WliWDexo8bYcNxT
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -81,43 +82,51 @@ include only the minimal set of headers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c     | 1 +
- drivers/gpu/drm/nouveau/dispnv50/head.c     | 2 ++
- drivers/gpu/drm/nouveau/dispnv50/wndw.c     | 2 ++
- drivers/gpu/drm/nouveau/nouveau_connector.c | 2 ++
- drivers/gpu/drm/nouveau/nouveau_display.c   | 1 +
- 5 files changed, 8 insertions(+)
+ drivers/gpu/drm/omapdrm/omap_crtc.c  | 2 ++
+ drivers/gpu/drm/omapdrm/omap_drv.c   | 3 +++
+ drivers/gpu/drm/omapdrm/omap_plane.c | 2 ++
+ 3 files changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index edcb2529b402..51c420b5af9e 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -39,6 +39,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fb_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
-index 5f490fbf1877..0c01b3d65a26 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/head.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
-@@ -32,6 +32,8 @@
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index 63ddc5127f7b..9d91b7872432 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -8,8 +8,10 @@
  
  #include <drm/drm_atomic.h>
  #include <drm/drm_atomic_helper.h>
 +#include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_mode.h>
 +#include <drm/drm_modeset_helper_vtables.h>
  #include <drm/drm_vblank.h>
- #include "nouveau_connector.h"
  
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index 7a2cceaee6e9..4cf6440da911 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -32,9 +32,11 @@
+ #include "omap_drv.h"
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index 699ed814e021..0cf9bd9c2d15 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -11,12 +11,15 @@
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_bridge_connector.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_ioctl.h>
++#include <drm/drm_modeset_helper.h>
++#include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_prime.h>
+ #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
+index 24a2ded08b45..a12f6b50efc0 100644
+--- a/drivers/gpu/drm/omapdrm/omap_plane.c
++++ b/drivers/gpu/drm/omapdrm/omap_plane.c
+@@ -6,10 +6,12 @@
  
  #include <drm/drm_atomic.h>
  #include <drm/drm_atomic_helper.h>
@@ -125,37 +134,11 @@ index 7a2cceaee6e9..4cf6440da911 100644
  #include <drm/drm_blend.h>
  #include <drm/drm_gem_atomic_helper.h>
  #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
 +#include <drm/drm_modeset_helper_vtables.h>
  
- #include "nouveau_bo.h"
- #include "nouveau_gem.h"
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 086b66b60d91..d3de721e5614 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -30,8 +30,10 @@
- #include <linux/vga_switcheroo.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_crtc_helper.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_atomic.h>
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
-index ec3ffff487fc..c94158389cee 100644
---- a/drivers/gpu/drm/nouveau/nouveau_display.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_display.c
-@@ -32,6 +32,7 @@
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_modeset_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
+ #include "omap_dmm_tiler.h"
+ #include "omap_drv.h"
 
 -- 
 2.34.1
