@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754B967683D
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 20:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0CE676842
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 20:09:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F2510E2B5;
-	Sat, 21 Jan 2023 19:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B00D10E2CE;
+	Sat, 21 Jan 2023 19:09:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCB4610E2C0
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 19:06:49 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- o17-20020a05600c511100b003db021ef437so5865075wms.4
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 11:06:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8DfHo6+2cR5G36izj5IdbaMWn0yli9T2fcLAtdygnkg=;
- b=nNVAF8Ai2srOYxgHMMSLcjMfMSJIaJKtNn8mahBIbadysRz6/1IaIYPCZc9fNT76X0
- /ld71XvhCdIoYYwg5Ip5ZweklxTNm/nIpdTF1HP/RSyhfC/kVrx3pbCWZ9+SjNuejh7l
- LFJjRISn7PlBP1HQEf4Bntv1ye+dlOM1fnoF9gIzimWx2Onki6KJn8IpvVriXVb5DipA
- W1zVr6hX8itcxEypRI4OR4t8FQH13XFCM2lHhED4F7mjnhCjhSCGpWb5Smc17w8qfmou
- CAeBQVgY657JeupI7OhXooH33r25EnulJ53FhTSFA+phOz2Ds+aaPR0YKIW24AEiwcuA
- xCvg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F359610E2CE
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 19:09:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674328178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NPIxC6UFVdw/MjrtfcvzuLHufLGHSjfY7C1EvrBunNo=;
+ b=NFLfUEol2FkmpFGCfCrqfF95w+zOkKpx5eptBKUQtKBNICVJU1b83Q6yUCJjf1jyz3cLZM
+ F67DEvrQeKBbW6wFE8AqQi2y63GZso001Z/YdP/3NbCsE/1oFabFIEPLOoCB4dsJct1fGN
+ /syFXBtdfP1kk2A+TYeVICLaKk7x+Fw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-147-QLuYk3DFNb2lMYy8uo19Xg-1; Sat, 21 Jan 2023 14:09:37 -0500
+X-MC-Unique: QLuYk3DFNb2lMYy8uo19Xg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 9-20020a05600c228900b003daf72fc827so4991932wmf.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 11:09:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8DfHo6+2cR5G36izj5IdbaMWn0yli9T2fcLAtdygnkg=;
- b=0bPv93+TDuxZ+PbgBPc0KywGeO1uGHyMaBo/6fjtfNylsSmvutHdeh1l4hqw/HOCoU
- QxlO1t8uaK+cZ4ueZ2ew+DyGVoBzu+BFc++j7Had2jcv15DjViucX9t4ia0aUo1nw1Fz
- 9LGFaqycYs3Vysq2DCd6CIpg4LmJenKNWlTduLV4VqXSDCbn5satch7KycEaZVuvyS4A
- zoABICaYh8TBx/CPYQCzEZVCmsb73m+2RLtzxgEIEYhyQObRtSvwWb+hkO44Y9p7XrKD
- QjysxIa61Q2JmIXdifhFU+oh6VpHK33fbnd1U695T4d1u41hJuadOgRQEcJt2PZx5Qr8
- fRGg==
-X-Gm-Message-State: AFqh2koANMxGYVGNGILU0Dwd+wQ9ynL2v2Y4OrA8YfAKhgBJbUZUC6F8
- gWyHLLMUPWfLQ1dTK86VCOChgg==
-X-Google-Smtp-Source: AMrXdXs35m2RpMWRgaSk7+Xj1XDLefPiYN4z7MFYdzeMJV+rnK5EyVmWU+xxPWKMXb+fv0qYvz5pmw==
-X-Received: by 2002:a05:600c:5021:b0:3d9:9755:d659 with SMTP id
- n33-20020a05600c502100b003d99755d659mr18386535wmr.22.1674328008214; 
- Sat, 21 Jan 2023 11:06:48 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- m26-20020a7bcb9a000000b003db2dede1a2sm5858414wmi.26.2023.01.21.11.06.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Jan 2023 11:06:47 -0800 (PST)
-Message-ID: <3865e4ae-99e9-bba7-6abf-76d92e79b178@linaro.org>
-Date: Sat, 21 Jan 2023 20:06:44 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NPIxC6UFVdw/MjrtfcvzuLHufLGHSjfY7C1EvrBunNo=;
+ b=exrpJ9PvhWNrV8xCw2fvrUI0FcAawpvBilkZ+opC/5ypI82bqSJ8BDM65wC037lJsx
+ ulMBiVepuQnjD+giWehW1TRx/hT8nr8QKs31RcTotHTAi3Pu0LAYSWQ2IAvE5mHCMZP/
+ oesUY4i2hbVfxlvCC8k5+vLomz2PEvb9xKMGCQH2sJ8OjuKR8hXZ4dVyjK462D/jLzFD
+ AkXqUM7PbJrPGxEjU06Hl/JNvGIzB557k2AkR9/8QKv2nPqbOB+pcpKap1cHd9TAFwcZ
+ u6sQUu/cqxgVTrdHxrSjckcYJypM1nq6FZ/o93LMLmTDDopE8SbyibqdxxTcRwY9Iqln
+ MruQ==
+X-Gm-Message-State: AFqh2krylMYPo/8kaSFmmK0fUPGBoPdXOu4td2kmEVNQeSj1a45a7JMr
+ QC9/fovyAWAVf9OdGoou7LjnGJRallQZxU+zrbiM3nGWhWexWhMOY1oMzbdXvWl2i8dcHeATXTi
+ zKTAMogD4aO3PwD//MJ3HjQZTNit6
+X-Received: by 2002:a05:6000:79d:b0:2bf:95cc:7447 with SMTP id
+ bu29-20020a056000079d00b002bf95cc7447mr4039177wrb.32.1674328175875; 
+ Sat, 21 Jan 2023 11:09:35 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs01wKQXxokiKiCqH3FkcFM0EKVJSqBjYCIdWWOsWkHS1xKlwhPbFZ792GvPLrzWlGVivQDBQ==
+X-Received: by 2002:a05:6000:79d:b0:2bf:95cc:7447 with SMTP id
+ bu29-20020a056000079d00b002bf95cc7447mr4039169wrb.32.1674328175669; 
+ Sat, 21 Jan 2023 11:09:35 -0800 (PST)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ k5-20020adfd845000000b002bdd96d88b4sm23716899wrl.75.2023.01.21.11.09.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 21 Jan 2023 11:09:35 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/ssd130x: Silence a `dubious: x & !y` warning
+Date: Sat, 21 Jan 2023 20:09:30 +0100
+Message-Id: <20230121190930.2804224-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v6 09/10] arm64: dts: qcom: sc7180: Add support for HDCP
- in dp-controller
-Content-Language: en-US
-To: Sean Paul <sean@poorly.run>
-References: <20230118193015.911074-1-markyacoub@google.com>
- <20230118193015.911074-10-markyacoub@google.com>
- <aee03688-54b6-ed9f-e32c-b46e31d72198@linaro.org>
- <Y8q5UfpIg0+qnAuG@art_vandelay>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y8q5UfpIg0+qnAuG@art_vandelay>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,55 +80,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, konrad.dybcio@somainline.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- arun.r.murthy@intel.com, krzysztof.kozlowski+dt@linaro.org, hbh25y@gmail.com,
- marex@denx.de, ashutosh.dixit@intel.com, abhinavk@codeaurora.org,
- javierm@redhat.com, quic_khsieh@quicinc.com, stanislav.lisovskiy@intel.com,
- agross@kernel.org, quic_jesszhan@quicinc.com, ankit.k.nautiyal@intel.com,
- devicetree@vger.kernel.org, tzimmermann@suse.de, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, lucas.demarchi@intel.com,
- quic_abhinavk@quicinc.com, swboyd@chromium.org, robh+dt@kernel.org,
- christophe.jaillet@wanadoo.fr, jose.souza@intel.com, rodrigo.vivi@intel.com,
- bjorn.andersson@linaro.org, johan+linaro@kernel.org,
- tvrtko.ursulin@linux.intel.com, Mark Yacoub <markyacoub@chromium.org>,
- andersson@kernel.org, linux-kernel@vger.kernel.org, swati2.sharma@intel.com,
- manasi.d.navare@intel.com, bhanuprakash.modem@intel.com,
- dmitry.baryshkov@linaro.org, seanpaul@chromium.org,
- freedreno@lists.freedesktop.org, maxime@cerno.tech
+Cc: dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/01/2023 16:54, Sean Paul wrote:
-> On Thu, Jan 19, 2023 at 11:35:32AM +0100, Krzysztof Kozlowski wrote:
->> On 18/01/2023 20:30, Mark Yacoub wrote:
->>> From: Sean Paul <seanpaul@chromium.org>
->>>
->>> This patch adds the register ranges required for HDCP key injection and
->>
->> Do not use "This commit/patch".
->> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
->>
->> This applies to all your patches. Fix it everywhere.
-> 
-> My goodness, this is peak bikeshedding. Surely we have better things to do with
-> our time?
+The sparse tool complains with the following warning:
 
-What do you mean "better things to do"? I review the patches as that's
-expected from maintainer. I spend a lot of time on so indeed I could
-find some other ways to use it.
+$ make M=drivers/gpu/drm/solomon/ C=2
+  CC [M]  drivers/gpu/drm/solomon/ssd130x.o
+  CHECK   drivers/gpu/drm/solomon/ssd130x.c
+drivers/gpu/drm/solomon/ssd130x.c:363:21: warning: dubious: x & !y
 
-I spot something which is obvious mistake, although trivial and not
-important, but clicking automated answer is also trivial for me and
-fast. And yes. 90% of my reviews answers are automated because people
-cannot learn to test before sending, cannot learn to read Submitting
-Patches and many other trivial things. Clicking this automated answer
-was also trivial from my point, but entire discussion including your
-disagreement about incorrect title (read Submitting Patches) instead of
-just implementing it - is waste of time.
+This seems to be a false positive in my opinion but still we can silence
+the tool while making the code easier to read. Let's also add a comment,
+to explain why the "com_seq" logical not is used rather than its value.
 
-I'll then consider not wasting time on your patches.
+Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
 
-Best regards,
-Krzysztof
+ drivers/gpu/drm/solomon/ssd130x.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index c3bf3a18302e..b16330a8b624 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -81,7 +81,7 @@
+ #define SSD130X_SET_PRECHARGE_PERIOD2_MASK	GENMASK(7, 4)
+ #define SSD130X_SET_PRECHARGE_PERIOD2_SET(val)	FIELD_PREP(SSD130X_SET_PRECHARGE_PERIOD2_MASK, (val))
+ #define SSD130X_SET_COM_PINS_CONFIG1_MASK	GENMASK(4, 4)
+-#define SSD130X_SET_COM_PINS_CONFIG1_SET(val)	FIELD_PREP(SSD130X_SET_COM_PINS_CONFIG1_MASK, !(val))
++#define SSD130X_SET_COM_PINS_CONFIG1_SET(val)	FIELD_PREP(SSD130X_SET_COM_PINS_CONFIG1_MASK, (val))
+ #define SSD130X_SET_COM_PINS_CONFIG2_MASK	GENMASK(5, 5)
+ #define SSD130X_SET_COM_PINS_CONFIG2_SET(val)	FIELD_PREP(SSD130X_SET_COM_PINS_CONFIG2_MASK, (val))
+ 
+@@ -298,6 +298,7 @@ static void ssd130x_power_off(struct ssd130x_device *ssd130x)
+ static int ssd130x_init(struct ssd130x_device *ssd130x)
+ {
+ 	u32 precharge, dclk, com_invdir, compins, chargepump, seg_remap;
++	bool scan_mode;
+ 	int ret;
+ 
+ 	/* Set initial contrast */
+@@ -360,7 +361,13 @@ static int ssd130x_init(struct ssd130x_device *ssd130x)
+ 
+ 	/* Set COM pins configuration */
+ 	compins = BIT(1);
+-	compins |= (SSD130X_SET_COM_PINS_CONFIG1_SET(ssd130x->com_seq) |
++	/*
++	 * The COM scan mode field values are the inverse of the boolean DT
++	 * property "solomon,com-seq". The value 0b means scan from COM0 to
++	 * COM[N - 1] while 1b means scan from COM[N - 1] to COM0.
++	 */
++	scan_mode = !ssd130x->com_seq;
++	compins |= (SSD130X_SET_COM_PINS_CONFIG1_SET(scan_mode) |
+ 		    SSD130X_SET_COM_PINS_CONFIG2_SET(ssd130x->com_lrremap));
+ 	ret = ssd130x_write_cmd(ssd130x, 2, SSD130X_SET_COM_PINS_CONFIG, compins);
+ 	if (ret < 0)
+-- 
+2.39.0
 
