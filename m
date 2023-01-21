@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBA76768F7
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8981E6768B1
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:08:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CE410E415;
-	Sat, 21 Jan 2023 20:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE4FC10E3CB;
+	Sat, 21 Jan 2023 20:08:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF88910E3CB
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD3910E3D8
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:52 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9BE9060B7B;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9C75A60B7C;
  Sat, 21 Jan 2023 20:07:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E2A8AC43323;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EC7CDC43324;
  Sat, 21 Jan 2023 20:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674331671;
- bh=hLwuqyWtVjhYdpbdvWnKkNFEe9VY9of2RG+XKbzsW0I=;
+ s=k20201202; t=1674331672;
+ bh=jehhigHSTDqYK8zgQa4eY4YyrETHjrkt+HI4Qtvl3Y4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=EHhvVy+qDMy5fP5IxAWzQUbT9PANjCYQiusY/xJXxAgS1c8TTllemJQo+OHl0hw2U
- U/CRy3+oBZlVLCBXis69Gxd9vnqo2nA+SO1VxT3GZ+eGhZCVKiaSFSVcLRL4dx8N3n
- oxUu2GaZ0NmQOjcGXg+AQHIMYdHsQexSZjgeoKIjAF0lkb0Q/Ve0ZJ6lCHcwXzWRf/
- crANcupoA6EMwGlRNz3vg72FGqCdV1BiPjBe1Fvnx4Y9U24KU1iR2NZyE+xAB5dhx9
- HkH0T3OH0/DadICqYeOtRbhvlBkhoCKDEiKioIpBzIBYRlbAxv00VG7q8506OappwZ
- IztvujYfLe7UA==
+ b=EJdhtsl2N+bgKeD3MjG2sSw6ascea4669IEVkxPIdDUrwZPVvmhKJ+C8nVbV0qf/V
+ b4byO8iWq+mWYge58unJ91aBdHhM2S5nPJo9Ei8rax8H9XxJAV2nvWklBgLH0Q185U
+ U7Ilpuc+NQpSGDcAkdgTyBiJTunH8FN+oyyAjXfrUaqBcoUojxJ+KdCbwrunyjFDCH
+ mNfCtYRFu9F9oEdliqkVTr2bOvL4CvCpLwQOb/3OlFcDsyOxF23GlGFx75JawjaUrl
+ Ivty1qlWKZqmzyOqzxi//Q2IJwDFx1aYoJuuKdj3eFqDsTLK8NZLheA0yM7/4X+8SX
+ CTyNWGXbBZbRw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id D2F4AC38A23;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id DD2E2C38142;
  Sat, 21 Jan 2023 20:07:51 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:08:09 +0100
-Subject: [PATCH 31/86] drm/bridge: fsl-ldb: Direct include headers from
+Date: Sat, 21 Jan 2023 21:08:10 +0100
+Subject: [PATCH 32/86] drm/bridge: ite: Direct include headers from
  drm_atomic_helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-31-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-32-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=734;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=1599;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=+NAzLP8uzIEBqjWb27BVyqfXxaxgqnr02cU2Xbb9VBw=; =?utf-8?q?b=3D0F6ayEr0u2nm?=
- =?utf-8?q?nHOhfKXtxd195caEyIYHHY1OgyU03JqNua9F4eMlIBZo5tGE89L9JraieIhVcFhy?=
- g9p/OhHdDCKjVxBtN1Z+tEmLeEkXLNz5PjGaMxThKlkggk/B4I1p
+ bh=F3gCX3kwFNzy3hiMzfBRfrj/yf8BDpHjZrLW/klGbm4=; =?utf-8?q?b=3DeiTnPGKsQjzM?=
+ =?utf-8?q?+G1ivxzTITlgKhkmQk0Sprs9YFWqblATSYjiaebzb8a94k4GjHsl/rjg4nFyYKAB?=
+ NaDdjkZhDfqoLawo8F13pYqc0z125M//LCJVtGV9LgbvG8MBAUfy
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -82,21 +81,44 @@ include only the minimal set of headers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/bridge/fsl-ldb.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/ite-it6505.c  | 3 ++-
+ drivers/gpu/drm/bridge/ite-it66121.c | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 9bcba8fc57e7..0950052a4182 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -14,6 +14,7 @@
- #include <linux/regmap.h>
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index ef42cd840958..5afa071f075e 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -3,8 +3,8 @@
+  * Copyright (c) 2020, The Linux Foundation. All rights reserved.
+  */
+ #include <linux/bits.h>
+-#include <linux/debugfs.h>
+ #include <linux/delay.h>
++#include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/extcon.h>
+@@ -26,6 +26,7 @@
+ #include <drm/display/drm_dp_helper.h>
+ #include <drm/display/drm_hdcp_helper.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_state_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_edid.h>
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index a2d723d6a4be..434ba849698b 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -21,6 +21,7 @@
+ #include <linux/regulator/consumer.h>
  
  #include <drm/drm_atomic_helper.h>
 +#include <drm/drm_atomic_state_helper.h>
  #include <drm/drm_bridge.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_modes.h>
 
 -- 
 2.34.1
