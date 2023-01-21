@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA686768BC
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:08:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B876768BE
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:08:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C001210E3E3;
-	Sat, 21 Jan 2023 20:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0837A10E3E5;
+	Sat, 21 Jan 2023 20:08:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95E6110E413
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:55 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67A2010E3E8
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6298AB8091D;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 41AB660B9C;
  Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EAFE6C433D2;
- Sat, 21 Jan 2023 20:07:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 04F31C4339E;
+ Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331673;
- bh=OghXvco2RD+KCg0a+4KPIYtaEuscXFpO1g+TLI7oXxs=;
+ bh=t32CyTLyYAHHp/WhBsr1oaJnAsXwT5FCNnI8IWJSYXI=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=oDOAsf8ZNbQvyEtNelCYQbhtJJg4ecyFKpNfSLC46wW6WYsM7aZl4F+kOvf6ySfn2
- y8YjStiOToDIDGdcpyRR0OFsqDyYa1+gRHTleq9cV4NNLlsSA+izss4DwxAAsJzxcG
- jDw8j9PnDIG0G3gHdh6ZX+RcWwJtKJo89zQcF+9w4oCxUUPqaZ7JHY2dK3DdIZLowF
- HzwdUlCK9B2/IKvlBzNXrplHz7Wo8I8PljaK5B/5Ad5tFrJoahkGoiHd7OpHuHP+m+
- YtCaPMx9XE8poqkmi/vEu0bkLpc5J+p8JqWW+yjvXhEhq9hjon+krveliScWvrxy4n
- 1a100+T9J1vhQ==
+ b=axiN+JCpww32KHHJdJAbODPsm/CsNjgBc2LzJeVYZOEBA8ALT7A3CE/F9XFcd2//z
+ kCpCxkPZbDIPJg4+U90MCqDe3B8L1iDoZlA3H8j2n2EDfvIxNtmuwwCbAj2ND7/bYz
+ E+n9c8z1oOCMH3TL5qeZBC7HeSOcCH88FA1NM3YBLPZTYDP53+ca0H3YW+rhcVUTVZ
+ qmXv5Q6TtOLJdOqDKuoHy3RGJtHionHdmO4BKG9LngJDLvcShGi6vFv7WzcUPEm3X5
+ 5WO1ifv/Mu0eLlhODeU9v/TSQhWOMmC4P6zOuo6yz1HhUzHNg1vuKVL4P8roM7cyJV
+ Si3+v1PurE5ew==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id DD88AC38A23;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id E9A46C54E94;
  Sat, 21 Jan 2023 20:07:52 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:08:33 +0100
-Subject: [PATCH 55/86] drm/logicvc: Direct include headers from
- drm_atomic_helper
+Date: Sat, 21 Jan 2023 21:08:34 +0100
+Subject: [PATCH 56/86] drm/mcde: Direct include headers from drm_atomic_helper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-55-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-56-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=2507;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331667; l=785;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=w9RLVltZWMyPuI0kcn93WYnbA6TZ5d8CgVI+/VyIlrw=; =?utf-8?q?b=3D8vJ/jlL4HEkl?=
- =?utf-8?q?B9CpojIx+Kf+qEI4mqIRf4+WHcwL3/FCakhl4S1jpku8qoMSbEGYsJywjQGulas2?=
- 5dTDFNN0BJtHxq/2Z6pauWCB2ACR90tJhWWzwlPPd4cnCm7G38vh
+ bh=je9pzCbUqVPiseX2WuXbAWlb6PIctK5DkhugPRIXGO0=; =?utf-8?q?b=3Dbjv/0YuiWuoo?=
+ =?utf-8?q?nOwQ98UWrRTSHoDqzJGVzi/RcK3akVNfnagG83qZ0LRyeELOuZ/PWPcvsyeUPwyN?=
+ 9rTs+IMfAHkvW6jVJ+5v8YXLZ5IqKmbFpXdMjrRsdxiaCX3l6mpn
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -82,70 +80,21 @@ include only the minimal set of headers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/logicvc/logicvc_crtc.c      | 2 ++
- drivers/gpu/drm/logicvc/logicvc_crtc.h      | 2 ++
- drivers/gpu/drm/logicvc/logicvc_interface.c | 1 +
- drivers/gpu/drm/logicvc/logicvc_layer.c     | 2 ++
- 4 files changed, 7 insertions(+)
+ drivers/gpu/drm/mcde/mcde_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/logicvc/logicvc_crtc.c b/drivers/gpu/drm/logicvc/logicvc_crtc.c
-index 43a675d03808..83b882b28be4 100644
---- a/drivers/gpu/drm/logicvc/logicvc_crtc.c
-+++ b/drivers/gpu/drm/logicvc/logicvc_crtc.c
-@@ -10,9 +10,11 @@
- #include <linux/workqueue.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 4aedb050d2a5..457b80e1c75c 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -74,6 +74,7 @@
  #include <drm/drm_gem_dma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+ #include <drm/drm_managed.h>
 +#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_print.h>
- #include <drm/drm_vblank.h>
- 
-diff --git a/drivers/gpu/drm/logicvc/logicvc_crtc.h b/drivers/gpu/drm/logicvc/logicvc_crtc.h
-index b122901f2936..1134dd2519ab 100644
---- a/drivers/gpu/drm/logicvc/logicvc_crtc.h
-+++ b/drivers/gpu/drm/logicvc/logicvc_crtc.h
-@@ -7,6 +7,8 @@
- #ifndef _LOGICVC_CRTC_H_
- #define _LOGICVC_CRTC_H_
- 
-+#include <drm/drm_crtc.h>
-+
- struct drm_pending_vblank_event;
- struct logicvc_drm;
- 
-diff --git a/drivers/gpu/drm/logicvc/logicvc_interface.c b/drivers/gpu/drm/logicvc/logicvc_interface.c
-index 689049d395c0..a4f01bd3aec3 100644
---- a/drivers/gpu/drm/logicvc/logicvc_interface.c
-+++ b/drivers/gpu/drm/logicvc/logicvc_interface.c
-@@ -7,6 +7,7 @@
- #include <linux/types.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_drv.h>
-diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/logicvc/logicvc_layer.c
-index 464000aea765..8f6b292b8bf7 100644
---- a/drivers/gpu/drm/logicvc/logicvc_layer.c
-+++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-@@ -9,10 +9,12 @@
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_fb_dma_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_plane.h>
- #include <drm/drm_print.h>
- 
+ #include <drm/drm_of.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_panel.h>
 
 -- 
 2.34.1
