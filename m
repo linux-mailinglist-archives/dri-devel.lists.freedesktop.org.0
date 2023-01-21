@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6676768DC
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D95F6768EC
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jan 2023 21:10:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4344110E405;
-	Sat, 21 Jan 2023 20:10:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C419310E41E;
+	Sat, 21 Jan 2023 20:10:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71E3010E3EA
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9215D10E3EE
  for <dri-devel@lists.freedesktop.org>; Sat, 21 Jan 2023 20:07:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DC9EBB80816;
+ by ams.source.kernel.org (Postfix) with ESMTPS id E61BAB80817;
  Sat, 21 Jan 2023 20:07:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A44DC4339C;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 95692C4339E;
  Sat, 21 Jan 2023 20:07:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1674331670;
- bh=ixKIvWRvRpFUSKcc9eBkqCeiYUHcT+uuwRRPb5SuxOI=;
+ bh=lSfGFwHmzO8bcD7zyypYa2aDpWbX3TNypBmhiPACb2s=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=CvAKt2nq2ueybCSXCVab6Al1wC8t+Rz+F7/5w8sssnOBU/gteki/p882IJJDkJWqQ
- K/6kO0l5uZ9qluqS1Kan3A8eORbjEp2l6zJzwHrDCfATXUqSEQy9mJFVcLD9/vjx5j
- UoibSj7rtsEn7618fPXQMIx0eTW2hgOeX30EdkTqgph+h9fS+H9tjoi3lV2Sc6JXq2
- i+2yT50yfVo0kFAJv+axkoNP3FkMa3ZtkzCA+caDvjzgprTu2GWGu8n8Wc+oF0fAHA
- KXTuGAlrxRosTjrsozJjjz+wHYgYxTtNUaJ7BuiiPcPnsx08OFwxpEfS13gGo0AQBB
- mNASVZVfWdbOg==
+ b=EicZg21iCK3/pikh0XzG2yclXycoH6cpFCDq+ljxGDAEVdvfNwmibt940Ilx9xH6s
+ kKyJrKtehvr7PczliLGP5TZeTnJfHnoEVIbwv2QyGCGcQZ07m8Bo2yOvkuVmTWbCEq
+ FW5To4W3l9Yyp5vV999nPTU/ZQLrLC0f4dMtyo7h3W1JuiZKwYxLntvvDovV1yrz+V
+ bzQ+F1enVLL0iKguo9R0T2AKIwnjSKeBoEseiek1ZxCkdjNr8WLhgkuR4AM/s0R0Bd
+ DDn/Ticpxn5fAIRht+lRJBQlQnqXY1eQBluAKcgFkJYHpAuOBvuLc6zPB7NAzYzndz
+ dgNBOvb0U2xnA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 729F5C38159;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4CEC54737;
  Sat, 21 Jan 2023 20:07:50 +0000 (UTC)
 From: Sam Ravnborg via B4 Submission Endpoint
  <devnull+sam.ravnborg.org@kernel.org>
-Date: Sat, 21 Jan 2023 21:07:41 +0100
-Subject: [PATCH 03/86] drm/bridge: panel: Direct include headers from drm_print
+Date: Sat, 21 Jan 2023 21:07:42 +0100
+Subject: [PATCH 04/86] drm/msm: Direct include headers from drm_print
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230113-drm-include-v1-v1-3-c5cf72d8a5a2@ravnborg.org>
+Message-Id: <20230113-drm-include-v1-v1-4-c5cf72d8a5a2@ravnborg.org>
 References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 In-Reply-To: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331666; l=690;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674331666; l=774;
  i=sam@ravnborg.org; s=20230107; h=from:subject:message-id;
- bh=nlw09AXqQu1Wl3aoYLyccpWInHuibc1E6kZBXLXaEGY=; =?utf-8?q?b=3DBTXa9kbd7AQ3?=
- =?utf-8?q?WCjV+3d1Bntgyghhi/Hdnfr7xwlH9blklrVkCGIDksIbdPzMDCIChzQBQtBncNu7?=
- s9rDTIyuDkZyMCTEjU6VjQqSWqThjdcoNOy3UUfhz9uN1iAKVb2Y
+ bh=i9y9pDCm2mA3/O720jg1Kgq6M5EgH/ydU59nA2VdrCc=; =?utf-8?q?b=3DRX5TrvOVQZh6?=
+ =?utf-8?q?2FgTpTrQP6B1J+/5naEnEvmJSJ1cXht34nwGG3+d4CbgLMRDdW4T2g0SQAzCuBVF?=
+ WwrS8h/pB0pSmhIrLC7OpjtFTXws8R77+QRj0wHC9y0GUIYAVyrR
 X-Developer-Key: i=sam@ravnborg.org; a=ed25519;
  pk=R0+pqV7BRYOAeOIGkyOrSNke7arx5y3LkEuNi37YEyU=
 X-Endpoint-Received: by B4 Submission Endpoint for sam@ravnborg.org/20230107
@@ -80,22 +81,22 @@ include only the minimal set of headers.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/bridge/panel.c | 2 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index e8aae3cdc73d..97c305978f9b 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -4,6 +4,8 @@
-  * Copyright (C) 2017 Broadcom
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index 691c471b08c2..53e0933ccfcb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -2,6 +2,8 @@
+ /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
   */
  
 +#include <linux/debugfs.h>
 +
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_connector.h>
+ #include "dpu_hwio.h"
+ #include "dpu_hw_catalog.h"
+ #include "dpu_hw_lm.h"
 
 -- 
 2.34.1
