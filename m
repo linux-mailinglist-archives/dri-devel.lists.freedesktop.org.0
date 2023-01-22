@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32154677173
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 19:22:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F4F67719F
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 19:46:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AAD810E1A0;
-	Sun, 22 Jan 2023 18:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F74F10E1A3;
+	Sun, 22 Jan 2023 18:46:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1CD310E1A0
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 18:22:26 +0000 (UTC)
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E480810E1A3;
+ Sun, 22 Jan 2023 18:46:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1674411742; bh=G6basNI+cGfC3xf2QmqV9FLtY71hlHZTIWWsWpMT/pM=;
+ t=1674413155; bh=J41ioDWqknlOzdipOF5sD31nhNZl3NF7T0hUSNvNhsI=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
  MIME-Version:Content-Type:In-Reply-To;
- b=PazcGRFEVIta7DGoklCdlfbcG2S3U8rRiPyX/AmibmfakRtwaFrIrrW1bMWhndlI+
- nhqSWO4GCuU/3wseipVVnDO1qsfWb7yAfLMStrsJBmOBOJ5V+u/N1yhjtRUFpeuo9w
- GVRhLKdK3CWIa/TxHLDqopeWgdZa5Pnr26/HbJsc=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+ b=f2vIwTa7gBjC8QW6zWihuU2CxvUGZIQ4lWSAAJlEknZHH1gQPn/chKhj0P2B3ADr3
+ 6ljtIFr4O7T2RQiDTIMJkNU+erNDHvRrCizCJoNWofiZJE97w1pYFTWD6mQuSCJVY7
+ e3+tYz4LnDkCixQalsK1OwmPlwBwutWHkDA8qCwM=
+Received: by b-1.in.mailobj.net [192.168.90.11] with ESMTP
  via ip-206.mailobj.net [213.182.55.206]
- Sun, 22 Jan 2023 19:22:22 +0100 (CET)
-X-EA-Auth: ZtbcX1FW5ED5yK7LT+dHFriGQz9zsqlbyX7i7c9N7iM/uItxpVrHWwbTtEzTmgnsj0wwMaV/LaCjZM1pl2bILMhmhIA4NKLL
-Date: Sun, 22 Jan 2023 23:52:18 +0530
+ Sun, 22 Jan 2023 19:45:55 +0100 (CET)
+X-EA-Auth: LxLdcSa5DAPkBdm3lAE5Zi4Ztr6lojNLOTcMK4tmNwTIrMEaL45b16ba2tEHLBsIZr6K+6GtA76prZjHrpgzJvjUV0jW4QZq
+Date: Mon, 23 Jan 2023 00:15:50 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Alain Volmat <alain.volmat@foss.st.com>,
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sti: Avoid full proxy f_ops for sti debug attributes
-Message-ID: <Y81+2gAtmPW2n0gS@ubun2204.myguest.virtualbox.org>
-References: <Y73IdsbXhB5aUrkP@ubun2204.myguest.virtualbox.org>
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] drm/amd/display: Use min()/max() helper macros
+Message-ID: <Y82EXrIgJyJTVAFk@ubun2204.myguest.virtualbox.org>
+References: <cover.1673730293.git.drv@mailo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y73IdsbXhB5aUrkP@ubun2204.myguest.virtualbox.org>
+In-Reply-To: <cover.1673730293.git.drv@mailo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,64 +57,32 @@ Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 11, 2023 at 01:50:06AM +0530, Deepak R Varma wrote:
-> Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
-> function adds the overhead of introducing a proxy file operation
-> functions to wrap the original read/write inside file removal protection
-> functions. This adds significant overhead in terms of introducing and
-> managing the proxy factory file operations structure and function
-> wrapping at runtime.
-> As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
-> with debugfs_create_file_unsafe() is suggested to be used instead.  The
-> DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
-> debugfs_file_put() wrappers to protect the original read and write
-> function calls for the debug attributes. There is no need for any
-> runtime proxy file operations to be managed by the debugfs core.
-> Following coccicheck make command helped identify this change:
-> 
-> make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
-> Note: Change cross compile tested using stm32_defconfig for arm
+On Sun, Jan 15, 2023 at 02:48:45AM +0530, Deepak R Varma wrote:
+> This patch series proposes using standard min() / max() helper macros instead of
+> direct variable comparison using the ternary operator or if/else evaluations. I
+> have tested the change using a dummy module and similar simulations on my x86
+> machine.
 
 Hello,
-Is there a feedback/comment on this patch proposal please? Let me know if I
-should resend it.
+May I request a review feedback and comments on this patch set please?
 
 Thank you,
 ./drv
 
 > 
->  drivers/gpu/drm/sti/sti_drv.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Deepak R Varma (4):
+>   drm/amd/display: Use min()/max() macros in dcn_calc_math
+>   drm/amd/display: dcn20: Use min()/max() helper macros
+>   drm/amd/display: dcn21: Use min()/max() helper macros
+>   drm/amd/display: dcn32: Use min()/max() helper macros
 > 
-> diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-> index ef6a4e63198f..c9be82043638 100644
-> --- a/drivers/gpu/drm/sti/sti_drv.c
-> +++ b/drivers/gpu/drm/sti/sti_drv.c
-> @@ -67,8 +67,8 @@ static int sti_drm_fps_set(void *data, u64 val)
->  	return 0;
->  }
->  
-> -DEFINE_SIMPLE_ATTRIBUTE(sti_drm_fps_fops,
-> -			sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
-> +DEFINE_DEBUGFS_ATTRIBUTE(sti_drm_fps_fops,
-> +			 sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
->  
->  static int sti_drm_fps_dbg_show(struct seq_file *s, void *data)
->  {
-> @@ -97,8 +97,8 @@ static void sti_drm_dbg_init(struct drm_minor *minor)
->  				 ARRAY_SIZE(sti_drm_dbg_list),
->  				 minor->debugfs_root, minor);
->  
-> -	debugfs_create_file("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
-> -			    minor->dev, &sti_drm_fps_fops);
-> +	debugfs_create_file_unsafe("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
-> +				   minor->dev, &sti_drm_fps_fops);
->  
->  	DRM_INFO("%s: debugfs installed\n", DRIVER_NAME);
->  }
+>  .../gpu/drm/amd/display/dc/dml/calcs/dcn_calc_math.c   | 10 +++++-----
+>  .../drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c |  5 +----
+>  .../amd/display/dc/dml/dcn20/display_mode_vba_20v2.c   |  5 +----
+>  .../drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c |  5 +----
+>  drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c   |  4 ++--
+>  5 files changed, 10 insertions(+), 19 deletions(-)
+> 
 > -- 
 > 2.34.1
 > 
