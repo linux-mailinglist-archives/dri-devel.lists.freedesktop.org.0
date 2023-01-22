@@ -2,81 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11F8677040
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 16:42:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892D86770D0
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 17:53:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E249A10E190;
-	Sun, 22 Jan 2023 15:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64D6A10E11A;
+	Sun, 22 Jan 2023 16:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E084A10E190
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 15:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674402146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IonFMa0lsWsZdfNk5QE4jBoQi/ruUQHMn+oqAHgqoH8=;
- b=HwdPa10g4V580Gm0YobhvC68a4XSSPb3VLKzTY2qEG/cSyXRGmfapdYr6uehseUU1T0FPL
- xB64erKuZY77e5P/vp0iOxUCYLFWQc0qFwlRcoApy/7//RiMziDsuSUl1i52WVZ9X13pw0
- 2clgjHoRB7KuXS5M8l4AiguqnW2RcAU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-493-xprAl1X5PdixIzIPg3n-XQ-1; Sun, 22 Jan 2023 10:42:25 -0500
-X-MC-Unique: xprAl1X5PdixIzIPg3n-XQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- m7-20020a056402510700b00488d1fcdaebso6823208edd.9
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 07:42:24 -0800 (PST)
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67C8D10E11A
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 16:53:34 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id j1so4674778iob.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 08:53:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eOOpS877RbdMk9+2ubqEo2V/9WGV2dh88ER6QWnCNlg=;
+ b=cnc5Qs0w/DIvnCz8gTNZxM6X57omamoi955rvAG3CtFtJeX2cT+dnvqkN+7Xus2Q4c
+ s2qxzQO46fr1gA+uRdQSA13CzzgxLJ0a7YEQ3r7wvURAVb2KoHmW3IFupl+9fvSCirlI
+ Jq8HMZHvBq4lvD+1LNhXqcyZvcvn3+rHfDy12EoXfsijMtND/rVR0UEeVBxICFWeareC
+ UWDzRwYbSOP9VV6Y/bCmFXUv8izM3d6/Coxh9S4RzOgHkhvyfdGerdXkdDYkTh0WKxYF
+ q6XRrslKWZ1mHkUYFtl4b140S23dcsGcg9ytcn1uVUBP4GMlnWhCTs+K0mUbdAU10BM4
+ k6JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IonFMa0lsWsZdfNk5QE4jBoQi/ruUQHMn+oqAHgqoH8=;
- b=jkyxf1saA3VnieRqJVB3a06+rU/Tsq/Zjetrmk/ZuWZdmemP+kGNWW3mpvbnAT4knx
- sBJ/Uyq9f4BCwmaI0TfL/OPnahVORxBkI2KjGBDCGh6jdS8daWUQ+n5Kf+KrqvpsWrVR
- L7a7lRXjaJxOuhMrD73564rmme/biHB5DAazVYv8GI8YPNmhPec8/b9bxR4JnjQHPARI
- v/sbTlB2GlfWr1oqvMSulqlGhJ+5o+aLdBxFA5GqjRdW7nFjt/AavNtt5tNEvaBhKyOd
- 83OQsRXJVLuwMRq8J3gAWjDMD7S3eNl+LGcr/rofLD0DulomYDrgqQNibm48hSYBVXk+
- Fd5g==
-X-Gm-Message-State: AFqh2kq/mO60xj9obB2h9tkdFbscN/zMuKxbu0GGa/my2jw6/Me2wQl/
- 5gyvw/X3lRChl/0xS0BhZZIDt7q+SLelhN3iln/AWT5IQSRWFQlSqfeTCKg4rZ9EG+z2NpqYE95
- OWofnC55tgR0yhgQgx2zzdo5wxISI
-X-Received: by 2002:a17:906:b317:b0:86e:5124:20b0 with SMTP id
- n23-20020a170906b31700b0086e512420b0mr24453765ejz.64.1674402144010; 
- Sun, 22 Jan 2023 07:42:24 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvxYtwlzriBymW6Z3D7aPp6YK0SgRgIwBhy9+XTG6Yr2FXU6lFqP+zhk9rsn87ItyMtBAKvXA==
-X-Received: by 2002:a17:906:b317:b0:86e:5124:20b0 with SMTP id
- n23-20020a170906b31700b0086e512420b0mr24453748ejz.64.1674402143767; 
- Sun, 22 Jan 2023 07:42:23 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ bh=eOOpS877RbdMk9+2ubqEo2V/9WGV2dh88ER6QWnCNlg=;
+ b=RxyV01Swo4BfFYr+ySUtLluMgb5aRExNvZMVoI7GfsgD0dM01qIpw2WrT0o4yf3T4z
+ BVRQNLzdU6n78IriYvQ6ux6+aoXLkdhqAm3v8QlXwip3NZWJXPuyF7tjA8oi82xTkk3h
+ 4GqMdoEjpGB267gF2C3Raz0e5GPxDVpVTnsJUnAqIi5rW3TMBhIc0lr/O0tkQOlj//r2
+ Wh/TvB7/4YvUiAHRXfGRR4b/6zqJqonK/03KOGVK6Of175/sz8uO3O+JJtS3ruMAJ8mU
+ rbX1qZt6xgffwtZAA4XFRGUR229f9bf6sO1xXMomoTNtDe8UXH4KiAw/3zTFBEiGxZGY
+ Ru0w==
+X-Gm-Message-State: AFqh2kpS13HI+BfLZR6DHxxUD2S+kCZQR6cDfSudToXZxXKvqsD8C/ym
+ OT36bWmdVDI9UI4XGKFQlrM=
+X-Google-Smtp-Source: AMrXdXvjVsBryuY5uffw2HQNjOTKrgAe5dY1Ufl78re2BxE1nBEkaqrToGy6dA7Qx+mrhm/aXVP46w==
+X-Received: by 2002:a6b:f012:0:b0:704:5d40:dfbf with SMTP id
+ w18-20020a6bf012000000b007045d40dfbfmr15589897ioc.1.1674406413503; 
+ Sun, 22 Jan 2023 08:53:33 -0800 (PST)
+Received: from [192.168.75.211] ([173.23.87.62])
  by smtp.gmail.com with ESMTPSA id
- mb9-20020a170906eb0900b0084d34eec68esm19871820ejb.213.2023.01.22.07.42.22
+ y13-20020a056638228d00b003a0565a5750sm9829265jas.119.2023.01.22.08.53.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Jan 2023 07:42:23 -0800 (PST)
-Message-ID: <efcca646-5dc3-359a-5453-2fe241af8f8c@redhat.com>
-Date: Sun, 22 Jan 2023 16:42:22 +0100
+ Sun, 22 Jan 2023 08:53:33 -0800 (PST)
+Message-ID: <3b323793-2e98-216c-d84f-97187feb4b72@gmail.com>
+Date: Sun, 22 Jan 2023 10:53:31 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 2/2] dt-bindings: display: simple-framebuffer: Document
- physical width and height properties
-To: Rob Herring <robh+dt@kernel.org>, Rayyan Ansari <rayyan@ansari.sh>
-References: <20230121153544.467126-1-rayyan@ansari.sh>
- <20230121153544.467126-3-rayyan@ansari.sh>
- <CAL_JsqL+G=Cxkc2j_NowznpqNAnixrU+-6SdccFbpMaP6OYSqQ@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAL_JsqL+G=Cxkc2j_NowznpqNAnixrU+-6SdccFbpMaP6OYSqQ@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirks for One XPlayer
+ handheld variants
+Content-Language: en-US
+To: maarten.lankhorst@linux.intel.com
+References: <20221213171044.14869-1-ruinairas1992@gmail.com>
+From: Matthew Anderson <ruinairas1992@gmail.com>
+In-Reply-To: <20221213171044.14869-1-ruinairas1992@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,40 +75,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, janne@jannau.net,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- asahi@lists.linux.dev
+Cc: dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+I'm just following up to see where things are standing for this patch. 
+I've seen other orientation patches make it's way to the kernel and am 
+wondering if there is something I need to do on my end.
 
-On 1/22/23 16:36, Rob Herring wrote:
-> On Sat, Jan 21, 2023 at 9:36 AM Rayyan Ansari <rayyan@ansari.sh> wrote:
->>
-> 
-> Why do you need this change?
-> 
-> The 'simple-framebuffer' contains data on how the bootloader
-> configured the display. The bootloader doesn't configure the display
-> size, so this information doesn't belong here. The information should
-> already be in the panel node, so also no point in duplicating it here.
-
-The idea is that early boot code which uses the simplefb node (no more
-complex display driver loaded yet) knows the panel's DPI so that it can
-decide if hi-dpi rendering / scaling is necessary or not.
-
-This definitely is a useful feature to have.
-
-I guess that for dt systems an alternative approach could be to
-add a link to the panel node to the simplefb dt-node.
-
-Regards,
-
-Hans
-
-
-
+On 12/13/22 11:10 AM, Matthew Anderson wrote:
+> We have more handhelds in the One XPLAYER lineup now that needs support added to the orientation-quirks.
+> By adding more native resolution checks and the one unique BIOS variant available we add support to most devices.
+>
+> Signed-off-by: Matthew Anderson <ruinairas1992@gmail.com>
+> ---
+>   .../gpu/drm/drm_panel_orientation_quirks.c    | 30 +++++++++++++++++++
+>   1 file changed, 30 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index 52d8800a8ab8..335d636e6696 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -103,6 +103,12 @@ static const struct drm_dmi_panel_orientation_data lcd800x1280_rightside_up = {
+>   	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+>   };
+>   
+> +static const struct drm_dmi_panel_orientation_data lcd800x1280_leftside_up = {
+> +	.width = 800,
+> +	.height = 1280,
+> +	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
+> +};
+> +
+>   static const struct drm_dmi_panel_orientation_data lcd1080x1920_leftside_up = {
+>   	.width = 1080,
+>   	.height = 1920,
+> @@ -115,6 +121,12 @@ static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
+>   	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+>   };
+>   
+> +static const struct drm_dmi_panel_orientation_data lcd1200x1920_leftside_up = {
+> +	.width = 1200,
+> +	.height = 1920,
+> +	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
+> +};
+> +
+>   static const struct drm_dmi_panel_orientation_data lcd1280x1920_rightside_up = {
+>   	.width = 1280,
+>   	.height = 1920,
+> @@ -344,6 +356,24 @@ static const struct dmi_system_id orientation_data[] = {
+>   		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
+>   		},
+>   		.driver_data = (void *)&lcd1600x2560_leftside_up,
+> +	}, {	/* OneXPlayer Mini 800p */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
+> +		},
+> +		.driver_data = (void *)&lcd800x1280_leftside_up,
+> +	}, {	/* OneXPlayer Mini 1200p */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
+> +		},
+> +		.driver_data = (void *)&lcd1200x1920_leftside_up,
+> +	}, {	/* OneXPlayer Mini A07 Bios Variant */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER mini A07"),
+> +		},
+> +		.driver_data = (void *)&lcd800x1280_leftside_up,
+>   	}, {	/* Samsung GalaxyBook 10.6 */
+>   		.matches = {
+>   		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "SAMSUNG ELECTRONICS CO., LTD."),
