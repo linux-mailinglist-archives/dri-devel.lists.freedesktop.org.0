@@ -2,49 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 029FC677103
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 18:14:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD70667710F
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 18:25:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CFC310E17C;
-	Sun, 22 Jan 2023 17:14:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6D4E10E18F;
+	Sun, 22 Jan 2023 17:25:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C475610E17C
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 17:14:32 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B04B685565;
- Sun, 22 Jan 2023 18:14:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1674407670;
- bh=qpvKbk0W1f539TSNkgyW7XATGGgOzHEwlUEFmsO6ZKg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jyVkpl1H7BgdVylsZAZ3tkofz9c+78/sh7bS8bAnx0wiWHV0bWUWhU1LQ04z+Dky1
- G/7Is/tulu+1zBU+4cSPnM4s+S6J1spzQeRU/o+zSw0YNE+0qvlqWYwNQOIq1v5edu
- F73mWhVfnyUB6hSSwLSk9AZaDkyyCyIyDFNHs0YnCcd8mzDiizkLJ2wKmR2d0OJBWo
- dF58eUME7kcqRraF9zmmA89jTBkWISlsN+TMK/EUKtX2eOMvP9cn8yA7LT4tQ8o6Kj
- QjRPrwDEqcgv/KzNO2SrtXwqEBFGxQu9OATxHCLlVQZ5gZprN/otroBslxh/GdwdQb
- m3g3GD4ziju8Q==
-Message-ID: <a5f8ec67-5888-3ee8-a1b1-32fef386d6cb@denx.de>
-Date: Sun, 22 Jan 2023 18:14:28 +0100
+Received: from out-17.mta0.migadu.com (out-17.mta0.migadu.com [91.218.175.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3382310E18F
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 17:25:42 +0000 (UTC)
+Message-ID: <cdf32cb0-4529-6bbd-fdda-ae641d141ee5@ansari.sh>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ansari.sh; s=key1;
+ t=1674408340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zNlCaEENnr2E6T9VSpQMskYXTPIwdkrlcdCRQqfBtOM=;
+ b=VOT0GTIZywb4evsNGliJqALCozr69B1bLNkLQ2lQ9PQ4fHmFq6vNx482gV3j6w7xxs/oyv
+ gWZRY2YBa59rob66gqpjXikqbmNlcf1NKvdNsiZokZxnDhlYNJA3zkK/piNkSfit9o51yD
+ NCncQyfn3OYk4fbM9Pc9XGf/ZKJfY8U=
+Date: Sun, 22 Jan 2023 17:25:38 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 2/2] drm/bridge: fsl-ldb: Add i.MX93 LDB support
+Subject: Re: [PATCH v2 2/2] dt-bindings: display: simple-framebuffer: Document
+ physical width and height properties
+To: Rob Herring <robh+dt@kernel.org>
+References: <20230121153544.467126-1-rayyan@ansari.sh>
+ <20230121153544.467126-3-rayyan@ansari.sh>
+ <CAL_JsqL+G=Cxkc2j_NowznpqNAnixrU+-6SdccFbpMaP6OYSqQ@mail.gmail.com>
 Content-Language: en-US
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230122121836.778195-1-victor.liu@nxp.com>
- <20230122121836.778195-3-victor.liu@nxp.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230122121836.778195-3-victor.liu@nxp.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Rayyan Ansari <rayyan@ansari.sh>
+In-Reply-To: <CAL_JsqL+G=Cxkc2j_NowznpqNAnixrU+-6SdccFbpMaP6OYSqQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,60 +51,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, krzysztof.kozlowski+dt@linaro.org,
- jonas@kwiboo.se, linux-imx@nxp.com, jernej.skrabec@gmail.com,
- krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, robert.foss@linaro.org,
- andrzej.hajda@intel.com, Laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, janne@jannau.net,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/22/23 13:18, Liu Ying wrote:
-> Same to i.MX8mp LDB, i.MX93 LDB is controlled by mediamix blk-ctrl
-> through LDB_CTRL and LVDS_CTRL registers.  i.MX93 LDB supports only
-> one LVDS channel(channel 0) and it's LVDS_CTRL register bit1 is used
-> as LVDS_EN instead of CH1_EN.  Add i.MX93 LDB support in the existing
-> i.MX8mp LDB bridge driver by adding i.MX93 LDB compatible string and
-> device data(to reflect different register offsets and LVDS_CTRL register
-> bit1 definition).
+On 22/01/2023 15:36, Rob Herring wrote:
+> On Sat, Jan 21, 2023 at 9:36 AM Rayyan Ansari <rayyan@ansari.sh> wrote:
+>>
 > 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v1->v2:
-> * No change.
+> Why do you need this change?
 > 
->   drivers/gpu/drm/bridge/fsl-ldb.c | 53 ++++++++++++++++++++++++++------
->   1 file changed, 44 insertions(+), 9 deletions(-)
+> The 'simple-framebuffer' contains data on how the bootloader
+> configured the display. The bootloader doesn't configure the display
+> size, so this information doesn't belong here. The information should
+> already be in the panel node, so also no point in duplicating it here.
 > 
-> diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-> index 9bcba8fc57e7..6ad63ac7367c 100644
-> --- a/drivers/gpu/drm/bridge/fsl-ldb.c
-> +++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-> @@ -18,7 +18,6 @@
->   #include <drm/drm_of.h>
->   #include <drm/drm_panel.h>
->   
-> -#define LDB_CTRL				0x5c
->   #define LDB_CTRL_CH0_ENABLE			BIT(0)
->   #define LDB_CTRL_CH0_DI_SELECT			BIT(1)
->   #define LDB_CTRL_CH1_ENABLE			BIT(2)
-> @@ -35,9 +34,9 @@
->   #define LDB_CTRL_ASYNC_FIFO_ENABLE		BIT(24)
->   #define LDB_CTRL_ASYNC_FIFO_THRESHOLD_MASK	GENMASK(27, 25)
->   
-> -#define LVDS_CTRL				0x128
->   #define LVDS_CTRL_CH0_EN			BIT(0)
->   #define LVDS_CTRL_CH1_EN			BIT(1)
+>> Signed-off-by: Rayyan Ansari <rayyan@ansari.sh>
+>> ---
+>>   .../devicetree/bindings/display/simple-framebuffer.yaml   | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
 
-It would be good to add a comment here that the bit is poorly named and 
-that LVDS_CTRL_LVDS_EN=1 means DISABLE, while LVDS_CTRL_LVDS_EN=0 means 
-ENABLE .
+Hi Rob,
 
-> +#define LVDS_CTRL_LVDS_EN			BIT(1)
+There is the usecase that Hans has mentioned, but I have also mentioned 
+another usecase previously.
 
-[...]
+Adding the width-mm and height-mm properties allows user interfaces such 
+as Phosh (https://puri.sm/posts/phosh-overview/) to scale correctly to 
+the screen. In my case, a panel node is not available and the 
+aforementioned interface is in fact running on the SimpleDRM driver 
+(which binds to the simple-framebuffer device).
 
-With that fixed:
+Here is the device I have tested this patch on, the Lumia 735 phone: 
+https://wiki.postmarketos.org/images/c/c3/Lumia_735_Phosh.png
+Without this patch, this would appear quite small on the screen.
 
-Reviewed-by: Marek Vasut <marex@denx.de>
+See https://patchwork.freedesktop.org/patch/519107/?series=113053&rev=1 
+for some background info about this patch.
 
-Thanks!
+Regards,
+-- 
+Rayyan Ansari
+https://ansari.sh
+
