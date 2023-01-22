@@ -2,49 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DA767727F
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 21:58:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D062167728A
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 22:06:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F2C010E1C1;
-	Sun, 22 Jan 2023 20:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59DC510E1B5;
+	Sun, 22 Jan 2023 21:06:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
- (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBA7F10E1C1
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 20:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=vkY+Tv3KPWQDcmttZWTVlNqczJidjdFlIO5ekuKYKO0=;
- b=ACJ8IOVh/81++WEnvbt+c4axuq6Cc1c3iZNjWANGT1VmLmeoqpilKaryokYxHBKYgdnUkV7ORgucM
- rN6FHPzr+Zr04RLkxHd6MhaelGBwN7f3Lf7h7JIzd/xkU2j2RedsYrJVCKj5jF72VRwSifN5iJyS95
- TrOWoEZB4cPBHGkaWDmdRq8QgDWCShZBet5BUwryax4aucWP54ZmWIC7o9Zf4pqjNO+iLka1dkWi3A
- yXBK3mgyzi7FAbdiUfphfr3WmB1EVvw8iYQy11hZDy9AuwI0ElWzmILTkSKP+PhEMnI4zTlpELvh//
- ojqU1USdJmP11qAm6aNx8+y/sPPoWrw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=vkY+Tv3KPWQDcmttZWTVlNqczJidjdFlIO5ekuKYKO0=;
- b=2AGnclCTzMCHKpKT9R52s+zkQOOztf7K+7a5PBONUI9VuuP3M6C4rE3Y0uwTyL/EIgkkq4DkHdHa+
- UxDMOMSBw==
-X-HalOne-ID: 90edecf1-9a97-11ed-867d-ede074c87fad
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay3 (Halon) with ESMTPSA
- id 90edecf1-9a97-11ed-867d-ede074c87fad;
- Sun, 22 Jan 2023 20:58:49 +0000 (UTC)
-Date: Sun, 22 Jan 2023 21:58:48 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 16/86] drm/drm_print: Minimize include footprint
-Message-ID: <Y82jiIlxn7oG/jIX@ravnborg.org>
-References: <20230113-drm-include-v1-v1-16-c5cf72d8a5a2@ravnborg.org>
- <202301220750.HzZm1ZHu-lkp@intel.com>
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FAA010E1B5;
+ Sun, 22 Jan 2023 21:06:42 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4P0QlH2l2hz4xyY;
+ Mon, 23 Jan 2023 08:06:34 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1674421597;
+ bh=B7Zeq6Me9MxVHnA1Aqf/fs0uZqZlqdTaA1IhVPM79E8=;
+ h=Date:From:To:Cc:Subject:From;
+ b=p7HOUPFPzR2Ye48SR4s4XjO0r9EfUVvps0mHCH8ht51QavLHqcmVGqJxLV5YTu0xq
+ fGGqplQZQoXoGBbsRo3wOJy1pZ/HlbzO3CNovxUsZZP2YPa63EdYXBQKrThFFXOQeX
+ ZyA/cCmWpD1aJ0kTfVg77FgVq1wegKK2R/Mm6rf/RldZWXurw6rYlwerMAznCfFax+
+ /NUDmio//shPOSW+C4UH8l/kmRLAKzAhfCh6+0Pg6cPkTaeTo5pvMbokWR9nRm1POD
+ 80R23FFt1RFMkUQuZGwd6dnSCbtsxU7uWtuClALRKe/wh/b1EWpjm2Z9aqv2Ou8EEb
+ dJjrOWhC3YzAQ==
+Date: Mon, 23 Jan 2023 08:06:33 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: duplicate patch in the drm-intel tree
+Message-ID: <20230123080633.2279dd52@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202301220750.HzZm1ZHu-lkp@intel.com>
+Content-Type: multipart/signed; boundary="Sig_/VPE/3vaDF41VYhjI7dlMAx4";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,54 +53,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg via B4 Submission Endpoint
- <devnull+sam.ravnborg.org@kernel.org>, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all.
+--Sig_/VPE/3vaDF41VYhjI7dlMAx4
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 22, 2023 at 07:19:15AM +0800, kernel test robot wrote:
-> Hi Sam,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on 2e337a8d14bd4b04913d52ccf076be29d846acd7]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
-> base:   2e337a8d14bd4b04913d52ccf076be29d846acd7
-> patch link:    https://lore.kernel.org/r/20230113-drm-include-v1-v1-16-c5cf72d8a5a2%40ravnborg.org
-> patch subject: [PATCH 16/86] drm/drm_print: Minimize include footprint
-> config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230122/202301220750.HzZm1ZHu-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/530d852970d1a75527031a4f23689f89f0a85804
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Sam-Ravnborg-via-B4-Submission-Endpoint/drm-komeda-Direct-include-headers-from-drm_print/20230122-041306
->         git checkout 530d852970d1a75527031a4f23689f89f0a85804
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/gpu/drm/drm_mode_object.c:195:3: error: implicit declaration of function '_dynamic_func_call_cls' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
->                    DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, kref_read(&obj->refcount));
->                    ^
+Hi all,
 
-For anyone following this. I failed to reproduce the error below using
-the instructions above. It looks like some obscure combination of CONFIG
-options that may be unrelated to this patch.
-allmodconfig, allyesconfig for i386 did not trigger the bug.
+The following commit is also in Linus Torvalds' tree as a different commit
+(but the same patch):
 
-I will get back to this in a few days (maybe first in the weekend), and
-will share my findings.
+  0fe76b198d48 ("drm/i915/display: Check source height is > 0")
 
-	Sam
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/VPE/3vaDF41VYhjI7dlMAx4
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPNpVoACgkQAVBC80lX
+0GwMVwf/Y3bMOlR3dore7xhMZF5XdqlaH2lPaOIU3Bny8VXETBAExqcNhNt7gpDn
+oTwIscw4ES7JKhDKgp9xIL/Rae9nlu83vac53ati41UHepCUKX30BE0ms3gtCpyi
+tKCbr7P/I0QtNPNI10xLrxLtJtXsWXP/ovsuZvl3dloplWQCoBk3vpKKYtKyqi9z
+KMOfVrHe6K5mA6RoiAqastw1moTBRLbZFA72K/gfGSknI7NtNtEeur2Y7f5018Yt
+pMpDuhmqv3+KEIU9u5qwe949mTNqGltZ1viVCE2XgzxoNbZr7zpTYaCNyqOnYN9s
+kcwWu2MJxn3ZeQSY6597wNo2ZPjSJQ==
+=TIJ9
+-----END PGP SIGNATURE-----
+
+--Sig_/VPE/3vaDF41VYhjI7dlMAx4--
