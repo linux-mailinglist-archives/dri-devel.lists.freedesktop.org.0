@@ -2,106 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD031676B8B
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 09:13:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC40676BBE
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 10:00:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7275110E182;
-	Sun, 22 Jan 2023 08:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13CE310E170;
+	Sun, 22 Jan 2023 09:00:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2080.outbound.protection.outlook.com [40.107.20.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C545010E18A
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 08:13:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bFbZR7/F7bf/x1+Rh0PQIzC99WCb05Tf6BEQxLPsjhdU7ZEhJ/MAtXVEcchEH34E9qJIE14eXKv4Q8lBzVGTHcOcNZMfLX7JowzPuXzFjzpNa+nbN5mpmH0UlMzMJAgZ4BSexPV4hwPC5Aspy1WEEZXkSSv8/XfTxABoL95JuEwsMqJ5w1OvBOIGKcliel4r6ojYumUJnsuHbIfg79+NYXViE8OBC5oe/eSFThz0d68EVzoE762Embb86B1E2WtZanXqZauCWA5vqBl4HUdIeCzFVEouHUsXwjGkRbF56gIfUCTMjm4aC7UXhkuO4aOudBbSa8bCzK3SXTZ/CpWSAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WvLbG+hbL6g1HhCNIWNGSPTOY5YT0XGU0XYWIUgSODw=;
- b=nz+jQ0TXH9o9ForbfL3KAmbkzuFJFgiAIA4NSl6mZdX6VHO1PnTdf171PMCJ8HTyiT5jC/WJTOk2hqBRC0GJIB1nt+MAMCUaRTRx9dN51IVDoEOwH8XlKEIoySW8BEAW2qALOkTXjD1O/tO9Ti5t9MBm0lkPlDVw0aFedUOeS0Bh6WnBtTxtUD4quTn0Pll1kMdukgXXwQL4O5hyjzgIclrSBi4fP4fV0C+sIeqkQhHXVGyGtbjwsROHOun0FpCyRRdJ8P8PB7U6mMnsnJbQUDVgN4tmMunE1DHsdyd5XdWtliVJlGQrBHfkwQG+2SYSPddTzdxfUOJEq4aA37y1AA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WvLbG+hbL6g1HhCNIWNGSPTOY5YT0XGU0XYWIUgSODw=;
- b=Y5DA/2LouYn2rd84NXz4fY0Kn7eSvOBCk8KSvdS7Aq8aches1ZjyGupvAx54i27mU/JFGtXZCYXSiu72i4E8iRnHaJzZTFI4+yz85lb8E9C+q0lureT05L9ByO5LIvLh/JIBBJskzoPbCBGcBDGyuiCCbaYYimA3n6IW74ZuDkY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM9PR04MB7491.eurprd04.prod.outlook.com (2603:10a6:20b:283::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.27; Sun, 22 Jan
- 2023 08:13:25 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::5725:92ec:f43e:f5fc%7]) with mapi id 15.20.6002.028; Sun, 22 Jan 2023
- 08:13:25 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm/bridge: fsl-ldb: Add i.MX93 LDB support
-Date: Sun, 22 Jan 2023 16:14:29 +0800
-Message-Id: <20230122081429.694574-3-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20230122081429.694574-1-victor.liu@nxp.com>
-References: <20230122081429.694574-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0182.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::20) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod2-cph3.one.com [46.30.211.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A22710E170
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 09:00:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=d9F22B3vj5cHbv9BWUOtHZ6tLw2Kmub9+pOYWvGVcK0=;
+ b=dxjQ32Djzu0WRdKfKPMddmxEErgcJsmHtL7V1PoS0Xb4CISRL17tQplycCIkktWvJUdt8UiT+HKmN
+ UUSQDHL8VZ1jojy03PIu402ONTT3WOXEsBxtBNROSbxvvPpsqvJrTnHpzPP5Lx2Lpdi6oEenwTIu0W
+ PhbxJzHkO/2FnWjSmR26PKezZl4mo+PdlUU2FIL9UGE1ZYTXnFbAi3t6iLn1368EHulyaUVDN8e5wh
+ rJAVoU2vVOMDRvWO9Cxq0Alt+hflC0GOZJ/h0mWvX0GLkWfMgJilNQXh3MklG/kpFa3gpj7WDeNq2J
+ AkLGlrF1V/1qmyOzmUBgTH37YIEur/A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=d9F22B3vj5cHbv9BWUOtHZ6tLw2Kmub9+pOYWvGVcK0=;
+ b=pg4rr2iR/ia/delonfKnHrKr1eg5yQ7XFSrFBu5nxoIAwj+DnxPjH6KyuiT7AFX+wsQHH1hte2NRy
+ vWB/IJTDA==
+X-HalOne-ID: 1b4a8f35-9a33-11ed-ba33-11abd97b9443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1 (Halon) with ESMTPSA
+ id 1b4a8f35-9a33-11ed-ba33-11abd97b9443;
+ Sun, 22 Jan 2023 08:59:42 +0000 (UTC)
+Date: Sun, 22 Jan 2023 09:59:41 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Christophe Branchereau <cbranchereau@gmail.com>
+Subject: Re: [PATCH v4 2/2] drm/panel: Add driver for the AUO A030JTN01 TFT LCD
+Message-ID: <Y8z6/UaOdsDQI1zm@ravnborg.org>
+References: <20230121162419.284523-1-cbranchereau@gmail.com>
+ <20230121162419.284523-3-cbranchereau@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM9PR04MB7491:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3bb2beb-c05c-45a3-1e78-08dafc5088f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TZUpGzjSFetzW8lCtR3Lz5DB0zBtyCfoXkAmf7H2LlV9GaWNz0hVuK3l/ci3i5jdAEJT8UnPeIrp/50kvf3sTaoXGsjmrHmxfSYVcJP42Obe6r0joICn89TNMKKArpF7ywcpPVzcJZWz/SqGpjEgKzX36egYTqPdTzT1ZeIeuSB8maoDUQ1tsfXi1HgHpJgKyMPeQsa4jt1JIW1zKkQwx43dpJiJKY4G0zP8UR+QJqegd2tFrspXbTT51pRNEetNAg8N4gPxQIEfaj0h61v8kVRK916qjnDQRNktLijRGv1clbgf5L7MrrjOsYHbCOEiVC8f6jtAkI0unjSNlvj/qY9VSWepBr05UP01Fkup1HoqXnChHkMqWTxTbbniueK2q/heMY0sNIdcGOP2Tb81Cjh6kC6LTw0W6sL88sajAm2QVl37ogNmQx7c+2bPVonghZ7ar8PKmNb7QBAPwDoJLTj+dH3oQuRYMRHpUMdOARP5EmyGnFuPR0U1h9aJFoWcyC5YiIrJfvISSW5z7l4dN4J9twZnzwSDJIS9mSF8EoWSgN3D5yjU4UoKxnojRSJNN1r+a3sG+0Fl0KBrThAflOAM9hBMyhXyaBnttpPz7rG7YKA4aagUCV7vDWbrqzpvWF+1grpfOZ4o9v+WOgVp+qvlQR/hMKBwVE8hd8BHkhOgkQoH2SnfgEmg1XunlvmPIdCze/yQow77DiVorDcz/Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(366004)(39860400002)(346002)(136003)(376002)(451199015)(186003)(2906002)(6486002)(6506007)(6512007)(2616005)(316002)(26005)(478600001)(36756003)(52116002)(38100700002)(38350700002)(86362001)(1076003)(83380400001)(41300700001)(4326008)(7416002)(5660300002)(8936002)(66946007)(66556008)(66476007)(8676002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EPpgNXks5B9oPT5lxEcV0RQqHAVe1IpCXW2Bl6zQ6cThMzpYUEtcCEeMBGND?=
- =?us-ascii?Q?M2BICa17Prslfyb+PJ1iwAr1v+r7RJUR813BZbmICoHL4TYDoL8+Sj1OOtUo?=
- =?us-ascii?Q?AfM0jBGr5+Ektm7YkZowd28MjkH8Ukl7divTYi4jSkuC8vofpv6J8QFLf3Zl?=
- =?us-ascii?Q?7CvfFiVCgKn5YzR5jKNghqzHbvt8ORawUcp0no7w3F5pULv00WZorM6Rwef5?=
- =?us-ascii?Q?qN/FUXHNksAhhcIskWrJQ9CT0hPOz0vjwLG8gdHpRAaDuPdAr8/pKs8A3WdB?=
- =?us-ascii?Q?3U241xJlDK+/kV6/54dOyAapdjUjzIx94/aGhYICm5O6FccsMFISWg8s2I8S?=
- =?us-ascii?Q?9h8gCRM1E5HD7inYp/CPMnqWwPt9uWhaC6Miq61RUT+r7w3Q6MjdHAY3zGsQ?=
- =?us-ascii?Q?qXIwCa7jqC3UCuDa4CoTs2sNplUm+citliWqR+uyV03zgOQ1CV+AuiKLHNDm?=
- =?us-ascii?Q?B6xVqtHgutumIT0rFs4tDp1IeG1tyi+36SOmBCGm0KOqEfIMKfQqfO86XREU?=
- =?us-ascii?Q?G2qCr1te6gDEbT3z7p5X8u8UY0/+mbi2FLE+jcxAW+j+9k8jHjLA2hx7HBDx?=
- =?us-ascii?Q?JqmP60l5XqYOpVHuGpzCMS8ZNDvmYufIfqQMTlaXgsXG66DHnSHuOCoIBn0Y?=
- =?us-ascii?Q?KhC1H0BY9DCbpnDtgnHpGPsHVriu+5es/Tu7bfUgolOpGuFeD8I1CJNXQbVa?=
- =?us-ascii?Q?SMZXN4inUEISTGx0NWvC6IS0ryS81bumUvsO9YqCka/NLe589CFwRhh0TQsi?=
- =?us-ascii?Q?cjceKl0KkUvRYExuJCxQYnpW1ep/WoasXVRijnNPuv3F6RezTG37MyEycqGV?=
- =?us-ascii?Q?VDFH5Q1jbuw9RFRJhvVoa8PZHLTbsZkSlXkHRuDBJ/h6U8hH+4I43R+JM16V?=
- =?us-ascii?Q?CmxY3kP9Dbm7jUsKuncQAcL5E/yl7aRcs8xC+QYUCXPslxObYeuZXMCLXqB7?=
- =?us-ascii?Q?qA2Zk+uN1AMUixYi5xgJqxcKSyHExj6qGxsKrN+oANi/uZXAsPiSbUniIt8S?=
- =?us-ascii?Q?NgRi9ZHPMpC+QXozSc+VkMjSfVqRuLLLOxRFTsl+E3Rj4Tci9cj4GXhrGTjq?=
- =?us-ascii?Q?e9/sE7nd8S5kKhN0sha9I8Oh/JWwekrR8dikNa0zz2UQv3cvz18+juTd2ftS?=
- =?us-ascii?Q?dI339lpOd0nLzm9gyfo+/pjGOasEdKrNPlBfkegkHy8QsEDYXDdXfgad//wN?=
- =?us-ascii?Q?RLMG+bon5tKhNMecI0WfK/6tqJRSk82LRvjVdOml4J5+Nt6t2MMWxAz5eXA0?=
- =?us-ascii?Q?NeRF1l57WzEY4G2kH6kL60TfzJYsMEAIMLb7elZvbxivgD1jvMGNyW5TILN+?=
- =?us-ascii?Q?l6TmrXK2Y2QFeWgH67ap+GzT3ic/o21eZKZ+eVN41MgqaVooTnnI0OQ5V5b6?=
- =?us-ascii?Q?UZYcmUDrtlGsi3OlINBtBAaUoaGcoJHqc0Ez/w4v8hDd5dzhYR/v+Zw0HOb/?=
- =?us-ascii?Q?rzLa/1RNjChp9F8hkGa6VafRySJgftJZnkxn1hYKSgvhU17uDBAsY51R9udL?=
- =?us-ascii?Q?3xRcc31Gkqu91xiu0XzEs9zPPj8UdG1vuj6OZMW+tQe561cZ1eFrCaM7nnd+?=
- =?us-ascii?Q?wfZrEsj5wAXh2vt1xNNteIosIIE0QVFLw6Ey0VI5?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3bb2beb-c05c-45a3-1e78-08dafc5088f7
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2023 08:13:25.3544 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gm2ZYoa3c684CSE9rGPnBVI5g11H0ucI/cSKX3Dky5j+JNRM83SxYFnODfMH9LcxU6khqmZr9fryzcNyCSjlmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB7491
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230121162419.284523-3-cbranchereau@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,152 +57,382 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, neil.armstrong@linaro.org, krzysztof.kozlowski+dt@linaro.org,
- jonas@kwiboo.se, linux-imx@nxp.com, jernej.skrabec@gmail.com,
- robh+dt@kernel.org, robert.foss@linaro.org, andrzej.hajda@intel.com,
- Laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, paul@crapouillou.net, robh+dt@kernel.org,
+ thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Same to i.MX8mp LDB, i.MX93 LDB is controlled by mediamix blk-ctrl
-through LDB_CTRL and LVDS_CTRL registers.  i.MX93 LDB supports only
-one LVDS channel(channel 0) and it's LVDS_CTRL register bit1 is used
-as LVDS_EN instead of CH1_EN.  Add i.MX93 LDB support in the existing
-i.MX8mp LDB bridge driver by adding i.MX93 LDB compatible string and
-device data(to reflect different register offsets and LVDS_CTRL register
-bit1 definition).
+Hi Christophe/Paul.
 
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- drivers/gpu/drm/bridge/fsl-ldb.c | 53 ++++++++++++++++++++++++++------
- 1 file changed, 44 insertions(+), 9 deletions(-)
+On Sat, Jan 21, 2023 at 05:24:19PM +0100, Christophe Branchereau wrote:
+> Add driver for the AUO A030JTN01 panel, which is a 320x480 3.0" 4:3
+> 24-bit TFT LCD panel with non-square pixels and a delta-RGB 8-bit
+> interface.
 
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index f9e0f8d99268..7da2b2dbc7cb 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -18,7 +18,6 @@
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- 
--#define LDB_CTRL				0x5c
- #define LDB_CTRL_CH0_ENABLE			BIT(0)
- #define LDB_CTRL_CH0_DI_SELECT			BIT(1)
- #define LDB_CTRL_CH1_ENABLE			BIT(2)
-@@ -35,9 +34,9 @@
- #define LDB_CTRL_ASYNC_FIFO_ENABLE		BIT(24)
- #define LDB_CTRL_ASYNC_FIFO_THRESHOLD_MASK	GENMASK(27, 25)
- 
--#define LVDS_CTRL				0x128
- #define LVDS_CTRL_CH0_EN			BIT(0)
- #define LVDS_CTRL_CH1_EN			BIT(1)
-+#define LVDS_CTRL_LVDS_EN			BIT(1)
- #define LVDS_CTRL_VBG_EN			BIT(2)
- #define LVDS_CTRL_HS_EN				BIT(3)
- #define LVDS_CTRL_PRE_EMPH_EN			BIT(4)
-@@ -52,6 +51,29 @@
- #define LVDS_CTRL_VBG_ADJ(n)			(((n) & 0x7) << 17)
- #define LVDS_CTRL_VBG_ADJ_MASK			GENMASK(19, 17)
- 
-+enum fsl_ldb_devtype {
-+	IMX8MP_LDB,
-+	IMX93_LDB,
-+};
-+
-+struct fsl_ldb_devdata {
-+	u32 ldb_ctrl;
-+	u32 lvds_ctrl;
-+	bool lvds_en_bit;
-+};
-+
-+static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
-+	[IMX8MP_LDB] = {
-+		.ldb_ctrl = 0x5c,
-+		.lvds_ctrl = 0x128,
-+	},
-+	[IMX93_LDB] = {
-+		.ldb_ctrl = 0x20,
-+		.lvds_ctrl = 0x24,
-+		.lvds_en_bit = true,
-+	},
-+};
-+
- struct fsl_ldb {
- 	struct device *dev;
- 	struct drm_bridge bridge;
-@@ -59,6 +81,7 @@ struct fsl_ldb {
- 	struct clk *clk;
- 	struct regmap *regmap;
- 	bool lvds_dual_link;
-+	const struct fsl_ldb_devdata *devdata;
- };
- 
- static inline struct fsl_ldb *to_fsl_ldb(struct drm_bridge *bridge)
-@@ -158,12 +181,12 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 			reg |= LDB_CTRL_DI1_VSYNC_POLARITY;
- 	}
- 
--	regmap_write(fsl_ldb->regmap, LDB_CTRL, reg);
-+	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, reg);
- 
- 	/* Program LVDS_CTRL */
- 	reg = LVDS_CTRL_CC_ADJ(2) | LVDS_CTRL_PRE_EMPH_EN |
- 	      LVDS_CTRL_PRE_EMPH_ADJ(3) | LVDS_CTRL_VBG_EN;
--	regmap_write(fsl_ldb->regmap, LVDS_CTRL, reg);
-+	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
- 
- 	/* Wait for VBG to stabilize. */
- 	usleep_range(15, 20);
-@@ -172,7 +195,7 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 	if (fsl_ldb->lvds_dual_link)
- 		reg |= LVDS_CTRL_CH1_EN;
- 
--	regmap_write(fsl_ldb->regmap, LVDS_CTRL, reg);
-+	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, reg);
- }
- 
- static void fsl_ldb_atomic_disable(struct drm_bridge *bridge,
-@@ -180,9 +203,14 @@ static void fsl_ldb_atomic_disable(struct drm_bridge *bridge,
- {
- 	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
- 
--	/* Stop both channels. */
--	regmap_write(fsl_ldb->regmap, LVDS_CTRL, 0);
--	regmap_write(fsl_ldb->regmap, LDB_CTRL, 0);
-+	/* Stop channel(s). */
-+	if (fsl_ldb->devdata->lvds_en_bit)
-+		/* Set LVDS_CTRL_LVDS_EN bit to disable. */
-+		regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl,
-+			     LVDS_CTRL_LVDS_EN);
-+	else
-+		regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, 0);
-+	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, 0);
- 
- 	clk_disable_unprepare(fsl_ldb->clk);
- }
-@@ -248,6 +276,10 @@ static int fsl_ldb_probe(struct platform_device *pdev)
- 	if (!fsl_ldb)
- 		return -ENOMEM;
- 
-+	fsl_ldb->devdata = of_device_get_match_data(dev);
-+	if (!fsl_ldb->devdata)
-+		return -EINVAL;
-+
- 	fsl_ldb->dev = &pdev->dev;
- 	fsl_ldb->bridge.funcs = &funcs;
- 	fsl_ldb->bridge.of_node = dev->of_node;
-@@ -306,7 +338,10 @@ static int fsl_ldb_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id fsl_ldb_match[] = {
--	{ .compatible = "fsl,imx8mp-ldb", },
-+	{ .compatible = "fsl,imx8mp-ldb",
-+	  .data = &fsl_ldb_devdata[IMX8MP_LDB], },
-+	{ .compatible = "fsl,imx93-ldb",
-+	  .data = &fsl_ldb_devdata[IMX93_LDB], },
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, fsl_ldb_match);
--- 
-2.37.1
+Two small nits about alphabetic ordering - that can be fixed while
+applying. Otherwise it looks good.
+I do not like the register names, but I guess this is the best we know.
 
+With the sorting fixed:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+	Sam
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+> ---
+>  drivers/gpu/drm/panel/Kconfig               |   8 +
+>  drivers/gpu/drm/panel/Makefile              |   1 +
+>  drivers/gpu/drm/panel/panel-auo-a030jtn01.c | 308 ++++++++++++++++++++
+>  3 files changed, 317 insertions(+)
+>  create mode 100644 drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> 
+> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+> index 737edcdf9eef..23cf0f4ba2e6 100644
+> --- a/drivers/gpu/drm/panel/Kconfig
+> +++ b/drivers/gpu/drm/panel/Kconfig
+> @@ -8,6 +8,14 @@ config DRM_PANEL
+>  menu "Display Panels"
+>  	depends on DRM && DRM_PANEL
+>  
+> +config DRM_PANEL_AUO_A030JTN01
+> +	tristate "AUO A030JTN01"
+> +	depends on SPI
+> +	select REGMAP_SPI
+> +	help
+> +	  Say Y here to enable support for the AUO A030JTN01 320x480 3.0" panel
+> +	  as found in the YLM RS-97 handheld gaming console.
+> +
+Can we have this added in alphabetic order?
+
+>  config DRM_PANEL_ABT_Y030XX067A
+>  	tristate "ABT Y030XX067A 320x480 LCD panel"
+>  	depends on OF && SPI
+> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+> index f8f9d9f6a307..af88658abcab 100644
+> --- a/drivers/gpu/drm/panel/Makefile
+> +++ b/drivers/gpu/drm/panel/Makefile
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> +obj-$(CONFIG_DRM_PANEL_AUO_A030JTN01) += panel-auo-a030jtn01.o
+>  obj-$(CONFIG_DRM_PANEL_ABT_Y030XX067A) += panel-abt-y030xx067a.o
+Same here, alphabetic order.
+>  obj-$(CONFIG_DRM_PANEL_ARM_VERSATILE) += panel-arm-versatile.o
+>  obj-$(CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596) += panel-asus-z00t-tm5p5-n35596.o
+> diff --git a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> new file mode 100644
+> index 000000000000..3c976a98de6a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+> @@ -0,0 +1,308 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * AU Optronics A030JTN01.0 TFT LCD panel driver
+> + *
+> + * Copyright (C) 2023, Paul Cercueil <paul@crapouillou.net>
+> + * Copyright (C) 2023, Christophe Branchereau <cbranchereau@gmail.com>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/media-bus-format.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/spi/spi.h>
+> +
+> +#include <drm/drm_modes.h>
+> +#include <drm/drm_panel.h>
+> +
+> +#define REG05			0x05
+> +#define REG06			0x06
+> +#define REG07			0x07
+> +
+> +#define REG05_STDBY		BIT(0)
+> +#define REG06_VBLK		GENMASK(4, 0)
+> +#define REG07_HBLK		GENMASK(7, 0)
+> +
+> +
+> +struct a030jtn01_info {
+> +	const struct drm_display_mode *display_modes;
+> +	unsigned int num_modes;
+> +	u16 width_mm, height_mm;
+> +	u32 bus_format, bus_flags;
+> +};
+> +
+> +struct a030jtn01 {
+> +	struct drm_panel panel;
+> +	struct spi_device *spi;
+> +	struct regmap *map;
+> +
+> +	const struct a030jtn01_info *panel_info;
+> +
+> +	struct regulator *supply;
+> +	struct gpio_desc *reset_gpio;
+> +};
+> +
+> +static inline struct a030jtn01 *to_a030jtn01(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct a030jtn01, panel);
+> +}
+> +
+> +static int a030jtn01_prepare(struct drm_panel *panel)
+> +{
+> +	struct a030jtn01 *priv = to_a030jtn01(panel);
+> +	struct device *dev = &priv->spi->dev;
+> +	unsigned int dummy;
+> +	int err;
+> +
+> +	err = regulator_enable(priv->supply);
+> +	if (err) {
+> +		dev_err(dev, "Failed to enable power supply: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	usleep_range(1000, 8000);
+> +
+> +	/* Reset the chip */
+> +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+> +	usleep_range(100, 8000);
+> +	gpiod_set_value_cansleep(priv->reset_gpio, 0);
+> +	usleep_range(2000, 8000);
+> +
+> +	/*
+> +	 * No idea why, but a register read (doesn't matter which) is needed to
+> +	 * properly initialize the chip after a reset; otherwise, the colors
+> +	 * will be wrong. It doesn't seem to be timing-related as a msleep(200)
+> +	 * doesn't fix it.
+> +	 */
+> +	err = regmap_read(priv->map, REG05, &dummy);
+> +	if (err)
+> +		goto err_disable_regulator;
+> +
+> +	/* Use (24 + 6) == 0x1e as the vertical back porch */
+> +	err = regmap_write(priv->map, REG06, FIELD_PREP(REG06_VBLK, 0x1e));
+> +	if (err)
+> +		goto err_disable_regulator;
+> +
+> +	/* Use (42 + 30) * 3 == 0xd8 as the horizontal back porch */
+> +	err = regmap_write(priv->map, REG07, FIELD_PREP(REG07_HBLK, 0xd8));
+> +	if (err)
+> +		goto err_disable_regulator;
+> +
+> +	return 0;
+> +
+> +err_disable_regulator:
+> +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+> +	regulator_disable(priv->supply);
+> +	return err;
+> +}
+> +
+> +static int a030jtn01_unprepare(struct drm_panel *panel)
+> +{
+> +	struct a030jtn01 *priv = to_a030jtn01(panel);
+> +
+> +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+> +	regulator_disable(priv->supply);
+> +
+> +	return 0;
+> +}
+> +
+> +static int a030jtn01_enable(struct drm_panel *panel)
+> +{
+> +	struct a030jtn01 *priv = to_a030jtn01(panel);
+> +	int ret;
+> +
+> +	ret = regmap_set_bits(priv->map, REG05, REG05_STDBY);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Wait for the picture to be stable */
+> +	if (panel->backlight)
+> +		msleep(100);
+> +
+> +	return 0;
+> +}
+> +
+> +static int a030jtn01_disable(struct drm_panel *panel)
+> +{
+> +	struct a030jtn01 *priv = to_a030jtn01(panel);
+> +
+> +	return regmap_clear_bits(priv->map, REG05, REG05_STDBY);
+> +}
+> +
+> +static int a030jtn01_get_modes(struct drm_panel *panel,
+> +				struct drm_connector *connector)
+> +{
+> +	struct a030jtn01 *priv = to_a030jtn01(panel);
+> +	const struct a030jtn01_info *panel_info = priv->panel_info;
+> +	struct drm_display_mode *mode;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < panel_info->num_modes; i++) {
+> +		mode = drm_mode_duplicate(connector->dev,
+> +					  &panel_info->display_modes[i]);
+> +		if (!mode)
+> +			return -ENOMEM;
+> +
+> +		drm_mode_set_name(mode);
+> +
+> +		mode->type = DRM_MODE_TYPE_DRIVER;
+> +		if (panel_info->num_modes == 1)
+> +			mode->type |= DRM_MODE_TYPE_PREFERRED;
+> +
+> +		drm_mode_probed_add(connector, mode);
+> +	}
+> +
+> +	connector->display_info.bpc = 8;
+> +	connector->display_info.width_mm = panel_info->width_mm;
+> +	connector->display_info.height_mm = panel_info->height_mm;
+> +
+> +	drm_display_info_set_bus_formats(&connector->display_info,
+> +					 &panel_info->bus_format, 1);
+> +	connector->display_info.bus_flags = panel_info->bus_flags;
+> +
+> +	return panel_info->num_modes;
+> +}
+> +
+> +static const struct drm_panel_funcs a030jtn01_funcs = {
+> +	.prepare	= a030jtn01_prepare,
+> +	.unprepare	= a030jtn01_unprepare,
+> +	.enable		= a030jtn01_enable,
+> +	.disable	= a030jtn01_disable,
+> +	.get_modes	= a030jtn01_get_modes,
+> +};
+> +
+> +static bool a030jtn01_has_reg(struct device *dev, unsigned int reg)
+> +{
+> +	static const u32 a030jtn01_regs_mask = 0x001823f1fb;
+> +
+> +	return a030jtn01_regs_mask & BIT(reg);
+> +};
+> +
+> +static const struct regmap_config a030jtn01_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.read_flag_mask = 0x40,
+> +	.max_register = 0x1c,
+> +	.readable_reg = a030jtn01_has_reg,
+> +	.writeable_reg = a030jtn01_has_reg,
+> +};
+> +
+> +static int a030jtn01_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev = &spi->dev;
+> +	struct a030jtn01 *priv;
+> +	int err;
+> +
+> +	spi->mode |= SPI_MODE_3 | SPI_3WIRE;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->spi = spi;
+> +	spi_set_drvdata(spi, priv);
+> +
+> +	priv->map = devm_regmap_init_spi(spi, &a030jtn01_regmap_config);
+> +	if (IS_ERR(priv->map))
+> +		return dev_err_probe(dev, PTR_ERR(priv->map), "Unable to init regmap");
+> +
+> +	priv->panel_info = spi_get_device_match_data(spi);
+> +	if (!priv->panel_info)
+> +		return -EINVAL;
+> +
+> +	priv->supply = devm_regulator_get(dev, "power");
+> +	if (IS_ERR(priv->supply))
+> +		return dev_err_probe(dev, PTR_ERR(priv->supply), "Failed to get power supply");
+> +
+> +	priv->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(priv->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio), "Failed to get reset GPIO");
+> +
+> +	drm_panel_init(&priv->panel, dev, &a030jtn01_funcs,
+> +		       DRM_MODE_CONNECTOR_DPI);
+> +
+> +	err = drm_panel_of_backlight(&priv->panel);
+> +	if (err)
+> +		return err;
+> +
+> +	drm_panel_add(&priv->panel);
+> +
+> +	return 0;
+> +}
+> +
+> +static void a030jtn01_remove(struct spi_device *spi)
+> +{
+> +	struct a030jtn01 *priv = spi_get_drvdata(spi);
+> +
+> +	drm_panel_remove(&priv->panel);
+> +	drm_panel_disable(&priv->panel);
+> +	drm_panel_unprepare(&priv->panel);
+> +}
+> +
+> +static const struct drm_display_mode a030jtn01_modes[] = {
+> +	{ /* 60 Hz */
+> +		.clock = 14400,
+> +		.hdisplay = 320,
+> +		.hsync_start = 320 + 8,
+> +		.hsync_end = 320 + 8 + 42,
+> +		.htotal = 320 + 8 + 42 + 30,
+> +		.vdisplay = 480,
+> +		.vsync_start = 480 + 90,
+> +		.vsync_end = 480 + 90 + 24,
+> +		.vtotal = 480 + 90 + 24 + 6,
+> +		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> +	},
+> +	{ /* 50 Hz */
+> +		.clock = 12000,
+> +		.hdisplay = 320,
+> +		.hsync_start = 320 + 8,
+> +		.hsync_end = 320 + 8 + 42,
+> +		.htotal = 320 + 8 + 42 + 30,
+> +		.vdisplay = 480,
+> +		.vsync_start = 480 + 90,
+> +		.vsync_end = 480 + 90 + 24,
+> +		.vtotal = 480 + 90 + 24 + 6,
+> +		.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+> +	},
+> +};
+> +
+> +static const struct a030jtn01_info a030jtn01_info = {
+> +	.display_modes = a030jtn01_modes,
+> +	.num_modes = ARRAY_SIZE(a030jtn01_modes),
+> +	.width_mm = 70,
+> +	.height_mm = 51,
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_3X8_DELTA,
+> +	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
+> +};
+> +
+> +static const struct spi_device_id a030jtn01_id[] = {
+> +	{ "a030jtn01", (kernel_ulong_t) &a030jtn01_info },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, a030jtn01_id);
+> +
+> +static const struct of_device_id a030jtn01_of_match[] = {
+> +	{ .compatible = "auo,a030jtn01" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, a030jtn01_of_match);
+> +
+> +static struct spi_driver a030jtn01_driver = {
+> +	.driver = {
+> +		.name = "auo-a030jtn01",
+> +		.of_match_table = a030jtn01_of_match,
+> +	},
+> +	.id_table = a030jtn01_id,
+> +	.probe = a030jtn01_probe,
+> +	.remove = a030jtn01_remove,
+> +};
+> +module_spi_driver(a030jtn01_driver);
+> +
+> +MODULE_AUTHOR("Paul Cercueil <paul@crapouillou.net>");
+> +MODULE_AUTHOR("Christophe Branchereau <cbranchereau@gmail.com>");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.39.0
