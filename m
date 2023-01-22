@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D062167728A
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 22:06:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B96A6772BD
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Jan 2023 22:37:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59DC510E1B5;
-	Sun, 22 Jan 2023 21:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE81D10E2E1;
+	Sun, 22 Jan 2023 21:37:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FAA010E1B5;
- Sun, 22 Jan 2023 21:06:42 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4P0QlH2l2hz4xyY;
- Mon, 23 Jan 2023 08:06:34 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1674421597;
- bh=B7Zeq6Me9MxVHnA1Aqf/fs0uZqZlqdTaA1IhVPM79E8=;
- h=Date:From:To:Cc:Subject:From;
- b=p7HOUPFPzR2Ye48SR4s4XjO0r9EfUVvps0mHCH8ht51QavLHqcmVGqJxLV5YTu0xq
- fGGqplQZQoXoGBbsRo3wOJy1pZ/HlbzO3CNovxUsZZP2YPa63EdYXBQKrThFFXOQeX
- ZyA/cCmWpD1aJ0kTfVg77FgVq1wegKK2R/Mm6rf/RldZWXurw6rYlwerMAznCfFax+
- /NUDmio//shPOSW+C4UH8l/kmRLAKzAhfCh6+0Pg6cPkTaeTo5pvMbokWR9nRm1POD
- 80R23FFt1RFMkUQuZGwd6dnSCbtsxU7uWtuClALRKe/wh/b1EWpjm2Z9aqv2Ou8EEb
- dJjrOWhC3YzAQ==
-Date: Mon, 23 Jan 2023 08:06:33 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>
-Subject: linux-next: duplicate patch in the drm-intel tree
-Message-ID: <20230123080633.2279dd52@canb.auug.org.au>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA20710E2E1
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 21:36:58 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0A62EB80B59;
+ Sun, 22 Jan 2023 21:36:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB7E3C433D2;
+ Sun, 22 Jan 2023 21:36:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1674423415;
+ bh=+kFCj2QmQqaqkQtiLOFfyT0VJOQjHQOx/aIvyvGdoLs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=qdLvj6w6684w6d/X9zYg2BFZL54G4t/TuI0Ru07Dj8kOCPAVoymyXtBQGBX0RPJgO
+ vFWVq0fHA9L+aPQE+N5MOg+6YTtOcP4dTjZmtyPALYNYrzyNnIhD9D4Cg+s1dLoWRn
+ MTJ0fd1Mc4eMZu8t+o6Ry0xiUg+4vXPCoYAc9LUiLo09CPpbxmYMwjiHz020m3S/KF
+ r0/s0x+hi+U9rpO1ef709JJU1EFLq9kdQwc68nhiBS1+PYEhvp8sB6o3uWPwvR8rBs
+ YtF0hwHJxaiHHqqishvWLDP0UhZxVIOo4CWWoXdjGwNsbqYkC59+fkVed2OcOVwT1C
+ rPI2g6AG2BcFw==
+From: SeongJae Park <sj@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v2 0/8] Docs: Add missing SPDX license identifiers of
+Date: Sun, 22 Jan 2023 21:36:42 +0000
+Message-Id: <20230122213650.187710-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/VPE/3vaDF41VYhjI7dlMAx4";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,40 +49,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-mm@kvack.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ linux-input@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+ Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+ SeongJae Park <sj@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ linux-crypto@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/VPE/3vaDF41VYhjI7dlMAx4
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Some subsystem documents are missing SPDX license identifiers on index
+files.  This patchset adds those.
 
-Hi all,
+Changes from v1
+(https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
+- Separate from index file content changes
+- Separate patch for each subsystem doc (Alex Deucher)
+- Use MIT license for gpu (Alex Deucher)
 
-The following commit is also in Linus Torvalds' tree as a different commit
-(but the same patch):
+SeongJae Park (8):
+  Docs/crypto/index: Add missing SPDX License Identifier
+  Docs/driver-api/index: Add missing SPDX License Identifier
+  Docs/gpu/index: Add missing SPDX License Identifier
+  Docs/hwmon/index: Add missing SPDX License Identifier
+  Docs/input/index: Add missing SPDX License Identifier
+  Docs/mm/index: Add missing SPDX License Identifier
+  Docs/scheduler/index: Add missing SPDX License Identifier
+  Docs/sound/index: Add missing SPDX License Identifier
 
-  0fe76b198d48 ("drm/i915/display: Check source height is > 0")
+ Documentation/crypto/index.rst     | 2 ++
+ Documentation/driver-api/index.rst | 2 ++
+ Documentation/gpu/index.rst        | 2 ++
+ Documentation/hwmon/index.rst      | 2 ++
+ Documentation/input/index.rst      | 2 ++
+ Documentation/mm/index.rst         | 2 ++
+ Documentation/scheduler/index.rst  | 2 ++
+ Documentation/sound/index.rst      | 2 ++
+ 8 files changed, 16 insertions(+)
 
---=20
-Cheers,
-Stephen Rothwell
+-- 
+2.25.1
 
---Sig_/VPE/3vaDF41VYhjI7dlMAx4
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPNpVoACgkQAVBC80lX
-0GwMVwf/Y3bMOlR3dore7xhMZF5XdqlaH2lPaOIU3Bny8VXETBAExqcNhNt7gpDn
-oTwIscw4ES7JKhDKgp9xIL/Rae9nlu83vac53ati41UHepCUKX30BE0ms3gtCpyi
-tKCbr7P/I0QtNPNI10xLrxLtJtXsWXP/ovsuZvl3dloplWQCoBk3vpKKYtKyqi9z
-KMOfVrHe6K5mA6RoiAqastw1moTBRLbZFA72K/gfGSknI7NtNtEeur2Y7f5018Yt
-pMpDuhmqv3+KEIU9u5qwe949mTNqGltZ1viVCE2XgzxoNbZr7zpTYaCNyqOnYN9s
-kcwWu2MJxn3ZeQSY6597wNo2ZPjSJQ==
-=TIJ9
------END PGP SIGNATURE-----
-
---Sig_/VPE/3vaDF41VYhjI7dlMAx4--
