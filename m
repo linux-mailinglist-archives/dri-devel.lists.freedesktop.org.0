@@ -2,118 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9DF678281
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 18:03:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4782F6782E0
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 18:19:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6487510E1F1;
-	Mon, 23 Jan 2023 17:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F26410E519;
+	Mon, 23 Jan 2023 17:19:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2084.outbound.protection.outlook.com [40.107.243.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD38F10E515;
- Mon, 23 Jan 2023 17:03:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L/5r1J7N7oiZI6tm2yu3WwrURzH73lNWegzAMFr9TXeRzSW+47XQDuA+X83XeRtOyJ+xvMyDru4KC5c9R5qOLbyyULEOYwzfHcnp5dqG8gARUbgeJY9EH3wqejByoSxAAIuus14ZuLbSkgw4cTb9sYrQndvOPovTb+O9OXqaVXRkrsrhi/lG4DiZJKOFqC1ke5swUTaYyobxZY6gfitXDEfCDJxO6GrjoWdLu1s3pVjF0xD8OJmcyHRjCsVPqWY38SN9jHP3XHqXOncpeyKdCQth0cDysRhTjtPhWEbQJnyuXjvsqb5FEyOhsF7T3BBo+wIEkL1RknGfsdO8GhmTDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kVwPX5E6WhR7mM4R/zPagoQdcJg2vO4tv0que421Wvo=;
- b=LgmLeqNEM4PgJLJCa4gBepVxtJxIbcu0rPT/4E+ZOOIoKHA5DK48MS7OkmgFqfHzBuyJ+jQ+LbTosYQrJ4lvRk5bSD8AlNkF+nl0voKevgIEXeQD3MvjizUha835FtFelVVBDIDgjOOzyiH/pPDwpD4WIWG/fohJLFIT0kx7Wqe9m2OWsL1IoFQKNfAlWmQxQP1biYh/RpJ4H6lVrhMolSqdX3i7UqBW1B4SeMJeDsI2tswOsbs72Z02Gapk7Ok2RnUH+hEzBn2w7PDZhBg92BU3sxKVX/kjxzysk06o8NjqJtkpICr1RgHiJcgm8IR1/F/+4CbLbMWa953FJTDzOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kVwPX5E6WhR7mM4R/zPagoQdcJg2vO4tv0que421Wvo=;
- b=MJY5ah6Ck2uHxnsrD/x0uSRxpQBV0dcsn5hpJyGibnFi3P1TKHkr4OWT7bXb2at43crSqPJ/C5h9B9PFnBG7T3StNBWuNJ/QhVyG3kiNWaidb0R2Fzzpl9nakm/x07FD1+VjwxuslBhCQijbVJ/l7jk4ts06uxeyWy50tQpbX5g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by SJ0PR12MB5662.namprd12.prod.outlook.com (2603:10b6:a03:429::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
- 2023 17:03:36 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::152b:e615:3d60:2bf0]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::152b:e615:3d60:2bf0%6]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 17:03:36 +0000
-Message-ID: <2f37b537-5ce9-ff5c-d577-24d6ac6b5efe@amd.com>
-Date: Mon, 23 Jan 2023 12:03:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 0/7] Fix MST on amdgpu
-Content-Language: en-US
-To: Didier 'OdyX' Raboud <odyx@debian.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20230119235200.441386-1-harry.wentland@amd.com>
- <4499220.LvFx2qVVIh@turnagra>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <4499220.LvFx2qVVIh@turnagra>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0002.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:86::10) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 362FC10E518;
+ Mon, 23 Jan 2023 17:19:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674494384; x=1706030384;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=FYlTUJia2PPRqzLHgZoAan+KxnPulykiLoi1lyWnpoM=;
+ b=jP8WhLONgBIoPxRHSR07TEgOljj2xBJt25xWTXcRVqCMkiA/uFowM4n1
+ WuYwg0X1ISLhD/GfqPMNKVpPLOvQit4J+BWzirt9PaXwJPjLRzJM3tqmc
+ 6O9ePdOwX6dq1r9ZYTU6zvb9oQvWXiuEYAUAd+EuycuN+5erlMQKisOrR
+ 2hmiQa9Y8KDPaVgjNCA7577jLys1315yW1Oh9mOhrHpd+NZtTkv5j/8u/
+ 7M8/Sks9W/wS0ibu8eTKkzSSsF0g1roAKY5WPwn/dRmhSYvLRwOg0CV7e
+ O952blHRsQMWuFDzmehRpBU+O8rWwrdoZyUSevlASGe7Ii07MVTiGXMzu g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="328185707"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="328185707"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 09:16:17 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639264909"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="639264909"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 09:16:16 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2.1] drm/i915: Add _PICK_EVEN_2RANGES()
+Date: Mon, 23 Jan 2023 09:15:56 -0800
+Message-Id: <20230123171556.3322164-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230120193457.3295977-2-lucas.demarchi@intel.com>
+References: <20230120193457.3295977-2-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SJ0PR12MB5662:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c39aeb4-6e98-4e30-5f86-08dafd63c415
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z20edbr4qUq/ah/4k6lxZYCdcLYULgxrZcAYt7SlOOmS+Mgy+O3wVSfzLXlTbiJzkkgdoFO4pPt5UCCthBEcnwdhAPXE1DtfpaHazNqRibbts7O9wi2XY45gJwz4AyK50Dry44qbL1sS4ZTjY4XX84+ysUQCDtPWhWc+7Rnp7lyeGtofDdPwcc6cfyyxL99Mf9HAZSN83nNm2cXLQZrDl/MS65ApYxfREtbrUr+Qv24X1BlIyVaUC8CeSOlMtTJUu70gMnmDDFI/kO1fIetp0IbTvDopifqaKdm8TQsPAgusIkLpaeyKQuOvupwvhSXkhAZsoRQ+xMQ7xxrsYBHBJKSrXmacC+dfrm477HwhGMfjQKsnWfv1WEM1oTQYfKgwtC91rJKgEKG3UT5WuvSPMPP2UFEmpKTHQrxwBo211bqmbWAtOWSftpq4TsZPgOCfCpQ1Bz2Cnqjr+ozLvcXu3vYE3U4EefPv5VZqA0ulTB5SEMKxB5veAO/uXlmGtNvHOs/z99nTabg6RaQcGqwTVJntDpX/GDVow2wcuLdSzO1phMBs/8xnn+d/uI74SqNCKyOELKJODf/9C/+7a1/mx90PllCA+Ocbk37g+nIxxnNl3R/PDuNAxgOqDONPbCBrlhWhBeEVUQQLlR/Clwvt9KXSrfa+PCBVOy4ufgWJqeHRCPnVHcc/DYnRPMxmU+PC
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(396003)(346002)(376002)(136003)(39860400002)(451199015)(83380400001)(31696002)(38100700002)(41300700001)(86362001)(4744005)(2906002)(44832011)(8936002)(5660300002)(4326008)(26005)(8676002)(53546011)(186003)(6506007)(6512007)(6666004)(66476007)(66556008)(316002)(2616005)(66946007)(478600001)(966005)(6486002)(31686004)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VFBLUXYrVnk0bkpHbE5HbDIwVlhFME5KM0UrQk8rUUd1UWFRcTNpMkdiOHM3?=
- =?utf-8?B?QW5QK1o5RW9vMmNZUHFnaTZYdkwweGoySUdIZmdOSUxJa2M3WWNVWDZwcFl4?=
- =?utf-8?B?OVZXTzZvSDZCb2o1VHN4M3lqLzY0YjRWSlZndkZHQWlnUXFrY0QyQnFyRVVL?=
- =?utf-8?B?VUdIcklmWTMrWnE5aE5wYVk5RVNQZjYxNUdhVkpuaksyN2VuTGc5T0IxeUVS?=
- =?utf-8?B?QWxLVko0L0Q4NTN2YTVSZ1NUckM5ZThKVjNtcEwvdHBuT1RZMzcvK0Vrbk81?=
- =?utf-8?B?eW5nb1hLZUlXdjBOR0JRYUdHSmE0dWxIU2ZqTE1EUHkrQ05mcHpPMVd2cGZw?=
- =?utf-8?B?MFkwc0d5Qmh0bjVoSnJCUjlBWVducnFvSkdnV2lKQzE2b1pqd0FySjVOcFQ4?=
- =?utf-8?B?djJTcFBxMWVsdDBOYlNUM2FaNXFUVUE4YXJTLzVRUTVHQWZvcWZwK1p0UW94?=
- =?utf-8?B?ZVdsR0s5bGZQV090SWNmRHVhK3ZCNkNqbWFJeFZmTzRWT2dObmRmbmtXWWdZ?=
- =?utf-8?B?SWdjS29oNTBzNkFSL01iQlV6RTZLTnRtN1ZZOU1TZ0F2NllGbFk1YWMzT1pY?=
- =?utf-8?B?OFBJbVBWRHRGQ2xMRjR1RkhUeVJoWlNYUmhFa2xFdG05N2xNK3pKV1FKZTBi?=
- =?utf-8?B?UWRaK0llaTZvMEd6SHAwVFNJSVc5eVBtV3d5T0RpZE45ZTV0bFBNMFB4VGNP?=
- =?utf-8?B?WmYwZnRUM0o0UUIvWE5yRTRabWVjQUo0a3k0cUlDTmkwQXJyeS8zNzRUWkow?=
- =?utf-8?B?RVFrS0VEdkN0bVBFQlBnR295cUVyR2ovNU5NRU91WjNsaGZWZlQ3Y0xWdDJD?=
- =?utf-8?B?UElISTRFUHAxcVBMVWlxdTBybmROTFRMYUxCZTBmd2F6NnRUWlhsUG1kdk9Y?=
- =?utf-8?B?a2N3TElOdXl4bFBDYXc2S0drVGZubHpzaGE5bCtScHk2VVEzNjNpcUc3U2tP?=
- =?utf-8?B?QWlKZ21IMjl1dEE1Z1FHRncyaUNtM1VDQVhBSVIvYTZhaXh3c3gySEJ3QVpF?=
- =?utf-8?B?WWlGckwvYlM3M3BaUytEVTBuOXBTYytDTjBENndrSVNUaEVrMEFqbzYyRUZE?=
- =?utf-8?B?UXQ1UzB3OHVwdkIvSkFOSUhLMUJxYzN3cURZdW1RWHBqUGdYUE84VnZTTFhv?=
- =?utf-8?B?N3hGLzUvV2xwcGI2eU5UdmFENk8vUWI5WmhiSEhQVFZvbUZlZGNoVjlOTy8v?=
- =?utf-8?B?WjNGaEJjblRpR3g4ZUdmcGVjVEd5SG1pYStiZlFPL0pKd3hPbDM1c2JXR01B?=
- =?utf-8?B?MjlOOVdCY3B6b1F5VnNjUVpYRmNPYUp5MG1Ibmp4Y1JuZ3JGY1NJRFRUMUh0?=
- =?utf-8?B?MFVPa2lIYXNydER2VXRpRzRNcC96elpoYzVWbUUxOVBNTy9pZysxdFJsSHRM?=
- =?utf-8?B?VnlUUU9sNzlLT3NwMTh4RDQ3Z09Lb2tvR3hXM2xmM25qdnlpcGhweVZqdTBI?=
- =?utf-8?B?MHBMTjMwUnJQNjkvVEpDT1J0QWpDMDM5bnY1UitHamFDZ2JlT3ZSOFMzRmNP?=
- =?utf-8?B?VEJnWXVmRVA1V1JqaUE4bUpOanUxaE1BdUVWQ3g1aE9lMGg5K3ZlRU9ZbFpq?=
- =?utf-8?B?d0xRWjY1d3hqOC8rZE1wZW9GOWE0N0ViYTd1MVl3eG4zbHBFdUFTQ09kY0V2?=
- =?utf-8?B?amlNZEVQeWloamxiRFBCeTY3ZXI0RHF4OGdKT0JFUlQwVS84ODNyZzcwSk1w?=
- =?utf-8?B?dUpqYlFacVZtWnN6bGlYTlBDWXNQYXlZSjRhVkhHV1d5ZFFtcjdWMGVta2Ey?=
- =?utf-8?B?Z2JEQzQxcXBtZGhEV3BBY0o2SnFSdGFNQXNVcmkrMEJUZkIweGxuRDJZRUZ0?=
- =?utf-8?B?d1JnbStqTGY0MGxDNkdhZkI3OHBuZCtMWUZHMWd3ZkxlTHlldCszYS8yc2oy?=
- =?utf-8?B?TUViRXFlUjVFTUJUeWxnTVlZVmZKbzc2cHRrOXhWTlhUUEJSbFhJQUJoN0ZV?=
- =?utf-8?B?SjJBb2NHS1gzcjI2RnpLQ09XMUNUdVBJSmNwUnY1d2xKbXhtbEZycHdFMTMz?=
- =?utf-8?B?MHNmTjhjS0JjR0thTXA5dmFhWXhtR3p0a3B0YmorbCs2L1pDRElFelE2Lzhu?=
- =?utf-8?B?RUdSSnFGalk1a3djRGwxQktHb29oditkdVl1VEZsUXNrTFNRcVBnMUh5bkQ2?=
- =?utf-8?Q?2ZEIqeYfZXEMWofHeDCeFAxIt?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c39aeb4-6e98-4e30-5f86-08dafd63c415
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 17:03:36.2326 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UdRSic0zTfQZWd5vnueHPca6xA6wg7a1TQRMOt96K0GLBX7/y8NU+f8LkgvGkTg39c2X5AzcWQCfE3Gd5Hp2Mg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5662
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,32 +57,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, stanislav.lisovskiy@intel.com, jerry.zuo@amd.com,
- bskeggs@redhat.com, Wayne.Lin@amd.com, mario.limonciello@amd.com
+Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+It's a constant pattern in the driver to need to use 2 ranges of MMIOs
+based on port, phy, pll, etc. When that happens, instead of using
+_PICK_EVEN(), _PICK() needs to be used.  Using _PICK() is discouraged
+due to some reasons like:
 
+1) It increases the code size since the array is declared
+   in each call site
+2) Developers need to be careful not to incur an
+   out-of-bounds array access
+3) Developers need to be careful that the indexes match the
+   table. For that it may be that the table needs to contain
+   holes, making (1) even worse.
 
-On 1/22/23 14:12, Didier 'OdyX' Raboud wrote:
-> For the whole series, as rebased on v6.1.7. Tested on this Thinkpad X13 AMD 
-> Gen2:
-> 
-> Tested-By: Didier Raboud <odyx@debian.org>
+Add a variant of _PICK_EVEN() that works with 2 ranges and selects which
+one to use depending on the index value.
 
-Thanks.
+v2: Fix the address expansion in the  example (Anusha)
 
-Harry
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/i915/i915_reg_defs.h | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-> 
-> Le vendredi, 20 janvier 2023, 00.51:53 h CET Harry Wentland a écrit :
->> MST has been broken on amdgpu after a refactor in drm_dp_mst
->> code that was aligning drm_dp_mst more closely with the atomic
->> model.
->>
->> The gitlab issue: https://gitlab.freedesktop.org/drm/amd/-/issues/2171
->>
->> This series fixes it.
-> 
-> 
+diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
+index be43580a6979..bab6a9ec2ddd 100644
+--- a/drivers/gpu/drm/i915/i915_reg_defs.h
++++ b/drivers/gpu/drm/i915/i915_reg_defs.h
+@@ -119,6 +119,34 @@
+  */
+ #define _PICK_EVEN(__index, __a, __b) ((__a) + (__index) * ((__b) - (__a)))
+ 
++/*
++ * Like _PICK_EVEN(), but supports 2 ranges of evenly spaced address offsets.
++ * The first range is used for indexes below @__c_index, and the second
++ * range is used for anything above it. Example::
++ *
++ * #define _FOO_A			0xf000
++ * #define _FOO_B			0xf004
++ * #define _FOO_C			0xf008
++ * #define _SUPER_FOO_A			0xa000
++ * #define _SUPER_FOO_B			0xa100
++ * #define FOO(x)			_MMIO(_PICK_EVEN_RANGES(x, 3,		\
++ *					      _FOO_A, _FOO_B,			\
++ *					      _SUPER_FOO_A, _SUPER_FOO_B))
++ *
++ * This expands to:
++ *	0: 0xf000,
++ *	1: 0xf004,
++ *	2: 0xf008,
++ *	3: 0xa000,
++ *	4: 0xa100,
++ *	5: 0xa200,
++ *	...
++ */
++#define _PICK_EVEN_2RANGES(__index, __c_index, __a, __b, __c, __d)		\
++	(BUILD_BUG_ON_ZERO(!__is_constexpr(__c_index)) +			\
++	 ((__index) < (__c_index) ? _PICK_EVEN(__index, __a, __b) :		\
++				   _PICK_EVEN((__index) - (__c_index), __c, __d)))
++
+ /*
+  * Given the arbitrary numbers in varargs, pick the 0-based __index'th number.
+  *
+-- 
+2.39.0
 
