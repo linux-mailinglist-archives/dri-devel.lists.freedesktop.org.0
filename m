@@ -1,73 +1,155 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BC2678ADE
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 23:41:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D30678AE7
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 23:41:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F07810E5AF;
-	Mon, 23 Jan 2023 22:41:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ADBC10E5B0;
+	Mon, 23 Jan 2023 22:41:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D83910E5AF
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 22:41:23 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id mp20so34438590ejc.7
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 14:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DAh9Xbtfief/OlsV2KWJ+0B0immMWxg2cM0rmo6xr3k=;
- b=FpQwvjke2tSxx5LeBEvsXh/qQZcv/u1RWBrEK/3eIZ527rYbLYhdGwKr60hzndq6/h
- Id2B2QqjsH+dfDMzS8mJklAUX4uyRYM7+JuHVKF0DZb8465awtktQEF8Js4atAVd9eAH
- zBC1joHkb9qY2OSIIxzlWZ1MfKBeSsS+QHaAus6TEJHYkpZ6rbuokauLvi4Gsc/GXobK
- 3r2MSV8M3skKLfc1f9BPvyVhYm0+CXoxG+RhOfNqWFtQF48gHJn4iK5WVBfJD/OFw15U
- Zf/CGiH+7T8BtpeqkhD++C2D918xXPog77jRFK8fOObBTS6Cjk6VxCTE9wGASr8gPeRY
- xKPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DAh9Xbtfief/OlsV2KWJ+0B0immMWxg2cM0rmo6xr3k=;
- b=JkVXBHzQXld5zU1SMAQTrRHzJ+3MgEE10FAUlPScVOPnr+e8OnOUDYfZ62rCh3wHm+
- cDqmfOQiXtyRVS+0/k8NrHRrpAf8GI89h9QIv2Z0CEphVp2gQqiPiFQTrctmpjwxCCRX
- tD1f2e/Y/nO4TF1TdpEhH5hcLN/2EOF4z5851cN+lhdA7GTm6kHx02Cb5JGDG9LCHoXc
- t9ikmWDx7VXUv5hpk9ba3mI3P4BgbzZDHzlEnPdTzoLUIwnaApacefRsP54v77c4p4J1
- VE90XBkyDIIo7wC5Rq6Nayj68KWQAFfnLU8lz5ILJtLKS9XDb5ctQU3zizokh/GVW6gT
- G38Q==
-X-Gm-Message-State: AFqh2kocEvpGi+7No8ruRO+cBRJvVhDq2bSwEEaYS2MsinMQVXL4kCzt
- BFk2uToNz1NkF6HpKQdhh1BDFQ==
-X-Google-Smtp-Source: AMrXdXtYujRNRFxkwoP4/7o+r7V0nLuSUdhqgyinxvkCDPLKrXc+//LDE+zu3X4bCAq+zVoy7H+Ttg==
-X-Received: by 2002:a17:906:591a:b0:82c:3642:79b5 with SMTP id
- h26-20020a170906591a00b0082c364279b5mr27251073ejq.58.1674513682042; 
- Mon, 23 Jan 2023 14:41:22 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- by23-20020a170906a2d700b0086c4fbb8507sm21797ejb.225.2023.01.23.14.41.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 14:41:21 -0800 (PST)
-Message-ID: <a1fc24d6-824f-6a00-29c8-c8f3fd6c6c2e@linaro.org>
-Date: Tue, 24 Jan 2023 00:41:19 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF29810E5AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 22:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674513684; x=1706049684;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=tfm3IanKWT0HgwyVqoZb45l8o7NGI+jGDe9n+3Vr4bg=;
+ b=EEfpnodpdgARxQYtIyDPG8d4gZwDE9TaTeChH1yo0CIDYhiC6IO2fgfC
+ 3fQR1TK37CZeGPUjaL82VkzkumIrOoMV2Q8XcMfKRpRupTb9uOnKV8Tkj
+ pp6oDuDuiJ4PWFJmmZg8ddApbHR6kBI7o8KPFqvlzHIOZaxf0WAGXd8Kn
+ ATTgNNrIV+xX4PfYmhes28odiJP6IrIU/FzibOzDj/ltk/rgGtxZ0KAzm
+ wcz1JmDU4sm7ALK1NE6KCjhszCvfHbKVIpr/+Im6PhXbuLBtqgUdp9Rxe
+ vrXy3AaJDMmH0vx4CoJbu//dhO+jo1S4GZhuCtzqOo2+LOv3csrBSlzBA w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="305835047"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="305835047"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 14:41:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="611791831"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="611791831"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga003.jf.intel.com with ESMTP; 23 Jan 2023 14:41:22 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 23 Jan 2023 14:41:22 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 23 Jan 2023 14:41:21 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 23 Jan 2023 14:41:21 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.171)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 23 Jan 2023 14:41:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fLX0ztC1zFlN0ZaWZKP0Obacj6gyZCNeAt2m1ynNwQFQljiWyTlMAN4+4zFRTLILNLswwQvaWqJyFEVyzXXrkB1Y+uoXzQjcKle53JwhKWd/hzz8gVl7aXh3PS0EPaUEUyKLtunTtkdegNUjU86CgsockRYTX2IcOgGfIAM0RGmGu8Yob6M+jLqfLTi87pnD7Mw5OBVYpvBT3XOj19hxDaITO2mPubuZLflGEDD/M0zxDEGVXOt0oTgiQEsrRQvEApAg2zj4EYhfu6Czidqxkld99FmmhceAhOWzUq0uUWsIBbFKWJExpYdeMzzC1apZtuIWQ6qNIW2bF9kD5LqG6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tfm3IanKWT0HgwyVqoZb45l8o7NGI+jGDe9n+3Vr4bg=;
+ b=V3AAyJ7y/kExAR6XtnKERY8M6advyLUXDifOm1AVTi1O5KJFUVngvuHgEPw1i4DjVmbAdEiCQxD+sXxzHfroeEMbJE7lmbP20OiYgPf/IxWXyp9EoAk8N4jJKyHOTqficNQu70IyvtRACZkt4q/5it4rZPxkjdazLm+jO/L1WTcYQY0sr50/KQHEoSwF8zCj7YDbt4B8h7pFPbGuZL4Kwi1Fk73A65cX5A++9oHdr2ALaSoDtJ6ErsQJbKGlHjjMU9H7U+JNybVxvMrWPeCPzRvLmU476xdits12aFVCymEYpEw5M+fuywsquq0h+jesiTEsiro9Dnn40qnxMt0ysg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MW4PR11MB5823.namprd11.prod.outlook.com (2603:10b6:303:186::12)
+ by DS0PR11MB7336.namprd11.prod.outlook.com (2603:10b6:8:11f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
+ 2023 22:41:20 +0000
+Received: from MW4PR11MB5823.namprd11.prod.outlook.com
+ ([fe80::ee2c:e87b:970a:a3f4]) by MW4PR11MB5823.namprd11.prod.outlook.com
+ ([fe80::ee2c:e87b:970a:a3f4%8]) with mapi id 15.20.6002.027; Mon, 23 Jan 2023
+ 22:41:19 +0000
+From: "Winiarska, Iwona" <iwona.winiarska@intel.com>
+To: "corbet@lwn.net" <corbet@lwn.net>, "sj@kernel.org" <sj@kernel.org>
+Subject: Re: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux' prefixes
+ from titles of listed documents
+Thread-Topic: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux'
+ prefixes from titles of listed documents
+Thread-Index: AQHZLpIpYKkgfyAt90KsNE3IDKSRLq6smneA
+Date: Mon, 23 Jan 2023 22:41:19 +0000
+Message-ID: <836ba864ed1de79979829310cda798a592e5da6d.camel@intel.com>
+References: <20230122184834.181977-1-sj@kernel.org>
+In-Reply-To: <20230122184834.181977-1-sj@kernel.org>
+Accept-Language: en-US, pl-PL
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW4PR11MB5823:EE_|DS0PR11MB7336:EE_
+x-ms-office365-filtering-correlation-id: a8af50a7-3749-4bab-3c05-08dafd92f24a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XyDX3ChfprONJpY3AJK8wuJ1V0BaVbVczUWg278GoTmgVxtHD0aVb0cqLDWCMy8hjOiypyY/Mh8tiez4ZdV9mJ+sybnPwW4Ja3neXTSUgPiSwoX3z8vX9kVcP6sdiUVcKIcNbUQ1Tg6wCvbb9skfMg872/l7sER6l5GEWB8/G95qsNg/CQLuRrVRzuCQshug2ZjU5dGQJWxPLxGBClwaGA48jgZA6/qny5eFS/EgEcEf6503CdX/brR1pE16CYGh8oKRN5Xij9VyJU1DfWEGpXqGTr3Q/4WIbMIdoQJIyAoV6u96dbOGNeRoYaHV3tgZ0adgZpz8kyURRi9VxXGB+1p+dhflKvIg5MzNjY/3J+yWQ0tXq1eadDTVksdXE2PhvmvMtExSU5AajVCCjJJFxuqI7KXGS6kTsKLBH40aB7Lb8EY63coY8tEL7asIXQFcvWGiR21Gm6xF9r8p4iQIsuXdTZPS2rjijlQYcupGr0ZMp7muwi87xgQK7xlT6Nh9IAzkPnQQDAUgvb3cqec6L30ghRfHlkiKjrwZT7aQEO5rtSFbIjbfbNtyEFNzf9QujbqtqBwyByhOncoGH/9huTvGFv2DCzsKg7IYlymfjQEZ7WkYoUJiC25HDD7wrfGB0p1GL9VTBOHA1ID+3vAYTv4sniJ/Z1cgH22JcEH61x1Xe0/ghpi2XGU0Bn0jRn8PJIsSEdwensnjDiN1qda6hCHwS1NuGvYOCnOxus3KLe8=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR11MB5823.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(366004)(376002)(346002)(39860400002)(136003)(396003)(451199015)(36756003)(38070700005)(86362001)(2906002)(5660300002)(38100700002)(82960400001)(7406005)(8936002)(7416002)(4326008)(41300700001)(122000001)(83380400001)(66476007)(6486002)(478600001)(71200400001)(110136005)(91956017)(6506007)(6512007)(8676002)(186003)(26005)(2616005)(316002)(66946007)(66446008)(76116006)(64756008)(66556008)(54906003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UE5sKzlGYXltZ0lONHMrMkVXa2VnYUZqRzMvU2d2eTY0M3AzWkpBby8zR1Rz?=
+ =?utf-8?B?WEJJQTFuNVJDcElDVzJBWUdRU0ZON05jeEtiZVZXemE4WE91dE40dUhrTmNX?=
+ =?utf-8?B?OUVwWDJDYis0TXZ3RmJJRFdjaXR4b3RJM0N6dVhzaUpNSE8xSk9VclQrRFY1?=
+ =?utf-8?B?RXJ2eGMrRUZaL0pPYWVreHc4QmpkNUJUQ3R1cnRnQ1FSWFFTaE5JWktXZ3pD?=
+ =?utf-8?B?MDB4dmt1eDYvdUh1eGlpVWhkdisxakhqQldSV29zcHRHbnZXTFJCN0hUZTFp?=
+ =?utf-8?B?Y0hnbHdoNk42SUxFKzZaUmNwN3Ezd1ZnNHBpODNaR2txWElUYlRHa3hBdnNP?=
+ =?utf-8?B?MzE2aE5XekpDN3NIS3JRZitnTUhJS05hZ0p1U3VTbzJLdk95Q0tVTnZKRlFM?=
+ =?utf-8?B?R0kzSkZHeTZRaU9RQVVicjNjdG5BbmFMR1Y0VjhOSEtmRE1WeUNjclhVaTZQ?=
+ =?utf-8?B?S3dEK2M4c0xCak9WQ3hzbDNqdG9JSXVzdHlHMnJvUVV6RVZ4RzJuWkxqR05r?=
+ =?utf-8?B?YVY0WEtRYWFaaFhYMzBiQkpvMjJpS29XWWNwUDBGYUsrR2pJTXhwWWl2VWMr?=
+ =?utf-8?B?Tmt2dlVZa1l5UW5BTzlLakhrbm5qR0dYaGJKWDVjSm5sVGJoanNJUEVZUysz?=
+ =?utf-8?B?VVZ0cTFCYllOa0tJaXNqVmhYTEZaUWd4UXE1ckZUZnZBRnJOMm8vdUlKZklV?=
+ =?utf-8?B?MU9zd2UwM1pNRWhrT2MvdGlCL2NwV0dFT0hhS2ZIWW81ZWc4RHBkWVAxYm9Z?=
+ =?utf-8?B?dG9WTkxkYTlCeTlDdmROeGFIRCtGbFNXMnA0R1lNNFNlOTRSTVpscDVnUDl4?=
+ =?utf-8?B?ajRVOHVLZkVtSTg3bitjVTZtbXdkZEpqcEowek5hV0Y2UGdTb3U1aGRkTkVV?=
+ =?utf-8?B?SVR6c0Q1ODM2Y2RiMTY1bWtjTEVrZ2hSeFRKTitlcDJhT0xvZFRGWFVDbmxl?=
+ =?utf-8?B?UXJkZDR5WmV6ZkdDQzVrWmpVUlNPbDVpMVNvUFRDNmJ6cFcwZTFZTm5udTNn?=
+ =?utf-8?B?eUkzaGN0blJTaE1WU1NtQ3lpYWdub1pkUDY4L3N6RUFlRHZWT01XMUtIc29m?=
+ =?utf-8?B?SXVYMkVWMDEvemhDTHVCMUF4aHZPYm8xSEJGck1QbVVmaDVJZ0V6SzB5Wmli?=
+ =?utf-8?B?eVEyVHZISC9wUUQ4NGRobG85U04vSVdIS1lTNi9pNGtzWGp5a2hPUjRXZ3Fn?=
+ =?utf-8?B?WGdiaXowRmR2SmxKYUNxaHQ5cWk4TnNUbXF1V3BHcjJXeDQ4R2pQSW1lQnNB?=
+ =?utf-8?B?NG5ScDNBeXZJT1lNc2kwRDBTRzdoTEpCejF4OWF5ais5MGNmcERtdy9JNmw4?=
+ =?utf-8?B?UnVVWHhPQ2xtSEFQMHVqNTZuRS9PZ3grSjliNFdVb0hIcnZhUWdsczlnQjR6?=
+ =?utf-8?B?WHp6ZWVqZjByMXVoeWxpZEx0UnNKNFhTdU5WcWo2cWt3WmUvS0FlR3BST3BW?=
+ =?utf-8?B?YmxLQWdRaVNPcHluWW9vSkZoWEgxRHQ3eEszZnlkdGYyWTRuR0ozdlFzTkda?=
+ =?utf-8?B?SkwxaUllRXA4d3V0V3RRaEZyM0JDcGpiYzU5RFB0anp4MXhXOXltb2Q4RCsr?=
+ =?utf-8?B?OFdzSHNZeXg2SFFXU1RaYW8wTFV4SGRHZ3VUWE1oeU1tU0ZzUXlyRDdmdzBp?=
+ =?utf-8?B?SnZZRExjVmprOFJmTWxNcmpvZVc0NjFYZzhTSVlsN2Ewb2xZNUV3dVVYRS9z?=
+ =?utf-8?B?UHZ2Nk9tVEVtdThKdWVSUFczbHNIN1RMOXFEK3JsNlh5dTY4UXQ1cklocnp3?=
+ =?utf-8?B?bE5uaWdOTmJVWXpGZnBPdGlhVDNtL2kwaXlDNmJjS0NyTlBQYkJFajNCMnlW?=
+ =?utf-8?B?Z1VpZTd5enNtMmp4YVNJRWFNWjhraW40Ym8wSEM3R3o3MFhiTE9kaFpUVitP?=
+ =?utf-8?B?T2FsQnc3MnhOT1l2MjdUamcrMlV2ZFZpNnZHcU02WklWN3VyVVFSOEplSVJL?=
+ =?utf-8?B?eXVWY0tCSGRyZHVFWEFXR09wV3VuZ2h0Wk80Yy81aVNWKzR1UE1LRk0xMWp6?=
+ =?utf-8?B?YndiN2lVVmtwbDhxUktTcWJXNnRFRG42RDRrNysvMWhNdEZrKzBvLzExNThC?=
+ =?utf-8?B?NVBwNnpjUXoxTW5RN1I1NmlQTWlwaTNmOU5scWhVSjlVYlpPZjB2ejdPN2pN?=
+ =?utf-8?B?dVZzenZ5YjkranVTdHF0dXFoMTdWUk5SREtPTTIrK2xoRnA4RGprSzdFUmtJ?=
+ =?utf-8?B?eEE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4733F5D8A028B44F978D638D6EF85C16@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v1 04/14] drm/msm/dp: correct configure Colorimetry
- Indicator Field at MISC0
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com,
- agross@kernel.org, andersson@kernel.org
-References: <1674498274-6010-1-git-send-email-quic_khsieh@quicinc.com>
- <1674498274-6010-5-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1674498274-6010-5-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5823.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8af50a7-3749-4bab-3c05-08dafd92f24a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2023 22:41:19.8194 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PdtkmBUftZFOM9IjP/S+ABsajZYV5P+xwkpuUMm37FProtdkBKk6oIZIbSpUgkFt5TewOGtMWNUGXeJM9j7KHho7vNBolQHZhtKkF/+LvJI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7336
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,192 +162,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "viresh.kumar@linaro.org" <viresh.kumar@linaro.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+ "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
+ "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "rafael@kernel.org" <rafael@kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux@roeck-us.net" <linux@roeck-us.net>,
+ "jdelvare@suse.com" <jdelvare@suse.com>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "bhelgaas@google.com" <bhelgaas@google.com>, "perex@perex.cz" <perex@perex.cz>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ "tiwai@suse.com" <tiwai@suse.com>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "davem@davemloft.net" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/01/2023 20:24, Kuogee Hsieh wrote:
-> MSA MISC0 bit 1 to 7 contains Colorimetry Indicator Field. At current
-> implementation, Colorimetry Indicator Field of MISC0 is not configured
-> correctly. This patch add support of RGB formats Colorimetry.
-
-Any Fixes tag? Not to mention that fixes should come first.
-
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_ctrl.c  |  5 +++--
->   drivers/gpu/drm/msm/dp/dp_link.c  | 29 +++++++++++++++++++------
->   drivers/gpu/drm/msm/dp/dp_panel.c | 45 +++++++++++++++++++++++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_panel.h |  1 +
->   4 files changed, 71 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index 959a78c..d0d1848 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1,6 +1,7 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2012-2023, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
->    */
->   
->   #define pr_fmt(fmt)	"[drm-dp] %s: " fmt, __func__
-> @@ -169,7 +170,7 @@ static void dp_ctrl_configure_source_params(struct dp_ctrl_private *ctrl)
->   
->   	tb = dp_link_get_test_bits_depth(ctrl->link,
->   		ctrl->panel->dp_mode.bpp);
-> -	cc = dp_link_get_colorimetry_config(ctrl->link);
-> +	cc = dp_panel_get_misc_colorimetry_val(ctrl->panel);
->   	dp_catalog_ctrl_config_misc(ctrl->catalog, cc, tb);
->   	dp_panel_timing_cfg(ctrl->panel);
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-> index f1f1d64..e957948 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_link.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
-> @@ -1,6 +1,7 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2012-2023, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
->    */
->   
->   #define pr_fmt(fmt)	"[drm-dp] %s: " fmt, __func__
-> @@ -12,6 +13,12 @@
->   
->   #define DP_TEST_REQUEST_MASK		0x7F
->   
-> +enum dynamic_range {
-> +	DP_DYNAMIC_RANGE_RGB_VESA = 0x00,
-> +	DP_DYNAMIC_RANGE_RGB_CEA = 0x01,
-> +	DP_DYNAMIC_RANGE_UNKNOWN = 0xFFFFFFFF,
-
-No need to assign values here, unless they serve some purpose. Do they?
-
-> +};
-> +
->   enum audio_sample_rate {
->   	AUDIO_SAMPLE_RATE_32_KHZ	= 0x00,
->   	AUDIO_SAMPLE_RATE_44_1_KHZ	= 0x01,
-> @@ -1079,6 +1086,7 @@ int dp_link_process_request(struct dp_link *dp_link)
->   int dp_link_get_colorimetry_config(struct dp_link *dp_link)
->   {
->   	u32 cc;
-> +	enum dynamic_range dr;
->   	struct dp_link_private *link;
->   
->   	if (!dp_link) {
-> @@ -1088,14 +1096,21 @@ int dp_link_get_colorimetry_config(struct dp_link *dp_link)
->   
->   	link = container_of(dp_link, struct dp_link_private, dp_link);
->   
-> -	/*
-> -	 * Unless a video pattern CTS test is ongoing, use RGB_VESA
-> -	 * Only RGB_VESA and RGB_CEA supported for now
-> -	 */
-> +	/* unless a video pattern CTS test is ongoing, use CEA_VESA */
->   	if (dp_link_is_video_pattern_requested(link))
-> -		cc = link->dp_link.test_video.test_dyn_range;
-> +		dr = link->dp_link.test_video.test_dyn_range;
->   	else
-> -		cc = DP_TEST_DYNAMIC_RANGE_VESA;
-> +		dr = DP_DYNAMIC_RANGE_RGB_VESA;
-> +
-> +	/* Only RGB_VESA nd RGB_CEA supported for now */
-> +	switch (dr) {
-> +	case DP_DYNAMIC_RANGE_RGB_CEA:
-> +		cc = BIT(2);
-> +		break;
-> +	case DP_DYNAMIC_RANGE_RGB_VESA:
-> +	default:
-> +		cc = 0;
-> +	}
->   
->   	return cc;
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index 36dad05..55bb6b0 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -567,6 +567,51 @@ int dp_panel_init_panel_info(struct dp_panel *dp_panel)
->   	return 0;
->   }
->   
-> +/**
-
-This marks the start of kerneldoc. But the rest of the comment isn't a 
-kerneldoc.
-
-> + * Mapper function which outputs colorimetry to be used for a
-> + * given colorspace value when misc field of MSA is used to
-> + * change the colorimetry. Currently only RGB formats have been
-> + * added. This API will be extended to YUV once its supported on DP.
-
-its != it's
-
-> + */
-> +u8 dp_panel_get_misc_colorimetry_val(struct dp_panel *dp_panel)
-> +{
-> +	u8 colorimetry;
-> +	u32 colorspace;
-> +	u32 cc;
-> +	struct dp_panel_private *panel;
-> +
-> +	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
-> +
-> +	cc = dp_link_get_colorimetry_config(panel->link);
-> +	/*
-> +	 * If there is a non-zero value then compliance test-case
-> +	 * is going on, otherwise we can honor the colorspace setting
-> +	 */
-> +	if (cc)
-> +		return cc;
-> +
-> +	colorspace = dp_panel->connector->state->colorspace;
-> +	switch (colorspace) {
-> +	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
-> +	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
-> +		colorimetry = 0x7;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
-> +		colorimetry = 0x3;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
-> +		colorimetry = 0xb;
-> +		break;
-> +	case DRM_MODE_COLORIMETRY_OPRGB:
-> +		colorimetry = 0xc;
-> +		break;
-> +	default:
-> +		colorimetry = 0;
-> +	}
-> +
-> +	return colorimetry;
-> +}
-> +
->   struct dp_panel *dp_panel_get(struct dp_panel_in *in)
->   {
->   	struct dp_panel_private *panel;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-> index fb30b92..1153e88 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-> @@ -85,6 +85,7 @@ int dp_panel_get_modes(struct dp_panel *dp_panel,
->   		struct drm_connector *connector);
->   void dp_panel_handle_sink_request(struct dp_panel *dp_panel);
->   void dp_panel_tpg_config(struct dp_panel *dp_panel, bool enable);
-> +u8 dp_panel_get_misc_colorimetry_val(struct dp_panel *dp_panel);
->   
->   /**
->    * is_link_rate_valid() - validates the link rate
-
--- 
-With best wishes
-Dmitry
-
+T24gU3VuLCAyMDIzLTAxLTIyIGF0IDE4OjQ4ICswMDAwLCBTZW9uZ0phZSBQYXJrIHdyb3RlOg0K
+PiBTb21lIGRvY3VtZW50cyB0aGF0IGxpc3RlZCBvbiBzdWJzeXN0ZW0tYXBpcyBoYXZlICdMaW51
+eCcgb3IgJ1RoZSBMaW51eCcNCj4gdGl0bGUgcHJlZml4ZXMuwqAgSXQncyBkdXBsaWNhdGVkIGlu
+Zm9ybWF0aW9uLCBhbmQgbWFrZXMgZmluZGluZyB0aGUNCj4gZG9jdW1lbnQgb2YgaW50ZXJlc3Qg
+d2l0aCBodW1hbiBleWVzIG5vdCBlYXN5LsKgIFJlbW92ZSB0aGUgcHJlZml4ZXMgZnJvbQ0KPiB0
+aGUgdGl0bGVzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2VvbmdKYWUgUGFyayA8c2pAa2VybmVs
+Lm9yZz4NCg0KRm9yIERvY3VtZW50YXRpb24vcGVjaS9pbmRleC5yc3QNCg0KQWNrZWQtYnk6IEl3
+b25hIFdpbmlhcnNrYSA8aXdvbmEud2luaWFyc2thQGludGVsLmNvbT4NCg0KPiAtLS0NCj4gQ2hh
+bmdlcyBmcm9tIHYxDQo+IChodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjMwMTE0MTk0
+NzQxLjExNTg1NS0xLXNqQGtlcm5lbC5vcmcvKQ0KPiAtIERyb3Agc2Vjb25kIHBhdGNoICh3aWxs
+IHBvc3QgbGF0ZXIgZm9yIGVhY2ggc3Vic3lzdGVtKQ0KPiANCj4gwqBEb2N1bWVudGF0aW9uL1BD
+SS9pbmRleC5yc3TCoMKgwqDCoMKgwqDCoCB8IDYgKysrLS0tDQo+IMKgRG9jdW1lbnRhdGlvbi9j
+cHUtZnJlcS9pbmRleC5yc3TCoMKgIHwgNiArKystLS0NCj4gwqBEb2N1bWVudGF0aW9uL2NyeXB0
+by9pbmRleC5yc3TCoMKgwqDCoCB8IDYgKysrLS0tDQo+IMKgRG9jdW1lbnRhdGlvbi9kcml2ZXIt
+YXBpL2luZGV4LnJzdCB8IDYgKysrLS0tDQo+IMKgRG9jdW1lbnRhdGlvbi9ncHUvaW5kZXgucnN0
+wqDCoMKgwqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vaHdtb24vaW5kZXgu
+cnN0wqDCoMKgwqDCoCB8IDYgKysrLS0tDQo+IMKgRG9jdW1lbnRhdGlvbi9pbnB1dC9pbmRleC5y
+c3TCoMKgwqDCoMKgIHwgNiArKystLS0NCj4gwqBEb2N1bWVudGF0aW9uL21tL2luZGV4LnJzdMKg
+wqDCoMKgwqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vcGVjaS9pbmRleC5y
+c3TCoMKgwqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vc2NoZWR1bGVyL2lu
+ZGV4LnJzdMKgIHwgNiArKystLS0NCj4gwqBEb2N1bWVudGF0aW9uL3Njc2kvaW5kZXgucnN0wqDC
+oMKgwqDCoMKgIHwgNiArKystLS0NCj4gwqBEb2N1bWVudGF0aW9uL3NvdW5kL2luZGV4LnJzdMKg
+wqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vdmlydC9pbmRleC5yc3TCoMKg
+wqDCoMKgwqAgfCA2ICsrKy0tLQ0KPiDCoERvY3VtZW50YXRpb24vd2F0Y2hkb2cvaW5kZXgucnN0
+wqDCoCB8IDYgKysrLS0tDQo+IMKgMTQgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKSwg
+NDIgZGVsZXRpb25zKC0pDQo=
