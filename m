@@ -2,34 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CAB4678503
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 19:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387BD678538
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 19:47:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CBF110E547;
-	Mon, 23 Jan 2023 18:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158D110E078;
+	Mon, 23 Jan 2023 18:46:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A65910E547
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 18:34:54 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id AFD1C4053B;
- Mon, 23 Jan 2023 19:34:51 +0100 (CET)
-Date: Mon, 23 Jan 2023 19:34:49 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v1 00/14] add display port DSC feature
-Message-ID: <20230123183449.qxjd22z3dpip5rqp@SoMainline.org>
-References: <1674498274-6010-1-git-send-email-quic_khsieh@quicinc.com>
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7F7210E078
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 18:46:54 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id lp10so9092569pjb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 10:46:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=edgeble-ai.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=m5i4QR8qy1CMbxdo43pdI8cVBA6fl0tkLIrsZh+J/D4=;
+ b=C2iWosssSY0cmzfPxup47V5McMzQzaWs+qrgrMKlZj9B9iFiaFiRYG/S9I2vl1vAWq
+ dAODN44UDjBtbgAWsAayBRtSav8QjtUwr0gzOEpSH5H9Bd/xCkYeAl9dvPtTy7utl26O
+ 6n4poiukSq+nw8ySuoEsh1UWzKyfZd8rQjziSfV4a+WxOBRYgTVpzNbM9ePst/4llMA/
+ JxUBWb/Fxnkl+1knfTmAcExt+ci8seV/v/CydCJyQh8BJ3VPbbKjptZ7DzQGG3Y4pixx
+ qWxf6RQlwG7HI7In5FuiSVGzHQ/E09NA+om0S7Rv1551beszM2dzq9EbgcFcJ9p9g7Ot
+ nzMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m5i4QR8qy1CMbxdo43pdI8cVBA6fl0tkLIrsZh+J/D4=;
+ b=d8+3En2qjvl/+DRACJ7ScBcjXX4iesYebonO/dovUwd3PP/ERWtpjAZebdj3GSmPkc
+ YIF7fKtrpXqqVk1Wjf5qasxpcaBPxN2ARLzEziMl23jXrz343Mw4Ck+fR6Nh5b5lpxIl
+ QJOs7/N+U0UTrj3I0hwykTjT/JMM/dIiES6FTNnf/5aptKYkGGnqrmyzqmyOC60suXDE
+ 9NFD/DdjeorIPKc2lY5wbZTi8J+DncdS102illz1Wab286b1/wMk3xTrZq9viWXjznQz
+ A7P2cNLXlGj2iJK0KP+p5dgKkTYYsN9qSTfD88SD2C03UAxkH9PaEuPHPFyVaFSbhmIN
+ Lz0Q==
+X-Gm-Message-State: AFqh2krwaV1tMBQMEgAzRVdWJDOqj9QsuTlsu1D0IWP7UY8zVKdWs7fD
+ ibT7ka2sfjMglZ9LVliHHPljSw==
+X-Google-Smtp-Source: AMrXdXsb9+5dnzTJOITTAhlcH22qiCHJZTUcZ0ir4M/PwCv7rd/tvtjDKZkkSYM4UtaRBlhPzz2ntg==
+X-Received: by 2002:a17:902:c408:b0:194:6afa:ca with SMTP id
+ k8-20020a170902c40800b001946afa00camr36597498plk.56.1674499614293; 
+ Mon, 23 Jan 2023 10:46:54 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:c00a:a15f:2279:f361:f93b:7971])
+ by smtp.gmail.com with ESMTPSA id
+ jb11-20020a170903258b00b00189a7fbfd44sm17441plb.211.2023.01.23.10.46.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 10:46:54 -0800 (PST)
+From: Jagan Teki <jagan@edgeble.ai>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH 1/2] drm: bridge: dw-mipi-dsi: Handle NO_EOT_PACKET mode
+Date: Tue, 24 Jan 2023 00:16:46 +0530
+Message-Id: <20230123184647.437965-1-jagan@edgeble.ai>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1674498274-6010-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,92 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- swboyd@chromium.org, sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Jagan Teki <jagan@edgeble.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DisplayPort is a name, and I think you should spell it as such in both
-the cover letter title and individual patch descriptions (capital D and
-P, no space in between).
+Many downstream bridges or panels followed by dw-mipi-dsi were
+using MIPI_DSI_MODE_NO_EOT_PACKET.
 
-On 2023-01-23 10:24:20, Kuogee Hsieh wrote:
-> This patch add DSC related supporting functions into to both dp controller and dpu enccoder
-> 
-> Kuogee Hsieh (14):
->   drm/msm/dp: add dpcd read of both dsc and fec capability
->   drm/msm/dp: add dsc factor into calculation of supported bpp
->   drm/msm/dp: add configure mainlink_levels base on lane number
->   drm/msm/dp: correct configure Colorimetry Indicator Field at MISC0
->   drm/msm/dp: upgrade tu calculation base on newest algorithm
->   drm/msm/dp: add display compression related struct
->   drm/msm/dp: add dsc helper functions
->   drm/msm/dp: add dsc supporting functions to DP controller
->   drm/msm/dsi: export struct msm_compression_info to dpu encoder
->   drm/msm/disp/dpu: add supports of DSC encoder v1.2 engine
->   drm/msm/disp/dpu1: add supports of new flush mechanism
->   drm/msm/disp/dpu1: revise timing engine programming to work for DSC
->   drm/msm/disp/dpu1: add dsc supporting functions to dpu encoder
->   drm/msm/disp/dpu1: add sc7280 dsc block and sub block
+So, handle the EOTP bits accordingly in the dw-mipi-dsi host.
 
-For DSC, capitalize it everywhere instead of the current free-form lower
-and uppercase mixup in patch titles.
+Signed-off-by: Jagan Teki <jagan@edgeble.ai>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Still asking around for the subsystem tag, I've seen:
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index b2efecf7d160..47bd69d5ac99 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -664,7 +664,13 @@ static void dw_mipi_dsi_dpi_config(struct dw_mipi_dsi *dsi,
+ 
+ static void dw_mipi_dsi_packet_handler_config(struct dw_mipi_dsi *dsi)
+ {
+-	dsi_write(dsi, DSI_PCKHDL_CFG, CRC_RX_EN | ECC_RX_EN | BTA_EN);
++	u32 val;
++
++	val = CRC_RX_EN | ECC_RX_EN | BTA_EN | EOTP_TX_EN;
++	if (dsi->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
++		val &= ~EOTP_TX_EN;
++
++	dsi_write(dsi, DSI_PCKHDL_CFG, val);
+ }
+ 
+ static void dw_mipi_dsi_video_packet_config(struct dw_mipi_dsi *dsi,
+-- 
+2.25.1
 
-    drm/msm/dpu
-    drm/msm/dpu1
-    drm/msm/disp/dpu
-    drm/msm/disp/dpu1
-
-And you're already mixing two of them.
-
-Aside that, thanks for sending this series!  Been looking forward to DSC
-1.2 for a while, but for DSI!
-
-- Marijn
-
->  drivers/gpu/drm/msm/Makefile                       |   2 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.c     | 537 +++++++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.h     |  25 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 341 +++++++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |   4 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |   7 +-
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  43 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  50 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  74 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  43 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  21 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  23 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |  23 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     | 371 +++++++++
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 132 ++--
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  10 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h    |   3 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h         |   6 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  10 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |  10 +-
->  drivers/gpu/drm/msm/dp/dp_catalog.c                | 176 ++++-
->  drivers/gpu/drm/msm/dp/dp_catalog.h                |  97 ++-
->  drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 839 ++++++++++++++-------
->  drivers/gpu/drm/msm/dp/dp_display.c                |  61 +-
->  drivers/gpu/drm/msm/dp/dp_link.c                   |  29 +-
->  drivers/gpu/drm/msm/dp/dp_panel.c                  | 749 +++++++++++++++++-
->  drivers/gpu/drm/msm/dp/dp_panel.h                  |  67 +-
->  drivers/gpu/drm/msm/dp/dp_reg.h                    |  40 +-
->  drivers/gpu/drm/msm/dsi/dsi.c                      |   3 +-
->  drivers/gpu/drm/msm/dsi/dsi.h                      |   3 +-
->  drivers/gpu/drm/msm/dsi/dsi_host.c                 |  14 +-
->  drivers/gpu/drm/msm/msm_drv.h                      | 113 ++-
->  32 files changed, 3429 insertions(+), 497 deletions(-)
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.c
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.h
->  create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c
-> 
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
-> 
