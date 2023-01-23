@@ -2,59 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4526678601
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 20:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD11367867C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 20:37:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69FCE10E1F4;
-	Mon, 23 Jan 2023 19:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D47E010E548;
+	Mon, 23 Jan 2023 19:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com
- [IPv6:2607:f8b0:4864:20::b49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1151710E1F4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 19:18:04 +0000 (UTC)
-Received: by mail-yb1-xb49.google.com with SMTP id
- w14-20020a25ac0e000000b007d519140f18so14008547ybi.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 11:18:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=9WOZzSEfhu/PT9TWBWMQDCCNsrofWV34oFDU/0sj1mQ=;
- b=CLJ2JxK/Tm4oa2T67r1/7AoCewa4cPoaCpXx/gVHbZ1m+FYlbdBISpcie92wke9qiT
- ywnZGTRRWgUyvtV2GeIN6CSF1A1BpACoPsOvCJSqkdka36IG7lwA9jHJB0/1Y37BiDn6
- UZyz4QR44eh7OHGKOjLnRuXG7qELlMRlfRNYaxnDlTMYAnQZZAKF7GLGFraikV5q7pPa
- PqEGE55YfXGgQoOaL42PCJmSLM5OLIrr2pXTamoSK+ZBJQZ3xablgI1e6ZxykShX+C1V
- OGCeujU9/+VSQurUIb0N4LKyFw0PX0Xvt3l2bOlWDy6qNiZqzVXsJcA5m/zeCrF4rUUR
- ohNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9WOZzSEfhu/PT9TWBWMQDCCNsrofWV34oFDU/0sj1mQ=;
- b=j/7LGHVAACKVQR09XvFTXTzLnRf6y2p7Rackd2LcUN8BNhSCd99HreEQi3hoKJBWIs
- vK8bta/o3TpZmHGQKyKI9pTJ9MC4AwGGSYq2AgclMW7gPmDee20j0AXO4uFK5vRAcj+j
- UwIICatq9Ww4g6nvjMQqSC8OvdA0BHCj8mwpyyrAxyth3oOwCmwGyvNIQlvFe/SH154v
- ir+RPfocL4dNxNyn4tx7s97bWchSKKk/0hzR8jAp4h8NwR7f0JBaicP9lRlkz6vuuWpr
- 7TcapUARrfjG00M3jHQoonA3SaRp6lsyXPRp+N3nCIIthGf8RfAfOlCqme34AlFnlj8X
- 0RqQ==
-X-Gm-Message-State: AFqh2kqoLieFQ8h2qPCGql6jcPqH2gsghIZlLvSD16EyB8eZUvy5wXjB
- aEUYWdN1rQS5P+N0jffRAIWK2xynKQHA6V0=
-X-Google-Smtp-Source: AMrXdXt5UsJV8XnGROzCqwUjMEtxGJTY0AAa2SUnm4rAwiP8wDQKiwcGvs1ceYITQIG6UCVtpU2h3/VNxLbuwi8=
-X-Received: from tj.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:53a])
- (user=tjmercier job=sendgmr) by 2002:a25:dc92:0:b0:7b0:3379:9c00 with SMTP id
- y140-20020a25dc92000000b007b033799c00mr3149691ybe.359.1674501483256; Mon, 23
- Jan 2023 11:18:03 -0800 (PST)
-Date: Mon, 23 Jan 2023 19:17:24 +0000
-In-Reply-To: <20230123191728.2928839-1-tjmercier@google.com>
-Mime-Version: 1.0
-References: <20230123191728.2928839-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.39.0.246.g2a6d74b583-goog
-Message-ID: <20230123191728.2928839-3-tjmercier@google.com>
-Subject: [PATCH v2 2/4] dmabuf: Add cgroup charge transfer function
-From: "T.J. Mercier" <tjmercier@google.com>
-To: tjmercier@google.com, Sumit Semwal <sumit.semwal@linaro.org>, 
- "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55AA410E548
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 19:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674502643; x=1706038643;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=fWE7fXUV3noQmhVatxVszEUWFlHGbLpp3PSDU8TVkTo=;
+ b=cPibl0PP40vQCkEnDWQvBiSf8sFxvwzVYuMTzO/fa1hKoBazpVS1IfxA
+ 8yIRqkqc45QAxAwceYN90cC+rwLh3zu+7BJlCYuj3SPreFabS95mbMWXp
+ Ock6+2+NYMKi9px3+4mD70gOrAy7q9NA9eOf/sXDa3NdJS8yjJ+eCucTM
+ JU1L0+we8+rGI39AioJoW2jRDbS9JvK3ftqGJQqu1MPc/n5PRhNA0RLkd
+ mrhyZ+C1tEvKkSJRy/1K8XC4ZyLQWEGTSAjlFirz4k2Mtg6hFBMzAbDzB
+ t4R8v2lwVr6cQoAWItOOXv0L8fXiwG0C84fx2AdWJx8fu5aXFr/Dx8jIb A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="353398265"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="353398265"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 11:37:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="835704957"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="835704957"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga005.jf.intel.com with ESMTP; 23 Jan 2023 11:36:59 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 23 Jan 2023 11:36:59 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 23 Jan 2023 11:36:59 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 23 Jan 2023 11:36:59 -0800
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.45) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 23 Jan 2023 11:36:58 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DpFn8bz7DGy/yi/hyGMHdK1rIYmQmPcPLB2PbTfOTPcekAF5eElkRNq5x7b+2Mmi4llM6X/aVBR8tgSG2AK0LZr55yolTw/qpSzUjGnUPqWueyykt/vZcXe12Fkd3BPnEDITZW9kQ4keQ99gxHj2KTzPrQWJWBeASf2HS7Bi7KY8d6V+JkC6tZV0KF8gcCdvzMObt9ov/Z5VCeB7C5AtE0YVnO3E4L/heSkOJOrRUI2noAltKw2ei1LtEqsxowYujLfWJk2dbEVyupKsFVQEFrG+PZcIkp+VMas31REu8YTxmixbFWKWipjMjxavnNPmsP7eXytGNvOSCpr9Z2hwtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3OWV2qNjdtk6u1SAvuae1nuuT5C/EB8Evcd6w4YhHnY=;
+ b=fgpJ+dBK+3jHc0f+bfqqUyZyjfFiptHWYQrxD0zrBuPGE3H2EZTQ0waRwnSES423MVaXv6j3WZ467uBEc3SMZ6pWff4cIUnXacTJdHeJMhbHPMd+W5+UubmTeUi05OLXZK1X5SD2R24WtNt4y1ePvfYCGHoN3gN++TXEMcQ4NAuQ7guqQ7YNheHdceG2J9Uiw/MNs6aMDNlduoPwH06fU4iZNioqy+NUftht+m6ZTv0qCQfg8dYyf828QzRedlG77Nn6hsaMCkh/zsJ6gw4RB2txhJqIG0NYIDalxJSvBDKoOu3v5FjGypbVcPF3gtZdEYPqXCXsuWljKC8eVa8ptw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by BL1PR11MB5462.namprd11.prod.outlook.com (2603:10b6:208:31e::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
+ 2023 19:36:54 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::421b:865b:f356:7dfc]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::421b:865b:f356:7dfc%5]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
+ 19:36:54 +0000
+Date: Mon, 23 Jan 2023 11:36:51 -0800
+From: Dan Williams <dan.j.williams@intel.com>
+To: Jason Gunthorpe via Lsf-pc <lsf-pc@lists.linux-foundation.org>,
+ <lsf-pc@lists.linuxfoundation.org>, <linux-mm@kvack.org>,
+ <iommu@lists.linux.dev>, <linux-rdma@vger.kernel.org>
+Subject: RE: [Lsf-pc] [LSF/MM/BPF proposal]: Physr discussion
+Message-ID: <63cee1d3eaaef_3a36e529488@dwillia2-xfh.jf.intel.com.notmuch>
+References: <Y8v+qVZ8OmodOCQ9@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Y8v+qVZ8OmodOCQ9@nvidia.com>
+X-ClientProxiedBy: SJ0PR13CA0194.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::19) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|BL1PR11MB5462:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3129eca5-d5b5-4c94-912d-08dafd792ec1
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: g6G2IM9r36nfqTkgrrMRqAdZugSY60YUNKe5iDMSCQ/60dqL2L6eiHbNkk+L9gINgHFv9lJTNg8jrS3t8CLRZMIQi+lq//9OvCYfe3Jvw6xtfJKHFt7eOOy/YgkoX2lJHscfwpGnpdeKhR0ZkdLk/U8kLTuUnNct8tc+kFfKNFEYaGPS43bcjTH9pXkiZP+tSqmy5TaGRS1dClW5Lnr+L/8h0BVT8saAGOLvf5leBpJ/8Zi2cF8fDH609P6d9aOYBYx049LPALukwAN4YM9L8S0iDRK5CZ9Bs+kLQpvHQyIDYS+5sCdSF0xoiULnxzdiZUrLE87xNoXDhvDXGwaPxawGxHw3LYNS+4Db+lkfwxPY8p1MikoYToxnUtwABTi39co8TcrthibugOXxvsegZCSvLoPL1/r2En73A9hfXBjyG9XzlvXmpW5lxM85v/H0iAEne4uRD+gupFf3lN1bydH1cE3904iesa0eGHKLV1ZVZtU7icfcaPm8poH9M6OujgwjaTOrkG3zvKf6uua1e1dHkTbO3CqaR9+ygojtBvpo1sAXyq4nDhZ3QkA7rfUxNWndurrGqHsxlxEj+W6wTF3M5cxTp7BBEDD10vdPspTjXmVFJmNs102Zych+lDPRntNRcGXvu9AfOQjxBxFrt5vZiwHZKXVDBv5UE/qk9htWyyD03GQ2yOCQNu5sGd8N/HvoHapBayFqQYz/WxgwHg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR11MB8107.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(376002)(136003)(396003)(366004)(346002)(451199015)(66556008)(86362001)(66946007)(66476007)(8676002)(4326008)(316002)(54906003)(6506007)(6666004)(9686003)(26005)(186003)(6512007)(6486002)(478600001)(966005)(8936002)(7416002)(5660300002)(2906002)(41300700001)(82960400001)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iFnT0yTiRsz75pCPonFuGUlUToHKQRPYkIeZBORevmdc2GAiFB5Ipe6FwDhu?=
+ =?us-ascii?Q?7cGlqd7qdNmblXxqHbyjBQoW0aZp6vg1oKKUOw0WRinGcepejjBXwG7cJMLl?=
+ =?us-ascii?Q?fqAv5SoanokTkwzVfUiSqwiHvAUZiqaap+qcwgzwnkLvuuyKkctRRDFxeBzb?=
+ =?us-ascii?Q?rXe8gqN4LQmPvuqJX3hmQpYxWOuwE0PWM7JyLqCCcQpC836NLYOE5ZNt/1pr?=
+ =?us-ascii?Q?8p1NjUPGavcgO8NGU+RcPwlQKbA/a7kV7Fb9UeDyK2oOaSIpYBJYvBpgvt5x?=
+ =?us-ascii?Q?2FYGTgV3Tkq4kQgjvnC+9UNEMeVVnD668Lb0ObjrO6T0Jtn8APwrQ/T+lmTm?=
+ =?us-ascii?Q?GFIPvdBwRr1IrMyI39ykolmkaubNRcEjrBCAYdtPpj/8Ix81GYt1g2UGCwQ7?=
+ =?us-ascii?Q?M1OQ0ibO/j2lMk5hdMBiEiexEfaG/RYHvyW1+nUUdtZJkm5fjIShPMQKnFuf?=
+ =?us-ascii?Q?JuU82yaUHgNyQitKqnO7UPS9KMZfiNuznQzUq9rEbP1k2k/1j3KBm6mfj0em?=
+ =?us-ascii?Q?Qp2gBdhhx0Vyw2MC4iGOdSu+O0SV8ONYHM5oM1OKqwwLz/69/N3lUsD3JMqc?=
+ =?us-ascii?Q?EX0eksn75enKvDPIZ/iOhwGSeaWWMl5jwxb+04S7FuCxB7EadX8yxL2mGxok?=
+ =?us-ascii?Q?bKWgHOE4yAia3ihy6id5FAzWNOo/tBLxj3RgpXzGhWElIh5w8BSR0nplppnk?=
+ =?us-ascii?Q?w/UI21bb4OVWM3Mp4RJBjIMpNwmyOPnZhVoqj5l2KP/VXLT5omPoulojKtlC?=
+ =?us-ascii?Q?3TWef9nRL5XHdESKBsuxx5ld4g7jwAy7baEGMcYulIJd48ZFLYL9BQhPprNs?=
+ =?us-ascii?Q?YwDrQQiGTwdLeBzpu7yNM8NneNV9dMPuNKbHTFyg0Qtdnj4cbsBacXiIDLC5?=
+ =?us-ascii?Q?RUAT3km93Vc7lMaoovK+mCE4q4UU7bahkdBQVOj62IAbuSCZoikhgfMZlVyN?=
+ =?us-ascii?Q?TkYuSQ6/a2QyByNaCD/ybZll1jS3qFm2+oxwPvdHA4V9B88lrfQROGt7Fs8a?=
+ =?us-ascii?Q?UoZ/UJSwFucCkW/I4v9xDCoX415DteSydaCBH2nyFBAJLX/UQqpG7EL1njlq?=
+ =?us-ascii?Q?9gH32sYE9uL9FSDQBcbrc0oqCl5KGNS0eIWiHcQjRl1d8CNN6+z5uHbtCgEV?=
+ =?us-ascii?Q?nk4WIQ3Efm0PYxeLo2OiMQ0o0GA3IafG5iVC+I+OiCHIIwogH6zqKRGuc20J?=
+ =?us-ascii?Q?gxbFbL+E07g+5j50HrKL/A9btDGr4FbNUMiOi4dVJYNKmfvMCHdS6m3DV8v7?=
+ =?us-ascii?Q?YrsNDZLayYsXOfVh1xqVoP75JBiscsNrHkCgdQY6HL/gttP8ZDSb8YGRtD6d?=
+ =?us-ascii?Q?QxthYbf+TIqsI6Vt3Exg/bJYKrs1lxvcA7xqQcaseJuaX473On/xBiU2ZYuO?=
+ =?us-ascii?Q?GA0kDJcGdcb5Vj2Mjf/IvGi7SpvJHPDVKoPA4HtGI7N4eUVp/XXf+Zmbtn/Y?=
+ =?us-ascii?Q?srpwkbqZsZjXZH9MCaJmUPBlPx30Xy7U5TCsbolK+suinjkCORK/AjnGpfsy?=
+ =?us-ascii?Q?FKufIEs4uxXpIJnJORVajJKgDdof05xSUHZnUt53R0R+28RckCESnG4SmSuU?=
+ =?us-ascii?Q?lI1xYOE9ifXRs2XqJAx1XohHO4yLCJgJq27R3bs/Dwi4wZCV7ySt2pkC898N?=
+ =?us-ascii?Q?Qg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3129eca5-d5b5-4c94-912d-08dafd792ec1
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 19:36:54.5030 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FjGoPu0Qc9MhztxEeQB4dcqWJraLAsqfKAJ8uGdvKGNZsnZfZwFN0mMcv+vVBoUihvAxMvI1xuh9hsEf2Na7GAEJAMlEM+ESyfj0Wy5dQ6Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5462
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,127 +149,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: android-mm@google.com, selinux@vger.kernel.org, daniel.vetter@ffwll.ch,
- hannes@cmpxchg.org, cmllamas@google.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-security-module@vger.kernel.org, jstultz@google.com, jeffv@google.com,
- cgroups@vger.kernel.org, linux-media@vger.kernel.org
+Cc: nvdimm@lists.linux.dev, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, Matthew Wilcox <willy@infradead.org>,
+ Ming Lei <ming.lei@redhat.com>, linux-block@vger.kernel.org,
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dma_buf_transfer_charge function provides a way for processes to
-transfer charge of a buffer to a different cgroup. This is essential
-for the cases where a central allocator process does allocations for
-various subsystems, hands over the fd to the client who requested the
-memory, and drops all references to the allocated memory.
+Jason Gunthorpe via Lsf-pc wrote:
+> I would like to have a session at LSF to talk about Matthew's
+> physr discussion starter:
+> 
+>  https://lore.kernel.org/linux-mm/YdyKWeU0HTv8m7wD@casper.infradead.org/
+> 
+> I have become interested in this with some immediacy because of
+> IOMMUFD and this other discussion with Christoph:
+> 
+>  https://lore.kernel.org/kvm/4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com/
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- drivers/dma-buf/dma-buf.c  | 56 ++++++++++++++++++++++++++++++++++++++
- include/linux/dma-buf.h    |  1 +
- include/linux/memcontrol.h |  5 ++++
- 3 files changed, 62 insertions(+)
+I think this is a worthwhile discussion. My main hangup with 'struct
+page' elimination in general is that if anything needs to be allocated
+to describe a physical address for other parts of the kernel to operate
+on it, why not a 'struct page'? There are of course several difficulties
+allocating a 'struct page' array, but I look at subsection support and
+the tail page space optimization work as evidence that some of the pain
+can be mitigated, what more needs to be done? I also think this is
+somewhat of a separate consideration than replacing a bio_vec with phyr
+where that has value independent of the mechanism used to manage
+phys_addr_t => dma_addr_t.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index a6a8cb5cb32d..ac3d02a7ecf8 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -11,6 +11,7 @@
-  * refining of this idea.
-  */
- 
-+#include <linux/atomic.h>
- #include <linux/fs.h>
- #include <linux/slab.h>
- #include <linux/dma-buf.h>
-@@ -1626,6 +1627,61 @@ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map)
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, DMA_BUF);
- 
-+/**
-+ * dma_buf_transfer_charge - Change the cgroup to which the provided dma_buf is charged.
-+ * @dmabuf_file:	[in]	file for buffer whose charge will be migrated to a different cgroup
-+ * @target:		[in]	the task_struct of the destination process for the cgroup charge
-+ *
-+ * Only tasks that belong to the same cgroup the buffer is currently charged to
-+ * may call this function, otherwise it will return -EPERM.
-+ *
-+ * Returns 0 on success, or a negative errno code otherwise.
-+ */
-+int dma_buf_transfer_charge(struct file *dmabuf_file, struct task_struct *target)
-+{
-+	struct mem_cgroup *current_cg, *target_cg;
-+	struct dma_buf *dmabuf;
-+	unsigned int nr_pages;
-+	int ret = 0;
-+
-+	if (!IS_ENABLED(CONFIG_MEMCG))
-+		return 0;
-+
-+	if (WARN_ON(!dmabuf_file) || WARN_ON(!target))
-+		return -EINVAL;
-+
-+	if (!is_dma_buf_file(dmabuf_file))
-+		return -EBADF;
-+	dmabuf = dmabuf_file->private_data;
-+
-+	nr_pages = PAGE_ALIGN(dmabuf->size) / PAGE_SIZE;
-+	current_cg = mem_cgroup_from_task(current);
-+	target_cg = get_mem_cgroup_from_mm(target->mm);
-+
-+	if (current_cg == target_cg)
-+		goto skip_transfer;
-+
-+	if (!mem_cgroup_charge_dmabuf(target_cg, nr_pages, GFP_KERNEL)) {
-+		ret = -ENOMEM;
-+		goto skip_transfer;
-+	}
-+
-+	if (cmpxchg(&dmabuf->memcg, current_cg, target_cg) != current_cg) {
-+		/* Only the current owner can transfer the charge */
-+		ret = -EPERM;
-+		mem_cgroup_uncharge_dmabuf(target_cg, nr_pages);
-+		goto skip_transfer;
-+	}
-+
-+	mem_cgroup_uncharge_dmabuf(current_cg, nr_pages);
-+	mem_cgroup_put(current_cg); /* unref from buffer - buffer keeps new ref to target_cg */
-+	return 0;
-+
-+skip_transfer:
-+	mem_cgroup_put(target_cg);
-+	return ret;
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- static int dma_buf_debug_show(struct seq_file *s, void *unused)
- {
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 1f0ffb8e4bf5..f25eb8e60fb2 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -634,4 +634,5 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map);
- void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map);
- int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
- void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
-+int dma_buf_transfer_charge(struct file *dmabuf_file, struct task_struct *target);
- #endif /* __DMA_BUF_H__ */
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index c10b8565fdbf..009298a446fe 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -1335,6 +1335,11 @@ struct mem_cgroup *mem_cgroup_from_css(struct cgroup_subsys_state *css)
- 	return NULL;
- }
- 
-+static inline struct mem_cgroup *mem_cgroup_from_task(struct task_struct *p)
-+{
-+	return NULL;
-+}
-+
- static inline void obj_cgroup_put(struct obj_cgroup *objcg)
- {
- }
--- 
-2.39.0.246.g2a6d74b583-goog
+> Which results in, more or less, we have no way to do P2P DMA
+> operations without struct page - and from the RDMA side solving this
+> well at the DMA API means advancing at least some part of the physr
+> idea.
+> 
+> So - my objective is to enable to DMA API to "DMA map" something that
+> is not a scatterlist, may or may not contain struct pages, but can
+> still contain P2P DMA data. From there I would move RDMA MR's to use
+> this new API, modify DMABUF to export it, complete the above VFIO
+> series, and finally, use all of this to add back P2P support to VFIO
+> when working with IOMMUFD by allowing IOMMUFD to obtain a safe
+> reference to the VFIO memory using DMABUF. From there we'd want to see
+> pin_user_pages optimized, and that also will need some discussion how
+> best to structure it.
+> 
+> I also have several ideas on how something like physr can optimize the
+> iommu driver ops when working with dma-iommu.c and IOMMUFD.
+> 
+> I've been working on an implementation and hope to have something
+> draft to show on the lists in a few weeks. It is pretty clear there
+> are several interesting decisions to make that I think will benefit
+> from a live discussion.
+> 
+> Providing a kernel-wide alternative to scatterlist is something that
+> has general interest across all the driver subsystems. I've started to
+> view the general problem rather like xarray where the main focus is to
+> create the appropriate abstraction and then go about transforming
+> users to take advatange of the cleaner abstraction. scatterlist
+> suffers here because it has an incredibly leaky API, a huge number of
+> (often sketchy driver) users, and has historically been very difficult
+> to improve.
 
+When I read "general interest across all the driver subsystems" it is
+hard not to ask "have all possible avenues to enable 'struct page' been
+exhausted?"
+
+> The session would quickly go over the current state of whatever the
+> mailing list discussion evolves into and an open discussion around the
+> different ideas.
+
+Sounds good to me.
