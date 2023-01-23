@@ -2,39 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16556774B1
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 05:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D63C677519
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 07:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC37B10E305;
-	Mon, 23 Jan 2023 04:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75A2810E30B;
+	Mon, 23 Jan 2023 06:24:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C321F10E305
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 04:36:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=gn+EEhD9AwqmASOet+WmWkkx11j/sBtEj1r0Vez2fZ8=; b=cnSg/aTEkcd6NarLXKMWFH55Hj
- +tnCgTrOR1ZFnaARi0DacKX4/GvKX6g9aY7vLQiWcHE03/Q++qgFKL5/KLz6IvbiusZFSRqQjzodp
- hzGE5KGiQM4bkWS0tbn132VKC+JnGmdfLjVKLfVoEukfFHOTHxIuGxL0XsZKqJQ1w1131oDNRScq6
- IJHLfNnq1urBDj6F2ZAJeNs68ZIuPMrMyQ9s1xTAt83D5QmmygtC31t7L8Gz+QZmANxmvYOtIB+fs
- I0eKJDci8/bA4Wp1N3jeQ2dA4mixnjLp0Bb13foCgJQTnoy9ebMBWQ0/hSAkW4t6biPiQqK7Y2RAQ
- bHU9lDQQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1pJoZF-003yRD-Jz; Mon, 23 Jan 2023 04:36:25 +0000
-Date: Mon, 23 Jan 2023 04:36:25 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [LSF/MM/BPF proposal]: Physr discussion
-Message-ID: <Y84OyQSKHelPOkW3@casper.infradead.org>
-References: <Y8v+qVZ8OmodOCQ9@nvidia.com>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF25A10E30B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 06:24:18 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id j17so16694371lfr.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Jan 2023 22:24:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zmjULO6Lx2bWV6pkSSEDxjddNWaKTXCc+6Tq6pikP+U=;
+ b=YutDh5WeB6NfXcZ3hcWQgq2dByaVsZ7vVHG+GdUSj3u28nImaDR7qbiJyk5Uz9myWT
+ AIAAkzE3HWrAx3EgDduZmPtOQMJgRct5gkB/UX9zhCIuavgp3HidywhNEU9GLpWEl2Ea
+ FgdbO8mCFOkVx42WPWp3YREJrW8pyKtqITeTn6UdxK1mt0ZNxSDJTWUoykyY7UebDsSw
+ h2+CgCOfL5GRLoYzNl3MqeJTDfrqc8X8z5ne0a1/+9DKUoizMeggOZdmdMf2Q3AsyxQH
+ u4jzVWmdGlaq1BpbJs4WkAivQ+wOl0QCymxOEdN3dZ3CzheMHNYgOsUHLx0Wg9U+H4w3
+ ik6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zmjULO6Lx2bWV6pkSSEDxjddNWaKTXCc+6Tq6pikP+U=;
+ b=oyItKo6AKjL6PMeoqVy3YdmAJIwNBAa9HKYxM6uca+O3upt6pT88weDufZJuYFcmFy
+ uZyrssVM4cHhawc6G9xowPULX6uap+APj/si8ZIghsA4IJdjm2tgWwsrWlW8k8wz9d9n
+ KX2/kPM8Rt+plrNY7Fc16SJiwpBH35ptz5VE5H3MJiL4mXsFrqcxz6ggm4okaAoIn5rN
+ fupUckgAe/2e/vavLoMRGjPugDVCFXMdDa45y/e9DR3smtfhf7/xmIJbh3jiN+6mTslZ
+ 8lO7XoSyGuOWOJeNvC9uclNaxHm+EeWMUz0Ksjzr0+zy0iIA4wrfOyGnIWjQrB4bc8Zf
+ gMzA==
+X-Gm-Message-State: AFqh2kqkF3giYsG/csu+wZ3mNK5gqJX3z8hRQVw/5bDeB7Ccx6Lkb8Xf
+ bEkJqJuW7TwDtT3f+ZnwOs1k6w==
+X-Google-Smtp-Source: AMrXdXsuF1OLKO3i/Z0WsolPfPCIAUQJ/ZfsfaSUltkM+91LW8idP/MFE+s9DJZ6rvMmKcmp+StWHA==
+X-Received: by 2002:a05:6512:2305:b0:4b5:b87a:3264 with SMTP id
+ o5-20020a056512230500b004b5b87a3264mr7370328lfu.56.1674455057129; 
+ Sun, 22 Jan 2023 22:24:17 -0800 (PST)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ g7-20020a056512118700b004cc885ea933sm4807775lfr.192.2023.01.22.22.24.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 22 Jan 2023 22:24:16 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2] drm/msm/dpu: add missing ubwc_swizzle setting to catalog
+Date: Mon, 23 Jan 2023 08:24:15 +0200
+Message-Id: <20230123062415.3027743-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8v+qVZ8OmodOCQ9@nvidia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,33 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, lsf-pc@lists.linuxfoundation.org,
- linux-rdma@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
- dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux.dev,
- Shakeel Butt <shakeelb@google.com>, netdev@vger.kernel.org,
- Joao Martins <joao.m.martins@oracle.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 21, 2023 at 11:03:05AM -0400, Jason Gunthorpe wrote:
-> I would like to have a session at LSF to talk about Matthew's
-> physr discussion starter:
-> 
->  https://lore.kernel.org/linux-mm/YdyKWeU0HTv8m7wD@casper.infradead.org/
+Use the values from the vendor DTs to set ubwc_swizzle in the catalog.
 
-I'm definitely interested in discussing phyrs (even if you'd rather
-pronounce it "fizzers" than "fires" ;-)
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
 
-> I've been working on an implementation and hope to have something
-> draft to show on the lists in a few weeks. It is pretty clear there
-> are several interesting decisions to make that I think will benefit
-> from a live discussion.
+Changes since v1:
+- Added data for sc7280 and sm8550
 
-Cool!  Here's my latest noodlings:
-https://git.infradead.org/users/willy/pagecache.git/shortlog/refs/heads/phyr
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Just the top two commits; the other stuff is unrelated.  Shakeel has
-also been interested in this.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index e45799e9fe49..b16e550fc4b6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -580,6 +580,7 @@ static const struct dpu_mdp_cfg sm6115_mdp[] = {
+ 	.base = 0x0, .len = 0x494,
+ 	.features = 0,
+ 	.highest_bank_bit = 0x1,
++	.ubwc_swizzle = 0x7,
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+ 		.reg_off = 0x2ac, .bit_off = 0},
+ 	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
+@@ -593,6 +594,7 @@ static const struct dpu_mdp_cfg sm8250_mdp[] = {
+ 	.base = 0x0, .len = 0x494,
+ 	.features = 0,
+ 	.highest_bank_bit = 0x3, /* TODO: 2 for LP_DDR4 */
++	.ubwc_swizzle = 0x6,
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+ 			.reg_off = 0x2AC, .bit_off = 0},
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
+@@ -649,6 +651,7 @@ static const struct dpu_mdp_cfg sm8450_mdp[] = {
+ 	.base = 0x0, .len = 0x494,
+ 	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
+ 	.highest_bank_bit = 0x3, /* TODO: 2 for LP_DDR4 */
++	.ubwc_swizzle = 0x6,
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+ 			.reg_off = 0x2AC, .bit_off = 0},
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
+@@ -675,6 +678,7 @@ static const struct dpu_mdp_cfg sc7280_mdp[] = {
+ 	.name = "top_0", .id = MDP_TOP,
+ 	.base = 0x0, .len = 0x2014,
+ 	.highest_bank_bit = 0x1,
++	.ubwc_swizzle = 0x6,
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+ 		.reg_off = 0x2AC, .bit_off = 0},
+ 	.clk_ctrls[DPU_CLK_CTRL_DMA0] = {
+@@ -711,6 +715,7 @@ static const struct dpu_mdp_cfg sm8550_mdp[] = {
+ 	.base = 0, .len = 0x494,
+ 	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
+ 	.highest_bank_bit = 0x3, /* TODO: 2 for LP_DDR4 */
++	.ubwc_swizzle = 0x6,
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = {
+ 			.reg_off = 0x4330, .bit_off = 0},
+ 	.clk_ctrls[DPU_CLK_CTRL_VIG1] = {
+-- 
+2.39.0
 
