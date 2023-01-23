@@ -1,69 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3796780D7
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D89D96780D1
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2DC10E4F2;
-	Mon, 23 Jan 2023 16:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B84C110E4EA;
+	Mon, 23 Jan 2023 16:05:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2069.outbound.protection.outlook.com [40.107.244.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4251210E492
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:49:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CnKsF6LBUrKkn0Mnuw6SamF/N0HPeuCUsAjtBtdgyWcCg2l+d/qWWNwjGKPzdyVBQIjkZ8lzwVfQto+IXTkAymQ7jYXo3HZ8djUPYmBcFBErcYEuYsdTbiZJghUMS9EMKxXjYVY6gOhnjELx8UeyNeO3H9kcL+ArhM5aT+RCTLH+OUEJFJnFQp0eTwhB0Dvvr5R1tCtAktOhkl8Ur1JNjM9PKLE/WGwTxgV8zQzwtu9v14AqGmU7ILE3tgysrVOYf4o2jgSp7R5ejphqbSQDDbgzH4GmzMCbZd7ie/kXFHdqwpePtJNmCUZhEzFpohnqmXpYsZY/xJzMSOFnuE3pdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=51S5FiNiqQDRtVieBY7BSMUmTfNUOguheJy/bviC9FA=;
- b=XUWNyxdKbAi0wMGcOV0focalVujxXgf2gRsrHA3IAUnk+2reChTAClORVgJKQY6aQkdXGY0GZsvAKpXu0GE6PJcJT1kPnQN5pD/dFNs8J+JLsz7U4Iqdh53jMZprU7gQGJieZrl7jI/TEfKTNdQEwIcNcAZMmRmbDF2c3g+713VdWXudRnaBI17gwSy8vsF6f6FtLJ3gDZnbfm8II7RmTi5KVp/65OoLHI/ROtuaZa27/xhGq1VYxZpGCvTiOe2LWg3dBhm84bWrIaFvZIIAsqhR3AWAWg0Nnkn31JgHCs7brJKhYpKZn1QZ3F2qMFuYBghF1GsMtQ5XXdGQO+kJCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=51S5FiNiqQDRtVieBY7BSMUmTfNUOguheJy/bviC9FA=;
- b=bs54k86S0k8mdDIrQ7pdz3kdWXBEeCSCRpRlwmLR9Jr+F84fk2qlSq5eUkGfk1p/QUskLjPZZaro0Cl+ySmKd8XQOxqIG8vhaE7M8OcntB3zteITyZxy7Vez7LWXPZXqqIiMJ4smilCQxLF46JtxDEzfVDfYy8cD/nG3tNXiCNA=
-Received: from MW2PR16CA0037.namprd16.prod.outlook.com (2603:10b6:907:1::14)
- by PH7PR12MB7331.namprd12.prod.outlook.com (2603:10b6:510:20e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.28; Mon, 23 Jan
- 2023 12:49:29 +0000
-Received: from CO1NAM11FT094.eop-nam11.prod.protection.outlook.com
- (2603:10b6:907:1:cafe::5b) by MW2PR16CA0037.outlook.office365.com
- (2603:10b6:907:1::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33 via Frontend
- Transport; Mon, 23 Jan 2023 12:49:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT094.mail.protection.outlook.com (10.13.174.161) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6023.16 via Frontend Transport; Mon, 23 Jan 2023 12:49:28 +0000
-Received: from [10.254.241.50] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 23 Jan
- 2023 06:48:56 -0600
-Message-ID: <85dc2301-4d10-c909-cadf-6f117fe041b9@amd.com>
-Date: Mon, 23 Jan 2023 13:48:54 +0100
+X-Greylist: delayed 445 seconds by postgrey-1.36 at gabe;
+ Mon, 23 Jan 2023 13:17:55 UTC
+Received: from 7.mo552.mail-out.ovh.net (7.mo552.mail-out.ovh.net
+ [188.165.59.253])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A316010E493
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 13:17:55 +0000 (UTC)
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 731DB2B568;
+ Mon, 23 Jan 2023 13:10:17 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 23 Jan
+ 2023 14:10:10 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S0035e8cf7e5-490b-4306-97b9-26c7bcdb01f8,
+ A67B952EB2D8D9A0A9F9E7F867E869D975DF4B5D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d1743abc-3d9f-cdf4-dfbe-67aac4b1b8cd@kaod.org>
+Date: Mon, 23 Jan 2023 14:10:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 07/13] platform/x86: serial-multi-instantiate: Replace
- all spi->chip_select and spi->cs_gpiod references with function call
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
 Content-Language: en-US
 To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>, 
  <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
  <jic23@kernel.org>, <tudor.ambarus@microchip.com>, <pratyush@kernel.org>,
- <sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>,
+ <sanju.mehta@amd.com>, <chin-ting_kuo@aspeedtech.com>,
  <kdasu.kdev@gmail.com>, <f.fainelli@gmail.com>, <rjui@broadcom.com>,
  <sbranden@broadcom.com>, <eajames@linux.ibm.com>, <olteanv@gmail.com>,
  <han.xu@nxp.com>, <john.garry@huawei.com>, <shawnguo@kernel.org>,
@@ -84,36 +58,25 @@ To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>,
  <rmfrfs@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
  <gregkh@linuxfoundation.org>
 References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-8-amit.kumar-mahapatra@amd.com>
-From: Michal Simek <michal.simek@amd.com>
-In-Reply-To: <20230119185342.2093323-8-amit.kumar-mahapatra@amd.com>
+ <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT094:EE_|PH7PR12MB7331:EE_
-X-MS-Office365-Filtering-Correlation-Id: 74485f74-9001-4db8-2120-08dafd404418
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1/W95gBj9xn8fgltb4SgKpzc2RdFp85EuJy18MHhn4dtFg8RMQcxka4C7O+zOompfQdvYxP3rjMOPJU4FJ8sMn0DUXGuP1e0zy4fWPPuzxcLVk5ZaQ3pA7PycIjXFRxXAPM2sZ4SwHBqnHZ6V5ykFqB71n/yIrKxW8+lVW4OG4uVOFZJeX7zn745vWQl747jvNDzXhSDvyt7KTK/nMFarDSG+PH0RMH/UPRlJ1DudUIoj0uwpvbBmb8QjoSLIXRKgYkZjDHASEnNGY49JAwlyNtQ9/0KCUscrEPjid1O6U1g9PNGCK2kjREDOH4tHkThTgSq2iP9/GEVrLo/qjajhw4GTItZutFOU9Exqt2rrgMgeD1Uo4RR9BRce8Z3HazHiYg8In4L8vFTjXERQt/Mqm6eoaJabJVZL6X12bGPp1/6ps083Dmdd4Gah98IC4D1z731+5WqgMgJhD2YDuL8zqzUyiBr7KIpt5fWO/qyI+uENk6z+h4rU50bXE6PY0T+bDEZeSflwcky02l3qKh5V0P3VSkUKOEvEBkhZvg741jPT5vbUBIloRGi1kaCDQMWdik8yo/xjtdG5NDpHlksdxJ+cXJd/zFbEkU3CcTEB/GiyqKVojRwQ8b02bN+rgrDpoNAVNcTmwAbKPFgla/TBKRfwZPgKqH8BlcLMCMHfAvmVGaRKEcKUUz//eO6SIgXHSqo1xKUCTMJsqZ8w6mbenwbMhreMJH5HeKMdO+XQmzwDBLLL6fGDkh4u8FUNdcVt0xTqnRIKMN4sJDqhmd+bhofeNBuHk5fAY2IjOT5Jo63dCkZlN3IeyUbMR1u7nQeWuDOF4pWz/LEUba8i/aFEkyD+wp03W+d7LOb8f3xbILp96k1m2rmMsqdWtnTeba15X3522VYCbzRYdvdi0DQ/g==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(396003)(346002)(136003)(376002)(451199015)(46966006)(40470700004)(36840700001)(1191002)(82310400005)(478600001)(426003)(81166007)(54906003)(83380400001)(2616005)(82740400003)(41300700001)(921005)(356005)(316002)(16576012)(110136005)(36756003)(36860700001)(7336002)(40460700003)(7276002)(8676002)(86362001)(44832011)(7416002)(7366002)(7406005)(31686004)(5660300002)(4326008)(2906002)(16526019)(40480700001)(26005)(47076005)(186003)(336012)(31696002)(8936002)(70586007)(70206006)(53546011)(36900700001)(43740500002)(2101003)(83996005)(41080700001)(84006005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 12:49:28.6481 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 74485f74-9001-4db8-2120-08dafd404418
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT094.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7331
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: d8c081e3-7749-496f-b92b-664d73f13c17
+X-Ovh-Tracer-Id: 9743537793859029808
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddukedgfeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghmihhtrdhkuhhmrghrqdhmrghhrghprghtrhgrsegrmhgurdgtohhmpdhkohhnrhgrugdrugihsggtihhosehsohhmrghinhhlihhnvgdrohhrghdphihoghgvshhhghgruhhrrdekfeesghhmrghilhdrtghomhdpsggvnhhjrghmihhnfhgrihhrsehgohhoghhlvgdrtghomhdphihuvghnnhesghhoohhglhgvrdgtohhmpdhvvghnthhurhgvsehgohhoghhlvgdrtghomhdpthgrlhhirdhpvghrrhihudesghhmrghilhdrtghomhdpthhmrghimhhonhejjeesghhmrghilhdrtg
+ homhdprghvihhfihhshhhmrghnjedtsehgmhgrihhlrdgtohhmpdhmrghrthhinhdrsghluhhmvghnshhtihhnghhlsehgohhoghhlvghmrghilhdrtghomhdplhhinhhugidqihhmgiesnhigphdrtghomhdpfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdgrlhhimhdrrghkhhhtrghrsehsrghmshhunhhgrdgtohhmpdhkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggvpdgstghmqdhkvghrnhgvlhdqfhgvvggusggrtghkqdhlihhsthessghrohgruggtohhmrdgtohhmpdgtlhgruhguihhurdgsvgiinhgvrgesmhhitghrohgthhhiphdrtghomhdprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhhitgholhgrshdrfhgvrhhrvgesmhhitghrohgthhhiphdrtghomhdprhgrughupghnihgtohhlrggvrdhpihhrvggrsehuphgsrdhrohdprghnughrvgifsegrjhdrihgurdgruhdpjhhovghlsehjmhhsrdhiugdrrghupdhlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqshhpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdpghhithesrghmugdrtghomhdpghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhfrghntggvrhdrlhgrnhgtvghrsehgmhgrihhlrdgtohhmpdhluggvfigrnhhgrghnsehnvhhiughirgdrtghomhdpmhhitghhrghlrdhsihhmvghksegrmhgurdgtohhmpdhlihhnuhigqdgrshhpvggvuge
+ slhhishhtshdrohiilhgrsghsrdhorhhgpdhgrhgvhigsuhhsqdguvghvsehlihhsthhsrdhlihhnrghrohdrohhrghdpughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhmihgthhgrvghlseifrghllhgvrdgttgdplhhinhhugidqihhiohesvhhgvghrrdhkvghrnhgvlhdrohhrghdpofhitghhrggvlhdrjfgvnhhnvghrihgthhesrghnrghlohhgrdgtohhmpdhlrghrshesmhgvthgrfhhoohdruggvpdhlihhnuhigqdhmthgusehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdifihhrvghlvghsshesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhisggvrhhtrghsqdguvghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdifphgrnhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhtvghgrhgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghvpdhlihhnuhigqdhsthhmfedvsehsthdqmhguqdhmrghilhhmrghnrdhsthhorhhmrhgvphhlhidrtghomhdplhhinhhugidqshgrmhhsuhhn
+ ghdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdplhhinhhugidqrhhotghktghhihhpsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhlihhnuhigqdhmvgguihgrthgvkheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdplhhinhhugidqrghmlhhoghhitgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdplhhinhhugidqrhhpihdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdpohhpvghnsghmtgeslhhishhtshdrohiilhgrsghsrdhorhhgpdgvlhguvghrsehkvghrnhgvlhdrohhrghdplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidruggvvhdpjhhohhgrnheskhgvrhhnvghlrdhorhhgpdhvihhrvghshhhksehkvghrnhgvlhdrohhrghdphhgrohhjihgrnhdriihhuhgrnhhgsehgmhgrihhlrdgtohhmpdgurghnihgvlhesiihonhhquhgvrdhorhhgpdhlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdphhgrihgsohdrtghhvghnsehngihprdgtohhmpdhmrghtthhhihgrshdrsghgghesghhmrghilhdrtghomhdpshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhshhgrfihnghhuoheskhgvrhhnvghlrdhorhhgpdhjohhhnhdrghgrr
+ hhrhieshhhurgifvghirdgtohhmpdhhrghnrdiguhesnhigphdrtghomhdpohhlthgvrghnvhesghhmrghilhdrtghomhdpvggrjhgrmhgvsheslhhinhhugidrihgsmhdrtghomhdprhhosggvrhhtrdhjrghriihmihhksehfrhgvvgdrfhhrpdhssghrrghnuggvnhessghrohgruggtohhmrdgtohhmpdhfrdhfrghinhgvlhhlihesghhmrghilhdrtghomhdpkhgurghsuhdrkhguvghvsehgmhgrihhlrdgtohhmpdgthhhinhdqthhinhhgpghkuhhosegrshhpvggvughtvggthhdrtghomhdpshgrnhhjuhdrmhgvhhhtrgesrghmugdrtghomhdpphhrrghthihushhhsehkvghrnhgvlhdrohhrghdpthhuughorhdrrghmsggrrhhushesmhhitghrohgthhhiphdrtghomhdpjhhitgdvfeeskhgvrhhnvghlrdhorhhgpdhvihhgnhgvshhhrhesthhirdgtohhmpdhrihgthhgrrhgusehnohgurdgrthdpmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpdhrjhhuihessghrohgruggtohhmrdgtohhmpdgrghhrohhssheskhgvrhhnvghlrdhorhhgpdgsjhhorhhnrdgrnhguvghrshhsohhnsehlihhnrghrohdrohhrghdphhgvihhkohesshhnthgvtghhrdguvgdpjhdrnhgvuhhstghhrggvfhgvrhesghhmgidrnhgvthdptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtohhmpdhsuhhmihhtrdhsvghmfigrlheslhhinhgrrhhordhorhhgpdhskh
+ homhgrthhinhgvnhhisehnvhhiughirgdrtghomhdpjhhonhgrthhhrghnhhesnhhvihguihgrrdgtohhmpdhthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomhdpkhhvrghloheskhgvrhhnvghlrdhorhhgpdhsthgvfhgrnhesuggrthgvnhhfrhgvihhhrghfvghnrdhorhhgpdgrlhgvgidrrghrihhnghesghhmrghilhdrtghomhdpphgrsggvnhhisehrvgguhhgrthdrtghomhdpkhhusggrsehkvghrnhgvlhdrohhrghdpvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdpuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdplhdrshhtvghlmhgrtghhsehsrghmshhunhhgrdgtohhmpdhmihhnghhosehrvgguhhgrthdrtghomhdprhhoshhtvgguthesghhoohgumhhishdrohhrghdpjhgrshifihhnuggvrhdrshhinhhghheslhhinhgrrhhordhorhhgpdhmrghsrghhihhsrgdrkhhojhhimhgrsehlihhnrghrohdrohhrghdpshgrmhhuvghlsehshhholhhlrghnugdrohhrghdpjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdifvghnshestghsihgvrdhorhhgpdgrlhgvgigrnhgurhgvrdhtohhrghhuvgesfhhoshhsrdhsthdrtghomhdpmhgtohhquhgvlhhinhdrshhtmhefvdesghhmrghilhdrtghomhdprghnughisegvthgviihirghnrdhorhhgpdhkrhiihihsiihtohhfrdhkohiilhhofihskhhisehlihhnrghrohdrohhrghdprhhmfhhrfhhssehgmhgrihhlrdgtohhmpdg
+ rmhhithhrkhgtihgrnhdvtddtvdesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
 X-Mailman-Approved-At: Mon, 23 Jan 2023 16:04:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -143,8 +106,8 @@ Cc: alexandre.belloni@bootlin.com, tmaimon77@gmail.com,
  radu_nicolae.pirea@upb.ro, greybus-dev@lists.linaro.org,
  linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
  linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, avifishman70@gmail.com,
- venture@google.com, libertas-dev@lists.infradead.org,
+ michal.simek@amd.com, linux-arm-kernel@lists.infradead.org,
+ avifishman70@gmail.com, venture@google.com, libertas-dev@lists.infradead.org,
  linux-wireless@vger.kernel.org, nicolas.ferre@microchip.com,
  fancer.lancer@gmail.com, linux-kernel@vger.kernel.org, andrew@aj.id.au,
  michael@walle.cc, palmer@dabbelt.com, kernel@pengutronix.de,
@@ -153,41 +116,71 @@ Cc: alexandre.belloni@bootlin.com, tmaimon77@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
 On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
-> 
-> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-> ---
->   drivers/platform/x86/serial-multi-instantiate.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/serial-multi-instantiate.c b/drivers/platform/x86/serial-multi-instantiate.c
-> index 5362f1a7b77c..270a4700d25d 100644
-> --- a/drivers/platform/x86/serial-multi-instantiate.c
-> +++ b/drivers/platform/x86/serial-multi-instantiate.c
-> @@ -139,7 +139,8 @@ static int smi_spi_probe(struct platform_device *pdev, struct smi *smi,
->   			goto error;
->   		}
+> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+> index 873ff2cf72c9..b7a9ec550ba1 100644
+> --- a/drivers/spi/spi-aspeed-smc.c
+> +++ b/drivers/spi/spi-aspeed-smc.c
+> @@ -296,7 +296,7 @@ static const struct aspeed_spi_data ast2400_spi_data;
+>   static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
+> -	struct aspeed_spi_chip *chip = &aspi->chips[mem->spi->chip_select];
+> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(mem->spi, 0)];
+>   	u32 addr_mode, addr_mode_backup;
+>   	u32 ctl_val;
+>   	int ret = 0;
+> @@ -377,7 +377,8 @@ static const char *aspeed_spi_get_name(struct spi_mem *mem)
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->master);
+>   	struct device *dev = aspi->dev;
 >   
-> -		dev_dbg(dev, "SPI device %s using chip select %u", name, spi_dev->chip_select);
-> +		dev_dbg(dev, "SPI device %s using chip select %u", name,
-> +			spi_get_chipselect(spi_dev, 0));
+> -	return devm_kasprintf(dev, GFP_KERNEL, "%s.%d", dev_name(dev), mem->spi->chip_select);
+> +	return devm_kasprintf(dev, GFP_KERNEL, "%s.%d", dev_name(dev),
+> +			      spi_get_chipselect(mem->spi, 0));
+>   }
 >   
->   		smi->spi_devs[i] = spi_dev;
->   		smi->spi_num++;
+>   struct aspeed_spi_window {
+> @@ -553,7 +554,7 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip);
+>   static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
+> -	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
+> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(desc->mem->spi, 0)];
+>   	struct spi_mem_op *op = &desc->info.op_tmpl;
+>   	u32 ctl_val;
+>   	int ret = 0;
+> @@ -620,7 +621,7 @@ static ssize_t aspeed_spi_dirmap_read(struct spi_mem_dirmap_desc *desc,
+>   				      u64 offset, size_t len, void *buf)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
+> -	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
+> +	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(desc->mem->spi, 0)];
+>   
+>   	/* Switch to USER command mode if mapping window is too small */
+>   	if (chip->ahb_window_size < offset + len) {
+> @@ -670,7 +671,7 @@ static int aspeed_spi_setup(struct spi_device *spi)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(spi->master);
+>   	const struct aspeed_spi_data *data = aspi->data;
+> -	unsigned int cs = spi->chip_select;
+> +	unsigned int cs = spi_get_chipselect(spi, 0);
+>   	struct aspeed_spi_chip *chip = &aspi->chips[cs];
+>   
+>   	chip->aspi = aspi;
+> @@ -697,7 +698,7 @@ static int aspeed_spi_setup(struct spi_device *spi)
+>   static void aspeed_spi_cleanup(struct spi_device *spi)
+>   {
+>   	struct aspeed_spi *aspi = spi_controller_get_devdata(spi->master);
+> -	unsigned int cs = spi->chip_select;
+> +	unsigned int cs = spi_get_chipselect(spi, 0);
+>   
+>   	aspeed_spi_chip_enable(aspi, cs, false);
+>   
 
-Reviewed-by: Michal Simek <michal.simek@amd.com>
+For the Aspeed driver,
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
-Michal
+
+C.
