@@ -2,148 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AE63678BDF
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 00:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3AF678BED
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 00:19:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27C7410E203;
-	Mon, 23 Jan 2023 23:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A4210E206;
+	Mon, 23 Jan 2023 23:19:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3695810E062;
- Mon, 23 Jan 2023 23:11:53 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B5CF10E062;
+ Mon, 23 Jan 2023 23:19:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674515513; x=1706051513;
+ t=1674515962; x=1706051962;
  h=message-id:date:subject:to:references:from:in-reply-to:
  content-transfer-encoding:mime-version;
- bh=wxFPgtxGpe53GL6/Jq+Ife9fIpNpKMepNwmnDxZJJLs=;
- b=Qg1Q9s62BycOQqk2IU4Uh246d2Iqy+IssxDg79LUXH6Xm+h6DYhqKbbK
- ckRUf5LiZywPWBJsBNeNrX2CVkuf96wfKTXiSLSgadewMxNJHDcShVXq/
- gOJnoBoyCeH61HfjAJdq2uV9WaOGCsXUzS/+Q8BmeGm4YrXWPrFAgd9e/
- Gu+ZbA1q2MGgkz7afpEtiK940C3VHTIGhI/ZoPvhSZ69EOCtjHaBdVDRm
- w0YNvDeSNGVcMh/iPBb0QHglIbl0ew2M7gP7D2bMqxvcPoeQ5k3+F1AVD
- kFQlWNsZzy68x5k+FuB6sa0UXnkKsm7nBBUpUqp/I6LwNytbir7WUo2QR A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="309759131"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="309759131"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 15:11:51 -0800
+ bh=XDqFDfwZPfRl0acsFR8Z/N4hXvtuP7ErQ93c4APf/3s=;
+ b=L8HMJbVUtwBBvWnWIoATUUj30SSRtSRElHrmjaC470VwTES0cJc6WAmD
+ reI8HDqZphdfECYWNEOTngdY02R/3Y+AVw6/Sw+DdvChrYXcKa3Kq9ubc
+ I0BA+Nl8ugMljAtKuvMghzZcLJTzr5dbX+PUS2J3fp30Iep9QdrVnzfT7
+ tUGVhBP8SAbCzntQn6YkV9qVjgslUv0n7K3sE76AHC5YYHYR78RFH6nxz
+ QSat/yKfULIiRYuGhN4sMiSUtdoTLMWRHIJT50S+UM0o/aya5gW0t/DbZ
+ NW4Qspvc3AiL7/KsyeOEjf0lAliHZhy3jV/dnc3JM3CMccqWezzwnjgHN w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="305847186"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="305847186"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 15:19:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="750619074"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="750619074"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by FMSMGA003.fm.intel.com with ESMTP; 23 Jan 2023 15:11:49 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="804371011"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="804371011"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga001.fm.intel.com with ESMTP; 23 Jan 2023 15:19:21 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 23 Jan 2023 15:11:49 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.16; Mon, 23 Jan 2023 15:19:20 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 23 Jan 2023 15:11:49 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ 15.1.2507.16 via Frontend Transport; Mon, 23 Jan 2023 15:19:20 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.107)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 23 Jan 2023 15:11:48 -0800
+ 15.1.2507.16; Mon, 23 Jan 2023 15:19:20 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GWuNY7uPx+oitYUeO6r6ejYR2hIOuW97vueMPEOJ9z1IFhnHMeupIoraeirUtaP3O7RbrnR8HCkcEI0HaOUbSwa6VFO2rUurdSNr1G13vokaJMAockt1597t2mBr/YkNkAkw7e3471dvKbb6ykNP3U/invMhjfADhrSqcweQkMsKQm1QGF5VITctudhAuklzDzWBVseJeqt8QICkCwuheioiOnHg1jq6pPVvs1JKTFGR0rh0vaEfGl0fzcosFkJKPc42hZ9pNuXH1AD9Xw+f7OTpcfR0SwJv9Uc8zeJVX1FOIEQG6q/KndPgkjkLhl2AvXJOqx3JEW61eSiAZ4/Fyw==
+ b=hre0SuIsLg2W0J6aKxSR8Pj/wgbBfdYj4y/qXrtF6dJoXAev0MZnXAHTdMlQKJrngIPlFZXQ39LRvTslPf3KFrolnYP9OiE3SeAz0yicfzu4MOgQW2WYwsD0flIpWEXpytOspYeF11e7gDQ+T7eZAxvzu1JZks6A8i0XoI2PNUbvx/HVksPRLnnHRbuVUthiGCIyQEZ8+NpfanMAtf8/xb8hpmysHZ/2m5rWPFiKQYqMz4sEBko8e/TUeMhQfQxr5U/nn4w92lYEq+7BJKA0tI0Xq9BKPgEyrrmNB+YRJDFJlgJvzCa06+lOTpLr2jSb7MIbEGUyR02HrOd0ejSovw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2WWpoqG85xcIhy5EBvU47NS+SfRfSPm9uDTTr2zXjLM=;
- b=n9Lor8iv9Y+ys7KlChy/SgPWhb+Q9Vm9un5jxyN5bgRTnGZRgqvcdgBHBMJi1BTlEve9jqHBhL0A6VvqOOQXDfts6l918Sjgx1y3tUbMyPtv8cL98ufIzJU1kQYijM0FqueLeBeUcJKVUucGTNoOEjxei/MTW+l3BJLfczuJyw4rB+05FPh9h3ABp3hAqeAOWyd+GCU73ROaQeBoKsON9Jr9SJD1SZodx3kgUzh4twnfwNSYBXc3h5mT4FIKolGVSaOj1UVBItwSnxrfd1SDWaJP7RXSknaFmWr+XXhIC+yH9yN4DjDikQgIQf0dPA67eyEFqdjMu5pLB0ALhsYFyg==
+ bh=YHzIMk+fPjlCUj2CqgK3dfa0EhkZrQ/bOacerWT6M3o=;
+ b=B4qVCEdsKwWUnqqDquaqrFeMPB5JnSpmXA2imZ5tk5Ur7gc1las38c9e6HP6P9mtir4Np0MYjjhP1gLV/WW3UjJt4/7ohB1Fak21hZ6w8mAdqA/5Bms1/kP6xKEk08bd0kupmBDL4y8Je/VL9uaz0pSwn6oLTCjkzwCROgaVaNxZuShxSmam1g598Q6jMcZKWJrJi4a2KWypuZZG+ifOlooGmy5vYTwf01NLf9ttJGPk+yJe7buGUEHvovRPPiUrBp1ROhHCH9UXdv8Vvm0mFLN6RCVpEF1bRFm5j5THiCrvSdlw4tqAdZHur9Bdi+dFChv6s7GVtxXBI+Y7iaAQYw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by PH0PR11MB7471.namprd11.prod.outlook.com (2603:10b6:510:28a::13)
+ by BN9PR11MB5260.namprd11.prod.outlook.com (2603:10b6:408:135::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
- 2023 23:11:41 +0000
+ 2023 23:19:13 +0000
 Received: from BY5PR11MB3911.namprd11.prod.outlook.com
  ([fe80::81f2:9a76:638:28eb]) by BY5PR11MB3911.namprd11.prod.outlook.com
  ([fe80::81f2:9a76:638:28eb%2]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 23:11:41 +0000
-Message-ID: <198a4041-5a0d-b18b-4a6d-a5feea612861@intel.com>
-Date: Mon, 23 Jan 2023 15:11:39 -0800
+ 23:19:13 +0000
+Message-ID: <d23dea31-3a67-882a-96fb-6b48605038f3@intel.com>
+Date: Mon, 23 Jan 2023 15:19:10 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH 7/8] drm/i915/guc: Update GuC messages in
- intel_guc_submission.c
+Subject: Re: [PATCH 8/8] drm/i915/guc: Update GT/GuC messages in intel_uc.c
 Content-Language: en-GB
 To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
  <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 References: <20230120164050.1765-1-michal.wajdeczko@intel.com>
- <20230120164050.1765-8-michal.wajdeczko@intel.com>
+ <20230120164050.1765-9-michal.wajdeczko@intel.com>
 From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <20230120164050.1765-8-michal.wajdeczko@intel.com>
+In-Reply-To: <20230120164050.1765-9-michal.wajdeczko@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0362.namprd03.prod.outlook.com
- (2603:10b6:a03:3a1::7) To BY5PR11MB3911.namprd11.prod.outlook.com
+X-ClientProxiedBy: BYAPR06CA0040.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::17) To BY5PR11MB3911.namprd11.prod.outlook.com
  (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|PH0PR11MB7471:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8634c79f-342e-411e-b55f-08dafd973014
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|BN9PR11MB5260:EE_
+X-MS-Office365-Filtering-Correlation-Id: a82b67a5-7a25-4707-6353-08dafd983d41
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XIN7zUo/33voJXVbH0QQSnygfU+CRgGPtB87e/YCZkzOpHCAYjRt29xZvonG/Xe7Nh0MlELhA6MyAteLX7iTYNPPh9QiKAWqCNU19BVD0sE8n2EOKa9c5YmRlyiYXciAWdFOZkMqxFPgxegmkc3e1I7OMSyEUD3ATo5U2kfJV6fwWFxPxi30cfVTVY/XMuWIZzWAkJpC/kbSapVVc6j9KBWRQJUX1lpoojKEFQJlASkEyvr+yl7iFzmqNJDbEHFWHaB8RupX0rQUR3y8V2qkK6kfpiDPR3adiemc5dVttLIPgAr52iYhs64tN54WZaRLawSmlGVGCyLDbJMPWTdLwjNlGsY8pBf5wF6huxphq34k+YDYYOglQ+QFOT8l0tsvsqpr5k63v41KKFRgPd/Cwoni1Ky3HnugLj3Xi5+6Ou3YcSrmj1l983DIehRnnuPMb4o0CUdLOceDN/xYZVT6ktahClDp58/CQSQ8Dm3CqkmPBRJBR7FxZmVAtgqgu0D8mzhLvF+4+/CoUpsgrB/Tjkg6KXgR4qeXoaSEysZwzBVpzwqDC9ah0c5fXV93iJ8K/I2Ii5bBPSAtb31cMCc5KEphZFLOXnfe5iBmfU8QABTTH5Qf0Blz8/TdAIIUJbZjVtIcUd1MpFhBBrRKnDYN5ovKVgwnpmKEka02aSvSW2g820iHo9DM9T1Yad8N8khh+BHkdlbsUiL/4C2nH33G4T0QeY1FSZCen/c4yBLCeiw=
+X-Microsoft-Antispam-Message-Info: viFTPxaZNosgCJ4dXQluyl4Y2v+FBoYKeZrJg9ts+53tWotYUuayF4xE+DewANCBHWLgAPmmvnw65K5ZH2HZd3LybnsPOVFvstHDnuk2nIpvEoCe9i3vzKv3BsuMLNmp/lC3uQjVR+GtDGugU8xZmeoNkAbdUEnirXd3l9imd78NXxMDFr4OmaNqGM7wpitnzmhrQdNy6dAxB7jEoHu/Sbuz2IwOF8o8/8BMnpn/EGn0BoyF+/PitbIhyQYQZ0s/B4ephJ3QHq1ZlA2oM2QvAvS1Hp8jSNtjEL8bLk8+j/LjXe4E1XrI1TKahwT16vmKog6ULedluLTauDS4eXxtx0404OUYr0WQ70Z5hFFsjv80JT4zl3aIrmSfFheAwPspXPplZdWn+vwown0YFhiN+lQcyj63EZNylEOk0tGvJHihwFjxAaBzedBeaBEXymMuciX5Wj0SLSDhfZyJ0jEPUznDREcJERPdGNktAr0fliVWbs7QAs1yOW82tmM61HP5ckbTZiYBg5VAi1pClQNhF31VTFWcmpwYUR/YbQMgYiqldQj+4DXrq6pyNZw83oBQCZO7C6qkLGcUja6q9AA1IZ2vZEuX/aockEQntzW9+uoHwjfDm2UkRNMYboWtYeC/9bXa0n7tOGAkTjOHvFRi+qoXsL1hNjh7rnNmfBapSNFFbgN0LzHvLQWGDJFGkTo4x1OVaX1wgl3jLAy/IRMHBThd7ARxxINhgEaOk1EvQ7U=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(136003)(346002)(376002)(366004)(39860400002)(451199015)(83380400001)(41300700001)(31696002)(38100700002)(82960400001)(2906002)(86362001)(5660300002)(15650500001)(8936002)(186003)(53546011)(8676002)(6512007)(6506007)(26005)(66946007)(316002)(2616005)(66556008)(6486002)(450100002)(478600001)(66476007)(31686004)(36756003)(45980500001)(43740500002);
+ SFS:(13230022)(366004)(376002)(346002)(39860400002)(136003)(396003)(451199015)(36756003)(86362001)(2906002)(5660300002)(38100700002)(82960400001)(83380400001)(8936002)(41300700001)(31696002)(66476007)(15650500001)(6486002)(450100002)(478600001)(31686004)(6506007)(53546011)(6512007)(8676002)(186003)(26005)(2616005)(316002)(66946007)(66556008)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1U5eWFIS1hFeFR6MDdMQVNMbkhqSStpejg2TWFSMFcvaWhnQ0dSS0hBb2Z5?=
- =?utf-8?B?azgrYmF5NHVNa3V5aUlWWURPZGZMMTUzVEFocVFDR0lvN2xNODdvbnppKzF6?=
- =?utf-8?B?dUU0R1Ura0tKL21sUzZBNU1RczRJOHBGTGpsN0U0WkdtcFd1ZXlEN2hwdkV6?=
- =?utf-8?B?Z3BXTjcxT1p2WTNNVlJyZVFlT0ZBRkNhTHZVQmM1VGtmZi9EZS9yNGdQaDla?=
- =?utf-8?B?MGVYZTNUYTd6V1RUWTVJc2FuT1lKUmVPUFJlK1FCMktCb1FHc05IL2FTYnM1?=
- =?utf-8?B?NU5jU1pRQ2ZSTGplMjcreGJVTGQyTHdFRG9pbFFpRkllWndMREE4TUdVVEJJ?=
- =?utf-8?B?MXVDYWhkRG9KSS9lY0hBRkVFb0ZhbTNZOWZEdUVub05ISzZubEZKdFBvYXB1?=
- =?utf-8?B?WHlGa1psSTFaTmtPU1NQUDVCTTBkOXo4WWNtTzBhZVV3UXJkc0k5WGRqNTBh?=
- =?utf-8?B?eFEwc2tURUQrOHFGcUoxaEdrQUVxWGVQVlRvMUt5Mm1jRklQWW9WZTZ4dDdZ?=
- =?utf-8?B?cnZOcVlCeXB3VmNMeGpydGRPNGpCVnpJQW9FalFMUnArN3NRZWw5bkppSkNi?=
- =?utf-8?B?SDhjTEhxaEwyeHhDeHJWZ1R2eU5JMEVSak10NlRrdDNqV3BSRlFIMTNQY012?=
- =?utf-8?B?OGNEL284Y09aZ3Vkbk12MXhWb3d2MUM4YkFUSlVlbXA4R256Q3BRZ3JMRU5L?=
- =?utf-8?B?dW5PN2Fwb2tHbm54ZHgzYVRBZVNxd1BzRE83d3kwY0RWenlYZWIrUmRHVDBn?=
- =?utf-8?B?Mk5xVzN5ZytpcFFxdldieTkweHJ1K0lLaER6cGtGNXlzRjN3bE0ySGhXbU5E?=
- =?utf-8?B?TG9TNTl5dVpFMCtyRFBVQzVrUWxUWHgyaFRGdTNWNzJMa1hSUXA1U3czd1JG?=
- =?utf-8?B?VGdYeHVYNDNFc2xzWVlyYm9RalExT1ZXZnJjMVZuM1ZGaUxxQ1ZndHNPUDNm?=
- =?utf-8?B?REg4R1Nxd3V2ZlNUSVVmL2ZrbzlaM0Y0R3RPdkZvY0IzKzdyanVuak9vMGlL?=
- =?utf-8?B?a2REZWE4d2VDemVTUTcrT21GNE9YY3Z3R25ZZUZmUE4rcGJDYmFkeFBrbDZm?=
- =?utf-8?B?WjNkQU03TUNkRWFCL3EwMTN4SksrVlI1SW9UT1FQeUxFc2c4SGY2YXdEbWFZ?=
- =?utf-8?B?NkFiNjA4Nm8xaEZncy81Y2VHMmk2ZWFoTGxGZHZ2a000RXY4bElSVmU3OWlV?=
- =?utf-8?B?aytpUUpOSzBGKzVIcGlidTJxdVl5QzZRb3YxKzBHVHpCOHlodW5KaXkrRkdU?=
- =?utf-8?B?M3Vkb1NUZVlXeU5wUHRreFJqMGY1ME5xQ2pIMTNkR1dobUZ4dTBSd1djZzVs?=
- =?utf-8?B?QlJnNGk1UzNWazQ5RHJ0YlRpYUpxbFJNV2VCNnlIUlZjWmNSK0thMkZZSDFi?=
- =?utf-8?B?V2EzcEY5TGlrc0ZrSDFOZnAvcForRTBOZnRBbGN3QnRoczdsWGRDSnVsbWIy?=
- =?utf-8?B?NWNFY2NvblgxWTNuTW51T0JNS0xkdU9UdXB0M1NPZVJOcGUvbXZOdC96YkRB?=
- =?utf-8?B?M3kyUGJ0VmE3WUtMMzVmTmtqbTJ3UjRNS3ZPNGRiU0kyWjFrVzRGZTVycXFJ?=
- =?utf-8?B?Smk1N01vaTRKTWVUeUlZQjdsNzBjRmhKazFvNElvTVZRRTY4TVZnRmlxbnNK?=
- =?utf-8?B?VVdLeFJ0UHN3aGZOYmJwaHRDVGVQMm1DeUNpK0dPWDNYWW5oMWtkbzNUa29I?=
- =?utf-8?B?b3NISzVhcEdKR3pTeGdwM1ZYaVRtbENpaDd1Z0ZpNC94V2I3ejhHWDVPOHhy?=
- =?utf-8?B?MlBvSHdsUlNaZG9ZNDMyMnFadHVaUjhMK296MFJ3eEVacmtOZElicFFPa25D?=
- =?utf-8?B?N1FhZGRXQlZEQ2NLMDNoTXV1NHRjV1hXbUwzNEJDZWpnRHZ0NEZ5UXR6blZB?=
- =?utf-8?B?L2FQWmtXenhoeU5JalVzQzB4Q09QYUFjZDlQUFZiZmJMNThjUXZuOHVYMjVR?=
- =?utf-8?B?UUtqYmZ2TzdMWFFMWlJDM0wwNTlhUUNYQmUvNkdWUlBOOVFiYmRvOWc4Zm90?=
- =?utf-8?B?VkQvSGZGZUlUZkJnQ1dnTGNFWCtvYWtvSGh2b0w2dHFOSm9NVUhYRU1INDdy?=
- =?utf-8?B?VEp0a3NzeEd4ZjA3c1JUOWpPanRTbnZPcnNrQU5Bamd3ZHV3VUxMdEV0VTRa?=
- =?utf-8?B?MUtNZEs2M3VqQWFOaUhreUR4THdmdE9HUFdWRStUeTVFaStvWGN6L09pbGJ5?=
- =?utf-8?B?OVE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8634c79f-342e-411e-b55f-08dafd973014
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmF6OWtCWXpPRGxENGtUcTNZYTVocFNFSk5HeXRCdHdwdGZmVE95d2JzVUQ1?=
+ =?utf-8?B?Smp4b21HWndFZStoUzgrMDhPRldoYWIwWlpXVGhjeFVxZFMybGRRclZ5YnBi?=
+ =?utf-8?B?RVN0RVZ2OXN4RU50ZEw0Z0xzbU5XOFgwS2hTcWNhUE5qUDFZNlE1ZkZpRzdX?=
+ =?utf-8?B?YkRpcGpUdEhVK2lzclNyTEs2NTZIV0ltWUFMYXBnSWtjUmU1QmNNeTBpajZO?=
+ =?utf-8?B?dkpydmovTmQ0NW0wb1V3TGNtaDNRTU0zcHhIS0pIemxrdFIyOGJubE9aWTRu?=
+ =?utf-8?B?b1RMSVMyUEdxY1BOL0kxK0krd3dFczFDa0s4QVRXN2UyNW1jckdxNVFNcWVR?=
+ =?utf-8?B?cldWdkFDaTZPc2dWdkxWTjFsUXNGYjVNWFdnR2hZZFBkUU5MOE1LcktwY3c3?=
+ =?utf-8?B?MmdNM1cyeDhmYzkzNXo3a1Z2YXZ4TEl2eGJLVGNHRjhWczZ0NHdiTjNocUhk?=
+ =?utf-8?B?QkZueW42QStYYVBjQWNZeXZpMnoxa0w2bDhaVEJYaDFJYk1pZy9PdkE1cUg3?=
+ =?utf-8?B?WmRrdHoreWoxWEZuZytoZWQwVFdqSGRheXhVTmNsVjE2OGF1K2xHRUV5bzh0?=
+ =?utf-8?B?YjhtTE1kOHV5V2F0cDdUbEJRcWxGbUxtUHZpalhqcFdGL3AzeGVkbDQycTU4?=
+ =?utf-8?B?ZjlBSm1CbnN6ZENrZFhmUTl4cFlZN21qSktCU296RFdRYnB3TkJGQ05PcG1p?=
+ =?utf-8?B?cUFHVEdPQkl6ODZYczR5YkZER0FqOFZjcmN0cFFLcTl4MXZ2R0oyQndQcEdp?=
+ =?utf-8?B?WS9QVDdIMjNoL2FJdzBVSG50Y0RBYVNlOEQxeHkyTmpxZ3A2cmZhUklRd2Vh?=
+ =?utf-8?B?RjlJaG9vQmhSZ0JSVi92QmRRVDN5cXhHS1Y5ZXgxYXB3bG1nN2VzVUhqcHlH?=
+ =?utf-8?B?REFQbTUvSCt2OG5xTWswZ3A4RitucWwrRmowNllpeTNUdmVueHBzK0RGTW1N?=
+ =?utf-8?B?YmE4OTg1TUhROVZCanptbDNIOUZPZWMybjYxUDZFcllEYUJXUDl1aUtodFI5?=
+ =?utf-8?B?VjVJVTlPbWRkZUFMN2V1NU1XSkxUZm9PeDhIVnB5T3VadTNTVmhGajJsR3lE?=
+ =?utf-8?B?Z1c0bm0vVEorQWJ3dmk5QkY2cFFPNDVjRmZSaGs4dGNhZ2taWHRtVktlTVlv?=
+ =?utf-8?B?WFk1OTY1RXlkeHRjZTJOU1ZNQ1lwdXVKZjVjZjh6cFgrdFdPREg4V3c4TzQv?=
+ =?utf-8?B?SGFwOGJEWGFkamw4UFNOeFpKMHl4cjJsTmhnZWpwL0F6MWxKOVhMWjQ1MGZU?=
+ =?utf-8?B?TGRaektKSm1qVkc4T3lVZ0FPNVFUNm53dDRKVUdmT3J1Z2JqQWpiSDNnLzBM?=
+ =?utf-8?B?MVE5RXZXY3o1VjRMVExvUWxCcFJwZmJHcmJjaTZqRUIyU3lOUks4ZU1ramFk?=
+ =?utf-8?B?Q2RUcURsU01mdlF1R3dvNTVKTVRxUEt0RllNRmdzaDA5NDk5dHhhU1ZNcHpx?=
+ =?utf-8?B?YTRNWGhDTC9RMlI2UkNGNk9WUklJeFNVK2xpeHNXMGRjYzB4d3Z2RjRYWGZm?=
+ =?utf-8?B?azY4bElXMGs5TnFJTDZqeW12YnVaRDlZV29GSHpSdytFalNlZEE0NDI1WDFu?=
+ =?utf-8?B?UjNOYm9GdGF1UVJvV09laVZ0RGV2b09Lam8xQmIxUk9UdzIwVmYzeSt4TENy?=
+ =?utf-8?B?bzMxdzJDazRPeSs0WlRsVVMzajVCeEw4V1BQTGNvUzF0alBGbytLRTQ3MmNk?=
+ =?utf-8?B?RE5XZXVTTFhFa3JUNGx1SHBRU1F6TFBCTHJWeW8rRFE5TzdsZFJudnVueHlZ?=
+ =?utf-8?B?V1FDV3k4ZkVtVU43UFZKRHdtdjRtL28va3hIVUxJa2tSaThOSmkwczFDUFl6?=
+ =?utf-8?B?KzRERGV2c1N1MXY4NFFjVllpVU5tb21OL0lmdlU1SlhQeDVmWlgvMUFqZElj?=
+ =?utf-8?B?c0s4UExGclIrUkhEOXE0dFlUTXVhTWxxUHVndTRlbzYxbk5hQ3F6d05IMWt4?=
+ =?utf-8?B?ZmRFVnpscFIxRitqaXJJZjFRdytKa2VqREVWWXo5OTE5U2QxWVZHNEVQeGhy?=
+ =?utf-8?B?eEZLRkQwcnByRnNGWmZ1VS92V1hYU3BaUmdmb0ttckdpME4yOG9YbE55WTI5?=
+ =?utf-8?B?dzlVTTV6K0pvM0NzY2Y3WnVRMlJQQ2V3L25pNVZUSG16NlBnRjdIK0JWVklF?=
+ =?utf-8?B?QVQxem1QZ0E1VVUrWXM2bWNaY3UzeG1PbklaM2xleXlEYlkyYW83TENrQlJh?=
+ =?utf-8?B?VkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a82b67a5-7a25-4707-6353-08dafd983d41
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 23:11:41.6305 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 23:19:13.2773 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yOgAE6d8GgWGbhqR7GZYmiyjnWNqwgD6tGFSJ9XBCJGHCacLPnfRu5Ygkzi8OWPIz+Dc26MMrJkgd7s/YmanVZlhhkrYETa5yVnWyZHbTRw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7471
+X-MS-Exchange-CrossTenant-UserPrincipalName: 79CF13kcBSDE1g338hPVZtpQlR23A6Cgp/R7KQIjOQLGEKRnxeEpuugfvNdzQpBNA4gGhshnhypzk8gXsUtn9xJWXBjVgBWW+SaISvUB6zE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5260
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -166,232 +165,220 @@ On 1/20/2023 08:40, Michal Wajdeczko wrote:
 > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
 > Cc: John Harrison <John.C.Harrison@Intel.com>
 > ---
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 60 ++++++++-----------
->   1 file changed, 26 insertions(+), 34 deletions(-)
+>   drivers/gpu/drm/i915/gt/uc/intel_uc.c | 74 +++++++++++++--------------
+>   1 file changed, 36 insertions(+), 38 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b436dd7f12e4..bb98206304ee 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -27,6 +27,7 @@
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> index 9a8a1abf71d7..e94f0d7119c4 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> @@ -6,11 +6,13 @@
+>   #include <linux/string_helpers.h>
 >   
+>   #include "gt/intel_gt.h"
+> +#include "gt/intel_gt_print.h"
+>   #include "gt/intel_reset.h"
+>   #include "intel_gsc_fw.h"
+>   #include "intel_gsc_uc.h"
+>   #include "intel_guc.h"
 >   #include "intel_guc_ads.h"
->   #include "intel_guc_capture.h"
 > +#include "intel_guc_print.h"
 >   #include "intel_guc_submission.h"
+>   #include "gt/intel_rps.h"
+>   #include "intel_uc.h"
+> @@ -67,14 +69,14 @@ static int __intel_uc_reset_hw(struct intel_uc *uc)
 >   
->   #include "i915_drv.h"
-> @@ -1443,8 +1444,7 @@ static void guc_init_engine_stats(struct intel_guc *guc)
->   		int ret = guc_action_enable_usage_stats(guc);
+>   	ret = intel_reset_guc(gt);
+>   	if (ret) {
+> -		DRM_ERROR("Failed to reset GuC, ret = %d\n", ret);
+> +		gt_err(gt, "Failed to reset GuC, ret = %d\n", ret);
+>   		return ret;
+>   	}
 >   
->   		if (ret)
-> -			drm_err(&gt->i915->drm,
-> -				"Failed to enable usage stats: %d!\n", ret);
-> +			guc_err(guc, "Failed to enable usage stats: %pe\n", ERR_PTR(ret));
+>   	guc_status = intel_uncore_read(gt->uncore, GUC_STATUS);
+> -	WARN(!(guc_status & GS_MIA_IN_RESET),
+> -	     "GuC status: 0x%x, MIA core expected to be in reset\n",
+> -	     guc_status);
+> +	gt_WARN(gt, !(guc_status & GS_MIA_IN_RESET),
+> +		"GuC status: 0x%x, MIA core expected to be in reset\n",
+> +		guc_status);
+>   
+>   	return ret;
+>   }
+> @@ -252,15 +254,13 @@ static int guc_enable_communication(struct intel_guc *guc)
+>   	intel_guc_ct_event_handler(&guc->ct);
+>   	spin_unlock_irq(gt->irq_lock);
+>   
+> -	drm_dbg(&i915->drm, "GuC communication enabled\n");
+> +	guc_dbg(guc, "communication enabled\n");
+>   
+>   	return 0;
+>   }
+>   
+>   static void guc_disable_communication(struct intel_guc *guc)
+>   {
+> -	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
+> -
+>   	/*
+>   	 * Events generated during or after CT disable are logged by guc in
+>   	 * via mmio. Make sure the register is clear before disabling CT since
+> @@ -280,11 +280,12 @@ static void guc_disable_communication(struct intel_guc *guc)
+>   	 */
+>   	guc_get_mmio_msg(guc);
+>   
+> -	drm_dbg(&i915->drm, "GuC communication disabled\n");
+> +	guc_dbg(guc, "communication disabled\n");
+>   }
+>   
+>   static void __uc_fetch_firmwares(struct intel_uc *uc)
+>   {
+> +	struct intel_gt *gt = uc_to_gt(uc);
+>   	int err;
+>   
+>   	GEM_BUG_ON(!intel_uc_wants_guc(uc));
+> @@ -293,15 +294,13 @@ static void __uc_fetch_firmwares(struct intel_uc *uc)
+>   	if (err) {
+>   		/* Make sure we transition out of transient "SELECTED" state */
+>   		if (intel_uc_wants_huc(uc)) {
+> -			drm_dbg(&uc_to_gt(uc)->i915->drm,
+> -				"Failed to fetch GuC: %d disabling HuC\n", err);
+> +			gt_dbg(gt, "Failed to fetch GuC fw (%pe) disabling HuC\n", ERR_PTR(err));
+>   			intel_uc_fw_change_status(&uc->huc.fw,
+>   						  INTEL_UC_FIRMWARE_ERROR);
+>   		}
+>   
+>   		if (intel_uc_wants_gsc_uc(uc)) {
+> -			drm_dbg(&uc_to_gt(uc)->i915->drm,
+> -				"Failed to fetch GuC: %d disabling GSC\n", err);
+> +			gt_dbg(gt, "Failed to fetch GuC fw (%pe) disabling GSC\n", ERR_PTR(err));
+>   			intel_uc_fw_change_status(&uc->gsc.fw,
+>   						  INTEL_UC_FIRMWARE_ERROR);
+>   		}
+> @@ -382,7 +381,7 @@ static int uc_init_wopcm(struct intel_uc *uc)
+>   	int err;
+>   
+>   	if (unlikely(!base || !size)) {
+> -		i915_probe_error(gt->i915, "Unsuccessful WOPCM partitioning\n");
+> +		gt_probe_error(gt, "Unsuccessful WOPCM partitioning\n");
+>   		return -E2BIG;
+>   	}
+>   
+> @@ -413,13 +412,13 @@ static int uc_init_wopcm(struct intel_uc *uc)
+>   	return 0;
+>   
+>   err_out:
+> -	i915_probe_error(gt->i915, "Failed to init uC WOPCM registers!\n");
+> -	i915_probe_error(gt->i915, "%s(%#x)=%#x\n", "DMA_GUC_WOPCM_OFFSET",
+> -			 i915_mmio_reg_offset(DMA_GUC_WOPCM_OFFSET),
+> -			 intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET));
+> -	i915_probe_error(gt->i915, "%s(%#x)=%#x\n", "GUC_WOPCM_SIZE",
+> -			 i915_mmio_reg_offset(GUC_WOPCM_SIZE),
+> -			 intel_uncore_read(uncore, GUC_WOPCM_SIZE));
+> +	gt_probe_error(gt, "Failed to init uC WOPCM registers!\n");
+> +	gt_probe_error(gt, "%s(%#x)=%#x\n", "DMA_GUC_WOPCM_OFFSET",
+> +		       i915_mmio_reg_offset(DMA_GUC_WOPCM_OFFSET),
+> +		       intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET));
+> +	gt_probe_error(gt, "%s(%#x)=%#x\n", "GUC_WOPCM_SIZE",
+> +		       i915_mmio_reg_offset(GUC_WOPCM_SIZE),
+> +		       intel_uncore_read(uncore, GUC_WOPCM_SIZE));
+>   
+>   	return err;
+>   }
+> @@ -451,18 +450,17 @@ static int __uc_check_hw(struct intel_uc *uc)
+>   
+>   static void print_fw_ver(struct intel_uc *uc, struct intel_uc_fw *fw)
+>   {
+> -	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
+> -
+> -	drm_info(&i915->drm, "%s firmware %s version %u.%u.%u\n",
+> -		 intel_uc_fw_type_repr(fw->type), fw->file_selected.path,
+> -		 fw->file_selected.ver.major,
+> -		 fw->file_selected.ver.minor,
+> -		 fw->file_selected.ver.patch);
+> +	gt_info(uc_to_gt(uc), "%s firmware %s version %u.%u.%u\n",
+Given that this function does not use 'uc' except to convert to 'gt' and 
+the caller already has a local 'gt', could just pass the gt in directly 
+and avoid the conversion.
+
+> +		intel_uc_fw_type_repr(fw->type), fw->file_selected.path,
+> +		fw->file_selected.ver.major,
+> +		fw->file_selected.ver.minor,
+> +		fw->file_selected.ver.patch);
+>   }
+>   
+>   static int __uc_init_hw(struct intel_uc *uc)
+>   {
+> -	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
+> +	struct intel_gt *gt = uc_to_gt(uc);
+> +	struct drm_i915_private *i915 = gt->i915;
+>   	struct intel_guc *guc = &uc->guc;
+>   	struct intel_huc *huc = &uc->huc;
+>   	int ret, attempts;
+> @@ -514,8 +512,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+>   		if (ret == 0)
+>   			break;
+>   
+> -		DRM_DEBUG_DRIVER("GuC fw load failed: %d; will reset and "
+> -				 "retry %d more time(s)\n", ret, attempts);
+> +		gt_dbg(gt, "GuC fw load failed (%pe) will reset and retry %d more time(s)\n",
+> +		       ERR_PTR(ret), attempts);
+>   	}
+>   
+>   	/* Did we succeded or run out of retries? */
+> @@ -551,10 +549,10 @@ static int __uc_init_hw(struct intel_uc *uc)
+>   
+>   	intel_gsc_uc_load_start(&uc->gsc);
+>   
+> -	drm_info(&i915->drm, "GuC submission %s\n",
+> -		 str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
+> -	drm_info(&i915->drm, "GuC SLPC %s\n",
+> -		 str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
+> +	gt_info(gt, "GuC submission %s\n",
+> +		str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
+> +	gt_info(gt, "GuC SLPC %s\n",
+> +		str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
+>   
+>   	return 0;
+>   
+> @@ -572,12 +570,12 @@ static int __uc_init_hw(struct intel_uc *uc)
+>   	__uc_sanitize(uc);
+>   
+>   	if (!ret) {
+> -		drm_notice(&i915->drm, "GuC is uninitialized\n");
+> +		gt_notice(gt, "GuC is uninitialized\n");
+>   		/* We want to run without GuC submission */
+>   		return 0;
+>   	}
+>   
+> -	i915_probe_error(i915, "GuC initialization failed %d\n", ret);
+> +	gt_probe_error(gt, "GuC initialization failed %pe\n", ERR_PTR(ret));
+>   
+>   	/* We want to keep KMS alive */
+>   	return -EIO;
+> @@ -690,7 +688,7 @@ void intel_uc_suspend(struct intel_uc *uc)
+>   	with_intel_runtime_pm(&uc_to_gt(uc)->i915->runtime_pm, wakeref) {
+>   		err = intel_guc_suspend(guc);
+>   		if (err)
+> -			DRM_DEBUG_DRIVER("Failed to suspend GuC, err=%d", err);
+> +			gt_dbg(uc_to_gt(uc), "Failed to suspend GuC, %pe", ERR_PTR(err));
+May be worth adding a local gt given that the above conversion is now 
+being repeated?
+
 >   	}
 >   }
 >   
-> @@ -3585,8 +3585,7 @@ static int guc_request_alloc(struct i915_request *rq)
->   		intel_context_sched_disable_unpin(ce);
->   	else if (intel_context_is_closed(ce))
->   		if (wait_for(context_close_done(ce), 1500))
-> -			drm_warn(&guc_to_gt(guc)->i915->drm,
-> -				 "timed out waiting on context sched close before realloc\n");
-> +			guc_warn(guc, "timed out waiting on context sched close before realloc\n");
->   	/*
->   	 * Call pin_guc_id here rather than in the pinning step as with
->   	 * dma_resv, contexts can be repeatedly pinned / unpinned trashing the
-> @@ -4349,11 +4348,14 @@ static int __guc_action_set_scheduling_policies(struct intel_guc *guc,
+> @@ -718,7 +716,7 @@ static int __uc_resume(struct intel_uc *uc, bool enable_communication)
 >   
->   	ret = intel_guc_send(guc, (u32 *)&policy->h2g,
->   			     __guc_scheduling_policy_action_size(policy));
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		guc_probe_error(guc, "Failed to configure global scheduling policies: %pe!\n",
-> +				ERR_PTR(ret));
->   		return ret;
-> +	}
->   
->   	if (ret != policy->count) {
-> -		drm_warn(&guc_to_gt(guc)->i915->drm, "GuC global scheduler policy processed %d of %d KLVs!",
-> +		guc_warn(guc, "global scheduler policy processed %d of %d KLVs!",
->   			 ret, policy->count);
->   		if (ret > policy->count)
->   			return -EPROTO;
-> @@ -4367,7 +4369,7 @@ static int guc_init_global_schedule_policy(struct intel_guc *guc)
->   	struct scheduling_policy policy;
->   	struct intel_gt *gt = guc_to_gt(guc);
->   	intel_wakeref_t wakeref;
-> -	int ret = 0;
-> +	int ret;
->   
->   	if (GUC_SUBMIT_VER(guc) < MAKE_GUC_VER(1, 1, 0))
->   		return 0;
-> @@ -4385,10 +4387,6 @@ static int guc_init_global_schedule_policy(struct intel_guc *guc)
->   						yield, ARRAY_SIZE(yield));
->   
->   		ret = __guc_action_set_scheduling_policies(guc, &policy);
-> -		if (ret)
-> -			i915_probe_error(gt->i915,
-> -					 "Failed to configure global scheduling policies: %pe!\n",
-> -					 ERR_PTR(ret));
->   	}
->   
->   	return ret;
-> @@ -4487,21 +4485,18 @@ g2h_context_lookup(struct intel_guc *guc, u32 ctx_id)
->   	struct intel_context *ce;
->   
->   	if (unlikely(ctx_id >= GUC_MAX_CONTEXT_ID)) {
-> -		drm_err(&guc_to_gt(guc)->i915->drm,
-> -			"Invalid ctx_id %u\n", ctx_id);
-> +		guc_err(guc, "Invalid ctx_id %u\n", ctx_id);
->   		return NULL;
->   	}
->   
->   	ce = __get_context(guc, ctx_id);
->   	if (unlikely(!ce)) {
-> -		drm_err(&guc_to_gt(guc)->i915->drm,
-> -			"Context is NULL, ctx_id %u\n", ctx_id);
-> +		guc_err(guc, "Context is NULL, ctx_id %u\n", ctx_id);
->   		return NULL;
->   	}
->   
->   	if (unlikely(intel_context_is_child(ce))) {
-> -		drm_err(&guc_to_gt(guc)->i915->drm,
-> -			"Context is child, ctx_id %u\n", ctx_id);
-> +		guc_err(guc, "Context is child, ctx_id %u\n", ctx_id);
->   		return NULL;
->   	}
->   
-> @@ -4516,7 +4511,7 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
->   	u32 ctx_id;
->   
->   	if (unlikely(len < 1)) {
-> -		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
-> +		guc_err(guc, "Invalid length %u\n", len);
->   		return -EPROTO;
->   	}
->   	ctx_id = msg[0];
-> @@ -4568,7 +4563,7 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
->   	u32 ctx_id;
->   
->   	if (unlikely(len < 2)) {
-> -		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u\n", len);
-> +		guc_err(guc, "Invalid length %u\n", len);
->   		return -EPROTO;
->   	}
->   	ctx_id = msg[0];
-> @@ -4580,8 +4575,7 @@ int intel_guc_sched_done_process_msg(struct intel_guc *guc,
->   	if (unlikely(context_destroyed(ce) ||
->   		     (!context_pending_enable(ce) &&
->   		     !context_pending_disable(ce)))) {
-> -		drm_err(&guc_to_gt(guc)->i915->drm,
-> -			"Bad context sched_state 0x%x, ctx_id %u\n",
-> +		guc_err(guc, "Bad context sched_state 0x%x, ctx_id %u\n",
->   			ce->guc_state.sched_state, ctx_id);
->   		return -EPROTO;
->   	}
-> @@ -4669,7 +4663,7 @@ static void guc_handle_context_reset(struct intel_guc *guc,
->   		capture_error_state(guc, ce);
->   		guc_context_replay(ce);
->   	} else {
-> -		drm_info(&guc_to_gt(guc)->i915->drm,
-> +		guc_info(guc,
->   			 "Ignoring context reset notification of exiting context 0x%04X on %s",
-Could unwrap this line now.
-
->   			 ce->guc_id.id, ce->engine->name);
->   	}
-> @@ -4683,7 +4677,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
->   	int ctx_id;
->   
->   	if (unlikely(len != 1)) {
-> -		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-> +		guc_err(guc, "Invalid length %u", len);
->   		return -EPROTO;
->   	}
->   
-> @@ -4716,13 +4710,13 @@ int intel_guc_error_capture_process_msg(struct intel_guc *guc,
->   	u32 status;
->   
->   	if (unlikely(len != 1)) {
-> -		drm_dbg(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-> +		guc_dbg(guc, "Invalid length %u", len);
->   		return -EPROTO;
->   	}
->   
->   	status = msg[0] & INTEL_GUC_STATE_CAPTURE_EVENT_STATUS_MASK;
->   	if (status == INTEL_GUC_STATE_CAPTURE_EVENT_STATUS_NOSPACE)
-> -		drm_warn(&guc_to_gt(guc)->i915->drm, "G2H-Error capture no space");
-> +		guc_warn(guc, "G2H-Error capture no space");
-Maybe improve the English on this one? "Received 'no space for error 
-capture' notification"? Or maybe just "No space for error capture"? I 
-don't think you can get a similar error from anywhere on the i915 side.
-
->   
->   	intel_guc_capture_process(guc);
->   
-> @@ -4765,13 +4759,12 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
->   					 const u32 *msg, u32 len)
->   {
->   	struct intel_engine_cs *engine;
-> -	struct intel_gt *gt = guc_to_gt(guc);
->   	u8 guc_class, instance;
->   	u32 reason;
->   	unsigned long flags;
->   
->   	if (unlikely(len != 3)) {
-> -		drm_err(&gt->i915->drm, "Invalid length %u", len);
-> +		guc_err(guc, "Invalid length %u", len);
->   		return -EPROTO;
->   	}
->   
-> @@ -4781,8 +4774,7 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
->   
->   	engine = intel_guc_lookup_engine(guc, guc_class, instance);
->   	if (unlikely(!engine)) {
-> -		drm_err(&gt->i915->drm,
-> -			"Invalid engine %d:%d", guc_class, instance);
-> +		guc_err(guc, "Invalid engine %d:%d", guc_class, instance);
->   		return -EPROTO;
->   	}
->   
-> @@ -4790,7 +4782,7 @@ int intel_guc_engine_failure_process_msg(struct intel_guc *guc,
->   	 * This is an unexpected failure of a hardware feature. So, log a real
->   	 * error message not just the informational that comes with the reset.
->   	 */
-> -	drm_err(&gt->i915->drm, "GuC engine reset request failed on %d:%d (%s) because 0x%08X",
-> +	guc_err(guc, "GuC engine reset request failed on %d:%d (%s) because 0x%08X",
->   		guc_class, instance, engine->name, reason);
-Again, redundant 'GuC' string. Also, maybe drop the 'request' given that 
-this is a GuC generated reset not a reset request from i915. This 
-message has resulted in confused bug reports in the past. So, maybe go 
-with just "Engine reset failed on ...".
+>   	err = intel_guc_resume(guc);
+>   	if (err) {
+> -		DRM_DEBUG_DRIVER("Failed to resume GuC, err=%d", err);
+> +		gt_dbg(gt, "Failed to resume GuC, %pe", ERR_PTR(err));
+This could be a guc_dbg("Failed to resume: %pe") given that there is 
+evidently a 'guc' locally available from the function call just above.
 
 John.
 
+>   		return err;
+>   	}
 >   
->   	spin_lock_irqsave(&guc->submission_state.lock, flags);
-> @@ -5342,8 +5334,8 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
->   
->   		GEM_BUG_ON(!is_power_of_2(sibling->mask));
->   		if (sibling->mask & ve->base.mask) {
-> -			DRM_DEBUG("duplicate %s entry in load balancer\n",
-> -				  sibling->name);
-> +			guc_dbg(guc, "duplicate %s entry in load balancer\n",
-> +				sibling->name);
->   			err = -EINVAL;
->   			goto err_put;
->   		}
-> @@ -5352,8 +5344,8 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
->   		ve->base.logical_mask |= sibling->logical_mask;
->   
->   		if (n != 0 && ve->base.class != sibling->class) {
-> -			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
-> -				  sibling->class, ve->base.class);
-> +			guc_dbg(guc, "invalid mixing of engine class, sibling %d, already %d\n",
-> +				sibling->class, ve->base.class);
->   			err = -EINVAL;
->   			goto err_put;
->   		} else if (n == 0) {
 
