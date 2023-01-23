@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B516780A4
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:57:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2A76780B7
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97DF38912D;
-	Mon, 23 Jan 2023 15:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A194C10E4E5;
+	Mon, 23 Jan 2023 16:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31AEA8912D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:57:29 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CFA510E15B;
+ Mon, 23 Jan 2023 16:01:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 79DBA82F69;
- Mon, 23 Jan 2023 16:57:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1674489447;
- bh=SLvgU234z0Ib/utCI2P4W9G7P3rxOL12bQuTeAqy2xA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GWytINUuM1EgKe60xxlQeAYWkEweDE263zdfENbvRlrjuAKeHSWGOcWc1EOhtce7L
- 6nQxr4vRC3hG5xvJxoKVXLbvrEZchnTmKclVmd7Dqh9JbuMdF26F2Yfvh8WSlFfr/k
- QFprH1IV+HJIrAZ13QbZOYUtU3Mt6Pa7VMXof9o1oafvI6J0clSlqriyfKXD2ixv21
- yOoikQP8df8+4M4uIlE2vDHXaSz2i9qbTu7dh/w+5+r+vhqqSAVyGEX4X/TMslf0JT
- dKUCUR070WXpt5Udr8qqMmXI4kjY7hc7grw381kpWN7d1Kl1vnoBRuHxPDNAf0Wt84
- qmvJ/nftu4fNg==
-Message-ID: <ace76615-533a-9295-8271-95262859d287@denx.de>
-Date: Mon, 23 Jan 2023 16:57:25 +0100
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5853A60F88;
+ Mon, 23 Jan 2023 16:01:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F27C433EF;
+ Mon, 23 Jan 2023 16:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1674489707;
+ bh=+TQ+/1RQ4Y+mpEsDlWjx3tP6VFQIaELp3GBETePs24s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kN78ypcoGzW8NrLrsf3leHzLNORyzrx10GSNboEPf2hz11nMLPUaM6sQhOiDQRHEQ
+ KGNOKHP0wzzJltm2G9ioPjw0Tnj3rkiJ/syTItxQKV8PgAbX3f9ajE5Li6X4mZn4E9
+ LoLurSkgJ0gXxWFUc/xxD5YrS2yNQHyLrRgXwmbsgKkb33BgNWQr8oTq7GhMYlaQFK
+ eBLzusUXb04ucjG0cm2Kapa7KJrlZMoVPodxh+mFGMbfrleu6iuKtvI8ofMrBgCfJq
+ /k6ATkf3fVP9pVyQC0FDV5INYI3lYutLxuyjKqgZzhEoaJjRbIhRVBtxLLvtWK4d4J
+ b5boFnXMX9YZQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1pJzGT-00016g-7n; Mon, 23 Jan 2023 17:01:45 +0100
+Date: Mon, 23 Jan 2023 17:01:45 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH] drm/msm: Initialize mode_config earlier
+Message-ID: <Y86vaTQR7INWezyj@hovoldconsulting.com>
+References: <20230113041051.4189063-1-quic_bjorande@quicinc.com>
+ <eea1c5dc-6bc5-4246-f0e1-0c790de9f078@linaro.org>
+ <9a64c685-9ff0-bc1d-e604-e3773ff9edd7@linaro.org>
+ <20230117025122.jt3wrjkqfnogu4ci@builder.lan>
+ <Y8ZWl85gSpOaLgO4@hovoldconsulting.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] drm: lcdif: Add i.MX93 LCDIF support
-Content-Language: en-US
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20230123072358.1060670-1-victor.liu@nxp.com>
- <20230123072358.1060670-3-victor.liu@nxp.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230123072358.1060670-3-victor.liu@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8ZWl85gSpOaLgO4@hovoldconsulting.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,24 +58,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: s.hauer@pengutronix.de, robh+dt@kernel.org, linux-imx@nxp.com,
- krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org, kernel@pengutronix.de
+Cc: freedreno@lists.freedesktop.org,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/23/23 08:23, Liu Ying wrote:
-> The LCDIF embedded in i.MX93 SoC is essentially the same to those
-> in i.MX8mp SoC.  However, i.MX93 LCDIF may connect with MIPI DSI
-> controller through LCDIF cross line pattern(controlled by mediamix
-> blk-ctrl) or connect with LVDS display bridge(LDB) directly or a
-> parallel display(also through mediamix blk-ctrl), so add multiple
-> encoders(with DRM_MODE_ENCODER_NONE encoder type) support in the
-> LCDIF DRM driver and find a bridge to attach the relevant encoder's
-> chain when needed.  While at it, derive lcdif_crtc_state structure
-> from drm_crtc_state structure to introduce bus_format and bus_flags
-> states so that the next downstream bridges may use consistent bus
-> format and bus flags.
+On Tue, Jan 17, 2023 at 09:04:39AM +0100, Johan Hovold wrote:
+> On Mon, Jan 16, 2023 at 08:51:22PM -0600, Bjorn Andersson wrote:
+> > On Fri, Jan 13, 2023 at 10:57:18AM +0200, Dmitry Baryshkov wrote:
+> > > On 13/01/2023 06:23, Dmitry Baryshkov wrote:
+> > > > On 13/01/2023 06:10, Bjorn Andersson wrote:
+> > > > > Invoking drm_bridge_hpd_notify() on a drm_bridge with a HPD-enabled
+> > > > > bridge_connector ends up in drm_bridge_connector_hpd_cb() calling
+> > > > > drm_kms_helper_hotplug_event(), which assumes that the associated
+> > > > > drm_device's mode_config.funcs is a valid pointer.
+> > > > > 
+> > > > > But in the MSM DisplayPort driver the HPD enablement happens at bind
+> > > > > time and mode_config.funcs is initialized late in msm_drm_init(). This
+> > > > > means that there's a window for hot plug events to dereference a NULL
+> > > > > mode_config.funcs.
+> > > > > 
+> > > > > Move the assignment of mode_config.funcs before the bind, to avoid this
+> > > > > scenario.
+> > > > 
+> > > > Cam we make DP driver not to report HPD events until the enable_hpd()
+> > > > was called? I think this is what was fixed by your internal_hpd
+> > > > patchset.
+> > > 
+> > > Or to express this in another words: I thought that internal_hpd already
+> > > deferred enabling hpd event reporting till the time when we need it, didn't
+> > > it?
+> > > 
+> > 
+> > I added a WARN_ON(1) in drm_bridge_hpd_enable() to get a sense of when
+> > this window of "opportunity" opens up, and here's the callstack:
+> > 
+> > ------------[ cut here ]------------
+> > WARNING: CPU: 6 PID: 99 at drivers/gpu/drm/drm_bridge.c:1260 drm_bridge_hpd_enable+0x48/0x94 [drm]
+> > ...
+> > Call trace:
+> >  drm_bridge_hpd_enable+0x48/0x94 [drm]
+> >  drm_bridge_connector_enable_hpd+0x30/0x3c [drm_kms_helper]
+> >  drm_kms_helper_poll_enable+0xa4/0x114 [drm_kms_helper]
+> >  drm_kms_helper_poll_init+0x6c/0x7c [drm_kms_helper]
+> >  msm_drm_bind+0x370/0x628 [msm]
+> >  try_to_bring_up_aggregate_device+0x170/0x1bc
+> >  __component_add+0xb0/0x168
+> >  component_add+0x20/0x2c
+> >  dp_display_probe+0x40c/0x468 [msm]
+> >  platform_probe+0xb4/0xdc
+> >  really_probe+0x13c/0x300
+> >  __driver_probe_device+0xc0/0xec
+> >  driver_probe_device+0x48/0x204
+> >  __device_attach_driver+0x124/0x14c
+> >  bus_for_each_drv+0x90/0xdc
+> >  __device_attach+0xdc/0x1a8
+> >  device_initial_probe+0x20/0x2c
+> >  bus_probe_device+0x40/0xa4
+> >  deferred_probe_work_func+0x94/0xd0
+> >  process_one_work+0x1a8/0x3c0
+> >  worker_thread+0x254/0x47c
+> >  kthread+0xf8/0x1b8
+> >  ret_from_fork+0x10/0x20
+> > ---[ end trace 0000000000000000 ]---
+> > 
+> > As drm_kms_helper_poll_init() is the last thing being called in
+> > msm_drm_init() shifting around the mode_config.func assignment would not
+> > have any impact.
+> > 
+> > Perhaps we have shuffled other things around to avoid this bug?  Either
+> > way, let's this on hold  until further proof that it's still
+> > reproducible.
+> 
+> As I've mentioned off list, I haven't hit the apparent race I reported
+> here:
+> 
+> 	https://lore.kernel.org/all/Y1efJh11B5UQZ0Tz@hovoldconsulting.com/
+> 
+> since moving to 6.2. I did hit it with both 6.0 and 6.1-rc2, but it
+> could very well be that something has changes that fixes (or hides) the
+> issue since.
 
-Would it be possible to split this patch into preparatory clean up and 
-i.MX93 addition ? It seems like the patch is doing two things according 
-to the commit message.
+For unrelated reasons, I tried enabling async probing, and apart from
+apparently causing the panel driver to probe defer indefinitely, I also
+again hit the WARN_ON() I had added to catch this:
+
+[   13.593235] WARNING: CPU: 0 PID: 125 at drivers/gpu/drm/drm_probe_helper.c:664 drm_kms_helper_hotplug_event+0x48/0x7
+0 [drm_kms_helper]
+...
+[   13.679429] CPU: 0 PID: 125 Comm: kworker/0:3 Not tainted 6.2.0-rc4 #110
+[   13.687159] Hardware name: Qualcomm QRD, BIOS 6.0.220110.BOOT.MXF.1.1-00470-MAKENA-1 01/10/2022
+[   13.696947] Workqueue: events pmic_glink_altmode_worker [pmic_glink_altmode]
+[   13.705044] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   13.713054] pc : drm_kms_helper_hotplug_event+0x48/0x70 [drm_kms_helper]
+[   13.720812] lr : drm_kms_helper_hotplug_event+0x18/0x70 [drm_kms_helper]
+[   13.728557] sp : ffff800009e33c90
+[   13.732779] x29: ffff800009e33c90 x28: ffffad90862eb000 x27: ffff62d2362ee305
+[   13.740956] x26: ffffad90862f1ea0 x25: ffffad9086309b50 x24: 0000000000000000
+[   13.749125] x23: 0000000000000003 x22: ffff62d0c5dad000 x21: 0000000000000002
+[   13.757291] x20: ffff62d0c6d24000 x19: ffff62d0c5dad000 x18: 0000000000000038
+[   13.765443] x17: 0000000000000004 x16: 000000000000d323 x15: 0000000000000004
+[   13.773585] x14: ffffad9086594208 x13: ffffad90865f50e8 x12: 0000000000000000
+[   13.781723] x11: 00000000000400d7 x10: 0000000000000008 x9 : 0000000000000002
+[   13.789867] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000097d00
+[   13.798013] x5 : ffff62d0c3395000 x4 : ffff62d2362ed750 x3 : 0000000000097e00
+[   13.806161] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
+[   13.814304] Call trace:
+[   13.817604]  drm_kms_helper_hotplug_event+0x48/0x70 [drm_kms_helper]
+[   13.824959]  drm_bridge_connector_hpd_cb+0xa0/0xc0 [drm_kms_helper]
+[   13.832227]  drm_bridge_hpd_notify+0x40/0x60 [drm]
+[   13.837993]  pmic_glink_altmode_worker+0xc0/0x150 [pmic_glink_altmode]
+[   13.845505]  process_one_work+0x288/0x6c0
+[   13.850404]  worker_thread+0x74/0x450
+[   13.854948]  kthread+0x118/0x120
+[   13.859032]  ret_from_fork+0x10/0x20
+[   13.863473] irq event stamp: 7440
+[   13.867631] hardirqs last  enabled at (7439): [<ffffad9085b00450>] _raw_spin_unlock_irqrestore+0x80/0x90
+[   13.878157] hardirqs last disabled at (7440): [<ffffad9085af33e4>] el1_dbg+0x24/0x90
+[   13.886885] softirqs last  enabled at (7308): [<ffffad908514046c>] _stext+0x46c/0x5d8
+[   13.895697] softirqs last disabled at (7303): [<ffffad90851467b0>] ____do_softirq+0x10/0x20
+[   13.905038] ---[ end trace 0000000000000000 ]---
+
+So the bug still appears to be there (and the MSM DRM driver is fragile
+and broken, but we knew that).
+
+Johan
