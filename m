@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CF4677AD0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:24:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BF4677AD3
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:24:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A43610E364;
-	Mon, 23 Jan 2023 12:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27BA310E368;
+	Mon, 23 Jan 2023 12:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 803B510E364
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:24:49 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id d3so11183646plr.10
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 04:24:49 -0800 (PST)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC39510E369
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:24:56 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ u1-20020a17090a450100b0022936a63a21so15102983pjg.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 04:24:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cD1qAiqhfd1q1+yXxcnzmuelB54aAtoGJRwcpOhnRjA=;
- b=nLSc4UWw+qc1isoMm0ddsf/DocNuZCqOiwSZSeo7M6fe0Z2d0dEa9yd9SQd/XAXEB0
- 64OifFsLSwXNN/ayv3jHG9LlNRtUIpSKUiHW5+YxKB/g3Hli7doXBgla0tYeZvpk023n
- p4xF3PaRlAhf+Fz1cQAjxwz4WJEHyHrlkHukg=
+ bh=Do3dhCYjC50CYA+L4s1clteIXcoOQ2GW8nVaTGD414U=;
+ b=nojSeomHshElbOUipPOLwZabDxxWbVd2k095+Y6oMTQoI0ODawgaZIvhQ3Wu1oi48E
+ kWffg/YNhoR3wOewoCXXpJgpXsGodVg/9QHO6aM+AbuoMZ5CfVUK4nxmnSG/Ix4u/qMJ
+ i1zBPekLMi8tp5PLlnV21bb0teFH2f8eRhTec=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cD1qAiqhfd1q1+yXxcnzmuelB54aAtoGJRwcpOhnRjA=;
- b=2O0ksRrtGV5Z5XZJCZuHPHAVitE2sSAPuApdVFmRFyakxyOxLI9CLfSyx576pY5W9+
- JZ+lfS6rIqPkAsXttSckZTCmFAMV/gGOokg5VzL+hnPWv10A/vIJhOFbcEC42MZu291B
- DRXWmoixdXytOMg1KXgWSmmaEQVTrKvrLbd+sw6HnVui9JTMvcflhzK0LaCso51lqzb7
- vF0IzDrz0JyX5My4VdtmPM6/8hORoIUXFC/y0tDxAdGSRGAaBHTO3Saq/r8GMx+eIEfI
- LCIveRYrCWa/IQyDaq4AEQKsC4wQR289KX8TVuQLk2JJLZHixJqbAMZFzNO6PoxAD7Rm
- /mTg==
-X-Gm-Message-State: AFqh2krJ+EwZAGQopCPpvf2F0oIIp+20PPeizCRAItgaIQFUsJAtxnRG
- M5eLdLbnzfmZ2Duxk+kUzduLiA==
-X-Google-Smtp-Source: AMrXdXtNlBtGm2HMa4XqvSMnPI0UH7tFFtjGyzBge5hxMTcIHFDptTvIQNW0A4bsqByn90MzxpLTWw==
-X-Received: by 2002:a17:902:e5d2:b0:191:3808:14b0 with SMTP id
- u18-20020a170902e5d200b00191380814b0mr33659343plf.4.1674476689065; 
- Mon, 23 Jan 2023 04:24:49 -0800 (PST)
+ bh=Do3dhCYjC50CYA+L4s1clteIXcoOQ2GW8nVaTGD414U=;
+ b=0agNEQQQXReOIjwA5YADE40k4Ox0sJJzRNXWmVpeybpi/ewUQhG0So7fS0J4Wp5rMx
+ Ong17eBoe7OuF/azXuuDIKJrzDhDBfclGRXfSslFEuy4bFMbbyIlZ+YEsiIj8gdDqpfN
+ /NGYi8X7jHDyPlcYGuj4p6Klv2LE3jlzE666OPHRkqC8St5s+YHO7krOJrzwG9eQBLZN
+ 8i99fZrAZzKvYnMnsQQiZGcT8ZE+NB0cho73J17P7bQGuJsGojMFwF2dl6zfp65l7PJL
+ 5S/WWY95f+q5k1ER3hSJbje+WZn5j4kIdDINU6szUDda2H2Lz8BpYSqTzqpfWyg2K36z
+ nP3w==
+X-Gm-Message-State: AFqh2kqj81i83eVHHYa4ZSkxwtPZdqKCjtZgdMxVbMwuQi+gTn1F3f5w
+ MOJQUlrdIwrpDK+AL8KvHagBVg==
+X-Google-Smtp-Source: AMrXdXuRNR3vmTZRHZPSirD9Rpd15IrZa4rJ5lIcFeAolGWEZmBxgse7BHARCjX0rUQp9P1DygjyCg==
+X-Received: by 2002:a17:902:f54c:b0:192:fc9c:a238 with SMTP id
+ h12-20020a170902f54c00b00192fc9ca238mr30487972plf.66.1674476696345; 
+ Mon, 23 Jan 2023 04:24:56 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a15f:2279:f361:f93b:7971])
  by smtp.gmail.com with ESMTPSA id
- w10-20020a170902e88a00b001960806728asm1291811plg.88.2023.01.23.04.24.41
+ w10-20020a170902e88a00b001960806728asm1291811plg.88.2023.01.23.04.24.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 04:24:48 -0800 (PST)
+ Mon, 23 Jan 2023 04:24:55 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -61,9 +62,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v11 10/18] drm: exynos: dsi: Add input_bus_flags
-Date: Mon, 23 Jan 2023 17:53:11 +0530
-Message-Id: <20230123122319.261341-11-jagan@amarulasolutions.com>
+Subject: [PATCH v11 11/18] drm: exynos: dsi: Add atomic_get_input_bus_fmts
+Date: Mon, 23 Jan 2023 17:53:12 +0530
+Message-Id: <20230123122319.261341-12-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230123122319.261341-1-jagan@amarulasolutions.com>
 References: <20230123122319.261341-1-jagan@amarulasolutions.com>
@@ -88,60 +89,140 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LCDIF-DSIM glue logic inverts the HS/VS/DE signals and expecting
-the i.MX8M Mini/Nano DSI host to add additional Data Enable signal
-active low (DE_LOW). This makes the valid data transfer on each
-horizontal line.
+Finding the right input bus format throughout the pipeline is hard
+so add atomic_get_input_bus_fmts callback and initialize with the
+proper input format from list of supported output formats.
 
-So, add additional bus flags DE_LOW setting via input_bus_flags
-for i.MX8M Mini/Nano platforms.
+This format can be used in pipeline for negotiating bus format between
+the DSI-end of this bridge and the other component closer to pipeline
+components.
+
+List of Pixel formats are taken from,
+AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
+3.7.4 Pixel formats
+Table 14. DSI pixel packing formats
 
 Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Suggested-by: Marek Vasut <marex@denx.de>
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v11:
 - collect RB from Frieder
-Changes for v10, v9:
+- drop extra line
+Changes for v10:
 - none
+Changes for v9:
+- added MEDIA_BUS_FMT_FIXED
+- return MEDIA_BUS_FMT_RGB888_1X24 output_fmt if supported output_fmt
+  list is unsupported.
+- added MEDIA_BUS_FMT_YUYV10_1X20, MEDIA_BUS_FMT_YUYV12_1X24
 Changes for v8:
-- add DE_LOW for i.MX8M Mini/Nano platforms.
-Changes for v7, v6:
+- added pixel formats supported by NXP AN13573 i.MX 8/RT MIPI DSI/CSI-2
+Changes for v7 - v4:
 - none
-Changes for v5:
-- rebased based on updated bridge changes
-Changes for v4 - v1:
+Changes for v3:
+- include media-bus-format.h
+Changes for v2:
 - none
+Changes for v1:
+- new patch
 
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 68 +++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index d8958838ab7b..5518d92c8455 100644
+index 5518d92c8455..7afbbe30d1d3 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1691,6 +1691,10 @@ static const struct component_ops exynos_dsi_component_ops = {
- 	.unbind	= exynos_dsi_unbind,
- };
+@@ -12,6 +12,7 @@
+ #include <linux/component.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/irq.h>
++#include <linux/media-bus-format.h>
+ #include <linux/of_device.h>
+ #include <linux/of_graph.h>
+ #include <linux/phy/phy.h>
+@@ -1466,6 +1467,72 @@ static void exynos_dsi_atomic_post_disable(struct drm_bridge *bridge,
+ 	pm_runtime_put_sync(dsi->dev);
+ }
  
-+static const struct drm_bridge_timings dsim_bridge_timings_de_low = {
-+	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
++/*
++ * This pixel output formats list referenced from,
++ * AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
++ * 3.7.4 Pixel formats
++ * Table 14. DSI pixel packing formats
++ */
++static const u32 exynos_dsi_pixel_output_fmts[] = {
++	MEDIA_BUS_FMT_YUYV10_1X20,
++	MEDIA_BUS_FMT_YUYV12_1X24,
++	MEDIA_BUS_FMT_UYVY8_1X16,
++	MEDIA_BUS_FMT_RGB101010_1X30,
++	MEDIA_BUS_FMT_RGB121212_1X36,
++	MEDIA_BUS_FMT_RGB565_1X16,
++	MEDIA_BUS_FMT_RGB666_1X18,
++	MEDIA_BUS_FMT_RGB888_1X24,
++	MEDIA_BUS_FMT_FIXED,
 +};
 +
- static int exynos_dsi_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -1777,6 +1781,10 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 	dsi->bridge.pre_enable_prev_first = true;
- 
-+	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
-+	if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM)
-+		dsi->bridge.timings = &dsim_bridge_timings_de_low;
++static bool exynos_dsi_pixel_output_fmt_supported(u32 fmt)
++{
++	int i;
 +
- 	ret = component_add(dev, &exynos_dsi_component_ops);
- 	if (ret)
- 		goto err_disable_runtime;
++	for (i = 0; i < ARRAY_SIZE(exynos_dsi_pixel_output_fmts); i++) {
++		if (exynos_dsi_pixel_output_fmts[i] == fmt)
++			return true;
++	}
++
++	return false;
++}
++
++static u32 *
++exynos_dsi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
++				     struct drm_bridge_state *bridge_state,
++				     struct drm_crtc_state *crtc_state,
++				     struct drm_connector_state *conn_state,
++				     u32 output_fmt,
++				     unsigned int *num_input_fmts)
++{
++	u32 *input_fmts;
++
++	if (!exynos_dsi_pixel_output_fmt_supported(output_fmt))
++		/*
++		 * Some bridge/display drivers are still not able to pass the
++		 * correct format, so handle those pipelines by falling back
++		 * to the default format till the supported formats finalized.
++		 */
++		output_fmt = MEDIA_BUS_FMT_RGB888_1X24;
++
++	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
++	if (!input_fmts)
++		return NULL;
++
++	switch (output_fmt) {
++	case MEDIA_BUS_FMT_FIXED:
++		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
++		break;
++	default:
++		input_fmts[0] = output_fmt;
++		break;
++	}
++
++	*num_input_fmts = 1;
++
++	return input_fmts;
++}
++
+ static int exynos_dsi_atomic_check(struct drm_bridge *bridge,
+ 				   struct drm_bridge_state *bridge_state,
+ 				   struct drm_crtc_state *crtc_state,
+@@ -1514,6 +1581,7 @@ static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
+ 	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset			= drm_atomic_helper_bridge_reset,
++	.atomic_get_input_bus_fmts	= exynos_dsi_atomic_get_input_bus_fmts,
+ 	.atomic_check			= exynos_dsi_atomic_check,
+ 	.atomic_pre_enable		= exynos_dsi_atomic_pre_enable,
+ 	.atomic_enable			= exynos_dsi_atomic_enable,
 -- 
 2.25.1
 
