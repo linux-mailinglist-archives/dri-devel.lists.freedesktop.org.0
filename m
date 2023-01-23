@@ -1,46 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B12C677806
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 10:59:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 916B7677809
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 10:59:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A55F10E1E9;
-	Mon, 23 Jan 2023 09:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE2C910E210;
+	Mon, 23 Jan 2023 09:59:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
- by gabe.freedesktop.org (Postfix) with ESMTP id 769A510E1E1;
- Mon, 23 Jan 2023 09:59:36 +0000 (UTC)
-Received: from 8bytes.org (p5b006afb.dip0.t-ipconnect.de [91.0.106.251])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPSA id 9A316262C2B;
- Mon, 23 Jan 2023 10:59:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1674467975;
- bh=0KQBObUcnpg5GrqXq3hC5RyjGf2zS6TIXg2zcVgFWn0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tr3JGNsZMXVI480xgKW5iIBnC2CS9vyEqh9gWSstha079Y/cRMHa9gi+uxnReHb5d
- fwek2sY7wwUJnFwFFwIvWemH12HdN0YbgdSZ2RWwC0269UqDUwGwB35CRDyXhq60AT
- USyIwI3wP05/5oGtUOpS94M53A08jNcPckKA5ZXpZIPRaNJ96Q+BFkTkmpgSNGCPm5
- YogHT95t/tBdYhxC9Y35A2TokJihCUBd4VwOl8Pa35zfKfyCatWPy6AY7P+apvfw5a
- T/W6TQnG+GLz390G6KRQWUX8KnoKg77Sxn7JUzcugID6/sS1m397rjmidCEXxQK2Lj
- 1j8HX1fY4eNAw==
-Date: Mon, 23 Jan 2023 10:59:32 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH 1/8] iommu: Add a gfp parameter to iommu_map()
-Message-ID: <Y85ahCk3sRTVAU8O@8bytes.org>
-References: <1-v1-6e8b3997c46d+89e-iommu_map_gfp_jgg@nvidia.com>
- <4fd1b194-29ef-621d-4059-a8336058f217@arm.com>
- <Y7hZOwerwljDKoQq@nvidia.com> <Y8pd50mdNShTyVRX@8bytes.org>
- <Y8rVJGyTKAjXjLwV@nvidia.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA65610E210;
+ Mon, 23 Jan 2023 09:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674467987; x=1706003987;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=ePDWwgcnlNm7XgLa0k+WDGWgsGFUAD6LL0d9v4m8XAE=;
+ b=RGJ43OH7TsQLzHYTXy8y9sNhp/a2Dz8DDfQh2epjeUm4wqKA5OPYp1jB
+ RtWxS9/6neCcG0Jxemx0USQ7yX4a1i7o5pRB4J4gKSx5Ynt+9KDsgimCS
+ 1+mnEr8J2nF0P4QfCJ2JKCd1odzk3FO7E5GgVl9vNBcrkW4eEShhHN0/m
+ F5ErWQCbhsx0XiALQFsXEtYp4/TK3Wa+TVniZsX1AO894+iJdVNeIWBhG
+ 1Ty/IS6RW5lkRfsKEJth/iDti0w7tM3BFPoHAYAH8h39b0cUnmnnVClvD
+ tvcKshdBdcsVNRCGkcA1qt0Dv6l1fW599Jdq/1YfCNTNsdVGpmWRM+3d2 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="326040460"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="326040460"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 01:59:47 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="835412129"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="835412129"
+Received: from possola-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.57.125])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 01:59:45 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v8 4/8] drm/edid: remove redundant
+ _drm_connector_update_edid_property()
+In-Reply-To: <712cc299afe33d8f6279a15d5b0117aeeab88bb4.1674144945.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1674144945.git.jani.nikula@intel.com>
+ <712cc299afe33d8f6279a15d5b0117aeeab88bb4.1674144945.git.jani.nikula@intel.com>
+Date: Mon, 23 Jan 2023 11:59:43 +0200
+Message-ID: <87r0vl8tbk.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8rVJGyTKAjXjLwV@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,37 +60,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-s390@vger.kernel.org,
- Matthew Rosato <mjrosato@linux.ibm.com>, linux-rdma@vger.kernel.org,
- ath10k@lists.infradead.org, iommu@lists.linux.dev,
- Christian Borntraeger <borntraeger@linux.ibm.com>, ath11k@lists.infradead.org,
- linux-media@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
- Niklas Schnelle <schnelle@linux.ibm.com>, linux-arm-msm@vger.kernel.org,
- Alex Williamson <alex.williamson@redhat.com>, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 20, 2023 at 01:53:40PM -0400, Jason Gunthorpe wrote:
-> > Well, having GFP parameters is not a strict kernel convention. There are
-> > places doing it differently and have sleeping and atomic variants of
-> > APIs. I have to say I like the latter more. But given that this leads to
-> > an invasion of API functions here which all do the same under the hood, I
-> > agree it is better to go with a GFP parameter here.
-> 
-> Ok, I think we are done with this series, I'll stick it in linux-next
-> for a bit and send you a PR so the trees stay in sync
+On Thu, 19 Jan 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> Realize that drm_edid_connector_update() and
+> _drm_connector_update_edid_property() are now the same thing. Drop the
+> latter.
+>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-This series mostly touches parts outside of IOMMUFD, so we should follow
-the process here and let this reach linux-next via the IOMMU tree.
-Please send me a new version and I will put it into a separate branch
-where you can pull it from.
+Thanks for the reviews, pushed 1-4 to drm-misc-next.
 
-Regards,
+BR,
+Jani.
 
-	Joerg
+
+> ---
+>  drivers/gpu/drm/drm_edid.c | 21 +--------------------
+>  1 file changed, 1 insertion(+), 20 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index d0c21d27b978..3d0a4da661bc 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -6784,24 +6784,6 @@ int drm_edid_connector_add_modes(struct drm_connec=
+tor *connector)
+>  }
+>  EXPORT_SYMBOL(drm_edid_connector_add_modes);
+>=20=20
+> -static int _drm_connector_update_edid_property(struct drm_connector *con=
+nector,
+> -					       const struct drm_edid *drm_edid)
+> -{
+> -	/*
+> -	 * Set the display info, using edid if available, otherwise resetting
+> -	 * the values to defaults. This duplicates the work done in
+> -	 * drm_add_edid_modes, but that function is not consistently called
+> -	 * before this one in all drivers and the computation is cheap enough
+> -	 * that it seems better to duplicate it rather than attempt to ensure
+> -	 * some arbitrary ordering of calls.
+> -	 */
+> -	update_display_info(connector, drm_edid);
+> -
+> -	_drm_update_tile_info(connector, drm_edid);
+> -
+> -	return _drm_edid_connector_property_update(connector, drm_edid);
+> -}
+> -
+>  /**
+>   * drm_connector_update_edid_property - update the edid property of a co=
+nnector
+>   * @connector: drm connector
+> @@ -6823,8 +6805,7 @@ int drm_connector_update_edid_property(struct drm_c=
+onnector *connector,
+>  {
+>  	struct drm_edid drm_edid;
+>=20=20
+> -	return _drm_connector_update_edid_property(connector,
+> -						   drm_edid_legacy_init(&drm_edid, edid));
+> +	return drm_edid_connector_update(connector, drm_edid_legacy_init(&drm_e=
+did, edid));
+>  }
+>  EXPORT_SYMBOL(drm_connector_update_edid_property);
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
