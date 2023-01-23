@@ -1,66 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957E36776AF
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 09:48:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 454736776CF
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 09:53:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46A4910E322;
-	Mon, 23 Jan 2023 08:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A80610E325;
+	Mon, 23 Jan 2023 08:53:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A64A610E322
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 08:48:25 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id m15so8378326wms.4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 00:48:25 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4483810E325
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 08:53:37 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ iv8-20020a05600c548800b003db04a0a46bso4166305wmb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 00:53:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fprSFVrrJnip/JTZ37qMzy2gRM9AV21W/+RUwbxSVAc=;
- b=G3wEtCktiXpKXO7gbXkzeOUQSo4i5jg5M1xnnovKINwwAGDloR8BE4pWdIviar144X
- nQUALEqMDZ7NFF2Exd06H67XJp0rRWm1iz261S31dYHt1Q3CWmARWE8jGMiktnddzuLG
- GMX4yFuiMTXXzyZubOKw+I9wQBDmhCkqh91rUHpxzAdQryclK1XLQBnE/xj4GnxJKlrS
- vE26TX9Sq42+jyXFnTawzoukkKfcC4C7dJhWLXxmcziRrbIBDfMfdvYgc5Mt9Hj3pbvU
- lxeLXGNn3VMcwf5CbS74yNr9IER++f6trQBOcMzqKvmb5sUhU6Tt6TUyUxoB2NDbcj06
- nytg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MVf3AvujnaoCN2yeM/Xk1YpwQO0fOjy9SVB0LBEsLLc=;
+ b=bQxrDKysn8Jf+5WIaotfiFymNB92cJIdwwBzt79u/JcE88nzW+nasQgxbyFDMwsjx0
+ AUbK7OZnD5nW/AzPAC3tsazhFP0e3SHL0N2lEOSr4ew9LBAUI5ICsKESdtuEklDP1W0n
+ /SEvfblneK85I0dnEnLSslp9mB2rF89B7+abjlM+1v5zoDWAZ0+wHaNezjnjfSLGauPU
+ WEqnwBlZZwDUsZzBjw1mQTTON8hvB19cWqE/JL/OH8RDT+JUBu/KfC0Hn9C4yPP8eA6l
+ OJ2ArZCvw7F46bQpFLYs9hquTCI0fOYkjyL8tbm0MyPw/jEX3owOVl1N9LHUk4TFTPk8
+ 8PJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fprSFVrrJnip/JTZ37qMzy2gRM9AV21W/+RUwbxSVAc=;
- b=QuX29lKVkT5RCAw42aPVKw2ociAhK3Oo1XCJmbFe2z8YfnC7+5XaohUtgbg1LZMNkz
- MotRwMADnh79CL5pUZ51tIG0V5do2+KrGf1KYorncMzLl7FU42quC+M5VpwfsF/nJWph
- YqWkakrueM5Lan/38KxjwqKWyTgzee68yoKyXyVBzv7/qD07hA09b5Vt2CBwRfax1Mxf
- 733KYZkXw09ilUEpZTWMCEJLW6A8GgLtPe5yZOCt3CHwSvOHuKsEIIBPuWv9Gljz23h/
- 121Xd2eDFxGbvPqp66QkuqVj4Ana7SyqwLPjbVua/TyomCA/BiWtR5YRp1/Q8l1OZgCn
- oH1g==
-X-Gm-Message-State: AFqh2kqfyNfVHzh3af+A9VFci0thfDVLG+1BGGmGIgnukSaQtqYwsHMc
- OSg7sCKoRgx2ErcQDOhlRSSEwA==
-X-Google-Smtp-Source: AMrXdXtdtS5fuxBNA0md8yjriXvzIDmJ7LM4InlDyxE/6GHR5d5ygvek+mbvRKs0XNOWmQVq3dTCkw==
-X-Received: by 2002:a1c:7216:0:b0:3cf:614e:b587 with SMTP id
- n22-20020a1c7216000000b003cf614eb587mr23472481wmc.26.1674463704102; 
- Mon, 23 Jan 2023 00:48:24 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MVf3AvujnaoCN2yeM/Xk1YpwQO0fOjy9SVB0LBEsLLc=;
+ b=y7sVEm7Q6yqBEMTva3/Crg5z67tuFamz25a6PSWfV0qjz77mLCRUYYQKDn+YxaQ2P5
+ +2r4azCOMKQ98PMGr76ROMgTP73Vghmr3k2cKiuQYiCBcW+7YAA4xlyLbsNpsZjNhYzc
+ F9KCyL9greDYInb811XtIJ5mmA3/iVNN4Yo1M3Ntj125OjM0ckGx7MdeN08HNCrYKpK6
+ +3qorPivE8hbo6M+vxL3iUm2L3ywe1o9caY0rCahtQgrMaxCf+T27KgGsCXwmPH4CP4H
+ jGCt6IorlHMQ9Cpo7irsbHOju/pVL6fPB/PzNgetub2vUJGdLFqkd8rzvQApbnZiuCB4
+ g+Sw==
+X-Gm-Message-State: AFqh2kq2FmrKDRoVlRotOzLPn/L3J4VXKru79zen5fSYJ9DjIKEsLzlv
+ ccfbgVaG3QLRxQErf4skSPXK5A==
+X-Google-Smtp-Source: AMrXdXuvYhhXjbTCUdMrmc8i/3yBrY8fe6Vzlfg4CABMqtm9bGnF6nkCh6c242EgEpS7IeKE2atK8w==
+X-Received: by 2002:a05:600c:3d14:b0:3da:f793:fff6 with SMTP id
+ bh20-20020a05600c3d1400b003daf793fff6mr23044032wmb.16.1674464015780; 
+ Mon, 23 Jan 2023 00:53:35 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a1c7912000000b003db00747fdesm10024711wme.15.2023.01.23.00.48.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 00:48:23 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Liu Ying <victor.liu@nxp.com>
-In-Reply-To: <20230123021449.969243-1-victor.liu@nxp.com>
-References: <20230123021449.969243-1-victor.liu@nxp.com>
-Subject: Re: [PATCH v3 0/2] drm/bridge: fsl-ldb: Add i.MX93 LDB support
-Message-Id: <167446370312.2000622.5778653160134240013.b4-ty@linaro.org>
-Date: Mon, 23 Jan 2023 09:48:23 +0100
+ t13-20020a1c770d000000b003db0ee277b2sm10091201wmi.5.2023.01.23.00.53.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jan 2023 00:53:35 -0800 (PST)
+Message-ID: <bd5dd7b9-7704-ec40-2b42-8e3dfdddb7fd@linaro.org>
+Date: Mon, 23 Jan 2023 09:53:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 1/2] dt-bindings: lcdif: Add i.MX93 LCDIF support
+Content-Language: en-US
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20230123072358.1060670-1-victor.liu@nxp.com>
+ <20230123072358.1060670-2-victor.liu@nxp.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230123072358.1060670-2-victor.liu@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,33 +78,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se,
- linux-imx@nxp.com, jernej.skrabec@gmail.com, krzysztof.kozlowski@linaro.org,
- robh+dt@kernel.org, robert.foss@linaro.org, andrzej.hajda@intel.com,
- Laurent.pinchart@ideasonboard.com
+Cc: marex@denx.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ robh+dt@kernel.org, linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, 23 Jan 2023 10:14:47 +0800, Liu Ying wrote:
-> This patch set aims to add i.MX93 LVDS Display Bridge(LDB) support in
-> the existing i.MX8mp LDB DRM bridge driver.  Same to i.MX8mp LDB, i.MX93
-> LDB is controlled by mediamix blk-ctrl through two registers.  i.MX93
-> LDB supports only one LVDS channel(channel 0) while i.MX8mp supports at
-> most two.
+On 23/01/2023 08:23, Liu Ying wrote:
+> There is one LCDIF embedded in i.MX93 SoC to connect with
+> MIPI DSI controller through LCDIF cross line pattern(controlled
+> by mediamix blk-ctrl) or connect with LVDS display bridge(LDB)
+> directly or connect with a parallel display through parallel
+> display format(also controlled by mediamix blk-ctrl).  i.MX93
+> LCDIF IP is essentially the same to i.MX8MP LCDIF IP.  Add device
+> tree binding for i.MX93 LCDIF.
 > 
-> Patch 1/2 adds device tree binding for i.MX93 LDB in the existing
-> fsl,ldb.yaml.
-> 
-> [...]
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-[1/2] dt-bindings: display: bridge: ldb: Add i.MX93 LDB
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=5e68a0ca59c0891d6b7da8ae7f6764565ff67c6d
-[2/2] drm/bridge: fsl-ldb: Add i.MX93 LDB support
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=48865413c9ddab68a774b506b1940af0f6b6089d
+Best regards,
+Krzysztof
 
--- 
-Neil
