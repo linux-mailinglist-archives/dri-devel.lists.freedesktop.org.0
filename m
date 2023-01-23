@@ -1,39 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEEB6780D9
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 428BF677EA8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:05:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7429910E4EE;
-	Mon, 23 Jan 2023 16:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F98710E4AB;
+	Mon, 23 Jan 2023 15:05:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 73108 seconds by postgrey-1.36 at gabe;
- Mon, 23 Jan 2023 14:35:19 UTC
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C615110E4AB
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 14:35:19 +0000 (UTC)
-Received: (Authenticated sender: didi.debian@cknow.org)
- by mail.gandi.net (Postfix) with ESMTPSA id 49325240008;
- Mon, 23 Jan 2023 14:35:15 +0000 (UTC)
-From: Diederik de Haas <didi.debian@cknow.org>
-To: David Airlie <airlied@redhat.com>,
- "open list:AGPGART DRIVER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] agp/amd64: Fix full name of the GPL
-Date: Mon, 23 Jan 2023 15:35:04 +0100
-Message-ID: <2864476.hPRh1b3E4p@prancing-pony>
-Organization: Connecting Knowledge
-In-Reply-To: <bd2df24b-e19e-2ba4-c3e8-0d555f69b453@wanadoo.fr>
-References: <20230122181632.54267-1-didi.debian@cknow.org>
- <bd2df24b-e19e-2ba4-c3e8-0d555f69b453@wanadoo.fr>
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AFFB10E4AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:05:01 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id d30so18598905lfv.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:05:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=P3rqFJi0wYIMyx4eFEnrANXBYlUWFGjnlOrB4sJY0mc=;
+ b=VSvjd1+J+2hfVE0rK2aWfDA0OVUPFITcaGU/EEk+ovd3PB+LZoSIbLXjg/6O4g0QkX
+ wQSOdPQHW8ShVOvuv6K4ehak+/FUBZ6bBjlKapxHcHQImaA7q7t1gEwYZmwObqGrP/PP
+ CuO1Q1/NA1X4wba91SbkMkbJ02vBgbwFgxkUGAZz0utThM5EFRk4Y/dHFQrqiTC3T8XY
+ pxEaA9cykcbArWN/Q14sLzrf2oqArLVwTmvV0IHeWZXjaXfjdJS++GDWvaf9CtXKja5B
+ /+o8WCQ6Z8OG5i90gfUfiXJhw6rQk2gldlIFYsb4njbrpXyfD3NMkTBxEGrhoTwav/UE
+ HUzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P3rqFJi0wYIMyx4eFEnrANXBYlUWFGjnlOrB4sJY0mc=;
+ b=UpixsRarmfVc9IwMk0G92yL5XTFN5kdQII8DraSRcqkXSOdKyk50vWt2kQ/lvZhLqj
+ aKKeOiP5SD8Otrwo41LPdoSLV9mKg7OimUpwCkaUqBhKq0WewyB35mQ532InHSyBMEDj
+ uN1kLgvll8vjUw3lLN1WEGQ3DCyXKLtlbqvra2su9Yxs/JbaWBLoUOOPV6CSD4loLSvD
+ PvDLToEFVZyo0IjbfUwMqq6pdgNtjF/mbuufx80X7R2txVwvVgjEXHrddqKtXMYlYH38
+ 7jgXe3Q4kIWj98yB0TcN2h7btd5mjFFIyEQEJIC9wJY2TVrpkohHwQ3SY+Dr/RkzNqnB
+ vbEQ==
+X-Gm-Message-State: AFqh2kofAGP9g68BUrb6baeAONqdhYkKDv3CdtwOGTSE0Z8K3srLqsYr
+ BRfrr/2N3W3HockzV+dSVqw=
+X-Google-Smtp-Source: AMrXdXuHnINfpXEMI/5P6IHfO27xMrOaiT1cQnmYVDzQ2npYaq/u8eUakJKoBBnDu0eFJD/hs2QaqA==
+X-Received: by 2002:a05:6512:340a:b0:4d2:551e:3838 with SMTP id
+ i10-20020a056512340a00b004d2551e3838mr7464162lfr.29.1674486299330; 
+ Mon, 23 Jan 2023 07:04:59 -0800 (PST)
+Received: from mobilestation ([95.79.133.202])
+ by smtp.gmail.com with ESMTPSA id
+ b8-20020a0565120b8800b004d593f218absm1011508lfv.108.2023.01.23.07.04.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 07:04:58 -0800 (PST)
+Date: Mon, 23 Jan 2023 18:04:56 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
+ spi->cs_gpiod references with function call
+Message-ID: <20230123145953.ytaaq3x4tetgepyf@mobilestation>
+References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
+ <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2917665.PWPBeqnEoL";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Mailman-Approved-At: Mon, 23 Jan 2023 16:04:33 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,83 +72,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
+ miquel.raynal@bootlin.com, linux-riscv@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ libertas-dev@lists.infradead.org, vireshk@kernel.org, openbmc@lists.ozlabs.org,
+ linux-staging@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-sunxi@lists.linux.dev,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ greybus-dev@lists.linaro.org, broonie@kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ kernel@pengutronix.de, netdev@vger.kernel.org, linux-wpan@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---nextPart2917665.PWPBeqnEoL
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH] agp/amd64: Fix full name of the GPL
-Date: Mon, 23 Jan 2023 15:35:04 +0100
-Message-ID: <2864476.hPRh1b3E4p@prancing-pony>
-Organization: Connecting Knowledge
-In-Reply-To: <bd2df24b-e19e-2ba4-c3e8-0d555f69b453@wanadoo.fr>
-MIME-Version: 1.0
+On Fri, Jan 20, 2023 at 12:23:31AM +0530, Amit Kumar Mahapatra wrote:
+> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
+> members of struct spi_device to be an array. But changing the type of these
+> members to array would break the spi driver functionality. To make the
+> transition smoother introduced four new APIs to get/set the
+> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
+> spi->cs_gpiod references with get or set API calls.
+> While adding multi-cs support in further patches the chip_select & cs_gpiod
+> members of the spi_device structure would be converted to arrays & the
+> "idx" parameter of the APIs would be used as array index i.e.,
+> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
+> 
+> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+> ---
 
-On Sunday, 22 January 2023 20:49:22 CET Christophe JAILLET wrote:
-> Le 22/01/2023 =E0 19:16, Diederik de Haas a =E9crit :
-> > Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
-> > ---
-> >=20
-> >   drivers/char/agp/amd64-agp.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
-> > index ce8651436609..3020fd92fd00 100644
-> > --- a/drivers/char/agp/amd64-agp.c
-> > +++ b/drivers/char/agp/amd64-agp.c
-> > @@ -1,7 +1,7 @@
-> >=20
-> >   // SPDX-License-Identifier: GPL-2.0-only
-> >   /*
-> >  =20
-> >    * Copyright 2001-2003 SuSE Labs.
-> >=20
-> > - * Distributed under the GNU public license, v2.
-> > + * Distributed under the GNU General Public License, v2.
-> >=20
-> >    *
-> >    * This is a GART driver for the AMD Opteron/Athlon64 on-CPU
-> >    northbridge.
-> >    * It also includes support for the AMD 8151 AGP bridge,
->=20
-> maybe the line can just be removed.
-> There is already a SPDX-License-Identifier above.
+[nip]
 
-Hi,
+>  drivers/spi/spi-dw-core.c         |  2 +-
+>  drivers/spi/spi-dw-mmio.c         |  4 ++--
 
-That does sound reasonable, but I'm now seeing it as a legal issue [1] and =
-no
-longer as a spelling one. Strictly speaking it seems there is a discrepancy
-between the SPDX identifier and the 'full' license statement.
-While it may be reasonable to *assume* the "GNU General Public License, v2"
-was meant, when it comes to license/legal stuff, I think that does not suff=
-ice.
+[nip]
 
-So I'd like to retract my patch submission and want to leave it up to people
-who are in a position to resolve this issue, if that needs to be done.
+> diff --git a/drivers/spi/spi-dw-core.c b/drivers/spi/spi-dw-core.c
+> index 99edddf9958b..4fd1aa800cc3 100644
+> --- a/drivers/spi/spi-dw-core.c
+> +++ b/drivers/spi/spi-dw-core.c
+> @@ -103,7 +103,7 @@ void dw_spi_set_cs(struct spi_device *spi, bool enable)
+>  	 * support active-high or active-low CS level.
+>  	 */
+>  	if (cs_high == enable)
+> -		dw_writel(dws, DW_SPI_SER, BIT(spi->chip_select));
+> +		dw_writel(dws, DW_SPI_SER, BIT(spi_get_chipselect(spi, 0)));
+>  	else
+>  		dw_writel(dws, DW_SPI_SER, 0);
+>  }
+> diff --git a/drivers/spi/spi-dw-mmio.c b/drivers/spi/spi-dw-mmio.c
+> index 26c40ea6dd12..d511da766ce8 100644
+> --- a/drivers/spi/spi-dw-mmio.c
+> +++ b/drivers/spi/spi-dw-mmio.c
+> @@ -65,7 +65,7 @@ static void dw_spi_mscc_set_cs(struct spi_device *spi, bool enable)
+>  	struct dw_spi *dws = spi_master_get_devdata(spi->master);
+>  	struct dw_spi_mmio *dwsmmio = container_of(dws, struct dw_spi_mmio, dws);
+>  	struct dw_spi_mscc *dwsmscc = dwsmmio->priv;
+> -	u32 cs = spi->chip_select;
+> +	u32 cs = spi_get_chipselect(spi, 0);
+>  
+>  	if (cs < 4) {
+>  		u32 sw_mode = MSCC_SPI_MST_SW_MODE_SW_PIN_CTRL_MODE;
+> @@ -138,7 +138,7 @@ static void dw_spi_sparx5_set_cs(struct spi_device *spi, bool enable)
+>  	struct dw_spi *dws = spi_master_get_devdata(spi->master);
+>  	struct dw_spi_mmio *dwsmmio = container_of(dws, struct dw_spi_mmio, dws);
+>  	struct dw_spi_mscc *dwsmscc = dwsmmio->priv;
+> -	u8 cs = spi->chip_select;
+> +	u8 cs = spi_get_chipselect(spi, 0);
+>  
+>  	if (!enable) {
+>  		/* CS override drive enable */
 
-Apologies for the noise.
+For the DW SSI part:
+Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
 
-Diederik
+-Serge(y)
 
-[1] https://lore.kernel.org/lkml/ad99d227-ce82-319b-6323-b70ac009d0e7@roeck=
-=2Dus.net/
---nextPart2917665.PWPBeqnEoL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCY86bGAAKCRDXblvOeH7b
-bpDmAP9dkD6xv0+7accWtErOCfRIgkP5DZA86jJpwo3vBmbRSQD9HO65FfldWmSO
-OPgm2CWJWdARSiR7d8Aa/AHJaj4X1QM=
-=pjaj
------END PGP SIGNATURE-----
-
---nextPart2917665.PWPBeqnEoL--
-
-
-
+[nip]
