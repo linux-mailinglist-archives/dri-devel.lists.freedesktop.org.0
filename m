@@ -2,44 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F06677A9C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7805E677AB2
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:22:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D0B10E1EA;
-	Mon, 23 Jan 2023 12:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2776C10E348;
+	Mon, 23 Jan 2023 12:22:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B22B10E1EA
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
- Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description; bh=r80bla368F0mccCTC7Gf0OTNLE2fXe2B5th7gyHTqbQ=; b=rNaVX
- +nePtYTn0zLA92rms+XZn/2Fb2GrjoCDlFkcXj7slSMQ6FylnlZIHeF/tKHUX6asHca60R5TWMBPm
- b07leiFLb7JI25QN4kE1vo3Tu7r0ehnoLTZyL8LS7Mrdi1bivbEDgaMAM9jQ8C6POFWxXo0ZfmMfm
- axpmvoCEvY3ke7MzpcbtPRhby8TEPmfHis9xBAsRamqSR1JP7hbiJ9ANVa8nBSh/hxzIIKdgwCDWx
- A06+YP0TkK+s7e0E3nTrpOPMEEwaDymYt0myD+kOrP7AlH6dFygXLSEAcCDkbeci/RjSoSr39pDHl
- MitYnMIpVqBI1u5SfyQzbNd/yqVjQ==;
-Received: from [81.174.171.191] (helo=donbot)
- by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (Exim 4.95) (envelope-from <john@metanate.com>) id 1pJvkk-0004BB-RI;
- Mon, 23 Jan 2023 12:16:46 +0000
-Date: Mon, 23 Jan 2023 12:16:45 +0000
-From: John Keeping <john@metanate.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] drm/bridge: panel: Set orientation on panel_bridge
- connector
-Message-ID: <Y856rWmtA4tQCcZz@donbot>
-References: <20230120114313.2087015-1-john@metanate.com>
- <CAD=FV=UPD6c+NY8Ub37N7LmrRFpcr6gKOh0Os14DaKrf3bKo2A@mail.gmail.com>
- <Y8uo7vIcQ6caH9pu@ravnborg.org> <Y8wnswk++tvr9xMe@donbot>
- <Y81Px74OUYt21nj4@pendragon.ideasonboard.com>
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA58F10E348
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:22:18 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id p141so11754647ybg.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 04:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UImd4awdxFPdpogR2bLL32GPkJVcMDf+bJ0+XqjT/+g=;
+ b=KI/IKL0xHPWWjPS0yHjQgOYbdZWKsZbOiL4pN+aeWUwny0YjTRUrL2D/X1MHCmV6jY
+ HiHVZuqVCBOEPO+30LBl0q4trz/6rhjdHjVkI/7le86ZBkBZUrQkvTiEXUABRRFEvJrQ
+ 9a0utKuZH2xgZRrmxdfz8MwDrwSWZTrI9Xtyw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UImd4awdxFPdpogR2bLL32GPkJVcMDf+bJ0+XqjT/+g=;
+ b=PLcuOUeFqisrhMewQQ3FT1b11AFBnQMOvi17U71GqC/6wT5O0sAzq4MDusyGGVjier
+ xWj56f0z/ZfGcbeNpZJf6+LuAcaYMs308R+s1LS/2ev/RqPkAo5SteM0jX8nMe7NIlCs
+ QjzqkpzFNaJdonEn6cnFobLsy1odYM8OOhfXNVKqaHdyQ7OkMyooI730v7OaaXMMdZ9T
+ xMEhEFt/Blnzi73548wOALYlb+fBIcp1YfxhMvhpeLUbe6E/X4XSzTWRxnWBm1wZUz6u
+ B8vqsWgBge2EF4h5kiopcNdnzN4pNkR+DtcYl0Uz2zccL3Uw+I+DXzMJKTSKFD6ldEWy
+ Rjmg==
+X-Gm-Message-State: AFqh2kqtFNQfJcBaPFIxso7pCzumSADumEuKKTRZCQRy2eWbQpJPZrA1
+ Xn0kKw+gE2sWlymlGZ8tZMvuHF7vKTKZ7nbNpxAJtA==
+X-Google-Smtp-Source: AMrXdXuj1JqAZLs0ghviagzmrr23s2E4xqnbXEVoOviHzO0vWJbrYl03rO/OlX+0WrnCVVkptBxaS/6pnllreWedBNI=
+X-Received: by 2002:a25:bd54:0:b0:7d3:851c:e744 with SMTP id
+ p20-20020a25bd54000000b007d3851ce744mr2962050ybm.84.1674476538009; Mon, 23
+ Jan 2023 04:22:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y81Px74OUYt21nj4@pendragon.ideasonboard.com>
-X-Authenticated: YES
+References: <20221214125907.376148-1-jagan@amarulasolutions.com>
+ <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
+ <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
+ <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
+ <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
+ <CAMty3ZAc=t5FEphQkd=O1eaA70-779zhESwPFqoiGs8x569H2w@mail.gmail.com>
+ <ea400d44-a6cb-2f26-9c03-ee1ede2cdf09@denx.de>
+ <CAPY8ntDUeWMXY_VuNyXUzuerXbnt8SmVL3M6KEpmfsc041G_2w@mail.gmail.com>
+In-Reply-To: <CAPY8ntDUeWMXY_VuNyXUzuerXbnt8SmVL3M6KEpmfsc041G_2w@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 23 Jan 2023 17:52:06 +0530
+Message-ID: <CAMty3ZD_4MwSBWU=4ywXsQvN9QhiwowDxhqHgLsvmPbCfECFmg@mail.gmail.com>
+Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,80 +69,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Doug Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Maxime Ripard <maxime@cerno.tech>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
-
-On Sun, Jan 22, 2023 at 05:01:27PM +0200, Laurent Pinchart wrote:
-> On Sat, Jan 21, 2023 at 05:58:11PM +0000, John Keeping wrote:
-> > On Sat, Jan 21, 2023 at 09:57:18AM +0100, Sam Ravnborg wrote:
-> > > On Fri, Jan 20, 2023 at 01:44:38PM -0800, Doug Anderson wrote:
-> > > > On Fri, Jan 20, 2023 at 3:43 AM John Keeping wrote:
-> > > > >
-> > > > > Commit 15b9ca1641f0 ("drm: Config orientation property if panel provides
-> > > > > it") added a helper to set the panel panel orientation early but only
-> > > > > connected this for drm_bridge_connector, which constructs a panel bridge
-> > > > > with DRM_BRIDGE_ATTACH_NO_CONNECTOR and creates the connector itself.
-> > > > >
-> > > > > When the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is not specified and the
-> > > > > panel_bridge creates its own connector the orientation is not set unless
-> > > > > the panel does it in .get_modes which is too late and leads to a warning
-> > > > > splat from __drm_mode_object_add() because the device is already
-> > > > > registered.
-> > > > >
-> > > > > Call the necessary function to set add the orientation property when the
-> > > > > connector is created so that it is available before the device is
-> > > > > registered.
-> > > > 
-> > > > I have no huge objection to your patch and it looks OK to me. That
-> > > > being said, my understanding is that:
-> > > > 
-> > > > 1. DRM_BRIDGE_ATTACH_NO_CONNECTOR is "the future" and not using the
-> > > > flag is "deprecated".
+On Sat, Jan 21, 2023 at 12:29 AM Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> Hi Marek & Jagan
+>
+> On Fri, 20 Jan 2023 at 15:06, Marek Vasut <marex@denx.de> wrote:
+> >
+> > On 1/20/23 15:41, Jagan Teki wrote:
+> > > Hi Fabio,
+> >
+> > Hello all,
+> >
+> > > On Fri, Jan 20, 2023 at 5:36 PM Fabio Estevam <festevam@gmail.com> wrote:
+> > >>
+> > >> Hi Jagan,
+> > >>
+> > >> On Thu, Jan 19, 2023 at 2:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > >>
+> > >>> There are two patch series prior to this need to apply.
+> > >>>
+> > >>> https://patchwork.kernel.org/project/dri-devel/patch/20221212145745.15387-1-jagan@amarulasolutions.com/
+> > >>> https://patchwork.kernel.org/project/dri-devel/cover/20221212182923.29155-1-jagan@amarulasolutions.com/
+> > >>
+> > >> Would it make sense to re-submit these two patches as part of your series?
 > > >
-> > > Correct.
-> > > Could we take a look at how much is required to move the relevant driver
-> > > to use DRM_BRIDGE_ATTACH_NO_CONNECTOR?
-> > >
-> > > If this is too much work now we may land this simple patch, but the
-> > > preference is to move all drivers to the new bridge handling and thus
-> > > asking display drivers to create the connector.
-> 
-> I fully agree with Doug and Sam here. Let's see if we can keep the yak
-> shaving minimal :-)
-> 
-> > > What display driver are we dealing with here?
-> > 
-> > This is dw-mipi-dsi-rockchip which uses the component path in
-> > dw-mipi-dsi (and, in fact, is the only driver using that mode of
-> > dw-mipi-dsi).
-> > 
-> > I'm not familiar enough with DRM to say whether it's easy to convert to
-> > DRM_BRIDGE_ATTACH_NO_CONNECTOR - should dw-mipi-dsi-rockchip be moving
-> > to use dw-mipi-dsi as a bridge driver or should dw_mipi_dsi_bind() have
-> > a drm_bridge_attach_flags argument?  But I'm happy to test patches if it
-> > looks easy to convert to you :-)
-> 
-> I'd go for the former (use dw_mipi_dsi_probe() and acquire the DSI
-> bridge with of_drm_find_bridge() instead of using the component
-> framework) if possible, but I don't know how intrusive that would be.
+> > > The previous version's comment was to separate them from the DSIM series.
+> >
+> > Hmmmmm, seems like those first two patches got stuck. I fixed up the
+> > malformed Fixes: line (it was split across two lines and had angular
+> > brackets around it) and picked the first series via drm-misc-next .
+> >
+> > Can you send a subsequent patch to convert the DSIM_* macros to BIT()
+> > macro , since checkpatch --strict complains about it ?
+> >
+> > For the second series, you likely want a RB from Maxime Ripard and Dave
+> > Stevenson first about the probe order handling.
+>
+> Not sure what I can add for "Enable prepare_prev_first flag for
+> samsung-s6e panels" and "tc358764: Enable pre_enable_prev_first flag"
+> as I have no datasheet for those devices.
+> On the basis that they are wanting the DSI host to be in LP-11 before
+> prepare/pre_enable, then setting the flag is the right thing. More
+> than happy to say
+> Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> to those two (I can't find them quickly in my mail to respond directly).
+>
+> I have just sent a separate response on the third patch.
 
-I'm a bit confused about what's required since dw-mipi-dsi-rockchip
-already uses dw_mipi_dsi_probe(), but I think moving away from the
-component framework would be significant work as that's how the MIPI
-subdriver fits in to the overall Rockchip display driver.
+Fyi: please check my answers on that thread.
 
-Any changes / modernisation to the Rockchip MIPI driver look like it
-will take more time than I have available to spend on this, so I'd
-really like to see this patch land as it's a simple fix to an existing
-working code path.
-
-
-John
+Thanks,
+Jagan.
