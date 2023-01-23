@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8998D677AC2
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3AD2677AC4
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:24:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C753810E35D;
-	Mon, 23 Jan 2023 12:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A924910E354;
+	Mon, 23 Jan 2023 12:24:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E4110E354
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:24:05 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id 5so5895069plo.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 04:24:05 -0800 (PST)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9753610E354
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:24:12 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id d3so11182222plr.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 04:24:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mGTDxW/0FHkTpFMtVsyR5B6P9WvJldck4Y7e8f4Ze3U=;
- b=Bs0TV7ERk+1qlxrrL7Iq5xhDKr5wiGvfIOEQTt6IEY71jGdKwszKG4hIaiQyH4B9jK
- MwmxoJPwcb9LQqVnuhdd2t8InREwkVC0UlbadxWthtOhwJIYUpmyHdcc/u0Zh8F29ZnO
- D5p/egAtj8nfw/RGK72SWkaPkEyVTCoegod7I=
+ bh=OP7Jau0/ejAFJB5Wx1RIrnmlhV/a7KNNElWN91vRccI=;
+ b=FF4S3dKsgra2tkuAhNkCNGGEcAAs3n/RL1vJY4p1Q1UEcoybUoKN94vWWxrwOR2g7k
+ 3lDbQ79uvVGGpKgaZgy/ayeHRH5aRzItqTaA6RGK9CPZMIrHWMKaDqG3Iuarw5egLfvN
+ d5r9e97BzqztE87iPONYoegr7e+QqF+KXliZk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mGTDxW/0FHkTpFMtVsyR5B6P9WvJldck4Y7e8f4Ze3U=;
- b=Eq4y6r0i8GCwgaFQirw3K4xTx3Zldgnfeov4Nco/sHQ15PGIKvJ54zd7ovzWDv5tP3
- j3h2ZonghVuq5EM82YZi0HpWSMsgpjnqJ9lq7YG1TVJVMrY7KKV6U65FJzLnxJrQ3yqW
- nOhOKaxo3DIopsrD9ywHsbWPYD9alq4fjE2kBFaQLyDsi2AVCFgvk7U0dqkEDOeyxOQV
- qsQdJ7VNBni+pCsENIzhEr0LeCeKkM2U4xAZaQSDR5gU4fyZBv720X6fmoABBov+Hhsa
- zoAdm+tkgqVWB7sVaUmIFIeanhuIeZgqFcvK2OXse+P12cT5hpB9MBl13f7Wm8otCWaX
- YL8w==
-X-Gm-Message-State: AFqh2kp2bLX/B9a/1+ViUiijpMShINimz0me2pNLGAY8mp/1NyjlWzzn
- l7D1zrL+N7n6LkUbgxPoVcAYAg==
-X-Google-Smtp-Source: AMrXdXvsTRgXZ7RQIq+gYIX9+q5YLVd4v+79GSby+iqOUZw8lOw/ZbfaFOb/iKF6P9GVg+/bbqjmZg==
-X-Received: by 2002:a05:6a20:a00d:b0:9d:efbf:6623 with SMTP id
- p13-20020a056a20a00d00b0009defbf6623mr28597401pzj.49.1674476645425; 
- Mon, 23 Jan 2023 04:24:05 -0800 (PST)
+ bh=OP7Jau0/ejAFJB5Wx1RIrnmlhV/a7KNNElWN91vRccI=;
+ b=hbGfw1G4oob+M7WxudRXHWRNj420pa5iP8O4aqjU1fveEkYNdUWrNzzmSSU9oHo6E5
+ p9MVpkZtf9WunZe/eGtvzMq7CekueCnr/tXd7sz2IyilcJUmiah9jPBFnlrpQFP+xLZU
+ +pXGTzqu3HTmptQs+BtOCw8+2HFqgoESl+81CSyM6NErEYWCFW6fo4byRFiYH3IIK4Ha
+ zWiU5wIqfvbt2r/P0lHkhy8pbPxf0VO9C75Af6jbbr9xnnzow3PYl3pG6i5zHcchC8fX
+ n2+kD1NY1CjdPExEzgrrhtaW0JIaanHPLGGi37Lk910VKWnc5uQZpkLG1ePW/+0m4ji6
+ 78yA==
+X-Gm-Message-State: AFqh2kouY7sxCisw5/mMV4H0qfv1QQ0/C9ww0PabI7s6m8b09BJR7ZAw
+ DunhFIq9rrAI/whRilVOaOlRyg==
+X-Google-Smtp-Source: AMrXdXuueVo5X6gxR7qPc2LuaNuA0fktl6al3LAoFF+Diz17x36ywiqFq2drDO/TmgDXNOF8oFxdAw==
+X-Received: by 2002:a17:903:234e:b0:194:d67b:491f with SMTP id
+ c14-20020a170903234e00b00194d67b491fmr19321183plh.13.1674476652311; 
+ Mon, 23 Jan 2023 04:24:12 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a15f:2279:f361:f93b:7971])
  by smtp.gmail.com with ESMTPSA id
- w10-20020a170902e88a00b001960806728asm1291811plg.88.2023.01.23.04.23.58
+ w10-20020a170902e88a00b001960806728asm1291811plg.88.2023.01.23.04.24.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 04:24:04 -0800 (PST)
+ Mon, 23 Jan 2023 04:24:11 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -61,10 +61,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v11 04/18] drm: exynos: dsi: Switch to
- devm_drm_of_dsi_get_bridge
-Date: Mon, 23 Jan 2023 17:53:05 +0530
-Message-Id: <20230123122319.261341-5-jagan@amarulasolutions.com>
+Subject: [PATCH v11 05/18] drm: exynos: dsi: Mark PHY as optional
+Date: Mon, 23 Jan 2023 17:53:06 +0530
+Message-Id: <20230123122319.261341-6-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230123122319.261341-1-jagan@amarulasolutions.com>
 References: <20230123122319.261341-1-jagan@amarulasolutions.com>
@@ -89,55 +88,45 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_drm_of_dsi_get_bridge is capable of looking up the downstream
-DSI bridge and panel and trying to add a panel bridge if the panel
-is found.
+The same Samsung MIPI DSIM master can also be used in NXP's
+i.MX8M Mini/Nano/Plus SoC.
 
-Replace explicit finding calls with devm_drm_of_dsi_get_bridge.
+In i.MX8M Mini/Nano/Plus SoC the DSI Phy requires a MIPI DPHY
+bit to reset in order to activate the PHY and that can be done
+via upstream i.MX8M blk-ctrl driver.
 
+So, mark the phy get as optional.
+
+Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Reviewed-by: Marek Vasut <marex@denx.de>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v11:
-- none
+- collect Frieder RB
 Changes for v10:
+- add Plus in commit message
+- collect Marek RB
+Changes for v9, v8, v7, v6, v5, v4, v3, v2:
+- none
+Changes for v1:
 - new patch
 
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index df15501b1075..4a165764121d 100644
+index 4a165764121d..5918d31127aa 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1470,18 +1470,9 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
- 	struct device *dev = dsi->dev;
- 	struct drm_encoder *encoder = &dsi->encoder;
- 	struct drm_device *drm = encoder->dev;
--	struct drm_panel *panel;
- 	int ret;
+@@ -1687,7 +1687,7 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dsi->reg_base))
+ 		return PTR_ERR(dsi->reg_base);
  
--	panel = of_drm_find_panel(device->dev.of_node);
--	if (!IS_ERR(panel)) {
--		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
--	} else {
--		dsi->out_bridge = of_drm_find_bridge(device->dev.of_node);
--		if (!dsi->out_bridge)
--			dsi->out_bridge = ERR_PTR(-EINVAL);
--	}
--
-+	dsi->out_bridge = devm_drm_of_dsi_get_bridge(dev, dev->of_node, 1, 0);
- 	if (IS_ERR(dsi->out_bridge)) {
- 		ret = PTR_ERR(dsi->out_bridge);
- 		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
-@@ -1531,8 +1522,6 @@ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
- 	struct exynos_dsi *dsi = host_to_dsi(host);
- 	struct drm_device *drm = dsi->encoder.dev;
- 
--	dsi->out_bridge = NULL;
--
- 	if (drm->mode_config.poll_enabled)
- 		drm_kms_helper_hotplug_event(drm);
- 
+-	dsi->phy = devm_phy_get(dev, "dsim");
++	dsi->phy = devm_phy_optional_get(dev, "dsim");
+ 	if (IS_ERR(dsi->phy)) {
+ 		dev_info(dev, "failed to get dsim phy\n");
+ 		return PTR_ERR(dsi->phy);
 -- 
 2.25.1
 
