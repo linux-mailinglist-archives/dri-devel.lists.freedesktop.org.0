@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2871677E19
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 15:32:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E873677E8A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:00:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEBF410E4AF;
-	Mon, 23 Jan 2023 14:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE57B10E1EF;
+	Mon, 23 Jan 2023 15:00:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
- [209.85.128.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53ABB10E4AF
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 14:32:07 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id
- 00721157ae682-50112511ba7so114888267b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 06:32:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=StVHsElt+i0TY8HfSQz/lNkVKU2NFVmPFjupO0nf7f4=;
- b=jJOiDMJ7/C/uYegerLcUCLYUsSF2JKvqFv2r5oc9iHJqy1KkEIdgR1Swd090qJ9uaA
- EIanc80zVSfki+YLybXJ83iFfB7CEIP+Dt/KWSd4zOgXgUWlW4TyPzkGle61YtLXyGMm
- Ogm9xxEiO8Uy2KM8f+EyelfQaO5aAt6dj21cNJ3PcFhXskjwq+Fk0UnxNDz6e3bRCEEK
- GdhUcGQ2Samx/Kzs/eycCu+eHnqIFivXdb8Qrkh/UuqLY73WYu/fY/ZuErX66zERMYbt
- Y8XMo4mOibSmtwPS36azZgTszu6RJ4xlVKlzeQhAlY2NcF4p4kb0b2oeFqu7xna4QTFX
- XiJA==
-X-Gm-Message-State: AFqh2ko99Q4rE3uHtgORkV0tgZ/5NUq/zSW2djyA/16r2SDoBYMz6HZj
- 1PQGFawCMnkR4v7hOJk+sg8Bv0TTZ2BgkA==
-X-Google-Smtp-Source: AMrXdXsp3NjNuimblkinJOF0+SUyGx1IKmh+YvJKpB2LeKcZLu4GSXxqughAuLe0URQ+2/6oAvAtKw==
-X-Received: by 2002:a81:8746:0:b0:4e1:71aa:98a9 with SMTP id
- x67-20020a818746000000b004e171aa98a9mr15945556ywf.47.1674484326003; 
- Mon, 23 Jan 2023 06:32:06 -0800 (PST)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
- [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
- j2-20020a05620a000200b00705e0ad29cdsm9569093qki.77.2023.01.23.06.32.05
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 06:32:05 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 203so14975410yby.10
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 06:32:05 -0800 (PST)
-X-Received: by 2002:a25:9ac1:0:b0:7b4:6a33:d89f with SMTP id
- t1-20020a259ac1000000b007b46a33d89fmr1926934ybo.543.1674484325389; Mon, 23
- Jan 2023 06:32:05 -0800 (PST)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 150EB10E1EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:00:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674486014; x=1706022014;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=4hwx+GMLzlMSCJFM0jTZ8IAKNXr8J0pfdPvYcrrhmYE=;
+ b=JUtDPHRTHph2j7dk03dtGryVsDirc0yQP6VDh103rTagz0DoM3PgEnJK
+ pQzWP/9CPrUiRdL3iJoredu80V2isCmVxQficiBNb3Qws8KWSYpZO5t3M
+ cG5AWD27mmh/LFhgOuKrdlanjyMxsee/e/HJttrqtpYz10jDw8y4/VHjz
+ ibe5Y4axut4x+xX87RvVgffhCbLRnNpT3fh3N3O3H4dlbf3Mc3+ed5LxT
+ JJtkGCunnA3CFcL67F9JqP1C46dAlmQj3EbGiiNTOzfVE4xz2LXyJ5vZ4
+ MzcBTQ14KW+Vxv2WGzH30BfYHKYD9cXf1XFn4mEcLp1VMpeYt+T4nOMXJ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="324737749"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="324737749"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 07:00:13 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="654982793"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="654982793"
+Received: from rshao-mobl1.ccr.corp.intel.com (HELO [10.249.254.135])
+ ([10.249.254.135])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 07:00:11 -0800
+Message-ID: <8d86a6c8-de19-02bc-c254-58c2642f15dd@linux.intel.com>
+Date: Mon, 23 Jan 2023 15:59:51 +0100
 MIME-Version: 1.0
-References: <20230120085009.604797-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20230120085009.604797-3-tomi.valkeinen+renesas@ideasonboard.com>
- <Y8q+ad8CxC7LBN4l@pendragon.ideasonboard.com>
-In-Reply-To: <Y8q+ad8CxC7LBN4l@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 23 Jan 2023 15:31:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVHARDyJnSdOrGJ7aRhZ-Y9K9-NYKYq0orJT+R8fvRemw@mail.gmail.com>
-Message-ID: <CAMuHMdVHARDyJnSdOrGJ7aRhZ-Y9K9-NYKYq0orJT+R8fvRemw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] drm: rcar-du: lvds: Add runtime PM
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [RFC] TTM shrinking revisited
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20221230111159.75410-1-thomas.hellstrom@linux.intel.com>
+ <ac777256-2400-1b19-81ce-af9ec7adfe9c@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <ac777256-2400-1b19-81ce-af9ec7adfe9c@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,35 +62,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
 
-On Fri, Jan 20, 2023 at 5:16 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Jan 20, 2023 at 10:50:04AM +0200, Tomi Valkeinen wrote:
-> > Add simple runtime PM suspend and resume functionality.
+On 1/4/23 11:31, Christian König wrote:
+> Am 30.12.22 um 12:11 schrieb Thomas Hellström:
+>> Hi, Christian, others.
+>>
+>> I'm starting to take a look at the TTM shrinker again. We'll probably be
+>> needing it at least for supporting integrated hardware with the xe 
+>> driver.
+>>
+>> So assuming that the last attempt failed because of the need to allocate
+>> shmem pages and lack of writeback at shrink time, I was thinking of the
+>> following approach: (A rough design sketch of the core support for the
+>> last bullet is in patch 1/1. It of course needs polishing if the 
+>> interface
+>> is at all accepted by the mm people).
+>>
+>> Before embarking on this, any feedback or comments would be greatly
+>> appreciated:
+>>
+>> *) Avoid TTM swapping when no swap space is available. Better to 
+>> adjust the
+>>     TTM swapout watermark, as no pages can be freed to the system 
+>> anyway.
+>> *) Complement the TTM swapout watermark with a shrinker.
+>>     For cached pages, that may hopefully remove the need for the 
+>> watermark.
+>>     Possibly a watermark needs to remain for wc pages and / or dma 
+>> pages,
+>>     depending on how well shrinking them works.
 >
-> I think you need to depend on PM in Kconfig. That's not a compile-time
-> dependency but a runtime-dependency, with runtime PM support the
-> suspend/resume handler will never be called.
+> Yeah, that's what I've already tried and failed miserable exactly 
+> because of what you described above.
+>
+>> *) Trigger immediate writeback of pages handed to the swapcache / shmem,
+>>     at least when the shrinker is called from kswapd.
+>
+> Not sure if that's really valuable.
+>
+>> *) Hide ttm_tt_swap[out|in] details in the ttm_pool code. In the pool 
+>> code
+>>     we have more details about the backing pages and can split pages,
+>>     transition caching state and copy as necessary. Also investigate the
+>>     possibility of reusing pool pages in a smart way if copying is 
+>> needed.
+>
+> Well I think we don't need to split pages at all. The higher order 
+> pages are just allocated for better TLB utilization and could (in 
+> theory) be freed as individual pages as well. It's just that MM 
+> doesn't support that atm.
+>
+> But I really like the idea of moving more of this logic into the 
+> ttm_pool.
+>
+>> *) See if we can directly insert pages into the swap-cache instead of
+>>     taking the shmem detour, something along with the attached patch 
+>> 1 RFC.
+>
+> Yeah, that strongly looks like we way to go. Maybe in combination with 
+> being able to swap WC/UC pages directly out.
+>
+Christian, I was wondering here if
 
-While technically that is correct, you'll have a hard time getting here
-with CONFIG_PM=n, as both ARCH_RCAR_GEN2 and ARCH_RCAR_GEN3
-do select PM.
+1) There is something stopping us from using __GFP_COMP and folios? 
+Reason is that for, for example a 2MiB page, if we can't insert it 
+directly for whatever reason, we don't want to allocate 2MiB worth of 
+swap memory before actually handing any memory back, and so may need to 
+call split_folio().
 
-Gr{oetje,eeting}s,
+2) Also any objections to restricting the page allocation sizes to 
+PMD_SIZE and SZ_4K, again for split_folio().
 
-                        Geert
+Thanks,
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thomas
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+> While swapping them in again an extra copy doesn't hurt us, but for 
+> the other way that really sucks.
+>
+> Thanks,
+> Christian.
+>
+>>
+>> Thanks,
+>> Thomas
+>>
+>
