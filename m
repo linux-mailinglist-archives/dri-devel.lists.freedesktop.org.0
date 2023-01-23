@@ -2,107 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F7D677D31
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 14:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B8E677D37
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 14:58:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A246C10E1EE;
-	Mon, 23 Jan 2023 13:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D753310E49C;
+	Mon, 23 Jan 2023 13:58:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2073.outbound.protection.outlook.com [40.107.102.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CCA510E1EE;
- Mon, 23 Jan 2023 13:58:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IzSvkLGaIkVSEtSuwrY34UdEjX6y3wtqBzlbItXmeq17gZ5aJFrFPza7lBAkSGFI4IpPTAyO0tK7PPHOW9K0J+4zGe0kSm/ygem67qCA0DLPyLWhBtlMz6yatRxuJnOqGZFLCgLKSZdyofru+FhN9l/vcWvhOXvFjSv1//cj/byzT9IxQLh74muwhP96n63tYPz49+H16qpL4/JZ6joyZTxlNqRiIPJHsOicxt50aYbJyIxawg9wgFEuUsCBTwYinkXQoKymNKfAF8sgtFKFXQOjIYl/YYm1pbwaxyQcYO6E9A3HYbnR6aL6Fk8WxvnKodkw5AXz3NiNosfEp17d4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mj98Z75UNQKF66vjw4gK1EqUjFg9UDVV6Ux+4paRpcU=;
- b=UtQQ5rcDA/bvIjSaTBeAvE0jS+qxGfnA9NIWi0Ut3KULCYUv5nHPMbYdXaEGHZctdxv4TLKgY1nlWj2cI6QAK6RlZ/w2LgOnRnJ+LNPsKJliJwzjyc+WUrTNc62zX5w2SodaWStJw0s5ptvnevOwcoSrQNT83GW39AwIJQ0F0VunWcsppLCh1a4GELYlKe6vyybUcw01NZkrq1N765y6uiAIvdoNPoCCGkvrfEXvnxP3eBoI03ObYgdUlsHg2gCupsIuPoZgjDEpjiFCo4zD65nEpV+D07vs/dR2nir24PErW2TpMMiYAqqR7LgDAEhlkq9eyGp+oP46b4OUmdeE1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mj98Z75UNQKF66vjw4gK1EqUjFg9UDVV6Ux+4paRpcU=;
- b=iEGHAqMpRgd0MYMXKnKDCgL1/YWn/iXIIMwcyB/qNIdjMElKvdzv5oz6DWOyfc2N8DE1DFiaPtfPQqh8/kTHpLgLcOYvQwOKJ57lHSlQ51RKbcmZyE7KN4jUSvgb+tHDn0Sq0r4FzXTUE+PU4k6lFT+nPbXLINdA/3v2lBdve7qhwSDnXGj8F9LF1pyFZP5RfdFDn2Wwl3kMb+OSyr56y1xVMyioZmtfii+JJEPW/vDPzIGSZbySL2z1Tk5eJ+gh7ZxTcXhU2V1rKYFIE7yutCYKM8+1gqFUyN0lFSIqIU+HWkCdW/6sFYWX7pCY3tLFAadKI7lJNbQv+vlJooiA5Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by SN7PR12MB6957.namprd12.prod.outlook.com (2603:10b6:806:263::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
- 2023 13:58:09 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::3cb3:2fce:5c8f:82ee]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::3cb3:2fce:5c8f:82ee%4]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 13:58:09 +0000
-Date: Mon, 23 Jan 2023 09:58:08 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 04/10] iommu/dma: Use the gfp parameter in
- __iommu_dma_alloc_noncontiguous()
-Message-ID: <Y86ScGA7kY7gQ8qQ@nvidia.com>
-References: <4-v2-ce66f632bd0d+484-iommu_map_gfp_jgg@nvidia.com>
- <f24fcba7-2fcb-ed43-05da-60763dbb07bf@arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f24fcba7-2fcb-ed43-05da-60763dbb07bf@arm.com>
-X-ClientProxiedBy: MN2PR06CA0006.namprd06.prod.outlook.com
- (2603:10b6:208:23d::11) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com
+ [IPv6:2607:f8b0:4864:20::e36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 192DF10E49C
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 13:58:22 +0000 (UTC)
+Received: by mail-vs1-xe36.google.com with SMTP id d66so12895900vsd.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 05:58:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AXeVUOI3tJuZ9T2gK/O+SpNhk9weOWc0rxA2abMay4I=;
+ b=f+oPJtggRr/AYVdmrJrdS5cvNI2FHQdGZvYkdPk4YSPwKdkthwTzW0LGvrv+2Iev18
+ LTtk76HyV0eGltMB3lS7aV0gQHsu9A1aU8DBeAponH7TvZkQzuskeukPsYCeynQufcNx
+ fcxG8G7laVPAYJTAJev/5kHxuvP9AnL/z8S8antD4PXc+eAkzF7StSQ9Ky39fB1TN97Y
+ nVN9P85z2XjZIqX09CDbuOASyb1TZw/uKqwphI+nSKTLlutEnW87WeXVKH6HSG9UBGGN
+ sWMlv/GrLlc0Lm0WpHYvhLjd613mF9cwKcT35EILIGcTtDy3u7eB1q9hGBJzz2ddczCD
+ HR7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AXeVUOI3tJuZ9T2gK/O+SpNhk9weOWc0rxA2abMay4I=;
+ b=rh+tannkLUh1lyP9m1sW3GlDGQKZSe8WrSu1hcMFBD63slN7imL71qVmk+Jn4NjKpp
+ jkIBQquXWs7fHTrXClAdCuS3ij+5APSEvC5VBL/C45g2qA4JekxM1TiugrET/By1+rv+
+ 6CjP8yUO8hEZEJw0pNChsTHeDjb74UPnFncBgCHhVxW+mFBTGl+CLb83ZkpEXjGvvIWO
+ 0dhRk0G32YT2wzw+48poVDDNdAv1ETRDcMctjbQrzK8N78gapkB75kbPwHHfzyg1EM2h
+ NfnRevMJgHlhf98OMSZj64HIAh62b6Tn/K7mWzyBtECEbcmZ6f1X9yUnfzsVqRh1kXEb
+ Bamg==
+X-Gm-Message-State: AFqh2kpMWqwe9RAAt3NLCDpkKLoIuKkcoZZreYGaWjuyVg+PDe/yTX9p
+ TIJH4Orsubq0gHBuQYCmBfhoXqOY9gqrg1woudb9xw==
+X-Google-Smtp-Source: AMrXdXv3SdbW1OMymcwSw+UKgdSwlNT3pqbo79BE5ANCHiPz/DLfWupVOzWQju3/tf20XCLIQDK8JmT9SUQGBmNn37g=
+X-Received: by 2002:a67:f9d8:0:b0:3d0:8947:f6f6 with SMTP id
+ c24-20020a67f9d8000000b003d08947f6f6mr3340629vsq.3.1674482300949; Mon, 23 Jan
+ 2023 05:58:20 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SN7PR12MB6957:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34cf5123-2953-489e-ca52-08dafd49dc1b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1w/pe4b0h/yebbslug8aF/a3spvZPo9JvH5FhPtE2iMd+Eq/OovJovV+lDXLdFaFZqUF+bMvwGUIab9bB7X29pUAv5EFsr3oQYOYbkL+tVU4YT1VrmpfHF0y/tcXg4IGHkUQnkCfhavZtVvVLcjh2In8CsjMRjwnPbrVrxis9UO/0+oXa1F0E7o/CdEEwYGbfW7xqk+6sU2U5qGgb1N3PwhDLNWJ1qeDul9aREBL8jurCDLYpqOfdqhuNKxU4FMc86tIJ8WQRc17hWhWqxZqQ43v/RFzq5tFUCa5K9JqgWd9Z+Bd9DoOv00vzhj40UJ5ZY/WXU79KIpYP5CJzIb5LbboEyHZ4JnutNMWrgCHNe7qzVe3/7Ch+nlvWF65PnldB4KbxaFJGtFHquymSmBhN92UThs6g/RtMjH8n/14/MDGzz1HIndOp8uj28U6HMAOQbarEP/tYyZuplhrHEitK1UvVQQ1/EloTkvyn7JKtfyXC/VYRZ28wTq3EXIwv47oXbFu4ejWRN35VWd8M2SQDnl5WVEhEeXHlqpLwxhUYNVfPk1PZkvcfcLUxOk1PQJlofnMTrETeBn2flSwhMxb1mUxrSBn5bG/p+0BzHdAz8WR1MnpuU4ptxvhoJ0QXIUtrpWH3XUu4+O+aaeCLeNIyw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(376002)(39860400002)(346002)(396003)(136003)(451199015)(6916009)(66556008)(8676002)(66476007)(86362001)(66946007)(54906003)(36756003)(316002)(4326008)(26005)(6512007)(186003)(6506007)(83380400001)(478600001)(6486002)(2616005)(7416002)(5660300002)(8936002)(41300700001)(2906002)(38100700002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aXYry39Icpl9qdcuguvOO3EqbE+jXVKyUaLnoLjIHV7Bpp7Wq/D/O8Y7MhG0?=
- =?us-ascii?Q?/WSr/qFtB5AuLZS3aLC2nmX3YydtvAQ7Pv8LwV0SgmwqwN9876JonsktjSr5?=
- =?us-ascii?Q?8yqvjao8Qdodjfk23kihf771VtLUudjaZoACfNsPZEskpF3WiSYQ+QifG+JN?=
- =?us-ascii?Q?Fz3ULeMQbXMWHikzQNWw8Yw0Sut5xx4eEMFmPWSDKyc+Bhmiyptkf2JusxN9?=
- =?us-ascii?Q?P9RHMSkuDNZFAl+Gy6opGQtWIWtIZq+0zNZ6y9AajCG6A4shi4nxR/CtaGWH?=
- =?us-ascii?Q?zdLxkEXyuiB7ruofiffXZH7F6kSfBptSKuZ9eerMHIGHEAk8sLHAd6guuet9?=
- =?us-ascii?Q?6JpbJ/n3ignDGa8zmHULj91rd9IrQAHSB+Vs6meCjYtX/bViO6E/Sb8kfWW1?=
- =?us-ascii?Q?qwOSe2panSLyyTFsvY8JHXWcfkYIkYpLaubA16sz4ql44ydl6ADy/TLeISIA?=
- =?us-ascii?Q?HALsDzyrYWQtEEciWGDMcdfoqQSGJsFRcao5kac5lOrkp7ftbFSYqEZrYrBh?=
- =?us-ascii?Q?InTJdk82cZF1Q9lxYRG/viBCM/DVvOdL48juI0HRx3QATxuofcDNU+IG8u2+?=
- =?us-ascii?Q?9cKWCB8NrktvSnNZYsYYBCkR8rjUXEn441wbaf2kyqGcsfKr2zt3SIemvUYq?=
- =?us-ascii?Q?Ey4Iw0tY6qS8KbV8Zz1rOq9n6w0ALt1Azzqv3gUhGPeIaY5rN7WTg47FDi8R?=
- =?us-ascii?Q?5btK5Z7uLwp4V09/Xuxr4szuJ9MVxwUsns0DmRnVgpP0txNkzclKBuDzDXCq?=
- =?us-ascii?Q?6Gv+lvspCKAMwWd6q0PLdhMMHB+GevS0bpNWepgRWQLXSpZChN9P8Iu5j38g?=
- =?us-ascii?Q?+4e3UH20+8JHfQ7fCDH3c2APeSLR3JlnfNL5Edzj8hzUYXnE2Js79iDg9b3V?=
- =?us-ascii?Q?x5yXcgt/cu0JdXSzK4qH9xmd/9Ub0BPjQIqijwqAnlrG7kgclry/2lfnx2zX?=
- =?us-ascii?Q?C+3wPR2wCfMurVnGYzT9k0luqZWsUbNGhjktcVXQCY04wjZ80sd+neZ4pM+x?=
- =?us-ascii?Q?tz/5qS+7vnjeYQ3c0yyMQw6pXY/KYR7hs7nRK8l5IfuK8OV5RRJKWxh0HoNM?=
- =?us-ascii?Q?9uXLqXG3uM0q00ic0dpGVOyk4jktRmNfmNMx615NSemCqB/h2y1ViO02OCez?=
- =?us-ascii?Q?Tzy9cHwSmcPhbaFINTAosmDIS2AgP4Kui7n9Kxyz6E+O3lbD3jKQXKddonUC?=
- =?us-ascii?Q?4T6VVLgY/xvwx8U5PlI4TZqLKdAtqLAXkBotDkyWlKO8O4HfO0LrUZuh2LAs?=
- =?us-ascii?Q?kzeo6PRwt3nJnpLPSdy09dl2f2ob3tkVKx9JcLv3JE6IfnOf/I50xaoeVISm?=
- =?us-ascii?Q?LJLJtKvhuxQRC164uiU+pUhUkL2AuzfNwoT8l0cH1y2tILME/NoC/O4cRkKp?=
- =?us-ascii?Q?5I202/PhXjoO6YPvk8kXOGHnuBKLiuDJ/qFD+Ek1eL7jpuGOjRDDwwz0qmfo?=
- =?us-ascii?Q?aiKKhPzWzx3HqrG7JJneOkE9pD55UScNUGD9vcvnHQYyNC6L6NVP6Gev1zET?=
- =?us-ascii?Q?jdfGftb5e+bGdo6Pxt08gof7qszpnqTuUh+WuJofdEmxJ04n5uVnEK+m1a8J?=
- =?us-ascii?Q?0b/N/khTwTnJUXTBGDEpxe0nhiFonmD+TxPG4922?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34cf5123-2953-489e-ca52-08dafd49dc1b
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 13:58:09.6543 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /ZmXuKK2hDYRrh/Fl3ERyQSAeofeJpqnXtVJoedV0D7/bItE4IRQAMITISCEMZop
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6957
+References: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
+In-Reply-To: <20221228-drop-qunused-arguments-v2-0-9adbddd20d86@kernel.org>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Mon, 23 Jan 2023 19:28:10 +0530
+Message-ID: <CA+G9fYs58vWj705MdaBKomVfHxNJ5ekSTmf53S4=4oVmc43CZg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/14] Remove clang's -Qunused-arguments from
+ KBUILD_CPPFLAGS
+To: Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,42 +67,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-s390@vger.kernel.org,
- Matthew Rosato <mjrosato@linux.ibm.com>, linux-rdma@vger.kernel.org,
- Joerg Roedel <joro@8bytes.org>, ath10k@lists.infradead.org,
- iommu@lists.linux.dev, Christian Borntraeger <borntraeger@linux.ibm.com>,
- ath11k@lists.infradead.org, linux-media@vger.kernel.org,
- Kevin Tian <kevin.tian@intel.com>, Niklas Schnelle <schnelle@linux.ibm.com>,
- linux-arm-msm@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- Lu Baolu <baolu.lu@linux.intel.com>
+Cc: trix@redhat.com, dave.hansen@linux.intel.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-s390@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ mpe@ellerman.id.au, masahiroy@kernel.org, x86@kernel.org,
+ christophe.leroy@csgroup.eu, mingo@redhat.com, llvm@lists.linux.dev,
+ nicolas@fjasle.eu, Segher Boessenkool <segher@kernel.crashing.org>,
+ linux-kbuild@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+ npiggin@gmail.com, bp@alien8.de, lkft-triage@lists.linaro.org,
+ tglx@linutronix.de, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>,
+ ndesaulniers@google.com, linux-mips@vger.kernel.org,
+ Sven Schnelle <svens@linux.ibm.com>, Alex Deucher <alexander.deucher@amd.com>,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 20, 2023 at 07:28:19PM +0000, Robin Murphy wrote:
+Hi Nathan,
 
-> Overall I'm starting to wonder if it might not be better to stick a "use
-> GFP_KERNEL_ACCOUNT if you allocate" flag in the domain for any level of the
-> API internals to pick up as appropriate, rather than propagate per-call gfp
-> flags everywhere. 
+On Thu, 12 Jan 2023 at 08:35, Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Hi all,
+>
+> Clang can emit a few different warnings when it encounters a flag that it
+> recognizes but does not support internally. These warnings are elevated t=
+o
+> errors within {as,cc}-option via -Werror to catch unsupported flags that =
+should
+> not be added to KBUILD_{A,C}FLAGS; see commit c3f0d0bc5b01 ("kbuild, LLVM=
+Linux:
+> Add -Werror to cc-option to support clang").
+>
+> If an unsupported flag is unconditionally to KBUILD_{A,C}FLAGS, all subse=
+quent
+> {as,cc}-option will always fail, preventing supported and even potentiall=
+y
+> necessary flags from getting adding to the tool flags.
+>
+> One would expect these warnings to be visible in the kernel build logs si=
+nce
+> they are added to KBUILD_{A,C}FLAGS but unfortunately, these warnings are
+> hidden with clang's -Qunused-arguments flag, which is added to KBUILD_CPP=
+FLAGS
+> and used for both compiling and assembling files.
+>
+> Patches 1-4 address the internal inconsistencies of invoking the assemble=
+r
+> within kbuild by using KBUILD_AFLAGS consistently and using '-x
+> assembler-with-cpp' over '-x assembler'. This matches how assembly files =
+are
+> built across the kernel and helps avoid problems in situations where macr=
+o
+> definitions or warning flags are present in KBUILD_AFLAGS, which cause
+> instances of -Wunused-command-line-argument when the preprocessor is not =
+called
+> to consume them. There were a couple of places in architecture code where=
+ this
+> change would break things so those are fixed first.
+>
+> Patches 5-12 clean up warnings that will show up when -Qunused-argument i=
+s
+> dropped. I hope none of these are controversial.
+>
+> Patch 13 turns two warnings into errors so that the presence of unused fl=
+ags
+> cannot be easily ignored.
+>
+> Patch 14 drops -Qunused-argument. This is done last so that it can be eas=
+ily
+> reverted if need be.
+>
+> This series has seen my personal test framework, which tests several diff=
+erent
+> configurations and architectures, with LLVM tip of tree (16.0.0). I have =
+done
+> defconfig, allmodconfig, and allnoconfig builds for arm, arm64, i386, mip=
+s,
+> powerpc, riscv, s390, and x86_64 with GCC 12.2.0 as well but I am hoping =
+the
+> rest of the test infrastructure will catch any lurking problems.
+>
+> I would like this series to stay together so that there is no opportunity=
+ for
+> breakage so please consider giving acks so that this can be carried via t=
+he
+> kbuild tree (and many thanks to the people who have already provided such
+> tags).
+>
+> ---
+> Changes in v2:
+> - Pick up tags where provided (thank you everyone!)
+> - Patch 6 and 9: Clarify that '-s' is a compiler flag that is only releva=
+nt to
+>   the linking phase and remove all mention of the assembler's '-s' flag, =
+as the
+>   assembler is never directly invoked (Nick, Segher)
+> - Patch 7: Move '-z noexecstack' into new ldflags-y variable (Nick)
+> - Patch 8: Reword commit message to explain the problem in a clearer mann=
+er
+>   (Nick)
+> - Link to v1: https://lore.kernel.org/r/20221228-drop-qunused-arguments-v=
+1-0-658cbc8fc592@kernel.org
+>
+> ---
+> Nathan Chancellor (12):
+>       MIPS: Always use -Wa,-msoft-float and eliminate GAS_HAS_SET_HARDFLO=
+AT
+>       MIPS: Prefer cc-option for additions to cflags
+>       powerpc: Remove linker flag from KBUILD_AFLAGS
+>       powerpc/vdso: Remove unused '-s' flag from ASFLAGS
+>       powerpc/vdso: Improve linker flags
+>       powerpc/vdso: Remove an unsupported flag from vgettimeofday-32.o wi=
+th clang
+>       s390/vdso: Drop unused '-s' flag from KBUILD_AFLAGS_64
+>       s390/vdso: Drop '-shared' from KBUILD_CFLAGS_64
+>       s390/purgatory: Remove unused '-MD' and unnecessary '-c' flags
+>       drm/amd/display: Do not add '-mhard-float' to dml_ccflags for clang
+>       kbuild: Turn a couple more of clang's unused option warnings into e=
+rrors
+>       kbuild: Stop using '-Qunused-arguments' with clang
+>
+> Nick Desaulniers (2):
+>       x86/boot/compressed: prefer cc-option for CFLAGS additions
+>       kbuild: Update assembler calls to use proper flags and language tar=
+get
+>
+>  Makefile                                    |  1 -
+>  arch/mips/Makefile                          | 13 ++-------
+>  arch/mips/include/asm/asmmacro-32.h         |  4 +--
+>  arch/mips/include/asm/asmmacro.h            | 42 ++++++++++++++---------=
+------
+>  arch/mips/include/asm/fpregdef.h            | 14 ----------
+>  arch/mips/include/asm/mipsregs.h            | 20 +++-----------
+>  arch/mips/kernel/genex.S                    |  2 +-
+>  arch/mips/kernel/r2300_fpu.S                |  4 +--
+>  arch/mips/kernel/r4k_fpu.S                  | 12 ++++-----
+>  arch/mips/kvm/fpu.S                         |  6 ++---
+>  arch/mips/loongson2ef/Platform              |  2 +-
+>  arch/powerpc/Makefile                       |  2 +-
+>  arch/powerpc/kernel/vdso/Makefile           | 25 +++++++++++------
+>  arch/s390/kernel/vdso64/Makefile            |  4 +--
+>  arch/s390/purgatory/Makefile                |  2 +-
+>  arch/x86/boot/compressed/Makefile           |  2 +-
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile |  3 ++-
+>  scripts/Kconfig.include                     |  2 +-
+>  scripts/Makefile.clang                      |  2 ++
+>  scripts/Makefile.compiler                   |  8 +++---
+>  scripts/as-version.sh                       |  2 +-
+>  21 files changed, 74 insertions(+), 98 deletions(-)
 
-I was thinking about this some more, and I don't thinking hiding the
-GFP_KERNEL_ACCOUNT in the iommu driver will be very maintainable.
 
-The GFP_KERNEL_ACCOUNT is sensitive to current since that is where it
-gets the cgroup from, if we start putting it in driver code directly
-it becomes very hard to understand if the call chains are actually
-originating from a syscall or not. I'd prefer we try to keep thing so
-that iommufd provides the GFP_KERNEL_ACCOUNT on a call-by-call basis
-where it is clearer what call chains originate from a system call vs
-not.
+FYI,
+[ please provide comments, feedback and improvements on build/ ltp smoke te=
+sts ]
 
-So, I think we will strive for adding a gfp flag to the future 'alloc
-domain iommufd' and pass GFP_KERNEL_ACCOUNT there. Then we can see
-what is left.
+LKFT test farm have fetched your patch series [1]
+[PATCH v2 00/14] Remove clang's -Qunused-arguments from KBUILD_CPPFLAGS
+ [1] https://lore.kernel.org/llvm/20221228-drop-qunused-arguments-v2-0-9adb=
+ddd20d86@kernel.org/
 
-Jason
+Following build warnings and errors reported.
+
+sh:
+gcc-11-defconfig =E2=80=94 FAIL
+gcc-11-shx3_defconfig =E2=80=94 FAIL
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/h=
+ttps___lore_kernel_org_llvm_20221228-drop-qunused-arguments-v2-1-9adbddd20d=
+86_kernel_org/testrun/14221835/suite/build/tests/
+
+mainline getting passed.
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2-rc5/tes=
+trun/14298156/suite/build/test/gcc-11-defconfig/history/
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2-rc5/tes=
+trun/14298156/suite/build/test/gcc-11-shx3_defconfig/history/
+
+Build error:
+In function 'follow_pmd_mask',
+    inlined from 'follow_pud_mask' at /builds/linux/mm/gup.c:735:9,
+    inlined from 'follow_p4d_mask' at /builds/linux/mm/gup.c:752:9,
+    inlined from 'follow_page_mask' at /builds/linux/mm/gup.c:809:9:
+/builds/linux/include/linux/compiler_types.h:358:45: error: call to
+'__compiletime_assert_263' declared with attribute error: Unsupported
+access size for {READ,WRITE}_ONCE().
+  358 |         _compiletime_assert(condition, msg,
+__compiletime_assert_, __COUNTER__)
+
+
+s390:
+clang-15-defconfig =E2=80=94 FAIL
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/h=
+ttps___lore_kernel_org_llvm_20221228-drop-qunused-arguments-v2-1-9adbddd20d=
+86_kernel_org/testrun/14221913/suite/build/tests/
+
+mainline getting passed.
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2-rc5/tes=
+trun/14300495/suite/build/test/clang-15-defconfig/history/
+
+Build error:
+make --silent --keep-going --jobs=3D8
+O=3D/home/tuxbuild/.cache/tuxmake/builds/1/build LLVM_IAS=3D0 ARCH=3Ds390
+CROSS_COMPILE=3Ds390x-linux-gnu- 'HOSTCC=3Dsccache clang' 'CC=3Dsccache
+clang'
+`.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o:
+defined in discarded section `.exit.text' of fs/fuse/inode.o
+`.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o:
+defined in discarded section `.exit.text' of fs/fuse/inode.o
+`.exit.text' referenced in section `__bug_table' of crypto/algboss.o:
+defined in discarded section `.exit.text' of crypto/algboss.o
+`.exit.text' referenced in section `__bug_table' of drivers/scsi/sd.o:
+defined in discarded section `.exit.text' of drivers/scsi/sd.o
+`.exit.text' referenced in section `__jump_table' of drivers/md/md.o:
+defined in discarded section `.exit.text' of drivers/md/md.o
+`.exit.text' referenced in section `__jump_table' of drivers/md/md.o:
+defined in discarded section `.exit.text' of drivers/md/md.o
+`.exit.text' referenced in section `.altinstructions' of
+drivers/md/md.o: defined in discarded section `.exit.text' of
+drivers/md/md.o
+`.exit.text' referenced in section `.altinstructions' of
+drivers/md/md.o: defined in discarded section `.exit.text' of
+drivers/md/md.o
+`.exit.text' referenced in section `.altinstructions' of
+net/iucv/iucv.o: defined in discarded section `.exit.text' of
+net/iucv/iucv.o
+`.exit.text' referenced in section `__bug_table' of
+drivers/s390/cio/qdio_thinint.o: defined in discarded section
+`.exit.text' of drivers/s390/cio/qdio_thinint.o
+`.exit.text' referenced in section `__bug_table' of
+drivers/s390/net/qeth_l3_main.o: defined in discarded section
+`.exit.text' of drivers/s390/net/qeth_l3_main.o
+`.exit.text' referenced in section `__bug_table' of
+drivers/s390/net/qeth_l3_main.o: defined in discarded section
+`.exit.text' of drivers/s390/net/qeth_l3_main.o
+s390x-linux-gnu-ld: BFD (GNU Binutils for Debian) 2.35.2 assertion
+fail ../../bfd/elf64-s390.c:3349
+make[2]: *** [/builds/linux/scripts/Makefile.vmlinux:34: vmlinux] Error 1
+
+But,
+Build and boot pass on arm64, arm, x86_64 and i386.
+Build test performed for mips, parisc, riscv, s390, sh, sparc and
+powerpc (known build errors for maple_defconfig and cell_defconfig),
+
+Please refer following link for detailed build, boot, LTP smoketest.
+https://qa-reports.linaro.org/~anders.roxell/linux-mainline-patches/build/h=
+ttps___lore_kernel_org_llvm_20221228-drop-qunused-arguments-v2-1-9adbddd20d=
+86_kernel_org/?failures_only=3Dfalse&results_layout=3Dtable#!#test-results
+
+Best regards
+Naresh Kamboju
+
+--
+Linaro LKFT
+https://lkft.linaro.org
+
+> ---
+> base-commit: 88603b6dc419445847923fcb7fe5080067a30f98
+> change-id: 20221228-drop-qunused-arguments-0c5c7dae54fb
+>
+> Best regards,
+> --
+> Nathan Chancellor <nathan@kernel.org>
+>
+>
