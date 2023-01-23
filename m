@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387546786F8
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 21:00:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B8167871A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 21:03:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB1FE10E1F6;
-	Mon, 23 Jan 2023 20:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE9410E1FE;
+	Mon, 23 Jan 2023 20:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2F5510E1F6
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 20:00:28 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id v6so33539754ejg.6
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:00:28 -0800 (PST)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D0AF10E1FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 20:03:10 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id ud5so33581534ejc.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:03:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=40qXZUnFGQ7ve0bNYv96SrOOUpKugaFZGVN1hQpqfP0=;
- b=jLrqhNaa0XpXUWPt9AdGMqgDOMzVIVJl36KbVMZHKo4diIoqQ8RcXdTmbLWa8L6Rdr
- aOsPmuavucdmZOw5IhWBWa0YAWjvCh9JHWfDNVUddnWEurMh37QqBuHOikBD4oodzHsy
- DoSwFAozJDgMT6Lu7//F+w72P+1uEhnC5zvQKBRgmXS5WrYhwPNdBeJnI05lKsKTJ1FZ
- nC/Cd53xLTBIdflw7KdpL+b42iH7kIwN/Dbn1jh7r5daBqc0i0fYO1yLjhZyMud03ZEe
- g/2S9OhCtO1M3lP1afryWdexGLrFU27EqozazkOJ7K3VZxfAXWY1YAhXuFVWVGpbX+BN
- w9QQ==
-X-Gm-Message-State: AFqh2kq+68wuaoBQntqMpm7fOQvATEYgGqFngDnUOINTkHwg39SKeutf
- qV8LvldV4c/PkyeMLvt1hYwYvAdL9yjB7s3tNOg=
-X-Google-Smtp-Source: AMrXdXtDkWPO0cICOZRJSCYboLUtX4oU3AuOqdMLnCRm9VggXqnac2q+nS8HXqfswKbhD4Rw9RobR/LLKvaU7lxDc68=
-X-Received: by 2002:a17:906:2c4b:b0:870:3557:160e with SMTP id
- f11-20020a1709062c4b00b008703557160emr2001363ejh.78.1674504027140; Mon, 23
- Jan 2023 12:00:27 -0800 (PST)
+ bh=E3fVX9/iO2GxBu3HeDkyOtWJr/a2aLFft23eQ4Bm/IA=;
+ b=yi/4kgWZle/IpJCT1Euma4vMXHHs7nyXlrb2meBWxpf8K0KdqDfKMqWzIeccw284vA
+ bAZXwgXlswH5NhKFmQLgkzREOXsH1oujghyM42Dw0Y2y0H+k4Mb9ftyHe1MuBSi+9wj1
+ 4jrta3u3QGQyNrbvo07FoH5Ao4Jd+sPEt3Yl5L2bf3llZx+jL2ps4TzXFJ7NWZvaipes
+ XhRCJvMB/xmqIINa7OULrtBDwsDI48+UJ3zOgiDibDWxAaEWKkvD0ymwm2V+hcrkegV7
+ Ewf6pYj+h8o90SEJwTJIOq3BPvX67wJNAJIbghWqD3WRZNaBUESYmd7k/LXUvyVEMM3o
+ LZDg==
+X-Gm-Message-State: AFqh2kpqWxBy1Xp8Ymzy/nzvX69zqu3wyvYTn9qMrZQAod3FZP9bCJIa
+ pNxdHwYNvqrBk/90Xua3D0/9BQRciu104kn/BWDImGQm
+X-Google-Smtp-Source: AMrXdXuENRkvRLb6rYTN1lIZOmvWYGb1pdtChgR0SFwD3x+I9wxq0FF7oammztxQkdMfNYMJH+HQ+pmHm6yEdpT0l7g=
+X-Received: by 2002:a17:906:92c8:b0:877:8b1c:fd7c with SMTP id
+ d8-20020a17090692c800b008778b1cfd7cmr2051945ejx.67.1674504188794; Mon, 23 Jan
+ 2023 12:03:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20230119163744.548749-1-hdegoede@redhat.com>
-In-Reply-To: <20230119163744.548749-1-hdegoede@redhat.com>
+References: <20230119172441.623918-1-hdegoede@redhat.com>
+In-Reply-To: <20230119172441.623918-1-hdegoede@redhat.com>
 From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 23 Jan 2023 21:00:16 +0100
-Message-ID: <CAJZ5v0he+0WHk_iQB6T06h6Zx-UOW6F7R=ay-hLV9-_KxbTaiQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] ACPI: video: More backlight quirks
+Date: Mon, 23 Jan 2023 21:02:57 +0100
+Message-ID: <CAJZ5v0geNw_RcQBpnrfA3qpnqDjyoJCACoJG+v9vCEFr6RMgKA@mail.gmail.com>
+Subject: Re: [PATCH] ACPI: video: Add backlight=native DMI quirk for Asus U46E
 To: Hans de Goede <hdegoede@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,57 +59,72 @@ Cc: linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 19, 2023 at 5:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Thu, Jan 19, 2023 at 6:24 PM Hans de Goede <hdegoede@redhat.com> wrote:
 >
-> Hi Rafael,
+> The Asus U46E backlight tables have a set of interesting problems:
 >
-> With the backlight changes landing in 6.1.y now showing up in
-> distribution repositories I have been receiving a steady stream of
-> backlight bug reports by email.
+> 1. Its ACPI tables do make _OSI ("Windows 2012") checks, so
+>    acpi_osi_is_win8() should return true.
 >
-> These bug-reports fall into various categories and most of them are
-> already fixed with some recent fixes which are in 6.1.7 and later.
+>    But the tables have 2 sets of _OSI calls, one from the usual global
+>    _INI method setting a global OSYS variable and a second set of _OSI
+>    calls from a MSOS method and the MSOS method is the only one calling
+>    _OSI ("Windows 2012").
 >
-> One category (unfortunately) requires adding DMI quirks.
+>    The MSOS method only gets called in the following cases:
+>    1. From some Asus specific WMI methods
+>    2. From _DOD, which only runs after acpi_video_get_backlight_type()
+>       has already been called by the i915 driver
+>    3. From other ACPI video bus methods which never run (see below)
+>    4. From some EC query callbacks
 >
-> I have been receiving reports from users with pre Windows 8 laptops,
-> who used to pass acpi_backlight=vendor on the kernel commandline to hide
-> a non functioning acpi_video# backlight device, so that userspace will
-> use the native (GPU driver) backlight device instead.
+>    So when i915 calls acpi_video_get_backlight_type() MSOS has never run
+>    and acpi_osi_is_win8() returns false, so acpi_video_get_backlight_type()
+>    returns acpi_video as the desired backlight type, which causes
+>    the intel_backlight device to not register.
 >
-> Starting with 6.1.y acpi_backlight=vendor is now also honored by
-> the native backlight drivers, hiding the native backlight device,
-> leaving these users with no backlight device at all.
+> 2. _DOD effectively does this:
 >
-> This leads to them sending me a bug-report. Which in a way is a good
-> thing because these models really needed to have a DMI quirk added
-> all along, but this was never reported upstream.
+>                     Return (Package (0x01)
+>                     {
+>                         0x0400
+>                     })
 >
-> The fix here is to use "acpi_backlight=native" and to set this through
-> a DMI quirk so that things will work out of the box.
+>    causing acpi_video_device_in_dod() to return false, which causes
+>    the acpi_video backlight device to not register.
 >
-> The Acer Aspire 4810T quirk from a couple of days was like this and
-> the first quirk in this series is too.
+> Leaving the user with no backlight device at all. Note that before 6.1.y
+> the i915 driver would register the intel_backlight device unconditionally
+> and since that then was the only backlight device userspace would use that.
 >
-> I expect to receive more bug-reports like this, so you can expect
-> a steady trickle of backlight quirk patches from me the coming time.
+> Add a backlight=native DMI quirk for this special laptop to restore
+> the old (and working) behavior of the intel_backlight device registering.
 >
-> Note the second quirk in this series is also a "acpi_backlight=native"
-> quirk, but the root cause is somewhat different, see the commit msg.
+> Fixes: fb1836c91317 ("ACPI: video: Prefer native over vendor")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/acpi/video_detect.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
-> Regards,
->
-> Hans
->
->
->
-> Hans de Goede (2):
->   ACPI: video: Add backlight=native DMI quirk for HP Pavilion g6-1d80nr
->   ACPI: video: Add backlight=native DMI quirk for HP EliteBook 8460p
->
->  drivers/acpi/video_detect.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->
+> diff --git a/drivers/acpi/video_detect.c b/drivers/acpi/video_detect.c
+> index aa6196e5e574..64eab35037c3 100644
+> --- a/drivers/acpi/video_detect.c
+> +++ b/drivers/acpi/video_detect.c
+> @@ -610,6 +610,14 @@ static const struct dmi_system_id video_detect_dmi_table[] = {
+>                 DMI_MATCH(DMI_PRODUCT_NAME, "GA503"),
+>                 },
+>         },
+> +       {
+> +        .callback = video_detect_force_native,
+> +        /* Asus U46E */
+> +        .matches = {
+> +               DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer Inc."),
+> +               DMI_MATCH(DMI_PRODUCT_NAME, "U46E"),
+> +               },
+> +       },
+>         {
+>          .callback = video_detect_force_native,
+>          /* Asus UX303UB */
 > --
 
-Both applied as 6.2-rc material, thanks!
+Applied as 6.2-rcf material, thanks!
