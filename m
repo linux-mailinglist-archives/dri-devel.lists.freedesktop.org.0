@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 179376784FE
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 19:34:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00E3678500
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 19:34:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 717F910E53E;
-	Mon, 23 Jan 2023 18:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE81E10E541;
+	Mon, 23 Jan 2023 18:34:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1630D10E541
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 18:33:58 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id z20so10341320plc.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 10:33:58 -0800 (PST)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7554F10E53E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 18:34:01 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ z9-20020a17090a468900b00226b6e7aeeaso11822975pjf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 10:34:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=edgeble-ai.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KluKCAa6YX6SEiHCb+K0lwQ5ic13qC13jJxMxmSzcVI=;
- b=C4jpQxfSZ2yJHpLCVj+hAIMSrI8G2bP4HDxsiKHH2mhPlb5Qnr1iviECTqZm40OLHy
- ezBfDfzr18EBmIq9T9t27i0JJSbFiu0wM0N59v7EuBZGWulqDb4YDp4khewWVzFt6hee
- HAKSXPed8njQMqsB5tkiOe+Re9DRc2sPcTgqeIA9gWX6V+zxLaow9obF2oqLWKGuWgQ3
- AmiQIXvLrLOjPhMCzJknr8ClZn++nhJgBRu6zdGN+Xx/BmRV0u2suaReK4l4Gske6uoz
- Ph+0HntswzEzmVZhImQrY4ragWhlKvo/s/kXol7mZSkOCwoBPo0zQIKa9qEI+xfmzCOn
- EdCg==
+ bh=7cn0U3nFOsG/arCEAWCbnKT9IIs5QdCAGIRMoPtEA28=;
+ b=plGCsh5b3Vm2xTrhFqczpELlQ1Hh93Ek4tNc40wfuO23d4mMnCwHdMhzoldABODVp0
+ tPG5NOaW4WgnThJQsetrbbX4LxyEs8GdBBiouztx8VnSgTg33Va924eauanenv53CU5z
+ GUfwcb/wM7KOTpHGISDSNdJsT4pTWReqljqGU6WuA7zb1FNZlf2gdUGLF0G2qxnTyBK2
+ 3drU8pF0yp1uqQhebmyhW3P4hc21XGPqHYxX/ydd+XGkvp+fwLVRmSMavkvv+LBtqC2+
+ SHT7AZWel7VwgLZa+0Nq7XSMLY3uk27GbRwm4UrH09eSiAalG+ic5L2z0ASmpnCCMt0u
+ Hdpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KluKCAa6YX6SEiHCb+K0lwQ5ic13qC13jJxMxmSzcVI=;
- b=RltIVoOswh1upUaU0UKcIXXyxlioz6kQD+OO2LDymCKSpy6uUgnWxZMOeGLggiK4WK
- CjUJug7tHF9oNC45EH2gUcW5JQRb9QvQ81QR7nwXHTNxLEosyYGgl6hjMo+TOBc2jAZp
- lNR1FYYibg+F2frce1wcm8IHuJTK8NNsAYJTHpda2x6K3N+cpCerICVHMTIFVy8GHEbg
- JFB+eRONOLgFtVQ72o6LNQxPF65GDuXHXMKJ3QMt+dHW6KhekB6I4qT4Fz3GbyQ/PRFS
- 8EMurXHbkYSept1IzNe31EWOr2MxNI3euM0PVeKdQqLwUK68080k3pCd4iLmt0+8QrLg
- qcfw==
-X-Gm-Message-State: AFqh2koabJA7bgiYHnJym2A7hploiQu9aJjIHL0wdvg7Ven/oMti7One
- aYTGpSicPg4TDpZu/MjFks893g==
-X-Google-Smtp-Source: AMrXdXsz8iCNIh7gclEAQl+79GWJSSgoEJ4TK4DV8KJTxYei/oYceOEYfjXppbNgZ9OQu0T2BUaicQ==
-X-Received: by 2002:a17:90b:3586:b0:229:772c:a00b with SMTP id
- mm6-20020a17090b358600b00229772ca00bmr26415107pjb.14.1674498837606; 
- Mon, 23 Jan 2023 10:33:57 -0800 (PST)
+ bh=7cn0U3nFOsG/arCEAWCbnKT9IIs5QdCAGIRMoPtEA28=;
+ b=wxg0RLImFnuoIbLtrXFNaFoP5ijuoGqasefWrM9FhY/ZZUWzAPfj97N2/18dJczI/6
+ 4KZ3MHCCPK4D4BJmaCmUCLnT3HDRfHbPSPgymsDTh13TSWKSGyuav1oNFvWLsKqpSiww
+ 1KizfY6BUzez4cJP8sO7CYMO6evJGszxZ5dcALM+bJMvYHq53+SwK4Ap3S2Vgcftttyw
+ Rv4gMb/E/SaNhmS6zjgWrharpauNy0I8ueBp3/Y1ZvWTZ5cIkGjllEjNDfJb7ei6rOiw
+ Sl2YSjuBljDDhr18g3rdSyGWTNUNcy1spKPoOXMNqOGNYbfxvYLXVsJkrXPxWQUkTbyY
+ FSkg==
+X-Gm-Message-State: AFqh2koszkJuqiYyVDGtCNUT7EUf+h/sIGeYhqSjJHbaYnQIP8AbYGE6
+ /oslv+O9c8Oevh4Hf9JFxgB47A==
+X-Google-Smtp-Source: AMrXdXvDk9/AdNRKLC9BqIYCu6XHNGOnFzVco0xPjHYXVJeyK0SqxlceAS8UgTTmR3qYYAEExDFBdw==
+X-Received: by 2002:a17:90b:110e:b0:228:cd5d:aa8 with SMTP id
+ gi14-20020a17090b110e00b00228cd5d0aa8mr26068808pjb.30.1674498840975; 
+ Mon, 23 Jan 2023 10:34:00 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a15f:2279:f361:f93b:7971])
  by smtp.gmail.com with ESMTPSA id
- b11-20020a17090a800b00b002291295fc2dsm7008684pjn.17.2023.01.23.10.33.54
+ b11-20020a17090a800b00b002291295fc2dsm7008684pjn.17.2023.01.23.10.33.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 10:33:57 -0800 (PST)
+ Mon, 23 Jan 2023 10:34:00 -0800 (PST)
 From: Jagan Teki <jagan@edgeble.ai>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>,
  Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v2 2/4] drm: panel: jd9365da-h3: Add Radxa Display 10HD
-Date: Tue, 24 Jan 2023 00:03:10 +0530
-Message-Id: <20230123183312.436573-2-jagan@edgeble.ai>
+Subject: [PATCH v2 3/4] dt-bindings: display: panel: jadard,
+ jd9365da-h3: Add Radxa Display 8HD
+Date: Tue, 24 Jan 2023 00:03:11 +0530
+Message-Id: <20230123183312.436573-3-jagan@edgeble.ai>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230123183312.436573-1-jagan@edgeble.ai>
 References: <20230123183312.436573-1-jagan@edgeble.ai>
@@ -75,44 +77,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jagan Teki <jagan@edgeble.ai>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@edgeble.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Radxa Display 10HD is a family of DSI panels from Radxa that
+Radxa Display 8HD is a family of DSI panels from Radxa that
 uses jd9365da-h3 IC.
 
-Add panel support for it.
+Add compatible string for it.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Jagan Teki <jagan@edgeble.ai>
 ---
 Changes for v2:
-- new patch
+- collect Krzysztof ACK
 
- drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml    | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-index 48c1702a863b..729a276e590c 100644
---- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-+++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-@@ -452,7 +452,14 @@ static void jadard_dsi_remove(struct mipi_dsi_device *dsi)
- }
+diff --git a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+index 9b3b8a95cbc0..41eb7fbf7715 100644
+--- a/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
++++ b/Documentation/devicetree/bindings/display/panel/jadard,jd9365da-h3.yaml
+@@ -18,6 +18,7 @@ properties:
+       - enum:
+           - chongzhou,cz101b4001
+           - radxa,display-10hd-ad001
++          - radxa,display-8hd-ad002
+       - const: jadard,jd9365da-h3
  
- static const struct of_device_id jadard_of_match[] = {
--	{ .compatible = "chongzhou,cz101b4001", .data = &cz101b4001_desc },
-+	{
-+		.compatible = "chongzhou,cz101b4001",
-+		.data = &cz101b4001_desc
-+	},
-+	{
-+		.compatible = "radxa,display-10hd-ad001",
-+		.data = &cz101b4001_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, jadard_of_match);
+   reg: true
 -- 
 2.25.1
 
