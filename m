@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127DB6780DA
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2356780DE
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5CFC10E4F5;
-	Mon, 23 Jan 2023 16:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9937010E4F8;
+	Mon, 23 Jan 2023 16:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B962510E1E4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 10:48:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 108D910E1E4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 10:48:03 +0000 (UTC)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C9F42D9;
- Mon, 23 Jan 2023 11:48:00 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D0CC308;
+ Mon, 23 Jan 2023 11:48:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1674470881;
- bh=ev24KVXIoqBCO08u8Wzn61epN2ywZVgMmMvPPLt2MsM=;
+ bh=7OpOxMAIgPLX2eALu1h5q0h7PcbjDfH/Iu6TbdCQudQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TZxfXk7j+kyKMGvpYQ/auhy7nffDGxHMGNLEYaXhw0excUX51oBxpBzYaqV762RW7
- K4Z7UMb9p+36V3n+2z5ihLSKm5JnOMjUmkR8XMbw8AFK2kly0oZ0pzJ/NUouRIt54s
- V8RF8kIbP2QjMYNdSaIgEC4rUbBdvKeIuMHKHYYU=
+ b=S8tck8Ptu9dnRaWdwT1ukyvUeMjkSxQwk0mDlNmwbt/iEWuuNtCch4TV9VdyV73r0
+ PxfK5T3cjfX8r1f/xYfR2nylBFWBVOhfYXw8YcdxAWbpqTtOHwNajrN5hJrItdHs9I
+ 9qEVW+ExZlB3bdS7SGXEXYcS6XnR/KnOLS2bFQZc=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 2/7] drm: rcar-du: lvds: Add runtime PM
-Date: Mon, 23 Jan 2023 12:47:37 +0200
-Message-Id: <20230123104742.227460-3-tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v3 3/7] drm: rcar-du: lvds: Add reset control
+Date: Mon, 23 Jan 2023 12:47:38 +0200
+Message-Id: <20230123104742.227460-4-tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123104742.227460-1-tomi.valkeinen+renesas@ideasonboard.com>
 References: <20230123104742.227460-1-tomi.valkeinen+renesas@ideasonboard.com>
@@ -54,135 +54,93 @@ Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add simple runtime PM suspend and resume functionality.
+Reset LVDS using the reset control as CPG reset/release is required in
+the hardware manual sequence.
+
+Based on a BSP patch from Koji Matsuoka <koji.matsuoka.xm@renesas.com>.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
  drivers/gpu/drm/rcar-du/Kconfig     |  1 +
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 43 +++++++++++++++++++++++++----
- 2 files changed, 38 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_lvds.c | 20 +++++++++++++++++++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index a8f862c68b4f..17cb98ce7530 100644
+index 17cb98ce7530..742f6f2c8de8 100644
 --- a/drivers/gpu/drm/rcar-du/Kconfig
 +++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -39,6 +39,7 @@ config DRM_RCAR_USE_LVDS
- config DRM_RCAR_LVDS
- 	def_tristate DRM_RCAR_DU
- 	depends on DRM_RCAR_USE_LVDS
-+	depends on PM
- 	select DRM_KMS_HELPER
+@@ -44,6 +44,7 @@ config DRM_RCAR_LVDS
  	select DRM_PANEL
  	select OF_FLATTREE
+ 	select OF_OVERLAY
++	select RESET_CONTROLLER
+ 
+ config DRM_RCAR_USE_MIPI_DSI
+ 	bool "R-Car DU MIPI DSI Encoder Support"
 diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 81a060c2fe3f..7cf515e43079 100644
+index 7cf515e43079..a11201e4d31b 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -16,6 +16,7 @@
- #include <linux/of_device.h>
+@@ -17,6 +17,7 @@
  #include <linux/of_graph.h>
  #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
+ #include <linux/pm_runtime.h>
++#include <linux/reset.h>
  #include <linux/slab.h>
  #include <linux/sys_soc.h>
  
-@@ -316,8 +317,8 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
+@@ -61,6 +62,7 @@ struct rcar_lvds_device_info {
+ struct rcar_lvds {
+ 	struct device *dev;
+ 	const struct rcar_lvds_device_info *info;
++	struct reset_control *rstc;
  
- 	dev_dbg(lvds->dev, "enabling LVDS PLL, freq=%luHz\n", freq);
+ 	struct drm_bridge bridge;
  
--	ret = clk_prepare_enable(lvds->clocks.mod);
--	if (ret < 0)
-+	ret = pm_runtime_resume_and_get(lvds->dev);
-+	if (ret)
- 		return ret;
- 
- 	__rcar_lvds_pll_setup_d3_e3(lvds, freq, true);
-@@ -337,7 +338,7 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
- 
- 	rcar_lvds_write(lvds, LVDPLLCR, 0);
- 
--	clk_disable_unprepare(lvds->clocks.mod);
-+	pm_runtime_put_sync(lvds->dev);
- }
- EXPORT_SYMBOL_GPL(rcar_lvds_pclk_disable);
- 
-@@ -396,8 +397,8 @@ static void __rcar_lvds_atomic_enable(struct drm_bridge *bridge,
- 	u32 lvdcr0;
- 	int ret;
- 
--	ret = clk_prepare_enable(lvds->clocks.mod);
--	if (ret < 0)
-+	ret = pm_runtime_resume_and_get(lvds->dev);
-+	if (ret)
- 		return;
- 
- 	/* Enable the companion LVDS encoder in dual-link mode. */
-@@ -551,7 +552,7 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
- 		lvds->companion->funcs->atomic_disable(lvds->companion,
- 						       old_bridge_state);
- 
--	clk_disable_unprepare(lvds->clocks.mod);
-+	pm_runtime_put_sync(lvds->dev);
- }
- 
- static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
-@@ -844,6 +845,8 @@ static int rcar_lvds_probe(struct platform_device *pdev)
+@@ -845,6 +847,11 @@ static int rcar_lvds_probe(struct platform_device *pdev)
  	if (ret < 0)
  		return ret;
  
-+	pm_runtime_enable(&pdev->dev);
++	lvds->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
++	if (IS_ERR(lvds->rstc))
++		return dev_err_probe(&pdev->dev, PTR_ERR(lvds->rstc),
++				     "failed to get cpg reset\n");
 +
+ 	pm_runtime_enable(&pdev->dev);
+ 
  	drm_bridge_add(&lvds->bridge);
+@@ -924,6 +931,8 @@ static int rcar_lvds_runtime_suspend(struct device *dev)
  
- 	return 0;
-@@ -855,6 +858,8 @@ static int rcar_lvds_remove(struct platform_device *pdev)
+ 	clk_disable_unprepare(lvds->clocks.mod);
  
- 	drm_bridge_remove(&lvds->bridge);
- 
-+	pm_runtime_disable(&pdev->dev);
++	reset_control_assert(lvds->rstc);
 +
  	return 0;
  }
  
-@@ -913,11 +918,37 @@ static const struct of_device_id rcar_lvds_of_table[] = {
+@@ -932,11 +941,20 @@ static int rcar_lvds_runtime_resume(struct device *dev)
+ 	struct rcar_lvds *lvds = dev_get_drvdata(dev);
+ 	int ret;
  
- MODULE_DEVICE_TABLE(of, rcar_lvds_of_table);
- 
-+static int rcar_lvds_runtime_suspend(struct device *dev)
-+{
-+	struct rcar_lvds *lvds = dev_get_drvdata(dev);
-+
-+	clk_disable_unprepare(lvds->clocks.mod);
-+
-+	return 0;
-+}
-+
-+static int rcar_lvds_runtime_resume(struct device *dev)
-+{
-+	struct rcar_lvds *lvds = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = clk_prepare_enable(lvds->clocks.mod);
-+	if (ret < 0)
++	ret = reset_control_deassert(lvds->rstc);
++	if (ret)
 +		return ret;
 +
-+	return 0;
-+}
+ 	ret = clk_prepare_enable(lvds->clocks.mod);
+ 	if (ret < 0)
+-		return ret;
++		goto err_reset_assert;
+ 
+ 	return 0;
 +
-+static const struct dev_pm_ops rcar_lvds_pm_ops = {
-+	SET_RUNTIME_PM_OPS(rcar_lvds_runtime_suspend, rcar_lvds_runtime_resume, NULL)
-+};
++err_reset_assert:
++	reset_control_assert(lvds->rstc);
 +
- static struct platform_driver rcar_lvds_platform_driver = {
- 	.probe		= rcar_lvds_probe,
- 	.remove		= rcar_lvds_remove,
- 	.driver		= {
- 		.name	= "rcar-lvds",
-+		.pm	= &rcar_lvds_pm_ops,
- 		.of_match_table = rcar_lvds_of_table,
- 	},
- };
++	return ret;
+ }
+ 
+ static const struct dev_pm_ops rcar_lvds_pm_ops = {
 -- 
 2.34.1
 
