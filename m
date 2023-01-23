@@ -1,59 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CDF6779FD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 12:18:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F06677A9C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DEF410E33E;
-	Mon, 23 Jan 2023 11:18:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D0B10E1EA;
+	Mon, 23 Jan 2023 12:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D4D110E33E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 11:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674472693; x=1706008693;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=r7oZJIGCZYHMDZA56Sy4+NIuiwU7Or6QmjTFvFA3D+Y=;
- b=T+spS0Dv7hE+1/WXMG5uCN54W138Ze16rTcYp47OLvgp7ate3ilGgw5r
- iTEpznHLz84ExhoACnJ3AsdjqfHz5j8ZW4F6fDIO0EjoSnBF1hY58nn5b
- 2pyczVunLOYO7bsnY5cpzXBXXRKEoed9iUWbuVy40weg5dl4R19bXPXNY
- 5aCRnwMk7CEb4rDduKBVul5iRmPywQNo49V6RBj8BUYdV2VvqF94PQfrk
- 9S5w+lqA4UElZmrtIpgStaEoprlRCZ0R3jxCHoeNmunHAeYBatSzDaCJp
- ZdzNuhjvWmnmOlSYrgnWcWHFlKbmBLc+whgekUjJnHa6kQ75WzzULi8Rn g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="388371383"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="388371383"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 03:18:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="769765790"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="769765790"
-Received: from bridge4x-mobl.ger.corp.intel.com (HELO [10.213.214.72])
- ([10.213.214.72])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 03:18:11 -0800
-Message-ID: <438ce7ac-a68a-b2fd-7afd-270db4872497@linux.intel.com>
-Date: Mon, 23 Jan 2023 11:18:08 +0000
+Received: from metanate.com (unknown [IPv6:2001:8b0:1628:5005::111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B22B10E1EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:17:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=metanate.com; s=stronger; h=In-Reply-To:Content-Type:References:Message-ID:
+ Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description; bh=r80bla368F0mccCTC7Gf0OTNLE2fXe2B5th7gyHTqbQ=; b=rNaVX
+ +nePtYTn0zLA92rms+XZn/2Fb2GrjoCDlFkcXj7slSMQ6FylnlZIHeF/tKHUX6asHca60R5TWMBPm
+ b07leiFLb7JI25QN4kE1vo3Tu7r0ehnoLTZyL8LS7Mrdi1bivbEDgaMAM9jQ8C6POFWxXo0ZfmMfm
+ axpmvoCEvY3ke7MzpcbtPRhby8TEPmfHis9xBAsRamqSR1JP7hbiJ9ANVa8nBSh/hxzIIKdgwCDWx
+ A06+YP0TkK+s7e0E3nTrpOPMEEwaDymYt0myD+kOrP7AlH6dFygXLSEAcCDkbeci/RjSoSr39pDHl
+ MitYnMIpVqBI1u5SfyQzbNd/yqVjQ==;
+Received: from [81.174.171.191] (helo=donbot)
+ by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.95) (envelope-from <john@metanate.com>) id 1pJvkk-0004BB-RI;
+ Mon, 23 Jan 2023 12:16:46 +0000
+Date: Mon, 23 Jan 2023 12:16:45 +0000
+From: John Keeping <john@metanate.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH] drm/bridge: panel: Set orientation on panel_bridge
+ connector
+Message-ID: <Y856rWmtA4tQCcZz@donbot>
+References: <20230120114313.2087015-1-john@metanate.com>
+ <CAD=FV=UPD6c+NY8Ub37N7LmrRFpcr6gKOh0Os14DaKrf3bKo2A@mail.gmail.com>
+ <Y8uo7vIcQ6caH9pu@ravnborg.org> <Y8wnswk++tvr9xMe@donbot>
+ <Y81Px74OUYt21nj4@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RFC 4/4] drm/panfrost: Expose some memory related stats
- through fdinfo
-Content-Language: en-US
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-References: <20230104130308.3467806-1-boris.brezillon@collabora.com>
- <20230104130308.3467806-5-boris.brezillon@collabora.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230104130308.3467806-5-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y81Px74OUYt21nj4@pendragon.ideasonboard.com>
+X-Authenticated: YES
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,106 +52,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christopher Healy <healych@amazon.com>, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Doug Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Laurent,
 
-Hi,
-
-Chris was kind enough to bring my attention to this thread. Indeed this 
-information was asked for by various people for many years so it sounds 
-very useful to actually do attempt it.
-
-On 04/01/2023 13:03, Boris Brezillon wrote:
-> drm-memory-all: memory hold by this context. Not that all the memory is
-> not necessarily resident: heap BO size is counted even though only part
-> of the memory reserved for those BOs might be allocated.
+On Sun, Jan 22, 2023 at 05:01:27PM +0200, Laurent Pinchart wrote:
+> On Sat, Jan 21, 2023 at 05:58:11PM +0000, John Keeping wrote:
+> > On Sat, Jan 21, 2023 at 09:57:18AM +0100, Sam Ravnborg wrote:
+> > > On Fri, Jan 20, 2023 at 01:44:38PM -0800, Doug Anderson wrote:
+> > > > On Fri, Jan 20, 2023 at 3:43 AM John Keeping wrote:
+> > > > >
+> > > > > Commit 15b9ca1641f0 ("drm: Config orientation property if panel provides
+> > > > > it") added a helper to set the panel panel orientation early but only
+> > > > > connected this for drm_bridge_connector, which constructs a panel bridge
+> > > > > with DRM_BRIDGE_ATTACH_NO_CONNECTOR and creates the connector itself.
+> > > > >
+> > > > > When the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is not specified and the
+> > > > > panel_bridge creates its own connector the orientation is not set unless
+> > > > > the panel does it in .get_modes which is too late and leads to a warning
+> > > > > splat from __drm_mode_object_add() because the device is already
+> > > > > registered.
+> > > > >
+> > > > > Call the necessary function to set add the orientation property when the
+> > > > > connector is created so that it is available before the device is
+> > > > > registered.
+> > > > 
+> > > > I have no huge objection to your patch and it looks OK to me. That
+> > > > being said, my understanding is that:
+> > > > 
+> > > > 1. DRM_BRIDGE_ATTACH_NO_CONNECTOR is "the future" and not using the
+> > > > flag is "deprecated".
+> > >
+> > > Correct.
+> > > Could we take a look at how much is required to move the relevant driver
+> > > to use DRM_BRIDGE_ATTACH_NO_CONNECTOR?
+> > >
+> > > If this is too much work now we may land this simple patch, but the
+> > > preference is to move all drivers to the new bridge handling and thus
+> > > asking display drivers to create the connector.
 > 
-> drm-memory-resident: resident memory size. For normal BOs it's the same
-> as drm-memory-all, but for heap BOs, only the memory actually allocated
-> is counted.
+> I fully agree with Doug and Sam here. Let's see if we can keep the yak
+> shaving minimal :-)
 > 
-> drm-memory-purgeable: amount of memory that can be reclaimed by the
-> system (madvise(DONT_NEED)).
+> > > What display driver are we dealing with here?
+> > 
+> > This is dw-mipi-dsi-rockchip which uses the component path in
+> > dw-mipi-dsi (and, in fact, is the only driver using that mode of
+> > dw-mipi-dsi).
+> > 
+> > I'm not familiar enough with DRM to say whether it's easy to convert to
+> > DRM_BRIDGE_ATTACH_NO_CONNECTOR - should dw-mipi-dsi-rockchip be moving
+> > to use dw-mipi-dsi as a bridge driver or should dw_mipi_dsi_bind() have
+> > a drm_bridge_attach_flags argument?  But I'm happy to test patches if it
+> > looks easy to convert to you :-)
 > 
-> drm-memory-shared: amount of memory shared through dma-buf.
+> I'd go for the former (use dw_mipi_dsi_probe() and acquire the DSI
+> bridge with of_drm_find_bridge() instead of using the component
+> framework) if possible, but I don't know how intrusive that would be.
 
-A bunch of comments/questions..
+I'm a bit confused about what's required since dw-mipi-dsi-rockchip
+already uses dw_mipi_dsi_probe(), but I think moving away from the
+component framework would be significant work as that's how the MIPI
+subdriver fits in to the overall Rockchip display driver.
 
-First of all, lets please continue documenting the fdinfo content in 
-Documentation/gpu/drm-usage-stats.rst as stuff is proposed to be added. 
-Idea was to have as much commonality as reasonably possible, and so to 
-have more usable user facing tools etc. And also please copy people 
-involved with adding new stuff to that file.
+Any changes / modernisation to the Rockchip MIPI driver look like it
+will take more time than I have available to spend on this, so I'd
+really like to see this patch land as it's a simple fix to an existing
+working code path.
 
-(Half-digression - for some reason get_maintainers.pl does not play nice 
-with this file, I was expecting it to count and sort contributors after 
-maintainers but it doesn't for some reason. Perhaps it only does that 
-for source code.)
 
-For the actual key/fields name.. I suspect apart from category we will 
-need a memory type part, at least with discrete GPUs (non unified/shared 
-memory designs), that further breakdown will be required. We therefore 
-need to discuss if we do that from the start, or start with your 
-proposal and extend later.
-
-In more practical terms I am talking about something this:
-
-drm-memory-local-all: <ulong> <unit>
-drm-memory-local-resident: <ulong> <unit>
-drm-memory-system-all: <ulong> <unit>
-drm-memory-system-resident: <ulong> <unit>
-
-"All/resident/..." could then probably be standardized and the 
-"local/system" could be partially standardized or left for drivers to 
-use names they see fit (same as with engine names).
-
-Also, I an not quite liking "all". Analogy from the CPU land for it 
-would be "virtual", but does translate into the GPU world?
-
-Finally, we also need to define the semantics of resident when we deal 
-with shared objects. For instance process P / fd Fp creates a buffer and 
-passes the handle to process Q / fd Fq. Whose fdinfo sees what, in what 
-fields and when?
-
-I suspect if Q is the first to start using the shared object it should 
-show it under "resident". P should not, until it starts using it itself. 
-For the "all" category both should see it.
-
-For "shared" are you proposing to count imported or exported counts as 
-well? I think it needs to be clearly documented. Is it "this fd is using 
-this much shared buffers", or "this fd has exported this much shared 
-buffers", or both?
-
-I don't know your driver to quickly figure out what semantics you proposed?
-
-Regards,
-
-Tvrtko
-
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->   drivers/gpu/drm/panfrost/panfrost_drv.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 6ee43559fc14..05d5d480df2a 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -519,9 +519,16 @@ static void panfrost_show_fdinfo(struct seq_file *m, struct file *f)
->   {
->   	struct drm_file *file = f->private_data;
->   	struct panfrost_file_priv *panfrost_priv = file->driver_priv;
-> +	struct panfrost_mmu_stats mmu_stats; > +
-> +	panfrost_mmu_get_stats(panfrost_priv->mmu, &mmu_stats);
->   
->   	seq_printf(m, "drm-driver:\t%s\n", file->minor->dev->driver->name);
->   	seq_printf(m, "drm-client-id:\t%llu\n", panfrost_priv->sched_entity[0].fence_context);
-> +	seq_printf(m, "drm-memory-all:\t%llu KiB\n", mmu_stats.all >> 10);
-> +	seq_printf(m, "drm-memory-resident:\t%llu KiB\n", mmu_stats.resident >> 10);
-> +	seq_printf(m, "drm-memory-purgeable:\t%llu KiB\n", mmu_stats.purgeable >> 10);
-> +	seq_printf(m, "drm-memory-shared:\t%llu KiB\n", mmu_stats.shared >> 10);
->   }
->   
->   static const struct file_operations panfrost_drm_driver_fops = {
+John
