@@ -1,70 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794D96787CE
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 21:31:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A26FC6787E5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 21:34:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A5610E55C;
-	Mon, 23 Jan 2023 20:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F94E10E55D;
+	Mon, 23 Jan 2023 20:34:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0A8510E55C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 20:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674505865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uvUFT3kV4hOrH8BWbPQYPcqX1gmhS+oL3sA9caAYEgg=;
- b=fsGRtFfjsYBCjZ8yXGxT2tPXWNvgr4kzskld2s3hhv3/xqY/hbFmwNoFCcbjiVcJ33XSit
- rFpdwaR31R3CU868gHmR/blzCDSjADV/GQ664+h18i5W84mOKi/Vhrdq4s/1U5qiVBFvSv
- 7OLtn7UUeU+katLBUyRLFFUzWDVJUh4=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-66-Allql66zN6Wcnvmjl26e0A-1; Mon, 23 Jan 2023 15:30:58 -0500
-X-MC-Unique: Allql66zN6Wcnvmjl26e0A-1
-Received: by mail-lf1-f70.google.com with SMTP id
- n6-20020a0565120ac600b004d5a68b0f94so4202334lfu.14
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:30:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=uvUFT3kV4hOrH8BWbPQYPcqX1gmhS+oL3sA9caAYEgg=;
- b=hzbxt88+QqWNQm/lptuYD0Ltzx6CzlsBXcxYLbEOEh8AQWTmWMWZuX0pD8hSUZyAyk
- hAXULE8+xzG7t2QTPyhAy83dMenMAyC4XzVK7/W+QGHG98VIQcBwkWmqj564oWhaW7FZ
- dFLcLGtLUnFqQoNctqaK/KYdsflXwZiyDhbeoEKB+jivYfjBkuViUqj2kBL0wAMRz+fB
- CZr5kZJJsZwtr08P/oPF+qMls8aT8WYfNyUZLGvrlt/6pEq19FBGGOtPlyMYXQYrW7Is
- 2dzv/aogd6oBwdicX1uTeH1PNW+YZiJIthCk9NUmbjlA+RPmHBVmsL6YA7tUVX+2/Kg6
- ewew==
-X-Gm-Message-State: AFqh2koZyxufambcunWXOO79jnJF/EnfknMmfsal6UawvcXfFWA3KR4F
- xi+eT/xwhNN1P0jR6uV6ObbrKlOfmlav62wW+UcRnaFIKwGnFrrOGdz3qfF1WTthK6OAJsWzoiw
- OYrUn4qaIX6BJfCWAX12g93BpfPFtxPXuScbu6P67bNC7
-X-Received: by 2002:ac2:5451:0:b0:4cc:971c:b3f6 with SMTP id
- d17-20020ac25451000000b004cc971cb3f6mr2729379lfn.77.1674505856608; 
- Mon, 23 Jan 2023 12:30:56 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsFYBYAL9y60IeorNFy250ZZasB8/QgVaF6tMPDxWwgf8FxW/qYJrUCfop49dKr4nz/GHs7XtNBQms1GfDA7DM=
-X-Received: by 2002:ac2:5451:0:b0:4cc:971c:b3f6 with SMTP id
- d17-20020ac25451000000b004cc971cb3f6mr2729373lfn.77.1674505856429; Mon, 23
- Jan 2023 12:30:56 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8640E10E55D
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 20:34:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 02BDAB80E8F;
+ Mon, 23 Jan 2023 20:34:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 795F8C433EF;
+ Mon, 23 Jan 2023 20:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1674506075;
+ bh=FmnPLtlEEZLnIMIwawfGix9wzSwjvgWL7c11CtPG7VM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=gF5F3tETTnRMP1JPBnu7Ptp/If+nrlkHmh1UvayGFWUyXYmpvpFIlY+pg0zyr7IvH
+ EVxJOqmXmJX4Qp/NQU69I9zkedvW44RZCoOXej3wWBme0Mdka7wWgcqiXHBS0ZO9AT
+ gCCeJ5Uq2QZnfqQa2fxLrDKyt14RL6D7czuJJnAOpLLNhbfPWA+yt32/GYape34E4O
+ F5mvBPdKOsbsv8biqPPZmtLiy9WobD+Fa+Nr4SCWtPIUvLRWLgmYTlf3NVqXtdDuWD
+ rOx+KcDSyNsyRQHtz5q6KnNbBnT517gw8xLmWe7kphfoQ/6r8WJFEAIN5ITvVAGWH0
+ 7e32wlfHKB2Xw==
+Date: Mon, 23 Jan 2023 14:34:34 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: SeongJae Park <sj@kernel.org>
+Subject: Re: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux'
+ prefixes from titles of listed documents
+Message-ID: <20230123203434.GA979965@bhelgaas>
 MIME-Version: 1.0
-References: <20230113162428.33874-1-harry.wentland@amd.com>
- <20230113162428.33874-19-harry.wentland@amd.com>
-In-Reply-To: <20230113162428.33874-19-harry.wentland@amd.com>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Mon, 23 Jan 2023 21:30:45 +0100
-Message-ID: <CA+hFU4xHKNSWO21Swq_b2VPPxtYGdeo4e3rPEVo44OPmB+opZw@mail.gmail.com>
-Subject: Re: [PATCH v2 18/21] drm/amd/display: Fallback to 2020_YCBCR if the
- pixel encoding is not RGB
-To: Harry Wentland <harry.wentland@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230122184834.181977-1-sj@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,58 +52,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joshua Ashton <joshua@froggi.es>, Pekka Paalanen <ppaalanen@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Vitaly.Prosyak@amd.com
+Cc: alsa-devel@alsa-project.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-doc@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-mm@kvack.org,
+ Herbert Xu <herbert@gondor.apana.org.au>, Jonathan Corbet <corbet@lwn.net>,
+ openbmc@lists.ozlabs.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ linux-input@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+ Jean Delvare <jdelvare@suse.com>, linux-watchdog@vger.kernel.org,
+ linux-pm@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, linux-hwmon@vger.kernel.org,
+ Iwona Winiarska <iwona.winiarska@intel.com>, Takashi Iwai <tiwai@suse.com>,
+ linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A new property to control YCC and subsampling would be the more
-complete path here. If we actually want to fix this in the short-term
-though, we should handle the YCC and RGB Colorspace values as
-equivalent, everywhere. Technically we're breaking the user space API
-here so it should be documented on the KMS property and other drivers
-must be adjusted accordingly as well.
+On Sun, Jan 22, 2023 at 06:48:34PM +0000, SeongJae Park wrote:
+> Some documents that listed on subsystem-apis have 'Linux' or 'The Linux'
+> title prefixes.  It's duplicated information, and makes finding the
+> document of interest with human eyes not easy.  Remove the prefixes from
+> the titles.
+> 
+> Signed-off-by: SeongJae Park <sj@kernel.org>
 
-On Fri, Jan 13, 2023 at 5:26 PM Harry Wentland <harry.wentland@amd.com> wrote:
->
-> From: Joshua Ashton <joshua@froggi.es>
->
-> Userspace might not aware whether we're sending RGB or YCbCr
-> data to the display. If COLOR_SPACE_2020_RGB_FULLRANGE is
-> requested but the output encoding is YCbCr we should
-> send COLOR_SPACE_2020_YCBCR.
->
-> Signed-off-by: Joshua Ashton <joshua@froggi.es>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+PCI/index.rst change is fine with me:
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index f74b125af31f..16940ea61b59 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -5184,7 +5184,10 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
->                 color_space = COLOR_SPACE_ADOBERGB;
->                 break;
->         case DRM_MODE_COLORIMETRY_BT2020_RGB:
-> -               color_space = COLOR_SPACE_2020_RGB_FULLRANGE;
-> +               if (dc_crtc_timing->pixel_encoding == PIXEL_ENCODING_RGB)
-> +                       color_space = COLOR_SPACE_2020_RGB_FULLRANGE;
-> +               else
-> +                       color_space = COLOR_SPACE_2020_YCBCR;
->                 break;
->         case DRM_MODE_COLORIMETRY_BT2020_YCC:
->                 color_space = COLOR_SPACE_2020_YCBCR;
-> --
-> 2.39.0
->
-
+> Changes from v1
+> (https://lore.kernel.org/lkml/20230114194741.115855-1-sj@kernel.org/)
+> - Drop second patch (will post later for each subsystem)
+> 
+>  Documentation/PCI/index.rst        | 6 +++---
+>  Documentation/cpu-freq/index.rst   | 6 +++---
+>  Documentation/crypto/index.rst     | 6 +++---
+>  Documentation/driver-api/index.rst | 6 +++---
+>  Documentation/gpu/index.rst        | 6 +++---
+>  Documentation/hwmon/index.rst      | 6 +++---
+>  Documentation/input/index.rst      | 6 +++---
+>  Documentation/mm/index.rst         | 6 +++---
+>  Documentation/peci/index.rst       | 6 +++---
+>  Documentation/scheduler/index.rst  | 6 +++---
+>  Documentation/scsi/index.rst       | 6 +++---
+>  Documentation/sound/index.rst      | 6 +++---
+>  Documentation/virt/index.rst       | 6 +++---
+>  Documentation/watchdog/index.rst   | 6 +++---
+>  14 files changed, 42 insertions(+), 42 deletions(-)
+> 
+> diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
+> index c17c87af1968..e73f84aebde3 100644
+> --- a/Documentation/PCI/index.rst
+> +++ b/Documentation/PCI/index.rst
+> @@ -1,8 +1,8 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> -=======================
+> -Linux PCI Bus Subsystem
+> -=======================
+> +=================
+> +PCI Bus Subsystem
+> +=================
+>  
+>  .. toctree::
+>     :maxdepth: 2
