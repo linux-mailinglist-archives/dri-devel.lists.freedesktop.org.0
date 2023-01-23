@@ -2,70 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F216786DB
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 20:52:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387546786F8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 21:00:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 765E010E20C;
-	Mon, 23 Jan 2023 19:52:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB1FE10E1F6;
+	Mon, 23 Jan 2023 20:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0233110E1FE
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 19:52:53 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id l8so9910154wms.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 11:52:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cQX8FwU+yVyIM1d9Uh0Lst/mt6UcJzmO021Nym1UxnA=;
- b=ndt+GQNySxm/oUPdDgcBDGpBaXA6sEFTWvXfPn2zN3xHC+wSqahOLUwkox3RC0Io/D
- GEHChfLks00fimEso1HDtUgb0vqstJpQDRSDl+63dJZAWRQzIDFABJY+s3BO0KXEOZbq
- ZHqIG47LsdceYAZMI3q+BCDWMfCLLjlGeWS1z6U1MyH6biZr7K7rTvi8cb829KAyW4RN
- nHmnE1KTEabV4jpkKNz43yXJqc4n3ct0QUZ7emfB7zySi96dbLz1cuwA89v7vGix/Tjv
- OENH/nNeiv5rbAOMnOJz+PLs3udQvMjoiapBAfqkUSNxkm+E0Cz9OquG+8Cvj2S5Nihj
- bhdQ==
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F5510E1F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 20:00:28 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id v6so33539754ejg.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:00:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cQX8FwU+yVyIM1d9Uh0Lst/mt6UcJzmO021Nym1UxnA=;
- b=U4V696RpaORTMY9s95P1lZ1/BvWnTs5hDhl471UygDQFWzQtqgcWAKZmJxPYRdtRK5
- DgvJuE/Vbo48FuPhFFv5xTdbfAoDQERveGtk7TI8ZGn/B9VgeS/NXHsiI+J+ANOwtHti
- VKKNi+zUaYm8ZxBibh6wdzuhmcYGdG52NSSHOq0M6Qj7LAzjoVZcRopeCF45+KFO0++K
- YGuqxuJIRKWjSgDEJgCTmw37w60ksX8qgRkO/x0pbAJdOOq9ioTsB3RSvWBr41fB5LXw
- N2mBqqr1gnupm3e1zRilU6FyQ/tevyhy/uo9c+hRtwF1xPSK3JV0I2e1uuT0i/bNwQMO
- OqxA==
-X-Gm-Message-State: AFqh2kqA1bybj9ZMg+FpgHsFbuFkCa8CZbFj5uNLl6RoQOMmiRwwGe2s
- R+QYKr2BsqlzWXpZ3mkgDSekmw==
-X-Google-Smtp-Source: AMrXdXum5LAGZhQDQK3EgOw1hthCew16D2WYtoCt54zBxa6vJ1/ajLs+PC242LJlsimre21+AwMWCw==
-X-Received: by 2002:a05:600c:3412:b0:3da:f678:1d47 with SMTP id
- y18-20020a05600c341200b003daf6781d47mr25044946wmp.14.1674503571547; 
- Mon, 23 Jan 2023 11:52:51 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- h9-20020a05600c2ca900b003d237d60318sm129148wmc.2.2023.01.23.11.52.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 11:52:51 -0800 (PST)
-Message-ID: <71fc64ea-81f2-3609-e4f9-741c177d31d2@linaro.org>
-Date: Mon, 23 Jan 2023 20:52:49 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=40qXZUnFGQ7ve0bNYv96SrOOUpKugaFZGVN1hQpqfP0=;
+ b=jLrqhNaa0XpXUWPt9AdGMqgDOMzVIVJl36KbVMZHKo4diIoqQ8RcXdTmbLWa8L6Rdr
+ aOsPmuavucdmZOw5IhWBWa0YAWjvCh9JHWfDNVUddnWEurMh37QqBuHOikBD4oodzHsy
+ DoSwFAozJDgMT6Lu7//F+w72P+1uEhnC5zvQKBRgmXS5WrYhwPNdBeJnI05lKsKTJ1FZ
+ nC/Cd53xLTBIdflw7KdpL+b42iH7kIwN/Dbn1jh7r5daBqc0i0fYO1yLjhZyMud03ZEe
+ g/2S9OhCtO1M3lP1afryWdexGLrFU27EqozazkOJ7K3VZxfAXWY1YAhXuFVWVGpbX+BN
+ w9QQ==
+X-Gm-Message-State: AFqh2kq+68wuaoBQntqMpm7fOQvATEYgGqFngDnUOINTkHwg39SKeutf
+ qV8LvldV4c/PkyeMLvt1hYwYvAdL9yjB7s3tNOg=
+X-Google-Smtp-Source: AMrXdXtDkWPO0cICOZRJSCYboLUtX4oU3AuOqdMLnCRm9VggXqnac2q+nS8HXqfswKbhD4Rw9RobR/LLKvaU7lxDc68=
+X-Received: by 2002:a17:906:2c4b:b0:870:3557:160e with SMTP id
+ f11-20020a1709062c4b00b008703557160emr2001363ejh.78.1674504027140; Mon, 23
+ Jan 2023 12:00:27 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v2 1/4] dt-bindings: display: panel: jadard,jd9365da-h3:
- Add Radxa Display 10HD
-Content-Language: en-US
-To: Jagan Teki <jagan@edgeble.ai>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>
-References: <20230123183312.436573-1-jagan@edgeble.ai>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230123183312.436573-1-jagan@edgeble.ai>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230119163744.548749-1-hdegoede@redhat.com>
+In-Reply-To: <20230119163744.548749-1-hdegoede@redhat.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 23 Jan 2023 21:00:16 +0100
+Message-ID: <CAJZ5v0he+0WHk_iQB6T06h6Zx-UOW6F7R=ay-hLV9-_KxbTaiQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] ACPI: video: More backlight quirks
+To: Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,20 +54,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
+ dri-devel@lists.freedesktop.org, "Rafael J . Wysocki" <rafael@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/01/2023 19:33, Jagan Teki wrote:
-> Radxa Display 10HD is a family of DSI panels from Radxa that
-> uses jd9365da-h3 IC.
-> 
-> Add compatible string for it.
-> 
+On Thu, Jan 19, 2023 at 5:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi Rafael,
+>
+> With the backlight changes landing in 6.1.y now showing up in
+> distribution repositories I have been receiving a steady stream of
+> backlight bug reports by email.
+>
+> These bug-reports fall into various categories and most of them are
+> already fixed with some recent fixes which are in 6.1.7 and later.
+>
+> One category (unfortunately) requires adding DMI quirks.
+>
+> I have been receiving reports from users with pre Windows 8 laptops,
+> who used to pass acpi_backlight=vendor on the kernel commandline to hide
+> a non functioning acpi_video# backlight device, so that userspace will
+> use the native (GPU driver) backlight device instead.
+>
+> Starting with 6.1.y acpi_backlight=vendor is now also honored by
+> the native backlight drivers, hiding the native backlight device,
+> leaving these users with no backlight device at all.
+>
+> This leads to them sending me a bug-report. Which in a way is a good
+> thing because these models really needed to have a DMI quirk added
+> all along, but this was never reported upstream.
+>
+> The fix here is to use "acpi_backlight=native" and to set this through
+> a DMI quirk so that things will work out of the box.
+>
+> The Acer Aspire 4810T quirk from a couple of days was like this and
+> the first quirk in this series is too.
+>
+> I expect to receive more bug-reports like this, so you can expect
+> a steady trickle of backlight quirk patches from me the coming time.
+>
+> Note the second quirk in this series is also a "acpi_backlight=native"
+> quirk, but the root cause is somewhat different, see the commit msg.
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+> Hans de Goede (2):
+>   ACPI: video: Add backlight=native DMI quirk for HP Pavilion g6-1d80nr
+>   ACPI: video: Add backlight=native DMI quirk for HP EliteBook 8460p
+>
+>  drivers/acpi/video_detect.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>
+> --
 
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Both applied as 6.2-rc material, thanks!
