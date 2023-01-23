@@ -2,41 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7115678261
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:58:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8823E678280
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 18:03:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEA0D10E50E;
-	Mon, 23 Jan 2023 16:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E711B89E36;
+	Mon, 23 Jan 2023 17:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7E0010E50E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 16:58:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A5462D9;
- Mon, 23 Jan 2023 17:58:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1674493083;
- bh=kDKF4A6ZDyQHXFMYN9w6HQo5DdaJO5wDDeNan4zyVis=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MRRBRkfUzEvjWDKjwqzWZTvn8a4ZYKkv/eFBndQyv2QuIbZnj9YbDn2ZoZwoFMeMX
- Wdv4ezHrHRnjSX9Ob9umakxP+6FYAH1MfJBCWdgEQV8w1ZwXKSddjCwC1IpaSkg5XL
- reHgdDwtZf0djBxV+06O7vfOhyDYHvl+JtlSC3OQ=
-Date: Mon, 23 Jan 2023 18:58:00 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: DMA-heap driver hints
-Message-ID: <Y868mG7Oa5bI1wB7@pendragon.ideasonboard.com>
-References: <20230123123756.401692-1-christian.koenig@amd.com>
- <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com>
- <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDBCF10E1F1;
+ Mon, 23 Jan 2023 17:03:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N4EkENdHYKZS8+uaXsg3rXZcN8cLUJZN5wotNia5/FC8xuc+iSnLLzQpLMpRQS0Nd7k+yXU8+VLv/Uldf+q7deM/GdCxfalwy87gZlcEXcODmsnONIf8FMtLaYuOQLZr2ulYhLWJDmkMuo6l1ghqi28MgB2cDubX29lhD0G7t6cZ1tYCrHKwwsVjjBFWoG7v5cG2p4m/ooaxaO861piuse+z49CfLZAXppnb569NVCrGBaNy+RexTW9NbkK+22wWQwgvEaavrH0hRY3i9rF+c1ed0D/yBeEkNhw4TGAZYLD4gAC/N6KCJLu4RD48/PFOEO5KUXiw/J7K2mD/9G+S6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j4jc0R8APsUOkLy5/Z5sxZ3b0xpgecr7OyCHwUQnjHU=;
+ b=DLHfq8A1hqPKnn0WK3rZA4malEtBFrC/+XaBEQTlmf2brNdXqzer+NNqYbK+I6SM29+S0P7v9+Sk4fMiNAJ34DgbhDDXx5zSHJwq27tItzJ4IO93bLTN4bWojr1xwp8w5p5+VP97aTSoVP2E7qazynswWFRBIiEJ/kb4wDvPgjpVED2Peva3wlDg2treEKR2O4Omdx186gv+nCQjIb9siWZPG0BODlPLcVQo5m/G+67HiP518CMWy3SmJBfCRGyMXlmLjBlkLsH8l4QOgXnJxMXbW9R/QdZ+wbsiomha5hxC8JlprIZMtu5yihns7pgdrZwDllFJzBERaiah14PzkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j4jc0R8APsUOkLy5/Z5sxZ3b0xpgecr7OyCHwUQnjHU=;
+ b=gEmvwUOBe3nkHvt+/S6G8uVSXg/T5v3nCqXctTab1oTCoNBDoq2I7zcwftYKiWXEtIfehUDzEbXYSkaUr0lVoR8nreK1VT90bTRe0NwvJotnqqjvyspkZFOHo7PdEg6fNq8gi84vH+UgTi/rpAICWts48WxtFuBIWCCKLqciiPw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SJ0PR12MB5662.namprd12.prod.outlook.com (2603:10b6:a03:429::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
+ 2023 17:03:20 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::152b:e615:3d60:2bf0]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::152b:e615:3d60:2bf0%6]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
+ 17:03:20 +0000
+Message-ID: <21e6cd4d-cfc3-53eb-1b46-26288dfa509e@amd.com>
+Date: Mon, 23 Jan 2023 12:03:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 0/7] Fix MST on amdgpu
+Content-Language: en-US
+To: Lyude Paul <lyude@redhat.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230119235200.441386-1-harry.wentland@amd.com>
+ <965500917008cd17b47c1be1f5eeda7ccc4eede6.camel@redhat.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <965500917008cd17b47c1be1f5eeda7ccc4eede6.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
+X-ClientProxiedBy: YT3PR01CA0007.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:86::19) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SJ0PR12MB5662:EE_
+X-MS-Office365-Filtering-Correlation-Id: a00156e4-24e4-4e1e-fb09-08dafd63baba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: N0E0y2wytDB9kgE5gjIXr0alnO8SWBlocJ4CaVzto5mW0terkngOYems/Ywe3OSECYTNywKtyO2dsCQXfJeC6iLna29vp5PyVQi5O7v//SKQO01EIiTf9nr3OQSzyDHnQratGQ+0WbrA1QYuLlu3DO5wRS02atKeFco0HkrVNK2eQgq3n+A4k/qk02wfhXlGHYo/jI0Xk5noYySkAZukNamx877yoC7MlAvvAyqq7xFt3QEbJ7M94BqtwkPaD4SpADC/X4V06ug1hfEcT8LpQaSUfSjasUXnisHOjGjlMxKXuwa7SJ3WOrQVas/+XiBstDt0I3/k/Teo7WK2fuu/Luxhs0i1qewIUcAIT5AzTEOtLCYkgURUj5cDZw/W9E3Bn4XL1O1ZCFfOIukiNNP6/XKRzJhYHepuQmEwFPaFAPGWXBtPmJVMM7PEUMXbpso5kfWuYmHYIn33T+vekO4uqMpVH4WGUML0AUSDEQDTTShkn+Vtyxx4V5P7kWXaIOxXJiaK5gb/RPRz2kx8iISN1P2wguImQpnXHmKXrpDorgu51B5NiD7BYqJEGSJazuHbGzhcJyDm+DZDNbWO5fjb4ZoniFRGpJquK7jgs6wuIceeUwvcufl4ScGMr59OgrAAetU5svcuIXSXcBDRceDbleDygn4C5rAa5WvkzZXNDi79B1af2K5hcTBoZ+UxQBUB
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(396003)(346002)(376002)(136003)(39860400002)(451199015)(83380400001)(31696002)(38100700002)(41300700001)(86362001)(2906002)(44832011)(8936002)(5660300002)(4326008)(26005)(8676002)(53546011)(186003)(6506007)(6512007)(6666004)(66476007)(66556008)(316002)(2616005)(66946007)(478600001)(966005)(6486002)(31686004)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1lDcGpJMnR6em02c05NekVvQmVUUGdYTkpUdDdmeW92ZDRFOUE5YlhWcFA4?=
+ =?utf-8?B?SEZ4NDcyeEsvVlJ2MjcyK0NEVGVWM20xS1QvNmg5MTRGRU5aSlZEdVQ3dFVT?=
+ =?utf-8?B?VnV5SHFMcFA5VDRaaG0wU3R3NUlHOGVBdjZOU2E5QS82WjMvR25RbG1sVXVv?=
+ =?utf-8?B?cUNGSFlSMDcrRFB4dGppZlh2MHpXVGlhOGZhK2N0ZmdZeE5UblNkb1VpNVNO?=
+ =?utf-8?B?NlhWcHFVTDVUc2pNTUNNM2tuanpuNHY4MWsyWXNSVDEweHRTckVUVXg0Sy9K?=
+ =?utf-8?B?dS9jeVBnZzFpVkNTT0d1bXVZNWlmOGpnZWZDTSs3RWJkc0xOQ3JCZVU0d3da?=
+ =?utf-8?B?Z2M2djZrWGpvZlBoR1RydDJwK0d5WTZtV0llcm1XY3g1ZUl5VjMrcUJSSGJ2?=
+ =?utf-8?B?QkxLajNjZ1o4UCtzaXlUSncvb2F1N3lKWG0wMElGdEIyQkl4c3RiYlorcDUz?=
+ =?utf-8?B?eWhIM2l3WnZNNjNrVGFBcm1uUjhLZEJCZU5UM05zdFJsYSs3YW5qcTNWREVY?=
+ =?utf-8?B?K0g1c1UxSDhQZHZsWHB2ZDFvQjZTbitNbCtidTZCK0pBclNQYW81cVU3VW5w?=
+ =?utf-8?B?eHozbEVJU2xLUXo2SVpueDk5ZU5FdjNNZ2Z5dG5wczFPeG1McmJVTlBaZUZM?=
+ =?utf-8?B?ZVNmMjVJdE04OEFaMTllQUJWQUg0SkhIV3dERGswbVNwdzRIY0c1YTN6NXRX?=
+ =?utf-8?B?MzBVMjVuek0zaXp3VnUxNDY2anN6c24rR1FEcHpUZit4c1FYaHo2WjFFVXZZ?=
+ =?utf-8?B?V1JsM2xLaXRFYmpBUU1zZ1JQZ1Z2aXJNekNvdkF4cG1tSjRxdEo5T2YwMzZN?=
+ =?utf-8?B?RkJkaGtVdzkxOVZxNFhXQUpsSUNQUzc5QU5SRit4SmJYOGR5RURtcHBPNUsy?=
+ =?utf-8?B?SGR0V0FoMHR2MkRjb0tVdk53L0Mwb2NHM01ady8zUGt1TzRLR1JWcll0dm5Y?=
+ =?utf-8?B?TTZjeWJSVEFINkVIOTFlQXJ5Z2ZlU0VmMzVaWXVTNGpmSWZJK0NUTjcrcVZi?=
+ =?utf-8?B?em05S0JyZTk3OEVTOU9Md0VSbDRwdjMwWE16M09jWkpPbG1ndGNKSi9hQmV1?=
+ =?utf-8?B?UlRsWGtaSmc3c3QvcEY3WUlGaEtlKzZvVkI4NFV4dVNySXVJajBzeEsrNE55?=
+ =?utf-8?B?OGxBZk1kazBwKzQ4Y3lod0I1OE10RW5pNjlhZVJXZDZKSk9ZZU5rQzhxc2NM?=
+ =?utf-8?B?aUhQekc2bkU2M2dwK3lhK3F3eG5RdWxxREV3L25PQzF2UTh6SFdVK1E5WDI4?=
+ =?utf-8?B?S3JxeEZmNEZNU1ZYdjFJQUJvSG92QnhFUzkzYXNVR3lXeFAzZHRvcTRkV05Q?=
+ =?utf-8?B?cWhHUXBqdTJaVG5SaTRraFc4MlM3OVNaUmVKUEZ5VHplRytta2VsRmpPUGpI?=
+ =?utf-8?B?UWZjUEtReWFOUzRwOTdMUmRKQzBVSXZUS3JvUFF5YTZwemR4V0lHZko4NlZX?=
+ =?utf-8?B?MDdWd0dJeHZwOUwxNzZUTGdVV2tvR0pwZ3FaUU1jb05ONEs3WEt6a3cvOVVG?=
+ =?utf-8?B?V2FmQ3JoZVFKRGptS0RCRUloYXdVYXRtWGUyZW8valBkeEwrM3VwSW1XZGZx?=
+ =?utf-8?B?NkdTd3pqSGc4SFFIbTFlMDFEZWFjUDFWaVRyNkM4em9wSGpuVEdnWVRGcEpr?=
+ =?utf-8?B?d1dMaGtnMDd6QmpzNkh4TWdjbzRuQUFSdDBSdjVkTVk4OGwzOEp0ZmdaVS9R?=
+ =?utf-8?B?djlqbElvZUZZOVk4YlBRd2ZYWnl6dmJnQXcxRjNYQ1NEQmJDS2x4TjlBY2Ir?=
+ =?utf-8?B?UmdVdUprQWpkcE1VY1JiNTZlTU9abkxucVRRbFRVYjVtV1BFb0lYbnNDd0xP?=
+ =?utf-8?B?eTFveW9zY0JUdjhZMHFsdWN6R0ZPaGEyREdkNVhKTUszbUQvajgxNGo2dDJB?=
+ =?utf-8?B?K041aXgyOWpPVUpDcG01b3BNTzNaaW9WUk94eGhEcGNtMngxWGE1OEFUcngr?=
+ =?utf-8?B?bHoyRzF3NkNTSlN6L1JMTFpaUGw3bmhaR2c5WTFEZ2NlWkM1elVIdEZjaGNi?=
+ =?utf-8?B?aUlaUUpvaGdUb2g5eTZtaG9yemRtZXpCbTNCZFB0SU00OUFtR1VReDh5ZVFC?=
+ =?utf-8?B?QXZiQkhTOGt1amM2QVE0b3h3bGR4QWNFRGVOWGdjcG1MTUMrTHJOQnc1Wjdu?=
+ =?utf-8?Q?QVMxNZFqVAeFuv8rLKNY5sTkS?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a00156e4-24e4-4e1e-fb09-08dafd63baba
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 17:03:20.5251 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gAfEzmKUf8PLQENQ50W+7M5mNB154cDpUH0vwrFDDPSBj8ZeXFzDiGXr5i2mEPEO23rxrw4QfdJx4pEmYi9kEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5662
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,149 +126,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Jones <jajones@nvidia.com>, linaro-mm-sig@lists.linaro.org,
- sebastian.wick@redhat.com, labbott@redhat.com, benjamin.gaignard@collabora.com,
- linux-media@vger.kernel.org, mchehab@kernel.org, ppaalanen@gmail.com,
- dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca, hverkuil@xs4all.nl,
- jstultz@google.com, lmark@codeaurora.org, tfiga@chromium.org,
- sumit.semwal@linaro.org
+Cc: stable@vger.kernel.org, stanislav.lisovskiy@intel.com, jerry.zuo@amd.com,
+ bskeggs@redhat.com, Wayne.Lin@amd.com, mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
-
-On Mon, Jan 23, 2023 at 05:29:18PM +0100, Christian König wrote:
-> Am 23.01.23 um 14:55 schrieb Laurent Pinchart:
-> > Hi Christian,
-> >
-> > CC'ing James as I think this is related to his work on the unix device
-> > memory allocator ([1]).
-> >
-> > [1] https://lore.kernel.org/dri-devel/8b555674-1c5b-c791-4547-2ea7c16aee6c@nvidia.com/
-> >
-> > On Mon, Jan 23, 2023 at 01:37:54PM +0100, Christian König wrote:
-> >> Hi guys,
-> >>
-> >> this is just an RFC! The last time we discussed the DMA-buf coherency
-> >> problem [1] we concluded that DMA-heap first needs a better way to
-> >> communicate to userspace which heap to use for a certain device.
-> >>
-> >> As far as I know userspace currently just hard codes that information
-> >> which is certainly not desirable considering that we should have this
-> >> inside the kernel as well.
-> >>
-> >> So what those two patches here do is to first add some
-> >> dma_heap_create_device_link() and  dma_heap_remove_device_link()
-> >> function and then demonstrating the functionality with uvcvideo
-> >> driver.
-> >>
-> >> The preferred DMA-heap is represented with a symlink in sysfs between
-> >> the device and the virtual DMA-heap device node.
-> >
-> > I'll start with a few high-level comments/questions:
-> >
-> > - Instead of tying drivers to heaps, have you considered a system where
-> >    a driver would expose constraints, and a heap would then be selected
-> >    based on those constraints ? A tight coupling between heaps and
-> >    drivers means downstream patches to drivers in order to use
-> >    vendor-specific heaps, that sounds painful.
+On 1/20/23 18:15, Lyude Paul wrote:
+> For the whole series:
 > 
-> I was wondering the same thing as well, but came to the conclusion that 
-> just the other way around is the less painful approach.
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-From a kernel point of view, sure, it's simpler and thus less painful.
-From the point of view of solving the whole issue, I'm not sure :-)
+Thanks, series is merged to amd-staging-drm-next.
 
-> The problem is that there are so many driver specific constrains that I 
-> don't even know where to start from.
+Harry
 
-That's where I was hoping James would have some feedback for us, based
-on the work he did on the Unix device memory allocator. If that's not
-the case, we can brainstorm this from scratch.
-
-> >    A constraint-based system would also, I think, be easier to extend
-> >    with additional constraints in the future.
-> >
-> > - I assume some drivers will be able to support multiple heaps. How do
-> >    you envision this being implemented ?
 > 
-> I don't really see an use case for this.
+> So glad to have this fixed finally ♥
 > 
-> We do have some drivers which say: for this use case you can use 
-> whatever you want, but for that use case you need to use specific memory 
-> (scan out on GPUs for example works like this).
+> On Thu, 2023-01-19 at 18:51 -0500, Harry Wentland wrote:
+>> MST has been broken on amdgpu after a refactor in drm_dp_mst
+>> code that was aligning drm_dp_mst more closely with the atomic
+>> model.
+>>
+>> The gitlab issue: https://gitlab.freedesktop.org/drm/amd/-/issues/2171
+>>
+>> This series fixes it.
+>>
+>> It can be found at
+>> https://gitlab.freedesktop.org/hwentland/linux/-/tree/mst_regression
+>>
+>> A stable-6.1.y rebase can be found at
+>> https://gitlab.freedesktop.org/hwentland/linux/-/tree/mst_regression_6.1
+>>
+>> Lyude Paul (1):
+>>   drm/amdgpu/display/mst: Fix mst_state->pbn_div and slot count
+>>     assignments
+>>
+>> Wayne Lin (6):
+>>   drm/amdgpu/display/mst: limit payload to be updated one by one
+>>   drm/amdgpu/display/mst: update mst_mgr relevant variable when long HPD
+>>   drm/drm_print: correct format problem
+>>   drm/display/dp_mst: Correct the kref of port.
+>>   drm/amdgpu/display/mst: adjust the naming of mst_port and port of
+>>     aconnector
+>>   drm/amdgpu/display/mst: adjust the logic in 2nd phase of updating
+>>     payload
+>>
+>>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  4 +-
+>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 48 +++++++++---
+>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  4 +-
+>>  .../drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c |  2 +-
+>>  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 16 ++--
+>>  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 76 +++++++++++++------
+>>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 53 ++++++-------
+>>  drivers/gpu/drm/amd/display/dc/core/dc_link.c | 14 +++-
+>>  drivers/gpu/drm/display/drm_dp_mst_topology.c |  4 +-
+>>  include/drm/drm_print.h                       |  2 +-
+>>  10 files changed, 143 insertions(+), 80 deletions(-)
+>>
+>> --
+>> 2.39.0
+>>
 > 
-> But those specific use cases are exactly that, very specific. And 
-> exposing all the constrains for them inside a kernel UAPI is a futile 
-> effort (at least for the GPU scan out case). In those situations it's 
-> just better to have the allocator in userspace deal with device specific 
-> stuff.
 
-While the exact constraints will certainly be device-specific, is that
-also true of the type of constraints, or the existence of constraints in
-the first place ? To give an example, with a video decoder producing
-frames that are then rendered by a GPU, the tiling format that would
-produce the best result is device-specific, but the fact that the
-decoder can produce a tiled format that would work better for the GPU,
-or a non-tiled format for other consumers, is a very common constraint.
-I don't think we'll be able to do away completely with the
-device-specific code in userspace, but I think we should be able to
-expose constraints in a generic-enough way that many simple use cases
-will be covered by generic code.
-
-> What I want to do is to separate the problem. The kernel only provides 
-> the information where to allocate from, figuring out the details like 
-> how many bytes, which format, plane layout etc.. is still the job of 
-> userspace.
-
-Even with UVC, where to allocate memory from will depend on the use
-case. If the consumer is a device that doesn't support non-contiguous
-DMA, the system heap won't work.
-
-Actually, could you explain why UVC works better with the system heap ?
-I'm looking at videobuf2 as an importer, and it doesn't call the dmabuf
-as far as I can tell, so cache management provided by the exporter seems
-to be bypassed in any case.
-
-> What we do have is compatibility between heaps. E.g. a CMA heap is 
-> usually compatible with the system heap or might even be a subset of 
-> another CMA heap. But I wanted to add that as next step to the heaps 
-> framework itself.
-> 
-> > - Devices could have different constraints based on particular
-> >    configurations. For instance, a device may require specific memory
-> >    layout for multi-planar YUV formats only (as in allocating the Y and C
-> >    planes of NV12 from different memory banks). A dynamic API may thus be
-> >    needed (but may also be very painful to use from userspace).
-> 
-> Uff, good to know. But I'm not sure how to expose stuff like that.
-
-Let's see if James has anything to share with us :-) With a bit of luck
-we won't have to start from scratch.
-
-> >> What's still missing is certainly matching userspace for this since I
-> >> wanted to discuss the initial kernel approach first.
-> >
-> > https://git.libcamera.org/libcamera/libcamera.git/ would be a good place
-> > to prototype userspace support :-)
-> 
-> Thanks for the pointer and the review,
-
-By the way, side question, does anyone know what the status of dma heaps
-support is in major distributions ? On my Gentoo box,
-/dev/dma_heap/system is 0600 root:root. That's easy to change for a
-developer, but not friendly to end-users. If we want to move forward
-with dma heaps as standard multimedia allocators (and I would really
-like to see that happening), we have to make sure they can be used.
-
-> >> Please take a look and comment.
-> >>
-> >> Thanks,
-> >> Christian.
-> >>
-> >> [1] https://lore.kernel.org/all/11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com/T/
-
--- 
-Regards,
-
-Laurent Pinchart
