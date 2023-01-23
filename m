@@ -2,60 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA143677FF6
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:37:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A685A67800A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:38:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C1BA10E4D3;
-	Mon, 23 Jan 2023 15:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9684910E4D1;
+	Mon, 23 Jan 2023 15:38:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE3210E4D1;
- Mon, 23 Jan 2023 15:37:42 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id k13so11815985plg.0;
- Mon, 23 Jan 2023 07:37:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=bqm/b4+IUdS1MqzQZf17cD89gtcHvfXYnuA2GMItHy8=;
- b=BeoLm0GehG2RTvXfpa3TJlY/SMshWzp1bpns58/nwqsEifYxf7ekkD81AfXJagIOB+
- UwAIUci/GqYTsUdXnuChLkVGcn4T3p+5uaKqwcLNqvnWDcMrSJANvtyZBCbtN2jWDxf5
- xPZJKPW9mL/HwXGKP1o6XJmkUxIkmAUXgz3uArCcSb3MCMl9GJ96KThvVJTuhP8c7mwi
- KGxfbUstxf/dJP4hjJttF8HclYAjm1Fh54CnnMfMaNXpNjc3okJlYaBi6GcVQ23E2OFA
- seXpNS0ZQYAJ/7latTNsL3P9YxlsQLnB6SXm1OyZuvUJQyK1ZWD1h3fdozu7KQjgIOt/
- 7Yxg==
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
+ [IPv6:2607:f8b0:4864:20::d34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7006110E4D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:38:41 +0000 (UTC)
+Received: by mail-io1-xd34.google.com with SMTP id h184so5723485iof.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:38:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=GTMdUYoB31JTLCUSgm3VtLqQhozltwVtxsd9chRjQsA=;
+ b=Q3dQNfOIsBKbEssAr8S/0j2BHEXhzLeK6qqTwjbGFlMNtkbm96lJaHLBbeZdqOLHIN
+ jqv9DLB/SnYamc6sLj/eI0xT3q+9bPStpYW/Xa0XZzY6uaYxxy8c+5ohJwrCBHoi8K2/
+ mNe/DClGW0oO4B+xbmmD3rwMhPieMBk9avVZw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bqm/b4+IUdS1MqzQZf17cD89gtcHvfXYnuA2GMItHy8=;
- b=ydr2c7k3UR6CKvQJqHfho5vnSjujflt8T8uzX9RwPAT2f+RuW+p9/aZJA4Hhgomo6z
- TSmktQ5YP5wodLo0m+9nQ4YvyKdVqY4jq53UB01MJ75+m0reor8OXOKIicLA07sB38ro
- 2aqfAOHy3xFsmpa70ZlYwDM+E87vSoms4OMDAD6m+S9MWtfAgnYWBjRjuNOSrlH9AlPo
- BcCYP6eY5EFSFKrmIpuQ6I6WV+zOFkXodBTgcxiv/r7/LkjugaLBJ3YDARIaHaXjtg+M
- oq0PtHM2n6o8prejmjWl0sS6X6qgmLqdG5UcBpxUeomgrZVMSpP0ccgRUAgYakl+ElM3
- 3f2w==
-X-Gm-Message-State: AFqh2kpdsLt5DVmyJEQU4jyZABbSIYWN0gzxfJTq/Og+HREVipM6ZBiY
- xVBghZT1nr9F/kEFFBp8wCg=
-X-Google-Smtp-Source: AMrXdXse4poj4j7/kfYLEJ+8471w5Y524fdoIV5ZbcJvP4IGR3j2MuWF5o0LGi9ty84jgW5rm9vbvg==
-X-Received: by 2002:a17:902:e403:b0:194:3dd0:e332 with SMTP id
- m3-20020a170902e40300b001943dd0e332mr21920673ple.69.1674488262052; 
- Mon, 23 Jan 2023 07:37:42 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- m3-20020a170902db0300b0018963b8e131sm10333712plx.290.2023.01.23.07.37.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 07:37:41 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: linux-pm@vger.kernel.org
-Subject: [PATCH] PM / devfreq: Fix build issues with devfreq disabled
-Date: Mon, 23 Jan 2023 07:37:45 -0800
-Message-Id: <20230123153745.3185032-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.38.1
+ bh=GTMdUYoB31JTLCUSgm3VtLqQhozltwVtxsd9chRjQsA=;
+ b=lm9lSjTNCvqBm2btr4igeBxx9WhDMzLvWB7RsNWKIELswoBVqhy4DkgJgjYwHp1Nvu
+ 8kwwo1NVxTy9u43ldXs7ynaLJ+lr/Kjh/D+fvIQtjUFT8saoQc7ADPz9or2YJcSjc3x3
+ d3chjgTnU+7s7pMkO5UxFMDxN0rZl+dnI1Tfo4xxXPuoMB8eIlvP37BcZGtz6qbe6AN2
+ fa3Rftm7zzc0B/Vydw+hsNrYl0BVphPQi3t+TmVM8DivJMob8bFLrCwthO1p/WTtCOPG
+ uE+ibDPaKrHvmoTR3WuWjxP+m2fsA+wsp/iIOFWdkRYddctDYUjxlh0foLzpd3OC2pMT
+ 8Ztg==
+X-Gm-Message-State: AFqh2krZcWgcxyQ8Pg79KXczVZVrn5RJ/+edhy9Go8eZ7FympRoHsE4W
+ haGvqD8kNlpsJyP13Kbq8SAlhHZS2/QvmHEI2vVk8w==
+X-Google-Smtp-Source: AMrXdXuXxev/GY8Oy07lOGET6d1ZUhWZ1e8eg082MJK3Aqa3PS4fKCI4WfECJhpMfT04OzR0UvCeatClLncLpOlbbd0=
+X-Received: by 2002:a05:6602:1782:b0:6e3:134:3a97 with SMTP id
+ y2-20020a056602178200b006e301343a97mr1998187iox.64.1674488320775; Mon, 23 Jan
+ 2023 07:38:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230110231447.1939101-1-robdclark@gmail.com>
+ <20230110231447.1939101-2-robdclark@gmail.com>
+ <2d5f0bc3-620a-1fd8-061f-92f16efd3c5e@kernel.org>
+In-Reply-To: <2d5f0bc3-620a-1fd8-061f-92f16efd3c5e@kernel.org>
+From: Rob Clark <robdclark@chromium.org>
+Date: Mon, 23 Jan 2023 07:38:38 -0800
+Message-ID: <CAJs_Fx5Wjnxw3rOtu6ye493SO-K+b3WLECYGBSCDUsyQhTjdiA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm/msm/gpu: Add devfreq tuning debugfs
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +63,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, Jan 23, 2023 at 4:38 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> On 11/01/2023 00:14, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Make the handful of tuning knobs available visible via debugfs.
+> >
+> > v2: select DEVFREQ_GOV_SIMPLE_ONDEMAND because for some reason
+> >     struct devfreq_simple_ondemand_data depends on this
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+>
+> For some reason this was merged even though earlier kbuild reported
+> build failure. This breaks linux next and qcom defconfig. Please drop
+> the patch from the linux next.
+>
+> See earlier build issues reported:
+> https://lore.kernel.org/all/202301130108.fslQjvJ8-lkp@intel.com/
+>
 
-The existing no-op shims for when PM_DEVFREQ (or an individual governor)
-only do half the job.  The governor specific config/tuning structs need
-to be available to avoid compile errors in drivers using devfreq.
+This will fix it:  https://patchwork.freedesktop.org/series/113232/
 
-Fixes: 6563f60f14cb ("drm/msm/gpu: Add devfreq tuning debugfs")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
-Assuming this doesn't conflict with anything else landing via another
-tree, an a-b to land this via drm/msm-next would let us un-break builds.
-(And also start removing "select DEVFREQ_GOV_SIMPLE_ONDEMAND"s added in
-various places to try to work around this issue.)
-
- include/linux/devfreq.h | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/include/linux/devfreq.h b/include/linux/devfreq.h
-index 4dc7cda4fd46..7fd704bb8f3d 100644
---- a/include/linux/devfreq.h
-+++ b/include/linux/devfreq.h
-@@ -273,8 +273,8 @@ void devm_devfreq_unregister_notifier(struct device *dev,
- struct devfreq *devfreq_get_devfreq_by_node(struct device_node *node);
- struct devfreq *devfreq_get_devfreq_by_phandle(struct device *dev,
- 				const char *phandle_name, int index);
-+#endif /* CONFIG_PM_DEVFREQ */
- 
--#if IS_ENABLED(CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND)
- /**
-  * struct devfreq_simple_ondemand_data - ``void *data`` fed to struct devfreq
-  *	and devfreq_add_device
-@@ -292,9 +292,7 @@ struct devfreq_simple_ondemand_data {
- 	unsigned int upthreshold;
- 	unsigned int downdifferential;
- };
--#endif
- 
--#if IS_ENABLED(CONFIG_DEVFREQ_GOV_PASSIVE)
- enum devfreq_parent_dev_type {
- 	DEVFREQ_PARENT_DEV,
- 	CPUFREQ_PARENT_DEV,
-@@ -337,9 +335,8 @@ struct devfreq_passive_data {
- 	struct notifier_block nb;
- 	struct list_head cpu_data_list;
- };
--#endif
- 
--#else /* !CONFIG_PM_DEVFREQ */
-+#if !defined(CONFIG_PM_DEVFREQ)
- static inline struct devfreq *devfreq_add_device(struct device *dev,
- 					struct devfreq_dev_profile *profile,
- 					const char *governor_name,
--- 
-2.38.1
-
+BR,
+-R
