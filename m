@@ -1,41 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90081677D57
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 15:00:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0F3677DAD
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 15:11:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E51610E499;
-	Mon, 23 Jan 2023 14:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 016C010E4A0;
+	Mon, 23 Jan 2023 14:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3FC010E499
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 14:00:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3F002D9;
- Mon, 23 Jan 2023 15:00:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1674482445;
- bh=U4yb+8cDXDgj8BhmM9epd1Tu+axcS8mTstrARnltOj8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NKgYiAT1ADsuvzALI1LW26Rc8OpRcKiQnn41FmbNAizL6FiDNEFXrSlymvbo3qeSD
- KdPnm6Qq2UjcqlNuqHp2tO8JVOpWcfQdXbq0c8+PGeM6pdY+sntRh6PfydqLo62/FC
- v9MxTa33ZrTQtYw6WrUIyFLie/vqqDAqjMlaYGB0=
-Date: Mon, 23 Jan 2023 16:00:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 2/2] media: uvcvideo: expose dma-heap hint to userspace
-Message-ID: <Y86TCFUYsWdDNDPP@pendragon.ideasonboard.com>
-References: <20230123123756.401692-1-christian.koenig@amd.com>
- <20230123123756.401692-3-christian.koenig@amd.com>
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4827810E49F;
+ Mon, 23 Jan 2023 14:11:09 +0000 (UTC)
+Date: Mon, 23 Jan 2023 14:10:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1674483067; x=1674742267;
+ bh=HiBDKXELdKQw+DQiVPEEqoO2rezV7HYTNwUnPqn/CoU=;
+ h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=V4gBdM6iuEhUhEPEaadl+/sUS5BuGRUG3zns8fFl4WvFwhGqLjH/A5/qzn07W8B9q
+ K977Xz+TpN/25q3dZqMwUGv86aLOVftBnHj4gJFbIBDMaoRu6wRu9IhTbBvzdz+0BT
+ Bn6H7wqeq7ZsOHRraE+4CtXDV49xUhUsIJx6DiGj4wlG/9Xy6DQlxLBN0Vf99kY7g3
+ /fJ1sBSsm/5WoBGoQnHRsB3/QoRZUyFlX6/WpOwt4C32xIIeMfEdOthoIUROYPAMe3
+ GqBkyz/yfwQGz5Ip9aOLHlFjiVqXf2PQLPV8oz8T/2C/FBuevqmWsSywoYGKAICBLM
+ Hj7PlLj9wljMw==
+To: wayland-devel <wayland-devel@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+From: Simon Ser <contact@emersion.fr>
+Subject: [ANNOUNCE] pixfmtdb
+Message-ID: <nn8qWh16AviRPuLVOg_I-Nn747ncRsuJsZU_VZHvKhxp2hoFBCFsAfezBDkiwM-yn-CXAW_Vos121VKtETNsSZU3EuCuVzcgHBnnWNnww-g=@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230123123756.401692-3-christian.koenig@amd.com>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,78 +45,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, sebastian.wick@redhat.com,
- labbott@redhat.com, benjamin.gaignard@collabora.com,
- linux-media@vger.kernel.org, mchehab@kernel.org, ppaalanen@gmail.com,
- dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca, hverkuil@xs4all.nl,
- jstultz@google.com, lmark@codeaurora.org, tfiga@chromium.org,
- sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Hi all,
 
-Thank you for the patch.
+In the last few days I've been working on a small new project, pixfmtdb [1]=
+.
+It's a Web database of pixel format guides, it can be useful to understand
+how pixels are laid out in memory for a given format and which formats from
+various APIs are compatible with each other.
 
-On Mon, Jan 23, 2023 at 01:37:56PM +0100, Christian König wrote:
-> Expose an indicator to let userspace know from which dma_heap
-> to allocate for buffers of this device.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index e4bcb5011360..b247026b68c5 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -7,6 +7,7 @@
->   */
->  
->  #include <linux/atomic.h>
-> +#include <linux/dma-heap.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/kernel.h>
->  #include <linux/list.h>
-> @@ -1909,6 +1910,8 @@ static void uvc_unregister_video(struct uvc_device *dev)
->  
->  	if (dev->vdev.dev)
->  		v4l2_device_unregister(&dev->vdev);
-> +	dma_heap_remove_device_link(&dev->udev->dev);
-> +
+pixfmtdb relies on the Khronos Data Format Specification [2] to describe
+each format. This means that each format is described with a standardized
+data blob, which can be re-used with other tools for other purposes.
 
-Could we avoid having to call this explicitly in drivers, possibly using
-devres in dma_heap_create_device_link() ?
+My future plans include adding more formats and format families to pixfmtdb=
+,
+and make it easy to use the data for code generation, in particular for
+automatically generating tables containing metadata about formats, as used
+in Wayland compositors and other projects.
 
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	if (media_devnode_is_registered(dev->mdev.devnode))
->  		media_device_unregister(&dev->mdev);
-> @@ -2181,6 +2184,14 @@ static int uvc_probe(struct usb_interface *intf,
->  			 dev->uvc_version >> 8, dev->uvc_version & 0xff);
->  	}
->  
-> +	/*
-> +	 * UVC exports DMA-buf buffers with dirty CPU caches. For compatibility
-> +	 * with device which can't snoop the CPU cache it's best practice to
-> +	 * allocate DMA-bufs from the system DMA-heap.
-> +	 */
-> +	if (dma_heap_create_device_link(&dev->udev->dev, "system"))
+I hope some of you can find this work useful,
 
-I don't think this is the right device. A UVC device is usually a
-composite USB device with an audio (UAC) function in addition to UVC,
-and that may require a different heap (at least conceptually). Wouldn't
-the video_device be a better candidate to expose the link ? This would
-create a race condition though, as the link will be created after
-userspace gets notified of the device being available.
+Simon
 
-> +		goto error;
-> +
->  	/* Register the V4L2 device. */
->  	if (v4l2_device_register(&intf->dev, &dev->vdev) < 0)
->  		goto error;
-
--- 
-Regards,
-
-Laurent Pinchart
+[1]: https://pixfmtdb.emersion.fr
+[2]: https://www.khronos.org/dataformat
