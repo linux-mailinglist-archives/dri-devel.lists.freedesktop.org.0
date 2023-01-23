@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1336780D2
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA9A6780D8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC4D210E4F4;
-	Mon, 23 Jan 2023 16:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4271310E4F3;
+	Mon, 23 Jan 2023 16:05:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2073.outbound.protection.outlook.com [40.107.101.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47D3F10E482
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:41:26 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2043.outbound.protection.outlook.com [40.107.237.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4223F10E492
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:45:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JK67vP7J3asEvhRD4a2DWngcf3s/LXXhgr9qsbtXCjBh80BKebwDxQB9SrkJQc8j8Z4zTd+FViRC19oye8YluCj5lXMa1wp8+doTCwtkV2HldNV0GuctLmGpH9rRBH9aOUaHiKKbSuhs19SUc6P6+NFnf6frYYnTFgb1spHBW6cfpACEjSysuFkxDIGL0KEECMS8AWXCx7TNR8QaHyRXy8RvlQcSqVF3Yva7DL7s6+t8xIvGq1QyxXRwOgFZtHvY8csXMrAJJBZCXg5C5O+Gq+XD+bJFbdNLXF4VZblxjxIyvECrZfXwVcQttvND/JoZoGK0NMaPLhL6gB6RAXBjeA==
+ b=ZZG87YLgNA4pwdSpxwkrlXaqYXfNCloNdreUbxTcuJZia7kf6nytNOzXLqaQ97UYSy732Fz2+8YNrN0EUkjzpqfxTcHiVLT0Y4tkRPgB1Bb3J/utaabeTdzBuQdgnLf74aCFa+q/Cc4dOHE9r/EiHqcIlrWhSgeScLMk1Wp2yFV83LW5ftRfskX3B8REQPiU5gvegGT4U8RYeCfxR7LN6jLIrModk+tNq+88zg74aexrQ5H+x73k7UcmFRIhb/mgKo7526bJwBDcW6Uqs0aC8gnZ30MlO8p44f1Kt7LbV5EuSJ7vR7O8S2TwLKDSY+gXD1mOAxtmKyVx+e5k70Xuhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mRSaVxFcOi8Wl1iv8atBI/tuuzFR7OS9gWyi2TG+ubU=;
- b=KJcAGQ0iBq0eyWqgTgKAGjbHsPQpirX5G/G3mESVrxP3uqjhob6MKro94hIbtVGcn602WB+UgB8B0+5udr/gRsbZzBP2D7Rpp/QTT6WFjniofmd3ZceeLAmVTpfjvQXMf3TZFhbamkoK6ml2d8w5YwlB10yrpISCql07LYsiHnjPuxHqr5CvhTODurLOqUnOXvAG/cFT7mIGsUAfHZnbRCNbNMGrk8jXJilIh8juO6hEzggmNy+eWJGw7JbJTeQv5DdrkS2opPcgBeX2A+yV9dNyPNzkruVY9fzphVUlwhnkSsaPr8unIa+8RUx4rMmExBPQ8Ujy+fMOc5xuTLCGiA==
+ bh=1Hc9W9e5hNCieEam24ig/h7vGFU0DMJc1GDd0LkOrj8=;
+ b=lseX9ZjVMcXx6AQLM3asUsFshtvahYoFtNhMR3jzMlTV9B4fMGWLY30J8uJB8x6c3QtUQlwvHMJjjEAlYe7svdqqp8mfX8lcAoH3olBuHA0B4IyDrjgupCy9CoigVHKtvuEOfch0oPitzwqvdK5EPQnPXfiTc/HfIaf1/zI+JX0iGGZVE6piG7Krv8oRDP2cMFsga2dMsUWgo/bTA2o30O0AgfVT5OVbMoafJA9HkvbyS9LKuZWjQuJ7XLf8XNd5JIjmGyxOoxe+7XI6qn/MaPvMbprusIHplLVmNWc/1c3x5oALd3EC/+HCkyiJeMezpkY0j6IaSkk3wktGQz5xtw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mRSaVxFcOi8Wl1iv8atBI/tuuzFR7OS9gWyi2TG+ubU=;
- b=LiTlvmo3znzh/HXNBcMDps7tsWOABaRbURxmbEgdNa0VC/rJ9yOYZ/8viF7laot9PhSG1dIvtrPkxDH4Wk8Lo/8e+00sMJVdgM4IpVeKPL0oow5dkYOFW5IXrF46R/y044y0L0rECv41quxiOF2zpFg93X2JNh7pqGmVPvsfvME=
-Received: from DM6PR06CA0043.namprd06.prod.outlook.com (2603:10b6:5:54::20) by
- PH7PR12MB8427.namprd12.prod.outlook.com (2603:10b6:510:242::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6002.33; Mon, 23 Jan 2023 12:41:22 +0000
-Received: from DM6NAM11FT096.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:54:cafe::a3) by DM6PR06CA0043.outlook.office365.com
- (2603:10b6:5:54::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33 via Frontend
- Transport; Mon, 23 Jan 2023 12:41:22 +0000
+ bh=1Hc9W9e5hNCieEam24ig/h7vGFU0DMJc1GDd0LkOrj8=;
+ b=FMq1wZGZ00dVgdYfCxjl5S1a0crN842ZUbW83qGi/HUjpEMKIwxEcIHXV6cc6o2Whof+zfrfnx8qPnL1qPty4CqcVEmh1yELx9OtEqPGIzeg6fRkRQsLCjLri5g5aUaNyljEH/Heiw+Iw7XgrcIdy7SeE8xbN8fihuShq30KDwY=
+Received: from BN1PR13CA0020.namprd13.prod.outlook.com (2603:10b6:408:e2::25)
+ by MW4PR12MB7309.namprd12.prod.outlook.com (2603:10b6:303:22f::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
+ 2023 12:45:30 +0000
+Received: from BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e2:cafe::bc) by BN1PR13CA0020.outlook.office365.com
+ (2603:10b6:408:e2::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.16 via Frontend
+ Transport; Mon, 23 Jan 2023 12:45:30 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,20 +45,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT096.mail.protection.outlook.com (10.13.173.145) with Microsoft SMTP
+ BN8NAM11FT016.mail.protection.outlook.com (10.13.176.97) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6023.16 via Frontend Transport; Mon, 23 Jan 2023 12:41:21 +0000
+ 15.20.6023.16 via Frontend Transport; Mon, 23 Jan 2023 12:45:29 +0000
 Received: from [10.254.241.50] (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 23 Jan
- 2023 06:40:51 -0600
-Message-ID: <09534bb9-d9be-5433-5e7d-f9d40e30562e@amd.com>
-Date: Mon, 23 Jan 2023 13:40:48 +0100
+ 2023 06:44:58 -0600
+Message-ID: <2f4171f8-badb-a33a-7ae6-c375d9d725c3@amd.com>
+Date: Mon, 23 Jan 2023 13:44:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v2 10/13] mtd: spi-nor: Add stacked memories support in
- spi-nor
+Subject: Re: [PATCH v2 01/13] spi: Add APIs in spi core to set/get
+ spi->chip_select and spi->cs_gpiod
 Content-Language: en-US
 To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>, 
  <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
@@ -84,36 +84,36 @@ To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>,
  <rmfrfs@gmail.com>, <johan@kernel.org>, <elder@kernel.org>,
  <gregkh@linuxfoundation.org>
 References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-11-amit.kumar-mahapatra@amd.com>
+ <20230119185342.2093323-2-amit.kumar-mahapatra@amd.com>
 From: Michal Simek <michal.simek@amd.com>
-In-Reply-To: <20230119185342.2093323-11-amit.kumar-mahapatra@amd.com>
+In-Reply-To: <20230119185342.2093323-2-amit.kumar-mahapatra@amd.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT096:EE_|PH7PR12MB8427:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e9c5c3b-0aec-4e63-6979-08dafd3f21f1
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT016:EE_|MW4PR12MB7309:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0a4abaa-71e3-4b9c-4356-08dafd3fb58e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0NW5ba5jP/DrG7urdbsxJP8ESK+qGITDafbDZBnUXEWDwWCvIlNwmvkzdc6q+K3BlsAoWk+vkwtVRKxAbHm1MH3gK+ARSTCSrDf9NU5KXRWHUorr+LzURvqgue+GShUiNTXjPFurfsUbMCm8lfIQhVaUK2WV4Q/nlrxMlrf3xQIZSYnwdB4TEGjidNNKGiyeqQgdr3Mqc+1EMyUK2PJWrdtNoVKQIEqiTFFPr1fZ2XaUn/MLbcG4gFhiJ+etfVxOa3QP33o8vOpT4d1XguBIRARf2KaOM106I7o8Ft5e/asSydcb4i1Up8JIinYCkQ45Mk360IZ/yNg+itbdborT6UeDCkWfLjHtDydqlWwXTSZkwfCI0xm6oEtazA+sa3x+G8bzemwzlLdTpqOYCqEgqlgstADo8Z2erjIipog65w3PC9SND4hWVlFx4VUVLhLXU+pVRodlrR0f9tmeFflfscoyTYThTWeZsqel1GZSU0kPfNm0ISMGrRgWlDLOj5161RjfdqtBlT8E3eP6nDFWsa1VcgwIj9XUMRQtgeW2ivZy83bJbD1Z/y97uhy37ny5wShWBcu3wKFbMISIhcftJ0JR6i9bDzznSQRDRznEBVBF71mss8gjBa4mUw9XqGARWiqtTQC+VSvvLLH5E0rGuVw/oo78cr+p9MWgXtYtBM+DDePrrjzBlqU3kr00htlQi/BPvMwALkDYdt76yaSor0vRRh+0HGRJ9YkgeDKiqsd6He6n1B/da1+uFHYQisrJrNBW9LB7Hz7Ziaou3blOu7FZKFP8UcDEoYWbEkGPNGCcopPOkN4iy1uUBnIyx+rmpkpA+rW/iXSkM2awLA6Y2KE+orrTK3TkGUB43KvHh7sYRWSLKUrtbAVMWm1XKNaI6zdrDZ6VKSGPHcz3IaopgA==
+X-Microsoft-Antispam-Message-Info: LdL7ODwPjNwLqL4zlXwEXOJTNmT13yPiJlDUkVlxEhCsLNzPduJOrmGw5A7a23LQZozesJcqSzVlJ/Grd2JKOOSvVjwL4lN6X+14Irt5QsUEsgJXI7U/si9FfrKC5YVU7QwL7cAaSnjXo6xHPRyLS8QxNN8gp/V54D1aRhJpGxXjQk0GR8qgraYFsbYP8VqIVLlXDn6OcoU3T6i65a4q0EKBDFRPYD33UO1Prg25z/yogONRvtS2gzWkWQdJxvSABX6WsOckNLFiPWSkAH+Vdnl9Y1awbyZfc3OXub2GSJ5DgswIzcms7JBHwCbtYuO6FdmnlZNqY2ltJhNheRGia5g89VJAYnObK6GIsytWpnQ89oFNkeVUQaKnU07ZdyjC7FYYesPDoy+o7EtHZlwCBhYDhUpAxjdKKQ8YyZwdQYeK69smSWB/9JslS/9TIE8vQygv4aCrrJZcliNYMVwQeCYteAc6PwxNp2pOqxZafGGfA4ID67g0v27HdO2MjRuFJOt1ZVDhXdOb68ZbvS6noVnpOoyNbE1fc4DUTzFM5RctmTGON2egUiQUo6KA8PFGtIFOOLmTutSQl+snumGnVksRqZtLCl5q0JICnxG+Z6UNaAH2TpjUglQI44iL7AeSx8RHx27rL7pMBzIhRjilktkfZ4rZ9MOHYiEiqp7svAOcarWViVfv1iEHMu1mto8kkG5F7HOE+XLKafB92/UIm914Vywt+NrtIDEu0WTVw0IYWtyseYlUW6oF5Pk7LluVZ0BrPTcZXQOIlI1HaAn/Yn0dfzhVl7VEDIcVNSej3pqcO3npANbPo7jdHRYUh6Px0f5aoFkI40Byc8ywS7oNM3wKmt3zSizWcksXSJuHNHsvQT7a79TeJ7CcMiW8TYRU54MAYUid1qiwzji8DM6fimK4pqjMt8zaHM+ZtF7ipTE=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(376002)(346002)(39860400002)(396003)(451199015)(36840700001)(46966006)(40470700004)(36756003)(31696002)(41300700001)(86362001)(356005)(921005)(81166007)(82740400003)(7416002)(5660300002)(7406005)(7336002)(8936002)(82310400005)(4326008)(2906002)(30864003)(44832011)(7366002)(7276002)(36860700001)(83380400001)(110136005)(478600001)(31686004)(16526019)(8676002)(26005)(53546011)(186003)(1191002)(40460700003)(40480700001)(70586007)(16576012)(70206006)(316002)(2616005)(54906003)(6666004)(336012)(426003)(47076005)(2101003)(43740500002)(84006005)(83996005)(36900700001)(41080700001);
+ SFS:(13230022)(4636009)(136003)(39860400002)(396003)(376002)(346002)(451199015)(36840700001)(46966006)(40470700004)(2906002)(86362001)(40460700003)(36756003)(31696002)(82310400005)(426003)(47076005)(316002)(16576012)(54906003)(336012)(110136005)(81166007)(83380400001)(478600001)(966005)(1191002)(16526019)(186003)(53546011)(26005)(2616005)(7366002)(7406005)(7416002)(8936002)(7336002)(7276002)(5660300002)(921005)(356005)(40480700001)(44832011)(70206006)(4326008)(8676002)(36860700001)(70586007)(82740400003)(41300700001)(31686004)(43740500002)(36900700001)(41080700001)(2101003)(84006005)(83996005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 12:41:21.9020 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e9c5c3b-0aec-4e63-6979-08dafd3f21f1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 12:45:29.5706 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0a4abaa-71e3-4b9c-4356-08dafd3fb58e
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT096.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT016.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8427
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7309
 X-Mailman-Approved-At: Mon, 23 Jan 2023 16:04:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -156,530 +156,234 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
-> Each flash that is connected in stacked mode should have a separate
-> parameter structure. So, the flash parameter member(*params) of the spi_nor
-> structure is changed to an array (*params[2]). The array is used to store
-> the parameters of each flash connected in stacked configuration.
-> 
-> The current implementation assumes that a maximum of two flashes are
-> connected in stacked mode and both the flashes are of same make but can
-> differ in sizes. So, except the sizes all other flash parameters of both
-> the flashes are identical.
-> 
-> SPI-NOR is not aware of the chip_select values, for any incoming request
-> SPI-NOR will decide the flash index with the help of individual flash size
-> and the configuration type (single/stacked). SPI-NOR will pass on the flash
-> index information to the SPI core & SPI driver by setting the appropriate
-> bit in nor->spimem->spi->cs_index_mask. For example, if nth bit of
-> nor->spimem->spi->cs_index_mask is set then the driver would
-> assert/de-assert spi->chip_slect[n].
+> Supporting multi-cs in spi core and spi controller drivers would require
+> the chip_select & cs_gpiod members of struct spi_device to be an array.
+> But changing the type of these members to array would break the spi driver
+> functionality. To make the transition smoother introduced four new APIs to
+> get/set the spi->chip_select & spi->cs_gpiod and replaced all
+> spi->chip_select and spi->cs_gpiod references in spi core with the API
+> calls.
+> While adding multi-cs support in further patches the chip_select & cs_gpiod
+> members of the spi_device structure would be converted to arrays & the
+> "idx" parameter of the APIs would be used as array index i.e.,
+> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
 > 
 > Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
 > ---
->   drivers/mtd/spi-nor/core.c  | 282 +++++++++++++++++++++++++++++-------
->   drivers/mtd/spi-nor/core.h  |   4 +
->   drivers/mtd/spi-nor/otp.c   |   4 +-
->   include/linux/mtd/spi-nor.h |  12 +-
->   4 files changed, 246 insertions(+), 56 deletions(-)
+>   drivers/spi/spi.c       | 45 ++++++++++++++++++++---------------------
+>   include/linux/spi/spi.h | 20 ++++++++++++++++++
+>   2 files changed, 42 insertions(+), 23 deletions(-)
 > 
-> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
-> index 8a4a54bf2d0e..bb7326dc8b70 100644
-> --- a/drivers/mtd/spi-nor/core.c
-> +++ b/drivers/mtd/spi-nor/core.c
-> @@ -1441,13 +1441,18 @@ static int spi_nor_erase_multi_sectors(struct spi_nor *nor, u64 addr, u32 len)
->   static int spi_nor_erase(struct mtd_info *mtd, struct erase_info *instr)
->   {
->   	struct spi_nor *nor = mtd_to_spi_nor(mtd);
-> -	u32 addr, len;
-> +	struct spi_nor_flash_parameter *params;
-> +	u32 addr, len, offset, cur_cs_num = 0;
->   	uint32_t rem;
->   	int ret;
-> +	u64 sz;
->   
->   	dev_dbg(nor->dev, "at 0x%llx, len %lld\n", (long long)instr->addr,
->   			(long long)instr->len);
->   
-> +	params = spi_nor_get_params(nor, 0);
-> +	sz = params->size;
-> +
->   	if (spi_nor_has_uniform_erase(nor)) {
->   		div_u64_rem(instr->len, mtd->erasesize, &rem);
->   		if (rem)
-> @@ -1465,26 +1470,30 @@ static int spi_nor_erase(struct mtd_info *mtd, struct erase_info *instr)
->   	if (len == mtd->size && !(nor->flags & SNOR_F_NO_OP_CHIP_ERASE)) {
->   		unsigned long timeout;
->   
-> -		ret = spi_nor_write_enable(nor);
-> -		if (ret)
-> -			goto erase_err;
-> +		while (cur_cs_num < SNOR_FLASH_CNT_MAX && params) {
-> +			nor->spimem->spi->cs_index_mask = 0x01 << cur_cs_num;
-> +			ret = spi_nor_write_enable(nor);
-> +			if (ret)
-> +				goto erase_err;
->   
-> -		ret = spi_nor_erase_chip(nor);
-> -		if (ret)
-> -			goto erase_err;
-> +			ret = spi_nor_erase_chip(nor);
-> +			if (ret)
-> +				goto erase_err;
->   
-> -		/*
-> -		 * Scale the timeout linearly with the size of the flash, with
-> -		 * a minimum calibrated to an old 2MB flash. We could try to
-> -		 * pull these from CFI/SFDP, but these values should be good
-> -		 * enough for now.
-> -		 */
-> -		timeout = max(CHIP_ERASE_2MB_READY_WAIT_JIFFIES,
-> -			      CHIP_ERASE_2MB_READY_WAIT_JIFFIES *
-> -			      (unsigned long)(mtd->size / SZ_2M));
-> -		ret = spi_nor_wait_till_ready_with_timeout(nor, timeout);
-> -		if (ret)
-> -			goto erase_err;
-> +			/*
-> +			 * Scale the timeout linearly with the size of the flash, with
-> +			 * a minimum calibrated to an old 2MB flash. We could try to
-> +			 * pull these from CFI/SFDP, but these values should be good
-> +			 * enough for now.
-> +			 */
-> +			timeout = max(CHIP_ERASE_2MB_READY_WAIT_JIFFIES,
-> +				      CHIP_ERASE_2MB_READY_WAIT_JIFFIES *
-> +				      (unsigned long)(params->size / SZ_2M));
-> +			ret = spi_nor_wait_till_ready_with_timeout(nor, timeout);
-> +			if (ret)
-> +				goto erase_err;
-> +			cur_cs_num++;
-> +		}
->   
->   	/* REVISIT in some cases we could speed up erasing large regions
->   	 * by using SPINOR_OP_SE instead of SPINOR_OP_BE_4K.  We may have set up
-> @@ -1493,12 +1502,26 @@ static int spi_nor_erase(struct mtd_info *mtd, struct erase_info *instr)
->   
->   	/* "sector"-at-a-time erase */
->   	} else if (spi_nor_has_uniform_erase(nor)) {
-> +		/* Determine the flash from which the operation need to start */
-> +		while ((cur_cs_num < SNOR_FLASH_CNT_MAX) && (addr > sz - 1) && params) {
-> +			cur_cs_num++;
-> +			params = spi_nor_get_params(nor, cur_cs_num);
-> +			sz += params->size;
-> +		}
-> +
->   		while (len) {
-> +			nor->spimem->spi->cs_index_mask = 0x01 << cur_cs_num;
->   			ret = spi_nor_write_enable(nor);
->   			if (ret)
->   				goto erase_err;
->   
-> -			ret = spi_nor_erase_sector(nor, addr);
-> +			offset = addr;
-> +			if (nor->flags & SNOR_F_HAS_STACKED) {
-> +				params = spi_nor_get_params(nor, cur_cs_num);
-> +				offset -= (sz - params->size);
-> +			}
-> +
-> +			ret = spi_nor_erase_sector(nor, offset);
->   			if (ret)
->   				goto erase_err;
->   
-> @@ -1508,13 +1531,45 @@ static int spi_nor_erase(struct mtd_info *mtd, struct erase_info *instr)
->   
->   			addr += mtd->erasesize;
->   			len -= mtd->erasesize;
-> +
-> +			/*
-> +			 * Flash cross over condition in stacked mode.
-> +			 */
-> +			if ((nor->flags & SNOR_F_HAS_STACKED) && (addr > sz - 1)) {
-> +				cur_cs_num++;
-> +				params = spi_nor_get_params(nor, cur_cs_num);
-> +				sz += params->size;
-> +			}
->   		}
->   
->   	/* erase multiple sectors */
->   	} else {
-> -		ret = spi_nor_erase_multi_sectors(nor, addr, len);
-> -		if (ret)
-> -			goto erase_err;
-> +		u64 erase_len = 0;
-> +
-> +		/* Determine the flash from which the operation need to start */
-> +		while ((cur_cs_num < SNOR_FLASH_CNT_MAX) && (addr > sz - 1) && params) {
-> +			cur_cs_num++;
-> +			params = spi_nor_get_params(nor, cur_cs_num);
-> +			sz += params->size;
-> +		}
-> +		/* perform multi sector erase onec per Flash*/
-> +		while (len) {
-> +			erase_len = (len > (sz - addr)) ? (sz - addr) : len;
-> +			offset = addr;
-> +			nor->spimem->spi->cs_index_mask = 0x01 << cur_cs_num;
-> +			if (nor->flags & SNOR_F_HAS_STACKED) {
-> +				params = spi_nor_get_params(nor, cur_cs_num);
-> +				offset -= (sz - params->size);
-> +			}
-> +			ret = spi_nor_erase_multi_sectors(nor, offset, erase_len);
-> +			if (ret)
-> +				goto erase_err;
-> +			len -= erase_len;
-> +			addr += erase_len;
-> +			cur_cs_num++;
-> +			params = spi_nor_get_params(nor, cur_cs_num);
-> +			sz += params->size;
-> +		}
+> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+> index 3cc7bb4d03de..38421e831a7d 100644
+> --- a/drivers/spi/spi.c
+> +++ b/drivers/spi/spi.c
+> @@ -604,7 +604,7 @@ static void spi_dev_set_name(struct spi_device *spi)
 >   	}
 >   
->   	ret = spi_nor_write_disable(nor);
-> @@ -1713,7 +1768,10 @@ static int spi_nor_read(struct mtd_info *mtd, loff_t from, size_t len,
->   			size_t *retlen, u_char *buf)
->   {
->   	struct spi_nor *nor = mtd_to_spi_nor(mtd);
-> -	ssize_t ret;
-> +	struct spi_nor_flash_parameter *params;
-> +	ssize_t ret, read_len;
-> +	u32 cur_cs_num = 0;
-> +	u64 sz;
->   
->   	dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
->   
-> @@ -1721,9 +1779,23 @@ static int spi_nor_read(struct mtd_info *mtd, loff_t from, size_t len,
->   	if (ret)
->   		return ret;
->   
-> +	params = spi_nor_get_params(nor, 0);
-> +	sz = params->size;
-> +
-> +	/* Determine the flash from which the operation need to start */
-> +	while ((cur_cs_num < SNOR_FLASH_CNT_MAX) && (from > sz - 1) && params) {
-> +		cur_cs_num++;
-> +		params = spi_nor_get_params(nor, cur_cs_num);
-> +		sz += params->size;
-> +	}
->   	while (len) {
->   		loff_t addr = from;
->   
-> +		nor->spimem->spi->cs_index_mask = 0x01 << cur_cs_num;
-> +		read_len = (len > (sz - addr)) ? (sz - addr) : len;
-> +		params = spi_nor_get_params(nor, cur_cs_num);
-> +		addr -= (sz - params->size);
-> +
->   		addr = spi_nor_convert_addr(nor, addr);
->   
->   		ret = spi_nor_read_data(nor, addr, len, buf);
-> @@ -1735,11 +1807,22 @@ static int spi_nor_read(struct mtd_info *mtd, loff_t from, size_t len,
->   		if (ret < 0)
->   			goto read_err;
->   
-> -		WARN_ON(ret > len);
-> +		WARN_ON(ret > read_len);
->   		*retlen += ret;
->   		buf += ret;
->   		from += ret;
->   		len -= ret;
-> +
-> +		/*
-> +		 * Flash cross over condition in stacked mode.
-> +		 *
-> +		 */
-> +		if ((nor->flags & SNOR_F_HAS_STACKED) && (from > sz - 1)) {
-> +			cur_cs_num++;
-> +			params = spi_nor_get_params(nor, cur_cs_num);
-> +			sz += params->size;
-> +		}
-> +
->   	}
->   	ret = 0;
->   
-> @@ -1759,13 +1842,22 @@ static int spi_nor_write(struct mtd_info *mtd, loff_t to, size_t len,
->   	struct spi_nor *nor = mtd_to_spi_nor(mtd);
->   	struct spi_nor_flash_parameter *params;
->   	size_t page_offset, page_remain, i;
-> +	u32 page_size, cur_cs_num = 0;
->   	ssize_t ret;
-> -	u32 page_size;
-> +	u64 sz;
->   
->   	dev_dbg(nor->dev, "to 0x%08x, len %zd\n", (u32)to, len);
->   
->   	params = spi_nor_get_params(nor, 0);
->   	page_size = params->page_size;
-> +	sz = params->size;
-> +
-> +	/* Determine the flash from which the operation need to start */
-> +	while ((cur_cs_num < SNOR_FLASH_CNT_MAX) && (to > sz - 1) && params) {
-> +		cur_cs_num++;
-> +		params = spi_nor_get_params(nor, cur_cs_num);
-> +		sz += params->size;
-> +	}
->   
->   	ret = spi_nor_lock_and_prep(nor);
->   	if (ret)
-> @@ -1790,6 +1882,10 @@ static int spi_nor_write(struct mtd_info *mtd, loff_t to, size_t len,
->   		/* the size of data remaining on the first page */
->   		page_remain = min_t(size_t, page_size - page_offset, len - i);
->   
-> +		nor->spimem->spi->cs_index_mask = 0x01 << cur_cs_num;
-> +		params = spi_nor_get_params(nor, cur_cs_num);
-> +		addr -= (sz - params->size);
-> +
->   		addr = spi_nor_convert_addr(nor, addr);
->   
->   		ret = spi_nor_write_enable(nor);
-> @@ -1806,6 +1902,15 @@ static int spi_nor_write(struct mtd_info *mtd, loff_t to, size_t len,
->   			goto write_err;
->   		*retlen += written;
->   		i += written;
-> +
-> +		/*
-> +		 * Flash cross over condition in stacked mode.
-> +		 */
-> +		if ((nor->flags & SNOR_F_HAS_STACKED) && ((to + i) > sz - 1)) {
-> +			cur_cs_num++;
-> +			params = spi_nor_get_params(nor, cur_cs_num);
-> +			sz += params->size;
-> +		}
->   	}
->   
->   write_err:
-> @@ -1918,8 +2023,6 @@ int spi_nor_hwcaps_pp2cmd(u32 hwcaps)
->   static int spi_nor_spimem_check_op(struct spi_nor *nor,
->   				   struct spi_mem_op *op)
->   {
-> -	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
-> -
->   	/*
->   	 * First test with 4 address bytes. The opcode itself might
->   	 * be a 3B addressing opcode but we don't care, because
-> @@ -1928,7 +2031,7 @@ static int spi_nor_spimem_check_op(struct spi_nor *nor,
->   	 */
->   	op->addr.nbytes = 4;
->   	if (!spi_mem_supports_op(nor->spimem, op)) {
-> -		if (params->size > SZ_16M)
-> +		if (nor->mtd.size > SZ_16M)
->   			return -EOPNOTSUPP;
->   
->   		/* If flash size <= 16MB, 3 address bytes are sufficient */
-> @@ -2516,6 +2619,10 @@ static void spi_nor_init_fixup_flags(struct spi_nor *nor)
->   static void spi_nor_late_init_params(struct spi_nor *nor)
->   {
->   	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
-> +	struct device_node *np = spi_nor_get_flash_node(nor);
-> +	u64 flash_size[SNOR_FLASH_CNT_MAX];
-> +	u32 idx = 0, i = 0;
-> +	int rc;
->   
->   	if (nor->manufacturer && nor->manufacturer->fixups &&
->   	    nor->manufacturer->fixups->late_init)
-> @@ -2533,6 +2640,36 @@ static void spi_nor_late_init_params(struct spi_nor *nor)
->   	 */
->   	if (nor->flags & SNOR_F_HAS_LOCK && !params->locking_ops)
->   		spi_nor_init_default_locking_ops(nor);
-> +	/*
-> +	 * The flashes that are connected in stacked mode should be of same make.
-> +	 * Except the flash size all other properties are identical for all the
-> +	 * flashes connected in stacked mode.
-> +	 * The flashes that are connected in parallel mode should be identical.
-> +	 */
-> +	while (i < SNOR_FLASH_CNT_MAX) {
-> +		rc = of_property_read_u64_index(np, "stacked-memories", idx, &flash_size[i]);
-> +		if (rc == -EINVAL) {
-> +			break;
-> +		} else if (rc == -EOVERFLOW) {
-> +			idx++;
-> +		} else {
-> +			idx++;
-> +			i++;
-> +			if (!(nor->flags & SNOR_F_HAS_STACKED))
-> +				nor->flags |= SNOR_F_HAS_STACKED;
-> +		}
-> +	}
-> +	if (nor->flags & SNOR_F_HAS_STACKED) {
-> +		for (idx = 1; idx < SNOR_FLASH_CNT_MAX; idx++) {
-> +			params = spi_nor_get_params(nor, idx);
-> +			params = devm_kzalloc(nor->dev, sizeof(*params), GFP_KERNEL);
-> +			if (params) {
-> +				memcpy(params, spi_nor_get_params(nor, 0), sizeof(*params));
-> +				params->size = flash_size[idx];
-> +				spi_nor_set_params(nor, idx, params);
-> +			}
-> +		}
-> +	}
+>   	dev_set_name(&spi->dev, "%s.%u", dev_name(&spi->controller->dev),
+> -		     spi->chip_select);
+> +		     spi_get_chipselect(spi, 0));
 >   }
+>   
+>   static int spi_dev_check(struct device *dev, void *data)
+> @@ -613,7 +613,7 @@ static int spi_dev_check(struct device *dev, void *data)
+>   	struct spi_device *new_spi = data;
+>   
+>   	if (spi->controller == new_spi->controller &&
+> -	    spi->chip_select == new_spi->chip_select)
+> +	    spi_get_chipselect(spi, 0) == spi_get_chipselect(new_spi, 0))
+>   		return -EBUSY;
+>   	return 0;
+>   }
+> @@ -638,7 +638,7 @@ static int __spi_add_device(struct spi_device *spi)
+>   	status = bus_for_each_dev(&spi_bus_type, NULL, spi, spi_dev_check);
+>   	if (status) {
+>   		dev_err(dev, "chipselect %d already in use\n",
+> -				spi->chip_select);
+> +				spi_get_chipselect(spi, 0));
+>   		return status;
+>   	}
+>   
+> @@ -649,7 +649,7 @@ static int __spi_add_device(struct spi_device *spi)
+>   	}
+>   
+>   	if (ctlr->cs_gpiods)
+> -		spi->cs_gpiod = ctlr->cs_gpiods[spi->chip_select];
+> +		spi_set_csgpiod(spi, 0, ctlr->cs_gpiods[spi_get_chipselect(spi, 0)]);
+>   
+>   	/*
+>   	 * Drivers may modify this initial i/o setup, but will
+> @@ -692,8 +692,8 @@ int spi_add_device(struct spi_device *spi)
+>   	int status;
+>   
+>   	/* Chipselects are numbered 0..max; validate. */
+> -	if (spi->chip_select >= ctlr->num_chipselect) {
+> -		dev_err(dev, "cs%d >= max %d\n", spi->chip_select,
+> +	if (spi_get_chipselect(spi, 0) >= ctlr->num_chipselect) {
+> +		dev_err(dev, "cs%d >= max %d\n", spi_get_chipselect(spi, 0),
+>   			ctlr->num_chipselect);
+>   		return -EINVAL;
+>   	}
+> @@ -714,8 +714,8 @@ static int spi_add_device_locked(struct spi_device *spi)
+>   	struct device *dev = ctlr->dev.parent;
+>   
+>   	/* Chipselects are numbered 0..max; validate. */
+> -	if (spi->chip_select >= ctlr->num_chipselect) {
+> -		dev_err(dev, "cs%d >= max %d\n", spi->chip_select,
+> +	if (spi_get_chipselect(spi, 0) >= ctlr->num_chipselect) {
+> +		dev_err(dev, "cs%d >= max %d\n", spi_get_chipselect(spi, 0),
+>   			ctlr->num_chipselect);
+>   		return -EINVAL;
+>   	}
+> @@ -761,7 +761,7 @@ struct spi_device *spi_new_device(struct spi_controller *ctlr,
+>   
+>   	WARN_ON(strlen(chip->modalias) >= sizeof(proxy->modalias));
+>   
+> -	proxy->chip_select = chip->chip_select;
+> +	spi_set_chipselect(proxy, 0, chip->chip_select);
+>   	proxy->max_speed_hz = chip->max_speed_hz;
+>   	proxy->mode = chip->mode;
+>   	proxy->irq = chip->irq;
+> @@ -970,24 +970,23 @@ static void spi_set_cs(struct spi_device *spi, bool enable, bool force)
+>   	 * Avoid calling into the driver (or doing delays) if the chip select
+>   	 * isn't actually changing from the last time this was called.
+>   	 */
+> -	if (!force && ((enable && spi->controller->last_cs == spi->chip_select) ||
+> -				(!enable && spi->controller->last_cs != spi->chip_select)) &&
+> +	if (!force && ((enable && spi->controller->last_cs == spi_get_chipselect(spi, 0)) ||
+> +		       (!enable && spi->controller->last_cs != spi_get_chipselect(spi, 0))) &&
+>   	    (spi->controller->last_cs_mode_high == (spi->mode & SPI_CS_HIGH)))
+>   		return;
+>   
+>   	trace_spi_set_cs(spi, activate);
+>   
+> -	spi->controller->last_cs = enable ? spi->chip_select : -1;
+> +	spi->controller->last_cs = enable ? spi_get_chipselect(spi, 0) : -1;
+>   	spi->controller->last_cs_mode_high = spi->mode & SPI_CS_HIGH;
+>   
+> -	if ((spi->cs_gpiod || !spi->controller->set_cs_timing) && !activate) {
+> +	if ((spi_get_csgpiod(spi, 0) || !spi->controller->set_cs_timing) && !activate)
+>   		spi_delay_exec(&spi->cs_hold, NULL);
+> -	}
+>   
+>   	if (spi->mode & SPI_CS_HIGH)
+>   		enable = !enable;
+>   
+> -	if (spi->cs_gpiod) {
+> +	if (spi_get_csgpiod(spi, 0)) {
+>   		if (!(spi->mode & SPI_NO_CS)) {
+>   			/*
+>   			 * Historically ACPI has no means of the GPIO polarity and
+> @@ -1000,10 +999,10 @@ static void spi_set_cs(struct spi_device *spi, bool enable, bool force)
+>   			 * into account.
+>   			 */
+>   			if (has_acpi_companion(&spi->dev))
+> -				gpiod_set_value_cansleep(spi->cs_gpiod, !enable);
+> +				gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), !enable);
+>   			else
+>   				/* Polarity handled by GPIO library */
+> -				gpiod_set_value_cansleep(spi->cs_gpiod, activate);
+> +				gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), activate);
+>   		}
+>   		/* Some SPI masters need both GPIO CS & slave_select */
+>   		if ((spi->controller->flags & SPI_MASTER_GPIO_SS) &&
+> @@ -1013,7 +1012,7 @@ static void spi_set_cs(struct spi_device *spi, bool enable, bool force)
+>   		spi->controller->set_cs(spi, !enable);
+>   	}
+>   
+> -	if (spi->cs_gpiod || !spi->controller->set_cs_timing) {
+> +	if (spi_get_csgpiod(spi, 0) || !spi->controller->set_cs_timing) {
+>   		if (activate)
+>   			spi_delay_exec(&spi->cs_setup, NULL);
+>   		else
+> @@ -2304,7 +2303,7 @@ static int of_spi_parse_dt(struct spi_controller *ctlr, struct spi_device *spi,
+>   			nc, rc);
+>   		return rc;
+>   	}
+> -	spi->chip_select = value;
+> +	spi_set_chipselect(spi, 0, value);
+>   
+>   	/* Device speed */
+>   	if (!of_property_read_u32(nc, "spi-max-frequency", &value))
+> @@ -2423,7 +2422,7 @@ struct spi_device *spi_new_ancillary_device(struct spi_device *spi,
+>   	strscpy(ancillary->modalias, "dummy", sizeof(ancillary->modalias));
+>   
+>   	/* Use provided chip-select for ancillary device */
+> -	ancillary->chip_select = chip_select;
+> +	spi_set_chipselect(ancillary, 0, chip_select);
+>   
+>   	/* Take over SPI mode/speed from SPI main device */
+>   	ancillary->max_speed_hz = spi->max_speed_hz;
+> @@ -2670,7 +2669,7 @@ struct spi_device *acpi_spi_device_alloc(struct spi_controller *ctlr,
+>   	spi->mode		|= lookup.mode;
+>   	spi->irq		= lookup.irq;
+>   	spi->bits_per_word	= lookup.bits_per_word;
+> -	spi->chip_select	= lookup.chip_select;
+> +	spi_set_chipselect(spi, 0, lookup.chip_select);
+>   
+>   	return spi;
+>   }
+> @@ -3632,7 +3631,7 @@ static int spi_set_cs_timing(struct spi_device *spi)
+>   	struct device *parent = spi->controller->dev.parent;
+>   	int status = 0;
+>   
+> -	if (spi->controller->set_cs_timing && !spi->cs_gpiod) {
+> +	if (spi->controller->set_cs_timing && !spi_get_csgpiod(spi, 0)) {
+>   		if (spi->controller->auto_runtime_pm) {
+>   			status = pm_runtime_get_sync(parent);
+>   			if (status < 0) {
+> @@ -3837,7 +3836,7 @@ static int __spi_validate(struct spi_device *spi, struct spi_message *message)
+>   	 * cs_change is set for each transfer.
+>   	 */
+>   	if ((spi->mode & SPI_CS_WORD) && (!(ctlr->mode_bits & SPI_CS_WORD) ||
+> -					  spi->cs_gpiod)) {
+> +					  spi_get_csgpiod(spi, 0))) {
+>   		size_t maxsize;
+>   		int ret;
+>   
+> diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
+> index 9a32495fbb1f..9b23a1d0dd0d 100644
+> --- a/include/linux/spi/spi.h
+> +++ b/include/linux/spi/spi.h
+> @@ -263,6 +263,26 @@ static inline void *spi_get_drvdata(struct spi_device *spi)
+>   	return dev_get_drvdata(&spi->dev);
+>   }
+>   
+> +static inline u8 spi_get_chipselect(struct spi_device *spi, u8 idx)
+> +{
+> +	return spi->chip_select;
+> +}
+> +
+> +static inline void spi_set_chipselect(struct spi_device *spi, u8 idx, u8 chipselect)
+> +{
+> +	spi->chip_select = chipselect;
+> +}
+> +
+> +static inline struct gpio_desc *spi_get_csgpiod(struct spi_device *spi, u8 idx)
+> +{
+> +	return spi->cs_gpiod;
+> +}
+> +
+> +static inline void spi_set_csgpiod(struct spi_device *spi, u8 idx, struct gpio_desc *csgpiod)
+> +{
+> +	spi->cs_gpiod = csgpiod;
+> +}
+> +
+>   struct spi_message;
 >   
 >   /**
-> @@ -2741,22 +2878,36 @@ static int spi_nor_octal_dtr_enable(struct spi_nor *nor, bool enable)
->    */
->   static int spi_nor_quad_enable(struct spi_nor *nor)
->   {
-> -	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
-> +	struct spi_nor_flash_parameter *params;
-> +	int err, idx;
->   
-> -	if (!params->quad_enable)
-> -		return 0;
-> +	for (idx = 0; idx < SNOR_FLASH_CNT_MAX; idx++) {
-> +		params = spi_nor_get_params(nor, idx);
-> +		if (params) {
-> +			if (!params->quad_enable)
-> +				return 0;
->   
-> -	if (!(spi_nor_get_protocol_width(nor->read_proto) == 4 ||
-> -	      spi_nor_get_protocol_width(nor->write_proto) == 4))
-> -		return 0;
-> +			if (!(spi_nor_get_protocol_width(nor->read_proto) == 4 ||
-> +			      spi_nor_get_protocol_width(nor->write_proto) == 4))
-> +				return 0;
-> +			/*
-> +			 * Set the appropriate CS index before
-> +			 * issuing the command.
-> +			 */
-> +			nor->spimem->spi->cs_index_mask = 0x01 << idx;
->   
-> -	return params->quad_enable(nor);
-> +			err = params->quad_enable(nor);
-> +			if (err)
-> +				return err;
-> +		}
-> +	}
-> +	return err;
->   }
->   
->   static int spi_nor_init(struct spi_nor *nor)
->   {
-> -	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
-> -	int err;
-> +	struct spi_nor_flash_parameter *params;
-> +	int err, idx;
->   
->   	err = spi_nor_octal_dtr_enable(nor, true);
->   	if (err) {
-> @@ -2797,9 +2948,19 @@ static int spi_nor_init(struct spi_nor *nor)
->   		 */
->   		WARN_ONCE(nor->flags & SNOR_F_BROKEN_RESET,
->   			  "enabling reset hack; may not recover from unexpected reboots\n");
-> -		err = params->set_4byte_addr_mode(nor, true);
-> -		if (err && err != -ENOTSUPP)
-> -			return err;
-> +		for (idx = 0; idx < SNOR_FLASH_CNT_MAX; idx++) {
-> +			params = spi_nor_get_params(nor, idx);
-> +			if (params) {
-> +				/*
-> +				 * Select the appropriate CS index before
-> +				 * issuing the command.
-> +				 */
-> +				nor->spimem->spi->cs_index_mask = 0x01 << idx;
-> +				err = params->set_4byte_addr_mode(nor, true);
-> +				if (err && err != -ENOTSUPP)
-> +					return err;
-> +			}
-> +		}
->   	}
->   
->   	return 0;
-> @@ -2915,19 +3076,31 @@ void spi_nor_restore(struct spi_nor *nor)
->   {
->   	struct spi_nor_flash_parameter *params;
->   	int ret;
-> +	int idx;
->   
->   	/* restore the addressing mode */
->   	if (nor->addr_nbytes == 4 && !(nor->flags & SNOR_F_4B_OPCODES) &&
->   	    nor->flags & SNOR_F_BROKEN_RESET) {
-> -		params = spi_nor_get_params(nor, 0);
-> -		ret = params->set_4byte_addr_mode(nor, false);
-> -		if (ret)
-> -			/*
-> -			 * Do not stop the execution in the hope that the flash
-> -			 * will default to the 3-byte address mode after the
-> -			 * software reset.
-> -			 */
-> -			dev_err(nor->dev, "Failed to exit 4-byte address mode, err = %d\n", ret);
-> +		for (idx = 0; idx < SNOR_FLASH_CNT_MAX; idx++) {
-> +			params = spi_nor_get_params(nor, idx);
-> +			if (params) {
-> +				/*
-> +				 * Select the appropriate CS index before
-> +				 * issuing the command.
-> +				 */
-> +				nor->spimem->spi->cs_index_mask = 0x01 << idx;
-> +				ret = params->set_4byte_addr_mode(nor, false);
-> +				if (ret)
-> +					/*
-> +					 * Do not stop the execution in the hope that the flash
-> +					 * will default to the 3-byte address mode after the
-> +					 * software reset.
-> +					 */
-> +					dev_err(nor->dev,
-> +						"Failed to exit 4-byte address mode, err = %d\n",
-> +						ret);
-> +			}
-> +		}
->   	}
->   
->   	if (nor->flags & SNOR_F_SOFT_RESET)
-> @@ -2995,6 +3168,8 @@ static void spi_nor_set_mtd_info(struct spi_nor *nor)
->   	struct spi_nor_flash_parameter *params = spi_nor_get_params(nor, 0);
->   	struct mtd_info *mtd = &nor->mtd;
->   	struct device *dev = nor->dev;
-> +	u64 total_sz = 0;
-> +	int idx;
->   
->   	spi_nor_set_mtd_locking_ops(nor);
->   	spi_nor_set_mtd_otp_ops(nor);
-> @@ -3010,7 +3185,12 @@ static void spi_nor_set_mtd_info(struct spi_nor *nor)
->   		mtd->_erase = spi_nor_erase;
->   	mtd->writesize = params->writesize;
->   	mtd->writebufsize = params->page_size;
-> -	mtd->size = params->size;
-> +	for (idx = 0; idx < SNOR_FLASH_CNT_MAX; idx++) {
-> +		params = spi_nor_get_params(nor, idx);
-> +		if (params)
-> +			total_sz += params->size;
-> +	}
-> +	mtd->size = total_sz;
->   	mtd->_read = spi_nor_read;
->   	/* Might be already set by some SST flashes. */
->   	if (!mtd->_write)
-> diff --git a/drivers/mtd/spi-nor/core.h b/drivers/mtd/spi-nor/core.h
-> index f03b55cf7e6f..e94107cc465e 100644
-> --- a/drivers/mtd/spi-nor/core.h
-> +++ b/drivers/mtd/spi-nor/core.h
-> @@ -11,6 +11,9 @@
->   
->   #define SPI_NOR_MAX_ID_LEN	6
->   
-> +/* In single configuration enable CS0 */
-> +#define SPI_NOR_ENABLE_CS0     BIT(0)
-> +
->   /* Standard SPI NOR flash operations. */
->   #define SPI_NOR_READID_OP(naddr, ndummy, buf, len)			\
->   	SPI_MEM_OP(SPI_MEM_OP_CMD(SPINOR_OP_RDID, 0),			\
-> @@ -130,6 +133,7 @@ enum spi_nor_option_flags {
->   	SNOR_F_IO_MODE_EN_VOLATILE = BIT(11),
->   	SNOR_F_SOFT_RESET	= BIT(12),
->   	SNOR_F_SWP_IS_VOLATILE	= BIT(13),
-> +	SNOR_F_HAS_STACKED      = BIT(14),
->   };
->   
->   struct spi_nor_read_command {
-> diff --git a/drivers/mtd/spi-nor/otp.c b/drivers/mtd/spi-nor/otp.c
-> index a9c0844d55ef..b8c7e085a90d 100644
-> --- a/drivers/mtd/spi-nor/otp.c
-> +++ b/drivers/mtd/spi-nor/otp.c
-> @@ -11,8 +11,8 @@
->   
->   #include "core.h"
->   
-> -#define spi_nor_otp_region_len(nor) ((nor)->params->otp.org->len)
-> -#define spi_nor_otp_n_regions(nor) ((nor)->params->otp.org->n_regions)
-> +#define spi_nor_otp_region_len(nor) ((nor)->params[0]->otp.org->len)
-> +#define spi_nor_otp_n_regions(nor) ((nor)->params[0]->otp.org->n_regions)
 
-I think this should be also converted to static inline functions and use
-spi_nor_get_params(nor, 0); instead of using arrays.
-Can be done on the top of this series if it is the only one problem with it.
+Lars suggested this style in v1 version of this patch here.
+https://lore.kernel.org/all/12fe1b84-1981-bf56-9323-b7f5b698c196@metafoo.de/
+
+That's why let me also add his
+Suggested-by: Lars-Peter Clausen <lars@metafoo.de>
+
+And
+Reviewed-by: Michal Simek <michal.simek@amd.com>
 
 Thanks,
 Michal
+
+
