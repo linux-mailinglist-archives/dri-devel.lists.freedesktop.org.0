@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428BF677EA8
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17416677ECB
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:10:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F98710E4AB;
-	Mon, 23 Jan 2023 15:05:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2BBC10E4B1;
+	Mon, 23 Jan 2023 15:10:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AFFB10E4AB
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:05:01 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id d30so18598905lfv.8
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=P3rqFJi0wYIMyx4eFEnrANXBYlUWFGjnlOrB4sJY0mc=;
- b=VSvjd1+J+2hfVE0rK2aWfDA0OVUPFITcaGU/EEk+ovd3PB+LZoSIbLXjg/6O4g0QkX
- wQSOdPQHW8ShVOvuv6K4ehak+/FUBZ6bBjlKapxHcHQImaA7q7t1gEwYZmwObqGrP/PP
- CuO1Q1/NA1X4wba91SbkMkbJ02vBgbwFgxkUGAZz0utThM5EFRk4Y/dHFQrqiTC3T8XY
- pxEaA9cykcbArWN/Q14sLzrf2oqArLVwTmvV0IHeWZXjaXfjdJS++GDWvaf9CtXKja5B
- /+o8WCQ6Z8OG5i90gfUfiXJhw6rQk2gldlIFYsb4njbrpXyfD3NMkTBxEGrhoTwav/UE
- HUzA==
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+ [209.85.128.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0495E10E4B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:10:47 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-4a2f8ad29d5so175569977b3.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:10:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P3rqFJi0wYIMyx4eFEnrANXBYlUWFGjnlOrB4sJY0mc=;
- b=UpixsRarmfVc9IwMk0G92yL5XTFN5kdQII8DraSRcqkXSOdKyk50vWt2kQ/lvZhLqj
- aKKeOiP5SD8Otrwo41LPdoSLV9mKg7OimUpwCkaUqBhKq0WewyB35mQ532InHSyBMEDj
- uN1kLgvll8vjUw3lLN1WEGQ3DCyXKLtlbqvra2su9Yxs/JbaWBLoUOOPV6CSD4loLSvD
- PvDLToEFVZyo0IjbfUwMqq6pdgNtjF/mbuufx80X7R2txVwvVgjEXHrddqKtXMYlYH38
- 7jgXe3Q4kIWj98yB0TcN2h7btd5mjFFIyEQEJIC9wJY2TVrpkohHwQ3SY+Dr/RkzNqnB
- vbEQ==
-X-Gm-Message-State: AFqh2kofAGP9g68BUrb6baeAONqdhYkKDv3CdtwOGTSE0Z8K3srLqsYr
- BRfrr/2N3W3HockzV+dSVqw=
-X-Google-Smtp-Source: AMrXdXuHnINfpXEMI/5P6IHfO27xMrOaiT1cQnmYVDzQ2npYaq/u8eUakJKoBBnDu0eFJD/hs2QaqA==
-X-Received: by 2002:a05:6512:340a:b0:4d2:551e:3838 with SMTP id
- i10-20020a056512340a00b004d2551e3838mr7464162lfr.29.1674486299330; 
- Mon, 23 Jan 2023 07:04:59 -0800 (PST)
-Received: from mobilestation ([95.79.133.202])
- by smtp.gmail.com with ESMTPSA id
- b8-20020a0565120b8800b004d593f218absm1011508lfv.108.2023.01.23.07.04.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 07:04:58 -0800 (PST)
-Date: Mon, 23 Jan 2023 18:04:56 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-Message-ID: <20230123145953.ytaaq3x4tetgepyf@mobilestation>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=h/bqJof5MO3pbg3UYX8cTuwpn5Rti6iDINf4SN3BEsI=;
+ b=SngPweQ5ohr7KUO3PEZTKSKCBVWKtnMXBaXg21ydfOdNK9MkRDbGXHh0oqX+LD3Dw8
+ PCtphsju/+p6emEA4PLV/UnaIXTCan9vNSdF+vLFF7odAv51+35bCS8GYjYLGBaXjtq9
+ krSmgD1DB1VM5l13Ujk4ZyHd1PJ1kp3+SkHf4jRQ4SW3lbrkY8leVMzbiaT3Qvokp8b1
+ PKKcVF0PRSjHdGlCELG7T7EDOBHteBRo6yM2r+L22dbFMF46Dh8pdf0YNQuSCcQ3v7PA
+ zDJjl63Aa+FHSRZan9m+BvRwP/xzxgPv5+itLmJl1QxX8JNDe9aSYuzt0cm0smJQSY+c
+ bxYg==
+X-Gm-Message-State: AFqh2kppezyAazHI7hruNyEwCfS1zkZQhWZNVLxPcxdAO5DqWPzM0nG3
+ do2QnqfVK0Vau89Ut2YRg8yndjPO4if2KA==
+X-Google-Smtp-Source: AMrXdXtLTbT12r242AoStJ7CR24fIjCvB7lBAC4M93dXvps3OoCvAdZPXGb/ZqGb195bjTs2GXfzhQ==
+X-Received: by 2002:a0d:e747:0:b0:4e0:196:7713 with SMTP id
+ q68-20020a0de747000000b004e001967713mr25298831ywe.5.1674486646855; 
+ Mon, 23 Jan 2023 07:10:46 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
+ [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
+ bq35-20020a05620a46a300b0070209239b87sm12199478qkb.41.2023.01.23.07.10.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jan 2023 07:10:46 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-4ff1fa82bbbso129424187b3.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:10:46 -0800 (PST)
+X-Received: by 2002:a0d:e657:0:b0:4d9:3858:392 with SMTP id
+ p84-20020a0de657000000b004d938580392mr2080328ywe.502.1674486646123; Mon, 23
+ Jan 2023 07:10:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+References: <cover.1669406380.git.geert@linux-m68k.org>
+ <a9883a81-d909-09c5-708b-d598e030380e@physik.fu-berlin.de>
+In-Reply-To: <a9883a81-d909-09c5-708b-d598e030380e@physik.fu-berlin.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 23 Jan 2023 16:10:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWHUnWBN7ddBow+fqmt8W--9wFe5x_YMeRg7GQ=BNAL2Q@mail.gmail.com>
+Message-ID: <CAMuHMdWHUnWBN7ddBow+fqmt8W--9wFe5x_YMeRg7GQ=BNAL2Q@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/3] Atari DRM driver
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,85 +69,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mtd@lists.infradead.org,
- miquel.raynal@bootlin.com, linux-riscv@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- libertas-dev@lists.infradead.org, vireshk@kernel.org, openbmc@lists.ozlabs.org,
- linux-staging@lists.linux.dev, linux-rockchip@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com, linux-sunxi@lists.linux.dev,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- greybus-dev@lists.linaro.org, broonie@kernel.org,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, krzysztof.kozlowski@linaro.org,
- kernel@pengutronix.de, netdev@vger.kernel.org, linux-wpan@vger.kernel.org
+Cc: Michael Schmitz <schmitzmic@gmail.com>, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
+ linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 20, 2023 at 12:23:31AM +0530, Amit Kumar Mahapatra wrote:
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
-> 
-> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
-> ---
+Hi Adrian,
 
-[nip]
+On Mon, Jan 23, 2023 at 4:09 PM John Paul Adrian Glaubitz
+<glaubitz@physik.fu-berlin.de> wrote:
+> On 11/25/22 21:31, Geert Uytterhoeven wrote:
+> > This RFC patch series adds a DRM driver for the good old Atari
+> > ST/TT/Falcon hardware.  It was developed and tested (only) on the ARAnyM
+> > emulator.
+>
+> I just remembered this WIP driver. Has there been any progress?
 
->  drivers/spi/spi-dw-core.c         |  2 +-
->  drivers/spi/spi-dw-mmio.c         |  4 ++--
+So far no further progress.
 
-[nip]
+Gr{oetje,eeting}s,
 
-> diff --git a/drivers/spi/spi-dw-core.c b/drivers/spi/spi-dw-core.c
-> index 99edddf9958b..4fd1aa800cc3 100644
-> --- a/drivers/spi/spi-dw-core.c
-> +++ b/drivers/spi/spi-dw-core.c
-> @@ -103,7 +103,7 @@ void dw_spi_set_cs(struct spi_device *spi, bool enable)
->  	 * support active-high or active-low CS level.
->  	 */
->  	if (cs_high == enable)
-> -		dw_writel(dws, DW_SPI_SER, BIT(spi->chip_select));
-> +		dw_writel(dws, DW_SPI_SER, BIT(spi_get_chipselect(spi, 0)));
->  	else
->  		dw_writel(dws, DW_SPI_SER, 0);
->  }
-> diff --git a/drivers/spi/spi-dw-mmio.c b/drivers/spi/spi-dw-mmio.c
-> index 26c40ea6dd12..d511da766ce8 100644
-> --- a/drivers/spi/spi-dw-mmio.c
-> +++ b/drivers/spi/spi-dw-mmio.c
-> @@ -65,7 +65,7 @@ static void dw_spi_mscc_set_cs(struct spi_device *spi, bool enable)
->  	struct dw_spi *dws = spi_master_get_devdata(spi->master);
->  	struct dw_spi_mmio *dwsmmio = container_of(dws, struct dw_spi_mmio, dws);
->  	struct dw_spi_mscc *dwsmscc = dwsmmio->priv;
-> -	u32 cs = spi->chip_select;
-> +	u32 cs = spi_get_chipselect(spi, 0);
->  
->  	if (cs < 4) {
->  		u32 sw_mode = MSCC_SPI_MST_SW_MODE_SW_PIN_CTRL_MODE;
-> @@ -138,7 +138,7 @@ static void dw_spi_sparx5_set_cs(struct spi_device *spi, bool enable)
->  	struct dw_spi *dws = spi_master_get_devdata(spi->master);
->  	struct dw_spi_mmio *dwsmmio = container_of(dws, struct dw_spi_mmio, dws);
->  	struct dw_spi_mscc *dwsmscc = dwsmmio->priv;
-> -	u8 cs = spi->chip_select;
-> +	u8 cs = spi_get_chipselect(spi, 0);
->  
->  	if (!enable) {
->  		/* CS override drive enable */
+                        Geert
 
-For the DW SSI part:
-Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--Serge(y)
-
-[nip]
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
