@@ -1,94 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00634679321
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 09:30:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A58326785E2
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 20:13:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1372C10E633;
-	Tue, 24 Jan 2023 08:30:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF05F10E05E;
+	Mon, 23 Jan 2023 19:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2761 seconds by postgrey-1.36 at gabe;
- Mon, 23 Jan 2023 18:02:58 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE8F10E51F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 18:02:58 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30NEJOGm009639; Mon, 23 Jan 2023 18:16:42 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=R1aMUGjTbxhxY6hkyKRGBk4zxbzWjzxiNcedON6udFo=;
- b=Zm5ggXoNZruq7Bb3b8N1qmVGlQxdkRIHa80INaPpZBBpXyjLW8eCZLOi26l5A6+RB5/w
- Z+PZ3/cL4Va46yqtmJi5PORwYTY46FioxWKylbeuPxm436newkRnSC7hmZnYsKWHL2Kb
- E8O4kMxS5/CdwDsQ4mM0v4xIMFleF1b25tB/cNt2YL3f/fwzgGAIWdrLxxMD8SuKdWQu
- cPFgMv67SOjqXrPKNSoqvl1+YjTlQbFYmJvNya7GzzdG/j6Oyh9icv6JPWXR/j9Hrm2V
- cNegJauCMm20Z1Gl+nUL+NtrY2i2G1zVxWNtOmY+nTZipz1phWQlTPi0LXd8tXF5+ztP QA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3n89epk4d4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Jan 2023 18:16:42 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 733D910002A;
- Mon, 23 Jan 2023 18:16:37 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 89E49228A2B;
- Mon, 23 Jan 2023 18:16:37 +0100 (CET)
-Received: from [10.201.21.26] (10.201.21.26) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.13; Mon, 23 Jan
- 2023 18:16:34 +0100
-Message-ID: <e068c541-b492-a513-6212-fd698e4fc9c4@foss.st.com>
-Date: Mon, 23 Jan 2023 18:16:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 02/13] spi: Replace all spi->chip_select and
- spi->cs_gpiod references with function call
-To: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, <broonie@kernel.org>, 
- <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>,
- <jic23@kernel.org>, <tudor.ambarus@microchip.com>,
- <pratyush@kernel.org>, <sanju.mehta@amd.com>,
- <chin-ting_kuo@aspeedtech.com>, <clg@kaod.org>, <kdasu.kdev@gmail.com>,
- <f.fainelli@gmail.com>, <rjui@broadcom.com>, <sbranden@broadcom.com>,
- <eajames@linux.ibm.com>, <olteanv@gmail.com>, <han.xu@nxp.com>,
- <john.garry@huawei.com>, <shawnguo@kernel.org>,
- <s.hauer@pengutronix.de>, <narmstrong@baylibre.com>,
- <khilman@baylibre.com>, <matthias.bgg@gmail.com>, <haibo.chen@nxp.com>,
- <linus.walleij@linaro.org>, <daniel@zonque.org>,
- <haojian.zhuang@gmail.com>, <robert.jarzmik@free.fr>,
- <agross@kernel.org>, <bjorn.andersson@linaro.org>, <heiko@sntech.de>,
- <krzysztof.kozlowski@linaro.org>, <andi@etezian.org>,
- <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
- <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
- <masahisa.kojima@linaro.org>, <jaswinder.singh@linaro.org>,
- <rostedt@goodmis.org>, <mingo@redhat.com>, <l.stelmach@samsung.com>,
- <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
- <pabeni@redhat.com>, <alex.aring@gmail.com>,
- <stefan@datenfreihafen.org>, <kvalo@kernel.org>,
- <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
- <skomatineni@nvidia.com>, <sumit.semwal@linaro.org>,
- <christian.koenig@amd.com>, <j.neuschaefer@gmx.net>,
- <vireshk@kernel.org>, <rmfrfs@gmail.com>, <johan@kernel.org>,
- <elder@kernel.org>, <gregkh@linuxfoundation.org>
-References: <20230119185342.2093323-1-amit.kumar-mahapatra@amd.com>
- <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAFFF10E05E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 19:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674501180; x=1706037180;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=cNqi/o7up5S+4fYTsHn52iW8qwCKAMYkPgoXO38AOiA=;
+ b=KUVm0fTbl2iNS/2g4KCtNKLEHQCf3Qk23pfcf9IFGSeW9e62QIkmC2PI
+ ceRPmBLLLnR3xr3TH+C5owfUIg5LT4shDTFIlSbbGu9vB5aAq+hoP78s3
+ J2gEkRLZMf4/gpuyKSzyw+9/7wrqQCHN/730V4hTCtuwNGGLEY3ZI7hRq
+ 1VLSE2lMSCkVBqaQmuonHXtubiGqkqCrM5UFjMCkR+qmtS/FaA01PYGby
+ QeIehYSlGNJtcJeoUqUE+A53YBWnAKF3rqbOKkdBosfxSMEIjMESOwYXe
+ Wn8gZZ/A84lugXYskYnndnMrzGnNyMJ/QhSzZGv6prKS7IBO8LTy8431y g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="388476026"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="388476026"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 11:13:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="663787668"
+X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="663787668"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga007.fm.intel.com with ESMTP; 23 Jan 2023 11:12:59 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 23 Jan 2023 11:12:59 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 23 Jan 2023 11:12:59 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 23 Jan 2023 11:12:58 -0800
+Received: from SJ2PR11MB7715.namprd11.prod.outlook.com (2603:10b6:a03:4f4::20)
+ by DS0PR11MB7408.namprd11.prod.outlook.com (2603:10b6:8:136::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
+ 2023 19:12:52 +0000
+Received: from SJ2PR11MB7715.namprd11.prod.outlook.com
+ ([fe80::8de1:bfff:7ac7:b117]) by SJ2PR11MB7715.namprd11.prod.outlook.com
+ ([fe80::8de1:bfff:7ac7:b117%7]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
+ 19:12:51 +0000
+From: "Srivatsa, Anusha" <anusha.srivatsa@intel.com>
+To: "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [Intel-gfx] [PATCH v2 3/8] drm/i915: Convert pll macros to
+ _PICK_EVEN_2RANGES
+Thread-Topic: [Intel-gfx] [PATCH v2 3/8] drm/i915: Convert pll macros to
+ _PICK_EVEN_2RANGES
+Thread-Index: AQHZLQZ1g+773JD2N0+hEBIOAYFzvq6sYzeQ
+Date: Mon, 23 Jan 2023 19:12:51 +0000
+Message-ID: <SJ2PR11MB7715BBF78424571CD515F000F8C89@SJ2PR11MB7715.namprd11.prod.outlook.com>
+References: <20230120193457.3295977-1-lucas.demarchi@intel.com>
+ <20230120193457.3295977-4-lucas.demarchi@intel.com>
+In-Reply-To: <20230120193457.3295977-4-lucas.demarchi@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Patrice CHOTARD <patrice.chotard@foss.st.com>
-In-Reply-To: <20230119185342.2093323-3-amit.kumar-mahapatra@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.26]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
-X-Mailman-Approved-At: Tue, 24 Jan 2023 08:30:12 +0000
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ2PR11MB7715:EE_|DS0PR11MB7408:EE_
+x-ms-office365-filtering-correlation-id: 5ba47900-d925-43b8-2a09-08dafd75d2f8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WFwKXjdkxhMEp3PCJKIW9KelcsJr3bbO4WvG1BEO5qfXpkAif1gloP749EhD1xWMOan+hQaAQLcQFoybCfgBMtvaphvh5Pb0Apm84vRSyOxX+X+CJ3oe4OLiTsmJey3Y8Kqj7iQ0CjKZlffMdzt3IOM8HmpYA8uLjk6XNMVjgG3UbTpx7eZkX4FdYoPp5luCAiq27knYkZsvk++qYtXCIyjcVs5Fk80uRf/smEA8XrZPWsvq9AyUKHA1hy1LT3eXhqSfTdAqR6L2iUUuok4d7ZDwPddTI0FU86s5paG+rCw/w6+A1vEztbLVesUjC4BCzpytjGuA0l9S4te0qDwEDtd8nbdPxnerTXlBxvP0qylZcLxg1XXKGOiohXQQ/vzKkibpGnkePSrfI3w8dUDhiNFYYkU30O9wKl4mRuyEQ32dJqBsW0lzAkwvVG9o7ktlnFGfp3Ua1nE5rECSgFb4k37hwvdhJEw+OHKm8vgX02VvjfPSBGVmsalktNf9mw/DzLz2pSjwYIsb7AhAD6wLxoH5ycXptvgsnGx2baz/2hNYdz+BOWHcw6oT7Y4t5JvQoYZ4ZAMAcSBVZkW15bcECR8RRBwuyLSitSzt+m6MTIAMNiO70TfFy7lek8P8W3GibMKo+XeCzMSprogGvAHIdTurbGx7mB7LPZ2fdKt5xMDNt08D9h92IbMsmh29fm+DwA63Gqz3KbaWK37VwcdSaA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ2PR11MB7715.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(376002)(366004)(346002)(396003)(136003)(39860400002)(451199015)(316002)(41300700001)(110136005)(54906003)(76116006)(66946007)(66446008)(4326008)(64756008)(66556008)(66476007)(8676002)(86362001)(450100002)(6506007)(478600001)(83380400001)(55016003)(9686003)(26005)(53546011)(186003)(71200400001)(7696005)(33656002)(38070700005)(8936002)(52536014)(122000001)(5660300002)(82960400001)(2906002)(38100700002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?l0U1lhWvl+HikduwjaqyCxS+E9F6D1rPPe+YdxhGm+iY98poiO/F7yaNInBT?=
+ =?us-ascii?Q?Gmxyq1bMBpvjI/qNsqDsh08Ed1ZgS3D8mOaLGxx0Z5dvdULpXJEptivFng0i?=
+ =?us-ascii?Q?cKPT3ZR/S65HcXTGLBATVC1qnbMK1EEJL3zLxaghgqqm+JaHyqfCTfh7uvI5?=
+ =?us-ascii?Q?T9OsxV3nwHtdZxsJkqZQAX7ad6JV8ZC0w4UPMUIpGo7qBr9xnsjCkAIGBQM1?=
+ =?us-ascii?Q?YzCIFDbkb3hTmS3lkyWO4qqR7MN5QyqgzGDiNgHgP4W2MJ/rLle0EQ9umUyL?=
+ =?us-ascii?Q?p42dwSKMr56vnXRX8kP/Cq1PG1kHBnv31qPh7GqsM2GeEElY13YAxFYzW8s3?=
+ =?us-ascii?Q?9kbJLgs1E/CzaXRnM/iY4PDGL+kjoKnbEfsb8CwKZVJ0ZpgERAQF7jnZvRLO?=
+ =?us-ascii?Q?vLkMm7n2kPeBTiPTLVq732+KNETGLME3HtfBXSLnyOztsCVxEyHY/E2QAdTd?=
+ =?us-ascii?Q?iBiWjmg3XkONH/YTgC2wP/uIC+pLh0+0VygxaHFE6vl/fpjdmBxJzeijXu4T?=
+ =?us-ascii?Q?Q3xrUBc681vDmHhoUo+PR30lryppdENSTW2VTozVaIQL4zh1ufKNwlI2YPyF?=
+ =?us-ascii?Q?BGu2CEBwF2KKMa/YjQyRoLfZOoLt+ekMGJJjEhbrXkUWVb8usGyglFRQ2gnm?=
+ =?us-ascii?Q?Hg4WDUXcSBYfAskzgQOgz5gMmHrlMv70+IH9nqJ86c9p8IyDCAJtcY2Sf9om?=
+ =?us-ascii?Q?Rs5G0gAIvJMw13yhHleXAtb7opkYeRDzvVFeSKW/dLXRJa5cC2W5G7pLoiFk?=
+ =?us-ascii?Q?7RlQHnMj7A1McMVjuFf1oflpBZX8s9pxDc6pNGAOiCFcm9LOYexg2rvTIJtV?=
+ =?us-ascii?Q?fvS/v7Q1LlEsI3iEjStNJ5auiCfqTdm/2CDyrjaAlqAmNqP0kEHP2YgqCfzA?=
+ =?us-ascii?Q?IY6XdiRCsw9yQDpjgqSXE1zYKu8FLYEhG/vC9mR4QaZaBaXJXiVVaQgvfCdw?=
+ =?us-ascii?Q?6JytXZtdwNNAwmIKaTaQ2PvcG0H+9sG4/N0nZ3nltFzx04uPclR58izYm0vd?=
+ =?us-ascii?Q?4QtWvF+6o+9xH8ZAO3ojYRSaGt/8uKwmVJIsubfdyI+LV51Dl5TCnrBG9vwp?=
+ =?us-ascii?Q?f52FWItJhQ87R8/ReLM3dnxQ10jIPPzZNspD3SYyJK0LxbFGYMFUmQbO04Nc?=
+ =?us-ascii?Q?VJiODr2Sa3buLDD7IYhqMfF70fC8NmR38B2aIwybpuPN7EJn5jTHBpPvGxBy?=
+ =?us-ascii?Q?usU4PmEjQr7+XA5x8lypsrLXSckL6m6PvPeRX0itTum2ufTZyVIvuUTCbryB?=
+ =?us-ascii?Q?cdgNulg5xhkVd6DrwwmWw6eZ5x0k/XQr6rigBnSm8vPRUxYqrlN/e64jWrr0?=
+ =?us-ascii?Q?hZSxjmRcjcUXMIgWU4ouz7wW1sih7KAbd9kfbL9xKlXPP39VJu8zKu1cZMvC?=
+ =?us-ascii?Q?l/IbiRcUeG/+j8itKo76AefH61llV2d7mZKLWBYjvIV5KfIYRNt0GxjQnSJm?=
+ =?us-ascii?Q?XxvfK5KcwZkM6zeL9jQNN4elKD2OExFyVSuxfZokLi8Saz9n7j5nj+VgiroD?=
+ =?us-ascii?Q?8h0RDkmk/T0EV9hLPq6R3vjLRpn9s+X7F/DnhvNKWH9DMVy/PRiLqqMw2mMS?=
+ =?us-ascii?Q?/btZyK0mrzjQpng+VHbndrk4Ynf1nQh2IBwa5MGfbkds/2ZNGQgTCzCxZsbL?=
+ =?us-ascii?Q?Zg=3D=3D?=
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K/oTI+Yw0J+QqBk/wT86zqJjEOU17TwOVaoCvKLCmzC5b1A/o9NBwI0Ty9BfhtnZvQIVVB3TtnFoiA1tPZaQ4dg4718iAye9oOcoGfSOdw+jwjW9ZykjUVTDEUy+Q/7cneGkae/AxUoD+VrJRKGRzQ7lCYc5R90e3+VSCIMzrhxMr2cy1QAxy4g16KylMz5suRxpXrq5Dz1fTMBQD5SuQOzsvRRdDvIX0xsexWUbG+DI2ATLPHTZUaeSHpMRXtMb8E1ocquJgyWi6U1JJl+SmgK0EMouUmnzweFOWpuI1FRrDzppyiNUONb4sdBmBQhZj+pu2rIxf3pLSrkTVS4kXg==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EEeJ7Z0nsrvVBcwtqV1COMIkCGCbDr2oFoY/tcwA0YM=;
+ b=VSflEvJHufaaNHpyEYuSERCmHAp0aITkhumswGtmyQF5CXw4yIHqYt+30xAB9IBhuM3rapicHyEBm4C/iaecQPulEKOv1y025ijx3K2jBWDuGD8SsZtBR7IiOKv2wwD3irE5+cZ5R42a8QjhOdu33/9OCosKoOcIYHQaAS0yNvdsRwolSlBou2+6BJhLtIQk5Y0u5x1T+uitv9MZwvRgKy5IFRae5h80t6uWjcDjQfoAHIXp4MFEppUMFvPOVWPrT0AYZ+j5KjgFgK66sXtvM8vCGW0HAQzmpJ0TDG2Q95GvzH3OvmqVO3mPvRvYNKyQpKqM3toI4P9lf58ZtKWiWg==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: SJ2PR11MB7715.namprd11.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: 5ba47900-d925-43b8-2a09-08dafd75d2f8
+x-ms-exchange-crosstenant-originalarrivaltime: 23 Jan 2023 19:12:51.8514 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: emdLsoNZFcWC5R2lAx1X/WUg3DINlElhIPtnkm8kDC/ECuevhYwRbQyWw3OhHKnyZFweeo4NK569K7QQ8ZxCheIctyr//UxZEmQIRDAvmT4=
+x-ms-exchange-transport-crosstenantheadersstamped: DS0PR11MB7408
+x-originatororg: intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,108 +149,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, tmaimon77@gmail.com,
- linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
- konrad.dybcio@somainline.org, dri-devel@lists.freedesktop.org,
- tali.perry1@gmail.com, ldewangan@nvidia.com, linux-mtd@lists.infradead.org,
- alim.akhtar@samsung.com, linux-riscv@lists.infradead.org,
- linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- jbrunet@baylibre.com, git@amd.com, linux-samsung-soc@vger.kernel.org,
- benjaminfair@google.com, yogeshgaur.83@gmail.com, openbmc@lists.ozlabs.org,
- linux-staging@lists.linux.dev, yuenn@google.com,
- bcm-kernel-feedback-list@broadcom.com, joel@jms.id.au,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-imx@nxp.com, amitrkcian2002@gmail.com, Michael.Hennerich@analog.com,
- martin.blumenstingl@googlemail.com, linux-arm-msm@vger.kernel.org,
- radu_nicolae.pirea@upb.ro, greybus-dev@lists.linaro.org,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- michal.simek@amd.com, linux-arm-kernel@lists.infradead.org,
- avifishman70@gmail.com, venture@google.com, libertas-dev@lists.infradead.org,
- linux-wireless@vger.kernel.org, nicolas.ferre@microchip.com,
- fancer.lancer@gmail.com, linux-kernel@vger.kernel.org, andrew@aj.id.au,
- michael@walle.cc, palmer@dabbelt.com, kernel@pengutronix.de,
- netdev@vger.kernel.org, linux-media@vger.kernel.org,
- linux-wpan@vger.kernel.org, claudiu.beznea@microchip.com
+Cc: "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Amit
 
-On 1/19/23 19:53, Amit Kumar Mahapatra wrote:
-> Supporting multi-cs in spi drivers would require the chip_select & cs_gpiod
-> members of struct spi_device to be an array. But changing the type of these
-> members to array would break the spi driver functionality. To make the
-> transition smoother introduced four new APIs to get/set the
-> spi->chip_select & spi->cs_gpiod and replaced all spi->chip_select and
-> spi->cs_gpiod references with get or set API calls.
-> While adding multi-cs support in further patches the chip_select & cs_gpiod
-> members of the spi_device structure would be converted to arrays & the
-> "idx" parameter of the APIs would be used as array index i.e.,
-> spi->chip_select[idx] & spi->cs_gpiod[idx] respectively.
-> 
-> Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>
+
+> -----Original Message-----
+> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Lu=
+cas
+> De Marchi
+> Sent: Friday, January 20, 2023 11:35 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: De Marchi, Lucas <lucas.demarchi@intel.com>; dri-
+> devel@lists.freedesktop.org
+> Subject: [Intel-gfx] [PATCH v2 3/8] drm/i915: Convert pll macros to
+> _PICK_EVEN_2RANGES
+>
+> Avoid the array lookup, converting the PLL macros after ICL to
+> _PICK_EVEN_RANGES. This provides the following reduction in code size:
+>
+>       $ size build64/drivers/gpu/drm/i915/i915.o{.old,.new}
+>          text    data     bss     dec     hex filename
+>       4027456  185703    6984 4220143  4064ef
+> build64/drivers/gpu/drm/i915/i915.o.old
+>       4026997  185703    6984 4219684  406324
+> build64/drivers/gpu/drm/i915/i915.o.new
+>
+> At the same time it's safer, avoiding out-of-bounds array access.  This a=
+llows to
+> remove _MMIO_PLL3() that is now unused.
+>
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+Reviewed-by: Anusha Srivatsa <anusha.srivatsa@intel.com>
+
 > ---
+>  .../drm/i915/display/intel_display_reg_defs.h |  1 -
+>  drivers/gpu/drm/i915/i915_reg.h               | 59 +++++++++----------
+>  2 files changed, 29 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_reg_defs.h
+> b/drivers/gpu/drm/i915/display/intel_display_reg_defs.h
+> index 02605418ff08..a4ed1c530799 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_reg_defs.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_reg_defs.h
+> @@ -34,7 +34,6 @@
+>  #define _MMIO_PIPE3(pipe, a, b, c)   _MMIO(_PICK(pipe, a, b, c))
+>  #define _MMIO_PORT3(pipe, a, b, c)   _MMIO(_PICK(pipe, a, b, c))
+>  #define _MMIO_PHY3(phy, a, b, c)     _MMIO(_PHY3(phy, a, b, c))
+> -#define _MMIO_PLL3(pll, ...)         _MMIO(_PICK(pll, __VA_ARGS__))
+>
+>  /*
+>   * Device info offset array based helpers for groups of registers with u=
+nevenly
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_=
+reg.h
+> index 8da3546d82fb..dd1eb8b10e0e 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -7232,13 +7232,15 @@ enum skl_power_gate {
+>  #define   PLL_LOCK           REG_BIT(30)
+>  #define   PLL_POWER_ENABLE   REG_BIT(27)
+>  #define   PLL_POWER_STATE    REG_BIT(26)
+> -#define ICL_DPLL_ENABLE(pll) _MMIO_PLL3(pll, _DPLL0_ENABLE,
+> _DPLL1_ENABLE, \
+> -                                        _ADLS_DPLL2_ENABLE,
+> _ADLS_DPLL3_ENABLE)
+> +#define ICL_DPLL_ENABLE(pll) _MMIO(_PICK_EVEN_2RANGES(pll, 3,
+>               \
+> +                                                     _DPLL0_ENABLE,
+> _DPLL1_ENABLE,        \
+> +
+>       _ADLS_DPLL3_ENABLE, _ADLS_DPLL3_ENABLE))
+>
+>  #define _DG2_PLL3_ENABLE     0x4601C
+>
+> -#define DG2_PLL_ENABLE(pll) _MMIO_PLL3(pll, _DPLL0_ENABLE,
+> _DPLL1_ENABLE, \
+> -                                    _ADLS_DPLL2_ENABLE,
+> _DG2_PLL3_ENABLE)
+> +#define DG2_PLL_ENABLE(pll)  _MMIO(_PICK_EVEN_2RANGES(pll, 3,
+>               \
+> +                                                     _DPLL0_ENABLE,
+> _DPLL1_ENABLE,        \
+> +                                                     _DG2_PLL3_ENABLE,
+> _DG2_PLL3_ENABLE))
+>
+>  #define TBT_PLL_ENABLE               _MMIO(0x46020)
+>
+> @@ -7251,8 +7253,9 @@ enum skl_power_gate {
+>                                          _MG_PLL2_ENABLE)
+>
+>  /* DG1 PLL */
+> -#define DG1_DPLL_ENABLE(pll)    _MMIO_PLL3(pll, _DPLL0_ENABLE,
+> _DPLL1_ENABLE, \
+> -                                        _MG_PLL1_ENABLE,
+> _MG_PLL2_ENABLE)
+> +#define DG1_DPLL_ENABLE(pll)    _MMIO(_PICK_EVEN_2RANGES(pll, 2,
+>               \
+> +                                                     _DPLL0_ENABLE,
+> _DPLL1_ENABLE,        \
+> +                                                     _MG_PLL1_ENABLE,
+> _MG_PLL2_ENABLE))
+>
+>  /* ADL-P Type C PLL */
+>  #define PORTTC1_PLL_ENABLE   0x46038
+> @@ -7312,9 +7315,9 @@ enum skl_power_gate {
+>  #define _TGL_DPLL0_CFGCR0            0x164284
+>  #define _TGL_DPLL1_CFGCR0            0x16428C
+>  #define _TGL_TBTPLL_CFGCR0           0x16429C
+> -#define TGL_DPLL_CFGCR0(pll)         _MMIO_PLL3(pll,
+> _TGL_DPLL0_CFGCR0, \
+> -                                               _TGL_DPLL1_CFGCR0, \
+> -                                               _TGL_TBTPLL_CFGCR0)
+> +#define TGL_DPLL_CFGCR0(pll)         _MMIO(_PICK_EVEN_2RANGES(pll, 2,
+>               \
+> +                                           _TGL_DPLL0_CFGCR0,
+> _TGL_DPLL1_CFGCR0,    \
+> +                                           _TGL_TBTPLL_CFGCR0,
+> _TGL_TBTPLL_CFGCR0))
+>  #define RKL_DPLL_CFGCR0(pll)         _MMIO_PLL(pll, _TGL_DPLL0_CFGCR0,
+> \
+>                                                 _TGL_DPLL1_CFGCR0)
+>
+> @@ -7327,40 +7330,36 @@ enum skl_power_gate {
+>  #define _TGL_DPLL0_CFGCR1            0x164288
+>  #define _TGL_DPLL1_CFGCR1            0x164290
+>  #define _TGL_TBTPLL_CFGCR1           0x1642A0
+> -#define TGL_DPLL_CFGCR1(pll)         _MMIO_PLL3(pll,
+> _TGL_DPLL0_CFGCR1, \
+> -                                                _TGL_DPLL1_CFGCR1, \
+> -                                                _TGL_TBTPLL_CFGCR1)
+> +#define TGL_DPLL_CFGCR1(pll)         _MMIO(_PICK_EVEN_2RANGES(pll, 2,
+>               \
+> +                                           _TGL_DPLL0_CFGCR1,
+> _TGL_DPLL1_CFGCR1,    \
+> +                                           _TGL_TBTPLL_CFGCR1,
+> _TGL_TBTPLL_CFGCR1))
+>  #define RKL_DPLL_CFGCR1(pll)         _MMIO_PLL(pll, _TGL_DPLL0_CFGCR1,
+> \
+>                                                 _TGL_DPLL1_CFGCR1)
+>
+>  #define _DG1_DPLL2_CFGCR0            0x16C284
+>  #define _DG1_DPLL3_CFGCR0            0x16C28C
+> -#define DG1_DPLL_CFGCR0(pll)         _MMIO_PLL3(pll,
+> _TGL_DPLL0_CFGCR0, \
+> -                                                _TGL_DPLL1_CFGCR0, \
+> -                                                _DG1_DPLL2_CFGCR0, \
+> -                                                _DG1_DPLL3_CFGCR0)
+> +#define DG1_DPLL_CFGCR0(pll)         _MMIO(_PICK_EVEN_2RANGES(pll, 2,
+>               \
+> +                                           _TGL_DPLL0_CFGCR0,
+> _TGL_DPLL1_CFGCR0,    \
+> +                                           _DG1_DPLL2_CFGCR0,
+> _DG1_DPLL3_CFGCR0))
+>
+>  #define _DG1_DPLL2_CFGCR1               0x16C288
+>  #define _DG1_DPLL3_CFGCR1               0x16C290
+> -#define DG1_DPLL_CFGCR1(pll)            _MMIO_PLL3(pll, _TGL_DPLL0_CFGCR=
+1, \
+> -                                                _TGL_DPLL1_CFGCR1, \
+> -                                                _DG1_DPLL2_CFGCR1, \
+> -                                                _DG1_DPLL3_CFGCR1)
+> +#define DG1_DPLL_CFGCR1(pll)            _MMIO(_PICK_EVEN_2RANGES(pll, 2,
+>               \
+> +                                           _TGL_DPLL0_CFGCR1,
+> _TGL_DPLL1_CFGCR1,    \
+> +                                           _DG1_DPLL2_CFGCR1,
+> _DG1_DPLL3_CFGCR1))
+>
+>  /* For ADL-S DPLL4_CFGCR0/1 are used to control DPLL2 */
+> -#define _ADLS_DPLL3_CFGCR0           0x1642C0
+>  #define _ADLS_DPLL4_CFGCR0           0x164294
+> -#define ADLS_DPLL_CFGCR0(pll)                _MMIO_PLL3(pll,
+> _TGL_DPLL0_CFGCR0, \
+> -                                                _TGL_DPLL1_CFGCR0, \
+> -                                                _ADLS_DPLL4_CFGCR0, \
+> -                                                _ADLS_DPLL3_CFGCR0)
+> +#define _ADLS_DPLL3_CFGCR0           0x1642C0
+> +#define ADLS_DPLL_CFGCR0(pll)
+>       _MMIO(_PICK_EVEN_2RANGES(pll, 2,                \
+> +                                           _TGL_DPLL0_CFGCR0,
+> _TGL_DPLL1_CFGCR0,    \
+> +                                           _ADLS_DPLL4_CFGCR0,
+> _ADLS_DPLL3_CFGCR0))
+>
+> -#define _ADLS_DPLL3_CFGCR1           0x1642C4
+>  #define _ADLS_DPLL4_CFGCR1           0x164298
+> -#define ADLS_DPLL_CFGCR1(pll)                _MMIO_PLL3(pll,
+> _TGL_DPLL0_CFGCR1, \
+> -                                                _TGL_DPLL1_CFGCR1, \
+> -                                                _ADLS_DPLL4_CFGCR1, \
+> -                                                _ADLS_DPLL3_CFGCR1)
+> +#define _ADLS_DPLL3_CFGCR1           0x1642C4
+> +#define ADLS_DPLL_CFGCR1(pll)
+>       _MMIO(_PICK_EVEN_2RANGES(pll, 2,                \
+> +                                           _TGL_DPLL0_CFGCR1,
+> _TGL_DPLL1_CFGCR1,    \
+> +                                           _ADLS_DPLL4_CFGCR1,
+> _ADLS_DPLL3_CFGCR1))
+>
+>  /* BXT display engine PLL */
+>  #define BXT_DE_PLL_CTL                       _MMIO(0x6d000)
+> --
+> 2.39.0
 
-[...]
-
->  drivers/spi/spi-stm32-qspi.c      | 12 ++++++------
-
-[...]
-
-> diff --git a/drivers/spi/spi-stm32-qspi.c b/drivers/spi/spi-stm32-qspi.c
-> index 9131660c1afb..b9e61372dcfb 100644
-> --- a/drivers/spi/spi-stm32-qspi.c
-> +++ b/drivers/spi/spi-stm32-qspi.c
-> @@ -359,7 +359,7 @@ static int stm32_qspi_get_mode(u8 buswidth)
->  static int stm32_qspi_send(struct spi_device *spi, const struct spi_mem_op *op)
->  {
->  	struct stm32_qspi *qspi = spi_controller_get_devdata(spi->master);
-> -	struct stm32_qspi_flash *flash = &qspi->flash[spi->chip_select];
-> +	struct stm32_qspi_flash *flash = &qspi->flash[spi_get_chipselect(spi, 0)];
->  	u32 ccr, cr;
->  	int timeout, err = 0, err_poll_status = 0;
->  
-> @@ -564,7 +564,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
->  	struct spi_mem_op op;
->  	int ret = 0;
->  
-> -	if (!spi->cs_gpiod)
-> +	if (!spi_get_csgpiod(spi, 0))
->  		return -EOPNOTSUPP;
->  
->  	ret = pm_runtime_resume_and_get(qspi->dev);
-> @@ -573,7 +573,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
->  
->  	mutex_lock(&qspi->lock);
->  
-> -	gpiod_set_value_cansleep(spi->cs_gpiod, true);
-> +	gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), true);
->  
->  	list_for_each_entry(transfer, &msg->transfers, transfer_list) {
->  		u8 dummy_bytes = 0;
-> @@ -626,7 +626,7 @@ static int stm32_qspi_transfer_one_message(struct spi_controller *ctrl,
->  	}
->  
->  end_of_transfer:
-> -	gpiod_set_value_cansleep(spi->cs_gpiod, false);
-> +	gpiod_set_value_cansleep(spi_get_csgpiod(spi, 0), false);
->  
->  	mutex_unlock(&qspi->lock);
->  
-> @@ -669,8 +669,8 @@ static int stm32_qspi_setup(struct spi_device *spi)
->  
->  	presc = DIV_ROUND_UP(qspi->clk_rate, spi->max_speed_hz) - 1;
->  
-> -	flash = &qspi->flash[spi->chip_select];
-> -	flash->cs = spi->chip_select;
-> +	flash = &qspi->flash[spi_get_chipselect(spi, 0)];
-> +	flash->cs = spi_get_chipselect(spi, 0);
->  	flash->presc = presc;
->  
->  	mutex_lock(&qspi->lock);
-
-Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
-
-Thanks
-Patrice
