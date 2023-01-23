@@ -2,53 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F08678258
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7115678261
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:58:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8175010E512;
-	Mon, 23 Jan 2023 16:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEA0D10E50E;
+	Mon, 23 Jan 2023 16:58:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CB710E50E;
- Mon, 23 Jan 2023 16:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674493017; x=1706029017;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=vdG2LRYEzwMOvj9iyM2asicTeJVJUO1nFbPkAsUJrec=;
- b=XR/ckRp+zXtUpQz8h/jbnajWUXPCmT+kFGwZwzvpsbzvdUs9s0Q9SifL
- bTHXEgrV86oznCS8QNooeHSDWltJio92D2JjcmODZZrDXXjU+ZNe1DJzd
- cei9sawdKEo5rM997zX6FKBQ3QxYWniKVsEIajoEMkre2L5Sja3wXNYx9
- zs7LzXem46LNh2wQjh4V8Zy8u2CAXLPwe8h7Rx3K4fnL9fkfncAItEP3H
- Y6sYdP2PaygM9YYJXhOQg283CWfAAncLdAf/QY889mM0Ve+pGMY2fkNrv
- oVC6f/lFuyX7qJxC+mL684UzXh6NrbE0DNPjDcybw+094CR0EeX+bjn8R w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="388440574"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="388440574"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 08:56:53 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="730342577"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="730342577"
-Received: from bridge4x-mobl.ger.corp.intel.com (HELO [10.213.214.72])
- ([10.213.214.72])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 08:56:49 -0800
-Message-ID: <f24be4ca-edde-819a-5bcc-070e0d2e23d1@linux.intel.com>
-Date: Mon, 23 Jan 2023 16:56:47 +0000
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7E0010E50E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 16:58:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A5462D9;
+ Mon, 23 Jan 2023 17:58:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1674493083;
+ bh=kDKF4A6ZDyQHXFMYN9w6HQo5DdaJO5wDDeNan4zyVis=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MRRBRkfUzEvjWDKjwqzWZTvn8a4ZYKkv/eFBndQyv2QuIbZnj9YbDn2ZoZwoFMeMX
+ Wdv4ezHrHRnjSX9Ob9umakxP+6FYAH1MfJBCWdgEQV8w1ZwXKSddjCwC1IpaSkg5XL
+ reHgdDwtZf0djBxV+06O7vfOhyDYHvl+JtlSC3OQ=
+Date: Mon, 23 Jan 2023 18:58:00 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: DMA-heap driver hints
+Message-ID: <Y868mG7Oa5bI1wB7@pendragon.ideasonboard.com>
+References: <20230123123756.401692-1-christian.koenig@amd.com>
+ <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com>
+ <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] drm/i915: Avoid potential vm use-after-free
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230119173321.2825472-1-robdclark@gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230119173321.2825472-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +49,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Matthew Brost <matthew.brost@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, katrinzhou <katrinzhou@tencent.com>
+Cc: James Jones <jajones@nvidia.com>, linaro-mm-sig@lists.linaro.org,
+ sebastian.wick@redhat.com, labbott@redhat.com, benjamin.gaignard@collabora.com,
+ linux-media@vger.kernel.org, mchehab@kernel.org, ppaalanen@gmail.com,
+ dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca, hverkuil@xs4all.nl,
+ jstultz@google.com, lmark@codeaurora.org, tfiga@chromium.org,
+ sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Christian,
 
-+ some more people based on e1a7ab4fca0c
-
-On 19/01/2023 17:32, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Mon, Jan 23, 2023 at 05:29:18PM +0100, Christian König wrote:
+> Am 23.01.23 um 14:55 schrieb Laurent Pinchart:
+> > Hi Christian,
+> >
+> > CC'ing James as I think this is related to his work on the unix device
+> > memory allocator ([1]).
+> >
+> > [1] https://lore.kernel.org/dri-devel/8b555674-1c5b-c791-4547-2ea7c16aee6c@nvidia.com/
+> >
+> > On Mon, Jan 23, 2023 at 01:37:54PM +0100, Christian König wrote:
+> >> Hi guys,
+> >>
+> >> this is just an RFC! The last time we discussed the DMA-buf coherency
+> >> problem [1] we concluded that DMA-heap first needs a better way to
+> >> communicate to userspace which heap to use for a certain device.
+> >>
+> >> As far as I know userspace currently just hard codes that information
+> >> which is certainly not desirable considering that we should have this
+> >> inside the kernel as well.
+> >>
+> >> So what those two patches here do is to first add some
+> >> dma_heap_create_device_link() and  dma_heap_remove_device_link()
+> >> function and then demonstrating the functionality with uvcvideo
+> >> driver.
+> >>
+> >> The preferred DMA-heap is represented with a symlink in sysfs between
+> >> the device and the virtual DMA-heap device node.
+> >
+> > I'll start with a few high-level comments/questions:
+> >
+> > - Instead of tying drivers to heaps, have you considered a system where
+> >    a driver would expose constraints, and a heap would then be selected
+> >    based on those constraints ? A tight coupling between heaps and
+> >    drivers means downstream patches to drivers in order to use
+> >    vendor-specific heaps, that sounds painful.
 > 
-> Adding the vm to the vm_xa table makes it visible to userspace, which
-> could try to race with us to close the vm.  So we need to take our extra
-> reference before putting it in the table.
+> I was wondering the same thing as well, but came to the conclusion that 
+> just the other way around is the less painful approach.
+
+From a kernel point of view, sure, it's simpler and thus less painful.
+From the point of view of solving the whole issue, I'm not sure :-)
+
+> The problem is that there are so many driver specific constrains that I 
+> don't even know where to start from.
+
+That's where I was hoping James would have some feedback for us, based
+on the work he did on the Unix device memory allocator. If that's not
+the case, we can brainstorm this from scratch.
+
+> >    A constraint-based system would also, I think, be easier to extend
+> >    with additional constraints in the future.
+> >
+> > - I assume some drivers will be able to support multiple heaps. How do
+> >    you envision this being implemented ?
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
-> Note, you could list commit e1a7ab4fca0c ("drm/i915: Remove the vm open
-> count") as the "fixed" commit, but really the issue seems to go back
-> much further (with the fix needing some backporting in the process).
+> I don't really see an use case for this.
+> 
+> We do have some drivers which say: for this use case you can use 
+> whatever you want, but for that use case you need to use specific memory 
+> (scan out on GPUs for example works like this).
+> 
+> But those specific use cases are exactly that, very specific. And 
+> exposing all the constrains for them inside a kernel UAPI is a futile 
+> effort (at least for the GPU scan out case). In those situations it's 
+> just better to have the allocator in userspace deal with device specific 
+> stuff.
 
-It would probably be rather essential to identify the correct Fixes: tag.
+While the exact constraints will certainly be device-specific, is that
+also true of the type of constraints, or the existence of constraints in
+the first place ? To give an example, with a video decoder producing
+frames that are then rendered by a GPU, the tiling format that would
+produce the best result is device-specific, but the fact that the
+decoder can produce a tiled format that would work better for the GPU,
+or a non-tiled format for other consumers, is a very common constraint.
+I don't think we'll be able to do away completely with the
+device-specific code in userspace, but I think we should be able to
+expose constraints in a generic-enough way that many simple use cases
+will be covered by generic code.
 
-Since Thomas, Matt and Niranjana you were directly involved in the patch 
-which changed significantly how this works, perhaps there is something 
-still somewhat easily retrievable from your memory lanes to help with this?
+> What I want to do is to separate the problem. The kernel only provides 
+> the information where to allocate from, figuring out the details like 
+> how many bytes, which format, plane layout etc.. is still the job of 
+> userspace.
 
+Even with UVC, where to allocate memory from will depend on the use
+case. If the consumer is a device that doesn't support non-contiguous
+DMA, the system heap won't work.
+
+Actually, could you explain why UVC works better with the system heap ?
+I'm looking at videobuf2 as an importer, and it doesn't call the dmabuf
+as far as I can tell, so cache management provided by the exporter seems
+to be bypassed in any case.
+
+> What we do have is compatibility between heaps. E.g. a CMA heap is 
+> usually compatible with the system heap or might even be a subset of 
+> another CMA heap. But I wanted to add that as next step to the heaps 
+> framework itself.
+> 
+> > - Devices could have different constraints based on particular
+> >    configurations. For instance, a device may require specific memory
+> >    layout for multi-planar YUV formats only (as in allocating the Y and C
+> >    planes of NV12 from different memory banks). A dynamic API may thus be
+> >    needed (but may also be very painful to use from userspace).
+> 
+> Uff, good to know. But I'm not sure how to expose stuff like that.
+
+Let's see if James has anything to share with us :-) With a bit of luck
+we won't have to start from scratch.
+
+> >> What's still missing is certainly matching userspace for this since I
+> >> wanted to discuss the initial kernel approach first.
+> >
+> > https://git.libcamera.org/libcamera/libcamera.git/ would be a good place
+> > to prototype userspace support :-)
+> 
+> Thanks for the pointer and the review,
+
+By the way, side question, does anyone know what the status of dma heaps
+support is in major distributions ? On my Gentoo box,
+/dev/dma_heap/system is 0600 root:root. That's easy to change for a
+developer, but not friendly to end-users. If we want to move forward
+with dma heaps as standard multimedia allocators (and I would really
+like to see that happening), we have to make sure they can be used.
+
+> >> Please take a look and comment.
+> >>
+> >> Thanks,
+> >> Christian.
+> >>
+> >> [1] https://lore.kernel.org/all/11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com/T/
+
+-- 
 Regards,
 
-Tvrtko
-
-> 
->   drivers/gpu/drm/i915/gem/i915_gem_context.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 6250de9b9196..e4b78ab4773b 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -1861,11 +1861,19 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
->   	vm = ctx->vm;
->   	GEM_BUG_ON(!vm);
->   
-> +	/*
-> +	 * Get a reference for the allocated handle.  Once the handle is
-> +	 * visible in the vm_xa table, userspace could try to close it
-> +	 * from under our feet, so we need to hold the extra reference
-> +	 * first.
-> +	 */
-> +	i915_vm_get(vm);
-> +
->   	err = xa_alloc(&file_priv->vm_xa, &id, vm, xa_limit_32b, GFP_KERNEL);
-> -	if (err)
-> +	if (err) {
-> +		i915_vm_put(vm);
->   		return err;
-> -
-> -	i915_vm_get(vm);
-> +	}
->   
->   	GEM_BUG_ON(id == 0); /* reserved for invalid/unassigned ppgtt */
->   	args->value = id;
+Laurent Pinchart
