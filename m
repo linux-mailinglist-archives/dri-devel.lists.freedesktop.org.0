@@ -2,55 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A685A67800A
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:38:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 068C4678030
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9684910E4D1;
-	Mon, 23 Jan 2023 15:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3746B10E4D6;
+	Mon, 23 Jan 2023 15:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7006110E4D6
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:38:41 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id h184so5723485iof.9
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:38:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GTMdUYoB31JTLCUSgm3VtLqQhozltwVtxsd9chRjQsA=;
- b=Q3dQNfOIsBKbEssAr8S/0j2BHEXhzLeK6qqTwjbGFlMNtkbm96lJaHLBbeZdqOLHIN
- jqv9DLB/SnYamc6sLj/eI0xT3q+9bPStpYW/Xa0XZzY6uaYxxy8c+5ohJwrCBHoi8K2/
- mNe/DClGW0oO4B+xbmmD3rwMhPieMBk9avVZw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GTMdUYoB31JTLCUSgm3VtLqQhozltwVtxsd9chRjQsA=;
- b=lm9lSjTNCvqBm2btr4igeBxx9WhDMzLvWB7RsNWKIELswoBVqhy4DkgJgjYwHp1Nvu
- 8kwwo1NVxTy9u43ldXs7ynaLJ+lr/Kjh/D+fvIQtjUFT8saoQc7ADPz9or2YJcSjc3x3
- d3chjgTnU+7s7pMkO5UxFMDxN0rZl+dnI1Tfo4xxXPuoMB8eIlvP37BcZGtz6qbe6AN2
- fa3Rftm7zzc0B/Vydw+hsNrYl0BVphPQi3t+TmVM8DivJMob8bFLrCwthO1p/WTtCOPG
- uE+ibDPaKrHvmoTR3WuWjxP+m2fsA+wsp/iIOFWdkRYddctDYUjxlh0foLzpd3OC2pMT
- 8Ztg==
-X-Gm-Message-State: AFqh2krZcWgcxyQ8Pg79KXczVZVrn5RJ/+edhy9Go8eZ7FympRoHsE4W
- haGvqD8kNlpsJyP13Kbq8SAlhHZS2/QvmHEI2vVk8w==
-X-Google-Smtp-Source: AMrXdXuXxev/GY8Oy07lOGET6d1ZUhWZ1e8eg082MJK3Aqa3PS4fKCI4WfECJhpMfT04OzR0UvCeatClLncLpOlbbd0=
-X-Received: by 2002:a05:6602:1782:b0:6e3:134:3a97 with SMTP id
- y2-20020a056602178200b006e301343a97mr1998187iox.64.1674488320775; Mon, 23 Jan
- 2023 07:38:40 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF51010E4D6;
+ Mon, 23 Jan 2023 15:42:42 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 78F42339C7;
+ Mon, 23 Jan 2023 15:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1674488561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=55apZeYnu6RO07C6lWHKMqZeQ9QD+dZi2oV45IYgqR8=;
+ b=NwZHaPnSdW0sTqWIpW2Ep2zUuQal9AFNwBLp9xUmbUjAfDGelZ/xsCQDuUGJM72HmTIzWD
+ OVGHfd0I8eI2RL5CanevYwNgICrTG+L9yMtGcFVikSQMyfesIE/B6sHkF1jegMTYHs7TtI
+ KIBufBqOPxkvvdIyiJwOXwaUEQXgNhs=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 236FB1357F;
+ Mon, 23 Jan 2023 15:42:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Gh6oB/GqzmNMXgAAMHmgww
+ (envelope-from <mkoutny@suse.com>); Mon, 23 Jan 2023 15:42:41 +0000
+Date: Mon, 23 Jan 2023 16:42:39 +0100
+From: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [RFC v3 00/12] DRM scheduling cgroup controller
+Message-ID: <20230123154239.GA24348@blackbody.suse.cz>
+References: <20230112165609.1083270-1-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-References: <20230110231447.1939101-1-robdclark@gmail.com>
- <20230110231447.1939101-2-robdclark@gmail.com>
- <2d5f0bc3-620a-1fd8-061f-92f16efd3c5e@kernel.org>
-In-Reply-To: <2d5f0bc3-620a-1fd8-061f-92f16efd3c5e@kernel.org>
-From: Rob Clark <robdclark@chromium.org>
-Date: Mon, 23 Jan 2023 07:38:38 -0800
-Message-ID: <CAJs_Fx5Wjnxw3rOtu6ye493SO-K+b3WLECYGBSCDUsyQhTjdiA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] drm/msm/gpu: Add devfreq tuning debugfs
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+Content-Disposition: inline
+In-Reply-To: <20230112165609.1083270-1-tvrtko.ursulin@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,38 +59,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
+ Dave Airlie <airlied@redhat.com>,
+ =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org, "T . J . Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 23, 2023 at 4:38 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> On 11/01/2023 00:14, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Make the handful of tuning knobs available visible via debugfs.
-> >
-> > v2: select DEVFREQ_GOV_SIMPLE_ONDEMAND because for some reason
-> >     struct devfreq_simple_ondemand_data depends on this
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
->
-> For some reason this was merged even though earlier kbuild reported
-> build failure. This breaks linux next and qcom defconfig. Please drop
-> the patch from the linux next.
->
-> See earlier build issues reported:
-> https://lore.kernel.org/all/202301130108.fslQjvJ8-lkp@intel.com/
->
 
-This will fix it:  https://patchwork.freedesktop.org/series/113232/
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-BR,
--R
+Hello Tvrtko.
+
+Interesting work.
+
+On Thu, Jan 12, 2023 at 04:55:57PM +0000, Tvrtko Ursulin <tvrtko.ursulin@li=
+nux.intel.com> wrote:
+> Because of the heterogenous hardware and driver DRM capabilities, soft li=
+mits
+> are implemented as a loose co-operative (bi-directional) interface betwee=
+n the
+> controller and DRM core.
+
+IIUC, this periodic scanning, calculating and applying could be partly
+implemented with userspace utilities. (As you write, these limits are
+best effort only, so it sounds to me such a total implementation is
+unnecessary.)
+
+I think a better approach would be to avoid the async querying and
+instead require implementing explicit foo_charge_time(client, dur) API
+(similar to how other controllers achieve this).
+Your argument is the heterogenity of devices -- does it mean there are
+devices/drivers that can't implement such a synchronous charging?=20
+
+> DRM core provides an API to query per process GPU utilization and 2nd API=
+ to
+> receive notification from the cgroup controller when the group enters or =
+exits
+> the over budget condition.
+
+The return value of foo_charge_time() would substitute such a
+notification synchronously. (By extension all clients in an affected
+cgroup could be notified to achieve some broader actions.)
+
+> Individual DRM drivers which implement the interface are expected to act =
+on this
+> in the best-effort manner only. There are no guarantees that the soft lim=
+its
+> will be respected.
+
+Back to original concern -- must all code reside in the kernel when it's
+essentially advisory resource control?
+
+>  * DRM core is required to track all DRM clients belonging to processes s=
+o it
+>    can answer when asked how much GPU time is a process using.
+>  [...]
+>  * Individual drivers need to implement two similar hooks, but which work=
+ for
+>    a single DRM client. Over budget callback and GPU utilisation query.
+
+This information is eventually aggregated for each process in a cgroup.
+(And the action is carried on a single client, not a process.)
+The per-process tracking seems like an additional indirection.
+Could be the clients associated directly with DRM cgroup? [1]
+
+
+Regards,
+Michal
+
+[1] I understand the sending a fd of a client is a regular operation, so
+    I'm not sure how cross-cg migrations would have to be handled in any
+    case.
+
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYIAB0WIQTrXXag4J0QvXXBmkMkDQmsBEOquQUCY86q5AAKCRAkDQmsBEOq
+ueEGAQDI5fZQTAIasuzhXqvhso/sSZM6kjJABNN/jGexID1/AgEA7ESyKCV82koM
+JsjtlGG3kRl/Y0LhTvA4J7akVFgGdQo=
+=vAYz
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
