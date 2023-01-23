@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3157A677F20
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:14:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE295677F24
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A18510E4C5;
-	Mon, 23 Jan 2023 15:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A004510E4DB;
+	Mon, 23 Jan 2023 15:14:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 493B610E4C5
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:14:26 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- s13-20020a17090a6e4d00b0022900843652so15583326pjm.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:14:26 -0800 (PST)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB4810E4C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:14:33 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ z1-20020a17090a66c100b00226f05b9595so11320216pjl.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:14:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ajKvhWNKzqFT7LDd16sT+3C5isIu7jIMPTIpzFlW67I=;
- b=hyXbhprLY2awyjhSKbH7USzoEmnomvkr++UhC70gt/E5qu9HTJNb+/uWELKaFjtnVw
- 7xVCgohHz6/87/l7WUw6K9lNdFw6opbkG6umElAnx27kJ7+FMGP7j3gVAGRAevPa5Shg
- RdrSD/+bX2oZyDA15qizeBqH2fnuXRYGYV5js=
+ bh=/fLL5kLDpQT734JrRIGe8vuytWc63yzhDCsgQc9jqGc=;
+ b=nEts0sut1aayk8eUF5xDk+OkCqUauX2EIleYwoofyR42l5mbnWyayEqUUvRRn0ojOh
+ fkis4xwSyHgixmBsOMyBtpC3AtoGTS+uxt1WikDLnCCtK125+YSfFRQwnYuPvAPMh5Gf
+ 6n4bfEN+H/hkYlpCzmP0ZjCRiQh63iy4uKMy8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ajKvhWNKzqFT7LDd16sT+3C5isIu7jIMPTIpzFlW67I=;
- b=w7yqBuu3vMMfElTOuQq8sLFFYI7SqkUwZYh8IoeXfREYjNQ8ZX1sETsgtvVCuM4t2L
- EVLLB3OwtnEiEsgQ4m25xMjjGzq2Ycyn0j+dEEzMZOJ0NdHcHPW5iyfwcqyrpRNg8I48
- cNVW+HIhn2VDTCVx9dcS/S68piuSTDoV4Ld2V9hsuBZZaFAdIaXJf7goS7kT03O+8IPI
- cNARphr2Vo3winUbOx1y0GG7PMFr4vRc0SQkILMBRvQuai+q5sx3YQIcpTFLoKTzJzkQ
- nXFDUmccYyu+h6m5Mh9bUInLdDPg4cBMTv6XQlIpKjyf9vnkub/+d03ASPRhdM5apa1E
- a+0g==
-X-Gm-Message-State: AFqh2krHLEIyleAOhAwWA333c3mjkk5GW9W5fZuy0edGG85zGUCf9hZ+
- gCctuG3SutkNNYGIm5azqwcVdg==
-X-Google-Smtp-Source: AMrXdXsj9qE3cbkwd33HsLEE9Sg/ymHwZ7rohLLXTlsoDQdVWzeLzTJbFgSNa7lVMpAksP2nI9EU3Q==
-X-Received: by 2002:a17:902:c10d:b0:191:309a:d752 with SMTP id
- 13-20020a170902c10d00b00191309ad752mr27222610pli.47.1674486865824; 
- Mon, 23 Jan 2023 07:14:25 -0800 (PST)
+ bh=/fLL5kLDpQT734JrRIGe8vuytWc63yzhDCsgQc9jqGc=;
+ b=DEw6c7io2IqZjw8Ea1/nkF375RozgVYvGiI2Z52WqeMqGlkblGFAPbBnq6SJyjn61D
+ Jsy+lSHrNNz26cr1s7Dc5KsoFSpiWfgBMK5rkyG9C3erTSr+w9ib0xdxlFHwWajGdh2Z
+ BabzFEHeWeA7BAAzuhY6TeiQ989H4np70W6/VO/zWjF7ke0+f/Y3XZfAEkN2sxoXbDhu
+ 4vnTJC8e5QFox0bc9y19XpQLk/i5YShbJi9JfMsu/bid/vQ0MNPCRQfYZPZuWNirg57i
+ AwELxYHtKy1vsKlhZWV/bSJyJQajia9qphk8hk20OSkrffnAlJeb3IXpBcRJseCxx5NB
+ o2Yg==
+X-Gm-Message-State: AFqh2koz866JQ84+EeNLO3OzidBu+VDANtmkeMANl0q4+ll+P46PO35G
+ H7UEMEhwsk1IAMY5S11L++DYFQ==
+X-Google-Smtp-Source: AMrXdXvkwQJ7bd/A3sFx7eUiJ5Z4tdjh+opYpkRP28thLVrDEnTAnWjpR6+gEridoiQu9CK8dc77Qg==
+X-Received: by 2002:a17:902:8a98:b0:194:9c0d:9732 with SMTP id
+ p24-20020a1709028a9800b001949c0d9732mr25089127plo.46.1674486872941; 
+ Mon, 23 Jan 2023 07:14:32 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a15f:2279:f361:f93b:7971])
  by smtp.gmail.com with ESMTPSA id
- d5-20020a170903230500b001754fa42065sm19207111plh.143.2023.01.23.07.14.18
+ d5-20020a170903230500b001754fa42065sm19207111plh.143.2023.01.23.07.14.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 07:14:25 -0800 (PST)
+ Mon, 23 Jan 2023 07:14:32 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -62,10 +62,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [RESEND PATCH v11 16/18] drm: bridge: samsung-dsim: Add i.MX8M
- Mini/Nano support
-Date: Mon, 23 Jan 2023 20:42:10 +0530
-Message-Id: <20230123151212.269082-17-jagan@amarulasolutions.com>
+Subject: [RESEND PATCH v11 17/18] dt-bindings: display: exynos: dsim: Add NXP
+ i.MX8M Plus support
+Date: Mon, 23 Jan 2023 20:42:11 +0530
+Message-Id: <20230123151212.269082-18-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230123151212.269082-1-jagan@amarulasolutions.com>
 References: <20230123151212.269082-1-jagan@amarulasolutions.com>
@@ -83,128 +83,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
  linux-amarula <linux-amarula@amarulasolutions.com>,
  linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Samsung MIPI DSIM master can also be found in i.MX8M Mini/Nano SoC.
+Samsung MIPI DSIM bridge can also be found in i.MX8M Plus SoC.
 
-Add compatible and associated driver_data for it.
+Add dt-bingings for it.
 
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Acked-by: Robert Foss <robert.foss@linaro.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v11:
-- collect RB from Frieder
-- collect ACK from Robert
+- collect ACK from Rob
 Changes for v10, v9:
 - none
-Changed for v8:
-- fix and update the comment
-Changes for v7, v6:
-- none
-Changes for v3:
-- enable DSIM_QUIRK_FIXUP_SYNC_POL quirk
-Changes for v5:
-- [mszyprow] rebased and adjusted to the new driver initialization
-- drop quirk
-Changes for v4:
-- none
-Changes for v3:
-- enable DSIM_QUIRK_FIXUP_SYNC_POL quirk
-Changes for v2:
-- collect Laurent r-b
-Changes for v1:
-- none
 
- drivers/gpu/drm/bridge/samsung-dsim.c | 44 +++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 645071745760..18645c8eaba1 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -376,6 +376,24 @@ static const unsigned int exynos5433_reg_values[] = {
- 	[PHYTIMING_HS_TRAIL] = DSIM_PHYTIMING2_HS_TRAIL(0x0c),
- };
- 
-+static const unsigned int imx8mm_dsim_reg_values[] = {
-+	[RESET_TYPE] = DSIM_SWRST,
-+	[PLL_TIMER] = 500,
-+	[STOP_STATE_CNT] = 0xf,
-+	[PHYCTRL_ULPS_EXIT] = 0,
-+	[PHYCTRL_VREG_LP] = 0,
-+	[PHYCTRL_SLEW_UP] = 0,
-+	[PHYTIMING_LPX] = DSIM_PHYTIMING_LPX(0x06),
-+	[PHYTIMING_HS_EXIT] = DSIM_PHYTIMING_HS_EXIT(0x0b),
-+	[PHYTIMING_CLK_PREPARE] = DSIM_PHYTIMING1_CLK_PREPARE(0x07),
-+	[PHYTIMING_CLK_ZERO] = DSIM_PHYTIMING1_CLK_ZERO(0x26),
-+	[PHYTIMING_CLK_POST] = DSIM_PHYTIMING1_CLK_POST(0x0d),
-+	[PHYTIMING_CLK_TRAIL] = DSIM_PHYTIMING1_CLK_TRAIL(0x08),
-+	[PHYTIMING_HS_PREPARE] = DSIM_PHYTIMING2_HS_PREPARE(0x08),
-+	[PHYTIMING_HS_ZERO] = DSIM_PHYTIMING2_HS_ZERO(0x0d),
-+	[PHYTIMING_HS_TRAIL] = DSIM_PHYTIMING2_HS_TRAIL(0x0b),
-+};
-+
- static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
- 	.reg_ofs = exynos_reg_ofs,
- 	.plltmr_reg = 0x50,
-@@ -437,6 +455,22 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
- 	.reg_values = exynos5422_reg_values,
- };
- 
-+static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
-+	.reg_ofs = exynos5433_reg_ofs,
-+	.plltmr_reg = 0xa0,
-+	.has_clklane_stop = 1,
-+	.num_clks = 2,
-+	.max_freq = 2100,
-+	.wait_for_reset = 0,
-+	.num_bits_resol = 12,
-+	/*
-+	 * Unlike Exynos, PLL_P(PMS_P) offset 14 is used in i.MX8M Mini/Nano/Plus
-+	 * downstream driver - drivers/gpu/drm/bridge/sec-dsim.c
-+	 */
-+	.pll_p_offset = 14,
-+	.reg_values = imx8mm_dsim_reg_values,
-+};
-+
- static const struct samsung_dsim_driver_data *
- samsung_dsim_types[DSIM_TYPE_COUNT] = {
- 	[DSIM_TYPE_EXYNOS3250] = &exynos3_dsi_driver_data,
-@@ -444,6 +478,7 @@ samsung_dsim_types[DSIM_TYPE_COUNT] = {
- 	[DSIM_TYPE_EXYNOS5410] = &exynos5_dsi_driver_data,
- 	[DSIM_TYPE_EXYNOS5422] = &exynos5422_dsi_driver_data,
- 	[DSIM_TYPE_EXYNOS5433] = &exynos5433_dsi_driver_data,
-+	[DSIM_TYPE_IMX8MM] = &imx8mm_dsi_driver_data,
- };
- 
- static inline struct samsung_dsim *host_to_dsi(struct mipi_dsi_host *h)
-@@ -1794,7 +1829,16 @@ const struct dev_pm_ops samsung_dsim_pm_ops = {
- };
- EXPORT_SYMBOL_GPL(samsung_dsim_pm_ops);
- 
-+static const struct samsung_dsim_plat_data samsung_dsim_imx8mm_pdata = {
-+	.hw_type = DSIM_TYPE_IMX8MM,
-+	.host_ops = &generic_dsim_host_ops,
-+};
-+
- static const struct of_device_id samsung_dsim_of_match[] = {
-+	{
-+		.compatible = "fsl,imx8mm-mipi-dsim",
-+		.data = &samsung_dsim_imx8mm_pdata,
-+	},
- 	{ /* sentinel. */ }
- };
- MODULE_DEVICE_TABLE(of, samsung_dsim_of_match);
+diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+index 5133d4d39190..2a5f0889ec32 100644
+--- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
++++ b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+@@ -8,6 +8,7 @@ Required properties:
+ 		"samsung,exynos5422-mipi-dsi" /* for Exynos5422/5800 SoCs */
+ 		"samsung,exynos5433-mipi-dsi" /* for Exynos5433 SoCs */
+ 		"fsl,imx8mm-mipi-dsim" /* for i.MX8M Mini/Nano SoCs */
++		"fsl,imx8mp-mipi-dsim" /* for i.MX8M Plus SoCs */
+   - reg: physical base address and length of the registers set for the device
+   - interrupts: should contain DSI interrupt
+   - clocks: list of clock specifiers, must contain an entry for each required
 -- 
 2.25.1
 
