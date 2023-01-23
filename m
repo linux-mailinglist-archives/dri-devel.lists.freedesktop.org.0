@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245906784AF
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 19:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB156784B7
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 19:25:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF1510E53F;
-	Mon, 23 Jan 2023 18:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCCEC10E546;
+	Mon, 23 Jan 2023 18:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC3910E537;
- Mon, 23 Jan 2023 18:25:05 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B8AD10E53D;
+ Mon, 23 Jan 2023 18:25:08 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30NFU8Z9002934; Mon, 23 Jan 2023 18:24:59 GMT
+ 30NIB8ou010617; Mon, 23 Jan 2023 18:25:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=/kECax2Aq2Ou2ddGhZUZw4fOuBh5ZDUL5kOnonadju4=;
- b=eMFvmlrPmjvENqxCtgjP49U6BYpvlpLYAjGIK7ob3K/Ab1LqxQWo3hR9DuBRXBgTpzZM
- G23hA/Wt8S6HfbbwEu6/kRVKnUgs9Y81yq6oZQhumGMMnwkJni1lbfTpMvojwfGg3rgf
- LTVSvNIdDrWRPgR2qb5naU5oCmrbAQd7Aff6md90TYlGMn4hZ7n2+7UHA900+bMQzIQr
- Dimvd/VvCuko2wp+UcVKk8n0jPG1JMWR3AJWq3ZfYP12mppxuuLHGGH4rWhyJR/svLni
- 7kVVP09algI0d5Wgj5CkfSSqieyi8tIBpiPCzM36Yg+W4OTd7Tv5SikPf7TlRsFOU9Fo yw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ bh=nwdEX0oFMN+arr+NrzSEbEVp3yG7g0eC18ghM7sVN8Y=;
+ b=UeMF7tEaMEYD++YhYIwyfsHj7x/R6pRFgrXruMHI2ctQwZTOLL/7G63D86BpwtYM5FUP
+ hN+3gkpGzO9UkYTT6Fd/clIAlM9mV9wJ/ckTZ88YRwAQNjGSCefRmkbYLhtkQ/YVYzdR
+ PrZVBfIguWMeDGTT1gs6/N5h6teQck/DFvhms0H31To4a36z6KUsVdOoX3AOsVki9NuN
+ Ywr6atyIPz1vRS7k/gdYhMqdbS9WeI4v4S8jvcfBaUstECls+NtnUOU/F4c166EoKtd+
+ uOk3VbtlL6o+iWtPPaYYnXuvHslYrCvv82z5ErBCjN+ldh5UHxBiEoFueInhL2+JbKx3 Hw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89hk3hkd-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89fm3jxf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Jan 2023 18:24:59 +0000
+ Mon, 23 Jan 2023 18:25:01 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30NIOwp6032205
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30NIP0pc003486
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Jan 2023 18:24:58 GMT
+ Mon, 23 Jan 2023 18:25:00 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Mon, 23 Jan 2023 10:24:57 -0800
+ 15.2.986.36; Mon, 23 Jan 2023 10:24:59 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v1 07/14] drm/msm/dp: add dsc helper functions
-Date: Mon, 23 Jan 2023 10:24:27 -0800
-Message-ID: <1674498274-6010-8-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v1 08/14] drm/msm/dp: add dsc supporting functions to DP
+ controller
+Date: Mon, 23 Jan 2023 10:24:28 -0800
+Message-ID: <1674498274-6010-9-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1674498274-6010-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1674498274-6010-1-git-send-email-quic_khsieh@quicinc.com>
@@ -59,17 +60,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: DCEm1twCdvWg0JZJKOcvKJDSa2Jog3Rb
-X-Proofpoint-ORIG-GUID: DCEm1twCdvWg0JZJKOcvKJDSa2Jog3Rb
+X-Proofpoint-ORIG-GUID: obWXNA70JxROHw85hZU52dBoMRF0UOER
+X-Proofpoint-GUID: obWXNA70JxROHw85hZU52dBoMRF0UOER
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 phishscore=0
- suspectscore=0 clxscore=1015 mlxscore=0 impostorscore=0 spamscore=0
- adultscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301230177
+ impostorscore=0 clxscore=1015
+ malwarescore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=999
+ mlxscore=0 priorityscore=1501 adultscore=0 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301230176
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,622 +89,1399 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DSC related supporting functions to calculate DSC related parameters.
-In addition, DSC hardware encoder customized configuration parameters are
-also included. Algorithms used to perform calculation are derived from
-system engineer spreadsheet.
+This patch provides DSC required functions at DP controller to
+complete DSC feature. those functions include enable fec, configure
+dsc, configure dto, transmit pps and finally flush hardware registers.
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- drivers/gpu/drm/msm/Makefile                   |   1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.c | 537 +++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.h |  25 ++
- drivers/gpu/drm/msm/msm_drv.h                  |   4 +
- 4 files changed, 567 insertions(+)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.c
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.h
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 139 ++++++++-
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  93 ++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 132 ++++++++-
+ drivers/gpu/drm/msm/dp/dp_display.c |  61 +++-
+ drivers/gpu/drm/msm/dp/dp_panel.c   | 570 +++++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_panel.h   |   4 +
+ drivers/gpu/drm/msm/dp/dp_reg.h     |  40 ++-
+ drivers/gpu/drm/msm/msm_drv.h       |  16 +
+ 8 files changed, 1033 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 7274c412..28cf52b 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -65,6 +65,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
- 	disp/dpu1/dpu_hw_catalog.o \
- 	disp/dpu1/dpu_hw_ctl.o \
- 	disp/dpu1/dpu_hw_dsc.o \
-+	disp/dpu1/dpu_dsc_helper.o \
- 	disp/dpu1/dpu_hw_interrupts.o \
- 	disp/dpu1/dpu_hw_intf.o \
- 	disp/dpu1/dpu_hw_lm.o \
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.c
-new file mode 100644
-index 00000000..48cef23
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.c
-@@ -0,0 +1,537 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2012-2023 The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2023. Qualcomm Innovation Center, Inc. All rights reserved
-+ */
-+
-+#include "msm_drv.h"
-+#include "dpu_kms.h"
-+#include "dpu_hw_dsc.h"
-+#include "dpu_dsc_helper.h"
-+
-+
-+#define DPU_DSC_PPS_SIZE       128
-+
-+enum dpu_dsc_ratio_type {
-+	DSC_V11_8BPC_8BPP,
-+	DSC_V11_10BPC_8BPP,
-+	DSC_V11_10BPC_10BPP,
-+	DSC_V11_SCR1_8BPC_8BPP,
-+	DSC_V11_SCR1_10BPC_8BPP,
-+	DSC_V11_SCR1_10BPC_10BPP,
-+	DSC_V12_444_8BPC_8BPP = DSC_V11_SCR1_8BPC_8BPP,
-+	DSC_V12_444_10BPC_8BPP = DSC_V11_SCR1_10BPC_8BPP,
-+	DSC_V12_444_10BPC_10BPP = DSC_V11_SCR1_10BPC_10BPP,
-+	DSC_V12_422_8BPC_7BPP,
-+	DSC_V12_422_8BPC_8BPP,
-+	DSC_V12_422_10BPC_7BPP,
-+	DSC_V12_422_10BPC_10BPP,
-+	DSC_V12_420_8BPC_6BPP,
-+	DSC_V12_420_10BPC_6BPP,
-+	DSC_V12_420_10BPC_7_5BPP,
-+	DSC_RATIO_TYPE_MAX
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+index 7ac37d8..20a86e7 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.c
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+@@ -48,6 +48,11 @@
+ #define DP_INTERRUPT_STATUS2_MASK \
+ 	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_MASK_SHIFT)
+ 
++enum dp_flush_bit {
++	DP_PPS_FLUSH,
++	DP_DHDR_FLUSH,
 +};
 +
-+
-+static u16 dpu_dsc_rc_buf_thresh[DSC_NUM_BUF_RANGES - 1] = {
-+		0x0e, 0x1c, 0x2a, 0x38, 0x46, 0x54,
-+		0x62, 0x69, 0x70, 0x77, 0x79, 0x7b, 0x7d, 0x7e
-+};
-+
-+/*
-+ * Rate control - Min QP values for each ratio type in dpu_dsc_ratio_type
-+ */
-+static char dpu_dsc_rc_range_min_qp[DSC_RATIO_TYPE_MAX][DSC_NUM_BUF_RANGES] = {
-+	/* DSC v1.1 */
-+	{0, 0, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 7, 13},
-+	{0, 4, 5, 5, 7, 7, 7, 7, 7, 7, 9, 9, 9, 11, 17},
-+	{0, 4, 5, 6, 7, 7, 7, 7, 7, 7, 9, 9, 9, 11, 15},
-+	/* DSC v1.1 SCR and DSC v1.2 RGB 444 */
-+	{0, 0, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 9, 12},
-+	{0, 4, 5, 5, 7, 7, 7, 7, 7, 7, 9, 9, 9, 13, 16},
-+	{0, 4, 5, 6, 7, 7, 7, 7, 7, 7, 9, 9, 9, 11, 15},
-+	/* DSC v1.2 YUV422 */
-+	{0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 5, 5, 5, 7, 11},
-+	{0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 5, 5, 5, 7, 10},
-+	{0, 4, 5, 6, 7, 7, 7, 7, 7, 7, 9, 9, 9, 11, 15},
-+	{0, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 8, 9, 11, 12},
-+	/* DSC v1.2 YUV420 */
-+	{0, 0, 1, 1, 3, 3, 3, 3, 3, 3, 5, 5, 5, 7, 10},
-+	{0, 2, 3, 4, 6, 7, 7, 7, 7, 7, 9, 9, 9, 11, 14},
-+	{0, 2, 3, 4, 5, 5, 5, 6, 6, 7, 8, 8, 9, 11, 12},
-+};
-+
-+/*
-+ * Rate control - Max QP values for each ratio type in dpu_dsc_ratio_type
-+ */
-+static char dpu_dsc_rc_range_max_qp[DSC_RATIO_TYPE_MAX][DSC_NUM_BUF_RANGES] = {
-+	/* DSC v1.1 */
-+	{4, 4, 5, 6, 7, 7, 7, 8, 9, 10, 11, 12, 13, 13, 15},
-+	{4, 8, 9, 10, 11, 11, 11, 12, 13, 14, 15, 16, 17, 17, 19},
-+	{7, 8, 9, 10, 11, 11, 11, 12, 13, 13, 14, 14, 15, 15, 16},
-+	/* DSC v1.1 SCR and DSC v1.2 RGB 444 */
-+	{4, 4, 5, 6, 7, 7, 7, 8, 9, 10, 10, 11, 11, 12, 13},
-+	{8, 8, 9, 10, 11, 11, 11, 12, 13, 14, 14, 15, 15, 16, 17},
-+	{7, 8, 9, 10, 11, 11, 11, 12, 13, 13, 14, 14, 15, 15, 16},
-+	/* DSC v1.2 YUV422 */
-+	{3, 4, 5, 6, 7, 7, 7, 8, 9, 9, 10, 10, 11, 11, 12},
-+	{2, 4, 5, 6, 7, 7, 7, 8, 8, 9, 9, 9, 9, 10, 11},
-+	{7, 8, 9, 10, 11, 11, 11, 12, 13, 13, 14, 14, 15, 15, 16},
-+	{2, 5, 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 13},
-+	/* DSC v1.2 YUV420 */
-+	{2, 4, 5, 6, 7, 7, 7, 8, 8, 9, 9, 9, 9, 10, 12},
-+	{2, 5, 7, 8, 9, 10, 11, 12, 12, 13, 13, 13, 13, 14, 15},
-+	{2, 5, 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 13},
-+	};
-+
-+/*
-+ * Rate control - bpg offset values for each ratio type in dpu_dsc_ratio_type
-+ */
-+static char dpu_dsc_rc_range_bpg[DSC_RATIO_TYPE_MAX][DSC_NUM_BUF_RANGES] = {
-+	/* DSC v1.1 */
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12},
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12},
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12},
-+	/* DSC v1.1 SCR and DSC V1.2 RGB 444 */
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12},
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12},
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12},
-+	/* DSC v1.2 YUV422 */
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12},
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12},
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -10, -12, -12, -12},
-+	{10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12},
-+	/* DSC v1.2 YUV420 */
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12},
-+	{2, 0, 0, -2, -4, -6, -8, -8, -8, -10, -10, -12, -12, -12, -12},
-+	{10, 8, 6, 4, 2, 0, -2, -4, -6, -8, -10, -10, -12, -12, -12},
-+};
-+
-+static struct dpu_dsc_rc_init_params_lut {
-+	u32 rc_quant_incr_limit0;
-+	u32 rc_quant_incr_limit1;
-+	u32 initial_fullness_offset;
-+	u32 initial_xmit_delay;
-+	u32 second_line_bpg_offset;
-+	u32 second_line_offset_adj;
-+	u32 flatness_min_qp;
-+	u32 flatness_max_qp;
-+}  dpu_dsc_rc_init_param_lut[] = {
-+	/* DSC v1.1 */
-+	{11, 11, 6144, 512, 0, 0, 3, 12}, /* DSC_V11_8BPC_8BPP */
-+	{15, 15, 6144, 512, 0, 0, 7, 16}, /* DSC_V11_10BPC_8BPP */
-+	{15, 15, 5632, 410, 0, 0, 7, 16}, /* DSC_V11_10BPC_10BPP */
-+	/* DSC v1.1 SCR and DSC v1.2 RGB 444 */
-+	{11, 11, 6144, 512, 0, 0, 3, 12}, /* DSC_V12_444_8BPC_8BPP or DSC_V11_SCR1_8BPC_8BPP */
-+	{15, 15, 6144, 512, 0, 0, 7, 16}, /* DSC_V12_444_10BPC_8BPP or DSC_V11_SCR1_10BPC_8BPP */
-+	{15, 15, 5632, 410, 0, 0, 7, 16}, /* DSC_V12_444_10BPC_10BPP or DSC_V11_SCR1_10BPC_10BPP */
-+	/* DSC v1.2 YUV422 */
-+	{11, 11, 5632, 410, 0, 0, 3, 12}, /* DSC_V12_422_8BPC_7BPP */
-+	{11, 11, 2048, 341, 0, 0, 3, 12}, /* DSC_V12_422_8BPC_8BPP */
-+	{15, 15, 5632, 410, 0, 0, 7, 16}, /* DSC_V12_422_10BPC_7BPP */
-+	{15, 15, 2048, 273, 0, 0, 7, 16}, /* DSC_V12_422_10BPC_10BPP */
-+	/* DSC v1.2 YUV420 */
-+	{11, 11, 5632, 410, 0, 0, 3, 12},    /* DSC_V12_422_8BPC_7BPP */
-+	{11, 11, 2048, 341, 12, 512, 3, 12}, /* DSC_V12_420_8BPC_6BPP */
-+	{15, 15, 2048, 341, 12, 512, 7, 16}, /* DSC_V12_420_10BPC_6BPP */
-+	{15, 15, 2048, 256, 12, 512, 7, 16}, /* DSC_V12_420_10BPC_7_5BPP */
-+};
-+
-+/**
-+ * Maps to lookup the dpu_dsc_ratio_type index used in rate control tables
-+ */
-+static struct dpu_dsc_table_index_lut {
-+	u32 fmt;
-+	u32 scr_ver;
-+	u32 minor_ver;
-+	u32 bpc;
-+	u32 bpp;
-+	u32 type;
-+} dpu_dsc_index_map[] = {
-+	/* DSC 1.1 formats - scr version is considered */
-+	{MSM_CHROMA_444, 0, 1, 8, 8, DSC_V11_8BPC_8BPP},
-+	{MSM_CHROMA_444, 0, 1, 10, 8, DSC_V11_10BPC_8BPP},
-+	{MSM_CHROMA_444, 0, 1, 10, 10, DSC_V11_10BPC_10BPP},
-+
-+	{MSM_CHROMA_444, 1, 1, 8, 8, DSC_V11_SCR1_8BPC_8BPP},
-+	{MSM_CHROMA_444, 1, 1, 10, 8, DSC_V11_SCR1_10BPC_8BPP},
-+	{MSM_CHROMA_444, 1, 1, 10, 10, DSC_V11_SCR1_10BPC_10BPP},
-+
-+	/* DSC 1.2 formats - scr version is no-op */
-+	{MSM_CHROMA_444, -1, 2, 8, 8, DSC_V12_444_8BPC_8BPP},
-+	{MSM_CHROMA_444, -1, 2, 10, 8, DSC_V12_444_10BPC_8BPP},
-+	{MSM_CHROMA_444, -1, 2, 10, 10, DSC_V12_444_10BPC_10BPP},
-+
-+	{MSM_CHROMA_422, -1, 2, 8, 7, DSC_V12_422_8BPC_7BPP},
-+	{MSM_CHROMA_422, -1, 2, 8, 8, DSC_V12_422_8BPC_8BPP},
-+	{MSM_CHROMA_422, -1, 2, 10, 7, DSC_V12_422_10BPC_7BPP},
-+	{MSM_CHROMA_422, -1, 2, 10, 10, DSC_V12_422_10BPC_10BPP},
-+
-+	{MSM_CHROMA_420, -1, 2, 8, 6, DSC_V12_420_8BPC_6BPP},
-+	{MSM_CHROMA_420, -1, 2, 10, 6, DSC_V12_420_10BPC_6BPP},
-+};
-+
-+static int _get_rc_table_index(struct drm_dsc_config *dsc, int scr_ver)
+ struct dp_catalog_private {
+ 	struct device *dev;
+ 	struct drm_device *drm_dev;
+@@ -277,6 +282,30 @@ static void dump_regs(void __iomem *base, int len)
+ 	}
+ }
+ 
++void dp_catalog_fec_config(struct dp_catalog *dp_catalog, bool enable)
 +{
-+	u32 bpp, bpc, i, fmt = MSM_CHROMA_444;
++	struct dp_catalog_private *catalog = container_of(dp_catalog,
++		struct dp_catalog_private, dp_catalog);
++	u32 reg;
 +
-+	if (dsc->dsc_version_major != 0x1) {
-+		DPU_ERROR("unsupported major version %d\n",
-+				dsc->dsc_version_major);
-+		return -EINVAL;
-+	}
++	reg = dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
 +
-+	bpc = dsc->bits_per_component;
-+	bpp = DSC_BPP(*dsc);
-+
-+	if (dsc->native_422)
-+		fmt = MSM_CHROMA_422;
-+	else if (dsc->native_420)
-+		fmt = MSM_CHROMA_420;
-+
-+
-+	for (i = 0; i < ARRAY_SIZE(dpu_dsc_index_map); i++) {
-+		if (dsc->dsc_version_minor == dpu_dsc_index_map[i].minor_ver &&
-+				fmt ==  dpu_dsc_index_map[i].fmt &&
-+				bpc == dpu_dsc_index_map[i].bpc &&
-+				bpp == dpu_dsc_index_map[i].bpp &&
-+				(dsc->dsc_version_minor != 0x1 ||
-+					scr_ver == dpu_dsc_index_map[i].scr_ver))
-+			return dpu_dsc_index_map[i].type;
-+	}
-+
-+	DPU_ERROR("unsupported DSC v%d.%dr%d, bpc:%d, bpp:%d, fmt:0x%x\n",
-+			dsc->dsc_version_major, dsc->dsc_version_minor,
-+			scr_ver, bpc, bpp, fmt);
-+	return -EINVAL;
-+}
-+
-+u8 _get_dsc_v1_2_bpg_offset(struct drm_dsc_config *dsc)
-+{
-+	u8 bpg_offset = 0;
-+	u8 uncompressed_bpg_rate;
-+	u8 bpp = DSC_BPP(*dsc);
-+
-+	if (dsc->slice_height < 8)
-+		bpg_offset = 2 * (dsc->slice_height - 1);
-+	else if (dsc->slice_height < 20)
-+		bpg_offset = 12;
-+	else if (dsc->slice_height <= 30)
-+		bpg_offset = 13;
-+	else if (dsc->slice_height < 42)
-+		bpg_offset = 14;
-+	else
-+		bpg_offset = 15;
-+
-+	if (dsc->native_422)
-+		uncompressed_bpg_rate = 3 * bpp * 4;
-+	else if (dsc->native_420)
-+		uncompressed_bpg_rate = 3 * bpp;
-+	else
-+		uncompressed_bpg_rate = (3 * bpp + 2) * 3;
-+
-+	if (bpg_offset < (uncompressed_bpg_rate - (3 * bpp)))
-+		return bpg_offset;
-+	else
-+		return (uncompressed_bpg_rate - (3 * bpp));
-+}
-+
-+int dpu_dsc_populate_dsc_config(struct drm_dsc_config *dsc, int scr_ver)
-+{
-+	int bpp, bpc;
-+	int groups_per_line, groups_total;
-+	int min_rate_buffer_size;
-+	int hrd_delay;
-+	int pre_num_extra_mux_bits, num_extra_mux_bits;
-+	int slice_bits;
-+	int data;
-+	int final_value, final_scale;
-+	struct dpu_dsc_rc_init_params_lut *rc_param_lut;
-+	u32 slice_width_mod;
-+	int i, ratio_idx;
-+
-+	dsc->rc_model_size = 8192;
-+
-+	if ((dsc->dsc_version_major == 0x1) &&
-+			(dsc->dsc_version_minor == 0x1)) {
-+		if (scr_ver == 0x1)
-+			dsc->first_line_bpg_offset = 15;
-+		else
-+			dsc->first_line_bpg_offset = 12;
-+	} else if (dsc->dsc_version_minor == 0x2) {
-+		dsc->first_line_bpg_offset = _get_dsc_v1_2_bpg_offset(dsc);
-+	}
-+
-+	dsc->rc_edge_factor = 6;
-+	dsc->rc_tgt_offset_high = 3;
-+	dsc->rc_tgt_offset_low = 3;
-+	dsc->simple_422 = 0;
-+	dsc->convert_rgb = !(dsc->native_422 | dsc->native_420);
-+	dsc->vbr_enable = 0;
-+
-+	bpp = DSC_BPP(*dsc);
-+	bpc = dsc->bits_per_component;
-+
-+	ratio_idx = _get_rc_table_index(dsc, scr_ver);
-+	if ((ratio_idx < 0) || (ratio_idx >= DSC_RATIO_TYPE_MAX))
-+		return -EINVAL;
-+
-+
-+	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++)
-+		dsc->rc_buf_thresh[i] = dpu_dsc_rc_buf_thresh[i];
-+
-+	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
-+		dsc->rc_range_params[i].range_min_qp =
-+			dpu_dsc_rc_range_min_qp[ratio_idx][i];
-+		dsc->rc_range_params[i].range_max_qp =
-+			dpu_dsc_rc_range_max_qp[ratio_idx][i];
-+		dsc->rc_range_params[i].range_bpg_offset =
-+			dpu_dsc_rc_range_bpg[ratio_idx][i];
-+	}
-+
-+	rc_param_lut = &dpu_dsc_rc_init_param_lut[ratio_idx];
-+	dsc->rc_quant_incr_limit0 = rc_param_lut->rc_quant_incr_limit0;
-+	dsc->rc_quant_incr_limit1 = rc_param_lut->rc_quant_incr_limit1;
-+	dsc->initial_offset = rc_param_lut->initial_fullness_offset;
-+	dsc->initial_xmit_delay = rc_param_lut->initial_xmit_delay;
-+	dsc->second_line_bpg_offset = rc_param_lut->second_line_bpg_offset;
-+	dsc->second_line_offset_adj = rc_param_lut->second_line_offset_adj;
-+	dsc->flatness_min_qp = rc_param_lut->flatness_min_qp;
-+	dsc->flatness_max_qp = rc_param_lut->flatness_max_qp;
-+
-+	slice_width_mod = dsc->slice_width;
-+	if (dsc->native_422 || dsc->native_420) {
-+		slice_width_mod = dsc->slice_width / 2;
-+		bpp = bpp * 2;
-+	}
-+
-+	dsc->line_buf_depth = bpc + 1;
-+	dsc->mux_word_size = bpc > 10 ? DSC_MUX_WORD_SIZE_12_BPC : DSC_MUX_WORD_SIZE_8_10_BPC;
-+
-+	if ((dsc->dsc_version_minor == 0x2) && (dsc->native_420))
-+		dsc->nsl_bpg_offset = (2048 * (DIV_ROUND_UP(dsc->second_line_bpg_offset,
-+				(dsc->slice_height - 1))));
-+
-+	groups_per_line = DIV_ROUND_UP(slice_width_mod, 3);
-+
-+	dsc->slice_chunk_size = slice_width_mod * bpp / 8;
-+	if ((slice_width_mod * bpp) % 8)
-+		dsc->slice_chunk_size++;
-+
-+	/* rbs-min */
-+	min_rate_buffer_size =  dsc->rc_model_size - dsc->initial_offset +
-+			dsc->initial_xmit_delay * bpp +
-+			groups_per_line * dsc->first_line_bpg_offset;
-+
-+	hrd_delay = DIV_ROUND_UP(min_rate_buffer_size, bpp);
-+
-+	dsc->initial_dec_delay = hrd_delay - dsc->initial_xmit_delay;
-+
-+	dsc->initial_scale_value = 8 * dsc->rc_model_size /
-+			(dsc->rc_model_size - dsc->initial_offset);
-+
-+	slice_bits = 8 * dsc->slice_chunk_size * dsc->slice_height;
-+
-+	groups_total = groups_per_line * dsc->slice_height;
-+
-+	data = dsc->first_line_bpg_offset * 2048;
-+
-+	dsc->nfl_bpg_offset = DIV_ROUND_UP(data, (dsc->slice_height - 1));
-+
-+	if (dsc->native_422)
-+		pre_num_extra_mux_bits = 4 * dsc->mux_word_size + (4 * bpc + 4) + (3 * 4 * bpc) - 2;
-+	else if (dsc->native_420)
-+		pre_num_extra_mux_bits = 3 * dsc->mux_word_size + (4 * bpc + 4) + (2 * 4 * bpc) - 2;
-+	else
-+		pre_num_extra_mux_bits = 3 * (dsc->mux_word_size + (4 * bpc + 4) - 2);
-+
-+	num_extra_mux_bits = pre_num_extra_mux_bits - (dsc->mux_word_size -
-+		((slice_bits - pre_num_extra_mux_bits) % dsc->mux_word_size));
-+
-+	data = 2048 * (dsc->rc_model_size - dsc->initial_offset
-+		+ num_extra_mux_bits);
-+	dsc->slice_bpg_offset = DIV_ROUND_UP(data, groups_total);
-+
-+	data = dsc->initial_xmit_delay * bpp;
-+	final_value =  dsc->rc_model_size - data + num_extra_mux_bits;
-+
-+	final_scale = 8 * dsc->rc_model_size /
-+		(dsc->rc_model_size - final_value);
-+
-+	dsc->final_offset = final_value;
-+
-+	data = (final_scale - 9) * (dsc->nfl_bpg_offset +
-+		dsc->slice_bpg_offset);
-+	dsc->scale_increment_interval = (2048 * dsc->final_offset) / data;
-+
-+	dsc->scale_decrement_interval = groups_per_line /
-+		(dsc->initial_scale_value - 8);
-+
-+	return 0;
-+}
-+
-+bool dpu_dsc_ich_reset_override_needed(bool pu_en,
-+		struct msm_display_dsc_info *dsc_info)
-+{
 +	/*
-+	 * As per the DSC spec, ICH_RESET can be either end of the slice line
-+	 * or at the end of the slice. HW internally generates ich_reset at
-+	 * end of the slice line if DSC_MERGE is used or encoder has two
-+	 * soft slices. However, if encoder has only 1 soft slice and DSC_MERGE
-+	 * is not used then it will generate ich_reset at the end of slice.
-+	 *
-+	 * Now as per the spec, during one PPS session, position where
-+	 * ich_reset is generated should not change. Now if full-screen frame
-+	 * has more than 1 soft slice then HW will automatically generate
-+	 * ich_reset at the end of slice_line. But for the same panel, if
-+	 * partial frame is enabled and only 1 encoder is used with 1 slice,
-+	 * then HW will generate ich_reset at end of the slice. This is a
-+	 * mismatch. Prevent this by overriding HW's decision.
++	 * fec_en = BIT(12)
++	 * fec_seq_mode = BIT(22)
++	 * sde_flush = BIT(23) | BIT(24)
++	 * fb_boundary_sel = BIT(25)
 +	 */
-+	return pu_en && dsc_info && (dsc_info->drm_dsc.slice_count > 1) &&
-+		(dsc_info->drm_dsc.slice_width == dsc_info->drm_dsc.pic_width);
++	if (enable)
++		reg |= BIT(12) | BIT(22) | BIT(23) | BIT(24) | BIT(25);
++	else
++		reg &= ~BIT(12);
++
++	dp_write_link(catalog, REG_DP_MAINLINK_CTRL, reg);
++	/* make sure mainlink configuration is updated with fec sequence */
++	wmb();
 +}
 +
-+int dpu_dsc_initial_line_calc(struct msm_display_dsc_info *dsc_info,
-+				int enc_ip_width, int dsc_cmn_mode)
+ void dp_catalog_dump_regs(struct dp_catalog *dp_catalog)
+ {
+ 	struct dp_catalog_private *catalog = container_of(dp_catalog,
+@@ -344,6 +373,54 @@ void dp_catalog_ctrl_config_ctrl(struct dp_catalog *dp_catalog, u32 cfg)
+ 	dp_write_link(catalog, REG_DP_CONFIGURATION_CTRL, cfg);
+ }
+ 
++void dp_catalog_config_dsc_dto(struct dp_catalog *dp_catalog)
 +{
-+	int max_ssm_delay, max_se_size, max_muxword_size;
-+	int compress_bpp_group, obuf_latency, input_ssm_out_latency;
-+	int base_hs_latency, chunk_bits, ob_data_width;
-+	int output_rate_extra_budget_bits, multi_hs_extra_budget_bits;
-+	int multi_hs_extra_latency,  mux_word_size;
-+	int ob_data_width_4comps, ob_data_width_3comps;
-+	int output_rate_ratio_complement, container_slice_width;
-+	int rtl_num_components, multi_hs_c, multi_hs_d;
++	struct dp_catalog_private *catalog = container_of(dp_catalog,
++				struct dp_catalog_private, dp_catalog);
++	struct dp_dsc_cfg_data *dsc_data = &dp_catalog->dsc_data;
++	u32 reg;
 +
-+	int bpc = dsc_info->drm_dsc.bits_per_component;
-+	int bpp = DSC_BPP(dsc_info->drm_dsc);
-+	bool native_422 = dsc_info->drm_dsc.native_422;
-+	bool native_420 = dsc_info->drm_dsc.native_420;
++	dp_write_p0(catalog, MMSS_DP_DSC_DTO_COUNT, dsc_data->dto_count);
 +
-+	/* Hardent core config */
-+	int multiplex_mode_enable = 0, split_panel_enable = 0;
-+	int rtl_max_bpc = 10, rtl_output_data_width = 64;
-+	int pipeline_latency = 28;
++	reg = dp_read_p0(catalog, MMSS_DP_DSC_DTO);
 +
-+	if (dsc_cmn_mode & DSC_MODE_MULTIPLEX)
-+		multiplex_mode_enable = 1;
-+	if (dsc_cmn_mode & DSC_MODE_SPLIT_PANEL)
-+		split_panel_enable = 1;
-+	container_slice_width = (native_422 ?
-+			dsc_info->drm_dsc.slice_width / 2 : dsc_info->drm_dsc.slice_width);
-+	max_muxword_size = (rtl_max_bpc >= 12) ? 64 : 48;
-+	max_se_size = 4 * (rtl_max_bpc + 1);
-+	max_ssm_delay = max_se_size + max_muxword_size - 1;
-+	mux_word_size = (bpc >= 12) ? 64 : 48;
-+	compress_bpp_group = native_422 ? (2 * bpp) : bpp;
-+	input_ssm_out_latency = pipeline_latency + 3 * (max_ssm_delay + 2)
-+			* dsc_info->num_active_ss_per_enc;
-+	rtl_num_components = (native_420 || native_422) ? 4 : 3;
-+	ob_data_width_4comps = (rtl_output_data_width >= (2 *
-+			max_muxword_size)) ?
-+			rtl_output_data_width :
-+			(2 * rtl_output_data_width);
-+	ob_data_width_3comps = (rtl_output_data_width >= max_muxword_size) ?
-+			rtl_output_data_width : 2 * rtl_output_data_width;
-+	ob_data_width = (rtl_num_components == 4) ?
-+			ob_data_width_4comps : ob_data_width_3comps;
-+	obuf_latency = DIV_ROUND_UP((9 * ob_data_width + mux_word_size),
-+			compress_bpp_group) + 1;
-+	base_hs_latency = dsc_info->drm_dsc.initial_xmit_delay +
-+		input_ssm_out_latency + obuf_latency;
-+	chunk_bits = 8 * dsc_info->drm_dsc.slice_chunk_size;
-+	output_rate_ratio_complement = ob_data_width - compress_bpp_group;
-+	output_rate_extra_budget_bits =
-+		(output_rate_ratio_complement * chunk_bits) >>
-+		((ob_data_width == 128) ? 7 : 6);
-+	multi_hs_c = split_panel_enable * multiplex_mode_enable;
-+	multi_hs_d = (dsc_info->num_active_ss_per_enc > 1) * (ob_data_width > compress_bpp_group);
-+	multi_hs_extra_budget_bits = multi_hs_c ?
-+				chunk_bits : (multi_hs_d ? chunk_bits :
-+					output_rate_extra_budget_bits);
-+	multi_hs_extra_latency = DIV_ROUND_UP(multi_hs_extra_budget_bits,
-+			compress_bpp_group);
-+	dsc_info->initial_lines = DIV_ROUND_UP((base_hs_latency +
-+				multi_hs_extra_latency),
-+			container_slice_width);
++	if (dsc_data->dto_en) {
++		reg |= BIT(0);
++		reg |= BIT(3);
++		reg |= (dsc_data->dto_n << 8);
++		reg |= (dsc_data->dto_d << 16);
++	}
++
++	dp_write_p0(catalog, MMSS_DP_DSC_DTO, reg);
++
++	reg = 0;
++	if (dsc_data->dsc_en) {
++		reg = BIT(0);
++		reg |= (dsc_data->eol_byte_num << 3);
++		reg |= (dsc_data->slice_per_pkt << 5);
++		reg |= (dsc_data->bytes_per_pkt << 16);
++		reg |= (dsc_data->be_in_lane << 10);
++	}
++	dp_write_link(catalog, DP_COMPRESSION_MODE_CTRL, reg);
++
++	drm_dbg_dp(catalog->drm_dev, "compression:0x%x\n", reg);
++}
++
++void dp_catalog_override_ack_dto(struct dp_catalog *dp_catalog, bool not_ack)
++{
++	struct dp_catalog_private *catalog = container_of(dp_catalog,
++				struct dp_catalog_private, dp_catalog);
++        u32 dsc_dto;
++
++	dsc_dto = dp_read_p0(catalog, MMSS_DP_DSC_DTO);
++        if (not_ack)
++                dsc_dto &= ~BIT(1);
++        else
++                dsc_dto = BIT(1);
++
++	dp_write_p0(catalog, MMSS_DP_DSC_DTO, dsc_dto);
++}
++
+ void dp_catalog_ctrl_lane_mapping(struct dp_catalog *dp_catalog)
+ {
+ 	struct dp_catalog_private *catalog = container_of(dp_catalog,
+@@ -429,6 +506,15 @@ void dp_catalog_ctrl_mainlink_ctrl(struct dp_catalog *dp_catalog,
+ 	}
+ }
+ 
++static void dp_catalog_sdp_update( struct dp_catalog *dp_catalog)
++{
++	struct dp_catalog_private *catalog = container_of(dp_catalog,
++				struct dp_catalog_private, dp_catalog);
++
++	dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x01);
++	dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x00);
++}
++
+ void dp_catalog_ctrl_config_misc(struct dp_catalog *dp_catalog,
+ 					u32 colorimetry_cfg,
+ 					u32 test_bits_depth)
+@@ -504,7 +590,6 @@ void dp_catalog_ctrl_config_msa(struct dp_catalog *dp_catalog,
+ 	drm_dbg_dp(catalog->drm_dev, "mvid=0x%x, nvid=0x%x\n", mvid, nvid);
+ 	dp_write_link(catalog, REG_DP_SOFTWARE_MVID, mvid);
+ 	dp_write_link(catalog, REG_DP_SOFTWARE_NVID, nvid);
+-	dp_write_p0(catalog, MMSS_DP_DSC_DTO, 0x0);
+ }
+ 
+ int dp_catalog_ctrl_set_pattern_state_bit(struct dp_catalog *dp_catalog,
+@@ -918,6 +1003,58 @@ void dp_catalog_panel_tpg_disable(struct dp_catalog *dp_catalog)
+ 	dp_write_p0(catalog, MMSS_DP_TIMING_ENGINE_EN, 0x0);
+ }
+ 
++void dp_catalog_dsc_commit_pps(struct dp_catalog *dp_catalog)
++{
++	struct dp_catalog_private *catalog = container_of(dp_catalog,
++				struct dp_catalog_private, dp_catalog);
++	struct dp_dsc_cfg_data *dsc_data = &dp_catalog->dsc_data;
++	int i;
++
++	dp_write_link(catalog, DP_PPS_HB_0_3, 0x7F1000);
++	dp_write_link(catalog, DP_PPS_PB_0_3, 0xA22300);
++
++	for (i = 0; i < dsc_data->parity_word_len; i++)
++		dp_write_link(catalog, DP_PPS_PB_4_7 + (i << 2),
++				dsc_data->parity_word[i]);
++
++	for (i = 0; i < dsc_data->pps_word_len; i++)
++		dp_write_link(catalog, DP_PPS_PPS_0_3 + (i << 2),
++				dsc_data->pps_word[i]);
++}
++
++static void dp_catalog_dp_flush(struct dp_catalog *dp_catalog,
++		enum dp_flush_bit flush_bit)
++{
++	struct dp_catalog_private *catalog = container_of(dp_catalog,
++				struct dp_catalog_private, dp_catalog);
++	u32 dp_flush;
++	struct dp_dsc_cfg_data *dsc_data = &dp_catalog->dsc_data;
++
++	dp_flush = dp_read_link(catalog, MMSS_DP_FLUSH);
++
++	dsc_data->continuous_pps = true;
++
++	if ((flush_bit == DP_PPS_FLUSH) && dsc_data->continuous_pps)
++		dp_flush &= ~BIT(2);
++
++	dp_flush |= BIT(flush_bit);
++	dp_write_link(catalog, MMSS_DP_FLUSH, dp_flush);
++
++	/*
++	 * TODO: no dp_config_sdp_update() required?
++	 */
++	dp_catalog_sdp_update(dp_catalog);
++}
++
++void dp_catalog_pps_flush(struct dp_catalog *dp_catalog)
++{
++	struct dp_catalog_private *catalog = container_of(dp_catalog,
++				struct dp_catalog_private, dp_catalog);
++
++	dp_catalog_dp_flush(dp_catalog, DP_PPS_FLUSH);
++	drm_dbg_dp(catalog->drm_dev, "pps flush\n");
++}
++
+ struct dp_catalog *dp_catalog_get(struct device *dev, struct dp_io *io)
+ {
+ 	struct dp_catalog_private *catalog;
+diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+index 990c162..537fb8d 100644
+--- a/drivers/gpu/drm/msm/dp/dp_catalog.h
++++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+@@ -62,6 +62,27 @@ enum dp_catalog_audio_header_type {
+ 	DP_AUDIO_SDP_HEADER_MAX,
+ };
+ 
++struct dp_dsc_cfg_data {
++	bool dsc_en;
++	bool continuous_pps;
++	char pps[128];
++	u32 pps_len;
++	u32 pps_word[32];
++	u32 pps_word_len;
++	u8 parity[32];
++	u8 parity_len;
++	u32 parity_word[8];
++	u32 parity_word_len;
++	u32 slice_per_pkt;
++	u32 bytes_per_pkt;
++	u32 eol_byte_num;
++	u32 be_in_lane;
++	u32 dto_en;
++	u32 dto_n;
++	u32 dto_d;
++	u32 dto_count;
++};
++
+ struct dp_catalog {
+ 	u32 aux_data;
+ 	u32 total;
+@@ -72,8 +93,74 @@ struct dp_catalog {
+ 	enum dp_catalog_audio_header_type sdp_header;
+ 	u32 audio_data;
+ 	bool wide_bus_en;
++	struct dp_dsc_cfg_data dsc_data;
+ };
+ 
++static inline u8 dp_ecc_get_g0_value(u8 data)
++{
++	u8 c[4];
++	u8 g[4];
++	u8 ret_data = 0;
++	u8 i;
++
++	for (i = 0; i < 4; i++)
++		c[i] = (data >> i) & 0x01;
++
++	g[0] = c[3];
++	g[1] = c[0] ^ c[3];
++	g[2] = c[1];
++	g[3] = c[2];
++
++	for (i = 0; i < 4; i++)
++		ret_data = ((g[i] & 0x01) << i) | ret_data;
++
++	return ret_data;
++}
++
++static inline u8 dp_ecc_get_g1_value(u8 data)
++{
++	u8 c[4];
++	u8 g[4];
++	u8 ret_data = 0;
++	u8 i;
++
++	for (i = 0; i < 4; i++)
++		c[i] = (data >> i) & 0x01;
++
++	g[0] = c[0] ^ c[3];
++	g[1] = c[0] ^ c[1] ^ c[3];
++	g[2] = c[1] ^ c[2];
++	g[3] = c[2] ^ c[3];
++
++	for (i = 0; i < 4; i++)
++		ret_data = ((g[i] & 0x01) << i) | ret_data;
++
++	return ret_data;
++}
++
++static inline u8 dp_header_get_parity(u32 data)
++{
++	u8 x0 = 0;
++	u8 x1 = 0;
++	u8 ci = 0;
++	u8 iData = 0;
++	u8 i = 0;
++	u8 parity_byte;
++	u8 num_byte = (data > 0xFF) ? 8 : 2;
++
++	for (i = 0; i < num_byte; i++) {
++		iData = (data >> i*4) & 0xF;
++
++		ci = iData ^ x1;
++		x1 = x0 ^ dp_ecc_get_g1_value(ci);
++		x0 = dp_ecc_get_g0_value(ci);
++	}
++
++	parity_byte = x1 | (x0 << 4);
++
++	return parity_byte;
++}
++
+ /* Debug module */
+ void dp_catalog_snapshot(struct dp_catalog *dp_catalog, struct msm_disp_state *disp_state);
+ 
+@@ -137,4 +224,10 @@ void dp_catalog_audio_config_sdp(struct dp_catalog *catalog);
+ void dp_catalog_audio_init(struct dp_catalog *catalog);
+ void dp_catalog_audio_sfe_level(struct dp_catalog *catalog);
+ 
++void dp_catalog_fec_config(struct dp_catalog *dp_catalog, bool enable);
++void dp_catalog_dsc_commit_pps(struct dp_catalog *catalog);
++void dp_catalog_config_dsc_dto(struct dp_catalog *catalog);
++void dp_catalog_override_ack_dto(struct dp_catalog *dp_catalog, bool not_ack);
++void dp_catalog_pps_flush(struct dp_catalog *catalog);
++
+ #endif /* _DP_CATALOG_H_ */
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index ae9c2b8..b315bf3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -134,9 +134,13 @@ static void dp_ctrl_config_ctrl(struct dp_ctrl_private *ctrl)
+ 	tbd = dp_link_get_test_bits_depth(ctrl->link,
+ 			ctrl->panel->dp_mode.bpp);
+ 
+-	if (tbd == DP_TEST_BIT_DEPTH_UNKNOWN) {
++	/*
++	 * since dsc encoder output byte stream to dp controller,
++	 * 8 bits bpc should be used as long as dsc eanabled
++	 */ 
++	if (tbd == DP_TEST_BIT_DEPTH_UNKNOWN || ctrl->panel->dsc_en) {
+ 		pr_debug("BIT_DEPTH not set. Configure default\n");
+-		tbd = DP_TEST_BIT_DEPTH_8;
++		tbd = DP_TEST_BIT_DEPTH_8 >> DP_TEST_BIT_DEPTH_SHIFT;
+ 	}
+ 
+ 	config |= tbd << DP_CONFIGURATION_CTRL_BPC_SHIFT;
+@@ -366,8 +370,8 @@ static void dp_panel_update_tu_timings(struct dp_tu_calc_input *in,
+ 	tu->lwidth_fp            = drm_fixp_from_fraction(in->hactive, 1);
+ 	tu->orig_lwidth          = in->hactive;
+ 	tu->hbp_relative_to_pclk_fp = drm_fixp_from_fraction(in->hporch, 1);
+-	tu->orig_hbp             = in->hporch;
+-	tu->rb2                  = (in->hporch <= 80) ? 1 : 0;
++        tu->orig_hbp             = in->hporch;
++	tu->rb2                  = (in->hporch < 160) ? 1 : 0;
+ 
+ 	if (tu->pixelEnc == 420) {
+ 		temp1_fp = drm_fixp_from_fraction(2, 1);
+@@ -399,6 +403,8 @@ static void dp_panel_update_tu_timings(struct dp_tu_calc_input *in,
+ 	if (!in->dsc_en)
+ 		goto fec_check;
+ 
++	tu->bpp = 24; /* hardcode to 24 if DSC is enabled */
++
+ 	temp1_fp = drm_fixp_from_fraction(in->compress_ratio, 100);
+ 	temp2_fp = drm_fixp_from_fraction(in->bpp, 1);
+ 	temp3_fp = drm_fixp_div(temp2_fp, temp1_fp);
+@@ -1076,6 +1082,11 @@ static void dp_ctrl_calc_tu_parameters(struct dp_ctrl_private *ctrl,
+ {
+ 	struct dp_tu_calc_input in;
+ 	struct drm_display_mode *drm_mode;
++	struct dp_panel_info *timing;
++	struct msm_compression_info *comp_info;
++
++	timing = &ctrl->panel->dp_mode.timing;
++	comp_info = &timing->comp_info;
+ 
+ 	drm_mode = &ctrl->panel->dp_mode.drm_mode;
+ 
+@@ -1086,12 +1097,22 @@ static void dp_ctrl_calc_tu_parameters(struct dp_ctrl_private *ctrl,
+ 	in.nlanes = ctrl->link->link_params.num_lanes;
+ 	in.bpp = ctrl->panel->dp_mode.bpp;
+ 	in.pixel_enc = 444;
+-	in.dsc_en = 0;
++	in.dsc_en = ctrl->panel->dsc_en;
+ 	in.async_en = 0;
+-	in.fec_en = 0;
++	in.fec_en = ctrl->panel->fec_en;
+ 	in.num_of_dsc_slices = 0;
+ 	in.compress_ratio = 100;
+ 
++
++	/*
++	 * TODO: only one dsc slice supported for now
++	 */
++	if (ctrl->panel->dsc_en) {
++		in.num_of_dsc_slices = 1;
++		in.compress_ratio = mult_frac(100, comp_info->src_bpp,
++                                comp_info->tgt_bpp);
++	}
++
+ 	_dp_ctrl_calc_tu(ctrl, &in, tu_table);
+ }
+ 
+@@ -1424,6 +1445,74 @@ static int dp_ctrl_link_train(struct dp_ctrl_private *ctrl,
+ 	return ret;
+ }
+ 
++static void dp_ctrl_sink_fec_enable(struct dp_ctrl_private *ctrl)
++{
++	int rlen;
++
++	rlen = drm_dp_dpcd_writeb(ctrl->aux, DP_FEC_CONFIGURATION, 0x07);
++	if (rlen < 1)
++		DRM_ERROR("failed to enable sink fec\n");
++
++
++}
++
++static void dp_ctrl_host_fec_start(struct dp_ctrl_private *ctrl)
++{
++	u8 fec_sts = 0;
++	int i, max_retries = 3;
++	bool fec_en_detected = false;
++
++	if (!ctrl->panel->fec_en)
++		return;
++
++	/* Need to try to enable multiple times due to BS symbols collisions */
++	for (i = 0; i < max_retries; i++) {
++		dp_catalog_fec_config(ctrl->catalog, true);
++
++		/* wait for controller to start fec sequence */
++		usleep_range(900, 1000);
++
++		/* read back FEC status and check if it is enabled */
++		drm_dp_dpcd_readb(ctrl->aux, DP_FEC_STATUS, &fec_sts);
++		if (fec_sts & DP_FEC_DECODE_EN_DETECTED) {
++			fec_en_detected = true;
++			break;
++		}
++	}
++
++	drm_dbg_dp(ctrl->drm_dev, "retries %d, fec_en_detected %d\n",
++				i, fec_en_detected);
++
++	if (!fec_en_detected)
++		DRM_ERROR("failed to enable sink fec\n");
++}
++
++static void dp_ctrl_host_fec_stop(struct dp_ctrl_private *ctrl)
++{
++	dp_catalog_fec_config(ctrl->catalog, false);
++}
++
++static void dp_ctrl_sink_dsc_enable(struct dp_ctrl_private *ctrl)
++{
++	int rlen;
++	u32 dsc_enable;
++	u8 xx = 0;
++
++
++	if (!ctrl->panel->fec_en)
++		return;
++
++	dsc_enable = ctrl->panel->dsc_en ? 1 : 0;
++	rlen = drm_dp_dpcd_writeb(ctrl->aux, DP_DSC_ENABLE, dsc_enable);
++	if (rlen < 1)
++		DRM_ERROR("failed to enable sink dsc\n");
++
++
++	dsc_enable = 0;
++	drm_dp_dpcd_readb(ctrl->aux, DP_DSC_ENABLE, &xx);
++
++}
++
+ static int dp_ctrl_setup_main_link(struct dp_ctrl_private *ctrl,
+ 			int *training_step)
+ {
+@@ -1442,6 +1531,9 @@ static int dp_ctrl_setup_main_link(struct dp_ctrl_private *ctrl,
+ 	 * a link training pattern, we have to first do soft reset.
+ 	 */
+ 
++	if (ctrl->panel->fec_en)
++		dp_ctrl_sink_fec_enable(ctrl);
++
+ 	ret = dp_ctrl_link_train(ctrl, training_step);
+ 
+ 	return ret;
+@@ -1986,14 +2078,25 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
+ 	 */
+ 	reinit_completion(&ctrl->video_comp);
+ 
++	if (ctrl->panel->dsc_en)
++		dp_panel_config_dsc(ctrl->panel, true);
++
+ 	dp_ctrl_configure_source_params(ctrl);
+ 
+ 	dp_catalog_ctrl_config_msa(ctrl->catalog,
+ 		ctrl->link->link_params.rate,
+ 		pixel_rate_orig, dp_ctrl_use_fixed_nvid(ctrl));
+ 
++	if (ctrl->panel->dsc_en) {
++		dp_catalog_config_dsc_dto(ctrl->catalog);
++		dp_catalog_dsc_commit_pps(ctrl->catalog);
++		dp_catalog_pps_flush(ctrl->catalog);
++	}
++
+ 	dp_ctrl_setup_tr_unit(ctrl);
+ 
++	dp_catalog_override_ack_dto(ctrl->catalog, true);
++
+ 	dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
+ 
+ 	ret = dp_ctrl_wait4video_ready(ctrl);
+@@ -2004,6 +2107,12 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
+ 	drm_dbg_dp(ctrl->drm_dev,
+ 		"mainlink %s\n", mainlink_ready ? "READY" : "NOT READY");
+ 
++	if (ctrl->panel->dsc_en) {
++		/* wait for link training completion before fec config as per spec */
++		dp_ctrl_host_fec_start(ctrl);
++		dp_ctrl_sink_dsc_enable(ctrl);
++	}
++
+ end:
+ 	return ret;
+ }
+@@ -2019,6 +2128,9 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
+ 	dp_io = &ctrl->parser->io;
+ 	phy = dp_io->phy;
+ 
++	if (ctrl->panel->dsc_en)
++		dp_panel_config_dsc(ctrl->panel, false);
++
+ 	/* set dongle to D3 (power off) mode */
+ 	dp_link_psm_config(ctrl->link, &ctrl->panel->link_info, true);
+ 
+@@ -2093,6 +2205,14 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+ 	dp_io = &ctrl->parser->io;
+ 	phy = dp_io->phy;
+ 
++	if (ctrl->panel->dsc_en) {
++		dp_ctrl_host_fec_stop(ctrl);
++		dp_panel_config_dsc(ctrl->panel, false);
++		dp_catalog_config_dsc_dto(ctrl->catalog);
++	}
++
++	dp_catalog_override_ack_dto(ctrl->catalog, false);
++
+ 	dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+ 
+ 	dp_catalog_ctrl_reset(ctrl->catalog);
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index bde1a7c..da59d13 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+  * Copyright (c) 2017-2020, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2023. Qualcomm Innovation Center, Inc. All rights reserved 
+  */
+ 
+ #include <linux/module.h>
+@@ -99,7 +100,7 @@ struct dp_display_private {
+ 	struct dp_debug   *debug;
+ 
+ 	struct dp_usbpd_cb usbpd_cb;
+-	struct dp_display_mode dp_mode;
++	struct dp_display_mode *dp_mode;
+ 	struct msm_dp dp_display;
+ 
+ 	/* wait for audio signaling */
+@@ -831,6 +832,9 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
+ 		goto error_link;
+ 	}
+ 
++	/* both dp_display and dp_panel shared same dp_mode */
++	dp->dp_mode = &dp->panel->dp_mode;
++
+ 	dp->ctrl = dp_ctrl_get(dev, dp->link, dp->panel, dp->aux,
+ 			       dp->power, dp->catalog, dp->parser);
+ 	if (IS_ERR(dp->ctrl)) {
+@@ -1662,7 +1666,7 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
+ 	bool force_link_train = false;
+ 
+ 	dp_display = container_of(dp, struct dp_display_private, dp_display);
+-	if (!dp_display->dp_mode.drm_mode.clock) {
++	if (!dp_display->dp_mode->drm_mode.clock) {
+ 		DRM_ERROR("invalid params\n");
+ 		return;
+ 	}
+@@ -1678,7 +1682,7 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
+ 		return;
+ 	}
+ 
+-	rc = dp_display_set_mode(dp, &dp_display->dp_mode);
++	rc = dp_display_set_mode(dp, dp_display->dp_mode);
+ 	if (rc) {
+ 		DRM_ERROR("Failed to perform a mode set, rc=%d\n", rc);
+ 		mutex_unlock(&dp_display->event_mutex);
+@@ -1744,6 +1748,10 @@ void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
+ 	if (state == ST_DISCONNECT_PENDING) {
+ 		/* completed disconnection */
+ 		dp_display->hpd_state = ST_DISCONNECTED;
++		if (dp_display->panel->dsc_en) {
++			dp_display->dp_mode->timing.comp_info.enabled = false;
++			dp_display->panel->dsc_en = false;
++		}
+ 	} else {
+ 		dp_display->hpd_state = ST_DISPLAY_OFF;
+ 	}
+@@ -1762,23 +1770,50 @@ void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+ 
+ 	dp_display = container_of(dp, struct dp_display_private, dp_display);
+ 
+-	memset(&dp_display->dp_mode, 0x0, sizeof(struct dp_display_mode));
++	memset(dp_display->dp_mode, 0x0, sizeof(struct dp_display_mode));
+ 
+ 	if (dp_display_check_video_test(dp))
+-		dp_display->dp_mode.bpp = dp_display_get_test_bpp(dp);
++		dp_display->dp_mode->bpp = dp_display_get_test_bpp(dp);
+ 	else /* Default num_components per pixel = 3 */
+-		dp_display->dp_mode.bpp = dp->connector->display_info.bpc * 3;
++		dp_display->dp_mode->bpp = dp->connector->display_info.bpc * 3;
++
++	if (!dp_display->dp_mode->bpp)
++		dp_display->dp_mode->bpp = 24; /* Default bpp */
++
++	drm_mode_copy(&dp_display->dp_mode->drm_mode, adjusted_mode);
++
++	dp_display->dp_mode->v_active_low =
++		!!(dp_display->dp_mode->drm_mode.flags & DRM_MODE_FLAG_NVSYNC);
++
++	dp_display->dp_mode->h_active_low =
++		!!(dp_display->dp_mode->drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
++
++
++	if (dp_display->panel->dsc_en) {
++		dp_display->dp_mode->capabilities |= DP_PANEL_CAPS_DSC;
++		dp_panel_convert_to_dp_mode(dp_display->panel, dp_display->dp_mode);
++	}
++}
+ 
+-	if (!dp_display->dp_mode.bpp)
+-		dp_display->dp_mode.bpp = 24; /* Default bpp */
++void msm_dp_bridge_mode_set(struct drm_bridge *bridge,
++				struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode)
++{ 
++	dp_bridge_mode_set(bridge, mode, adjusted_mode);
++}
+ 
+-	drm_mode_copy(&dp_display->dp_mode.drm_mode, adjusted_mode);
++struct msm_compression_info *msm_dp_bridge_get_compression(struct drm_bridge *drm_bridge)
++{
++	struct msm_dp_bridge *dp_bridge = to_dp_bridge(drm_bridge);
++	struct msm_dp *dp_display = dp_bridge->dp_display;
++	struct dp_display_private *dp;
++
++	dp = container_of(dp_display, struct dp_display_private, dp_display);
+ 
+-	dp_display->dp_mode.v_active_low =
+-		!!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NVSYNC);
++	if (!dp->panel->dsc_en)
++		return NULL;
+ 
+-	dp_display->dp_mode.h_active_low =
+-		!!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
++	return &dp->dp_mode->timing.comp_info;
+ }
+ 
+ void dp_bridge_hpd_enable(struct drm_bridge *bridge)
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index 55bb6b0..19e2f07 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -5,11 +5,12 @@
+  */
+ 
+ #include "dp_panel.h"
+-
++#include "dpu_dsc_helper.h"
+ #include <drm/drm_fixed.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_print.h>
++#include <drm/display/drm_dsc_helper.h>
+ 
+ #define DSC_TGT_BPP 10
+ 
+@@ -612,6 +613,573 @@ u8 dp_panel_get_misc_colorimetry_val(struct dp_panel *dp_panel)
+ 	return colorimetry;
+ }
+ 
++static inline int fixp2int_ceil(s64 a)
++{
++	return (a ? drm_fixp2int_ceil(a) : 0);
++}
++
++struct dp_dsc_slices_per_line {
++	u32 min_ppr;
++	u32 max_ppr;
++	u8 num_slices;
++};
++
++struct dp_dsc_peak_throughput {
++	u32 index;
++	u32 peak_throughput;
++};
++
++struct dp_dsc_slice_caps_bit_map {
++	u32 num_slices;
++	u32 bit_index;
++};
++
++const struct dp_dsc_slices_per_line slice_per_line_tbl[] = {
++	{0,     340,    1   },
++	{340,   680,    2   },
++	{680,   1360,   4   },
++	{1360,  3200,   8   },
++	{3200,  4800,   12  },
++	{4800,  6400,   16  },
++	{6400,  8000,   20  },
++	{8000,  9600,   24  }
++};
++
++const struct dp_dsc_peak_throughput peak_throughput_mode_0_tbl[] = {
++	{0, 0},
++	{1, 340},
++	{2, 400},
++	{3, 450},
++	{4, 500},
++	{5, 550},
++	{6, 600},
++	{7, 650},
++	{8, 700},
++	{9, 750},
++	{10, 800},
++	{11, 850},
++	{12, 900},
++	{13, 950},
++	{14, 1000},
++};
++
++const struct dp_dsc_slice_caps_bit_map slice_caps_bit_map_tbl[] = {
++	{1, 0},
++	{2, 1},
++	{4, 3},
++	{6, 4},
++	{8, 5},
++	{10, 6},
++	{12, 7},
++	{16, 0},
++	{20, 1},
++	{24, 2},
++};
++
++static bool dp_panel_check_slice_support(u32 num_slices, u32 raw_data_1,
++		u32 raw_data_2)
++{
++	const struct dp_dsc_slice_caps_bit_map *bcap;
++	u32 raw_data;
++	int i;
++
++	if (num_slices <= 12)
++		raw_data = raw_data_1;
++	else
++		raw_data = raw_data_2;
++
++	for (i = 0; i < ARRAY_SIZE(slice_caps_bit_map_tbl); i++) {
++		bcap = &slice_caps_bit_map_tbl[i];
++
++		if (bcap->num_slices == num_slices) {
++			raw_data &= (1 << bcap->bit_index);
++
++			if (raw_data)
++				return true;
++			else
++				return false;
++		}
++	}
++
++	return false;
++}
++
++static int dp_panel_dsc_prepare_basic_params(
++		struct msm_compression_info *comp_info,
++		const struct dp_display_mode *dp_mode,
++		struct dp_panel *dp_panel)
++{
++	struct dp_panel_private *panel;
++	struct drm_dsc_config *dsc;
++	int i;
++	const struct dp_dsc_slices_per_line *rec;
++	const struct dp_dsc_peak_throughput *tput;
++	u32 slice_width;
++	u32 ppr = dp_mode->timing.pixel_clk_khz/1000;
++	u32 max_slice_width;
++	u32 ppr_max_index;
++	u32 peak_throughput;
++	u32 ppr_per_slice;
++	u32 slice_caps_1;
++	u32 slice_caps_2;
++	u32 dsc_version_major, dsc_version_minor;
++	bool dsc_version_supported = false;
++
++	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
++
++	dsc_version_major = dp_panel->sink_dsc_caps.version & 0xF;
++	dsc_version_minor = (dp_panel->sink_dsc_caps.version >> 4) & 0xF;
++	dsc_version_supported = (dsc_version_major == 0x1 &&
++			(dsc_version_minor == 0x1 || dsc_version_minor == 0x2))
++			? true : false;
++
++	drm_dbg_dp(panel->drm_dev, "DSC version: %d.%d, dpcd value: %x\n",
++			dsc_version_major, dsc_version_minor,
++			dp_panel->sink_dsc_caps.version);
++
++	if (!dsc_version_supported) {
++		dsc_version_major = 1;
++		dsc_version_minor = 1;
++		DRM_ERROR("invalid sink DSC version, fallback to %d.%d\n",
++				dsc_version_major, dsc_version_minor);
++	}
++
++	dsc = &comp_info->msm_dsc_info.drm_dsc;
++	dsc->dsc_version_major = dsc_version_major;
++	dsc->dsc_version_minor = dsc_version_minor;
++	comp_info->msm_dsc_info.scr_rev = 0x0;
++
++
++	comp_info->msm_dsc_info.slice_per_pkt = 0;
++	for (i = 0; i < ARRAY_SIZE(slice_per_line_tbl); i++) {
++		rec = &slice_per_line_tbl[i];
++		if ((ppr > rec->min_ppr) && (ppr <= rec->max_ppr)) {
++			comp_info->msm_dsc_info.slice_per_pkt = rec->num_slices;
++			i++;
++			break;
++		}
++	}
++
++	if (comp_info->msm_dsc_info.slice_per_pkt == 0)
++		return -EINVAL;
++
++	ppr_max_index = dp_panel->dsc_dpcd[11] &= 0xf;
++	if (!ppr_max_index || ppr_max_index >= 15) {
++		drm_dbg_dp(panel->drm_dev, 
++				"Throughput mode 0 not supported");
++		return -EINVAL;
++	}
++
++	tput = &peak_throughput_mode_0_tbl[ppr_max_index];
++	peak_throughput = tput->peak_throughput;
++
++	max_slice_width = dp_panel->dsc_dpcd[12] * 320;
++	slice_width = (dp_mode->timing.h_active /
++				comp_info->msm_dsc_info.slice_per_pkt);
++
++	ppr_per_slice = ppr/comp_info->msm_dsc_info.slice_per_pkt;
++
++	slice_caps_1 = dp_panel->dsc_dpcd[4];
++	slice_caps_2 = dp_panel->dsc_dpcd[13] & 0x7;
++
++	/*
++	 * There are 3 conditions to check for sink support:
++	 * 1. The slice width cannot exceed the maximum.
++	 * 2. The ppr per slice cannot exceed the maximum.
++	 * 3. The number of slices must be explicitly supported.
++	 */
++	while (slice_width >= max_slice_width ||
++			ppr_per_slice > peak_throughput ||
++			!dp_panel_check_slice_support(
++			comp_info->msm_dsc_info.slice_per_pkt, slice_caps_1,
++			slice_caps_2)) {
++		if (i == ARRAY_SIZE(slice_per_line_tbl))
++			return -EINVAL;
++
++		rec = &slice_per_line_tbl[i];
++		comp_info->msm_dsc_info.slice_per_pkt = rec->num_slices;
++		slice_width = (dp_mode->timing.h_active /
++				comp_info->msm_dsc_info.slice_per_pkt);
++		ppr_per_slice = ppr/comp_info->msm_dsc_info.slice_per_pkt;
++		i++;
++	}
++
++	dsc->block_pred_enable = dp_panel->sink_dsc_caps.block_pred_en;
++
++	dsc->pic_width = dp_mode->timing.h_active;
++	dsc->pic_height = dp_mode->timing.v_active;
++	dsc->slice_width = slice_width;
++
++	if (dsc->pic_height % 108 == 0)
++		dsc->slice_height = 108;
++	else if (dsc->pic_height % 16 == 0)
++		dsc->slice_height = 16;
++	else if (dsc->pic_height % 12 == 0)
++		dsc->slice_height = 12;
++	else
++		dsc->slice_height = 15;
++
++	dsc->bits_per_component = (dp_mode->timing.bpp / 3);
++	dsc->bits_per_pixel = DSC_TGT_BPP << 4;
++	dsc->slice_count = DIV_ROUND_UP(dp_mode->timing.h_active, slice_width);
++
++	comp_info->comp_type = MSM_DISPLAY_COMPRESSION_DSC;
++	comp_info->tgt_bpp = DSC_TGT_BPP;
++	comp_info->src_bpp = dp_mode->timing.bpp;
++	comp_info->comp_ratio = dp_mode->timing.bpp / DSC_TGT_BPP;
++	comp_info->enabled = true;
 +
 +	return 0;
 +}
 +
-+int dpu_dsc_populate_dsc_private_params(struct msm_display_dsc_info *dsc_info,
-+					int intf_width)
++static void dp_panel_get_dto_params(u32 src_bpp, u32 tgt_bpp, u32 *num, u32 *denom)
 +{
-+	int  mod_offset;
++	if ((tgt_bpp == 12) && (src_bpp == 24)) {
++		*num = 1;
++		*denom = 2;
++	} else if ((tgt_bpp == 15) && (src_bpp == 30)) {
++		*num = 5;
++		*denom = 8;
++	} else if ((tgt_bpp == 8) && ((src_bpp == 24) || (src_bpp == 30))) {
++		*num = 1;
++		*denom = 3;
++	} else if ((tgt_bpp == 10) && (src_bpp == 30)) {
++		*num = 5;
++		*denom = 12;
++	} else {
++		DRM_ERROR("dto params not found\n");
++		*num = 0;
++		*denom = 1;
++	}
++}
++
++static void dp_panel_dsc_prepare_pps_packet(struct dp_panel *dp_panel)
++{
++	struct dp_panel_private *panel;
++	struct dp_dsc_cfg_data *dsc_data;
++	u8 *pps, *parity;
++	u32 *pps_word, *parity_word;
++	int i, index_4;
++
++	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
++
++	dsc_data = &panel->catalog->dsc_data;
++	pps = dsc_data->pps;
++	pps_word = dsc_data->pps_word;
++	parity = dsc_data->parity;
++	parity_word = dsc_data->parity_word;
++
++	memset(parity, 0, sizeof(dsc_data->parity));
++
++	dsc_data->pps_word_len = dsc_data->pps_len >> 2;
++	dsc_data->parity_len = dsc_data->pps_word_len;
++	dsc_data->parity_word_len = (dsc_data->parity_len >> 2) + 1;
++
++	for (i = 0; i < dsc_data->pps_word_len; i++) {
++		index_4 = i << 2;
++		pps_word[i] = pps[index_4 + 0] << 0 |
++				pps[index_4 + 1] << 8 |
++				pps[index_4 + 2] << 16 |
++				pps[index_4 + 3] << 24;
++
++		parity[i] = dp_header_get_parity(pps_word[i]);
++	}
++
++	for (i = 0; i < dsc_data->parity_word_len; i++) {
++		index_4 = i << 2;
++		parity_word[i] = parity[index_4 + 0] << 0 |
++				   parity[index_4 + 1] << 8 |
++				   parity[index_4 + 2] << 16 |
++				   parity[index_4 + 3] << 24;
++	}
++}
++
++void dp_panel_config_dsc(struct dp_panel *dp_panel, bool enable)
++{
++	struct dp_panel_private *panel;
++	struct dp_panel_info *timing;
++	struct msm_compression_info *comp_info;
++	struct dp_dsc_cfg_data *dsc_data;
++	struct drm_dsc_picture_parameter_set *pps_payload;
++	struct drm_dsc_config *dsc;
++
++	if (!dp_panel->dsc_en)
++		return;
++
++	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
++
++	dsc_data = &panel->catalog->dsc_data;
++	timing = &dp_panel->dp_mode.timing;
++	comp_info = &timing->comp_info;
++	dsc = &comp_info->msm_dsc_info.drm_dsc;
++
++	if (comp_info->comp_type == MSM_DISPLAY_COMPRESSION_DSC && enable) {
++		memset(dsc_data->pps, 0, sizeof(dsc_data->pps));
++		pps_payload = (struct drm_dsc_picture_parameter_set *)dsc_data->pps;
++		drm_dsc_pps_payload_pack(pps_payload, dsc);
++
++		dsc_data->pps_len = DSC_1_1_PPS_PARAMETER_SET_ELEMENTS;
++		dp_panel_dsc_prepare_pps_packet(dp_panel);
++
++		dsc_data->slice_per_pkt = comp_info->msm_dsc_info.slice_per_pkt - 1;
++		dsc_data->bytes_per_pkt = comp_info->msm_dsc_info.bytes_per_pkt;
++		dsc_data->bytes_per_pkt /= comp_info->msm_dsc_info.slice_per_pkt;
++		dsc_data->eol_byte_num = comp_info->msm_dsc_info.eol_byte_num;
++		dsc_data->dto_count = comp_info->msm_dsc_info.pclk_per_line;
++		dsc_data->be_in_lane = 10;
++		dsc_data->dsc_en = true;
++		dsc_data->dto_en = true;
++		dp_panel_get_dto_params(comp_info->src_bpp, comp_info->tgt_bpp, &dsc_data->dto_n,
++				&dsc_data->dto_d);
++	} else {
++		dsc_data->dsc_en = false;
++		dsc_data->dto_en = false;
++		dsc_data->dto_n = 0;
++		dsc_data->dto_d = 0;
++		dsc_data->continuous_pps = false;
++	}
++}
++
++static void _dp_panel_dsc_get_num_extra_pclk(struct msm_compression_info *comp_info)
++{
++	unsigned int dto_n = 0, dto_d = 0, remainder;
++	int ack_required, last_few_ack_required, accum_ack;
++	int last_few_pclk, last_few_pclk_required;
++	struct msm_display_dsc_info *dsc_info = &comp_info->msm_dsc_info;
++	int start, temp, line_width = dsc_info->drm_dsc.pic_width/2;
++	s64 temp1_fp, temp2_fp;
++
++	dp_panel_get_dto_params(comp_info->src_bpp, comp_info->tgt_bpp, &dto_n, &dto_d);
++
++	ack_required = dsc_info->pclk_per_line;
++
++	/* number of pclk cycles left outside of the complete DTO set */
++	last_few_pclk = line_width % dto_d;
++
++	/* number of pclk cycles outside of the complete dto */
++	temp1_fp = drm_fixp_from_fraction(line_width, dto_d);
++	temp2_fp = drm_fixp_from_fraction(dto_n, 1);
++	temp1_fp = drm_fixp_mul(temp1_fp, temp2_fp);
++	temp = drm_fixp2int(temp1_fp);
++	last_few_ack_required = ack_required - temp;
++
++	/*
++	 * check how many more pclk is needed to
++	 * accommodate the last few ack required
++	 */
++	remainder = dto_n;
++	accum_ack = 0;
++	last_few_pclk_required = 0;
++	while (accum_ack < last_few_ack_required) {
++		last_few_pclk_required++;
++
++		if (remainder >= dto_n)
++			start = remainder;
++		else
++			start = remainder + dto_d;
++
++		remainder = start - dto_n;
++		if (remainder < dto_n)
++			accum_ack++;
++	}
++
++	/* if fewer pclk than required */
++	if (last_few_pclk < last_few_pclk_required)
++		dsc_info->extra_width = last_few_pclk_required - last_few_pclk;
++	else
++		dsc_info->extra_width = 0;
++}
++
++static void _dp_panel_dsc_bw_overhead_calc(struct dp_panel *dp_panel,
++		struct msm_display_dsc_info *dsc_info,
++		struct dp_display_mode *dp_mode, u32 dsc_byte_cnt)
++{
++	int num_slices, tot_num_eoc_symbols;
++	int tot_num_hor_bytes, tot_num_dummy_bytes;
++	int dwidth_dsc_bytes, eoc_bytes;
++	u32 num_lanes;
++	struct dp_panel_private *panel;
++
++	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
++
++	num_lanes = panel->link->link_params.num_lanes;
++	num_slices = dsc_info->slice_per_pkt;
++
++	eoc_bytes = dsc_byte_cnt % num_lanes;
++	tot_num_eoc_symbols = num_lanes * num_slices;
++	tot_num_hor_bytes = dsc_byte_cnt * num_slices;
++	tot_num_dummy_bytes = (num_lanes - eoc_bytes) * num_slices;
++
++	if (!eoc_bytes)
++		tot_num_dummy_bytes = 0;
++
++	dwidth_dsc_bytes = tot_num_hor_bytes + tot_num_eoc_symbols +
++				tot_num_dummy_bytes;
++
++	drm_dbg_dp(panel->drm_dev, "dwidth_dsc_bytes:%d, tot_num_hor_bytes:%d\n",
++			dwidth_dsc_bytes, tot_num_hor_bytes);
++
++	dp_mode->dsc_overhead_fp = drm_fixp_from_fraction(dwidth_dsc_bytes,
++			tot_num_hor_bytes);
++
++	dp_mode->timing.dsc_overhead_fp = dp_mode->dsc_overhead_fp;
++}
++
++static void dp_panel_dsc_pclk_param_calc(struct dp_panel *dp_panel,
++		struct msm_compression_info *comp_info,
++		struct dp_display_mode *dp_mode)
++{
++	int comp_ratio = 100, intf_width;
 +	int slice_per_pkt, slice_per_intf;
-+	int bytes_in_slice, total_bytes_per_intf;
-+	u16 bpp;
-+	u32 bytes_in_dsc_pair;
-+	u32 total_bytes_in_dsc_pair;
++	s64 temp1_fp, temp2_fp;
++	s64 numerator_fp, denominator_fp;
++	s64 dsc_byte_count_fp;
++	u32 dsc_byte_count, temp1, temp2;
++	struct msm_display_dsc_info *dsc_info = &comp_info->msm_dsc_info;
 +
-+	if (!dsc_info || !dsc_info->drm_dsc.slice_width ||
-+			!dsc_info->drm_dsc.slice_height ||
-+			intf_width < dsc_info->drm_dsc.slice_width) {
-+		DPU_ERROR("invalid input, intf_width=%d slice_width=%d\n",
-+			intf_width, dsc_info ? dsc_info->drm_dsc.slice_width :
-+			-1);
-+		return -EINVAL;
-+	}
-+
-+	mod_offset = dsc_info->drm_dsc.slice_width % 3;
-+
-+
-+	switch (mod_offset) {
-+	case 0:
-+		dsc_info->slice_last_group_size = 2;
-+		break;
-+	case 1:
-+		dsc_info->slice_last_group_size = 0;
-+		break;
-+	case 2:
-+		dsc_info->slice_last_group_size = 1;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	dsc_info->det_thresh_flatness =
-+		2 << (dsc_info->drm_dsc.bits_per_component - 8);
++	intf_width = dp_mode->timing.h_active;
++	if (!dsc_info || !dsc_info->drm_dsc.slice_width || !dsc_info->slice_per_pkt ||
++			 (intf_width < dsc_info->drm_dsc.slice_width))
++		return;
 +
 +	slice_per_pkt = dsc_info->slice_per_pkt;
 +	slice_per_intf = DIV_ROUND_UP(intf_width,
 +			dsc_info->drm_dsc.slice_width);
 +
++	comp_ratio = mult_frac(100, comp_info->src_bpp, comp_info->tgt_bpp);
 +
-+	/*
-+	 * If slice_per_pkt is greater than slice_per_intf then default to 1.
-+	 * This can happen during partial update.
-+	 */
-+	if (slice_per_pkt > slice_per_intf)
-+		slice_per_pkt = 1;
++	temp1_fp = drm_fixp_from_fraction(comp_ratio, 100);
++	temp2_fp = drm_fixp_from_fraction(slice_per_pkt * 8, 1);
++	denominator_fp = drm_fixp_mul(temp1_fp, temp2_fp);
++	numerator_fp = drm_fixp_from_fraction(
++			intf_width * dsc_info->drm_dsc.bits_per_component * 3, 1);
++	dsc_byte_count_fp = drm_fixp_div(numerator_fp, denominator_fp);
++	dsc_byte_count = fixp2int_ceil(dsc_byte_count_fp);
 +
-+	bpp = DSC_BPP(dsc_info->drm_dsc);
-+	bytes_in_slice = DIV_ROUND_UP(dsc_info->drm_dsc.slice_width * bpp, 8);
-+	total_bytes_per_intf = bytes_in_slice * slice_per_intf;
++	temp1 = dsc_byte_count * slice_per_intf;
++	temp2 = temp1;
++	if (temp1 % 3 != 0)
++		temp1 += 3 - (temp1 % 3);
 +
++	dsc_info->eol_byte_num = temp1 - temp2;
 +
-+	dsc_info->eol_byte_num = total_bytes_per_intf % 3;
-+	dsc_info->pclk_per_line =  DIV_ROUND_UP(total_bytes_per_intf, 3);
-+	dsc_info->bytes_in_slice = bytes_in_slice;
-+	dsc_info->bytes_per_pkt = bytes_in_slice * slice_per_pkt;
-+	dsc_info->pkt_per_line = slice_per_intf / slice_per_pkt;
++	temp1_fp = drm_fixp_from_fraction(slice_per_intf, 6);
++	temp2_fp = drm_fixp_mul(dsc_byte_count_fp, temp1_fp);
++	dsc_info->pclk_per_line = fixp2int_ceil(temp2_fp);
 +
++	_dp_panel_dsc_get_num_extra_pclk(comp_info);
++	dsc_info->pclk_per_line--;
 +
-+	bytes_in_dsc_pair = DIV_ROUND_UP(bytes_in_slice * 2, 3);
-+	if (bytes_in_dsc_pair % 8) {
-+		dsc_info->dsc_4hsmerge_padding = 8 - (bytes_in_dsc_pair % 8);
-+		total_bytes_in_dsc_pair = bytes_in_dsc_pair +
-+				dsc_info->dsc_4hsmerge_padding;
-+		if (total_bytes_in_dsc_pair % 16)
-+			dsc_info->dsc_4hsmerge_alignment = 16 -
-+					(total_bytes_in_dsc_pair % 16);
-+	}
-+
-+	return 0;
++	_dp_panel_dsc_bw_overhead_calc(dp_panel, dsc_info, dp_mode, dsc_byte_count);
 +}
 +
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.h
-new file mode 100644
-index 00000000..9f26455
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_dsc_helper.h
-@@ -0,0 +1,25 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2020 - 2023 The Linux Foundation. All rights reserved.
++void dp_panel_convert_to_dp_mode(struct dp_panel *dp_panel,
++		struct dp_display_mode *dp_mode)
++{
++	struct dp_panel_private *panel;
++	const u32 num_components = 3, default_bpp = 24;
++	struct drm_display_mode *drm_mode;
++	struct dp_panel_info *timing;
++	struct msm_compression_info *comp_info;
++	bool dsc_cap = (dp_mode->capabilities & DP_PANEL_CAPS_DSC) ?
++				true : false;
++	int rc;
++
++	if (!dp_panel->dsc_en)
++		return;
++
++	panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
++
++	drm_mode = &dp_mode->drm_mode;
++	timing = &dp_mode->timing;
++
++	timing->h_active = drm_mode->hdisplay;
++	timing->h_back_porch = drm_mode->htotal - drm_mode->hsync_end;
++	timing->h_sync_width = drm_mode->htotal -
++                        (drm_mode->hsync_start + dp_mode->timing.h_back_porch);
++
++	timing->h_front_porch = drm_mode->hsync_start -
++					 drm_mode->hdisplay;
++	timing->h_skew = drm_mode->hskew;
++
++	timing->v_active = drm_mode->vdisplay;
++	timing->v_back_porch = drm_mode->vtotal - drm_mode->vsync_end;
++	timing->v_sync_width = drm_mode->vtotal -
++                (drm_mode->vsync_start + dp_mode->timing.v_back_porch);
++
++	timing->v_front_porch = drm_mode->vsync_start - drm_mode->vdisplay;
++
++	timing->refresh_rate = drm_mode_vrefresh(drm_mode);
++	timing->pixel_clk_khz = drm_mode->clock;
++
++	timing->v_active_low =
++		!!(drm_mode->flags & DRM_MODE_FLAG_NVSYNC);
++
++	timing->h_active_low =
++		!!(drm_mode->flags & DRM_MODE_FLAG_NHSYNC);
++
++	timing->bpp =
++		dp_panel->connector->display_info.bpc * num_components;
++	if (!timing->bpp)
++		timing->bpp = default_bpp;
++
++	timing->widebus_en = dp_panel->widebus_en;
++	timing->dsc_overhead_fp = 0;
++
++	comp_info = &timing->comp_info;
++	comp_info->src_bpp = default_bpp;
++	comp_info->tgt_bpp = default_bpp;
++	comp_info->comp_type = MSM_DISPLAY_COMPRESSION_NONE;
++	comp_info->comp_ratio = 1;
++	comp_info->enabled = false;
++
++	/* As YUV was not supported now, so set the default format to RGB */
++	dp_mode->output_format = DP_OUTPUT_FORMAT_RGB;
++	/*
++	 * If a given videomode can be only supported in YCBCR420, set
++	 * the output format to YUV420. While now our driver did not
++	 * support YUV display over DP, so just place this flag here.
++	 * When we want to support YUV, we can use this flag to do
++	 * a lot of settings, like CDM, CSC and pixel_clock.
++	 */
++	if (drm_mode_is_420_only(&dp_panel->connector->display_info,
++			drm_mode)) {
++		dp_mode->output_format = DP_OUTPUT_FORMAT_YCBCR420;
++		drm_dbg_dp(panel->drm_dev, "YCBCR420 was not supported");
++	}
++
++	timing->bpp = dp_panel_get_mode_bpp(dp_panel,
++			timing->bpp, timing->pixel_clk_khz);
++
++
++	if (dp_panel->dsc_en && dsc_cap) {
++		if (dp_panel_dsc_prepare_basic_params(comp_info,
++					dp_mode, dp_panel)) {
++			drm_dbg_dp(panel->drm_dev,
++					"prepare DSC basic params failed\n");
++			return;
++		}
++
++		rc = dpu_dsc_populate_dsc_config(&comp_info->msm_dsc_info.drm_dsc, 0);
++		if (rc) {
++			drm_dbg_dp(panel->drm_dev,
++					"failed populating dsc params \n");
++			return;
++		}
++
++		rc = dpu_dsc_populate_dsc_private_params(&comp_info->msm_dsc_info,
++				dp_mode->timing.h_active);
++		if (rc) {
++			drm_dbg_dp(panel->drm_dev,
++					"failed populating other dsc params\n");
++			return;
++		}
++
++		dp_panel_dsc_pclk_param_calc(dp_panel, comp_info, dp_mode);
++	}
++	dp_mode->fec_overhead_fp = dp_panel->fec_overhead_fp;
++}
++
+ struct dp_panel *dp_panel_get(struct dp_panel_in *in)
+ {
+ 	struct dp_panel_private *panel;
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+index 4c45d51..576056c 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.h
++++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+@@ -112,6 +112,7 @@ struct dp_panel {
+ 	bool fec_feature_enable;
+ 	bool dsc_en;
+ 	bool fec_en;
++	bool widebus_en;
+ 	s64 fec_overhead_fp;
+ };
+ 
+@@ -128,6 +129,9 @@ int dp_panel_get_modes(struct dp_panel *dp_panel,
+ void dp_panel_handle_sink_request(struct dp_panel *dp_panel);
+ void dp_panel_tpg_config(struct dp_panel *dp_panel, bool enable);
+ u8 dp_panel_get_misc_colorimetry_val(struct dp_panel *dp_panel);
++void dp_panel_config_dsc(struct dp_panel *dp_panel, bool enable);
++void dp_panel_convert_to_dp_mode(struct dp_panel *dp_panel,
++		struct dp_display_mode *dp_mode);
+ 
+ /**
+  * is_link_rate_valid() - validates the link rate
+diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
+index 2686028..96d48d0c 100644
+--- a/drivers/gpu/drm/msm/dp/dp_reg.h
++++ b/drivers/gpu/drm/msm/dp/dp_reg.h
+@@ -1,6 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+  * Copyright (c) 2017-2020, The Linux Foundation. All rights reserved.
 + * Copyright (c) 2023. Qualcomm Innovation Center, Inc. All rights reserved
-+ */
+  */
+ 
+ #ifndef _DP_REG_H_
+@@ -167,7 +168,38 @@
+ #define MMSS_DP_PSR_CRC_RG			(0x00000154)
+ #define MMSS_DP_PSR_CRC_B			(0x00000158)
+ 
+-#define REG_DP_COMPRESSION_MODE_CTRL		(0x00000180)
++#define DP_COMPRESSION_MODE_CTRL		(0x00000180)
++#define DP_PPS_HB_0_3				(0x00000184)
++#define DP_PPS_PB_0_3				(0x00000188)
++#define DP_PPS_PB_4_7				(0x0000018C)
++#define DP_PPS_PB_8_11				(0x00000190)
++#define DP_PPS_PB_12_15				(0x00000194)
++#define DP_PPS_PB_16_19				(0x00000198)
++#define DP_PPS_PB_20_23				(0x0000019C)
++#define DP_PPS_PB_24_27				(0x000001A0)
++#define DP_PPS_PB_28_31				(0x000001A4)
++#define DP_PPS_PPS_0_3				(0x000001A8)
++#define DP_PPS_PPS_4_7				(0x000001AC)
++#define DP_PPS_PPS_8_11				(0x000001B0)
++#define DP_PPS_PPS_12_15			(0x000001B4)
++#define DP_PPS_PPS_16_19			(0x000001B8)
++#define DP_PPS_PPS_20_23			(0x000001BC)
++#define DP_PPS_PPS_24_27			(0x000001C0)
++#define DP_PPS_PPS_28_31			(0x000001C4)
++#define DP_PPS_PPS_32_35			(0x000001C8)
++#define DP_PPS_PPS_36_39			(0x000001CC)
++#define DP_PPS_PPS_40_43			(0x000001D0)
++#define DP_PPS_PPS_44_47			(0x000001D4)
++#define DP_PPS_PPS_48_51			(0x000001D8)
++#define DP_PPS_PPS_52_55			(0x000001DC)
++#define DP_PPS_PPS_56_59			(0x000001E0)
++#define DP_PPS_PPS_60_63			(0x000001E4)
++#define DP_PPS_PPS_64_67			(0x000001E8)
++#define DP_PPS_PPS_68_71			(0x000001EC)
++#define DP_PPS_PPS_72_75			(0x000001F0)
++#define DP_PPS_PPS_76_79			(0x000001F4)
++#define DP_PPS_PPS_80_83			(0x000001F8)
++#define DP_PPS_PPS_84_87			(0x000001FC)
+ 
+ #define MMSS_DP_AUDIO_CFG			(0x00000200)
+ #define MMSS_DP_AUDIO_STATUS			(0x00000204)
+@@ -178,6 +210,8 @@
+ 
+ #define MMSS_DP_SDP_CFG				(0x00000228)
+ #define MMSS_DP_SDP_CFG2			(0x0000022C)
++#define MMSS_DP_SDP_CFG3			(0x0000024C)
++#define MMSS_DP_SDP_CFG4			(0x000004EC)
+ #define MMSS_DP_AUDIO_TIMESTAMP_0		(0x00000230)
+ #define MMSS_DP_AUDIO_TIMESTAMP_1		(0x00000234)
+ 
+@@ -210,6 +244,9 @@
+ #define MMSS_DP_AUDIO_INFOFRAME_1		(0x000002AC)
+ #define MMSS_DP_AUDIO_INFOFRAME_2		(0x000002B0)
+ 
++#define MMSS_DP_FLUSH				(0x000002F8)
++#define MMSS_DP1_FLUSH				(0x000002FC)
 +
-+#ifndef __DPU_DSC_HELPER_H__
-+#define __DPU_DSC_HELPER_H__
-+
-+#include "msm_drv.h"
-+
-+#define DSC_1_1_PPS_PARAMETER_SET_ELEMENTS   88
-+
-+int dpu_dsc_populate_dsc_config(struct drm_dsc_config *dsc, int scr_ver);
-+
-+int dpu_dsc_populate_dsc_private_params(struct msm_display_dsc_info *dsc_info,
-+					int intf_width);
-+
-+bool dpu_dsc_ich_reset_override_needed(bool pu_en, struct msm_display_dsc_info *dsc);
-+
-+int dpu_dsc_initial_line_calc(struct msm_display_dsc_info *dsc,
-+				int enc_ip_width, int dsc_cmn_mode);
-+
-+#endif /* __DPU_DSC_HELPER_H__ */
-+
+ #define MMSS_DP_GENERIC0_0			(0x00000300)
+ #define MMSS_DP_GENERIC0_1			(0x00000304)
+ #define MMSS_DP_GENERIC0_2			(0x00000308)
+@@ -268,6 +305,7 @@
+ 
+ #define MMSS_DP_TPG_MAIN_CONTROL		(0x00000060)
+ #define MMSS_DP_DSC_DTO				(0x0000007C)
++#define MMSS_DP_DSC_DTO_COUNT			(0x00000084)
+ #define DP_TPG_CHECKERED_RECT_PATTERN		(0x00000100)
+ 
+ #define MMSS_DP_TPG_VIDEO_CONFIG		(0x00000064)
 diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index f155803..cf4eb8d 100644
+index cf4eb8d..6a46ed7 100644
 --- a/drivers/gpu/drm/msm/msm_drv.h
 +++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -57,6 +57,10 @@ struct msm_disp_state;
- #define MAX_CRTCS      8
- #define MAX_BRIDGES    8
+@@ -476,6 +476,11 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp_displa
  
-+#define MSM_CHROMA_444 0x0
-+#define MSM_CHROMA_422 0x1
-+#define MSM_CHROMA_420 0x2
+ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor);
+ bool msm_dp_wide_bus_available(const struct msm_dp *dp_display);
++struct msm_compression_info *msm_dp_bridge_get_compression(struct drm_bridge *drm_bridge);
 +
- #define FRAC_16_16(mult, div)    (((mult) << 16) / (div))
++void msm_dp_bridge_mode_set(struct drm_bridge *bridge,
++				struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode);
  
- enum msm_dp_controller {
+ #else
+ static inline int __init msm_dp_register(void)
+@@ -510,6 +515,17 @@ static inline bool msm_dp_wide_bus_available(const struct msm_dp *dp_display)
+ 	return false;
+ }
+ 
++static inline struct msm_compression_info *msm_dp_bridge_get_compression(
++				struct drm_bridge *drm_bridge)
++{
++	return NULL;
++}
++static inline void msm_dp_bridge_mode_set(struct drm_bridge *bridge,
++				struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode)
++{
++
++}
+ #endif
+ 
+ #ifdef CONFIG_DRM_MSM_MDP4
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
