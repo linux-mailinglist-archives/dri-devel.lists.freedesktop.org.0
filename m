@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E536784C8
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 19:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 803EA6784B8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 19:25:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27BE010E535;
-	Mon, 23 Jan 2023 18:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 005FB10E543;
+	Mon, 23 Jan 2023 18:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7F3E10E52B;
- Mon, 23 Jan 2023 18:25:11 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C082310E544;
+ Mon, 23 Jan 2023 18:25:12 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30NFUVOH025345; Mon, 23 Jan 2023 18:25:06 GMT
+ 30NHlP0E000963; Mon, 23 Jan 2023 18:25:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=qcppdkim1;
- bh=uoBcwIUiXEq5X02y5wqlcnhiMx9It3eJGoPHPE8i1EM=;
- b=AVeeix96qQZvhXgztcT3yllRYQmx3/r8rGiH16EHLrN2y5/VAfa96u6jctSKHg+DcIyw
- B2zVyQLoQyEvxARrsbkdeG6o3s7nfZTwhnAHs03bEwa5Y+G831ITP4ldza835yKl+VTP
- kwYsAFh+sJO4YKbDroU40/0PJi1fWn/deTKQlW0iCYLpPN2x4imGDuMgmgzumVWBbpfy
- 1QmiSzBlpL+SlDbkm/fr0Xg50lrzsG7o3uGw1nUs8L78SFofrGOEkG+qW0hfLRDScR60
- mWlA21dubODbH3q0M+6zmq4/73a1EEgBcdVAyrsFDHF74QJ7whbwD6Q/d6wssqiJbBht 8g== 
+ bh=wvGH7/Rlwu45QOGwJN13yXrhRNE0SHq+W0b9xLXNsQs=;
+ b=m0XBfHv7USXGDogxjmHHFwyzbGFNalDyXPtOhbcQjffrtqzEmWJHWO/DRbTGhMCVlHvX
+ UV693DpfdQ5HDZh383hZdsTesyd825KaW9HXLyfuTUuylpv+hcjtQE+T9aSMlIChYLcF
+ zCc4LpAU2I1DWJk4R5EpwFo+mkixQtTC4JWvPSCOWW0NsQINOpwI2P2D0eWks+5NB3t2
+ 23M5FOzPJ9RLKklraFW9Naa4G9IpXMDIB+wFGwmZr3vXrTzKEDV/FJv9qJbHB/cuUr5p
+ l++ctGHAtQquCsF/6227WBfy89OaHuMY+AfQprrh2S4wHR03mBrp9o6rBUCWUqj/d3w0 SA== 
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89gtbhna-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89f5bjwu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Jan 2023 18:25:05 +0000
+ Mon, 23 Jan 2023 18:25:07 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30NIP4rU006458
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30NIP6wZ006672
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Jan 2023 18:25:05 GMT
+ Mon, 23 Jan 2023 18:25:06 GMT
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Mon, 23 Jan 2023 10:25:04 -0800
+ 15.2.986.36; Mon, 23 Jan 2023 10:25:05 -0800
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v1 11/14] drm/msm/disp/dpu1: add supports of new flush
- mechanism
-Date: Mon, 23 Jan 2023 10:24:31 -0800
-Message-ID: <1674498274-6010-12-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v1 12/14] drm/msm/disp/dpu1: revise timing engine programming
+ to work for DSC
+Date: Mon, 23 Jan 2023 10:24:32 -0800
+Message-ID: <1674498274-6010-13-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1674498274-6010-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1674498274-6010-1-git-send-email-quic_khsieh@quicinc.com>
@@ -60,17 +60,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: 8gwiZ946bdC8T0IIYTupQDr8VBTpkG5K
-X-Proofpoint-ORIG-GUID: 8gwiZ946bdC8T0IIYTupQDr8VBTpkG5K
+X-Proofpoint-ORIG-GUID: lS_pj5WykZ6oueGJ-WRvafge6-UlJhoW
+X-Proofpoint-GUID: lS_pj5WykZ6oueGJ-WRvafge6-UlJhoW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- suspectscore=0 impostorscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301230177
+ mlxlogscore=999 bulkscore=0
+ clxscore=1015 mlxscore=0 spamscore=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301230176
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,289 +89,380 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A new flushing mechanism is introduced to decouple peripheral metadata
-flushing from timing engine related flush. This patch add peripheral
-flushing functions.
+Current implementation timing engine programming does not consider
+compression factors. This patch add consideration of DSC factors
+while programming timing engine.
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 24 ++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  2 +
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  7 ++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         | 43 ++++++++++++++++++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         | 21 +++++++++++
- 5 files changed, 91 insertions(+), 6 deletions(-)
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  14 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        | 132 +++++++++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h         |   6 +-
+ 5 files changed, 110 insertions(+), 54 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 901e317..d2625b3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1472,6 +1472,12 @@ static void _dpu_encoder_trigger_flush(struct drm_encoder *drm_enc,
- 	if (extra_flush_bits && ctl->ops.update_pending_flush)
- 		ctl->ops.update_pending_flush(ctl, extra_flush_bits);
- 
-+	if (phys->hw_intf->cap->type == INTF_DP &&
-+		phys->comp_type == MSM_DISPLAY_COMPRESSION_DSC &&
-+						phys->comp_ratio) {
-+		ctl->ops.update_pending_flush_periph(ctl, phys->hw_intf->idx);
-+	}
-+
- 	ctl->ops.trigger_flush(ctl);
- 
- 	if (ctl->ops.get_pending_flush)
-@@ -1814,12 +1820,18 @@ dpu_encoder_dsc_initial_line_calc(struct drm_dsc_config *dsc,
- 	return DIV_ROUND_UP(total_pixels, dsc->slice_width);
- }
- 
--static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
-+static void dpu_encoder_dsc_pipe_cfg(struct dpu_encoder_virt *dpu_enc,
-+				     struct dpu_hw_dsc *hw_dsc,
- 				     struct dpu_hw_pingpong *hw_pp,
- 				     struct drm_dsc_config *dsc,
- 				     u32 common_mode,
- 				     u32 initial_lines)
- {
-+	struct dpu_encoder_phys *cur_master = dpu_enc->cur_master;
-+	struct dpu_hw_ctl *ctl;
-+
-+	ctl = cur_master->hw_ctl;
-+
- 	if (hw_dsc->ops.dsc_config)
- 		hw_dsc->ops.dsc_config(hw_dsc, dsc, common_mode, initial_lines, false);
- 
-@@ -1834,6 +1846,10 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
- 
- 	if (hw_pp->ops.enable_dsc)
- 		hw_pp->ops.enable_dsc(hw_pp);
-+
-+	if (ctl->ops.update_pending_flush_dsc)
-+		ctl->ops.update_pending_flush_dsc(ctl, hw_dsc->idx);
-+
- }
- 
- static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
-@@ -1877,8 +1893,10 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
- 	enc_ip_w = intf_ip_w / 2;
- 	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
- 
--	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
--		dpu_encoder_dsc_pipe_cfg(hw_dsc[i], hw_pp[i], dsc, dsc_common_mode, initial_lines);
-+	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-+		dpu_encoder_dsc_pipe_cfg(dpu_enc, hw_dsc[i], hw_pp[i], dsc,
-+					dsc_common_mode, initial_lines);
-+	}
- }
- 
- void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 1d434b2..0569b36 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -200,6 +200,8 @@ struct dpu_encoder_phys {
- 	atomic_t pending_kickoff_cnt;
- 	wait_queue_head_t pending_kickoff_wq;
- 	int irq[INTR_IDX_MAX];
-+	enum msm_display_compression_type comp_type;
-+	u32 comp_ratio;
- };
- 
- static inline int dpu_encoder_phys_inc_pending(struct dpu_encoder_phys *phys)
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-index 48c4810..2d864f9 100644
+index 2d864f9..3330e185 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
-@@ -1,5 +1,6 @@
+@@ -279,6 +279,8 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+ 	if (phys_enc->hw_pp->merge_3d)
+ 		intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
+ 
++	phys_enc->hw_intf->hw_rev = phys_enc->dpu_kms->core_rev;
++
+ 	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
+ 	phys_enc->hw_intf->ops.setup_timing_gen(phys_enc->hw_intf,
+ 			&timing_params, fmt);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 7b0b092..c6ee789 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -43,16 +43,22 @@
+ #define DPU_HW_VER_500	DPU_HW_VER(5, 0, 0) /* sm8150 v1.0 */
+ #define DPU_HW_VER_501	DPU_HW_VER(5, 0, 1) /* sm8150 v2.0 */
+ #define DPU_HW_VER_510	DPU_HW_VER(5, 1, 1) /* sc8180 */
+-#define DPU_HW_VER_600	DPU_HW_VER(6, 0, 0) /* sm8250 */
++#define DPU_HW_VER_600	DPU_HW_VER(6, 0, 0) /* sm8250, kona */
+ #define DPU_HW_VER_620	DPU_HW_VER(6, 2, 0) /* sc7180 v1.0 */
+ #define DPU_HW_VER_630	DPU_HW_VER(6, 3, 0) /* sm6115|sm4250 */
+ #define DPU_HW_VER_650	DPU_HW_VER(6, 5, 0) /* qcm2290|sm4125 */
+-#define DPU_HW_VER_700	DPU_HW_VER(7, 0, 0) /* sm8350 */
++#define DPU_HW_VER_700	DPU_HW_VER(7, 0, 0) /* sm8350, lahaina */
+ #define DPU_HW_VER_720	DPU_HW_VER(7, 2, 0) /* sc7280 */
+ #define DPU_HW_VER_800	DPU_HW_VER(8, 0, 0) /* sc8280xp */
+-#define DPU_HW_VER_810	DPU_HW_VER(8, 1, 0) /* sm8450 */
++#define DPU_HW_VER_810	DPU_HW_VER(8, 1, 0) /* sm8450, waipio */
+ #define DPU_HW_VER_900	DPU_HW_VER(9, 0, 0) /* sm8550 */
+ 
++/* Avoid using below IS_XXX macros outside catalog, use feature bit instead */
++#define IS_DPU_MAJOR_SAME(rev1, rev2)   \
++		(DPU_HW_MAJOR((rev1)) == DPU_HW_MAJOR((rev2)))
++#define IS_DPU_MAJOR_MINOR_SAME(rev1, rev2)   \
++		(DPU_HW_MAJOR_MINOR((rev1)) == DPU_HW_MAJOR_MINOR((rev2)))
++
+ #define IS_MSM8996_TARGET(rev) IS_DPU_MAJOR_MINOR_SAME((rev), DPU_HW_VER_170)
+ #define IS_MSM8998_TARGET(rev) IS_DPU_MAJOR_MINOR_SAME((rev), DPU_HW_VER_300)
+ #define IS_SDM845_TARGET(rev) IS_DPU_MAJOR_MINOR_SAME((rev), DPU_HW_VER_400)
+@@ -240,6 +246,7 @@ enum {
+  * @DPU_INTF_INPUT_CTRL         Supports the setting of pp block from which
+  *                              pixel data arrives to this INTF
+  * @DPU_INTF_TE                 INTF block has TE configuration support
++ * @DPU_INTF_TE_ALIGN_VSYNC     INTF block has POMS Align vsync support
+  * @DPU_DATA_HCTL_EN            Allows data to be transferred at different rate
+                                 than video timing
+  * @DPU_INTF_MAX
+@@ -247,6 +254,7 @@ enum {
+ enum {
+ 	DPU_INTF_INPUT_CTRL = 0x1,
+ 	DPU_INTF_TE,
++	DPU_INTF_TE_ALIGN_VSYNC,
+ 	DPU_DATA_HCTL_EN,
+ 	DPU_INTF_MAX
+ };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index 7ce66bf..238efdb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -1,6 +1,6 @@
  // SPDX-License-Identifier: GPL-2.0-only
- /* Copyright (c) 2015-2018, 2020-2021 The Linux Foundation. All rights reserved.
+ /*
+- * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
 + * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
+  * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
   */
  
- #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
-@@ -427,6 +428,12 @@ static void dpu_encoder_phys_vid_enable(struct dpu_encoder_phys *phys_enc)
- 	if (ctl->ops.update_pending_flush_merge_3d && phys_enc->hw_pp->merge_3d)
- 		ctl->ops.update_pending_flush_merge_3d(ctl, phys_enc->hw_pp->merge_3d->idx);
+@@ -44,6 +44,7 @@
+ #define   INTF_DEFLICKER_STRNG_COEFF    0x0F4
+ #define   INTF_DEFLICKER_WEAK_COEFF     0x0F8
  
-+	if (phys_enc->hw_intf->cap->type == INTF_DP &&
-+		phys_enc->comp_type == MSM_DISPLAY_COMPRESSION_DSC &&
-+					phys_enc->comp_ratio) {
-+		ctl->ops.update_pending_flush_periph(ctl, phys_enc->hw_intf->idx);
-+	}
-+
- skip_flush:
- 	DPU_DEBUG_VIDENC(phys_enc,
- 		"update pending flush ctl %d intf %d\n",
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index b88a2f3..1891c57 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -33,6 +33,7 @@
- #define   CTL_DSC_FLUSH                0x104
- #define   CTL_WB_FLUSH                  0x108
- #define   CTL_INTF_FLUSH                0x110
-+#define   CTL_PERIPH_FLUSH              0x128
- #define   CTL_INTF_MASTER               0x134
- #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
++#define   INTF_REG_SPLIT_LINK           0x080
+ #define   INTF_DSI_CMD_MODE_TRIGGER_EN  0x084
+ #define   INTF_PANEL_FORMAT             0x090
+ #define   INTF_TPG_ENABLE               0x100
+@@ -65,9 +66,9 @@
  
-@@ -42,11 +43,13 @@
- #define DPU_REG_RESET_TIMEOUT_US        2000
- #define  MERGE_3D_IDX   23
- #define  DSC_IDX        22
-+#define  PERIPH_IDX     30
- #define  INTF_IDX       31
- #define WB_IDX          16
- #define CTL_INVALID_BIT                 0xffff
- #define CTL_DEFAULT_GROUP_ID		0xf
+ #define INTF_CFG_ACTIVE_H_EN	BIT(29)
+ #define INTF_CFG_ACTIVE_V_EN	BIT(30)
+-
+ #define INTF_CFG2_DATABUS_WIDEN	BIT(0)
+ #define INTF_CFG2_DATA_HCTL_EN	BIT(4)
++#define INTF_CFG2_ALIGN_VSYNC_TO_TE BIT(16)
  
-+
- static const u32 fetch_tbl[SSPP_MAX] = {CTL_INVALID_BIT, 16, 17, 18, 19,
- 	CTL_INVALID_BIT, CTL_INVALID_BIT, CTL_INVALID_BIT, CTL_INVALID_BIT, 0,
- 	1, 2, 3, CTL_INVALID_BIT, CTL_INVALID_BIT};
-@@ -123,6 +126,7 @@ static inline void dpu_hw_ctl_update_pending_flush(struct dpu_hw_ctl *ctx,
- 	trace_dpu_hw_ctl_update_pending_flush(flushbits,
- 					      ctx->pending_flush_mask);
- 	ctx->pending_flush_mask |= flushbits;
-+
+ #define INTF_MISR_CTRL			0x180
+ #define INTF_MISR_SIGNATURE		0x184
+@@ -91,6 +92,16 @@ static const struct dpu_intf_cfg *_intf_offset(enum dpu_intf intf,
+ 	return ERR_PTR(-EINVAL);
  }
  
- static u32 dpu_hw_ctl_get_pending_flush(struct dpu_hw_ctl *ctx)
-@@ -142,6 +146,15 @@ static inline void dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
- 		DPU_REG_WRITE(&ctx->hw, CTL_WB_FLUSH,
- 				ctx->pending_wb_flush_mask);
- 
-+	if (ctx->pending_flush_mask & BIT(PERIPH_IDX))
-+		DPU_REG_WRITE(&ctx->hw, CTL_PERIPH_FLUSH,
-+				ctx->pending_periph_flush_mask);
-+
-+	if (ctx->pending_flush_mask & BIT(DSC_IDX)) {
-+		DPU_REG_WRITE(&ctx->hw, CTL_DSC_FLUSH,
-+				ctx->pending_dsc_flush_mask);
-+	}
-+
- 	DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
- }
- 
-@@ -281,6 +294,13 @@ static void dpu_hw_ctl_update_pending_flush_intf_v1(struct dpu_hw_ctl *ctx,
- 	ctx->pending_flush_mask |= BIT(INTF_IDX);
- }
- 
-+static void dpu_hw_ctl_update_pending_flush_periph(struct dpu_hw_ctl *ctx,
-+		enum dpu_intf intf)
++static inline void _check_and_set_comp_bit(struct dpu_hw_intf *ctx,
++		bool dsc_4hs_merge, bool compression_en, u32 *intf_cfg2)
 +{
-+	ctx->pending_periph_flush_mask |= BIT(intf - INTF_0);
-+	ctx->pending_flush_mask |= BIT(PERIPH_IDX);
++	if (((DPU_HW_MAJOR(ctx->hw_rev) >= DPU_HW_MAJOR(DPU_HW_VER_700)) && compression_en)
++		|| (IS_DPU_MAJOR_SAME(ctx->hw_rev, DPU_HW_VER_600) && dsc_4hs_merge))
++		(*intf_cfg2) |= BIT(12);
++	else if (!compression_en)
++		(*intf_cfg2) &= ~BIT(12);
 +}
 +
- static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
- 		enum dpu_merge_3d merge_3d)
- {
-@@ -288,6 +308,13 @@ static void dpu_hw_ctl_update_pending_flush_merge_3d_v1(struct dpu_hw_ctl *ctx,
- 	ctx->pending_flush_mask |= BIT(MERGE_3D_IDX);
- }
+ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 		const struct intf_timing_params *p,
+ 		const struct dpu_format *fmt)
+@@ -113,82 +124,96 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 	/* read interface_cfg */
+ 	intf_cfg = DPU_REG_READ(c, INTF_CONFIG);
  
-+static void dpu_hw_ctl_update_pending_flush_dsc_v1(struct dpu_hw_ctl *ctx,
-+		enum dpu_dsc dsc_num)
-+{
-+	ctx->pending_dsc_flush_mask |= BIT(dsc_num - DSC_0);
-+	ctx->pending_flush_mask |= BIT(DSC_IDX);
-+}
-+
- static void dpu_hw_ctl_update_pending_flush_dspp(struct dpu_hw_ctl *ctx,
- 	enum dpu_dspp dspp)
- {
-@@ -472,6 +499,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 	u32 intf_active = 0;
- 	u32 wb_active = 0;
- 	u32 mode_sel = 0;
-+	u32 dsc_active = 0;
+-	if (ctx->cap->type == INTF_DP)
++	if (ctx->cap->type == INTF_EDP || ctx->cap->type == INTF_DP)
+ 		dp_intf = true;
  
- 	/* CTL_TOP[31:28] carries group_id to collate CTL paths
- 	 * per VM. Explicitly disable it until VM support is
-@@ -502,9 +530,11 @@ static void dpu_hw_ctl_intf_cfg_v1(struct dpu_hw_ctl *ctx,
- 	if (cfg->merge_3d)
- 		DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
- 			      BIT(cfg->merge_3d - MERGE_3D_0));
--	if (cfg->dsc) {
--		DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, DSC_IDX);
--		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, cfg->dsc);
-+
-+	if (cfg->dsc_num) {
-+		dsc_active = DPU_REG_READ(c, CTL_DSC_ACTIVE);
-+		dsc_active |= BIT(cfg->dsc_num - DSC_0);
-+		DPU_REG_WRITE(c, CTL_DSC_ACTIVE, dsc_active);
- 	}
- }
+ 	hsync_period = p->hsync_pulse_width + p->h_back_porch + p->width +
+-	p->h_front_porch;
++			p->h_front_porch;
+ 	vsync_period = p->vsync_pulse_width + p->v_back_porch + p->height +
+-	p->v_front_porch;
++			p->v_front_porch;
  
-@@ -605,9 +635,16 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
- 		ops->reset_intf_cfg = dpu_hw_ctl_reset_intf_cfg_v1;
- 		ops->update_pending_flush_intf =
- 			dpu_hw_ctl_update_pending_flush_intf_v1;
+ 	display_v_start = ((p->vsync_pulse_width + p->v_back_porch) *
+-	hsync_period) + p->hsync_skew;
++			hsync_period) + p->hsync_skew;
+ 	display_v_end = ((vsync_period - p->v_front_porch) * hsync_period) +
+-	p->hsync_skew - 1;
++			p->hsync_skew - 1;
 +
-+		ops->update_pending_flush_periph =
-+			dpu_hw_ctl_update_pending_flush_periph;
-+
- 		ops->update_pending_flush_merge_3d =
- 			dpu_hw_ctl_update_pending_flush_merge_3d_v1;
- 		ops->update_pending_flush_wb = dpu_hw_ctl_update_pending_flush_wb_v1;
-+
-+		ops->update_pending_flush_dsc =
-+			dpu_hw_ctl_update_pending_flush_dsc_v1;
- 	} else {
- 		ops->trigger_flush = dpu_hw_ctl_trigger_flush;
- 		ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-index 96c012e..d3faa0b1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-@@ -48,6 +48,7 @@ struct dpu_hw_intf_cfg {
- 	enum dpu_3d_blend_mode mode_3d;
- 	enum dpu_merge_3d merge_3d;
- 	enum dpu_ctl_mode_sel intf_mode_sel;
-+	enum dpu_dsc dsc_num;
- 	int stream_sel;
- 	unsigned int dsc;
- };
-@@ -121,6 +122,15 @@ struct dpu_hw_ctl_ops {
- 		enum dpu_intf blk);
++	hsync_ctl = (hsync_period << 16) | p->hsync_pulse_width;
  
- 	/**
-+	 * OR in the given flushbits to the cached pending_(periph_)flush_mask
-+	 * No effect on hardware
-+	 * @ctx       : ctl path ctx pointer
-+	 * @blk       : interface block index
-+	 */
-+	void (*update_pending_flush_periph)(struct dpu_hw_ctl *ctx,
-+		enum dpu_intf blk);
-+
-+	/**
- 	 * OR in the given flushbits to the cached pending_(merge_3d_)flush_mask
- 	 * No effect on hardware
- 	 * @ctx       : ctl path ctx pointer
-@@ -156,6 +166,15 @@ struct dpu_hw_ctl_ops {
- 	void (*update_pending_flush_dspp)(struct dpu_hw_ctl *ctx,
- 		enum dpu_dspp blk);
- 	/**
-+	 * OR in the given flushbits to the cached pending_(dsc_)flush_mask
-+	 * No effect on hardware
-+	 * @ctx       : ctl path ctx pointer
-+	 * @blk       : interface block index
-+	 */
-+	void (*update_pending_flush_dsc)(struct dpu_hw_ctl *ctx,
-+		enum dpu_dsc blk);
-+
-+	/**
- 	 * Write the value of the pending_flush_mask to hardware
- 	 * @ctx       : ctl path ctx pointer
+ 	hsync_start_x = p->h_back_porch + p->hsync_pulse_width;
+ 	hsync_end_x = hsync_period - p->h_front_porch - 1;
+ 
+-	if (p->width != p->xres) { /* border fill added */
+-		active_h_start = hsync_start_x;
+-		active_h_end = active_h_start + p->xres - 1;
+-	} else {
+-		active_h_start = 0;
+-		active_h_end = 0;
+-	}
+-
+-	if (p->height != p->yres) { /* border fill added */
+-		active_v_start = display_v_start;
+-		active_v_end = active_v_start + (p->yres * hsync_period) - 1;
+-	} else {
+-		active_v_start = 0;
+-		active_v_end = 0;
+-	}
+-
+-	if (active_h_end) {
+-		active_hctl = (active_h_end << 16) | active_h_start;
+-		intf_cfg |= INTF_CFG_ACTIVE_H_EN;
+-	} else {
+-		active_hctl = 0;
+-	}
+-
+-	if (active_v_end)
+-		intf_cfg |= INTF_CFG_ACTIVE_V_EN;
+-
+-	hsync_ctl = (hsync_period << 16) | p->hsync_pulse_width;
+-	display_hctl = (hsync_end_x << 16) | hsync_start_x;
+-
+ 	/*
+ 	 * DATA_HCTL_EN controls data timing which can be different from
+ 	 * video timing. It is recommended to enable it for all cases, except
+ 	 * if compression is enabled in 1 pixel per clock mode
  	 */
-@@ -241,7 +260,9 @@ struct dpu_hw_ctl {
- 	u32 pending_flush_mask;
- 	u32 pending_intf_flush_mask;
- 	u32 pending_wb_flush_mask;
-+	u32 pending_periph_flush_mask;
- 	u32 pending_merge_3d_flush_mask;
-+	u32 pending_dsc_flush_mask;
++	if (!p->compression_en || p->wide_bus_en)
++		intf_cfg2 |= INTF_CFG2_DATA_HCTL_EN;
++
+ 	if (p->wide_bus_en)
+-		intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN | INTF_CFG2_DATA_HCTL_EN;
++		intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
+ 
++	/*
++	 * If widebus is disabled:
++	 * For uncompressed stream, the data is valid for the entire active
++	 * window period.
++	 * For compressed stream, data is valid for a shorter time period
++	 * inside the active window depending on the compression ratio.
++	 *
++	 * If widebus is enabled:
++	 * For uncompressed stream, data is valid for only half the active
++	 * window, since the data rate is doubled in this mode.
++	 * p->width holds the adjusted width for DP but unadjusted width for DSI
++	 * For compressed stream, data validity window needs to be adjusted for
++	 * compression ratio and then further halved.
++	 */
+ 	data_width = p->width;
+ 
++	if (p->compression_en) {
++		if (p->wide_bus_en)
++			data_width = DIV_ROUND_UP(p->dce_bytes_per_line, 6);
++		else
++			data_width = DIV_ROUND_UP(p->dce_bytes_per_line, 3);
++	} else if (!dp_intf && p->wide_bus_en) {
++		data_width = p->width >> 1;
++	} else {
++		data_width = p->width;
++	}
++
+ 	hsync_data_start_x = hsync_start_x;
+ 	hsync_data_end_x =  hsync_start_x + data_width - 1;
+ 
++	display_hctl = (hsync_end_x << 16) | hsync_start_x;
+ 	display_data_hctl = (hsync_data_end_x << 16) | hsync_data_start_x;
+ 
+ 	if (dp_intf) {
+ 		/* DP timing adjustment */
+ 		display_v_start += p->hsync_pulse_width + p->h_back_porch;
+ 		display_v_end   -= p->h_front_porch;
++	}
++
++	intf_cfg |= INTF_CFG_ACTIVE_H_EN;
++	intf_cfg |= INTF_CFG_ACTIVE_V_EN;
++	active_h_start = hsync_start_x;
++	active_h_end = active_h_start + p->xres - 1;
++	active_v_start = display_v_start;
++	active_v_end = active_v_start + (p->yres * hsync_period) - 1;
+ 
+-		active_h_start = hsync_start_x;
+-		active_h_end = active_h_start + p->xres - 1;
+-		active_v_start = display_v_start;
+-		active_v_end = active_v_start + (p->yres * hsync_period) - 1;
++	active_hctl = (active_h_end << 16) | active_h_start;
+ 
+-		active_hctl = (active_h_end << 16) | active_h_start;
++	if (dp_intf) {
+ 		display_hctl = active_hctl;
+ 
+-		intf_cfg |= INTF_CFG_ACTIVE_H_EN | INTF_CFG_ACTIVE_V_EN;
++		if (p->compression_en) {
++			active_data_hctl = (hsync_start_x + p->extra_dto_cycles) << 16;
++			active_data_hctl += hsync_start_x;
++
++			display_data_hctl = active_data_hctl;
++		}
+ 	}
+ 
++	_check_and_set_comp_bit(ctx, p->dsc_4hs_merge, p->compression_en, &intf_cfg2);
++
+ 	den_polarity = 0;
+ 	if (ctx->cap->type == INTF_HDMI) {
+ 		hsync_polarity = p->yres >= 720 ? 0 : 1;
+@@ -202,7 +227,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 	}
+ 	polarity_ctl = (den_polarity << 2) | /*  DEN Polarity  */
+ 		(vsync_polarity << 1) | /* VSYNC Polarity */
+-		(hsync_polarity << 0);  /* HSYNC Polarity */
++		 (hsync_polarity << 0);  /* HSYNC Polarity */
+ 
+ 	if (!DPU_FORMAT_IS_YUV(fmt))
+ 		panel_format = (fmt->bits[C0_G_Y] |
+@@ -216,6 +241,17 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 				(COLOR_8BIT << 4) |
+ 				(0x21 << 8));
+ 
++	if (p->wide_bus_en)
++		intf_cfg2 |= INTF_CFG2_DATABUS_WIDEN;
++
++	/* Synchronize timing engine enable to TE */
++	if ((ctx->cap->features & BIT(DPU_INTF_TE_ALIGN_VSYNC))
++			&& p->poms_align_vsync)
++		intf_cfg2 |= INTF_CFG2_ALIGN_VSYNC_TO_TE;
++
++	if (ctx->cfg.split_link_en)
++		DPU_REG_WRITE(c, INTF_REG_SPLIT_LINK, 0x3);
++
+ 	DPU_REG_WRITE(c, INTF_HSYNC_CTL, hsync_ctl);
+ 	DPU_REG_WRITE(c, INTF_VSYNC_PERIOD_F0, vsync_period * hsync_period);
+ 	DPU_REG_WRITE(c, INTF_VSYNC_PULSE_WIDTH_F0,
+@@ -233,11 +269,9 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *ctx,
+ 	DPU_REG_WRITE(c, INTF_FRAME_LINE_COUNT_EN, 0x3);
+ 	DPU_REG_WRITE(c, INTF_CONFIG, intf_cfg);
+ 	DPU_REG_WRITE(c, INTF_PANEL_FORMAT, panel_format);
+-	if (ctx->cap->features & BIT(DPU_DATA_HCTL_EN)) {
+-		DPU_REG_WRITE(c, INTF_CONFIG2, intf_cfg2);
+-		DPU_REG_WRITE(c, INTF_DISPLAY_DATA_HCTL, display_data_hctl);
+-		DPU_REG_WRITE(c, INTF_ACTIVE_DATA_HCTL, active_data_hctl);
+-	}
++	DPU_REG_WRITE(c, INTF_CONFIG2, intf_cfg2);
++	DPU_REG_WRITE(c, INTF_DISPLAY_DATA_HCTL, display_data_hctl);
++	DPU_REG_WRITE(c, INTF_ACTIVE_DATA_HCTL, active_data_hctl);
+ }
+ 
+ static void dpu_hw_intf_enable_timing_engine(
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+index 643dd10..57be86d 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+- * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2022-2023, Qualcomm Innovation Center, Inc. All rights reserved.
+  * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+  */
+ 
+@@ -10,6 +10,7 @@
+ #include "dpu_hw_catalog.h"
+ #include "dpu_hw_mdss.h"
+ #include "dpu_hw_util.h"
++#include "dpu_hw_top.h"
+ 
+ struct dpu_hw_intf;
+ 
+@@ -33,6 +34,11 @@ struct intf_timing_params {
+ 	u32 hsync_skew;
+ 
+ 	bool wide_bus_en;
++	bool compression_en;
++	u32 extra_dto_cycles;   /* for DP only */
++	bool dsc_4hs_merge;     /* DSC 4HS merge */
++	bool poms_align_vsync;  /* poms with vsync aligned */
++	u32 dce_bytes_per_line;
+ };
+ 
+ struct intf_prog_fetch {
+@@ -86,11 +92,13 @@ struct dpu_hw_intf_ops {
+ 
+ struct dpu_hw_intf {
+ 	struct dpu_hw_blk_reg_map hw;
++	u32 hw_rev;	/* mdss hw_rev */
+ 
+ 	/* intf */
+ 	enum dpu_intf idx;
+ 	const struct dpu_intf_cfg *cap;
+ 	const struct dpu_mdss_cfg *mdss;
++	struct split_pipe_cfg cfg;
  
  	/* ops */
- 	struct dpu_hw_ctl_ops ops;
+ 	struct dpu_hw_intf_ops ops;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+index a1a9e44..1212fa2 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+@@ -1,5 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+-/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
++/*
++ * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved.
+  */
+ 
+ #ifndef _DPU_HW_TOP_H
+@@ -34,12 +36,14 @@ struct traffic_shaper_cfg {
+  * @intf      : Interface id for main control path
+  * @split_flush_en: Allows both the paths to be flushed when master path is
+  *              flushed
++ * @split_link_en:  Check if split link is enabled
+  */
+ struct split_pipe_cfg {
+ 	bool en;
+ 	enum dpu_intf_mode mode;
+ 	enum dpu_intf intf;
+ 	bool split_flush_en;
++	bool split_link_en;
+ };
+ 
+ /**
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
