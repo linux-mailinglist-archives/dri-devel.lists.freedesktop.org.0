@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC19A6780D0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA9B6780DB
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 17:05:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE4E10E4E9;
-	Mon, 23 Jan 2023 16:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A03DC10E4F9;
+	Mon, 23 Jan 2023 16:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FFD10E1E4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 10:48:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6756E10E33D
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 10:48:05 +0000 (UTC)
 Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 223489D9;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B61E3CCE;
  Mon, 23 Jan 2023 11:48:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1674470883;
- bh=rKKTOtpn4zUh+SedZUiDLFVup1I0w8V0nX7Y7NrjM0g=;
+ s=mail; t=1674470884;
+ bh=dDTAac55xLx/YGt/Z776k3LIei6Uzm45imM7tk3QwKY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KXe+4IkRHlLdoyBwwie+oEUEcXbveTU+3hsTrSi3qCGjYHgzkFu/1IDFA0gDol8wU
- B/kU1jHMNUyiqn3Yzw8dpCq2ocq3EPZEswleVbxwudvBX3kyq5P+5xEm1UlAryscn7
- ljUc7rORDBrBRUiu/pieNZWt0iLgFype+nNf/tpk=
+ b=ROIZBIYVlND6nL9mr4PH5P7QkRmHB+i97StV/JmJ+8VYH5EnLF57vPKTmaQnrbarg
+ iIKcStEYe9BJTCffKq1MEGCs+wcKyjIw50P+NjMdPhFFyDjoJW9kJe3azZuDMcnjEx
+ 4D8FUu3mLVX4Fk9j14bnrNfZk1Frd7gSRa1cH3WM=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 6/7] drm: rcar-du: Fix setting a reserved bit in DPLLCR
-Date: Mon, 23 Jan 2023 12:47:41 +0200
-Message-Id: <20230123104742.227460-7-tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v3 7/7] drm: rcar-du: Stop accessing non-existant registers on
+ gen4
+Date: Mon, 23 Jan 2023 12:47:42 +0200
+Message-Id: <20230123104742.227460-8-tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123104742.227460-1-tomi.valkeinen+renesas@ideasonboard.com>
 References: <20230123104742.227460-1-tomi.valkeinen+renesas@ideasonboard.com>
@@ -54,128 +55,74 @@ Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On H3 ES1.x two bits in DPLLCR are used to select the DU input dot clock
-source. These are bits 20 and 21 for DU2, and bits 22 and 23 for DU1. On
-non-ES1.x, only the higher bits are used (bits 21 and 23), and the lower
-bits are reserved and should be set to 0.
-
-The current code always sets the lower bits, even on non-ES1.x.
-
-For both DU1 and DU2, on all SoC versions, when writing zeroes to those
-bits the input clock is DCLKIN, and thus there's no difference between
-ES1.x and non-ES1.x.
-
-For DU1, writing 0b10 to the bits (or only writing the higher bit)
-results in using PLL0 as the input clock, so in this case there's also
-no difference between ES1.x and non-ES1.x.
-
-However, for DU2, writing 0b10 to the bits results in using PLL0 as the
-input clock on ES1.x, whereas on non-ES1.x it results in using PLL1. On
-ES1.x you need to write 0b11 to select PLL1.
-
-The current code always writes 0b11 to PLCS0 field to select PLL1 on all
-SoC versions, which works but causes an illegal (in the sense of not
-allowed by the documentation) write to a reserved bit field.
-
-To remove the illegal bit write on PLSC0 we need to handle the input dot
-clock selection differently for ES1.x and non-ES1.x.
-
-Add a new quirk, RCAR_DU_QUIRK_H3_ES1_PLL, for this. This way we can
-always set the bit 21 on PLSC0 when choosing the PLL as the source
-clock, and additionally set the bit 20 when on ES1.x.
+The following registers do not exist on gen4, so we should not write
+them: DEF6Rm, DEF7Rm, DEF8Rm, ESCRn, OTARn.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 23 ++++++++++++++++++++---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c  |  3 ++-
- drivers/gpu/drm/rcar-du/rcar_du_drv.h  |  1 +
- drivers/gpu/drm/rcar-du/rcar_du_regs.h |  8 ++------
- 4 files changed, 25 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c  |  8 +++++---
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 24 ++++++++++++++----------
+ 2 files changed, 19 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index f2d3266509cc..b7dd59fe119e 100644
+index b7dd59fe119e..008e172ed43b 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -245,13 +245,30 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
- 		       | DPLLCR_N(dpll.n) | DPLLCR_M(dpll.m)
- 		       | DPLLCR_STBY;
+@@ -298,10 +298,12 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+ 		escr = params.escr;
+ 	}
  
--		if (rcrtc->index == 1)
-+		if (rcrtc->index == 1) {
- 			dpllcr |= DPLLCR_PLCS1
- 			       |  DPLLCR_INCS_DOTCLKIN1;
--		else
--			dpllcr |= DPLLCR_PLCS0
-+		} else {
-+			dpllcr |= DPLLCR_PLCS0_PLL
- 			       |  DPLLCR_INCS_DOTCLKIN0;
+-	dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
++	if (rcdu->info->gen < 4) {
++		dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
  
-+			/*
-+			 * On ES2.x we have a single mux controlled via bit 21,
-+			 * which selects between DCLKIN source (bit 21 = 0) and
-+			 * a PLL source (bit 21 = 1), where the PLL is always
-+			 * PLL1.
-+			 *
-+			 * On ES1.x we have an additional mux, controlled
-+			 * via bit 20, for choosing between PLL0 (bit 20 = 0)
-+			 * and PLL1 (bit 20 = 1). We always want to use PLL1,
-+			 * so on ES1.x, in addition to setting bit 21, we need
-+			 * to set the bit 20.
-+			 */
-+
-+			if (rcdu->info->quirks & RCAR_DU_QUIRK_H3_ES1_PLL)
-+				dpllcr |= DPLLCR_PLCS0_H3ES1X_PLL1;
-+		}
-+
- 		rcar_du_group_write(rcrtc->group, DPLLCR, dpllcr);
+-	rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
+-	rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
++		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
++		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
++	}
  
- 		escr = ESCR_DCLKSEL_DCLKIN | div;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index ea3a8cff74b7..82f9718ff500 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -394,7 +394,8 @@ static const struct rcar_du_device_info rcar_du_r8a7795_es1_info = {
- 		  | RCAR_DU_FEATURE_VSP1_SOURCE
- 		  | RCAR_DU_FEATURE_INTERLACED
- 		  | RCAR_DU_FEATURE_TVM_SYNC,
--	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY,
-+	.quirks = RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY
-+		| RCAR_DU_QUIRK_H3_ES1_PLL,
- 	.channels_mask = BIT(3) | BIT(2) | BIT(1) | BIT(0),
- 	.routes = {
- 		/*
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index df87ccab146f..acc3673fefe1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -35,6 +35,7 @@ struct rcar_du_device;
+ 	/* Signal polarities */
+ 	dsmr = ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DSMR_VSL : 0)
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+index 6da01760ede5..152602236377 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+@@ -148,19 +148,23 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+ 	}
+ 	rcar_du_group_write(rgrp, DEFR5, DEFR5_CODE | DEFR5_DEFE5);
  
- #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
- #define RCAR_DU_QUIRK_H3_ES1_PCLK_STABILITY BIT(1)	/* H3 ES1 has pclk stability issue */
-+#define RCAR_DU_QUIRK_H3_ES1_PLL	BIT(2)	/* H3 ES1 PLL setup differs from non-ES1 */
+-	rcar_du_group_setup_pins(rgrp);
++	if (rcdu->info->gen < 4)
++		rcar_du_group_setup_pins(rgrp);
  
- enum rcar_du_output {
- 	RCAR_DU_OUTPUT_DPAD0,
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-index c1bcb0e8b5b4..789ae9285108 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-@@ -283,12 +283,8 @@
- #define DPLLCR			0x20044
- #define DPLLCR_CODE		(0x95 << 24)
- #define DPLLCR_PLCS1		(1 << 23)
--/*
-- * PLCS0 is bit 21, but H3 ES1.x requires bit 20 to be set as well. As bit 20
-- * isn't implemented by other SoC in the Gen3 family it can safely be set
-- * unconditionally.
-- */
--#define DPLLCR_PLCS0		(3 << 20)
-+#define DPLLCR_PLCS0_PLL	(1 << 21)
-+#define DPLLCR_PLCS0_H3ES1X_PLL1	(1 << 20)
- #define DPLLCR_CLKE		(1 << 18)
- #define DPLLCR_FDPLL(n)		((n) << 12)
- #define DPLLCR_N(n)		((n) << 5)
+-	/*
+-	 * TODO: Handle routing of the DU output to CMM dynamically, as we
+-	 * should bypass CMM completely when no color management feature is
+-	 * used.
+-	 */
+-	defr7 |= (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0) |
+-		 (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
+-	rcar_du_group_write(rgrp, DEFR7, defr7);
++	if (rcdu->info->gen < 4) {
++		/*
++		 * TODO: Handle routing of the DU output to CMM dynamically, as
++		 * we should bypass CMM completely when no color management
++		 * feature is used.
++		 */
++		defr7 |= (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0) |
++			 (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
++		rcar_du_group_write(rgrp, DEFR7, defr7);
++	}
+ 
+ 	if (rcdu->info->gen >= 2) {
+-		rcar_du_group_setup_defr8(rgrp);
++		if (rcdu->info->gen < 4)
++			rcar_du_group_setup_defr8(rgrp);
+ 		rcar_du_group_setup_didsr(rgrp);
+ 	}
+ 
 -- 
 2.34.1
 
