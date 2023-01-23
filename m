@@ -1,108 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF7E678834
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 21:36:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F4367887E
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 21:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1D5710E57F;
-	Mon, 23 Jan 2023 20:36:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE5510E57A;
+	Mon, 23 Jan 2023 20:38:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2053.outbound.protection.outlook.com [40.107.100.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8C7710E568;
- Mon, 23 Jan 2023 20:36:08 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2084.outbound.protection.outlook.com [40.107.237.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 938CE10E567;
+ Mon, 23 Jan 2023 20:38:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mr14+TQpizbQz7B2pug/h8QyIJ2K4cADX3hvvE5e0zbx/eRyZD+mrXTOvL1IzLIVcZgoI03Ev5vRAm7P6GY4SeK/oawR7LrJJcR+fbTHiqbmgnBG8JSc7P4VSiLB6QITDMoucDroocLACc0HbhfyK5W7yNvejAcN9P9mLWCJtwpLlP1Zy+iKefjWD6i9bU6h+as0K7VCuF4DhhNBZeFZXF/kHqvSVWzOVgglrs3tKoeRkclAWskwQ9oba2uYAMpwyWmguLlOk438rSFrNBosEc54VueqrPvLJKBefioaJEO/7V+oF8CrLnX6IR1Ae3IX+59BNVs3WViweM8xsN8pPQ==
+ b=aVVij8BcR8yq68qblATSreRVEfEJdhGBN1iKa+9bPkjFvUi6tKXYDjI8Ljh8FHIooc3GvuKT+MqCoqTlsAH9PQZWZbj/Nt49k6oovINdkH8YWyXKEDrxSCdSeRTzHsBVWNOM6u4G93Te5DcaLXYD7zAhvLkY/0LVIFG8+qHrkJZvrj09IOysQjjOeizRu2G7WT+Xz861UCQI49tXfIASLoEZBpMx661zq+nbRm1Turd4B36CSJ7tea3ecURuPC+cxswInKWTNLaBKCnOlbSC1fOWGpi1TQJLz5SrjUzqfRjlb5iVXhOSqnIZZ/eHselNm1BNqp5L0G4Hu1PisFw2nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E/5qhZMcxbuieGySe9aeptZ7GgD7dbsVtDHB1SonTkA=;
- b=TqhJqlZRDQ4tyoRP8t+WWT7ci2ZyhZaSYaboDGyBR0JRGHKkPRPEhQBxDyXT/TR0x8XrXCGbbT50i4Mpwd5gFtnaOfk+eg7sKa5CEHc62NCZLkzo1esQha/VpwpkvSQbkDLZQnSxnFNndoabVbRSqb+tYnpTG/U32Y/0PCJqWWJ5JnSrTBhyuddKCUSngbfJw5ryWC/cKrzUoXnYih3YHKa/aYE+peJmPTQXNUw3Bkbdpbl0KTeeLO6aq+PpeR0kZjL0r95ml1Yjv7+nroTgINOKO/RvSRVrngZ9xdlpJZa9tnaeLsK5IPJ89RSHFER376Nma05KSgGkSIjYfNl9xg==
+ bh=e4jkzSAlpYGlWTpP2i8a7YIzArn+CSMmSOuDKji8dSI=;
+ b=AlaBi6PZX/4tm+ciyHrIfEaGuojjsa+ZXhHy4RLLLnJQXq1C3x5wfGxgEOeoyeuz+B7o0R4JnIDPv2YL8YDEBSobLECNOM9RpiRBUxztrub6HYsrSwZAiJm6WpWCpGToOZJcN17EqS2nUv7Y3B7P4ngNp9GwscgayLs/FcPA4GaV1HkqQJAshL8GQtmOAykT7oUtk5JQyByxgJYJiXI/QPf/g2g6A02lO5aDJulRg/OUadjqQ9vV2WPpmer0fj8GyxOCqRsFOjeHvN3UDMSDQRb5URbzOyu2/QDLm3Ed0MOmD/2j8W4Io//zOUcE4y/SlDHpe1PcryEIkaP0Nl2yQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E/5qhZMcxbuieGySe9aeptZ7GgD7dbsVtDHB1SonTkA=;
- b=H7Wk43EIbgaTZo4N/INcAfCFDYcZmr1DuuBiNbytKXn+UMIGTuPrTi1yETc03UBZ9SowJw13O+UUtCRZuZwRz0RArBvCi1qicj5gTYck1KY5dtEj0Exzmp8bKvnMHqbqCX6x6zBWqqqZKQs8pujvLuAwqc19cqkxIO/KwnZU8ni+IhU75yLabrSc40iRy6n7lUdUeBIz9KPVUYaJw5Pqim8vGbOtaz32wv3hYt1/voZg82y5n1zMDJicE9b9hyoa5gu/k8wWqrogL7zB2a/2TRK3ocKvVrKB/rEwNYMr/4EsaWB99JHk41YLNz1iCFSO9G2bnoD7NcyB/uwsNV8B3g==
+ bh=e4jkzSAlpYGlWTpP2i8a7YIzArn+CSMmSOuDKji8dSI=;
+ b=RYcal2W3Gvie6braoFBZQPXNd3MIsPyC/AyDFfJPYz3Ew3wexJHr3veCygbzC4TWhmfCoss+5G+Y+qxc1WlJ6JWu4vrPYqxoUrVydkubHHOM3pnKlK6+vQdNH0TYWPdlJJU9Z8XomdaPTjf4LXgkniNRpyz970bsS8kwOahFH0k=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by BL3PR12MB6571.namprd12.prod.outlook.com (2603:10b6:208:38e::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Mon, 23 Jan
- 2023 20:36:06 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::3cb3:2fce:5c8f:82ee]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::3cb3:2fce:5c8f:82ee%4]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 20:36:06 +0000
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Kevin Tian <kevin.tian@intel.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v3 10/10] iommu/s390: Use GFP_KERNEL in sleepable contexts
-Date: Mon, 23 Jan 2023 16:36:03 -0400
-Message-Id: <10-v3-76b587fe28df+6e3-iommu_map_gfp_jgg@nvidia.com>
-In-Reply-To: <0-v3-76b587fe28df+6e3-iommu_map_gfp_jgg@nvidia.com>
-References: 
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM6PR12MB4186.namprd12.prod.outlook.com (2603:10b6:5:21b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
+ 2023 20:38:18 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
+ 20:38:18 +0000
+Message-ID: <37e78013-5ed6-e80f-4a1c-1e61bed59735@amd.com>
+Date: Mon, 23 Jan 2023 21:38:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH] drm: Create documentation about device resets
+Content-Language: en-US
+To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20230123202646.356592-1-andrealmeid@igalia.com>
+ <20230123202646.356592-2-andrealmeid@igalia.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230123202646.356592-2-andrealmeid@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR03CA0001.namprd03.prod.outlook.com
- (2603:10b6:208:23a::6) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+X-ClientProxiedBy: FR2P281CA0183.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9f::19) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BL3PR12MB6571:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2516c879-d1d1-4824-29d9-08dafd817354
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM6PR12MB4186:EE_
+X-MS-Office365-Filtering-Correlation-Id: e819c14f-3f70-49ab-8f13-08dafd81c29a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LVGshr4er2elL/unnZCOCqvxV70HIS4TLdoaezQkk/BGn29wHu9juFzGd4KlsMbViOkRAlHG/EEXd7ZxxxJROEhPTX1pARZxnMT6gu2yJgDfCwUtYf48F5g7DrsTsf4jxtPW5+Cz4FcPvJqPn8SWcFpV8eNSSe0IdUYw+6dLj7r7TFNJScqQmHB3yUArWSKxdyL7Uil5RV+Y7h0S0U6+KOJ90qv4YyIAK3ufIMKDnjVcLRRHGA0Ei6hOao0yiVlgxJZD1tEcA2R2dIV+u1+BSAtfgXiQXe2PHoMFrJM4yXNMNLUtDypRpMfhbsGw3NAYA2QTOZFuHpan0mC4Lp9JuvaxKrxrC9OZ6dz2E25lxYKSERJ+gQVoUR6lglgAnnLD3dQHd+RUwCrxO1yqY4aOhfqTSWUZyDNWcb69Q3DkKMijnU9reO1Pra48n1Q1n3InSYezVuYqkM2AEI1BUtAwfH8VcQFVuTRbaMGb8jBYngLDRnY7/BlFlFfuZSEcF44WOmvV4pnlFfp1Mvhugl13LVB2Jdje+pXpotG8cdXFyOwcr07EJOuRj7b8p2Xrqf/g/FKNDuKerFxS8KCbt85iz4A5mj1FTk/IPGR4MGo3hQ+0kGra0k/+BqQp4NaWD57+34B2CC/EsjNYbxLGJyGSjA==
+X-Microsoft-Antispam-Message-Info: dy3mE0fUEVpvhHiJmTzs1XTTRW4HvQcvoUUJtZ5TVgk5xT2vDdGSzrZpQHrIkMwyou2Oqx3VeodIKigC7oV1SnX83H9F7GBGhaAZyMBmOAD6V924BVMtp+1759UMOZPQTApwwXg1wHMHUGiwCwl+cxRK4syuIuOezUFprUra6ysQCQh8szQlfY/k7FSUBTuvEUUnkUhljoWippbVbIoh61JmbC7FugD3jD4eVCcMX0nSEy1qK78eWHumtRnAov1PIXGqNXFGVaHQizYm3rVe1bGfJA1ctMxKxW28yTRnB3i+/kWS1rx6B2IuI7ECrwtIz0WSsy8CZLZva5meAhezb7idxveZm1i944/JwSLt5mLxpJ8lj4FCCsnPtimAemieO+5WH3/6KVIy2C656lZlqFobNd1OBPnO9yVtedvUdJDX8j9i/uHoQaqLxgu0uymx7Ab00l0e8oyPzC0imm+U5MeJV5TY+BNhRofL+Qef2g5QBSMWTAmbdu4TLGt/GMuzaTsNUgBVk5aCA4Pd78HtCd3wZt+B/FJ/y3xf9AefJY+0ytNl3UqHmtPC6mCHa9Qt84ADvtvKzKOOoNM6ufKzlc27XVh2AzC2LawZP1w/iKTUJ8qpw6KNILVr42u69TuRtua5UedevsKpPFaOKmt8w6Ny7/ehBzpea3LOjEtSS9d1C+vmmKy69jmkLn/9lHvm/wRnaBWLKXhG5OW/rtzm2P+6uRi0TvbXYs7lmeq1G0s=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(39860400002)(136003)(366004)(376002)(396003)(451199015)(5660300002)(316002)(8936002)(7416002)(41300700001)(38100700002)(110136005)(36756003)(186003)(83380400001)(478600001)(6666004)(86362001)(6512007)(6506007)(6486002)(26005)(66476007)(8676002)(66946007)(4326008)(2616005)(54906003)(2906002)(66556008);
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(376002)(366004)(136003)(39860400002)(396003)(451199015)(316002)(41300700001)(54906003)(66946007)(4326008)(66556008)(66476007)(8676002)(86362001)(36756003)(6666004)(6506007)(478600001)(83380400001)(6512007)(186003)(6486002)(2616005)(31686004)(66899015)(8936002)(7416002)(5660300002)(2906002)(31696002)(38100700002)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aX43Z3Qps0hqfTvWsm+MygYbBsHjUyNRMkSVvNFeWJ+E03PT1jnM5GOMlF4w?=
- =?us-ascii?Q?CISel+zjpLsbZUSsaY6sLYpR8ZPort2rw65kObQ3VLr8HlZK5Rbuqz/e+5nu?=
- =?us-ascii?Q?tz7Y+1z4gyXh8JxPMBo2gdmCZUCf2R5nUUOW8ClM+NGDmco3Yox4LU8jW8QF?=
- =?us-ascii?Q?7LmbMaEcjbh7RmAaqxCURMRYPRx63Jd4xQunPKfKpbFSW236EXIllcPDS5Zx?=
- =?us-ascii?Q?t3xgrLYmVBhO+0V7tOexQNHqCrSvsK2o+cQznAqK7J3C3NVAj6qvihvXLZmp?=
- =?us-ascii?Q?ByuoNMTbUlXXSiKuq2GzICiL59kfa9izQ4kCn7vynSfAvuYWsT/F9rK/F9gl?=
- =?us-ascii?Q?KmW+WvsuIYVE2dbu/BJ1QSFzeMiPVnxWInUfxKutpjoREBuUXV7pA40wYsFc?=
- =?us-ascii?Q?Jn2GSEbTJdFbtmaO2/kD2rVJaTKcb1yAOgjwqEfoF3rlWyKqwhD8KvG+AtlD?=
- =?us-ascii?Q?QAi6cfdZy/cFL6BkURQ828r2xxU/hdhFZRQHMkG+P1TkLZkUNN+Bb0/bTn4b?=
- =?us-ascii?Q?DKG696vrGtD9oh0lvfWwORhXIG9VBZg/bUPQ4FDCfIkmz28qdfymtHMqbQTc?=
- =?us-ascii?Q?YN8IdOqtPTyE6eeblJKV8wLFbt3BWCLSViEnHAJGPZDoYjs2qVhqEfkoNsF3?=
- =?us-ascii?Q?H594Txtvuf9FlbEo9TNLLm3wEW6bAPW3Y2Uc+wNARsCi+pKlWXaMP9+Lon47?=
- =?us-ascii?Q?4ahmUdV8HRkyPejdjM0GpW90VhWT9PJ2vSXJ5ICSIgQgizYzEmW0DlxGcpe1?=
- =?us-ascii?Q?N5q/lvZBJPTHSQNaf6HcJYHtWTEntkOXjnBgroH7RG4Mpn64oV+KN3cPL6ce?=
- =?us-ascii?Q?Hs7Vdw2aipJEFpVeQ5oMvF/tTN2jhata6hQwiQIpcHPu15DsxxbulrLq3YMt?=
- =?us-ascii?Q?OgyO7wgwhild+a2LzVx3G/8KeqSCSReg/xPbsLWJbg2r1RNgcXG+vLJsh5w0?=
- =?us-ascii?Q?I+JlXJ2BFE6ZTdL2wXn9BL8+PffxyB8DBeESoLCpanXJ9/SLKZhcfDiIFpof?=
- =?us-ascii?Q?QH1yugmma/Br8ZaQIc0R8msPK9uJd2iiUnn8cZZf75+k8l3S/w0AlJqyXuN6?=
- =?us-ascii?Q?yVmBfmrh/9dVj5UA6lPxw5ZIjSmg127B4a23hSyoYqXmj7MF36cMRnZNbLI+?=
- =?us-ascii?Q?S9XY9nnIldBDMEkgwCTOyEV4uzBSafzO1wzj4zQOqM+N6MDnXwxhy2FyKJG9?=
- =?us-ascii?Q?6AcxHrmHX4csojpjgbLTdMuG9MtLXqx1cUR2GEPCNMQuFwyr9dUrR8Os7MXd?=
- =?us-ascii?Q?bIJKGheUuwGk6CvyED8F8kE7c8oSXngJnzeyXmalYvhgD2/n6X6FiTQyUj7I?=
- =?us-ascii?Q?+GQCGJFDJzWYcpvg713y/k+WMnA3zvWZJblG2lN8euIfRXOSuCbt5F9YLbA5?=
- =?us-ascii?Q?Sdx3deB7eYSMaQ7IHOIOjhZOtVtQVkZA/EaEnYgsyMUnE9ice3+I7yRt83dW?=
- =?us-ascii?Q?/k5RXSif32PdF2EaNmgDJ+Bg72sIr+SZbx7waNPF9SJjqeNBHmigRqxw5nou?=
- =?us-ascii?Q?2J4Go3VCxHRgo9bEALVJYyfRozunEx9PBMOuOQaDraxogp4MKKqlHfc1IvYC?=
- =?us-ascii?Q?vfT/UQ102oNXq5OSxwx/l/hvYWMdrKgY9HE+itCT?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2516c879-d1d1-4824-29d9-08dafd817354
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RTJMeGcrb2pJbmdyR05PWWxyRHFLcVV6SndwVUlFLzNod2d6NlhyN2hybWcr?=
+ =?utf-8?B?Mm8wM1ZNVG12WVdsQ2RUZXkrQi92Qm50NllOSnNGWGJaQTY5OEdZNjFiK2Zt?=
+ =?utf-8?B?ZzRqWm5zR0c0K3RUc0orbHlWL21SWkVySXNUVFIveWpFN0o5YmQxbXJYR29U?=
+ =?utf-8?B?VTJsaW5LTU9qamFYaUVycTIxQyt5Uy9lOEd0MTN2cWJvWmNvWkxGOGtjZ3hP?=
+ =?utf-8?B?SVVjRkRLakFBbTJ1aEtHaG4wbml6NlMwaUJpUTNiSE5pZlB6TWtJaE13MXk1?=
+ =?utf-8?B?ZmdTdlcwZXZRZVJaUk92TS96Wldyc0U5bmxycjNvZEJOdy85eHZiRWlDK3N5?=
+ =?utf-8?B?eWpwWGFtb0Jzd1ZDbjZ6Q09na1lRR25Mb1dhZjFZcU4vcWtRZER5ZDhxZGhM?=
+ =?utf-8?B?NU9oakhNdXVlNy9pVk1hMHIxT3NnOGZEc1pYUjRsSXBhRVE2bWN6d2p1S1dM?=
+ =?utf-8?B?VlpDTGpId2dIYVhrTEk0U0ZqT243blVveHUwV3VkU0lLUlVhdzBIUWRxWG1y?=
+ =?utf-8?B?TUFKbHQxYTRjOFlUUzN6QkR2a3g0SSsxTzhEeFFzQ1cvZFQveFQveFdGRHEx?=
+ =?utf-8?B?MlJxSk5XVlZXMnZtVEd2MFRTLzIvZmYrWXFWZEQ0dTJwVFZCcTVDZ1RXYzZ0?=
+ =?utf-8?B?dFR1SFlnU2NrL0Jjek9obEdoV1BKcXRWS3JkOE42VkFTMk9JVXE1ZnVIcEx2?=
+ =?utf-8?B?eGRPeTJJUzhkNnRURWdEemRrQzZ3QTFvbEtDOXhQYTc5dmplWGZNZFBMU1ds?=
+ =?utf-8?B?VlZnaS9KcnYvT2NKaVowMS9KVFVVYjhaRVRmTlllNkFkRmZ2VFJOTnBDSDRh?=
+ =?utf-8?B?bTF6VEN5RjBSRDJWY0dhaWl6Y2l1VE5HWFN3MlZ5c2xWS2tzUG1haTUwQ2R2?=
+ =?utf-8?B?WEYzcG9QWUx5RWtOSGhINDF6bG9KQzJmNFRoL3RxL3g4emc1WWp3N3kyRmVT?=
+ =?utf-8?B?NVoxbE5lcXpMT3ZSSHBsK0t0TWFVYkN3SW16UHp6c3EyeWdnU2dxM0pmNTF3?=
+ =?utf-8?B?b2s1MWJMaTBrY0tyOFJGVTh6SXlDVmFGbHZJRkRsRktqS2VwVENwRlBMc3Iy?=
+ =?utf-8?B?a2VaTW9jUktuM3hxSUNCbksrSE5MSUNDOEY0VjN5dFRoOHJWWWlmdDR5SHo3?=
+ =?utf-8?B?L2VjVlVwaDErdUl5YXlRdFoyaU5iN2hOWmpDeU42dThlQVdOanpHSUxvMTY1?=
+ =?utf-8?B?aThuU2JqdGNsV1lwQ3RCNC80Njg2QlJiaktDWHdtdUpMU3BzdVFPdEZsblFN?=
+ =?utf-8?B?cWJKUG9YUE9qTXVxcGIzODR4MHFqSDRZUHg3Z0ZCN3JqaE1TWXlKYXpvOC82?=
+ =?utf-8?B?c0JLS3NieFBQZW4vQi9qcXlGVlJicDRBTkxJL1VRcExQVG9hczYycjcvWDNt?=
+ =?utf-8?B?WlhaL3VqMFliSWRYbU9iRmhMVFM2VmJQNkJBcEJVOHJTMUVZRlE0SktQSXQx?=
+ =?utf-8?B?RnRFY1ZJVlEyU3BWVHY0cStZbGx4dkxsN1dQU0VCdjlFSDhzMTVkcWtOajlE?=
+ =?utf-8?B?RWUzYzNKemU1ZlZrenlkY045eE9lOXVhTm9zcFlMOG9DbVZNUGQ3T2RhT2Ni?=
+ =?utf-8?B?WVhTNUJGaDRwUTNXaVJqMnkrenlKWWIyYlQ1YTBOUmo2TlhPU3F1ZzduVXB1?=
+ =?utf-8?B?a3JHRnlTOHF0eGF4R0ltS1JkV244RmN4WUF4TFo0LzVjYW4zWVJPOWE0L0c3?=
+ =?utf-8?B?M0x0RW1sU2hZS0prZTJuVWFJdjlsRTNIT24xR0pkRWJVa2xIL1BoSUtPTmhu?=
+ =?utf-8?B?YVF6UzRJcDdjM2F2eUxyeFB5Tjh6SDFqNXQyYiswYVRvMlRxRjZZc2xvSGdL?=
+ =?utf-8?B?NDFnc1NXbkNJNUlnNi9mRlRzODJ4a1diZVAwZDQ4bWlYdHBteldSWFRQaHJk?=
+ =?utf-8?B?R2lXYVJwbjk1eXNhWng0T0xvRFJrV3BSRmFLT3drenZqQzRxOEc4TkI3dWM0?=
+ =?utf-8?B?UDRtUWhUUDQrbWRjZ1dLaHdGMDN0eWRIMDhrQ2VYTko5NU1VMGdremdPcTlP?=
+ =?utf-8?B?RXB1czVnaENMNE5PL2dYcHBSWVcvZjZ1YndubEtkeGZpUzVEbkhOUFU0T2Jq?=
+ =?utf-8?B?TzIxS0RhVlFTZWJJYlFIaFJDVGZYUmpaNjFERncrc1VDRHlheklJRHlLenYz?=
+ =?utf-8?B?QWpYQjVKK2RIdkROSW1NL3dvMDNxKzBUbUFxeXl2RmkyRmFrbmhNNWFsMnN0?=
+ =?utf-8?Q?v28sSs8gwF4WuvHI/eYSCC94KygRORZuvT4Gg0zOhx9h?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e819c14f-3f70-49ab-8f13-08dafd81c29a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 20:36:05.5413 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 20:38:18.6363 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pwNuQbrVCMq1U51lxXzJ35/JsQt/2JC5UMBINcUbkkaSZVvWTxcX9wF/dE86P867
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6571
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bc1fScc7hckxR5BEdUdmqvjBnZp/7/waAlDcKeADcEN8blbTSZR5ze+xmiCKQbsO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4186
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,56 +128,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, kvm@vger.kernel.org,
- nouveau@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Niklas Schnelle <schnelle@linux.ibm.com>,
- linux-remoteproc@vger.kernel.org, iommu@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Alex Williamson <alex.williamson@redhat.com>, netdev@vger.kernel.org,
- ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
- linux-tegra@vger.kernel.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- virtualization@lists.linux-foundation.org, ath11k@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ =?UTF-8?B?J01hcmVrIE9sxaHDoWsn?= <maraeo@gmail.com>,
+ amaranath.somalapuram@amd.com, Pekka Paalanen <ppaalanen@gmail.com>,
+ kernel-dev@igalia.com, alexander.deucher@amd.com,
+ contactshashanksharma@gmail.com,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These contexts are sleepable, so use the proper annotation. The GFP_ATOMIC
-was added mechanically in the prior patches.
+Am 23.01.23 um 21:26 schrieb André Almeida:
+> Create a document that specifies how to deal with DRM device resets for
+> kernel and userspace drivers.
+>
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+>   Documentation/gpu/drm-reset.rst | 51 +++++++++++++++++++++++++++++++++
+>   Documentation/gpu/index.rst     |  1 +
+>   2 files changed, 52 insertions(+)
+>   create mode 100644 Documentation/gpu/drm-reset.rst
+>
+> diff --git a/Documentation/gpu/drm-reset.rst b/Documentation/gpu/drm-reset.rst
+> new file mode 100644
+> index 000000000000..0dd11a469cf9
+> --- /dev/null
+> +++ b/Documentation/gpu/drm-reset.rst
+> @@ -0,0 +1,51 @@
+> +================
+> +DRM Device Reset
+> +================
+> +
+> +The GPU stack is really complex and is prone to errors, from hardware bugs,
+> +faulty applications and everything in the many layers in between. To recover
+> +from this kind of state, sometimes is needed to reset the GPU. Unproper handling
+> +of GPU resets can lead to an unstable userspace. This page describes what's the
+> +expected behaviour from DRM drivers to do in those situations, from usermode
+> +drivers and compositors as well.
+> +
+> +Robustness
+> +----------
+> +
+> +First of all, application robust APIs, when available, should be used. This
+> +allows the application to correctly recover and continue to run after a reset.
+> +Apps that doesn't use this should be promptly killed when the kernel driver
+> +detects that it's in broken state. Specifically guidelines for some APIs:
+> +
 
-Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com>
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- arch/s390/pci/pci_dma.c    | 2 +-
- drivers/iommu/s390-iommu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> +- OpenGL: During a reset, KMD kill processes that haven't ARB Robustness
+> +  enabled, assuming they can't recover.
 
-diff --git a/arch/s390/pci/pci_dma.c b/arch/s390/pci/pci_dma.c
-index 2f6d05d6da4f76..2d9b01d7ca4c5c 100644
---- a/arch/s390/pci/pci_dma.c
-+++ b/arch/s390/pci/pci_dma.c
-@@ -579,7 +579,7 @@ int zpci_dma_init_device(struct zpci_dev *zdev)
- 
- 	spin_lock_init(&zdev->iommu_bitmap_lock);
- 
--	zdev->dma_table = dma_alloc_cpu_table(GFP_ATOMIC);
-+	zdev->dma_table = dma_alloc_cpu_table(GFP_KERNEL);
- 	if (!zdev->dma_table) {
- 		rc = -ENOMEM;
- 		goto out;
-diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-index 654ec4411fe36c..7dcfffed260e6b 100644
---- a/drivers/iommu/s390-iommu.c
-+++ b/drivers/iommu/s390-iommu.c
-@@ -52,7 +52,7 @@ static struct iommu_domain *s390_domain_alloc(unsigned domain_type)
- 	if (!s390_domain)
- 		return NULL;
- 
--	s390_domain->dma_table = dma_alloc_cpu_table(GFP_ATOMIC);
-+	s390_domain->dma_table = dma_alloc_cpu_table(GFP_KERNEL);
- 	if (!s390_domain->dma_table) {
- 		kfree(s390_domain);
- 		return NULL;
--- 
-2.39.0
+This is a pretty clear NAK from my side to this approach. The KMD should 
+never mess with an userspace process directly in such a way.
+
+Instead use something like this "OpenGL: KMD signals the abortion of 
+submitted commands and the UMD should then react accordingly and abort 
+the application.".
+
+> +- Vulkan: Assumes that every app is able to deal with ``VK_ERROR_DEVICE_LOST``,
+> +  so KMD doesn't kill any. If it doesn't do it right, it's considered a broken
+> +  application and UMD will deal with it.
+
+Again, pleas remove the "KMD kill" reference.
+
+> +
+> +Kernel mode driver
+> +------------------
+> +
+> +The KMD should be able to detect that something is wrong with the application
+
+Please replace *should* with *must* here, this is mandatory or otherwise 
+core memory management can run into deadlocks during reclaim.
+
+Regards,
+Christian.
+
+> +and that a reset is needed to take place to recover the device (e.g. an endless
+> +wait). It needs to properly track the context that is broken and mark it as
+> +dead, so any other syscalls to that context should be further rejected. The
+> +other contexts should be preserved when possible, avoid crashing the rest of
+> +userspace. KMD can ban a file descriptor that keeps causing resets, as it's
+> +likely in a broken loop.
+> +
+> +User mode driver
+> +----------------
+> +
+> +During a reset, UMD should be aware that rejected syscalls indicates that the
+> +context is broken and for robust apps the recovery should happen for the
+> +context. Non-robust apps would be already terminated by KMD. If no new context
+> +is created for some time, it is assumed that the recovery didn't work, so UMD
+> +should terminate it.
+> +
+> +Compositors
+> +-----------
+> +
+> +(In the long term) compositors should be robust as well to properly deal with it
+> +errors. Init systems should be aware of the compositor status and reset it if is
+> +broken.
+> diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> index b99dede9a5b1..300b2529bd39 100644
+> --- a/Documentation/gpu/index.rst
+> +++ b/Documentation/gpu/index.rst
+> @@ -9,6 +9,7 @@ Linux GPU Driver Developer's Guide
+>      drm-mm
+>      drm-kms
+>      drm-kms-helpers
+> +   drm-reset
+>      drm-uapi
+>      drm-usage-stats
+>      driver-uapi
 
