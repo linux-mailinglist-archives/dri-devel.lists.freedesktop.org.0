@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE7F677F0C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232B4677F11
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:14:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E229610E4BC;
-	Mon, 23 Jan 2023 15:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D17010E4BD;
+	Mon, 23 Jan 2023 15:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8490D10E4BB
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:13:49 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id c6so11698884pls.4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:13:49 -0800 (PST)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7783110E4BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:13:56 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id k18so11684126pll.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Do3dhCYjC50CYA+L4s1clteIXcoOQ2GW8nVaTGD414U=;
- b=hQUCk+G83edqEXy3Ml+8rZmJDwdtk23Z73hfD6ZS/BWRHqlzMsxaYWaYpy+Hbu9Hej
- /nwAlgsKWPx9QXRkys/2jcFBZ38RRo93ayWiNRYBQRGRhjJJl0wPlbUnQCjrhYi67Tep
- uQCdlnphD/6R+ohF+d0eaQLDWbNNeRA6bKGIQ=
+ bh=M1hJXJQdt5ZCT1mSKIuiHURptg88R24MKTm4kRNQiUQ=;
+ b=O3tW1IzwPy+pXd+6z860JUtYpMiR7mFgXQs6/v8mpMuWvKQ5YMipEZmel5OgELuDxH
+ 2vH855f3BdVdBO+KLuutaTd7k5tQIAbtMGXfIoRs4omdnDjQM40shSOQE+i3ZFSrO7uq
+ 3MWjZDEE3EM2ptjlhE17D2I67c2KhWt4hHthI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Do3dhCYjC50CYA+L4s1clteIXcoOQ2GW8nVaTGD414U=;
- b=uTTGwKXa+ULeVnS3kk3WArRrEiOE7qW243tnx3evcW6KncKqtcfpHyNn8kZEQwawen
- NDfD2kQyoqBKnYnb6Doy281exBvAjGZWjfuP2wgdqFeQaaR3krB5JVgFZT73IiCsfseV
- LVNzy4fcp8cpv2RIxvxyoPTEpNzf/a7fdB7W7vJIWrSjUk2D0aUMLCRcv/iVJ+uAiFhA
- S9FWj5OAeYQgYekjio24q0odqi21GnkMR/Pqvovsbrn0ib3bzGcnF111qhGJ+1W+XFh+
- cRUgBJKoa3nlsh2Zlgo2XFRxixH+J5qRlFfgbozS5DXnvM1dUPog6J0Quisl2rLWC6yJ
- 3zwQ==
-X-Gm-Message-State: AFqh2kqKeIuVPtLGZElFzmobbZUpwFzYAy4GMA2FQx890ioqtqCoORLJ
- 1S9TcqdcZS1XpcudggGTViEgMQ==
-X-Google-Smtp-Source: AMrXdXv0QhlLTfF79o7g6fTyWSDIZhTRPbeJbmYMrgcmcjG4v2zbHMgLe+LhT/PEN6XfNxUDdpUkrw==
-X-Received: by 2002:a17:902:eaca:b0:189:cbf6:9534 with SMTP id
- p10-20020a170902eaca00b00189cbf69534mr24224608pld.0.1674486829087; 
- Mon, 23 Jan 2023 07:13:49 -0800 (PST)
+ bh=M1hJXJQdt5ZCT1mSKIuiHURptg88R24MKTm4kRNQiUQ=;
+ b=cbJMlS8tN/daKUTIZkonYyssM6Pl7cIGC8qqmwtoHsdKQcSHBucA+VumWHqhmYUtQ9
+ erZIdFDi7U9EEEVgzChrQXZncKbQhTk6PrhPuimB/8Sh+2VIl9uSxf4wW3HKNXiru7Xa
+ 1mLPwAQQLqCPyGr+IcmQ8zSfUOp7swRhZ+ITzhHEzXMVULddGpeeuB2Ho1Sp3qgtF31G
+ Hv4Y6p8fmBzKvNnUmsNT3gj2w38UA/73UHMmDEv0ziHTBZODcobLvaA7yWitbIDVVNDD
+ aTPvYADWK8lTZVEwfzpS5XoWFDNfdJsVFk6NTp7W5CGmDJp6ZhDKHLXU8gl1potqqiwT
+ iQZQ==
+X-Gm-Message-State: AFqh2koxfpJx9Hw3UsJbsrqxoe8ZLhKrG/NwPfJfOuHCFu6b8oYi4SEn
+ Iu5S+J7c63Z3Hwwa20ug3+z9Sw==
+X-Google-Smtp-Source: AMrXdXs6LCi1WTkUN0zffk3jV0ED06YVEWEpCsymLgZJLxCCm1G+wm+RviRE25+QBU5GGXxHipnyUg==
+X-Received: by 2002:a17:902:c3c6:b0:192:c014:f6ba with SMTP id
+ j6-20020a170902c3c600b00192c014f6bamr24929553plj.33.1674486836050; 
+ Mon, 23 Jan 2023 07:13:56 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a15f:2279:f361:f93b:7971])
  by smtp.gmail.com with ESMTPSA id
- d5-20020a170903230500b001754fa42065sm19207111plh.143.2023.01.23.07.13.42
+ d5-20020a170903230500b001754fa42065sm19207111plh.143.2023.01.23.07.13.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 07:13:48 -0800 (PST)
+ Mon, 23 Jan 2023 07:13:55 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -61,14 +61,15 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
  Marek Vasut <marex@denx.de>
-Subject: [RESEND PATCH v11 11/18] drm: exynos: dsi: Add
- atomic_get_input_bus_fmts
-Date: Mon, 23 Jan 2023 20:42:05 +0530
-Message-Id: <20230123151212.269082-12-jagan@amarulasolutions.com>
+Subject: [RESEND PATCH v11 12/18] drm: exynos: dsi: Consolidate component and
+ bridge
+Date: Mon, 23 Jan 2023 20:42:06 +0530
+Message-Id: <20230123151212.269082-13-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230123151212.269082-1-jagan@amarulasolutions.com>
 References: <20230123151212.269082-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,140 +90,344 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Finding the right input bus format throughout the pipeline is hard
-so add atomic_get_input_bus_fmts callback and initialize with the
-proper input format from list of supported output formats.
+DSI host registration, attach and detach operations are quite
+different for the component and bridge-based DRM drivers. 
 
-This format can be used in pipeline for negotiating bus format between
-the DSI-end of this bridge and the other component closer to pipeline
-components.
+Supporting generic bridge driver to use both component and bridge
+based DRM drivers can be tricky and would require additional host
+related operation hooks.
 
-List of Pixel formats are taken from,
-AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
-3.7.4 Pixel formats
-Table 14. DSI pixel packing formats
+Add host operation hooks for registering and unregistering Exynos
+and generic drivers, where Exynos hooks are used in existing Exynos
+component based DRM drivers and generic hooks are used in i.MX8M
+bridge based DRM drivers. 
 
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Add host attach and detach operation hooks for Exynos component
+DRM drivers and those get invoked while DSI core host attach and
+detach gets called.
+
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v11:
-- collect RB from Frieder
-- drop extra line
+- none
 Changes for v10:
-- none
-Changes for v9:
-- added MEDIA_BUS_FMT_FIXED
-- return MEDIA_BUS_FMT_RGB888_1X24 output_fmt if supported output_fmt
-  list is unsupported.
-- added MEDIA_BUS_FMT_YUYV10_1X20, MEDIA_BUS_FMT_YUYV12_1X24
-Changes for v8:
-- added pixel formats supported by NXP AN13573 i.MX 8/RT MIPI DSI/CSI-2
-Changes for v7 - v4:
-- none
-Changes for v3:
-- include media-bus-format.h
-Changes for v2:
-- none
-Changes for v1:
-- new patch
+- split from previous series patch
+"drm: bridge: Generalize Exynos-DSI driver into a Samsung DSIM bridge"
 
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 68 +++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 179 ++++++++++++++++++------
+ 1 file changed, 140 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 5518d92c8455..7afbbe30d1d3 100644
+index 7afbbe30d1d3..fc7f00ab01b4 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -12,6 +12,7 @@
- #include <linux/component.h>
- #include <linux/gpio/consumer.h>
- #include <linux/irq.h>
-+#include <linux/media-bus-format.h>
- #include <linux/of_device.h>
- #include <linux/of_graph.h>
- #include <linux/phy/phy.h>
-@@ -1466,6 +1467,72 @@ static void exynos_dsi_atomic_post_disable(struct drm_bridge *bridge,
- 	pm_runtime_put_sync(dsi->dev);
- }
+@@ -250,6 +250,8 @@ struct exynos_dsi_transfer {
+ 	u16 rx_done;
+ };
  
-+/*
-+ * This pixel output formats list referenced from,
-+ * AN13573 i.MX 8/RT MIPI DSI/CSI-2, Rev. 0, 21 March 2022
-+ * 3.7.4 Pixel formats
-+ * Table 14. DSI pixel packing formats
-+ */
-+static const u32 exynos_dsi_pixel_output_fmts[] = {
-+	MEDIA_BUS_FMT_YUYV10_1X20,
-+	MEDIA_BUS_FMT_YUYV12_1X24,
-+	MEDIA_BUS_FMT_UYVY8_1X16,
-+	MEDIA_BUS_FMT_RGB101010_1X30,
-+	MEDIA_BUS_FMT_RGB121212_1X36,
-+	MEDIA_BUS_FMT_RGB565_1X16,
-+	MEDIA_BUS_FMT_RGB666_1X18,
-+	MEDIA_BUS_FMT_RGB888_1X24,
-+	MEDIA_BUS_FMT_FIXED,
++struct exynos_dsi;
++
+ #define DSIM_STATE_ENABLED		BIT(0)
+ #define DSIM_STATE_INITIALIZED		BIT(1)
+ #define DSIM_STATE_CMD_LPM		BIT(2)
+@@ -281,12 +283,19 @@ struct exynos_dsi_driver_data {
+ 	const unsigned int *reg_values;
+ };
+ 
++struct exynos_dsim_host_ops {
++	int (*register_host)(struct exynos_dsi *dsim);
++	void (*unregister_host)(struct exynos_dsi *dsim);
++	int (*attach)(struct exynos_dsi *dsim, struct mipi_dsi_device *device);
++	int (*detach)(struct exynos_dsi *dsim, struct mipi_dsi_device *device);
 +};
 +
-+static bool exynos_dsi_pixel_output_fmt_supported(u32 fmt)
-+{
-+	int i;
+ struct exynos_dsi_plat_data {
+ 	enum exynos_dsi_type hw_type;
++	const struct exynos_dsim_host_ops *host_ops;
+ };
+ 
+ struct exynos_dsi {
+-	struct drm_encoder encoder;
+ 	struct mipi_dsi_host dsi_host;
+ 	struct drm_bridge bridge;
+ 	struct drm_bridge *out_bridge;
+@@ -316,6 +325,12 @@ struct exynos_dsi {
+ 
+ 	const struct exynos_dsi_driver_data *driver_data;
+ 	const struct exynos_dsi_plat_data *plat_data;
 +
-+	for (i = 0; i < ARRAY_SIZE(exynos_dsi_pixel_output_fmts); i++) {
-+		if (exynos_dsi_pixel_output_fmts[i] == fmt)
-+			return true;
++	void *priv;
++};
++
++struct exynos_dsi_enc {
++	struct drm_encoder encoder;
+ };
+ 
+ #define host_to_dsi(host) container_of(host, struct exynos_dsi, dsi_host)
+@@ -1319,10 +1334,11 @@ static irqreturn_t exynos_dsi_irq(int irq, void *dev_id)
+ 
+ static irqreturn_t exynos_dsi_te_irq_handler(int irq, void *dev_id)
+ {
+-	struct exynos_dsi *dsi = (struct exynos_dsi *)dev_id;
++	struct exynos_dsi *dsim = (struct exynos_dsi *)dev_id;
++	struct exynos_dsi_enc *dsi = dsim->priv;
+ 	struct drm_encoder *encoder = &dsi->encoder;
+ 
+-	if (dsi->state & DSIM_STATE_VIDOUT_AVAILABLE)
++	if (dsim->state & DSIM_STATE_VIDOUT_AVAILABLE)
+ 		exynos_drm_crtc_te_handler(encoder->crtc);
+ 
+ 	return IRQ_HANDLED;
+@@ -1595,9 +1611,8 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+ 				  struct mipi_dsi_device *device)
+ {
+ 	struct exynos_dsi *dsi = host_to_dsi(host);
++	const struct exynos_dsi_plat_data *pdata = dsi->plat_data;
+ 	struct device *dev = dsi->dev;
+-	struct drm_encoder *encoder = &dsi->encoder;
+-	struct drm_device *drm = encoder->dev;
+ 	int ret;
+ 
+ 	dsi->out_bridge = devm_drm_of_dsi_get_bridge(dev, dev->of_node, 1, 0);
+@@ -1611,35 +1626,15 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+ 
+ 	drm_bridge_add(&dsi->bridge);
+ 
+-	drm_bridge_attach(encoder, &dsi->bridge,
+-			  list_first_entry_or_null(&encoder->bridge_chain,
+-						   struct drm_bridge,
+-						   chain_node), 0);
+-
+-	/*
+-	 * This is a temporary solution and should be made by more generic way.
+-	 *
+-	 * If attached panel device is for command mode one, dsi should register
+-	 * TE interrupt handler.
+-	 */
+-	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
+-		ret = exynos_dsi_register_te_irq(dsi, &device->dev);
+-		if (ret)
++	if (pdata->host_ops && pdata->host_ops->attach) {
++		ret = pdata->host_ops->attach(dsi, device);
++		if (ret < 0)
+ 			return ret;
+ 	}
+ 
+-	mutex_lock(&drm->mode_config.mutex);
+-
+ 	dsi->lanes = device->lanes;
+ 	dsi->format = device->format;
+ 	dsi->mode_flags = device->mode_flags;
+-	exynos_drm_crtc_get_by_type(drm, EXYNOS_DISPLAY_TYPE_LCD)->i80_mode =
+-			!(dsi->mode_flags & MIPI_DSI_MODE_VIDEO);
+-
+-	mutex_unlock(&drm->mode_config.mutex);
+-
+-	if (drm->mode_config.poll_enabled)
+-		drm_kms_helper_hotplug_event(drm);
+ 
+ 	return 0;
+ }
+@@ -1648,12 +1643,14 @@ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
+ 				  struct mipi_dsi_device *device)
+ {
+ 	struct exynos_dsi *dsi = host_to_dsi(host);
+-	struct drm_device *drm = dsi->encoder.dev;
+-
+-	if (drm->mode_config.poll_enabled)
+-		drm_kms_helper_hotplug_event(drm);
++	const struct exynos_dsi_plat_data *pdata = dsi->plat_data;
++	int ret;
+ 
+-	exynos_dsi_unregister_te_irq(dsi);
++	if (pdata->host_ops && pdata->host_ops->detach) {
++		ret = pdata->host_ops->detach(dsi, device);
++		if (ret < 0)
++			return ret;
++	}
+ 
+ 	drm_bridge_remove(&dsi->bridge);
+ 
+@@ -1727,10 +1724,66 @@ static int exynos_dsi_parse_dt(struct exynos_dsi *dsi)
+ 	return 0;
+ }
+ 
++static int _exynos_dsi_host_attach(struct exynos_dsi *dsim,
++				   struct mipi_dsi_device *device)
++{
++	struct exynos_dsi_enc *dsi = dsim->priv;
++	struct drm_encoder *encoder = &dsi->encoder;
++	struct drm_device *drm = encoder->dev;
++	int ret;
++
++	drm_bridge_attach(encoder, &dsim->bridge,
++			  list_first_entry_or_null(&encoder->bridge_chain,
++						   struct drm_bridge,
++						   chain_node), 0);
++
++	/*
++	 * This is a temporary solution and should be made by more generic way.
++	 *
++	 * If attached panel device is for command mode one, dsi should register
++	 * TE interrupt handler.
++	 */
++	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
++		ret = exynos_dsi_register_te_irq(dsim, &device->dev);
++		if (ret)
++			return ret;
 +	}
 +
-+	return false;
++	mutex_lock(&drm->mode_config.mutex);
++
++	dsim->lanes = device->lanes;
++	dsim->format = device->format;
++	dsim->mode_flags = device->mode_flags;
++	exynos_drm_crtc_get_by_type(drm, EXYNOS_DISPLAY_TYPE_LCD)->i80_mode =
++			!(dsim->mode_flags & MIPI_DSI_MODE_VIDEO);
++
++	mutex_unlock(&drm->mode_config.mutex);
++
++	if (drm->mode_config.poll_enabled)
++		drm_kms_helper_hotplug_event(drm);
++
++	return 0;
 +}
 +
-+static u32 *
-+exynos_dsi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+				     struct drm_bridge_state *bridge_state,
-+				     struct drm_crtc_state *crtc_state,
-+				     struct drm_connector_state *conn_state,
-+				     u32 output_fmt,
-+				     unsigned int *num_input_fmts)
++static int _exynos_dsi_host_detach(struct exynos_dsi *dsim,
++				   struct mipi_dsi_device *device)
 +{
-+	u32 *input_fmts;
++	struct exynos_dsi_enc *dsi = dsim->priv;
++	struct drm_device *drm = dsi->encoder.dev;
 +
-+	if (!exynos_dsi_pixel_output_fmt_supported(output_fmt))
-+		/*
-+		 * Some bridge/display drivers are still not able to pass the
-+		 * correct format, so handle those pipelines by falling back
-+		 * to the default format till the supported formats finalized.
-+		 */
-+		output_fmt = MEDIA_BUS_FMT_RGB888_1X24;
++	if (drm->mode_config.poll_enabled)
++		drm_kms_helper_hotplug_event(drm);
 +
-+	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
++	exynos_dsi_unregister_te_irq(dsim);
 +
-+	switch (output_fmt) {
-+	case MEDIA_BUS_FMT_FIXED:
-+		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-+		break;
-+	default:
-+		input_fmts[0] = output_fmt;
-+		break;
-+	}
-+
-+	*num_input_fmts = 1;
-+
-+	return input_fmts;
++	return 0;
 +}
 +
- static int exynos_dsi_atomic_check(struct drm_bridge *bridge,
- 				   struct drm_bridge_state *bridge_state,
- 				   struct drm_crtc_state *crtc_state,
-@@ -1514,6 +1581,7 @@ static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
- 	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset			= drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts	= exynos_dsi_atomic_get_input_bus_fmts,
- 	.atomic_check			= exynos_dsi_atomic_check,
- 	.atomic_pre_enable		= exynos_dsi_atomic_pre_enable,
- 	.atomic_enable			= exynos_dsi_atomic_enable,
+ static int exynos_dsi_bind(struct device *dev, struct device *master,
+ 				void *data)
+ {
+-	struct exynos_dsi *dsi = dev_get_drvdata(dev);
++	struct exynos_dsi *dsim = dev_get_drvdata(dev);
++	struct exynos_dsi_enc *dsi = dsim->priv;
+ 	struct drm_encoder *encoder = &dsi->encoder;
+ 	struct drm_device *drm_dev = data;
+ 	int ret;
+@@ -1741,17 +1794,17 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	return mipi_dsi_host_register(&dsi->dsi_host);
++	return mipi_dsi_host_register(&dsim->dsi_host);
+ }
+ 
+ static void exynos_dsi_unbind(struct device *dev, struct device *master,
+ 				void *data)
+ {
+-	struct exynos_dsi *dsi = dev_get_drvdata(dev);
++	struct exynos_dsi *dsim = dev_get_drvdata(dev);
+ 
+-	exynos_dsi_atomic_disable(&dsi->bridge, NULL);
++	dsim->bridge.funcs->atomic_disable(&dsim->bridge, NULL);
+ 
+-	mipi_dsi_host_unregister(&dsi->dsi_host);
++	mipi_dsi_host_unregister(&dsim->dsi_host);
+ }
+ 
+ static const struct component_ops exynos_dsi_component_ops = {
+@@ -1759,6 +1812,40 @@ static const struct component_ops exynos_dsi_component_ops = {
+ 	.unbind	= exynos_dsi_unbind,
+ };
+ 
++static int exynos_dsi_register_host(struct exynos_dsi *dsim)
++{
++	struct exynos_dsi_enc *dsi;
++
++	dsi = devm_kzalloc(dsim->dev, sizeof(*dsi), GFP_KERNEL);
++	if (!dsi)
++		return -ENOMEM;
++
++	dsim->priv = dsi;
++	dsim->bridge.pre_enable_prev_first = true;
++
++	return component_add(dsim->dev, &exynos_dsi_component_ops);
++}
++
++static void exynos_dsi_unregister_host(struct exynos_dsi *dsim)
++{
++	component_del(dsim->dev, &exynos_dsi_component_ops);
++}
++
++static int generic_dsim_register_host(struct exynos_dsi *dsim)
++{
++	return mipi_dsi_host_register(&dsim->dsi_host);
++}
++
++static void generic_dsim_unregister_host(struct exynos_dsi *dsim)
++{
++	mipi_dsi_host_unregister(&dsim->dsi_host);
++}
++
++static const struct exynos_dsim_host_ops generic_dsim_host_ops = {
++	.register_host = generic_dsim_register_host,
++	.unregister_host = generic_dsim_unregister_host,
++};
++
+ static const struct drm_bridge_timings dsim_bridge_timings_de_low = {
+ 	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
+ };
+@@ -1853,7 +1940,9 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 	if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM)
+ 		dsi->bridge.timings = &dsim_bridge_timings_de_low;
+ 
+-	ret = component_add(dev, &exynos_dsi_component_ops);
++	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
++		ret = dsi->plat_data->host_ops->register_host(dsi);
++
+ 	if (ret)
+ 		goto err_disable_runtime;
+ 
+@@ -1944,24 +2033,36 @@ static const struct dev_pm_ops exynos_dsi_pm_ops = {
+ 				pm_runtime_force_resume)
+ };
+ 
++static const struct exynos_dsim_host_ops exynos_dsi_host_ops = {
++	.register_host = exynos_dsi_register_host,
++	.unregister_host = exynos_dsi_unregister_host,
++	.attach = _exynos_dsi_host_attach,
++	.detach = _exynos_dsi_host_detach,
++};
++
+ static const struct exynos_dsi_plat_data exynos3250_dsi_pdata = {
+ 	.hw_type = DSIM_TYPE_EXYNOS3250,
++	.host_ops = &exynos_dsi_host_ops,
+ };
+ 
+ static const struct exynos_dsi_plat_data exynos4210_dsi_pdata = {
+ 	.hw_type = DSIM_TYPE_EXYNOS4210,
++	.host_ops = &exynos_dsi_host_ops,
+ };
+ 
+ static const struct exynos_dsi_plat_data exynos5410_dsi_pdata = {
+ 	.hw_type = DSIM_TYPE_EXYNOS5410,
++	.host_ops = &exynos_dsi_host_ops,
+ };
+ 
+ static const struct exynos_dsi_plat_data exynos5422_dsi_pdata = {
+ 	.hw_type = DSIM_TYPE_EXYNOS5422,
++	.host_ops = &exynos_dsi_host_ops,
+ };
+ 
+ static const struct exynos_dsi_plat_data exynos5433_dsi_pdata = {
+ 	.hw_type = DSIM_TYPE_EXYNOS5433,
++	.host_ops = &exynos_dsi_host_ops,
+ };
+ 
+ static const struct of_device_id exynos_dsi_of_match[] = {
 -- 
 2.25.1
 
