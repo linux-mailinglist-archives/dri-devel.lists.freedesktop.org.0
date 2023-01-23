@@ -1,36 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E16677E13
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 15:31:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2871677E19
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 15:32:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1B910E4AD;
-	Mon, 23 Jan 2023 14:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBF410E4AF;
+	Mon, 23 Jan 2023 14:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7C0D010E4AD
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 14:31:55 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1A8CC14;
- Mon, 23 Jan 2023 06:32:36 -0800 (PST)
-Received: from [10.57.89.57] (unknown [10.57.89.57])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 342F83F64C;
- Mon, 23 Jan 2023 06:31:54 -0800 (PST)
-Message-ID: <2464d2c2-6398-434b-aa9c-301ad6308e06@arm.com>
-Date: Mon, 23 Jan 2023 14:31:52 +0000
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53ABB10E4AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 14:32:07 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-50112511ba7so114888267b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 06:32:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=StVHsElt+i0TY8HfSQz/lNkVKU2NFVmPFjupO0nf7f4=;
+ b=jJOiDMJ7/C/uYegerLcUCLYUsSF2JKvqFv2r5oc9iHJqy1KkEIdgR1Swd090qJ9uaA
+ EIanc80zVSfki+YLybXJ83iFfB7CEIP+Dt/KWSd4zOgXgUWlW4TyPzkGle61YtLXyGMm
+ Ogm9xxEiO8Uy2KM8f+EyelfQaO5aAt6dj21cNJ3PcFhXskjwq+Fk0UnxNDz6e3bRCEEK
+ GdhUcGQ2Samx/Kzs/eycCu+eHnqIFivXdb8Qrkh/UuqLY73WYu/fY/ZuErX66zERMYbt
+ Y8XMo4mOibSmtwPS36azZgTszu6RJ4xlVKlzeQhAlY2NcF4p4kb0b2oeFqu7xna4QTFX
+ XiJA==
+X-Gm-Message-State: AFqh2ko99Q4rE3uHtgORkV0tgZ/5NUq/zSW2djyA/16r2SDoBYMz6HZj
+ 1PQGFawCMnkR4v7hOJk+sg8Bv0TTZ2BgkA==
+X-Google-Smtp-Source: AMrXdXsp3NjNuimblkinJOF0+SUyGx1IKmh+YvJKpB2LeKcZLu4GSXxqughAuLe0URQ+2/6oAvAtKw==
+X-Received: by 2002:a81:8746:0:b0:4e1:71aa:98a9 with SMTP id
+ x67-20020a818746000000b004e171aa98a9mr15945556ywf.47.1674484326003; 
+ Mon, 23 Jan 2023 06:32:06 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com.
+ [209.85.219.171]) by smtp.gmail.com with ESMTPSA id
+ j2-20020a05620a000200b00705e0ad29cdsm9569093qki.77.2023.01.23.06.32.05
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jan 2023 06:32:05 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 203so14975410yby.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 06:32:05 -0800 (PST)
+X-Received: by 2002:a25:9ac1:0:b0:7b4:6a33:d89f with SMTP id
+ t1-20020a259ac1000000b007b46a33d89fmr1926934ybo.543.1674484325389; Mon, 23
+ Jan 2023 06:32:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] drm/shmem: Cleanup drm_gem_shmem_create_with_handle()
-Content-Language: en-GB
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230119224452.2880652-1-robdclark@gmail.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230119224452.2880652-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230120085009.604797-1-tomi.valkeinen+renesas@ideasonboard.com>
+ <20230120085009.604797-3-tomi.valkeinen+renesas@ideasonboard.com>
+ <Y8q+ad8CxC7LBN4l@pendragon.ideasonboard.com>
+In-Reply-To: <Y8q+ad8CxC7LBN4l@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 23 Jan 2023 15:31:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVHARDyJnSdOrGJ7aRhZ-Y9K9-NYKYq0orJT+R8fvRemw@mail.gmail.com>
+Message-ID: <CAMuHMdVHARDyJnSdOrGJ7aRhZ-Y9K9-NYKYq0orJT+R8fvRemw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] drm: rcar-du: lvds: Add runtime PM
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,77 +69,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/01/2023 22:44, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Once we create the handle, the handle owns the reference.  Currently
-> nothing was doing anything with the shmem ptr after the handle was
-> created, but let's change drm_gem_shmem_create_with_handle() to not
-> return the pointer, so-as to not encourage problematic use of this
-> function in the future.  As a bonus, it makes the code a bit cleaner.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+Hi Laurent,
 
-Nice cleanup, one comment below:
+On Fri, Jan 20, 2023 at 5:16 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Fri, Jan 20, 2023 at 10:50:04AM +0200, Tomi Valkeinen wrote:
+> > Add simple runtime PM suspend and resume functionality.
+>
+> I think you need to depend on PM in Kconfig. That's not a compile-time
+> dependency but a runtime-dependency, with runtime PM support the
+> suspend/resume handler will never be called.
 
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index f21f47737817..fa6281e43954 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -415,7 +415,7 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
->  }
->  EXPORT_SYMBOL(drm_gem_shmem_vunmap);
->  
-> -static struct drm_gem_shmem_object *
-> +static int
->  drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
->  				 struct drm_device *dev, size_t size,
->  				 uint32_t *handle)
-> @@ -425,7 +425,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
->  
->  	shmem = drm_gem_shmem_create(dev, size);
->  	if (IS_ERR(shmem))
-> -		return shmem;
-> +		return PTR_ERR(shmem);
->  
->  	/*
->  	 * Allocate an id of idr table where the obj is registered
-> @@ -434,10 +434,8 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
->  	ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
->  	/* drop reference from allocate - handle holds it now. */
->  	drm_gem_object_put(&shmem->base);
-> -	if (ret)
-> -		return ERR_PTR(ret);
->  
-> -	return shmem;
-> +	return ret;
->  }
->  
->  /* Update madvise status, returns true if not purged, else
-> @@ -533,9 +531,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
->  			args->size = PAGE_ALIGN(args->pitch * args->height);
->  	}
->  
-> -	shmem = drm_gem_shmem_create_with_handle(file, dev, args->size, &args->handle);
+While technically that is correct, you'll have a hard time getting here
+with CONFIG_PM=n, as both ARCH_RCAR_GEN2 and ARCH_RCAR_GEN3
+do select PM.
 
-shmem is now unused in this function so the definition needs removing too.
+Gr{oetje,eeting}s,
 
-Steve
+                        Geert
 
-> -
-> -	return PTR_ERR_OR_ZERO(shmem);
-> +	return drm_gem_shmem_create_with_handle(file, dev, args->size, &args->handle);
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
->  
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
