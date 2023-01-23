@@ -1,57 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D4E678C1D
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 00:38:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B01E0678C45
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 00:54:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305E310E5D7;
-	Mon, 23 Jan 2023 23:38:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26BA310E035;
+	Mon, 23 Jan 2023 23:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6856310E5CE;
- Mon, 23 Jan 2023 23:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674517112; x=1706053112;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=BL0KE40ebJXBQ5wLEALwSAqTSiRgt9HETelmZgjk12M=;
- b=NKhhtI3P+EZFUx38fYRCie0mPKEg828ZuEFlxNrynBNf6k48wf45KY14
- An9SvSNfmgMxgzGdNlEI3s6eY/uJhjUwE7joS7aw1E+nyuHs31rWlvMl7
- J1ol4RsjTpiHRab4FZhh3PED5l3mlU1ZLcF4ctuyj0hB9QGOR/j9KQ8CI
- qHXLl8mQkdM9BwpgpmkdmY+ElIROwwnT/djpc8K+Tfni2q9tAcMoSyDi8
- NJMEj//14rBiIHvfig0h90ERLIDaPI+U4U+p3Otpq7ILE2reyCmuYSAn1
- ocPUfjv+HTCpjVWVOusQSBaM4YCL8b6AYdcxdweBOn0/4l9IMQCvtGoVP Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="323881149"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="323881149"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 15:38:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="639380552"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="639380552"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 23 Jan 2023 15:38:27 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pK6OQ-0005xC-1T;
- Mon, 23 Jan 2023 23:38:26 +0000
-Date: Tue, 24 Jan 2023 07:38:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
- airlied@gmail.com, agross@kernel.org, dmitry.baryshkov@linaro.org,
- andersson@kernel.org
-Subject: Re: [PATCH v1 02/14] drm/msm/dp: add dsc factor into calculation of
- supported bpp
-Message-ID: <202301240748.RCxiAZH1-lkp@intel.com>
-References: <1674498274-6010-3-git-send-email-quic_khsieh@quicinc.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EEA410E034
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 23:54:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674518061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lNxk5DC/yGhXC60vpQiNIfe/JhxgHiPlqLfRlRn3ULE=;
+ b=Bz7Y73GlIuv8dRCg2mv/4HTK+pPUrnA991HgEWeLf3W18ldBMeHmyvb2kRzn38XrWF48mm
+ uh5QaUfm9G5MFswCoxPayJCyuYmymEBYwrz6AdSn/D03JU5ceGnIoCQX+2FMnjgSRhMFqk
+ 0tM4AYoT0DJ6KgIcTKiMWVPDXcgHedA=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-668-OaVaZeRxP02LxJu_929ZfA-1; Mon, 23 Jan 2023 18:54:20 -0500
+X-MC-Unique: OaVaZeRxP02LxJu_929ZfA-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ f17-20020ac25091000000b004b565e69540so5685229lfm.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:54:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lNxk5DC/yGhXC60vpQiNIfe/JhxgHiPlqLfRlRn3ULE=;
+ b=LfkhavxtSr+uRm9IWuJPfTL0Vln8AUEfZtFm4D5Kqg9gHuJAKAzIsADAWjyrTmItS9
+ TAz0qA9Vj/sNmeNNZMrljL1lmckr0DNtocsJVP6PD0xkb6R0RHA6eb5pkbYh0Q30UWD9
+ 7CJr3td8jWze+O9kNTeIgMTrYs8+jJVcNukxarfDKw5LlLVZHogZQXnmUYDPahZ1DCGU
+ ulfISJYhOB25u+skgWI2+uQfcCGX6/p4wk9vglryecgkx5FEpT98QMPU/um5KPDnFpCM
+ dod/+FzXjxdVVJDuzo+dN0KcKOnuw0H4sRYY+F3y7r+bjm4nSGjja53/KLoLU4JLPEhx
+ XjYg==
+X-Gm-Message-State: AFqh2kpCiXJc1GjurC60VyCYwRmiXUFVOSLlswJhudMjbUpLmpcBugd+
+ ohsyDZbgpe9gEUPQhx4+du7nANCUi8oTQsPlwMsZ2YhZjGwNvJw2P/+SrFUP8UPFe6JibzSGgR6
+ EMG8hSxaHgcc1lZpPsZp6bDVyJxAQU5kpDGgrxPkhenFw
+X-Received: by 2002:a2e:9446:0:b0:283:9a0a:a0f7 with SMTP id
+ o6-20020a2e9446000000b002839a0aa0f7mr1967698ljh.81.1674518058541; 
+ Mon, 23 Jan 2023 15:54:18 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuNP8GPUIGSSJRf1EmIBEmZDEGtcqTHSreBbrxLLxfFznJMgOAqy0X72jFZfRkQokwUrc7DclRouJIA55tCoMM=
+X-Received: by 2002:a2e:9446:0:b0:283:9a0a:a0f7 with SMTP id
+ o6-20020a2e9446000000b002839a0aa0f7mr1967695ljh.81.1674518058318; Mon, 23 Jan
+ 2023 15:54:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1674498274-6010-3-git-send-email-quic_khsieh@quicinc.com>
+References: <nn8qWh16AviRPuLVOg_I-Nn747ncRsuJsZU_VZHvKhxp2hoFBCFsAfezBDkiwM-yn-CXAW_Vos121VKtETNsSZU3EuCuVzcgHBnnWNnww-g=@emersion.fr>
+ <Y86skCbxY5kZglo8@pendragon.ideasonboard.com>
+ <CA+hFU4z-3iotNkUVr=aHrQ9GFNnGLrvL2B1isnx2x2UnnO+qXA@mail.gmail.com>
+ <B55u__QnPBXyk6SrEEYETx1ugeGjZHT9Fva6b9fpZazX-v7nTFJqnKH9Y7OebmOTQ51zffSYMnrfnfYutoWSLzpt-bWk2K8V69Ru7327VlM=@emersion.fr>
+In-Reply-To: <B55u__QnPBXyk6SrEEYETx1ugeGjZHT9Fva6b9fpZazX-v7nTFJqnKH9Y7OebmOTQ51zffSYMnrfnfYutoWSLzpt-bWk2K8V69Ru7327VlM=@emersion.fr>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Tue, 24 Jan 2023 00:54:07 +0100
+Message-ID: <CA+hFU4wQ14fn-giuL6oxMmXfg0WPPrXcHHeT5-7tagP54xuXFg@mail.gmail.com>
+Subject: Re: [ANNOUNCE] pixfmtdb
+To: Simon Ser <contact@emersion.fr>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,108 +78,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- oe-kbuild-all@lists.linux.dev, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kuogee,
+On Mon, Jan 23, 2023 at 11:43 PM Simon Ser <contact@emersion.fr> wrote:
+>
+> On Monday, January 23rd, 2023 at 21:25, Sebastian Wick <sebastian.wick@redhat.com> wrote:
+>
+> > Why is the TF defined for GL formats and both the primaries and TF for
+> > Vulkan formats? The only exception here should be sRGB formats. Where
+> > did you get the information from?
+>
+> This is what upstream dfdutils does [1]. Can you explain why you think
+> it should be undefined instead of linear?
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on next-20230123]
-[also build test WARNING on linus/master v6.2-rc5]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.2-rc5 v6.2-rc4 v6.2-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/drm-msm-dp-add-dpcd-read-of-both-dsc-and-fec-capability/20230124-022759
-patch link:    https://lore.kernel.org/r/1674498274-6010-3-git-send-email-quic_khsieh%40quicinc.com
-patch subject: [PATCH v1 02/14] drm/msm/dp: add dsc factor into calculation of supported bpp
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230124/202301240748.RCxiAZH1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/745d7acf9ef8affe996fce2f0658a6d95ac151fd
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kuogee-Hsieh/drm-msm-dp-add-dpcd-read-of-both-dsc-and-fec-capability/20230124-022759
-        git checkout 745d7acf9ef8affe996fce2f0658a6d95ac151fd
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/drm/msm/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/msm/dp/dp_panel.c: In function 'dp_panel_get_supported_bpp':
->> drivers/gpu/drm/msm/dp/dp_panel.c:125:34: warning: variable 'panel' set but not used [-Wunused-but-set-variable]
-     125 |         struct dp_panel_private *panel;
-         |                                  ^~~~~
+The channels have no meaning. You can put whatever you want in there.
+It doesn't have to be linear, it doesn't have to be colors and
+especially not colors with specific primaries. It's only when it's
+used to form an image that the TF and primaries are known. Vulkan
+specifically requires you to explicitly provide this information to
+the WSI and YCC samplers (generally everywhere where knowing them is
+required) and never assumes that certain pixel formats imply certain
+TFs and primaries (exception being the sRGB variants).
 
 
-vim +/panel +125 drivers/gpu/drm/msm/dp/dp_panel.c
+(See also https://registry.khronos.org/vulkan/specs/1.3-extensions/html/vkspec.html#_issues_26,
+Q 23)
 
-   120	
-   121	static u32 dp_panel_get_supported_bpp(struct dp_panel *dp_panel,
-   122			u32 mode_edid_bpp, u32 mode_pclk_khz)
-   123	{
-   124		struct dp_link_info *link_info;
- > 125		struct dp_panel_private *panel;
-   126		const u32 max_supported_bpp = 30;
-   127		u32 min_supported_bpp = 18;
-   128		u32 bpp = 0, link_bitrate = 0, mode_bitrate;
-   129		s64 rate_fp = 0;
-   130	
-   131		panel = container_of(dp_panel, struct dp_panel_private, dp_panel);
-   132	
-   133		if (dp_panel->dsc_en)
-   134			min_supported_bpp = 24;
-   135	
-   136		bpp = min_t(u32, mode_edid_bpp, max_supported_bpp);
-   137	
-   138		link_info = &dp_panel->link_info;
-   139	
-   140		rate_fp = drm_int2fixp(link_info->num_lanes * link_info->rate * 8);
-   141	
-   142		if (dp_panel->fec_en)
-   143			rate_fp = drm_fixp_div(rate_fp, dp_panel->fec_overhead_fp);
-   144	
-   145		link_bitrate = drm_fixp2int(rate_fp);
-   146	
-   147		for (; bpp > min_supported_bpp; bpp -= 6) {
-   148			if (dp_panel->dsc_en) {
-   149				if (bpp == 30 && !(dp_panel->sink_dsc_caps.color_depth & DP_DSC_10_BPC))
-   150					continue;
-   151				else if (bpp == 24 && !(dp_panel->sink_dsc_caps.color_depth & DP_DSC_8_BPC))
-   152					continue;
-   153	
-   154				mode_bitrate = mode_pclk_khz * DSC_TGT_BPP;
-   155			} else {
-   156				mode_bitrate = mode_pclk_khz * bpp;
-   157			}
-   158	
-   159			if (mode_bitrate <= link_bitrate)
-   160				break;
-   161		}
-   162	
-   163		if (bpp < min_supported_bpp)
-   164			DRM_ERROR("bpp %d is below minimum supported bpp %d\n", bpp,
-   165					min_supported_bpp);
-   166	
-   167		if (dp_panel->dsc_en && bpp != 24 && bpp != 30 && bpp != 36)
-   168			DRM_ERROR("bpp %d is not supported when dsc is enabled\n", bpp);
-   169	
-   170		return bpp;
-   171	}
-   172	
+The problem here seems to be that the Data Format spec describes more
+than the pixel format. If you want to share an image, the TF and
+primaries are essential but they are not an inherent part of the pixel
+format of the image. So yeah, I think what dfdutils does is...
+probably not wrong but not what you're after.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+>
+> I was wondering what to do for DRM formats regarding these. I think it
+> would be worthwhile to do like Vulkan: set TF = linear, primaries =
+> BT.709, pre-multiplied alpha = yes. These are the things KMS assume
+> when there is no override (ie, when there is no KMS property saying
+> otherwise).
+
+Please no. All undefined is absolutely the right thing to do. Adding
+any more meaning to pixel formats is a horrible idea. The KMS
+properties are also not an override, they describe the image and the
+description has default values.
+
+>
+> [1]: https://github.com/KhronosGroup/dfdutils/blob/5cd41cbdf63e80b00c085c6906a1152709e4c0f2/createdfd.c#L47
+>
+
