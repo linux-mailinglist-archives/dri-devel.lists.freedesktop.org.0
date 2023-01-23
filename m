@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C973C67805D
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:48:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA2767805B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A710110E4E0;
-	Mon, 23 Jan 2023 15:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAEE10E4DC;
+	Mon, 23 Jan 2023 15:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F53B10E4E0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:48:42 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id p141so12596652ybg.12
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:48:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Lad2S3DmWAOKK3//NALgU6IibSlQrTkUVTfexl9hK28=;
- b=iZkcSIQzF/MH/mRCVgA0S+N54Fw4FdVsgLfkRYCRNmmnxQg3ucT9g4RbICTeA1dNdo
- wECwxxE7HSZ1q+E599vwhYLEsvttvYgzdQQMsCVe/sYal0P2zmNR9qYjkqpX3KqtdrVu
- gKJel2BN9+zhKQL8IS5zGQWVQxDccR/2hrdDM=
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A68810E4DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 15:48:33 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id 88so456610pjo.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 07:48:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=79zz21d93rosXhCHk+UtsCaN0zcr+E49ORMLW7ABZQw=;
+ b=IVYnhU2i0SWRMhhUGw/JcLPqKoaX9v5kgL+O6i0Anxid8V31nd+JNdqf7WGaWve+Ov
+ 6co3BfBCQtoxiXViNgIe17blkI9gSzEfb3aZQqgjBPfAO+xuXFTzkgMwuVPKPQufRkFE
+ Enoq+oODNuk1UbSXSA4OBJU+xnXLVb0Kn7Csf0qWqLnuTteQ9NcN8sCJfGLTetwO0NsX
+ ktJVjgNXBd6G4H7x+cyA+RHW1YJazqMU7gqmm4S+Jz/J2sRmMIf9IyqkTPu4E8tkXBWV
+ LSICp/e0CsZPkhbpzqzLxw+q5cRiBxISSrefqB3Spesm6byOunKkgqTQvVbDGsIDtOdt
+ 6CAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Lad2S3DmWAOKK3//NALgU6IibSlQrTkUVTfexl9hK28=;
- b=wbN1dd3CJkITLTjHZgbS1PL1ATk9BQfusdGyKK2ElIOdTy7uqIn59XiNAb9lgqWSIF
- XVVsUP+OqjtWkNCq250oVwPO1heZrQKw/Cd03KJo/+n5Bz+NoaSe1tAAU+B5oyPx39dB
- 4OW6nR6MkLzWXVMsbbLwfYsKtWGi+nhnr/O8dltVeO2JNWiOdc/LMCrLcInzK6u967ZK
- WvBGZSM173zwTIrzT5RoFt3YNFtPj7Ufo+0TyrkBkhD0/zri3XG+tSrscCcKBr0cqscB
- O9wMHtRZP9XHRV9Q6K/iaaGL3PmkQULWr2iWfBfrRACYHrZge6YmqW6gj81QoU3aMVA/
- kGJw==
-X-Gm-Message-State: AFqh2korZ4saKMSvAg1g0IOX1ZIltd+xXfhOoEsumOTMHOnTiHXX57VR
- fGhS4huz5x2C4KmFIiuW/lNpYqq2o6ale2tO35TLtA==
-X-Google-Smtp-Source: AMrXdXtQ6or+o73bm1Dy+HD5HO5+7SmuUrYsEF6I2faUuPEkt7lv4xXbqVlYtJkd+l6OUmAN509bUeHbdrb4wDtMjNw=
-X-Received: by 2002:a05:6902:1822:b0:800:e4d5:1bf3 with SMTP id
- cf34-20020a056902182200b00800e4d51bf3mr1270342ybb.159.1674488921411; Mon, 23
- Jan 2023 07:48:41 -0800 (PST)
+ bh=79zz21d93rosXhCHk+UtsCaN0zcr+E49ORMLW7ABZQw=;
+ b=gCyZSjzsRjF7S5yVELeYuIHQfkONquCEQoHQ9zVGldIVi4Fr6kK+DzPHhcaJY94XVQ
+ tp0X1VV5EHgot7angMJZUvgcJudK0V2RSAOrGz7P4pgmAy1jBFidmA0F4ggfJaNNPpLR
+ h5RLXgrswy8n9ODyYflrYzQHo8feQjzXuyQ7nLIcwoF59TEhv8Owrmd0y3LC+iv0ZbGg
+ xQrVSC35rLe8pQZ3SpwIRyO/bJwP1Nhn8y/vsOc+AVXiQ0Jmys+VcyEvkQxMzHwoiLYj
+ p4DxYjPx2V3WjogGpVbkY7kv7kg3a1kMTQ2IVhoADrg77ZnnJeqoyTgYx0jDBLT0SVyr
+ 2n1Q==
+X-Gm-Message-State: AO0yUKXnjRBXLqPRwwNQHhtu6H948hGzXtGhoqWjUc1itqHkRFR3QnNk
+ EAgx2Mbiu55cSTikDTfzJfDnDCwnoo0=
+X-Google-Smtp-Source: AK7set9YrXeJZMX+IyKBeKOJFuPWRH6Qpv+eq6XUyBQWUuT/GqssZsH/dtCsFGcfxh8s8dy8ti5U0A==
+X-Received: by 2002:a17:902:da81:b0:196:e77:f07b with SMTP id
+ j1-20020a170902da8100b001960e77f07bmr242552plx.39.1674488912600; 
+ Mon, 23 Jan 2023 07:48:32 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020a170902bc4600b00196065e8d78sm1976697plz.50.2023.01.23.07.48.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 07:48:32 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/shmem: Cleanup drm_gem_shmem_create_with_handle()
+Date: Mon, 23 Jan 2023 07:48:31 -0800
+Message-Id: <20230123154831.3191821-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221214125907.376148-1-jagan@amarulasolutions.com>
- <CAMty3ZC9TtnupJKF4LA9e-jnYMux28u4Pn3femJZXi4ogV+drA@mail.gmail.com>
- <CAOMZO5AYzZXQ_7jqktKrGcZyE_CaZHZpfyQPWAzbcxGvByH5Kg@mail.gmail.com>
- <CAMty3ZDnNJJQ2=Xbi6tNDzp17Ye=mnVhPOEtWVZbZuot_N513w@mail.gmail.com>
- <CAOMZO5CXCYjmmjs97=c6pVzyG8s0W=XN01k0C_0M_X2-pCFuMQ@mail.gmail.com>
- <CAMty3ZAc=t5FEphQkd=O1eaA70-779zhESwPFqoiGs8x569H2w@mail.gmail.com>
- <ea400d44-a6cb-2f26-9c03-ee1ede2cdf09@denx.de>
-In-Reply-To: <ea400d44-a6cb-2f26-9c03-ee1ede2cdf09@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 23 Jan 2023 21:18:29 +0530
-Message-ID: <CAMty3ZDeAKhp4W1oA4eLXcw5YjsPjOTshjsipSn-pko06fUzdQ@mail.gmail.com>
-Subject: Re: [PATCH v10 00/18] drm: Add Samsung MIPI DSIM bridge
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,59 +68,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-samsung-soc@vger.kernel.org,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Maxime Ripard <maxime@cerno.tech>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, Steven Price <steven.price@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+From: Rob Clark <robdclark@chromium.org>
 
-On Fri, Jan 20, 2023 at 8:36 PM Marek Vasut <marex@denx.de> wrote:
->
-> On 1/20/23 15:41, Jagan Teki wrote:
-> > Hi Fabio,
->
-> Hello all,
->
-> > On Fri, Jan 20, 2023 at 5:36 PM Fabio Estevam <festevam@gmail.com> wrote:
-> >>
-> >> Hi Jagan,
-> >>
-> >> On Thu, Jan 19, 2023 at 2:59 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >>
-> >>> There are two patch series prior to this need to apply.
-> >>>
-> >>> https://patchwork.kernel.org/project/dri-devel/patch/20221212145745.15387-1-jagan@amarulasolutions.com/
-> >>> https://patchwork.kernel.org/project/dri-devel/cover/20221212182923.29155-1-jagan@amarulasolutions.com/
-> >>
-> >> Would it make sense to re-submit these two patches as part of your series?
-> >
-> > The previous version's comment was to separate them from the DSIM series.
->
-> Hmmmmm, seems like those first two patches got stuck. I fixed up the
-> malformed Fixes: line (it was split across two lines and had angular
-> brackets around it) and picked the first series via drm-misc-next .
->
-> Can you send a subsequent patch to convert the DSIM_* macros to BIT()
-> macro , since checkpatch --strict complains about it ?
+Once we create the handle, the handle owns the reference.  Currently
+nothing was doing anything with the shmem ptr after the handle was
+created, but let's change drm_gem_shmem_create_with_handle() to not
+return the pointer, so-as to not encourage problematic use of this
+function in the future.  As a bonus, it makes the code a bit cleaner.
 
-Fyi: I sent the v11 series for this with RESEND prefix.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-Let me know if you have any further comments on this.
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index f21f47737817..42c496c5f92c 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -415,7 +415,7 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+ }
+ EXPORT_SYMBOL(drm_gem_shmem_vunmap);
+ 
+-static struct drm_gem_shmem_object *
++static int
+ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+ 				 struct drm_device *dev, size_t size,
+ 				 uint32_t *handle)
+@@ -425,7 +425,7 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+ 
+ 	shmem = drm_gem_shmem_create(dev, size);
+ 	if (IS_ERR(shmem))
+-		return shmem;
++		return PTR_ERR(shmem);
+ 
+ 	/*
+ 	 * Allocate an id of idr table where the obj is registered
+@@ -434,10 +434,8 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+ 	ret = drm_gem_handle_create(file_priv, &shmem->base, handle);
+ 	/* drop reference from allocate - handle holds it now. */
+ 	drm_gem_object_put(&shmem->base);
+-	if (ret)
+-		return ERR_PTR(ret);
+ 
+-	return shmem;
++	return ret;
+ }
+ 
+ /* Update madvise status, returns true if not purged, else
+@@ -520,7 +518,6 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			      struct drm_mode_create_dumb *args)
+ {
+ 	u32 min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+-	struct drm_gem_shmem_object *shmem;
+ 
+ 	if (!args->pitch || !args->size) {
+ 		args->pitch = min_pitch;
+@@ -533,9 +530,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			args->size = PAGE_ALIGN(args->pitch * args->height);
+ 	}
+ 
+-	shmem = drm_gem_shmem_create_with_handle(file, dev, args->size, &args->handle);
+-
+-	return PTR_ERR_OR_ZERO(shmem);
++	return drm_gem_shmem_create_with_handle(file, dev, args->size, &args->handle);
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
+ 
+-- 
+2.38.1
 
-Thanks,
-Jagan.
