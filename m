@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B92677AE2
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49455677B0F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:35:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2807310E474;
-	Mon, 23 Jan 2023 12:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F7510E483;
+	Mon, 23 Jan 2023 12:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCFE10E474
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:25:50 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id p24so11178239plw.11
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 04:25:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aarpQnT43aQXsGZD812JWiD/2W82RnE9Rgav7f9Bikc=;
- b=fN8WO4H6wKrRtD0EiNrtrRWq57J7NCP/v5T/+7e57RV7zNHQn3Gc5TyG4KRh5PTilX
- OAfhfU/3y+x9pkfEaf3x51K+eEvM6NzSCDbYEOX9SPkzZwdAbkkjMPpqtlYrxLGdZJiO
- QW1PDwOIDOSMyHmqZIweqx4JsOmVXGf6pjJtQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aarpQnT43aQXsGZD812JWiD/2W82RnE9Rgav7f9Bikc=;
- b=BHKq7dMl2Z8Vq2L9YNu8AbWDALTNVpnhY2bgO3Kw7L3msUFrZWxD3XhzJfZJwxnZYM
- VR0Ame45cCpojEHkwPGaM3MKWdCsdhA4M/Xk5EZJiL1eGMqiFrtJCXS1EamMwM4F6eAb
- VEYC+f0qzEpYvTJ/wbIKcOywnpMGRGrbr5fvj9OFZSZM34ECZCZuCXPScWu0HS6MYAUZ
- REYGCaeLZH2wGwmVJUvOXeBDSfRLNFeg2efFsCmsEJYG1LGg6vLb0gYKUyc3bUDvnUmx
- gvKkKQ0srbi9gnSQPDT7FhpUL7mKUaKrwH53vvUsJ3dvH2f9G+TE286pOUnQ2gCWNmyw
- i1Eg==
-X-Gm-Message-State: AFqh2krvtKRDpdw3dpcknWgoA61+HQwSPDwO+1jejZPDg0Lrl6b74Fvz
- UxOxPiBAyZkQPQDJWstJkU8dmQ==
-X-Google-Smtp-Source: AMrXdXtnj2xDwLT1l87WbNsslEKu2++HPK+wdofvfNCUNiHVL8n7TpKsmQCOZ8demqN0eA8EZp483g==
-X-Received: by 2002:a05:6a20:691d:b0:af:b909:2b34 with SMTP id
- q29-20020a056a20691d00b000afb9092b34mr29656527pzj.41.1674476750174; 
- Mon, 23 Jan 2023 04:25:50 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c00a:a15f:2279:f361:f93b:7971])
- by smtp.gmail.com with ESMTPSA id
- w10-20020a170902e88a00b001960806728asm1291811plg.88.2023.01.23.04.25.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 04:25:49 -0800 (PST)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Marek Vasut <marex@denx.de>
-Subject: [PATCH v11 18/18] drm: bridge: samsung-dsim: Add i.MX8M Plus support
-Date: Mon, 23 Jan 2023 17:53:19 +0530
-Message-Id: <20230123122319.261341-19-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230123122319.261341-1-jagan@amarulasolutions.com>
-References: <20230123122319.261341-1-jagan@amarulasolutions.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 649B410E1C5;
+ Mon, 23 Jan 2023 12:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674477303; x=1706013303;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=mN91x3pb8sEfhgujAsSRVyswe7OAgUjOjPXk1HE5koQ=;
+ b=hl8uSdXFMPOf6+04yPeVqYK0DJcNtLnuqBZI7CGx6H9oeQXyCe+OBC9h
+ KqMuS93ZA6cmFvZJoVjH4dVtrkjXEp/bwxevMpkssLimocyevBiLbwB7Q
+ OPXc11+8BLNFp4oDv6RqTP82eQE/DOS7xocpGibs5aNFALHhdU0ey5hip
+ 6vc9opNrXWiJsUve9Mssv2N0BSXMwE4lsrxL4m5ZtmV7bADdybTa/IKHL
+ UEDX8iU6yQTlINnUKYdZ/GK1rp+DIB5MMW8uvn/pS7PUT7meZQ2ZZ2vxe
+ fD0v8UwK/yPY5EIhLRC71kDTG1jUFVnFRR7v7KgzWStKYmU0s7EYQUaMg Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="328116107"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="328116107"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 04:35:01 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="906972424"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="906972424"
+Received: from possola-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.57.125])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 04:34:59 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC 1/2] drm/connector: add connector list iteration with
+ filtering
+In-Reply-To: <Y5r9FjVJldoGwiCm@phenom.ffwll.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1664966047.git.jani.nikula@intel.com>
+ <8d92019b6ae730d6dc019e03fbc103645a2cf203.1664966047.git.jani.nikula@intel.com>
+ <Y5r9FjVJldoGwiCm@phenom.ffwll.local>
+Date: Mon, 23 Jan 2023 14:34:57 +0200
+Message-ID: <877cxd8m4u.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,121 +61,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
+Cc: intel-gfx@lists.freedesktop.org, Suraj Kandpal <suraj.kandpal@intel.com>,
+ dri-devel@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
+On Thu, 15 Dec 2022, Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Wed, Oct 05, 2022 at 01:51:43PM +0300, Jani Nikula wrote:
+>> Add new function drm_connector_list_iter_filter_begin() to initialize
+>> connector list iterator with a filter function. Subsequent iteration on
+>> the list will only return connectors on which the filter function
+>> returns true.
+>>=20
+>> Cc: Arun R Murthy <arun.r.murthy@intel.com>
+>> Cc: Suraj Kandpal <suraj.kandpal@intel.com>
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_connector.c | 57 ++++++++++++++++++++++++++-------
+>>  include/drm/drm_connector.h     |  9 ++++++
+>>  2 files changed, 54 insertions(+), 12 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conne=
+ctor.c
+>> index e3142c8142b3..d54b4b54cecb 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -762,6 +762,29 @@ static struct lockdep_map connector_list_iter_dep_m=
+ap =3D {
+>>  };
+>>  #endif
+>>=20=20
+>> +/**
+>> + * drm_connector_list_iter_filter_begin - initialize a connector_list i=
+terator with filter
+>> + * @dev: DRM device
+>> + * @iter: connector_list iterator
+>> + * @filter: connector filter function
+>> + * @filter_context: context to be passed to the filter function
+>> + *
+>> + * Same as drm_connector_list_iter_begin(), but sets up the iterator to=
+ only
+>> + * return connectors where filter(connector) returns true.
+>> + */
+>> +void drm_connector_list_iter_filter_begin(struct drm_device *dev,
+>> +					  struct drm_connector_list_iter *iter,
+>> +					  drm_connector_list_iter_filter_fn filter,
+>> +					  void *filter_context)
+>> +{
+>> +	iter->dev =3D dev;
+>> +	iter->conn =3D NULL;
+>> +	iter->filter =3D filter;
+>> +	iter->filter_context =3D filter_context;
+>> +	lock_acquire_shared_recursive(&connector_list_iter_dep_map, 0, 1, NULL=
+, _RET_IP_);
+>> +}
+>> +EXPORT_SYMBOL(drm_connector_list_iter_filter_begin);
+>
+> So maybe I'm missing the obvious, but can't we just put a for_each_fi
+> right after the for_each_connector_iter?
+>
+> And then maybe provide a default filter to kick out connectors and maybe a
+> macro that does the filtered iteration? The iter_begin/next/end is already
+> fairly tricky pattern compared to plain for_each macro, I think we should
+> try hard to not complicate it further with lots of variants if that's not
+> absolutely necessary.
 
-Add extras to support i.MX8M Plus. The main change is the removal of
-HS/VS/DE signal inversion in the LCDIFv3-DSIM glue logic, otherwise
-the implementation of this IP in i.MX8M Plus is very much compatible
-with the i.MX8M Mini/Nano one.
+Sorry, dropped the ball here, and lost sight of it.
 
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Acked-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
----
-Changes for v11:
-- collect RB from Frieder
-- collect ACK from Robert
-Changes for v10:
-- none
-Changes for v9:
-- added im8mp in DSIM_STATE_REINITIALIZED check
-- drop previous = NULL check
+You mean not have any of this in drm core, and just add the
+for_each_if() in local wrappers everywhere?
 
- drivers/gpu/drm/bridge/samsung-dsim.c | 23 +++++++++++++++++++++++
- include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 24 insertions(+)
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 18645c8eaba1..d93e589f5b91 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -479,6 +479,7 @@ samsung_dsim_types[DSIM_TYPE_COUNT] = {
- 	[DSIM_TYPE_EXYNOS5422] = &exynos5422_dsi_driver_data,
- 	[DSIM_TYPE_EXYNOS5433] = &exynos5433_dsi_driver_data,
- 	[DSIM_TYPE_IMX8MM] = &imx8mm_dsi_driver_data,
-+	[DSIM_TYPE_IMX8MP] = &imx8mm_dsi_driver_data,
- };
- 
- static inline struct samsung_dsim *host_to_dsi(struct mipi_dsi_host *h)
-@@ -1462,10 +1463,17 @@ static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
- 	 * 13.6.2.7.2 RGB interface
- 	 * both claim "Vsync, Hsync, and VDEN are active high signals.", the
- 	 * LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
-+	 *
-+	 * The i.MX8M Plus glue logic between LCDIFv3 and DSIM does not
-+	 * implement the same behavior, therefore LCDIFv3 must generate
-+	 * HS/VS/DE signals active HIGH.
- 	 */
- 	if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM) {
- 		adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
- 		adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-+	} else if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MP) {
-+		adjusted_mode->flags &= ~(DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-+		adjusted_mode->flags |= (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
- 	}
- 
- 	return 0;
-@@ -1640,6 +1648,10 @@ static const struct samsung_dsim_host_ops generic_dsim_host_ops = {
- 	.unregister_host = generic_dsim_unregister_host,
- };
- 
-+static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_high = {
-+	.input_bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+};
-+
- static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_low = {
- 	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
- };
-@@ -1729,6 +1741,8 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
- 	if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM)
- 		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_low;
-+	else
-+		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_high;
- 
- 	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
- 		ret = dsi->plat_data->host_ops->register_host(dsi);
-@@ -1834,11 +1848,20 @@ static const struct samsung_dsim_plat_data samsung_dsim_imx8mm_pdata = {
- 	.host_ops = &generic_dsim_host_ops,
- };
- 
-+static const struct samsung_dsim_plat_data samsung_dsim_imx8mp_pdata = {
-+	.hw_type = DSIM_TYPE_IMX8MP,
-+	.host_ops = &generic_dsim_host_ops,
-+};
-+
- static const struct of_device_id samsung_dsim_of_match[] = {
- 	{
- 		.compatible = "fsl,imx8mm-mipi-dsim",
- 		.data = &samsung_dsim_imx8mm_pdata,
- 	},
-+	{
-+		.compatible = "fsl,imx8mp-mipi-dsim",
-+		.data = &samsung_dsim_imx8mp_pdata,
-+	},
- 	{ /* sentinel. */ }
- };
- MODULE_DEVICE_TABLE(of, samsung_dsim_of_match);
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index 86b15f9f57a7..d3a481d115a9 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -27,6 +27,7 @@ enum samsung_dsim_type {
- 	DSIM_TYPE_EXYNOS5422,
- 	DSIM_TYPE_EXYNOS5433,
- 	DSIM_TYPE_IMX8MM,
-+	DSIM_TYPE_IMX8MP,
- 	DSIM_TYPE_COUNT,
- };
- 
--- 
-2.25.1
 
+> -Daniel
+>
+>
+>> +
+>>  /**
+>>   * drm_connector_list_iter_begin - initialize a connector_list iterator
+>>   * @dev: DRM device
+>> @@ -775,9 +798,7 @@ static struct lockdep_map connector_list_iter_dep_ma=
+p =3D {
+>>  void drm_connector_list_iter_begin(struct drm_device *dev,
+>>  				   struct drm_connector_list_iter *iter)
+>>  {
+>> -	iter->dev =3D dev;
+>> -	iter->conn =3D NULL;
+>> -	lock_acquire_shared_recursive(&connector_list_iter_dep_map, 0, 1, NULL=
+, _RET_IP_);
+>> +	drm_connector_list_iter_filter_begin(dev, iter, NULL, NULL);
+>>  }
+>>  EXPORT_SYMBOL(drm_connector_list_iter_begin);
+>>=20=20
+>> @@ -800,15 +821,8 @@ __drm_connector_put_safe(struct drm_connector *conn)
+>>  	schedule_work(&config->connector_free_work);
+>>  }
+>>=20=20
+>> -/**
+>> - * drm_connector_list_iter_next - return next connector
+>> - * @iter: connector_list iterator
+>> - *
+>> - * Returns: the next connector for @iter, or NULL when the list walk has
+>> - * completed.
+>> - */
+>> -struct drm_connector *
+>> -drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
+>> +static struct drm_connector *
+>> +__drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
+>>  {
+>>  	struct drm_connector *old_conn =3D iter->conn;
+>>  	struct drm_mode_config *config =3D &iter->dev->mode_config;
+>> @@ -836,6 +850,25 @@ drm_connector_list_iter_next(struct drm_connector_l=
+ist_iter *iter)
+>>=20=20
+>>  	return iter->conn;
+>>  }
+>> +
+>> +/**
+>> + * drm_connector_list_iter_next - return next connector
+>> + * @iter: connector_list iterator
+>> + *
+>> + * Returns: the next connector for @iter, or NULL when the list walk has
+>> + * completed.
+>> + */
+>> +struct drm_connector *
+>> +drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
+>> +{
+>> +	struct drm_connector *connector;
+>> +
+>> +	while ((connector =3D __drm_connector_list_iter_next(iter)) &&
+>> +	       iter->filter && !iter->filter(connector, iter->filter_context))
+>> +		;
+>> +
+>> +	return connector;
+>> +}
+>>  EXPORT_SYMBOL(drm_connector_list_iter_next);
+>>=20=20
+>>  /**
+>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>> index 56aee949c6fa..497b98197d3a 100644
+>> --- a/include/drm/drm_connector.h
+>> +++ b/include/drm/drm_connector.h
+>> @@ -1868,6 +1868,9 @@ struct drm_tile_group *drm_mode_get_tile_group(str=
+uct drm_device *dev,
+>>  void drm_mode_put_tile_group(struct drm_device *dev,
+>>  			     struct drm_tile_group *tg);
+>>=20=20
+>> +typedef bool (*drm_connector_list_iter_filter_fn)(const struct drm_conn=
+ector *connector,
+>> +						  void *filter_context);
+>> +
+>>  /**
+>>   * struct drm_connector_list_iter - connector_list iterator
+>>   *
+>> @@ -1886,10 +1889,16 @@ struct drm_connector_list_iter {
+>>  /* private: */
+>>  	struct drm_device *dev;
+>>  	struct drm_connector *conn;
+>> +	drm_connector_list_iter_filter_fn filter;
+>> +	void *filter_context;
+>>  };
+>>=20=20
+>>  void drm_connector_list_iter_begin(struct drm_device *dev,
+>>  				   struct drm_connector_list_iter *iter);
+>> +void drm_connector_list_iter_filter_begin(struct drm_device *dev,
+>> +					  struct drm_connector_list_iter *iter,
+>> +					  drm_connector_list_iter_filter_fn filter,
+>> +					  void *filter_context);
+>>  struct drm_connector *
+>>  drm_connector_list_iter_next(struct drm_connector_list_iter *iter);
+>>  void drm_connector_list_iter_end(struct drm_connector_list_iter *iter);
+>> --=20
+>> 2.34.1
+>>=20
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
