@@ -2,47 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FB9678064
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:48:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116FE678071
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 16:49:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E194F10E4E1;
-	Mon, 23 Jan 2023 15:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33C3B10E4E3;
+	Mon, 23 Jan 2023 15:49:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCD4410E4E1;
- Mon, 23 Jan 2023 15:48:52 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pJz3x-002k25-LW; Mon, 23 Jan 2023 16:48:49 +0100
-Received: from dynamic-077-011-154-164.77.11.pool.telefonica.de
- ([77.11.154.164] helo=[192.168.1.11])
- by inpost2.zedat.fu-berlin.de (Exim 4.95) with esmtpsa (TLS1.3)
- tls TLS_AES_128_GCM_SHA256
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1pJz3x-003jRs-FI; Mon, 23 Jan 2023 16:48:49 +0100
-Message-ID: <acf90cab-49e3-2afd-5062-9996ba3dfbbf@physik.fu-berlin.de>
-Date: Mon, 23 Jan 2023 16:48:48 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEB0610E4E2;
+ Mon, 23 Jan 2023 15:49:41 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C200D2D9;
+ Mon, 23 Jan 2023 16:49:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1674488980;
+ bh=zsDmmFaVw8eWcq27RJRLSVyDCigJwIYalpynKAmVx94=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oTpO2xtuCgkoq907YiKL2WbJJJ38PBJ6aZaBA5LPBMhi8rHPWWKgklKkBNeHQlWSj
+ GI7weGO+qvKO4AI7KRNKsaJ46yC6a3/OgRCevQo2TYgTMMwNwaXx6KiXiLkEE8AEPc
+ rUrygzpIjNfMj+ShD5zCskbxstDtBSGkFKblMWFE=
+Date: Mon, 23 Jan 2023 17:49:36 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [ANNOUNCE] pixfmtdb
+Message-ID: <Y86skCbxY5kZglo8@pendragon.ideasonboard.com>
+References: <nn8qWh16AviRPuLVOg_I-Nn747ncRsuJsZU_VZHvKhxp2hoFBCFsAfezBDkiwM-yn-CXAW_Vos121VKtETNsSZU3EuCuVzcgHBnnWNnww-g=@emersion.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PULL] drm-misc-next
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>
-References: <Y8kDk5YX7Yz3eRhM@linux-uq9g>
- <0df23fe5-40cb-c5f3-33e1-da57a7b23808@physik.fu-berlin.de>
- <43ed96bc-5a70-ba61-1959-fcb2fe86387e@suse.de>
- <3c426ff9-e2de-86ee-6b49-443fea3437ff@physik.fu-berlin.de>
- <d2345ff2-3fc3-1a44-6ace-d05a29feb5b3@suse.de>
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-In-Reply-To: <d2345ff2-3fc3-1a44-6ace-d05a29feb5b3@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 77.11.154.164
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <nn8qWh16AviRPuLVOg_I-Nn747ncRsuJsZU_VZHvKhxp2hoFBCFsAfezBDkiwM-yn-CXAW_Vos121VKtETNsSZU3EuCuVzcgHBnnWNnww-g=@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,43 +46,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, dim-tools@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com
+Cc: linux-media@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas!
+CC'ing the linux-media mailing list.
 
-On 1/23/23 16:35, Thomas Zimmermann wrote:
->>> The only thing that is not supported any longer is hardware-accelerated 3d rendering.
->>> However, this has not worked anyway, as Mesa has dropped support for those chips a long
->>> time ago.
->>
->> Correct me if I'm wrong, but I thought that's what Mesa Classic was forked off for?
+On Mon, Jan 23, 2023 at 02:10:58PM +0000, Simon Ser wrote:
+> Hi all,
 > 
-> AFAIK Mesa classic is for old radeon, i915 and old nouveau code. The so-called amber branch:
+> In the last few days I've been working on a small new project, pixfmtdb [1].
+> It's a Web database of pixel format guides, it can be useful to understand
+> how pixels are laid out in memory for a given format and which formats from
+> various APIs are compatible with each other.
 > 
->   https://docs.mesa3d.org/amber.html
+> pixfmtdb relies on the Khronos Data Format Specification [2] to describe
+> each format. This means that each format is described with a standardized
+> data blob, which can be re-used with other tools for other purposes.
 > 
-> But the removed code is for even older hardware.
+> My future plans include adding more formats and format families to pixfmtdb,
+> and make it easy to use the data for code generation, in particular for
+> automatically generating tables containing metadata about formats, as used
+> in Wayland compositors and other projects.
 > 
->   https://docs.mesa3d.org/systems.html#deprecated-systems-and-drivers
-
-OK, thanks a lot for the clarification!
-
-I'm glad the 2D drivers will still work and it seems that news article on Phoronix [1] is
-a little misleading as from reading the it, it seems that driver support for the afore-
-mentioned hardware is dropped completely which is it not the case.
-
-Thanks,
-Adrian
-
-> [1] https://www.phoronix.com/news/Linux-6.3-Dropping-Old-DRM
+> I hope some of you can find this work useful,
+> 
+> Simon
+> 
+> [1]: https://pixfmtdb.emersion.fr
+> [2]: https://www.khronos.org/dataformat
 
 -- 
-  .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+Regards,
 
+Laurent Pinchart
