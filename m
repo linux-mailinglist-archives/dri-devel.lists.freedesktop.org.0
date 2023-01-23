@@ -2,60 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23423677880
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 11:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665F76778DD
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 11:15:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C2C110E355;
-	Mon, 23 Jan 2023 10:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB4C210E339;
+	Mon, 23 Jan 2023 10:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AB2110E339;
- Mon, 23 Jan 2023 10:06:07 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 22A841F894;
- Mon, 23 Jan 2023 10:06:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674468366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vDd9MXBTjKMXMh/f/QyfHcSewUkTmQXrhwWLESaTFTc=;
- b=I4TtmGYDyKvSOnbWkOxiQM5mENgnz2IBpk2sUXD3kE+W2SFSlaCIvtVg+lgRlkD/Wz/V4D
- P1yn33vBBIAdQHETcDkqiDrp0tUWNSyTz6VPPn7R5/f2zXicB25xcUXeiilpbONcmfYZ4t
- zSbyWVAbDjqztG0Nf78FCYwE7xpQYvg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674468366;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vDd9MXBTjKMXMh/f/QyfHcSewUkTmQXrhwWLESaTFTc=;
- b=8FR2KJnsq+LEqZkKZWvc+UmQgBc9reVplThcIblGYUo8bC59zPBBsKmGhOGWmr3x5A3rdl
- eCDOwAESYDgvDdDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D4609134F5;
- Mon, 23 Jan 2023 10:06:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AHHKMg1czmO+DwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 23 Jan 2023 10:06:05 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, javierm@redhat.com
-Subject: [PATCH 10/10] drm/fbdev-generic: Rename struct fb_info 'fbi' to 'info'
-Date: Mon, 23 Jan 2023 11:05:59 +0100
-Message-Id: <20230123100559.12351-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230123100559.12351-1-tzimmermann@suse.de>
-References: <20230123100559.12351-1-tzimmermann@suse.de>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82CC910E338;
+ Mon, 23 Jan 2023 10:15:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674468909; x=1706004909;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=R7TjPoZS7bYWLfmGcXeg4TEAsY/s78qaT2VAILgGV7c=;
+ b=UOnKIrgzLvEQResEGw0FgSVq8npr0+9IF+icV4An2BfIstsaWmiS0v5T
+ Kj52VMux3+IAoOw8G+r24Fbja0e5rJHOLY/FWA8LbGfFgcj0XIPbQ+Qap
+ b1S7PHb08YF9g6ZNnU5OAMb3rnn2wK7L4i9tWCL+oSjxY6Iqracm+y3tt
+ S76+hbcaPaLCHPZves31XeDJDukscybxI6X9R3WBkbmMzhyh38jXBDAwD
+ Cpwhv6kFkBb+xxypWR8Nik6z5Oe698tpzPzJHQhOMYzkUJkXuSZMgVm0+
+ eFiCgYoiRk7gWysGpcS5dZAAw7m1bqhbZZ+gjlvDNoGXKwtPPk1RnS0mL w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="390511844"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="390511844"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 02:15:08 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="730127102"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="730127102"
+Received: from possola-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.57.125])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 02:15:07 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v8 5/8] drm/i915/edid: convert DP, HDMI and LVDS to
+ drm_edid
+In-Reply-To: <Y8riBdt+O6zDVlFz@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1674144945.git.jani.nikula@intel.com>
+ <b58b4c5ea31943e6c816ba0f6f4efa48bd9e5ab6.1674144945.git.jani.nikula@intel.com>
+ <Y8riBdt+O6zDVlFz@intel.com>
+Date: Mon, 23 Jan 2023 12:15:04 +0200
+Message-ID: <87o7qp8slz.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,126 +61,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The generic fbdev emulation names variables of type struct fb_info
-both 'fbi' and 'info'. The latter seems to be more common in fbdev
-code, so name fbi accordingly.
+On Fri, 20 Jan 2023, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Thu, Jan 19, 2023 at 06:18:58PM +0200, Jani Nikula wrote:
+>> diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm=
+/i915/display/intel_lvds.c
+>> index aecec992cd0d..6a98787edf48 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_lvds.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_lvds.c
+>> @@ -479,8 +479,11 @@ static int intel_lvds_get_modes(struct drm_connecto=
+r *connector)
+>>  	struct intel_connector *intel_connector =3D to_intel_connector(connect=
+or);
+>>=20=20
+>>  	/* use cached edid if we have one */
+>> -	if (!IS_ERR_OR_NULL(intel_connector->edid))
+>> -		return drm_add_edid_modes(connector, intel_connector->edid);
+>> +	if (!IS_ERR_OR_NULL(intel_connector->edid)) {
+>> +		drm_edid_connector_update(connector, intel_connector->edid);
+>
+> Isn't this update redundant?
 
-Also replace the duplicate variable in drm_fbdev_fb_destroy().
+Maybe far fetched, but if the user does connector force disable via
+debugfs, drm_helper_probe_single_connector_modes() will clear the EDID
+property and display info. And after that, nobody's going to do the
+connector update again unless we do it here.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_fbdev_generic.c | 49 ++++++++++++++---------------
- 1 file changed, 24 insertions(+), 25 deletions(-)
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index 49a0bba86ce7..7633da5c13c3 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -46,17 +46,16 @@ static int drm_fbdev_fb_release(struct fb_info *info, int user)
- static void drm_fbdev_fb_destroy(struct fb_info *info)
- {
- 	struct drm_fb_helper *fb_helper = info->par;
--	struct fb_info *fbi = fb_helper->info;
- 	void *shadow = NULL;
- 
- 	if (!fb_helper->dev)
- 		return;
- 
--	if (fbi) {
--		if (fbi->fbdefio)
--			fb_deferred_io_cleanup(fbi);
-+	if (info) {
-+		if (info->fbdefio)
-+			fb_deferred_io_cleanup(info);
- 		if (drm_fbdev_use_shadow_fb(fb_helper))
--			shadow = fbi->screen_buffer;
-+			shadow = info->screen_buffer;
- 	}
- 
- 	drm_fb_helper_fini(fb_helper);
-@@ -173,7 +172,7 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
- 	struct drm_device *dev = fb_helper->dev;
- 	struct drm_client_buffer *buffer;
- 	struct drm_framebuffer *fb;
--	struct fb_info *fbi;
-+	struct fb_info *info;
- 	u32 format;
- 	struct iosys_map map;
- 	int ret;
-@@ -192,35 +191,35 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
- 	fb_helper->fb = buffer->fb;
- 	fb = buffer->fb;
- 
--	fbi = drm_fb_helper_alloc_info(fb_helper);
--	if (IS_ERR(fbi))
--		return PTR_ERR(fbi);
-+	info = drm_fb_helper_alloc_info(fb_helper);
-+	if (IS_ERR(info))
-+		return PTR_ERR(info);
- 
--	fbi->fbops = &drm_fbdev_fb_ops;
--	fbi->screen_size = sizes->surface_height * fb->pitches[0];
--	fbi->fix.smem_len = fbi->screen_size;
--	fbi->flags = FBINFO_DEFAULT;
-+	info->fbops = &drm_fbdev_fb_ops;
-+	info->screen_size = sizes->surface_height * fb->pitches[0];
-+	info->fix.smem_len = info->screen_size;
-+	info->flags = FBINFO_DEFAULT;
- 
--	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
-+	drm_fb_helper_fill_info(info, fb_helper, sizes);
- 
- 	if (drm_fbdev_use_shadow_fb(fb_helper)) {
--		fbi->screen_buffer = vzalloc(fbi->screen_size);
--		if (!fbi->screen_buffer)
-+		info->screen_buffer = vzalloc(info->screen_size);
-+		if (!info->screen_buffer)
- 			return -ENOMEM;
--		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
-+		info->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
- 
--		fbi->fbdefio = &drm_fbdev_defio;
--		fb_deferred_io_init(fbi);
-+		info->fbdefio = &drm_fbdev_defio;
-+		fb_deferred_io_init(info);
- 	} else {
- 		/* buffer is mapped for HW framebuffer */
- 		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
- 		if (ret)
- 			return ret;
- 		if (map.is_iomem) {
--			fbi->screen_base = map.vaddr_iomem;
-+			info->screen_base = map.vaddr_iomem;
- 		} else {
--			fbi->screen_buffer = map.vaddr;
--			fbi->flags |= FBINFO_VIRTFB;
-+			info->screen_buffer = map.vaddr;
-+			info->flags |= FBINFO_VIRTFB;
- 		}
- 
- 		/*
-@@ -229,10 +228,10 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
- 		 * case.
- 		 */
- #if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
--		if (fb_helper->hint_leak_smem_start && fbi->fix.smem_start == 0 &&
-+		if (fb_helper->hint_leak_smem_start && info->fix.smem_start == 0 &&
- 		    !drm_WARN_ON_ONCE(dev, map.is_iomem))
--			fbi->fix.smem_start =
--				page_to_phys(virt_to_page(fbi->screen_buffer));
-+			info->fix.smem_start =
-+				page_to_phys(virt_to_page(info->screen_buffer));
- #endif
- 	}
- 
--- 
-2.39.0
 
+
+>
+>> +
+>> +		return drm_edid_connector_add_modes(connector);
+>> +	}
+>>=20=20
+>>  	return intel_panel_get_modes(intel_connector);
+>>  }
+>> @@ -834,7 +837,7 @@ void intel_lvds_init(struct drm_i915_private *dev_pr=
+iv)
+>>  	struct intel_connector *intel_connector;
+>>  	struct drm_connector *connector;
+>>  	struct drm_encoder *encoder;
+>> -	struct edid *edid;
+>> +	const struct drm_edid *drm_edid;
+>>  	i915_reg_t lvds_reg;
+>>  	u32 lvds;
+>>  	u8 pin;
+>> @@ -945,27 +948,36 @@ void intel_lvds_init(struct drm_i915_private *dev_=
+priv)
+>>  	 * preferred mode is the right one.
+>>  	 */
+>>  	mutex_lock(&dev_priv->drm.mode_config.mutex);
+>> -	if (vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC)
+>> +	if (vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC) {
+>> +		const struct edid *edid;
+>> +
+>> +		/* FIXME: Make drm_get_edid_switcheroo() return drm_edid */
+>>  		edid =3D drm_get_edid_switcheroo(connector,
+>> -				    intel_gmbus_get_adapter(dev_priv, pin));
+>> -	else
+>> -		edid =3D drm_get_edid(connector,
+>> -				    intel_gmbus_get_adapter(dev_priv, pin));
+>> -	if (edid) {
+>> -		if (drm_add_edid_modes(connector, edid)) {
+>> -			drm_connector_update_edid_property(connector,
+>> -								edid);
+>> -		} else {
+>> +					       intel_gmbus_get_adapter(dev_priv, pin));
+>> +		if (edid) {
+>> +			drm_edid =3D drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENG=
+TH);
+>>  			kfree(edid);
+>> -			edid =3D ERR_PTR(-EINVAL);
+>> +		} else {
+>> +			drm_edid =3D NULL;
+>> +		}
+>> +	} else {
+>> +		drm_edid =3D drm_edid_read_ddc(connector,
+>> +					     intel_gmbus_get_adapter(dev_priv, pin));
+>> +	}
+>> +	if (drm_edid) {
+>> +		if (drm_edid_connector_update(connector, drm_edid) ||
+>> +		    !drm_edid_connector_add_modes(connector)) {
+>> +			drm_edid_connector_update(connector, NULL);
+>> +			drm_edid_free(drm_edid);
+>> +			drm_edid =3D ERR_PTR(-EINVAL);
+>>  		}
+>>  	} else {
+>> -		edid =3D ERR_PTR(-ENOENT);
+>> +		drm_edid =3D ERR_PTR(-ENOENT);
+>>  	}
+>> -	intel_connector->edid =3D edid;
+>> +	intel_connector->edid =3D drm_edid;
+>>=20=20
+>>  	intel_bios_init_panel_late(dev_priv, &intel_connector->panel, NULL,
+>> -				   IS_ERR(edid) ? NULL : edid);
+>> +				   IS_ERR_OR_NULL(drm_edid) ? NULL : drm_edid_raw(drm_edid));
+>>=20=20
+>>  	/* Try EDID first */
+>>  	intel_panel_add_edid_fixed_modes(intel_connector, true);
+>> --=20
+>> 2.34.1
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
