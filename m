@@ -1,54 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49455677B0F
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:35:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4B1677B17
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jan 2023 13:38:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F7510E483;
-	Mon, 23 Jan 2023 12:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 370B410E487;
+	Mon, 23 Jan 2023 12:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 649B410E1C5;
- Mon, 23 Jan 2023 12:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674477303; x=1706013303;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=mN91x3pb8sEfhgujAsSRVyswe7OAgUjOjPXk1HE5koQ=;
- b=hl8uSdXFMPOf6+04yPeVqYK0DJcNtLnuqBZI7CGx6H9oeQXyCe+OBC9h
- KqMuS93ZA6cmFvZJoVjH4dVtrkjXEp/bwxevMpkssLimocyevBiLbwB7Q
- OPXc11+8BLNFp4oDv6RqTP82eQE/DOS7xocpGibs5aNFALHhdU0ey5hip
- 6vc9opNrXWiJsUve9Mssv2N0BSXMwE4lsrxL4m5ZtmV7bADdybTa/IKHL
- UEDX8iU6yQTlINnUKYdZ/GK1rp+DIB5MMW8uvn/pS7PUT7meZQ2ZZ2vxe
- fD0v8UwK/yPY5EIhLRC71kDTG1jUFVnFRR7v7KgzWStKYmU0s7EYQUaMg Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="328116107"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="328116107"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 04:35:01 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="906972424"
-X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="906972424"
-Received: from possola-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.57.125])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 04:34:59 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [RFC 1/2] drm/connector: add connector list iteration with
- filtering
-In-Reply-To: <Y5r9FjVJldoGwiCm@phenom.ffwll.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1664966047.git.jani.nikula@intel.com>
- <8d92019b6ae730d6dc019e03fbc103645a2cf203.1664966047.git.jani.nikula@intel.com>
- <Y5r9FjVJldoGwiCm@phenom.ffwll.local>
-Date: Mon, 23 Jan 2023 14:34:57 +0200
-Message-ID: <877cxd8m4u.fsf@intel.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 032FB10E1C5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 12:38:01 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id r9so10666154wrw.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 04:38:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=k0SDGOj6yXybPWOXI0fMP8pl7SI76y6qCgJVOq7wd3Y=;
+ b=GpXuLr1s89IbQNq8YVP7+aIEkWj2M9QCXLnURqJrGDOtNn+MiDcvF6CwMsX1JRRdFu
+ gFTGtAzA624j5SspxiuoxqAM4PF+iDIQUYU47W5mDccUa0mJi/T8tEP/plPESBcr9EeM
+ 6llyFwmbjOMjJyFzZ4yGyUA/3W7XAnW8ZcTHfMFUw+xwbDeoKqiV9G88ZOe/a3ouVY2w
+ /NLmmQSy/5TqabrQ6K/qazq0IBgnOZZgX4pnRGin+9nIGubhsSQdsl1Tl6hUeE5Nrm2O
+ 56fEqC2T4h1ZBwlmIBAA90LU2bSoaVSgd3AgYnU77aEVJbbMZjaj3zNA2XJTNmUgPAKm
+ kQIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=k0SDGOj6yXybPWOXI0fMP8pl7SI76y6qCgJVOq7wd3Y=;
+ b=YLj53xaPEnXNB6h/Jy3OsHqR0oV1xM7/pbD8Uq5wFYAEiyWpH5xeyYbTFMXzSedOVn
+ Z3G8jIG/mxMezyXMLq+9ASsw8Ms5Tvgug1TMVSkvdGFy5AeEXjN78unN5nC4Rjk785CY
+ 4zCsIQkaJYrafnCbUR6PbUJX4dSoQVTNoro6cVBB8nyxG40tHDjN7IpS1jrIhGBeLIrc
+ 2ZpzRUs7hK6hepxLudC3iHIRo+K7K8zjl+Wo7uWlZrAn8IhtA1X7o12ntURVYhhs++l/
+ E9exgki3NaJcUe2WI3j5XRU+Layn2MjQONrrkKpUnryaklthnfdUXPAlYjC8GWSjDIwF
+ MP/w==
+X-Gm-Message-State: AFqh2ko7oG9meJo6nSQ+d3o5qeQUNR6zYMIqcra2YGuiTBxT4rAawbvZ
+ EZ0Sx/bgJjdO7SCcAmSDVto=
+X-Google-Smtp-Source: AMrXdXuhWpkg1xDO4DN/sJG6IqAq8RqKHMaDkKgR7drCIolSUNpdc6T1YBCDkNoHWnR9meWkZB4XQw==
+X-Received: by 2002:a05:6000:98f:b0:2be:296:3b5 with SMTP id
+ by15-20020a056000098f00b002be029603b5mr23468134wrb.17.1674477480330; 
+ Mon, 23 Jan 2023 04:38:00 -0800 (PST)
+Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
+ by smtp.gmail.com with ESMTPSA id
+ k3-20020a5d6e83000000b00289bdda07b7sm4284510wrz.92.2023.01.23.04.37.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 04:37:59 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: l.stach@pengutronix.de, nicolas@ndufresne.ca, ppaalanen@gmail.com,
+ sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
+ tfiga@chromium.org, sebastian.wick@redhat.com, hverkuil@xs4all.nl,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org, benjamin.gaignard@collabora.com,
+ lmark@codeaurora.org, labbott@redhat.com, Brian.Starkey@arm.com,
+ jstultz@google.com, laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Subject: DMA-heap driver hints
+Date: Mon, 23 Jan 2023 13:37:54 +0100
+Message-Id: <20230123123756.401692-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,182 +76,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Suraj Kandpal <suraj.kandpal@intel.com>,
- dri-devel@lists.freedesktop.org, Arun R Murthy <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 15 Dec 2022, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Wed, Oct 05, 2022 at 01:51:43PM +0300, Jani Nikula wrote:
->> Add new function drm_connector_list_iter_filter_begin() to initialize
->> connector list iterator with a filter function. Subsequent iteration on
->> the list will only return connectors on which the filter function
->> returns true.
->>=20
->> Cc: Arun R Murthy <arun.r.murthy@intel.com>
->> Cc: Suraj Kandpal <suraj.kandpal@intel.com>
->> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/drm_connector.c | 57 ++++++++++++++++++++++++++-------
->>  include/drm/drm_connector.h     |  9 ++++++
->>  2 files changed, 54 insertions(+), 12 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conne=
-ctor.c
->> index e3142c8142b3..d54b4b54cecb 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -762,6 +762,29 @@ static struct lockdep_map connector_list_iter_dep_m=
-ap =3D {
->>  };
->>  #endif
->>=20=20
->> +/**
->> + * drm_connector_list_iter_filter_begin - initialize a connector_list i=
-terator with filter
->> + * @dev: DRM device
->> + * @iter: connector_list iterator
->> + * @filter: connector filter function
->> + * @filter_context: context to be passed to the filter function
->> + *
->> + * Same as drm_connector_list_iter_begin(), but sets up the iterator to=
- only
->> + * return connectors where filter(connector) returns true.
->> + */
->> +void drm_connector_list_iter_filter_begin(struct drm_device *dev,
->> +					  struct drm_connector_list_iter *iter,
->> +					  drm_connector_list_iter_filter_fn filter,
->> +					  void *filter_context)
->> +{
->> +	iter->dev =3D dev;
->> +	iter->conn =3D NULL;
->> +	iter->filter =3D filter;
->> +	iter->filter_context =3D filter_context;
->> +	lock_acquire_shared_recursive(&connector_list_iter_dep_map, 0, 1, NULL=
-, _RET_IP_);
->> +}
->> +EXPORT_SYMBOL(drm_connector_list_iter_filter_begin);
->
-> So maybe I'm missing the obvious, but can't we just put a for_each_fi
-> right after the for_each_connector_iter?
->
-> And then maybe provide a default filter to kick out connectors and maybe a
-> macro that does the filtered iteration? The iter_begin/next/end is already
-> fairly tricky pattern compared to plain for_each macro, I think we should
-> try hard to not complicate it further with lots of variants if that's not
-> absolutely necessary.
+Hi guys,
 
-Sorry, dropped the ball here, and lost sight of it.
+this is just an RFC! The last time we discussed the DMA-buf coherency
+problem [1] we concluded that DMA-heap first needs a better way to
+communicate to userspace which heap to use for a certain device.
 
-You mean not have any of this in drm core, and just add the
-for_each_if() in local wrappers everywhere?
+As far as I know userspace currently just hard codes that information
+which is certainly not desirable considering that we should have this
+inside the kernel as well.
 
-BR,
-Jani.
+So what those two patches here do is to first add some
+dma_heap_create_device_link() and  dma_heap_remove_device_link()
+function and then demonstrating the functionality with uvcvideo
+driver.
+
+The preferred DMA-heap is represented with a symlink in sysfs between
+the device and the virtual DMA-heap device node.
+
+What's still missing is certainly matching userspace for this since I
+wanted to discuss the initial kernel approach first.
+
+Please take a look and comment.
+
+Thanks,
+Christian.
+
+[1] https://lore.kernel.org/all/11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com/T/
 
 
-> -Daniel
->
->
->> +
->>  /**
->>   * drm_connector_list_iter_begin - initialize a connector_list iterator
->>   * @dev: DRM device
->> @@ -775,9 +798,7 @@ static struct lockdep_map connector_list_iter_dep_ma=
-p =3D {
->>  void drm_connector_list_iter_begin(struct drm_device *dev,
->>  				   struct drm_connector_list_iter *iter)
->>  {
->> -	iter->dev =3D dev;
->> -	iter->conn =3D NULL;
->> -	lock_acquire_shared_recursive(&connector_list_iter_dep_map, 0, 1, NULL=
-, _RET_IP_);
->> +	drm_connector_list_iter_filter_begin(dev, iter, NULL, NULL);
->>  }
->>  EXPORT_SYMBOL(drm_connector_list_iter_begin);
->>=20=20
->> @@ -800,15 +821,8 @@ __drm_connector_put_safe(struct drm_connector *conn)
->>  	schedule_work(&config->connector_free_work);
->>  }
->>=20=20
->> -/**
->> - * drm_connector_list_iter_next - return next connector
->> - * @iter: connector_list iterator
->> - *
->> - * Returns: the next connector for @iter, or NULL when the list walk has
->> - * completed.
->> - */
->> -struct drm_connector *
->> -drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
->> +static struct drm_connector *
->> +__drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
->>  {
->>  	struct drm_connector *old_conn =3D iter->conn;
->>  	struct drm_mode_config *config =3D &iter->dev->mode_config;
->> @@ -836,6 +850,25 @@ drm_connector_list_iter_next(struct drm_connector_l=
-ist_iter *iter)
->>=20=20
->>  	return iter->conn;
->>  }
->> +
->> +/**
->> + * drm_connector_list_iter_next - return next connector
->> + * @iter: connector_list iterator
->> + *
->> + * Returns: the next connector for @iter, or NULL when the list walk has
->> + * completed.
->> + */
->> +struct drm_connector *
->> +drm_connector_list_iter_next(struct drm_connector_list_iter *iter)
->> +{
->> +	struct drm_connector *connector;
->> +
->> +	while ((connector =3D __drm_connector_list_iter_next(iter)) &&
->> +	       iter->filter && !iter->filter(connector, iter->filter_context))
->> +		;
->> +
->> +	return connector;
->> +}
->>  EXPORT_SYMBOL(drm_connector_list_iter_next);
->>=20=20
->>  /**
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 56aee949c6fa..497b98197d3a 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -1868,6 +1868,9 @@ struct drm_tile_group *drm_mode_get_tile_group(str=
-uct drm_device *dev,
->>  void drm_mode_put_tile_group(struct drm_device *dev,
->>  			     struct drm_tile_group *tg);
->>=20=20
->> +typedef bool (*drm_connector_list_iter_filter_fn)(const struct drm_conn=
-ector *connector,
->> +						  void *filter_context);
->> +
->>  /**
->>   * struct drm_connector_list_iter - connector_list iterator
->>   *
->> @@ -1886,10 +1889,16 @@ struct drm_connector_list_iter {
->>  /* private: */
->>  	struct drm_device *dev;
->>  	struct drm_connector *conn;
->> +	drm_connector_list_iter_filter_fn filter;
->> +	void *filter_context;
->>  };
->>=20=20
->>  void drm_connector_list_iter_begin(struct drm_device *dev,
->>  				   struct drm_connector_list_iter *iter);
->> +void drm_connector_list_iter_filter_begin(struct drm_device *dev,
->> +					  struct drm_connector_list_iter *iter,
->> +					  drm_connector_list_iter_filter_fn filter,
->> +					  void *filter_context);
->>  struct drm_connector *
->>  drm_connector_list_iter_next(struct drm_connector_list_iter *iter);
->>  void drm_connector_list_iter_end(struct drm_connector_list_iter *iter);
->> --=20
->> 2.34.1
->>=20
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
