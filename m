@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EEB26794DE
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 11:13:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59296794DF
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 11:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26FF110E64E;
-	Tue, 24 Jan 2023 10:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7027810E64F;
+	Tue, 24 Jan 2023 10:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 326BD10E64E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 342F410E64F
  for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 10:13:08 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 30OACfpC019815;
- Tue, 24 Jan 2023 04:12:41 -0600
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 30OACgTE019820;
+ Tue, 24 Jan 2023 04:12:42 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1674555161;
- bh=ghswS2nFYduYIes1Z1G2QvvBAQbFntj6MXzY4neWztI=;
+ s=ti-com-17Q1; t=1674555162;
+ bh=TbI0et8o9xsZ9z4H+7u5mLi2Xelz8H1ZgN17q6rtog4=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=qpjcKBfQWPtbbeljysQUHh0YzH7tlJkVqaHxKcXts2Xar9bJAg39bkI5B8s8sUHyY
- 1A/TGXmbV68tKXj60XN3rjGNspbDZKw64GJjghxt4GQDcf07yWVdkY+AdeA6YzTaia
- 5f+bTL8tTQD3sSrSg7jIJYBk2pVVhOviaQa8lONg=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 30OACfaq038334
+ b=bbi+KPe1fzkccDFZP6aEsX0fqgwX0gsJhbYFb/5zAUXFPrIpXtXbZ5xkhh+i6rr5Q
+ 7I1Cr3b6KSp3DYLjsmxEz5hXd9o2vz/vasWs1YAsQXgaPJvti3z+FAeLvD74vF2ZoK
+ 5rt6xNbHYX6R1Rh/hRdsN3qxC0phUCNjlY4uF6mc=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 30OACg6R032434
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 24 Jan 2023 04:12:41 -0600
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 24 Jan 2023 04:12:42 -0600
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 24
- Jan 2023 04:12:40 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2023 04:12:42 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Tue, 24 Jan 2023 04:12:40 -0600
+ Frontend Transport; Tue, 24 Jan 2023 04:12:42 -0600
 Received: from localhost (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 30OACebS013089;
- Tue, 24 Jan 2023 04:12:40 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 30OACfWO018473;
+ Tue, 24 Jan 2023 04:12:42 -0600
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzysztof.kozlowski+dt@linaro.org>,
@@ -50,9 +50,9 @@ To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
  <aou@eecs.berkeley.edu>, Matthias Brugger <matthias.bgg@gmail.com>, Guo Ren
  <guoren@kernel.org>
-Subject: [PATCH v2 1/4] dt-bindings: vendor-prefixes: Add microtips
-Date: Tue, 24 Jan 2023 15:42:35 +0530
-Message-ID: <20230124101238.4542-2-a-bhatia1@ti.com>
+Subject: [PATCH v2 2/4] dt-bindings: vendor-prefixes: Add lincolntech
+Date: Tue, 24 Jan 2023 15:42:36 +0530
+Message-ID: <20230124101238.4542-3-a-bhatia1@ti.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230124101238.4542-1-a-bhatia1@ti.com>
 References: <20230124101238.4542-1-a-bhatia1@ti.com>
@@ -86,7 +86,8 @@ Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add document vendor prefix for Microtips Technology USA (microtips).
+Add document vendor prefix for Lincoln Technology Solutions
+(lincolntech).
 
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
@@ -96,18 +97,18 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index ce00135fd6d0..169a3d4210bb 100644
+index 169a3d4210bb..347459dc5d1b 100644
 --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
 +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -833,6 +833,8 @@ patternProperties:
-     description: Microsoft Corporation
-   "^microsys,.*":
-     description: MicroSys Electronics GmbH
-+  "^microtips,.*":
-+    description: Microtips Technology USA
-   "^mikroe,.*":
-     description: MikroElektronika d.o.o.
-   "^mikrotik,.*":
+@@ -737,6 +737,8 @@ patternProperties:
+     description: Lichee Pi
+   "^linaro,.*":
+     description: Linaro Limited
++  "^lincolntech,.*":
++    description: Lincoln Technology Solutions
+   "^lineartechnology,.*":
+     description: Linear Technology
+   "^linksprite,.*":
 -- 
 2.39.0
 
