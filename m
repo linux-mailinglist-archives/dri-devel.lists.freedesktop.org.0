@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9D867998F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 14:40:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 760DE6799A6
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 14:40:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08BB410E690;
-	Tue, 24 Jan 2023 13:40:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C3E010E6AF;
+	Tue, 24 Jan 2023 13:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C09210E68B;
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB17110E692;
  Tue, 24 Jan 2023 13:40:15 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 126D321886;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5A73D1FE1E;
  Tue, 24 Jan 2023 13:40:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1674567614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p6uZusSdr1MbshHSKIYuzEGDjhxkKoAoioeknjvp2I4=;
- b=P+07bXYxaYKX3FXIYhLxupX+VPNbGFjuieWc5c/N1GBFpxFoBmUPoYq2aL9KuSWERdOU4n
- a7K2hFKUcF0RpE/3RtEQmvcGxbFagxg71zntcGV90QHnb133HzUcBRAYyjQszR4Xml3Zgc
- qNp4kJmkb8zmkxohV2UKaTNk9DvNBP0=
+ bh=9gqTaZqFS9HwS2jeW+cjkUFXSUCIBmBtuf7BCu1wnbY=;
+ b=HUewnAbn1RLyKfA/iHKoEXxS1Myeva8cXFf5CydhgdDqEs183LCCFvGWqfoaazy5iCEoRV
+ /7r0D5MsHqNZtpG1Z50yOEBC4SLv/T7BDezeZKZO/lLB9UWbr8DE1IaETIZhzzMq2iHJRx
+ 0bwLc+0rsSFz+l2wPktb3fogcICSYiM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1674567614;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p6uZusSdr1MbshHSKIYuzEGDjhxkKoAoioeknjvp2I4=;
- b=T2a8dX+3RTqRqTYYMXqWLhNKHEEs+O73XEC5eDFJi4uX+ZtERihdZYOwumpYTBn7fwXWnH
- Uqk+8B9k6s4JDKCw==
+ bh=9gqTaZqFS9HwS2jeW+cjkUFXSUCIBmBtuf7BCu1wnbY=;
+ b=ZjE8eRmjxS/tHvlbj5qstTSBdHOD1TL3wMGknGORmwkfEGtAqrnHb9k1W4rE/gPi2itC6F
+ FBQ9Z3j89xX3GiBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C273F13487;
- Tue, 24 Jan 2023 13:40:13 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 15F71139FF;
+ Tue, 24 Jan 2023 13:40:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mOuELr3fz2PWZgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Jan 2023 13:40:13 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id +BJpBL7fz2PWZgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 24 Jan 2023 13:40:14 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, javierm@redhat.com
-Subject: [PATCH v2 08/10] drm/fbdev-generic: Minimize client unregistering
-Date: Tue, 24 Jan 2023 14:40:08 +0100
-Message-Id: <20230124134010.30263-9-tzimmermann@suse.de>
+Subject: [PATCH v2 09/10] drm/fbdev-generic: Inline clean-up helpers into
+ drm_fbdev_fb_destroy()
+Date: Tue, 24 Jan 2023 14:40:09 +0100
+Message-Id: <20230124134010.30263-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230124134010.30263-1-tzimmermann@suse.de>
 References: <20230124134010.30263-1-tzimmermann@suse.de>
@@ -76,63 +77,55 @@ Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For uninitialized framebuffers, only release the DRM client and
-free the fbdev memory. Do not attempt to clean up the framebuffer.
-
-DRM fbdev clients have a two-step initialization: first create
-the DRM client; then create the framebuffer device on the first
-successful hotplug event. In cases where the client never creates
-the framebuffer, only the client state needs to be released. We
-can detect which case it is, full or client-only cleanup, be
-looking at the presence of fb_helper's info field.
-
-v2:
-	* remove test for (fbi != NULL) in drm_fbdev_cleanup() (Sam)
+The fbdev framebuffer cleanup in drm_fbdev_fb_destroy() calls
+drm_fbdev_release() and drm_fbdev_cleanup(). Inline both into the
+caller. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_fbdev_generic.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_fbdev_generic.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index dd8be5e0f271..9fe37903e3eb 100644
+index 9fe37903e3eb..13b31a95d434 100644
 --- a/drivers/gpu/drm/drm_fbdev_generic.c
 +++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -51,12 +51,10 @@ static void drm_fbdev_cleanup(struct drm_fb_helper *fb_helper)
- 	if (!fb_helper->dev)
- 		return;
- 
--	if (fbi) {
--		if (fbi->fbdefio)
--			fb_deferred_io_cleanup(fbi);
--		if (drm_fbdev_use_shadow_fb(fb_helper))
--			shadow = fbi->screen_buffer;
--	}
-+	if (fbi->fbdefio)
-+		fb_deferred_io_cleanup(fbi);
-+	if (drm_fbdev_use_shadow_fb(fb_helper))
-+		shadow = fbi->screen_buffer;
- 
- 	drm_fb_helper_fini(fb_helper);
- 
-@@ -362,11 +360,13 @@ static void drm_fbdev_client_unregister(struct drm_client_dev *client)
- {
- 	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
- 
--	if (fb_helper->info)
--		/* drm_fbdev_fb_destroy() takes care of cleanup */
-+	if (fb_helper->info) {
- 		drm_fb_helper_unregister_info(fb_helper);
--	else
--		drm_fbdev_release(fb_helper);
-+	} else {
-+		drm_fb_helper_unprepare(fb_helper);
-+		drm_client_release(&fb_helper->client);
-+		kfree(fb_helper);
-+	}
+@@ -43,8 +43,9 @@ static int drm_fbdev_fb_release(struct fb_info *info, int user)
+ 	return 0;
  }
  
- static int drm_fbdev_client_restore(struct drm_client_dev *client)
+-static void drm_fbdev_cleanup(struct drm_fb_helper *fb_helper)
++static void drm_fbdev_fb_destroy(struct fb_info *info)
+ {
++	struct drm_fb_helper *fb_helper = info->par;
+ 	struct fb_info *fbi = fb_helper->info;
+ 	void *shadow = NULL;
+ 
+@@ -64,24 +65,10 @@ static void drm_fbdev_cleanup(struct drm_fb_helper *fb_helper)
+ 		drm_client_buffer_vunmap(fb_helper->buffer);
+ 
+ 	drm_client_framebuffer_delete(fb_helper->buffer);
+-}
+-
+-static void drm_fbdev_release(struct drm_fb_helper *fb_helper)
+-{
+-	drm_fbdev_cleanup(fb_helper);
+ 	drm_client_release(&fb_helper->client);
+ 	kfree(fb_helper);
+ }
+ 
+-/*
+- * fb_ops.fb_destroy is called by the last put_fb_info() call at the end of
+- * unregister_framebuffer() or fb_release().
+- */
+-static void drm_fbdev_fb_destroy(struct fb_info *info)
+-{
+-	drm_fbdev_release(info->par);
+-}
+-
+ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+ 	struct drm_fb_helper *fb_helper = info->par;
 -- 
 2.39.0
 
