@@ -1,41 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87ED367A429
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 21:45:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5890167A42B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 21:45:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED93710E1D4;
-	Tue, 24 Jan 2023 20:45:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2248D10E220;
+	Tue, 24 Jan 2023 20:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6781910E063
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 20:45:11 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4P1f9Y53yMz4xN4;
- Wed, 25 Jan 2023 07:45:05 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1674593106;
- bh=kQfNoknmbtg5TQDqgUCCia6KVTQBV3rP34byr167yqw=;
- h=Date:From:To:Cc:Subject:From;
- b=E498AHzI2LQj88dgUcCnv7ytpyMpZ4WJ5I5GNHhe1b/mdt27tM4RDWCJdNk1DENqx
- rrl9zI3WdqVFMBlpjeQWC7H6ORNDNwg8AUSVBB5Xe136EsydmmIOEuIV/1Z7dYsvZs
- Nnfzi6YMJFZxiw6Hb5ISU7Gc4sbke5Oe9EcZqbkZElpUYLxRWvItPjFoUYabudncXZ
- QFsC/NrDEI/8qHTawI+lEboYaByNDOXYuHfhx0B+OS5A+zcAzuaL130vETYGOuxLEC
- FCIWSeSj0TdLhueGaliy8exfV877Aqhvo/UY4D5vQpQTZIwBbdGUpRaENkdS75+pzp
- Vbtf6Sf1YsgyQ==
-Date: Wed, 25 Jan 2023 07:45:04 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: duplicate patches in the drm tree
-Message-ID: <20230125074504.22f45b57@canb.auug.org.au>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9999C10E220
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 20:45:23 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id B03D6817FB;
+ Tue, 24 Jan 2023 21:45:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1674593120;
+ bh=5NTBROYdPWn9AnfsKxRDsXDu4LyTMFtmByE17bfoomM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=wnhN7fesBIQye2m7qlmLA7eLXLnVxafGZ6Ub8c6rm+iFyJcEd2tV7oHbc6tcOojLi
+ X3dIruMINR8OVdNeEmDnMr7RFKA3+/77+ufrgsj2Vet/qgLN04y0zhKBHo5yzqSBD2
+ i+lyLCQ9xcn0ak35czLoQz6QCH9ZBoRWOZ5n+MHrCRaRLy2rHSIsP8ukm1ozKjeL8S
+ h/BpM/nKhxdZgTX7KLDGG0782Z6XXJ6gQt0HRVfbEGuqRPSmRcqqLZCTJk3snQQMkL
+ Moc1hYtu+lD4J1uH8Wyhs3REXsjz7mvI1QvBL/kHklnSGXFZ51MLUNKc6dZeWpAZkr
+ TNZ4W7Zg63tpA==
+Message-ID: <75b01e4c-5994-5931-7030-ab86705d67b3@denx.de>
+Date: Tue, 24 Jan 2023 21:45:18 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Pq.dz/mAFTzMhZ1nvmsAoeV";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [RESEND PATCH v11 11/18] drm: exynos: dsi: Add
+ atomic_get_input_bus_fmts
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+References: <20230123151212.269082-1-jagan@amarulasolutions.com>
+ <20230123151212.269082-12-jagan@amarulasolutions.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20230123151212.269082-12-jagan@amarulasolutions.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,46 +70,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Pq.dz/mAFTzMhZ1nvmsAoeV
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 1/23/23 16:12, Jagan Teki wrote:
 
-Hi all,
+[...]
 
-The following commits are also in Linus Torvalds' tree as different
-commits (but the same patches):
+> +static bool exynos_dsi_pixel_output_fmt_supported(u32 fmt)
+> +{
+> +	int i;
 
-  0c8a6e9ea232 ("drm/i915: re-disable RC6p on Sandy Bridge")
-  14ec40a88210 ("drm/i915/selftests: Unwind hugepages to drop wakeref on er=
-ror")
-  3db9d590557d ("drm/i915/gt: Reset twice")
-  4f0755c2faf7 ("drm/i915: Reserve enough fence slot for i915_vma_unbind_as=
-ync")
-  bed4b455cf53 ("drm/i915: Fix potential context UAFs")
+if (fmt == MEDIA_BUS_FMT_FIXED)
+  return false;
 
---=20
-Cheers,
-Stephen Rothwell
+> +	for (i = 0; i < ARRAY_SIZE(exynos_dsi_pixel_output_fmts); i++) {
+> +		if (exynos_dsi_pixel_output_fmts[i] == fmt)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static u32 *
+> +exynos_dsi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> +				     struct drm_bridge_state *bridge_state,
+> +				     struct drm_crtc_state *crtc_state,
+> +				     struct drm_connector_state *conn_state,
+> +				     u32 output_fmt,
+> +				     unsigned int *num_input_fmts)
+> +{
+> +	u32 *input_fmts;
+> +
+> +	if (!exynos_dsi_pixel_output_fmt_supported(output_fmt))
+> +		/*
+> +		 * Some bridge/display drivers are still not able to pass the
+> +		 * correct format, so handle those pipelines by falling back
+> +		 * to the default format till the supported formats finalized.
+> +		 */
+> +		output_fmt = MEDIA_BUS_FMT_RGB888_1X24;
 
---Sig_/Pq.dz/mAFTzMhZ1nvmsAoeV
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+You can move this ^ past the kmalloc() call, so in unlikely case the 
+kmalloc() fails, it would fail first.
 
------BEGIN PGP SIGNATURE-----
+> +	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
+> +	if (!input_fmts)
+> +		return NULL;
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPQQ1AACgkQAVBC80lX
-0Gy9lgf/XWEZEboTgdxPtWWEBxOLOvFk04gz8xU7M8lACJ0eNAO4MEp2632pPe9/
-Jdyet1G90ajflCVlHPfcqagrCSWjm6xK+UesRp6CIbbOdVpAZ/recP29WL9PIL6A
-YaOR6ckQYnmDtXo7eNMUXUO0MaFcRe8oLBa7fb+rKlLMk4fnBV7c3z1ZwGvJsyBK
-eJBd5nr94HZNQi3CcD1+w2ohy/1V+W6f3IS1uH9MwSnOOPBad00YThNLcxAXqyk4
-dkFvWb/jJpBMCKHhbaHjCMrja5xMw1gkMEtIZiUwKHEkjhTf3VaSI/yii9DxxjdI
-0LrUwqIWLhpjJZ2sJ5YQYmLEPx40iw==
-=tq1E
------END PGP SIGNATURE-----
+Delete from here ...
 
---Sig_/Pq.dz/mAFTzMhZ1nvmsAoeV--
+> +	switch (output_fmt) {
+> +	case MEDIA_BUS_FMT_FIXED:
+> +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
+> +		break;
+> +	default:
+> +		input_fmts[0] = output_fmt;
+> +		break;
+> +	}
+
+... until here, and do simple:
+
+input_fmts[0] = output_fmt;
+
+The effect should be the same, the code should be simpler and faster.
+
+> +	*num_input_fmts = 1;
+
+[...]
