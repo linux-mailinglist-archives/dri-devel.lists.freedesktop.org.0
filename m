@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79ADB67A6EA
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 00:36:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453F367A704
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 00:43:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F053510E09F;
-	Tue, 24 Jan 2023 23:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97C8A10E08B;
+	Tue, 24 Jan 2023 23:42:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it [5.144.164.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46D8810E09F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 23:36:36 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9148610E08B;
+ Tue, 24 Jan 2023 23:42:56 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 7C3054215D;
- Wed, 25 Jan 2023 00:36:33 +0100 (CET)
-Date: Wed, 25 Jan 2023 00:36:31 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Subject: Re: [PATCH v1 12/14] drm/msm/disp/dpu1: revise timing engine
- programming to work for DSC
-Message-ID: <20230124233631.rojijcfy6xhntl3p@SoMainline.org>
-References: <1674498274-6010-1-git-send-email-quic_khsieh@quicinc.com>
- <1674498274-6010-13-git-send-email-quic_khsieh@quicinc.com>
- <8392e1f3-8459-4408-41de-564a41980b4c@linaro.org>
- <3588a5d0-ca28-918f-e072-35f15a5a5132@quicinc.com>
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4P1k6d5Vx0z4xwy;
+ Wed, 25 Jan 2023 10:42:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1674603771;
+ bh=kPBi/8E5CuSntCZaz43tWi9KctTXAvdEQiXJjhsQLOQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=H0+6J647IHzPsBmfE8Ycy+AKyzIHUVY4jVmE8deFienUcyjmkJuC7egk95FPRorxs
+ /KM8NAwIVmTlyzGKDFH7Pr+4FYEK4WNSWPvE1WrexBn4X/TsGf5PLTbZFqyStp8vMI
+ pYFzdE1cnP+bD1X4YYVWoeDzDO3JBEl3OYJDVB1STPSSwsdmdZfi2KwOYILr97gJgm
+ qjJQ85RSE8cD3gwYkJz0rcpPZHzjBNsGsTBsl+5WsM8vrpGQ0TZPjRub1/e+vlQlFR
+ z2XdUtXwUfWzg2w6TjrDj62Hv7glTUNrfzAxqhXte5LVKszcNg2OqQEaSKDEFD+PHb
+ oB4q0v6ZDIe8g==
+Date: Wed, 25 Jan 2023 10:42:48 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dave Airlie <airlied@redhat.com>
+Subject: linux-next: manual merge of the drm-intel tree with the drm tree
+Message-ID: <20230125104248.1e9775ca@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3588a5d0-ca28-918f-e072-35f15a5a5132@quicinc.com>
+Content-Type: multipart/signed; boundary="Sig_/YFEVt+CWCA0SvQrBVfs6TPm";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,68 +52,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
- andersson@kernel.org, dianders@chromium.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-01-24 09:55:24, Kuogee Hsieh wrote:
+--Sig_/YFEVt+CWCA0SvQrBVfs6TPm
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-<snip>
+Hi all,
 
-> This timing engine code is derived from our downstream code directly and 
-> it has been used at many mobile devices by many vendors for many years 
-> already.
-> 
-> On the other words, it had been tested very thorough and works on 
-> dsi/dp/hdmi/dsc/widebus applications.
+Today's linux-next merge of the drm-intel tree got a conflict in:
 
-And the code already in mainline has seen 12 rounds of review, with a
-focus on inter-SoC compatibility.  Regardless of that, we have processes
-to make changes on mainline: formatting changes (when actually making an
-improvement) go separate from semantic changes.  Bugfixes are clearly
-described in individual patches with Fixes: tags.  If you really think
-the code has to be as proposed in this patch, follow Dmitry's advice and
-split this accordingly.
+  drivers/gpu/drm/i915/i915_drv.h
 
-> When i brought dsc v1.2 over, I just merged it over and did not consider 
-> too much.
+between commit:
 
-And that is exactly what is wrong with this *entire* series: copying
-over downstream code without "considering too much", stomping over
-previous review and even reverting bugfixes [1] [2] without giving it
-ANY ATTENTION in your patch description.  That's unacceptable and
-insulting to contributors and reviewers.  Full stop.  Or did you expect
-us to turn a blind eye?  This is mainline, not some techpack playground.
+  f67986b0119c ("drm/i915/pxp: Promote pxp subsystem to top-level of i915")
 
-[1]: https://lore.kernel.org/linux-arm-msm/20230123201133.zzt2zbyaw3pfkzi6@SoMainline.org/
-[2]: https://lore.kernel.org/linux-arm-msm/20221026182824.876933-10-marijn.suijten@somainline.org/
+from the drm tree and commit:
 
-> Can we adapt this code so that both upstream and down stream shared same 
-> timing engine programming so that easier to maintain?
+  a3f839762ceb ("drm/i915: move pch_ssc_use to display sub-struct under dpl=
+l")
 
-Easy, I've said this before in IRC and will state it again: stop this
-techpack nonsense and focus on upstream-first.  When something passes
-mainline review (and please don't bother maintainers and reviewers with
-series like this) it is inevitably good enough to be copied to
-techpack... at which point techpack becomes worthless as you can just
-backport a mainline patch or use a recent-enough kernel.
+from the drm-intel tree.
 
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
-tl;dr: it seems like you nor anyone involved in pre-reviewing/vetting
-this series is familiar with upstream guidelines.  Follow the global
-advice from Dmitry [3] to reach a more efficient v2, and please don't
-let this run to v10 (or beyond) again.
+--=20
+Cheers,
+Stephen Rothwell
 
-One suggestion to improve efficiency: split off the DPU v1.2 hardware
-block addition (and related changes) into a separate series.  A smaller
-series (and properly split patches!) will give everyone less moving
-parts to worry about, and paves the way for DSI support without blocking
-on DP.
+diff --cc drivers/gpu/drm/i915/i915_drv.h
+index 48fd82722f12,ac4c3c6f5541..000000000000
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@@ -65,26 -65,40 +65,41 @@@
+  #include "intel_uncore.h"
+ =20
+  struct drm_i915_clock_gating_funcs;
+- struct drm_i915_gem_object;
+- struct drm_i915_private;
+- struct intel_connector;
+- struct intel_dp;
+- struct intel_encoder;
+- struct intel_limit;
+- struct intel_overlay_error_state;
+  struct vlv_s0ix_state;
+ +struct intel_pxp;
+ =20
+- #define I915_GEM_GPU_DOMAINS \
+- 	(I915_GEM_DOMAIN_RENDER | \
+- 	 I915_GEM_DOMAIN_SAMPLER | \
+- 	 I915_GEM_DOMAIN_COMMAND | \
+- 	 I915_GEM_DOMAIN_INSTRUCTION | \
+- 	 I915_GEM_DOMAIN_VERTEX)
++ #define GEM_QUIRK_PIN_SWIZZLED_PAGES	BIT(0)
+ =20
+- #define I915_COLOR_UNEVICTABLE (-1) /* a non-vma sharing the address spac=
+e */
++ /* Data Stolen Memory (DSM) aka "i915 stolen memory" */
++ struct i915_dsm {
++ 	/*
++ 	 * The start and end of DSM which we can optionally use to create GEM
++ 	 * objects backed by stolen memory.
++ 	 *
++ 	 * Note that usable_size tells us exactly how much of this we are
++ 	 * actually allowed to use, given that some portion of it is in fact
++ 	 * reserved for use by hardware functions.
++ 	 */
++ 	struct resource stolen;
+ =20
+- #define GEM_QUIRK_PIN_SWIZZLED_PAGES	BIT(0)
++ 	/*
++ 	 * Reserved portion of DSM.
++ 	 */
++ 	struct resource reserved;
++=20
++ 	/*
++ 	 * Total size minus reserved ranges.
++ 	 *
++ 	 * DSM is segmented in hardware with different portions offlimits to
++ 	 * certain functions.
++ 	 *
++ 	 * The drm_mm is initialised to the total accessible range, as found
++ 	 * from the PCI config. On Broadwell+, this is further restricted to
++ 	 * avoid the first page! The upper end of DSM is reserved for hardware
++ 	 * functions and similarly removed from the accessible range.
++ 	 */
++ 	resource_size_t usable_size;
++ };
+ =20
+  struct i915_suspend_saved_registers {
+  	u32 saveDSPARB;
+@@@ -366,10 -337,6 +338,8 @@@ struct drm_i915_private=20
+  		struct file *mmap_singleton;
+  	} gem;
+ =20
+ +	struct intel_pxp *pxp;
+ +
+- 	u8 pch_ssc_use;
+-=20
+  	/* For i915gm/i945gm vblank irq workaround */
+  	u8 vblank_enabled;
+ =20
 
-[3]: https://lore.kernel.org/linux-arm-msm/47c83e8c-09f1-d1dd-ca79-574122638256@linaro.org/
+--Sig_/YFEVt+CWCA0SvQrBVfs6TPm
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-- Marijn
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPQbPgACgkQAVBC80lX
+0GwZWgf/cbJAKEnE267fH8cg5Ou2oj/uN4NA3u7erJNrLODGNPIuGshxJ8um2fvh
+B5+rknYhQsoMhqCPmwgXClt4+mjJURFyzqrDDZ8/Ya7hRd6D2MtOCaCB8lvFwGh8
+GSd6KV/rVqPrULc91zBVSY3Cj+0rGjG/nJpviZ5qFB/T131DBtt+q34thgxMuZAe
+BKbQS2gSzLJzSrhp88EKXrb6sGd/7SEbDfIRwbwm4Svzw5tZSOsnVq1SjjOH6QFY
++JFLP1U/UGYtZrAYt5BE5RHtZhBHTIeDwOH4stUH1xf0iccDZli9VKxvMrbt56x1
+RLWhsh1+3GDhgl/4p8+WuILdAVkxng==
+=MHe5
+-----END PGP SIGNATURE-----
+
+--Sig_/YFEVt+CWCA0SvQrBVfs6TPm--
