@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CEA679A80
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 14:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC753679A85
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 14:50:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A6010E0D0;
-	Tue, 24 Jan 2023 13:49:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE9DB10E687;
+	Tue, 24 Jan 2023 13:50:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA46C10E0D0;
- Tue, 24 Jan 2023 13:49:19 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id y9so13001246lji.2;
- Tue, 24 Jan 2023 05:49:19 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A94C810E683;
+ Tue, 24 Jan 2023 13:50:02 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id bp15so23423743lfb.13;
+ Tue, 24 Jan 2023 05:50:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HbUZFl3KBtqrpF7jmye17FLvaf1aw5yLVUzpUk2Fxgo=;
- b=hpA4Wqn7oRev/4AHiUznsOaNlGwFkItnFHqmFLFWlcEFWxErUhIyktG3c2E0BCY6W4
- rRz6YA4xB1Pr1opM8NWGgQ4MEuoABKLwEy0McE40Fdv7GPutMwzPvzUn4UxooU6Y8n7f
- +n69XtesbKlS1kUkPq7MDuCV/IwRUgpX7PwlYhCICp0mNAGKO3zAUN3wWyqYYqDp8qGt
- 8CwrOiJ9eRAm3luPGIRZicp1+zjh3V/BxmSyFHiIAOwo2IheTZL0oSH7adW5lYypSCPl
- Dspn1jySWhVZ+fkh+s733bpS+WekIti0hjYRrrB9F48LFZYXSp81jHXAVdIr2ddVduVc
- K3xQ==
+ bh=rxsDLNkA+Mfgi6mBuWt7DVjy9zeEag3oHg+xpIV01n8=;
+ b=U9NymzyNqAyIWJN9PQxuTSnWXjU6a1Vzyw+W58kr6fRCZDPkkzzEEI2SXnooGuVNtl
+ SyP5Jsjz9WgcXptJfzWMlOPWEKoE/RJ1gm3hMbn091UT585ho5ayFK8uzZ7q6pxcdt7+
+ S7KE3qfOgb8NEp1DBxjD8+CrgLsRUI0e7NGxMEy1YW8YfGLql2qUAb4+bsD4XNUYyT+q
+ asjOUYCzCspIXjEgTMGTCTGfEhE/DbxtVyoiaDskNLGz9RXqdrqQSEVbhayrkXC9k0SA
+ vbLGdmuFrx2aXSuQhYrVIH7na9G/KOPOF3aYM0RPkkVoDW6FXcQWDT+d6MoIbST/YInw
+ 7mQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HbUZFl3KBtqrpF7jmye17FLvaf1aw5yLVUzpUk2Fxgo=;
- b=2egqVwyTuVt52tbfI6l0M7tMDMNSgnM4HQhb+c+2ZtFL9vpe8UytC9ksGg+jZFaQBS
- rfm+YfT1avCxmJpnF1fs8qZ1HI5kQS2wjsu4Fhfpmi63x3fFNx2nsm1art4dBhMijP+m
- J7CHHpSWs96SVhYiv41EBvhcGTjusbV/xsUA+ttE+M4lD+Ehll3/8/QFK0jW2enNHUpJ
- jjgN+enIqfqMi1UeWxJfG26mroLLgAZm36lRC6rFZfwF7fMsOjKjWOo3yyDWeBmSRQ4f
- KHuNXLOLRoMMf5rLNTG7qKLkD1DcVbO4VqFgntgigeOPLfVqz9SgmEoFyfwzX3nrui8f
- BhBg==
-X-Gm-Message-State: AFqh2kr1SHerc0XxeORpLvEO8kod11x3qizs1YZKVvgVtV4xO9YYeBl9
- 0caNbQv+7HwseaVDlxyoy/vzxtDgvzHLAg+Z+BRp0Sb7Q3c=
-X-Google-Smtp-Source: AMrXdXuTIPkH2sD4slrDqlW8wYTVd1gTEjrazs4qPFoQhyWTzxg2qHECAWM62Ej9YSVG3J5VBi5Chx4tfwxaVXWbjJk=
-X-Received: by 2002:a2e:82cf:0:b0:28b:bde3:7871 with SMTP id
- n15-20020a2e82cf000000b0028bbde37871mr876301ljh.269.1674568158101; Tue, 24
- Jan 2023 05:49:18 -0800 (PST)
+ bh=rxsDLNkA+Mfgi6mBuWt7DVjy9zeEag3oHg+xpIV01n8=;
+ b=ulxF4nDTnbj/sN4B/jN7Zk8oO4KHFEUXSX4o4wT0wsyZzc7nkrcmsR0VjcEn/ViBE9
+ kdRje+CBev/13cFR8bDDVblRyDv8QBQSzYr/2t09VPTczRRg27kgV4D0JggoxEC9SngL
+ TebVZ76tmkYQ8bZxR0iEF3eawzOzf8q8aROgRypAnUtK0xuVCgpzJc6r9S0DbkWwAaEG
+ D01fDmwtfRX+D9gTJx0eSUaQM2T3Pb1ORWjaShNDdB6ufuaCqhjmG1NTQt5EZNyRfsxG
+ 2fVl5i7oRBf2prSmn6FMWVYyiVXMi6p3KSCyM05PpdbWO5qAH+XTicIyNVHbvA17EynY
+ uuDQ==
+X-Gm-Message-State: AFqh2krBUN0T3Wdh+b2c6TpEN3ApsKWybmpgRjZXj14pOAxDxZc3EazR
+ RVltyoqzwEfzYnhISZQ7Q9ghjCc70+xIJZqgDX8ufhmxraI=
+X-Google-Smtp-Source: AMrXdXutASFrd9wrmb0F9R0Js8zOp7JVQ+A5wsGzGfk12EBT3oFySZfMcWpVYDCs//ZNbpKqJHcPaYwDIf+k7IdiPus=
+X-Received: by 2002:a05:6512:3a8b:b0:4d5:5fb3:929b with SMTP id
+ q11-20020a0565123a8b00b004d55fb3929bmr1655608lfu.604.1674568200898; Tue, 24
+ Jan 2023 05:50:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20230124125726.13323-1-christian.koenig@amd.com>
-In-Reply-To: <20230124125726.13323-1-christian.koenig@amd.com>
+ <20230124125726.13323-2-christian.koenig@amd.com>
+In-Reply-To: <20230124125726.13323-2-christian.koenig@amd.com>
 From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 24 Jan 2023 13:48:50 +0000
-Message-ID: <CAM0jSHNmv-naGqB=R8DZc-3QhTPzzo4pUU2-NxhtiEhXMcAN5A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: audit bo->resource usage v3
+Date: Tue, 24 Jan 2023 13:49:33 +0000
+Message-ID: <CAM0jSHPHRpdbysCAJ3VcyDgFfAKKaO8O3z0px_nLfj5xDKF-LQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/ttm: stop allocating dummy resources during BO
+ creation
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,13 +75,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, 24 Jan 2023 at 12:57, Christian K=C3=B6nig
 <ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> From: Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com>
->
-> Make sure we can at least move and alloc TT objects without backing store=
-.
->
-> v2: clear the tt object even when no resource is allocated.
-> v3: add Matthews changes for i915 as well.
+> That should not be necessary any more when drivers should at least be
+> able to handle the move without a resource.
 >
 > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
