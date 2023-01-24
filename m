@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A749467A4E5
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 22:23:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0076567A4ED
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 22:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB65B10E701;
-	Tue, 24 Jan 2023 21:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E898E10E702;
+	Tue, 24 Jan 2023 21:24:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
  [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 561BB10E701
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 21:22:57 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id h24so21328749lfv.6
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 13:22:57 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2DDF10E702
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 21:24:29 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id j17so25641164lfr.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 13:24:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TexIlt5z9afy14bQ4ecRlOK+1si7hb2N9UliprInxEc=;
- b=P1BrQUJwOYpsCvnFXftJxHfl8uOfjxcwEPAp0EQdS9Zr3FBihJvz1nGfag6OU2yU5H
- VGcFADSgIAPad5fDMMSkJHVeg01WQxNhew7x+WpQ1gGqO45vca/llEf3/q+9u22q7uXh
- gRLuRBmCIamdIBd66sZ50IttH8rRhUJaXnlfk=
+ bh=2iPkwkhcnBowRQHKIi36TY+p4NIF9M/qZNlpyR+HwW8=;
+ b=MhwyQzParKqr1uuB0R3T6yUcEvJGRcoJ0sfabAiJMLPlOuj96wNiRFJQ+VwIjvAe74
+ 5Nk1Knxp00JP8J4m5j/Pfbhnml6UBeX7ptyiGiD71v9ayxN6Dvr0aQBbwUVGgdEPnqCb
+ B4TCUoEWG95mVljltCtIaeXNX/HkvmeKSWlRk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=TexIlt5z9afy14bQ4ecRlOK+1si7hb2N9UliprInxEc=;
- b=wfPDqAnRFk16BkEZeQSfa8PzBKJMtA2nk4ScSwT1AzNYb1yzLEOCCwUU8NU4PwoUNN
- fAnGV8nEdIXdemrNvEBWKAoFNzmtAtN2JJwD1t2gWJWhL49IerEncu2Rgw1s/l9hUtD0
- AJ0hUaaP2k9K7Knn7hA0SsGU+4jUlcGw1c9icUuRefePx2EaGwiqZAUZK3FfEj5+MSzL
- jzeQh16Pr8sMJ/Pqjq89zBr2jdtlRU6/pCPA9jz1qOhqD79rTTEdL1z3j+8Fd4ZVvv14
- Y1O4gcmafy5pVP0Z1MnDKNZ3Z9YRz8sQ176I5L+k6LSjNWsaB5cr61m/015Whh0jndIp
- o8Pg==
-X-Gm-Message-State: AFqh2kqyojYON+zC/oPTiOxBwX0S8CypZmuIyUkraYTrY5MvNasakTDD
- zsdLyXvhGauQt4J1Z7oPn2gBS70wXTQCDAU6L8vwZg==
-X-Google-Smtp-Source: AMrXdXuPhNoZL41GWgDPUFOadChoXNIB7gRKjcVJFCn0bAe2NoE0fnhgHeDqf+n89zd/68LC9a7pjLr4EyXnW7vhLis=
-X-Received: by 2002:a05:6512:308b:b0:4b5:6c00:429e with SMTP id
- z11-20020a056512308b00b004b56c00429emr3465445lfd.379.1674595375549; Tue, 24
- Jan 2023 13:22:55 -0800 (PST)
+ bh=2iPkwkhcnBowRQHKIi36TY+p4NIF9M/qZNlpyR+HwW8=;
+ b=ymGg847q56EbyrFq6DcoHCEHAZjwBo7TbOaKz04lRczX/TZ2WL57L6MMYDW/D5DYk7
+ dy3M+sSm21nbJMQivt2eltYTM1NjLZ+JfOj0cp1VQyPeAJHYe32D59JXtx/KLlyc+6v5
+ uTsp9VkYaj15pY3KRpDfTCtoJwGBAedcUHzqTrzw2S5UAHDL3uM9wPxWQBxk66S+EeNq
+ 8t/EMKCkW2xYssvZLUYygHvSlo1L0nBIX4qZddTjfQgRXBbwpkwyTVbiJ4VlDoZVQOik
+ N4yBRRRN+Q5xWN93ptOcJilz4VQ9MCQBy61boXPCyCPeOvFFTj9VmFw3Rkx63U5o6+PB
+ +gUw==
+X-Gm-Message-State: AFqh2kofPlgstYZcSUfq7wYTu8L3KMl5N5fltGznU8+95kkh9FCIrtVg
+ 3yN0Dhb4NDFPGKX8/FfJ2Vk/mHj9w80OQJ9DJDkp6w==
+X-Google-Smtp-Source: AMrXdXtcl+2cMljDftQoH/N1RiskSCdfF6R1azWAx9xkgbRFfRy4sBrycF55b24pNNRkCASmifsvpPBgFx+smhVFrYM=
+X-Received: by 2002:a19:7517:0:b0:4cc:9907:359c with SMTP id
+ y23-20020a197517000000b004cc9907359cmr1174121lfe.465.1674595468042; Tue, 24
+ Jan 2023 13:24:28 -0800 (PST)
 MIME-Version: 1.0
 References: <20230123151212.269082-1-jagan@amarulasolutions.com>
- <20230123151212.269082-12-jagan@amarulasolutions.com>
- <75b01e4c-5994-5931-7030-ab86705d67b3@denx.de>
- <CAMty3ZBdiXnxcak5aKi9cR7OxNPXCQOh2PB0DZ1aEYtySOs--A@mail.gmail.com>
- <fb888dda-fd7e-adb4-c701-6db4edc316e6@denx.de>
-In-Reply-To: <fb888dda-fd7e-adb4-c701-6db4edc316e6@denx.de>
+ <20230123151212.269082-14-jagan@amarulasolutions.com>
+ <43f4a7dc-a4cc-7552-1a6d-a2a49fae6020@denx.de>
+ <CAMty3ZBZWERT=HpjSepSaFbpKpwZUvuG82s6+z7EgDRY5D+TFg@mail.gmail.com>
+ <fb7dfb89-42d6-139e-7ff1-4985838e222f@denx.de>
+In-Reply-To: <fb7dfb89-42d6-139e-7ff1-4985838e222f@denx.de>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 25 Jan 2023 02:52:42 +0530
-Message-ID: <CAMty3ZAXMBuQ8gpFfFLQcyAmFF0=pTT-_fEpPoHZD2Yq9pWCig@mail.gmail.com>
-Subject: Re: [RESEND PATCH v11 11/18] drm: exynos: dsi: Add
- atomic_get_input_bus_fmts
+Date: Wed, 25 Jan 2023 02:54:14 +0530
+Message-ID: <CAMty3ZAYz=XEN6s1XhBWg5b77kk+s942qa9Oz4E4oHtSfaVZtA@mail.gmail.com>
+Subject: Re: [RESEND PATCH v11 13/18] drm: exynos: dsi: Add Exynos based host
+ irq hooks
 To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,69 +84,31 @@ Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 25, 2023 at 2:49 AM Marek Vasut <marex@denx.de> wrote:
+On Wed, Jan 25, 2023 at 2:42 AM Marek Vasut <marex@denx.de> wrote:
 >
-> On 1/24/23 22:16, Jagan Teki wrote:
-> > On Wed, Jan 25, 2023 at 2:15 AM Marek Vasut <marex@denx.de> wrote:
+> On 1/24/23 22:01, Jagan Teki wrote:
+> > On Wed, Jan 25, 2023 at 2:18 AM Marek Vasut <marex@denx.de> wrote:
 > >>
 > >> On 1/23/23 16:12, Jagan Teki wrote:
+> >>> Enable and disable of te_gpio's are Exynos platform specific
+> >>> irq handling, so add the exynos based irq operations and hook
+> >>> them for exynos plat_data.
 > >>
-> >> [...]
-> >>
-> >>> +static bool exynos_dsi_pixel_output_fmt_supported(u32 fmt)
-> >>> +{
-> >>> +     int i;
-> >>
-> >> if (fmt == MEDIA_BUS_FMT_FIXED)
-> >>    return false;
-> >>
-> >>> +     for (i = 0; i < ARRAY_SIZE(exynos_dsi_pixel_output_fmts); i++) {
-> >>> +             if (exynos_dsi_pixel_output_fmts[i] == fmt)
-> >>> +                     return true;
-> >>> +     }
-> >>> +
-> >>> +     return false;
-> >>> +}
-> >>> +
-> >>> +static u32 *
-> >>> +exynos_dsi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> >>> +                                  struct drm_bridge_state *bridge_state,
-> >>> +                                  struct drm_crtc_state *crtc_state,
-> >>> +                                  struct drm_connector_state *conn_state,
-> >>> +                                  u32 output_fmt,
-> >>> +                                  unsigned int *num_input_fmts)
-> >>> +{
-> >>> +     u32 *input_fmts;
-> >>> +
-> >>> +     if (!exynos_dsi_pixel_output_fmt_supported(output_fmt))
-> >>> +             /*
-> >>> +              * Some bridge/display drivers are still not able to pass the
-> >>> +              * correct format, so handle those pipelines by falling back
-> >>> +              * to the default format till the supported formats finalized.
-> >>> +              */
-> >>> +             output_fmt = MEDIA_BUS_FMT_RGB888_1X24;
-> >>
-> >> You can move this ^ past the kmalloc() call, so in unlikely case the
-> >> kmalloc() fails, it would fail first.
+> >> If this is just an optional generic GPIO IRQ, why not keep it in the
+> >> core code ? TE (tearing enable?) should be available on MX8M too.
 > >
-> > I didn't get this point, what do we need to do if
-> > exynos_dsi_pixel_output_fmt_supported returns false?
+> > So far the discussion (since from initial versions) with Marek
+> > Szyprowski, seems to be available in Exynos. So, I keep it separate
+> > from the DSIM core.
 >
-> {
->         u32 *input_fmts;
->
->         input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
->         if (!input_fmts)
->                 return NULL;
->
->         if (!exynos_dsi_pixel_output_fmt_supported(output_fmt))
->                 /* ... the comment ... */
->                 output_fmt = MEDIA_BUS_FMT_RGB888_1X24;
->
->         input_fmts[0] = output_fmt;
->         *num_input_fmts = 1;
->
->         return input_fmts;
-> }
+> Isn't TE a generic GPIO IRQ ? If so, it is available also on i.MX8M .
 
-Got it, thanks!
+
+
+-- 
+Jagan Teki,
+Amarula Solutions India Pvt. Ltd.
+Co-Founder & Embedded Linux Architect
+405/E-Block, Sri Lakshmi Shubham Arcade, Chandanagar, Hyderabad - 500050, India
+M. (+91) 910 009 0959
+[`as] http://www.amarulasolutions.com
