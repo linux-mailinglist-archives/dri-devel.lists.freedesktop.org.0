@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1C867A45F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 21:55:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C945D67A462
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 21:55:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC45310E245;
-	Tue, 24 Jan 2023 20:55:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D92BA10E24B;
+	Tue, 24 Jan 2023 20:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64A6E10E70C
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 20:55:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC1310E6E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 20:55:38 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id C51E581F59;
- Tue, 24 Jan 2023 21:55:22 +0100 (CET)
+ by phobos.denx.de (Postfix) with ESMTPSA id 69C6881F59;
+ Tue, 24 Jan 2023 21:55:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1674593724;
- bh=1C5ObJ1CCeRkMXuRMUxJFeHDmh5wJ/LWIMtalUq8giQ=;
+ s=phobos-20191101; t=1674593736;
+ bh=ZKvIihffu5hupclvuWHyRpBzGzMS0GpDq/5QrXtnpvc=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=qQPu4T7Sz7b69ghhkwBYwGO1AdHUeWXbivIddBYnQLOTjJDJCnJ2Jla5GJs3Gg9oP
- AAdATaZzWpbW0x5omCrKK+yFdQ1fc8cvE9rwxvq9S7CxH2lutmJzznJDeIIyZZIVV9
- xaNlDXoMpBE10K8Oz/tLvoy1SmDrmUNk/9M+px1XzbyDLytkdCHrzY/gZh6VZka8G0
- 49O2Q+mUcRIWXof/unajgIa+JepUmALrb7FmZFaPlm6Ci2BFqD8fSzXRNVXKO8hAht
- tM/d0ddVB9q9dDZamAxblIfoEGN7ZJKuQBYSuc3JGBQkeKfoinZax1H/Vsq3vkymYR
- EhrLPuTx1SUtA==
-Message-ID: <9475963f-233a-d976-f337-923dfc2066be@denx.de>
-Date: Tue, 24 Jan 2023 21:55:22 +0100
+ b=MLV8zMnI5lX4GaWgZULVwEPNLbmIV7ZhIaWC4IZ6HOmNlGGVxcmkQRgqlFO2XqDSD
+ 84narKuRQnMZHVjvVoajJt05jFuiCbkFvTpMoedeUZFtkHjszM7hzXxcv4aMbbshYm
+ 8dTVko5RR7Msmwaf5YoAZFnJTQL2rukxccTP0FMzmshiLg3SZch6pe4B8F9Opm8kEK
+ y47HwE/dzYAbCW143k66I4w0moYS+vT7CuVUg7W+EkKPj/NykB9XvwW1XoayaziiAo
+ w8NqwRf4wTf3Lz/GbYNYwQXXMWW+k04p7Zwkgtc/ylCdj28rMpcXPR6riB8dnQrYIp
+ zjzp52onRnI3Q==
+Message-ID: <5a6cb418-2e80-5b47-778c-668e724a0186@denx.de>
+Date: Tue, 24 Jan 2023 21:55:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [RESEND PATCH v11 09/18] drm: exynos: dsi: Add atomic check
+Subject: Re: [RESEND PATCH v11 10/18] drm: exynos: dsi: Add input_bus_flags
 Content-Language: en-US
 To: Jagan Teki <jagan@amarulasolutions.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
@@ -50,9 +50,9 @@ To: Jagan Teki <jagan@amarulasolutions.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 References: <20230123151212.269082-1-jagan@amarulasolutions.com>
- <20230123151212.269082-10-jagan@amarulasolutions.com>
+ <20230123151212.269082-11-jagan@amarulasolutions.com>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230123151212.269082-10-jagan@amarulasolutions.com>
+In-Reply-To: <20230123151212.269082-11-jagan@amarulasolutions.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
@@ -77,31 +77,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 1/23/23 16:12, Jagan Teki wrote:
-> Look like an explicit fixing up of mode_flags is required for DSIM IP
-> present in i.MX8M Mini/Nano SoCs.
+> LCDIF-DSIM glue logic inverts the HS/VS/DE signals and expecting
+> the i.MX8M Mini/Nano DSI host to add additional Data Enable signal
+> active low (DE_LOW). This makes the valid data transfer on each
+> horizontal line.
 > 
-> At least the LCDIF + DSIM needs active low sync polarities in order
-> to correlate the correct sync flags of the surrounding components in
-> the chain to make sure the whole pipeline can work properly.
-> 
-> On the other hand the i.MX 8M Mini Applications Processor Reference Manual,
-> Rev. 3, 11/2020 says.
-> "13.6.3.5.2 RGB interface
->   Vsync, Hsync, and VDEN are active high signals."
-> 
-> i.MX 8M Mini Applications Processor Reference Manual Rev. 3, 11/2020
-> 3.6.3.5.2 RGB interface
-> i.MX 8M Nano Applications Processor Reference Manual Rev. 2, 07/2022
-> 13.6.2.7.2 RGB interface
-> both claim "Vsync, Hsync, and VDEN are active high signals.", the
-> LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
-> 
-> No clear evidence about whether it can be documentation issues or
-> something, so added proper comments on the code.
-> 
-> Comments are suggested by Marek Vasut.
+> So, add additional bus flags DE_LOW setting via input_bus_flags
+> for i.MX8M Mini/Nano platforms.
 > 
 > Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+> Suggested-by: Marek Vasut <marex@denx.de>
 > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 
 Reviewed-by: Marek Vasut <marex@denx.de>
