@@ -1,59 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BE06795E6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 11:59:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAC3679651
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 12:13:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8FA410E051;
-	Tue, 24 Jan 2023 10:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5F5A10E057;
+	Tue, 24 Jan 2023 11:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9943410E051;
- Tue, 24 Jan 2023 10:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674557978; x=1706093978;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=GkcwlpyITj6Vnmb2x04YswOB2c5oPNTjTKKoDdSn6DU=;
- b=nYZalKNXcABcaJZq2SKqFp8icTabnnCVQqX+BEVrj6PPCPTal0KBGpMs
- 1ZmHOiyTf+RAa77oDOGyo5A2AmLCtoV3GWIOVUYjIAvpvJ1TOJUpaNJnS
- XdSJWX0q+PpqVm207ygAPsjoXjjb5W3ChaWrlSS25yNKQITJ26Ng+THbv
- wv4qseCjVoeUVmGvFmjR5UweRSZXTvbKGhUlGHzXNYnmju/QHoUprrpaf
- j1V8czJ8wqv1GJQlWNNo23IgcP2n1av7ChwhyMgLlNSxY57iJBz83miYC
- Y8tPHXvxaD0ckSJv1rBvD7NOXJY860qBXvDQw4heKz19/gCK/TP1UUJEv A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="327527713"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; d="scan'208";a="327527713"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2023 02:59:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="725427048"
-X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; d="scan'208";a="725427048"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by fmsmga008.fm.intel.com with ESMTP; 24 Jan 2023 02:59:35 -0800
-Received: from [10.249.147.192] (mwajdecz-MOBL.ger.corp.intel.com
- [10.249.147.192])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id CDC6C37858;
- Tue, 24 Jan 2023 10:59:34 +0000 (GMT)
-Message-ID: <bda5fcd9-f003-001a-4822-c269a59595cd@intel.com>
-Date: Tue, 24 Jan 2023 11:59:34 +0100
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD1910E059
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 11:12:54 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 1167C4189A;
+ Tue, 24 Jan 2023 12:12:52 +0100 (CET)
+Date: Tue, 24 Jan 2023 12:12:50 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [1/2] drm/msm/dpu: fix clocks settings for msm8998 SSPP blocks
+Message-ID: <20230124111250.b2r2co4jjxofjchp@SoMainline.org>
+References: <20230115124143.464809-1-dmitry.baryshkov@linaro.org>
+ <20230124095944.4zez2jmidjuh3nvf@SoMainline.org>
+ <9f182939-0e32-c0a9-ee09-9e97a48bb7ac@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH 1/8] drm/i915/guc: Add GuC oriented print macros
-To: John Harrison <john.c.harrison@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230120164050.1765-1-michal.wajdeczko@intel.com>
- <20230120164050.1765-2-michal.wajdeczko@intel.com>
- <a2530bef-9c49-45cd-8849-50ea9f97b0f7@intel.com>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <a2530bef-9c49-45cd-8849-50ea9f97b0f7@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9f182939-0e32-c0a9-ee09-9e97a48bb7ac@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,96 +43,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 24.01.2023 00:27, John Harrison wrote:
-> On 1/20/2023 08:40, Michal Wajdeczko wrote:
->> While we do have GT oriented print macros, add few more GuC
->> specific to have common look and feel across all messages
->> related to the GuC and to avoid chasing the gt pointer.
->>
->> We will use these macros shortly in upcoming patches.
->>
->> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
->> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: John Harrison <John.C.Harrison@Intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_print.h | 48 ++++++++++++++++++++
->>   1 file changed, 48 insertions(+)
->>   create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_print.h
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_print.h
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_print.h
->> new file mode 100644
->> index 000000000000..e75989d4ba06
->> --- /dev/null
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_print.h
->> @@ -0,0 +1,48 @@
->> +/* SPDX-License-Identifier: MIT */
->> +/*
->> + * Copyright © 2023 Intel Corporation
->> + */
->> +
->> +#ifndef __INTEL_GUC_PRINT__
->> +#define __INTEL_GUC_PRINT__
->> +
->> +#include "gt/intel_gt.h"
-> This necessary only for the guc_to_gt() accessor? Hmm. Maybe it is worth
-> moving that to intel_guc.h? I know Jani for one would like to see all of
-> that cleaned up. But maybe that's a follow up patch.
-
-we can't move it easily without creating new intel_guc_types.h file for
-all struct definitions, so definitely separate follow up series would be
-needed
-
-Michal
-
+On 2023-01-24 12:19:27, Dmitry Baryshkov wrote:
+> On 24/01/2023 11:59, Marijn Suijten wrote:
+> > On 2023-01-15 14:41:42, Dmitry Baryshkov wrote:
+> >> DMA2 and DMA3 planes on msm8998 should use corresponding DMA2 and DMA3
+> >> clocks rather than CURSOR0/1 clocks (which are used for the CURSOR
+> >> planes). Correct corresponding SSPP declarations.
+> >>
+> >> Fixes: 94391a14fc27 ("drm/msm/dpu1: Add MSM8998 to hw catalog")
+> >> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> >> Cc: Jami Kettunen <jami.kettunen@somainline.org>
+> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> ---
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
+> >>   1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> index 0f3da480b066..ad0c55464154 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> @@ -1180,9 +1180,9 @@ static const struct dpu_sspp_cfg msm8998_sspp[] = {
+> >>   	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_MSM8998_MASK,
+> >>   		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> >>   	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_MSM8998_MASK,
+> > 
+> > Drop the _CURSOR mask here?  And the double space....
 > 
-> John.
+> Ack for the doublespace. By removing _CURSOR we would disallow using 
+> these planes as hw cursor planes. This would switch all compositors into 
+> sw cursor mode, thus damaging the performance.
+
+Doesn't that require special hardware support, or can any DMA pipe
+support "hw cursor mode/planes", whatever that means?  Sorry for not
+being well versed in this area, I'd expect DMA pipes and CURSOR pipes to
+have a different set of features / capabilities.
+
+Commit 07ca1fc0f8a0 ("drm/msm/dpu: enable cursor plane on dpu") leads me
+to believe that it's mostly to let userspace use these DMA pipes for
+cursors (having cursor planes available in uapi) rather than requiring
+any special hardware support (though semantics do seem to change in a
+nontrivial way).
+
+> >> -		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
+> >> +		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> >>   	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_MSM8998_MASK,
+> >> -		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
+> >> +		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+> > 
+> > Yes, msm8998_mdp defines both DMA2/3 and CURSOR0/1 clocks.  R-b after
+> > using DMA_MSM8998_MASK without the DPU_SSPP_CURSOR bit.
+> > 
+> > However, my downstream sources still define cursor SSPPs that are
+> > missing here (after all, there's clk-ctrl for these already), at xin ID
+> > 2 and 10 with addresses 0x3500 and 0x37000 downstream (-0x1000 here):
+> > 
+> > 	SSPP_BLK("sspp_?", SSPP_CURSOR0, 0x34000, DMA_CURSOR_SM8998_MASK,
+> > 		cursor sblk?, 2, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_CURSOR0),
+> > 	SSPP_BLK("sspp_?", SSPP_CURSOR1, 0x36000, DMA_CURSOR_SM8998_MASK,
 > 
->> +#include "gt/intel_gt_print.h"
->> +
->> +#define guc_printk(_guc, _level, _fmt, ...) \
->> +    gt_##_level(guc_to_gt(_guc), "GUC: " _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_err(_guc, _fmt, ...) \
->> +    guc_printk((_guc), err, _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_warn(_guc, _fmt, ...) \
->> +    guc_printk((_guc), warn, _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_notice(_guc, _fmt, ...) \
->> +    guc_printk((_guc), notice, _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_info(_guc, _fmt, ...) \
->> +    guc_printk((_guc), info, _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_dbg(_guc, _fmt, ...) \
->> +    guc_printk((_guc), dbg, _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_err_ratelimited(_guc, _fmt, ...) \
->> +    guc_printk((_guc), err_ratelimited, _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_probe_error(_guc, _fmt, ...) \
->> +    guc_printk((_guc), probe_error, _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_WARN(_guc, _cond, _fmt, ...) \
->> +    gt_WARN(guc_to_gt(_guc), _cond, "GUC: " _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_WARN_ONCE(_guc, _cond, _fmt, ...) \
->> +    gt_WARN_ONCE(guc_to_gt(_guc), _cond, "GUC: " _fmt, ##__VA_ARGS__)
->> +
->> +#define guc_WARN_ON(_guc, _cond) \
->> +    gt_WARN(guc_to_gt(_guc), _cond, "%s(%s)", "guc_WARN_ON",
->> __stringify(_cond))
->> +
->> +#define guc_WARN_ON_ONCE(_guc, _cond) \
->> +    gt_WARN_ONCE(guc_to_gt(_guc), _cond, "%s(%s)",
->> "guc_WARN_ON_ONCE", __stringify(_cond))
->> +
->> +#endif /* __INTEL_GUC_PRINT__ */
+> I think this should not be the DMA_CURSOR_MSM8998_MASK, but don't bet on 
+> my words, I haven't check actual cursor plane capabilities.
+
+As we've seen in [1] (specifically [2]) there are a few more driver/hw
+changes required to properly implement/support DPU_SSPP_CURSOR?
+
+[1]: https://github.com/rawoul/linux/commits/next_20220624-msm8998-hdmi
+[2]; https://github.com/rawoul/linux/commit/7d8d739cfbfa551120868986d5824f7b2b116ac1
+
+- Marijn
+
+> > 		cursor sblk?, 10, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_CURSOR1),
+> > 
+> > Or should you/I send that as a separate folloup patch?
+> 
+> Ideally one can add these two planes and then switch two mentioned DMA 
+> planes to plain DMA_MSM8998_MASK.
+> 
+> > 
+> > - Marijn
+> > 
+> >>   };
+> >>   
+> >>   static const struct dpu_sspp_cfg sdm845_sspp[] = {
+> 
+> -- 
+> With best wishes
+> Dmitry
 > 
