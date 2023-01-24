@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B8767999F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 14:40:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A506799A1
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 14:40:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDE710E6B4;
-	Tue, 24 Jan 2023 13:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6497210E6BE;
+	Tue, 24 Jan 2023 13:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F2D10E683;
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9856210E686;
  Tue, 24 Jan 2023 13:40:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D4C311FDCE;
- Tue, 24 Jan 2023 13:40:12 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2CB131FDED;
+ Tue, 24 Jan 2023 13:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674567612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1674567613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/JNXSH2jIbyrZQ/ublt+0Y9YLxXlg5ibmb+zIaFCthg=;
- b=BAtK/Ult52JSIjKqJmaQK4oWks8zqTqrvk+MMPmnQF27yg69mB5wzZ3yyoLAjCsa9TyG/c
- //JG7qz+I5dNzW2haRgZZME3KjomHiVnvVCmlBjpk79z83L8x4UNAfuYffGn1ge5JIGnVc
- znXGJcZoNHjukbTVQHv4jevugFc6bQk=
+ bh=mHNXQj920Mp49rolvcUr11B4LETXxMqwdnjXrBs6lqg=;
+ b=16xnC3qEktqsq+aRntrn/d1ScKqaWYQZMtxTPtm/S6BMfzYXt+lSkx2W81aYhaKELLA9Fh
+ x7N9nMwkbh08rJIKECG9/oMe6fSi6zkam9vMkwOLiKODnbIO0v83OUCAi9Dm96YOZw/vHA
+ pHmrXCw0PQpREDrtV6Ksg23l8zXDRLk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674567612;
+ s=susede2_ed25519; t=1674567613;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/JNXSH2jIbyrZQ/ublt+0Y9YLxXlg5ibmb+zIaFCthg=;
- b=WmQLlqkZhW0+2NzjccoNBj+ylcLKgGEmSu/jKwmS1FNUluqQ18uuibUj+D8G+eNSYFan9O
- wOkRUdD6psDtMoCQ==
+ bh=mHNXQj920Mp49rolvcUr11B4LETXxMqwdnjXrBs6lqg=;
+ b=2t5VyELYo2xzGMStdJCIQmdZSY3K46QbD0wREcAD7flf6K5R2dMyhssq5uu8qvm2s6Tbz5
+ akV5cOY54bNrZbAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9375E139FF;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DB31D13487;
  Tue, 24 Jan 2023 13:40:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MKUgI7zfz2PWZgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id aApyNLzfz2PWZgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 24 Jan 2023 13:40:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, javierm@redhat.com
-Subject: [PATCH v2 04/10] drm/fbdev-generic: Initialize fb-helper structure in
- generic setup
-Date: Tue, 24 Jan 2023 14:40:04 +0100
-Message-Id: <20230124134010.30263-5-tzimmermann@suse.de>
+Subject: [PATCH v2 05/10] drm/fb-helper: Remove preferred_bpp parameter from
+ fbdev internals
+Date: Tue, 24 Jan 2023 14:40:05 +0100
+Message-Id: <20230124134010.30263-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230124134010.30263-1-tzimmermann@suse.de>
 References: <20230124134010.30263-1-tzimmermann@suse.de>
@@ -77,56 +77,122 @@ Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize the fb-helper structure immediately after its allocation
-in drm_fbdev_generic_setup(). That will make it easier to fill it with
-driver-specific values, such as the preferred BPP.
+Store the console's preferred BPP value in struct drm_fb_helper
+and remove the respective function parameters from the internal
+fbdev code.
+
+The BPP value is only required as a fallback and will now always
+be available in the fb-helper instance.
+
+No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_fbdev_generic.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index 135d58b8007b..63f66325a8a5 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -385,8 +385,6 @@ static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
- 	if (dev->fb_helper)
- 		return drm_fb_helper_hotplug_event(dev->fb_helper);
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 4379bcd7718b..258103d317ac 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1786,7 +1786,7 @@ static uint32_t drm_fb_helper_find_color_mode_format(struct drm_fb_helper *fb_he
+ 	return drm_fb_helper_find_format(fb_helper, formats, format_count, bpp, depth);
+ }
  
--	drm_fb_helper_prepare(dev, fb_helper, &drm_fb_helper_generic_funcs);
--
- 	ret = drm_fb_helper_init(dev, fb_helper);
+-static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int preferred_bpp,
++static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+ 				      struct drm_fb_helper_surface_size *sizes)
+ {
+ 	struct drm_client_dev *client = &fb_helper->client;
+@@ -1831,7 +1831,7 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int prefe
+ 		surface_format = drm_fb_helper_find_color_mode_format(fb_helper,
+ 								      plane->format_types,
+ 								      plane->format_count,
+-								      preferred_bpp);
++								      fb_helper->preferred_bpp);
+ 		if (surface_format != DRM_FORMAT_INVALID)
+ 			break; /* found supported format */
+ 	}
+@@ -1903,7 +1903,7 @@ static int __drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int prefe
+ 	return 0;
+ }
+ 
+-static int drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int preferred_bpp,
++static int drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+ 				    struct drm_fb_helper_surface_size *sizes)
+ {
+ 	struct drm_client_dev *client = &fb_helper->client;
+@@ -1912,7 +1912,7 @@ static int drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int preferr
+ 	int ret;
+ 
+ 	mutex_lock(&client->modeset_mutex);
+-	ret = __drm_fb_helper_find_sizes(fb_helper, preferred_bpp, sizes);
++	ret = __drm_fb_helper_find_sizes(fb_helper, sizes);
+ 	mutex_unlock(&client->modeset_mutex);
+ 
  	if (ret)
- 		goto err;
-@@ -456,12 +454,12 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
- 	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
- 	if (!fb_helper)
- 		return;
-+	drm_fb_helper_prepare(dev, fb_helper, &drm_fb_helper_generic_funcs);
+@@ -1934,15 +1934,14 @@ static int drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper, int preferr
+  * Allocates the backing storage and sets up the fbdev info structure through
+  * the ->fb_probe callback.
+  */
+-static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
+-					 int preferred_bpp)
++static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
+ {
+ 	struct drm_client_dev *client = &fb_helper->client;
+ 	struct drm_device *dev = fb_helper->dev;
+ 	struct drm_fb_helper_surface_size sizes;
+ 	int ret;
  
- 	ret = drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_client_funcs);
+-	ret = drm_fb_helper_find_sizes(fb_helper, preferred_bpp, &sizes);
++	ret = drm_fb_helper_find_sizes(fb_helper, &sizes);
  	if (ret) {
--		kfree(fb_helper);
- 		drm_err(dev, "Failed to register client: %d\n", ret);
--		return;
-+		goto err_drm_client_init;
+ 		/* First time: disable all crtc's.. */
+ 		if (!fb_helper->deferred_setup)
+@@ -2125,8 +2124,7 @@ static void drm_setup_crtcs_fb(struct drm_fb_helper *fb_helper)
+ 
+ /* Note: Drops fb_helper->lock before returning. */
+ static int
+-__drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
+-					  int bpp_sel)
++__drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper)
+ {
+ 	struct drm_device *dev = fb_helper->dev;
+ 	struct fb_info *info;
+@@ -2137,10 +2135,9 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper,
+ 	height = dev->mode_config.max_height;
+ 
+ 	drm_client_modeset_probe(&fb_helper->client, width, height);
+-	ret = drm_fb_helper_single_fb_probe(fb_helper, bpp_sel);
++	ret = drm_fb_helper_single_fb_probe(fb_helper);
+ 	if (ret < 0) {
+ 		if (ret == -EAGAIN) {
+-			fb_helper->preferred_bpp = bpp_sel;
+ 			fb_helper->deferred_setup = true;
+ 			ret = 0;
+ 		}
+@@ -2231,8 +2228,10 @@ int drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper, int bpp_sel)
+ 	if (!drm_fbdev_emulation)
+ 		return 0;
+ 
++	fb_helper->preferred_bpp = bpp_sel;
++
+ 	mutex_lock(&fb_helper->lock);
+-	ret = __drm_fb_helper_initial_config_and_unlock(fb_helper, bpp_sel);
++	ret = __drm_fb_helper_initial_config_and_unlock(fb_helper);
+ 
+ 	return ret;
+ }
+@@ -2268,8 +2267,7 @@ int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper)
+ 
+ 	mutex_lock(&fb_helper->lock);
+ 	if (fb_helper->deferred_setup) {
+-		err = __drm_fb_helper_initial_config_and_unlock(fb_helper,
+-				fb_helper->preferred_bpp);
++		err = __drm_fb_helper_initial_config_and_unlock(fb_helper);
+ 		return err;
  	}
  
- 	/*
-@@ -484,5 +482,12 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
- 		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
- 
- 	drm_client_register(&fb_helper->client);
-+
-+	return;
-+
-+err_drm_client_init:
-+	drm_fb_helper_unprepare(fb_helper);
-+	kfree(fb_helper);
-+	return;
- }
- EXPORT_SYMBOL(drm_fbdev_generic_setup);
 -- 
 2.39.0
 
