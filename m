@@ -2,35 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAC3679651
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 12:13:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C638679660
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 12:15:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5F5A10E057;
-	Tue, 24 Jan 2023 11:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B910010E059;
+	Tue, 24 Jan 2023 11:15:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD1910E059
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 11:12:54 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 1167C4189A;
- Tue, 24 Jan 2023 12:12:52 +0100 (CET)
-Date: Tue, 24 Jan 2023 12:12:50 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [1/2] drm/msm/dpu: fix clocks settings for msm8998 SSPP blocks
-Message-ID: <20230124111250.b2r2co4jjxofjchp@SoMainline.org>
-References: <20230115124143.464809-1-dmitry.baryshkov@linaro.org>
- <20230124095944.4zez2jmidjuh3nvf@SoMainline.org>
- <9f182939-0e32-c0a9-ee09-9e97a48bb7ac@linaro.org>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 384C510E059
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 11:15:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1674558927; x=1706094927;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=zg8/P28ps+IaW6WtOh6SZ9l5jzbkeb7NOV6ctj41Lo8=;
+ b=l0X3EccSe0Y1l7pDcDM5U1Y83me05n0Pits6sKR+W2RFHl6gU1KNhWm/
+ 8CBXPTDwLESklPqZsmQ5COYRaOgR1CxMFG6zbnvYhzsdYciEXI+oHNJ+H
+ hsArB1ivDxV+HgxBAZSvo2+8eiCvu24+7kMa5s0DMWndWDaeitln55SnV
+ sfoa5tPxVzFIoajCjoniYPRC/HQgCyQsCfZGh5wrkhWnpMOO0fYSCFtgY
+ VG4bEtgnNrTeO77cRKvDTnhaljOLXKjMpoDxzYzQa0rL28FPekTpJDOkh
+ 3+gCddnuTSFk2rCl/anDv6UhAYT+GV38Fd23VWXQYCMjHqo4icvSm/uiN A==;
+X-IronPort-AV: E=Sophos;i="5.97,242,1669071600"; d="scan'208";a="28617118"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 24 Jan 2023 12:15:25 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Tue, 24 Jan 2023 12:15:25 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Tue, 24 Jan 2023 12:15:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1674558925; x=1706094925;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=zg8/P28ps+IaW6WtOh6SZ9l5jzbkeb7NOV6ctj41Lo8=;
+ b=OGe/gy68+eRmjcQPpwad8KlMcG7R1LsxyZOj9cfLmezWiGUUg0fEI9RU
+ pEfAdbqSAOoQvS/9MrZCa1ws33E+i42B6Rse2/n4/wUutnoo3Q1hPke5v
+ ghB/g9sPoxtZaeuE/Rv2MAv7QvO1gHJPR0zQLxyU/ErlY4al2Sc7A/tct
+ qoAxUUBil3RSa8rvnfGPAj7sMkqSy4ZnNlusySFcyIG2YJbtzGP1m/SpV
+ nCdbMQ9L5D3U5mye6BRcBvjd+oT+FaKgIhL68X7Y+TXwih2ycBikTcmEb
+ HZkdZPAI/djBy51Ah2zpwY8gcrIY7g93YInb1GBBA1N+Jog4tYd1Uo9Jx A==;
+X-IronPort-AV: E=Sophos;i="5.97,242,1669071600"; d="scan'208";a="28617117"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 24 Jan 2023 12:15:25 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C3AFF280056;
+ Tue, 24 Jan 2023 12:15:24 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH 2/2] drm: lcdif: Add i.MX93 LCDIF support
+Date: Tue, 24 Jan 2023 12:15:24 +0100
+Message-ID: <13189854.uLZWGnKmhe@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <7ac57bc28da40df054c81fd74f69207af66ad97b.camel@nxp.com>
+References: <20230123072358.1060670-1-victor.liu@nxp.com>
+ <ace76615-533a-9295-8271-95262859d287@denx.de>
+ <7ac57bc28da40df054c81fd74f69207af66ad97b.camel@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9f182939-0e32-c0a9-ee09-9e97a48bb7ac@linaro.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,99 +79,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, kernel@pengutronix.de, s.hauer@pengutronix.de,
+ robh+dt@kernel.org, linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org,
+ shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-01-24 12:19:27, Dmitry Baryshkov wrote:
-> On 24/01/2023 11:59, Marijn Suijten wrote:
-> > On 2023-01-15 14:41:42, Dmitry Baryshkov wrote:
-> >> DMA2 and DMA3 planes on msm8998 should use corresponding DMA2 and DMA3
-> >> clocks rather than CURSOR0/1 clocks (which are used for the CURSOR
-> >> planes). Correct corresponding SSPP declarations.
-> >>
-> >> Fixes: 94391a14fc27 ("drm/msm/dpu1: Add MSM8998 to hw catalog")
-> >> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> >> Cc: Jami Kettunen <jami.kettunen@somainline.org>
-> >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> ---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
-> >>   1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >> index 0f3da480b066..ad0c55464154 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> >> @@ -1180,9 +1180,9 @@ static const struct dpu_sspp_cfg msm8998_sspp[] = {
-> >>   	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_MSM8998_MASK,
-> >>   		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
-> >>   	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_MSM8998_MASK,
+Hi,
+
+Am Dienstag, 24. Januar 2023, 08:59:39 CET schrieb Liu Ying:
+> On Mon, 2023-01-23 at 16:57 +0100, Marek Vasut wrote:
+> > On 1/23/23 08:23, Liu Ying wrote:
+> > > The LCDIF embedded in i.MX93 SoC is essentially the same to those
+> > > in i.MX8mp SoC.  However, i.MX93 LCDIF may connect with MIPI DSI
+> > > controller through LCDIF cross line pattern(controlled by mediamix
+> > > blk-ctrl) or connect with LVDS display bridge(LDB) directly or a
+> > > parallel display(also through mediamix blk-ctrl), so add multiple
+> > > encoders(with DRM_MODE_ENCODER_NONE encoder type) support in the
+> > > LCDIF DRM driver and find a bridge to attach the relevant encoder's
+> > > chain when needed.  While at it, derive lcdif_crtc_state structure
+> > > from drm_crtc_state structure to introduce bus_format and bus_flags
+> > > states so that the next downstream bridges may use consistent bus
+> > > format and bus flags.
 > > 
-> > Drop the _CURSOR mask here?  And the double space....
+> > Would it be possible to split this patch into preparatory clean up
+> > and
+> > i.MX93 addition ? It seems like the patch is doing two things
+> > according
+> > to the commit message.
 > 
-> Ack for the doublespace. By removing _CURSOR we would disallow using 
-> these planes as hw cursor planes. This would switch all compositors into 
-> sw cursor mode, thus damaging the performance.
+> IMHO, all the patch does is for i.MX93 addition, not for clean up.
+> Note that the single LCDIF embedded in i.MX93 SoC may connect with MIPI
+> DSI/LVDS/parallel related bridges to drive triple displays
+> _simultaneously_ in theory, while the three LCDIF instances embedded in
+> i.MX8mp SoC connect with MIPI DSI/LVDS/HDMI displays respectively(one
+> LCDIF maps to one display).  The multiple encoders addition and the new
+> checks for consistent bus format and bus flags are only for i.MX93
+> LCDIF, not for i.MX8mp LCDIF.  Also, I think the multiple encoders
+> addition and the new checks should be done together - if the new checks
+> come first, then the new checks do not make sense(no multiple displays
+> driven by LCDIF); 
 
-Doesn't that require special hardware support, or can any DMA pipe
-support "hw cursor mode/planes", whatever that means?  Sorry for not
-being well versed in this area, I'd expect DMA pipes and CURSOR pipes to
-have a different set of features / capabilities.
+You are right on this one, but on the other hand there are lot of preparing 
+patches already. Even if it is useless by itself, having the bus format & flag 
+checks in a separate patch, it is easier to review, IMHO.
 
-Commit 07ca1fc0f8a0 ("drm/msm/dpu: enable cursor plane on dpu") leads me
-to believe that it's mostly to let userspace use these DMA pipes for
-cursors (having cursor planes available in uapi) rather than requiring
-any special hardware support (though semantics do seem to change in a
-nontrivial way).
+> if the new checks come later, then it would be a bug
+> to allow inconsistent bus format and bus flags across the next
+> downstream bridges when only adding multiple encoders support(also, I
+> don't know which encoder's bridge should determine the LCDIF output bus
+> format and bus flags, since the three encoders come together with the
+> three next bridges).
 
-> >> -		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-> >> +		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
-> >>   	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_MSM8998_MASK,
-> >> -		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-> >> +		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
-> > 
-> > Yes, msm8998_mdp defines both DMA2/3 and CURSOR0/1 clocks.  R-b after
-> > using DMA_MSM8998_MASK without the DPU_SSPP_CURSOR bit.
-> > 
-> > However, my downstream sources still define cursor SSPPs that are
-> > missing here (after all, there's clk-ctrl for these already), at xin ID
-> > 2 and 10 with addresses 0x3500 and 0x37000 downstream (-0x1000 here):
-> > 
-> > 	SSPP_BLK("sspp_?", SSPP_CURSOR0, 0x34000, DMA_CURSOR_SM8998_MASK,
-> > 		cursor sblk?, 2, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_CURSOR0),
-> > 	SSPP_BLK("sspp_?", SSPP_CURSOR1, 0x36000, DMA_CURSOR_SM8998_MASK,
-> 
-> I think this should not be the DMA_CURSOR_MSM8998_MASK, but don't bet on 
-> my words, I haven't check actual cursor plane capabilities.
+Agreed, this order is a no-go.
 
-As we've seen in [1] (specifically [2]) there are a few more driver/hw
-changes required to properly implement/support DPU_SSPP_CURSOR?
+Best regards,
+Alexander
 
-[1]: https://github.com/rawoul/linux/commits/next_20220624-msm8998-hdmi
-[2]; https://github.com/rawoul/linux/commit/7d8d739cfbfa551120868986d5824f7b2b116ac1
+> Regards,
+> Liu Ying
 
-- Marijn
 
-> > 		cursor sblk?, 10, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_CURSOR1),
-> > 
-> > Or should you/I send that as a separate folloup patch?
-> 
-> Ideally one can add these two planes and then switch two mentioned DMA 
-> planes to plain DMA_MSM8998_MASK.
-> 
-> > 
-> > - Marijn
-> > 
-> >>   };
-> >>   
-> >>   static const struct dpu_sspp_cfg sdm845_sspp[] = {
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+
+
