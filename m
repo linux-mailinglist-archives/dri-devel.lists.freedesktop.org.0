@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B9D679CC8
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 16:00:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6A5679CD5
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 16:01:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 069F010E692;
-	Tue, 24 Jan 2023 15:00:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6200210E694;
+	Tue, 24 Jan 2023 15:01:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3091B10E692
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 15:00:01 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B6431210E7;
- Tue, 24 Jan 2023 14:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1674572399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XLqxBQfQ00tnQcihjlqxyWWIteOiPhmeVkN+U5n5QiU=;
- b=ioVsAhbBdV1YHrLBEs6yIdAAV1QXNCZMBuzPaF312N9LCK2343XbyDbjM+FY8t1ZkxHq4n
- Oiz2oPGK3yovgBjLtnfOF0kKVLRWhKt1RSD2ksahTFWRZVbES3/JrtXujjXbbOKWjgqA2O
- iC2w/WyjLdNarJQAiedANs3mQbkKCFc=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8DC75139FB;
- Tue, 24 Jan 2023 14:59:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ScUvIm/yz2PoFgAAMHmgww
- (envelope-from <mhocko@suse.com>); Tue, 24 Jan 2023 14:59:59 +0000
-Date: Tue, 24 Jan 2023 15:59:58 +0100
-From: Michal Hocko <mhocko@suse.com>
-To: "T.J. Mercier" <tjmercier@google.com>
-Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
-Message-ID: <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
-References: <20230123191728.2928839-1-tjmercier@google.com>
- <20230123191728.2928839-2-tjmercier@google.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23EA010E694;
+ Tue, 24 Jan 2023 15:01:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674572465; x=1706108465;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Mzv+KYgReVWY7QWCde3drBn0DD3JgO5iXCySzyTpshw=;
+ b=TQCNTObkiWLcAXkd9nBekyk/X6/gH8YxcfSXODa+ZN70cpmp3y3/nAUL
+ dw6NRICtvbJIseZehOhYENdi2upeBAxPp6E2bqk4LKBbqIXeU8LsPQvLo
+ ssKUEOKnRmtlo157ESAETToevqBM/C/7NSbIBt2804DEGs7a8Q/RKcZeP
+ c1Ua3TBp1u3LN34OKHx/jVPD8IGP3rJrFzXsbhRYDrr+8CtnWXJ2+KfSv
+ L07g8OL/JY1SObGbYybN2F1UtsiRDnRM4W1Wf6SS5Xm7MnjdiSu4tFUhf
+ bGk+/itNyaWJ6sbYoHzIQN8pwWrdp2k8Q+OOh/6EaopHr/vURWr9cAujK g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="306664037"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; d="scan'208";a="306664037"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2023 07:01:02 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="907517022"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; d="scan'208";a="907517022"
+Received: from nirmoyda-desk.igk.intel.com ([10.102.42.231])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2023 07:00:59 -0800
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Make sure dsm_size has correct granularity
+Date: Tue, 24 Jan 2023 16:00:47 +0100
+Message-Id: <20230124150047.9490-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230123191728.2928839-2-tjmercier@google.com>
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,40 +57,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
- Roman Gushchin <roman.gushchin@linux.dev>, cmllamas@google.com,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org, jstultz@google.com,
- Zefan Li <lizefan.x@bytedance.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- android-mm@google.com, Jonathan Corbet <corbet@lwn.net>, jeffv@google.com,
- linux-media@vger.kernel.org, selinux@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- cgroups@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
-> When a buffer is exported to userspace, use memcg to attribute the
-> buffer to the allocating cgroup until all buffer references are
-> released.
+DSM granularity is 1MB so make sure we stick to that.
 
-Is there any reason why this memory cannot be charged during the
-allocation (__GFP_ACCOUNT used)?
-Also you do charge and account the memory but underlying pages do not
-know about their memcg (this is normally done with commit_charge for
-user mapped pages). This would become a problem if the memory is
-migrated for example. This also means that you have to maintain memcg
-reference outside of the memcg proper which is not really nice either.
-This mimicks tcp kmem limit implementation which I really have to say I
-am not a great fan of and this pattern shouldn't be coppied.
+Cc: Matthew Auld <matthew.auld@intel.com>
+Suggested-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Also you are not really saying anything about the oom behavior. With
-this implementation the kernel will try to reclaim the memory and even
-trigger the memcg oom killer if the request size is <= 8 pages. Is this
-a desirable behavior?
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index 90a967374b1a..0c027263f09e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -909,7 +909,7 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
+ 		dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) & GEN12_BDSM_MASK;
+ 		if (WARN_ON(lmem_size < dsm_base))
+ 			return ERR_PTR(-ENODEV);
+-		dsm_size = lmem_size - dsm_base;
++		dsm_size = ALIGN_DOWN(lmem_size - dsm_base, 1 * SZ_1M);
+ 	}
+ 
+ 	io_size = dsm_size;
 -- 
-Michal Hocko
-SUSE Labs
+2.39.0
+
