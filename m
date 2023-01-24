@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D092B67A3A2
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 21:11:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA2CA67A401
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 21:36:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6452010E235;
-	Tue, 24 Jan 2023 20:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6B2B10E009;
+	Tue, 24 Jan 2023 20:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F380810E23F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 20:11:19 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id bk15so42055544ejb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 12:11:19 -0800 (PST)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 779AD10E063
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 20:36:03 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id qx13so42204420ejb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 12:36:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=iow9EqGZ/sIQF1py0gJwtFHKSu4rtBSm3bpjW37i26E=;
- b=fQRkNSmlMehk/emD6QnW2pvAG5FGDHZXy4xOCApamOIanGgpB3nC7UIFnYgLnkeWPY
- qFvvX2ELSvjHIThfhe6O0WklKW+6yMo1UV+SQss5uyQdgK9AY66DoypNuczqfpj771gZ
- zMwx5vq0FvuT14I1a6O79icAmUqKbrwYXXY0MnbFzFPloDOBe97xa0lFAEGrjg+cz2nm
- FxS9PuE5x62U+g5pOA8AuX8OluPqGzApi+Jl/0ws11BUV4b6bZoyNgVYmJs3uF4psTFd
- dS1QgOtiOIpMNqNVECKqF/Ai+PFV+i5x/BPKxb7Yssv3fde8IYdl8X1KC9ZMrbcs8C13
- fqPw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=HwFJKNSrUsLZF3pRcPrp9cxahQadgD7Il3ZvZ++NO24=;
+ b=JGeYk1gZ7GM328h1VDCLBAJX4XuMLdrvCQ8Xai8Wui+Vs3NEsImHs0GaVYlf/TY3Ks
+ Lvr0fMZ+Yk+UNWlc+FKMnesDSs4qscikSqjN+rQFr4tf8dSVv55W5Kni5oPqL/+8XU80
+ SiiFesSnYBjdZ3JZlmlJxLxPrZNqVmwYqFFU7dCCXXNbpZ3j28pp0u9Qn92pgrAxlcNo
+ wtMZtZBgRgo1c+qrd8uvHLNF2LpH0q58Ig4F0aeJvXfVAE0LarnX/Ziw1FFHO0gVm5kI
+ 3tSiJTlEjFoq0pRXYWfXOPqa4XkTEdf+d8lAjEGblJAcT02EsSr6JiXKcwpAU1htLxPc
+ Rh9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iow9EqGZ/sIQF1py0gJwtFHKSu4rtBSm3bpjW37i26E=;
- b=SzW6GUOYAYdnSM71iGxPRma4EnQkN8AeMs7z/y0HQZMKSc3Cm/PUWLJcq+mb6QHTKs
- es8Vyv2r3mtnAxZuUriGt4V9s6gQ22FWSnY4Aji9ddfc+bTbr8DhgD+npXNGPk00Xjjb
- BZzXEuqS4ZLCPJGWFvi05U16oTCwDSXvyECKDiUNoKO1VoUQn99J/8tegC6+dQs3OC3U
- NTUNIF4PPYtqyx0DT3qrB5a+I+4UjJtj4ZclKyHyH1khBdevqcYboOZctesODSDTItgL
- umJElmVNxWaevEBOtXpN60jn+yj1er+PGAbfH7BJVtZJhcCJglaVmGFt2iEljnBav9W2
- TLXw==
-X-Gm-Message-State: AFqh2kq2pBQMRUU76Xng4pNekLUPYHgjYk1KRTJDUdSGlxeu+adA3qSf
- UBcFJxx2krMehTsEZwGap/Xmdg==
-X-Google-Smtp-Source: AMrXdXuHqRDems58BY2B4qPn6sOGaXy9V+jFkm9PyKHVlNPrE3x7/DxuNks/kgTigTPvNNtwCEOnNQ==
-X-Received: by 2002:a17:906:3397:b0:86b:e50c:151b with SMTP id
- v23-20020a170906339700b0086be50c151bmr29082696eja.28.1674591078266; 
- Tue, 24 Jan 2023 12:11:18 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- ks27-20020a170906f85b00b0085fc3dec567sm1346013ejb.175.2023.01.24.12.11.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Jan 2023 12:11:17 -0800 (PST)
-Message-ID: <55cb7813-b407-a593-f822-07b1bc1af89d@linaro.org>
-Date: Tue, 24 Jan 2023 22:11:16 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 2/2] drm/msm/dsi: implement opp table based check for
- dsi_mgr_bridge_mode_valid()
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20230112001600.12791-1-quic_abhinavk@quicinc.com>
- <20230112001600.12791-2-quic_abhinavk@quicinc.com>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HwFJKNSrUsLZF3pRcPrp9cxahQadgD7Il3ZvZ++NO24=;
+ b=TXXU2C/LPflg5gZ7djbmP4FSDVzLveB7RXZstAdAi07/a1HQkRvaBMdhWko2qJ4nSD
+ yD3Th9BrrV/OKPHwnD+zNqnVskflayaoEkCyZMFhxauhrXlQroKItZDZd2cufpIaZNCO
+ VMEFi++PRhtIbxeQ2z5eBSjE91jcOWfApeUGccgQ3SJgJHnYcbpNcvfU6AIgd+2pr3N4
+ Q7Pm9PDcLOg/BtSK9JnCciEAu3BpZWz17QQYKh2Yz+CMZwB4+xh3+fuqut67MnuNMUEs
+ kI71+OdTN5hjLrhd7stCmZtgaDopUehwpOQoZjlgJWjxU6p+Spf9PQksM5Z6T120cGc9
+ fehg==
+X-Gm-Message-State: AFqh2koQu6WBJd3sE3kX9irGBCn1L0aafFWfrUIUfIwjMeNHTgc3Cq6e
+ YrIRv4tmRiRYLY2EC0YLXkIVaA==
+X-Google-Smtp-Source: AMrXdXteP4LEALyM4F9F14V8cNbRWseI3yC7j7m0Zi38vdh9alw7GqXpHVWalztCignMGYQ9ufvPag==
+X-Received: by 2002:a17:906:b34c:b0:7c0:b770:df94 with SMTP id
+ cd12-20020a170906b34c00b007c0b770df94mr28169627ejb.63.1674592561881; 
+ Tue, 24 Jan 2023 12:36:01 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ j5-20020a170906050500b00780982d77d1sm1344255eja.154.2023.01.24.12.36.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jan 2023 12:36:01 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230112001600.12791-2-quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH] drm/msm/dsi: properly handle the case of empty OPP table in
+ dsi_mgr_bridge_mode_valid
+Date: Tue, 24 Jan 2023 22:36:00 +0200
+Message-Id: <20230124203600.3488766-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,70 +70,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/01/2023 02:16, Abhinav Kumar wrote:
-> Currently there is no protection against a user trying to set
-> an unsupported mode on DSI. Implement a check based on the opp
-> table whether the byte clock for the mode can be supported by
-> validating whether an opp table entry exists.
-> 
-> For devices which have not added opp table support yet, skip
-> this check otherwise it will break bootup on those devices.
-> 
-> changes in v3:
-> 	- make the comment shorter
-> 	- handle all errors except ENODEV
-> 
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/15
-> Reported-by: Rob Clark <robdclark@gmail.com>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+It was left unnoticed during the review that even if there is no OPP
+table in device tree, one will be created by a call to the function
+devm_pm_opp_set_clkname(). This leads to dsi_mgr_bridge_mode_valid()
+rejecting all modes if DT contains no OPP table for the DSI host.
 
-I finally acquired the db410c again. And... this patch breaks support 
-for the board. We were wrong on the assumption that the code will return 
--ENODEV when there is no opp table, my bad. devm_pm_opp_set_clkname(), 
-called from msm_dsi_host_init(), allocates an empty table if one doesn't 
-exist in DT.
+Rework dsi_mgr_bridge_mode_valid() to handle this case by actually
+checking that the table is populated with frequency entries before
+returning an error.
 
-> ---
->   drivers/gpu/drm/msm/dsi/dsi_manager.c | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index 3a1417397283..b20fddb534a7 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -450,6 +450,25 @@ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
->   	int id = dsi_mgr_bridge_get_id(bridge);
->   	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
->   	struct mipi_dsi_host *host = msm_dsi->host;
-> +	struct platform_device *pdev = msm_dsi->pdev;
-> +	struct dev_pm_opp *opp;
-> +	unsigned long byte_clk_rate;
-> +
-> +	byte_clk_rate = dsi_byte_clk_get_rate(host, IS_BONDED_DSI(), mode);
-> +
-> +	/*
-> +	 * fail all errors except -ENODEV as that could mean that opp
-> +	 * table is not yet implemented
-> +	 */
-> +	opp = dev_pm_opp_find_freq_ceil(&pdev->dev, &byte_clk_rate);
-> +	if (IS_ERR(opp)) {
-> +		if (PTR_ERR(opp) == -ERANGE)
-> +			return MODE_CLOCK_RANGE;
-> +		else if (PTR_ERR(opp) != -ENODEV)
-> +			return MODE_ERROR;
-> +	} else {
-> +		dev_pm_opp_put(opp);
-> +	}
->   
->   	return msm_dsi_host_check_dsc(host, mode);
->   }
+Fixes: 8328041b8c82 ("drm/msm/dsi: implement opp table based check for dsi_mgr_bridge_mode_valid()")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index b20fddb534a7..1bbac72dad35 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -456,18 +456,19 @@ static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
+ 
+ 	byte_clk_rate = dsi_byte_clk_get_rate(host, IS_BONDED_DSI(), mode);
+ 
+-	/*
+-	 * fail all errors except -ENODEV as that could mean that opp
+-	 * table is not yet implemented
+-	 */
+ 	opp = dev_pm_opp_find_freq_ceil(&pdev->dev, &byte_clk_rate);
+-	if (IS_ERR(opp)) {
+-		if (PTR_ERR(opp) == -ERANGE)
++	if (!IS_ERR(opp)) {
++		dev_pm_opp_put(opp);
++	} else if (PTR_ERR(opp) == -ERANGE) {
++		/*
++		 * An empty table is created by devm_pm_opp_set_clkname() even
++		 * if there is none. Thus find_freq_ceil will still return
++		 * -ERANGE in such case.
++		 */
++		if (dev_pm_opp_get_opp_count(&pdev->dev) != 0)
+ 			return MODE_CLOCK_RANGE;
+-		else if (PTR_ERR(opp) != -ENODEV)
+-			return MODE_ERROR;
+ 	} else {
+-		dev_pm_opp_put(opp);
++			return MODE_ERROR;
+ 	}
+ 
+ 	return msm_dsi_host_check_dsc(host, mode);
 -- 
-With best wishes
-Dmitry
+2.39.0
 
