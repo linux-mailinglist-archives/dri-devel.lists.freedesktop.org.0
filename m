@@ -1,72 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C638679660
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 12:15:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A55CB67967D
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 12:20:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B910010E059;
-	Tue, 24 Jan 2023 11:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19DE610E663;
+	Tue, 24 Jan 2023 11:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 384C510E059
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 11:15:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1674558927; x=1706094927;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zg8/P28ps+IaW6WtOh6SZ9l5jzbkeb7NOV6ctj41Lo8=;
- b=l0X3EccSe0Y1l7pDcDM5U1Y83me05n0Pits6sKR+W2RFHl6gU1KNhWm/
- 8CBXPTDwLESklPqZsmQ5COYRaOgR1CxMFG6zbnvYhzsdYciEXI+oHNJ+H
- hsArB1ivDxV+HgxBAZSvo2+8eiCvu24+7kMa5s0DMWndWDaeitln55SnV
- sfoa5tPxVzFIoajCjoniYPRC/HQgCyQsCfZGh5wrkhWnpMOO0fYSCFtgY
- VG4bEtgnNrTeO77cRKvDTnhaljOLXKjMpoDxzYzQa0rL28FPekTpJDOkh
- 3+gCddnuTSFk2rCl/anDv6UhAYT+GV38Fd23VWXQYCMjHqo4icvSm/uiN A==;
-X-IronPort-AV: E=Sophos;i="5.97,242,1669071600"; d="scan'208";a="28617118"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 24 Jan 2023 12:15:25 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 24 Jan 2023 12:15:25 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 24 Jan 2023 12:15:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1674558925; x=1706094925;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=zg8/P28ps+IaW6WtOh6SZ9l5jzbkeb7NOV6ctj41Lo8=;
- b=OGe/gy68+eRmjcQPpwad8KlMcG7R1LsxyZOj9cfLmezWiGUUg0fEI9RU
- pEfAdbqSAOoQvS/9MrZCa1ws33E+i42B6Rse2/n4/wUutnoo3Q1hPke5v
- ghB/g9sPoxtZaeuE/Rv2MAv7QvO1gHJPR0zQLxyU/ErlY4al2Sc7A/tct
- qoAxUUBil3RSa8rvnfGPAj7sMkqSy4ZnNlusySFcyIG2YJbtzGP1m/SpV
- nCdbMQ9L5D3U5mye6BRcBvjd+oT+FaKgIhL68X7Y+TXwih2ycBikTcmEb
- HZkdZPAI/djBy51Ah2zpwY8gcrIY7g93YInb1GBBA1N+Jog4tYd1Uo9Jx A==;
-X-IronPort-AV: E=Sophos;i="5.97,242,1669071600"; d="scan'208";a="28617117"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 24 Jan 2023 12:15:25 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C3AFF280056;
- Tue, 24 Jan 2023 12:15:24 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH 2/2] drm: lcdif: Add i.MX93 LCDIF support
-Date: Tue, 24 Jan 2023 12:15:24 +0100
-Message-ID: <13189854.uLZWGnKmhe@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <7ac57bc28da40df054c81fd74f69207af66ad97b.camel@nxp.com>
-References: <20230123072358.1060670-1-victor.liu@nxp.com>
- <ace76615-533a-9295-8271-95262859d287@denx.de>
- <7ac57bc28da40df054c81fd74f69207af66ad97b.camel@nxp.com>
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE11110E077
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 11:20:46 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 10C6C419BC;
+ Tue, 24 Jan 2023 12:20:45 +0100 (CET)
+Date: Tue, 24 Jan 2023 12:20:43 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v5 1/4] dt-bindings: display/msm: convert MDP5 schema to
+ YAML format
+Message-ID: <20230124112043.4pzhbc3thgorjr2g@SoMainline.org>
+References: <20230109050152.316606-1-dmitry.baryshkov@linaro.org>
+ <20230109050152.316606-2-dmitry.baryshkov@linaro.org>
+ <20230109074947.5vnfrn6shzpm6iqi@SoMainline.org>
+ <997dbd09-03d6-d60d-1dce-db0bc6415582@linaro.org>
+ <20230111222903.otbur6yi4iv4mpgz@SoMainline.org>
+ <1d371e40-0639-16f8-abef-afcd05e72e22@linaro.org>
+ <20230111223553.e3xrxmdys5zxxleh@SoMainline.org>
+ <20230112215015.GA259261-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230112215015.GA259261-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,66 +50,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, kernel@pengutronix.de, s.hauer@pengutronix.de,
- robh+dt@kernel.org, linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org,
- shawnguo@kernel.org
+Cc: devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Am Dienstag, 24. Januar 2023, 08:59:39 CET schrieb Liu Ying:
-> On Mon, 2023-01-23 at 16:57 +0100, Marek Vasut wrote:
-> > On 1/23/23 08:23, Liu Ying wrote:
-> > > The LCDIF embedded in i.MX93 SoC is essentially the same to those
-> > > in i.MX8mp SoC.  However, i.MX93 LCDIF may connect with MIPI DSI
-> > > controller through LCDIF cross line pattern(controlled by mediamix
-> > > blk-ctrl) or connect with LVDS display bridge(LDB) directly or a
-> > > parallel display(also through mediamix blk-ctrl), so add multiple
-> > > encoders(with DRM_MODE_ENCODER_NONE encoder type) support in the
-> > > LCDIF DRM driver and find a bridge to attach the relevant encoder's
-> > > chain when needed.  While at it, derive lcdif_crtc_state structure
-> > > from drm_crtc_state structure to introduce bus_format and bus_flags
-> > > states so that the next downstream bridges may use consistent bus
-> > > format and bus flags.
-> > 
-> > Would it be possible to split this patch into preparatory clean up
-> > and
-> > i.MX93 addition ? It seems like the patch is doing two things
-> > according
-> > to the commit message.
+On 2023-01-12 15:50:15, Rob Herring wrote:
+> On Wed, Jan 11, 2023 at 11:35:53PM +0100, Marijn Suijten wrote:
+> > On 2023-01-12 00:31:33, Dmitry Baryshkov wrote:
+> > > On 12/01/2023 00:29, Marijn Suijten wrote:
+> > > > On 2023-01-10 06:40:27, Dmitry Baryshkov wrote:
+> > > >> On 09/01/2023 09:49, Marijn Suijten wrote:
+> > > >>> On 2023-01-09 07:01:49, Dmitry Baryshkov wrote:
+> > > > <snip>
+> > > >>>> +    description: |
+> > > >>>
+> > > >>> Should multiline descriptions be treated as a oneline string with `>`?
 > 
-> IMHO, all the patch does is for i.MX93 addition, not for clean up.
-> Note that the single LCDIF embedded in i.MX93 SoC may connect with MIPI
-> DSI/LVDS/parallel related bridges to drive triple displays
-> _simultaneously_ in theory, while the three LCDIF instances embedded in
-> i.MX8mp SoC connect with MIPI DSI/LVDS/HDMI displays respectively(one
-> LCDIF maps to one display).  The multiple encoders addition and the new
-> checks for consistent bus format and bus flags are only for i.MX93
-> LCDIF, not for i.MX8mp LCDIF.  Also, I think the multiple encoders
-> addition and the new checks should be done together - if the new checks
-> come first, then the new checks do not make sense(no multiple displays
-> driven by LCDIF); 
+> Depends if you want to keep paragraphs. Generally, we use '|' or 
+> nothing. If just a colon (or ???), then I think you want '>'.
 
-You are right on this one, but on the other hand there are lot of preparing 
-patches already. Even if it is useless by itself, having the bus format & flag 
-checks in a separate patch, it is easier to review, IMHO.
+But doesn't that also affect how lines within paragraphs are flowed?
+Arguably it's only GitHub that doesn't "ignore" manual single newlines,
+the Markdown (and maybe also RST?) spec AFAIK state that multiline
+blocks will be turned into a single paragraph (automatically reflowing
+to width).
 
-> if the new checks come later, then it would be a bug
-> to allow inconsistent bus format and bus flags across the next
-> downstream bridges when only adding multiple encoders support(also, I
-> don't know which encoder's bridge should determine the LCDIF output bus
-> format and bus flags, since the three encoders come together with the
-> three next bridges).
+> I get tired of saying to drop unnecessary '|' in reviews. It would be 
+> nice to analyze the text to check what's needed automatically.
 
-Agreed, this order is a no-go.
+And that's just one of the many things...
 
-Best regards,
-Alexander
+> > > >> Ack, I'm fine with either of them, let's use the >
+> > > >>
+> > > >>>
+> > > >>>> +      Contains the list of output ports from DPU device. These ports
+> > > >>>> +      connect to interfaces that are external to the DPU hardware,
+> > > >>>> +      such as DSI, DP etc. MDP5 devices support up to 4 ports::
+> > > >>>
+> > > >>> How do these double colons render?  Is this intentional?
+> > > >>
+> > > >> double colons is an escape for a single colon if I remember correcly.
+> > > > 
+> > > > I thought no escaping was necessary here, especially since this is
+> > > > already a value - it is a multiline string.
+> > > 
+> > > I was mostly following examples, grep :: through the dt-bindings.
+> > 
+> > Saw that, maybe these "freeform" description strings are intended to be
+> > RST to support more elaborate rendering if/when that happens?
+> 
+> No, though some experiments have been done in that regard. It seemed to 
+> work.
 
-> Regards,
-> Liu Ying
+Hmm, the question is what format description blocks should adhere to,
+and if a double colon here makes sense and/or is required?
 
+> > > >> BTW: how to render the DT schema?
+> > > > 
+> > > > I'm not sure if there's currently any rendering tool to view these docs
+> > > > in a "friendly" manner, e.g. an html page, or whether they're only used
+> > > > as specifications for DT validation.
+> > > 
+> > > Probably there will be one at some point. It might make good addition to 
+> > > devicetree.org.
+> > 
+> > Would be super cool to have some "interactive" / properly
+> > rendered/colored docs up there for DT :)
+> 
+> One of the original goals was to transform the DT spec to schema docs 
+> and then generate the spec from the schemas.
+> 
+> There's tools that do json-schema to docs already. They may just work. I 
+> haven't looked at them though as that's not really my itch and I simply 
+> don't have time. Maybe if we stop reviewing schemas for a while.
 
+Sure, as above we shoudn't have to render anything now nor any time
+soon, but it would be helpful to know what kind of format to adhere to
+in description blocks.
 
-
+- Marijn
