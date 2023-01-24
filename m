@@ -2,59 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55B1679680
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 12:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0334167968C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 12:25:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89C0310E664;
-	Tue, 24 Jan 2023 11:21:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 041F110E077;
+	Tue, 24 Jan 2023 11:25:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE32C10E077
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 11:21:09 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id b1so13102191ybn.11
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 03:21:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IU3DYpPA6oRQuTVTfrhplBDOkHixxEc4pPsrimOogEA=;
- b=yogG81zuajJjr5c1Veuwa+uwtkTY6Fz4jAICh4IgPn0Fa14aG3BVoPfxwgXIXtqL60
- FtdEFCp6IZJNGaf78ihEXyU1yIFD6juqd53HRM62+T6P6PW8sH1HthnSY31FBSmBb/j9
- Xxy6w0W/nqye8LJYN9xX9B/lt+YO1Qhxe+youf9UUbPNfCvTKfGrUhSnx5iLv2zlpKl4
- 5Q/84eDqTAtMA7kZY5vptWdsRAto68q4oiMreYwIpEv8IiRLVm16fE67ZwwR1Gjh9DAf
- TgErCAGhck10s5nfwsWsO00DSbyZWcKPfIUqA7K6pCiNoGjIWRG9J2FQet9K8BBKhtUX
- bsBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IU3DYpPA6oRQuTVTfrhplBDOkHixxEc4pPsrimOogEA=;
- b=im0EKz2hNGFWzMa4UErHfmYivYXEV7Yz+6EpC5csnkjkxMCZOgtu6KS7rNV4O0UCap
- xPPvWufkvjFFCjKgxdjc5f7NtdRY6i47SsqTbVfOAy9ZDHKmQdnqLQ3A7Stv33WD0hFZ
- bze3iDs11svVMeNzD6XlbyMTwxrJeNSi2UmyumoY4jd8JTpjYHNOyEaDh56IkDh+HZF/
- uCPFaQuDNQiTRCzsmTzd9Q0JSFOstq39zZAdDffPgep9HGtITc3kH3zvbLdBdbxJQBV1
- wzOLY7vWr2ddTpkAFLWrfFFPH0MceNRDBoEvZm/bu8bRAsYvGMc2+k/qZ5a18hXjvwdK
- 5rnw==
-X-Gm-Message-State: AFqh2kqSFZkpVprLzoKXJLaSmy47/puVfgv0KePA5+v95K8z0K+58kIH
- tmKCuHq16dlyi7V0fMULG7H32ozy6P9K0mVqisyS/w==
-X-Google-Smtp-Source: AMrXdXv4pIYhPkn5Ye0Z1R++9bj3ZCizSpJf8kb3rcuxGOTggVe9r28/jxcfp0CyCvAcV4yJwMVsU+2/ABzLBzaVdNU=
-X-Received: by 2002:a05:6902:8f:b0:800:748:7d05 with SMTP id
- h15-20020a056902008f00b0080007487d05mr1875802ybs.15.1674559268784; Tue, 24
- Jan 2023 03:21:08 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04CAD10E077
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 11:25:46 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 60B512185A;
+ Tue, 24 Jan 2023 11:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674559545; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DXBqdMHrfSRaGBkXmONO4jBkFprYxen9pgxcOUBcCdk=;
+ b=k8IAfCGOIh+rGEXqRaVdN+//iio8Os0LWJcUks3mMdtWhmm/x98A3VwuauKBfITBjsAG6K
+ nZOz+v3l2Hp1a25jxmxRP01JV3dSNOI+jYmbun/DUiUotj1RqaI7IhMtx+Opd5NNmIMjWF
+ 6hHPORL+V07UX2lUzN3HuY2OVO5fTNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674559545;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DXBqdMHrfSRaGBkXmONO4jBkFprYxen9pgxcOUBcCdk=;
+ b=FlZHAzucd8ANp5+o5dBxABkHRJNOvtYcC/yabVwz/dU7EdEooxTAQIhzoxz8En6v8bgYwh
+ 0BaX7KwAX89tXPDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4D86713487;
+ Tue, 24 Jan 2023 11:25:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id WngMEjnAz2NAGAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 24 Jan 2023 11:25:45 +0000
+Message-ID: <428629ec-ab0c-db11-56e7-9377c8d73bab@suse.de>
+Date: Tue, 24 Jan 2023 12:25:44 +0100
 MIME-Version: 1.0
-References: <20230115124143.464809-1-dmitry.baryshkov@linaro.org>
- <20230124095944.4zez2jmidjuh3nvf@SoMainline.org>
- <9f182939-0e32-c0a9-ee09-9e97a48bb7ac@linaro.org>
- <20230124111250.b2r2co4jjxofjchp@SoMainline.org>
-In-Reply-To: <20230124111250.b2r2co4jjxofjchp@SoMainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 24 Jan 2023 13:20:57 +0200
-Message-ID: <CAA8EJprPxm6PObLapAXr_D5d85oT8y2GhoCzABLq_u2xFDhkvQ@mail.gmail.com>
-Subject: Re: [1/2] drm/msm/dpu: fix clocks settings for msm8998 SSPP blocks
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 85/86] drm: move drm_timeout_abs_to_jiffies to drm_util
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
+ <20230113-drm-include-v1-v1-85-c5cf72d8a5a2@ravnborg.org>
+ <43f60723-e1f9-8991-d930-16fec3896219@suse.de>
+ <Y87yKPS1UfwL9xp4@ravnborg.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Y87yKPS1UfwL9xp4@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0cE2NZ18P8SxerHZjtNV0nje"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,124 +72,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Jan 2023 at 13:12, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
->
-> On 2023-01-24 12:19:27, Dmitry Baryshkov wrote:
-> > On 24/01/2023 11:59, Marijn Suijten wrote:
-> > > On 2023-01-15 14:41:42, Dmitry Baryshkov wrote:
-> > >> DMA2 and DMA3 planes on msm8998 should use corresponding DMA2 and DMA3
-> > >> clocks rather than CURSOR0/1 clocks (which are used for the CURSOR
-> > >> planes). Correct corresponding SSPP declarations.
-> > >>
-> > >> Fixes: 94391a14fc27 ("drm/msm/dpu1: Add MSM8998 to hw catalog")
-> > >> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> > >> Cc: Jami Kettunen <jami.kettunen@somainline.org>
-> > >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >> ---
-> > >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
-> > >>   1 file changed, 2 insertions(+), 2 deletions(-)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > >> index 0f3da480b066..ad0c55464154 100644
-> > >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > >> @@ -1180,9 +1180,9 @@ static const struct dpu_sspp_cfg msm8998_sspp[] = {
-> > >>    SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_MSM8998_MASK,
-> > >>            sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
-> > >>    SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_MSM8998_MASK,
-> > >
-> > > Drop the _CURSOR mask here?  And the double space....
-> >
-> > Ack for the doublespace. By removing _CURSOR we would disallow using
-> > these planes as hw cursor planes. This would switch all compositors into
-> > sw cursor mode, thus damaging the performance.
->
-> Doesn't that require special hardware support, or can any DMA pipe
-> support "hw cursor mode/planes", whatever that means?  Sorry for not
-> being well versed in this area, I'd expect DMA pipes and CURSOR pipes to
-> have a different set of features / capabilities.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0cE2NZ18P8SxerHZjtNV0nje
+Content-Type: multipart/mixed; boundary="------------PCf3NPoKB1qEGxMZgST90zgo";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <428629ec-ab0c-db11-56e7-9377c8d73bab@suse.de>
+Subject: Re: [PATCH 85/86] drm: move drm_timeout_abs_to_jiffies to drm_util
+References: <20230113-drm-include-v1-v1-0-c5cf72d8a5a2@ravnborg.org>
+ <20230113-drm-include-v1-v1-85-c5cf72d8a5a2@ravnborg.org>
+ <43f60723-e1f9-8991-d930-16fec3896219@suse.de>
+ <Y87yKPS1UfwL9xp4@ravnborg.org>
+In-Reply-To: <Y87yKPS1UfwL9xp4@ravnborg.org>
 
-Yes, they have different capabilities. but DMA_CURSOR_MSM8998_MASK =
-DMA_MSM8998_MASK | BIT(DPU_SSPP_CURSOR). And the DPU_SSPP_CURSOR is
-used internally to tell the DRM core that the corresponding plane is
-going to be used as a "userspace cursor" plane.
+--------------PCf3NPoKB1qEGxMZgST90zgo
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Commit 07ca1fc0f8a0 ("drm/msm/dpu: enable cursor plane on dpu") leads me
-> to believe that it's mostly to let userspace use these DMA pipes for
-> cursors (having cursor planes available in uapi) rather than requiring
-> any special hardware support (though semantics do seem to change in a
-> nontrivial way).
+SGkNCg0KQW0gMjMuMDEuMjMgdW0gMjE6NDYgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIE1vbiwgSmFuIDIzLCAyMDIzIGF0IDA5OjU3OjEzQU0gKzAx
+MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSGkgU2FtLA0KPj4NCj4+IHBsZWFz
+ZSBzZWUgbXkgY29tbWVudCBiZWxvdy4NCj4+DQo+PiBBbSAyMS4wMS4yMyB1bSAyMTowOSBz
+Y2hyaWViIFNhbSBSYXZuYm9yZyB2aWEgQjQgU3VibWlzc2lvbiBFbmRwb2ludDoNCj4+PiBG
+cm9tOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+DQo+Pj4NCj4+PiBkcm1fdGlt
+ZW91dF9hYnNfdG9famlmZmllcygpIHdhcyBpbXBsbWVudGVkIGluIGRybV9zeW5jb2JqIHdo
+ZXJlDQo+Pj4gaXQgcmVhbGx5IGRpZCBub3QgYmVsb25nLiBDcmVhdGUgYSBkcm1fdXRpbCBm
+aWxlIGFuZCBtb3ZlIHRoZQ0KPj4+IGltcGxlbWVudGF0aW9uLiBMaWtld2lzZSBtb3ZlIHRo
+ZSBwcm90b3R5cGUgYW5kIHVwZGF0ZSBhbGwgdXNlcnMuDQo+Pj4NCj4+PiBTdWdnZXN0ZWQt
+Ynk6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4NCj4+PiBbaHR0cHM6Ly9sb3Jl
+Lmtlcm5lbC5vcmcvZHJpLWRldmVsLzIwMTkwNTI3MTg1MzExLkdTMjEyMjJAcGhlbm9tLmZm
+d2xsLmxvY2FsL10NCj4+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPg0K
+Pj4+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4NCj4+
+PiAtLS0NCj4+PiAgICBkcml2ZXJzL2FjY2VsL2l2cHUvaXZwdV9nZW0uYyAgICAgICAgICAg
+fCAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSAgICAgICAgICAgICAg
+ICB8ICAxICsNCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYyAgICAgICAg
+ICAgfCAzNCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+Pj4gICAgZHJpdmVycy9n
+cHUvZHJtL2RybV91dGlsLmMgICAgICAgICAgICAgIHwgNDAgKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrDQo+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9nZW0u
+YyAgICAgICAgIHwgIDIgKy0NCj4+PiAgICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFu
+ZnJvc3RfZHJ2LmMgfCAgMiArLQ0KPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS91YXBp
+LmMgICAgICAgICAgICB8ICAyICstDQo+Pj4gICAgaW5jbHVkZS9kcm0vZHJtX3V0aWwuaCAg
+ICAgICAgICAgICAgICAgIHwgIDEgKw0KPj4+ICAgIGluY2x1ZGUvZHJtL2RybV91dGlscy5o
+ICAgICAgICAgICAgICAgICB8ICAyIC0tDQo+Pj4gICAgOSBmaWxlcyBjaGFuZ2VkLCA0NiBp
+bnNlcnRpb25zKCspLCA0MCBkZWxldGlvbnMoLSkNCj4+Pg0KPj4+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2FjY2VsL2l2cHUvaXZwdV9nZW0uYyBiL2RyaXZlcnMvYWNjZWwvaXZwdS9pdnB1
+X2dlbS5jDQo+Pj4gaW5kZXggZDFmOTIzOTcxYjRjLi41NWFhOTRiYTZjMTAgMTAwNjQ0DQo+
+Pj4gLS0tIGEvZHJpdmVycy9hY2NlbC9pdnB1L2l2cHVfZ2VtLmMNCj4+PiArKysgYi9kcml2
+ZXJzL2FjY2VsL2l2cHUvaXZwdV9nZW0uYw0KPj4+IEBAIC0xMiw3ICsxMiw3IEBADQo+Pj4g
+ICAgI2luY2x1ZGUgPGRybS9kcm1fY2FjaGUuaD4NCj4+PiAgICAjaW5jbHVkZSA8ZHJtL2Ry
+bV9kZWJ1Z2ZzLmg+DQo+Pj4gICAgI2luY2x1ZGUgPGRybS9kcm1fZmlsZS5oPg0KPj4+IC0j
+aW5jbHVkZSA8ZHJtL2RybV91dGlscy5oPg0KPj4+ICsjaW5jbHVkZSA8ZHJtL2RybV91dGls
+Lmg+DQo+Pj4gICAgI2luY2x1ZGUgIml2cHVfZHJ2LmgiDQo+Pj4gICAgI2luY2x1ZGUgIml2
+cHVfZ2VtLmgiDQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSBi
+L2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZQ0KPj4+IGluZGV4IGFiNDQ2MGZjZDYzZi4uNTYx
+YjkzZDE5Njg1IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZQ0K
+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZQ0KPj4+IEBAIC00Miw2ICs0Miw3
+IEBAIGRybS15IDo9IFwNCj4+PiAgICAJZHJtX3N5bmNvYmoubyBcDQo+Pj4gICAgCWRybV9z
+eXNmcy5vIFwNCj4+PiAgICAJZHJtX3RyYWNlX3BvaW50cy5vIFwNCj4+PiArCWRybV91dGls
+Lm8gXA0KPj4+ICAgIAlkcm1fdmJsYW5rLm8gXA0KPj4+ICAgIAlkcm1fdmJsYW5rX3dvcmsu
+byBcDQo+Pj4gICAgCWRybV92bWFfbWFuYWdlci5vIFwNCj4+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNv
+YmouYw0KPj4+IGluZGV4IDBjMmJlODM2MDUyNS4uMzVmNTQxNmM1Y2ZlIDEwMDY0NA0KPj4+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jDQo+Pj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9zeW5jb2JqLmMNCj4+PiBAQCAtMTk3LDcgKzE5Nyw2IEBADQo+Pj4g
+ICAgI2luY2x1ZGUgPGRybS9kcm1fZ2VtLmg+DQo+Pj4gICAgI2luY2x1ZGUgPGRybS9kcm1f
+cHJpbnQuaD4NCj4+PiAgICAjaW5jbHVkZSA8ZHJtL2RybV9zeW5jb2JqLmg+DQo+Pj4gLSNp
+bmNsdWRlIDxkcm0vZHJtX3V0aWxzLmg+DQo+Pj4gICAgI2luY2x1ZGUgImRybV9pbnRlcm5h
+bC5oIg0KPj4+IEBAIC0xMTE0LDM5ICsxMTEzLDYgQEAgc3RhdGljIHNpZ25lZCBsb25nIGRy
+bV9zeW5jb2JqX2FycmF5X3dhaXRfdGltZW91dChzdHJ1Y3QgZHJtX3N5bmNvYmogKipzeW5j
+b2JqcywNCj4+PiAgICAJcmV0dXJuIHRpbWVvdXQ7DQo+Pj4gICAgfQ0KPj4+IC0vKioNCj4+
+PiAtICogZHJtX3RpbWVvdXRfYWJzX3RvX2ppZmZpZXMgLSBjYWxjdWxhdGUgamlmZmllcyB0
+aW1lb3V0IGZyb20gYWJzb2x1dGUgdmFsdWUNCj4+PiAtICoNCj4+PiAtICogQHRpbWVvdXRf
+bnNlYzogdGltZW91dCBuc2VjIGNvbXBvbmVudCBpbiBucywgMCBmb3IgcG9sbA0KPj4+IC0g
+Kg0KPj4+IC0gKiBDYWxjdWxhdGUgdGhlIHRpbWVvdXQgaW4gamlmZmllcyBmcm9tIGFuIGFi
+c29sdXRlIHRpbWUgaW4gc2VjL25zZWMuDQo+Pj4gLSAqLw0KPj4+IC1zaWduZWQgbG9uZyBk
+cm1fdGltZW91dF9hYnNfdG9famlmZmllcyhpbnQ2NF90IHRpbWVvdXRfbnNlYykNCj4gDQo+
+IFRoYW5rcyBmb3IgdGhlIGNyaXRpY2FsIGxvb2sgYXQgdGhpcyENCj4gDQo+Pg0KPj4gVGhp
+cyBmdW5jdGlvbiBjb252ZXJ0cyBhbiBhYnNvbHV0ZSB0aW1lb3V0IGluIG5zZWMgdG8gYSBy
+ZWxhdGl2ZSB0aW1lb3V0IGluDQo+PiBqaWZmaWVzLiAoPykNCj4+DQo+PiBJdCBhcHBlYXJz
+IHRvIG1lIGFzIGlmIHRoaXMgaGVscGVyIHNob3VsZCBub3QgZXhpc3QuIEl0IHVzZXMgYSBt
+aXh0dXJlIG9mDQo+PiBkaWZmZXJlbnQgdGltZSBpbnRlcmZhY2VzOyBjb21iaW5lZCB3aXRo
+IGhhcmRjb2RlZCBwb2xpY3kgZm9yIDAgYW5kDQo+PiBNQVhfU0NIRURVTEVfVElNRU9VVC4N
+Cj4+DQo+PiBUaGVyZSBhcmUgb25seSAzIGNhbGxlcnMgb2YgdGhpcyBoZWxwZXIuIEkgdGhp
+bmsgd2Ugc2hvdWxkIGNvbnNpZGVyIGlubGluaW5nDQo+PiBpdCBpbiBlYWNoLg0KPj4NCj4+
+IEFzIHBhcnQgb2YgdGhpcywgbWF5YmUgdGhlIHVzZSBvZiBrdGltZSBjb3VsZCBnbyBhd2F5
+LiBDb252ZXJ0IG5zZWNzIHRvDQo+PiBqaWZmaWVzIGFuZCBkbyB0aGUgcmVzdCBvZiB0aGUg
+Y29tcHV0YXRpb24gaW4gamlmZmllcy4NCj4gDQo+IEkgYmxpbmRseSBjb3BpZWQgdGhlIGV4
+aXN0aW5nIGZ1bmN0aW9uIGFuZCBkaWQgbm90IGNvbnNpZGVyIHRoZQ0KPiBpbXBsZW1lbnRh
+dGlvbi4gTG9va2luZyBmb3IgYSBoZWxwZXIgdGhhdCBkbyB3aGF0IHdlIG5lZWRzIGhlcmUg
+dHVybmVkDQo+IHVwIGVtcHR5LiBJIGFsc28gbG9va2VkIGF0IHlvdXIgc3VnZ2VzdGlvbiB0
+byBkbzoNCj4gbnNlYyBpbiBhYnNvbHV0ZSA9PiBqaWZmaWVzIGluIGFic29sdXRlID0+IGpp
+ZmZpZXMgaW4gcmVsYXRpdmUNCj4gQnV0IGRpZCBub3QgZmluZCBzb21ldGhpbmcgdGhhdCBp
+cyBiZXR0ZXIgdGhhbiB3aGF0IHdlIGhhdmUuDQo+IA0KPiBJIHdpbGwgbGVhdmUgaXQgZm9y
+IG5vdywgYW5kIGZvY3VzIG9uIHRoZSBvdGhlciBwYXJ0cyBvZiB0aGUgcGF0Y2hzZXQuDQo+
+IEluIHRoZSB2YWluIGhvcGUgc29tZW9uZSBlbHNlIHRha2VzIGEgbG9vay4NCg0KTm8gcHJv
+YmxlbS4gWW91IGNhbiBhZGQNCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
+emltbWVybWFubkBzdXNlLmRlPg0KDQp0byBwYXRjaGVzIDg1IGFuZCA4NiBhcyB3ZWxsLg0K
+DQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiAJU2FtDQoNCi0tIA0KVGhvbWFzIFpp
+bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
+dXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
+ZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjog
+SXZvIFRvdGV2DQo=
 
-Correct.
-DRM/userspace cursor planes = planes which userspace can use to draw
-mouse cursor. Legacy compositors and legacy cursor IOCTLs stick to
-using them
-DPU/MDP5 CURSOR plane (sspp_12/13) = lightweight limited plane without
-additional features, targeting HW cursor only, not present since
-sdm845
-DPU_SSPP_CURSOR = bit which tells DPU core to mark a plane as
-'DRM/userspace cursor plane'.
+--------------PCf3NPoKB1qEGxMZgST90zgo--
 
->
-> > >> -          sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
-> > >> +          sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
-> > >>    SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_MSM8998_MASK,
-> > >> -          sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
-> > >> +          sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
-> > >
-> > > Yes, msm8998_mdp defines both DMA2/3 and CURSOR0/1 clocks.  R-b after
-> > > using DMA_MSM8998_MASK without the DPU_SSPP_CURSOR bit.
-> > >
-> > > However, my downstream sources still define cursor SSPPs that are
-> > > missing here (after all, there's clk-ctrl for these already), at xin ID
-> > > 2 and 10 with addresses 0x3500 and 0x37000 downstream (-0x1000 here):
-> > >
-> > >     SSPP_BLK("sspp_?", SSPP_CURSOR0, 0x34000, DMA_CURSOR_SM8998_MASK,
-> > >             cursor sblk?, 2, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_CURSOR0),
-> > >     SSPP_BLK("sspp_?", SSPP_CURSOR1, 0x36000, DMA_CURSOR_SM8998_MASK,
-> >
-> > I think this should not be the DMA_CURSOR_MSM8998_MASK, but don't bet on
-> > my words, I haven't check actual cursor plane capabilities.
->
-> As we've seen in [1] (specifically [2]) there are a few more driver/hw
-> changes required to properly implement/support DPU_SSPP_CURSOR?
->
-> [1]: https://github.com/rawoul/linux/commits/next_20220624-msm8998-hdmi
-> [2]; https://github.com/rawoul/linux/commit/7d8d739cfbfa551120868986d5824f7b2b116ac1
->
-> - Marijn
->
-> > >             cursor sblk?, 10, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_CURSOR1),
-> > >
-> > > Or should you/I send that as a separate folloup patch?
-> >
-> > Ideally one can add these two planes and then switch two mentioned DMA
-> > planes to plain DMA_MSM8998_MASK.
-> >
-> > >
-> > > - Marijn
-> > >
-> > >>   };
-> > >>
-> > >>   static const struct dpu_sspp_cfg sdm845_sspp[] = {
-> >
-> > --
-> > With best wishes
-> > Dmitry
-> >
+--------------0cE2NZ18P8SxerHZjtNV0nje
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPPwDgFAwAAAAAACgkQlh/E3EQov+Ad
+fBAAzVKILV8HapHTIkbhdWCQ/EcBKt8EkoY3UjAtH5Tz/bwrVBN65T7pt1ExtK0DNgXGQKIUpOOQ
+BMxFIhRuGnPUVzGwAeu+SZhTRd4djM2Q20STySSlLXcc4Gt7nZij0xI0RbmsqpxOIjxf5jUhq7SC
+OUGSCot81pqLE+tyzLnw5dDfjLUA57q8kmLkblNSKCuznWtF50EqebNx9y/3xw7h9P8eLlbfIxad
+hTBQJCoI2hfoDlS0OOfW3ya60KXeROSwvaN2Rgjx+ytd0/qhsvYZRZCLeypY8Nk1H8oLfi3yZAdX
++wEgpxM24XMmYlgKGP1Xq6+2a0JrCC14bRNoGwinw8cso7jeZckJrjGpg+DBh2FhTUVHxxU6JPZ2
+rdzD4oZ3Z+VnZTcV8DzO7R9pQ4qDl3EDbYCB27M36GXY7G8tWdGeV8TsDVZz3cxNvq1ZuJxKb2qR
+gBNUKNMEN9Zg/GgRXG0ilB2ktHxQymzHq87wBvzhGk5CQKJHmLVG8UXQDRQe69qhKhSjugQ8NoA3
+pidrCPRscbbXJNWzPuwJcJjJvDKztahlLKp60y2VIisLdPdshhfGICUPZvd6HFCk5/ofE1x8wqAL
+vKwg1+Qz5qd+VXSq/L3whh/9gZE2wsQboTxMfXVTDlRqAS4MKIDd38jO4l3ytClASHYOD/o0JjlO
+n94=
+=8VFc
+-----END PGP SIGNATURE-----
 
--- 
-With best wishes
-Dmitry
+--------------0cE2NZ18P8SxerHZjtNV0nje--
