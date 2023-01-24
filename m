@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905DD6798AD
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 13:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF9DA6798B9
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 13:57:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 621FF10E0B6;
-	Tue, 24 Jan 2023 12:57:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2717310E678;
+	Tue, 24 Jan 2023 12:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02BAD10E08F;
- Tue, 24 Jan 2023 12:57:29 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id q5so9126869wrv.0;
- Tue, 24 Jan 2023 04:57:29 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0E0D10E0B6;
+ Tue, 24 Jan 2023 12:57:30 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id t18so970294wro.1;
+ Tue, 24 Jan 2023 04:57:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=G2j1ILjaOd+GSihzIU1cOUV2OAUAr1XoHpXdJLsz5EA=;
- b=a00NB3Ru9yxmopxvJ1oNwZNV6YTZ4GEUe7aYHJeUta1mNdVvFWbXAgcIOqoInRhPQk
- tBhRnh+wuRvAmY/fO9GefO0pDlTUQQyBmn6+Ka447kWuemqdrBOyc+gzQhhW+X8M63DZ
- xHgT1NX/yG+BCptn1YyVBD6jAm5Ow4qXtejGwolK6yVgvpawv+NddSnHlH0B0pGvrb9s
- ieOBfdYEyKL8930KTKV8Q9x0nWW6FOn7INiMF+sBIJ6u0WpOccbu+ziCxZxLm1TU1U1A
- vlXmeNXJ7uFLePenPycEinmwe4BmfhZrOlwJsDiUXCxGtMUlCvlzDSzjoyUesvfSEAd4
- +EGA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=5bSse7tkaG3/+nuLEU+xi/PkacL4CwYjUBsJx8YNENg=;
+ b=a53ElX8qX1f9Zkvq5hl5gu4XCqoom3QZvrANyW+htgYhdFhdQb5hmD2CkuF5sN6jX9
+ xConofr5YkYemtrTn6wNRpcmymKH4ShPUpDwaNcxP9VyPzxgl75FCLJIE9fMLEkih5s1
+ va9m9sl1SMBYCZaCOMxmjU52RFcvBo4tyr62xhr3n+GzL4nydwKCe0okWltGV7OpxiUo
+ 9J+fGZHTL1oCO8zpgdu2Ey+YooBkIse8qbyk8MM162vq/va023hre3VRw9+/CxFvmE+7
+ ooWP3RILr7pQ0C3u2qCu8uPWKpQPyBwHvqLMaTlxUC2BugHmL5yxwxM0e1TpEgA7HVxN
+ RPwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G2j1ILjaOd+GSihzIU1cOUV2OAUAr1XoHpXdJLsz5EA=;
- b=lZlaQEq6w3/xCRnag9f8/PjhmmirmfgmnWAGTATSq8aNqAamMOolHUPHXbFCM+KYCX
- 6+JlaWzJhT4OCH6CZBjvp794ElZKEREEuRgjAfdYuq6QJpHDw58wBqQjEDIJGsU4oN0X
- dHpRzfxs1llon0zn2HG1dMdVaQf3YKF3lGPaKFZ+iOBOntMhSEdpAFTCG2ekDMPZMvcz
- TtPMq3cWMKIAvI3bBCFa1Bxt1VywYsiyr4vw2MOsCXU+gvLLpLRGqx6lYCiiL1TYKu+m
- rd9HTO7SVC6cYsIRXnza/5oeWAJRriP4MjF0gamXjJm6JmuyghXMJUpMOlRawVaW5HbL
- wf3A==
-X-Gm-Message-State: AFqh2ko1Tn1gZDx/OQTQgF5JWeYSNSsfDusHX7U6MnLIyK6X1KCt+DPN
- OvBQAQnTP18IAPAPk1BvQGOktOs19Dc=
-X-Google-Smtp-Source: AMrXdXum90/WiC82n7yd8te2OLT/LlfZiPKwU4PBE2vIOLQNPVfoB6e5WoWHE5A0lKBVfXPlL2U+XA==
-X-Received: by 2002:a5d:5087:0:b0:2bd:e220:6b5 with SMTP id
- a7-20020a5d5087000000b002bde22006b5mr24712700wrt.1.1674565048361; 
- Tue, 24 Jan 2023 04:57:28 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5bSse7tkaG3/+nuLEU+xi/PkacL4CwYjUBsJx8YNENg=;
+ b=PzEPA4Nquxvg1EYU1BpYe2PIhTx3JBDXDxXQF8hS11IboUZ+jTrpDyhnIsoMW3KvjS
+ nvOem5Yw+avJ9yDnGmmKXwvnRh6yNf129o8L8nO4HnZErjckBWS4KdvTWSljI/YeXpjq
+ Il+LV2Cc9mNSfAWFeBR1lsqkD4+oiwf3zdXrx4xY4HzlrHgRtvsuA4OvMDQ3kXjo/uP2
+ 47oP0E6KWxaeucTxafBb8EfmQh4E1jm/8CDowTmbzZ/lt/qVTzopav9rlbvxAcc25kUx
+ ObpzIcX8345MpgwHUVkwWBlXoH3aQ2v1Zg6D2v6OXOCAh3UWltnESVtNsALaVjc6W2/R
+ 4Sgg==
+X-Gm-Message-State: AO0yUKWgYJKA2Ua4rs/dsQiZPGlam2dODpfaOXbdMNszvkSsm1HLWYPw
+ FW7SwffkerQLE5jMh++cJyXzm4/Uk08=
+X-Google-Smtp-Source: AK7set9wt7e56IVZtaX7eElobcmczL73nNvbjNIV4DiK0TKwedNf30MNvTyY/MCoD+8kvkOlBUwsiQ==
+X-Received: by 2002:a5d:6a0c:0:b0:2bf:ae15:ac15 with SMTP id
+ m12-20020a5d6a0c000000b002bfae15ac15mr2322429wru.62.1674565049248; 
+ Tue, 24 Jan 2023 04:57:29 -0800 (PST)
 Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
  by smtp.gmail.com with ESMTPSA id
- z18-20020a056000111200b002366dd0e030sm1820927wrw.68.2023.01.24.04.57.27
+ z18-20020a056000111200b002366dd0e030sm1820927wrw.68.2023.01.24.04.57.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 04:57:27 -0800 (PST)
+ Tue, 24 Jan 2023 04:57:28 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/5] drm/i915: audit bo->resource usage v3
-Date: Tue, 24 Jan 2023 13:57:22 +0100
-Message-Id: <20230124125726.13323-1-christian.koenig@amd.com>
+Subject: [PATCH 2/5] drm/ttm: stop allocating dummy resources during BO
+ creation
+Date: Tue, 24 Jan 2023 13:57:23 +0100
+Message-Id: <20230124125726.13323-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230124125726.13323-1-christian.koenig@amd.com>
+References: <20230124125726.13323-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -74,164 +78,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Christian König <ckoenig.leichtzumerken@gmail.com>
-
-Make sure we can at least move and alloc TT objects without backing store.
-
-v2: clear the tt object even when no resource is allocated.
-v3: add Matthews changes for i915 as well.
+That should not be necessary any more when drivers should at least be
+able to handle the move without a resource.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 27 ++++++++--
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 56 +++++++++++++++++---
- 2 files changed, 71 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/ttm/ttm_bo.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 8cfed1bef629..7420276827a5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -274,8 +274,6 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 326a3d13a829..bb0c21c8caac 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -953,7 +953,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev, struct ttm_buffer_object *bo,
+ 			 struct sg_table *sg, struct dma_resv *resv,
+ 			 void (*destroy) (struct ttm_buffer_object *))
  {
- 	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
- 						     bdev);
--	struct ttm_resource_manager *man =
--		ttm_manager_type(bo->bdev, bo->resource->mem_type);
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 	unsigned long ccs_pages = 0;
- 	enum ttm_caching caching;
-@@ -289,8 +287,8 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 	if (!i915_tt)
- 		return NULL;
+-	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
+ 	int ret;
  
--	if (obj->flags & I915_BO_ALLOC_CPU_CLEAR &&
--	    man->use_tt)
-+	if (obj->flags & I915_BO_ALLOC_CPU_CLEAR && (!bo->resource ||
-+	    ttm_manager_type(bo->bdev, bo->resource->mem_type)->use_tt))
- 		page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
+ 	kref_init(&bo->kref);
+@@ -970,12 +969,6 @@ int ttm_bo_init_reserved(struct ttm_device *bdev, struct ttm_buffer_object *bo,
+ 		bo->base.resv = &bo->base._resv;
+ 	atomic_inc(&ttm_glob.bo_count);
  
- 	caching = i915_ttm_select_tt_caching(obj);
-@@ -1058,7 +1056,26 @@ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
- 		return VM_FAULT_SIGBUS;
- 	}
- 
--	if (!i915_ttm_resource_mappable(bo->resource)) {
-+	/*
-+	 * This must be swapped out with shmem ttm_tt (pipeline-gutting).
-+	 * Calling ttm_bo_validate() here with TTM_PL_SYSTEM should only go as
-+	 * far as far doing a ttm_bo_move_null(), which should skip all the
-+	 * other junk.
-+	 */
-+	if (!bo->resource) {
-+		struct ttm_operation_ctx ctx = {
-+			.interruptible = true,
-+			.no_wait_gpu = true, /* should be idle already */
-+		};
-+
-+		GEM_BUG_ON(!bo->ttm || !(bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED));
-+
-+		ret = ttm_bo_validate(bo, i915_ttm_sys_placement(), &ctx);
-+		if (ret) {
-+			dma_resv_unlock(bo->base.resv);
-+			return VM_FAULT_SIGBUS;
-+		}
-+	} else if (!i915_ttm_resource_mappable(bo->resource)) {
- 		int err = -ENODEV;
- 		int i;
- 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-index 2ebaaf4d663c..76dd9e5e1a8b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-@@ -103,7 +103,27 @@ void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
- {
- 	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
- 	unsigned int cache_level;
-+	unsigned int mem_flags;
- 	unsigned int i;
-+	int mem_type;
-+
-+	/*
-+	 * We might have been purged (or swapped out) if the resource is NULL,
-+	 * in which case the SYSTEM placement is the closest match to describe
-+	 * the current domain. If the object is ever used in this state then we
-+	 * will require moving it again.
-+	 */
-+	if (!bo->resource) {
-+		mem_flags = I915_BO_FLAG_STRUCT_PAGE;
-+		mem_type = I915_PL_SYSTEM;
-+		cache_level = I915_CACHE_NONE;
-+	} else {
-+		mem_flags = i915_ttm_cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
-+			I915_BO_FLAG_STRUCT_PAGE;
-+		mem_type = bo->resource->mem_type;
-+		cache_level = i915_ttm_cache_level(to_i915(bo->base.dev), bo->resource,
-+						   bo->ttm);
-+	}
- 
- 	/*
- 	 * If object was moved to an allowable region, update the object
-@@ -111,11 +131,11 @@ void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
- 	 * in an allowable region, it's evicted and we don't update the
- 	 * object region.
- 	 */
--	if (intel_region_to_ttm_type(obj->mm.region) != bo->resource->mem_type) {
-+	if (intel_region_to_ttm_type(obj->mm.region) != mem_type) {
- 		for (i = 0; i < obj->mm.n_placements; ++i) {
- 			struct intel_memory_region *mr = obj->mm.placements[i];
- 
--			if (intel_region_to_ttm_type(mr) == bo->resource->mem_type &&
-+			if (intel_region_to_ttm_type(mr) == mem_type &&
- 			    mr != obj->mm.region) {
- 				i915_gem_object_release_memory_region(obj);
- 				i915_gem_object_init_memory_region(obj, mr);
-@@ -125,12 +145,8 @@ void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
- 	}
- 
- 	obj->mem_flags &= ~(I915_BO_FLAG_STRUCT_PAGE | I915_BO_FLAG_IOMEM);
-+	obj->mem_flags |= mem_flags;
- 
--	obj->mem_flags |= i915_ttm_cpu_maps_iomem(bo->resource) ? I915_BO_FLAG_IOMEM :
--		I915_BO_FLAG_STRUCT_PAGE;
+-	ret = ttm_resource_alloc(bo, &sys_mem, &bo->resource);
+-	if (unlikely(ret)) {
+-		ttm_bo_put(bo);
+-		return ret;
+-	}
 -
--	cache_level = i915_ttm_cache_level(to_i915(bo->base.dev), bo->resource,
--					   bo->ttm);
- 	i915_gem_object_set_cache_coherency(obj, cache_level);
- }
- 
-@@ -565,6 +581,32 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 		return 0;
- 	}
- 
-+	if (!bo->resource) {
-+		if (dst_mem->mem_type != TTM_PL_SYSTEM) {
-+			hop->mem_type = TTM_PL_SYSTEM;
-+			hop->flags = TTM_PL_FLAG_TEMPORARY;
-+			return -EMULTIHOP;
-+		}
-+
-+		/*
-+		 * This is only reached when first creating the object, or if
-+		 * the object was purged or swapped out (pipeline-gutting). For
-+		 * the former we can safely skip all of the below since we are
-+		 * only using a dummy SYSTEM placement here. And with the latter
-+		 * we will always re-enter here with bo->resource set correctly
-+		 * (as per the above), since this is part of a multi-hop
-+		 * sequence, where at the end we can do the move for real.
-+		 *
-+		 * The special case here is when the dst_mem is TTM_PL_SYSTEM,
-+		 * which doens't require any kind of move, so it should be safe
-+		 * to skip all the below and call ttm_bo_move_null() here, where
-+		 * the caller in __i915_ttm_get_pages() will take care of the
-+		 * rest, since we should have a valid ttm_tt.
-+		 */
-+		ttm_bo_move_null(bo, dst_mem);
-+		return 0;
-+	}
-+
- 	ret = i915_ttm_move_notify(bo);
- 	if (ret)
- 		return ret;
+ 	/*
+ 	 * For ttm_bo_type_device buffers, allocate
+ 	 * address space from the device.
 -- 
 2.34.1
 
