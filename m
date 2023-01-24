@@ -2,60 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C02678FBD
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 06:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BA5678FDF
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 06:32:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E48010E22B;
-	Tue, 24 Jan 2023 05:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E0210E5F0;
+	Tue, 24 Jan 2023 05:31:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4451410E22B
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 05:19:40 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id a9so17539187ybb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jan 2023 21:19:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aajEhhXMmVsLvsRhsLFIHWTCer83l1wUnEHXjAc9R8E=;
- b=HXwn1ky8iT64aFx7McfTeeaiFLZbLoAJ3B9CEKlXlfz+ZIJPzk2W23dcFvmyfcHKm/
- /e1CKrRmP6kEOBWodZu2dJKR2oRUBcvo9MlAU1T1lqV/AV2amIqI71VFaPP0+mY3FaiA
- /x8RwfM5h4JAUDN56UjeDO00Cecdq7KGrX21h/aP+7/l2sjZPG1J8E62uOOTbvYC31dr
- m0ZdEYNY5CTl7cZqQnCupYNjrwq/o/wP9v9gjGfGEdUwvx82LQ4D2bkkGRiThX5nWRX2
- rbxvvO/oaio2bT6pDr3oTEmskoSdEM1K2HobUWF59zFD5BsXT0yKvPanPKIWuTTApNnA
- 1/+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aajEhhXMmVsLvsRhsLFIHWTCer83l1wUnEHXjAc9R8E=;
- b=cRceIEthkoTD+fTIGRFekX/E2tqt0NrtfpUQw8JZGfpGNBA4tf/q+9qNGtpS8rq4SL
- ilw2mA+FBkJ9/ZBTZv5u/yg9m766pyY++tXqGjQxhPKGb8JOS4AyJkAIW2JXSE5AomNR
- yaQNS5Oxe5yJudvQkUy58l/I1iA0ZkZxnX9gnobpq0ASV+wz1gjpdq/vYe3Q7N+O/2+L
- c8djHC9Vb3ourp70hdAiWktgzYQt0Q2I52sVXnI3wqgYB3Bd1/DlZc5uOpQxvKbeK9RF
- kIeRSkUU8wgeh6rLlIXQFbnPrXFA7cB8wyV3onVbCg0GZ3rSo3fmJcXOkMzUnhYHZEFi
- g9LQ==
-X-Gm-Message-State: AFqh2kp58y/3bh8E7Ge8ximjtJ64wJjqvWXxgoc+aS1Yh12VGDTYr/Mj
- hv+1ZwNdHdQp0T1QJLHD3WIyhcHjb/M52ArjYpO1
-X-Google-Smtp-Source: AMrXdXvQncnILbL8UBISoiDSpnnYYKPmxdsRjcxC8OI06Nei40MBcVTislakm2TngBoftXVs7J5nHk+E7v7/FzWgYHA=
-X-Received: by 2002:a25:dd5:0:b0:801:7846:7e97 with SMTP id
- 204-20020a250dd5000000b0080178467e97mr1160754ybn.49.1674537579258; Mon, 23
- Jan 2023 21:19:39 -0800 (PST)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB0B10E5F0;
+ Tue, 24 Jan 2023 05:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674538314; x=1706074314;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=SV0qGL1IgG6Ayml8zzfhhoojPjz3H4/Y+p2ioBwvwiU=;
+ b=QXmYJV2E8H5aikwJ1M7akWy8DlPPG2foJ/ooL6JVhqVXbZc1vF0Gj0q6
+ 31CdLTRKmWVYIDpyNsHnRPmVZCycOSceKhdWDK0U3MfeBOvdOo1UgAhQm
+ DMlJwR0LeoxBBwQQMpZU2IGtZHdXzLgsVgfYQDNaTv6WQcDMF344gzYHj
+ rsKLP1+2cGdY7UMLLhCBHBHG/kbERlxhAybvmFoPStbTMpb3yTGpFiLs+
+ j2sVfyK4pK+nPm4T92y91Lmnh4AmwLOBkUFpak2hLSKUC7yGx0VeL56+V
+ /lCny6tMGohkQ21yzR+CZWKKBMqg5oVi/A6tO3LNDBkLr5/v17NP4ibH5 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="324906421"
+X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; d="scan'208";a="324906421"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 21:31:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="611921435"
+X-IronPort-AV: E=Sophos;i="5.97,241,1669104000"; d="scan'208";a="611921435"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga003.jf.intel.com with ESMTP; 23 Jan 2023 21:31:52 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v6 0/6] drm/i915/pxp: Add missing cleanup steps for PXP
+ global-teardown
+Date: Mon, 23 Jan 2023 21:31:44 -0800
+Message-Id: <20230124053150.3543928-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230123123756.401692-1-christian.koenig@amd.com>
- <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com>
- <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
-In-Reply-To: <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
-From: John Stultz <jstultz@google.com>
-Date: Mon, 23 Jan 2023 21:19:28 -0800
-Message-ID: <CANDhNCoVkq4pQJvtgmvJJe=68ZoQOdjYFkbGG-PXVujX1py4aw@mail.gmail.com>
-Subject: Re: DMA-heap driver hints
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,69 +55,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Jones <jajones@nvidia.com>, linaro-mm-sig@lists.linaro.org,
- sebastian.wick@redhat.com, labbott@redhat.com, benjamin.gaignard@collabora.com,
- linux-media@vger.kernel.org, mchehab@kernel.org,
- dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca, hverkuil@xs4all.nl,
- ppaalanen@gmail.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- lmark@codeaurora.org, tfiga@chromium.org, sumit.semwal@linaro.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+	Vivi@freedesktop.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rodrigo <rodrigo.vivi@intel.com>,
+	Alexander Usyskin <alexander.usyskin@intel.com>,
+	dri-devel@lists.freedesktop.org,
+	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+	Juston Li <justonli@chromium.org>,
+	Tomas Winkler <tomas.winkler@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 23, 2023 at 8:29 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
-> Am 23.01.23 um 14:55 schrieb Laurent Pinchart:
-> > - I assume some drivers will be able to support multiple heaps. How do
-> >    you envision this being implemented ?
->
-> I don't really see an use case for this.
->
-> We do have some drivers which say: for this use case you can use
-> whatever you want, but for that use case you need to use specific memory
-> (scan out on GPUs for example works like this).
->
-[snipping the constraints argument, which I agree with]
->
-> What we do have is compatibility between heaps. E.g. a CMA heap is
-> usually compatible with the system heap or might even be a subset of
-> another CMA heap. But I wanted to add that as next step to the heaps
-> framework itself.
+A customer issue was recently discovered and in the process a
+gap in i915's PXP interaction with HW+FW architecure was also
+realized. This series adds those missing pieces.
 
-So the difficult question is how is userland supposed to know which
-heap is compatible with which?
-
-If you have two devices, one that points to heap "foo" and the other
-points to heap "bar", how does userland know that "foo" satisfies the
-constraints of "bar" but "bar" doesn't satisfy the constraints of
-"foo".
-(foo =3D"cma",  bar=3D"system")
-
-I think it would be much better for device 1 to list "foo" and device
-2 to list "foo" and "bar", so you can find that "foo" is the common
-heap which will solve both devices' needs.
+This fix includes changes where i915 calls into the mei
+component interface in order to submit requests to the security
+firmware during the i915's suspend_prepare flow. This change did
+expose a blocking issue in the mei component side that was
+discovered while testing in rev1. The issue being the mei-pxp
+component driver not being able to runtime-resume while being
+within the suspend_prepare callstack.
 
 
-> > - Devices could have different constraints based on particular
-> >    configurations. For instance, a device may require specific memory
-> >    layout for multi-planar YUV formats only (as in allocating the Y and=
- C
-> >    planes of NV12 from different memory banks). A dynamic API may thus =
-be
-> >    needed (but may also be very painful to use from userspace).
->
-> Uff, good to know. But I'm not sure how to expose stuff like that.
+Thus, we have now included the mei patches (from Alexander) that
+fixes that issue by adding a device-link based on the interface
+type to ensure mei side runtime resume during the i915's
+suspend_prepare call.
 
-Yeah. These edge cases are really hard to solve generically.  And
-single devices that have separate constraints for different uses are
-also not going to be solvable with a simple linking approach.
+That said, as per request from Alexander, we seek Greg's and Tomas'
+review for the mei patches (Patch 1, 2 and 3). Patch 2, although is
+a change in the i915 code, is the mei component device link change.
 
-But I do wonder if a generic solution to all cases is needed
-(especially if it really isn't possible)? If we leave the option for
-gralloc like omniscient device-specific userland policy, those edge
-cases can be handled by those devices that can't run generic logic.
-And those devices just won't be able to be supported by generic
-distros, hopefully motivating future designs to have less odd
-constraints?
+The individual patches explain more details. Patch 7 can be ignored
+as it won't be merged and is only meant to ensure the CI run's
+the PXP subtests with PXP support enabled in KConfig.
 
-thanks
--john
+Changes from prior revs:
+   v1: - Dont need to teardown non-arbitration sessions (Juston).
+       - Fix builds when PXP is enabled in config (Alan/CI-build).
+       - Fix the broken pm-suspend-resume symmetry when we do this
+         pxp-session-teardown during i915s pm_suspend_prepare by
+         ensuring the init is done during i915s pm_resume_complete.
+   v2: - Rebase on latest drm-tip after PXP subsytem was promoted
+         to global.
+       - Remove "INTEL_PXP_MAX_HWDRM_SESSIONS" unneeded (Juston Li).
+       - Added mei patches that are dependencies for this series
+         to successfully pass testing when PXP config is enabled.
+   v3: - Added fix for mei patch when CONFIG_PM_SLEEP is off (reported
+         by kernel test robot <lkp@intel.com>).
+   v4: - Added "DRM_SWITCH_POWER_OFF" check and removed bail-out if
+         '!i915' that wont happen in i915_pm_complete (Daniele).
+       - move i915_pm_complete to appear in i915_pm_resume.
+       - One more fix for mei patch when CONFIG_PM_SLEEP is off
+         (reported by kernel test robot <lkp@intel.com>).
+   v5: - Reworked Patch#2 on device link establishment. Don't hide
+         triggering device-link behind drm_WARN, return -ENODEV if
+         it fails and stash the returned device_link struct.
+
+Alan Previn (3):
+  drm/i915/pxp: Invalidate all PXP fw sessions during teardown
+  drm/i915/pxp: Trigger the global teardown for before suspending
+  drm/i915/pxp: Pxp hw init should be in resume_complete
+
+Alexander Usyskin (3):
+  mei: mei-me: resume device in prepare
+  drm/i915/pxp: add device link between i915 and mei_pxp
+  mei: clean pending read with vtag on bus
+
+ drivers/gpu/drm/i915/i915_driver.c            | 20 +++++-
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          | 65 ++++++++++++++++---
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  2 +
+ .../drm/i915/pxp/intel_pxp_cmd_interface_42.h | 15 +++++
+ .../i915/pxp/intel_pxp_cmd_interface_cmn.h    |  3 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |  4 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.h       |  6 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  8 ++-
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.h  |  5 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 46 +++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  6 ++
+ drivers/misc/mei/client.c                     |  4 +-
+ drivers/misc/mei/pci-me.c                     | 20 +++++-
+ 13 files changed, 183 insertions(+), 21 deletions(-)
+
+
+base-commit: 6a023df4443d313724dc96d1fff15193bb7ec5b8
+-- 
+2.39.0
+
