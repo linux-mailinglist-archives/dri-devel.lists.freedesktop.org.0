@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB1E67A68B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 00:00:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E9E67A690
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 00:02:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF9589343;
-	Tue, 24 Jan 2023 23:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE73E10E098;
+	Tue, 24 Jan 2023 23:02:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3790789343
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 23:00:51 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id
- f88-20020a9d03e1000000b00684c4041ff1so10158741otf.8
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 15:00:51 -0800 (PST)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0122C10E098
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 23:02:30 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id i9so11010679oif.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 15:02:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=GI/5UOaSfmciN645orkiQBi7mLRaRF0ZS1ZUuYBdNvc=;
- b=pxCrrRXRfZ4sLFYfXSuKtFylsMNcpOMgQYtnB+ec8deYRjEUPSaJr8pl5yneifIrEq
- JGq3y1rwAvSOQ+jATci+32lnB+6wXiSpJePIDHOIdyRSQLdobAF5vA0kPmLlcmKvecs4
- IFPlAjfRRAZD11begv96s4kBypcqyevgq4UoQ2mhz3hEinI6lHWGtntX6nuITvXvnmCc
- +7pizwGQ/B1glco034plI2ov64DIF6FcLbBqtQDU4NPaiA9oURdNbYmxJdcV5QL2rUGW
- wYC7BycmGQw1Is71BCiS6EOe7JE+Py57xL+rFEEdK7tulZdIv62rrZ0eoh7w3q7m4arO
- 1aYA==
-X-Gm-Message-State: AFqh2krtjQk823Ql8n0d+2xNBsyytKgWatXXUq2FU6GUBl9uK1aGFfGb
- B+fnTx1hRxprOgZBpEk0Cw==
-X-Google-Smtp-Source: AMrXdXtwZAvSnvJGaUSS3u1UoHFrxbCEGZ5ra6dbyH4du4dP2dJIPhqJdNtyQ1xoNiu1fbBJcFGzZA==
-X-Received: by 2002:a9d:3c5:0:b0:684:d418:573b with SMTP id
- f63-20020a9d03c5000000b00684d418573bmr14339968otf.29.1674601250284; 
- Tue, 24 Jan 2023 15:00:50 -0800 (PST)
+ b=asL0NajbY1xn0+36k+FtPKokf+AaB+x6v30z/5aFB7sLd1pGXzwGtt3uUN9h3W6Nly
+ Hwntznha5CgoPtGUeUqiwJPfCObYAd8wrrWHv5k4zbg2mud+faCBDEmOKq4aaUbVlpdl
+ cRuCETswlSxefX4z2Sfh4RW5c8x8jMUcq/fGhuYoTfDajL+7IbLXGrnkMlfhiCQUxdIn
+ d1s7VCjs9udnn9Veubd2kGHrKMA4NrDCp7qb7y5FB9kp8qMzNUYRas9fwkaxupZtemXf
+ 0PIGsPQ5b+BuhXGQanVmri7aoJKz52F7CrhDIwW5NtGiSaH03z1ccrEQBc598NeUU5QG
+ Xohg==
+X-Gm-Message-State: AFqh2kpbK8IIBsBEEYR7gV5YiyXlhruoU/RaEodd//AoaYaxZEtNxHOt
+ JGYZG0XGn6dR7vVhxRn2Cg==
+X-Google-Smtp-Source: AMrXdXvdr0agArHpsAjC0SYwsKJoe5IWZplu6bM//bvuJYMGkb3h85lvSOD5D3tM8CDFXlVRI5Kcdw==
+X-Received: by 2002:a05:6808:2191:b0:361:8570:d3cf with SMTP id
+ be17-20020a056808219100b003618570d3cfmr19282175oib.6.1674601349894; 
+ Tue, 24 Jan 2023 15:02:29 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- f10-20020a9d2c0a000000b0068848d6b231sm322689otb.30.2023.01.24.15.00.48
+ q64-20020acac043000000b0035e7ed5daa1sm1555463oif.26.2023.01.24.15.02.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 15:00:49 -0800 (PST)
-Received: (nullmailer pid 371735 invoked by uid 1000);
- Tue, 24 Jan 2023 23:00:48 -0000
+ Tue, 24 Jan 2023 15:02:29 -0800 (PST)
+Received: (nullmailer pid 373886 invoked by uid 1000);
+ Tue, 24 Jan 2023 23:02:28 -0000
 From: Rob Herring <robh@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -55,8 +54,8 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Subject: [PATCH] dt-bindings: Add missing (unevaluated|additional)Properties
  on child node schemas
-Date: Tue, 24 Jan 2023 17:00:48 -0600
-Message-Id: <20230124230048.371144-1-robh@kernel.org>
+Date: Tue, 24 Jan 2023 17:02:28 -0600
+Message-Id: <20230124230228.372305-1-robh@kernel.org>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
