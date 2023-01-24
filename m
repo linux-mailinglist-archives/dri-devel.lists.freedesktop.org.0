@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E21F679AF6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 15:02:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FCF1679B39
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 15:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2421F10E68F;
-	Tue, 24 Jan 2023 14:02:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4CB910E12F;
+	Tue, 24 Jan 2023 14:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B7610E68B;
- Tue, 24 Jan 2023 14:02:21 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id cf42so23590073lfb.1;
- Tue, 24 Jan 2023 06:02:21 -0800 (PST)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B9510E12F
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 14:12:35 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id t18so1191415wro.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 06:12:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ h=content-transfer-encoding:subject:from:cc:content-language:to
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JpmUW2uzBEebCsOWSMVc3QDBmaoUlSnuYaYqa8KE94c=;
- b=BcZCdu1zd26n9h7SnmTlTpQQ+c0d8k47pgbf/Rva8EEu3dSHqACBADDC6N1omyE7G2
- y+jMtIwZIG/c7eh5pObS6LHdJ2nQVA5jhyIBKQ/b2/Lo+gLjLr8P7mYy60nso3R/bUT2
- p+vcq0P2APmjJsMHzbwJ3UaitEP7Mx9dAOD14wQJgnNHnPZGjk2hkS/ZkAqDaqvhRmle
- mg2yjBvnBJJ+xQPFPQ3eFa0hdqZz1kDi4uP6pLwtKUkd3eVeC9fwpdgeq21vIh4PKRrC
- obzBoL4o6kUUyGPkQjwM1Ey04D+mD1sKDgqP9yYFc8BaOkzmdb9iX41xZAPo2cbcKgyr
- LR/Q==
+ bh=KyjAnkGTOIUcY2OPQUdaDudcqSL1I6CVv2i41HkOOoE=;
+ b=EYms7LJZP0tVJc2XtjTdnrwFPFm4MHIsK/6MVKF4EQ/UNh2ocOzc1ZHhorktyTr/N2
+ eNPPrU4GPp/OF4AuwVIZI7gc5WtATyLZ5zdkmnmHWnu9BwXnnuL+MQDG1089VKSCX2Ia
+ RZ8JYFxwdMjFk+HTLLlIIGWfY36meuHhpaJj5Za7ar7oDbT/+xQW8YFUqQzbEUvzvmiA
+ Nvd7FHFyDKEyHiRmdBsnNKBYIPA3wKCWv80DyUvrZ6eJtlwyGwhHT5Pf4O3WVtOdDUBB
+ ySezjMK35dZRcY5TS9KrMoXKR/ppM76BX8hcn7JDUlydEBBOOQ4M0Y7jSIJsrHuIrnAZ
+ Ju+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JpmUW2uzBEebCsOWSMVc3QDBmaoUlSnuYaYqa8KE94c=;
- b=b49sx1FEqfJZn3bYfhvpvSk6O078oajVwsKBv5fdWHWlxp1rlSZTJiTQAhrnHmpGA3
- LtKSSwz5K4iLJ1vJ+yAPJsD9cj0CvipQx01z0qin++JKohxVOdIOtPLcWcyFbHCCoA1D
- InK2zVnItTJlQXb8+b48BuQJpUIjJeHc7MYHI7wIHXJNzOm1xCOvtIvapxm3gwCWRhA+
- Ya7pNYAyYcqlNA3glgrHJCSfsNgZ0NcC7IT0MigIfI9f8c3GhqOsp5BXFBjao2PVoiHf
- HACIYuaf5HLVtOZwtWEQgKXuLehVfozk+6F5/CX6/8fcDpP2LKWpRWLRI/Anid0NltSl
- l94g==
-X-Gm-Message-State: AFqh2kom99h5KYg4Vf3/sKTt8M2mGNA0gs8vqow0Vwx+Sn9wXo4tfi5v
- 4vMs5+hHgzRzewiz0MqhX0YbUR1J8OeBszp3TlescdVD06o=
-X-Google-Smtp-Source: AMrXdXsXThp92oYSPt3YksAHwf6ZVJDkeOZnK7/3qxxoICUQDFpwvP7iIXTWZgmMVRz+HSt/Xurcyy0hGKYWUSp2pok=
-X-Received: by 2002:a19:8c19:0:b0:4ca:f3c2:2670 with SMTP id
- o25-20020a198c19000000b004caf3c22670mr2359202lfd.166.1674568939874; Tue, 24
- Jan 2023 06:02:19 -0800 (PST)
+ h=content-transfer-encoding:subject:from:cc:content-language:to
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=KyjAnkGTOIUcY2OPQUdaDudcqSL1I6CVv2i41HkOOoE=;
+ b=vI0cLzJRM2n/Mh4DnqhFNA4RX3FiCwLAosh74G3joiDIugTgiuLjnbkE9ic2Y4+VmE
+ ZUg0g+z2V1fW+m//EVLM3zImV0yOWoZR0oHWlXDtMsJ82PvbJsHYef81H5KjWYJYCrUT
+ F1OFwYJJo6CQD7QY7QT1SwmN5kuM7XdLDfBj3NKmsSFM29s2nQoQjwkaFi0Ox5F/GKzD
+ CCGXtVImR+Bk0hDt5bk5eYG+nYCvnB7wCDp58MENyYffJOJWC1LoU4dBjA55RXIOkBzo
+ hzPM0Fjs/X+8boF4cDrvByHOCjDn2hh0mWoG0AmlheLXSoWAL7tHkH8gu1eN3viVs6WE
+ tztA==
+X-Gm-Message-State: AFqh2ko6bNHNY2SKe1zm83YOhocwtud5qWOsSoYaWniD3vdh/FJt4nUK
+ 79HTxT/Noq/vy6ge5JQEBCo=
+X-Google-Smtp-Source: AMrXdXuV2PXGs2EmhO3HhPvH41HN7FLf8t/+nqWOxf4Oi9xJD/N11MFqxrgqM9ij3UeSpI4uymvncA==
+X-Received: by 2002:a5d:6b42:0:b0:2bc:7e6c:7cd8 with SMTP id
+ x2-20020a5d6b42000000b002bc7e6c7cd8mr24600153wrw.26.1674569554400; 
+ Tue, 24 Jan 2023 06:12:34 -0800 (PST)
+Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
+ [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
+ g9-20020adfa489000000b002b065272da2sm2061230wrb.13.2023.01.24.06.12.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Jan 2023 06:12:33 -0800 (PST)
+Message-ID: <c5001553-6c71-c7ff-36aa-c4712bda0abf@gmail.com>
+Date: Tue, 24 Jan 2023 15:12:32 +0100
 MIME-Version: 1.0
-References: <20230124125726.13323-1-christian.koenig@amd.com>
- <20230124125726.13323-4-christian.koenig@amd.com>
-In-Reply-To: <20230124125726.13323-4-christian.koenig@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 24 Jan 2023 14:01:52 +0000
-Message-ID: <CAM0jSHOVr0qfTfXTeuEh81joaAs2pE8+6Pbu7jY_xGZrTeJuxA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] drm/ttm: prevent moving of pinned BOs
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Amdgpu module is references even after unbinding the vtcon
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,23 +72,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <Alexander.Deucher@amd.com>, "Slivka,
+ Danijel" <Danijel.Slivka@amd.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "Sharma, Shashank" <Shashank.Sharma@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Jan 2023 at 12:57, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> We have checks for this in the individual drivers move callback, but
-> it's probably better to generally forbit that on a higher level.
+Hi Thomas,
 
-forbid
+we ran into a problem with the general fbcon/fbdev implementation and 
+though that you might have some idea.
 
->
-> Also stops exporting ttm_resource_compat() since that's not necessary
-> any more after removing the extra checks in vmwgfx.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+What happens is the following:
+1. We load amdgpu and get our normal fbcon.
+2. fbcon allocates a dump BO as backing store for the console.
+3. GDM/X/Applications start, new framebuffers are created BOs imported, 
+exported etc...
+4. Somehow X or GDM iterated over all the framebuffer objects the 
+kernels knows about and export them as DMA-buf.
+5. Application/X/GDM are stopped, handles closed, framebuffers released 
+etc...
+6. We unbind vtcon.
 
-Idea seems reasonable to me,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+At this point the amdgpu module usually has a reference count of 0 and 
+can be unloaded, but since GDM/X/Whoever iterated over all the known 
+framebuffers and exported them as DMA-buf (for whatever reason idk) we 
+now still have an exported DMA-buf and with it a reference to the module.
+
+Any idea how we could prevent that?
+
+Thanks,
+Christian.
