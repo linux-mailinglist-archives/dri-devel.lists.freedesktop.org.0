@@ -1,66 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F2D67905B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 06:49:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5586667931F
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 09:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D892E10E608;
-	Tue, 24 Jan 2023 05:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC1310E632;
+	Tue, 24 Jan 2023 08:30:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6B710E608;
- Tue, 24 Jan 2023 05:49:37 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id tz11so36268107ejc.0;
- Mon, 23 Jan 2023 21:49:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uhJwRm9AKY3Nh8HZfpL/HR1cmEvlo8eF444A2EWsj7Q=;
- b=cTEBHYiglClAcEfFNHuXU4rMI8+Vjx8i47QKY5knZpahYQALZ/m/7HF89etAoT6m5P
- V7H9kbF4WXjXUc0ftE0xfOvElupkZVkB/PwjYhGjdApysPwJ9qHuRO8zeBDFlOH6VJ5B
- b2fKQ00+RJvsBHB0O4uPWXOnjfj3X8s2sBI28TujwaCNZ+9Q2xwN4KGLNnANysqubvQ6
- zNM5UDGpbQzG04gfaKMEO+3nEKCrEgnTbpJ+THDUAcAOYx65KLeZC7SkPTqeQkHaNlW1
- t1E6bbf3FT77lZm1gFuagh/5GSMMtS9wCZyjN7qe4PhLrD+/6bgJdE3NN6bSJNQWGF2l
- ZhzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:sender:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=uhJwRm9AKY3Nh8HZfpL/HR1cmEvlo8eF444A2EWsj7Q=;
- b=mmdqvXMFvgFWc9Y6zUuQ6DuFermnujrM7CSwCRs++EoAviam+z98Y6WBiPtkOepwMV
- WcHjtuoTqXAi79yVAWTKn0oPmVRwP9XlIJPLib1ZqQzlJKxH/Jp/nVGKpNtTqv5byZ2G
- 4P72057wKVXKqvZAS5dOCNlS1Q51ZXhr1fZczQ9zthDFCTyyR4rT6h6YxqffCSzyS2Ge
- CnrpfCgPKssjc/5c1NWDq9h6Ud4/PJTfKepmS1fUQrJ07cTTLtq2xr1HCiFmJwmtr4gl
- Il5xmDNbQ+Sb8Mh6BbmMTDmLpeV91JoHChAcPCHBnncs244zLSX/eLO0Hlyog5SvEL4m
- lDRg==
-X-Gm-Message-State: AFqh2krk3DziOOdVBsbXqMZYB+lQiW3ggK9oQjBT7IT5BLCjeGWzgGmO
- qnb+sASoi3JThpcxOV4NypY=
-X-Google-Smtp-Source: AMrXdXunS5/LxnUeuIKnB82SPjD6RKgguWToG2ra0FCgegRYGRtaHAi4iYIebGj5LX8JB6FYkWSNqw==
-X-Received: by 2002:a17:907:2a8c:b0:870:8e22:1433 with SMTP id
- fl12-20020a1709072a8c00b008708e221433mr20744744ejc.16.1674539375532; 
- Mon, 23 Jan 2023 21:49:35 -0800 (PST)
-Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch.
- [82.192.242.114]) by smtp.gmail.com with ESMTPSA id
- w1-20020a170906480100b0080c433a9eeesm391060ejq.182.2023.01.23.21.49.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 21:49:34 -0800 (PST)
-Received: by eldamar.lan (Postfix, from userid 1000)
- id 7038BBE2DE0; Tue, 24 Jan 2023 06:49:33 +0100 (CET)
-Date: Tue, 24 Jan 2023 06:49:33 +0100
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Assertion failure in i915 intel_display.c#assert_plane() after
- resume from hibernation
-Message-ID: <Y89xbXITTRFpjm5B@eldamar.lan>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2060.outbound.protection.outlook.com [40.107.93.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43F5C10E60A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 06:15:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fwtpwqr93O6xRNasTVBgW2oF8FsRn9CtKSshN2mNIC8EqShkIDMFeHogif+ZrNvtGIbPPpgpKSFQnuRcrthU1YSXhbZXf1sVS5JvD6bDVAvQM+bWwlU+5zuZeri+rWvyRYH5KHEVLBlrwkOrPlVDI+WrM1z7mnOaA0/50YOHwGt/AAeaestuyjk+JF0cq8zCgx3GSnADD7jLZWWI4jgW3clXtu8K9WdKNZb8nh460iFgHZ4lB0xsXacQ83uzUonE1bFLc9m09GGRQhfkQ+Vl5u8jn5nKBnob6KZABxgPMnZw4El91GaQh1JG3HHyHQnP+gC98HXbr60Zt2y72xiL8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bu2Nex2cIEfNsT0o2G25HNrMCHBP376sWYWQA60xJDM=;
+ b=lRqCWmxoejpqr7zxh7HvO98ifT3U4IygS8kl6+mFnacHp5sEsEnb0UaoiU1edwtRZ8OwdMVFSpKcb1Rlili3/820ZJvI6jnliJvYSYMVYxiQu0UnQwUwQIIHr7xMgCA7wp1ddFW4OgMmHBpPJrDuAdOZQwW6ZdOPi6Lu1gUDxk/pXWu/mGuYgMFlhJ6iUuXkjoaqDqjIavAXZ+fE/+pvcfjUNlJiJRiHwD2QP+d1KWHRJ6FwGhuHwIEsBZoH8WWvJJo1f0oyQzQS0w4xQe/L3koqhDhy4FD/EdXu14aFtikEPZp5ZzpsJTrXO71NnWk3PwpCb9j0o72Y99nxE27SYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bu2Nex2cIEfNsT0o2G25HNrMCHBP376sWYWQA60xJDM=;
+ b=RYI84IDw7fx8E6z9JuCUtuRQ4qvjmYBPvA/Yp6gFNtkeusMNCdzWHmW+epNaUVbOCCzMqwtsdHAhUNyIdXhNNHZV7D2to8WZmRsvWa4nnGMUX/QD56Q9AN63u8JRa8nKZq39xhVxFW8WgC7dffRZXM9pEZiyr31tvswlHuAVdZ5kY2NN4pjTzgrgznudAh488WiIth3jEPnLw7hnEHWe82YqHFcjt1IToV4dJhhcbSU+Qi2aYNrW/UCCH5G5vHWMvSWxhphW7N7EXg3nQ6wtn1bXceDAeMLqriQFMPRYOdhHDk4Go+ErGTk5KaILtQexZH05Fc5FON3dBFdHv57aYQ==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+ by PH7PR12MB8013.namprd12.prod.outlook.com (2603:10b6:510:27c::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Tue, 24 Jan
+ 2023 06:15:18 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::b84c:b6e:dc0:8d7]) by MW2PR12MB4667.namprd12.prod.outlook.com
+ ([fe80::b84c:b6e:dc0:8d7%2]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
+ 06:15:18 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: "lsf-pc@lists.linuxfoundation.org" <lsf-pc@lists.linuxfoundation.org>,
+ Bart Van Assche <bvanassche@acm.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Matthew Wilcox <willy@infradead.org>
+Subject: Re: [LSF/MM/BPF proposal]: Physr discussion
+Thread-Topic: [LSF/MM/BPF proposal]: Physr discussion
+Thread-Index: AQHZLamA3iTNPLXsDkOaW3tA+bsD5q6rbS2AgACZLACAAGVZgIAAr3EA
+Date: Tue, 24 Jan 2023 06:15:18 +0000
+Message-ID: <bcd58332-c9ba-2c5e-71bb-3dabfa068856@nvidia.com>
+References: <Y8v+qVZ8OmodOCQ9@nvidia.com>
+ <Y84OyQSKHelPOkW3@casper.infradead.org> <Y86PRiNCUIKbfUZz@nvidia.com>
+ <771236a2-b746-368d-f15f-23585f760ebd@acm.org>
+In-Reply-To: <771236a2-b746-368d-f15f-23585f760ebd@acm.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|PH7PR12MB8013:EE_
+x-ms-office365-filtering-correlation-id: c834c03d-2766-4dce-66c4-08dafdd25dd4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vAZEFNdscJjKVTDcbHdwjE0Yx8sbVXyUZRIavUXkA6XGw3lbbFwb434VGMsJ0GReFGsNIEGosHjhfLbqmCoRXdw+cs7tLKsh/q1fscJUF2kAlZyA1pByqeEwIsKuNPVsfxvg9rnE2S+TcwGwyKTYpdq60hoZT+ujAgnSuyUm6ld46JV6aDBUx1cKr/++nAb8SuuyRJQUMjl+8UYYP60oWvfV2U7oZIHxTZV38ikqcYgAV7+8rUBcbgeN1DtHUW3xSl/7OIsai3ccEdnN5EX+1f4exB9033vjsWX+ts0OUt7/t1h+5XUemuaZSbdHotNSzVbfWXQIVYpNTIEVHCNFprrIL3kC6bSub06fZ1wRefGOPVtDwHdF3whS6ReZmtBIHv2jIjBrAoQDXkGyuBDejlNrezQIFoDyZbSL2KpchR7Q5xcwNZU7xUQriQ3ryRNNbR0elvPB5wNBpxwPsqkdWqhBR2ReATY2yCN0Y82PByiOeuPVcscbaq4ho7XOJBECTquVDEyQ1xps0SQyVP+ZA8vV6bJ2ie8n7e1HQGX5u3Fc1/4dxXz++FWMnjVLNyxjsUeOP73q2NXHyA2OTeW6351kq2QONxNAcHgqBF5cNPqhTLFZly45xmBvZsPyPYUcd3KUejOU6mCPDruDB0x+KIwXpeg9fB4DaiJresYaIN5qi/L2zMNLtG9+ZT9x3Knoyr1NktxslWAv1VKlD06TjzliGn3jc7xBHY3w2L7FVo09qyH5jNVldTgGLaj7f8hBCNuIzH9WJdMN/NcHi7nPkg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(136003)(376002)(39860400002)(346002)(366004)(451199015)(122000001)(83380400001)(38100700002)(31696002)(86362001)(38070700005)(2906002)(4744005)(5660300002)(41300700001)(8936002)(7416002)(4326008)(186003)(66446008)(8676002)(6512007)(26005)(6506007)(316002)(76116006)(66556008)(64756008)(53546011)(2616005)(66476007)(54906003)(66946007)(478600001)(71200400001)(6486002)(110136005)(91956017)(31686004)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OC9aMldNc1lNMnFYSEhpV3ZER3lkRXJWcEJjM1V2dkt4STQ2M1dsRk5mWVQ1?=
+ =?utf-8?B?OUdPZ3NRWWZlVmQrem16blRXMnlKWnZ2a1REL1dmRjZpR3ZCeEVkbkVidkZj?=
+ =?utf-8?B?QzREUjdlQkk5c2trb2ZZc2I5ZEFMdjM2UVdxdUd3K1B5UW8wS0VTLzZzNFJk?=
+ =?utf-8?B?QlFaVGlUdFIwQkRDZTg0d3diRWdRSmVqeHUrZ09mKzBiRE0wK1lxTmNDTWZV?=
+ =?utf-8?B?VTJJK1JmRmwvMlA1UWNYLzFhQnVNbk0yOHpRRmFqaU4zL1hzekpKc0RydldO?=
+ =?utf-8?B?QWhEUFBTN3FFbjdrWEQwNW5tVjBjc0xZc3hUODRld1pSUGNKVTFRcXhrcHZo?=
+ =?utf-8?B?UHZidEc5U3BMZjdaUVp0NWl1ZUxpY1FXTWExNlppZ1hMa3lSM0R0S2dEek9P?=
+ =?utf-8?B?SUNrazFSeVJTZzlMdEdWd2lJaGthQmN2dGFMaFJHWC9lV0lqWGJzRzJnWW5n?=
+ =?utf-8?B?RVU3OGNlTTV3YnhvaTVjRklJYWdCYkxPeUdEM1pFSnc0RW5HaFRQQTdYcElZ?=
+ =?utf-8?B?R3E1VWVTcm9vOEtYbU5UVnFBSzA2aXd6S2EreFgxSGRKY2NVVUxtTC9iRFlj?=
+ =?utf-8?B?V1I4YWNPYkpnMGgzSVdTWmVzeXdLZndOa1BDaEVkRSs4S0lhQkFKNG5YdHNu?=
+ =?utf-8?B?U3lJUzVncEtHZG5HWGpLdkcwTXVTUFRCaTMrNnM2V2tyYWIrRHFDVzkzaFY3?=
+ =?utf-8?B?RTh4bzVrclNJZ21GZlZnbkhWak9xWjlReGcyQk5RVDZCZC8vQmlzNzlva0Fj?=
+ =?utf-8?B?M0RJSzZSYVQwNXUxU29rM0xyZzFtQk54QTIrV1I1OEtmUXpjckZNSGh3T3g4?=
+ =?utf-8?B?ZGFWWUxnMUZYWWpyZC9BYVNUa0E3Z0VVMk94U3lYcklzdFlYdlVod3lnVjVu?=
+ =?utf-8?B?cFQ3V0EyL3kwcDB5N2R1aDZ0elM3VEpoOGZjL1R1MnkwYUJoTkRjWExFZ214?=
+ =?utf-8?B?OFZBMS91ZkE4YjlvMS9MRW5iVXg4a0xnUHphNU1IeGRSeThVbTJ2WFlEOHln?=
+ =?utf-8?B?MUtUU2JZVHhtTjhMUTVndFBldjVqY0JHWDhpVldyVUVOSHp2QlVwc3JrRnZC?=
+ =?utf-8?B?OFlGOUZ3bVM3YVFneUZEWFRnTDZ5SkV3dE80aDlwQk9WaWtyeVpaQi95WWpZ?=
+ =?utf-8?B?cGVSV3hRSFhubWl4L2lDUGdBVGJrZENCb0x5dTR1MjZxVCtnaUc3MllIS2wy?=
+ =?utf-8?B?bWVxSzRrU1dSS1h6N1NMeVMwLzlLYWxOS2tiWmxOWEF3WGpwSS9yajBXYldH?=
+ =?utf-8?B?WXE2NUVKcEViaktaSFdTQ2UzV3NhQUI3N0dabFlKc2wvekpzcnpUaWM4VDVu?=
+ =?utf-8?B?aVJzblZKc2F4RVV2QXJIRk5yQVA2WDczd2xXUHB4aGNZY3AxekJVdmJIRHRz?=
+ =?utf-8?B?MTZuWXBydzVqQ2QvSnQ3NFIxWnpZQkZwNGVCa3c3OEI0Z3VwbEtlT21KYXpH?=
+ =?utf-8?B?c2lNVk0zdnYxVEdiSjRtU0d6UjErT3RNMGJHN2htYlBJb1dGVm45Z2RiTHBu?=
+ =?utf-8?B?Tjdpd3lFYjVmYkREY2VuVVZFdXMyZ2YzSlFEcVNIbk80RDRSS3pRRis1eURG?=
+ =?utf-8?B?eGRtY3NvTnJrNGgzM3A4NFEramVOaXhKZ1M4VGVyS2k5Y2lMYU5OcENsSkEy?=
+ =?utf-8?B?VGdhWXNzOXpkTVlPVGxrNDVWU1h4NlJmcGl4V0ZSUklEeDExR0VIK2dkOHN2?=
+ =?utf-8?B?UTM4ZHdmS1AyOFAzU3A2bXlGK05JcHhSU2Z4RS9YRlNhZnFlUS9GaVZJenVt?=
+ =?utf-8?B?Q2h1ZVR3Mys3TzZQM0hqOXlUejg5MUJFOCtqRDJDbnd3cXB4YWI5V0xpcTN4?=
+ =?utf-8?B?OXBFV0huT3FGN2YybGVBNXExZXV3b2JjV3BIOG9qbHRYYTZ0MUFHWVZCZ3Fu?=
+ =?utf-8?B?a3lnZ1NRUFk1RnlmY1dmTHlsSW9xMVMyTXpZd2hqelY4bmF1dTVJakxtb2lr?=
+ =?utf-8?B?MUU4RjVhOFA2WHduNldIamloRFNVOUJOMk9ZeFhVTDY1eHpEZ0ZUSkRZQjdt?=
+ =?utf-8?B?R0pmK1h2ZTNiNmo3bytoTkxMMWdRUUZmemxvMlQ2ek1pNjZGZytPWmNCZEdK?=
+ =?utf-8?B?MzZoY0VyM2pXZVBCRDBtdGo5RmNWQVlMc3MzV3pNdk8wWno5dnJJSkpDM28y?=
+ =?utf-8?Q?EStqts3Clr1rD39rR1JJWUkRs?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <ABD20B45826F23438CA133533E8AB1DF@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c834c03d-2766-4dce-66c4-08dafdd25dd4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2023 06:15:18.5194 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3Sfbl0l3FSPXFsSalKgqyYXrJv4JuFUjwSZLLvJtPwIBSb6jJL8XiUA3HJAgcquw80JaZB/Rw4vufJJOEP/R9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8013
+X-Mailman-Approved-At: Tue, 24 Jan 2023 08:30:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,284 +133,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nabijaczleweli@nabijaczleweli.xyz
+Cc: "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Ming Lei <ming.lei@redhat.com>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Shakeel Butt <shakeelb@google.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-A user in Debian, cc'ed reporte the following issue when resuming from
-hibernation, tested as well on recent 6.1.7 kernel, context see
-https://bugs.debian.org/971068
-
-> Can repro on the sid kernel, uname -a of
->   Linux nabtop 6.1.0-2-686-pae #1 SMP PREEMPT_DYNAMIC Debian 6.1.7-1 (202=
-3-01-18) i686 GNU/Linux
->=20
-> Log below. Backtrace is only trivially different.
->=20
-> Best,
-> =D0=BD=D0=B0=D0=B1
->=20
-> -- >8 --
-> Jan 22 14:06:46 nabtop kernel: OOM killer disabled.
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0x00000000-0x00000fff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0x0009f000-0x000fffff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0xb5aa1000-0xb5aa6fff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0xb5bba000-0xb5c0efff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0xb5d08000-0xb5f0efff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0xb5f18000-0xb5f1efff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0xb5f65000-0xb5f9efff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0xb5fe1000-0xb5ffefff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [me=
-m 0xb6000000-0xffffffff]
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Basic memory bitmaps crea=
-ted
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Preallocating image memory
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Allocated 183519 pages fo=
-r snapshot
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Allocated 734076 kbytes i=
-n 0.70 seconds (1048.68 MB/s)
-> Jan 22 14:06:46 nabtop kernel: Freezing remaining freezable tasks ... (el=
-apsed 0.001 seconds) done.
-> Jan 22 14:06:46 nabtop kernel: wifi1: deauthenticating from de:0d:17:ad:8=
-0:55 by local choice (Reason: 3=3DDEAUTH_LEAVING)
-> Jan 22 14:06:46 nabtop kernel: ACPI: EC: interrupt blocked
-> Jan 22 14:06:46 nabtop kernel: ACPI: PM: Preparing to enter system sleep =
-state S4
-> Jan 22 14:06:46 nabtop kernel: ACPI: EC: event blocked
-> Jan 22 14:06:46 nabtop kernel: ACPI: EC: EC stopped
-> Jan 22 14:06:46 nabtop kernel: ACPI: PM: Saving platform NVS memory
-> Jan 22 14:06:46 nabtop kernel: Disabling non-boot CPUs ...
-> Jan 22 14:06:46 nabtop kernel: smpboot: CPU 1 is now offline
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Creating image:
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Need to copy 175700 pages
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Normal pages needed: 5776=
-5 + 1024, available pages: 167322
-> Jan 22 14:06:46 nabtop kernel: ACPI: PM: Restoring platform NVS memory
-> Jan 22 14:06:46 nabtop kernel: ACPI: EC: EC started
-> Jan 22 14:06:46 nabtop kernel: Enabling non-boot CPUs ...
-> Jan 22 14:06:46 nabtop kernel: x86: Booting SMP configuration:
-> Jan 22 14:06:46 nabtop kernel: smpboot: Booting Node 0 Processor 1 APIC 0=
-x1
-> Jan 22 14:06:46 nabtop kernel: CPU1 is up
-> Jan 22 14:06:46 nabtop kernel: ACPI: PM: Waking up from system sleep stat=
-e S4
-> Jan 22 14:06:46 nabtop kernel: ACPI: EC: interrupt unblocked
-> Jan 22 14:06:46 nabtop kernel: ACPI: EC: event unblocked
-> Jan 22 14:06:46 nabtop kernel: usb usb1: root hub lost power or was reset
-> Jan 22 14:06:46 nabtop kernel: usb usb2: root hub lost power or was reset
-> Jan 22 14:06:46 nabtop kernel: usb usb4: root hub lost power or was reset
-> Jan 22 14:06:46 nabtop kernel: usb usb3: root hub lost power or was reset
-> Jan 22 14:06:46 nabtop kernel: usb usb6: root hub lost power or was reset
-> Jan 22 14:06:46 nabtop kernel: usb usb7: root hub lost power or was reset
-> Jan 22 14:06:46 nabtop kernel: usb usb8: root hub lost power or was reset
-> Jan 22 14:06:46 nabtop kernel: usb usb5: root hub lost power or was reset
-> Jan 22 14:06:46 nabtop kernel: sd 0:0:0:0: [sda] Starting disk
-> Jan 22 14:06:46 nabtop kernel: iwlwifi 0000:08:00.0: Radio type=3D0x1-0x2=
--0x0
-> Jan 22 14:06:46 nabtop kernel: iwlwifi 0000:08:00.0: Radio type=3D0x1-0x2=
--0x0
-> Jan 22 14:06:46 nabtop kernel: ------------[ cut here ]------------
-> Jan 22 14:06:46 nabtop kernel: primary B assertion failure (expected off,=
- current on)
-> Jan 22 14:06:46 nabtop kernel: WARNING: CPU: 0 PID: 1038 at drivers/gpu/d=
-rm/i915/display/intel_display.c:476 assert_plane+0x9f/0xb0 [i915]
-> Jan 22 14:06:46 nabtop kernel: Modules linked in: ghash_generic gf128mul =
-gcm ccm algif_aead des_generic libdes ecb algif_skcipher bnep cmac md4 algi=
-f_hash af_alg binfmt_misc btusb btrtl btbcm btintel btmtk bluetooth jittere=
-ntropy_rng sha512_generic ctr drbg joydev ansi_cprng ecdh_generic ecc iwldv=
-m mac80211 libarc4 iTCO_wdt intel_pmc_bxt snd_hda_codec_conexant iTCO_vendo=
-r_support uvcvideo watchdog snd_hda_codec_generic ledtrig_audio videobuf2_v=
-malloc videobuf2_memops i915 videobuf2_v4l2 nls_ascii snd_hda_intel iwlwifi=
- videobuf2_common snd_intel_dspcfg drm_buddy snd_intel_sdw_acpi nls_cp437 v=
-ideodev drm_display_helper snd_hda_codec snd_hda_core i2c_i801 cec vfat mc =
-psmouse evdev wmi_bmof i2c_smbus snd_hwdep rc_core pcspkr cfg80211 sg ttm f=
-at lpc_ich snd_pcm drm_kms_helper toshiba_acpi snd_timer industrialio snd s=
-parse_keymap toshiba_bluetooth sky2 soundcore rfkill i2c_algo_bit toshiba_h=
-aps ac button acpi_cpufreq nf_log_syslog nft_log nft_limit nft_ct nf_conntr=
-ack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables
-> Jan 22 14:06:46 nabtop kernel:  libcrc32c nfnetlink drm ip_tables x_table=
-s ext4 crc16 mbcache jbd2 crc32c_generic sd_mod t10_pi crc64_rocksoft crc64=
- crc_t10dif sr_mod crct10dif_generic cdrom crct10dif_common sdhci_pci cqhci=
- ehci_pci uhci_hcd ehci_hcd ahci libahci sdhci libata mmc_core serio_raw fi=
-rewire_ohci usbcore battery usb_common video wmi pkcs8_key_parser coretemp =
-firewire_sbp2 firewire_core crc_itu_t scsi_mod scsi_common parport_pc ppdev=
- lp parport autofs4
-> Jan 22 14:06:46 nabtop kernel: CPU: 0 PID: 1038 Comm: kworker/u4:20 Not t=
-ainted 6.1.0-2-686-pae #1  Debian 6.1.7-1
-> Jan 22 14:06:46 nabtop kernel: Hardware name: TOSHIBA Satellite Pro U400/=
-Satellite Pro U400, BIOS V5.00    10/26/2010
-> Jan 22 14:06:46 nabtop kernel: Workqueue: events_unbound async_run_entry_=
-fn
-> Jan 22 14:06:46 nabtop kernel: EIP: assert_plane+0x9f/0xb0 [i915]
-> Jan 22 14:06:46 nabtop kernel: Code: ff 73 0c 68 30 da b7 f8 e8 0e c7 3a =
-ff 83 c4 10 eb b3 8d b4 26 00 00 00 00 66 90 57 52 ff 73 0c 68 30 da b7 f8 =
-e8 75 eb e3 dc <0f> 0b 83 c4 10 eb 94 e8 65 9c e7 dc 8d 74 26 00 90 3e 8d 7=
-4 26 00
-> Jan 22 14:06:46 nabtop kernel: EAX: 00000036 EBX: c1238c00 ECX: 00000001 =
-EDX: 80000001
-> Jan 22 14:06:46 nabtop kernel: ESI: 00000000 EDI: f8ba1548 EBP: c63f7cdc =
-ESP: c63f7cb8
-> Jan 22 14:06:46 nabtop kernel: DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 00=
-68 EFLAGS: 00010292
-> Jan 22 14:06:46 nabtop kernel: CR0: 80050033 CR2: 01e6fc26 CR3: 15e2c000 =
-CR4: 000006f0
-> Jan 22 14:06:46 nabtop kernel: Call Trace:
-> Jan 22 14:06:46 nabtop kernel:  intel_disable_transcoder+0x71/0x2a0 [i915]
-> Jan 22 14:06:46 nabtop kernel:  ? drm_vblank_get+0x65/0xd0 [drm]
-> Jan 22 14:06:46 nabtop kernel:  ? drm_crtc_vblank_get+0x12/0x20 [drm]
-> Jan 22 14:06:46 nabtop kernel:  ? assert_vblank_disabled+0x10/0x70 [i915]
-> Jan 22 14:06:46 nabtop kernel:  i9xx_crtc_disable+0x56/0x260 [i915]
-> Jan 22 14:06:46 nabtop kernel:  ? intel_synchronize_irq+0x16/0x20 [i915]
-> Jan 22 14:06:46 nabtop kernel:  ? intel_crtc_disable_pipe_crc+0xa4/0xb0 [=
-i915]
-> Jan 22 14:06:46 nabtop kernel:  intel_old_crtc_state_disables+0x35/0x90 [=
-i915]
-> Jan 22 14:06:46 nabtop kernel:  intel_atomic_commit_tail+0x409/0xe30 [i91=
-5]
-> Jan 22 14:06:46 nabtop kernel:  ? sugov_start+0x150/0x150
-> Jan 22 14:06:46 nabtop kernel:  ? sugov_start+0x150/0x150
-> Jan 22 14:06:46 nabtop kernel:  intel_atomic_commit+0x30b/0x350 [i915]
-> Jan 22 14:06:46 nabtop kernel:  ? intel_atomic_commit_tail+0xe30/0xe30 [i=
-915]
-> Jan 22 14:06:46 nabtop kernel:  drm_atomic_commit+0x6b/0xe0 [drm]
-> Jan 22 14:06:46 nabtop kernel:  ? drm_plane_get_damage_clips.cold+0x1b/0x=
-1b [drm]
-> Jan 22 14:06:46 nabtop kernel:  drm_atomic_helper_commit_duplicated_state=
-+0xb6/0xd0 [drm_kms_helper]
-> Jan 22 14:06:46 nabtop kernel:  __intel_display_resume+0x6c/0xd0 [i915]
-> Jan 22 14:06:46 nabtop kernel:  intel_display_resume+0xb4/0x120 [i915]
-> Jan 22 14:06:46 nabtop kernel:  i915_drm_resume+0xc6/0x130 [i915]
-> Jan 22 14:06:46 nabtop kernel:  i915_pm_resume+0x34/0x50 [i915]
-> Jan 22 14:06:46 nabtop kernel:  i915_pm_restore+0x1f/0x30 [i915]
-> Jan 22 14:06:46 nabtop kernel:  pci_pm_restore+0x5a/0xe0
-> Jan 22 14:06:46 nabtop kernel:  ? pci_pm_poweroff_noirq+0x100/0x100
-> Jan 22 14:06:46 nabtop kernel:  dpm_run_callback+0x4f/0x130
-> Jan 22 14:06:46 nabtop kernel:  device_resume+0x70/0x150
-> Jan 22 14:06:46 nabtop kernel:  ? device_resume+0x150/0x150
-> Jan 22 14:06:46 nabtop kernel:  async_resume+0x1b/0x30
-> Jan 22 14:06:46 nabtop kernel:  async_run_entry_fn+0x34/0x130
-> Jan 22 14:06:46 nabtop kernel:  process_one_work+0x182/0x310
-> Jan 22 14:06:46 nabtop kernel:  worker_thread+0x13e/0x380
-> Jan 22 14:06:46 nabtop kernel:  kthread+0xda/0x100
-> Jan 22 14:06:46 nabtop kernel:  ? rescuer_thread+0x340/0x340
-> Jan 22 14:06:46 nabtop kernel:  ? kthread_complete_and_exit+0x20/0x20
-> Jan 22 14:06:46 nabtop kernel:  ret_from_fork+0x1c/0x28
-> Jan 22 14:06:46 nabtop kernel: ---[ end trace 0000000000000000 ]---
-> Jan 22 14:06:46 nabtop kernel: ata1: SATA link up 3.0 Gbps (SStatus 123 S=
-Control 300)
-> Jan 22 14:06:46 nabtop kernel: ata2: SATA link up 1.5 Gbps (SStatus 113 S=
-Control 300)
-> Jan 22 14:06:46 nabtop kernel: ata6: SATA link down (SStatus 0 SControl 3=
-00)
-> Jan 22 14:06:46 nabtop kernel: ata5: SATA link down (SStatus 0 SControl 3=
-00)
-> Jan 22 14:06:46 nabtop kernel: ata1.00: unexpected _GTF length (8)
-> Jan 22 14:06:46 nabtop kernel: ata1.00: unexpected _GTF length (8)
-> Jan 22 14:06:46 nabtop kernel: ata1.00: configured for UDMA/100
-> Jan 22 14:06:46 nabtop kernel: ata2.00: configured for UDMA/33
-> Jan 22 14:06:46 nabtop kernel: usb 5-4: reset high-speed USB device numbe=
-r 4 using ehci-pci
-> Jan 22 14:06:46 nabtop kernel: usb 6-2: reset full-speed USB device numbe=
-r 2 using uhci_hcd
-> Jan 22 14:06:46 nabtop kernel: firewire_core 0000:0a:01.0: rediscovered d=
-evice fw0
-> Jan 22 14:06:46 nabtop kernel: ------------[ cut here ]------------
-> Jan 22 14:06:46 nabtop kernel: primary B assertion failure (expected off,=
- current on)
-> Jan 22 14:06:46 nabtop kernel: WARNING: CPU: 0 PID: 1038 at drivers/gpu/d=
-rm/i915/display/intel_display.c:476 assert_plane+0x9f/0xb0 [i915]
-> Jan 22 14:06:46 nabtop kernel: Modules linked in: ghash_generic gf128mul =
-gcm ccm algif_aead des_generic libdes ecb algif_skcipher bnep cmac md4 algi=
-f_hash af_alg binfmt_misc btusb btrtl btbcm btintel btmtk bluetooth jittere=
-ntropy_rng sha512_generic ctr drbg joydev ansi_cprng ecdh_generic ecc iwldv=
-m mac80211 libarc4 iTCO_wdt intel_pmc_bxt snd_hda_codec_conexant iTCO_vendo=
-r_support uvcvideo watchdog snd_hda_codec_generic ledtrig_audio videobuf2_v=
-malloc videobuf2_memops i915 videobuf2_v4l2 nls_ascii snd_hda_intel iwlwifi=
- videobuf2_common snd_intel_dspcfg drm_buddy snd_intel_sdw_acpi nls_cp437 v=
-ideodev drm_display_helper snd_hda_codec snd_hda_core i2c_i801 cec vfat mc =
-psmouse evdev wmi_bmof i2c_smbus snd_hwdep rc_core pcspkr cfg80211 sg ttm f=
-at lpc_ich snd_pcm drm_kms_helper toshiba_acpi snd_timer industrialio snd s=
-parse_keymap toshiba_bluetooth sky2 soundcore rfkill i2c_algo_bit toshiba_h=
-aps ac button acpi_cpufreq nf_log_syslog nft_log nft_limit nft_ct nf_conntr=
-ack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables
-> Jan 22 14:06:46 nabtop kernel:  libcrc32c nfnetlink drm ip_tables x_table=
-s ext4 crc16 mbcache jbd2 crc32c_generic sd_mod t10_pi crc64_rocksoft crc64=
- crc_t10dif sr_mod crct10dif_generic cdrom crct10dif_common sdhci_pci cqhci=
- ehci_pci uhci_hcd ehci_hcd ahci libahci sdhci libata mmc_core serio_raw fi=
-rewire_ohci usbcore battery usb_common video wmi pkcs8_key_parser coretemp =
-firewire_sbp2 firewire_core crc_itu_t scsi_mod scsi_common parport_pc ppdev=
- lp parport autofs4
-> Jan 22 14:06:46 nabtop kernel: CPU: 0 PID: 1038 Comm: kworker/u4:20 Taint=
-ed: G        W          6.1.0-2-686-pae #1  Debian 6.1.7-1
-> Jan 22 14:06:46 nabtop kernel: Hardware name: TOSHIBA Satellite Pro U400/=
-Satellite Pro U400, BIOS V5.00    10/26/2010
-> Jan 22 14:06:46 nabtop kernel: Workqueue: events_unbound async_run_entry_=
-fn
-> Jan 22 14:06:46 nabtop kernel: EIP: assert_plane+0x9f/0xb0 [i915]
-> Jan 22 14:06:46 nabtop kernel: Code: ff 73 0c 68 30 da b7 f8 e8 0e c7 3a =
-ff 83 c4 10 eb b3 8d b4 26 00 00 00 00 66 90 57 52 ff 73 0c 68 30 da b7 f8 =
-e8 75 eb e3 dc <0f> 0b 83 c4 10 eb 94 e8 65 9c e7 dc 8d 74 26 00 90 3e 8d 7=
-4 26 00
-> Jan 22 14:06:46 nabtop kernel: EAX: 00000036 EBX: c1238c00 ECX: 00000001 =
-EDX: 80000001
-> Jan 22 14:06:46 nabtop kernel: ESI: 00000000 EDI: f8ba1548 EBP: c63f7d60 =
-ESP: c63f7d3c
-> Jan 22 14:06:46 nabtop kernel: DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 00=
-68 EFLAGS: 00010292
-> Jan 22 14:06:46 nabtop kernel: CR0: 80050033 CR2: 01e6fc26 CR3: 15e2c000 =
-CR4: 000006f0
-> Jan 22 14:06:46 nabtop kernel: Call Trace:
-> Jan 22 14:06:46 nabtop kernel:  intel_atomic_commit_tail+0xdbb/0xe30 [i91=
-5]
-> Jan 22 14:06:46 nabtop kernel:  ? sugov_start+0x150/0x150
-> Jan 22 14:06:46 nabtop kernel:  ? sugov_start+0x150/0x150
-> Jan 22 14:06:46 nabtop kernel:  intel_atomic_commit+0x30b/0x350 [i915]
-> Jan 22 14:06:46 nabtop kernel:  ? intel_atomic_commit_tail+0xe30/0xe30 [i=
-915]
-> Jan 22 14:06:46 nabtop kernel:  drm_atomic_commit+0x6b/0xe0 [drm]
-> Jan 22 14:06:46 nabtop kernel:  ? drm_plane_get_damage_clips.cold+0x1b/0x=
-1b [drm]
-> Jan 22 14:06:46 nabtop kernel:  drm_atomic_helper_commit_duplicated_state=
-+0xb6/0xd0 [drm_kms_helper]
-> Jan 22 14:06:46 nabtop kernel:  __intel_display_resume+0x6c/0xd0 [i915]
-> Jan 22 14:06:46 nabtop kernel:  intel_display_resume+0xb4/0x120 [i915]
-> Jan 22 14:06:46 nabtop kernel:  i915_drm_resume+0xc6/0x130 [i915]
-> Jan 22 14:06:46 nabtop kernel:  i915_pm_resume+0x34/0x50 [i915]
-> Jan 22 14:06:46 nabtop kernel:  i915_pm_restore+0x1f/0x30 [i915]
-> Jan 22 14:06:46 nabtop kernel:  pci_pm_restore+0x5a/0xe0
-> Jan 22 14:06:46 nabtop kernel:  ? pci_pm_poweroff_noirq+0x100/0x100
-> Jan 22 14:06:46 nabtop kernel:  dpm_run_callback+0x4f/0x130
-> Jan 22 14:06:46 nabtop kernel:  device_resume+0x70/0x150
-> Jan 22 14:06:46 nabtop kernel:  ? device_resume+0x150/0x150
-> Jan 22 14:06:46 nabtop kernel:  async_resume+0x1b/0x30
-> Jan 22 14:06:46 nabtop kernel:  async_run_entry_fn+0x34/0x130
-> Jan 22 14:06:46 nabtop kernel:  process_one_work+0x182/0x310
-> Jan 22 14:06:46 nabtop kernel:  worker_thread+0x13e/0x380
-> Jan 22 14:06:46 nabtop kernel:  kthread+0xda/0x100
-> Jan 22 14:06:46 nabtop kernel:  ? rescuer_thread+0x340/0x340
-> Jan 22 14:06:46 nabtop kernel:  ? kthread_complete_and_exit+0x20/0x20
-> Jan 22 14:06:46 nabtop kernel:  ret_from_fork+0x1c/0x28
-> Jan 22 14:06:46 nabtop kernel: ---[ end trace 0000000000000000 ]---
-> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Basic memory bitmaps freed
-> Jan 22 14:06:46 nabtop kernel: OOM killer enabled.
-> Jan 22 14:06:46 nabtop kernel: Restarting tasks ... done.
-> Jan 22 14:06:46 nabtop kernel: usb 7-1: USB disconnect, device number 2
-> Jan 22 14:06:46 nabtop iwd[648]: Received Deauthentication event, reason:=
- 3, from_ap: false
-> Jan 22 14:06:46 nabtop systemd-networkd[435]: wifi1: Lost carrier
-
-Anything could help pin-pointing the issue?
-
-Regards,
-Salvatore
+T24gMS8yMy8yMyAxMTo0NywgQmFydCBWYW4gQXNzY2hlIHdyb3RlOg0KPiBPbiAxLzIzLzIzIDA1
+OjQ0LCBKYXNvbiBHdW50aG9ycGUgd3JvdGU6DQo+PiBJJ3ZlIGdvbmUgZnJvbSBxdWl0ZSBhIGRp
+ZmZlcmVudCBzdGFydGluZyBwb2ludCAtIEkndmUgYmVlbiB3b3JraW5nDQo+PiBETUEgQVBJIHVw
+d2FyZHMsIHNvIHdoYXQgZG9lcyB0aGUgZG1hX21hcF9YWCBsb29rIGxpa2UsIHdoYXQgQVBJcyBk
+bw0KPj4gd2UgbmVlZCB0byBzdXBwb3J0IHRoZSBkbWFfbWFwX29wcyBpbXBsZW1lbnRhdGlvbnMg
+dG8gaXRlcmF0ZS9ldGMsIGhvdw0KPj4gZG8gd2UgZm9ybSBhbmQgcmV0dXJuIHRoZSBkbWEgbWFw
+cGVkIGxpc3QsIGhvdyBkb2VzIFAyUCwgd2l0aCBhbGwgdGhlDQo+PiBjaGVja3MsIGFjdHVhbGx5
+IHdvcmssIGV0Yy4gVGhlc2UgaGVscCBpbmZvcm0gd2hhdCB3ZSB3YW50IGZyb20gdGhlDQo+PiAi
+cGh5ciIgYXMgYW4gQVBJLg0KPiANCj4gSSdtIGludGVyZXN0ZWQgaW4gdGhpcyB0b3BpYy4gSSdt
+IHdvbmRlcmluZyB3aGV0aGVyIGVsaW1pbmF0aW5nIA0KPiBzY2F0dGVybGlzdHMgY291bGQgaGVs
+cCB0byBtYWtlIHRoZSBibG9jayBsYXllciBmYXN0ZXIuDQo+IA0KPiBUaGFua3MsDQo+IA0KPiBC
+YXJ0Lg0KPiANCg0KSSB0aGluayBpdCB3aWxsIGJlIHZlcnkgaW50ZXJlc3RpbmcgdG8gZGlzY3Vz
+cyB0aGlzIGluIGdyZWF0IGRldGFpbA0KYW5kIGNvbWUgdXAgd2l0aCB0aGUgcGxhbi4NCg0KKzEg
+ZnJvbSBtZS4NCg0KLWNrDQoNCg==
