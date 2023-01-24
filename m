@@ -1,64 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3D5679695
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 12:28:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B68867972E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 13:03:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1C410E66F;
-	Tue, 24 Jan 2023 11:28:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 270F210E676;
+	Tue, 24 Jan 2023 12:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B364B10E66B;
- Tue, 24 Jan 2023 11:27:56 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 70B1C1FE1C;
- Tue, 24 Jan 2023 11:27:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674559675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gKTcWvYfzarAx/J9sZK5jWG0nno1Hz0lr0ojPVSgZn4=;
- b=0PvqefILpzlTczOZVSPZ/aZZ5E19WzuQ+WK/ZV9PlTEn08cU9cgV394Lr2oZyyJwuR2/Ur
- cLbvafxhju4muRZyGJVMooA8p2hIcMVLc0R80jHh4ab4Kmjg9P4t3Gx0/liw/4yPPl8Y+m
- uE7WkzAzNBPCWUKivlchNE7F3x7S5EM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674559675;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gKTcWvYfzarAx/J9sZK5jWG0nno1Hz0lr0ojPVSgZn4=;
- b=/aln6QAHc4U5BRIDYFhLmz/ah1AxM7WEEmVWUMoJ+TDSJt0rh620oL4pTR2Lm95pjZ9T4i
- 7k88p/2tdWSCCaCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3988813487;
- Tue, 24 Jan 2023 11:27:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id fs7TDLvAz2OFGQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Jan 2023 11:27:55 +0000
-Message-ID: <3f76ab52-a323-beeb-7653-7cae2e7090e0@suse.de>
-Date: Tue, 24 Jan 2023 12:27:54 +0100
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B44D10E093;
+ Tue, 24 Jan 2023 12:03:14 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id w14so18029338edi.5;
+ Tue, 24 Jan 2023 04:03:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=6qGzOt/6s+ReoIhHOZ0KQGiemKjnX1oQ/JdSK2GPrZM=;
+ b=aXMcM/ime85K3BFo2nJk9LijM42fpj+qNIZNlVplamxlgpA6qVzZUJYxMZByL1nNPB
+ 5EDAej1tCFSlF+1/dNBVygHBlDm+0WNHK+zb23OPSKp2c8cJfgQzKXgK+x7DvVKFRzqw
+ eeplcNm6Su396qZZrok9dodbI+PMIWw8Ww83eRLfliQQhk5AbWQMUHPKqmRIKq611iSf
+ ioPRVRPx5K4RmS1v+Mkvgmny/jPOGls6h4beiNOnPSfZsVST54bEi/pF3Q7Df7i0hvOS
+ VUHOoAHJIO/Tnswnyf5HbEdNFtTBpr0WLasNvtVE7CsHf6yaNQYK39mU1XT1SJVzVK1S
+ prFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6qGzOt/6s+ReoIhHOZ0KQGiemKjnX1oQ/JdSK2GPrZM=;
+ b=n7RHNFKUC5ZcMsx1YAaY+XwmpI8ho3to73YfsSFr1N5mlFlN9ocv697qKcZMvRvRoi
+ YlyD5/oIfoVxGAzPpeHJb1PRf3JmbAMnSUI6cOumLXJ2NAOEr61WD9gfkpapMie1YvD2
+ W6Uj28cHNDP8RdTNESv+3pVAvLD0N3bKHH8Vw2+D0zUAG+xhBWYxkEd/FIXNJF0Kpha3
+ urfeToOIERR8CUKddX+hE6/ZunZmZ0GPWlWpozY2c5le+mXIGU2i9sZgbJleUk54s9go
+ Yb7OmgZQQ6o2hwEmA4vE3DDLO4BjX1lGWrk+LvYOoWxgHnPIqvFNkClWCLKKSOha0DCS
+ +Big==
+X-Gm-Message-State: AO0yUKVqHnaHMWYj5VZ6A3WOvT+yFg/85jZCaH7zc4z+C1kVdzqTqmba
+ k8eY3Fyk+CjC4vaxzQgB5PM=
+X-Google-Smtp-Source: AK7set8DqXLMzKqtnpriAQebwwA7A7MdhT/y5xWQcScK4e0B8pvbNx2OxSs3l4ryCe1Vd/KcHqbxFg==
+X-Received: by 2002:aa7:cf16:0:b0:49f:1fb9:3923 with SMTP id
+ a22-20020aa7cf16000000b0049f1fb93923mr3780075edy.40.1674561792639; 
+ Tue, 24 Jan 2023 04:03:12 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ fi12-20020a056402550c00b0048c85c5ad30sm945804edb.83.2023.01.24.04.03.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jan 2023 04:03:12 -0800 (PST)
+Date: Tue, 24 Jan 2023 14:03:07 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: [ANNOUNCE] pixfmtdb
+Message-ID: <20230124140307.3851d70c@eldfell>
+In-Reply-To: <CA+hFU4wQ14fn-giuL6oxMmXfg0WPPrXcHHeT5-7tagP54xuXFg@mail.gmail.com>
+References: <nn8qWh16AviRPuLVOg_I-Nn747ncRsuJsZU_VZHvKhxp2hoFBCFsAfezBDkiwM-yn-CXAW_Vos121VKtETNsSZU3EuCuVzcgHBnnWNnww-g=@emersion.fr>
+ <Y86skCbxY5kZglo8@pendragon.ideasonboard.com>
+ <CA+hFU4z-3iotNkUVr=aHrQ9GFNnGLrvL2B1isnx2x2UnnO+qXA@mail.gmail.com>
+ <B55u__QnPBXyk6SrEEYETx1ugeGjZHT9Fva6b9fpZazX-v7nTFJqnKH9Y7OebmOTQ51zffSYMnrfnfYutoWSLzpt-bWk2K8V69Ru7327VlM=@emersion.fr>
+ <CA+hFU4wQ14fn-giuL6oxMmXfg0WPPrXcHHeT5-7tagP54xuXFg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 10/10] drm/fbdev-generic: Rename struct fb_info 'fbi' to
- 'info'
-Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20230123100559.12351-1-tzimmermann@suse.de>
- <20230123100559.12351-11-tzimmermann@suse.de> <Y87zMk0sJc6EOG/6@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Y87zMk0sJc6EOG/6@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------N2fEP60NvUQVfwxyo66rF97p"
+Content-Type: multipart/signed; boundary="Sig_/Fm+ZB8_N.OmslshxVcqee2k";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,146 +73,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, javierm@redhat.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-media@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------N2fEP60NvUQVfwxyo66rF97p
-Content-Type: multipart/mixed; boundary="------------mc4XDdYDYqZ8YQuTWaL0vCeu";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Message-ID: <3f76ab52-a323-beeb-7653-7cae2e7090e0@suse.de>
-Subject: Re: [PATCH 10/10] drm/fbdev-generic: Rename struct fb_info 'fbi' to
- 'info'
-References: <20230123100559.12351-1-tzimmermann@suse.de>
- <20230123100559.12351-11-tzimmermann@suse.de> <Y87zMk0sJc6EOG/6@ravnborg.org>
-In-Reply-To: <Y87zMk0sJc6EOG/6@ravnborg.org>
+--Sig_/Fm+ZB8_N.OmslshxVcqee2k
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---------------mc4XDdYDYqZ8YQuTWaL0vCeu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Tue, 24 Jan 2023 00:54:07 +0100
+Sebastian Wick <sebastian.wick@redhat.com> wrote:
 
-SGkNCg0KQW0gMjMuMDEuMjMgdW0gMjE6NTAgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
-IFRob21hcywNCj4gDQo+IGEgcXVpY2sgZHJpdmUtYnkgY29tbWVudC4NCj4gDQo+IE9uIE1v
-biwgSmFuIDIzLCAyMDIzIGF0IDExOjA1OjU5QU0gKzAxMDAsIFRob21hcyBaaW1tZXJtYW5u
-IHdyb3RlOg0KPj4gVGhlIGdlbmVyaWMgZmJkZXYgZW11bGF0aW9uIG5hbWVzIHZhcmlhYmxl
-cyBvZiB0eXBlIHN0cnVjdCBmYl9pbmZvDQo+PiBib3RoICdmYmknIGFuZCAnaW5mbycuIFRo
-ZSBsYXR0ZXIgc2VlbXMgdG8gYmUgbW9yZSBjb21tb24gaW4gZmJkZXYNCj4+IGNvZGUsIHNv
-IG5hbWUgZmJpIGFjY29yZGluZ2x5Lg0KPj4NCj4+IEFsc28gcmVwbGFjZSB0aGUgZHVwbGlj
-YXRlIHZhcmlhYmxlIGluIGRybV9mYmRldl9mYl9kZXN0cm95KCkuDQo+Pg0KPj4gU2lnbmVk
-LW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiAt
-LS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMgfCA0OSArKysr
-KysrKysrKysrKy0tLS0tLS0tLS0tLS0tLQ0KPj4gICAxIGZpbGUgY2hhbmdlZCwgMjQgaW5z
-ZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9m
-YmRldl9nZW5lcmljLmMNCj4+IGluZGV4IDQ5YTBiYmE4NmNlNy4uNzYzM2RhNWMxM2MzIDEw
-MDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMNCj4+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jDQo+PiBAQCAtNDYs
-MTcgKzQ2LDE2IEBAIHN0YXRpYyBpbnQgZHJtX2ZiZGV2X2ZiX3JlbGVhc2Uoc3RydWN0IGZi
-X2luZm8gKmluZm8sIGludCB1c2VyKQ0KPj4gICBzdGF0aWMgdm9pZCBkcm1fZmJkZXZfZmJf
-ZGVzdHJveShzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4+ICAgew0KPj4gICAJc3RydWN0IGRy
-bV9mYl9oZWxwZXIgKmZiX2hlbHBlciA9IGluZm8tPnBhcjsNCj4+IC0Jc3RydWN0IGZiX2lu
-Zm8gKmZiaSA9IGZiX2hlbHBlci0+aW5mbzsNCj4+ICAgCXZvaWQgKnNoYWRvdyA9IE5VTEw7
-DQo+PiAgIA0KPj4gICAJaWYgKCFmYl9oZWxwZXItPmRldikNCj4+ICAgCQlyZXR1cm47DQo+
-PiAgIA0KPj4gLQlpZiAoZmJpKSB7DQo+PiAtCQlpZiAoZmJpLT5mYmRlZmlvKQ0KPj4gLQkJ
-CWZiX2RlZmVycmVkX2lvX2NsZWFudXAoZmJpKTsNCj4+ICsJaWYgKGluZm8pIHsNCj4gQXMg
-aW5mbyBpcyBhbHJlYWR5IHVzZWQgYWJvdmUgdG8gZmluZCBmYl9oZWxwZXIsIHRoaXMgY2hl
-Y2sgaXMNCj4gcmVkdW5kYW50Lg0KDQpPaCBpbmRlZWQ7IHdpbGwgZml4LiBUaGlzIGNoYW5n
-ZSBiZWxvbmdzIHRvIHBhdGNoIDgsIHdoaWNoIHN0cmVhbWxpbmVzIA0KdGhlIGNsZWFudXAg
-YSBiaXQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IAlTYW0NCj4gDQo+PiAr
-CQlpZiAoaW5mby0+ZmJkZWZpbykNCj4+ICsJCQlmYl9kZWZlcnJlZF9pb19jbGVhbnVwKGlu
-Zm8pOw0KPj4gICAJCWlmIChkcm1fZmJkZXZfdXNlX3NoYWRvd19mYihmYl9oZWxwZXIpKQ0K
-Pj4gLQkJCXNoYWRvdyA9IGZiaS0+c2NyZWVuX2J1ZmZlcjsNCj4+ICsJCQlzaGFkb3cgPSBp
-bmZvLT5zY3JlZW5fYnVmZmVyOw0KPj4gICAJfQ0KPj4gICANCj4+ICAgCWRybV9mYl9oZWxw
-ZXJfZmluaShmYl9oZWxwZXIpOw0KPj4gQEAgLTE3Myw3ICsxNzIsNyBAQCBzdGF0aWMgaW50
-IGRybV9mYmRldl9mYl9wcm9iZShzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVyLA0K
-Pj4gICAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGZiX2hlbHBlci0+ZGV2Ow0KPj4gICAJ
-c3RydWN0IGRybV9jbGllbnRfYnVmZmVyICpidWZmZXI7DQo+PiAgIAlzdHJ1Y3QgZHJtX2Zy
-YW1lYnVmZmVyICpmYjsNCj4+IC0Jc3RydWN0IGZiX2luZm8gKmZiaTsNCj4+ICsJc3RydWN0
-IGZiX2luZm8gKmluZm87DQo+PiAgIAl1MzIgZm9ybWF0Ow0KPj4gICAJc3RydWN0IGlvc3lz
-X21hcCBtYXA7DQo+PiAgIAlpbnQgcmV0Ow0KPj4gQEAgLTE5MiwzNSArMTkxLDM1IEBAIHN0
-YXRpYyBpbnQgZHJtX2ZiZGV2X2ZiX3Byb2JlKHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9o
-ZWxwZXIsDQo+PiAgIAlmYl9oZWxwZXItPmZiID0gYnVmZmVyLT5mYjsNCj4+ICAgCWZiID0g
-YnVmZmVyLT5mYjsNCj4+ICAgDQo+PiAtCWZiaSA9IGRybV9mYl9oZWxwZXJfYWxsb2NfaW5m
-byhmYl9oZWxwZXIpOw0KPj4gLQlpZiAoSVNfRVJSKGZiaSkpDQo+PiAtCQlyZXR1cm4gUFRS
-X0VSUihmYmkpOw0KPj4gKwlpbmZvID0gZHJtX2ZiX2hlbHBlcl9hbGxvY19pbmZvKGZiX2hl
-bHBlcik7DQo+PiArCWlmIChJU19FUlIoaW5mbykpDQo+PiArCQlyZXR1cm4gUFRSX0VSUihp
-bmZvKTsNCj4+ICAgDQo+PiAtCWZiaS0+ZmJvcHMgPSAmZHJtX2ZiZGV2X2ZiX29wczsNCj4+
-IC0JZmJpLT5zY3JlZW5fc2l6ZSA9IHNpemVzLT5zdXJmYWNlX2hlaWdodCAqIGZiLT5waXRj
-aGVzWzBdOw0KPj4gLQlmYmktPmZpeC5zbWVtX2xlbiA9IGZiaS0+c2NyZWVuX3NpemU7DQo+
-PiAtCWZiaS0+ZmxhZ3MgPSBGQklORk9fREVGQVVMVDsNCj4+ICsJaW5mby0+ZmJvcHMgPSAm
-ZHJtX2ZiZGV2X2ZiX29wczsNCj4+ICsJaW5mby0+c2NyZWVuX3NpemUgPSBzaXplcy0+c3Vy
-ZmFjZV9oZWlnaHQgKiBmYi0+cGl0Y2hlc1swXTsNCj4+ICsJaW5mby0+Zml4LnNtZW1fbGVu
-ID0gaW5mby0+c2NyZWVuX3NpemU7DQo+PiArCWluZm8tPmZsYWdzID0gRkJJTkZPX0RFRkFV
-TFQ7DQo+PiAgIA0KPj4gLQlkcm1fZmJfaGVscGVyX2ZpbGxfaW5mbyhmYmksIGZiX2hlbHBl
-ciwgc2l6ZXMpOw0KPj4gKwlkcm1fZmJfaGVscGVyX2ZpbGxfaW5mbyhpbmZvLCBmYl9oZWxw
-ZXIsIHNpemVzKTsNCj4+ICAgDQo+PiAgIAlpZiAoZHJtX2ZiZGV2X3VzZV9zaGFkb3dfZmIo
-ZmJfaGVscGVyKSkgew0KPj4gLQkJZmJpLT5zY3JlZW5fYnVmZmVyID0gdnphbGxvYyhmYmkt
-PnNjcmVlbl9zaXplKTsNCj4+IC0JCWlmICghZmJpLT5zY3JlZW5fYnVmZmVyKQ0KPj4gKwkJ
-aW5mby0+c2NyZWVuX2J1ZmZlciA9IHZ6YWxsb2MoaW5mby0+c2NyZWVuX3NpemUpOw0KPj4g
-KwkJaWYgKCFpbmZvLT5zY3JlZW5fYnVmZmVyKQ0KPj4gICAJCQlyZXR1cm4gLUVOT01FTTsN
-Cj4+IC0JCWZiaS0+ZmxhZ3MgfD0gRkJJTkZPX1ZJUlRGQiB8IEZCSU5GT19SRUFEU19GQVNU
-Ow0KPj4gKwkJaW5mby0+ZmxhZ3MgfD0gRkJJTkZPX1ZJUlRGQiB8IEZCSU5GT19SRUFEU19G
-QVNUOw0KPj4gICANCj4+IC0JCWZiaS0+ZmJkZWZpbyA9ICZkcm1fZmJkZXZfZGVmaW87DQo+
-PiAtCQlmYl9kZWZlcnJlZF9pb19pbml0KGZiaSk7DQo+PiArCQlpbmZvLT5mYmRlZmlvID0g
-JmRybV9mYmRldl9kZWZpbzsNCj4+ICsJCWZiX2RlZmVycmVkX2lvX2luaXQoaW5mbyk7DQo+
-PiAgIAl9IGVsc2Ugew0KPj4gICAJCS8qIGJ1ZmZlciBpcyBtYXBwZWQgZm9yIEhXIGZyYW1l
-YnVmZmVyICovDQo+PiAgIAkJcmV0ID0gZHJtX2NsaWVudF9idWZmZXJfdm1hcChmYl9oZWxw
-ZXItPmJ1ZmZlciwgJm1hcCk7DQo+PiAgIAkJaWYgKHJldCkNCj4+ICAgCQkJcmV0dXJuIHJl
-dDsNCj4+ICAgCQlpZiAobWFwLmlzX2lvbWVtKSB7DQo+PiAtCQkJZmJpLT5zY3JlZW5fYmFz
-ZSA9IG1hcC52YWRkcl9pb21lbTsNCj4+ICsJCQlpbmZvLT5zY3JlZW5fYmFzZSA9IG1hcC52
-YWRkcl9pb21lbTsNCj4+ICAgCQl9IGVsc2Ugew0KPj4gLQkJCWZiaS0+c2NyZWVuX2J1ZmZl
-ciA9IG1hcC52YWRkcjsNCj4+IC0JCQlmYmktPmZsYWdzIHw9IEZCSU5GT19WSVJURkI7DQo+
-PiArCQkJaW5mby0+c2NyZWVuX2J1ZmZlciA9IG1hcC52YWRkcjsNCj4+ICsJCQlpbmZvLT5m
-bGFncyB8PSBGQklORk9fVklSVEZCOw0KPj4gICAJCX0NCj4+ICAgDQo+PiAgIAkJLyoNCj4+
-IEBAIC0yMjksMTAgKzIyOCwxMCBAQCBzdGF0aWMgaW50IGRybV9mYmRldl9mYl9wcm9iZShz
-dHJ1Y3QgZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVyLA0KPj4gICAJCSAqIGNhc2UuDQo+PiAg
-IAkJICovDQo+PiAgICNpZiBJU19FTkFCTEVEKENPTkZJR19EUk1fRkJERVZfTEVBS19QSFlT
-X1NNRU0pDQo+PiAtCQlpZiAoZmJfaGVscGVyLT5oaW50X2xlYWtfc21lbV9zdGFydCAmJiBm
-YmktPmZpeC5zbWVtX3N0YXJ0ID09IDAgJiYNCj4+ICsJCWlmIChmYl9oZWxwZXItPmhpbnRf
-bGVha19zbWVtX3N0YXJ0ICYmIGluZm8tPmZpeC5zbWVtX3N0YXJ0ID09IDAgJiYNCj4+ICAg
-CQkgICAgIWRybV9XQVJOX09OX09OQ0UoZGV2LCBtYXAuaXNfaW9tZW0pKQ0KPj4gLQkJCWZi
-aS0+Zml4LnNtZW1fc3RhcnQgPQ0KPj4gLQkJCQlwYWdlX3RvX3BoeXModmlydF90b19wYWdl
-KGZiaS0+c2NyZWVuX2J1ZmZlcikpOw0KPj4gKwkJCWluZm8tPmZpeC5zbWVtX3N0YXJ0ID0N
-Cj4+ICsJCQkJcGFnZV90b19waHlzKHZpcnRfdG9fcGFnZShpbmZvLT5zY3JlZW5fYnVmZmVy
-KSk7DQo+PiAgICNlbmRpZg0KPj4gICAJfQ0KPj4gICANCj4+IC0tIA0KPj4gMi4zOS4wDQoN
-Ci0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNV
-U0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0
-MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNj
-aMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> On Mon, Jan 23, 2023 at 11:43 PM Simon Ser <contact@emersion.fr> wrote:
+> >
+> > On Monday, January 23rd, 2023 at 21:25, Sebastian Wick <sebastian.wick@=
+redhat.com> wrote:
+> > =20
+> > > Why is the TF defined for GL formats and both the primaries and TF for
+> > > Vulkan formats? The only exception here should be sRGB formats. Where
+> > > did you get the information from? =20
+> >
+> > This is what upstream dfdutils does [1]. Can you explain why you think
+> > it should be undefined instead of linear? =20
+>=20
+> The channels have no meaning. You can put whatever you want in there.
+> It doesn't have to be linear, it doesn't have to be colors and
+> especially not colors with specific primaries. It's only when it's
+> used to form an image that the TF and primaries are known. Vulkan
+> specifically requires you to explicitly provide this information to
+> the WSI and YCC samplers (generally everywhere where knowing them is
+> required) and never assumes that certain pixel formats imply certain
+> TFs and primaries (exception being the sRGB variants).
+>=20
+>=20
+> (See also https://registry.khronos.org/vulkan/specs/1.3-extensions/html/v=
+kspec.html#_issues_26,
+> Q 23)
+>=20
+> The problem here seems to be that the Data Format spec describes more
+> than the pixel format. If you want to share an image, the TF and
+> primaries are essential but they are not an inherent part of the pixel
+> format of the image. So yeah, I think what dfdutils does is...
+> probably not wrong but not what you're after.
+>=20
+> >
+> > I was wondering what to do for DRM formats regarding these. I think it
+> > would be worthwhile to do like Vulkan: set TF =3D linear, primaries =3D
+> > BT.709, pre-multiplied alpha =3D yes. These are the things KMS assume
+> > when there is no override (ie, when there is no KMS property saying
+> > otherwise). =20
+>=20
+> Please no. All undefined is absolutely the right thing to do. Adding
+> any more meaning to pixel formats is a horrible idea. The KMS
+> properties are also not an override, they describe the image and the
+> description has default values.
 
---------------mc4XDdYDYqZ8YQuTWaL0vCeu--
+Hi,
 
---------------N2fEP60NvUQVfwxyo66rF97p
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+I agree with Sebastian here.
+
+The same with (plain) Pixman, Cairo and OpenGL formats. They don't
+define primaries nor TF.
+
+Personally I think that sRGB "pixel formats" are semantically simply
+not a part of the same enumeration as plain pixel formats, but API-wise
+it was a convenient trick to add a "pixel format" that implies
+different processing in the same old API functions.
+
+Most of the APIs do computations as if the TF was linear (assuming you
+think in higher semantic terms than basic mathematical operations),
+but the pixel format does not define that it is. The responsibility of
+applying meaningful computations is left for the user of the APIs.
+
+
+Thanks,
+pq
+
+> >
+> > [1]: https://github.com/KhronosGroup/dfdutils/blob/5cd41cbdf63e80b00c08=
+5c6906a1152709e4c0f2/createdfd.c#L47
+> > =20
+>=20
+
+
+--Sig_/Fm+ZB8_N.OmslshxVcqee2k
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPPwLoFAwAAAAAACgkQlh/E3EQov+CL
-pQ//Y3D+WYek+AENl77tB8/9us2T+1CxJrW6yldrweG9W43IzIRbNbpN8T/yWbLwSmBU/RSCTimg
-S4/HP2u4UWDro/Oy2N87mgTSHZvj7kcKKPRFKY6EItXTF3GutzF/WJZefYvCgMvrzfgJItYxk41X
-0M3okJ91nrxv8e7sJbR2PwzkJZiL+nWv//wjZFz3iCGgaLreZMsY7k2CSwv7RLjNmpTD3jp3Z2kS
-ED+bn+UWKT8AZiDSStBe9aaciv4iop2vffyGjjwoUU7xDG3f4PxXwAawt4YQanLJRs7E02mjyJ2O
-CYco7ZmYL02zxdB8YInHYhvSMB4H1PKT1+mGEsd0gMjDz2T8mZSj74Eqqscpqc2VIcpv/tB6/IfK
-jrmv9g1lgmrSAQQH30kv9DWZqIBWdsjGHqRpthB/cn5q42jlbdFgcX5XL2g7j9WIAJSUiGQR9bir
-VwAMr51uRJ7UKAsLXKSSVuRxEAaB0k40hbTTaYQiL4j/mfV3qW2r1SuobZM64chu6yIRQuknEPX8
-ayfswasnXLeO3Iyz1yWBXB0J5S5Z3P1D2iNrGF8sjaQkDR6Tls3DuvBafHJQxJ/80bQHYXK1ES9v
-pgiz4OAMqqF/TvI4ALjvhG+UfbEdhpT5kkCRcb4g6IEREJg/hlT3RI7JAmMijS7y6Oi4FeKxgiwJ
-7ao=
-=LhBW
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPPyPsACgkQI1/ltBGq
+qqfKJg/+JQfx6+7aYMmzI43kJOq1yMALAYrcZn3PKwN7espstXF6YBA6hAMK6uhf
+iwLrKIulnvge/P1YFBcyKmGy1llFXSVtNlkOeY7BbLIEkl/SJmjYUZsKyaIHQuSV
+ylS84vBmR5t8r3pMNtDYTf4butBGYSK1uIDJAdufBOz8d5Z8nhl95jKGFtHuWfOl
+5HpZZhcaREEzkuntOmQRq5CsEzRxSquKCmTXI1b50kIkzBzFdWdJko9dmbqR/EDT
+q0DS5YH3fcZAY2wOXN8/7j7Hc3/sMEdv6V4oFBlawH+QIoCgMRBPoTBb+tLswqPo
+1ye6ohzZYyRoAj2Ps74IAVmI7cd5pT5vsX3tKnddS+0o54MMuYBH8PqTOXiGYmDP
+tYCBNYhimMThK7++B7D1oCwu2QdlxTC6wJO7RNHVSj9ooRuDnZabNBuCZ4uw8yGJ
+3TMMf9bxznLYbxsdgBSdGTs3CQ7A8bC31k9gIgnHHY8dVSgQ34IcajWv6aLfZAYV
+NNgrK0YpCbsQMsz5TKb3PwE/6DGcRi1OhfVGobIO+H2N8afnATc97f15bBpVo7yb
+yJMoDdsCcM9B4udziAM4ZRP5S7TWGa0tWEJdDNoTnUvg6/E+KtnzPFsi+MHE6Ukn
+BJhec9nkaSFij3wfLjUjGuHPQ4K50ZZzqn8d6dEqWVukIzfkzfs=
+=BmCi
 -----END PGP SIGNATURE-----
 
---------------N2fEP60NvUQVfwxyo66rF97p--
+--Sig_/Fm+ZB8_N.OmslshxVcqee2k--
