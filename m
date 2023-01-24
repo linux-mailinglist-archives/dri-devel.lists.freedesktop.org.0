@@ -2,61 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639E1679125
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 07:40:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8789C6791BC
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 08:15:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16CD010E2E5;
-	Tue, 24 Jan 2023 06:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9658010E611;
+	Tue, 24 Jan 2023 07:15:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C6810E2E5
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 06:40:40 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 30O6eSPm112656;
- Tue, 24 Jan 2023 00:40:28 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1674542428;
- bh=9P/EN4EHXXUpp1mGIKQ1Wm0hm6DLAkxCB0oUo4vyZww=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=A+W18wpnDdFvCZkLFDA8+kIHRoYM8qZpR/T2/wMAGf96HqBFIyvAGwQFq6oAmLlfT
- ijglBmc0rZdQkck//GxSmauF/RHKQ2Q4G5M+iflm+6MdLwp81tioSDBD2+LvwGErLT
- b18BXxRBczH7c05h9UITupCV3GjQ5Y9X3imyoH0I=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 30O6eRmR081034
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 24 Jan 2023 00:40:27 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 24
- Jan 2023 00:40:27 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Tue, 24 Jan 2023 00:40:27 -0600
-Received: from [172.24.220.23] (ileaxei01-snat.itg.ti.com [10.180.69.5])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 30O6eM6D020250;
- Tue, 24 Jan 2023 00:40:22 -0600
-Message-ID: <014959bc-317c-544c-8afe-0e3b56d45e2b@ti.com>
-Date: Tue, 24 Jan 2023 12:10:21 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v6 3/5] drm/tidss: Add support to configure OLDI mode for
- am625-dss.
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, Rob Herring <robh+dt@kernel.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>
-References: <20221119173019.15643-1-a-bhatia1@ti.com>
- <20221119173019.15643-4-a-bhatia1@ti.com>
- <7feda5ce-5cff-3838-94ec-c2a1ef831398@ideasonboard.com>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2049.outbound.protection.outlook.com [40.107.101.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE75210E611
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 07:15:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YZHzVmdPWsLXaIT3tTMoK79rBTBqeKXbT5Wn/EBAxcM6DuzvHTRiLoYmZ0BzLzH2gw8jjuUomdFZJeqPBqoKfsmRfqjrXxXiqJXXVFIXtJGwb/ed1tAVSwd0Xpx9gXmARnvBEoa8MqJlJkbl/ff7aBy7xgVwNYaLzquqfgj5v1il0+kJn1Awa0LpASTxWrMrKgSLBh6YRdQnihAkswCLUQzLbYmYS+pXJfMdlgb5p1cM48vDuVY/1Wq+R2HHwB5aJU7OY2jSoTGLNHjuVR5KmtSqDDrEJNfx+YaDIp3dEOL+dl2VFAw2N6nDzYZvxnfVK/G/vVumeGYyG6gX/BFCUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4whNJEub6QoNHbzXiObbVmUH0H0fp6h85OjDkSlplBg=;
+ b=afDJEiSlUYJCwss2sX4f6cUuhVvWgKHu0l6y5G6XQPwi7tVe5CA6GoNCyV5IYNd2bI7eys1071vWahAG9KDzUg8qHwVWIE8OC/a4YIeJzbIbvM5wSlXK0ejI6evgBMeU4CvUxYpS0u5hEgVP53oi+2tiPvKZEG7c2Q8KydRljimnS/9UoNHDBVSgvWEx3vRqc8ESgxw9uFrEIdI408yCOA2vnb+waKRhxY2GA5vZY9T2NDXkRxXCXLKVU0o2Cm7dmUnb57yerY5Nj0JdP9l/bx4OE2Uid82A3m6zZBWOpQFnOSccidClJglFlE98d4yCQFu+Wd9A2WceuorXmthnEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4whNJEub6QoNHbzXiObbVmUH0H0fp6h85OjDkSlplBg=;
+ b=NY/zvQ3iV1Aenkn/uwZRVH/NYGzSmRF8iMJMsa3GcR+JbBy1w8tHdI7eqkVhi3D9dfU7c2qck2JU46YalyDqnIRBiKKlRoPJ3Qr+WT0AR3ZxsMSsX4V0JyxWLMVj8SS4I4i+lFINJvZrLu3FkZjnFF2F9QwUqSvq/i21HIo9vfU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SJ1PR12MB6100.namprd12.prod.outlook.com (2603:10b6:a03:45d::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Tue, 24 Jan
+ 2023 07:15:37 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::80d8:934f:caa7:67b0%3]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
+ 07:15:37 +0000
+Message-ID: <33f87d88-b05d-e524-54fb-d5fd2f676217@amd.com>
+Date: Tue, 24 Jan 2023 08:15:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: DMA-heap driver hints
 Content-Language: en-US
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <7feda5ce-5cff-3838-94ec-c2a1ef831398@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: John Stultz <jstultz@google.com>
+References: <20230123123756.401692-1-christian.koenig@amd.com>
+ <Y86R3vQX+vW0+oxw@pendragon.ideasonboard.com>
+ <1f4a1a5c-e0d5-7f0e-353c-daa89f1369ea@amd.com>
+ <CANDhNCoVkq4pQJvtgmvJJe=68ZoQOdjYFkbGG-PXVujX1py4aw@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CANDhNCoVkq4pQJvtgmvJJe=68ZoQOdjYFkbGG-PXVujX1py4aw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-ClientProxiedBy: FR2P281CA0127.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9e::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SJ1PR12MB6100:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4042651a-e433-43e7-c501-08dafddaca9b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: z/KkuUwXPDbEGjFoiYLvdP4v9O4IynmfAwXY1QaLj3AQjMcFolgCcpaHrawdwV7wZ1+EU2SZQ1sHz2c1qIu7JP1ZdvDS2EF6y33dbPpCyyOm+93d70WoHX3iOu7tgIDVgLFidsQ6wTDiDNJzdGy60Ksl1+Piq866Fc0YXrI24Sn0Jh4ioNyCzYHzebf4F8WRrDpW4+Z1mRqwB6IdIPQofrxv5gmo7LF+vr+Sv9R+RmwffBa6RDk3o/QsN3a+DuU360HmU7WXbu2qcRqzimeJO66dVf1SdzWgU0HbPPqGVC964BWQRLr8+BWM1iGRGv2uDIQHD4N/XYwPyx1FbljRntziem8BKF4vn5WqtVqW0rbJ0jDlN514oBti1S7+eXNoyBLRcflfGgZKKIYWo6LZxL28WW3cZw0w8ZnrVlNJynXvYwxybbh2bhC5eyUxGv20uKwoPlmsx0ei8oUK3m+CL97xdlVMuX1XEkFvzRHXCfqC0HyKEGCVOpSGPdAKPSPhqnSRvvWKFKZaQ8NQ+KCmCePY9So2kBF/8aq3+eGrnmXow4xgqAZYe6SmW3uayNX7Zlwj8rgcvHwb0x7JqW6JXb0wyyOJcMS86fgBvLUHM7BOrVaxbCVvyMAUgul/+oYLdCsBbAreuffC3Puu2srMrvUmp/3ba7Tsot22nR0UXjRHxd1jBzNm4Njmi76SjaSsqxSmoO2RrepYkCdrCdmPSFWkv5f+PKkD6pNgsmOjnDo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(396003)(346002)(376002)(39860400002)(136003)(451199015)(38100700002)(3480700007)(83380400001)(7416002)(41300700001)(86362001)(2906002)(5660300002)(8936002)(4326008)(8676002)(6512007)(26005)(53546011)(6916009)(6506007)(186003)(316002)(6666004)(66476007)(66556008)(54906003)(2616005)(478600001)(6486002)(66946007)(31686004)(66899015)(31696002)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnBtNjdVRnZaMzJ3YS9OWGN3THlDczVCdGVWaW5qM1NrbXVHYWlQT0daNW5q?=
+ =?utf-8?B?Njk5cnJib0poUDJpSlFIaWlpQTl0RGpnN1hZTmpwd2tPbUdIRVlhelhtVTk2?=
+ =?utf-8?B?MmtuRWZMd2ovRmNHNkpZdGdVUlNReDJhOEtaT1FhQnNjeVBFOHlLQjdLcFlC?=
+ =?utf-8?B?UFF0ZkNORGwxVk5yaDJxR05wNEFIZDJTWUMvQ01RVzlGTmM4eVZHTGJuYUdl?=
+ =?utf-8?B?NkY0TGE5VytHZ0p3bEdMTEhEcDBLc2l1T3cvaTJ1MmdQSzU0RTBJMmFYNHBl?=
+ =?utf-8?B?M3pqejRqNWdlcFJ3eElDTGFyUkhXT3Y0elJHZGtyU212eWI4YWlzQXJsUjlF?=
+ =?utf-8?B?YTU2aTYzL2l0R0xsODdod3ZoUUdRdFNRdWp4RVh5SnV4KzdPNEwyV1drdTNu?=
+ =?utf-8?B?ZXRyYXhWTnVjbWxRUGNxTGtremxrcEE5WGRLODNUeXBDZnNvcXZFWU91QVhI?=
+ =?utf-8?B?VnRtU3dPTUZJRWdIdG85ZnpXUW1CSXJSc2ozZmtsWGttQmNqanozK2NwWlhp?=
+ =?utf-8?B?ejRIQjFGTjJCcVRRc3IwNWdhbWQzZFl0enVtMTFjMjJuY0tsZVkrd0FjZ3gz?=
+ =?utf-8?B?dndXVzlVQ3U1cENpSnQ2eldWeGNLL0J5WHNaTld1OVc1dkVpcTVoaGJSSzlE?=
+ =?utf-8?B?MkpqempLVkl4ZGtRZUQwSk5qOEppQi9SVE9ocW96ckhNTjhlUVY0elZqQWwv?=
+ =?utf-8?B?UERNRWtTQTlLN25yN2JXTWJIbzBndU9yMFN1VloyZnlHZXV3VE44NjFXWnlX?=
+ =?utf-8?B?VTF1SDJ5VTQ3QVEvRzB3SVZpdTFNTDFkbXVXaU4xZDhadnUwelVYRHQ5eHVU?=
+ =?utf-8?B?WERwY3AzT2pKWkN2MnVjSXVUaU56Q0ZZa0s5Z2huTHNTTTRWNEhkNTBFZ1RJ?=
+ =?utf-8?B?blJOcnJxWXdqcTM2Y3JtbmFTUVlKMGt3ZzRpcm1tWVhLdVVGdHZQS3NFKzlz?=
+ =?utf-8?B?VG1OOTVqYWJNdklqWnY5Q2NGY3FVNUZiMjZrMjRkcmJyYU4xdENMRGc2RU82?=
+ =?utf-8?B?ZlFTMVpCcndJVzdXa21acndkaEU1TkNUYS9SdXhXc0w0cXVseS93dCtlTFMy?=
+ =?utf-8?B?Vll3ZmxITmFDa1oyc0o2L2dTL2t1eXdTVkl3RGdvR3lCazZwT2lIdFo2bW9S?=
+ =?utf-8?B?V0J1ZmZwaGlpUkwyTm1DenRwVnZta014YmRRMWpOUTlKeXhwUWZMMEZUaTdh?=
+ =?utf-8?B?blhVc294S3VEVXFrejRXRUFGMStKR3o5TXU2UytJRS9Lb3NEb3luTW03dTdz?=
+ =?utf-8?B?WWk1RzYvMnJEakwrZkFSNTlDSVhrb1NoeUIyemM3ZlFTMUZFTDNVbHhldWI1?=
+ =?utf-8?B?Yzc2N0ZFMVdNTmd4cmZvektSQ21VSklSNXp3ZlVQUTJXdW85QWNMaEY0Rkp4?=
+ =?utf-8?B?SGNtK0pJZkYwNndtRi9vRW5lOVMydGJIU3dwbllsVCtNVjE2aFRPSWRwQmVh?=
+ =?utf-8?B?WFRqUTFrbVV0ankzNmd6VWtFdlJ1RVBmdjhBZm14SnpKU0x1STM1Y08vaDl1?=
+ =?utf-8?B?RzFDTWpxanRXdUZOb1NyMjEwNWZZUHQ5clpyN3NRK1U3K1pqSWdxM0oyU1l1?=
+ =?utf-8?B?VXBPendjZmVqc2I2OThEbVVrbjhxZWo2TzdDSGxCQUNFYjBUZWh5cU9aUHZQ?=
+ =?utf-8?B?UkdhZ2ovaWlQMkFzeEpVTDFhcjZXSjBNM2VCb2F2SElHTDQ5TU1xUXNzNW54?=
+ =?utf-8?B?RjJLbG1nS3ppaVJ6bGNPdFVNWnZrdkZvTmE2eUxIdGt6VEoyWi9PM3AwSm5p?=
+ =?utf-8?B?NTFWOTZqeEc0MC9wQlAzaTVFaWgySjM1UndaR2p1SzlmNWc0QW5ZSWpjZlpH?=
+ =?utf-8?B?TjlUTUxYREU4TEJQeTg2b1VXSTlxdXFJeVdPNld6MHNURGFoVjNWL3R2U2hI?=
+ =?utf-8?B?SW14UWNOMnZnMGRtLzd5S0xUVU5UMlp2N3l4SFVBbTFHUVJKYm43d1pIR2FE?=
+ =?utf-8?B?NGRGUUdkcGZScVViQ3hBK3FzNHJVQmdqZXA0QkVVa0Z0TkkyWkNYUWdPK3hD?=
+ =?utf-8?B?VVhaV3dxeERRcFBDWWdoa0d1bklURVNhYW1nSXVYQlpPSXo5WFQ5Vit5dSt4?=
+ =?utf-8?B?dkJWNzEzRUh3dGJVNWFtTGRJblpER2tDVkQ3ald2Q2w5dDZlK2pqQUNQa05k?=
+ =?utf-8?Q?Fk9wQZ94ZQX4SogVQKCcfWrfS?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4042651a-e433-43e7-c501-08dafddaca9b
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 07:15:37.2750 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pRmE6Ut31RrjrrN6Z8rDdXGWYih5oMSR/sOs1H/4GgKGjryC/ckIe50y5D3vc6r2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,514 +127,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Rahul T R <r-ravikumar@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: James Jones <jajones@nvidia.com>, linaro-mm-sig@lists.linaro.org,
+ sebastian.wick@redhat.com, labbott@redhat.com, benjamin.gaignard@collabora.com,
+ linux-media@vger.kernel.org, mchehab@kernel.org,
+ dri-devel@lists.freedesktop.org, nicolas@ndufresne.ca, hverkuil@xs4all.nl,
+ ppaalanen@gmail.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ lmark@codeaurora.org, tfiga@chromium.org, sumit.semwal@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-Thanks for reviewing the patch series. I have implemented the most of
-your suggestions, but for the others, I needed to clarify things. I have
-made some comments there.
-
-On 20-Dec-22 18:22, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 19/11/2022 19:30, Aradhya Bhatia wrote:
->> The newer version of DSS (AM625-DSS) has 2 OLDI TXes at its disposal.
->> These can be configured to support the following modes:
+Am 24.01.23 um 06:19 schrieb John Stultz:
+> On Mon, Jan 23, 2023 at 8:29 AM Christian König
+> <christian.koenig@amd.com> wrote:
+>> Am 23.01.23 um 14:55 schrieb Laurent Pinchart:
+>>> - I assume some drivers will be able to support multiple heaps. How do
+>>>     you envision this being implemented ?
+>> I don't really see an use case for this.
 >>
->> 1. OLDI_SINGLE_LINK_SINGLE_MODE
->> Single Output over OLDI 0.
->> +------+        +---------+      +-------+
->> |      |        |         |      |       |
->> | CRTC +------->+ ENCODER +----->| PANEL |
->> |      |        |         |      |       |
->> +------+        +---------+      +-------+
+>> We do have some drivers which say: for this use case you can use
+>> whatever you want, but for that use case you need to use specific memory
+>> (scan out on GPUs for example works like this).
 >>
->> 2. OLDI_SINGLE_LINK_CLONE_MODE
->> Duplicate Output over OLDI 0 and 1.
->> +------+        +---------+      +-------+
->> |      |        |         |      |       |
->> | CRTC +---+--->| ENCODER +----->| PANEL |
->> |      |   |    |         |      |       |
->> +------+   |    +---------+      +-------+
->>             |
->>             |    +---------+      +-------+
->>             |    |         |      |       |
->>             +--->| ENCODER +----->| PANEL |
->>                  |         |      |       |
->>                  +---------+      +-------+
->>
->> 3. OLDI_DUAL_LINK_MODE
->> Combined Output over OLDI 0 and 1.
->> +------+        +---------+      +-------+
->> |      |        |         +----->|       |
->> | CRTC +------->+ ENCODER |      | PANEL |
->> |      |        |         +----->|       |
->> +------+        +---------+      +-------+
->>
->> Following the above pathways for different modes, 2 encoder/panel-bridge
->> pipes get created for clone mode, and 1 pipe in cases of single link and
->> dual link mode.
->>
->> Add support for confguring the OLDI modes using OF and LVDS DRM helper
->> functions.
->>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> ---
->>   drivers/gpu/drm/tidss/tidss_dispc.c   |  12 ++
->>   drivers/gpu/drm/tidss/tidss_dispc.h   |   9 ++
->>   drivers/gpu/drm/tidss/tidss_drv.h     |   3 +
->>   drivers/gpu/drm/tidss/tidss_encoder.c |   4 +-
->>   drivers/gpu/drm/tidss/tidss_encoder.h |   3 +-
->>   drivers/gpu/drm/tidss/tidss_kms.c     | 188 +++++++++++++++++++++++---
->>   6 files changed, 198 insertions(+), 21 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c 
->> b/drivers/gpu/drm/tidss/tidss_dispc.c
->> index dbc6a5b617ca..472226a83251 100644
->> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
->> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
->> @@ -365,6 +365,8 @@ struct dispc_device {
->>       struct dss_vp_data vp_data[TIDSS_MAX_VPS];
->> +    enum dispc_oldi_modes oldi_mode;
->> +
->>       u32 *fourccs;
->>       u32 num_fourccs;
->> @@ -1967,6 +1969,16 @@ const u32 *dispc_plane_formats(struct 
->> dispc_device *dispc, unsigned int *len)
->>       return dispc->fourccs;
->>   }
->> +int dispc_set_oldi_mode(struct dispc_device *dispc,
->> +            enum dispc_oldi_modes oldi_mode)
->> +{
->> +    WARN_ON(!dispc);
-> 
-> This feels unnecessary. Is there even a theoretical case where we could 
-> get dispc == NULL?
-> 
->> +
->> +    dispc->oldi_mode = oldi_mode;
->> +
->> +    return 0;
-> 
-> This function could as well be void function. >
->> +}
->> +
->>   static s32 pixinc(int pixels, u8 ps)
->>   {
->>       if (pixels == 1)
->> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h 
->> b/drivers/gpu/drm/tidss/tidss_dispc.h
->> index 51db500590ee..e76a7599b544 100644
->> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
->> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
->> @@ -64,6 +64,14 @@ enum dispc_dss_subrevision {
->>       DISPC_AM625,
->>   };
->> +enum dispc_oldi_modes {
->> +    OLDI_MODE_OFF,            /* OLDI turned off / tied off in IP. */
->> +    OLDI_SINGLE_LINK_SINGLE_MODE,    /* Single Output over OLDI 0. */
->> +    OLDI_SINGLE_LINK_CLONE_MODE,    /* Duplicate Output over OLDI 0 and 1. */
->> +    OLDI_DUAL_LINK_MODE,        /* Combined Output over OLDI 0 and 1. */
->> +    OLDI_MODE_UNSUPPORTED,        /* Unsupported OLDI Mode */
->> +};
-> 
-> What is the difference with MODE_OFF and MODE_UNSUPPORTED? Is 
-> MODE_UNSUPPORTED for cases where, e.g., the DT setup is wrong and the 
-> driver should return an error? The code doesn't quite do that, it prints 
-> an error but then continues.
+> [snipping the constraints argument, which I agree with]
+>> What we do have is compatibility between heaps. E.g. a CMA heap is
+>> usually compatible with the system heap or might even be a subset of
+>> another CMA heap. But I wanted to add that as next step to the heaps
+>> framework itself.
+> So the difficult question is how is userland supposed to know which
+> heap is compatible with which?
 
-Yes, OLDI_MODE_UNSUPPORTED is for the cases where DT setup is wrong.
-I have not exited in such a cases with an error, because then the driver
-will never have a chance to setup the 2nd pipeline (DPI) even if all the
-DT requirements are met.
+The heaps should know which other heap they are compatible with.
 
-> 
->>   struct dispc_features {
->>       int min_pclk_khz;
->>       int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
->> @@ -133,6 +141,7 @@ int dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
->>                 u32 hw_videoport);
->>   int dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable);
->>   const u32 *dispc_plane_formats(struct dispc_device *dispc, unsigned int *len);
->> +int dispc_set_oldi_mode(struct dispc_device *dispc, enum dispc_oldi_modes oldi_mode);
->>   int dispc_init(struct tidss_device *tidss);
->>   void dispc_remove(struct tidss_device *tidss);
->> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h 
->> b/drivers/gpu/drm/tidss/tidss_drv.h
->> index 0ce7ee5ccd5b..58892f065c16 100644
->> --- a/drivers/gpu/drm/tidss/tidss_drv.h
->> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
->> @@ -13,6 +13,9 @@
->>   #define TIDSS_MAX_PLANES 4
->>   #define TIDSS_MAX_OUTPUT_PORTS 4
->> +/* For AM625-DSS with 2 OLDI TXes */
->> +#define TIDSS_MAX_BRIDGES_PER_PIPE    2
->> +
->>   typedef u32 dispc_irq_t;
->>   struct tidss_device {
->> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c 
->> b/drivers/gpu/drm/tidss/tidss_encoder.c
->> index e278a9c89476..141383ec4045 100644
->> --- a/drivers/gpu/drm/tidss/tidss_encoder.c
->> +++ b/drivers/gpu/drm/tidss/tidss_encoder.c
->> @@ -70,7 +70,8 @@ static const struct drm_encoder_funcs encoder_funcs = {
->>   };
->>   struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
->> -                     u32 encoder_type, u32 possible_crtcs)
->> +                     u32 encoder_type, u32 possible_crtcs,
->> +                     u32 possible_clones)
->>   {
->>       struct drm_encoder *enc;
->>       int ret;
->> @@ -80,6 +81,7 @@ struct drm_encoder *tidss_encoder_create(struct 
->> tidss_device *tidss,
->>           return ERR_PTR(-ENOMEM);
->>       enc->possible_crtcs = possible_crtcs;
->> +    enc->possible_clones = possible_clones;
->>       ret = drm_encoder_init(&tidss->ddev, enc, &encoder_funcs,
->>                      encoder_type, NULL);
->> diff --git a/drivers/gpu/drm/tidss/tidss_encoder.h 
->> b/drivers/gpu/drm/tidss/tidss_encoder.h
->> index ace877c0e0fd..01c62ba3ef16 100644
->> --- a/drivers/gpu/drm/tidss/tidss_encoder.h
->> +++ b/drivers/gpu/drm/tidss/tidss_encoder.h
->> @@ -12,6 +12,7 @@
->>   struct tidss_device;
->>   struct drm_encoder *tidss_encoder_create(struct tidss_device *tidss,
->> -                     u32 encoder_type, u32 possible_crtcs);
->> +                     u32 encoder_type, u32 possible_crtcs,
->> +                     u32 possible_clones);
->>   #endif
->> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c 
->> b/drivers/gpu/drm/tidss/tidss_kms.c
->> index fc9c4eefd31d..8ae321f02197 100644
->> --- a/drivers/gpu/drm/tidss/tidss_kms.c
->> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
->> @@ -106,30 +106,115 @@ static const struct drm_mode_config_funcs 
->> mode_config_funcs = {
->>       .atomic_commit = drm_atomic_helper_commit,
->>   };
->> +static enum dispc_oldi_modes tidss_get_oldi_mode(struct device_node 
->> *oldi0_port,
->> +                         struct device_node *oldi1_port)
->> +{
->> +    int pixel_order;
->> +
->> +    if (!(oldi0_port || oldi1_port)) {
->> +        /* Keep OLDI TXes off if neither OLDI port is present. */
->> +        return OLDI_MODE_OFF;
->> +    } else if (oldi0_port && !oldi1_port) {
->> +        /*
->> +         * OLDI0 port found, but not OLDI1 port. Setting single
->> +         * link, single mode output.
->> +         */
->> +        return OLDI_SINGLE_LINK_SINGLE_MODE;
->> +    } else if (!oldi0_port && oldi1_port) {
->> +        /*
->> +         * The 2nd OLDI TX cannot be operated alone. This use case is
->> +         * not supported in the HW. Since the pins for OLDIs 0 and 1 are
->> +         * separate, one could theoretically set a clone mode over OLDIs
->> +         * 0 and 1 and just simply not use the OLDI 0. This is a hacky
->> +         * way to enable only OLDI TX 1 and hence is not officially
->> +         * supported.
->> +         */
->> +        return OLDI_MODE_UNSUPPORTED;
-> 
-> If OLDI_MODE_UNSUPPORTED is supposed to result in an error, maybe you 
-> could print the error here (and possibly in the default case below), and 
-> then, in the caller, just return with an error code.
-> 
->> +    }
->> +
->> +    /*
->> +     * OLDI Ports found for both the OLDI TXes. The DSS is to be configured
->> +     * in either Dual Link or Clone Mode.
->> +     */
->> +    pixel_order = drm_of_lvds_get_dual_link_pixel_order(oldi0_port,
->> +                                oldi1_port);
->> +    switch (pixel_order) {
->> +    case -EINVAL:
->> +        /*
->> +         * The dual link properties were not found in at least one of
->> +         * the sink nodes. Since 2 OLDI ports are present in the DT, it
->> +         * can be safely assumed that the required configuration is
->> +         * Clone Mode.
->> +         */
->> +        return OLDI_SINGLE_LINK_CLONE_MODE;
->> +
->> +    case DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS:
->> +        /*
->> +         * Note that the OLDI TX 0 transmits the odd set of pixels while
->> +         * the OLDI TX 1 transmits the even set. This is a fixed
->> +         * configuration in the IP and an cannot be change vis SW. These
->> +         * properties have been used to merely identify if a Dual Link
->> +         * configuration is required. Swapping this property in the panel
->> +         * port DT nodes will not make any difference.
->> +         */
->> +        pr_warn("EVEN-ODD config for dual-link sinks is not supported in HW. Switching to ODD-EVEN.\n");
-> 
-> Please use dev_warn() instead, so that it will be clear where the print 
-> comes from.
-> 
-> In any case, isn't this an error? Do you really want to accept the wrong 
-> pixel order?
-> 
->> +        fallthrough;
->> +
->> +    case DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS:
->> +        return OLDI_DUAL_LINK_MODE;
->> +
->> +    default:
->> +        return OLDI_MODE_OFF;
-> 
-> When do we get here? Shouldn't this be OLDI_MODE_UNSUPPORTED?
-> 
->> +    }
->> +}
->> +
->>   static int tidss_dispc_modeset_init(struct tidss_device *tidss)
->>   {
->>       struct device *dev = tidss->dev;
->>       unsigned int fourccs_len;
->>       const u32 *fourccs = dispc_plane_formats(tidss->dispc, 
->> &fourccs_len);
->> -    unsigned int i;
->> +    unsigned int i, j;
->>       struct pipe {
->>           u32 hw_videoport;
->> -        struct drm_bridge *bridge;
->> +        struct drm_bridge *bridge[TIDSS_MAX_BRIDGES_PER_PIPE];
->>           u32 enc_type;
->> +        u32 num_bridges;
->>       };
->>       const struct dispc_features *feat = tidss->feat;
->> -    u32 max_vps = feat->num_vps;
->> +    u32 output_ports = feat->num_output_ports;
->>       u32 max_planes = feat->num_planes;
->> -    struct pipe pipes[TIDSS_MAX_VPS];
->> +    struct pipe pipes[TIDSS_MAX_VPS] = {0};
->> +
->>       u32 num_pipes = 0;
->>       u32 crtc_mask;
->> +    u32 portnum_oldi0 = 0, portnum_oldi1 = 2;
-> 
-> These two are bit of hacks. First, they should be const, or maybe 
-> defines. If they're const, they can be inside the block below.
-> 
-> And they're very much tied to the HW in question, so just having 
-> hardcoded values here inside a function without any mention of the 
-> situation is not good.
-> 
-> Doing this in a generic and future proof manner is... challenging. So I 
-> think using the hardcoded port numbers is fine. But they are only ok for 
-> the two AM6xx SoCs we have now so the 'oldi_supported' is not very good 
-> fit. In fact, it might be good to drop 'oldi_supported' altogether, and 
-> just check for the SoC versions instead, as (with a quick glance), all 
-> the 'oldi_supported' checks are really SoC specific.
-> 
-I will be make these portnum variables const as you suggested and
-moving these as well as get-node and put-node function calls to the
-get_oldi_mode function to keep things clear.
+E.g. the CMA heap should have a link to the system heap because it can 
+handle all system memory allocations as well.
 
-However, I believe the 'oldi_supported' variable should still be kept
-(after renaming it to has_oldi as per your suggestion in the previous
-patch) because having this variable will help distinguish from the cases
-where an SoC *can* support OLDI output but its output by-passes the OLDI
-TXes and a DPI output is expected.
+If we have a specialized CMA heap (for example for 32bit DMA) it should 
+have a link to the general CMA heap.
 
-> This also again brings up a thing that rubs me the wrong way: the new 
-> OLDI port is port 2. I really think that on AM62x, the two OLDI ports 
-> should be 0 and 1, and the DPI should be 2. Would we need a new 
-> dt-binding doc for that, or could it still be described in the same doc? 
-> Would that change cause changes elsewhere in the dss driver?
-> 
->> +    enum dispc_oldi_modes oldi_mode = OLDI_MODE_OFF;
->> +    u32 num_oldi = 0;
->> +    u32 oldi_pipe_index = 0;
->> +    u32 num_encoders = 0;
->> +
->> +    if (feat->oldi_supported) {
->> +        struct device_node *oldi0_port, *oldi1_port;
->> +
->> +        oldi0_port = of_graph_get_port_by_id(dev->of_node,
->> +                             portnum_oldi0);
->> +        oldi1_port = of_graph_get_port_by_id(dev->of_node,
->> +                             portnum_oldi1);
->> +
->> +        oldi_mode = tidss_get_oldi_mode(oldi0_port, oldi1_port);
->> +
->> +        of_node_put(oldi0_port);
->> +        of_node_put(oldi1_port);
->> +
->> +        dispc_set_oldi_mode(tidss->dispc, oldi_mode);
->> +    }
->>       /* first find all the connected panels & bridges */
->> -    for (i = 0; i < max_vps; i++) {
->> +    for (i = 0; i < output_ports; i++) {
->>           struct drm_panel *panel;
->>           struct drm_bridge *bridge;
->>           u32 enc_type = DRM_MODE_ENCODER_NONE;
->> @@ -145,16 +230,24 @@ static int tidss_dispc_modeset_init(struct 
->> tidss_device *tidss)
->>               return ret;
->>           }
->> +        if (feat->output_port_bus_type[i] == DISPC_VP_OLDI &&
->> +            oldi_mode == OLDI_MODE_UNSUPPORTED) {
->> +            dev_err(dev,
->> +                "Single Mode over OLDI 1 is not supported in HW. Keeping OLDI off.\n");
->> +            continue;
-> 
-> Should we error out here?
-> 
->> +        }
->> +
->>           if (panel) {
->>               u32 conn_type;
->>               dev_dbg(dev, "Setting up panel for port %d\n", i);
->> -            switch (feat->vp_bus_type[i]) {
->> +            switch (feat->output_port_bus_type[i]) {
->>               case DISPC_VP_OLDI:
->>                   enc_type = DRM_MODE_ENCODER_LVDS;
->>                   conn_type = DRM_MODE_CONNECTOR_LVDS;
->>                   break;
->> +
->>               case DISPC_VP_DPI:
->>                   enc_type = DRM_MODE_ENCODER_DPI;
->>                   conn_type = DRM_MODE_CONNECTOR_DPI;
->> @@ -172,6 +265,17 @@ static int tidss_dispc_modeset_init(struct 
->> tidss_device *tidss)
->>                   return -EINVAL;
->>               }
->> +            /*
->> +             * If the 2nd OLDI port is discovered connected to a panel
->> +             * which is not to be connected in the Clone Mode then a
->> +             * bridge is not required because the detected port is the
->> +             * 2nd port for the previously connected panel.
->> +             */
->> +            if (feat->output_port_bus_type[i] == DISPC_VP_OLDI &&
->> +                oldi_mode != OLDI_SINGLE_LINK_CLONE_MODE &&
-> 
-  > Hmm, shouldn't this be oldi_mode == OLDI_DUAL_LINK_MODE? Or rather,
-Yes. I will make the change...
+> If you have two devices, one that points to heap "foo" and the other
+> points to heap "bar", how does userland know that "foo" satisfies the
+> constraints of "bar" but "bar" doesn't satisfy the constraints of
+> "foo".
+> (foo ="cma",  bar="system")
+>
+> I think it would be much better for device 1 to list "foo" and device
+> 2 to list "foo" and "bar", so you can find that "foo" is the common
+> heap which will solve both devices' needs.
 
-> shouldn't we test here if this is the second oldi display, and if so 
-> which oldi-mode are we using. If dual-link, break. If clone, continue. 
-> Otherwise, error.
-but, if I implement the oldi-mode-find logic over here, that would be
-limited to panels and will skip out the bridges. And the mode-find
-should really be only done once.
+I think that this would be a rather bad idea because then all devices 
+need to know about all the possible different heaps they are compatible 
+with.
 
-That said, I see that this can get a little confusing, So, while keeping
-the mode-find logic separate, I have organized the other OLDI specific
-things separately in the next patch.
+For example a device which knows that it's compatible with system memory 
+should only expose that information.
 
-> 
->> +                num_oldi)
->> +                break;
->> +
->>               bridge = devm_drm_panel_bridge_add(dev, panel);
->>               if (IS_ERR(bridge)) {
->>                   dev_err(dev,
->> @@ -181,10 +285,47 @@ static int tidss_dispc_modeset_init(struct 
->> tidss_device *tidss)
->>               }
->>           }
->> -        pipes[num_pipes].hw_videoport = i;
->> -        pipes[num_pipes].bridge = bridge;
->> -        pipes[num_pipes].enc_type = enc_type;
->> -        num_pipes++;
->> +        if (feat->output_port_bus_type[i] == DISPC_VP_OLDI) {
->> +            if (++num_oldi == 1) {
->> +                /* Setting up pipe parameters when 1st OLDI port is detected */
->> +
->> +                pipes[num_pipes].hw_videoport = i;
->> +                pipes[num_pipes].enc_type = enc_type;
->> +
->> +                /*
->> +                 * Saving the pipe index in case its required for
->> +                 * 2nd OLDI Port.
->> +                 */
->> +                oldi_pipe_index = num_pipes;
->> +
->> +                /*
->> +                 * No additional pipe is required for the 2nd OLDI
->> +                 * port, because the 2nd Encoder -> Bridge connection
->> +                 * is the part of the first OLDI Port pipe.
->> +                 *
->> +                 * num_pipes will only be incremented when the first
->> +                 * OLDI port is discovered.
->> +                 */
->> +                num_pipes++;
->> +            }
->> +
->> +            /*
->> +             * Bridge is required to be added only if the detected
->> +             * port is the first OLDI port or a subsequent port in
->> +             * Clone Mode.
->> +             */
->> +            if (oldi_mode == OLDI_SINGLE_LINK_CLONE_MODE ||
->> +                num_oldi == 1) {
->> +                pipes[oldi_pipe_index].bridge[num_oldi - 1] = bridge;
->> +                pipes[oldi_pipe_index].num_bridges++;
->> +            }
->> +        } else {
->> +            pipes[num_pipes].hw_videoport = i;
->> +            pipes[num_pipes].bridge[0] = bridge;
->> +            pipes[num_pipes].num_bridges++;
->> +            pipes[num_pipes].enc_type = enc_type;
->> +            num_pipes++;
->> +        }
->>       }
->>       /* all planes can be on any crtc */
->> @@ -196,6 +337,7 @@ static int tidss_dispc_modeset_init(struct 
->> tidss_device *tidss)
->>           struct tidss_plane *tplane;
->>           struct tidss_crtc *tcrtc;
->>           struct drm_encoder *enc;
->> +        u32 possible_clones = 0;
->>           u32 hw_plane_id = feat->vid_order[tidss->num_planes];
->>           int ret;
->> @@ -218,16 +360,24 @@ static int tidss_dispc_modeset_init(struct 
->> tidss_device *tidss)
->>           tidss->crtcs[tidss->num_crtcs++] = &tcrtc->crtc;
->> -        enc = tidss_encoder_create(tidss, pipes[i].enc_type,
->> -                       1 << tcrtc->crtc.index);
->> -        if (IS_ERR(enc)) {
->> -            dev_err(tidss->dev, "encoder create failed\n");
->> -            return PTR_ERR(enc);
->> -        }
->> +        for (j = 0; j < pipes[i].num_bridges; j++) {
->> +            if (pipes[i].num_bridges > 1)
->> +                possible_clones = (((1 << pipes[i].num_bridges) - 1)
->> +                          << num_encoders);
-> 
-> I think the above possible_clones assignment can be outside the for loop. >
->> +
->> +            enc = tidss_encoder_create(tidss, pipes[i].enc_type,
->> +                           1 << tcrtc->crtc.index,
->> +                           possible_clones);
->> +            if (IS_ERR(enc)) {
->> +                dev_err(tidss->dev, "encoder create failed\n");
->> +                return PTR_ERR(enc);
->> +            }
->> -        ret = drm_bridge_attach(enc, pipes[i].bridge, NULL, 0);
->> -        if (ret)
->> -            return ret;
->> +            ret = drm_bridge_attach(enc, pipes[i].bridge[j], NULL, 0);
->> +            if (ret)
->> +                return ret;
->> +        }
->> +        num_encoders += pipes[i].num_bridges;
->>       }
->>       /* create overlay planes of the leftover planes */
+That a CMA heap is also compatible with system memory is irrelevant for 
+this device and should be handled between the CMA and system heap.
 
-Regards
-Aradhya
+>>> - Devices could have different constraints based on particular
+>>>     configurations. For instance, a device may require specific memory
+>>>     layout for multi-planar YUV formats only (as in allocating the Y and C
+>>>     planes of NV12 from different memory banks). A dynamic API may thus be
+>>>     needed (but may also be very painful to use from userspace).
+>> Uff, good to know. But I'm not sure how to expose stuff like that.
+> Yeah. These edge cases are really hard to solve generically.  And
+> single devices that have separate constraints for different uses are
+> also not going to be solvable with a simple linking approach.
+>
+> But I do wonder if a generic solution to all cases is needed
+> (especially if it really isn't possible)? If we leave the option for
+> gralloc like omniscient device-specific userland policy, those edge
+> cases can be handled by those devices that can't run generic logic.
+> And those devices just won't be able to be supported by generic
+> distros, hopefully motivating future designs to have less odd
+> constraints?
+
+Potentially yes, but I think that anything more complex than "please 
+allocate from this piece of memory for me" is not something which should 
+be handled inside the device independent framework.
+
+Especially device specific memory and allocation constrains (e.g. things 
+like don't put those two things on the same memory channel) is *not* 
+something we should have in an inter device framework.
+
+In those cases we should just be able to say that an allocation should 
+be made from a specific device and then let the device specific drivers 
+deal with the constrain.
+
+Regards,
+Christian.
+
+>
+> thanks
+> -john
+
