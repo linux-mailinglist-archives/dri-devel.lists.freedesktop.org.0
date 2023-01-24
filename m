@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1F567904C
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 06:47:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A46867904E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 06:47:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A31B10E602;
-	Tue, 24 Jan 2023 05:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9227710E606;
+	Tue, 24 Jan 2023 05:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com
  (mail-vi1eur05on2075.outbound.protection.outlook.com [40.107.21.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9CB310E5F6
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 05:47:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF2A10E5F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 05:47:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jQoaSju1QcTrkc7QcXb7WWHrfHEC4+lzCmBWJTTeT3vLnmVSH2AQi3jlwUSgI6BlQWjt95M6BIOKvWstcInTPSfqsSp0GjFXjvFyZGEYOK9G+aLFZP1t/ov5g0P8l4yMCcQ8G89Lo4OOlTHYx+BUgYDwXNAM9U5Yx0UDJU2G6Agdlcei3Fih4U0u2fxajGaQ3zlIfCpZ1u0AwO0y3uCPOWdJSbM1brLw5Lt+E5+FR396Sf4xfDquZsR44CeselmTaPnE8wQSWH+OrsjzK/cZZertaYeIQOVlm4ihCpWgD7acUabbnrWZm75tHp+DmQNUbuN1SIPV2MdvMjj4ZNd3nA==
+ b=MF5A2FxbgO9cnr0aWgDoCGuTHxtsfsvqygr8l5h3G7gpov1Rah4YN3hioOJFqJTh4KWLIiaG5AhNDMd8TCFGTSGAOoRc8ZGzfcuXkJYHm3Jt/06ySdq0wbJ7RABJaNa7UZxBzGvcAAT0Rda2JLyd51upawam39Fgvj2QVSTDY1/nWIv9D/V67qT+KJIDZ6xT0LZMGkTMgwXGZ2vE44QoSgSoI3pm7NgCIqLwelahhbt7OGS82NDKO/RRozSmuAKJ1cFi+lrMrhsi5ItBDt6wSLr+KkqSuiD2eraJBvQ9bcBX/M6+vvMJI8CuMICXZZxzdkibHKX44a75n6q07VcgKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qELp75GMG8gq/xzAPHpiSQQnHjdgzgjWvx4lnj2MduM=;
- b=Sr0VfGd6Tq1RumflbE0FB4pR6QcHxT+TmgNjOURSHv+KIbR5uESWNViM1nkxUxzJM06V0mneSAQhRT+JeJ7txkCXcOVL9A6YVFrxvDVE1NCkOMpeujSH06rnUwcxuic8+iZm0QKkXP31/u4MIz66YfuTPgExchy/nbLGtMUNThBOYOLrqE494kkBfkzhUIzU7LZK553r4rAbtzFc9jtmGb0Cck/snTsEanz2kR6CsL1p+K94iY/9G8w1xmyUa+T0ceI3FCBD5GIK6dPfp6aE231P/QVUALmEpUQmttZGJ0g7FlB31z05TCklMzMWVcGp3Ag0I8q9m2kM/wzG9215LA==
+ bh=jmMn2MrzNdLf4gxHZQEmHIe0WNK9Hf6gYQ+Ss8LUPbc=;
+ b=cZ1eWNdlqH4BGtSJJw9OjL1rrvIxqefUxSEJVUbdWdgSuEuitvO2YidYYzHY2DwPqWv/7oEnUKA+SHI6kkg6g1skRuDD4YGFE9K9gLVK54bh6LNGcwcX+KrRBWhWnKrOO812/GR1bF01GEgq0XDfh3cDTFYGxLH48YSnJOvMzbNHy6jH7tOkAA3vzAg7E8AJZ/R8UcueD59IAazINO6fS7/oJimM72yOXdLfcKO6VD91Qv1C+Gj6ypFGfM0BuN0e/tR1kRaSkmDMi5bxK1z9RVk4vGqAsqFr6ZL91+EpqRmsQ07B3TgIvorFNHW65H2l56JmnEtg7P0xg9zdhYwYYA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wolfvision.net; dmarc=pass action=none
  header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qELp75GMG8gq/xzAPHpiSQQnHjdgzgjWvx4lnj2MduM=;
- b=pC5MRLu0B2wS2oeZshMa6kNsAkiepkkSQhCR01QlvhUWav9/7+9PwBTdcAro7w/CRyA8QH/dhgcE9icQdgosSY1S3bFcHhO/g2UNe3PSt8ul/JP1JgoHNyLdXm+/2L1qAMWAkaePRO8OCWW2waiZ0ErwWJ3xUkspRkNmRVK15ZU=
+ bh=jmMn2MrzNdLf4gxHZQEmHIe0WNK9Hf6gYQ+Ss8LUPbc=;
+ b=jAHsna9XPaUUn0HYkZv/srifYofBnYc1AIt0Rq7ULM2dDXQTiuilHOx9Jdf9r9yqCtQVshNiwgfLykFVOYq9HXNrg1UzBXjfeSBReime+M00pm0ply/h+ZxKlxEzmIq8Gbon2AxW5eaIBOQVk4AB75fpu+xnvabrpya65gxTzTk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wolfvision.net;
 Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
  by VI1PR08MB10032.eurprd08.prod.outlook.com (2603:10a6:800:1cc::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.28; Tue, 24 Jan
- 2023 05:47:22 +0000
+ 2023 05:47:23 +0000
 Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
  ([fe80::4718:6092:e763:4219]) by DU0PR08MB9155.eurprd08.prod.outlook.com
  ([fe80::4718:6092:e763:4219%2]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
- 05:47:22 +0000
+ 05:47:23 +0000
 From: Michael Riesch <michael.riesch@wolfvision.net>
 To: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 4/6] drm/rockchip: vop2: use symmetric function pair
- vop2_{create, destroy}_crtcs
-Date: Tue, 24 Jan 2023 06:47:04 +0100
-Message-Id: <20230124054706.3921383-5-michael.riesch@wolfvision.net>
+Subject: [PATCH v3 5/6] drm/rockchip: vop2: add support for the rgb output
+ block
+Date: Tue, 24 Jan 2023 06:47:05 +0100
+Message-Id: <20230124054706.3921383-6-michael.riesch@wolfvision.net>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230124054706.3921383-1-michael.riesch@wolfvision.net>
 References: <20230124054706.3921383-1-michael.riesch@wolfvision.net>
@@ -58,54 +58,54 @@ X-ClientProxiedBy: ZR0P278CA0189.CHEP278.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|VI1PR08MB10032:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc682a86-e116-48f3-0578-08dafdce76ae
+X-MS-Office365-Filtering-Correlation-Id: 0a016dd7-b29f-4535-b0c3-08dafdce7771
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BT9bDVj50yyxL7Rxfhrr7BaUG0Gd3iDYVMADojvROlkV7i7kK48s6jiYocxidTURV7gLEHUUcag3lmzSoh7y0DGOzr72oS2rphwL9PGCzCSGkz7iYB/mHDf/FwLty9rqVFBf2Tqgxcr2t05aL0HoKMm29eFOnBvPyHKm3OXmrdBu1AkF4UKg2SOx8dcAugYfPmCzKfy4Aqcb2o46+LDZp+BhhsuPPrXTqWIo6daw4sjmlVefdir9syTmKvu9N79AqMo5e/PhgZZuGYGvo5gCAfl7qu4PA28y1KH4mCcxErf9xx8oLWSM0dSTLwecUheftrbSnuEuBh2Is56CUmOLTKF1ODtMTBx21uQ/85b7L5ey0UXKV3aRMw/yRFbtEPvTHKb9X0V+5FoY/cYg8P9k32z2Lph5yuNWPeC/KCNYE1abHFzMLao71ViJbhOY4sJWAW7VyTR60xOS4a9XKv/raYuN5VK51fFeb1Sruy+bnl9kd6QrYlvaaYzHVRXurgESIPPEjoedgsKcWytzc6XC07hMDaROxuZIOwsaocsh3q0x61a+jPheceK79nq84kcrU2scOzUW0p48Y/MWKje11xs4VC99XI0uuKTvu7DPB+3tSZLaNkPdTD6S9Z8OkrFQnus6j2OZ68N7diROFyCj0g==
+X-Microsoft-Antispam-Message-Info: uaSKcXXHhv6Ui+QwCAZHb3ye3KgB+ZU1fFtwCJe8EmTCi4sxIB3rJMpibQDYt1UBrqE/43JECAztV8ruCwO4fFaUKMcUi3SQNDGodUr6tveBzBYIhZ+En+cuyMg4BY2WDxeiKHezAp5OoRNjbHDhstrFOS1SdORv1m9BFs8O9isKfG2XIgnXBzDc7Pmjus0PuXidr7rbVsNcdwFwUHhUWq7Om4GN97DYituywN0N7YoUlpgOXrkn4nHsziBsaM0DpaOiIk0WS2uPqvT8IKIOpnUWe+5u2I2T4sdxzYuJpMMj06h2a4P6y3tKMbpwgN6Q4GMH7Nk2nE6lIJjIPsvnV97rqJfW+6Xu8nolhAiT2sNLW+buL/GNvY/+Pa/rpaYp/CBU39trXHA3x8uvuetYHPiN/Lq0BF/QQo+JomXFWQ+HZxvaKdKZ9ekYbdsbe9kg+B1ii3LF81QDKZ4ys6atYqt6ppVuKIfUReUCLUCQ/1NoeE8BMgPyM8Dy5pWEgSkXduVAZPSwyo68XbU92SxEyp4QPl6frKd33PycgGHLzyLSikGMM7Lp4MOp3IZyLhS96GUyG57DNPKsaWV8yp/GwCVL9QRIN02fg476z0ifaa4juVwVWcbA+1wwmfJC1mmKGJEtKn4JvEAkKYolhELLvw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(4636009)(39840400004)(396003)(346002)(366004)(136003)(376002)(451199015)(36756003)(66946007)(2616005)(66476007)(66556008)(316002)(54906003)(8676002)(4326008)(6666004)(5660300002)(7416002)(2906002)(44832011)(83380400001)(107886003)(52116002)(6486002)(186003)(1076003)(478600001)(41300700001)(6506007)(86362001)(38100700002)(6512007)(8936002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7g+zCGMPTRdCTgHBw7j0NghH5hOHCerkrVUBGf1RDFWL0BsMH3kpY87Md5ph?=
- =?us-ascii?Q?v4uL+mPidej08S9jf1HYM2I7cJfsQ3DmMNorX5Kjk45WFirDBay4apmC1gEU?=
- =?us-ascii?Q?cnDLDDoyMmK2Xrq5GSompJDlmpSowMCEeYekz5+w7YhqlWSoLdiJC3MK2hH5?=
- =?us-ascii?Q?ebwdgQlSb2GUFkkuiERZntXB5asxVhNoRSLLP7FMCfi5sCUMKYBVIBkdZvzU?=
- =?us-ascii?Q?Zw80GwTS1BbUWVLCU05uTsjahX158xt/9nsDcjwhslymYzN/CXtMsyFOfH45?=
- =?us-ascii?Q?qLW2/Bai3JWByZ5LxkAlcj6gXLuYgMcBXmc2Pw3u4LmVtMPRRGs7k+JOBfe6?=
- =?us-ascii?Q?+HMOuHzcCR0GEbJCzaq3cw/Z9o5hdVrySRPLO1C2fHeQCqQbXV966zouvvLE?=
- =?us-ascii?Q?lZ0fkep1V+e74TJq1cE7NMUEDssE2uuHeqaH2SfTQAn8mrY+CNcjpPk0f21W?=
- =?us-ascii?Q?ARVM7Ya2+GEaMIwHGlyRsbuaHOp41ONDMYksj1x0ABASPV9mqOoZTb/wigQU?=
- =?us-ascii?Q?zEiZhA9B4Af3ADyG1HfoyHz/6lpr2Kqo0P24Y6v+ZItOzzbWFSe+7yNjwF41?=
- =?us-ascii?Q?Bnf3gbaBE1oj793oUpyFYkCqGQ5MjYb+2H5EyAMKdcjujLf8+pMqj3scmK/t?=
- =?us-ascii?Q?BF4/UdrXzHuAu8eLNelJanVmnFzreD8yW5hAt5QrP3kOYyCCNnoBYrjk3aGs?=
- =?us-ascii?Q?YJ1WtQeuCIJZcPf+e8SSy8lXODT66upH1EBr3T5RhhYyV4Hanifbq6cThhLM?=
- =?us-ascii?Q?4I/R6UlHYUFakZvfb84m7nhhqeRM/FRRT4LdvymUt47FV+065h+XdMdXPrxL?=
- =?us-ascii?Q?lnA2xQzeM2jL68K4WyPynY6eiJR8rR0iHsLZ/0cbrzkPnwAt9gINm8MaUPyS?=
- =?us-ascii?Q?xwmtM4lSfl+VNk103FmgnbIfQIalTByMhnzBrF3lQB1uf4dasBGt69uOiREV?=
- =?us-ascii?Q?CjBZ5r3TXHO2S2WzJB/6d+ay/onPk+DWlPGcHc4Xx7S1ETeO1utdI6QpGykp?=
- =?us-ascii?Q?IOuKaAmUDzrTRxlg4A+As9CTYLSTuf68M9pGs+/sSZgHVyNSCKFK/YaZliMQ?=
- =?us-ascii?Q?mFjvMMyk9hVDv+Ko1uN+Q+prdsTzt02aGSiefi1L3oZNotyIGSH140xZjAZb?=
- =?us-ascii?Q?7SVMrtUIFdeDDKHxUyUWu+3X50sxIok9bM919YZo8Gy/6vqI8vVRp+9BGSfu?=
- =?us-ascii?Q?3YTkDg7z+j0wAGC2ts8yl/cNLIMG5Zc9kvIO6xDqWfC+zPfohxkxpxptq7yb?=
- =?us-ascii?Q?pqA71Ms01EgBfCq9q/t+wVIeFtqHLnuVTKkXs7HS+ZiMS5+gU6QkwKrmLmzO?=
- =?us-ascii?Q?whP4aBnSHCUqBsrKbD65qyrMsJbMj9cnfHMkL945GPvuyIyhq8TC0RsWplPN?=
- =?us-ascii?Q?7YKKeGWSC9jkehTiH9Bu4Gz6gMBSj/MSrAqITrk43Qyd5TSsVPx03VfOXuIh?=
- =?us-ascii?Q?sgzBd0rw12lD/f5OzO0PLIl88eEDEuGq9GNfS97I47r4BOCiEhtwFfmLFNNu?=
- =?us-ascii?Q?56Wowsfmj8P+aEZK+U9AQE09RlXbPIIyFCqhS9Mnn+1LPWgg/Mt2t8HinJQt?=
- =?us-ascii?Q?45/50BgVVt8jwfaBNMmANJBIzdtjMA1Hx0gXheU9aW4cTaxItx0c/4L5LMal?=
- =?us-ascii?Q?xVJ0hsfAAiKkvBlcnkebUXsEjeWgM77LISN7ZA7M8A10szhpzyDUosbqFc9s?=
- =?us-ascii?Q?eJr3wPB1JGukv9X7+pQW+rCoD1U=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?puEmXFztMRFYwmJlRzumJzg5aq6HRDzELbT9goxm3J0EURxKjtyWn2rqv3Z/?=
+ =?us-ascii?Q?yuwqgdiO2Hp+QwMPMbj730IhHALAI1V21FQFH31Jd+g1ssR5l3aliORgkFLu?=
+ =?us-ascii?Q?Okt3oG9MCs/mjhEEASKBAGG8N8flJbx+XWV2MgmBJzv4a8TvWYt/CwnveLyC?=
+ =?us-ascii?Q?+3MRqVhd/IdWnk64Dqcmf7DWarjztVMEHYJi/tGzUL0IFypobR3+Fo2ryqsB?=
+ =?us-ascii?Q?cdAs2PcEYImd6p06ZMBiCakK7Cxi3abGHlpMbWhuzcWI+MJ3GZkSroqES9OC?=
+ =?us-ascii?Q?JYbfFBsQGXT1guaoqiIXwoQylU+6vfZIWkJQ5KF5ApNxodLcIwzQCX8m1+IO?=
+ =?us-ascii?Q?YsJ7UzyTB7wpLDwMJ7UjGAK/bUTPEg/eQJYg07gukoSkEb9Kikz+oozX66jx?=
+ =?us-ascii?Q?/fJVBbXvw4SE71FFYW2kZgQZAt5KjrN0fHInGJ3LBVwwznv2KcHpANK7B6sw?=
+ =?us-ascii?Q?xFvRff1LCwSCMnddW5l/VPHfBGmiciWjQCWEnfL+L7VjrxRpy++3noKhOCqu?=
+ =?us-ascii?Q?uOwPRjCN9LsbBLBCdK3LlnVyEBjhfaXq24sP3TsOCL0LkedOFNT26QOD9+5B?=
+ =?us-ascii?Q?020B7MwdYIm2OQYq4LxNWKqlrXQ2vhk/oYW/pXZY20DxGrY0P4MPCgJbcgBo?=
+ =?us-ascii?Q?c2YEfFGYWTDaJrsFckxVmuS1FvYjN9JVhR6hFQTY4DuBJ+m0Jt8+9OCCIyr5?=
+ =?us-ascii?Q?WjjP2zcAwM3uIYlZL66Y8JozzBYbwWNqkMlyr93BArWuRb18P9EoVa8joXw9?=
+ =?us-ascii?Q?iIu6427X5mIDb2Tud5IsMyQsDa4PZuM77AiMwg/pEnAGKHUIOMMRv3sH/BaR?=
+ =?us-ascii?Q?zQvsrdkrhZW7vDQ045cKOzqc7m8ze/pZUYVa+EC28Xi/SX52VvycMvE8t+6j?=
+ =?us-ascii?Q?TxKIPoaxghLsILxvb7J1fm7ESNsmwdncO94Xo+yXsGcTurt0hnhhBx0V97ak?=
+ =?us-ascii?Q?QNeEnevOWwGH/jcHADrwm/tRMJ8MX4T49rUPHIFFQhsL902lkf3jCFoxZgqi?=
+ =?us-ascii?Q?9+2rJzFlYLN1voD6DVTOxheCGim4Bi3TzD/HEKATk63ZaEG/asl4jX20pNdt?=
+ =?us-ascii?Q?pS7bQLVu1mTBmj3vtHV3nAqv/Ue8/fGmOE51RFxD1D/VbYwo+SYws9C1soCs?=
+ =?us-ascii?Q?Z3L59uSpNYzJvEdp6b9NDBV3Y3IANC8TCXfHiPMIgP9CCBc+xQ8M/o+XpIhg?=
+ =?us-ascii?Q?7SBwm5zwcXsupuLGWUiT3cx1WInvuUbIOVqinF8lDmG4NUvUqweK7Tdzzp6T?=
+ =?us-ascii?Q?dCrYfZwl1V6CpUTVhaNdML3WKytllF+HpD2Z7tmW0gFS3sjWgxXRS/fHVfu1?=
+ =?us-ascii?Q?H19U1VfCU6sEF0wMbsgmW2ipoRZcypbF9kz/fScwocQ5TTq/Jn0lPEYQA8Fb?=
+ =?us-ascii?Q?hqufJkll07Z+bY2UywdIQpg4KWkYBEDjCNo/JFnHqvTrl3bp2/GDmyla14E+?=
+ =?us-ascii?Q?IyOxFuZ7AwXfTZ3/2Fznt028i8HT2eeAaH/KVrbcVEybna7VPMcZsYnUy+s3?=
+ =?us-ascii?Q?wqZJfSqsJdQ7LKVNoisP4v+Z5hbgTm96twEl0RAvK5s+ea6C8bObPzw0ch5M?=
+ =?us-ascii?Q?TmjpdlsdwhqLKNsK3QrNzzgEz6mwSh0X3GBepxm0EX10aV/M/5vCSjxbhu3x?=
+ =?us-ascii?Q?eHahdurAqV2g6C3QXfOxgHUmUTWYxi4WWY9jdedv6UdTAKYzRsg0Wurnq/TA?=
+ =?us-ascii?Q?fSX+2e1/1Z3GYw/IB1QXr/SAmAI=3D?=
 X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc682a86-e116-48f3-0578-08dafdce76ae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a016dd7-b29f-4535-b0c3-08dafdce7771
 X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 05:47:22.3490 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 05:47:23.6157 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gdF9094NByDjhGA6G98/WU/esB93gDzP7lF/UUuE27XsY60sbhH1+xISbQDomGkg6BNKxDZwHV2DiTOMbWbzSzqdqbAZSdMVMZ9zt6xw78I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2rtwT7sze6TRGqBFKYjVzQMCjrodU3HpZBY3XZwfaq0Cw57U5S9uccmB1sAsti89TuUGSkrNc6B/MvNSq7QNc/c0XbGD0bpdjEVPypKAgNA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB10032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -126,92 +126,109 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let the function name vop2_create_crtcs reflect that the function creates
-multiple CRTCS. Also, use a symmetric function pair to create and destroy
-the CRTCs and the corresponding planes.
+The Rockchip VOP2 features an internal RGB output block, which can be
+attached any video port of the VOP2. Add support for this output block.
 
 Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 ---
 v3:
- - no changes
+ - fix commit messages (still assumed video port 2)
+ - fix condition to make 0 a valid video port
 v2:
- - no changes
+ - move away from wrong assumption that the RGB block is always
+   connected to video port 2 -> check devicetree to find RGB block
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 31 ++++++++++----------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 44 ++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 374ef821b453..06fcdfa7b885 100644
+index 06fcdfa7b885..f38ffd0ccd9f 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2246,7 +2246,7 @@ static struct vop2_video_port *find_vp_without_primary(struct vop2 *vop2)
+@@ -39,6 +39,7 @@
+ #include "rockchip_drm_gem.h"
+ #include "rockchip_drm_fb.h"
+ #include "rockchip_drm_vop2.h"
++#include "rockchip_rgb.h"
  
- #define NR_LAYERS 6
+ /*
+  * VOP2 architecture
+@@ -212,6 +213,9 @@ struct vop2 {
+ 	struct clk *hclk;
+ 	struct clk *aclk;
  
--static int vop2_create_crtc(struct vop2 *vop2)
-+static int vop2_create_crtcs(struct vop2 *vop2)
- {
- 	const struct vop2_data *vop2_data = vop2->data;
- 	struct drm_device *drm = vop2->drm;
-@@ -2372,15 +2372,25 @@ static int vop2_create_crtc(struct vop2 *vop2)
- 	return 0;
- }
- 
--static void vop2_destroy_crtc(struct drm_crtc *crtc)
-+static void vop2_destroy_crtcs(struct vop2 *vop2)
- {
--	of_node_put(crtc->port);
-+	struct drm_device *drm = vop2->drm;
-+	struct list_head *crtc_list = &drm->mode_config.crtc_list;
-+	struct list_head *plane_list = &drm->mode_config.plane_list;
-+	struct drm_crtc *crtc, *tmpc;
-+	struct drm_plane *plane, *tmpp;
++	/* optional internal rgb encoder */
++	struct rockchip_rgb *rgb;
 +
-+	list_for_each_entry_safe(plane, tmpp, plane_list, head)
-+		drm_plane_cleanup(plane);
- 
- 	/*
- 	 * Destroy CRTC after vop2_plane_destroy() since vop2_disable_plane()
- 	 * references the CRTC.
- 	 */
--	drm_crtc_cleanup(crtc);
-+	list_for_each_entry_safe(crtc, tmpc, crtc_list, head) {
-+		of_node_put(crtc->port);
-+		drm_crtc_cleanup(crtc);
-+	}
+ 	/* must be put at the end of the struct */
+ 	struct vop2_win win[];
+ };
+@@ -2393,6 +2397,25 @@ static void vop2_destroy_crtcs(struct vop2 *vop2)
+ 	}
  }
  
++static int vop2_find_rgb_encoder(struct vop2 *vop2)
++{
++	struct device_node *node = vop2->dev->of_node;
++	struct device_node *endpoint;
++	int i;
++
++	for (i = 0; i < vop2->data->nr_vps; i++) {
++		endpoint = of_graph_get_endpoint_by_regs(node, i,
++							 ROCKCHIP_VOP2_EP_RGB0);
++		if (!endpoint)
++			continue;
++
++		of_node_put(endpoint);
++		return i;
++	}
++
++	return -ENOENT;
++}
++
  static struct reg_field vop2_cluster_regs[VOP2_WIN_MAX_REG] = {
-@@ -2684,7 +2694,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+ 	[VOP2_WIN_ENABLE] = REG_FIELD(RK3568_CLUSTER_WIN_CTRL0, 0, 0),
+ 	[VOP2_WIN_FORMAT] = REG_FIELD(RK3568_CLUSTER_WIN_CTRL0, 1, 5),
+@@ -2698,11 +2721,29 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
  	if (ret)
  		return ret;
  
--	ret = vop2_create_crtc(vop2);
-+	ret = vop2_create_crtcs(vop2);
- 	if (ret)
- 		return ret;
++	ret = vop2_find_rgb_encoder(vop2);
++	if (ret >= 0) {
++		vop2->rgb = rockchip_rgb_init(dev, &vop2->vps[ret].crtc,
++					      vop2->drm, ret);
++		if (IS_ERR(vop2->rgb)) {
++			if (PTR_ERR(vop2->rgb) == -EPROBE_DEFER) {
++				ret = PTR_ERR(vop2->rgb);
++				goto err_crtcs;
++			}
++			vop2->rgb = NULL;
++		}
++	}
++
+ 	rockchip_drm_dma_init_device(vop2->drm, vop2->dev);
  
-@@ -2698,19 +2708,10 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	return 0;
++
++err_crtcs:
++	vop2_destroy_crtcs(vop2);
++
++	return ret;
+ }
+ 
  static void vop2_unbind(struct device *dev, struct device *master, void *data)
- {
- 	struct vop2 *vop2 = dev_get_drvdata(dev);
--	struct drm_device *drm = vop2->drm;
--	struct list_head *plane_list = &drm->mode_config.plane_list;
--	struct list_head *crtc_list = &drm->mode_config.crtc_list;
--	struct drm_crtc *crtc, *tmpc;
--	struct drm_plane *plane, *tmpp;
+@@ -2711,6 +2752,9 @@ static void vop2_unbind(struct device *dev, struct device *master, void *data)
  
  	pm_runtime_disable(dev);
  
--	list_for_each_entry_safe(plane, tmpp, plane_list, head)
--		drm_plane_cleanup(plane);
--
--	list_for_each_entry_safe(crtc, tmpc, crtc_list, head)
--		vop2_destroy_crtc(crtc);
-+	vop2_destroy_crtcs(vop2);
++	if (vop2->rgb)
++		rockchip_rgb_fini(vop2->rgb);
++
+ 	vop2_destroy_crtcs(vop2);
  }
  
- const struct component_ops vop2_component_ops = {
 -- 
 2.30.2
 
