@@ -2,78 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9B7679505
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 11:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4471679508
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 11:19:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0417D10E652;
-	Tue, 24 Jan 2023 10:18:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8892910E656;
+	Tue, 24 Jan 2023 10:19:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E28BD10E652
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 10:18:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674555532;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GDZ2X6v9gZZjw/mylSeu05Q/SHm7XIRiCSfNoQKcE4s=;
- b=IrTaEO8b0t6KUBDYMvG20sfER7pUo/QBK3ILhY1ZCc4Gnk+SwhZa0EvEjBk6SfVDm8tkh9
- wxqgqJFhdsMwMUKKgb9tFcfmcoFNqHHKr4d7kxvYcu2sPcl+nGAg5yU0bgjlgkyuDppkLT
- Lhir3ZkpN1ZWWK3JmWwB7Hd46n8lOCg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-57-YqoF4ewLNlOKMvGbreXLMw-1; Tue, 24 Jan 2023 05:18:50 -0500
-X-MC-Unique: YqoF4ewLNlOKMvGbreXLMw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bi18-20020a05600c3d9200b003d991844dbcso10948114wmb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 02:18:50 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2839F10E655
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 10:19:31 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id mp20so37613970ejc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 02:19:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NWRaKd8MaSuhdLqBXYVm4jaClMKGiFjYeMv/cdRLf40=;
+ b=L+C+H6oXIaD+lmLLTahBxIinb1u6Z+GY/cHVO9T4IS99OCdgGPsF9JiW46Gxqh7+Ps
+ C2MKj3PtsxfhQh6rlRXnpsWDetGAINFdPw7uELuuaFGLTwI9AO3v74B06akxvq94U28l
+ vV1RjdO48TAtDA48YNkWpwY5z16yrUDQznZXYt/GjKkLlHqnK9pJLor2lbUYNckLCPRV
+ hswt7itBeGkloNfgnfgkw5/Dz0XTdZpo8BGaJLwf3EzSoU8BhqHo3acQvj6+vUzqgox0
+ KhR/iBthKKCuxA+RnDQxKwA9qNJPZcgZwxe9/ntVg+Ludawry0OBX2/UEOm26xruYERN
+ iZEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GDZ2X6v9gZZjw/mylSeu05Q/SHm7XIRiCSfNoQKcE4s=;
- b=DUV0ioDErzbTcma7QwL/YmmiBdIVokUPwMZ1vzozdTfJNMt7JX84unxI6RJvEgTL3R
- 5wRNhuYYl5dQUf7gNRMRE9lFJQIj2z1S8rePC9mylZrtEJXrY2i6h5sjm0J3R4qhnAPy
- K24fEjcXjpUrTaJ1DSJRNpUi+FxTKOhIt9RAqIzxjVq7exzdGRmJnkhDTfMkplnENK2U
- cNH/LSFoiLhoJVusukY+TiFbgmDrcP6vT1JKPUjvjY6Sy8oZYLT9mbqdKhRiaMwFAgOW
- wT96dtwZHZkz75A/Xe0iGGSja+BIR8rzQmaHkcsA7FGzhMdjhT3qupHKMRlWUSzLSzsy
- HUmw==
-X-Gm-Message-State: AFqh2kr32NWNvwRONaAImxJn3SU/vOg4fKdqRfeFNzzP4xOSptaiR4JQ
- ysxMsV0McrBKzrz46ijpKSRFm1uXA1Cn+FqpYJxBIxoKpFuzdL3k/1zWg3pkA3ExJHtU8GEU9vi
- ss22PfkB50RwlrIFHzUiyTQy+eDr6
-X-Received: by 2002:a05:600c:3d9b:b0:3db:1afd:ac36 with SMTP id
- bi27-20020a05600c3d9b00b003db1afdac36mr20999539wmb.32.1674555529776; 
- Tue, 24 Jan 2023 02:18:49 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu8zqFziGgSNsVTa/vJxE+MIl3zeqyq4trWRM1k2BTskMl0Qm00LweTGrV0W3Enfm9oMajDIA==
-X-Received: by 2002:a05:600c:3d9b:b0:3db:1afd:ac36 with SMTP id
- bi27-20020a05600c3d9b00b003db1afdac36mr20999525wmb.32.1674555529610; 
- Tue, 24 Jan 2023 02:18:49 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t13-20020a1c770d000000b003db0ee277b2sm12997027wmi.5.2023.01.24.02.18.48
+ bh=NWRaKd8MaSuhdLqBXYVm4jaClMKGiFjYeMv/cdRLf40=;
+ b=HS6RwqI+wAltqUgfxw/asSOaYRH5WSmjPA7Ee/r9n5+JtNvij/xLVT/FFBMI+q1q0o
+ sM/tbOgR3c+Hd6jWh6PThSnHCV3ScN92+7szlBuVZEDTjQ+YZy67yP330+hj1GKG6E8T
+ UAoGNxrZQxXH5cHMtfceB361wWwlB7sv9gJIz31DE09NQUEv8m/7VPj+YRz0ftXw7AbZ
+ dJkKjhbva4YzrA0P3Slmmc4GB7P9Nu0FCHp/NeOy0onLMohegSb4vPbgSpkjyDQ6x/Wk
+ mbfVTOPKv59hIQy8xzGQ/La8d+lmHluf4AjehKaernb+MmlpLEuWkRrnwFBdSwdz/jys
+ yH2w==
+X-Gm-Message-State: AFqh2kojs/rDnuWJc2nNZVf0zRCF7Nc4ILnpwRh//l15/c/Hy3jrNhVS
+ He7aVy7f6mta+IvmsttaPqRwjw==
+X-Google-Smtp-Source: AMrXdXss0wHN3Fdh33W2mVe+fA7krvtB8Ij9JgFlhtX/RBzDUVMxZMBBzxYw158YL/304S26G21B3Q==
+X-Received: by 2002:a17:907:1042:b0:7c1:5863:f8c4 with SMTP id
+ oy2-20020a170907104200b007c15863f8c4mr28122612ejb.21.1674555569624; 
+ Tue, 24 Jan 2023 02:19:29 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ e10-20020a1709061e8a00b00852e0bbed1dsm701598ejj.17.2023.01.24.02.19.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Jan 2023 02:18:49 -0800 (PST)
-Message-ID: <1ae9b489-4afe-d6ce-e055-9a6fd518745e@redhat.com>
-Date: Tue, 24 Jan 2023 11:18:48 +0100
+ Tue, 24 Jan 2023 02:19:29 -0800 (PST)
+Message-ID: <9f182939-0e32-c0a9-ee09-9e97a48bb7ac@linaro.org>
+Date: Tue, 24 Jan 2023 12:19:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v2 2/3] drm/fb-helper: Check fb_deferred_io_init() return
- value
-To: linux-kernel@vger.kernel.org
-References: <20230121192418.2814955-1-javierm@redhat.com>
- <20230121192418.2814955-3-javierm@redhat.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20230121192418.2814955-3-javierm@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [1/2] drm/msm/dpu: fix clocks settings for msm8998 SSPP blocks
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230115124143.464809-1-dmitry.baryshkov@linaro.org>
+ <20230124095944.4zez2jmidjuh3nvf@SoMainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230124095944.4zez2jmidjuh3nvf@SoMainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,29 +76,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
+Cc: Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/21/23 20:24, Javier Martinez Canillas wrote:
-> The fb_deferred_io_init() can fail and return an errno code but currently
-> there is no check for its return value.
+On 24/01/2023 11:59, Marijn Suijten wrote:
+> On 2023-01-15 14:41:42, Dmitry Baryshkov wrote:
+>> DMA2 and DMA3 planes on msm8998 should use corresponding DMA2 and DMA3
+>> clocks rather than CURSOR0/1 clocks (which are used for the CURSOR
+>> planes). Correct corresponding SSPP declarations.
+>>
+>> Fixes: 94391a14fc27 ("drm/msm/dpu1: Add MSM8998 to hw catalog")
+>> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+>> Cc: Jami Kettunen <jami.kettunen@somainline.org>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> index 0f3da480b066..ad0c55464154 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> @@ -1180,9 +1180,9 @@ static const struct dpu_sspp_cfg msm8998_sspp[] = {
+>>   	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000,  DMA_MSM8998_MASK,
+>>   		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+>>   	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000,  DMA_CURSOR_MSM8998_MASK,
 > 
-> Fix that and propagate to errno to the caller in the case of a failure.
-> 
-> Fixes: d536540f304c ("drm/fb-helper: Add generic fbdev emulation .fb_probe function")
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+> Drop the _CURSOR mask here?  And the double space....
 
-Pushed this to drm-misc (drm-misc-fixes). Thanks!
+Ack for the doublespace. By removing _CURSOR we would disallow using 
+these planes as hw cursor planes. This would switch all compositors into 
+sw cursor mode, thus damaging the performance.
+
+> 
+>> -		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR0),
+>> +		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>>   	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000,  DMA_CURSOR_MSM8998_MASK,
+>> -		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_CURSOR1),
+>> +		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+> 
+> Yes, msm8998_mdp defines both DMA2/3 and CURSOR0/1 clocks.  R-b after
+> using DMA_MSM8998_MASK without the DPU_SSPP_CURSOR bit.
+> 
+> However, my downstream sources still define cursor SSPPs that are
+> missing here (after all, there's clk-ctrl for these already), at xin ID
+> 2 and 10 with addresses 0x3500 and 0x37000 downstream (-0x1000 here):
+> 
+> 	SSPP_BLK("sspp_?", SSPP_CURSOR0, 0x34000, DMA_CURSOR_SM8998_MASK,
+> 		cursor sblk?, 2, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_CURSOR0),
+> 	SSPP_BLK("sspp_?", SSPP_CURSOR1, 0x36000, DMA_CURSOR_SM8998_MASK,
+
+I think this should not be the DMA_CURSOR_MSM8998_MASK, but don't bet on 
+my words, I haven't check actual cursor plane capabilities.
+
+> 		cursor sblk?, 10, SSPP_TYPE_CURSOR, DPU_CLK_CTRL_CURSOR1),
+> 
+> Or should you/I send that as a separate folloup patch?
+
+Ideally one can add these two planes and then switch two mentioned DMA 
+planes to plain DMA_MSM8998_MASK.
+
+> 
+> - Marijn
+> 
+>>   };
+>>   
+>>   static const struct dpu_sspp_cfg sdm845_sspp[] = {
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+With best wishes
+Dmitry
 
