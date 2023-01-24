@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C94567A4A5
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 22:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6998B67A4F1
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 22:25:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63C010E25C;
-	Tue, 24 Jan 2023 21:13:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D0610E707;
+	Tue, 24 Jan 2023 21:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE54510E25C
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 21:13:41 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3A2DB85666;
- Tue, 24 Jan 2023 22:13:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1674594820;
- bh=DkuTSr1Aaum7C2MYEKAnRZ0UIMSpdipVQufqreKZcEQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sp6kBegY36caLn7cLPgQnM5guKiAi0gtzZOCYSh4lqn++DXRv0nGm5AoCUJ3lx444
- SX/U6hcwNZCNb6ACKxxMYCni9SnL6XBOYFviPGlybXwC+36wMU0ckgaOyKqe7GmbHK
- yo6fHyKNoTMjt4QcZVFupuTMsHDPWbkqNqLe5eNJNVIL7I9q9t6wQ9zR1woz0/HUPk
- osw08GtrRhySnacm5W/5ijknwdOLPhAxPKlz8R0H4qUUNDR5J25irA58N90suQ2loR
- qGzKtkrpq+mAXyhbzyMrelj5SMSqLCYgxnqT8IZJive1Oycj4VvOYAFl5Q6D2tOHAf
- yButK63HfgGKA==
-Message-ID: <b32cd2c9-c286-c4b7-2ea3-98c21a92fc0e@denx.de>
-Date: Tue, 24 Jan 2023 22:13:38 +0100
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED33A10E721
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 21:25:47 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::227])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id B229FC79D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 21:14:30 +0000 (UTC)
+Received: from booty (unknown [77.244.183.192])
+ (Authenticated sender: luca.ceresoli@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 2917120003;
+ Tue, 24 Jan 2023 21:14:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1674594865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MLO6IC4VLOlTEyFjq+sy4xgqFEeyoTwAMmJNZzryGtw=;
+ b=hHhy4kx7JrvVZA7Y931aeVeOn2yw7yaXASKNTPcZubHgXvRlHc2ZxV9s4aou1ozqXqJjlE
+ 4VmrG7rkATwQfp17mAr8BWTYB6wAddayfw5Evn2DlsuGvG0s/LEpCvrivDsaFzefknZHRo
+ INIpXikmJvV0kBMAytwxAWQZpY0kODjRxKVSVVjoxye8N6830sGDXm0xfbycxmuD/flqTb
+ cyZHaD0nxKGBqS7Tks5ctbySaUwE/OASzleG9ZUeKhqV4tTCk6sQpHyRKKQq3T7Yv5EEB3
+ nKLIU/BRp/yBV8fUjJ4IyYka/n6kWVAea2dDJyrhceCZg2NUcwLJHfoZPcp8Sw==
+Date: Tue, 24 Jan 2023 22:14:21 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v3 02/21] dt-bindings: display: tegra: vi: add 'vip'
+ property and example
+Message-ID: <20230124221421.2d45a532@booty>
+In-Reply-To: <cdc91bc4-aa76-f824-36c9-d2995c17fb18@collabora.com>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+ <20221229133205.981397-3-luca.ceresoli@bootlin.com>
+ <cdc91bc4-aa76-f824-36c9-d2995c17fb18@collabora.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [RESEND PATCH v11 00/18] drm: Add Samsung MIPI DSIM bridge
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Fancy Fang <chen.fang@nxp.com>, Tim Harvey <tharvey@gateworks.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, Neil Armstrong <narmstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-References: <20230123151212.269082-1-jagan@amarulasolutions.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20230123151212.269082-1-jagan@amarulasolutions.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,40 +58,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/23/23 16:11, Jagan Teki wrote:
-> This series supports common bridge support for Samsung MIPI DSIM
-> which is used in Exynos and i.MX8MM SoC's.
-> 
-> The final bridge supports both the Exynos and i.MX8M Mini/Nano/Plus.
-> 
-> Patch 0001 - 0004: adding devm_drm_of_dsi_get_bridge
-> 
-> Patch 0005 - 0006: optional PHY, PMS_P offset
-> 
-> Patch 0007       : introduce hw_type
-> 
-> Patch 0008	 : fixing host init
-> 
-> Patch 0009	 : atomic_check
-> 
-> Patch 0010	 : input_bus_flags
-> 
-> Patch 0011	 : atomic_get_input_bus_fmts
-> 
-> Patch 0012 - 0013: component vs bridge
-> 
-> Patch 0014	 : DSIM bridge
-> 
-> Patch 0015 - 0016: i.MX8M Mini/Nano
-> 
-> Patch 0017 - 0018: i.MX8M Plus
+Hi Dmitry,
 
-Please drop chen.fang@nxp.com, narmstrong@linaro.org, 
-jy0922.shim@samsung.com from CC, they bounce.
+On Tue, 24 Jan 2023 20:02:39 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+
+> On 12/29/22 16:31, Luca Ceresoli wrote:
+> > +        vip {
+> > +            compatible = "nvidia,tegra20-vip";
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            channel@0 {
+> > +                reg = <0>;
+> > +                ports {
+> > +                    #address-cells = <1>;
+> > +                    #size-cells = <0>;
+> > +                    port@0 {
+> > +                        reg = <0>;
+> > +                        vi_vip_in: endpoint {
+> > +                            remote-endpoint = <&mt9v111_out>;
+> > +                        };
+> > +                    };
+> > +                    port@1 {
+> > +                        reg = <1>;
+> > +                        vi_vip_out: endpoint {
+> > +                            remote-endpoint = <&vi_in>;
+> > +                        };
+> > +                    };
+> > +                };
+> > +            };  
+> 
+> In the changelog you said that the channel@0 node is removed
+
+Thanks, you are right, this is a leftover. I must have forgotten about
+updating the example. :-\
+
+It will be fixed in v4 obviously, I was waiting before sending it in
+case of any feedback on the other patches.
+
+Best regards.
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
