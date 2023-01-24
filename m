@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07AF67A5A9
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 23:28:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E4567A5BB
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 23:31:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E82B10E279;
-	Tue, 24 Jan 2023 22:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B48A510E262;
+	Tue, 24 Jan 2023 22:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA6310E279
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 22:27:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99EE010E262
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jan 2023 22:31:06 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 5D12E739;
- Tue, 24 Jan 2023 22:27:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5D12E739
+ by ms.lwn.net (Postfix) with ESMTPSA id 9F7B699C;
+ Tue, 24 Jan 2023 22:31:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9F7B699C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1674599273; bh=MTaO760PJgYwDFixyQndXwkcxJ6qlGsTUp+EUcJgaCs=;
+ t=1674599465; bh=XqcEf/qNRLT2aV1bbKur1IhHtd76BW7B0JhjDT5HwFI=;
  h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=XW1biFoIP9a4rIRf2cLd3puFe2cCFrQPnLjCIkaYxizp+J6e+ypbS83QROQV7RjZL
- x+AsBikpA3Vkk3ujbg62UV6QrSznWRdtlGR3w9N1P6p5SjPTaB1VvvVuFhl7bYnzao
- e+Pb9bvOHC00Tv7pEsztMhT9Z72Gat9MaqdsTs8TiPqfNYcDgG/+/KR+sn5dVczsue
- lu1v1+vuz/4hzlpLBA+KYbHbvLOlZ4/b/+Fc8THgu2Xt0YT87foyxCIQE79oboIidh
- ZhOk8JFsQO6mPuPHLHgprow+Ki52f77LDa52ffGAHq1nhkgYRnJAeU48pOJekm2FoI
- ARNZkhtCcl3AQ==
+ b=ZApMAIuRAyoIabeOgjAMNxRwU/2kNRV273PbxciM9O36U73aGeWc/DO8VSevQ5rCi
+ ROCdgLKEh6MVSCZ5u8GADIkyUrD5ZeCNS2hM07r9fheqr0U3WWgS6Q4C7HlU/Kv8r+
+ Y9Yn4Me05P5ArehCeyXNdZO9UVEdpjoo5PM451G3BC3P9e4tmpgD1L0I+S2JVd/iTH
+ cn6xIDH7KqfMZIFB7H6VJoGNaZoZ0SFwmbUDNL6cOGUEQJCESq1Asb8q6SRkvhXpJw
+ 4k8RsMK/Umllp9557D2GafnWs/7OYF4E6yf+4AUSiK4TCgxYIXpuHfEVLzO8bLfGv1
+ YHORfjJnVTYTg==
 From: Jonathan Corbet <corbet@lwn.net>
 To: SeongJae Park <sj@kernel.org>
-Subject: Re: [PATCH v2 1/1] Docs/subsystem-apis: Remove '[The ]Linux'
- prefixes from titles of listed documents
-In-Reply-To: <20230122184834.181977-1-sj@kernel.org>
-References: <20230122184834.181977-1-sj@kernel.org>
-Date: Tue, 24 Jan 2023 15:27:52 -0700
-Message-ID: <87edrjftzr.fsf@meer.lwn.net>
+Subject: Re: [PATCH v2 0/8] Docs: Add missing SPDX license identifiers of
+In-Reply-To: <20230122213650.187710-1-sj@kernel.org>
+References: <20230122213650.187710-1-sj@kernel.org>
+Date: Tue, 24 Jan 2023 15:31:04 -0700
+Message-ID: <87a627ftuf.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,52 +49,46 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
- Viresh Kumar <viresh.kumar@linaro.org>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>, linux-mm@kvack.org,
- linux-watchdog@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>,
- Iwona Winiarska <iwona.winiarska@intel.com>, openbmc@lists.ozlabs.org, "Rafael
- J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- linux-pm@vger.kernel.org, linux-input@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-hwmon@vger.kernel.org, SeongJae Park <sj@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Takashi Iwai <tiwai@suse.com>,
- linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-mm@kvack.org, Herbert Xu <herbert@gondor.apana.org.au>,
+ linux-input@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+ Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+ SeongJae Park <sj@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
+ linux-crypto@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrew Morton <akpm@linux-foundation.org>, "David
+ S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 SeongJae Park <sj@kernel.org> writes:
 
-> Some documents that listed on subsystem-apis have 'Linux' or 'The Linux'
-> title prefixes.  It's duplicated information, and makes finding the
-> document of interest with human eyes not easy.  Remove the prefixes from
-> the titles.
+> Some subsystem documents are missing SPDX license identifiers on index
+> files.  This patchset adds those.
 >
-> Signed-off-by: SeongJae Park <sj@kernel.org>
-> ---
 > Changes from v1
-> (https://lore.kernel.org/lkml/20230114194741.115855-1-sj@kernel.org/)
-> - Drop second patch (will post later for each subsystem)
+> (https://lore.kernel.org/lkml/20230114194741.115855-2-sj@kernel.org/)
+> - Separate from index file content changes
+> - Separate patch for each subsystem doc (Alex Deucher)
+> - Use MIT license for gpu (Alex Deucher)
 >
->  Documentation/PCI/index.rst        | 6 +++---
->  Documentation/cpu-freq/index.rst   | 6 +++---
->  Documentation/crypto/index.rst     | 6 +++---
->  Documentation/driver-api/index.rst | 6 +++---
->  Documentation/gpu/index.rst        | 6 +++---
->  Documentation/hwmon/index.rst      | 6 +++---
->  Documentation/input/index.rst      | 6 +++---
->  Documentation/mm/index.rst         | 6 +++---
->  Documentation/peci/index.rst       | 6 +++---
->  Documentation/scheduler/index.rst  | 6 +++---
->  Documentation/scsi/index.rst       | 6 +++---
->  Documentation/sound/index.rst      | 6 +++---
->  Documentation/virt/index.rst       | 6 +++---
->  Documentation/watchdog/index.rst   | 6 +++---
->  14 files changed, 42 insertions(+), 42 deletions(-)
+> SeongJae Park (8):
+>   Docs/crypto/index: Add missing SPDX License Identifier
+>   Docs/driver-api/index: Add missing SPDX License Identifier
+>   Docs/gpu/index: Add missing SPDX License Identifier
+>   Docs/hwmon/index: Add missing SPDX License Identifier
+>   Docs/input/index: Add missing SPDX License Identifier
+>   Docs/mm/index: Add missing SPDX License Identifier
+>   Docs/scheduler/index: Add missing SPDX License Identifier
+>   Docs/sound/index: Add missing SPDX License Identifier
 
-Applied, thanks.
+So I've applied patches 2 (since I wrote the initial file) and 8 (with
+Takashi's ack).  The others are also fine, I think, but I hesitate to
+apply license texts to files without knowing that they match the
+author's intent.  I hate to say it, but I think the best approach is to
+send each of the remaining patches to the appropriate maintainers for
+the subsystem involved.
+
+Thanks,
 
 jon
