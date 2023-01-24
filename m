@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FC567999D
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 14:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D055167998B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 14:40:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 382A210E6A1;
-	Tue, 24 Jan 2023 13:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A97A10E696;
+	Tue, 24 Jan 2023 13:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 99249 seconds by postgrey-1.36 at gabe;
- Tue, 24 Jan 2023 13:40:13 UTC
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A085C10E68B;
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D96B710E68C;
  Tue, 24 Jan 2023 13:40:13 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 44AC12187C;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8FA201FDC3;
  Tue, 24 Jan 2023 13:40:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1674567612; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Eo0f0ziBdtPN9cBdDtmQB+JADnGJzSFyqXzDLQUPm/A=;
- b=0zjZSeeIiKnDLsONC7QfuWog3HHelQyQVKjRllqhFixFsSj7m9hNGZDcNa5GPpHKCVK9sD
- LtmSiXhDDdwF39KYiWojFsrTLbL8bEBYecX5cwQ2UWgh7uG6yeBDRqbPCIMnX4Sae3jYAx
- E7Al4o7LulEg4TCWlfdkj3SB5ybEin0=
+ bh=jWHAeVwiu+7Pt1XKK8+Xbu9HCfPR9qcjYa+iK3HlDeo=;
+ b=yiClVrJ58vs8iV78LiMLGdn+UPGtz9XD03fu7eyixwqJ39B/IP41Opy+RJGOfXcE6yKs/u
+ hYieBJlA0nIFBJfSha4xAdkAKXh65ybZOVPI6F32QHpOCGl/BhVNQdZS6sBsjIOLZaeMlu
+ H1zzWV/xxVhgDi+o6J/eRX0dgEVi9rY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1674567612;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Eo0f0ziBdtPN9cBdDtmQB+JADnGJzSFyqXzDLQUPm/A=;
- b=G31XWDRMxbO4uAuovcxnZpj/k+CfC/cj0SlkJw2m7Fu5z4fZsqXZVdCUA0h9v0Cc/4JaRZ
- MAo4PojcuqQI3FBQ==
+ bh=jWHAeVwiu+7Pt1XKK8+Xbu9HCfPR9qcjYa+iK3HlDeo=;
+ b=7M0NCnXbuQxu9SAUTdw6OKsAcvxWhkzu1iDFMcy0gzkneSAbi5oACmbnipoXorPUEQNEC0
+ mTmkNm6zps7UzQCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F35CE139FF;
- Tue, 24 Jan 2023 13:40:11 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4958E13487;
+ Tue, 24 Jan 2023 13:40:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8AN8Orvfz2PWZgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Jan 2023 13:40:11 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8Kr0ELzfz2PWZgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 24 Jan 2023 13:40:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, javierm@redhat.com
-Subject: [PATCH v2 02/10] drm/client: Add hotplug_failed flag
-Date: Tue, 24 Jan 2023 14:40:02 +0100
-Message-Id: <20230124134010.30263-3-tzimmermann@suse.de>
+Subject: [PATCH v2 03/10] drm/fb-helper: Introduce drm_fb_helper_unprepare()
+Date: Tue, 24 Jan 2023 14:40:03 +0100
+Message-Id: <20230124134010.30263-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230124134010.30263-1-tzimmermann@suse.de>
 References: <20230124134010.30263-1-tzimmermann@suse.de>
@@ -78,75 +76,73 @@ Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signal failed hotplugging with a flag in struct drm_client_dev. If set,
-the client helpers will not further try to set up the fbdev display.
+Move the fb-helper clean-up code into drm_fb_helper_unprepare(). No
+functional changes.
 
-This used to be signalled with a combination of cleared pointers in
-struct drm_fb_helper, which prevents us from initializing these pointers
-early after allocation.
-
-The change also harmonizes behavior among DRM clients. Additional DRM
-clients will now handle failed hotplugging like fbdev does.
+v2:
+	* declare as static inline (kernel test robot)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_client.c        | 5 +++++
- drivers/gpu/drm/drm_fbdev_generic.c | 4 ----
- include/drm/drm_client.h            | 8 ++++++++
- 3 files changed, 13 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 14 +++++++++++++-
+ include/drm/drm_fb_helper.h     |  5 +++++
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 09ac191c202d..009e7b10455c 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -208,8 +208,13 @@ void drm_client_dev_hotplug(struct drm_device *dev)
- 		if (!client->funcs || !client->funcs->hotplug)
- 			continue;
- 
-+		if (client->hotplug_failed)
-+			continue;
-+
- 		ret = client->funcs->hotplug(client);
- 		drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
-+		if (ret)
-+			client->hotplug_failed = true;
- 	}
- 	mutex_unlock(&dev->clientlist_mutex);
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index c5c13e192b64..4379bcd7718b 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -435,6 +435,18 @@ void drm_fb_helper_prepare(struct drm_device *dev, struct drm_fb_helper *helper,
  }
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index 3d455a2e3fb5..135d58b8007b 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -382,10 +382,6 @@ static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
- 	struct drm_device *dev = client->dev;
- 	int ret;
+ EXPORT_SYMBOL(drm_fb_helper_prepare);
  
--	/* Setup is not retried if it has failed */
--	if (!fb_helper->dev && fb_helper->funcs)
--		return 0;
--
- 	if (dev->fb_helper)
- 		return drm_fb_helper_hotplug_event(dev->fb_helper);
- 
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index 4fc8018eddda..39482527a775 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -106,6 +106,14 @@ struct drm_client_dev {
- 	 * @modesets: CRTC configurations
- 	 */
- 	struct drm_mode_set *modesets;
++/**
++ * drm_fb_helper_unprepare - clean up a drm_fb_helper structure
++ * @fb_helper: driver-allocated fbdev helper structure to set up
++ *
++ * Cleans up the framebuffer helper. Inverse of drm_fb_helper_prepare().
++ */
++void drm_fb_helper_unprepare(struct drm_fb_helper *fb_helper)
++{
++	mutex_destroy(&fb_helper->lock);
++}
++EXPORT_SYMBOL(drm_fb_helper_unprepare);
 +
-+	/**
-+	 * @hotplug failed:
-+	 *
-+	 * Set by client hotplug helpers if the hotplugging failed
-+	 * before. It is usually not tried again.
-+	 */
-+	bool hotplug_failed;
- };
+ /**
+  * drm_fb_helper_init - initialize a &struct drm_fb_helper
+  * @dev: drm device
+@@ -561,7 +573,7 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+ 	}
+ 	mutex_unlock(&kernel_fb_helper_lock);
  
- int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
+-	mutex_destroy(&fb_helper->lock);
++	drm_fb_helper_unprepare(fb_helper);
+ 
+ 	if (!fb_helper->client.funcs)
+ 		drm_client_release(&fb_helper->client);
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index f443e1f11654..39710c570a04 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -230,6 +230,7 @@ drm_fb_helper_from_client(struct drm_client_dev *client)
+ #ifdef CONFIG_DRM_FBDEV_EMULATION
+ void drm_fb_helper_prepare(struct drm_device *dev, struct drm_fb_helper *helper,
+ 			   const struct drm_fb_helper_funcs *funcs);
++void drm_fb_helper_unprepare(struct drm_fb_helper *fb_helper);
+ int drm_fb_helper_init(struct drm_device *dev, struct drm_fb_helper *helper);
+ void drm_fb_helper_fini(struct drm_fb_helper *helper);
+ int drm_fb_helper_blank(int blank, struct fb_info *info);
+@@ -296,6 +297,10 @@ static inline void drm_fb_helper_prepare(struct drm_device *dev,
+ {
+ }
+ 
++static inline void drm_fb_helper_unprepare(struct drm_fb_helper *fb_helper)
++{
++}
++
+ static inline int drm_fb_helper_init(struct drm_device *dev,
+ 		       struct drm_fb_helper *helper)
+ {
 -- 
 2.39.0
 
