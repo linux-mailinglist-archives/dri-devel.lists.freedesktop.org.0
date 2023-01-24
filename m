@@ -1,120 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0EC5679DAD
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 16:37:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D27679DB6
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jan 2023 16:40:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA8D310E6B3;
-	Tue, 24 Jan 2023 15:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F0210E6C0;
+	Tue, 24 Jan 2023 15:40:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2070.outbound.protection.outlook.com [40.107.96.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93EDB10E6B3;
- Tue, 24 Jan 2023 15:37:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e7U1sP4r0CIJ7Jhsi/qOd9OCCYLI6N1U6XuuTjDeK2SOg4TSezGX1AMUi8SG4Lku3ffeN2VFnA7W6kK6Pw8/4jgB7qwT3gdbvXmQFe6KOHFtURYsbP5Y5p1DtWmU004DsSbSieCY3+QlZ8MYvMnYWe4fbZrmYjWsPvk5rX7MgxRMaRIa/y89b8Lssnepg2d4LHut72hIS1WRFPjH4VA5IEWCMC9W+71xqR6uo0k5NRL1lGW5GiwO2lG+Hh4MhltG2KZuboEbn7LC28if3piCFTkoQirxOmBa3S8u7CFArhCIy2CcoOwG3hP+1C39MoVPLC1nSaBvX+ESU1KQyLId/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IR7rCdriMlckcS3CwnUoKsgOJXU0cnieIUFnU/hp0tQ=;
- b=aZxYL5Z0JMQxvSom1cHQXgCVXTtHT37GCYT+FvrrPae0HVkc91ZydC3YjM3vV7H5kUMqd7Oc0ws7bv8gYYzFvaBP6sD78+R+ud5fjhFomhtDAvdPDoiYJjr3QWzGazChrFyfBprGU8QY2cQl0sO/26ZqexhLZ1ThOV1zRumaVbpxi2R8FA2NH3/ozpIfyEV/LJ1Ak5HmJZ/dEUR1KMxrZK+x9QilOpaNW8xTpevThDix25TGombSYmGaOyIgL6pLfNBtgkc6el8YNgwVr8bwpcS4pxdkGRYFYzTOEkEQE2kBfAzVPaTMt+AIvdDlLWTeL0jikFWO2iAcIGHgWUUjAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IR7rCdriMlckcS3CwnUoKsgOJXU0cnieIUFnU/hp0tQ=;
- b=j1cWZp5aXcebeKGc+7C1wThhvw9tCW1oaAxtmEMmfuNkVwfK9EmJtKtSNIZAAIBJNfNEfkR1deZo8Mtbr9vbBkm3zPEocKDD1AY3PL6+HlGnvSU4TJI2XYNT8/kEq1L48fR+M5tzUB5awXiTgRin962KBuzNt26/f68QuW2gqPM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by DM6PR12MB4578.namprd12.prod.outlook.com (2603:10b6:5:2a9::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Tue, 24 Jan
- 2023 15:37:43 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::152b:e615:3d60:2bf0]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::152b:e615:3d60:2bf0%6]) with mapi id 15.20.6002.033; Tue, 24 Jan 2023
- 15:37:43 +0000
-Message-ID: <0a57bc76-91f7-dc00-6877-cd0a1dfa7347@amd.com>
-Date: Tue, 24 Jan 2023 10:37:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 18/21] drm/amd/display: Fallback to 2020_YCBCR if the
- pixel encoding is not RGB
-Content-Language: en-US
-To: Sebastian Wick <sebastian.wick@redhat.com>
-References: <20230113162428.33874-1-harry.wentland@amd.com>
- <20230113162428.33874-19-harry.wentland@amd.com>
- <CA+hFU4xHKNSWO21Swq_b2VPPxtYGdeo4e3rPEVo44OPmB+opZw@mail.gmail.com>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <CA+hFU4xHKNSWO21Swq_b2VPPxtYGdeo4e3rPEVo44OPmB+opZw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0348.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:6b::25) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FAC110E6BF;
+ Tue, 24 Jan 2023 15:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674574846; x=1706110846;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=SXKCDUa0eY9/FeAB4ay7C5AhWXMd9dFwzFf4s4Mebao=;
+ b=Y8z5dh/oHRGk1U+Q1sA+YTBwfJYOMMRYpAIacU9OMFbVKD1DhE5AH9ai
+ hlRnV2m8UXG5r7TKwLmUArCoo7faMWFt6uFdCht7nqLKQLPDeTQPKaY6z
+ 9Ueshzc4zuFmfEygqpc9OXOv6BuzI3LZXZOJf7eBD20+ESNtNw2hsP+Hg
+ tbcoqJxv0xuSHgPcA4mXoFJBTIYspYdPvq6Nk0bgOXDHrpbTA6S7ocCZk
+ zlrqalmUelnIAihVJIo4/whzLQjlan/8W5i4i5h9MeP70T6wygARQaXil
+ GPAvoTo/r1V/gUAMei3yI3OD3efYTCsbjSYGkX/zKOJan7iMuzl0fBC2X Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="388665746"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; d="scan'208";a="388665746"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2023 07:40:42 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="836002592"
+X-IronPort-AV: E=Sophos;i="5.97,242,1669104000"; d="scan'208";a="836002592"
+Received: from pesir-mobl.ger.corp.intel.com (HELO localhost) ([10.252.57.197])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2023 07:40:39 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Salvatore Bonaccorso <carnil@debian.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: Assertion failure in i915 intel_display.c#assert_plane() after
+ resume from hibernation
+In-Reply-To: <Y89xbXITTRFpjm5B@eldamar.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <Y89xbXITTRFpjm5B@eldamar.lan>
+Date: Tue, 24 Jan 2023 17:40:36 +0200
+Message-ID: <87bkmo6ivf.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|DM6PR12MB4578:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1daf80b4-0d39-4f1b-bb17-08dafe20ef0c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OA0nbJqu7wDE1tpqShKdMOYtAP/DLapDiT5gdjryBBUOcTV+F7CmrlhluGOA0Ao6pSC3nztei6voLM3Usxb//4/jTjAgat5LqfzTWI/M4FtsHW37NO28qfwYGhNy4982axCekf5QBN4CNIo8eixKXuf4pFRXbCfTFpT91RamUHLrKb2kykHtySELZDCoJ2upeBRsviBWHpJCgbRhj/UBJD37Mx7CK72v20nti6WaJl+tCYNdpkzSS41ynUOv6im7bUm094j4pcoLe/cUOF9CI6Re/1f7maMVWzdbuiPBW0BppV6EHgmXYHmKctlSZ2xwEiAu8ddkg6pSykImtOpJGjSbVXZdtOjpAweecLZaP34R/Bnw9vwnah5V36VaZrUDaXKfaKqRoj8tp1MOZOku6kNPdcW6fqL91w3ERUNw37uUGA8vkzStm7ZxeNU2ZKGi/3s767YKExGLHFMJqf5ADNcdAOamE3Zh88dgJ/4oQDvYa7jgu2+WuIJX+5LcsX5dFUZ0NaMDs/WHraYf1wXA/0VS+AO20pUnIdV72Z3OEWrnEQNJZTk/5409UVfUsQHYN7JDdOgAhtfpXT3KgFX6H1r6HeVMyoYUiCZ5RPE+VbZhQNMrj618osaA0s2A/tjVGsz/2KNM51pTpUtIcGe4x6IFoCLiESwEwPd5Cgndl6/mdb4hbRPdGG0dFXKm2lRWof820Vm9WNRMKbQLaz7lMV/SVQ4O700QmDQy8ay23eA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(366004)(39860400002)(376002)(136003)(346002)(451199015)(38100700002)(83380400001)(41300700001)(86362001)(44832011)(2906002)(8936002)(5660300002)(4326008)(316002)(6512007)(6916009)(26005)(53546011)(6506007)(186003)(8676002)(6666004)(66476007)(66556008)(54906003)(2616005)(478600001)(6486002)(66946007)(31686004)(31696002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bitNaXA1SW5LbnBpeGF4ZnA0aytJZU02THlGemRBTDZna1J6NFhFcTZldDdS?=
- =?utf-8?B?S0p4aEtZaXIvWUlscytrYk9XTHFJZXJCdGQ5YUhvOGVRalM3bzBIdTY3Nksz?=
- =?utf-8?B?a3JSN3hQWkxOTzQ1NFRNVStaS2lzZjcxc3JZWlBHbkx6cEgzTVorQVY3dWdE?=
- =?utf-8?B?NFB6OUdpcTkzV0R0Z2RRRjI0OVJBK0Nwb0FIanNOdGl6VmVPb0JnUDRXV1d0?=
- =?utf-8?B?M2UrbjgzRldvZk5mUVlkc2kvcC9VbW1sNEd0ZUh5Z2hXTmtqZEdHdVlHbTlL?=
- =?utf-8?B?ZUlLYUpLQkZwdjZYaFNRanpNTjUyY1Y3ek9jTUNMaHprRVN3SitlMDA5dGVV?=
- =?utf-8?B?cTF3cDNlM1ArczNIaEJuc2dDUEI3L3llUFlzSmszRmtNNUtqR2N0QjltZFZm?=
- =?utf-8?B?UmdZSHJWdWVsZnJOQXJFMGhTUlBoWVlaUG8yV2k0WDNBZWtmT1RmYmhrVC8w?=
- =?utf-8?B?VC94SFl5QzBwZWZISEhweVIxYTBWdzBGS1FlTXorM3pIRllBOFVKK2M3Skcy?=
- =?utf-8?B?QTcrOTllMElHdFFsWVM1VUo1R2NZNXFNYzFwRjk4bVFYeUZuTE9ydE5nYlhV?=
- =?utf-8?B?bkkrVzl5TW10SjRVOEpmK1RwWkNNaEIvZDdvcFR6MzgrQlhkTURwT2NsV3Q5?=
- =?utf-8?B?RlJIQXJYMHp6L2EvMXpFK3M3amEzbnJMWFdtUDZ0NUVlYUhoU3FnejZ0VktH?=
- =?utf-8?B?ZTc3NnZLY1o0YWdkL20yYUk0WFV1RytrWkN4d2ZRKzVxL2p5bHlVd01ZOFoy?=
- =?utf-8?B?MERML3Y5YnUzQ3lZSzZBOWEyb1FHQ0xEUGlJTmdUVU1ocDVTMDVJMzlIaWdQ?=
- =?utf-8?B?UURNc1A5bTJwMGtza2hBUWFhWUF2WkgwR1gzOGxZVGhMVDk1ZVFMTGM4UTZw?=
- =?utf-8?B?dXVWZjZnbEQ4eUh6MzVZWDcyd1ZBR3JOYUYrNWpwTU5MK3ZaVFZjaUZvWHFm?=
- =?utf-8?B?VUJIMWVwSHc2OUdac3BoSWZDakUzeUpzM0ZxcjhONmp6cUxZRkNrcWs3T1Fw?=
- =?utf-8?B?Y2RZTzNJSlNyMFBwdlh4T1JGQWp0MjVSZTFSQitQdlgrU0VVNnE4VHFmblZ3?=
- =?utf-8?B?QlFTanZIRWF2dUwrSWh4bDhHdGkxc3NhRGM1TXc0SkduRnV4NVFCNGlLSnFl?=
- =?utf-8?B?OFFZZnQzK211WTc1WWR6SFlWK0dDL0Vsbm1oYS8wenprVlVBaXRjdlpnZFBU?=
- =?utf-8?B?d0l1VDV0ejArVi8vdzY2a29yM2phbTRORncxczVxVkNDajlOdlpyRHB1RWVt?=
- =?utf-8?B?U2h1TVJ6VmQ5T3NBSzNZSDZ3Mzh5c3k4cWd0bkw1S2xlZ1lEMVlzVTFiVHJT?=
- =?utf-8?B?RVdGbi90U202V2Y5dkdvejhhMkFONmlBQkNnYTBqMlYvelgwdldielpNMmRj?=
- =?utf-8?B?RjBDdmhxeUhQRGFhbU5qOCt1SHJhYVVabHVFc2k2U0YzRWlxRmY4OVpkOFJX?=
- =?utf-8?B?Vi8rd1RVZGxlQWxyS2xqOGhRRFBkdG5PMDljWklMdzVUUmpucm5XMnNPWGVZ?=
- =?utf-8?B?VDUwQit5bmIza3FMNTFBOW90RURCam9PT21GaHBCclJDSjBZTklFeG5UOWFx?=
- =?utf-8?B?YWVFdHlVVC9oTW1XcE9zUEtQR2dIS2x4Z2dacHgvbmhaUjdGc0FLUXgyblNk?=
- =?utf-8?B?TlRXZ2JaWHFQV0xPSzBPWDgrTUFzMzVkTjdwWGQzeFNQdy9oQlR6bE80SUgy?=
- =?utf-8?B?Z2FYVVR0cnB4VDJibnhvZ0VRMGVmaGlIL3BuV051YkQ2ODJ2NWEzRnltY2Ew?=
- =?utf-8?B?ZGRCaWFub1FuR2lxbkxjVEdDYXRFZ0NWTjJndmNkQmxEakdsVElqZG9JSjlX?=
- =?utf-8?B?dkNkNitQdE5DNFNmSjYyUUNlWHpBOERkSE9odmdKSVNxMkt1K3pQZHAxa2JH?=
- =?utf-8?B?b0JPaFh1RGNkUFhTUjdublA4dWl5YXZBdFBXS2sxQ2hvSi9VR09kTVkwU1Qv?=
- =?utf-8?B?ME42eXlnNnh2aEduc3Z3RmJRaTNOZ01MRW1UVTFQUVNSS09vYjd5QlhrU1M2?=
- =?utf-8?B?c0FCSk5HcytLZ1ppRzdVR3AvcjdveWdqc05PS2MrcjNHRVRubzBtSUlzR3pD?=
- =?utf-8?B?c2V5TzdmZXVYUFYreGJOTm8rMjBORDNKS3lZV0pCbW5SNUNWTDlxQW43VEFS?=
- =?utf-8?Q?K7WzQQcY4JUTsfWwBQqA1mzl/?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1daf80b4-0d39-4f1b-bb17-08dafe20ef0c
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2023 15:37:43.2446 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cYsFkSwN00Um0gYwBsU/tRVMm5xEBZ4TdqWKH6Q32zI696t7RaNqO77FmLxVRekAPgYM+gLp8rcvH02i9D8dMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4578
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,67 +59,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joshua Ashton <joshua@froggi.es>, Pekka Paalanen <ppaalanen@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Vitaly.Prosyak@amd.com
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nabijaczleweli@nabijaczleweli.xyz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 24 Jan 2023, Salvatore Bonaccorso <carnil@debian.org> wrote:
+> Hi
+>
+> A user in Debian, cc'ed reporte the following issue when resuming from
+> hibernation, tested as well on recent 6.1.7 kernel, context see
+> https://bugs.debian.org/971068
+
+Full dmesg from boot with drm.debug=3D0xe module parameter might be
+helpful. You may need to add log_buf_len=3D4M or similar to grab it all,
+it's verbose.
+
+BR,
+Jani.
 
 
-On 1/23/23 15:30, Sebastian Wick wrote:
-> A new property to control YCC and subsampling would be the more
-> complete path here. If we actually want to fix this in the short-term
-> though, we should handle the YCC and RGB Colorspace values as
-> equivalent, everywhere. Technically we're breaking the user space API
-> here so it should be documented on the KMS property and other drivers
-> must be adjusted accordingly as well.
-> 
+>
+>> Can repro on the sid kernel, uname -a of
+>>   Linux nabtop 6.1.0-2-686-pae #1 SMP PREEMPT_DYNAMIC Debian 6.1.7-1 (20=
+23-01-18) i686 GNU/Linux
+>>=20
+>> Log below. Backtrace is only trivially different.
+>>=20
+>> Best,
+>> =D0=BD=D0=B0=D0=B1
+>>=20
+>> -- >8 --
+>> Jan 22 14:06:46 nabtop kernel: OOM killer disabled.
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0x00000000-0x00000fff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0x0009f000-0x000fffff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0xb5aa1000-0xb5aa6fff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0xb5bba000-0xb5c0efff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0xb5d08000-0xb5f0efff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0xb5f18000-0xb5f1efff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0xb5f65000-0xb5f9efff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0xb5fe1000-0xb5ffefff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Marking nosave pages: [m=
+em 0xb6000000-0xffffffff]
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Basic memory bitmaps cre=
+ated
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Preallocating image memo=
+ry
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Allocated 183519 pages f=
+or snapshot
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Allocated 734076 kbytes =
+in 0.70 seconds (1048.68 MB/s)
+>> Jan 22 14:06:46 nabtop kernel: Freezing remaining freezable tasks ... (e=
+lapsed 0.001 seconds) done.
+>> Jan 22 14:06:46 nabtop kernel: wifi1: deauthenticating from de:0d:17:ad:=
+80:55 by local choice (Reason: 3=3DDEAUTH_LEAVING)
+>> Jan 22 14:06:46 nabtop kernel: ACPI: EC: interrupt blocked
+>> Jan 22 14:06:46 nabtop kernel: ACPI: PM: Preparing to enter system sleep=
+ state S4
+>> Jan 22 14:06:46 nabtop kernel: ACPI: EC: event blocked
+>> Jan 22 14:06:46 nabtop kernel: ACPI: EC: EC stopped
+>> Jan 22 14:06:46 nabtop kernel: ACPI: PM: Saving platform NVS memory
+>> Jan 22 14:06:46 nabtop kernel: Disabling non-boot CPUs ...
+>> Jan 22 14:06:46 nabtop kernel: smpboot: CPU 1 is now offline
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Creating image:
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Need to copy 175700 pages
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Normal pages needed: 577=
+65 + 1024, available pages: 167322
+>> Jan 22 14:06:46 nabtop kernel: ACPI: PM: Restoring platform NVS memory
+>> Jan 22 14:06:46 nabtop kernel: ACPI: EC: EC started
+>> Jan 22 14:06:46 nabtop kernel: Enabling non-boot CPUs ...
+>> Jan 22 14:06:46 nabtop kernel: x86: Booting SMP configuration:
+>> Jan 22 14:06:46 nabtop kernel: smpboot: Booting Node 0 Processor 1 APIC =
+0x1
+>> Jan 22 14:06:46 nabtop kernel: CPU1 is up
+>> Jan 22 14:06:46 nabtop kernel: ACPI: PM: Waking up from system sleep sta=
+te S4
+>> Jan 22 14:06:46 nabtop kernel: ACPI: EC: interrupt unblocked
+>> Jan 22 14:06:46 nabtop kernel: ACPI: EC: event unblocked
+>> Jan 22 14:06:46 nabtop kernel: usb usb1: root hub lost power or was reset
+>> Jan 22 14:06:46 nabtop kernel: usb usb2: root hub lost power or was reset
+>> Jan 22 14:06:46 nabtop kernel: usb usb4: root hub lost power or was reset
+>> Jan 22 14:06:46 nabtop kernel: usb usb3: root hub lost power or was reset
+>> Jan 22 14:06:46 nabtop kernel: usb usb6: root hub lost power or was reset
+>> Jan 22 14:06:46 nabtop kernel: usb usb7: root hub lost power or was reset
+>> Jan 22 14:06:46 nabtop kernel: usb usb8: root hub lost power or was reset
+>> Jan 22 14:06:46 nabtop kernel: usb usb5: root hub lost power or was reset
+>> Jan 22 14:06:46 nabtop kernel: sd 0:0:0:0: [sda] Starting disk
+>> Jan 22 14:06:46 nabtop kernel: iwlwifi 0000:08:00.0: Radio type=3D0x1-0x=
+2-0x0
+>> Jan 22 14:06:46 nabtop kernel: iwlwifi 0000:08:00.0: Radio type=3D0x1-0x=
+2-0x0
+>> Jan 22 14:06:46 nabtop kernel: ------------[ cut here ]------------
+>> Jan 22 14:06:46 nabtop kernel: primary B assertion failure (expected off=
+, current on)
+>> Jan 22 14:06:46 nabtop kernel: WARNING: CPU: 0 PID: 1038 at drivers/gpu/=
+drm/i915/display/intel_display.c:476 assert_plane+0x9f/0xb0 [i915]
+>> Jan 22 14:06:46 nabtop kernel: Modules linked in: ghash_generic gf128mul=
+ gcm ccm algif_aead des_generic libdes ecb algif_skcipher bnep cmac md4 alg=
+if_hash af_alg binfmt_misc btusb btrtl btbcm btintel btmtk bluetooth jitter=
+entropy_rng sha512_generic ctr drbg joydev ansi_cprng ecdh_generic ecc iwld=
+vm mac80211 libarc4 iTCO_wdt intel_pmc_bxt snd_hda_codec_conexant iTCO_vend=
+or_support uvcvideo watchdog snd_hda_codec_generic ledtrig_audio videobuf2_=
+vmalloc videobuf2_memops i915 videobuf2_v4l2 nls_ascii snd_hda_intel iwlwif=
+i videobuf2_common snd_intel_dspcfg drm_buddy snd_intel_sdw_acpi nls_cp437 =
+videodev drm_display_helper snd_hda_codec snd_hda_core i2c_i801 cec vfat mc=
+ psmouse evdev wmi_bmof i2c_smbus snd_hwdep rc_core pcspkr cfg80211 sg ttm =
+fat lpc_ich snd_pcm drm_kms_helper toshiba_acpi snd_timer industrialio snd =
+sparse_keymap toshiba_bluetooth sky2 soundcore rfkill i2c_algo_bit toshiba_=
+haps ac button acpi_cpufreq nf_log_syslog nft_log nft_limit nft_ct nf_connt=
+rack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables
+>> Jan 22 14:06:46 nabtop kernel:  libcrc32c nfnetlink drm ip_tables x_tabl=
+es ext4 crc16 mbcache jbd2 crc32c_generic sd_mod t10_pi crc64_rocksoft crc6=
+4 crc_t10dif sr_mod crct10dif_generic cdrom crct10dif_common sdhci_pci cqhc=
+i ehci_pci uhci_hcd ehci_hcd ahci libahci sdhci libata mmc_core serio_raw f=
+irewire_ohci usbcore battery usb_common video wmi pkcs8_key_parser coretemp=
+ firewire_sbp2 firewire_core crc_itu_t scsi_mod scsi_common parport_pc ppde=
+v lp parport autofs4
+>> Jan 22 14:06:46 nabtop kernel: CPU: 0 PID: 1038 Comm: kworker/u4:20 Not =
+tainted 6.1.0-2-686-pae #1  Debian 6.1.7-1
+>> Jan 22 14:06:46 nabtop kernel: Hardware name: TOSHIBA Satellite Pro U400=
+/Satellite Pro U400, BIOS V5.00    10/26/2010
+>> Jan 22 14:06:46 nabtop kernel: Workqueue: events_unbound async_run_entry=
+_fn
+>> Jan 22 14:06:46 nabtop kernel: EIP: assert_plane+0x9f/0xb0 [i915]
+>> Jan 22 14:06:46 nabtop kernel: Code: ff 73 0c 68 30 da b7 f8 e8 0e c7 3a=
+ ff 83 c4 10 eb b3 8d b4 26 00 00 00 00 66 90 57 52 ff 73 0c 68 30 da b7 f8=
+ e8 75 eb e3 dc <0f> 0b 83 c4 10 eb 94 e8 65 9c e7 dc 8d 74 26 00 90 3e 8d =
+74 26 00
+>> Jan 22 14:06:46 nabtop kernel: EAX: 00000036 EBX: c1238c00 ECX: 00000001=
+ EDX: 80000001
+>> Jan 22 14:06:46 nabtop kernel: ESI: 00000000 EDI: f8ba1548 EBP: c63f7cdc=
+ ESP: c63f7cb8
+>> Jan 22 14:06:46 nabtop kernel: DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0=
+068 EFLAGS: 00010292
+>> Jan 22 14:06:46 nabtop kernel: CR0: 80050033 CR2: 01e6fc26 CR3: 15e2c000=
+ CR4: 000006f0
+>> Jan 22 14:06:46 nabtop kernel: Call Trace:
+>> Jan 22 14:06:46 nabtop kernel:  intel_disable_transcoder+0x71/0x2a0 [i91=
+5]
+>> Jan 22 14:06:46 nabtop kernel:  ? drm_vblank_get+0x65/0xd0 [drm]
+>> Jan 22 14:06:46 nabtop kernel:  ? drm_crtc_vblank_get+0x12/0x20 [drm]
+>> Jan 22 14:06:46 nabtop kernel:  ? assert_vblank_disabled+0x10/0x70 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  i9xx_crtc_disable+0x56/0x260 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  ? intel_synchronize_irq+0x16/0x20 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  ? intel_crtc_disable_pipe_crc+0xa4/0xb0 =
+[i915]
+>> Jan 22 14:06:46 nabtop kernel:  intel_old_crtc_state_disables+0x35/0x90 =
+[i915]
+>> Jan 22 14:06:46 nabtop kernel:  intel_atomic_commit_tail+0x409/0xe30 [i9=
+15]
+>> Jan 22 14:06:46 nabtop kernel:  ? sugov_start+0x150/0x150
+>> Jan 22 14:06:46 nabtop kernel:  ? sugov_start+0x150/0x150
+>> Jan 22 14:06:46 nabtop kernel:  intel_atomic_commit+0x30b/0x350 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  ? intel_atomic_commit_tail+0xe30/0xe30 [=
+i915]
+>> Jan 22 14:06:46 nabtop kernel:  drm_atomic_commit+0x6b/0xe0 [drm]
+>> Jan 22 14:06:46 nabtop kernel:  ? drm_plane_get_damage_clips.cold+0x1b/0=
+x1b [drm]
+>> Jan 22 14:06:46 nabtop kernel:  drm_atomic_helper_commit_duplicated_stat=
+e+0xb6/0xd0 [drm_kms_helper]
+>> Jan 22 14:06:46 nabtop kernel:  __intel_display_resume+0x6c/0xd0 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  intel_display_resume+0xb4/0x120 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  i915_drm_resume+0xc6/0x130 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  i915_pm_resume+0x34/0x50 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  i915_pm_restore+0x1f/0x30 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  pci_pm_restore+0x5a/0xe0
+>> Jan 22 14:06:46 nabtop kernel:  ? pci_pm_poweroff_noirq+0x100/0x100
+>> Jan 22 14:06:46 nabtop kernel:  dpm_run_callback+0x4f/0x130
+>> Jan 22 14:06:46 nabtop kernel:  device_resume+0x70/0x150
+>> Jan 22 14:06:46 nabtop kernel:  ? device_resume+0x150/0x150
+>> Jan 22 14:06:46 nabtop kernel:  async_resume+0x1b/0x30
+>> Jan 22 14:06:46 nabtop kernel:  async_run_entry_fn+0x34/0x130
+>> Jan 22 14:06:46 nabtop kernel:  process_one_work+0x182/0x310
+>> Jan 22 14:06:46 nabtop kernel:  worker_thread+0x13e/0x380
+>> Jan 22 14:06:46 nabtop kernel:  kthread+0xda/0x100
+>> Jan 22 14:06:46 nabtop kernel:  ? rescuer_thread+0x340/0x340
+>> Jan 22 14:06:46 nabtop kernel:  ? kthread_complete_and_exit+0x20/0x20
+>> Jan 22 14:06:46 nabtop kernel:  ret_from_fork+0x1c/0x28
+>> Jan 22 14:06:46 nabtop kernel: ---[ end trace 0000000000000000 ]---
+>> Jan 22 14:06:46 nabtop kernel: ata1: SATA link up 3.0 Gbps (SStatus 123 =
+SControl 300)
+>> Jan 22 14:06:46 nabtop kernel: ata2: SATA link up 1.5 Gbps (SStatus 113 =
+SControl 300)
+>> Jan 22 14:06:46 nabtop kernel: ata6: SATA link down (SStatus 0 SControl =
+300)
+>> Jan 22 14:06:46 nabtop kernel: ata5: SATA link down (SStatus 0 SControl =
+300)
+>> Jan 22 14:06:46 nabtop kernel: ata1.00: unexpected _GTF length (8)
+>> Jan 22 14:06:46 nabtop kernel: ata1.00: unexpected _GTF length (8)
+>> Jan 22 14:06:46 nabtop kernel: ata1.00: configured for UDMA/100
+>> Jan 22 14:06:46 nabtop kernel: ata2.00: configured for UDMA/33
+>> Jan 22 14:06:46 nabtop kernel: usb 5-4: reset high-speed USB device numb=
+er 4 using ehci-pci
+>> Jan 22 14:06:46 nabtop kernel: usb 6-2: reset full-speed USB device numb=
+er 2 using uhci_hcd
+>> Jan 22 14:06:46 nabtop kernel: firewire_core 0000:0a:01.0: rediscovered =
+device fw0
+>> Jan 22 14:06:46 nabtop kernel: ------------[ cut here ]------------
+>> Jan 22 14:06:46 nabtop kernel: primary B assertion failure (expected off=
+, current on)
+>> Jan 22 14:06:46 nabtop kernel: WARNING: CPU: 0 PID: 1038 at drivers/gpu/=
+drm/i915/display/intel_display.c:476 assert_plane+0x9f/0xb0 [i915]
+>> Jan 22 14:06:46 nabtop kernel: Modules linked in: ghash_generic gf128mul=
+ gcm ccm algif_aead des_generic libdes ecb algif_skcipher bnep cmac md4 alg=
+if_hash af_alg binfmt_misc btusb btrtl btbcm btintel btmtk bluetooth jitter=
+entropy_rng sha512_generic ctr drbg joydev ansi_cprng ecdh_generic ecc iwld=
+vm mac80211 libarc4 iTCO_wdt intel_pmc_bxt snd_hda_codec_conexant iTCO_vend=
+or_support uvcvideo watchdog snd_hda_codec_generic ledtrig_audio videobuf2_=
+vmalloc videobuf2_memops i915 videobuf2_v4l2 nls_ascii snd_hda_intel iwlwif=
+i videobuf2_common snd_intel_dspcfg drm_buddy snd_intel_sdw_acpi nls_cp437 =
+videodev drm_display_helper snd_hda_codec snd_hda_core i2c_i801 cec vfat mc=
+ psmouse evdev wmi_bmof i2c_smbus snd_hwdep rc_core pcspkr cfg80211 sg ttm =
+fat lpc_ich snd_pcm drm_kms_helper toshiba_acpi snd_timer industrialio snd =
+sparse_keymap toshiba_bluetooth sky2 soundcore rfkill i2c_algo_bit toshiba_=
+haps ac button acpi_cpufreq nf_log_syslog nft_log nft_limit nft_ct nf_connt=
+rack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables
+>> Jan 22 14:06:46 nabtop kernel:  libcrc32c nfnetlink drm ip_tables x_tabl=
+es ext4 crc16 mbcache jbd2 crc32c_generic sd_mod t10_pi crc64_rocksoft crc6=
+4 crc_t10dif sr_mod crct10dif_generic cdrom crct10dif_common sdhci_pci cqhc=
+i ehci_pci uhci_hcd ehci_hcd ahci libahci sdhci libata mmc_core serio_raw f=
+irewire_ohci usbcore battery usb_common video wmi pkcs8_key_parser coretemp=
+ firewire_sbp2 firewire_core crc_itu_t scsi_mod scsi_common parport_pc ppde=
+v lp parport autofs4
+>> Jan 22 14:06:46 nabtop kernel: CPU: 0 PID: 1038 Comm: kworker/u4:20 Tain=
+ted: G        W          6.1.0-2-686-pae #1  Debian 6.1.7-1
+>> Jan 22 14:06:46 nabtop kernel: Hardware name: TOSHIBA Satellite Pro U400=
+/Satellite Pro U400, BIOS V5.00    10/26/2010
+>> Jan 22 14:06:46 nabtop kernel: Workqueue: events_unbound async_run_entry=
+_fn
+>> Jan 22 14:06:46 nabtop kernel: EIP: assert_plane+0x9f/0xb0 [i915]
+>> Jan 22 14:06:46 nabtop kernel: Code: ff 73 0c 68 30 da b7 f8 e8 0e c7 3a=
+ ff 83 c4 10 eb b3 8d b4 26 00 00 00 00 66 90 57 52 ff 73 0c 68 30 da b7 f8=
+ e8 75 eb e3 dc <0f> 0b 83 c4 10 eb 94 e8 65 9c e7 dc 8d 74 26 00 90 3e 8d =
+74 26 00
+>> Jan 22 14:06:46 nabtop kernel: EAX: 00000036 EBX: c1238c00 ECX: 00000001=
+ EDX: 80000001
+>> Jan 22 14:06:46 nabtop kernel: ESI: 00000000 EDI: f8ba1548 EBP: c63f7d60=
+ ESP: c63f7d3c
+>> Jan 22 14:06:46 nabtop kernel: DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0=
+068 EFLAGS: 00010292
+>> Jan 22 14:06:46 nabtop kernel: CR0: 80050033 CR2: 01e6fc26 CR3: 15e2c000=
+ CR4: 000006f0
+>> Jan 22 14:06:46 nabtop kernel: Call Trace:
+>> Jan 22 14:06:46 nabtop kernel:  intel_atomic_commit_tail+0xdbb/0xe30 [i9=
+15]
+>> Jan 22 14:06:46 nabtop kernel:  ? sugov_start+0x150/0x150
+>> Jan 22 14:06:46 nabtop kernel:  ? sugov_start+0x150/0x150
+>> Jan 22 14:06:46 nabtop kernel:  intel_atomic_commit+0x30b/0x350 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  ? intel_atomic_commit_tail+0xe30/0xe30 [=
+i915]
+>> Jan 22 14:06:46 nabtop kernel:  drm_atomic_commit+0x6b/0xe0 [drm]
+>> Jan 22 14:06:46 nabtop kernel:  ? drm_plane_get_damage_clips.cold+0x1b/0=
+x1b [drm]
+>> Jan 22 14:06:46 nabtop kernel:  drm_atomic_helper_commit_duplicated_stat=
+e+0xb6/0xd0 [drm_kms_helper]
+>> Jan 22 14:06:46 nabtop kernel:  __intel_display_resume+0x6c/0xd0 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  intel_display_resume+0xb4/0x120 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  i915_drm_resume+0xc6/0x130 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  i915_pm_resume+0x34/0x50 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  i915_pm_restore+0x1f/0x30 [i915]
+>> Jan 22 14:06:46 nabtop kernel:  pci_pm_restore+0x5a/0xe0
+>> Jan 22 14:06:46 nabtop kernel:  ? pci_pm_poweroff_noirq+0x100/0x100
+>> Jan 22 14:06:46 nabtop kernel:  dpm_run_callback+0x4f/0x130
+>> Jan 22 14:06:46 nabtop kernel:  device_resume+0x70/0x150
+>> Jan 22 14:06:46 nabtop kernel:  ? device_resume+0x150/0x150
+>> Jan 22 14:06:46 nabtop kernel:  async_resume+0x1b/0x30
+>> Jan 22 14:06:46 nabtop kernel:  async_run_entry_fn+0x34/0x130
+>> Jan 22 14:06:46 nabtop kernel:  process_one_work+0x182/0x310
+>> Jan 22 14:06:46 nabtop kernel:  worker_thread+0x13e/0x380
+>> Jan 22 14:06:46 nabtop kernel:  kthread+0xda/0x100
+>> Jan 22 14:06:46 nabtop kernel:  ? rescuer_thread+0x340/0x340
+>> Jan 22 14:06:46 nabtop kernel:  ? kthread_complete_and_exit+0x20/0x20
+>> Jan 22 14:06:46 nabtop kernel:  ret_from_fork+0x1c/0x28
+>> Jan 22 14:06:46 nabtop kernel: ---[ end trace 0000000000000000 ]---
+>> Jan 22 14:06:46 nabtop kernel: PM: hibernation: Basic memory bitmaps fre=
+ed
+>> Jan 22 14:06:46 nabtop kernel: OOM killer enabled.
+>> Jan 22 14:06:46 nabtop kernel: Restarting tasks ... done.
+>> Jan 22 14:06:46 nabtop kernel: usb 7-1: USB disconnect, device number 2
+>> Jan 22 14:06:46 nabtop iwd[648]: Received Deauthentication event, reason=
+: 3, from_ap: false
+>> Jan 22 14:06:46 nabtop systemd-networkd[435]: wifi1: Lost carrier
+>
+> Anything could help pin-pointing the issue?
+>
+> Regards,
+> Salvatore
 
-Could someone point me to a userspace that uses this currently?
-
-Harry
-
-> On Fri, Jan 13, 2023 at 5:26 PM Harry Wentland <harry.wentland@amd.com> wrote:
->>
->> From: Joshua Ashton <joshua@froggi.es>
->>
->> Userspace might not aware whether we're sending RGB or YCbCr
->> data to the display. If COLOR_SPACE_2020_RGB_FULLRANGE is
->> requested but the output encoding is YCbCr we should
->> send COLOR_SPACE_2020_YCBCR.
->>
->> Signed-off-by: Joshua Ashton <joshua@froggi.es>
->> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
->> Cc: Pekka Paalanen <ppaalanen@gmail.com>
->> Cc: Sebastian Wick <sebastian.wick@redhat.com>
->> Cc: Vitaly.Prosyak@amd.com
->> Cc: Joshua Ashton <joshua@froggi.es>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: amd-gfx@lists.freedesktop.org
->> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
->> ---
->>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index f74b125af31f..16940ea61b59 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -5184,7 +5184,10 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
->>                 color_space = COLOR_SPACE_ADOBERGB;
->>                 break;
->>         case DRM_MODE_COLORIMETRY_BT2020_RGB:
->> -               color_space = COLOR_SPACE_2020_RGB_FULLRANGE;
->> +               if (dc_crtc_timing->pixel_encoding == PIXEL_ENCODING_RGB)
->> +                       color_space = COLOR_SPACE_2020_RGB_FULLRANGE;
->> +               else
->> +                       color_space = COLOR_SPACE_2020_YCBCR;
->>                 break;
->>         case DRM_MODE_COLORIMETRY_BT2020_YCC:
->>                 color_space = COLOR_SPACE_2020_YCBCR;
->> --
->> 2.39.0
->>
-> 
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
