@@ -2,93 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE2967B5C6
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 16:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E038A67B630
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 16:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 619C610E7EF;
-	Wed, 25 Jan 2023 15:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA08F10E7D7;
+	Wed, 25 Jan 2023 15:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2057.outbound.protection.outlook.com [40.107.220.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39B6410E7EC;
- Wed, 25 Jan 2023 15:20:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sd1zK3fRNukvKhCIvpunGpCcCxDPcLFSkxgsYXAnUEPsV250v/MRc2C7/3hs9Uga37YXqM8GPC7JFfYuKb8qXfa/tYBTWS2zq4Heq7vL8Y80h2Ld7kiJerbDDInKyv2vmf4N1eeM1+WSPFy7U3JYPqzdOJkmwawvNj1j2OfHFXAu7sXIr8sPdHRxM867VfxHZZWSD8qIBBG05XAzFli4FhbzozIbzWQgx+MFjbDsXXQIIwnAxPVmHfJkDAOzSJbJDFOOOyUokjNaMlF1QQeZ9BKsYpHNzQY3vwwGpJQiz/zx94dkGS0w9gIZyyTbq4mYXvw62HkKsJy0qRNwcZnfbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=05J3q0WXmpYhxvTVSC6vWNR6/2MNLFEf+37jBYHmAnU=;
- b=PfLLJUsbNoHDF7qoYt9GhNzvhyCB1ZMGNj4dQZMR9779X+AAd74hBLBFJZj4kMbMMy5IYeLnJ8LLQF/e/Lo1uE9kdo6jd+lEI+h471y1lvgdBX6hI1Kbxf9ybMiMLqxWBN1x7dRgXbzrKq6mc5o6IxC7aNHcmiJeXTcvnqeDIWOSwPUgao+GqmTq0KbbKxDWdUlibkaKpyNFn4nZv+MOed5qdSSpHvwPbtkpDW4sKORP68Yn+usFRVwsJeaO8Na/ZdtKFRP0GfG8+60RGFwjcfmWJ9a5ANAlPyRBmgHef/8OsR2Imn0OXL4wzdKe1fYRuatTTRH5+cr+fkTkbDC54w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=05J3q0WXmpYhxvTVSC6vWNR6/2MNLFEf+37jBYHmAnU=;
- b=x8AIAEbxLipcR8YkjRb1B04k/DuKKSgyOvZrY06n61YXTxFqRP0QCDUX0aiN1+CiTGDbjoKofFFtX4zQdHaO5Tjz8u0AdplMYZ0Wvqi2RDcENsOnixt79okT5UmpWQyvArNsiDnIIb5Uci1DpZGnF7OFXkRf0lAw2h4ROnAoekE=
-Received: from BN9PR03CA0487.namprd03.prod.outlook.com (2603:10b6:408:130::12)
- by IA1PR12MB6091.namprd12.prod.outlook.com (2603:10b6:208:3ed::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Wed, 25 Jan
- 2023 15:20:48 +0000
-Received: from BN8NAM11FT112.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:130:cafe::8b) by BN9PR03CA0487.outlook.office365.com
- (2603:10b6:408:130::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.21 via Frontend
- Transport; Wed, 25 Jan 2023 15:20:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT112.mail.protection.outlook.com (10.13.176.210) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6043.17 via Frontend Transport; Wed, 25 Jan 2023 15:20:47 +0000
-Received: from amar-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 25 Jan 2023 09:20:44 -0600
-From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH v4 4/4] drm/amdgpu: Cleanup PAGE_SHIFT operation
-Date: Wed, 25 Jan 2023 20:50:06 +0530
-Message-ID: <20230125152006.3945-4-Amaranath.Somalapuram@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20230125152006.3945-1-Amaranath.Somalapuram@amd.com>
-References: <20230125152006.3945-1-Amaranath.Somalapuram@amd.com>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE2F710E064;
+ Wed, 25 Jan 2023 15:47:23 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id y25so29602652lfa.9;
+ Wed, 25 Jan 2023 07:47:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1yrivBKzvIiUCmjHgUeelETWZKK8oymd83MtSBtHS+A=;
+ b=YsH0elwuhxilWf51EJd96I5tksHSXHicmly6YDG9v342RR0sm4hpKHqb3o7cRJ73CY
+ E7ZQs1s6nP+2WGYR1Yio9fKLXtSVGZZ202tBXkHx3chwfny8g3cPj6YFkP6njnq22qVP
+ 8KN5zGN/wUi+dv1s9nlhsNlSWRKC0g+Jj44Jf/MVpEd/M80yN6W0xLuLZqoBvCJaWOFP
+ Hcb+jgyInNaCHCNOteI106BgKVVd++bo0u9HPtb5hNWTz4Ad5WL8oyGqSs57VGuvm3Ji
+ k740sMrEIUMunQG4ICntLctAp8YcVxzgEx6ggAqsjyn7p68rCLY3rwdkwqbSYZ7MCfHb
+ 1pyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1yrivBKzvIiUCmjHgUeelETWZKK8oymd83MtSBtHS+A=;
+ b=S8P4Pp4MSl9pJp4hEYiNmXWmtjM0qtH4Kja/zFpO1nuqtvM9A4ZEIVykE6V1sZlra6
+ G09rNdlsquYQZAR4/0V4SE2dhny6XGOd5x17ZXWAhXwn7iIHy3RHnqAfTvzCmS30hXT7
+ 8BB4/vKSP8g0zSs5ij6qeJCiNrBqy3ZiXZVQerPzVNv/p+GgVZJeGDM7EXtzvxq9ttr9
+ UzNXHt554VcLTwo90eljo+2h1iHqcC2t7EKBIjoa4WkUhiMJmz86RLgApOF8bjGKO6TC
+ 1VcacINltzWPLIwKIvmYYsiIutQK6+/+m5O3LbAQGZHP/SHggn9+D7D/0NENmkVnMOfE
+ GxNQ==
+X-Gm-Message-State: AFqh2kqae/SUJGmhQjdABC+0pHdPIB+ss4S+cCG+lQBtB5f5GukwiTFK
+ AblCZ2YLc3PI/yPGVC1rF/0pE1nDkKwlldJKIJ4=
+X-Google-Smtp-Source: AMrXdXvN0xZE5qaULOGo/vLjASVhrDeBHJkx9rXIM6MPMcHCnMn3YRX+1cBTtN/vxAIZIQIkU5+Vcn9o3Nqt1oeySgY=
+X-Received: by 2002:a19:8c19:0:b0:4ca:f3c2:2670 with SMTP id
+ o25-20020a198c19000000b004caf3c22670mr2777356lfd.166.1674661642022; Wed, 25
+ Jan 2023 07:47:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT112:EE_|IA1PR12MB6091:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ea57d9a-13e7-4e6f-145b-08dafee7bc80
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jQUVFvCv2P/4eKpcdcEZeySUuYjIJjrTweGUwzjfXiADAofh6v5A/P+Ox8nXgz6R6MPgGtGJo8c+trOSeoPAY49zSNoTXdfHlIHA/PjyPsd+sxRdLw119N+aXzjyLoEdHMSrHJx+CwGO29dm/oNMTjHrsAMBoBaE0WvPg2QPgjRE9lJESBgciamhjr4ZRWvWU6LrHiynta7BkW9aTQ6oxbjhfiK5voGi7DdGl3WR1odORiaCa5saRK20PMbs86TKtoUiKPu5xQ8uk+VibSghrz8Ej/cLvk+pOMpvaINRr0qSjNpfb4UR8w5n8xCENYcIWI4jfuQ3re7LpEp5Wro/QvnEeiCdOWU3CvRJ6NjFWReoh7ddSpnN0Sybx+ZkG76fMsQP3uOtemyO5nOH0Gl4cGiA8vuHFQWV87kN6cy/ogz1SEBLPHCt8hVLxdqN1opL3TUFO1x62jg/ZdVtXW0/t4OrGkEpXp+cQyhYvjTamNX2zV+Cmvn69p7xPm4F9jAeweLUmF6QBFRINYzQaKTYdWfohSNizMw1p3tEMrpycwa7ZTPlZGWV89j3oMC2Q4qKgVkBxRyrlvQgPARmtQOZzjThFwTyNLsg+97goh79MIocX6cnavHgAh6srtobFLFWgWrkJusjv2osmfEB7GkQh8P8gq3lxKZ8JVC5hylr2bmpV4z+bH0K22L/wH8IMr1NuayPi/uG8IyFbHuN5UEuJDw7R1dvjtrq7oEzom0WywM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(39860400002)(396003)(136003)(346002)(451199018)(40470700004)(36840700001)(46966006)(8936002)(4326008)(36860700001)(110136005)(83380400001)(70586007)(70206006)(86362001)(450100002)(8676002)(26005)(316002)(478600001)(36756003)(6666004)(40480700001)(186003)(16526019)(7696005)(54906003)(356005)(81166007)(2616005)(336012)(1076003)(4744005)(5660300002)(82310400005)(82740400003)(426003)(40460700003)(47076005)(41300700001)(2906002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2023 15:20:47.9288 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ea57d9a-13e7-4e6f-145b-08dafee7bc80
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT112.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6091
+References: <20230124125726.13323-1-christian.koenig@amd.com>
+ <CAM0jSHNmv-naGqB=R8DZc-3QhTPzzo4pUU2-NxhtiEhXMcAN5A@mail.gmail.com>
+ <CAM0jSHMgep0q9=C=fHw+Y8SqpNeN3Gz47u_UvwgJuGG3_0qgBQ@mail.gmail.com>
+ <CAM0jSHNKkAS1+dYJdHk23+Uyoz02G1VPFLpKLxX2HqRe7L2HCA@mail.gmail.com>
+ <418a6bca-7a61-86d8-7f6a-229d1e12c0fd@gmail.com>
+ <CAM0jSHMrtTWPpExT-M3=qGKyFPSjN=WbsDnLZTaADneyXxOjZQ@mail.gmail.com>
+ <d1da49dd-5d7e-e488-e584-6f07613dcb16@gmail.com>
+ <CAM0jSHP-2D8MKZOnQfLM1+ZnMDx=231f=Mxwb0X3BJsG2vbRYA@mail.gmail.com>
+ <2ace4ce4-ed25-8bdf-ad19-28c45f964280@gmail.com>
+In-Reply-To: <2ace4ce4-ed25-8bdf-ad19-28c45f964280@gmail.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 25 Jan 2023 15:46:54 +0000
+Message-ID: <CAM0jSHOa=qrmuWkZ2ygsdzY2vDMdG0sW+ByWq2Rpzjx-WM5f-g@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: audit bo->resource usage v3
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,32 +74,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: shashank.sharma@amd.com, arunpravin.paneerselvam@amd.com,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, arvind.yadav@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cleaning up page shift operations.
+On Wed, 25 Jan 2023 at 14:20, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Am 25.01.23 um 13:53 schrieb Matthew Auld:
+> > On Wed, 25 Jan 2023 at 11:35, Christian K=C3=B6nig
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> >> Am 25.01.23 um 11:21 schrieb Matthew Auld:
+> >>> On Wed, 25 Jan 2023 at 10:07, Christian K=C3=B6nig
+> >>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>> Am 25.01.23 um 10:56 schrieb Matthew Auld:
+> >>>>> On Tue, 24 Jan 2023 at 17:15, Matthew Auld
+> >>>>> <matthew.william.auld@gmail.com> wrote:
+> >>>>>> On Tue, 24 Jan 2023 at 13:48, Matthew Auld
+> >>>>>> <matthew.william.auld@gmail.com> wrote:
+> >>>>>>> On Tue, 24 Jan 2023 at 12:57, Christian K=C3=B6nig
+> >>>>>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>>>>>> From: Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com>
+> >>>>>>>>
+> >>>>>>>> Make sure we can at least move and alloc TT objects without back=
+ing store.
+> >>>>>>>>
+> >>>>>>>> v2: clear the tt object even when no resource is allocated.
+> >>>>>>>> v3: add Matthews changes for i915 as well.
+> >>>>>>>>
+> >>>>>>>> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >>>>>>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> >>>>>> Ofc that assumes intel-gfx CI is now happy with the series.
+> >>>>> There are still some nasty failures it seems (in the extended test
+> >>>>> list). But it looks like the series is already merged. Can we quick=
+ly
+> >>>>> revert and try again?
+> >>>> Ah, crap. I thought everything would be fine after the CI gave it's =
+go.
+> >>>>
+> >>>> Which patch is causing the fallout?
+> >>> I'm not sure. I think all of the patches kind of interact with each
+> >>> other, but for sure there is an issue with the first patch. There is
+> >>> one splat like:
+> >> Well I would rather like to revert as less as possible.
+> >>
+> >> Are you sure that this isn't only on some i915 specific branch with no=
+t
+> >> yet upstream changes?
+> > Yeah, that splat is taken directly from the CI results reported with
+> > this series. So it's just your series applied on top of drm-tip.
+> >
+> > Can you take a look at the first patch here:
+> > https://patchwork.freedesktop.org/series/113332/
+> >
+> > Maybe you have a better idea? For reference the IGTs that we have for
+> > verifying userspace object clearing are now failing, so hoping that
+> > fixes it. The other two patches I'm hoping will fix the splat.
+>
+> The TTM change looks like a good idea to me. Feel free to add my rb to
+> this one.
+>
+> I can't say much about the i915 changes.
+>
+> Maybe we should revert the two TTM patches to not allocate resources for
+> now and fix i915 first?
 
-Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+From what I can see, we would need to revert all three TTM patches,
+keeping just the i915 one. Reverting for now I think makes sense.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index a97e8236bde9..ffe6a1ab7f9a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -930,7 +930,7 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
- 
- 	addr = amdgpu_gmc_agp_addr(bo);
- 	if (addr != AMDGPU_BO_INVALID_OFFSET) {
--		bo->resource->start = addr >> PAGE_SHIFT;
-+		bo->resource->start = addr;
- 		return 0;
- 	}
- 
--- 
-2.32.0
-
+>
+> Christian.
+>
+> >
+> >> I can't even find the i915_gem_obj_copy_ttm function in drm-misc-next
+> >> nor drm-next.
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>> <1>[  109.735148] BUG: kernel NULL pointer dereference, address:
+> >>> 0000000000000010
+> >>> <1>[  109.735151] #PF: supervisor read access in kernel mode
+> >>> <1>[  109.735152] #PF: error_code(0x0000) - not-present page
+> >>> <6>[  109.735153] PGD 0 P4D 0
+> >>> <4>[  109.735155] Oops: 0000 [#1] PREEMPT SMP NOPTI
+> >>> <4>[  109.735157] CPU: 1 PID: 92 Comm: kworker/u12:6 Not tainted
+> >>> 6.2.0-rc5-Patchwork_113269v1-gc4d436608c4e+ #1
+> >>> <4>[  109.735159] Hardware name: Gigabyte Technology Co., Ltd. GB-Z39=
+0
+> >>> Garuda/GB-Z390 Garuda-CF, BIOS IG1c 11/19/2019
+> >>> <4>[  109.735160] Workqueue: events_unbound async_run_entry_fn
+> >>> <4>[  109.735163] RIP: 0010:i915_ttm_resource_mappable+0x4/0x30 [i915=
+]
+> >>> <4>[  109.735286] Code: b8 f9 ff ff ff eb c2 e8 aa 5e 52 e1 e9 4f 0f
+> >>> 18 00 0f 1f 44 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+> >>> 66 0f 1f 00 <8b> 57 10 b8 01 00 00 00 85 d2 74 15 48 8b 47 08 48 05 f=
+f
+> >>> 0f 00 00
+> >>> <4>[  109.735288] RSP: 0018:ffffc90000f339a8 EFLAGS: 00010246
+> >>> <4>[  109.735289] RAX: 0000000000000000 RBX: 0000000000000000 RCX:
+> >>> ffff88810cea3a00
+> >>> <4>[  109.735290] RDX: 0000000000000000 RSI: ffffc90000f33af0 RDI:
+> >>> 0000000000000000
+> >>> <4>[  109.735292] RBP: ffff88811645d7c0 R08: 0000000000000000 R09:
+> >>> ffff888123afa940
+> >>> <4>[  109.735292] R10: 0000000000000001 R11: ffff888104b70040 R12:
+> >>> 0000000000000000
+> >>> <4>[  109.735293] R13: 0000000000000000 R14: ffffc90000f33b08 R15:
+> >>> ffffc90000f33af0
+> >>> <4>[  109.735294] FS:  0000000000000000(0000)
+> >>> GS:ffff8884ad680000(0000) knlGS:0000000000000000
+> >>> <4>[  109.735295] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> >>> <4>[  109.735296] CR2: 0000000000000010 CR3: 000000011f9c6003 CR4:
+> >>> 00000000003706e0
+> >>> <4>[  109.735297] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+> >>> 0000000000000000
+> >>> <4>[  109.735298] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+> >>> 0000000000000400
+> >>> <4>[  109.735299] Call Trace:
+> >>> <4>[  109.735300]  <TASK>
+> >>> <4>[  109.735301]  __i915_ttm_move+0x128/0x940 [i915]
+> >>> <4>[  109.735408]  ? dma_resv_iter_next+0x91/0xb0
+> >>> <4>[  109.735412]  ? dma_resv_iter_first+0x42/0xb0
+> >>> <4>[  109.735414]  ? i915_deps_add_resv+0x4c/0xc0 [i915]
+> >>> <4>[  109.735520]  i915_gem_obj_copy_ttm+0x12f/0x250 [i915]
+> >>> <4>[  109.735625]  i915_ttm_restore+0x167/0x250 [i915]
+> >>> <4>[  109.735759]  i915_gem_process_region+0x27a/0x3b0 [i915]
+> >>> <4>[  109.735881]  i915_ttm_restore_region+0x4b/0x70 [i915]
+> >>> <4>[  109.735999]  lmem_restore+0x3a/0x60 [i915]
+> >>> <4>[  109.736101]  i915_gem_resume+0x4c/0x100 [i915]
+> >>> <4>[  109.736202]  i915_drm_resume+0xc2/0x170 [i915]
+> >>>
+> >>> Plus some other less obvious issue(s) with some tests failing.
+> >>>
+> >>>> Christian.
+>
