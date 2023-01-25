@@ -2,65 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01ED567B822
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 18:13:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF2367B825
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 18:13:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F06510E374;
-	Wed, 25 Jan 2023 17:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABFF10E375;
+	Wed, 25 Jan 2023 17:13:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9F710E374
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 17:13:11 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id u72so3192241ybi.7
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 09:13:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=10jznw+dU73F3G+2htQ5BN40SBePEPoWssf6etHuDyY=;
- b=H2uHFkikzN+jd9LeHgxQ/ZY6toSFHwcEEkxyffyZMvcbcJiF+PemgjFXOd/+L8AeV1
- 8BnSL9VEA+XC5RObgMF6gnFC+jLnrEARLmaI6/H7J37kal2g+MA4EKhyvTXw45Tje+8o
- DWNbCULokMtoUweg+FTfbYPQgiGII68lpuYMU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=10jznw+dU73F3G+2htQ5BN40SBePEPoWssf6etHuDyY=;
- b=DsWhJQMm0dcahmdGIOPGfZSfvxwD6mEYhJ4eovKwLar2dqBDllV9+aTWVunYEaZhQC
- dEfkFP9H0jOCikHqhnDHj0dG6lezQO/3qcHlRlHnwpPQv18RhZsbG1VTnYJqPkViJ08t
- nYEs1E4iyx3b4gFoszsdIfIlGsQXqjuSX8XHMQ5Aw2QHziHAd/Fr3NSg6GuOblc96ke1
- VpPh9KO8fczM6+ru4oq4hzQIy3DcZLPaaITb5Gyzdls11PplGOkhlnl4u2R9XJyez5gf
- 4XBGlsDOgqXA0jMsyajajOiFkD5hoD2H1GP6tEr3tK1gOQwNXMYIjHEcZZ19Sl7AIp9q
- oDAw==
-X-Gm-Message-State: AFqh2krPLy1QgmcnDYNzRdkpZesENVZgNUbZtLHGdOwIIljIj1AQ0na2
- PHVYypKx++T5wnObtAxNlxc2W22Odd3I8h6adQtDAw==
-X-Google-Smtp-Source: AMrXdXsXwmHr8ksQpE5sZjWMMY7j20SdU+Ico84VAihCay6thuoD5W6vjfU0+10OYT51WJn5mFVccCJcQfcjiJ9GpME=
-X-Received: by 2002:a25:5f43:0:b0:7fe:b611:d88c with SMTP id
- h3-20020a255f43000000b007feb611d88cmr2459544ybm.594.1674666791005; Wed, 25
- Jan 2023 09:13:11 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4B610E375;
+ Wed, 25 Jan 2023 17:13:48 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30PFPvJG018072; Wed, 25 Jan 2023 17:13:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=N6N8i53qKdGUPbRaaFtCby1MYHZr4y2vbA3BsIvJxwg=;
+ b=i9Hupa+f9NjRpEVgKz5sO7X86ASE3+5Kqpvo+jpXpawVSERQWp+Dh9Agdpbe170/MnYM
+ BT4uD99EvK3qMOsFGn792iraw1RVEkfQwJty6Q1OhF5Md/zPVrqHhzi37H2r3fISFJMr
+ mDWIblbSIUFmTvxq3M810U/OuVX7x4Sb21uNZ0H74KXfyXiMUiATiXankhmUPBv0hkBv
+ 94khtnoQs77Ig6p9Lc6mMAXLP1V8a2rYvVQu2klbAF0XdDUvcvh7bdZvTxEQUkVPUcLz
+ GnxnqjXzX74AnSxua4DiKqLsprZMJ1OiNXYkYUVf4P/YwHORKeNsB/Ofgm4i6sUL/hFm 9A== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nb0qrrxea-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Jan 2023 17:13:44 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30PHDhc0026900
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Jan 2023 17:13:43 GMT
+Received: from [10.110.102.140] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 25 Jan
+ 2023 09:13:42 -0800
+Message-ID: <d4d1ee21-47c1-a141-edc1-f0ae86ec58ce@quicinc.com>
+Date: Wed, 25 Jan 2023 09:13:27 -0800
 MIME-Version: 1.0
-References: <20230123151212.269082-1-jagan@amarulasolutions.com>
- <20230123151212.269082-14-jagan@amarulasolutions.com>
- <43f4a7dc-a4cc-7552-1a6d-a2a49fae6020@denx.de>
- <CAMty3ZBZWERT=HpjSepSaFbpKpwZUvuG82s6+z7EgDRY5D+TFg@mail.gmail.com>
- <fb7dfb89-42d6-139e-7ff1-4985838e222f@denx.de>
- <CAMty3ZAYz=XEN6s1XhBWg5b77kk+s942qa9Oz4E4oHtSfaVZtA@mail.gmail.com>
- <CAMty3ZB8jAoKzXpPJzrfH6bOGBOpJRuTacgQDSg8kVuhg7p37Q@mail.gmail.com>
- <CAMty3ZDNwJ40pPJFKqwMd13y-rF9ELb5N6JZffea6T4dnD-0nA@mail.gmail.com>
- <d8e539bd-93db-fb6f-eaec-463f382a1dfb@denx.de>
- <CAMty3ZBxbwwocAwZ18o8tis54SRC64853b+p8VfzcD=OWrjP6Q@mail.gmail.com>
- <c67cdb83-2fef-ad7c-f2c4-e2a6eb09a3e8@denx.de>
-In-Reply-To: <c67cdb83-2fef-ad7c-f2c4-e2a6eb09a3e8@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 25 Jan 2023 22:42:59 +0530
-Message-ID: <CAMty3ZAh7J6_X9NkE+-mBrHBFx+KfuQXPBUYyL5g2vu_Y5X9iw@mail.gmail.com>
-Subject: Re: [RESEND PATCH v11 13/18] drm: exynos: dsi: Add Exynos based host
- irq hooks
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/2] drm/msm/dp: Clean up handling of DP AUX interrupts
+To: Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20230119145248.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
+Content-Language: en-US
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <20230119145248.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: bso9JJpIUFJKFHJJTk21KjK8LMJozGZp
+X-Proofpoint-ORIG-GUID: bso9JJpIUFJKFHJJTk21KjK8LMJozGZp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-25_10,2023-01-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 clxscore=1011 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301250153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,82 +84,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: freedreno@lists.freedesktop.org,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 25, 2023 at 10:16 PM Marek Vasut <marex@denx.de> wrote:
+
+On 1/19/2023 2:53 PM, Douglas Anderson wrote:
+> The DP AUX interrupt handling was a bit of a mess.
+> * There were two functions (one for "native" transfers and one for
+>    "i2c" transfers) that were quite similar. It was hard to say how
+>    many of the differences between the two functions were on purpose
+>    and how many of them were just an accident of how they were coded.
+> * Each function sometimes used "else if" to test for error bits and
+>    sometimes didn't and again it was hard to say if this was on purpose
+>    or just an accident.
+> * The two functions wouldn't notice whether "unknown" bits were
+>    set. For instance, there seems to be a bit "DP_INTR_PLL_UNLOCKED"
+>    and if it was set there would be no indication.
+> * The two functions wouldn't notice if more than one error was set.
 >
-> On 1/25/23 15:04, Jagan Teki wrote:
-> > On Wed, Jan 25, 2023 at 7:23 PM Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> On 1/25/23 07:54, Jagan Teki wrote:
-> >>> On Wed, Jan 25, 2023 at 2:54 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >>>>
-> >>>> On Wed, Jan 25, 2023 at 2:54 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >>>>>
-> >>>>> On Wed, Jan 25, 2023 at 2:42 AM Marek Vasut <marex@denx.de> wrote:
-> >>>>>>
-> >>>>>> On 1/24/23 22:01, Jagan Teki wrote:
-> >>>>>>> On Wed, Jan 25, 2023 at 2:18 AM Marek Vasut <marex@denx.de> wrote:
-> >>>>>>>>
-> >>>>>>>> On 1/23/23 16:12, Jagan Teki wrote:
-> >>>>>>>>> Enable and disable of te_gpio's are Exynos platform specific
-> >>>>>>>>> irq handling, so add the exynos based irq operations and hook
-> >>>>>>>>> them for exynos plat_data.
-> >>>>>>>>
-> >>>>>>>> If this is just an optional generic GPIO IRQ, why not keep it in the
-> >>>>>>>> core code ? TE (tearing enable?) should be available on MX8M too.
-> >>>>>>>
-> >>>>>>> So far the discussion (since from initial versions) with Marek
-> >>>>>>> Szyprowski, seems to be available in Exynos. So, I keep it separate
-> >>>>>>> from the DSIM core.
-> >>>>>>
-> >>>>>> Isn't TE a generic GPIO IRQ ? If so, it is available also on i.MX8M .
-> >>>>
-> >>>> I will check this.
-> >>>
-> >>> In order to use TE_GPIO we need te handler implementation, right now
-> >>> Exynos CRTC DRM drivers have implementation for this. That is the main
-> >>> reason to keep the TE_GPIO handling in exynos, maybe if we handle that
-> >>> generically then it is a viable option to move TE_GPIO to the DSIM
-> >>> core.
-> >>
-> >> I think you can do this exactly the same way exynos does it -- check
-> >> whether te_handler() callback is implemented by the glue code (the one
-> >> you already have for various exynos and imx8mm/imx8mm SoCs) and if so,
-> >> call it. If it is not implemented, do not call anything in the TE IRQ
-> >> handler.
-> >
-> > I need to understand how i.MX8MM handles this on TE IRQ in the DSIM
-> > host side, Can I do this in future patch set as it might involve
-> > bindings changes as well if it's part of DSIM?
+> Let's fix this by being more consistent / explicit about what we're
+> doing.
 >
-> Why not leave an empty te_handler implementation on MX8M for now ?
-> You can fill that implementation in future patchset, but the generic
-> part of the code would be in place .
+> By design this could cause different handling for AUX transfers,
+> though I'm not actually aware of any bug fixed as a result of
+> this patch (this patch was created because we simply noticed how odd
+> the old code was by code inspection). Specific notes here:
+> 1. In the old native transfer case if we got "done + wrong address"
+>     we'd ignore the "wrong address" (because of the "else if"). Now we
+>     won't.
+> 2. In the old native transfer case if we got "done + timeout" we'd
+>     ignore the "timeout" (because of the "else if"). Now we won't.
+> 3. In the old native transfer case we'd see "nack_defer" and translate
+>     it to the error number for "nack". This differed from the i2c
+>     transfer case where "nack_defer" was given the error number for
+>     "nack_defer". This 100% can't matter because the only user of this
+>     error number treats "nack defer" the same as "nack", so it's clear
+>     that the difference between the "native" and "i2c" was pointless
+>     here.
+> 4. In the old i2c transfer case if we got "done" plus any error
+>     besides "nack" or "defer" then we'd ignore the error. Now we don't.
+> 5. If there is more than one error signaled by the hardware it's
+>     possible that we'll report a different one than we used to. I don't
+>     know if this matters. If someone is aware of a case this matters we
+>     should document it and change the code to make it explicit.
+> 6. One quirk we keep (I don't know if this is important) is that in
+>     the i2c transfer case if we see "done + defer" we report that as a
+>     "nack". That seemed too intentional in the old code to just drop.
+>
+> After this change we will add extra logging, including:
+> * A warning if we see more than one error bit set.
+> * A warning if we see an unexpected interrupt.
+> * A warning if we get an AUX transfer interrupt when shouldn't.
+>
+> It actually turns out that as a result of this change then at boot we
+> sometimes see an error:
+>    [drm:dp_aux_isr] *ERROR* Unexpected DP AUX IRQ 0x01000000 when not busy
+> That means that, during init, we are seeing DP_INTR_PLL_UNLOCKED. For
+> now I'm going to say that leaving this error reported in the logs is
+> OK-ish and hopefully it will encourage someone to track down what's
+> going on at init time.
+>
+> One last note here is that this change renames one of the interrupt
+> bits. The bit named "i2c done" clearly was used for native transfers
+> being done too, so I renamed it to indicate this.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> I don't have good test coverage for this change and it does have the
+> potential to change behavior. I confirmed that eDP and DP still
+> continue to work OK on one machine. Hopefully folks can test it more.
+>
+>   drivers/gpu/drm/msm/dp/dp_aux.c     | 80 ++++++++++++-----------------
+>   drivers/gpu/drm/msm/dp/dp_catalog.c |  2 +-
+>   drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
+>   3 files changed, 36 insertions(+), 48 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+> index cc3efed593aa..34ad08ae6eb9 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> @@ -162,47 +162,6 @@ static ssize_t dp_aux_cmd_fifo_rx(struct dp_aux_private *aux,
+>   	return i;
+>   }
+>   
+> -static void dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
+> -{
+> -	if (isr & DP_INTR_AUX_I2C_DONE)
+> -		aux->aux_error_num = DP_AUX_ERR_NONE;
+> -	else if (isr & DP_INTR_WRONG_ADDR)
+> -		aux->aux_error_num = DP_AUX_ERR_ADDR;
+> -	else if (isr & DP_INTR_TIMEOUT)
+> -		aux->aux_error_num = DP_AUX_ERR_TOUT;
+> -	if (isr & DP_INTR_NACK_DEFER)
+> -		aux->aux_error_num = DP_AUX_ERR_NACK;
+> -	if (isr & DP_INTR_AUX_ERROR) {
+> -		aux->aux_error_num = DP_AUX_ERR_PHY;
+> -		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+> -	}
+> -}
+> -
+> -static void dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
+> -{
+> -	if (isr & DP_INTR_AUX_I2C_DONE) {
+> -		if (isr & (DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER))
+> -			aux->aux_error_num = DP_AUX_ERR_NACK;
+> -		else
+> -			aux->aux_error_num = DP_AUX_ERR_NONE;
+> -	} else {
+> -		if (isr & DP_INTR_WRONG_ADDR)
+> -			aux->aux_error_num = DP_AUX_ERR_ADDR;
+> -		else if (isr & DP_INTR_TIMEOUT)
+> -			aux->aux_error_num = DP_AUX_ERR_TOUT;
+> -		if (isr & DP_INTR_NACK_DEFER)
+> -			aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
+> -		if (isr & DP_INTR_I2C_NACK)
+> -			aux->aux_error_num = DP_AUX_ERR_NACK;
+> -		if (isr & DP_INTR_I2C_DEFER)
+> -			aux->aux_error_num = DP_AUX_ERR_DEFER;
+> -		if (isr & DP_INTR_AUX_ERROR) {
+> -			aux->aux_error_num = DP_AUX_ERR_PHY;
+> -			dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+> -		}
+> -	}
+> -}
+> -
+>   static void dp_aux_update_offset_and_segment(struct dp_aux_private *aux,
+>   					     struct drm_dp_aux_msg *input_msg)
+>   {
+> @@ -427,13 +386,42 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
+>   	if (!isr)
+>   		return;
+>   
+> -	if (!aux->cmd_busy)
+> +	if (!aux->cmd_busy) {
+> +		DRM_ERROR("Unexpected DP AUX IRQ %#010x when not busy\n", isr);
+>   		return;
+> +	}
+>   
+> -	if (aux->native)
+> -		dp_aux_native_handler(aux, isr);
+> -	else
+> -		dp_aux_i2c_handler(aux, isr);
+> +	/*
+> +	 * The logic below assumes only one error bit is set (other than "done"
+> +	 * which can apparently be set at the same time as some of the other
+> +	 * bits). Warn if more than one get set so we know we need to improve
+> +	 * the logic.
+> +	 */
+> +	if (hweight32(isr & ~DP_INTR_AUX_XFER_DONE) > 1)
+> +		DRM_WARN("Some DP AUX interrupts unhandled: %#010x\n", isr);
+> +
+> +	if (isr & DP_INTR_AUX_ERROR) {
+> +		aux->aux_error_num = DP_AUX_ERR_PHY;
+> +		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+> +	} else if (isr & DP_INTR_NACK_DEFER) {
+> +		aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
+> +	} else if (isr & DP_INTR_WRONG_ADDR) {
+> +		aux->aux_error_num = DP_AUX_ERR_ADDR;
+> +	} else if (isr & DP_INTR_TIMEOUT) {
+> +		aux->aux_error_num = DP_AUX_ERR_TOUT;
+> +	} else if (isr & DP_INTR_AUX_XFER_DONE) {
+> +		aux->aux_error_num = DP_AUX_ERR_NONE;
 
-Look like we have one issue to move regster te_irq into samsung-dsim.
 
-exynos_dsi_register_te_irq is done after the bridge attach is done in
-Exynos, here bridge attach is triggered in the component ops bind
-call, since samsung-dsim is a pure bridge w/o any component ops.
-https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/bridge/samsung-dsim.c#L1527
-https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/exynos/exynos_drm_dsi.c#L112
+1) both DP_INTR_AUX_XFER_DONE and DP_INTR_I2C_NACK are set
 
-Any suggestion on how to handle this?
+2) both DP_INTR_AUX_XFER_DONE and DP_INTR_I2C_DEFER are set
 
-Thanks,
-Jagan.
+with above two condition, below two "else if" will not be reached since 
+DP_INTR_AUX_XFER_DONE is check with higher priority
+
+> +	} else if (!aux->native && (isr & DP_INTR_I2C_NACK)) {
+> +		aux->aux_error_num = DP_AUX_ERR_NACK;
+> +	} else if (!aux->native && (isr & DP_INTR_I2C_DEFER)) {
+> +		if (isr & DP_INTR_AUX_XFER_DONE)
+> +			aux->aux_error_num = DP_AUX_ERR_NACK;
+> +		else
+> +			aux->aux_error_num = DP_AUX_ERR_DEFER;
+> +	} else {
+> +		DRM_WARN("Unexpected interrupt: %#010x\n", isr);
+> +		return;
+> +	}
+>   
+>   	complete(&aux->comp);
+>   }
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index 676279d0ca8d..421391755427 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -27,7 +27,7 @@
+>   #define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
+>   
+>   #define DP_INTERRUPT_STATUS1 \
+> -	(DP_INTR_AUX_I2C_DONE| \
+> +	(DP_INTR_AUX_XFER_DONE| \
+>   	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
+>   	DP_INTR_NACK_DEFER | DP_INTR_WRONG_DATA_CNT | \
+>   	DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER | \
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> index 1f717f45c115..f36b7b372a06 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> @@ -13,7 +13,7 @@
+>   
+>   /* interrupts */
+>   #define DP_INTR_HPD		BIT(0)
+> -#define DP_INTR_AUX_I2C_DONE	BIT(3)
+> +#define DP_INTR_AUX_XFER_DONE	BIT(3)
+>   #define DP_INTR_WRONG_ADDR	BIT(6)
+>   #define DP_INTR_TIMEOUT		BIT(9)
+>   #define DP_INTR_NACK_DEFER	BIT(12)
