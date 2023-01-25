@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDF667B14A
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 12:32:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB55767B179
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 12:35:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D97B010E77F;
-	Wed, 25 Jan 2023 11:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AEB410E791;
+	Wed, 25 Jan 2023 11:35:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9376F10E77F;
- Wed, 25 Jan 2023 11:31:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674646319; x=1706182319;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5tiFxHorRsdi6tIY75oJsZOHykFx4JPsLHkuUSRto9Y=;
- b=i1eTcYLhJgD2tEhliLHkK89S7R3EBjkiTGb7Qj4F+Er9lpgpuAO86u+D
- woZBhwEnEZ7GkFSo7TvI9r75yDFkNHugdDg33+iapgPXNDSbiYFpA+brp
- D5XBoRpQPRIGTLsZuXZnBeMiyZfARtQdNbA+SswUv5CGmw+MTS0jb5FHg
- j1oHFTshwUSva7fWvmN/7RRbgRrZRUBXef1y+jv7yyMc9seTU8BSIi0W9
- StjzjTVd9AeXpVctQ9U+VBXPI+JEQVZMLW4tVCKasL9UOIAQN2HNsm7kp
- OZhaEV+0k3Y0zBBCKz5pVwib4F6yDbrtVF7rfNaS9nE5S5A0LxloBq+UZ A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="412766919"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; d="scan'208";a="412766919"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 03:31:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="662477057"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; d="scan'208";a="662477057"
-Received: from lkp-server01.sh.intel.com (HELO 5646d64e7320) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 25 Jan 2023 03:31:55 -0800
-Received: from kbuild by 5646d64e7320 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pKe0S-0007Gm-0t;
- Wed, 25 Jan 2023 11:31:56 +0000
-Date: Wed, 25 Jan 2023 19:31:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 5/5] drm/ttm: replace busy placement with
- flags v2
-Message-ID: <202301251900.qqxH4BLi-lkp@intel.com>
-References: <20230124125726.13323-5-christian.koenig@amd.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827BF10E791
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 11:35:44 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 30PBZVI3006809;
+ Wed, 25 Jan 2023 05:35:31 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1674646531;
+ bh=HBFatcEAHxyohhFNewVKyitVKV5KRm3vI73LJ/QbUGg=;
+ h=From:To:CC:Subject:Date;
+ b=IBnuxnumEXsy40pirD1qTIs4ABElvilfcbeV1eMbk+D7yAd3cbo0wwmvYJWo293A0
+ B0NAE6+2XHePDerU/gKFfjxvMFemKAglYkErBJX7u5o420nZdykup44XNnH52Gu25J
+ /80YfjIdiCpN7fU7gSkdnsu1MGxBUIt8w4PYvi98=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 30PBZVen027840
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 25 Jan 2023 05:35:31 -0600
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Wed, 25
+ Jan 2023 05:35:31 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Wed, 25 Jan 2023 05:35:31 -0600
+Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 30PBZUpW074724;
+ Wed, 25 Jan 2023 05:35:30 -0600
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,
+ Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v7 0/6] Add DSS support for AM625 SoC
+Date: Wed, 25 Jan 2023 17:05:23 +0530
+Message-ID: <20230125113529.13952-1-a-bhatia1@ti.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230124125726.13323-5-christian.koenig@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,79 +62,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+This patch series adds a new compatible for the Display SubSystem (DSS)
+controller on TI's AM625 SoC. It further adds the required support for
+the same in the tidss driver.
 
-I love your patch! Yet something to improve:
+The AM625-DSS is a newer version of the DSS from the AM65X version with
+the major change being the addition of another OLDI TX. With the help of
+2 OLDI TXes, the AM625 DSS can support dual-linked OLDI displays with a
+resolution of up-to 2K or WUXGA (1920x1200@60fps) at half the OLDI clock
+frequency or even cloned video outputs on each of the TXes.
 
-[auto build test ERROR on drm-tip/drm-tip]
+TODO:
+  - The pixel clock for the OLDI VP passes through a clock divider, which
+    was being explicitly set in previous versions, but that was not the
+    right way. That patch was dropped and a newer implementation is in
+    works.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-ttm-stop-allocating-dummy-resources-during-BO-creation/20230124-205939
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230124125726.13323-5-christian.koenig%40amd.com
-patch subject: [Intel-gfx] [PATCH 5/5] drm/ttm: replace busy placement with flags v2
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230125/202301251900.qqxH4BLi-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/1b5a737f3331c8493708ed779338243cd70dde6a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-ttm-stop-allocating-dummy-resources-during-BO-creation/20230124-205939
-        git checkout 1b5a737f3331c8493708ed779338243cd70dde6a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+Note:
+  - I have not picked up Tomi Valkeinen's reviewed-by tag in Patch 5/6
+    of this series because I did not implement one of his comments
+    which suggested to remove the 'oldi_supported' variable. While the
+    oldi support is indeed based on SoC variations, keeping that
+    variable helps take into account the case where an OLDI supporting
+    SoC by-passes OLDI TXes and gives out DPI video signals straight
+    from DSS.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+- V6: https://patchwork.freedesktop.org/series/111106/
+- V5: https://patchwork.freedesktop.org/series/109194/
 
-All errors (new ones prefixed by >>):
+Changelog:
+V7:
+  - Rebase to current linux-next.
+  - Address Tomi Valkeinen's comments.
+    1. Separate the DSS VP and output port coupling.
+       v6 introduced 'output_port_bus_type' in addition to 'vp_bus_type'
+       but having both of the variables was redundant. Hence, in v7
+       the 'output_port_bus_type' essentially replaces 'vp_bus_type'.
+    2. Break Patch v6 2/5 into 2 separate patches (v7 1/6 and v7 3/6).
+    3. Change in name and addition of OLDI mode macros.
+    4. Other minor changes.
 
-   In function 'i915_ttm_placement_from_obj',
-       inlined from 'i915_ttm_get_pages' at drivers/gpu/drm/i915/gem/i915_gem_ttm.c:841:2:
->> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:165:25: error: 'places[0].flags' is used uninitialized [-Werror=uninitialized]
-     165 |         places[0].flags |= TTM_PL_FLAG_IDLE;
-         |                         ^~
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_get_pages':
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c:831:26: note: 'places' declared here
-     831 |         struct ttm_place places[I915_TTM_MAX_PLACEMENTS + 1];
-         |                          ^~~~~~
-   cc1: all warnings being treated as errors
+V6:
+  - Rebase for current merge window.
+  - Add 'allOf:' condition in the DT binding.
+  - Address Tomi Valkeinen's comments.
+    1. Combine DT binding patches for new compatible and 3rd DSS port.
+    2. Further separate DSS VPs and output ports.
+    3. Separate OLDI mode discovery logic from the panel/bridge
+       discovery (which allowed support for OLDI bridges as well.)
+    4. Organize OLDI IO control register macros platform wise.
 
+V5:
+  - Rebase for current merge window.
+  - Add max DT ports in DSS features.
+  - Combine the OLDI support series.
 
-vim +165 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+(Changes from OLDI support series v1)
+  - Address Tomi Valkeinen's comments.
+    1. Update the OLDI link detection approach.
+    2. Add port #3 for 2nd OLDI TX.
+    3. Configure 2 panel-bridges for cloned panels.
+    4. Drop the OLDI clock set patch.
+    5. Drop rgb565-to-888 patch.
 
-   155	
-   156	static void
-   157	i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
-   158				    struct ttm_place *places,
-   159				    struct ttm_placement *placement)
-   160	{
-   161		unsigned int num_allowed = obj->mm.n_placements;
-   162		unsigned int flags = obj->flags;
-   163		unsigned int i;
-   164	
- > 165		places[0].flags |= TTM_PL_FLAG_IDLE;
-   166		i915_ttm_place_from_region(num_allowed ? obj->mm.placements[0] :
-   167					   obj->mm.region, &places[0], obj->bo_offset,
-   168					   obj->base.size, flags);
-   169	
-   170		/* Cache this on object? */
-   171		for (i = 0; i < num_allowed; ++i) {
-   172			i915_ttm_place_from_region(obj->mm.placements[i],
-   173						   &places[i + 1], obj->bo_offset,
-   174						   obj->base.size, flags);
-   175			places[i + 1].flags |= TTM_PL_FLAG_BUSY;
-   176		}
-   177	
-   178		placement->num_placement = num_allowed + 1;
-   179		placement->placement = places;
-   180	}
-   181	
+V4:
+  - Rebase for current merge window.
+  - Add acked and reviewed by tags.
+
+V3:
+  - Change yaml enum in alphabetical order.
+  - Correct a typo.
+
+V2:
+  - Remove redundant register array.
+
+History:
+  - The roots of this patch set can be found in the following OLDI
+    support series. -> https://patchwork.freedesktop.org/series/106471/
+
+    The changes in this above-mentioned series forced some re-works in
+    the current series, and since all the patches were better understood
+    as a single set, both the series were combined in V5, as shown in
+    change-log above.
+
+  - The OLDI Support series v1 (and subsequently v5 of the current
+    series) couldn't take into account OLDI bridges that worked with
+    Clone / Dual Link Mode. That was been rectified in the v6 of the
+    series. That became possible because the OLDI mode discovery was
+    separated from the panel/bridge discovery loop during modeset
+    initialization.
+
+Aradhya Bhatia (6):
+  drm/tidss: Remove Video Port to Output Port coupling
+  dt-bindings: display: ti,am65x-dss: Add support for am625 dss
+  drm/tidss: Add support for AM625 DSS
+  drm/tidss: Add support to configure OLDI mode for am625-dss.
+  drm/tidss: Add IO CTRL and Power support for OLDI TX in am625
+  drm/tidss: Enable Dual and Duplicate Modes for OLDI
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     |  23 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c           | 209 +++++++++++++---
+ drivers/gpu/drm/tidss/tidss_dispc.h           |  35 ++-
+ drivers/gpu/drm/tidss/tidss_dispc_regs.h      |  40 ++-
+ drivers/gpu/drm/tidss/tidss_drv.c             |   1 +
+ drivers/gpu/drm/tidss/tidss_drv.h             |   8 +-
+ drivers/gpu/drm/tidss/tidss_encoder.c         |   4 +-
+ drivers/gpu/drm/tidss/tidss_encoder.h         |   3 +-
+ drivers/gpu/drm/tidss/tidss_irq.h             |   2 +-
+ drivers/gpu/drm/tidss/tidss_kms.c             | 231 ++++++++++++++++--
+ 10 files changed, 471 insertions(+), 85 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.39.0
+
