@@ -1,47 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A2C67B57C
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 16:10:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7759A67B5B8
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 16:20:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B437C10E0F8;
-	Wed, 25 Jan 2023 15:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63CD810E033;
+	Wed, 25 Jan 2023 15:20:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A2910E7E5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 15:10:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C548161494;
- Wed, 25 Jan 2023 15:10:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A53B0C4339E;
- Wed, 25 Jan 2023 15:10:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674659447;
- bh=TofsbXpZihSKZUVsy9XrANh9lc730J6wSOc2QP9eoTI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PWvP9JOJGFWee6ASV9x3ADUxkKdcW+FrahCSA7zAki85HcwH0S+Qlftb5AVSx76V4
- qBpzvZbPNozQG37LDylg+pITOqfq3rlpjhbTAHNw0Oafns2nuDLECj60B1OrLEWMnV
- /DBCokptbh1fiSNjleo4CBNt1NKQdn8kPf8iqz68WINnJ4LRJldl0YhHV/lKBLFxj7
- iiB6+dKsKTB+B07SQ3EH4R91GxqW6sbp7ZwJOpScy+CeEyBddDco4n5ScTpc1xMwwc
- EyMfjtYYEe2OMD5XlBJx97JPAnsmnx3im+jMYOD9UXRGxoX7/db0GPAIhfy7NJWA1c
- KRS15JP4gUAzw==
-Date: Wed, 25 Jan 2023 15:10:38 +0000
-From: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Add missing
- (unevaluated|additional)Properties on child node schemas
-Message-ID: <Y9FGbr8LB9dEHx1Z@google.com>
-References: <20230124230048.371144-1-robh@kernel.org>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2061.outbound.protection.outlook.com [40.107.220.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3F4410E033;
+ Wed, 25 Jan 2023 15:20:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LLlCUC61uqTADTm00sNX+OuDuVXA+WmEQtZFYhuMu3XprUpyJeqq68kVl4+dnHe/5zkCTEuN1bYiDKiFPOqD3bXqXVwmYSizemW6i3aGzooBV/hi9/t5hFB2SWymWV2r5ebQJw0YjCAqLm9PpAVmBaP2St54yoBXDfDfNJV0YHo06jltRwxzq3f9OmamFERwSGwrXI+ER/b/JEzt0rs/j5gJRx5kBHkxYgPIgI1o/7pMoUHMAVK0OaegaWhjOVd5/WFS+0r2RCxUQ/S1cKv0S7zq+fxeXBvx1VJrd+lAI5naiFGe6sR1zRI5aUNz7iHG9oNIcBRa5V7rq5tkYw17Pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FKqmTfLzzwBstqA2gaPDOoIZ3yddDHXNfRCsmJeVEUs=;
+ b=oekg7x+wbIIMeTiaiIW9TrlvKaUJnOXjdKgJ140L+B6mk9b/kXP2CakpOqOWfSbInlXhgwpwxBTgUB3dmyuArOt4bplk685rR1rhzt9veCIuTNKVX6fNmySG6uUrUn1Ow5znwp0JYCk+f++d0ShBsqzvAcdNu/TNlw6qyY9Fr9DKGOPgWUDWySpK383WRzQf9n0lkYv0l5lGFGFmAsXC9bmNe4XFE97jdDxvY0tSbLcJYV0lpC4beZLkhuz10hkc4WDsBj2AUSSUwgIwB1AIDqvvcGTxFiYCD1gIZe6ZkY3MqOtVd86P7WlGxdbsix1ew+syZMNlRQExJ5L1tGdo3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FKqmTfLzzwBstqA2gaPDOoIZ3yddDHXNfRCsmJeVEUs=;
+ b=A2cyXXGfkAcrI81EatV3gvGIk35ItdRpXaWHAI+Gvkq7xLEbjya0Xh6h8nNF3+Nm4otHxhRwGZY5F6M/z+AUfmE5YlZ318s6MlYap0OZUIXHxR0pK+pxdAt0YEoZEh4kJua7GI06A3v5qAx9J4uLPZaERhwWxFQzL24e9aOufjI=
+Received: from BN9PR03CA0373.namprd03.prod.outlook.com (2603:10b6:408:f7::18)
+ by BL1PR12MB5221.namprd12.prod.outlook.com (2603:10b6:208:30b::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Wed, 25 Jan
+ 2023 15:20:34 +0000
+Received: from BN8NAM11FT105.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:f7:cafe::17) by BN9PR03CA0373.outlook.office365.com
+ (2603:10b6:408:f7::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33 via Frontend
+ Transport; Wed, 25 Jan 2023 15:20:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT105.mail.protection.outlook.com (10.13.176.183) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6043.17 via Frontend Transport; Wed, 25 Jan 2023 15:20:34 +0000
+Received: from amar-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Wed, 25 Jan 2023 09:20:31 -0600
+From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
+Subject: [PATCH v4 1/4] drm/amdgpu: Use cursor start instead of ttm resource
+ start
+Date: Wed, 25 Jan 2023 20:50:03 +0530
+Message-ID: <20230125152006.3945-1-Amaranath.Somalapuram@amd.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230124230048.371144-1-robh@kernel.org>
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT105:EE_|BL1PR12MB5221:EE_
+X-MS-Office365-Filtering-Correlation-Id: 843a5b82-2e43-4a0b-a4d6-08dafee7b442
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DdszCZjRnvK0Izv3IzCO978611IryaOVIww7wq8EAlQk4st8zXtRCW7VoX7A39Ei+f9xWku5tn5eE1ExdXiqJC/a0i78VT2pd8ZcAokaQSrDDHC01PnJnP2GGkH7aqQ48ojU1X8r2+SnLKgbrqm9UEpwetpI12OXJ3YBAxQqF7kZMM0PDd8gXgj8dmQvw+43bwYyYX/1bUE+dCNXf2T8k61yLyCUiu0JeNZBSIzcP/ZHG4ArNEMEnl6CFRxx5D68MxmbfZPWuUM99HopDiaj4xW2y+GyxL0UoRxkNFMLRNewotiBn1pXx/Hn5DJyVAURqBj6Nlm/L9+Zrt3lKQgFDHtw1igQ5eJFDeg3tTqX7DL9T3hX8mMKf7aeNQW/VA/aIcediqEGK73eqrfutknODcevUcCsz+Ga4dgBEZV0ruemY585juGPyShBiZqAUgyRIricEwSq/r7JOZMl9hEVrRpnCd4m45o+T3GTNmzL9DiaY2/JWO/cvpvcabNPQsFzGRCuDZXGeruS8AALeAseqrrH/Lvf/DnM7E/Nu1mHUPcbhScNsUO3xNynyE5O0HGpcR8emWa5tRRuLZL8Jz6DY+7XFMoI48bik8bDHHfu+eux9eQxyUAEV4/z4ZQ0JwikZzieDLqat3+SEUvBNF+e4Ghq5XLpKDA9MBvRHUsVvNnRO1XlimifXZarzq6edba65Xr9V371wqPqeNvK8pWm4EoL9Npy6h0j0mhfYngjPfw=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(396003)(376002)(346002)(136003)(451199018)(36840700001)(40470700004)(46966006)(36860700001)(83380400001)(26005)(81166007)(5660300002)(2906002)(7696005)(356005)(82740400003)(41300700001)(86362001)(8936002)(4326008)(82310400005)(16526019)(6666004)(40460700003)(40480700001)(316002)(8676002)(186003)(47076005)(2616005)(426003)(336012)(54906003)(478600001)(110136005)(36756003)(450100002)(70586007)(70206006)(1076003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2023 15:20:34.1044 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 843a5b82-2e43-4a0b-a4d6-08dafee7b442
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT105.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5221
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,109 +100,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Jassi Brar <jassisinghbrar@gmail.com>, Guenter Roeck <linux@roeck-us.net>,
- linux-media@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
- linux-spi@vger.kernel.org, Richard Weinberger <richard@nod.at>,
- openbmc@lists.ozlabs.org
+Cc: shashank.sharma@amd.com, arunpravin.paneerselvam@amd.com,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, arvind.yadav@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Jan 2023, Rob Herring wrote:
+cleanup PAGE_SHIFT operation and replacing
+ttm_resource resource->start with cursor start
+using amdgpu_res_first API.
+v1 -> v2: reorder patch sequence
+v2 -> v3: addressing review comment v2
+v3 -> v4: addressing review comment v3
 
-> Just as unevaluatedProperties or additionalProperties are required at
-> the top level of schemas, they should (and will) also be required for
-> child node schemas. That ensures only documented properties are
-> present.
-> 
-> Add unevaluatedProperties or additionalProperties as appropriate, and
-> then add any missing properties flagged by the addition.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> To: David Airlie <airlied@gmail.com>
-> To: Daniel Vetter <daniel@ffwll.ch>
-> To: Bartosz Golaszewski <brgl@bgdev.pl>
-> To: Jean Delvare <jdelvare@suse.com>
-> To: Guenter Roeck <linux@roeck-us.net>
-> To: Thomas Gleixner <tglx@linutronix.de>
-> To: Marc Zyngier <maz@kernel.org>
-> To: Jassi Brar <jassisinghbrar@gmail.com>
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> To: Lee Jones <lee@kernel.org>
-> To: Ulf Hansson <ulf.hansson@linaro.org>
-> To: Richard Weinberger <richard@nod.at>
-> To: Vignesh Raghavendra <vigneshr@ti.com>
-> To: Sebastian Reichel <sre@kernel.org>
-> To: Mark Brown <broonie@kernel.org>
-> To: "Rafael J. Wysocki" <rafael@kernel.org>
-> To: Daniel Lezcano <daniel.lezcano@linaro.org>
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-hwmon@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: openbmc@lists.ozlabs.org
-> Cc: linux-mmc@vger.kernel.org
-> Cc: linux-mtd@lists.infradead.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-spi@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> ---
->  .../devicetree/bindings/arm/arm,vexpress-juno.yaml     |  1 +
->  .../bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml |  5 +++--
->  .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml         |  4 ++++
->  .../bindings/bus/allwinner,sun50i-a64-de2.yaml         |  1 +
->  .../bindings/bus/allwinner,sun8i-a23-rsb.yaml          |  1 +
->  .../bus/intel,ixp4xx-expansion-bus-controller.yaml     |  6 ++++++
->  Documentation/devicetree/bindings/bus/palmbus.yaml     |  1 +
->  .../devicetree/bindings/display/msm/qcom,mdss.yaml     |  5 +++++
->  Documentation/devicetree/bindings/example-schema.yaml  |  2 ++
->  .../devicetree/bindings/gpio/x-powers,axp209-gpio.yaml |  1 +
->  .../devicetree/bindings/hwmon/adi,ltc2992.yaml         |  1 +
->  .../bindings/interrupt-controller/arm,gic-v3.yaml      |  2 ++
->  .../bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml      |  1 +
->  .../devicetree/bindings/media/i2c/maxim,max9286.yaml   |  7 +++++++
->  .../bindings/memory-controllers/arm,pl35x-smc.yaml     |  1 +
->  .../bindings/memory-controllers/exynos-srom.yaml       |  1 +
->  .../memory-controllers/nvidia,tegra124-emc.yaml        |  1 +
->  .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml |  1 +
->  .../devicetree/bindings/mfd/mediatek,mt6370.yaml       |  2 ++
->  .../devicetree/bindings/mmc/aspeed,sdhci.yaml          |  1 +
->  Documentation/devicetree/bindings/mtd/mtd.yaml         |  1 +
->  .../devicetree/bindings/power/supply/ti,lp8727.yaml    |  1 +
->  .../devicetree/bindings/soc/imx/fsl,imx93-src.yaml     |  3 ++-
->  .../bindings/soc/microchip/atmel,at91rm9200-tcb.yaml   |  1 +
->  Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml |  1 +
->  .../devicetree/bindings/sound/marvell,mmp-sspa.yaml    |  1 +
->  .../devicetree/bindings/sound/qcom,wcd934x.yaml        |  1 +
->  .../devicetree/bindings/sound/samsung,odroid.yaml      |  2 ++
->  .../devicetree/bindings/soundwire/qcom,soundwire.yaml  |  1 +
->  .../bindings/spi/allwinner,sun4i-a10-spi.yaml          |  1 +
->  .../bindings/spi/allwinner,sun6i-a31-spi.yaml          |  1 +
->  .../devicetree/bindings/spi/spi-controller.yaml        |  1 +
->  .../sram/allwinner,sun4i-a10-system-control.yaml       | 10 +++++-----
->  Documentation/devicetree/bindings/sram/qcom,ocmem.yaml |  1 +
->  .../devicetree/bindings/thermal/thermal-zones.yaml     |  1 +
->  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml   |  1 +
->  36 files changed, 65 insertions(+), 8 deletions(-)
+Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 4 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 8 ++++++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-Is this the same as the patch I just reviewed?
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 25a68d8888e0..2a74039c82eb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1491,9 +1491,11 @@ u64 amdgpu_bo_gpu_offset(struct amdgpu_bo *bo)
+ u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo)
+ {
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
++	struct amdgpu_res_cursor cursor;
+ 	uint64_t offset;
+ 
+-	offset = (bo->tbo.resource->start << PAGE_SHIFT) +
++	amdgpu_res_first(bo->tbo.resource, 0, bo->tbo.resource->size, &cursor);
++	offset = cursor.start +
+ 		 amdgpu_ttm_domain_start(adev, bo->tbo.resource->mem_type);
+ 
+ 	return amdgpu_gmc_sign_extend(offset);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index c5ef7f7bdc15..a97e8236bde9 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -849,6 +849,7 @@ static int amdgpu_ttm_backend_bind(struct ttm_device *bdev,
+ {
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
+ 	struct amdgpu_ttm_tt *gtt = ttm_to_amdgpu_ttm_tt(ttm);
++	struct amdgpu_res_cursor cursor;
+ 	uint64_t flags;
+ 	int r;
+ 
+@@ -896,7 +897,8 @@ static int amdgpu_ttm_backend_bind(struct ttm_device *bdev,
+ 	flags = amdgpu_ttm_tt_pte_flags(adev, ttm, bo_mem);
+ 
+ 	/* bind pages into GART page tables */
+-	gtt->offset = (u64)bo_mem->start << PAGE_SHIFT;
++	amdgpu_res_first(bo_mem, 0, bo_mem->size, &cursor);
++	gtt->offset = cursor.start;
+ 	amdgpu_gart_bind(adev, gtt->offset, ttm->num_pages,
+ 			 gtt->ttm.dma_address, flags);
+ 	gtt->bound = true;
+@@ -916,6 +918,7 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
+ 	struct ttm_operation_ctx ctx = { false, false };
+ 	struct amdgpu_ttm_tt *gtt = ttm_to_amdgpu_ttm_tt(bo->ttm);
++	struct amdgpu_res_cursor cursor;
+ 	struct ttm_placement placement;
+ 	struct ttm_place placements;
+ 	struct ttm_resource *tmp;
+@@ -949,7 +952,8 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
+ 	flags = amdgpu_ttm_tt_pte_flags(adev, bo->ttm, tmp);
+ 
+ 	/* Bind pages */
+-	gtt->offset = (u64)tmp->start << PAGE_SHIFT;
++	amdgpu_res_first(tmp, 0, tmp->size, &cursor);
++	gtt->offset = cursor.start;
+ 	amdgpu_ttm_gart_bind(adev, bo, flags);
+ 	amdgpu_gart_invalidate_tlb(adev);
+ 	ttm_resource_free(bo, &bo->resource);
 -- 
-Lee Jones [李琼斯]
+2.32.0
+
