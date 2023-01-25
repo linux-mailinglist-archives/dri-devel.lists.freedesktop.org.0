@@ -2,49 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6711267B941
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 19:25:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7089167BE20
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 22:22:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D983D10E387;
-	Wed, 25 Jan 2023 18:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87DFA10E868;
+	Wed, 25 Jan 2023 21:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7B0910E384;
- Wed, 25 Jan 2023 18:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674671118; x=1706207118;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=luFlJR26axXNGW2KOgknm2W+fbEZo21xknJ5An4dJZM=;
- b=kW18Cn7sO36LkTpVoltu3tKTEPsLZ89v9ZAry92w1zDrd34aa97B/bL0
- kbbKGKdDxYPaVg2bU0i7cEaA1Nr3o4rHGBLxD2EHYQ0Wm1Ok/jY7+o4Jc
- C7mp0fxRXfbCiAs72O9h2PDmHrm8CZzJssP5TTLzk+7VHskifMEYvPYE6
- 72IeBxMDS1dD6OTdI9vUpfUDolWAgYUhYAtFlPKNTk4yPiVvi73k5QSGE
- mzbY+VRjmMOAuuGyFwBANpR++uC946VWvKkFUllGLAHLwjHMHcz3Nv1eM
- MIsbVkT5FmjBzMKBjwAAZgQLgEColYx/uS+x3fZZXhFPY+EGuQYNDPnbt Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="353924011"
-X-IronPort-AV: E=Sophos;i="5.97,246,1669104000"; d="scan'208";a="353924011"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 10:25:18 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="693057953"
-X-IronPort-AV: E=Sophos;i="5.97,246,1669104000"; d="scan'208";a="693057953"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 10:25:17 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2.2] drm/i915: Add _PICK_EVEN_2RANGES()
-Date: Wed, 25 Jan 2023 10:24:03 -0800
-Message-Id: <20230125182403.7526-1-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230124074525.xqprvxdtvkodcgdj@ldmartin-desk2.lan>
-References: <20230124074525.xqprvxdtvkodcgdj@ldmartin-desk2.lan>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADC1B10E584
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 18:39:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=WhE3p5nMlMDjaV/irGLArTSJUCL3MW0izpTScdbc1OU=; b=mx74wVm8uyXRMzRkznkmPv14f3
+ DM5mkZY0d2Y454KV/p1DBO6bVWUBYmLnjNwq5de4oOCp4K1tzlZ+pYhblaAnUsgNim9Cg22n4lXC7
+ YVziRodKlXV3h1dcA4wCil3iZ6I2W+LteukgjO5nFw9bnJFOnLJvx0ni4Ju6wCzLw38ztU2xqwXDF
+ Hz7a4pCnrIPatIpdvDFmrtxTdMVr7eH9j59LSpJj79ys6zGb7fhMV69syzXZoxm/q67WE7IxkNx+x
+ YR6wIJfVUlSwCzFkthS2vqR79CZmfDxbuiYrAaQdlm8CD16FJpwzTtCFj0zPf7AtdmoIV8Mlhhb7E
+ KwDK04uQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1pKkaL-0066XZ-MG; Wed, 25 Jan 2023 18:33:25 +0000
+Date: Wed, 25 Jan 2023 18:33:25 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
+Message-ID: <Y9F19QEDX5d/44EV@casper.infradead.org>
+References: <20230125083851.27759-1-surenb@google.com>
+ <20230125083851.27759-2-surenb@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230125083851.27759-2-surenb@google.com>
+X-Mailman-Approved-At: Wed, 25 Jan 2023 21:21:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,78 +49,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: michel@lespinasse.org, nvdimm@lists.linux.dev, leewalsh@google.com,
+ dri-devel@lists.freedesktop.org, perex@perex.cz, jglisse@google.com,
+ arjunroy@google.com, m.szyprowski@samsung.com, linux-arch@vger.kernel.org,
+ qianweili@huawei.com, linux-samsung-soc@vger.kernel.org,
+ aneesh.kumar@linux.ibm.com, chenhuacai@kernel.org, kasan-dev@googlegroups.com,
+ linux-acpi@vger.kernel.org, rientjes@google.com,
+ xen-devel@lists.xenproject.org, devel@lists.orangefs.org, minchan@google.com,
+ robert.jarzmik@free.fr, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, npiggin@gmail.com, alex.williamson@redhat.com,
+ viro@zeniv.linux.org.uk, luto@kernel.org, gthelen@google.com,
+ tglx@linutronix.de, ldufour@linux.ibm.com, linux-sgx@vger.kernel.org,
+ martin.petersen@oracle.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org, linux-media@vger.kernel.org,
+ freedreno@lists.freedesktop.org, joelaf@google.com, linux-aio@kvack.org,
+ linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org, david@redhat.com,
+ dave.hansen@linux.intel.com, virtualization@lists.linux-foundation.org,
+ edumazet@google.com, target-devel@vger.kernel.org, punit.agrawal@bytedance.com,
+ linux-s390@vger.kernel.org, dave@stgolabs.net, deller@gmx.de, hughd@google.com,
+ andrii@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-rockchip@lists.infradead.org, linux-graphics-maintainer@vmware.com,
+ kernel-team@android.com, jayalk@intworks.biz, soheil@google.com,
+ selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org, shakeelb@google.com,
+ haojian.zhuang@gmail.com, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, tytso@mit.edu, nico@fluxnic.net,
+ muchun.song@linux.dev, hjc@rock-chips.com, mcoquelin.stm32@gmail.com,
+ tatashin@google.com, mike.kravetz@oracle.com, songliubraving@fb.com,
+ jasowang@redhat.com, alsa-devel@alsa-project.org, peterx@redhat.com,
+ linux-tegra@vger.kernel.org, kraxel@redhat.com, will@kernel.org,
+ dmaengine@vger.kernel.org, bhe@redhat.com, miklos@szeredi.hu,
+ linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org, gurua@google.com, dgilbert@interlog.com,
+ xiang@kernel.org, pabeni@redhat.com, jejb@linux.ibm.com,
+ quic_abhinavk@quicinc.com, bp@alien8.de, mchehab@kernel.org,
+ linux-ext4@vger.kernel.org, tomba@kernel.org, hughlynch@google.com,
+ sre@kernel.org, tfiga@chromium.org, linux-xfs@vger.kernel.org,
+ zhangfei.gao@linaro.org, wangzhou1@hisilicon.com, netdev@vger.kernel.org,
+ bpf@vger.kernel.org, linux-erofs@lists.ozlabs.org, davem@davemloft.net,
+ mhocko@suse.com, kvm@vger.kernel.org, mst@redhat.com, peterz@infradead.org,
+ bigeasy@linutronix.de, alexandre.torgue@foss.st.com, dhowells@redhat.com,
+ linux-mm@kvack.org, ray.huang@amd.com, adilger.kernel@dilger.ca,
+ kuba@kernel.org, sparclinux@vger.kernel.org, anton.ivanov@cambridgegreys.com,
+ herbert@gondor.apana.org.au, linux-scsi@vger.kernel.org, richard@nod.at,
+ x86@kernel.org, vkoul@kernel.org, mingo@redhat.com, axelrasmussen@google.com,
+ intel-gfx@lists.freedesktop.org, paulmck@kernel.org, jannh@google.com,
+ chao@kernel.org, liam.howlett@oracle.com, hdegoede@redhat.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, vbabka@suse.cz,
+ dimitri.sivanich@hpe.com, posk@google.com, lstoakes@gmail.com,
+ peterjung1337@gmail.com, yoshfuji@linux-ipv6.org,
+ linuxppc-dev@lists.ozlabs.org, dsahern@kernel.org, kent.overstreet@linux.dev,
+ kexec@lists.infradead.org, tiwai@suse.com, krzysztof.kozlowski@linaro.org,
+ tzimmermann@suse.de, hannes@cmpxchg.org, dmitry.baryshkov@linaro.org,
+ johannes@sipsolutions.net, mgorman@techsingularity.net,
+ linux-accelerators@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's a constant pattern in the driver to need to use 2 ranges of MMIOs
-based on port, phy, pll, etc. When that happens, instead of using
-_PICK_EVEN(), _PICK() needs to be used.  Using _PICK() is discouraged
-due to some reasons like:
+On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
+> +/* Use when VMA is not part of the VMA tree and needs no locking */
+> +static inline void init_vm_flags(struct vm_area_struct *vma,
+> +				 unsigned long flags)
+> +{
+> +	vma->vm_flags = flags;
 
-1) It increases the code size since the array is declared
-   in each call site
-2) Developers need to be careful not to incur an
-   out-of-bounds array access
-3) Developers need to be careful that the indexes match the
-   table. For that it may be that the table needs to contain
-   holes, making (1) even worse.
+vm_flags are supposed to have type vm_flags_t.  That's not been
+fully realised yet, but perhaps we could avoid making it worse?
 
-Add a variant of _PICK_EVEN() that works with 2 ranges and selects which
-one to use depending on the index value.
+>  	pgprot_t vm_page_prot;
+> -	unsigned long vm_flags;		/* Flags, see mm.h. */
+> +
+> +	/*
+> +	 * Flags, see mm.h.
+> +	 * WARNING! Do not modify directly.
+> +	 * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
+> +	 */
+> +	unsigned long vm_flags;
 
-v2: Fix the address expansion in the example (Anusha)
-v3: Also rename macro to _PICK_EVEN_2RANGES() in the documentation
-    and reword it to clarify what ranges are chosen based on the index
-    (Jani)
-
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Reviewed-by: Anusha Srivatsa <anusha.srivatsa@intel.com>
----
- drivers/gpu/drm/i915/i915_reg_defs.h | 29 ++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
-index be43580a6979..983c5aa3045b 100644
---- a/drivers/gpu/drm/i915/i915_reg_defs.h
-+++ b/drivers/gpu/drm/i915/i915_reg_defs.h
-@@ -119,6 +119,35 @@
-  */
- #define _PICK_EVEN(__index, __a, __b) ((__a) + (__index) * ((__b) - (__a)))
- 
-+/*
-+ * Like _PICK_EVEN(), but supports 2 ranges of evenly spaced address offsets.
-+ * @__c_index corresponds to the index in which the second range starts to be
-+ * used. Using math interval notation, the first range is used for indexes [ 0,
-+ * @__c_index), while the second range is used for [ @__c_index, ... ). Example:
-+ *
-+ * #define _FOO_A			0xf000
-+ * #define _FOO_B			0xf004
-+ * #define _FOO_C			0xf008
-+ * #define _SUPER_FOO_A			0xa000
-+ * #define _SUPER_FOO_B			0xa100
-+ * #define FOO(x)			_MMIO(_PICK_EVEN_2RANGES(x, 3,		\
-+ *					      _FOO_A, _FOO_B,			\
-+ *					      _SUPER_FOO_A, _SUPER_FOO_B))
-+ *
-+ * This expands to:
-+ *	0: 0xf000,
-+ *	1: 0xf004,
-+ *	2: 0xf008,
-+ *	3: 0xa000,
-+ *	4: 0xa100,
-+ *	5: 0xa200,
-+ *	...
-+ */
-+#define _PICK_EVEN_2RANGES(__index, __c_index, __a, __b, __c, __d)		\
-+	(BUILD_BUG_ON_ZERO(!__is_constexpr(__c_index)) +			\
-+	 ((__index) < (__c_index) ? _PICK_EVEN(__index, __a, __b) :		\
-+				   _PICK_EVEN((__index) - (__c_index), __c, __d)))
-+
- /*
-  * Given the arbitrary numbers in varargs, pick the 0-based __index'th number.
-  *
--- 
-2.39.0
-
+Including changing this line to vm_flags_t
