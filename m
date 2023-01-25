@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E4967B1F2
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 12:49:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BAF867B207
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 12:52:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE3D10E7AF;
-	Wed, 25 Jan 2023 11:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0FB310E7A5;
+	Wed, 25 Jan 2023 11:52:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCCC10E7AB;
- Wed, 25 Jan 2023 11:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674647349; x=1706183349;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=YlTdXMcBwi1pWu+UeyfEWMh7EaevaL7ebvCBbeGg7R8=;
- b=a2lzXI+y1qbpsBoP7uDAsEBMmL3M5677QI0e1Rpyq09g+VeLWXKhOXrR
- DwQHI6OPMGkXgQZHHeiOcyoG0B3r4y2CsT+wlgM4qs94NHI1775fU/Dpe
- 4ydZdinAfCSygpGaS0sKq/Vgtv+tB/TtWJYEvYDTP9+oJ8OzBPDBTgnyw
- JACl5NwdOHH7xj1rZ48ur5ck25WJhcipOMxFY0Le9XejJLhXt+EoVVDW1
- CXP7zJ8ptLKJ5H3gcHEyiO4xbxwvn3zdw3MVfi/vQsIn74yzlxRdZdhVz
- AaIBw9oxoh7b2W+ez0HFsVpaHKmsObbuCcRRlaTVLRB4tKm9GJQHznYda Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="412769945"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; d="scan'208";a="412769945"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 03:49:09 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="786399730"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; d="scan'208";a="786399730"
-Received: from ideak-desk.fi.intel.com ([10.237.72.58])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 03:49:07 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 8/9] drm/display/dp_mst: Add a helper to verify the MST
- payload state
-Date: Wed, 25 Jan 2023 13:48:51 +0200
-Message-Id: <20230125114852.748337-9-imre.deak@intel.com>
-X-Mailer: git-send-email 2.31.1.189.g2e36527f23
-In-Reply-To: <20230125114852.748337-1-imre.deak@intel.com>
-References: <20230125114852.748337-1-imre.deak@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F01810E7A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 11:52:28 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F356B1FF27;
+ Wed, 25 Jan 2023 11:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1674647547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SJ/Hov8dA5AtQwjazEvVbMXGIJ9ndLLp47N7ofQ4cx4=;
+ b=pXgacsTdHgiGYyBVN9vgcoDkHPc99KMqxN2lHF4x8BCAe49JWYrvjhluYPBo8Aeiyuau/n
+ HZpptJzXCIUorXumCdWJLU1ZdriRaVaJLMK8evnFcYo8OX8aItgG9bo+TU9MqtAEMbhTxh
+ 0FmX6ijtqb1rsOdAc8WxYlw22VbBysI=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CFD3E1358F;
+ Wed, 25 Jan 2023 11:52:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id YZ4UMvoX0WP4bAAAMHmgww
+ (envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 11:52:26 +0000
+Date: Wed, 25 Jan 2023 12:52:26 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Shakeel Butt <shakeelb@google.com>
+Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
+Message-ID: <Y9EX+usSpAjZ/8LS@dhcp22.suse.cz>
+References: <20230123191728.2928839-1-tjmercier@google.com>
+ <20230123191728.2928839-2-tjmercier@google.com>
+ <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
+ <20230124194628.d44rtcfsv23fndxw@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124194628.d44rtcfsv23fndxw@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,233 +60,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
+ Roman Gushchin <roman.gushchin@linux.dev>, cmllamas@google.com,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org, jstultz@google.com,
+ Zefan Li <lizefan.x@bytedance.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ android-mm@google.com, Jonathan Corbet <corbet@lwn.net>, jeffv@google.com,
+ linux-media@vger.kernel.org, selinux@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
+ "T.J. Mercier" <tjmercier@google.com>, Muchun Song <muchun.song@linux.dev>,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a function drivers can use to verify the MST payload state tracking
-and compare this to the sink's payload table.
+On Tue 24-01-23 19:46:28, Shakeel Butt wrote:
+> On Tue, Jan 24, 2023 at 03:59:58PM +0100, Michal Hocko wrote:
+> > On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
+> > > When a buffer is exported to userspace, use memcg to attribute the
+> > > buffer to the allocating cgroup until all buffer references are
+> > > released.
+> > 
+> > Is there any reason why this memory cannot be charged during the
+> > allocation (__GFP_ACCOUNT used)?
+> > Also you do charge and account the memory but underlying pages do not
+> > know about their memcg (this is normally done with commit_charge for
+> > user mapped pages). This would become a problem if the memory is
+> > migrated for example.
+> 
+> I don't think this is movable memory.
+> 
+> > This also means that you have to maintain memcg
+> > reference outside of the memcg proper which is not really nice either.
+> > This mimicks tcp kmem limit implementation which I really have to say I
+> > am not a great fan of and this pattern shouldn't be coppied.
+> > 
+> 
+> I think we should keep the discussion on technical merits instead of
+> personal perference. To me using skmem like interface is totally fine
+> but the pros/cons need to be very explicit and the clear reasons to
+> select that option should be included.
 
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 169 ++++++++++++++++++
- include/drm/display/drm_dp.h                  |   3 +
- include/drm/display/drm_dp_mst_helper.h       |   3 +
- 3 files changed, 175 insertions(+)
+I do agree with that. I didn't want sound to be personal wrt tcp kmem
+accounting but the overall code maintenance cost is higher because
+of how tcp take on accounting differs from anything else in the memcg
+proper. I would prefer to not grow another example like that.
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 619f616d69e20..7597d27db4fa6 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -4834,6 +4834,175 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
- }
- EXPORT_SYMBOL(drm_dp_mst_dump_topology);
- 
-+static bool verify_mst_payload_state(struct drm_dp_mst_topology_state *mst_state)
-+{
-+	struct drm_dp_mst_topology_mgr *mgr = mst_state->mgr;
-+	struct drm_dp_mst_atomic_payload *payload;
-+	int payload_count = 0;
-+	u64 time_slot_mask = 0;
-+	u32 vcpi_mask = 0;
-+	int last_set;
-+
-+	if (BITS_PER_TYPE(time_slot_mask) < mst_state->total_avail_slots)
-+		return false;
-+
-+	list_for_each_entry(payload, &mst_state->payloads, next) {
-+		u64 mask;
-+
-+		if (payload->vc_start_slot == -1)
-+			continue;
-+
-+		if (!payload->time_slots)
-+			return false;
-+
-+		if (payload->vc_start_slot < mst_state->start_slot)
-+			return false;
-+
-+		if (payload->vc_start_slot + payload->time_slots - mst_state->start_slot >
-+		    mst_state->total_avail_slots)
-+			return false;
-+
-+		mask = GENMASK_ULL(payload->vc_start_slot + payload->time_slots - 1,
-+				   payload->vc_start_slot);
-+
-+		if (time_slot_mask & mask)
-+			return false;
-+
-+		time_slot_mask |= mask;
-+
-+		if (payload->vcpi < 1 ||
-+		    payload->vcpi & ~DP_PAYLOAD_ID_MASK ||
-+		    payload->vcpi > BITS_PER_TYPE(vcpi_mask))
-+			return false;
-+		if (BIT(payload->vcpi - 1) & vcpi_mask)
-+			return false;
-+		vcpi_mask |= BIT(payload->vcpi - 1);
-+
-+		payload_count++;
-+	}
-+
-+	if (payload_count != mgr->payload_count)
-+		return false;
-+
-+	last_set = fls64(time_slot_mask);
-+
-+	if (last_set &&
-+	    GENMASK_ULL(last_set - 1, mst_state->start_slot) != time_slot_mask)
-+		return false;
-+
-+	if (max(mst_state->start_slot, mgr->next_start_slot) !=
-+	    max_t(int, mst_state->start_slot, last_set))
-+		return false;
-+
-+	return true;
-+}
-+
-+static int get_payload_table_vcpi(const u8 *table, int slot)
-+{
-+	if (slot == 0)
-+		return FIELD_GET(DP_PAYLOAD_ID_SLOT0_5_0_MASK, table[0]) |
-+		       (FIELD_GET(DP_PAYLOAD_ID_SLOT0_6, table[1]) << 6);
-+	else
-+		return FIELD_GET(DP_PAYLOAD_ID_MASK, table[slot]);
-+}
-+
-+static bool verify_mst_payload_table(struct drm_dp_mst_topology_state *mst_state,
-+				     const u8 *payload_table)
-+{
-+	struct drm_dp_mst_topology_mgr *mgr = mst_state->mgr;
-+	struct drm_dp_mst_atomic_payload *payload;
-+	int i;
-+
-+	list_for_each_entry(payload, &mst_state->payloads, next) {
-+		if (payload->vc_start_slot == -1)
-+			continue;
-+
-+		if (payload->vc_start_slot + payload->time_slots > DP_PAYLOAD_TABLE_SIZE)
-+			return false;
-+
-+		for (i = 0; i < payload->time_slots; i++)
-+			if (get_payload_table_vcpi(payload_table,
-+						   payload->vc_start_slot + i) != payload->vcpi)
-+				return false;
-+	}
-+
-+	for (i = max(mgr->next_start_slot, mst_state->start_slot);
-+	     i < DP_PAYLOAD_TABLE_SIZE;
-+	     i++) {
-+		if (get_payload_table_vcpi(payload_table, i) != 0)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+static void print_mst_payload_state(struct drm_dp_mst_topology_mgr *mgr,
-+				    struct drm_dp_mst_topology_state *mst_state,
-+				    const u8 *payload_table)
-+{
-+	struct drm_dp_mst_atomic_payload *payload;
-+	int i = 0;
-+
-+	drm_dbg(mgr->dev,
-+		"Payload state: start_slot %d total_avail_slots %d next_start_slot %d payload_count %d\n",
-+		mst_state->start_slot, mst_state->total_avail_slots,
-+		mgr->next_start_slot, mgr->payload_count);
-+
-+	list_for_each_entry(payload, &mst_state->payloads, next) {
-+		drm_dbg(mgr->dev,
-+			"  Payload#%d: port %p VCPI %d delete %d vc_start_slot %d time_slots %d\n",
-+			i, payload->port, payload->vcpi,
-+			payload->delete, payload->vc_start_slot, payload->time_slots);
-+		i++;
-+	}
-+
-+	if (!payload_table)
-+		return;
-+
-+	drm_dbg(mgr->dev, "Payload table:\n");
-+	print_hex_dump(KERN_DEBUG, "  Ptbl ",
-+		       DUMP_PREFIX_OFFSET, 16, 1,
-+		       payload_table, DP_PAYLOAD_TABLE_SIZE, false);
-+}
-+
-+/**
-+ * drm_dp_mst_verify_payload_state - Verify the atomic state for payloads and the related sink payload table
-+ * @state: atomic state
-+ * @mgr: manager to verify the state for
-+ * @verify_sink: %true if the sink payload table needs to be verified as well
-+ *
-+ * Verify @mgr's atomic state tracking all its payloads and optionally the
-+ * related sink payload table.
-+ */
-+void drm_dp_mst_verify_payload_state(struct drm_atomic_state *state,
-+				     struct drm_dp_mst_topology_mgr *mgr,
-+				     bool verify_sink)
-+{
-+	struct drm_dp_mst_topology_state *mst_state;
-+	u8 payload_table[DP_PAYLOAD_TABLE_SIZE];
-+
-+	mst_state = drm_atomic_get_new_mst_topology_state(state, mgr);
-+	if (drm_WARN_ON(mgr->dev, !mst_state))
-+		return;
-+
-+	if (drm_WARN_ON(mgr->dev, !verify_mst_payload_state(mst_state))) {
-+		print_mst_payload_state(mgr, mst_state, NULL);
-+		return;
-+	}
-+
-+	if (!verify_sink)
-+		return;
-+
-+	if (!dump_dp_payload_table(mgr, payload_table))
-+		return;
-+
-+	if (!verify_mst_payload_table(mst_state, payload_table)) {
-+		drm_err(mgr->dev, "MST payload state mismatches payload table\n");
-+		print_mst_payload_state(mgr, mst_state, payload_table);
-+	}
-+}
-+EXPORT_SYMBOL(drm_dp_mst_verify_payload_state);
-+
- static void drm_dp_tx_work(struct work_struct *work)
- {
- 	struct drm_dp_mst_topology_mgr *mgr = container_of(work, struct drm_dp_mst_topology_mgr, tx_work);
-diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-index 632376c291db6..bcc5183188a68 100644
---- a/include/drm/display/drm_dp.h
-+++ b/include/drm/display/drm_dp.h
-@@ -925,9 +925,12 @@
- #define DP_PAYLOAD_TABLE_UPDATE_STATUS      0x2c0   /* 1.2 MST */
- # define DP_PAYLOAD_TABLE_UPDATED           (1 << 0)
- # define DP_PAYLOAD_ACT_HANDLED             (1 << 1)
-+# define DP_PAYLOAD_ID_SLOT0_5_0_MASK	    (0x3f << 2)
- 
- #define DP_VC_PAYLOAD_ID_SLOT_1             0x2c1   /* 1.2 MST */
- /* up to ID_SLOT_63 at 0x2ff */
-+# define DP_PAYLOAD_ID_SLOT0_6		    (1 << 7)
-+# define DP_PAYLOAD_ID_MASK		    0x7f
- 
- /* Source Device-specific */
- #define DP_SOURCE_OUI			    0x300
-diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-index 32c764fb9cb56..44c6710ebf315 100644
---- a/include/drm/display/drm_dp_mst_helper.h
-+++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -848,6 +848,9 @@ int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
- 
- void drm_dp_mst_dump_topology(struct seq_file *m,
- 			      struct drm_dp_mst_topology_mgr *mgr);
-+void drm_dp_mst_verify_payload_state(struct drm_atomic_state *state,
-+				     struct drm_dp_mst_topology_mgr *mgr,
-+				     bool verify_sink);
- 
- void drm_dp_mst_topology_mgr_suspend(struct drm_dp_mst_topology_mgr *mgr);
- int __must_check
+> To me there are two options:
+> 
+> 1. Using skmem like interface as this patch series:
+> 
+> The main pros of this option is that it is very simple. Let me list down
+> the cons of this approach:
+> 
+> a. There is time window between the actual memory allocation/free and
+> the charge and uncharge and [un]charge happen when the whole memory is
+> allocated or freed. I think for the charge path that might not be a big
+> issue but on the uncharge, this can cause issues. The application and
+> the potential shrinkers have freed some of this dmabuf memory but until
+> the whole dmabuf is freed, the memcg uncharge will not happen. This can
+> consequences on reclaim and oom behavior of the application.
+> 
+> b. Due to the usage model i.e. a central daemon allocating the dmabuf
+> memory upfront, there is a requirement to have a memcg charge transfer
+> functionality to transfer the charge from the central daemon to the
+> client applications. This does introduce complexity and avenues of weird
+> reclaim and oom behavior.
+> 
+> 
+> 2. Allocate and charge the memory on page fault by actual user
+> 
+> In this approach, the memory is not allocated upfront by the central
+> daemon but rather on the page fault by the client application and the
+> memcg charge happen at the same time.
+> 
+> The only cons I can think of is this approach is more involved and may
+> need some clever tricks to track the page on the free patch i.e. we to
+> decrement the dmabuf memcg stat on free path. Maybe a page flag.
+> 
+> The pros of this approach is there is no need have a charge transfer
+> functionality and the charge/uncharge being closely tied to the actual
+> memory allocation and free.
+> 
+> Personally I would prefer the second approach but I don't want to just
+> block this work if the dmabuf folks are ok with the cons mentioned of
+> the first approach.
+
+I am not familiar with dmabuf internals to judge complexity on their end
+but I fully agree that charge-when-used is much more easier to reason
+about and it should have less subtle surprises.
 -- 
-2.37.1
-
+Michal Hocko
+SUSE Labs
