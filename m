@@ -2,57 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFC967B897
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 18:31:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC4D67B8AC
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 18:36:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCF710E10C;
-	Wed, 25 Jan 2023 17:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC95310E0C3;
+	Wed, 25 Jan 2023 17:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1619610E10C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 17:31:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674667872; x=1706203872;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=b/qAzqJTvFy4xiZPmOAm7JkVbr9jZZbEQu9s5cua2Is=;
- b=Xff7++0nypYWknYBCWzRPvlRXblqp3lgHQaVl4xghMHCu1Gxgn5/0EJz
- qwa5PJ8aTsb41jup/ofwRDjmWc72QmaYZvCtiCGM6bi4GaCRwrBkq1zw0
- qnpgdrj42Xy0x0kEVyUtUsSYfVDYlwa+OUWC6GEGlAej6XfEFd6YXsyja
- 2mzuCj9g9/k5NP67tY2OSQQLkcDq1SE9/22fWJj45rduhaLyMO9yt0MMP
- Pv3shQHNOr4uHFmlKJDb7FO097PGFs15S0wSKNAP0J/dyB6W2JVjYv+mk
- 4KioRXexyxfdU05geRIvkBqubTv8yn0wQ0uHfRpEBZXl1UHOJZRJ09a7D Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="310194543"
-X-IronPort-AV: E=Sophos;i="5.97,246,1669104000"; d="scan'208";a="310194543"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 09:30:51 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="805079453"
-X-IronPort-AV: E=Sophos;i="5.97,246,1669104000"; d="scan'208";a="805079453"
-Received: from dodonnel-mobl.ger.corp.intel.com (HELO [10.213.233.83])
- ([10.213.233.83])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 09:30:45 -0800
-Message-ID: <347560bc-d06a-92b7-8003-133d2b8af2df@linux.intel.com>
-Date: Wed, 25 Jan 2023 17:30:43 +0000
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E5210E0C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 17:35:57 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-506609635cbso59473667b3.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 09:35:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=sLdv2Pq53a6vZyVVcX2zLb9TAy6HzzMK+y+dx6JC+Lk=;
+ b=dbmRy/zYnZU/M5INdVitjh85ZSEKWF1DQvm+OSMTwpP8/J7nXfaKdncz7Snr8+smLi
+ 7Xi/hsMp+w+prUmQQU409wp9ax/6qQ6lzuwrpyWRtwA03xm3lFryNM6vA0L0jNAv6O6I
+ cMGzJnlaz6waMXOl5o+Yyvj1Pgm+a7toTM8dw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sLdv2Pq53a6vZyVVcX2zLb9TAy6HzzMK+y+dx6JC+Lk=;
+ b=3YDfWJBap9w9soyVd265OpZ6uf+F+9YcvnH0bR2enZU4bZj+JhXsUmqBu2SBau8yuB
+ 66GVBimwEt4hfGPKngW5IE2PM5Pdm/flnltWPyeTUcucTvecjxNaHMZVAykByfmC8Uhe
+ AK5z2qJbPvadNDGBoTropnBllPoomXbiOYTmaF73cfCprj0NplTWFMVKEvzCzqyJCg7F
+ BUpP1xmOZoMWPDhEXTI1l9ZmnAHSMoB54OSnliCX4zF+CE0vzhpx5FfPOaNkHXZzY6N9
+ N2Q4N4vaCVqOmbX1Cec1MydE1S24SHoFxE5nxBRhdbFi+oZ04Y8tNYh+YHmDplMaG6Fg
+ BYjA==
+X-Gm-Message-State: AO0yUKW820BczFM/iSqj/vysiiH5Puh1cRsB9oFDRif1cfW6AcwNet9d
+ Q9vCr9oIUIdDIkBlQqgU8jQkl1QdBbKAcZ4z2ZRubw==
+X-Google-Smtp-Source: AK7set8dZvYXO9O3Yo3GqCYBfsHOcPW61gmf10CtU9i82U6qwqanae2Yypwvvel3B9n8cSWxBRjp/LOAB4yZWl5d3EA=
+X-Received: by 2002:a81:ae61:0:b0:506:6364:fda3 with SMTP id
+ g33-20020a81ae61000000b005066364fda3mr503445ywk.72.1674668156462; Wed, 25 Jan
+ 2023 09:35:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
-Content-Language: en-US
-To: Michal Hocko <mhocko@suse.com>, Shakeel Butt <shakeelb@google.com>
-References: <20230123191728.2928839-1-tjmercier@google.com>
- <20230123191728.2928839-2-tjmercier@google.com>
- <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
- <20230124194628.d44rtcfsv23fndxw@google.com>
- <Y9EX+usSpAjZ/8LS@dhcp22.suse.cz>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <Y9EX+usSpAjZ/8LS@dhcp22.suse.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230123151212.269082-1-jagan@amarulasolutions.com>
+ <20230123151212.269082-14-jagan@amarulasolutions.com>
+ <43f4a7dc-a4cc-7552-1a6d-a2a49fae6020@denx.de>
+ <CAMty3ZBZWERT=HpjSepSaFbpKpwZUvuG82s6+z7EgDRY5D+TFg@mail.gmail.com>
+ <fb7dfb89-42d6-139e-7ff1-4985838e222f@denx.de>
+ <CAMty3ZAYz=XEN6s1XhBWg5b77kk+s942qa9Oz4E4oHtSfaVZtA@mail.gmail.com>
+ <CAMty3ZB8jAoKzXpPJzrfH6bOGBOpJRuTacgQDSg8kVuhg7p37Q@mail.gmail.com>
+ <CAMty3ZDNwJ40pPJFKqwMd13y-rF9ELb5N6JZffea6T4dnD-0nA@mail.gmail.com>
+ <d8e539bd-93db-fb6f-eaec-463f382a1dfb@denx.de>
+ <CAMty3ZBxbwwocAwZ18o8tis54SRC64853b+p8VfzcD=OWrjP6Q@mail.gmail.com>
+ <c67cdb83-2fef-ad7c-f2c4-e2a6eb09a3e8@denx.de>
+ <CAMty3ZAh7J6_X9NkE+-mBrHBFx+KfuQXPBUYyL5g2vu_Y5X9iw@mail.gmail.com>
+ <a756fd20-28e4-85e7-3947-4c468bf3366d@denx.de>
+In-Reply-To: <a756fd20-28e4-85e7-3947-4c468bf3366d@denx.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 25 Jan 2023 23:05:44 +0530
+Message-ID: <CAMty3ZDTcnN_NgjL8hEBnABpFcaE=hCegZnzaC9tz-7wFxYSmw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v11 13/18] drm: exynos: dsi: Add Exynos based host
+ irq hooks
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,116 +76,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, daniel.vetter@ffwll.ch,
- Roman Gushchin <roman.gushchin@linux.dev>, cmllamas@google.com,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org, jstultz@google.com,
- Zefan Li <lizefan.x@bytedance.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- android-mm@google.com, Jonathan Corbet <corbet@lwn.net>, jeffv@google.com,
- linux-media@vger.kernel.org, selinux@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, cgroups@vger.kernel.org,
- "T.J. Mercier" <tjmercier@google.com>, Muchun Song <muchun.song@linux.dev>,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jan 25, 2023 at 10:57 PM Marek Vasut <marex@denx.de> wrote:
+>
+> On 1/25/23 18:12, Jagan Teki wrote:
+> > On Wed, Jan 25, 2023 at 10:16 PM Marek Vasut <marex@denx.de> wrote:
+> >>
+> >> On 1/25/23 15:04, Jagan Teki wrote:
+> >>> On Wed, Jan 25, 2023 at 7:23 PM Marek Vasut <marex@denx.de> wrote:
+> >>>>
+> >>>> On 1/25/23 07:54, Jagan Teki wrote:
+> >>>>> On Wed, Jan 25, 2023 at 2:54 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >>>>>>
+> >>>>>> On Wed, Jan 25, 2023 at 2:54 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> >>>>>>>
+> >>>>>>> On Wed, Jan 25, 2023 at 2:42 AM Marek Vasut <marex@denx.de> wrote:
+> >>>>>>>>
+> >>>>>>>> On 1/24/23 22:01, Jagan Teki wrote:
+> >>>>>>>>> On Wed, Jan 25, 2023 at 2:18 AM Marek Vasut <marex@denx.de> wrote:
+> >>>>>>>>>>
+> >>>>>>>>>> On 1/23/23 16:12, Jagan Teki wrote:
+> >>>>>>>>>>> Enable and disable of te_gpio's are Exynos platform specific
+> >>>>>>>>>>> irq handling, so add the exynos based irq operations and hook
+> >>>>>>>>>>> them for exynos plat_data.
+> >>>>>>>>>>
+> >>>>>>>>>> If this is just an optional generic GPIO IRQ, why not keep it in the
+> >>>>>>>>>> core code ? TE (tearing enable?) should be available on MX8M too.
+> >>>>>>>>>
+> >>>>>>>>> So far the discussion (since from initial versions) with Marek
+> >>>>>>>>> Szyprowski, seems to be available in Exynos. So, I keep it separate
+> >>>>>>>>> from the DSIM core.
+> >>>>>>>>
+> >>>>>>>> Isn't TE a generic GPIO IRQ ? If so, it is available also on i.MX8M .
+> >>>>>>
+> >>>>>> I will check this.
+> >>>>>
+> >>>>> In order to use TE_GPIO we need te handler implementation, right now
+> >>>>> Exynos CRTC DRM drivers have implementation for this. That is the main
+> >>>>> reason to keep the TE_GPIO handling in exynos, maybe if we handle that
+> >>>>> generically then it is a viable option to move TE_GPIO to the DSIM
+> >>>>> core.
+> >>>>
+> >>>> I think you can do this exactly the same way exynos does it -- check
+> >>>> whether te_handler() callback is implemented by the glue code (the one
+> >>>> you already have for various exynos and imx8mm/imx8mm SoCs) and if so,
+> >>>> call it. If it is not implemented, do not call anything in the TE IRQ
+> >>>> handler.
+> >>>
+> >>> I need to understand how i.MX8MM handles this on TE IRQ in the DSIM
+> >>> host side, Can I do this in future patch set as it might involve
+> >>> bindings changes as well if it's part of DSIM?
+> >>
+> >> Why not leave an empty te_handler implementation on MX8M for now ?
+> >> You can fill that implementation in future patchset, but the generic
+> >> part of the code would be in place .
+> >
+> > Look like we have one issue to move regster te_irq into samsung-dsim.
+> >
+> > exynos_dsi_register_te_irq is done after the bridge attach is done in
+> > Exynos, here bridge attach is triggered in the component ops bind
+> > call, since samsung-dsim is a pure bridge w/o any component ops.
+> > https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/bridge/samsung-dsim.c#L1527
+> > https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/exynos/exynos_drm_dsi.c#L112
+> >
+> > Any suggestion on how to handle this?
+>
+> Why isn't the generic code calling drm_bridge_attach() in
+> samsung_dsim_host_attach(), like the exynos one ?
 
-Hi,
+Exynos drm drivers follow component ops and generic dsim is a pure drm
+bridge whose downstream bridge will attach in bridge ops attach and
+the component-based drivers require an initial bridge attach (whose
+previous is NULL) call in the component bind hook for establishing the
+bridge chain.
 
-On 25/01/2023 11:52, Michal Hocko wrote:
-> On Tue 24-01-23 19:46:28, Shakeel Butt wrote:
->> On Tue, Jan 24, 2023 at 03:59:58PM +0100, Michal Hocko wrote:
->>> On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
->>>> When a buffer is exported to userspace, use memcg to attribute the
->>>> buffer to the allocating cgroup until all buffer references are
->>>> released.
->>>
->>> Is there any reason why this memory cannot be charged during the
->>> allocation (__GFP_ACCOUNT used)?
->>> Also you do charge and account the memory but underlying pages do not
->>> know about their memcg (this is normally done with commit_charge for
->>> user mapped pages). This would become a problem if the memory is
->>> migrated for example.
->>
->> I don't think this is movable memory.
->>
->>> This also means that you have to maintain memcg
->>> reference outside of the memcg proper which is not really nice either.
->>> This mimicks tcp kmem limit implementation which I really have to say I
->>> am not a great fan of and this pattern shouldn't be coppied.
->>>
->>
->> I think we should keep the discussion on technical merits instead of
->> personal perference. To me using skmem like interface is totally fine
->> but the pros/cons need to be very explicit and the clear reasons to
->> select that option should be included.
-> 
-> I do agree with that. I didn't want sound to be personal wrt tcp kmem
-> accounting but the overall code maintenance cost is higher because
-> of how tcp take on accounting differs from anything else in the memcg
-> proper. I would prefer to not grow another example like that.
-> 
->> To me there are two options:
->>
->> 1. Using skmem like interface as this patch series:
->>
->> The main pros of this option is that it is very simple. Let me list down
->> the cons of this approach:
->>
->> a. There is time window between the actual memory allocation/free and
->> the charge and uncharge and [un]charge happen when the whole memory is
->> allocated or freed. I think for the charge path that might not be a big
->> issue but on the uncharge, this can cause issues. The application and
->> the potential shrinkers have freed some of this dmabuf memory but until
->> the whole dmabuf is freed, the memcg uncharge will not happen. This can
->> consequences on reclaim and oom behavior of the application.
->>
->> b. Due to the usage model i.e. a central daemon allocating the dmabuf
->> memory upfront, there is a requirement to have a memcg charge transfer
->> functionality to transfer the charge from the central daemon to the
->> client applications. This does introduce complexity and avenues of weird
->> reclaim and oom behavior.
->>
->>
->> 2. Allocate and charge the memory on page fault by actual user
->>
->> In this approach, the memory is not allocated upfront by the central
->> daemon but rather on the page fault by the client application and the
->> memcg charge happen at the same time.
->>
->> The only cons I can think of is this approach is more involved and may
->> need some clever tricks to track the page on the free patch i.e. we to
->> decrement the dmabuf memcg stat on free path. Maybe a page flag.
->>
->> The pros of this approach is there is no need have a charge transfer
->> functionality and the charge/uncharge being closely tied to the actual
->> memory allocation and free.
->>
->> Personally I would prefer the second approach but I don't want to just
->> block this work if the dmabuf folks are ok with the cons mentioned of
->> the first approach.
-> 
-> I am not familiar with dmabuf internals to judge complexity on their end
-> but I fully agree that charge-when-used is much more easier to reason
-> about and it should have less subtle surprises.
-
-Disclaimer that I don't seem to see patches 3&4 on dri-devel so maybe I 
-am missing something, but in principle yes, I agree that the 2nd option 
-(charge the user, not exporter) should be preferred. Thing being that at 
-export time there may not be any backing store allocated, plus if the 
-series is restricting the charge transfer to just Android clients then 
-it seems it has the potential to miss many other use cases. At least 
-needs to outline a description on how the feature will be useful outside 
-Android.
-
-Also stepping back for a moment - is a new memory category really 
-needed, versus perhaps attempting to charge the actual backing store 
-memory to the correct client? (There might have been many past 
-discussions on this so it's okay to point me towards something in the 
-archives.)
-
-Regards,
-
-Tvrtko
+Jagan.
