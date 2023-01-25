@@ -1,65 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FFA67B3D7
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 15:04:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 690E067B3F8
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 15:11:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A80B10E7BA;
-	Wed, 25 Jan 2023 14:04:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0389310E7B9;
+	Wed, 25 Jan 2023 14:11:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9394C10E7BA
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 14:04:52 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-4c131bede4bso264317727b3.5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 06:04:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+LBRkUPcT5cSLfU1Shlwd9jP9M0+3VXXbQQB1UsR0NA=;
- b=Ybae0TdtOy+PKR7+AepH0BGeexUntFKPlKJKW1aUPxYL05djkRvKrtQatEDytHbYEE
- P+DVgGQq/VBgllZHqKhxt6aYOWOJH+D4y6TG9YwzLW2ePnNseemEVc6+UE+sMLWlB9vo
- RUiT+eMYKUpd2IY4keBXDfbNUw48PN/x6OIso=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+LBRkUPcT5cSLfU1Shlwd9jP9M0+3VXXbQQB1UsR0NA=;
- b=GT9Ichi4CSI8w2OfRcTyKgkHf1Fny8CdlNKYZnzxBvJQZ2fIT0Ky5BEnP8oynMmndQ
- CKTsWCL6BR7QfRjQPNIC7uFoMx+uOX4+ztOzKKNcrGvCwmoCVfSRk1NKMyUXnAbiqept
- W7K4nvIe2GqK6XKtRvjnLn0sHTlzcBCkgnAbN737jAzESjie6lyuQ4cD9ifTE+6eyiQQ
- hhSxpppmV1ohyr9XHPw+N95jxs+Rfphqb9F6eDvujkvP0YoDNYW4hwx2sx6v3DHMp1as
- zOp6Hm7N7gQp2wUbrhKTfdKyXQUd0hYk1tkDLxGGtvbd5C1lZV3DnpK71ueJHjF8Ty3k
- BBDQ==
-X-Gm-Message-State: AO0yUKUVNkXgOWHtzMm/OQG09KwLLn6/rqBw1otLMseS3zZDVTZlqs0T
- YTpRwEBcfzX1k9t29/JivIoYL0AGagE2H0mvYmmVaQ==
-X-Google-Smtp-Source: AK7set+NfcCN0p2R4VGAwkQslapAjE2pMGBNGS8pNJVA2a8RHKTtrDzf5Gw2QuDdNyJHVw7wXKUSxtH4O1c8BSCokKQ=
-X-Received: by 2002:a0d:d512:0:b0:506:4b25:8655 with SMTP id
- x18-20020a0dd512000000b005064b258655mr580885ywd.106.1674655491725; Wed, 25
- Jan 2023 06:04:51 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCDCD10E7B9;
+ Wed, 25 Jan 2023 14:11:45 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 883AC219F8;
+ Wed, 25 Jan 2023 14:11:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674655904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yz5VDm1k5I1ztdBG/BHIBO00HvHLkqpo6yWiKf4vCQA=;
+ b=bKIYw6zNUJM2ld5PHempeAxhOhFzotW5y1OJAO4xhfZfcwzST4FMbQqCkCoTbhjzuRuMTx
+ v5rOtGQvFGAPaqVQ6Si99fJSBJixgKp4MHbl+xHiW+7F1PHQLHtHNwezaU4hso/diIcEVq
+ 6Nvv89lmlGabwOXirigD2MNqUI4Ds6Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674655904;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yz5VDm1k5I1ztdBG/BHIBO00HvHLkqpo6yWiKf4vCQA=;
+ b=BjicCOzmJO6BeVd/DxXc3eJUAmSZ6QkNzrzWehhRaBtk1KcZ8W8P0Z5j9FnAI1WXpwTwyt
+ jS1mbURNCbnC+WCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4323A1358F;
+ Wed, 25 Jan 2023 14:11:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 3LFjD6A40WNwQwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 25 Jan 2023 14:11:44 +0000
+Message-ID: <511111fe-f228-b902-927e-271977b05201@suse.de>
+Date: Wed, 25 Jan 2023 15:11:43 +0100
 MIME-Version: 1.0
-References: <20230123151212.269082-1-jagan@amarulasolutions.com>
- <20230123151212.269082-14-jagan@amarulasolutions.com>
- <43f4a7dc-a4cc-7552-1a6d-a2a49fae6020@denx.de>
- <CAMty3ZBZWERT=HpjSepSaFbpKpwZUvuG82s6+z7EgDRY5D+TFg@mail.gmail.com>
- <fb7dfb89-42d6-139e-7ff1-4985838e222f@denx.de>
- <CAMty3ZAYz=XEN6s1XhBWg5b77kk+s942qa9Oz4E4oHtSfaVZtA@mail.gmail.com>
- <CAMty3ZB8jAoKzXpPJzrfH6bOGBOpJRuTacgQDSg8kVuhg7p37Q@mail.gmail.com>
- <CAMty3ZDNwJ40pPJFKqwMd13y-rF9ELb5N6JZffea6T4dnD-0nA@mail.gmail.com>
- <d8e539bd-93db-fb6f-eaec-463f382a1dfb@denx.de>
-In-Reply-To: <d8e539bd-93db-fb6f-eaec-463f382a1dfb@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 25 Jan 2023 19:34:37 +0530
-Message-ID: <CAMty3ZBxbwwocAwZ18o8tis54SRC64853b+p8VfzcD=OWrjP6Q@mail.gmail.com>
-Subject: Re: [RESEND PATCH v11 13/18] drm: exynos: dsi: Add Exynos based host
- irq hooks
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 03/10] drm/fb-helper: Introduce
+ drm_fb_helper_unprepare()
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org
+References: <20230124134010.30263-1-tzimmermann@suse.de>
+ <20230124134010.30263-4-tzimmermann@suse.de>
+ <2a007c84-1dd6-ed8a-39ac-8c7c070513f3@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <2a007c84-1dd6-ed8a-39ac-8c7c070513f3@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------uhOt4lte6SCpXJgrHcNZJ5Kc"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,65 +73,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 25, 2023 at 7:23 PM Marek Vasut <marex@denx.de> wrote:
->
-> On 1/25/23 07:54, Jagan Teki wrote:
-> > On Wed, Jan 25, 2023 at 2:54 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >>
-> >> On Wed, Jan 25, 2023 at 2:54 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >>>
-> >>> On Wed, Jan 25, 2023 at 2:42 AM Marek Vasut <marex@denx.de> wrote:
-> >>>>
-> >>>> On 1/24/23 22:01, Jagan Teki wrote:
-> >>>>> On Wed, Jan 25, 2023 at 2:18 AM Marek Vasut <marex@denx.de> wrote:
-> >>>>>>
-> >>>>>> On 1/23/23 16:12, Jagan Teki wrote:
-> >>>>>>> Enable and disable of te_gpio's are Exynos platform specific
-> >>>>>>> irq handling, so add the exynos based irq operations and hook
-> >>>>>>> them for exynos plat_data.
-> >>>>>>
-> >>>>>> If this is just an optional generic GPIO IRQ, why not keep it in the
-> >>>>>> core code ? TE (tearing enable?) should be available on MX8M too.
-> >>>>>
-> >>>>> So far the discussion (since from initial versions) with Marek
-> >>>>> Szyprowski, seems to be available in Exynos. So, I keep it separate
-> >>>>> from the DSIM core.
-> >>>>
-> >>>> Isn't TE a generic GPIO IRQ ? If so, it is available also on i.MX8M .
-> >>
-> >> I will check this.
-> >
-> > In order to use TE_GPIO we need te handler implementation, right now
-> > Exynos CRTC DRM drivers have implementation for this. That is the main
-> > reason to keep the TE_GPIO handling in exynos, maybe if we handle that
-> > generically then it is a viable option to move TE_GPIO to the DSIM
-> > core.
->
-> I think you can do this exactly the same way exynos does it -- check
-> whether te_handler() callback is implemented by the glue code (the one
-> you already have for various exynos and imx8mm/imx8mm SoCs) and if so,
-> call it. If it is not implemented, do not call anything in the TE IRQ
-> handler.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------uhOt4lte6SCpXJgrHcNZJ5Kc
+Content-Type: multipart/mixed; boundary="------------1xFZhqx0BfEL0gHwPWLPEDpU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Message-ID: <511111fe-f228-b902-927e-271977b05201@suse.de>
+Subject: Re: [PATCH v2 03/10] drm/fb-helper: Introduce
+ drm_fb_helper_unprepare()
+References: <20230124134010.30263-1-tzimmermann@suse.de>
+ <20230124134010.30263-4-tzimmermann@suse.de>
+ <2a007c84-1dd6-ed8a-39ac-8c7c070513f3@redhat.com>
+In-Reply-To: <2a007c84-1dd6-ed8a-39ac-8c7c070513f3@redhat.com>
 
-I need to understand how i.MX8MM handles this on TE IRQ in the DSIM
-host side, Can I do this in future patch set as it might involve
-bindings changes as well if it's part of DSIM?
+--------------1xFZhqx0BfEL0gHwPWLPEDpU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Jagan.
+SGkNCg0KQW0gMjUuMDEuMjMgdW0gMTA6MTggc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IE9uIDEvMjQvMjMgMTQ6NDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0K
+Pj4gTW92ZSB0aGUgZmItaGVscGVyIGNsZWFuLXVwIGNvZGUgaW50byBkcm1fZmJfaGVscGVy
+X3VucHJlcGFyZSgpLiBObw0KPj4gZnVuY3Rpb25hbCBjaGFuZ2VzLg0KPj4NCj4+IHYyOg0K
+Pj4gCSogZGVjbGFyZSBhcyBzdGF0aWMgaW5saW5lIChrZXJuZWwgdGVzdCByb2JvdCkNCj4+
+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
+ZS5kZT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jIHwg
+MTQgKysrKysrKysrKysrKy0NCj4+ICAgaW5jbHVkZS9kcm0vZHJtX2ZiX2hlbHBlci5oICAg
+ICB8ICA1ICsrKysrDQo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwg
+MSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2ZiX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYw0KPj4gaW5k
+ZXggYzVjMTNlMTkyYjY0Li40Mzc5YmNkNzcxOGIgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2ZiX2hlbHBlci5jDQo+PiBAQCAtNDM1LDYgKzQzNSwxOCBAQCB2b2lkIGRybV9mYl9oZWxw
+ZXJfcHJlcGFyZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZHJtX2ZiX2hlbHBl
+ciAqaGVscGVyLA0KPj4gICB9DQo+PiAgIEVYUE9SVF9TWU1CT0woZHJtX2ZiX2hlbHBlcl9w
+cmVwYXJlKTsNCj4+ICAgDQo+PiArLyoqDQo+PiArICogZHJtX2ZiX2hlbHBlcl91bnByZXBh
+cmUgLSBjbGVhbiB1cCBhIGRybV9mYl9oZWxwZXIgc3RydWN0dXJlDQo+PiArICogQGZiX2hl
+bHBlcjogZHJpdmVyLWFsbG9jYXRlZCBmYmRldiBoZWxwZXIgc3RydWN0dXJlIHRvIHNldCB1
+cA0KPj4gKyAqDQo+PiArICogQ2xlYW5zIHVwIHRoZSBmcmFtZWJ1ZmZlciBoZWxwZXIuIElu
+dmVyc2Ugb2YgZHJtX2ZiX2hlbHBlcl9wcmVwYXJlKCkuDQo+PiArICovDQo+PiArdm9pZCBk
+cm1fZmJfaGVscGVyX3VucHJlcGFyZShzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVy
+KQ0KPj4gK3sNCj4+ICsJbXV0ZXhfZGVzdHJveSgmZmJfaGVscGVyLT5sb2NrKTsNCj4+ICt9
+DQo+IA0KPiBJIGxpa2UgdGhhdCB3ZSBoYXZlIGFuIF91bnByZXBhcmUgdGhhdCBpcyB0aGUg
+aW52ZXJzZSBvZiB0aGUgX3ByZXBhcmUsIGJ1dA0KPiBzaW5jZSBpcyBvbmx5IGRlc3Ryb3lp
+bmcgdGhlIG11dGV4LCBtYXliZSBpcyBhbiB1bm5lZWRlZCBpbmRpcmVjdGlvbiBsZXZlbD8N
+Cj4gDQo+IE9yIGRvIHlvdSBwbGFuIHRvIGFkZCBtb3JlIGNsZWFudXAgdG8gdGhhdCBfdW5w
+cmVwYXJlIGZ1bmN0aW9uPyBPdGhlcndpc2UgSQ0KPiB3b3VsZCBqdXN0IG1ha2UgaXQgYW4g
+aW5saW5lIGZ1bmN0aW9uLg0KDQpUaGVyZSBjb3VsZCBwb3NzaWJseSBiZSBtb3JlOyBub3Qg
+c3VyZSB5ZXQuIFdpdGggcGF0Y2ggMDQsIHRoZSBjYWxsIGlzIA0KYmVpbmcgaW52b2tlZCBm
+cm9tIGRybV9mYmRldl9nZW5lcmljLmMuIEFuZCBJIGhhdmUgcHJvdG90eXBlIHBhdGNoZXMg
+DQp0aGF0IGNvbnZlcnQgYSBudW1iZXIgb2YgZHJpdmVyLWludGVybmFsIGZiZGV2cyB0byB1
+c2Ugc3RydWN0IA0KZHJtX2NsaWVudC4gVGhleSBhbGwgZm9sbG93IHRoZSBzYW1lIGRlc2ln
+bi9zdHJ1Y3R1cmUvcGF0dGVybiB0aGF0IGlzIA0KYmVpbmcgbGF5ZWQgb3V0IGluIGdlbmVy
+aWMtZmJkZXYgaW4gdGhpcyBwYXRjaHNldC4gSW4gdGhlIGVuZCANCmRybV9mYl9oZWxwZXJf
+dW5wcmVwYXJlIHdpbGwgZGVmaW5pdGVseSBiZSBhIHB1YmxpYyBpbnRlcmZhY2Ugb2YgdGhl
+IA0KZmJkZXYgaGVscGVycy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4+ICtF
+WFBPUlRfU1lNQk9MKGRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKTsNCj4+ICsNCj4gDQo+IERv
+ZXMgaXQgaGF2ZSB0byBiZSBhbiBleHBvcnRlZCBzeW1ib2w/IEFGQUlDVCB0aGUgb25seSB1
+c2VyIGZvciBub3cgaXMgdGhlDQo+IGRybV9mYl9oZWxwZXJfZmluaSgpIGZ1bmN0aW9uLCBz
+byB0aGUgZnVuY3Rpb24gY291bGQgYmUgYSBzdGF0aWMgaW5saW5lLg0KPiANCj4gWy4uLl0N
+Cj4gDQo+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2ZiX2hlbHBlci5oIGIvaW5j
+bHVkZS9kcm0vZHJtX2ZiX2hlbHBlci5oDQo+PiBpbmRleCBmNDQzZTFmMTE2NTQuLjM5NzEw
+YzU3MGEwNCAxMDA2NDQNCj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIuaA0K
+Pj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2ZiX2hlbHBlci5oDQo+PiBAQCAtMjMwLDYgKzIz
+MCw3IEBAIGRybV9mYl9oZWxwZXJfZnJvbV9jbGllbnQoc3RydWN0IGRybV9jbGllbnRfZGV2
+ICpjbGllbnQpDQo+PiAgICNpZmRlZiBDT05GSUdfRFJNX0ZCREVWX0VNVUxBVElPTg0KPj4g
+ICB2b2lkIGRybV9mYl9oZWxwZXJfcHJlcGFyZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBz
+dHJ1Y3QgZHJtX2ZiX2hlbHBlciAqaGVscGVyLA0KPj4gICAJCQkgICBjb25zdCBzdHJ1Y3Qg
+ZHJtX2ZiX2hlbHBlcl9mdW5jcyAqZnVuY3MpOw0KPj4gK3ZvaWQgZHJtX2ZiX2hlbHBlcl91
+bnByZXBhcmUoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlcik7DQo+PiAgIGludCBk
+cm1fZmJfaGVscGVyX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9m
+Yl9oZWxwZXIgKmhlbHBlcik7DQo+PiAgIHZvaWQgZHJtX2ZiX2hlbHBlcl9maW5pKHN0cnVj
+dCBkcm1fZmJfaGVscGVyICpoZWxwZXIpOw0KPj4gICBpbnQgZHJtX2ZiX2hlbHBlcl9ibGFu
+ayhpbnQgYmxhbmssIHN0cnVjdCBmYl9pbmZvICppbmZvKTsNCj4+IEBAIC0yOTYsNiArMjk3
+LDEwIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBkcm1fZmJfaGVscGVyX3ByZXBhcmUoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwNCj4+ICAgew0KPj4gICB9DQo+PiAgIA0KPj4gK3N0YXRpYyBp
+bmxpbmUgdm9pZCBkcm1fZmJfaGVscGVyX3VucHJlcGFyZShzdHJ1Y3QgZHJtX2ZiX2hlbHBl
+ciAqZmJfaGVscGVyKQ0KPj4gK3sNCj4+ICt9DQo+PiArDQo+IA0KPiBBbmQgeW91IHNob3Vs
+ZCBiZSBhYmxlIHRvIHJlbW92ZSB0aGlzIHN0dWIgaWYgeW91IGxpbWl0IHRoZSBzY29wZSBv
+ZiB0aGUgaGVscGVyLg0KPiANCj4gTm8gc3Ryb25nIG9waW5pb24gdGhvdWdoLiBTbyBpZiB5
+b3UgcHJlZmVyIHRvIGtlZXAgaXQgYXMgaXMsIGZlZWwgZnJlZSB0byBhZGQ6DQo+IA0KPiBS
+ZXZpZXdlZC1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5j
+b20+DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
+ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
+dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
+ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+
+--------------1xFZhqx0BfEL0gHwPWLPEDpU--
+
+--------------uhOt4lte6SCpXJgrHcNZJ5Kc
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPROJ8FAwAAAAAACgkQlh/E3EQov+DU
+gQ//VRXnT2/Muz4aNAJWKoqp2XtuHqq88l8DpoLVW70D9Hv+tAAhLBPmxf0l06H0timMiKd0hW6e
+E37h1/oz5jaaWFTyfW6biLp8GRJOlse5nutdh6KzH4cgWyQLQIJIFyN3kwtUd7ei9n8bAWMUo1RM
+td1NBOa+shzcHZlJvkWH5aiczHzTTlHEZNY9QpTKutnXK38ttSFHsy4n5D+n9p5FpfIIjp6vpv/3
+w/hJwtrrVdBb8aobCgwNwFa2f+A5M4pJe37IXacyQFfgH31jEEBL9Cx0sFFXLQ9Q6Qto2ZbDFbXN
+NArJqFuY8PyIWq/Dy6wGewEbEeWgOQGu6g44fYZd/+YB44RDpUlQsL6Tjx63i+0lRUuGt96FkVr7
+5AwKkQeaIqUK6eW7pbMUjpJHW1OKniHu2rzzy28O+E2Uqyy62TBzmvkjfYMyL6QNhrwQTBgT7Kfw
+TWJGMUmdsNwu14VVUnexT/Fc8pVNe3hIHKjdxSSNs2hObHJ0n+QbLpXJr4Xo+ujLvtNDa21sUQ1W
+7AJFcBWQSBmSjjRxB2CrsST57yaoHUA5wftA2tA6T+Elx2FqPpQPJbHL4sWjZPiG/UGN/Pl696VL
+aIG2ZwGUOIbiWO75NzoJOxv9xStlWzFJIVm/HLjZpDQoMT1XXOUXP/pv4WRyGuPaQHGcGrCK163u
+3fA=
+=kMJL
+-----END PGP SIGNATURE-----
+
+--------------uhOt4lte6SCpXJgrHcNZJ5Kc--
