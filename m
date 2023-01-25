@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD04367AB57
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 09:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3017967AB56
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 09:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CBD710E74C;
-	Wed, 25 Jan 2023 08:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E880D10E745;
+	Wed, 25 Jan 2023 08:07:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3B6D10E739;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3ED410E73A;
  Wed, 25 Jan 2023 08:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1674634015; x=1706170015;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CecBNlzLfx69wkNRYxcYp6BbWGZSO2OVColV2eRTgjE=;
- b=ROX4x/RcngzeLS0hNql9LDVSlc7epkjgk9wNZiJIRz8R3MeRWL3n66B4
- jnrxgfRORvV4OGXHrEgrJRlXIBxauesPTUoQykbW3PqNGpR6ZNZGGdVxI
- lTbFcqtj1HYelFe24yicCtcWSTU/6DQuTXdjuN4on2Qp4Y5K2VAhw6Ws+
- 2lSIhHnPuuT7B2MgcTyp4aC4bU/ZDrABSCGpXmDQ7L1Ykv6jk5MzBlWfN
- KcmohOmn3X1yzzaRh54ttOINkHb/t15OFdoQpg7635PkRXrmML+Qq2+6h
- l0Q5x1UBGMokv1cUKBEwTQpTUWZGc7eCyepKLGfbJyALWjeYA4jwk2Ige w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="310079371"
-X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; d="scan'208";a="310079371"
+ bh=4jIM+rAvkJsfNZoozqXpV3F6jtWvzuAhTZfKZs20pEs=;
+ b=KwAEGvDS2DHneN51BCVdwWb7txSh+Y3PpQpkcl54RNBOnCI5MY2NuyXb
+ V7yAChPcde9SM86dz2cA2pm90Q7/e93oCBM+TGnV46/Di1KhG9/1jzWrh
+ 4ijjSkvZvm8nVz5/AnF+VWA3LTTz8PmEfxONEi5Ebrb+JEuVnuKGXXNjE
+ J507cJaPLol5AYP7gyFbd3v5hp6CEbvU5k59K/qw9rNbq0b8ZsktebJwq
+ PH2jv5dhBZjTiT07vxEyWvG6As3EJA9PetqflHSouRbFx7225f2/RYOe3
+ kUkhAsUrJOUPjHkHuwMTIjzglBe4vYNS4RXQNIyLxtg5D9GJNJMv36Zax A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="310079373"
+X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; d="scan'208";a="310079373"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Jan 2023 00:06:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="991180685"
-X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; d="scan'208";a="991180685"
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="991180688"
+X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; d="scan'208";a="991180688"
 Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
  by fmsmga005.fm.intel.com with ESMTP; 25 Jan 2023 00:06:54 -0800
 From: Alan Previn <alan.previn.teres.alexis@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 5/8] drm/i915/pxp: Add ARB session creation with new PXP
- API Ver4.3
-Date: Wed, 25 Jan 2023 00:06:48 -0800
-Message-Id: <20230125080651.100223-6-alan.previn.teres.alexis@intel.com>
+Subject: [PATCH v3 6/8] drm/i915/pxp: MTL-KCR interrupt ctrl's are in GT-0
+Date: Wed, 25 Jan 2023 00:06:49 -0800
+Message-Id: <20230125080651.100223-7-alan.previn.teres.alexis@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230125080651.100223-1-alan.previn.teres.alexis@intel.com>
 References: <20230125080651.100223-1-alan.previn.teres.alexis@intel.com>
@@ -64,205 +63,136 @@ Cc: Juston Li <justonli@chromium.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MTL's function for ARB session creation using PXP firmware
-version 4.3 ABI structure format.
+Despite KCR subsystem being in the media-tile (close to the
+GSC-CS), the IRQ controls for it are on GT-0 with other global
+IRQ controls. Thus, add a helper for KCR hw interrupt
+enable/disable functions to get the correct gt structure (for
+uncore) for MTL.
 
-Before checking the return status, look at the GSC-CS-Mem-Header's
-pending-bit which means the GSC firmware is busy and we should
-resubmit.
+In the helper, we get GT-0's handle for uncore when touching
+IRQ registers despite the pxp->ctrl_gt being the media-tile.
+No difference for legacy of course.
 
 Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- drivers/gpu/drm/i915/pxp/intel_pxp.c          |  9 +++-
- .../drm/i915/pxp/intel_pxp_cmd_interface_43.h | 21 ++++++++
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c    | 54 ++++++++++++++++++-
- drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h    |  2 +
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  6 ++-
- 5 files changed, 87 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c |  2 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     | 24 +++++++++++++++++---
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h     |  8 +++++++
+ 3 files changed, 30 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-index 4350921e40c4..9b56f743eac9 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
-@@ -297,8 +297,13 @@ int intel_pxp_start(struct intel_pxp *pxp)
- 	if (!intel_pxp_is_enabled(pxp))
- 		return -ENODEV;
- 
--	if (wait_for(pxp_component_bound(pxp), 250))
--		return -ENXIO;
-+	if (HAS_ENGINE(pxp->ctrl_gt, GSC0)) {
-+		if (wait_for(intel_uc_fw_is_running(&pxp->ctrl_gt->uc.gsc.fw), 250))
-+			return -ENXIO;
-+	} else {
-+		if (wait_for(pxp_component_bound(pxp), 250))
-+			return -ENXIO;
-+	}
- 
- 	mutex_lock(&pxp->arb_mutex);
- 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
-index b2523d6918c7..9089e02a8c2d 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_43.h
-@@ -11,6 +11,7 @@
- 
- /* PXP-Cmd-Op definitions */
- #define PXP43_CMDID_START_HUC_AUTH 0x0000003A
-+#define PXP43_CMDID_INIT_SESSION 0x00000036
- 
- /* PXP-Packet sizes for MTL's GSCCS-HECI instruction */
- #define PXP43_MAX_HECI_IN_SIZE (SZ_32K)
-@@ -27,4 +28,24 @@ struct pxp43_start_huc_auth_out {
- 	struct pxp_cmd_header header;
- } __packed;
- 
-+/* PXP-Input-Packet: Init PXP session */
-+struct pxp43_create_arb_in {
-+	struct pxp_cmd_header header;
-+		/* header.stream_id fields for vesion 4.3 of Init PXP session: */
-+		#define PXP43_INIT_SESSION_VALID BIT(0)
-+		#define PXP43_INIT_SESSION_APPTYPE BIT(1)
-+		#define PXP43_INIT_SESSION_APPID GENMASK(17, 2)
-+	u32 protection_mode;
-+		#define PXP43_INIT_SESSION_PROTECTION_ARB 0x2
-+	u32 sub_session_id;
-+	u32 init_flags;
-+	u32 rsvd[12];
-+} __packed;
-+
-+/* PXP-Input-Packet: Init PXP session */
-+struct pxp43_create_arb_out {
-+	struct pxp_cmd_header header;
-+	u32 rsvd[8];
-+} __packed;
-+
- #endif /* __INTEL_PXP_FW_INTERFACE_43_H__ */
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-index 35b6bfa55dfc..066df4fc001f 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
-@@ -13,11 +13,11 @@
- #include "intel_pxp_gsccs.h"
- #include "intel_pxp_types.h"
- 
--__maybe_unused
- static int gsccs_send_message(struct intel_pxp *pxp,
- 			      void *msg_in, size_t msg_in_size,
- 			      void *msg_out, size_t msg_out_size_max,
--			      size_t *msg_out_len)
-+			      size_t *msg_out_len,
-+			      u64 *gsc_msg_handle_retry)
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
+index 4b8e70caa3ad..9f6e300486b4 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
+@@ -44,7 +44,7 @@ static int pxp_terminate_get(void *data, u64 *val)
+ static int pxp_terminate_set(void *data, u64 val)
  {
- 	struct intel_gt *gt = pxp->ctrl_gt;
- 	struct drm_i915_private *i915 = gt->i915;
-@@ -46,6 +46,9 @@ static int gsccs_send_message(struct intel_pxp *pxp,
- 					      msg_in_size + sizeof(*header),
- 					      exec->host_session_handle);
+ 	struct intel_pxp *pxp = data;
+-	struct intel_gt *gt = pxp->ctrl_gt;
++	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
  
-+	/* copy caller provided gsc message handle if this is polling for a prior msg completion */
-+	header->gsc_message_handle = *gsc_msg_handle_retry;
-+
- 	memcpy(exec->pkt_vaddr + sizeof(*header), msg_in, msg_in_size);
+ 	if (!intel_pxp_is_active(pxp))
+ 		return -ENODEV;
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+index 91e9622c07d0..3a725397349f 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+@@ -4,10 +4,12 @@
+  */
+ #include <linux/workqueue.h>
  
- 	pkt.addr_in = i915_vma_offset(exec->pkt_vma);
-@@ -79,6 +82,13 @@ static int gsccs_send_message(struct intel_pxp *pxp,
- 	}
- 	if (header->flags & GSC_HECI_FLAG_MSG_PENDING) {
- 		drm_dbg(&i915->drm, "gsc PXP reply is busy\n");
-+		/*
-+		 * When the GSC firmware replies with pending bit, it means that the requested
-+		 * operation has begun but the completion is pending and the caller needs
-+		 * to re-request with the gsc_message_handle that was returned by the firmware.
-+		 * until the pending bit is turned off.
-+		 */
-+		*gsc_msg_handle_retry = header->gsc_message_handle;
- 		ret = -EAGAIN;
- 		goto unlock;
- 	}
-@@ -103,6 +113,46 @@ static int gsccs_send_message(struct intel_pxp *pxp,
- 	return ret;
- }
++#include "gt/intel_gt.h"
+ #include "gt/intel_gt_irq.h"
+ #include "gt/intel_gt_regs.h"
+ #include "gt/intel_gt_types.h"
  
-+int intel_pxp_gsccs_create_session(struct intel_pxp *pxp,
-+				   int arb_session_id)
++#include "i915_drv.h"
+ #include "i915_irq.h"
+ #include "i915_reg.h"
+ 
+@@ -17,6 +19,22 @@
+ #include "intel_pxp_types.h"
+ #include "intel_runtime_pm.h"
+ 
++/**
++ * intel_pxp_get_irq_gt - Find the correct GT that owns KCR interrupts
++ * @pxp: pointer to pxp struct
++ *
++ * For platforms with a single GT, we return the pxp->ctrl_gt (as expected)
++ * but for MTL+ that has a media-tile, although the KCR engine is in the
++ * media-tile (i.e. pxp->ctrl_gt), the IRQ controls are on the root tile.
++ * In the end, we don't use pxp->ctrl_gt for IRQ, we always return root gt.
++ */
++struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp)
 +{
-+	struct gsccs_session_resources *exec =  &pxp->gsccs_res;
-+	struct pxp43_create_arb_in msg_in = {0};
-+	struct pxp43_create_arb_out msg_out = {0};
-+	u64 gsc_session_retry = 0;
-+	int ret, tries = 0;
++	WARN_ON_ONCE(!pxp->ctrl_gt->i915->media_gt && !gt_is_root(pxp->ctrl_gt));
 +
-+	/* get a unique host-session-handle (used later in HW cmds) at time of session creation */
-+	get_random_bytes(&exec->host_session_handle, sizeof(exec->host_session_handle));
-+
-+	msg_in.header.api_version = PXP_APIVER(4, 3);
-+	msg_in.header.command_id = PXP43_CMDID_INIT_SESSION;
-+	msg_in.header.stream_id = (FIELD_PREP(PXP43_INIT_SESSION_APPID, arb_session_id) |
-+				   FIELD_PREP(PXP43_INIT_SESSION_VALID, 1) |
-+				   FIELD_PREP(PXP43_INIT_SESSION_APPTYPE, 0));
-+	msg_in.header.buffer_len = sizeof(msg_in) - sizeof(msg_in.header);
-+	msg_in.protection_mode = PXP43_INIT_SESSION_PROTECTION_ARB;
-+
-+	/*
-+	 * Keep sending request if GSC firmware was busy.
-+	 * Based on specs, we can expects a worst case pending-bit
-+	 * delay of 2000 milisecs.
-+	 */
-+	do {
-+		ret = gsccs_send_message(pxp,
-+					 &msg_in, sizeof(msg_in),
-+					 &msg_out, sizeof(msg_out), NULL,
-+					 &gsc_session_retry);
-+		/* Only try again if gsc says so */
-+		if (ret != -EAGAIN)
-+			break;
-+
-+		msleep(20);
-+	} while (++tries < 100);
-+
-+	return ret;
++	return to_gt(pxp->ctrl_gt->i915);
 +}
 +
- static int
- gsccs_create_buffer(struct intel_gt *gt,
- 		    const char *bufname, size_t size,
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-index 354ea9a8f940..4a381ede00f5 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
-@@ -11,6 +11,8 @@
+ /**
+  * intel_pxp_irq_handler - Handles PXP interrupts.
+  * @pxp: pointer to pxp struct
+@@ -29,7 +47,7 @@ void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
+ 	if (GEM_WARN_ON(!intel_pxp_is_enabled(pxp)))
+ 		return;
+ 
+-	gt = pxp->ctrl_gt;
++	gt = intel_pxp_get_irq_gt(pxp);
+ 
+ 	lockdep_assert_held(gt->irq_lock);
+ 
+@@ -68,7 +86,7 @@ static inline void pxp_irq_reset(struct intel_gt *gt)
+ 
+ void intel_pxp_irq_enable(struct intel_pxp *pxp)
+ {
+-	struct intel_gt *gt = pxp->ctrl_gt;
++	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
+ 
+ 	spin_lock_irq(gt->irq_lock);
+ 
+@@ -83,7 +101,7 @@ void intel_pxp_irq_enable(struct intel_pxp *pxp)
+ 
+ void intel_pxp_irq_disable(struct intel_pxp *pxp)
+ {
+-	struct intel_gt *gt = pxp->ctrl_gt;
++	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
+ 
+ 	/*
+ 	 * We always need to submit a global termination when we re-enable the
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
+index 8c292dc86f68..eea87c9eb62b 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
+@@ -9,6 +9,7 @@
+ #include <linux/types.h>
+ 
  struct intel_pxp;
++struct intel_gt;
  
- #ifdef CONFIG_DRM_I915_PXP
-+int intel_pxp_gsccs_create_session(struct intel_pxp *pxp,
-+				   int arb_session_id);
- void intel_pxp_gsccs_fini(struct intel_pxp *pxp);
- int intel_pxp_gsccs_init(struct intel_pxp *pxp);
+ #define GEN12_DISPLAY_PXP_STATE_TERMINATED_INTERRUPT BIT(1)
+ #define GEN12_DISPLAY_APP_TERMINATED_PER_FW_REQ_INTERRUPT BIT(2)
+@@ -23,6 +24,8 @@ struct intel_pxp;
+ void intel_pxp_irq_enable(struct intel_pxp *pxp);
+ void intel_pxp_irq_disable(struct intel_pxp *pxp);
+ void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir);
++struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp);
++
+ #else
+ static inline void intel_pxp_irq_handler(struct intel_pxp *pxp, u16 iir)
+ {
+@@ -35,6 +38,11 @@ static inline void intel_pxp_irq_enable(struct intel_pxp *pxp)
+ static inline void intel_pxp_irq_disable(struct intel_pxp *pxp)
+ {
+ }
++
++static inline struct intel_gt *intel_pxp_get_irq_gt(struct intel_pxp *pxp)
++{
++	return NULL;
++}
+ #endif
  
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-index 28f5ca838cb7..a4917d517e23 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-@@ -7,6 +7,7 @@
- 
- #include "intel_pxp.h"
- #include "intel_pxp_cmd.h"
-+#include "intel_pxp_gsccs.h"
- #include "intel_pxp_session.h"
- #include "intel_pxp_tee.h"
- #include "intel_pxp_types.h"
-@@ -62,7 +63,10 @@ static int pxp_create_arb_session(struct intel_pxp *pxp)
- 		return -EEXIST;
- 	}
- 
--	ret = intel_pxp_tee_cmd_create_arb_session(pxp, ARB_SESSION);
-+	if (HAS_ENGINE(pxp->ctrl_gt, GSC0))
-+		ret = intel_pxp_gsccs_create_session(pxp, ARB_SESSION);
-+	else
-+		ret = intel_pxp_tee_cmd_create_arb_session(pxp, ARB_SESSION);
- 	if (ret) {
- 		drm_err(&gt->i915->drm, "tee cmd for arb session creation failed\n");
- 		return ret;
+ #endif /* __INTEL_PXP_IRQ_H__ */
 -- 
 2.39.0
 
