@@ -2,55 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C4A67BFB4
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 23:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F2F67C03A
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 23:55:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97BAA10E244;
-	Wed, 25 Jan 2023 22:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A867610E0F3;
+	Wed, 25 Jan 2023 22:55:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5367E10E1D5;
- Wed, 25 Jan 2023 22:14:02 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id d188so17625480oia.3;
- Wed, 25 Jan 2023 14:14:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dJ9z57UwZG4tTNorqhSO8lGfimRHzs0UtM70Y/wGFLA=;
- b=qeBDHsppAhK146pfKU5zVP88MaLx9JyO5znGAERRuAU96GXvrUp4WSGvbgSfLwIPaN
- 87yP/yx/Wt3BKcht47F8Y6KV1nlhuBU7NiSOZWsYGpJnv+g+V+6aLItu5ZN4Dp6wZ1a2
- DdLLjF0APO8UYQgY+KxkJF61L9bOfk+mb3P7caT/5Zay9eYiRLe3JbCY03MpTLCW6hjQ
- 4LENwDjnT8+gfJeOkMw8Rvz5/NhDrv5m5slbkChfAg8RhMxHs9EcFSBfxw33crYqkPyC
- 9wLS2X0PX81LE89vy+wMtpQGkmEOfQBa9PwoV9cR2z+F4XFsHSeMitWw64gz3XER0QEe
- AY5Q==
-X-Gm-Message-State: AO0yUKUAYRagpCsujhept6CfsvVsmv0RhFpU5FMrFejfevOd20P1yv07
- 7M4YosgCL/zWneOCvX1VmQ==
-X-Google-Smtp-Source: AK7set8GspnsCWGYKbxKN1uTZJxpgT1DCK5rPr1zBkbIBamx+JrDWk3S0vq7V9yELy/gC+8h18sZYA==
-X-Received: by 2002:aca:45c4:0:b0:36d:9536:160 with SMTP id
- s187-20020aca45c4000000b0036d95360160mr7317oia.32.1674684841524; 
- Wed, 25 Jan 2023 14:14:01 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- j2-20020a056808034200b003648b84a2b5sm2780771oie.33.2023.01.25.14.14.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 14:14:01 -0800 (PST)
-Received: (nullmailer pid 3057738 invoked by uid 1000);
- Wed, 25 Jan 2023 22:14:00 -0000
-From: Rob Herring <robh@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH] dt-bindings: display: msm: Drop type from 'memory-region'
-Date: Wed, 25 Jan 2023 16:13:56 -0600
-Message-Id: <20230125221357.3057655-1-robh@kernel.org>
-X-Mailer: git-send-email 2.39.0
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E891E10E0F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 22:55:15 +0000 (UTC)
+Received: from [192.168.2.197] (109-252-117-89.nat.spd-mgts.ru
+ [109.252.117.89])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 4AC3C6602D1F;
+ Wed, 25 Jan 2023 22:55:12 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1674687314;
+ bh=3KgCvkiMWuw1advwxtDNvcxv2KngByLwOXF9vKgP06k=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=YnJHI30zZohHLfInL1M102KVG7aDB4zyDl9JeidmzFJOnpyPGCEZJzzrXJWGV0q6X
+ QLzt+lGGzDOJjkzm4OQd7du3QeyODeIlGPizmQHDmlTZ+ug6QSr3p9reYn4uRfJMar
+ EwXw+P4krJQo+OZ2KArfEIZTDqdFqRbWeXjGYChH5nK4uXD+nT1/pagQsnb8JbIB/J
+ PfX0UtNWY3sgFerI4nxqSXwlYOxcMyi6riIpo1k0ieeBQZMsfb999bzPKDVYrzsja9
+ ic8x/sl66WetMSLWjZyH7vob1UEP2hjtNpaNHWsBuf0o5kcpei/eW3DK3XkQ3bnYPb
+ FIzYr3XntbicA==
+Message-ID: <e5e9e8dd-a5b6-cfd2-44d6-4d5aa768e56c@collabora.com>
+Date: Thu, 26 Jan 2023 01:55:09 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,32 +56,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Sean Paul <sean@poorly.run>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
+ Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'memory-region' is a common property and already has a type.
+Hello Thomas and Gerd,
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/display/msm/gpu.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 1/9/23 00:04, Dmitry Osipenko wrote:
+> This series:
+> 
+>   1. Makes minor fixes for drm_gem_lru and Panfrost
+>   2. Brings refactoring for older code
+>   3. Adds common drm-shmem memory shrinker
+>   4. Enables shrinker for VirtIO-GPU driver
+>   5. Switches Panfrost driver to the common shrinker
+> 
+> Changelog:
+> 
+> v10:- Rebased on a recent linux-next.
+> 
+>     - Added Rob's ack to MSM "Prevent blocking within shrinker loop" patch.
+> 
+>     - Added Steven's ack/r-b/t-b for the Panfrost patches.
+> 
+>     - Fixed missing export of the new drm_gem_object_evict() function.
+> 
+>     - Added fixes tags to the first two patches that are making minor fixes,
+>       for consistency.
 
-diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-index c5f49842dc7b..304525f81563 100644
---- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-@@ -89,7 +89,7 @@ properties:
-       help bring the GPU out of secure mode.
-     properties:
-       memory-region:
--        $ref: /schemas/types.yaml#/definitions/phandle
-+        maxItems: 1
- 
-       firmware-name:
-         description: |
+Do you have comments on this version? Otherwise ack will be appreciated.
+Thanks in advance!
+
 -- 
-2.39.0
+Best regards,
+Dmitry
 
