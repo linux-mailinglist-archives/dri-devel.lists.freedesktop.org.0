@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56C167B569
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 16:07:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B44267B573
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 16:09:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70D8310E7FC;
-	Wed, 25 Jan 2023 15:07:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBF5110E056;
+	Wed, 25 Jan 2023 15:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B4810E7F9;
- Wed, 25 Jan 2023 15:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1674659245; bh=3kVFSj9F5r4zxQcKbBTyYKgIq05zuwPxG6KbVQ++e3g=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
- Content-Type;
- b=ijJPXqb9T9rNuYug9wDmBjZNcoI7knQGv8uhpPu+63nu+Scs9p8fYO64+AHMrkdJw
- 2hMEv2cUyhkIYyYKWWdSmFP6WRIHhgWibdJ96z0Uzi+3QmMsPdDM1iwhLzm/ba//Yr
- 5e3iaPKb81ODwt4zzBRTTxWkaerko2Z6dcXhC0Zc=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Wed, 25 Jan 2023 16:07:24 +0100 (CET)
-X-EA-Auth: P9eRXJcvULD/LlNSEoxED6IvPVWZxGaHOnHgLK9K0jZ0NU4zvHdVexZOWXhZmyT1B6y9xTnZegI4FpF4U7FiqDfX7yUYLlBh
-Date: Wed, 25 Jan 2023 20:37:14 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/devinit: Convert function disable() to be void
-Message-ID: <Y9FFoooIXjlr+UP1@ubun2204.myguest.virtualbox.org>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 527B410E056
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 15:09:07 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B706DB819F3;
+ Wed, 25 Jan 2023 15:09:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC81C433EF;
+ Wed, 25 Jan 2023 15:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1674659344;
+ bh=v+B+KDBEA50AHtVt9lQ1BTuMYwoPUgbIgH8/Amio1lE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hSoessefOv16Xt7Qbj98AdgmJicOcikMVtEdI8hVuvfe5IRYVPezihO/irb3buQZt
+ 3ZFdNvsViDwPHeE3Jm/XuN6iGzIm1ESIZsv0lbDa1vk4s6rEEf6cKYM+bN/iuQe9VW
+ P/Svjep8k+fSgfN9zyFG7lQqfCHheo29BxDr+K+4T3lE67taLSodJ3E7d4EG4RrRqe
+ 73RJMrkg3YqzKBZH4GY2t14YGyMJND9cOXmrIKdYBcHjYwCgCzhERtbbPGPR5fu5EG
+ NLAP3xoucfO28ZdQF16a1/t4V81l7sTg4luWlxs+aH+wX1wDHuET+t7+76hhEK6te3
+ 8HtxOatriltJw==
+Date: Wed, 25 Jan 2023 15:08:54 +0000
+From: Lee Jones <lee@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Add missing
+ (unevaluated|additional)Properties on child node schemas
+Message-ID: <Y9FGBqFKMxL3XraK@google.com>
+References: <20230124230228.372305-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230124230228.372305-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,240 +53,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Jassi Brar <jassisinghbrar@gmail.com>, Guenter Roeck <linux@roeck-us.net>,
+ linux-media@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ linux-pm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ linux-spi@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+ openbmc@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current design of callback function disable() of struct
-nvkm_devinit_func is defined to return a u64 value. In its implementation
-in the driver modules, the function always returns a fixed value 0. Hence
-the design and implementation of this function should be enhanced to return
-void instead of a fixed value. This change also eliminates untouched
-return variables.
+On Tue, 24 Jan 2023, Rob Herring wrote:
 
-The change is identified using the returnvar.cocci Coccinelle semantic
-patch script.
+> Just as unevaluatedProperties or additionalProperties are required at
+> the top level of schemas, they should (and will) also be required for
+> child node schemas. That ensures only documented properties are
+> present.
+> 
+> Add unevaluatedProperties or additionalProperties as appropriate, and
+> then add any missing properties flagged by the addition.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> To: David Airlie <airlied@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Bartosz Golaszewski <brgl@bgdev.pl>
+> To: Jean Delvare <jdelvare@suse.com>
+> To: Guenter Roeck <linux@roeck-us.net>
+> To: Thomas Gleixner <tglx@linutronix.de>
+> To: Marc Zyngier <maz@kernel.org>
+> To: Jassi Brar <jassisinghbrar@gmail.com>
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> To: Lee Jones <lee@kernel.org>
+> To: Ulf Hansson <ulf.hansson@linaro.org>
+> To: Richard Weinberger <richard@nod.at>
+> To: Vignesh Raghavendra <vigneshr@ti.com>
+> To: Sebastian Reichel <sre@kernel.org>
+> To: Mark Brown <broonie@kernel.org>
+> To: "Rafael J. Wysocki" <rafael@kernel.org>
+> To: Daniel Lezcano <daniel.lezcano@linaro.org>
+> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-hwmon@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: openbmc@lists.ozlabs.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-mtd@lists.infradead.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-spi@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> ---
+>  .../devicetree/bindings/arm/arm,vexpress-juno.yaml     |  1 +
+>  .../bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml |  5 +++--
+>  .../bindings/arm/tegra/nvidia,tegra20-pmc.yaml         |  4 ++++
+>  .../bindings/bus/allwinner,sun50i-a64-de2.yaml         |  1 +
+>  .../bindings/bus/allwinner,sun8i-a23-rsb.yaml          |  1 +
+>  .../bus/intel,ixp4xx-expansion-bus-controller.yaml     |  6 ++++++
+>  Documentation/devicetree/bindings/bus/palmbus.yaml     |  1 +
+>  .../devicetree/bindings/display/msm/qcom,mdss.yaml     |  5 +++++
+>  Documentation/devicetree/bindings/example-schema.yaml  |  2 ++
+>  .../devicetree/bindings/gpio/x-powers,axp209-gpio.yaml |  1 +
+>  .../devicetree/bindings/hwmon/adi,ltc2992.yaml         |  1 +
+>  .../bindings/interrupt-controller/arm,gic-v3.yaml      |  2 ++
+>  .../bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml      |  1 +
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml   |  7 +++++++
+>  .../bindings/memory-controllers/arm,pl35x-smc.yaml     |  1 +
+>  .../bindings/memory-controllers/exynos-srom.yaml       |  1 +
+>  .../memory-controllers/nvidia,tegra124-emc.yaml        |  1 +
+>  .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml |  1 +
+>  .../devicetree/bindings/mfd/mediatek,mt6370.yaml       |  2 ++
+>  .../devicetree/bindings/mmc/aspeed,sdhci.yaml          |  1 +
+>  Documentation/devicetree/bindings/mtd/mtd.yaml         |  1 +
+>  .../devicetree/bindings/power/supply/ti,lp8727.yaml    |  1 +
+>  .../devicetree/bindings/soc/imx/fsl,imx93-src.yaml     |  3 ++-
+>  .../bindings/soc/microchip/atmel,at91rm9200-tcb.yaml   |  1 +
+>  Documentation/devicetree/bindings/soc/ti/ti,pruss.yaml |  1 +
+>  .../devicetree/bindings/sound/marvell,mmp-sspa.yaml    |  1 +
+>  .../devicetree/bindings/sound/qcom,wcd934x.yaml        |  1 +
+>  .../devicetree/bindings/sound/samsung,odroid.yaml      |  2 ++
+>  .../devicetree/bindings/soundwire/qcom,soundwire.yaml  |  1 +
+>  .../bindings/spi/allwinner,sun4i-a10-spi.yaml          |  1 +
+>  .../bindings/spi/allwinner,sun6i-a31-spi.yaml          |  1 +
+>  .../devicetree/bindings/spi/spi-controller.yaml        |  1 +
+>  .../sram/allwinner,sun4i-a10-system-control.yaml       | 10 +++++-----
+>  Documentation/devicetree/bindings/sram/qcom,ocmem.yaml |  1 +
+>  .../devicetree/bindings/thermal/thermal-zones.yaml     |  1 +
+>  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml   |  1 +
+>  36 files changed, 65 insertions(+), 8 deletions(-)
 
-Signed-off-by: Deepak R Varma <drv@mailo.com>
----
-Please note: The change is compile build tested only.
+Acked-by: Lee Jones <lee@kernel.org>
 
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/base.c  | 3 ++-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g84.c   | 5 +----
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c   | 4 +---
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c | 4 +---
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c | 4 +---
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gt215.c | 4 +---
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/mcp89.c | 4 +---
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.c  | 5 +----
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.h  | 2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/priv.h  | 2 +-
- 10 files changed, 11 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/base.c
-index dd4981708fe4..3d9319c319c6 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/base.c
-@@ -51,7 +51,8 @@ u64
- nvkm_devinit_disable(struct nvkm_devinit *init)
- {
- 	if (init && init->func->disable)
--		return init->func->disable(init);
-+		init->func->disable(init);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g84.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g84.c
-index c224702b7bed..00df7811dd10 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g84.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g84.c
-@@ -26,13 +26,12 @@
- #include <subdev/bios.h>
- #include <subdev/bios/init.h>
- 
--static u64
-+static void
- g84_devinit_disable(struct nvkm_devinit *init)
- {
- 	struct nvkm_device *device = init->subdev.device;
- 	u32 r001540 = nvkm_rd32(device, 0x001540);
- 	u32 r00154c = nvkm_rd32(device, 0x00154c);
--	u64 disable = 0ULL;
- 
- 	if (!(r001540 & 0x40000000)) {
- 		nvkm_subdev_disable(device, NVKM_ENGINE_MPEG, 0);
-@@ -47,8 +46,6 @@ g84_devinit_disable(struct nvkm_devinit *init)
- 		nvkm_subdev_disable(device, NVKM_ENGINE_BSP, 0);
- 	if (!(r00154c & 0x00000040))
- 		nvkm_subdev_disable(device, NVKM_ENGINE_CIPHER, 0);
--
--	return disable;
- }
- 
- static const struct nvkm_devinit_func
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
-index 8977483a9f42..54bee499b982 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c
-@@ -26,7 +26,7 @@
- #include <subdev/bios.h>
- #include <subdev/bios/init.h>
- 
--static u64
-+static void
- g98_devinit_disable(struct nvkm_devinit *init)
- {
- 	struct nvkm_device *device = init->subdev.device;
-@@ -45,8 +45,6 @@ g98_devinit_disable(struct nvkm_devinit *init)
- 		nvkm_subdev_disable(device, NVKM_ENGINE_MSVLD, 0);
- 	if (!(r00154c & 0x00000040))
- 		nvkm_subdev_disable(device, NVKM_ENGINE_SEC, 0);
--
--	return 0ULL;
- }
- 
- static const struct nvkm_devinit_func
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
-index 5b7cb1fe7897..5368e705e7fd 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c
-@@ -63,7 +63,7 @@ gf100_devinit_pll_set(struct nvkm_devinit *init, u32 type, u32 freq)
- 	return ret;
- }
- 
--static u64
-+static void
- gf100_devinit_disable(struct nvkm_devinit *init)
- {
- 	struct nvkm_device *device = init->subdev.device;
-@@ -85,8 +85,6 @@ gf100_devinit_disable(struct nvkm_devinit *init)
- 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
- 	if (r022500 & 0x00000200)
- 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 1);
--
--	return 0ULL;
- }
- 
- void
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-index 8955af2704c7..7bcbc4895ec2 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c
-@@ -26,7 +26,7 @@
- #include <subdev/bios.h>
- #include <subdev/bios/init.h>
- 
--u64
-+void
- gm107_devinit_disable(struct nvkm_devinit *init)
- {
- 	struct nvkm_device *device = init->subdev.device;
-@@ -39,8 +39,6 @@ gm107_devinit_disable(struct nvkm_devinit *init)
- 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 2);
- 	if (r021c04 & 0x00000001)
- 		nvkm_subdev_disable(device, NVKM_ENGINE_DISP, 0);
--
--	return 0ULL;
- }
- 
- static const struct nvkm_devinit_func
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gt215.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gt215.c
-index 3d0ab86c3115..dbca92318baf 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gt215.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/gt215.c
-@@ -62,7 +62,7 @@ gt215_devinit_pll_set(struct nvkm_devinit *init, u32 type, u32 freq)
- 	return ret;
- }
- 
--static u64
-+static void
- gt215_devinit_disable(struct nvkm_devinit *init)
- {
- 	struct nvkm_device *device = init->subdev.device;
-@@ -80,8 +80,6 @@ gt215_devinit_disable(struct nvkm_devinit *init)
- 		nvkm_subdev_disable(device, NVKM_ENGINE_MSVLD, 0);
- 	if (!(r00154c & 0x00000200))
- 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
--
--	return 0ULL;
- }
- 
- static u32
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/mcp89.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/mcp89.c
-index a9cdf2411187..a24bd2e7d7ce 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/mcp89.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/mcp89.c
-@@ -26,7 +26,7 @@
- #include <subdev/bios.h>
- #include <subdev/bios/init.h>
- 
--static u64
-+static void
- mcp89_devinit_disable(struct nvkm_devinit *init)
- {
- 	struct nvkm_device *device = init->subdev.device;
-@@ -46,8 +46,6 @@ mcp89_devinit_disable(struct nvkm_devinit *init)
- 		nvkm_subdev_disable(device, NVKM_ENGINE_VIC, 0);
- 	if (!(r00154c & 0x00000200))
- 		nvkm_subdev_disable(device, NVKM_ENGINE_CE, 0);
--
--	return 0;
- }
- 
- static const struct nvkm_devinit_func
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.c
-index 380995d398b1..07ed8fd778b2 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.c
-@@ -77,17 +77,14 @@ nv50_devinit_pll_set(struct nvkm_devinit *init, u32 type, u32 freq)
- 	return 0;
- }
- 
--static u64
-+static void
- nv50_devinit_disable(struct nvkm_devinit *init)
- {
- 	struct nvkm_device *device = init->subdev.device;
- 	u32 r001540 = nvkm_rd32(device, 0x001540);
--	u64 disable = 0ULL;
- 
- 	if (!(r001540 & 0x40000000))
- 		nvkm_subdev_disable(device, NVKM_ENGINE_MPEG, 0);
--
--	return disable;
- }
- 
- void
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.h b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.h
-index 987a7f478b84..8de409c084c1 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.h
-@@ -23,7 +23,7 @@ int  gf100_devinit_ctor(struct nvkm_object *, struct nvkm_object *,
- int  gf100_devinit_pll_set(struct nvkm_devinit *, u32, u32);
- void gf100_devinit_preinit(struct nvkm_devinit *);
- 
--u64  gm107_devinit_disable(struct nvkm_devinit *);
-+void  gm107_devinit_disable(struct nvkm_devinit *);
- 
- int gm200_devinit_post(struct nvkm_devinit *, bool);
- void gm200_devinit_preos(struct nv50_devinit *, bool);
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/priv.h b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/priv.h
-index dd8b038a8cee..a648482d06e9 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/priv.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/priv.h
-@@ -12,7 +12,7 @@ struct nvkm_devinit_func {
- 	u32  (*mmio)(struct nvkm_devinit *, u32);
- 	void (*meminit)(struct nvkm_devinit *);
- 	int  (*pll_set)(struct nvkm_devinit *, u32 type, u32 freq);
--	u64  (*disable)(struct nvkm_devinit *);
-+	void (*disable)(struct nvkm_devinit *);
- };
- 
- void nvkm_devinit_ctor(const struct nvkm_devinit_func *, struct nvkm_device *,
 -- 
-2.34.1
-
-
-
+Lee Jones [李琼斯]
