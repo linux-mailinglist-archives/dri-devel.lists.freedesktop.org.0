@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D68D67BD64
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 21:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C618367BD7E
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 21:57:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B76D410E120;
-	Wed, 25 Jan 2023 20:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA44D10E39C;
+	Wed, 25 Jan 2023 20:57:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com
  (mailrelay2-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:401::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 887A010E120
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 20:52:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF8C10E18C
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 20:57:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=/NbmLZPfTUBNuvwpuIq7jzdYXjOyhys3va43pns/wME=;
- b=fXzCVuKRusidZBn0C8DUfgcuqFi/xH4Dq66tyHbKA0oEuRzZuyoIBOiLjsOwSvr+XkS5Aj6/8FjfS
- f1d19b3n2z0KUneSoilCiaNmzUWxDKPyG6eKXAoW0igFvtDQo9SGKXCtGVlpoN0OfqSLgAw+CIbCVN
- csYcffChBpGi6AJIHGSwJinq5tjrmRtv6oc2CdNm9Q7TFsLahoU5Ms05Lebn4W0llb1eVofn1EdPxe
- GpcepYkR9FhzvhXT8jy0QE5+B9n5nSxXE3HPA8K05S/hpAQso901xLBhlv7iXHZHbmXbLK3ua9aUzv
- Z0NFaunagWqq8MfE3TtCNIwsrOjBVtg==
+ bh=FddS8pQv/6N7S7CMs/WawleURHMuXHTM9+g9+0jG880=;
+ b=Q4DqmMj2qG61SlFw8qecn3Zv3ANavPIkleUeaqKg3lhum5sea6L8QtfPvyqngR5LL4vUeNV90m09p
+ uonsBiiKhXq8Pk7KocmQNCqG/ABZZ0gmWkhRuK508C1z/FPUxdGpn4Y4c3R51yU65h2v3iqC1XGhYw
+ UUXjUuRZcKK7Zzu3aUyu2cbEaj6f0eZwKYd2y+q446pSkaw+YF0whvhAY4FVvF7cBSxSFzzku8h7RI
+ qtz9sDUumNfpmPAlb1Hs8II2CEMT1P4iUgG5HdAGjVBTaLISGdeSZbitv7apTi1raOCH9jG1gsq1t2
+ krPmMWYJSnswQQ6WRPKS3C68eOlqFnQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed2;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=/NbmLZPfTUBNuvwpuIq7jzdYXjOyhys3va43pns/wME=;
- b=H0mcFvUdtrxvOtOWjFbsUaf7rnbOCi8U9iXjFrJBOzDccJr1E5qa1ZOuQ3ZOe3mcbAztOHHM8l8/s
- V3o0dAlBQ==
-X-HalOne-ID: 24b509b3-9cf2-11ed-a537-3df7d73157c4
+ bh=FddS8pQv/6N7S7CMs/WawleURHMuXHTM9+g9+0jG880=;
+ b=8xlT7TEKGtLozhjeIkvi2rGfmQKeQK7NF0ZFx3Gf7Wf3kJllRuw4VQMYF7cfSsp56qg37EFB7iOLW
+ ezqMK+kDQ==
+X-HalOne-ID: e844ec46-9cf2-11ed-a54d-3df7d73157c4
 Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
  by mailrelay2 (Halon) with ESMTPSA
- id 24b509b3-9cf2-11ed-a537-3df7d73157c4;
- Wed, 25 Jan 2023 20:52:16 +0000 (UTC)
-Date: Wed, 25 Jan 2023 21:52:14 +0100
+ id e844ec46-9cf2-11ed-a54d-3df7d73157c4;
+ Wed, 25 Jan 2023 20:57:43 +0000 (UTC)
+Date: Wed, 25 Jan 2023 21:57:41 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 01/10] drm/client: Test for connectors before sending
- hotplug event
-Message-ID: <Y9GWfi4EiCDPa6BJ@ravnborg.org>
+Subject: Re: [PATCH v3 02/10] drm/client: Add hotplug_failed flag
+Message-ID: <Y9GXxcwSnuftoUQh@ravnborg.org>
 References: <20230125200415.14123-1-tzimmermann@suse.de>
- <20230125200415.14123-2-tzimmermann@suse.de>
+ <20230125200415.14123-3-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230125200415.14123-2-tzimmermann@suse.de>
+In-Reply-To: <20230125200415.14123-3-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,58 +67,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Thomas,
 
-On Wed, Jan 25, 2023 at 09:04:06PM +0100, Thomas Zimmermann wrote:
-> Test for connectors in the client code and remove a similar test
-> from the generic fbdev emulation. Do nothing if the test fails.
-> Not having connectors indicates a driver bug.
+On Wed, Jan 25, 2023 at 09:04:07PM +0100, Thomas Zimmermann wrote:
+> Signal failed hotplugging with a flag in struct drm_client_dev. If set,
+> the client helpers will not further try to set up the fbdev display.
+> 
+> This used to be signalled with a combination of cleared pointers in
+> struct drm_fb_helper,
+I failed to find where we clear the pointers. What do I miss?
+(I had assumed we would stop clearing the pointers after this change).
+
+	Sam
+
+which prevents us from initializing these pointers
+> early after allocation.
+> 
+> The change also harmonizes behavior among DRM clients. Additional DRM
+> clients will now handle failed hotplugging like fbdev does.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
 >  drivers/gpu/drm/drm_client.c        | 5 +++++
->  drivers/gpu/drm/drm_fbdev_generic.c | 5 -----
->  2 files changed, 5 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/drm_fbdev_generic.c | 4 ----
+>  include/drm/drm_client.h            | 8 ++++++++
+>  3 files changed, 13 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-> index 262ec64d4397..09ac191c202d 100644
+> index 09ac191c202d..009e7b10455c 100644
 > --- a/drivers/gpu/drm/drm_client.c
 > +++ b/drivers/gpu/drm/drm_client.c
-> @@ -198,6 +198,11 @@ void drm_client_dev_hotplug(struct drm_device *dev)
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return;
->  
-> +	if (!dev->mode_config.num_connector) {
-> +		drm_dbg_kms(dev, "No connectors found, will not send hotplug events!\n");
-> +		return;
-This deserves a more visible logging - if a driver fails here it would
-be good to spot it in the normal kernel log.
-drm_info or drm_notice?
-
-The original code had this on the debug level, but when moving the log
-level could also be updated.
-
-	Sam
-
-> +	}
-> +
->  	mutex_lock(&dev->clientlist_mutex);
->  	list_for_each_entry(client, &dev->clientlist, list) {
+> @@ -208,8 +208,13 @@ void drm_client_dev_hotplug(struct drm_device *dev)
 >  		if (!client->funcs || !client->funcs->hotplug)
+>  			continue;
+>  
+> +		if (client->hotplug_failed)
+> +			continue;
+> +
+>  		ret = client->funcs->hotplug(client);
+>  		drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
+> +		if (ret)
+> +			client->hotplug_failed = true;
+>  	}
+>  	mutex_unlock(&dev->clientlist_mutex);
+>  }
 > diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-> index 0a4c160e0e58..3d455a2e3fb5 100644
+> index 3d455a2e3fb5..135d58b8007b 100644
 > --- a/drivers/gpu/drm/drm_fbdev_generic.c
 > +++ b/drivers/gpu/drm/drm_fbdev_generic.c
-> @@ -389,11 +389,6 @@ static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
+> @@ -382,10 +382,6 @@ static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
+>  	struct drm_device *dev = client->dev;
+>  	int ret;
+>  
+> -	/* Setup is not retried if it has failed */
+> -	if (!fb_helper->dev && fb_helper->funcs)
+> -		return 0;
+> -
 >  	if (dev->fb_helper)
 >  		return drm_fb_helper_hotplug_event(dev->fb_helper);
 >  
-> -	if (!dev->mode_config.num_connector) {
-> -		drm_dbg_kms(dev, "No connectors found, will not create framebuffer!\n");
-> -		return 0;
-> -	}
-> -
->  	drm_fb_helper_prepare(dev, fb_helper, &drm_fb_helper_generic_funcs);
+> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+> index 4fc8018eddda..39482527a775 100644
+> --- a/include/drm/drm_client.h
+> +++ b/include/drm/drm_client.h
+> @@ -106,6 +106,14 @@ struct drm_client_dev {
+>  	 * @modesets: CRTC configurations
+>  	 */
+>  	struct drm_mode_set *modesets;
+> +
+> +	/**
+> +	 * @hotplug failed:
+> +	 *
+> +	 * Set by client hotplug helpers if the hotplugging failed
+> +	 * before. It is usually not tried again.
+> +	 */
+> +	bool hotplug_failed;
+>  };
 >  
->  	ret = drm_fb_helper_init(dev, fb_helper);
+>  int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
 > -- 
 > 2.39.0
