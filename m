@@ -2,57 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5AB67BA2D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 20:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4A167BA2F
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 20:06:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F3810E813;
-	Wed, 25 Jan 2023 19:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BB2910E818;
+	Wed, 25 Jan 2023 19:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
- [209.85.160.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE0E10E813
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 19:05:44 +0000 (UTC)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-15f97c478a8so22498675fac.13
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 11:05:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Qhr1Snnnfv3Lio+Z/H9CduUQNrxN5G15yH6OHJ4yvHM=;
- b=hvFfxrtuUGJNNeVrvlpXYg/nnhLtnPx5TmypeE18J/sRCwSjvmJoVmT5uj7QPLXod7
- UlJWAJpfSNpVyb7elnjtsK95xKtkS4QAL045dwh4oxtp40fLusO5E26aD7vOAhY3gk+u
- f94/6DmE7OSJYQU876uSIGjdaZY/YSHu2GjK+a5ps5VQOOniF/gfY7lKoUecv2Ojgm72
- YAUzaASg42DlYNcovvDuXexZu3WqoIolDtLMg4uJhv6T+AGFuIkIb9THRaG68gQFV6Ij
- ez2qkS95f2x5M1pLguTywyuWK6jJKWm8zVGDoTqTLflf9foIpoCCbR+mftT7oObXYRO2
- tcxg==
-X-Gm-Message-State: AFqh2koKI7m9aTXAXZbNwMWPViFOX0Bv+flnU8M7/+qEAM7PJ6Uu12Ha
- Cxk1aavnZgu2scJi3GfAPg==
-X-Google-Smtp-Source: AMrXdXsWj1xQcwnmtT18eTlSoYpv3JQC0KDpfuKbQAUsGlJZ7i1zq7QLTwf2BT+qCsfMea1enMhlpQ==
-X-Received: by 2002:a05:6870:494b:b0:143:e045:7082 with SMTP id
- fl11-20020a056870494b00b00143e0457082mr16657899oab.58.1674673543521; 
- Wed, 25 Jan 2023 11:05:43 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- pd19-20020a0568701f1300b0014fd25bd3b5sm2305427oab.0.2023.01.25.11.05.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 11:05:42 -0800 (PST)
-Received: (nullmailer pid 2693269 invoked by uid 1000);
- Wed, 25 Jan 2023 19:05:42 -0000
-Date: Wed, 25 Jan 2023 13:05:42 -0600
-From: Rob Herring <robh@kernel.org>
-To: Aradhya Bhatia <a-bhatia1@ti.com>
-Subject: Re: [PATCH v7 2/6] dt-bindings: display: ti,am65x-dss: Add support
- for am625 dss
-Message-ID: <20230125190542.GA2690295-robh@kernel.org>
-References: <20230125113529.13952-1-a-bhatia1@ti.com>
- <20230125113529.13952-3-a-bhatia1@ti.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 329F610E819;
+ Wed, 25 Jan 2023 19:06:10 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30PGNr7F021983; Wed, 25 Jan 2023 19:05:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=7ct5Rt3pOxMGa20qtKL3XVMdB2+4ud9qJhbLvN9tT1s=;
+ b=K+bbDpHSfSrab6XylAx57erMpgql7dXgEaMLWcA09804Sm7/HKv94HF8GqeiYrmDNu9q
+ ze28IlwR4u6PkIBleT5a73MjUj/n7JDz5ZS4LdTFrX2q8/NoTKxff3U1MBO22Mijg7+Q
+ VtaQgtsBlJaaNVRO9SvwW+mur7OUrP4GRvl2eAvW3Qy3wPEQtPcHsmp2/q6k0UirZ4rO
+ fflgmjZ8iKr/qKL4iUPsc65xRF3aEFGxjgKydX8Kk7WJtjWUZchrE92gIGo4mlb0yAum
+ ZtEWa+BpY58lulLqIZ8gyaAZshukfwreGrFh4YPLMfY0Wifevl4RD5Mn9q6A2abRTk7H Uw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3najkhangs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Jan 2023 19:05:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30PJ5t2u008804
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Jan 2023 19:05:55 GMT
+Received: from [10.110.33.211] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Wed, 25 Jan
+ 2023 11:05:54 -0800
+Message-ID: <7d3b9275-a800-9b18-0710-416fd80eb479@quicinc.com>
+Date: Wed, 25 Jan 2023 11:05:53 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125113529.13952-3-a-bhatia1@ti.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2] drm/msm/dpu: Add DSC hardware blocks to register
+ snapshot
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ <phone-devel@vger.kernel.org>
+References: <20230125101412.216924-1-marijn.suijten@somainline.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230125101412.216924-1-marijn.suijten@somainline.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: vPLX5ut4GzAcMl3hF0FsWSMpApEx65T7
+X-Proofpoint-GUID: vPLX5ut4GzAcMl3hF0FsWSMpApEx65T7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-25_12,2023-01-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ adultscore=0 spamscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301250168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,95 +84,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Devarsh Thakkar <devarsht@ti.com>, Rahul T R <r-ravikumar@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Liu
+ Shixin <liushixin2@huawei.com>, Jami
+ Kettunen <jami.kettunen@somainline.org>, Bjorn Andersson <andersson@kernel.org>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 25, 2023 at 05:05:25PM +0530, Aradhya Bhatia wrote:
-> The DSS controller on TI's AM625 SoC is an update from that on TI's
-> AM65X SoC. The former has an additional OLDI TX on its first video port
-> (VP0) that helps output cloned video or WUXGA (1920x1200@60fps)
-> resolution video output over a dual-link mode to reduce the required
-> OLDI clock output.
+
+
+On 1/25/2023 2:14 AM, Marijn Suijten wrote:
+> Add missing DSC hardware block register ranges to the snapshot utility
+> to include them in dmesg (on MSM_DISP_SNAPSHOT_DUMP_IN_CONSOLE) and the
+> kms debugfs file.
 > 
-> Add the new controller's compatible and a port property for the 2nd OLDI
-> TX (OLDI TX 1).
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Rahul T R <r-ravikumar@ti.com>
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+Huge ack from me,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
 > ---
->  .../bindings/display/ti/ti,am65x-dss.yaml     | 23 +++++++++++++++++--
->  1 file changed, 21 insertions(+), 2 deletions(-)
+> Changes since v1:
+> - Rebase on next-20230125 to solve conflicts with 43e3293fc614
+>    ("drm/msm/dpu: add support for MDP_TOP blackhole").
 > 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index 5c7d2cbc4aac..55ec91f11577 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -19,7 +19,9 @@ description: |
->  
->  properties:
->    compatible:
-> -    const: ti,am65x-dss
-> +    enum:
-> +      - ti,am625-dss
-> +      - ti,am65x-dss
->  
->    reg:
->      description:
-> @@ -80,13 +82,18 @@ properties:
->        port@0:
->          $ref: /schemas/graph.yaml#/properties/port
->          description:
-> -          The DSS OLDI output port node form video port 1
-> +          The DSS OLDI output port node form video port 1 (OLDI TX 0).
-
-s/form/from/
-
->  
->        port@1:
->          $ref: /schemas/graph.yaml#/properties/port
->          description:
->            The DSS DPI output port node from video port 2
->  
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          The DSS OLDI output port node form video port 1 (OLDI TX 1).
-
-s/form/from/
-
-
-> +
->    ti,am65x-oldi-io-ctrl:
->      $ref: "/schemas/types.yaml#/definitions/phandle"
->      description:
-> @@ -102,6 +109,18 @@ properties:
->        Input memory (from main memory to dispc) bandwidth limit in
->        bytes per second
->  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,am65x-dss
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@2: false
-> +
->  required:
->    - compatible
->    - reg
-> -- 
-> 2.39.0
+> v1: https://lore.kernel.org/linux-arm-msm/20230125091315.133283-1-marijn.suijten@somainline.org/T/#u
 > 
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index d612419118a2..a683bd9b5a04 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -937,6 +937,11 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+>   				dpu_kms->mmio + cat->mdp[0].base, "top");
+>   	}
+>   
+> +	/* dump DSC sub-blocks HW regs info */
+> +	for (i = 0; i < cat->dsc_count; i++)
+> +		msm_disp_snapshot_add_block(disp_state, cat->dsc[i].len,
+> +				dpu_kms->mmio + cat->dsc[i].base, "dsc_%d", i);
+> +
+>   	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>   }
+>   
