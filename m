@@ -2,54 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F6067B05E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 11:52:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2DA067B078
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 11:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE45510E770;
-	Wed, 25 Jan 2023 10:51:59 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13EC310E0DF;
- Wed, 25 Jan 2023 10:51:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674643917; x=1706179917;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gn/qgz+WjmtYJNlnMzvnjZ4k3n9tQ/lVD/wtpskCEEg=;
- b=VRmyFZjSDpbBZkRlV/3JM1goP19Lr88NeKynLukruLoxzb0OnLQVPkpM
- /6NqWqH7U+2Cpo8LCEAmKB8wCIsn1U5IYUPncD7cu8stOI4sOMvAApFy/
- P/Hx6OPeucAUkvATaZNw6oILKxmgzLHBVlSO5CnMOD7B076Zgln4sa5At
- aYR8s50UHKbpU5Mi07gsFtZ0mykjtEKe5fqpFKe1vphN83Hv+VKro9W8q
- ghOiTszqvj93VE7H3ZiUv0pPEOilN8zaUOq9fh9kYRw9VyhQBchPun2gF
- 27qi+xHPLo0djLjdgybmBW32uEblLpZ14LoM2fx8mrCPxdGwKnab4fSaZ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="326556401"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; d="scan'208";a="326556401"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 02:51:56 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="751148804"
-X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; d="scan'208";a="751148804"
-Received: from dodonnel-mobl.ger.corp.intel.com (HELO [10.213.233.83])
- ([10.213.233.83])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 02:51:55 -0800
-Message-ID: <7d0cdcb1-9ee4-c69b-4499-bf3cefb7a43c@linux.intel.com>
-Date: Wed, 25 Jan 2023 10:51:53 +0000
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D86210E789;
+	Wed, 25 Jan 2023 10:59:33 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9EAB910E0DF;
+ Wed, 25 Jan 2023 10:59:30 +0000 (UTC)
+Received: from 8bytes.org
+ (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de
+ [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.8bytes.org (Postfix) with ESMTPSA id EA1A7262E65;
+ Wed, 25 Jan 2023 11:59:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+ s=default; t=1674644369;
+ bh=T38KYBmqOO/YysbFxidRcHI2EqxeKT2mSwZbXhYqf1E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=xjLIYBe2Reb4sUbyDIO/QWp7US6P8C31V+nRPiKC12bUvIf7ZM2sEz6rexMly82MG
+ SdqC2ipNyx624847dznAPsTr5JegX+avBcrYfRuhpCCtUCj00j5UMMKFv2s5yqcp78
+ M0y7wdWzVXQ3svUwvlcuJMoxQJuspChvYRhYbBD4VgYfSxytDzzifVhHBhI3LbACxs
+ T3fe0NZnfc4OI4+mzTVEq4TCO9vBUsWz4/KYFySgVFLjFM48o+FEL/Pas2FYAxM+s5
+ h6WCzD311EPYK4UyWDMAMAz7XrOhVE163Ksfw3L/LtMiYeejlNUntipX85M2JSVOt+
+ 8KBgiGtflHGcg==
+Date: Wed, 25 Jan 2023 11:59:27 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v3 00/10] Let iommufd charge IOPTE allocations to the
+ memory cgroup
+Message-ID: <Y9ELj1yKsE58mlgi@8bytes.org>
+References: <0-v3-76b587fe28df+6e3-iommu_map_gfp_jgg@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [PATCH v4] drm/i915/uncore: Use GT message helpers in
- uncore
-Content-Language: en-US
-To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
-References: <20230124205426.1444686-1-John.C.Harrison@Intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230124205426.1444686-1-John.C.Harrison@Intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0-v3-76b587fe28df+6e3-iommu_map_gfp_jgg@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,402 +53,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI-Devel@Lists.FreeDesktop.Org
+Cc: kvm@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-remoteproc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, linux-rdma@vger.kernel.org,
+ ath10k@lists.infradead.org, iommu@lists.linux.dev,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, ath11k@lists.infradead.org,
+ linux-media@vger.kernel.org, Kevin Tian <kevin.tian@intel.com>,
+ Niklas Schnelle <schnelle@linux.ibm.com>, linux-arm-msm@vger.kernel.org,
+ Alex Williamson <alex.williamson@redhat.com>, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 23, 2023 at 04:35:53PM -0400, Jason Gunthorpe wrote:
+> Jason Gunthorpe (10):
+>   iommu: Add a gfp parameter to iommu_map()
+>   iommu: Remove iommu_map_atomic()
+>   iommu: Add a gfp parameter to iommu_map_sg()
+>   iommu/dma: Use the gfp parameter in __iommu_dma_alloc_noncontiguous()
+>   iommufd: Use GFP_KERNEL_ACCOUNT for iommu_map()
+>   iommu/intel: Add a gfp parameter to alloc_pgtable_page()
+>   iommu/intel: Support the gfp argument to the map_pages op
+>   iommu/intel: Use GFP_KERNEL in sleepable contexts
+>   iommu/s390: Push the gfp parameter to the kmem_cache_alloc()'s
+>   iommu/s390: Use GFP_KERNEL in sleepable contexts
 
-On 24/01/2023 20:54, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
-> 
-> Uncore is really part of the GT. So use the GT specific debug/error
-> message helpers so as to get the GT index in the prints.
+Merged into branch iommu-memory-accounting and merged that branch into
+core.
 
-Conversion looks good to me and on balance it's better to include the 
-origin in logs even for messages which strictly are not GT related, than 
-not to have the origin at all (intel_de_... helpers, I *think*).
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-I'll just add Jani and Matt in case they have a different opinion.
+The merge commit contains your cover-letter descriptions. Given all
+tests pass I will push it out later today.
 
 Regards,
 
-Tvrtko
-
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> ---
->   drivers/gpu/drm/i915/intel_uncore.c | 133 +++++++++++++---------------
->   1 file changed, 63 insertions(+), 70 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index 8dee9e62a73ee..4e357477c6592 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -25,6 +25,7 @@
->   #include <linux/pm_runtime.h>
->   
->   #include "gt/intel_engine_regs.h"
-> +#include "gt/intel_gt_print.h"
->   #include "gt/intel_gt_regs.h"
->   
->   #include "i915_drv.h"
-> @@ -83,8 +84,7 @@ static void mmio_debug_resume(struct intel_uncore *uncore)
->   		uncore->debug->unclaimed_mmio_check = uncore->debug->saved_mmio_check;
->   
->   	if (check_for_unclaimed_mmio(uncore))
-> -		drm_info(&uncore->i915->drm,
-> -			 "Invalid mmio detected during user access\n");
-> +		gt_info(uncore->gt, "Invalid mmio detected during user access\n");
->   
->   	spin_unlock(&uncore->debug->lock);
->   }
-> @@ -179,9 +179,9 @@ static inline void
->   fw_domain_wait_ack_clear(const struct intel_uncore_forcewake_domain *d)
->   {
->   	if (wait_ack_clear(d, FORCEWAKE_KERNEL)) {
-> -		drm_err(&d->uncore->i915->drm,
-> -			"%s: timed out waiting for forcewake ack to clear.\n",
-> -			intel_uncore_forcewake_domain_to_str(d->id));
-> +		gt_err(d->uncore->gt,
-> +		       "%s: timed out waiting for forcewake ack to clear.\n",
-> +		       intel_uncore_forcewake_domain_to_str(d->id));
->   		add_taint_for_CI(d->uncore->i915, TAINT_WARN); /* CI now unreliable */
->   	}
->   }
-> @@ -228,12 +228,11 @@ fw_domain_wait_ack_with_fallback(const struct intel_uncore_forcewake_domain *d,
->   		fw_clear(d, FORCEWAKE_KERNEL_FALLBACK);
->   	} while (!ack_detected && pass++ < 10);
->   
-> -	drm_dbg(&d->uncore->i915->drm,
-> -		"%s had to use fallback to %s ack, 0x%x (passes %u)\n",
-> -		intel_uncore_forcewake_domain_to_str(d->id),
-> -		type == ACK_SET ? "set" : "clear",
-> -		fw_ack(d),
-> -		pass);
-> +	gt_dbg(d->uncore->gt, "%s had to use fallback to %s ack, 0x%x (passes %u)\n",
-> +	       intel_uncore_forcewake_domain_to_str(d->id),
-> +	       type == ACK_SET ? "set" : "clear",
-> +	       fw_ack(d),
-> +	       pass);
->   
->   	return ack_detected ? 0 : -ETIMEDOUT;
->   }
-> @@ -258,9 +257,8 @@ static inline void
->   fw_domain_wait_ack_set(const struct intel_uncore_forcewake_domain *d)
->   {
->   	if (wait_ack_set(d, FORCEWAKE_KERNEL)) {
-> -		drm_err(&d->uncore->i915->drm,
-> -			"%s: timed out waiting for forcewake ack request.\n",
-> -			intel_uncore_forcewake_domain_to_str(d->id));
-> +		gt_err(d->uncore->gt, "%s: timed out waiting for forcewake ack request.\n",
-> +		       intel_uncore_forcewake_domain_to_str(d->id));
->   		add_taint_for_CI(d->uncore->i915, TAINT_WARN); /* CI now unreliable */
->   	}
->   }
-> @@ -366,9 +364,9 @@ static void __gen6_gt_wait_for_thread_c0(struct intel_uncore *uncore)
->   	 * w/a for a sporadic read returning 0 by waiting for the GT
->   	 * thread to wake up.
->   	 */
-> -	drm_WARN_ONCE(&uncore->i915->drm,
-> -		      wait_for_atomic_us(gt_thread_status(uncore) == 0, 5000),
-> -		      "GT thread status wait timed out\n");
-> +	gt_WARN_ONCE(uncore->gt,
-> +		     wait_for_atomic_us(gt_thread_status(uncore) == 0, 5000),
-> +		     "GT thread status wait timed out\n");
->   }
->   
->   static void fw_domains_get_with_thread_status(struct intel_uncore *uncore,
-> @@ -402,8 +400,7 @@ static void __gen6_gt_wait_for_fifo(struct intel_uncore *uncore)
->   		if (wait_for_atomic((n = fifo_free_entries(uncore)) >
->   				    GT_FIFO_NUM_RESERVED_ENTRIES,
->   				    GT_FIFO_TIMEOUT_MS)) {
-> -			drm_dbg(&uncore->i915->drm,
-> -				"GT_FIFO timeout, entries: %u\n", n);
-> +			gt_dbg(uncore->gt, "GT_FIFO timeout, entries: %u\n", n);
->   			return;
->   		}
->   	}
-> @@ -476,7 +473,7 @@ intel_uncore_forcewake_reset(struct intel_uncore *uncore)
->   			break;
->   
->   		if (--retry_count == 0) {
-> -			drm_err(&uncore->i915->drm, "Timed out waiting for forcewake timers to finish\n");
-> +			gt_err(uncore->gt, "Timed out waiting for forcewake timers to finish\n");
->   			break;
->   		}
->   
-> @@ -484,7 +481,7 @@ intel_uncore_forcewake_reset(struct intel_uncore *uncore)
->   		cond_resched();
->   	}
->   
-> -	drm_WARN_ON(&uncore->i915->drm, active_domains);
-> +	gt_WARN_ON(uncore->gt, active_domains);
->   
->   	fw = uncore->fw_domains_active;
->   	if (fw)
-> @@ -520,8 +517,7 @@ fpga_check_for_unclaimed_mmio(struct intel_uncore *uncore)
->   	 * to recognize when MMIO accesses are just busted.
->   	 */
->   	if (unlikely(dbg == ~0))
-> -		drm_err(&uncore->i915->drm,
-> -			"Lost access to MMIO BAR; all registers now read back as 0xFFFFFFFF!\n");
-> +		gt_err(uncore->gt, "Lost access to MMIO BAR; all registers now read back as 0xFFFFFFFF!\n");
->   
->   	__raw_uncore_write32(uncore, FPGA_DBG, FPGA_DBG_RM_NOCLAIM);
->   
-> @@ -550,7 +546,7 @@ gen6_check_for_fifo_debug(struct intel_uncore *uncore)
->   	fifodbg = __raw_uncore_read32(uncore, GTFIFODBG);
->   
->   	if (unlikely(fifodbg)) {
-> -		drm_dbg(&uncore->i915->drm, "GTFIFODBG = 0x08%x\n", fifodbg);
-> +		gt_dbg(uncore->gt, "GTFIFODBG = 0x08%x\n", fifodbg);
->   		__raw_uncore_write32(uncore, GTFIFODBG, fifodbg);
->   	}
->   
-> @@ -622,7 +618,7 @@ void intel_uncore_resume_early(struct intel_uncore *uncore)
->   	unsigned int restore_forcewake;
->   
->   	if (intel_uncore_unclaimed_mmio(uncore))
-> -		drm_dbg(&uncore->i915->drm, "unclaimed mmio detected on resume, clearing\n");
-> +		gt_dbg(uncore->gt, "unclaimed mmio detected on resume, clearing\n");
->   
->   	if (!intel_uncore_has_forcewake(uncore))
->   		return;
-> @@ -847,9 +843,9 @@ void assert_forcewakes_inactive(struct intel_uncore *uncore)
->   	if (!uncore->fw_get_funcs)
->   		return;
->   
-> -	drm_WARN(&uncore->i915->drm, uncore->fw_domains_active,
-> -		 "Expected all fw_domains to be inactive, but %08x are still on\n",
-> -		 uncore->fw_domains_active);
-> +	gt_WARN(uncore->gt, uncore->fw_domains_active,
-> +		"Expected all fw_domains to be inactive, but %08x are still on\n",
-> +		uncore->fw_domains_active);
->   }
->   
->   void assert_forcewakes_active(struct intel_uncore *uncore,
-> @@ -869,9 +865,9 @@ void assert_forcewakes_active(struct intel_uncore *uncore,
->   	assert_rpm_wakelock_held(uncore->rpm);
->   
->   	fw_domains &= uncore->fw_domains;
-> -	drm_WARN(&uncore->i915->drm, fw_domains & ~uncore->fw_domains_active,
-> -		 "Expected %08x fw_domains to be active, but %08x are off\n",
-> -		 fw_domains, fw_domains & ~uncore->fw_domains_active);
-> +	gt_WARN(uncore->gt, fw_domains & ~uncore->fw_domains_active,
-> +		"Expected %08x fw_domains to be active, but %08x are off\n",
-> +		fw_domains, fw_domains & ~uncore->fw_domains_active);
->   
->   	/*
->   	 * Check that the caller has an explicit wakeref and we don't mistake
-> @@ -884,9 +880,9 @@ void assert_forcewakes_active(struct intel_uncore *uncore,
->   		if (uncore->fw_domains_timer & domain->mask)
->   			expect++; /* pending automatic release */
->   
-> -		if (drm_WARN(&uncore->i915->drm, actual < expect,
-> -			     "Expected domain %d to be held awake by caller, count=%d\n",
-> -			     domain->id, actual))
-> +		if (gt_WARN(uncore->gt, actual < expect,
-> +			    "Expected domain %d to be held awake by caller, count=%d\n",
-> +			    domain->id, actual))
->   			break;
->   	}
->   
-> @@ -955,9 +951,9 @@ find_fw_domain(struct intel_uncore *uncore, u32 offset)
->   	if (entry->domains == FORCEWAKE_ALL)
->   		return uncore->fw_domains;
->   
-> -	drm_WARN(&uncore->i915->drm, entry->domains & ~uncore->fw_domains,
-> -		 "Uninitialized forcewake domain(s) 0x%x accessed at 0x%x\n",
-> -		 entry->domains & ~uncore->fw_domains, offset);
-> +	gt_WARN(uncore->gt, entry->domains & ~uncore->fw_domains,
-> +		"Uninitialized forcewake domain(s) 0x%x accessed at 0x%x\n",
-> +		entry->domains & ~uncore->fw_domains, offset);
->   
->   	return entry->domains;
->   }
-> @@ -1190,7 +1186,7 @@ static int mmio_range_cmp(u32 key, const struct i915_range *range)
->   
->   static bool is_shadowed(struct intel_uncore *uncore, u32 offset)
->   {
-> -	if (drm_WARN_ON(&uncore->i915->drm, !uncore->shadowed_reg_table))
-> +	if (gt_WARN_ON(uncore->gt, !uncore->shadowed_reg_table))
->   		return false;
->   
->   	if (IS_GSI_REG(offset))
-> @@ -1898,11 +1894,11 @@ __unclaimed_reg_debug(struct intel_uncore *uncore,
->   		      const i915_reg_t reg,
->   		      const bool read)
->   {
-> -	if (drm_WARN(&uncore->i915->drm,
-> -		     check_for_unclaimed_mmio(uncore),
-> -		     "Unclaimed %s register 0x%x\n",
-> -		     read ? "read from" : "write to",
-> -		     i915_mmio_reg_offset(reg)))
-> +	if (gt_WARN(uncore->gt,
-> +		    check_for_unclaimed_mmio(uncore),
-> +		    "Unclaimed %s register 0x%x\n",
-> +		    read ? "read from" : "write to",
-> +		    i915_mmio_reg_offset(reg)))
->   		/* Only report the first N failures */
->   		uncore->i915->params.mmio_debug--;
->   }
-> @@ -1913,10 +1909,10 @@ __unclaimed_previous_reg_debug(struct intel_uncore *uncore,
->   			       const bool read)
->   {
->   	if (check_for_unclaimed_mmio(uncore))
-> -		drm_dbg(&uncore->i915->drm,
-> -			"Unclaimed access detected before %s register 0x%x\n",
-> -			read ? "read from" : "write to",
-> -			i915_mmio_reg_offset(reg));
-> +		gt_dbg(uncore->gt,
-> +		       "Unclaimed access detected before %s register 0x%x\n",
-> +		       read ? "read from" : "write to",
-> +		       i915_mmio_reg_offset(reg));
->   }
->   
->   static inline void
-> @@ -2201,8 +2197,8 @@ static int __fw_domain_init(struct intel_uncore *uncore,
->   	if (!d)
->   		return -ENOMEM;
->   
-> -	drm_WARN_ON(&uncore->i915->drm, !i915_mmio_reg_valid(reg_set));
-> -	drm_WARN_ON(&uncore->i915->drm, !i915_mmio_reg_valid(reg_ack));
-> +	gt_WARN_ON(uncore->gt, !i915_mmio_reg_valid(reg_set));
-> +	gt_WARN_ON(uncore->gt, !i915_mmio_reg_valid(reg_ack));
->   
->   	d->uncore = uncore;
->   	d->wake_count = 0;
-> @@ -2254,8 +2250,8 @@ static void fw_domain_fini(struct intel_uncore *uncore,
->   		return;
->   
->   	uncore->fw_domains &= ~BIT(domain_id);
-> -	drm_WARN_ON(&uncore->i915->drm, d->wake_count);
-> -	drm_WARN_ON(&uncore->i915->drm, hrtimer_cancel(&d->timer));
-> +	gt_WARN_ON(uncore->gt, d->wake_count);
-> +	gt_WARN_ON(uncore->gt, hrtimer_cancel(&d->timer));
->   	kfree(d);
->   }
->   
-> @@ -2388,8 +2384,8 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
->   		spin_unlock_irq(&uncore->lock);
->   
->   		if (!(ecobus & FORCEWAKE_MT_ENABLE)) {
-> -			drm_info(&i915->drm, "No MT forcewake available on Ivybridge, this can result in issues\n");
-> -			drm_info(&i915->drm, "when using vblank-synced partial screen updates.\n");
-> +			gt_info(uncore->gt, "No MT forcewake available on Ivybridge, this can result in issues\n");
-> +			gt_info(uncore->gt, "when using vblank-synced partial screen updates.\n");
->   			fw_domain_fini(uncore, FW_DOMAIN_ID_RENDER);
->   			fw_domain_init(uncore, FW_DOMAIN_ID_RENDER,
->   				       FORCEWAKE, FORCEWAKE_ACK);
-> @@ -2403,7 +2399,7 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
->   #undef fw_domain_init
->   
->   	/* All future platforms are expected to require complex power gating */
-> -	drm_WARN_ON(&i915->drm, !ret && uncore->fw_domains == 0);
-> +	gt_WARN_ON(uncore->gt, !ret && uncore->fw_domains == 0);
->   
->   out:
->   	if (ret)
-> @@ -2487,7 +2483,7 @@ int intel_uncore_setup_mmio(struct intel_uncore *uncore, phys_addr_t phys_addr)
->   
->   	uncore->regs = ioremap(phys_addr, mmio_size);
->   	if (uncore->regs == NULL) {
-> -		drm_err(&i915->drm, "failed to map registers\n");
-> +		gt_err(uncore->gt, "failed to map registers\n");
->   		return -EIO;
->   	}
->   
-> @@ -2615,7 +2611,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
->   	 */
->   	if (IS_DGFX(i915) &&
->   	    !(__raw_uncore_read32(uncore, GU_CNTL) & LMEM_INIT)) {
-> -		drm_err(&i915->drm, "LMEM not initialized by firmware\n");
-> +		gt_err(uncore->gt, "LMEM not initialized by firmware\n");
->   		return -ENODEV;
->   	}
->   
-> @@ -2646,7 +2642,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
->   
->   	/* clear out unclaimed reg detection bit */
->   	if (intel_uncore_unclaimed_mmio(uncore))
-> -		drm_dbg(&i915->drm, "unclaimed mmio detected on uncore init, clearing\n");
-> +		gt_dbg(uncore->gt, "unclaimed mmio detected on uncore init, clearing\n");
->   
->   	return 0;
->   }
-> @@ -2721,11 +2717,10 @@ void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
->    */
->   static void driver_initiated_flr(struct intel_uncore *uncore)
->   {
-> -	struct drm_i915_private *i915 = uncore->i915;
->   	const unsigned int flr_timeout_ms = 3000; /* specs recommend a 3s wait */
->   	int ret;
->   
-> -	drm_dbg(&i915->drm, "Triggering Driver-FLR\n");
-> +	gt_dbg(uncore->gt, "Triggering Driver-FLR\n");
->   
->   	/*
->   	 * Make sure any pending FLR requests have cleared by waiting for the
-> @@ -2738,9 +2733,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
->   	 */
->   	ret = intel_wait_for_register_fw(uncore, GU_CNTL, DRIVERFLR, 0, flr_timeout_ms);
->   	if (ret) {
-> -		drm_err(&i915->drm,
-> -			"Failed to wait for Driver-FLR bit to clear! %d\n",
-> -			ret);
-> +		gt_err(uncore->gt, "Failed to wait for Driver-FLR bit to clear! %d\n", ret);
->   		return;
->   	}
->   	intel_uncore_write_fw(uncore, GU_DEBUG, DRIVERFLR_STATUS);
-> @@ -2752,7 +2745,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
->   					 DRIVERFLR_STATUS, DRIVERFLR_STATUS,
->   					 flr_timeout_ms);
->   	if (ret) {
-> -		drm_err(&i915->drm, "wait for Driver-FLR completion failed! %d\n", ret);
-> +		gt_err(uncore->gt, "wait for Driver-FLR completion failed! %d\n", ret);
->   		return;
->   	}
->   
-> @@ -2911,7 +2904,7 @@ intel_uncore_arm_unclaimed_mmio_detection(struct intel_uncore *uncore)
->   {
->   	bool ret = false;
->   
-> -	if (drm_WARN_ON(&uncore->i915->drm, !uncore->debug))
-> +	if (gt_WARN_ON(uncore->gt, !uncore->debug))
->   		return false;
->   
->   	spin_lock_irq(&uncore->debug->lock);
-> @@ -2921,10 +2914,10 @@ intel_uncore_arm_unclaimed_mmio_detection(struct intel_uncore *uncore)
->   
->   	if (unlikely(check_for_unclaimed_mmio(uncore))) {
->   		if (!uncore->i915->params.mmio_debug) {
-> -			drm_dbg(&uncore->i915->drm,
-> -				"Unclaimed register detected, "
-> -				"enabling oneshot unclaimed register reporting. "
-> -				"Please use i915.mmio_debug=N for more information.\n");
-> +			gt_dbg(uncore->gt,
-> +			       "Unclaimed register detected, "
-> +			       "enabling oneshot unclaimed register reporting. "
-> +			       "Please use i915.mmio_debug=N for more information.\n");
->   			uncore->i915->params.mmio_debug++;
->   		}
->   		uncore->debug->unclaimed_mmio_check--;
-> @@ -2957,7 +2950,7 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
->   {
->   	enum forcewake_domains fw_domains = 0;
->   
-> -	drm_WARN_ON(&uncore->i915->drm, !op);
-> +	gt_WARN_ON(uncore->gt, !op);
->   
->   	if (!intel_uncore_has_forcewake(uncore))
->   		return 0;
-> @@ -2968,7 +2961,7 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
->   	if (op & FW_REG_WRITE)
->   		fw_domains |= uncore->funcs.write_fw_domains(uncore, reg);
->   
-> -	drm_WARN_ON(&uncore->i915->drm, fw_domains & ~uncore->fw_domains);
-> +	gt_WARN_ON(uncore->gt, fw_domains & ~uncore->fw_domains);
->   
->   	return fw_domains;
->   }
+	Joerg
