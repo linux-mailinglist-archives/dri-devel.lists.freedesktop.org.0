@@ -2,94 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C950B67B051
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 11:49:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F6067B05E
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 11:52:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D457510E781;
-	Wed, 25 Jan 2023 10:49:27 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF6C10E782;
- Wed, 25 Jan 2023 10:49:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y1kQTX0O8NQMSCQPc9lWuChhQ85p1tJXds/rK72wbxTLJzoaRezx4onCKhWiI0MhHmyrPXCAr4FwRF9VtnVU0SddF8tmAVuCpwULYGYuDELhrHY7HQb3Ys+DkLN16SoJ4i4dZvsm3SZfDQWylhyCrh9OxKs2TBPIdm0To/uqTjTlU5VGgsroMr8XyEhJKYn9kh+5SCpyGdL3gGMcAI6UQA7WroyhfCJLfPoF8s6KAmAms2WITD/txlSPniN7Oix+VbOZuVWV7fVEEGYLHBz8jPqxSHKcL0M2uac7YPq3CeVtPbPd8XTyDv/b4fh3eF+DDTviKboTptvBckCeQ30xmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hhNIRmgg+YV3yzFMC9ZjKNgE5z3SDFeekevQRWKMkuk=;
- b=nqixvz1r6oSLwj72+B4BzTdVO7keu9f526i++5A7TYv8jAyjIk6jIF8ir2F8WgnNSdNgHEuY+znkZHNTnCv9eqoaCuvarAW39IpAuytmE5vBfK5hYbAnlY2AWEWER35PVPa6nXtJuA9X0OZ3gL5jjZQ5+mR6NzTS47yU25E3IuaQ62wSY8uvWQN8p8f+CtmbItnKO4Pv3zxLvvMsQByF9Qm633zHw1jPmyKQjYcPcX0XfoVd0s4yABur1q8fD7KmZm5Get/JaPASBuI1Baf9/TGrgglRSFHibgAAjQ2qGZvuV351UVHQJWD5GeBu3N+OBr80j310MJe3hNlrMucCzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hhNIRmgg+YV3yzFMC9ZjKNgE5z3SDFeekevQRWKMkuk=;
- b=13a0swD9DxnQwqbIWsTPwunVWuj1ZdR3q7L1MV9EM/nYcZXb74B8oiIleoGmMc8uEdTICqKionUB6v3wk1iEx6fV3KhKVJRVHoZAZGeWcJOoCdYD3Ay6AbKpDg3Xz6DeTpqw5AZeGmZ+V4QrphFOgjaWlEHC4CbVMzXTxqe8Iic=
-Received: from BL1PR13CA0316.namprd13.prod.outlook.com (2603:10b6:208:2c1::21)
- by PH0PR12MB8173.namprd12.prod.outlook.com (2603:10b6:510:296::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.21; Wed, 25 Jan
- 2023 10:49:23 +0000
-Received: from BL02EPF000108E8.namprd05.prod.outlook.com
- (2603:10b6:208:2c1:cafe::7c) by BL1PR13CA0316.outlook.office365.com
- (2603:10b6:208:2c1::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.16 via Frontend
- Transport; Wed, 25 Jan 2023 10:49:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF000108E8.mail.protection.outlook.com (10.167.241.201) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6043.10 via Frontend Transport; Wed, 25 Jan 2023 10:49:22 +0000
-Received: from amar-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 25 Jan 2023 04:49:19 -0600
-From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>
-Subject: [PATCH v2 4/4] drm/amdgpu: Support allocate of amdgpu_gtt_mgr from
- pages to bytes
-Date: Wed, 25 Jan 2023 16:18:38 +0530
-Message-ID: <20230125104838.23596-4-Amaranath.Somalapuram@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20230125104838.23596-1-Amaranath.Somalapuram@amd.com>
-References: <20230125104838.23596-1-Amaranath.Somalapuram@amd.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE45510E770;
+	Wed, 25 Jan 2023 10:51:59 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13EC310E0DF;
+ Wed, 25 Jan 2023 10:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674643917; x=1706179917;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=gn/qgz+WjmtYJNlnMzvnjZ4k3n9tQ/lVD/wtpskCEEg=;
+ b=VRmyFZjSDpbBZkRlV/3JM1goP19Lr88NeKynLukruLoxzb0OnLQVPkpM
+ /6NqWqH7U+2Cpo8LCEAmKB8wCIsn1U5IYUPncD7cu8stOI4sOMvAApFy/
+ P/Hx6OPeucAUkvATaZNw6oILKxmgzLHBVlSO5CnMOD7B076Zgln4sa5At
+ aYR8s50UHKbpU5Mi07gsFtZ0mykjtEKe5fqpFKe1vphN83Hv+VKro9W8q
+ ghOiTszqvj93VE7H3ZiUv0pPEOilN8zaUOq9fh9kYRw9VyhQBchPun2gF
+ 27qi+xHPLo0djLjdgybmBW32uEblLpZ14LoM2fx8mrCPxdGwKnab4fSaZ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="326556401"
+X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; d="scan'208";a="326556401"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2023 02:51:56 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="751148804"
+X-IronPort-AV: E=Sophos;i="5.97,245,1669104000"; d="scan'208";a="751148804"
+Received: from dodonnel-mobl.ger.corp.intel.com (HELO [10.213.233.83])
+ ([10.213.233.83])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2023 02:51:55 -0800
+Message-ID: <7d0cdcb1-9ee4-c69b-4499-bf3cefb7a43c@linux.intel.com>
+Date: Wed, 25 Jan 2023 10:51:53 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF000108E8:EE_|PH0PR12MB8173:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2b58ff3-1c8c-4354-4838-08dafec1d1c7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mXZuYTzq3BiGvvvjCymFp/pTNfLIAENCZ8MrGiWB3FvUGwZWtAkUN6JZ65ENZEpZwGLxlvZ+UEm+5KzbVhDT4LDQCyviMCHvig/wahTo9fQ+jEeSE0w1j1IccPMe0sM9HiF6m5Y4E+wMGYshZZIFhn3JYkMT18hUbiffuXRe5Pda6lMjwxX3lSIKgRJx/ZDilRr/INwrbiUMqtPG9IZal+9XsRPxE+39d0fXRTBLMJtGfaUcqSabd6fEXxtNOsKw8A3PzUBmTdEooLXZPgIWIOsbho66ib838heWD4h11UcIiODkPCYoyFw7U75RXWsk5CDvCOHeBVU8Hqwx9La0Md1zV2RCWQJZwXM4FZJ5wy7VKOuHC0z+PJxzLySPJpYSUy+BQeVBkffQyCnuFFX7PKakpVmfhvFIvjlxgsqnJezyOCVgw4Bzw85d74uLDbD6zPS0xV9TnPdSxj0Jnh2hJ2UHhaQjfC7q1HaviTxnBPAPEDEDjjORMI8+vqVrcHMUm2FU63Hm/+GwSKCe6E4Cg3w+CeUBPm1kQUU1AaaF5eGyfEX0mcD3xoLWAWmfCMSneJ+8RRyew0oZjYXGlKAUQGK0d+TxnAhFoOx8K+hsiv7ByTq2f5698Baxf2HPMeN1USIeAHRQmdYuLaTFUjZVVvzzbUBanbRoRrBB4SAoMjAN9i0vth8zS+Uhr1YRrYYidguKZcuzn20n2+IKyH7CHA2gyZRhfbwpjaAVxUYT+uI=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(396003)(39860400002)(136003)(376002)(451199018)(46966006)(40470700004)(36840700001)(7696005)(186003)(82310400005)(86362001)(6666004)(26005)(478600001)(316002)(16526019)(54906003)(36860700001)(40460700003)(110136005)(40480700001)(450100002)(70206006)(70586007)(8676002)(4326008)(81166007)(356005)(426003)(41300700001)(2616005)(36756003)(336012)(8936002)(47076005)(1076003)(83380400001)(82740400003)(5660300002)(2906002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2023 10:49:22.7675 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2b58ff3-1c8c-4354-4838-08dafec1d1c7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF000108E8.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8173
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [PATCH v4] drm/i915/uncore: Use GT message helpers in
+ uncore
+Content-Language: en-US
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20230124205426.1444686-1-John.C.Harrison@Intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230124205426.1444686-1-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,65 +62,402 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: shashank.sharma@amd.com, arunpravin.paneerselvam@amd.com,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, arvind.yadav@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the GTT manager init and allocate from pages to bytes
-v1 -> v2: reorder patch sequence
 
-Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+On 24/01/2023 20:54, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> Uncore is really part of the GT. So use the GT specific debug/error
+> message helpers so as to get the GT index in the prints.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 44367f03316f..a1fbfc5984d8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -116,7 +116,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 			      struct ttm_resource **res)
- {
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
--	uint32_t num_pages = PFN_UP(tbo->base.size);
- 	struct ttm_range_mgr_node *node;
- 	int r;
- 
-@@ -134,8 +133,10 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 	if (place->lpfn) {
- 		spin_lock(&mgr->lock);
- 		r = drm_mm_insert_node_in_range(&mgr->mm, &node->mm_nodes[0],
--						num_pages, tbo->page_alignment,
--						0, place->fpfn, place->lpfn,
-+						tbo->base.size,
-+						tbo->page_alignment << PAGE_SHIFT, 0,
-+						place->fpfn << PAGE_SHIFT,
-+						place->lpfn << PAGE_SHIFT,
- 						DRM_MM_INSERT_BEST);
- 		spin_unlock(&mgr->lock);
- 		if (unlikely(r))
-@@ -144,7 +145,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 		node->base.start = node->mm_nodes[0].start;
- 	} else {
- 		node->mm_nodes[0].start = 0;
--		node->mm_nodes[0].size = PFN_UP(node->base.size);
-+		node->mm_nodes[0].size = node->base.size;
- 		node->base.start = AMDGPU_BO_INVALID_OFFSET;
- 	}
- 
-@@ -285,8 +286,8 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
- 
- 	ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
- 
--	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
--	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
-+	start = (AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS) << PAGE_SHIFT;
-+	size = adev->gmc.gart_size - start;
- 	drm_mm_init(&mgr->mm, start, size);
- 	spin_lock_init(&mgr->lock);
- 
--- 
-2.32.0
+Conversion looks good to me and on balance it's better to include the 
+origin in logs even for messages which strictly are not GT related, than 
+not to have the origin at all (intel_de_... helpers, I *think*).
 
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+I'll just add Jani and Matt in case they have a different opinion.
+
+Regards,
+
+Tvrtko
+
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>   drivers/gpu/drm/i915/intel_uncore.c | 133 +++++++++++++---------------
+>   1 file changed, 63 insertions(+), 70 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> index 8dee9e62a73ee..4e357477c6592 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> @@ -25,6 +25,7 @@
+>   #include <linux/pm_runtime.h>
+>   
+>   #include "gt/intel_engine_regs.h"
+> +#include "gt/intel_gt_print.h"
+>   #include "gt/intel_gt_regs.h"
+>   
+>   #include "i915_drv.h"
+> @@ -83,8 +84,7 @@ static void mmio_debug_resume(struct intel_uncore *uncore)
+>   		uncore->debug->unclaimed_mmio_check = uncore->debug->saved_mmio_check;
+>   
+>   	if (check_for_unclaimed_mmio(uncore))
+> -		drm_info(&uncore->i915->drm,
+> -			 "Invalid mmio detected during user access\n");
+> +		gt_info(uncore->gt, "Invalid mmio detected during user access\n");
+>   
+>   	spin_unlock(&uncore->debug->lock);
+>   }
+> @@ -179,9 +179,9 @@ static inline void
+>   fw_domain_wait_ack_clear(const struct intel_uncore_forcewake_domain *d)
+>   {
+>   	if (wait_ack_clear(d, FORCEWAKE_KERNEL)) {
+> -		drm_err(&d->uncore->i915->drm,
+> -			"%s: timed out waiting for forcewake ack to clear.\n",
+> -			intel_uncore_forcewake_domain_to_str(d->id));
+> +		gt_err(d->uncore->gt,
+> +		       "%s: timed out waiting for forcewake ack to clear.\n",
+> +		       intel_uncore_forcewake_domain_to_str(d->id));
+>   		add_taint_for_CI(d->uncore->i915, TAINT_WARN); /* CI now unreliable */
+>   	}
+>   }
+> @@ -228,12 +228,11 @@ fw_domain_wait_ack_with_fallback(const struct intel_uncore_forcewake_domain *d,
+>   		fw_clear(d, FORCEWAKE_KERNEL_FALLBACK);
+>   	} while (!ack_detected && pass++ < 10);
+>   
+> -	drm_dbg(&d->uncore->i915->drm,
+> -		"%s had to use fallback to %s ack, 0x%x (passes %u)\n",
+> -		intel_uncore_forcewake_domain_to_str(d->id),
+> -		type == ACK_SET ? "set" : "clear",
+> -		fw_ack(d),
+> -		pass);
+> +	gt_dbg(d->uncore->gt, "%s had to use fallback to %s ack, 0x%x (passes %u)\n",
+> +	       intel_uncore_forcewake_domain_to_str(d->id),
+> +	       type == ACK_SET ? "set" : "clear",
+> +	       fw_ack(d),
+> +	       pass);
+>   
+>   	return ack_detected ? 0 : -ETIMEDOUT;
+>   }
+> @@ -258,9 +257,8 @@ static inline void
+>   fw_domain_wait_ack_set(const struct intel_uncore_forcewake_domain *d)
+>   {
+>   	if (wait_ack_set(d, FORCEWAKE_KERNEL)) {
+> -		drm_err(&d->uncore->i915->drm,
+> -			"%s: timed out waiting for forcewake ack request.\n",
+> -			intel_uncore_forcewake_domain_to_str(d->id));
+> +		gt_err(d->uncore->gt, "%s: timed out waiting for forcewake ack request.\n",
+> +		       intel_uncore_forcewake_domain_to_str(d->id));
+>   		add_taint_for_CI(d->uncore->i915, TAINT_WARN); /* CI now unreliable */
+>   	}
+>   }
+> @@ -366,9 +364,9 @@ static void __gen6_gt_wait_for_thread_c0(struct intel_uncore *uncore)
+>   	 * w/a for a sporadic read returning 0 by waiting for the GT
+>   	 * thread to wake up.
+>   	 */
+> -	drm_WARN_ONCE(&uncore->i915->drm,
+> -		      wait_for_atomic_us(gt_thread_status(uncore) == 0, 5000),
+> -		      "GT thread status wait timed out\n");
+> +	gt_WARN_ONCE(uncore->gt,
+> +		     wait_for_atomic_us(gt_thread_status(uncore) == 0, 5000),
+> +		     "GT thread status wait timed out\n");
+>   }
+>   
+>   static void fw_domains_get_with_thread_status(struct intel_uncore *uncore,
+> @@ -402,8 +400,7 @@ static void __gen6_gt_wait_for_fifo(struct intel_uncore *uncore)
+>   		if (wait_for_atomic((n = fifo_free_entries(uncore)) >
+>   				    GT_FIFO_NUM_RESERVED_ENTRIES,
+>   				    GT_FIFO_TIMEOUT_MS)) {
+> -			drm_dbg(&uncore->i915->drm,
+> -				"GT_FIFO timeout, entries: %u\n", n);
+> +			gt_dbg(uncore->gt, "GT_FIFO timeout, entries: %u\n", n);
+>   			return;
+>   		}
+>   	}
+> @@ -476,7 +473,7 @@ intel_uncore_forcewake_reset(struct intel_uncore *uncore)
+>   			break;
+>   
+>   		if (--retry_count == 0) {
+> -			drm_err(&uncore->i915->drm, "Timed out waiting for forcewake timers to finish\n");
+> +			gt_err(uncore->gt, "Timed out waiting for forcewake timers to finish\n");
+>   			break;
+>   		}
+>   
+> @@ -484,7 +481,7 @@ intel_uncore_forcewake_reset(struct intel_uncore *uncore)
+>   		cond_resched();
+>   	}
+>   
+> -	drm_WARN_ON(&uncore->i915->drm, active_domains);
+> +	gt_WARN_ON(uncore->gt, active_domains);
+>   
+>   	fw = uncore->fw_domains_active;
+>   	if (fw)
+> @@ -520,8 +517,7 @@ fpga_check_for_unclaimed_mmio(struct intel_uncore *uncore)
+>   	 * to recognize when MMIO accesses are just busted.
+>   	 */
+>   	if (unlikely(dbg == ~0))
+> -		drm_err(&uncore->i915->drm,
+> -			"Lost access to MMIO BAR; all registers now read back as 0xFFFFFFFF!\n");
+> +		gt_err(uncore->gt, "Lost access to MMIO BAR; all registers now read back as 0xFFFFFFFF!\n");
+>   
+>   	__raw_uncore_write32(uncore, FPGA_DBG, FPGA_DBG_RM_NOCLAIM);
+>   
+> @@ -550,7 +546,7 @@ gen6_check_for_fifo_debug(struct intel_uncore *uncore)
+>   	fifodbg = __raw_uncore_read32(uncore, GTFIFODBG);
+>   
+>   	if (unlikely(fifodbg)) {
+> -		drm_dbg(&uncore->i915->drm, "GTFIFODBG = 0x08%x\n", fifodbg);
+> +		gt_dbg(uncore->gt, "GTFIFODBG = 0x08%x\n", fifodbg);
+>   		__raw_uncore_write32(uncore, GTFIFODBG, fifodbg);
+>   	}
+>   
+> @@ -622,7 +618,7 @@ void intel_uncore_resume_early(struct intel_uncore *uncore)
+>   	unsigned int restore_forcewake;
+>   
+>   	if (intel_uncore_unclaimed_mmio(uncore))
+> -		drm_dbg(&uncore->i915->drm, "unclaimed mmio detected on resume, clearing\n");
+> +		gt_dbg(uncore->gt, "unclaimed mmio detected on resume, clearing\n");
+>   
+>   	if (!intel_uncore_has_forcewake(uncore))
+>   		return;
+> @@ -847,9 +843,9 @@ void assert_forcewakes_inactive(struct intel_uncore *uncore)
+>   	if (!uncore->fw_get_funcs)
+>   		return;
+>   
+> -	drm_WARN(&uncore->i915->drm, uncore->fw_domains_active,
+> -		 "Expected all fw_domains to be inactive, but %08x are still on\n",
+> -		 uncore->fw_domains_active);
+> +	gt_WARN(uncore->gt, uncore->fw_domains_active,
+> +		"Expected all fw_domains to be inactive, but %08x are still on\n",
+> +		uncore->fw_domains_active);
+>   }
+>   
+>   void assert_forcewakes_active(struct intel_uncore *uncore,
+> @@ -869,9 +865,9 @@ void assert_forcewakes_active(struct intel_uncore *uncore,
+>   	assert_rpm_wakelock_held(uncore->rpm);
+>   
+>   	fw_domains &= uncore->fw_domains;
+> -	drm_WARN(&uncore->i915->drm, fw_domains & ~uncore->fw_domains_active,
+> -		 "Expected %08x fw_domains to be active, but %08x are off\n",
+> -		 fw_domains, fw_domains & ~uncore->fw_domains_active);
+> +	gt_WARN(uncore->gt, fw_domains & ~uncore->fw_domains_active,
+> +		"Expected %08x fw_domains to be active, but %08x are off\n",
+> +		fw_domains, fw_domains & ~uncore->fw_domains_active);
+>   
+>   	/*
+>   	 * Check that the caller has an explicit wakeref and we don't mistake
+> @@ -884,9 +880,9 @@ void assert_forcewakes_active(struct intel_uncore *uncore,
+>   		if (uncore->fw_domains_timer & domain->mask)
+>   			expect++; /* pending automatic release */
+>   
+> -		if (drm_WARN(&uncore->i915->drm, actual < expect,
+> -			     "Expected domain %d to be held awake by caller, count=%d\n",
+> -			     domain->id, actual))
+> +		if (gt_WARN(uncore->gt, actual < expect,
+> +			    "Expected domain %d to be held awake by caller, count=%d\n",
+> +			    domain->id, actual))
+>   			break;
+>   	}
+>   
+> @@ -955,9 +951,9 @@ find_fw_domain(struct intel_uncore *uncore, u32 offset)
+>   	if (entry->domains == FORCEWAKE_ALL)
+>   		return uncore->fw_domains;
+>   
+> -	drm_WARN(&uncore->i915->drm, entry->domains & ~uncore->fw_domains,
+> -		 "Uninitialized forcewake domain(s) 0x%x accessed at 0x%x\n",
+> -		 entry->domains & ~uncore->fw_domains, offset);
+> +	gt_WARN(uncore->gt, entry->domains & ~uncore->fw_domains,
+> +		"Uninitialized forcewake domain(s) 0x%x accessed at 0x%x\n",
+> +		entry->domains & ~uncore->fw_domains, offset);
+>   
+>   	return entry->domains;
+>   }
+> @@ -1190,7 +1186,7 @@ static int mmio_range_cmp(u32 key, const struct i915_range *range)
+>   
+>   static bool is_shadowed(struct intel_uncore *uncore, u32 offset)
+>   {
+> -	if (drm_WARN_ON(&uncore->i915->drm, !uncore->shadowed_reg_table))
+> +	if (gt_WARN_ON(uncore->gt, !uncore->shadowed_reg_table))
+>   		return false;
+>   
+>   	if (IS_GSI_REG(offset))
+> @@ -1898,11 +1894,11 @@ __unclaimed_reg_debug(struct intel_uncore *uncore,
+>   		      const i915_reg_t reg,
+>   		      const bool read)
+>   {
+> -	if (drm_WARN(&uncore->i915->drm,
+> -		     check_for_unclaimed_mmio(uncore),
+> -		     "Unclaimed %s register 0x%x\n",
+> -		     read ? "read from" : "write to",
+> -		     i915_mmio_reg_offset(reg)))
+> +	if (gt_WARN(uncore->gt,
+> +		    check_for_unclaimed_mmio(uncore),
+> +		    "Unclaimed %s register 0x%x\n",
+> +		    read ? "read from" : "write to",
+> +		    i915_mmio_reg_offset(reg)))
+>   		/* Only report the first N failures */
+>   		uncore->i915->params.mmio_debug--;
+>   }
+> @@ -1913,10 +1909,10 @@ __unclaimed_previous_reg_debug(struct intel_uncore *uncore,
+>   			       const bool read)
+>   {
+>   	if (check_for_unclaimed_mmio(uncore))
+> -		drm_dbg(&uncore->i915->drm,
+> -			"Unclaimed access detected before %s register 0x%x\n",
+> -			read ? "read from" : "write to",
+> -			i915_mmio_reg_offset(reg));
+> +		gt_dbg(uncore->gt,
+> +		       "Unclaimed access detected before %s register 0x%x\n",
+> +		       read ? "read from" : "write to",
+> +		       i915_mmio_reg_offset(reg));
+>   }
+>   
+>   static inline void
+> @@ -2201,8 +2197,8 @@ static int __fw_domain_init(struct intel_uncore *uncore,
+>   	if (!d)
+>   		return -ENOMEM;
+>   
+> -	drm_WARN_ON(&uncore->i915->drm, !i915_mmio_reg_valid(reg_set));
+> -	drm_WARN_ON(&uncore->i915->drm, !i915_mmio_reg_valid(reg_ack));
+> +	gt_WARN_ON(uncore->gt, !i915_mmio_reg_valid(reg_set));
+> +	gt_WARN_ON(uncore->gt, !i915_mmio_reg_valid(reg_ack));
+>   
+>   	d->uncore = uncore;
+>   	d->wake_count = 0;
+> @@ -2254,8 +2250,8 @@ static void fw_domain_fini(struct intel_uncore *uncore,
+>   		return;
+>   
+>   	uncore->fw_domains &= ~BIT(domain_id);
+> -	drm_WARN_ON(&uncore->i915->drm, d->wake_count);
+> -	drm_WARN_ON(&uncore->i915->drm, hrtimer_cancel(&d->timer));
+> +	gt_WARN_ON(uncore->gt, d->wake_count);
+> +	gt_WARN_ON(uncore->gt, hrtimer_cancel(&d->timer));
+>   	kfree(d);
+>   }
+>   
+> @@ -2388,8 +2384,8 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
+>   		spin_unlock_irq(&uncore->lock);
+>   
+>   		if (!(ecobus & FORCEWAKE_MT_ENABLE)) {
+> -			drm_info(&i915->drm, "No MT forcewake available on Ivybridge, this can result in issues\n");
+> -			drm_info(&i915->drm, "when using vblank-synced partial screen updates.\n");
+> +			gt_info(uncore->gt, "No MT forcewake available on Ivybridge, this can result in issues\n");
+> +			gt_info(uncore->gt, "when using vblank-synced partial screen updates.\n");
+>   			fw_domain_fini(uncore, FW_DOMAIN_ID_RENDER);
+>   			fw_domain_init(uncore, FW_DOMAIN_ID_RENDER,
+>   				       FORCEWAKE, FORCEWAKE_ACK);
+> @@ -2403,7 +2399,7 @@ static int intel_uncore_fw_domains_init(struct intel_uncore *uncore)
+>   #undef fw_domain_init
+>   
+>   	/* All future platforms are expected to require complex power gating */
+> -	drm_WARN_ON(&i915->drm, !ret && uncore->fw_domains == 0);
+> +	gt_WARN_ON(uncore->gt, !ret && uncore->fw_domains == 0);
+>   
+>   out:
+>   	if (ret)
+> @@ -2487,7 +2483,7 @@ int intel_uncore_setup_mmio(struct intel_uncore *uncore, phys_addr_t phys_addr)
+>   
+>   	uncore->regs = ioremap(phys_addr, mmio_size);
+>   	if (uncore->regs == NULL) {
+> -		drm_err(&i915->drm, "failed to map registers\n");
+> +		gt_err(uncore->gt, "failed to map registers\n");
+>   		return -EIO;
+>   	}
+>   
+> @@ -2615,7 +2611,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
+>   	 */
+>   	if (IS_DGFX(i915) &&
+>   	    !(__raw_uncore_read32(uncore, GU_CNTL) & LMEM_INIT)) {
+> -		drm_err(&i915->drm, "LMEM not initialized by firmware\n");
+> +		gt_err(uncore->gt, "LMEM not initialized by firmware\n");
+>   		return -ENODEV;
+>   	}
+>   
+> @@ -2646,7 +2642,7 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
+>   
+>   	/* clear out unclaimed reg detection bit */
+>   	if (intel_uncore_unclaimed_mmio(uncore))
+> -		drm_dbg(&i915->drm, "unclaimed mmio detected on uncore init, clearing\n");
+> +		gt_dbg(uncore->gt, "unclaimed mmio detected on uncore init, clearing\n");
+>   
+>   	return 0;
+>   }
+> @@ -2721,11 +2717,10 @@ void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
+>    */
+>   static void driver_initiated_flr(struct intel_uncore *uncore)
+>   {
+> -	struct drm_i915_private *i915 = uncore->i915;
+>   	const unsigned int flr_timeout_ms = 3000; /* specs recommend a 3s wait */
+>   	int ret;
+>   
+> -	drm_dbg(&i915->drm, "Triggering Driver-FLR\n");
+> +	gt_dbg(uncore->gt, "Triggering Driver-FLR\n");
+>   
+>   	/*
+>   	 * Make sure any pending FLR requests have cleared by waiting for the
+> @@ -2738,9 +2733,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
+>   	 */
+>   	ret = intel_wait_for_register_fw(uncore, GU_CNTL, DRIVERFLR, 0, flr_timeout_ms);
+>   	if (ret) {
+> -		drm_err(&i915->drm,
+> -			"Failed to wait for Driver-FLR bit to clear! %d\n",
+> -			ret);
+> +		gt_err(uncore->gt, "Failed to wait for Driver-FLR bit to clear! %d\n", ret);
+>   		return;
+>   	}
+>   	intel_uncore_write_fw(uncore, GU_DEBUG, DRIVERFLR_STATUS);
+> @@ -2752,7 +2745,7 @@ static void driver_initiated_flr(struct intel_uncore *uncore)
+>   					 DRIVERFLR_STATUS, DRIVERFLR_STATUS,
+>   					 flr_timeout_ms);
+>   	if (ret) {
+> -		drm_err(&i915->drm, "wait for Driver-FLR completion failed! %d\n", ret);
+> +		gt_err(uncore->gt, "wait for Driver-FLR completion failed! %d\n", ret);
+>   		return;
+>   	}
+>   
+> @@ -2911,7 +2904,7 @@ intel_uncore_arm_unclaimed_mmio_detection(struct intel_uncore *uncore)
+>   {
+>   	bool ret = false;
+>   
+> -	if (drm_WARN_ON(&uncore->i915->drm, !uncore->debug))
+> +	if (gt_WARN_ON(uncore->gt, !uncore->debug))
+>   		return false;
+>   
+>   	spin_lock_irq(&uncore->debug->lock);
+> @@ -2921,10 +2914,10 @@ intel_uncore_arm_unclaimed_mmio_detection(struct intel_uncore *uncore)
+>   
+>   	if (unlikely(check_for_unclaimed_mmio(uncore))) {
+>   		if (!uncore->i915->params.mmio_debug) {
+> -			drm_dbg(&uncore->i915->drm,
+> -				"Unclaimed register detected, "
+> -				"enabling oneshot unclaimed register reporting. "
+> -				"Please use i915.mmio_debug=N for more information.\n");
+> +			gt_dbg(uncore->gt,
+> +			       "Unclaimed register detected, "
+> +			       "enabling oneshot unclaimed register reporting. "
+> +			       "Please use i915.mmio_debug=N for more information.\n");
+>   			uncore->i915->params.mmio_debug++;
+>   		}
+>   		uncore->debug->unclaimed_mmio_check--;
+> @@ -2957,7 +2950,7 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
+>   {
+>   	enum forcewake_domains fw_domains = 0;
+>   
+> -	drm_WARN_ON(&uncore->i915->drm, !op);
+> +	gt_WARN_ON(uncore->gt, !op);
+>   
+>   	if (!intel_uncore_has_forcewake(uncore))
+>   		return 0;
+> @@ -2968,7 +2961,7 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
+>   	if (op & FW_REG_WRITE)
+>   		fw_domains |= uncore->funcs.write_fw_domains(uncore, reg);
+>   
+> -	drm_WARN_ON(&uncore->i915->drm, fw_domains & ~uncore->fw_domains);
+> +	gt_WARN_ON(uncore->gt, fw_domains & ~uncore->fw_domains);
+>   
+>   	return fw_domains;
+>   }
