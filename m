@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA64A67B681
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 17:03:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D30067B6A8
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 17:13:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 674BD10E108;
-	Wed, 25 Jan 2023 16:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 564A010E0A2;
+	Wed, 25 Jan 2023 16:13:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5310D10E108
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 16:02:59 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id c124so23499757ybb.13
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 08:02:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GWAQIHIaK4kY4F/qnaA0oyYRwbLACZjXU/o10X03g+8=;
- b=oSDVXFnRqBTSFX9MpTINvF4dwnkWCgh7Ct/vBhzxizJUNRw4cPZ5y310BiD9rZ+5rg
- 3oGuB6Gqc2SLy0j+D9JRbdDjdKf5KQkNWStHRtrJid6R4BHx+eMwTrqQQmokqx4OC+zZ
- FfPX26+TfD2FTGNv2CSp66Nz1HxteM4DaJk6Q=
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC5F10E013;
+ Wed, 25 Jan 2023 16:13:43 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id bp15so29696967lfb.13;
+ Wed, 25 Jan 2023 08:13:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/jUGk0opY3F9pB6VPUN+WQP4RYW0wbi/e/cjCtEFD1U=;
+ b=B+oPfQ5kjZoCazzXDKjigKHEDQoRuP0jz4AvN9jjzz1ENtPP4gAS9WIWdiBt7c8Sug
+ +syNcjGSs5/w2WhY8rYGILjBYq+evfqJ6DCTnB+DhC63V0JvxNHhcRNzRGBDUmJCktKS
+ BWC3ZI8cbbERZu3ANV8Ew8/TIK6n03jUQy6FCjc6Z1KJH/JuBdfisd9xQCWPU3SqhZO7
+ DWFnbYs/QnmElNSgoX4NT/UZuyQxKMOBpy4PhvMiX5DVDlcaFJ+YsU+w4XIA+Ze5I3Tj
+ OC8uqdFdkVHNWYc8FNF10TaCrfij+JFs37+BhKr9OiaK34l7Rt6VGu/mHpXAQnLQx2uX
+ bY4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GWAQIHIaK4kY4F/qnaA0oyYRwbLACZjXU/o10X03g+8=;
- b=iug5VReMWOLfeJI2xSJdN0Wv/gCv7EjRsmRkkyCWZ2RCW9sRHFENdNpo7YcU7ZQL8u
- D79ojQloOVlENH6tHry2NpHpBeEL9HNqjW37R9GJR3sLGuQjIqmvHa9ws57R2yOOOKL2
- +BgLTAwZS7gVyj9o9+cxKupXwTSq510AjJcbfKVWG6WUMXJteZEoy0mxW7Lukwpfl2Mr
- vecOIlxwzy28ke4NDUExIHE5ZmcIalOhNh5fCDA9aiPACuvcJqQq0qXB4LnOjHHHIA4o
- OA7hLlu4SmrykSyrzmIqR0h+R3NqtWTqmHJThVm444NbYI0QaOLpfgkzs3h8u+tMJKRZ
- Bnpg==
-X-Gm-Message-State: AO0yUKW7bzAv72D0xQcbaZsts/Se2+/yfBDvaHWLkYgvRWHgVaVH8+GX
- eyYbRKg9TB8kfyl8Dcppkr0DzQ5shBBTJqBtXlQC7Q==
-X-Google-Smtp-Source: AK7set905btTY92dMXWIlD16t90XzLedSU7F8cTub6DM31WHila/I3M6Bf4jEXYJqclVmDSdBDKapuKj1ctwlZ175Pg=
-X-Received: by 2002:a25:d7d1:0:b0:80b:69cc:78d8 with SMTP id
- o200-20020a25d7d1000000b0080b69cc78d8mr812189ybg.475.1674662578459; Wed, 25
- Jan 2023 08:02:58 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/jUGk0opY3F9pB6VPUN+WQP4RYW0wbi/e/cjCtEFD1U=;
+ b=XEKmqCArKL5ykvBfA0ifigvPSa1IZ52M9CFzEWslXBfHEt3BTzGgqvM7+4umZlT+gW
+ hrs5yplPprUXy4LAv3nqIqcDScxULJC9Tuo3pdrG/Y0RB9iPsTQVXuIu3xzormr5tca2
+ ZaK709+MkmXFxT+0CndMXx9mhodfypYAZ9jrfzj7OhBRu6P0JNGFhEcWRebaAi008Gwr
+ 61kOGbL7wWYQgEXG/EVEqdAUNris55KfgqR9NK1qpPWSshfsSU6Hd+RxUW5Vm/cP2a/g
+ Bxrd/C2I9r3hHwcF7Iv06OcCaGogMPPHWh6Rq5D1gULmHoQfyUhD8qntqmOkjamIltme
+ gUXw==
+X-Gm-Message-State: AFqh2krPvzy3RXw9rsefVd+MJ35zA3HBn647Rhn8DMvaZaMXeTx0ZoVQ
+ GU/RTCSRReUP8s4ucmh0eOP0TndozHd/YQi90Mw=
+X-Google-Smtp-Source: AMrXdXstjUtapx32ierihURCno9TFhrJB3wJcwo4kpXaQOwwn+0TcV1igAYIHNs8DnXlWDmYlzCleMWvLoLMF5kAi04=
+X-Received: by 2002:a05:6512:96d:b0:4c7:6601:e3b1 with SMTP id
+ v13-20020a056512096d00b004c76601e3b1mr1507766lft.548.1674663221671; Wed, 25
+ Jan 2023 08:13:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20230123151212.269082-1-jagan@amarulasolutions.com>
- <20230123151212.269082-14-jagan@amarulasolutions.com>
- <43f4a7dc-a4cc-7552-1a6d-a2a49fae6020@denx.de>
- <CAMty3ZBZWERT=HpjSepSaFbpKpwZUvuG82s6+z7EgDRY5D+TFg@mail.gmail.com>
- <fb7dfb89-42d6-139e-7ff1-4985838e222f@denx.de>
-In-Reply-To: <fb7dfb89-42d6-139e-7ff1-4985838e222f@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 25 Jan 2023 21:32:46 +0530
-Message-ID: <CAMty3ZDvdWu4E3J+8KY=fsuNCSD837AY24X4VyBhR63HYCsO0A@mail.gmail.com>
-Subject: Re: [RESEND PATCH v11 13/18] drm: exynos: dsi: Add Exynos based host
- irq hooks
-To: Marek Vasut <marex@denx.de>
+References: <20230125155023.105584-1-christian.koenig@amd.com>
+ <20230125155023.105584-2-christian.koenig@amd.com>
+In-Reply-To: <20230125155023.105584-2-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 25 Jan 2023 16:13:14 +0000
+Message-ID: <CAM0jSHPoXqLVCkC77JDURw-zSY6=ryDwA43xH9Y+D7uMiZOJVg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/ttm: revert "stop allocating dummy resources
+ during BO creation"
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,61 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
- Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 25, 2023 at 2:42 AM Marek Vasut <marex@denx.de> wrote:
+On Wed, 25 Jan 2023 at 15:50, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> On 1/24/23 22:01, Jagan Teki wrote:
-> > On Wed, Jan 25, 2023 at 2:18 AM Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> On 1/23/23 16:12, Jagan Teki wrote:
-> >>> Enable and disable of te_gpio's are Exynos platform specific
-> >>> irq handling, so add the exynos based irq operations and hook
-> >>> them for exynos plat_data.
-> >>
-> >> If this is just an optional generic GPIO IRQ, why not keep it in the
-> >> core code ? TE (tearing enable?) should be available on MX8M too.
-> >
-> > So far the discussion (since from initial versions) with Marek
-> > Szyprowski, seems to be available in Exynos. So, I keep it separate
-> > from the DSIM core.
+> This reverts commit 00984ad39599bb2a1e6ec5d4e9c75a749f7f45c9.
 >
-> Isn't TE a generic GPIO IRQ ? If so, it is available also on i.MX8M .
+> It seems to still breka i915.
 
-I didn't find this in the DSIM part in i.MX8M Manual nor in the i.MX
-8/RT MIPI DSI/CSI-2 or bsp kernel [1], did you find anywhere in i.MX8M
-part? Look like TE GPIO means tearing effect signal handle on the
-panel side.
+We also need to revert the third patch:
 
-from, Documentation/devicetree/bindings/display/panel/panel-common.yaml
+b49323aa35d5 drm/ttm: prevent moving of pinned BOs
 
-  te-gpios:
-    maxItems: 1
-    description:
-      GPIO spec for the tearing effect synchronization signal.
-      The tearing effect signal is active high. Active low signals can be
-      supported by inverting the GPIO specifier polarity flag.
+It introduces the side effect of no longer calling tt_create(true) in
+ttm_bo_validate(), and I'm 99% sure that will break object clearing.
+We rely on having a ttm_tt for the initial dummy placement, with
+FLAG_ZERO_ALLOC set if clear is needed. Also I'm not sure who even
+creates the ttm_tt now, if ttm_bo_validate() doesn't, and we don't
+have the dummy move, like with this patch.
 
-Maybe Exynos hack this gpio on the host side instead of on the panel
-side for some reason, not sure about it - Marek Szypeowski any
-comments please?
-
-[1] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/gpu/drm/bridge/sec-dsim.c?h=imx_5.4.47_2.2.0
-
-Thanks,
-Jagan.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 33471e363ff4..9baccb2f6e99 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -957,6 +957,7 @@ int ttm_bo_init_reserved(struct ttm_device *bdev, str=
+uct ttm_buffer_object *bo,
+>                          struct sg_table *sg, struct dma_resv *resv,
+>                          void (*destroy) (struct ttm_buffer_object *))
+>  {
+> +       static const struct ttm_place sys_mem =3D { .mem_type =3D TTM_PL_=
+SYSTEM };
+>         int ret;
+>
+>         kref_init(&bo->kref);
+> @@ -973,6 +974,12 @@ int ttm_bo_init_reserved(struct ttm_device *bdev, st=
+ruct ttm_buffer_object *bo,
+>                 bo->base.resv =3D &bo->base._resv;
+>         atomic_inc(&ttm_glob.bo_count);
+>
+> +       ret =3D ttm_resource_alloc(bo, &sys_mem, &bo->resource);
+> +       if (unlikely(ret)) {
+> +               ttm_bo_put(bo);
+> +               return ret;
+> +       }
+> +
+>         /*
+>          * For ttm_bo_type_device buffers, allocate
+>          * address space from the device.
+> --
+> 2.34.1
+>
