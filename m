@@ -1,146 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4E567A88B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 02:58:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE1767A8A2
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 03:14:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6A810E0C1;
-	Wed, 25 Jan 2023 01:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F08AE10E0D6;
+	Wed, 25 Jan 2023 02:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74C410E0C1;
- Wed, 25 Jan 2023 01:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674611914; x=1706147914;
- h=from:to:subject:date:message-id:references:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=GxouM6pzjNvA5UCSxKYb9aIia0t9cNjaJmx6Bj+zmRA=;
- b=Dh/2jdWx/0lkzjSxV8hHCSCGM78RGBffIoJCgD5lKtP5wNwbTAzWBiAm
- q8mcUn3Q6CLWSv0SmTaMlJS4Wz2zAQDvG6KLosvZlUOhZx0qpewh9O7gc
- Rdlqzzy4iNa9x5D1dTxvkQkAYloH/MFjO1NbIhTvDTJZXCyVH3fRpms0A
- GFnMQRKl+LoL8c82hwhiw4yniHwYtvUqgABQxYPXh4KnApSthKwmP+yHA
- Pk65AtYfFGFb5L/l8IaGwui/X8gXp4RXWswf0PMtmVJu3QNEzii1z5i7o
- t/nDOig1aRoJkozPBC9AfQs3UKrNnTXTFnaNSTEXfj8zKKNU6v7Ogy9uO Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="314360667"
-X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; d="scan'208";a="314360667"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2023 17:58:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10600"; a="639779446"
-X-IronPort-AV: E=Sophos;i="5.97,244,1669104000"; d="scan'208";a="639779446"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga006.jf.intel.com with ESMTP; 24 Jan 2023 17:58:34 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 24 Jan 2023 17:58:33 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Tue, 24 Jan 2023 17:58:33 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Tue, 24 Jan 2023 17:58:33 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Tue, 24 Jan 2023 17:58:32 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lXHvrWg30yhjVwthMaA46THNFstjJ3O1nqpiAPkYkzjPTseDlMuFDWo383rJYQNaQZtbq/Sw4vSPcLJ1LFiTchsQFDfO+21GOK4KmINp6+mHcPqJyz0D3NuBg9GJck935qk0vLrb6pVX14glh1o0PDvi1MSN6O5bUMEzd4ZApbPawIVaTDGjneggGxbgpIl8P3Igqt1ukYTb10NP2V1oF0oOjEoIJt7IXSYLonYSS8NYHRR8M/IqXbu1mJAAxXSEtGIPcpeTtBxxMfmb3wfLQjeGXhk4fVbdlkduYmU6ssg0K3FGrMHDe73OVQfT2JkZNWb2IYGiPQPpiVLkBZAFzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q13xJCRAlwgcv+rqkYCuQohKr1IqSoh5ZeOfiLNeDWo=;
- b=n2JGBGdwZYVBRFzG+Z/l7eao4WwXmmpc1mKmthopQRTmwnPUCrQN8BjuhIbnqn0QRn8F9tIHPQ+mKbefLAGnYjErA7NzpdDUwDThg1pxzAG5ubF0+XCBp4odEcD2OHUzBjIBqfNy0RhWtXgztkgHIl1RbJUU73N25WvcgYeb2lkZfNAv1LePIrW/FfEMSmnJM4YLYLcpAkxDkNWfAlk61sFZ8ViXy0IiZ06N+yrEhBkDhrDb3ghVU1fPsLgdIrXZhmVPCZdTfOWk2PA7giYyVimLRYugGGa8UvoVJnipR+RT2mYEeNR+tn8bYr/IToHsRxDdEaESdlNUsQfrFYqkvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB3177.namprd11.prod.outlook.com (2603:10b6:5:c::28) by
- SJ2PR11MB7425.namprd11.prod.outlook.com (2603:10b6:a03:4c0::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Wed, 25 Jan
- 2023 01:58:25 +0000
-Received: from DM6PR11MB3177.namprd11.prod.outlook.com
- ([fe80::f1cb:21b7:f511:ea11]) by DM6PR11MB3177.namprd11.prod.outlook.com
- ([fe80::f1cb:21b7:f511:ea11%5]) with mapi id 15.20.6002.033; Wed, 25 Jan 2023
- 01:58:25 +0000
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-To: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Nikula, 
- Jani" <jani.nikula@intel.com>
-Subject: RE: [PATCHv2 2/2] i915/display/dp: SDP CRC16 for 128b132b link layer
-Thread-Topic: [PATCHv2 2/2] i915/display/dp: SDP CRC16 for 128b132b link layer
-Thread-Index: AQHZK/yMw3zP4SN5WEuAVSgYBohj6a6uaPCg
-Date: Wed, 25 Jan 2023 01:58:25 +0000
-Message-ID: <DM6PR11MB3177D4A4BD3E10F25488B1EBBACE9@DM6PR11MB3177.namprd11.prod.outlook.com>
-References: <20230113043653.795183-1-arun.r.murthy@intel.com>
- <20230119114707.1425501-1-arun.r.murthy@intel.com>
- <20230119114707.1425501-2-arun.r.murthy@intel.com>
-In-Reply-To: <20230119114707.1425501-2-arun.r.murthy@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB3177:EE_|SJ2PR11MB7425:EE_
-x-ms-office365-filtering-correlation-id: dfa6fc6d-c702-41cc-3c3c-08dafe77a564
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CPf0dnTn1XI5dP/VjvLnCCb9eH31K7xL4SATTiS6RpHayfQgyHCQn5euoSq8GDMkKYywufWbK+3xd26bngf7yJmCM7qQRqvuBIjL/3sIuZhzO9g+nkACiJPWz1B0ZXaVyXobLFUl9bMg4C89zYSyC1YfLs03L7mYh50LIC0DAlkjDUDvjrPGmNZZYiyZDT6eQ4HeBJZsV7xOWFyWBBsHzpXOekGYr3mEzL/MjLRopnNEYYOMKksqbQn9mtpgELet6IIp+DMHO2liFPVGpBR1ZOt03U9b0eGy9Nc5262fcD1mox8CDg/JgRI5Izg5tjCXHBpDNLGbXW/l8fNTBGNqB9fc7N0mHNWiqF50PGdw+bnGqjcor3tXbdnyUUMYgjN3kWjH8RQt92ht9lMwkhHBt4thCdRznYlDTyRGT4WOJTexKgTR26/4XsTz7aAXGWlIqCqArw1klhJcOgvh0jgxSR4+gas9Ow5cXXoIsBE5voXIeS0Qia2UuO1kzPZyn7e2JWx9Qcq3NM0WoRLSMllp3odYW7TgmGzrh+FR8y9DB7n9j+JDmhmQicczMjEE1KMuvJmYN1h8CCvh+taqFTMcBLcS/NGal19bk3M83FRCuSo8TbyxS/p5CnnIshjG9HB3VM4HQDFDrZC9AGuu9gPZi8ppm8OueCJWby5t8Cydybe6wcCvOuavV6WglNUlM8HCyqXGo9VDzbpbjn5KiLA93w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB3177.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(366004)(396003)(376002)(136003)(39860400002)(346002)(451199018)(66446008)(450100002)(64756008)(66556008)(316002)(66946007)(478600001)(9686003)(52536014)(7696005)(71200400001)(8676002)(6636002)(122000001)(33656002)(82960400001)(38100700002)(110136005)(86362001)(55016003)(38070700005)(55236004)(76116006)(53546011)(186003)(6506007)(26005)(66476007)(83380400001)(2906002)(41300700001)(8936002)(5660300002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lKYCCJe+BSNjoIOxAH53Z3P5NYsFr98ud+UDqqxGVyE/xNIYAUCD+3WjpnOE?=
- =?us-ascii?Q?KQT9e3w2p/76bVus0e5orBeP1YVkvmQ4pEqy5m7WcYUFJejXvh6ZKuawjO5b?=
- =?us-ascii?Q?AWOtMlexr8yfqsyHZIhkNbQCeNWdlWYP7vxv0xSrJaZecn/Pn2k6/toKgjXg?=
- =?us-ascii?Q?82suQ0BeKbzEOcoV+bDCa5/e59tb+Qb6GzpcEVR7/v/jnh8FpoZD0MbnyszT?=
- =?us-ascii?Q?k9HF/tin8ArOjRVlTixgCCvqNnMY7VKhOG/BITg7GVCwixo/1/c+KVQDfW0e?=
- =?us-ascii?Q?EzpU3nOhIJGCIJkjK9TNVgSy7226PR0s7oi0CwtoTQVa+UdfOPPVKgP0gBD3?=
- =?us-ascii?Q?502eEFcPlXvnbHNKKjxEYT8azT+ukI1T6nxVn0ENHubuon0FYdV7572IlyJT?=
- =?us-ascii?Q?9Rqkt4H3t5oTt7QIZw6eb4IRq9NWdzL7rV6C4PLTAqw2AjtlI56qjkcPvsxK?=
- =?us-ascii?Q?0dVsgaxVbr/FPzD3C/tzPlq9WDaksb7BBTEYonkvS1gUNlmCcSl6srHY6z5S?=
- =?us-ascii?Q?/8QM+eh0iXVMrup17u00TrqQExSQ3XoSRBL2U7kad6Da3kFQ4x/757cksntK?=
- =?us-ascii?Q?Gtis7sc/3zlWOwOeMLroycOODtucoISP65Vu3v7C79uFfvk2/b1NJFRq2RX+?=
- =?us-ascii?Q?XZlgTPt9l4ohqjSMiWRvhtYxusZQy1KLahTVXtAln0wQAUkJ0JTKOz8og0KW?=
- =?us-ascii?Q?B4Dq3eQj3aotWco7y/k5/Qp3yCPYerMpnSW1yGstuyMczH8TeIj1CGhFQLzI?=
- =?us-ascii?Q?d/r32tMSZV6VOqHnQl+GgPjpPPgaPYGD+jN8axLiXgS71Uujf+kyuw6K5aRN?=
- =?us-ascii?Q?mEMgubZy70sDFVkKIo9VB06cUfJJhwdZb2town29ujw4/3E96sTt6nx0R5TB?=
- =?us-ascii?Q?blEBFTE/PWZId7WbBNE80MDNqJbqILYBvtSuTPs682ifhlh8GuR9mNkh4nbK?=
- =?us-ascii?Q?00KQ8q2rncH5sZnOyckm8YQAyWsBYx5L/B5yIJcgrsvHBWZn6xrrCYaT66zX?=
- =?us-ascii?Q?CWmkNOVov09VdDdKrvZtP5CHq+KcvTgd+DpZ9gH18qcegdQnm2dh+fsNNgYU?=
- =?us-ascii?Q?WKKDL0buRWMyBnt+CDjfd8zQB0fJJObKLraSn/Xz4rMJJqPjargqcu0X0tsb?=
- =?us-ascii?Q?b330ecPE9XAJ5GGy4Hr8zCPrVXOQ+JMK2GaP2Mx/QWy+sYXl0NgFH1uSpwpr?=
- =?us-ascii?Q?539a4AVC/8WL3EM0PiacuLw8lvzM6Nzcv8B54VrkBOgUMIlBtYQN8hKlxZ08?=
- =?us-ascii?Q?1WVreGun2L+SWTqPb2FdZf0tIAOpXzSH2TZunOVkIVckaZmhFiKF/EHqyzSW?=
- =?us-ascii?Q?V+ICoy/2p4xksU39e46HZ07yNvBPLE+DeGD9OJ5PQ0nIZ6qTl+QaLn2H6dAI?=
- =?us-ascii?Q?DtVx9z+2pFzBylo9s2ogmzbTGv703ppL14TEA0yH+q6JZSsyvclWH9olxvqA?=
- =?us-ascii?Q?QUraBhaSFd8TLonKECyc6CO63hA1b51Zc+hj+/qDq3M5IWvZKKN60ugjNYGe?=
- =?us-ascii?Q?fHNCNwZKMjRxXjxa5VIKJH7VoXJQwU9agUSn5gcPzMcwJPrNBM/s1In043cR?=
- =?us-ascii?Q?GG61d9mHKh2h/svEB0e3pyHSPv2Xk0evor2XYAhZ?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE7C10E0D6;
+ Wed, 25 Jan 2023 02:14:39 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30P1x6Fn018882; Wed, 25 Jan 2023 02:14:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=beeUc3L325L62rg/eyV+j2jJLJ37S7CXlhuOe5vf3Ig=;
+ b=Ft4Pf0YoMt+ZJjRqG6qihN99VnS1c1c0+LQWT+EBfwwwLo/C314U99nD485mUycBP9Bl
+ F0CENgZfkxx4a9TP8tKnvlCMY4Z3mGdvxhgfm8ywOrg6E1vjFGOiYgZ/VehkoIH4SoNf
+ 6Z/ZkAq4VL5Po9eY135hx+lUTVu8p7CGHOa51D1Jvo//Cl7iBHdA4kSSuWD7/Bqai6PD
+ YOAfPD63aP0npFqTecRQ5EagmKInhSxK7SAQpTBdpe2q/I+r5uqOQAeRwzfUgAGWj6in
+ WI7XL6mx69cIo2v1SPuo83usYHwfqfU8sIEqqASsuSBt/g/BzSRX4NH7yPJZ+fyatG5O CA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3najkh910b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Jan 2023 02:14:34 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30P2EXtn005482
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Jan 2023 02:14:33 GMT
+Received: from [10.110.33.211] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Tue, 24 Jan
+ 2023 18:14:32 -0800
+Message-ID: <37cf7080-8c4c-556c-a97c-ef0b0db1db11@quicinc.com>
+Date: Tue, 24 Jan 2023 18:14:31 -0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3177.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfa6fc6d-c702-41cc-3c3c-08dafe77a564
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jan 2023 01:58:25.5407 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HT/e2+MTJKa03j2HDrom3inOyTOxxWYBpjpfPRm+tPg0GjBrmk8T6s6njdv2A+7sTrCpZgaxfFy1nxn3KCaCzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7425
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v6 4/4] drm/msm: stop storing the array of CRTCs in struct
+ msm_drm_private
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220617233328.1143665-1-dmitry.baryshkov@linaro.org>
+ <20220617233328.1143665-5-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220617233328.1143665-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: edqadOcfJMtzd_vGuvQeHHln6gfe87dI
+X-Proofpoint-GUID: edqadOcfJMtzd_vGuvQeHHln6gfe87dI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-24_17,2023-01-24_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ adultscore=0 spamscore=0 suspectscore=0 mlxlogscore=999 clxscore=1011
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301250015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,67 +85,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Any comments?
 
-Thanks and Regards,
-Arun R Murthy
---------------------
 
-> -----Original Message-----
-> From: Murthy, Arun R <arun.r.murthy@intel.com>
-> Sent: Thursday, January 19, 2023 5:17 PM
-> To: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Nik=
-ula,
-> Jani <jani.nikula@intel.com>
-> Cc: Murthy, Arun R <arun.r.murthy@intel.com>
-> Subject: [PATCHv2 2/2] i915/display/dp: SDP CRC16 for 128b132b link layer
->=20
-> Enable SDP error detection configuration, this will set CRC16 in 128b/132=
-b
-> link layer.
-> For Display version 13 a hardware bit31 in register VIDEO_DIP_CTL is adde=
-d
-> to enable/disable SDP CRC applicable for DP2.0 only, but the default valu=
-e of
-> this bit will enable CRC16 in 128b/132b hence skipping this write.
-> Corrective actions on SDP corruption is yet to be defined.
->=20
-> v2: Moved the CRC enable to link training init(Jani N)
->=20
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+On 6/17/2022 4:33 PM, Dmitry Baryshkov wrote:
+> The array of CRTC in the struct msm_drm_private duplicates a list of
+> CRTCs in the drm_device. Drop it and use the existing list for CRTC
+> enumeration.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  .../gpu/drm/i915/display/intel_dp_link_training.c    | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> index 3d3efcf02011..7064e465423b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> @@ -1453,4 +1453,16 @@ void intel_dp_start_link_train(struct intel_dp
-> *intel_dp,
->=20
->  	if (!passed)
->  		intel_dp_schedule_fallback_link_training(intel_dp,
-> crtc_state);
-> +
-> +	/* DP v2.0 SCR on SDP CRC16 for 128b/132b Link Layer */
-> +	if (intel_dp_is_uhbr(crtc_state) && passed)
-> +		drm_dp_dpcd_writeb(&intel_dp->aux,
-> +
-> DP_SDP_ERROR_DETECTION_CONFIGURATION,
-> +				   DP_SDP_CRC16_128B132B_EN);
-> +		/*
-> +		 * VIDEO_DIP_CTL register bit 31 should be set to '0' to not
-> +		 * disable SDP CRC. This is applicable for Display version 13.
-> +		 * Default value of bit 31 is '0' hence discarding the write
-> +		 */
-> +		/* TODO: Corrective actions on SDP corruption yet to be
-> defined */
->  }
-> --
-> 2.25.1
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  |  2 +-
+>   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c |  2 +-
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  2 +-
+>   drivers/gpu/drm/msm/msm_drv.c            | 44 +++++++++++++-----------
+>   drivers/gpu/drm/msm/msm_drv.h            |  3 +-
+>   5 files changed, 27 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index e23e2552e802..e79f0a8817ac 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -806,7 +806,7 @@ static int _dpu_kms_drm_obj_init(struct dpu_kms *dpu_kms)
+>   			ret = PTR_ERR(crtc);
+>   			return ret;
+>   		}
+> -		priv->crtcs[priv->num_crtcs++] = crtc;
+> +		priv->num_crtcs++;
+>   	}
+>   
+>   	/* All CRTCs are compatible with all encoders */
+> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> index fb48c8c19ec3..7449c1693e45 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+> @@ -337,7 +337,7 @@ static int modeset_init(struct mdp4_kms *mdp4_kms)
+>   			goto fail;
+>   		}
+>   
+> -		priv->crtcs[priv->num_crtcs++] = crtc;
+> +		priv->num_crtcs++;
+>   	}
+>   
+>   	/*
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> index 3d5621a68f85..36808990f840 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+> @@ -497,7 +497,7 @@ static int modeset_init(struct mdp5_kms *mdp5_kms)
+>   			DRM_DEV_ERROR(dev->dev, "failed to construct crtc %d (%d)\n", i, ret);
+>   			goto fail;
+>   		}
+> -		priv->crtcs[priv->num_crtcs++] = crtc;
+> +		priv->num_crtcs++;
+>   	}
+>   
+>   	/*
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 1aab6bf86278..567e77dae43b 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -149,7 +149,7 @@ static void msm_irq_uninstall(struct drm_device *dev)
+>   
+>   struct msm_vblank_work {
+>   	struct work_struct work;
+> -	int crtc_id;
+> +	struct drm_crtc *crtc;
+>   	bool enable;
+>   	struct msm_drm_private *priv;
+>   };
+> @@ -162,15 +162,15 @@ static void vblank_ctrl_worker(struct work_struct *work)
+>   	struct msm_kms *kms = priv->kms;
+>   
 
+Is there any chance of vbl_work->crtc becoming NULL before this gets 
+executed?
+
+So do we need to protect this like
+
+if (vbl_work->enable && vbl_work->crtc)
+
+Because the layers below this dont seem to have NULL protection.
+
+
+>   	if (vbl_work->enable)
+> -		kms->funcs->enable_vblank(kms, priv->crtcs[vbl_work->crtc_id]);
+> +		kms->funcs->enable_vblank(kms, vbl_work->crtc);
+>   	else
+> -		kms->funcs->disable_vblank(kms,	priv->crtcs[vbl_work->crtc_id]);
+> +		kms->funcs->disable_vblank(kms,	vbl_work->crtc);
+>   
+>   	kfree(vbl_work);
+>   }
+>   
+>   static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
+> -					int crtc_id, bool enable)
+> +					struct drm_crtc *crtc, bool enable)
+>   {
+>   	struct msm_vblank_work *vbl_work;
+>   
+> @@ -180,7 +180,7 @@ static int vblank_ctrl_queue_work(struct msm_drm_private *priv,
+>   
+>   	INIT_WORK(&vbl_work->work, vblank_ctrl_worker);
+>   
+> -	vbl_work->crtc_id = crtc_id;
+> +	vbl_work->crtc = crtc;
+>   	vbl_work->enable = enable;
+>   	vbl_work->priv = priv;
+>   
+> @@ -354,7 +354,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   	struct msm_drm_private *priv = dev_get_drvdata(dev);
+>   	struct drm_device *ddev;
+>   	struct msm_kms *kms;
+> -	int ret, i;
+> +	struct drm_crtc *crtc;
+> +	int ret;
+>   
+>   	if (drm_firmware_drivers_only())
+>   		return -ENODEV;
+> @@ -427,20 +428,23 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   	ddev->mode_config.funcs = &mode_config_funcs;
+>   	ddev->mode_config.helper_private = &mode_config_helper_funcs;
+>   
+> -	for (i = 0; i < priv->num_crtcs; i++) {
+> +	drm_for_each_crtc(crtc, ddev) {
+> +		struct msm_drm_thread *ev_thread;
+> +
+>   		/* initialize event thread */
+> -		priv->event_thread[i].crtc_id = priv->crtcs[i]->base.id;
+> -		priv->event_thread[i].dev = ddev;
+> -		priv->event_thread[i].worker = kthread_create_worker(0,
+> -			"crtc_event:%d", priv->event_thread[i].crtc_id);
+> -		if (IS_ERR(priv->event_thread[i].worker)) {
+> -			ret = PTR_ERR(priv->event_thread[i].worker);
+> +		ev_thread = &priv->event_thread[drm_crtc_index(crtc)];
+> +		ev_thread->crtc = crtc;
+> +		ev_thread->dev = ddev;
+> +		ev_thread->worker = kthread_create_worker(0,
+> +			"crtc_event:%d", ev_thread->crtc->base.id);
+
+Please correct me if wrong.
+
+Today, other than just populating the name for the worker is the 
+ev_thread->crtc used anywhere?
+
+If so, can we just drop crtc from msm_drm_thread and while creating the 
+worker just use kthread_create_worker(0, "crtc_event:%d", crtc->base.id);
+
+> +		if (IS_ERR(ev_thread->worker)) {
+> +			ret = PTR_ERR(ev_thread->worker);
+>   			DRM_DEV_ERROR(dev, "failed to create crtc_event kthread\n");
+> -			priv->event_thread[i].worker = NULL;
+> +			ev_thread->worker = NULL;
+>   			goto err_msm_uninit;
+>   		}
+>   
+> -		sched_set_fifo(priv->event_thread[i].worker->task);
+> +		sched_set_fifo(ev_thread->worker->task);
+>   	}
+>   
+>   	ret = drm_vblank_init(ddev, priv->num_crtcs);
+> @@ -563,25 +567,23 @@ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
+>   int msm_crtc_enable_vblank(struct drm_crtc *crtc)
+>   {
+>   	struct drm_device *dev = crtc->dev;
+> -	unsigned int pipe = crtc->index;
+>   	struct msm_drm_private *priv = dev->dev_private;
+>   	struct msm_kms *kms = priv->kms;
+>   	if (!kms)
+>   		return -ENXIO;
+> -	drm_dbg_vbl(dev, "crtc=%u", pipe);
+> -	return vblank_ctrl_queue_work(priv, pipe, true);
+> +	drm_dbg_vbl(dev, "crtc=%u", crtc->base.id);
+> +	return vblank_ctrl_queue_work(priv, crtc, true);
+>   }
+>   
+>   void msm_crtc_disable_vblank(struct drm_crtc *crtc)
+>   {
+>   	struct drm_device *dev = crtc->dev;
+> -	unsigned int pipe = crtc->index;
+>   	struct msm_drm_private *priv = dev->dev_private;
+>   	struct msm_kms *kms = priv->kms;
+>   	if (!kms)
+>   		return;
+> -	drm_dbg_vbl(dev, "crtc=%u", pipe);
+> -	vblank_ctrl_queue_work(priv, pipe, false);
+> +	drm_dbg_vbl(dev, "crtc=%u", crtc->base.id);
+> +	vblank_ctrl_queue_work(priv, crtc, false);
+>   }
+>   
+>   /*
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 08388d742d65..0e98b6f161df 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -102,7 +102,7 @@ struct msm_display_topology {
+>   /* Commit/Event thread specific structure */
+>   struct msm_drm_thread {
+>   	struct drm_device *dev;
+> -	unsigned int crtc_id;
+> +	struct drm_crtc *crtc;
+>   	struct kthread_worker *worker;
+>   };
+>   
+> @@ -178,7 +178,6 @@ struct msm_drm_private {
+>   	struct workqueue_struct *wq;
+>   
+>   	unsigned int num_crtcs;
+> -	struct drm_crtc *crtcs[MAX_CRTCS];
+>   
+>   	struct msm_drm_thread event_thread[MAX_CRTCS];
+>   
