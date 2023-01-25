@@ -1,71 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D71367AF4C
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 11:07:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D82D67AF5E
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 11:10:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 978AB10E774;
-	Wed, 25 Jan 2023 10:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9697910E767;
+	Wed, 25 Jan 2023 10:10:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D9910E770;
- Wed, 25 Jan 2023 10:07:34 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id w11so5898093edv.0;
- Wed, 25 Jan 2023 02:07:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8615310E767
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 10:10:42 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id d14so12814303wrr.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 02:10:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=yyGxyASWXYmKUyQXtGpG1/nPyBCv90mJ64zSV4dNGSo=;
- b=mDnH7HntiVKG43aE5iZuScsYhWYd7JPF9gUF9Rk6hmWgKOXEYxk7VEuWmm/yTASTnA
- I9zmYws+sUBhSSbbd9A53Zh753rBnllhTf+HmLzllXDFrBG2yzOBeVdQnoIMWAPb71kg
- BgVVizZCA+uI+lml0wQgSSUCQ4DdjClfJSPcPV4b6jXeJy78S0uD81+aDTtosBHYUPw7
- 18BGL6GQrI0j4+H6nR3aILN7JPPp1lGDBZDelcK+kqg+NxkzalDtjyejDRLL9BSEYcwC
- Rwc8nGLVTw2VQ4SPA/noiYj+AjSJe88wWbehsVTjDp95U0s7F39dFxuwHG4kM/El0wEN
- Dhag==
+ bh=+YbmCODXrWbUn0nWKxLJPq1L6PfEga2OS1d1Yrw45IU=;
+ b=EWZ+hu4S4a62p8gA2V9ZYPkv1qLN+s8IMtIROJN7y8CarZG2svVmLvXgd+cIXCTqYK
+ NmDzRiCF06lhNIqcgTEj1tarMHcDsKa7kHDQPaG8pOtIq/W5AbCQB6RvTcD1myTpCzRp
+ TRVPIsNn/MVN84z/l/E40mM1M3YZ9xN3d/JOW4gawseKTBi9l/HQ5vDPs0OzNhZfxYZO
+ aDNpO0Ibc/PEQId4AU9aFKgNJhl4vADNywb3qlpc3BO7gpS9YHIB2cwG5XYpu1Xj9faD
+ FC0dRFpKpviOy+GKJ1IlFSq1v3ihdct8DCv97iaxXiys1mUD8mQh4tZ+cpBZvSJ/9qt+
+ sssw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yyGxyASWXYmKUyQXtGpG1/nPyBCv90mJ64zSV4dNGSo=;
- b=IO4zNnn9om0jrKPE/GVrWPAqVLZXrtGXaxjl3C5xAs/kWy9LTTZ+xDEglilKWd7Bnq
- J0lIsAUpXBD65D92zuf/eLO+FvBJ9WNc3ZBJ1rYKuKdNBXgrP1obXWVmUJ6u//s1rrNo
- PClHQWg2zoxZSvVGw9gDX6LL8BztwAtBsS0WSjIhqsdWQ3F83773QUvO7gvLCyogJgFk
- Lr6EIcNRukXvY3HEhNt95A/EK9CQXPVKAMLiPTRPFfEW3hH4O+lbNm1WPjT9tMRWNCfh
- Svkk2MCvkhxg2xzKtEtP4SgFY/Erhkb/oWZunPAkVmoX+fR9PeFEvzllYR44PZh1v9AR
- UxEg==
-X-Gm-Message-State: AFqh2kpi3Ujl7d8wdvv6VUfIwszxFbogoQfekB9jFN8HOmBl8l7T3OM7
- dONXyCzQtT8wFRPXlKj7twA=
-X-Google-Smtp-Source: AMrXdXtnaAVrrphXGLLiHgeLh7/O0hbUkbgKBRV0qng+CMvdM6oGvs6PDUFmis5lcQCu8rLNBeYkng==
-X-Received: by 2002:aa7:de8f:0:b0:498:e0be:318b with SMTP id
- j15-20020aa7de8f000000b00498e0be318bmr33716800edv.38.1674641253218; 
- Wed, 25 Jan 2023 02:07:33 -0800 (PST)
-Received: from ?IPV6:2a02:908:1256:79a0:180c:8737:8e57:6be7?
- ([2a02:908:1256:79a0:180c:8737:8e57:6be7])
+ bh=+YbmCODXrWbUn0nWKxLJPq1L6PfEga2OS1d1Yrw45IU=;
+ b=0dJP8GUHMweN4RdrGVY2zZPl+PlcuJLESWp9EKFF8g0NJTcEnJvXE6jLs5ZxDkQ6hh
+ Sns01p43aB6v1xGKuxDLfX93FVJbb+X0i7Mmredun2cnJCEuGvxONfcqbJJrfKqU5qmj
+ 5WqWPKaTXH+sCBm4/5l1jC1E1SLzF5MKUO6/00zc1SDeaJioEhxDOzwh0JZ6kJ5r2RgM
+ nMLQOfuD8mHmbto8CMxTYn45V6MtdX0jqaTOq0joPr7LBm03JPxMkeNVF/e4rxwR9f+z
+ 5Ka9BZOLOj6FccFZiySyXkKrHJiK4s+pYsCCG3BwqdfXdsWTPkwrOMLdnLC/7RQVR6u3
+ W2cg==
+X-Gm-Message-State: AO0yUKW50nvoeaO+4kQ0EECOqGNFMP8vU8gvd/nTIwEcQa0VjsBMXXuW
+ /3gnB5zeClXcd8EA1TjoayzINg==
+X-Google-Smtp-Source: AK7set8k1yyqihkL7lEDeuIamGfJrPidQaf3VL7shCTdtPbifYjaUj0j3ZCA+tCz22qbl5k7/4CR7Q==
+X-Received: by 2002:adf:facb:0:b0:2bf:b746:6224 with SMTP id
+ a11-20020adffacb000000b002bfb7466224mr2062674wrs.0.1674641440862; 
+ Wed, 25 Jan 2023 02:10:40 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- by16-20020a0564021b1000b0049e376abe96sm2124389edb.67.2023.01.25.02.07.32
+ s8-20020a5d69c8000000b002755e301eeasm4024686wrw.100.2023.01.25.02.10.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Jan 2023 02:07:32 -0800 (PST)
-Message-ID: <418a6bca-7a61-86d8-7f6a-229d1e12c0fd@gmail.com>
-Date: Wed, 25 Jan 2023 11:07:31 +0100
+ Wed, 25 Jan 2023 02:10:40 -0800 (PST)
+Message-ID: <859715d1-a442-7f64-2345-60d0fe28bdb5@linaro.org>
+Date: Wed, 25 Jan 2023 11:10:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: audit bo->resource usage v3
+ Thunderbird/102.7.0
+Subject: Re: [PATCH] dt-bindings: Add missing
+ (unevaluated|additional)Properties on child node schemas
+To: Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jean Delvare <jdelvare@suse.com>,
+ Guenter Roeck <linux@roeck-us.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Marc Zyngier <maz@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Richard Weinberger <richard@nod.at>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Sebastian Reichel <sre@kernel.org>,
+ Mark Brown <broonie@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20230124230228.372305-1-robh@kernel.org>
 Content-Language: en-US
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20230124125726.13323-1-christian.koenig@amd.com>
- <CAM0jSHNmv-naGqB=R8DZc-3QhTPzzo4pUU2-NxhtiEhXMcAN5A@mail.gmail.com>
- <CAM0jSHMgep0q9=C=fHw+Y8SqpNeN3Gz47u_UvwgJuGG3_0qgBQ@mail.gmail.com>
- <CAM0jSHNKkAS1+dYJdHk23+Uyoz02G1VPFLpKLxX2HqRe7L2HCA@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CAM0jSHNKkAS1+dYJdHk23+Uyoz02G1VPFLpKLxX2HqRe7L2HCA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230124230228.372305-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,35 +86,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-hwmon@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-pm@vger.kernel.org, openbmc@lists.ozlabs.org, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 25/01/2023 00:02, Rob Herring wrote:
+> Just as unevaluatedProperties or additionalProperties are required at
+> the top level of schemas, they should (and will) also be required for
+> child node schemas. That ensures only documented properties are
+> present.
+> 
+> Add unevaluatedProperties or additionalProperties as appropriate, and
+> then add any missing properties flagged by the addition.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
 
-Am 25.01.23 um 10:56 schrieb Matthew Auld:
-> On Tue, 24 Jan 2023 at 17:15, Matthew Auld
-> <matthew.william.auld@gmail.com> wrote:
->> On Tue, 24 Jan 2023 at 13:48, Matthew Auld
->> <matthew.william.auld@gmail.com> wrote:
->>> On Tue, 24 Jan 2023 at 12:57, Christian König
->>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>> From: Christian König <ckoenig.leichtzumerken@gmail.com>
->>>>
->>>> Make sure we can at least move and alloc TT objects without backing store.
->>>>
->>>> v2: clear the tt object even when no resource is allocated.
->>>> v3: add Matthews changes for i915 as well.
->>>>
->>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->> Ofc that assumes intel-gfx CI is now happy with the series.
-> There are still some nasty failures it seems (in the extended test
-> list). But it looks like the series is already merged. Can we quickly
-> revert and try again?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Ah, crap. I thought everything would be fine after the CI gave it's go.
+Best regards,
+Krzysztof
 
-Which patch is causing the fallout?
-
-Christian.
