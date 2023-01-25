@@ -2,90 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53C067BE2D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 22:24:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7130E67BE2B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 22:24:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F010310E8BB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F32210E8B6;
 	Wed, 25 Jan 2023 21:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com
- [IPv6:2607:f8b0:4864:20::e32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E63E10E185
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 21:09:22 +0000 (UTC)
-Received: by mail-vs1-xe32.google.com with SMTP id 3so21076918vsq.7
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 13:09:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=criticallink.com; s=google;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9RJJ/n41zzX+saTp2LNncjY8Fypt3NmL9yEutFB4n1s=;
- b=WOHm/saIG3Dr4q+24Z7G6SYdxWckEwYZ2OiPVUiQlFDjk9J/GGH5G2lPCp9nPBdUM6
- NKLPG74xTyEwESMRZGQkeobMfCP0xvhk5dxc/hF9opSrydqXNm+bgs4xusEtsuqt6ZTj
- erM0lCjFlt1FjkKoN2A0doFteQq1lyRdmHVl5KpF63lOurZ1mSrCtIHL8WCuWLQTVOdQ
- f57HcEWpr7rvKo71D5asNmYTOkr2yKFiuCioq2hGejao5f7Z1Lr2hfTb0FQGrA4rgB2Z
- r62S/gRt3R3/7qHDmBiWTdJj+fteUohtw1NfX3myqFn9sBC4hrsY1vkKe36xcZhRDijK
- IetA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3341C10E8B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 21:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674681863;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cxQ9RZ6BDN4CCiK3oNUgrfSexVDJhOUJCCoEg3ZH1Cs=;
+ b=fKP1qQbzP8viS4mMWk6trs7IZ0IzvlvYRPj5tzwT/8o5IE4g7A19ShA6s6iyFSXab5OwWe
+ FYDEXuIHpHl6iLWY6jT+Wlx91o1Qua3cGC488s3LVwPRSWjqgvgvIqvkln2nP/UP4P16Xp
+ ffcfqk5n0RR22GpqGgjW08kEzphpDfw=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-173-vAhnRSGLPPa_SkKb0Wh2Bg-1; Wed, 25 Jan 2023 16:24:22 -0500
+X-MC-Unique: vAhnRSGLPPa_SkKb0Wh2Bg-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ s6-20020a9f2c46000000b0060774bde618so5963585uaj.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 13:24:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9RJJ/n41zzX+saTp2LNncjY8Fypt3NmL9yEutFB4n1s=;
- b=rHpAncUVB3CYntelazAvPFobQkDN/j+3heMcZjwUpcSyA01jFTXw2iqz1auWQHmiz0
- yniRmGFXx8X3WVSlDjTWKSGHTcwWPf+L9qiZ5fVyZqAvM1U7N6UIDhvELX2InerxnrfB
- FrjYtq6vmF84pgM4KmsRr5aOmHHoL7PyIIfUoHvj3AEYEl5Rtp5N690uTAj/6WE9cA/D
- eZD4WAXNqC8QTwyZU7GZDedT5tMaw9KhcPO0E3SRM7yns5Gsf83/Ew+2glpKp9V/04pj
- MYOpxG7tCb2iIz1/1tCAY7V78JliPJqHsZSzelbMJm54GWS/Ss8jhPcdbris27WPYTu5
- VvGQ==
-X-Gm-Message-State: AO0yUKVrgfK8LPxaMG+JcjW3lBMU6wLOfWo6rgleEvWrgDlpZE6RdpNQ
- 82T7Up2sXGwUbAO+wWy03ELE4g==
-X-Google-Smtp-Source: AK7set9bH4FlpCkV+Z+7rYCaPzI9wpMh7X7Sa4ITkX7oLz7viTzX4t7Ud2ygznpBXw4WanAYEKE8aw==
-X-Received: by 2002:a67:7284:0:b0:3e9:93fa:140c with SMTP id
- n126-20020a677284000000b003e993fa140cmr1644589vsc.9.1674680962198; 
- Wed, 25 Jan 2023 13:09:22 -0800 (PST)
-Received: from [127.0.1.1] (static-72-90-70-109.syrcny.fios.verizon.net.
- [72.90.70.109]) by smtp.gmail.com with ESMTPSA id
- q196-20020a3743cd000000b0070736988c10sm4177090qka.110.2023.01.25.13.09.21
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hmhxlAhlOmCwXTew7ghXOnO0YktD1VDCuEf789ahQyI=;
+ b=l9Opfj9qJZEgC51T6gaiLPq+FPECAgeCHfUpI3huyq4VfNO4yXX9Cf78g4Ls9ufeqm
+ 0eqPvIqFrfwHR/fMlMJ3+gYjtiJi1VI9llcFv9pBotgWrGanPDllIEQQaCMHrOsFXy5p
+ wZWGg19aun0V7CvFg3l5z8pO6ksxSyIyVNVVlsmfDRrQmahHdeOiA1yPAefkntgOvWOp
+ QK73LANTXlImTSsrg+dtHwr7X3ybGdzyutP2yeVXTE8smPCsObSqESHWFv/mSXBEPxaK
+ M75t6GdrT8YBhUSdmB83QrNWH3DTkzmwukVSA+2FHt+xpjPP3Mz5+OWpGfWJo7P97VXn
+ cihw==
+X-Gm-Message-State: AFqh2kqo+sA59Oq0FGfDg8P6Ythb7BRNzDq5SunkkA2J5BuRaUYkp/66
+ DGPAYfpThmA0vJKzlhTg4pa8Bu5IfnQ+FclhqLeGBoRvzeYcE6rRFXukzkEdQsOwCvCbaP2AsSH
+ TBzga0kEoXJzQvR7qN/mVColiGFHO
+X-Received: by 2002:a05:6122:106a:b0:3bd:795f:27b2 with SMTP id
+ k10-20020a056122106a00b003bd795f27b2mr20159721vko.7.1674681861604; 
+ Wed, 25 Jan 2023 13:24:21 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtOnfUj95yQhJDTgNjUNUUoJY20NjO7nuQQD1QTAGs0DBrUgr7u7/iA/gKre3BzWAbIs7oCzA==
+X-Received: by 2002:a05:6122:106a:b0:3bd:795f:27b2 with SMTP id
+ k10-20020a056122106a00b003bd795f27b2mr20159711vko.7.1674681861340; 
+ Wed, 25 Jan 2023 13:24:21 -0800 (PST)
+Received: from ?IPv6:2600:4040:5c68:6800::feb? ([2600:4040:5c68:6800::feb])
+ by smtp.gmail.com with ESMTPSA id
+ j28-20020a05620a001c00b007049f19c736sm4276928qki.7.2023.01.25.13.24.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 13:09:21 -0800 (PST)
-From: Jonathan Cormier <jcormier@criticallink.com>
-Date: Wed, 25 Jan 2023 16:09:12 -0500
-Subject: [PATCH 4/4] DRM: BRIDGE: TFP410: If connected,
- use I2C for polled HPD status.
+ Wed, 25 Jan 2023 13:24:20 -0800 (PST)
+Message-ID: <9c53c624604b7415ceeedf7222e78abc2c64430f.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/disp: Fix nvif_outp_acquire_dp() argument size
+From: Lyude Paul <lyude@redhat.com>
+To: Kees Cook <keescook@chromium.org>, Ben Skeggs <bskeggs@redhat.com>
+Date: Wed, 25 Jan 2023 16:24:19 -0500
+In-Reply-To: <202301251214.8E52414D0@keescook>
+References: <20221127183036.never.139-kees@kernel.org>
+ <202301251214.8E52414D0@keescook>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230125-tfp410_i2c-v1-4-66a4d4e390b7@criticallink.com>
-References: <20230125-tfp410_i2c-v1-0-66a4d4e390b7@criticallink.com>
-In-Reply-To: <20230125-tfp410_i2c-v1-0-66a4d4e390b7@criticallink.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>
-X-Mailer: b4 0.11.3-dev-d001f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1533;
- i=jcormier@criticallink.com; h=from:subject:message-id;
- bh=dbb6ec7CfpiriM2pWdSl9OaXPVL9sCebyFiqEYEERQk=;
- b=owEBbQKS/ZANAwAKAdzX/S4LNuuqAcsmYgBj0Zp8UY3oOfu1sE+y2VZfLN0nj6Zb8gpmkZWoxYPV
- wM1zUW2JAjMEAAEKAB0WIQT/MozqCeZtYxNnVN/c1/0uCzbrqgUCY9GafAAKCRDc1/0uCzbrqly9EA
- CPJlnlwhTnKovCKXXIx14LdNjTl14R/C5jZyKgskM3kkTsxuPRLUWuniHgeDEO7fhbZx3FwtW1QUp/
- Zn9RnwRza3ZKJEyHv0elltxnjisj/WTR0Z3NGL2xHIQXP8MxyGFBYtvJZoQHQ3rpmu9bOkhCIvD+fG
- 7MenhcEfyBVbKBnIiK7AraSXgAMBWt5lGo6o8ZBbVHBVgol/iU5lkMs4Od1hCEmfWDyiGAbvvQnCGc
- XSo2TauNuwCKaDxFtgPUmxx9OEN5ng5G72LWN9H3o32YN7zWBHJsArkqExSVXGMn/BlK/rsjzKIwg5
- BQp91qTt4vHztKSR7ekaU6ikv8dQ8kG6f39xSrLXYOxt3IXaIauH6JtqkjeqnsaqxUDi3fR8sVjIW4
- 6CU4mgt8wLdSt6qR7kSYMmqg6BDRRrKjvNd5HvlG1AYTs/aIXXxos80/58TJ+n/PqtROGGKAEPDDli
- oYJ6lkB/1H7pHV9ZfrvCTz9Ws4egquII/R3G7FOyp+kEMFTZQy7jIPfvmXHSdIIo8XSf8fg9pOz8IG
- j4k9CKHz3e699zCre/Yi7JazXyKpcJ3nedEX6XbrDIgXwqx7jShjt0rl2A/sdXuOQSR7Lfg1Ckqqmd
- X3/+eF32C7gtCmaP6ZLHcb0F93Y//74lDL+IYvGiTXMqEz+qFfntvOV1Q+Xw==
-X-Developer-Key: i=jcormier@criticallink.com; a=openpgp;
- fpr=FF328CEA09E66D63136754DFDCD7FD2E0B36EBAA
-X-Mailman-Approved-At: Wed, 25 Jan 2023 21:21:46 +0000
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,57 +85,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Cormier <jcormier@criticallink.com>, devicetree@vger.kernel.org,
- Bob Duke <bduke@criticallink.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Michael Williamson <michael.williamson@criticallink.com>
+Cc: Karol Herbst <kherbst@redhat.com>, "Gustavo
+ A. R. Silva" <gustavo@embeddedor.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Williamson <michael.williamson@criticallink.com>
+Sorry! I've been pretty busy until now, this is:
 
-If the I2C bus is connected on the TFP410, then use the register
-status bit to determine connection state.  This is needed, in particular,
-for polling the state when the Hot Plug detect is not connected to
-a controlling CPU via GPIO/IRQ lane.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Signed-off-by: Michael Williamson <michael.williamson@criticallink.com>
-Signed-off-by: Jonathan Cormier <jcormier@criticallink.com>
----
- drivers/gpu/drm/bridge/ti-tfp410.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Let me know if you've pushed it already or if you want me to push it to drm=
+-
+misc
 
-diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-index 837e1f81a0ff..ac216eaec3c8 100644
---- a/drivers/gpu/drm/bridge/ti-tfp410.c
-+++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-@@ -28,6 +28,9 @@
- #define TFP410_BIT_BSEL BIT(2)
- #define TFP410_BIT_DSEL BIT(3)
- 
-+#define TFP410_REG_CTL_2_MODE	0x09
-+#define TFP410_BIT_HTPLG BIT(1)
-+
- static const struct regmap_config tfp410_regmap_config = {
- 	.reg_bits = 8,
- 	.val_bits = 8,
-@@ -105,6 +108,16 @@ static enum drm_connector_status
- tfp410_connector_detect(struct drm_connector *connector, bool force)
- {
- 	struct tfp410 *dvi = drm_connector_to_tfp410(connector);
-+	u32 val;
-+	unsigned int ret;
-+
-+	if (dvi->i2c) {
-+		ret = regmap_test_bits(dvi->regmap, TFP410_REG_CTL_2_MODE, TFP410_BIT_HTPLG);
-+		if (ret < 0)
-+			dev_err(dvi->dev, "%s failed to read HTPLG bit : %d\n", __func__, ret);
-+		else
-+			return ret ? connector_status_connected : connector_status_disconnected;
-+	}
- 
- 	return drm_bridge_detect(dvi->next_bridge);
- }
+On Wed, 2023-01-25 at 12:15 -0800, Kees Cook wrote:
+> Ping. I'll take this via my tree unless someone else wants to take it...
+>=20
+> On Sun, Nov 27, 2022 at 10:30:41AM -0800, Kees Cook wrote:
+> > Both Coverity and GCC with -Wstringop-overflow noticed that
+> > nvif_outp_acquire_dp() accidentally defined its second argument with 1
+> > additional element:
+> >=20
+> > drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_pior_atomic_=
+enable':
+> > drivers/gpu/drm/nouveau/dispnv50/disp.c:1813:17: error: 'nvif_outp_acqu=
+ire_dp' accessing 16 bytes in a region of size 15 [-Werror=3Dstringop-overf=
+low=3D]
+> >  1813 |                 nvif_outp_acquire_dp(&nv_encoder->outp, nv_enco=
+der->dp.dpcd, 0, 0, false, false);
+> >       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > drivers/gpu/drm/nouveau/dispnv50/disp.c:1813:17: note: referencing argu=
+ment 2 of type 'u8[16]' {aka 'unsigned char[16]'}
+> > drivers/gpu/drm/nouveau/include/nvif/outp.h:24:5: note: in a call to fu=
+nction 'nvif_outp_acquire_dp'
+> >    24 | int nvif_outp_acquire_dp(struct nvif_outp *, u8 dpcd[16],
+> >       |     ^~~~~~~~~~~~~~~~~~~~
+> >=20
+> > Avoid these warnings by defining the argument size using the matching
+> > define (DP_RECEIVER_CAP_SIZE, 15) instead of having it be a literal
+> > (and incorrect) value (16).
+> >=20
+> > Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
+> > Addresses-Coverity-ID: 1527269 ("Memory - corruptions")
+> > Addresses-Coverity-ID: 1527268 ("Memory - corruptions")
+> > Link: https://lore.kernel.org/lkml/202211100848.FFBA2432@keescook/
+> > Link: https://lore.kernel.org/lkml/202211100848.F4C2819BB@keescook/
+> > Fixes: 813443721331 ("drm/nouveau/disp: move DP link config into acquir=
+e")
+> > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > Cc: Karol Herbst <kherbst@redhat.com>
+> > Cc: Lyude Paul <lyude@redhat.com>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: nouveau@lists.freedesktop.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  drivers/gpu/drm/nouveau/include/nvif/outp.h | 3 ++-
+> >  drivers/gpu/drm/nouveau/nvif/outp.c         | 2 +-
+> >  2 files changed, 3 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/nouveau/include/nvif/outp.h b/drivers/gpu/=
+drm/nouveau/include/nvif/outp.h
+> > index 45daadec3c0c..fa76a7b5e4b3 100644
+> > --- a/drivers/gpu/drm/nouveau/include/nvif/outp.h
+> > +++ b/drivers/gpu/drm/nouveau/include/nvif/outp.h
+> > @@ -3,6 +3,7 @@
+> >  #define __NVIF_OUTP_H__
+> >  #include <nvif/object.h>
+> >  #include <nvif/if0012.h>
+> > +#include <drm/display/drm_dp.h>
+> >  struct nvif_disp;
+> > =20
+> >  struct nvif_outp {
+> > @@ -21,7 +22,7 @@ int nvif_outp_acquire_rgb_crt(struct nvif_outp *);
+> >  int nvif_outp_acquire_tmds(struct nvif_outp *, int head,
+> >  =09=09=09   bool hdmi, u8 max_ac_packet, u8 rekey, u8 scdc, bool hda);
+> >  int nvif_outp_acquire_lvds(struct nvif_outp *, bool dual, bool bpc8);
+> > -int nvif_outp_acquire_dp(struct nvif_outp *, u8 dpcd[16],
+> > +int nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIVER_C=
+AP_SIZE],
+> >  =09=09=09 int link_nr, int link_bw, bool hda, bool mst);
+> >  void nvif_outp_release(struct nvif_outp *);
+> >  int nvif_outp_infoframe(struct nvif_outp *, u8 type, struct nvif_outp_=
+infoframe_v0 *, u32 size);
+> > diff --git a/drivers/gpu/drm/nouveau/nvif/outp.c b/drivers/gpu/drm/nouv=
+eau/nvif/outp.c
+> > index 7da39f1eae9f..c24bc5eae3ec 100644
+> > --- a/drivers/gpu/drm/nouveau/nvif/outp.c
+> > +++ b/drivers/gpu/drm/nouveau/nvif/outp.c
+> > @@ -127,7 +127,7 @@ nvif_outp_acquire(struct nvif_outp *outp, u8 proto,=
+ struct nvif_outp_acquire_v0
+> >  }
+> > =20
+> >  int
+> > -nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[16],
+> > +nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIVER_CAP_S=
+IZE],
+> >  =09=09     int link_nr, int link_bw, bool hda, bool mst)
+> >  {
+> >  =09struct nvif_outp_acquire_v0 args;
+> > --=20
+> > 2.34.1
+> >=20
+>=20
 
--- 
-2.25.1
+--=20
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
