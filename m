@@ -1,61 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A266767BE16
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 22:22:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B8467BAD9
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 20:25:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4033B10E892;
-	Wed, 25 Jan 2023 21:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A97D210E11D;
+	Wed, 25 Jan 2023 19:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE9AD10E38D
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 19:22:50 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-4c131bede4bso278071397b3.5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 11:22:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA27210E11D
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 19:24:58 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id 188so24335284ybi.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 11:24:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PCnMypYs8jymH6Ufuva+9r/69Y/DZs8kYxwQEYrzQFk=;
- b=hXTUs83qvSMCw0sqrewtph/1zyRGQA8EwV9VOqASoIhN1O27YlTeLHvU30LwpkaPKE
- 6ZtbduOBpeU0Mk6yScQyxHGjdOZ8W8NbAK7HCSbKR2qQVwpslpoP2Mqh8DnM60UrkSEV
- Fy/rJx/xAj6ReR1yQheSDvUeiLsUOZe36GsXUe+/pA5dp4+pot+ScO1k5jhTafZOkoJo
- vEjMe7B3/0BupSIQn5CSlkYjolaKBFMYB73xyId061H8p1ZYZbkvvK9SPdZltanRDpUl
- vOuM+M/xFo7tmOP85pcv8h038+SVqlBqYWxO3Lgun0O5W06va+PJHK2pFsHgrhvmIiGL
- lvow==
+ bh=kjCOH+Bah/rBQEkuY52H26Uj32tdQ7thposSFvWsa0U=;
+ b=TN7YHmXzQ3wjzP9Ck1OVEcK4t58+AbefJbHKE0l3WJcjJP4Om58Gjokv1C8CaXnAcW
+ nYKB9qZ2B52WKif5+y7HAWSSYJPxo5I01oMIw1YkZMIGi6arOuz55v2gCE2gy7DHkhws
+ fA3Or4HKz9/pqH4DDEhzRNR+DFWPjP63+6YRo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=PCnMypYs8jymH6Ufuva+9r/69Y/DZs8kYxwQEYrzQFk=;
- b=aeI0oDj60B0iItfvACEOL80/ewgleB8GQAx6fGTYtHpjRLyj8Hy2LfEfRkf/aAVIye
- Xkz7Ozy84DNodPfObNOIbDbsk7MyiYPJOltSx2Nq3FndFBhtnLMtGU+oxT5Tj5E9/vzq
- G2bJWHaHThAbiMkj7fn9U8Y5OA0444jP3TUEsRofVeYUebv3O3bcnB53s5VaIDyrJ+JT
- 9RNKdmdpmfYP9nleflZXzNTaIhQ/Ipzuuz9clo0r6UUz7eqh0k5Q6sP/xR4oWEa2hMyO
- QqQPRep+tT+girmhBhBlw+tPWdgeLlCOlGB/poIOEQsEpTL9UZvaxjLEbsr16Uvzj2HF
- hWaA==
-X-Gm-Message-State: AO0yUKVJ0rzvR5STUDi2Gjk6zSTSlBH4r2GbSKJZRwjGENtzDIyO2+Ya
- AdePvqqWVUFxELswpeRDG1WXdzAIhTzxPmylC42Efg==
-X-Google-Smtp-Source: AK7set/Rj29H3r8vHaYccCmp943Un+QyMRF/w8dcRdt99GFw8apI+/L+5tSmXBTsBLdlTBniti7hA8kyFbpjr3H10kc=
-X-Received: by 2002:a0d:d456:0:b0:507:26dc:ebd with SMTP id
- w83-20020a0dd456000000b0050726dc0ebdmr298632ywd.455.1674674569763; Wed, 25
- Jan 2023 11:22:49 -0800 (PST)
+ bh=kjCOH+Bah/rBQEkuY52H26Uj32tdQ7thposSFvWsa0U=;
+ b=2N4XjdN9A7g0jFdeyKGmMMkhtxnSxouF7q4a8GPiyP2TK6ILeTHf0ZsROlW8vcU/td
+ +JwsR4aiQR7PdjxL9asMqoZzmAI8BVYJziutUuQs8Hvvaq0+SA8X87mafUgsx7pZStNb
+ FbHeue39J9mRc1MPZTZZLhkeLx1R5vwWW1DCPJ2SIcuy5VDK2xkaFJT8zh/SqReXRIlT
+ pNLxvL8WFSAJFz/+qHJuJBGntrTUaqmyCWB5YmoHt54o5JVvi8Wn3HCsl54ikLYel4I5
+ aOuv5Xrp9Wi4HQWzPzqdZR5KBLG1rVom+UtuTk+9qzY1UoUA2f0f38I0IttwlRwcrD+A
+ NC8Q==
+X-Gm-Message-State: AO0yUKUJtOrXZ+jWmArOEt4SLgMv55efFA83GovsaS5/mcUZX/xMJcB0
+ hF/SklNSkeJFKBog3H9EHKnCUqOHz5ZFwM6OYnGvUA==
+X-Google-Smtp-Source: AK7set/Ubjl/kR4XwJKyXJklCNuk6uw5bs8ayrSC/puhHItAJpvdjyRHNS7xDQs6m2Sadjo8lcfO3DKG2/svHfyov2E=
+X-Received: by 2002:a25:3749:0:b0:80b:6fc1:8b32 with SMTP id
+ e70-20020a253749000000b0080b6fc18b32mr665824yba.126.1674674697800; Wed, 25
+ Jan 2023 11:24:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-2-surenb@google.com>
- <Y9F19QEDX5d/44EV@casper.infradead.org>
-In-Reply-To: <Y9F19QEDX5d/44EV@casper.infradead.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 25 Jan 2023 11:22:38 -0800
-Message-ID: <CAJuCfpH+LMFX=TT04gSMA05cz_-CXMum6fobRrduWvzm1HWPmQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-To: Matthew Wilcox <willy@infradead.org>
+References: <20230123151212.269082-1-jagan@amarulasolutions.com>
+ <20230123151212.269082-14-jagan@amarulasolutions.com>
+ <43f4a7dc-a4cc-7552-1a6d-a2a49fae6020@denx.de>
+ <CAMty3ZBZWERT=HpjSepSaFbpKpwZUvuG82s6+z7EgDRY5D+TFg@mail.gmail.com>
+ <fb7dfb89-42d6-139e-7ff1-4985838e222f@denx.de>
+ <CAMty3ZAYz=XEN6s1XhBWg5b77kk+s942qa9Oz4E4oHtSfaVZtA@mail.gmail.com>
+ <CAMty3ZB8jAoKzXpPJzrfH6bOGBOpJRuTacgQDSg8kVuhg7p37Q@mail.gmail.com>
+ <CAMty3ZDNwJ40pPJFKqwMd13y-rF9ELb5N6JZffea6T4dnD-0nA@mail.gmail.com>
+ <d8e539bd-93db-fb6f-eaec-463f382a1dfb@denx.de>
+ <CAMty3ZBxbwwocAwZ18o8tis54SRC64853b+p8VfzcD=OWrjP6Q@mail.gmail.com>
+ <c67cdb83-2fef-ad7c-f2c4-e2a6eb09a3e8@denx.de>
+ <CAMty3ZAh7J6_X9NkE+-mBrHBFx+KfuQXPBUYyL5g2vu_Y5X9iw@mail.gmail.com>
+ <a756fd20-28e4-85e7-3947-4c468bf3366d@denx.de>
+ <CAMty3ZDTcnN_NgjL8hEBnABpFcaE=hCegZnzaC9tz-7wFxYSmw@mail.gmail.com>
+ <94f847b0-769d-e28b-11c0-b817b30c704f@denx.de>
+In-Reply-To: <94f847b0-769d-e28b-11c0-b817b30c704f@denx.de>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 26 Jan 2023 00:54:46 +0530
+Message-ID: <CAMty3ZBTRO55N87u+YS+MtOn-D=-YRbe1Gnm8uuQM04ULuT_Vw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v11 13/18] drm: exynos: dsi: Add Exynos based host
+ irq hooks
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 25 Jan 2023 21:21:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,86 +77,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@lespinasse.org, nvdimm@lists.linux.dev, leewalsh@google.com,
- dri-devel@lists.freedesktop.org, perex@perex.cz, jglisse@google.com,
- arjunroy@google.com, m.szyprowski@samsung.com, linux-arch@vger.kernel.org,
- qianweili@huawei.com, linux-samsung-soc@vger.kernel.org,
- aneesh.kumar@linux.ibm.com, chenhuacai@kernel.org, kasan-dev@googlegroups.com,
- linux-acpi@vger.kernel.org, rientjes@google.com,
- xen-devel@lists.xenproject.org, devel@lists.orangefs.org, minchan@google.com,
- robert.jarzmik@free.fr, linux-um@lists.infradead.org,
- etnaviv@lists.freedesktop.org, npiggin@gmail.com, alex.williamson@redhat.com,
- viro@zeniv.linux.org.uk, luto@kernel.org, gthelen@google.com,
- tglx@linutronix.de, ldufour@linux.ibm.com, linux-sgx@vger.kernel.org,
- martin.petersen@oracle.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- akpm@linux-foundation.org, linux-media@vger.kernel.org,
- freedreno@lists.freedesktop.org, joelaf@google.com, linux-aio@kvack.org,
- linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org, david@redhat.com,
- dave.hansen@linux.intel.com, virtualization@lists.linux-foundation.org,
- edumazet@google.com, target-devel@vger.kernel.org, punit.agrawal@bytedance.com,
- linux-s390@vger.kernel.org, dave@stgolabs.net, deller@gmx.de, hughd@google.com,
- andrii@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-rockchip@lists.infradead.org, linux-graphics-maintainer@vmware.com,
- kernel-team@android.com, jayalk@intworks.biz, soheil@google.com,
- selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org, shakeelb@google.com,
- haojian.zhuang@gmail.com, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, tytso@mit.edu, nico@fluxnic.net,
- muchun.song@linux.dev, hjc@rock-chips.com, mcoquelin.stm32@gmail.com,
- tatashin@google.com, mike.kravetz@oracle.com, songliubraving@fb.com,
- jasowang@redhat.com, alsa-devel@alsa-project.org, peterx@redhat.com,
- linux-tegra@vger.kernel.org, kraxel@redhat.com, will@kernel.org,
- dmaengine@vger.kernel.org, bhe@redhat.com, miklos@szeredi.hu,
- linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
- amd-gfx@lists.freedesktop.org, gurua@google.com, dgilbert@interlog.com,
- xiang@kernel.org, pabeni@redhat.com, jejb@linux.ibm.com,
- quic_abhinavk@quicinc.com, bp@alien8.de, mchehab@kernel.org,
- linux-ext4@vger.kernel.org, tomba@kernel.org, hughlynch@google.com,
- sre@kernel.org, tfiga@chromium.org, linux-xfs@vger.kernel.org,
- zhangfei.gao@linaro.org, wangzhou1@hisilicon.com, netdev@vger.kernel.org,
- bpf@vger.kernel.org, linux-erofs@lists.ozlabs.org, davem@davemloft.net,
- mhocko@suse.com, kvm@vger.kernel.org, mst@redhat.com, peterz@infradead.org,
- bigeasy@linutronix.de, alexandre.torgue@foss.st.com, dhowells@redhat.com,
- linux-mm@kvack.org, ray.huang@amd.com, adilger.kernel@dilger.ca,
- kuba@kernel.org, sparclinux@vger.kernel.org, anton.ivanov@cambridgegreys.com,
- herbert@gondor.apana.org.au, linux-scsi@vger.kernel.org, richard@nod.at,
- x86@kernel.org, vkoul@kernel.org, mingo@redhat.com, axelrasmussen@google.com,
- intel-gfx@lists.freedesktop.org, paulmck@kernel.org, jannh@google.com,
- chao@kernel.org, liam.howlett@oracle.com, hdegoede@redhat.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, vbabka@suse.cz,
- dimitri.sivanich@hpe.com, posk@google.com, lstoakes@gmail.com,
- peterjung1337@gmail.com, yoshfuji@linux-ipv6.org,
- linuxppc-dev@lists.ozlabs.org, dsahern@kernel.org, kent.overstreet@linux.dev,
- kexec@lists.infradead.org, tiwai@suse.com, krzysztof.kozlowski@linaro.org,
- tzimmermann@suse.de, hannes@cmpxchg.org, dmitry.baryshkov@linaro.org,
- johannes@sipsolutions.net, mgorman@techsingularity.net,
- linux-accelerators@lists.ozlabs.org
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 25, 2023 at 10:33 AM Matthew Wilcox <willy@infradead.org> wrote:
+On Wed, Jan 25, 2023 at 11:33 PM Marek Vasut <marex@denx.de> wrote:
 >
-> On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
-> > +/* Use when VMA is not part of the VMA tree and needs no locking */
-> > +static inline void init_vm_flags(struct vm_area_struct *vma,
-> > +                              unsigned long flags)
-> > +{
-> > +     vma->vm_flags = flags;
+> On 1/25/23 18:35, Jagan Teki wrote:
 >
-> vm_flags are supposed to have type vm_flags_t.  That's not been
-> fully realised yet, but perhaps we could avoid making it worse?
+> [...]
 >
-> >       pgprot_t vm_page_prot;
-> > -     unsigned long vm_flags;         /* Flags, see mm.h. */
-> > +
-> > +     /*
-> > +      * Flags, see mm.h.
-> > +      * WARNING! Do not modify directly.
-> > +      * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
-> > +      */
-> > +     unsigned long vm_flags;
+> >>> exynos_dsi_register_te_irq is done after the bridge attach is done in
+> >>> Exynos, here bridge attach is triggered in the component ops bind
+> >>> call, since samsung-dsim is a pure bridge w/o any component ops.
+> >>> https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/bridge/samsung-dsim.c#L1527
+> >>> https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/exynos/exynos_drm_dsi.c#L112
+> >>>
+> >>> Any suggestion on how to handle this?
+> >>
+> >> Why isn't the generic code calling drm_bridge_attach() in
+> >> samsung_dsim_host_attach(), like the exynos one ?
+> >
+> > Exynos drm drivers follow component ops and generic dsim is a pure drm
+> > bridge whose downstream bridge will attach in bridge ops attach and
+> > the component-based drivers require an initial bridge attach (whose
+> > previous is NULL) call in the component bind hook for establishing the
+> > bridge chain.
 >
-> Including changing this line to vm_flags_t
+> Well in that case, call the exynos optional host_attach and register the
+> TE IRQ handler at the end, that should work just fine too, right ? If
+> so, then you can also move the IRQ handler registration into the generic
+> part of the driver.
 
-Good point. Will make the change. Thanks!
+Something like this?
+
+samsung_dsim_host_attach()
+{
+        drm_bridge_add(&dsi->bridge);
+
+        if (pdata->host_ops && pdata->host_ops->attach)
+                pdata->host_ops->attach(dsi, device);
+
+        exynos_dsi_register_te_irq
+
+        dsi->lanes = device->lanes;
+        dsi->format = device->format;
+        dsi->mode_flags = device->mode_flags;
+}
+
+Jagan.
