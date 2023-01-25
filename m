@@ -1,46 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B44267B573
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 16:09:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A2C67B57C
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jan 2023 16:10:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBF5110E056;
-	Wed, 25 Jan 2023 15:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B437C10E0F8;
+	Wed, 25 Jan 2023 15:10:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 527B410E056
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 15:09:07 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69A2910E7E5
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jan 2023 15:10:48 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B706DB819F3;
- Wed, 25 Jan 2023 15:09:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC81C433EF;
- Wed, 25 Jan 2023 15:08:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C548161494;
+ Wed, 25 Jan 2023 15:10:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A53B0C4339E;
+ Wed, 25 Jan 2023 15:10:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674659344;
- bh=v+B+KDBEA50AHtVt9lQ1BTuMYwoPUgbIgH8/Amio1lE=;
+ s=k20201202; t=1674659447;
+ bh=TofsbXpZihSKZUVsy9XrANh9lc730J6wSOc2QP9eoTI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hSoessefOv16Xt7Qbj98AdgmJicOcikMVtEdI8hVuvfe5IRYVPezihO/irb3buQZt
- 3ZFdNvsViDwPHeE3Jm/XuN6iGzIm1ESIZsv0lbDa1vk4s6rEEf6cKYM+bN/iuQe9VW
- P/Svjep8k+fSgfN9zyFG7lQqfCHheo29BxDr+K+4T3lE67taLSodJ3E7d4EG4RrRqe
- 73RJMrkg3YqzKBZH4GY2t14YGyMJND9cOXmrIKdYBcHjYwCgCzhERtbbPGPR5fu5EG
- NLAP3xoucfO28ZdQF16a1/t4V81l7sTg4luWlxs+aH+wX1wDHuET+t7+76hhEK6te3
- 8HtxOatriltJw==
-Date: Wed, 25 Jan 2023 15:08:54 +0000
+ b=PWvP9JOJGFWee6ASV9x3ADUxkKdcW+FrahCSA7zAki85HcwH0S+Qlftb5AVSx76V4
+ qBpzvZbPNozQG37LDylg+pITOqfq3rlpjhbTAHNw0Oafns2nuDLECj60B1OrLEWMnV
+ /DBCokptbh1fiSNjleo4CBNt1NKQdn8kPf8iqz68WINnJ4LRJldl0YhHV/lKBLFxj7
+ iiB6+dKsKTB+B07SQ3EH4R91GxqW6sbp7ZwJOpScy+CeEyBddDco4n5ScTpc1xMwwc
+ EyMfjtYYEe2OMD5XlBJx97JPAnsmnx3im+jMYOD9UXRGxoX7/db0GPAIhfy7NJWA1c
+ KRS15JP4gUAzw==
+Date: Wed, 25 Jan 2023 15:10:38 +0000
 From: Lee Jones <lee@kernel.org>
 To: Rob Herring <robh@kernel.org>
 Subject: Re: [PATCH] dt-bindings: Add missing
  (unevaluated|additional)Properties on child node schemas
-Message-ID: <Y9FGBqFKMxL3XraK@google.com>
-References: <20230124230228.372305-1-robh@kernel.org>
+Message-ID: <Y9FGbr8LB9dEHx1Z@google.com>
+References: <20230124230048.371144-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230124230228.372305-1-robh@kernel.org>
+In-Reply-To: <20230124230048.371144-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,7 +156,7 @@ On Tue, 24 Jan 2023, Rob Herring wrote:
 >  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml   |  1 +
 >  36 files changed, 65 insertions(+), 8 deletions(-)
 
-Acked-by: Lee Jones <lee@kernel.org>
+Is this the same as the patch I just reviewed?
 
 -- 
 Lee Jones [李琼斯]
