@@ -1,66 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A7667CE4D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:37:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C86BA67CE50
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:37:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C9110E915;
-	Thu, 26 Jan 2023 14:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C36810E91A;
+	Thu, 26 Jan 2023 14:37:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7716110E915
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:37:21 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id fi26so2027901edb.7
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:37:21 -0800 (PST)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8EFB10E915
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:37:22 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id hw16so5509092ejc.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:37:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=neC2J2NiikFKD1DH99boQHYW1Cc4DcDPvmoJjFl/uiw=;
- b=XIYectCzSHJAAaa7Bdi8U6Ff08nfXOoYrDHsNb7SbpoNtqPdFF8MkVD8QHIW+EkyLR
- dXJQWv6k+3+rW4zuLt8EwEyg6A7MS+h1o7Zb4oTE+m9Z9Q7Dg8fM1QZTiJUwXm+KU8SC
- jNjf7zcRQlNrAM5fLPUAyr7l6+mH3jL5n62mmqgjwOAgPmmtgkFuauSTOz5mFqydVdBy
- 7YQlkcitzbFZBLHYoYPZRFaXdg6z/83VwoOVulICMS+UOxXj2x4D5foljp1T+s6yR8Au
- srs0Ad3bu7N/RP+gV0QwauU55vYnO2venRkhbqkJtqTCjTZXVuF+R8ailzvgq3CAufGG
- WvRw==
+ bh=ojoaU79vsM9d6gnnSHhz/j9TBcg9S6MfuddKc11zkQI=;
+ b=Qvk6hlDc1Y7T+h5eZC3/WtyiiG6rpVH0bci43kDVCCpE/XcXipEi4dTXtMkPl3jHCl
+ Zua9JThVPpbqtgtqjvAjeLu8lA82Zd1tVi3kTA2zDuiYTXnlv2Y+RBZrJ7CTkpr9AtlV
+ Uvwc74o1vvTQjbo82+RROoFCMPaEPzcG9VZoGxvAkXYqltOcfXGnVsMmoX4Wn6FVRnbV
+ nd/qjdSgnDT9Y0naJmUTI4pRvVRwvXJE+C7AqbHKUfsut0kO+M+o4K6NXJ+gOqI7WrYH
+ W2G4w3FxuOCCw0L/EVVBcx35Wh+ShQT5G6FEr9+iRTdEjGoHDTwh9rPkoUmo7QPV06IP
+ 0xxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=neC2J2NiikFKD1DH99boQHYW1Cc4DcDPvmoJjFl/uiw=;
- b=T0clBWr3w+Du7GJfOPa3fd/vo2ZECnzAFcPqxD0iSDeOCSbRgSKBokcQWN0nM9RJyg
- D694BgtezP6WvmxHHO3toNX9aIwpUUW5HBDKjFkNqnC4hU34Jzqz5Tp58zfGAkV4z/vd
- COBqtloYsz9M6bZXXdTgD6whyEIUi0KEG12f8d0b9zFT+pzdlwtpTUqcSzjBbjaRsJQv
- eq8SFo1oqsjVvYrkIjT6oSE5FvtFXiyrtQ78+QqVoLB1LonwoYnxK7LHAFalSZD6xBIh
- S33qMLygnxezp8xu+3xyxmeCr0WcD8mqIyc8egc/jue8QecstxJ8pMIPu3EVZmmoDjJe
- MKwQ==
-X-Gm-Message-State: AFqh2kovL48VSVbkBgPJJI/EvtFhqZO98akGpTY3sfhNSlAS7ysMCmdZ
- B3GQH1XZrqYzXcI6YwbpvsQ=
-X-Google-Smtp-Source: AMrXdXv65LpAxJbI8nt34DB2ZlyWFFhGPxslQDQj/tP65D8A7gBzAMVLrZAxzV4ggdokLf55fcbbXQ==
-X-Received: by 2002:aa7:de94:0:b0:474:a583:2e1a with SMTP id
- j20-20020aa7de94000000b00474a5832e1amr37658467edv.12.1674743839858; 
- Thu, 26 Jan 2023 06:37:19 -0800 (PST)
+ bh=ojoaU79vsM9d6gnnSHhz/j9TBcg9S6MfuddKc11zkQI=;
+ b=puOPjCKl0erQTkPEKEhpX2AeCJ/ZPv6uCbbvV1NSbt/GPJdJ76M8fP5t/WErCRJwaJ
+ CImZdxaph0Yt3KB7KyzOTiYSDlnEAy81PFkwCgyS2rWZ0RuJudA3G5I7a6o14yATU7V/
+ Ovzwx4DOJLoP7zQjt+AVLM3D3OTo0T8ltNfLPBAezLIWG7QdDq8H+e0xp+NOhHtD/ETU
+ WjRyoXSA3jZQpaTMlTYFuJlieYYOzq4UttN7OFPtE70EURTUo2uv6nTQqTQf/TcrDrgN
+ yEuWSXxeiFOGLcCarSchZ6QWXPcPxu8O64PvhIIk6HSC+zCBwhaf9kRBk8C1H+4ijUra
+ xy2Q==
+X-Gm-Message-State: AO0yUKWd6T0OtCJS9ggt1+Zu4ER63kdKMcJ1cr3m2liv3owcZJKfAp1s
+ tdwcIZj9sVZ8qWr/0VBQbEc=
+X-Google-Smtp-Source: AK7set8dbBqhWX+8vueaZet6qki7SVYHve2oRacn2VrEua6nci8+6sOuxk2m//pfsWPfpmCMkPjwDw==
+X-Received: by 2002:a17:906:4b13:b0:878:5e84:e1da with SMTP id
+ y19-20020a1709064b1300b008785e84e1damr2699504eju.27.1674743841116; 
+ Thu, 26 Jan 2023 06:37:21 -0800 (PST)
 Received: from localhost
  (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
  [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- r24-20020aa7cfd8000000b00495c3573b36sm834221edy.32.2023.01.26.06.37.19
+ rh16-20020a17090720f000b0084c7029b24dsm674327ejb.151.2023.01.26.06.37.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 06:37:19 -0800 (PST)
+ Thu, 26 Jan 2023 06:37:20 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Mikko Perttunen <cyndis@kapsi.fi>, Jonathan Hunter <jonathanh@nvidia.com>,
  Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH 1/4] arm64: tegra: Mark host1x as dma-coherent on
- Tegra194/234
-Date: Thu, 26 Jan 2023 15:37:15 +0100
-Message-Id: <167474380847.1640957.15918634834244629931.b4-ty@nvidia.com>
+Subject: Re: [PATCH 1/4] gpu: host1x: Implement syncpoint wait using DMA fences
+Date: Thu, 26 Jan 2023 15:37:16 +0100
+Message-Id: <167474380848.1640957.3846713642023225990.b4-ty@nvidia.com>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230119133901.1892413-1-cyndis@kapsi.fi>
-References: <20230119133901.1892413-1-cyndis@kapsi.fi>
+In-Reply-To: <20230119130921.1882602-1-cyndis@kapsi.fi>
+References: <20230119130921.1882602-1-cyndis@kapsi.fi>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -83,24 +82,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-On Thu, 19 Jan 2023 15:38:58 +0200, Mikko Perttunen wrote:
+On Thu, 19 Jan 2023 15:09:18 +0200, Mikko Perttunen wrote:
 > From: Mikko Perttunen <mperttunen@nvidia.com>
 > 
-> Ensure appropriate configuration is done to make the host1x device
-> and context devices DMA coherent by adding the dma-coherent flag.
+> In anticipation of removal of the intr API, move host1x_syncpt_wait
+> to use DMA fences instead. As of this patch, this means that waits
+> have a 30 second maximum timeout because of the implicit timeout
+> we have with fences, but that will be lifted in a follow-up patch.
 > 
-> 
+> [...]
 
 Applied, thanks!
 
-[1/4] arm64: tegra: Mark host1x as dma-coherent on Tegra194/234
-      (no commit info)
-[2/4] gpu: host1x: Fix mask for syncpoint increment register
-      commit: c42babb37bc2ba84d692d8d13ce900636b19d2b7
-[3/4] gpu: host1x: Don't skip assigning syncpoints to channels
-      commit: 529babe886a29b3e4ffcdc61b755c3d7245c6cf2
-[4/4] drm/tegra: firewall: Check for is_addr_reg existence in IMM check
-      commit: 40aef7daa1bdf73bd66aa97e6e2069e340415a38
+[1/4] gpu: host1x: Implement syncpoint wait using DMA fences
+      commit: 10b8db9244e3545d7278016ffb878d5bfe3201fe
+[2/4] gpu: host1x: Implement job tracking using DMA fences
+      commit: caf0f8e3e318c7e1c687072293518c42befcea68
+[3/4] gpu: host1x: Rewrite syncpoint interrupt handling
+      commit: ba9218b16428dbfcdd167899f7e54c5c6a081c07
+[4/4] gpu: host1x: External timeout/cancellation for fences
+      commit: 93d08ca7ed728bf3bf70aa78caacdfb7011d6d03
 
 Best regards,
 -- 
