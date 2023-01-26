@@ -2,52 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AC467D669
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 21:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981DC67D6CE
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 21:50:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328668949C;
-	Thu, 26 Jan 2023 20:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 793F610E2B5;
+	Thu, 26 Jan 2023 20:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC8F689349;
- Thu, 26 Jan 2023 20:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674764896; x=1706300896;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=/pvcG2BnTUdUdPvGkurmDGk6N0a1zJT0BaRf56t8Zeo=;
- b=iG2NBN15khGM7ECFiWjd0Kexs1zWNBcvEHiMZTwaQ11kLUGQNdh9PmdW
- 5Bj36FhGk2EjhgAYnhVwj2D8tfJWqnuQ+a8vTpJUdZypJP9j5Kyt178+Q
- 4tHh7G0UB7TXsBjm9SXDOpEqwPV5ZKYgwO1StgSvluowUDC4Zi7+8ODxZ
- 0K4PLJ7eq68TW2z8B35P+zs5HIXu9cDpHi31uHhOY1VB807+0a7Bi75vx
- ppKUb0hecReu8Pf6wINdi7/M6QZE9XXH921mz0Aqk0Eixxpl+WBzNs7PT
- CcEtXPqLF++YP1tjpq4Omw7a/vJtDLkbWs4PGqhIj+GthXeuyojJCjcLA A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="307284685"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="307284685"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2023 12:28:14 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="771289036"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="771289036"
-Received: from ideak-desk.fi.intel.com ([10.237.72.58])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2023 12:28:12 -0800
-Date: Thu, 26 Jan 2023 22:28:09 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 3/9] drm/display/dp_mst: Add
- drm_atomic_get_old_mst_topology_state()
-Message-ID: <Y9LiWf0pj5IcNm2p@ideak-desk.fi.intel.com>
-References: <20230125114852.748337-1-imre.deak@intel.com>
- <20230125114852.748337-4-imre.deak@intel.com>
- <Y9LIJE85qySKUODU@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0AD10E2B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 20:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674766194;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oGi4tyQZKR9EF1nkoMYIGWcX8cZ8bAVtY0RE3pjhZwE=;
+ b=dPHieeAt8oj941OD8AhMfDCLwdZAUpBXIkZ4FsAdN30VHnCncVNwibdiam+z46C7OV0w5x
+ mr73DuewG7hFd+U7J7klEEAnyfq3z+E0gG2qu1s6KKKW7fV3fSf2F0WMzGjLtbl97EK+bZ
+ khuhGYe6bGLtYEHdCKjdhWlAdINz+e0=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-124-iNA5HoL-N8-kQtKeak0dKg-1; Thu, 26 Jan 2023 15:49:50 -0500
+X-MC-Unique: iNA5HoL-N8-kQtKeak0dKg-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ e5-20020a056214110500b0053547681552so1704035qvs.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 12:49:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oGi4tyQZKR9EF1nkoMYIGWcX8cZ8bAVtY0RE3pjhZwE=;
+ b=Rg+yU/fXLwkc+eHUxQDZZcn+N4tFzYGXYrB2LrlFXH0CKdSi7dBYsVRhTfMRIEAo7K
+ TUd0Pm5ZiNUFGr+FXwxCnY86WxAtHNtopPRR0sLEi2SDolw/WyxV4BY/4yv8bvxYqHc9
+ vJYGTW92X9v+sqhRkYnV5KegKpzZ4RIDFqObY1VHldalNHo0rxaejus9f+XYtlRDX4no
+ GeAcAhjH9jmpI8SNz976HpXhp4go46suPjjXHkzI0Zgy6QmlEd4kctCA6wO1ltK4vMzK
+ nZl6pwqDNJxcUWU/mrPjweWPN48f2GZkJjCqpFJlnw/QszGm3z4rczIw1iiApwrwzGtr
+ uXTQ==
+X-Gm-Message-State: AO0yUKVeosBp5Rg8EUFEgeOBptWRJuOXtx49bfvHG8iqaPnv5PGq+4Ku
+ x7bPiEgRV7DlWrIE0r2GYB4/Joj6Ys7VYI6wz6ecMZySEEu9a7nUYtq49xLCs5ohP2Auden/Gwm
+ HysB3WWS1VYBOhVcxogtJFPDffL37
+X-Received: by 2002:a05:6214:192c:b0:537:708d:3fef with SMTP id
+ es12-20020a056214192c00b00537708d3fefmr11926908qvb.38.1674766190512; 
+ Thu, 26 Jan 2023 12:49:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set+ugItgaazXYqO9kQT722ufZwbkvuzBNI79A9vAf2gUEGkugVHZxtq7UGpUs+gPeO2hRZ5rIA==
+X-Received: by 2002:a05:6214:192c:b0:537:708d:3fef with SMTP id
+ es12-20020a056214192c00b00537708d3fefmr11926871qvb.38.1674766190258; 
+ Thu, 26 Jan 2023 12:49:50 -0800 (PST)
+Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
+ [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
+ b24-20020a05620a0f9800b006fafaac72a6sm1544573qkn.84.2023.01.26.12.49.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Jan 2023 12:49:49 -0800 (PST)
+From: Tom Rix <trix@redhat.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, jun.lei@amd.com, Alvin.Lee2@amd.com,
+ Nevenko.Stupar@amd.com, Dillon.Varone@amd.com, george.shen@amd.com,
+ rdunlap@infradead.org, David.Galiffi@amd.com
+Subject: [PATCH] drm/amd/display: reduce else-if to else in
+ dcn32_calculate_dlg_params()
+Date: Thu, 26 Jan 2023 12:49:35 -0800
+Message-Id: <20230126204935.819030-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y9LIJE85qySKUODU@intel.com>
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,104 +85,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 26, 2023 at 08:36:20PM +0200, Ville Syrjälä wrote:
-> On Wed, Jan 25, 2023 at 01:48:46PM +0200, Imre Deak wrote:
-> > Add a function to get the old MST topology state, required by a
-> > follow-up i915 patch.
-> > 
-> > While at it clarify the code comment of
-> > drm_atomic_get_new_mst_topology_state().
-> > 
-> > Cc: Lyude Paul <lyude@redhat.com>
-> > Cc: stable@vger.kernel.org # 6.1
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 29 +++++++++++++++++--
-> >  include/drm/display/drm_dp_mst_helper.h       |  3 ++
-> >  2 files changed, 30 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > index ebf6e31e156e0..81cc0c3b1e000 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > @@ -5362,18 +5362,43 @@ struct drm_dp_mst_topology_state *drm_atomic_get_mst_topology_state(struct drm_a
-> >  }
-> >  EXPORT_SYMBOL(drm_atomic_get_mst_topology_state);
-> >  
-> > +/**
-> > + * drm_atomic_get_old_mst_topology_state: get old MST topology state in atomic state, if any
-> > + * @state: global atomic state
-> > + * @mgr: MST topology manager, also the private object in this case
-> > + *
-> > + * This function wraps drm_atomic_get_old_private_obj_state() passing in the MST atomic
-> > + * state vtable so that the private object state returned is that of a MST
-> > + * topology object.
-> > + *
-> > + * Returns:
-> > + *
-> > + * The old MST topology state, or NULL if there's no topology state for this MST mgr
-> > + * in the global atomic state
-> > + */
-> > +struct drm_dp_mst_topology_state *
-> > +drm_atomic_get_old_mst_topology_state(struct drm_atomic_state *state,
-> > +				      struct drm_dp_mst_topology_mgr *mgr)
-> > +{
-> > +	struct drm_private_state *priv_state =
-> 
-> I would include 'old_' in the variable name to remind the reader what it
-> is.
+cppcheck reports
+drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c:1403:76: style:
+  Expression is always true because 'else if' condition is opposite to previous condition at line 1396. [multiCondition]
+   } else if (context->res_ctx.pipe_ctx[i].stream->mall_stream_config.type == SUBVP_PHANTOM) {
+                                                                           ^
+drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c:1396:69: note: first condition
+   if (context->res_ctx.pipe_ctx[i].stream->mall_stream_config.type != SUBVP_PHANTOM) {
+                                                                    ^
+drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c:1403:76: note: else if condition is opposite to first condition
+   } else if (context->res_ctx.pipe_ctx[i].stream->mall_stream_config.type == SUBVP_PHANTOM) {
 
-Ok, will change it.
+It is not necessary to explicitly the check != condition, an else is simplier.
 
-> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> 
-> > +		drm_atomic_get_old_private_obj_state(state, &mgr->base);
-> > +
-> > +	return priv_state ? to_dp_mst_topology_state(priv_state) : NULL;
-> > +}
-> > +EXPORT_SYMBOL(drm_atomic_get_old_mst_topology_state);
-> > +
-> >  /**
-> >   * drm_atomic_get_new_mst_topology_state: get new MST topology state in atomic state, if any
-> >   * @state: global atomic state
-> >   * @mgr: MST topology manager, also the private object in this case
-> >   *
-> > - * This function wraps drm_atomic_get_priv_obj_state() passing in the MST atomic
-> > + * This function wraps drm_atomic_get_new_private_obj_state() passing in the MST atomic
-> >   * state vtable so that the private object state returned is that of a MST
-> >   * topology object.
-> >   *
-> >   * Returns:
-> >   *
-> > - * The MST topology state, or NULL if there's no topology state for this MST mgr
-> > + * The new MST topology state, or NULL if there's no topology state for this MST mgr
-> >   * in the global atomic state
-> >   */
-> >  struct drm_dp_mst_topology_state *
-> > diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-> > index f5eb9aa152b14..32c764fb9cb56 100644
-> > --- a/include/drm/display/drm_dp_mst_helper.h
-> > +++ b/include/drm/display/drm_dp_mst_helper.h
-> > @@ -868,6 +868,9 @@ struct drm_dp_mst_topology_state *
-> >  drm_atomic_get_mst_topology_state(struct drm_atomic_state *state,
-> >  				  struct drm_dp_mst_topology_mgr *mgr);
-> >  struct drm_dp_mst_topology_state *
-> > +drm_atomic_get_old_mst_topology_state(struct drm_atomic_state *state,
-> > +				      struct drm_dp_mst_topology_mgr *mgr);
-> > +struct drm_dp_mst_topology_state *
-> >  drm_atomic_get_new_mst_topology_state(struct drm_atomic_state *state,
-> >  				      struct drm_dp_mst_topology_mgr *mgr);
-> >  struct drm_dp_mst_atomic_payload *
-> > -- 
-> > 2.37.1
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+Fixes: 238debcaebe4 ("drm/amd/display: Use DML for MALL SS and Subvp allocation calculations")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index 0dc1a03999b6..c96cbd88e20d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -1400,7 +1400,7 @@ static void dcn32_calculate_dlg_params(struct dc *dc, struct dc_state *context,
+ 					/* SS PSR On: all active surfaces part of streams not supporting PSR stored in MALL */
+ 					context->bw_ctx.bw.dcn.mall_ss_psr_active_size_bytes += context->res_ctx.pipe_ctx[i].surface_size_in_mall_bytes;
+ 				}
+-			} else if (context->res_ctx.pipe_ctx[i].stream->mall_stream_config.type == SUBVP_PHANTOM) {
++			} else {
+ 				/* SUBVP: phantom surfaces only stored in MALL */
+ 				context->bw_ctx.bw.dcn.mall_subvp_size_bytes += context->res_ctx.pipe_ctx[i].surface_size_in_mall_bytes;
+ 			}
+-- 
+2.26.3
+
