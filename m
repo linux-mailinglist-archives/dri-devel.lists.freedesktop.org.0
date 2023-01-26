@@ -2,77 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978BB67D554
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 20:26:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF9D67D56E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 20:38:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF5D10E2AE;
-	Thu, 26 Jan 2023 19:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5905910E021;
+	Thu, 26 Jan 2023 19:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75F7F10E021;
- Thu, 26 Jan 2023 19:26:15 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30QI0wKm005688; Thu, 26 Jan 2023 19:26:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=0GdW4PZJXZnnIK8H4ksTg6zGY5UcrgFpOaZYlC+dy9s=;
- b=B2SnSotuXIbPwD4xrEyp23/XZv7F7yun4H9He06eZWtbWia0FyL4/qCwe2GedAa3FhIw
- bEaYIcD9/BghxLFxMMcHzXK/bNN60HKmciL0iAj3pjqZAVPcs4uClXUvN8r9bfiN403X
- T8EFlQ2iYRxSoPP0xV1fB2F0g8VDrEhtVvvJoeNNIkqZUGiWjWdklEFHBOvr+Yp1hpuy
- IRpehY3IIon3kd8yETyIUwYI3WLDkXnuoylRRNoLVuJa/g/X7emMpgxprN4cNw3R5DDo
- pNyulM/jkCyvw377f2eI3xA6SPatZZHY3hKaxYR6plbty5BXnAPp1rxH7LLywppG2T+x 5g== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nasr0ky49-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Jan 2023 19:26:09 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30QJQ8OV012002
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Jan 2023 19:26:08 GMT
-Received: from [10.110.33.211] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 26 Jan
- 2023 11:26:07 -0800
-Message-ID: <b6683f79-65be-ccad-7b74-f8dae37fe2b9@quicinc.com>
-Date: Thu, 26 Jan 2023 11:26:07 -0800
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
+ [IPv6:2607:f8b0:4864:20::82b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E32F510E021
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 19:38:18 +0000 (UTC)
+Received: by mail-qt1-x82b.google.com with SMTP id e8so2221926qts.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 11:38:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=548u3Fp4tscAsRqm8ZTE2VWhUoxZOCMAGUWVcX6Go58=;
+ b=epV5VW3hrViYljNLAdWJDqX3fAl4wYMv55qfvqUl+cZybWCeeDvqryFJs7Zk1z1ge0
+ +YfWxsTDgetquN/yOeHPal429etypXOBpel4tIAV8vd4EP8H055kKatEvKe6oZxMs3PT
+ LcO0xq4K0msdWtCUNqYN4NK0vLHs5L0h44+WlAHrYWvJgXcgjDmqAFXJlLbfBB/UTvvN
+ 9vIhPdjjmCe8giVOUtXcRKZC0HKhopCXDpNQUBIZSpW7Qbo2/7o+/aS/ZPpfQVm1O7vS
+ K1a26f+LNFd2YzHSgykx3DHZbq9/58TJ23dpXqRpwr3NjRuHpKkuas3uu7YQGuqzHxWI
+ HpSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=548u3Fp4tscAsRqm8ZTE2VWhUoxZOCMAGUWVcX6Go58=;
+ b=Eb+yURs++Q/ce1D9zOfF0ruSXrpn2v2Ytv1xDHgoGoRM4wxHe3jEhnLLzH8aSfZVqb
+ tUxsYJZWH7EaXkVJy/oC0NFKZvYz2RDi5ISUNuWLmtTJQ36H50vryupRKY51Za/KGskB
+ lxTF4VfJbCMhchHLg0FwffAtxzA3au0JwToilM/GjMhSlj4ACuT9wiiUXFdnqNWnddHw
+ 7tG7CSwNzN8gIMpoLXlBjqxRiNgEo17YeKVRVjYtTyevsq2uPdIuO9OswdUY7HyLpkeB
+ FJYXOlppEKRh6BD7mbbshHLt/gfbwWPTE9ePy8Wyb+XwLnrkGqtliEKeZz6naJbelW0e
+ Wa6Q==
+X-Gm-Message-State: AFqh2koAh2Ss9U7wPisukR/KtSqcJt8xKqVA/rU3Vk34MoRhPARLhdZf
+ ErNPxssDiKuLupP+cxjNp9Amhw==
+X-Google-Smtp-Source: AMrXdXv+huCHA7ip/FVnskiv66KzYaO0gWPYCPL7QS4WBmaP67lWrrmrdvcrLuRJ9ZU3cV/x/SyhoQ==
+X-Received: by 2002:ac8:70a:0:b0:3b1:c477:eb65 with SMTP id
+ g10-20020ac8070a000000b003b1c477eb65mr52142649qth.60.1674761897975; 
+ Thu, 26 Jan 2023 11:38:17 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-167-59-176.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.167.59.176]) by smtp.gmail.com with ESMTPSA id
+ v3-20020ac87283000000b003b62e9c82ebsm1276806qto.48.2023.01.26.11.38.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Jan 2023 11:38:16 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+ (envelope-from <jgg@ziepe.ca>) id 1pL84e-00HP8B-92;
+ Thu, 26 Jan 2023 15:38:16 -0400
+Date: Thu, 26 Jan 2023 15:38:16 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [Lsf-pc] [LSF/MM/BPF proposal]: Physr discussion
+Message-ID: <Y9LWqEtmkmsMrHne@ziepe.ca>
+References: <Y8v+qVZ8OmodOCQ9@nvidia.com>
+ <63cee1d3eaaef_3a36e529488@dwillia2-xfh.jf.intel.com.notmuch>
+ <Y87p9i0vCZo/3Qa0@casper.infradead.org>
+ <63cef32cbafc3_3a36e529465@dwillia2-xfh.jf.intel.com.notmuch>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 01/27] drm/msm/dpu: set pdpu->is_rt_pipe early in
- dpu_plane_sspp_atomic_update()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
- <20221229191856.3508092-2-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221229191856.3508092-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: DVGYUeo6d4ey-H2FVFkDqUdcDzfo1MiI
-X-Proofpoint-ORIG-GUID: DVGYUeo6d4ey-H2FVFkDqUdcDzfo1MiI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-26_09,2023-01-26_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- mlxlogscore=999 clxscore=1015 phishscore=0 lowpriorityscore=0 adultscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301260182
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63cef32cbafc3_3a36e529465@dwillia2-xfh.jf.intel.com.notmuch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,73 +77,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: nvdimm@lists.linux.dev, lsf-pc@lists.linuxfoundation.org,
+ linux-rdma@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux.dev,
+ Matthew Wilcox <willy@infradead.org>, netdev@vger.kernel.org,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Jason Gunthorpe via Lsf-pc <lsf-pc@lists.linux-foundation.org>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 12/29/2022 11:18 AM, Dmitry Baryshkov wrote:
-> The function dpu_plane_sspp_atomic_update() updates pdpu->is_rt_pipe
-> flag, but after the commit 854f6f1c653b ("drm/msm/dpu: update the qos
-> remap only if the client type changes") it sets the flag late, after all
-> the qos functions have updated QoS programming. Move the flag update
-> back to the place where it happended before the mentioned commit to let
-happended ---> happened
-> the pipe be programmed according to its current RT/non-RT state.
+On Mon, Jan 23, 2023 at 12:50:52PM -0800, Dan Williams wrote:
+> Matthew Wilcox wrote:
+> > On Mon, Jan 23, 2023 at 11:36:51AM -0800, Dan Williams wrote:
+> > > Jason Gunthorpe via Lsf-pc wrote:
+> > > > I would like to have a session at LSF to talk about Matthew's
+> > > > physr discussion starter:
+> > > > 
+> > > >  https://lore.kernel.org/linux-mm/YdyKWeU0HTv8m7wD@casper.infradead.org/
+> > > > 
+> > > > I have become interested in this with some immediacy because of
+> > > > IOMMUFD and this other discussion with Christoph:
+> > > > 
+> > > >  https://lore.kernel.org/kvm/4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com/
+> > > 
+> > > I think this is a worthwhile discussion. My main hangup with 'struct
+> > > page' elimination in general is that if anything needs to be allocated
+> > 
+> > You're the first one to bring up struct page elimination.  Neither Jason
+> > nor I have that as our motivation.
 > 
-> Fixes: 854f6f1c653b ("drm/msm/dpu: update the qos remap only if the client type changes")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Oh, ok, then maybe I misread the concern in the vfio discussion. I
+> thought the summary there is debating the ongoing requirement for
+> 'struct page' for P2PDMA?
 
-With that nit fixed,
+The VFIO problem is we need a unique pgmap at 4k granuals (or maybe
+smaller, technically), tightly packed, because VFIO exposes PCI BAR
+space that can be sized in such small amounts.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+So, using struct page means some kind of adventure in the memory
+hotplug code to allow tightly packed 4k pgmaps.
 
-Looks much cleaner now, thanks !
+And that is assuming that every architecture that wants to support
+VFIO supports pgmap and memory hot plug. I was just told that s390
+doesn't, that is kind of important..
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 15 ++++++---------
->   1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 86719020afe2..bfd5be89e8b8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -1126,7 +1126,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->   	struct dpu_plane_state *pstate = to_dpu_plane_state(state);
->   	struct drm_crtc *crtc = state->crtc;
->   	struct drm_framebuffer *fb = state->fb;
-> -	bool is_rt_pipe, update_qos_remap;
-> +	bool is_rt_pipe;
->   	const struct dpu_format *fmt =
->   		to_dpu_format(msm_framebuffer_format(fb));
->   	struct dpu_hw_pipe_cfg pipe_cfg;
-> @@ -1138,6 +1138,9 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->   	pstate->pending = true;
->   
->   	is_rt_pipe = (dpu_crtc_get_client_type(crtc) != NRT_CLIENT);
-> +	pstate->needs_qos_remap |= (is_rt_pipe != pdpu->is_rt_pipe);
-> +	pdpu->is_rt_pipe = is_rt_pipe;
-> +
->   	_dpu_plane_set_qos_ctrl(plane, false, DPU_PLANE_QOS_PANIC_CTRL);
->   
->   	DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " DRM_RECT_FMT
-> @@ -1219,14 +1222,8 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->   		_dpu_plane_set_ot_limit(plane, crtc, &pipe_cfg);
->   	}
->   
-> -	update_qos_remap = (is_rt_pipe != pdpu->is_rt_pipe) ||
-> -			pstate->needs_qos_remap;
-> -
-> -	if (update_qos_remap) {
-> -		if (is_rt_pipe != pdpu->is_rt_pipe)
-> -			pdpu->is_rt_pipe = is_rt_pipe;
-> -		else if (pstate->needs_qos_remap)
-> -			pstate->needs_qos_remap = false;
-> +	if (pstate->needs_qos_remap) {
-> +		pstate->needs_qos_remap = false;
->   		_dpu_plane_set_qos_remap(plane);
->   	}
->   
+If there is a straightforward way to get a pgmap into VFIO then I'd do
+that and give up this quest :)
+
+I've never been looking at this from the angle of eliminating struct
+page, but from the perspective of allowing the DMA API to correctly do
+scatter/gather IO to non-struct page P2P memory because I *can't* get
+a struct page for it. Ie make dma_map_resource() better. Make P2P
+DMABUF work properly.
+
+This has to come along with a different way to store address ranges
+because the basic datum that needs to cross all the functional
+boundaries we have is an address range list.
+
+My general current sketch is we'd allocate some 'DMA P2P provider'
+structure analogous to the MEMORY_DEVICE_PCI_P2PDMA pgmap and a single
+provider would cover the entire MMIO aperture - eg the providing
+device's MMIO BAR. This is enough information for the DMA API to do
+its job.
+
+We get this back either by searching an interval treey thing on the
+physical address or by storing it directly in the address range list.
+
+Jason
