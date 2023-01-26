@@ -2,50 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00B767D702
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 21:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0399067D2B1
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:08:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE7D310E2DD;
-	Thu, 26 Jan 2023 20:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92ED610E947;
+	Thu, 26 Jan 2023 17:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECA810E294;
- Thu, 26 Jan 2023 17:07:43 +0000 (UTC)
-Received: from mercury (dyndsl-037-138-191-219.ewe-ip-backbone.de
- [37.138.191.219])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: sre)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7FC3E6602E7D;
- Thu, 26 Jan 2023 17:07:41 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1674752861;
- bh=TJwB9xWefUtenAJhobcnuA3/dr44yh/1qZH05naV3dA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HIAeawkSMl4wLK9atphFO2PYIuQtn0mXWrQTGJkp27Vvwen4RmNJXIKy0KOcMN2qu
- MGji/BoqRh//5quIKkg+7Jg9a4rlT6zYnOxKnHRve8IRt32uZ0O2J9C6ByA7KSG9ni
- ooI+f+xDzdj/4Xv/XqAW1ZMOqMbxlnaE69Ns4AaVsCb09DHvVD+xjXrJ7HkcJ65ZDs
- 0FKkR9qOOchTbFQKw+Lbe8GJsd/K96q/WWSPWtyPUY4G0yRJ/G34tsJUBI/vL5q95x
- a6dIJ/I/0Glk/75yhzfiBv6PLPN/HUTuWOcS4vpdAGRdicde5HTb77Vj3shLRE2rZN
- snAuQFm3yL5CQ==
-Received: by mercury (Postfix, from userid 1000)
- id 8DAD710609C7; Thu, 26 Jan 2023 18:07:39 +0100 (CET)
-Date: Thu, 26 Jan 2023 18:07:39 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Subject: Re: [PATCH v2 3/6] mm: replace vma->vm_flags direct modifications
- with modifier calls
-Message-ID: <20230126170739.mlka2jivn3mfstyf@mercury.elektranox.org>
-References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-4-surenb@google.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1F4710E947
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:08:40 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30QEH0wu012302; Thu, 26 Jan 2023 17:08:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=5pkjWXKYThDrjNI4lY27ewZna4lzbQVLRf9N6qUrqOk=;
+ b=aIJkVnlrd0qO7PwwW0eulhIt2/XJkbIvKGDXw6pcTih+oCzBChAT1EdlHxY5rXJILfkP
+ Edho8K2xhPajdVJw64SPdIZvPZ7CoIS1qL5iTAHeIy/rL6P6Zp0t/TQSvrEymBCVaP25
+ VFzO9KtG1jUBuDIlt1Jd64/pXJPBKeumcf8a+VXUDZxRhj9Gv+rvUOveqDV8LWtZimgm
+ /ZNVibASy4Ap/WnJ3EtY6ukLQDiXBHN1qvMWTA1kF58d40n3xt5n3m6SOPU3QIRONaZz
+ eX3FmvTPSq79BZ8VPdjhr4OSKRo3zbyjwO3lzd9uG+SadI6OljcH9Js60+ppj/SDb44M /Q== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nb0qru3dp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Jan 2023 17:08:33 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30QH8WWc025654
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Jan 2023 17:08:32 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 26 Jan
+ 2023 09:08:31 -0800
+Message-ID: <f8e71b4d-fa25-b86c-eee2-c1f16fe01a7c@quicinc.com>
+Date: Thu, 26 Jan 2023 10:08:30 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qcyccrleajamxo75"
-Content-Disposition: inline
-In-Reply-To: <20230125083851.27759-4-surenb@google.com>
-X-Mailman-Approved-At: Thu, 26 Jan 2023 20:58:31 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 1/2] accep/ivpu: PM: remove broken ivpu_dbg() statements
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>, Jacek Lawrynowicz
+ <jacek.lawrynowicz@linux.intel.com>, Stanislaw Gruszka
+ <stanislaw.gruszka@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Krystian Pradzynski <krystian.pradzynski@linux.intel.com>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>
+References: <20230126163804.3648051-1-arnd@kernel.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230126163804.3648051-1-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: I0De6xQnred_GEbgmPktnlaZfK4wPkB2
+X-Proofpoint-ORIG-GUID: I0De6xQnred_GEbgmPktnlaZfK4wPkB2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-26_07,2023-01-26_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 clxscore=1011 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301260165
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,120 +86,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@lespinasse.org, nvdimm@lists.linux.dev, leewalsh@google.com,
- dri-devel@lists.freedesktop.org, perex@perex.cz, jglisse@google.com,
- arjunroy@google.com, m.szyprowski@samsung.com, linux-arch@vger.kernel.org,
- qianweili@huawei.com, linux-samsung-soc@vger.kernel.org,
- aneesh.kumar@linux.ibm.com, chenhuacai@kernel.org, kasan-dev@googlegroups.com,
- linux-acpi@vger.kernel.org, rientjes@google.com,
- xen-devel@lists.xenproject.org, devel@lists.orangefs.org, minchan@google.com,
- robert.jarzmik@free.fr, linux-um@lists.infradead.org,
- etnaviv@lists.freedesktop.org, npiggin@gmail.com, alex.williamson@redhat.com,
- viro@zeniv.linux.org.uk, luto@kernel.org, gthelen@google.com,
- tglx@linutronix.de, ldufour@linux.ibm.com, linux-sgx@vger.kernel.org,
- martin.petersen@oracle.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- akpm@linux-foundation.org, linux-media@vger.kernel.org,
- freedreno@lists.freedesktop.org, joelaf@google.com, linux-aio@kvack.org,
- linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org, david@redhat.com,
- dave.hansen@linux.intel.com, virtualization@lists.linux-foundation.org,
- edumazet@google.com, target-devel@vger.kernel.org, punit.agrawal@bytedance.com,
- linux-s390@vger.kernel.org, dave@stgolabs.net, deller@gmx.de, hughd@google.com,
- andrii@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-rockchip@lists.infradead.org, linux-graphics-maintainer@vmware.com,
- kernel-team@android.com, jayalk@intworks.biz, soheil@google.com,
- selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org, shakeelb@google.com,
- haojian.zhuang@gmail.com, loongarch@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, tytso@mit.edu, nico@fluxnic.net,
- muchun.song@linux.dev, hjc@rock-chips.com, mcoquelin.stm32@gmail.com,
- tatashin@google.com, mike.kravetz@oracle.com, songliubraving@fb.com,
- jasowang@redhat.com, alsa-devel@alsa-project.org, peterx@redhat.com,
- linux-tegra@vger.kernel.org, kraxel@redhat.com, will@kernel.org,
- dmaengine@vger.kernel.org, bhe@redhat.com, miklos@szeredi.hu,
- linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev, willy@infradead.org,
- gurua@google.com, dgilbert@interlog.com, xiang@kernel.org, pabeni@redhat.com,
- jejb@linux.ibm.com, quic_abhinavk@quicinc.com, bp@alien8.de,
- mchehab@kernel.org, linux-ext4@vger.kernel.org, tomba@kernel.org,
- hughlynch@google.com, tfiga@chromium.org, linux-xfs@vger.kernel.org,
- zhangfei.gao@linaro.org, wangzhou1@hisilicon.com, netdev@vger.kernel.org,
- bpf@vger.kernel.org, linux-erofs@lists.ozlabs.org, davem@davemloft.net,
- mhocko@suse.com, kvm@vger.kernel.org, mst@redhat.com, peterz@infradead.org,
- bigeasy@linutronix.de, alexandre.torgue@foss.st.com, dhowells@redhat.com,
- linux-mm@kvack.org, ray.huang@amd.com, adilger.kernel@dilger.ca,
- kuba@kernel.org, sparclinux@vger.kernel.org, anton.ivanov@cambridgegreys.com,
- herbert@gondor.apana.org.au, linux-scsi@vger.kernel.org, richard@nod.at,
- x86@kernel.org, vkoul@kernel.org, mingo@redhat.com, axelrasmussen@google.com,
- intel-gfx@lists.freedesktop.org, paulmck@kernel.org, jannh@google.com,
- chao@kernel.org, liam.howlett@oracle.com, hdegoede@redhat.com,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, vbabka@suse.cz,
- dimitri.sivanich@hpe.com, amd-gfx@lists.freedesktop.org, posk@google.com,
- lstoakes@gmail.com, peterjung1337@gmail.com, yoshfuji@linux-ipv6.org,
- linuxppc-dev@lists.ozlabs.org, dsahern@kernel.org, kent.overstreet@linux.dev,
- kexec@lists.infradead.org, tiwai@suse.com, krzysztof.kozlowski@linaro.org,
- tzimmermann@suse.de, hannes@cmpxchg.org, dmitry.baryshkov@linaro.org,
- johannes@sipsolutions.net, mgorman@techsingularity.net,
- linux-accelerators@lists.ozlabs.org
+Cc: dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Subject has a typo: "accep" should be "accel"
 
---qcyccrleajamxo75
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed, Jan 25, 2023 at 12:38:48AM -0800, Suren Baghdasaryan wrote:
-> Replace direct modifications to vma->vm_flags with calls to modifier
-> functions to be able to track flag changes and to keep vma locking
-> correctness.
->=20
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+On 1/26/2023 9:37 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> When CONFIG_PM is disabled, the driver fails to build:
+> 
+> drivers/accel/ivpu/ivpu_pm.c: In function 'ivpu_rpm_get':
+> drivers/accel/ivpu/ivpu_pm.c:240:84: error: 'struct dev_pm_info' has no member named 'usage_count'
+>    240 |         ivpu_dbg(vdev, RPM, "rpm_get count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
+>        |                                                                                    ^
+> include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+>    223 |                 func(&id, ##__VA_ARGS__);                       \
+>        |                             ^~~~~~~~~~~
+> include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+>    249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+>        |         ^~~~~~~~~~~~~~~~~~~~~~
+> include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+>    272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+>        |         ^~~~~~~~~~~~~~~~~~
+> include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+>    155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+>        |         ^~~~~~~~~~~~~~~
+> drivers/accel/ivpu/ivpu_drv.h:65:17: note: in expansion of macro 'dev_dbg'
+>     65 |                 dev_dbg((vdev)->drm.dev, "[%s] " fmt, #type, ##args);          \
+>        |                 ^~~~~~~
+> drivers/accel/ivpu/ivpu_pm.c:240:9: note: in expansion of macro 'ivpu_dbg'
+>    240 |         ivpu_dbg(vdev, RPM, "rpm_get count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
+>        |         ^~~~~~~~
+> 
+> It would be possible to rework these statements to only conditionally print
+> the reference counter, or to make the driver depend on CONFIG_PM, but my
+> impression is that these are not actually needed at all if the driver generally
+> works, or they could be put back when required. Just remove all four of these
+> to make the driver build in all configurations.
+> 
+> Fixes: 852be13f3bd3 ("accel/ivpu: Add PM support")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> [...]
->  drivers/hsi/clients/cmt_speech.c                   |  2 +-
->  120 files changed, 188 insertions(+), 199 deletions(-)
-> [...]
-> diff --git a/drivers/hsi/clients/cmt_speech.c b/drivers/hsi/clients/cmt_s=
-peech.c
-> index 8069f795c864..952a31e742a1 100644
-> --- a/drivers/hsi/clients/cmt_speech.c
-> +++ b/drivers/hsi/clients/cmt_speech.c
-> @@ -1264,7 +1264,7 @@ static int cs_char_mmap(struct file *file, struct v=
-m_area_struct *vma)
->  	if (vma_pages(vma) !=3D 1)
->  		return -EINVAL;
-> =20
-> -	vma->vm_flags |=3D VM_IO | VM_DONTDUMP | VM_DONTEXPAND;
-> +	set_vm_flags(vma, VM_IO | VM_DONTDUMP | VM_DONTEXPAND);
->  	vma->vm_ops =3D &cs_char_vm_ops;
->  	vma->vm_private_data =3D file->private_data;
-> =20
+>   drivers/accel/ivpu/ivpu_pm.c | 10 ----------
+>   1 file changed, 10 deletions(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+> index 553bcbd787b3..a880f1dd857e 100644
+> --- a/drivers/accel/ivpu/ivpu_pm.c
+> +++ b/drivers/accel/ivpu/ivpu_pm.c
+> @@ -237,8 +237,6 @@ int ivpu_rpm_get(struct ivpu_device *vdev)
+>   {
+>   	int ret;
+>   
+> -	ivpu_dbg(vdev, RPM, "rpm_get count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
+> -
+>   	ret = pm_runtime_resume_and_get(vdev->drm.dev);
+>   	if (!drm_WARN_ON(&vdev->drm, ret < 0))
+>   		vdev->pm->suspend_reschedule_counter = PM_RESCHEDULE_LIMIT;
+> @@ -248,8 +246,6 @@ int ivpu_rpm_get(struct ivpu_device *vdev)
+>   
+>   void ivpu_rpm_put(struct ivpu_device *vdev)
+>   {
+> -	ivpu_dbg(vdev, RPM, "rpm_put count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
+> -
+>   	pm_runtime_mark_last_busy(vdev->drm.dev);
+>   	pm_runtime_put_autosuspend(vdev->drm.dev);
+>   }
+> @@ -314,16 +310,10 @@ void ivpu_pm_enable(struct ivpu_device *vdev)
+>   	pm_runtime_allow(dev);
+>   	pm_runtime_mark_last_busy(dev);
+>   	pm_runtime_put_autosuspend(dev);
+> -
+> -	ivpu_dbg(vdev, RPM, "Enable RPM count %d\n", atomic_read(&dev->power.usage_count));
+>   }
+>   
+>   void ivpu_pm_disable(struct ivpu_device *vdev)
+>   {
+> -	struct device *dev = vdev->drm.dev;
+> -
+> -	ivpu_dbg(vdev, RPM, "Disable RPM count %d\n", atomic_read(&dev->power.usage_count));
+> -
+>   	pm_runtime_get_noresume(vdev->drm.dev);
+>   	pm_runtime_forbid(vdev->drm.dev);
+>   }
 
-Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
--- Sebastian
-
---qcyccrleajamxo75
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmPSs1EACgkQ2O7X88g7
-+pquLBAAkw9lw9lxNRCI6jvqLy98JsUBgSQigNB6Eh8JVWsySHMm1OszFCcvTpoc
-vinC/VPMOa6JwEw5e9naXRF2UJahO+Cx+e5MYIKos3QyIUPfi0YM7Cv96h6+c4l/
-NdcxLS8+9ElitTuA47UVgPSeZwzdZ1kU5VUV1X2fx+6aGA+dBfWVBgWDqU6AB0Sa
-ehU4betso5Ypl26YEmLPHmY+8Xx2jXNwwBEgsHgO2/YjRn9YPDeMAqb4lWs99h0d
-nUV1VqwTClRrExtNDvidHryknmyCIBpYt38gn0i9+uIf9mFoBmUDN+/zAdRguGBT
-r1CQAwvRvHmEyGJ4dp1nijyt/PWxDBlCWytlmzXrK/rkeH8sQCRdCr9L83/d5DM0
-iU98ehmbH9kx8rD4y0L91xmsnegNYNKSfAvz3EP4KYFOHjTw2SOCYoazPu3z62bN
-d3HL+08LeZpm1XwVPydZqBd5UpBK8NaQYCJ3BjsLUefsSJE+SWzsnoYFnbUrL1X9
-1XfU6LGtVvjCPUsjk7oqh5PjtRGQsdtUhSZJLwNzTeh4I0nSzL1pj8vRFZ7UTcV4
-RmFYsjBbKhja2fC13eM4tKzfx53harnHVNuUPw2aoLKshpkQaOTUqWBnRXtbJZkb
-dSRKObxfPlHVI+awnfN6owpXF86Owew2+XJcXILOPxaBk8PI/Ns=
-=/0TB
------END PGP SIGNATURE-----
-
---qcyccrleajamxo75--
