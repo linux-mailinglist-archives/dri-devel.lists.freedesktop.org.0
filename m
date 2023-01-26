@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B9B67CE98
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:46:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26ADC67CE9B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:46:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A7B810E921;
-	Thu, 26 Jan 2023 14:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C54710E925;
+	Thu, 26 Jan 2023 14:46:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0719E10E921
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:46:31 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- nn18-20020a17090b38d200b0022bfb584987so1916128pjb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:46:31 -0800 (PST)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7439210E922
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:46:45 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id a18so2027339plm.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:46:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c4Zt0Fx4HYrC+EA7BQu40bK0DS9Q1S4wdUAYAMr7AkA=;
- b=nnNSrk9XqUihNoOrwl2DdVzuRJWqTChqyGbY5xa2qBcsl5d50b8RWOz3tniUMgO/Cb
- VjCZg2G8yiCR8ZnRs1tKHJQ8ESx7kqhueMA8hty2BukeYVRYG/GGJaRAua8O9p0nEQyQ
- 91BWjpLUkhVs9XdkS0CZkpZyF87+za9rYUFbE=
+ bh=CCVYG25W1pHQNxSfAOiHmaNQidizxzXKd6AiL4XAwms=;
+ b=J5r6PKryB1ljLmvqcvclVHC92p0hV+3a4T0wmynl5mHdjZSWBaxln6B+q2Q+RNzYmc
+ uHsB87C/M9RCMhUC5jRCjRXQE6QFfrjK+1qEpuMXkJbZqgbgE85Rlr0YBNUdI9hRilyz
+ vhIEGJ0oWoB9vqhtmRgisKViEnW8Ql14VL9nM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=c4Zt0Fx4HYrC+EA7BQu40bK0DS9Q1S4wdUAYAMr7AkA=;
- b=MyZGLpqtWggxt/9/1+STsp5soIxR+3lhzgd3F2+/2ydVyl16DNoTyYL6K5ICXb1+p/
- io730T/htrMQoCxhu4/2RhNBzoqryJCBOLtFeKcQxjzQ0cFLIjhTzYYCrpZ4CRPS4xdl
- LeBOo3/3VJu543YGLMCwrpU1YrM22Jqyd7dY57F+gvPg6LIxur0tmEqUEfxasW4W+wex
- y4nFJAwCKUX/s5s574ZxASzJ5nnKUXA0hSUolAZuQwLp8ML9i6I0KjU88hYHzLAHfq9H
- 1b74b2MKNSlhPZPxd2Qv+D/5hDOh4jZ8Ne8EjJk2l3M2ilhMmwLKYdCnBy0aKd1I4IZH
- XqGA==
-X-Gm-Message-State: AO0yUKWFYNN1S5rBbPdpd1uDp96fu7/DY5WyGwQyvfw7riBcEix11NiL
- EXuKbIvl5ecI+6USB35+1dVIOQ==
-X-Google-Smtp-Source: AK7set9JVEd32JABr+ccMpKxRzgjywtwItuQOmzFSzKKuKt0J618iQ09CnYCm2akYidtK6cJVxOn/w==
-X-Received: by 2002:a05:6a20:ce49:b0:bb:9aee:f6d3 with SMTP id
- id9-20020a056a20ce4900b000bb9aeef6d3mr10489096pzb.46.1674744391517; 
- Thu, 26 Jan 2023 06:46:31 -0800 (PST)
+ bh=CCVYG25W1pHQNxSfAOiHmaNQidizxzXKd6AiL4XAwms=;
+ b=5AeTd8jrZJhGA1TkpL5sPj1E/xiCIJ1BHn3nE1S247QwGW9BjnEl9XN4liYGHyGnOK
+ wztHvqGWeVYiSj1dSmZF/3pt0XZAva69pDIwGzhJar6IvlC2ka8FInvX1HVTqjjEo8n0
+ ToLrzbph+1dxe7LfEDcy/Hxq6A8KjsojrtSw1E18gfD7rzBb5hTxFKHmQ73aGA8MdPar
+ vBc5t5eJhzCD3B1asSbWbfuTzQvA57JHV0bWlMol/DusN0vPn4g5auXwSQy81asg0X21
+ fT4lk5dsfkw0POngIoMOw5dBg6MzCP4to8HdOH0DTKRtwUtANPMKwKm+EFqW1GusP1ap
+ YctQ==
+X-Gm-Message-State: AFqh2kokgDWIHhc2/itvW+GiPAFtBnKcfYbqD5sA0ujhAtsVZEVqSGvR
+ BGFUgbyUSODvLPYwoST692+gmg==
+X-Google-Smtp-Source: AMrXdXtJ5fZLKtk38j0oZHe+QIkIVQDfMF/e1R47vrpGkb7LfA21PmqqZvKVYx0jfa7t4ZjIOLqVfQ==
+X-Received: by 2002:a05:6a20:3942:b0:b8:50fd:fd1a with SMTP id
+ r2-20020a056a20394200b000b850fdfd1amr50376881pzg.19.1674744405018; 
+ Thu, 26 Jan 2023 06:46:45 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a238:3cb1:2156:ef87:8af5])
  by smtp.gmail.com with ESMTPSA id
- d197-20020a6336ce000000b0042988a04bfdsm823660pga.9.2023.01.26.06.46.20
+ d197-20020a6336ce000000b0042988a04bfdsm823660pga.9.2023.01.26.06.46.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 06:46:30 -0800 (PST)
+ Thu, 26 Jan 2023 06:46:44 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -58,9 +57,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v12 09/18] drm: exynos: dsi: Add atomic check
-Date: Thu, 26 Jan 2023 20:14:18 +0530
-Message-Id: <20230126144427.607098-10-jagan@amarulasolutions.com>
+Subject: [PATCH v12 10/18] drm: exynos: dsi: Add input_bus_flags
+Date: Thu, 26 Jan 2023 20:14:19 +0530
+Message-Id: <20230126144427.607098-11-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230126144427.607098-1-jagan@amarulasolutions.com>
 References: <20230126144427.607098-1-jagan@amarulasolutions.com>
@@ -85,117 +84,63 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Look like an explicit fixing up of mode_flags is required for DSIM IP
-present in i.MX8M Mini/Nano SoCs.
+LCDIF-DSIM glue logic inverts the HS/VS/DE signals and expecting
+the i.MX8M Mini/Nano DSI host to add additional Data Enable signal
+active low (DE_LOW). This makes the valid data transfer on each
+horizontal line.
 
-At least the LCDIF + DSIM needs active low sync polarities in order
-to correlate the correct sync flags of the surrounding components in
-the chain to make sure the whole pipeline can work properly.
-
-On the other hand the i.MX 8M Mini Applications Processor Reference Manual,
-Rev. 3, 11/2020 says.
-"13.6.3.5.2 RGB interface
- Vsync, Hsync, and VDEN are active high signals."
-
-i.MX 8M Mini Applications Processor Reference Manual Rev. 3, 11/2020
-3.6.3.5.2 RGB interface
-i.MX 8M Nano Applications Processor Reference Manual Rev. 2, 07/2022
-13.6.2.7.2 RGB interface
-both claim "Vsync, Hsync, and VDEN are active high signals.", the
-LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
-
-No clear evidence about whether it can be documentation issues or
-something, so added proper comments on the code.
-
-Comments are suggested by Marek Vasut.
+So, add additional bus flags DE_LOW setting via input_bus_flags
+for i.MX8M Mini/Nano platforms.
 
 Reviewed-by: Marek Vasut <marex@denx.de>
 Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+Suggested-by: Marek Vasut <marex@denx.de>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v12:
 - collect RB from Marek
 Changes for v11:
 - collect RB from Frieder
-- fix commit message
 Changes for v10, v9:
 - none
 Changes for v8:
-- update the comments about sync signals polarities
-- added clear commit message by including i.MX8M Nano details
-Changes for v7:
-- fix the hw_type checking logic
-Changes for v6:
+- add DE_LOW for i.MX8M Mini/Nano platforms.
+Changes for v7, v6:
 - none
 Changes for v5:
-- rebase based new bridge changes [mszyprow]
-- remove DSIM_QUIRK_FIXUP_SYNC_POL
-- add hw_type check for sync polarities change.
-Changes for v4:
+- rebased based on updated bridge changes
+Changes for v4 - v1:
 - none
-Changes for v3:
-- add DSIM_QUIRK_FIXUP_SYNC_POL to handle mode_flasg fixup
-Changes for v2:
-- none
-Changes for v1:
-- fix mode flags in atomic_check instead of mode_fixup
 
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 28 +++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index d4a976d86f08..d8958838ab7b 100644
+index d8958838ab7b..5518d92c8455 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -263,6 +263,7 @@ enum exynos_dsi_type {
- 	DSIM_TYPE_EXYNOS5410,
- 	DSIM_TYPE_EXYNOS5422,
- 	DSIM_TYPE_EXYNOS5433,
-+	DSIM_TYPE_IMX8MM,
- 	DSIM_TYPE_COUNT,
+@@ -1691,6 +1691,10 @@ static const struct component_ops exynos_dsi_component_ops = {
+ 	.unbind	= exynos_dsi_unbind,
  };
  
-@@ -1465,6 +1466,32 @@ static void exynos_dsi_atomic_post_disable(struct drm_bridge *bridge,
- 	pm_runtime_put_sync(dsi->dev);
- }
++static const struct drm_bridge_timings dsim_bridge_timings_de_low = {
++	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
++};
++
+ static int exynos_dsi_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -1777,6 +1781,10 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
+ 	dsi->bridge.pre_enable_prev_first = true;
  
-+static int exynos_dsi_atomic_check(struct drm_bridge *bridge,
-+				   struct drm_bridge_state *bridge_state,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state)
-+{
-+	struct exynos_dsi *dsi = bridge_to_dsi(bridge);
-+	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
++	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
++	if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM)
++		dsi->bridge.timings = &dsim_bridge_timings_de_low;
 +
-+	/*
-+	 * The i.MX8M Mini/Nano glue logic between LCDIF and DSIM
-+	 * inverts HS/VS/DE sync signals polarity, therefore, while
-+	 * i.MX 8M Mini Applications Processor Reference Manual Rev. 3, 11/2020
-+	 * 13.6.3.5.2 RGB interface
-+	 * i.MX 8M Nano Applications Processor Reference Manual Rev. 2, 07/2022
-+	 * 13.6.2.7.2 RGB interface
-+	 * both claim "Vsync, Hsync, and VDEN are active high signals.", the
-+	 * LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
-+	 */
-+	if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM) {
-+		adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-+		adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-+	}
-+
-+	return 0;
-+}
-+
- static void exynos_dsi_mode_set(struct drm_bridge *bridge,
- 				const struct drm_display_mode *mode,
- 				const struct drm_display_mode *adjusted_mode)
-@@ -1487,6 +1514,7 @@ static const struct drm_bridge_funcs exynos_dsi_bridge_funcs = {
- 	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset			= drm_atomic_helper_bridge_reset,
-+	.atomic_check			= exynos_dsi_atomic_check,
- 	.atomic_pre_enable		= exynos_dsi_atomic_pre_enable,
- 	.atomic_enable			= exynos_dsi_atomic_enable,
- 	.atomic_disable			= exynos_dsi_atomic_disable,
+ 	ret = component_add(dev, &exynos_dsi_component_ops);
+ 	if (ret)
+ 		goto err_disable_runtime;
 -- 
 2.25.1
 
