@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD2867D35A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:38:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0203967D359
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:38:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C178A10E95A;
-	Thu, 26 Jan 2023 17:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7EF810E955;
+	Thu, 26 Jan 2023 17:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBC010E955
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:38:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6236810E955
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:38:24 +0000 (UTC)
 Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 06D4B3249F1;
- Thu, 26 Jan 2023 17:38:21 +0000 (GMT)
+ by letterbox.kde.org (Postfix) with ESMTPSA id B9FC8324AA7;
+ Thu, 26 Jan 2023 17:38:22 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1674754702; bh=WeB1mh/boSXfqaJ2Z97H+YfRwRY3KmYun+B6424aF6g=;
+ t=1674754703; bh=3zwIAT04JXpi0zVQcZYKNL3Til1aPSHyO+SgS15GXOY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h9rAektG8c/u963ZB9aMWM1cPfphGVRqfPYnQTiOcIwrM2YcYikJ5bI/5prUszzv1
- k/rvYqHUBYC86h9dL5NIZWPsQECN4oygjGIpYKaBmuLmN9CdT4c3iyiUnxoCTHugVG
- NDmjKt/XGQXzBx8/WvEbiR/gHw37fpcwik//CPDdJI1JtOPpmUjfAylr/EHsk8tiEn
- jM9LM4HVDpofClDHrtb+/0CuP16VcCfyI9HGBRmf/I4tzRGd+Nq0KKL9x5jApeSWum
- Dqp4L488XbqYesgJY5iu1W7jWXGrleIQmWB//9+Gmxfmh3JuN+C0JQgKUawpsuojNt
- kLreWeL6GWRGQ==
+ b=LrO6Gb32vsi/t7alpA6jSUojUB5aC7LXt4457BV/a5QdELWOlQP4tRFInsEv+fQQd
+ 4eZDhPBufU+LFsLUAdqmeRJQZFMDpNS/+IqcM2EAJowPoefhYCltUpyEt79LCjz1vQ
+ mUpr1tEPLB1qE4vpzDDsIuLagjDiVFPzG5Wv6Awc2Ej6RXBn9QvpKIm/Fv3BEfPIZx
+ sFmRT/a982vDzamHgG8ijj/z82Mz24xYcJbL/Iw73r31MYngIfLmqLfYLFwTbFOy45
+ EKY8tljaL5FPfdX8bdum0k6UQ0amV235k7ri1YS4eukWu3SDfh0d+nrmFbMz3OZG89
+ Hcr1dJt+ACjfQ==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/7] drm/vmwgfx: Simplify fb pinning
-Date: Thu, 26 Jan 2023 12:38:10 -0500
-Message-Id: <20230126173813.602748-5-zack@kde.org>
+Subject: [PATCH 5/7] drm/vmwgfx: Cleanup the vmw bo usage in the cursor paths
+Date: Thu, 26 Jan 2023 12:38:11 -0500
+Message-Id: <20230126173813.602748-6-zack@kde.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230126173813.602748-1-zack@kde.org>
 References: <20230126173813.602748-1-zack@kde.org>
@@ -54,260 +54,148 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-Only the legacy display unit requires pinning of the fb memory in vram.
-Both the screen objects and screen targets can present from any buffer.
-That makes the pinning abstraction pointless. Simplify all of the code
-and move it to the legacy display unit, the only place that needs it.
+Base mapped count is useless because the ttm unmap functions handle
+null maps just fine so completely remove all the code related to it.
+Rename dummy to is_iomem because that's what it is even if we're not
+activelly using it. Makes the code easier to read.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c  |  8 ++--
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.h  |  4 --
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 66 -----------------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |  4 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c | 57 +++++++++++++++++++++----
- 5 files changed, 54 insertions(+), 85 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h  |  4 ----
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 28 +++++++++-------------------
+ 2 files changed, 9 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-index 586e1f1e9e49..fa289e67143d 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -86,10 +86,10 @@ static bool bo_is_vmw(struct ttm_buffer_object *bo)
-  * Return: Zero on success, Negative error code on failure. In particular
-  * -ERESTARTSYS if interrupted by a signal
-  */
--int vmw_bo_pin_in_placement(struct vmw_private *dev_priv,
--			    struct vmw_bo *buf,
--			    struct ttm_placement *placement,
--			    bool interruptible)
-+static int vmw_bo_pin_in_placement(struct vmw_private *dev_priv,
-+				   struct vmw_bo *buf,
-+				   struct ttm_placement *placement,
-+				   bool interruptible)
- {
- 	struct ttm_operation_ctx ctx = {interruptible, false };
- 	struct ttm_buffer_object *bo = &buf->base;
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-index 298406da1d79..db85609ec01c 100644
+index db85609ec01c..4dcf37235cb0 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-@@ -83,10 +83,6 @@ int vmw_bo_init(struct vmw_private *dev_priv,
- int vmw_bo_unref_ioctl(struct drm_device *dev, void *data,
- 		       struct drm_file *file_priv);
+@@ -44,7 +44,6 @@ struct vmw_resource;
+  * struct vmw_bo - TTM buffer object with vmwgfx additions
+  * @base: The TTM buffer object
+  * @res_tree: RB tree of resources using this buffer object as a backing MOB
+- * @base_mapped_count: ttm BO mapping count; used by KMS atomic helpers.
+  * @cpu_writers: Number of synccpu write grabs. Protected by reservation when
+  * increased. May be decreased without reservation.
+  * @dx_query_ctx: DX context if this buffer object is used as a DX query MOB
+@@ -55,8 +54,6 @@ struct vmw_resource;
+ struct vmw_bo {
+ 	struct ttm_buffer_object base;
+ 	struct rb_root res_tree;
+-	/* For KMS atomic helpers: ttm bo mapping count */
+-	atomic_t base_mapped_count;
  
--int vmw_bo_pin_in_placement(struct vmw_private *vmw_priv,
--			    struct vmw_bo *bo,
--			    struct ttm_placement *placement,
--			    bool interruptible);
- int vmw_bo_pin_in_vram(struct vmw_private *dev_priv,
- 		       struct vmw_bo *buf,
- 		       bool interruptible);
+ 	atomic_t cpu_writers;
+ 	/* Not ref-counted.  Protected by binding_mutex */
+@@ -67,7 +64,6 @@ struct vmw_bo {
+ 	struct vmw_bo_dirty *dirty;
+ };
+ 
+-
+ int vmw_bo_create_kernel(struct vmw_private *dev_priv,
+ 			 unsigned long size,
+ 			 struct ttm_placement *placement,
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index ad41396c0a5d..6780391c57ea 100644
+index 6780391c57ea..e83286e08837 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -1487,69 +1487,6 @@ static const struct drm_framebuffer_funcs vmw_framebuffer_bo_funcs = {
- 	.dirty = vmw_framebuffer_bo_dirty_ext,
- };
+@@ -153,9 +153,9 @@ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
+ 	SVGAGBCursorHeader *header;
+ 	SVGAGBAlphaCursorHeader *alpha_header;
+ 	const u32 image_size = width * height * sizeof(*image);
+-	bool dummy;
++	bool is_iomem;
  
--/*
-- * Pin the bofer in a location suitable for access by the
-- * display system.
-- */
--static int vmw_framebuffer_pin(struct vmw_framebuffer *vfb)
--{
--	struct vmw_private *dev_priv = vmw_priv(vfb->base.dev);
--	struct vmw_bo *buf;
--	struct ttm_placement *placement;
--	int ret;
+-	header = ttm_kmap_obj_virtual(&vps->cursor.map, &dummy);
++	header = ttm_kmap_obj_virtual(&vps->cursor.map, &is_iomem);
+ 	alpha_header = &header->header.alphaHeader;
+ 
+ 	memset(header, 0, sizeof(*header));
+@@ -185,13 +185,13 @@ static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
+  */
+ static u32 *vmw_du_cursor_plane_acquire_image(struct vmw_plane_state *vps)
+ {
+-	bool dummy;
++	bool is_iomem;
+ 	if (vps->surf) {
+ 		if (vps->surf_mapped)
+ 			return vmw_bo_map_and_cache(vps->surf->res.backup);
+ 		return vps->surf->snooper.image;
+ 	} else if (vps->bo)
+-		return ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
++		return ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem);
+ 	return NULL;
+ }
+ 
+@@ -364,7 +364,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
+ 	SVGA3dCopyBox *box;
+ 	unsigned box_count;
+ 	void *virtual;
+-	bool dummy;
++	bool is_iomem;
+ 	struct vmw_dma_cmd {
+ 		SVGA3dCmdHeader header;
+ 		SVGA3dCmdSurfaceDMA dma;
+@@ -424,7 +424,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
+ 	if (unlikely(ret != 0))
+ 		goto err_unreserve;
+ 
+-	virtual = ttm_kmap_obj_virtual(&map, &dummy);
++	virtual = ttm_kmap_obj_virtual(&map, &is_iomem);
+ 
+ 	if (box->w == VMW_CURSOR_SNOOP_WIDTH && cmd->dma.guest.pitch == image_pitch) {
+ 		memcpy(srf->snooper.image, virtual,
+@@ -658,19 +658,18 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
+ {
+ 	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
+-	bool dummy;
++	bool is_iomem;
+ 
+ 	if (vps->surf_mapped) {
+ 		vmw_bo_unmap(vps->surf->res.backup);
+ 		vps->surf_mapped = false;
+ 	}
+ 
+-	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &dummy)) {
++	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem)) {
+ 		const int ret = ttm_bo_reserve(&vps->bo->base, true, false, NULL);
+ 
+ 		if (likely(ret == 0)) {
+-			if (atomic_read(&vps->bo->base_mapped_count) == 0)
+-			    ttm_bo_kunmap(&vps->bo->map);
++			ttm_bo_kunmap(&vps->bo->map);
+ 			ttm_bo_unreserve(&vps->bo->base);
+ 		}
+ 	}
+@@ -744,9 +743,6 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
+ 
+ 		ret = ttm_bo_kmap(&vps->bo->base, 0, PFN_UP(size), &vps->bo->map);
+ 
+-		if (likely(ret == 0))
+-			atomic_inc(&vps->bo->base_mapped_count);
 -
--	buf = vfb->bo ?  vmw_framebuffer_to_vfbd(&vfb->base)->buffer :
--		vmw_framebuffer_to_vfbs(&vfb->base)->surface->res.backup;
--
--	if (!buf)
--		return 0;
--
--	switch (dev_priv->active_display_unit) {
--	case vmw_du_legacy:
--		vmw_overlay_pause_all(dev_priv);
--		ret = vmw_bo_pin_in_start_of_vram(dev_priv, buf, false);
--		vmw_overlay_resume_all(dev_priv);
--		break;
--	case vmw_du_screen_object:
--	case vmw_du_screen_target:
--		if (vfb->bo) {
--			if (dev_priv->capabilities & SVGA_CAP_3D) {
--				/*
--				 * Use surface DMA to get content to
--				 * sreen target surface.
--				 */
--				placement = &vmw_vram_gmr_placement;
--			} else {
--				/* Use CPU blit. */
--				placement = &vmw_sys_placement;
--			}
--		} else {
--			/* Use surface / image update */
--			placement = &vmw_mob_placement;
--		}
--
--		return vmw_bo_pin_in_placement(dev_priv, buf, placement, false);
--	default:
--		return -EINVAL;
+ 		ttm_bo_unreserve(&vps->bo->base);
+ 
+ 		if (unlikely(ret != 0))
+@@ -786,7 +782,6 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
+ 	struct vmw_plane_state *old_vps = vmw_plane_state_to_vps(old_state);
+ 	s32 hotspot_x, hotspot_y;
+-	bool dummy;
+ 
+ 	hotspot_x = du->hotspot_x;
+ 	hotspot_y = du->hotspot_y;
+@@ -828,11 +823,6 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
+ 						hotspot_x, hotspot_y);
+ 	}
+ 
+-	if (vps->bo) {
+-		if (ttm_kmap_obj_virtual(&vps->bo->map, &dummy))
+-			atomic_dec(&vps->bo->base_mapped_count);
 -	}
 -
--	return ret;
--}
--
--static int vmw_framebuffer_unpin(struct vmw_framebuffer *vfb)
--{
--	struct vmw_private *dev_priv = vmw_priv(vfb->base.dev);
--	struct vmw_bo *buf;
--
--	buf = vfb->bo ?  vmw_framebuffer_to_vfbd(&vfb->base)->buffer :
--		vmw_framebuffer_to_vfbs(&vfb->base)->surface->res.backup;
--
--	if (WARN_ON(!buf))
--		return 0;
--
--	return vmw_bo_unpin(dev_priv, buf, false);
--}
--
- /**
-  * vmw_create_bo_proxy - create a proxy surface for the buffer object
-  *
-@@ -1766,9 +1703,6 @@ vmw_kms_new_framebuffer(struct vmw_private *dev_priv,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
--	vfb->pin = vmw_framebuffer_pin;
--	vfb->unpin = vmw_framebuffer_unpin;
--
- 	return vfb;
- }
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index 2d097ba20ad8..7a97e53e8e51 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -1,7 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 OR MIT */
- /**************************************************************************
-  *
-- * Copyright 2009-2022 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright 2009-2023 VMware, Inc., Palo Alto, CA., USA
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-  * copy of this software and associated documentation files (the
-@@ -217,8 +217,6 @@ struct vmw_kms_dirty {
-  */
- struct vmw_framebuffer {
- 	struct drm_framebuffer base;
--	int (*pin)(struct vmw_framebuffer *fb);
--	int (*unpin)(struct vmw_framebuffer *fb);
- 	bool bo;
- 	uint32_t user_handle;
- };
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index a56e5d0ca3c6..b77fe0bc18a7 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 OR MIT
- /**************************************************************************
-  *
-- * Copyright 2009-2022 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright 2009-2023 VMware, Inc., Palo Alto, CA., USA
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-  * copy of this software and associated documentation files (the
-@@ -25,11 +25,13 @@
-  *
-  **************************************************************************/
- 
-+#include "vmwgfx_bo.h"
-+#include "vmwgfx_kms.h"
-+
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fourcc.h>
- 
--#include "vmwgfx_kms.h"
- 
- #define vmw_crtc_to_ldu(x) \
- 	container_of(x, struct vmw_legacy_display_unit, base.crtc)
-@@ -134,6 +136,47 @@ static int vmw_ldu_commit_list(struct vmw_private *dev_priv)
- 	return 0;
- }
- 
-+/*
-+ * Pin the buffer in a location suitable for access by the
-+ * display system.
-+ */
-+static int vmw_ldu_fb_pin(struct vmw_framebuffer *vfb)
-+{
-+	struct vmw_private *dev_priv = vmw_priv(vfb->base.dev);
-+	struct vmw_bo *buf;
-+	int ret;
-+
-+	buf = vfb->bo ?  vmw_framebuffer_to_vfbd(&vfb->base)->buffer :
-+		vmw_framebuffer_to_vfbs(&vfb->base)->surface->res.backup;
-+
-+	if (!buf)
-+		return 0;
-+	WARN_ON(dev_priv->active_display_unit != vmw_du_legacy);
-+
-+	if (dev_priv->active_display_unit == vmw_du_legacy) {
-+		vmw_overlay_pause_all(dev_priv);
-+		ret = vmw_bo_pin_in_start_of_vram(dev_priv, buf, false);
-+		vmw_overlay_resume_all(dev_priv);
-+	} else
-+		ret = -EINVAL;
-+
-+	return ret;
-+}
-+
-+static int vmw_ldu_fb_unpin(struct vmw_framebuffer *vfb)
-+{
-+	struct vmw_private *dev_priv = vmw_priv(vfb->base.dev);
-+	struct vmw_bo *buf;
-+
-+	buf = vfb->bo ?  vmw_framebuffer_to_vfbd(&vfb->base)->buffer :
-+		vmw_framebuffer_to_vfbs(&vfb->base)->surface->res.backup;
-+
-+	if (WARN_ON(!buf))
-+		return 0;
-+
-+	return vmw_bo_unpin(dev_priv, buf, false);
-+}
-+
- static int vmw_ldu_del_active(struct vmw_private *vmw_priv,
- 			      struct vmw_legacy_display_unit *ldu)
- {
-@@ -145,8 +188,7 @@ static int vmw_ldu_del_active(struct vmw_private *vmw_priv,
- 	list_del_init(&ldu->active);
- 	if (--(ld->num_active) == 0) {
- 		BUG_ON(!ld->fb);
--		if (ld->fb->unpin)
--			ld->fb->unpin(ld->fb);
-+		WARN_ON(vmw_ldu_fb_unpin(ld->fb));
- 		ld->fb = NULL;
- 	}
- 
-@@ -163,11 +205,10 @@ static int vmw_ldu_add_active(struct vmw_private *vmw_priv,
- 
- 	BUG_ON(!ld->num_active && ld->fb);
- 	if (vfb != ld->fb) {
--		if (ld->fb && ld->fb->unpin)
--			ld->fb->unpin(ld->fb);
-+		if (ld->fb)
-+			WARN_ON(vmw_ldu_fb_unpin(ld->fb));
- 		vmw_svga_enable(vmw_priv);
--		if (vfb->pin)
--			vfb->pin(vfb);
-+		WARN_ON(vmw_ldu_fb_pin(vfb));
- 		ld->fb = vfb;
- 	}
+ 	du->cursor_x = new_state->crtc_x + du->set_gui_x;
+ 	du->cursor_y = new_state->crtc_y + du->set_gui_y;
  
 -- 
 2.38.1
