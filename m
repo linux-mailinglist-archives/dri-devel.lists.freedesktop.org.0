@@ -1,67 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595A167C891
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 11:28:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8839167C8D0
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 11:40:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3ACF10E1D1;
-	Thu, 26 Jan 2023 10:28:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A663F10E480;
+	Thu, 26 Jan 2023 10:40:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8D7C10E2BF
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 10:28:18 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so2943862wml.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 02:28:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=TIyiIVceZpYGCfX6Jfi5IDPHDPBpB0+syI+sCSzTia4=;
- b=RbO/ikWdK43FRwYPhVRNL63SW81vrmN56iOODg9xjmRaP7IhRuLDyysmvTOaeJ8CIE
- ZCbEDUit2PyUvXMTwUouUzbL9igWWe8poFudmkacEfksphS+An0jDSEWRhQaM91lod8A
- ah4BQIzAf0a4QFPPCcDMHICj4Vv6fuIYeDEUnqkZHC7UaOjFS2+YOCsF96GDditHusy3
- qF1XLQiXCLnzd1Ut9ynrOslAZ7P4KkMtAUf5oVN5mTvozKnrlMc1Kbeq4+kXUg1MjM1D
- a/P4L2eNVw6usL+CAme10zI3y0/N8BM/O0+OTjvOFam59/ckR/GcHSy5ZF+e1/eBfDk/
- 8V9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TIyiIVceZpYGCfX6Jfi5IDPHDPBpB0+syI+sCSzTia4=;
- b=289Yts6w2UJAJWLuwBQf3fbii5+r3LemZYnlA7NAb1576CXlT8yZzr2XyAqGwF64Lx
- lTL5cmdXBxCVXyDKGLTByQG9NbSIUKTWlvRJj4yhjQGTv4I0iJJ3AZHZSbL4nFwOY7H9
- RfVj/VqhJOY8CS4macUsdiHf6bWHy2PiVggDr4QGhqBBVi6nSqn2HZ1HQzaETLBIOetx
- HuPnSQZLqMH/BLH31kRvJN0ERT6yu6IylMZk9ppnD/O7dGCeBYIcw3EjY/IlNYKCUIEE
- jw7MQdvrEcL1nV57FgCY7/sbyfi0fWiBUi031G2GmHL37zPE6iMAVDSsVJklxxfW3yt2
- +5AA==
-X-Gm-Message-State: AFqh2kpeVf8fb+ZDuETnvt4Rc9D37Nvgz8FwsDy+7gzSjyWcbutPg7yF
- MmtJ7p3gTSN43ZjV8o3QV48=
-X-Google-Smtp-Source: AMrXdXtq9Fc4BgcqBKRw/0L9dn9KlaHMZGCX2x2ndgwrtCWVLMFi9kQenl0G4uLdICbJDNd2uAyTfA==
-X-Received: by 2002:a1c:4b09:0:b0:3db:f0a:8726 with SMTP id
- y9-20020a1c4b09000000b003db0f0a8726mr32165025wma.28.1674728897464; 
- Thu, 26 Jan 2023 02:28:17 -0800 (PST)
-Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
- by smtp.gmail.com with ESMTPSA id
- p20-20020a05600c2e9400b003d9862ec435sm1040807wmn.20.2023.01.26.02.28.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 02:28:17 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: tzimmermann@suse.de, noralf@tronnes.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm: remove dumb_destroy callback
-Date: Thu, 26 Jan 2023 11:28:14 +0100
-Message-Id: <20230126102814.8722-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230126102814.8722-1-christian.koenig@amd.com>
-References: <20230126102814.8722-1-christian.koenig@amd.com>
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 074A710E0F7;
+ Thu, 26 Jan 2023 10:40:24 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 052E62B0686C;
+ Thu, 26 Jan 2023 05:40:21 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 26 Jan 2023 05:40:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm1; t=
+ 1674729621; x=1674736821; bh=8nYVPhG2kYkrJeQYSN33IGzKuFT43eqNEYe
+ QAtFi70o=; b=YzKwn223XQ0GAu8YzW3Khkea2WNlmdNlvcG035HKuJmuL+78U3V
+ eFH9zNMQMNYgH/IaKdrtJGOw90SyI8729g+Jr9bem0tvUaP0ZkcGdUC7UldmReUV
+ Xrk45VaJPogiZq4Sd7/4GU3yQqqnJe/S+or0UDUmkuCqB8vDK0YP911ftrwLMsRf
+ 4xb2kQTW6/ojevOhJvJIOeYNfoTDa04aN8IUDHjmPntdiXjTTyJTW88ez8EMJl5y
+ Vfw2wTuQ5GZvEcrpLu1DKacJpELeR5EjoiEq0sX6kzIZl7qjZ+ZEAh2aQkYOQZ+a
+ SRf6hqRq73nwwjh0+b0YbyxV53QFPokzF/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674729621; x=
+ 1674736821; bh=8nYVPhG2kYkrJeQYSN33IGzKuFT43eqNEYeQAtFi70o=; b=j
+ 4HNApoNMqdAMkZUkff3Jh100mN2R4YHNDcnyrwJXpcpMVewQAKSzJUYceVzjN3ve
+ 75uhyW21u/7RFA1M/S8+SmrrOZDXGHfqrNOu3MhkkGHFepHBqptQu44II7t/6Nzt
+ 1cOy6Rrv7PLa6eF6Wpki/TcXGxbz956L0E7duRw1TikKb8pu4jLZ3WQBDfUmP8Ff
+ saznWRrsEwSXiX7vip9EwqYWTru78BWXe74ruwmVx6LE5pC4k2950S6QZnvQelZy
+ i//L8JLu2rKp/Vh6uybgF2rdGyZZPVJSnK+c7vTTjtI1tJKXOYn7QpfPZcdz17cH
+ RLTy1hnExoATErhxXJodw==
+X-ME-Sender: <xms:lVjSYyxDl_94eKLCP4sUgihtaPJ31EIg0ySDhxC1UqeCTCPuh9ZAkg>
+ <xme:lVjSY-Q9Rxa2d97LF0y4jjczy5YZxadPDtsWByaIIwBE3Nh3S6Q_-VTKn6xYkflRp
+ x1spsaffYfP_L8Syp4>
+X-ME-Received: <xmr:lVjSY0WKgDvgSYFsGf_NkO5j_rRWTdioVuY2wAQgFQ3fuFfv5iMoYktwQ5iH3otLFhojDf2R4PDXvl6UL54YfdNyAyv15E1pU_nnTjb0U1K58A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgudekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeeuieehjefhieevtdehudfftdetgfdtuedvvdeugeetgfevgeevudegffduveej
+ ieenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:lVjSY4hJdGT6e3w2I29D9W38Jeg-kF67_hT7eRVsShgzeWFb6J16Tw>
+ <xmx:lVjSY0BDNzUHASAPeAf6vfgE17qH6ASH-TbhUdzOLqWaWee47AY_tA>
+ <xmx:lVjSY5K-2U6JMLbbEhGfe5bzGXNL7HbljILcbU9cfeUU6RXVxIZVDA>
+ <xmx:lVjSY2xjKRBP4r1LNPYlMRdrDYJXm9aEV-U4RAEXREy2jMqPNj34pPDZD8Y>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 26 Jan 2023 05:40:20 -0500 (EST)
+Date: Thu, 26 Jan 2023 11:40:18 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20230126104018.cbrcjxl5wefdbb2f@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="745g4enuyskp2rff"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,97 +81,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Not used by any driver any more.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/drm_dumb_buffers.c |  5 +----
- drivers/gpu/drm/drm_gem.c          |  7 -------
- drivers/gpu/drm/drm_internal.h     |  3 ---
- include/drm/drm_drv.h              | 19 -------------------
- 4 files changed, 1 insertion(+), 33 deletions(-)
+--745g4enuyskp2rff
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
-index ad17fa21cebb..70032bba1c97 100644
---- a/drivers/gpu/drm/drm_dumb_buffers.c
-+++ b/drivers/gpu/drm/drm_dumb_buffers.c
-@@ -139,10 +139,7 @@ int drm_mode_destroy_dumb(struct drm_device *dev, u32 handle,
- 	if (!dev->driver->dumb_create)
- 		return -ENOSYS;
- 
--	if (dev->driver->dumb_destroy)
--		return dev->driver->dumb_destroy(file_priv, dev, handle);
--	else
--		return drm_gem_dumb_destroy(file_priv, dev, handle);
-+	return drm_gem_handle_delete(file_priv, handle);
- }
- 
- int drm_mode_destroy_dumb_ioctl(struct drm_device *dev,
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 59a0bb5ebd85..aa15c52ae182 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -336,13 +336,6 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
- }
- EXPORT_SYMBOL_GPL(drm_gem_dumb_map_offset);
- 
--int drm_gem_dumb_destroy(struct drm_file *file,
--			 struct drm_device *dev,
--			 u32 handle)
--{
--	return drm_gem_handle_delete(file, handle);
--}
--
- /**
-  * drm_gem_handle_create_tail - internal functions to create a handle
-  * @file_priv: drm file-private structure to register the handle for
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index ed2103ee272c..d7e023bbb0d5 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -178,9 +178,6 @@ void drm_gem_unpin(struct drm_gem_object *obj);
- int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
- void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
- 
--int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
--			 u32 handle);
--
- /* drm_debugfs.c drm_debugfs_crc.c */
- #if defined(CONFIG_DEBUG_FS)
- int drm_debugfs_init(struct drm_minor *minor, int minor_id,
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 1d76d0686b03..5b86bb7603e7 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -400,25 +400,6 @@ struct drm_driver {
- 	int (*dumb_map_offset)(struct drm_file *file_priv,
- 			       struct drm_device *dev, uint32_t handle,
- 			       uint64_t *offset);
--	/**
--	 * @dumb_destroy:
--	 *
--	 * This destroys the userspace handle for the given dumb backing storage buffer.
--	 * Since buffer objects must be reference counted in the kernel a buffer object
--	 * won't be immediately freed if a framebuffer modeset object still uses it.
--	 *
--	 * Called by the user via ioctl.
--	 *
--	 * The default implementation is drm_gem_dumb_destroy(). GEM based drivers
--	 * must not overwrite this.
--	 *
--	 * Returns:
--	 *
--	 * Zero on success, negative errno on failure.
--	 */
--	int (*dumb_destroy)(struct drm_file *file_priv,
--			    struct drm_device *dev,
--			    uint32_t handle);
- 
- 	/** @major: driver major number */
- 	int major;
--- 
-2.34.1
+Hi Dave, Daniel,
 
+Here's this week drm-misc-fixes PR
+
+Maxime
+
+drm-misc-fixes-2023-01-26:
+A fix and a preliminary patch to fix a memory leak in i915, and a use
+after free fix for fbdev deferred io
+The following changes since commit 2293a73ad4f3b6c37c06713ff1b67659d92ef43d:
+
+  drm/i915: Remove unused variable (2023-01-18 13:33:15 -0500)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-01-26
+
+for you to fetch changes up to d6591da5f3ff284a376d56b5f7a48a34e9cb159d:
+
+  drm/fb-helper: Use a per-driver FB deferred I/O handler (2023-01-24 11:13:08 +0100)
+
+----------------------------------------------------------------
+A fix and a preliminary patch to fix a memory leak in i915, and a use
+after free fix for fbdev deferred io
+
+----------------------------------------------------------------
+Javier Martinez Canillas (2):
+      drm/fb-helper: Check fb_deferred_io_init() return value
+      drm/fb-helper: Use a per-driver FB deferred I/O handler
+
+Nirmoy Das (2):
+      drm/drm_vma_manager: Add drm_vma_node_allow_once()
+      drm/i915: Fix a memory leak with reused mmap_offset
+
+ drivers/gpu/drm/drm_fbdev_generic.c      | 15 ++++---
+ drivers/gpu/drm/drm_vma_manager.c        | 76 +++++++++++++++++++++++---------
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c |  2 +-
+ include/drm/drm_fb_helper.h              | 12 +++++
+ include/drm/drm_vma_manager.h            |  1 +
+ 5 files changed, 76 insertions(+), 30 deletions(-)
+
+--745g4enuyskp2rff
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY9JYkgAKCRDj7w1vZxhR
+xdVKAQDebeiVMYssc2ptHJYRlG4+9pFxMo533C8PP4kue2AQogEAg3gi4Kax1N9z
+MuAbO2+lgs3FxAGNWA9184phQB1VAw0=
+=O/FB
+-----END PGP SIGNATURE-----
+
+--745g4enuyskp2rff--
