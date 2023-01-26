@@ -2,84 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EBF67CC9A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 14:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FD367CD4D
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:11:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A7A10E8FB;
-	Thu, 26 Jan 2023 13:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 178F910E909;
+	Thu, 26 Jan 2023 14:11:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81A7210E8F7
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 13:48:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id DE0665C049F;
- Thu, 26 Jan 2023 08:48:17 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 26 Jan 2023 08:48:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1674740897; x=
- 1674827297; bh=EFCszt7mMoi4GmfPSY0XcTDr+E65T3khWEeN25Yggv4=; b=B
- ZYaycmgbMfTX1BRGlPtMLro/KjywPCJlUY9hdsiNJqRGsNgC63Vh+FcCty0Zo7+v
- gaIz3YU/njcSZIP0vB7rPSElAYrwOHMAPgErZUbBYLiQ+ABN2Jcl+BEbNkV8UhpO
- LDtl9RPW0PSqvkilJx4wGmI92AQDSBdhA3hUotGUqpzv0xC5iL1kcqsmwJS6d9Fc
- x/j/mPxYMrriGvenkBXJeHsoKBH1McIMKp5tekFkvYkqLZxmAaNYZHooxR1DOtJP
- KZiOMpH5nnV25QYr5BbeBLKa7So5SrmsIfq0zxDjS12ma+suBAZ8mYmu3Yw+V9P8
- wQaSPoWmUAt3O15o5VtiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674740897; x=
- 1674827297; bh=EFCszt7mMoi4GmfPSY0XcTDr+E65T3khWEeN25Yggv4=; b=g
- N+p4WnWIggwn1/qGmQdLcGhNvQaKDzxeGGEbN2uicLairbQRP33QRpChJHrZ3ACN
- EGdg9C0bI4982jR6g57bAw/z9UZ6muqBaxDy9ZWUOXTbShQWJYNPiQtRMNqvjqVF
- XURPv5AGr0xxIxsBtPlLY4s+JdnrcMCPbISNPPor+eZc+nAMs6qe1xojovq/B/pI
- frrpnRo1CFLx2Ve0OwCgu+5jrNRTSoOz1p59UdyQo2uJHxVTw53Pi49bbUfxxJSh
- uXFHFOKpbGY0mYXEJ0YOKiMytxcpdlO8LFspOMSescv86+TVFYx3cKYXUoJNH0Be
- AphIrggfPnxfk/72vjYIA==
-X-ME-Sender: <xms:oYTSY5Aj6LWvbamQqrBdoUpxf420rQ7XsaaqI8B3NSUg4lWlV7x5IA>
- <xme:oYTSY3iggPQkYuvaVC2ZV5yjbeeKStz0cHtX9k7RHyz2N32m3hwwp_EDyHzpRW96B
- J5N33eo14mhKnhXJec>
-X-ME-Received: <xmr:oYTSY0l78KDn5YJ4sBfrLfbnrsKHq-EzlVzWrN--CC-ChI2Q8CO5CvFc5e0tFSiZo-AvRAEfKdd-J9A6MHcYzBHxHN0iJbOe_bwLaM8lJMVC9A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgheeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
- teeltdffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:oYTSYzyAV8-WIp-tLJcpKi3jVtM0UZKY0tTeawosEJZGOpq3kKtPzg>
- <xmx:oYTSY-RFC2HPHoGfEliGbHgXKy_tfsDCXiNHSCRYsF3vwBEjUwO-VA>
- <xmx:oYTSY2Y2rhlrrpz7ezYjQFOlyqLMTPsPA8ebKOylN7CJRCaevs409g>
- <xmx:oYTSY3DDPxsNRF5zQe0C6bCqEpf71fhGUrTat_d3tn02qALeASlOdA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Jan 2023 08:48:17 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 26 Jan 2023 14:46:43 +0100
-Subject: [PATCH v2 9/9] drm/vc4: hdmi: Add BT.2020 Support
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64C2710E119
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:11:39 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ e19-20020a05600c439300b003db1cac0c1fso3305376wmn.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:11:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NSd3CU5XKWl6QG79E5Cg3GXFFPI2KG0M/KBU3d31VDA=;
+ b=pZkgGilf1O6JEZFp4Ey+utwbmsaHlt6zkmtsqxKa1/qo/w9EPhQ7kYD34uXuZ+hjXz
+ Z/AezrLm72cdAjV3xyUpaOz/yOHZMAnQaFW80a4oiFjmNhK80qAJYH0bTXrhcW9XxkG3
+ 2rQ3Yd8OvhkWuCrxex1NTJ1KTnxha7NMmebVs5ZPFZS7VwgY1iEbq/pVc/fQm2dYJQu6
+ r8iQggggwgG/jIdATm/bb2HtAlyaBbBSA4LUv0GbYp3JaxP/VEQ7BSoFQj0kX37tzQNU
+ 2blpmQFOk59lLgfW+1bqIMNobaSGmg6I9HhltrNq4QJGvKvl5y2TK5qkkle05eM8l8uU
+ BeiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NSd3CU5XKWl6QG79E5Cg3GXFFPI2KG0M/KBU3d31VDA=;
+ b=QbsD9J7CJsrlFYjhwpeMaSklHuiCNW3crrjPUwh217hcsG+aHi50alStAOEPPb5qqX
+ G20uTwmwU6Uwzzjf2jrbKYFhT+1MMF642P30k3asUpQDNIoMimBvQk/ywiyD1H9/z5wB
+ uLGb2Im41D118jB7g+Bc2oQoio29izMoon1eavSHHuddrmfHwLBuK946q7ofq0qGraia
+ Oo1NY5WtRwrwFBDnQmu94W+gh25DdSplWrXdGTM1lFitF52E4SU4leFlFYK41C//spLW
+ SoTchIamab/H1o7EMMUiD/NngLybq7731LyVU2kcsKXMHpnMes2UEdAD6i225QPLm4JH
+ 3ZpQ==
+X-Gm-Message-State: AFqh2kp94BVm81iUN0LEEcMUPlB4fPZXL4j+NaWD+aTUBFMEhFPlhr1D
+ Hw/RkLnTVaWXX88r8hw8O+Evr7Wwdyw=
+X-Google-Smtp-Source: AMrXdXsOHBBq2vFtI5gUFQBB/fucy3o7zbO+r16aZRFTtFEZeVF7SJrc7BaDFG+k0022bxcPEBLnBA==
+X-Received: by 2002:a05:600c:214f:b0:3d9:ecae:84f2 with SMTP id
+ v15-20020a05600c214f00b003d9ecae84f2mr34255570wml.25.1674742297771; 
+ Thu, 26 Jan 2023 06:11:37 -0800 (PST)
+Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
+ [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
+ q12-20020a056000136c00b002882600e8a0sm1440042wrz.12.2023.01.26.06.11.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 06:11:37 -0800 (PST)
+Message-ID: <0e985a2e-8bd8-c488-6a21-15a57fb1720a@gmail.com>
+Date: Thu, 26 Jan 2023 15:11:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20221207-rpi-hdmi-improvements-v2-9-8ace2d8221ad@cerno.tech>
-References: <20221207-rpi-hdmi-improvements-v2-0-8ace2d8221ad@cerno.tech>
-In-Reply-To: <20221207-rpi-hdmi-improvements-v2-0-8ace2d8221ad@cerno.tech>
-To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2176; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=Y/Qg484RrEzTOyvcWs4U+TlZS8r2m4kTGgXaUZsHHeY=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmXWlyC9pyY61uX+rNOqdB8y9ElS/P5vRx8997asuPyowmb
- 8u/4dZSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAifYGMDCcq3F3+vHq/wO9rem3u3x
- 07hK1bo90OfTonuy68/Iq/8SdGhulcz66Vz627Wree1cXofuczrUkzyz++uvH35J/vR2Y4ePEAAA==
-X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: Amdgpu module is references even after unbinding the vtcon
+Content-Language: en-US
+To: "Slivka, Danijel" <Danijel.Slivka@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <c5001553-6c71-c7ff-36aa-c4712bda0abf@gmail.com>
+ <95f2314b-5d55-f2ca-468b-2f127571bd77@suse.de>
+ <BYAPR12MB309405AD969A1EAA1EA84BC198CF9@BYAPR12MB3094.namprd12.prod.outlook.com>
+ <6f234925-9934-53d7-ca9f-6b5bc6a67ee6@gmail.com>
+ <BYAPR12MB3094B0D8166231D88609CA6998CF9@BYAPR12MB3094.namprd12.prod.outlook.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <BYAPR12MB3094B0D8166231D88609CA6998CF9@BYAPR12MB3094.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,80 +80,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Sharma,
+ Shashank" <Shashank.Sharma@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Hi Danijel,
 
-Even though we report that we support the BT.2020 Colorspace, we were
-always using the BT.709 conversion matrices. Let's add the BT.2020 ones.
+can you also double check that GDM/X is still capable of acquiring a 
+DMA-buf file descriptor for the buffer (e.g. that we have a DMA-buf 
+handle for it while they are started).
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+And that handover from fbdev to GDM/X is flicker free?
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 5d37952d620b..523b55a18409 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1300,6 +1300,37 @@ static const u16 vc5_hdmi_csc_full_rgb_to_yuv_bt709[2][3][4] = {
- 	},
- };
- 
-+/*
-+ * Conversion between Full Range RGB and YUV using the BT.2020 Colorspace
-+ *
-+ * Matrices are signed 2p13 fixed point, with signed 9p6 offsets
-+ */
-+static const u16 vc5_hdmi_csc_full_rgb_to_yuv_bt2020[2][3][4] = {
-+	{
-+		/*
-+		 * Full Range
-+		 *
-+		 * [  0.262700  0.678000  0.059300  0   ]
-+		 * [ -0.139630 -0.360370  0.500000  128 ]
-+		 * [  0.500000 -0.459786 -0.040214  128 ]
-+		 */
-+		{ 0x0868, 0x15b2, 0x01e6, 0x0000 },
-+		{ 0xfb89, 0xf479, 0x1000, 0x2000 },
-+		{ 0x1000, 0xf14a, 0xfeb8, 0x2000 },
-+	},
-+	{
-+		/* Limited Range
-+		 *
-+		 * [  0.224732  0.580008  0.050729  16  ]
-+		 * [ -0.122176 -0.315324  0.437500  128 ]
-+		 * [  0.437500 -0.402312 -0.035188  128 ]
-+		 */
-+		{ 0x082f, 0x1012, 0x031f, 0x0400 },
-+		{ 0xfb48, 0xf6ba, 0x0e00, 0x2000 },
-+		{ 0x0e00, 0xf448, 0xfdba, 0x2000 },
-+	},
-+};
-+
- static void vc5_hdmi_set_csc_coeffs(struct vc4_hdmi *vc4_hdmi,
- 				    const u16 coeffs[3][4])
- {
-@@ -1345,6 +1376,13 @@ static const u16
- 	case DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
- 	case DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
- 		return vc5_hdmi_csc_full_rgb_to_yuv_bt709[limited];
-+
-+	case DRM_MODE_COLORIMETRY_BT2020_CYCC:
-+	case DRM_MODE_COLORIMETRY_BT2020_YCC:
-+	case DRM_MODE_COLORIMETRY_BT2020_RGB:
-+	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
-+	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
-+		return vc5_hdmi_csc_full_rgb_to_yuv_bt2020[limited];
- 	}
- }
- 
+Thanks,
+Christian.
 
--- 
-2.39.1
+Am 26.01.23 um 14:44 schrieb Slivka, Danijel:
+> [AMD Official Use Only - General]
+>
+> Hi Christian,
+>
+> I have tested the proposed patch, the issue is not reproducible and everything else seems to work fine.
+>
+> BR,
+> Danijel
+>
+>> -----Original Message-----
+>> From: Christian König <ckoenig.leichtzumerken@gmail.com>
+>> Sent: Thursday, January 26, 2023 1:20 PM
+>> To: Slivka, Danijel <Danijel.Slivka@amd.com>; Thomas Zimmermann
+>> <tzimmermann@suse.de>
+>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; dri-devel <dri-
+>> devel@lists.freedesktop.org>; Sharma, Shashank <Shashank.Sharma@amd.com>
+>> Subject: Re: Amdgpu module is references even after unbinding the vtcon
+>>
+>> Am 26.01.23 um 10:49 schrieb Slivka, Danijel:
+>>> [AMD Official Use Only - General]
+>>>
+>>> Hi Thomas,
+>>>
+>>> I have checked what you mentioned.
+>>> When loading amdgpu we call  drm_client_init() during fbdev setup [1], the
+>> refcnt for drm_kms_helper increases from 3 -> 4.
+>>> When we unbind vtcon, refcnt for drm_kms_helper drops 4 -> 3, but the
+>> drm_client_release() [2] is not called.
+>>> The drm_client_release() is called only when unloading the amdgpu driver.
+>>>
+>>> Is this expected?
+>> Yes, the client can't be released because it is possible that the vtcon is bound to
+>> this fbdev again.
+>>
+>> Please test the handle work around I've send around internally. At least for me
+>> that approach seems to work.
+>>
+>> Regards,
+>> Christian.
+>>
+>>> There is a comment for drm_client_release with regards to fbdev :
+>>> * This function should only be called from the unregister callback. An exception
+>>>    * is fbdev which cannot free the buffer if userspace has open file descriptors.
+>>>
+>>> Could this be relevant for our use case, although as Application/X/GDM are
+>> stopped at that point and no fd should be open.
+>>> Thank you,
+>>> BR,
+>>> Danijel
+>>>
+>>>> -----Original Message-----
+>>>> From: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Sent: Wednesday, January 25, 2023 8:48 PM
+>>>> To: Christian König <ckoenig.leichtzumerken@gmail.com>
+>>>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Slivka, Danijel
+>>>> <Danijel.Slivka@amd.com>; dri-devel
+>>>> <dri-devel@lists.freedesktop.org>; Sharma, Shashank
+>>>> <Shashank.Sharma@amd.com>
+>>>> Subject: Re: Amdgpu module is references even after unbinding the
+>>>> vtcon
+>>>>
+>>>> Hi Christian
+>>>>
+>>>> Am 24.01.23 um 15:12 schrieb Christian König:
+>>>>> Hi Thomas,
+>>>>>
+>>>>> we ran into a problem with the general fbcon/fbdev implementation
+>>>>> and though that you might have some idea.
+>>>>>
+>>>>> What happens is the following:
+>>>>> 1. We load amdgpu and get our normal fbcon.
+>>>>> 2. fbcon allocates a dump BO as backing store for the console.
+>>>>> 3. GDM/X/Applications start, new framebuffers are created BOs
+>>>>> imported, exported etc...
+>>>>> 4. Somehow X or GDM iterated over all the framebuffer objects the
+>>>>> kernels knows about and export them as DMA-buf.
+>>>>> 5. Application/X/GDM are stopped, handles closed, framebuffers
+>>>>> released etc...
+>>>>> 6. We unbind vtcon.
+>>>>>
+>>>>> At this point the amdgpu module usually has a reference count of 0
+>>>>> and can be unloaded, but since GDM/X/Whoever iterated over all the
+>>>>> known framebuffers and exported them as DMA-buf (for whatever reason
+>>>>> idk) we now still have an exported DMA-buf and with it a reference to the
+>> module.
+>>>>> Any idea how we could prevent that?
+>>>> Here's another stab in the dark.
+>>>>
+>>>> The big difference between old-style fbdev and the new one is that
+>>>> the old fbdev setup (e.g., radeon) allocates a GEM object and puts
+>>>> together the fbdev data structures from the BO in a fairly hackish
+>>>> way. The new style uses an in-kernel client with a file to allocate
+>>>> the BO via dumb buffers; and holds a reference to the DRM module.
+>>>>
+>>>> Maybe the reference comes from the in-kernel DRM client itself. [1]
+>>>> Check if the client resources get released [2] when you unbind vtcon.
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>> [1]
+>>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_cl
+>>>> ient.c#L87
+>>>> [2]
+>>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_cl
+>>>> ient.c#L16
+>>>> 0
+>>>>
+>>>>> Thanks,
+>>>>> Christian.
+>>>> --
+>>>> Thomas Zimmermann
+>>>> Graphics Driver Developer
+>>>> SUSE Software Solutions Germany GmbH
+>>>> Maxfeldstr. 5, 90409 Nürnberg, Germany (HRB 36809, AG Nürnberg)
+>>>> Geschäftsführer: Ivo Totev
+
