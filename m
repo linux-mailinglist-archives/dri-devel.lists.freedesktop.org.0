@@ -1,55 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5918267D353
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:37:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCE367D357
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:38:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFE710E084;
-	Thu, 26 Jan 2023 17:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9B3210E071;
+	Thu, 26 Jan 2023 17:38:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC7010E071;
- Thu, 26 Jan 2023 17:37:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674754644; x=1706290644;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Lqutl9bhgI4S8SlFAnyAxVShqTKq0/cefhe5ZHLd1TM=;
- b=H8lpY4fE6JVbfndwlEv7lZPT4FvLSXTv+HHAndHwGZlW12vOQq1wPUeS
- J9Y15Uw2CJd3azAYF3Tx6v9FLLKcLdzyLxsiq60qLGaxgm4dlhYfCJgGv
- uIkvmO8ZJb7IAqopvlRcaDOKYloK3t/lfEYkeaHwFS2FuSVCLld3k9fzH
- O7C4EispsYJeWG/AF9G0jBgLEK0rvt018oBL3hVPmciyUwbDTCHHQ0+L4
- Sh2bLU2UyyWlBViP0BG7BF9PnPrCv4A70ILCP6iho9FCdM8a8hCSlDBHH
- YCLn304vfK4Dahy89K0t9QrwemXG9WXkmRjo0vodK4zEldSSavIdTe4iJ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="354180313"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="354180313"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2023 09:37:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="656252858"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="656252858"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga007.jf.intel.com with SMTP; 26 Jan 2023 09:37:05 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 26 Jan 2023 19:37:04 +0200
-Date: Thu, 26 Jan 2023 19:37:04 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>
-Subject: Re: [PATCH 2/9] drm/display/dp_mst: Handle old/new payload states in
- drm_dp_remove_payload()
-Message-ID: <Y9K6QPz/OnHuXrp4@intel.com>
-References: <20230125114852.748337-1-imre.deak@intel.com>
- <20230125114852.748337-3-imre.deak@intel.com>
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 398C110E071
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:38:21 +0000 (UTC)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id D51763249F1;
+ Thu, 26 Jan 2023 17:38:18 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1674754699; bh=es1zleiu3H1hWmCJ+XXOPgscWSEOvO6MaZIereWqZKs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=DwZk/nxQPKJ9YD5Oa/IXoUeAuIgo0olRx7UL3DTIF4ugbQZOeSJoky/P3OjUeL0su
+ 9rCiJbe0yFXhF4ducNpxc9hQKnusYlwCjYKQhP9JPnFinI1qBDf+XxnNoiKKk4lv+o
+ LRhDC2OegQEgq7T8liHLfUNWmikCACG5/8SiYfOgmt4mwzDcs54mEwKPDgFf0rDx6s
+ 9yliUuQ5oYVGy00aNr2DVrHxrjWAcggUMYshp4RNWhaxgHw19rXY4Qgn+O9RUIkwzs
+ IGIgwt252/YeBGkopu6qloD9ZgHLdw3uqKY2+AfydTvoahP5zjNakOY/vMvMme2ksy
+ +aQntsQhiNADg==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/7] drm/vmwgfx: Refactor the buffer object code
+Date: Thu, 26 Jan 2023 12:38:06 -0500
+Message-Id: <20230126173813.602748-1-zack@kde.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230125114852.748337-3-imre.deak@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,187 +45,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, intel-gfx@lists.freedesktop.org,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Ben Skeggs <bskeggs@redhat.com>
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 25, 2023 at 01:48:45PM +0200, Imre Deak wrote:
-> Atm, drm_dp_remove_payload() uses the same payload state to both get the
-> vc_start_slot required for the payload removal DPCD message and to
-> deduct time_slots from vc_start_slot of all payloads after the one being
-> removed.
-> 
-> The above isn't always correct, as vc_start_slot must be the up-to-date
-> version contained in the new payload state,
+From: Zack Rusin <zackr@vmware.com>
 
-Why is that? In fact couldn't we just clear both start_slot and
-pbn to 0 here?
+The series refactors the buffer object code to make more alike the
+other ttm drivers. The placement becomes a property of the bo which makes
+it a lot easier to correctly validate based on the current usage.
+vmwgfx tends to do more validation due to forced moves, because the
+buffer placement sometimes need to change due to userspace commands, i.e.
+some commands e.g. SURFACE_DMA implies GMR's which are really deprecated
+in favor of MOB's, but the x11 driver still uses GMR's so buffers tend
+to flip between GMR's and MOB's a bit when running on X11.
+                                                                           
+The functionality remains largely unchanged, but the LOC are reduced by
+about 400 and the groundwork is done for adding prime support with SG
+ttm buffers.
 
-> but time_slots must be the
-> one used when the payload was previously added, contained in the old
-> payload state. The new payload's time_slots can change vs. the old one
-> if the current atomic commit changes the corresponding mode.
-> 
-> This patch let's drivers pass the old and new payload states to
-> drm_dp_remove_payload(), but keeps these the same for now in all drivers
-> not to change the behavior. A follow-up i915 patch will pass in that
-> driver the correct old and new states to the function.
-> 
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Wayne Lin <Wayne.Lin@amd.com>
-> Cc: stable@vger.kernel.org # 6.1
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 ++++++++++---------
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  4 +++-
->  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 +-
->  include/drm/display/drm_dp_mst_helper.h       |  3 ++-
->  5 files changed, 19 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> index 6994c9a1ed858..fed4ce6821161 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> @@ -179,7 +179,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
->  	if (enable)
->  		drm_dp_add_payload_part1(mst_mgr, mst_state, payload);
->  	else
-> -		drm_dp_remove_payload(mst_mgr, mst_state, payload);
-> +		drm_dp_remove_payload(mst_mgr, mst_state, payload, payload);
->  
->  	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
->  	 * AUX message. The sequence is slot 1-63 allocated sequence for each
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 5861b0a6247bc..ebf6e31e156e0 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -3342,7 +3342,8 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
->   * drm_dp_remove_payload() - Remove an MST payload
->   * @mgr: Manager to use.
->   * @mst_state: The MST atomic state
-> - * @payload: The payload to write
-> + * @old_payload: The payload with its old state
-> + * @new_payload: The payload to write
->   *
->   * Removes a payload from an MST topology if it was successfully assigned a start slot. Also updates
->   * the starting time slots of all other payloads which would have been shifted towards the start of
-> @@ -3350,33 +3351,34 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
->   */
->  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
->  			   struct drm_dp_mst_topology_state *mst_state,
-> -			   struct drm_dp_mst_atomic_payload *payload)
-> +			   const struct drm_dp_mst_atomic_payload *old_payload,
-> +			   struct drm_dp_mst_atomic_payload *new_payload)
->  {
->  	struct drm_dp_mst_atomic_payload *pos;
->  	bool send_remove = false;
->  
->  	/* We failed to make the payload, so nothing to do */
-> -	if (payload->vc_start_slot == -1)
-> +	if (new_payload->vc_start_slot == -1)
->  		return;
+Zack Rusin (7):
+  drm/vmwgfx: Use the common gem mmap instead of the custom code
+  drm/vmwgfx: Remove the duplicate bo_free function
+  drm/vmwgfx: Rename vmw_buffer_object to vmw_bo
+  drm/vmwgfx: Simplify fb pinning
+  drm/vmwgfx: Cleanup the vmw bo usage in the cursor paths
+  drm/vmwgfx: Abstract placement selection
+  drm/vmwgfx: Stop using raw ttm_buffer_object's
 
-So I take it the only reason we even have that is the copy being done in
-drm_dp_mst_atomic_wait_for_dependencies()? I don't really understand
-why any of that is being done tbh. If the new payload hasn't been
-allocated yet then why can't its vc_start_slots just stay at -1
-until that time?
-
-This whole thing feels a bit weird since the payload table really isn't
-your normal atomic state that is computed ahead of time. Instead it just
-gets built up on as we go during the actual commit. So not really sure
-why we're even tracking it in atomic state...
-
->  
->  	mutex_lock(&mgr->lock);
-> -	send_remove = drm_dp_mst_port_downstream_of_branch(payload->port, mgr->mst_primary);
-> +	send_remove = drm_dp_mst_port_downstream_of_branch(new_payload->port, mgr->mst_primary);
->  	mutex_unlock(&mgr->lock);
->  
->  	if (send_remove)
-> -		drm_dp_destroy_payload_step1(mgr, mst_state, payload);
-> +		drm_dp_destroy_payload_step1(mgr, mst_state, new_payload);
->  	else
->  		drm_dbg_kms(mgr->dev, "Payload for VCPI %d not in topology, not sending remove\n",
-> -			    payload->vcpi);
-> +			    new_payload->vcpi);
->  
->  	list_for_each_entry(pos, &mst_state->payloads, next) {
-> -		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
-> -			pos->vc_start_slot -= payload->time_slots;
-> +		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
-> +			pos->vc_start_slot -= old_payload->time_slots;
->  	}
-> -	payload->vc_start_slot = -1;
-> +	new_payload->vc_start_slot = -1;
->  
->  	mgr->payload_count--;
-> -	mgr->next_start_slot -= payload->time_slots;
-> +	mgr->next_start_slot -= old_payload->time_slots;
->  }
->  EXPORT_SYMBOL(drm_dp_remove_payload);
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index ba29c294b7c1b..5f7bcb5c14847 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -526,6 +526,8 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
->  		to_intel_connector(old_conn_state->connector);
->  	struct drm_dp_mst_topology_state *mst_state =
->  		drm_atomic_get_mst_topology_state(&state->base, &intel_dp->mst_mgr);
-> +	struct drm_dp_mst_atomic_payload *payload =
-> +		drm_atomic_get_mst_payload_state(mst_state, connector->port);
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
->  
->  	drm_dbg_kms(&i915->drm, "active links %d\n",
-> @@ -534,7 +536,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
->  	intel_hdcp_disable(intel_mst->connector);
->  
->  	drm_dp_remove_payload(&intel_dp->mst_mgr, mst_state,
-> -			      drm_atomic_get_mst_payload_state(mst_state, connector->port));
-> +			      payload, payload);
->  
->  	intel_audio_codec_disable(encoder, old_crtc_state, old_conn_state);
->  }
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> index edcb2529b4025..ed9d374147b8d 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -885,7 +885,7 @@ nv50_msto_prepare(struct drm_atomic_state *state,
->  
->  	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
->  	if (msto->disabled) {
-> -		drm_dp_remove_payload(mgr, mst_state, payload);
-> +		drm_dp_remove_payload(mgr, mst_state, payload, payload);
->  
->  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index, 0, 0, 0, 0);
->  	} else {
-> diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-> index 41fd8352ab656..f5eb9aa152b14 100644
-> --- a/include/drm/display/drm_dp_mst_helper.h
-> +++ b/include/drm/display/drm_dp_mst_helper.h
-> @@ -841,7 +841,8 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
->  			     struct drm_dp_mst_atomic_payload *payload);
->  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
->  			   struct drm_dp_mst_topology_state *mst_state,
-> -			   struct drm_dp_mst_atomic_payload *payload);
-> +			   const struct drm_dp_mst_atomic_payload *old_payload,
-> +			   struct drm_dp_mst_atomic_payload *new_payload);
->  
->  int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
->  
-> -- 
-> 2.37.1
+ drivers/gpu/drm/vmwgfx/Makefile               |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            | 401 +++++++++---------
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h            | 217 ++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c           |  14 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c        |  53 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_context.c       |  36 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c       |  65 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  26 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 243 ++---------
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       | 103 +++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c           |  86 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 230 ++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h           |  43 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |  57 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_mob.c           |  45 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c       |  20 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c    |  59 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      | 239 ++++++-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |  53 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c        |  65 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_so.c            |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          | 323 ++------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c  |  20 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       | 111 ++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    | 116 +----
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c      | 110 -----
+ drivers/gpu/drm/vmwgfx/vmwgfx_va.c            |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    | 150 +++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.h    |  10 +-
+ 31 files changed, 1266 insertions(+), 1655 deletions(-)
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
 
 -- 
-Ville Syrjälä
-Intel
+2.38.1
+
