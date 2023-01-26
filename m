@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3DF67D2BF
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:10:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 821A267D2C3
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5213E10E94C;
-	Thu, 26 Jan 2023 17:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60E1610E94D;
+	Thu, 26 Jan 2023 17:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 801C910E94C
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:10:08 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id D72865C0432;
- Thu, 26 Jan 2023 12:10:07 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 26 Jan 2023 12:10:07 -0500
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA6410E94E
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:10:11 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8E0945C0447;
+ Thu, 26 Jan 2023 12:10:10 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 26 Jan 2023 12:10:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1674753007; x=
- 1674839407; bh=r8PfVgfg1/1/LZjTHHsJomA3Uy4NDG54RVBnB5RCyr0=; b=i
- OMneerGnFOg01mvXwYKOrilpgKgtN2YF2q43xZSo+mRI5twbkHDXaXIwgVSRouJ1
- 65p3JF8o+6q2GcOnyVyKOE9ebDL57uQv+Wx5hDz+78wX6b3JlwQSkOxuIArignc/
- vQ+IUcQ63XwHhhr+fQW5sR9QLane19xyol7beemJQ/s+UGJqeHbwQe+f2gfb9qdq
- inswiE13VgzvaNEDKO9a9CFfz+uzqvi3DkYIPv732OwQtVkB/GKfc3dA5t7JEZ0n
- Ug/7qQ1atrz0+482puou0Z5zPYm9yFZ2TbVvGBGxT3tn37tO1S/GpJBUFPbbJ5oF
- oubgnACTLLlUM1FR1KIHA==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1674753010; x=
+ 1674839410; bh=TuONVed+Dr6TDLyZbTUpohIjZuE5nuNDcQ+ItZCvi3k=; b=R
+ a718uho7fMDkdpvip8rcL8lrHYt8zSw4/XDhNGY5faq4kEJiNX+QH/K2yxMkSxRi
+ xkUlpjhQj4tUmN03sucPVzq197r9lMZWDRC/+vFh6kCyyCzXZyAfKf7Bnf0Tm2GL
+ cbCDg/OPKUEScky1NRlpbKlZXdVkW0keZcL/9Iqnj4n77m/ZAcE0skbDtjrVrO3i
+ Xo04SuwW5y6SzIdHlvAMbOWRSYWdbhe5JgKfsJEvTt+7zKhGldAPL123cY3quToi
+ DrDBvn8wXBDbB+YbNLO5jJECI/MyWVhFjtrXqFQJCI4JN/F8GFchkW4Gy7HxhsNH
+ euZVq6OSFfHqlyya3joKQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674753007; x=
- 1674839407; bh=r8PfVgfg1/1/LZjTHHsJomA3Uy4NDG54RVBnB5RCyr0=; b=N
- o8++D68TaOHuEuvEILXJr6z7O+49rKKa6vOCJokzIte38Etazwc2Z0cKXXgUnVTc
- +0ePT76lzAOjkNe8CQwvZ+5MeDDlY3yOTqZb1MtJKDAOWzQ938dgFcYtrKAKUxH1
- P66yPIHyvn1EpG2o7fETP3vwB/z0uS5wr68+7FM6Q4NxjGejFRscHPFNSehMoFl3
- PYbXDH3pT2huERw7/TjRjdggm9lkluX7yNkw+yf4KN+h5D3gG169UBSGjTT1fjiN
- UteSy9cS63SHYZgedZOLC3PkUkQZTcAEAe2higU8EcPyhBrD1nBWwcBTbEqKUsiX
- O6piMwtZbMR07AP/DpEMQ==
-X-ME-Sender: <xms:77PSY34L4Da-JcyF4G0JBy0cT_T_Xx3zkWXow9mCPX0bqIOiMMImlA>
- <xme:77PSY8401suvRE02LCLcvL77IrqsXsqusaGl_-bygdU7LR74mOD2EcOdtXZ2YyS7o
- kW7irSOUa5wQtifvPE>
-X-ME-Received: <xmr:77PSY-fn7YY0z3xA5W834UowgoD07OL6h2qIaGxi6BSthufeDPpsOpSc40I_wSOtnRWXVFww3vvpCkvI294Xy2nEP_0HLOMQNeCEyptfNxzR9Q>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674753010; x=
+ 1674839410; bh=TuONVed+Dr6TDLyZbTUpohIjZuE5nuNDcQ+ItZCvi3k=; b=g
+ 713ha+uzpzWRxJgnidqiKvgLkv4dIMR6ban1Now8Cwp63DdKOuJscc+BJUIA9efL
+ 4xp1l1BgbuVqSb/vdbFSCEKe/XjDRMe4tNBb82KVloOrshHJW2W64eROFf+TF67r
+ hehQRqmALGE//2cWnZ1FnDPotxrTkiWA5qumYZDa1ClH8ECsTxEQn96cz7XrRW3p
+ mETFFHuf+PGkTXQ+XmPH4aXqJhPhBH43AAhTU2McX0KJ/qkwRjMLRW251HrVcS5e
+ p3WY6MDvHVaNf5u9aLFMQ7mZKEYyKrT68al5ynMd4i0q/Nb32XBDhfpKv9M8P0J6
+ TjXkyWAiHQriTgZsi/GSA==
+X-ME-Sender: <xms:8bPSYwF59K7IbY8yhxxHLiQeTtHOFamz46FxTrxLsTrGUD3S8JrBrw>
+ <xme:8bPSY5WHsNWqMb2ytjMEeapP5Q7CwBG9RMu8UwKz_r2ydb8cExbpUp01yIEAblimj
+ SK-i-RC9fseUraXVvU>
+X-ME-Received: <xmr:8bPSY6LwtcCE7DME8vl_iVgL9IMsNqA7qZOho5fX7GI8QGIa_CYS0ZdJbfFlt1T6jjOM5SV6Jemeayl3_SUP-S1yCPpU9l8DM37oAq8Wq1G05g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgleekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,30 +54,30 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgleekucetufdoteggod
  grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
  teeltdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:77PSY4KzfJGso5_D4piK_FfJQKFEQ-kUreJvvKKzuFcOw2TCkmuHyw>
- <xmx:77PSY7L-em_BXw6_t0dlrcCdC6fuuONyD5Tp7_LqERU34yHkulNwHA>
- <xmx:77PSYxz6MKGMl57AbWqauE6PIEU1AlmlFDgFeAFugmF47qVfr7C2vA>
- <xmx:77PSY0453PrdRCZeR5Bwf0m_pAZgZ4nIzIhSAfhGJXCi7IPZVA11tQ>
+X-ME-Proxy: <xmx:8rPSYyFt5BlS7tda_IH-hbxgbhH5uzq2psQA7ka2pVafrIvcZP1ZYA>
+ <xmx:8rPSY2Xh_bQUzgqF4exEUKmCA0DA218Xnm7y5a-ZpjB0hPdwye339A>
+ <xmx:8rPSY1NSnAjs5pw80VtEiIC7Ia_DvyMeOne090kX2xqOm12494c1jQ>
+ <xmx:8rPSYyn77wp9n3y_E8GJFqWud1Odyg4Vz8D3gdnFWykaGxvw5HNN4Q>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Jan 2023 12:10:06 -0500 (EST)
+ 26 Jan 2023 12:10:09 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 26 Jan 2023 18:05:47 +0100
-Subject: [PATCH 2/4] drm/vc4: hdmi: Enable power domain before setting minimum
+Date: Thu, 26 Jan 2023 18:05:48 +0100
+Subject: [PATCH 3/4] Revert "drm/vc4: hdmi: Fix HSM clock too low on Pi4"
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230126-rpi-display-fw-clk-cleanup-v1-2-d646ff6fb842@cerno.tech>
+Message-Id: <20230126-rpi-display-fw-clk-cleanup-v1-3-d646ff6fb842@cerno.tech>
 References: <20230126-rpi-display-fw-clk-cleanup-v1-0-d646ff6fb842@cerno.tech>
 In-Reply-To: <20230126-rpi-display-fw-clk-cleanup-v1-0-d646ff6fb842@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2394; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=kZGgOHx1L8Al+hD8WBITB+QjtYhPj3I6fD0qrBD3FhE=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmXNn1cUXxw3eOl1Z/WXv/I+yunIH534lFG8zne6xJjdvNM
- YFi5uqOUhUGMi0FWTJElRth8SdypWa872fjmwcxhZQIZwsDFKQATyXRkZFh2WyvtZvbNrpbMb+3t7g
- eimY5tOa33UHp5oq7i21yDzzMYGfZccHvts+12IG9UNOdxnZVp0pudnAMat6oaL+R9fOGmMA8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3246; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=se4/zccLZCV03kCfGwykFTtzd+oBbkxTP8WaaiMrb2s=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmXNn3sPi2bXfTs++38hseNXAIr1hTeYT3NZ3VvTffRqdz5
+ v0y3dZSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiHEcYGTallD9YNnnvh/VGPu1qd9
+ avZy2t/K8k8ZQ5Zg9vtdYEUV6G/6HHexSyTk5Qq/bgFdrXVHnhQ36ydK9F66TpFtufqk1L5wQA
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,66 +97,99 @@ Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On the RaspberryPi0-3, the HSM clock was provided by the clk-bcm2835
-driver, but on the Pi4 it was provided by the firmware through the
-clk-raspberrypi driver.
+This reverts commit 3bc6a37f59f21a8bfaf74d0975b2eb0b2d52a065.
 
-The clk-bcm2835 driver registers the HSM clock using the
-CLK_SET_RATE_GATE flag that prevents any modification to the rate while
-the clock is active.
+Commit 3bc6a37f59f2 ("drm/vc4: hdmi: Fix HSM clock too low on Pi4") was
+introduced to work around an issue partly due to the clk-bcm2835 driver
+on the RaspberryPi0-3.
 
-This meant that we needed to call clk_set_min_rate() before our call to
-pm_runtime_resume_and_get() since our runtime_resume implementation
-needs to enable the HSM clock for the HDMI controller registers to be
-functional.
-
-However, the HSM clock is part of the HDMI power domain which might not
-be powered prior to the pm_runtime_resume_and_get() call, so we could
-end up changing the rate of the HSM clock while its power domain was
-disabled.
-
-We recently changed the backing driver for the RaspberryPi0-3 to
-clk-raspberrypi though, which doesn't have such restrictions. We can
-thus move the clk_set_min_rate() after our call to runtime_resume and
-avoid the access while the power domain is disabled.
+Since we're not using that driver for our HDMI clocks, we can now revert
+that inelegant solution.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 21 ++++-----------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  1 -
+ 2 files changed, 4 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 98fa306dbd24..9dd722b9ae3a 100644
+index 9dd722b9ae3a..e82fe17c9532 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1466,6 +1466,12 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 	if (!drm_dev_enter(drm, &idx))
- 		goto out;
+@@ -3189,16 +3189,9 @@ static int vc4_hdmi_init_resources(struct drm_device *drm,
+ 		DRM_ERROR("Failed to get HDMI state machine clock\n");
+ 		return PTR_ERR(vc4_hdmi->hsm_clock);
+ 	}
+-
+ 	vc4_hdmi->audio_clock = vc4_hdmi->hsm_clock;
+ 	vc4_hdmi->cec_clock = vc4_hdmi->hsm_clock;
  
-+	ret = pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev);
-+	if (ret < 0) {
-+		DRM_ERROR("Failed to retain power domain: %d\n", ret);
-+		goto err_dev_exit;
-+	}
-+
- 	/*
- 	 * As stated in RPi's vc4 firmware "HDMI state machine (HSM) clock must
- 	 * be faster than pixel clock, infinitesimally faster, tested in
-@@ -1488,13 +1494,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 	ret = clk_set_min_rate(vc4_hdmi->hsm_clock, hsm_rate);
- 	if (ret) {
- 		DRM_ERROR("Failed to set HSM clock rate: %d\n", ret);
--		goto err_dev_exit;
+-	vc4_hdmi->hsm_rpm_clock = devm_clk_get(dev, "hdmi");
+-	if (IS_ERR(vc4_hdmi->hsm_rpm_clock)) {
+-		DRM_ERROR("Failed to get HDMI state machine clock\n");
+-		return PTR_ERR(vc4_hdmi->hsm_rpm_clock);
 -	}
 -
--	ret = pm_runtime_resume_and_get(&vc4_hdmi->pdev->dev);
--	if (ret < 0) {
--		DRM_ERROR("Failed to retain power domain: %d\n", ret);
--		goto err_dev_exit;
-+		goto err_put_runtime_pm;
+ 	return 0;
+ }
+ 
+@@ -3281,12 +3274,6 @@ static int vc5_hdmi_init_resources(struct drm_device *drm,
+ 		return PTR_ERR(vc4_hdmi->hsm_clock);
  	}
  
- 	ret = clk_set_rate(vc4_hdmi->pixel_clock, tmds_char_rate);
+-	vc4_hdmi->hsm_rpm_clock = devm_clk_get(dev, "hdmi");
+-	if (IS_ERR(vc4_hdmi->hsm_rpm_clock)) {
+-		DRM_ERROR("Failed to get HDMI state machine clock\n");
+-		return PTR_ERR(vc4_hdmi->hsm_rpm_clock);
+-	}
+-
+ 	vc4_hdmi->pixel_bvb_clock = devm_clk_get(dev, "bvb");
+ 	if (IS_ERR(vc4_hdmi->pixel_bvb_clock)) {
+ 		DRM_ERROR("Failed to get pixel bvb clock\n");
+@@ -3350,7 +3337,7 @@ static int vc4_hdmi_runtime_suspend(struct device *dev)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+ 
+-	clk_disable_unprepare(vc4_hdmi->hsm_rpm_clock);
++	clk_disable_unprepare(vc4_hdmi->hsm_clock);
+ 
+ 	return 0;
+ }
+@@ -3368,11 +3355,11 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
+ 	 * its frequency while the power domain is active so that it
+ 	 * keeps its rate.
+ 	 */
+-	ret = clk_set_min_rate(vc4_hdmi->hsm_rpm_clock, HSM_MIN_CLOCK_FREQ);
++	ret = clk_set_min_rate(vc4_hdmi->hsm_clock, HSM_MIN_CLOCK_FREQ);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = clk_prepare_enable(vc4_hdmi->hsm_rpm_clock);
++	ret = clk_prepare_enable(vc4_hdmi->hsm_clock);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -3385,7 +3372,7 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
+ 	 * case, it will lead to a silent CPU stall. Let's make sure we
+ 	 * prevent such a case.
+ 	 */
+-	rate = clk_get_rate(vc4_hdmi->hsm_rpm_clock);
++	rate = clk_get_rate(vc4_hdmi->hsm_clock);
+ 	if (!rate) {
+ 		ret = -EINVAL;
+ 		goto err_disable_clk;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index dc3ccd8002a0..e3619836ca17 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -164,7 +164,6 @@ struct vc4_hdmi {
+ 	struct clk *cec_clock;
+ 	struct clk *pixel_clock;
+ 	struct clk *hsm_clock;
+-	struct clk *hsm_rpm_clock;
+ 	struct clk *audio_clock;
+ 	struct clk *pixel_bvb_clock;
+ 
 
 -- 
 2.39.1
