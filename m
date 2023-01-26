@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801A767CE87
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:45:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B76067CE89
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:45:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E15E10E916;
-	Thu, 26 Jan 2023 14:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0203D10E918;
+	Thu, 26 Jan 2023 14:45:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8B210E916
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:45:07 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id be8so1998962plb.7
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:45:07 -0800 (PST)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1A610E918
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:45:15 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id k18so2007480pll.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:45:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WK+2n5leeCN1ZUwhUDdriDW81kYnEsZfkVBz+dLgw2o=;
- b=InagqSKu9q+zYUh5/aSsIvy4NOiifEqAWyKy1cNmKJODY4AiKrDncx5F+ZoQSbUxmG
- rIWrKRdJCrUXBMc8ptNwgMTsSdpWM4pOYGO00TdtuCjLfGKdVbmv3bmEXxf7dPNMZhZO
- Cc1yIbIFsLM7wVitZN/uzb/mL+vxuK+IEqs8o=
+ bh=BbuFui50T2yH9lXHDgl2DPCW0nuBgP82n9Kixz8u2B4=;
+ b=NjLrpZiH1F8NfMSVlPGCbh2EXunTVmLORQW5P/C5teDrIczUd3nWuuN6Mi3mZ/1XOR
+ k/jCFOhNFtwUOH8qTRtktsPukWie3yr7fX2KOQV7u5GsHUefv64ViQf0ioPooTyp/Pwu
+ Yoc8wNKq8vOZgEh5zBCYvebG0jowdv3ORf2ug=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WK+2n5leeCN1ZUwhUDdriDW81kYnEsZfkVBz+dLgw2o=;
- b=ZQSs2QxHWyonUHEqwXn/FwGh3HCDPJlma3aIKuAep7CCayuTMIDwNNKIpYXor5YOkU
- xiFwTZbLNt2bfy6m1I6/Tl6h5a4mQnm9wVydyz9E4hn3jJwmc7TeycwL40ECoiPQ3Eci
- CEHFPeFwN4CifXnmuujC6jcRvVUz6IYhWn+q/M6qhTAov4d6rsoJHIF3Tg6hgd6L07zY
- E1O9UhsGycJUJFZy5mhBCjao8k2Ffe55jcf8vNtkttdgl/G7rX1Xf7ZJE0nJw4qQWCUG
- yj7R0AQLbo5nPCskafdSA+ShMbFIWeMgjOb5wdbUfr5faZRtfQOrkIblpnpUQCH8/pgg
- Xp7w==
-X-Gm-Message-State: AFqh2ko3KU19RRX3bxXiKEtjdfr/ODuH+p83Fg+Lm3LYLMdirMCtsPS0
- t6ByvA0puAtKf7oLbyF105A5UQ==
-X-Google-Smtp-Source: AMrXdXsyu6H4pTL9FyvrFWGqrqMWD2nvcoHbwqHils/x5P/YrkbiA+2vFMpeCy8vt05H4yQhmWiU9w==
-X-Received: by 2002:a17:90b:17cb:b0:22b:b9f4:4ad1 with SMTP id
- me11-20020a17090b17cb00b0022bb9f44ad1mr22793352pjb.34.1674744306993; 
- Thu, 26 Jan 2023 06:45:06 -0800 (PST)
+ bh=BbuFui50T2yH9lXHDgl2DPCW0nuBgP82n9Kixz8u2B4=;
+ b=ZGoV51QiwD3Wp4gyq2uBcnnsQN2YieMMpt/ybLT59s1Uxgu3YlBoFJy6I5c/ta7C5f
+ vW6+mg1+DV+3Kyg00CukSmg/x6IHyH1lib7oYRA/yifgzYNBP8ZaOqA+7ACYzpDga9xv
+ nNLg240xRbh58mh55bQ5NUJgi13lesOfFuTaywGaKW3Jvnn8s+h7CpHl8ilPuXiflBfQ
+ KysTdy1uogVLmVhfYUGIllRq+PRD7pwq3GJ6Hpz/LfXQ/Dsk30pG3PDPuLoC8Gg3X/5I
+ 8oTWmI8m6mhRAa+uUXznxzVGL7JxSJKjAIie+svpdWrM+RqI6JNMyZB8FKeYFsl4eWLQ
+ rr6g==
+X-Gm-Message-State: AFqh2kpgYgKqhjtKZmQBabNkDGp92v9J/3JkKbCj5GWQl919R1BnRBZv
+ YKWOSYqeaeOcvTe0NgvbdRepZg==
+X-Google-Smtp-Source: AMrXdXt1zDNXhAfKJemBXBmmAcO4SK8gFBozDTPfPU1zLylCQgg6AqhLhORHuZpVHNZ94YcpMf6kEg==
+X-Received: by 2002:a05:6a20:1611:b0:b4:6f9:ef7d with SMTP id
+ l17-20020a056a20161100b000b406f9ef7dmr46784387pzj.35.1674744314855; 
+ Thu, 26 Jan 2023 06:45:14 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a238:3cb1:2156:ef87:8af5])
  by smtp.gmail.com with ESMTPSA id
- d197-20020a6336ce000000b0042988a04bfdsm823660pga.9.2023.01.26.06.44.52
+ d197-20020a6336ce000000b0042988a04bfdsm823660pga.9.2023.01.26.06.45.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 06:45:06 -0800 (PST)
+ Thu, 26 Jan 2023 06:45:14 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -57,10 +57,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v12 01/18] drm: of: Lookup if child node has DSI panel or
- bridge
-Date: Thu, 26 Jan 2023 20:14:10 +0530
-Message-Id: <20230126144427.607098-2-jagan@amarulasolutions.com>
+Subject: [PATCH v12 02/18] drm: bridge: panel: Add devm_drm_of_dsi_get_bridge
+ helper
+Date: Thu, 26 Jan 2023 20:14:11 +0530
+Message-Id: <20230126144427.607098-3-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230126144427.607098-1-jagan@amarulasolutions.com>
 References: <20230126144427.607098-1-jagan@amarulasolutions.com>
@@ -85,84 +85,15 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Devices can also be child nodes when we also control that device
-through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
+Add devm OF helper to return the next DSI bridge in the chain.
 
-Unlike the drm_of_find_panel_or_bridge helper it requires a special
-case to lookup a child node of the given parent that isn't either
-port or ports.
+Unlike general bridge return helper devm_drm_of_get_bridge, this
+helper uses the dsi specific panel_or_bridge helper to find the
+next DSI device in the pipeline.
 
-Lookup for a child DSI node of the given parent that isn't either
-port or ports. If it is found then it will directly find the panel
-or bridge otherwise lookup for the child node with a given port and
-endpoint number as drm_of_find_panel_or_bridge does.
-
-Supporting this feature via existing drm_of_find_panel_or_bridge
-found several issues while handling usecases.
-
-Here is the previously failed attempt of similar and the same has
-been reverted later.
-
-commit <80253168dbfd> ("drm: of: Lookup if child node has panel or bridge")
-
-So, add a separate helper to handle this DSI use case.
-
-Example OF graph representation of DSI host, which has port but
-not has ports and has child panel node.
-
-dsi {
-	compatible = "allwinner,sun6i-a31-mipi-dsi";
-	#address-cells = <1>;
-	#size-cells = <0>;
-
-	port {
-		dsi_in_tcon0: endpoint {
-			remote-endpoint = <tcon0_out_dsi>;
-	};
-
-	panel@0 {
-		reg = <0>;
-	};
-};
-
-Example OF graph representation of DSI host, which has ports but
-not has port and has child panel node.
-
-dsi {
-        compatible = "samsung,exynos5433-mipi-dsi";
-        #address-cells = <1>;
-        #size-cells = <0>;
-
-	ports {
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		port@0 {
-			reg = <0>;
-
-                	dsi_to_mic: endpoint {
-                        	remote-endpoint = <&mic_to_dsi>;
-                	};
-                };
-        };
-
-        panel@0 {
-                reg = <0>;
-        };
-};
-
-Example OF graph representation of DSI host, which has neither a port
-nor a ports but has child panel node.
-
-dsi0 {
-	compatible = "ste,mcde-dsi";
-	#address-cells = <1>;
-	#size-cells = <0>;
-
-	panel@0 {
-		reg = <0>;
-	};
-};
+Helper lookup a given child DSI node or a DT node's port and
+endpoint number, find the connected node and return either
+the associated struct drm_panel or drm_bridge device.
 
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
@@ -170,189 +101,71 @@ Cc: Linus Walleij <linus.walleij@linaro.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
-Changes for v12:
+Changes for v12, v11:
 - none
-Changes for v11:
-- drop extra line
 Changes for v10:
 - new patch
 
- drivers/gpu/drm/drm_of.c | 112 ++++++++++++++++++++++++++++++++-------
- include/drm/drm_of.h     |  12 +++++
- 2 files changed, 104 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/bridge/panel.c | 34 ++++++++++++++++++++++++++++++++++
+ include/drm/drm_bridge.h       |  2 ++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index 7bbcb999bb75..e165951e3545 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -216,6 +216,35 @@ int drm_of_encoder_active_endpoint(struct device_node *node,
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index e8aae3cdc73d..be281eb26356 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -499,4 +499,38 @@ struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
  }
- EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
+ EXPORT_SYMBOL(drmm_of_get_bridge);
  
-+static int of_drm_find_panel_or_bridge(struct device_node *remote,
-+				       struct drm_panel **panel,
-+				       struct drm_bridge **bridge)
-+{
-+	int ret = -EPROBE_DEFER;
-+
-+	if (panel) {
-+		*panel = of_drm_find_panel(remote);
-+		if (!IS_ERR(*panel))
-+			ret = 0;
-+		else
-+			*panel = NULL;
-+	}
-+
-+	/* No panel found yet, check for a bridge next. */
-+	if (bridge) {
-+		if (ret) {
-+			*bridge = of_drm_find_bridge(remote);
-+			if (*bridge)
-+				ret = 0;
-+		} else {
-+			*bridge = NULL;
-+		}
-+	}
-+
-+	of_node_put(remote);
-+	return ret;
-+}
-+
- /**
-  * drm_of_find_panel_or_bridge - return connected panel or bridge device
-  * @np: device tree node containing encoder output ports
-@@ -238,7 +267,6 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 				struct drm_panel **panel,
- 				struct drm_bridge **bridge)
- {
--	int ret = -EPROBE_DEFER;
- 	struct device_node *remote;
- 
- 	if (!panel && !bridge)
-@@ -259,30 +287,74 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 	if (!remote)
- 		return -ENODEV;
- 
--	if (panel) {
--		*panel = of_drm_find_panel(remote);
--		if (!IS_ERR(*panel))
--			ret = 0;
--		else
--			*panel = NULL;
--	}
-+	return of_drm_find_panel_or_bridge(remote, panel, bridge);
-+}
-+EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
- 
--	/* No panel found yet, check for a bridge next. */
--	if (bridge) {
--		if (ret) {
--			*bridge = of_drm_find_bridge(remote);
--			if (*bridge)
--				ret = 0;
--		} else {
--			*bridge = NULL;
--		}
 +/**
-+ * drm_of_dsi_find_panel_or_bridge - return connected DSI panel or bridge device
++ * devm_drm_of_dsi_get_bridge - Return next DSI bridge in the chain
++ * @dev: device to tie the bridge lifetime to
 + * @np: device tree node containing encoder output ports
 + * @port: port in the device tree node
 + * @endpoint: endpoint in the device tree node
-+ * @panel: pointer to hold returned drm_panel
-+ * @bridge: pointer to hold returned drm_bridge
-+ *
-+ * Lookup for a child DSI node of the given parent that isn't either port
-+ * or ports. If it is found then it will directly find the panel or bridge
-+ * otherwise lookup for the child node with a given port and endpoint number
-+ * as drm_of_find_panel_or_bridge does.
 + *
 + * Lookup a given child DSI node or a DT node's port and endpoint number,
 + * find the connected node and return either the associated struct drm_panel
 + * or drm_bridge device. Either @panel or @bridge must not be NULL.
 + *
-+ * Returns zero if successful, or one of the standard error codes if it fails.
++ * Returns a pointer to the bridge if successful, or an error pointer
++ * otherwise.
 + */
-+int drm_of_dsi_find_panel_or_bridge(const struct device_node *np,
-+				    int port, int endpoint,
-+				    struct drm_panel **panel,
-+				    struct drm_bridge **bridge)
++struct drm_bridge *devm_drm_of_dsi_get_bridge(struct device *dev,
++					      struct device_node *np,
++					      u32 port, u32 endpoint)
 +{
-+	struct device_node *remote;
++	struct drm_bridge *bridge;
++	struct drm_panel *panel;
++	int ret;
 +
-+	if (!panel && !bridge)
-+		return -EINVAL;
++	ret = drm_of_dsi_find_panel_or_bridge(np, port, endpoint,
++					      &panel, &bridge);
++	if (ret)
++		return ERR_PTR(ret);
++
 +	if (panel)
-+		*panel = NULL;
- 
-+	/**
-+	 * Devices can also be child nodes when we also control that device
-+	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
-+	 *
-+	 * Lookup for a child node of the given parent that isn't either port
-+	 * or ports.
-+	 */
-+	for_each_available_child_of_node(np, remote) {
-+		if (of_node_name_eq(remote, "port") ||
-+		    of_node_name_eq(remote, "ports"))
-+			continue;
++		bridge = devm_drm_panel_bridge_add(dev, panel);
 +
-+		goto of_find_panel_or_bridge;
- 	}
- 
--	of_node_put(remote);
--	return ret;
-+	/*
-+	 * of_graph_get_remote_node() produces a noisy error message if port
-+	 * node isn't found and the absence of the port is a legit case here,
-+	 * so at first we silently check whether graph presents in the
-+	 * device-tree node.
-+	 */
-+	if (!of_graph_is_present(np))
-+		return -ENODEV;
-+
-+	remote = of_graph_get_remote_node(np, port, endpoint);
-+
-+of_find_panel_or_bridge:
-+	if (!remote)
-+		return -ENODEV;
-+
-+	return of_drm_find_panel_or_bridge(remote, panel, bridge);
- }
--EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
-+EXPORT_SYMBOL_GPL(drm_of_dsi_find_panel_or_bridge);
- 
- enum drm_of_lvds_pixels {
- 	DRM_OF_LVDS_EVEN = BIT(0),
-diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-index 10ab58c40746..7a97157c1fa0 100644
---- a/include/drm/drm_of.h
-+++ b/include/drm/drm_of.h
-@@ -47,6 +47,10 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 				int port, int endpoint,
- 				struct drm_panel **panel,
- 				struct drm_bridge **bridge);
-+int drm_of_dsi_find_panel_or_bridge(const struct device_node *np,
-+				    int port, int endpoint,
-+				    struct drm_panel **panel,
-+				    struct drm_bridge **bridge);
- int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
- 					  const struct device_node *port2);
- int drm_of_lvds_get_data_mapping(const struct device_node *port);
-@@ -99,6 +103,14 @@ static inline int drm_of_find_panel_or_bridge(const struct device_node *np,
- 	return -EINVAL;
- }
- 
-+static inline int drm_of_dsi_find_panel_or_bridge(const struct device_node *np,
-+						  int port, int endpoint,
-+						  struct drm_panel **panel,
-+						  struct drm_bridge **bridge)
-+{
-+	return -EINVAL;
++	return bridge;
 +}
++EXPORT_SYMBOL(devm_drm_of_dsi_get_bridge);
 +
- static inline int
- drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
- 				      const struct device_node *port2)
+ #endif
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 42f86327b40a..ccb14e361d3f 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -931,6 +931,8 @@ struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node
+ 					  u32 port, u32 endpoint);
+ struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm, struct device_node *node,
+ 					  u32 port, u32 endpoint);
++struct drm_bridge *devm_drm_of_dsi_get_bridge(struct device *dev, struct device_node *node,
++					      u32 port, u32 endpoint);
+ #else
+ static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
+ 							struct device_node *node,
 -- 
 2.25.1
 
