@@ -1,70 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D5E67CEB7
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:48:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FE867CEA7
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:47:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B90A110E92D;
-	Thu, 26 Jan 2023 14:48:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0B4E10E928;
+	Thu, 26 Jan 2023 14:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A85110E92D
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:48:26 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id d3so1991238plr.10
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:48:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mMIeNlQX1kpLCSK2213Nh/t20sw/zDBNyvoSqBTr940=;
- b=F7NyYLMycjIoMjaP3DOlXk6uH4cBhJSK095XAZrEqeiEhtY0234kpDJ/jCKP5Ar58q
- nWPzD0tNrOIdogcYU4PeAARxyDFgIjaIESTbr4eRvYsJPKKfF2Dl7aVIiYivl6+xeDXZ
- c1AQfTvFB19+pXXKriuFj/n9hZE4e5muXIMLE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mMIeNlQX1kpLCSK2213Nh/t20sw/zDBNyvoSqBTr940=;
- b=PAu7SAtWcDUpeD304VsvV2zfGxEF7uvWJGYF7BM1pFLjtz9zrgMmX/Y2IRpK1G2jmU
- +4suDQUTNIfl1bceRtuN0AepO73pzodFTVUofBaRs9muarPk+tk1SeMuhOHawlD7vCmz
- Pevuzoid3hLwFRJxEGCGhQNuLF5kyaQLcSxYwP1CwMIq6jttV4FERA4rZS7JYOBnLJnM
- Ek91F31QGz1UZnmLzMI7FokTem/Nrr9uinJ34R77hvSVzOowyTiJX+wTa7LRyjyJJeq1
- A1uvvZFX6PsIdXIl7zNkjfANSdIp2W0aq6WlVRwsrOrN0qAj1/JNJUQzmNmYBdKeiQC9
- YIjg==
-X-Gm-Message-State: AO0yUKUzKqk+SELFbz+EOeQ6jfFqU9mI9IDp3CCo1IgJ9/ooZL/AnDKk
- nSBZtWy7kumiSOATnTqY9opeCA==
-X-Google-Smtp-Source: AK7set8m7x1NPxEBd47AGk3fztqr+4pr/7FTzJtG4adsdxO8pdkbQBiGBxb1NTJBcAvA8X+J/mhTyA==
-X-Received: by 2002:a05:6a20:ba14:b0:b8:723f:e21b with SMTP id
- fa20-20020a056a20ba1400b000b8723fe21bmr2005411pzb.3.1674744505688; 
- Thu, 26 Jan 2023 06:48:25 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c00a:a238:3cb1:2156:ef87:8af5])
- by smtp.gmail.com with ESMTPSA id
- d197-20020a6336ce000000b0042988a04bfdsm823660pga.9.2023.01.26.06.48.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 06:48:25 -0800 (PST)
-From: Jagan Teki <jagan@amarulasolutions.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tim Harvey <tharvey@gateworks.com>, Adam Ford <aford173@gmail.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Marek Vasut <marex@denx.de>
-Subject: [PATCH v12 18/18] drm: bridge: samsung-dsim: Add i.MX8M Plus support
-Date: Thu, 26 Jan 2023 20:14:27 +0530
-Message-Id: <20230126144427.607098-19-jagan@amarulasolutions.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230126144427.607098-1-jagan@amarulasolutions.com>
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6590C10E928
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:47:30 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id F162A5C0429;
+ Thu, 26 Jan 2023 09:47:26 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 26 Jan 2023 09:47:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1674744446; x=1674830846; bh=50XbxMxXh3
+ RnYrbxek0Iuq+3NjnCbFXEdGPqPgrKdjA=; b=oebNCiCB5ZL++pWeYOiWRfEjOk
+ uHmb5IIfKWiRvNkKjs+RHnP4GwJujKxyvj51drK1kTub7W0OxVrYB7kgKiqqkVTI
+ AIiPDWSgiqg0/8mVkRmTGr2j7EwfMOmLcA8yoF6gMV058n6amhp7gHywvFqiAfJN
+ kOPRTB3kjuv6Ze9eSvu952U6sXgdN8qDtGnn5/90fmB37C33jgTRBXNxVP7m61qX
+ ddP3DR/N5+2IHjFAv/7OCyQROafh26ID6cU7Lp76LdGhv1UDjiGDlghmDaUbUfH+
+ OMZ6N+mEWdPxnD3FfDI4QZ4MqJnmFdrh0wMDbGaAfFDgqaILptqIi28a62Ng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1674744446; x=1674830846; bh=50XbxMxXh3RnYrbxek0Iuq+3NjnC
+ bFXEdGPqPgrKdjA=; b=s/k4J0wzrUvRpm6ObjjVHdJPJNmniHXDTfpvE1OhWtj8
+ ozlnp+9Z9/it24Xev9nG5VmOPDBf8j9tum6ix8FUlhySE/RQAojzXAYdL3jvbJdd
+ Zo1QYQDjtdKFGr8RsrSN586D1xQHlLWmqhPpmuAobIfsA5yAeUgfY0F9F/iYACUd
+ qBez8qaduGYKZIHAB1dkDh0tu35xrbZtGlH3yoXvn/Y9H72RLu0BJ7j1O57qAMHz
+ 8yc2IWHsyjs0IlT/fUFwbrerlqfEZSt91ckPGeyOYlbGteeWEuuii9w3OwqbPmUB
+ SJmPFbXE1lOX7Jndrot+bHX7/7AgStAxo+Mg+vDlZQ==
+X-ME-Sender: <xms:fpLSY7QFvNfg0CTsoTLLz4mQIUK4bERK2m5kys5ZLh9QvQBEXa8AfQ>
+ <xme:fpLSY8xBFGpuMJPl_EKz81a308g-xVfOpW3rxUmWe_24wXi64ywX7mN0VmyeDW9kz
+ nepSU7227GPy8SnwiM>
+X-ME-Received: <xmr:fpLSYw2kLeUzZ_pRNNB_SgWVADdeUJGGXbp1TZtacBT0Ct6L7clGT0i39wcj1xOXWUW45gN5pomRX7gq2VTua696PsDydwPWkGzr9XXxPRPMIQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgieekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:fpLSY7DzsVzHIHOOEnyf7iHJ4vfurnf_O1hPCFtLiEaQo_imajd24w>
+ <xmx:fpLSY0imONtGciDuliaVUTzB4w04yGsuTH_yAlF2vHTdVMPSVR__zA>
+ <xmx:fpLSY_oYyneifSHnLumA-sWEzhiqnRGIzRSjgGUbN9tTwtC2H9uzig>
+ <xmx:fpLSYzqf5HoZZ_nguBemXoZVZczS5V029IQa3YCFKhKK0HRUFCFG5Q>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 26 Jan 2023 09:47:25 -0500 (EST)
+Date: Thu, 26 Jan 2023 15:47:22 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v12 02/18] drm: bridge: panel: Add
+ devm_drm_of_dsi_get_bridge helper
+Message-ID: <20230126144722.ahnfzrl7ohy4lsah@houat>
 References: <20230126144427.607098-1-jagan@amarulasolutions.com>
+ <20230126144427.607098-3-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ctbirwvbqktam5or"
+Content-Disposition: inline
+In-Reply-To: <20230126144427.607098-3-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,124 +84,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
  linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
+ Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Adam Ford <aford173@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
 
-Add extras to support i.MX8M Plus. The main change is the removal of
-HS/VS/DE signal inversion in the LCDIFv3-DSIM glue logic, otherwise
-the implementation of this IP in i.MX8M Plus is very much compatible
-with the i.MX8M Mini/Nano one.
+--ctbirwvbqktam5or
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Marek Vasut <marex@denx.de>
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
-Acked-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
----
-Changes for v12:
-- collect RB from Marek
-Changes for v11:
-- collect RB from Frieder
-- collect ACK from Robert
-Changes for v10:
-- none
-Changes for v9:
-- added im8mp in DSIM_STATE_REINITIALIZED check
-- drop previous = NULL check
+On Thu, Jan 26, 2023 at 08:14:11PM +0530, Jagan Teki wrote:
+> Add devm OF helper to return the next DSI bridge in the chain.
+>=20
+> Unlike general bridge return helper devm_drm_of_get_bridge, this
+> helper uses the dsi specific panel_or_bridge helper to find the
+> next DSI device in the pipeline.
+>=20
+> Helper lookup a given child DSI node or a DT node's port and
+> endpoint number, find the connected node and return either
+> the associated struct drm_panel or drm_bridge device.
+>=20
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Changes for v12, v11:
+> - none
+> Changes for v10:
+> - new patch
 
- drivers/gpu/drm/bridge/samsung-dsim.c | 23 +++++++++++++++++++++++
- include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 24 insertions(+)
+I sent you an email earlier today telling you to change this.
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index fd042dbcd8d6..ec4a2106d34f 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -479,6 +479,7 @@ samsung_dsim_types[DSIM_TYPE_COUNT] = {
- 	[DSIM_TYPE_EXYNOS5422] = &exynos5422_dsi_driver_data,
- 	[DSIM_TYPE_EXYNOS5433] = &exynos5433_dsi_driver_data,
- 	[DSIM_TYPE_IMX8MM] = &imx8mm_dsi_driver_data,
-+	[DSIM_TYPE_IMX8MP] = &imx8mm_dsi_driver_data,
- };
- 
- static inline struct samsung_dsim *host_to_dsi(struct mipi_dsi_host *h)
-@@ -1452,10 +1453,17 @@ static int samsung_dsim_atomic_check(struct drm_bridge *bridge,
- 	 * 13.6.2.7.2 RGB interface
- 	 * both claim "Vsync, Hsync, and VDEN are active high signals.", the
- 	 * LCDIF must generate inverted HS/VS/DE signals, i.e. active LOW.
-+	 *
-+	 * The i.MX8M Plus glue logic between LCDIFv3 and DSIM does not
-+	 * implement the same behavior, therefore LCDIFv3 must generate
-+	 * HS/VS/DE signals active HIGH.
- 	 */
- 	if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM) {
- 		adjusted_mode->flags |= (DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
- 		adjusted_mode->flags &= ~(DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
-+	} else if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MP) {
-+		adjusted_mode->flags &= ~(DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC);
-+		adjusted_mode->flags |= (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC);
- 	}
- 
- 	return 0;
-@@ -1678,6 +1686,10 @@ static const struct samsung_dsim_host_ops generic_dsim_host_ops = {
- 	.unregister_host = generic_dsim_unregister_host,
- };
- 
-+static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_high = {
-+	.input_bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+};
-+
- static const struct drm_bridge_timings samsung_dsim_bridge_timings_de_low = {
- 	.input_bus_flags = DRM_BUS_FLAG_DE_LOW,
- };
-@@ -1767,6 +1779,8 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 	/* DE_LOW: i.MX8M Mini/Nano LCDIF-DSIM glue logic inverts HS/VS/DE */
- 	if (dsi->plat_data->hw_type == DSIM_TYPE_IMX8MM)
- 		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_low;
-+	else
-+		dsi->bridge.timings = &samsung_dsim_bridge_timings_de_high;
- 
- 	if (dsi->plat_data->host_ops && dsi->plat_data->host_ops->register_host)
- 		ret = dsi->plat_data->host_ops->register_host(dsi);
-@@ -1872,11 +1886,20 @@ static const struct samsung_dsim_plat_data samsung_dsim_imx8mm_pdata = {
- 	.host_ops = &generic_dsim_host_ops,
- };
- 
-+static const struct samsung_dsim_plat_data samsung_dsim_imx8mp_pdata = {
-+	.hw_type = DSIM_TYPE_IMX8MP,
-+	.host_ops = &generic_dsim_host_ops,
-+};
-+
- static const struct of_device_id samsung_dsim_of_match[] = {
- 	{
- 		.compatible = "fsl,imx8mm-mipi-dsim",
- 		.data = &samsung_dsim_imx8mm_pdata,
- 	},
-+	{
-+		.compatible = "fsl,imx8mp-mipi-dsim",
-+		.data = &samsung_dsim_imx8mp_pdata,
-+	},
- 	{ /* sentinel. */ }
- };
- MODULE_DEVICE_TABLE(of, samsung_dsim_of_match);
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index 4ba387c958ae..fb923caf09e1 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -28,6 +28,7 @@ enum samsung_dsim_type {
- 	DSIM_TYPE_EXYNOS5422,
- 	DSIM_TYPE_EXYNOS5433,
- 	DSIM_TYPE_IMX8MM,
-+	DSIM_TYPE_IMX8MP,
- 	DSIM_TYPE_COUNT,
- };
- 
--- 
-2.25.1
+Maxime
 
+--ctbirwvbqktam5or
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY9KSegAKCRDj7w1vZxhR
+xQk7APsFDe/QFarTUSJaYAYtwFTlzNBwwdJbq1FxCjhKMEESbQD+LltGByM+Fojq
+hUNh+f9wsXS4juUiEHvAOjoRjUQ8CAI=
+=pQFN
+-----END PGP SIGNATURE-----
+
+--ctbirwvbqktam5or--
