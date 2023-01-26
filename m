@@ -2,69 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF9D67D56E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 20:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A8C67D61B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 21:21:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5905910E021;
-	Thu, 26 Jan 2023 19:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD73810E031;
+	Thu, 26 Jan 2023 20:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
- [IPv6:2607:f8b0:4864:20::82b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E32F510E021
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 19:38:18 +0000 (UTC)
-Received: by mail-qt1-x82b.google.com with SMTP id e8so2221926qts.1
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 11:38:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=548u3Fp4tscAsRqm8ZTE2VWhUoxZOCMAGUWVcX6Go58=;
- b=epV5VW3hrViYljNLAdWJDqX3fAl4wYMv55qfvqUl+cZybWCeeDvqryFJs7Zk1z1ge0
- +YfWxsTDgetquN/yOeHPal429etypXOBpel4tIAV8vd4EP8H055kKatEvKe6oZxMs3PT
- LcO0xq4K0msdWtCUNqYN4NK0vLHs5L0h44+WlAHrYWvJgXcgjDmqAFXJlLbfBB/UTvvN
- 9vIhPdjjmCe8giVOUtXcRKZC0HKhopCXDpNQUBIZSpW7Qbo2/7o+/aS/ZPpfQVm1O7vS
- K1a26f+LNFd2YzHSgykx3DHZbq9/58TJ23dpXqRpwr3NjRuHpKkuas3uu7YQGuqzHxWI
- HpSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=548u3Fp4tscAsRqm8ZTE2VWhUoxZOCMAGUWVcX6Go58=;
- b=Eb+yURs++Q/ce1D9zOfF0ruSXrpn2v2Ytv1xDHgoGoRM4wxHe3jEhnLLzH8aSfZVqb
- tUxsYJZWH7EaXkVJy/oC0NFKZvYz2RDi5ISUNuWLmtTJQ36H50vryupRKY51Za/KGskB
- lxTF4VfJbCMhchHLg0FwffAtxzA3au0JwToilM/GjMhSlj4ACuT9wiiUXFdnqNWnddHw
- 7tG7CSwNzN8gIMpoLXlBjqxRiNgEo17YeKVRVjYtTyevsq2uPdIuO9OswdUY7HyLpkeB
- FJYXOlppEKRh6BD7mbbshHLt/gfbwWPTE9ePy8Wyb+XwLnrkGqtliEKeZz6naJbelW0e
- Wa6Q==
-X-Gm-Message-State: AFqh2koAh2Ss9U7wPisukR/KtSqcJt8xKqVA/rU3Vk34MoRhPARLhdZf
- ErNPxssDiKuLupP+cxjNp9Amhw==
-X-Google-Smtp-Source: AMrXdXv+huCHA7ip/FVnskiv66KzYaO0gWPYCPL7QS4WBmaP67lWrrmrdvcrLuRJ9ZU3cV/x/SyhoQ==
-X-Received: by 2002:ac8:70a:0:b0:3b1:c477:eb65 with SMTP id
- g10-20020ac8070a000000b003b1c477eb65mr52142649qth.60.1674761897975; 
- Thu, 26 Jan 2023 11:38:17 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-167-59-176.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.167.59.176]) by smtp.gmail.com with ESMTPSA id
- v3-20020ac87283000000b003b62e9c82ebsm1276806qto.48.2023.01.26.11.38.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 11:38:16 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.95)
- (envelope-from <jgg@ziepe.ca>) id 1pL84e-00HP8B-92;
- Thu, 26 Jan 2023 15:38:16 -0400
-Date: Thu, 26 Jan 2023 15:38:16 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [Lsf-pc] [LSF/MM/BPF proposal]: Physr discussion
-Message-ID: <Y9LWqEtmkmsMrHne@ziepe.ca>
-References: <Y8v+qVZ8OmodOCQ9@nvidia.com>
- <63cee1d3eaaef_3a36e529488@dwillia2-xfh.jf.intel.com.notmuch>
- <Y87p9i0vCZo/3Qa0@casper.infradead.org>
- <63cef32cbafc3_3a36e529465@dwillia2-xfh.jf.intel.com.notmuch>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBD8F10E031;
+ Thu, 26 Jan 2023 20:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674764501; x=1706300501;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=tq5wfBSvdgegrjQhe8X65gX8gaT0UOS8jMQM+4eM+jQ=;
+ b=aycaxePXSfxzNrDec3YXKgVgyHPdCiXTEKrbpBOruhjqmWee4MWxn/WG
+ T465o28czEiEDUJc0S+XtKqG8J9Q4p7t+l50h29JKwgHowHP3sNDzwYm/
+ v5OKU1s8xLbnwG7m1nSMcdYQrC9gS2omrDboz+jwl3f0Ve7Sx5dGGgvPY
+ GQtQ/xTOU0Zy6XRqkXAfb28gS5+Uxn2K4+KXVBGKfhvsvlcUUV34To1pF
+ CSCUc8Xf1fRgOBoyBXIlw4h3v5mYf9zjCM9dAIt5kS91UApmfwX3csxSU
+ YobgsPP3hnAMCc6n1FR4NQxpewsmzPtLFgjAO7Rta4SsFA140puiFdgTc Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="306585668"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="306585668"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2023 12:21:41 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="908386563"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="908386563"
+Received: from ideak-desk.fi.intel.com ([10.237.72.58])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jan 2023 12:21:27 -0800
+Date: Thu, 26 Jan 2023 22:21:24 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/9] drm/display/dp_mst: Handle old/new
+ payload states in drm_dp_remove_payload()
+Message-ID: <Y9LgxH19rc26zC++@ideak-desk.fi.intel.com>
+References: <20230125114852.748337-1-imre.deak@intel.com>
+ <20230125114852.748337-3-imre.deak@intel.com>
+ <Y9K6QPz/OnHuXrp4@intel.com> <Y9LHhpKpgjmqTm9D@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <63cef32cbafc3_3a36e529465@dwillia2-xfh.jf.intel.com.notmuch>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y9LHhpKpgjmqTm9D@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,72 +60,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, lsf-pc@lists.linuxfoundation.org,
- linux-rdma@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
- dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux.dev,
- Matthew Wilcox <willy@infradead.org>, netdev@vger.kernel.org,
- Joao Martins <joao.m.martins@oracle.com>,
- Jason Gunthorpe via Lsf-pc <lsf-pc@lists.linux-foundation.org>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+Reply-To: imre.deak@intel.com
+Cc: Karol Herbst <kherbst@redhat.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 23, 2023 at 12:50:52PM -0800, Dan Williams wrote:
-> Matthew Wilcox wrote:
-> > On Mon, Jan 23, 2023 at 11:36:51AM -0800, Dan Williams wrote:
-> > > Jason Gunthorpe via Lsf-pc wrote:
-> > > > I would like to have a session at LSF to talk about Matthew's
-> > > > physr discussion starter:
-> > > > 
-> > > >  https://lore.kernel.org/linux-mm/YdyKWeU0HTv8m7wD@casper.infradead.org/
-> > > > 
-> > > > I have become interested in this with some immediacy because of
-> > > > IOMMUFD and this other discussion with Christoph:
-> > > > 
-> > > >  https://lore.kernel.org/kvm/4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com/
+On Thu, Jan 26, 2023 at 08:33:42PM +0200, Ville Syrjälä wrote:
+> On Thu, Jan 26, 2023 at 07:37:04PM +0200, Ville Syrjälä wrote:
+> > On Wed, Jan 25, 2023 at 01:48:45PM +0200, Imre Deak wrote:
+> > > Atm, drm_dp_remove_payload() uses the same payload state to both get the
+> > > vc_start_slot required for the payload removal DPCD message and to
+> > > deduct time_slots from vc_start_slot of all payloads after the one being
+> > > removed.
 > > > 
-> > > I think this is a worthwhile discussion. My main hangup with 'struct
-> > > page' elimination in general is that if anything needs to be allocated
+> > > The above isn't always correct, as vc_start_slot must be the up-to-date
+> > > version contained in the new payload state,
 > > 
-> > You're the first one to bring up struct page elimination.  Neither Jason
-> > nor I have that as our motivation.
+> > Why is that? In fact couldn't we just clear both start_slot and
+> > pbn to 0 here?
+
+The DP spec requires sending the actual start slot, even though the hubs
+I checked ignored it and deleted all the allocation of the given VCPI
+whatever start slot was used. Imo we should still not depend on this.
+
+> OK, so it has to be the "current" start slot. Which in this case
+> means new_payload since that's what's housed in the new topolpogy state
+> which is the one getting mutated when streams are being removed/added.
+
+Yes.
+
+> Confusing, but seems correct
+> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> Oh, ok, then maybe I misread the concern in the vfio discussion. I
-> thought the summary there is debating the ongoing requirement for
-> 'struct page' for P2PDMA?
-
-The VFIO problem is we need a unique pgmap at 4k granuals (or maybe
-smaller, technically), tightly packed, because VFIO exposes PCI BAR
-space that can be sized in such small amounts.
-
-So, using struct page means some kind of adventure in the memory
-hotplug code to allow tightly packed 4k pgmaps.
-
-And that is assuming that every architecture that wants to support
-VFIO supports pgmap and memory hot plug. I was just told that s390
-doesn't, that is kind of important..
-
-If there is a straightforward way to get a pgmap into VFIO then I'd do
-that and give up this quest :)
-
-I've never been looking at this from the angle of eliminating struct
-page, but from the perspective of allowing the DMA API to correctly do
-scatter/gather IO to non-struct page P2P memory because I *can't* get
-a struct page for it. Ie make dma_map_resource() better. Make P2P
-DMABUF work properly.
-
-This has to come along with a different way to store address ranges
-because the basic datum that needs to cross all the functional
-boundaries we have is an address range list.
-
-My general current sketch is we'd allocate some 'DMA P2P provider'
-structure analogous to the MEMORY_DEVICE_PCI_P2PDMA pgmap and a single
-provider would cover the entire MMIO aperture - eg the providing
-device's MMIO BAR. This is enough information for the DMA API to do
-its job.
-
-We get this back either by searching an interval treey thing on the
-physical address or by storing it directly in the address range list.
-
-Jason
+> > 
+> > > but time_slots must be the
+> > > one used when the payload was previously added, contained in the old
+> > > payload state. The new payload's time_slots can change vs. the old one
+> > > if the current atomic commit changes the corresponding mode.
+> > > 
+> > > This patch let's drivers pass the old and new payload states to
+> > > drm_dp_remove_payload(), but keeps these the same for now in all drivers
+> > > not to change the behavior. A follow-up i915 patch will pass in that
+> > > driver the correct old and new states to the function.
+> > > 
+> > > Cc: Lyude Paul <lyude@redhat.com>
+> > > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > > Cc: Karol Herbst <kherbst@redhat.com>
+> > > Cc: Harry Wentland <harry.wentland@amd.com>
+> > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > Cc: Wayne Lin <Wayne.Lin@amd.com>
+> > > Cc: stable@vger.kernel.org # 6.1
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > ---
+> > >  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
+> > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 ++++++++++---------
+> > >  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  4 +++-
+> > >  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 +-
+> > >  include/drm/display/drm_dp_mst_helper.h       |  3 ++-
+> > >  5 files changed, 19 insertions(+), 14 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > index 6994c9a1ed858..fed4ce6821161 100644
+> > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > @@ -179,7 +179,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
+> > >  	if (enable)
+> > >  		drm_dp_add_payload_part1(mst_mgr, mst_state, payload);
+> > >  	else
+> > > -		drm_dp_remove_payload(mst_mgr, mst_state, payload);
+> > > +		drm_dp_remove_payload(mst_mgr, mst_state, payload, payload);
+> > >  
+> > >  	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
+> > >  	 * AUX message. The sequence is slot 1-63 allocated sequence for each
+> > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > index 5861b0a6247bc..ebf6e31e156e0 100644
+> > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > @@ -3342,7 +3342,8 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
+> > >   * drm_dp_remove_payload() - Remove an MST payload
+> > >   * @mgr: Manager to use.
+> > >   * @mst_state: The MST atomic state
+> > > - * @payload: The payload to write
+> > > + * @old_payload: The payload with its old state
+> > > + * @new_payload: The payload to write
+> > >   *
+> > >   * Removes a payload from an MST topology if it was successfully assigned a start slot. Also updates
+> > >   * the starting time slots of all other payloads which would have been shifted towards the start of
+> > > @@ -3350,33 +3351,34 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
+> > >   */
+> > >  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
+> > >  			   struct drm_dp_mst_topology_state *mst_state,
+> > > -			   struct drm_dp_mst_atomic_payload *payload)
+> > > +			   const struct drm_dp_mst_atomic_payload *old_payload,
+> > > +			   struct drm_dp_mst_atomic_payload *new_payload)
+> > >  {
+> > >  	struct drm_dp_mst_atomic_payload *pos;
+> > >  	bool send_remove = false;
+> > >  
+> > >  	/* We failed to make the payload, so nothing to do */
+> > > -	if (payload->vc_start_slot == -1)
+> > > +	if (new_payload->vc_start_slot == -1)
+> > >  		return;
+> > 
+> > So I take it the only reason we even have that is the copy being done in
+> > drm_dp_mst_atomic_wait_for_dependencies()? I don't really understand
+> > why any of that is being done tbh. If the new payload hasn't been
+> > allocated yet then why can't its vc_start_slots just stay at -1
+> > until that time?
+> > 
+> > This whole thing feels a bit weird since the payload table really isn't
+> > your normal atomic state that is computed ahead of time. Instead it just
+> > gets built up on as we go during the actual commit. So not really sure
+> > why we're even tracking it in atomic state...
+> > 
+> > >  
+> > >  	mutex_lock(&mgr->lock);
+> > > -	send_remove = drm_dp_mst_port_downstream_of_branch(payload->port, mgr->mst_primary);
+> > > +	send_remove = drm_dp_mst_port_downstream_of_branch(new_payload->port, mgr->mst_primary);
+> > >  	mutex_unlock(&mgr->lock);
+> > >  
+> > >  	if (send_remove)
+> > > -		drm_dp_destroy_payload_step1(mgr, mst_state, payload);
+> > > +		drm_dp_destroy_payload_step1(mgr, mst_state, new_payload);
+> > >  	else
+> > >  		drm_dbg_kms(mgr->dev, "Payload for VCPI %d not in topology, not sending remove\n",
+> > > -			    payload->vcpi);
+> > > +			    new_payload->vcpi);
+> > >  
+> > >  	list_for_each_entry(pos, &mst_state->payloads, next) {
+> > > -		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
+> > > -			pos->vc_start_slot -= payload->time_slots;
+> > > +		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
+> > > +			pos->vc_start_slot -= old_payload->time_slots;
+> > >  	}
+> > > -	payload->vc_start_slot = -1;
+> > > +	new_payload->vc_start_slot = -1;
+> > >  
+> > >  	mgr->payload_count--;
+> > > -	mgr->next_start_slot -= payload->time_slots;
+> > > +	mgr->next_start_slot -= old_payload->time_slots;
+> > >  }
+> > >  EXPORT_SYMBOL(drm_dp_remove_payload);
+> > >  
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > index ba29c294b7c1b..5f7bcb5c14847 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > @@ -526,6 +526,8 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
+> > >  		to_intel_connector(old_conn_state->connector);
+> > >  	struct drm_dp_mst_topology_state *mst_state =
+> > >  		drm_atomic_get_mst_topology_state(&state->base, &intel_dp->mst_mgr);
+> > > +	struct drm_dp_mst_atomic_payload *payload =
+> > > +		drm_atomic_get_mst_payload_state(mst_state, connector->port);
+> > >  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> > >  
+> > >  	drm_dbg_kms(&i915->drm, "active links %d\n",
+> > > @@ -534,7 +536,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
+> > >  	intel_hdcp_disable(intel_mst->connector);
+> > >  
+> > >  	drm_dp_remove_payload(&intel_dp->mst_mgr, mst_state,
+> > > -			      drm_atomic_get_mst_payload_state(mst_state, connector->port));
+> > > +			      payload, payload);
+> > >  
+> > >  	intel_audio_codec_disable(encoder, old_crtc_state, old_conn_state);
+> > >  }
+> > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > index edcb2529b4025..ed9d374147b8d 100644
+> > > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > @@ -885,7 +885,7 @@ nv50_msto_prepare(struct drm_atomic_state *state,
+> > >  
+> > >  	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
+> > >  	if (msto->disabled) {
+> > > -		drm_dp_remove_payload(mgr, mst_state, payload);
+> > > +		drm_dp_remove_payload(mgr, mst_state, payload, payload);
+> > >  
+> > >  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index, 0, 0, 0, 0);
+> > >  	} else {
+> > > diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+> > > index 41fd8352ab656..f5eb9aa152b14 100644
+> > > --- a/include/drm/display/drm_dp_mst_helper.h
+> > > +++ b/include/drm/display/drm_dp_mst_helper.h
+> > > @@ -841,7 +841,8 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
+> > >  			     struct drm_dp_mst_atomic_payload *payload);
+> > >  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
+> > >  			   struct drm_dp_mst_topology_state *mst_state,
+> > > -			   struct drm_dp_mst_atomic_payload *payload);
+> > > +			   const struct drm_dp_mst_atomic_payload *old_payload,
+> > > +			   struct drm_dp_mst_atomic_payload *new_payload);
+> > >  
+> > >  int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
+> > >  
+> > > -- 
+> > > 2.37.1
+> > 
+> > -- 
+> > Ville Syrjälä
+> > Intel
+> 
+> -- 
+> Ville Syrjälä
+> Intel
