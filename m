@@ -2,114 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB86867C474
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 07:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E88667C498
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 07:59:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A9B210E089;
-	Thu, 26 Jan 2023 06:20:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA6BF10E0F1;
+	Thu, 26 Jan 2023 06:59:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E52010E8EA
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:20:42 +0000 (UTC)
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20230126062040epoutp01582f195327fdb425a395c94cebc4727f~9x4vnHM301147911479epoutp01b
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:20:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20230126062040epoutp01582f195327fdb425a395c94cebc4727f~9x4vnHM301147911479epoutp01b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1674714040;
- bh=BzwzS4n8VEHQ62w09yKv4JMlAQPeaYZ77o7h6FSbOU0=;
- h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
- b=rnG8jJShyPtkpLAS08boFysrDV0JqH1jK/kJvHlZVTp98HuFe35ARRqLb1DPgpOh+
- S02xkIqbyrLdpR3srB9S7oNt5psFTJEZml8oXB7iAndVnyQrhp6BUXq1+FzUR+qJRC
- U08ovPvu06H/D1GfWG/iBBRe+33s+r6TpXbLipPM=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTP id
- 20230126062039epcas1p3919cd2ea0729a89832fc8a787f0a3383~9x4vG-q0Y2493424934epcas1p3V;
- Thu, 26 Jan 2023 06:20:39 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.38.233]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4P2VvB4VRVz4x9Pt; Thu, 26 Jan
- 2023 06:20:38 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- 3D.CF.54823.6BB12D36; Thu, 26 Jan 2023 15:20:38 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20230126062038epcas1p2d2f898be360f8400521d2de81c01b8f6~9x4tvU7DO2754827548epcas1p2P;
- Thu, 26 Jan 2023 06:20:38 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20230126062038epsmtrp12575439365fc005c85674c9394aa23f1~9x4tuiP3y2855228552epsmtrp1Y;
- Thu, 26 Jan 2023 06:20:38 +0000 (GMT)
-X-AuditID: b6c32a39-d01fc7000000d627-51-63d21bb6fc8d
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 6D.3F.05839.5BB12D36; Thu, 26 Jan 2023 15:20:38 +0900 (KST)
-Received: from inkidae002 (unknown [10.113.221.213]) by epsmtip2.samsung.com
- (KnoxPortal) with ESMTPA id
- 20230126062037epsmtip222c02d6b642e5b6df3c6ddcfa979a1e8~9x4tg7enQ0395603956epsmtip2N;
- Thu, 26 Jan 2023 06:20:37 +0000 (GMT)
-From: =?UTF-8?B?64yA7J246riwL1RpemVuIFBsYXRmb3JtIExhYihTUikv7IK87ISx7KCE7J6Q?=
- <inki.dae@samsung.com>
-To: "'Jagan Teki'" <jagan@amarulasolutions.com>
-In-Reply-To: <CAMty3ZD=RDY_NH6rt+ibY_4drEenmHhxKpn=BRD551jRoK=MxQ@mail.gmail.com>
-Subject: RE: [PATCH v11 0/3] drm: exynos: dsi: Restore the bridge chain
-Date: Thu, 26 Jan 2023 15:20:37 +0900
-Message-ID: <001501d9314e$4eb1de30$ec159a90$@samsung.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2077.outbound.protection.outlook.com [40.107.237.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5E7510E0F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:59:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oQM+4CGk1K1XxXL0Pe6oh7FOHkFbHKBxkPnHVqF+9en0V1JieH2UenaP9qpzmyYImdcAxvje+2lIu+Hx1SjnGYicx/xzyS3QrVLCdhsdIPtoek332kJBS9DDnuhHLghZeT2Y9VSDsw4sUpInvBpURSG/bIgHaLF9B7/EZzaskk9DJGCtg3njRN7gNnlhtH7R/fXtXTzP5ey0Cl6sUmX9/0IJFVb+Rj8gG+NmzKTPypSRK+qtg27zuQwddMXTd/DFzAJuCd+ndKZh93HsanxXlvfbOK/8NTo4pPW9deLmJ4P82ossAv/bY5eWAO+D4QT8KvlPKj4buzFJ7rDO82C2mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PNuexUBkUh+A6GNqEqHVPsbMDsnacyJLlHRvY8kEjgU=;
+ b=FADZ9xwZyFq1WzuQFBmbLlfBjg5LgXyWl9N0u7GV8DbThs4sm8d6kdK9CpnvBguHwbfMCiLEwpVp4X5ZxtdMEtz1xaBlihc/efQGxEG21YbnD7lNPqB2SKCJnQDG6i+XOrB+oqX+ppyme6zYEQMpB+Fiqk4l04yn5dXRUV6GESdAcyFronKH1Zn4wK8jNHEkQI12/tp/6/K9hqDPXQqYLbjtGcAD+MhNeAyncY4AGg7SSjbxvAhNjbbpkNfyjFAtUyVYER3fLfYX/WJWNmnpAH76c+eiitsolmUMouPoTXwr2STEhRj7cxe1qgFoDDMsaDPDOmEgAp/9x7WRht5zvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PNuexUBkUh+A6GNqEqHVPsbMDsnacyJLlHRvY8kEjgU=;
+ b=sC9QJq0Ldi5HsaLS45mCQIBGK5RHLSenx0BwvzuBd4NNAxaTDQqU6AFLnecE6OKKl1zP6b067hq5qVWd6H0W/8YOjfPyvNsu4Mw+HUuaFQ+IHsHnMjnQl2jPTDNytGbhuban58ti9bUme0FKVfNx4fp16VaQhIgsZxiuaLHGg5k=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS7PR12MB8250.namprd12.prod.outlook.com (2603:10b6:8:db::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Thu, 26 Jan
+ 2023 06:59:00 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6043.017; Thu, 26 Jan 2023
+ 06:59:00 +0000
+Message-ID: <4b13c48e-1677-3947-42e5-5ba241bcb96a@amd.com>
+Date: Thu, 26 Jan 2023 07:58:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] dma-buf: actually set signaling bit for private sub fences
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>, Arvind.Yadav@amd.com,
+ sumit.semwal@linaro.org, gustavo@padovan.org
+References: <20230126002844.339593-1-dakr@redhat.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230126002844.339593-1-dakr@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0113.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::8) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIgyi8WHi+AM2s4a5bnyovkxHh4sgE7ee16AjPDcKMB0WyXlgHxeuPsred1yjA=
-Content-Language: ko
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xbdRT2115ub0nKrh0bP9m61Jtgthmg3Vq8ZZRNxa0JSljmZGocuynX
- Qiht7YPXhABqxUFGCY7REpDH2OgIOnGPguPVztYtwbEhshhqnW5KKZOXLEGMse1lyn/fOec7
- 5/vO74Gx+bfQWCxPY6T1GkpNoJHIVdcuUfzVbXeVIsvcDtLXuYyQ36/Mo+SffRaUHKua45AX
- LEMo2XR7iEX23vByyDlzJSDvfupCySXbfTbZvXoFkE0NfpRcHWhFDvAUvYu+CEWr7VtE0W/z
- chSd1/0sxfQP11GFr8bDUpxrnEQVpy9fBIrlvh2Z3LfyU3JpKofWC2mNUpuTp1HJifQj2S9n
- S5NE4nixjHyBEGqoAlpOpL2aGX8wTx00TggLKbUpmMqkDAYiMTVFrzUZaWGu1mCUE7QuR62T
- 6hIMVIHBpFElaGhjslgk2iMNEk/k537cPYzoJgTFK2c+AxXg3vZTgItBXAKHxpzoKRCJ8XEH
- gNdmXEiowMeXAJz5OZYpPAZwqN0CnnTUTk4iTGEQwJGxkfXAD2Cr5+9wO4qroLemghXC0Xgi
- HHE2hjEbr0TgBwv7QpiLH4YTPaNoCG/GD8GuRmtYAcHjYMDhiAhhHi6DK1/+xWHw0/Cm9QHC
- zHkenm8PsBlHQrj68HyQjwW1MmDLYzZDiYbNn5jZIW8Qn8Hg/e9GEYafBmcH+lEGb4aznssc
- BsdCf52ZwzQ0ADg91Y0wQROArtWp9f33wuGuBlZIjY3vgl8MJDLpZ2H/WgtglKPgHyu1YUMQ
- 58FqM5+hENB95976FAjHz9WjFkDYNqxm27CabcMOtv/F2gByEWyldYYCFW0Q66T/3bZSW9AH
- wo96t8wBzj5aSHACFgacAGJsIppX23xbyeflUCWltF6brTepaYMTSIOHXc+O3aLUBn+Fxpgt
- lshEkqQ9eyWkOElMxPBi5DeVfFxFGel8mtbR+id9LIwbW8Ha9nDnUmKR2W/t9NcFFtKfqUr9
- dVNcfUCsK91pr/vn8Oj2G2C2qMf9u7MjP6q0uqyPe3y/IEv7qOFOakDw1HyxpDfdGBAdzRS8
- FmXdurw2UaKraTvt1F3SX/qquVDWITPVp+VGfPOG3xMzMpVBucuSy1kOumz6vWv9pFCaYcc+
- T/Z0vX2sWir/aVCrOOB+sFZe7RGc4Pi43cLn1s7y00pWkxbbE0Zf6jgUUzFX6JYehdaTKXaJ
- PHLGe7JZ+XVl3SvpysH39y362oqOv/jLMMG/1RLx4ZV33j1zYf/BoU328SO/HfvRvqUcowXu
- 17NSed75uNEs+WxxT1XTm4vjSx+NuwjEkEuJd7P1BupfGK4KUF0EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsWy7bCSvO426UvJBm/nMVvcX/yZxeLK1/ds
- Fl82TWCzONv0ht1i+YR9bBYzzu9jslh75C67xZu2RkaLS1MOs1l8mvWQ2WLFz62MFjMmv2Sz
- +LlrHosDr8faj/dZPebNOsHisXPWXXaPxXteMnncubaHzeN+93EmjyXTrrJ59G1ZxejxeZNc
- AGcUl01Kak5mWWqRvl0CV8aqxzMYC9aJVrz/0sHWwLhRsIuRk0NCwESi5+pVli5GLg4hgd2M
- Eq2ntrF1MXIAJSQktmzlgDCFJQ4fLgYpFxJ4zihx40w0iM0mkCpx49NHdhBbREBf4sChaUwg
- Y5gFOlkk7v74zQwx8ySTxPmrf1hAqjgFAiUurz7IBmILC7hLLJ02kxHEZhFQlXi9YwcriM0r
- YCnxdeMvdghbUOLkzCdgvcwC2hK9D1sZYexlC18zQzygIPHz6TJWkENFBPwk5n5jhigRkZjd
- 2cY8gVF4FpJJs5BMmoVk0iwkLQsYWVYxSqYWFOem5xYbFhjmpZbrFSfmFpfmpesl5+duYgTH
- q5bmDsbtqz7oHWJk4mA8xCjBwawkwtsz+3yyEG9KYmVValF+fFFpTmrxIUZpDhYlcd4LXSfj
- hQTSE0tSs1NTC1KLYLJMHJxSDUwnrnPsffVfZt8WlQM1r2sLPDI3XquaXX7V3Zbr1BMtlsg0
- Bu3Z7PKG/bcWtm0zWG/95MS5xV1K3ll/JhXoNkR62jFXKs6/eZOxWZJpj9SR5rPL8nQsol48
- O+kV7/M7xi576we/qdPCFrBf+6Ka+X3mTpfYUI//XwtfPjP6ceVmxKfEd2nFH0wfekzcf9nl
- 9ZWq+ICvtavYF3MVft5VyDV7P8/x1Ve35zZ3L+5u2D3v12llX/eHU+/qas/6fGm9xfvXh4rc
- 1l5w7MpeP6PouXvh9B0z3E00tQ/HvZPkOLf3a92sE7Jbbx6RTrzJYDuJwYC18NnFj/53VV4y
- Vq16dJVHxvlH6OYG70D715nNM5q2KLEUZyQaajEXFScCAC15FSBGAwAA
-X-CMS-MailID: 20230126062038epcas1p2d2f898be360f8400521d2de81c01b8f6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230106175722epcas1p152dacb511ee08d563c51bb8a8deb0bfe
-References: <20221212182923.29155-1-jagan@amarulasolutions.com>
- <CGME20230106175722epcas1p152dacb511ee08d563c51bb8a8deb0bfe@epcas1p1.samsung.com>
- <CAMty3ZDGu-acuZ9Bhp_=JcTYn5YWKVZnEUf3nC28Spm8v4+KQg@mail.gmail.com>
- <000001d9262d$42bc49c0$c834dd40$@samsung.com>
- <CAMty3ZD=RDY_NH6rt+ibY_4drEenmHhxKpn=BRD551jRoK=MxQ@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB8250:EE_
+X-MS-Office365-Filtering-Correlation-Id: 33da7f99-88eb-4a1b-04a3-08daff6acd20
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bWsJb/KJw/HDtOkEKB8a3rz2d5GSJMMkWHvKJwgOBMSyigzoVuKILtIjgh8xoVNMpAjcWFJxT4EJdit6c7NJH+kMVr/Kz2W1HzR00gEnMTXicmvDWCjtXPhsB/nNTI2IwtPh2ag+85kyx+BZlzXYhCIk1+d8Qm50nASJ4Z7mKDqyRbtu1ZgWtQrJ+e+iWUexDtQK252gAyRUoow9Gg0z0JYm2z9ZRk8i9lgqNK9FO7arr6GipaEWouBzVLu4MrpE0pcF8Sg/YmyV8mlo4Niu4Sqna6BciLBHj8EDpoBqHD/knODLhhiEi2J68+6aWt1btf/lLbP6IXKbHmtZ83pMsGNdxsGmc8ZW+R1atBocdzCD4QqIgVr1JgdUQwJ9gBfZwrlxkt7k7GQxdfyyM/kOof0bCj5lSrbM6vZADfYVy44/mqQU4AGyNXytsbWS8xtUcgm6AxOBU5bjK/zDZeymUigd7XkvGyacmk68y/xvL6jOo17tPOJ9wUtustuHEJQgQqVKArvgN8rpGGB8f6TQgOHHRuHKrIc3YX4NnxXbXvR9utkZW+UooCdtNLYceE1wFXwXj+fl36nlt92jL/MXwfX1ytRmJCyK47lhzhUUBjLWXu6wkGeQJ3oG5mawHQG/w+XlJKxWxuung3zWRIonbUmObkMpW0f/VkNFgFCPVKYQjaMMgevTV9hXI9Z/bo7QcA6OMuNCFm3I6cF6L5h/swpxcwl1/h9A3m0Bs160E0A=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(39860400002)(376002)(366004)(136003)(346002)(451199018)(31696002)(36756003)(4326008)(66946007)(66476007)(86362001)(316002)(186003)(66556008)(6506007)(26005)(8676002)(6666004)(6512007)(6486002)(83380400001)(478600001)(5660300002)(31686004)(66574015)(8936002)(2906002)(2616005)(38100700002)(41300700001)(4744005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MDdtQmRBWEVhaHoxZCtWQXVSZGNOTHNZTE9QanpPVWc4YUhwbWRaWXlWMnBI?=
+ =?utf-8?B?TGlJOXhpWit6WDQrTXJIN2hMS3p3Z0VKWjZIVVVBajhqRmc3NVByc1NGT085?=
+ =?utf-8?B?Rkh3ZTRpQjN6RzZRazh0SVYxU25yeDZEK1h5cHluQmxYVWJjeThyYXBtclNL?=
+ =?utf-8?B?dTRLTmV0ZDNlbnh5NVJVRStLNkk0ai9QdWFyalgvK2ZsVUpDeG5vcmlHTllp?=
+ =?utf-8?B?dzdIc2pwSExRNU5vczA3R05pYTBZVWlhRW9vNzFVNzdkbXhVd0N1MFBZOG1j?=
+ =?utf-8?B?RGJUZnRoNzdadko1elJmYlA2N3JSN2NxT3lXTHVDMjJiMHdIeVV1QWE0akNL?=
+ =?utf-8?B?NFdoQUp4WTBXVlNQTGRuWVBtUmxobmk3THI1N2xyMzhtd2FWM2dJQWErRHEy?=
+ =?utf-8?B?ZWJuejdGY3AwdHZtN3hKa2g2WE8xWTYvSm83WXhnTDI1UnNBY01XdnRCdlRV?=
+ =?utf-8?B?cktFT0ppNWZQejRQcXNmbjBMRFNUdHl6eG1lWFpEK1JMcTVVRzAvblg2b3NU?=
+ =?utf-8?B?L1FOSjRSNVp2Z3ArdDE4dEc3VVE0NUgvbGMyTURMSXdXaEpCOVd3bVVjcnBp?=
+ =?utf-8?B?c1pzemZaS3dZMnJ4eW1EY0VlRkk4NGFDZVRPMHd6M1l2U3VwYkFrTjYvRmxN?=
+ =?utf-8?B?Yi9kYU1POUVrYnM4RHhiY3lEek52THJ4TFF2K3VBSW9laktYZGsxQ2JXclNP?=
+ =?utf-8?B?c05nalF3OXFIZlU5eGFZZTk5Z3VMNUR3NWZlaFVYdm5yb3ZFY0huY0R3WTZp?=
+ =?utf-8?B?NXNoREw3enF6dTVxajdVb29qOWNacFRabTI4MktEZy9PRTlVMmNGNUh4QWhC?=
+ =?utf-8?B?K1BmZmQ5NG1DMk1meEY1ekdBT2pqNm05MXJvaHIxemRaeXBpaGx4YlFFN0Nz?=
+ =?utf-8?B?ckpNL2N6aWUxaGFHMjQwVUllZW5PWGJaMTBvLzc3OUVWZU5TWmxWZlczbUQ0?=
+ =?utf-8?B?cE1vQjIzWnBvdlpKUHQ1Q0hSV3p1Nmw5N0RWK3daczRrMExxWjZLWnJhajRa?=
+ =?utf-8?B?RTFZZ2hIUmhsVmZHb0luNVVyTE01Q2pnb09CWEdoVlphVFdlQlRXd1N1ZHV3?=
+ =?utf-8?B?cXQ2a0F0dFVmWFF6d2RJS2RkNWdZbk1rSHluSXRYWVhRTTJlbVk0ZXBiNWFD?=
+ =?utf-8?B?L25yRldCT0JwOGVNbXNGVkVqdjB2UE01cjJFakFXY2krOU1BbTh4UDMzK3A4?=
+ =?utf-8?B?c3FtTmNkQjA5bXlFc2JnUGdIWGNEVlAzL1pxWFF4SHJ1dkRhRW9xSUIwNTBo?=
+ =?utf-8?B?dEI5dkdJTFQ5aVprYkVSbDI3RzVMbGQzVzFFUVJZY3FCR1lIMzZrQ0N3RW8x?=
+ =?utf-8?B?clZUMnRpSGpTZUlCcmFGYWxHeFJwUExIR3JzOTFmY0ZsYzA3aE44SDFpbzV6?=
+ =?utf-8?B?MEFwMFpmaDlLNmNkWW1aTWpOM3kyempiN2EvZlg2enFEOEU3SjhNT2cvcmVs?=
+ =?utf-8?B?WktMVzNNQkFFOVVFWFh1eXhUWFpNZm1kbmlPeUZtQUdqaUQyWllXNmZvSjNI?=
+ =?utf-8?B?Ky9ZRk8vNG0ybTgwY1h6NXd0eDI4RmtWRXFzTVVxajVLaXVYbEk0WHRUaXJ4?=
+ =?utf-8?B?akgwWGpNNENVa0V2cUgyaGpHWDJkdU5DMURFMU9DUDA2NW8rZnpKUFZiNlZE?=
+ =?utf-8?B?Q1NjMzZIb2F3M3V2eWV4TmJwMi8yR2o4Y1VEZWFJMXJVbTJ0MTBoSi8xN3dQ?=
+ =?utf-8?B?d2JwZllTcFlUaUxYbHV6U0F0MTVnK2U3bzRua3A4elBNcmI3VFdxZmd5Z1BO?=
+ =?utf-8?B?cnhQcUJ2S2I0eDdWR2E5bStJZ282bVpWTXQvZ0NqamQ5WXgrclk2UlozaUNE?=
+ =?utf-8?B?YlRnNHBiYWpXWFdBNVJGaVlnc0N5Ymd2WFJrNXJpaEVkV2VsZkY3NGY3ZlpN?=
+ =?utf-8?B?Q1VwTWFlQ0dLOFhoT3l5VHY4dlUzY3lVbWZhcWZaYVA1Z0tBdkZxVjByekR3?=
+ =?utf-8?B?alZmSTJUbWR4bDRjb1BFTWNFUHlsY0hFejc5N09pTTZqY0JJTjFuUndJeEZv?=
+ =?utf-8?B?eHZ6NGtSdDNVZ2pIZ1ZFY2YyMkpDaE1uL08weUJxY1YyZm1xMlROSlVEQU83?=
+ =?utf-8?B?cHlHc2tTQzFhMXZhZndOYmFObjRPVGU0YWRaa3lxTVVGbWQ0eGs5WVQrdVcx?=
+ =?utf-8?Q?/s+KEhE9gxcZeOEfh1Yz1BbvD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33da7f99-88eb-4a1b-04a3-08daff6acd20
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 06:59:00.3296 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L9RByopz1bg9iiL3LOgOEVg+qvJ9PrzUWhNHMNw+VDNLFf0IEDp8MSSFcwYmI1oC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8250
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,68 +125,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: 'Marek Vasut' <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- 'linux-amarula' <linux-amarula@amarulasolutions.com>,
- 'Seung-Woo Kim' <sw0312.kim@samsung.com>,
- 'Neil	Armstrong' <narmstrong@linaro.org>,
- 'Robert Foss' <robert.foss@linaro.org>,
- 'Kyungmin Park' <kyungmin.park@samsung.com>, thierry.reding@gmail.com,
- dri-devel@lists.freedesktop.org, 'Andrzej Hajda' <andrzej.hajda@intel.com>,
- 'Sam
- Ravnborg' <sam@ravnborg.org>, 'Marek Szyprowski' <m.szyprowski@samsung.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan Teki,
+Am 26.01.23 um 01:28 schrieb Danilo Krummrich:
+> In dma_fence_allocate_private_stub() set the signaling bit of the newly
+> allocated private stub fence rather than the signaling bit of the
+> shared dma_fence_stub.
+>
+> Fixes: c85d00d4fd8b ("dma-buf: set signaling bit for the stub fence")
+> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 
-> -----Original Message-----
-> From: Jagan Teki <jagan=40amarulasolutions.com>
-> Sent: Friday, January 20, 2023 3:19 AM
-> To: =EB=8C=80=EC=9D=B8=EA=B8=B0/Tizen=20Platform=20Lab(SR)/=EC=82=BC=EC=
-=84=B1=EC=A0=84=EC=9E=90=20<inki.dae=40samsung.com>=0D=0A>=20Cc:=20Marek=20=
-Szyprowski=20<m.szyprowski=40samsung.com>;=20Seung-Woo=20Kim=0D=0A>=20<sw03=
-12.kim=40samsung.com>;=20Kyungmin=20Park=20<kyungmin.park=40samsung.com>;=
-=20Neil=0D=0A>=20Armstrong=20<narmstrong=40linaro.org>;=20Robert=20Foss=20<=
-robert.foss=40linaro.org>;=0D=0A>=20Andrzej=20Hajda=20<andrzej.hajda=40inte=
-l.com>;=20Sam=20Ravnborg=20<sam=40ravnborg.org>;=0D=0A>=20thierry.reding=40=
-gmail.com;=20Marek=20Vasut=20<marex=40denx.de>;=20linux-samsung-=0D=0A>=20s=
-oc=40vger.kernel.org;=20dri-devel=40lists.freedesktop.org;=20linux-amarula=
-=20<linux-=0D=0A>=20amarula=40amarulasolutions.com>=0D=0A>=20Subject:=20Re:=
-=20=5BPATCH=20v11=200/3=5D=20drm:=20exynos:=20dsi:=20Restore=20the=20bridge=
-=20chain=0D=0A>=20=0D=0A>=20Hi=20Inki=20Dae,=0D=0A>=20=0D=0A>=20On=20Thu,=
-=20Jan=2012,=202023=20at=207:56=20AM=20=EB=8C=80=EC=9D=B8=EA=B8=B0/Tizen=20=
-Platform=20Lab(SR)/=EC=82=BC=EC=84=B1=EC=A0=84=EC=9E=90=0D=0A>=20<inki.dae=
-=40samsung.com>=20wrote:=0D=0A>=20>=0D=0A>=20>=20Hi=20Jagan=20Teki,=0D=0A>=
-=20>=0D=0A>=20>=20Sorry=20for=20late.=0D=0A>=20>=0D=0A>=20>=20>=20-----Orig=
-inal=20Message-----=0D=0A>=20>=20>=20From:=20Jagan=20Teki=20<jagan=40amarul=
-asolutions.com>=0D=0A>=20>=20>=20Sent:=20Saturday,=20January=207,=202023=20=
-2:56=20AM=0D=0A>=20>=20>=20To:=20Marek=20Szyprowski=20<m.szyprowski=40samsu=
-ng.com>;=20Inki=20Dae=0D=0A>=20>=20>=20<inki.dae=40samsung.com>;=20Seung-Wo=
-o=20Kim=20<sw0312.kim=40samsung.com>;=20Kyungmin=0D=0A>=20Park=0D=0A>=20>=
-=20>=20<kyungmin.park=40samsung.com>;=20Neil=20Armstrong=20<narmstrong=40li=
-naro.org>;=0D=0A>=20Robert=0D=0A>=20>=20>=20Foss=20<robert.foss=40linaro.or=
-g>;=20Andrzej=20Hajda=20<andrzej.hajda=40intel.com>;=0D=0A>=20Sam=0D=0A>=20=
->=20>=20Ravnborg=20<sam=40ravnborg.org>=0D=0A>=20>=20>=20Cc:=20Marek=20Vasu=
-t=20<marex=40denx.de>;=20linux-samsung-soc=40vger.kernel.org;=20dri-=0D=0A>=
-=20>=20>=20devel=40lists.freedesktop.org;=20linux-amarula=20<linux-=0D=0A>=
-=20>=20>=20amarula=40amarulasolutions.com>=0D=0A>=20>=20>=20Subject:=20Re:=
-=20=5BPATCH=20v11=200/3=5D=20drm:=20exynos:=20dsi:=20Restore=20the=20bridge=
-=20chain=0D=0A>=20>=20>=0D=0A>=20>=20>=20On=20Mon,=20Dec=2012,=202022=20at=
-=2011:59=20PM=20Jagan=20Teki=20<jagan=40amarulasolutions.com>=0D=0A>=20wrot=
-e:=0D=0A>=20>=20>=20>=0D=0A>=20>=20>=20>=20Split=20the=20Exynos=20DSI=20bri=
-dge=20chain=20update=20patches=20from=20Samsung=20DSIM=0D=0A>=20>=20>=20>=
-=20bridge=20driver=20for=20easy=20to=20apply.=0D=0A>=20>=20>=20>=0D=0A>=20>=
-=20>=20>=20Changes=20for=20v11:=0D=0A>=20>=20>=20>=20-=20enable=20bridge.pr=
-e_enable_prev_first=0D=0A>=20>=20>=20>=20Changes=20for=20v10:=0D=0A>=20>=20=
->=20>=20-=20collect=20Marek.V=20Review=20tag=0D=0A>=20>=20>=0D=0A>=20>=20>=
-=20Any=20update=20on=20this?=0D=0A>=20>=20>=0D=0A>=20>=0D=0A>=20>=20Added=
-=20Thierry=20Reding=20who=20is=20a=20maintainer=20of=20DRM=20panel=20driver=
-s.=0D=0A>=20>=0D=0A>=20>=20I=20will=20pick=20this=20patch=20series=20-=20in=
-cluding=20panel=20and=20bride=20patches=20-=20up.=0D=0A>=20>=0D=0A>=20>=20T=
-hierry=20and=20Andrzej,=20please=20let=20me=20know=20if=20any=20problem.=0D=
-=0A>=20=0D=0A>=20Any=20further=20update=20on=20this?=0D=0A=0D=0AAlready=20m=
-erged=20to=20exynos-drm-next=20so=20this=20patch=20series=20will=20go=20to=
-=20-next=20as=20long=20as=20no=20feedback=20from=20Thierry=20and=20Andrzej.=
-=0D=0AI=20will=20request=20a=20PR=20this=20or=20next=20week.=0D=0A=0D=0ATha=
-nks,=0D=0AInki=20Dae=0D=0A=0D=0A>=20=0D=0A>=20Thanks,=0D=0A>=20Jagan.=0D=0A=
-=0D=0A
+Good catch, Reviewed-by: Christian König <christian.koenig@amd.com>
+
+Should I push it upstream as well or do you have commit access?
+
+> ---
+>   drivers/dma-buf/dma-fence.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 406b4e26f538..0de0482cd36e 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -167,7 +167,7 @@ struct dma_fence *dma_fence_allocate_private_stub(void)
+>   		       0, 0);
+>   
+>   	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> -		&dma_fence_stub.flags);
+> +		&fence->flags);
+>   
+>   	dma_fence_signal(fence);
+>   
+
