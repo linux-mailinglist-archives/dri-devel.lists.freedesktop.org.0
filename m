@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BC467D127
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 17:18:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 745A867D70A
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 21:59:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3DF610E14C;
-	Thu, 26 Jan 2023 16:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7124C10E331;
+	Thu, 26 Jan 2023 20:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6769210E14C
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 16:18:41 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id hw16so6372337ejc.10
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 08:18:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FUBsQLCrBYvivpWewp0oU92BS4YfC60hR9QBE+PdkbE=;
- b=MDT9jpfK9P3FwxyqCm5a1rLJrZNTV6H0yJVbSzRPOSeHdbI82Lus4jUzoERKF8PvJN
- 9JH2GCyoAaBT5BgN/t72cHMWW9J6j62yeSctn2ozOBsGjPwbiV40xI1m5GxZ6tqAOL9e
- 4VD9EbRiZuN8A1iVNF/XUu/o3O0ARrm/QOYlfJdloUPze1lPIuuFczM/b+Rbem4k0Ju6
- Dd5z/GDEiHJAlmVGHI8zl4lThCl5OvlEouFdoxthnbTwXcV91vG/n8ITGlLAhSZNz5Do
- DMq95jBgu+p0UCELr28Dw8kVPj/i57AotVA1mLKdHX6voPMsFGHFCbVeHyLKZPs+W8HA
- WUBQ==
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
+ [IPv6:2607:f8b0:4864:20::1132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1E0610E2C9
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 16:25:16 +0000 (UTC)
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-4c24993965eso29756437b3.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 08:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=rUFKXit/Slxp5jNkRtm2qJfbudUdkwg/5ym9L9/2xFg=;
+ b=BrNExWGHbV1NeR+vu2Js5zAqwDKTAmFhHgoWjYZ0a3qbH7rru8W3QViuclznskZkVo
+ 6Q5eqrGX7jMOOdvE9K9lsVmJpHX9roidNQoqd4ah6qpZ3z5AR/LzfumpWsF7qxr+L/L7
+ 2EeJAw9MATGkA5VBf2UwOc7KCg21F0CUspP8pGqPmL78PHbmYrJgHGcDXuiJf+tpyEq5
+ mYd3qiJmdB/mmqbT25mkgF6e/9yHOLIF4ZmJU2qiUjSg09+a1L9BOQF70sP/z/t1hEtG
+ N3QguNCw23qX8RL/9XVLJb/vAzwIwx19tcG6Myly1SJ+d6fdbBsCbrW+Wp9iSE9SLjFe
+ r7Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FUBsQLCrBYvivpWewp0oU92BS4YfC60hR9QBE+PdkbE=;
- b=msebRHfQ5VgN41e5m0h9OqG9kccVO1aqUN9+vzuYK1StEEO2mtcVmXbiS5fykqOn5o
- l9f6z7suOi2rEw4hiM2565QmHe0x/zWSrckQPRHQJ8hBr0/I408NDiK97fn9IJi+6tnw
- YgQhOC3KLTRhu/7SXUG12pjdKFEB6U4IXawXolS+qr/XimKhFgCUE3ZNrV7xiz/z2F0g
- ngbm0WJLR8c90KEHiNDCnA4vm5ewz0fXGqk5LW+mHjIKLgQg/wBjHeq93gt+cxcSUJiK
- iegGYyQZIPFemB1g+48Km7nkS8WxPMDS5PMWzh9Z1w0qOSQjQj1Lgt3Mjz7f6h1rRang
- k7XQ==
-X-Gm-Message-State: AO0yUKVOvBDlPuolkHXm+Fwzvq7B3ivCaAHJ5XwI/N/tuOl3CKkGjN8c
- hyNKnGNwnZ8I9tvpMpkZqV0=
-X-Google-Smtp-Source: AK7set8+0zZ5cyuprg85X8cYX0HvtU9ZtPVvQ5tjiO/y8rHKxnwhKwllcAVZglc/XqIoZvfF9LwjKQ==
-X-Received: by 2002:a17:906:d1d0:b0:878:6df7:ce74 with SMTP id
- bs16-20020a170906d1d000b008786df7ce74mr1931574ejb.23.1674749919780; 
- Thu, 26 Jan 2023 08:18:39 -0800 (PST)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
- by smtp.gmail.com with ESMTPSA id
- z21-20020a1709060f1500b0084debc3fdadsm776545eji.188.2023.01.26.08.18.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 08:18:39 -0800 (PST)
-Date: Thu, 26 Jan 2023 17:18:37 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] drm/simpledrm: Fix an NULL vs IS_ERR() bug
-Message-ID: <Y9Kn3UQ8WGUtgJgi@orome>
-References: <Y9JHzImRcUaa0mi1@kili>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rUFKXit/Slxp5jNkRtm2qJfbudUdkwg/5ym9L9/2xFg=;
+ b=AS+Df9GcdszLnIUkv8JSRfKJTS2pGysf4t3y6pj3K6ctyGn+Rrl1DjMRwAPmZ0aOF7
+ hFWtahwz0QcfjTkcqyOv/XUI3Vj+KdP5CifYDSdqb41FCbQmrjWlKZttF8bvxoPxNnJN
+ wK+u0k6Pjx9gpRlB5rEDdtmaDu4Jw9bzo/gC7tdUefGgXefouMVrZ1tJw0fbE45+vr20
+ xndJddMfsV7GfpV2b0fmn31n7sgl+r95yMruVgCEpztLrgAFG4TvKdggI2q2a8bhngaF
+ Tw1F5Xu4bu7kqku3OyU+KHEgkFZeRLEqgf8o3M3MURwQEZjdXIixhCOcIL5SxyVVqKfz
+ LyMw==
+X-Gm-Message-State: AFqh2kqY/Archix8TIqG+W/a38aNNxR8gQDF+ECI8kFuiDi3FTMcshMn
+ sfY72T2/3/dvky3+LP0rxoEeKHo8BB3/1uLn8CPiYw==
+X-Google-Smtp-Source: AMrXdXvRVLeaIi85wIrJBS5zRkOyr5/BQ66PCe0y1aLe9hmWIu7jqHBlhyy2SYPoXbE9x4WotKo1j1aRHLVU6Hd1LsI=
+X-Received: by 2002:a81:1b8b:0:b0:4ff:774b:7ffb with SMTP id
+ b133-20020a811b8b000000b004ff774b7ffbmr3541685ywb.218.1674750315051; Thu, 26
+ Jan 2023 08:25:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FvZpDm5J7z3glGpv"
-Content-Disposition: inline
-In-Reply-To: <Y9JHzImRcUaa0mi1@kili>
-User-Agent: Mutt/2.2.9 (2022-11-12)
+References: <20230125083851.27759-1-surenb@google.com>
+ <20230125083851.27759-2-surenb@google.com>
+ <Y9JFFYjfJf9uDijE@kernel.org> <Y9KTUw/04FmBVplw@kernel.org>
+ <Y9KXjLaFFUvqqdd4@casper.infradead.org>
+In-Reply-To: <Y9KXjLaFFUvqqdd4@casper.infradead.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 26 Jan 2023 08:25:03 -0800
+Message-ID: <CAJuCfpHs4wvQpitiAYc+PQX3LnitF=wvm=zVX7CzMozzmnbcnw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
+To: Matthew Wilcox <willy@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Thu, 26 Jan 2023 20:58:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,51 +69,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <treding@nvidia.com>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: michel@lespinasse.org, nvdimm@lists.linux.dev, leewalsh@google.com,
+ dri-devel@lists.freedesktop.org, perex@perex.cz, jglisse@google.com,
+ arjunroy@google.com, m.szyprowski@samsung.com, linux-arch@vger.kernel.org,
+ qianweili@huawei.com, linux-samsung-soc@vger.kernel.org,
+ aneesh.kumar@linux.ibm.com, chenhuacai@kernel.org, kasan-dev@googlegroups.com,
+ linux-acpi@vger.kernel.org, rientjes@google.com,
+ xen-devel@lists.xenproject.org, devel@lists.orangefs.org, minchan@google.com,
+ robert.jarzmik@free.fr, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, npiggin@gmail.com, alex.williamson@redhat.com,
+ viro@zeniv.linux.org.uk, luto@kernel.org, gthelen@google.com,
+ tglx@linutronix.de, ldufour@linux.ibm.com, linux-sgx@vger.kernel.org,
+ martin.petersen@oracle.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org, linux-media@vger.kernel.org,
+ freedreno@lists.freedesktop.org, joelaf@google.com, linux-aio@kvack.org,
+ linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org, david@redhat.com,
+ dave.hansen@linux.intel.com, virtualization@lists.linux-foundation.org,
+ edumazet@google.com, target-devel@vger.kernel.org, punit.agrawal@bytedance.com,
+ linux-s390@vger.kernel.org, dave@stgolabs.net, deller@gmx.de, hughd@google.com,
+ andrii@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-rockchip@lists.infradead.org, linux-graphics-maintainer@vmware.com,
+ kernel-team@android.com, jayalk@intworks.biz, soheil@google.com,
+ selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org, shakeelb@google.com,
+ haojian.zhuang@gmail.com, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, tytso@mit.edu, nico@fluxnic.net,
+ muchun.song@linux.dev, hjc@rock-chips.com, mcoquelin.stm32@gmail.com,
+ tatashin@google.com, mike.kravetz@oracle.com, songliubraving@fb.com,
+ jasowang@redhat.com, alsa-devel@alsa-project.org, peterx@redhat.com,
+ linux-tegra@vger.kernel.org, kraxel@redhat.com, will@kernel.org,
+ dmaengine@vger.kernel.org, bhe@redhat.com, miklos@szeredi.hu,
+ linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org, gurua@google.com, dgilbert@interlog.com,
+ xiang@kernel.org, pabeni@redhat.com, jejb@linux.ibm.com,
+ quic_abhinavk@quicinc.com, bp@alien8.de, mchehab@kernel.org,
+ linux-ext4@vger.kernel.org, tomba@kernel.org, hughlynch@google.com,
+ sre@kernel.org, tfiga@chromium.org, linux-xfs@vger.kernel.org,
+ zhangfei.gao@linaro.org, wangzhou1@hisilicon.com, netdev@vger.kernel.org,
+ bpf@vger.kernel.org, linux-erofs@lists.ozlabs.org, davem@davemloft.net,
+ Mike Rapoport <rppt@kernel.org>, mhocko@suse.com, kvm@vger.kernel.org,
+ mst@redhat.com, peterz@infradead.org, bigeasy@linutronix.de,
+ alexandre.torgue@foss.st.com, dhowells@redhat.com, linux-mm@kvack.org,
+ ray.huang@amd.com, adilger.kernel@dilger.ca, kuba@kernel.org,
+ sparclinux@vger.kernel.org, anton.ivanov@cambridgegreys.com,
+ herbert@gondor.apana.org.au, linux-scsi@vger.kernel.org, richard@nod.at,
+ x86@kernel.org, vkoul@kernel.org, mingo@redhat.com, axelrasmussen@google.com,
+ intel-gfx@lists.freedesktop.org, paulmck@kernel.org, jannh@google.com,
+ chao@kernel.org, liam.howlett@oracle.com, hdegoede@redhat.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, vbabka@suse.cz,
+ dimitri.sivanich@hpe.com, posk@google.com, lstoakes@gmail.com,
+ peterjung1337@gmail.com, yoshfuji@linux-ipv6.org,
+ linuxppc-dev@lists.ozlabs.org, dsahern@kernel.org, kent.overstreet@linux.dev,
+ kexec@lists.infradead.org, tiwai@suse.com, krzysztof.kozlowski@linaro.org,
+ tzimmermann@suse.de, hannes@cmpxchg.org, dmitry.baryshkov@linaro.org,
+ johannes@sipsolutions.net, mgorman@techsingularity.net,
+ linux-accelerators@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jan 26, 2023 at 7:09 AM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> On Thu, Jan 26, 2023 at 04:50:59PM +0200, Mike Rapoport wrote:
+> > On Thu, Jan 26, 2023 at 11:17:09AM +0200, Mike Rapoport wrote:
+> > > On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
+> > > > +/* Use when VMA is not part of the VMA tree and needs no locking */
+> > > > +static inline void init_vm_flags(struct vm_area_struct *vma,
+> > > > +                          unsigned long flags)
+> > >
+> > > I'd suggest to make it vm_flags_init() etc.
+> >
+> > Thinking more about it, it will be even clearer to name these vma_flags_xyz()
+>
+> Perhaps vma_VERB_flags()?
+>
+> vma_init_flags()
+> vma_reset_flags()
+> vma_set_flags()
+> vma_clear_flags()
+> vma_mod_flags()
 
---FvZpDm5J7z3glGpv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Due to excessive email bouncing I posted the v3 of this patchset using
+the original per-VMA patchset's distribution list. That might have
+dropped Mike from the list. Sorry about that Mike, I'll add you to my
+usual list of suspects :)
+The v3 is here:
+https://lore.kernel.org/all/20230125233554.153109-1-surenb@google.com/
+and Andrew did suggest the same renames, so I'll be posting v4 with
+those changes later today.
+Thanks for the feedback!
 
-On Thu, Jan 26, 2023 at 12:28:44PM +0300, Dan Carpenter wrote:
-> The devm_memremap() function doesn't return NULL, it returns error
-> pointers.
->=20
-> Fixes: 9a10c7e6519b ("drm/simpledrm: Add support for system memory frameb=
-uffers")
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
-> ---
->  drivers/gpu/drm/tiny/simpledrm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-
-Good catch! Applied to drm-misc-next, thanks.
-
-Thierry
-
---FvZpDm5J7z3glGpv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmPSp9sACgkQ3SOs138+
-s6ECOw//YIt/L+hHtCZtIp19H1O9jC1ZEjq0DLfDAEVYv+sousVYhkgAaxdKySj3
-Kj9RNprI2A0+cQxtx+P1iP6zPwJSCj0KI1mxY10rHCoOKVVS3QyrHKudWs5kTwBc
-dOqbPTTrn+KOK+ie4IBj3mbpyheGBnoNC+7Z+GirC5p7J/7kiG6fHRiNZc0ha8MS
-VQc5TSA7eFGhEk0Vwrg+IPmvs2MP73CQbr38Q+lWZWi1IrWHtQovFsIZljrvG786
-EHot53V/wgSbcEMDjDkvUdZSybnDSRKobNuVAXnRfmasXnsoe0dIJH4/Nads/oyL
-XSBRvuqPV6KjPflZQhOQ1ptTirEh/duhhaY8rPppIBuBk9AjV2oBZwe/tQHyKyUb
-pyTg8lx3mtLigqQMc0pgjIX0zkrdrTFbcX1y0y6CJsneN6wfs4itjVfn/EezSB4T
-nlFCVD72SCESU82j9YoLh7suWUVhkQRt3O80a9DCOkRKfY+HVxGL0HxW9i63GRnK
-8Pz2SpLTHe9kTv5w3/4iUCKYqBUusB/VixPq97r1AacfTJRr891wk0DDX8gc9cLv
-+Pm6vHX44/44uo2AD2GijHLBQNcuFSvHF5NOEuZbhT4079hugc4U3P3Xx3MbK7xa
-3guf7rsp88R9Q6KxQHH/L1siiCyXGu9ERdia7KpQOOJYPB5HCik=
-=2ARH
------END PGP SIGNATURE-----
-
---FvZpDm5J7z3glGpv--
+>
