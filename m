@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0203967D359
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:38:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FF967D35C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:38:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7EF810E955;
-	Thu, 26 Jan 2023 17:38:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C4610E959;
+	Thu, 26 Jan 2023 17:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6236810E955
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:38:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F8CB10E955
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:38:25 +0000 (UTC)
 Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id B9FC8324AA7;
- Thu, 26 Jan 2023 17:38:22 +0000 (GMT)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 7BAE1324A8A;
+ Thu, 26 Jan 2023 17:38:23 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1674754703; bh=3zwIAT04JXpi0zVQcZYKNL3Til1aPSHyO+SgS15GXOY=;
+ t=1674754704; bh=gMXpEpGiyyS7/esJa0GehgmaISIygY8OY5+DQoKXgEI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LrO6Gb32vsi/t7alpA6jSUojUB5aC7LXt4457BV/a5QdELWOlQP4tRFInsEv+fQQd
- 4eZDhPBufU+LFsLUAdqmeRJQZFMDpNS/+IqcM2EAJowPoefhYCltUpyEt79LCjz1vQ
- mUpr1tEPLB1qE4vpzDDsIuLagjDiVFPzG5Wv6Awc2Ej6RXBn9QvpKIm/Fv3BEfPIZx
- sFmRT/a982vDzamHgG8ijj/z82Mz24xYcJbL/Iw73r31MYngIfLmqLfYLFwTbFOy45
- EKY8tljaL5FPfdX8bdum0k6UQ0amV235k7ri1YS4eukWu3SDfh0d+nrmFbMz3OZG89
- Hcr1dJt+ACjfQ==
+ b=MDpdcHz/un2Oa99KLTmmgSHxAlB+7WPdgjp6PgbFqehbjHYM06SRswDtd0BKv0Rc+
+ iZI2iuugRcylWZqVYhHp4nQok/71EtYMbv9Y7EuaarKGQhfCKk9v/fl/V/0gtzsKm2
+ KxoU6tEGF6a0s0CgJwXI7oX6aBX6+mX67CeVoxLrjq/1G/4+rWo+Z7IO0nqhZwzA7V
+ 2Jt/XLc/f3GsNTc/m2e0ppVg95F/DJRPok4LcHkhX58zneBJVHa53AwPXNyfJkYvJO
+ M4t5jm7KTVvKvs5U03RPlFSubLk3Hlsp0OE2l53pRL+cHPjKbaraM2loA3Fho+Q0KH
+ BkcYS/WCbQvKA==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/7] drm/vmwgfx: Cleanup the vmw bo usage in the cursor paths
-Date: Thu, 26 Jan 2023 12:38:11 -0500
-Message-Id: <20230126173813.602748-6-zack@kde.org>
+Subject: [PATCH 6/7] drm/vmwgfx: Abstract placement selection
+Date: Thu, 26 Jan 2023 12:38:12 -0500
+Message-Id: <20230126173813.602748-7-zack@kde.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230126173813.602748-1-zack@kde.org>
 References: <20230126173813.602748-1-zack@kde.org>
@@ -54,149 +54,1524 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-Base mapped count is useless because the ttm unmap functions handle
-null maps just fine so completely remove all the code related to it.
-Rename dummy to is_iomem because that's what it is even if we're not
-activelly using it. Makes the code easier to read.
+Problem with explicit placement selection in vmwgfx is that by the time
+the buffer object needs to be validated the information about which
+placement was supposed to be used is lost. To workaround this the driver
+had a bunch of state in various places e.g. as_mob or cpu_blit to
+somehow convey the information on which placement was intended.
+
+Fix is properly by allowing the buffer object to hold their preferred
+placement so it can be reused whenever needed. This makes the entire
+validation pipeline a lot easier both to understand and maintain.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.h  |  4 ----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 28 +++++++++-------------------
- 2 files changed, 9 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            | 156 +++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h            |  26 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_context.c       |   9 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c       |  11 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           |   2 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       |  36 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c           |   5 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |  22 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h           |  21 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      |  11 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |  13 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c        |  15 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_so.c            |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          | 304 ++----------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c  |   3 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    |  47 ---
+ drivers/gpu/drm/vmwgfx/vmwgfx_va.c            |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    |  74 ++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.h    |   6 +-
+ 22 files changed, 325 insertions(+), 456 deletions(-)
 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index fa289e67143d..b94c32a59689 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -148,11 +148,17 @@ int vmw_bo_pin_in_vram_or_gmr(struct vmw_private *dev_priv,
+ 		goto out_unreserve;
+ 	}
+ 
+-	ret = ttm_bo_validate(bo, &vmw_vram_gmr_placement, &ctx);
++	vmw_bo_placement_set(buf,
++			     vmw_bo_domain_gmr | vmw_bo_domain_vram,
++			     vmw_bo_domain_gmr);
++	ret = ttm_bo_validate(bo, &buf->placement, &ctx);
+ 	if (likely(ret == 0) || ret == -ERESTARTSYS)
+ 		goto out_unreserve;
+ 
+-	ret = ttm_bo_validate(bo, &vmw_vram_placement, &ctx);
++	vmw_bo_placement_set(buf,
++			     vmw_bo_domain_vram,
++			     vmw_bo_domain_vram);
++	ret = ttm_bo_validate(bo, &buf->placement, &ctx);
+ 
+ out_unreserve:
+ 	if (!ret)
+@@ -203,17 +209,8 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
+ {
+ 	struct ttm_operation_ctx ctx = {interruptible, false };
+ 	struct ttm_buffer_object *bo = &buf->base;
+-	struct ttm_placement placement;
+-	struct ttm_place place;
+ 	int ret = 0;
+ 
+-	place = vmw_vram_placement.placement[0];
+-	place.lpfn = PFN_UP(bo->resource->size);
+-	placement.num_placement = 1;
+-	placement.placement = &place;
+-	placement.num_busy_placement = 1;
+-	placement.busy_placement = &place;
+-
+ 	vmw_execbuf_release_pinned_bo(dev_priv);
+ 	ret = ttm_bo_reserve(bo, interruptible, false, NULL);
+ 	if (unlikely(ret != 0))
+@@ -229,14 +226,21 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
+ 	    bo->resource->start > 0 &&
+ 	    buf->base.pin_count == 0) {
+ 		ctx.interruptible = false;
+-		(void) ttm_bo_validate(bo, &vmw_sys_placement, &ctx);
++		vmw_bo_placement_set(buf,
++				     vmw_bo_domain_sys,
++				     vmw_bo_domain_sys);
++		(void) ttm_bo_validate(bo, &buf->placement, &ctx);
+ 	}
+ 
++	vmw_bo_placement_set(buf,
++			     vmw_bo_domain_vram,
++			     vmw_bo_domain_vram);
++	buf->places[0].lpfn = PFN_UP(bo->resource->size);
+ 	if (buf->base.pin_count > 0)
+-		ret = ttm_resource_compat(bo->resource, &placement)
++		ret = ttm_resource_compat(bo->resource, &buf->placement)
+ 			? 0 : -EINVAL;
+ 	else
+-		ret = ttm_bo_validate(bo, &placement, &ctx);
++		ret = ttm_bo_validate(bo, &buf->placement, &ctx);
+ 
+ 	/* For some reason we didn't end up at the start of vram */
+ 	WARN_ON(ret == 0 && bo->resource->start != 0);
+@@ -444,7 +448,7 @@ int vmw_bo_create_kernel(struct vmw_private *dev_priv, unsigned long size,
+ }
+ 
+ int vmw_bo_create(struct vmw_private *vmw,
+-		  size_t size, struct ttm_placement *placement,
++		  size_t size, u32 domain, u32 busy_domain,
+ 		  bool interruptible, bool pin,
+ 		  struct vmw_bo **p_bo)
+ {
+@@ -457,7 +461,8 @@ int vmw_bo_create(struct vmw_private *vmw,
+ 	}
+ 
+ 	ret = vmw_bo_init(vmw, *p_bo, size,
+-			  placement, interruptible, pin);
++			  domain, busy_domain,
++			  interruptible, pin);
+ 	if (unlikely(ret != 0))
+ 		goto out_error;
+ 
+@@ -474,7 +479,8 @@ int vmw_bo_create(struct vmw_private *vmw,
+  * @dev_priv: Pointer to the device private struct
+  * @vmw_bo: Pointer to the struct vmw_bo to initialize.
+  * @size: Buffer object size in bytes.
+- * @placement: Initial placement.
++ * @domain: Domain to put the bo in.
++ * @busy_domain: Domain to put the bo if busy.
+  * @interruptible: Whether waits should be performed interruptible.
+  * @pin: If the BO should be created pinned at a fixed location.
+  * Returns: Zero on success, negative error code on error.
+@@ -483,7 +489,9 @@ int vmw_bo_create(struct vmw_private *vmw,
+  */
+ int vmw_bo_init(struct vmw_private *dev_priv,
+ 		struct vmw_bo *vmw_bo,
+-		size_t size, struct ttm_placement *placement,
++		size_t size,
++		u32 domain,
++		u32 busy_domain,
+ 		bool interruptible, bool pin)
+ {
+ 	struct ttm_operation_ctx ctx = {
+@@ -502,8 +510,9 @@ int vmw_bo_init(struct vmw_private *dev_priv,
+ 	size = ALIGN(size, PAGE_SIZE);
+ 	drm_gem_private_object_init(vdev, &vmw_bo->base.base, size);
+ 
++	vmw_bo_placement_set(vmw_bo, domain, busy_domain);
+ 	ret = ttm_bo_init_reserved(bdev, &vmw_bo->base, ttm_bo_type_device,
+-				   placement, 0, &ctx, NULL, NULL, vmw_bo_free);
++				   &vmw_bo->placement, 0, &ctx, NULL, NULL, vmw_bo_free);
+ 	if (unlikely(ret)) {
+ 		return ret;
+ 	}
+@@ -838,3 +847,112 @@ void vmw_bo_move_notify(struct ttm_buffer_object *bo,
+ 	if (mem->mem_type != VMW_PL_MOB && bo->resource->mem_type == VMW_PL_MOB)
+ 		vmw_resource_unbind_list(vbo);
+ }
++
++static u32
++set_placement_list(struct ttm_place *pl, u32 domain)
++{
++	u32 n = 0;
++
++	/*
++	 * The placements are ordered according to our preferences
++	 */
++	if (domain & vmw_bo_domain_mob) {
++		pl[n].mem_type = VMW_PL_MOB;
++		pl[n].flags = 0;
++		pl[n].fpfn = 0;
++		pl[n].lpfn = 0;
++		n++;
++	}
++	if (domain & vmw_bo_domain_gmr) {
++		pl[n].mem_type = VMW_PL_GMR;
++		pl[n].flags = 0;
++		pl[n].fpfn = 0;
++		pl[n].lpfn = 0;
++		n++;
++	}
++	if (domain & vmw_bo_domain_vram) {
++		pl[n].mem_type = TTM_PL_VRAM;
++		pl[n].flags = 0;
++		pl[n].fpfn = 0;
++		pl[n].lpfn = 0;
++		n++;
++	}
++	WARN_ON((domain & vmw_bo_domain_waitable_sys) != 0);
++	if (domain & vmw_bo_domain_waitable_sys) {
++		pl[n].mem_type = VMW_PL_SYSTEM;
++		pl[n].flags = 0;
++		pl[n].fpfn = 0;
++		pl[n].lpfn = 0;
++		n++;
++	}
++	if (domain & vmw_bo_domain_sys) {
++		pl[n].mem_type = TTM_PL_SYSTEM;
++		pl[n].flags = 0;
++		pl[n].fpfn = 0;
++		pl[n].lpfn = 0;
++		n++;
++	}
++
++	/*
++	 * In case of vmw_bo_domain_any the buffer
++	 * should initially reside in the system memory,
++	 * it will be validated/migrated to the correct
++	 * placement later
++	 */
++	if (!n) {
++		pl[n].mem_type = TTM_PL_SYSTEM;
++		pl[n].flags = 0;
++		pl[n].fpfn = 0;
++		pl[n].lpfn = 0;
++		n++;
++	}
++	return n;
++}
++
++void vmw_bo_placement_set(struct vmw_bo *bo, u32 domain, u32 busy_domain)
++{
++	struct ttm_device *bdev = bo->base.bdev;
++	struct vmw_private *vmw =
++		container_of(bdev, struct vmw_private, bdev);
++	struct ttm_placement *pl = &bo->placement;
++	bool mem_compatible = false;
++	u32 i;
++
++	pl->placement = bo->places;
++	pl->num_placement = set_placement_list(bo->places, domain);
++
++	if (drm_debug_enabled(DRM_UT_DRIVER) && bo->base.resource) {
++		for (i = 0; i < pl->num_placement; ++i) {
++			if (bo->base.resource->mem_type == TTM_PL_SYSTEM ||
++					bo->base.resource->mem_type == pl->placement[i].mem_type)
++				mem_compatible = true;
++		}
++		if (!mem_compatible)
++			drm_warn(&vmw->drm,
++				 "%s: Incompatible transition from "
++				 "bo->base.resource->mem_type = %u to domain = %u\n",
++				 __func__, bo->base.resource->mem_type, domain);
++	}
++
++	pl->busy_placement = bo->busy_places;
++	pl->num_busy_placement = set_placement_list(bo->busy_places, busy_domain);
++}
++
++
++void vmw_bo_placement_set_default_accelerated(struct vmw_bo *bo)
++{
++	struct ttm_device *bdev = bo->base.bdev;
++	struct vmw_private *vmw =
++		container_of(bdev, struct vmw_private, bdev);
++	u32 domain = vmw_bo_domain_any;
++	u32 busy_domain = vmw_bo_domain_any;
++
++	if (vmw->has_mob) {
++		domain = vmw_bo_domain_mob;
++		busy_domain = domain;
++	} else {
++		domain = vmw_bo_domain_gmr | vmw_bo_domain_vram;
++		busy_domain = domain;
++	}
++	vmw_bo_placement_set(bo, domain, busy_domain);
++}
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-index db85609ec01c..4dcf37235cb0 100644
+index 4dcf37235cb0..3c7549ed42b0 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-@@ -44,7 +44,6 @@ struct vmw_resource;
+@@ -31,6 +31,7 @@
+ #include "device_include/svga_reg.h"
+ 
+ #include <drm/ttm/ttm_bo_api.h>
++#include <drm/ttm/ttm_placement.h>
+ 
+ #include <linux/rbtree_types.h>
+ #include <linux/types.h>
+@@ -40,6 +41,15 @@ struct vmw_fence_obj;
+ struct vmw_private;
+ struct vmw_resource;
+ 
++typedef enum {
++	vmw_bo_domain_any           = 0,
++	vmw_bo_domain_sys           = 1 << 0,
++	vmw_bo_domain_waitable_sys  = 1 << 1,
++	vmw_bo_domain_vram          = 1 << 2,
++	vmw_bo_domain_gmr           = 1 << 3,
++	vmw_bo_domain_mob           = 1 << 4,
++} vmw_bo_domain;
++
+ /**
   * struct vmw_bo - TTM buffer object with vmwgfx additions
   * @base: The TTM buffer object
-  * @res_tree: RB tree of resources using this buffer object as a backing MOB
-- * @base_mapped_count: ttm BO mapping count; used by KMS atomic helpers.
-  * @cpu_writers: Number of synccpu write grabs. Protected by reservation when
-  * increased. May be decreased without reservation.
-  * @dx_query_ctx: DX context if this buffer object is used as a DX query MOB
-@@ -55,8 +54,6 @@ struct vmw_resource;
+@@ -53,6 +63,11 @@ struct vmw_resource;
+  */
  struct vmw_bo {
  	struct ttm_buffer_object base;
++
++	struct ttm_placement placement;
++	struct ttm_place places[5];
++	struct ttm_place busy_places[5];
++
  	struct rb_root res_tree;
--	/* For KMS atomic helpers: ttm bo mapping count */
--	atomic_t base_mapped_count;
  
  	atomic_t cpu_writers;
- 	/* Not ref-counted.  Protected by binding_mutex */
-@@ -67,7 +64,6 @@ struct vmw_bo {
+@@ -64,17 +79,24 @@ struct vmw_bo {
  	struct vmw_bo_dirty *dirty;
  };
  
--
++void vmw_bo_placement_set(struct vmw_bo *bo, u32 domain, u32 busy_domain);
++void vmw_bo_placement_set_default_accelerated(struct vmw_bo *bo);
++
  int vmw_bo_create_kernel(struct vmw_private *dev_priv,
  			 unsigned long size,
  			 struct ttm_placement *placement,
+ 			 struct ttm_buffer_object **p_bo);
+ int vmw_bo_create(struct vmw_private *dev_priv,
+-		  size_t size, struct ttm_placement *placement,
++		  size_t size,
++		  u32 domain,
++		  u32 busy_domain,
+ 		  bool interruptible, bool pin,
+ 		  struct vmw_bo **p_bo);
+ int vmw_bo_init(struct vmw_private *dev_priv,
+ 		struct vmw_bo *vmw_bo,
+-		size_t size, struct ttm_placement *placement,
++		size_t size,
++		u32 domain,
++		u32 busy_domain,
+ 		bool interruptible, bool pin);
+ int vmw_bo_unref_ioctl(struct drm_device *dev, void *data,
+ 		       struct drm_file *file_priv);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_context.c b/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
+index cc02be6a9884..e514639364cf 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_context.c
+@@ -76,7 +76,8 @@ static const struct vmw_res_func vmw_legacy_context_func = {
+ 	.needs_backup = false,
+ 	.may_evict = false,
+ 	.type_name = "legacy contexts",
+-	.backup_placement = NULL,
++	.domain = vmw_bo_domain_any,
++	.busy_domain = vmw_bo_domain_any,
+ 	.create = NULL,
+ 	.destroy = NULL,
+ 	.bind = NULL,
+@@ -90,7 +91,8 @@ static const struct vmw_res_func vmw_gb_context_func = {
+ 	.prio = 3,
+ 	.dirty_prio = 3,
+ 	.type_name = "guest backed contexts",
+-	.backup_placement = &vmw_mob_placement,
++	.domain = vmw_bo_domain_mob,
++	.busy_domain = vmw_bo_domain_mob,
+ 	.create = vmw_gb_context_create,
+ 	.destroy = vmw_gb_context_destroy,
+ 	.bind = vmw_gb_context_bind,
+@@ -104,7 +106,8 @@ static const struct vmw_res_func vmw_dx_context_func = {
+ 	.prio = 3,
+ 	.dirty_prio = 3,
+ 	.type_name = "dx contexts",
+-	.backup_placement = &vmw_mob_placement,
++	.domain = vmw_bo_domain_mob,
++	.busy_domain = vmw_bo_domain_mob,
+ 	.create = vmw_dx_context_create,
+ 	.destroy = vmw_dx_context_destroy,
+ 	.bind = vmw_dx_context_bind,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
+index 9193faae8dab..e2a7131ca528 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
+@@ -136,7 +136,8 @@ static const struct vmw_res_func vmw_cotable_func = {
+ 	.prio = 3,
+ 	.dirty_prio = 3,
+ 	.type_name = "context guest backed object tables",
+-	.backup_placement = &vmw_mob_placement,
++	.domain = vmw_bo_domain_mob,
++	.busy_domain = vmw_bo_domain_mob,
+ 	.create = vmw_cotable_create,
+ 	.destroy = vmw_cotable_destroy,
+ 	.bind = vmw_cotable_bind,
+@@ -424,7 +425,8 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
+ 	 * for the new COTable. Initially pin the buffer object to make sure
+ 	 * we can use tryreserve without failure.
+ 	 */
+-	ret = vmw_bo_create(dev_priv, new_size, &vmw_mob_placement,
++	ret = vmw_bo_create(dev_priv, new_size,
++			    vmw_bo_domain_mob, vmw_bo_domain_mob,
+ 			    true, true, &buf);
+ 	if (ret) {
+ 		DRM_ERROR("Failed initializing new cotable MOB.\n");
+@@ -465,7 +467,10 @@ static int vmw_cotable_resize(struct vmw_resource *res, size_t new_size)
+ 	}
+ 
+ 	/* Unpin new buffer, and switch backup buffers. */
+-	ret = ttm_bo_validate(bo, &vmw_mob_placement, &ctx);
++	vmw_bo_placement_set(buf,
++			     vmw_bo_domain_mob,
++			     vmw_bo_domain_mob);
++	ret = ttm_bo_validate(bo, &buf->placement, &ctx);
+ 	if (unlikely(ret != 0)) {
+ 		DRM_ERROR("Failed validating new COTable backup buffer.\n");
+ 		goto out_wait;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 60d08185a71f..71cab2144e5c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -399,7 +399,8 @@ static int vmw_dummy_query_bo_create(struct vmw_private *dev_priv)
+ 	 * user of the bo currently.
+ 	 */
+ 	ret = vmw_bo_create(dev_priv, PAGE_SIZE,
+-			    &vmw_sys_placement, false, true, &vbo);
++			    vmw_bo_domain_sys, vmw_bo_domain_sys,
++			    false, true, &vbo);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index 6a9c5ad4f16e..a9157b2a94b5 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -930,9 +930,7 @@ extern struct ttm_placement vmw_vram_placement;
+ extern struct ttm_placement vmw_vram_sys_placement;
+ extern struct ttm_placement vmw_vram_gmr_placement;
+ extern struct ttm_placement vmw_sys_placement;
+-extern struct ttm_placement vmw_srf_placement;
+ extern struct ttm_placement vmw_mob_placement;
+-extern struct ttm_placement vmw_nonfixed_placement;
+ extern struct ttm_device_funcs vmw_bo_driver;
+ extern const struct vmw_sg_table *
+ vmw_bo_sg_table(struct ttm_buffer_object *bo);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 687c6926bc00..8ddb273d1e2f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -477,9 +477,13 @@ static int vmw_resource_context_res_add(struct vmw_private *dev_priv,
+ 		struct vmw_bo *dx_query_mob;
+ 
+ 		dx_query_mob = vmw_context_get_dx_query_mob(ctx);
+-		if (dx_query_mob)
++		if (dx_query_mob) {
++			vmw_bo_placement_set(dx_query_mob,
++					     vmw_bo_domain_mob,
++					     vmw_bo_domain_mob);
+ 			ret = vmw_validation_add_bo(sw_context->ctx,
+-						    dx_query_mob, true, false);
++						    dx_query_mob);
++		}
+ 	}
+ 
+ 	mutex_unlock(&dev_priv->binding_mutex);
+@@ -1035,17 +1039,18 @@ static int vmw_query_bo_switch_prepare(struct vmw_private *dev_priv,
+ 
+ 		if (unlikely(sw_context->cur_query_bo != NULL)) {
+ 			sw_context->needs_post_query_barrier = true;
++			vmw_bo_placement_set_default_accelerated(sw_context->cur_query_bo);
+ 			ret = vmw_validation_add_bo(sw_context->ctx,
+-						    sw_context->cur_query_bo,
+-						    dev_priv->has_mob, false);
++						    sw_context->cur_query_bo);
+ 			if (unlikely(ret != 0))
+ 				return ret;
+ 		}
+ 		sw_context->cur_query_bo = new_query_bo;
+ 
++
++		vmw_bo_placement_set_default_accelerated(dev_priv->dummy_query_bo);
+ 		ret = vmw_validation_add_bo(sw_context->ctx,
+-					    dev_priv->dummy_query_bo,
+-					    dev_priv->has_mob, false);
++					    dev_priv->dummy_query_bo);
+ 		if (unlikely(ret != 0))
+ 			return ret;
+ 	}
+@@ -1157,7 +1162,8 @@ static int vmw_translate_mob_ptr(struct vmw_private *dev_priv,
+ 		drm_dbg(&dev_priv->drm, "Could not find or use MOB buffer.\n");
+ 		return PTR_ERR(vmw_bo);
+ 	}
+-	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo, true, false);
++	vmw_bo_placement_set(vmw_bo, vmw_bo_domain_mob, vmw_bo_domain_mob);
++	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo);
+ 	ttm_bo_put(&vmw_bo->base);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+@@ -1211,7 +1217,9 @@ static int vmw_translate_guest_ptr(struct vmw_private *dev_priv,
+ 		drm_dbg(&dev_priv->drm, "Could not find or use GMR region.\n");
+ 		return PTR_ERR(vmw_bo);
+ 	}
+-	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo, false, false);
++	vmw_bo_placement_set(vmw_bo, vmw_bo_domain_gmr | vmw_bo_domain_vram,
++			     vmw_bo_domain_gmr | vmw_bo_domain_vram);
++	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo);
+ 	ttm_bo_put(&vmw_bo->base);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+@@ -4361,13 +4369,17 @@ void __vmw_execbuf_release_pinned_bo(struct vmw_private *dev_priv,
+ 	if (dev_priv->pinned_bo == NULL)
+ 		goto out_unlock;
+ 
+-	ret = vmw_validation_add_bo(&val_ctx, dev_priv->pinned_bo, false,
+-				    false);
++	vmw_bo_placement_set(dev_priv->pinned_bo,
++			     vmw_bo_domain_gmr | vmw_bo_domain_vram,
++			     vmw_bo_domain_gmr | vmw_bo_domain_vram);
++	ret = vmw_validation_add_bo(&val_ctx, dev_priv->pinned_bo);
+ 	if (ret)
+ 		goto out_no_reserve;
+ 
+-	ret = vmw_validation_add_bo(&val_ctx, dev_priv->dummy_query_bo, false,
+-				    false);
++	vmw_bo_placement_set(dev_priv->dummy_query_bo,
++			     vmw_bo_domain_gmr | vmw_bo_domain_vram,
++			     vmw_bo_domain_gmr | vmw_bo_domain_vram);
++	ret = vmw_validation_add_bo(&val_ctx, dev_priv->dummy_query_bo);
+ 	if (ret)
+ 		goto out_no_reserve;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+index 10f4da34f73e..9798a11db508 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+@@ -134,9 +134,8 @@ int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
+ 	int ret;
+ 
+ 	ret = vmw_bo_create(dev_priv, size,
+-			    (dev_priv->has_mob) ?
+-				    &vmw_sys_placement :
+-				    &vmw_vram_sys_placement,
++			    (dev_priv->has_mob) ? vmw_bo_domain_sys : vmw_bo_domain_vram,
++			    vmw_bo_domain_sys,
+ 			    true, false, p_vbo);
+ 
+ 	(*p_vbo)->base.base.funcs = &vmw_gem_object_funcs;
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 6780391c57ea..e83286e08837 100644
+index e83286e08837..5e2d501953cf 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -153,9 +153,9 @@ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
- 	SVGAGBCursorHeader *header;
- 	SVGAGBAlphaCursorHeader *alpha_header;
- 	const u32 image_size = width * height * sizeof(*image);
--	bool dummy;
-+	bool is_iomem;
+@@ -1270,9 +1270,9 @@ int vmw_kms_readback(struct vmw_private *dev_priv,
+ 					    user_fence_rep, vclips, num_clips,
+ 					    NULL);
+ 	case vmw_du_screen_target:
+-		return vmw_kms_stdu_dma(dev_priv, file_priv, vfb,
+-					user_fence_rep, NULL, vclips, num_clips,
+-					1, false, true, NULL);
++		return vmw_kms_stdu_readback(dev_priv, file_priv, vfb,
++					     user_fence_rep, NULL, vclips, num_clips,
++					     1, NULL);
+ 	default:
+ 		WARN_ONCE(true,
+ 			  "Readback called with invalid display system.\n");
+@@ -2999,8 +2999,20 @@ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update)
+ 		struct vmw_framebuffer_bo *vfbbo =
+ 			container_of(update->vfb, typeof(*vfbbo), base);
  
--	header = ttm_kmap_obj_virtual(&vps->cursor.map, &dummy);
-+	header = ttm_kmap_obj_virtual(&vps->cursor.map, &is_iomem);
- 	alpha_header = &header->header.alphaHeader;
+-		ret = vmw_validation_add_bo(&val_ctx, vfbbo->buffer, false,
+-					    update->cpu_blit);
++		/*
++		 * For screen targets we want a mappable bo, for everything else we want
++		 * accelerated i.e. host backed (vram or gmr) bo. If the display unit
++		 * is not screen target then mob's shouldn't be available.
++		 */
++		if (update->dev_priv->active_display_unit == vmw_du_screen_target)
++			vmw_bo_placement_set(vfbbo->buffer,
++					     vmw_bo_domain_sys | vmw_bo_domain_mob | vmw_bo_domain_gmr,
++					     vmw_bo_domain_sys | vmw_bo_domain_mob | vmw_bo_domain_gmr);
++		else {
++			WARN_ON(update->dev_priv->has_mob);
++			vmw_bo_placement_set_default_accelerated(vfbbo->buffer);
++		}
++		ret = vmw_validation_add_bo(&val_ctx, vfbbo->buffer);
+ 	} else {
+ 		struct vmw_framebuffer_surface *vfbs =
+ 			container_of(update->vfb, typeof(*vfbs), base);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+index 7a97e53e8e51..1bdf601e7c35 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+@@ -126,7 +126,6 @@ struct vmw_du_update_plane {
+ 	struct vmw_framebuffer *vfb;
+ 	struct vmw_fence_obj **out_fence;
+ 	struct mutex *mutex;
+-	bool cpu_blit;
+ 	bool intr;
+ };
  
- 	memset(header, 0, sizeof(*header));
-@@ -185,13 +185,13 @@ static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
+@@ -564,17 +563,15 @@ int vmw_kms_stdu_surface_dirty(struct vmw_private *dev_priv,
+ 			       unsigned num_clips, int inc,
+ 			       struct vmw_fence_obj **out_fence,
+ 			       struct drm_crtc *crtc);
+-int vmw_kms_stdu_dma(struct vmw_private *dev_priv,
+-		     struct drm_file *file_priv,
+-		     struct vmw_framebuffer *vfb,
+-		     struct drm_vmw_fence_rep __user *user_fence_rep,
+-		     struct drm_clip_rect *clips,
+-		     struct drm_vmw_rect *vclips,
+-		     uint32_t num_clips,
+-		     int increment,
+-		     bool to_surface,
+-		     bool interruptible,
+-		     struct drm_crtc *crtc);
++int vmw_kms_stdu_readback(struct vmw_private *dev_priv,
++			  struct drm_file *file_priv,
++			  struct vmw_framebuffer *vfb,
++			  struct drm_vmw_fence_rep __user *user_fence_rep,
++			  struct drm_clip_rect *clips,
++			  struct drm_vmw_rect *vclips,
++			  uint32_t num_clips,
++			  int increment,
++			  struct drm_crtc *crtc);
+ 
+ int vmw_du_helper_plane_update(struct vmw_du_update_plane *update);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+index 54e412f8c2d1..6780a36e6171 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+@@ -332,7 +332,7 @@ static int vmw_resource_buf_alloc(struct vmw_resource *res,
+ 	}
+ 
+ 	ret = vmw_bo_create(res->dev_priv, res->backup_size,
+-			    res->func->backup_placement,
++			    res->func->domain, res->func->busy_domain,
+ 			    interruptible, false, &backup);
+ 	if (unlikely(ret != 0))
+ 		goto out_no_bo;
+@@ -529,8 +529,10 @@ vmw_resource_check_buffer(struct ww_acquire_ctx *ticket,
+ 		return 0;
+ 
+ 	backup_dirty = res->backup_dirty;
++	vmw_bo_placement_set(res->backup, res->func->domain,
++			     res->func->busy_domain);
+ 	ret = ttm_bo_validate(&res->backup->base,
+-			      res->func->backup_placement,
++			      &res->backup->placement,
+ 			      &ctx);
+ 
+ 	if (unlikely(ret != 0))
+@@ -968,9 +970,12 @@ int vmw_resource_pin(struct vmw_resource *res, bool interruptible)
+ 			if (ret)
+ 				goto out_no_validate;
+ 			if (!vbo->base.pin_count) {
++				vmw_bo_placement_set(vbo,
++						     res->func->domain,
++						     res->func->busy_domain);
+ 				ret = ttm_bo_validate
+ 					(&vbo->base,
+-					 res->func->backup_placement,
++					 &vbo->placement,
+ 					 &ctx);
+ 				if (ret) {
+ 					ttm_bo_unreserve(&vbo->base);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h
+index 3b7438b2d289..2c24e0929faa 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h
+@@ -83,7 +83,8 @@ struct vmw_res_func {
+ 	enum vmw_res_type res_type;
+ 	bool needs_backup;
+ 	const char *type_name;
+-	struct ttm_placement *backup_placement;
++	u32 domain;
++	u32 busy_domain;
+ 	bool may_evict;
+ 	u32 prio;
+ 	u32 dirty_prio;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+index a04897f04c13..2dfc732c98f8 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
+@@ -445,7 +445,8 @@ vmw_sou_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	 */
+ 	vmw_overlay_pause_all(dev_priv);
+ 	ret = vmw_bo_create(dev_priv, size,
+-			    &vmw_vram_placement,
++			    vmw_bo_domain_vram,
++			    vmw_bo_domain_vram,
+ 			    false, true, &vps->bo);
+ 	vmw_overlay_resume_all(dev_priv);
+ 	if (ret) {
+@@ -547,7 +548,6 @@ static int vmw_sou_plane_update_bo(struct vmw_private *dev_priv,
+ 	bo_update.base.vfb = vfb;
+ 	bo_update.base.out_fence = out_fence;
+ 	bo_update.base.mutex = NULL;
+-	bo_update.base.cpu_blit = false;
+ 	bo_update.base.intr = true;
+ 
+ 	bo_update.base.calc_fifo_size = vmw_sou_bo_fifo_size;
+@@ -708,7 +708,6 @@ static int vmw_sou_plane_update_surface(struct vmw_private *dev_priv,
+ 	srf_update.base.vfb = vfb;
+ 	srf_update.base.out_fence = out_fence;
+ 	srf_update.base.mutex = &dev_priv->cmdbuf_mutex;
+-	srf_update.base.cpu_blit = false;
+ 	srf_update.base.intr = true;
+ 
+ 	srf_update.base.calc_fifo_size = vmw_sou_surface_fifo_size;
+@@ -1224,7 +1223,9 @@ int vmw_kms_sou_do_bo_dirty(struct vmw_private *dev_priv,
+ 	DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
+ 	int ret;
+ 
+-	ret = vmw_validation_add_bo(&val_ctx, buf, false, false);
++	vmw_bo_placement_set(buf, vmw_bo_domain_gmr | vmw_bo_domain_vram,
++			     vmw_bo_domain_gmr | vmw_bo_domain_vram);
++	ret = vmw_validation_add_bo(&val_ctx, buf);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1330,7 +1331,9 @@ int vmw_kms_sou_readback(struct vmw_private *dev_priv,
+ 	DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
+ 	int ret;
+ 
+-	ret = vmw_validation_add_bo(&val_ctx, buf, false, false);
++	vmw_bo_placement_set(buf, vmw_bo_domain_gmr | vmw_bo_domain_vram,
++			     vmw_bo_domain_gmr | vmw_bo_domain_vram);
++	ret = vmw_validation_add_bo(&val_ctx, buf);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+index b186d0993d83..07d4b41a87fb 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+@@ -94,7 +94,8 @@ static const struct vmw_res_func vmw_gb_shader_func = {
+ 	.prio = 3,
+ 	.dirty_prio = 3,
+ 	.type_name = "guest backed shaders",
+-	.backup_placement = &vmw_mob_placement,
++	.domain = vmw_bo_domain_mob,
++	.busy_domain = vmw_bo_domain_mob,
+ 	.create = vmw_gb_shader_create,
+ 	.destroy = vmw_gb_shader_destroy,
+ 	.bind = vmw_gb_shader_bind,
+@@ -108,7 +109,8 @@ static const struct vmw_res_func vmw_dx_shader_func = {
+ 	.prio = 3,
+ 	.dirty_prio = 3,
+ 	.type_name = "dx shaders",
+-	.backup_placement = &vmw_mob_placement,
++	.domain = vmw_bo_domain_mob,
++	.busy_domain = vmw_bo_domain_mob,
+ 	.create = vmw_dx_shader_create,
+ 	/*
+ 	 * The destroy callback is only called with a committed resource on
+@@ -893,7 +895,9 @@ int vmw_compat_shader_add(struct vmw_private *dev_priv,
+ 	if (!vmw_shader_id_ok(user_key, shader_type))
+ 		return -EINVAL;
+ 
+-	ret = vmw_bo_create(dev_priv, size, &vmw_sys_placement,
++	ret = vmw_bo_create(dev_priv, size,
++			    vmw_bo_domain_sys,
++			    vmw_bo_domain_sys,
+ 			    true, true, &buf);
+ 	if (unlikely(ret != 0))
+ 		goto out;
+@@ -913,7 +917,10 @@ int vmw_compat_shader_add(struct vmw_private *dev_priv,
+ 	WARN_ON(is_iomem);
+ 
+ 	ttm_bo_kunmap(&map);
+-	ret = ttm_bo_validate(&buf->base, &vmw_sys_placement, &ctx);
++	vmw_bo_placement_set(buf,
++			     vmw_bo_domain_sys,
++			     vmw_bo_domain_sys);
++	ret = ttm_bo_validate(&buf->base, &buf->placement, &ctx);
+ 	WARN_ON(ret != 0);
+ 	ttm_bo_unreserve(&buf->base);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_so.c b/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
+index 4ea32b01efc0..7afdb36045a7 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_so.c
+@@ -24,6 +24,7 @@
+  *
+  **************************************************************************/
+ 
++#include "vmwgfx_bo.h"
+ #include "vmwgfx_drv.h"
+ #include "vmwgfx_resource_priv.h"
+ #include "vmwgfx_so.h"
+@@ -84,7 +85,8 @@ static const struct vmw_res_func vmw_view_func = {
+ 	.needs_backup = false,
+ 	.may_evict = false,
+ 	.type_name = "DX view",
+-	.backup_placement = NULL,
++	.domain = vmw_bo_domain_any,
++	.busy_domain = vmw_bo_domain_any,
+ 	.create = vmw_view_create,
+ 	.commit_notify = vmw_view_commit_notify,
+ };
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+index 4745537fed25..0d711ee1dc36 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+@@ -66,7 +66,6 @@ enum stdu_content_type {
   */
- static u32 *vmw_du_cursor_plane_acquire_image(struct vmw_plane_state *vps)
- {
--	bool dummy;
-+	bool is_iomem;
- 	if (vps->surf) {
- 		if (vps->surf_mapped)
- 			return vmw_bo_map_and_cache(vps->surf->res.backup);
- 		return vps->surf->snooper.image;
- 	} else if (vps->bo)
--		return ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
-+		return ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem);
- 	return NULL;
+ struct vmw_stdu_dirty {
+ 	struct vmw_kms_dirty base;
+-	SVGA3dTransferType  transfer;
+ 	s32 left, right, top, bottom;
+ 	s32 fb_left, fb_top;
+ 	u32 pitch;
+@@ -137,12 +136,6 @@ static void vmw_stdu_destroy(struct vmw_screen_target_display_unit *stdu);
+  * Screen Target Display Unit CRTC Functions
+  *****************************************************************************/
+ 
+-static bool vmw_stdu_use_cpu_blit(const struct vmw_private *vmw)
+-{
+-	return !(vmw->capabilities & SVGA_CAP_3D) || vmw->vram_size < (32 * 1024 * 1024);
+-}
+-
+-
+ /**
+  * vmw_stdu_crtc_destroy - cleans up the STDU
+  *
+@@ -451,93 +444,6 @@ static void vmw_stdu_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	}
  }
  
-@@ -364,7 +364,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
- 	SVGA3dCopyBox *box;
- 	unsigned box_count;
- 	void *virtual;
--	bool dummy;
-+	bool is_iomem;
- 	struct vmw_dma_cmd {
- 		SVGA3dCmdHeader header;
- 		SVGA3dCmdSurfaceDMA dma;
-@@ -424,7 +424,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
- 	if (unlikely(ret != 0))
- 		goto err_unreserve;
- 
--	virtual = ttm_kmap_obj_virtual(&map, &dummy);
-+	virtual = ttm_kmap_obj_virtual(&map, &is_iomem);
- 
- 	if (box->w == VMW_CURSOR_SNOOP_WIDTH && cmd->dma.guest.pitch == image_pitch) {
- 		memcpy(srf->snooper.image, virtual,
-@@ -658,19 +658,18 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
- {
- 	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
- 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
--	bool dummy;
-+	bool is_iomem;
- 
- 	if (vps->surf_mapped) {
- 		vmw_bo_unmap(vps->surf->res.backup);
- 		vps->surf_mapped = false;
- 	}
- 
--	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &dummy)) {
-+	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem)) {
- 		const int ret = ttm_bo_reserve(&vps->bo->base, true, false, NULL);
- 
- 		if (likely(ret == 0)) {
--			if (atomic_read(&vps->bo->base_mapped_count) == 0)
--			    ttm_bo_kunmap(&vps->bo->map);
-+			ttm_bo_kunmap(&vps->bo->map);
- 			ttm_bo_unreserve(&vps->bo->base);
- 		}
- 	}
-@@ -744,9 +743,6 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
- 
- 		ret = ttm_bo_kmap(&vps->bo->base, 0, PFN_UP(size), &vps->bo->map);
- 
--		if (likely(ret == 0))
--			atomic_inc(&vps->bo->base_mapped_count);
+-/**
+- * vmw_stdu_bo_clip - Callback to encode a suface DMA command cliprect
+- *
+- * @dirty: The closure structure.
+- *
+- * Encodes a surface DMA command cliprect and updates the bounding box
+- * for the DMA.
+- */
+-static void vmw_stdu_bo_clip(struct vmw_kms_dirty *dirty)
+-{
+-	struct vmw_stdu_dirty *ddirty =
+-		container_of(dirty, struct vmw_stdu_dirty, base);
+-	struct vmw_stdu_dma *cmd = dirty->cmd;
+-	struct SVGA3dCopyBox *blit = (struct SVGA3dCopyBox *) &cmd[1];
 -
- 		ttm_bo_unreserve(&vps->bo->base);
- 
- 		if (unlikely(ret != 0))
-@@ -786,7 +782,6 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
- 	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
- 	struct vmw_plane_state *old_vps = vmw_plane_state_to_vps(old_state);
- 	s32 hotspot_x, hotspot_y;
--	bool dummy;
- 
- 	hotspot_x = du->hotspot_x;
- 	hotspot_y = du->hotspot_y;
-@@ -828,11 +823,6 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
- 						hotspot_x, hotspot_y);
- 	}
- 
--	if (vps->bo) {
--		if (ttm_kmap_obj_virtual(&vps->bo->map, &dummy))
--			atomic_dec(&vps->bo->base_mapped_count);
+-	blit += dirty->num_hits;
+-	blit->srcx = dirty->fb_x;
+-	blit->srcy = dirty->fb_y;
+-	blit->x = dirty->unit_x1;
+-	blit->y = dirty->unit_y1;
+-	blit->d = 1;
+-	blit->w = dirty->unit_x2 - dirty->unit_x1;
+-	blit->h = dirty->unit_y2 - dirty->unit_y1;
+-	dirty->num_hits++;
+-
+-	if (ddirty->transfer != SVGA3D_WRITE_HOST_VRAM)
+-		return;
+-
+-	/* Destination bounding box */
+-	ddirty->left = min_t(s32, ddirty->left, dirty->unit_x1);
+-	ddirty->top = min_t(s32, ddirty->top, dirty->unit_y1);
+-	ddirty->right = max_t(s32, ddirty->right, dirty->unit_x2);
+-	ddirty->bottom = max_t(s32, ddirty->bottom, dirty->unit_y2);
+-}
+-
+-/**
+- * vmw_stdu_bo_fifo_commit - Callback to fill in and submit a DMA command.
+- *
+- * @dirty: The closure structure.
+- *
+- * Fills in the missing fields in a DMA command, and optionally encodes
+- * a screen target update command, depending on transfer direction.
+- */
+-static void vmw_stdu_bo_fifo_commit(struct vmw_kms_dirty *dirty)
+-{
+-	struct vmw_stdu_dirty *ddirty =
+-		container_of(dirty, struct vmw_stdu_dirty, base);
+-	struct vmw_screen_target_display_unit *stdu =
+-		container_of(dirty->unit, typeof(*stdu), base);
+-	struct vmw_stdu_dma *cmd = dirty->cmd;
+-	struct SVGA3dCopyBox *blit = (struct SVGA3dCopyBox *) &cmd[1];
+-	SVGA3dCmdSurfaceDMASuffix *suffix =
+-		(SVGA3dCmdSurfaceDMASuffix *) &blit[dirty->num_hits];
+-	size_t blit_size = sizeof(*blit) * dirty->num_hits + sizeof(*suffix);
+-
+-	if (!dirty->num_hits) {
+-		vmw_cmd_commit(dirty->dev_priv, 0);
+-		return;
 -	}
 -
- 	du->cursor_x = new_state->crtc_x + du->set_gui_x;
- 	du->cursor_y = new_state->crtc_y + du->set_gui_y;
+-	cmd->header.id = SVGA_3D_CMD_SURFACE_DMA;
+-	cmd->header.size = sizeof(cmd->body) + blit_size;
+-	vmw_bo_get_guest_ptr(&ddirty->buf->base, &cmd->body.guest.ptr);
+-	cmd->body.guest.pitch = ddirty->pitch;
+-	cmd->body.host.sid = stdu->display_srf->res.id;
+-	cmd->body.host.face = 0;
+-	cmd->body.host.mipmap = 0;
+-	cmd->body.transfer = ddirty->transfer;
+-	suffix->suffixSize = sizeof(*suffix);
+-	suffix->maximumOffset = ddirty->buf->base.base.size;
+-
+-	if (ddirty->transfer == SVGA3D_WRITE_HOST_VRAM) {
+-		blit_size += sizeof(struct vmw_stdu_update);
+-
+-		vmw_stdu_populate_update(&suffix[1], stdu->base.unit,
+-					 ddirty->left, ddirty->right,
+-					 ddirty->top, ddirty->bottom);
+-	}
+-
+-	vmw_cmd_commit(dirty->dev_priv, sizeof(*cmd) + blit_size);
+-
+-	stdu->display_srf->res.res_dirty = true;
+-	ddirty->left = ddirty->top = S32_MAX;
+-	ddirty->right = ddirty->bottom = S32_MIN;
+-}
+-
+-
+ /**
+  * vmw_stdu_bo_cpu_clip - Callback to encode a CPU blit
+  *
+@@ -598,62 +504,21 @@ static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
+ 		return;
  
+ 	/* Assume we are blitting from Guest (bo) to Host (display_srf) */
+-	dst_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
+-	dst_bo = &stdu->display_srf->res.backup->base;
+-	dst_offset = ddirty->top * dst_pitch + ddirty->left * stdu->cpp;
+-
+-	src_pitch = ddirty->pitch;
+-	src_bo = &ddirty->buf->base;
+-	src_offset = ddirty->fb_top * src_pitch + ddirty->fb_left * stdu->cpp;
++	src_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
++	src_bo = &stdu->display_srf->res.backup->base;
++	src_offset = ddirty->top * dst_pitch + ddirty->left * stdu->cpp;
+ 
+-	/* Swap src and dst if the assumption was wrong. */
+-	if (ddirty->transfer != SVGA3D_WRITE_HOST_VRAM) {
+-		swap(dst_pitch, src_pitch);
+-		swap(dst_bo, src_bo);
+-		swap(src_offset, dst_offset);
+-	}
++	dst_pitch = ddirty->pitch;
++	dst_bo = &ddirty->buf->base;
++	dst_offset = ddirty->fb_top * src_pitch + ddirty->fb_left * stdu->cpp;
+ 
+ 	(void) vmw_bo_cpu_blit(dst_bo, dst_offset, dst_pitch,
+ 			       src_bo, src_offset, src_pitch,
+ 			       width * stdu->cpp, height, &diff);
+-
+-	if (ddirty->transfer == SVGA3D_WRITE_HOST_VRAM &&
+-	    drm_rect_visible(&diff.rect)) {
+-		struct vmw_private *dev_priv;
+-		struct vmw_stdu_update *cmd;
+-		struct drm_clip_rect region;
+-		int ret;
+-
+-		/* We are updating the actual surface, not a proxy */
+-		region.x1 = diff.rect.x1;
+-		region.x2 = diff.rect.x2;
+-		region.y1 = diff.rect.y1;
+-		region.y2 = diff.rect.y2;
+-		ret = vmw_kms_update_proxy(&stdu->display_srf->res, &region,
+-					   1, 1);
+-		if (ret)
+-			goto out_cleanup;
+-
+-
+-		dev_priv = vmw_priv(stdu->base.crtc.dev);
+-		cmd = VMW_CMD_RESERVE(dev_priv, sizeof(*cmd));
+-		if (!cmd)
+-			goto out_cleanup;
+-
+-		vmw_stdu_populate_update(cmd, stdu->base.unit,
+-					 region.x1, region.x2,
+-					 region.y1, region.y2);
+-
+-		vmw_cmd_commit(dev_priv, sizeof(*cmd));
+-	}
+-
+-out_cleanup:
+-	ddirty->left = ddirty->top = ddirty->fb_left = ddirty->fb_top = S32_MAX;
+-	ddirty->right = ddirty->bottom = S32_MIN;
+ }
+ 
+ /**
+- * vmw_kms_stdu_dma - Perform a DMA transfer between a buffer-object backed
++ * vmw_kms_stdu_readback - Perform a readback from a buffer-object backed
+  * framebuffer and the screen target system.
+  *
+  * @dev_priv: Pointer to the device private structure.
+@@ -666,9 +531,6 @@ static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
+  * be NULL.
+  * @num_clips: Number of clip rects in @clips or @vclips.
+  * @increment: Increment to use when looping over @clips or @vclips.
+- * @to_surface: Whether to DMA to the screen target system as opposed to
+- * from the screen target system.
+- * @interruptible: Whether to perform waits interruptible if possible.
+  * @crtc: If crtc is passed, perform stdu dma on that crtc only.
+  *
+  * If DMA-ing till the screen target system, the function will also notify
+@@ -677,59 +539,49 @@ static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
+  * Returns 0 on success, negative error code on failure. -ERESTARTSYS if
+  * interrupted.
+  */
+-int vmw_kms_stdu_dma(struct vmw_private *dev_priv,
+-		     struct drm_file *file_priv,
+-		     struct vmw_framebuffer *vfb,
+-		     struct drm_vmw_fence_rep __user *user_fence_rep,
+-		     struct drm_clip_rect *clips,
+-		     struct drm_vmw_rect *vclips,
+-		     uint32_t num_clips,
+-		     int increment,
+-		     bool to_surface,
+-		     bool interruptible,
+-		     struct drm_crtc *crtc)
++int vmw_kms_stdu_readback(struct vmw_private *dev_priv,
++			  struct drm_file *file_priv,
++			  struct vmw_framebuffer *vfb,
++			  struct drm_vmw_fence_rep __user *user_fence_rep,
++			  struct drm_clip_rect *clips,
++			  struct drm_vmw_rect *vclips,
++			  uint32_t num_clips,
++			  int increment,
++			  struct drm_crtc *crtc)
+ {
+ 	struct vmw_bo *buf =
+ 		container_of(vfb, struct vmw_framebuffer_bo, base)->buffer;
+ 	struct vmw_stdu_dirty ddirty;
+ 	int ret;
+-	bool cpu_blit = vmw_stdu_use_cpu_blit(dev_priv);
+ 	DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
+ 
+ 	/*
+-	 * VMs without 3D support don't have the surface DMA command and
+-	 * we'll be using a CPU blit, and the framebuffer should be moved out
+-	 * of VRAM.
++	 * The GMR domain might seem confusing because it might seem like it should
++	 * never happen with screen targets but e.g. the xorg vmware driver issues
++	 * CMD_SURFACE_DMA for various pixmap updates which might transition our bo to
++	 * a GMR. Instead of forcing another transition we can optimize the readback
++	 * by reading directly from the GMR.
+ 	 */
+-	ret = vmw_validation_add_bo(&val_ctx, buf, false, cpu_blit);
++	vmw_bo_placement_set(buf,
++			     vmw_bo_domain_mob | vmw_bo_domain_sys | vmw_bo_domain_gmr,
++			     vmw_bo_domain_mob | vmw_bo_domain_sys | vmw_bo_domain_gmr);
++	ret = vmw_validation_add_bo(&val_ctx, buf);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = vmw_validation_prepare(&val_ctx, NULL, interruptible);
++	ret = vmw_validation_prepare(&val_ctx, NULL, true);
+ 	if (ret)
+ 		goto out_unref;
+ 
+-	ddirty.transfer = (to_surface) ? SVGA3D_WRITE_HOST_VRAM :
+-		SVGA3D_READ_HOST_VRAM;
+ 	ddirty.left = ddirty.top = S32_MAX;
+ 	ddirty.right = ddirty.bottom = S32_MIN;
+ 	ddirty.fb_left = ddirty.fb_top = S32_MAX;
+ 	ddirty.pitch = vfb->base.pitches[0];
+ 	ddirty.buf = buf;
+-	ddirty.base.fifo_commit = vmw_stdu_bo_fifo_commit;
+-	ddirty.base.clip = vmw_stdu_bo_clip;
+-	ddirty.base.fifo_reserve_size = sizeof(struct vmw_stdu_dma) +
+-		num_clips * sizeof(SVGA3dCopyBox) +
+-		sizeof(SVGA3dCmdSurfaceDMASuffix);
+-	if (to_surface)
+-		ddirty.base.fifo_reserve_size += sizeof(struct vmw_stdu_update);
+-
+-
+-	if (cpu_blit) {
+-		ddirty.base.fifo_commit = vmw_stdu_bo_cpu_commit;
+-		ddirty.base.clip = vmw_stdu_bo_cpu_clip;
+-		ddirty.base.fifo_reserve_size = 0;
+-	}
++
++	ddirty.base.fifo_commit = vmw_stdu_bo_cpu_commit;
++	ddirty.base.clip = vmw_stdu_bo_cpu_clip;
++	ddirty.base.fifo_reserve_size = 0;
+ 
+ 	ddirty.base.crtc = crtc;
+ 
+@@ -1161,11 +1013,8 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	/*
+ 	 * This should only happen if the buffer object is too large to create a
+ 	 * proxy surface for.
+-	 * If we are a 2D VM with a buffer object then we have to use CPU blit
+-	 * so cache these mappings
+ 	 */
+-	if (vps->content_fb_type == SEPARATE_BO &&
+-	    vmw_stdu_use_cpu_blit(dev_priv))
++	if (vps->content_fb_type == SEPARATE_BO)
+ 		vps->cpp = new_fb->pitches[0] / new_fb->width;
+ 
+ 	return 0;
+@@ -1175,14 +1024,6 @@ vmw_stdu_primary_plane_prepare_fb(struct drm_plane *plane,
+ 	return ret;
+ }
+ 
+-static uint32_t vmw_stdu_bo_fifo_size(struct vmw_du_update_plane *update,
+-				      uint32_t num_hits)
+-{
+-	return sizeof(struct vmw_stdu_dma) + sizeof(SVGA3dCopyBox) * num_hits +
+-		sizeof(SVGA3dCmdSurfaceDMASuffix) +
+-		sizeof(struct vmw_stdu_update);
+-}
+-
+ static uint32_t vmw_stdu_bo_fifo_size_cpu(struct vmw_du_update_plane *update,
+ 					  uint32_t num_hits)
+ {
+@@ -1190,68 +1031,6 @@ static uint32_t vmw_stdu_bo_fifo_size_cpu(struct vmw_du_update_plane *update,
+ 		sizeof(struct vmw_stdu_update);
+ }
+ 
+-static uint32_t vmw_stdu_bo_populate_dma(struct vmw_du_update_plane  *update,
+-					 void *cmd, uint32_t num_hits)
+-{
+-	struct vmw_screen_target_display_unit *stdu;
+-	struct vmw_framebuffer_bo *vfbbo;
+-	struct vmw_stdu_dma *cmd_dma = cmd;
+-
+-	stdu = container_of(update->du, typeof(*stdu), base);
+-	vfbbo = container_of(update->vfb, typeof(*vfbbo), base);
+-
+-	cmd_dma->header.id = SVGA_3D_CMD_SURFACE_DMA;
+-	cmd_dma->header.size = sizeof(cmd_dma->body) +
+-		sizeof(struct SVGA3dCopyBox) * num_hits +
+-		sizeof(SVGA3dCmdSurfaceDMASuffix);
+-	vmw_bo_get_guest_ptr(&vfbbo->buffer->base, &cmd_dma->body.guest.ptr);
+-	cmd_dma->body.guest.pitch = update->vfb->base.pitches[0];
+-	cmd_dma->body.host.sid = stdu->display_srf->res.id;
+-	cmd_dma->body.host.face = 0;
+-	cmd_dma->body.host.mipmap = 0;
+-	cmd_dma->body.transfer = SVGA3D_WRITE_HOST_VRAM;
+-
+-	return sizeof(*cmd_dma);
+-}
+-
+-static uint32_t vmw_stdu_bo_populate_clip(struct vmw_du_update_plane  *update,
+-					  void *cmd, struct drm_rect *clip,
+-					  uint32_t fb_x, uint32_t fb_y)
+-{
+-	struct SVGA3dCopyBox *box = cmd;
+-
+-	box->srcx = fb_x;
+-	box->srcy = fb_y;
+-	box->srcz = 0;
+-	box->x = clip->x1;
+-	box->y = clip->y1;
+-	box->z = 0;
+-	box->w = drm_rect_width(clip);
+-	box->h = drm_rect_height(clip);
+-	box->d = 1;
+-
+-	return sizeof(*box);
+-}
+-
+-static uint32_t vmw_stdu_bo_populate_update(struct vmw_du_update_plane  *update,
+-					    void *cmd, struct drm_rect *bb)
+-{
+-	struct vmw_screen_target_display_unit *stdu;
+-	struct vmw_framebuffer_bo *vfbbo;
+-	SVGA3dCmdSurfaceDMASuffix *suffix = cmd;
+-
+-	stdu = container_of(update->du, typeof(*stdu), base);
+-	vfbbo = container_of(update->vfb, typeof(*vfbbo), base);
+-
+-	suffix->suffixSize = sizeof(*suffix);
+-	suffix->maximumOffset = vfbbo->buffer->base.base.size;
+-
+-	vmw_stdu_populate_update(&suffix[1], stdu->base.unit, bb->x1, bb->x2,
+-				 bb->y1, bb->y2);
+-
+-	return sizeof(*suffix) + sizeof(struct vmw_stdu_update);
+-}
+-
+ static uint32_t vmw_stdu_bo_pre_clip_cpu(struct vmw_du_update_plane  *update,
+ 					 void *cmd, uint32_t num_hits)
+ {
+@@ -1369,24 +1148,12 @@ static int vmw_stdu_plane_update_bo(struct vmw_private *dev_priv,
+ 	bo_update.base.vfb = vfb;
+ 	bo_update.base.out_fence = out_fence;
+ 	bo_update.base.mutex = NULL;
+-	bo_update.base.cpu_blit = vmw_stdu_use_cpu_blit(dev_priv);
+ 	bo_update.base.intr = false;
+ 
+-	/*
+-	 * VM without 3D support don't have surface DMA command and framebuffer
+-	 * should be moved out of VRAM.
+-	 */
+-	if (bo_update.base.cpu_blit) {
+-		bo_update.base.calc_fifo_size = vmw_stdu_bo_fifo_size_cpu;
+-		bo_update.base.pre_clip = vmw_stdu_bo_pre_clip_cpu;
+-		bo_update.base.clip = vmw_stdu_bo_clip_cpu;
+-		bo_update.base.post_clip = vmw_stdu_bo_populate_update_cpu;
+-	} else {
+-		bo_update.base.calc_fifo_size = vmw_stdu_bo_fifo_size;
+-		bo_update.base.pre_clip = vmw_stdu_bo_populate_dma;
+-		bo_update.base.clip = vmw_stdu_bo_populate_clip;
+-		bo_update.base.post_clip = vmw_stdu_bo_populate_update;
+-	}
++	bo_update.base.calc_fifo_size = vmw_stdu_bo_fifo_size_cpu;
++	bo_update.base.pre_clip = vmw_stdu_bo_pre_clip_cpu;
++	bo_update.base.clip = vmw_stdu_bo_clip_cpu;
++	bo_update.base.post_clip = vmw_stdu_bo_populate_update_cpu;
+ 
+ 	return vmw_du_helper_plane_update(&bo_update.base);
+ }
+@@ -1549,7 +1316,6 @@ static int vmw_stdu_plane_update_surface(struct vmw_private *dev_priv,
+ 	srf_update.vfb = vfb;
+ 	srf_update.out_fence = out_fence;
+ 	srf_update.mutex = &dev_priv->cmdbuf_mutex;
+-	srf_update.cpu_blit = false;
+ 	srf_update.intr = true;
+ 
+ 	if (vfbs->is_bo_proxy)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c b/drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c
+index 71ce89150ba7..ea6457ae2206 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c
+@@ -66,7 +66,8 @@ static const struct vmw_res_func vmw_dx_streamoutput_func = {
+ 	.needs_backup = true,
+ 	.may_evict = false,
+ 	.type_name = "DX streamoutput",
+-	.backup_placement = &vmw_mob_placement,
++	.domain = vmw_bo_domain_mob,
++	.busy_domain = vmw_bo_domain_mob,
+ 	.create = vmw_dx_streamoutput_create,
+ 	.destroy = NULL, /* Command buffer managed resource. */
+ 	.bind = vmw_dx_streamoutput_bind,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index 296d903c5acb..458adedc8bad 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -131,7 +131,8 @@ static const struct vmw_res_func vmw_legacy_surface_func = {
+ 	.prio = 1,
+ 	.dirty_prio = 1,
+ 	.type_name = "legacy surfaces",
+-	.backup_placement = &vmw_srf_placement,
++	.domain = vmw_bo_domain_gmr,
++	.busy_domain = vmw_bo_domain_gmr | vmw_bo_domain_vram,
+ 	.create = &vmw_legacy_srf_create,
+ 	.destroy = &vmw_legacy_srf_destroy,
+ 	.bind = &vmw_legacy_srf_bind,
+@@ -145,7 +146,8 @@ static const struct vmw_res_func vmw_gb_surface_func = {
+ 	.prio = 1,
+ 	.dirty_prio = 2,
+ 	.type_name = "guest backed surfaces",
+-	.backup_placement = &vmw_mob_placement,
++	.domain = vmw_bo_domain_mob,
++	.busy_domain = vmw_bo_domain_mob,
+ 	.create = vmw_gb_surface_create,
+ 	.destroy = vmw_gb_surface_destroy,
+ 	.bind = vmw_gb_surface_bind,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index 41480af87255..c43df4109613 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -79,20 +79,6 @@ static const struct ttm_place vram_gmr_placement_flags[] = {
+ 	}
+ };
+ 
+-static const struct ttm_place gmr_vram_placement_flags[] = {
+-	{
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = VMW_PL_GMR,
+-		.flags = 0
+-	}, {
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = TTM_PL_VRAM,
+-		.flags = 0
+-	}
+-};
+-
+ static const struct ttm_place vmw_sys_placement_flags = {
+ 	.fpfn = 0,
+ 	.lpfn = 0,
+@@ -128,32 +114,6 @@ struct ttm_placement vmw_pt_sys_placement = {
+ 	.busy_placement = &vmw_sys_placement_flags
+ };
+ 
+-static const struct ttm_place nonfixed_placement_flags[] = {
+-	{
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = TTM_PL_SYSTEM,
+-		.flags = 0
+-	}, {
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = VMW_PL_GMR,
+-		.flags = 0
+-	}, {
+-		.fpfn = 0,
+-		.lpfn = 0,
+-		.mem_type = VMW_PL_MOB,
+-		.flags = 0
+-	}
+-};
+-
+-struct ttm_placement vmw_srf_placement = {
+-	.num_placement = 1,
+-	.num_busy_placement = 2,
+-	.placement = &gmr_placement_flags,
+-	.busy_placement = gmr_vram_placement_flags
+-};
+-
+ struct ttm_placement vmw_mob_placement = {
+ 	.num_placement = 1,
+ 	.num_busy_placement = 1,
+@@ -161,13 +121,6 @@ struct ttm_placement vmw_mob_placement = {
+ 	.busy_placement = &mob_placement_flags
+ };
+ 
+-struct ttm_placement vmw_nonfixed_placement = {
+-	.num_placement = 3,
+-	.placement = nonfixed_placement_flags,
+-	.num_busy_placement = 1,
+-	.busy_placement = &sys_placement_flags
+-};
+-
+ const size_t vmw_tt_size = sizeof(struct vmw_ttm_tt);
+ 
+ /**
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_va.c b/drivers/gpu/drm/vmwgfx/vmwgfx_va.c
+index 6ad744ae07f5..cfbe580e6795 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_va.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_va.c
+@@ -25,6 +25,7 @@
+  *
+  **************************************************************************/
+ 
++#include "vmwgfx_bo.h"
+ #include "vmwgfx_drv.h"
+ #include "vmwgfx_resource_priv.h"
+ 
+@@ -83,7 +84,8 @@ static const struct vmw_simple_resource_func va_stream_func = {
+ 		.needs_backup = false,
+ 		.may_evict = false,
+ 		.type_name = "overlay stream",
+-		.backup_placement = NULL,
++		.domain = vmw_bo_domain_any,
++		.busy_domain = vmw_bo_domain_any,
+ 		.create = NULL,
+ 		.destroy = NULL,
+ 		.bind = NULL,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+index 770b1b53bde7..05f0909ff1dd 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
+@@ -27,6 +27,7 @@
+  **************************************************************************/
+ #include "vmwgfx_bo.h"
+ #include "vmwgfx_drv.h"
++#include "vmwgfx_resource_priv.h"
+ #include "vmwgfx_validation.h"
+ 
+ #include <linux/slab.h>
+@@ -40,8 +41,6 @@
+  * @hash: A hash entry used for the duplicate detection hash table.
+  * @coherent_count: If switching backup buffers, number of new coherent
+  * resources that will have this buffer as a backup buffer.
+- * @as_mob: Validate as mob.
+- * @cpu_blit: Validate for cpu blit access.
+  *
+  * Bit fields are used since these structures are allocated and freed in
+  * large numbers and space conservation is desired.
+@@ -50,8 +49,6 @@ struct vmw_validation_bo_node {
+ 	struct ttm_validate_buffer base;
+ 	struct vmwgfx_hash_item hash;
+ 	unsigned int coherent_count;
+-	u32 as_mob : 1;
+-	u32 cpu_blit : 1;
+ };
+ /**
+  * struct vmw_validation_res_node - Resource validation metadata.
+@@ -260,26 +257,16 @@ vmw_validation_find_res_dup(struct vmw_validation_context *ctx,
+  * vmw_validation_add_bo - Add a buffer object to the validation context.
+  * @ctx: The validation context.
+  * @vbo: The buffer object.
+- * @as_mob: Validate as mob, otherwise suitable for GMR operations.
+- * @cpu_blit: Validate in a page-mappable location.
+  *
+  * Return: Zero on success, negative error code otherwise.
+  */
+ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
+-			  struct vmw_bo *vbo,
+-			  bool as_mob,
+-			  bool cpu_blit)
++			  struct vmw_bo *vbo)
+ {
+ 	struct vmw_validation_bo_node *bo_node;
+ 
+ 	bo_node = vmw_validation_find_bo_dup(ctx, vbo);
+-	if (bo_node) {
+-		if (bo_node->as_mob != as_mob ||
+-		    bo_node->cpu_blit != cpu_blit) {
+-			DRM_ERROR("Inconsistent buffer usage.\n");
+-			return -EINVAL;
+-		}
+-	} else {
++	if (!bo_node) {
+ 		struct ttm_validate_buffer *val_buf;
+ 
+ 		bo_node = vmw_validation_mem_alloc(ctx, sizeof(*bo_node));
+@@ -297,8 +284,6 @@ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
+ 			return -ESRCH;
+ 		val_buf->num_shared = 0;
+ 		list_add_tail(&val_buf->head, &ctx->bo_list);
+-		bo_node->as_mob = as_mob;
+-		bo_node->cpu_blit = cpu_blit;
+ 	}
+ 
+ 	return 0;
+@@ -455,9 +440,10 @@ int vmw_validation_res_reserve(struct vmw_validation_context *ctx,
+ 		if (res->backup) {
+ 			struct vmw_bo *vbo = res->backup;
+ 
+-			ret = vmw_validation_add_bo
+-				(ctx, vbo, vmw_resource_needs_backup(res),
+-				 false);
++			vmw_bo_placement_set(vbo,
++					     res->func->domain,
++					     res->func->busy_domain);
++			ret = vmw_validation_add_bo(ctx, vbo);
+ 			if (ret)
+ 				goto out_unreserve;
+ 		}
+@@ -519,14 +505,12 @@ void vmw_validation_res_unreserve(struct vmw_validation_context *ctx,
+  * vmw_validation_bo_validate_single - Validate a single buffer object.
+  * @bo: The TTM buffer object base.
+  * @interruptible: Whether to perform waits interruptible if possible.
+- * @validate_as_mob: Whether to validate in MOB memory.
+  *
+  * Return: Zero on success, -ERESTARTSYS if interrupted. Negative error
+  * code on failure.
+  */
+-int vmw_validation_bo_validate_single(struct ttm_buffer_object *bo,
+-				      bool interruptible,
+-				      bool validate_as_mob)
++static int vmw_validation_bo_validate_single(struct ttm_buffer_object *bo,
++					     bool interruptible)
+ {
+ 	struct vmw_bo *vbo =
+ 		container_of(bo, struct vmw_bo, base);
+@@ -542,27 +526,17 @@ int vmw_validation_bo_validate_single(struct ttm_buffer_object *bo,
+ 	if (vbo->base.pin_count > 0)
+ 		return 0;
+ 
+-	if (validate_as_mob)
+-		return ttm_bo_validate(bo, &vmw_mob_placement, &ctx);
+-
+-	/**
+-	 * Put BO in VRAM if there is space, otherwise as a GMR.
+-	 * If there is no space in VRAM and GMR ids are all used up,
+-	 * start evicting GMRs to make room. If the DMA buffer can't be
+-	 * used as a GMR, this will return -ENOMEM.
+-	 */
+-
+-	ret = ttm_bo_validate(bo, &vmw_vram_gmr_placement, &ctx);
++	ret = ttm_bo_validate(bo, &vbo->placement, &ctx);
+ 	if (ret == 0 || ret == -ERESTARTSYS)
+ 		return ret;
+ 
+-	/**
+-	 * If that failed, try VRAM again, this time evicting
++	/*
++	 * If that failed, try again, this time evicting
+ 	 * previous contents.
+ 	 */
++	ctx.allow_res_evict = true;
+ 
+-	ret = ttm_bo_validate(bo, &vmw_vram_placement, &ctx);
+-	return ret;
++	return ttm_bo_validate(bo, &vbo->placement, &ctx);
+ }
+ 
+ /**
+@@ -583,18 +557,8 @@ int vmw_validation_bo_validate(struct vmw_validation_context *ctx, bool intr)
+ 		struct vmw_bo *vbo =
+ 			container_of(entry->base.bo, typeof(*vbo), base);
+ 
+-		if (entry->cpu_blit) {
+-			struct ttm_operation_ctx ttm_ctx = {
+-				.interruptible = intr,
+-				.no_wait_gpu = false
+-			};
+-
+-			ret = ttm_bo_validate(entry->base.bo,
+-					      &vmw_nonfixed_placement, &ttm_ctx);
+-		} else {
+-			ret = vmw_validation_bo_validate_single
+-			(entry->base.bo, intr, entry->as_mob);
+-		}
++		ret = vmw_validation_bo_validate_single(entry->base.bo, intr);
++
+ 		if (ret)
+ 			return ret;
+ 
+@@ -655,9 +619,9 @@ int vmw_validation_res_validate(struct vmw_validation_context *ctx, bool intr)
+ 		if (backup && res->backup && (backup != res->backup)) {
+ 			struct vmw_bo *vbo = res->backup;
+ 
+-			ret = vmw_validation_add_bo
+-				(ctx, vbo, vmw_resource_needs_backup(res),
+-				 false);
++			vmw_bo_placement_set(vbo, res->func->domain,
++					     res->func->busy_domain);
++			ret = vmw_validation_add_bo(ctx, vbo);
+ 			if (ret)
+ 				return ret;
+ 		}
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+index 4aa4f700c65e..240ee0c4ebfd 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.h
+@@ -159,11 +159,7 @@ static inline unsigned int vmw_validation_align(unsigned int val)
+ }
+ 
+ int vmw_validation_add_bo(struct vmw_validation_context *ctx,
+-			  struct vmw_bo *vbo,
+-			  bool as_mob, bool cpu_blit);
+-int vmw_validation_bo_validate_single(struct ttm_buffer_object *bo,
+-				      bool interruptible,
+-				      bool validate_as_mob);
++			  struct vmw_bo *vbo);
+ int vmw_validation_bo_validate(struct vmw_validation_context *ctx, bool intr);
+ void vmw_validation_unref_lists(struct vmw_validation_context *ctx);
+ int vmw_validation_add_resource(struct vmw_validation_context *ctx,
 -- 
 2.38.1
 
