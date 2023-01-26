@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD4167CE8F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:45:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9BE67CE92
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 15:45:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2556010E91D;
-	Thu, 26 Jan 2023 14:45:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9228D10E91E;
+	Thu, 26 Jan 2023 14:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A08C10E91F
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:45:41 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- v6-20020a17090ad58600b00229eec90a7fso6278188pju.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:45:41 -0800 (PST)
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A71110E91E
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 14:45:55 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ n20-20020a17090aab9400b00229ca6a4636so5494176pjq.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 06:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BaDUbyvaCyU9ZYo1dnwr9WAZI/IyrlPNZL6ZHPBz5Bk=;
- b=ThwyGZGdOeWLAVxgJnCuRyaLP3g/9BmANXXNJCjyZo7NVzwAb9YxdHJ8tDHHb8JYxh
- ULFPoZCOTdW8yfup82Mv9VxQ4oOKpg7y9//LLj2a06uJdyo0M6YMQC4mJ0+qJJVa8fV8
- eNhVsMUiMbYI7TvJxoFwBWrz8FBCH2zkc+SQs=
+ bh=fCKziNtWsgASij+dWWGaDpyDhpD6z6/DqCOerXlFmzI=;
+ b=rOfFYHAKORMBAsDbvmhXC9docArZMSXO5NJd6EXpuu1shW8vQGvscEZhSVEO07IhZx
+ plUjpN4BdGz8pHwqSKZ7kyKVi/shAcU8LCO2Uq05OGd7/Yzc2+8jMDg+TOf6tMYMpx9h
+ g/eJydgeYV9eoAnqjNCpa6V93Qjzhd5e40NpM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BaDUbyvaCyU9ZYo1dnwr9WAZI/IyrlPNZL6ZHPBz5Bk=;
- b=JNjolaTR80QgapFlqaqNFvTfDj0R+KvaVrBax6jkJ2kUbDJLjMwbAHjjU2m4G0GlJN
- DlGJaqNQ6BrrOR5HIdbwsguuwyAckoJ7kUCvFDUyiQ0vbPz/8u7TijV8LfdHd1tLy3n9
- /oxCfcFLBS5bc2axkPMHY/Meiy3LuY8TqmzDRaYSmBoqAwd+RckZxcxHBDZo9YIOoyWt
- BeVO87HMdE5FstuNRCMD67eu6nT+PsXBccodA5r9adle/Tv2/y8fNTHZ5rXU1ljPqTqA
- TJlFbvCiQAGGI7j3enKdQ69mr0V/r900/flpEHgEKglp9RLH8H+7xVkFy18InWi/bg8Q
- 0PDA==
-X-Gm-Message-State: AO0yUKVWG384vv5GyK5jIgSYFK1gO1TGBbSy78RID9KQhL6jp8g9o/uQ
- OiesGJrOwTGofqxFO0CBeoeXHA==
-X-Google-Smtp-Source: AK7set8F1v98xH49xiuoWfSvm5Xn6Ukd+Rk/o2nUU+2RLymR+7uEmXIJEIqvwGAIwwqW+WFGQ56yZw==
-X-Received: by 2002:a05:6a20:7d83:b0:bb:cf2f:3b09 with SMTP id
- v3-20020a056a207d8300b000bbcf2f3b09mr8145162pzj.51.1674744340798; 
- Thu, 26 Jan 2023 06:45:40 -0800 (PST)
+ bh=fCKziNtWsgASij+dWWGaDpyDhpD6z6/DqCOerXlFmzI=;
+ b=ahLBbfzsFXdSuGK6edZ+x4ZuB7wWCJU+2OZgSUHBMlvJqGlj0qgpg5M+0eEAr+EdLv
+ e9+HYJV8NSIDxoq1v6Li+/oO/hunpsps2oUXhNDQkQzvZxcBAoOE2U0ByxA8RAINuhzu
+ oOmxc6D4g8bLB8dcHy8dv3CwwFqcm6mB3E2nUnA9V3YCy7cB+qabPCYFUUm/AMlF8JAE
+ 6o6OcdohMgctCfP5kY1c8PqGb6mKQSYmL4gd0nEQSWQ+rVit2YeZRZsQQ2kZWyorHmr/
+ m2CiiIyiQA1OpS007gjWtLxBFwxDjOJhtzA5ldwWrFZOuUNYWdGhi3f31tXmFpEflSLk
+ llhA==
+X-Gm-Message-State: AFqh2kqQqG08DoxoMdIx0MTiI4qLhVEPbZOTj0J0UcZUEBQPZbceyLhB
+ S+BfEOV2081fAsd+Zcny5vYTzw==
+X-Google-Smtp-Source: AMrXdXsx8jLbNuwIzpEmJpc94JGEd3SiLRYNoLiyE8CiARZx9DzavPmd2ownQUPZOBWdh1bJiJVcqg==
+X-Received: by 2002:a05:6a20:8f0d:b0:a3:6f97:e658 with SMTP id
+ b13-20020a056a208f0d00b000a36f97e658mr50988661pzk.58.1674744354967; 
+ Thu, 26 Jan 2023 06:45:54 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a238:3cb1:2156:ef87:8af5])
  by smtp.gmail.com with ESMTPSA id
- d197-20020a6336ce000000b0042988a04bfdsm823660pga.9.2023.01.26.06.45.30
+ d197-20020a6336ce000000b0042988a04bfdsm823660pga.9.2023.01.26.06.45.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 06:45:40 -0800 (PST)
+ Thu, 26 Jan 2023 06:45:54 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -58,9 +58,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v12 05/18] drm: exynos: dsi: Mark PHY as optional
-Date: Thu, 26 Jan 2023 20:14:14 +0530
-Message-Id: <20230126144427.607098-6-jagan@amarulasolutions.com>
+Subject: [PATCH v12 06/18] drm: exynos: dsi: Add platform PLL_P (PMS_P) offset
+Date: Thu, 26 Jan 2023 20:14:15 +0530
+Message-Id: <20230126144427.607098-7-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230126144427.607098-1-jagan@amarulasolutions.com>
 References: <20230126144427.607098-1-jagan@amarulasolutions.com>
@@ -85,47 +85,123 @@ Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The same Samsung MIPI DSIM master can also be used in NXP's
-i.MX8M Mini/Nano/Plus SoC.
+Look like PLL PMS_P offset value varies between platforms that have
+Samsung DSIM IP.
 
-In i.MX8M Mini/Nano/Plus SoC the DSI Phy requires a MIPI DPHY
-bit to reset in order to activate the PHY and that can be done
-via upstream i.MX8M blk-ctrl driver.
+However, there is no clear evidence for it as both Exynos and i.MX
+8M Mini Application Processor Reference Manual is still referring
+the PMS_P offset as 13.
 
-So, mark the phy get as optional.
+The offset 13 is not working for i.MX8M Mini SoCs but the downstream
+NXP sec-dsim.c driver is using offset 14 for i.MX8M Mini SoC platforms
+[1] [2].
 
-Reviewed-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+PMS_P value set in sec_mipi_dsim_check_pll_out using PLLCTRL_SET_P()
+with offset 13 and then an additional offset of one bit added in
+sec_mipi_dsim_config_pll via PLLCTRL_SET_PMS().
+
+Not sure whether it is reference manual documentation or something
+else but this patch trusts the downstream code and handle PLL_P offset
+via platform driver data so-that imx8mm driver data shall use
+pll_p_offset to 14.
+
+Similar to Mini the i.MX8M Nano/Plus also has P=14, unlike Exynos.
+
+[1] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/gpu/drm/bridge/sec-dsim.c?h=imx_5.4.47_2.2.0#n210
+[2] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/gpu/drm/bridge/sec-dsim.c?h=imx_5.4.47_2.2.0#n211
+
 Reviewed-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
-Changes for v12:
+Changes for v12, v11, v10, v9:
 - none
-Changes for v11:
-- collect Frieder RB
-Changes for v10:
-- add Plus in commit message
-- collect Marek RB
-Changes for v9, v8, v7, v6, v5, v4, v3, v2:
+Changes for v8:
+- updated commit message for 8M Nano/Plus
+Changes for v7, v6:
+- none
+Changes for v5:
+- updated clear commit message
+Changes for v4, v3, v2:
 - none
 Changes for v1:
-- new patch
+- updated commit message
+- add downstream driver link
 
- drivers/gpu/drm/exynos/exynos_drm_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-index 4a165764121d..5918d31127aa 100644
+index 5918d31127aa..7a845badb1b2 100644
 --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
 +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-@@ -1687,7 +1687,7 @@ static int exynos_dsi_probe(struct platform_device *pdev)
- 	if (IS_ERR(dsi->reg_base))
- 		return PTR_ERR(dsi->reg_base);
+@@ -194,7 +194,7 @@
+ /* DSIM_PLLCTRL */
+ #define DSIM_FREQ_BAND(x)		((x) << 24)
+ #define DSIM_PLL_EN			(1 << 23)
+-#define DSIM_PLL_P(x)			((x) << 13)
++#define DSIM_PLL_P(x, offset)		((x) << (offset))
+ #define DSIM_PLL_M(x)			((x) << 4)
+ #define DSIM_PLL_S(x)			((x) << 1)
  
--	dsi->phy = devm_phy_get(dev, "dsim");
-+	dsi->phy = devm_phy_optional_get(dev, "dsim");
- 	if (IS_ERR(dsi->phy)) {
- 		dev_info(dev, "failed to get dsim phy\n");
- 		return PTR_ERR(dsi->phy);
+@@ -263,6 +263,7 @@ struct exynos_dsi_driver_data {
+ 	unsigned int max_freq;
+ 	unsigned int wait_for_reset;
+ 	unsigned int num_bits_resol;
++	unsigned int pll_p_offset;
+ 	const unsigned int *reg_values;
+ };
+ 
+@@ -471,6 +472,7 @@ static const struct exynos_dsi_driver_data exynos3_dsi_driver_data = {
+ 	.max_freq = 1000,
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
++	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
+ };
+ 
+@@ -483,6 +485,7 @@ static const struct exynos_dsi_driver_data exynos4_dsi_driver_data = {
+ 	.max_freq = 1000,
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
++	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
+ };
+ 
+@@ -493,6 +496,7 @@ static const struct exynos_dsi_driver_data exynos5_dsi_driver_data = {
+ 	.max_freq = 1000,
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 11,
++	.pll_p_offset = 13,
+ 	.reg_values = reg_values,
+ };
+ 
+@@ -504,6 +508,7 @@ static const struct exynos_dsi_driver_data exynos5433_dsi_driver_data = {
+ 	.max_freq = 1500,
+ 	.wait_for_reset = 0,
+ 	.num_bits_resol = 12,
++	.pll_p_offset = 13,
+ 	.reg_values = exynos5433_reg_values,
+ };
+ 
+@@ -515,6 +520,7 @@ static const struct exynos_dsi_driver_data exynos5422_dsi_driver_data = {
+ 	.max_freq = 1500,
+ 	.wait_for_reset = 1,
+ 	.num_bits_resol = 12,
++	.pll_p_offset = 13,
+ 	.reg_values = exynos5422_reg_values,
+ };
+ 
+@@ -628,7 +634,8 @@ static unsigned long exynos_dsi_set_pll(struct exynos_dsi *dsi,
+ 	writel(driver_data->reg_values[PLL_TIMER],
+ 			dsi->reg_base + driver_data->plltmr_reg);
+ 
+-	reg = DSIM_PLL_EN | DSIM_PLL_P(p) | DSIM_PLL_M(m) | DSIM_PLL_S(s);
++	reg = DSIM_PLL_EN | DSIM_PLL_P(p, driver_data->pll_p_offset) |
++	      DSIM_PLL_M(m) | DSIM_PLL_S(s);
+ 
+ 	if (driver_data->has_freqband) {
+ 		static const unsigned long freq_bands[] = {
 -- 
 2.25.1
 
