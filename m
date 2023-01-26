@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FBF67D441
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 19:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360F367D445
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 19:36:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B569510E970;
-	Thu, 26 Jan 2023 18:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA8110E976;
+	Thu, 26 Jan 2023 18:36:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 848D410E970;
- Thu, 26 Jan 2023 18:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674758128; x=1706294128;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=wOiHAoSPq5JU6K2dL2M6w/UzND1LT37ikpj4xIu5+UM=;
- b=FdxYA3yELydjY0bcqOOvhK60jSIqtePUSoDR0WB6FdOAydEhXfp8gyG7
- VzztC2+58zA6sLZRQeubVuMFddwxrm767hzmlic2gRVpg4EhR/LtAbP4D
- qNdGKPW0iV40pI5dw5bX1I51jF18GJWnhK4wVVwlfp2GDGXoh0WGEDD47
- DSMM6s0pi7Bi7qi7moOc43MviJgSHwAax4HSxmRDXy+TpI9yNjpMqc7LX
- fXhQ+6vwGCeN+ZKYX7+4ni9Ec3AbEJbdf/1dCYr5aPUIvByBqUhMugUDY
- Bmjh4lRAH833N+6gfx3QAu+hg5GBp8gXAFwlQwfG6BOgrjv+y6IqU+9JL A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="310504891"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="310504891"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2023 10:33:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="695220369"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="695220369"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga001.jf.intel.com with SMTP; 26 Jan 2023 10:33:43 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 26 Jan 2023 20:33:42 +0200
-Date: Thu, 26 Jan 2023 20:33:42 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/9] drm/display/dp_mst: Handle old/new
- payload states in drm_dp_remove_payload()
-Message-ID: <Y9LHhpKpgjmqTm9D@intel.com>
-References: <20230125114852.748337-1-imre.deak@intel.com>
- <20230125114852.748337-3-imre.deak@intel.com>
- <Y9K6QPz/OnHuXrp4@intel.com>
+Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com
+ [IPv6:2607:f8b0:4864:20::a2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 392C810E976
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 18:36:16 +0000 (UTC)
+Received: by mail-vk1-xa2e.google.com with SMTP id az23so1310655vkb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 10:36:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=criticallink.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=1XT3bc4PGIFCgEcY5fMpCCUWUD0V3NbUr+u3sBwu7/Y=;
+ b=pYj/Gs7wGI16Sm9puIczETjAw2R4KbpBUFcPaCJRf8DKE/oVHr7CLQV3wM1RdX3Und
+ e4uPP80nlNU7zmXbBZGyL5Q7xUvrlJPmE+x2p/+RHex6xarjD7lM3n2hkZP4+lpdSTOe
+ zovSnw5hQDf36xQTDFXLNQlxMC62TO2H7rAVcugBsleJBvGc2mVts1XyNgV/hmDi04Lh
+ 78NleLv0BLppAAqCKI8dgAEhr6MjnXOLYV/lVNagBR8CalRMaoa+wGs/DCfX0JozcXJq
+ NN64wIq2qGdd8fAFLW+V1Wr12BJRA5k+bTLyhrFElgidZTxNDV8pHoRIsJu8TyYu+85R
+ XBoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1XT3bc4PGIFCgEcY5fMpCCUWUD0V3NbUr+u3sBwu7/Y=;
+ b=dagHvT7ORWJGK3JVNikg0vb5v4BGPefx52UoD7TEFo5XD8kxoM/fk8wzbKxZDMj/3W
+ VwFGqdvuUhvuvhAaHc3yOI7umqA0TFJZ5/aHwUSy3jTS/ywW9taG/DGWMrtRdRoAx5Ia
+ uIMWqCW6VRNtnFkyEHhNDxmAlsgewwqvS4f2D5rw+aUK15L1pJ4yn+voSazpHPnmfNJ+
+ WX4RIrYlGS84HPruxYMlnFvKdVTgWe6bLlEkIvZi/de22zKze8FNc7mh78Lu/Pku6xdP
+ tt2VBPYrevVny8DEvtPxtG5/IsgomDbWTkQ+PMw9jmPoHeJBLPhuEI4mcKt+lRwm+xvv
+ z6gw==
+X-Gm-Message-State: AFqh2kr/gn5f0hzcmYbBLcKlhlOEhvETJXtGvkEVb8Fck7IQ+nuxoS1y
+ rAX+Upm+PWrWXzrQC5IfENf89LLXtXLjjnJJ9C+/Mg==
+X-Google-Smtp-Source: AMrXdXvhntf3sSiX/+71GcUXiJnsUcFK+oRD7XEv6c4lBP0B3D7BK6l/eTAmvOz5UqFRV1/QKfuTb4XqFcXqjouOqhQ=
+X-Received: by 2002:a1f:1b8f:0:b0:3d8:d753:56bb with SMTP id
+ b137-20020a1f1b8f000000b003d8d75356bbmr4761631vkb.39.1674758173967; Thu, 26
+ Jan 2023 10:36:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y9K6QPz/OnHuXrp4@intel.com>
-X-Patchwork-Hint: comment
+References: <20230125-tfp410_i2c-v1-0-66a4d4e390b7@criticallink.com>
+ <20230125-tfp410_i2c-v1-1-66a4d4e390b7@criticallink.com>
+ <906b693d-1e85-8c17-cdda-f09ea8f12e7f@linaro.org>
+In-Reply-To: <906b693d-1e85-8c17-cdda-f09ea8f12e7f@linaro.org>
+From: Jon Cormier <jcormier@criticallink.com>
+Date: Thu, 26 Jan 2023 13:36:02 -0500
+Message-ID: <CADL8D3YUNnsZt8tc8x9CxH5Ug6kWJHb=a3N5VJFPSePWH3yWxg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: display: bridge: tfp410: Add tfp410 i2c
+ example
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000000b669705f32f06c4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,200 +68,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ dri-devel@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Bob Duke <bduke@criticallink.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Michael Williamson <michael.williamson@criticallink.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 26, 2023 at 07:37:04PM +0200, Ville Syrjälä wrote:
-> On Wed, Jan 25, 2023 at 01:48:45PM +0200, Imre Deak wrote:
-> > Atm, drm_dp_remove_payload() uses the same payload state to both get the
-> > vc_start_slot required for the payload removal DPCD message and to
-> > deduct time_slots from vc_start_slot of all payloads after the one being
-> > removed.
-> > 
-> > The above isn't always correct, as vc_start_slot must be the up-to-date
-> > version contained in the new payload state,
-> 
-> Why is that? In fact couldn't we just clear both start_slot and
-> pbn to 0 here?
+--0000000000000b669705f32f06c4
+Content-Type: text/plain; charset="UTF-8"
 
-OK, so it has to be the "current" start slot. Which in this case
-means new_payload since that's what's housed in the new topolpogy state
-which is the one getting mutated when streams are being removed/added.
+On Thu, Jan 26, 2023 at 10:40 AM Krzysztof Kozlowski <
+krzysztof.kozlowski@linaro.org> wrote:
 
-Confusing, but seems correct
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> On 25/01/2023 22:09, Jonathan Cormier wrote:
+> > Add a i2c example with HDMI connector
+>
+> Why? It's the same - but more on this below.
+>
+The existing example is for the previous setup where it was configured as
+its own device.  It seemed necessary now that the driver is going to
+support being connected to an i2c bus to show it being used as such.
 
-> 
-> > but time_slots must be the
-> > one used when the payload was previously added, contained in the old
-> > payload state. The new payload's time_slots can change vs. the old one
-> > if the current atomic commit changes the corresponding mode.
-> > 
-> > This patch let's drivers pass the old and new payload states to
-> > drm_dp_remove_payload(), but keeps these the same for now in all drivers
-> > not to change the behavior. A follow-up i915 patch will pass in that
-> > driver the correct old and new states to the function.
-> > 
-> > Cc: Lyude Paul <lyude@redhat.com>
-> > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > Cc: Karol Herbst <kherbst@redhat.com>
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Wayne Lin <Wayne.Lin@amd.com>
-> > Cc: stable@vger.kernel.org # 6.1
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+>
+> >
+> > Signed-off-by: Jonathan Cormier <jcormier@criticallink.com>
+>
+> You need to test the bindings before sending and fix the errors.
+>
+Will do
+
+>
 > > ---
-> >  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
-> >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 ++++++++++---------
-> >  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  4 +++-
-> >  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 +-
-> >  include/drm/display/drm_dp_mst_helper.h       |  3 ++-
-> >  5 files changed, 19 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > index 6994c9a1ed858..fed4ce6821161 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > @@ -179,7 +179,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
-> >  	if (enable)
-> >  		drm_dp_add_payload_part1(mst_mgr, mst_state, payload);
-> >  	else
-> > -		drm_dp_remove_payload(mst_mgr, mst_state, payload);
-> > +		drm_dp_remove_payload(mst_mgr, mst_state, payload, payload);
-> >  
-> >  	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
-> >  	 * AUX message. The sequence is slot 1-63 allocated sequence for each
-> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > index 5861b0a6247bc..ebf6e31e156e0 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > @@ -3342,7 +3342,8 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
-> >   * drm_dp_remove_payload() - Remove an MST payload
-> >   * @mgr: Manager to use.
-> >   * @mst_state: The MST atomic state
-> > - * @payload: The payload to write
-> > + * @old_payload: The payload with its old state
-> > + * @new_payload: The payload to write
-> >   *
-> >   * Removes a payload from an MST topology if it was successfully assigned a start slot. Also updates
-> >   * the starting time slots of all other payloads which would have been shifted towards the start of
-> > @@ -3350,33 +3351,34 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
-> >   */
-> >  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
-> >  			   struct drm_dp_mst_topology_state *mst_state,
-> > -			   struct drm_dp_mst_atomic_payload *payload)
-> > +			   const struct drm_dp_mst_atomic_payload *old_payload,
-> > +			   struct drm_dp_mst_atomic_payload *new_payload)
-> >  {
-> >  	struct drm_dp_mst_atomic_payload *pos;
-> >  	bool send_remove = false;
-> >  
-> >  	/* We failed to make the payload, so nothing to do */
-> > -	if (payload->vc_start_slot == -1)
-> > +	if (new_payload->vc_start_slot == -1)
-> >  		return;
-> 
-> So I take it the only reason we even have that is the copy being done in
-> drm_dp_mst_atomic_wait_for_dependencies()? I don't really understand
-> why any of that is being done tbh. If the new payload hasn't been
-> allocated yet then why can't its vc_start_slots just stay at -1
-> until that time?
-> 
-> This whole thing feels a bit weird since the payload table really isn't
-> your normal atomic state that is computed ahead of time. Instead it just
-> gets built up on as we go during the actual commit. So not really sure
-> why we're even tracking it in atomic state...
-> 
-> >  
-> >  	mutex_lock(&mgr->lock);
-> > -	send_remove = drm_dp_mst_port_downstream_of_branch(payload->port, mgr->mst_primary);
-> > +	send_remove = drm_dp_mst_port_downstream_of_branch(new_payload->port, mgr->mst_primary);
-> >  	mutex_unlock(&mgr->lock);
-> >  
-> >  	if (send_remove)
-> > -		drm_dp_destroy_payload_step1(mgr, mst_state, payload);
-> > +		drm_dp_destroy_payload_step1(mgr, mst_state, new_payload);
-> >  	else
-> >  		drm_dbg_kms(mgr->dev, "Payload for VCPI %d not in topology, not sending remove\n",
-> > -			    payload->vcpi);
-> > +			    new_payload->vcpi);
-> >  
-> >  	list_for_each_entry(pos, &mst_state->payloads, next) {
-> > -		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
-> > -			pos->vc_start_slot -= payload->time_slots;
-> > +		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
-> > +			pos->vc_start_slot -= old_payload->time_slots;
-> >  	}
-> > -	payload->vc_start_slot = -1;
-> > +	new_payload->vc_start_slot = -1;
-> >  
-> >  	mgr->payload_count--;
-> > -	mgr->next_start_slot -= payload->time_slots;
-> > +	mgr->next_start_slot -= old_payload->time_slots;
-> >  }
-> >  EXPORT_SYMBOL(drm_dp_remove_payload);
-> >  
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > index ba29c294b7c1b..5f7bcb5c14847 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > @@ -526,6 +526,8 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
-> >  		to_intel_connector(old_conn_state->connector);
-> >  	struct drm_dp_mst_topology_state *mst_state =
-> >  		drm_atomic_get_mst_topology_state(&state->base, &intel_dp->mst_mgr);
-> > +	struct drm_dp_mst_atomic_payload *payload =
-> > +		drm_atomic_get_mst_payload_state(mst_state, connector->port);
-> >  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> >  
-> >  	drm_dbg_kms(&i915->drm, "active links %d\n",
-> > @@ -534,7 +536,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
-> >  	intel_hdcp_disable(intel_mst->connector);
-> >  
-> >  	drm_dp_remove_payload(&intel_dp->mst_mgr, mst_state,
-> > -			      drm_atomic_get_mst_payload_state(mst_state, connector->port));
-> > +			      payload, payload);
-> >  
-> >  	intel_audio_codec_disable(encoder, old_crtc_state, old_conn_state);
-> >  }
-> > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > index edcb2529b4025..ed9d374147b8d 100644
-> > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > @@ -885,7 +885,7 @@ nv50_msto_prepare(struct drm_atomic_state *state,
-> >  
-> >  	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
-> >  	if (msto->disabled) {
-> > -		drm_dp_remove_payload(mgr, mst_state, payload);
-> > +		drm_dp_remove_payload(mgr, mst_state, payload, payload);
-> >  
-> >  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index, 0, 0, 0, 0);
-> >  	} else {
-> > diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-> > index 41fd8352ab656..f5eb9aa152b14 100644
-> > --- a/include/drm/display/drm_dp_mst_helper.h
-> > +++ b/include/drm/display/drm_dp_mst_helper.h
-> > @@ -841,7 +841,8 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
-> >  			     struct drm_dp_mst_atomic_payload *payload);
-> >  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
-> >  			   struct drm_dp_mst_topology_state *mst_state,
-> > -			   struct drm_dp_mst_atomic_payload *payload);
-> > +			   const struct drm_dp_mst_atomic_payload *old_payload,
-> > +			   struct drm_dp_mst_atomic_payload *new_payload);
-> >  
-> >  int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
-> >  
-> > -- 
-> > 2.37.1
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+> >  .../bindings/display/bridge/ti,tfp410.yaml         | 42
+> ++++++++++++++++++++++
+> >  1 file changed, 42 insertions(+)
+> >
+> > diff --git
+> a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+> b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+> > index 4c5dd8ec2951..456214f14b47 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+> > @@ -116,4 +116,46 @@ examples:
+> >          };
+> >      };
+> >
+> > +  - |
+> > +    i2c {
+> > +      #address-cells = <1>;
+> > +      #size-cells = <0>;
+> > +
+> > +      hdmi_encoder: tfp410@38 {
+>
+> Node names should be generic.
+>
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+>
+> Can do
+
+> > +        compatible = "ti,tfp410";
+> > +        reg = <0x38>;
+> > +
+> > +        ports {
+> > +          address-cells = <1>;
+> > +          size-cells = <0>;
+> > +
+> > +          port@0 {
+> > +            reg = <0>;
+> > +            tfp410_in: endpoint {
+> > +              remote-endpoint = <&dpi1_out>;
+> > +            };
+> > +          };
+> > +
+> > +          port@1 {
+> > +            reg = <1>;
+> > +            tfp410_out: endpoint {
+> > +              remote-endpoint = <&hdmi_connector_in>;
+> > +            };
+>
+> That's the same example as existing one, so it looks useless. I don't
+> see benefits of this example.
+>
+It's mostly the same, except defined inside an i2c bus, with the reg value
+set. Without the powerdown-gpios or ti,deskew.
+And without the pclk-sample and bus-width (these are now read from i2c)
+And I included the hdmi_connector so it would be a more complete and useful
+example of how it could be used.  The TFP410 doesn't handle the ddc i2c bus
+on its own so a separate connector node is needed.  I'll drop it if that's
+preferred.
+
+>
+> > +          };
+> > +        };
+> > +      };
+> > +    };
+> > +
+> > +    hdmi: hdmi_connector {
+>
+> Drop. Incorrect name and not really related.
+>
+> > +      compatible = "hdmi-connector";
+> > +      label = "hdmi";
+> > +      type = "a";
+> > +      ddc-i2c-bus = <&i2c1>;
+> > +      port {
+> > +        hdmi_connector_in: endpoint {
+> > +          remote-endpoint = <&tfp410_out>;
+> > +        };
+> > +      };
+> > +    };
+> > +
+> >  ...
+> >
+>
+> Best regards,
+> Krzysztof
+>
+>
 
 -- 
-Ville Syrjälä
-Intel
+Jonathan Cormier
+Software Engineer
+
+Voice:  315.425.4045 x222
+
+
+
+http://www.CriticalLink.com <http://www.criticallink.com/>
+6712 Brooklawn Parkway, Syracuse, NY 13211
+
+<https://www.linkedin.com/company/critical-link-llc>
+<https://twitter.com/Critical_Link>
+
+--0000000000000b669705f32f06c4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 26, 2023 at 10:40 AM Krzy=
+sztof Kozlowski &lt;<a href=3D"mailto:krzysztof.kozlowski@linaro.org">krzys=
+ztof.kozlowski@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">On 25/01/2023 22:09, Jonathan Cormier wrote:<br>
+&gt; Add a i2c example with HDMI connector<br>
+<br>
+Why? It&#39;s the same - but more on this below.<br></blockquote><div>The e=
+xisting example is for the previous setup where it was configured as its ow=
+n device.=C2=A0 It seemed necessary now that the driver is going to support=
+ being connected to an i2c bus to show it being used as such. <br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; <br>
+&gt; Signed-off-by: Jonathan Cormier &lt;<a href=3D"mailto:jcormier@critica=
+llink.com" target=3D"_blank">jcormier@criticallink.com</a>&gt;<br>
+<br>
+You need to test the bindings before sending and fix the errors.<br></block=
+quote><div>Will do <br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">
+<br>
+&gt; ---<br>
+&gt;=C2=A0 .../bindings/display/bridge/ti,tfp410.yaml=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 42 ++++++++++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 42 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tfp41=
+0.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml<br=
+>
+&gt; index 4c5dd8ec2951..456214f14b47 100644<br>
+&gt; --- a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml<=
+br>
+&gt; +++ b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml<=
+br>
+&gt; @@ -116,4 +116,46 @@ examples:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt; +=C2=A0 - |<br>
+&gt; +=C2=A0 =C2=A0 i2c {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 #address-cells =3D &lt;1&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 #size-cells =3D &lt;0&gt;;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 hdmi_encoder: tfp410@38 {<br>
+<br>
+Node names should be generic.<br>
+<a href=3D"https://devicetree-specification.readthedocs.io/en/latest/chapte=
+r2-devicetree-basics.html#generic-names-recommendation" rel=3D"noreferrer" =
+target=3D"_blank">https://devicetree-specification.readthedocs.io/en/latest=
+/chapter2-devicetree-basics.html#generic-names-recommendation</a><br><br></=
+blockquote><div>Can do <br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 compatible =3D &quot;ti,tfp410&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x38&gt;;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ports {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 address-cells =3D &lt;1&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size-cells =3D &lt;0&gt;;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tfp410_in: endpoint {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remote-endpoint =3D =
+&lt;&amp;dpi1_out&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@1 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;1&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tfp410_out: endpoint {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remote-endpoint =3D =
+&lt;&amp;hdmi_connector_in&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+<br>
+That&#39;s the same example as existing one, so it looks useless. I don&#39=
+;t<br>
+see benefits of this example.<br></blockquote><div>It&#39;s mostly the same=
+, except defined inside an i2c bus, with the reg value set. Without the pow=
+erdown-gpios or ti,deskew.=C2=A0 <br></div><div>And without the pclk-sample=
+ and bus-width (these are now read from i2c) <br></div><div>And I included =
+the hdmi_connector so it would be a more complete and useful example of how=
+ it could be used.=C2=A0 The TFP410 doesn&#39;t handle the ddc i2c bus on i=
+ts own so a separate connector node is needed.=C2=A0 I&#39;ll drop it if th=
+at&#39;s preferred.<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 };<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 hdmi: hdmi_connector {<br>
+<br>
+Drop. Incorrect name and not really related.<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 compatible =3D &quot;hdmi-connector&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 label =3D &quot;hdmi&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 type =3D &quot;a&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 ddc-i2c-bus =3D &lt;&amp;i2c1&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 port {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 hdmi_connector_in: endpoint {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remote-endpoint =3D &lt;&amp;tfp41=
+0_out&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 };<br>
+&gt; +<br>
+&gt;=C2=A0 ...<br>
+&gt; <br>
+<br>
+Best regards,<br>
+Krzysztof<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr=
+"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>Jonathan Cormier<br>Soft=
+ware Engineer<div><div><div><div><br></div><div><div><font color=3D"#000000=
+">Voice:=C2=A0=C2=A0<a value=3D"+13154254045">315.425.4045</a>=C2=A0x222</f=
+ont></div><div><font color=3D"#000000"><br></font></div><div><font color=3D=
+"#000000"><img src=3D"https://ci3.googleusercontent.com/mail-sig/AIorK4xml7=
+5fJPKYF7M9X5Dux4IrbtzZk0RB6jf8iBYuPQKArrkBkOkU4HJ2rP7eH6d2h7_ituMWEBc"><br>=
+</font></div></div></div><div><div><font color=3D"#1155cc"><br></font></div=
+><div><a href=3D"http://www.criticallink.com/" target=3D"_blank"><font colo=
+r=3D"#1155cc">http://www.CriticalLink.com</font></a><br></div><div>6712 Bro=
+oklawn Parkway,=C2=A0Syracuse, NY 13211=C2=A0</div></div></div><div><div><b=
+r></div><div><font color=3D"#1155cc"><font color=3D"#1155cc"><a href=3D"htt=
+ps://www.linkedin.com/company/critical-link-llc" target=3D"_blank"><img src=
+=3D"https://docs.google.com/uc?export=3Ddownload&amp;id=3D0B2vNSnu-aYu6OEhH=
+RW9BUFV5WnM&amp;revid=3D0B2vNSnu-aYu6RHNZUnhNbFpER1l3emNQY2VoaHA0RDdudWlFPQ=
+"></a>=C2=A0=C2=A0<a href=3D"https://twitter.com/Critical_Link" target=3D"_=
+blank"><img alt=3D"" src=3D"https://docs.google.com/uc?export=3Ddownload&am=
+p;id=3D0B2vNSnu-aYu6cU1yWERrLXE0SnM&amp;revid=3D0B2vNSnu-aYu6b1YrZW1SM0hueV=
+hVS0pPWm1IOXFSc0I3ay9jPQ"></a></font></font></div></div></div></div></div><=
+/div></div></div></div></div></div></div></div></div></div>
+
+--0000000000000b669705f32f06c4--
