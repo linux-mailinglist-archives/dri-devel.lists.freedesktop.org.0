@@ -2,85 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8054067D2C0
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00B767D702
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 21:58:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 489C910E951;
-	Thu, 26 Jan 2023 17:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE7D310E2DD;
+	Thu, 26 Jan 2023 20:58:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA8210E94D
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:10:14 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 792605C044E;
- Thu, 26 Jan 2023 12:10:13 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 26 Jan 2023 12:10:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1674753013; x=
- 1674839413; bh=KkZyTKB81d/nOJvQoWokQtvq54uqplhHOELZ15UddQs=; b=X
- TzyCHmcXizZsSZG7dr7cTeH74nAHI023nfE9pezBRlqVbSfvGc2/HMQt8FP6kMlr
- bOmFLs4XjxXa+Lk3QEd4qYOp+7R3R7WFkHVFkbWeBgWf2cFuyl2fF8i1kjlfu0IZ
- sfIrs1YE5gedZYPx3d/bRrGHpbcDtFHS4g7tUHN8s82WPhji6JiwS0sMiMZo34OB
- gnuIf9VXUefHBmLlJK4fOj2T2TMCTyYVfXUxmMW3Oy3i+TaYnhjfenZrRZeOlXgN
- zYFSbwecdXGsny8NEw7RD3h0dtwH8LCrb8uQ5z5esC9nXj7rYVQSEsge0+xohgO5
- I8ahcSpel635PINldpYjA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674753013; x=
- 1674839413; bh=KkZyTKB81d/nOJvQoWokQtvq54uqplhHOELZ15UddQs=; b=X
- Js8ZxA8KkytZQ1JGokInNllJW5XDwIHCSrGnyCzMTcQ+0bIJXa4ktiuRcyLn864G
- XRJXxzIMUES18Au13rMSSMwa34/wbbraQLuT6V54hVkRrH2O72ZbvH8Yn9ITFt1b
- ESTr56hpQX9hwMZs/BttXTghZdbHpaAsNFKIpcbqsy8abHhZmkwsK4e9jBhw5enc
- EQw+7Za7LD6Nr6re6qPWBx4Gsep+PNmM3XCDMOk5yOlb5eKHVCggxixeMPMcFvYC
- hFec6cQIgZbgach7tblWN+A2lRPfoJEy5rRsDo1byrJLBwkQeacG8G2Ztdc5sxEp
- nSgQ0d6kB5X5UuldbbbRQ==
-X-ME-Sender: <xms:9LPSYzS5Bc9Umn6_UA8X1ydFKAjI2dHgFxLMoEy5ofQx5SLuKCQLIw>
- <xme:9LPSY0yvumU2dqFsAkFivvwQWcxNr6yAkaPSWePOWElRAaiW9NOT7bfjSOQSnm9ka
- F7ZL79pw_roFCTRInE>
-X-ME-Received: <xmr:9LPSY41Da4N9esJ3EyEd6XPpEucUXI7mT2pOByCyGYJbQGfPQl7gNRGcoC5b-vwzainDVh14paxY2KQ5PJYYh6b2ygQXXM4v7KdfnWNBGfktoA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgleejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
- teeltdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:9LPSYzDdOyRVplfx2Z8USaYjiGIDFx99N7bTez-Y3k1V0TmtOrf_GQ>
- <xmx:9LPSY8gRuvos1sHt-t7n4DboMugxy9RrlBuVFll2nX72btXQSAcHLg>
- <xmx:9LPSY3reeULaG7r_eUgO3Skc42I1P7pkrH2towjgQ00z-w4dgyDZFg>
- <xmx:9bPSYzSJtpzdYVxm2VKTgX3QE3LjACmQXLCr3Qxc6c9Em_5TVjWfEA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Jan 2023 12:10:11 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-Date: Thu, 26 Jan 2023 18:05:49 +0100
-Subject: [PATCH 4/4] Revert "drm/vc4: hdmi: Enforce the minimum rate at
- runtime_resume"
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECA810E294;
+ Thu, 26 Jan 2023 17:07:43 +0000 (UTC)
+Received: from mercury (dyndsl-037-138-191-219.ewe-ip-backbone.de
+ [37.138.191.219])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: sre)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7FC3E6602E7D;
+ Thu, 26 Jan 2023 17:07:41 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1674752861;
+ bh=TJwB9xWefUtenAJhobcnuA3/dr44yh/1qZH05naV3dA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HIAeawkSMl4wLK9atphFO2PYIuQtn0mXWrQTGJkp27Vvwen4RmNJXIKy0KOcMN2qu
+ MGji/BoqRh//5quIKkg+7Jg9a4rlT6zYnOxKnHRve8IRt32uZ0O2J9C6ByA7KSG9ni
+ ooI+f+xDzdj/4Xv/XqAW1ZMOqMbxlnaE69Ns4AaVsCb09DHvVD+xjXrJ7HkcJ65ZDs
+ 0FKkR9qOOchTbFQKw+Lbe8GJsd/K96q/WWSPWtyPUY4G0yRJ/G34tsJUBI/vL5q95x
+ a6dIJ/I/0Glk/75yhzfiBv6PLPN/HUTuWOcS4vpdAGRdicde5HTb77Vj3shLRE2rZN
+ snAuQFm3yL5CQ==
+Received: by mercury (Postfix, from userid 1000)
+ id 8DAD710609C7; Thu, 26 Jan 2023 18:07:39 +0100 (CET)
+Date: Thu, 26 Jan 2023 18:07:39 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Subject: Re: [PATCH v2 3/6] mm: replace vma->vm_flags direct modifications
+ with modifier calls
+Message-ID: <20230126170739.mlka2jivn3mfstyf@mercury.elektranox.org>
+References: <20230125083851.27759-1-surenb@google.com>
+ <20230125083851.27759-4-surenb@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230126-rpi-display-fw-clk-cleanup-v1-4-d646ff6fb842@cerno.tech>
-References: <20230126-rpi-display-fw-clk-cleanup-v1-0-d646ff6fb842@cerno.tech>
-In-Reply-To: <20230126-rpi-display-fw-clk-cleanup-v1-0-d646ff6fb842@cerno.tech>
-To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1139; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=9Ul4tbyTDXUKD/MhonRAgF3FnEZjFKzNzSrNVoRgm2E=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmXNn0861dfqs2pGv4p36/t4IxX8z/1P8+blFBu05SYZfHw
- cSR3RykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACYy7yAjw+qlu0UYmyXdVyzbfu/uxs
- 3r+9fWXZ8S3c5z7MQu40P/l0xi+F8SGdOt4Tx5cc4ywQ/MTQ1f2us9vbs/J9dpKV/MeKblwQEA
-X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="qcyccrleajamxo75"
+Content-Disposition: inline
+In-Reply-To: <20230125083851.27759-4-surenb@google.com>
+X-Mailman-Approved-At: Thu, 26 Jan 2023 20:58:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,45 +58,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Cc: michel@lespinasse.org, nvdimm@lists.linux.dev, leewalsh@google.com,
+ dri-devel@lists.freedesktop.org, perex@perex.cz, jglisse@google.com,
+ arjunroy@google.com, m.szyprowski@samsung.com, linux-arch@vger.kernel.org,
+ qianweili@huawei.com, linux-samsung-soc@vger.kernel.org,
+ aneesh.kumar@linux.ibm.com, chenhuacai@kernel.org, kasan-dev@googlegroups.com,
+ linux-acpi@vger.kernel.org, rientjes@google.com,
+ xen-devel@lists.xenproject.org, devel@lists.orangefs.org, minchan@google.com,
+ robert.jarzmik@free.fr, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, npiggin@gmail.com, alex.williamson@redhat.com,
+ viro@zeniv.linux.org.uk, luto@kernel.org, gthelen@google.com,
+ tglx@linutronix.de, ldufour@linux.ibm.com, linux-sgx@vger.kernel.org,
+ martin.petersen@oracle.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org, linux-media@vger.kernel.org,
+ freedreno@lists.freedesktop.org, joelaf@google.com, linux-aio@kvack.org,
+ linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org, david@redhat.com,
+ dave.hansen@linux.intel.com, virtualization@lists.linux-foundation.org,
+ edumazet@google.com, target-devel@vger.kernel.org, punit.agrawal@bytedance.com,
+ linux-s390@vger.kernel.org, dave@stgolabs.net, deller@gmx.de, hughd@google.com,
+ andrii@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-rockchip@lists.infradead.org, linux-graphics-maintainer@vmware.com,
+ kernel-team@android.com, jayalk@intworks.biz, soheil@google.com,
+ selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org, shakeelb@google.com,
+ haojian.zhuang@gmail.com, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, tytso@mit.edu, nico@fluxnic.net,
+ muchun.song@linux.dev, hjc@rock-chips.com, mcoquelin.stm32@gmail.com,
+ tatashin@google.com, mike.kravetz@oracle.com, songliubraving@fb.com,
+ jasowang@redhat.com, alsa-devel@alsa-project.org, peterx@redhat.com,
+ linux-tegra@vger.kernel.org, kraxel@redhat.com, will@kernel.org,
+ dmaengine@vger.kernel.org, bhe@redhat.com, miklos@szeredi.hu,
+ linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev, willy@infradead.org,
+ gurua@google.com, dgilbert@interlog.com, xiang@kernel.org, pabeni@redhat.com,
+ jejb@linux.ibm.com, quic_abhinavk@quicinc.com, bp@alien8.de,
+ mchehab@kernel.org, linux-ext4@vger.kernel.org, tomba@kernel.org,
+ hughlynch@google.com, tfiga@chromium.org, linux-xfs@vger.kernel.org,
+ zhangfei.gao@linaro.org, wangzhou1@hisilicon.com, netdev@vger.kernel.org,
+ bpf@vger.kernel.org, linux-erofs@lists.ozlabs.org, davem@davemloft.net,
+ mhocko@suse.com, kvm@vger.kernel.org, mst@redhat.com, peterz@infradead.org,
+ bigeasy@linutronix.de, alexandre.torgue@foss.st.com, dhowells@redhat.com,
+ linux-mm@kvack.org, ray.huang@amd.com, adilger.kernel@dilger.ca,
+ kuba@kernel.org, sparclinux@vger.kernel.org, anton.ivanov@cambridgegreys.com,
+ herbert@gondor.apana.org.au, linux-scsi@vger.kernel.org, richard@nod.at,
+ x86@kernel.org, vkoul@kernel.org, mingo@redhat.com, axelrasmussen@google.com,
+ intel-gfx@lists.freedesktop.org, paulmck@kernel.org, jannh@google.com,
+ chao@kernel.org, liam.howlett@oracle.com, hdegoede@redhat.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, vbabka@suse.cz,
+ dimitri.sivanich@hpe.com, amd-gfx@lists.freedesktop.org, posk@google.com,
+ lstoakes@gmail.com, peterjung1337@gmail.com, yoshfuji@linux-ipv6.org,
+ linuxppc-dev@lists.ozlabs.org, dsahern@kernel.org, kent.overstreet@linux.dev,
+ kexec@lists.infradead.org, tiwai@suse.com, krzysztof.kozlowski@linaro.org,
+ tzimmermann@suse.de, hannes@cmpxchg.org, dmitry.baryshkov@linaro.org,
+ johannes@sipsolutions.net, mgorman@techsingularity.net,
+ linux-accelerators@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit ae71ab585c819f83aec84f91eb01157a90552ef2.
 
-Commit ae71ab585c81 ("drm/vc4: hdmi: Enforce the minimum rate at
-runtime_resume") was introduced to work around an issue partly due to
-the clk-bcm2835 driver on the RaspberryPi0-3.
+--qcyccrleajamxo75
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Since we're not using that driver for our HDMI clocks, we can now revert
-it.
+Hi,
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 9 ---------
- 1 file changed, 9 deletions(-)
+On Wed, Jan 25, 2023 at 12:38:48AM -0800, Suren Baghdasaryan wrote:
+> Replace direct modifications to vma->vm_flags with calls to modifier
+> functions to be able to track flag changes and to keep vma locking
+> correctness.
+>=20
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+> [...]
+>  drivers/hsi/clients/cmt_speech.c                   |  2 +-
+>  120 files changed, 188 insertions(+), 199 deletions(-)
+> [...]
+> diff --git a/drivers/hsi/clients/cmt_speech.c b/drivers/hsi/clients/cmt_s=
+peech.c
+> index 8069f795c864..952a31e742a1 100644
+> --- a/drivers/hsi/clients/cmt_speech.c
+> +++ b/drivers/hsi/clients/cmt_speech.c
+> @@ -1264,7 +1264,7 @@ static int cs_char_mmap(struct file *file, struct v=
+m_area_struct *vma)
+>  	if (vma_pages(vma) !=3D 1)
+>  		return -EINVAL;
+> =20
+> -	vma->vm_flags |=3D VM_IO | VM_DONTDUMP | VM_DONTEXPAND;
+> +	set_vm_flags(vma, VM_IO | VM_DONTDUMP | VM_DONTEXPAND);
+>  	vma->vm_ops =3D &cs_char_vm_ops;
+>  	vma->vm_private_data =3D file->private_data;
+> =20
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index e82fe17c9532..18d84aab54bb 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -3350,15 +3350,6 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
- 	unsigned long rate;
- 	int ret;
- 
--	/*
--	 * The HSM clock is in the HDMI power domain, so we need to set
--	 * its frequency while the power domain is active so that it
--	 * keeps its rate.
--	 */
--	ret = clk_set_min_rate(vc4_hdmi->hsm_clock, HSM_MIN_CLOCK_FREQ);
--	if (ret)
--		return ret;
--
- 	ret = clk_prepare_enable(vc4_hdmi->hsm_clock);
- 	if (ret)
- 		return ret;
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
--- 
-2.39.1
+-- Sebastian
+
+--qcyccrleajamxo75
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmPSs1EACgkQ2O7X88g7
++pquLBAAkw9lw9lxNRCI6jvqLy98JsUBgSQigNB6Eh8JVWsySHMm1OszFCcvTpoc
+vinC/VPMOa6JwEw5e9naXRF2UJahO+Cx+e5MYIKos3QyIUPfi0YM7Cv96h6+c4l/
+NdcxLS8+9ElitTuA47UVgPSeZwzdZ1kU5VUV1X2fx+6aGA+dBfWVBgWDqU6AB0Sa
+ehU4betso5Ypl26YEmLPHmY+8Xx2jXNwwBEgsHgO2/YjRn9YPDeMAqb4lWs99h0d
+nUV1VqwTClRrExtNDvidHryknmyCIBpYt38gn0i9+uIf9mFoBmUDN+/zAdRguGBT
+r1CQAwvRvHmEyGJ4dp1nijyt/PWxDBlCWytlmzXrK/rkeH8sQCRdCr9L83/d5DM0
+iU98ehmbH9kx8rD4y0L91xmsnegNYNKSfAvz3EP4KYFOHjTw2SOCYoazPu3z62bN
+d3HL+08LeZpm1XwVPydZqBd5UpBK8NaQYCJ3BjsLUefsSJE+SWzsnoYFnbUrL1X9
+1XfU6LGtVvjCPUsjk7oqh5PjtRGQsdtUhSZJLwNzTeh4I0nSzL1pj8vRFZ7UTcV4
+RmFYsjBbKhja2fC13eM4tKzfx53harnHVNuUPw2aoLKshpkQaOTUqWBnRXtbJZkb
+dSRKObxfPlHVI+awnfN6owpXF86Owew2+XJcXILOPxaBk8PI/Ns=
+=/0TB
+-----END PGP SIGNATURE-----
+
+--qcyccrleajamxo75--
