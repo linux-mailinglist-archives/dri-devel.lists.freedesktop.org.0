@@ -1,56 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A3D67D6FB
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 21:58:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D7667C204
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 01:54:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0357A10E2BB;
-	Thu, 26 Jan 2023 20:58:34 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 526 seconds by postgrey-1.36 at gabe;
- Thu, 26 Jan 2023 00:58:58 UTC
-Received: from sonata.ens-lyon.org (domu-toccata.ens-lyon.fr [140.77.166.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5509C10E8CD
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 00:58:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by sonata.ens-lyon.org (Postfix) with ESMTP id 43C6D20153;
- Thu, 26 Jan 2023 01:51:31 +0100 (CET)
-Received: from sonata.ens-lyon.org ([127.0.0.1])
- by localhost (sonata.ens-lyon.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Okn7r1ewCpFJ; Thu, 26 Jan 2023 01:51:31 +0100 (CET)
-Received: from begin (adijon-658-1-86-31.w86-204.abo.wanadoo.fr
- [86.204.233.31])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by sonata.ens-lyon.org (Postfix) with ESMTPSA id 0F8EC20145;
- Thu, 26 Jan 2023 01:51:31 +0100 (CET)
-Received: from samy by begin with local (Exim 4.96)
- (envelope-from <samuel.thibault@ens-lyon.org>) id 1pKqUE-00HVSI-2C;
- Thu, 26 Jan 2023 01:51:30 +0100
-Date: Thu, 26 Jan 2023 01:51:30 +0100
-From: Samuel Thibault <samuel.thibault@ens-lyon.org>
-To: gregkh@linuxfoundation.org, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH] fbcon: Check font dimension limits
-Message-ID: <20230126005130.t4krica4lfv3p6sc@begin>
-Mail-Followup-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- gregkh@linuxfoundation.org, Daniel Vetter <daniel@ffwll.ch>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org,
- Sanan Hasanov <sanan.hasanov@Knights.ucf.edu>
-References: <20230126004911.869923511@ens-lyon.org>
- <20230126004921.616264824@ens-lyon.org>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 194D510E129;
+	Thu, 26 Jan 2023 00:54:32 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2A0A10E129;
+ Thu, 26 Jan 2023 00:54:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674694470; x=1706230470;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LQununLEUtF6V+l0D47YzD7ruI0qoHGbRKK2Rz3s2zk=;
+ b=ZoWzId0wCe60KVk7uqx2ydSbHkvLFzPGz6hTvE1dg+wTRc4sdABUbUhj
+ p3yNO4fNj7zENRUAf+92z3RDdSraYrpiWPUiJ3xR1s9GfqbC1DvY787Lt
+ 8thfXNB30Ua+lPrVbu244u2yw6LIQZ+znkEVXSr1yctczCiRrHBVoS2HZ
+ b4vQopL6Gxq9qi5asJH2/0XdbyeANpla+nEy79tobvTWd2XalhsiUgA9K
+ pQs8cEkCTTE+PuOn8nWMPSSj1YW1gJWROerGs1Rq3IQsN+LUFQq2iBCuV
+ M2KSQNphMzW0lpGg2EGzF7vqAdeeVA411R0Z+JMUnmkeygV64I7ZxJPf0 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="389064419"
+X-IronPort-AV: E=Sophos;i="5.97,246,1669104000"; d="scan'208";a="389064419"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jan 2023 16:54:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="751404265"
+X-IronPort-AV: E=Sophos;i="5.97,246,1669104000"; d="scan'208";a="751404265"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by FMSMGA003.fm.intel.com with ESMTP; 25 Jan 2023 16:54:29 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v5 0/8] Allow error capture without a request & fix locking
+ issues
+Date: Wed, 25 Jan 2023 16:54:12 -0800
+Message-Id: <20230126005420.160070-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230126004921.616264824@ens-lyon.org>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Mailman-Approved-At: Thu, 26 Jan 2023 20:58:31 +0000
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,50 +57,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sanan Hasanov <sanan.hasanov@Knights.ucf.edu>, stable@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(FYI, the UB was already a problem before my big-font patch submission,
-the checks I add here are already making sense in previous versions
-anyway)
+From: John Harrison <John.C.Harrison@Intel.com>
 
-Samuel Thibault, le jeu. 26 janv. 2023 01:49:12 +0100, a ecrit:
-> blit_x and blit_y are uint32_t, so fbcon currently cannot support fonts
-> larger than 32x32.
-> 
-> The 32x32 case also needs shifting an unsigned int, to properly set bit
-> 31, otherwise we get "UBSAN: shift-out-of-bounds in fbcon_set_font",
-> as reported on
-> 
-> http://lore.kernel.org/all/IA1PR07MB98308653E259A6F2CE94A4AFABCE9@IA1PR07MB9830.namprd07.prod.outlook.com
-> Kernel Branch: 6.2.0-rc5-next-20230124
-> Kernel config: https://drive.google.com/file/d/1F-LszDAizEEH0ZX0HcSR06v5q8FPl2Uv/view?usp=sharing
-> Reproducer: https://drive.google.com/file/d/1mP1jcLBY7vWCNM60OMf-ogw-urQRjNrm/view?usp=sharing
-> 
-> Reported-by: Sanan Hasanov <sanan.hasanov@Knights.ucf.edu>
-> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-> 
-> Index: linux-6.0/drivers/video/fbdev/core/fbcon.c
-> ===================================================================
-> --- linux-6.0.orig/drivers/video/fbdev/core/fbcon.c
-> +++ linux-6.0/drivers/video/fbdev/core/fbcon.c
-> @@ -2489,9 +2489,12 @@ static int fbcon_set_font(struct vc_data
->  	    h > FBCON_SWAP(info->var.rotate, info->var.yres, info->var.xres))
->  		return -EINVAL;
->  
-> +	if (font->width > 32 || font->height > 32)
-> +		return -EINVAL;
-> +
->  	/* Make sure drawing engine can handle the font */
-> -	if (!(info->pixmap.blit_x & (1 << (font->width - 1))) ||
-> -	    !(info->pixmap.blit_y & (1 << (font->height - 1))))
-> +	if (!(info->pixmap.blit_x & (1U << (font->width - 1))) ||
-> +	    !(info->pixmap.blit_y & (1U << (font->height - 1))))
->  		return -EINVAL;
->  
->  	/* Make sure driver can handle the font length */
-> 
-> 
+It is technically possible to get a hung context without a valid
+request. In such a situation, try to provide as much information in
+the error capture as possible rather than just aborting and capturing
+nothing.
+
+Similarly, in the case of an engine reset failure the GuC is not able
+to report the guilty context. So try a manual search instead of
+reporting nothing.
+
+While doing all this, it was noticed that the locking was broken in a
+number of places when searching for hung requests and dumping request
+info. So fix all that up as well.
+
+v2: Tidy up code flow in error capture. Reword some comments/messages.
+(review feedback from Tvrtko)
+Also fix up request locking issues from earlier changes noticed during
+code review of this change.
+v3: Fix some potential null pointer derefs and a reference leak.
+Add new patch to refactor the duplicated hung request search code into
+a common backend agnostic wrapper function and use the correct
+spinlocks for the correct lists. Also tweak some of the patch
+descriptions for better accuracy.
+v4: Shuffle some code around to more appropriate source files. Fix
+potential leak of GuC capture object after code flow re-org and pull
+improved info message earlier (Daniele). Also rename the GuC capture
+object to be more consistent.
+v5: Split one self contained locking fix out into a separate patch
+and rename a function to be shorter (Tvrtko).
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+
+
+John Harrison (8):
+  drm/i915/guc: Fix locking when searching for a hung request
+  drm/i915: Fix request locking during error capture & debugfs dump
+  drm/i915: Fix up locking around dumping requests lists
+  drm/i915: Allow error capture without a request
+  drm/i915: Allow error capture of a pending request
+  drm/i915/guc: Look for a guilty context when an engine reset fails
+  drm/i915/guc: Add a debug print on GuC triggered reset
+  drm/i915/guc: Rename GuC register state capture node to be more
+    obvious
+
+ drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
+ drivers/gpu/drm/i915/gt/intel_context.h       |  3 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |  4 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 74 ++++++++-------
+ .../drm/i915/gt/intel_execlists_submission.c  | 27 ++++++
+ .../drm/i915/gt/intel_execlists_submission.h  |  4 +
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  8 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 35 ++++++-
+ drivers/gpu/drm/i915/i915_gpu_error.c         | 92 ++++++++++---------
+ drivers/gpu/drm/i915/i915_gpu_error.h         |  2 +-
+ 10 files changed, 160 insertions(+), 93 deletions(-)
+
+-- 
+2.39.1
+
