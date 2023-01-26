@@ -1,65 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7844D67CB02
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 13:40:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A55AC67CB0B
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 13:45:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F49710E679;
-	Thu, 26 Jan 2023 12:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D29C10E8E2;
+	Thu, 26 Jan 2023 12:45:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 238A310E8F4
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 12:40:38 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B65771FF3F;
- Thu, 26 Jan 2023 12:40:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674736836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I9YDTQXnaab3QzRwqbm85id2MH02Fcx3dyILgq2PGTI=;
- b=wz4EDsWGqLtzk4NnoN4L1mNS3NeXA8xa9+eDpUEJDE98M3ZM27jZsOAv8rUJZawLcmVc+6
- VGhqxYqf8+6WaCOeoC/Jg6ANTPzykXuzo6nZ19VEPnPVygKxVLSXrDC8mP4wGx6ysIMQz/
- 2XSAQV9spa5srMzUsO6JCSRt17MRvWc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674736836;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I9YDTQXnaab3QzRwqbm85id2MH02Fcx3dyILgq2PGTI=;
- b=1uhkPvoOhBrbscQucGPvinku3RWx/lHZbzd0NHrjRWoCII/OnKnpYhPkjGNETvt8I7OvNp
- 4rYXNMmHD3EdCqDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 96A2213A09;
- Thu, 26 Jan 2023 12:40:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id jOXTI8R00mN2RwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 26 Jan 2023 12:40:36 +0000
-Message-ID: <817fcd6b-4823-6fcd-ea5b-8068a261a3bf@suse.de>
-Date: Thu, 26 Jan 2023 13:40:34 +0100
-MIME-Version: 1.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2057.outbound.protection.outlook.com [40.107.94.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECE810E8EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 12:45:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C7m5VlGQ6VuRQn1yHNmyuwysfcX3inou1BSyeq3lwl6auleW6+8CDgO72JxKONNCGSb+8HsHNCk/6fyM7n9a3hue9O5ETqYOi8o1wwBx4dqZGPqaiof8Y/Pdn67MtkqaOZcb635qLiNV9LFTS9Vgis5172ZfFtEyrje29o1ctVFH7kZadH5XBQ/vLw5+ZdPjuEvK9AEQ3sNRwhqjnNM4QJ4ceaMbvvvi0zHj+6glYbnFI8flK6ElgU+Y1nm/5op18fY+M5QsmM1tkYsrNrI+RyuDjgqvYzbwro2wKXolBDBecP/p+4dtV+xxpSQ1LmlMWWtntWfJuW/JT1wD0TWKtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C3+RuiyNocPtr14COYnNaiN5O8MztP9m/+yhU7KOz+4=;
+ b=kK8FhDHq3JWrTJY0wVggh6vXjCYAyRzEYUYy74kZSEUhduXs0xaO1QGPf05IBIhbGUZuwhWdonFb54/Tqfkl9DYy5L4Jt7te0OGm3twIBF+7KonLWdbYQspOc7TShaumIHHkb21/xg9c+wjIUyg63hMap1pj8FL9g6OqEPFnhWm/97qUPtKQXfMVg/mTxRSZYhQ8CPTrXkB9dZwRJGkOQOsSjH5fSYw1u5s0q9Rt2FiGN3IliEXeGc4ssudUrBEEaebjYRISGHBKo1Ak0EPBNhCTw5qK4jF5jTmDEpv5VZv3K0xo1nNZ10FPoPleyEQ7bw8mppQcXETtHgvvhJUg1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C3+RuiyNocPtr14COYnNaiN5O8MztP9m/+yhU7KOz+4=;
+ b=dwKyxWmEds/0/BNbA49+snyfIHAcTmOvcktt1W1YIbattZOxtiAxZvecBnl8+/adjQ+QPdkWHkBkTHBuQS10Uymhc+hcFTIs+ncGPSZ+/JByPiPx+zRQEzwnjnEUJklEdIH9fLALYU0MQI0sfKg3mIYgOkXtc9nFzbfKYge00PI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SA0PR12MB4560.namprd12.prod.outlook.com (2603:10b6:806:97::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22; Thu, 26 Jan
+ 2023 12:45:10 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6043.017; Thu, 26 Jan 2023
+ 12:45:10 +0000
+Message-ID: <d0401ae6-b38e-19ff-b681-945db1c36c95@amd.com>
+Date: Thu, 26 Jan 2023 13:45:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
+ Thunderbird/102.4.2
 Subject: Re: Amdgpu module is references even after unbinding the vtcon
-To: "Slivka, Danijel" <Danijel.Slivka@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ "Slivka, Danijel" <Danijel.Slivka@amd.com>
 References: <c5001553-6c71-c7ff-36aa-c4712bda0abf@gmail.com>
  <95f2314b-5d55-f2ca-468b-2f127571bd77@suse.de>
  <BYAPR12MB309405AD969A1EAA1EA84BC198CF9@BYAPR12MB3094.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <BYAPR12MB309405AD969A1EAA1EA84BC198CF9@BYAPR12MB3094.namprd12.prod.outlook.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------M0ZTgfsHnbkl0KnTV505KRme"
+ <817fcd6b-4823-6fcd-ea5b-8068a261a3bf@suse.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <817fcd6b-4823-6fcd-ea5b-8068a261a3bf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0062.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::20) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA0PR12MB4560:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5792048e-fded-4719-ba38-08daff9b28ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uOddix7Zjj5RjY6sQgJ7hGbByVg9O3Q3bU/qcT3KtHVZ3a6Tdw8tGl/MgkH0jolj1Sl1LPaihdpf0IVPf4VhoZbMMsvFZJUGG4JSE4VXmGSqmU0n/WmP6y1P4/cs+TmygoLhhT869YLOhp1e7h8zwzvI6OEnhlr4CFyfC3M7pIKBqVJ5fTi06yjn6XdbFBmh3S4oWqDUwl3EE+86WK1OqY/ueXyEuzJPDTgTfwJKLaanOR7q0IbIEwmiK9oInWdnSiwnEs9weh3LhGe5OAMDFqOAgQZmVa8v/UP+ytQo3w8tgLeCQIqeVzKKNncANJP0fy+C4ayl9ryYtpfWxwXsECWJyPLUcublPDMl+OZ+PR1XETjmbRNHel5CN+FDxBQ2/0qlLUvi4u1V/g5mw9Dyi+kmNlQSev0vJkYfKGAopHIfXdcN0O2gTB2WbXlujy2uXtsOplNlCTrtj01LJzqm50BcURdf7C3rOfiBDqzljxMynlGNamQBouFF5015t7q9npYgaim38b9kki4r4iZeG05TgzM2/XMfuNKBRDUFS8DNBBpz+Mj6H8GdkM10EjtpauLjiDUlJm4tfIWSogk8gaekUBzy9Nv3SqCwhM4GHrc1Cj47P7s1DlNGWPVfkiq5HNru56n85qmY4NKVxlTzcnQ7hF1TT5RtcwIsc+XJbrNW1d0eP4hA5I9civksFnR52I5k4rzesHRTwxEPZZdwTeC/f4jbzYw99Fu04A3JW8MLcSi1MnlNCP1fdO4eFXD7ASmiyO7pjz4C6guBLXXswTOxvVaEHSy95JZ56dsI1E3AU7O8JiHjsNWVoSdVaFmd
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(39860400002)(346002)(376002)(136003)(366004)(451199018)(31696002)(36756003)(8676002)(316002)(54906003)(478600001)(6666004)(6636002)(6506007)(53546011)(6486002)(5660300002)(2906002)(4326008)(66556008)(66476007)(66946007)(8936002)(41300700001)(38100700002)(26005)(6512007)(2616005)(83380400001)(86362001)(966005)(186003)(110136005)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dnN1ZmNPbXpudWE0aktxcHh1MHNUMk5KUHBsUWtoU3dmWjN1eGlLSzJGZ2Rr?=
+ =?utf-8?B?ekxERkxMb2lzZFVJTGp5SW5YS3JhR080dUoxZmFTZWRRTXhWb1UxN1JxWlZB?=
+ =?utf-8?B?eS96ZWpCbnEzenBBbVFPL0xJUHNGRzNpZndBTnM2UGRib2hCelRUdG5YeWxV?=
+ =?utf-8?B?dU5ERGF5L1ZXREo1WlF2VEtvK3ZuOFdCSVQ3RVQ1aUd6YXhicHN6anljcXps?=
+ =?utf-8?B?VC9FYjR4OU9PSmxtdXJlZUdxRko5UFFZbDJENDExUFREVkw0amIzK0JFTkxo?=
+ =?utf-8?B?MkNHWTdIZGRrNFd1WTNKTlJtYlpUQmxoNFo5NzU1MlUyTXJEM2lLS3pBSEdm?=
+ =?utf-8?B?N1RxMEFxMEVUcDNPWjVFVWVMOEd2cTFDM3Bqc0hkQ1h3VGJzMWZESFNIeUNz?=
+ =?utf-8?B?cVFjNXJicGlRK1RkRi9Gc0xjNkNVSFVaM1FCOE9CdlFDTEZxTFM3eWNQaitT?=
+ =?utf-8?B?YnE2K0tMMW9tdXpoa3NQSHEwb0xiVW05OXJQM3g0dGNNZ0R6VkZ2TVJKajd5?=
+ =?utf-8?B?VVlvMlRSQkc3SFY4WjNud1hLWlkyejZ5cTI2Y0hNOWFjL2dEaGxVM2N6YnFZ?=
+ =?utf-8?B?Sk85NjN1VCtFQU5mQW1xUURFV1UrOU5uRUlyR1hQSTNtODF2eFBsMW53cFdn?=
+ =?utf-8?B?VWJZdGEwTEF3QTlyM29odjBFS2hvenVHanYzcjNoV2ZlZlJobFFlWVNDZXpE?=
+ =?utf-8?B?TWF2V2VoTGtmcy9CRXZkK1NzZ2dHRzNiWEtycWJZQnZHdVpVWXoweG5mMG13?=
+ =?utf-8?B?Q0VVZWRaUkRoZk1WeHRISFJGOWFzaDNiNlNNRlBGRUx3TXZjRXBUdW0xZU9s?=
+ =?utf-8?B?WmprTmx4MmlYYTJEMVRPeXNzOTRtdWFYSXNPck5POGRlVjgzV0U0Wm42YXJ1?=
+ =?utf-8?B?YkxSenQwbUhIQlp6cFBpNmNrZGg2VnJjS0IvWEpHeW43SUl5MHl3YTI3djRn?=
+ =?utf-8?B?ZHNHOXplb1RyOHdZdDJuTXdjUkpkMmtwN2EvcEZza3JYQ3JRVWhXV1JQUHVp?=
+ =?utf-8?B?bVI5RnhRSVZhZ3dMWnRSaGV3NzZIZE9FRXNFbE83aExQUS9ucEJWeHhWMk1R?=
+ =?utf-8?B?K1pQczJrQmE4SUF5TnVNRnBoVFBGZkFJSlB3U2hYOGJPYytRVFgzNXJHR0NN?=
+ =?utf-8?B?dWMvQzQwR21LeWFTbko1WXFJa0h4TkFVejlvc1hycTZsdGFzd0RlVGdHVVFY?=
+ =?utf-8?B?TmxnSEpqVDlmVWR6d0V4UW0rdE1wTEQ1RzRvd0R6NjRXUitTRnF6ZWR4ODZ6?=
+ =?utf-8?B?a2M3WkZaTEJJZm9CZTdScnNWYXF5Yk1TSDRQZHRHaXQ0cGc5OFJMSFh6Smp1?=
+ =?utf-8?B?RVQyb2swaXdzdmdsdFVqUlRzTis1Vnlod0RMS1N0ZnZqRGloVWFDZGtvOVJJ?=
+ =?utf-8?B?N3RMTjl0YmQvdm84NW1xN2ZPc09paE4xalczZ1F0dStjZW55MThXTDBkUCtD?=
+ =?utf-8?B?dzBEMFpWdlBueFBKZ3JhNExFTE02bWhlWHFxSi84bStHOTM3MUptc2hLZE1p?=
+ =?utf-8?B?b2IzR3RqbndhQ2FZOFRzdGZCUzlXeTBvelhqWHZRbkNLKy9iaWd5VHlrZTdq?=
+ =?utf-8?B?ZkdFejQwUTF6RHRndlp4RHNoaFBtNWdESVhFVXMvSUR2eURhM3lqYzhnTHV4?=
+ =?utf-8?B?a3ZLdjkzQTRYdFR5Vkl1U1RCZURkWkw0dzlFM1lPeGRrUkI3MC93YmtOMGlZ?=
+ =?utf-8?B?NEo4dlpJVVlVTmJTdmRPcWU2U3BHUUlzMkVLSzNwM1NydmNiby9EQWZxNlM2?=
+ =?utf-8?B?QVM4WFRHU05ZbkMzY0hzcERUY0RQM24xN21USld2UDVsdEFsL0plTm1vZy9q?=
+ =?utf-8?B?SHZHekc0cXNvRm1GVVVaWXhWZmdiL3BsVy8zdWFMaWtMMUg5SG11TUg4NHNZ?=
+ =?utf-8?B?R09qamhIU0FqdFBFTDJ2UDNLY0ZyUlBXSFJzaUhqd3lKK0tYSUd1S1BHTUJM?=
+ =?utf-8?B?cUNWREY1cEFQZXdGSUNES0Y5eEYyK3VDVDhQdmw3akRoeFdUMU9yR2ZDb3B4?=
+ =?utf-8?B?bnBoRU9qMm9wQXc0c2FlNDNrMlFhN0YrZDVLeE14MksvamVOQlJCbDhiSmcr?=
+ =?utf-8?B?dmVPYlJFNUNUOE1KOXQrOU8vN0Y2RXBUaUErb1QvTTBIR3oxZ1hOVEsyYXEv?=
+ =?utf-8?Q?qTum53HhAe5b0fGgmLSTd/Yfd?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5792048e-fded-4719-ba38-08daff9b28ee
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 12:45:10.2625 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TTOGGx9e+l1+YNKaqKiVJL31y1/8cJycuasaeRQFFhL3rnrON15SL3LxuUFUeuda
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4560
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,122 +134,138 @@ Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------M0ZTgfsHnbkl0KnTV505KRme
-Content-Type: multipart/mixed; boundary="------------9GQVnRM3Au5g6uTsamEWjl0X";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: "Slivka, Danijel" <Danijel.Slivka@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Sharma, Shashank" <Shashank.Sharma@amd.com>
-Message-ID: <817fcd6b-4823-6fcd-ea5b-8068a261a3bf@suse.de>
-Subject: Re: Amdgpu module is references even after unbinding the vtcon
-References: <c5001553-6c71-c7ff-36aa-c4712bda0abf@gmail.com>
- <95f2314b-5d55-f2ca-468b-2f127571bd77@suse.de>
- <BYAPR12MB309405AD969A1EAA1EA84BC198CF9@BYAPR12MB3094.namprd12.prod.outlook.com>
-In-Reply-To: <BYAPR12MB309405AD969A1EAA1EA84BC198CF9@BYAPR12MB3094.namprd12.prod.outlook.com>
+Am 26.01.23 um 13:40 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 26.01.23 um 10:49 schrieb Slivka, Danijel:
+>> [AMD Official Use Only - General]
+>>
+>> Hi Thomas,
+>>
+>> I have checked what you mentioned.
+>> When loading amdgpu we call  drm_client_init() during fbdev setup 
+>> [1], the refcnt for drm_kms_helper increases from 3 -> 4.
+>> When we unbind vtcon, refcnt for drm_kms_helper drops 4 -> 3, but the 
+>> drm_client_release() [2] is not called.
+>> The drm_client_release() is called only when unloading the amdgpu 
+>> driver.
+>>
+>> Is this expected?
+>>
+>> There is a comment for drm_client_release with regards to fbdev :
+>> * This function should only be called from the unregister callback. 
+>> An exception
+>>   * is fbdev which cannot free the buffer if userspace has open file 
+>> descriptors.
+>>
+>> Could this be relevant for our use case, although as 
+>> Application/X/GDM are stopped at that point and no fd should be open.
+>
+> This looks like the bug to me.
+>
+> I'm not sure why the client code takes the module reference in the 
+> first place. Drivers invoke client interface directly. Shouldn't that 
+> imply that they have a module reference already?
 
---------------9GQVnRM3Au5g6uTsamEWjl0X
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+It's not the client code who takes the module reference, it's the 
+DMA-buf code.
 
-SGkNCg0KQW0gMjYuMDEuMjMgdW0gMTA6NDkgc2NocmllYiBTbGl2a2EsIERhbmlqZWw6DQo+
-IFtBTUQgT2ZmaWNpYWwgVXNlIE9ubHkgLSBHZW5lcmFsXQ0KPiANCj4gSGkgVGhvbWFzLA0K
-PiANCj4gSSBoYXZlIGNoZWNrZWQgd2hhdCB5b3UgbWVudGlvbmVkLg0KPiBXaGVuIGxvYWRp
-bmcgYW1kZ3B1IHdlIGNhbGwgIGRybV9jbGllbnRfaW5pdCgpIGR1cmluZyBmYmRldiBzZXR1
-cCBbMV0sIHRoZSByZWZjbnQgZm9yIGRybV9rbXNfaGVscGVyIGluY3JlYXNlcyBmcm9tIDMg
-LT4gNC4NCj4gV2hlbiB3ZSB1bmJpbmQgdnRjb24sIHJlZmNudCBmb3IgZHJtX2ttc19oZWxw
-ZXIgZHJvcHMgNCAtPiAzLCBidXQgdGhlIGRybV9jbGllbnRfcmVsZWFzZSgpIFsyXSBpcyBu
-b3QgY2FsbGVkLg0KPiBUaGUgZHJtX2NsaWVudF9yZWxlYXNlKCkgaXMgY2FsbGVkIG9ubHkg
-d2hlbiB1bmxvYWRpbmcgdGhlIGFtZGdwdSBkcml2ZXIuDQo+IA0KPiBJcyB0aGlzIGV4cGVj
-dGVkPw0KPiANCj4gVGhlcmUgaXMgYSBjb21tZW50IGZvciBkcm1fY2xpZW50X3JlbGVhc2Ug
-d2l0aCByZWdhcmRzIHRvIGZiZGV2IDoNCj4gKiBUaGlzIGZ1bmN0aW9uIHNob3VsZCBvbmx5
-IGJlIGNhbGxlZCBmcm9tIHRoZSB1bnJlZ2lzdGVyIGNhbGxiYWNrLiBBbiBleGNlcHRpb24N
-Cj4gICAqIGlzIGZiZGV2IHdoaWNoIGNhbm5vdCBmcmVlIHRoZSBidWZmZXIgaWYgdXNlcnNw
-YWNlIGhhcyBvcGVuIGZpbGUgZGVzY3JpcHRvcnMuDQo+IA0KPiBDb3VsZCB0aGlzIGJlIHJl
-bGV2YW50IGZvciBvdXIgdXNlIGNhc2UsIGFsdGhvdWdoIGFzIEFwcGxpY2F0aW9uL1gvR0RN
-IGFyZSBzdG9wcGVkIGF0IHRoYXQgcG9pbnQgYW5kIG5vIGZkIHNob3VsZCBiZSBvcGVuLg0K
-DQpUaGlzIGxvb2tzIGxpa2UgdGhlIGJ1ZyB0byBtZS4NCg0KSSdtIG5vdCBzdXJlIHdoeSB0
-aGUgY2xpZW50IGNvZGUgdGFrZXMgdGhlIG1vZHVsZSByZWZlcmVuY2UgaW4gdGhlIGZpcnN0
-IA0KcGxhY2UuIERyaXZlcnMgaW52b2tlIGNsaWVudCBpbnRlcmZhY2UgZGlyZWN0bHkuIFNo
-b3VsZG4ndCB0aGF0IGltcGx5IA0KdGhhdCB0aGV5IGhhdmUgYSBtb2R1bGUgcmVmZXJlbmNl
-IGFscmVhZHk/DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IFRoYW5rIHlvdSwN
-Cj4gQlIsDQo+IERhbmlqZWwNCj4gDQo+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
-Pj4gRnJvbTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiBT
-ZW50OiBXZWRuZXNkYXksIEphbnVhcnkgMjUsIDIwMjMgODo0OCBQTQ0KPj4gVG86IENocmlz
-dGlhbiBLw7ZuaWcgPGNrb2VuaWcubGVpY2h0enVtZXJrZW5AZ21haWwuY29tPg0KPj4gQ2M6
-IERldWNoZXIsIEFsZXhhbmRlciA8QWxleGFuZGVyLkRldWNoZXJAYW1kLmNvbT47IFNsaXZr
-YSwgRGFuaWplbA0KPj4gPERhbmlqZWwuU2xpdmthQGFtZC5jb20+OyBkcmktZGV2ZWwgPGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+OyBTaGFybWEsDQo+PiBTaGFzaGFuayA8
-U2hhc2hhbmsuU2hhcm1hQGFtZC5jb20+DQo+PiBTdWJqZWN0OiBSZTogQW1kZ3B1IG1vZHVs
-ZSBpcyByZWZlcmVuY2VzIGV2ZW4gYWZ0ZXIgdW5iaW5kaW5nIHRoZSB2dGNvbg0KPj4NCj4+
-IEhpIENocmlzdGlhbg0KPj4NCj4+IEFtIDI0LjAxLjIzIHVtIDE1OjEyIHNjaHJpZWIgQ2hy
-aXN0aWFuIEvDtm5pZzoNCj4+PiBIaSBUaG9tYXMsDQo+Pj4NCj4+PiB3ZSByYW4gaW50byBh
-IHByb2JsZW0gd2l0aCB0aGUgZ2VuZXJhbCBmYmNvbi9mYmRldiBpbXBsZW1lbnRhdGlvbiBh
-bmQNCj4+PiB0aG91Z2ggdGhhdCB5b3UgbWlnaHQgaGF2ZSBzb21lIGlkZWEuDQo+Pj4NCj4+
-PiBXaGF0IGhhcHBlbnMgaXMgdGhlIGZvbGxvd2luZzoNCj4+PiAxLiBXZSBsb2FkIGFtZGdw
-dSBhbmQgZ2V0IG91ciBub3JtYWwgZmJjb24uDQo+Pj4gMi4gZmJjb24gYWxsb2NhdGVzIGEg
-ZHVtcCBCTyBhcyBiYWNraW5nIHN0b3JlIGZvciB0aGUgY29uc29sZS4NCj4+PiAzLiBHRE0v
-WC9BcHBsaWNhdGlvbnMgc3RhcnQsIG5ldyBmcmFtZWJ1ZmZlcnMgYXJlIGNyZWF0ZWQgQk9z
-DQo+Pj4gaW1wb3J0ZWQsIGV4cG9ydGVkIGV0Yy4uLg0KPj4+IDQuIFNvbWVob3cgWCBvciBH
-RE0gaXRlcmF0ZWQgb3ZlciBhbGwgdGhlIGZyYW1lYnVmZmVyIG9iamVjdHMgdGhlDQo+Pj4g
-a2VybmVscyBrbm93cyBhYm91dCBhbmQgZXhwb3J0IHRoZW0gYXMgRE1BLWJ1Zi4NCj4+PiA1
-LiBBcHBsaWNhdGlvbi9YL0dETSBhcmUgc3RvcHBlZCwgaGFuZGxlcyBjbG9zZWQsIGZyYW1l
-YnVmZmVycw0KPj4+IHJlbGVhc2VkIGV0Yy4uLg0KPj4+IDYuIFdlIHVuYmluZCB2dGNvbi4N
-Cj4+Pg0KPj4+IEF0IHRoaXMgcG9pbnQgdGhlIGFtZGdwdSBtb2R1bGUgdXN1YWxseSBoYXMg
-YSByZWZlcmVuY2UgY291bnQgb2YgMCBhbmQNCj4+PiBjYW4gYmUgdW5sb2FkZWQsIGJ1dCBz
-aW5jZSBHRE0vWC9XaG9ldmVyIGl0ZXJhdGVkIG92ZXIgYWxsIHRoZSBrbm93bg0KPj4+IGZy
-YW1lYnVmZmVycyBhbmQgZXhwb3J0ZWQgdGhlbSBhcyBETUEtYnVmIChmb3Igd2hhdGV2ZXIg
-cmVhc29uIGlkaykgd2UNCj4+PiBub3cgc3RpbGwgaGF2ZSBhbiBleHBvcnRlZCBETUEtYnVm
-IGFuZCB3aXRoIGl0IGEgcmVmZXJlbmNlIHRvIHRoZSBtb2R1bGUuDQo+Pj4NCj4+PiBBbnkg
-aWRlYSBob3cgd2UgY291bGQgcHJldmVudCB0aGF0Pw0KPj4NCj4+IEhlcmUncyBhbm90aGVy
-IHN0YWIgaW4gdGhlIGRhcmsuDQo+Pg0KPj4gVGhlIGJpZyBkaWZmZXJlbmNlIGJldHdlZW4g
-b2xkLXN0eWxlIGZiZGV2IGFuZCB0aGUgbmV3IG9uZSBpcyB0aGF0IHRoZSBvbGQgZmJkZXYN
-Cj4+IHNldHVwIChlLmcuLCByYWRlb24pIGFsbG9jYXRlcyBhIEdFTSBvYmplY3QgYW5kIHB1
-dHMgdG9nZXRoZXIgdGhlIGZiZGV2IGRhdGENCj4+IHN0cnVjdHVyZXMgZnJvbSB0aGUgQk8g
-aW4gYSBmYWlybHkgaGFja2lzaCB3YXkuIFRoZSBuZXcgc3R5bGUgdXNlcyBhbiBpbi1rZXJu
-ZWwNCj4+IGNsaWVudCB3aXRoIGEgZmlsZSB0byBhbGxvY2F0ZSB0aGUgQk8gdmlhIGR1bWIg
-YnVmZmVyczsgYW5kIGhvbGRzIGEgcmVmZXJlbmNlIHRvIHRoZQ0KPj4gRFJNIG1vZHVsZS4N
-Cj4+DQo+PiBNYXliZSB0aGUgcmVmZXJlbmNlIGNvbWVzIGZyb20gdGhlIGluLWtlcm5lbCBE
-Uk0gY2xpZW50IGl0c2VsZi4gWzFdIENoZWNrIGlmIHRoZQ0KPj4gY2xpZW50IHJlc291cmNl
-cyBnZXQgcmVsZWFzZWQgWzJdIHdoZW4geW91IHVuYmluZCB2dGNvbi4NCj4+DQo+PiBCZXN0
-IHJlZ2FyZHMNCj4+IFRob21hcw0KPj4NCj4+IFsxXQ0KPj4gaHR0cHM6Ly9lbGl4aXIuYm9v
-dGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVu
-dC5jI0w4Nw0KPj4gWzJdDQo+PiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9s
-YXRlc3Qvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50LmMjTDE2DQo+PiAwDQo+
-Pg0KPj4+DQo+Pj4gVGhhbmtzLA0KPj4+IENocmlzdGlhbi4NCj4+DQo+PiAtLQ0KPj4gVGhv
-bWFzIFppbW1lcm1hbm4NCj4+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINCj4+IFNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KPj4gTWF4ZmVsZHN0ci4gNSwgOTA0
-MDkgTsO8cm5iZXJnLCBHZXJtYW55DQo+PiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQo+
-PiBHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1h
-bm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25z
-IEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55
-DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRv
-dGV2DQo=
+As far as we have narrowed this down GDM/X is inspecting the existing 
+configuring during startup, while doing so they export the BO initially 
+created by fbdev with DMA-buf (probably to give it to EGL or something 
+like this). This DMA-buf export is what's adding the module reference.
 
---------------9GQVnRM3Au5g6uTsamEWjl0X--
+The problem is now that when GDM/X exits the DMA-buf should be destroyed 
+again, but it isn't because obj->handle_count isn't zero because the 
+drm_client interface keeps the handle around even after creating the DRM 
+framebuffer object.
 
---------------M0ZTgfsHnbkl0KnTV505KRme
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Regards,
+Christian.
 
------BEGIN PGP SIGNATURE-----
+>
+> Best regards
+> Thomas
+>
+>>
+>> Thank you,
+>> BR,
+>> Danijel
+>>
+>>> -----Original Message-----
+>>> From: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Sent: Wednesday, January 25, 2023 8:48 PM
+>>> To: Christian König <ckoenig.leichtzumerken@gmail.com>
+>>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Slivka, Danijel
+>>> <Danijel.Slivka@amd.com>; dri-devel 
+>>> <dri-devel@lists.freedesktop.org>; Sharma,
+>>> Shashank <Shashank.Sharma@amd.com>
+>>> Subject: Re: Amdgpu module is references even after unbinding the vtcon
+>>>
+>>> Hi Christian
+>>>
+>>> Am 24.01.23 um 15:12 schrieb Christian König:
+>>>> Hi Thomas,
+>>>>
+>>>> we ran into a problem with the general fbcon/fbdev implementation and
+>>>> though that you might have some idea.
+>>>>
+>>>> What happens is the following:
+>>>> 1. We load amdgpu and get our normal fbcon.
+>>>> 2. fbcon allocates a dump BO as backing store for the console.
+>>>> 3. GDM/X/Applications start, new framebuffers are created BOs
+>>>> imported, exported etc...
+>>>> 4. Somehow X or GDM iterated over all the framebuffer objects the
+>>>> kernels knows about and export them as DMA-buf.
+>>>> 5. Application/X/GDM are stopped, handles closed, framebuffers
+>>>> released etc...
+>>>> 6. We unbind vtcon.
+>>>>
+>>>> At this point the amdgpu module usually has a reference count of 0 and
+>>>> can be unloaded, but since GDM/X/Whoever iterated over all the known
+>>>> framebuffers and exported them as DMA-buf (for whatever reason idk) we
+>>>> now still have an exported DMA-buf and with it a reference to the 
+>>>> module.
+>>>>
+>>>> Any idea how we could prevent that?
+>>>
+>>> Here's another stab in the dark.
+>>>
+>>> The big difference between old-style fbdev and the new one is that 
+>>> the old fbdev
+>>> setup (e.g., radeon) allocates a GEM object and puts together the 
+>>> fbdev data
+>>> structures from the BO in a fairly hackish way. The new style uses 
+>>> an in-kernel
+>>> client with a file to allocate the BO via dumb buffers; and holds a 
+>>> reference to the
+>>> DRM module.
+>>>
+>>> Maybe the reference comes from the in-kernel DRM client itself. [1] 
+>>> Check if the
+>>> client resources get released [2] when you unbind vtcon.
+>>>
+>>> Best regards
+>>> Thomas
+>>>
+>>> [1]
+>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_client.c#L87 
+>>>
+>>> [2]
+>>> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/drm_client.c#L16 
+>>>
+>>> 0
+>>>
+>>>>
+>>>> Thanks,
+>>>> Christian.
+>>>
+>>> -- 
+>>> Thomas Zimmermann
+>>> Graphics Driver Developer
+>>> SUSE Software Solutions Germany GmbH
+>>> Maxfeldstr. 5, 90409 Nürnberg, Germany
+>>> (HRB 36809, AG Nürnberg)
+>>> Geschäftsführer: Ivo Totev
+>
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPSdMIFAwAAAAAACgkQlh/E3EQov+Da
-bhAAiuj2oMeXGLH3Xw7z87CXcSkizMgbgb/LyK0mTi43iprWDzuq/4BYsC1J4fS+ZWc5Tbc1vChx
-JMc8LIeNe+vqW7i9gW9wPZpjqk5ZixPr/1rCA5EyOIXozwbG8IjU3c4VqKBgyG93iNpImumT1QMu
-GcPqFlIbK8t+SjxCQ/Rhd8WS9P5ShjitpWFXIybUb2VR2vZsX6pFoGULeodYAUt8njpdSaCIuZ+g
-TXNoTp0gf3hcd2PhyKeJPsa+vzQJEZAedq7Ai8Y0wFP5rxsKHm++AlXwK0oLmoa+yV2+KFjH2+DW
-VKJkKvkhj4lr3gRBsR+5sYqZ/HAgOw8jGP34aW9TYI5u6i61PeKcTqplY4NAPD9hZ5gyF4vVqW13
-cTagIfiLkPlvqybYr7wjNOGDH2SC8FOMLne1Q/HlNs2DUITf2F/Jnxcc5skPUqnqH7GdMOFjNtxE
-5aOdkhUABNaXM0XjjJEaZwJIsyLajaNApNj+sklEFGxMOVZLdJ/260Ypx16sSJ4Eo968tigTDYE7
-9r+fkd4JyZtuIa5lPPd8eYGPB5GgRWoKMNRMqv9r1qLco5MkwXXhn1lzRNu+XEG+8NxrDGqWyuhp
-iXICGrF7yfXmXADifa/dSCrhUFtOL14kv2kkT+vniLi4aqdN+O/EFae6QPcTFb8SBNSUQZXryAx6
-X9g=
-=kLX5
------END PGP SIGNATURE-----
-
---------------M0ZTgfsHnbkl0KnTV505KRme--
