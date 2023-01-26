@@ -1,52 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3383167CF54
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 16:09:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED8F67D703
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 21:59:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A66D10E137;
-	Thu, 26 Jan 2023 15:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8676910E2E3;
+	Thu, 26 Jan 2023 20:58:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9389110E137;
- Thu, 26 Jan 2023 15:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674745782; x=1706281782;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=3Q710a4bqKm8pegZyHRFEOiSZ9RbPCWOZqnH7KZaWgc=;
- b=S98T6GVLM79oB0fNF6IQMMDQg7xuEENJc2EBeSFopmYT59oMLSOUwxrw
- Iab+53ZR5t2jRZq3wftqlx/3cHtmgrfB8XiAq4/29ZdhHqsAns/tPGZLh
- nCe+t4hlk+5G2VVWmLy9tlupATfe0FnWtVXVEbZIcH2nOLeRNnM7gcfr7
- QgkUANGK7+tuSOYRvOFRRXCWIwos5BqZujXMuAhhQD01Mor9SIxINFglm
- GfuP/f0aEH+gap9JZhb/fKF4hYyxp0Cp4VuJW/yeAnistwT3bbN7zpbp4
- hDb+vWb9zntUF/931MdZX/zEjb1Tp9+oLSWyAT3N/scKOQgarqfE6iWjw A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="328099508"
-X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; d="scan'208";a="328099508"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2023 07:00:19 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="771164157"
-X-IronPort-AV: E=Sophos;i="5.97,248,1669104000"; d="scan'208";a="771164157"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.157])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2023 07:00:17 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Arun R Murthy <arun.r.murthy@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RESEND PATCHv2 2/2] i915/display/dp: SDP CRC16 for 128b132b
- link layer
-In-Reply-To: <20230120061600.1451088-3-arun.r.murthy@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230120061600.1451088-1-arun.r.murthy@intel.com>
- <20230120061600.1451088-3-arun.r.murthy@intel.com>
-Date: Thu, 26 Jan 2023 17:00:14 +0200
-Message-ID: <875yct5ojl.fsf@intel.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7E8010E091;
+ Thu, 26 Jan 2023 15:11:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=EH9adbDOpWNaGYEHl4xrAV40gwHDwqK76tq84Z0eyXc=; b=iqmwaHjxa8hZXZrYCzuWMxG2Kd
+ gUi1Y8eYsd0omFHjfmpVdNaehwIHED+H1VzLiTscJu/MXykaHjjIUo4/UeePSQ/3qO2Scxl5KBcbs
+ rwafzWiMp0gW54lDXpQNTGojrzBrhUSE24qBNrz9Eu8wZKUKM+VJeNVRGRDui4Mjh6zNrJRA9uXJe
+ 2WKv1rttzI5041i+Ny9WQoRsYwvuy+Pu29+WLEfQrszB7lQZjKA+bZ/4URx7/yXNldScNG2l8YeYl
+ moQR7vt2oRKUKukioTBGNdLmNI+GiODuZUH9eGz4sLFdnhDHr8CijQAXVN9xNJqlnGwrCU0R4Kh9h
+ Kpe2WfSQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1pL3s4-006q4a-Hd; Thu, 26 Jan 2023 15:09:00 +0000
+Date: Thu, 26 Jan 2023 15:09:00 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
+Message-ID: <Y9KXjLaFFUvqqdd4@casper.infradead.org>
+References: <20230125083851.27759-1-surenb@google.com>
+ <20230125083851.27759-2-surenb@google.com>
+ <Y9JFFYjfJf9uDijE@kernel.org> <Y9KTUw/04FmBVplw@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9KTUw/04FmBVplw@kernel.org>
+X-Mailman-Approved-At: Thu, 26 Jan 2023 20:58:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,64 +50,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: michel@lespinasse.org, nvdimm@lists.linux.dev, leewalsh@google.com,
+ dri-devel@lists.freedesktop.org, perex@perex.cz, jglisse@google.com,
+ arjunroy@google.com, m.szyprowski@samsung.com, linux-arch@vger.kernel.org,
+ qianweili@huawei.com, linux-samsung-soc@vger.kernel.org,
+ aneesh.kumar@linux.ibm.com, chenhuacai@kernel.org, kasan-dev@googlegroups.com,
+ linux-acpi@vger.kernel.org, rientjes@google.com,
+ xen-devel@lists.xenproject.org, devel@lists.orangefs.org, minchan@google.com,
+ robert.jarzmik@free.fr, linux-um@lists.infradead.org,
+ etnaviv@lists.freedesktop.org, npiggin@gmail.com, alex.williamson@redhat.com,
+ viro@zeniv.linux.org.uk, luto@kernel.org, gthelen@google.com,
+ tglx@linutronix.de, ldufour@linux.ibm.com,
+ Suren Baghdasaryan <surenb@google.com>, linux-sgx@vger.kernel.org,
+ martin.petersen@oracle.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org, linux-media@vger.kernel.org,
+ freedreno@lists.freedesktop.org, joelaf@google.com, linux-aio@kvack.org,
+ linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org, david@redhat.com,
+ dave.hansen@linux.intel.com, virtualization@lists.linux-foundation.org,
+ edumazet@google.com, target-devel@vger.kernel.org, punit.agrawal@bytedance.com,
+ linux-s390@vger.kernel.org, dave@stgolabs.net, deller@gmx.de, hughd@google.com,
+ andrii@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-rockchip@lists.infradead.org, linux-graphics-maintainer@vmware.com,
+ kernel-team@android.com, jayalk@intworks.biz, soheil@google.com,
+ selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org, shakeelb@google.com,
+ haojian.zhuang@gmail.com, loongarch@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, tytso@mit.edu, nico@fluxnic.net,
+ muchun.song@linux.dev, hjc@rock-chips.com, mcoquelin.stm32@gmail.com,
+ tatashin@google.com, mike.kravetz@oracle.com, songliubraving@fb.com,
+ jasowang@redhat.com, alsa-devel@alsa-project.org, peterx@redhat.com,
+ linux-tegra@vger.kernel.org, kraxel@redhat.com, will@kernel.org,
+ dmaengine@vger.kernel.org, bhe@redhat.com, miklos@szeredi.hu,
+ linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org, gurua@google.com, dgilbert@interlog.com,
+ xiang@kernel.org, pabeni@redhat.com, jejb@linux.ibm.com,
+ quic_abhinavk@quicinc.com, bp@alien8.de, mchehab@kernel.org,
+ linux-ext4@vger.kernel.org, tomba@kernel.org, hughlynch@google.com,
+ sre@kernel.org, tfiga@chromium.org, linux-xfs@vger.kernel.org,
+ zhangfei.gao@linaro.org, wangzhou1@hisilicon.com, netdev@vger.kernel.org,
+ bpf@vger.kernel.org, linux-erofs@lists.ozlabs.org, davem@davemloft.net,
+ mhocko@suse.com, kvm@vger.kernel.org, mst@redhat.com, peterz@infradead.org,
+ bigeasy@linutronix.de, alexandre.torgue@foss.st.com, dhowells@redhat.com,
+ linux-mm@kvack.org, ray.huang@amd.com, adilger.kernel@dilger.ca,
+ kuba@kernel.org, sparclinux@vger.kernel.org, anton.ivanov@cambridgegreys.com,
+ herbert@gondor.apana.org.au, linux-scsi@vger.kernel.org, richard@nod.at,
+ x86@kernel.org, vkoul@kernel.org, mingo@redhat.com, axelrasmussen@google.com,
+ intel-gfx@lists.freedesktop.org, paulmck@kernel.org, jannh@google.com,
+ chao@kernel.org, liam.howlett@oracle.com, hdegoede@redhat.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com, vbabka@suse.cz,
+ dimitri.sivanich@hpe.com, posk@google.com, lstoakes@gmail.com,
+ peterjung1337@gmail.com, yoshfuji@linux-ipv6.org,
+ linuxppc-dev@lists.ozlabs.org, dsahern@kernel.org, kent.overstreet@linux.dev,
+ kexec@lists.infradead.org, tiwai@suse.com, krzysztof.kozlowski@linaro.org,
+ tzimmermann@suse.de, hannes@cmpxchg.org, dmitry.baryshkov@linaro.org,
+ johannes@sipsolutions.net, mgorman@techsingularity.net,
+ linux-accelerators@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 Jan 2023, Arun R Murthy <arun.r.murthy@intel.com> wrote:
-> Enable SDP error detection configuration, this will set CRC16 in
-> 128b/132b link layer.
-> For Display version 13 a hardware bit31 in register VIDEO_DIP_CTL is
-> added to enable/disable SDP CRC applicable for DP2.0 only, but the
-> default value of this bit will enable CRC16 in 128b/132b hence
-> skipping this write.
-> Corrective actions on SDP corruption is yet to be defined.
->
-> v2: Moved the CRC enable to link training init(Jani N)
+On Thu, Jan 26, 2023 at 04:50:59PM +0200, Mike Rapoport wrote:
+> On Thu, Jan 26, 2023 at 11:17:09AM +0200, Mike Rapoport wrote:
+> > On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
+> > > +/* Use when VMA is not part of the VMA tree and needs no locking */
+> > > +static inline void init_vm_flags(struct vm_area_struct *vma,
+> > > +				 unsigned long flags)
+> > 
+> > I'd suggest to make it vm_flags_init() etc.
+> 
+> Thinking more about it, it will be even clearer to name these vma_flags_xyz()
 
-Yeah, well, I said where this doesn't belong, and I don't think it
-really belongs here either. :(
+Perhaps vma_VERB_flags()?
 
-It has nothing to do with link training or intel_dp_start_link_train().
+vma_init_flags()
+vma_reset_flags()
+vma_set_flags()
+vma_clear_flags()
+vma_mod_flags()
 
-Alas, I'm not really sure what the right place is, I just know this
-isn't it. The specs don't give us any clues. The DP specs says
-absolutely nothing about when this could or should be written.
-
-*Maybe* in intel_ddi_pre_enable() or intel_mst_pre_enable_dp()? Before
-sending any SDPs.
-
-
-BR,
-Jani.
-
->
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> ---
->  .../gpu/drm/i915/display/intel_dp_link_training.c    | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> index 3d3efcf02011..7064e465423b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> @@ -1453,4 +1453,16 @@ void intel_dp_start_link_train(struct intel_dp *intel_dp,
->  
->  	if (!passed)
->  		intel_dp_schedule_fallback_link_training(intel_dp, crtc_state);
-> +
-> +	/* DP v2.0 SCR on SDP CRC16 for 128b/132b Link Layer */
-> +	if (intel_dp_is_uhbr(crtc_state) && passed)
-> +		drm_dp_dpcd_writeb(&intel_dp->aux,
-> +				   DP_SDP_ERROR_DETECTION_CONFIGURATION,
-> +				   DP_SDP_CRC16_128B132B_EN);
-> +		/*
-> +		 * VIDEO_DIP_CTL register bit 31 should be set to '0' to not
-> +		 * disable SDP CRC. This is applicable for Display version 13.
-> +		 * Default value of bit 31 is '0' hence discarding the write
-> +		 */
-> +		/* TODO: Corrective actions on SDP corruption yet to be defined */
->  }
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
