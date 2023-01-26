@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E92567C890
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 11:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595A167C891
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 11:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22DBF10E135;
-	Thu, 26 Jan 2023 10:28:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3ACF10E1D1;
+	Thu, 26 Jan 2023 10:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3DB10E2BF
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D7C10E2BF
  for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 10:28:18 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id m15so798248wms.4
+Received: by mail-wm1-x32e.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so2943862wml.3
  for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 02:28:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=0gxMKKY4YqMdYVm899Hlv4MXmrH1qi8FYcYKYXExf7M=;
- b=ZIvlC3TgtptfMZUkh9cbxfhxICLqehURU8nZW23cfdJ7mXgLwqfceLHVd07FtmFWUF
- BnaamAnXl8ztC2102J/ghzUaA0lekq1Go1nzhA6B4ACKY5xb2pwwX3EHU/BjmnRniNuc
- Rg6fYfb4ToBc2XYY/6dqcvY0THHfhV9SLbp8a35mR8ygzmuXNhvjGJu4b7/lDxfSeJwJ
- nIT6q/NRLDP3wVx8MmDCeh9IVYOInL0NkMiEJOzd4DfzfBm16di7CTBqYDoN93FbV+4U
- Jj220Kuji9+QeH7u8N306em71IdAikxQBVSuHzOHwFwxmo+LTqJZwo47mGCPi91yv1R5
- jNLA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=TIyiIVceZpYGCfX6Jfi5IDPHDPBpB0+syI+sCSzTia4=;
+ b=RbO/ikWdK43FRwYPhVRNL63SW81vrmN56iOODg9xjmRaP7IhRuLDyysmvTOaeJ8CIE
+ ZCbEDUit2PyUvXMTwUouUzbL9igWWe8poFudmkacEfksphS+An0jDSEWRhQaM91lod8A
+ ah4BQIzAf0a4QFPPCcDMHICj4Vv6fuIYeDEUnqkZHC7UaOjFS2+YOCsF96GDditHusy3
+ qF1XLQiXCLnzd1Ut9ynrOslAZ7P4KkMtAUf5oVN5mTvozKnrlMc1Kbeq4+kXUg1MjM1D
+ a/P4L2eNVw6usL+CAme10zI3y0/N8BM/O0+OTjvOFam59/ckR/GcHSy5ZF+e1/eBfDk/
+ 8V9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0gxMKKY4YqMdYVm899Hlv4MXmrH1qi8FYcYKYXExf7M=;
- b=z54USfAXhsvJB+hq197F+28mj3vj/ei2Fjn2Sode901bB9F6r0X6q9SBDFMJVLi3WD
- HfWgnBhTr0u5KQSPIqYUY01soTRbiGFFTXkkaM/zLBTHZsekIXO9ziAsguPvvjqQu3Z1
- XgmFlTnWCTUt+j95nu3h+e1PCW9xqcHFzFRo2GI6r3qsFiYxJG0eg2Z4b5NMYICv5++5
- 73Sxr7InVQs/1db17wlTKBINCLp0WDsKdtSNw0EQgYq46FX9SFRXvGWPVo34kXE5Bjtg
- Z7rolf5RGPalTG9Lqpki8ahlixgpE29Pdi+0U2Nva299glNbtyHo9C9ylRQIrBQsmSec
- ovwQ==
-X-Gm-Message-State: AFqh2kqhZ/RR5DZgZqyF0aczCMaoij1gPtIM8izZ0J696/k7LQy2oHSy
- g2Mo28O+7FSD5jWdX2J8coc=
-X-Google-Smtp-Source: AMrXdXuIrRPJzO7gySZovQQsDvFZ9kSj9jEEMTp2ZDhgi9E1AydEmV+mPzYJwRJ4C3iRuwS8CKo/cw==
-X-Received: by 2002:a05:600c:34d1:b0:3db:1637:e415 with SMTP id
- d17-20020a05600c34d100b003db1637e415mr31004726wmq.22.1674728896542; 
- Thu, 26 Jan 2023 02:28:16 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TIyiIVceZpYGCfX6Jfi5IDPHDPBpB0+syI+sCSzTia4=;
+ b=289Yts6w2UJAJWLuwBQf3fbii5+r3LemZYnlA7NAb1576CXlT8yZzr2XyAqGwF64Lx
+ lTL5cmdXBxCVXyDKGLTByQG9NbSIUKTWlvRJj4yhjQGTv4I0iJJ3AZHZSbL4nFwOY7H9
+ RfVj/VqhJOY8CS4macUsdiHf6bWHy2PiVggDr4QGhqBBVi6nSqn2HZ1HQzaETLBIOetx
+ HuPnSQZLqMH/BLH31kRvJN0ERT6yu6IylMZk9ppnD/O7dGCeBYIcw3EjY/IlNYKCUIEE
+ jw7MQdvrEcL1nV57FgCY7/sbyfi0fWiBUi031G2GmHL37zPE6iMAVDSsVJklxxfW3yt2
+ +5AA==
+X-Gm-Message-State: AFqh2kpeVf8fb+ZDuETnvt4Rc9D37Nvgz8FwsDy+7gzSjyWcbutPg7yF
+ MmtJ7p3gTSN43ZjV8o3QV48=
+X-Google-Smtp-Source: AMrXdXtq9Fc4BgcqBKRw/0L9dn9KlaHMZGCX2x2ndgwrtCWVLMFi9kQenl0G4uLdICbJDNd2uAyTfA==
+X-Received: by 2002:a1c:4b09:0:b0:3db:f0a:8726 with SMTP id
+ y9-20020a1c4b09000000b003db0f0a8726mr32165025wma.28.1674728897464; 
+ Thu, 26 Jan 2023 02:28:17 -0800 (PST)
 Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
  by smtp.gmail.com with ESMTPSA id
- p20-20020a05600c2e9400b003d9862ec435sm1040807wmn.20.2023.01.26.02.28.15
+ p20-20020a05600c2e9400b003d9862ec435sm1040807wmn.20.2023.01.26.02.28.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 02:28:15 -0800 (PST)
+ Thu, 26 Jan 2023 02:28:17 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: tzimmermann@suse.de, noralf@tronnes.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/client: fix circular reference counting issue
-Date: Thu, 26 Jan 2023 11:28:13 +0100
-Message-Id: <20230126102814.8722-1-christian.koenig@amd.com>
+Subject: [PATCH 2/2] drm: remove dumb_destroy callback
+Date: Thu, 26 Jan 2023 11:28:14 +0100
+Message-Id: <20230126102814.8722-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230126102814.8722-1-christian.koenig@amd.com>
+References: <20230126102814.8722-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -73,138 +77,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We reference dump buffers both by their handle as well as their
-object. The problem is now that when anybody iterates over the DRM
-framebuffers and exports the underlying GEM objects through DMA-buf
-we run into a circular reference count situation.
-
-The result is that the fbdev handling holds the GEM handle preventing
-the DMA-buf in the GEM object to be released. This DMA-buf in turn
-holds a reference to the driver module which on unload would release
-the fbdev.
-
-Break that loop by releasing the handle as soon as the DRM
-framebuffer object is created. The DRM framebuffer and the DRM client
-buffer structure still hold a reference to the underlying GEM object
-preventing its destruction.
+Not used by any driver any more.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Fixes: c76f0f7cb546 ("drm: Begin an API for in-kernel clients")
-Cc: <stable@vger.kernel.org>
 ---
- drivers/gpu/drm/drm_client.c | 33 ++++++++++++++++++++-------------
- include/drm/drm_client.h     |  5 -----
- 2 files changed, 20 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/drm_dumb_buffers.c |  5 +----
+ drivers/gpu/drm/drm_gem.c          |  7 -------
+ drivers/gpu/drm/drm_internal.h     |  3 ---
+ include/drm/drm_drv.h              | 19 -------------------
+ 4 files changed, 1 insertion(+), 33 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index 009e7b10455c..f6292ba0e6fc 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -243,21 +243,17 @@ void drm_client_dev_restore(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
+index ad17fa21cebb..70032bba1c97 100644
+--- a/drivers/gpu/drm/drm_dumb_buffers.c
++++ b/drivers/gpu/drm/drm_dumb_buffers.c
+@@ -139,10 +139,7 @@ int drm_mode_destroy_dumb(struct drm_device *dev, u32 handle,
+ 	if (!dev->driver->dumb_create)
+ 		return -ENOSYS;
  
- static void drm_client_buffer_delete(struct drm_client_buffer *buffer)
- {
--	struct drm_device *dev = buffer->client->dev;
--
- 	if (buffer->gem) {
- 		drm_gem_vunmap_unlocked(buffer->gem, &buffer->map);
- 		drm_gem_object_put(buffer->gem);
- 	}
- 
--	if (buffer->handle)
--		drm_mode_destroy_dumb(dev, buffer->handle, buffer->client->file);
--
- 	kfree(buffer);
+-	if (dev->driver->dumb_destroy)
+-		return dev->driver->dumb_destroy(file_priv, dev, handle);
+-	else
+-		return drm_gem_dumb_destroy(file_priv, dev, handle);
++	return drm_gem_handle_delete(file_priv, handle);
  }
  
- static struct drm_client_buffer *
--drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height, u32 format)
-+drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height,
-+			 u32 format, u32 *handle)
- {
- 	const struct drm_format_info *info = drm_format_info(format);
- 	struct drm_mode_create_dumb dumb_args = { };
-@@ -279,16 +275,15 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height, u
- 	if (ret)
- 		goto err_delete;
- 
--	buffer->handle = dumb_args.handle;
--	buffer->pitch = dumb_args.pitch;
--
- 	obj = drm_gem_object_lookup(client->file, dumb_args.handle);
- 	if (!obj)  {
- 		ret = -ENOENT;
- 		goto err_delete;
- 	}
- 
-+	buffer->pitch = dumb_args.pitch;
- 	buffer->gem = obj;
-+	*handle = dumb_args.handle;
- 
- 	return buffer;
- 
-@@ -375,7 +370,8 @@ static void drm_client_buffer_rmfb(struct drm_client_buffer *buffer)
+ int drm_mode_destroy_dumb_ioctl(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 59a0bb5ebd85..aa15c52ae182 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -336,13 +336,6 @@ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
  }
+ EXPORT_SYMBOL_GPL(drm_gem_dumb_map_offset);
  
- static int drm_client_buffer_addfb(struct drm_client_buffer *buffer,
--				   u32 width, u32 height, u32 format)
-+				   u32 width, u32 height, u32 format,
-+				   u32 handle)
- {
- 	struct drm_client_dev *client = buffer->client;
- 	struct drm_mode_fb_cmd fb_req = { };
-@@ -387,7 +383,7 @@ static int drm_client_buffer_addfb(struct drm_client_buffer *buffer,
- 	fb_req.depth = info->depth;
- 	fb_req.width = width;
- 	fb_req.height = height;
--	fb_req.handle = buffer->handle;
-+	fb_req.handle = handle;
- 	fb_req.pitch = buffer->pitch;
+-int drm_gem_dumb_destroy(struct drm_file *file,
+-			 struct drm_device *dev,
+-			 u32 handle)
+-{
+-	return drm_gem_handle_delete(file, handle);
+-}
+-
+ /**
+  * drm_gem_handle_create_tail - internal functions to create a handle
+  * @file_priv: drm file-private structure to register the handle for
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index ed2103ee272c..d7e023bbb0d5 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -178,9 +178,6 @@ void drm_gem_unpin(struct drm_gem_object *obj);
+ int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
+ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
  
- 	ret = drm_mode_addfb(client->dev, &fb_req, client->file);
-@@ -424,13 +420,24 @@ struct drm_client_buffer *
- drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 height, u32 format)
- {
- 	struct drm_client_buffer *buffer;
-+	u32 handle;
- 	int ret;
- 
--	buffer = drm_client_buffer_create(client, width, height, format);
-+	buffer = drm_client_buffer_create(client, width, height, format,
-+					  &handle);
- 	if (IS_ERR(buffer))
- 		return buffer;
- 
--	ret = drm_client_buffer_addfb(buffer, width, height, format);
-+	ret = drm_client_buffer_addfb(buffer, width, height, format, handle);
-+
-+	/*
-+	 * The handle is only needed for creating the framebuffer, destroy it
-+	 * again to solve a circular dependency should anybody export the GEM
-+	 * object as DMA-buf. The framebuffer and our buffer structure are still
-+	 * holding references to the GEM object to prevent its destruction.
-+	 */
-+	drm_mode_destroy_dumb(client->dev, handle, client->file);
-+
- 	if (ret) {
- 		drm_client_buffer_delete(buffer);
- 		return ERR_PTR(ret);
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index 39482527a775..b5acdab73766 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -134,11 +134,6 @@ struct drm_client_buffer {
- 	 */
- 	struct drm_client_dev *client;
- 
+-int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
+-			 u32 handle);
+-
+ /* drm_debugfs.c drm_debugfs_crc.c */
+ #if defined(CONFIG_DEBUG_FS)
+ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index 1d76d0686b03..5b86bb7603e7 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -400,25 +400,6 @@ struct drm_driver {
+ 	int (*dumb_map_offset)(struct drm_file *file_priv,
+ 			       struct drm_device *dev, uint32_t handle,
+ 			       uint64_t *offset);
 -	/**
--	 * @handle: Buffer handle
+-	 * @dumb_destroy:
+-	 *
+-	 * This destroys the userspace handle for the given dumb backing storage buffer.
+-	 * Since buffer objects must be reference counted in the kernel a buffer object
+-	 * won't be immediately freed if a framebuffer modeset object still uses it.
+-	 *
+-	 * Called by the user via ioctl.
+-	 *
+-	 * The default implementation is drm_gem_dumb_destroy(). GEM based drivers
+-	 * must not overwrite this.
+-	 *
+-	 * Returns:
+-	 *
+-	 * Zero on success, negative errno on failure.
 -	 */
--	u32 handle;
--
- 	/**
- 	 * @pitch: Buffer pitch
- 	 */
+-	int (*dumb_destroy)(struct drm_file *file_priv,
+-			    struct drm_device *dev,
+-			    uint32_t handle);
+ 
+ 	/** @major: driver major number */
+ 	int major;
 -- 
 2.34.1
 
