@@ -1,80 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2DE67C78E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 10:39:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 969D367C791
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 10:39:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A86010E14E;
-	Thu, 26 Jan 2023 09:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 844B210E1B4;
+	Thu, 26 Jan 2023 09:39:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E954D10E14E
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 09:39:00 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 29D4E3200979;
- Thu, 26 Jan 2023 04:38:57 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 26 Jan 2023 04:38:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1674725936; x=
- 1674812336; bh=G2swqMT0vVr/RxeIkV3CkXIFX9WTobaEU+Ba9jbwnhE=; b=a
- JNRa0FOsNmeLyl/gouQ4G8O9jJSaXs04Lwtv2iQe6HiiMM2Ub1g7xEJls21tZkkv
- 6gG2QXh/y9cJ/w0SbVC7L3eQnaXv+22AbNEYhYamxsI4POF+DlvPc/imnNsub9zT
- 3C2/B7xjG+oqinDNyQp0dTEqN/D/TyeX9yLnaRok39Ym8dJTvndY2LYoOJHvUgQ/
- TDesSzrTFti6C3V4bL8ko2Xz81GHVCQre75TB5LsKkrGnEZcomrqiPcjY/r76vR+
- 9COapY8KE9nj+bzmqC5eVOAqMe07ysEY+nxtcWQaxz0dzKagfqGYWrNwAIkhw6a8
- lq0a6ECxUKYgrAcwT1CjA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674725936; x=
- 1674812336; bh=G2swqMT0vVr/RxeIkV3CkXIFX9WTobaEU+Ba9jbwnhE=; b=P
- +p9ebGXd7z5I+ofKoB31Z1m+lQkW/172RX+4BR1rjKWwErmkyPfFdLscrsNLkB1S
- 7Jq7NuX5AjemRSTi+S33ro9DENQuK5BaOJ1a+w30DAaTevPdTf4qLoMkuKUlnkHD
- Zk09Q/4QQynIZGM6+kVD/aF3vPkmE3We2djCK1dNNxLblv5JZ8a4rsCwLrVJfcNq
- 9B7DCJj7wZ/qckibq62Wn1oIe+8v5l9q73rGj3D/FWPONDduLdY3yz/tWAIGjS16
- K+Fhw87nz4AhESHkcAa9ZbjtFtA0KIHc1OSJAQBx5fZzTvakf1B34ke9dLXhYM95
- FnQFvc1NiZKO0c/RYZvmQ==
-X-ME-Sender: <xms:MErSY_wg7s126wQDdbr124iScCv0mNkrRJ6JqJqbkOE4MOBlMHTfhw>
- <xme:MErSY3SPTNjXO6_Sd5J1nY0HgcrhIS8IH3IRkk75HHFgrmYBLPTHCz-yEjCk5nsBV
- pakQO2kjqRyf_QnwEk>
-X-ME-Received: <xmr:MErSY5Wky6_8rb6XjLyDmiKZ6CpJHqbb-a066UE9Ol4oPt_bKj1Xl9pNI0denEjnbSZO4yIfsSijkBMy425o6EclpDnMfCEi3clurVdKs0sifw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgtdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
- feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:MErSY5hd0gNhEh3ovtPcLO-7A-j_DNZXLVol0lzcRWyxSgAP7cfdnQ>
- <xmx:MErSYxAuDPVe1rM-oNvGsMUnUFTWK_nkyZAh4yR3O8IRM4MmjbmTAg>
- <xmx:MErSYyKZOB-ch4Xz1Z4qvttN1SJWh52IV9_IhD1iPHVqF5u6A20ptg>
- <xmx:MErSY16RxYipKp5oopBR2HrWhew5rANfnreWlsUznlLhYemkaLDEIg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Jan 2023 04:38:55 -0500 (EST)
-Date: Thu, 26 Jan 2023 10:38:53 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/9] drm/vc4: hdmi: Add Broadcast RGB property to allow
- override of RGB range
-Message-ID: <20230126093853.kqjhswl27kelywov@houat>
-References: <20221207-rpi-hdmi-improvements-v1-0-6b15f774c13a@cerno.tech>
- <20221207-rpi-hdmi-improvements-v1-3-6b15f774c13a@cerno.tech>
- <fe6945e9-f873-a551-8b10-d655077a5dd1@suse.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEA710E2A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 09:39:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C571C61762;
+ Thu, 26 Jan 2023 09:39:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B1DBC433D2;
+ Thu, 26 Jan 2023 09:39:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1674725962;
+ bh=ZVfkZK/3rtmQ0HI/dGtBJXuuEqesnN3UrC2d9Id/22U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jPHR1tsysvXfEcAXi3dVKJzUK+/pBcLMN81V0rrV3lmJSitmZ4dzX2dg51hi5IejN
+ 7zEL7Xap67RZv3VIzSlaiGiUZdkRohbmuBt6g1G6k/ZDi5w4ErbGUQzamGymp/2NAN
+ /pJpCqLuAJbsS7TQBPReskyZpzFgV+3QY8OuQL/WhZVfC+T0+8u9vOvjEiG2Oyz3az
+ QJ0nBWa4aWc9iOXY1sXphvYX2+rpFeNABo5LS/x4hv9HRfZpwHSA0CMCq+G8UuXlKn
+ +pNbjyotsjQUd9+f7lksSfZ3pI2eP1YfAMNkOmd6YHDneNBbuqYHPRthY6aI1BzTUE
+ 4YD93KKDkzx3g==
+Date: Thu, 26 Jan 2023 11:39:07 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: [LSF/MM/BPF proposal]: Physr discussion
+Message-ID: <Y9JKO7FITJQ7dxAv@kernel.org>
+References: <Y8v+qVZ8OmodOCQ9@nvidia.com>
+ <Y84OyQSKHelPOkW3@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <fe6945e9-f873-a551-8b10-d655077a5dd1@suse.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y84OyQSKHelPOkW3@casper.infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,58 +54,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: nvdimm@lists.linux.dev, lsf-pc@lists.linuxfoundation.org,
+ linux-rdma@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+ dri-devel@lists.freedesktop.org, Ming Lei <ming.lei@redhat.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org, iommu@lists.linux.dev,
+ Shakeel Butt <shakeelb@google.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ netdev@vger.kernel.org, Joao Martins <joao.m.martins@oracle.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Jan 23, 2023 at 04:36:25AM +0000, Matthew Wilcox wrote:
+> On Sat, Jan 21, 2023 at 11:03:05AM -0400, Jason Gunthorpe wrote:
+> > I would like to have a session at LSF to talk about Matthew's
+> > physr discussion starter:
+> > 
+> >  https://lore.kernel.org/linux-mm/YdyKWeU0HTv8m7wD@casper.infradead.org/
+> 
+> I'm definitely interested in discussing phyrs (even if you'd rather
+> pronounce it "fizzers" than "fires" ;-)
 
-Thanks for your review
-
-On Wed, Jan 11, 2023 at 03:11:51PM +0100, Thomas Zimmermann wrote:
-> Am 07.12.22 um 17:07 schrieb Maxime Ripard:
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >=20
-> > Copy Intel's "Broadcast RGB" property semantics to add manual override
-> > of the HDMI pixel range for monitors that don't abide by the content
-> > of the AVI Infoframe.
-> >=20
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >   drivers/gpu/drm/vc4/vc4_hdmi.c | 87 +++++++++++++++++++++++++++++++++=
-+++++++++
-> >   drivers/gpu/drm/vc4/vc4_hdmi.h | 15 ++++++++
-> >   2 files changed, 102 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
-dmi.c
-> > index 0eafaf0b76e5..488a4012d422 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > @@ -154,6 +154,11 @@ static bool vc4_hdmi_is_full_range_rgb(struct vc4_=
-hdmi *vc4_hdmi,
-> >   {
-> >   	struct drm_display_info *display =3D &vc4_hdmi->connector.display_in=
-fo;
-> > +	if (vc4_hdmi->broadcast_rgb =3D=3D VC4_HDMI_BROADCAST_RGB_LIMITED)
-> > +		return false;
-> > +	else if (vc4_hdmi->broadcast_rgb =3D=3D VC4_HDMI_BROADCAST_RGB_FULL)
-> > +		return true;
-> > +
-> >   	return !display->is_hdmi ||
-> >   		drm_default_rgb_quant_range(mode) =3D=3D HDMI_QUANTIZATION_RANGE_FU=
-LL;
->=20
-> The existing code is now the branch for VC4_HDMI_BROADCAST_RGB_AUTO, AFAI=
-U.
-
-I'm not entirely sure what you meant here sorry. The existing code path
-is indeed the VC4_HDMI_BROADCAST_RGB_AUTO case, which is the property
-default so the current behaviour should remain by default.
-
-Is there anything you want me to clarify?
-
-Maxime
+I'm also interested in this discussion. With my accent it will be фыр,
+though ;-)
+ 
+> > I've been working on an implementation and hope to have something
+> > draft to show on the lists in a few weeks. It is pretty clear there
+> > are several interesting decisions to make that I think will benefit
+> > from a live discussion.
+> 
+> Cool!  Here's my latest noodlings:
+> https://git.infradead.org/users/willy/pagecache.git/shortlog/refs/heads/phyr
+> 
+> Just the top two commits; the other stuff is unrelated.  Shakeel has
+> also been interested in this.
+> 
+> 
