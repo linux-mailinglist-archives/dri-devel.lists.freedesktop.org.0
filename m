@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0361A67C595
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 09:15:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C2167C62E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 09:47:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA2D10E0F2;
-	Thu, 26 Jan 2023 08:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3651910E05A;
+	Thu, 26 Jan 2023 08:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82DA910E0F2;
- Thu, 26 Jan 2023 08:15:27 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 276F221FE9;
- Thu, 26 Jan 2023 08:15:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674720926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gXOV+pEf7vPtWXkJeBQxfCU5ok8+pSVM4xDu5xwy2gQ=;
- b=W2E9BvM5DiZC3dlHa/2mEYHiZajXs/QovGSiitYzWaleioV50h/5Fbh9QZPmqNnZjMMbuf
- 5ab8lARG/cGzYtIf2OeMuD5CHtW6fvDyFWIy4uJ5Eb1CTsvotZjtO1Aa/eCWZ5R7+kF3Hz
- ScV67xgh7zmpDE1PUvmWpXMPIdNYxQ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674720926;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gXOV+pEf7vPtWXkJeBQxfCU5ok8+pSVM4xDu5xwy2gQ=;
- b=mq4q7PDMQtOfhvL4sad0taPk6U8z6/Yo+pb7wsk7zEPr7OA1WgG6wDr+zm8fl3xhplbGYP
- FIHp6+kTWXsXpIAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D222713A09;
- Thu, 26 Jan 2023 08:15:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id NftkMp020mNZMAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 26 Jan 2023 08:15:25 +0000
-Date: Thu, 26 Jan 2023 09:15:24 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <Y9I2nOzHxTxPeTjg@linux-uq9g>
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
+ [209.85.219.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0BD10E05A
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 08:47:10 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id m12so983331qvt.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 00:47:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uyvIiOs8TFT5QdDt56s5AZud5rN36NlIHxnKx2RxH+M=;
+ b=enww/jgyF6AdIvOFZtdLR05M8JL/9YTc5ATMxUVIsUDRZs1jsElSZ9UkSp5VZLBgc5
+ gpE+GoeAGSRQF8fJoIp401cYTdJFKiwk3nQXedywDWwVdpTvUSVycKr0NqCKuwKRKmEs
+ jCfzXK1ymcpG+GyUbJbK///phhgZYr8zObeM6hYxZllvH4fN+1ox4hMeOXTcfdjoOBkH
+ DQkFc74VRkmOJwmDqaiuZlqeu7bGSHCCgZUV0Nto0aYKPbrjhILL62cfeLuE5GuSAEGJ
+ 2JHbG5ciWOrnLlZFFYXvJn0ZOXPFlefeI8Fx9wSYjEkfyRHyMiG6xqFNGAAqGaWWaFXp
+ D4cg==
+X-Gm-Message-State: AO0yUKUeet+lRwi74fg8M8gwkJs/VDCtS6bM4W/HgL0qbDf6Okhikbag
+ tGc7Qg8MCeIqxsL0AlPxkYVjptr6A8PVTg==
+X-Google-Smtp-Source: AK7set96xcFAiLHGXH/fK3sDoGl23ddhAPPrS8/vWqCIOWcUJ3NzlgArlCtN2jwATjbUbNJ9JOL/YQ==
+X-Received: by 2002:a05:6214:da2:b0:537:65bb:b273 with SMTP id
+ h2-20020a0562140da200b0053765bbb273mr20546845qvh.44.1674722829303; 
+ Thu, 26 Jan 2023 00:47:09 -0800 (PST)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
+ [209.85.128.170]) by smtp.gmail.com with ESMTPSA id
+ s6-20020a05620a080600b006faf76e7c9asm539033qks.115.2023.01.26.00.47.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 00:47:08 -0800 (PST)
+Received: by mail-yw1-f170.google.com with SMTP id
+ 00721157ae682-4a263c4ddbaso14949837b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 00:47:07 -0800 (PST)
+X-Received: by 2002:a0d:f281:0:b0:508:2f2c:8e5f with SMTP id
+ b123-20020a0df281000000b005082f2c8e5fmr253434ywf.384.1674722827384; Thu, 26
+ Jan 2023 00:47:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <IA1PR07MB98308653E259A6F2CE94A4AFABCE9@IA1PR07MB9830.namprd07.prod.outlook.com>
+In-Reply-To: <IA1PR07MB98308653E259A6F2CE94A4AFABCE9@IA1PR07MB9830.namprd07.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 26 Jan 2023 09:46:55 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVbW7jmO-Q8=f1HicPNzxb70TPE57akkDCcqvrS=gA9Hg@mail.gmail.com>
+Message-ID: <CAMuHMdVbW7jmO-Q8=f1HicPNzxb70TPE57akkDCcqvrS=gA9Hg@mail.gmail.com>
+Subject: Re: UBSAN: shift-out-of-bounds in fbcon_set_font
+To: Sanan Hasanov <sanan.hasanov@knights.ucf.edu>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,135 +67,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "penguin-kernel@I-love.SAKURA.ne.jp" <penguin-kernel@i-love.sakura.ne.jp>,
+ "deller@gmx.de" <deller@gmx.de>, "contact@pgazz.com" <contact@pgazz.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "samuel.thibault@ens-lyon.org" <samuel.thibault@ens-lyon.org>,
+ "sam@ravnborg.org" <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+Hi Sanan,
 
-after the PR earlier this week, here's drm-misc-next's final PR
-before -rc6. The committed TTM changes all seem to be reverted.
+On Thu, Jan 26, 2023 at 12:58 AM Sanan Hasanov
+<sanan.hasanov@knights.ucf.edu> wrote:
+> We found a bug using a modified kernel configuration file used by syzbot.
+>
+> We enhanced the coverage of the configuration file using our tool, klocalizer.
+>
+> Kernel Branch: 6.2.0-rc5-next-20230124
+> Kernel config: https://drive.google.com/file/d/1F-LszDAizEEH0ZX0HcSR06v5q8FPl2Uv/view?usp=sharing
+> Reproducer: https://drive.google.com/file/d/1mP1jcLBY7vWCNM60OMf-ogw-urQRjNrm/view?usp=sharing
+>
+> Thank you!
+>
+> Best regards,
+> Sanan Hasanov
+>
+> ================================================================================
+> UBSAN: shift-out-of-bounds in drivers/video/fbdev/core/fbcon.c:2489:33
+> shift exponent 35 is too large for 32-bit type 'int'
 
-Best regards
-Thomas
+This looks valid to me: con_font_set() checks the font width and height
+against max_font_width (64) and max_font_height (128), but fbcon has
+stricter limits.
 
-drm-misc-next-2023-01-26:
-drm-misc-next for v6.3:
+fbcon_set_font() should reject fonts with width > 32 or height > 32.
 
-UAPI Changes:
+Thanks!
 
-Cross-subsystem Changes:
+Gr{oetje,eeting}s,
 
-Core Changes:
+                        Geert
 
- * fbdev-helper: Streamline code in generic fbdev and its helpers
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
- * TTM: Fixes plus their reverts
-
-Driver Changes:
-
- * accel/ivpu: Typo fixes
-
- * i915: TTM-related fixes
-
- * nouveau: Remove unused return value from disable helper
-The following changes since commit 68de345e101ce9a24e5c8849e69dd0dba2e8c9b2:
-
-  Merge tag 'drm-misc-next-2023-01-24' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-01-25 12:14:08 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-01-26
-
-for you to fetch changes up to 6ca80b9e5cc0120c37e2e7dd367b08e3e0eb8289:
-
-  drm/fbdev-generic: Rename struct fb_info 'fbi' to 'info' (2023-01-26 08:52:36 +0100)
-
-----------------------------------------------------------------
-drm-misc-next for v6.3:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
-Core Changes:
-
- * fbdev-helper: Streamline code in generic fbdev and its helpers
-
- * TTM: Fixes plus their reverts
-
-Driver Changes:
-
- * accel/ivpu: Typo fixes
-
- * i915: TTM-related fixes
-
- * nouveau: Remove unused return value from disable helper
-
-----------------------------------------------------------------
-Christian König (7):
-      drm/i915: audit bo->resource usage v3
-      drm/ttm: stop allocating dummy resources during BO creation
-      drm/ttm: stop allocating a dummy resource for pipelined gutting
-      drm/ttm: prevent moving of pinned BOs
-      drm/ttm: revert "prevent moving of pinned BOs"
-      drm/ttm: revert "stop allocating a dummy resource for pipelined gutting"
-      drm/ttm: revert "stop allocating dummy resources during BO creation"
-
-Colin Ian King (1):
-      accel/ivpu: Fix spelling mistake "tansition" -> "transition"
-
-Deepak R Varma (1):
-      drm/nouveau/devinit: Convert function disable() to be void
-
-Thomas Zimmermann (11):
-      Merge drm/drm-next into drm-misc-next
-      drm/client: Test for connectors before sending hotplug event
-      drm/client: Add hotplug_failed flag
-      drm/fb-helper: Introduce drm_fb_helper_unprepare()
-      drm/fbdev-generic: Initialize fb-helper structure in generic setup
-      drm/fb-helper: Remove preferred_bpp parameter from fbdev internals
-      drm/fb-helper: Initialize fb-helper's preferred BPP in prepare function
-      drm/fbdev-generic: Minimize hotplug error handling
-      drm/fbdev-generic: Minimize client unregistering
-      drm/fbdev-generic: Inline clean-up helpers into drm_fbdev_fb_destroy()
-      drm/fbdev-generic: Rename struct fb_info 'fbi' to 'info'
-
- drivers/accel/ivpu/ivpu_hw_mtl.c                   |   4 +-
- drivers/gpu/drm/armada/armada_fbdev.c              |   4 +-
- drivers/gpu/drm/drm_client.c                       |  10 ++
- drivers/gpu/drm/drm_fb_helper.c                    |  58 ++++++---
- drivers/gpu/drm/drm_fbdev_generic.c                | 131 ++++++++-------------
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c          |   4 +-
- drivers/gpu/drm/gma500/framebuffer.c               |   4 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c         |  11 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |  27 ++++-
- drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c       |  56 +++++++--
- drivers/gpu/drm/msm/msm_fbdev.c                    |   4 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/base.c |   3 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g84.c  |   5 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/g98.c  |   4 +-
- .../gpu/drm/nouveau/nvkm/subdev/devinit/gf100.c    |   4 +-
- .../gpu/drm/nouveau/nvkm/subdev/devinit/gm107.c    |   4 +-
- .../gpu/drm/nouveau/nvkm/subdev/devinit/gt215.c    |   4 +-
- .../gpu/drm/nouveau/nvkm/subdev/devinit/mcp89.c    |   4 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.c |   5 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/nv50.h |   2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/devinit/priv.h |   2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c               |   4 +-
- drivers/gpu/drm/radeon/radeon_fb.c                 |   4 +-
- drivers/gpu/drm/tegra/fb.c                         |   7 +-
- include/drm/drm_client.h                           |   8 ++
- include/drm/drm_fb_helper.h                        |  16 ++-
- 26 files changed, 222 insertions(+), 167 deletions(-)
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
