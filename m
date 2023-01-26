@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A2467D4CE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 20:01:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A656467D4DD
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 20:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1BAC10E978;
-	Thu, 26 Jan 2023 19:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C5D10E97E;
+	Thu, 26 Jan 2023 19:01:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0CA10E978
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 19:01:09 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id tz11so7852753ejc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 11:01:09 -0800 (PST)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85BBB10E978
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 19:01:10 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id ud5so7710749ejc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 11:01:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6/hgeihi7ZjGYYdLqZARIRAYjr8aF0qhlO8SOLhtlp8=;
- b=qndTHlbjpfaL6qbJ/TvhR317D4OWWuUDGHqKGvEvJGVZMtUSWBCvv/fbfwkd49hUiQ
- z6tgwBIqOisziUxGn3G5MR0YEe/SQLl4hSZX6ISXXw+aL05DsyTFplYtqN5OZuaXE35N
- m4c+MEHsQ8f9oIrxbnTqQAyHli3m0WXvwjS01o74nplXedX6pgel4YFGDBoeCdZu4Dhr
- J8D23fLhzTjqcWYWMpmofj6GunWPTssTaEjYj3HIjME37A4jcNjGOSOsmlN0Qes+DGoV
- 3KLIssWXrBdbaNQgnhUBqmGPzhbt3UKCh5nwIkjyj0SGSRKbjH1dYhN7hg9zsN+4K2HA
- kQyg==
+ bh=pIp/tztbC7zmUXL7EUgPj3UhCBeJNUNuWUzm8HG2JLM=;
+ b=WGevx/naL4qZvFBxjyn8EVDeyhoS8GFaHGqSzNiRyzh8H+wwaiEt2T1Knvuukbznnu
+ /JtnoXHCXcEIbk/Q08aurrA7RiDMlZFb5BJ+f/DdQzXuxRRhlVvQSgjqpHStyMaYWw99
+ qaQq65HxxNkimIkzxCccMJlBqsbGbW+nD1tBI277Yfk0nvswBsyIbuf+6qeoyCtISGCI
+ zr1PV0bSG8MZIF4t6ZGmAdGadEYxXWnLiy5aEy+x8aWw9Bt2g/tIWigdPS1RtQneeJHM
+ ox3OUu5JP83GPBniO/umA+GsTd5gWijoIwzSZE75omgxtBfmHP3+R45R9t1ih+cmtfey
+ KBIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6/hgeihi7ZjGYYdLqZARIRAYjr8aF0qhlO8SOLhtlp8=;
- b=P+GnBvS8Q3qZ7KZbUYTEUxOyxDfP7IhbCPCVjmTadhS78eMTE9S2sNBqfTTlCQOcwb
- rkzB9nJB8KX36Z/gwxyN1Sl5RO2U1WE9E8Ylcc5vuigcP4o8uBursG2/dPfPb1eJf3D3
- /Y+q9q3pXCw5xAtGrJgoFknVV5OniSeYhV5nadrtPliTN0okAon4yD8fp9fH6zvu5g8s
- pZfItdKyBMBCFDyKmy25jygV5+bVeFmBQMAsqf+55bhT0s4eFjEpRcmjvf/To6wh3aRS
- peuGAhKY6+b4AmrswHdJOfPdvNSmzyG8/XqlJRElrOBHGb1jXqNfWVRX1ATQPIhoOvvt
- tQdg==
-X-Gm-Message-State: AFqh2kq7Ypn2CQ5gDH+yw4Yn9UipHgX1ZdrfenvsSXh347JAytxYlT3f
- ZOomsFvNyPQX5TOgA+sD9dakUg==
-X-Google-Smtp-Source: AMrXdXtE8qV5H9Cp8tQfmuHwc9+X5j6HSC+5QPwvvBHlPV3xWsNS21kkvSCJq1otXOROOXqurM207A==
-X-Received: by 2002:a17:907:9150:b0:84d:150d:5006 with SMTP id
- l16-20020a170907915000b0084d150d5006mr34691515ejs.49.1674759667959; 
- Thu, 26 Jan 2023 11:01:07 -0800 (PST)
+ bh=pIp/tztbC7zmUXL7EUgPj3UhCBeJNUNuWUzm8HG2JLM=;
+ b=aZzGh0PJMLg2j0Cm0Z5I0F/ZGoEGxfdBjvAyQmRdfZiNYZ1E90bYUQRu/ywsmlLIfn
+ BbLzdRPLvbc9gxMERFC0g67tkXUf/t9T1paTp+XZ25U9e55dwziz1IkCvYw2iri+TxEe
+ RPZh/WTkNd6fBsUvcgEgSfsyqh91QhIwJZK9BwmexzpV6+yfvxYFYzHdrhiAazMPYJHl
+ Fnw2NB/LkPJ5t25g5zEEb1E5LvEDpqh9Duj4DEb1ykLv+WYzIu1qhyBqFxMPaUr9fqaU
+ u6MbNZoF/SqsIVunbCrJBnm8GYksqh/30F3Qx5C0JGfTzSELlj+Plzm2AJicM1UIBrw/
+ 8DSg==
+X-Gm-Message-State: AFqh2kqoVS8DlU0TTCb8y4e0EbsVpHZsbup7U5GNlK+Z6jMaOFZ0Hfa9
+ kfvgf790eoEHjNk4a63vuDY0SQ==
+X-Google-Smtp-Source: AMrXdXthSV4ZVP7kF+MIrvM6zfMVfLR27somX+F5tm/T53zRfb66OKxF8SNTTuz2rRuzCKJbenQCVA==
+X-Received: by 2002:a17:907:d089:b0:7ad:aed7:a5da with SMTP id
+ vc9-20020a170907d08900b007adaed7a5damr42286398ejc.28.1674759669094; 
+ Thu, 26 Jan 2023 11:01:09 -0800 (PST)
 Received: from eriador.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- o25-20020a1709061b1900b0084d4e9a13cbsm974982ejg.221.2023.01.26.11.01.06
+ o25-20020a1709061b1900b0084d4e9a13cbsm974982ejg.221.2023.01.26.11.01.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 11:01:07 -0800 (PST)
+ Thu, 26 Jan 2023 11:01:08 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH v9 0/2] mdss-dsi-ctrl binding and dts fixes
-Date: Thu, 26 Jan 2023 21:00:52 +0200
-Message-Id: <167475959094.3954305.603604364773846840.b4-ty@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 0/3] drm/msm/dpu: several fixes for UBWC setup
+Date: Thu, 26 Jan 2023 21:00:53 +0200
+Message-Id: <167475959085.3954305.638885945144543284.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230118171621.102694-1-bryan.odonoghue@linaro.org>
-References: <20230118171621.102694-1-bryan.odonoghue@linaro.org>
+In-Reply-To: <20221207142833.204193-1-dmitry.baryshkov@linaro.org>
+References: <20221207142833.204193-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -73,31 +74,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
- sean@poorly.run, andersson@kernel.org, konrad.dybcio@somainline.org,
- quic_abhinavk@quicinc.com, david@ixit.cz, dianders@chromium.org,
- robh+dt@kernel.org, agross@kernel.org, swboyd@chromium.org,
- linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 18 Jan 2023 17:16:19 +0000, Bryan O'Donoghue wrote:
-> V9:
-> - Adds Rob's RB to #1
-> - Fixes two check splats - Dmitry
+On Wed, 07 Dec 2022 16:28:30 +0200, Dmitry Baryshkov wrote:
+> Several small corrections for the UBWC setup and related data.
 > 
-> V8:
-> - Squash first and last patch to fix bisectability
+> Dmitry Baryshkov (3):
+>   drm/msm/dpu: handle UBWC 1.0 in dpu_hw_sspp_setup_format
+>   drm/msm/dpu: correct the UBWC version on sm6115
+>   drm/msm/dpu: add missing ubwc_swizzle setting to catalog
 > 
 > [...]
 
 Applied, thanks!
 
-[1/2] dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/0c0f65c6dd44
-[2/2] dt-bindings: msm: dsi-controller-main: Document clocks on a per compatible basis
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/d10bdc6ec6ac
+[1/3] drm/msm/dpu: handle UBWC 1.0 in dpu_hw_sspp_setup_format
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/975b86f8c2a8
+[2/3] drm/msm/dpu: correct the UBWC version on sm6115
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/7a9898ec3018
 
 Best regards,
 -- 
