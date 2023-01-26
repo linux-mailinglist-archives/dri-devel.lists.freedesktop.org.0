@@ -2,81 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF5E967D2B6
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B55167D2B8
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jan 2023 18:09:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7158C10E2AA;
-	Thu, 26 Jan 2023 17:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97D7010E949;
+	Thu, 26 Jan 2023 17:09:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D919E10E2AA
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:09:22 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 73E515C043E;
- Thu, 26 Jan 2023 12:09:19 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B07110E949
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:09:51 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id AF9605C0446;
+ Thu, 26 Jan 2023 12:09:50 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 26 Jan 2023 12:09:19 -0500
+ by compute1.internal (MEProxy); Thu, 26 Jan 2023 12:09:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1674752959; x=1674839359; bh=gq8oLyYgH8
- 4nvePeqaj8P7EbKq1ftFoCwR8UL87bIYo=; b=UrFFEoUQNYayThb1nLTUB86oNQ
- 5MAOCi0aMLB24U/4Qg9um26W6Extmhf0h7H7WFr26zNYDqqAnvEC07/yn/T4hEgu
- YlsPerWapnJtv2uGNXlzcQzbbhTgak0wD5M22PmHh0E27kpERS5oGjMonUpzn8Y1
- x7Wk/QlhNez1F6hablUkblDLDl7TXjJSjz8dP4LLdbLiJnB010k0nfHwYKh4Kkdr
- 0AaUBNImx0dLQj+bRhFFOtMexjubUlnVkAR0gDn2J6pLx3lZyZucP/6JKnGUsrB0
- Pbfouvx0sAIoUoDx2hipcQ9lhpcQL+TWYhrJYLAIjgJxIkZhzoJIRhiuGpZA==
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1674752990; x=
+ 1674839390; bh=8suY9sieWgtDXWyPn8u/nfHNi/hMsHiTv3FkopfWKNo=; b=d
+ UKWNlAyDqdQbnSqiaN5A8uIwzd2zIm0QTtvJqrco8xWF6qB0tPZ0tQavtX9yH4WW
+ KUmNdH74Xr7bvXrwD3wGvw8uSDPol3LFSgSTn6WitNVmPHzG19iL2RCuxgWxbzbD
+ 5LswMBlYXLUY+WmzixIjtlSSlQTKq7+ddD7wLbYylIyQ3waqvT11OCExe0q91lA+
+ Hycm+haDk7yOTuUwEORP6QrZvVMnaAh+ZgrkCvggaLwQPW2l919B8DECmhMAYCi6
+ jLsf4Qh//mmTO8+5yvWpzfXy5i94Za7OvegOwnInwXRR/hYE9x01sI//lOu7Ci2M
+ MpOqJ15+loA44Zhk/xucA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1674752959; x=1674839359; bh=gq8oLyYgH84nv
- ePeqaj8P7EbKq1ftFoCwR8UL87bIYo=; b=ThAiYZ8J/I8xelcLovWwtP8abMq2z
- DqiosZKBGJ5tDGfDVKyrSAIzYmhF1kSfHl8AUp1jADmv1EcH5VqLBSmw9dFEDaXu
- xqVJUYvwBn/5fEsf68pJWzxrKDGJOmqYh7Fda42D3DPr4J2ti+vVjAqaHLB1ReFC
- Nbs/+tzkX8P71vMqSs+T+uNyLbHTnCY/O3wFBDdZIvB3nafYUdXkRYB4rYjJBlOV
- e97ccqS7Mw0VxKU5UkSNrYSA/BOQvd2R8veCAU/pS1wPJTZFsF9iz0tux15LXdjg
- Q23+EmZl2WMzBPDM8HAuV+B6FEdGVsn/8UWEnLe6KPQ2L5LIwMWiw6/8g==
-X-ME-Sender: <xms:vbPSY6fUfwt3uOckNoJSRsPMdx4dShWy7UWKnQVnNAjCmkH_mzfzFw>
- <xme:vbPSY0OxZeIUe90I0FZBErwaKpwPf_MhzYnelPd__EOqG2LdomX6JfG98OcIsRnwm
- k6eJLoy-GXN2L9jYTE>
-X-ME-Received: <xmr:vbPSY7gDsz2MVkCsMvS81TXTq5nNBZJTQewS9vQorNIwWl9wIwSlJtGPB1pOd7yO0WYeVyBm08w4jH09u8xSeY8qHRrYdnzdUQzNvlPGOuDBug>
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674752990; x=
+ 1674839390; bh=8suY9sieWgtDXWyPn8u/nfHNi/hMsHiTv3FkopfWKNo=; b=h
+ wYEt41yvJORumJL5Kp2VMSQLZqz7KDzKE8V2y8GBr2YC5SLvrZdeP9lRAAy5QcyB
+ 6yoj5Us121qX452KhmtuGxDLjIQsxhTKTou3gQpggl5wU0+M9ZL2cZmcQz2891Fq
+ fWS+pZ0ueQ/b6p7mcD5gnfL1dbMTTSoBQi8T6bxSzMwghil5EkoyoDgg2a8O504g
+ qLYwc983KuLum4YkS0BTFIhZHPnGbNKqR/fiHMU8F+41xr4SUTm9PcJVYTAKThnC
+ f42/Ibe7vK1mRV9ZfYKQGUc/H8knRtLWLrxYJoHLfXYKGaBv46MhKjl6uANvPABd
+ ScrnzOVRukjMFzPnahjQw==
+X-ME-Sender: <xms:3bPSY3JYVZGfigVViYxWlGmXK1AmOHlYrzhoUyFn5jKvy-5a7ttDNQ>
+ <xme:3bPSY7Iw2zvzG73kBUbzMwJPNOXN8gp2x_14hA4gZOvB2ZE6JZJiINj937cHQyl80
+ 2Pwp1UcEKPMXyBLvwo>
+X-ME-Received: <xmr:3bPSY_v_i6Gq2jxJEfnnToMg0VUe3Jt9x7lb7Wt_ppnrS4iuHo22WaB2mHojyoqYJT-F1VAJyY9s0l1lP2yCNm2xLDupa93WYmEicyXUWRkLTw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvgedgleejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhephedvudehieegjedtieejveeiledvteeulefhvedvkeeuleehkeevffegvedv
- ieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:vrPSY39RE11DDj4oqtMc39B1tM6tSjVNccnnv9Vq2NOP7WKkjW7-Ww>
- <xmx:vrPSY2uRyXvsCHRMcmBFCd36-lE3rzPANi23c2VuzFrS39uQdD6TlQ>
- <xmx:vrPSY-GoAycvWKZqkUyCgKbljVXILvpi63tiS-eVPJadArRRyEB6wQ>
- <xmx:v7PSY3-816kK-Y-TK1aBPjDxmxG1ydnAT0on2o4605mnjSJknjxL7A>
+ cujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
+ teeltdffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:3rPSYwbs3np_WpIIfysSMArx8JUltGj2FG9G9TVHyiWsYy7A-0so7g>
+ <xmx:3rPSY-amw57pbz38k6A-TkeG5nPiZGf7TO_Zy906iN2L2mAuWl5cRA>
+ <xmx:3rPSY0BQLzIU2ta42ynoWneHjeuhc2WNHzRloyUMm1Oc3Sz5jq6JnQ>
+ <xmx:3rPSY-KMlP34Jp8gtpyQ1Wm_IFv6NVj5YvM0LIenOxy3bFyNgRUFAw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Jan 2023 12:09:16 -0500 (EST)
+ 26 Jan 2023 12:09:49 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 0/4] drm/vc4: hdmi: Firmware clocks cleanup
 Date: Thu, 26 Jan 2023 18:05:46 +0100
-Message-Id: <20230126-rpi-display-fw-clk-cleanup-v1-0-d646ff6fb842@cerno.tech>
+Subject: [PATCH 1/4] drm/vc4: hdmi: Replace hardcoded value by define
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOqy0mMC/x2NSw7CMAwFr1J5jaUkfCS4CmLhJC61iEyUqEBV9
- e61WLzFvMXMCp2bcIfbsELjj3R5q4E/DJAm0iejZGMILhydDxdsVTBLr4UWHL+YysvGpHNFf80+
- urMnd0pggkidMTbSNJlC51LsrI1H+f2L98e27fIrNsWBAAAA
+Message-Id: <20230126-rpi-display-fw-clk-cleanup-v1-1-d646ff6fb842@cerno.tech>
+References: <20230126-rpi-display-fw-clk-cleanup-v1-0-d646ff6fb842@cerno.tech>
+In-Reply-To: <20230126-rpi-display-fw-clk-cleanup-v1-0-d646ff6fb842@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.11.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1350; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=U9eolbaMAC7R9IXkVJ9lSBBeSMe3NsbCd8smJA/NZRY=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmXNn20V/SQ3/Tvw32zeRZBNQEF66bLmJ7fHZC/53niujDj
- mgdcHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIQxdGhvY3SY9O7kysf1zwyeHEHd
- PG5uXx4osWpMy/0ayVMO222hJGhi1FJ/STbFb5+xYnakyWafu+e+EsPXX+1yE+98+yPVmlwQgA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1066; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=0qIZDkNiRrqLNfFTmO5XDGD2w7YMondxv9DscAkZRD4=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDMmXNn3cKH4+7eYavcXG15VEY+d2NH65fc/t7paYNSocv3O0
+ I7VvdZSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiynYM/9Orfxn6M/0Ol0o5Xtuw6P
+ CutK2b9PY6368riYuTjj+s+5PhnyWX/rPu97qF1rvEjJxyrxuKn35y8UGX54LwTVXZp3jFWAE=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,42 +97,30 @@ Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The 120MHz value hardcoded in the call to max_t to compute the HSM rate
+is defined in the driver as HSM_MIN_CLOCK_FREQ, let's switch to it so
+that it's more readable.
 
-In order to accomodate the Pi0-3 using the clk-bcm2835 and the Pi4 using the
-clk-raspberrypi clock drivers for the HDMI clocks, we piled a number of
-workarounds over the years.
-
-Since 6.2, we've switched the Pi0-3 to the clk-raspberrypi driver, so we can
-now remove those workarounds.
-
-Let me know what you think,
-Maxime
-
-To: Emma Anholt <emma@anholt.net>
-To: Maxime Ripard <mripard@kernel.org>
-To: David Airlie <airlied@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
 ---
-Maxime Ripard (4):
-      drm/vc4: hdmi: Replace hardcoded value by define
-      drm/vc4: hdmi: Enable power domain before setting minimum
-      Revert "drm/vc4: hdmi: Fix HSM clock too low on Pi4"
-      Revert "drm/vc4: hdmi: Enforce the minimum rate at runtime_resume"
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/vc4/vc4_hdmi.c | 46 ++++++++++++------------------------------
- drivers/gpu/drm/vc4/vc4_hdmi.h |  1 -
- 2 files changed, 13 insertions(+), 34 deletions(-)
----
-base-commit: 9fbee811e479aca2f3523787cae1f46553141b40
-change-id: 20230126-rpi-display-fw-clk-cleanup-19d1b051a04c
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 14628864487a..98fa306dbd24 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1482,7 +1482,9 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 	 * Additionally, the AXI clock needs to be at least 25% of
+ 	 * pixel clock, but HSM ends up being the limiting factor.
+ 	 */
+-	hsm_rate = max_t(unsigned long, 120000000, (tmds_char_rate / 100) * 101);
++	hsm_rate = max_t(unsigned long,
++			 HSM_MIN_CLOCK_FREQ,
++			 (tmds_char_rate / 100) * 101);
+ 	ret = clk_set_min_rate(vc4_hdmi->hsm_clock, hsm_rate);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to set HSM clock rate: %d\n", ret);
 
-Best regards,
 -- 
-Maxime Ripard <maxime@cerno.tech>
+2.39.1
