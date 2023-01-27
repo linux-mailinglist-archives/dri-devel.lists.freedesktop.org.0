@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0BC67DD39
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 06:49:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 421B467DD49
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 06:57:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2478510E082;
-	Fri, 27 Jan 2023 05:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7209A10E3F1;
+	Fri, 27 Jan 2023 05:57:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
- [IPv6:2607:f8b0:4864:20::1133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DD910E082
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 05:49:01 +0000 (UTC)
-Received: by mail-yw1-x1133.google.com with SMTP id
- 00721157ae682-4fda31c3351so53425137b3.11
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 21:49:01 -0800 (PST)
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19F910E3F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 05:57:08 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id h5so4752205ybj.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 21:57:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=x7K7wszx3PlmIkyWFmqCcc/yrBEdNN/cXM5RnXYgcaU=;
- b=LCJ3aHR9FsrRDzjCEpHf8FoobPT4acjXfv1zRhRSNyw48zmuKf4Z4iPLRRMQ2SIqMz
- zdCk/Grj7c62mc8hO8LRK22bMHf13OcMBsTxxVba9u3HxOuQP+jzpLCNpQAqE31zEYj/
- kqAKT8YD34wMx+3xbeGOrorfx+Y+2IUH7fEw7+Mr1ZawUXb7NUXZ9IWxNe4Z0r7o05V1
- Wy8ZyYRIM0Qe06mbpE87OSciM936eiwhKdIeZ0t+vff2ZVgQUO+P/6BEocPL8KqcSKuI
- +4SDbkfUTizi51jtRPAkh//lXKujlxDeetvDMjM1laMHZUYl64bi4dLtZw/UDP8JgaHA
- adNA==
+ bh=IAByUKUjpWIuJxw2ypNqi7acKeTB9rtbuLvK9M641Ts=;
+ b=gjB0CNiJN2fEeLl2MltmMIYjX53sj8sN3FcRQsN09/gFGocOFS/B4QXUIQSSfE3wFI
+ 4aWDSth9GWVLu3+HARjaWSSMSk5rZkXUaEbNiQmsF+ols5Wbt1r/8PoYfXWWsq87w8PK
+ 8gDqKxBOUg0Em4fmNvLg/rXh9SR+o0BVcrVRObSyCwReLNCXCY5q574tRgitm+Z5b/tU
+ eliN5722UopHIlfgwvbkX4OnerC4a4ZkYde8AzChoB7WSSZPk+t870P5K3doK2+DG+5Q
+ mgTVnFCG+ahaAYADstC3KudbHO/ma2PgXUcq+xuhbkDZITtQKkaJGR3Fr7XRdsfogowu
+ bqDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=x7K7wszx3PlmIkyWFmqCcc/yrBEdNN/cXM5RnXYgcaU=;
- b=Wpyj/dxFlPpIioG+iyvvLuR5hNA56W9OGspkrlb6XNNHVq07HHM/VvcRCfFYg3pSO1
- Vz6A8PQWmBj1LnIJKZfkLseqJa15ePLd57OCwef6JttujVAYo32Onms+1a9G7jOpfd0c
- 3u1O3QAH7xSxuk+5YijXmgNkJlY2Eg+lC5TLRdGflBVVGBprkcOHXINgpmKQ65x1eQHy
- NIywa9qvEgp0UcinzRwZzVBq2C8vHjcTVoK16doLwc8UffXErfGyn5yNFMRf28OEboj6
- ppS3HcX7RPzgGSEY7S1Tbhp439azbDu7iSNPJa+hXpI4B1NNkIIIko6jdF2gcZaS4uwg
- dSbA==
-X-Gm-Message-State: AFqh2kpszJXEnLx9gozwGkkNj0gM0/DjmoLbSZ2m2vg+BjJbBhDaRIpS
- DXrSX+V0wiBTcigGDmhyo6tNob5LjxdWJHgYLmrMqQ==
-X-Google-Smtp-Source: AMrXdXtQXtfDBhpKPCT9/Dhn1xIPimIrtwTNyQrYmPbxZ2zSTHS40O4lV72dkhcNW16ltcKPZ+s/VoY08Y4KlKZHTzk=
-X-Received: by 2002:a0d:fd07:0:b0:3d6:2151:4038 with SMTP id
- n7-20020a0dfd07000000b003d621514038mr4486411ywf.418.1674798540299; Thu, 26
- Jan 2023 21:49:00 -0800 (PST)
+ bh=IAByUKUjpWIuJxw2ypNqi7acKeTB9rtbuLvK9M641Ts=;
+ b=Il2xMjOeqDsZ2Iq+xHYbqQrAyHIvw5wi/MpWdlaFD8WhuKVUazvLqiuxDPEwYEmDJT
+ W06kM0HkfbR0Tw4aJ8gVmX1dH0PWSGYaGN9xkTvBzW7GI4spYjM7EoPjZuEB5+RMH7PR
+ Z3Ogl+2xdMDr5xiX482gyltAuWmrwdahtpkQkdQTbAifA1vBUsnDsDZV0Ew4rnLVYhmU
+ /ccMw+zIwukVlbXtqpOX7LUL3tgJR/nQ+x2OnL8UL4eWiO1t7KXN68tud7P43ANuTDQW
+ u8fDwSeQxgU4HeD2rXnOqB0h5L9QHVlThO9p1A5+0Id+RA+xs+yGb8oFHLaFBxnipN2X
+ uxmA==
+X-Gm-Message-State: AFqh2ko+vlX0EKL4N7vDxxYT1F4eR1BFdtxl6nG6ddOo25ST3Q+Q10bJ
+ c7I5wKu/RcPvnCbbHnJThEgcu8S/rLlpu+NqQndXfw==
+X-Google-Smtp-Source: AMrXdXs3UIazZ5Tyf8HSmShgEkuet/MtA5ZelrqoXQur4I8425FoJWlG4R56lYnGUwuaQFYT+BpBM5zBXvsMZD/LV6o=
+X-Received: by 2002:a5b:305:0:b0:709:9335:236e with SMTP id
+ j5-20020a5b0305000000b007099335236emr3605309ybp.288.1674799027768; Thu, 26
+ Jan 2023 21:57:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20230113155547.RFT.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
- <20230113155547.RFT.2.I4cfeab9d0e07e98ead23dd0736ab4461e6c69002@changeid>
-In-Reply-To: <20230113155547.RFT.2.I4cfeab9d0e07e98ead23dd0736ab4461e6c69002@changeid>
+References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
+ <20221229191856.3508092-4-dmitry.baryshkov@linaro.org>
+ <b72dabe3-4de2-7d9a-1fca-01edfc588529@quicinc.com>
+In-Reply-To: <b72dabe3-4de2-7d9a-1fca-01edfc588529@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 27 Jan 2023 07:48:48 +0200
-Message-ID: <CAA8EJprBPNfjhx1Op4rnHTx9DXDGkgc0q3cZzBHtahi6EaKS_w@mail.gmail.com>
-Subject: Re: [RFT PATCH 2/2] drm/msm/dsi: Stop unconditionally powering up DSI
- hosts at modeset
-To: Douglas Anderson <dianders@chromium.org>
+Date: Fri, 27 Jan 2023 07:56:56 +0200
+Message-ID: <CAA8EJpra7UOWeB=YK8Xy5+Ro3EqShOe3HJtavqU8FSPywoukdQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/27] drm/msm/dpu: move SSPP allocation to the RM
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,191 +66,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ye xingchen <ye.xingchen@zte.com.cn>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jonas Karlman <jonas@kwiboo.se>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Vinod Koul <vkoul@kernel.org>, Robert Foss <robert.foss@linaro.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, 27 Jan 2023 at 01:29, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 12/29/2022 11:18 AM, Dmitry Baryshkov wrote:
+> > Follow the example of all other hw blocks and initialize SSPP blocks in
+> > Resource Manager.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 17 ++++-------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c    | 22 ++++++++++++++++++++++
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h    | 12 ++++++++++++
+> >   3 files changed, 38 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > index e1cdd71716f0..e443799de2c1 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > @@ -1275,8 +1275,6 @@ static void dpu_plane_destroy(struct drm_plane *plane)
+> >               /* this will destroy the states as well */
+> >               drm_plane_cleanup(plane);
+> >
+> > -             dpu_hw_sspp_destroy(pdpu->pipe_hw);
+> > -
+> We removed from here so the flow will be msm_drm_uninit calls
+> drm_mode_config_cleanup() which will call kms->destroy() which shall
+> call dpu_rm_destroy() where this will be released now right?
 
-On Sat, 14 Jan 2023 at 01:56, Douglas Anderson <dianders@chromium.org> wrote:
->
-> In commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
-> time"), we moved powering up DSI hosts to modeset time. This wasn't
-> because it was an elegant design, but there were no better options.
->
-> That commit actually ended up breaking ps8640, and thus was born
-> commit ec7981e6c614 ("drm/msm/dsi: don't powerup at modeset time for
-> parade-ps8640") as a temporary hack to un-break ps8640 by moving it to
-> the old way of doing things. It turns out that ps8640 _really_ doesn't
-> like its pre_enable() function to be called after
-> dsi_mgr_bridge_power_on(). Specifically (from experimentation, not
-> because I have any inside knowledge), it looks like the assertion of
-> "RST#" in the ps8640 runtime resume handler seems like it's not
-> allowed to happen after dsi_mgr_bridge_power_on()
->
-> Recently, Dave Stevenson's series landed allowing bridges some control
-> over pre_enable ordering. The meaty commit for our purposes is commit
-> 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to alter
-> bridge init order"). As documented by that series, if a bridge doesn't
-> set "pre_enable_prev_first" then we should use the old ordering.
->
-> Now that we have the commit ("drm/bridge: tc358762: Set
-> pre_enable_prev_first") we can go back to the old ordering, which also
-> allows us to remove the ps8640 special case.
->
-> One last note is that even without reverting commit 7d8e9a90509f
-> ("drm/msm/dsi: move DSI host powerup to modeset time"), if you _just_
-> revert the ps8640 special case and try it out then it doesn't seem to
-> fail anymore. I spent time bisecting / debugging this and it turns out
-> to be mostly luck, so we still want this patch to make sure it's
-> solid. Specifically the reason it sorta works these days is because
-> we implemented wait_hpd_asserted() in ps8640 now, plus the magic of
-> "pm_runtime" autosuspend. The fact that we have wait_hpd_asserted()
-> implemented means that we actually power the bridge chip up just a wee
-> bit earlier and then the bridge happens to stay on because of
-> autosuspend and thus ends up powered before dsi_mgr_bridge_power_on().
-
-I had a small comment on your patch, but then I was distracted and
-forgot to send it. See below.
+Yes. _dpu_kms_hw_destroy() calls dpu_rm_destroy(), which destroys all
+RM-allocated objects.
 
 >
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
 >
->  drivers/gpu/drm/msm/dsi/dsi_manager.c | 68 +++++----------------------
->  1 file changed, 11 insertions(+), 57 deletions(-)
+> >               kfree(pdpu);
+> >       }
+> >   }
+> > @@ -1482,14 +1480,10 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+> >       pdpu->pipe = pipe;
+> >
+> >       /* initialize underlying h/w driver */
+> > -     pdpu->pipe_hw = dpu_hw_sspp_init(pipe, kms->mmio, kms->catalog);
+> > -     if (IS_ERR(pdpu->pipe_hw)) {
+> > -             DPU_ERROR("[%u]SSPP init failed\n", pipe);
+> > -             ret = PTR_ERR(pdpu->pipe_hw);
+> > +     pdpu->pipe_hw = dpu_rm_get_sspp(&kms->rm, pipe);
+> > +     if (!pdpu->pipe_hw || !pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
+> > +             DPU_ERROR("[%u]SSPP is invalid\n", pipe);
 >
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index 3a1417397283..5e6b8d423b96 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -34,32 +34,6 @@ static struct msm_dsi_manager msm_dsim_glb;
->  #define IS_SYNC_NEEDED()       (msm_dsim_glb.is_sync_needed)
->  #define IS_MASTER_DSI_LINK(id) (msm_dsim_glb.master_dsi_link_id == id)
->
-> -#ifdef CONFIG_OF
-> -static bool dsi_mgr_power_on_early(struct drm_bridge *bridge)
-> -{
-> -       struct drm_bridge *next_bridge = drm_bridge_get_next_bridge(bridge);
-> -
-> -       /*
-> -        * If the next bridge in the chain is the Parade ps8640 bridge chip
-> -        * then don't power on early since it seems to violate the expectations
-> -        * of the firmware that the bridge chip is running.
-> -        *
-> -        * NOTE: this is expected to be a temporary special case. It's expected
-> -        * that we'll eventually have a framework that allows the next level
-> -        * bridge to indicate whether it needs us to power on before it or
-> -        * after it. When that framework is in place then we'll use it and
-> -        * remove this special case.
-> -        */
-> -       return !(next_bridge && next_bridge->of_node &&
-> -                of_device_is_compatible(next_bridge->of_node, "parade,ps8640"));
-> -}
-> -#else
-> -static inline bool dsi_mgr_power_on_early(struct drm_bridge *bridge)
-> -{
-> -       return true;
-> -}
-> -#endif
-> -
->  static inline struct msm_dsi *dsi_mgr_get_dsi(int id)
->  {
->         return msm_dsim_glb.dsi[id];
-> @@ -254,7 +228,7 @@ static void msm_dsi_manager_set_split_display(u8 id)
->         }
->  }
->
-> -static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
-> +static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+> I know this was existing code but can there be a case where pipe_hw->cap
+> exists but pipe_hw->cap->sblk doesnt?
 
-Can you please keep the dsi_mgr_bridge_power_on() as is and just
-remove the now-legacy dsi_mgr_power_on_early().
+There is none up to now, granted that SSPP has a lot of extra data in
+sblk. However, as you said, it's an existing code. No need to change
+it here. And it's good as a safety net.
+Granted that SRC offset is always 0, we can safely drop the src_sblk
+and always access it via main register space.
 
->  {
->         int id = dsi_mgr_bridge_get_id(bridge);
->         struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> @@ -300,36 +274,10 @@ static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
->         if (is_bonded_dsi && msm_dsi1)
->                 msm_dsi_host_enable_irq(msm_dsi1->host);
 >
-> -       return;
-> -
-> -host1_on_fail:
-> -       msm_dsi_host_power_off(host);
-> -host_on_fail:
-> -       dsi_mgr_phy_disable(id);
-> -phy_en_fail:
-> -       return;
-> -}
-> -
-> -static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
-> -{
-> -       int id = dsi_mgr_bridge_get_id(bridge);
-> -       struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-> -       struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
-> -       struct mipi_dsi_host *host = msm_dsi->host;
-> -       bool is_bonded_dsi = IS_BONDED_DSI();
-> -       int ret;
-> -
-> -       DBG("id=%d", id);
-> -       if (!msm_dsi_device_connected(msm_dsi))
-> -               return;
-> -
->         /* Do nothing with the host if it is slave-DSI in case of bonded DSI */
->         if (is_bonded_dsi && !IS_MASTER_DSI_LINK(id))
->                 return;
->
-> -       if (!dsi_mgr_power_on_early(bridge))
-> -               dsi_mgr_bridge_power_on(bridge);
-> -
->         ret = msm_dsi_host_enable(host);
->         if (ret) {
->                 pr_err("%s: enable host %d failed, %d\n", __func__, id, ret);
-> @@ -349,7 +297,16 @@ static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
->  host1_en_fail:
->         msm_dsi_host_disable(host);
->  host_en_fail:
-> -
-> +       msm_dsi_host_disable_irq(host);
-> +       if (is_bonded_dsi && msm_dsi1) {
-> +               msm_dsi_host_disable_irq(msm_dsi1->host);
-> +               msm_dsi_host_power_off(msm_dsi1->host);
-> +       }
-> +host1_on_fail:
-> +       msm_dsi_host_power_off(host);
-> +host_on_fail:
-> +       dsi_mgr_phy_disable(id);
-> +phy_en_fail:
->         return;
->  }
->
-> @@ -438,9 +395,6 @@ static void dsi_mgr_bridge_mode_set(struct drm_bridge *bridge,
->         msm_dsi_host_set_display_mode(host, adjusted_mode);
->         if (is_bonded_dsi && other_dsi)
->                 msm_dsi_host_set_display_mode(other_dsi->host, adjusted_mode);
-> -
-> -       if (dsi_mgr_power_on_early(bridge))
-> -               dsi_mgr_bridge_power_on(bridge);
->  }
->
->  static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
-> --
-> 2.39.0.314.g84b9a713c41-goog
->
+> >               goto clean_plane;
+> > -     } else if (!pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
+> > -             DPU_ERROR("[%u]SSPP init returned invalid cfg\n", pipe);
+> > -             goto clean_sspp;
+> >       }
+> >
+> >       format_list = pdpu->pipe_hw->cap->sblk->format_list;
+> > @@ -1499,7 +1493,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+> >                               format_list, num_formats,
+> >                               supported_format_modifiers, type, NULL);
+> >       if (ret)
+> > -             goto clean_sspp;
+> > +             goto clean_plane;
+> >
+> >       pdpu->catalog = kms->catalog;
+> >
+> > @@ -1532,9 +1526,6 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+> >                                       pipe, plane->base.id);
+> >       return plane;
+> >
+> > -clean_sspp:
+> > -     if (pdpu && pdpu->pipe_hw)
+> > -             dpu_hw_sspp_destroy(pdpu->pipe_hw);
+> >   clean_plane:
+> >       kfree(pdpu);
+> >       return ERR_PTR(ret);
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > index 73b3442e7467..0668009cc9ed 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > @@ -8,6 +8,7 @@
+> >   #include "dpu_hw_lm.h"
+> >   #include "dpu_hw_ctl.h"
+> >   #include "dpu_hw_pingpong.h"
+> > +#include "dpu_hw_sspp.h"
+> >   #include "dpu_hw_intf.h"
+> >   #include "dpu_hw_wb.h"
+> >   #include "dpu_hw_dspp.h"
+> > @@ -91,6 +92,9 @@ int dpu_rm_destroy(struct dpu_rm *rm)
+> >       for (i = 0; i < ARRAY_SIZE(rm->hw_wb); i++)
+> >               dpu_hw_wb_destroy(rm->hw_wb[i]);
+> >
+> > +     for (i = 0; i < ARRAY_SIZE(rm->hw_sspp); i++)
+> > +             dpu_hw_sspp_destroy(rm->hw_sspp[i]);
+> > +
+> >       return 0;
+> >   }
+> >
+> > @@ -255,6 +259,24 @@ int dpu_rm_init(struct dpu_rm *rm,
+> >               rm->dsc_blks[dsc->id - DSC_0] = &hw->base;
+> >       }
+> >
+> > +     for (i = 0; i < cat->sspp_count; i++) {
+> > +             struct dpu_hw_sspp *hw;
+> > +             const struct dpu_sspp_cfg *sspp = &cat->sspp[i];
+> > +
+> > +             if (sspp->id < SSPP_NONE || sspp->id >= SSPP_MAX) {
+> > +                     DPU_ERROR("skip intf %d with invalid id\n", sspp->id);
+> > +                     continue;
+> > +             }
+> > +
+> > +             hw = dpu_hw_sspp_init(sspp->id, mmio, cat);
+> > +             if (IS_ERR(hw)) {
+> > +                     rc = PTR_ERR(hw);
+> > +                     DPU_ERROR("failed sspp object creation: err %d\n", rc);
+> > +                     goto fail;
+> > +             }
+> > +             rm->hw_sspp[sspp->id - SSPP_NONE] = hw;
+> > +     }
+> > +
+> >       return 0;
+> >
+> >   fail:
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> > index 59de72b381f9..d62c2edb2460 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> > @@ -21,6 +21,7 @@ struct dpu_global_state;
+> >    * @hw_intf: array of intf hardware resources
+> >    * @hw_wb: array of wb hardware resources
+> >    * @dspp_blks: array of dspp hardware resources
+> > + * @hw_sspp: array of sspp hardware resources
+> >    */
+> >   struct dpu_rm {
+> >       struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
+> > @@ -31,6 +32,7 @@ struct dpu_rm {
+> >       struct dpu_hw_blk *dspp_blks[DSPP_MAX - DSPP_0];
+> >       struct dpu_hw_blk *merge_3d_blks[MERGE_3D_MAX - MERGE_3D_0];
+> >       struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
+> > +     struct dpu_hw_sspp *hw_sspp[SSPP_MAX - SSPP_NONE];
+> >   };
+> >
+> >   /**
+> > @@ -108,5 +110,15 @@ static inline struct dpu_hw_wb *dpu_rm_get_wb(struct dpu_rm *rm, enum dpu_wb wb_
+> >       return rm->hw_wb[wb_idx - WB_0];
+> >   }
+> >
+> > +/**
+> > + * dpu_rm_get_sspp - Return a struct dpu_hw_sspp instance given it's index.
+> > + * @rm: DPU Resource Manager handle
+> > + * @sspp_idx: SSPP index
+> > + */
+> > +static inline struct dpu_hw_sspp *dpu_rm_get_sspp(struct dpu_rm *rm, enum dpu_sspp sspp_idx)
+> > +{
+> > +     return rm->hw_sspp[sspp_idx - SSPP_NONE];
+> > +}
+> > +
+> >   #endif /* __DPU_RM_H__ */
+> >
+
 
 
 -- 
