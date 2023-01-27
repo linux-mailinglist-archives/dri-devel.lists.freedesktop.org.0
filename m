@@ -1,78 +1,137 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F8167EF82
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 21:25:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F359967EF88
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 21:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB73410E1AE;
-	Fri, 27 Jan 2023 20:25:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786BA10E2C5;
+	Fri, 27 Jan 2023 20:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E39C910E1AE
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 20:25:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674851120;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IPFaivJKn71UfPFDN84nxVwrXtkpEKt3PCNX8OYRPaI=;
- b=FBb7dh0cvwbfek6Fe7lRWL/Kqwy7lK8VF+3OTwADyZx0V0MNVYQDV0p2GvQPgl8KlxPdDr
- XhHTC+OgutjjyNg52A7GWAk5+xAJQSsU3bCi6JfG479iOwUb+yfXp3u493wIbwbeO1JNOs
- xXon5YN70D2PQAwAFTB2uRyM6QF0cFs=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-392-FwaDEG1NOSWz2UnqdTGQng-1; Fri, 27 Jan 2023 15:25:19 -0500
-X-MC-Unique: FwaDEG1NOSWz2UnqdTGQng-1
-Received: by mail-qk1-f199.google.com with SMTP id
- y3-20020a05620a44c300b00709109448a3so3643786qkp.19
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 12:25:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IPFaivJKn71UfPFDN84nxVwrXtkpEKt3PCNX8OYRPaI=;
- b=64LzdVkG/sEpKQ+FsFOveHzYM3L7tGK5qVNZpHI19GHk81TT+xIf2BRFwVBbEqLxoa
- phdFI4njtsGSaYt5WFoV1cReZM+7AG7sA/awfO0F5pu8Z8BLqkaLIiOtHUjce3ehmJns
- pKg62sA9LnaN8ALKXOpUaQZBFdvGJkQE/IcSqDd90bZmq6eb5/IDqoneG4glCYDINY+I
- /CQK+E1GIFbP+HaZ028gExZS485NVll7enkP/W9CTG/Z6Scf7v76Faq8i8IEtQh9n7rY
- pTQYiLejdufPRXnxW6TpZ+HF2N5vEcaVZiNiky9hhgZZ0V3mnIsdqBPxY3JXvcrTmq1D
- lMTQ==
-X-Gm-Message-State: AO0yUKXZmrekZINyZCNFmYGv9ZZlEDgHe3KqLWCMA3aMBdtwZUcy44Y0
- RtWWW10CEtrL66XdKEOEIMu+Mn8HY2Vrzo/fBtTM2CInEDfyS3BTvNxrTKfx8tHB7Ccpi7ZCe/2
- hXg8wh+iMfHIttufCLYRDPAnhxOTIhxDF5pv5ANnyZkzi
-X-Received: by 2002:ae9:e314:0:b0:719:484e:f986 with SMTP id
- v20-20020ae9e314000000b00719484ef986mr166694qkf.209.1674851118800; 
- Fri, 27 Jan 2023 12:25:18 -0800 (PST)
-X-Google-Smtp-Source: AK7set+reW9epoUgsTvkoCuS4BWyTRI928d66PYTf9uNh1S8zfiJVxGLovoAqoY3RSrdRLwfrJTOHStCXA8a5N+ZuEY=
-X-Received: by 2002:ae9:e314:0:b0:719:484e:f986 with SMTP id
- v20-20020ae9e314000000b00719484ef986mr166680qkf.209.1674851118416; Fri, 27
- Jan 2023 12:25:18 -0800 (PST)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A306910E2C4;
+ Fri, 27 Jan 2023 20:26:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674851171; x=1706387171;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=NzVcT5oHW04sZtCZCrYPmBvP/9d2U4621Lljtdj6hew=;
+ b=O1xit20badj8kZ6fr7bLArUcMLRFc4fSysptM4wEAG8R//fe9zXCfc6V
+ q77LKBojTlRPW22D+8vFy7KtSwo5yGeicaxCL8tJuF2BxoSw24HnSorUu
+ HlY11fu8MmBJs1h50Y6DMpd8ugYYJ48/LObw+F7pXz7UN3IVhl4mtyS2F
+ VihhqYLgrysZPi0oWGrLfDuSjSCtDJ5HD9F4/RqpfASz61mNAEjd/Dd7t
+ k33afQ/DlEBak8E5ZYAnD8qyEv1jzIlpFN3G1pffJAQLN+ouDqZflD3vK
+ Nz6a5q9axva572MGHmwSdqtpY8/s+ahO+EaaYDn56wuhyABUvbmY5dYG5 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="325854353"
+X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; d="scan'208";a="325854353"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2023 12:26:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10603"; a="787318364"
+X-IronPort-AV: E=Sophos;i="5.97,252,1669104000"; d="scan'208";a="787318364"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga004.jf.intel.com with ESMTP; 27 Jan 2023 12:26:10 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 27 Jan 2023 12:26:10 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Fri, 27 Jan 2023 12:26:10 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Fri, 27 Jan 2023 12:26:10 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MziJUNCpxciYnyfNXd676StJBvhiHBJOdnezYm0ZTq4YiKvU9nPALq/XmX8seAUr7AtOSEWIIhb4kKVOjyEMCUcZdiq0IahNP9Ve7dXDMoWrnyMQtPXYiSxMlAuvKHwAAVtuJABanveRwA+hXvNJ51OSQY2sp1NKQOoWn5DHFJQ08qGXwvHJSi75B63Y2YnpZQYd+Q+9Y11G5ZPFZ++xBPDglWHd+wNoW4AzyZBfH+TJNwVsa5wTehs1q/yTbJSudwMFQbfum+DmGsnjrXsbkX7IG8kutZRFoIljAH5BoZ1DktlrQ0ijXDtoh7ffG0Ca7rRXSNhkKEt+thtGS7JVaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bfsje09D+LyLuKbLHTZsefiazBGepUZBWnduJEY0L2o=;
+ b=cuYNAhxuEZ95S/KZ3UzBl/69wtbtOy/YbLJavYrxydZ4PKVQESvAek/2q6IWjfk9/EfBz23Ray6gPKWxTJMdqntGqcN19P77vcRlzjNMqnFyIHAlLUrs+aNxP9rfLEro8v8dLMyJavRhWX4CWwBaV2ZIUT626eFtEUJwlxZV68s38iVsIfK/qr2pmSe08lmCVy3cBaVJ5WfRQTeOSoib7K0reAu7Vt4YbCl63W1P6fziKqg6BkLGQZzb5PGY05+mj6cNuMk3Ym62uQ7QZTUwOtWMtnK5SzRDKIP6x+CZXrByHQf5G3x73Kz6VFKciKkUIfMAwYWWKCk+sSVMtDFTCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by SN7PR11MB8111.namprd11.prod.outlook.com (2603:10b6:806:2e9::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.23; Fri, 27 Jan
+ 2023 20:26:08 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.6043.022; Fri, 27 Jan 2023
+ 20:26:08 +0000
+Date: Fri, 27 Jan 2023 15:26:02 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v7 3/6] mei: clean pending read with vtag on bus
+Message-ID: <Y9QzWg97bvxvJ71+@intel.com>
+References: <20230125082637.118970-1-alan.previn.teres.alexis@intel.com>
+ <20230125082637.118970-4-alan.previn.teres.alexis@intel.com>
+ <Y9FmvUujJeijwZXi@intel.com> <Y9OUy2Ygq2EBzdDV@kroah.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Y9OUy2Ygq2EBzdDV@kroah.com>
+X-ClientProxiedBy: BYAPR08CA0071.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::48) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-6-dakr@redhat.com>
- <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
- <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
- <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
- <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
- <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
- <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
- <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
-In-Reply-To: <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
-From: David Airlie <airlied@redhat.com>
-Date: Sat, 28 Jan 2023 06:25:06 +1000
-Message-ID: <CAMwc25oGap_hEg5AquM_L2eH42PcG=pM3KPS6HNTNj-SzeHu+g@mail.gmail.com>
-Subject: Re: [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi interfaces
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SN7PR11MB8111:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7528047a-8868-48b1-2a14-08db00a4b8a6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HgWPqGLQHUvDgaebYxZobqGlX/cXBBnzsWXQkLtO0WLUBDBgVaF2RStEJ0E3RlEIXtE5D3L8Xu3gzhkJZUvVmcpppLy7aa6UlhjglOLtDDxuVZaercqPhzwrm9P/SsgTmt1InOkNldhQlCu8Fi5w4IHdWoR9rz+GpaQG6XGVaaV/TbOnQYqM9doro5lV4m9ZEGxx/qWHaFexRioM3lFbZRoRI0+aTrsQdMQqWt7AlykVoLk+Q7u4THWXE3+QP4WFi2YjLZRAM83f39CgV7+U0Z/6VHCBdvAfGiF2ruausciXnKw6qP1K7uawlZWoBny519AoJU9hZzNHPlpmpsTP4q+zcUGxj44OGRYm91sKOjFH8DEmdPWqTk87UEqxo9AUCcIzMljosnfzmLQaqmaCynrb2VnU1m2YMU8cslzgw49cQKBzRYX4iu+F7LKpD/dAwlrccpMeoIzImyA1K3ZrH2dW5Vb1dkyTyoJpqdOpGYHK2vP1a3g3csoc+fUJquh0jmjWCrOebJwg36c7nQXHZHQkl+rCGEWbCoEkufYIxDz0lw7JhgivcgIf01HeE2ssdxnzgyacGSksiDuFGGxkuY3dOEJL/g6uTrMvgOw8d3qvTRQnQC1xxIi0EN5ZtVP5SQHSUdqYuLlVxe7aZ0aO1g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(366004)(136003)(376002)(39860400002)(396003)(346002)(451199018)(86362001)(41300700001)(2616005)(54906003)(36756003)(478600001)(316002)(6486002)(6512007)(186003)(6506007)(26005)(107886003)(6666004)(6916009)(8676002)(66556008)(66946007)(66476007)(4326008)(82960400001)(38100700002)(2906002)(8936002)(44832011)(4744005)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aja7m+X9HyXLocjulDpXJJjBUC44pPLikJsOeFjw4nxaT8E2NDd8SKg+osaW?=
+ =?us-ascii?Q?ymQjNwH7youQDafAR9FoZjPoj+0MT3qvhHyLNVBsBoKn3lHQ2IZNCrGnW68l?=
+ =?us-ascii?Q?40zaurHVACoiHFCuEKnU4b3coSNcd+wdk60EE+2HsoOJdJGkQLeXlps/4zCn?=
+ =?us-ascii?Q?Z6nH+OpPq8OThuY2rrqKB3ifn/aJaqy4N5GNcdYcQbGlKDmu+Z0Aq1fetkK8?=
+ =?us-ascii?Q?p6GGRJ5QODtXi7jVBXddq3FQwgVuBNFVoYSG74KKL4IhraZvKeC1jMnJTOtv?=
+ =?us-ascii?Q?AEre+sLr6jiVJvMrh1sZZPIgHchIhA97sLdAG7Sy+NPMJJ8R9c66ycbvkmpJ?=
+ =?us-ascii?Q?pbhga+KWNCrp7Qct8r3cNEOId5xTn3qrD1xXgfjb/3FWw8aPF7Lcx2R28Xyd?=
+ =?us-ascii?Q?uqXaTbTdOl9/9+Qje7AC26g2TZZmimG2EMC9VK33byndFkoTFauxDwjGFyTJ?=
+ =?us-ascii?Q?FzK7FsALdZFOioqqLNkoenmxMtClaFVjlF657jMoQmoeV5BLiQYVQb9/Drj8?=
+ =?us-ascii?Q?PYHwWaj0rD0NOtYzmQK2dxZKphEMTlkDRgM/YsDmmZ9mtoIXqAaZsQ7cbuYo?=
+ =?us-ascii?Q?+EczaLGpWgoJldEJPgxi3LTRblhFQiHG4HaGMuIFnWbGxFssGOF0ftYJhWLY?=
+ =?us-ascii?Q?cebRLtaEUNu+Gasi/YF94dIOKvneH00kLd6dKlAodVSyj/RK6HJHQGANm0z7?=
+ =?us-ascii?Q?p1GnCfaSdxpuHgEcjDYf3sSBGd/DcTA7sg8OBZ+9nUS03WMAPUssGgamhrME?=
+ =?us-ascii?Q?qM9e/Glz8vy+sMTQm9qfbxadM8LQmacCYOiWf0dFIfn0+EBMxVllckhXNU+R?=
+ =?us-ascii?Q?18jokDrLRKmlBfJDqH7wRmmDwMLu5efowT+TACANSp3njYiUuY4RIEC2JjkV?=
+ =?us-ascii?Q?Q92kN65+iBqvv+jKLYMAySZDsyDKEg1uCVtSKAyqnxeqeyPbiq4i2PiaxiwW?=
+ =?us-ascii?Q?mqF4RXI0x3TqAj0+RhmKeU00fDUFm6uLKCKxda/Yh70TeyujakSymXEfIBaF?=
+ =?us-ascii?Q?prl/Rbrvbe2Pywb8KKsy3u4+qitZk12R9mSsEz1jzXYgSK7VdQiwJNoMk9Yg?=
+ =?us-ascii?Q?KedyDLO/olN6XzbXNTgtELU0CACkaEWQ/w3+DBTWvI0QxCQ2DHeq3OZYj08E?=
+ =?us-ascii?Q?N256MJXfGBMA40li5aPQTi7NzRz3mLV6n6N16eUnG4xGbR0eoKP6nP8mF57q?=
+ =?us-ascii?Q?HtF7LmAdOrEoX1fcCcq8uI6nrc4RY3IbDL/Y0iE8yGoqZsxr0M8he4vgjF83?=
+ =?us-ascii?Q?bNOlhEBcU0FRNxCVDwRcHVmvzkb3KgGra8a/AtaL6J/J7JBzckxgSoEuVylP?=
+ =?us-ascii?Q?agSJJGTxDbCWXfEs99g76GR0IWYzr+JeTeBp8ZDx0XabkF7Iktinv32CWFVk?=
+ =?us-ascii?Q?DlSk4XjX20rl3fRMvYTkngetSNi2kDWMaxE3kIR9QiEn+68jxm1c+q8FtQBj?=
+ =?us-ascii?Q?I82Ay/jb5J9pU4uZx9WfOAQIXJQhj6ldxWW3AZqEE6Qmk6S2WG5ILIIhgu92?=
+ =?us-ascii?Q?U0YPFP7K4tCu1rj2E04VWbV5O/tZy/KRTRA0hky2sn+2vYQ2JZX+/uEWjjma?=
+ =?us-ascii?Q?4ZOKbATZGtPjWUbzxaaqLz3WkQs5hH5uW0zWNDvma2crYiPZtoQi57VeUSZJ?=
+ =?us-ascii?Q?mQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7528047a-8868-48b1-2a14-08db00a4b8a6
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 20:26:07.7634 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rBWvzK2HIjyikHvUdyySezvebMGg5+C/5TGCw2k2N88z3nudtIS7Trp796h19xIPSVnNLyOgGBM3nKHYJLD6yQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8111
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,180 +144,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, corbet@lwn.net,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>, bskeggs@redhat.com, jason@jlekstrand.net,
- nouveau@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Juston Li <justonli@chromium.org>, intel-gfx@lists.freedesktop.org,
+ Alexander Usyskin <alexander.usyskin@intel.com>,
+ dri-devel@lists.freedesktop.org, Daniele
+ Ceraolo Spurio <daniele.ceraolospurio@intel.com>, Vivi@freedesktop.org,
+ Tomas Winkler <tomas.winkler@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 28, 2023 at 1:17 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 27.01.23 um 15:44 schrieb Danilo Krummrich:
-> > [SNIP]
-> >>>>
-> >>>> What you want is one component for tracking the VA allocations
-> >>>> (drm_mm based) and a different component/interface for tracking the
-> >>>> VA mappings (probably rb tree based).
-> >>>
-> >>> That's what the GPUVA manager is doing. There are gpuva_regions
-> >>> which correspond to VA allocations and gpuvas which represent the
-> >>> mappings. Both are tracked separately (currently both with a
-> >>> separate drm_mm, though). However, the GPUVA manager needs to take
-> >>> regions into account when dealing with mappings to make sure the
-> >>> GPUVA manager doesn't propose drivers to merge over region
-> >>> boundaries. Speaking from userspace PoV, the kernel wouldn't merge
-> >>> mappings from different VKBuffer objects even if they're virtually
-> >>> and physically contiguous.
-> >>
-> >> That are two completely different things and shouldn't be handled in
-> >> a single component.
-> >
-> > They are different things, but they're related in a way that for
-> > handling the mappings (in particular merging and sparse) the GPUVA
-> > manager needs to know the VA allocation (or region) boundaries.
-> >
-> > I have the feeling there might be a misunderstanding. Userspace is in
-> > charge to actually allocate a portion of VA space and manage it. The
-> > GPUVA manager just needs to know about those VA space allocations and
-> > hence keeps track of them.
-> >
-> > The GPUVA manager is not meant to be an allocator in the sense of
-> > finding and providing a hole for a given request.
-> >
-> > Maybe the non-ideal choice of using drm_mm was implying something else.
->
-> Uff, well long story short that doesn't even remotely match the
-> requirements. This way the GPUVA manager won't be usable for a whole
-> bunch of use cases.
->
-> What we have are mappings which say X needs to point to Y with this and
-> hw dependent flags.
->
-> The whole idea of having ranges is not going to fly. Neither with AMD
-> GPUs and I strongly think not with Intels XA either.
->
-> >> We should probably talk about the design of the GPUVA manager once
-> >> more when this should be applicable to all GPU drivers.
-> >
-> > That's what I try to figure out with this RFC, how to make it
-> > appicable for all GPU drivers, so I'm happy to discuss this. :-)
->
-> Yeah, that was really good idea :) That proposal here is really far away
-> from the actual requirements.
->
-> >>> For sparse residency the kernel also needs to know the region
-> >>> boundaries to make sure that it keeps sparse mappings around.
-> >>
-> >> What?
-> >
-> > When userspace creates a new VKBuffer with the
-> > VK_BUFFER_CREATE_SPARSE_BINDING_BIT the kernel may need to create
-> > sparse mappings in order to ensure that using this buffer without any
-> > memory backed mappings doesn't fault the GPU.
-> >
-> > Currently, the implementation does this the following way:
-> >
-> > 1. Userspace creates a new VKBuffer and hence allocates a portion of
-> > the VA space for it. It calls into the kernel indicating the new VA
-> > space region and the fact that the region is sparse.
-> >
-> > 2. The kernel picks up the region and stores it in the GPUVA manager,
-> > the driver creates the corresponding sparse mappings / page table
-> > entries.
-> >
-> > 3. Userspace might ask the driver to create a couple of memory backed
-> > mappings for this particular VA region. The GPUVA manager stores the
-> > mapping parameters, the driver creates the corresponding page table
-> > entries.
-> >
-> > 4. Userspace might ask to unmap all the memory backed mappings from
-> > this particular VA region. The GPUVA manager removes the mapping
-> > parameters, the driver cleans up the corresponding page table entries.
-> > However, the driver also needs to re-create the sparse mappings, since
-> > it's a sparse buffer, hence it needs to know the boundaries of the
-> > region it needs to create the sparse mappings in.
->
-> Again, this is not how things are working. First of all the kernel
-> absolutely should *NOT* know about those regions.
->
-> What we have inside the kernel is the information what happens if an
-> address X is accessed. On AMD HW this can be:
->
-> 1. Route to the PCIe bus because the mapped BO is stored in system memory=
-.
-> 2. Route to the internal MC because the mapped BO is stored in local memo=
-ry.
-> 3. Route to other GPUs in the same hive.
-> 4. Route to some doorbell to kick of other work.
-> ...
-> x. Ignore write, return 0 on reads (this is what is used for sparse
-> mappings).
-> x+1. Trigger a recoverable page fault. This is used for things like SVA.
-> x+2. Trigger a non-recoverable page fault. This is used for things like
-> unmapped regions where access is illegal.
->
-> All this is plus some hw specific caching flags.
->
-> When Vulkan allocates a sparse VKBuffer what should happen is the followi=
-ng:
->
-> 1. The Vulkan driver somehow figures out a VA region A..B for the
-> buffer. This can be in userspace (libdrm_amdgpu) or kernel (drm_mm), but
-> essentially is currently driver specific.
+On Fri, Jan 27, 2023 at 10:09:31AM +0100, Greg Kroah-Hartman wrote:
+> On Wed, Jan 25, 2023 at 12:28:29PM -0500, Rodrigo Vivi wrote:
+> > 
+> > Greg, ack on getting these 3 mei patches merged through intel-gfx?
+> 
+> I only see 2 mei patches in this series, what am I missing?
 
-There are NO plans to have drm_mm do VA region management, VA region
-management will be in userspace in Mesa. Can we just not bring that up agai=
-n?
-This is for GPU VA tracking not management if that makes it easier we
-could rename it.
+right... 2 mei patches only... sorry for the noise and for the top posting.
 
->
-> 2. The kernel gets a request to map the VA range A..B as sparse, meaning
-> that it updates the page tables from A..B with the sparse setting.
->
-> 3. User space asks kernel to map a couple of memory backings at location
-> A+1, A+10, A+15 etc....
+thanks for the ack.
 
-3.5?
+series pushed to drm-intel-next
 
-Userspace asks the kernel to unmap A+1 so it can later map something
-else in there?
-
-What happens in that case, with a set of queued binds, do you just do
-a new sparse mapping for A+1, does userspace decide that?
-
-Dave.
-
->
-> 4. The VKBuffer is de-allocated, userspace asks kernel to update region
-> A..B to not map anything (usually triggers a non-recoverable fault).
->
-> When you want to unify this between hw drivers I strongly suggest to
-> completely start from scratch once more.
->
-> First of all don't think about those mappings as VMAs, that won't work
-> because VMAs are usually something large. Think of this as individual
-> PTEs controlled by the application. similar how COW mappings and struct
-> pages are handled inside the kernel.
->
-> Then I would start with the VA allocation manager. You could probably
-> base that on drm_mm. We handle it differently in amdgpu currently, but I
-> think this is something we could change.
->
-> Then come up with something close to the amdgpu VM system. I'm pretty
-> sure that should work for Nouveau and Intel XA as well. In other words
-> you just have a bunch of very very small structures which represents
-> mappings and a larger structure which combine all mappings of a specific
-> type, e.g. all mappings of a BO or all sparse mappings etc...
->
-> Merging of regions is actually not mandatory. We don't do it in amdgpu
-> and can live with the additional mappings pretty well. But I think this
-> can differ between drivers.
->
-> Regards,
-> Christian.
->
-
+> 
+> thanks,
+> 
+> greg k-h
