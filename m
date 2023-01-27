@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE6867E7E0
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 15:13:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8255967E7F9
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 15:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96F5010E992;
-	Fri, 27 Jan 2023 14:13:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74F6910E999;
+	Fri, 27 Jan 2023 14:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8933910E98F;
- Fri, 27 Jan 2023 14:13:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF5410E997;
+ Fri, 27 Jan 2023 14:17:03 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 48BE32205E;
- Fri, 27 Jan 2023 14:13:51 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 45AE122087;
+ Fri, 27 Jan 2023 14:17:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674828831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1674829022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Xnty0YewjjZGntfA5Jezh1stOqjzMINOZh3MNW1NGRE=;
- b=XILFmXDhp2Rkm3Gt877yc+9GZnJqZCsgfbsIdjM1dV/FG2uTDvUxt8XOjlNNCRjr4Six1J
- SsvVjSV3PtGynLAuTblPJndStDJir8dFn/tOZtXUMn+Agp1eaMeT5UgXg+lM5h0lqmajpA
- pqe6dqMaDqdDs/bUiTO/GpLk9M7GYBQ=
+ bh=uZiwNEqXmi9BMmxbKEurVmSr6ZVu3hsnB0ttl+6/ICA=;
+ b=0qcyTBQQQOKH/CxrCqwb9P9oVkwGim7k3h8RYpa2tDzWXevN0nSwYEp+5Tl50KYHGUX2ke
+ U6Vx5oO27btVq+HaK6Xzm/OUP0vK1Ke7qZkYWowxEdsbSlJAoWPcsx/3nGEywNpTWWzd91
+ s2KWuAuMjzQ2qs9bfGvZtqmgN/X7fos=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674828831;
+ s=susede2_ed25519; t=1674829022;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Xnty0YewjjZGntfA5Jezh1stOqjzMINOZh3MNW1NGRE=;
- b=jutVM9bPYO31A6tbeYAXpAfj4PSLyPGa8PWW6ZJzmfKvcHn/lBJlgvTOG5wJP1dXtL0OBx
- YEKvcx1sYQCvGKCg==
+ bh=uZiwNEqXmi9BMmxbKEurVmSr6ZVu3hsnB0ttl+6/ICA=;
+ b=kmG488OVUQAxrLOyWPURCmSUw+tYzUfg9o/bs8+LCZHE7knvtnMlzZckXLkUHGZrC0PSdH
+ liPUXgsSFgmdenDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 16CB9138E3;
- Fri, 27 Jan 2023 14:13:51 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00850138E3;
+ Fri, 27 Jan 2023 14:17:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id txeIBB/c02NCPAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 27 Jan 2023 14:13:51 +0000
-Message-ID: <bf1aa950-3b58-3e33-4849-2ee7fbefcfcc@suse.de>
-Date: Fri, 27 Jan 2023 15:13:50 +0100
+ by imap2.suse-dmz.suse.de with ESMTPSA id otXBOt3c02P/PQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 27 Jan 2023 14:17:01 +0000
+Message-ID: <c40df153-df30-436e-5bc6-5d039a351ffa@suse.de>
+Date: Fri, 27 Jan 2023 15:17:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v3 01/10] drm/client: Test for connectors before sending
- hotplug event
+Subject: Re: [PATCH v3 02/10] drm/client: Add hotplug_failed flag
 Content-Language: en-US
 To: Sam Ravnborg <sam@ravnborg.org>
 References: <20230125200415.14123-1-tzimmermann@suse.de>
- <20230125200415.14123-2-tzimmermann@suse.de> <Y9GWfi4EiCDPa6BJ@ravnborg.org>
+ <20230125200415.14123-3-tzimmermann@suse.de> <Y9GXxcwSnuftoUQh@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Y9GWfi4EiCDPa6BJ@ravnborg.org>
+In-Reply-To: <Y9GXxcwSnuftoUQh@ravnborg.org>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------5rxgPFJ3j2KL4oJ65FD8FXSd"
+ boundary="------------1TeDdi0mNx7U5w7App0566C4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,107 +70,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, javierm@redhat.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Errors-To: dri-devel-bounces@lists.freedesktop.org
-Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------5rxgPFJ3j2KL4oJ65FD8FXSd
-Content-Type: multipart/mixed; boundary="------------heOeejt6LNNDwxF4fkjBknOr";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
 Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, javierm@redhat.com,
  dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-Message-ID: <bf1aa950-3b58-3e33-4849-2ee7fbefcfcc@suse.de>
-Subject: Re: [PATCH v3 01/10] drm/client: Test for connectors before sending
- hotplug event
-References: <20230125200415.14123-1-tzimmermann@suse.de>
- <20230125200415.14123-2-tzimmermann@suse.de> <Y9GWfi4EiCDPa6BJ@ravnborg.org>
-In-Reply-To: <Y9GWfi4EiCDPa6BJ@ravnborg.org>
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------heOeejt6LNNDwxF4fkjBknOr
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------1TeDdi0mNx7U5w7App0566C4
+Content-Type: multipart/mixed; boundary="------------FL6pTeY6jOJvldwPKbDHDEf0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, javierm@redhat.com, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <c40df153-df30-436e-5bc6-5d039a351ffa@suse.de>
+Subject: Re: [PATCH v3 02/10] drm/client: Add hotplug_failed flag
+References: <20230125200415.14123-1-tzimmermann@suse.de>
+ <20230125200415.14123-3-tzimmermann@suse.de> <Y9GXxcwSnuftoUQh@ravnborg.org>
+In-Reply-To: <Y9GXxcwSnuftoUQh@ravnborg.org>
+
+--------------FL6pTeY6jOJvldwPKbDHDEf0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-SGkNCg0KQW0gMjUuMDEuMjMgdW0gMjE6NTIgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
-IFRob21hcywNCj4gDQo+IE9uIFdlZCwgSmFuIDI1LCAyMDIzIGF0IDA5OjA0OjA2UE0gKzAx
-MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gVGVzdCBmb3IgY29ubmVjdG9ycyBp
-biB0aGUgY2xpZW50IGNvZGUgYW5kIHJlbW92ZSBhIHNpbWlsYXIgdGVzdA0KPj4gZnJvbSB0
-aGUgZ2VuZXJpYyBmYmRldiBlbXVsYXRpb24uIERvIG5vdGhpbmcgaWYgdGhlIHRlc3QgZmFp
-bHMuDQo+PiBOb3QgaGF2aW5nIGNvbm5lY3RvcnMgaW5kaWNhdGVzIGEgZHJpdmVyIGJ1Zy4N
-Cj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4NCj4+IFJldmlld2VkLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGph
-dmllcm1AcmVkaGF0LmNvbT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2Ns
-aWVudC5jICAgICAgICB8IDUgKysrKysNCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9mYmRl
-dl9nZW5lcmljLmMgfCA1IC0tLS0tDQo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRp
-b25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2NsaWVudC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnQuYw0KPj4g
-aW5kZXggMjYyZWM2NGQ0Mzk3Li4wOWFjMTkxYzIwMmQgMTAwNjQ0DQo+PiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2NsaWVudC5jDQo+PiBAQCAtMTk4LDYgKzE5OCwxMSBAQCB2b2lkIGRybV9jbGllbnRfZGV2
-X2hvdHBsdWcoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4+ICAgCWlmICghZHJtX2NvcmVf
-Y2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9NT0RFU0VUKSkNCj4+ICAgCQlyZXR1cm47DQo+
-PiAgIA0KPj4gKwlpZiAoIWRldi0+bW9kZV9jb25maWcubnVtX2Nvbm5lY3Rvcikgew0KPj4g
-KwkJZHJtX2RiZ19rbXMoZGV2LCAiTm8gY29ubmVjdG9ycyBmb3VuZCwgd2lsbCBub3Qgc2Vu
-ZCBob3RwbHVnIGV2ZW50cyFcbiIpOw0KPj4gKwkJcmV0dXJuOw0KPiBUaGlzIGRlc2VydmVz
-IGEgbW9yZSB2aXNpYmxlIGxvZ2dpbmcgLSBpZiBhIGRyaXZlciBmYWlscyBoZXJlIGl0IHdv
-dWxkDQo+IGJlIGdvb2QgdG8gc3BvdCBpdCBpbiB0aGUgbm9ybWFsIGtlcm5lbCBsb2cuDQo+
-IGRybV9pbmZvIG9yIGRybV9ub3RpY2U/DQoNCkJ1dCBpcyB0aGF0IHJlYWxseSBub3Rld29y
-dGh5PyBBRkFJSywgdGhpcyBzaXR1YXRpb24gY2FuIGxlZ2FsbHkgaGFwcGVuLiANClNvIGlm
-IGl0J3MgZXhwZWN0ZWQsIHdoeSBzaG91bGQgd2UgcHJpbnQgYSBtZXNzYWdlIGFib3V0IGl0
-Pw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBUaGUgb3JpZ2luYWwgY29kZSBo
-YWQgdGhpcyBvbiB0aGUgZGVidWcgbGV2ZWwsIGJ1dCB3aGVuIG1vdmluZyB0aGUgbG9nDQo+
-IGxldmVsIGNvdWxkIGFsc28gYmUgdXBkYXRlZC4NCj4gDQo+IAlTYW0NCj4gDQo+PiArCX0N
-Cj4+ICsNCj4+ICAgCW11dGV4X2xvY2soJmRldi0+Y2xpZW50bGlzdF9tdXRleCk7DQo+PiAg
-IAlsaXN0X2Zvcl9lYWNoX2VudHJ5KGNsaWVudCwgJmRldi0+Y2xpZW50bGlzdCwgbGlzdCkg
-ew0KPj4gICAJCWlmICghY2xpZW50LT5mdW5jcyB8fCAhY2xpZW50LT5mdW5jcy0+aG90cGx1
-ZykNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jDQo+PiBpbmRleCAwYTRj
-MTYwZTBlNTguLjNkNDU1YTJlM2ZiNSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZmJkZXZfZ2VuZXJpYy5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zi
-ZGV2X2dlbmVyaWMuYw0KPj4gQEAgLTM4OSwxMSArMzg5LDYgQEAgc3RhdGljIGludCBkcm1f
-ZmJkZXZfY2xpZW50X2hvdHBsdWcoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQpDQo+
-PiAgIAlpZiAoZGV2LT5mYl9oZWxwZXIpDQo+PiAgIAkJcmV0dXJuIGRybV9mYl9oZWxwZXJf
-aG90cGx1Z19ldmVudChkZXYtPmZiX2hlbHBlcik7DQo+PiAgIA0KPj4gLQlpZiAoIWRldi0+
-bW9kZV9jb25maWcubnVtX2Nvbm5lY3Rvcikgew0KPj4gLQkJZHJtX2RiZ19rbXMoZGV2LCAi
-Tm8gY29ubmVjdG9ycyBmb3VuZCwgd2lsbCBub3QgY3JlYXRlIGZyYW1lYnVmZmVyIVxuIik7
-DQo+PiAtCQlyZXR1cm4gMDsNCj4+IC0JfQ0KPj4gLQ0KPj4gICAJZHJtX2ZiX2hlbHBlcl9w
-cmVwYXJlKGRldiwgZmJfaGVscGVyLCAmZHJtX2ZiX2hlbHBlcl9nZW5lcmljX2Z1bmNzKTsN
-Cj4+ICAgDQo+PiAgIAlyZXQgPSBkcm1fZmJfaGVscGVyX2luaXQoZGV2LCBmYl9oZWxwZXIp
-Ow0KPj4gLS0gDQo+PiAyLjM5LjANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
-Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
-bWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4
-MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+SGkNCg0KQW0gMjUuMDEuMjMgdW0gMjE6NTcgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIFdlZCwgSmFuIDI1LCAyMDIzIGF0IDA5OjA0OjA3UE0gKzAx
+MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gU2lnbmFsIGZhaWxlZCBob3RwbHVn
+Z2luZyB3aXRoIGEgZmxhZyBpbiBzdHJ1Y3QgZHJtX2NsaWVudF9kZXYuIElmIHNldCwNCj4+
+IHRoZSBjbGllbnQgaGVscGVycyB3aWxsIG5vdCBmdXJ0aGVyIHRyeSB0byBzZXQgdXAgdGhl
+IGZiZGV2IGRpc3BsYXkuDQo+Pg0KPj4gVGhpcyB1c2VkIHRvIGJlIHNpZ25hbGxlZCB3aXRo
+IGEgY29tYmluYXRpb24gb2YgY2xlYXJlZCBwb2ludGVycyBpbg0KPj4gc3RydWN0IGRybV9m
+Yl9oZWxwZXIsDQo+IEkgZmFpbGVkIHRvIGZpbmQgd2hlcmUgd2UgY2xlYXIgdGhlIHBvaW50
+ZXJzLiBXaGF0IGRvIEkgbWlzcz8NCg0KVGhvc2UgcG9pbnRlciBmaWVsZHMsIGRldiBhbmQg
+ZnVuY3MsIHdoZXJlIGFsbG9jYXRlZCB3aXRoIGt6YWxsb2MoKS4gVGhlIA0KZXJyb3IgcGF0
+aCBpbiBkcm1fZmJkZXZfY2xpZW50X2hvdHBsdWcoKSBsYXRlciByZXNldCB0aGVtIHRvIE5V
+TEwgYWdhaW4gDQppZiBhbiBlcnJvciBvY2N1cmVkLg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
+cw0KDQo+IChJIGhhZCBhc3N1bWVkIHdlIHdvdWxkIHN0b3AgY2xlYXJpbmcgdGhlIHBvaW50
+ZXJzIGFmdGVyIHRoaXMgY2hhbmdlKS4NCj4gDQo+IAlTYW0NCj4gDQo+IHdoaWNoIHByZXZl
+bnRzIHVzIGZyb20gaW5pdGlhbGl6aW5nIHRoZXNlIHBvaW50ZXJzDQo+PiBlYXJseSBhZnRl
+ciBhbGxvY2F0aW9uLg0KPj4NCj4+IFRoZSBjaGFuZ2UgYWxzbyBoYXJtb25pemVzIGJlaGF2
+aW9yIGFtb25nIERSTSBjbGllbnRzLiBBZGRpdGlvbmFsIERSTQ0KPj4gY2xpZW50cyB3aWxs
+IG5vdyBoYW5kbGUgZmFpbGVkIGhvdHBsdWdnaW5nIGxpa2UgZmJkZXYgZG9lcy4NCj4+DQo+
+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
+ZT4NCj4+IFJldmlld2VkLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1A
+cmVkaGF0LmNvbT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5j
+ICAgICAgICB8IDUgKysrKysNCj4+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5l
+cmljLmMgfCA0IC0tLS0NCj4+ICAgaW5jbHVkZS9kcm0vZHJtX2NsaWVudC5oICAgICAgICAg
+ICAgfCA4ICsrKysrKysrDQo+PiAgIDMgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygr
+KSwgNCBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2RybV9jbGllbnQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50LmMNCj4+IGluZGV4
+IDA5YWMxOTFjMjAyZC4uMDA5ZTdiMTA0NTVjIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2RybV9jbGllbnQuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jbGll
+bnQuYw0KPj4gQEAgLTIwOCw4ICsyMDgsMTMgQEAgdm9pZCBkcm1fY2xpZW50X2Rldl9ob3Rw
+bHVnKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+PiAgIAkJaWYgKCFjbGllbnQtPmZ1bmNz
+IHx8ICFjbGllbnQtPmZ1bmNzLT5ob3RwbHVnKQ0KPj4gICAJCQljb250aW51ZTsNCj4+ICAg
+DQo+PiArCQlpZiAoY2xpZW50LT5ob3RwbHVnX2ZhaWxlZCkNCj4+ICsJCQljb250aW51ZTsN
+Cj4+ICsNCj4+ICAgCQlyZXQgPSBjbGllbnQtPmZ1bmNzLT5ob3RwbHVnKGNsaWVudCk7DQo+
+PiAgIAkJZHJtX2RiZ19rbXMoZGV2LCAiJXM6IHJldD0lZFxuIiwgY2xpZW50LT5uYW1lLCBy
+ZXQpOw0KPj4gKwkJaWYgKHJldCkNCj4+ICsJCQljbGllbnQtPmhvdHBsdWdfZmFpbGVkID0g
+dHJ1ZTsNCj4+ICAgCX0NCj4+ICAgCW11dGV4X3VubG9jaygmZGV2LT5jbGllbnRsaXN0X211
+dGV4KTsNCj4+ICAgfQ0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJk
+ZXZfZ2VuZXJpYy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMNCj4+
+IGluZGV4IDNkNDU1YTJlM2ZiNS4uMTM1ZDU4YjgwMDdiIDEwMDY0NA0KPj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jDQo+PiBAQCAtMzgyLDEwICszODIsNiBAQCBzdGF0
+aWMgaW50IGRybV9mYmRldl9jbGllbnRfaG90cGx1ZyhzdHJ1Y3QgZHJtX2NsaWVudF9kZXYg
+KmNsaWVudCkNCj4+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBjbGllbnQtPmRldjsN
+Cj4+ICAgCWludCByZXQ7DQo+PiAgIA0KPj4gLQkvKiBTZXR1cCBpcyBub3QgcmV0cmllZCBp
+ZiBpdCBoYXMgZmFpbGVkICovDQo+PiAtCWlmICghZmJfaGVscGVyLT5kZXYgJiYgZmJfaGVs
+cGVyLT5mdW5jcykNCj4+IC0JCXJldHVybiAwOw0KPj4gLQ0KPj4gICAJaWYgKGRldi0+ZmJf
+aGVscGVyKQ0KPj4gICAJCXJldHVybiBkcm1fZmJfaGVscGVyX2hvdHBsdWdfZXZlbnQoZGV2
+LT5mYl9oZWxwZXIpOw0KPj4gICANCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1f
+Y2xpZW50LmggYi9pbmNsdWRlL2RybS9kcm1fY2xpZW50LmgNCj4+IGluZGV4IDRmYzgwMThl
+ZGRkYS4uMzk0ODI1MjdhNzc1IDEwMDY0NA0KPj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Ns
+aWVudC5oDQo+PiArKysgYi9pbmNsdWRlL2RybS9kcm1fY2xpZW50LmgNCj4+IEBAIC0xMDYs
+NiArMTA2LDE0IEBAIHN0cnVjdCBkcm1fY2xpZW50X2RldiB7DQo+PiAgIAkgKiBAbW9kZXNl
+dHM6IENSVEMgY29uZmlndXJhdGlvbnMNCj4+ICAgCSAqLw0KPj4gICAJc3RydWN0IGRybV9t
+b2RlX3NldCAqbW9kZXNldHM7DQo+PiArDQo+PiArCS8qKg0KPj4gKwkgKiBAaG90cGx1ZyBm
+YWlsZWQ6DQo+PiArCSAqDQo+PiArCSAqIFNldCBieSBjbGllbnQgaG90cGx1ZyBoZWxwZXJz
+IGlmIHRoZSBob3RwbHVnZ2luZyBmYWlsZWQNCj4+ICsJICogYmVmb3JlLiBJdCBpcyB1c3Vh
+bGx5IG5vdCB0cmllZCBhZ2Fpbi4NCj4+ICsJICovDQo+PiArCWJvb2wgaG90cGx1Z19mYWls
+ZWQ7DQo+PiAgIH07DQo+PiAgIA0KPj4gICBpbnQgZHJtX2NsaWVudF9pbml0KHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fY2xpZW50X2RldiAqY2xpZW50LA0KPj4gLS0g
+DQo+PiAyLjM5LjANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
+IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhm
+ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7D
+vHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
---------------heOeejt6LNNDwxF4fkjBknOr--
+--------------FL6pTeY6jOJvldwPKbDHDEf0--
 
---------------5rxgPFJ3j2KL4oJ65FD8FXSd
+--------------1TeDdi0mNx7U5w7App0566C4
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPT3B4FAwAAAAAACgkQlh/E3EQov+Dc
-WxAAon9oAW+n4SDkB6P3CQ+G/JHDXSh26ifvSOw9Psr06ZvDnaHGytExuF+cXV6Re7SQiz4rCCc4
-0c4AKQqvMnCKdO2p8CPHkBjE2MdrNhsqQGCrhDWP3DRSnzjB3MmBPZMhaz3INiURYod42cTLnxG1
-EeyarMIBH8k0nTor7oczo2a7HVvUuA3K3I0n7gCOn4seaocvvG7MM0RmhFmhF4lAfjnUQ2sOOLFy
-LUVq20J4bVRB2ftF7C/xXoiTnoH+Vaht3o1D06Px0FGU0+e0sEMkkjPudg0mdZ3Kpf9xLQiQwGNo
-dkF/BZSQS7SiXso4zu3T0BOMFK5uYizhc9fQfn3AAhPuDWhB+wqz9dQuDhwQB08NShXGhIQrJ/MW
-q5I26mgWBcpOe5DNgI2l+Wefw/MrYrRvvzEbkuOXG6efMvnpmTL5BMYOPH3sKT8gl855v+ezShTq
-hiYijcXkkaPNrFesBVG81zHnUOgi/HM0JDGDfhcFUde8YYpRcE0LptKMtOfRwkdZTxPPCXGp+aRJ
-3bglCykbu7UpwF/gu8ywHCYDPRU06emQYWJCRr6BpzWDxxTLdsVn9Gd6Z3q5PYgrRbZkDlRxmgO+
-qLxO7GNYcXpt34MiyUWdOaSc0M04I1SBTgVp0qExDLnwEcrf2EAQyGGuU5N2GDuPsnYKMQX2nYa+
-v7c=
-=Q75b
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPT3N0FAwAAAAAACgkQlh/E3EQov+AC
+ug/9H8vDZw2mMk+LZSbgDBGq5QOE8EdwgRx3KPGGgKpmAnnEs+tcawMso6lNpTTJBG7ncch8nM5r
+OfXomWJzn4Ac8+T4b8mfFIkOolaEGa94eZvRowBGjoS1b3O1Kt5Yyc6V40fxj6577oYnaCEPGAuU
+0K2pQUWrciUanR744/fm7lzQnN97k5qVAywRzff0KflXPge7h0zkvtHTMtQavrztqZnXMBEHXUsJ
+QgNmP9mtoKuafaBZ0Uj1v3uYPzPiAmHnGCw2kQXOrStKO8fkDCVgnTgo4z9nYkj3W+q2beCOMRHR
+ym+oEElKC7Oo5l2qeEFhoqwxY1eoBqdZgpIYEi9Nb/9BcyxF7iYggPKbO2thagmQZ8tpcXxsPOI4
+qSt2sJm0Uu93VK9wleA8XPLdkiHttFxjX3kNEONl7bKoeLtJ7CbmM9QITh5gXoR+kyrvbU6hl22r
+/sxJ7bxH2UI0Xo1XzT1PEDq1Sh8aGGL3XcAiqXNt8XZiQc54JU++wD1QWkfI4ldFUhjGqesG6s7p
+d1jez1d/AU0em3eE95wgEKyEA1kQLk9uOjNdmGvLeLAY3yPa8oHmAZVtz3Y8nW+58pRt5cH6KASI
+AGAbjHPJXqNFy//YEYpeWVkHgcuRUjdFQx48+U9jbcmdgweqk6Dq2cVlpc759YhP6H/GGpL/Ivzk
+hb8=
+=QGfv
 -----END PGP SIGNATURE-----
 
---------------5rxgPFJ3j2KL4oJ65FD8FXSd--
+--------------1TeDdi0mNx7U5w7App0566C4--
