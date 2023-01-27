@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B35467E151
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 11:16:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 236F367E14D
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 11:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1052D10E43F;
-	Fri, 27 Jan 2023 10:16:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94E9310E441;
+	Fri, 27 Jan 2023 10:15:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F05F910E444;
- Fri, 27 Jan 2023 10:15:53 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52EB510E438;
+ Fri, 27 Jan 2023 10:15:55 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30R9GCkW010292; Fri, 27 Jan 2023 10:15:52 GMT
+ 30R9JxE3029288; Fri, 27 Jan 2023 10:15:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=qcppdkim1;
- bh=dbvn3h8XC6JT3W0rcz10aQqZ3vTMEesGk9q5E5oIx6g=;
- b=SNX/BLGz20qWCvR9cSuau+6G9XwNPWkAKSyMNy2TqnPOAQq5a3WS/0K6TkLIWXb6ipRP
- 8tiw8UpUW1FK8KlbdDnvr98yNNi0jm+ETdr8PdWOi8nQNidc4brS7rk/s192xCo3NQT9
- JI1Hvv3LOX9Pkn1j3LhFzfRwfEnQSLo5WFCYvK1bNucprD0TMqAs74iBmzrEVvBhWLyC
- /fOI78iCkwCMaPqFRj9SzxpBipJ2dCzNbFfwMqcGovgYyT+P5bA2Rt6os4I/BEw0ajmy
- DgHeytk7xmQkHYPb3dTnbt/GNGuXCQ+yC/L7iOl4Vf5AVoBz+b714UW2vT5uqXCv/oZB Gw== 
+ bh=F+NVfrpPkujXLAFhLHAFnE5xU6nUW+MZpGTrDE6u64E=;
+ b=IvVF7/L7tRVcFiPuZNaKYhZ4oUIHHO+PvUkFmCcGXY0zH58adBS0kn9vUYNOEnWqJ7Y4
+ ZG0J9pVQB6Ah3F24RX5uBh9eU8QmwlTcyYmWFEHhErOuAbqzDFjpHmrSteihvmJgcY/a
+ z26rCaak7TFvNxLKAQkQzHJMrbydk+eXJBvCrWbbx+XZSbL9QI55Zs5NIp23IeASVkMf
+ lA53CWqBaxMdJlK88X0/gn+GCyLIa2U/YDSp7hqNih52ntOTH9oKr1jysXFyXK+RJNhI
+ nq5luoAplBOxjXkXDTbbWysPfbeIyNAsUuedq4hqjD+zFB4DfTm1U9IBs5SlAkmFhCXh Bw== 
 Received: from apblrppmta02.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncacmg6gy-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nc9ysr7rs-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Jan 2023 10:15:51 +0000
+ Fri, 27 Jan 2023 10:15:53 +0000
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 30RAFmos002368; 
- Fri, 27 Jan 2023 10:15:48 GMT
+ by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 30RAFoov002411; 
+ Fri, 27 Jan 2023 10:15:50 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3n894m35k3-1
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 3n894m35k9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 27 Jan 2023 10:15:48 +0000
+ Fri, 27 Jan 2023 10:15:50 +0000
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30RAFmQR002362;
- Fri, 27 Jan 2023 10:15:48 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30RAFndM002375;
+ Fri, 27 Jan 2023 10:15:49 GMT
 Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
  [10.204.66.210])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 30RAFmEo002361;
- Fri, 27 Jan 2023 10:15:48 +0000
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 30RAFntE002374;
+ Fri, 27 Jan 2023 10:15:49 +0000
 Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
- id 6A4984B77; Fri, 27 Jan 2023 02:15:47 -0800 (PST)
+ id 9633C4B77; Fri, 27 Jan 2023 02:15:48 -0800 (PST)
 From: Kalyan Thota <quic_kalyant@quicinc.com>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [PATCH 1/3] drm/msm/disp/dpu1: clear dspp reservations in rm release
-Date: Fri, 27 Jan 2023 02:15:43 -0800
-Message-Id: <1674814545-9453-2-git-send-email-quic_kalyant@quicinc.com>
+Subject: [PATCH 2/3] drm/msm/disp/dpu1: add dspps into reservation if there is
+ a ctm request
+Date: Fri, 27 Jan 2023 02:15:44 -0800
+Message-Id: <1674814545-9453-3-git-send-email-quic_kalyant@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1674814545-9453-1-git-send-email-quic_kalyant@quicinc.com>
 References: <1674814545-9453-1-git-send-email-quic_kalyant@quicinc.com>
@@ -62,17 +63,17 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: DGalojp9OLL2TdqHJVlYqQEQA77vNbMd
-X-Proofpoint-ORIG-GUID: DGalojp9OLL2TdqHJVlYqQEQA77vNbMd
+X-Proofpoint-ORIG-GUID: NrlOMePMu1Z1iM0j6ShOWrcQVUCZDzvD
+X-Proofpoint-GUID: NrlOMePMu1Z1iM0j6ShOWrcQVUCZDzvD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-27_05,2023-01-27_01,2022-06-22_01
+ definitions=2023-01-27_06,2023-01-27_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 adultscore=0 suspectscore=0
- mlxlogscore=840 lowpriorityscore=0 spamscore=0 malwarescore=0
- impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2301270096
+ priorityscore=1501
+ clxscore=1015 mlxscore=0 phishscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 mlxlogscore=890 spamscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301270096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,27 +93,52 @@ Cc: Kalyan Thota <quic_kalyant@quicinc.com>, robdclark@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clear dspp reservations from the global state during
-rm release
+Add dspp blocks into the topology for reservation, if there is a ctm
+request for that composition.
 
 Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 73b3442..718ea0a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -572,6 +572,8 @@ void dpu_rm_release(struct dpu_global_state *global_state,
- 		ARRAY_SIZE(global_state->ctl_to_enc_id), enc->base.id);
- 	_dpu_rm_clear_mapping(global_state->dsc_to_enc_id,
- 		ARRAY_SIZE(global_state->dsc_to_enc_id), enc->base.id);
-+	_dpu_rm_clear_mapping(global_state->dspp_to_enc_id,
-+		ARRAY_SIZE(global_state->dspp_to_enc_id), enc->base.id);
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 9c6817b..8d76cb3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -545,7 +545,8 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
+ static struct msm_display_topology dpu_encoder_get_topology(
+ 			struct dpu_encoder_virt *dpu_enc,
+ 			struct dpu_kms *dpu_kms,
+-			struct drm_display_mode *mode)
++			struct drm_display_mode *mode,
++			struct drm_crtc_state *crtc_state)
+ {
+ 	struct msm_display_topology topology = {0};
+ 	int i, intf_count = 0;
+@@ -573,11 +574,9 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 	else
+ 		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
  
- int dpu_rm_reserve(
+-	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
+-		if (dpu_kms->catalog->dspp &&
+-			(dpu_kms->catalog->dspp_count >= topology.num_lm))
+-			topology.num_dspp = topology.num_lm;
+-	}
++	if (dpu_kms->catalog->dspp && crtc_state->ctm &&
++		(dpu_kms->catalog->dspp_count >= topology.num_lm))
++		topology.num_dspp = topology.num_lm;
+ 
+ 	topology.num_enc = 0;
+ 	topology.num_intf = intf_count;
+@@ -643,7 +642,7 @@ static int dpu_encoder_virt_atomic_check(
+ 		}
+ 	}
+ 
+-	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
++	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state);
+ 
+ 	/* Reserve dynamic resources now. */
+ 	if (!ret) {
 -- 
 2.7.4
 
