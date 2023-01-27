@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97B267E32D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 12:26:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD1567E4DF
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 13:15:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A96410E45D;
-	Fri, 27 Jan 2023 11:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 857AC10E463;
+	Fri, 27 Jan 2023 12:15:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A070110E454
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 11:26:30 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id a9so5597510ybb.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 03:26:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=d3211B/eqPpaLvmnXfm5OZXyP/JXrQPL6aGdcOSbhI0=;
- b=SUO4Rkf0N4JlWVY9u6ZmY1MiyOGmRkm4oFsGjy4gelCL+CXEH9XyqjgSgqo++wuC1i
- vl96+MCIqV3OqZAfRYcWl7K121co+PYixTpgk54kRPDrrclbh8s4lLY6wz9iwlgPIgWO
- F88Rn3r0LMU94VRnLFg5teeN5+zf/aVkTbrE8XVvwdGLb8z3X2LSvshg6dxC8OqI/E91
- ksrjkrnqJB5QxPhfhGB2+ITp9PfTYeth9lApEM9gh1oCF2B+u81cvHBR5BVWnvTz0UII
- hrJfike1zjnhdBIkPl9anFdzj3suBrCzYs8/tB9nlE9ZOcjZ9g+Y0/DEmnx3U7H1EGCo
- zoZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=d3211B/eqPpaLvmnXfm5OZXyP/JXrQPL6aGdcOSbhI0=;
- b=rL5Dwv0OGwkAyWQNtuMJo3hDjICNng2CpoafJbtsJZfU3S3rBPxfPiB5z9il/3Pyut
- dAXsClPl2lsDedMfMc9hZokQ4n088aEEKGClWabZtAvVoAn3VhnkpFMqTzb6owK1Q5wN
- l7LKQFdRXJWOVAl0ctkXaUuKjE6upX8g70rrvwdQPMpEepCjB/8kTQN2Lnq0C79reO+4
- MGCZUlEYC7STS28svTchjIBhq2ifgZXBKeSUyWVJO0iZHuKJUbC8YpV6S0o6ID+hlCnt
- zUF0T2why0OEzihlxb9S/biuFZvlDG4MiLn0pg1JBm9V7b61ZgaVv3cuH4UJ0WocAfcN
- vvsQ==
-X-Gm-Message-State: AFqh2koVsSdgj8Fdz83HZtyGOsoxXCXoz3N/m4Bcad8ru5Lx5/JXAHgu
- mQYJLFQ3KKaQJVTPjb8vTcfmcoItOXiNqBgQZuuOBwWhvxp79dAi6iw=
-X-Google-Smtp-Source: AMrXdXvMLGXTfdJ5wQerD9NMyM5boTUQGKSksEjld4CH9OQIFaQZt7w3coaKOIg8fcjJnuRcWhKXfE2PgO9t278VAJ8=
-X-Received: by 2002:a5b:592:0:b0:7ed:9cee:464 with SMTP id
- l18-20020a5b0592000000b007ed9cee0464mr4893677ybp.194.1674818789768; 
- Fri, 27 Jan 2023 03:26:29 -0800 (PST)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5F8A10E463
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 12:14:58 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id B01C484EEF;
+ Fri, 27 Jan 2023 13:14:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1674821697;
+ bh=ss2MqIY1vFLwQEWWjsXEVezBnSUVGIRGPjrbXX3WzyI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jrt3q3t+ZHCxlX2iyvlWpvdr02BmnzGC8zfgPvxzSqHy//ZL7DqnViRVnXDAza4TH
+ W+/RqMr5XYXcAdGtRancTZbr7K1TUwpbJBMzEheQCGx+IiBTkTh1GHzVjPEaJ/iVz8
+ jhy6wvZTyUCfaqR4pAOtWIm/NwPNo/3KRRbTNRh99T2gSShPor62Uzxfh8MKvgacno
+ EAsmFLorzIWt/bkLug5I5Xbe4zgYqX5zdn33qFDvs6TK7GZhBegoSLoAEN04AQSoou
+ 4erVzxyCvqGWhphSx87zh0cfUbtTpTYnD2cJS+8Wr9jo/0EClkgZtcdTvUmmJDnMci
+ ud66tRAgKxfwA==
+Content-Type: multipart/mixed; boundary="------------g08fYK75NVO0I8Y99d04itGS"
+Message-ID: <31ccc974-4b01-ae47-9505-626617f07758@denx.de>
+Date: Fri, 27 Jan 2023 12:30:25 +0100
 MIME-Version: 1.0
-References: <1674814545-9453-1-git-send-email-quic_kalyant@quicinc.com>
- <1674814545-9453-4-git-send-email-quic_kalyant@quicinc.com>
-In-Reply-To: <1674814545-9453-4-git-send-email-quic_kalyant@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 27 Jan 2023 13:26:18 +0200
-Message-ID: <CAA8EJpogp==gSQBj88r+yNcPzPviFv2dOQjckMATQ5H-NQDQqA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/msm/disp/dpu1: reserve the resources on topology
- change
-To: Kalyan Thota <quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+References: <20230126144427.607098-1-jagan@amarulasolutions.com>
+ <06e5423f-c022-7a1c-efe0-0f4fbab664c1@prevas.dk>
+ <CAMty3ZBRDDnNdmgD5ji11SdCuOcmu3ZyBPyB28cF1aRTyxp+fg@mail.gmail.com>
+ <be95e4f7-15a8-ba99-6b39-6f7f0ea71201@prevas.dk>
+ <CAMty3ZBNLpV9orVRD897ZeR3Hj9RWOau07b1ZGDUoBRej=Cj-Q@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAMty3ZBNLpV9orVRD897ZeR3Hj9RWOau07b1ZGDUoBRej=Cj-Q@mail.gmail.com>
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,198 +60,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, marijn.suijten@somainline.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org, quic_vpolimer@quicinc.com
+Cc: linux-samsung-soc@vger.kernel.org, matteo.lisi@engicam.com,
+ linux-amarula@amarulasolutions.com, sw0312.kim@samsung.com,
+ dri-devel@lists.freedesktop.org, frieder.schrempf@kontron.de,
+ kyungmin.park@samsung.com, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, m.szyprowski@samsung.com, aford173@gmail.com,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Jan 2023 at 12:15, Kalyan Thota <quic_kalyant@quicinc.com> wrote:
->
-> Some features like ctm can be enabled dynamically. Release and reserve
-> the dpu resources whenever a topology change occurs such that
-> required hw blocks are allocated appropriately.
->
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    |  1 +
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 41 ++++++++++++++++++++++++++---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  4 ---
->  5 files changed, 42 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> index 539b68b..89afe04 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> @@ -225,6 +225,7 @@ struct dpu_crtc_state {
->
->         enum dpu_crtc_crc_source crc_source;
->         int crc_frame_skip_count;
-> +       struct msm_display_topology topology;
->  };
->
->  #define to_dpu_crtc_state(x) \
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 8d76cb3..db417f5 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -217,6 +217,18 @@ static u32 dither_matrix[DITHER_MATRIX_SZ] = {
->         15, 7, 13, 5, 3, 11, 1, 9, 12, 4, 14, 6, 0, 8, 2, 10
->  };
->
-> +static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
-> +                                            struct drm_crtc_state *crtc_state,
-> +                                            struct drm_connector_state *conn_state);
-> +
-> +static bool _dpu_enc_is_topology_changed(struct drm_crtc_state *crtc_state,
-> +       struct msm_display_topology topology)
-> +{
-> +       struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
-> +
-> +       return !!memcmp(&cstate->topology,
-> +               &topology, sizeof(struct msm_display_topology));
-> +}
->
->  bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
->  {
-> @@ -650,12 +662,16 @@ static int dpu_encoder_virt_atomic_check(
->                  * Release and Allocate resources on every modeset
->                  * Dont allocate when active is false.
->                  */
-> -               if (drm_atomic_crtc_needs_modeset(crtc_state)) {
-> +               if (drm_atomic_crtc_needs_modeset(crtc_state) ||
-> +                       _dpu_enc_is_topology_changed(crtc_state, topology)) {
->                         dpu_rm_release(global_state, drm_enc);
->
-> -                       if (!crtc_state->active_changed || crtc_state->active)
-> +                       if (crtc_state->enable) {
->                                 ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
->                                                 drm_enc, crtc_state, topology);
-> +                               if (!ret)
-> +                                       dpu_enc->topology = topology;
-> +                       }
->                 }
->         }
->
-> @@ -1089,7 +1105,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->         }
->
->         cstate->num_mixers = num_lm;
-> -
-> +       cstate->topology = dpu_enc->topology;
+This is a multi-part message in MIME format.
+--------------g08fYK75NVO0I8Y99d04itGS
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There is one part of the story that I do not quite like here. The crtc
-state now gets the encoder-level information (regarding the num_intf,
-num_enc, etc).
-Just to clarify, I find it particularly bad that we have to actively
-poke into the crtc state from the dpu_encoder.c. I hope to get to it
-at some point, most probably while reworking the encoder code to
-support  using a single CTL for all the operations.
+On 1/27/23 12:04, Jagan Teki wrote:
+> On Fri, Jan 27, 2023 at 4:26 PM Rasmus Villemoes
+> <rasmus.villemoes@prevas.dk> wrote:
+>>
+>> On 27/01/2023 11.39, Jagan Teki wrote:
+>>> On Fri, Jan 27, 2023 at 4:03 PM Rasmus Villemoes
+>>> <rasmus.villemoes@prevas.dk> wrote:
+>>>>
+>>>> Hi Jagan and others
+>>>>
+>>>> I'm trying to test this series on our imx8mp-based boards, which has the
+>>>> mipi-dsi connected to a ti,sn65dsi86 bridge (in turn connected to a
+>>>> full-size DP-connector). But I don't know how to add the proper nodes to
+>>>> imx8mp.dtsi. My current, obviously incomplete, attempt is
+>>>
+>>> Please use this repo - https://github.com/openedev/kernel/tree/imx8mm-dsi-v12
+>>
+>> Thanks, but that's exactly what I'm doing, and I don't see any
+>> modification of imx8mp.dtsi in that branch. I'm basically looking for
+>> help to do the equivalent of
+>>
+>>    88775338cd58 - arm64: dts: imx8mm: Add MIPI DSI pipeline
+>>    f964f67dd6ee - arm64: dts: imx8mm: Add eLCDIF node support
+>>
+>> for imx8mp in order to test those patches on our boards (we have two
+>> variants).
+> 
+> Marek, any help here, thanks.
 
->         dpu_enc->connector = conn_state->connector;
->
->         for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-> @@ -2076,11 +2092,14 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
->         ctl->ops.clear_pending_flush(ctl);
->  }
->
-> -void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
-> +void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc,
-> +       struct drm_crtc_state *crtc_state)
->  {
->         struct dpu_encoder_virt *dpu_enc;
->         struct dpu_encoder_phys *phys;
->         int i;
-> +       struct list_head *connector_list;
-> +       struct drm_connector *conn = NULL, *conn_iter;
->
->         if (!drm_enc) {
->                 DPU_ERROR("invalid encoder\n");
-> @@ -2088,6 +2107,20 @@ void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
->         }
->         dpu_enc = to_dpu_encoder_virt(drm_enc);
->
-> +       connector_list = &drm_enc->dev->mode_config.connector_list;
-> +       list_for_each_entry(conn_iter, connector_list, head)
-> +               if (conn_iter->state->best_encoder == drm_enc)
-> +                       conn = conn_iter;
+Try attached patch.
+--------------g08fYK75NVO0I8Y99d04itGS
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-arm64-dts-imx8mp-Add-display-pipeline-components.patch"
+Content-Disposition: attachment;
+ filename*0="0001-arm64-dts-imx8mp-Add-display-pipeline-components.patch"
+Content-Transfer-Encoding: base64
 
-I don't think we can poke at conn_iter->state here.
+RnJvbSBmN2U4NWVmMTRjNTJlODRlNDk1YWI4NWZkMDcyNjNlNWI5MDliZjdmIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJlayBWYXN1dCA8bWFyZXhAZGVueC5kZT4KRGF0
+ZTogU3VuLCAyNyBGZWIgMjAyMiAwMjoyMDowNSArMDEwMApTdWJqZWN0OiBbUEFUQ0hdIGFy
+bTY0OiBkdHM6IGlteDhtcDogQWRkIGRpc3BsYXkgcGlwZWxpbmUgY29tcG9uZW50cwpNSU1F
+LVZlcnNpb246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgK
+Q29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKQWRkIERTSU0sIERTSU0gUEhZLCBM
+Q0RJRjEgYW5kIG1lZGlhbWl4IGJsa19jdGwgbm9kZXMgZm9yIGlNWDhNUC4KVGhlIGJsa19j
+dGwgaXMgcmVxdWlyZWQgdG8gZW5hYmxlIExDRElGIGNsb2NrIGFuZCBEU0lNIGNsb2NrLCBh
+bmQKaGFuZGxlIERTSU0gcmVzZXRzLgoKVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nClNpZ25l
+ZC1vZmYtYnk6IE1hcmVrIFZhc3V0IDxtYXJleEBkZW54LmRlPgpDYzogQWJlbCBWZXNhIDxh
+YmVsLnZlc2FAbnhwLmNvbT4KQ2M6IERvbmcgQWlzaGVuZyA8YWlzaGVuZy5kb25nQG54cC5j
+b20+CkNjOiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+CkNjOiBHdWlkbyBH
+w7xudGhlciA8YWd4QHNpZ3hjcHUub3JnPgpDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVu
+Z3V0cm9uaXguZGU+CkNjOiBOWFAgTGludXggVGVhbSA8bGludXgtaW14QG54cC5jb20+CkNj
+OiBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3JnPgpDYzogU2hhd24gR3VvIDxzaGF3
+bmd1b0BrZXJuZWwub3JnPgotLS0KIGFyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lt
+eDhtcC5kdHNpIHwgMTQ0ICsrKysrKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2Vk
+LCAxMzkgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9hcmNo
+L2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4bXAuZHRzaSBiL2FyY2gvYXJtNjQvYm9v
+dC9kdHMvZnJlZXNjYWxlL2lteDhtcC5kdHNpCmluZGV4IGJiOTE2YTA5NDhhOGYuLmFlZjM5
+ZDYyYjQ3ZDcgMTAwNjQ0Ci0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lt
+eDhtcC5kdHNpCisrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcC5k
+dHNpCkBAIC01MzMsNiArNTMzLDcgQEAgcGdjIHsKIAkJCQkJcGdjX21pcGlfcGh5MTogcG93
+ZXItZG9tYWluQDAgewogCQkJCQkJI3Bvd2VyLWRvbWFpbi1jZWxscyA9IDwwPjsKIAkJCQkJ
+CXJlZyA9IDxJTVg4TVBfUE9XRVJfRE9NQUlOX01JUElfUEhZMT47CisJCQkJCQlwb3dlci1k
+b21haW5zID0gPCZwZ2NfbWVkaWFtaXg+OwogCQkJCQl9OwogCiAJCQkJCXBnY19wY2llX3Bo
+eTogcG93ZXItZG9tYWluQDEgewpAQCAtNTg3LDYgKzU4OCw3IEBAIHBnY19tZWRpYW1peDog
+cG93ZXItZG9tYWluQDEwIHsKIAkJCQkJcGdjX21pcGlfcGh5MjogcG93ZXItZG9tYWluQDE2
+IHsKIAkJCQkJCSNwb3dlci1kb21haW4tY2VsbHMgPSA8MD47CiAJCQkJCQlyZWcgPSA8SU1Y
+OE1QX1BPV0VSX0RPTUFJTl9NSVBJX1BIWTI+OworCQkJCQkJcG93ZXItZG9tYWlucyA9IDwm
+cGdjX21lZGlhbWl4PjsKIAkJCQkJfTsKIAogCQkJCQlwZ2NfaHNpb21peDogcG93ZXItZG9t
+YWluc0AxNyB7CkBAIC0xMDgyLDcgKzEwODQsNyBAQCBhaXBzNDogYnVzQDMyYzAwMDAwIHsK
+IAogCQkJbWVkaWFfYmxrX2N0cmw6IGJsay1jdHJsQDMyZWMwMDAwIHsKIAkJCQljb21wYXRp
+YmxlID0gImZzbCxpbXg4bXAtbWVkaWEtYmxrLWN0cmwiLAotCQkJCQkgICAgICJzeXNjb24i
+OworCQkJCQkgICAgICJzaW1wbGUtYnVzIiwgInN5c2NvbiI7CiAJCQkJcmVnID0gPDB4MzJl
+YzAwMDAgMHgxMDAwMD47CiAJCQkJcG93ZXItZG9tYWlucyA9IDwmcGdjX21lZGlhbWl4PiwK
+IAkJCQkJCTwmcGdjX21pcGlfcGh5MT4sCkBAIC0xMTIwLDE0ICsxMTIyLDE0NiBAQCBtZWRp
+YV9ibGtfY3RybDogYmxrLWN0cmxAMzJlYzAwMDAgewogCQkJCQkgPCZjbGsgSU1YOE1QX0NM
+S19NRURJQV9NSVBJX1BIWTFfUkVGX1JPT1Q+OwogCQkJCWNsb2NrLW5hbWVzID0gImFwYiIs
+ICJheGkiLCAiY2FtMSIsICJjYW0yIiwKIAkJCQkJICAgICAgImRpc3AxIiwgImRpc3AyIiwg
+ImlzcCIsICJwaHkiOworCQkJCWFzc2lnbmVkLWNsb2NrcyA9IDwmY2xrIElNWDhNUF9DTEtf
+TUVESUFfRElTUDFfUElYPiwKKwkJCQkJCSAgPCZjbGsgSU1YOE1QX0NMS19NRURJQV9ESVNQ
+Ml9QSVg+LAorCQkJCQkJICA8JmNsayBJTVg4TVBfVklERU9fUExMMV9PVVQ+OworCQkJCWFz
+c2lnbmVkLWNsb2NrLXBhcmVudHMgPSA8JmNsayBJTVg4TVBfVklERU9fUExMMV9PVVQ+LAor
+CQkJCQkJCSA8JmNsayBJTVg4TVBfVklERU9fUExMMV9PVVQ+OworCQkJCWFzc2lnbmVkLWNs
+b2NrLXJhdGVzID0gPDA+LCA8MD4sIDw1OTQwMDAwMDA+OworCisJCQkJI3Bvd2VyLWRvbWFp
+bi1jZWxscyA9IDwxPjsKIAotCQkJCWFzc2lnbmVkLWNsb2NrcyA9IDwmY2xrIElNWDhNUF9D
+TEtfTUVESUFfQVhJPiwKKwkJCQlsdmRzX2xkYjogbHZkcy1sZGIgeworCQkJCQkjYWRkcmVz
+cy1jZWxscyA9IDwwPjsKKwkJCQkJI3NpemUtY2VsbHMgPSA8MD47CisJCQkJCWNvbXBhdGli
+bGUgPSAiZnNsLGlteDhtcC1sZGIiOworCQkJCQljbG9ja3MgPSA8JmNsayBJTVg4TVBfQ0xL
+X01FRElBX0xEQj47CisJCQkJCWNsb2NrLW5hbWVzID0gImxkYiI7CisJCQkJCWFzc2lnbmVk
+LWNsb2NrcyA9IDwmY2xrIElNWDhNUF9DTEtfTUVESUFfTERCPjsKKwkJCQkJYXNzaWduZWQt
+Y2xvY2stcGFyZW50cyA9IDwmY2xrIElNWDhNUF9WSURFT19QTEwxX09VVD47CisKKwkJCQkJ
+cG9ydHMgeworCQkJCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47CisJCQkJCQkjc2l6ZS1jZWxs
+cyA9IDwwPjsKKwkJCQkJCXBvcnRAMCB7CisJCQkJCQkJcmVnID0gPDA+OworCisJCQkJCQkJ
+bGRiX2Zyb21fbGNkaWYyOiBlbmRwb2ludCB7CisJCQkJCQkJCXJlbW90ZS1lbmRwb2ludCA9
+IDwmbGNkaWYyX3RvX2xkYj47CisJCQkJCQkJfTsKKwkJCQkJCX07CisKKwkJCQkJCS8qIExW
+RFMgc2luZ2xlLWxpbmsgb3IgZHVhbC1saW5rICovCisJCQkJCQlwb3J0QDEgeworCQkJCQkJ
+CXJlZyA9IDwxPjsKKworCQkJCQkJCWxkYl9sdmRzX2NoMDogZW5kcG9pbnQgeworCQkJCQkJ
+CX07CisJCQkJCQl9OworCisJCQkJCQlwb3J0QDIgeworCQkJCQkJCXJlZyA9IDwyPjsKKwor
+CQkJCQkJCWxkYl9sdmRzX2NoMTogZW5kcG9pbnQgeworCQkJCQkJCX07CisJCQkJCQl9Owor
+CQkJCQl9OworCQkJCX07CisJCQl9OworCisJCQltaXBpX2RzaTogbWlwaV9kc2lAMzJlNjAw
+MDAgeworCQkJCSNhZGRyZXNzLWNlbGxzID0gPDA+OworCQkJCSNzaXplLWNlbGxzID0gPDA+
+OworCQkJCWNvbXBhdGlibGUgPSAiZnNsLGlteDhtcC1taXBpLWRzaW0iOworCQkJCXJlZyA9
+IDwweDMyZTYwMDAwIDB4NDAwPjsKKwkJCQljbG9ja3MgPSA8JmNsayBJTVg4TVBfQ0xLX01F
+RElBX0FQQj4sCisJCQkJCSA8JmNsayBJTVg4TVBfQ0xLX01FRElBX01JUElfUEhZMV9SRUY+
+OworCQkJCWNsb2NrLW5hbWVzID0gImJ1c19jbGsiLCAic2Nsa19taXBpIjsKKwkJCQlhc3Np
+Z25lZC1jbG9ja3MgPSA8JmNsayBJTVg4TVBfQ0xLX01FRElBX0FQQj4sCisJCQkJCQkgIDwm
+Y2xrIElNWDhNUF9DTEtfTUVESUFfTUlQSV9QSFkxX1JFRj47CisJCQkJYXNzaWduZWQtY2xv
+Y2stcGFyZW50cyA9IDwmY2xrIElNWDhNUF9TWVNfUExMMV8yNjZNPiwKKwkJCQkJCQkgPCZj
+bGsgSU1YOE1QX0NMS18yNE0+OworCQkJCWFzc2lnbmVkLWNsb2NrLXJhdGVzID0gPDI2NjAw
+MDAwMD4sIDwyNDAwMDAwMD47CisJCQkJc2Ftc3VuZyxwbGwtY2xvY2stZnJlcXVlbmN5ID0g
+PDI0MDAwMDAwPjsKKwkJCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgMTggSVJRX1RZUEVfTEVW
+RUxfSElHSD47CisJCQkJcG93ZXItZG9tYWlucyA9IDwmbWVkaWFfYmxrX2N0cmwgSU1YOE1Q
+X01FRElBQkxLX1BEX01JUElfRFNJXzE+OworCQkJCXN0YXR1cyA9ICJkaXNhYmxlZCI7CisJ
+CQkJcG9ydHMgeworCQkJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsKKwkJCQkJI3NpemUtY2Vs
+bHMgPSA8MD47CisJCQkJCXBvcnRAMCB7CisJCQkJCQlyZWcgPSA8MD47CisKKwkJCQkJCWRz
+aW1fZnJvbV9sY2RpZjE6IGVuZHBvaW50IHsKKwkJCQkJCQlyZW1vdGUtZW5kcG9pbnQgPSA8
+JmxjZGlmMV90b19kc2ltPjsKKwkJCQkJCX07CisJCQkJCX07CisJCQkJfTsKKwkJCX07CisK
+KwkJCWxjZGlmMTogZGlzcGxheS1jb250cm9sbGVyQDMyZTgwMDAwIHsKKwkJCQkjYWRkcmVz
+cy1jZWxscyA9IDwwPjsKKwkJCQkjc2l6ZS1jZWxscyA9IDwwPjsKKwkJCQljb21wYXRpYmxl
+ID0gImZzbCxpbXg4bXAtbGNkaWYiOworCQkJCXJlZyA9IDwweDMyZTgwMDAwIDB4MTAwMDA+
+OworCQkJCWNsb2NrcyA9IDwmY2xrIElNWDhNUF9DTEtfTUVESUFfRElTUDFfUElYX1JPT1Q+
+LAorCQkJCQkgPCZjbGsgSU1YOE1QX0NMS19NRURJQV9BWElfUk9PVD4sCisJCQkJCSA8JmNs
+ayBJTVg4TVBfQ0xLX01FRElBX0FQQl9ST09UPjsKKwkJCQljbG9jay1uYW1lcyA9ICJwaXgi
+LCAiZGlzcF9heGkiLCAiYXhpIjsKKwkJCQlhc3NpZ25lZC1jbG9ja3MgPSA8JmNsayBJTVg4
+TVBfQ0xLX01FRElBX0RJU1AxX1BJWF9ST09UPiwKKwkJCQkJCSAgPCZjbGsgSU1YOE1QX0NM
+S19NRURJQV9BWEk+LAogCQkJCQkJICA8JmNsayBJTVg4TVBfQ0xLX01FRElBX0FQQj47Ci0J
+CQkJYXNzaWduZWQtY2xvY2stcGFyZW50cyA9IDwmY2xrIElNWDhNUF9TWVNfUExMMl8xMDAw
+TT4sCisJCQkJYXNzaWduZWQtY2xvY2stcGFyZW50cyA9IDwmY2xrIElNWDhNUF9DTEtfTUVE
+SUFfRElTUDFfUElYPiwKKwkJCQkJCQkgPCZjbGsgSU1YOE1QX1NZU19QTEwyXzEwMDBNPiwK
+IAkJCQkJCQkgPCZjbGsgSU1YOE1QX1NZU19QTEwxXzgwME0+OwotCQkJCWFzc2lnbmVkLWNs
+b2NrLXJhdGVzID0gPDUwMDAwMDAwMD4sIDwyMDAwMDAwMDA+OworCQkJCWFzc2lnbmVkLWNs
+b2NrLXJhdGVzID0gPDU5NDAwMDAwMD4sIDw1MDAwMDAwMDA+LCA8MjAwMDAwMDAwPjsKKwkJ
+CQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgNSBJUlFfVFlQRV9MRVZFTF9ISUdIPjsKKwkJCQlw
+b3dlci1kb21haW5zID0gPCZtZWRpYV9ibGtfY3RybCBJTVg4TVBfTUVESUFCTEtfUERfTENE
+SUZfMT47CisJCQkJc3RhdHVzID0gImRpc2FibGVkIjsKKwkJCQlwb3J0cyB7CisJCQkJCSNh
+ZGRyZXNzLWNlbGxzID0gPDE+OworCQkJCQkjc2l6ZS1jZWxscyA9IDwwPjsKKwkJCQkJcG9y
+dEAwIHsKKwkJCQkJCXJlZyA9IDwwPjsKIAotCQkJCSNwb3dlci1kb21haW4tY2VsbHMgPSA8
+MT47CisJCQkJCQlsY2RpZjFfdG9fZHNpbTogZW5kcG9pbnQgeworCQkJCQkJCXJlbW90ZS1l
+bmRwb2ludCA9IDwmZHNpbV9mcm9tX2xjZGlmMT47CisJCQkJCQl9OworCQkJCQl9OworCQkJ
+CX07CisJCQl9OworCisJCQlsY2RpZjI6IGRpc3BsYXktY29udHJvbGxlckAzMmU5MDAwMCB7
+CisJCQkJI2FkZHJlc3MtY2VsbHMgPSA8MD47CisJCQkJI3NpemUtY2VsbHMgPSA8MD47CisJ
+CQkJY29tcGF0aWJsZSA9ICJmc2wsaW14OG1wLWxjZGlmIjsKKwkJCQlyZWcgPSA8MHgzMmU5
+MDAwMCAweDEwMDAwPjsKKwkJCQljbG9ja3MgPSA8JmNsayBJTVg4TVBfQ0xLX01FRElBX0RJ
+U1AyX1BJWF9ST09UPiwKKwkJCQkJIDwmY2xrIElNWDhNUF9DTEtfTUVESUFfQVhJX1JPT1Q+
+LAorCQkJCQkgPCZjbGsgSU1YOE1QX0NMS19NRURJQV9BUEJfUk9PVD47CisJCQkJY2xvY2st
+bmFtZXMgPSAicGl4IiwgImRpc3BfYXhpIiwgImF4aSI7CisJCQkJYXNzaWduZWQtY2xvY2tz
+ID0gPCZjbGsgSU1YOE1QX0NMS19NRURJQV9ESVNQMl9QSVhfUk9PVD4sCisJCQkJCQkgIDwm
+Y2xrIElNWDhNUF9DTEtfTUVESUFfQVhJPiwKKwkJCQkJCSAgPCZjbGsgSU1YOE1QX0NMS19N
+RURJQV9BUEI+OworCQkJCWFzc2lnbmVkLWNsb2NrLXBhcmVudHMgPSA8JmNsayBJTVg4TVBf
+Q0xLX01FRElBX0RJU1AyX1BJWD4sCisJCQkJCQkJIDwmY2xrIElNWDhNUF9TWVNfUExMMl8x
+MDAwTT4sCisJCQkJCQkJIDwmY2xrIElNWDhNUF9TWVNfUExMMV84MDBNPjsKKwkJCQlhc3Np
+Z25lZC1jbG9jay1yYXRlcyA9IDw1OTQwMDAwMDA+LCA8NTAwMDAwMDAwPiwgPDIwMDAwMDAw
+MD47CisJCQkJaW50ZXJydXB0cyA9IDxHSUNfU1BJIDYgSVJRX1RZUEVfTEVWRUxfSElHSD47
+CisJCQkJcG93ZXItZG9tYWlucyA9IDwmbWVkaWFfYmxrX2N0cmwgSU1YOE1QX01FRElBQkxL
+X1BEX0xDRElGXzI+OworCQkJCXN0YXR1cyA9ICJkaXNhYmxlZCI7CisKKwkJCQlwb3J0cyB7
+CisJCQkJCSNhZGRyZXNzLWNlbGxzID0gPDE+OworCQkJCQkjc2l6ZS1jZWxscyA9IDwwPjsK
+KwkJCQkJcG9ydEAwIHsKKwkJCQkJCXJlZyA9IDwwPjsKKworCQkJCQkJbGNkaWYyX3RvX2xk
+YjogZW5kcG9pbnQgeworCQkJCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmbGRiX2Zyb21fbGNk
+aWYyPjsKKwkJCQkJCX07CisJCQkJCX07CisJCQkJfTsKIAkJCX07CiAKIAkJCXBjaWVfcGh5
+OiBwY2llLXBoeUAzMmYwMDAwMCB7Ci0tIAoyLjM5LjAKCg==
 
-> +
-> +       /*
-> +        * In case of modeset, DRM kernel will trigger a atomic_mode_set
-> +        * call back, for usecases where there is no mode change but a topology
-> +        * change, update the resources from here.
-> +        */
-> +       if (!drm_atomic_crtc_needs_modeset(crtc_state) &&
-> +               _dpu_enc_is_topology_changed(crtc_state, dpu_enc->topology))
-> +               dpu_encoder_virt_atomic_mode_set(drm_enc, crtc_state, conn->state);
-
-And this is a complete pain. I think it would be easier to set the
-crtc_state->mode_changed if we detect the change in the CTM
-enablement.
-Please start from that and then fill in the necessary bits (in other
-words if we need to store the topology or just a boolean flag
-`ctm_enabled' / `need_dspp').
-
-> +
->         for (i = 0; i < dpu_enc->num_phys_encs; i++) {
->                 phys = dpu_enc->phys_encs[i];
->                 if (phys->ops.prepare_commit)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index 9e7236e..4cbe20c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -150,8 +150,10 @@ int dpu_encoder_setup(struct drm_device *dev, struct drm_encoder *enc,
->   * dpu_encoder_prepare_commit - prepare encoder at the very beginning of an
->   *     atomic commit, before any registers are written
->   * @drm_enc:    Pointer to previously created drm encoder structure
-> + * @crtc_state: Pointer to drm crtc state
->   */
-> -void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc);
-> +void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc,
-> +               struct drm_crtc_state *crtc_state);
->
->  /**
->   * dpu_encoder_set_idle_timeout - set the idle timeout for video
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index 7a5fabc..f111120 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -455,7 +455,7 @@ static void dpu_kms_prepare_commit(struct msm_kms *kms,
->         for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
->                 drm_for_each_encoder_mask(encoder, crtc->dev,
->                                           crtc_state->encoder_mask) {
-> -                       dpu_encoder_prepare_commit(encoder);
-> +                       dpu_encoder_prepare_commit(encoder, crtc_state);
->                 }
->         }
->  }
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index 718ea0a..341c3af 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -586,10 +586,6 @@ int dpu_rm_reserve(
->         struct dpu_rm_requirements reqs;
->         int ret;
->
-> -       /* Check if this is just a page-flip */
-> -       if (!drm_atomic_crtc_needs_modeset(crtc_state))
-> -               return 0;
-> -
->         if (IS_ERR(global_state)) {
->                 DPU_ERROR("failed to global state\n");
->                 return PTR_ERR(global_state);
-> --
-> 2.7.4
->
-
-
--- 
-With best wishes
-Dmitry
+--------------g08fYK75NVO0I8Y99d04itGS--
