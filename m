@@ -2,73 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DC867EA80
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 17:12:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EEA67EAC3
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 17:23:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 385CD10E181;
-	Fri, 27 Jan 2023 16:12:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 981BF10E9AB;
+	Fri, 27 Jan 2023 16:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4B010E181
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 16:12:25 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 7566C320084E;
- Fri, 27 Jan 2023 11:12:23 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 27 Jan 2023 11:12:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1674835942; x=1674922342; bh=4WoLgbsnb8scZ5E2SLZU6DePJ
- AXt1EcxRMVozRSjLdE=; b=fo8KCcpuQZ7CNi+1tWzDISn+Gfm9GJVg9ypKBDYqM
- cmk9cT6Eny/8+YimAikNtOtvoLpYwiU2WF/JINo8qyutDCcTig7fCCDO3KddDgZR
- V16q2eIHryidKtaJdnI6RMOTEw/IqC6oBd35Xjr2C5qAhQKoAqIfAp0IXEcpI4i5
- Pu6nTmeIfoz+CrCXXXIMcy2bvVmlM1+Mbxd2NZz+gM51hcNkFgbuAV85NLRDUDXQ
- lBRMZ7AgOj22Dn5GgOGC89OLEroR0B1ljc9yVVvEnxiFsitAJISHplrnyJCQmhHY
- v+e2gvULbNMuBgDhh+RmPaKXN5+ms9IdCxYLZvCIf1cuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1674835942; x=1674922342; bh=4WoLgbsnb8scZ5E2SLZU6DePJAXt1EcxRMV
- ozRSjLdE=; b=lUUXQIroOVHvBZF+qCBhZryO+W+yFRz0drZtvRESvLHuB82COkl
- gqCzTH5dhOr75gzz8F7PwGV43ZjVhh87E243eUBasEs26m9D7hQJf8+EC+HFwkxb
- yrh5aa/X4lkrIbeJtVevt1yt1qB7vqMpyhy/Kpn/cj5VQG7I3OmwESEZ4uF0liFD
- mMZGEGvh+f/9FeXO1so0Lbn5a0XfE5p0mtdJXWq5DXsaho7svprTO1r5SPgJsFXm
- E2MK4p6Mmd4yn7g75eDIMLnS89j2/VhRtpgXZ9oD0h5cBmASTSI9kUVRvbDkRFeB
- ihtGMzGGO60oEyi7ayZTg40ytKDsvhiOPRw==
-X-ME-Sender: <xms:5vfTY0gImGbM9SdWciqF1xOfctIBPr15W2i1z_lHo3A3UwDknPOQXA>
- <xme:5vfTY9BSgqCAqL-AZZ05NwCB_YAFPPMlGXGQyK8eRHXF1HWPmkQTWQS-mXGzQZCCR
- rzLLTX859a_7LzCF8s>
-X-ME-Received: <xmr:5vfTY8F6BB1sIFRRdOq2BBVwnYgOt9JT2ks4qEvet40yC_z7wUByWXbUae7hYEgyjgUVPBifrE2meTihyakb89hQkz6rW0TLoXUUW_L7hO7wkQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddviedgkeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeevkeetteejheehteegvdehvdetffdtffetffejhfffteevkeeugedvueegveek
- ueenucffohhmrghinheplhhisghrvggvlhgvtgdrthhvnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:5vfTY1QWAS6KF0LRDLVKHbfWxTJWWPvfGcSzaNR_COWhP_4WiwXt6Q>
- <xmx:5vfTYxy-OTr2P6sMDGumV6adgJo_WtVwNlnG-KYRObyCHDU6m7_WuA>
- <xmx:5vfTYz62GbYR9rf7eQ6oQbqSUjSu4LjUuuMip9zqe6048uXZYx1pAg>
- <xmx:5vfTY0oxwxQeo-8y8g1_-XE0h-nL1059GYq1TQ2IS9dVXvDFcIwGog>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Jan 2023 11:12:22 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH] drm/vc4: hdmi: Always enable GCP with AVMUTE cleared
-Date: Fri, 27 Jan 2023 17:12:19 +0100
-Message-Id: <20230127161219.457058-1-maxime@cerno.tech>
-X-Mailer: git-send-email 2.39.1
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 791D010E9AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 16:23:17 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id y1so5460521wru.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 08:23:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=w93HxJVwYaHUCMlu4tIOXmi/iF/7dLqgEsVDLRWLDJE=;
+ b=gy1iBnzSJpIKkePkB7ETfy9wWjb3sPIS7jny4ipDUm6ZO6Sy4+n94shTgdCI4gHYnK
+ zGGx6ETcSvgAqfceKSRQOQLnb2EWOX/FH4re0btaWqmKwp6KDsth6AIE/xNYb0taDdgJ
+ WmnBk5nrKqrwwkkDrCaE57uHswY5teAsQ2nTciHBy3sPoPyPU7PQGfcTylYWfISy/HI0
+ KSL0ikdtoKlwBEvEAlXloZ8erk86JqKAjIcV4DJ7HbrSdLvNHp7pHQP468yZwmcv55yZ
+ CW1mTrGD68U2qPcGtOSN6wr3KFr4ILvvAu5aitUwHcqD2UaDXpoD5vSDptcXL5XY+1XZ
+ OChQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=w93HxJVwYaHUCMlu4tIOXmi/iF/7dLqgEsVDLRWLDJE=;
+ b=tZgIj203k7do/Qa3EiZNCi3PpYISEeu3cvOy6EbM1T6ALTUvjLvZDjGwaB6fhG54FE
+ rvxLANyZimgxTRSaCQI66E3SDEc1L/82EWA1fUrqRy6yTofhX/pHoYeFUTLLdZRr7JP0
+ Xr+v6QuDof1+lXA4QpS9GmhdsyUbY86oKtafOGIdjbtqyvv9dFVDxdXnIaRf00CDk3km
+ 5nZaLSZjw5wNdXpbjIgHhPV+wV8t98ZI/7/XGYKyrkTcEyOsrmviL984h3a6Ks1zIuJN
+ b3NQEjFUikfP0mEDNby5Kjk/OL8Iycj81x4TWHP71PdhZne9YH5f4IxgLX/zWuTT+bUd
+ s4vQ==
+X-Gm-Message-State: AO0yUKUNLGlcWCme87TuNlXnLqxu8IzZTzTTgqewKPJtspPdGoICx5Uh
+ BByalOwRGolDlFHswiuTiF+tm40i+sE=
+X-Google-Smtp-Source: AK7set8GWTuQwGyjG+y68CGaCDrf5K+wfi2GQKIvI7hKp3I6+l7J83N35wnhBmLhz4GdREzuUb1KKw==
+X-Received: by 2002:a5d:4cce:0:b0:2bf:b741:3e19 with SMTP id
+ c14-20020a5d4cce000000b002bfb7413e19mr9041293wrt.25.1674836595706; 
+ Fri, 27 Jan 2023 08:23:15 -0800 (PST)
+Received: from [192.168.2.181] (46-10-148-141.ip.btc-net.bg. [46.10.148.141])
+ by smtp.gmail.com with ESMTPSA id
+ m13-20020a5d56cd000000b002bfd462d13asm2195628wrw.18.2023.01.27.08.23.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jan 2023 08:23:15 -0800 (PST)
+Message-ID: <187d8d23-74ff-1359-644b-3e4e89d44845@gmail.com>
+Date: Fri, 27 Jan 2023 18:23:14 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/7] drm/vmwgfx: Use the common gem mmap instead of the
+ custom code
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+References: <20230126173813.602748-1-zack@kde.org>
+ <20230126173813.602748-2-zack@kde.org>
+Content-Language: en-US
+From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
+In-Reply-To: <20230126173813.602748-2-zack@kde.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,121 +76,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <popcornmix@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
+From: Martin Krastev <krastevm@vmware.com>
 
-Issue is some displays go blank at the point of firmware to kms
-handover.  Plugging/unplugging hdmi cable, power cycling display, or
-switching standby off/on
-typically resolve this case.
 
-Finally managed to find a display that suffers from this, and track down
-the issue.
+LGTM!
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
 
-The firmware uses AVMUTE in normal operation. It will set AVMUTE before
-disabling hdmi clocks and phy. It will clear AVMUTE after clocks and phy
-are set up for a new hdmi mode.
 
-But with the hdmi handover from firmware to kms, AVMUTE will be set by
-firmware.
+Regards,
+Martin
 
-kms driver typically has no GCP packet (except for deep colour modes).
-The spec isn't clear on whether to consider the AVMUTE as continuing
-indefinitely in the absense of a GCP packet, or to consider that state
-to have ended.
-
-Most displays behave as we want, but there are a number (from mutiple
-manufacturers) which need to see AVMUTE cleared before displaying a
-picture.
-
-Lets just always enable GCP packet with AVMUTE cleared. That resolves
-the issue on problematic displays.
-
-From HDMI 1.4 spec:
-
-  A CD field of zero (Color Depth not indicated) shall be used whenever
-  the Sink does not indicate support for Deep Color. This value may
-  also be used in Deep Color mode to transmit a GCP indicating only
-  non-Deep Color information (e.g. AVMUTE).
-
-So use CD=0 where we were previously not enabling a GCP.
-
-Link: https://forum.libreelec.tv/thread/24780-le-10-0-1-rpi4-no-picture-after-update-from-le-10-0-0
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 01c1de992384..ea22c9bf223a 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -97,6 +97,10 @@
- #define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_SHIFT	8
- #define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_MASK	VC4_MASK(15, 8)
- 
-+#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_0_MASK	VC4_MASK(7, 0)
-+#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_0_SET_AVMUTE	BIT(0)
-+#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_0_CLEAR_AVMUTE	BIT(4)
-+
- # define VC4_HD_M_SW_RST			BIT(2)
- # define VC4_HD_M_ENABLE			BIT(0)
- 
-@@ -1316,7 +1320,6 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 					VC4_HDMI_VERTB_VBP));
- 	unsigned long flags;
- 	unsigned char gcp;
--	bool gcp_en;
- 	u32 reg;
- 	int idx;
- 
-@@ -1351,16 +1354,13 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 	switch (vc4_state->output_bpc) {
- 	case 12:
- 		gcp = 6;
--		gcp_en = true;
- 		break;
- 	case 10:
- 		gcp = 5;
--		gcp_en = true;
- 		break;
- 	case 8:
- 	default:
--		gcp = 4;
--		gcp_en = false;
-+		gcp = 0;
- 		break;
- 	}
- 
-@@ -1369,8 +1369,7 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 	 * doesn't signal in GCP.
- 	 */
- 	if (vc4_state->output_format == VC4_HDMI_OUTPUT_YUV422) {
--		gcp = 4;
--		gcp_en = false;
-+		gcp = 0;
- 	}
- 
- 	reg = HDMI_READ(HDMI_DEEP_COLOR_CONFIG_1);
-@@ -1383,11 +1382,12 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 	reg = HDMI_READ(HDMI_GCP_WORD_1);
- 	reg &= ~VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_MASK;
- 	reg |= VC4_SET_FIELD(gcp, VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1);
-+	reg &= ~VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_0_MASK;
-+	reg |= VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_0_CLEAR_AVMUTE;
- 	HDMI_WRITE(HDMI_GCP_WORD_1, reg);
- 
- 	reg = HDMI_READ(HDMI_GCP_CONFIG);
--	reg &= ~VC5_HDMI_GCP_CONFIG_GCP_ENABLE;
--	reg |= gcp_en ? VC5_HDMI_GCP_CONFIG_GCP_ENABLE : 0;
-+	reg |= VC5_HDMI_GCP_CONFIG_GCP_ENABLE;
- 	HDMI_WRITE(HDMI_GCP_CONFIG, reg);
- 
- 	reg = HDMI_READ(HDMI_MISC_CONTROL);
--- 
-2.39.1
-
+On 26.01.23 г. 19:38 ч., Zack Rusin wrote:
+> From: Zack Rusin <zackr@vmware.com>
+>
+> Before vmwgfx supported gem it needed to implement the entire mmap logic
+> explicitly. With GEM support that's not needed and the generic code
+> can be used by simply setting the vm_ops to vmwgfx specific ones on the
+> gem object itself.
+>
+> Removes a lot of code from vmwgfx without any functional difference.
+>
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> ---
+>   drivers/gpu/drm/vmwgfx/Makefile          |   2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c      |   2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h      |   6 --
+>   drivers/gpu/drm/vmwgfx/vmwgfx_gem.c      |   8 ++
+>   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c | 110 -----------------------
+>   5 files changed, 10 insertions(+), 118 deletions(-)
+>   delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
+> index 2a644f035597..e94479d9cd5b 100644
+> --- a/drivers/gpu/drm/vmwgfx/Makefile
+> +++ b/drivers/gpu/drm/vmwgfx/Makefile
+> @@ -1,7 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
+>   	    vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o \
+> -	    vmwgfx_cmd.o vmwgfx_irq.o vmwgfx_ldu.o vmwgfx_ttm_glue.o \
+> +	    vmwgfx_cmd.o vmwgfx_irq.o vmwgfx_ldu.o \
+>   	    vmwgfx_overlay.o vmwgfx_gmrid_manager.o vmwgfx_fence.o \
+>   	    vmwgfx_bo.o vmwgfx_scrn.o vmwgfx_context.o \
+>   	    vmwgfx_surface.o vmwgfx_prime.o vmwgfx_mob.o vmwgfx_shader.o \
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index bd02cb0e6837..e0c2e3748015 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -1566,7 +1566,7 @@ static const struct file_operations vmwgfx_driver_fops = {
+>   	.open = drm_open,
+>   	.release = drm_release,
+>   	.unlocked_ioctl = vmw_unlocked_ioctl,
+> -	.mmap = vmw_mmap,
+> +	.mmap = drm_gem_mmap,
+>   	.poll = drm_poll,
+>   	.read = drm_read,
+>   #if defined(CONFIG_COMPAT)
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> index 5acbf5849b27..4dfa5044a9e7 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -1053,12 +1053,6 @@ vmw_is_cursor_bypass3_enabled(const struct vmw_private *dev_priv)
+>   	return (vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_CURSOR_BYPASS_3) != 0;
+>   }
+>   
+> -/**
+> - * TTM glue - vmwgfx_ttm_glue.c
+> - */
+> -
+> -extern int vmw_mmap(struct file *filp, struct vm_area_struct *vma);
+> -
+>   /**
+>    * TTM buffer object driver - vmwgfx_ttm_buffer.c
+>    */
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> index ce609e7d758f..ba4ddd9f7a7e 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+> @@ -103,6 +103,13 @@ static struct sg_table *vmw_gem_object_get_sg_table(struct drm_gem_object *obj)
+>   	return drm_prime_pages_to_sg(obj->dev, vmw_tt->dma_ttm.pages, vmw_tt->dma_ttm.num_pages);
+>   }
+>   
+> +static const struct vm_operations_struct vmw_vm_ops = {
+> +	.pfn_mkwrite = vmw_bo_vm_mkwrite,
+> +	.page_mkwrite = vmw_bo_vm_mkwrite,
+> +	.fault = vmw_bo_vm_fault,
+> +	.open = ttm_bo_vm_open,
+> +	.close = ttm_bo_vm_close,
+> +};
+>   
+>   static const struct drm_gem_object_funcs vmw_gem_object_funcs = {
+>   	.free = vmw_gem_object_free,
+> @@ -115,6 +122,7 @@ static const struct drm_gem_object_funcs vmw_gem_object_funcs = {
+>   	.vmap = drm_gem_ttm_vmap,
+>   	.vunmap = drm_gem_ttm_vunmap,
+>   	.mmap = drm_gem_ttm_mmap,
+> +	.vm_ops = &vmw_vm_ops,
+>   };
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+> deleted file mode 100644
+> index 265f7c48d856..000000000000
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
+> +++ /dev/null
+> @@ -1,110 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0 OR MIT
+> -/**************************************************************************
+> - *
+> - * Copyright 2009-2011 VMware, Inc., Palo Alto, CA., USA
+> - *
+> - * Permission is hereby granted, free of charge, to any person obtaining a
+> - * copy of this software and associated documentation files (the
+> - * "Software"), to deal in the Software without restriction, including
+> - * without limitation the rights to use, copy, modify, merge, publish,
+> - * distribute, sub license, and/or sell copies of the Software, and to
+> - * permit persons to whom the Software is furnished to do so, subject to
+> - * the following conditions:
+> - *
+> - * The above copyright notice and this permission notice (including the
+> - * next paragraph) shall be included in all copies or substantial portions
+> - * of the Software.
+> - *
+> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> - * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+> - * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+> - * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+> - * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+> - * USE OR OTHER DEALINGS IN THE SOFTWARE.
+> - *
+> - **************************************************************************/
+> -
+> -#include "vmwgfx_drv.h"
+> -
+> -static int vmw_bo_vm_lookup(struct ttm_device *bdev,
+> -				   struct drm_file *filp,
+> -				   unsigned long offset,
+> -				   unsigned long pages,
+> -				   struct ttm_buffer_object **p_bo)
+> -{
+> -	struct vmw_private *dev_priv = container_of(bdev, struct vmw_private, bdev);
+> -	struct drm_device *drm = &dev_priv->drm;
+> -	struct drm_vma_offset_node *node;
+> -	int ret;
+> -
+> -	*p_bo = NULL;
+> -
+> -	drm_vma_offset_lock_lookup(bdev->vma_manager);
+> -
+> -	node = drm_vma_offset_lookup_locked(bdev->vma_manager, offset, pages);
+> -	if (likely(node)) {
+> -		*p_bo = container_of(node, struct ttm_buffer_object,
+> -				  base.vma_node);
+> -		*p_bo = ttm_bo_get_unless_zero(*p_bo);
+> -	}
+> -
+> -	drm_vma_offset_unlock_lookup(bdev->vma_manager);
+> -
+> -	if (!*p_bo) {
+> -		drm_err(drm, "Could not find buffer object to map\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	if (!drm_vma_node_is_allowed(node, filp)) {
+> -		ret = -EACCES;
+> -		goto out_no_access;
+> -	}
+> -
+> -	return 0;
+> -out_no_access:
+> -	ttm_bo_put(*p_bo);
+> -	return ret;
+> -}
+> -
+> -int vmw_mmap(struct file *filp, struct vm_area_struct *vma)
+> -{
+> -	static const struct vm_operations_struct vmw_vm_ops = {
+> -		.pfn_mkwrite = vmw_bo_vm_mkwrite,
+> -		.page_mkwrite = vmw_bo_vm_mkwrite,
+> -		.fault = vmw_bo_vm_fault,
+> -		.open = ttm_bo_vm_open,
+> -		.close = ttm_bo_vm_close,
+> -	};
+> -	struct drm_file *file_priv = filp->private_data;
+> -	struct vmw_private *dev_priv = vmw_priv(file_priv->minor->dev);
+> -	struct ttm_device *bdev = &dev_priv->bdev;
+> -	struct ttm_buffer_object *bo;
+> -	int ret;
+> -
+> -	if (unlikely(vma->vm_pgoff < DRM_FILE_PAGE_OFFSET_START))
+> -		return -EINVAL;
+> -
+> -	ret = vmw_bo_vm_lookup(bdev, file_priv, vma->vm_pgoff, vma_pages(vma), &bo);
+> -	if (unlikely(ret != 0))
+> -		return ret;
+> -
+> -	ret = ttm_bo_mmap_obj(vma, bo);
+> -	if (unlikely(ret != 0))
+> -		goto out_unref;
+> -
+> -	vma->vm_ops = &vmw_vm_ops;
+> -
+> -	/* Use VM_PFNMAP rather than VM_MIXEDMAP if not a COW mapping */
+> -	if (!is_cow_mapping(vma->vm_flags))
+> -		vma->vm_flags = (vma->vm_flags & ~VM_MIXEDMAP) | VM_PFNMAP;
+> -
+> -	ttm_bo_put(bo); /* release extra ref taken by ttm_bo_mmap_obj() */
+> -
+> -	return 0;
+> -
+> -out_unref:
+> -	ttm_bo_put(bo);
+> -	return ret;
+> -}
+> -
