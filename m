@@ -2,70 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE49967E826
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 15:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765D567E829
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 15:23:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A83BB10E9A1;
-	Fri, 27 Jan 2023 14:23:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D9FC10E9A7;
+	Fri, 27 Jan 2023 14:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE70B10E9A2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 14:22:59 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id vw16so14041034ejc.12
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 06:22:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1ldzFZEqDhcEGgVtJre8PmwCOxuUI7/pRZAmkiQNvpI=;
- b=EwdgZzNx2hEGN7vw25sw1Rjsq80EYXivvQ+6yLDcwdsEkmgc3BlP14ymg+4s8LcJRh
- //zchkSEHl7AFZjOUkCM9bmLfEcPxta8zrNxTe9gK5aIh6vv8Pko/E+gf3JH7LNz1/Y4
- J3c7zYrEWsw5Xz39ld5GfaVqlzM2SM6tRaoQ7Ecmhtywfs8zRrMuKNklOfNyr6km9j0g
- bHs8sj+m1QPaWkFvv1zv9VmZSKpUeAkOm1DXmP4apsxmsGtwjk4ALSYU6qtSo76llPXq
- 1sI1eAO07mTTL8s+VgSY1nl6+8nPkkDyJlKNTfH7bxVVuXzC/3GNQZGJ+48Z+blxh6hz
- dz9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1ldzFZEqDhcEGgVtJre8PmwCOxuUI7/pRZAmkiQNvpI=;
- b=DkizQoAhIpvV0Uyz7s/VopolfRKMgs6jrWpTIrvaiKEZnBJOjFRKo6pxgKN3HBi6A4
- DPPEaAblJOpKif2MjO+hTj5cZzCKqiRzow0aiz5r0rWf51YxDlO5KkuK7NYCTRvWXTyt
- KyxdOpPET0Dbyrmk8ErcdFchafQo0GAQnZUYvgSuVVwNmzZr4QOixKlrCMK6nLsI4Nod
- GdjmnkJxxbGHq59scUKGq/NR9YEJH00TwJg3EhRkmKoW2uSxJBWB4ZOWT6sjqWczhD9z
- RAy3r/Fqk9ekDjmxLJMJIJ/pdaF0cVKfK+83Rto7NZOYJE0fM24QK48UGExb2+wbe1YV
- 2gow==
-X-Gm-Message-State: AO0yUKW/SOkAGEIyejnVkLDK8q5TejX11E0RmrATVqtxXkSaUmcrSIsD
- 0BZRLdWWQoLkaPFTasjOwPXR1g==
-X-Google-Smtp-Source: AK7set/pNDqvl32J5PrSB2nSJPU5Iq8uerNs8RxzmjCRiF9JfTAGwRSHw3gNaUtK5WntivT7LlZWrw==
-X-Received: by 2002:a17:906:d8b8:b0:878:b890:38bb with SMTP id
- qc24-20020a170906d8b800b00878b89038bbmr3013074ejb.67.1674829378159; 
- Fri, 27 Jan 2023 06:22:58 -0800 (PST)
-Received: from [192.168.1.101] (abyl20.neoplus.adsl.tpnet.pl. [83.9.31.20])
- by smtp.gmail.com with ESMTPSA id
- b2-20020a170906490200b0084d1b34973dsm2327844ejq.61.2023.01.27.06.22.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 06:22:57 -0800 (PST)
-Message-ID: <b8cfbb20-917d-2b19-b0f3-9e7092103392@linaro.org>
-Date: Fri, 27 Jan 2023 15:22:55 +0100
-MIME-Version: 1.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 391FC10E9A9;
+ Fri, 27 Jan 2023 14:23:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h90TVY4uzsxjPPpEpA1z1OnQh5Rs5yV5hfPM/POEvKRxGQOdwnOXmDusC+0+lQKawaygG8r3NODBEAHNC9W8Ij2TXsqT7GOE4UfGNK9AhMK93lmEkJOJC9SYd78gqj30UhI1cDKgTuFZsAdDDrrqMeKWZ/PQn6XiVHsuEvPIwDBZcnWGIPHmGO50WsOOUke7VnjfNRfpG2eetc6eRW927Ix9xxYs/MGh3hvdglLzJ2BvN0mpeM1Ki6XkQEII3rJF670ZcGyVZjJDtTWCjy+CJi7JFAXLe1hQ7xTe2ZjxDo97KF/NsZoCYwa/LaI44ARDMHWLfwlES/byI2sFoqwufg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Mn2IslC2I9oXmj+Rbf7/kJjMZfgIJMBH4oeUCdUu8Dc=;
+ b=iMLBnbcdHK8VlmFG0U1FKR90pVdUZPV1a+SFQxg9T2fp7T9618rvhxUTDi+BNUN96qbZyHeA1XFKIvqKjQHwUMY9Z3GKrugE/p+6U6ghzafD+GUsaREaEGIFsEwsUWnhDQhGWMs5MRLXoEYArKSZX/hVI78lTx/ASttcHXiWh0HbPANK6U1JfZtIJMrDfOJtJtN7HsTPuTwaHXhAevZXezC86dQ5iH06hjTQ5sCNZZulryGW4sCryspvOwS3Q57NJNUdQrbHP6Oy+KT3oBeBhwdEG6+GzheArZaVQpAkLjBqS3y7K2T1fXOJJmeoTchAvc1p+10qKCQOXHN9AMro2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mn2IslC2I9oXmj+Rbf7/kJjMZfgIJMBH4oeUCdUu8Dc=;
+ b=P3Xx0+jxz4eBgNFZoic4efBdPoCpHnJFHMg+BMTIaGpX4BKs1lv628cFzI0XhvDPJjqB9CuJQixGt0WmqnX/FFMrCauCXFOML5nyyE3Jv6OdDnmgXNCl2nSkC+QfGjVJ2ReYWcGXcZ03ovK+Qrg/QHDrJfEwD0Xu0KFhxbEm2Xc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ CY5PR12MB6369.namprd12.prod.outlook.com (2603:10b6:930:21::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6043.22; Fri, 27 Jan 2023 14:23:11 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::5935:7d8d:e955:6298]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::5935:7d8d:e955:6298%9]) with mapi id 15.20.6043.022; Fri, 27 Jan 2023
+ 14:23:11 +0000
+Message-ID: <45686f49-e46a-5e28-70fa-45bf9aa77ee1@amd.com>
+Date: Fri, 27 Jan 2023 09:24:10 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH 13/14] drm/msm/a6xx: Add A619_holi speedbin support
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] Revert "drm/display/dp_mst: Move all payload info into
+ the atomic state"
+To: Greg KH <gregkh@linuxfoundation.org>,
+ "Limonciello, Mario" <mario.limonciello@amd.com>
+References: <20230112085044.1706379-1-Wayne.Lin@amd.com>
+ <20230120174634.GA889896@roeck-us.net>
+ <a9deecb3-5955-ee4e-c76f-2654ee9f1a92@amd.com> <Y9N/wiIL758c3ozv@kroah.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
- krzysztof.kozlowski@linaro.org
-References: <20230126151618.225127-1-konrad.dybcio@linaro.org>
- <20230126151618.225127-14-konrad.dybcio@linaro.org>
- <c8d9d5f0-dab8-4dca-5a32-1f4e11ecc964@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <c8d9d5f0-dab8-4dca-5a32-1f4e11ecc964@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <Y9N/wiIL758c3ozv@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0151.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:7e::9) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|CY5PR12MB6369:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92ced686-f652-4086-a5f9-08db0072050d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZBPJC5hPQsu0NLE3MutsmKtIoE2jzAEJ9Whcaxt5l4PIMBKpdVht6nsa0qU6ol3SjkRVkAfjCLh8QoZuDOtaO8U2fGJ4+u7Fb5b3CpyJjfz7iym9yCsJbBuiRuZL0/fxkUva8j1BBrDvBsNv3J8eWlRycWE/T6NE9za3bz9dlWKNKHq9z/iFROgWL80p+UMJHs319/ZjPnlhNaDtzkupJO9Pk/uPTTUdCXp9Pycu4srB0H0HV5X8pTr7IikUpE4Eu6o5oXKiJJBVdbYPP0TxYlMPdVXKbNCQkAh6Mzt0QHrJ51OWKfN57gpCRlhPtHqcPezL8O0CA8WfkaXxQIN5moouEmlcqXY79xg6ZWa2nkkqMsB/n6ZvUN3YQ4a3mhaiqSLxYO7q0I2OBJSHc9jWVCjdi4fZrFmYwHM0AENrnN27d2PlnNP/b/zdyARH91V/rX3m6gsKWp87CPSNM3tFodd/mZDoti1I4qX2zTcvtDBfAnSsOXCCFDagwGR5ADdvhLPI7UhyEUFBeiBIaWjvCL+9+PSEllrW6SYSMrAGDpKVqLteU7ki3jL2tk8R3LnADbJMJ/72QllciXtfvZN4HwlMgah22GL19qJaa+dO03gw6l4hdoV8/qgwwWnDK4knPtvZndltJVJL6xtyF0r6fvOY+AKUJFTl+4kLjkXH8fDOY6nUKfFxiqIyYt4YCKpo1eMtR3ebA19nRaty3z93PehriH8W03GGGpOgsqHN1Hz9zSq/bEHVsqfBV+hHKa+nU5jP+7BEV9eHPhNYAbVSpA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(39860400002)(366004)(136003)(346002)(376002)(451199018)(6486002)(186003)(31686004)(26005)(478600001)(6512007)(966005)(2616005)(83380400001)(316002)(54906003)(41300700001)(8676002)(38100700002)(6636002)(6506007)(53546011)(110136005)(8936002)(44832011)(86362001)(4326008)(5660300002)(66946007)(31696002)(66556008)(66476007)(36756003)(2906002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tnc0Q1d5SmM4Q3ZiRzdwWGgyd0RQUmVRdTAxdG9QdkpLbCtnTlR0QnRPYnNq?=
+ =?utf-8?B?ZlhVTGRwQXRTdVJvdjFacldIcVVlSzBLQy9BcUx4eWdwYUkrT1MwVVMrQy9B?=
+ =?utf-8?B?R2s4UmNUcXc0VmFzWW4zZHZPNjNOVEVtQys4L2pNZ0FEMEs3bllQVEs3VDQ1?=
+ =?utf-8?B?Q0RvK042TWk2a09wUE5GY1BMRE8vNXQ5WWlka2t1SE9hVVpHM0hpVEtXcThH?=
+ =?utf-8?B?NC94cEVaYmNYWjFRbjNzK2tZYjh6cFJ1TWYrSU5ua3dhbGM2VWFzMi9CZEFT?=
+ =?utf-8?B?dm9GK0x5YjhaWUpnY0ZyU1krOEpSSXZvU05ZQmNWZGVxcGNWd1FpTWVYY0Na?=
+ =?utf-8?B?RUdPRmxiV2JqR2dGcFJBbSs0NmI4UExDMWkxakl2aW5sMnhDWld6QWRNSXFR?=
+ =?utf-8?B?Q0dqOEpEQTNEWVZxczZiaktpSmFaanZIUjBucElrK3Z1cDI5Wk1uUXk4UnVy?=
+ =?utf-8?B?QXlJd0E2ZUh2RVJHbXhQSS9EWmh6R3dEc3VyeFM4TEVlZmRsNHdEOElOSGta?=
+ =?utf-8?B?NWM3cE9RTS9MM3MwK3c0UGRzbXZqZitaNWlqS1FJcStaQmhmUnRIdSt0NEdh?=
+ =?utf-8?B?VWk3NkZWdUZ0V2lVSzZGVmpuWUdBcnFWbkZHL3JKYU5jc1ExWWpteHBndnF2?=
+ =?utf-8?B?KytoK3o1aXpVSWhXRWlJQjczRFcvRGNFSEN1MjgvK1RWU2RMa3lVQVNZWkxX?=
+ =?utf-8?B?NUFmUkY0anFCb3ltbmFtVHhDbXRIRzZvZDNzRjl1RmhNV1ZMZzlPQjNhQXMy?=
+ =?utf-8?B?cHRyTWRoZ3BRMndnd0FaVXZ0eVNyU2VhUEpnYUF3L2pvNDZkSGowejhPY3Vv?=
+ =?utf-8?B?N28vZ0hXazdnMWRNZ3dVeW00WktINC9kVHdTb0hKbGpDTlhyb0I4NXBsaGdD?=
+ =?utf-8?B?Z241cUZVbllmaHNoSnVwSjNSR1lxc21aNElvTTVLWmJwWXRKYkFSeFM1a0pq?=
+ =?utf-8?B?OFRNVzRURWlWYU1BOXphMVU3UlB2cUhHN1FlTzNxVU82enhpSUhvb1dYMGUy?=
+ =?utf-8?B?UkVMNjFSMk1LZGtXbXNlTTB2WmxvQmJMd3pPbElPV3VkZm8xWC9mZDE0aFd4?=
+ =?utf-8?B?Nm1GS291eE1sN00wOVFjekVVK1lDMlZ2QTdYV2szNGF1UkxadDdHczNOS1Ey?=
+ =?utf-8?B?cCtMRHVZUHFnU1FrazFXditHdW9aQXdMZHA3Qld2aGdOTmdVUkp0RnRtNFdI?=
+ =?utf-8?B?d3Vkc2xSMGo0WitMRmVVaGJaWEk3NHFIKzNWeUxtRTlyMS80TiswQUYrOGdy?=
+ =?utf-8?B?OEhLQUVZL0w0OUFJOC9kbFV5K2E2ZnlHN1RCWnp3QTBZRDdYNGUwQXdBSnZT?=
+ =?utf-8?B?M1JpN3VKNUZadDdxK3grdmlFUGlHQVFod2U3d1M4Tkd3YWNWNXR2SlVGTkV0?=
+ =?utf-8?B?VmJpczg2OUlpWDROOTlaUGhwOHU5K2tPSUZnSG1FTTlIbmlWL1JLZG51Zi9T?=
+ =?utf-8?B?WUF1TVNRS3NUSHFxcjhnOTB4eVJzT3NtWE1taThiNkYyeE1VeTNkdEF4VnBU?=
+ =?utf-8?B?Si9zNXBZbjJoK1pkbVlRMTNUR0VEdmdRdk5nN1hhUTJrUVVScG9rYzgyT0lr?=
+ =?utf-8?B?YnBCODR0RzR5YTgxQlNvYkFBZWRnZStNT3YyMFUyUDRqa0tIeXdIOUlXWmJL?=
+ =?utf-8?B?aW5sYk56blFITzlFVTUzbERLTzhYRGJJTmhpTVREOFNVWkE4NTVMYjROMTE0?=
+ =?utf-8?B?S2tMU1F2TjEwU2YwWWNITlpOK08yc3VJNGd6U2pnbGR2MnlBTUJZL1RLcWgx?=
+ =?utf-8?B?MVk1aC8vSEIvME9xZzBvaXZjVjMxem5lckIrWGpucmRzUzZNaC9EOWJCbXU0?=
+ =?utf-8?B?cG1FNFZTOG1pL2FDUGVFaFJsdlpZSUpzdlNrT1RTQkxKUEJDSjZhU3JaS01Z?=
+ =?utf-8?B?bnNvSkZRajQzSXpLRndNU3FDWGRHTFZGWTJjeHFJbXFDWXNWWXJKSndlOGNU?=
+ =?utf-8?B?UU9MbGo0UFY1ZlJqaTlWb3d3TGtURWNmN25JZXp3S0FnM1k0OEsyTHh2S1g1?=
+ =?utf-8?B?SVVKaFp1YXBDR1pIVDFXWWM2Z2ZKMXRtYk1HQW1Ealc2T0hmTmc2dm1uQ0w3?=
+ =?utf-8?B?Nkg0djdCUlhSdWs1TXpSbGZtWVVOYTM5Ni92QmlWYXBxVW0rUmJSUEFVRSts?=
+ =?utf-8?Q?ovWVQ1aIW2hU+hNTEQnZCWxAE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92ced686-f652-4086-a5f9-08db0072050d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 14:23:11.5984 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: b+fp0cvvvBjcccm9tvH2KcNFTdlwkT2CTRoJWIvaV4dnf1Jr9M7VABPZO+C3VgcUZJvW4zwItmJAZGfdOwMP5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6369
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,87 +128,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ stanislav.lisovskiy@intel.com, Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ stable@vger.kernel.org, Wayne Lin <Wayne.Lin@amd.com>,
+ Guenter Roeck <linux@roeck-us.net>, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hey Greg,
 
-
-On 27.01.2023 15:19, Dmitry Baryshkov wrote:
-> On 26/01/2023 17:16, Konrad Dybcio wrote:
->> A619_holi is implemented on at least two SoCs: SM4350 (holi) and SM6375
->> (blair). This is what seems to be a first occurrence of this happening,
->> but it's easy to overcome by guarding the SoC-specific fuse values with
->> of_machine_is_compatible(). Do just that to enable frequency limiting
->> on these SoCs.
+On 1/27/23 02:39, Greg KH wrote:
+> On Fri, Jan 20, 2023 at 11:51:04AM -0600, Limonciello, Mario wrote:
+>> On 1/20/2023 11:46, Guenter Roeck wrote:
+>>> On Thu, Jan 12, 2023 at 04:50:44PM +0800, Wayne Lin wrote:
+>>>> This reverts commit 4d07b0bc403403438d9cf88450506240c5faf92f.
+>>>>
+>>>> [Why]
+>>>> Changes cause regression on amdgpu mst.
+>>>> E.g.
+>>>> In fill_dc_mst_payload_table_from_drm(), amdgpu expects to add/remove payload
+>>>> one by one and call fill_dc_mst_payload_table_from_drm() to update the HW
+>>>> maintained payload table. But previous change tries to go through all the
+>>>> payloads in mst_state and update amdpug hw maintained table in once everytime
+>>>> driver only tries to add/remove a specific payload stream only. The newly
+>>>> design idea conflicts with the implementation in amdgpu nowadays.
+>>>>
+>>>> [How]
+>>>> Revert this patch first. After addressing all regression problems caused by
+>>>> this previous patch, will add it back and adjust it.
+>>>
+>>> Has there been any progress on this revert, or on fixing the underlying
+>>> problem ?
+>>>
+>>> Thanks,
+>>> Guenter
 >>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 31 +++++++++++++++++++++++++++
->>   1 file changed, 31 insertions(+)
+>> Hi Guenter,
 >>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> index 452ba32699b2..89990bec897f 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> @@ -2091,6 +2091,34 @@ static u32 a618_get_speed_bin(u32 fuse)
->>       return UINT_MAX;
->>   }
->>   +static u32 a619_holi_get_speed_bin(u32 fuse)
->> +{
->> +    /*
->> +     * There are (at least) two SoCs implementing A619_holi: SM4350 (holi)
->> +     * and SM6375 (blair). Limit the fuse matching to the corresponding
->> +     * SoC to prevent bogus frequency setting (as improbable as it may be,
->> +     * given unexpected fuse values are.. unexpected! But still possible.)
->> +     */
->> +
->> +    if (fuse == 0)
->> +        return 0;
->> +
->> +    if (of_machine_is_compatible("qcom,sm4350")) {
->> +        if (fuse == 138)
->> +            return 1;
->> +        else if (fuse == 92)
->> +            return 2;
->> +    } else if (of_machine_is_compatible("qcom,sm6375")) {
->> +        if (fuse == 190)
->> +            return 1;
->> +        else if (fuse == 177)
->> +            return 2;
->> +    } else
->> +        pr_warn("Unknown SoC implementing A619_holi!\n");
+>> Wayne is OOO for CNY, but let me update you.
+>>
+>> Harry has sent out this series which is a collection of proper fixes.
+>> https://patchwork.freedesktop.org/series/113125/
+>>
+>> Once that's reviewed and accepted, 4 of them are applicable for 6.1.
 > 
-> I think, we might be better to introduce "qcom,SoC-adreno" compat string instead, ignore it in the bindings
-I can hear Krzysztof hiring a hitman already..
+> Any hint on when those will be reviewed and accepted?  patchwork doesn't
+> show any activity on them, or at least I can't figure it out...
 
-and only care about it here. This might seem an overkill thinking from the single Adreno version. However this issue also affects other revisions.
-> 
-> For example, for the A618 there are at least three platforms which use the same Adreno version: SC7180, SM7125 and SM7150. Only first one is supported (thus the speed_bin function is simple). However according to the vendor dts files all three platforms use different fuse values to specify the speed bin.
-Or we may switch to simply matching SoCs based on platform
-compatible, as it's really the SoC-specific and not GPU-specific.
+These patches have already made it into amd-staging-drm-next and as of
+https://lore.kernel.org/amd-gfx/20230125220153.320248-1-alexander.deucher@amd.com/
+they should land in drm-next soon if they haven't already.
 
-Konrad> 
->> +
->> +    return UINT_MAX;
->> +}
->> +
->>   static u32 a619_get_speed_bin(u32 fuse)
->>   {
->>       if (fuse == 0)
->> @@ -2150,6 +2178,9 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
->>       if (adreno_cmp_rev(ADRENO_REV(6, 1, 8, ANY_ID), rev))
->>           val = a618_get_speed_bin(fuse);
->>   +    else if (adreno_cmp_rev(ADRENO_REV(6, 1, 9, 1), rev))
->> +        val = a619_holi_get_speed_bin(fuse);
->> +
 > 
-> Are we sure that SM6350, the unholi A619 user, doesn't use patchid .1? (note I do not know a thing about Adreno patch ids and its usage between different platforms).
+> thanks,
 > 
->>       else if (adreno_cmp_rev(ADRENO_REV(6, 1, 9, ANY_ID), rev))
->>           val = a619_get_speed_bin(fuse);
->>   
-> 
+> greg k-h
+
+-- 
+Hamza
+
