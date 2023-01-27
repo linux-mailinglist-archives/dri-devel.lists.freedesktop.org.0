@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2840567F22B
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jan 2023 00:18:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CD467F246
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jan 2023 00:34:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0866210E0CE;
-	Fri, 27 Jan 2023 23:18:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C83B10E12C;
+	Fri, 27 Jan 2023 23:34:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8FD10E0CE
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 23:18:23 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 467D761B23;
- Fri, 27 Jan 2023 23:18:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDCC3C433EF;
- Fri, 27 Jan 2023 23:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674861502;
- bh=CXUhXt0vaAEeA5azgtYG8dHIkQ0F6fZe8brBxX+dbzw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RdC12Sna/LXNHYtASD7sP87NEW4wwxX8Vz0EVtsPp7oAEug9P8HXexyVQX2M9Yizf
- EmDCljirqWn6Ft2hO/w7PHtTWitdILR4YImeiDGo4haJZtl8kFs0bsssh1B2AQl1+f
- 0eo0rLTSHbhLnSkgKnRaR3AnIDhlSH/dDc/rnT4apOoCPqPhljGUkdRp+OgXvInV/b
- GkHuz10SIfqHsv6YWvl9gh6VV/BbdtYFBlfwonDhXgtNcJCUy17esH5uetnzSlFLOP
- ESbEUs6re68CcDB4BlQrZunygZNWjXA7tBDJ1aXZP9b8rGkwoaKLClk7Bgn+VGVhO2
- Hi4NA8mERmjGg==
-Date: Fri, 27 Jan 2023 16:18:20 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] gpu: host1x: fix uninitialized variable use
-Message-ID: <Y9RbvPRP5Yw/fUMM@dev-arch.thelio-3990X>
-References: <20230127221418.2522612-1-arnd@kernel.org>
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F23C010E12C
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 23:34:22 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-4a263c4ddbaso88136337b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 15:34:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=+Jf9gPQcuONbyyIfKwZS6qgil0Po3FmNgoYTswamp8w=;
+ b=P9OXzUtB95wUG2jX9Z/GfTHNtKe5uEivH0y6eVLqSptouwRjQNMoZRepuopUINopW8
+ mVf4omYpp2U83cCLZw0pd7puqqRiJZq6U4zMLKkGxRwdL5yY5uaYJmlLPmTbuiyDwxFp
+ Elwc8RQAqr+rITaTPU/ztSzDeP2w6PqPbq5AP0o1LDd/KTPJQz2YTmQZEyRZeYiFrY6r
+ V2fPM4W0TOJKtowpppi18Tp3XBFoBB1W4RLSWbUF8c5jpNTS2ABLaI53eZMFXoB1i0Rg
+ r597/98cxBytlFp81ciWaLuVMrt1bhHH6CUDzsvCo9lGwR4STCoXOTsha4HvGaGJZHUo
+ dI3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+Jf9gPQcuONbyyIfKwZS6qgil0Po3FmNgoYTswamp8w=;
+ b=E/VvUFrDMwwYb0wsXzlv0nhmdMOTxFNsrvhLSeCBM83rS2N1nPh35pL80aaWS76gdy
+ U1CgsFGyZwbadXbHu6p71yVSuibYqeGhPtTF7+61rDO79Nh/BW3KO0XXdow6gypClHsn
+ iQN/8PP4zDL2HKm0K4dQhORrm6Npqc7nYzyrwBOUttzaJRXjsE6F79WjNLgBd6Ea1zGj
+ ZFLbgWX/sSsTczX8z3WggnnXp06oFM2U8Dj9CU+NW1DhON0vnoBV3jn/RIcCaCQMk/G/
+ 4QBqYOAKFuywju0eY80ITHJdu5C3Xo/u8HALUioIqdD/9jHA0r3rD9A73sUS0CCLZMnI
+ wntw==
+X-Gm-Message-State: AFqh2kr06WyDbdO4QzJVmcnnWs58e52rLyT7GRFLUlfPrGq8xe31CeaL
+ l+Q5fOfgd41jnC8LaLsSeBl+a3Oge6DWzxXFXDk=
+X-Google-Smtp-Source: AMrXdXtsbknBljmjrRQyST05iJH+o9YmK8+LgIHwaozpv6bESvAOyj+ktKaSvM4kTTDo5FMnsCj2U//zDVPPODSrVeM=
+X-Received: by 2002:a81:4f81:0:b0:502:92ae:5123 with SMTP id
+ d123-20020a814f81000000b0050292ae5123mr3030315ywb.99.1674862461547; Fri, 27
+ Jan 2023 15:34:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230127221418.2522612-1-arnd@kernel.org>
+From: lepton <ytht.net@gmail.com>
+Date: Fri, 27 Jan 2023 15:34:10 -0800
+Message-ID: <CALqoU4y37QuMj_QCpmq42G=-sK-fhkZhx63pD3WOjQrYyWS7Og@mail.gmail.com>
+Subject: What happened to basic prime support of bochs driver?
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,64 +62,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 27, 2023 at 11:14:00PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The error handling for platform_get_irq() failing no longer
-> works after a recent change, clang now points this out with
-> a warning:
-> 
-> drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
->         if (syncpt_irq < 0)
->             ^~~~~~~~~~
-> 
-> Fix this by removing the variable and checking the correct
-> error status.
-> 
-> Fixes: 625d4ffb438c ("gpu: host1x: Rewrite syncpoint interrupt handling")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Hi Gerd,
 
-I had the same diff pending but civic duty called today :)
+It seems in the latest kernel, there is no PRIME support for bochs-drm
+driver, I've found that you have an old CL which adds basic prime
+support to it.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1893205.html
 
-> ---
->  drivers/gpu/host1x/dev.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-> index 4872d183d860..aae2efeef503 100644
-> --- a/drivers/gpu/host1x/dev.c
-> +++ b/drivers/gpu/host1x/dev.c
-> @@ -487,7 +487,6 @@ static int host1x_get_resets(struct host1x *host)
->  static int host1x_probe(struct platform_device *pdev)
->  {
->  	struct host1x *host;
-> -	int syncpt_irq;
->  	int err;
->  
->  	host = devm_kzalloc(&pdev->dev, sizeof(*host), GFP_KERNEL);
-> @@ -517,8 +516,8 @@ static int host1x_probe(struct platform_device *pdev)
->  	}
->  
->  	host->syncpt_irq = platform_get_irq(pdev, 0);
-> -	if (syncpt_irq < 0)
-> -		return syncpt_irq;
-> +	if (host->syncpt_irq < 0)
-> +		return host->syncpt_irq;
->  
->  	mutex_init(&host->devices_lock);
->  	INIT_LIST_HEAD(&host->devices);
-> -- 
-> 2.39.0
-> 
+Do you remember why it finally doesn't go through?
+
+Thanks!
