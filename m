@@ -2,69 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12DD67DB1E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 02:13:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DAA67DF38
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:31:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65EC910E3C5;
-	Fri, 27 Jan 2023 01:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDE410E419;
+	Fri, 27 Jan 2023 08:31:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4C5410E160
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 01:13:49 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id y15so2812814edq.13
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:13:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CF01fh/f0hITGD+MQzyiKhCXqnGsvJyZ9uRxx+H98MU=;
- b=dvJ1aGnFt1pS3es/e/WqL8ToqRyNvrS6b+rH6MEGmZD2ICAYISfVAHWE3cpKE8+7AW
- rXDdDtrUF5/yOT3M2hz8YMcS3jrmIIqXTZdHjOHsFunoFUw51j2DqWgQxG4apAXVW7Mm
- c7mQEq8JDpOf+Mwf4us1d/to+qbbqh+uzkQzg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CF01fh/f0hITGD+MQzyiKhCXqnGsvJyZ9uRxx+H98MU=;
- b=uSjC6XyB+sbMTxswYpEs0IIFIl98UxkOKYFgy3zV90VROshQZoHfr1TVmbgXluttSD
- lmfGqN31Z17MDQNcmmlFNGyy268rvmFhcf/mHXd8G8zv1Ok7tAjxIUXP0Kn12POUF2+9
- IQZ84cajV57KxMAws5b8gERSDrE70BtNoh02SDDwCozayoRP31crApY+dfkIxdokmYXY
- cK7yNboQ85Hg915NehOZg3ksj4CGjRfZDaSgjiMnrQqeRJhMxabUwGdwpAynxG0/eFo6
- T+paPm5/YEi/pXe45ZaB0PqlYHByJSCytvmgD1Ymo4inbZ0AeHRuSh943S7J7T7COlAo
- Bqpg==
-X-Gm-Message-State: AO0yUKWlZ4ozz5AwJu3TjwpZoSpF/oHbdh4nyIAwASCD2oj0RXjM9Boy
- RDtLZQN/M+3pQ/A1cgr0Fc9ywB+wOGa7sMXmeRE=
-X-Google-Smtp-Source: AK7set8wtZSa7pTg4aQVnjV+8LmgmMsifKKtY45dtxXRqgc8AB4w7rF2sjREHO50u5B0+N/EXmwlLw==
-X-Received: by 2002:a05:6402:298c:b0:49f:a3d7:b84d with SMTP id
- eq12-20020a056402298c00b0049fa3d7b84dmr14291696edb.34.1674782028139; 
- Thu, 26 Jan 2023 17:13:48 -0800 (PST)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com.
- [209.85.221.42]) by smtp.gmail.com with ESMTPSA id
- a6-20020a509b46000000b0049e65e4ff20sm1513314edj.14.2023.01.26.17.13.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Jan 2023 17:13:46 -0800 (PST)
-Received: by mail-wr1-f42.google.com with SMTP id r2so3618130wrv.7
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 17:13:45 -0800 (PST)
-X-Received: by 2002:a5d:6b51:0:b0:2bf:c5cc:e1d6 with SMTP id
- x17-20020a5d6b51000000b002bfc5cce1d6mr99974wrw.659.1674782025133; Thu, 26 Jan
- 2023 17:13:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20230113155547.RFT.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
- <20230113155547.RFT.2.I4cfeab9d0e07e98ead23dd0736ab4461e6c69002@changeid>
-In-Reply-To: <20230113155547.RFT.2.I4cfeab9d0e07e98ead23dd0736ab4461e6c69002@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 26 Jan 2023 17:13:33 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U_FhzyZFiJT3hYnURpuM7VvnR_RDBufCcwXu+H2obxgw@mail.gmail.com>
-Message-ID: <CAD=FV=U_FhzyZFiJT3hYnURpuM7VvnR_RDBufCcwXu+H2obxgw@mail.gmail.com>
-Subject: Re: [RFT PATCH 2/2] drm/msm/dsi: Stop unconditionally powering up DSI
- hosts at modeset
-To: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7059C10E171
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 01:49:41 +0000 (UTC)
+Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
+ by 156.147.23.51 with ESMTP; 27 Jan 2023 10:19:40 +0900
+X-Original-SENDERIP: 156.147.1.151
+X-Original-MAILFROM: max.byungchul.park@gmail.com
+Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
+ by 156.147.1.151 with ESMTP; 27 Jan 2023 10:19:40 +0900
+X-Original-SENDERIP: 10.177.244.38
+X-Original-MAILFROM: max.byungchul.park@gmail.com
+From: Byungchul Park <max.byungchul.park@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v8 00/25] DEPT(Dependency Tracker)
+Date: Fri, 27 Jan 2023 10:18:53 +0900
+Message-Id: <1674782358-25542-1-git-send-email-max.byungchul.park@gmail.com>
+X-Mailer: git-send-email 1.9.1
+X-Mailman-Approved-At: Fri, 27 Jan 2023 08:31:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,79 +39,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ye xingchen <ye.xingchen@zte.com.cn>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Vinod Koul <vkoul@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
+ peterz@infradead.org, daniel.vetter@ffwll.ch, amir73il@gmail.com,
+ david@fromorbit.com, dri-devel@lists.freedesktop.org, mhocko@kernel.org,
+ linux-mm@kvack.org, linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+ chris.p.wilson@intel.com, joel@joelfernandes.org, 42.hyeyoo@gmail.com,
+ cl@linux.com, will@kernel.org, duyuyang@gmail.com, sashal@kernel.org,
+ paolo.valente@linaro.org, damien.lemoal@opensource.wdc.com,
+ willy@infradead.org, hch@infradead.org, mingo@redhat.com, djwong@kernel.org,
+ vdavydov.dev@gmail.com, rientjes@google.com, dennis@kernel.org,
+ linux-ext4@vger.kernel.org, ngupta@vflare.org, johannes.berg@intel.com,
+ boqun.feng@gmail.com, dan.j.williams@intel.com, josef@toxicpanda.com,
+ rostedt@goodmis.org, gwan-gyeong.mun@intel.com, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, jglisse@redhat.com, viro@zeniv.linux.org.uk,
+ longman@redhat.com, tglx@linutronix.de, vbabka@suse.cz, melissa.srw@gmail.com,
+ sj@kernel.org, tytso@mit.edu, rodrigosiqueiramelo@gmail.com,
+ kernel-team@lge.com, gregkh@linuxfoundation.org, jlayton@kernel.org,
+ penberg@kernel.org, minchan@kernel.org, max.byungchul.park@gmail.com,
+ hannes@cmpxchg.org, tj@kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+I'm happy to see that DEPT reports a real problem in practice. See:
 
-On Fri, Jan 13, 2023 at 3:56 PM Douglas Anderson <dianders@chromium.org> wrote:
->
-> In commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
-> time"), we moved powering up DSI hosts to modeset time. This wasn't
-> because it was an elegant design, but there were no better options.
->
-> That commit actually ended up breaking ps8640, and thus was born
-> commit ec7981e6c614 ("drm/msm/dsi: don't powerup at modeset time for
-> parade-ps8640") as a temporary hack to un-break ps8640 by moving it to
-> the old way of doing things. It turns out that ps8640 _really_ doesn't
-> like its pre_enable() function to be called after
-> dsi_mgr_bridge_power_on(). Specifically (from experimentation, not
-> because I have any inside knowledge), it looks like the assertion of
-> "RST#" in the ps8640 runtime resume handler seems like it's not
-> allowed to happen after dsi_mgr_bridge_power_on()
->
-> Recently, Dave Stevenson's series landed allowing bridges some control
-> over pre_enable ordering. The meaty commit for our purposes is commit
-> 4fb912e5e190 ("drm/bridge: Introduce pre_enable_prev_first to alter
-> bridge init order"). As documented by that series, if a bridge doesn't
-> set "pre_enable_prev_first" then we should use the old ordering.
->
-> Now that we have the commit ("drm/bridge: tc358762: Set
-> pre_enable_prev_first") we can go back to the old ordering, which also
-> allows us to remove the ps8640 special case.
->
-> One last note is that even without reverting commit 7d8e9a90509f
-> ("drm/msm/dsi: move DSI host powerup to modeset time"), if you _just_
-> revert the ps8640 special case and try it out then it doesn't seem to
-> fail anymore. I spent time bisecting / debugging this and it turns out
-> to be mostly luck, so we still want this patch to make sure it's
-> solid. Specifically the reason it sorta works these days is because
-> we implemented wait_hpd_asserted() in ps8640 now, plus the magic of
-> "pm_runtime" autosuspend. The fact that we have wait_hpd_asserted()
-> implemented means that we actually power the bridge chip up just a wee
-> bit earlier and then the bridge happens to stay on because of
-> autosuspend and thus ends up powered before dsi_mgr_bridge_power_on().
->
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
->  drivers/gpu/drm/msm/dsi/dsi_manager.c | 68 +++++----------------------
->  1 file changed, 11 insertions(+), 57 deletions(-)
+   https://lore.kernel.org/lkml/6383cde5-cf4b-facf-6e07-1378a485657d@I-love.SAKURA.ne.jp/#t
+   https://lore.kernel.org/lkml/1674268856-31807-1-git-send-email-byungchul.park@lge.com/
 
-Does anyone have any comments on this patch series? It would probably
-make sense to wait to land until early in a kernel's release cycle, so
-perhaps there is no hurry. That being said, it would still be good to
-know what the plan is.
+Nevertheless, I apologize for the lack of document. I promise to add it
+before it gets needed to use DEPT's APIs by users. For now, you can use
+DEPT just with CONFIG_DEPT on.
 
-Abhinav: I think you're the one that was most concerned with removing
-the special case for ps8640. Does that mean you'd be willing to review
-this patch?
+For what is's worth, 'byungchul.park@lge.com' is no longer available.
+Instead, I will use 'max.byungchul.park@gmail.com' from now on.
 
-For whether or not the "tc358762" panel works with the MSM display
-driver after this series, are the correct people on this thread?
+---
 
-Thanks!
+Hi Linus and folks,
 
--Doug
+I've been developing a tool for detecting deadlock possibilities by
+tracking wait/event rather than lock(?) acquisition order to try to
+cover all synchonization machanisms. It's done on v6.2-rc2.
+
+https://github.com/lgebyungchulpark/linux-dept/commits/dept2.3_on_v6.2-rc2
+
+Benifit:
+
+	0. Works with all lock primitives.
+	1. Works with wait_for_completion()/complete().
+	2. Works with 'wait' on PG_locked.
+	3. Works with 'wait' on PG_writeback.
+	4. Works with swait/wakeup.
+	5. Works with waitqueue.
+	6. Works with wait_bit.
+	7. Multiple reports are allowed.
+	8. Deduplication control on multiple reports.
+	9. Withstand false positives thanks to 6.
+	10. Easy to tag any wait/event.
+
+Future work:
+
+	0. To make it more stable.
+	1. To separates Dept from Lockdep.
+	2. To improves performance in terms of time and space.
+	3. To use Dept as a dependency engine for Lockdep.
+	4. To add any missing tags of wait/event in the kernel.
+	5. To deduplicate stack trace.
+
+How to interpret reports:
+
+	1. E(event) in each context cannot be triggered because of the
+	   W(wait) that cannot be woken.
+	2. The stack trace helping find the problematic code is located
+	   in each conext's detail.
+
+Thanks,
+Byungchul
+
+---
+
+Changes from v7:
+
+	1. Fix a bug that cannot track rwlock dependency properly,
+	   introduced in v7. (reported by Boqun and lockdep selftest)
+	2. Track wait/event of PG_{locked,writeback} more aggressively
+	   assuming that when a bit of PG_{locked,writeback} is cleared
+	   there might be waits on the bit. (reported by Linus, Hillf
+	   and syzbot)
+	3. Fix and clean bad style code e.i. unnecessarily introduced
+	   a randome pattern and so on. (pointed out by Linux)
+	4. Clean code for applying DEPT to wait_for_completion().
+
+Changes from v6:
+
+	1. Tie to task scheduler code to track sleep and try_to_wake_up()
+	   assuming sleeps cause waits, try_to_wake_up()s would be the
+	   events that those are waiting for, of course with proper DEPT
+	   annotations, sdt_might_sleep_weak(), sdt_might_sleep_strong()
+	   and so on. For these cases, class is classified at sleep
+	   entrance rather than the synchronization initialization code.
+	   Which would extremely reduce false alarms.
+	2. Remove the DEPT associated instance in each page struct for
+	   tracking dependencies by PG_locked and PG_writeback thanks to
+	   the 1. work above.
+	3. Introduce CONFIG_DEPT_AGGRESIVE_TIMEOUT_WAIT to suppress
+	   reports that waits with timeout set are involved, for those
+	   who don't like verbose reporting.
+	4. Add a mechanism to refill the internal memory pools on
+	   running out so that DEPT could keep working as long as free
+	   memory is available in the system.
+	5. Re-enable tracking hashed-waitqueue wait. That's going to no
+	   longer generate false positives because class is classified
+	   at sleep entrance rather than the waitqueue initailization.
+	6. Refactor to make it easier to port onto each new version of
+	   the kernel.
+	7. Apply DEPT to dma fence.
+	8. Do trivial optimizaitions.
+
+Changes from v5:
+
+	1. Use just pr_warn_once() rather than WARN_ONCE() on the lack
+	   of internal resources because WARN_*() printing stacktrace is
+	   too much for informing the lack. (feedback from Ted, Hyeonggon)
+	2. Fix trivial bugs like missing initializing a struct before
+	   using it.
+	3. Assign a different class per task when handling onstack
+	   variables for waitqueue or the like. Which makes Dept
+	   distinguish between onstack variables of different tasks so
+	   as to prevent false positives. (reported by Hyeonggon)
+	4. Make Dept aware of even raw_local_irq_*() to prevent false
+	   positives. (reported by Hyeonggon)
+	5. Don't consider dependencies between the events that might be
+	   triggered within __schedule() and the waits that requires
+	    __schedule(), real ones. (reported by Hyeonggon)
+	6. Unstage the staged wait that has prepare_to_wait_event()'ed
+	   *and* yet to get to __schedule(), if we encounter __schedule()
+	   in-between for another sleep, which is possible if e.g. a
+	   mutex_lock() exists in 'condition' of ___wait_event().
+	7. Turn on CONFIG_PROVE_LOCKING when CONFIG_DEPT is on, to rely
+	   on the hardirq and softirq entrance tracing to make Dept more
+	   portable for now.
+
+Changes from v4:
+
+	1. Fix some bugs that produce false alarms.
+	2. Distinguish each syscall context from another *for arm64*.
+	3. Make it not warn it but just print it in case Dept ring
+	   buffer gets exhausted. (feedback from Hyeonggon)
+	4. Explicitely describe "EXPERIMENTAL" and "Dept might produce
+	   false positive reports" in Kconfig. (feedback from Ted)
+
+Changes from v3:
+
+	1. Dept shouldn't create dependencies between different depths
+	   of a class that were indicated by *_lock_nested(). Dept
+	   normally doesn't but it does once another lock class comes
+	   in. So fixed it. (feedback from Hyeonggon)
+	2. Dept considered a wait as a real wait once getting to
+	   __schedule() even if it has been set to TASK_RUNNING by wake
+	   up sources in advance. Fixed it so that Dept doesn't consider
+	   the case as a real wait. (feedback from Jan Kara)
+	3. Stop tracking dependencies with a map once the event
+	   associated with the map has been handled. Dept will start to
+	   work with the map again, on the next sleep.
+
+Changes from v2:
+
+	1. Disable Dept on bit_wait_table[] in sched/wait_bit.c
+	   reporting a lot of false positives, which is my fault.
+	   Wait/event for bit_wait_table[] should've been tagged in a
+	   higher layer for better work, which is a future work.
+	   (feedback from Jan Kara)
+	2. Disable Dept on crypto_larval's completion to prevent a false
+	   positive.
+
+Changes from v1:
+
+	1. Fix coding style and typo. (feedback from Steven)
+	2. Distinguish each work context from another in workqueue.
+	3. Skip checking lock acquisition with nest_lock, which is about
+	   correct lock usage that should be checked by Lockdep.
+
+Changes from RFC(v0):
+
+	1. Prevent adding a wait tag at prepare_to_wait() but __schedule().
+	   (feedback from Linus and Matthew)
+	2. Use try version at lockdep_acquire_cpus_lock() annotation.
+	3. Distinguish each syscall context from another.
+
+Byungchul Park (25):
+  llist: Move llist_{head,node} definition to types.h
+  dept: Implement Dept(Dependency Tracker)
+  dept: Add single event dependency tracker APIs
+  dept: Add lock dependency tracker APIs
+  dept: Tie to Lockdep and IRQ tracing
+  dept: Add proc knobs to show stats and dependency graph
+  dept: Apply sdt_might_sleep_{start,end}() to
+    wait_for_completion()/complete()
+  dept: Apply sdt_might_sleep_{start,end}() to PG_{locked,writeback}
+    wait
+  dept: Apply sdt_might_sleep_{start,end}() to swait
+  dept: Apply sdt_might_sleep_{start,end}() to waitqueue wait
+  dept: Apply sdt_might_sleep_{start,end}() to hashed-waitqueue wait
+  dept: Distinguish each syscall context from another
+  dept: Distinguish each work from another
+  dept: Add a mechanism to refill the internal memory pools on running
+    out
+  locking/lockdep, cpu/hotplus: Use a weaker annotation in AP thread
+  dept: Apply sdt_might_sleep_{start,end}() to dma fence wait
+  dept: Track timeout waits separately with a new Kconfig
+  dept: Apply timeout consideration to wait_for_completion()/complete()
+  dept: Apply timeout consideration to swait
+  dept: Apply timeout consideration to waitqueue wait
+  dept: Apply timeout consideration to hashed-waitqueue wait
+  dept: Apply timeout consideration to dma fence wait
+  dept: Record the latest one out of consecutive waits of the same class
+  dept: Make Dept able to work with an external wgen
+  dept: Track the potential waits of PG_{locked,writeback}
+
+ arch/arm64/kernel/syscall.c         |    2 +
+ arch/x86/entry/common.c             |    4 +
+ drivers/dma-buf/dma-fence.c         |    5 +
+ include/linux/completion.h          |   30 +-
+ include/linux/dept.h                |  610 +++++++
+ include/linux/dept_ldt.h            |   77 +
+ include/linux/dept_sdt.h            |   66 +
+ include/linux/hardirq.h             |    3 +
+ include/linux/irqflags.h            |   23 +-
+ include/linux/llist.h               |    8 -
+ include/linux/local_lock_internal.h |    1 +
+ include/linux/lockdep.h             |  102 +-
+ include/linux/lockdep_types.h       |    3 +
+ include/linux/mm_types.h            |    3 +
+ include/linux/mutex.h               |    1 +
+ include/linux/page-flags.h          |  112 +-
+ include/linux/pagemap.h             |    7 +-
+ include/linux/percpu-rwsem.h        |    2 +-
+ include/linux/rtmutex.h             |    1 +
+ include/linux/rwlock_types.h        |    1 +
+ include/linux/rwsem.h               |    1 +
+ include/linux/sched.h               |    3 +
+ include/linux/seqlock.h             |    2 +-
+ include/linux/spinlock_types_raw.h  |    3 +
+ include/linux/srcu.h                |    2 +-
+ include/linux/swait.h               |    3 +
+ include/linux/types.h               |    8 +
+ include/linux/wait.h                |    3 +
+ include/linux/wait_bit.h            |    3 +
+ init/init_task.c                    |    2 +
+ init/main.c                         |    2 +
+ kernel/Makefile                     |    1 +
+ kernel/cpu.c                        |    2 +-
+ kernel/dependency/Makefile          |    4 +
+ kernel/dependency/dept.c            | 3144 +++++++++++++++++++++++++++++++++++
+ kernel/dependency/dept_hash.h       |   10 +
+ kernel/dependency/dept_internal.h   |   26 +
+ kernel/dependency/dept_object.h     |   13 +
+ kernel/dependency/dept_proc.c       |   93 ++
+ kernel/exit.c                       |    1 +
+ kernel/fork.c                       |    2 +
+ kernel/locking/lockdep.c            |   23 +
+ kernel/module/main.c                |    2 +
+ kernel/sched/completion.c           |    2 +-
+ kernel/sched/core.c                 |    9 +
+ kernel/workqueue.c                  |    3 +
+ lib/Kconfig.debug                   |   37 +
+ lib/locking-selftest.c              |    2 +
+ mm/filemap.c                        |   16 +
+ mm/page_alloc.c                     |    3 +
+ 50 files changed, 4431 insertions(+), 55 deletions(-)
+ create mode 100644 include/linux/dept.h
+ create mode 100644 include/linux/dept_ldt.h
+ create mode 100644 include/linux/dept_sdt.h
+ create mode 100644 kernel/dependency/Makefile
+ create mode 100644 kernel/dependency/dept.c
+ create mode 100644 kernel/dependency/dept_hash.h
+ create mode 100644 kernel/dependency/dept_internal.h
+ create mode 100644 kernel/dependency/dept_object.h
+ create mode 100644 kernel/dependency/dept_proc.c
+
+-- 
+1.9.1
+
