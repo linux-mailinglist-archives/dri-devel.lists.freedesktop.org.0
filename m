@@ -1,53 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD1567E4DF
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 13:15:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 304FA67E389
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 12:35:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 857AC10E463;
-	Fri, 27 Jan 2023 12:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1B6D10E45B;
+	Fri, 27 Jan 2023 11:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5F8A10E463
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 12:14:58 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B01C484EEF;
- Fri, 27 Jan 2023 13:14:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1674821697;
- bh=ss2MqIY1vFLwQEWWjsXEVezBnSUVGIRGPjrbXX3WzyI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jrt3q3t+ZHCxlX2iyvlWpvdr02BmnzGC8zfgPvxzSqHy//ZL7DqnViRVnXDAza4TH
- W+/RqMr5XYXcAdGtRancTZbr7K1TUwpbJBMzEheQCGx+IiBTkTh1GHzVjPEaJ/iVz8
- jhy6wvZTyUCfaqR4pAOtWIm/NwPNo/3KRRbTNRh99T2gSShPor62Uzxfh8MKvgacno
- EAsmFLorzIWt/bkLug5I5Xbe4zgYqX5zdn33qFDvs6TK7GZhBegoSLoAEN04AQSoou
- 4erVzxyCvqGWhphSx87zh0cfUbtTpTYnD2cJS+8Wr9jo/0EClkgZtcdTvUmmJDnMci
- ud66tRAgKxfwA==
-Content-Type: multipart/mixed; boundary="------------g08fYK75NVO0I8Y99d04itGS"
-Message-ID: <31ccc974-4b01-ae47-9505-626617f07758@denx.de>
-Date: Fri, 27 Jan 2023 12:30:25 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94DFD10E454
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 11:35:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674819323;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=poqA6RHKV0v9iLyMFWGM9vfyO+m9ySeX6jjTFbMjzpk=;
+ b=aQUG2l5H4fObiEYmWK485V2evImoVueVFexEPsAYIreB+Bia+v4ZnABKi32Ju1n6nTV1Xv
+ ikYxkgweguHpHMq4MSM9VULkDsyj+D03HeR72vAk3DnjjYUZLQAHGBv2iZfihzM8YD/5cf
+ 40O4oVJLlWlhDnjqevBtDnJ1SwoHOiM=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-648-nODawBN5NK6uEm-jAbxE_A-1; Fri, 27 Jan 2023 06:35:22 -0500
+X-MC-Unique: nODawBN5NK6uEm-jAbxE_A-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ by38-20020a05651c1a2600b0028b8260999eso1267918ljb.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 03:35:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=poqA6RHKV0v9iLyMFWGM9vfyO+m9ySeX6jjTFbMjzpk=;
+ b=N9oam8+vjHyxXIAF80wrce+TFhzrDihVL4seF/9NtolNb9jkaKY8cpjW0n52O8e4I4
+ aXDQOySXZj8EUX24/G/7+bZJlvLXIC6WWOCK/GSg0J5KTBOzvj86lW59LCqbMKaGtIkA
+ /vAROHcZ+ImajumdZVhaWYbbAcnRP3brog2E9MeLYQbJ7f4Jw7Q9fWKn3xHj1oq3Tkjc
+ BK1f648b3/YAipA4HtxhSzqDuRzUtcRheDv+NUyVp9GQ3R6Qfs7aBI7XKlkP0JVkjfgw
+ DnajENxGOJHTzYm/ADftwU/r55fZMao2zFeQZ/toROVlMrSNXIz0g/MI9bx1BFJ/CTzM
+ hlww==
+X-Gm-Message-State: AFqh2kpTkylBtPVXWtswLLSt3OVU7RggsfknpyFNlv/n1/fPQlqDtl7e
+ dCpqEGBZGeDmd3EmTZ9P6swdf40SCUx16LeAWJfe5Js9W4Eguc6poY18YCxAo8Y7dOQy2vc+A+o
+ KkCuhzk73n+pRTZF+DZrV20Uwdc/6ZCVOXpOEPdhvZkYj
+X-Received: by 2002:ac2:4bd5:0:b0:4d5:76af:f890 with SMTP id
+ o21-20020ac24bd5000000b004d576aff890mr2351459lfq.228.1674819320542; 
+ Fri, 27 Jan 2023 03:35:20 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXui82HUdxbT8XcUd+t5khVAAaqiRUAf8yYK1febBIf6BtoEPVLmD26XmE6V5geG4mseiUv9bSQx4PG0c4B4//A=
+X-Received: by 2002:ac2:4bd5:0:b0:4d5:76af:f890 with SMTP id
+ o21-20020ac24bd5000000b004d576aff890mr2351452lfq.228.1674819320042; Fri, 27
+ Jan 2023 03:35:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-References: <20230126144427.607098-1-jagan@amarulasolutions.com>
- <06e5423f-c022-7a1c-efe0-0f4fbab664c1@prevas.dk>
- <CAMty3ZBRDDnNdmgD5ji11SdCuOcmu3ZyBPyB28cF1aRTyxp+fg@mail.gmail.com>
- <be95e4f7-15a8-ba99-6b39-6f7f0ea71201@prevas.dk>
- <CAMty3ZBNLpV9orVRD897ZeR3Hj9RWOau07b1ZGDUoBRej=Cj-Q@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAMty3ZBNLpV9orVRD897ZeR3Hj9RWOau07b1ZGDUoBRej=Cj-Q@mail.gmail.com>
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
+References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
+ <fcec3c78-b5d9-eb48-0fc0-d1f27de87f23@leemhuis.info>
+ <b21fa1f6-a71d-5657-8596-ee0be73185ea@leemhuis.info>
+In-Reply-To: <b21fa1f6-a71d-5657-8596-ee0be73185ea@leemhuis.info>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Fri, 27 Jan 2023 12:35:08 +0100
+Message-ID: <CACO55tsgc7mmmYBQATqG=zUmO22A1uA3_+A0krdCoORj4PirXg@mail.gmail.com>
+Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
+To: Linux regressions mailing list <regressions@lists.linux.dev>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,178 +77,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, matteo.lisi@engicam.com,
- linux-amarula@amarulasolutions.com, sw0312.kim@samsung.com,
- dri-devel@lists.freedesktop.org, frieder.schrempf@kontron.de,
- kyungmin.park@samsung.com, Laurent.pinchart@ideasonboard.com,
- andrzej.hajda@intel.com, m.szyprowski@samsung.com, aford173@gmail.com,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
+Cc: ML nouveau <nouveau@lists.freedesktop.org>,
+ Chris Clayton <chris2553@googlemail.com>, LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------g08fYK75NVO0I8Y99d04itGS
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Where was the original email sent to anyway, because I don't have it at all.
 
-On 1/27/23 12:04, Jagan Teki wrote:
-> On Fri, Jan 27, 2023 at 4:26 PM Rasmus Villemoes
-> <rasmus.villemoes@prevas.dk> wrote:
->>
->> On 27/01/2023 11.39, Jagan Teki wrote:
->>> On Fri, Jan 27, 2023 at 4:03 PM Rasmus Villemoes
->>> <rasmus.villemoes@prevas.dk> wrote:
->>>>
->>>> Hi Jagan and others
->>>>
->>>> I'm trying to test this series on our imx8mp-based boards, which has the
->>>> mipi-dsi connected to a ti,sn65dsi86 bridge (in turn connected to a
->>>> full-size DP-connector). But I don't know how to add the proper nodes to
->>>> imx8mp.dtsi. My current, obviously incomplete, attempt is
->>>
->>> Please use this repo - https://github.com/openedev/kernel/tree/imx8mm-dsi-v12
->>
->> Thanks, but that's exactly what I'm doing, and I don't see any
->> modification of imx8mp.dtsi in that branch. I'm basically looking for
->> help to do the equivalent of
->>
->>    88775338cd58 - arm64: dts: imx8mm: Add MIPI DSI pipeline
->>    f964f67dd6ee - arm64: dts: imx8mm: Add eLCDIF node support
->>
->> for imx8mp in order to test those patches on our boards (we have two
->> variants).
-> 
-> Marek, any help here, thanks.
+Anyhow, I suspect we want to fetch logs to see what's happening, but
+due to the nature of this bug it might get difficult.
 
-Try attached patch.
---------------g08fYK75NVO0I8Y99d04itGS
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-arm64-dts-imx8mp-Add-display-pipeline-components.patch"
-Content-Disposition: attachment;
- filename*0="0001-arm64-dts-imx8mp-Add-display-pipeline-components.patch"
-Content-Transfer-Encoding: base64
+I'm checking out the laptops I have here if I can reproduce this
+issue, but I think all mine with Turing GPUs are fine.
 
-RnJvbSBmN2U4NWVmMTRjNTJlODRlNDk1YWI4NWZkMDcyNjNlNWI5MDliZjdmIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJlayBWYXN1dCA8bWFyZXhAZGVueC5kZT4KRGF0
-ZTogU3VuLCAyNyBGZWIgMjAyMiAwMjoyMDowNSArMDEwMApTdWJqZWN0OiBbUEFUQ0hdIGFy
-bTY0OiBkdHM6IGlteDhtcDogQWRkIGRpc3BsYXkgcGlwZWxpbmUgY29tcG9uZW50cwpNSU1F
-LVZlcnNpb246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgK
-Q29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKQWRkIERTSU0sIERTSU0gUEhZLCBM
-Q0RJRjEgYW5kIG1lZGlhbWl4IGJsa19jdGwgbm9kZXMgZm9yIGlNWDhNUC4KVGhlIGJsa19j
-dGwgaXMgcmVxdWlyZWQgdG8gZW5hYmxlIExDRElGIGNsb2NrIGFuZCBEU0lNIGNsb2NrLCBh
-bmQKaGFuZGxlIERTSU0gcmVzZXRzLgoKVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nClNpZ25l
-ZC1vZmYtYnk6IE1hcmVrIFZhc3V0IDxtYXJleEBkZW54LmRlPgpDYzogQWJlbCBWZXNhIDxh
-YmVsLnZlc2FAbnhwLmNvbT4KQ2M6IERvbmcgQWlzaGVuZyA8YWlzaGVuZy5kb25nQG54cC5j
-b20+CkNjOiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+CkNjOiBHdWlkbyBH
-w7xudGhlciA8YWd4QHNpZ3hjcHUub3JnPgpDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVu
-Z3V0cm9uaXguZGU+CkNjOiBOWFAgTGludXggVGVhbSA8bGludXgtaW14QG54cC5jb20+CkNj
-OiBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3JnPgpDYzogU2hhd24gR3VvIDxzaGF3
-bmd1b0BrZXJuZWwub3JnPgotLS0KIGFyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lt
-eDhtcC5kdHNpIHwgMTQ0ICsrKysrKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2Vk
-LCAxMzkgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9hcmNo
-L2FybTY0L2Jvb3QvZHRzL2ZyZWVzY2FsZS9pbXg4bXAuZHRzaSBiL2FyY2gvYXJtNjQvYm9v
-dC9kdHMvZnJlZXNjYWxlL2lteDhtcC5kdHNpCmluZGV4IGJiOTE2YTA5NDhhOGYuLmFlZjM5
-ZDYyYjQ3ZDcgMTAwNjQ0Ci0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lt
-eDhtcC5kdHNpCisrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDhtcC5k
-dHNpCkBAIC01MzMsNiArNTMzLDcgQEAgcGdjIHsKIAkJCQkJcGdjX21pcGlfcGh5MTogcG93
-ZXItZG9tYWluQDAgewogCQkJCQkJI3Bvd2VyLWRvbWFpbi1jZWxscyA9IDwwPjsKIAkJCQkJ
-CXJlZyA9IDxJTVg4TVBfUE9XRVJfRE9NQUlOX01JUElfUEhZMT47CisJCQkJCQlwb3dlci1k
-b21haW5zID0gPCZwZ2NfbWVkaWFtaXg+OwogCQkJCQl9OwogCiAJCQkJCXBnY19wY2llX3Bo
-eTogcG93ZXItZG9tYWluQDEgewpAQCAtNTg3LDYgKzU4OCw3IEBAIHBnY19tZWRpYW1peDog
-cG93ZXItZG9tYWluQDEwIHsKIAkJCQkJcGdjX21pcGlfcGh5MjogcG93ZXItZG9tYWluQDE2
-IHsKIAkJCQkJCSNwb3dlci1kb21haW4tY2VsbHMgPSA8MD47CiAJCQkJCQlyZWcgPSA8SU1Y
-OE1QX1BPV0VSX0RPTUFJTl9NSVBJX1BIWTI+OworCQkJCQkJcG93ZXItZG9tYWlucyA9IDwm
-cGdjX21lZGlhbWl4PjsKIAkJCQkJfTsKIAogCQkJCQlwZ2NfaHNpb21peDogcG93ZXItZG9t
-YWluc0AxNyB7CkBAIC0xMDgyLDcgKzEwODQsNyBAQCBhaXBzNDogYnVzQDMyYzAwMDAwIHsK
-IAogCQkJbWVkaWFfYmxrX2N0cmw6IGJsay1jdHJsQDMyZWMwMDAwIHsKIAkJCQljb21wYXRp
-YmxlID0gImZzbCxpbXg4bXAtbWVkaWEtYmxrLWN0cmwiLAotCQkJCQkgICAgICJzeXNjb24i
-OworCQkJCQkgICAgICJzaW1wbGUtYnVzIiwgInN5c2NvbiI7CiAJCQkJcmVnID0gPDB4MzJl
-YzAwMDAgMHgxMDAwMD47CiAJCQkJcG93ZXItZG9tYWlucyA9IDwmcGdjX21lZGlhbWl4PiwK
-IAkJCQkJCTwmcGdjX21pcGlfcGh5MT4sCkBAIC0xMTIwLDE0ICsxMTIyLDE0NiBAQCBtZWRp
-YV9ibGtfY3RybDogYmxrLWN0cmxAMzJlYzAwMDAgewogCQkJCQkgPCZjbGsgSU1YOE1QX0NM
-S19NRURJQV9NSVBJX1BIWTFfUkVGX1JPT1Q+OwogCQkJCWNsb2NrLW5hbWVzID0gImFwYiIs
-ICJheGkiLCAiY2FtMSIsICJjYW0yIiwKIAkJCQkJICAgICAgImRpc3AxIiwgImRpc3AyIiwg
-ImlzcCIsICJwaHkiOworCQkJCWFzc2lnbmVkLWNsb2NrcyA9IDwmY2xrIElNWDhNUF9DTEtf
-TUVESUFfRElTUDFfUElYPiwKKwkJCQkJCSAgPCZjbGsgSU1YOE1QX0NMS19NRURJQV9ESVNQ
-Ml9QSVg+LAorCQkJCQkJICA8JmNsayBJTVg4TVBfVklERU9fUExMMV9PVVQ+OworCQkJCWFz
-c2lnbmVkLWNsb2NrLXBhcmVudHMgPSA8JmNsayBJTVg4TVBfVklERU9fUExMMV9PVVQ+LAor
-CQkJCQkJCSA8JmNsayBJTVg4TVBfVklERU9fUExMMV9PVVQ+OworCQkJCWFzc2lnbmVkLWNs
-b2NrLXJhdGVzID0gPDA+LCA8MD4sIDw1OTQwMDAwMDA+OworCisJCQkJI3Bvd2VyLWRvbWFp
-bi1jZWxscyA9IDwxPjsKIAotCQkJCWFzc2lnbmVkLWNsb2NrcyA9IDwmY2xrIElNWDhNUF9D
-TEtfTUVESUFfQVhJPiwKKwkJCQlsdmRzX2xkYjogbHZkcy1sZGIgeworCQkJCQkjYWRkcmVz
-cy1jZWxscyA9IDwwPjsKKwkJCQkJI3NpemUtY2VsbHMgPSA8MD47CisJCQkJCWNvbXBhdGli
-bGUgPSAiZnNsLGlteDhtcC1sZGIiOworCQkJCQljbG9ja3MgPSA8JmNsayBJTVg4TVBfQ0xL
-X01FRElBX0xEQj47CisJCQkJCWNsb2NrLW5hbWVzID0gImxkYiI7CisJCQkJCWFzc2lnbmVk
-LWNsb2NrcyA9IDwmY2xrIElNWDhNUF9DTEtfTUVESUFfTERCPjsKKwkJCQkJYXNzaWduZWQt
-Y2xvY2stcGFyZW50cyA9IDwmY2xrIElNWDhNUF9WSURFT19QTEwxX09VVD47CisKKwkJCQkJ
-cG9ydHMgeworCQkJCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47CisJCQkJCQkjc2l6ZS1jZWxs
-cyA9IDwwPjsKKwkJCQkJCXBvcnRAMCB7CisJCQkJCQkJcmVnID0gPDA+OworCisJCQkJCQkJ
-bGRiX2Zyb21fbGNkaWYyOiBlbmRwb2ludCB7CisJCQkJCQkJCXJlbW90ZS1lbmRwb2ludCA9
-IDwmbGNkaWYyX3RvX2xkYj47CisJCQkJCQkJfTsKKwkJCQkJCX07CisKKwkJCQkJCS8qIExW
-RFMgc2luZ2xlLWxpbmsgb3IgZHVhbC1saW5rICovCisJCQkJCQlwb3J0QDEgeworCQkJCQkJ
-CXJlZyA9IDwxPjsKKworCQkJCQkJCWxkYl9sdmRzX2NoMDogZW5kcG9pbnQgeworCQkJCQkJ
-CX07CisJCQkJCQl9OworCisJCQkJCQlwb3J0QDIgeworCQkJCQkJCXJlZyA9IDwyPjsKKwor
-CQkJCQkJCWxkYl9sdmRzX2NoMTogZW5kcG9pbnQgeworCQkJCQkJCX07CisJCQkJCQl9Owor
-CQkJCQl9OworCQkJCX07CisJCQl9OworCisJCQltaXBpX2RzaTogbWlwaV9kc2lAMzJlNjAw
-MDAgeworCQkJCSNhZGRyZXNzLWNlbGxzID0gPDA+OworCQkJCSNzaXplLWNlbGxzID0gPDA+
-OworCQkJCWNvbXBhdGlibGUgPSAiZnNsLGlteDhtcC1taXBpLWRzaW0iOworCQkJCXJlZyA9
-IDwweDMyZTYwMDAwIDB4NDAwPjsKKwkJCQljbG9ja3MgPSA8JmNsayBJTVg4TVBfQ0xLX01F
-RElBX0FQQj4sCisJCQkJCSA8JmNsayBJTVg4TVBfQ0xLX01FRElBX01JUElfUEhZMV9SRUY+
-OworCQkJCWNsb2NrLW5hbWVzID0gImJ1c19jbGsiLCAic2Nsa19taXBpIjsKKwkJCQlhc3Np
-Z25lZC1jbG9ja3MgPSA8JmNsayBJTVg4TVBfQ0xLX01FRElBX0FQQj4sCisJCQkJCQkgIDwm
-Y2xrIElNWDhNUF9DTEtfTUVESUFfTUlQSV9QSFkxX1JFRj47CisJCQkJYXNzaWduZWQtY2xv
-Y2stcGFyZW50cyA9IDwmY2xrIElNWDhNUF9TWVNfUExMMV8yNjZNPiwKKwkJCQkJCQkgPCZj
-bGsgSU1YOE1QX0NMS18yNE0+OworCQkJCWFzc2lnbmVkLWNsb2NrLXJhdGVzID0gPDI2NjAw
-MDAwMD4sIDwyNDAwMDAwMD47CisJCQkJc2Ftc3VuZyxwbGwtY2xvY2stZnJlcXVlbmN5ID0g
-PDI0MDAwMDAwPjsKKwkJCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgMTggSVJRX1RZUEVfTEVW
-RUxfSElHSD47CisJCQkJcG93ZXItZG9tYWlucyA9IDwmbWVkaWFfYmxrX2N0cmwgSU1YOE1Q
-X01FRElBQkxLX1BEX01JUElfRFNJXzE+OworCQkJCXN0YXR1cyA9ICJkaXNhYmxlZCI7CisJ
-CQkJcG9ydHMgeworCQkJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsKKwkJCQkJI3NpemUtY2Vs
-bHMgPSA8MD47CisJCQkJCXBvcnRAMCB7CisJCQkJCQlyZWcgPSA8MD47CisKKwkJCQkJCWRz
-aW1fZnJvbV9sY2RpZjE6IGVuZHBvaW50IHsKKwkJCQkJCQlyZW1vdGUtZW5kcG9pbnQgPSA8
-JmxjZGlmMV90b19kc2ltPjsKKwkJCQkJCX07CisJCQkJCX07CisJCQkJfTsKKwkJCX07CisK
-KwkJCWxjZGlmMTogZGlzcGxheS1jb250cm9sbGVyQDMyZTgwMDAwIHsKKwkJCQkjYWRkcmVz
-cy1jZWxscyA9IDwwPjsKKwkJCQkjc2l6ZS1jZWxscyA9IDwwPjsKKwkJCQljb21wYXRpYmxl
-ID0gImZzbCxpbXg4bXAtbGNkaWYiOworCQkJCXJlZyA9IDwweDMyZTgwMDAwIDB4MTAwMDA+
-OworCQkJCWNsb2NrcyA9IDwmY2xrIElNWDhNUF9DTEtfTUVESUFfRElTUDFfUElYX1JPT1Q+
-LAorCQkJCQkgPCZjbGsgSU1YOE1QX0NMS19NRURJQV9BWElfUk9PVD4sCisJCQkJCSA8JmNs
-ayBJTVg4TVBfQ0xLX01FRElBX0FQQl9ST09UPjsKKwkJCQljbG9jay1uYW1lcyA9ICJwaXgi
-LCAiZGlzcF9heGkiLCAiYXhpIjsKKwkJCQlhc3NpZ25lZC1jbG9ja3MgPSA8JmNsayBJTVg4
-TVBfQ0xLX01FRElBX0RJU1AxX1BJWF9ST09UPiwKKwkJCQkJCSAgPCZjbGsgSU1YOE1QX0NM
-S19NRURJQV9BWEk+LAogCQkJCQkJICA8JmNsayBJTVg4TVBfQ0xLX01FRElBX0FQQj47Ci0J
-CQkJYXNzaWduZWQtY2xvY2stcGFyZW50cyA9IDwmY2xrIElNWDhNUF9TWVNfUExMMl8xMDAw
-TT4sCisJCQkJYXNzaWduZWQtY2xvY2stcGFyZW50cyA9IDwmY2xrIElNWDhNUF9DTEtfTUVE
-SUFfRElTUDFfUElYPiwKKwkJCQkJCQkgPCZjbGsgSU1YOE1QX1NZU19QTEwyXzEwMDBNPiwK
-IAkJCQkJCQkgPCZjbGsgSU1YOE1QX1NZU19QTEwxXzgwME0+OwotCQkJCWFzc2lnbmVkLWNs
-b2NrLXJhdGVzID0gPDUwMDAwMDAwMD4sIDwyMDAwMDAwMDA+OworCQkJCWFzc2lnbmVkLWNs
-b2NrLXJhdGVzID0gPDU5NDAwMDAwMD4sIDw1MDAwMDAwMDA+LCA8MjAwMDAwMDAwPjsKKwkJ
-CQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgNSBJUlFfVFlQRV9MRVZFTF9ISUdIPjsKKwkJCQlw
-b3dlci1kb21haW5zID0gPCZtZWRpYV9ibGtfY3RybCBJTVg4TVBfTUVESUFCTEtfUERfTENE
-SUZfMT47CisJCQkJc3RhdHVzID0gImRpc2FibGVkIjsKKwkJCQlwb3J0cyB7CisJCQkJCSNh
-ZGRyZXNzLWNlbGxzID0gPDE+OworCQkJCQkjc2l6ZS1jZWxscyA9IDwwPjsKKwkJCQkJcG9y
-dEAwIHsKKwkJCQkJCXJlZyA9IDwwPjsKIAotCQkJCSNwb3dlci1kb21haW4tY2VsbHMgPSA8
-MT47CisJCQkJCQlsY2RpZjFfdG9fZHNpbTogZW5kcG9pbnQgeworCQkJCQkJCXJlbW90ZS1l
-bmRwb2ludCA9IDwmZHNpbV9mcm9tX2xjZGlmMT47CisJCQkJCQl9OworCQkJCQl9OworCQkJ
-CX07CisJCQl9OworCisJCQlsY2RpZjI6IGRpc3BsYXktY29udHJvbGxlckAzMmU5MDAwMCB7
-CisJCQkJI2FkZHJlc3MtY2VsbHMgPSA8MD47CisJCQkJI3NpemUtY2VsbHMgPSA8MD47CisJ
-CQkJY29tcGF0aWJsZSA9ICJmc2wsaW14OG1wLWxjZGlmIjsKKwkJCQlyZWcgPSA8MHgzMmU5
-MDAwMCAweDEwMDAwPjsKKwkJCQljbG9ja3MgPSA8JmNsayBJTVg4TVBfQ0xLX01FRElBX0RJ
-U1AyX1BJWF9ST09UPiwKKwkJCQkJIDwmY2xrIElNWDhNUF9DTEtfTUVESUFfQVhJX1JPT1Q+
-LAorCQkJCQkgPCZjbGsgSU1YOE1QX0NMS19NRURJQV9BUEJfUk9PVD47CisJCQkJY2xvY2st
-bmFtZXMgPSAicGl4IiwgImRpc3BfYXhpIiwgImF4aSI7CisJCQkJYXNzaWduZWQtY2xvY2tz
-ID0gPCZjbGsgSU1YOE1QX0NMS19NRURJQV9ESVNQMl9QSVhfUk9PVD4sCisJCQkJCQkgIDwm
-Y2xrIElNWDhNUF9DTEtfTUVESUFfQVhJPiwKKwkJCQkJCSAgPCZjbGsgSU1YOE1QX0NMS19N
-RURJQV9BUEI+OworCQkJCWFzc2lnbmVkLWNsb2NrLXBhcmVudHMgPSA8JmNsayBJTVg4TVBf
-Q0xLX01FRElBX0RJU1AyX1BJWD4sCisJCQkJCQkJIDwmY2xrIElNWDhNUF9TWVNfUExMMl8x
-MDAwTT4sCisJCQkJCQkJIDwmY2xrIElNWDhNUF9TWVNfUExMMV84MDBNPjsKKwkJCQlhc3Np
-Z25lZC1jbG9jay1yYXRlcyA9IDw1OTQwMDAwMDA+LCA8NTAwMDAwMDAwPiwgPDIwMDAwMDAw
-MD47CisJCQkJaW50ZXJydXB0cyA9IDxHSUNfU1BJIDYgSVJRX1RZUEVfTEVWRUxfSElHSD47
-CisJCQkJcG93ZXItZG9tYWlucyA9IDwmbWVkaWFfYmxrX2N0cmwgSU1YOE1QX01FRElBQkxL
-X1BEX0xDRElGXzI+OworCQkJCXN0YXR1cyA9ICJkaXNhYmxlZCI7CisKKwkJCQlwb3J0cyB7
-CisJCQkJCSNhZGRyZXNzLWNlbGxzID0gPDE+OworCQkJCQkjc2l6ZS1jZWxscyA9IDwwPjsK
-KwkJCQkJcG9ydEAwIHsKKwkJCQkJCXJlZyA9IDwwPjsKKworCQkJCQkJbGNkaWYyX3RvX2xk
-YjogZW5kcG9pbnQgeworCQkJCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmbGRiX2Zyb21fbGNk
-aWYyPjsKKwkJCQkJCX07CisJCQkJCX07CisJCQkJfTsKIAkJCX07CiAKIAkJCXBjaWVfcGh5
-OiBwY2llLXBoeUAzMmYwMDAwMCB7Ci0tIAoyLjM5LjAKCg==
+Maybe Ben has any idea what might be wrong with
+0e44c21708761977dcbea9b846b51a6fb684907a or if that's an issue which
+is already fixed by not upstreamed patches as I think I remember Ben
+to talk about something like that recently.
 
---------------g08fYK75NVO0I8Y99d04itGS--
+Karol
+
+On Fri, Jan 27, 2023 at 12:20 PM Linux kernel regression tracking
+(Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
+>
+> Hi, this is your Linux kernel regression tracker. Top-posting for once,
+> to make this easily accessible to everyone.
+>
+> @nouveau-maintainers, did anyone take a look at this? The report is
+> already 8 days old and I don't see a single reply. Sure, we'll likely
+> get a -rc8, but still it would be good to not fix this on the finish line.
+>
+> Chris, btw, did you try if you can revert the commit on top of latest
+> mainline? And if so, does it fix the problem?
+>
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+>
+> #regzbot poke
+>
+> On 19.01.23 15:33, Linux kernel regression tracking (Thorsten Leemhuis)
+> wrote:
+> > [adding various lists and the two other nouveau maintainers to the list
+> > of recipients]
+>
+> > On 18.01.23 21:59, Chris Clayton wrote:
+> >> Hi.
+> >>
+> >> I build and installed the lastest development kernel earlier this week. I've found that when I try the laptop down (or
+> >> reboot it), it hangs right at the end of closing the current session. The last line I see on  the screen when rebooting is:
+> >>
+> >>      sd 4:0:0:0: [sda] Synchronising SCSI cache
+> >>
+> >> when closing down I see one additional line:
+> >>
+> >>      sd 4:0:0:0 [sda]Stopping disk
+> >>
+> >> In both cases the machine then hangs and I have to hold down the power button fot a few seconds to switch it off.
+> >>
+> >> Linux 6.1 is OK but 6.2-rc1 hangs, so I bisected between this two and landed on:
+> >>
+> >>      # first bad commit: [0e44c21708761977dcbea9b846b51a6fb684907a] drm/nouveau/flcn: new code to load+boot simple HS FWs
+> >> (VPR scrubber)
+> >>
+> >> I built and installed a kernel with f15cde64b66161bfa74fb58f4e5697d8265b802e (the parent of the bad commit) checked out
+> >> and that shuts down and reboots fine. It the did the same with the bad commit checked out and that does indeed hang, so
+> >> I'm confident the bisect outcome is OK.
+> >>
+> >> Kernels 6.1.6 and 5.15.88 are also OK.
+> >>
+> >> My system had dual GPUs - one intel and one NVidia. Related extracts from 'lscpi -v' is:
+> >>
+> >> 00:02.0 VGA compatible controller: Intel Corporation CometLake-H GT2 [UHD Graphics] (rev 05) (prog-if 00 [VGA controller])
+> >>         Subsystem: CLEVO/KAPOK Computer CometLake-H GT2 [UHD Graphics]
+> >>
+> >>         Flags: bus master, fast devsel, latency 0, IRQ 142
+> >>
+> >>         Memory at c2000000 (64-bit, non-prefetchable) [size=16M]
+> >>
+> >>         Memory at a0000000 (64-bit, prefetchable) [size=256M]
+> >>
+> >>         I/O ports at 5000 [size=64]
+> >>
+> >>         Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
+> >>
+> >>         Capabilities: [40] Vendor Specific Information: Len=0c <?>
+> >>
+> >>         Capabilities: [70] Express Root Complex Integrated Endpoint, MSI 00
+> >>
+> >>         Capabilities: [ac] MSI: Enable+ Count=1/1 Maskable- 64bit-
+> >>
+> >>         Capabilities: [d0] Power Management version 2
+> >>
+> >>         Kernel driver in use: i915
+> >>
+> >>         Kernel modules: i915
+> >>
+> >>
+> >> 01:00.0 VGA compatible controller: NVIDIA Corporation TU117M [GeForce GTX 1650 Ti Mobile] (rev a1) (prog-if 00 [VGA
+> >> controller])
+> >>         Subsystem: CLEVO/KAPOK Computer TU117M [GeForce GTX 1650 Ti Mobile]
+> >>         Flags: bus master, fast devsel, latency 0, IRQ 141
+> >>         Memory at c4000000 (32-bit, non-prefetchable) [size=16M]
+> >>         Memory at b0000000 (64-bit, prefetchable) [size=256M]
+> >>         Memory at c0000000 (64-bit, prefetchable) [size=32M]
+> >>         I/O ports at 4000 [size=128]
+> >>         Expansion ROM at c3000000 [disabled] [size=512K]
+> >>         Capabilities: [60] Power Management version 3
+> >>         Capabilities: [68] MSI: Enable+ Count=1/1 Maskable- 64bit+
+> >>         Capabilities: [78] Express Legacy Endpoint, MSI 00
+> >>         Kernel driver in use: nouveau
+> >>         Kernel modules: nouveau
+> >>
+> >> DRI_PRIME=1 is exported in one of my init scripts (yes, I am still using sysvinit).
+> >>
+> >> I've attached the bisect.log, but please let me know if I can provide any other diagnostics. Please cc me as I'm not
+> >> subscribed.
+> >
+> > Thanks for the report. To be sure the issue doesn't fall through the
+> > cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
+> > tracking bot:
+> >
+> > #regzbot ^introduced e44c2170876197
+> > #regzbot title drm: nouveau: hangs on poweroff/reboot
+> > #regzbot ignore-activity
+> >
+> > This isn't a regression? This issue or a fix for it are already
+> > discussed somewhere else? It was fixed already? You want to clarify when
+> > the regression started to happen? Or point out I got the title or
+> > something else totally wrong? Then just reply and tell me -- ideally
+> > while also telling regzbot about it, as explained by the page listed in
+> > the footer of this mail.
+> >
+> > Developers: When fixing the issue, remember to add 'Link:' tags pointing
+> > to the report (the parent of this mail). See page linked in footer for
+> > details.
+> >
+> > Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> > --
+> > Everything you wanna know about Linux kernel regression tracking:
+> > https://linux-regtracking.leemhuis.info/about/#tldr
+> > That page also explains what to do if mails like this annoy you.
+>
+
