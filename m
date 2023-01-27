@@ -1,52 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49E767DF9C
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 10:01:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4992267DFA1
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 10:03:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA7710E175;
-	Fri, 27 Jan 2023 09:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C95EA10E42B;
+	Fri, 27 Jan 2023 09:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36E3C10E175;
- Fri, 27 Jan 2023 09:01:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674810068; x=1706346068;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2TLAv5yoehuOmKKwEoPNMS6OOx6MF/jlylA1g9bcRxU=;
- b=EcP2ktaAyGPpCozEBxiKznrd5UIuhvxPyWBm/XmfjlIh2M4K2FaRn52f
- 4nR5AW6xxVHqEWgzewYuHcgRMbRNgLF8DnvzBs4sjcKQ8mxOE8R0fjPhs
- MWvIhyOIsazKMrvFWSXotTQEsX7qovfJ3IS18xNQvMVinSBqx41HvuPvQ
- ggJoCwsWHrgUTz1Segclqr2JAR55oFc1aTB+LabdGX5zByGP2TG9aLpqz
- svws+vrkNpIESZ926x8r0HG1JkZ0P+IQGj+Ml5kxUwZUBhEOm9nbb6QUr
- XoGib6GYjj2EmRSea8Iifmch8OPaTV0TDX2il0S2I0wH9GlTaXx5z+x2i g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="328332815"
-X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; d="scan'208";a="328332815"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2023 01:01:04 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="837055304"
-X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; d="scan'208";a="837055304"
-Received: from rhamza-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.57.16])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2023 01:01:02 -0800
-Date: Fri, 27 Jan 2023 10:00:58 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: Re: [PATCH] drm/i915/pcode: Wait 10 seconds for pcode to settle
-Message-ID: <Y9OSyhWHWu8iliP5@ashyti-mobl2.lan>
-References: <20230111104447.338136-1-andi.shyti@linux.intel.com>
- <87a62pi501.fsf@intel.com> <Y77XmlzOCuOg8YVZ@ashyti-mobl2.lan>
- <b3d4b882-cb0b-a3c1-2609-6065f379ed15@intel.com>
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE0B10E42B;
+ Fri, 27 Jan 2023 09:03:29 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-15f64f2791dso5628202fac.7; 
+ Fri, 27 Jan 2023 01:03:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=76T4i5lAkwD0ACX7xMWvzVtHQK0XFycwfUwabnWOhPE=;
+ b=d/Z5pfAfVLIkd5hWdk3lVn3jfc0yN2KaEfcJ1VW3GZuchOKrKTsvdCYm2C8IKbm9LP
+ nACeSiIeRz4r8oqI0Wtb+S9YbQQ5ykDen+IheLU93HkXGGLHaMuEpRVzFRd7BCt69duM
+ jF0/5ZPrSvZGhMh07dTupLncAPHU7nT5OFIhDSj19FzFMpnu3EEpT4/76mKYFWsgYKf7
+ I91ocfLOdO7gfymY8YVI1T3+6WkcIVP2IQDOHEriDnLjt7N00VRyuN6p5NVWiZ1jH3aT
+ 312Do4Yy6FhuK5E2aPVM/6W7v2578ivQGGavkZI1ANPIFcVEADyhH/iwsrXQBsL7roiY
+ rYmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=76T4i5lAkwD0ACX7xMWvzVtHQK0XFycwfUwabnWOhPE=;
+ b=0wBIyzQdhxpFGrp2Q3izXjRnw4fpKhEP6MlGUKDjoGk12UX8tGXzXTbBrgk+g7bYnI
+ W3ImNw8IZrMN3mLKgI0gA75Ao7+6BF4mPn2ETwiFqSna2+GrfHxyfFDpNbBpGCJqvNky
+ 2W0sAmtTAIZhVkYBRk5On6KFCWAH634r3fXLtKEII1q8pmWVYL5HpdmPjaMv4lKuARPH
+ uSwW20W+0O1+/+YG8F+bP/LtPaO6+tpiy/EuxFZyJZIu2bahup0Y5j/suJaeSQhGkb3V
+ rcS1wUOXtC8+/5BksYit+9qEngEyTOqzX5o14s+AWddaBpHjhOkKmg3YDmguIOQ9xcT3
+ 6+zQ==
+X-Gm-Message-State: AO0yUKXEAM3PEydot2ihJu0imNhTM5KCzR5cku/JphMqo29Eo7HE/kSt
+ SdJOUCdtxqtfC707Yeixj1pm2WrFOohI1TJZTwM=
+X-Google-Smtp-Source: AK7set8iBFhpgLtZ6JEHfmMgx6U1ZjCg6HZvxscbahoscQn+jGBkRWwHqZ1Q2rn4Oer9N2U2Nkb3CidgfFjN739FsSw=
+X-Received: by 2002:a05:6870:4588:b0:163:3c39:d0c7 with SMTP id
+ y8-20020a056870458800b001633c39d0c7mr562061oao.54.1674810208632; Fri, 27 Jan
+ 2023 01:03:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b3d4b882-cb0b-a3c1-2609-6065f379ed15@intel.com>
+References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+ <CAMwc25rY4xpn0yvCScMr6Hk9pFSdvt=9QOypSQDfj1d5tWmtvA@mail.gmail.com>
+ <20230116122403.upk5ci4mbebw23m7@wslaptop>
+ <CACAvsv48vH6hbacQCN+yKP8ZcDjFMWciBt6U_Xv-LEYJHZ1q9g@mail.gmail.com>
+ <20230120113443.wgwhwp7tm6rnc6je@wslaptop>
+ <CACAvsv4_XJLSwnA-s0BXLVbBCESDfnK7kx5-WUPd2+vdJuMojg@mail.gmail.com>
+In-Reply-To: <CACAvsv4_XJLSwnA-s0BXLVbBCESDfnK7kx5-WUPd2+vdJuMojg@mail.gmail.com>
+From: Nicolas Chauvet <kwizart@gmail.com>
+Date: Fri, 27 Jan 2023 10:03:17 +0100
+Message-ID: <CABr+WTmfQkLoHxpONag4bHEsQtGwmno+84mYF-RzAGw0jqo-gA@mail.gmail.com>
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+To: Ben Skeggs <skeggsb@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,148 +72,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, Andi Shyti <andi@etezian.org>
+Cc: regressions@lists.linux.dev, kherbst@redhat.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, bskeggs@redhat.com,
+ David Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Gwan-gyeong,
+Le ven. 27 janv. 2023 =C3=A0 07:01, Ben Skeggs <skeggsb@gmail.com> a =C3=A9=
+crit :
+>
+> On Fri, 20 Jan 2023 at 21:37, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wr=
+ote:
+> >
+> > On Wed, Jan 18, 2023 at 11:28:49AM +1000, Ben Skeggs wrote:
+> > > On Mon, 16 Jan 2023 at 22:27, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt=
+> wrote:
+> > > > On Mon, Jan 16, 2023 at 07:45:05AM +1000, David Airlie wrote:
+> > > > > As a quick check can you try changing
+> > > > >
+> > > > > drivers/gpu/drm/nouveau/nvkm/core/firmware.c:nvkm_firmware_mem_ta=
+rget
+> > > > > from NVKM_MEM_TARGET_HOST to NVKM_MEM_TARGET_NCOH ?
+> >
+> > > In addition to Dave's change, can you try changing the
+> > > nvkm_falcon_load_dmem() call in gm20b_pmu_init() to:
+> > >
+> > > nvkm_falcon_pio_wr(falcon, (u8 *)&args, 0, 0, DMEM, addr_args,
+> > > sizeof(args), 0, false);
+> >
+> > Hello!
+> >
+> > Chiming in just to say that with this change I see the same as Nicolas
+> > except that the init message size is 255 instead of 0:
+> >
+> > [    2.196934] nouveau 57000000.gpu: pmu: unexpected init message size =
+255 vs 42
+> I've attached an entirely untested patch (to go on top of the other
+> hacks/fixes so far), that will hopefully get us a little further.
+>
+> Would be great if you guys could test it out for me.
 
-thanks for the review and the thorough explanation.
+Hello,
 
-On Fri, Jan 27, 2023 at 08:50:26AM +0200, Gwan-gyeong Mun wrote:
-> 
-> 
-> On 1/11/23 5:36 PM, Andi Shyti wrote:
-> > On Wed, Jan 11, 2023 at 03:18:38PM +0200, Jani Nikula wrote:
-> > > On Wed, 11 Jan 2023, Andi Shyti <andi.shyti@linux.intel.com> wrote:
-> > > > From: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-> > > > 
-> > > > During module load not all the punit transaction have completed
-> > > > and we might end up timing out, as shown by the following
-> > > > warning:
-> > > 
-> > > Root cause?
-> 
-> Hi Andi, looking at the log where this problem is reported,
-> 
-> https://gitlab.freedesktop.org/drm/intel/-/issues/7814
-> 
-> https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_1294/bat-atsm-1/igt@i915_module_load@resize-bar.html#dmesg-warnings17324
-> 
-> <4> [268.276908] i915 0000:4d:00.0: drm_WARN_ON_ONCE(timeout_base_ms > 3)
-> 
-> In the code above, the call stack is output, and the return value of
-> intel_pcode_init() returns -11 (-EAGAIN).
-> 
-> <3> [268.329058] i915 0000:4d:00.0: [drm] *ERROR* gt0: intel_pcode_init
-> failed -11
-> 
-> 
-> If you simplify the function call flow, you can see it as below. (The call
-> of _wait_for(COND, timeout_base_ms * 1000, 10, 10) in skl_pcode_request() is
-> omitted)
-> 
-> -------------------------------------------------------------------------
-> intel_pcode_init()
->  |
->  +-> skl_pcode_request(uncore, DG1_PCODE_STATUS,
->                        DG1_UNCORE_GET_INIT_STATUS,
->                        DG1_UNCORE_INIT_STATUS_COMPLETE,
->                        DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
->        |
->        +-> skl_pcode_try_request()
->              |
->              +->  *status = __snb_pcode_rw(uncore, mbox, &request, NULL,
->                                            500, 0, true);
-> 
-> -------------------------------------------------------------------------
-> static int __snb_pcode_rw(struct intel_uncore *uncore, u32 mbox,
-> 		          u32 *val, u32 *val1,
-> 			  int fast_timeout_us, int slow_timeout_ms,
-> 			  bool is_read)
-> {
-> ...
-> 
-> 	if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
-> 		return -EAGAIN;
-> 
-> 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA, *val);
-> 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA1, val1 ? *val1 : 0);
-> 	intel_uncore_write_fw(uncore,
-> 			      GEN6_PCODE_MAILBOX, GEN6_PCODE_READY | mbox);
-> 
-> 	if (__intel_wait_for_register_fw(uncore,
-> 					 GEN6_PCODE_MAILBOX,
-> 					 GEN6_PCODE_READY, 0,
-> 					 fast_timeout_us,
-> 					 slow_timeout_ms,
-> 					 &mbox))
-> 		return -ETIMEDOUT;
-> 
-> ...
-> }
-> -------------------------------------------------------------------------
-> 
-> The case where skl_pcode_request() returns -EAGAIN can be considered as the
-> following scenario.
-> 1. 1. When checking the GEN6_PCODE_MAILBOX register status before writing
-> the value to the GEN6_PCODE_DATA register in __snb_pcode_rw(), it is always
-> BUSY
+Thanks for the patch. It works for me on: jetson-tx1:
+---
+[ 1022.814699] nouveau 57000000.gpu: NVIDIA GM20B (12b000a1)
+[ 1022.814750] nouveau 57000000.gpu: imem: using IOMMU
+[ 1022.893976] nouveau 57000000.gpu: DRM: VRAM: 0 MiB
+[ 1022.893988] nouveau 57000000.gpu: DRM: GART: 1048576 MiB
+[ 1022.895356] nouveau 57000000.gpu: DRM: MM: using COPY for buffer copies
+[ 1022.897046] [drm] Initialized nouveau 1.3.1 20120801 for
+57000000.gpu on minor 1
+---
+I've tried to run glmark2-wayland under weston with DRI_PRIME=3D1, it
+seems to work at the beginning, but then I have the following error:
 
-correct! We fail with EAGAIN because we are not able to
-communicate with the punit because the punit is busy.
+[ 1510.861730] nouveau 57000000.gpu: gr: DATA_ERROR 00000003
+[INVALID_OPERATION] ch 3 [04002a2000 glmark2-wayland[2753]] subc 0
+class b197 mthd 19d0 data 0000003d
+[ 1510.952000] nouveau 57000000.gpu: gr: DATA_ERROR 00000003
+[INVALID_OPERATION] ch 3 [04002a2000 glmark2-wayland[2753]] subc 0
+class b197 mthd 19d0 data 0000003d
+[ 1510.952060] nouveau 57000000.gpu: gr: DATA_ERROR 0000009c [] ch 3
+[04002a2000 glmark2-wayland[2753]] subc 0 class b197 mthd 0d78 data
+00000006
+I think it's a separate error as I think I can reproduce on kernel
+6.1x (I will open a separate thread).
 
-Talking about this case we are in boot time and the gpu is
-performing its boot routine, the punit as well. While the punit
-is working we try communicate with it, but unfortunately, being
-busy, we fail with -EAGAIN exactly where you pointed.
+So you can add my
+Tested-By: Nicolas Chauvet <kwizart@gmail.com>
 
-Adding an extra wait_for_register_fw, i.e. waiting until the
-PCODE_READY register tells that the punit is ready, makes sure
-that the read/write will succeed.
-
-Thus Chris has added a 10 seconds wait before the very first read
-and write. If the punit is not ready we don't fail with -EAGAIN
-and give up the driver loading as it happens now. But we give it
-another chance trying to probe it again later.
-
-> 2. _wait_for(COND, timeout_base_ms * 1000, 10, 10) of skl_pcode_request()
-> returns -EAGAIN if the GEN6_PCODE_MAILBOX register indicates BUSY even after
-> waiting 500us after writing a value to the GEN6_PCODE_DATA register in
-> __snb_pcode_rw()
-
-Isn't it the same as '1'?
-
-> (Even if skl_pcode_request() gives a timeout of 180 seconds, the time used
-> each time __snb_pcode_rw() is called is up to 500us. The rest of the time is
-> used for sleep.)
-
-There is one big, massive, huge difference... the timeout in
-skl_pcode_request() after the read/write, not before. So that at
-the first communication we fail, return -EAGAIN and give up
-probing without starting any timer.
-
-Be aware of the fact that the timeout is not for the current
-communication, but for the next one. De facto we start the
-timeout after communicating, this makes sure that the next
-communication will work.
-
-But no one makes sure that the very first communication works
-during probe. Thus the extra wait.
-
-> In the situation where the problem is reported, it is not possible to
-> confirm exactly which scenario code causes the problem with the current log
-> information, and it seems that additional analysis is needed to confirm it.
-> If the hardware takes more than 500us to succeed after PCODE_MAILBOX write
-> under certain circumstances, it is thought that the root problem causing the
-> problem should be fixed.
-
-Actually I have tested it and indeed the extra check on the
-PCODE_READY is needed and makes the driver probe correctly.
-
-Thanks,
-Andi
+Thanks
