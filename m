@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A4167DACD
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 01:29:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C9E67DAC1
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 01:29:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5C7810E3D5;
-	Fri, 27 Jan 2023 00:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54F9210E157;
+	Fri, 27 Jan 2023 00:29:02 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5807410E146;
- Fri, 27 Jan 2023 00:29:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE95E10E146;
+ Fri, 27 Jan 2023 00:28:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674779340; x=1706315340;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=EeEPF2hIz5rRdug74+zbZ/tWGVUSyl6VLPDwwjINot0=;
- b=msoO4JzSlnR11kB1ywq5+H9TVopPM3mKrcRZmWdHlr5KGcdNegDendGf
- YN+IqWo0bEVxfMGxFGWSlWwRpNupbBJeEujbAdxeM+YtgI1CQARlA2OD0
- 9QVhwTlhrgy6VTKu7HzddJgECEq+ktRNfPmPKDXAij7uvIV1ld4iTOE8x
- BN7VG5IT2ZGBWMY2kAlAlOub31suLDXoEp4tu9U617xYN2INv/BP01+AM
- VbrtMkKuTY1Ti6Ly0zYKSnfP/qbsYbzK2unntHuaKgDamw3qIDLLepkVE
- 1PGILxCozw3tnXlzrFFgbXWX6bqBTgkj/KX81VdRiqHGPTRBitFHhKjDI A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="324687295"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="324687295"
+ t=1674779339; x=1706315339;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=bvBPqBJzrPZsz1udXkh/HMQaaXs7fmZnunh55oxpb5k=;
+ b=TR9HpstX3OUeCWxztdz+5aXkQIPFmj1JULTILWEqvw/Lzl+FS2sRA9l6
+ +M56yeKw9SMaQXB9+L7vfqFeQCQHwtPpdui1RBnT+NpjOEOVWE4rGY1nO
+ gPVk/L4bxbvpN7zFwm0CZOSTF3apS9/fek7taeMKehT/oMJAtlPYJ6u3L
+ XOfJYYri23lEGYd31S9ezOEkF/XpFTuwYzVDuC7OZbfq1GZwaiX0tBWih
+ lokupyvaKk2ibQ/+1a7OOjG1G6StMOzuHAYFEDg0Vw9QoF04KuHd8IhDj
+ 2RV/IGPrYVeK6EiFm1F5+T1U7qZTpeIwJiZy3f18JDOju0FwNSAtWi27+ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="324687298"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="324687298"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Jan 2023 16:28:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="805621874"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="805621874"
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="805621884"
+X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="805621884"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmsmga001.fm.intel.com with ESMTP; 26 Jan 2023 16:28:49 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 26 Jan 2023 16:28:50 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v6 0/8] Allow error capture without a request & fix locking
- issues
-Date: Thu, 26 Jan 2023 16:28:34 -0800
-Message-Id: <20230127002842.3169194-1-John.C.Harrison@Intel.com>
+Subject: [PATCH v6 1/8] drm/i915/guc: Fix locking when searching for a hung
+ request
+Date: Thu, 26 Jan 2023 16:28:35 -0800
+Message-Id: <20230127002842.3169194-2-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230127002842.3169194-1-John.C.Harrison@Intel.com>
+References: <20230127002842.3169194-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
  Swindon SN3 1RJ
@@ -57,68 +59,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ Michael Cheng <michael.cheng@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ DRI-Devel@Lists.FreeDesktop.Org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>,
+ Bruce Chang <yu.bruce.chang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-It is technically possible to get a hung context without a valid
-request. In such a situation, try to provide as much information in
-the error capture as possible rather than just aborting and capturing
-nothing.
+intel_guc_find_hung_context() was not acquiring the correct spinlock
+before searching the request list. So fix that up. While at it, add
+some extra whitespace padding for readability.
 
-Similarly, in the case of an engine reset failure the GuC is not able
-to report the guilty context. So try a manual search instead of
-reporting nothing.
-
-While doing all this, it was noticed that the locking was broken in a
-number of places when searching for hung requests and dumping request
-info. So fix all that up as well.
-
-v2: Tidy up code flow in error capture. Reword some comments/messages.
-(review feedback from Tvrtko)
-Also fix up request locking issues from earlier changes noticed during
-code review of this change.
-v3: Fix some potential null pointer derefs and a reference leak.
-Add new patch to refactor the duplicated hung request search code into
-a common backend agnostic wrapper function and use the correct
-spinlocks for the correct lists. Also tweak some of the patch
-descriptions for better accuracy.
-v4: Shuffle some code around to more appropriate source files. Fix
-potential leak of GuC capture object after code flow re-org and pull
-improved info message earlier (Daniele). Also rename the GuC capture
-object to be more consistent.
-v5: Split one self contained locking fix out into a separate patch
-and rename a function to be shorter (Tvrtko).
-v6: s/locking/reference counting/ in message of patch #2 (Tvrtko)
-
+Fixes: dc0dad365c5e ("drm/i915/guc: Fix for error capture after full GPU reset with GuC")
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Cc: Michael Cheng <michael.cheng@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+Cc: Chris Wilson <chris.p.wilson@intel.com>
+Cc: Bruce Chang <yu.bruce.chang@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-
-John Harrison (8):
-  drm/i915/guc: Fix locking when searching for a hung request
-  drm/i915: Fix request ref counting during error capture & debugfs dump
-  drm/i915: Fix up locking around dumping requests lists
-  drm/i915: Allow error capture without a request
-  drm/i915: Allow error capture of a pending request
-  drm/i915/guc: Look for a guilty context when an engine reset fails
-  drm/i915/guc: Add a debug print on GuC triggered reset
-  drm/i915/guc: Rename GuC register state capture node to be more
-    obvious
-
- drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
- drivers/gpu/drm/i915/gt/intel_context.h       |  3 +-
- drivers/gpu/drm/i915/gt/intel_engine.h        |  4 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 74 ++++++++-------
- .../drm/i915/gt/intel_execlists_submission.c  | 27 ++++++
- .../drm/i915/gt/intel_execlists_submission.h  |  4 +
- .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  8 +-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 35 ++++++-
- drivers/gpu/drm/i915/i915_gpu_error.c         | 92 ++++++++++---------
- drivers/gpu/drm/i915/i915_gpu_error.h         |  2 +-
- 10 files changed, 160 insertions(+), 93 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+index b436dd7f12e42..3b34a82d692be 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+@@ -4820,6 +4820,8 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
+ 
+ 	xa_lock_irqsave(&guc->context_lookup, flags);
+ 	xa_for_each(&guc->context_lookup, index, ce) {
++		bool found;
++
+ 		if (!kref_get_unless_zero(&ce->ref))
+ 			continue;
+ 
+@@ -4836,10 +4838,18 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
+ 				goto next;
+ 		}
+ 
++		found = false;
++		spin_lock(&ce->guc_state.lock);
+ 		list_for_each_entry(rq, &ce->guc_state.requests, sched.link) {
+ 			if (i915_test_request_state(rq) != I915_REQUEST_ACTIVE)
+ 				continue;
+ 
++			found = true;
++			break;
++		}
++		spin_unlock(&ce->guc_state.lock);
++
++		if (found) {
+ 			intel_engine_set_hung_context(engine, ce);
+ 
+ 			/* Can only cope with one hang at a time... */
+@@ -4847,6 +4857,7 @@ void intel_guc_find_hung_context(struct intel_engine_cs *engine)
+ 			xa_lock(&guc->context_lookup);
+ 			goto done;
+ 		}
++
+ next:
+ 		intel_context_put(ce);
+ 		xa_lock(&guc->context_lookup);
 -- 
 2.39.1
 
