@@ -1,121 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765D567E829
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 15:23:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3739767E888
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 15:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D9FC10E9A7;
-	Fri, 27 Jan 2023 14:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 309BD10E477;
+	Fri, 27 Jan 2023 14:44:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 391FC10E9A9;
- Fri, 27 Jan 2023 14:23:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h90TVY4uzsxjPPpEpA1z1OnQh5Rs5yV5hfPM/POEvKRxGQOdwnOXmDusC+0+lQKawaygG8r3NODBEAHNC9W8Ij2TXsqT7GOE4UfGNK9AhMK93lmEkJOJC9SYd78gqj30UhI1cDKgTuFZsAdDDrrqMeKWZ/PQn6XiVHsuEvPIwDBZcnWGIPHmGO50WsOOUke7VnjfNRfpG2eetc6eRW927Ix9xxYs/MGh3hvdglLzJ2BvN0mpeM1Ki6XkQEII3rJF670ZcGyVZjJDtTWCjy+CJi7JFAXLe1hQ7xTe2ZjxDo97KF/NsZoCYwa/LaI44ARDMHWLfwlES/byI2sFoqwufg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mn2IslC2I9oXmj+Rbf7/kJjMZfgIJMBH4oeUCdUu8Dc=;
- b=iMLBnbcdHK8VlmFG0U1FKR90pVdUZPV1a+SFQxg9T2fp7T9618rvhxUTDi+BNUN96qbZyHeA1XFKIvqKjQHwUMY9Z3GKrugE/p+6U6ghzafD+GUsaREaEGIFsEwsUWnhDQhGWMs5MRLXoEYArKSZX/hVI78lTx/ASttcHXiWh0HbPANK6U1JfZtIJMrDfOJtJtN7HsTPuTwaHXhAevZXezC86dQ5iH06hjTQ5sCNZZulryGW4sCryspvOwS3Q57NJNUdQrbHP6Oy+KT3oBeBhwdEG6+GzheArZaVQpAkLjBqS3y7K2T1fXOJJmeoTchAvc1p+10qKCQOXHN9AMro2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mn2IslC2I9oXmj+Rbf7/kJjMZfgIJMBH4oeUCdUu8Dc=;
- b=P3Xx0+jxz4eBgNFZoic4efBdPoCpHnJFHMg+BMTIaGpX4BKs1lv628cFzI0XhvDPJjqB9CuJQixGt0WmqnX/FFMrCauCXFOML5nyyE3Jv6OdDnmgXNCl2nSkC+QfGjVJ2ReYWcGXcZ03ovK+Qrg/QHDrJfEwD0Xu0KFhxbEm2Xc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- CY5PR12MB6369.namprd12.prod.outlook.com (2603:10b6:930:21::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6043.22; Fri, 27 Jan 2023 14:23:11 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::5935:7d8d:e955:6298]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::5935:7d8d:e955:6298%9]) with mapi id 15.20.6043.022; Fri, 27 Jan 2023
- 14:23:11 +0000
-Message-ID: <45686f49-e46a-5e28-70fa-45bf9aa77ee1@amd.com>
-Date: Fri, 27 Jan 2023 09:24:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] Revert "drm/display/dp_mst: Move all payload info into
- the atomic state"
-To: Greg KH <gregkh@linuxfoundation.org>,
- "Limonciello, Mario" <mario.limonciello@amd.com>
-References: <20230112085044.1706379-1-Wayne.Lin@amd.com>
- <20230120174634.GA889896@roeck-us.net>
- <a9deecb3-5955-ee4e-c76f-2654ee9f1a92@amd.com> <Y9N/wiIL758c3ozv@kroah.com>
-Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <Y9N/wiIL758c3ozv@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR01CA0151.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:7e::9) To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA1C810E477
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 14:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674830654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LgyUzbW5VO7wi4+o+0G4wAzbN510PHzCyFsvHroOWX8=;
+ b=CsAONW1dcZF0u6kHs5cckYCn/hKxtnS5H0qbAUe44V2HszYimG0Zmoot405M4Zqsnp+gEQ
+ avTURBeL/TG6g/19aGhlr1zLWeiyWaz36rtaf9c+K1SsIy3EJ+x2MOQqNyfCFf1B0K2aVU
+ mfxLuTelp7kAHSn4Uzuq5vPtxjMVGQI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-643-EhS266SxPdWJmREhlffzBw-1; Fri, 27 Jan 2023 09:44:13 -0500
+X-MC-Unique: EhS266SxPdWJmREhlffzBw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ y20-20020a056402271400b0046c9a6ec30fso3706844edd.14
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 06:44:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LgyUzbW5VO7wi4+o+0G4wAzbN510PHzCyFsvHroOWX8=;
+ b=pcJeDK4FBicg404jzH5vu+KwmQcTNzXf9T2+ECfjcelDf45Mf5vj+4DYc2oC1/t17l
+ c8eHLvaKcBRprDpI3dH7xT6Tws4S6fYCi8ag7roIR5C4wyM+kO1tdTuND/DG/VeD+qqe
+ ePGfrPsXJ6f6ZplHusGgEaNMg9cd9sodEAeXZgzPC9NFrHKTQW03zEuLUYcek2ZWbh6R
+ nelgDdQYz+sARoBQJABtxoDVE+GnNHuQ6GxSR/uYN+KOgW/2V828isn+nDXIKXfH7Yo/
+ uLBWqlZFXoUzlyuKiqASIFupqumXYfFxJEPFG+xzBcct+GO1qLOuTTfHv9LitN0WsgaS
+ xp3g==
+X-Gm-Message-State: AO0yUKVwFnxUo3tD2fCJcXE940wb+vQ42oqL3/XMuYofPCWaus/4gdA9
+ FDOMZx+F/gFpAc4Yujq1ZAUBtRcjuSWMwy2jR/HpzToUvKfBP+xXlU9EMysWaq2iFkhkGk7/8Ae
+ PK0n2a91WkZfoOnjbD5Jj1k65a2/S
+X-Received: by 2002:a17:907:6d9b:b0:87c:db2:f658 with SMTP id
+ sb27-20020a1709076d9b00b0087c0db2f658mr1437583ejc.40.1674830651919; 
+ Fri, 27 Jan 2023 06:44:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set9mD8aQL+X9TxOVUe05KrGTCI+fOlCBF0hrKGtRVaQ8Wj6ppDv8pQJab0SPWdZgiGJE+txSQA==
+X-Received: by 2002:a17:907:6d9b:b0:87c:db2:f658 with SMTP id
+ sb27-20020a1709076d9b00b0087c0db2f658mr1437552ejc.40.1674830651616; 
+ Fri, 27 Jan 2023 06:44:11 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ n18-20020a1709067b5200b00878530f5324sm2375166ejo.90.2023.01.27.06.44.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jan 2023 06:44:11 -0800 (PST)
+Message-ID: <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
+Date: Fri, 27 Jan 2023 15:44:09 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|CY5PR12MB6369:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92ced686-f652-4086-a5f9-08db0072050d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZBPJC5hPQsu0NLE3MutsmKtIoE2jzAEJ9Whcaxt5l4PIMBKpdVht6nsa0qU6ol3SjkRVkAfjCLh8QoZuDOtaO8U2fGJ4+u7Fb5b3CpyJjfz7iym9yCsJbBuiRuZL0/fxkUva8j1BBrDvBsNv3J8eWlRycWE/T6NE9za3bz9dlWKNKHq9z/iFROgWL80p+UMJHs319/ZjPnlhNaDtzkupJO9Pk/uPTTUdCXp9Pycu4srB0H0HV5X8pTr7IikUpE4Eu6o5oXKiJJBVdbYPP0TxYlMPdVXKbNCQkAh6Mzt0QHrJ51OWKfN57gpCRlhPtHqcPezL8O0CA8WfkaXxQIN5moouEmlcqXY79xg6ZWa2nkkqMsB/n6ZvUN3YQ4a3mhaiqSLxYO7q0I2OBJSHc9jWVCjdi4fZrFmYwHM0AENrnN27d2PlnNP/b/zdyARH91V/rX3m6gsKWp87CPSNM3tFodd/mZDoti1I4qX2zTcvtDBfAnSsOXCCFDagwGR5ADdvhLPI7UhyEUFBeiBIaWjvCL+9+PSEllrW6SYSMrAGDpKVqLteU7ki3jL2tk8R3LnADbJMJ/72QllciXtfvZN4HwlMgah22GL19qJaa+dO03gw6l4hdoV8/qgwwWnDK4knPtvZndltJVJL6xtyF0r6fvOY+AKUJFTl+4kLjkXH8fDOY6nUKfFxiqIyYt4YCKpo1eMtR3ebA19nRaty3z93PehriH8W03GGGpOgsqHN1Hz9zSq/bEHVsqfBV+hHKa+nU5jP+7BEV9eHPhNYAbVSpA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(39860400002)(366004)(136003)(346002)(376002)(451199018)(6486002)(186003)(31686004)(26005)(478600001)(6512007)(966005)(2616005)(83380400001)(316002)(54906003)(41300700001)(8676002)(38100700002)(6636002)(6506007)(53546011)(110136005)(8936002)(44832011)(86362001)(4326008)(5660300002)(66946007)(31696002)(66556008)(66476007)(36756003)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tnc0Q1d5SmM4Q3ZiRzdwWGgyd0RQUmVRdTAxdG9QdkpLbCtnTlR0QnRPYnNq?=
- =?utf-8?B?ZlhVTGRwQXRTdVJvdjFacldIcVVlSzBLQy9BcUx4eWdwYUkrT1MwVVMrQy9B?=
- =?utf-8?B?R2s4UmNUcXc0VmFzWW4zZHZPNjNOVEVtQys4L2pNZ0FEMEs3bllQVEs3VDQ1?=
- =?utf-8?B?Q0RvK042TWk2a09wUE5GY1BMRE8vNXQ5WWlka2t1SE9hVVpHM0hpVEtXcThH?=
- =?utf-8?B?NC94cEVaYmNYWjFRbjNzK2tZYjh6cFJ1TWYrSU5ua3dhbGM2VWFzMi9CZEFT?=
- =?utf-8?B?dm9GK0x5YjhaWUpnY0ZyU1krOEpSSXZvU05ZQmNWZGVxcGNWd1FpTWVYY0Na?=
- =?utf-8?B?RUdPRmxiV2JqR2dGcFJBbSs0NmI4UExDMWkxakl2aW5sMnhDWld6QWRNSXFR?=
- =?utf-8?B?Q0dqOEpEQTNEWVZxczZiaktpSmFaanZIUjBucElrK3Z1cDI5Wk1uUXk4UnVy?=
- =?utf-8?B?QXlJd0E2ZUh2RVJHbXhQSS9EWmh6R3dEc3VyeFM4TEVlZmRsNHdEOElOSGta?=
- =?utf-8?B?NWM3cE9RTS9MM3MwK3c0UGRzbXZqZitaNWlqS1FJcStaQmhmUnRIdSt0NEdh?=
- =?utf-8?B?VWk3NkZWdUZ0V2lVSzZGVmpuWUdBcnFWbkZHL3JKYU5jc1ExWWpteHBndnF2?=
- =?utf-8?B?KytoK3o1aXpVSWhXRWlJQjczRFcvRGNFSEN1MjgvK1RWU2RMa3lVQVNZWkxX?=
- =?utf-8?B?NUFmUkY0anFCb3ltbmFtVHhDbXRIRzZvZDNzRjl1RmhNV1ZMZzlPQjNhQXMy?=
- =?utf-8?B?cHRyTWRoZ3BRMndnd0FaVXZ0eVNyU2VhUEpnYUF3L2pvNDZkSGowejhPY3Vv?=
- =?utf-8?B?N28vZ0hXazdnMWRNZ3dVeW00WktINC9kVHdTb0hKbGpDTlhyb0I4NXBsaGdD?=
- =?utf-8?B?Z241cUZVbllmaHNoSnVwSjNSR1lxc21aNElvTTVLWmJwWXRKYkFSeFM1a0pq?=
- =?utf-8?B?OFRNVzRURWlWYU1BOXphMVU3UlB2cUhHN1FlTzNxVU82enhpSUhvb1dYMGUy?=
- =?utf-8?B?UkVMNjFSMk1LZGtXbXNlTTB2WmxvQmJMd3pPbElPV3VkZm8xWC9mZDE0aFd4?=
- =?utf-8?B?Nm1GS291eE1sN00wOVFjekVVK1lDMlZ2QTdYV2szNGF1UkxadDdHczNOS1Ey?=
- =?utf-8?B?cCtMRHVZUHFnU1FrazFXditHdW9aQXdMZHA3Qld2aGdOTmdVUkp0RnRtNFdI?=
- =?utf-8?B?d3Vkc2xSMGo0WitMRmVVaGJaWEk3NHFIKzNWeUxtRTlyMS80TiswQUYrOGdy?=
- =?utf-8?B?OEhLQUVZL0w0OUFJOC9kbFV5K2E2ZnlHN1RCWnp3QTBZRDdYNGUwQXdBSnZT?=
- =?utf-8?B?M1JpN3VKNUZadDdxK3grdmlFUGlHQVFod2U3d1M4Tkd3YWNWNXR2SlVGTkV0?=
- =?utf-8?B?VmJpczg2OUlpWDROOTlaUGhwOHU5K2tPSUZnSG1FTTlIbmlWL1JLZG51Zi9T?=
- =?utf-8?B?WUF1TVNRS3NUSHFxcjhnOTB4eVJzT3NtWE1taThiNkYyeE1VeTNkdEF4VnBU?=
- =?utf-8?B?Si9zNXBZbjJoK1pkbVlRMTNUR0VEdmdRdk5nN1hhUTJrUVVScG9rYzgyT0lr?=
- =?utf-8?B?YnBCODR0RzR5YTgxQlNvYkFBZWRnZStNT3YyMFUyUDRqa0tIeXdIOUlXWmJL?=
- =?utf-8?B?aW5sYk56blFITzlFVTUzbERLTzhYRGJJTmhpTVREOFNVWkE4NTVMYjROMTE0?=
- =?utf-8?B?S2tMU1F2TjEwU2YwWWNITlpOK08yc3VJNGd6U2pnbGR2MnlBTUJZL1RLcWgx?=
- =?utf-8?B?MVk1aC8vSEIvME9xZzBvaXZjVjMxem5lckIrWGpucmRzUzZNaC9EOWJCbXU0?=
- =?utf-8?B?cG1FNFZTOG1pL2FDUGVFaFJsdlpZSUpzdlNrT1RTQkxKUEJDSjZhU3JaS01Z?=
- =?utf-8?B?bnNvSkZRajQzSXpLRndNU3FDWGRHTFZGWTJjeHFJbXFDWXNWWXJKSndlOGNU?=
- =?utf-8?B?UU9MbGo0UFY1ZlJqaTlWb3d3TGtURWNmN25JZXp3S0FnM1k0OEsyTHh2S1g1?=
- =?utf-8?B?SVVKaFp1YXBDR1pIVDFXWWM2Z2ZKMXRtYk1HQW1Ealc2T0hmTmc2dm1uQ0w3?=
- =?utf-8?B?Nkg0djdCUlhSdWs1TXpSbGZtWVVOYTM5Ni92QmlWYXBxVW0rUmJSUEFVRSts?=
- =?utf-8?Q?ovWVQ1aIW2hU+hNTEQnZCWxAE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92ced686-f652-4086-a5f9-08db0072050d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2023 14:23:11.5984 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b+fp0cvvvBjcccm9tvH2KcNFTdlwkT2CTRoJWIvaV4dnf1Jr9M7VABPZO+C3VgcUZJvW4zwItmJAZGfdOwMP5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6369
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi interfaces
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-6-dakr@redhat.com>
+ <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
+ <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
+ <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
+ <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
+ <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,62 +95,476 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- stanislav.lisovskiy@intel.com, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- stable@vger.kernel.org, Wayne Lin <Wayne.Lin@amd.com>,
- Guenter Roeck <linux@roeck-us.net>, bskeggs@redhat.com
+Cc: corbet@lwn.net, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bskeggs@redhat.com,
+ jason@jlekstrand.net, nouveau@lists.freedesktop.org, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Greg,
-
-On 1/27/23 02:39, Greg KH wrote:
-> On Fri, Jan 20, 2023 at 11:51:04AM -0600, Limonciello, Mario wrote:
->> On 1/20/2023 11:46, Guenter Roeck wrote:
->>> On Thu, Jan 12, 2023 at 04:50:44PM +0800, Wayne Lin wrote:
->>>> This reverts commit 4d07b0bc403403438d9cf88450506240c5faf92f.
+On 1/27/23 14:23, Christian König wrote:
+> 
+> 
+> Am 27.01.23 um 14:12 schrieb Danilo Krummrich:
+>> On 1/27/23 08:55, Christian König wrote:
+>>> Am 27.01.23 um 02:26 schrieb Danilo Krummrich:
+>>>> On 1/27/23 02:05, Matthew Brost wrote:
+>>>>> On Wed, Jan 18, 2023 at 07:12:47AM +0100, Danilo Krummrich wrote:
+>>>>>> This commit provides the interfaces for the new UAPI motivated by the
+>>>>>> Vulkan API. It allows user mode drivers (UMDs) to:
+>>>>>>
+>>>>>> 1) Initialize a GPU virtual address (VA) space via the new
+>>>>>>     DRM_IOCTL_NOUVEAU_VM_INIT ioctl. UMDs can provide a kernel 
+>>>>>> reserved
+>>>>>>     VA area.
+>>>>>>
+>>>>>> 2) Bind and unbind GPU VA space mappings via the new
+>>>>>>     DRM_IOCTL_NOUVEAU_VM_BIND ioctl.
+>>>>>>
+>>>>>> 3) Execute push buffers with the new DRM_IOCTL_NOUVEAU_EXEC ioctl.
+>>>>>>
+>>>>>> Both, DRM_IOCTL_NOUVEAU_VM_BIND and DRM_IOCTL_NOUVEAU_EXEC support
+>>>>>> asynchronous processing with DRM syncobjs as synchronization 
+>>>>>> mechanism.
+>>>>>>
+>>>>>> The default DRM_IOCTL_NOUVEAU_VM_BIND is synchronous processing,
+>>>>>> DRM_IOCTL_NOUVEAU_EXEC supports asynchronous processing only.
+>>>>>>
+>>>>>> Co-authored-by: Dave Airlie <airlied@redhat.com>
+>>>>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>>>>>> ---
+>>>>>>   Documentation/gpu/driver-uapi.rst |   8 ++
+>>>>>>   include/uapi/drm/nouveau_drm.h    | 216 
+>>>>>> ++++++++++++++++++++++++++++++
+>>>>>>   2 files changed, 224 insertions(+)
+>>>>>>
+>>>>>> diff --git a/Documentation/gpu/driver-uapi.rst 
+>>>>>> b/Documentation/gpu/driver-uapi.rst
+>>>>>> index 4411e6919a3d..9c7ca6e33a68 100644
+>>>>>> --- a/Documentation/gpu/driver-uapi.rst
+>>>>>> +++ b/Documentation/gpu/driver-uapi.rst
+>>>>>> @@ -6,3 +6,11 @@ drm/i915 uAPI
+>>>>>>   =============
+>>>>>>     .. kernel-doc:: include/uapi/drm/i915_drm.h
+>>>>>> +
+>>>>>> +drm/nouveau uAPI
+>>>>>> +================
+>>>>>> +
+>>>>>> +VM_BIND / EXEC uAPI
+>>>>>> +-------------------
+>>>>>> +
+>>>>>> +.. kernel-doc:: include/uapi/drm/nouveau_drm.h
+>>>>>> diff --git a/include/uapi/drm/nouveau_drm.h 
+>>>>>> b/include/uapi/drm/nouveau_drm.h
+>>>>>> index 853a327433d3..f6e7d40201d4 100644
+>>>>>> --- a/include/uapi/drm/nouveau_drm.h
+>>>>>> +++ b/include/uapi/drm/nouveau_drm.h
+>>>>>> @@ -126,6 +126,216 @@ struct drm_nouveau_gem_cpu_fini {
+>>>>>>       __u32 handle;
+>>>>>>   };
+>>>>>>   +/**
+>>>>>> + * struct drm_nouveau_sync - sync object
+>>>>>> + *
+>>>>>> + * This structure serves as synchronization mechanism for 
+>>>>>> (potentially)
+>>>>>> + * asynchronous operations such as EXEC or VM_BIND.
+>>>>>> + */
+>>>>>> +struct drm_nouveau_sync {
+>>>>>> +    /**
+>>>>>> +     * @flags: the flags for a sync object
+>>>>>> +     *
+>>>>>> +     * The first 8 bits are used to determine the type of the 
+>>>>>> sync object.
+>>>>>> +     */
+>>>>>> +    __u32 flags;
+>>>>>> +#define DRM_NOUVEAU_SYNC_SYNCOBJ 0x0
+>>>>>> +#define DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ 0x1
+>>>>>> +#define DRM_NOUVEAU_SYNC_TYPE_MASK 0xf
+>>>>>> +    /**
+>>>>>> +     * @handle: the handle of the sync object
+>>>>>> +     */
+>>>>>> +    __u32 handle;
+>>>>>> +    /**
+>>>>>> +     * @timeline_value:
+>>>>>> +     *
+>>>>>> +     * The timeline point of the sync object in case the syncobj 
+>>>>>> is of
+>>>>>> +     * type DRM_NOUVEAU_SYNC_TIMELINE_SYNCOBJ.
+>>>>>> +     */
+>>>>>> +    __u64 timeline_value;
+>>>>>> +};
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * struct drm_nouveau_vm_init - GPU VA space init structure
+>>>>>> + *
+>>>>>> + * Used to initialize the GPU's VA space for a user client, 
+>>>>>> telling the kernel
+>>>>>> + * which portion of the VA space is managed by the UMD and kernel 
+>>>>>> respectively.
+>>>>>> + */
+>>>>>> +struct drm_nouveau_vm_init {
+>>>>>> +    /**
+>>>>>> +     * @unmanaged_addr: start address of the kernel managed VA 
+>>>>>> space region
+>>>>>> +     */
+>>>>>> +    __u64 unmanaged_addr;
+>>>>>> +    /**
+>>>>>> +     * @unmanaged_size: size of the kernel managed VA space 
+>>>>>> region in bytes
+>>>>>> +     */
+>>>>>> +    __u64 unmanaged_size;
+>>>>>> +};
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * struct drm_nouveau_vm_bind_op - VM_BIND operation
+>>>>>> + *
+>>>>>> + * This structure represents a single VM_BIND operation. UMDs 
+>>>>>> should pass
+>>>>>> + * an array of this structure via struct drm_nouveau_vm_bind's 
+>>>>>> &op_ptr field.
+>>>>>> + */
+>>>>>> +struct drm_nouveau_vm_bind_op {
+>>>>>> +    /**
+>>>>>> +     * @op: the operation type
+>>>>>> +     */
+>>>>>> +    __u32 op;
+>>>>>> +/**
+>>>>>> + * @DRM_NOUVEAU_VM_BIND_OP_ALLOC:
+>>>>>> + *
+>>>>>> + * The alloc operation is used to reserve a VA space region 
+>>>>>> within the GPU's VA
+>>>>>> + * space. Optionally, the &DRM_NOUVEAU_VM_BIND_SPARSE flag can be 
+>>>>>> passed to
+>>>>>> + * instruct the kernel to create sparse mappings for the given 
+>>>>>> region.
+>>>>>> + */
+>>>>>> +#define DRM_NOUVEAU_VM_BIND_OP_ALLOC 0x0
+>>>>>
+>>>>> Do you really need this operation? We have no concept of this in Xe,
+>>>>> e.g. we can create a VM and the entire address space is managed 
+>>>>> exactly
+>>>>> the same.
 >>>>
->>>> [Why]
->>>> Changes cause regression on amdgpu mst.
->>>> E.g.
->>>> In fill_dc_mst_payload_table_from_drm(), amdgpu expects to add/remove payload
->>>> one by one and call fill_dc_mst_payload_table_from_drm() to update the HW
->>>> maintained payload table. But previous change tries to go through all the
->>>> payloads in mst_state and update amdpug hw maintained table in once everytime
->>>> driver only tries to add/remove a specific payload stream only. The newly
->>>> design idea conflicts with the implementation in amdgpu nowadays.
+>>>> The idea for alloc/free is to let UMDs allocate a portion of the VA 
+>>>> space (which I call a region), basically the same thing Vulkan 
+>>>> represents with a VKBuffer.
+>>>
+>>> If that's mangled into the same component/interface then I can say 
+>>> from experience that this is a pretty bad idea. We have tried 
+>>> something similar with radeon and it turned out horrible.
+>>
+>> What was the exact constellation in radeon and which problems did 
+>> arise from it?
+>>
+>>>
+>>> What you want is one component for tracking the VA allocations 
+>>> (drm_mm based) and a different component/interface for tracking the 
+>>> VA mappings (probably rb tree based).
+>>
+>> That's what the GPUVA manager is doing. There are gpuva_regions which 
+>> correspond to VA allocations and gpuvas which represent the mappings. 
+>> Both are tracked separately (currently both with a separate drm_mm, 
+>> though). However, the GPUVA manager needs to take regions into account 
+>> when dealing with mappings to make sure the GPUVA manager doesn't 
+>> propose drivers to merge over region boundaries. Speaking from 
+>> userspace PoV, the kernel wouldn't merge mappings from different 
+>> VKBuffer objects even if they're virtually and physically contiguous.
+> 
+> That are two completely different things and shouldn't be handled in a 
+> single component.
+
+They are different things, but they're related in a way that for 
+handling the mappings (in particular merging and sparse) the GPUVA 
+manager needs to know the VA allocation (or region) boundaries.
+
+I have the feeling there might be a misunderstanding. Userspace is in 
+charge to actually allocate a portion of VA space and manage it. The 
+GPUVA manager just needs to know about those VA space allocations and 
+hence keeps track of them.
+
+The GPUVA manager is not meant to be an allocator in the sense of 
+finding and providing a hole for a given request.
+
+Maybe the non-ideal choice of using drm_mm was implying something else.
+
+> 
+> We should probably talk about the design of the GPUVA manager once more 
+> when this should be applicable to all GPU drivers.
+
+That's what I try to figure out with this RFC, how to make it appicable 
+for all GPU drivers, so I'm happy to discuss this. :-)
+
+> 
+>>
+>> For sparse residency the kernel also needs to know the region 
+>> boundaries to make sure that it keeps sparse mappings around.
+> 
+> What?
+
+When userspace creates a new VKBuffer with the 
+VK_BUFFER_CREATE_SPARSE_BINDING_BIT the kernel may need to create sparse 
+mappings in order to ensure that using this buffer without any memory 
+backed mappings doesn't fault the GPU.
+
+Currently, the implementation does this the following way:
+
+1. Userspace creates a new VKBuffer and hence allocates a portion of the 
+VA space for it. It calls into the kernel indicating the new VA space 
+region and the fact that the region is sparse.
+
+2. The kernel picks up the region and stores it in the GPUVA manager, 
+the driver creates the corresponding sparse mappings / page table entries.
+
+3. Userspace might ask the driver to create a couple of memory backed 
+mappings for this particular VA region. The GPUVA manager stores the 
+mapping parameters, the driver creates the corresponding page table entries.
+
+4. Userspace might ask to unmap all the memory backed mappings from this 
+particular VA region. The GPUVA manager removes the mapping parameters, 
+the driver cleans up the corresponding page table entries. However, the 
+driver also needs to re-create the sparse mappings, since it's a sparse 
+buffer, hence it needs to know the boundaries of the region it needs to 
+create the sparse mappings in.
+
+> 
+> Regards,
+> Christian.
+> 
+>>
+>>>
+>>> amdgpu has even gotten so far that the VA allocations are tracked in 
+>>> libdrm in userspace
+>>>
+>>> Regards,
+>>> Christian.
+>>>
 >>>>
->>>> [How]
->>>> Revert this patch first. After addressing all regression problems caused by
->>>> this previous patch, will add it back and adjust it.
+>>>> It serves two purposes:
+>>>>
+>>>> 1. It gives the kernel (in particular the GPUVA manager) the bounds 
+>>>> in which it is allowed to merge mappings. E.g. when a user request 
+>>>> asks for a new mapping and we detect we could merge this mapping 
+>>>> with an existing one (used in another VKBuffer than the mapping 
+>>>> request came for) the driver is not allowed to change the page table 
+>>>> for the existing mapping we want to merge with (assuming that some 
+>>>> drivers would need to do this in order to merge), because the 
+>>>> existing mapping could already be in use and by re-mapping it we'd 
+>>>> potentially cause a fault on the GPU.
+>>>>
+>>>> 2. It is used for sparse residency in a way that such an allocated 
+>>>> VA space region can be flagged as sparse, such that the kernel 
+>>>> always keeps sparse mappings around for the parts of the region that 
+>>>> do not contain actual memory backed mappings.
+>>>>
+>>>> If for your driver merging is always OK, creating a single huge 
+>>>> region would do the trick I guess. Otherwise, we could also add an 
+>>>> option to the GPUVA manager (or a specific region, which could also 
+>>>> be a single huge one) within which it never merges.
+>>>>
+>>>>>
+>>>>> If this can be removed then the entire concept of regions in the GPUVA
+>>>>> can be removed too (drop struct drm_gpuva_region). I say this because
+>>>>> in Xe as I'm porting over to GPUVA the first thing I'm doing after
+>>>>> drm_gpuva_manager_init is calling drm_gpuva_region_insert on the 
+>>>>> entire
+>>>>> address space. To me this seems kinda useless but maybe I'm missing 
+>>>>> why
+>>>>> you need this for Nouveau.
+>>>>>
+>>>>> Matt
+>>>>>
+>>>>>> +/**
+>>>>>> + * @DRM_NOUVEAU_VM_BIND_OP_FREE: Free a reserved VA space region.
+>>>>>> + */
+>>>>>> +#define DRM_NOUVEAU_VM_BIND_OP_FREE 0x1
+>>>>>> +/**
+>>>>>> + * @DRM_NOUVEAU_VM_BIND_OP_MAP:
+>>>>>> + *
+>>>>>> + * Map a GEM object to the GPU's VA space. The mapping must be 
+>>>>>> fully enclosed by
+>>>>>> + * a previously allocated VA space region. If the region is 
+>>>>>> sparse, existing
+>>>>>> + * sparse mappings are overwritten.
+>>>>>> + */
+>>>>>> +#define DRM_NOUVEAU_VM_BIND_OP_MAP 0x2
+>>>>>> +/**
+>>>>>> + * @DRM_NOUVEAU_VM_BIND_OP_UNMAP:
+>>>>>> + *
+>>>>>> + * Unmap an existing mapping in the GPU's VA space. If the region 
+>>>>>> the mapping
+>>>>>> + * is located in is a sparse region, new sparse mappings are 
+>>>>>> created where the
+>>>>>> + * unmapped (memory backed) mapping was mapped previously.
+>>>>>> + */
+>>>>>> +#define DRM_NOUVEAU_VM_BIND_OP_UNMAP 0x3
+>>>>>> +    /**
+>>>>>> +     * @flags: the flags for a &drm_nouveau_vm_bind_op
+>>>>>> +     */
+>>>>>> +    __u32 flags;
+>>>>>> +/**
+>>>>>> + * @DRM_NOUVEAU_VM_BIND_SPARSE:
+>>>>>> + *
+>>>>>> + * Indicates that an allocated VA space region should be sparse.
+>>>>>> + */
+>>>>>> +#define DRM_NOUVEAU_VM_BIND_SPARSE (1 << 8)
+>>>>>> +    /**
+>>>>>> +     * @handle: the handle of the DRM GEM object to map
+>>>>>> +     */
+>>>>>> +    __u32 handle;
+>>>>>> +    /**
+>>>>>> +     * @addr:
+>>>>>> +     *
+>>>>>> +     * the address the VA space region or (memory backed) mapping 
+>>>>>> should be mapped to
+>>>>>> +     */
+>>>>>> +    __u64 addr;
+>>>>>> +    /**
+>>>>>> +     * @bo_offset: the offset within the BO backing the mapping
+>>>>>> +     */
+>>>>>> +    __u64 bo_offset;
+>>>>>> +    /**
+>>>>>> +     * @range: the size of the requested mapping in bytes
+>>>>>> +     */
+>>>>>> +    __u64 range;
+>>>>>> +};
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * struct drm_nouveau_vm_bind - structure for 
+>>>>>> DRM_IOCTL_NOUVEAU_VM_BIND
+>>>>>> + */
+>>>>>> +struct drm_nouveau_vm_bind {
+>>>>>> +    /**
+>>>>>> +     * @op_count: the number of &drm_nouveau_vm_bind_op
+>>>>>> +     */
+>>>>>> +    __u32 op_count;
+>>>>>> +    /**
+>>>>>> +     * @flags: the flags for a &drm_nouveau_vm_bind ioctl
+>>>>>> +     */
+>>>>>> +    __u32 flags;
+>>>>>> +/**
+>>>>>> + * @DRM_NOUVEAU_VM_BIND_RUN_ASYNC:
+>>>>>> + *
+>>>>>> + * Indicates that the given VM_BIND operation should be executed 
+>>>>>> asynchronously
+>>>>>> + * by the kernel.
+>>>>>> + *
+>>>>>> + * If this flag is not supplied the kernel executes the 
+>>>>>> associated operations
+>>>>>> + * synchronously and doesn't accept any &drm_nouveau_sync objects.
+>>>>>> + */
+>>>>>> +#define DRM_NOUVEAU_VM_BIND_RUN_ASYNC 0x1
+>>>>>> +    /**
+>>>>>> +     * @wait_count: the number of wait &drm_nouveau_syncs
+>>>>>> +     */
+>>>>>> +    __u32 wait_count;
+>>>>>> +    /**
+>>>>>> +     * @sig_count: the number of &drm_nouveau_syncs to signal 
+>>>>>> when finished
+>>>>>> +     */
+>>>>>> +    __u32 sig_count;
+>>>>>> +    /**
+>>>>>> +     * @wait_ptr: pointer to &drm_nouveau_syncs to wait for
+>>>>>> +     */
+>>>>>> +    __u64 wait_ptr;
+>>>>>> +    /**
+>>>>>> +     * @sig_ptr: pointer to &drm_nouveau_syncs to signal when 
+>>>>>> finished
+>>>>>> +     */
+>>>>>> +    __u64 sig_ptr;
+>>>>>> +    /**
+>>>>>> +     * @op_ptr: pointer to the &drm_nouveau_vm_bind_ops to execute
+>>>>>> +     */
+>>>>>> +    __u64 op_ptr;
+>>>>>> +};
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * struct drm_nouveau_exec_push - EXEC push operation
+>>>>>> + *
+>>>>>> + * This structure represents a single EXEC push operation. UMDs 
+>>>>>> should pass an
+>>>>>> + * array of this structure via struct drm_nouveau_exec's 
+>>>>>> &push_ptr field.
+>>>>>> + */
+>>>>>> +struct drm_nouveau_exec_push {
+>>>>>> +    /**
+>>>>>> +     * @va: the virtual address of the push buffer mapping
+>>>>>> +     */
+>>>>>> +    __u64 va;
+>>>>>> +    /**
+>>>>>> +     * @va_len: the length of the push buffer mapping
+>>>>>> +     */
+>>>>>> +    __u64 va_len;
+>>>>>> +};
+>>>>>> +
+>>>>>> +/**
+>>>>>> + * struct drm_nouveau_exec - structure for DRM_IOCTL_NOUVEAU_EXEC
+>>>>>> + */
+>>>>>> +struct drm_nouveau_exec {
+>>>>>> +    /**
+>>>>>> +     * @channel: the channel to execute the push buffer in
+>>>>>> +     */
+>>>>>> +    __u32 channel;
+>>>>>> +    /**
+>>>>>> +     * @push_count: the number of &drm_nouveau_exec_push ops
+>>>>>> +     */
+>>>>>> +    __u32 push_count;
+>>>>>> +    /**
+>>>>>> +     * @wait_count: the number of wait &drm_nouveau_syncs
+>>>>>> +     */
+>>>>>> +    __u32 wait_count;
+>>>>>> +    /**
+>>>>>> +     * @sig_count: the number of &drm_nouveau_syncs to signal 
+>>>>>> when finished
+>>>>>> +     */
+>>>>>> +    __u32 sig_count;
+>>>>>> +    /**
+>>>>>> +     * @wait_ptr: pointer to &drm_nouveau_syncs to wait for
+>>>>>> +     */
+>>>>>> +    __u64 wait_ptr;
+>>>>>> +    /**
+>>>>>> +     * @sig_ptr: pointer to &drm_nouveau_syncs to signal when 
+>>>>>> finished
+>>>>>> +     */
+>>>>>> +    __u64 sig_ptr;
+>>>>>> +    /**
+>>>>>> +     * @push_ptr: pointer to &drm_nouveau_exec_push ops
+>>>>>> +     */
+>>>>>> +    __u64 push_ptr;
+>>>>>> +};
+>>>>>> +
+>>>>>>   #define DRM_NOUVEAU_GETPARAM           0x00 /* deprecated */
+>>>>>>   #define DRM_NOUVEAU_SETPARAM           0x01 /* deprecated */
+>>>>>>   #define DRM_NOUVEAU_CHANNEL_ALLOC      0x02 /* deprecated */
+>>>>>> @@ -136,6 +346,9 @@ struct drm_nouveau_gem_cpu_fini {
+>>>>>>   #define DRM_NOUVEAU_NVIF               0x07
+>>>>>>   #define DRM_NOUVEAU_SVM_INIT           0x08
+>>>>>>   #define DRM_NOUVEAU_SVM_BIND           0x09
+>>>>>> +#define DRM_NOUVEAU_VM_INIT            0x10
+>>>>>> +#define DRM_NOUVEAU_VM_BIND            0x11
+>>>>>> +#define DRM_NOUVEAU_EXEC               0x12
+>>>>>>   #define DRM_NOUVEAU_GEM_NEW            0x40
+>>>>>>   #define DRM_NOUVEAU_GEM_PUSHBUF        0x41
+>>>>>>   #define DRM_NOUVEAU_GEM_CPU_PREP       0x42
+>>>>>> @@ -197,6 +410,9 @@ struct drm_nouveau_svm_bind {
+>>>>>>   #define DRM_IOCTL_NOUVEAU_GEM_CPU_FINI       DRM_IOW 
+>>>>>> (DRM_COMMAND_BASE + DRM_NOUVEAU_GEM_CPU_FINI, struct 
+>>>>>> drm_nouveau_gem_cpu_fini)
+>>>>>>   #define DRM_IOCTL_NOUVEAU_GEM_INFO DRM_IOWR(DRM_COMMAND_BASE + 
+>>>>>> DRM_NOUVEAU_GEM_INFO, struct drm_nouveau_gem_info)
+>>>>>>   +#define DRM_IOCTL_NOUVEAU_VM_INIT DRM_IOWR(DRM_COMMAND_BASE + 
+>>>>>> DRM_NOUVEAU_VM_INIT, struct drm_nouveau_vm_init)
+>>>>>> +#define DRM_IOCTL_NOUVEAU_VM_BIND DRM_IOWR(DRM_COMMAND_BASE + 
+>>>>>> DRM_NOUVEAU_VM_BIND, struct drm_nouveau_vm_bind)
+>>>>>> +#define DRM_IOCTL_NOUVEAU_EXEC DRM_IOWR(DRM_COMMAND_BASE + 
+>>>>>> DRM_NOUVEAU_EXEC, struct drm_nouveau_exec)
+>>>>>>   #if defined(__cplusplus)
+>>>>>>   }
+>>>>>>   #endif
+>>>>>> -- 
+>>>>>> 2.39.0
+>>>>>>
+>>>>>
+>>>>
 >>>
->>> Has there been any progress on this revert, or on fixing the underlying
->>> problem ?
->>>
->>> Thanks,
->>> Guenter
 >>
->> Hi Guenter,
->>
->> Wayne is OOO for CNY, but let me update you.
->>
->> Harry has sent out this series which is a collection of proper fixes.
->> https://patchwork.freedesktop.org/series/113125/
->>
->> Once that's reviewed and accepted, 4 of them are applicable for 6.1.
 > 
-> Any hint on when those will be reviewed and accepted?  patchwork doesn't
-> show any activity on them, or at least I can't figure it out...
-
-These patches have already made it into amd-staging-drm-next and as of
-https://lore.kernel.org/amd-gfx/20230125220153.320248-1-alexander.deucher@amd.com/
-they should land in drm-next soon if they haven't already.
-
-> 
-> thanks,
-> 
-> greg k-h
-
--- 
-Hamza
 
