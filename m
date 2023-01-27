@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8091B67E220
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 11:46:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9989E67E23D
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 11:51:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 914E710E44C;
-	Fri, 27 Jan 2023 10:46:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A72F610E447;
+	Fri, 27 Jan 2023 10:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C17610E44C
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 10:46:07 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id d8so3525243ybe.9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 02:46:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yEIvFhK3IIlErsVgToB5qFHQjVAAQfk7keFlobxxWmQ=;
- b=pbRiHizXgqKLgJi0SZFHnlopsAQ2dHzA++kqIfzVt60x7aFpDvVIK8jIuZ/e+bHQIr
- TsToNjrN77cQxH7RuLXAD01snstWf+mgyrY4tQ+Yji1eFenSGboymtMKPOgqLeX2HPBA
- 1J8WDoPq0J9kfaNBUn0mNnj5oODs+1OdTCAnIFbpUROdGOnaAF7b1mqF4EjjgSk8FnX9
- 3xe/ZNyWEnkMxPqOzBgDEu8sO/y+g0aQhoshBqQ1MuRJFoXw/rZahh+ggq0dorOvjrCo
- gKEskc21+60VDKHdlqowmvelAntxyM6fffX/JEcdB6p1UQFrNg43bvsgBe+So4DTpzyV
- v1VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yEIvFhK3IIlErsVgToB5qFHQjVAAQfk7keFlobxxWmQ=;
- b=SsFrDD6bfguDhQppPt8HiJaB0i+QQa6zciAZB1yyqK5aDWfFwYZW8NqgzJAEIlrA4n
- HuSn2Q6KDaS22h2gX0KzjLDihRO8Z0l9rKChCKXeeDjfAtECLGkVEZOL56+6GrYpGEkB
- FKVJ/pSo8gbW3L4wAqnk6TPbNbAulahpUr33I4XktSAnMXKOQyVEq50YqXarzB7rv1t7
- rvLHUg1J9knAGOb1fe1BxtnB/TXngHKiJ1p/thCT/R4058g9O11WOtIemuBlf1MkPNTP
- FCKiyyBOw3Hmh05exZxTGMCVspCA0fBVfnRlcbkZOnWN+qh3BKdp8xpgqhVvkf5eElbZ
- BZrA==
-X-Gm-Message-State: AO0yUKVwGklP+sNSoOK7vmuKzgHMB/156fGQeexPwFa6iDXWFSG9SfQt
- 3CdppxOfJNPAP2U+eFn9Bhnw7RftAEO+KukrvchmvA==
-X-Google-Smtp-Source: AK7set8CEjnHi7EVPneHsLI4xDP7Wr4mxQeL1iOel0vamGF0k7QBKC5yCvd7idAVuR1tV91uJqvlYEJIbDj6l19NjRo=
-X-Received: by 2002:a25:d84f:0:b0:80e:9132:a7fe with SMTP id
- p76-20020a25d84f000000b0080e9132a7femr88574ybg.516.1674816366185; Fri, 27 Jan
- 2023 02:46:06 -0800 (PST)
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B869810E447;
+ Fri, 27 Jan 2023 10:51:53 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 2F3BB600EAE9;
+ Fri, 27 Jan 2023 10:51:50 +0000 (WET)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+ tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+ with LMTP id arxiVCH-fa5m; Fri, 27 Jan 2023 10:51:47 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 5C352600EAD2;
+ Fri, 27 Jan 2023 10:51:47 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+ s=mail; t=1674816707;
+ bh=wOtTdkOGHgSvvf5JexX+l9uHf4j3jt1tsIZ25QKI0j0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=cpBgIoHHJnxWM2XoEa7+qvhnWuyK79iXAjdRmes8wQRF0FP+L8Wz85IahgzAXJuR7
+ DBR+3jqMj0gP+T82lnS4VkVF03qGJh0toeWp6bnXM0bvT6YaN1QfGISCkVriYvYP/3
+ Z2y/ic3eHfjSNxWTLRFrnj4Wa8yG47F2uauOQtUs=
+Received: from wslaptop (unknown [IPv6:2001:8a0:fbe7:6700:65be:d034:d2ec:60ff])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 2A823360090;
+ Fri, 27 Jan 2023 10:51:47 +0000 (WET)
+Date: Fri, 27 Jan 2023 10:48:42 +0000
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: Nicolas Chauvet <kwizart@gmail.com>
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+Message-ID: <20230127104842.ahu6thtod7eeuvbe@wslaptop>
+References: <20221228144914.z7t7a4fdwvbblnak@wslaptop>
+ <CAMwc25rY4xpn0yvCScMr6Hk9pFSdvt=9QOypSQDfj1d5tWmtvA@mail.gmail.com>
+ <20230116122403.upk5ci4mbebw23m7@wslaptop>
+ <CACAvsv48vH6hbacQCN+yKP8ZcDjFMWciBt6U_Xv-LEYJHZ1q9g@mail.gmail.com>
+ <20230120113443.wgwhwp7tm6rnc6je@wslaptop>
+ <CACAvsv4_XJLSwnA-s0BXLVbBCESDfnK7kx5-WUPd2+vdJuMojg@mail.gmail.com>
+ <CABr+WTmfQkLoHxpONag4bHEsQtGwmno+84mYF-RzAGw0jqo-gA@mail.gmail.com>
 MIME-Version: 1.0
-References: <1674814545-9453-1-git-send-email-quic_kalyant@quicinc.com>
- <1674814545-9453-3-git-send-email-quic_kalyant@quicinc.com>
-In-Reply-To: <1674814545-9453-3-git-send-email-quic_kalyant@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 27 Jan 2023 12:45:55 +0200
-Message-ID: <CAA8EJprX-8fcoi3FBR7ZUOa2ehhCGEAngq2+UDdC64hHMraqfA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/msm/disp/dpu1: add dspps into reservation if
- there is a ctm request
-To: Kalyan Thota <quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABr+WTmfQkLoHxpONag4bHEsQtGwmno+84mYF-RzAGw0jqo-gA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,79 +63,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dianders@chromium.org, marijn.suijten@somainline.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org, quic_vpolimer@quicinc.com
+Cc: David Airlie <airlied@redhat.com>, Ben Skeggs <skeggsb@gmail.com>,
+ kherbst@redhat.com, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Jan 2023 at 12:15, Kalyan Thota <quic_kalyant@quicinc.com> wrote:
->
-> Add dspp blocks into the topology for reservation, if there is a ctm
-> request for that composition.
+On Fri, Jan 27, 2023 at 10:03:17AM +0100, Nicolas Chauvet wrote:
+> I've tried to run glmark2-wayland under weston with DRI_PRIME=1, it
+> seems to work at the beginning, but then I have the following error:
+> 
+> [ 1510.861730] nouveau 57000000.gpu: gr: DATA_ERROR 00000003
+> [INVALID_OPERATION] ch 3 [04002a2000 glmark2-wayland[2753]] subc 0
+> class b197 mthd 19d0 data 0000003d
+> [ 1510.952000] nouveau 57000000.gpu: gr: DATA_ERROR 00000003
+> [INVALID_OPERATION] ch 3 [04002a2000 glmark2-wayland[2753]] subc 0
+> class b197 mthd 19d0 data 0000003d
+> [ 1510.952060] nouveau 57000000.gpu: gr: DATA_ERROR 0000009c [] ch 3
+> [04002a2000 glmark2-wayland[2753]] subc 0 class b197 mthd 0d78 data
+> 00000006
+> I think it's a separate error as I think I can reproduce on kernel
+> 6.1x (I will open a separate thread).
 
-... rather than just allocating them for DSI encoders.
+Hello,
 
-With this fixed (and one nit below):
+Would you mind testing this Mesa merge request (and the kernel patches
+mentioned there) to see if it fixes this error:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/20811
 
->
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 9c6817b..8d76cb3 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -545,7 +545,8 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
->  static struct msm_display_topology dpu_encoder_get_topology(
->                         struct dpu_encoder_virt *dpu_enc,
->                         struct dpu_kms *dpu_kms,
-> -                       struct drm_display_mode *mode)
-> +                       struct drm_display_mode *mode,
-> +                       struct drm_crtc_state *crtc_state)
->  {
->         struct msm_display_topology topology = {0};
->         int i, intf_count = 0;
-> @@ -573,11 +574,9 @@ static struct msm_display_topology dpu_encoder_get_topology(
->         else
->                 topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
->
-> -       if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
-> -               if (dpu_kms->catalog->dspp &&
-> -                       (dpu_kms->catalog->dspp_count >= topology.num_lm))
-> -                       topology.num_dspp = topology.num_lm;
-> -       }
-> +       if (dpu_kms->catalog->dspp && crtc_state->ctm &&
-
-Could you please move the second condition to a separate line? Also
-possibly it would be good to indent the conditions to the opening
-parenthesis.
-
-> +               (dpu_kms->catalog->dspp_count >= topology.num_lm))
-> +               topology.num_dspp = topology.num_lm;
->
->         topology.num_enc = 0;
->         topology.num_intf = intf_count;
-> @@ -643,7 +642,7 @@ static int dpu_encoder_virt_atomic_check(
->                 }
->         }
->
-> -       topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
-> +       topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state);
->
->         /* Reserve dynamic resources now. */
->         if (!ret) {
-> --
-> 2.7.4
->
-
-
--- 
-With best wishes
-Dmitry
+Thanks,
+Diogo
