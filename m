@@ -1,43 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B7267DFCF
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 10:15:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1578167DFD2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 10:16:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF1089755;
-	Fri, 27 Jan 2023 09:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3810210E17F;
+	Fri, 27 Jan 2023 09:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B0A89755;
- Fri, 27 Jan 2023 09:15:14 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:4bc7:2566:28bd:b73c]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1pLKpC-00042p-Pj; Fri, 27 Jan 2023 10:15:10 +0100
-Message-ID: <36e72298-e9d3-967e-8b14-7197719953cb@leemhuis.info>
-Date: Fri, 27 Jan 2023 10:15:10 +0100
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D639F10E17F
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 09:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674810980; x=1706346980;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=PZvGD9jJs3AQxKwOXh5YNYV0CIuV12BOFWOtoN/4oNE=;
+ b=ZhA0+prnaXk85QHzHSdFlt/U7hYhLISs1mVeNkTc48es6MandkPIo3ht
+ F8+M6EJoNwPPF/8fOcjQqFQF94OFXP5aOIX1uyK9/u8Jqjen8bpaBNiVk
+ BzhWjQ8WHC+wrvH6XYZVBBPykSfJbp5IOcz7zaOQZyiNu5so8P3IA3eGk
+ 4ug//59bpIffe+8ADONHvmqg2cR+wPc0c1unsMnOd2b2Ws00D2LkHJH8K
+ 5dQTMouuZP5Xs2GRWoN/XIdE4sHuQAcnB/JeWPT2aqGp8Lban+5jEnRVv
+ ow97QnRGJyebXB9XxEyfkhtTRuM4ZJX2E3hKh0JvaoDkntk4IwiQomR41 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="391600464"
+X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; d="scan'208";a="391600464"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2023 01:16:20 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="751927452"
+X-IronPort-AV: E=Sophos;i="5.97,250,1669104000"; d="scan'208";a="751927452"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2023 01:16:18 -0800
+Date: Fri, 27 Jan 2023 10:16:16 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 1/2] accep/ivpu: PM: remove broken ivpu_dbg() statements
+Message-ID: <20230127091616.GA837200@linux.intel.com>
+References: <20230126163804.3648051-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US, de-DE
-To: Greg KH <gregkh@linuxfoundation.org>,
- "Limonciello, Mario" <mario.limonciello@amd.com>
-References: <20230112085044.1706379-1-Wayne.Lin@amd.com>
- <20230120174634.GA889896@roeck-us.net>
- <a9deecb3-5955-ee4e-c76f-2654ee9f1a92@amd.com> <Y9N/wiIL758c3ozv@kroah.com>
-From: "Linux kernel regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Subject: Re: [PATCH] Revert "drm/display/dp_mst: Move all payload info into
- the atomic state"
-In-Reply-To: <Y9N/wiIL758c3ozv@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1674810914;
- 28913ce1; 
-X-HE-SMSGID: 1pLKpC-00042p-Pj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230126163804.3648051-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,60 +56,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- stanislav.lisovskiy@intel.com, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- stable@vger.kernel.org, Wayne Lin <Wayne.Lin@amd.com>,
- Guenter Roeck <linux@roeck-us.net>, bskeggs@redhat.com
+Cc: Krystian Pradzynski <krystian.pradzynski@linux.intel.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27.01.23 08:39, Greg KH wrote:
-> On Fri, Jan 20, 2023 at 11:51:04AM -0600, Limonciello, Mario wrote:
->> On 1/20/2023 11:46, Guenter Roeck wrote:
->>> On Thu, Jan 12, 2023 at 04:50:44PM +0800, Wayne Lin wrote:
->>>> This reverts commit 4d07b0bc403403438d9cf88450506240c5faf92f.
->>>>
->>>> [Why]
->>>> Changes cause regression on amdgpu mst.
->>>> E.g.
->>>> In fill_dc_mst_payload_table_from_drm(), amdgpu expects to add/remove payload
->>>> one by one and call fill_dc_mst_payload_table_from_drm() to update the HW
->>>> maintained payload table. But previous change tries to go through all the
->>>> payloads in mst_state and update amdpug hw maintained table in once everytime
->>>> driver only tries to add/remove a specific payload stream only. The newly
->>>> design idea conflicts with the implementation in amdgpu nowadays.
->>>>
->>>> [How]
->>>> Revert this patch first. After addressing all regression problems caused by
->>>> this previous patch, will add it back and adjust it.
->>>
->>> Has there been any progress on this revert, or on fixing the underlying
->>> problem ?
->>>
->>> Thanks,
->>> Guenter
->>
->> Hi Guenter,
->>
->> Wayne is OOO for CNY, but let me update you.
->>
->> Harry has sent out this series which is a collection of proper fixes.
->> https://patchwork.freedesktop.org/series/113125/
->>
->> Once that's reviewed and accepted, 4 of them are applicable for 6.1.
+On Thu, Jan 26, 2023 at 05:37:54PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Any hint on when those will be reviewed and accepted?  patchwork doesn't
-> show any activity on them, or at least I can't figure it out...
+> When CONFIG_PM is disabled, the driver fails to build:
+> 
+> drivers/accel/ivpu/ivpu_pm.c: In function 'ivpu_rpm_get':
+> drivers/accel/ivpu/ivpu_pm.c:240:84: error: 'struct dev_pm_info' has no member named 'usage_count'
+>   240 |         ivpu_dbg(vdev, RPM, "rpm_get count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
+>       |                                                                                    ^
+> include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+>   223 |                 func(&id, ##__VA_ARGS__);                       \
+>       |                             ^~~~~~~~~~~
+> include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+>   249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+>       |         ^~~~~~~~~~~~~~~~~~~~~~
+> include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+>   272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+>       |         ^~~~~~~~~~~~~~~~~~
+> include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+>   155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+>       |         ^~~~~~~~~~~~~~~
+> drivers/accel/ivpu/ivpu_drv.h:65:17: note: in expansion of macro 'dev_dbg'
+>    65 |                 dev_dbg((vdev)->drm.dev, "[%s] " fmt, #type, ##args);          \
+>       |                 ^~~~~~~
+> drivers/accel/ivpu/ivpu_pm.c:240:9: note: in expansion of macro 'ivpu_dbg'
+>   240 |         ivpu_dbg(vdev, RPM, "rpm_get count %d\n", atomic_read(&vdev->drm.dev->power.usage_count));
+>       |         ^~~~~~~~
+> 
+> It would be possible to rework these statements to only conditionally print
+> the reference counter, or to make the driver depend on CONFIG_PM, but my
+> impression is that these are not actually needed at all if the driver generally
+> works, or they could be put back when required. Just remove all four of these
+> to make the driver build in all configurations.
+> 
+> Fixes: 852be13f3bd3 ("accel/ivpu: Add PM support")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-I didn't look closer (hence please correct me if I'm wrong), but the
-core changes afaics are in the DRM pull airlied send a few hours ago to
-Linus (note the "amdgpu […] DP MST fixes" line):
-
-https://lore.kernel.org/all/CAPM%3D9tzuu4xnx6T5v7sKsK%2BA5HEaPOc1ieMyzNSYQZGztJ%3D6Qw@mail.gmail.com/
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
