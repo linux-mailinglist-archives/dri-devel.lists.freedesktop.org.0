@@ -1,56 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5A467DEE5
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:13:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 611C067DF26
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:30:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C3110E3EB;
-	Fri, 27 Jan 2023 08:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1188510E402;
+	Fri, 27 Jan 2023 08:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E464310E3EB
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 08:13:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674807228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wQyPt/6bZriSvjC5ZXh5l3TKz/N7A4kc1yntO2MilN0=;
- b=iP0ZxLbGyVGSfrhpV5PxEwmfmE2S6u/W0f+NKIkXh+vSqVLHDyUnTFCCqrkZDr1v9WrZTm
- jIRUcV60spwTHKhdb+ZrkhxiBaTRQdTTDCnDrwbDxsxjtWYziVknuHA24E7+IM6q+8vOAs
- SWXJlWDRh15i8+6UTP3Bre1eqfv/Z+k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-Z6Nj1TXBPmq0ujnQ2BEItg-1; Fri, 27 Jan 2023 03:13:42 -0500
-X-MC-Unique: Z6Nj1TXBPmq0ujnQ2BEItg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39FAA3C0D845;
- Fri, 27 Jan 2023 08:13:41 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE9E5400DE84;
- Fri, 27 Jan 2023 08:13:40 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B10301800606; Fri, 27 Jan 2023 09:13:39 +0100 (CET)
-Date: Fri, 27 Jan 2023 09:13:39 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
- Panfrost DRM drivers
-Message-ID: <20230127081339.yovxofpboc4gfdgo@sirius.home.kraxel.org>
-References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
- <e5e9e8dd-a5b6-cfd2-44d6-4d5aa768e56c@collabora.com>
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A1B10E402
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 08:30:35 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id b7so4259607wrt.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 00:30:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PzyY2wWF97kB5fX+uFjQpPzD5PWYjl7+jY/2KBj4KNA=;
+ b=DAWwPyeoXoNs6zGt2dX8uWsU8bmo4t2KFPGN+I5gbkowFsMIJjrhKcTfe1zFgbpIOk
+ j9v0hKnjIaEHvszWjYbd9Nwj3opWixjLE5G6cS4AIiGtjR6Th8ckg1r1d4mKtDqvl3AI
+ JTFpMSbC7pUOH1N47z7Opsi9tiEMKVYAvQyOXvkzlXpooD2tMBoY8re8s0s+AdhyRz7h
+ wINbLzeb7FJvPXu5mOwKX6MrGcTWEo9zqfVU9SE/ulD2B1aVGz8D9tkDTJdfIJi43MNi
+ 4dyKIyN6HBAfOaRa7MTn4/FhdJ/JpBZ9nEZdqPgB2u+2oaoVW9HuaIBS8nOCV+fMOR9h
+ X7XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PzyY2wWF97kB5fX+uFjQpPzD5PWYjl7+jY/2KBj4KNA=;
+ b=jCYygUxdOLiF9siUscMn7vAu4fOSJ9vEiWjYdZScGjIClGsIdZPNuDFalMcF6kEkg8
+ 7NEoO6HyCapYF5eSmxSEMtJAx4+hBPI2PyyZhcrKl3sGDUe1Aet+em5ghCaQzJfCt9qs
+ 1GSb42tNULqE3j9CK25hQcnMaad8xIUIFVj+00iLMvyjKNTfW/skGLKoM5mhD95SAGii
+ kVicX7JWOwT4jm6QVlZlGoEKly1rVh9qETiH9u0f9akEiVI3Cn9vufIZLTwkg4zsm7M4
+ 9frk1z30KHfRmnmOAkuQpW9/pCqYyvYQ50h3tL0gZ+vu8vzhrCskiOObh8Ccl4ScRz0V
+ NPqg==
+X-Gm-Message-State: AFqh2kqNHDAAEf2ehPKyyrb0F3VtRvrYbcKszhZ+jXhDl8AoQ2Z6MJWt
+ Hps2FZm5O2/kiJZDZGujMwAoIg==
+X-Google-Smtp-Source: AMrXdXv5pQRXWL1U0hR5Htkz83S8q7xOPVG51oWOAn3sMt+jlNLKgrMtv7/JNUCjzi+Ka3do1eNpCQ==
+X-Received: by 2002:adf:f791:0:b0:29d:f817:42c1 with SMTP id
+ q17-20020adff791000000b0029df81742c1mr34873932wrp.54.1674808233556; 
+ Fri, 27 Jan 2023 00:30:33 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ p17-20020a056000019100b002bddaea7a0bsm3330890wrx.57.2023.01.27.00.30.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jan 2023 00:30:33 -0800 (PST)
+Message-ID: <2e183f7b-df8a-38c6-a041-d507fc32e894@linaro.org>
+Date: Fri, 27 Jan 2023 09:30:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e5e9e8dd-a5b6-cfd2-44d6-4d5aa768e56c@collabora.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/4] dt-bindings: display: bridge: tfp410: Add tfp410 i2c
+ example
+Content-Language: en-US
+To: Jon Cormier <jcormier@criticallink.com>
+References: <20230125-tfp410_i2c-v1-0-66a4d4e390b7@criticallink.com>
+ <20230125-tfp410_i2c-v1-1-66a4d4e390b7@criticallink.com>
+ <906b693d-1e85-8c17-cdda-f09ea8f12e7f@linaro.org>
+ <CADL8D3YUNnsZt8tc8x9CxH5Ug6kWJHb=a3N5VJFPSePWH3yWxg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CADL8D3YUNnsZt8tc8x9CxH5Ug6kWJHb=a3N5VJFPSePWH3yWxg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,56 +78,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
- Steven Price <steven.price@arm.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Sean Paul <sean@poorly.run>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ dri-devel@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Bob Duke <bduke@criticallink.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Michael Williamson <michael.williamson@criticallink.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 26, 2023 at 01:55:09AM +0300, Dmitry Osipenko wrote:
-> Hello Thomas and Gerd,
+On 26/01/2023 19:36, Jon Cormier wrote:
+> On Thu, Jan 26, 2023 at 10:40 AM Krzysztof Kozlowski <
+> krzysztof.kozlowski@linaro.org> wrote:
 > 
-> On 1/9/23 00:04, Dmitry Osipenko wrote:
-> > This series:
-> > 
-> >   1. Makes minor fixes for drm_gem_lru and Panfrost
-> >   2. Brings refactoring for older code
-> >   3. Adds common drm-shmem memory shrinker
-> >   4. Enables shrinker for VirtIO-GPU driver
-> >   5. Switches Panfrost driver to the common shrinker
-> > 
-> > Changelog:
-> > 
-> > v10:- Rebased on a recent linux-next.
-> > 
-> >     - Added Rob's ack to MSM "Prevent blocking within shrinker loop" patch.
-> > 
-> >     - Added Steven's ack/r-b/t-b for the Panfrost patches.
-> > 
-> >     - Fixed missing export of the new drm_gem_object_evict() function.
-> > 
-> >     - Added fixes tags to the first two patches that are making minor fixes,
-> >       for consistency.
+>> On 25/01/2023 22:09, Jonathan Cormier wrote:
+>>> Add a i2c example with HDMI connector
+>>
+>> Why? It's the same - but more on this below.
+>>
+> The existing example is for the previous setup where it was configured as
+> its own device.  It seemed necessary now that the driver is going to
+> support being connected to an i2c bus to show it being used as such.
 > 
-> Do you have comments on this version? Otherwise ack will be appreciated.
-> Thanks in advance!
+>>
+>>>
+>>> Signed-off-by: Jonathan Cormier <jcormier@criticallink.com>
+>>
+>> You need to test the bindings before sending and fix the errors.
+>>
+> Will do
+> 
+>>
+>>> ---
+>>>  .../bindings/display/bridge/ti,tfp410.yaml         | 42
+>> ++++++++++++++++++++++
+>>>  1 file changed, 42 insertions(+)
+>>>
+>>> diff --git
+>> a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+>> b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+>>> index 4c5dd8ec2951..456214f14b47 100644
+>>> --- a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
+>>> @@ -116,4 +116,46 @@ examples:
+>>>          };
+>>>      };
+>>>
+>>> +  - |
+>>> +    i2c {
+>>> +      #address-cells = <1>;
+>>> +      #size-cells = <0>;
+>>> +
+>>> +      hdmi_encoder: tfp410@38 {
+>>
+>> Node names should be generic.
+>>
+>> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+>>
+>> Can do
+> 
+>>> +        compatible = "ti,tfp410";
+>>> +        reg = <0x38>;
+>>> +
+>>> +        ports {
+>>> +          address-cells = <1>;
+>>> +          size-cells = <0>;
+>>> +
+>>> +          port@0 {
+>>> +            reg = <0>;
+>>> +            tfp410_in: endpoint {
+>>> +              remote-endpoint = <&dpi1_out>;
+>>> +            };
+>>> +          };
+>>> +
+>>> +          port@1 {
+>>> +            reg = <1>;
+>>> +            tfp410_out: endpoint {
+>>> +              remote-endpoint = <&hdmi_connector_in>;
+>>> +            };
+>>
+>> That's the same example as existing one, so it looks useless. I don't
+>> see benefits of this example.
+>>
+> It's mostly the same, except defined inside an i2c bus, with the reg value
+> set. Without the powerdown-gpios or ti,deskew.
+> And without the pclk-sample and bus-width (these are now read from i2c)
+> And I included the hdmi_connector so it would be a more complete and useful
+> example of how it could be used. 
 
-Don't feel like signing off on the locking changes, I'm not that
-familiar with the drm locking rules.  So someone else looking at them
-would be good.  Otherwise the series and specifically the virtio changes
-look good to me.
+hdmi_connector is being dropped because it is not related.
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-take care,
-  Gerd
+> The TFP410 doesn't handle the ddc i2c bus
+> on its own so a separate connector node is needed.  I'll drop it if that's
+> preferred.
+> 
+
+If you had here different ports, it would be different case. But as of
+now the only important part is having reg and not having gpios, so
+basically almost the same example. No need for it.
+
+Best regards,
+Krzysztof
 
