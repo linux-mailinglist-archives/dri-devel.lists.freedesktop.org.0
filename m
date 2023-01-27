@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409EC67E703
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 14:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477B967E713
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 14:51:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F164810E47B;
-	Fri, 27 Jan 2023 13:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5219F10E485;
+	Fri, 27 Jan 2023 13:50:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 185B510E47B
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 13:46:43 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CEABA200CE;
- Fri, 27 Jan 2023 13:46:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674827201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JArpHpu9a+28QG+XzbVy9kw2B4DFUmDm9dO39ZP9mhI=;
- b=VtgbBGTljBALAGfENOy3SdaQ2sZKXRsWXrWv1xHW5qL2AuYaubUe7cn47n1Twmly/OG/fZ
- d8Q0tiTYEUL2IRlv1OGGtmZPT1haRv3Sle/qaG5r3x28Gpvig2QGRwH1Wo5dyNGRL1kvsH
- 4SsHKr5a07woAkVmJu1vU9mTNCGFuuc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674827201;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JArpHpu9a+28QG+XzbVy9kw2B4DFUmDm9dO39ZP9mhI=;
- b=UA6qrTeTeJWlEDnciyZqlfMkhKqB2KtIvNbgWmz6803p26QSu9VQA8qykmNjnpHgSR/c+0
- 0UWo44ER0KuoAQCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AD23E138E3;
- Fri, 27 Jan 2023 13:46:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ZcQQKcHV02MrLQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 27 Jan 2023 13:46:41 +0000
-Message-ID: <f0bfbea4-de42-55b1-e16d-60bf35ba7139@suse.de>
-Date: Fri, 27 Jan 2023 14:46:41 +0100
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6932410E0BC;
+ Fri, 27 Jan 2023 13:50:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674827455; x=1706363455;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ssj3B8e8skHTVBIpV4x8AC0AZSa8szTkYCtA0AUVYFU=;
+ b=JPHEDEgUWRyuxhxZdeq82ROlgaazijhIaDosKGNE+qG0odD3VFj4YWOR
+ oo7jI6PA6k3AmOq0aVmL9XoR83E9pprflbDGyTh5z571pbj/XjItqUHMQ
+ GIZrcQLEMhm24GbqixLaXx8+fm6iuxOtzLHvfcOYB8lQV5XNAX2knFsAy
+ TL7IPXPlBawW0M2ATxr2QICJZ0f4k6UWVzF6fD8+pChB6FzZQc5EZeX72
+ gTKmoTR7eg4/eOAkBStPGY8Ynho3SUl5X1XLTgIp9KbiGkN5tK1qC2Pz1
+ LzH6OAmuvyWnt2Lg+rfJiGoGVF0+yHJqrWMMeLGohaHe6pVLs0bhi3nwx Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="325760648"
+X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; d="scan'208";a="325760648"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2023 05:50:54 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="656600167"
+X-IronPort-AV: E=Sophos;i="5.97,251,1669104000"; d="scan'208";a="656600167"
+Received: from jgeary-mobl1.ger.corp.intel.com (HELO [10.213.233.162])
+ ([10.213.233.162])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2023 05:50:51 -0800
+Message-ID: <314aff2e-c1be-61b1-d764-330f1c276f92@linux.intel.com>
+Date: Fri, 27 Jan 2023 13:50:49 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH 1/7] drm/vmwgfx: Use the common gem mmap instead of the
- custom code
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Avoid potential vm use-after-free
 Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20230126173813.602748-1-zack@kde.org>
- <20230126173813.602748-2-zack@kde.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230126173813.602748-2-zack@kde.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------6XI2pzC51m4rmd7hy96mjq8Z"
+To: Matthew Auld <matthew.william.auld@gmail.com>
+References: <20230119173321.2825472-1-robdclark@gmail.com>
+ <f24be4ca-edde-819a-5bcc-070e0d2e23d1@linux.intel.com>
+ <CAM0jSHMwbUHu4kH-Y7F956+Us=TiQLJm_7y+1JbGNDaD-2J8pA@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CAM0jSHMwbUHu4kH-Y7F956+Us=TiQLJm_7y+1JbGNDaD-2J8pA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,206 +63,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ katrinzhou <katrinzhou@tencent.com>, intel-gfx@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------6XI2pzC51m4rmd7hy96mjq8Z
-Content-Type: multipart/mixed; boundary="------------0xfJg3OpkJfu55aWZ0htQ1vX";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
-Message-ID: <f0bfbea4-de42-55b1-e16d-60bf35ba7139@suse.de>
-Subject: Re: [PATCH 1/7] drm/vmwgfx: Use the common gem mmap instead of the
- custom code
-References: <20230126173813.602748-1-zack@kde.org>
- <20230126173813.602748-2-zack@kde.org>
-In-Reply-To: <20230126173813.602748-2-zack@kde.org>
 
---------------0xfJg3OpkJfu55aWZ0htQ1vX
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 27/01/2023 13:10, Matthew Auld wrote:
+> On Mon, 23 Jan 2023 at 16:57, Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>>
+>> + some more people based on e1a7ab4fca0c
+>>
+>> On 19/01/2023 17:32, Rob Clark wrote:
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> Adding the vm to the vm_xa table makes it visible to userspace, which
+>>> could try to race with us to close the vm.  So we need to take our extra
+>>> reference before putting it in the table.
+>>>
+>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>> ---
+>>> Note, you could list commit e1a7ab4fca0c ("drm/i915: Remove the vm open
+>>> count") as the "fixed" commit, but really the issue seems to go back
+>>> much further (with the fix needing some backporting in the process).
+>>
+>> It would probably be rather essential to identify the correct Fixes: tag.
+>>
+>> Since Thomas, Matt and Niranjana you were directly involved in the patch
+>> which changed significantly how this works, perhaps there is something
+>> still somewhat easily retrievable from your memory lanes to help with this?
+> 
+> Sorry for the delay. Fix looks good to me,
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> 
+> Looking at the git history, the fixes tag I think needs to be:
+> 
+> Fixes: 9ec8795e7d91 ("drm/i915: Drop __rcu from gem_context->vm")
+> Cc: <stable@vger.kernel.org> # v5.16+
 
-SGkNCg0KQW0gMjYuMDEuMjMgdW0gMTg6Mzggc2NocmllYiBaYWNrIFJ1c2luOg0KPiBGcm9t
-OiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPg0KPiANCj4gQmVmb3JlIHZtd2dmeCBz
-dXBwb3J0ZWQgZ2VtIGl0IG5lZWRlZCB0byBpbXBsZW1lbnQgdGhlIGVudGlyZSBtbWFwIGxv
-Z2ljDQo+IGV4cGxpY2l0bHkuIFdpdGggR0VNIHN1cHBvcnQgdGhhdCdzIG5vdCBuZWVkZWQg
-YW5kIHRoZSBnZW5lcmljIGNvZGUNCj4gY2FuIGJlIHVzZWQgYnkgc2ltcGx5IHNldHRpbmcg
-dGhlIHZtX29wcyB0byB2bXdnZnggc3BlY2lmaWMgb25lcyBvbiB0aGUNCj4gZ2VtIG9iamVj
-dCBpdHNlbGYuDQo+IA0KPiBSZW1vdmVzIGEgbG90IG9mIGNvZGUgZnJvbSB2bXdnZnggd2l0
-aG91dCBhbnkgZnVuY3Rpb25hbCBkaWZmZXJlbmNlLg0KDQpZZWFoLCBJIHJlbWVtYmVyIHRo
-YXQgdGhlc2UgR0VNIGhlbHBlcnMsIGFuZCBtbWFwIGluIHBhcnRpY3VsYXIsIHdlcmUgDQpm
-YWlybHkgaW5jb25zaXN0ZW50IGFuZCBjb25mdXNpbmcgYW1vbmcgZHJpdmVycy4gQWZ0ZXIg
-Y2xlYW5pbmcgdXAgDQpldmVydGhpbmcsIGl0IGNvbWVzIGRvd24gdG8gR0VNIGhlbHBlcnMg
-cGx1cyBhIGZldyBwb2ludGVycyBpbiB0aGUgR0VNIA0Kb2JqZWN0IGZ1bmNzLg0KDQo+IA0K
-PiBTaWduZWQtb2ZmLWJ5OiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPg0KDQpSZXZp
-ZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCj4g
-LS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC9NYWtlZmlsZSAgICAgICAgICB8ICAg
-MiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5jICAgICAgfCAg
-IDIgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuaCAgICAgIHwg
-ICA2IC0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZ2VtLmMgICAgICB8
-ICAgOCArKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9nbHVlLmMg
-fCAxMTAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gICA1IGZpbGVzIGNoYW5nZWQsIDEw
-IGluc2VydGlvbnMoKyksIDExOCBkZWxldGlvbnMoLSkNCj4gICBkZWxldGUgbW9kZSAxMDA2
-NDQgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2dsdWUuYw0KPiANCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvTWFrZWZpbGUgYi9kcml2ZXJzL2dw
-dS9kcm0vdm13Z2Z4L01ha2VmaWxlDQo+IGluZGV4IDJhNjQ0ZjAzNTU5Ny4uZTk0NDc5ZDlj
-ZDViIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L01ha2VmaWxlDQo+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvTWFrZWZpbGUNCj4gQEAgLTEsNyArMSw3
-IEBADQo+ICAgIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiAgIHZtd2dm
-eC15IDo9IHZtd2dmeF9leGVjYnVmLm8gdm13Z2Z4X2dtci5vIHZtd2dmeF9rbXMubyB2bXdn
-ZnhfZHJ2Lm8gXA0KPiAgIAkgICAgdm13Z2Z4X2lvY3RsLm8gdm13Z2Z4X3Jlc291cmNlLm8g
-dm13Z2Z4X3R0bV9idWZmZXIubyBcDQo+IC0JICAgIHZtd2dmeF9jbWQubyB2bXdnZnhfaXJx
-Lm8gdm13Z2Z4X2xkdS5vIHZtd2dmeF90dG1fZ2x1ZS5vIFwNCj4gKwkgICAgdm13Z2Z4X2Nt
-ZC5vIHZtd2dmeF9pcnEubyB2bXdnZnhfbGR1Lm8gXA0KPiAgIAkgICAgdm13Z2Z4X292ZXJs
-YXkubyB2bXdnZnhfZ21yaWRfbWFuYWdlci5vIHZtd2dmeF9mZW5jZS5vIFwNCj4gICAJICAg
-IHZtd2dmeF9iby5vIHZtd2dmeF9zY3JuLm8gdm13Z2Z4X2NvbnRleHQubyBcDQo+ICAgCSAg
-ICB2bXdnZnhfc3VyZmFjZS5vIHZtd2dmeF9wcmltZS5vIHZtd2dmeF9tb2IubyB2bXdnZnhf
-c2hhZGVyLm8gXA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
-ZnhfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYw0KPiBpbmRl
-eCBiZDAyY2IwZTY4MzcuLmUwYzJlMzc0ODAxNSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Zt
-d2dmeC92bXdnZnhfZHJ2LmMNCj4gQEAgLTE1NjYsNyArMTU2Niw3IEBAIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIHZtd2dmeF9kcml2ZXJfZm9wcyA9IHsNCj4gICAJ
-Lm9wZW4gPSBkcm1fb3BlbiwNCj4gICAJLnJlbGVhc2UgPSBkcm1fcmVsZWFzZSwNCj4gICAJ
-LnVubG9ja2VkX2lvY3RsID0gdm13X3VubG9ja2VkX2lvY3RsLA0KPiAtCS5tbWFwID0gdm13
-X21tYXAsDQo+ICsJLm1tYXAgPSBkcm1fZ2VtX21tYXAsDQo+ICAgCS5wb2xsID0gZHJtX3Bv
-bGwsDQo+ICAgCS5yZWFkID0gZHJtX3JlYWQsDQo+ICAgI2lmIGRlZmluZWQoQ09ORklHX0NP
-TVBBVCkNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Ry
-di5oIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmgNCj4gaW5kZXggNWFj
-YmY1ODQ5YjI3Li40ZGZhNTA0NGE5ZTcgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X2Rydi5oDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngv
-dm13Z2Z4X2Rydi5oDQo+IEBAIC0xMDUzLDEyICsxMDUzLDYgQEAgdm13X2lzX2N1cnNvcl9i
-eXBhc3MzX2VuYWJsZWQoY29uc3Qgc3RydWN0IHZtd19wcml2YXRlICpkZXZfcHJpdikNCj4g
-ICAJcmV0dXJuICh2bXdfZmlmb19jYXBzKGRldl9wcml2KSAmIFNWR0FfRklGT19DQVBfQ1VS
-U09SX0JZUEFTU18zKSAhPSAwOw0KPiAgIH0NCj4gICANCj4gLS8qKg0KPiAtICogVFRNIGds
-dWUgLSB2bXdnZnhfdHRtX2dsdWUuYw0KPiAtICovDQo+IC0NCj4gLWV4dGVybiBpbnQgdm13
-X21tYXAoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKTsN
-Cj4gLQ0KPiAgIC8qKg0KPiAgICAqIFRUTSBidWZmZXIgb2JqZWN0IGRyaXZlciAtIHZtd2dm
-eF90dG1fYnVmZmVyLmMNCj4gICAgKi8NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhf
-Z2VtLmMNCj4gaW5kZXggY2U2MDllN2Q3NThmLi5iYTRkZGQ5ZjdhN2UgMTAwNjQ0DQo+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2dlbS5jDQo+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2dlbS5jDQo+IEBAIC0xMDMsNiArMTAzLDEzIEBA
-IHN0YXRpYyBzdHJ1Y3Qgc2dfdGFibGUgKnZtd19nZW1fb2JqZWN0X2dldF9zZ190YWJsZShz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikNCj4gICAJcmV0dXJuIGRybV9wcmltZV9wYWdl
-c190b19zZyhvYmotPmRldiwgdm13X3R0LT5kbWFfdHRtLnBhZ2VzLCB2bXdfdHQtPmRtYV90
-dG0ubnVtX3BhZ2VzKTsNCj4gICB9DQo+ICAgDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHZt
-X29wZXJhdGlvbnNfc3RydWN0IHZtd192bV9vcHMgPSB7DQo+ICsJLnBmbl9ta3dyaXRlID0g
-dm13X2JvX3ZtX21rd3JpdGUsDQo+ICsJLnBhZ2VfbWt3cml0ZSA9IHZtd19ib192bV9ta3dy
-aXRlLA0KPiArCS5mYXVsdCA9IHZtd19ib192bV9mYXVsdCwNCj4gKwkub3BlbiA9IHR0bV9i
-b192bV9vcGVuLA0KPiArCS5jbG9zZSA9IHR0bV9ib192bV9jbG9zZSwNCj4gK307DQo+ICAg
-DQo+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcyB2bXdfZ2Vt
-X29iamVjdF9mdW5jcyA9IHsNCj4gICAJLmZyZWUgPSB2bXdfZ2VtX29iamVjdF9mcmVlLA0K
-PiBAQCAtMTE1LDYgKzEyMiw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2dlbV9vYmpl
-Y3RfZnVuY3Mgdm13X2dlbV9vYmplY3RfZnVuY3MgPSB7DQo+ICAgCS52bWFwID0gZHJtX2dl
-bV90dG1fdm1hcCwNCj4gICAJLnZ1bm1hcCA9IGRybV9nZW1fdHRtX3Z1bm1hcCwNCj4gICAJ
-Lm1tYXAgPSBkcm1fZ2VtX3R0bV9tbWFwLA0KPiArCS52bV9vcHMgPSAmdm13X3ZtX29wcywN
-Cj4gICB9Ow0KPiAgIA0KPiAgIC8qKg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3Ztd2dmeC92bXdnZnhfdHRtX2dsdWUuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
-Z2Z4X3R0bV9nbHVlLmMNCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDI2
-NWY3YzQ4ZDg1Ni4uMDAwMDAwMDAwMDAwDQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X3R0bV9nbHVlLmMNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwxMTAgKzAs
-MCBAQA0KPiAtLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAgT1IgTUlUDQo+
-IC0vKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioNCj4gLSAqDQo+IC0gKiBDb3B5cmlnaHQgMjAwOS0y
-MDExIFZNd2FyZSwgSW5jLiwgUGFsbyBBbHRvLCBDQS4sIFVTQQ0KPiAtICoNCj4gLSAqIFBl
-cm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVy
-c29uIG9idGFpbmluZyBhDQo+IC0gKiBjb3B5IG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29j
-aWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlDQo+IC0gKiAiU29mdHdhcmUiKSwgdG8g
-ZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5nDQo+
-IC0gKiB3aXRob3V0IGxpbWl0YXRpb24gdGhlIHJpZ2h0cyB0byB1c2UsIGNvcHksIG1vZGlm
-eSwgbWVyZ2UsIHB1Ymxpc2gsDQo+IC0gKiBkaXN0cmlidXRlLCBzdWIgbGljZW5zZSwgYW5k
-L29yIHNlbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgYW5kIHRvDQo+IC0gKiBwZXJtaXQg
-cGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQgdG8gZG8gc28sIHN1
-YmplY3QgdG8NCj4gLSAqIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoNCj4gLSAqDQo+IC0g
-KiBUaGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGlj
-ZSAoaW5jbHVkaW5nIHRoZQ0KPiAtICogbmV4dCBwYXJhZ3JhcGgpIHNoYWxsIGJlIGluY2x1
-ZGVkIGluIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMNCj4gLSAqIG9mIHRo
-ZSBTb2Z0d2FyZS4NCj4gLSAqDQo+IC0gKiBUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFT
-IElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUg0KPiAtICog
-SU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBP
-RiBNRVJDSEFOVEFCSUxJVFksDQo+IC0gKiBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVS
-UE9TRSBBTkQgTk9OLUlORlJJTkdFTUVOVC4gSU4gTk8gRVZFTlQgU0hBTEwNCj4gLSAqIFRI
-RSBDT1BZUklHSFQgSE9MREVSUywgQVVUSE9SUyBBTkQvT1IgSVRTIFNVUFBMSUVSUyBCRSBM
-SUFCTEUgRk9SIEFOWSBDTEFJTSwNCj4gLSAqIERBTUFHRVMgT1IgT1RIRVIgTElBQklMSVRZ
-LCBXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwgVE9SVCBPUg0KPiAtICogT1RI
-RVJXSVNFLCBBUklTSU5HIEZST00sIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhF
-IFNPRlRXQVJFIE9SIFRIRQ0KPiAtICogVVNFIE9SIE9USEVSIERFQUxJTkdTIElOIFRIRSBT
-T0ZUV0FSRS4NCj4gLSAqDQo+IC0gKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKiovDQo+IC0NCj4gLSNp
-bmNsdWRlICJ2bXdnZnhfZHJ2LmgiDQo+IC0NCj4gLXN0YXRpYyBpbnQgdm13X2JvX3ZtX2xv
-b2t1cChzdHJ1Y3QgdHRtX2RldmljZSAqYmRldiwNCj4gLQkJCQkgICBzdHJ1Y3QgZHJtX2Zp
-bGUgKmZpbHAsDQo+IC0JCQkJICAgdW5zaWduZWQgbG9uZyBvZmZzZXQsDQo+IC0JCQkJICAg
-dW5zaWduZWQgbG9uZyBwYWdlcywNCj4gLQkJCQkgICBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmpl
-Y3QgKipwX2JvKQ0KPiAtew0KPiAtCXN0cnVjdCB2bXdfcHJpdmF0ZSAqZGV2X3ByaXYgPSBj
-b250YWluZXJfb2YoYmRldiwgc3RydWN0IHZtd19wcml2YXRlLCBiZGV2KTsNCj4gLQlzdHJ1
-Y3QgZHJtX2RldmljZSAqZHJtID0gJmRldl9wcml2LT5kcm07DQo+IC0Jc3RydWN0IGRybV92
-bWFfb2Zmc2V0X25vZGUgKm5vZGU7DQo+IC0JaW50IHJldDsNCj4gLQ0KPiAtCSpwX2JvID0g
-TlVMTDsNCj4gLQ0KPiAtCWRybV92bWFfb2Zmc2V0X2xvY2tfbG9va3VwKGJkZXYtPnZtYV9t
-YW5hZ2VyKTsNCj4gLQ0KPiAtCW5vZGUgPSBkcm1fdm1hX29mZnNldF9sb29rdXBfbG9ja2Vk
-KGJkZXYtPnZtYV9tYW5hZ2VyLCBvZmZzZXQsIHBhZ2VzKTsNCj4gLQlpZiAobGlrZWx5KG5v
-ZGUpKSB7DQo+IC0JCSpwX2JvID0gY29udGFpbmVyX29mKG5vZGUsIHN0cnVjdCB0dG1fYnVm
-ZmVyX29iamVjdCwNCj4gLQkJCQkgIGJhc2Uudm1hX25vZGUpOw0KPiAtCQkqcF9ibyA9IHR0
-bV9ib19nZXRfdW5sZXNzX3plcm8oKnBfYm8pOw0KPiAtCX0NCj4gLQ0KPiAtCWRybV92bWFf
-b2Zmc2V0X3VubG9ja19sb29rdXAoYmRldi0+dm1hX21hbmFnZXIpOw0KPiAtDQo+IC0JaWYg
-KCEqcF9ibykgew0KPiAtCQlkcm1fZXJyKGRybSwgIkNvdWxkIG5vdCBmaW5kIGJ1ZmZlciBv
-YmplY3QgdG8gbWFwXG4iKTsNCj4gLQkJcmV0dXJuIC1FSU5WQUw7DQo+IC0JfQ0KPiAtDQo+
-IC0JaWYgKCFkcm1fdm1hX25vZGVfaXNfYWxsb3dlZChub2RlLCBmaWxwKSkgew0KPiAtCQly
-ZXQgPSAtRUFDQ0VTOw0KPiAtCQlnb3RvIG91dF9ub19hY2Nlc3M7DQo+IC0JfQ0KPiAtDQo+
-IC0JcmV0dXJuIDA7DQo+IC1vdXRfbm9fYWNjZXNzOg0KPiAtCXR0bV9ib19wdXQoKnBfYm8p
-Ow0KPiAtCXJldHVybiByZXQ7DQo+IC19DQo+IC0NCj4gLWludCB2bXdfbW1hcChzdHJ1Y3Qg
-ZmlsZSAqZmlscCwgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpDQo+IC17DQo+IC0Jc3Rh
-dGljIGNvbnN0IHN0cnVjdCB2bV9vcGVyYXRpb25zX3N0cnVjdCB2bXdfdm1fb3BzID0gew0K
-PiAtCQkucGZuX21rd3JpdGUgPSB2bXdfYm9fdm1fbWt3cml0ZSwNCj4gLQkJLnBhZ2VfbWt3
-cml0ZSA9IHZtd19ib192bV9ta3dyaXRlLA0KPiAtCQkuZmF1bHQgPSB2bXdfYm9fdm1fZmF1
-bHQsDQo+IC0JCS5vcGVuID0gdHRtX2JvX3ZtX29wZW4sDQo+IC0JCS5jbG9zZSA9IHR0bV9i
-b192bV9jbG9zZSwNCj4gLQl9Ow0KPiAtCXN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2ID0g
-ZmlscC0+cHJpdmF0ZV9kYXRhOw0KPiAtCXN0cnVjdCB2bXdfcHJpdmF0ZSAqZGV2X3ByaXYg
-PSB2bXdfcHJpdihmaWxlX3ByaXYtPm1pbm9yLT5kZXYpOw0KPiAtCXN0cnVjdCB0dG1fZGV2
-aWNlICpiZGV2ID0gJmRldl9wcml2LT5iZGV2Ow0KPiAtCXN0cnVjdCB0dG1fYnVmZmVyX29i
-amVjdCAqYm87DQo+IC0JaW50IHJldDsNCj4gLQ0KPiAtCWlmICh1bmxpa2VseSh2bWEtPnZt
-X3Bnb2ZmIDwgRFJNX0ZJTEVfUEFHRV9PRkZTRVRfU1RBUlQpKQ0KPiAtCQlyZXR1cm4gLUVJ
-TlZBTDsNCj4gLQ0KPiAtCXJldCA9IHZtd19ib192bV9sb29rdXAoYmRldiwgZmlsZV9wcml2
-LCB2bWEtPnZtX3Bnb2ZmLCB2bWFfcGFnZXModm1hKSwgJmJvKTsNCj4gLQlpZiAodW5saWtl
-bHkocmV0ICE9IDApKQ0KPiAtCQlyZXR1cm4gcmV0Ow0KPiAtDQo+IC0JcmV0ID0gdHRtX2Jv
-X21tYXBfb2JqKHZtYSwgYm8pOw0KPiAtCWlmICh1bmxpa2VseShyZXQgIT0gMCkpDQo+IC0J
-CWdvdG8gb3V0X3VucmVmOw0KPiAtDQo+IC0Jdm1hLT52bV9vcHMgPSAmdm13X3ZtX29wczsN
-Cj4gLQ0KPiAtCS8qIFVzZSBWTV9QRk5NQVAgcmF0aGVyIHRoYW4gVk1fTUlYRURNQVAgaWYg
-bm90IGEgQ09XIG1hcHBpbmcgKi8NCj4gLQlpZiAoIWlzX2Nvd19tYXBwaW5nKHZtYS0+dm1f
-ZmxhZ3MpKQ0KPiAtCQl2bWEtPnZtX2ZsYWdzID0gKHZtYS0+dm1fZmxhZ3MgJiB+Vk1fTUlY
-RURNQVApIHwgVk1fUEZOTUFQOw0KPiAtDQo+IC0JdHRtX2JvX3B1dChibyk7IC8qIHJlbGVh
-c2UgZXh0cmEgcmVmIHRha2VuIGJ5IHR0bV9ib19tbWFwX29iaigpICovDQo+IC0NCj4gLQly
-ZXR1cm4gMDsNCj4gLQ0KPiAtb3V0X3VucmVmOg0KPiAtCXR0bV9ib19wdXQoYm8pOw0KPiAt
-CXJldHVybiByZXQ7DQo+IC19DQo+IC0NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+As discussed offline this looks correct to me too. Thanks for looking 
+into it!
 
+Since the CI was green I have now merged the patch. Thanks for the fix Rob!
 
---------------0xfJg3OpkJfu55aWZ0htQ1vX--
+Regards,
 
---------------6XI2pzC51m4rmd7hy96mjq8Z
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Tvrtko
 
------BEGIN PGP SIGNATURE-----
+P.S. Backport to kernels which do not contain e1a7ab4fca0c ("drm/i915: 
+Remove the vm open count"), so 5.16 to 5.18, will require a slightly 
+different patch as Matt has also mentioned offline.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPT1cEFAwAAAAAACgkQlh/E3EQov+CQ
-zBAA0C0Esqes6RWpi0iMGY1eKIADS+yQ8mQm8x0Hpjg/7ENodpI6VSGXv42hRd1S47vlgLL1IaQr
-xZBv5brir06MIPJ0ffx+SY40OVyb0IobgSvjP8ONkFKBbJebVVtsK3q85a8cQ4xtvq2K6UhtoyVl
-Vb5OzBACkmk1wsI3QXaiTzMdMTmUyVQavZp5Ty4NMA/X4uXVVodT4uIW1dW4j+ofjpaXP8xufFyY
-RULBDrI9ioiAxIclVN/GFKFvpBLd/Ujedv2HfPb/ftrbFRTxEaZVwhR+9BzycVfc9VNhB/v1vzNW
-cEQOC725QwVgKFuj0A0d6xjys5uY8OMH9iQLW0NpgPZzJsvz68aAYWzzgBWDQvSe16558jpSKUau
-1AVxaSuOvhnxZV3/o4z8CPR4uiXbbH5ywgtMaYCy8HFVm68o3eKPYjOErstJjXtgONgpAxl15g4s
-VyeZ2ATJkTZ0zRAuhJN7u4KuRYdZVxpMy95aHxdFYusfWcFZTQIHXSuopl2DUaLqoDXExaApYS2z
-Mwg/QEIGdA8d65pcRmFm+kyBgBl/pUafDdXbXWuYoF78z5idCdlO3G0JP36fIDrrNojt3uycCwU/
-G0WfJJZ/08BTYzkxMZZnQ8tUOCr9MF7dUbGRovq3OBHUbhn2XyhFikLd2ZegLjEqki0LddQ2P0yp
-Ryc=
-=mGeA
------END PGP SIGNATURE-----
-
---------------6XI2pzC51m4rmd7hy96mjq8Z--
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>
+>>>    drivers/gpu/drm/i915/gem/i915_gem_context.c | 14 +++++++++++---
+>>>    1 file changed, 11 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> index 6250de9b9196..e4b78ab4773b 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> @@ -1861,11 +1861,19 @@ static int get_ppgtt(struct drm_i915_file_private *file_priv,
+>>>        vm = ctx->vm;
+>>>        GEM_BUG_ON(!vm);
+>>>
+>>> +     /*
+>>> +      * Get a reference for the allocated handle.  Once the handle is
+>>> +      * visible in the vm_xa table, userspace could try to close it
+>>> +      * from under our feet, so we need to hold the extra reference
+>>> +      * first.
+>>> +      */
+>>> +     i915_vm_get(vm);
+>>> +
+>>>        err = xa_alloc(&file_priv->vm_xa, &id, vm, xa_limit_32b, GFP_KERNEL);
+>>> -     if (err)
+>>> +     if (err) {
+>>> +             i915_vm_put(vm);
+>>>                return err;
+>>> -
+>>> -     i915_vm_get(vm);
+>>> +     }
+>>>
+>>>        GEM_BUG_ON(id == 0); /* reserved for invalid/unassigned ppgtt */
+>>>        args->value = id;
