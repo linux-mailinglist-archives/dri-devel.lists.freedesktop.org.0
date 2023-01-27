@@ -2,75 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5439067DF65
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:41:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 783B467DF6B
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:44:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F051210E422;
-	Fri, 27 Jan 2023 08:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB89C10E429;
+	Fri, 27 Jan 2023 08:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12D710E422
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 08:41:41 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id fl24so2912367wmb.1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 00:41:41 -0800 (PST)
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D7510E429
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 08:44:15 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id e15so5105763ybn.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 00:44:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UxnWhrFnVg9VP58IS7ZKzQX3VM2IYjNuKWEuyc1Z10U=;
- b=NQCHspnEctpCE8vljAUa6h3ikw9CPSk1fOcWf9iseJERN2npBiZFIcBJiwlDVQhshA
- s3nOMsVhQJvYM6NgHdqjwftcEEUFrjLMXCRSsSWNxPKV41UH3WYxJQM+3ikN1HQuCcEH
- s9vyRfIQjEL/21h/cAsthPAHg0YWwvtoKN6JQ5B5xKnvVl1mrcuvs33yWEZOcW0F/tUz
- Xj0AQtW6tdq7c/+DE0acUuCH3Oc70HlTPAl4NM1PQu+tEmznQBz4NziJnHAye9iScLq9
- uk4krR9dj6hACvGmgFLDnErk4C8yHOBKV5ZmdKG+te9ZjurwjPVODYLRs0R5OsQD9Doe
- +0rg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=V/H55PEXyjXZT4GZWOk+Oen726TtAu6SBCILQ5VC314=;
+ b=OygUJsxPXXb1A7zKawby3jULVZLlc1E/B+T3dd6sTjk9qnIZGXqRQ5QiaAUgC8Rxec
+ vX650NyVuSjnEnLv4UwmoWZ0gGH9OKcQSjohgypVW/+I/rp/bzThU8sNE5J2HSnq7Ynn
+ kqjIzWJoHCLGblSRkb95JV9b3lsEPj7QIhb7BPHf1aAApRPaWaYwc8ETkOOcjJmxpTM+
+ THDew74cA7oGcdBBXmW5maoHNWiVC+Pz7zJHbzYHtu+QALJIw1JXAMS61Qh+qlXa+EnD
+ p+m0PWed6sTbB0+Vsu80mmlPEXvmsfAtwqhZ5pfL1YxidX2QUW75rcvIwUZGqKrHiHV+
+ z4YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UxnWhrFnVg9VP58IS7ZKzQX3VM2IYjNuKWEuyc1Z10U=;
- b=AZbSfhIuIn3wK0p5/S1SKYEY+UNT4abSRo+dU4jPj6VDC/SXLdZADnIsCjN74GKaMq
- YnoxT+JWtK4ZwBq0nhZpC31PvcuuCXw1WfoI8dFPYoiwJO0SdGj9xMTmh6w8X2XHj7C9
- 45hwgLHsAl623n7nTHdYXRM9Dp9kdIZVoguaEtk/0/G9u8zrmPCFDWQ76TueviMqBYU7
- TVx31cxnf3HWAkyfK1taU5r1MhMTHLoEFUmiZ4EzrOaPvxPaqnC9F4YFdyqM5AYVlVpB
- zC4C3yRoFumZPKVmseozVwW6IKYpCMqdapoNGQI+Je7kGr6CVQU/90LozrHRCOVD+bA8
- RMuA==
-X-Gm-Message-State: AFqh2ko/7Lm/BoXqDB71IAe4OL2VbXvmwZ36aXg9f8sxv52mGIhnzybg
- PgefQ6kmhuNo/TmV8J490TmY4w==
-X-Google-Smtp-Source: AMrXdXvTpwGNtr6wPm4vSPwSZLub/71exUFMnbCUGJxPEgkSu5kw1bcyisR+Dnx1LOm6LZ1OCZeeAQ==
-X-Received: by 2002:a05:600c:b90:b0:3d8:e0d3:ee24 with SMTP id
- fl16-20020a05600c0b9000b003d8e0d3ee24mr39376985wmb.37.1674808900181; 
- Fri, 27 Jan 2023 00:41:40 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- l4-20020a7bc444000000b003db03725e86sm3662743wmi.8.2023.01.27.00.41.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 00:41:39 -0800 (PST)
-Message-ID: <492fd43c-ca32-17f0-dcdd-48eee0e7e035@linaro.org>
-Date: Fri, 27 Jan 2023 09:41:37 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=V/H55PEXyjXZT4GZWOk+Oen726TtAu6SBCILQ5VC314=;
+ b=SUzn/h1CfXcokPVkbfhzbaNGdQubNqqc/EnUX6mp32iGMQGtmpCjuhMseNEiAk5dOa
+ O96a9cPsvi7X6QmmABMmuuCjAkUON6wrBKy0DUsvio+IHWPbtUhQJyqnHhf1WHcKB5mq
+ M9VhFNSoqXxHPwKnpmjhjUJUSRuPf0jy0NjiPqXEDv/drMP/kJjFVsWyX8YfolhAWgki
+ fWEq+zbQpgPtXCqCypWfGWnMbrnqrHBTJh0miSN97C5EKQR2JvKvQI0mTRb9+rVBoUQk
+ LEIgF5+lfNBm7ljU1aIwtrjR0cRyLHcA4EkR6GIfqZReIryeT78VJ62SKsZWdgzqXWKt
+ 8Vvw==
+X-Gm-Message-State: AO0yUKXkLMt080hO9uAZiB0t15/rm591vfZ3YZiV0h4R08CYSwF3rGC6
+ 4Ds3veIIxmWAY6t/mog5LpJcGcDZe0vHYWLzlJZbYA==
+X-Google-Smtp-Source: AK7set8wMrWFYAXUWahy33AbglefgDSZCeEIUwyW+7cMkzPKxVYUPC/q7srh0/Zo1YXxBa66QwQHiC2sd7EnEFYL2+c=
+X-Received: by 2002:a25:d1d1:0:b0:80b:4d84:b25 with SMTP id
+ i200-20020a25d1d1000000b0080b4d840b25mr1265372ybg.584.1674809054262; Fri, 27
+ Jan 2023 00:44:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 1/4] dt-bindings: display: bridge: tfp410: Add tfp410
- i2c example
-Content-Language: en-US
-To: Jonathan Cormier <jcormier@criticallink.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230125-tfp410_i2c-v2-0-bf22f4dcbcea@criticallink.com>
- <20230125-tfp410_i2c-v2-1-bf22f4dcbcea@criticallink.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230125-tfp410_i2c-v2-1-bf22f4dcbcea@criticallink.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230123154603.1315112-1-macroalpha82@gmail.com>
+In-Reply-To: <20230123154603.1315112-1-macroalpha82@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 27 Jan 2023 09:44:03 +0100
+Message-ID: <CACRpkdZs2ZCt=K8Q89XhpA_hKOZHUk6+KdJtsOKr3rBM2Rm1Ww@mail.gmail.com>
+Subject: Re: [PATCH V12 0/4] drm/panel: Add Magnachip D53E6EA8966 Panel
+ Controller
+To: Chris Morgan <macroalpha82@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,41 +65,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Michael Williamson <michael.williamson@criticallink.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bob Duke <bduke@criticallink.com>
+Cc: devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>,
+ krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ thierry.reding@gmail.com, dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/01/2023 23:40, Jonathan Cormier wrote:
-> Add a i2c example with HDMI connector
-> 
-> Signed-off-by: Jonathan Cormier <jcormier@criticallink.com>
-> ---
->  .../bindings/display/bridge/ti,tfp410.yaml         | 30 ++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
-> index 4c5dd8ec2951..1f3d29259f22 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml
-> @@ -116,4 +116,34 @@ examples:
->          };
->      };
->  
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        tfp410_i2c: encoder@38 {
-> +            compatible = "ti,tfp410";
-> +            reg = <0x38>;
+Hi Chris,
 
-This differs only by two properties, I don't think it's beneficial to
-add it.
+patches look good to me, Maxime is happy, so:
 
-Best regards,
-Krzysztof
+On Mon, Jan 23, 2023 at 4:46 PM Chris Morgan <macroalpha82@gmail.com> wrote:
 
+> Chris Morgan (4):
+>   drm: of: Add drm_of_get_dsi_bus helper function
+>   dt-bindings: display: panel: Add Samsung AMS495QA01
+>   drm/panel: Add Magnachip D53E6EA8966 Panel Driver
+
+These three patches applied to drm-misc-next
+
+>   arm64: dts: rockchip: add display to RG503
+
+Please funnel this into the Rockchip tree!
+
+Yours,
+Linus Walleij
