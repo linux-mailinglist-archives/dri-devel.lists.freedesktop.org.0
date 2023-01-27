@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F6467E283
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 12:01:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B5667E298
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 12:04:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C46F10E44E;
-	Fri, 27 Jan 2023 11:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F115510E453;
+	Fri, 27 Jan 2023 11:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E413110E44E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 11:01:37 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8F1D31F37F;
- Fri, 27 Jan 2023 11:01:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674817296; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=iZRY63VHHIfbVcz3vSTKH57uWx49wJpqU6IqsQ7LxM0=;
- b=kkJXPjrTSONkqQyC3VKLK2oisVOdI/7NuoIKgYsZK2beBU9kMqckFFyKjcBR9GeDiTdFBH
- jeFXWuLbsdTk6S3hdkpMT4acgXuA7zSnOn4qT/wK0/3sSCF0pK6f/+JWhoB1IFngCWSGGL
- YzCMqz6KaPz7MFriccukz98ykxPGEGo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674817296;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=iZRY63VHHIfbVcz3vSTKH57uWx49wJpqU6IqsQ7LxM0=;
- b=6LgUzWywMhCxoW70FUV+HVyHPrqGdkXJLxLeV+FwM4rN0jysAnh8ajau9hpxEl/UFReEaT
- l9NLZCT4oG7Z8nDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5F6CD1336F;
- Fri, 27 Jan 2023 11:01:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id vFOqFRCv02N8TgAAMHmgww
- (envelope-from <jdelvare@suse.de>); Fri, 27 Jan 2023 11:01:36 +0000
-Date: Fri, 27 Jan 2023 12:01:35 +0100
-From: Jean Delvare <jdelvare@suse.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH RESEND] drm/logicvc: Drop obsolete dependency on COMPILE_TEST
-Message-ID: <20230127120135.293dfc60@endymion.delvare>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0882D10E453
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 11:04:49 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-50660e2d2ffso62635587b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 03:04:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=vtCufjftzRG8lvlWQ1wO1skFf5C5cc2e3diz04sQ88E=;
+ b=jfhucjcR/CC4IxF2b6WCyWc+ciiF+Lhhitd8XNp3JNOlUyy3wZT8XKSeVWHsCAhQEm
+ UjUBzdvWfLVfTC/ga+WY2MKTvA/YVx3IzSbGZ0ReyWlGlrq64wln0rPhDk5/2F8itOs/
+ NLf06A7kwz+XPXLB7/Myq61A5Je0k6xVlOzRs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=vtCufjftzRG8lvlWQ1wO1skFf5C5cc2e3diz04sQ88E=;
+ b=WIWmQFpsscJu0QC8WqYU2tVQpBGb4nvjTSHU6hpaVbqb9h0R/4K/opFMuQcQio1bq/
+ FezArt8uZEOB6j+4m5B2E8MRPAh4sxJyoPQoVbdV8ZCurytTH0kyIxTv14S9zKuchR6b
+ rJLgGFLYZ+STZe7M2R86f6CkeB57+D1YHrMCtT8Enu7X2zQe7XyMbsleHSVnDcziliZe
+ oppjOU4oxm3hCBxZnyKasZOEtvVwVn7w5aHSEGZMix9s0BfMHEbRzLz3bPIqV/8D7otN
+ iWzl0GYoTdr0qNaTtBrAisbMg+TjJqso2HAU+A+RW6gwLKDFqSTay9yjC+7OcFJMt1BB
+ j46A==
+X-Gm-Message-State: AO0yUKXCtQL3MWLJUpDmiQAm2WLqGbOSvWJOqgUEHwHJIt8PIt2YDj7u
+ 3Yqfzqvb+IG8l6bNF6vgTzetiSyX7Q2LDpOA59eqjA==
+X-Google-Smtp-Source: AK7set8v0lN6UBHY9MeualzWu6LkDZ/SC4SMQIhNB9JsmTFq3XcVeVlTm8QaFA6gZBPVsOQ496jRh0BZreSEXYOG6IU=
+X-Received: by 2002:a81:7302:0:b0:506:52b5:94e2 with SMTP id
+ o2-20020a817302000000b0050652b594e2mr1637824ywc.230.1674817488164; Fri, 27
+ Jan 2023 03:04:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20230126144427.607098-1-jagan@amarulasolutions.com>
+ <06e5423f-c022-7a1c-efe0-0f4fbab664c1@prevas.dk>
+ <CAMty3ZBRDDnNdmgD5ji11SdCuOcmu3ZyBPyB28cF1aRTyxp+fg@mail.gmail.com>
+ <be95e4f7-15a8-ba99-6b39-6f7f0ea71201@prevas.dk>
+In-Reply-To: <be95e4f7-15a8-ba99-6b39-6f7f0ea71201@prevas.dk>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Fri, 27 Jan 2023 16:34:36 +0530
+Message-ID: <CAMty3ZBNLpV9orVRD897ZeR3Hj9RWOau07b1ZGDUoBRej=Cj-Q@mail.gmail.com>
+Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, marex@denx.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,37 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: linux-samsung-soc@vger.kernel.org, matteo.lisi@engicam.com,
+ linux-amarula@amarulasolutions.com, sw0312.kim@samsung.com,
+ dri-devel@lists.freedesktop.org, frieder.schrempf@kontron.de,
+ kyungmin.park@samsung.com, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, m.szyprowski@samsung.com, aford173@gmail.com,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit 0166dc11be91 ("of: make CONFIG_OF user selectable"), it
-is possible to test-build any driver which depends on OF on any
-architecture by explicitly selecting OF. Therefore depending on
-COMPILE_TEST as an alternative is no longer needed.
+On Fri, Jan 27, 2023 at 4:26 PM Rasmus Villemoes
+<rasmus.villemoes@prevas.dk> wrote:
+>
+> On 27/01/2023 11.39, Jagan Teki wrote:
+> > On Fri, Jan 27, 2023 at 4:03 PM Rasmus Villemoes
+> > <rasmus.villemoes@prevas.dk> wrote:
+> >>
+> >> Hi Jagan and others
+> >>
+> >> I'm trying to test this series on our imx8mp-based boards, which has the
+> >> mipi-dsi connected to a ti,sn65dsi86 bridge (in turn connected to a
+> >> full-size DP-connector). But I don't know how to add the proper nodes to
+> >> imx8mp.dtsi. My current, obviously incomplete, attempt is
+> >
+> > Please use this repo - https://github.com/openedev/kernel/tree/imx8mm-dsi-v12
+>
+> Thanks, but that's exactly what I'm doing, and I don't see any
+> modification of imx8mp.dtsi in that branch. I'm basically looking for
+> help to do the equivalent of
+>
+>   88775338cd58 - arm64: dts: imx8mm: Add MIPI DSI pipeline
+>   f964f67dd6ee - arm64: dts: imx8mm: Add eLCDIF node support
+>
+> for imx8mp in order to test those patches on our boards (we have two
+> variants).
 
-Signed-off-by: Jean Delvare <jdelvare@suse.de>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
----
- drivers/gpu/drm/logicvc/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Marek, any help here, thanks.
 
---- linux-6.1.orig/drivers/gpu/drm/logicvc/Kconfig
-+++ linux-6.1/drivers/gpu/drm/logicvc/Kconfig
-@@ -1,7 +1,7 @@
- config DRM_LOGICVC
- 	tristate "LogiCVC DRM"
- 	depends on DRM
--	depends on OF || COMPILE_TEST
-+	depends on OF
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_DMA_HELPER
- 	select DRM_GEM_DMA_HELPER
-
-
--- 
-Jean Delvare
-SUSE L3 Support
+Jagan.
