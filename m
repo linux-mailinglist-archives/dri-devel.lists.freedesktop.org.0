@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CB367DED6
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:06:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5A467DEE5
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:13:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EBEF10E179;
-	Fri, 27 Jan 2023 08:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34C3110E3EB;
+	Fri, 27 Jan 2023 08:13:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0733310E179
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 08:06:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E464310E3EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 08:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674806768;
+ s=mimecast20190719; t=1674807228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9WQuD4/LhmMQmyGAfci83sbqVYALJwpjalG6/ork/Os=;
- b=jL8kbGxbSjFFFrqO2voNw3GWOwYawqM5SPGCxUDHGJev33x/IceV6nYhtSTYsgFtemqZ70
- ftmuV77rOWgWO+1Zs3ZYJLRncJC2AME8NFuXUXVjHlSwwAmekeLLVRcCKPlwvaFNyGj9DU
- UGUm7RMFecANS874B1H9Jk/FJGa0mco=
+ bh=wQyPt/6bZriSvjC5ZXh5l3TKz/N7A4kc1yntO2MilN0=;
+ b=iP0ZxLbGyVGSfrhpV5PxEwmfmE2S6u/W0f+NKIkXh+vSqVLHDyUnTFCCqrkZDr1v9WrZTm
+ jIRUcV60spwTHKhdb+ZrkhxiBaTRQdTTDCnDrwbDxsxjtWYziVknuHA24E7+IM6q+8vOAs
+ SWXJlWDRh15i8+6UTP3Bre1eqfv/Z+k=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-j9-8DRbVNNi1maITv3YBSQ-1; Fri, 27 Jan 2023 03:06:06 -0500
-X-MC-Unique: j9-8DRbVNNi1maITv3YBSQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-252-Z6Nj1TXBPmq0ujnQ2BEItg-1; Fri, 27 Jan 2023 03:13:42 -0500
+X-MC-Unique: Z6Nj1TXBPmq0ujnQ2BEItg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D6503815F67;
- Fri, 27 Jan 2023 08:06:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39FAA3C0D845;
+ Fri, 27 Jan 2023 08:13:41 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE848492C14;
- Fri, 27 Jan 2023 08:06:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE9E5400DE84;
+ Fri, 27 Jan 2023 08:13:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9E9AC1800606; Fri, 27 Jan 2023 09:06:03 +0100 (CET)
-Date: Fri, 27 Jan 2023 09:06:03 +0100
+ id B10301800606; Fri, 27 Jan 2023 09:13:39 +0100 (CET)
+Date: Fri, 27 Jan 2023 09:13:39 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v10 06/11] drm/shmem-helper: Don't use vmap_use_count for
- dma-bufs
-Message-ID: <20230127080603.ioybmevyflhewdxe@sirius.home.kraxel.org>
+Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Message-ID: <20230127081339.yovxofpboc4gfdgo@sirius.home.kraxel.org>
 References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
- <20230108210445.3948344-7-dmitry.osipenko@collabora.com>
- <20230126121705.wsm62yxco7cubwyf@sirius.home.kraxel.org>
- <75698ab8-2e0b-8673-2f7d-83ffa37f447b@collabora.com>
+ <e5e9e8dd-a5b6-cfd2-44d6-4d5aa768e56c@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <75698ab8-2e0b-8673-2f7d-83ffa37f447b@collabora.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+In-Reply-To: <e5e9e8dd-a5b6-cfd2-44d6-4d5aa768e56c@collabora.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,34 +64,54 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
  kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
  Steven Price <steven.price@arm.com>,
  Gustavo Padovan <gustavo.padovan@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- virtualization@lists.linux-foundation.org, Sean Paul <sean@poorly.run>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Sean Paul <sean@poorly.run>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 26, 2023 at 03:24:30PM +0300, Dmitry Osipenko wrote:
-> On 1/26/23 15:17, Gerd Hoffmann wrote:
-> > On Mon, Jan 09, 2023 at 12:04:40AM +0300, Dmitry Osipenko wrote:
-> >>  its own refcounting of vmaps, use it instead of drm-shmem
-> >> counting. This change prepares drm-shmem for addition of memory shrinker
-> >> support where drm-shmem will use a single dma-buf reservation lock for
-> >> all operations performed over dma-bufs.
-> > 
-> > Likewise truncated?
+On Thu, Jan 26, 2023 at 01:55:09AM +0300, Dmitry Osipenko wrote:
+> Hello Thomas and Gerd,
 > 
-> Should be the email problem on yours side, please see [1][2] where the
-> messages are okay.
+> On 1/9/23 00:04, Dmitry Osipenko wrote:
+> > This series:
+> > 
+> >   1. Makes minor fixes for drm_gem_lru and Panfrost
+> >   2. Brings refactoring for older code
+> >   3. Adds common drm-shmem memory shrinker
+> >   4. Enables shrinker for VirtIO-GPU driver
+> >   5. Switches Panfrost driver to the common shrinker
+> > 
+> > Changelog:
+> > 
+> > v10:- Rebased on a recent linux-next.
+> > 
+> >     - Added Rob's ack to MSM "Prevent blocking within shrinker loop" patch.
+> > 
+> >     - Added Steven's ack/r-b/t-b for the Panfrost patches.
+> > 
+> >     - Fixed missing export of the new drm_gem_object_evict() function.
+> > 
+> >     - Added fixes tags to the first two patches that are making minor fixes,
+> >       for consistency.
+> 
+> Do you have comments on this version? Otherwise ack will be appreciated.
+> Thanks in advance!
 
-Indeed, scratch the comments then.
+Don't feel like signing off on the locking changes, I'm not that
+familiar with the drm locking rules.  So someone else looking at them
+would be good.  Otherwise the series and specifically the virtio changes
+look good to me.
+
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
 take care,
   Gerd
