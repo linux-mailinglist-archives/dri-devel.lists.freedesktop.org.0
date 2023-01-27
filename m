@@ -1,82 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2804967E735
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 14:58:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9834867E7D5
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 15:11:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C11110E47E;
-	Fri, 27 Jan 2023 13:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F069F10E47F;
+	Fri, 27 Jan 2023 14:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E4F10E47E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 13:58:04 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 0EC573200BAB;
- Fri, 27 Jan 2023 08:57:58 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 27 Jan 2023 08:58:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1674827878; x=1674914278; bh=gxPcqW+EzW
- chthucdr8f28ODmGsdkj3oek3horojRTI=; b=GFLqUSEUdi+gejTToJ488Uxx8z
- 3fzeQD5UpJ49me1gkfkmxTokxM2b3LNckbhDVIofWKij0WFMSYfxCybp9sqG+Pj4
- cjkIPZrIuvwvQpfbAzuUcvA9m/dfiEFqyRei1rnnrZu65elcNF0M7Baezcde3rGW
- lsDArFctDlZASncbg08w5+2yh4Xp1acwwqx9JzRUMOjR6vUs14KRqVuRH0tatv5O
- wL2qbn8D8tm2zD8S4ZvsusVD6bxWgf5DdNbwrfI9uYJ24X3QS5VrJKAQ/tD4V163
- 1G5TVTIzNPyKKHmevzXmYgJX9E2TWn3WuoKGx/2yV36uAj/nbV14GRAKu0bA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1674827878; x=1674914278; bh=gxPcqW+EzWchthucdr8f28ODmGsd
- kj3oek3horojRTI=; b=IEHQ030lh040w9N3lm8lqNedAOi46E9Z2xxpbFgT/YoQ
- iRRM5oxP4Myvi27TlC9v01uw7VZNELW1bPgPqg6meEZH8rZpk3dYmohir65da+N8
- W9/iKmo6Z9Lnxeku6KjrDn1ax2IZMpn/SDCP48KlmVz9slIWWlPsStXNMG01AcFT
- FuDRrjR7WFFmFS/4oYEB/XiJLKjwmW/EnS46IGSeMcLU/c8/BLubGPj8IvebrAAC
- 1B1NLNxUmZ1UXsbb9Exd/Ommk6k/QT3Ibk1AzT5lOddSf8qtzgYmSRERlHwUh5N+
- wk3+M0t/g5PmSNWLSRs5uoN0YDK5jGL1mfLKytquhw==
-X-ME-Sender: <xms:ZNjTY9OTCubv3Ns2fOHEb-bNUY3CVBUf_FqqhrdFd9-C2pAPG_8bdg>
- <xme:ZNjTY_-eyvtiRyFXcwgG9IDyKDASuVCKj2tNq2DbyOzkIfWQmTdGWgAyxYlwN4Smu
- dpp34OEbauaQhAKLYQ>
-X-ME-Received: <xmr:ZNjTY8Qkk-yenrnXUBGU6Z2-15bAAaKDt6dnoR--U9a7bL4fDrM3Ca0iH-muGsHfPnFsNVfG-Bk47g3oimI8shyFpcKfnfjmMmbyOpl82QuydA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddviedgheeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeevgfevjeetkeejteeftdfhudelgfehfeekveeghedvkeduhfeutdfhleev
- ieffudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenuc
- evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhm
- vgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ZNjTY5srQg--BnD2b-vT0XhlEzwrVKBkQtng8yaZ8IlJUUZE2fBpYg>
- <xmx:ZNjTY1eXgcvLtQyWTsjYK9KoKxcyvRiG8H180jb35mpV3PGHGiQJzg>
- <xmx:ZNjTY102QIsqVNMo1Z_Msxegf0pVONHjFKtJUfDNNbLdpAnfStaqOw>
- <xmx:ZtjTY4xyGv_780rDYLM3uTmjwjlDfr71dOBQNfa3Cr217ysMMiSLmQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Jan 2023 08:57:56 -0500 (EST)
-Date: Fri, 27 Jan 2023 14:57:54 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Michael Rodin <mrodin@de.adit-jv.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH] drm: override detected status for connectors which are
- forced on
-Message-ID: <20230127135754.sirydb5vtr5taksr@houat>
-References: <20221107123657.24vbgep3jqeklb2s@houat>
- <20221215170359.92422-1-mrodin@de.adit-jv.com>
- <20221222174054.tsj4rfzejrl3cc7g@penduick>
- <20230120090348.GA860002@vmlxhi-182>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0285510E47F;
+ Fri, 27 Jan 2023 14:11:39 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B04182004A;
+ Fri, 27 Jan 2023 14:11:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1674828698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mSncck0uCNO0XEG+dAMJPtpF70wyeN5+vS8xanKFqy0=;
+ b=C1YoRptlDUvtsZPxFNqni7kpmNoA5+rRt8/CIEw/LMiA/d9XXDsAxWTxbwAVOmi07VCulg
+ IipcUh7HGReprrPS0A3KwTN54ZPuwyAR9p56cSkttQ5A0UAnWgx2XnXBeLOO3PpGMWzzFu
+ +EaUCvzEhrzzuBA9tz3O87ZIe5AbYoU=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5ECC1138E3;
+ Fri, 27 Jan 2023 14:11:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id yltBFprb02MQOwAAMHmgww
+ (envelope-from <mkoutny@suse.com>); Fri, 27 Jan 2023 14:11:38 +0000
+Date: Fri, 27 Jan 2023 15:11:37 +0100
+From: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [RFC 10/12] cgroup/drm: Introduce weight based drm cgroup control
+Message-ID: <20230127141136.GG3527@blackbody.suse.cz>
+References: <20230112165609.1083270-1-tvrtko.ursulin@linux.intel.com>
+ <20230112165609.1083270-11-tvrtko.ursulin@linux.intel.com>
+ <20230127130134.GA15846@blackbody.suse.cz>
+ <a96e6b5c-b538-f7e7-d603-cabb29137de7@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2rlhppz4ufp7gd3u"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="xs+9IvWevLaxKUtW"
 Content-Disposition: inline
-In-Reply-To: <20230120090348.GA860002@vmlxhi-182>
+In-Reply-To: <a96e6b5c-b538-f7e7-d603-cabb29137de7@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,156 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michael@rodin.online, linux-kernel@vger.kernel.org,
+Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
+ Dave Airlie <airlied@redhat.com>,
+ =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- erosca@de.adit-jv.com
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ cgroups@vger.kernel.org, "T . J . Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---2rlhppz4ufp7gd3u
+--xs+9IvWevLaxKUtW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Michael, all,
-
-On Fri, Jan 20, 2023 at 10:03:48AM +0100, Michael Rodin wrote:
-> Hi Maxime,
+On Fri, Jan 27, 2023 at 01:31:54PM +0000, Tvrtko Ursulin <tvrtko.ursulin@li=
+nux.intel.com> wrote:
+> I think you missed the finish_suspend_scanning() part:
 >=20
-> thank you for your feedback!
-> On Thu, Dec 22, 2022 at 06:40:54PM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Thu, Dec 15, 2022 at 06:03:59PM +0100, Michael Rodin wrote:
-> > > The detected status of a connector should be ignored when a connector=
- is
-> > > forced as hinted in the commit d50ba256b5f1 ("drm/kms: start
-> > > adding command line interface using fb."). One negative side effect of
-> > > not ignoring this is observed on the RCar3 SoCs which use the dw-hdmi
-> > > driver. It continues executing drm_helper_hpd_irq_event even if its
-> > > connector is forced to ON. As consequence drm_helper_hpd_irq_event ca=
-lls
-> > > "detect" so the connector status is updated to "disconnected":
-> > >=20
-> > > [  420.201527] [drm:drm_helper_hpd_irq_event] [CONNECTOR:76:HDMI-A-1]=
- status updated from connected to disconnected
-> > >=20
-> > > This status is corrected by drm_helper_probe_single_connector_modes s=
-hortly
-> > > after this because this function checks if a connector is forced:
-> > >=20
-> > > [  420.218703] [drm:drm_helper_probe_single_connector_modes] [CONNECT=
-OR:76:HDMI-A-1] status updated from disconnected to connected
-> > >=20
-> > > To avoid similar issues this commit adapts functions which call "dete=
-ct"
-> > > so they check additionally if a connector is forced and override the =
-status
-> > > returned by "detect".
-> > >=20
-> > > Fixes: 816da85a0990 ("drm: handle HPD and polled connectors separatel=
-y")
-> > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> >=20
-> > As reported here, this breaks vc4, and probably i915:
-> > https://lore.kernel.org/dri-devel/20221107123657.24vbgep3jqeklb2s@houat/
-> >=20
-> > Maxime
+> 	if (root_drmcs.suspended_period_us)
+> 		cancel_delayed_work_sync(&root_drmcs.scan_work);
 >=20
-> My understanding from [1,2] was that the way to avoid such regressions is
-> to make sure that the "detect" callbacks of connector drivers are always
-> called even if a connector is forced. This is what I have implemented in =
-my
-> second patch where "detect" is called first and then the return value is
-> adjusted based on the "force" status. If my understanding was wrong, I
-> would very much appreciate if you could give me some hints for the
-> implementation of an acceptable solution.
+> So if scanning was in progress migration will wait until it finishes.
 
-Ah, sorry, you're right.
+Indeed, I've missed that. Thank you!
 
-I was confused since you didn't mention it was a new version, and didn't
-provide a changelog, I just assumed you resent the same patch.
+> Not claiming I did not miss something because I was totally new with cgro=
+up
+> internals when I started working on this. So it is definitely useful to h=
+ave
+> more eyes looking.
 
-In the time between, we also got a report for the RaspberryPi that the
-behaviour is also broken on CEC:
+The custom with (especially v2, especially horizontal) migrations
+is that they're treated leniently to avoid performance costs.
 
-https://github.com/raspberrypi/linux/pull/5052
+I'm afraid waiting for scan in can_attach() can propagate globally (via
+cgroup_update_dfl_csses() and cgroup_attach_lock()) sometimes.
 
-If we get back to the problem we're trying to solve, it means that if
-nothing is provided on the command line, we should rely on the polling
-or IRQ based detection that will call detect on a regular basis. The
-current detect side effects (for HDMI) are that:
+OTOH, unless I misunderstood, you need to cover explicit (not task but
+resource, when sending client FD around) migration anyway?
+(I.e. my suggestion would be to mutualy exclude scanning and explicit
+migration but not scanning and task migration in order to avoid possible
+global propagation.)
 
-  * the CEC address will be invalidated if it's disconnected, and
-    set if it's connected.
+Thanks,
+Michal
 
-  * if the scrambler was active, we re-enable the HDMI scrambler
-
-If we want to force the connector to be disconnected, everything is
-fine. If we want to force the connector on, then we should ignore the
-CEC invalidation, but should keep enabling the scrambler.
-
-And you want to avoid state transitions when the connector is forced,
-which also makes sense.
-
-I think we can get it to work by:
-
-  - Merging your patch to call detect, but no matter the returned
-    status, if it's forced to a state by the command line or some other
-    mechanism, we return what was forced.
-
-  - in the detect hook:
-
-      * if connector->force is set to off, we just return
-      	connector_status_disconnected.
-
-      * if connector->force is set to on, and if:
-
-      	+ the actual status is that the display is disconnected, we
-          return but don't invalidate the CEC address.
-
-      	+ the actual status is that the display is connected, we setup
-          the scrambler again if needed, and set the CEC address.
-
-So in addition to your patch, a skeleton detect hook would be something lik=
-e:
-
-static int detect(struct drm_connector *connector, bool force)
-{
-	if (connector->force =3D=3D DRM_FORCE_OFF)
-		return connector_status_disconnected;
-
-	status =3D /* whatever is needed to fetch the status from the hardware */;
-
-	if (status =3D=3D connector_status_disconnected) {
-		if (connector->force =3D=3D DRM_FORCE_ON)
-			return connector_status_connected;
-
-		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
-	}
-
-	edid =3D drm_get_edid(...);
-	cec_s_phys_addr_from_edid(..., edid);
-	reset_scrambler();
-
-	return status;
-}
-
-Does that make sense?
-Maxime
-
---2rlhppz4ufp7gd3u
+--xs+9IvWevLaxKUtW
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY9PYYgAKCRDj7w1vZxhR
-xQnoAQC0sayvsPAfsDphABbx6OE2Cb4ruRzEy3nlzUu9PbJAiQEAwOKeeiNs+wQH
-jtVm3dZG1ddVKo59YE8/Pbxsw0kR+g8=
-=IHup
+iHUEARYIAB0WIQTrXXag4J0QvXXBmkMkDQmsBEOquQUCY9PblAAKCRAkDQmsBEOq
+ucw5AQC5ZB3HI12pF2NT0El6kZyt7tb80DxhDnscyavv+b0IdQEAiK5mjOqXAtP+
+SYfNfDKskxKUJ4WdJnbrY4PbeeQlLwk=
+=Rwoe
 -----END PGP SIGNATURE-----
 
---2rlhppz4ufp7gd3u--
+--xs+9IvWevLaxKUtW--
