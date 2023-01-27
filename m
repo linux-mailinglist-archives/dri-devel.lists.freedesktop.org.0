@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F28267EC9D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 18:39:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC46E67ECFD
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 19:02:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16A6610E9BF;
-	Fri, 27 Jan 2023 17:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7BDF10E199;
+	Fri, 27 Jan 2023 18:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com
- [IPv6:2607:f8b0:4864:20::1129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF91B10E9BF
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 17:39:38 +0000 (UTC)
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-4c24993965eso76196157b3.12
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 09:39:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B817810E19B
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 18:02:35 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id fi26so5434689edb.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 10:02:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=e2YXWr1HG5PC3aXK4CzFGhgLqF4TwbPxIsqKBeKBW4g=;
- b=gA0EatzTjAacYhO0/TiDJdnXTuNNdWjyIt0DkW1qsY9p2TRJsCAFdsNZUiz4QyezT+
- XkPQ2kSc3j93oxdfnMkzO9fBPoCRo34HTApdF4eTkDFt0niTOH+aWm4ZRwBt1gSmupIU
- 9XjIxZ2jsjOTb3WU1902XnI/4kpuuQAcNkrrs=
+ bh=Y2Q86j92pQ9q2wsMYUDefPiRAUR/rCfcZ3Y/y0U02v8=;
+ b=CdDAORiYi7i8Rh5tx0vLXUjR6M49l7zi6wYWbctYHIiW9d5EDVrOzpXzWHxCvweTiM
+ VsRE9D8RDYs6Gc07Ig3Gv2Goti67GkR3oaCqb91zHJ/hTw59daVB1+K0ukgP5parwwp9
+ GZPYuqHvTRS3J1F85pOsxMJNi9unlWXkqxle8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=e2YXWr1HG5PC3aXK4CzFGhgLqF4TwbPxIsqKBeKBW4g=;
- b=ctggWIyOAYHULQi5/rae0553JPib8U4+JK17iH61kEJLMw7M1Xl3K41cWpQ5AmTZqk
- 2tE/Ts4nGMzCrla0lQqxqJibXNFGeL5/vgpnIh1goiOifJshSMMDBlT5502W/KXmPzG2
- Wjnu2CdtzP2Y4KMCBFPfAxv8CUJLjiTx9RYPAxNylaeJw1ugrZnf2sNeyKhDhXQ4FO8n
- PKlnBU6jChAKEZYcDPlBGt9Ze0kuMwwIsxnwTSqF12XUM6isubghniQ9udlU6MVhXSxb
- oyplu/H6h2U0oQ0tdwg7DP6zhjoxvDRDVDlT+dFhtplxu4XFQ34RrCU2kgnEEVjl9m1T
- AJTQ==
-X-Gm-Message-State: AFqh2kpuIoc+HCFyrYOxOiMAlCTdrzQhe3BTcKrLVtv6lJHlO7bIuKO6
- QyT5O6uBAi0G2PEwy+LLGsWCZg3qV9iT1zQZoZrTlg==
-X-Google-Smtp-Source: AMrXdXuVNwSWKBh/6v0X8S1+k0INDffwXqKFD9ZdtW09goRn50INi1zYFaJ87D2lzXSkCd/8DMiIHazjH3DcrGBwhNY=
-X-Received: by 2002:a0d:fe03:0:b0:470:533:cb89 with SMTP id
- o3-20020a0dfe03000000b004700533cb89mr5543044ywf.81.1674841178008; Fri, 27 Jan
- 2023 09:39:38 -0800 (PST)
+ bh=Y2Q86j92pQ9q2wsMYUDefPiRAUR/rCfcZ3Y/y0U02v8=;
+ b=1CealMWHDk/mARAcWVfBH5E61odFOsUZMSjhooy32cWrnMwXfto+dwqf8qsSV4/8Zs
+ 4UvJeyvhgXBKLMwLiUIvS3tJdPIzSooE2xXoOK3/3KQUASewy89z8CbeLBAOKEB1nhBS
+ qpykN9/MYTZUPPa2WPgJ3S5UTI97Ukkc0KQ6JXH5CB3j8EKGM2eV+JHqYZ3cVYQoTdyU
+ e5EAlIrN+WBfECZmYfZE/WN23WSw7+I/H29c7oS3jQ/RF2pawAOIxAfU1GSCKKAMCPCM
+ zAItv/pItWB1TQ4M7cuypB9hSuurCbEOlRcwaGiu9GXG89avrXvZ91r3E+ol9dIuwnXs
+ KEYg==
+X-Gm-Message-State: AFqh2koTZCScl3v2qc/VYDntoJOjJnG9OmzkiIquHh4JPlEA2/+/aLgb
+ 5JgxBCjQ7WrBLnMMPqkJABj8y31pX1HrsTpncR0=
+X-Google-Smtp-Source: AMrXdXvMhb2MJ1M/BG92t1gJ2l/+BiLOAdarMhh9Z24oq1+5lLge9tNxfO6uLIvSAgaWmDeu3QFhlg==
+X-Received: by 2002:a05:6402:401b:b0:46f:d386:117d with SMTP id
+ d27-20020a056402401b00b0046fd386117dmr50189682eda.33.1674842554159; 
+ Fri, 27 Jan 2023 10:02:34 -0800 (PST)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
+ [209.85.221.41]) by smtp.gmail.com with ESMTPSA id
+ g5-20020a50ee05000000b004835bd8dfe5sm2691560eds.35.2023.01.27.10.02.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jan 2023 10:02:31 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id q10so5700304wrm.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 10:02:31 -0800 (PST)
+X-Received: by 2002:a5d:6b51:0:b0:2bf:c5cc:e1d6 with SMTP id
+ x17-20020a5d6b51000000b002bfc5cce1d6mr164739wrw.659.1674842551177; Fri, 27
+ Jan 2023 10:02:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20230123151212.269082-1-jagan@amarulasolutions.com>
- <20230123151212.269082-3-jagan@amarulasolutions.com>
- <20230126121227.qcnftqvgiz44egpg@houat>
- <CAMty3ZB6QiqgQN_zWEXULHiipQWU_VaWxDWf9W8OTVQvkACu5A@mail.gmail.com>
-In-Reply-To: <CAMty3ZB6QiqgQN_zWEXULHiipQWU_VaWxDWf9W8OTVQvkACu5A@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 27 Jan 2023 23:09:26 +0530
-Message-ID: <CAMty3ZDTuvYKQYpVnoUU_-b3znJiyR0yBADO-5_5+86KgwYv3Q@mail.gmail.com>
-Subject: Re: [RESEND PATCH v11 02/18] drm: bridge: panel: Add
- devm_drm_of_dsi_get_bridge helper
-To: Maxime Ripard <maxime@cerno.tech>
+References: <20230127165409.3512501-1-robdclark@gmail.com>
+In-Reply-To: <20230127165409.3512501-1-robdclark@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 27 Jan 2023 10:02:19 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XL_KKB1vbU=gZVXYJzs4pLEnACysp0Q9DxhkHGTR9AgA@mail.gmail.com>
+Message-ID: <CAD=FV=XL_KKB1vbU=gZVXYJzs4pLEnACysp0Q9DxhkHGTR9AgA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Remove unused GEM DMA header include
+To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,59 +73,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ "moderated list:DRM DRIVERS FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Jan 26, 2023 at 8:48 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+On Fri, Jan 27, 2023 at 8:54 AM Rob Clark <robdclark@gmail.com> wrote:
 >
-> On Thu, Jan 26, 2023 at 5:42 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Hi,
-> >
-> > On Mon, Jan 23, 2023 at 08:41:56PM +0530, Jagan Teki wrote:
-> > > Add devm OF helper to return the next DSI bridge in the chain.
-> > >
-> > > Unlike general bridge return helper devm_drm_of_get_bridge, this
-> > > helper uses the dsi specific panel_or_bridge helper to find the
-> > > next DSI device in the pipeline.
-> > >
-> > > Helper lookup a given child DSI node or a DT node's port and
-> > > endpoint number, find the connected node and return either
-> > > the associated struct drm_panel or drm_bridge device.
-> >
-> > I'm not sure that using a device managed helper is the right choice
-> > here. The bridge will stay longer than the backing device so it will
-> > create a use-after-free. You should probably use a DRM-managed action
-> > here instead.
+> From: Rob Clark <robdclark@chromium.org>
 >
-> Thanks for the comments. If I understand correctly we can use
-> drmm_panel_bridge_add instead devm_drm_panel_bridge_add once we found
-> the panel or bridge - am I correct?
+> No longer needed since the removal of dependency on DMA helper.
+>
+> Fixes: 2ea8aec56bf1 ("drm/mediatek: Remove dependency on GEM DMA helper")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Look like it is not possible to use DRM-managed action helper here as
-devm_drm_of_dsi_get_bridge is calling from the DSI host attach hook in
-which we cannot find drm_device pointer (as drm_device pointer is
-mandatory for using DRM-managed action).
-https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/bridge/samsung-dsim.c#L1545
+Reported-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-Please check and correct me if I mentioned any incorrect details.
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index cd5b18ef7951..7e2fad8e8444 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -20,8 +20,8 @@
+>  #include <drm/drm_fbdev_generic.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_gem.h>
+> -#include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_ioctl.h>
 
-Thanks,
-Jagan.
+It took me a little while to realize why you needed this extra
+include. I guess DEFINE_DRM_GEM_FOPS implicitly refers to drm_ioctl().
+Seems like really drm_gem.h ought to be the one including drm_ioctl.h,
+but maybe there's a good reason why we don't do that?
+
+-Doug
