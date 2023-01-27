@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B0067DEBE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 08:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F5F67DED4
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:04:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C2910E3FF;
-	Fri, 27 Jan 2023 07:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F21510E173;
+	Fri, 27 Jan 2023 08:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
- [IPv6:2607:f8b0:4864:20::112f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1118110E400
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 07:55:55 +0000 (UTC)
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-4a263c4ddbaso57427287b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 23:55:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=KvXOXKKiQZRBWlk+/UH5aeqFLgrp/Q8dsArxQepD8po=;
- b=YMLwzdtrOL/jQFgUGP5WdaI+kYSogJPcWWXKRBypcXRrGeS7gQtHHCR3ZeCg5VMRuN
- rkwBpfqxtROGaE27hcNZgrzgxyzE1uXYGCTQF7LpUFBcqJvrBBmuSZeSMwbmSgOt2hsS
- u54SktjVOFVZc2uFRHBiYOVquNskGN369w4WurXfqJYFnqAQ3gEsqOzk1SldFHGSVAkQ
- XkeE/3UKpnlUv4K+EbZnT/NxP3V0GxSrzAx2ZwzMbQJ2EjcfVnc7pEWrcNs05Jsg6f5x
- 9GkPWVLHpMVYqB/7LMhgYWqxHFpsrM8+XpBiT24RjqumH9OUdSVbc0QMxdI2D9mRhJWT
- B4tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KvXOXKKiQZRBWlk+/UH5aeqFLgrp/Q8dsArxQepD8po=;
- b=vZ67bppYjDmFAqXvEXgnE8E7vsEbIM4rS7rpdmLmDqaHhjomQjxU3QZUBsSLrO8VeC
- X18yKB7z1qz2I4pEjBf6gnGIBhLHJ19EK9kfS9/8Czndxqhl6YfUtxQ55Z+RQzSiV3VT
- fbwjmyrP2S4mGiZJiqMQ+V8e8RwECHuWL3m2/xRzQ1DdyC8zxdKBuJMirfqu1HaUvWpf
- MNB1eeXdEA2TkkREnT8Os24SwXE17QufkbQfRypxe09LTaMuGdUcvKsUbZMbFSUFMiB3
- 18XD5psqMrQbFuOIuJ1HFCz2q7VGCW0Kg+IcfSHLV/WvE6mYMlpxW76P3cO1fX80BSjW
- RAOw==
-X-Gm-Message-State: AFqh2ko0/l3xntDOJtwUjlnyvwJT9rB14GADHYERwEBgDP9cmpT+etIn
- 2/O8MoxXVz1Q7IwLpbSvzxJWge3TRpQfGYSrqA8msw==
-X-Google-Smtp-Source: AMrXdXse4U9cqOlyNcgIygOMXbyfxyQMZxc1OQjsv3xz7efO9xazS+6V5m1toUF2HYVLQgyU0p/gfv6JliFU9YQaWoI=
-X-Received: by 2002:a05:690c:39b:b0:4f3:8d0e:edce with SMTP id
- bh27-20020a05690c039b00b004f38d0eedcemr3458366ywb.185.1674806154236; Thu, 26
- Jan 2023 23:55:54 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3DB810E173
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 08:04:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674806651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lr/rQnagNH++eb9Q6h7/tOeChv4rcjLXIX9dBLUgnQk=;
+ b=QkHVoSWQb38tCVbrNEJr4Bs/OsavAtfcd1tO/OEFMvHrE6CUBGmrAYp6AfR0JNHovONHa/
+ x1epWWPks2QK3b0psgqfmQNBrZuHgZgNrlN+9BZK73ooHWADcffglMBp+/MkbNj/nVad9K
+ alhQ6znF9myvRRy1W9wl9jUlrnnl0Q4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-8pTM94K6PNWNl-kX6Pi9vg-1; Fri, 27 Jan 2023 03:04:04 -0500
+X-MC-Unique: 8pTM94K6PNWNl-kX6Pi9vg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B19D1C05EAF;
+ Fri, 27 Jan 2023 08:04:03 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B857540C141B;
+ Fri, 27 Jan 2023 08:04:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 5B7211800606; Fri, 27 Jan 2023 09:04:01 +0100 (CET)
+Date: Fri, 27 Jan 2023 09:04:01 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v10 10/11] drm/virtio: Support memory shrinking
+Message-ID: <20230127080401.aj6uruakajrconts@sirius.home.kraxel.org>
+References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+ <20230108210445.3948344-11-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
-References: <20230123183312.436573-1-jagan@edgeble.ai>
-In-Reply-To: <20230123183312.436573-1-jagan@edgeble.ai>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 27 Jan 2023 08:55:43 +0100
-Message-ID: <CACRpkda-qxXQE=OtfN0UMwU38E=xhGjY==4YuA4KG=hjfficiQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: display: panel: jadard,jd9365da-h3:
- Add Radxa Display 10HD
-To: Jagan Teki <jagan@edgeble.ai>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230108210445.3948344-11-dmitry.osipenko@collabora.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,24 +62,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ virtualization@lists.linux-foundation.org, Sean Paul <sean@poorly.run>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
+ Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 23, 2023 at 7:33 PM Jagan Teki <jagan@edgeble.ai> wrote:
+On Mon, Jan 09, 2023 at 12:04:44AM +0300, Dmitry Osipenko wrote:
+> Support generic drm-shmem memory shrinker and add new madvise IOCTL to
+> the VirtIO-GPU driver. BO cache manager of Mesa driver will mark BOs as
+> "don't need" using the new IOCTL to let shrinker purge the marked BOs on
+> OOM, the shrinker will also evict unpurgeable shmem BOs from memory if
+> guest supports SWAP file or partition.
+> 
+> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-> Radxa Display 10HD is a family of DSI panels from Radxa that
-> uses jd9365da-h3 IC.
->
-> Add compatible string for it.
->
-> Signed-off-by: Jagan Teki <jagan@edgeble.ai>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-The v2 series all look good to me so I have applied the patches to
-drm-misc-next.
-
-Yours,
-Linus Walleij
