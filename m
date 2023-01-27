@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C85767DF39
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:31:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB1E67DF47
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 09:32:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B985710E408;
-	Fri, 27 Jan 2023 08:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65BB810E417;
+	Fri, 27 Jan 2023 08:32:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6AAE10E16B
+ by gabe.freedesktop.org (Postfix) with ESMTP id C730410E3DD
  for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 01:49:43 +0000 (UTC)
 Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
  by 156.147.23.51 with ESMTP; 27 Jan 2023 10:19:43 +0900
@@ -22,10 +22,9 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: max.byungchul.park@gmail.com
 From: Byungchul Park <max.byungchul.park@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v8 18/25] dept: Apply timeout consideration to
- wait_for_completion()/complete()
-Date: Fri, 27 Jan 2023 10:19:11 +0900
-Message-Id: <1674782358-25542-19-git-send-email-max.byungchul.park@gmail.com>
+Subject: [PATCH v8 19/25] dept: Apply timeout consideration to swait
+Date: Fri, 27 Jan 2023 10:19:12 +0900
+Message-Id: <1674782358-25542-20-git-send-email-max.byungchul.park@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1674782358-25542-1-git-send-email-max.byungchul.park@gmail.com>
 References: <1674782358-25542-1-git-send-email-max.byungchul.park@gmail.com>
@@ -65,43 +64,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Now that CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT was introduced, apply the
-consideration to wait_for_completion()/complete().
+consideration to swait, assuming an input 'ret' in ___swait_event()
+macro is used as a timeout value.
 
 Signed-off-by: Byungchul Park <max.byungchul.park@gmail.com>
 ---
- include/linux/completion.h | 4 ++--
- kernel/sched/completion.c  | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ include/linux/swait.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/completion.h b/include/linux/completion.h
-index 32d535a..15eede0 100644
---- a/include/linux/completion.h
-+++ b/include/linux/completion.h
-@@ -41,9 +41,9 @@ struct completion {
-  */
- #define init_completion_map(x, m) init_completion(x)
- 
--static inline void complete_acquire(struct completion *x)
-+static inline void complete_acquire(struct completion *x, long timeout)
- {
--	sdt_might_sleep_start(&x->dmap);
-+	sdt_might_sleep_start_timeout(&x->dmap, timeout);
- }
- 
- static inline void complete_release(struct completion *x)
-diff --git a/kernel/sched/completion.c b/kernel/sched/completion.c
-index d57a5c1..261807f 100644
---- a/kernel/sched/completion.c
-+++ b/kernel/sched/completion.c
-@@ -100,7 +100,7 @@ void complete_all(struct completion *x)
- {
- 	might_sleep();
- 
--	complete_acquire(x);
-+	complete_acquire(x, timeout);
- 
- 	raw_spin_lock_irq(&x->wait.lock);
- 	timeout = do_wait_for_common(x, action, timeout, state);
+diff --git a/include/linux/swait.h b/include/linux/swait.h
+index 0284821..def1e47 100644
+--- a/include/linux/swait.h
++++ b/include/linux/swait.h
+@@ -162,7 +162,7 @@ static inline bool swq_has_sleeper(struct swait_queue_head *wq)
+ 	struct swait_queue __wait;					\
+ 	long __ret = ret;						\
+ 									\
+-	sdt_might_sleep_start(NULL);					\
++	sdt_might_sleep_start_timeout(NULL, __ret);			\
+ 	INIT_LIST_HEAD(&__wait.task_list);				\
+ 	for (;;) {							\
+ 		long __int = prepare_to_swait_event(&wq, &__wait, state);\
 -- 
 1.9.1
 
