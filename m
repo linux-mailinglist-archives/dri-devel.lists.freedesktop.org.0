@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6FD67DD58
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 07:05:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 709E367DD5E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jan 2023 07:16:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06EAE10E3F8;
-	Fri, 27 Jan 2023 06:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF4810E3F2;
+	Fri, 27 Jan 2023 06:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
- [IPv6:2607:f8b0:4864:20::1135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F25A10E3F6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 06:05:37 +0000 (UTC)
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-50aa54cc7c0so26388047b3.8
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jan 2023 22:05:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=odMtKOfoNkQ4B9p3SnpsiAi9zMJKcUAjwtL3wnlE3AA=;
- b=RNyPF0+/ap+ruzzg1wD4e4PQNxBwSYFgd/1RKZQWm7+tGU5pEDz9xHwy9meDhUTt8A
- k01qy6gj7R26es5SVivJcFe/+ZHjxRdStaLCxd07iP+ckGDbcTqYmA+6+jLjIjGr1PAF
- kQf0eXWfctWKX5H28QxZJ65rON5FbTwxGpqKKuyOYNuzNtywDhS6G+MHhtKD69qV/nwW
- 6/xql/i2GTvIxTL2DXRbB8FthgaG9V58xWpxwAkBkaOK5esAHwWRhFxvMhlYXymdT8em
- K6uytowwxdf3Qqr6ehsFB9yhOm+s8zEi9fUAlS2f5GTiWjhT0D9iNCN1CwEXfe09njMh
- fM9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=odMtKOfoNkQ4B9p3SnpsiAi9zMJKcUAjwtL3wnlE3AA=;
- b=xdvEwS2WD6e0haq3UsVB3HcHOWnxD5s7PkavUorCzOgBtBjbSFXhG6geuUV1dESSA4
- sz/rp9r9GEB17bQBjEYb4NgnMV81HNsVildRl72fiX4sA21KsZA19AJkfNh887JetzXS
- wvzlrlN3QN8bVDE6UOYHoC2LKbhSAHbshNgN0rK5qjon1I2QWld5WhjMKX2mh48rwaTl
- AAhU7gZ546dVfZmtAp4LAl8u53RSRzlZvKD5v16BmlRI9kfKstKmAm7BwpUCBtalFALp
- JVOzfxJixzGjmEjiV7nISJ8XO7cluQUAvVqaP3OTjlhtXCpL0So/JEqfiarSSM0cfbWV
- MV5Q==
-X-Gm-Message-State: AFqh2krgIGWYHQWHQpxMLkBBbSUGZrtue5lNGinr7drhDP8hM7KNJpfP
- WQOh0njLbnvOeKhGuCRLZzRtEycu2wkDtRoyyi1zHw==
-X-Google-Smtp-Source: AMrXdXtEg1A7UCnm6yhyPrtoBPuOsCDqdR8WlThIEy7XXoaoDuLIrk+YOHX+XdWZcy5CZthipKVrrohYdWsEzfHIRGM=
-X-Received: by 2002:a0d:fd07:0:b0:3d6:2151:4038 with SMTP id
- n7-20020a0dfd07000000b003d621514038mr4491500ywf.418.1674799536315; Thu, 26
- Jan 2023 22:05:36 -0800 (PST)
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2239210E3F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jan 2023 06:16:22 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4P36ll1z3Cz4xGM;
+ Fri, 27 Jan 2023 17:16:19 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1674800181;
+ bh=VhTAOPrR41Xg1IzRQ17uQEaagP6uPDMc4j791sT8zEA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=r6bc8cFO/RdP1CxwcD75JPkpbxG4nBrymxSzuPj7IrlcntYBSc7BPqe/cLAjWcAUs
+ vOn+pcsfSgmTGIf6RPv2bkR4mZ3YxeyUurDRHevvW71Blik/2V2/IwJG8pEu8lUK7A
+ FVv9XCWVoKmcH471pfx9xQuKfBUStu74i0lOZsVFUl3f5yPWYwi0jB6XtvSMtqB/Jq
+ k/ukKGp4MV9pqXIQERVzdjlnHY7WftvIey4VecmxhyCbrBwP5iDBZsqsjL53x3isMm
+ LN8on3aSyI7zghDPLbzztn8Bb77SdTEhdENG3zpll9V/DilUE2Ji0voEiHjM9/vBbm
+ qKVKFBcsSKRTQ==
+Date: Fri, 27 Jan 2023 17:16:18 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Andrew Morton <akpm@linux-foundation.org>, Dave Airlie <airlied@redhat.com>
+Subject: linux-next: build failure after merge of the mm tree
+Message-ID: <20230127171618.79cead50@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
- <20221229191856.3508092-6-dmitry.baryshkov@linaro.org>
- <aaeb287f-de41-3f63-fd93-b08532964d59@quicinc.com>
-In-Reply-To: <aaeb287f-de41-3f63-fd93-b08532964d59@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 27 Jan 2023 08:05:25 +0200
-Message-ID: <CAA8EJprHMyPDmHhqZF-AZpqiLNkK7QuoQz-sZu6kSabZ7y76Dw@mail.gmail.com>
-Subject: Re: [PATCH v2 05/27] drm/msm/dpu: drop EAGAIN check from
- dpu_format_populate_layout
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/yAe8Kl73kuJv_dCjTOMdg.Q";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,103 +49,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Suren Baghdasaryan <surenb@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Jan 2023 at 02:52, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 12/29/2022 11:18 AM, Dmitry Baryshkov wrote:
-> > The pipe's layout is not cached, corresponding data structure is zeroed
-> > out each time in the dpu_plane_sspp_atomic_update(), right before the
-> > call to _dpu_plane_set_scanout() -> dpu_format_populate_layout().
-> >
-> > Drop plane_addr comparison against previous layout and corresponding
-> > EAGAIN handling.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> The change itself LGTM, hence
->
-> But, shouldnt we add this EAGAIN validation or in other words fix this
-> rather than drop this?
+--Sig_/yAe8Kl73kuJv_dCjTOMdg.Q
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-What for? Does it really save us anything? What's the price of
-re-programming the SSPP_SRC0_ADDR registers?
+Hi all,
 
->
-> Like I wrote in the review last time, this makes sure to fail the commit
-> if the same addr is being programmed.
+After merging the mm tree, today's linux-next build (x86_64 allmodconfig)
+failed like this:
 
-First, there is nothing wrong with committing the same source addr.
-For example setting the atomic property incurs an internal
-drm_atomic_commit() with no change to addresses at all.
-And then, this doesn't make atomic_commit fail. Instead it just
-shortcuts a call to SSPP->setup_sourceaddress.
+drivers/accel/ivpu/ivpu_gem.c: In function 'ivpu_bo_mmap':
+drivers/accel/ivpu/ivpu_gem.c:449:23: error: assignment of read-only member=
+ 'vm_flags'
+  449 |         vma->vm_flags |=3D VM_PFNMAP | VM_DONTEXPAND;
+      |                       ^~
 
->
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 10 +---------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |  4 +---
-> >   2 files changed, 2 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-> > index d95540309d4d..ec1001e10f4f 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-> > @@ -918,8 +918,7 @@ int dpu_format_populate_layout(
-> >               struct drm_framebuffer *fb,
-> >               struct dpu_hw_fmt_layout *layout)
-> >   {
-> > -     uint32_t plane_addr[DPU_MAX_PLANES];
-> > -     int i, ret;
-> > +     int ret;
-> >
-> >       if (!fb || !layout) {
-> >               DRM_ERROR("invalid arguments\n");
-> > @@ -940,9 +939,6 @@ int dpu_format_populate_layout(
-> >       if (ret)
-> >               return ret;
-> >
-> > -     for (i = 0; i < DPU_MAX_PLANES; ++i)
-> > -             plane_addr[i] = layout->plane_addr[i];
-> > -
-> >       /* Populate the addresses given the fb */
-> >       if (DPU_FORMAT_IS_UBWC(layout->format) ||
-> >                       DPU_FORMAT_IS_TILE(layout->format))
-> > @@ -950,10 +946,6 @@ int dpu_format_populate_layout(
-> >       else
-> >               ret = _dpu_format_populate_addrs_linear(aspace, fb, layout);
-> >
-> > -     /* check if anything changed */
-> > -     if (!ret && !memcmp(plane_addr, layout->plane_addr, sizeof(plane_addr)))
-> > -             ret = -EAGAIN;
-> > -
-> >       return ret;
-> >   }
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > index cdde7b9ec882..43fb8e00ada6 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > @@ -476,9 +476,7 @@ static void _dpu_plane_set_scanout(struct drm_plane *plane,
-> >       int ret;
-> >
-> >       ret = dpu_format_populate_layout(aspace, fb, &pipe_cfg->layout);
-> > -     if (ret == -EAGAIN)
-> > -             DPU_DEBUG_PLANE(pdpu, "not updating same src addrs\n");
-> > -     else if (ret)
-> > +     if (ret)
-> >               DPU_ERROR_PLANE(pdpu, "failed to get format layout, %d\n", ret);
-> >       else if (pdpu->pipe_hw->ops.setup_sourceaddress) {
-> >               trace_dpu_plane_set_scanout(pdpu->pipe_hw->idx,
+Caused by commit
 
+  b95a895848b9 ("mm: introduce vma->vm_flags wrapper functions")
 
+interacting with commit
 
--- 
-With best wishes
-Dmitry
+  647371a6609d ("accel/ivpu: Add GEM buffer object management")
+
+from the drm tree.
+
+I have applied the following merge fix patch for today.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Fri, 27 Jan 2023 17:12:37 +1100
+Subject: [PATCH] accel/ivpu: fix up for "mm: introduce vma->vm_flags wrappe=
+r functions"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/accel/ivpu/ivpu_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
+index d1f923971b4c..12b219dd4f36 100644
+--- a/drivers/accel/ivpu/ivpu_gem.c
++++ b/drivers/accel/ivpu/ivpu_gem.c
+@@ -446,7 +446,7 @@ static int ivpu_bo_mmap(struct drm_gem_object *obj, str=
+uct vm_area_struct *vma)
+ 		return dma_buf_mmap(obj->dma_buf, vma, 0);
+ 	}
+=20
+-	vma->vm_flags |=3D VM_PFNMAP | VM_DONTEXPAND;
++	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND);
+ 	vma->vm_page_prot =3D ivpu_bo_pgprot(bo, vm_get_page_prot(vma->vm_flags));
+=20
+ 	return 0;
+--=20
+2.35.1
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/yAe8Kl73kuJv_dCjTOMdg.Q
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPTbDIACgkQAVBC80lX
+0GzSIgf/b7KHPO4scsTzokPV5z4OBxlpegEhuzziCz19qpHAQyMW+AgBCS7jziDr
+eljFLxzebi0p8vzsRmwVtsQXFt9PH8KPZsOAbOUqQxYMnFwoTZbF/gIZU2BamVJI
+c6BHCxxXxRmlj862Edds7VlSUZQ0YdIuv8jqg28yonguHQ+5zWf4TFYmLs2Zi2nC
+HEMHQtJNCkkWh1FVsxL6zJz0nXGC5w/KK6x/+Lidh6TtNmAefXaIUwJXIbay9Dr6
+Ph+grPflixawhg/QHkKphbl0JjPlXlxSlZYtyoRd5iCBuTAnh5/OkhqlL0jDYmew
+0nEJWVhNnh78pWLCUq3Aa6XA6B3Uzw==
+=Z4ND
+-----END PGP SIGNATURE-----
+
+--Sig_/yAe8Kl73kuJv_dCjTOMdg.Q--
