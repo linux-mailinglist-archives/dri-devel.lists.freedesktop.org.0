@@ -1,52 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6878F67F8F6
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jan 2023 16:09:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 642EF67F97A
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jan 2023 17:16:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40BB610E1E1;
-	Sat, 28 Jan 2023 15:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A5D10E1E9;
+	Sat, 28 Jan 2023 16:16:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 859E810E1E1
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jan 2023 15:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674918580; x=1706454580;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=sz/oOMsdjPZPIOSXT9noSLRbwktYPl9DzEblX23lJmw=;
- b=ekGIOb0lXWrbzIM7Or07vch+6FgMOzVz2hFtY9zJmz+6Qy5chP7Emk3l
- UyU+JI0/4B7WsjcW5ajR9f+lW0jeqO24630eizkaZPGEq1B8mxIzRAHRc
- //o/me7aUTeFzIpUIpVDTZfHkuc7nrpL3mN9JUzECFyRj1C7Vomv2afzf
- BFxttu6/I6egmeLeRIaKoJ+KOkrSto7PPo5gDMcLF9Omt34gGShCE+ORE
- Ifvv4jC/YzsQ3+jJciCgXaMUuv3JAAPqoQyFdpa1rbSl+GVdTRy/7o7S+
- 98igEm6IxZtd3WqqjUq9vTQ/dCHkdmPLuvZe/6pT+YffHAhVwGZfLE0bz A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315252662"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; d="scan'208";a="315252662"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2023 07:09:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="727004058"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; d="scan'208";a="727004058"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 28 Jan 2023 07:09:37 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pLmpk-0000pR-21;
- Sat, 28 Jan 2023 15:09:36 +0000
-Date: Sat, 28 Jan 2023 23:09:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zack Rusin <zack@kde.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 6/7] drm/vmwgfx: Abstract placement selection
-Message-ID: <202301282318.DOogLmvQ-lkp@intel.com>
-References: <20230126173813.602748-7-zack@kde.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E66A10E1E9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jan 2023 16:16:28 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pLnsL-0001oA-TX; Sat, 28 Jan 2023 17:16:21 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pLnsL-0012wE-GU; Sat, 28 Jan 2023 17:16:20 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pLnsJ-00GZdu-RG; Sat, 28 Jan 2023 17:16:19 +0100
+Date: Sat, 28 Jan 2023 17:16:13 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Jianhua Lu <lujianhua000@gmail.com>
+Subject: Re: [PATCH] backlight: ktz8866: Convert to i2c's .probe_new()
+Message-ID: <20230128161613.zx24zhdqj66vxhcz@pengutronix.de>
+References: <20230127152639.1347229-1-u.kleine-koenig@pengutronix.de>
+ <Y9RuDM9VAMBzj4vd@Gentoo>
+ <20230128133239.ndanz4gzm73wwaiv@pengutronix.de>
+ <Y9Utsbi5PYZ26m9j@Gentoo>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="cgcc2i37kj2jwq4r"
 Content-Disposition: inline
-In-Reply-To: <20230126173813.602748-7-zack@kde.org>
+In-Reply-To: <Y9Utsbi5PYZ26m9j@Gentoo>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,103 +56,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, llvm@lists.linux.dev, mombasawalam@vmware.com,
- banackm@vmware.com, oe-kbuild-all@lists.linux.dev
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zack,
 
-I love your patch! Perhaps something to improve:
+--cgcc2i37kj2jwq4r
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on drm-intel/for-linux-next-fixes]
-[also build test WARNING on linus/master v6.2-rc5]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-tip/drm-tip next-20230127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hello,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zack-Rusin/drm-vmwgfx-Use-the-common-gem-mmap-instead-of-the-custom-code/20230128-112136
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20230126173813.602748-7-zack%40kde.org
-patch subject: [PATCH 6/7] drm/vmwgfx: Abstract placement selection
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230128/202301282318.DOogLmvQ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9083af8be713dc1052ca4bd2b39579979345e47b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zack-Rusin/drm-vmwgfx-Use-the-common-gem-mmap-instead-of-the-custom-code/20230128-112136
-        git checkout 9083af8be713dc1052ca4bd2b39579979345e47b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cxl/ drivers/gpu/drm/vmwgfx/ kernel/entry/
+On Sat, Jan 28, 2023 at 10:14:09PM +0800, Jianhua Lu wrote:
+> On Sat, Jan 28, 2023 at 02:32:39PM +0100, Uwe Kleine-K=F6nig wrote:
+> > On Sat, Jan 28, 2023 at 08:36:28AM +0800, Jianhua Lu wrote:
+> > > I prefer that you pack this commit to the i2c-tree commit that drops
+> > > old .probe().=20
+> >=20
+> > That's fine for me. Can I interpret this as an Ack for this patch?
+>=20
+> Yes, but can't get my A-b directly, this patch should be ignored and=20
+> resend it within the i2c-tree patch series or split it to two patch
+> series.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+I'm not sure if I understand you correctly. Up to know I though you want
+the patch as is go in together with the patch that modifies struct
+i2c_driver such that the PR has in two separate commits:
 
-All warnings (new ones prefixed by >>):
+	i2c: Modify .probe() to not take an id parameter
+	backlight: ktz8866: Convert to i2c's .probe_new()
 
->> drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:509:29: warning: variable 'dst_pitch' is uninitialized when used here [-Wuninitialized]
-           src_offset = ddirty->top * dst_pitch + ddirty->left * stdu->cpp;
-                                      ^~~~~~~~~
-   drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:492:26: note: initialize the variable 'dst_pitch' to silence this warning
-           s32 src_pitch, dst_pitch;
-                                   ^
-                                    = 0
-   1 warning generated.
+Did I understand that right?
 
+In that case an Ack by you would be fine and welcome.
 
-vim +/dst_pitch +509 drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
+I don't want to squash the changes to the ktz8866 driver into the patch
+that modifies struct i2c_driver, as this needlessly clutters the commit,
+if it's that what you wanted. (There are more than 1000 i2c drivers and
+the others are not converted in a single lockstep, too.)
 
-   475	
-   476	
-   477	/**
-   478	 * vmw_stdu_bo_cpu_commit - Callback to do a CPU blit from buffer object
-   479	 *
-   480	 * @dirty: The closure structure.
-   481	 *
-   482	 * For the special case when we cannot create a proxy surface in a
-   483	 * 2D VM, we have to do a CPU blit ourselves.
-   484	 */
-   485	static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
-   486	{
-   487		struct vmw_stdu_dirty *ddirty =
-   488			container_of(dirty, struct vmw_stdu_dirty, base);
-   489		struct vmw_screen_target_display_unit *stdu =
-   490			container_of(dirty->unit, typeof(*stdu), base);
-   491		s32 width, height;
-   492		s32 src_pitch, dst_pitch;
-   493		struct ttm_buffer_object *src_bo, *dst_bo;
-   494		u32 src_offset, dst_offset;
-   495		struct vmw_diff_cpy diff = VMW_CPU_BLIT_DIFF_INITIALIZER(stdu->cpp);
-   496	
-   497		if (!dirty->num_hits)
-   498			return;
-   499	
-   500		width = ddirty->right - ddirty->left;
-   501		height = ddirty->bottom - ddirty->top;
-   502	
-   503		if (width == 0 || height == 0)
-   504			return;
-   505	
-   506		/* Assume we are blitting from Guest (bo) to Host (display_srf) */
-   507		src_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
-   508		src_bo = &stdu->display_srf->res.backup->base;
- > 509		src_offset = ddirty->top * dst_pitch + ddirty->left * stdu->cpp;
-   510	
-   511		dst_pitch = ddirty->pitch;
-   512		dst_bo = &ddirty->buf->base;
-   513		dst_offset = ddirty->fb_top * src_pitch + ddirty->fb_left * stdu->cpp;
-   514	
-   515		(void) vmw_bo_cpu_blit(dst_bo, dst_offset, dst_pitch,
-   516				       src_bo, src_offset, src_pitch,
-   517				       width * stdu->cpp, height, &diff);
-   518	}
-   519	
+Best regards
+Uwe
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--cgcc2i37kj2jwq4r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPVSkoACgkQwfwUeK3K
+7AnyLQf+KhM4gbai5n99iFIxc2w4KYcqIZRqq5U31k1oq15zBHQmwLiyc0bDmufi
+P46aoBe4VwvWPp1IAW3P8cZv3fyN4AkvYIXOTd884BIxosV16ogwF3e7+btKLK4j
+vxb3ENqJqYonbV7xJqHW/jLGqFx2AU2m8H3g2ZiOKmYijuUU4rn4x3SEUeOKlnLB
+/SWCZVKgASinO+kN1kgRr1IkJMDfboUYC+QkweFzz5Sl4IAqiMkEXZyOORVaXOCh
+KA0fG8UD+jTRH1XGjSTACVGhEzLwhQfETwRWxtZ0VJLUPHRdmbHfAr9H7phKd+c6
+0g2A66S5DfoB1Q7ucf0bHZ4ZILCQwg==
+=Q5qy
+-----END PGP SIGNATURE-----
+
+--cgcc2i37kj2jwq4r--
