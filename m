@@ -1,51 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC9267F5EB
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jan 2023 09:12:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE0367F5FD
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jan 2023 09:13:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 612E810E074;
-	Sat, 28 Jan 2023 08:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27C1510E094;
+	Sat, 28 Jan 2023 08:13:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1429F10E074
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jan 2023 08:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vLpchkzEUKvtWSQnseIYZdMDBaGfP5kVaR4wnUmvEEQ=; b=GEjRytbk6BZNgR+TLSTvlLv739
- F9gpXR7MS46BKc2ngfRylLO8Em1c7DDuEoGU0xKAoC2LOPF0qxvTMm1+xIJAie1A/u5FqW1xT91lc
- nWK2QP9aDTeixZfjYqGjDS2Weoa5ce6aWjw7DnC4z/Ci7loIAQDj4Q9dHaKONW7JnbsKqWzvKuLjM
- tU0kOxWSaMGr/EWJe4ivHHA96Lt/KF+mW5BViKA/4+zu9p0MIbSS/qao5tshY7uXdi8TzS2YIY451
- ln6KYeD3NoxQd9gR+/BOIv3l+BvMPmpEYQDSfkrSdww1MLg+dwHm3jx36SuXnzBGDXhWoUqs+46fF
- o3zIo2oA==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=[192.168.1.10]) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <cyndis@kapsi.fi>)
- id 1pLgJs-009HDo-HM; Sat, 28 Jan 2023 10:12:16 +0200
-Message-ID: <46a462ec-bc80-cbb7-4833-d9c430f4e9c3@kapsi.fi>
-Date: Sat, 28 Jan 2023 10:12:15 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH] gpu: host1x: fix uninitialized variable use
-Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@kernel.org>
-References: <20230127221418.2522612-1-arnd@kernel.org>
- <Y9RbvPRP5Yw/fUMM@dev-arch.thelio-3990X>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <Y9RbvPRP5Yw/fUMM@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC3A10E086;
+ Sat, 28 Jan 2023 08:13:53 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EAAC61FEE7;
+ Sat, 28 Jan 2023 08:13:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674893631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j0bC1IACweb+rUsjNdy5DfWP6SMIJaSitYsbfNy3ayo=;
+ b=H+XfM6HeZ7ed6n2dCv9vhwHSrLviSOceivlN2XwiPXdbH9tVstdaRrMib2wgJSwRACfHVi
+ rLcAvMHhKrBFw+E+3vUbhzvpP0cVZYeq8wrd2vKlG5lv12HM7sOqqFV8VEY2g2nq1VFTBO
+ 2AXwMUXSfy/RReaxmTF3zbx0T6LQJ6U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674893631;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j0bC1IACweb+rUsjNdy5DfWP6SMIJaSitYsbfNy3ayo=;
+ b=qn8WrN1MEpeU6RXsR+1Jq6cyY337ttMKo5ZCHuhhu19Mdwgge0mMGmef/vMSjIha+19KRb
+ NTcHYZ3JPSdo5qAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A8EE313918;
+ Sat, 28 Jan 2023 08:13:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id vHPCJz/Z1GMFGAAAMHmgww
+ (envelope-from <tiwai@suse.de>); Sat, 28 Jan 2023 08:13:51 +0000
+Date: Sat, 28 Jan 2023 09:13:51 +0100
+Message-ID: <87bkmjqdog.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/mmu: fix Use after Free bug in
+ nvkm_vmm_node_split
+In-Reply-To: <63d485b2.170a0220.4af4c.d54f@mx.google.com>
+References: <20221230072758.443644-1-zyytlz.wz@163.com>
+ <87mt6zr9s4.wl-tiwai@suse.de> <87mt64qit5.wl-tiwai@suse.de>
+ <63d485b2.170a0220.4af4c.d54f@mx.google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,71 +68,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: alex000young@gmail.com, security@kernel.org, kherbst@redhat.com,
+ nouveau@lists.freedesktop.org, hackerzheng666@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ bskeggs@redhat.com, Zheng Wang <zyytlz.wz@163.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/28/23 01:18, Nathan Chancellor wrote:
-> On Fri, Jan 27, 2023 at 11:14:00PM +0100, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> The error handling for platform_get_irq() failing no longer
->> works after a recent change, clang now points this out with
->> a warning:
->>
->> drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
->>          if (syncpt_irq < 0)
->>              ^~~~~~~~~~
->>
->> Fix this by removing the variable and checking the correct
->> error status.
->>
->> Fixes: 625d4ffb438c ("gpu: host1x: Rewrite syncpoint interrupt handling")
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Sat, 28 Jan 2023 03:17:15 +0100,
+Danilo Krummrich wrote:
 > 
-> I had the same diff pending but civic duty called today :)
+> On Fri, Jan 27, 2023 at 01:10:46PM +0100, Takashi Iwai wrote:
+> > On Tue, 03 Jan 2023 15:07:55 +0100,
+> > Takashi Iwai wrote:
+> > > 
+> > > On Fri, 30 Dec 2022 08:27:58 +0100,
+> > > Zheng Wang wrote:
+> > > > 
+> > > > Here is a function call chain.
+> > > > nvkm_vmm_pfn_map->nvkm_vmm_pfn_split_merge->nvkm_vmm_node_split
+> > > > If nvkm_vma_tail return NULL in nvkm_vmm_node_split, it will
+> > > > finally invoke nvkm_vmm_node_merge->nvkm_vmm_node_delete, which
+> > > > will free the vma. However, nvkm_vmm_pfn_map didn't notice that.
+> > > > It goes into next label and UAF happens.
+> > > > 
+> > > > Fix it by returning the return-value of nvkm_vmm_node_merge
+> > > > instead of NULL.
+> > > > 
+> > > > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> > > 
+> > > FWIW, CVE-2023-0030 has been assigned to this bug.
+> > > It's a question whether it really deserves as a security issue, but a
+> > > bug is a bug...
+> > > 
+> > > Ben, could you review this please?
+> > 
+> > A gentle ping as reminder.  The bug is still present.
 > 
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> This was also reported in [1]. I had a closer look and FWICT this code is fine
+> and there isn't a bug.
 > 
->> ---
->>   drivers/gpu/host1x/dev.c | 5 ++---
->>   1 file changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
->> index 4872d183d860..aae2efeef503 100644
->> --- a/drivers/gpu/host1x/dev.c
->> +++ b/drivers/gpu/host1x/dev.c
->> @@ -487,7 +487,6 @@ static int host1x_get_resets(struct host1x *host)
->>   static int host1x_probe(struct platform_device *pdev)
->>   {
->>   	struct host1x *host;
->> -	int syncpt_irq;
->>   	int err;
->>   
->>   	host = devm_kzalloc(&pdev->dev, sizeof(*host), GFP_KERNEL);
->> @@ -517,8 +516,8 @@ static int host1x_probe(struct platform_device *pdev)
->>   	}
->>   
->>   	host->syncpt_irq = platform_get_irq(pdev, 0);
->> -	if (syncpt_irq < 0)
->> -		return syncpt_irq;
->> +	if (host->syncpt_irq < 0)
->> +		return host->syncpt_irq;
->>   
->>   	mutex_init(&host->devices_lock);
->>   	INIT_LIST_HEAD(&host->devices);
->> -- 
->> 2.39.0
->>
+> Zheng Wang, the reporter of the BZ, also confirmed this to be a false positive
+> from CodeQL.
+> 
+> Anyway, here's the explaination I also posted in the BZ:
+> 
+> "In nvkm_vmm_node_merge() nvkm_vmm_node_delete() is only called when prev is
+> set. However, prev is NULL unless we enter the "if (vma->addr != addr)" path in
+> nvkm_vmm_node_split(). In such a case the vma pointer, which is also passed to
+> nvkm_vmm_node_merge(), is set to a freshly allocated struct nvkm_vma with
+> nvkm_vma_tail() right before prev is set to the old vma pointer.
+> 
+> Hence, the only thing happening there when nvkm_vma_tail() fails in the
+> "if (vma->size != size)" path is that either nvkm_vmm_node_merge() does nothing
+> in case prev wasn't set or it merges and frees the new vma created in the
+> "if (vma->addr != addr)" path. Or in other words the proper cleanup for the
+> error condition is done.
+> 
+> I can't see any case where the original vma pointer given by nvkm_vmm_pfn_map()
+> is actually freed."
+> 
+> [1] https://bugzilla.redhat.com/show_bug.cgi?id=2157041
 
-Thanks both for the fix :)
+Thanks for the information!  Then we should try to dispute the CVE.
+I'll ask our security team.
 
-FWIW,
 
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
+Takashi
+
+> 
+> - Danilo
+> 
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> > > 
+> > > 
+> > > thanks,
+> > > 
+> > > Takashi
+> > > 
+> > > > ---
+> > > >  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+> > > > index ae793f400ba1..84d6fc87b2e8 100644
+> > > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+> > > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+> > > > @@ -937,8 +937,8 @@ nvkm_vmm_node_split(struct nvkm_vmm *vmm,
+> > > >  	if (vma->size != size) {
+> > > >  		struct nvkm_vma *tmp;
+> > > >  		if (!(tmp = nvkm_vma_tail(vma, vma->size - size))) {
+> > > > -			nvkm_vmm_node_merge(vmm, prev, vma, NULL, vma->size);
+> > > > -			return NULL;
+> > > > +			tmp = nvkm_vmm_node_merge(vmm, prev, vma, NULL, vma->size);
+> > > > +			return tmp;
+> > > >  		}
+> > > >  		tmp->part = true;
+> > > >  		nvkm_vmm_node_insert(vmm, tmp);
+> > > > -- 
+> > > > 2.25.1
+> > > > 
+> > 
+> 
