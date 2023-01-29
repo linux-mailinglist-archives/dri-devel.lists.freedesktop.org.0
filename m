@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C585567FD7B
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 08:56:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7D067FD7E
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 08:58:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 801FC10E189;
-	Sun, 29 Jan 2023 07:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C7010E1EF;
+	Sun, 29 Jan 2023 07:58:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B56CC10E170;
- Sun, 29 Jan 2023 07:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674978957; x=1706514957;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=x4WTrpuvv+/zgSnOBDWsX2EtXNw7Yj18SFXCDGN2RQU=;
- b=DU7Q/0g4medleQrls4KK5j0VZ2WWfftEYNC9n9dYcF/9ZEe4c6yxGLeC
- 9ZUNRt+6UzJX9HRcA67JCNQ7O62zSRdBQMvJkHNxrXcob29oPu9EagFFz
- F8SzDMA4Q/xG4SVjXmkiHL9P9xmPKOuxp3sae8AWmnRM5bRGi/uJe6+zx
- qlvr3g9p6t0KlnaU8nEPjyzUh+eBJUFNMzqMOwXsYCFyXQ5frtp8Pw2sQ
- R/q5X6HJDhALh6PEYEAPlsuWfywQXvgHPCX8AY3w1w2zEPR2YaZ4Lgb+9
- EtRoE9j79aor8tViX6KNDA7b90+O2pao/6wjKau6Vty8/QvNjc+O5v2lk Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="389753587"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; d="scan'208";a="389753587"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2023 23:55:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="752450871"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; d="scan'208";a="752450871"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 28 Jan 2023 23:55:53 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pM2XZ-0002aw-0E;
- Sun, 29 Jan 2023 07:55:53 +0000
-Date: Sun, 29 Jan 2023 15:55:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 08/32] drm/amdgpu: add gfx10 hw debug mode enable and
- disable calls
-Message-ID: <202301291502.el73Nchv-lkp@intel.com>
-References: <20230125195401.4183544-9-jonathan.kim@amd.com>
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF9210E1EF
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 07:58:33 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id g9so5814135pfo.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jan 2023 23:58:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kzKr+TJAqT7F7z/9v5ayYMXFB2YFYwz9vAKvcRSlKT0=;
+ b=M5kO+rqKkqjnnJkONowxwIaf5e9+NCn048MMDMZOIPpxoyczf2CI+CQvkAW0Xm0ocC
+ 8NGFuOnlLWv630EzzayZfwUB4C0KHckCwSkTBkX3nVo3Yy9i/yjxr/iSG/eTFECVZC/2
+ 3YOgx/SG3ef4eae0V/1qNxn+N5iwAniNTlxNhZ7G84eXNHThGlbdi93m1qkfV9mruEjN
+ t5vrKM8kqXixkxHFlnOYLSB4JEXf36Gxlu44Nvi0651KHByz8TFNZEtFdKuNJwZli+xs
+ dI4EwyJehc5JOT06UCtLPyCaGfA0ZGkq4Rm4mh4IAcNTgs47WtyGyvK7DhdEMQCyhk4V
+ AqRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kzKr+TJAqT7F7z/9v5ayYMXFB2YFYwz9vAKvcRSlKT0=;
+ b=F6RFVt3eaA4HkOcPK3dEMHByU6grTwdIpux2H3sCWUKrPNwEFoCitsVNj4tbHS744Q
+ v9j/ip023rMqGxB1TWY74R66EdUfcKABKC+W26AhkRm3DnLFi/nxWgxo8d3mYRtKW6t4
+ YwpkXh/rI+oLKO3QySLHbrzosFltXfzJm+vo6o4cTiClNURhWimXqGn2yKEX3eBYThWf
+ VQtCO2tvsMPgO+iiJFaQsDyGtSz6fIddu6xxJ8kXojM49H9KaoMg4y9/bbhz2Ycv5K52
+ QcU53NSW/+afXPW5saMcNsXKfh9GxGwN9pz35IbRs5T+jf9WBnrwz+7NiyWl6JpnZnCP
+ bv1g==
+X-Gm-Message-State: AFqh2koVQ/4b76JUsP8IYHgvgJA19hdnKMdNHP81FCX3je52xg4IPHqt
+ gjjFz6rnwDI83InSLoEFZudBNqFAmor90KTQnNQ=
+X-Google-Smtp-Source: AMrXdXvx+wlBpulzGXBvdiRG79FdiAvCIRPaA0HgMiHIK10Dapr0pdrS8RP0Tu7WZIhb/cp+J5YgEPjiCP5qVNeqe6o=
+X-Received: by 2002:aa7:820f:0:b0:58d:a713:d1dd with SMTP id
+ k15-20020aa7820f000000b0058da713d1ddmr5698790pfi.59.1674979112473; Sat, 28
+ Jan 2023 23:58:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125195401.4183544-9-jonathan.kim@amd.com>
+References: <20230127165834.11387-1-tiwai@suse.de>
+In-Reply-To: <20230127165834.11387-1-tiwai@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Sun, 29 Jan 2023 08:58:21 +0100
+Message-ID: <CAMeQTsZxdNXFscgR6s1y4L1b9jczQYL7CqKjyjMYNSTTC0aydQ@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: Fix invalid page access after closing deferred I/O
+ devices
+To: Takashi Iwai <tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,116 +65,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felix.Kuehling@amd.com, Jonathan.Kim@amd.com, oe-kbuild-all@lists.linux.dev
+Cc: linux-fbdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Patrik Jakobsson <pjakobsson@suse.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan,
+On Fri, Jan 27, 2023 at 5:58 PM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> When a fbdev with deferred I/O is once opened and closed, the dirty
+> pages still remain queued in the pageref list, and eventually later
+> those may be processed in the delayed work.  This may lead to a
+> corruption of pages, hitting an Oops.
+>
+> This patch makes sure to cancel the delayed work and clean up the
+> pageref list at closing the device for addressing the bug.  A part of
+> the cleanup code is factored out as a new helper function that is
+> called from the common fb_release().
+>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-Thank you for the patch! Perhaps something to improve:
+For some reason my first review didn't make it to the list. Trying
+again with my other email.
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on linus/master v6.2-rc5]
-[cannot apply to drm-misc/drm-misc-next drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+As kernel test robot says, we need to check CONFIG_FB_DEFERRED_IO
+around access to info->fbdefio.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Kim/drm-amdkfd-add-debug-and-runtime-enable-interface/20230128-092952
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230125195401.4183544-9-jonathan.kim%40amd.com
-patch subject: [PATCH 08/32] drm/amdgpu: add gfx10 hw debug mode enable and disable calls
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301291502.el73Nchv-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/ca722ec7f4d749b61a30b4654fabf05f03d8d2cf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jonathan-Kim/drm-amdkfd-add-debug-and-runtime-enable-interface/20230128-092952
-        git checkout ca722ec7f4d749b61a30b4654fabf05f03d8d2cf
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+With that fixed:
+Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:750:10: warning: no previous prototype for 'kgd_gfx_v10_enable_debug_trap' [-Wmissing-prototypes]
-     750 | uint32_t kgd_gfx_v10_enable_debug_trap(struct amdgpu_device *adev,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:787:10: warning: no previous prototype for 'kgd_gfx_v10_disable_debug_trap' [-Wmissing-prototypes]
-     787 | uint32_t kgd_gfx_v10_disable_debug_trap(struct amdgpu_device *adev,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:36,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../include/dm_pp_interface.h:26,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:64,
-                    from drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:22:
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_hdmi_types.h:53:22: warning: 'dp_hdmi_dongle_signature_str' defined but not used [-Wunused-const-variable=]
-      53 | static const uint8_t dp_hdmi_dongle_signature_str[] = "DP-HDMI ADAPTOR";
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/kgd_gfx_v10_enable_debug_trap +750 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
-
-   749	
- > 750	uint32_t kgd_gfx_v10_enable_debug_trap(struct amdgpu_device *adev,
-   751					bool restore_dbg_registers,
-   752					uint32_t vmid)
-   753	{
-   754	
-   755		mutex_lock(&adev->grbm_idx_mutex);
-   756	
-   757		kgd_gfx_v10_set_wave_launch_stall(adev, vmid, true);
-   758	
-   759		/* assume gfx off is disabled for the debug session if rlc restore not supported. */
-   760		if (restore_dbg_registers) {
-   761			uint32_t data = 0;
-   762	
-   763			data = REG_SET_FIELD(data, SPI_GDBG_TRAP_CONFIG,
-   764					VMID_SEL, 1 << vmid);
-   765			data = REG_SET_FIELD(data, SPI_GDBG_TRAP_CONFIG,
-   766					TRAP_EN, 1);
-   767			WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_CONFIG), data);
-   768			WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_DATA0), 0);
-   769			WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_DATA1), 0);
-   770	
-   771			kgd_gfx_v10_set_wave_launch_stall(adev, vmid, false);
-   772	
-   773			mutex_unlock(&adev->grbm_idx_mutex);
-   774	
-   775			return 0;
-   776		}
-   777	
-   778		WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
-   779	
-   780		kgd_gfx_v10_set_wave_launch_stall(adev, vmid, false);
-   781	
-   782		mutex_unlock(&adev->grbm_idx_mutex);
-   783	
-   784		return 0;
-   785	}
-   786	
- > 787	uint32_t kgd_gfx_v10_disable_debug_trap(struct amdgpu_device *adev,
-   788						bool keep_trap_enabled,
-   789						uint32_t vmid)
-   790	{
-   791		mutex_lock(&adev->grbm_idx_mutex);
-   792	
-   793		kgd_gfx_v10_set_wave_launch_stall(adev, vmid, true);
-   794	
-   795		WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
-   796	
-   797		kgd_gfx_v10_set_wave_launch_stall(adev, vmid, false);
-   798	
-   799		mutex_unlock(&adev->grbm_idx_mutex);
-   800	
-   801		return 0;
-   802	}
-   803	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> ---
+>  drivers/video/fbdev/core/fb_defio.c | 10 +++++++++-
+>  drivers/video/fbdev/core/fbmem.c    |  2 ++
+>  include/linux/fb.h                  |  1 +
+>  3 files changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+> index c730253ab85c..583cbcf09446 100644
+> --- a/drivers/video/fbdev/core/fb_defio.c
+> +++ b/drivers/video/fbdev/core/fb_defio.c
+> @@ -313,7 +313,7 @@ void fb_deferred_io_open(struct fb_info *info,
+>  }
+>  EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+>
+> -void fb_deferred_io_cleanup(struct fb_info *info)
+> +void fb_deferred_io_release(struct fb_info *info)
+>  {
+>         struct fb_deferred_io *fbdefio = info->fbdefio;
+>         struct page *page;
+> @@ -327,6 +327,14 @@ void fb_deferred_io_cleanup(struct fb_info *info)
+>                 page = fb_deferred_io_page(info, i);
+>                 page->mapping = NULL;
+>         }
+> +}
+> +EXPORT_SYMBOL_GPL(fb_deferred_io_release);
+> +
+> +void fb_deferred_io_cleanup(struct fb_info *info)
+> +{
+> +       struct fb_deferred_io *fbdefio = info->fbdefio;
+> +
+> +       fb_deferred_io_release(info);
+>
+>         kvfree(info->pagerefs);
+>         mutex_destroy(&fbdefio->lock);
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> index 3a6c8458eb8d..78c4cb5ee7c9 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1454,6 +1454,8 @@ __releases(&info->lock)
+>         struct fb_info * const info = file->private_data;
+>
+>         lock_fb_info(info);
+> +       if (info->fbdefio)
+> +               fb_deferred_io_release(info);
+>         if (info->fbops->fb_release)
+>                 info->fbops->fb_release(info,1);
+>         module_put(info->fbops->owner);
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index 96b96323e9cb..73eb1f85ea8e 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -662,6 +662,7 @@ extern int  fb_deferred_io_init(struct fb_info *info);
+>  extern void fb_deferred_io_open(struct fb_info *info,
+>                                 struct inode *inode,
+>                                 struct file *file);
+> +extern void fb_deferred_io_release(struct fb_info *info);
+>  extern void fb_deferred_io_cleanup(struct fb_info *info);
+>  extern int fb_deferred_io_fsync(struct file *file, loff_t start,
+>                                 loff_t end, int datasync);
+> --
+> 2.35.3
+>
