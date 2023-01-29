@@ -2,54 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EBE167FDA6
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 09:29:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9D367FE92
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 12:31:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF6110E1F0;
-	Sun, 29 Jan 2023 08:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB31810E02C;
+	Sun, 29 Jan 2023 11:31:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B4F10E1F0
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 08:29:03 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C930D1FF23;
- Sun, 29 Jan 2023 08:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674980941; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=L4YFbahCifwwNGpSJHPlW/1QYyuaOZX6D/eqp4s/nSE=;
- b=wG9LqxUvn0B/3NHh1jHP/DoBhhKWeNXg0z3EtQdDzFKIJ6udcKBLL9F453m2TvdUm5UkhA
- vi7asR++R59lfDNP1p7wEq2iqKQBETkedxDmFGhVdWeEKWbq3ORhRT0IZKbEwsAT936s3M
- k6lVJiF4qfSQe09Gqq7Y5amEmIs6NZA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674980941;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=L4YFbahCifwwNGpSJHPlW/1QYyuaOZX6D/eqp4s/nSE=;
- b=aJBBaFkcPkCwOvnJtKzzHHF0OO4DfuMnGxxAePMlyPH8O4ShKDis4hsX0+3HG3cknLFRgR
- mNdTtl6HwqapEhBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A34E813918;
- Sun, 29 Jan 2023 08:29:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IV42J00u1mO3SQAAMHmgww
- (envelope-from <tiwai@suse.de>); Sun, 29 Jan 2023 08:29:01 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH v2] fbdev: Fix invalid page access after closing deferred I/O
- devices
-Date: Sun, 29 Jan 2023 09:28:56 +0100
-Message-Id: <20230129082856.22113-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 492E010E02C
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 11:31:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674991870; x=1706527870;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=941qYSAT8AewHuWw7L2KMhlt7LAztpslaoA8f27sugc=;
+ b=W/1l5t97o03hfPKhRqBlUbZLDdVWD93hhSXaJMQ2zgPskwFPxhcYkT74
+ xMz7GC472Kc78QxYJIjgNCCHrBl/q5HV1ZXprm4bR+4uguSvbOwVdYnNZ
+ SzBNywHq+oT6KmQ5RlfaGA6u9S2Dggnxt+Q5xBr+/tDnsvIPRE6KdCGtE
+ FfAXHurnDns1p1M+8o/66QrVcW+kQi9V6OfhcLZ37h/kXb3BPlTz+O6u1
+ u4wMFGTtrZ4NflWMktJnEw1JTFxEPMFcH7IY6ucu1vRdQJBcG1PPqoxAd
+ sHGiGmGGGJEsJ9ez79tColn9c9koHU5puBxiL145oHv7+CTzJo0LmC3Ud w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="315346486"
+X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; d="scan'208";a="315346486"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2023 03:31:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="909174613"
+X-IronPort-AV: E=Sophos;i="5.97,256,1669104000"; d="scan'208";a="909174613"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 29 Jan 2023 03:31:05 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pM5tp-0002lG-0S;
+ Sun, 29 Jan 2023 11:31:05 +0000
+Date: Sun, 29 Jan 2023 19:30:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Justin Green <greenjustin@chromium.org>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm/mediatek: Add support for AR30 and BA30
+Message-ID: <202301291906.Az5NHf9w-lkp@intel.com>
+References: <20230127230123.941930-1-greenjustin@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230127230123.941930-1-greenjustin@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,88 +60,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Patrik Jakobsson <pjakobsson@suse.de>
+Cc: chunkuang.hu@kernel.org, greenjustin@chromium.org, airlied@linux.ie,
+ jason-jh.lin@mediatek.com, justin.yeh@mediatek.com, wenst@chromium.org,
+ oe-kbuild-all@lists.linux.dev, matthias.bgg@gmail.com,
+ Justin Green <greenjustin@google.com>, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a fbdev with deferred I/O is once opened and closed, the dirty
-pages still remain queued in the pageref list, and eventually later
-those may be processed in the delayed work.  This may lead to a
-corruption of pages, hitting an Oops.
+Hi Justin,
 
-This patch makes sure to cancel the delayed work and clean up the
-pageref list at closing the device for addressing the bug.  A part of
-the cleanup code is factored out as a new helper function that is
-called from the common fb_release().
+Thank you for the patch! Perhaps something to improve:
 
-Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-v1->v2: Fix build error without CONFIG_FB_DEFERRED_IO
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.2-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- drivers/video/fbdev/core/fb_defio.c | 10 +++++++++-
- drivers/video/fbdev/core/fbmem.c    |  4 ++++
- include/linux/fb.h                  |  1 +
- 3 files changed, 14 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Green/drm-mediatek-Add-support-for-AR30-and-BA30/20230128-112134
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230127230123.941930-1-greenjustin%40google.com
+patch subject: [PATCH v3] drm/mediatek: Add support for AR30 and BA30
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230129/202301291906.Az5NHf9w-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c32525cf66e7bbf4e798aef3aafbf88dee5d049c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Justin-Green/drm-mediatek-Add-support-for-AR30-and-BA30/20230128-112134
+        git checkout c32525cf66e7bbf4e798aef3aafbf88dee5d049c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/mediatek/ sound/soc/samsung/
 
-diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-index c730253ab85c..583cbcf09446 100644
---- a/drivers/video/fbdev/core/fb_defio.c
-+++ b/drivers/video/fbdev/core/fb_defio.c
-@@ -313,7 +313,7 @@ void fb_deferred_io_open(struct fb_info *info,
- }
- EXPORT_SYMBOL_GPL(fb_deferred_io_open);
- 
--void fb_deferred_io_cleanup(struct fb_info *info)
-+void fb_deferred_io_release(struct fb_info *info)
- {
- 	struct fb_deferred_io *fbdefio = info->fbdefio;
- 	struct page *page;
-@@ -327,6 +327,14 @@ void fb_deferred_io_cleanup(struct fb_info *info)
- 		page = fb_deferred_io_page(info, i);
- 		page->mapping = NULL;
- 	}
-+}
-+EXPORT_SYMBOL_GPL(fb_deferred_io_release);
-+
-+void fb_deferred_io_cleanup(struct fb_info *info)
-+{
-+	struct fb_deferred_io *fbdefio = info->fbdefio;
-+
-+	fb_deferred_io_release(info);
- 
- 	kvfree(info->pagerefs);
- 	mutex_destroy(&fbdefio->lock);
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index 3a6c8458eb8d..ab3545a00abc 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1454,6 +1454,10 @@ __releases(&info->lock)
- 	struct fb_info * const info = file->private_data;
- 
- 	lock_fb_info(info);
-+#if IS_ENABLED(CONFIG_FB_DEFERRED_IO)
-+	if (info->fbdefio)
-+		fb_deferred_io_release(info);
-+#endif
- 	if (info->fbops->fb_release)
- 		info->fbops->fb_release(info,1);
- 	module_put(info->fbops->owner);
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 96b96323e9cb..73eb1f85ea8e 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -662,6 +662,7 @@ extern int  fb_deferred_io_init(struct fb_info *info);
- extern void fb_deferred_io_open(struct fb_info *info,
- 				struct inode *inode,
- 				struct file *file);
-+extern void fb_deferred_io_release(struct fb_info *info);
- extern void fb_deferred_io_cleanup(struct fb_info *info);
- extern int fb_deferred_io_fsync(struct file *file, loff_t start,
- 				loff_t end, int datasync);
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/mediatek/mtk_drm_crtc.h:10,
+                    from drivers/gpu/drm/mediatek/mtk_disp_aal.c:15:
+   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h: In function 'mtk_ddp_comp_supports_10bit':
+>> drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h:159:35: warning: returning 'int (*)(struct device *)' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+     159 |                 return comp->funcs->supports_10bit;
+         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~
+
+
+vim +159 drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
+
+   154	
+   155	static inline
+   156	int mtk_ddp_comp_supports_10bit(struct mtk_ddp_comp *comp)
+   157	{
+   158		if (comp->funcs && comp->funcs->supports_10bit)
+ > 159			return comp->funcs->supports_10bit;
+   160	
+   161	        return 0;
+   162	}
+   163	
+
 -- 
-2.35.3
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
