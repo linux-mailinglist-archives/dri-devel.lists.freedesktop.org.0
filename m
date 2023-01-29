@@ -2,66 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771CD680026
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 17:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926C8680039
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 17:23:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA8810E209;
-	Sun, 29 Jan 2023 16:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C03710E206;
+	Sun, 29 Jan 2023 16:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 127EF10E209
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 16:05:43 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- l35-20020a05600c1d2300b003dc4634a466so2461149wms.4
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 08:05:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Hm5mrI3RgpwLUAtsZnlhddw9mw5PRfzcGs1n8G6C6S4=;
- b=SZ64e+Kc6nziZJCeyHf85r6SvB3DuSZHahZ4qIy8zToRjMTrpwIJr2byTCTV5lOakk
- NcUszeGBNXuO+J+asj7kVp8odelPcBHKdblLr2DfKTvLOnwqFq/MTc9Ac4sjQZhRsfP3
- ThS72xkjYj6uTXN86qPiNqjhnsJ10P1tQMoij+OSBBoys1pGcbz09PXLBX5AzKowXoll
- qUFgR6rKs0/IYyrRHyFtFmBvPWObtmAoSwUtfjMkNzk62WqeP4/np/FVSAF1yArPyKuw
- 03PWSIepgB14C8t5B5raa6FqPAcVtK40wG7pEUM+NqB5XMkHmH2hxEnTv2Ri7YcqRFB/
- 3p2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Hm5mrI3RgpwLUAtsZnlhddw9mw5PRfzcGs1n8G6C6S4=;
- b=RmqUjNlOBP/nu4dNjMkxf+pfmnVKfv/BZpudvILp3BzqiVLOMe31i2F3jhUA1pqbss
- sK7hz1MmjgLsH9H5CjY8gsNkUnEMcPJ6ZoZClRTlKV+C76+TqmQXg9e87F896elCEPRb
- 72pC1bvrwU6+PycwXdUbzGXvMs98I9LWM7i8nhaKTesdXY8JNhG1kzh2dhTCq3lXVGSP
- hZKU8aS8SGJtX48Z5DtvaYdfuFsTWxU/GE0sPeblHdtPTndPBf0cJ/ppKhcAzLit/D4y
- T23MuiE9qNufyCS9c2zgHGSwiWYYZNpDYmtXYEBlErASsyWLq9atAN/57SIDxKhQoWnH
- mecg==
-X-Gm-Message-State: AFqh2kpxVf7Jw62E371iumfGVVxRKQS2HXlxf0/RgVVq4bsMvRKSog6A
- TZN10nTXgS+mCrDsxg7RZTFN6xZnTeR5lkfp
-X-Google-Smtp-Source: AMrXdXvBpu2ZRGTQqc3v4lxW5p3SrvUYCCzJxj+bvgjNvonJMkC76GUT/EmB0YdJppmSxKWUZfqq7w==
-X-Received: by 2002:a05:600c:34d1:b0:3db:1434:c51a with SMTP id
- d17-20020a05600c34d100b003db1434c51amr40669786wmq.40.1675008342320; 
- Sun, 29 Jan 2023 08:05:42 -0800 (PST)
-Received: from krzk-bin.. ([178.197.216.144]) by smtp.gmail.com with ESMTPSA id
- s15-20020a05600c384f00b003d9de0c39fasm15734648wmr.36.2023.01.29.08.05.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 08:05:41 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: display: bridge: sil,
- sii8620: convert to dtschema
-Date: Sun, 29 Jan 2023 17:05:37 +0100
-Message-Id: <20230129160537.32275-1-krzysztof.kozlowski@linaro.org>
+Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr
+ [80.12.242.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 033CE10E206
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 16:22:54 +0000 (UTC)
+Received: from pop-os.home ([86.243.2.178]) by smtp.orange.fr with ESMTPA
+ id MAS9pUMGLgf2oMAS9pRlGD; Sun, 29 Jan 2023 17:22:51 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 29 Jan 2023 17:22:51 +0100
+X-ME-IP: 86.243.2.178
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd: Optimize some memory initializations
+Date: Sun, 29 Jan 2023 17:22:43 +0100
+Message-Id: <1051df439dc7b7f382d27306820340ff4d470f98.1675009339.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -77,178 +42,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Silicon Image SiI8620 HDMI/MHL bridge bindings to DT schema.
+Instead of zeroing some memory and then copying data in part or all of it,
+use memcpy_and_pad().
+This avoids writing some memory twice and should save a few cycles.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c  | 11 ++++-------
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0.c   |  8 ++------
+ drivers/gpu/drm/amd/amdgpu/psp_v13_0_4.c |  8 ++------
+ 3 files changed, 8 insertions(+), 19 deletions(-)
 
-Changes since v1:
-1. Require also port@1 (Laurent)
----
- .../bindings/display/bridge/sil,sii8620.yaml  | 108 ++++++++++++++++++
- .../bindings/display/bridge/sil-sii8620.txt   |  33 ------
- 2 files changed, 108 insertions(+), 33 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
-new file mode 100644
-index 000000000000..6d1a36b76fcb
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
-@@ -0,0 +1,108 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/sil,sii8620.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Silicon Image SiI8620 HDMI/MHL bridge
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-+
-+properties:
-+  compatible:
-+    const: sil,sii8620
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: xtal
-+
-+  cvcc10-supply:
-+    description: Digital Core Supply Voltage (1.0V)
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  iovcc18-supply:
-+    description: I/O Supply Voltage (1.8V)
-+
-+  reset-gpios:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    unevaluatedProperties: false
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Video port for HDMI (encoder) input
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          MHL to connector port
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - cvcc10-supply
-+  - interrupts
-+  - iovcc18-supply
-+  - reset-gpios
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        bridge@39 {
-+            reg = <0x39>;
-+            compatible = "sil,sii8620";
-+            cvcc10-supply = <&ldo36_reg>;
-+            iovcc18-supply = <&ldo34_reg>;
-+            interrupt-parent = <&gpf0>;
-+            interrupts = <2 IRQ_TYPE_LEVEL_HIGH>;
-+            reset-gpios = <&gpv7 0 GPIO_ACTIVE_LOW>;
-+            clocks = <&pmu_system_controller 0>;
-+            clock-names = "xtal";
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    mhl_to_hdmi: endpoint {
-+                        remote-endpoint = <&hdmi_to_mhl>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+                    mhl_to_musb_con: endpoint {
-+                        remote-endpoint = <&musb_con_to_mhl>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt b/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
-deleted file mode 100644
-index b05052f7d62f..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
-+++ /dev/null
-@@ -1,33 +0,0 @@
--Silicon Image SiI8620 HDMI/MHL bridge bindings
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index a8391f269cd0..5e69693a5cc4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -613,9 +613,8 @@ psp_cmd_submit_buf(struct psp_context *psp,
+ 	if (!drm_dev_enter(adev_to_drm(psp->adev), &idx))
+ 		return 0;
+ 
+-	memset(psp->cmd_buf_mem, 0, PSP_CMD_BUFFER_SIZE);
 -
--Required properties:
--	- compatible: "sil,sii8620"
--	- reg: i2c address of the bridge
--	- cvcc10-supply: Digital Core Supply Voltage (1.0V)
--	- iovcc18-supply: I/O Supply Voltage (1.8V)
--	- interrupts: interrupt specifier of INT pin
--	- reset-gpios: gpio specifier of RESET pin
--	- clocks, clock-names: specification and name of "xtal" clock
--	- video interfaces: Device node can contain video interface port
--			    node for HDMI encoder according to [1].
+-	memcpy(psp->cmd_buf_mem, cmd, sizeof(struct psp_gfx_cmd_resp));
++	memcpy_and_pad(psp->cmd_buf_mem, PSP_CMD_BUFFER_SIZE, cmd,
++		       sizeof(struct psp_gfx_cmd_resp), 0);
+ 
+ 	index = atomic_inc_return(&psp->fence_value);
+ 	ret = psp_ring_cmd_submit(psp, psp->cmd_buf_mc_addr, fence_mc_addr, index);
+@@ -947,8 +946,7 @@ static int psp_rl_load(struct amdgpu_device *adev)
+ 
+ 	cmd = acquire_psp_cmd_buf(psp);
+ 
+-	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+-	memcpy(psp->fw_pri_buf, psp->rl.start_addr, psp->rl.size_bytes);
++	memcpy_and_pad(psp->fw_pri_buf, PSP_1_MEG, psp->rl.start_addr, psp->rl.size_bytes, 0);
+ 
+ 	cmd->cmd_id = GFX_CMD_ID_LOAD_IP_FW;
+ 	cmd->cmd.cmd_load_ip_fw.fw_phy_addr_lo = lower_32_bits(psp->fw_pri_mc_addr);
+@@ -3479,8 +3477,7 @@ void psp_copy_fw(struct psp_context *psp, uint8_t *start_addr, uint32_t bin_size
+ 	if (!drm_dev_enter(adev_to_drm(psp->adev), &idx))
+ 		return;
+ 
+-	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+-	memcpy(psp->fw_pri_buf, start_addr, bin_size);
++	memcpy_and_pad(psp->fw_pri_buf, PSP_1_MEG, start_addr, bin_size, 0);
+ 
+ 	drm_dev_exit(idx);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c b/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
+index d62fcc77af95..79733ec4ffab 100644
+--- a/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/psp_v13_0.c
+@@ -168,10 +168,8 @@ static int psp_v13_0_bootloader_load_component(struct psp_context  	*psp,
+ 	if (ret)
+ 		return ret;
+ 
+-	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
 -
--[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
+ 	/* Copy PSP KDB binary to memory */
+-	memcpy(psp->fw_pri_buf, bin_desc->start_addr, bin_desc->size_bytes);
++	memcpy_and_pad(psp->fw_pri_buf, PSP_1_MEG, bin_desc->start_addr, bin_desc->size_bytes, 0);
+ 
+ 	/* Provide the PSP KDB to bootloader */
+ 	WREG32_SOC15(MP0, 0, regMP0_SMN_C2PMSG_36,
+@@ -237,10 +235,8 @@ static int psp_v13_0_bootloader_load_sos(struct psp_context *psp)
+ 	if (ret)
+ 		return ret;
+ 
+-	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
 -
--Example:
--	sii8620@39 {
--		reg = <0x39>;
--		compatible = "sil,sii8620";
--		cvcc10-supply = <&ldo36_reg>;
--		iovcc18-supply = <&ldo34_reg>;
--		interrupt-parent = <&gpf0>;
--		interrupts = <2 0>;
--		reset-gpio = <&gpv7 0 0>;
--		clocks = <&pmu_system_controller 0>;
--		clock-names = "xtal";
+ 	/* Copy Secure OS binary to PSP memory */
+-	memcpy(psp->fw_pri_buf, psp->sos.start_addr, psp->sos.size_bytes);
++	memcpy_and_pad(psp->fw_pri_buf, PSP_1_MEG, psp->sos.start_addr, psp->sos.size_bytes, 0);
+ 
+ 	/* Provide the PSP secure OS to bootloader */
+ 	WREG32_SOC15(MP0, 0, regMP0_SMN_C2PMSG_36,
+diff --git a/drivers/gpu/drm/amd/amdgpu/psp_v13_0_4.c b/drivers/gpu/drm/amd/amdgpu/psp_v13_0_4.c
+index d5ba58eba3e2..c73415b09e85 100644
+--- a/drivers/gpu/drm/amd/amdgpu/psp_v13_0_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/psp_v13_0_4.c
+@@ -107,10 +107,8 @@ static int psp_v13_0_4_bootloader_load_component(struct psp_context  	*psp,
+ 	if (ret)
+ 		return ret;
+ 
+-	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
 -
--		port {
--			mhl_to_hdmi: endpoint {
--				remote-endpoint = <&hdmi_to_mhl>;
--			};
--		};
--	};
+ 	/* Copy PSP KDB binary to memory */
+-	memcpy(psp->fw_pri_buf, bin_desc->start_addr, bin_desc->size_bytes);
++	memcpy_and_pad(psp->fw_pri_buf, PSP_1_MEG, bin_desc->start_addr, bin_desc->size_bytes, 0);
+ 
+ 	/* Provide the PSP KDB to bootloader */
+ 	WREG32_SOC15(MP0, 0, regMP0_SMN_C2PMSG_36,
+@@ -170,10 +168,8 @@ static int psp_v13_0_4_bootloader_load_sos(struct psp_context *psp)
+ 	if (ret)
+ 		return ret;
+ 
+-	memset(psp->fw_pri_buf, 0, PSP_1_MEG);
+-
+ 	/* Copy Secure OS binary to PSP memory */
+-	memcpy(psp->fw_pri_buf, psp->sos.start_addr, psp->sos.size_bytes);
++	memcpy_and_pad(psp->fw_pri_buf, PSP_1_MEG, psp->sos.start_addr, psp->sos.size_bytes, 0);
+ 
+ 	/* Provide the PSP secure OS to bootloader */
+ 	WREG32_SOC15(MP0, 0, regMP0_SMN_C2PMSG_36,
 -- 
 2.34.1
 
