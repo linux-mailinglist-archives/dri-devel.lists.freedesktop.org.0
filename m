@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC8968073E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 09:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E2D67FBFF
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 01:47:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C8B10E0C5;
-	Mon, 30 Jan 2023 08:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A467910E034;
+	Sun, 29 Jan 2023 00:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808C010E052
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jan 2023 21:31:42 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B6E7F2228D;
- Sat, 28 Jan 2023 21:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674941500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lOfcriW/CJmr7HzgUiwJfhcc5+KRom0nCF1f1hpSBS4=;
- b=HS5MqC3Q76GX4oHy2jBobUiNlykjj/LmhKD9TbJJsvI/zrKXclcBUj7PFzHVsjtxgG4Zc3
- w+mMMqMzLAKuZ4UDwMBJeYOqPD7AZZAjUUTUGXktBD2IegCgtxaHTivatgesgSob8wGaK5
- Q1n0wbEm7WYzsR3iqiABkqCzH0cwOJU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674941500;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lOfcriW/CJmr7HzgUiwJfhcc5+KRom0nCF1f1hpSBS4=;
- b=hQfzaWM9LAUjR9lUc8gaNOSV7tV3foiBE5UAME/JBvEHtMQZ8IKgvgE0ZCNjD0KVLR2nQk
- Ft13wP/XBB5nA6Dg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9ED6C13918;
- Sat, 28 Jan 2023 21:31:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id R9DbJDyU1WN0TgAAMHmgww
- (envelope-from <pjakobsson@suse.de>); Sat, 28 Jan 2023 21:31:40 +0000
-Date: Sat, 28 Jan 2023 22:31:40 +0100
-From: Patrik Jakobsson <pjakobsson@suse.de>
-To: Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH] fbdev: Fix invalid page access after closing deferred
- I/O devices
-Message-ID: <20230128213140.b54wgvupuldexvzk@workstation>
-References: <20230127165834.11387-1-tiwai@suse.de>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5BD410E034
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 00:47:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674953227; x=1706489227;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=l0j7K1/L9M+f1mEpBM1Ek5xikMFJoO8xM/NLZGKxV44=;
+ b=iEdfxBU9hUlCsY/3FMmz84ShLwrmO8SpONgWLcmD7f72vdUfatehJxkR
+ qIQR2KRyrUeh+IUPTC1CWM8AQadnCMyV92/EThybgoL1bCbaK1eHJh7ey
+ /KAVQUWCjLxfFUjr9ITMuAFjagD68Ccdjy8qq758NCIuKCD9eIBkBfCjl
+ wBKt1BrTZZSo+6S3VLZQvxRljHRWBpZs2trYPRc+MqVILX1wjAwj128fb
+ UleTcWiYYtlfnbpA5nC44qQKCvq9i6D4fZCO97QvOh4C5yYFot19stxzq
+ y8WiTOEiQLBiYRx9Qkmi+pjV1lxXZBG1ApgsDIss5OtZeLo/LwfIQSo8t g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="325043682"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; d="scan'208";a="325043682"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2023 16:47:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="727086438"
+X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; d="scan'208";a="727086438"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+ by fmsmga008.fm.intel.com with ESMTP; 28 Jan 2023 16:47:01 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pLvqV-0001H4-3A;
+ Sun, 29 Jan 2023 00:46:59 +0000
+Date: Sun, 29 Jan 2023 08:46:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Cormier <jcormier@criticallink.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Jyri Sarha <jsarha@ti.com>
+Subject: Re: [PATCH 4/4] DRM: BRIDGE: TFP410: If connected, use I2C for
+ polled HPD status.
+Message-ID: <202301290803.ouS19eab-lkp@intel.com>
+References: <20230125-tfp410_i2c-v1-4-66a4d4e390b7@criticallink.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230127165834.11387-1-tiwai@suse.de>
-X-Mailman-Approved-At: Mon, 30 Jan 2023 08:17:13 +0000
+In-Reply-To: <20230125-tfp410_i2c-v1-4-66a4d4e390b7@criticallink.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,87 +68,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Jonathan Cormier <jcormier@criticallink.com>, devicetree@vger.kernel.org,
+ Bob Duke <bduke@criticallink.com>, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Michael Williamson <michael.williamson@criticallink.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 27, 2023 at 05:58:34PM +0100, Takashi Iwai wrote:
-> When a fbdev with deferred I/O is once opened and closed, the dirty
-> pages still remain queued in the pageref list, and eventually later
-> those may be processed in the delayed work.  This may lead to a
-> corruption of pages, hitting an Oops.
-> 
-> This patch makes sure to cancel the delayed work and clean up the
-> pageref list at closing the device for addressing the bug.  A part of
-> the cleanup code is factored out as a new helper function that is
-> called from the common fb_release().
-> 
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Hi Jonathan,
 
-Reviewed-by: Patrik Jakobsson <pjakobsson@suse.de>
+Thank you for the patch! Perhaps something to improve:
 
-> ---
->  drivers/video/fbdev/core/fb_defio.c | 10 +++++++++-
->  drivers/video/fbdev/core/fbmem.c    |  2 ++
->  include/linux/fb.h                  |  1 +
->  3 files changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-> index c730253ab85c..583cbcf09446 100644
-> --- a/drivers/video/fbdev/core/fb_defio.c
-> +++ b/drivers/video/fbdev/core/fb_defio.c
-> @@ -313,7 +313,7 @@ void fb_deferred_io_open(struct fb_info *info,
->  }
->  EXPORT_SYMBOL_GPL(fb_deferred_io_open);
->  
-> -void fb_deferred_io_cleanup(struct fb_info *info)
-> +void fb_deferred_io_release(struct fb_info *info)
->  {
->  	struct fb_deferred_io *fbdefio = info->fbdefio;
->  	struct page *page;
-> @@ -327,6 +327,14 @@ void fb_deferred_io_cleanup(struct fb_info *info)
->  		page = fb_deferred_io_page(info, i);
->  		page->mapping = NULL;
->  	}
-> +}
-> +EXPORT_SYMBOL_GPL(fb_deferred_io_release);
-> +
-> +void fb_deferred_io_cleanup(struct fb_info *info)
-> +{
-> +	struct fb_deferred_io *fbdefio = info->fbdefio;
-> +
-> +	fb_deferred_io_release(info);
->  
->  	kvfree(info->pagerefs);
->  	mutex_destroy(&fbdefio->lock);
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 3a6c8458eb8d..78c4cb5ee7c9 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1454,6 +1454,8 @@ __releases(&info->lock)
->  	struct fb_info * const info = file->private_data;
->  
->  	lock_fb_info(info);
-> +	if (info->fbdefio)
-> +		fb_deferred_io_release(info);
->  	if (info->fbops->fb_release)
->  		info->fbops->fb_release(info,1);
->  	module_put(info->fbops->owner);
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 96b96323e9cb..73eb1f85ea8e 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -662,6 +662,7 @@ extern int  fb_deferred_io_init(struct fb_info *info);
->  extern void fb_deferred_io_open(struct fb_info *info,
->  				struct inode *inode,
->  				struct file *file);
-> +extern void fb_deferred_io_release(struct fb_info *info);
->  extern void fb_deferred_io_cleanup(struct fb_info *info);
->  extern int fb_deferred_io_fsync(struct file *file, loff_t start,
->  				loff_t end, int datasync);
-> -- 
-> 2.35.3
-> 
+[auto build test WARNING on 93f875a8526a291005e7f38478079526c843cbec]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cormier/dt-bindings-display-bridge-tfp410-Add-tfp410-i2c-example/20230128-183627
+base:   93f875a8526a291005e7f38478079526c843cbec
+patch link:    https://lore.kernel.org/r/20230125-tfp410_i2c-v1-4-66a4d4e390b7%40criticallink.com
+patch subject: [PATCH 4/4] DRM: BRIDGE: TFP410: If connected, use I2C for polled HPD status.
+config: i386-randconfig-a006 (https://download.01.org/0day-ci/archive/20230129/202301290803.ouS19eab-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c4659fa4c02b62087c095ca99978e5eac8b490de
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jonathan-Cormier/dt-bindings-display-bridge-tfp410-Add-tfp410-i2c-example/20230128-183627
+        git checkout c4659fa4c02b62087c095ca99978e5eac8b490de
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/bridge/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/bridge/ti-tfp410.c:111:6: warning: unused variable 'val' [-Wunused-variable]
+           u32 val;
+               ^
+   1 warning generated.
+
+
+vim +/val +111 drivers/gpu/drm/bridge/ti-tfp410.c
+
+   106	
+   107	static enum drm_connector_status
+   108	tfp410_connector_detect(struct drm_connector *connector, bool force)
+   109	{
+   110		struct tfp410 *dvi = drm_connector_to_tfp410(connector);
+ > 111		u32 val;
+   112		unsigned int ret;
+   113	
+   114		if (dvi->i2c) {
+   115			ret = regmap_test_bits(dvi->regmap, TFP410_REG_CTL_2_MODE, TFP410_BIT_HTPLG);
+   116			if (ret < 0)
+   117				dev_err(dvi->dev, "%s failed to read HTPLG bit : %d\n", __func__, ret);
+   118			else
+   119				return ret ? connector_status_connected : connector_status_disconnected;
+   120		}
+   121	
+   122		return drm_bridge_detect(dvi->next_bridge);
+   123	}
+   124	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
