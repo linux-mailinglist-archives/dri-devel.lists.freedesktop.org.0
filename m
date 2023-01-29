@@ -2,35 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE03F67FF6B
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 14:39:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5788C67FF88
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Jan 2023 15:32:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27A3210E061;
-	Sun, 29 Jan 2023 13:39:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 655E110E06C;
+	Sun, 29 Jan 2023 14:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 058C110E059
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 13:39:20 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=phil.lan) by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1pM7ts-0003rM-T7; Sun, 29 Jan 2023 14:39:16 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 0/6] drm/rockchip: vop2: add support for the
- rgb output block
-Date: Sun, 29 Jan 2023 14:39:11 +0100
-Message-Id: <167499930025.3595793.9316815837713750123.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230124054706.3921383-1-michael.riesch@wolfvision.net>
-References: <20230124054706.3921383-1-michael.riesch@wolfvision.net>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459C110E062
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 14:31:56 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id kt14so25284187ejc.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jan 2023 06:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8MIKp1sLjt2KlpkgBmQpn1698eVN4BwncnTW01kcrf4=;
+ b=PtKJDOJ9uQXcFJ9z0ojEz1wUdi1og2nCFbIvZx7BnyohI7+nulSalxMeNCwRRwsOuh
+ nYMAwS6TeZMSVFyzxB1uVp2+jHYRvpL16uQmQyc6EH+12yVCVQ7bEDyAAl4mhGyNeDK8
+ ZAvcgtgX6pvI6UflJdS0crp/jyLYDaDk5Ikvl/tESeTXf6oQxnbZaYQP6U0CHK6WpQa3
+ CPrkC7kMdzXDL7MJkftyajulWlxyxu5+RAOhd5bXKHDVH0S5JNcThf6UX0KPSOn+KBSq
+ MxoleBC5Xo9t18skRMV64yO92kpKGbsNqWYPVDRhM/5/9xkfsJ7GDYR63rHOEjeByozT
+ AC8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8MIKp1sLjt2KlpkgBmQpn1698eVN4BwncnTW01kcrf4=;
+ b=NHlRRsQQf+9oVSViCLx8sRn7u614dFKGbjkAr+7f3iyw4uULLZerFHFCshTcIZMsuW
+ E7iEd+zVkkcZw1Yn/iqhrL7qpJe0pQ6CrvPtBOfEfZfqKGwzlPr9MZHf/NqffQYC8snO
+ 4axPjk5grMzPegMuTI3RTOP0Bl6YkfzcCZm/sGh3XaY5bblKrxVG4ZaZENvVEO4jYY/a
+ tGMPwQ18GC7xkQyxOCN9XzlU1ZrBg98vPWZRao/8ft/C34UYnPhT3BOQj7zjmfSYyRMD
+ RCl7/U2xq1zKJey6OpXXLMqHtYcKl4J306SMONypifzMonAsJBzvbyYhPFAI8UPXnnI9
+ 5n6g==
+X-Gm-Message-State: AO0yUKUKytwQvaqUYsIGZGjSvtuDFT9runtMmosabDgG5+b7yuayn0x/
+ /fzzHkKJnYmXCAg7JDlnrSo=
+X-Google-Smtp-Source: AK7set9El9Qw9ZNnDW9cHlXT8z0VcwKEt6G4063gTHLbzByjD78crgBS/dqIqQO9eKwbqicdnEtoIg==
+X-Received: by 2002:a17:906:6c87:b0:87b:59d9:5a03 with SMTP id
+ s7-20020a1709066c8700b0087b59d95a03mr9010329ejr.36.1675002714570; 
+ Sun, 29 Jan 2023 06:31:54 -0800 (PST)
+Received: from localhost.localdomain (83.6.123.74.ipv4.supernova.orange.pl.
+ [83.6.123.74]) by smtp.gmail.com with ESMTPSA id
+ jr23-20020a170906515700b0086f4b8f9e42sm5410128ejc.65.2023.01.29.06.31.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Jan 2023 06:31:54 -0800 (PST)
+From: Maya Matuszczyk <maccraft123mc@gmail.com>
+To: Heiko Stuebner <heiko@sntech.de>
+Subject: [PATCH 0/3] Add internal display support to Odroid Go Super
+Date: Sun, 29 Jan 2023 15:31:38 +0100
+Message-Id: <20230129143141.173413-1-maccraft123mc@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -44,27 +68,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandy Huang <hjc@rock-chips.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sascha Hauer <sha@pengutronix.de>
+Cc: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Jan 2023 06:47:00 +0100, Michael Riesch wrote:
-> This series adds support for the RGB output block that can be found in the
-> Rockchip Video Output Processor (VOP) 2. Version 2 of this series
-> incorporates the feedback by Dan Carpenter and Sascha Hauer. Version 3
-> fixes a dumb mistake pointed out by Sascha :-) Thanks for your comments!
-> 
-> Patches 1-4 clean up the code and make it more general.
-> 
-> [...]
+This patch series introduces internal display to Odroid Go Super, which
+shares panel with Odroid Go Ultra and several clone devices.
 
-Applied, thanks!
+Maya Matuszczyk (3):
+  dt-bindings: display: panel: sitronix,st7701: Add Elida KD50T048A
+    Panel
+  drm: panel: Add Elida KD50T048A to Sitronix ST7701 driver
+  arm64: dts: rockchip: Add display support to Odroid Go Super
 
-[6/6] arm64: dts: rockchip: add pinctrls for 16-bit/18-bit rgb interface to rk356x
-      commit: 381b6d432f6eb00e1faff763f55e67519af9fa23
+ .../display/panel/sitronix,st7701.yaml        |   1 +
+ .../boot/dts/rockchip/rk3326-odroid-go3.dts   |   4 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c | 125 ++++++++++++++++++
+ 3 files changed, 129 insertions(+), 1 deletion(-)
 
-Best regards,
 -- 
-Heiko Stuebner <heiko@sntech.de>
+2.39.1
+
