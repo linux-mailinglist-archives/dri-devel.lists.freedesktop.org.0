@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46FB680AA3
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 11:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE47680AA4
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 11:18:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10B3310E212;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAA810E0DA;
 	Mon, 30 Jan 2023 10:18:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8AE510E222;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9264B10E220;
  Mon, 30 Jan 2023 10:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1675073875; x=1706609875;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=avSgsLstztOlD71v/wKLqEN3rbs4A7R8zN+WVMubBhw=;
- b=GIwnNt2Y6YiD59X0M2wNO47zD39cgX4eTfpgf2zPleOY4JhzWZIQUrtf
- r6osTrnzkgoKbFvKFXgYrmyscOnvbtcq/eJzF2LJ9gc0PFVrIcdvF9znK
- asFER6r7RmIwtJjioVr21/us4KT99qRNtoXamtivzfEhiHGZuzPCmZ1wj
- 0Yt4ABeM2UyeixZAmfSSQzAivgWfUQ1iDjdf0H0/w4KKISuuMKx/hBsov
- 3rWRj0pfxAIsLgk4271CCf64N/8Thqu1lGqrZBrmAub5yaNwRQRi0KIed
- hkHXyck2sEldUwTBNGNMdAsZKPwf8+04a6NUxD3kMWe1Nh1v6dq2Lw5y2 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="328798969"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="328798969"
+ bh=pLbEbTuQ7hqEcr6TdPo2XG/N7paBnTT2xqswALTRuF4=;
+ b=MgqFWrzBECbce0Dp8/rxw7jtuvvQ67abNFHyCqsDCX5QBcCAsVTsxOgn
+ IoihtWW5omkC5ptIxKadYJdcX2B4o59VRatc+fY+OpeIIbHkatyygzBPE
+ X4k0lRyDtgs9byFez7WIrYEdIwiiZZaSxR0EdkUkMqBgZNQWMLmIEzVPN
+ 8ov0sJGTRyVrajHxdPWoMPEOTHGWEzA2SUZU457gA1jEgKUN2lBOz8KSV
+ 2xSSJddR1mjNZlShjriL25YquhL83gQ1411crgQgOBVMxZ8fKCLqCnb88
+ XHx4E/JwuCfuzvJXDYUG+L4styqZMjLLwBCW9VyoOb5Ik9o86dDRUh4ei g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="328798978"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="328798978"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Jan 2023 02:17:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="696348881"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="696348881"
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="696348890"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="696348890"
 Received: from dscheepe-mobl2.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.1.159])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 02:14:20 -0800
+ 30 Jan 2023 02:14:22 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 5/6] drm/ttm: stop allocating a dummy resource for pipelined
- gutting
-Date: Mon, 30 Jan 2023 10:12:29 +0000
-Message-Id: <20230130101230.25347-5-matthew.auld@intel.com>
+Subject: [PATCH 6/6] drm/ttm: prevent moving of pinned BOs
+Date: Mon, 30 Jan 2023 10:12:30 +0000
+Message-Id: <20230130101230.25347-6-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230130101230.25347-1-matthew.auld@intel.com>
 References: <20230130101230.25347-1-matthew.auld@intel.com>
@@ -66,75 +65,157 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Christian König <christian.koenig@amd.com>
 
-That should not be necessary any more when drivers should at least be
-able to handle a move without a resource.
+We have checks for this in the individual drivers move callback, but
+it's probably better to generally forbid that on a higher level.
+
+Also stops exporting ttm_resource_compat() since that's not necessary
+any more after removing the extra checks in vmwgfx.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo_util.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c |  4 ----
+ drivers/gpu/drm/nouveau/nouveau_bo.c    |  3 ---
+ drivers/gpu/drm/radeon/radeon_ttm.c     |  4 ----
+ drivers/gpu/drm/ttm/ttm_bo.c            | 20 ++++++++++++--------
+ drivers/gpu/drm/ttm/ttm_resource.c      |  1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      | 19 ++-----------------
+ 6 files changed, 14 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 7635d7d6b13b..d9d2b0903b22 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -704,30 +704,23 @@ EXPORT_SYMBOL(ttm_bo_move_sync_cleanup);
-  */
- int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- {
--	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
- 	struct ttm_buffer_object *ghost;
--	struct ttm_resource *sys_res;
- 	struct ttm_tt *ttm;
- 	int ret;
- 
--	ret = ttm_resource_alloc(bo, &sys_mem, &sys_res);
--	if (ret)
--		return ret;
--
- 	/* If already idle, no need for ghost object dance. */
- 	if (dma_resv_test_signaled(bo->base.resv, DMA_RESV_USAGE_BOOKKEEP)) {
- 		if (!bo->ttm) {
- 			/* See comment below about clearing. */
- 			ret = ttm_tt_create(bo, true);
- 			if (ret)
--				goto error_free_sys_mem;
-+				return ret;
- 		} else {
- 			ttm_tt_unpopulate(bo->bdev, bo->ttm);
- 			if (bo->type == ttm_bo_type_device)
- 				ttm_tt_mark_for_clear(bo->ttm);
- 		}
- 		ttm_resource_free(bo, &bo->resource);
--		ttm_bo_assign_mem(bo, sys_res);
- 		return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index c5ef7f7bdc15..2cd081cbf706 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -466,11 +466,7 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 			return r;
  	}
  
-@@ -744,7 +737,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 	ret = ttm_tt_create(bo, true);
- 	swap(bo->ttm, ttm);
- 	if (ret)
--		goto error_free_sys_mem;
-+		return ret;
- 
- 	ret = ttm_buffer_object_transfer(bo, &ghost);
- 	if (ret)
-@@ -760,13 +753,9 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
- 	dma_resv_unlock(&ghost->base._resv);
- 	ttm_bo_put(ghost);
- 	bo->ttm = ttm;
--	ttm_bo_assign_mem(bo, sys_res);
- 	return 0;
- 
- error_destroy_tt:
- 	ttm_tt_destroy(bo->bdev, ttm);
+-	/* Can't move a pinned BO */
+ 	abo = ttm_to_amdgpu_bo(bo);
+-	if (WARN_ON_ONCE(abo->tbo.pin_count > 0))
+-		return -EINVAL;
 -
--error_free_sys_mem:
--	ttm_resource_free(bo, &sys_res);
- 	return ret;
+ 	adev = amdgpu_ttm_adev(bo->bdev);
+ 
+ 	if (!old_mem || (old_mem->mem_type == TTM_PL_SYSTEM &&
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 288eebc70a67..c2ec91cc845d 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -1015,9 +1015,6 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (ret)
+ 		goto out_ntfy;
+ 
+-	if (nvbo->bo.pin_count)
+-		NV_WARN(drm, "Moving pinned object %p!\n", nvbo);
+-
+ 	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_TESLA) {
+ 		ret = nouveau_bo_vm_bind(bo, new_reg, &new_tile);
+ 		if (ret)
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 1e8e287e113c..67075c85f847 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -211,11 +211,7 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (r)
+ 		return r;
+ 
+-	/* Can't move a pinned BO */
+ 	rbo = container_of(bo, struct radeon_bo, tbo);
+-	if (WARN_ON_ONCE(rbo->tbo.pin_count > 0))
+-		return -EINVAL;
+-
+ 	rdev = radeon_get_rdev(bo->bdev);
+ 	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
+ 		ttm_bo_move_null(bo, new_mem);
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 169818b32be2..882c2fa346f3 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -893,14 +893,18 @@ int ttm_bo_validate(struct ttm_buffer_object *bo,
+ 	if (!placement->num_placement && !placement->num_busy_placement)
+ 		return ttm_bo_pipeline_gutting(bo);
+ 
+-	/*
+-	 * Check whether we need to move buffer.
+-	 */
+-	if (!bo->resource || !ttm_resource_compat(bo->resource, placement)) {
+-		ret = ttm_bo_move_buffer(bo, placement, ctx);
+-		if (ret)
+-			return ret;
+-	}
++	/* Check whether we need to move buffer. */
++	if (bo->resource && ttm_resource_compat(bo->resource, placement))
++		return 0;
++
++	/* Moving of pinned BOs is forbidden */
++	if (bo->pin_count)
++		return -EINVAL;
++
++	ret = ttm_bo_move_buffer(bo, placement, ctx);
++	if (ret)
++		return ret;
++
+ 	/*
+ 	 * We might need to add a TTM.
+ 	 */
+diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+index b8a826a24fb2..7333f7a87a2f 100644
+--- a/drivers/gpu/drm/ttm/ttm_resource.c
++++ b/drivers/gpu/drm/ttm/ttm_resource.c
+@@ -361,7 +361,6 @@ bool ttm_resource_compat(struct ttm_resource *res,
+ 
+ 	return false;
  }
+-EXPORT_SYMBOL(ttm_resource_compat);
+ 
+ void ttm_resource_set_bo(struct ttm_resource *res,
+ 			 struct ttm_buffer_object *bo)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index aa1cd5126a32..9bf1f9d2f9b6 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -87,12 +87,7 @@ int vmw_bo_pin_in_placement(struct vmw_private *dev_priv,
+ 	if (unlikely(ret != 0))
+ 		goto err;
+ 
+-	if (buf->base.pin_count > 0)
+-		ret = ttm_resource_compat(bo->resource, placement)
+-			? 0 : -EINVAL;
+-	else
+-		ret = ttm_bo_validate(bo, placement, &ctx);
+-
++	ret = ttm_bo_validate(bo, placement, &ctx);
+ 	if (!ret)
+ 		vmw_bo_pin_reserved(buf, true);
+ 
+@@ -128,12 +123,6 @@ int vmw_bo_pin_in_vram_or_gmr(struct vmw_private *dev_priv,
+ 	if (unlikely(ret != 0))
+ 		goto err;
+ 
+-	if (buf->base.pin_count > 0) {
+-		ret = ttm_resource_compat(bo->resource, &vmw_vram_gmr_placement)
+-			? 0 : -EINVAL;
+-		goto out_unreserve;
+-	}
+-
+ 	ret = ttm_bo_validate(bo, &vmw_vram_gmr_placement, &ctx);
+ 	if (likely(ret == 0) || ret == -ERESTARTSYS)
+ 		goto out_unreserve;
+@@ -218,11 +207,7 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
+ 		(void) ttm_bo_validate(bo, &vmw_sys_placement, &ctx);
+ 	}
+ 
+-	if (buf->base.pin_count > 0)
+-		ret = ttm_resource_compat(bo->resource, &placement)
+-			? 0 : -EINVAL;
+-	else
+-		ret = ttm_bo_validate(bo, &placement, &ctx);
++	ret = ttm_bo_validate(bo, &placement, &ctx);
+ 
+ 	/* For some reason we didn't end up at the start of vram */
+ 	WARN_ON(ret == 0 && bo->resource->start != 0);
 -- 
 2.39.1
 
