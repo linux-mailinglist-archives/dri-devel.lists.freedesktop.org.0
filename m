@@ -2,126 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32F1680E63
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 14:02:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82EA680E6B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 14:05:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732F110E23E;
-	Mon, 30 Jan 2023 13:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94D5210E242;
+	Mon, 30 Jan 2023 13:04:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2068.outbound.protection.outlook.com [40.107.223.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2D1D10E247;
- Mon, 30 Jan 2023 13:02:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FH7TI5mKDzIBlGQvInM8xd27Iuuif2oyRvoVhSHI9/qEKCgQ2rf55j6+fTHmZ5ur4gkGsVpmj6BR91vCA9oHcFcG53N2npL9DhtnwgXIAJQm722XSL2GyV1FGiKdp9Xjn/wqkis9PL3b1gCW/u90ZAFLrQ64byQ9qWmm0Ot9ofl1Rn3d5pt5coUc+rVFY0/vHfLaGQQ8yuJwR0dGl1H4xCHMC/UCJqQQX4iNZeUGaibxwl4Zwcpc+mJ3HgcLCGe4usPiE8UFuTPPC7jKQtsGAJzxx4j6cG0xOO/i0aHCsiPJ8e9baOFWlLhQkur/Ej2Oi6jp69MGYsrp8zVbqpTIYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7htTHqqT7UWF7IT0s7av154or6g1XPJM/wfy4tnnerc=;
- b=JpOmHuqVp852opyUmZwDCDo/B/lZdMK59HTg80e5ClSUIEJHnwD9rVQTsHO6fY3gQW5eIzgg2lUs52faPtD34FnTcUu+AEcjczYe9i1FHtWHl/PI6eWTeXyzwUl59HTAuZ+1unICgPSguJaRFFh0S1PShegaGsNKM3dGG+TR0kVjBTAUeJQ+HeELUbZjUpcCvBIWh5grhIa40TgHj8HIG0c1Wlt3cHN9nGKqF76gamqxyC3aTUkOe5dNyIOnmsziCCFGz6KoOgKkKvZ/cmFQOE4T5nqe1+yQz0NaH6v0x1XuZ16oc674byOgOVUGhj8UcCIurrCqWlVDQXMDG9HCNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7htTHqqT7UWF7IT0s7av154or6g1XPJM/wfy4tnnerc=;
- b=kaDtpNGVcPn3Ghz5rsA79nwUkuJMteyyFBRI9OfrXCzEitIZQQlb0xlQLmhSE2jNbKwvkSwUFngq+5J+Kz8El6EB1Bk8m0zq8jcaK98v7f2UYRmzv5QMofJSpwPH4IPxpJC7aqeKekmMsdAOrc+fDCEaFknaddb/QUjlp5N2/TE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BL0PR12MB4881.namprd12.prod.outlook.com (2603:10b6:208:1c7::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
- 2023 13:02:40 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6043.030; Mon, 30 Jan 2023
- 13:02:40 +0000
-Message-ID: <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
-Date: Mon, 30 Jan 2023 14:02:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi interfaces
-Content-Language: en-US
-To: Danilo Krummrich <dakr@redhat.com>, Matthew Brost <matthew.brost@intel.com>
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-6-dakr@redhat.com>
- <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
- <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
- <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
- <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
- <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
- <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
- <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
- <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
- <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0026.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D354810E242
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 13:04:56 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id ml19so7958792ejb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 05:04:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aZuHVl5hGmJ4fZkRt1Yrk6j1AQz/7NfuVRUiWBNlLoA=;
+ b=oRiQNtD8JxychICWlI33NIYEwScdivXaagfMtJhWBXStjp+/NTU9AtCRt8iQE/PWr+
+ BO5jCTUUxN26sf/wpdQRySFmkddV0VHoL2obLQfp/MzG1sJQzOcFNViTPpug0rHZ0TnF
+ Dfi7GzsKHUKeTWn1FHOwEtUX570zTxlOrVnOCdocvgc0QBHWZdLBemN74SijcdAAZiMV
+ +B47xYaZD8YWd0OVYOKqDjhbeLtuIpJ6xuPHQv8NAQ9dHst+NQgoU5QfEZfoECFxO/gJ
+ KmX36v4Jmhzsba0zoaNLjIZR6bTLZTJC+RO0qfKVdacy2nyx6eJGkdnYTov+oYHUyxe+
+ vx2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aZuHVl5hGmJ4fZkRt1Yrk6j1AQz/7NfuVRUiWBNlLoA=;
+ b=uQDUTiBnuhonNruCYfTv/KT51pfziIwlxEywKt2z7tRD+QOFQni3DjbrQcYAqFqcZd
+ qeLKvii3FI+8fpw5E/ENzSIHkli7ZcBHxHI+jlK/DfF145dSpoEwvVS7qGUPTTlPBmeu
+ Tj3sNdTnBeWLUvtS6mGOmdl/y7F2/6NcAJHtAby1MLstt9+sC4pXSbaM2P8VKNkoFBOh
+ J9HL0KoNJec5qcCn2Xcxhkob8qh/u3OoJu1uJvpdq/f5bZVETiX3dDNAPNaabAhgUrME
+ noE+sfJBnAA7PHalDYw2uKgxXp83e0k0jaEUOwlvcO1l/yiRMPfhIPbfXGTwhTrTOG7y
+ YdBQ==
+X-Gm-Message-State: AO0yUKW/uBNAnUo9llV4haI30zjXPmV0MRnEyz/I7hYHoPSoasWVuW3Q
+ LQEbU4M1D9rsSyPN5UX47xIPtUY//SnLniWwe02Kjih8E7fJ/tL+
+X-Google-Smtp-Source: AK7set/ZXDXv8lI64elVdlupXYFVhQJUz6pJQ5wLNKdS+mDyS8tmTntWgpkft+AloQ/vWI//EVROAZypBFz605XeRkI=
+X-Received: by 2002:a17:906:7244:b0:882:c2dd:f29e with SMTP id
+ n4-20020a170906724400b00882c2ddf29emr2145140ejk.268.1675083895092; Mon, 30
+ Jan 2023 05:04:55 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BL0PR12MB4881:EE_
-X-MS-Office365-Filtering-Correlation-Id: e371458c-079e-42e1-d583-08db02c24466
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yNzWi5OYkc0tH4PRbjLVMSxiBTSVNFGnRwgbpb8YyJQPNMsESXY7eiuRu2aVzhOWamHNniHbbYplU5sqOPXkBnTgaIxRRHMg5det904wwZ4RUhjiANl5sZud5V2qXi2hdYdX7X84JpdgsyQYidPLusi9e1mAg7eehyrZ+wd/2GkT42ATAuUq0j1avy+VTCqI9JkgNwVTDe+WYhHVynFIJkzUL/C0VfRbzGKLpeqJEwHjgSudy0uZFvhNEMKpMgDK0cVA8J02miSY/0DCv9Edkt3zCmvfpWaj9kbUkp6c8oaoXkcxJYFAod3edSMEtSLQtLOzidu+w42HDsWwPnOyizanaq6CHu40ktH4uz0YfvmqShY7Iqg8j9RZBB+xnRNVe5YsHPbiSgTWZ4czSHhFmPU92Bb+es7/fNOjDXfc8Du8luamiwR7rOWiY5nrsN8xno4m6H1Ftrxb26l6sz9BDh05XJuZgZAR1XzcMtwYFVFRpzZ0nCaRLgCufpaDNnviPYh17bUNZBbPOBSFM2qdRfglQ6IHIeNi3fxaKJb8Myu94lhkdXk/jjEeIGVAFPcZhZDZ/2EgJbszbWbGAL4u+y/JTD0w8kOBW2fIEf/ejsAVobWpsGVQx8K/fkMMjG9ZaZ5UzBPaEH//TeohKZJ/o2CAkY8K2m00/A1mnAXUwd0RMqNoYyODQ2b62x9GbBgn4cKZUwZJjCk7SKiea82OBW6y9aqAnT+sVehUCp3cVI8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(376002)(366004)(346002)(396003)(136003)(451199018)(8936002)(41300700001)(31696002)(30864003)(86362001)(5660300002)(7416002)(83380400001)(66574015)(2616005)(110136005)(316002)(66556008)(66476007)(66946007)(38100700002)(4326008)(8676002)(6666004)(6512007)(26005)(186003)(6506007)(53546011)(36756003)(6486002)(478600001)(66899018)(31686004)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTVYZHhSY3lOcWVUUXlObGVTV25pRlJrdFRVQnF4SXBsOWpCSUV5SzEwSUF3?=
- =?utf-8?B?Umw0NXI4TXpqRCtoY1BZcVQ5NDdFbHdLeXVCbjJNK2ZMWDJWakZuOEhYY0hn?=
- =?utf-8?B?K3ZiSGh2QWNMcGRpOUlnNnEvWUxvL1Jtb0ZMdm9QU0pSQ2dac1BwSk5LYTRE?=
- =?utf-8?B?MkZEeWkyQ2NWS2x5Zmdjc28xZWZuSURGUTd1a2dlNGZuUy9MYU1UN2VFMkNj?=
- =?utf-8?B?Q1BTSzJTRVVnU3c0eDhJU3hYbGlXMGhyNGVROUUvcTBEc1BBTWczOEx0Qmxt?=
- =?utf-8?B?RGc3T1QvZHQ4OTZKZ1B2a2FtTjhMd25GcThCYW9DRENBQzVBME9rODF3bHRC?=
- =?utf-8?B?YVpnQmR6RDdpQjRiRHRnbVh6bHNvQ3BHS0F6ODAxandHa0IzN1YxYVJjVzho?=
- =?utf-8?B?bWxodVB1bkJUUVIrQjBZZmc1QmVHSWlIajRJYU5rN0ZDUUR2WDU1RnhqSENR?=
- =?utf-8?B?eDZ3RTluUTZlWDBTYjVZbU5rZng0R1g3dEtUTDFpNUxpUnh6MklBeG1YS0Ju?=
- =?utf-8?B?aDN1ODl1V0VnRkVBK3RrQzkxY2Z1SWpKZnk1QjZtOHYvYVYya2NxVHkxeVB1?=
- =?utf-8?B?WHRZQkJ6R3JMalRMRUhnOVNyTVVvSnIyQzFBWXRFZk83QW9VODRXeTVrcVht?=
- =?utf-8?B?SWtKNzRtRVBJQk1RblFCM1ovSHBPNmxmM2VmSnRDNUdyWEMyMDFXYVNDUlQ1?=
- =?utf-8?B?VGJ4U0duMU53QytGUUtrdVdjV0lhUDhaVDN0V0lTalAzbkxleDd4U3pvVFlv?=
- =?utf-8?B?ZTQzaU9iTzZISXJNbnRTNGNQR0oxbndQbUVvZnNLRnM3YUhrMGx0TGRaY0RL?=
- =?utf-8?B?ZGZ5Vmx6dkFRdDB1QVVicTVaL0tic3U3ZEJaZ2xJRkVsV1g5S25yOUs3M2ND?=
- =?utf-8?B?RWJoSWwzWlB6Y09mZkV2QnY3SjU2QU5xY3pFNWNtSllXSEF3MDM5bTJQNkFv?=
- =?utf-8?B?eHE0aGlTbEVsa1hlT1ZhTm9JSGxOWU5Nbit2RTZoU2w0UDd6NmVuQUtpTU9O?=
- =?utf-8?B?dXZDQWFTbVJjM2JjWjBwLy9VcEh4RVVXUTg5Nkg5M1Fwb3RnNTk0WmRCWGZy?=
- =?utf-8?B?NHlxenoyTFRzcnBYOEx6MlJsSGx4RHRCWlpVZUhUK1BnemkyY0NDWGx2ZjU1?=
- =?utf-8?B?bkFEeDdabXJVSUJkVnJDOWM3STRUL0Y2TXJZdUNjUmY4VFMzRG8yaUVORlM1?=
- =?utf-8?B?Z2JRV3hubVNoOEhNR3ZtWVl5Yk02TDBYbFpzcjA2bzFFY0QxRDlaZHRUdWFj?=
- =?utf-8?B?OTc1SnJxVnoxUDVmdnc2dmFnTUhOb25hTDB6aGtnU0JqYXJpdlF3QmFNTkFY?=
- =?utf-8?B?by93RDB2UUNCY1dCYU9ZazdFK0M1c2ZaSEh6K1RYZVJlMUdUOUZKYVhneHFX?=
- =?utf-8?B?d3F0WW1Id1dBRmd4QVFLcUZuR1FJbE1ZVzNYaHlhbTRFQVpobkJMbnFpako5?=
- =?utf-8?B?SmFlNXZXUUZNSVdjOUNGTHZybzN2Z3IrcGVGZTd1SVRzT1JlKzJ3RDI2MVhU?=
- =?utf-8?B?YUhEeERqMnF5NCtZL0pkbTRxSFowTFVwK0RIRjBDSFIwbHA0L3U3VExGdEU1?=
- =?utf-8?B?d0NzSXJPcWpnUTZOZkdZLzZZRlZMNm1OL000Z1Fpc0d6dlJkSUpRcWVDRWxl?=
- =?utf-8?B?U2Rjd2ZEbjEwSU5idUE3clJMQVA3N2h4QmlsV25PT1BjSjhUTHhucjlQZWNW?=
- =?utf-8?B?WEFHNlhUS29LWHF2MGYzalUxeUdHTFNmMVpQWm1qcWw5M0pva2pRM1FKL2k5?=
- =?utf-8?B?WWVwNkh1SzEyVExBd1Y3dHJoNDlHbTVKK2g1ZklYQUlKRTNEK09ZSG5tOTc4?=
- =?utf-8?B?TG9ZV0hzN21IYmxQOFBzMHlHRXBwV0VZSWJJajBPdjAra09DdTVuTGtyWkNQ?=
- =?utf-8?B?c1FjTlNPc1F2TnhQODF5SmNIaDB5aWVleDdZQjJMd2hLQUJRNGptZWFKZXc1?=
- =?utf-8?B?ZVNvdXRUWmpCYk9ZWWRyaTFUMDZ5N3QxMDhzWkFhN1VFckNiTy9BYjgxMW56?=
- =?utf-8?B?ODY5Q0pzUHI1bGFmaklaYWpqYy9SWjBFY0oyalhEUjdYVGZ4YU5wUFZFOGpJ?=
- =?utf-8?B?U08rWGkyditrTGdXZ083UnZqYTdkNFAzM0VNM1VodXNYUGJGT2czcHZITlla?=
- =?utf-8?Q?ea3ti0nl+sRRC5GFbqyhtK1Iy?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e371458c-079e-42e1-d583-08db02c24466
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 13:02:40.1620 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9apuNZiCf6ZmRFp9+L6J+Pzsx884BW61o94pFvaZi7n2iv8PB8IaywtA7ryOCysL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4881
+References: <20220812143055.12938-1-olivier.masse@nxp.com>
+ <20220812143055.12938-2-olivier.masse@nxp.com>
+ <30534fadb8172088eddef46ae71d87c167cbf32e.camel@nxp.com>
+ <7f42ae75-c269-68a9-9037-91fd2ff6cbff@amd.com>
+In-Reply-To: <7f42ae75-c269-68a9-9037-91fd2ff6cbff@amd.com>
+From: Etienne Carriere <etienne.carriere@linaro.org>
+Date: Mon, 30 Jan 2023 14:04:43 +0100
+Message-ID: <CAN5uoS-nT1Bi0dhf74Hpv9LS6XPeTCdZ7sujAKNjacZ+PNh4xA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] tee: new ioctl to a register tee_shm from a dmabuf
+ file descriptor
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,251 +70,446 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: corbet@lwn.net, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bskeggs@redhat.com,
- jason@jlekstrand.net, nouveau@lists.freedesktop.org, airlied@redhat.com
+Cc: Peter Griffin <peter.griffin@linaro.org>,
+ "sumit.garg@linaro.org" <sumit.garg@linaro.org>,
+ =?UTF-8?Q?Cl=C3=A9ment_Faure?= <clement.faure@nxp.com>,
+ "fredgc@google.com" <fredgc@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "afd@ti.com" <afd@ti.com>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
+ Cyrille Fleury <cyrille.fleury@nxp.com>, Olivier Masse <olivier.masse@nxp.com>,
+ "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ "jens.wiklander@linaro.org" <jens.wiklander@linaro.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.01.23 um 19:46 schrieb Danilo Krummrich:
-> On 1/27/23 22:09, Danilo Krummrich wrote:
->> On 1/27/23 16:17, Christian König wrote:
->>> Am 27.01.23 um 15:44 schrieb Danilo Krummrich:
->>>> [SNIP]
->>>>>>>
->>>>>>> What you want is one component for tracking the VA allocations 
->>>>>>> (drm_mm based) and a different component/interface for tracking 
->>>>>>> the VA mappings (probably rb tree based).
->>>>>>
->>>>>> That's what the GPUVA manager is doing. There are gpuva_regions 
->>>>>> which correspond to VA allocations and gpuvas which represent the 
->>>>>> mappings. Both are tracked separately (currently both with a 
->>>>>> separate drm_mm, though). However, the GPUVA manager needs to 
->>>>>> take regions into account when dealing with mappings to make sure 
->>>>>> the GPUVA manager doesn't propose drivers to merge over region 
->>>>>> boundaries. Speaking from userspace PoV, the kernel wouldn't 
->>>>>> merge mappings from different VKBuffer objects even if they're 
->>>>>> virtually and physically contiguous.
->>>>>
->>>>> That are two completely different things and shouldn't be handled 
->>>>> in a single component.
->>>>
->>>> They are different things, but they're related in a way that for 
->>>> handling the mappings (in particular merging and sparse) the GPUVA 
->>>> manager needs to know the VA allocation (or region) boundaries.
->>>>
->>>> I have the feeling there might be a misunderstanding. Userspace is 
->>>> in charge to actually allocate a portion of VA space and manage it. 
->>>> The GPUVA manager just needs to know about those VA space 
->>>> allocations and hence keeps track of them.
->>>>
->>>> The GPUVA manager is not meant to be an allocator in the sense of 
->>>> finding and providing a hole for a given request.
->>>>
->>>> Maybe the non-ideal choice of using drm_mm was implying something 
->>>> else.
->>>
->>> Uff, well long story short that doesn't even remotely match the 
->>> requirements. This way the GPUVA manager won't be usable for a whole 
->>> bunch of use cases.
->>>
->>> What we have are mappings which say X needs to point to Y with this 
->>> and hw dependent flags.
->>>
->>> The whole idea of having ranges is not going to fly. Neither with 
->>> AMD GPUs and I strongly think not with Intels XA either.
->>
->> A range in the sense of the GPUVA manager simply represents a VA 
->> space allocation (which in case of Nouveau is taken in userspace). 
->> Userspace allocates the portion of VA space and lets the kernel know 
->> about it. The current implementation needs that for the named 
->> reasons. So, I think there is no reason why this would work with one 
->> GPU, but not with another. It's just part of the design choice of the 
->> manager.
->>
->> And I'm absolutely happy to discuss the details of the manager 
->> implementation though.
->>
->>>
->>>>> We should probably talk about the design of the GPUVA manager once 
->>>>> more when this should be applicable to all GPU drivers.
->>>>
->>>> That's what I try to figure out with this RFC, how to make it 
->>>> appicable for all GPU drivers, so I'm happy to discuss this. :-)
->>>
->>> Yeah, that was really good idea :) That proposal here is really far 
->>> away from the actual requirements.
->>>
->>
->> And those are the ones I'm looking for. Do you mind sharing the 
->> requirements for amdgpu in particular?
->>
->>>>>> For sparse residency the kernel also needs to know the region 
->>>>>> boundaries to make sure that it keeps sparse mappings around.
->>>>>
->>>>> What?
->>>>
->>>> When userspace creates a new VKBuffer with the 
->>>> VK_BUFFER_CREATE_SPARSE_BINDING_BIT the kernel may need to create 
->>>> sparse mappings in order to ensure that using this buffer without 
->>>> any memory backed mappings doesn't fault the GPU.
->>>>
->>>> Currently, the implementation does this the following way:
->>>>
->>>> 1. Userspace creates a new VKBuffer and hence allocates a portion 
->>>> of the VA space for it. It calls into the kernel indicating the new 
->>>> VA space region and the fact that the region is sparse.
->>>>
->>>> 2. The kernel picks up the region and stores it in the GPUVA 
->>>> manager, the driver creates the corresponding sparse mappings / 
->>>> page table entries.
->>>>
->>>> 3. Userspace might ask the driver to create a couple of memory 
->>>> backed mappings for this particular VA region. The GPUVA manager 
->>>> stores the mapping parameters, the driver creates the corresponding 
->>>> page table entries.
->>>>
->>>> 4. Userspace might ask to unmap all the memory backed mappings from 
->>>> this particular VA region. The GPUVA manager removes the mapping 
->>>> parameters, the driver cleans up the corresponding page table 
->>>> entries. However, the driver also needs to re-create the sparse 
->>>> mappings, since it's a sparse buffer, hence it needs to know the 
->>>> boundaries of the region it needs to create the sparse mappings in.
->>>
->>> Again, this is not how things are working. First of all the kernel 
->>> absolutely should *NOT* know about those regions.
->>>
->>> What we have inside the kernel is the information what happens if an 
->>> address X is accessed. On AMD HW this can be:
->>>
->>> 1. Route to the PCIe bus because the mapped BO is stored in system 
->>> memory.
->>> 2. Route to the internal MC because the mapped BO is stored in local 
->>> memory.
->>> 3. Route to other GPUs in the same hive.
->>> 4. Route to some doorbell to kick of other work.
->>> ...
->>> x. Ignore write, return 0 on reads (this is what is used for sparse 
->>> mappings).
->>> x+1. Trigger a recoverable page fault. This is used for things like 
->>> SVA.
->>> x+2. Trigger a non-recoverable page fault. This is used for things 
->>> like unmapped regions where access is illegal.
->>>
->>> All this is plus some hw specific caching flags.
->>>
->>> When Vulkan allocates a sparse VKBuffer what should happen is the 
->>> following:
->>>
->>> 1. The Vulkan driver somehow figures out a VA region A..B for the 
->>> buffer. This can be in userspace (libdrm_amdgpu) or kernel (drm_mm), 
->>> but essentially is currently driver specific.
->>
->> Right, for Nouveau we have this in userspace as well.
->>
->>>
->>> 2. The kernel gets a request to map the VA range A..B as sparse, 
->>> meaning that it updates the page tables from A..B with the sparse 
->>> setting.
->>>
->>> 3. User space asks kernel to map a couple of memory backings at 
->>> location A+1, A+10, A+15 etc....
->>>
->>> 4. The VKBuffer is de-allocated, userspace asks kernel to update 
->>> region A..B to not map anything (usually triggers a non-recoverable 
->>> fault).
->>
->> Until here this seems to be identical to what I'm doing.
->>
->> It'd be interesting to know how amdgpu handles everything that 
->> potentially happens between your 3) and 4). More specifically, how 
->> are the page tables changed when memory backed mappings are mapped on 
->> a sparse range? What happens when the memory backed mappings are 
->> unmapped, but the VKBuffer isn't de-allocated, and hence sparse 
->> mappings need to be re-deployed?
->>
->> Let's assume the sparse VKBuffer (and hence the VA space allocation) 
->> is pretty large. In Nouveau the corresponding PTEs would have a 
->> rather huge page size to cover this. Now, if small memory backed 
->> mappings are mapped to this huge sparse buffer, in Nouveau we'd 
->> allocate a new PT with a corresponding smaller page size overlaying 
->> the sparse mappings PTEs.
->>
->> How would this look like in amdgpu?
->>
->>>
->>> When you want to unify this between hw drivers I strongly suggest to 
->>> completely start from scratch once more.
->>>
+Hello Christian, Olivier,
+
+
+On Fri, 27 Jan 2023 at 12:19, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
 >
-> I just took some time digging into amdgpu and, surprisingly, aside 
-> from the gpuva_regions it seems like amdgpu basically does exactly the 
-> same as I do in the GPU VA manager. As explained, those region 
-> boundaries are needed for merging only and, depending on the driver, 
-> might be useful for sparse mappings.
+> Hi guys,
 >
-> For drivers that don't intend to merge at all and (somehow) are 
-> capable of dealing with sparse regions without knowing the sparse 
-> region's boundaries, it'd be easy to make those gpuva_regions optional.
+> Am 27.01.23 um 11:54 schrieb Olivier Masse:
+> > Hi Joakim,
+> > Hi Etienne,
+> >
+> > Let me bring back this pull request for OPTEE Linux driver.
+> >
+> > Last feedback was from Christian K=C3=B6nig and Sumit Garg.
+> >  From Christian:
+> >> Just two comments:
+> >>
+> >> 1. Dmitry is working on a change which renames some functions and
+> >> makes
+> >> it mandatory to call them with the dma_resv lock held.
+> >>
+> >> Depending on how you want to upstream this change you will certainly
+> >> run
+> >> into conflicts with that.
+> > Is there any update on these changes ?
+>
+> Just FYI: The upstream changes Dmitry worked on are now committed, so
+> you just need to rebase your work on top and send it out once more.
 
-Yeah, but this then defeats the approach of having the same hw 
-independent interface/implementation for all drivers.
+Could you point out the changes you're referring to?  Is it the below chang=
+e?
 
-Let me ask the other way around how does the hw implementation of a 
-sparse mapping looks like for NVidia based hardware?
+I've reviewed this change. It looks good to me, at least for opteee driver =
+side,
+with few fixes in the tee_shm_register_fd() error case path.
 
-For newer AMD hw its a flag in the page tables, for older hw its a 
-register where you can specify ranges A..B. We don't really support the 
-later with AMDGPU any more, but from this interface I would guess you 
-have the second variant, right?
+Br,
+etienne
 
-Christian.
 
 >
->>> First of all don't think about those mappings as VMAs, that won't 
->>> work because VMAs are usually something large. Think of this as 
->>> individual PTEs controlled by the application. similar how COW 
->>> mappings and struct pages are handled inside the kernel.
->>
->> Why do you consider tracking single PTEs superior to tracking VMAs? 
->> All the properties for a page you mentioned above should be equal for 
->> the entirety of pages of a whole (memory backed) mapping, aren't they?
->>
->>>
->>> Then I would start with the VA allocation manager. You could 
->>> probably base that on drm_mm. We handle it differently in amdgpu 
->>> currently, but I think this is something we could change.
->>
->> It was not my intention to come up with an actual allocator for the 
->> VA space in the sense of actually finding a free and fitting hole in 
->> the VA space.
->>
->> For Nouveau (and XE, I think) we have this in userspace and from what 
->> you've written previously I thought the same applies for amdgpu?
->>
->>>
->>> Then come up with something close to the amdgpu VM system. I'm 
->>> pretty sure that should work for Nouveau and Intel XA as well. In 
->>> other words you just have a bunch of very very small structures 
->>> which represents mappings and a larger structure which combine all 
->>> mappings of a specific type, e.g. all mappings of a BO or all sparse 
->>> mappings etc...
->>
->> Considering what you wrote above I assume that small structures / 
->> mappings in this paragraph refer to PTEs.
->>
->> Immediately, I don't really see how this fine grained resolution of 
->> single PTEs would help implementing this in Nouveau. Actually, I 
->> think it would even complicate the handling of PTs, but I would need 
->> to think about this a bit more.
->>
->>>
->>> Merging of regions is actually not mandatory. We don't do it in 
->>> amdgpu and can live with the additional mappings pretty well. But I 
->>> think this can differ between drivers.
->>>
->>> Regards,
->>> Christian.
->>>
+> >> 2. Would it be possible to do this dynamically? In other words does
+> >> the
+> >> tee driver has a concept of buffers moving around?
+> > We do not support dynamic secure memory heap.
 >
+> That's not an issue. If you pin the memory anyway then you can expose it
+> pinned through DMA-buf as well.
+>
+> The only thing you should avoid is pinning it extra for DMA-buf, because
+> then you often create a really nice possibility for an OOM deny of servic=
+e.
+>
+> Regards,
+> Christian.
+>
+> >
+> >  From Sumit:
+> >> What limits you to extend this feature to non-contiguous memory
+> >> buffers? I believe that should be possible with OP-TEE dynamic shared
+> >> memory which gives you the granularity to register a list of pages.
+> > Our solution use a fixed protected reserved memory region and do not
+> > rely on a dynamic protection managed in secure.
+> >
+> > The scope of this implementation rely on a static memory region handled
+> > by a specific DMA Heap type.
+> >
+> > Best regards,
+> > Olivier MASSE
+> >
+> >
+> > On ven., 2022-08-12 at 16:30 +0200, Olivier Masse wrote:
+> >> From: Etienne Carriere <etienne.carriere@linaro.org>
+> >>
+> >> This change allows userland to create a tee_shm object that refers
+> >> to a dmabuf reference.
+> >>
+> >> Userland provides a dmabuf file descriptor as buffer reference.
+> >> The created tee_shm object exported as a brand new dmabuf reference
+> >> used to provide a clean fd to userland. Userland shall closed this
+> >> new
+> >> fd to release the tee_shm object resources. The initial dmabuf
+> >> resources
+> >> are tracked independently through original dmabuf file descriptor.
+> >>
+> >> Once the buffer is registered and until it is released, TEE driver
+> >> keeps a refcount on the registered dmabuf structure.
+> >>
+> >> This change only support dmabuf references that relates to physically
+> >> contiguous memory buffers.
+> >>
+> >> New tee_shm flag to identify tee_shm objects built from a registered
+> >> dmabuf: TEE_SHM_EXT_DMA_BUF. Such tee_shm structures are flagged with
+> >> TEE_SHM_EXT_DMA_BUF.
+> >>
+> >> Co-Developed-by: Etienne Carriere <etienne.carriere@linaro.org>
+> >> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
+> >> Reported-by: kernel test robot <lkp@intel.com>
+> >> From: https://github.com/linaro-swg/linux.git
+> >> (cherry picked from commit 41e21e5c405530590dc2dd10b2a8dbe64589840f)
+> >> ---
+> >>   drivers/tee/tee_core.c   | 38 +++++++++++++++
+> >>   drivers/tee/tee_shm.c    | 99
+> >> +++++++++++++++++++++++++++++++++++++++-
+> >>   include/linux/tee_drv.h  | 11 +++++
+> >>   include/uapi/linux/tee.h | 29 ++++++++++++
+> >>   4 files changed, 175 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> >> index 8aa1a4836b92..7c45cbf85eb9 100644
+> >> --- a/drivers/tee/tee_core.c
+> >> +++ b/drivers/tee/tee_core.c
+> >> @@ -355,6 +355,42 @@ tee_ioctl_shm_register(struct tee_context *ctx,
+> >>      return ret;
+> >>   }
+> >>
+> >> +static int tee_ioctl_shm_register_fd(struct tee_context *ctx,
+> >> +                                 struct
+> >> tee_ioctl_shm_register_fd_data __user *udata)
+> >> +{
+> >> +    struct tee_ioctl_shm_register_fd_data data;
+> >> +    struct tee_shm *shm;
+> >> +    long ret;
+> >> +
+> >> +    if (copy_from_user(&data, udata, sizeof(data)))
+> >> +            return -EFAULT;
+> >> +
+> >> +    /* Currently no input flags are supported */
+> >> +    if (data.flags)
+> >> +            return -EINVAL;
+> >> +
+> >> +    shm =3D tee_shm_register_fd(ctx, data.fd);
+> >> +    if (IS_ERR(shm))
+> >> +            return -EINVAL;
+> >> +
+> >> +    data.id =3D shm->id;
+> >> +    data.flags =3D shm->flags;
+> >> +    data.size =3D shm->size;
+> >> +
+> >> +    if (copy_to_user(udata, &data, sizeof(data)))
+> >> +            ret =3D -EFAULT;
+> >> +    else
+> >> +            ret =3D tee_shm_get_fd(shm);
+> >> +
+> >> +    /*
+> >> +     * When user space closes the file descriptor the shared memory
+> >> +     * should be freed or if tee_shm_get_fd() failed then it will
+> >> +     * be freed immediately.
+> >> +     */
+> >> +    tee_shm_put(shm);
+> >> +    return ret;
+> >> +}
+> >> +
+> >>   static int params_from_user(struct tee_context *ctx, struct
+> >> tee_param *params,
+> >>                          size_t num_params,
+> >>                          struct tee_ioctl_param __user *uparams)
+> >> @@ -829,6 +865,8 @@ static long tee_ioctl(struct file *filp, unsigned
+> >> int cmd, unsigned long arg)
+> >>              return tee_ioctl_shm_alloc(ctx, uarg);
+> >>      case TEE_IOC_SHM_REGISTER:
+> >>              return tee_ioctl_shm_register(ctx, uarg);
+> >> +    case TEE_IOC_SHM_REGISTER_FD:
+> >> +            return tee_ioctl_shm_register_fd(ctx, uarg);
+> >>      case TEE_IOC_OPEN_SESSION:
+> >>              return tee_ioctl_open_session(ctx, uarg);
+> >>      case TEE_IOC_INVOKE:
+> >> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> >> index 836872467dc6..55a3fbbb022e 100644
+> >> --- a/drivers/tee/tee_shm.c
+> >> +++ b/drivers/tee/tee_shm.c
+> >> @@ -4,6 +4,7 @@
+> >>    */
+> >>   #include <linux/anon_inodes.h>
+> >>   #include <linux/device.h>
+> >> +#include <linux/dma-buf.h>
+> >>   #include <linux/idr.h>
+> >>   #include <linux/mm.h>
+> >>   #include <linux/sched.h>
+> >> @@ -12,6 +13,14 @@
+> >>   #include <linux/uio.h>
+> >>   #include "tee_private.h"
+> >>
+> >> +/* extra references appended to shm object for registered shared
+> >> memory */
+> >> +struct tee_shm_dmabuf_ref {
+> >> +     struct tee_shm shm;
+> >> +     struct dma_buf *dmabuf;
+> >> +     struct dma_buf_attachment *attach;
+> >> +     struct sg_table *sgt;
+> >> +};
+> >> +
+> >>   static void shm_put_kernel_pages(struct page **pages, size_t
+> >> page_count)
+> >>   {
+> >>      size_t n;
+> >> @@ -71,7 +80,16 @@ static void release_registered_pages(struct
+> >> tee_shm *shm)
+> >>
+> >>   static void tee_shm_release(struct tee_device *teedev, struct
+> >> tee_shm *shm)
+> >>   {
+> >> -    if (shm->flags & TEE_SHM_POOL) {
+> >> +    if (shm->flags & TEE_SHM_EXT_DMA_BUF) {
+> >> +            struct tee_shm_dmabuf_ref *ref;
+> >> +
+> >> +            ref =3D container_of(shm, struct tee_shm_dmabuf_ref,
+> >> shm);
+> >> +            dma_buf_unmap_attachment(ref->attach, ref->sgt,
+> >> +                                     DMA_BIDIRECTIONAL);
+> >> +
+> >> +            dma_buf_detach(ref->dmabuf, ref->attach);
+> >> +            dma_buf_put(ref->dmabuf);
+> >> +    } else if (shm->flags & TEE_SHM_POOL) {
+> >>              teedev->pool->ops->free(teedev->pool, shm);
+> >>      } else if (shm->flags & TEE_SHM_DYNAMIC) {
+> >>              int rc =3D teedev->desc->ops->shm_unregister(shm->ctx,
+> >> shm);
+> >> @@ -195,7 +213,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct
+> >> tee_context *ctx, size_t size)
+> >>    * tee_client_invoke_func(). The memory allocated is later freed
+> >> with a
+> >>    * call to tee_shm_free().
+> >>    *
+> >> - * @returns a pointer to 'struct tee_shm'
+> >> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on
+> >> failure
+> >>    */
+> >>   struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx,
+> >> size_t size)
+> >>   {
+> >> @@ -229,6 +247,83 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct
+> >> tee_context *ctx, size_t size)
+> >>   }
+> >>   EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+> >>
+> >> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
+> >> +{
+> >> +    struct tee_shm_dmabuf_ref *ref;
+> >> +    int rc;
+> >> +
+> >> +    if (!tee_device_get(ctx->teedev))
+> >> +            return ERR_PTR(-EINVAL);
+> >> +
+> >> +    teedev_ctx_get(ctx);
+> >> +
+> >> +    ref =3D kzalloc(sizeof(*ref), GFP_KERNEL);
+> >> +    if (!ref) {
+> >> +            rc =3D -ENOMEM;
+> >> +            goto err_put_tee;
+> >> +    }
+> >> +
+> >> +    refcount_set(&ref->shm.refcount, 1);
+> >> +    ref->shm.ctx =3D ctx;
+> >> +    ref->shm.id =3D -1;
+> >> +
+> >> +    ref->dmabuf =3D dma_buf_get(fd);
+> >> +    if (IS_ERR(ref->dmabuf)) {
+> >> +            rc =3D PTR_ERR(ref->dmabuf);
+> >> +            goto err_put_dmabuf;
 
+goto err_put_tee
+
+> >> +    }
+> >> +
+> >> +    ref->attach =3D dma_buf_attach(ref->dmabuf, &ref->shm.ctx-
+> >>> teedev->dev);
+> >> +    if (IS_ERR(ref->attach)) {
+> >> +            rc =3D PTR_ERR(ref->attach);
+> >> +            goto err_detach;
+
+goto err_put_dmabuf
+
+> >> +    }
+> >> +
+> >> +    ref->sgt =3D dma_buf_map_attachment(ref->attach,
+> >> DMA_BIDIRECTIONAL);
+> >> +    if (IS_ERR(ref->sgt)) {
+> >> +            rc =3D PTR_ERR(ref->sgt);
+> >> +            goto err_unmap_attachement;
+
+goto err_detach
+
+> >> +    }
+> >> +
+> >> +    if (sg_nents(ref->sgt->sgl) !=3D 1) {
+> >> +            rc =3D PTR_ERR(ref->sgt->sgl);
+> >> +            goto err_unmap_attachement;
+> >> +    }
+> >> +
+> >> +    ref->shm.paddr =3D sg_dma_address(ref->sgt->sgl);
+> >> +    ref->shm.size =3D sg_dma_len(ref->sgt->sgl);
+> >> +    ref->shm.flags =3D TEE_SHM_EXT_DMA_BUF;
+> >> +
+> >> +    mutex_lock(&ref->shm.ctx->teedev->mutex);
+> >> +    ref->shm.id =3D idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
+> >> +                            1, 0, GFP_KERNEL);
+> >> +    mutex_unlock(&ref->shm.ctx->teedev->mutex);
+> >> +    if (ref->shm.id < 0) {
+> >> +            rc =3D ref->shm.id;
+> >> +            goto err_idr_remove;
+
+goto err_unmap_attachement
+
+> >> +    }
+> >> +
+> >> +    return &ref->shm;
+> >> +
+> >> +err_idr_remove:
+> >> +    mutex_lock(&ctx->teedev->mutex);
+> >> +    idr_remove(&ctx->teedev->idr, ref->shm.id);
+> >> +    mutex_unlock(&ctx->teedev->mutex);
+
+Can remove the 4 above lines.
+
+> >> +err_unmap_attachement:
+> >> +    dma_buf_unmap_attachment(ref->attach, ref->sgt,
+> >> DMA_BIDIRECTIONAL);
+> >> +err_detach:
+> >> +    dma_buf_detach(ref->dmabuf, ref->attach);
+> >> +err_put_dmabuf:
+> >> +    dma_buf_put(ref->dmabuf);
+> >> +    kfree(ref);
+> >> +err_put_tee:
+> >> +    teedev_ctx_put(ctx);
+> >> +    tee_device_put(ctx->teedev);
+> >> +
+> >> +    return ERR_PTR(rc);
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(tee_shm_register_fd);
+> >> +
+> >>   static struct tee_shm *
+> >>   register_shm_helper(struct tee_context *ctx, unsigned long addr,
+> >>                  size_t length, u32 flags, int id)
+> >> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> >> index 911cad324acc..40ddd5376c2d 100644
+> >> --- a/include/linux/tee_drv.h
+> >> +++ b/include/linux/tee_drv.h
+> >> @@ -25,6 +25,7 @@
+> >>   #define TEE_SHM_USER_MAPPED        BIT(1)  /* Memory mapped in user =
+space
+> >> */
+> >>   #define TEE_SHM_POOL               BIT(2)  /* Memory allocated from =
+pool
+> >> */
+> >>   #define TEE_SHM_PRIV               BIT(3)  /* Memory private to TEE =
+driver
+> >> */
+> >> +#define TEE_SHM_EXT_DMA_BUF     BIT(4)  /* Memory with dma-buf
+> >> handle */
+> >>
+> >>   struct device;
+> >>   struct tee_device;
+> >> @@ -276,6 +277,16 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct
+> >> tee_context *ctx, size_t size);
+> >>   struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
+> >>                                          void *addr, size_t length);
+> >>
+> >> +/**
+> >> + * tee_shm_register_fd() - Register shared memory from file
+> >> descriptor
+> >> + *
+> >> + * @ctx:    Context that allocates the shared memory
+> >> + * @fd:             Shared memory file descriptor reference
+> >> + *
+> >> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on
+> >> failure
+> >> + */
+> >> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int
+> >> fd);
+> >> +
+> >>   /**
+> >>    * tee_shm_is_dynamic() - Check if shared memory object is of the
+> >> dynamic kind
+> >>    * @shm:   Shared memory handle
+> >> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> >> index 25a6c534beb1..baf3cd7cfdac 100644
+> >> --- a/include/uapi/linux/tee.h
+> >> +++ b/include/uapi/linux/tee.h
+> >> @@ -121,6 +121,35 @@ struct tee_ioctl_shm_alloc_data {
+> >>   #define TEE_IOC_SHM_ALLOC  _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1,
+> >> \
+> >>                                   struct tee_ioctl_shm_alloc_data)
+> >>
+> >> +/**
+> >> + * struct tee_ioctl_shm_register_fd_data - Shared memory registering
+> >> argument
+> >> + * @fd:             [in] File descriptor identifying the shared
+> >> memory
+> >> + * @size:   [out] Size of shared memory to allocate
+> >> + * @flags:  [in] Flags to/from allocation.
+> >> + * @id:             [out] Identifier of the shared memory
+> >> + *
+> >> + * The flags field should currently be zero as input. Updated by the
+> >> call
+> >> + * with actual flags as defined by TEE_IOCTL_SHM_* above.
+> >> + * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD
+> >> below.
+> >> + */
+> >> +struct tee_ioctl_shm_register_fd_data {
+> >> +    __s64 fd;
+> >> +    __u64 size;
+> >> +    __u32 flags;
+> >> +    __s32 id;
+> >> +} __attribute__ ((aligned (8)));
+> >> +
+> >> +/**
+> >> + * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file
+> >> descriptor
+> >> + *
+> >> + * Returns a file descriptor on success or < 0 on failure
+> >> + *
+> >> + * The returned file descriptor refers to the shared memory object
+> >> in kernel
+> >> + * land. The shared memory is freed when the descriptor is closed.
+> >> + */
+> >> +#define TEE_IOC_SHM_REGISTER_FD     _IOWR(TEE_IOC_MAGIC,
+> >> TEE_IOC_BASE + 8, \
+> >> +                                 struct
+> >> tee_ioctl_shm_register_fd_data)
+> >> +
+> >>   /**
+> >>    * struct tee_ioctl_buf_data - Variable sized buffer
+> >>    * @buf_ptr:       [in] A __user pointer to a buffer
+>
