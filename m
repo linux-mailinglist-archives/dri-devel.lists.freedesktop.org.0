@@ -1,54 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449C5680E7B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 14:06:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DBA680E29
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 13:57:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49AB010E249;
-	Mon, 30 Jan 2023 13:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57D1E10E23F;
+	Mon, 30 Jan 2023 12:56:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 519 seconds by postgrey-1.36 at gabe;
- Mon, 30 Jan 2023 13:06:52 UTC
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F34E10E249
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 13:06:52 +0000 (UTC)
-Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4P57X60C2GzDqLx
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 12:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1675083494; bh=oobjJOhurVuxD6CmR+9n6oxrP2c8UTD5sAcDDFieyjI=;
- h=From:To:Cc:Subject:Date:From;
- b=Q62+wuR91Dl7hy6Nn9ygj/g1vXLmjMSCnQuH08HxGWWc+piYI9YUxXzt2dWdOKsU5
- D0v7SBOUYoIlLSQeFNyIX3dYX8ro9FGzowxk6TC4r7S41acbpBrgPDaTh3w/T+xMA8
- nisI9ekm+7bhzm7HfwFNECiPvmmxgPJfEVfh8V0U=
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4P57X50rXcz9tPj;
- Mon, 30 Jan 2023 12:58:13 +0000 (UTC)
-X-Riseup-User-ID: 19234452AF1B23F67F7F68A97B15BDBDDF60264FE087F6F5567AFBA90F100419
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4P57X20DyPz20cj;
- Mon, 30 Jan 2023 12:58:09 +0000 (UTC)
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Gow <davidgow@google.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-Subject: [PATCH] drm/format-helper: Use KUNIT_EXPECT_MEMEQ macro
-Date: Mon, 30 Jan 2023 09:55:55 -0300
-Message-Id: <20230130125554.363481-1-mairacanal@riseup.net>
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7746210E23F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 12:56:56 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 37C9A582269;
+ Mon, 30 Jan 2023 07:56:52 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 30 Jan 2023 07:56:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1675083412; x=
+ 1675090612; bh=qHYBYqPItFEfJ7P/fVhrn/EUsBFwwjGYixrdWPu1haw=; b=I
+ ofWpm5+KolRBGZBlrubmed5zH3WXoj0SRjQRfkZQPHr3Eitv6rN6olSd049GPAjx
+ diZY7Ppan4Zr36fQndfzWrX84ATmf06kTzcYx0ohRmJud1I4dRapcGDlygO81qLo
+ uPKsFeYJyekBIPmT9CnL7OMq6/OV+u84DanBQgsqbEavsmLxmWOfMByEcUTHY/jq
+ hwYqq2W79Jpg8DHoJ/ko0N1+QtKkeOzcMtBbSHFXodJVYgDw2y3Jl4+76kW2f3ID
+ pnPnqT7FMBBOm1WVadpxBRTxC1W6tzKsUIerO0e9pBFTjKuB1NB7iE4f2PK3HDHE
+ MGi9yvhTcR4piQeeygN2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1675083412; x=
+ 1675090612; bh=qHYBYqPItFEfJ7P/fVhrn/EUsBFwwjGYixrdWPu1haw=; b=Q
+ BgmBfVJnJFlFdLD8O4ERMPxf4/9EJUzx5V5tQbR8RIcCtYa53Hv8oR71tFzygwAJ
+ hVfQWuNVMLTbJYLPfOwJ9qsO64E3EIvl+fGAKQzUKerE/2fKEZ8DBkuQw5G3Dc/Q
+ pyV+rZ4U8WT0DgQo9oGfNUblzTsme+kGkj+mfbtGm4RfS3mwD0rl9eYyR9IZHVTo
+ A0G4iDMAIf81WjRBiH0YwVXQG7Rk1aYLrM/l8MJTYtu59p8Ke+Dt1Epvpefqm4FM
+ jtmwYvQw8FOFoHQkBLPgLj+feb/lbRNfj2u4yzQtPFkR5ywWw9SePoFLfcXHg1Vp
+ bO4B66KGPqDBbm42hwNXA==
+X-ME-Sender: <xms:k77XY_dkb8fAU1WBJlH1WAPAIbp2MlqLnmYC9blkQG92_EcWEYDlOQ>
+ <xme:k77XY1MDzoxW5htEBN18_wAQYAkK0hAnpFU86Rmkc1OyCn4nJCFjOQBuVAu6VyoR7
+ ZR76Id-bjLCvqGpEjE>
+X-ME-Received: <xmr:k77XY4hUmAymahagO115Qt509pNzqMjuKPPMkOtUZ3e430XCcqY-G7dO_2k-mGUE46okSeBl5OT8JfgIhbrKEHCXHj_KkDWitmWHJh06hW-3tA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefvddggeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhephfduvdejlefhteetffdvgfeuhedvueeggfetheeihfektefftddtieff
+ vddtueehnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpfhhrvggvuggvshhkthhoph
+ drohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+ pehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:k77XYw-aEVsUqcjpNwkw9I7Fiz5UP3Zxn9u4j0V9znMurnPhUNyv7Q>
+ <xmx:k77XY7vW_9q5d7gac_1AEWj2946FWO-oZpKc_sqvt6WkjJUR6nSD0A>
+ <xmx:k77XY_ELJbnMEA0rQW_dOMpUjMXXqJIlNhEXquzw1n43fa6YjCQhPg>
+ <xmx:lL7XY7wrsYt2LITXQ3rUDIjZFQQ90LfgSzdtg5B6gUASOmi8gWdKEg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 Jan 2023 07:56:50 -0500 (EST)
+Date: Mon, 30 Jan 2023 13:56:48 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [RESEND PATCH v11 02/18] drm: bridge: panel: Add
+ devm_drm_of_dsi_get_bridge helper
+Message-ID: <20230130125648.mlrtubymeooejvhg@houat>
+References: <20230123151212.269082-1-jagan@amarulasolutions.com>
+ <20230123151212.269082-3-jagan@amarulasolutions.com>
+ <20230126121227.qcnftqvgiz44egpg@houat>
+ <CAMty3ZB6QiqgQN_zWEXULHiipQWU_VaWxDWf9W8OTVQvkACu5A@mail.gmail.com>
+ <CAMty3ZDTuvYKQYpVnoUU_-b3znJiyR0yBADO-5_5+86KgwYv3Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMty3ZDTuvYKQYpVnoUU_-b3znJiyR0yBADO-5_5+86KgwYv3Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +90,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit b8a926bea8b1 ("kunit: Introduce KUNIT_EXPECT_MEMEQ and
-KUNIT_EXPECT_MEMNEQ macros") introduced a new macro to compare blocks of
-memory and, if the test fails, print the result in a human-friendly
-format. Therefore, use KUNIT_EXPECT_MEMEQ to compare memory blocks in
-replacement of the KUNIT_EXPECT_EQ macro.
+On Fri, Jan 27, 2023 at 11:09:26PM +0530, Jagan Teki wrote:
+> Hi,
+>=20
+> On Thu, Jan 26, 2023 at 8:48 PM Jagan Teki <jagan@amarulasolutions.com> w=
+rote:
+> >
+> > On Thu, Jan 26, 2023 at 5:42 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Mon, Jan 23, 2023 at 08:41:56PM +0530, Jagan Teki wrote:
+> > > > Add devm OF helper to return the next DSI bridge in the chain.
+> > > >
+> > > > Unlike general bridge return helper devm_drm_of_get_bridge, this
+> > > > helper uses the dsi specific panel_or_bridge helper to find the
+> > > > next DSI device in the pipeline.
+> > > >
+> > > > Helper lookup a given child DSI node or a DT node's port and
+> > > > endpoint number, find the connected node and return either
+> > > > the associated struct drm_panel or drm_bridge device.
+> > >
+> > > I'm not sure that using a device managed helper is the right choice
+> > > here. The bridge will stay longer than the backing device so it will
+> > > create a use-after-free. You should probably use a DRM-managed action
+> > > here instead.
+> >
+> > Thanks for the comments. If I understand correctly we can use
+> > drmm_panel_bridge_add instead devm_drm_panel_bridge_add once we found
+> > the panel or bridge - am I correct?
+>=20
+> Look like it is not possible to use DRM-managed action helper here as
+> devm_drm_of_dsi_get_bridge is calling from the DSI host attach hook in
+> which we cannot find drm_device pointer (as drm_device pointer is
+> mandatory for using DRM-managed action).
+> https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/br=
+idge/samsung-dsim.c#L1545
+>=20
+> Please check and correct me if I mentioned any incorrect details.
 
-Signed-off-by: Maíra Canal <mairacanal@riseup.net>
----
- drivers/gpu/drm/tests/drm_format_helper_test.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+You shouldn't call that function from attach anyway:
+https://dri.freedesktop.org/docs/drm/gpu/drm-kms-helpers.html#special-care-=
+with-mipi-dsi-bridges
 
-diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index 34e80eb6d96e..9536829c6e3a 100644
---- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -597,7 +597,7 @@ static void drm_test_fb_xrgb8888_to_xrgb1555(struct kunit *test)
- 
- 	drm_fb_xrgb8888_to_xrgb1555(&dst, &result->dst_pitch, &src, &fb, &params->clip);
- 	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
--	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
-+	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
- }
- 
- static void drm_test_fb_xrgb8888_to_argb1555(struct kunit *test)
-@@ -628,7 +628,7 @@ static void drm_test_fb_xrgb8888_to_argb1555(struct kunit *test)
- 
- 	drm_fb_xrgb8888_to_argb1555(&dst, &result->dst_pitch, &src, &fb, &params->clip);
- 	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
--	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
-+	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
- }
- 
- static void drm_test_fb_xrgb8888_to_rgba5551(struct kunit *test)
-@@ -659,7 +659,7 @@ static void drm_test_fb_xrgb8888_to_rgba5551(struct kunit *test)
- 
- 	drm_fb_xrgb8888_to_rgba5551(&dst, &result->dst_pitch, &src, &fb, &params->clip);
- 	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
--	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
-+	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
- }
- 
- static void drm_test_fb_xrgb8888_to_rgb888(struct kunit *test)
-@@ -724,7 +724,7 @@ static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
- 
- 	drm_fb_xrgb8888_to_argb8888(&dst, &result->dst_pitch, &src, &fb, &params->clip);
- 	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
--	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
-+	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
- }
- 
- static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
-@@ -786,7 +786,7 @@ static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
- 
- 	drm_fb_xrgb8888_to_argb2101010(&dst, &result->dst_pitch, &src, &fb, &params->clip);
- 	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
--	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
-+	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
- }
- 
- static struct kunit_case drm_format_helper_test_cases[] = {
--- 
-2.39.1
-
+Maxime
