@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE376815F1
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 17:05:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D7F681619
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 17:13:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B563010E056;
-	Mon, 30 Jan 2023 16:05:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16EB610E0EC;
+	Mon, 30 Jan 2023 16:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBBAD10E033;
- Mon, 30 Jan 2023 16:05:35 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-1636eae256cso11290089fac.0; 
- Mon, 30 Jan 2023 08:05:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=51bRkvWujNd4jPcMG9BJhLnAdVGH8Ah/pwvY7OLYBxg=;
- b=L98bAAgAmuX9bFEDS6fk6Q+27l6gFYkFOLbjKNDsS8RTOTjiBEdK702pVpPk8K8v2x
- FZ40wxfCgagdDgLZgDQSMy99FG0HrFXxnw5fTYnrvOwXT+BwXCieEpFIg3/SsmQJP+EC
- kDBQkrBuzGcoU7ndvROuyFWLZFE/ctHdUqpLQ8WEW7ATErXDt8JgWyaIg4+oPKIiIIG2
- E/5aPbIUxghZjhtNR71JXB5xvYRjiu0AUliaWGmF3G0g05pRTLYrCoXS9OGzaRGBOFGs
- DpgHoQDXj4lObIjncle+96AxxcpMoBLOLxT1OwqPpaSjYjWU66vw4Foj9apT1oscVN7h
- RTcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=51bRkvWujNd4jPcMG9BJhLnAdVGH8Ah/pwvY7OLYBxg=;
- b=mgNIka54hnXtMzhq3yZbY1/whFq9auPBAvhjqa4lzq+UVXVq2MV72fyE/FJpyDdoFd
- 5mQ+TM0h7fbTvE4Vb3yTMlOxi3v9XEN097rLt8mSNBFoKTuQzIQC/8UES/EEV9wrdbPW
- Mggf9jkF55+BQKZde6Y8KQWHvnVVpg6j0ULWROwvLGTBs7XD3fVAPdZMykzTyy2XqOIB
- vH+tsPo7RxJ/t0H+NnEaeai0vvMpUzm/hRzK0+873BrBttmUYl4suuJw+3PTxCGEu1SW
- T6Xea2Ce1pTXVzatzsos/0gjb/9ximmKmd3ihl8Nb1uOn3X9Tv+KvPITYLLtBAFazP38
- P9hw==
-X-Gm-Message-State: AO0yUKWl9i2LYh0APk+pkfCsnycK2S2HiAAS6FZAuAqMoR3U1V1rp3QN
- BgjGgffCE26SrdonxjcBMqzryRtGy393BQf9SVc0SlyW/m8=
-X-Google-Smtp-Source: AK7set8EqeKjODeZxYSFoNuOQNRomzjZI0eXWH0l8P+aWs8vNWEn7kSRbZqFFz4w7fzpO/miv8K0++Fx3wa5+PLBAtg=
-X-Received: by 2002:a05:6870:4588:b0:163:3c39:d0c7 with SMTP id
- y8-20020a056870458800b001633c39d0c7mr1249465oao.54.1675094735057; Mon, 30 Jan
- 2023 08:05:35 -0800 (PST)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC4F10E0EC;
+ Mon, 30 Jan 2023 16:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675095217; x=1706631217;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Q/eC/LOjIQIYM0MyF5m0DR6T0hl3ql5x23ddiXHRMoo=;
+ b=JMrYO9xOefTweVshT2kH71UbD7xcbk4LRhGCCtduRqmDY8UQQTTA980s
+ MIIg5+eqBukLMqbrlnYcN3O92xUrqEluzyiRKENrvZJwjh4Lc5NXLi5Jn
+ nTGkEQ6qxWpJCWEiSB/ztDudzUOhaO+cB4/9gpGEY966Diw+FLcCjBKe7
+ MdBFKUZwC4gvmT6OrplVZTigOFuAVuw0ScLw3gVCtoRcXB8gdAiexcSVk
+ 7vWmapoxExrtPySWn5F+a0SakeVXN0ePUhzn4Q7oLSbFR4mY6FlYzWv48
+ BxAyzAuH82k+Xw4FXe/wv8fTar2janTHJ06LvtHIrZYhfDbCVfZSIoqql w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="392143538"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="392143538"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2023 08:13:26 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="657513668"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="657513668"
+Received: from mczerwo-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.58.44])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2023 08:12:51 -0800
+Date: Mon, 30 Jan 2023 17:12:48 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH] drm/i915/pcode: Wait 10 seconds for pcode to settle
+Message-ID: <Y9fsgJd7y6aEt/sT@ashyti-mobl2.lan>
+References: <20230111104447.338136-1-andi.shyti@linux.intel.com>
+ <87a62pi501.fsf@intel.com> <Y77XmlzOCuOg8YVZ@ashyti-mobl2.lan>
+ <b3d4b882-cb0b-a3c1-2609-6065f379ed15@intel.com>
+ <Y9OSyhWHWu8iliP5@ashyti-mobl2.lan>
+ <bfe11cf8-87a5-3768-92d5-3415145d8c8f@intel.com>
+ <Y9eEX95t1i1YRVOk@ashyti-mobl2.lan> <Y9fXFrJp/N0cit18@intel.com>
 MIME-Version: 1.0
-References: <CACAvsv4_XJLSwnA-s0BXLVbBCESDfnK7kx5-WUPd2+vdJuMojg@mail.gmail.com>
- <20230127103959.5nqk57sb7qchtaw6@wslaptop>
- <CACAvsv5sA8pmhYEVhJk9PEAWyKRZYvcsSHa-04CsJxgu7+YEiw@mail.gmail.com>
-In-Reply-To: <CACAvsv5sA8pmhYEVhJk9PEAWyKRZYvcsSHa-04CsJxgu7+YEiw@mail.gmail.com>
-From: Nicolas Chauvet <kwizart@gmail.com>
-Date: Mon, 30 Jan 2023 17:05:23 +0100
-Message-ID: <CABr+WT=a3YqyS0VWCoRDE-QGGJrP8AL3CpMPsZXR3Ps-tmjrWQ@mail.gmail.com>
-Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
-To: Ben Skeggs <skeggsb@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9fXFrJp/N0cit18@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,63 +62,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: regressions@lists.linux.dev, kherbst@redhat.com,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, airlied@redhat.com
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, Andi Shyti <andi@etezian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le dim. 29 janv. 2023 =C3=A0 23:36, Ben Skeggs <skeggsb@gmail.com> a =C3=A9=
-crit :
->
-> On Fri, 27 Jan 2023 at 20:42, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wr=
-ote:
-> >
-> > On Fri, Jan 27, 2023 at 04:00:59PM +1000, Ben Skeggs wrote:
-> > > On Fri, 20 Jan 2023 at 21:37, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt=
-> wrote:
-> > > >
-> > > > On Wed, Jan 18, 2023 at 11:28:49AM +1000, Ben Skeggs wrote:
-> > > > > On Mon, 16 Jan 2023 at 22:27, Diogo Ivo <diogo.ivo@tecnico.ulisbo=
-a.pt> wrote:
-> > > > > > On Mon, Jan 16, 2023 at 07:45:05AM +1000, David Airlie wrote:
-> > > > > > > As a quick check can you try changing
-> > > > > > >
-> > > > > > > drivers/gpu/drm/nouveau/nvkm/core/firmware.c:nvkm_firmware_me=
-m_target
-> > > > > > > from NVKM_MEM_TARGET_HOST to NVKM_MEM_TARGET_NCOH ?
-> > > >
-> > > > > In addition to Dave's change, can you try changing the
-> > > > > nvkm_falcon_load_dmem() call in gm20b_pmu_init() to:
-> > > > >
-> > > > > nvkm_falcon_pio_wr(falcon, (u8 *)&args, 0, 0, DMEM, addr_args,
-> > > > > sizeof(args), 0, false);
-> > > >
-> > > > Chiming in just to say that with this change I see the same as Nico=
-las
-> > > > except that the init message size is 255 instead of 0:
-> > > >
-> > > > [    2.196934] nouveau 57000000.gpu: pmu: unexpected init message s=
-ize 255 vs 42
-> > > I've attached an entirely untested patch (to go on top of the other
-> > > hacks/fixes so far), that will hopefully get us a little further.
-> >
-> > Hello,
-> >
-> > Thank you for the patch! I can confirm that it fixes the problem
-> > on the Pixel C, and everything works as before the regression.
-> > With this, for the combination of patches
-> >
-> > Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> >
-> > which I can resend after testing the final patch version.
-> Thank you (both!) for testing!
->
-> I've attached a "final" version of a patch that I'll send (assuming it
-> still works ;)) after re-testing.  There's only a minor change to
-> avoid breaking the non-Tegra path, so I expect it should be fine.
+Hi Rodrigo,
 
-Fine with me.
-Tested-By: Nicolas Chauvet <kwizart@gmail.com>
+> > > In the call flow invoked by intel_pcode_init(), I've added brief comments
+> > > where further clarification is needed in this scenario, and a description of
+> > > the suspicious scenario at the bottom.
+> > > 
+> > > -------------------------------------------------------------------------
+> > > intel_pcode_init()
+> > >  |
+> > >  +-> skl_pcode_request(uncore, DG1_PCODE_STATUS,
+> > >                        DG1_UNCORE_GET_INIT_STATUS,
+> > >                        DG1_UNCORE_INIT_STATUS_COMPLETE,
+> > >                        DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
+> > >        |
+> > >        +-> skl_pcode_try_request()
+> > >              |
+> > >              +->  *status = __snb_pcode_rw(uncore, mbox, &request, NULL,
+> > >                                            500, 0, true);
+> > > 
+> > > -------------------------------------------------------------------------
+> > > static int __snb_pcode_rw(struct intel_uncore *uncore, u32 mbox,
+> > > 		          u32 *val, u32 *val1,
+> > > 			  int fast_timeout_us, int slow_timeout_ms,
+> > > 			  bool is_read)
+> > > {
+> > > ...
+> > >         /* Before writing a value to the GEN6_PCODE_DATA register,
+> > >            check if the bit in the GEN6_PCODE_MAILBOX register indicates
+> > >            BUSY. */
+> > > 	if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
+> > > 		return -EAGAIN;
+> > 
+> > what if we fail here because the punit is still initializing and
+> > will be ready, say, in 10 seconds?
+> > 
+> > GG, without going any further, we fail here! The -EAGAIN we
+> > receive from the test comes from this point. We don't fail with
+> > -ETIMEDOUT, but with -EAGAIN and the reason is because the punit
+> > is not ready to perform the very fist communication and we fail
+> > the probing.
+> > 
+> > It doesn't mean, though, that there is anything wrong, we just
+> > need to wait a bit before "taking drastic decisions"!
+> > 
+> > This patch is suggesting to wait up to 10s for the punit to be
+> > ready and eventually try to probe again... and, indeed, it works!
+> 
+> As GG, what I still don't understand is how this extra 10 seconds
+> wait helps... have you tried to simple add the 10 to the 180 and
+> make the code 190 sec instead?
 
-Thanks.
+maybe I haven't been able to explain the issue properly.
+
+I can even set that timer to 2hrs and a half and nothing changes
+because we fail before.
+
+Here it's not a matter of how much do I wait but when do I check
+the pcode readiness (i.e. signalled by the GEN6_PCODE_READY bit
+in the GEN6_PCODE_MAILBOX register).
+
+During a normal run we are always sure that communicating with
+the punit works, because we made it sure during the previous
+transaction.
+
+During probe there is no previous transaction and we start
+communicating with the punit without making sure that it is
+ready. And indeed some times it is not, so that we suppress the
+probing on purpose instead of giving it another chance.
+
+I admit that the commit message is not written properly and
+rather misleading, but here it's not at all a matter of how much
+do I wait.
+
+Thanks, Rodrigo!
+Andi
+
+> > 
+> > Andi
+> > 
+> > > 
+> > >         /* write value to GEN6_PCODE_DATA register */
+> > > 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA, *val);
+> > > 
+> > > 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA1, val1 ? *val1 : 0);
+> > > 
+> > >         /* In this scenario, the value
+> > >            "DG1_PCODE_STATUS | GEN6_PCODE_READY"
+> > >            is written to the GEN6_PCODE_MAILBOX register,
+> > >            so that the Busy status of the GEN6_PCODE_MAILBOX register
+> > >            can be checked later.
+> > >            (When the value of the GEN6_PCODE_READY bit of the
+> > >             GEN6_PCODE_MAILBOX register changes to 0, the operation can
+> > >             be considered completed.) */
+> > > 	intel_uncore_write_fw(uncore,
+> > > 			      GEN6_PCODE_MAILBOX, GEN6_PCODE_READY | mbox);
+> > > 
+> > >         /* In this scenario, verify that the BUSY status bit in the
+> > >            GEN6_PCODE_MAILBOX register turns off for up to 500us. */
+> > > 	if (__intel_wait_for_register_fw(uncore,
+> > > 					 GEN6_PCODE_MAILBOX,
+> > > 					 GEN6_PCODE_READY, 0,
+> > > 					 fast_timeout_us,
+> > > 					 slow_timeout_ms,
+> > > 					 &mbox))
+> > > 		return -ETIMEDOUT;
+> > >         /* If there is a failure here, it may be considered that the
+> > >            "DG1_PCODE_STATUS | GEN6_PCODE_READY" operation was not
+> > >            completed within 500us */
+> > > ...
+> > > }
+> > > 
+> > > int skl_pcode_request(struct intel_uncore *uncore, u32 mbox, u32 request,
+> > > 		      u32 reply_mask, u32 reply, int timeout_base_ms)
+> > > {
+> > > 	u32 status;
+> > > 	int ret;
+> > > 
+> > > 	mutex_lock(&uncore->i915->sb_lock);
+> > > 
+> > > #define COND \
+> > > 	skl_pcode_try_request(uncore, mbox, request, reply_mask, reply, &status)
+> > > 
+> > >         /* the first trial for skl_pcode_try_request() can return
+> > >            -EAGAIN or -ETIMEDOUT. And the code did not check the error
+> > >            code here, so we don't know how far the __snb_pcode_rw()
+> > >            function went. It is not known whether the pcode_mailbox
+> > >            status was busy before writing the value to the
+> > >            GEN6_PCODE_DATA register or after.*/
+> > > 	if (COND) {
+> > > 		ret = 0;
+> > > 		goto out;
+> > > 	}
+> > > 
+> > >         /* In this scenario, skl_pcode_try_request() is invoked every
+> > >            10us for 180 seconds. When skl_pcode_try_request() returns
+> > >            -EAGAIN and -ETIMEDOUT by _wait_for(),
+> > >            -ETIMEDOUT is returned to a variable ret. */
+> > > 
+> > > 	ret = _wait_for(COND, timeout_base_ms * 1000, 10, 10);
+> > > 
+> > > 	if (!ret)
+> > > 		goto out;
+> > > 
+> > > 	/*
+> > > 	 * The above can time out if the number of requests was low (2 in the
+> > > 	 * worst case) _and_ PCODE was busy for some reason even after a
+> > > 	 * (queued) request and @timeout_base_ms delay. As a workaround retry
+> > > 	 * the poll with preemption disabled to maximize the number of
+> > > 	 * requests. Increase the timeout from @timeout_base_ms to 50ms to
+> > > 	 * account for interrupts that could reduce the number of these
+> > > 	 * requests, and for any quirks of the PCODE firmware that delays
+> > > 	 * the request completion.
+> > > 	 */
+> > > 	drm_dbg_kms(&uncore->i915->drm,
+> > > 		    "PCODE timeout, retrying with preemption disabled\n");
+> > > 	drm_WARN_ON_ONCE(&uncore->i915->drm, timeout_base_ms > 3);
+> > > 	preempt_disable();
+> > > 	ret = wait_for_atomic(COND, 50);
+> > > 
+> > > 	preempt_enable();
+> > > 
+> > > out:
+> > > 	mutex_unlock(&uncore->i915->sb_lock);
+> > > 	return status ? status : ret;
+> > > #undef COND
+> > > }
+> > > 
+> > > ---------------------------------------------------------
+> > > 
+> > > If you try skl_pcode_try_request() for 180 seconds in skl_pcode_request(),
+> > > and the first "intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) &
+> > > GEN6_PCODE_READY)" call in __snb_pcode_rw() that skl_pcode_try_request()
+> > > invokes always fails. if then it does not make sense to me why this patch
+> > > fixes it by just waiting 10 seconds.This is because if it was called with
+> > > the flow described above, 180 seconds is longer than 10 seconds, so the
+> > > scenario you mentioned is also covered in the existing code.
+> > > 
+> > > To describe in more detail the second scenario I previously commented on:
+> > > skl_pcode_request() tries skl_pcode_try_request() for 180 seconds
+> > >  1) In skl_pcode_try_request(), the GEN6_PCODE_MAILBOX register bit is not
+> > > BUSY, so the value is written to the GEN6_PCODE_DATA1 register.
+> > >  2) skl_pcode_try_request() returns -ETIMEDOUT value because the operation
+> > > of 1) does not complete within 500us.
+> > >  3) Scenario in which the GEN6_PCODE_MAILBOX register bit is checked as BUSY
+> > > and returns -EAGAIN in the last call of skl_pcode_try_request() invoked by
+> > > skl_pcode_request()
+> > > 
+> > > If the reason why this problem occurred is because of this scenario,
+> > > shouldn't there be an attempt to increase fast_timeout_us used as an
+> > > argument of __snb_pcode_rw() to 500us or more when skl_pcode_try_request()
+> > > returns -ETIMEDOUT?
+> > > 
+> > > Br,
+> > > G.G.
