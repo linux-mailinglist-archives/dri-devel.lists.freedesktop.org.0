@@ -2,53 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DD4680DC3
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 13:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2064F680DB9
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 13:32:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A9F410E239;
-	Mon, 30 Jan 2023 12:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30C3710E231;
+	Mon, 30 Jan 2023 12:32:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D3810E239
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 12:34:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=oT2hLpNFKGyJ3wJhnZtdrGsic4/uehcjPnc9HvQVqrQ=; b=A7EyGfqwWDRbx0YuSuKo5cs5RM
- i8fUWMh4YMhdv6mCgJYzaSoNFsRT6UTGwXBi61vzGRNeMwrkjTW4WkWXoEYCiF5ijil7lZoEXmT/e
- r6FOaXSb18XdCZqJiAvlJSV1mIGwv965QpsyvL1dqXPRdevUUHpIiFrQrhDbhPEaOx5OiPeUaT2XY
- N0vsgANvC7f35RhCGej4fERH3ulnlHFj2rwakApfYe1mxXknC7n9sh7qCiQuDF31TS7k6uwOV1Xvt
- obr0hYGZR4UlUoGa0MzgcLbqdpYg8JbWxrG5Ofnru7v/kB6rQkZZeUagsxSTWUB+F9Bp/ZsqYD5i8
- gS53gc5g==;
-Received: from [187.36.234.139] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pMTMc-004TG3-LN; Mon, 30 Jan 2023 13:34:23 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Liviu Dudau <liviu.dudau@arm.com>,
- Brian Starkey <brian.starkey@arm.com>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v2 6/6] drm/debugfs: Make the struct drm_debugfs_entry
- independent of DRM device
-Date: Mon, 30 Jan 2023 09:30:14 -0300
-Message-Id: <20230130123008.287141-7-mcanal@igalia.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230130123008.287141-1-mcanal@igalia.com>
-References: <20230130123008.287141-1-mcanal@igalia.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 74CA910E0EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 12:32:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 007B41758
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 04:33:09 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B789A3F71E
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 04:32:26 -0800 (PST)
+Date: Mon, 30 Jan 2023 12:32:22 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Deepak R Varma <drv@mailo.com>
+Subject: Re: [PATCH] drm/arm/malidp: use sysfs_emit in show function callback
+Message-ID: <Y9e41kG1tcQX6L10@e110455-lin.cambridge.arm.com>
+References: <Y9Q5Tt8c9WBDxeyV@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y9Q5Tt8c9WBDxeyV@ubun2204.myguest.virtualbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +42,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to turn the API more expansible to other DRM objects, such as
-the struct drm_connector, make the struct drm_debugfs_entry hold a void
-pointer and cast the void pointer to the struct drm_device when needed.
+On Sat, Jan 28, 2023 at 02:21:26AM +0530, Deepak R Varma wrote:
+> According to Documentation/filesystems/sysfs.rst, the show() callback
+> function of kobject attributes should strictly use sysfs_emit() instead
+> of sprintf() family functions.
+> Issue identified using the device_attr_show.cocci Coccinelle script.
+> 
+> Signed-off-by: Deepak R Varma <drv@mailo.com>
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/drm_debugfs.c | 4 ++--
- include/drm/drm_debugfs.h     | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Acked-by: Liviu Dudau <liviu.dudau@arm.com>
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 21f01c7d0ab1..f12c3fdf61bb 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -141,7 +141,7 @@ static int drm_debugfs_dev_show(struct seq_file *m, void *unused)
- 	struct drm_debugfs_entry *entry = m->private;
- 	int (*show)(struct seq_file *, struct drm_device *, void *) = entry->file.show;
- 
--	return show(m, entry->dev, entry->file.data);
-+	return show(m, entry->object, entry->file.data);
- }
- 
- static int drm_debugfs_open(struct inode *inode, struct file *file)
-@@ -362,7 +362,7 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
- 	entry->file.name = name;
- 	entry->file.show = show;
- 	entry->file.data = data;
--	entry->dev = dev;
-+	entry->object = dev;
- 
- 	drm_debugfs_files_add(dev->debugfs_files, &entry->list);
- }
-diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
-index 0fb7ad5f6893..4ab0557f55e0 100644
---- a/include/drm/drm_debugfs.h
-+++ b/include/drm/drm_debugfs.h
-@@ -130,8 +130,8 @@ struct drm_debugfs_info {
-  * drm_debugfs_info on a &struct drm_device.
-  */
- struct drm_debugfs_entry {
--	/** @dev: &struct drm_device for this node. */
--	struct drm_device *dev;
-+	/** @object: The DRM object that owns this node. */
-+	void *object;
- 
- 	/** @file: Template for this node. */
- 	struct drm_debugfs_info file;
+I will push the change into drm-misc-next by the end of the week.
+
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/arm/malidp_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+> index 589c1c66a6dc..cf040e2e9efe 100644
+> --- a/drivers/gpu/drm/arm/malidp_drv.c
+> +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> @@ -649,7 +649,7 @@ static ssize_t core_id_show(struct device *dev, struct device_attribute *attr,
+>  	struct drm_device *drm = dev_get_drvdata(dev);
+>  	struct malidp_drm *malidp = drm_to_malidp(drm);
+>  
+> -	return snprintf(buf, PAGE_SIZE, "%08x\n", malidp->core_id);
+> +	return sysfs_emit(buf, "%08x\n", malidp->core_id);
+>  }
+>  
+>  static DEVICE_ATTR_RO(core_id);
+> -- 
+> 2.34.1
+> 
+> 
+> 
+
 -- 
-2.39.1
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
