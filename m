@@ -2,62 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FA6680762
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 09:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8D36807A3
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 09:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D65410E148;
-	Mon, 30 Jan 2023 08:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2740C10E156;
+	Mon, 30 Jan 2023 08:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9037A10E148
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 08:28:39 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C91571FD72;
- Mon, 30 Jan 2023 08:28:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675067317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GQRl6qbJGy3BJjmVIWe6bw8MUALqPOBomUoGDkU5lN0=;
- b=ECNgzCF13FEo5Ws8LcAA/LS2HWXWCqPKyrnTdrGA+Ug772XBFIvI9XODq6KBwWS9MR2Sm0
- 20YeyFdDUUNyDUWLjtNbZh9oJ4gqLFEcUcEjdcSyFYzDFwPJUJNHOXyNKR4BxpWCZi1ywF
- P724250MiW+SXWIodRvKm5GQ97qaiZc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675067317;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GQRl6qbJGy3BJjmVIWe6bw8MUALqPOBomUoGDkU5lN0=;
- b=UdeJ9ZcLcwXL19KSWLDusoHEZ3SLVYlpvdOMBzmahQp6zfxumhVF4WjOwM4XRG/wc8J6dW
- uzf686lU6Z9FhHBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9D42813A06;
- Mon, 30 Jan 2023 08:28:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GHNBJbV/12PcTQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 30 Jan 2023 08:28:37 +0000
-Message-ID: <2a5b5059-9f60-a5bc-cbb7-8267349b2eac@suse.de>
-Date: Mon, 30 Jan 2023 09:28:36 +0100
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2050.outbound.protection.outlook.com [40.107.20.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE3E10E156
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 08:42:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bQOI0IgW1x61Tgl7lVYJyiBcEh3Tyj8NWBuRKa4GwYvJ8OpZ0k8TMQ2cp6JH0l01jTx0LpzsSquEGrzAttfYnyFIURfoosbPPKHLQz9faompU89YKMdRiOmsebVOpEzo2GL4fvfLMVf/IbvBVSsMAINIbHeyr85EtNWydIHWiLPLNctkxYADBIFe4tUCk2YfMw+kJoNyQNyVji5S4b4kPT4YvZxrcLxgp3zoENfE0q57g/9NGRiIDXKI7e6K5CTeLNvNx4yDBR6rpyyQEFryg2smSgy56DZOJBNd3tNCEy9SOrwcHROxx31EYZ3N2lYIy1hi2zcMb68KTbRcgfOeZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k3J1zo/xGHqNYNupdCm/8NiHaBw1+9TyGMGE0ZrvQ40=;
+ b=bQzNVbtNZnzwoGzSro5/aANn4RW/CEmWbV4W9ShgjPO+o41u2zNdOZpLVZb5Lg6d+6zQEcXi1yFbZ0sp9PyVTMHEmiyBQIPu85ksJ+rsbQYVA7Brs6vm/7XijnhN2nqEtqaOtSIzVohaCvndgV3zAiuJDSRq+gX+DciWt9oqykKj+bCRv3OT4fPCEaATz9sK+60KbeWd6va8DP5ZMD9qsyH6FkqxqUhT+teenTLDxYxkeo4b8QtUtVzzISguc2bZkB4byENf2EouOHbVMQq93UIC5IR2Jo0N6EWx/Vx4o9o+5dTh5xIelqRh+3oPAO9MveXfLFM0TRlkbmoyFYYlNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k3J1zo/xGHqNYNupdCm/8NiHaBw1+9TyGMGE0ZrvQ40=;
+ b=ZKOr8mvaaDc1BoI3CXv/GMe4W5MX0EriaZ1hryWrvCI8vdex6xPLiDQUfNr/wTfkymUv+stOqQQ06UFwKSnWs7qzaINEcbEyGbuFmLZyn7OggDX8zes1MVTSfw0H1kZMiY6EmnR0jWFbqxyW7vt9jW/wCodPRoorRKXmsY4jCkw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AS8PR04MB8481.eurprd04.prod.outlook.com (2603:10a6:20b:349::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.33; Mon, 30 Jan
+ 2023 08:42:13 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5725:92ec:f43e:f5fc%8]) with mapi id 15.20.6043.023; Mon, 30 Jan 2023
+ 08:42:13 +0000
+Message-ID: <87d6f54c4695330064eda295e258a0a5c3bc48f8.camel@nxp.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: Add NXP i.MX93
+ parallel display format configuration
+From: Liu Ying <victor.liu@nxp.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <3c07b9bd-1981-2945-9efe-80afb0195de8@linaro.org>
+References: <20230128034713.1530218-1-victor.liu@nxp.com>
+ <20230128034713.1530218-2-victor.liu@nxp.com>
+ <3c07b9bd-1981-2945-9efe-80afb0195de8@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 30 Jan 2023 16:39:05 +0800
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR02CA0005.apcprd02.prod.outlook.com
+ (2603:1096:4:194::6) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2] fbdev: Fix invalid page access after closing deferred
- I/O devices
-To: Takashi Iwai <tiwai@suse.de>, Helge Deller <deller@gmx.de>
-References: <20230129082856.22113-1-tiwai@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230129082856.22113-1-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0Dho9ne5BT7ziIXF88vgRxWe"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB8481:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5164f687-e241-4446-9c11-08db029de246
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7xBO3ks5000azIdmkSECTeXxGY8972iQhXbnSPzZB8RvSLZpdBgqLd8h4yXCkTxAbafJbzkLoD6dh5wgsTgkg4g9kzZ0etsWj1O7ZJ91H904Djk6AL2UhfeYQAoCX/x5kYbK0q+uOsU+k97M4mak7aQ2TMJhW34qEkRq/J9kyBM9b2RVXT6sxT5IHh2woavnydxpAgC2P3sP94OkDeqjUuKN9tIn8HFn2sQkD0ZDrCHFZ/pX3HEk00rJENQxaA5D7j5tR67p1X07EFEctzaFtzxZI23qVaM+vTqsMge5dosqPhBkaVsqUbtRqYPN2vnF1soyPR24vRBZCMisfQe9HMOiGsYzuCxWMIqXDQjpX6gPZClNvpPc3L5JfRclTScgbIe8sPH11MyIdXaSYuodyb1XdPqS/tNpS9ReIuX3Mw0jqh4oWDcwVAV0LSqt955CAUEkwFAr2XLcdt19ICOuek/ARXyLNfBqVsYAdVmndCYH8BVARc/1l6mIiQzHdqgaUe7kcsX/6jc+Sm2JB3qlNEPgB4btRP2rjMwSGIouTL9KQpCpX0/2Mwflrla3HL3wEgItraBPeO3Kd7eLa23GFV89l/3e9O1NJIDyAcqx8OnSgmxxi6VHisnbvMkBiS3LJ055hLZVYJvOICQiZV3vkaprrfdI/MZzaiumUNmQWbYa+xaJXKGPO+WbC00bC0yY5t6Jqao8K5YPj0P6niazt2I6iILdIZEdi/C4RbcYcEWTwWrwYflxBf+6owycuOD99s7h5UM6zh8EfJmP81ahZhR3lD0H91xhEfGP+kSCG3M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(136003)(366004)(346002)(396003)(376002)(451199018)(186003)(6666004)(6506007)(26005)(6512007)(53546011)(86362001)(36756003)(38350700002)(38100700002)(2616005)(41300700001)(8936002)(2906002)(5660300002)(7416002)(6486002)(45080400002)(966005)(478600001)(4326008)(316002)(8676002)(66946007)(52116002)(66556008)(66476007)(99106002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TGlGYVpBV0hEWDQwNE84TmpUR1JGMW5DTDJHaGpHa0toUzlIOGRJMDZCaldI?=
+ =?utf-8?B?RG9lclRvOTlaazh5OTljYzJmbVFBMTdHcjE4U3FBQzB3VFY3ZjZHYWZPSnpl?=
+ =?utf-8?B?c0M0a0VvN3Y0STNkL1Y2L1VJZ2lGYk1XSUtsc1hYWjZWK1Q2bU9kWHJqTUxW?=
+ =?utf-8?B?elFGVnZWYWl3bVR6YzBSaHR2YXF3eGJsYnpsQXN2ZUQzZGxwaWdYdXJuMFpW?=
+ =?utf-8?B?aWFzRXRGaGJONjJISWhkLzFxNFJoLytDU2lsUWpvTzluOW16NGx6cXg5RVND?=
+ =?utf-8?B?eDUwQVBGekVNaTFORk9xNWVxUUFMTkpHTldhVjVEZVJYMHk5YmEvaGxodksr?=
+ =?utf-8?B?YW9oNGNCY3RmQ1d6dnNISU56bTBTdDhBZmN5Vi9LZWlQekk1cGUwNkFMOC94?=
+ =?utf-8?B?N1B3clorMEpvNzFhVU5HQU1PMFlGdjRmcjVBSVVSbHJhT1djUVEvQzIyNVls?=
+ =?utf-8?B?NVppbDhyNXdFMk9DM0d3UFA0SkR4R29KbzhRRTdMandYMnFVeEcwaU81Kyti?=
+ =?utf-8?B?dlJudi92Z3BHK1ZLUWhNSFB0a3JTcng5UDN0a1pBaTJIc2FqU2w2OUtQRVBj?=
+ =?utf-8?B?eHplOUFjRExQbmhSWnpBa01IMm4xL0hOcVZQOXdWTHBhNjQ0a1VWNHFxdlJO?=
+ =?utf-8?B?azh5T0N4U0RaYUx2dTBNNks4VmY3NHViV0dYUk9PNjZrSjBGSTdTZzhjOExL?=
+ =?utf-8?B?dWE2NlcydWZiSnJSRkw5Nko5azZLM0VGOXFlNlllSmRVR0UzMkxxYjIrM1l0?=
+ =?utf-8?B?YWRIZGQ1bDloeC9lSG56b3Fyay9BNXFsZmJXdHZONFg0K1NKMDZuby94RGlU?=
+ =?utf-8?B?YmNCYXgwOU9QbWJhVWdNWm44Zk01Rk5rR0JPUm5wRHlFdTdEc1RkazRUZWtL?=
+ =?utf-8?B?N1hJRTViUk1hRElYUVV1dSt1R0JUQ3hTczE0OEJHN2c3Rk8yaVVxM1NUeDFC?=
+ =?utf-8?B?OTZCMCsxbzMxc0tLc0VKSXZXWUpIMnJHSVVuejNLclZPalRvd2hiTkhST3pm?=
+ =?utf-8?B?TFE2NUZsbjdiazR4ZGRTaE5ONEE4SVU5Y3cvTk5pTGF4WS9KVnRhRnVrdEVp?=
+ =?utf-8?B?UG96RlY4TXlkREFEK0w5UFZmSUNqNDArT0lWYmY3WVYwQ2VkN1hHM1cvc3B1?=
+ =?utf-8?B?SDY1NWUrNFpyZW5Fb2NVTitqRnNFS0N5V3dnVHlZSDJzU09LNmhNV3U4RU1R?=
+ =?utf-8?B?WHZlTm5ScWJvNGZPb3BWOXh0UklkMWRFWTFOR0dGMU1PT0NGN2NnNjBIdGdn?=
+ =?utf-8?B?S0dsNkk2ZFg3UnJuZW45ZHR1dWphdXRhb0MweS8rWE9nZGNicmZYZVZDRTdj?=
+ =?utf-8?B?UWhDN3FhMjNqLzlxMmoybHF0VTc3VVlRVHR4L2srWHovUDNlQTlxNlBHbnNC?=
+ =?utf-8?B?WFkreklwZldMS2N1Nkl1TGFOY3V4OHRsSTJ6YlVIMEhyQ3RyWktYSVpYOXVU?=
+ =?utf-8?B?SGk5YWpZZWMrc25yWkhYcWZFMTVwRzZLeVF2MDFDY3BxbjJ3dkF6L1dNOFNk?=
+ =?utf-8?B?M202alp5TEdMZkRKYU1XTDJDcXhqMlRIVnYwWXpqQ3NKMkZrQUhsSDhDQk5p?=
+ =?utf-8?B?M0dhbFBBRFVqVVB4U1FOTlZnQTBWZW1jbUxwa2hDOEhiUFdudmxDUERCdjN5?=
+ =?utf-8?B?b2pWd3ZnUnE4NDl3QlFLbWhKRmVydXcrM3FnU01rZXFtYzRNT2lwQmhNTktJ?=
+ =?utf-8?B?ckJiYTFQRndoN2lCUDV5V2ZDcjRtNUQxeGtqcXdzTUlKaHN4dW8yRk5SYnM0?=
+ =?utf-8?B?Q3E4ZVprSjJJS1dCd3NHd2hqZ1ZSR0VldzlLa1dDdklaa3pWbFhvZnlMN2JI?=
+ =?utf-8?B?UG9CSWdNam03U1JueWhYbEZ4ZXJFNUFmZmVWalBsZFhPNDRLVkJjUWlSclFm?=
+ =?utf-8?B?Q3g0T0JVZEJ1OUNSTDR4S1JFc3ZEYVUzVGMxazExTjJybFNpaUJSU3QrRjVX?=
+ =?utf-8?B?c0pTRVFTSWhKdmVSRDZjOU4xck5wN3hYbWNidm9EUXdwSUpXOXZMaEFzazNp?=
+ =?utf-8?B?V1RHQUFPKzZTbUNwTjNMT1hlM0pEL3FXVHRCc3FrVVh0TCtram9tUDdldnM0?=
+ =?utf-8?B?T05OTmFhTEVwbllxaThMQ3p3RjlyV0FnRWtDcFhXS3pkOHc4dmU4dVJoUnlW?=
+ =?utf-8?Q?SgyyBZA6QEmupFhIQRB1c4Qi4?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5164f687-e241-4446-9c11-08db029de246
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 08:42:13.3706 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dbcDpTuWVkHesh2JxYkR8k7nhHE5+Mcn83FbmaIpGa6lZOnUv48UyJps7hZoN2O/nCgGJgQtJnksJZggjFprsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8481
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,157 +127,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>
+Cc: neil.armstrong@linaro.org, krzysztof.kozlowski+dt@linaro.org,
+ jonas@kwiboo.se, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ linux-imx@nxp.com, jernej.skrabec@gmail.com, robh+dt@kernel.org,
+ robert.foss@linaro.org, andrzej.hajda@intel.com, kernel@pengutronix.de,
+ Laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0Dho9ne5BT7ziIXF88vgRxWe
-Content-Type: multipart/mixed; boundary="------------lRQQWQyhNpLducckKzzb6XKY";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Takashi Iwai <tiwai@suse.de>, Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>
-Message-ID: <2a5b5059-9f60-a5bc-cbb7-8267349b2eac@suse.de>
-Subject: Re: [PATCH v2] fbdev: Fix invalid page access after closing deferred
- I/O devices
-References: <20230129082856.22113-1-tiwai@suse.de>
-In-Reply-To: <20230129082856.22113-1-tiwai@suse.de>
+On Sun, 2023-01-29 at 12:46 +0100, Krzysztof Kozlowski wrote:
+> On 28/01/2023 04:47, Liu Ying wrote:
+> > NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register
+> > which
+> > configures parallel display format by using the
+> > "PARALLEL_DISP_FORMAT"
+> > field. Add device tree bindings for the display format
+> > configuration.
+> > 
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> >  .../display/bridge/nxp,imx93-pdfc.yaml        | 78
+> > +++++++++++++++++++
+> >  1 file changed, 78 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/bridge/nxp,imx93-
+> > pdfc.yaml
+> > 
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/bridge/nxp,imx93-
+> > pdfc.yaml
+> > b/Documentation/devicetree/bindings/display/bridge/nxp,imx93-
+> > pdfc.yaml
+> > new file mode 100644
+> > index 000000000000..a84bfb46b01d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/nxp,imx93-
+> > pdfc.yaml
+> > @@ -0,0 +1,78 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: 
+> > https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fdisplay%2Fbridge%2Fnxp%2Cimx93-pdfc.yaml%23&data=05%7C01%7Cvictor.liu%40nxp.com%7C7fb1b69849974435787008db01ee832c%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638105896131701918%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=kkX5B45NTsmDKKzxjOiE6MaE4zkMVbMe4ILammVSwMc%3D&reserved=0
+> > +$schema: 
+> > https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&data=05%7C01%7Cvictor.liu%40nxp.com%7C7fb1b69849974435787008db01ee832c%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638105896131701918%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=vIVpdEjIo6H3V8T7iTbDwz4Bmn0d%2BQB4BCJNJ0OzKJw%3D&reserved=0
+> > +
+> > +title: NXP i.MX93 Parallel Display Format Configuration
+> > +
+> > +maintainers:
+> > +  - Liu Ying <victor.liu@nxp.com>
+> > +
+> > +description: |
+> > +  The i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register
+> > which
+> > +  configures parallel display format by using the
+> > "PARALLEL_DISP_FORMAT"
+> > +  field.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: nxp,imx93-pdfc
+> 
+> 
+> Based on description, I have doubts this is a separate bridge device.
+> Why this is not part of display driver/bindings?
 
---------------lRQQWQyhNpLducckKzzb6XKY
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+The relevant display controller in i.MX93 SoC is LCDIF. From hardware
+design PoV, the parallel display format configuration logic is not a
+part of LCDIF. Instead, it's a part of i.MX93 mediamix blk-ctrl. The
+blk-ctrl includes controls for miscellaneous devices with small logics,
+like this parallel display format configuration, LVDS Display
+Bridge(LDB, see fsl,ldb.yaml) and so on. The below pipeline describes
+data flow of a parallel display LCD panel:
 
-SGkNCg0KQW0gMjkuMDEuMjMgdW0gMDk6Mjggc2NocmllYiBUYWthc2hpIEl3YWk6DQo+IFdo
-ZW4gYSBmYmRldiB3aXRoIGRlZmVycmVkIEkvTyBpcyBvbmNlIG9wZW5lZCBhbmQgY2xvc2Vk
-LCB0aGUgZGlydHkNCj4gcGFnZXMgc3RpbGwgcmVtYWluIHF1ZXVlZCBpbiB0aGUgcGFnZXJl
-ZiBsaXN0LCBhbmQgZXZlbnR1YWxseSBsYXRlcg0KPiB0aG9zZSBtYXkgYmUgcHJvY2Vzc2Vk
-IGluIHRoZSBkZWxheWVkIHdvcmsuICBUaGlzIG1heSBsZWFkIHRvIGENCj4gY29ycnVwdGlv
-biBvZiBwYWdlcywgaGl0dGluZyBhbiBPb3BzLg0KDQpEbyB5b3UgaGF2ZSBtb3JlIGluZm9y
-bWF0aW9uIG9uIHRoaXMgcHJvYmxlbT8NCg0KVGhlIG1tYXAnZWQgYnVmZmVyIG9mIHRoZSBm
-YmRldiBkZXZpY2UgY29tZXMgZnJvbSBhIHZtYWxsb2MgY2FsbC4gVGhhdCANCm1lbW9yeSdz
-IGxvY2F0aW9uIG5ldmVyIGNoYW5nZXM7IGV2ZW4gYWNyb3NzIHBhaXJzIG9mIG9wZW4vY2xv
-c2Ugb24gdGhlIA0KZGV2aWNlIGZpbGUuIEknbSBzdXJwcmlzZWQgdGhhdCBhIHBhZ2UgZW50
-cnkgYmVjb21lcyBpbnZhbGlkLg0KDQpJbiBkcm1fZmJkZXZfY2xlYW51cCgpLCB3ZSBmaXJz
-dCByZW1vdmUgdGhlIGZiZGVmaW8gYXQgWzFdIGFuZCB0aGVuIA0KdmZyZWUoKSB0aGUgc2hh
-ZG93IGJ1ZmZlci4gU28gdGhlIG1lbW9yeSBzaG91bGQgc3RpbGwgYmUgYXJvdW5kIHVudGls
-IA0KZmJkZXZpbyBpcyBnb25lLg0KDQpbMV0gDQpodHRwczovL2VsaXhpci5ib290bGluLmNv
-bS9saW51eC9sYXRlc3Qvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMj
-TDIxNDYNCg0KPiANCj4gVGhpcyBwYXRjaCBtYWtlcyBzdXJlIHRvIGNhbmNlbCB0aGUgZGVs
-YXllZCB3b3JrIGFuZCBjbGVhbiB1cCB0aGUNCj4gcGFnZXJlZiBsaXN0IGF0IGNsb3Npbmcg
-dGhlIGRldmljZSBmb3IgYWRkcmVzc2luZyB0aGUgYnVnLiAgQSBwYXJ0IG9mDQo+IHRoZSBj
-bGVhbnVwIGNvZGUgaXMgZmFjdG9yZWQgb3V0IGFzIGEgbmV3IGhlbHBlciBmdW5jdGlvbiB0
-aGF0IGlzDQo+IGNhbGxlZCBmcm9tIHRoZSBjb21tb24gZmJfcmVsZWFzZSgpLg0KDQpUaGUg
-ZGVsYXllZCB3b3JrIGlzIHJlcXVpcmVkIHRvIGNvcHkgdGhlIGZyYW1lYnVmZmVyIHRvIHRo
-ZSBkZXZpY2UgDQpvdXRwdXQuIFNvIGlmIGl0J3MganVzdCBjYW5jZWxlZCwgY291bGQgdGhp
-cyByZXN1bHQgaW4gbWlzc2luZyB1cGRhdGVzPw0KDQpUaGVyZSdzIGEgY2FsbCB0byBjYW5j
-ZWxfZGVsYXllZF93b3JrX3N5bmMoKSBpbiB0aGUgbmV3IGhlbHBlciANCmZiX2RlZmVycmVk
-X2lvX3JlbGVhc2UoKS4gSXMgdGhpcyB0aGUgcmlnaHQgZnVuY3Rpb24/IE1heWJlIA0KZmx1
-c2hfZGVsYXllZF93b3JrKCkgaXMgYSBiZXR0ZXIgY2hvaWNlLg0KDQo+IA0KPiBSZXZpZXdl
-ZC1ieTogUGF0cmlrIEpha29ic3NvbiA8cGF0cmlrLnIuamFrb2Jzc29uQGdtYWlsLmNvbT4N
-Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPg0KPiBTaWduZWQtb2ZmLWJ5OiBUYWth
-c2hpIEl3YWkgPHRpd2FpQHN1c2UuZGU+DQoNClRoaXMgY291bGQgdXNlIGEgRml4ZXMgdGFn
-LiBJdCdzIG5vdCBleGFjdGx5IGNsZWFyIHRvIG1lIHdoZW4gdGhpcyANCnByb2JsZW0gZ290
-IG9yaWdpbmFsbHkgaW50cm9kdWNlZCwgYnV0IHRoZSByZWNlbnQgcmVmYWN0b3Jpbmcgc2Vl
-bXMgYSANCmNhbmRpZGF0ZS4NCg0KRml4ZXM6IDU2YzEzNGY3ZjFiNSAoImZiZGV2OiBUcmFj
-ayBkZWZlcnJlZC1JL08gcGFnZXMgaW4gcGFnZXJlZiBzdHJ1Y3QiKQ0KQ2M6IFRob21hcyBa
-aW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KQ2M6IEphdmllciBNYXJ0aW5leiBD
-YW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxt
-YWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+DQpDYzogTWF4aW1lIFJpcGFyZCA8
-bXJpcGFyZEBrZXJuZWwub3JnPg0KQ2M6IFphY2sgUnVzaW4gPHphY2tyQHZtd2FyZS5jb20+
-DQpDYzogVk13YXJlIEdyYXBoaWNzIFJldmlld2VycyA8bGludXgtZ3JhcGhpY3MtbWFpbnRh
-aW5lckB2bXdhcmUuY29tPg0KQ2M6IEpheWEgS3VtYXIgPGpheWFsa0BpbnR3b3Jrcy5iaXo+
-DQpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPg0KQ2M6ICJLLiBZLiBTcmlu
-aXZhc2FuIiA8a3lzQG1pY3Jvc29mdC5jb20+DQpDYzogSGFpeWFuZyBaaGFuZyA8aGFpeWFu
-Z3pAbWljcm9zb2Z0LmNvbT4NCkNjOiBXZWkgTGl1IDx3ZWkubGl1QGtlcm5lbC5vcmc+DQpD
-YzogRGV4dWFuIEN1aSA8ZGVjdWlAbWljcm9zb2Z0LmNvbT4NCkNjOiBTdGV2ZSBHbGVuZGlu
-bmluZyA8c3RldmUuZ2xlbmRpbm5pbmdAc2hhd2VsbC5uZXQ+DQpDYzogQmVybmllIFRob21w
-c29uIDxiZXJuaWVAcGx1Z2FibGUuY29tPg0KQ2M6IEhlbGdlIERlbGxlciA8ZGVsbGVyQGdt
-eC5kZT4NCkNjOiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4Lmlu
-dGVsLmNvbT4NCkNjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRp
-b24ub3JnPg0KQ2M6IFN0ZXBoZW4gS2l0dCA8c3RldmVAc2syLm9yZz4NCkNjOiBQZXRlciBT
-dXRpIDxwZXRlci5zdXRpQHN0cmVhbXVubGltaXRlZC5jb20+DQpDYzogU2FtIFJhdm5ib3Jn
-IDxzYW1AcmF2bmJvcmcub3JnPg0KQ2M6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVu
-ZXNhc0BnbGlkZXIuYmU+DQpDYzogeWUgeGluZ2NoZW4gPHllLnhpbmdjaGVuQHp0ZS5jb20u
-Y24+DQpDYzogUGV0ciBNbGFkZWsgPHBtbGFkZWtAc3VzZS5jb20+DQpDYzogSm9obiBPZ25l
-c3MgPGpvaG4ub2duZXNzQGxpbnV0cm9uaXguZGU+DQpDYzogVG9tIFJpeCA8dHJpeEByZWRo
-YXQuY29tPg0KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCkNjOiBsaW51
-eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmcNCkNjOiBsaW51eC1oeXBlcnZAdmdlci5rZXJuZWwu
-b3JnDQpDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+ICMgdjUuMTkrDQoNCj4gLS0tDQo+
-IHYxLT52MjogRml4IGJ1aWxkIGVycm9yIHdpdGhvdXQgQ09ORklHX0ZCX0RFRkVSUkVEX0lP
-DQo+IA0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5jIHwgMTAgKysr
-KysrKysrLQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jICAgIHwgIDQg
-KysrKw0KPiAgIGluY2x1ZGUvbGludXgvZmIuaCAgICAgICAgICAgICAgICAgIHwgIDEgKw0K
-PiAgIDMgZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0K
-PiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5j
-IGIvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiX2RlZmlvLmMNCj4gaW5kZXggYzczMDI1
-M2FiODVjLi41ODNjYmNmMDk0NDYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJk
-ZXYvY29yZS9mYl9kZWZpby5jDQo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9m
-Yl9kZWZpby5jDQo+IEBAIC0zMTMsNyArMzEzLDcgQEAgdm9pZCBmYl9kZWZlcnJlZF9pb19v
-cGVuKHN0cnVjdCBmYl9pbmZvICppbmZvLA0KPiAgIH0NCj4gICBFWFBPUlRfU1lNQk9MX0dQ
-TChmYl9kZWZlcnJlZF9pb19vcGVuKTsNCj4gICANCj4gLXZvaWQgZmJfZGVmZXJyZWRfaW9f
-Y2xlYW51cChzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4gK3ZvaWQgZmJfZGVmZXJyZWRfaW9f
-cmVsZWFzZShzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4gICB7DQo+ICAgCXN0cnVjdCBmYl9k
-ZWZlcnJlZF9pbyAqZmJkZWZpbyA9IGluZm8tPmZiZGVmaW87DQo+ICAgCXN0cnVjdCBwYWdl
-ICpwYWdlOw0KPiBAQCAtMzI3LDYgKzMyNywxNCBAQCB2b2lkIGZiX2RlZmVycmVkX2lvX2Ns
-ZWFudXAoc3RydWN0IGZiX2luZm8gKmluZm8pDQo+ICAgCQlwYWdlID0gZmJfZGVmZXJyZWRf
-aW9fcGFnZShpbmZvLCBpKTsNCj4gICAJCXBhZ2UtPm1hcHBpbmcgPSBOVUxMOw0KPiAgIAl9
-DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MX0dQTChmYl9kZWZlcnJlZF9pb19yZWxlYXNlKTsN
-Cg0KSXQncyBhbGwgaW4gdGhlIHNhbWUgbW9kdWxlLiBObyBuZWVkIHRvIGV4cG9ydCB0aGlz
-IHN5bWJvbC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArDQo+ICt2b2lkIGZiX2Rl
-ZmVycmVkX2lvX2NsZWFudXAoc3RydWN0IGZiX2luZm8gKmluZm8pDQo+ICt7DQo+ICsJc3Ry
-dWN0IGZiX2RlZmVycmVkX2lvICpmYmRlZmlvID0gaW5mby0+ZmJkZWZpbzsNCj4gKw0KPiAr
-CWZiX2RlZmVycmVkX2lvX3JlbGVhc2UoaW5mbyk7DQo+ICAgDQo+ICAgCWt2ZnJlZShpbmZv
-LT5wYWdlcmVmcyk7DQo+ICAgCW11dGV4X2Rlc3Ryb3koJmZiZGVmaW8tPmxvY2spOw0KPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMgYi9kcml2ZXJz
-L3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYw0KPiBpbmRleCAzYTZjODQ1OGViOGQuLmFiMzU0
-NWEwMGFiYyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVt
-LmMNCj4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4gQEAgLTE0
-NTQsNiArMTQ1NCwxMCBAQCBfX3JlbGVhc2VzKCZpbmZvLT5sb2NrKQ0KPiAgIAlzdHJ1Y3Qg
-ZmJfaW5mbyAqIGNvbnN0IGluZm8gPSBmaWxlLT5wcml2YXRlX2RhdGE7DQo+ICAgDQo+ICAg
-CWxvY2tfZmJfaW5mbyhpbmZvKTsNCj4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19GQl9ERUZF
-UlJFRF9JTykNCj4gKwlpZiAoaW5mby0+ZmJkZWZpbykNCj4gKwkJZmJfZGVmZXJyZWRfaW9f
-cmVsZWFzZShpbmZvKTsNCj4gKyNlbmRpZg0KPiAgIAlpZiAoaW5mby0+ZmJvcHMtPmZiX3Jl
-bGVhc2UpDQo+ICAgCQlpbmZvLT5mYm9wcy0+ZmJfcmVsZWFzZShpbmZvLDEpOw0KDQoNCj4g
-ICAJbW9kdWxlX3B1dChpbmZvLT5mYm9wcy0+b3duZXIpOw0KPiBkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS9saW51eC9mYi5oIGIvaW5jbHVkZS9saW51eC9mYi5oDQo+IGluZGV4IDk2Yjk2MzIz
-ZTljYi4uNzNlYjFmODVlYThlIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2ZiLmgN
-Cj4gKysrIGIvaW5jbHVkZS9saW51eC9mYi5oDQo+IEBAIC02NjIsNiArNjYyLDcgQEAgZXh0
-ZXJuIGludCAgZmJfZGVmZXJyZWRfaW9faW5pdChzdHJ1Y3QgZmJfaW5mbyAqaW5mbyk7DQo+
-ICAgZXh0ZXJuIHZvaWQgZmJfZGVmZXJyZWRfaW9fb3BlbihzdHJ1Y3QgZmJfaW5mbyAqaW5m
-bywNCj4gICAJCQkJc3RydWN0IGlub2RlICppbm9kZSwNCj4gICAJCQkJc3RydWN0IGZpbGUg
-KmZpbGUpOw0KPiArZXh0ZXJuIHZvaWQgZmJfZGVmZXJyZWRfaW9fcmVsZWFzZShzdHJ1Y3Qg
-ZmJfaW5mbyAqaW5mbyk7DQo+ICAgZXh0ZXJuIHZvaWQgZmJfZGVmZXJyZWRfaW9fY2xlYW51
-cChzdHJ1Y3QgZmJfaW5mbyAqaW5mbyk7DQo+ICAgZXh0ZXJuIGludCBmYl9kZWZlcnJlZF9p
-b19mc3luYyhzdHJ1Y3QgZmlsZSAqZmlsZSwgbG9mZl90IHN0YXJ0LA0KPiAgIAkJCQlsb2Zm
-X3QgZW5kLCBpbnQgZGF0YXN5bmMpOw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFw
-aGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
-IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAz
-NjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+DRAM -> LCDIF -> parallel display format configuration -> LCD panel
 
---------------lRQQWQyhNpLducckKzzb6XKY--
+So, the parallel display format configuration appears to be a separate
+bridge.
 
---------------0Dho9ne5BT7ziIXF88vgRxWe
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> 
+> We do not create usually devices for single registers, because they
+> are
+> not a devices. Devices are a bit more complex - have some pin
+> inputs/outputs, not a register only. Of course there are exception,
+> but
+> this one does not look like one.
 
------BEGIN PGP SIGNATURE-----
+IMHO, this one is a standalone device although it is controlled by one
+single register. It's input pins connect to LCDIF and output pins
+connect to i.MX93 SoC's pins/pads.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPXf7QFAwAAAAAACgkQlh/E3EQov+DO
-rg/9GhWCC/Z0NjP7E3yoSDWqJevVIkw4NKv+aImkqCuwEN1GxJn0V88dDf5gzTTFgOL1rDLoFit1
-sDprH+X0OVyY63lZ4tM0ao5JStTtRDuXhWHJXZF5R2Y4z4DdtPZlWOUSXqVm4BnhGkb+S/PZ8fug
-BHUHJ0GxA96QtjIu7VWTmkSM8jC5YtOWIq1aJzjXVKL/P0Muno0Q0RWaE9+Fr3DOJFmNrcT8vXxP
-Q7b1R2Yif2GcSNEBE7iQOzZelYxKmfRWBmMhqyWzY7LjJdMETfrA7YTnL+Z1djubBQ+9co1KK8Tf
-85fV2sXiDiBlVnY3Ev/BLYZ7KXjPciaJacOUI68QR+Ht8cWpxE/Zjq1yMlylY9RYFkH+36aXyTPu
-HLlgRMyXM8+CbDi/HiMngpyNGjaqTMXgq4tgXnJxi6kk01rFgBC+NdLqKUOlhycm0hMuH+FtIWSw
-rntBO5RRc7STVGwUoleePN7ZsaWsmGkjLOUpx3WyCFYpWMY0/+A1c53mMqGzJ1HWyALD3A8wTVE7
-070htioa/MlB+AMMJ4LUjFI4DY7LxkrBcp77an+sGjNAB+PcM4lt6pCKUGFpO1amEsZ8ZRbljFZw
-nGFj+JAy59U/ipt0ZB98TwiWeqnfWKQInIwEXPdS5jL/E1zxaTLbtoKYkrCQrBhPYbnkWezwAIy2
-MEI=
-=lPhs
------END PGP SIGNATURE-----
+> 
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> 
+> Your driver tells different story:
+> 
+> syscon_node_to_regmap(dev->of_node->parent);
+> 
+> (which also points to fact this is not a separate device)
 
---------------0Dho9ne5BT7ziIXF88vgRxWe--
+This function call gets the parent device's(mediamix blk-ctrl's)
+regmap, like fsl-ldb.c does. Same to LDB, the parallel display format
+configuration device is a child device of the mediamix blk-ctrl device.
+
+Regards,
+Liu Ying
+
+> 
+> Best regards,
+> Krzysztof
+> 
+
