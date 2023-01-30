@@ -1,53 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFBA680FE8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 14:57:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2050C6811F2
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 15:17:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76E5410E24B;
-	Mon, 30 Jan 2023 13:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E44F10E25C;
+	Mon, 30 Jan 2023 14:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0672C10E24B;
- Mon, 30 Jan 2023 13:57:50 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 004F36008779;
- Mon, 30 Jan 2023 13:57:48 +0000 (WET)
-X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
- tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
- with LMTP id N-n1fPRz3P4O; Mon, 30 Jan 2023 13:57:45 +0000 (WET)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
- [IPv6:2001:690:2100:1::b3dd:b9ac])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 114AA6008767;
- Mon, 30 Jan 2023 13:57:45 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
- s=mail; t=1675087065;
- bh=JqwGsj0u6Pts7btT5om3dFNEtjS5jBoS5qI53RgpF7k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To;
- b=OinxDCoVd95mvVdNhKnlUhPOCOX68em6JNtmKWJVeeMI/Vz2vMU2WEILEa4YSQRCz
- AWhw1qk/Q+YY0yMC5VyK3gqVHdYrkZl9ovvLCGkulWxRIss9fFjs/82O9J7s8D8SCw
- ZDD/lGwHSFMKy/A61Dq/blY1ZpKULkLKmeVzkXOk=
-Received: from wslaptop (unknown [IPv6:2001:818:dcb5:dc00:d990:b664:f16:4cb2])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 4E03A360077;
- Mon, 30 Jan 2023 13:57:44 +0000 (WET)
-Date: Mon, 30 Jan 2023 13:54:49 +0000
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-To: Ben Skeggs <skeggsb@gmail.com>
-Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
-Message-ID: <20230130135449.va44qpmklob44lwy@wslaptop>
-References: <CACAvsv4_XJLSwnA-s0BXLVbBCESDfnK7kx5-WUPd2+vdJuMojg@mail.gmail.com>
- <20230127103959.5nqk57sb7qchtaw6@wslaptop>
- <CACAvsv5sA8pmhYEVhJk9PEAWyKRZYvcsSHa-04CsJxgu7+YEiw@mail.gmail.com>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3199D10E25B
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 14:17:24 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id D5AC8C99D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 14:09:44 +0000 (UTC)
+Received: from booty (unknown [77.244.183.192])
+ (Authenticated sender: luca.ceresoli@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 003BA1C0018;
+ Mon, 30 Jan 2023 14:09:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1675087780;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KD4t6AFD7zWRuav/9wfKI/33NlxRT+vOROmFd5NS47E=;
+ b=ldhsz/T6pvQk9zJ+osMNoqfhUEntk27/80Ft3G6zKe2Roz+Zgcx4HSuwH9VWfGvcYwxyJu
+ 2Uf43LiYczJZQDCWMzegUMOZTV2SIdik3qb64ONTophqff7ObdB4h6ExKbvomDlI6ThUTA
+ 67TCnClen+rBEHirq2hf333lEG1G25vOO/tx0S0Us51dcnGGQD77xjbdnrtL5p9ucchTtQ
+ qc8TMEF7BBdhaJ5chrEB/qgkpr3PgIIqcFQgYrHmqCKpbW1oBB6+kmGxZxByQLiSnuYWni
+ T8NziJRpHdFAgJl620jTp42QKKDTrxvonvf1DLsGah582qWwPbbNtshBXE9XYA==
+Date: Mon, 30 Jan 2023 15:09:36 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v3 01/21] dt-bindings: display: tegra: add Tegra20 VIP
+Message-ID: <20230130150936.381f4008@booty>
+In-Reply-To: <e426497b-0421-1bc1-2a72-871b0e2d48a4@collabora.com>
+References: <20221229133205.981397-1-luca.ceresoli@bootlin.com>
+ <20221229133205.981397-2-luca.ceresoli@bootlin.com>
+ <e426497b-0421-1bc1-2a72-871b0e2d48a4@collabora.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACAvsv5sA8pmhYEVhJk9PEAWyKRZYvcsSHa-04CsJxgu7+YEiw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,59 +57,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: regressions@lists.linux.dev, kherbst@redhat.com, kwizart@gmail.com,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@redhat.com
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Richard Leitner <richard.leitner@skidata.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Dmitry Osipenko <digetx@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 30, 2023 at 08:36:06AM +1000, Ben Skeggs wrote:
-> On Fri, 27 Jan 2023 at 20:42, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
-> >
-> > On Fri, Jan 27, 2023 at 04:00:59PM +1000, Ben Skeggs wrote:
-> > > On Fri, 20 Jan 2023 at 21:37, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
-> > > >
-> > > > On Wed, Jan 18, 2023 at 11:28:49AM +1000, Ben Skeggs wrote:
-> > > > > On Mon, 16 Jan 2023 at 22:27, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
-> > > > > > On Mon, Jan 16, 2023 at 07:45:05AM +1000, David Airlie wrote:
-> > > > > > > As a quick check can you try changing
-> > > > > > >
-> > > > > > > drivers/gpu/drm/nouveau/nvkm/core/firmware.c:nvkm_firmware_mem_target
-> > > > > > > from NVKM_MEM_TARGET_HOST to NVKM_MEM_TARGET_NCOH ?
-> > > >
-> > > > > In addition to Dave's change, can you try changing the
-> > > > > nvkm_falcon_load_dmem() call in gm20b_pmu_init() to:
-> > > > >
-> > > > > nvkm_falcon_pio_wr(falcon, (u8 *)&args, 0, 0, DMEM, addr_args,
-> > > > > sizeof(args), 0, false);
-> > > >
-> > > > Chiming in just to say that with this change I see the same as Nicolas
-> > > > except that the init message size is 255 instead of 0:
-> > > >
-> > > > [    2.196934] nouveau 57000000.gpu: pmu: unexpected init message size 255 vs 42
-> > > I've attached an entirely untested patch (to go on top of the other
-> > > hacks/fixes so far), that will hopefully get us a little further.
-> >
-> > Hello,
-> >
-> > Thank you for the patch! I can confirm that it fixes the problem
-> > on the Pixel C, and everything works as before the regression.
-> > With this, for the combination of patches
-> >
-> > Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> >
-> > which I can resend after testing the final patch version.
-> Thank you (both!) for testing!
+Hi Dmitry,
+
+On Wed, 25 Jan 2023 01:15:22 +0300
+Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+
+> On 12/29/22 16:31, Luca Ceresoli wrote:
+> > VIP is the parallel video capture component within the video input
+> > subsystem of Tegra20 (and other Tegra chips, apparently).
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+...
+
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 > 
-> I've attached a "final" version of a patch that I'll send (assuming it
-> still works ;)) after re-testing.  There's only a minor change to
-> avoid breaking the non-Tegra path, so I expect it should be fine.
+> Please feel free to add my r-b to the rest of the patches. I looked
+> though them and haven't noticed anything suspicious.
 
-Hello!
+Thanks you very much, I have applied your r-b tag to all patches except
+patch 2 where you spotted a mistake. v4 coming soon.
 
-I have tested this new version and everything is working as before, so
-
-Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-
-Thank you,
-Diogo
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
