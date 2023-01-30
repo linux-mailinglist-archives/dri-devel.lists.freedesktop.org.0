@@ -1,84 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD48681E50
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 23:45:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EAA681E6E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 23:51:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E411D10E303;
-	Mon, 30 Jan 2023 22:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF4B810E130;
+	Mon, 30 Jan 2023 22:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B86210E301
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 22:45:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675118727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N8o8Rhd4sel1C6oh+rw0VuQFQ55i8FksRNvBFfvYTTs=;
- b=gmYJrewTttdYoOQb/YfDFNTEn4vANUmw3HFEg5umW3R2reK6OR0S6T9PJV0dw4oWdA2AjG
- uKIpADBnDxizLCGn0GzZmexxc0urkrVZ7VUGHbqYyt8xx5uTj4E5+QjoEim3t7dktMw7jD
- HEkov4qbCHwuo6utulg9wCprv9IwX4g=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-240-tCJ6mIObPOu3EksGv4tfcA-1; Mon, 30 Jan 2023 17:45:27 -0500
-X-MC-Unique: tCJ6mIObPOu3EksGv4tfcA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- x16-20020ac87ed0000000b003b82d873b38so3789823qtj.13
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 14:45:27 -0800 (PST)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 469A210E130;
+ Mon, 30 Jan 2023 22:51:46 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id p133so11402878oig.8;
+ Mon, 30 Jan 2023 14:51:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=JLfwhfzga9llztUAJKH2uBrKxvpKISWe9EbVQV4bALo=;
+ b=YtSLE4oTWAo9zbLYkdNReT4pjL77WmY6i/QL3faiEpau9W5/aGtUxXpG2CXs5Dl0xt
+ q+EVytjcY3uZGUtjqOzUGV6YlZwKQqaExm7nldV7nOBNIrlaq5O9OTpxzot0QrseVXKN
+ XX3uxAkPDzpz+vxa7UxQEGS3ZiugCYO6vSoyg+bLL4eh2ZD2BZIu73Vv5wwYkMpfloU/
+ PAvpJHSqeCp7/y4w/jsd8qCKVnaC7oEeYd1uf06Rk+gJ6bTKZdRgXpqH1C8c6l1Kmhwk
+ wFFrMv9t1dOvSJ6NM0r0mM+jKBYxYRLZAn9c7RP3wQp0a9N9nL8kjPcSvh+3J6T0LoVV
+ qeOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YRpkYJeAY4fR+O7gfXMan8c007OCAP8+OFxbnnC3mIY=;
- b=E5xPC7NxV7QDqzDSj1CSbn6zj9X75/JON/SYQ7aKh+1k3596M6ln9mq8d97rTiJM2a
- 42U8gdr78r99pk3RNspEN6/ll3fReRFXQ5M71Xj/HNMjVzDWBJKyCu3OZzVDmZu/RQh+
- Ogn2tmawJZ/QRF0ktv6u6uAALwCEW3LVl/HMdQO2/rTj1xpIAD6k3mdb3XfwSKfcNKJx
- tgDKATnECN3aUiGT/fTAxueIgpPXDDJ19nQvYOTfe9KSv8ClRD6vhWRuYhjFVfplmDh2
- it+WnMjbhVm+4vwfaru7qCRuzchdN3ynLxQD4gOArZjBpPmvos9PvtQpIei7JHnSZ4g4
- xMyA==
-X-Gm-Message-State: AFqh2kpgfKQFoH+9v1FYGSfnOlaOO+inMqney6sor2cIh5KwNKVdZ29V
- FGZneYf+2omQdi3nTXodD1erRCOELapu43Dw9syx7Szp/EH9dc08F51Rb9P1vMbGj9fkcl7KeMH
- ODFJIkOUdKUgOW69bITuIfskYlNhO
-X-Received: by 2002:a05:6214:ca6:b0:537:4d43:9c55 with SMTP id
- s6-20020a0562140ca600b005374d439c55mr70765096qvs.39.1675118726430; 
- Mon, 30 Jan 2023 14:45:26 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu0QFMKgggOPzEwfCc7M8SZd99arSnlL8jcaw+gLk5xP9Bmws0IiZ5C0yUOMG7jU62fJisupQ==
-X-Received: by 2002:a05:6214:ca6:b0:537:4d43:9c55 with SMTP id
- s6-20020a0562140ca600b005374d439c55mr70765062qvs.39.1675118726129; 
- Mon, 30 Jan 2023 14:45:26 -0800 (PST)
-Received: from ?IPv6:2600:4040:5c68:6800::feb? ([2600:4040:5c68:6800::feb])
- by smtp.gmail.com with ESMTPSA id
- pe27-20020a05620a851b00b0071883954df4sm7269744qkn.103.2023.01.30.14.45.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 14:45:25 -0800 (PST)
-Message-ID: <750324ffe72fb2d07c0d39e8b4a4e77b6449b794.camel@redhat.com>
-Subject: Re: [PATCH v2 3/3] drm: Call
- vga_switcheroo_process_delayed_switch() in drm_lastclose
-From: Lyude Paul <lyude@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com, 
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch,  maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com, 
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, bskeggs@redhat.com,
- kherbst@redhat.com, evan.quan@amd.com, jose.souza@intel.com
-Date: Mon, 30 Jan 2023 17:45:24 -0500
-In-Reply-To: <20230112201156.26849-4-tzimmermann@suse.de>
-References: <20230112201156.26849-1-tzimmermann@suse.de>
- <20230112201156.26849-4-tzimmermann@suse.de>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JLfwhfzga9llztUAJKH2uBrKxvpKISWe9EbVQV4bALo=;
+ b=DkPYMVJ8j/cP2A6GxAarV17+Y+kmEyJmYLDp0Hsal0jr+ZjB+YE5xSexTpskAzunu6
+ 9D3349gTlbHVaOq9jPXhQio5wh0QWKI0q74C/JfNCg1Z3iK6K98P88mIHz80ZclGC8MI
+ uR2SrrscvKMF4eNKrIZTB96bVRoyzC6Mn1vKm6syAQ5fZ+OTp7LPoBRDDCo9Ju3UU1S9
+ xCPBYN68s04GuYrJeYJG0rc7296edqbSXpZVA9099w7eVKX1Hw3/aoDQfrp6TwgrvYeV
+ /IJWiTiRgRQxZDlHxbn5LegxzT2YLORPkt+ROLUjhrO4B3vSKT3KtmSQEkQHAxLb8P2i
+ mfyA==
+X-Gm-Message-State: AFqh2kqBGozmqOEniwOrPyCgtyNGYMh9Hhyl8fydOb6sQLCjvc0yQjx4
+ bmImKUGVeEYE3cKa8F6ZSP9u/rbzkP5n7PlpBuQ=
+X-Google-Smtp-Source: AMrXdXurp8FCt3y8C6ZVIQ42dMfDn4SgpGaLbNnhQ6gOq8Atfh7vAd/kgXg2MNCAkraMEpVCEZ8szsA0acqhBxyK/Zw=
+X-Received: by 2002:a54:418f:0:b0:360:ffcc:3685 with SMTP id
+ 15-20020a54418f000000b00360ffcc3685mr2375392oiy.183.1675119105303; Mon, 30
+ Jan 2023 14:51:45 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 30 Jan 2023 14:51:42 -0800
+Message-ID: <CAF6AEGv6zQ-zsgS+NG+WuV=tk51q9vA2QdKqYhNgiXQddAdZjA@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-next-2023-01-30 for v6.3
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,337 +61,400 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Miaoqian Lin <linmq006@gmail.com>, Hui Tang <tanghui20@huawei.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@chromium.org>,
+ Bjorn Andersson <quic_bjorande@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Adam Skladowski <a39.skl@gmail.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Yang Li <yang.lee@linux.alibaba.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Lyude Paul <lyude@redhat.com>
+Hi Dave & Daniel,
 
-On Thu, 2023-01-12 at 21:11 +0100, Thomas Zimmermann wrote:
-> Several lastclose helpers call vga_switcheroo_process_delayed_switch().
-> It's better to call the helper from drm_lastclose() after the kernel
-> client's screen has been restored. This way, all drivers can benefit
-> without having to implement their own lastclose helper. For drivers
-> without vga-switcheroo, vga_switcheroo_process_delayed_switch() does
-> nothing.
->=20
-> There was an earlier patchset to do something similar. [1]
->=20
-> v2:
-> =09* handle vga_switcheroo_client_fb_set() in a separate patch
-> =09* also update i915, nouveau and radeon
-> =09* remove unnecessary include statements
-> =09* update vga-switcheroo docs
->=20
-> Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-> Link: https://lore.kernel.org/amd-gfx/20221020143603.563929-1-alexander.d=
-eucher@amd.com/ # 1
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h     |  1 -
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c |  2 --
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 13 -------------
->  drivers/gpu/drm/drm_file.c              |  3 +++
->  drivers/gpu/drm/i915/i915_driver.c      | 25 ++-----------------------
->  drivers/gpu/drm/nouveau/nouveau_drm.c   |  1 -
->  drivers/gpu/drm/nouveau/nouveau_vga.c   |  7 -------
->  drivers/gpu/drm/nouveau/nouveau_vga.h   |  1 -
->  drivers/gpu/drm/radeon/radeon_drv.c     |  2 +-
->  drivers/gpu/drm/radeon/radeon_drv.h     |  1 -
->  drivers/gpu/drm/radeon/radeon_kms.c     | 18 ------------------
->  drivers/gpu/vga/vga_switcheroo.c        |  4 ++--
->  12 files changed, 8 insertions(+), 70 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
-dgpu/amdgpu.h
-> index 63c921c55fb9..7120b9b6e580 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1330,7 +1330,6 @@ extern const int amdgpu_max_kms_ioctl;
-> =20
->  int amdgpu_driver_load_kms(struct amdgpu_device *adev, unsigned long fla=
-gs);
->  void amdgpu_driver_unload_kms(struct drm_device *dev);
-> -void amdgpu_driver_lastclose_kms(struct drm_device *dev);
->  int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file=
-_priv);
->  void amdgpu_driver_postclose_kms(struct drm_device *dev,
->  =09=09=09=09 struct drm_file *file_priv);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_drv.c
-> index 1353ffd08988..783c1e284a22 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -34,7 +34,6 @@
->  #include <drm/drm_pciids.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> -#include <linux/vga_switcheroo.h>
->  #include <drm/drm_probe_helper.h>
->  #include <linux/mmu_notifier.h>
->  #include <linux/suspend.h>
-> @@ -2785,7 +2784,6 @@ static const struct drm_driver amdgpu_kms_driver =
-=3D {
->  =09    DRIVER_SYNCOBJ_TIMELINE,
->  =09.open =3D amdgpu_driver_open_kms,
->  =09.postclose =3D amdgpu_driver_postclose_kms,
-> -=09.lastclose =3D amdgpu_driver_lastclose_kms,
->  =09.ioctls =3D amdgpu_ioctls_kms,
->  =09.num_ioctls =3D ARRAY_SIZE(amdgpu_ioctls_kms),
->  =09.dumb_create =3D amdgpu_mode_dumb_create,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_kms.c
-> index 7aa7e52ca784..a37be02fb2fc 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> @@ -34,7 +34,6 @@
->  #include "amdgpu_vce.h"
->  #include "atom.h"
-> =20
-> -#include <linux/vga_switcheroo.h>
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->  #include <linux/pci.h>
-> @@ -1104,18 +1103,6 @@ int amdgpu_info_ioctl(struct drm_device *dev, void=
- *data, struct drm_file *filp)
->  /*
->   * Outdated mess for old drm with Xorg being in charge (void function no=
-w).
->   */
-> -/**
-> - * amdgpu_driver_lastclose_kms - drm callback for last close
-> - *
-> - * @dev: drm dev pointer
-> - *
-> - * Switch vga_switcheroo state after last close (all asics).
-> - */
-> -void amdgpu_driver_lastclose_kms(struct drm_device *dev)
-> -{
-> -=09drm_fb_helper_lastclose(dev);
-> -=09vga_switcheroo_process_delayed_switch();
-> -}
-> =20
->  /**
->   * amdgpu_driver_open_kms - drm callback for open
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index a51ff8cee049..314c309db9a3 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -38,6 +38,7 @@
->  #include <linux/pci.h>
->  #include <linux/poll.h>
->  #include <linux/slab.h>
-> +#include <linux/vga_switcheroo.h>
-> =20
->  #include <drm/drm_client.h>
->  #include <drm/drm_drv.h>
-> @@ -460,6 +461,8 @@ void drm_lastclose(struct drm_device * dev)
->  =09=09drm_legacy_dev_reinit(dev);
-> =20
->  =09drm_client_dev_restore(dev);
-> +
-> +=09vga_switcheroo_process_delayed_switch();
->  }
-> =20
->  /**
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i9=
-15_driver.c
-> index 33e231b120c1..bf6ad8620970 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -29,6 +29,7 @@
-> =20
->  #include <linux/acpi.h>
->  #include <linux/device.h>
-> +#include <linux/fb.h> /* for FBINFO_STATE_ */
->  #include <linux/module.h>
->  #include <linux/oom.h>
->  #include <linux/pci.h>
-> @@ -37,7 +38,6 @@
->  #include <linux/pnp.h>
->  #include <linux/slab.h>
->  #include <linux/string_helpers.h>
-> -#include <linux/vga_switcheroo.h>
->  #include <linux/vt.h>
-> =20
->  #include <drm/drm_aperture.h>
-> @@ -1057,27 +1057,6 @@ static int i915_driver_open(struct drm_device *dev=
-, struct drm_file *file)
->  =09return 0;
->  }
-> =20
-> -/**
-> - * i915_driver_lastclose - clean up after all DRM clients have exited
-> - * @dev: DRM device
-> - *
-> - * Take care of cleaning up after all DRM clients have exited.  In the
-> - * mode setting case, we want to restore the kernel's initial mode (just
-> - * in case the last client left us in a bad state).
-> - *
-> - * Additionally, in the non-mode setting case, we'll tear down the GTT
-> - * and DMA structures, since the kernel won't be using them, and clea
-> - * up any GEM state.
-> - */
-> -static void i915_driver_lastclose(struct drm_device *dev)
-> -{
-> -=09struct drm_i915_private *i915 =3D to_i915(dev);
-> -
-> -=09intel_fbdev_restore_mode(dev);
-> -
-> -=09vga_switcheroo_process_delayed_switch();
-> -}
-> -
->  static void i915_driver_postclose(struct drm_device *dev, struct drm_fil=
-e *file)
->  {
->  =09struct drm_i915_file_private *file_priv =3D file->driver_priv;
-> @@ -1921,7 +1900,7 @@ static const struct drm_driver i915_drm_driver =3D =
-{
->  =09    DRIVER_SYNCOBJ_TIMELINE,
->  =09.release =3D i915_driver_release,
->  =09.open =3D i915_driver_open,
-> -=09.lastclose =3D i915_driver_lastclose,
-> +=09.lastclose =3D intel_fbdev_restore_mode,
->  =09.postclose =3D i915_driver_postclose,
-> =20
->  =09.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouv=
-eau/nouveau_drm.c
-> index 80f154b6adab..c3bd2a1d3d2e 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -1230,7 +1230,6 @@ driver_stub =3D {
-> =20
->  =09.open =3D nouveau_drm_open,
->  =09.postclose =3D nouveau_drm_postclose,
-> -=09.lastclose =3D nouveau_vga_lastclose,
-> =20
->  #if defined(CONFIG_DEBUG_FS)
->  =09.debugfs_init =3D nouveau_drm_debugfs_init,
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/nouv=
-eau/nouveau_vga.c
-> index 789393b94291..fc125e2247f7 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_vga.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
-> @@ -126,10 +126,3 @@ nouveau_vga_fini(struct nouveau_drm *drm)
->  =09if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
->  =09=09vga_switcheroo_fini_domain_pm_ops(drm->dev->dev);
->  }
-> -
-> -
-> -void
-> -nouveau_vga_lastclose(struct drm_device *dev)
-> -{
-> -=09vga_switcheroo_process_delayed_switch();
-> -}
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.h b/drivers/gpu/drm/nouv=
-eau/nouveau_vga.h
-> index 951a83f984dd..63be415d2a44 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_vga.h
-> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.h
-> @@ -4,6 +4,5 @@
-> =20
->  void nouveau_vga_init(struct nouveau_drm *);
->  void nouveau_vga_fini(struct nouveau_drm *);
-> -void nouveau_vga_lastclose(struct drm_device *dev);
-> =20
->  #endif
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon=
-/radeon_drv.c
-> index 6cbe1ab81aba..dbf85e1f0061 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -597,7 +597,7 @@ static const struct drm_driver kms_driver =3D {
->  =09.load =3D radeon_driver_load_kms,
->  =09.open =3D radeon_driver_open_kms,
->  =09.postclose =3D radeon_driver_postclose_kms,
-> -=09.lastclose =3D radeon_driver_lastclose_kms,
-> +=09.lastclose =3D drm_fb_helper_lastclose,
->  =09.unload =3D radeon_driver_unload_kms,
->  =09.ioctls =3D radeon_ioctls_kms,
->  =09.num_ioctls =3D ARRAY_SIZE(radeon_ioctls_kms),
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.h b/drivers/gpu/drm/radeon=
-/radeon_drv.h
-> index ac7970919c4d..2ffe0975ee54 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.h
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.h
-> @@ -120,7 +120,6 @@ long radeon_drm_ioctl(struct file *filp,
-> =20
->  int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags);
->  void radeon_driver_unload_kms(struct drm_device *dev);
-> -void radeon_driver_lastclose_kms(struct drm_device *dev);
->  int radeon_driver_open_kms(struct drm_device *dev, struct drm_file *file=
-_priv);
->  void radeon_driver_postclose_kms(struct drm_device *dev,
->  =09=09=09=09 struct drm_file *file_priv);
-> diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon=
-/radeon_kms.c
-> index 965161b8565b..e0214cf1b43b 100644
-> --- a/drivers/gpu/drm/radeon/radeon_kms.c
-> +++ b/drivers/gpu/drm/radeon/radeon_kms.c
-> @@ -32,7 +32,6 @@
->  #include <linux/uaccess.h>
->  #include <linux/vga_switcheroo.h>
-> =20
-> -#include <drm/drm_fb_helper.h>
->  #include <drm/drm_file.h>
->  #include <drm/drm_ioctl.h>
->  #include <drm/radeon_drm.h>
-> @@ -622,23 +621,6 @@ int radeon_info_ioctl(struct drm_device *dev, void *=
-data, struct drm_file *filp)
->  =09return 0;
->  }
-> =20
-> -
-> -/*
-> - * Outdated mess for old drm with Xorg being in charge (void function no=
-w).
-> - */
-> -/**
-> - * radeon_driver_lastclose_kms - drm callback for last close
-> - *
-> - * @dev: drm dev pointer
-> - *
-> - * Switch vga_switcheroo state after last close (all asics).
-> - */
-> -void radeon_driver_lastclose_kms(struct drm_device *dev)
-> -{
-> -=09drm_fb_helper_lastclose(dev);
-> -=09vga_switcheroo_process_delayed_switch();
-> -}
-> -
->  /**
->   * radeon_driver_open_kms - drm callback for open
->   *
-> diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switc=
-heroo.c
-> index 365e6ddbe90f..6a198cb80c12 100644
-> --- a/drivers/gpu/vga/vga_switcheroo.c
-> +++ b/drivers/gpu/vga/vga_switcheroo.c
-> @@ -926,8 +926,8 @@ static void vga_switcheroo_debugfs_init(struct vgasr_=
-priv *priv)
->  /**
->   * vga_switcheroo_process_delayed_switch() - helper for delayed switchin=
-g
->   *
-> - * Process a delayed switch if one is pending. DRM drivers should call t=
-his
-> - * from their ->lastclose callback.
-> + * Process a delayed switch if one is pending. DRM automatically calls t=
-his
-> + * at the end of its lastclose function.
->   *
->   * Return: 0 on success. -EINVAL if no delayed switch is pending, if the=
- client
->   * has unregistered in the meantime or if there are other clients blocki=
-ng the
+Here is msm-next for v6.3.  There is one devfreq patch to address a
+build break issue in configurations without PM_DEVFREQ enabled (such
+as COMPILE_TEST=y).
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+The following changes since commit 03a0a1040895711e12c15ab28d4d1812928e171d:
 
+  Merge tag 'drm-misc-next-2023-01-03' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-01-04
+14:59:25 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2023-01-30
+
+for you to fetch changes up to dbd7a2a941b8cbf9e5f79a777ed9fe0090eebb61:
+
+  PM / devfreq: Fix build issues with devfreq disabled (2023-01-30
+07:37:40 -0800)
+
+----------------------------------------------------------------
+msm-next for v6.3
+
+There is one devfreq patch, maintainer acked to land via msm-next to
+avoid a build break on platforms that do not support PM_DEVFREQ.  And
+otherwise the usual assortment:
+
+GPU:
+- Add MSM_SUBMIT_BO_NO_IMPLICIT
+- a2xx: Support to load legacy firmware
+- a6xx: GPU devcore dump updates for a650/a660
+- GPU devfreq tuning and fixes
+
+DPU, DSI, MDSS:
+- Support for SM8350, SM8450 SM8550 and SC8280XP platform
+
+Core:
+- Added bindings for SM8150 (driver support already present)
+
+DPU:
+- Partial support for DSC on SM8150 and SM8250
+- Fixed color transformation matrix being lost on suspend/resume
+- Include DSC blocks into register snapshot
+- Misc HW catalog fixes
+
+DP:
+- Support for DP on SDM845 and SC8280XP platforms
+- HPD fixes
+- Support for limiting DP link rate via DT property, this enables
+- Support for HBR3 rates.
+
+DSI:
+- Validate display modes according to the DSI OPP table
+- DSI PHY support for the SM6375 platform
+- Fixed byte intf clock selection for 14nm PHYs
+- Fix the case of empty OPP tables (fixing db410c)
+- DT schema rework and fixes
+
+HDMI:
+- Turn 8960 HDMI PHY into clock provider,
+- Make 8960 HDMI PHY use PXO clock from DT
+
+MDP5:
+- Schema conversion to YAML
+
+----------------------------------------------------------------
+Abhinav Kumar (2):
+      drm/msm/dsi: add a helper method to compute the dsi byte clk
+      drm/msm/dsi: implement opp table based check for
+dsi_mgr_bridge_mode_valid()
+
+Adam Skladowski (2):
+      dt-bindings: display: msm: Rename mdss node name in example
+      dt-bindings: msm: dsi-phy-28nm: Document fam-b compatible
+
+Akhil P Oommen (5):
+      drm/msm/a6xx: Avoid gx gbit halt during rpm suspend
+      drm/msm/adreno: Fix null ptr access in adreno_gpu_cleanup()
+      drm/msm: Fix failure paths in msm_drm_init()
+      drm/msm/a6xx: Update a6xx gpu coredump
+      drm/msm/a6xx: Update ROQ size in coredump
+
+Bjorn Andersson (10):
+      dt-bindings: msm/dp: Add SDM845 and SC8280XP compatibles
+      drm/msm/dp: Stop using DP id as index in desc
+      drm/msm/dp: Add DP and EDP compatibles for SC8280XP
+      drm/msm/dp: Add SDM845 DisplayPort instance
+      drm/msm/dp: Rely on hpd_enable/disable callbacks
+      drm/msm/dp: Implement hpd_notify()
+      dt-bindings: display/msm: Add binding for SC8280XP MDSS
+      drm/msm/dpu: Introduce SC8280XP
+      drm/msm: Introduce SC8280XP MDSS
+      drm/msm/dp: Remove INIT_SETUP delay
+
+Bryan O'Donoghue (7):
+      dt-bindings: msm: dsi-phy-28nm: Add missing qcom,
+dsi-phy-regulator-ldo-mode
+      dt-bindings: msm: dsi-controller-main: Fix operating-points-v2 constraint
+      dt-bindings: msm: dsi-controller-main: Fix power-domain constraint
+      dt-bindings: msm: dsi-controller-main: Fix description of core clock
+      dt-bindings: msm: dsi-controller-main: Add vdd* descriptions back in
+      dt-bindings: msm: dsi-controller-main: Add compatible strings
+for every current SoC
+      dt-bindings: msm: dsi-controller-main: Document clocks on a per
+compatible basis
+
+Christophe JAILLET (1):
+      drm/msm/hdmi: Fix the error handling path of msm_hdmi_dev_probe()
+
+Dmitry Baryshkov (57):
+      drm/msm: another fix for the headless Adreno GPU
+      dt-bindings: display/msm: add sm8350 and sm8450 DSI PHYs
+      drm/msm/dsi/phy: rework register setting for 7nm PHY
+      drm/msm/mdp4: convert to drm_crtc_handle_vblank()
+      drm/msm/mdp5: convert to drm_crtc_handle_vblank()
+      dt-bindings: display/msm: *mdss.yaml: split required properties clauses
+      drm/msm: clean event_thread->worker in case of an error
+      dt-bindings: display/msm: gpu: add rbcpr clock
+      dt-bindings: display/msm: qcom, sdm845-mdss: document the DP device
+      dt-bindings: display/msm: *dpu.yaml: split required properties clauses
+      dt-bindings: display/msm: add support for the display on SM8450
+      drm/msm/dpu: merge all MDP TOP registers to dpu_hwio.h
+      drm/msm/dpu: add support for MDP_TOP blackhole
+      drm/msm/dpu: add support for SM8450
+      drm/msm: mdss add support for SM8450
+      drm/msm/dpu: disable DSC blocks for SM8350
+      drm/msm/a2xx: support loading legacy (iMX) firmware
+      dt-bindings: display/msm: qcom, mdss: fix HDMI PHY node names
+      drm/msm/dpu: remove dpu_encoder_virt_ops
+      drm/msm/dpu: merge two CRTC debugfs dirs
+      drm/msm/dpu: enable sourcesplit for sc7180/sc7280
+      dt-bindings: display/msm: convert MDP5 schema to YAML format
+      dt-bindings: display/msm: add SoC-specific compats to qcom, mdp5.yaml
+      dt-bindings: display/msm: add core clock to the mdss bindings
+      dt-bindings: display/msm: rename mdss nodes to display-subsystem
+      dt-bindings: display/msm: rename mdp nodes to display-controller
+      drm/msm/dpu: fix blend setup for DMA4 and DMA5 layers
+      drm/msm/dpu: simplify ctl_setup_blendstage calculation
+      drm/msm/dpu: simplify blend configuration
+      drm/msm/dpu: enable DPU_MDP_AUDIO_SELECT for sc8180x
+      drm/msm/dpu: add missing dpu_encoder kerneldoc
+      dt-bindings: display/msm: add qcom, sc8280xp-edp to list of eDP devices
+      dt-bindings: display/msm: qcom, sc8280xp-mdss: add DP / eDP child nodes
+      drm/msm/dpu: point sc8280xp_dpu_cfg to sc8280xp_regdma
+      drm/msm/dpu: use sm8350_regdma on SM8350 platform
+      drm/msm/dsi: add support for DSI-PHY on SM8350 and SM8450
+      drm/msm/dsi: add support for DSI 2.6.0
+      drm/msm/dsi: correct byte intf clock rate for 14nm DSI PHY
+      Merge branches 'msm-next-lumag-core', 'msm-next-lumag-dpu',
+'msm-next-lumag-dp', 'msm-next-lumag-dsi', 'msm-next-lumag-hdmi',
+'msm-next-lumag-mdp5' and 'msm-next-lumag-mdp4' into msm-next-lumag
+      Merge branch 'msm-next-lumag' into HEAD
+      dt-bindings: display/msm: dsi-controller-main: remove #address/#size-cells
+      dt-bindings: display/msm: dsi-controller-main: account for apq8064
+      dt-bindings: display/msm: dsi-controller-main: allow using fewer lanes
+      dt-binbings: display/msm: dsi-controller-main: add missing supplies
+      drm/msm/dpu: sc7180: add missing WB2 clock control
+      drm/msm: use strscpy instead of strncpy
+      drm/msm/dpu: drop stale comment from struct dpu_mdp_cfg doc
+      drm/msm/dpu: add missing ubwc_swizzle setting to catalog
+      drm/msm/dpu: fix sm8450 CTL configuration
+      drm/msm/dsi: properly handle the case of empty OPP table in
+dsi_mgr_bridge_mode_valid
+      dt-bindings: phy: qcom, hdmi-phy-other: use pxo clock
+      dt-bindings: phy: qcom, hdmi-phy-other: mark it as clock provider
+      drm/msm/hdmi: switch hdmi_pll_8960 to use parent_data
+      drm/msm/hdmi: make hdmi_phy_8960 OF clk provider
+      drm/msm/dpu: handle UBWC 1.0 in dpu_hw_sspp_setup_format
+      drm/msm/dpu: correct the UBWC version on sm6115
+      drm/msm/dpu: set pdpu->is_rt_pipe early in dpu_plane_sspp_atomic_update()
+
+Hui Tang (1):
+      drm/msm/dpu: check for null return of devm_kzalloc() in
+dpu_writeback_init()
+
+Jessica Zhang (1):
+      drm/msm/dpu: Reapply CTM if modeset is needed
+
+Jiasheng Jiang (8):
+      drm/msm/hdmi: Add missing check for alloc_ordered_workqueue
+      drm/msm/gem: Add check for kmalloc
+      drm/msm: Add missing check and destroy for alloc_ordered_workqueue
+      drm/msm/dsi: Add missing check for alloc_ordered_workqueue
+      drm/msm/dsi: Drop the redundant fail label
+      drm/msm/dpu: Add check for cstate
+      drm/msm/dpu: Add check for pstates
+      drm/msm/mdp5: Add check for kzalloc
+
+Konrad Dybcio (10):
+      dt-bindings: msm/dsi: Don't require vcca-supply on 14nm PHY
+      dt-bindings: msm/dsi: Don't require vdds-supply on 10nm PHY
+      drm/msm/adreno: Make adreno quirks not overwrite each other
+      drm/msm/dpu1: Remove INTF4 IRQ from SDM845 IRQ mask
+      dt-bindings: display/msm: Add SM8150 MDSS & DPU
+      dt-bindings: display/msm: Add SM8150 MDSS & DPU
+      dt-bindings: display/msm: Add SM6375 DSI PHY
+      drm/msm/dsi: Add phy configuration for SM6375
+      dt-bindings: msm/dsi: Don't require vdds-supply on 7nm PHY
+      drm/msm/dsi: Allow 2 CTRLs on v2.5.0
+
+Krzysztof Kozlowski (2):
+      dt-bindings: display: msm: drop unneeded list for single compatible
+      dt-bindings: display: msm: drop redundant part of title
+
+Kuogee Hsieh (5):
+      drm/msm/dp: do not complete dp_aux_cmd_fifo_tx() if irq is not
+for aux transfer
+      dt-bindings: msm/dp: add data-lanes and link-frequencies property
+      drm/msm/dp: parse data-lanes as property of dp_out endpoint
+      drm/msm/dp: Add capability to parser and retrieve max DP link
+supported rate from link-frequencies property of dp_out endpoint
+      drm/msm/dp: add support of max dp link rate
+
+Marijn Suijten (10):
+      drm/msm/dpu: Print interrupt index in addition to the mask
+      drm/msm/dpu: Wire up DSC mask for active CTL configuration
+      drm/msm/dsi: Use DSC slice(s) packet size to compute word count
+      drm/msm/dsi: Flip greater-than check for slice_count and slice_per_intf
+      drm/msm/dpu: Reject topologies for which no DSC blocks are available
+      drm/msm/dpu: Remove num_enc from topology struct in favour of num_dsc
+      drm/msm/dpu: Implement DSC binding to PP block for CTL V1
+      drm/msm/dpu: Add DSC configuration for SM8150 and SM8250
+      drm/msm/dpu: Disallow unallocated resources to be returned
+      drm/msm/dpu: Add DSC hardware blocks to register snapshot
+
+Miaoqian Lin (1):
+      drm/msm/dpu: Fix memory leak in msm_mdss_parse_data_bus_icc_path
+
+Neil Armstrong (5):
+      drm/msm/dpu: add support for SM8550
+      drm/msm: mdss: add support for SM8550
+      dt-bindings: display/msm: document the SM8550 DSI PHY
+      drm/msm/dsi: add support for DSI-PHY on SM8550
+      drm/msm/dsi: add support for DSI 2.7.0
+
+Rob Clark (5):
+      drm/msm: Add MSM_SUBMIT_BO_NO_IMPLICIT
+      drm/msm/gpu: Add devfreq tuning debugfs
+      drm/msm/gpu: Bypass PM QoS constraint for idle clamp
+      drm/msm/gpu: Add default devfreq thresholds
+      PM / devfreq: Fix build issues with devfreq disabled
+
+Robert Foss (5):
+      dt-bindings: display: msm: Add qcom, sm8350-dpu binding
+      dt-bindings: display: msm: Add qcom, sm8350-mdss binding
+      drm/msm/dpu: Add SM8350 to hw catalog
+      drm/msm/dpu: Add support for SM8350
+      drm/msm: Add support for SM8350
+
+Yang Li (1):
+      drm/msm/dpu: Fix some kernel-doc comments
+
+ .../bindings/display/msm/dp-controller.yaml        |  31 +-
+ .../bindings/display/msm/dpu-common.yaml           |  12 +-
+ .../bindings/display/msm/dsi-controller-main.yaml  | 287 ++++++-
+ .../bindings/display/msm/dsi-phy-10nm.yaml         |   1 -
+ .../bindings/display/msm/dsi-phy-14nm.yaml         |   1 -
+ .../bindings/display/msm/dsi-phy-28nm.yaml         |   5 +
+ .../bindings/display/msm/dsi-phy-7nm.yaml          |   5 +-
+ .../bindings/display/msm/dsi-phy-common.yaml       |   7 +-
+ .../devicetree/bindings/display/msm/gpu.yaml       |   2 +
+ .../devicetree/bindings/display/msm/mdp5.txt       | 132 ----
+ .../bindings/display/msm/mdss-common.yaml          |   9 +-
+ .../devicetree/bindings/display/msm/qcom,mdp5.yaml | 156 ++++
+ .../devicetree/bindings/display/msm/qcom,mdss.yaml |  55 +-
+ .../bindings/display/msm/qcom,msm8998-dpu.yaml     |  12 +-
+ .../bindings/display/msm/qcom,msm8998-mdss.yaml    |  14 +-
+ .../bindings/display/msm/qcom,qcm2290-dpu.yaml     |  12 +-
+ .../bindings/display/msm/qcom,qcm2290-mdss.yaml    |   8 +-
+ .../bindings/display/msm/qcom,sc7180-dpu.yaml      |  12 +-
+ .../bindings/display/msm/qcom,sc7180-mdss.yaml     |  12 +-
+ .../bindings/display/msm/qcom,sc7280-dpu.yaml      |   9 +-
+ .../bindings/display/msm/qcom,sc7280-mdss.yaml     |   9 +-
+ .../bindings/display/msm/qcom,sc8280xp-dpu.yaml    | 122 +++
+ .../bindings/display/msm/qcom,sc8280xp-mdss.yaml   | 151 ++++
+ .../bindings/display/msm/qcom,sdm845-dpu.yaml      |  12 +-
+ .../bindings/display/msm/qcom,sdm845-mdss.yaml     |  20 +-
+ .../bindings/display/msm/qcom,sm6115-dpu.yaml      |   5 +-
+ .../bindings/display/msm/qcom,sm6115-mdss.yaml     |   5 +-
+ .../bindings/display/msm/qcom,sm8150-dpu.yaml      |  92 +++
+ .../bindings/display/msm/qcom,sm8150-mdss.yaml     | 332 ++++++++
+ .../bindings/display/msm/qcom,sm8250-dpu.yaml      |   7 +
+ .../bindings/display/msm/qcom,sm8250-mdss.yaml     |  14 +-
+ .../bindings/display/msm/qcom,sm8350-dpu.yaml      | 120 +++
+ .../bindings/display/msm/qcom,sm8350-mdss.yaml     | 223 ++++++
+ .../bindings/display/msm/qcom,sm8450-dpu.yaml      | 139 ++++
+ .../bindings/display/msm/qcom,sm8450-mdss.yaml     | 345 ++++++++
+ .../bindings/phy/qcom,hdmi-phy-other.yaml          |  27 +-
+ drivers/gpu/drm/msm/Kconfig                        |   7 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |  27 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.h              |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h              |  18 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  15 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |   9 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  61 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |  66 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   4 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  17 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  30 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  47 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |  18 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  12 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  17 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 872 ++++++++++++++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  19 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         | 147 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  27 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c  |  30 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h  |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   7 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         |  25 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h           |  21 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  20 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  15 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |   2 +
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_irq.c           |   9 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          |   5 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_irq.c           |   9 +-
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot.c       |   3 +
+ drivers/gpu/drm/msm/dp/dp_aux.c                    |   4 +
+ drivers/gpu/drm/msm/dp/dp_display.c                | 157 ++--
+ drivers/gpu/drm/msm/dp/dp_display.h                |   1 +
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |   3 +
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   4 +
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |   7 +-
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |   1 +
+ drivers/gpu/drm/msm/dp/dp_parser.c                 |  50 +-
+ drivers/gpu/drm/msm/dp/dp_parser.h                 |   2 +
+ drivers/gpu/drm/msm/dsi/dsi.h                      |   3 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |  22 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   2 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |  69 +-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c              |  20 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |  12 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   4 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 243 +++++-
+ drivers/gpu/drm/msm/hdmi/hdmi.c                    |  16 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c           |  21 +-
+ drivers/gpu/drm/msm/msm_debugfs.c                  |  12 +
+ drivers/gpu/drm/msm/msm_drv.c                      |  20 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |  12 +-
+ drivers/gpu/drm/msm/msm_fence.c                    |   2 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c               |  15 +
+ drivers/gpu/drm/msm/msm_gpu.h                      |  15 +-
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c              | 148 ++--
+ drivers/gpu/drm/msm/msm_mdss.c                     |  22 +-
+ include/linux/devfreq.h                            |   7 +-
+ include/uapi/drm/msm_drm.h                         |   4 +-
+ 101 files changed, 4117 insertions(+), 784 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/msm/mdp5.txt
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,mdp5.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-dpu.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sc8280xp-mdss.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8150-dpu.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8150-mdss.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8350-dpu.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8350-mdss.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8450-dpu.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
