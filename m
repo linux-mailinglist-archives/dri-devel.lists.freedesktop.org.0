@@ -1,72 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C2D68195B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 19:36:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6E96819C5
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 20:01:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E802910E111;
-	Mon, 30 Jan 2023 18:36:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB8A10E04E;
+	Mon, 30 Jan 2023 19:01:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAF1510E0C3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 18:36:37 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id y11so11904740edd.6
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 10:36:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cZhLOD9IjFhT2rw5mFVQaRWDwbDZlqozjoeDC3b7Esw=;
- b=N1dmJr/r8/XSvyoUxRNc2HjR0kOQkzvm2Ls4s4KX7nE03ug0BnSqPpeXukRW1nGVGO
- mUNRdd4Pgm344uL3hROdKa9/JQoe/K9mDXJEiqYLeKq64hBwquTI6wAy7No2AYzt8VYp
- f/43I6o4AvhVx/LkESOysg0UhYz9vKsX4N5uF2J46mZTTLdCfLSDC9xTGSu7WRvCebeG
- 7rdw9mYyXqXClvmJkPy845MjgFT8wMU6Hn3UJKSpJ7bMMJIBGwEwRSmgIjY+AyKb5H8A
- mX3OQI4Nl6yFKOvE9PV46OQ4XGBvUib7ghHLBkTf81y6X3LJ+/c0Gno1SfrdAIyOyca6
- N6+w==
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
+ [209.85.161.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E41410E288
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 19:01:38 +0000 (UTC)
+Received: by mail-oo1-f46.google.com with SMTP id
+ y26-20020a4ad65a000000b005173859761dso830099oos.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 11:01:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cZhLOD9IjFhT2rw5mFVQaRWDwbDZlqozjoeDC3b7Esw=;
- b=FTBv79mhvwWSdwvDEvpOJr5UO6d3NDRwRIUgsfkSqJmUvoV5YjLEwGZM60oZExUZuS
- CgIMb7c6JNpYAkFDIhFknFR27mMyo/EMrQ4H/Nhh70nI0NtrblX002PQs4vlrMWXUcJw
- omnrs4plM6MsksD/hqmW2ImbSNKr0R2/n+8N4Wd/hYAe8+V8EFlQdoxdSEWqwBCg386w
- 12XBsPganMK1CbFtSCOO0IrCZJ4cy9cQZkM45K1a+Q3NhaQEKCZPOKwifWRS5x0vlWzW
- Mu1WuKOCv2kpezcFc2rUe5wZDMX8+Ksq118rTavpZRgX6TeMD7Flwhe6uJYLZktlDOEW
- HtVQ==
-X-Gm-Message-State: AFqh2kqZG/V2I5Sq+n5kQU9+Gvau8gqRX1lPB22BNnYDNtiLwEfO9FNs
- YlBL/2GzPL06PvCXhnl3RJgmqg==
-X-Google-Smtp-Source: AMrXdXvR5Q6KvIhrUEwYGvqNhBkWgrUuFEJSdmc3ZGDzFQa57T8TClhZRDJYjAW55lqTmNIGI4NywQ==
-X-Received: by 2002:a05:6402:298e:b0:496:6a20:6b61 with SMTP id
- eq14-20020a056402298e00b004966a206b61mr57790399edb.22.1675103796373; 
- Mon, 30 Jan 2023 10:36:36 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- fd22-20020a056402389600b004a1d4142543sm5937753edb.27.2023.01.30.10.36.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 10:36:35 -0800 (PST)
-Message-ID: <e9b238af-28dd-f38e-24e3-4065c39d4e25@linaro.org>
-Date: Mon, 30 Jan 2023 20:36:34 +0200
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D7PNJxFH7gDdMse434RHu5JL4B3ooE6c7lUdvQTDPn8=;
+ b=TQy4hkL49QqWLLXoYB0WfzeSnXLX8M5dtqpfgNT6aHQKo1WWAU50D7cpk7TWfISxwn
+ XrfkomeH8zDTFLCCtRr3qSdGca7YdLGIb4+dohMrfyBUGcO14VlZD1GCNmsAeVV19USe
+ QYgFbH/1HTeW23oPTyPz4EKLUc6QQYnhr25OM+xdoAP8RFNkv2PPxMFPTyWQfng0Hl5L
+ vZ1LXWVX1FjYPXhSi6pDU0ITjpJnLab98+e456mS0ZoHTc/PDGR/3jT7vpUGNjuGONb+
+ cUN6GTzxqxTRhJUPRmnbWi5cxlPs7IwNgzt6zH3ocTl3Uz8K/wXf3C6k/FEZqU4+X4J1
+ QwMw==
+X-Gm-Message-State: AO0yUKUR8BFTNMf9l12xDrpHUTp6SyCKFd1Z9HlHUrv+2Zd63+Ht/8JQ
+ b2hcp36fwLExD9lIy72t/g==
+X-Google-Smtp-Source: AK7set97447YafxHmlkxrDII2zwtdplxGb4q+5/7vfjzRM46vNJPfFHa7ECNiIQqZTPgAbRKA+zFug==
+X-Received: by 2002:a4a:346:0:b0:514:d8f0:45b0 with SMTP id
+ 67-20020a4a0346000000b00514d8f045b0mr6845375ooi.2.1675105297531; 
+ Mon, 30 Jan 2023 11:01:37 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ w6-20020a4ab6c6000000b004fc4000ae48sm5252918ooo.15.2023.01.30.11.01.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jan 2023 11:01:36 -0800 (PST)
+Received: (nullmailer pid 3121442 invoked by uid 1000);
+ Mon, 30 Jan 2023 19:01:35 -0000
+Date: Mon, 30 Jan 2023 13:01:35 -0600
+From: Rob Herring <robh@kernel.org>
+To: Rayyan Ansari <rayyan@ansari.sh>
+Subject: Re: [PATCH v4 2/2] dt-bindings: display: simple-framebuffer:
+ Document the panel node
+Message-ID: <167510529465.3121384.11904840013697184141.robh@kernel.org>
+References: <20230126182435.70544-1-rayyan@ansari.sh>
+ <20230126182435.70544-3-rayyan@ansari.sh>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [v1 2/3] drm/msm/disp/dpu1: add dspps into reservation if there
- is a ctm request
-Content-Language: en-GB
-To: Kalyan Thota <quic_kalyant@quicinc.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <1675092092-26412-1-git-send-email-quic_kalyant@quicinc.com>
- <1675092092-26412-3-git-send-email-quic_kalyant@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1675092092-26412-3-git-send-email-quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230126182435.70544-3-rayyan@ansari.sh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,78 +65,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com,
- marijn.suijten@somainline.org, swboyd@chromium.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, janne@jannau.net,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ Rob Herring <robh+dt@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht,
+ asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/01/2023 17:21, Kalyan Thota wrote:
-> Add dspp blocks into the topology for reservation, if there is a ctm
-> request for that composition.
+
+On Thu, 26 Jan 2023 18:24:35 +0000, Rayyan Ansari wrote:
+> Document the new panel node and what it is used for.
 > 
-> Changes in v1:
-> - Minor nits (Dmitry)
-> 
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Rayyan Ansari <rayyan@ansari.sh>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 ++++++-------
->   1 file changed, 6 insertions(+), 7 deletions(-)
+>  .../devicetree/bindings/display/simple-framebuffer.yaml  | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 9c6817b..3bd46b4 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -545,7 +545,8 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
->   static struct msm_display_topology dpu_encoder_get_topology(
->   			struct dpu_encoder_virt *dpu_enc,
->   			struct dpu_kms *dpu_kms,
-> -			struct drm_display_mode *mode)
-> +			struct drm_display_mode *mode,
-> +			struct drm_crtc_state *crtc_state)
->   {
->   	struct msm_display_topology topology = {0};
->   	int i, intf_count = 0;
-> @@ -573,11 +574,9 @@ static struct msm_display_topology dpu_encoder_get_topology(
->   	else
->   		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
->   
-> -	if (dpu_enc->disp_info.intf_type == DRM_MODE_ENCODER_DSI) {
-> -		if (dpu_kms->catalog->dspp &&
-> -			(dpu_kms->catalog->dspp_count >= topology.num_lm))
-> -			topology.num_dspp = topology.num_lm;
-> -	}
-> +	if (dpu_kms->catalog->dspp &&
-> +	    crtc_state->ctm && (dpu_kms->catalog->dspp_count >= topology.num_lm))
 
-This condition doesn't look correct anymore for the following reasons:
-- if there are no DSPPs we will completely ignore the ctm property
-- if there are not enough DSPPs, the CTM property will be ignore
-
-I think, this should be just:
-
-if (crtc_state->ctm)
-     topology.num_dspp = topology.num_lm;
-
-
-
-
-> +		topology.num_dspp = topology.num_lm;
->   
->   	topology.num_enc = 0;
->   	topology.num_intf = intf_count;
-> @@ -643,7 +642,7 @@ static int dpu_encoder_virt_atomic_check(
->   		}
->   	}
->   
-> -	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode);
-> +	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state);
->   
->   	/* Reserve dynamic resources now. */
->   	if (!ret) {
-
--- 
-With best wishes
-Dmitry
-
+Reviewed-by: Rob Herring <robh@kernel.org>
