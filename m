@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7650D68121A
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 15:18:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4808681218
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 15:18:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E84D10E263;
-	Mon, 30 Jan 2023 14:18:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB6E110E264;
+	Mon, 30 Jan 2023 14:18:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 172A910E262
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 14:17:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B130110E262
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 14:18:01 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id 1830310000D;
- Mon, 30 Jan 2023 14:17:51 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id 7FD83100013;
+ Mon, 30 Jan 2023 14:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1675088275;
+ t=1675088278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5GVBn/5Ejaf5yDv/899F9oxQ2OpzgLGi/GDA/rDDcis=;
- b=LMTJmjFgbB6hd3xy+cEeoP+lNePyOW/NJeFHVaG70MjLcwHwZzMwSAHoMQ1a/2kbzrLqGz
- 81fpmv3ZKnUR+K2rV+eW28UMihXNBSu1Q9e/qd8du7Yt8qZyLbGCHOxmG7hPLneHkLgZIk
- s7jQfdwJl8g40x3uenTZE//wc/en85JILCpf8XNtDfk5uBQSM6YLJflZ9zZ2lyGMJcomuE
- 3l5wHDa31g6yXcLpBlhCJNyw6Ln165WRRHS2/oKW5g0MW9yfe1jTov7tSbxZj7qcd1s2NB
- +BdsnehBqUtK5n/7NQlRv8J/RHpkh+rRImtrBSnMF2kM2v0IqfLQFDpI6Q9MYg==
+ bh=hDiV5rOlFdW2m46RMT95urn/gnlTWYvRe5STpBeX4qE=;
+ b=dTaZ8ekiaoFzA+GugG7iQ4Xe6kD5t4varRI3pqUp4Q7RP1J8/w/XYJ571hQdL/RUtFsiXj
+ E3r4mXwheiX11D8+PPevN0da7Mofffbao/J+goXMsSht6DPOg+fp8fWisdKlmc+j1Mj7Go
+ ecMMPXTQTfX/qYiUGiDX18m9cSjHJqiEyvnkHKF4C3vkue3mnAdx/BPplpu9ZZFfJvgE9V
+ LEO9sR5sYH3GK2f3FWgr0TmJ2BORM6GM/yCoqPZheAPyr2OdXNllzQDgRE4O5U71CfWKML
+ vgGTagCPTBJMFJsvc5Yayq/iWEpM5n958HfJeY5InGiYgXNS2EgKaLarjdk56Q==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -39,10 +39,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Dmitry Osipenko <digetx@gmail.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v4 19/21] staging: media: tegra-video: add hooks for planar
- YUV and H/V flip
-Date: Mon, 30 Jan 2023 15:16:01 +0100
-Message-Id: <20230130141603.323221-20-luca.ceresoli@bootlin.com>
+Subject: [PATCH v4 20/21] staging: media: tegra-video: add H/V flip controls
+Date: Mon, 30 Jan 2023 15:16:02 +0100
+Message-Id: <20230130141603.323221-21-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
 References: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
@@ -69,20 +68,16 @@ Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tegra20 supports planar YUV422 capture, which can be implemented by writing
-U and V base address registers in addition to the "main" base buffer
-address register.
+Tegra20 can do horizontal and vertical image flip, but Tegra210 cannot
+(either the hardware, or this driver).
 
-It also supports H and V flip, which among others requires to write the
-start address (i.e. the 1st offset to write, at the end of the buffer or
-line) in more registers for Y and, for planar formats, U and V.
+In preparation to adding Tegra20 support, add a flag in struct tegra_vi_soc
+so the generic vi.c code knows whether the flip controls should be added or
+not.
 
-Add minimal hooks in VI to allow per-SoC optional support to those
-features:
-
- - variables in struct tegra_vi for the U and V buffer base offsets
- - variables in struct tegra_vi for the Y, U and V buffer start offsets
- - an optional per-soc VI operation to compute those values on queue setup
+Also provide a generic implementation that simply sets two flags in the
+channel struct. The Tegra20 implementation will enable flipping at stream
+start based on those flags.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
@@ -95,78 +90,89 @@ Changed in v4:
 No changes in v3
 No changes in v2
 ---
- drivers/staging/media/tegra-video/vi.c |  4 ++++
- drivers/staging/media/tegra-video/vi.h | 14 ++++++++++++++
- 2 files changed, 18 insertions(+)
+ drivers/staging/media/tegra-video/vi.c | 14 +++++++++++++-
+ drivers/staging/media/tegra-video/vi.h |  8 ++++++++
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 760606c65a97..4a066b61ab8e 100644
+index 4a066b61ab8e..d1c6877163c2 100644
 --- a/drivers/staging/media/tegra-video/vi.c
 +++ b/drivers/staging/media/tegra-video/vi.c
-@@ -92,6 +92,7 @@ tegra_get_format_by_fourcc(struct tegra_vi *vi, u32 fourcc)
- /*
-  * videobuf2 queue operations
-  */
-+
- static int tegra_channel_queue_setup(struct vb2_queue *vq,
- 				     unsigned int *nbuffers,
- 				     unsigned int *nplanes,
-@@ -107,6 +108,9 @@ static int tegra_channel_queue_setup(struct vb2_queue *vq,
- 	sizes[0] = chan->format.sizeimage;
- 	alloc_devs[0] = chan->vi->dev;
+@@ -29,7 +29,7 @@
+ #include "vi.h"
+ #include "video.h"
  
-+	if (chan->vi->ops->channel_queue_setup)
-+		chan->vi->ops->channel_queue_setup(chan);
-+
- 	return 0;
- }
+-#define MAX_CID_CONTROLS		1
++#define MAX_CID_CONTROLS		3
  
+ /**
+  * struct tegra_vi_graph_entity - Entity in the video graph
+@@ -893,6 +893,12 @@ static int vi_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_TEGRA_SYNCPT_TIMEOUT_RETRY:
+ 		chan->syncpt_timeout_retry = ctrl->val;
+ 		break;
++	case V4L2_CID_HFLIP:
++		chan->hflip = ctrl->val;
++		break;
++	case V4L2_CID_VFLIP:
++		chan->vflip = ctrl->val;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -964,6 +970,12 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+ 		v4l2_ctrl_handler_free(&chan->ctrl_handler);
+ 		return ret;
+ 	}
++
++	if (chan->vi->soc->has_h_v_flip) {
++		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
++		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
++	}
++
+ #endif
+ 
+ 	/* setup the controls */
 diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index d5e1ed4217e0..0503eb678556 100644
+index 0503eb678556..8fa817757059 100644
 --- a/drivers/staging/media/tegra-video/vi.h
 +++ b/drivers/staging/media/tegra-video/vi.h
-@@ -47,6 +47,7 @@ struct tegra_vi_channel;
-  * @channel_host1x_syncpt_free: free all synchronization points
-  * @vi_fmt_align: modify `pix` to fit the hardware alignment
-  *		requirements and fill image geometry
-+ * @channel_queue_setup: additional operations at the end of vb2_ops::queue_setup
-  * @vi_start_streaming: starts media pipeline, subdevice streaming, sets up
-  *		VI for capture and runs capture start and capture finish
-  *		kthreads for capturing frames to buffer and returns them back.
-@@ -58,6 +59,7 @@ struct tegra_vi_ops {
- 	int (*channel_host1x_syncpt_init)(struct tegra_vi_channel *chan);
- 	void (*channel_host1x_syncpt_free)(struct tegra_vi_channel *chan);
- 	void (*vi_fmt_align)(struct v4l2_pix_format *pix, unsigned int bpp);
-+	void (*channel_queue_setup)(struct tegra_vi_channel *chan);
- 	int (*vi_start_streaming)(struct vb2_queue *vq, u32 count);
- 	void (*vi_stop_streaming)(struct vb2_queue *vq);
+@@ -74,6 +74,7 @@ struct tegra_vi_ops {
+  * @hw_revision: VI hw_revision
+  * @vi_max_channels: supported max streaming channels
+  * @vi_max_clk_hz: VI clock max frequency
++ * @has_h_v_flip: the chip can do H adn V flip, and the driver implements it
+  */
+ struct tegra_vi_soc {
+ 	const struct tegra_video_format *video_formats;
+@@ -83,6 +84,7 @@ struct tegra_vi_soc {
+ 	u32 hw_revision;
+ 	unsigned int vi_max_channels;
+ 	unsigned int vi_max_clk_hz;
++	bool has_h_v_flip:1;
  };
-@@ -148,6 +150,12 @@ struct tegra_vi {
-  * @queue: vb2 buffers queue
-  * @sequence: V4L2 buffers sequence number
-  *
-+ * @addr_offset_u: U plane base address, relative to buffer base address (only for planar)
-+ * @addr_offset_v: V plane base address, relative to buffer base address (only for planar)
-+ * @start_offset:   1st Y byte to write, relative to buffer base address (for H/V flip)
-+ * @start_offset_u: 1st U byte to write, relative to buffer base address (for H/V flip)
-+ * @start_offset_v: 1st V byte to write, relative to buffer base address (for H/V flip)
-+ *
-  * @capture: list of queued buffers for capture
-  * @start_lock: protects the capture queued list
-  * @done: list of capture done queued buffers
-@@ -187,6 +195,12 @@ struct tegra_vi_channel {
- 	struct vb2_queue queue;
- 	u32 sequence;
  
-+	unsigned int addr_offset_u;
-+	unsigned int addr_offset_v;
-+	unsigned int start_offset;
-+	unsigned int start_offset_u;
-+	unsigned int start_offset_v;
+ /**
+@@ -170,6 +172,9 @@ struct tegra_vi {
+  * @syncpt_timeout_retry: syncpt timeout retry count for the capture
+  * @pg_mode: test pattern generator mode (disabled/direct/patch)
+  * @notifier: V4L2 asynchronous subdevs notifier
++ *
++ * @hflip: Horizontal flip is enabled
++ * @vflip: Vertical flip is enabled
+  */
+ struct tegra_vi_channel {
+ 	struct list_head list;
+@@ -218,6 +223,9 @@ struct tegra_vi_channel {
+ 	enum tegra_vi_pg_mode pg_mode;
+ 
+ 	struct v4l2_async_notifier notifier;
 +
- 	struct list_head capture;
- 	/* protects the capture queued list */
- 	spinlock_t start_lock;
++	bool hflip:1;
++	bool vflip:1;
+ };
+ 
+ /**
 -- 
 2.34.1
 
