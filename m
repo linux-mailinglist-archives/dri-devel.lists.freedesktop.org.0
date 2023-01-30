@@ -2,60 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C55680EC1
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 14:25:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFBA680FE8
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 14:57:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1570810E248;
-	Mon, 30 Jan 2023 13:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76E5410E24B;
+	Mon, 30 Jan 2023 13:57:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 741D310E24A
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 13:25:06 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id b1so13910605ybn.11
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 05:25:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fjv+/E7O9V7DZVWlNMMTfaSn1KNdTFVRK34aoQeSsQE=;
- b=azrR8dxvTG+zW+XTUkRM5iail1HeaGQQ6c3C8vQtn3oK4dJZ64cZrbxJxfsoKjz4XO
- k492kmeLLzP5wBXd1dZr5O9uf2y1/GS1v99kNAQbTTppxOtnhQA+PkYXInVYFyvujaIk
- eV70JlQM98yAnQgMV8amV1c02VkLF6Uvc0JHw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fjv+/E7O9V7DZVWlNMMTfaSn1KNdTFVRK34aoQeSsQE=;
- b=7TpoRZUdbwIv24WGZLIB4WQl1WJ6SLCV0iS1YnrdriWGdOdwYvwe05F26gtOUMDVht
- VBNA15nNEjQPtL0C1b9LmGeD5ehyJ+HPPgzipk7e5h6pWOADqxTuTMzy4aDoKH3LPvOj
- 4j5eoMSuZ9mLBjwRv7nUtAGgIWSww2fXrRhWcCKHS5+dtLUPc6A+wdGiGlHeSuUS5lAb
- 2JiZROz4555hEFLvtem3u4tVWVFGz3etnhoDTnbPF3lMAv9ZohPg5nevLNmCWAG5G6EP
- DkPnr1y60k/2LtjmEKPAO1Ky8qv32ppmpT5OEBR8pvYjAjwBlD4zt35D8DZzadFBYzAd
- FTuw==
-X-Gm-Message-State: AO0yUKWQVVEVnl4R1+swEYSynnnUDFYt1ppuUY798bvG7SyqKRliWoQs
- PplST1XrmhpKEQ7FJn3xQ8SX2Y+Dcfjb+otmcBaLyA==
-X-Google-Smtp-Source: AK7set9R/9ExSamHld21fB3UmF6BQKaP+543rXKY2KUZE7qJpQig5geVNt4zfsyMvM9rQzLSIf1gnaP5j6xIkgaAsLE=
-X-Received: by 2002:a25:3745:0:b0:80b:6fc1:8b32 with SMTP id
- e66-20020a253745000000b0080b6fc18b32mr343908yba.126.1675085105613; Mon, 30
- Jan 2023 05:25:05 -0800 (PST)
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0672C10E24B;
+ Mon, 30 Jan 2023 13:57:50 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 004F36008779;
+ Mon, 30 Jan 2023 13:57:48 +0000 (WET)
+X-Virus-Scanned: by amavisd-new-2.11.0 (20160426) (Debian) at
+ tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavisd-new, port 10025)
+ with LMTP id N-n1fPRz3P4O; Mon, 30 Jan 2023 13:57:45 +0000 (WET)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt
+ [IPv6:2001:690:2100:1::b3dd:b9ac])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 114AA6008767;
+ Mon, 30 Jan 2023 13:57:45 +0000 (WET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tecnico.ulisboa.pt;
+ s=mail; t=1675087065;
+ bh=JqwGsj0u6Pts7btT5om3dFNEtjS5jBoS5qI53RgpF7k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=OinxDCoVd95mvVdNhKnlUhPOCOX68em6JNtmKWJVeeMI/Vz2vMU2WEILEa4YSQRCz
+ AWhw1qk/Q+YY0yMC5VyK3gqVHdYrkZl9ovvLCGkulWxRIss9fFjs/82O9J7s8D8SCw
+ ZDD/lGwHSFMKy/A61Dq/blY1ZpKULkLKmeVzkXOk=
+Received: from wslaptop (unknown [IPv6:2001:818:dcb5:dc00:d990:b664:f16:4cb2])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 4E03A360077;
+ Mon, 30 Jan 2023 13:57:44 +0000 (WET)
+Date: Mon, 30 Jan 2023 13:54:49 +0000
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+To: Ben Skeggs <skeggsb@gmail.com>
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+Message-ID: <20230130135449.va44qpmklob44lwy@wslaptop>
+References: <CACAvsv4_XJLSwnA-s0BXLVbBCESDfnK7kx5-WUPd2+vdJuMojg@mail.gmail.com>
+ <20230127103959.5nqk57sb7qchtaw6@wslaptop>
+ <CACAvsv5sA8pmhYEVhJk9PEAWyKRZYvcsSHa-04CsJxgu7+YEiw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230123151212.269082-1-jagan@amarulasolutions.com>
- <20230123151212.269082-3-jagan@amarulasolutions.com>
- <20230126121227.qcnftqvgiz44egpg@houat>
- <CAMty3ZB6QiqgQN_zWEXULHiipQWU_VaWxDWf9W8OTVQvkACu5A@mail.gmail.com>
- <CAMty3ZDTuvYKQYpVnoUU_-b3znJiyR0yBADO-5_5+86KgwYv3Q@mail.gmail.com>
- <20230130125648.mlrtubymeooejvhg@houat>
-In-Reply-To: <20230130125648.mlrtubymeooejvhg@houat>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 30 Jan 2023 18:54:54 +0530
-Message-ID: <CAMty3ZANxwUp8yOjo+EWHNngi7SoMYhm1FchM38v_EUDpLY7UQ@mail.gmail.com>
-Subject: Re: [RESEND PATCH v11 02/18] drm: bridge: panel: Add
- devm_drm_of_dsi_get_bridge helper
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACAvsv5sA8pmhYEVhJk9PEAWyKRZYvcsSHa-04CsJxgu7+YEiw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,72 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: regressions@lists.linux.dev, kherbst@redhat.com, kwizart@gmail.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 30, 2023 at 6:26 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Fri, Jan 27, 2023 at 11:09:26PM +0530, Jagan Teki wrote:
-> > Hi,
+On Mon, Jan 30, 2023 at 08:36:06AM +1000, Ben Skeggs wrote:
+> On Fri, 27 Jan 2023 at 20:42, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
 > >
-> > On Thu, Jan 26, 2023 at 8:48 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > >
-> > > On Thu, Jan 26, 2023 at 5:42 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > On Fri, Jan 27, 2023 at 04:00:59PM +1000, Ben Skeggs wrote:
+> > > On Fri, 20 Jan 2023 at 21:37, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
 > > > >
-> > > > Hi,
+> > > > On Wed, Jan 18, 2023 at 11:28:49AM +1000, Ben Skeggs wrote:
+> > > > > On Mon, 16 Jan 2023 at 22:27, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wrote:
+> > > > > > On Mon, Jan 16, 2023 at 07:45:05AM +1000, David Airlie wrote:
+> > > > > > > As a quick check can you try changing
+> > > > > > >
+> > > > > > > drivers/gpu/drm/nouveau/nvkm/core/firmware.c:nvkm_firmware_mem_target
+> > > > > > > from NVKM_MEM_TARGET_HOST to NVKM_MEM_TARGET_NCOH ?
 > > > >
-> > > > On Mon, Jan 23, 2023 at 08:41:56PM +0530, Jagan Teki wrote:
-> > > > > Add devm OF helper to return the next DSI bridge in the chain.
+> > > > > In addition to Dave's change, can you try changing the
+> > > > > nvkm_falcon_load_dmem() call in gm20b_pmu_init() to:
 > > > > >
-> > > > > Unlike general bridge return helper devm_drm_of_get_bridge, this
-> > > > > helper uses the dsi specific panel_or_bridge helper to find the
-> > > > > next DSI device in the pipeline.
-> > > > >
-> > > > > Helper lookup a given child DSI node or a DT node's port and
-> > > > > endpoint number, find the connected node and return either
-> > > > > the associated struct drm_panel or drm_bridge device.
+> > > > > nvkm_falcon_pio_wr(falcon, (u8 *)&args, 0, 0, DMEM, addr_args,
+> > > > > sizeof(args), 0, false);
 > > > >
-> > > > I'm not sure that using a device managed helper is the right choice
-> > > > here. The bridge will stay longer than the backing device so it will
-> > > > create a use-after-free. You should probably use a DRM-managed action
-> > > > here instead.
-> > >
-> > > Thanks for the comments. If I understand correctly we can use
-> > > drmm_panel_bridge_add instead devm_drm_panel_bridge_add once we found
-> > > the panel or bridge - am I correct?
+> > > > Chiming in just to say that with this change I see the same as Nicolas
+> > > > except that the init message size is 255 instead of 0:
+> > > >
+> > > > [    2.196934] nouveau 57000000.gpu: pmu: unexpected init message size 255 vs 42
+> > > I've attached an entirely untested patch (to go on top of the other
+> > > hacks/fixes so far), that will hopefully get us a little further.
 > >
-> > Look like it is not possible to use DRM-managed action helper here as
-> > devm_drm_of_dsi_get_bridge is calling from the DSI host attach hook in
-> > which we cannot find drm_device pointer (as drm_device pointer is
-> > mandatory for using DRM-managed action).
-> > https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/bridge/samsung-dsim.c#L1545
+> > Hello,
 > >
-> > Please check and correct me if I mentioned any incorrect details.
->
-> You shouldn't call that function from attach anyway:
-> https://dri.freedesktop.org/docs/drm/gpu/drm-kms-helpers.html#special-care-with-mipi-dsi-bridges
+> > Thank you for the patch! I can confirm that it fixes the problem
+> > on the Pixel C, and everything works as before the regression.
+> > With this, for the combination of patches
+> >
+> > Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+> >
+> > which I can resend after testing the final patch version.
+> Thank you (both!) for testing!
+> 
+> I've attached a "final" version of a patch that I'll send (assuming it
+> still works ;)) after re-testing.  There's only a minor change to
+> avoid breaking the non-Tegra path, so I expect it should be fine.
 
-True, If I remember we have bridges earlier to find the downstream
-bridge/panels from the bridge ops and attach the hook, if that is the
-case maybe we can use this DRM-managed action as we can get the
-drm_device pointer from the bridge pointer. So, what is the best we
-can do here, add any TODO comment to follow up the same in the future
-or something else, please let me know?
+Hello!
 
-Thanks,
-Jagan.
+I have tested this new version and everything is working as before, so
+
+Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+
+Thank you,
+Diogo
