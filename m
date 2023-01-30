@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47BA8680C21
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 12:41:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3577680CC7
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 13:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBFE710E0E7;
-	Mon, 30 Jan 2023 11:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D24A10E0EE;
+	Mon, 30 Jan 2023 12:02:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4690D10E0E7;
- Mon, 30 Jan 2023 11:40:53 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id u12so8017350lfq.0;
- Mon, 30 Jan 2023 03:40:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sVYpDT5q7nV67Cbcn+kM+zjlEDnpj0GzWp9wSKrywJE=;
- b=EVsNaqRtgqxnhpmUCORVvV49m4wcWx8TaAuWTzFXPink/EIQuq7J1DEOQaw+Gv/Ikx
- 0bOq4GCPt7lKcNQP5yrAbG07S1cV8d06ME0i3h32cNefKFyaKT/RRVl/OO4R6lJopRwQ
- 7yDXt6nRhADggXiMxYw2PrPp+CJasGpYlrjAwgrQy6fgYGyZXYj44Cn8gWDJInTgU8sF
- 6UnAhUpTJTQ+WNNU5JjkkE2bXluw2QvZNcdPSn2c5L1CLUFbtk4yUBaA0DEljcQUrzms
- U2pQSjdGDAqN9oTEbhj4g3EUjLDjt7Br57IYGCgWg0oLbFc7oagXlNFZ1Mnx3u3Gk16w
- 9FrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sVYpDT5q7nV67Cbcn+kM+zjlEDnpj0GzWp9wSKrywJE=;
- b=4sL2LW247sFhzHexxrdyRFLYw3ryoIuWT4TqOgRwuwRrb38emwjMD2D7V5P3nmtes5
- PjAGJ81f1W0S6EOBPnIm2m7/n4rwsfr9iGQTCjl1xGs8Ffysm2vHDD/ZgtSC7mH8lxnR
- tKJ6Y+74COkCImWR+J7Nz9fc2TymCnHA6rl0zNoJhY2MM82bI87Aj2wJQcd23bb86PIJ
- 37uzAS46ud/3gpE7EI8J41WWXvDXKA2fFOQLDMINMcFAOHEP2estBnXALQjMv9dl8DbF
- uuUpC3njqTLezTjfUXFYxWFscftac7NC9yUXmmLkflhSFWzaifiR1EBnqwbPVkEPJ6l+
- Zzxg==
-X-Gm-Message-State: AFqh2koyHYrIqYDEpZjBKSK1b6L7ZuSOwH1ZEfQnswT5aCF+5xWdIV9K
- J7skqPoYq00le9VtDNeegT/pO2LuNd6TGywZ60E=
-X-Google-Smtp-Source: AMrXdXvIkuFuMyZzQtYac9twNVCDLIez1GpRbld4mTZFHndffDt/vhQseGBAjzTcV1roRZaADhj68qNncbtMWNm7MWA=
-X-Received: by 2002:a05:6512:214b:b0:4d3:d4e4:9b85 with SMTP id
- s11-20020a056512214b00b004d3d4e49b85mr4443310lfr.46.1675078851367; Mon, 30
- Jan 2023 03:40:51 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D6F10E0EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 12:02:16 +0000 (UTC)
+Received: from [192.168.2.197] (109-252-117-89.nat.spd-mgts.ru
+ [109.252.117.89])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E15296602E28;
+ Mon, 30 Jan 2023 12:02:12 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1675080134;
+ bh=CHRlgWCrCpxZAOuChuXDaANCOZzcJofZwQqqPaAf7sQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=R7G71otP2Pf4OrQ5BkXCg17Bng7TkOykH17FKAqo+NkrjEIywalYsM/SbF3vB6tvn
+ Z218ErZnlZHHyHx2VH/ade50zdsB193IuY/ePdei+ptVgqrnIIsAhgNKREm2yY/x1d
+ VISY3fpEYUn331iy1m9QAGJ2vI08C7rRBEA2dhIpyyQnCEWfMnxwv5KR+o+VtJ6Top
+ Xd2G2TFtw4wPTsquTgh6D1foaT4PW1QBcACi27/KNTkyWogQ0Pt/+6/A20MM0i6Ssc
+ XRvVnLFWLpApaJrZMyiYRm4C34SfWe1eDNEfhLApR9NxsCjmNogwkID0Z1gdI6g1JS
+ kZ0ft4yyYvDMg==
+Message-ID: <0081b2c3-56c9-3ed8-b419-5ce8a151999e@collabora.com>
+Date: Mon, 30 Jan 2023 15:02:10 +0300
 MIME-Version: 1.0
-References: <20230130101230.25347-1-matthew.auld@intel.com>
- <20230130101230.25347-2-matthew.auld@intel.com>
- <e8b475e1-2c5c-ec78-a97c-0dd9df099a21@intel.com>
-In-Reply-To: <e8b475e1-2c5c-ec78-a97c-0dd9df099a21@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Mon, 30 Jan 2023 11:40:23 +0000
-Message-ID: <CAM0jSHN7U0RsBcouVzAko=BYbW-_-UnCti=F8sBSGC0a-vVs0g@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 2/6] drm/i915/ttm: audit remaining bo->resource
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+ <e5e9e8dd-a5b6-cfd2-44d6-4d5aa768e56c@collabora.com>
+ <20230127081339.yovxofpboc4gfdgo@sirius.home.kraxel.org>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230127081339.yovxofpboc4gfdgo@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,155 +59,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
- dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ kernel@collabora.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Sean Paul <sean@poorly.run>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
+ Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Jan 2023 at 11:00, Andrzej Hajda <andrzej.hajda@intel.com> wrote=
-:
->
-> On 30.01.2023 11:12, Matthew Auld wrote:
-> > In the near future TTM will have NULL bo->resource when the object is
-> > initially created, plus after calling into pipeline-gutting. Try to
-> > handle the remaining cases. In practice NULL bo->resource should be
-> > taken to mean swapped-out or purged object.
-> >
-> > References: 516198d317d8 ("drm/i915: audit bo->resource usage v3")
-> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com>
-> > Cc: Nirmoy Das <nirmoy.das@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 12 +++++++++---
-> >   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c |  7 ++++++-
-> >   drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c   |  7 +++++--
-> >   3 files changed, 20 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/=
-i915/gem/i915_gem_ttm.c
-> > index 4758f21c91e1..4ba1d7862ff9 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > @@ -472,7 +472,7 @@ static int i915_ttm_shrink(struct drm_i915_gem_obje=
-ct *obj, unsigned int flags)
-> >       struct ttm_placement place =3D {};
-> >       int ret;
-> >
-> > -     if (!bo->ttm || bo->resource->mem_type !=3D TTM_PL_SYSTEM)
-> > +     if (!bo->ttm || (bo->resource && bo->resource->mem_type !=3D TTM_=
-PL_SYSTEM))
-> >               return 0;
-> >
-> >       GEM_BUG_ON(!i915_tt->is_shmem);
-> > @@ -511,7 +511,13 @@ static void i915_ttm_delete_mem_notify(struct ttm_=
-buffer_object *bo)
-> >   {
-> >       struct drm_i915_gem_object *obj =3D i915_ttm_to_gem(bo);
-> >
-> > -     if (bo->resource && !i915_ttm_is_ghost_object(bo)) {
-> > +     /*
-> > +      * This gets called twice by ttm, so long as we have a ttm resour=
-ce or
-> > +      * ttm_tt then we can still safely call this. Due to pipeline-gut=
-ting,
-> > +      * we maybe have NULL bo->resource, but in that case we should al=
-ways
-> > +      * have a ttm alive (like if the pages are swapped out).
-> > +      */
-> > +     if ((bo->resource || bo->ttm) && !i915_ttm_is_ghost_object(bo)) {
-> >               __i915_gem_object_pages_fini(obj);
-> >               i915_ttm_free_cached_io_rsgt(obj);
-> >       }
-> > @@ -1198,7 +1204,7 @@ static void i915_ttm_unmap_virtual(struct drm_i91=
-5_gem_object *obj)
-> >
-> >       assert_object_held_shared(obj);
-> >
-> > -     if (i915_ttm_cpu_maps_iomem(bo->resource)) {
-> > +     if (bo->resource && i915_ttm_cpu_maps_iomem(bo->resource)) {
->
-> I wonder if i915_ttm_cpu_maps_iomem couldn't handle null resource?
+On 1/27/23 11:13, Gerd Hoffmann wrote:
+> On Thu, Jan 26, 2023 at 01:55:09AM +0300, Dmitry Osipenko wrote:
+>> Hello Thomas and Gerd,
+>>
+>> On 1/9/23 00:04, Dmitry Osipenko wrote:
+>>> This series:
+>>>
+>>>   1. Makes minor fixes for drm_gem_lru and Panfrost
+>>>   2. Brings refactoring for older code
+>>>   3. Adds common drm-shmem memory shrinker
+>>>   4. Enables shrinker for VirtIO-GPU driver
+>>>   5. Switches Panfrost driver to the common shrinker
+>>>
+>>> Changelog:
+>>>
+>>> v10:- Rebased on a recent linux-next.
+>>>
+>>>     - Added Rob's ack to MSM "Prevent blocking within shrinker loop" patch.
+>>>
+>>>     - Added Steven's ack/r-b/t-b for the Panfrost patches.
+>>>
+>>>     - Fixed missing export of the new drm_gem_object_evict() function.
+>>>
+>>>     - Added fixes tags to the first two patches that are making minor fixes,
+>>>       for consistency.
+>>
+>> Do you have comments on this version? Otherwise ack will be appreciated.
+>> Thanks in advance!
+> 
+> Don't feel like signing off on the locking changes, I'm not that
+> familiar with the drm locking rules.  So someone else looking at them
+> would be good.  Otherwise the series and specifically the virtio changes
+> look good to me.
+> 
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
-Yeah, seems reasonable to me.
+Thomas was looking at the the DRM core changes. I expect he'll ack them.
 
->
->
-> >               wakeref =3D intel_runtime_pm_get(&to_i915(obj->base.dev)-=
->runtime_pm);
-> >
-> >               /* userfault_count is protected by obj lock and rpm waker=
-ef. */
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu=
-/drm/i915/gem/i915_gem_ttm_move.c
-> > index 76dd9e5e1a8b..72953ebadfd8 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> > @@ -83,7 +83,8 @@ void i915_ttm_adjust_domains_after_move(struct drm_i9=
-15_gem_object *obj)
-> >   {
-> >       struct ttm_buffer_object *bo =3D i915_gem_to_ttm(obj);
-> >
-> > -     if (i915_ttm_cpu_maps_iomem(bo->resource) || bo->ttm->caching !=
-=3D ttm_cached) {
-> > +     if ((bo->resource && i915_ttm_cpu_maps_iomem(bo->resource)) ||
-> > +         bo->ttm->caching !=3D ttm_cached) {
-> >               obj->write_domain =3D I915_GEM_DOMAIN_WC;
-> >               obj->read_domains =3D I915_GEM_DOMAIN_WC;
-> >       } else {
-> > @@ -711,6 +712,10 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_obje=
-ct *dst,
-> >
-> >       assert_object_held(dst);
-> >       assert_object_held(src);
-> > +
-> > +     if (GEM_WARN_ON(!src_bo->resource || !dst_bo->resource))
-> > +             return -EINVAL;
-> > +
-> >       i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
-> >
-> >       ret =3D dma_resv_reserve_fences(src_bo->base.resv, 1);
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/d=
-rm/i915/gem/i915_gem_ttm_pm.c
-> > index 7e67742bc65e..be44e7eed892 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> > @@ -53,7 +53,7 @@ static int i915_ttm_backup(struct i915_gem_apply_to_r=
-egion *apply,
-> >       unsigned int flags;
-> >       int err =3D 0;
-> >
-> > -     if (bo->resource->mem_type =3D=3D I915_PL_SYSTEM || obj->ttm.back=
-up)
-> > +     if (!bo->resource || bo->resource->mem_type =3D=3D I915_PL_SYSTEM=
- || obj->ttm.backup)
->
-> !i915_ttm_cpu_maps_iomem ?
->
-> >               return 0;
-> >
-> >       if (pm_apply->allow_gpu && i915_gem_object_evictable(obj))
-> > @@ -187,7 +187,10 @@ static int i915_ttm_restore(struct i915_gem_apply_=
-to_region *apply,
-> >               return err;
-> >
-> >       /* Content may have been swapped. */
-> > -     err =3D ttm_tt_populate(backup_bo->bdev, backup_bo->ttm, &ctx);
-> > +     if (!backup_bo->resource)
-> > +             err =3D ttm_bo_validate(backup_bo, i915_ttm_sys_placement=
-(), &ctx);
-> > +     if (!err)
-> > +             err =3D ttm_tt_populate(backup_bo->bdev, backup_bo->ttm, =
-&ctx);
->
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
->
-> Regards
-> Andrzej
->
->
-> >       if (!err) {
-> >               err =3D i915_gem_obj_copy_ttm(obj, backup, pm_apply->allo=
-w_gpu,
-> >                                           false);
->
+Thank you for reviewing the virtio patches!
+
+-- 
+Best regards,
+Dmitry
+
