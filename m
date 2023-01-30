@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C4B6809C9
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 10:41:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21A26809CF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 10:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9905E10E22B;
-	Mon, 30 Jan 2023 09:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F98510E066;
+	Mon, 30 Jan 2023 09:42:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 394F810E066
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 09:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675071684; x=1706607684;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=cYHSKZJr+AsIJfCw75s0NaKF1+VC8e4ck3sYGiSJVxc=;
- b=Sz9yOkiIGR4mnE3LG0bEl3/jHg2Ryx6x9n53eLhgAQa2lLtdff5RVPnS
- 3mKG/AAiq6ChNtWnEER8Jy1go2x201Gi4Nl5RONmVfegfa5dSvJnk+UGa
- E4uJiTLD/pVbc3+3olF+XSEezfuTsxK6gnEzFEFjsG+MdOofWjMpEoeVW
- xSlUgiFSF3eJ6wB+KcmZkW+rSFM98/OYVEGh9gS9xGfGV/syUI+dIuip8
- DASsvEBUGQeSlXJxT0cXE9YG9GK6D+/zNhSBFPtE8jF8lHUzfCLt9LhHC
- OCx7aEXgVU0L8d5OasQkgsptjCh2RYzHd4nB6E/oXC/Rt3RTlTN0fn9Vh Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="307861656"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="307861656"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 01:41:23 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="837914234"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="837914234"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 01:41:20 -0800
-Date: Mon, 30 Jan 2023 10:41:18 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] [v2] accel: fix CONFIG_DRM dependencies
-Message-ID: <20230130094118.GA1627912@linux.intel.com>
-References: <20230127221504.2522909-1-arnd@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 498DC10E066
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 09:42:07 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8BBDE60F02;
+ Mon, 30 Jan 2023 09:42:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67B40C433D2;
+ Mon, 30 Jan 2023 09:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675071726;
+ bh=4lfm3sE3/eFrpEywA1t6MKrvuPLMfIVyZC/x6yxyH2I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iJhmzThDdzEfi81VQ/krxd7j6slu3NHEen7+fA7IxrjZ1xmM+vZZpLV9PdJM30ZnO
+ UWVtm1lobAUvnquTsTis+c6MhjZIboirFK1GrIjcfW/uza6V62gHjqol/U1HEHDyrx
+ aGIHTaHXn7Qw49hHcDJFxU46UHDasz6wiDfqwnMag0BFwEe8SYd9iKo+vZMMQegPDl
+ 4xGH5a+ISiQFe0WNT/q87SYDi19WDQN50a70oXBCh4dvDTnxAHHik3ldXG+IpU40uL
+ cVKl7KO+lXl9vHtKUPVrVGDn4VcKdYmX45fbioQDfbFoUPfGoYjov4heinugNGPIN/
+ 9qvvUwOSt9eDg==
+Date: Mon, 30 Jan 2023 09:42:01 +0000
+From: Lee Jones <lee@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] backlight: ktz8866: Convert to i2c's .probe_new()
+Message-ID: <Y9eQ6QTngI18zUJn@google.com>
+References: <20230127152639.1347229-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230127221504.2522909-1-arnd@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230127152639.1347229-1-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,70 +53,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Airlie <airlied@redhat.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jianhua Lu <lujianhua000@gmail.com>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 27, 2023 at 11:14:55PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> At the moment, accel drivers can be built-in even with CONFIG_DRM=m,
-> but this causes a link failure:
-> 
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_dev_init':
-> ivpu_drv.c:(.text+0x1535): undefined reference to `drmm_kmalloc'
-> x86_64-linux-ld: ivpu_drv.c:(.text+0x1562): undefined reference to `drmm_kmalloc'
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_remove':
-> ivpu_drv.c:(.text+0x1faa): undefined reference to `drm_dev_unregister'
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_probe':
-> ivpu_drv.c:(.text+0x1fef): undefined reference to `__devm_drm_dev_alloc'
-> 
-> The problem is that DRM_ACCEL is a 'bool' symbol symbol, so driver that
-> only depend on DRM_ACCEL but not also on DRM do not see the restriction
-> to =m configs.
-> 
-> To ensure that each accel driver has an implied dependency on CONFIG_DRM,
-> enclose the entire Kconfig file in an if/endif check.
-> 
-> Fixes: 8bf4889762a8 ("drivers/accel: define kconfig and register a new major")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+On Fri, 27 Jan 2023, Uwe Kleine-König wrote:
 
-> ---
-> v2: rearrage the DRM dependency rather than requiring DRM to be built-in
-> ---
->  drivers/accel/Kconfig | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> The probe function doesn't make use of the i2c_device_id * parameter so
+> it can be trivially converted.
 > 
-> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
-> index 834863902e16..c437206aa3f1 100644
-> --- a/drivers/accel/Kconfig
-> +++ b/drivers/accel/Kconfig
-> @@ -6,9 +6,10 @@
->  # as, but not limited to, Machine-Learning and Deep-Learning acceleration
->  # devices
->  #
-> +if DRM
-> +
->  menuconfig DRM_ACCEL
->  	bool "Compute Acceleration Framework"
-> -	depends on DRM
->  	help
->  	  Framework for device drivers of compute acceleration devices, such
->  	  as, but not limited to, Machine-Learning and Deep-Learning
-> @@ -25,3 +26,5 @@ menuconfig DRM_ACCEL
->  
->  source "drivers/accel/habanalabs/Kconfig"
->  source "drivers/accel/ivpu/Kconfig"
-> +
-> +endif
-> -- 
-> 2.39.0
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+> Hello,
 > 
+> there is an ongoing effort to convert all drivers to .probe_new to
+> eventually drop .probe with the i2c_device_id parameter. This driver
+> currently sits in next so wasn't on my radar before.
+> 
+> My plan is to tackle that after the next merge window. So I ask you to
+> either apply this patch during the next merge window or accept that it
+> will go in via the i2c tree together with the patch that drops .probe().
+> 
+>  drivers/video/backlight/ktz8866.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+
+Applied, thanks
+
+-- 
+Lee Jones [李琼斯]
