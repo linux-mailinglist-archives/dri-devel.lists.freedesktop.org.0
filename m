@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B72B6811BE
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 15:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AA76811C1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 15:16:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B300110E24E;
-	Mon, 30 Jan 2023 14:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7CD10E24F;
+	Mon, 30 Jan 2023 14:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay11.mail.gandi.net (relay11.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A499010E24E
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 14:16:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DCE110E250
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 14:16:34 +0000 (UTC)
 Received: from booty.fritz.box (unknown [77.244.183.192])
  (Authenticated sender: luca.ceresoli@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPA id 8967E100014;
- Mon, 30 Jan 2023 14:16:22 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPA id CF1AA100019;
+ Mon, 30 Jan 2023 14:16:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1675088188;
+ t=1675088193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yckFIY93u4F86IWY12zWqYvF4URZaDP4YtutjeyqpwU=;
- b=Q4sJG2JXEjO4qRmKUMiAsBcDbHceEZZtPg5u5UMfhoyr2t1qo/qqKODqG+yZEW98pTjPak
- VNmUhhJJSqXR//GYNOBrSn7yAW3kqMwUV0h2PQhdnkHkI31l28bYKf+SjhucdaKugKBAsv
- nnl06ON3N4TIN1JS7OWcIhRJuQR04jk5NuEhdh02kNN2BXf2hMraZVVW8mzigm7GH6hE9M
- aSkzgA5hs0wv0VmPZ0FAh2UnjsKr3kC/3rJqYi2BWuIx/UqeD2xxk0EcKUzFe1bWOOuEdR
- Us85/TH1W8TnihKTSduFfX3D7wQaUI+DOm2AV1zcjOT/3WXf/SAjiL9p23/YdA==
+ bh=zDvPDvBijMdwFM3Lmv8VKu9XfwgvP8ii2qMmmjJHYtM=;
+ b=ZCQM4EU9x78ynxcvhU6DC4/sMFB/t/50HeqPygDD869edC3CxITYcmCqHYuNgft/gPiaYx
+ BZGZoO6FRWQIWYCSW2Ny2wJpXm8/fnqardaiV2xBAKey5vnH02TU0lSevpwd7VgiCPpt6u
+ Es1LXunVG0fbXHRWazuCWi/udUJxUw7JbVoyDZ8p9eY031HHGw/9AxiiMelT2sz7CD7shx
+ VxmYbe+0KUGyk1Jpomfykyqui/ruI9aszO1tBMl5OMFXztTxdSiOh6WJSYpF7MrxV4Ldrb
+ bWIpJBF/C5S7J/rSuOI0eoIFcdzKS2GIPM7sCUrH7n0IJ+2PVUe5NbMZqryWRg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -39,9 +39,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Dmitry Osipenko <digetx@gmail.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v4 01/21] dt-bindings: display: tegra: add Tegra20 VIP
-Date: Mon, 30 Jan 2023 15:15:43 +0100
-Message-Id: <20230130141603.323221-2-luca.ceresoli@bootlin.com>
+Subject: [PATCH v4 02/21] dt-bindings: display: tegra: vi: add 'vip' property
+ and example
+Date: Mon, 30 Jan 2023 15:15:44 +0100
+Message-Id: <20230130141603.323221-3-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
 References: <20230130141603.323221-1-luca.ceresoli@bootlin.com>
@@ -62,62 +63,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-tegra@vger.kernel.org,
  Richard Leitner <richard.leitner@skidata.com>,
  Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VIP is the parallel video capture component within the video input
-subsystem of Tegra20 (and other Tegra chips, apparently).
+The Tegra20 VI peripheral can receive parallel input from the VIP parallel
+input module. Add it to the allowed properties and augment the existing
+nvidia,tegra20-vi example to show a 'vip' property.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 
 ---
 
 Changed in v4:
- - Added review tags
- - remove leftover lines after removal of 'channel@0'
+ - complete the removal of 'channel@0'
 
-Changed in v3:
- - remove channel@0 node (Krzysztof, Rob, Dmitry)
- - add myself as a maintainer of the whole Tegra video driver (Dmitry)
+Changed in v3 (suggested by Rob Herring):
+ - drop 'endpoint', unneeded as there's no extra properties in the
+   endpoints
 
 Changed in v2 (suggested by Krzysztof Kozlowski):
- - remove redundant "bindings" from subject line
- - remove $nodename
- - add channel@0 description
- - add reg: const: 0
+ - rename "i2c3" -> "ic2"
+ - add review tag
 ---
- .../display/tegra/nvidia,tegra20-vip.yaml     | 41 +++++++++++++++++++
- MAINTAINERS                                   |  2 +
- 2 files changed, 43 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
+ .../display/tegra/nvidia,tegra20-vi.yaml      | 59 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ 2 files changed, 60 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-new file mode 100644
-index 000000000000..14294edb8d8c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-@@ -0,0 +1,41 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-vip.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra VIP (parallel video capture) controller
-+
-+maintainers:
-+  - Luca Ceresoli <luca.ceresoli@bootlin.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - nvidia,tegra20-vip
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+index 782a4b10150a..46c5e00595bd 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+@@ -74,6 +74,18 @@ properties:
+   avdd-dsi-csi-supply:
+     description: DSI/CSI power supply. Must supply 1.2 V.
+ 
++  vip:
++    $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
 +
 +  ports:
 +    $ref: /schemas/graph.yaml#/properties/ports
@@ -126,41 +110,84 @@ index 000000000000..14294edb8d8c
 +      port@0:
 +        $ref: /schemas/graph.yaml#/properties/port
 +        description:
-+          Port receiving the video stream from the sensor
++          Input from the VIP (parallel input capture) module
 +
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Port sending the video stream to the VI
+ patternProperties:
+   "^csi@[0-9a-f]+$":
+     type: object
+@@ -109,6 +121,22 @@ examples:
+     #include <dt-bindings/clock/tegra20-car.h>
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+ 
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        camera@48 {
++            compatible = "aptina,mt9v111";
++            reg = <0x48>;
++            clocks = <&camera_clk>;
 +
-+    required:
-+      - port@0
-+      - port@1
++            port {
++                mt9v111_out: endpoint {
++                    remote-endpoint = <&vi_vip_in>;
++                };
++            };
++        };
++    };
 +
-+unevaluatedProperties: false
+     vi@54080000 {
+         compatible = "nvidia,tegra20-vi";
+         reg = <0x54080000 0x00040000>;
+@@ -116,6 +144,37 @@ examples:
+         clocks = <&tegra_car TEGRA20_CLK_VI>;
+         resets = <&tegra_car 100>;
+         reset-names = "vi";
 +
-+required:
-+  - compatible
-+  - ports
++        vip {
++            compatible = "nvidia,tegra20-vip";
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                port@0 {
++                    reg = <0>;
++                    vi_vip_in: endpoint {
++                        remote-endpoint = <&mt9v111_out>;
++                    };
++                };
++                port@1 {
++                    reg = <1>;
++                    vi_vip_out: endpoint {
++                        remote-endpoint = <&vi_in>;
++                    };
++                };
++            };
++        };
 +
-+# see nvidia,tegra20-vi.yaml for an example
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            port@0 {
++                reg = <0>;
++                vi_in: endpoint {
++                    remote-endpoint = <&vi_vip_out>;
++                };
++            };
++        };
+     };
+ 
+   - |
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 8a5c25c20d00..5dc335adee46 100644
+index 5dc335adee46..b62a51052797 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -20588,10 +20588,12 @@ TEGRA VIDEO DRIVER
- M:	Thierry Reding <thierry.reding@gmail.com>
- M:	Jonathan Hunter <jonathanh@nvidia.com>
- M:	Sowjanya Komatineni <skomatineni@nvidia.com>
-+M:	Luca Ceresoli <luca.ceresoli@bootlin.com>
- L:	linux-media@vger.kernel.org
+@@ -20593,6 +20593,7 @@ L:	linux-media@vger.kernel.org
  L:	linux-tegra@vger.kernel.org
  S:	Maintained
  F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-+F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
++F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+ F:	Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
  F:	drivers/staging/media/tegra-video/
  
- TEGRA XUSB PADCTL DRIVER
 -- 
 2.34.1
 
