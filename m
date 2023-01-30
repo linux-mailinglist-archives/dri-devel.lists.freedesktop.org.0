@@ -2,144 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B8268179A
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 18:30:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F4D6817DF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 18:42:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C35B810E090;
-	Mon, 30 Jan 2023 17:30:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 832F810E012;
+	Mon, 30 Jan 2023 17:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD3D610E064;
- Mon, 30 Jan 2023 17:30:35 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E05E10E012;
+ Mon, 30 Jan 2023 17:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675099835; x=1706635835;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=HaAry7dFc9CkmQ4c/41JVR4ASck2+Uk7tGXCAeZHFqA=;
- b=LTWjtKv7rNrrPjSMqk6AFXJeWbeK/Vhk0jixRpb3NTok23Kuz8wMQu0h
- WGq/hZTbXF4Lbijo+eiPwfX3e0XAxvodeX6nKJJaN3/VKPR5jd0nJhxTO
- aj9d4ZIEYQUD0q4zC348gXN5A/YprlOxNT9F5Sb3db3Mo7iqZB1ATS1fc
- MHuTwRG2qpQWMvMHbNgJeFXay/MhN2kgOHcm0Eu8Is5ktsRNjZmo95CcT
- tX17dwhSAW+2+2Qn+j3ENZsls9ermmVRKDwOQPHyi0S13tNAsKGrwbP6g
- qQ3ZNn6O3SugJbWJtX7WA01lHzQMQOX8khL/cny2zglal7oLMuRjFF8H5 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="413840417"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="413840417"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 09:30:34 -0800
+ t=1675100574; x=1706636574;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=PFGqXu+kkgEfCVyYsUHMXQmCXVrXjO2NrpyMIDHgbg0=;
+ b=lTi6zLk4rjFTa2NUDtpFPiV/T4lyIbofm3k9hl7SzTzo5tt6wqTaPmv8
+ G14zEMVrE85FVm4tVol5lOuxNyURmSQZ/38xt6CCyDIPnjMMK3Kd7+vHS
+ TP15Pt5ZVn6uuU0l+xzk4W3/vZi+Sn16907mDQUDuKPqa8jGo34FCiheL
+ NeL3ff8GlSKDsIATFJr35kjqtyXR4gbpyQB5wAosMTs+GfPMKZD5txsiS
+ REJtpmuogZQ/8bQa720rPLmOoUGAqVz3ApL6ln4dFKY65bpdJVDsyCwsF
+ a4X+rMSHpAjq+MOSMIC3MLkEUtEOUthka/+DHHgJm2LVHLoZ04Y3Da7C3 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="389990255"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="389990255"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2023 09:42:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="838036811"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="838036811"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga005.jf.intel.com with ESMTP; 30 Jan 2023 09:30:34 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="806764456"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="806764456"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga001.fm.intel.com with ESMTP; 30 Jan 2023 09:42:51 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 30 Jan 2023 09:30:34 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.16; Mon, 30 Jan 2023 09:42:51 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 30 Jan 2023 09:30:33 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 30 Jan 2023 09:30:33 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.16 via Frontend Transport; Mon, 30 Jan 2023 09:42:51 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.103)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 30 Jan 2023 09:30:30 -0800
+ 15.1.2507.16; Mon, 30 Jan 2023 09:42:49 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KA8cr/WuVa2K9Rp1C3B2u9AGG2PCOi8Y1LhEy9cEAZe9me6/q3HCZdp9WTfDY2/pW8/n8VCfH1JXAp6hnY0zfy4EU9vahZ7TWYxOJ/YcW5dJ5ZOa+xyPZ/vplkXWYTuNCVcIPSEA3Mmc7Xdz7MfxR/Yg26IfssItZ3t5rNU+QM42VAx8d/5cBtDqMFVgRKo6W9Z9NZdOpQdHuYY5wIjWRW3NhxNCfUnWNzIFhmuaoJnjyzXWZ7U5+R4RcV3ZNK1JXjYTAQ89/aoxyT7jYLUUybq6ZGtCpTY5LusV8NCYbyEbIk3SAySQzZtyOxfEJyFmtD0VB2mzwbIDzu3XNaZvkQ==
+ b=QZvrbGLSTxliKNWKtuqqmLVBJZ+U4fvbp2+LVlIGs/wka83/peRs/5m3V8F4JzgpLmEBFQ7f0xwYWF9iylUlELGZJE5uUh3otKvEhMGvlo/pnxJQJJGcIDH/q/WI2uzZn9YYELmG4zvRa8yRCOL21PlqLxECqGvPcjg9NHxQ7MFSH7FwOiOFS5VpkvqFgspIi7N+2ySYrmwW67j4zKqJalfl1zROSLu1Y7yy2++urzX3F0idNInwYLuGE6Gwim/NFvx2TmAx37AeFeEtGjLV4PbIdNxLEU0gV/g8eagUJ7e4Naiv/+6jD2ZEKMowYrQhSurVsTxnEP6P47WlPqTdvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zifz3NFNsTPNR//vxWAwUrvzH2+LcHAuVAeSMYBHYzQ=;
- b=AIVO7k6+y69VjU4wD6mbomzBrhepCQA5C2LKuT+fh329/2J29B7VIhk8yeDbFNu7QgKLaQcBIY3LrzOuFi3P1Is+Fe7UL6GupyoJQf29yCa428cYf0qa+n4MS8X2EM6BRljxQb29Gq/7rVG+vDtZcYKMwSrnfGqH/ijBdmhgfNGU4Eq3lU6cvonMF/ftrRLLKUqlo2+qTBj+14SBZ4rTmNIK8HUQA08nFkgYH947IqSVcXy9XgU4B3UhW8liiJEQm5GetgnAx0Oit4OqXRzirnyZkEjkm4w989P/HseryncuAIblPqYv1bpZIOzBDisucyerzwOv7MQdaTuk6x197Q==
+ bh=2m/DIcW6g+6/90lzTiwatK23pFnwHB1pRZXQhKTUmdE=;
+ b=ZJ+dMiNBfGA/64WU0TmwmFiukz4Z1JiGio2nC+PNarRGSB8b1aScObHD/JdF1M9eUgkufWwX9VIoe4Mtu28III3TvVz7sJfFs+NOtgVN1lN/7foKkWl669wUt6MUMmZEU1i+tr9Yzl/xgM719AxyS1rR5jbPo9J9COYptL7Doap8UBqrqDL/tullfGOLAkr+3pxfxdu8pXf5puB92MLpo3ZXEePhDQys4AMISQkTXo8M6ws8tdYVnEfuA80owNxuuNqhaBOXkKF0ESuCHBGIvFKFT66NtqyDBpm3BaljP22z1T0oSU7EvmL6Ewrne8lL7evWodOtw++rkRFE8u+8RA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by IA0PR11MB7695.namprd11.prod.outlook.com (2603:10b6:208:400::5)
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by SJ2PR11MB7575.namprd11.prod.outlook.com (2603:10b6:a03:4ce::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
- 2023 17:30:29 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
- 17:30:29 +0000
-Date: Mon, 30 Jan 2023 12:30:24 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/pcode: Wait 10 seconds for pcode to
- settle
-Message-ID: <Y9f+sGkj2/rJpaMD@intel.com>
-References: <20230111104447.338136-1-andi.shyti@linux.intel.com>
- <87a62pi501.fsf@intel.com> <Y77XmlzOCuOg8YVZ@ashyti-mobl2.lan>
- <b3d4b882-cb0b-a3c1-2609-6065f379ed15@intel.com>
- <Y9OSyhWHWu8iliP5@ashyti-mobl2.lan>
- <bfe11cf8-87a5-3768-92d5-3415145d8c8f@intel.com>
- <Y9eEX95t1i1YRVOk@ashyti-mobl2.lan> <Y9fXFrJp/N0cit18@intel.com>
- <Y9fsgJd7y6aEt/sT@ashyti-mobl2.lan> <Y9fySWFQwTPC1VAM@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Y9fySWFQwTPC1VAM@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0047.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::22) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.33; Mon, 30 Jan
+ 2023 17:42:48 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::e1a3:6ad3:9f43:5f25]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::e1a3:6ad3:9f43:5f25%4]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
+ 17:42:48 +0000
+Message-ID: <db068929-78f4-539b-2ea9-0e55bcf2d2f0@intel.com>
+Date: Mon, 30 Jan 2023 09:42:45 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.1
+Subject: Re: [PATCH v3 6/8] drm/i915/guc: Update GuC messages in
+ intel_guc_log.c
+Content-Language: en-GB
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+References: <20230128195907.1837-1-michal.wajdeczko@intel.com>
+ <20230128195907.1837-7-michal.wajdeczko@intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <20230128195907.1837-7-michal.wajdeczko@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0017.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::22) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|IA0PR11MB7695:EE_
-X-MS-Office365-Filtering-Correlation-Id: 816588f7-29d7-4e0f-de83-08db02e7ae1a
+X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|SJ2PR11MB7575:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8cab25a0-aa0b-460f-741d-08db02e966f5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FxeT4tFkJ9aJkF3e5vgQkR9XDJzcYuH3/VErQE7LQ4d+WiGMNBENz4yxabEGOz0kvo++Zx6K3EVqS9rzl5hBbVLf0HgI6c8JU3lPbtTC2gSoM5jlVthR2hbADKfaAjV7h33ZkS8toHMb1kOPI5bJqRi0bzY53dGhOiPHDeWOayfTkOW5WUWzfQzx6i8vy6hIyyjLLA2O+8wkUA4F/m5bMENhDExfBbp20Mca0qAxphl1igqjqoW9W9nQjKsYTTXL6/vDGTN7Q2rHoTGrfESZgsW0bpsU5bkAwKtpGdqPgOFm6+0F/GL6ykicKyHWtYeaJomGvhNvoQ/utie3GWIi6d1z9kHnpdbzUp6SpJvjCfCozAqbUzyhcdCdNHucB4oTwLnlhIAxDh8B06FWqwvhAtssmpxqqwGjkuh6tJKysctmWEUaDqo7l0zLj0Wwq4av+tOkcrtHMMsu+ya/tX468rIVfv4JIsoQFixErzGD4sek1H2TfoSmnzmQuhHDFsibxfHvjWXdY2MsIrfNf2CMmJ3k5CQjTCRX1fJittJhy7VpBhBFSGZiTsmX7F0PoE94ZlPhJsEnURt1cyYFVZ0BGrAlClxDkZlnUplTHR4wdYorDiWvKIbmxlaXvp1xyj0gKO+lwwzKmOiTOurzxPceYCeL/nhvqb6cUsKxO3ecZSdc2wCxzQfU0DheibvGRP1EJ/evlZLaTdR6I7wSoLcw2A==
+X-Microsoft-Antispam-Message-Info: v3hYbWGGQrv7F3UmKUXWqH+sdkDedCO+Ymx1mltBcUoOOPOks0jx4JfbHvMIyQr1wHsWq67LqnD2dobQWwLfuqV9V0WN4vJH2iYyqQ9oiHyGd5GFEIyoRRM0r5qxkytLKQFh0HPTUtoF7/camV+81XH4ZWGomEThk5jQT0JTE6l1btjNb9Ds+QMbDStr+vjVFsUaXty6O6ytApo8+jfamcpx23Z0EivecH2TFAbht/4UlI6RkeajK2lM8Q+7lKGdZHAFZ06gJ+YL6oYwq/j8uARWYNNX0ikInbCe3cTDhkpmyRWiQAU9g9IKRmB5mq2NRgKgBfo2QKBo6voWZzA7I94EhqJCqu9WkwQE38cBiu1IEDHA2HwwLZU197l8MGxe1Klq0JTx8vPClT12sps67KPHyaC8gnp+UB5kFbAYHn5ebjIajZ1Gpe7gWespC1h9ht1kGAgyvPjDZCNK88IoUdPWxMcugOQaVsLBjna7r9vdXdI4cv/AIcvRCigC7h2d5BQkWEIl7S7zrZTzyMtZcjXCFoYVJF5O1+1QsmgE+3pE193X9Tjxq2OeHwp6UmrNzj3clQ9Fty6OnwOJBWxM7Gqte+p6FSSKaEAy59gzrI9RbLk2rg13rFKwmvVzEFUBwE7yOreT05OWYmP5ZgSH8BfKySrS5tHHU8TXOzWw5o8WYoKpeUzvSmDOq2eaJKnzMcC1FTFL/+THfwaMnbT3dhiD26c0SBmsVozElwujsJw=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(366004)(136003)(39860400002)(376002)(346002)(396003)(451199018)(2906002)(5660300002)(86362001)(44832011)(82960400001)(83380400001)(8936002)(30864003)(41300700001)(36756003)(478600001)(6486002)(26005)(6512007)(6666004)(186003)(6506007)(2616005)(54906003)(4326008)(66476007)(38100700002)(66946007)(8676002)(66556008)(6916009)(316002)(226643001);
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(346002)(136003)(376002)(39860400002)(366004)(396003)(451199018)(82960400001)(31696002)(86362001)(38100700002)(36756003)(450100002)(8676002)(4326008)(66556008)(66946007)(66476007)(316002)(5660300002)(8936002)(15650500001)(2906002)(6486002)(41300700001)(53546011)(6506007)(6512007)(26005)(186003)(478600001)(83380400001)(6666004)(2616005)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?h/oE1HW1bqgaRLDWB9+ILI3Yi6ck/4D1B5JraYeZVcshdXGJcWCrDbuGNcB+?=
- =?us-ascii?Q?ojoizE806Nv3zoCTrt2nGeol6Tu+dWzArVryjFn/um/guWgOE3MXtFRQRc69?=
- =?us-ascii?Q?jeVJxQWC5K4ak1fq1xz/cQ6n+H6Qatt0/izIQxi7O+caS/SubuBCmtqlLLjd?=
- =?us-ascii?Q?QpdVEIppS99ETOGEHKoDy4G9JOqJUgfyz/11gJbM4dXfe/WPQnuGSW1yI0or?=
- =?us-ascii?Q?McJVFatF97QUWJBv7uBVfR2A5hUSxR3O6PFQzy7q/l8Jf/MXxRVhYcQru8fQ?=
- =?us-ascii?Q?kiizycQMctgqHImCXcawwb+UuXzPSMRheqnroRAiyKIE2053YS4oGMdJRVpt?=
- =?us-ascii?Q?sQjVlJ3ijViz575RPh4j0kNdf9sLinx5N5guTTk5JlkuXXbrg6cMx+cavACQ?=
- =?us-ascii?Q?hwqUVoCurWrLZM6ootepORKpSut4yHzF5BANpfc5zADLdK4NHZb0omU0V++s?=
- =?us-ascii?Q?zuw2JQaQs/YjHBsyEhslro8hSrDNYmLnP8u5uUGaqIREpEcCvs1gqjYf25Y9?=
- =?us-ascii?Q?irJ/9kphgWEDOkLpSNG6+LEUlBuJuMVCoMajhpCCvcGd895/q9K/8d0zh8jG?=
- =?us-ascii?Q?fMdKIQKwj79ck0eAQQGvKrs74hur3NaX+EYLZCqQpqwnwd6hd6po0B0IvB4p?=
- =?us-ascii?Q?RSEhet+b/6Ly5Nv4Qwu8qePiI6v83aLWguZgJ3vqzkSfj+n11wznk7IL8g5E?=
- =?us-ascii?Q?wJjrAtWBqBwr4EIEJzaNPf5ABXaPx2BHCT2sW5m/NJ7t8MuecUE3pIcldTrM?=
- =?us-ascii?Q?ftceksXtR9XQ0Cohl5aVque970m4ic+rBvZVzfVzrryz/7AV/cS0AQHkzdZr?=
- =?us-ascii?Q?u9af5mCVF9f9NKUfivXV9ZiwstJXmxvqa1DEAO8lwdSoG/ROM0H3LloYP8ZQ?=
- =?us-ascii?Q?QjZ9aBUhSWiOmiQrNonNaYO1mN7ay8+hq1X4+iXImKVQoWzfXBGsx+lN02KZ?=
- =?us-ascii?Q?fFnqUIPQn1izi91fx8ZYfDUq5JqxD8Mq7D6WmUkfjxyrtq4pK/icyTXXZ0ob?=
- =?us-ascii?Q?OWmpi8k5JSgkbuzqo71QGHd0/uiI3My7FSQ6qoA3Q5G2tmvRzYjwpC+Dosdo?=
- =?us-ascii?Q?WvejnXzR/LPuZmjZPV5T71b5kB/Nb0w7nQpzOtMv5RlUvHEJ5a4Rx8ph02LW?=
- =?us-ascii?Q?XH1/nceJDmwwh7A+MrDwbbs0Zsi5SHTndJPYmX6MDmNbHm9HpxJrDncU+doh?=
- =?us-ascii?Q?yLypemHV6J4nX6IcmgFXj43rFkT8AyBt1sp0hxxd+rIGEidAunXjiYtv+4qD?=
- =?us-ascii?Q?WkBymbEekZM2OZbG14ObCcA2ikFN3EyxH/bDPiAoEtQHv6eosIrpxxl2Srun?=
- =?us-ascii?Q?0MRCqD3WWRr/iYjvQSnVQtUtoiKcDtQagSjG42wu0C0sC1zjfAPcaWR5vznQ?=
- =?us-ascii?Q?Sea27bCCm5REEijcSPrTDMDvKhH6pyIeszKmnx9p/CMEuh9ubV5vBni0UA4m?=
- =?us-ascii?Q?8uyAZJUyn27H3xXNcIHaE3bFMChFC8iS9Q0nN3OjbA/FovXbQe3QdPUD+DcP?=
- =?us-ascii?Q?BNQmovV+EjAPHpl2h10rIJdudar1tvzKaZQqJG6GVeA9j5Il0s04/xSG9wcp?=
- =?us-ascii?Q?EE8hKwtTMsswhp5HrlOBcx59e9vHiCQGdBZL5kWCSZHVGYqh4TOBelPJFjfV?=
- =?us-ascii?Q?vw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 816588f7-29d7-4e0f-de83-08db02e7ae1a
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y0puQUMwNCtPYTBDT1pvYStSYzRaVlh5Q1dsM2x0dmtxYXU3d3NLWGsxYi9Y?=
+ =?utf-8?B?L0RNMEFtY1ZFL0NUZGpjMDgwMXM0RndiOGoyOHVMUTlxMy9mYXpFTEwvTWZw?=
+ =?utf-8?B?SmVJOFBVTzI0R2dOZE5WbDduWkJZZmZMQWtyNDF6cFlwVUpBdUFWWFRGay9V?=
+ =?utf-8?B?ZEFTc0E3ZVluZTVIbEN5ZGprUkl6eThSSEsyT3pQU0lESGRyZ1VERmlUeUVN?=
+ =?utf-8?B?Y2loWGVoMzE2Z0VaYUMrOTlzUm4vNlMxaXAyNG9ZOCtkR0JHUjBRT0dhdVNF?=
+ =?utf-8?B?M0NTVXl2aGU0RjluY2pKdlp3d2I4SE90RFI3SFMxWG5MWENqMG4xcG0xdTc0?=
+ =?utf-8?B?NkdkNlVLelpoYkxBL0FCUmVxTjZBU2tMZk5FbTBnZ1RNWGhSTnN0V04rRUcr?=
+ =?utf-8?B?dEU5Z0NPMWxMVzBiTStsSWxoUTZkRGlzMnc2V3BLVFNHYit3SWtPMGVQRjY5?=
+ =?utf-8?B?OE5iNi9KRTkyckxxYzNrZ01iUzc4TnBzR0dIV041akxlSkpQRUJ0MWVFd1dJ?=
+ =?utf-8?B?M00zUC9GNVZPcFhSb3JEU2dMOUZ2SFpmZUFwMVZIQTgyNGZiOWpGbnFRNkFl?=
+ =?utf-8?B?d09GUGtFckhyOVJmUXgxdU1EQnp1RGw2bzZIb3VJdEdDQkdmdXI2dkFmQ2x4?=
+ =?utf-8?B?cm02VlVaZ1RaK3FHQmJVMjFJWmM3SUQ1SUxkeTJYUHN4L1hGcEtXVE9SaTBq?=
+ =?utf-8?B?M0MrZXdta0tOMWl4SUhuU21sYVo2azVHb3haVGJQSDZBalpCWVFPR3NmUjZS?=
+ =?utf-8?B?N3VXQVBHMVVSVEtTOVAwWTdXb2tYeFBmMUdnSmhtUU8vM2RLbGRjK2lsZkEr?=
+ =?utf-8?B?UmJ1S3BqeXVVYm1zRGgxa2g1WmVnazJVV1FLWGtqTlplZ2pXa2ZoTEhWMDEz?=
+ =?utf-8?B?WTQ3R09yaWREUkJqY3hLcnppVjA3UlZmNXRaL0d4UnlubVBmeEFYbVVITVhT?=
+ =?utf-8?B?REdvN1FZczlXQUJ5dlppNzRBaUwrNHlhZGZKbWxoUHJMcTQrbnlOZDE4eUxG?=
+ =?utf-8?B?TE04VUZWZVFDbnNmN1EzU3dnS21LcWFUMU1rbGpLRWxpdE96cm9McDBINTg3?=
+ =?utf-8?B?MzgvRXEvcHFBZjRNVVZvMVBNOWprYnBSSkV3UGVacUVqZ1ZTL1QvZVFtc3F4?=
+ =?utf-8?B?bnJVMzkvU1BSamZaSzZrTm9yaWNwRUFURzY0K0tZYXBIMDZvUEFyY1RNc3Ji?=
+ =?utf-8?B?Z1dQOCtvSlg4aFlQZlRPV3JQd0dOb01rQjUrSjZQOGdlbjUrYndjS3dwcmpH?=
+ =?utf-8?B?N3hLSExpM2psSnJVVDVQdlNYNHdaZGhhQ2REM3hoL2tHaWhOa2tPVnF5cW5h?=
+ =?utf-8?B?YW9uK2x3bitjL2M1RExVRVZ6ZE9aTzlLWnQwQUU3bktQQndsUlRwR3RLeTZP?=
+ =?utf-8?B?V2JiTXdJT05keTlHalRGczQ1dnQ3MzZoSC94L25EdC95SnFWaHhJU3FKL0RI?=
+ =?utf-8?B?bk1QODdzVitrb1ZBcTRJdGZXVW0zVTExd2JyYi9HekxPM2VVV1J6NkVlUU5D?=
+ =?utf-8?B?TGRYUVdRakNmZVRvKzJrVE5yRWxVRVdnQXNhZm4vTHlYQ1pMUlhSMGtJeGYy?=
+ =?utf-8?B?d2MyUGd6ZGRsc0lKYkVsWThlZmZsZUd3SGk0UnYrNWt1cU1tU2cyNStFWlBX?=
+ =?utf-8?B?ZTBWKzM4YjhGUi9oSTZSM0plNDRiL1VZV3dFaXJqMnUycjgzYjBqcXNPUWxw?=
+ =?utf-8?B?d2Q4YitNZXBzd2xyYStJOFB0M2hWU3pRejJUVkd2Mk1NV0FJUlJGUlpwTVI3?=
+ =?utf-8?B?ckVodEI2R1FYZmpMakhSUE5CcnVHSWU4YVk4cmQ0MHlvSVFuZFRLVDAxZ2JZ?=
+ =?utf-8?B?d3VTbENJVUZweHIzeFhyODlRVm5mWGkrUmw2L0RXM3BLd1IvMktWN2pEbktr?=
+ =?utf-8?B?akFYN3pSZUxsTXdIdEpPdzE3Wm0rTHZvSXZUQlFjRWM3UE11eE42amNkL3hG?=
+ =?utf-8?B?b0RFb2xKaXVoeDBseUhWeXI3VEVDQWNTaHY1WGpVMWlpY2tLZ05VUXJKTWg2?=
+ =?utf-8?B?cU5waUxndm5GSVFLSmFPSDJUcVFGUGl5Z3BkcmM5ZHlMdTlBS0g2SzNQdElj?=
+ =?utf-8?B?TS9pclM4Nld2NWoxRis4QnlpNVluK0lvWlZ1d0xhb2k2TjhxTXY3Y3JCVGRJ?=
+ =?utf-8?B?eWdiTkpsN3lMc3lXWWlHMnJ3dTZkcHBqekpyNFJGNG9Ebk8yN2M1bjlCbndC?=
+ =?utf-8?B?MGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cab25a0-aa0b-460f-741d-08db02e966f5
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 17:30:28.8816 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 17:42:48.2617 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C7hgAhHFDYvJKst9kckK5zj+f5PyYyeg2wc68T17H036rLCLHHEc7A7J1pEi6Mavk1LN6R+Bs6iJuCfP5PRUMQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7695
+X-MS-Exchange-CrossTenant-UserPrincipalName: QUTXs3DLxm4K/D1TrbNeuxNGtkzvfh6jmWfgBNkJvqM0kpStTQY1Vqp3h04TTO8oo4A7srIf+sQkUWf1ONLBJ7+gk8hyQRg1Ocj5+d6B4WU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7575
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -153,262 +157,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 30, 2023 at 11:37:29AM -0500, Rodrigo Vivi wrote:
-> On Mon, Jan 30, 2023 at 05:12:48PM +0100, Andi Shyti wrote:
-> > Hi Rodrigo,
-> > 
-> > > > > In the call flow invoked by intel_pcode_init(), I've added brief comments
-> > > > > where further clarification is needed in this scenario, and a description of
-> > > > > the suspicious scenario at the bottom.
-> > > > > 
-> > > > > -------------------------------------------------------------------------
-> > > > > intel_pcode_init()
-> > > > >  |
-> > > > >  +-> skl_pcode_request(uncore, DG1_PCODE_STATUS,
-> > > > >                        DG1_UNCORE_GET_INIT_STATUS,
-> > > > >                        DG1_UNCORE_INIT_STATUS_COMPLETE,
-> > > > >                        DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
-> > > > >        |
-> > > > >        +-> skl_pcode_try_request()
-> > > > >              |
-> > > > >              +->  *status = __snb_pcode_rw(uncore, mbox, &request, NULL,
-> > > > >                                            500, 0, true);
-> > > > > 
-> > > > > -------------------------------------------------------------------------
-> > > > > static int __snb_pcode_rw(struct intel_uncore *uncore, u32 mbox,
-> > > > > 		          u32 *val, u32 *val1,
-> > > > > 			  int fast_timeout_us, int slow_timeout_ms,
-> > > > > 			  bool is_read)
-> > > > > {
-> > > > > ...
-> > > > >         /* Before writing a value to the GEN6_PCODE_DATA register,
-> > > > >            check if the bit in the GEN6_PCODE_MAILBOX register indicates
-> > > > >            BUSY. */
-> > > > > 	if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
-> > > > > 		return -EAGAIN;
-> > > > 
-> > > > what if we fail here because the punit is still initializing and
-> > > > will be ready, say, in 10 seconds?
-> > > > 
-> > > > GG, without going any further, we fail here! The -EAGAIN we
-> > > > receive from the test comes from this point. We don't fail with
-> > > > -ETIMEDOUT, but with -EAGAIN and the reason is because the punit
-> > > > is not ready to perform the very fist communication and we fail
-> > > > the probing.
-> > > > 
-> > > > It doesn't mean, though, that there is anything wrong, we just
-> > > > need to wait a bit before "taking drastic decisions"!
-> > > > 
-> > > > This patch is suggesting to wait up to 10s for the punit to be
-> > > > ready and eventually try to probe again... and, indeed, it works!
-> > > 
-> > > As GG, what I still don't understand is how this extra 10 seconds
-> > > wait helps... have you tried to simple add the 10 to the 180 and
-> > > make the code 190 sec instead?
-> > 
-> > maybe I haven't been able to explain the issue properly.
-> > 
-> > I can even set that timer to 2hrs and a half and nothing changes
-> > because we fail before.
-> > 
-> > Here it's not a matter of how much do I wait but when do I check
-> > the pcode readiness (i.e. signalled by the GEN6_PCODE_READY bit
-> > in the GEN6_PCODE_MAILBOX register).
-> > 
-> > During a normal run we are always sure that communicating with
-> > the punit works, because we made it sure during the previous
-> > transaction.
-> > 
-> > During probe there is no previous transaction and we start
-> > communicating with the punit without making sure that it is
-> > ready. And indeed some times it is not, so that we suppress the
-> > probing on purpose instead of giving it another chance.
-> > 
-> > I admit that the commit message is not written properly and
-> > rather misleading, but here it's not at all a matter of how much
-> > do I wait.
-> 
-> The commit message was initially confused because it looks like
-> we are just adding a wait, without doing anything....
-> 
-> But looking to the code we can see that it will wait until
-> pcode is ready with a timeout of 10 seconds.
-> 
-> But if pcode is ready in 10 seconds, why pcode is not ready
-> in 190 seconds. We are doing absolutely nothing more that could
-> make pcode ready in 10 seconds that won't be in 190.
-> 
-> This is what we are missing here... The code as is doesn't make
-> a lot of sense to us and it looks like it is solving the issue
-> by the 10 extra seconds and not by some special status checking.
+On 1/28/2023 11:59, Michal Wajdeczko wrote:
+> Use new macros to have common prefix that also include GT#.
+>
+> v2: drop redundant GuC strings, minor improvements
+> v3: more message improvements
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
-Okay, after an offline talk I am convinced now that we need some
-check like this in some place.
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_log.c | 38 +++++++++++-----------
+>   1 file changed, 19 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> index 68331c538b0a..c3792ddeec80 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+> @@ -12,6 +12,7 @@
+>   #include "i915_memcpy.h"
+>   #include "intel_guc_capture.h"
+>   #include "intel_guc_log.h"
+> +#include "intel_guc_print.h"
+>   
+>   #if defined(CONFIG_DRM_I915_DEBUG_GUC)
+>   #define GUC_LOG_DEFAULT_CRASH_BUFFER_SIZE	SZ_2M
+> @@ -39,7 +40,6 @@ struct guc_log_section {
+>   static void _guc_log_init_sizes(struct intel_guc_log *log)
+>   {
+>   	struct intel_guc *guc = log_to_guc(log);
+> -	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
+>   	static const struct guc_log_section sections[GUC_LOG_SECTIONS_LIMIT] = {
+>   		{
+>   			GUC_LOG_CRASH_MASK >> GUC_LOG_CRASH_SHIFT,
+> @@ -82,12 +82,12 @@ static void _guc_log_init_sizes(struct intel_guc_log *log)
+>   		}
+>   
+>   		if (!IS_ALIGNED(log->sizes[i].bytes, log->sizes[i].units))
+> -			drm_err(&i915->drm, "Mis-aligned GuC log %s size: 0x%X vs 0x%X!",
+> +			guc_err(guc, "Mis-aligned log %s size: 0x%X vs 0x%X!\n",
+>   				sections[i].name, log->sizes[i].bytes, log->sizes[i].units);
+>   		log->sizes[i].count = log->sizes[i].bytes / log->sizes[i].units;
+>   
+>   		if (!log->sizes[i].count) {
+> -			drm_err(&i915->drm, "Zero GuC log %s size!", sections[i].name);
+> +			guc_err(guc, "Zero log %s size!\n", sections[i].name);
+>   		} else {
+>   			/* Size is +1 unit */
+>   			log->sizes[i].count--;
+> @@ -95,14 +95,14 @@ static void _guc_log_init_sizes(struct intel_guc_log *log)
+>   
+>   		/* Clip to field size */
+>   		if (log->sizes[i].count > sections[i].max) {
+> -			drm_err(&i915->drm, "GuC log %s size too large: %d vs %d!",
+> +			guc_err(guc, "log %s size too large: %d vs %d!\n",
+>   				sections[i].name, log->sizes[i].count + 1, sections[i].max + 1);
+>   			log->sizes[i].count = sections[i].max;
+>   		}
+>   	}
+>   
+>   	if (log->sizes[GUC_LOG_SECTIONS_CRASH].units != log->sizes[GUC_LOG_SECTIONS_DEBUG].units) {
+> -		drm_err(&i915->drm, "Unit mis-match for GuC log crash and debug sections: %d vs %d!",
+> +		guc_err(guc, "Unit mismatch for crash and debug sections: %d vs %d!\n",
+>   			log->sizes[GUC_LOG_SECTIONS_CRASH].units,
+>   			log->sizes[GUC_LOG_SECTIONS_DEBUG].units);
+>   		log->sizes[GUC_LOG_SECTIONS_CRASH].units = log->sizes[GUC_LOG_SECTIONS_DEBUG].units;
+> @@ -374,6 +374,7 @@ size_t intel_guc_get_log_buffer_offset(struct intel_guc_log *log,
+>   
+>   static void _guc_log_copy_debuglogs_for_relay(struct intel_guc_log *log)
+>   {
+> +	struct intel_guc *guc = log_to_guc(log);
+>   	unsigned int buffer_size, read_offset, write_offset, bytes_to_copy, full_cnt;
+>   	struct guc_log_buffer_state *log_buf_state, *log_buf_snapshot_state;
+>   	struct guc_log_buffer_state log_buf_state_local;
+> @@ -383,7 +384,7 @@ static void _guc_log_copy_debuglogs_for_relay(struct intel_guc_log *log)
+>   
+>   	mutex_lock(&log->relay.lock);
+>   
+> -	if (WARN_ON(!intel_guc_log_relay_created(log)))
+> +	if (guc_WARN_ON(guc, !intel_guc_log_relay_created(log)))
+>   		goto out_unlock;
+>   
+>   	/* Get the pointer to shared GuC log buffer */
+> @@ -398,7 +399,7 @@ static void _guc_log_copy_debuglogs_for_relay(struct intel_guc_log *log)
+>   		 * Used rate limited to avoid deluge of messages, logs might be
+>   		 * getting consumed by User at a slow rate.
+>   		 */
+> -		DRM_ERROR_RATELIMITED("no sub-buffer to copy general logs\n");
+> +		guc_err_ratelimited(guc, "no sub-buffer to copy general logs\n");
+>   		log->relay.full_count++;
+>   
+>   		goto out_unlock;
+> @@ -451,7 +452,7 @@ static void _guc_log_copy_debuglogs_for_relay(struct intel_guc_log *log)
+>   			write_offset = buffer_size;
+>   		} else if (unlikely((read_offset > buffer_size) ||
+>   				    (write_offset > buffer_size))) {
+> -			DRM_ERROR("invalid log buffer state\n");
+> +			guc_err(guc, "invalid log buffer state\n");
+>   			/* copy whole buffer as offsets are unreliable */
+>   			read_offset = 0;
+>   			write_offset = buffer_size;
+> @@ -547,7 +548,7 @@ static int guc_log_relay_create(struct intel_guc_log *log)
+>   					subbuf_size, n_subbufs,
+>   					&relay_callbacks, dev_priv);
+>   	if (!guc_log_relay_chan) {
+> -		DRM_ERROR("Couldn't create relay chan for GuC logging\n");
+> +		guc_err(guc, "Couldn't create relay channel for logging\n");
+>   
+>   		ret = -ENOMEM;
+>   		return ret;
+> @@ -596,9 +597,8 @@ static u32 __get_default_log_level(struct intel_guc_log *log)
+>   	}
+>   
+>   	if (i915->params.guc_log_level > GUC_LOG_LEVEL_MAX) {
+> -		DRM_WARN("Incompatible option detected: %s=%d, %s!\n",
+> -			 "guc_log_level", i915->params.guc_log_level,
+> -			 "verbosity too high");
+> +		guc_warn(guc, "Log verbosity param out of range: %d > %d!\n",
+> +			 i915->params.guc_log_level, GUC_LOG_LEVEL_MAX);
+>   		return (IS_ENABLED(CONFIG_DRM_I915_DEBUG) ||
+>   			IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM)) ?
+>   			GUC_LOG_LEVEL_MAX : GUC_LOG_LEVEL_DISABLED;
+> @@ -641,15 +641,15 @@ int intel_guc_log_create(struct intel_guc_log *log)
+>   	log->buf_addr = vaddr;
+>   
+>   	log->level = __get_default_log_level(log);
+> -	DRM_DEBUG_DRIVER("guc_log_level=%d (%s, verbose:%s, verbosity:%d)\n",
+> -			 log->level, str_enabled_disabled(log->level),
+> -			 str_yes_no(GUC_LOG_LEVEL_IS_VERBOSE(log->level)),
+> -			 GUC_LOG_LEVEL_TO_VERBOSITY(log->level));
+> +	guc_dbg(guc, "guc_log_level=%d (%s, verbose:%s, verbosity:%d)\n",
+> +		log->level, str_enabled_disabled(log->level),
+> +		str_yes_no(GUC_LOG_LEVEL_IS_VERBOSE(log->level)),
+> +		GUC_LOG_LEVEL_TO_VERBOSITY(log->level));
+>   
+>   	return 0;
+>   
+>   err:
+> -	DRM_ERROR("Failed to allocate or map GuC log buffer. %d\n", ret);
+> +	guc_err(guc, "Failed to allocate or map log buffer %pe\n", ERR_PTR(ret));
+>   	return ret;
+>   }
+>   
+> @@ -687,7 +687,7 @@ int intel_guc_log_set_level(struct intel_guc_log *log, u32 level)
+>   					     GUC_LOG_LEVEL_IS_ENABLED(level),
+>   					     GUC_LOG_LEVEL_TO_VERBOSITY(level));
+>   	if (ret) {
+> -		DRM_DEBUG_DRIVER("guc_log_control action failed %d\n", ret);
+> +		guc_dbg(guc, "guc_log_control action failed %pe\n", ERR_PTR(ret));
+>   		goto out_unlock;
+>   	}
+>   
+> @@ -905,7 +905,7 @@ int intel_guc_log_dump(struct intel_guc_log *log, struct drm_printer *p,
+>   
+>   	map = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WC);
+>   	if (IS_ERR(map)) {
+> -		DRM_DEBUG("Failed to pin object\n");
+> +		guc_dbg(guc, "Failed to pin log object: %pe\n", map);
+>   		drm_puts(p, "(log data unaccessible)\n");
+>   		free_page((unsigned long)page);
+>   		return PTR_ERR(map);
 
-But the commit message needs be be fully re-written.
-
-It needs to be clear that underneath, the pcode communication
-functions will do a check for ready without any wait, what will
-make desired timeout to never really wait for the pcode done
-and prematurely return.
-
-at __snb_pcode_rw():
-
- if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
-                return -EAGAIN;
-
-So, for this reason we need to ensure that pcode is really ready
-before we wait.
-
-Other options are to handle the EAGAIN return and then wait.
-Or even change the __snb_pcode_rw to ensure that it is ready...
-
-Something like:
-
--       if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
--               return -EAGAIN;
-+       if (__intel_wait_for_register_fw(uncore, GEN6_PCODE_MAILBOX,
-+                                        GEN6_PCODE_READY, GEN6_PCODE_READY,
-+                                        fast_timeout_us,
-+                                        slow_timeout_ms,
-+                                        NULL))
-+               return -ETIMEDOUT;
-
-In the best regular case it will not change anything since the wait
-for will return 0 immediatelly... in the worst case we would double
-the timeout value, but this would be only in this insane case of
-180 seconds anyway and if it goes really really nasty...
-
-But anyway, now the motivation and the source of the issue is pretty
-clear, I can add my rv-b there, but I really want a better commit msg
-at least...
-
-> 
-> > 
-> > Thanks, Rodrigo!
-> > Andi
-> > 
-> > > > 
-> > > > Andi
-> > > > 
-> > > > > 
-> > > > >         /* write value to GEN6_PCODE_DATA register */
-> > > > > 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA, *val);
-> > > > > 
-> > > > > 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA1, val1 ? *val1 : 0);
-> > > > > 
-> > > > >         /* In this scenario, the value
-> > > > >            "DG1_PCODE_STATUS | GEN6_PCODE_READY"
-> > > > >            is written to the GEN6_PCODE_MAILBOX register,
-> > > > >            so that the Busy status of the GEN6_PCODE_MAILBOX register
-> > > > >            can be checked later.
-> > > > >            (When the value of the GEN6_PCODE_READY bit of the
-> > > > >             GEN6_PCODE_MAILBOX register changes to 0, the operation can
-> > > > >             be considered completed.) */
-> > > > > 	intel_uncore_write_fw(uncore,
-> > > > > 			      GEN6_PCODE_MAILBOX, GEN6_PCODE_READY | mbox);
-> > > > > 
-> > > > >         /* In this scenario, verify that the BUSY status bit in the
-> > > > >            GEN6_PCODE_MAILBOX register turns off for up to 500us. */
-> > > > > 	if (__intel_wait_for_register_fw(uncore,
-> > > > > 					 GEN6_PCODE_MAILBOX,
-> > > > > 					 GEN6_PCODE_READY, 0,
-> > > > > 					 fast_timeout_us,
-> > > > > 					 slow_timeout_ms,
-> > > > > 					 &mbox))
-> > > > > 		return -ETIMEDOUT;
-> > > > >         /* If there is a failure here, it may be considered that the
-> > > > >            "DG1_PCODE_STATUS | GEN6_PCODE_READY" operation was not
-> > > > >            completed within 500us */
-> > > > > ...
-> > > > > }
-> > > > > 
-> > > > > int skl_pcode_request(struct intel_uncore *uncore, u32 mbox, u32 request,
-> > > > > 		      u32 reply_mask, u32 reply, int timeout_base_ms)
-> > > > > {
-> > > > > 	u32 status;
-> > > > > 	int ret;
-> > > > > 
-> > > > > 	mutex_lock(&uncore->i915->sb_lock);
-> > > > > 
-> > > > > #define COND \
-> > > > > 	skl_pcode_try_request(uncore, mbox, request, reply_mask, reply, &status)
-> > > > > 
-> > > > >         /* the first trial for skl_pcode_try_request() can return
-> > > > >            -EAGAIN or -ETIMEDOUT. And the code did not check the error
-> > > > >            code here, so we don't know how far the __snb_pcode_rw()
-> > > > >            function went. It is not known whether the pcode_mailbox
-> > > > >            status was busy before writing the value to the
-> > > > >            GEN6_PCODE_DATA register or after.*/
-> > > > > 	if (COND) {
-> > > > > 		ret = 0;
-> > > > > 		goto out;
-> > > > > 	}
-> > > > > 
-> > > > >         /* In this scenario, skl_pcode_try_request() is invoked every
-> > > > >            10us for 180 seconds. When skl_pcode_try_request() returns
-> > > > >            -EAGAIN and -ETIMEDOUT by _wait_for(),
-> > > > >            -ETIMEDOUT is returned to a variable ret. */
-> > > > > 
-> > > > > 	ret = _wait_for(COND, timeout_base_ms * 1000, 10, 10);
-> > > > > 
-> > > > > 	if (!ret)
-> > > > > 		goto out;
-> > > > > 
-> > > > > 	/*
-> > > > > 	 * The above can time out if the number of requests was low (2 in the
-> > > > > 	 * worst case) _and_ PCODE was busy for some reason even after a
-> > > > > 	 * (queued) request and @timeout_base_ms delay. As a workaround retry
-> > > > > 	 * the poll with preemption disabled to maximize the number of
-> > > > > 	 * requests. Increase the timeout from @timeout_base_ms to 50ms to
-> > > > > 	 * account for interrupts that could reduce the number of these
-> > > > > 	 * requests, and for any quirks of the PCODE firmware that delays
-> > > > > 	 * the request completion.
-> > > > > 	 */
-> > > > > 	drm_dbg_kms(&uncore->i915->drm,
-> > > > > 		    "PCODE timeout, retrying with preemption disabled\n");
-> > > > > 	drm_WARN_ON_ONCE(&uncore->i915->drm, timeout_base_ms > 3);
-> > > > > 	preempt_disable();
-> > > > > 	ret = wait_for_atomic(COND, 50);
-> > > > > 
-> > > > > 	preempt_enable();
-> > > > > 
-> > > > > out:
-> > > > > 	mutex_unlock(&uncore->i915->sb_lock);
-> > > > > 	return status ? status : ret;
-> > > > > #undef COND
-> > > > > }
-> > > > > 
-> > > > > ---------------------------------------------------------
-> > > > > 
-> > > > > If you try skl_pcode_try_request() for 180 seconds in skl_pcode_request(),
-> > > > > and the first "intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) &
-> > > > > GEN6_PCODE_READY)" call in __snb_pcode_rw() that skl_pcode_try_request()
-> > > > > invokes always fails. if then it does not make sense to me why this patch
-> > > > > fixes it by just waiting 10 seconds.This is because if it was called with
-> > > > > the flow described above, 180 seconds is longer than 10 seconds, so the
-> > > > > scenario you mentioned is also covered in the existing code.
-> > > > > 
-> > > > > To describe in more detail the second scenario I previously commented on:
-> > > > > skl_pcode_request() tries skl_pcode_try_request() for 180 seconds
-> > > > >  1) In skl_pcode_try_request(), the GEN6_PCODE_MAILBOX register bit is not
-> > > > > BUSY, so the value is written to the GEN6_PCODE_DATA1 register.
-> > > > >  2) skl_pcode_try_request() returns -ETIMEDOUT value because the operation
-> > > > > of 1) does not complete within 500us.
-> > > > >  3) Scenario in which the GEN6_PCODE_MAILBOX register bit is checked as BUSY
-> > > > > and returns -EAGAIN in the last call of skl_pcode_try_request() invoked by
-> > > > > skl_pcode_request()
-> > > > > 
-> > > > > If the reason why this problem occurred is because of this scenario,
-> > > > > shouldn't there be an attempt to increase fast_timeout_us used as an
-> > > > > argument of __snb_pcode_rw() to 500us or more when skl_pcode_try_request()
-> > > > > returns -ETIMEDOUT?
-> > > > > 
-> > > > > Br,
-> > > > > G.G.
