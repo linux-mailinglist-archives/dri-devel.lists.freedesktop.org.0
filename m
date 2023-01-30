@@ -1,105 +1,146 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD41681854
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 19:07:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C59681687
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 17:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9E2010E0A6;
-	Mon, 30 Jan 2023 18:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B82510E0F8;
+	Mon, 30 Jan 2023 16:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01olkn20831.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:feae::831])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1E8B10E0F8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 16:36:51 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7519510E0F8;
+ Mon, 30 Jan 2023 16:37:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675096659; x=1706632659;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=6zlj6RR9tjWDFgW5zHWje0/3QkzQz2FRU7f2O5RXuDE=;
+ b=D4cad29UhCwhwAbz6xaiJeedMc59Elr0SzXyAb7QTlwf48TN+dNU618W
+ Ph6bFxdQiXN0FoSaqHqKffRQfAAQ7SJYZcz6yOGjGTxTIUmS2YYVal0To
+ dJJWEAF9JsjwwxczRVW6/uof2fu00aJM5tj8OH9VtJzjzc7zbMMCrNi8C
+ y4Ze7dskVg9dK8TGIwmw98iTlpkTaVvPWOH4mt1WJfxOqvrGaFENZJ5qi
+ 5+ZWQO9GOw7EDY2zg6Ia7xrF+8WrXoiacwu3UOR8CBeMPL1HMj8EFn8Fh
+ ppnBeutvKuB8jl3eX5gDzq8YHEAfVFRBHpLTkbft5e9bZSCeHrS4iYBhw g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="328882224"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="328882224"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2023 08:37:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="657523258"
+X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="657523258"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga007.jf.intel.com with ESMTP; 30 Jan 2023 08:37:38 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 30 Jan 2023 08:37:38 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Mon, 30 Jan 2023 08:37:38 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Mon, 30 Jan 2023 08:37:38 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Mon, 30 Jan 2023 08:37:36 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RHOUv0djVrpDzStuYjNMVERX9QsAhYtBxw+Q7XvMRi+oKgmIsasxqU9wUdoONQasNU9PFAMpMTYWCxX9m1AhyTGQbAleaUBoNbnr8YlAVGp66vpgDraPGRtagvWbXaF4yGmcc9UEef0RN5P0MRvkfT3/Whql3mwQB1LttSBckemhOszjs1u8Z/kRIsyR/UgOFveOU8Xn7hH8kSaBMaDzvVz28OqX+Ly43OzBMZvHsT6THSoKd2bJCTHn3K4+Zt8kIxhjZxu5AJusmwE5QBw4mqNh2p3wF7zx7NeNCFn89AOkaGBkYP4dJGpgPxq6rwCyLF9nZLY7evw5GDtqV9TQ8w==
+ b=m/ckMYXIXQVDXX3xsTnvEsStQDZE9gRaumSbkDoBwbVuwTArF9+/NkzEenajeAxycZKFeJSz6vxjOS3U7VPNEKfOzGIcr4iIZhGN4qkxWJ6DkulUuX9vFEqwVRQTWZOkcUOUW5GFckgL2kbyNhOsdIZ62b7RacbJnfbZ4ZgMMHf/le2cR9kDoVyxDwvam4e/quOuUH2rLcqLwhBbLIA9s+d7Q4Fo5RlpOrC7b92m+3O7dXywwbWXwiVmy5JhMX64Qh+BKFdNU349CeLan1D25m6b7Yfheo+YUTWFa3y701KciZ9setqaFQnnATXKVdiOZA1htYiD2A8j1nDcp7w2yg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1/hHWjOMxLJee5EPKylnUTEnGOaPiX4op6Y4UrSy0I8=;
- b=duZZtE+fPrLK7HQzaELrn0lxwRKjHYyQzebxN2BXCeY8J0cnwcWg+Zhek6QxLDtjCX2hhchfYvH0j4ekr5aaO0L0LgI5RD+b0BJPdPJMu4ZQFJS2prc+F9WUY3kmZXdaTIlhyZp3BfMHHxuiz0ettUJKAE1bZSLO4yuv8TE4N7yDKxAIbz5XMFFu9i7IgWeixMst7Cvmke0lYAIGhz3Na8UL+PYOLPjcLWmSgg4ZHSH+7ob1M7aP6KP2hAnFKG5OgwatWpb4JgUTxne/RauZLsDV1RA4WRVE0k45+86J5aS8BJvXXTDtr6ya27ZOE73nhom2qu7+3UfS7+fOMuAJng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1/hHWjOMxLJee5EPKylnUTEnGOaPiX4op6Y4UrSy0I8=;
- b=J15za2XNkVAD6dEoVBghvCCmPNL8fDlfcz3ERhAOXWWz9dagLA79wT9BPcLD3FGgYyZV7HA0flXG+CN+96CRd9BC0NKrs6iWzdyXRR9GzW1BLUkG15PyPhm3dqrF4kSaETshiqTnbdbv22DQDwctnwDp0+Wg+hvPMLECqV2EVA5x/s4wF/MgvHaLszu1U+USQL74anc1TWTQ8oWoselcAd1juamDCwGuzLLKy6pcQ/We5bQCK9pfiAbl3BOmLAc3WSoZanlKpQ3/2wn9o0D6dGApiPrGUtaMLPw4BMJ8sSXcGFuhqhb+cBbB/duqDNm5Jcr83F64esPapb8DLNhi0g==
-Received: from OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:aa::11)
- by TYCP286MB1682.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:184::12) with
+ bh=X+e2ypEnuWOcy7ZjvZ4EVp7zBYOC0gfdjEbKFX1i13c=;
+ b=oWG3/f0yORtZ47Mc10EA3nv+iGmwyY3JV7sTgb+lPdP30GCdWGdkCMeupxIYfG9QIFl72NpxYUpWdk+XJX+S+MxJAmYx7xuCovZjfLAHRE3Llbmr9p3NAk86jxzmS90a3OXp5c+orrg/y5BUiRqyXcVN0qQtT8LhSmfnKZ+bMY5KggxqlP20/62OfoI5zd8D8MN4uuRtigFIFTWhf5OHjTTQ+Dzzmp2U4wwed/xVMCXWfTqTxrs6R630EeKplcsw1wBPfifjWUkXqbGeq6dr3ispe1She3VrI0eD0SgOUdFy1l2IQEJtJc8HvzE+QgNVS2wIQxQvgcVCN2eMfbvPzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by DM6PR11MB4660.namprd11.prod.outlook.com (2603:10b6:5:2ad::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
- 2023 16:36:47 +0000
-Received: from OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM
- ([fe80::202f:5bbf:ade5:e4f7]) by OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM
- ([fe80::202f:5bbf:ade5:e4f7%3]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
- 16:36:47 +0000
-Message-ID: <OS0P286MB019398DDFF6011038AD841C0B4D39@OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM>
-Date: Tue, 31 Jan 2023 00:36:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Content-Language: en-US
-From: Keyu Tao <taoky99@outlook.com>
-Subject: Bug report: kernel oops in vmw_fb_dirty_flush()
-To: zackr@vmware.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TMN: [6TOE0ETlCSpS++jf7gGijK6f/Ltout01U8clFRdUYq2zP4MRlnbX+A==]
-X-ClientProxiedBy: TY2PR06CA0039.apcprd06.prod.outlook.com
- (2603:1096:404:2e::27) To OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:aa::11)
-X-Microsoft-Original-Message-ID: <e7b6cf7a-9de5-24d6-5ea4-7b85be758e73@outlook.com>
+ 2023 16:37:34 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::1818:e39d:454d:a930]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::1818:e39d:454d:a930%4]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
+ 16:37:34 +0000
+Date: Mon, 30 Jan 2023 11:37:29 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/pcode: Wait 10 seconds for pcode to
+ settle
+Message-ID: <Y9fySWFQwTPC1VAM@intel.com>
+References: <20230111104447.338136-1-andi.shyti@linux.intel.com>
+ <87a62pi501.fsf@intel.com> <Y77XmlzOCuOg8YVZ@ashyti-mobl2.lan>
+ <b3d4b882-cb0b-a3c1-2609-6065f379ed15@intel.com>
+ <Y9OSyhWHWu8iliP5@ashyti-mobl2.lan>
+ <bfe11cf8-87a5-3768-92d5-3415145d8c8f@intel.com>
+ <Y9eEX95t1i1YRVOk@ashyti-mobl2.lan> <Y9fXFrJp/N0cit18@intel.com>
+ <Y9fsgJd7y6aEt/sT@ashyti-mobl2.lan>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Y9fsgJd7y6aEt/sT@ashyti-mobl2.lan>
+X-ClientProxiedBy: SJ0PR03CA0164.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::19) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS0P286MB0193:EE_|TYCP286MB1682:EE_
-X-MS-Office365-Filtering-Correlation-Id: 09433eb3-c23b-4ed1-aaf3-08db02e02e18
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DM6PR11MB4660:EE_
+X-MS-Office365-Filtering-Correlation-Id: d118bf3e-a1a6-4d0f-5bb0-08db02e049cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IHGHyCisN3dPkLTe532YVkdTBT0lLh5unWE6AxkeIaoW9sz8kvmitjPMuAYafycLxS/d0LIp5PkveR+H7Qo2ODDqKdmHGbwmZ4+qNDhO38Y/S6ddgaQKM5OO2rPdLaOiy+dhPeXyXRYfhQ1WDMiD+87kHr0ovPxUjKQRFSAF0TwF+Ty9/hxoEQj1cUPu/5H6zTBVGM7wLipnECHAipRGUxKZgwGupnNUKGb/HuLtHB0utuq2Z2lurrTisCfUpqawFb3+kCzrJg5d23P/LWmzUjGHNJ3nLS/71WJvMf4C3aO+PBbUbc4NB+IZSDXIOdxbwYVZI7rn3ElRPRcqVV7j+BURcjR5/vEg9aUqukUlhPU1xPPRLZIXlkR4qGzLnHofiQtB0xTDB1FFIojlD78dxEwfL4xwMMIiwyKNWa0m/2F+NwRB54wgeh3vNCTEXURUcTcbNAqKbGpSzugqS0tJ55Kgar86g9BfOJU0nzM21HTlCu8j7m5kJ55+7kjpkjr46JKmzVX+x+6bCczec3RvEhL8qOmg8YsIiTuxn1mz7i9oZsfnFPLeWidjUgjkEbJiwvjhuKCl7wsvEb4jBr+M8A==
+X-Microsoft-Antispam-Message-Info: M2rSRURKcChsypaTWTvwqCpmnwxUkuPbfpkbl4tU2hMXFoPIZKPZpELpIbOGszuxCyNCqe9KNNkiLsKT+rUo2MvuqIOclAGyYr5Jj3QnETumj+mhGgXa0y4jdx9K7zb1Pa/Ae7YvXRKBqMPy3obihMC24mRHjYy6gSAM04qLyRPv9svz15csMb+s0/yhBDAaeTfUYkcWXU5gwYCTQJ8yCyQYQML6GT/0YAvpxYg03X/+0KhCiNQL1SWWUb67fsj9OU2xmaoC25POytJAJHuLmOvtzIdOc42tqamLbaZbvVBdPvwENg+vqzDYyUMPAlDC/cKyRe5aOvIAa9P0eW3KxDuVK0irL7WiK73EtLRa0VDduJIGSRiv/Pt9AqrWdlwAx1AmcAwPzltcHsCyIO+d6e6GQRxWoUUCPh7wuOkfYGMglI8Xh+4pvfzbu0ruh4NssXCvVJkd/zMhBvULHe1j7iUdzjy/5N2p6y9XnZ+C3OqyGBfgQhDLWVA34KOhw/EpWElAXbBozHAN8WGcDQk/Vj3IPuhPGlENH3UvhPpOSROWH88hdZChMtafHDYpzW/VorGo+Bca5zmPcxEXpqIr/oXasW8EyL2LbP2q0aGjDteoM15klt7wE8Kw6zb7zdr1ZQgLJw+8hd6LmX8ykdFEIQvcpx6qiuSap7GfH28OWOa+pd30opu7cGi/K0o01AduZEmhQmVtiSd+e3/Pyyw8Ug==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199018)(86362001)(82960400001)(38100700002)(36756003)(8936002)(316002)(5660300002)(54906003)(66476007)(66946007)(4326008)(8676002)(66556008)(6916009)(2906002)(44832011)(83380400001)(2616005)(6486002)(478600001)(41300700001)(6506007)(6512007)(26005)(186003)(6666004)(226643001);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VlNMQy9pNUIrRGdqRXphbTRaaWZUTFVycXkrY2VjMnU5YmVtMnFUdDE2UERO?=
- =?utf-8?B?Sjc1bEdzOFF4RWZ3aWY1ZmtMa3ZEdVREMmN1VENTVGd4WnVleGQzU3VRU1NI?=
- =?utf-8?B?VGpBdHpjUXQyNVVTUGNjUmE1SStKYlI4Qzl2YTgvRVdTOFFiNmYySW9mSUNn?=
- =?utf-8?B?SFN5Z3ViYVlCbUZUTWpQQ212Z3RiWFdHY1ZKUkQrNzZBZnVrVWlXRDJCL0t0?=
- =?utf-8?B?YzJxcmpZTjh3aXVINXl5NmFnY0d5UGdQRFB2YUNXZHpIRnRqNVVGZmUxRE0r?=
- =?utf-8?B?cUlNZWRNQ2VBTk5BSmFWK1d4V05PQlJkSzBlU011Tml1Q1FBdXQ5ZVNxd0ta?=
- =?utf-8?B?V3RWczRFRnJvUmd4djg5MC9xRHYydms2Z0JQb09Weit3VnZKL1hDSDJVRlFa?=
- =?utf-8?B?QmtSekVFdjA1akd5eVFmbW9tTnlqTWh4OGpTeDcxWS9ocmxYM3JpQ2V2emQz?=
- =?utf-8?B?UmI5dURNWFZqQmRRdTZLNitYMjZxc1JRNGZ3RWlaNHp3aGh2blBid3EvNHhm?=
- =?utf-8?B?WkJhYmJnSXgyK1dnY05abWR2ZnZiRGMrNGFEdlJhb0tzd0ErajZaemp2Q0ls?=
- =?utf-8?B?dlVRVTZrNWs1MGREREdTZkZiVHF1VjN3eHVqdHdlMXhhNU82bUo1NzA1b1pr?=
- =?utf-8?B?QUZuczJRSWZqUnI3ZUtjR0oyMXZMQ2RaSXV0NzVMT3JDMGJQc0FuQU5jdklw?=
- =?utf-8?B?QklCR2g0Z0Z3aW93eHJwRTdBalJObmZpekxYMEw4ajMyMko5OURFRWhCWC9V?=
- =?utf-8?B?M0N4NlBYVnNzMjQvS253VVRZWDJ3K2pxcHFhMUlLYnlZWDRpYnlyZEpSbTlS?=
- =?utf-8?B?bFV3ZGZaU0VUdytmZ0ZuWGVJMVpMYklJelRHZGp5Nk55MGVXcHVKczl6eS9N?=
- =?utf-8?B?WjNiamUrSllFSE4zQjJKOGdLcmVTVnkzNlhFbVRIMG40STJqaGVkejhUTXYz?=
- =?utf-8?B?V2tYcGdzbnRQMFNORHgxL0FQdXZnSE5aT21acGVTMEQzZFd2RWMrbHJFdTln?=
- =?utf-8?B?eXFzeHUzMCtHSzZTTUlYa29Nd1gyTXdFTHQyUWwwbnI4TU1JWDV1NGJ2TTJ3?=
- =?utf-8?B?bTh6VDZGRFpQUHZlQ0VIanBVZWNtUlpIQkNZM29KYyt5RDRmS2tQZVU2Y2Nw?=
- =?utf-8?B?NXJHenlKanR6SUJlKzM4UFRNRkdObHFNZm1tSVN5ZmVYck1UV3VtVWI2WERx?=
- =?utf-8?B?eUJtQ0IrOXN5R3pzMEpPVDI2YVM5TzdvR1hxSlJMTG5DRTd5VFVvNU5DUnQ2?=
- =?utf-8?B?RWZaUWZYakM0YnhkUi8ybDlhSVh5YW5DSmM5T0VFRDhZQlQyTVVnYm9OWEUy?=
- =?utf-8?B?ZDhvaVZoYW01N1U0YlNXb2I0eE9Ec2xmdWRHWU53dmpIVCtxWXRsd2R3VDZB?=
- =?utf-8?B?ZUJBWnNBY0t5TEN6NXpVZitySFIwUVpKTEI2dWVjOXVYQyt6Z240TlUrU1ZH?=
- =?utf-8?B?WWpNZHhQYnNpWk9CTkVkaHNJWWc2dVBjQU9zSU55OFZ5cmtSRENWa2psS1lG?=
- =?utf-8?B?ZU1jQytCYmhOR1FueElGSjdid2l1eVB1Y0UvdGJ5V0ozN0dqZU4xS1Z0ck94?=
- =?utf-8?B?Nkg4dXdGRmVORkFMOWd2Sk5iVFNaUVVEeXZXUDdreGNCd0RyRWdkRjdxU3pD?=
- =?utf-8?B?V0dzdnBPK2xjb2JBQ1ZwdGFvbGNFMXNFTE5oeFBTZ1dEZXlTLzdVWmgvWVlO?=
- =?utf-8?B?TnZhSmRzNklnRzlmVDZSR0N3Q0VUTWZvWDBsZEhNTmJ4Zy9wMTllWndhTTh2?=
- =?utf-8?Q?9Vg8nQKvgZFG+TTByg=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09433eb3-c23b-4ed1-aaf3-08db02e02e18
-X-MS-Exchange-CrossTenant-AuthSource: OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5tK+YW7pEaRabmfV1hxPnYOGVhG5fID3PFWexSyy9LTR3nBUyPwcQqekYUXy?=
+ =?us-ascii?Q?sG9qb7AWcn3AOfC2y9PPuCNlNqoLjb/qWLP6lVZXt982yTUwLBi1sRJpBqzT?=
+ =?us-ascii?Q?SvfvvpkTcqOK5fHqmUW9UqlZpiqS9OVUws5umv14u+3r86MKMO5GYWOjxzQG?=
+ =?us-ascii?Q?X5uArdceSxsbgLBI5w9UqjWWk4lEmz/mTTm9VisBLmVPWsE4likbWjxA9uFp?=
+ =?us-ascii?Q?ka3qcQsem3x/EJSo2e/dzN/x5QVFVoKv2dfDMDoL1i97ptrLrcVgH0lD0OZx?=
+ =?us-ascii?Q?5YfAcUxds4XR9BAmELU9SSb2yghIXVSFBQkuf3HdNB4v5WM8EzlhFWb0tlCT?=
+ =?us-ascii?Q?MVXOazTWRG1W6tdVozcHk7CQUAkUanC+2UCRcCFytJmUXvESlYMA1APYa9dN?=
+ =?us-ascii?Q?VeHDKKg/YGvhYm0nLKrk15zhyLQOvesKcoYHCS4y+jmWFwuJyrcg3/eSisqu?=
+ =?us-ascii?Q?6rfHBevNRoQ0sgmjgjnTm0sqDzEbPKboObu1Q5ovY+j+PflwYk5ifjFOLd/4?=
+ =?us-ascii?Q?j7z00I+wE/LMFhFEbDuvw7dG2aJvbYwK0TgYWBP7rkLZ/rr/nnEQoYpQFWtj?=
+ =?us-ascii?Q?Ib5sTKv6YBxDZ0l42fU9YE8PTksli6dCSogKOtReRedAnEB6T5/svBxB5Rum?=
+ =?us-ascii?Q?7pZsHTmO438gnMq3mKsavK3MjWJ+yD6BOwD8Lt1a2T5PnuQLTcNAii84lX1n?=
+ =?us-ascii?Q?fvEE/OrkqAgSnZSxVQPoB6hDsHZgLgnof4jT9wyVxg23/nygZXEytJagpnvc?=
+ =?us-ascii?Q?4bUTFiR80e/nPZhK1Vz8HXPQ+v+mnGeG+hMH85gBFLOK3YHTZRvuY+qcx6VK?=
+ =?us-ascii?Q?i+hgxkB6qMegvRUmuVxhMmQRNEiGvUa5Af/ZOvQfvbD5a3GwCF8MyLBGKlH7?=
+ =?us-ascii?Q?UaivY4Bw2oqYmEVTOEt+69VTHvL6d75Rr7ctBwgzc0tcx3MGv/Avx6wOmcck?=
+ =?us-ascii?Q?KnXjDbPi/T4sNWvLr11eILE1pgeOzVNszs1FhCBa8kRyz/r3AHbWIr4ZCyOX?=
+ =?us-ascii?Q?tnDnkCtdpO1HaY33sRCWoM1h3uOoHDs3sa9Ehptdb0exkKnoWKVR1hhZQcJC?=
+ =?us-ascii?Q?asjNaxhPNnrE4JhS2CnkojCP5XEH4owy8FP8ZZXBExQxXkyFPc/9W/bnmXBA?=
+ =?us-ascii?Q?ZPtg7sOmTSFWZui7UUxGo2WzjT+M+JQG1IfnuKdEBVlk5KRhuXkR/EdALweo?=
+ =?us-ascii?Q?Hu5qJMp0ljZ84W13p+sLdYolaBFULx+Nu9s4vmw6hJ4fz6JwcKw1L/wizPtt?=
+ =?us-ascii?Q?BHtMGJHsOgt4VwNHbX8RFsoX3U1OqFxJufAvVAXmK9G9JWy2jaZeXf2ysek3?=
+ =?us-ascii?Q?Hnr19J8JVuiYl2uZVEQ1w7qXwMj0eNPPHeBuNXiYz8WUeYrYbMoq+0VINKea?=
+ =?us-ascii?Q?dhVjd3PtnQHa5peb2NqXE6ewr9COGi1Y+CCwYps2ES2rfMC/d4GxOlVOd2O2?=
+ =?us-ascii?Q?REvz2+vemhbudI0voqxLQpJaITDVAe8GIyNIqWKTYCejWw1n5JVRhAQKoYl+?=
+ =?us-ascii?Q?XaAxECvZNgrEfbpUf5MAZV7sDyPna33Y/YdFtWvj2BgoNY69f06fGF4rfJuO?=
+ =?us-ascii?Q?6VIVJRJK2rqvhQmXou8E2FnCfUtNFC3eZqe93E4VaCQl6kQskc5UML+eRJoy?=
+ =?us-ascii?Q?dQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d118bf3e-a1a6-4d0f-5bb0-08db02e049cb
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 16:36:47.4073 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 16:37:34.0487 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB1682
-X-Mailman-Approved-At: Mon, 30 Jan 2023 18:07:43 +0000
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LuI2jFhCnZ1Y7pMcGVgMt1a2Pw9eNdehXF0SM4kyITTqopSEFFmx+bwfRZyZuP3VlCpDgoFs1njMsJnwJ9gKqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4660
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,207 +153,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, 1029602@bugs.debian.org,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi vmwgfx maintainers,
+On Mon, Jan 30, 2023 at 05:12:48PM +0100, Andi Shyti wrote:
+> Hi Rodrigo,
+> 
+> > > > In the call flow invoked by intel_pcode_init(), I've added brief comments
+> > > > where further clarification is needed in this scenario, and a description of
+> > > > the suspicious scenario at the bottom.
+> > > > 
+> > > > -------------------------------------------------------------------------
+> > > > intel_pcode_init()
+> > > >  |
+> > > >  +-> skl_pcode_request(uncore, DG1_PCODE_STATUS,
+> > > >                        DG1_UNCORE_GET_INIT_STATUS,
+> > > >                        DG1_UNCORE_INIT_STATUS_COMPLETE,
+> > > >                        DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
+> > > >        |
+> > > >        +-> skl_pcode_try_request()
+> > > >              |
+> > > >              +->  *status = __snb_pcode_rw(uncore, mbox, &request, NULL,
+> > > >                                            500, 0, true);
+> > > > 
+> > > > -------------------------------------------------------------------------
+> > > > static int __snb_pcode_rw(struct intel_uncore *uncore, u32 mbox,
+> > > > 		          u32 *val, u32 *val1,
+> > > > 			  int fast_timeout_us, int slow_timeout_ms,
+> > > > 			  bool is_read)
+> > > > {
+> > > > ...
+> > > >         /* Before writing a value to the GEN6_PCODE_DATA register,
+> > > >            check if the bit in the GEN6_PCODE_MAILBOX register indicates
+> > > >            BUSY. */
+> > > > 	if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
+> > > > 		return -EAGAIN;
+> > > 
+> > > what if we fail here because the punit is still initializing and
+> > > will be ready, say, in 10 seconds?
+> > > 
+> > > GG, without going any further, we fail here! The -EAGAIN we
+> > > receive from the test comes from this point. We don't fail with
+> > > -ETIMEDOUT, but with -EAGAIN and the reason is because the punit
+> > > is not ready to perform the very fist communication and we fail
+> > > the probing.
+> > > 
+> > > It doesn't mean, though, that there is anything wrong, we just
+> > > need to wait a bit before "taking drastic decisions"!
+> > > 
+> > > This patch is suggesting to wait up to 10s for the punit to be
+> > > ready and eventually try to probe again... and, indeed, it works!
+> > 
+> > As GG, what I still don't understand is how this extra 10 seconds
+> > wait helps... have you tried to simple add the 10 to the 180 and
+> > make the code 190 sec instead?
+> 
+> maybe I haven't been able to explain the issue properly.
+> 
+> I can even set that timer to 2hrs and a half and nothing changes
+> because we fail before.
+> 
+> Here it's not a matter of how much do I wait but when do I check
+> the pcode readiness (i.e. signalled by the GEN6_PCODE_READY bit
+> in the GEN6_PCODE_MAILBOX register).
+> 
+> During a normal run we are always sure that communicating with
+> the punit works, because we made it sure during the previous
+> transaction.
+> 
+> During probe there is no previous transaction and we start
+> communicating with the punit without making sure that it is
+> ready. And indeed some times it is not, so that we suppress the
+> probing on purpose instead of giving it another chance.
+> 
+> I admit that the commit message is not written properly and
+> rather misleading, but here it's not at all a matter of how much
+> do I wait.
 
-An out-of-bound access in vmwgfx specific framebuffer implementation can 
-be easily triggered by fbterm (a framebuffer terminal emulator) when it 
-is going to scroll screen.
+The commit message was initially confused because it looks like
+we are just adding a wait, without doing anything....
 
-With some debugging, it seems that vmw_fb_dirty_flush() cannot handle 
-the vinfo.yoffset correctly after calling `ioctl(fbdev_fd, 
-FBIOPAN_DISPLAY, &vinfo);`, and then subsequent access to the mapped 
-memory area causes the oops.
+But looking to the code we can see that it will wait until
+pcode is ready with a timeout of 10 seconds.
 
-As current mainline vmwgfx implementation (in Linux 6.2-rc) has removed 
-this framebuffer implementation, this bug can be triggered only in Linux 
-stable. I have tested it with vanilla 6.1.8 and 5.10.165 and they all oops.
+But if pcode is ready in 10 seconds, why pcode is not ready
+in 190 seconds. We are doing absolutely nothing more that could
+make pcode ready in 10 seconds that won't be in 190.
 
-This bug is reported in 
-<https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1029602> first, and 
-the maintainer there suggests me to report this issue to upstream :)
+This is what we are missing here... The code as is doesn't make
+a lot of sense to us and it looks like it is solving the issue
+by the 10 extra seconds and not by some special status checking.
 
-Relevant information (for self-compiled Linux 6.1.8):
-
-- /proc/version: Linux version 6.1.8 (tao@mira) (gcc (Debian 10.2.1-6) 
-10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2) #7 SMP 
-PREEMPT_DYNAMIC Mon Jan 30 21:09:02 CST 2023
-
-- Linux distribution: Debian GNU/Linux 11 (bullseye)
-
-- Architecture (uname -mi): x86_64 unknown
-
-- Virtualization software: VMware Fusion 13 Player
-
-- How to reproduce:
-   1. Install (or compile) fbterm
-   2. Run fbterm under a tty (by a user with read & write permission to 
-/dev/fb0, usually users in video group), and try to make it scroll (for 
-example by pressing Enter for a few seconds)
-   3. The graphics hang and it oops.
-
-- decoded oops message:
-
-[   31.519514] BUG: unable to handle page fault for address: 
-ffffa7c5019d6000
-[   31.519843] #PF: supervisor write access in kernel mode
-[   31.520149] #PF: error_code(0x0002) - not-present page
-[   31.520453] PGD 1000067 P4D 1000067 PUD 11bc067 PMD 31f0d067 PTE 0
-[   31.520784] Oops: 0002 [#1] PREEMPT SMP PTI
-[   31.521022] CPU: 0 PID: 7 Comm: kworker/0:0 Kdump: loaded Not tainted 
-6.1.8 #7
-[   31.521266] Hardware name: VMware, Inc. VMware Virtual Platform/440BX 
-Desktop Reference Platform, BIOS 6.00 11/12/2020
-[   31.521796] Workqueue: events vmw_fb_dirty_flush [vmwgfx]
-[   31.522080] RIP: 0010:memcpy_orig 
-(/home/tao/Downloads/linux-6.1.8/arch/x86/lib/memcpy_64.S:85)
-[ 31.522396] Code: 00 48 89 f8 48 83 fa 20 72 7e 40 38 fe 7c 35 48 83 ea 
-20 48 83 ea 20 4c 8b 06 4c 8b 4e 08 4c 8b 56 10 4c 8b 5e 18 48 8d 76 20 
-<4c> 89 07 4c 89 4f 08 4c 89 57 10 4c 89 5f 18 48 8d 7f 20 73 d4 83
-All code
-========
-    0:	00 48 89             	add    %cl,-0x77(%rax)
-    3:	f8                   	clc
-    4:	48 83 fa 20          	cmp    $0x20,%rdx
-    8:	72 7e                	jb     0x88
-    a:	40 38 fe             	cmp    %dil,%sil
-    d:	7c 35                	jl     0x44
-    f:	48 83 ea 20          	sub    $0x20,%rdx
-   13:	48 83 ea 20          	sub    $0x20,%rdx
-   17:	4c 8b 06             	mov    (%rsi),%r8
-   1a:	4c 8b 4e 08          	mov    0x8(%rsi),%r9
-   1e:	4c 8b 56 10          	mov    0x10(%rsi),%r10
-   22:	4c 8b 5e 18          	mov    0x18(%rsi),%r11
-   26:	48 8d 76 20          	lea    0x20(%rsi),%rsi
-   2a:*	4c 89 07             	mov    %r8,(%rdi)		<-- trapping instruction
-   2d:	4c 89 4f 08          	mov    %r9,0x8(%rdi)
-   31:	4c 89 57 10          	mov    %r10,0x10(%rdi)
-   35:	4c 89 5f 18          	mov    %r11,0x18(%rdi)
-   39:	48 8d 7f 20          	lea    0x20(%rdi),%rdi
-   3d:	73 d4                	jae    0x13
-   3f:	83                   	.byte 0x83
-
-Code starting with the faulting instruction
-===========================================
-    0:	4c 89 07             	mov    %r8,(%rdi)
-    3:	4c 89 4f 08          	mov    %r9,0x8(%rdi)
-    7:	4c 89 57 10          	mov    %r10,0x10(%rdi)
-    b:	4c 89 5f 18          	mov    %r11,0x18(%rdi)
-    f:	48 8d 7f 20          	lea    0x20(%rdi),%rdi
-   13:	73 d4                	jae    0xffffffffffffffe9
-   15:	83                   	.byte 0x83
-[   31.523208] RSP: 0018:ffffa7c50005be10 EFLAGS: 00010202
-[   31.523555] RAX: ffffa7c5019d5c00 RBX: 0000000000000c80 RCX: 
-0000000000000c80
-[   31.523841] RDX: 0000000000000840 RSI: ffffa7c500e73a20 RDI: 
-ffffa7c5019d6000
-[   31.524071] RBP: 0000000000000000 R08: 0000000000000000 R09: 
-0000000000000000
-[   31.524299] R10: 0000000000000000 R11: 0000000000000000 R12: 
-ffffa7c500e73600
-[   31.524525] R13: ffff97ba70af4cd8 R14: ffff97ba70b40000 R15: 
-ffff97ba70af4800
-[   31.524753] FS:  0000000000000000(0000) GS:ffff97ba91800000(0000) 
-knlGS:0000000000000000
-[   31.524981] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   31.525209] CR2: ffffa7c5019d6000 CR3: 0000000037a10002 CR4: 
-00000000003706f0
-[   31.525440] Call Trace:
-[   31.525670]  <TASK>
-[   31.525900] vmw_fb_dirty_flush 
-(/home/tao/Downloads/linux-6.1.8/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c:244) 
-vmwgfx
-[   31.526162] process_one_work 
-(/home/tao/Downloads/linux-6.1.8/kernel/workqueue.c:2289)
-[   31.526399] worker_thread 
-(/home/tao/Downloads/linux-6.1.8/./include/linux/list.h:292 
-/home/tao/Downloads/linux-6.1.8/kernel/workqueue.c:2437)
-[   31.526623] ? rescuer_thread 
-(/home/tao/Downloads/linux-6.1.8/kernel/workqueue.c:2379)
-[   31.526843] kthread 
-(/home/tao/Downloads/linux-6.1.8/kernel/kthread.c:376)
-[   31.527058] ? kthread_complete_and_exit 
-(/home/tao/Downloads/linux-6.1.8/kernel/kthread.c:331)
-[   31.527273] ret_from_fork 
-(/home/tao/Downloads/linux-6.1.8/arch/x86/entry/entry_64.S:306)
-[   31.527490]  </TASK>
-[   31.527748] Modules linked in: xt_conntrack xt_MASQUERADE 
-nf_conntrack_netlink nfnetlink xfrm_user xfrm_algo xt_addrtype 
-iptable_filter iptable_nat nf_nat nf_conntrack nf_defrag_ipv6 
-nf_defrag_ipv4 br_netfilter bridge stp llc intel_rapl_msr 
-intel_rapl_common intel_pmc_core kvm_intel kvm irqbypass rapl 
-vmw_balloon joydev serio_raw pcspkr snd_ens1371 snd_ac97_codec ac97_bus 
-gameport snd_rawmidi snd_seq_device snd_pcm snd_timer snd soundcore sg 
-overlay vsock_loopback vmw_vsock_virtio_transport_common 
-vmw_vsock_vmci_transport vsock vmw_vmci evdev ac binfmt_misc parport_pc 
-nfsd ppdev fuse auth_rpcgss nfs_acl lp lockd grace parport configfs 
-sunrpc ip_tables x_tables autofs4 ext4 crc16 mbcache jbd2 btrfs 
-blake2b_generic xor raid6_pq zstd_compress libcrc32c crc32c_generic 
-dm_mirror dm_region_hash dm_log dm_mod hid_generic usbhid hid sd_mod 
-t10_pi crc64_rocksoft_generic crc64_rocksoft crc_t10dif 
-crct10dif_generic crc64 crct10dif_pclmul crct10dif_common crc32_pclmul 
-crc32c_intel
-[   31.527816]  ghash_clmulni_intel sha512_ssse3 sha512_generic sr_mod 
-cdrom aesni_intel crypto_simd ata_generic cryptd vmwgfx xhci_pci 
-ata_piix drm_ttm_helper ttm mptspi psmouse mptscsih ehci_pci mptbase 
-drm_kms_helper uhci_hcd xhci_hcd ehci_hcd scsi_transport_spi libata 
-scsi_mod drm e1000 usbcore usb_common i2c_piix4 scsi_common button
-[   31.531626] CR2: ffffa7c5019d6000
-[   31.531892] ---[ end trace 0000000000000000 ]---
-[   31.532289] RIP: 0010:memcpy_orig 
-(/home/tao/Downloads/linux-6.1.8/arch/x86/lib/memcpy_64.S:85)
-[ 31.532536] Code: 00 48 89 f8 48 83 fa 20 72 7e 40 38 fe 7c 35 48 83 ea 
-20 48 83 ea 20 4c 8b 06 4c 8b 4e 08 4c 8b 56 10 4c 8b 5e 18 48 8d 76 20 
-<4c> 89 07 4c 89 4f 08 4c 89 57 10 4c 89 5f 18 48 8d 7f 20 73 d4 83
-All code
-========
-    0:	00 48 89             	add    %cl,-0x77(%rax)
-    3:	f8                   	clc
-    4:	48 83 fa 20          	cmp    $0x20,%rdx
-    8:	72 7e                	jb     0x88
-    a:	40 38 fe             	cmp    %dil,%sil
-    d:	7c 35                	jl     0x44
-    f:	48 83 ea 20          	sub    $0x20,%rdx
-   13:	48 83 ea 20          	sub    $0x20,%rdx
-   17:	4c 8b 06             	mov    (%rsi),%r8
-   1a:	4c 8b 4e 08          	mov    0x8(%rsi),%r9
-   1e:	4c 8b 56 10          	mov    0x10(%rsi),%r10
-   22:	4c 8b 5e 18          	mov    0x18(%rsi),%r11
-   26:	48 8d 76 20          	lea    0x20(%rsi),%rsi
-   2a:*	4c 89 07             	mov    %r8,(%rdi)		<-- trapping instruction
-   2d:	4c 89 4f 08          	mov    %r9,0x8(%rdi)
-   31:	4c 89 57 10          	mov    %r10,0x10(%rdi)
-   35:	4c 89 5f 18          	mov    %r11,0x18(%rdi)
-   39:	48 8d 7f 20          	lea    0x20(%rdi),%rdi
-   3d:	73 d4                	jae    0x13
-   3f:	83                   	.byte 0x83
-
-Code starting with the faulting instruction
-===========================================
-    0:	4c 89 07             	mov    %r8,(%rdi)
-    3:	4c 89 4f 08          	mov    %r9,0x8(%rdi)
-    7:	4c 89 57 10          	mov    %r10,0x10(%rdi)
-    b:	4c 89 5f 18          	mov    %r11,0x18(%rdi)
-    f:	48 8d 7f 20          	lea    0x20(%rdi),%rdi
-   13:	73 d4                	jae    0xffffffffffffffe9
-   15:	83                   	.byte 0x83
-[   31.533338] RSP: 0018:ffffa7c50005be10 EFLAGS: 00010202
-[   31.533561] RAX: ffffa7c5019d5c00 RBX: 0000000000000c80 RCX: 
-0000000000000c80
-[   31.533784] RDX: 0000000000000840 RSI: ffffa7c500e73a20 RDI: 
-ffffa7c5019d6000
-[   31.534008] RBP: 0000000000000000 R08: 0000000000000000 R09: 
-0000000000000000
-[   31.534229] R10: 0000000000000000 R11: 0000000000000000 R12: 
-ffffa7c500e73600
-[   31.534447] R13: ffff97ba70af4cd8 R14: ffff97ba70b40000 R15: 
-ffff97ba70af4800
-[   31.534664] FS:  0000000000000000(0000) GS:ffff97ba91800000(0000) 
-knlGS:0000000000000000
-[   31.534884] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   31.535105] CR2: ffffa7c5019d6000 CR3: 0000000037a10002 CR4: 
-00000000003706f0
+> 
+> Thanks, Rodrigo!
+> Andi
+> 
+> > > 
+> > > Andi
+> > > 
+> > > > 
+> > > >         /* write value to GEN6_PCODE_DATA register */
+> > > > 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA, *val);
+> > > > 
+> > > > 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA1, val1 ? *val1 : 0);
+> > > > 
+> > > >         /* In this scenario, the value
+> > > >            "DG1_PCODE_STATUS | GEN6_PCODE_READY"
+> > > >            is written to the GEN6_PCODE_MAILBOX register,
+> > > >            so that the Busy status of the GEN6_PCODE_MAILBOX register
+> > > >            can be checked later.
+> > > >            (When the value of the GEN6_PCODE_READY bit of the
+> > > >             GEN6_PCODE_MAILBOX register changes to 0, the operation can
+> > > >             be considered completed.) */
+> > > > 	intel_uncore_write_fw(uncore,
+> > > > 			      GEN6_PCODE_MAILBOX, GEN6_PCODE_READY | mbox);
+> > > > 
+> > > >         /* In this scenario, verify that the BUSY status bit in the
+> > > >            GEN6_PCODE_MAILBOX register turns off for up to 500us. */
+> > > > 	if (__intel_wait_for_register_fw(uncore,
+> > > > 					 GEN6_PCODE_MAILBOX,
+> > > > 					 GEN6_PCODE_READY, 0,
+> > > > 					 fast_timeout_us,
+> > > > 					 slow_timeout_ms,
+> > > > 					 &mbox))
+> > > > 		return -ETIMEDOUT;
+> > > >         /* If there is a failure here, it may be considered that the
+> > > >            "DG1_PCODE_STATUS | GEN6_PCODE_READY" operation was not
+> > > >            completed within 500us */
+> > > > ...
+> > > > }
+> > > > 
+> > > > int skl_pcode_request(struct intel_uncore *uncore, u32 mbox, u32 request,
+> > > > 		      u32 reply_mask, u32 reply, int timeout_base_ms)
+> > > > {
+> > > > 	u32 status;
+> > > > 	int ret;
+> > > > 
+> > > > 	mutex_lock(&uncore->i915->sb_lock);
+> > > > 
+> > > > #define COND \
+> > > > 	skl_pcode_try_request(uncore, mbox, request, reply_mask, reply, &status)
+> > > > 
+> > > >         /* the first trial for skl_pcode_try_request() can return
+> > > >            -EAGAIN or -ETIMEDOUT. And the code did not check the error
+> > > >            code here, so we don't know how far the __snb_pcode_rw()
+> > > >            function went. It is not known whether the pcode_mailbox
+> > > >            status was busy before writing the value to the
+> > > >            GEN6_PCODE_DATA register or after.*/
+> > > > 	if (COND) {
+> > > > 		ret = 0;
+> > > > 		goto out;
+> > > > 	}
+> > > > 
+> > > >         /* In this scenario, skl_pcode_try_request() is invoked every
+> > > >            10us for 180 seconds. When skl_pcode_try_request() returns
+> > > >            -EAGAIN and -ETIMEDOUT by _wait_for(),
+> > > >            -ETIMEDOUT is returned to a variable ret. */
+> > > > 
+> > > > 	ret = _wait_for(COND, timeout_base_ms * 1000, 10, 10);
+> > > > 
+> > > > 	if (!ret)
+> > > > 		goto out;
+> > > > 
+> > > > 	/*
+> > > > 	 * The above can time out if the number of requests was low (2 in the
+> > > > 	 * worst case) _and_ PCODE was busy for some reason even after a
+> > > > 	 * (queued) request and @timeout_base_ms delay. As a workaround retry
+> > > > 	 * the poll with preemption disabled to maximize the number of
+> > > > 	 * requests. Increase the timeout from @timeout_base_ms to 50ms to
+> > > > 	 * account for interrupts that could reduce the number of these
+> > > > 	 * requests, and for any quirks of the PCODE firmware that delays
+> > > > 	 * the request completion.
+> > > > 	 */
+> > > > 	drm_dbg_kms(&uncore->i915->drm,
+> > > > 		    "PCODE timeout, retrying with preemption disabled\n");
+> > > > 	drm_WARN_ON_ONCE(&uncore->i915->drm, timeout_base_ms > 3);
+> > > > 	preempt_disable();
+> > > > 	ret = wait_for_atomic(COND, 50);
+> > > > 
+> > > > 	preempt_enable();
+> > > > 
+> > > > out:
+> > > > 	mutex_unlock(&uncore->i915->sb_lock);
+> > > > 	return status ? status : ret;
+> > > > #undef COND
+> > > > }
+> > > > 
+> > > > ---------------------------------------------------------
+> > > > 
+> > > > If you try skl_pcode_try_request() for 180 seconds in skl_pcode_request(),
+> > > > and the first "intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) &
+> > > > GEN6_PCODE_READY)" call in __snb_pcode_rw() that skl_pcode_try_request()
+> > > > invokes always fails. if then it does not make sense to me why this patch
+> > > > fixes it by just waiting 10 seconds.This is because if it was called with
+> > > > the flow described above, 180 seconds is longer than 10 seconds, so the
+> > > > scenario you mentioned is also covered in the existing code.
+> > > > 
+> > > > To describe in more detail the second scenario I previously commented on:
+> > > > skl_pcode_request() tries skl_pcode_try_request() for 180 seconds
+> > > >  1) In skl_pcode_try_request(), the GEN6_PCODE_MAILBOX register bit is not
+> > > > BUSY, so the value is written to the GEN6_PCODE_DATA1 register.
+> > > >  2) skl_pcode_try_request() returns -ETIMEDOUT value because the operation
+> > > > of 1) does not complete within 500us.
+> > > >  3) Scenario in which the GEN6_PCODE_MAILBOX register bit is checked as BUSY
+> > > > and returns -EAGAIN in the last call of skl_pcode_try_request() invoked by
+> > > > skl_pcode_request()
+> > > > 
+> > > > If the reason why this problem occurred is because of this scenario,
+> > > > shouldn't there be an attempt to increase fast_timeout_us used as an
+> > > > argument of __snb_pcode_rw() to 500us or more when skl_pcode_try_request()
+> > > > returns -ETIMEDOUT?
+> > > > 
+> > > > Br,
+> > > > G.G.
