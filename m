@@ -1,104 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6263268056E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 06:11:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FA6680762
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 09:28:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDDF510E060;
-	Mon, 30 Jan 2023 05:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D65410E148;
+	Mon, 30 Jan 2023 08:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C00510E060
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 05:11:01 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20230130051058epoutp0270056268a551feb487a4480b95df7ad2~_-hCrqH6V2118421184epoutp02L
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 05:10:58 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20230130051058epoutp0270056268a551feb487a4480b95df7ad2~_-hCrqH6V2118421184epoutp02L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1675055459;
- bh=eJa/ABef80sC4wWricjAmL+ZdecM7xhVEvWQf4JlA/k=;
- h=From:To:Cc:Subject:Date:References:From;
- b=D0a3Nvd7NaOhsjxqUMVzmCEIHV6c3rb4BlN1ZY5KEnGWMb5FmQoocix3IVvB0x8u9
- IbHdczYuYqPKdr9hqqNP6+VYEk9HzuPd5TPVI9xVvnaiV18VmQD8zU6/64quKBR/no
- nN99bjpsSDWUFuieGFJBa6bAaYLVua+edFDLK53w=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230130051058epcas1p230726f4ea2e43c048a43da2e404099fa~_-hCY-WHQ3098030980epcas1p2e;
- Mon, 30 Jan 2023 05:10:58 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.38.237]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4P4x8x1kLDz4x9QK; Mon, 30 Jan
- 2023 05:10:57 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
- 22.41.55531.06157D36; Mon, 30 Jan 2023 14:10:56 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20230130051056epcas1p3864c816bfccf0c8a6e7f8601b240b11e~_-hACG1EJ0798207982epcas1p3a;
- Mon, 30 Jan 2023 05:10:56 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20230130051056epsmtrp2c624e1c3680bdf79070af51bf00e3cf6~_-hABdhHy2600926009epsmtrp2R;
- Mon, 30 Jan 2023 05:10:56 +0000 (GMT)
-X-AuditID: b6c32a35-d9fff7000000d8eb-70-63d7516062b1
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 0D.27.17995.06157D36; Mon, 30 Jan 2023 14:10:56 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.211]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20230130051055epsmtip1bb1f459e820e4d23e3c064944dd45066~_-g-4t2gG0503005030epsmtip1C;
- Mon, 30 Jan 2023 05:10:55 +0000 (GMT)
-From: Inki Dae <inki.dae@samsung.com>
-To: airlied@linux.ie, daniel@ffwll.ch
-Subject: [GIT PULL] exynos-drm-next
-Date: Mon, 30 Jan 2023 14:10:55 +0900
-Message-Id: <20230130051055.15340-1-inki.dae@samsung.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9037A10E148
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 08:28:39 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C91571FD72;
+ Mon, 30 Jan 2023 08:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675067317; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GQRl6qbJGy3BJjmVIWe6bw8MUALqPOBomUoGDkU5lN0=;
+ b=ECNgzCF13FEo5Ws8LcAA/LS2HWXWCqPKyrnTdrGA+Ug772XBFIvI9XODq6KBwWS9MR2Sm0
+ 20YeyFdDUUNyDUWLjtNbZh9oJ4gqLFEcUcEjdcSyFYzDFwPJUJNHOXyNKR4BxpWCZi1ywF
+ P724250MiW+SXWIodRvKm5GQ97qaiZc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675067317;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GQRl6qbJGy3BJjmVIWe6bw8MUALqPOBomUoGDkU5lN0=;
+ b=UdeJ9ZcLcwXL19KSWLDusoHEZ3SLVYlpvdOMBzmahQp6zfxumhVF4WjOwM4XRG/wc8J6dW
+ uzf686lU6Z9FhHBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9D42813A06;
+ Mon, 30 Jan 2023 08:28:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id GHNBJbV/12PcTQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 30 Jan 2023 08:28:37 +0000
+Message-ID: <2a5b5059-9f60-a5bc-cbb7-8267349b2eac@suse.de>
+Date: Mon, 30 Jan 2023 09:28:36 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDKsWRmVeSWpSXmKPExsWy7bCmvm5C4PVkg84roha9504yWfzfNpHZ
- 4srX92wWM87vY3Jg8dj7bQGLx/ZvD1g97ncfZ/L4vEkugCUq2yYjNTEltUghNS85PyUzL91W
- yTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMHaKWSQlliTilQKCCxuFhJ386mKL+0JFUh
- I7+4xFYptSAlp8C0QK84Mbe4NC9dLy+1xMrQwMDIFKgwITvjwq/H7AX9ghVTuywbGBv4uhg5
- OSQETCRedZ5m7WLk4hAS2MEosWzdByjnE6PEp4/7WEGqhAQ+M0ps+ecM03Fk+1MmiKJdjBI/
- t31hgXC+MEr8eXiDEaSKTUBVYuKK+2wgtgiQ/XbSY2YQm1nATeLP0rMsILawgLLE7usQG1iA
- am73HgSzeQUsJdoP3GaE2CYvMfPSd3aIuKDEyZlPWCDmyEs0b53NDLJYQmAdu8S9zz/ZIBpc
- JLbfmgfVLCzx6vgWdghbSuLzu71sEA2TGSXuXF/BAuHMYJQ4/PM6VIexxP6lk4Ge4wBaoSmx
- fpc+RFhRYufvuYwQm/kk3n3tYQUpkRDglehoE4IoUZI4dvEG1BQJiQtLJkLd4yFxqPsvCyQY
- YyUOTvnDNIFRfhaSf2Yh+WcWwuIFjMyrGMVSC4pz01OLDQsM4bGanJ+7iRGc7LRMdzBOfPtB
- 7xAjEwfjIUYJDmYlEd54s2vJQrwpiZVVqUX58UWlOanFhxhNgSE8kVlKNDkfmG7zSuINTSwN
- TMyMjE0sDM0MlcR5xW1PJgsJpCeWpGanphakFsH0MXFwSjUw8T00eJmyZtKuKQHzmYrEt0cv
- X7lazimgPvrSU6l5FxrT+MtDFplf/8K7+JL4z272d/V+Yn/fTX/gd9qX3c3pqI1a4JszThz6
- O1+dTc3bNlstTamyxOWggMN5x00JWyY615+pmPLiphTHwfI3yu4r7wuq6nzemMNQJWLNHyQ5
- fUbvOvb/VS+U72/1ORI3S7nSyXyq3+3NeUenOHs/FdGp/vSo+fxey9sLyuTum8gvfvxcX16n
- J2ixk87yhg0pPhem3FpmorzVbW3lEns3Jp5/vyz0MrW7kv6ofnm2o/SZm3He0t9et88Yz9me
- G2JWeKTc8dn6p188bm9fzbog0uWWY9KqH79erXf8Yx3NN0VxmhJLcUaioRZzUXEiAAX/oVP/
- AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBLMWRmVeSWpSXmKPExsWy7bCSnG5C4PVkg6U3WCx6z51ksvi/bSKz
- xZWv79ksZpzfx+TA4rH32wIWj+3fHrB63O8+zuTxeZNcAEsUl01Kak5mWWqRvl0CV8aFX4/Z
- C/oFK6Z2WTYwNvB1MXJySAiYSBzZ/pSpi5GLQ0hgB6PEgV+PmbsYOYASEhJbtnJAmMIShw8X
- Q5R8YpRYfeQVM0gvm4CqxMQV99lAbBEBdYkHlxcygtjMAh4S7/esZgexhQWUJXZf38cKYrMA
- 1d/uPQhm8wpYSrQfuM0IcYO8xMxL39kh4oISJ2c+YYGYIy/RvHU28wRGvllIUrOQpBYwMq1i
- lEwtKM5Nzy02LDDKSy3XK07MLS7NS9dLzs/dxAgOPC2tHYx7Vn3QO8TIxMF4iFGCg1lJhDfe
- 7FqyEG9KYmVValF+fFFpTmrxIUZpDhYlcd4LXSfjhQTSE0tSs1NTC1KLYLJMHJxSDUzRfRGe
- Z2pKUxPWPmyKmGl/SfKRY5whn+Nk13grttgaq81ZcxT0N+5m3vXrxYaEDbtZcvJD77oEndmz
- YZlC8Kp15/0vrT/Awzyh9ODpt8vbZDa7cb9vf5dsenJ/F4fVW8dVX7hNAi4fOCO2ICDV3dUy
- 0zJ1+7El8t3hEpt1Xs//zR8tJnz11ve+XZ69ApZfve+sjfjjmD+xTJmdXfXDDY3UXLmzq512
- tUqbz39y//jWq58CwiXCbV/0VUv8ZF6UzrAp2j5dZKqZDK8FH+eDjpI8psstk2LMY5REuE2k
- ywKa+SxzTl/3PWpXmOD2hfVF4sVTum6Fj79VdyctWHZYt9Gted2aMhsJ5b9XX62vUmIpzkg0
- 1GIuKk4EAE2QwfurAgAA
-X-CMS-MailID: 20230130051056epcas1p3864c816bfccf0c8a6e7f8601b240b11e
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230130051056epcas1p3864c816bfccf0c8a6e7f8601b240b11e
-References: <CGME20230130051056epcas1p3864c816bfccf0c8a6e7f8601b240b11e@epcas1p3.samsung.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2] fbdev: Fix invalid page access after closing deferred
+ I/O devices
+To: Takashi Iwai <tiwai@suse.de>, Helge Deller <deller@gmx.de>
+References: <20230129082856.22113-1-tiwai@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230129082856.22113-1-tiwai@suse.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0Dho9ne5BT7ziIXF88vgRxWe"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,59 +70,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0Dho9ne5BT7ziIXF88vgRxWe
+Content-Type: multipart/mixed; boundary="------------lRQQWQyhNpLducckKzzb6XKY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Takashi Iwai <tiwai@suse.de>, Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>
+Message-ID: <2a5b5059-9f60-a5bc-cbb7-8267349b2eac@suse.de>
+Subject: Re: [PATCH v2] fbdev: Fix invalid page access after closing deferred
+ I/O devices
+References: <20230129082856.22113-1-tiwai@suse.de>
+In-Reply-To: <20230129082856.22113-1-tiwai@suse.de>
 
-   Just one fixup series to restore proper bridge chain order of Exynos
-   Display pipeline.
-   This is also required by a patch series[1] which makes existing Exynos
-   DSI driver to be common driver so that it can be used by Exynos and I.MX8MM
-   SoC commonly - under the review yet.
+--------------lRQQWQyhNpLducckKzzb6XKY
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-   [1] https://lore.kernel.org/linux-arm-kernel/d4267645-448c-f702-fcc3-6c534d9ec2b7@denx.de/T/
+SGkNCg0KQW0gMjkuMDEuMjMgdW0gMDk6Mjggc2NocmllYiBUYWthc2hpIEl3YWk6DQo+IFdo
+ZW4gYSBmYmRldiB3aXRoIGRlZmVycmVkIEkvTyBpcyBvbmNlIG9wZW5lZCBhbmQgY2xvc2Vk
+LCB0aGUgZGlydHkNCj4gcGFnZXMgc3RpbGwgcmVtYWluIHF1ZXVlZCBpbiB0aGUgcGFnZXJl
+ZiBsaXN0LCBhbmQgZXZlbnR1YWxseSBsYXRlcg0KPiB0aG9zZSBtYXkgYmUgcHJvY2Vzc2Vk
+IGluIHRoZSBkZWxheWVkIHdvcmsuICBUaGlzIG1heSBsZWFkIHRvIGENCj4gY29ycnVwdGlv
+biBvZiBwYWdlcywgaGl0dGluZyBhbiBPb3BzLg0KDQpEbyB5b3UgaGF2ZSBtb3JlIGluZm9y
+bWF0aW9uIG9uIHRoaXMgcHJvYmxlbT8NCg0KVGhlIG1tYXAnZWQgYnVmZmVyIG9mIHRoZSBm
+YmRldiBkZXZpY2UgY29tZXMgZnJvbSBhIHZtYWxsb2MgY2FsbC4gVGhhdCANCm1lbW9yeSdz
+IGxvY2F0aW9uIG5ldmVyIGNoYW5nZXM7IGV2ZW4gYWNyb3NzIHBhaXJzIG9mIG9wZW4vY2xv
+c2Ugb24gdGhlIA0KZGV2aWNlIGZpbGUuIEknbSBzdXJwcmlzZWQgdGhhdCBhIHBhZ2UgZW50
+cnkgYmVjb21lcyBpbnZhbGlkLg0KDQpJbiBkcm1fZmJkZXZfY2xlYW51cCgpLCB3ZSBmaXJz
+dCByZW1vdmUgdGhlIGZiZGVmaW8gYXQgWzFdIGFuZCB0aGVuIA0KdmZyZWUoKSB0aGUgc2hh
+ZG93IGJ1ZmZlci4gU28gdGhlIG1lbW9yeSBzaG91bGQgc3RpbGwgYmUgYXJvdW5kIHVudGls
+IA0KZmJkZXZpbyBpcyBnb25lLg0KDQpbMV0gDQpodHRwczovL2VsaXhpci5ib290bGluLmNv
+bS9saW51eC9sYXRlc3Qvc291cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMj
+TDIxNDYNCg0KPiANCj4gVGhpcyBwYXRjaCBtYWtlcyBzdXJlIHRvIGNhbmNlbCB0aGUgZGVs
+YXllZCB3b3JrIGFuZCBjbGVhbiB1cCB0aGUNCj4gcGFnZXJlZiBsaXN0IGF0IGNsb3Npbmcg
+dGhlIGRldmljZSBmb3IgYWRkcmVzc2luZyB0aGUgYnVnLiAgQSBwYXJ0IG9mDQo+IHRoZSBj
+bGVhbnVwIGNvZGUgaXMgZmFjdG9yZWQgb3V0IGFzIGEgbmV3IGhlbHBlciBmdW5jdGlvbiB0
+aGF0IGlzDQo+IGNhbGxlZCBmcm9tIHRoZSBjb21tb24gZmJfcmVsZWFzZSgpLg0KDQpUaGUg
+ZGVsYXllZCB3b3JrIGlzIHJlcXVpcmVkIHRvIGNvcHkgdGhlIGZyYW1lYnVmZmVyIHRvIHRo
+ZSBkZXZpY2UgDQpvdXRwdXQuIFNvIGlmIGl0J3MganVzdCBjYW5jZWxlZCwgY291bGQgdGhp
+cyByZXN1bHQgaW4gbWlzc2luZyB1cGRhdGVzPw0KDQpUaGVyZSdzIGEgY2FsbCB0byBjYW5j
+ZWxfZGVsYXllZF93b3JrX3N5bmMoKSBpbiB0aGUgbmV3IGhlbHBlciANCmZiX2RlZmVycmVk
+X2lvX3JlbGVhc2UoKS4gSXMgdGhpcyB0aGUgcmlnaHQgZnVuY3Rpb24/IE1heWJlIA0KZmx1
+c2hfZGVsYXllZF93b3JrKCkgaXMgYSBiZXR0ZXIgY2hvaWNlLg0KDQo+IA0KPiBSZXZpZXdl
+ZC1ieTogUGF0cmlrIEpha29ic3NvbiA8cGF0cmlrLnIuamFrb2Jzc29uQGdtYWlsLmNvbT4N
+Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPg0KPiBTaWduZWQtb2ZmLWJ5OiBUYWth
+c2hpIEl3YWkgPHRpd2FpQHN1c2UuZGU+DQoNClRoaXMgY291bGQgdXNlIGEgRml4ZXMgdGFn
+LiBJdCdzIG5vdCBleGFjdGx5IGNsZWFyIHRvIG1lIHdoZW4gdGhpcyANCnByb2JsZW0gZ290
+IG9yaWdpbmFsbHkgaW50cm9kdWNlZCwgYnV0IHRoZSByZWNlbnQgcmVmYWN0b3Jpbmcgc2Vl
+bXMgYSANCmNhbmRpZGF0ZS4NCg0KRml4ZXM6IDU2YzEzNGY3ZjFiNSAoImZiZGV2OiBUcmFj
+ayBkZWZlcnJlZC1JL08gcGFnZXMgaW4gcGFnZXJlZiBzdHJ1Y3QiKQ0KQ2M6IFRob21hcyBa
+aW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KQ2M6IEphdmllciBNYXJ0aW5leiBD
+YW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxt
+YWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+DQpDYzogTWF4aW1lIFJpcGFyZCA8
+bXJpcGFyZEBrZXJuZWwub3JnPg0KQ2M6IFphY2sgUnVzaW4gPHphY2tyQHZtd2FyZS5jb20+
+DQpDYzogVk13YXJlIEdyYXBoaWNzIFJldmlld2VycyA8bGludXgtZ3JhcGhpY3MtbWFpbnRh
+aW5lckB2bXdhcmUuY29tPg0KQ2M6IEpheWEgS3VtYXIgPGpheWFsa0BpbnR3b3Jrcy5iaXo+
+DQpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPg0KQ2M6ICJLLiBZLiBTcmlu
+aXZhc2FuIiA8a3lzQG1pY3Jvc29mdC5jb20+DQpDYzogSGFpeWFuZyBaaGFuZyA8aGFpeWFu
+Z3pAbWljcm9zb2Z0LmNvbT4NCkNjOiBXZWkgTGl1IDx3ZWkubGl1QGtlcm5lbC5vcmc+DQpD
+YzogRGV4dWFuIEN1aSA8ZGVjdWlAbWljcm9zb2Z0LmNvbT4NCkNjOiBTdGV2ZSBHbGVuZGlu
+bmluZyA8c3RldmUuZ2xlbmRpbm5pbmdAc2hhd2VsbC5uZXQ+DQpDYzogQmVybmllIFRob21w
+c29uIDxiZXJuaWVAcGx1Z2FibGUuY29tPg0KQ2M6IEhlbGdlIERlbGxlciA8ZGVsbGVyQGdt
+eC5kZT4NCkNjOiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4Lmlu
+dGVsLmNvbT4NCkNjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRp
+b24ub3JnPg0KQ2M6IFN0ZXBoZW4gS2l0dCA8c3RldmVAc2syLm9yZz4NCkNjOiBQZXRlciBT
+dXRpIDxwZXRlci5zdXRpQHN0cmVhbXVubGltaXRlZC5jb20+DQpDYzogU2FtIFJhdm5ib3Jn
+IDxzYW1AcmF2bmJvcmcub3JnPg0KQ2M6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVu
+ZXNhc0BnbGlkZXIuYmU+DQpDYzogeWUgeGluZ2NoZW4gPHllLnhpbmdjaGVuQHp0ZS5jb20u
+Y24+DQpDYzogUGV0ciBNbGFkZWsgPHBtbGFkZWtAc3VzZS5jb20+DQpDYzogSm9obiBPZ25l
+c3MgPGpvaG4ub2duZXNzQGxpbnV0cm9uaXguZGU+DQpDYzogVG9tIFJpeCA8dHJpeEByZWRo
+YXQuY29tPg0KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCkNjOiBsaW51
+eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmcNCkNjOiBsaW51eC1oeXBlcnZAdmdlci5rZXJuZWwu
+b3JnDQpDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+ICMgdjUuMTkrDQoNCj4gLS0tDQo+
+IHYxLT52MjogRml4IGJ1aWxkIGVycm9yIHdpdGhvdXQgQ09ORklHX0ZCX0RFRkVSUkVEX0lP
+DQo+IA0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5jIHwgMTAgKysr
+KysrKysrLQ0KPiAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jICAgIHwgIDQg
+KysrKw0KPiAgIGluY2x1ZGUvbGludXgvZmIuaCAgICAgICAgICAgICAgICAgIHwgIDEgKw0K
+PiAgIDMgZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0K
+PiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9kZWZpby5j
+IGIvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiX2RlZmlvLmMNCj4gaW5kZXggYzczMDI1
+M2FiODVjLi41ODNjYmNmMDk0NDYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJk
+ZXYvY29yZS9mYl9kZWZpby5jDQo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9m
+Yl9kZWZpby5jDQo+IEBAIC0zMTMsNyArMzEzLDcgQEAgdm9pZCBmYl9kZWZlcnJlZF9pb19v
+cGVuKHN0cnVjdCBmYl9pbmZvICppbmZvLA0KPiAgIH0NCj4gICBFWFBPUlRfU1lNQk9MX0dQ
+TChmYl9kZWZlcnJlZF9pb19vcGVuKTsNCj4gICANCj4gLXZvaWQgZmJfZGVmZXJyZWRfaW9f
+Y2xlYW51cChzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4gK3ZvaWQgZmJfZGVmZXJyZWRfaW9f
+cmVsZWFzZShzdHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4gICB7DQo+ICAgCXN0cnVjdCBmYl9k
+ZWZlcnJlZF9pbyAqZmJkZWZpbyA9IGluZm8tPmZiZGVmaW87DQo+ICAgCXN0cnVjdCBwYWdl
+ICpwYWdlOw0KPiBAQCAtMzI3LDYgKzMyNywxNCBAQCB2b2lkIGZiX2RlZmVycmVkX2lvX2Ns
+ZWFudXAoc3RydWN0IGZiX2luZm8gKmluZm8pDQo+ICAgCQlwYWdlID0gZmJfZGVmZXJyZWRf
+aW9fcGFnZShpbmZvLCBpKTsNCj4gICAJCXBhZ2UtPm1hcHBpbmcgPSBOVUxMOw0KPiAgIAl9
+DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MX0dQTChmYl9kZWZlcnJlZF9pb19yZWxlYXNlKTsN
+Cg0KSXQncyBhbGwgaW4gdGhlIHNhbWUgbW9kdWxlLiBObyBuZWVkIHRvIGV4cG9ydCB0aGlz
+IHN5bWJvbC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArDQo+ICt2b2lkIGZiX2Rl
+ZmVycmVkX2lvX2NsZWFudXAoc3RydWN0IGZiX2luZm8gKmluZm8pDQo+ICt7DQo+ICsJc3Ry
+dWN0IGZiX2RlZmVycmVkX2lvICpmYmRlZmlvID0gaW5mby0+ZmJkZWZpbzsNCj4gKw0KPiAr
+CWZiX2RlZmVycmVkX2lvX3JlbGVhc2UoaW5mbyk7DQo+ICAgDQo+ICAgCWt2ZnJlZShpbmZv
+LT5wYWdlcmVmcyk7DQo+ICAgCW11dGV4X2Rlc3Ryb3koJmZiZGVmaW8tPmxvY2spOw0KPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMgYi9kcml2ZXJz
+L3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYw0KPiBpbmRleCAzYTZjODQ1OGViOGQuLmFiMzU0
+NWEwMGFiYyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVt
+LmMNCj4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4gQEAgLTE0
+NTQsNiArMTQ1NCwxMCBAQCBfX3JlbGVhc2VzKCZpbmZvLT5sb2NrKQ0KPiAgIAlzdHJ1Y3Qg
+ZmJfaW5mbyAqIGNvbnN0IGluZm8gPSBmaWxlLT5wcml2YXRlX2RhdGE7DQo+ICAgDQo+ICAg
+CWxvY2tfZmJfaW5mbyhpbmZvKTsNCj4gKyNpZiBJU19FTkFCTEVEKENPTkZJR19GQl9ERUZF
+UlJFRF9JTykNCj4gKwlpZiAoaW5mby0+ZmJkZWZpbykNCj4gKwkJZmJfZGVmZXJyZWRfaW9f
+cmVsZWFzZShpbmZvKTsNCj4gKyNlbmRpZg0KPiAgIAlpZiAoaW5mby0+ZmJvcHMtPmZiX3Jl
+bGVhc2UpDQo+ICAgCQlpbmZvLT5mYm9wcy0+ZmJfcmVsZWFzZShpbmZvLDEpOw0KDQoNCj4g
+ICAJbW9kdWxlX3B1dChpbmZvLT5mYm9wcy0+b3duZXIpOw0KPiBkaWZmIC0tZ2l0IGEvaW5j
+bHVkZS9saW51eC9mYi5oIGIvaW5jbHVkZS9saW51eC9mYi5oDQo+IGluZGV4IDk2Yjk2MzIz
+ZTljYi4uNzNlYjFmODVlYThlIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2ZiLmgN
+Cj4gKysrIGIvaW5jbHVkZS9saW51eC9mYi5oDQo+IEBAIC02NjIsNiArNjYyLDcgQEAgZXh0
+ZXJuIGludCAgZmJfZGVmZXJyZWRfaW9faW5pdChzdHJ1Y3QgZmJfaW5mbyAqaW5mbyk7DQo+
+ICAgZXh0ZXJuIHZvaWQgZmJfZGVmZXJyZWRfaW9fb3BlbihzdHJ1Y3QgZmJfaW5mbyAqaW5m
+bywNCj4gICAJCQkJc3RydWN0IGlub2RlICppbm9kZSwNCj4gICAJCQkJc3RydWN0IGZpbGUg
+KmZpbGUpOw0KPiArZXh0ZXJuIHZvaWQgZmJfZGVmZXJyZWRfaW9fcmVsZWFzZShzdHJ1Y3Qg
+ZmJfaW5mbyAqaW5mbyk7DQo+ICAgZXh0ZXJuIHZvaWQgZmJfZGVmZXJyZWRfaW9fY2xlYW51
+cChzdHJ1Y3QgZmJfaW5mbyAqaW5mbyk7DQo+ICAgZXh0ZXJuIGludCBmYl9kZWZlcnJlZF9p
+b19mc3luYyhzdHJ1Y3QgZmlsZSAqZmlsZSwgbG9mZl90IHN0YXJ0LA0KPiAgIAkJCQlsb2Zm
+X3QgZW5kLCBpbnQgZGF0YXN5bmMpOw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFw
+aGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
+IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAz
+NjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Please let me know if there is any problem.
+--------------lRQQWQyhNpLducckKzzb6XKY--
 
-Thanks,
-Inki Dae
+--------------0Dho9ne5BT7ziIXF88vgRxWe
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-The following changes since commit 68de345e101ce9a24e5c8849e69dd0dba2e8c9b2:
+-----BEGIN PGP SIGNATURE-----
 
-  Merge tag 'drm-misc-next-2023-01-24' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2023-01-25 12:14:08 +1000)
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPXf7QFAwAAAAAACgkQlh/E3EQov+DO
+rg/9GhWCC/Z0NjP7E3yoSDWqJevVIkw4NKv+aImkqCuwEN1GxJn0V88dDf5gzTTFgOL1rDLoFit1
+sDprH+X0OVyY63lZ4tM0ao5JStTtRDuXhWHJXZF5R2Y4z4DdtPZlWOUSXqVm4BnhGkb+S/PZ8fug
+BHUHJ0GxA96QtjIu7VWTmkSM8jC5YtOWIq1aJzjXVKL/P0Muno0Q0RWaE9+Fr3DOJFmNrcT8vXxP
+Q7b1R2Yif2GcSNEBE7iQOzZelYxKmfRWBmMhqyWzY7LjJdMETfrA7YTnL+Z1djubBQ+9co1KK8Tf
+85fV2sXiDiBlVnY3Ev/BLYZ7KXjPciaJacOUI68QR+Ht8cWpxE/Zjq1yMlylY9RYFkH+36aXyTPu
+HLlgRMyXM8+CbDi/HiMngpyNGjaqTMXgq4tgXnJxi6kk01rFgBC+NdLqKUOlhycm0hMuH+FtIWSw
+rntBO5RRc7STVGwUoleePN7ZsaWsmGkjLOUpx3WyCFYpWMY0/+A1c53mMqGzJ1HWyALD3A8wTVE7
+070htioa/MlB+AMMJ4LUjFI4DY7LxkrBcp77an+sGjNAB+PcM4lt6pCKUGFpO1amEsZ8ZRbljFZw
+nGFj+JAy59U/ipt0ZB98TwiWeqnfWKQInIwEXPdS5jL/E1zxaTLbtoKYkrCQrBhPYbnkWezwAIy2
+MEI=
+=lPhs
+-----END PGP SIGNATURE-----
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-for-v6.3
-
-for you to fetch changes up to 1a1ce789e6c5da5a16d3d17bc228c6ab0b5863ed:
-
-  drm: exynos: dsi: Restore proper bridge chain order (2023-01-26 15:11:24 +0900)
-
-----------------------------------------------------------------
-One fixup series
-- Make sure to restore bridge chain order by enabling the drm panel
-  prepare_prev_first flag of the bridge and panel drivers - tc358764 display
-  bridge device and Samsung s6e3ha2/s6e63j0x03/s6e8aa0 panel devices.
-  In case of any boards using Exynos5433 SoC, below Display pipeline could be
-  configured.
-      Decon -> MIC -> MIPI-DSI -> Panel
-  So, this patch series makes sure to enable previous bridge device before
-  enabling MIPI-DSI device.
-
-----------------------------------------------------------------
-Jagan Teki (2):
-      drm: panel: Enable prepare_prev_first flag for samsung-s6e panels
-      drm: exynos: dsi: Restore proper bridge chain order
-
-Marek Szyprowski (1):
-      drm/bridge: tc358764: Enable pre_enable_prev_first flag
-
- drivers/gpu/drm/bridge/tc358764.c                | 1 +
- drivers/gpu/drm/exynos/exynos_drm_dsi.c          | 9 +++++++--
- drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c    | 1 +
- drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c | 1 +
- drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c    | 1 +
- 5 files changed, 11 insertions(+), 2 deletions(-)
+--------------0Dho9ne5BT7ziIXF88vgRxWe--
