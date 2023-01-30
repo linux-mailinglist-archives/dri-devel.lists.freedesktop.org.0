@@ -2,53 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D1D680A73
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 11:08:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99800680AA2
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 11:18:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CFFE10E0D7;
-	Mon, 30 Jan 2023 10:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9101D10E20F;
+	Mon, 30 Jan 2023 10:17:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3F2210E0D7;
- Mon, 30 Jan 2023 10:08:37 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3323E10E0DA;
+ Mon, 30 Jan 2023 10:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675073318; x=1706609318;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=mo5yexCA/ZrKtoN97r7pTE+FhCESycsJPmqk4RiCrdM=;
- b=midQ0fL8uHpwAqJ5zgtsw85coE+Et7rz9nzFKhJFlTtkrS+DlzR7KRiL
- 1qMcp0BgGPJJf0owW9g3HNzXnizqSYWb8kBmGhzX3mFB1Q2Oefp77INrM
- J5bN47NLncQUr9ZNWgNxWVYEFh+6SwR7ZJSupEZH4yIG6aJ5TN+QUJzQ2
- lAQG3X7UHVTyH7USExHpbgy5x4Lv2DGUwPY7SxF2vrTx2+ycO5qMpHonx
- /mOuXSRV0XCAH8dR6t6perqmCrpJngjvk4o2N8QJxIg5luOxk6T4YA5b5
- fNk+8WVmmVnvTs00xph0B7Oo0Fb6pJDU8XH3IzYYwpMtoJpBB8gLrXGIU g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="327538541"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="327538541"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 02:08:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="664037045"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="664037045"
-Received: from pjoconno-mobl1.ger.corp.intel.com (HELO [10.213.216.153])
- ([10.213.216.153])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 02:08:22 -0800
-Message-ID: <5908ac91-bb6c-7ea9-0f2a-88054fe1b24d@linux.intel.com>
-Date: Mon, 30 Jan 2023 10:08:19 +0000
+ t=1675073874; x=1706609874;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+PvPGmMHglYpglm65+fEXIafAYFe0KTSgTBfts6EAEg=;
+ b=idwph9ON6sI4dI/pQ8/hXlAlVsbvFvSoN9m02Bbs8ex41G9Z2Fqnw6A+
+ AIAXi5TVtuozSTtd8ZomPqYOGmtYiftBQlBk4MEKTB+c6ks3txl27LuFa
+ yJxM9AG7jTFJ1Du7xlnN2bj7prNBeeTxxoaPtCPMWXvl03Ss419lLS9xG
+ 4UoJIWYMnLhAkbRJOBgtElA1MFwSXD4kQvrRMxk+ZltA0HyMqjA1pSL9I
+ F7CQdGQV8Q9sT35EQ7hSIZTDe2Rn7AwEnuGzNOZGbrUArhxcusKHo2XRN
+ yPfKPvcCZFcfM+nbNonbVRtI9FmuLFd1qlAnp3pFVXoRKLd4Ph4SUvZPE Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="328798963"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="328798963"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2023 02:17:12 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="696350129"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="696350129"
+Received: from dscheepe-mobl2.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.1.159])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2023 02:14:14 -0800
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/6] drm/i915/ttm: fix sparse warning
+Date: Mon, 30 Jan 2023 10:12:25 +0000
+Message-Id: <20230130101230.25347-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] drm/i915: Fix potential bit_17 double-free
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230127200550.3531984-1-robdclark@gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230127200550.3531984-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,89 +56,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, intel-gfx@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, pengfuyuan <pengfuyuan@kylinos.cn>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ kernel test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Sparse complains with:
 
-On 27/01/2023 20:05, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> A userspace with multiple threads racing I915_GEM_SET_TILING to set the
-> tiling to I915_TILING_NONE could trigger a double free of the bit_17
-> bitmask.  (Or conversely leak memory on the transition to tiled.)  Move
-> allocation/free'ing of the bitmask within the section protected by the
-> obj lock.
-> 
-> Fixes: e9b73c67390a ("drm/i915: Reduce memory pressure during shrinker by preallocating swizzle pages")
+drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1066:21: sparse:
+	expected restricted vm_fault_t [assigned] [usertype] ret
+drivers/gpu/drm/i915/gem/i915_gem_ttm.c:1066:21: sparse: got int
 
-Should be:
+Fixes: 516198d317d8 ("drm/i915: audit bo->resource usage v3")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Christian König <ckoenig.leichtzumerken@gmail.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Fixes: 2850748ef876 ("drm/i915: Pull i915_vma_pin under the vm->mutex")
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 7420276827a5..4758f21c91e1 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -1067,11 +1067,12 @@ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
+ 			.interruptible = true,
+ 			.no_wait_gpu = true, /* should be idle already */
+ 		};
++		int err;
+ 
+ 		GEM_BUG_ON(!bo->ttm || !(bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED));
+ 
+-		ret = ttm_bo_validate(bo, i915_ttm_sys_placement(), &ctx);
+-		if (ret) {
++		err = ttm_bo_validate(bo, i915_ttm_sys_placement(), &ctx);
++		if (err) {
+ 			dma_resv_unlock(bo->base.resv);
+ 			return VM_FAULT_SIGBUS;
+ 		}
+-- 
+2.39.1
 
-Before that commit there as a "BKL" (struct_mutex) aroung the call to 
-i915_gem_object_set_tiling. Otherwise fix looks good:
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-I'll tweak the fixes tag and merge in a minute, thanks for the fix!
-
-Regards,
-
-Tvrtko
-
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_tiling.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-> index fd42b89b7162..bc21b1c2350a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-> @@ -298,36 +298,37 @@ i915_gem_object_set_tiling(struct drm_i915_gem_object *obj,
->   		vma->fence_alignment =
->   			i915_gem_fence_alignment(i915,
->   						 vma->size, tiling, stride);
->   
->   		if (vma->fence)
->   			vma->fence->dirty = true;
->   	}
->   	spin_unlock(&obj->vma.lock);
->   
->   	obj->tiling_and_stride = tiling | stride;
-> -	i915_gem_object_unlock(obj);
-> -
-> -	/* Force the fence to be reacquired for GTT access */
-> -	i915_gem_object_release_mmap_gtt(obj);
->   
->   	/* Try to preallocate memory required to save swizzling on put-pages */
->   	if (i915_gem_object_needs_bit17_swizzle(obj)) {
->   		if (!obj->bit_17) {
->   			obj->bit_17 = bitmap_zalloc(obj->base.size >> PAGE_SHIFT,
->   						    GFP_KERNEL);
->   		}
->   	} else {
->   		bitmap_free(obj->bit_17);
->   		obj->bit_17 = NULL;
->   	}
->   
-> +	i915_gem_object_unlock(obj);
-> +
-> +	/* Force the fence to be reacquired for GTT access */
-> +	i915_gem_object_release_mmap_gtt(obj);
-> +
->   	return 0;
->   }
->   
->   /**
->    * i915_gem_set_tiling_ioctl - IOCTL handler to set tiling mode
->    * @dev: DRM device
->    * @data: data pointer for the ioctl
->    * @file: DRM file for the ioctl call
->    *
->    * Sets the tiling mode of an object, returning the required swizzling of
