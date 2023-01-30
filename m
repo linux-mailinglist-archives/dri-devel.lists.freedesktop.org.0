@@ -1,74 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5692681466
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 16:13:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 765D36814D1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 16:21:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA3B110E281;
-	Mon, 30 Jan 2023 15:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95F9610E277;
+	Mon, 30 Jan 2023 15:21:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B2F10E283;
- Mon, 30 Jan 2023 15:13:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34D4589711;
+ Mon, 30 Jan 2023 15:21:43 +0000 (UTC)
 Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30UEH3na009861; Mon, 30 Jan 2023 15:13:08 GMT
+ 30UDZcdH021495; Mon, 30 Jan 2023 15:21:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=EUscz9X1XiQjhgHda6/DsXnSzvYxVopJBX9wf5Haj3Q=;
- b=K8aRBH6dSJt0kXESp3E2wP+0phPJess7lux4lcYEFtZ03Cg91GPWAKrB1mMgjhwKRhKY
- TH1Th87Z8Jr9e0dgbpdWXbjWVy6CJJH4OObaRsoQ4U+5Wru60nKBSbiuR9qDXSVnfNRu
- Z2iKJW0Ky3XZiCSUM8Q5/1Bx6/asHtqSNPnsFUKgYAhZ0XcZ84quMk9vj7Itwb03rsiu
- ZsTYZj6TRkGPVgYlqwS2d99JTlHbaO1jEVFFWLHbWnJyAVH5b9SqKDqzhm80vzXxJ0XJ
- OqvmvsJoaXXXqfIlQE7d1oog029jBhQwaUtfl5cx8X7nAlcauF/un9f26dK07TzfXAQ+ BA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncvfpbssw-1
+ h=from : to : cc : subject : date : message-id; s=qcppdkim1;
+ bh=L9AIHrzPObiEg8iX+Q9mRhYtMsa2DNoNppfxH9yTVJE=;
+ b=d+A+nRglxXVTV2TnSmmbqNcG//8LwuCvgS0EshyFuEYw+M9HTidtVJP4HHwzSLypbgbZ
+ WjWQwr7MgMUF53Wei3d3y5UncV/Ud0LO4mrtZ7SScrZNGEnxgrgz104+7QXB45mKDWcB
+ 1qalzMLZGcpSgz5TT93WXzp1P9b+mb0HrlVu9HGQXg8ZYgRrwwLWD1B6MJwt7VgYaJSc
+ Y2c7F1IgqMKcsuTyatqPZ6HHh6Ab2/amHDHNaPOTgVIg5Gxsbc2nI1ia/eiNDT+jei/y
+ SHu084uegbOMAg0HOx+DHvFmQBV0ptQ7T6L3w2icXZougzfufaVvSCv7quz0uFdvWVT1 CA== 
+Received: from apblrppmta01.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncvfpbt94-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jan 2023 15:13:08 +0000
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30UFD7Ks017058
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jan 2023 15:13:07 GMT
-Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Mon, 30 Jan 2023 07:13:02 -0800
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v12 14/14] drm/msm/disp/dpu: update dpu_enc crtc state on crtc
- enable/disable during self refresh
-Date: Mon, 30 Jan 2023 20:41:34 +0530
-Message-ID: <1675091494-13988-15-git-send-email-quic_vpolimer@quicinc.com>
+ Mon, 30 Jan 2023 15:21:40 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 30UFLZFK027518; 
+ Mon, 30 Jan 2023 15:21:35 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3ncvsk4n3k-1;
+ Mon, 30 Jan 2023 15:21:35 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30UFLZ1U027513;
+ Mon, 30 Jan 2023 15:21:35 GMT
+Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
+ [10.204.66.210])
+ by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 30UFLYIx027511;
+ Mon, 30 Jan 2023 15:21:35 +0000
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id 0FD3B4BA5; Mon, 30 Jan 2023 07:21:33 -0800 (PST)
+From: Kalyan Thota <quic_kalyant@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH 0/3] Reserve dspps based on user request
+Date: Mon, 30 Jan 2023 07:21:29 -0800
+Message-Id: <1675092092-26412-1-git-send-email-quic_kalyant@quicinc.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1675091494-13988-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <1675091494-13988-1-git-send-email-quic_vpolimer@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: TuprCkyobcEsyKxeDUG5kM0MKIKFbuRZ
-X-Proofpoint-ORIG-GUID: TuprCkyobcEsyKxeDUG5kM0MKIKFbuRZ
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: XJ7YuC7qwxbWQYLfEdKwc_x9_115BZCa
+X-Proofpoint-ORIG-GUID: XJ7YuC7qwxbWQYLfEdKwc_x9_115BZCa
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-30_14,2023-01-30_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 adultscore=0
  spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 phishscore=0 mlxlogscore=999 bulkscore=0
+ priorityscore=1501 phishscore=0 mlxlogscore=685 bulkscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301300147
+ engine=8.12.0-2212070000 definitions=main-2301300148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,86 +81,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, swboyd@chromium.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, robdclark@chromium.org,
+ dianders@chromium.org, quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ swboyd@chromium.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, quic_vpolimer@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Populate the enocder software structure to reflect the updated
-crtc appropriately during crtc enable/disable for a new commit
-while taking care of the self refresh transitions when crtc
-disable is triggered from the drm self refresh library.
+This series will enable color features on sc7280 target which has primary panel as eDP
 
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
+The series removes dspp allocation based on encoder type and allows the dspp reservation
+based on user request via ctm.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 60e5984..b1ec0c3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1022,8 +1022,17 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- 
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
- 
--	if (old_crtc_state->self_refresh_active)
-+	/* If disable is triggered while in self refresh mode,
-+	 * reset the encoder software state so that in enable
-+	 * it won't trigger a warn while assigning crtc.
-+	 */
-+	if (old_crtc_state->self_refresh_active) {
-+		drm_for_each_encoder_mask(encoder, crtc->dev,
-+					old_crtc_state->encoder_mask) {
-+			dpu_encoder_assign_crtc(encoder, NULL);
-+		}
- 		return;
-+	}
- 
- 	/* Disable/save vblank irq handling */
- 	drm_crtc_vblank_off(crtc);
-@@ -1036,7 +1045,14 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- 		 */
- 		if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_VIDEO)
- 			release_bandwidth = true;
--		dpu_encoder_assign_crtc(encoder, NULL);
-+
-+		/*
-+		 * If disable is triggered during psr active(e.g: screen dim in PSR),
-+		 * we will need encoder->crtc connection to process the device sleep &
-+		 * preserve it during psr sequence.
-+		 */
-+		if (!crtc->state->self_refresh_active)
-+			dpu_encoder_assign_crtc(encoder, NULL);
- 	}
- 
- 	/* wait for frame_event_done completion */
-@@ -1084,6 +1100,9 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct drm_encoder *encoder;
- 	bool request_bandwidth = false;
-+	struct drm_crtc_state *old_crtc_state;
-+
-+	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
- 
- 	pm_runtime_get_sync(crtc->dev->dev);
- 
-@@ -1106,8 +1125,10 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
- 	dpu_crtc->enabled = true;
- 
--	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
--		dpu_encoder_assign_crtc(encoder, crtc);
-+	if (!old_crtc_state->self_refresh_active) {
-+		drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
-+			dpu_encoder_assign_crtc(encoder, crtc);
-+	}
- 
- 	/* Enable/restore vblank irq handling */
- 	drm_crtc_vblank_on(crtc);
+The series will release/reserve the dpu resources when ever there is a topology change
+to suit the new requirements.
+
+Kalyan Thota (3):
+  drm/msm/disp/dpu1: clear dspp reservations in rm release
+  drm/msm/disp/dpu1: add dspps into reservation if there is a ctm
+    request
+  drm/msm/disp/dpu1: reserve the resources on topology change
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 54 +++++++++++++++++++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  6 ++--
+ 5 files changed, 50 insertions(+), 17 deletions(-)
+
 -- 
 2.7.4
 
