@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A2A680D4D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 13:14:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF0F680D4F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 13:14:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB3110E224;
-	Mon, 30 Jan 2023 12:13:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12FAF10E230;
+	Mon, 30 Jan 2023 12:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5A210E224;
- Mon, 30 Jan 2023 12:13:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675080838; x=1706616838;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=JekjfAihOljUKD65KZMGilfwCk3TUfFFTpssJlkT/os=;
- b=j6iF5sGo+mmRmuQWfxBsbw60tyKuwHFZAgKCBirTub2uMUcYMdBkM8fY
- /LfbiDkIFpK3W6Q7c3BVowT4YQrawc60B/TB/1llFmstzCrxoJsdeeUCI
- bRNppbJNMN5b2xSrnNvzVoOjzs4BsO8h6PbZLKQqUk/xcyNL1iDALekVC
- lHXDOBDX6Ysi6wwaWoPMaYCbkniRGS4ei8F9ZmwKCFGIjJfFzbxjNiX31
- 69yalLKuBXKH9zPBprp+20pibJ62DEC0vHe/7ZVuJc9bs4w80/lM5v34x
- 3BVJ7PexRLwf8E7+1wAMVzNpCtEFFrv4M1ixljo7i+hFzg8AODWX9ZDcj Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="307191870"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="307191870"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 04:13:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="614009603"
-X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="614009603"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.251.209.222])
- ([10.251.209.222])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 04:13:56 -0800
-Message-ID: <ef8aa0aa-b661-9979-4f7a-c547569a4281@linux.intel.com>
-Date: Mon, 30 Jan 2023 13:13:54 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 5/6] drm/ttm: stop allocating a dummy resource for
- pipelined gutting
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230130120636.63765-1-matthew.auld@intel.com>
- <20230130120636.63765-5-matthew.auld@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230130120636.63765-5-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8DBB10E230
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 12:14:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5248021AB9;
+ Mon, 30 Jan 2023 12:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675080839; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5PBmi9iZajlI+SrsQl2F2zMK0709ZtsW5dSNABazekA=;
+ b=0YFVObqol1xS5t32SuY+HRdAHBTigck8+kLPfffvR3ybuynEw27GNKe5+HZntw42Ms0JOF
+ JhQQ1smP9nb4gdr8oQsPtldWt0Rv9tN/MV4TJZsMHigUDGJsMsl0+JIcfWhZKoN/TNwfZk
+ rJWM6PMqS4mUZIHTHK1SoVqUpDgzqe8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675080839;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5PBmi9iZajlI+SrsQl2F2zMK0709ZtsW5dSNABazekA=;
+ b=W+WvJ5ge1fX+xrhLkRdW315bnFiYu+WIcrQvsp7/yriC82GFfvo4MY40Ep0KjO3dDyBCtp
+ gmlfIaFTDdyFYsBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C56B13444;
+ Mon, 30 Jan 2023 12:13:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DWrZBYe012NFOgAAMHmgww
+ (envelope-from <tiwai@suse.de>); Mon, 30 Jan 2023 12:13:59 +0000
+Date: Mon, 30 Jan 2023 13:13:58 +0100
+Message-ID: <87k014qkxl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2] fbdev: Fix invalid page access after closing deferred
+ I/O devices
+In-Reply-To: <87y1pkqu90.wl-tiwai@suse.de>
+References: <20230129082856.22113-1-tiwai@suse.de>
+ <2a5b5059-9f60-a5bc-cbb7-8267349b2eac@suse.de>
+ <87y1pkqu90.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,82 +68,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Helge Deller <deller@gmx.de>, Patrik Jakobsson <pjakobsson@suse.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 30 Jan 2023 09:52:43 +0100,
+Takashi Iwai wrote:
+> 
+> > There's a call to cancel_delayed_work_sync() in the new helper
+> > fb_deferred_io_release(). Is this the right function? Maybe
+> > flush_delayed_work() is a better choice.
+> 
+> I thought of that, but took a shorter path.
+> OK, let's check whether this keeps working with that change.
 
-On 1/30/2023 1:06 PM, Matthew Auld wrote:
-> From: Christian König <christian.koenig@amd.com>
->
-> That should not be necessary any more when drivers should at least be
-> able to handle a move without a resource.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Acked-by: Nirmoy Das <nirmoy.das@intel.com>
-> ---
->   drivers/gpu/drm/ttm/ttm_bo_util.c | 15 ++-------------
->   1 file changed, 2 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index 7635d7d6b13b..d9d2b0903b22 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -704,30 +704,23 @@ EXPORT_SYMBOL(ttm_bo_move_sync_cleanup);
->    */
->   int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
->   {
-> -	static const struct ttm_place sys_mem = { .mem_type = TTM_PL_SYSTEM };
->   	struct ttm_buffer_object *ghost;
-> -	struct ttm_resource *sys_res;
->   	struct ttm_tt *ttm;
->   	int ret;
->   
-> -	ret = ttm_resource_alloc(bo, &sys_mem, &sys_res);
-> -	if (ret)
-> -		return ret;
-> -
->   	/* If already idle, no need for ghost object dance. */
->   	if (dma_resv_test_signaled(bo->base.resv, DMA_RESV_USAGE_BOOKKEEP)) {
->   		if (!bo->ttm) {
->   			/* See comment below about clearing. */
->   			ret = ttm_tt_create(bo, true);
->   			if (ret)
-> -				goto error_free_sys_mem;
-> +				return ret;
->   		} else {
->   			ttm_tt_unpopulate(bo->bdev, bo->ttm);
->   			if (bo->type == ttm_bo_type_device)
->   				ttm_tt_mark_for_clear(bo->ttm);
->   		}
->   		ttm_resource_free(bo, &bo->resource);
-> -		ttm_bo_assign_mem(bo, sys_res);
->   		return 0;
->   	}
->   
-> @@ -744,7 +737,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
->   	ret = ttm_tt_create(bo, true);
->   	swap(bo->ttm, ttm);
->   	if (ret)
-> -		goto error_free_sys_mem;
-> +		return ret;
->   
->   	ret = ttm_buffer_object_transfer(bo, &ghost);
->   	if (ret)
-> @@ -760,13 +753,9 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
->   	dma_resv_unlock(&ghost->base._resv);
->   	ttm_bo_put(ghost);
->   	bo->ttm = ttm;
-> -	ttm_bo_assign_mem(bo, sys_res);
->   	return 0;
->   
->   error_destroy_tt:
->   	ttm_tt_destroy(bo->bdev, ttm);
-> -
-> -error_free_sys_mem:
-> -	ttm_resource_free(bo, &sys_res);
->   	return ret;
->   }
+Interestingly, this still makes the bug happening at the very same
+place.  (The tested patch is below.)
+So, more looking and testing, more confusing the problem becomes :-<
+
+
+Takashi
+
+-- 8< --
+--- a/drivers/video/fbdev/core/fb_defio.c
++++ b/drivers/video/fbdev/core/fb_defio.c
+@@ -313,20 +313,31 @@ void fb_deferred_io_open(struct fb_info *info,
+ }
+ EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+ 
+-void fb_deferred_io_cleanup(struct fb_info *info)
++/* clear out the mapping that we setup */
++static void fb_deferred_io_clear_mapping(struct fb_info *info)
+ {
+-	struct fb_deferred_io *fbdefio = info->fbdefio;
+ 	struct page *page;
+ 	int i;
+ 
+-	BUG_ON(!fbdefio);
+-	cancel_delayed_work_sync(&info->deferred_work);
+-
+-	/* clear out the mapping that we setup */
+ 	for (i = 0 ; i < info->fix.smem_len; i += PAGE_SIZE) {
+ 		page = fb_deferred_io_page(info, i);
+ 		page->mapping = NULL;
+ 	}
++}
++
++void fb_deferred_io_release(struct fb_info *info)
++{
++	flush_delayed_work(&info->deferred_work);
++	fb_deferred_io_clear_mapping(info);
++}
++
++void fb_deferred_io_cleanup(struct fb_info *info)
++{
++	struct fb_deferred_io *fbdefio = info->fbdefio;
++
++	BUG_ON(!fbdefio);
++	cancel_delayed_work_sync(&info->deferred_work);
++	fb_deferred_io_clear_mapping(info);
+ 
+ 	kvfree(info->pagerefs);
+ 	mutex_destroy(&fbdefio->lock);
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1454,6 +1454,10 @@ __releases(&info->lock)
+ 	struct fb_info * const info = file->private_data;
+ 
+ 	lock_fb_info(info);
++#if IS_ENABLED(CONFIG_FB_DEFERRED_IO)
++	if (info->fbdefio)
++		fb_deferred_io_release(info);
++#endif
+ 	if (info->fbops->fb_release)
+ 		info->fbops->fb_release(info,1);
+ 	module_put(info->fbops->owner);
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -662,6 +662,7 @@ extern int  fb_deferred_io_init(struct fb_info *info);
+ extern void fb_deferred_io_open(struct fb_info *info,
+ 				struct inode *inode,
+ 				struct file *file);
++extern void fb_deferred_io_release(struct fb_info *info);
+ extern void fb_deferred_io_cleanup(struct fb_info *info);
+ extern int fb_deferred_io_fsync(struct file *file, loff_t start,
+ 				loff_t end, int datasync);
+-- 
+2.35.3
+
+
+
+> 
+> > > Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > > Cc: <stable@vger.kernel.org>
+> > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > 
+> > This could use a Fixes tag. It's not exactly clear to me when this
+> > problem got originally introduced, but the recent refactoring seems a
+> > candidate.
+> > 
+> > Fixes: 56c134f7f1b5 ("fbdev: Track deferred-I/O pages in pageref struct")
+> 
+> Hrm, this might be.  Maybe Patrik can test with the revert of this?
+> 
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Javier Martinez Canillas <javierm@redhat.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Zack Rusin <zackr@vmware.com>
+> > Cc: VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>
+> > Cc: Jaya Kumar <jayalk@intworks.biz>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+> > Cc: Haiyang Zhang <haiyangz@microsoft.com>
+> > Cc: Wei Liu <wei.liu@kernel.org>
+> > Cc: Dexuan Cui <decui@microsoft.com>
+> > Cc: Steve Glendinning <steve.glendinning@shawell.net>
+> > Cc: Bernie Thompson <bernie@plugable.com>
+> > Cc: Helge Deller <deller@gmx.de>
+> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Stephen Kitt <steve@sk2.org>
+> > Cc: Peter Suti <peter.suti@streamunlimited.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Cc: ye xingchen <ye.xingchen@zte.com.cn>
+> > Cc: Petr Mladek <pmladek@suse.com>
+> > Cc: John Ogness <john.ogness@linutronix.de>
+> > Cc: Tom Rix <trix@redhat.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linux-fbdev@vger.kernel.org
+> > Cc: linux-hyperv@vger.kernel.org
+> > Cc: <stable@vger.kernel.org> # v5.19+
+> 
+> Nah, please don't.  Too many Cc's, literally a spam.
+> 
+> > > ---
+> > > v1->v2: Fix build error without CONFIG_FB_DEFERRED_IO
+> > > 
+> > >   drivers/video/fbdev/core/fb_defio.c | 10 +++++++++-
+> > >   drivers/video/fbdev/core/fbmem.c    |  4 ++++
+> > >   include/linux/fb.h                  |  1 +
+> > >   3 files changed, 14 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+> > > index c730253ab85c..583cbcf09446 100644
+> > > --- a/drivers/video/fbdev/core/fb_defio.c
+> > > +++ b/drivers/video/fbdev/core/fb_defio.c
+> > > @@ -313,7 +313,7 @@ void fb_deferred_io_open(struct fb_info *info,
+> > >   }
+> > >   EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+> > >   -void fb_deferred_io_cleanup(struct fb_info *info)
+> > > +void fb_deferred_io_release(struct fb_info *info)
+> > >   {
+> > >   	struct fb_deferred_io *fbdefio = info->fbdefio;
+> > >   	struct page *page;
+> > > @@ -327,6 +327,14 @@ void fb_deferred_io_cleanup(struct fb_info *info)
+> > >   		page = fb_deferred_io_page(info, i);
+> > >   		page->mapping = NULL;
+> > >   	}
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(fb_deferred_io_release);
+> > 
+> > It's all in the same module. No need to export this symbol.
+> 
+> I noticed it, too, but just keep the same style as other functions :)
+> That said, the other exported symbols are also useless.  I can prepare
+> another patch to clean it up.
+> 
+> 
+> thanks,
+> 
+> Takashi
