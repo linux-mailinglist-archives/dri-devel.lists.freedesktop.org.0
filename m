@@ -2,61 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAEC66809B3
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 10:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C4B6809C9
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 10:41:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 406C910E0AC;
-	Mon, 30 Jan 2023 09:38:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9905E10E22B;
+	Mon, 30 Jan 2023 09:41:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C7F910E0D7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 09:38:15 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id mc11so7448505ejb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 01:38:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mzQMMKcx09uqvwkgBAEJEp/XB8h4L/XPIaqj+sdWOGo=;
- b=aFnPqKDiZvokU1Ld9YVGuCQmLju46h8Ps4IdtGRs35c417o8G3yZFWbdUuURbsUUV6
- LPBbq1Zxb4S0wZJSHzgwzOtBcymhxWyplCdw+SFy5H087tb++iLOl7ekhob+0ljxV8My
- HDroHVCds5UyDOdGNNdpiQwFjkIPzQoBGbFdJgsCk1UlZIueccMNs94n19FwJsMY1MbS
- q/EtADGLM/NqgBOvx7qZThR6/g16OZJDzakdg50b9VNHm/ursOvTgY98Sblg2ipKtfJg
- p1GFcQOu71B7AnN9uSTt6pMyY1wjkCkFwoVE5TL9fR2/s3typ5Re1t8jqTGywYGlgY6a
- Rpcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mzQMMKcx09uqvwkgBAEJEp/XB8h4L/XPIaqj+sdWOGo=;
- b=N0CFlz9OJyd6e/uegGHR5sYy6nXW+yihwwP6aJx/SEDOyyOeutBg+3TUox6+RS4MYP
- jMPO0SlRbimha1f1bZibGwD4ofeslN3AvS4+9K+loO8A69loKCIrGzE9Wcpr8ypVHCCg
- ntedAHyFVbKaWOC09+jLhKARub2mVH+fPWjOpQu8oN8k98W0yBet4aOnYlDUZOPh+7je
- d7aVGLZtfUTUGNdj49LJeKozZiv/NluTiTarQb2sSjAknz/fHQMjBYEYj5aRKmphdXvl
- uagzVDPrBYRuafZ2QZr9V/0cy0sJ/o6FVRIhE0gW8n5p5dqWryU3eygi8bnS1OU98+CH
- syLw==
-X-Gm-Message-State: AO0yUKWEeccfBN26R0BFf1RAEEv0sO10SZ4mN8l+laiTSDPNdfwZF6gF
- bni1xrLGUQyVy5Mk5Ocyy2/yDg==
-X-Google-Smtp-Source: AK7set/Q8cFkx1KpIuuzDQfTJlgcFrvMRn26TPdEPM4KQ4E1HvWKmTFvnJdOiF00VXMaNhm6FU3idw==
-X-Received: by 2002:a17:907:3ea1:b0:87b:1be:a8bf with SMTP id
- hs33-20020a1709073ea100b0087b01bea8bfmr15030746ejc.30.1675071493555; 
- Mon, 30 Jan 2023 01:38:13 -0800 (PST)
-Received: from localhost.localdomain (abyl20.neoplus.adsl.tpnet.pl.
- [83.9.31.20]) by smtp.gmail.com with ESMTPSA id
- a26-20020a170906685a00b008878909859bsm1951398ejs.152.2023.01.30.01.38.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 01:38:13 -0800 (PST)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
- krzysztof.kozlowski@linaro.org
-Subject: [PATCH] drm/msm/a3xx: Implement .gpu_busy
-Date: Mon, 30 Jan 2023 10:38:09 +0100
-Message-Id: <20230130093809.2079314-1-konrad.dybcio@linaro.org>
-X-Mailer: git-send-email 2.39.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 394F810E066
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 09:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675071684; x=1706607684;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=cYHSKZJr+AsIJfCw75s0NaKF1+VC8e4ck3sYGiSJVxc=;
+ b=Sz9yOkiIGR4mnE3LG0bEl3/jHg2Ryx6x9n53eLhgAQa2lLtdff5RVPnS
+ 3mKG/AAiq6ChNtWnEER8Jy1go2x201Gi4Nl5RONmVfegfa5dSvJnk+UGa
+ E4uJiTLD/pVbc3+3olF+XSEezfuTsxK6gnEzFEFjsG+MdOofWjMpEoeVW
+ xSlUgiFSF3eJ6wB+KcmZkW+rSFM98/OYVEGh9gS9xGfGV/syUI+dIuip8
+ DASsvEBUGQeSlXJxT0cXE9YG9GK6D+/zNhSBFPtE8jF8lHUzfCLt9LhHC
+ OCx7aEXgVU0L8d5OasQkgsptjCh2RYzHd4nB6E/oXC/Rt3RTlTN0fn9Vh Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="307861656"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="307861656"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2023 01:41:23 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="837914234"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="837914234"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2023 01:41:20 -0800
+Date: Mon, 30 Jan 2023 10:41:18 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] [v2] accel: fix CONFIG_DRM dependencies
+Message-ID: <20230130094118.GA1627912@linux.intel.com>
+References: <20230127221504.2522909-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230127221504.2522909-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,51 +56,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Melissa Wen <mwen@igalia.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for gpu_busy on a3xx, which is required for devfreq
-support.
+On Fri, Jan 27, 2023 at 11:14:55PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> At the moment, accel drivers can be built-in even with CONFIG_DRM=m,
+> but this causes a link failure:
+> 
+> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_dev_init':
+> ivpu_drv.c:(.text+0x1535): undefined reference to `drmm_kmalloc'
+> x86_64-linux-ld: ivpu_drv.c:(.text+0x1562): undefined reference to `drmm_kmalloc'
+> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_remove':
+> ivpu_drv.c:(.text+0x1faa): undefined reference to `drm_dev_unregister'
+> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_probe':
+> ivpu_drv.c:(.text+0x1fef): undefined reference to `__devm_drm_dev_alloc'
+> 
+> The problem is that DRM_ACCEL is a 'bool' symbol symbol, so driver that
+> only depend on DRM_ACCEL but not also on DRM do not see the restriction
+> to =m configs.
+> 
+> To ensure that each accel driver has an implied dependency on CONFIG_DRM,
+> enclose the entire Kconfig file in an if/endif check.
+> 
+> Fixes: 8bf4889762a8 ("drivers/accel: define kconfig and register a new major")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-index 948785ed07bb..1923388eacd8 100644
---- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
-@@ -477,6 +477,16 @@ static struct msm_gpu_state *a3xx_gpu_state_get(struct msm_gpu *gpu)
- 	return state;
- }
- 
-+static u64 a3xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
-+{
-+	u64 busy_cycles;
-+
-+	busy_cycles = gpu_read64(gpu, REG_A3XX_RBBM_PERFCTR_RBBM_0_LO);
-+	*out_sample_rate = clk_get_rate(gpu->core_clk);
-+
-+	return busy_cycles;
-+}
-+
- static u32 a3xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
- {
- 	ring->memptrs->rptr = gpu_read(gpu, REG_AXXX_CP_RB_RPTR);
-@@ -498,6 +508,7 @@ static const struct adreno_gpu_funcs funcs = {
- #if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
- 		.show = adreno_show,
- #endif
-+		.gpu_busy = a3xx_gpu_busy,
- 		.gpu_state_get = a3xx_gpu_state_get,
- 		.gpu_state_put = adreno_gpu_state_put,
- 		.create_address_space = adreno_create_address_space,
--- 
-2.39.1
-
+> ---
+> v2: rearrage the DRM dependency rather than requiring DRM to be built-in
+> ---
+>  drivers/accel/Kconfig | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+> index 834863902e16..c437206aa3f1 100644
+> --- a/drivers/accel/Kconfig
+> +++ b/drivers/accel/Kconfig
+> @@ -6,9 +6,10 @@
+>  # as, but not limited to, Machine-Learning and Deep-Learning acceleration
+>  # devices
+>  #
+> +if DRM
+> +
+>  menuconfig DRM_ACCEL
+>  	bool "Compute Acceleration Framework"
+> -	depends on DRM
+>  	help
+>  	  Framework for device drivers of compute acceleration devices, such
+>  	  as, but not limited to, Machine-Learning and Deep-Learning
+> @@ -25,3 +26,5 @@ menuconfig DRM_ACCEL
+>  
+>  source "drivers/accel/habanalabs/Kconfig"
+>  source "drivers/accel/ivpu/Kconfig"
+> +
+> +endif
+> -- 
+> 2.39.0
+> 
