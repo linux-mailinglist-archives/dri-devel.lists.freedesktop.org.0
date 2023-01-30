@@ -2,152 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AEC6817E6
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 18:45:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D974C681811
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 18:58:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A09710E02A;
-	Mon, 30 Jan 2023 17:45:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52C0310E027;
+	Mon, 30 Jan 2023 17:58:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4BE10E02A;
- Mon, 30 Jan 2023 17:45:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675100718; x=1706636718;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=RipFhhHqbF2COwXIVJwykwR3QhNRlvZbLrPwnLanblI=;
- b=JBB360PEyD0Vp9vyVJu0NPQq4kzPA46dtrONwGBXJs37rzk7PZfb9yL4
- MsUIkYg44xzcl9EfbyWoObh4SUli+ZGcIZC8lVp0DTrYhLcWbW5F6ctV/
- JKCkIUyPVqyS8TT/k+yb1BxJ/1OShgOj/8Nb+rRsdPTCjAnRE/WCYAcyH
- kNnONznGzyxss8oLlllUGebIACL//uDJCsVbZbGCyHjzXBWBNEetIOIl4
- Ad92rMRpqhHt30130c+LhZ45pyju4yIdAMmR6fbp8vwgPvIUxv/RIok9T
- mQXYjvjNmfAV57+OlWm006iEyowkjza/a78VvGYLXb5+cfKUkWbFbRyzS w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="392172785"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="392172785"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2023 09:45:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="641631541"
-X-IronPort-AV: E=Sophos;i="5.97,258,1669104000"; d="scan'208";a="641631541"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga006.jf.intel.com with ESMTP; 30 Jan 2023 09:45:17 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 30 Jan 2023 09:45:17 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 30 Jan 2023 09:45:16 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 30 Jan 2023 09:45:16 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 30 Jan 2023 09:45:16 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PoXbXzp63FJ8KBUK6WJPTvaKN1SlR26SYt0qiInU6O2xxLHIu9porjQ1+UKBbmV9mKH3BnezqwBs35Lp7FVIrqpfitnVjLbZ1GInen3IAmH70nixhLzPh9S6alb7Cw+3jlfXrunJyKtn6zdkwMpahRDmKrclFRoHammJTwZUjVmWE9BIQCPZimhKziQqMlNg4+6U+j8gWAKIb7CmxdTJkbeSsbOgRhBFtTgMxHIF+CZXZKRUQWirdi0xRMe0pPwpXXrfUdl+TfzqTYwRResXt6RWuGeb1LP5wzpryGjoFYVa9xx0eTx1z/rrONjr6tWDgduUarH5haoe0JAASHTkWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s9yCT6kYZ6TM5LMF1p4hl4nAa7cYo4hmvFjZa1EjMA8=;
- b=acFH13thXIWrBMSIk94u2b+bmn0Wd9qotjz5HmuX1jALR7zsqLwiCAijk/tXmD3GgLDfvFshQpCMx8IA87NQ/eYLyO1SUe2A1feYiAC/VO+e+yNtn06jgp+2akn7lpaBtVvgY0laLOG7AVSWlVzcjdMM5KhGdTKQaEJgmIV7+JC72YZoT82W2ol2EKEUTC8U7OzWjY006M8uBL4Lmj2162Y0NJSea3DWhjJQ9HIgtC4uox7iyL7ZFY98ZRMxNbJkyeB4MJErvguB6EugUJgrgRSaLNdhwYAjveR9YJY5HMMYNrwjhcMt4SbuVNsgKvxhRNreFPKqPmgjvqpl4oop7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by SJ0PR11MB5149.namprd11.prod.outlook.com (2603:10b6:a03:2d1::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
- 2023 17:45:14 +0000
-Received: from BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::e1a3:6ad3:9f43:5f25]) by BY5PR11MB3911.namprd11.prod.outlook.com
- ([fe80::e1a3:6ad3:9f43:5f25%4]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
- 17:45:14 +0000
-Message-ID: <ec8211d8-2a27-d40a-0e77-3656f8e2bd52@intel.com>
-Date: Mon, 30 Jan 2023 09:45:12 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 8/8] drm/i915/guc: Update GT/GuC messages in intel_uc.c
-Content-Language: en-GB
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20230128195907.1837-1-michal.wajdeczko@intel.com>
- <20230128195907.1837-9-michal.wajdeczko@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <20230128195907.1837-9-michal.wajdeczko@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0P220CA0020.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::26) To BY5PR11MB3911.namprd11.prod.outlook.com
- (2603:10b6:a03:18d::29)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E82CE10E027;
+ Mon, 30 Jan 2023 17:58:28 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30UHodMo023069; Mon, 30 Jan 2023 17:58:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=T0Gw0uDvKcfSOofRb9wLkX8UfN4CkwRLUOpkaJ3t9uc=;
+ b=U+eNmATzs3ZO7/hBhDnXlza/glU/tPlI6oPtmfg6sUNqPnen05MQyDKcZ56Zq6RxG6kb
+ sX88kiiZFTEBVTMtf1/ixK/Ip76+oJWQOTkX6sn12m1gNikIXksA72oxX0QwMtYOogPW
+ CpO0HJGg9yGPLdJweMPBFlG6Nnrh4dZbXRJ4NeDGdTmuWEjuUIYlWKsw+KOf4tajrvdD
+ FXYJZ+gFs9ezfVPMAnxNZ1FQ6tD6vl3EPKvgoTpQNhCNmilw1x7fCU0YF7Dk7aNGzaHO
+ CkT173R6oz7kWfJUKOPGbMk7REEvrjtsE7re3ehygD93wpsSssPW90ov2UmN/i6ZkWe5 PA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nefmfrgnn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Jan 2023 17:58:25 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30UHwOYm009700
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Jan 2023 17:58:24 GMT
+Received: from [10.110.115.177] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 30 Jan
+ 2023 09:58:23 -0800
+Message-ID: <39a4f145-6190-db47-c334-a20cbf1a9808@quicinc.com>
+Date: Mon, 30 Jan 2023 09:58:22 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_|SJ0PR11MB5149:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8dcd989b-1162-4739-cf5f-08db02e9be22
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YLv2PvqLHOiLEZCDoJ1MY7I0xgcFM5UpDRzdIZR1n60uU153gqYAn8ntEzttKCAkedK74zeeK+hrI2W10QO++Cg9F11Mwbj6ylSW82R3hXYEWIZ/r5ywnE2d2ZFjSbgRy5NNKczSCNllctrebSzDecsf5M4AGdhKpQoBaBG6sBWWbAKGxvzO9UTfMlAlapE2OYz0f7ZG1Qhm2FnLa+OdyOW9Me15BkgsZ0/pbIVhcLY8TNiNQQuyeLK0FQoLyc9A2O2iClAlCR88iYdf1CsbVV/9JGImQdBpYj6Wa27Zaz4WJMayyuvODKC1YoX3665fSwngxbmuRqMaNUQBP4l4j+YX4HNDnHqAPVEqmMS6CzVFIm+5zpHpLcL8OPoU+6VEXKvpouI1sfTMzAZRDBIJ9KFhX5IkdNOZIfDUQu+AhVm0hXnVqt8WL5oyuhXnQClhilHs0nnUHEgcWqA7JxG30ed2SLbd5lovMHVp9B3F362Olr/p5NWfpUvxLGEDIP/RL2HYCPO4Zdb/6Vgd88U+gLeibVF7Wp7tALQLeRfGFwAM9LSkLAFzehB9S4HP3gelECrykNsOba+05R+pGjCZKQmfXqTV59LovebLDNZnihe+jhiNwN9yDFgTP4GKqKb+kkduO5i4Um2QQTdvCfk4CGj1ZQ7BWG8KN2ohpJzJeKqecfVDORN4F/YddEeIA5XlrrrwLU8ZQFzuq0/hyFshENL9Y7qQoQDj1Y2ai2mGqzI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(39860400002)(346002)(376002)(396003)(366004)(136003)(451199018)(186003)(6506007)(53546011)(31696002)(82960400001)(86362001)(2616005)(36756003)(38100700002)(83380400001)(26005)(8936002)(31686004)(2906002)(15650500001)(5660300002)(6512007)(41300700001)(6486002)(478600001)(4326008)(450100002)(316002)(8676002)(66556008)(66946007)(66476007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZzFXd21pcURDZUV1TDd1Zmo1enQ0SXpuV2tpTWorNzZsT3RNRzZhVTBwZGtp?=
- =?utf-8?B?NzQxMU91SkI3YzVWSVBySEFva0NUTE5SR0doQmQrMVNEY0FRaVI1bWxXVUtX?=
- =?utf-8?B?VVJ4N3U2YjI5RHIyT0puRGdhVEdBaWFPMEFLT2x0NURsN2lnOXR5ZkxNTU9n?=
- =?utf-8?B?RVJ0eEUxQzlmWW94Nit3NGRpQlJRcEQ0VGxoTmhVS05yVFA4TDJQRnVVMmJp?=
- =?utf-8?B?V0c3QTllbmR2aFRpUldzWHYwMUFZYVVEcW1nVDhwMUxXZDVXdzBldE9GdXdi?=
- =?utf-8?B?S3kyYkwvVVY0MmlhbFdXcitSRXJpN0tNeWtHVHFPcFZLL0FGb2xBR0E1WjBq?=
- =?utf-8?B?MWk0NUlBQXZ6MGZ3NDMwVFJZY3UzcHlCenpNNXJ3L1RNNE1DQUtmZHlJRXFt?=
- =?utf-8?B?K0U3QlExbFlDSkIvdXNiS2c3Y1h4MGlFSHUyWDNRSTRTTGU4bCtUeXY1Nnhz?=
- =?utf-8?B?SmRETzArV1NUVnJta3J2TTRFUEVKbHFYNHB4TjdaOG1VNzVWOCsyZ2NTQWd3?=
- =?utf-8?B?dkVvRGx1SnliZW93VSs5VXYybnpjZisxU2M3Um5DZWJCb21Uck5qUnVvbFQy?=
- =?utf-8?B?SlE1bmhFM2djTkNxSDFUekNxUU8vWEdrMDV5UTdDWkx4RTV4NElDaElpcHo4?=
- =?utf-8?B?NWNoWnVpNHA3WGVsNUFQS1JBRGVmRlNtN3hBZzJQRlNKNjA0NVNtWll4WHlq?=
- =?utf-8?B?bndOeHltdXUzb0tLTWh4SGNtQm1TSjY2MG96dElSZnJBQjFVQTBNa1ZRcm1n?=
- =?utf-8?B?UElVZTFMOGZPUnZkR2RUd2RmTXM1MUJVY0VEbk00NzNyb0FYLzdJSXB4cEQ3?=
- =?utf-8?B?NmhzSlhWbEExK2NYVGlINjRIZWZmMnE1WTZUcE9POHBoWTVVdjVnd0ZCTnFJ?=
- =?utf-8?B?UzFCbDFoT01VdmJKYlErTEVVem0zcUkxejZacURPaXg1eFQzSUtHVEpFTTMw?=
- =?utf-8?B?R0xMVldUVGc5Q0pxSGlRNS91NVYwc2xzbGVTR0V2S050RVJBRTg1bXEzTHlE?=
- =?utf-8?B?emhSbXdHV0cvMk5ZOE1kVVRzL3NHbzVYZkZTbmdsUDRFYXlVYi9KWXB5emVP?=
- =?utf-8?B?NEZPV1hndWlreVNMYlplL1VNczBhbVJ1UE5yQjVCUVN5bUNFMU5RKzAzZlhL?=
- =?utf-8?B?aFl3U0xzN3RGRHBIT3Z4QXZoL2tUTmRVSUN0ODl0STVHbU04b3lQV3U1Mmdw?=
- =?utf-8?B?V293T1VycFJyYklXL3dmazRTdlJKNzREVnZIQS9FRXRUUk01STRxRVZOMEFJ?=
- =?utf-8?B?ZnA5VGtWamZleHhKQTJ6ODMvaGY0QzBkRkE3bHdjbGYvKytZQ0VCVitGMzNn?=
- =?utf-8?B?V2pwdUhOKzJRWWR1OEp1dUFlNjZrQVR5UXZWY2J6NnpkaHJINVJVYUIvdXJT?=
- =?utf-8?B?WlcrREx2UHpqR1dLK21LUm5BRXdwZVZyeVQ5QWVPTC9KZjFvOVR3UG9QSEhT?=
- =?utf-8?B?SkR1bTFnL3NnTlRpNzdlaGhRc2YwR0RXTWxjb0FlUmJGcDk4QkZ0bXRlazdU?=
- =?utf-8?B?NU1EL2RUblpjcWxIZnBzeFlMdjlZNVI3eFRXb3F0L0VsUERZWnRwb1NWNWlq?=
- =?utf-8?B?WGNhS1RsOUFORUZzemdFUmVPNVo0cUtQNXBmYU1sbW9naGVhcXE0REtRNWJO?=
- =?utf-8?B?UWIvL0hOSkRSMC8vMzgvVytjYitZY0xXL1JmTHRHd3BzOVM1VkpmOVRLTnQ4?=
- =?utf-8?B?b1B6ZEpMM1ArWXg4V0JhREZJNnV1L2lWdEhURHhndnZvOWZja3hMUDFENkdC?=
- =?utf-8?B?elJQNXVPOFYxZk1Ud3JtS1FSOTRGdnkrcFNCUTNrSzZRN25FNzNIN3c1ZkE0?=
- =?utf-8?B?UlFrek96bmNkdnZySGhaL0MwWHBieUxqNVIyWkJzL2VKSjJSN1k1QUQ0WVZM?=
- =?utf-8?B?YURIZkJkSkFSeXFlR0FXRFlpQkZnOGt5WHlwR2lxTTFkOGplSUdOVFBPaW5z?=
- =?utf-8?B?UkNKNGw3ZUlXcE1UWTI5ZDlkNnJYZDhHcEJlTTRQR3c2RlVyQzk4NldIbVdJ?=
- =?utf-8?B?bndNQldtVlNIU1djcnBiYkk5b3h2UkY4QWJSOHFOaHA0bm81VGRpS1U2QWZY?=
- =?utf-8?B?RFJaajVHelNmU0xzVTFibWdpbzlYYmsxMVlWbnNCMyt2UzVLc0JQTGtWdFFJ?=
- =?utf-8?B?RmxUd3E1UmFnbFFuY0U5bHBha1k2bC82V0YrTTcwa1FTNDB6VVRFanY0ZU1x?=
- =?utf-8?B?VUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8dcd989b-1162-4739-cf5f-08db02e9be22
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 17:45:14.4894 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EZGifGcxWBgxIrVkDCJ/YMygdkeExEuNAcjzT72Z/K8wv2TTgh9iLMY3ZeuBy5/XJ6rnHUNwG6xjyjAWSTbbqo3CXhnVDMnyViuwKAV2M4Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5149
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [Freedreno] [PATCH v2 1/2] drm/msm/dp: Clean up handling of DP
+ AUX interrupts
+Content-Language: en-US
+To: Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <20230126170745.v2.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <20230126170745.v2.1.I90ffed3ddd21e818ae534f820cb4d6d8638859ab@changeid>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: NsdjxEOS-atocLfLYUKKIwY9u9hhmAbn
+X-Proofpoint-GUID: NsdjxEOS-atocLfLYUKKIwY9u9hhmAbn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-30_16,2023-01-30_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ priorityscore=1501 mlxlogscore=999 suspectscore=0 bulkscore=0 mlxscore=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301300171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,239 +85,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org, Sean
+ Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/28/2023 11:59, Michal Wajdeczko wrote:
-> Use new macros to have common prefix that also include GT#.
+
+On 1/26/2023 5:09 PM, Douglas Anderson wrote:
+> The DP AUX interrupt handling was a bit of a mess.
+> * There were two functions (one for "native" transfers and one for
+>    "i2c" transfers) that were quite similar. It was hard to say how
+>    many of the differences between the two functions were on purpose
+>    and how many of them were just an accident of how they were coded.
+> * Each function sometimes used "else if" to test for error bits and
+>    sometimes didn't and again it was hard to say if this was on purpose
+>    or just an accident.
+> * The two functions wouldn't notice whether "unknown" bits were
+>    set. For instance, there seems to be a bit "DP_INTR_PLL_UNLOCKED"
+>    and if it was set there would be no indication.
+> * The two functions wouldn't notice if more than one error was set.
 >
-> v2: pass gt to print_fw_ver
-> v3: prefer guc_dbg in suspend/resume logs
+> Let's fix this by being more consistent / explicit about what we're
+> doing.
 >
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+> By design this could cause different handling for AUX transfers,
+> though I'm not actually aware of any bug fixed as a result of
+> this patch (this patch was created because we simply noticed how odd
+> the old code was by code inspection). Specific notes here:
+> 1. In the old native transfer case if we got "done + wrong address"
+>     we'd ignore the "wrong address" (because of the "else if"). Now we
+>     won't.
+> 2. In the old native transfer case if we got "done + timeout" we'd
+>     ignore the "timeout" (because of the "else if"). Now we won't.
+> 3. In the old native transfer case we'd see "nack_defer" and translate
+>     it to the error number for "nack". This differed from the i2c
+>     transfer case where "nack_defer" was given the error number for
+>     "nack_defer". This 100% can't matter because the only user of this
+>     error number treats "nack defer" the same as "nack", so it's clear
+>     that the difference between the "native" and "i2c" was pointless
+>     here.
+> 4. In the old i2c transfer case if we got "done" plus any error
+>     besides "nack" or "defer" then we'd ignore the error. Now we don't.
+> 5. If there is more than one error signaled by the hardware it's
+>     possible that we'll report a different one than we used to. I don't
+>     know if this matters. If someone is aware of a case this matters we
+>     should document it and change the code to make it explicit.
+> 6. One quirk we keep (I don't know if this is important) is that in
+>     the i2c transfer case if we see "done + defer" we report that as a
+>     "nack". That seemed too intentional in the old code to just drop.
+>
+> After this change we will add extra logging, including:
+> * A warning if we see more than one error bit set.
+> * A warning if we see an unexpected interrupt.
+> * A warning if we get an AUX transfer interrupt when shouldn't.
+>
+> It actually turns out that as a result of this change then at boot we
+> sometimes see an error:
+>    [drm:dp_aux_isr] *ERROR* Unexpected DP AUX IRQ 0x01000000 when not busy
+This normal, when suspend/unplug the pll will  loss locked and at that 
+time aux is not busy.
+> That means that, during init, we are seeing DP_INTR_PLL_UNLOCKED. For
+> now I'm going to say that leaving this error reported in the logs is
+> OK-ish and hopefully it will encourage someone to track down what's
+> going on at init time.
+>
+> One last note here is that this change renames one of the interrupt
+> bits. The bit named "i2c done" clearly was used for native transfers
+> being done too, so I renamed it to indicate this.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Tested-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
 > ---
->   drivers/gpu/drm/i915/gt/uc/intel_uc.c | 80 +++++++++++++--------------
->   1 file changed, 39 insertions(+), 41 deletions(-)
+> I don't have good test coverage for this change and it does have the
+> potential to change behavior. I confirmed that eDP and DP still
+> continue to work OK on one machine. Hopefully folks can test it more.
 >
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index 9a8a1abf71d7..de7f987cf611 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -6,11 +6,13 @@
->   #include <linux/string_helpers.h>
->   
->   #include "gt/intel_gt.h"
-> +#include "gt/intel_gt_print.h"
->   #include "gt/intel_reset.h"
->   #include "intel_gsc_fw.h"
->   #include "intel_gsc_uc.h"
->   #include "intel_guc.h"
->   #include "intel_guc_ads.h"
-> +#include "intel_guc_print.h"
->   #include "intel_guc_submission.h"
->   #include "gt/intel_rps.h"
->   #include "intel_uc.h"
-> @@ -67,14 +69,14 @@ static int __intel_uc_reset_hw(struct intel_uc *uc)
->   
->   	ret = intel_reset_guc(gt);
->   	if (ret) {
-> -		DRM_ERROR("Failed to reset GuC, ret = %d\n", ret);
-> +		gt_err(gt, "Failed to reset GuC, ret = %d\n", ret);
->   		return ret;
->   	}
->   
->   	guc_status = intel_uncore_read(gt->uncore, GUC_STATUS);
-> -	WARN(!(guc_status & GS_MIA_IN_RESET),
-> -	     "GuC status: 0x%x, MIA core expected to be in reset\n",
-> -	     guc_status);
-> +	gt_WARN(gt, !(guc_status & GS_MIA_IN_RESET),
-> +		"GuC status: 0x%x, MIA core expected to be in reset\n",
-> +		guc_status);
->   
->   	return ret;
->   }
-> @@ -252,15 +254,13 @@ static int guc_enable_communication(struct intel_guc *guc)
->   	intel_guc_ct_event_handler(&guc->ct);
->   	spin_unlock_irq(gt->irq_lock);
->   
-> -	drm_dbg(&i915->drm, "GuC communication enabled\n");
-> +	guc_dbg(guc, "communication enabled\n");
->   
->   	return 0;
+> Changes in v2:
+> - Moved DP_INTR_AUX_XFER_DONE to the end of the if else chain.
+>
+>   drivers/gpu/drm/msm/dp/dp_aux.c     | 80 ++++++++++++-----------------
+>   drivers/gpu/drm/msm/dp/dp_catalog.c |  2 +-
+>   drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
+>   3 files changed, 36 insertions(+), 48 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+> index cc3efed593aa..84f9e3e5f964 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> @@ -162,47 +162,6 @@ static ssize_t dp_aux_cmd_fifo_rx(struct dp_aux_private *aux,
+>   	return i;
 >   }
 >   
->   static void guc_disable_communication(struct intel_guc *guc)
->   {
-> -	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
+> -static void dp_aux_native_handler(struct dp_aux_private *aux, u32 isr)
+> -{
+> -	if (isr & DP_INTR_AUX_I2C_DONE)
+> -		aux->aux_error_num = DP_AUX_ERR_NONE;
+> -	else if (isr & DP_INTR_WRONG_ADDR)
+> -		aux->aux_error_num = DP_AUX_ERR_ADDR;
+> -	else if (isr & DP_INTR_TIMEOUT)
+> -		aux->aux_error_num = DP_AUX_ERR_TOUT;
+> -	if (isr & DP_INTR_NACK_DEFER)
+> -		aux->aux_error_num = DP_AUX_ERR_NACK;
+> -	if (isr & DP_INTR_AUX_ERROR) {
+> -		aux->aux_error_num = DP_AUX_ERR_PHY;
+> -		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+> -	}
+> -}
 > -
->   	/*
->   	 * Events generated during or after CT disable are logged by guc in
->   	 * via mmio. Make sure the register is clear before disabling CT since
-> @@ -280,11 +280,12 @@ static void guc_disable_communication(struct intel_guc *guc)
->   	 */
->   	guc_get_mmio_msg(guc);
->   
-> -	drm_dbg(&i915->drm, "GuC communication disabled\n");
-> +	guc_dbg(guc, "communication disabled\n");
->   }
->   
->   static void __uc_fetch_firmwares(struct intel_uc *uc)
->   {
-> +	struct intel_gt *gt = uc_to_gt(uc);
->   	int err;
->   
->   	GEM_BUG_ON(!intel_uc_wants_guc(uc));
-> @@ -293,15 +294,13 @@ static void __uc_fetch_firmwares(struct intel_uc *uc)
->   	if (err) {
->   		/* Make sure we transition out of transient "SELECTED" state */
->   		if (intel_uc_wants_huc(uc)) {
-> -			drm_dbg(&uc_to_gt(uc)->i915->drm,
-> -				"Failed to fetch GuC: %d disabling HuC\n", err);
-> +			gt_dbg(gt, "Failed to fetch GuC fw (%pe) disabling HuC\n", ERR_PTR(err));
->   			intel_uc_fw_change_status(&uc->huc.fw,
->   						  INTEL_UC_FIRMWARE_ERROR);
->   		}
->   
->   		if (intel_uc_wants_gsc_uc(uc)) {
-> -			drm_dbg(&uc_to_gt(uc)->i915->drm,
-> -				"Failed to fetch GuC: %d disabling GSC\n", err);
-> +			gt_dbg(gt, "Failed to fetch GuC fw (%pe) disabling GSC\n", ERR_PTR(err));
->   			intel_uc_fw_change_status(&uc->gsc.fw,
->   						  INTEL_UC_FIRMWARE_ERROR);
->   		}
-> @@ -382,7 +381,7 @@ static int uc_init_wopcm(struct intel_uc *uc)
->   	int err;
->   
->   	if (unlikely(!base || !size)) {
-> -		i915_probe_error(gt->i915, "Unsuccessful WOPCM partitioning\n");
-> +		gt_probe_error(gt, "Unsuccessful WOPCM partitioning\n");
->   		return -E2BIG;
->   	}
->   
-> @@ -413,13 +412,13 @@ static int uc_init_wopcm(struct intel_uc *uc)
->   	return 0;
->   
->   err_out:
-> -	i915_probe_error(gt->i915, "Failed to init uC WOPCM registers!\n");
-> -	i915_probe_error(gt->i915, "%s(%#x)=%#x\n", "DMA_GUC_WOPCM_OFFSET",
-> -			 i915_mmio_reg_offset(DMA_GUC_WOPCM_OFFSET),
-> -			 intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET));
-> -	i915_probe_error(gt->i915, "%s(%#x)=%#x\n", "GUC_WOPCM_SIZE",
-> -			 i915_mmio_reg_offset(GUC_WOPCM_SIZE),
-> -			 intel_uncore_read(uncore, GUC_WOPCM_SIZE));
-> +	gt_probe_error(gt, "Failed to init uC WOPCM registers!\n");
-> +	gt_probe_error(gt, "%s(%#x)=%#x\n", "DMA_GUC_WOPCM_OFFSET",
-> +		       i915_mmio_reg_offset(DMA_GUC_WOPCM_OFFSET),
-> +		       intel_uncore_read(uncore, DMA_GUC_WOPCM_OFFSET));
-> +	gt_probe_error(gt, "%s(%#x)=%#x\n", "GUC_WOPCM_SIZE",
-> +		       i915_mmio_reg_offset(GUC_WOPCM_SIZE),
-> +		       intel_uncore_read(uncore, GUC_WOPCM_SIZE));
->   
->   	return err;
->   }
-> @@ -449,20 +448,19 @@ static int __uc_check_hw(struct intel_uc *uc)
->   	return 0;
->   }
->   
-> -static void print_fw_ver(struct intel_uc *uc, struct intel_uc_fw *fw)
-> +static void print_fw_ver(struct intel_gt *gt, struct intel_uc_fw *fw)
->   {
-> -	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
+> -static void dp_aux_i2c_handler(struct dp_aux_private *aux, u32 isr)
+> -{
+> -	if (isr & DP_INTR_AUX_I2C_DONE) {
+> -		if (isr & (DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER))
+> -			aux->aux_error_num = DP_AUX_ERR_NACK;
+> -		else
+> -			aux->aux_error_num = DP_AUX_ERR_NONE;
+> -	} else {
+> -		if (isr & DP_INTR_WRONG_ADDR)
+> -			aux->aux_error_num = DP_AUX_ERR_ADDR;
+> -		else if (isr & DP_INTR_TIMEOUT)
+> -			aux->aux_error_num = DP_AUX_ERR_TOUT;
+> -		if (isr & DP_INTR_NACK_DEFER)
+> -			aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
+> -		if (isr & DP_INTR_I2C_NACK)
+> -			aux->aux_error_num = DP_AUX_ERR_NACK;
+> -		if (isr & DP_INTR_I2C_DEFER)
+> -			aux->aux_error_num = DP_AUX_ERR_DEFER;
+> -		if (isr & DP_INTR_AUX_ERROR) {
+> -			aux->aux_error_num = DP_AUX_ERR_PHY;
+> -			dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+> -		}
+> -	}
+> -}
 > -
-> -	drm_info(&i915->drm, "%s firmware %s version %u.%u.%u\n",
-> -		 intel_uc_fw_type_repr(fw->type), fw->file_selected.path,
-> -		 fw->file_selected.ver.major,
-> -		 fw->file_selected.ver.minor,
-> -		 fw->file_selected.ver.patch);
-> +	gt_info(gt, "%s firmware %s version %u.%u.%u\n",
-> +		intel_uc_fw_type_repr(fw->type), fw->file_selected.path,
-> +		fw->file_selected.ver.major,
-> +		fw->file_selected.ver.minor,
-> +		fw->file_selected.ver.patch);
->   }
->   
->   static int __uc_init_hw(struct intel_uc *uc)
+>   static void dp_aux_update_offset_and_segment(struct dp_aux_private *aux,
+>   					     struct drm_dp_aux_msg *input_msg)
 >   {
-> -	struct drm_i915_private *i915 = uc_to_gt(uc)->i915;
-> +	struct intel_gt *gt = uc_to_gt(uc);
-> +	struct drm_i915_private *i915 = gt->i915;
->   	struct intel_guc *guc = &uc->guc;
->   	struct intel_huc *huc = &uc->huc;
->   	int ret, attempts;
-> @@ -470,10 +468,10 @@ static int __uc_init_hw(struct intel_uc *uc)
->   	GEM_BUG_ON(!intel_uc_supports_guc(uc));
->   	GEM_BUG_ON(!intel_uc_wants_guc(uc));
+> @@ -427,13 +386,42 @@ void dp_aux_isr(struct drm_dp_aux *dp_aux)
+>   	if (!isr)
+>   		return;
 >   
-> -	print_fw_ver(uc, &guc->fw);
-> +	print_fw_ver(gt, &guc->fw);
+> -	if (!aux->cmd_busy)
+> +	if (!aux->cmd_busy) {
+> +		DRM_ERROR("Unexpected DP AUX IRQ %#010x when not busy\n", isr);
+>   		return;
+> +	}
 >   
->   	if (intel_uc_uses_huc(uc))
-> -		print_fw_ver(uc, &huc->fw);
-> +		print_fw_ver(gt, &huc->fw);
+> -	if (aux->native)
+> -		dp_aux_native_handler(aux, isr);
+> -	else
+> -		dp_aux_i2c_handler(aux, isr);
+> +	/*
+> +	 * The logic below assumes only one error bit is set (other than "done"
+> +	 * which can apparently be set at the same time as some of the other
+> +	 * bits). Warn if more than one get set so we know we need to improve
+> +	 * the logic.
+> +	 */
+> +	if (hweight32(isr & ~DP_INTR_AUX_XFER_DONE) > 1)
+> +		DRM_WARN("Some DP AUX interrupts unhandled: %#010x\n", isr);
+> +
+> +	if (isr & DP_INTR_AUX_ERROR) {
+> +		aux->aux_error_num = DP_AUX_ERR_PHY;
+> +		dp_catalog_aux_clear_hw_interrupts(aux->catalog);
+> +	} else if (isr & DP_INTR_NACK_DEFER) {
+> +		aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
+> +	} else if (isr & DP_INTR_WRONG_ADDR) {
+> +		aux->aux_error_num = DP_AUX_ERR_ADDR;
+> +	} else if (isr & DP_INTR_TIMEOUT) {
+> +		aux->aux_error_num = DP_AUX_ERR_TOUT;
+> +	} else if (!aux->native && (isr & DP_INTR_I2C_NACK)) {
+> +		aux->aux_error_num = DP_AUX_ERR_NACK;
+> +	} else if (!aux->native && (isr & DP_INTR_I2C_DEFER)) {
+> +		if (isr & DP_INTR_AUX_XFER_DONE)
+> +			aux->aux_error_num = DP_AUX_ERR_NACK;
+> +		else
+> +			aux->aux_error_num = DP_AUX_ERR_DEFER;
+> +	} else if (isr & DP_INTR_AUX_XFER_DONE) {
+> +		aux->aux_error_num = DP_AUX_ERR_NONE;
+> +	} else {
+> +		DRM_WARN("Unexpected interrupt: %#010x\n", isr);
+> +		return;
+> +	}
 >   
->   	if (!intel_uc_fw_is_loadable(&guc->fw)) {
->   		ret = __uc_check_hw(uc) ||
-> @@ -514,8 +512,8 @@ static int __uc_init_hw(struct intel_uc *uc)
->   		if (ret == 0)
->   			break;
->   
-> -		DRM_DEBUG_DRIVER("GuC fw load failed: %d; will reset and "
-> -				 "retry %d more time(s)\n", ret, attempts);
-> +		gt_dbg(gt, "GuC fw load failed (%pe) will reset and retry %d more time(s)\n",
-> +		       ERR_PTR(ret), attempts);
->   	}
->   
->   	/* Did we succeded or run out of retries? */
-> @@ -551,10 +549,10 @@ static int __uc_init_hw(struct intel_uc *uc)
->   
->   	intel_gsc_uc_load_start(&uc->gsc);
->   
-> -	drm_info(&i915->drm, "GuC submission %s\n",
-> -		 str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
-> -	drm_info(&i915->drm, "GuC SLPC %s\n",
-> -		 str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
-> +	gt_info(gt, "GuC submission %s\n",
-> +		str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
-> +	gt_info(gt, "GuC SLPC %s\n",
-> +		str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
->   
->   	return 0;
->   
-> @@ -572,12 +570,12 @@ static int __uc_init_hw(struct intel_uc *uc)
->   	__uc_sanitize(uc);
->   
->   	if (!ret) {
-> -		drm_notice(&i915->drm, "GuC is uninitialized\n");
-> +		gt_notice(gt, "GuC is uninitialized\n");
->   		/* We want to run without GuC submission */
->   		return 0;
->   	}
->   
-> -	i915_probe_error(i915, "GuC initialization failed %d\n", ret);
-> +	gt_probe_error(gt, "GuC initialization failed %pe\n", ERR_PTR(ret));
->   
->   	/* We want to keep KMS alive */
->   	return -EIO;
-> @@ -690,7 +688,7 @@ void intel_uc_suspend(struct intel_uc *uc)
->   	with_intel_runtime_pm(&uc_to_gt(uc)->i915->runtime_pm, wakeref) {
->   		err = intel_guc_suspend(guc);
->   		if (err)
-> -			DRM_DEBUG_DRIVER("Failed to suspend GuC, err=%d", err);
-> +			guc_dbg(guc, "Failed to suspend, %pe", ERR_PTR(err));
->   	}
+>   	complete(&aux->comp);
 >   }
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index 676279d0ca8d..421391755427 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -27,7 +27,7 @@
+>   #define DP_INTF_CONFIG_DATABUS_WIDEN     BIT(4)
 >   
-> @@ -718,7 +716,7 @@ static int __uc_resume(struct intel_uc *uc, bool enable_communication)
+>   #define DP_INTERRUPT_STATUS1 \
+> -	(DP_INTR_AUX_I2C_DONE| \
+> +	(DP_INTR_AUX_XFER_DONE| \
+>   	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
+>   	DP_INTR_NACK_DEFER | DP_INTR_WRONG_DATA_CNT | \
+>   	DP_INTR_I2C_NACK | DP_INTR_I2C_DEFER | \
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> index 1f717f45c115..f36b7b372a06 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> @@ -13,7 +13,7 @@
 >   
->   	err = intel_guc_resume(guc);
->   	if (err) {
-> -		DRM_DEBUG_DRIVER("Failed to resume GuC, err=%d", err);
-> +		guc_dbg(guc, "Failed to resume, %pe", ERR_PTR(err));
->   		return err;
->   	}
->   
-
+>   /* interrupts */
+>   #define DP_INTR_HPD		BIT(0)
+> -#define DP_INTR_AUX_I2C_DONE	BIT(3)
+> +#define DP_INTR_AUX_XFER_DONE	BIT(3)
+>   #define DP_INTR_WRONG_ADDR	BIT(6)
+>   #define DP_INTR_TIMEOUT		BIT(9)
+>   #define DP_INTR_NACK_DEFER	BIT(12)
