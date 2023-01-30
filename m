@@ -2,76 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6AF368154E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 16:42:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE376815F1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jan 2023 17:05:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEE51891CC;
-	Mon, 30 Jan 2023 15:42:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B563010E056;
+	Mon, 30 Jan 2023 16:05:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A06BF891CC
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jan 2023 15:42:20 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30UEuWTK015251; Mon, 30 Jan 2023 15:42:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Sy3cavb3xCIujDLylXgk3jjhWmdinb6VMlAh8qsMmDI=;
- b=juhb/ygNm7Lyp329GKHY4f1sHr0MUb5Mjq6OGhXC1Lek7m7ddw+Op2j7rRIjqgZsk5xT
- EPAYEHVKrkpsa2r7UuIi9o8BXON2GlA/QJs9o4hR+QKdMOMCX82tkS6MrASYqKHzUTwm
- dg+Vg6XEvv3cWLHEGBuUVVymA7L9QRWcxhFUJGITBVEY5z17ljK1mWA2GfBUPFP6OT4F
- VrAzM1VuUl/0TNVC2TJtwztqJTDysRyEtxJTkHQ1RJ3Miy+S9fngHxbtdsODJdK4RHqK
- inWgpTVTZyA6hwxDb0bZ3I0HrnS+BSTtB/NBA0al/e0+VnoBDggUE8QNxpEJLtVeajpl mQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncsdpv4k2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jan 2023 15:42:03 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30UFg2fE018006
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jan 2023 15:42:02 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 30 Jan
- 2023 07:42:01 -0800
-Message-ID: <eda19378-6184-accb-d310-793699d8220c@quicinc.com>
-Date: Mon, 30 Jan 2023 08:42:01 -0700
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBBAD10E033;
+ Mon, 30 Jan 2023 16:05:35 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1636eae256cso11290089fac.0; 
+ Mon, 30 Jan 2023 08:05:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=51bRkvWujNd4jPcMG9BJhLnAdVGH8Ah/pwvY7OLYBxg=;
+ b=L98bAAgAmuX9bFEDS6fk6Q+27l6gFYkFOLbjKNDsS8RTOTjiBEdK702pVpPk8K8v2x
+ FZ40wxfCgagdDgLZgDQSMy99FG0HrFXxnw5fTYnrvOwXT+BwXCieEpFIg3/SsmQJP+EC
+ kDBQkrBuzGcoU7ndvROuyFWLZFE/ctHdUqpLQ8WEW7ATErXDt8JgWyaIg4+oPKIiIIG2
+ E/5aPbIUxghZjhtNR71JXB5xvYRjiu0AUliaWGmF3G0g05pRTLYrCoXS9OGzaRGBOFGs
+ DpgHoQDXj4lObIjncle+96AxxcpMoBLOLxT1OwqPpaSjYjWU66vw4Foj9apT1oscVN7h
+ RTcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=51bRkvWujNd4jPcMG9BJhLnAdVGH8Ah/pwvY7OLYBxg=;
+ b=mgNIka54hnXtMzhq3yZbY1/whFq9auPBAvhjqa4lzq+UVXVq2MV72fyE/FJpyDdoFd
+ 5mQ+TM0h7fbTvE4Vb3yTMlOxi3v9XEN097rLt8mSNBFoKTuQzIQC/8UES/EEV9wrdbPW
+ Mggf9jkF55+BQKZde6Y8KQWHvnVVpg6j0ULWROwvLGTBs7XD3fVAPdZMykzTyy2XqOIB
+ vH+tsPo7RxJ/t0H+NnEaeai0vvMpUzm/hRzK0+873BrBttmUYl4suuJw+3PTxCGEu1SW
+ T6Xea2Ce1pTXVzatzsos/0gjb/9ximmKmd3ihl8Nb1uOn3X9Tv+KvPITYLLtBAFazP38
+ P9hw==
+X-Gm-Message-State: AO0yUKWl9i2LYh0APk+pkfCsnycK2S2HiAAS6FZAuAqMoR3U1V1rp3QN
+ BgjGgffCE26SrdonxjcBMqzryRtGy393BQf9SVc0SlyW/m8=
+X-Google-Smtp-Source: AK7set8EqeKjODeZxYSFoNuOQNRomzjZI0eXWH0l8P+aWs8vNWEn7kSRbZqFFz4w7fzpO/miv8K0++Fx3wa5+PLBAtg=
+X-Received: by 2002:a05:6870:4588:b0:163:3c39:d0c7 with SMTP id
+ y8-20020a056870458800b001633c39d0c7mr1249465oao.54.1675094735057; Mon, 30 Jan
+ 2023 08:05:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] [v2] accel: fix CONFIG_DRM dependencies
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, Dave
- Airlie <airlied@redhat.com>, Melissa Wen <mwen@igalia.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-References: <20230127221504.2522909-1-arnd@kernel.org>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20230127221504.2522909-1-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: NfEGFvhmKX8kOwcVk4V6Dhz6dfKP0k2Y
-X-Proofpoint-ORIG-GUID: NfEGFvhmKX8kOwcVk4V6Dhz6dfKP0k2Y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-30_14,2023-01-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0 mlxlogscore=921
- spamscore=0 clxscore=1011 impostorscore=0 mlxscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301300152
+References: <CACAvsv4_XJLSwnA-s0BXLVbBCESDfnK7kx5-WUPd2+vdJuMojg@mail.gmail.com>
+ <20230127103959.5nqk57sb7qchtaw6@wslaptop>
+ <CACAvsv5sA8pmhYEVhJk9PEAWyKRZYvcsSHa-04CsJxgu7+YEiw@mail.gmail.com>
+In-Reply-To: <CACAvsv5sA8pmhYEVhJk9PEAWyKRZYvcsSHa-04CsJxgu7+YEiw@mail.gmail.com>
+From: Nicolas Chauvet <kwizart@gmail.com>
+Date: Mon, 30 Jan 2023 17:05:23 +0100
+Message-ID: <CABr+WT=a3YqyS0VWCoRDE-QGGJrP8AL3CpMPsZXR3Ps-tmjrWQ@mail.gmail.com>
+Subject: Re: [REGRESSION] GM20B probe fails after commit 2541626cfb79
+To: Ben Skeggs <skeggsb@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,35 +69,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: regressions@lists.linux.dev, kherbst@redhat.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, airlied@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/27/2023 3:14 PM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> At the moment, accel drivers can be built-in even with CONFIG_DRM=m,
-> but this causes a link failure:
-> 
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_dev_init':
-> ivpu_drv.c:(.text+0x1535): undefined reference to `drmm_kmalloc'
-> x86_64-linux-ld: ivpu_drv.c:(.text+0x1562): undefined reference to `drmm_kmalloc'
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_remove':
-> ivpu_drv.c:(.text+0x1faa): undefined reference to `drm_dev_unregister'
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_probe':
-> ivpu_drv.c:(.text+0x1fef): undefined reference to `__devm_drm_dev_alloc'
-> 
-> The problem is that DRM_ACCEL is a 'bool' symbol symbol, so driver that
-> only depend on DRM_ACCEL but not also on DRM do not see the restriction
-> to =m configs.
-> 
-> To ensure that each accel driver has an implied dependency on CONFIG_DRM,
-> enclose the entire Kconfig file in an if/endif check.
-> 
-> Fixes: 8bf4889762a8 ("drivers/accel: define kconfig and register a new major")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Le dim. 29 janv. 2023 =C3=A0 23:36, Ben Skeggs <skeggsb@gmail.com> a =C3=A9=
+crit :
+>
+> On Fri, 27 Jan 2023 at 20:42, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt> wr=
+ote:
+> >
+> > On Fri, Jan 27, 2023 at 04:00:59PM +1000, Ben Skeggs wrote:
+> > > On Fri, 20 Jan 2023 at 21:37, Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt=
+> wrote:
+> > > >
+> > > > On Wed, Jan 18, 2023 at 11:28:49AM +1000, Ben Skeggs wrote:
+> > > > > On Mon, 16 Jan 2023 at 22:27, Diogo Ivo <diogo.ivo@tecnico.ulisbo=
+a.pt> wrote:
+> > > > > > On Mon, Jan 16, 2023 at 07:45:05AM +1000, David Airlie wrote:
+> > > > > > > As a quick check can you try changing
+> > > > > > >
+> > > > > > > drivers/gpu/drm/nouveau/nvkm/core/firmware.c:nvkm_firmware_me=
+m_target
+> > > > > > > from NVKM_MEM_TARGET_HOST to NVKM_MEM_TARGET_NCOH ?
+> > > >
+> > > > > In addition to Dave's change, can you try changing the
+> > > > > nvkm_falcon_load_dmem() call in gm20b_pmu_init() to:
+> > > > >
+> > > > > nvkm_falcon_pio_wr(falcon, (u8 *)&args, 0, 0, DMEM, addr_args,
+> > > > > sizeof(args), 0, false);
+> > > >
+> > > > Chiming in just to say that with this change I see the same as Nico=
+las
+> > > > except that the init message size is 255 instead of 0:
+> > > >
+> > > > [    2.196934] nouveau 57000000.gpu: pmu: unexpected init message s=
+ize 255 vs 42
+> > > I've attached an entirely untested patch (to go on top of the other
+> > > hacks/fixes so far), that will hopefully get us a little further.
+> >
+> > Hello,
+> >
+> > Thank you for the patch! I can confirm that it fixes the problem
+> > on the Pixel C, and everything works as before the regression.
+> > With this, for the combination of patches
+> >
+> > Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+> >
+> > which I can resend after testing the final patch version.
+> Thank you (both!) for testing!
+>
+> I've attached a "final" version of a patch that I'll send (assuming it
+> still works ;)) after re-testing.  There's only a minor change to
+> avoid breaking the non-Tegra path, so I expect it should be fine.
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Fine with me.
+Tested-By: Nicolas Chauvet <kwizart@gmail.com>
+
+Thanks.
