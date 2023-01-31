@@ -2,53 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B650D682CD6
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 13:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C48682CDB
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 13:45:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE15810E32D;
-	Tue, 31 Jan 2023 12:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E70410E32A;
+	Tue, 31 Jan 2023 12:45:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40EDB10E32D;
- Tue, 31 Jan 2023 12:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675169099; x=1706705099;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=/RwQqzhoI4pLDu/LgYP8NfjxFwOXtYObH6J5azZ9fcE=;
- b=WCWqomjSPzzN647NwnwJN8aMyAwE37oEnyLnortjwErUFIQ3hEUIj3c2
- EoRK4Y48qpKRVdtnfhriTC9s74Uhf0aJ+HVJU8mMXeBlVsfI1nev0IixR
- 45ULTPUvjNus7wdxQzagdReQ/4qBmTTZcc+7ysqS4hv2CXiqvKplDAWJm
- N/lU+Ai36dOc+XvBO/aYE04Aw9XgiQXI3qwAmbCIBMDYd4FgMA3BHYlAt
- 12G7jQyTh3PziusBCSly9y/kCVIz2Ts6GT1+MHcXxw060k52JuJdlE+k0
- aBq/wqbDLCEGJm9CWSpYCDzQIaPHDi536PpJf+7wDxapE33h66LzUkA/U w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="325525923"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="325525923"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2023 04:44:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="733097607"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="733097607"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga004.fm.intel.com with ESMTP; 31 Jan 2023 04:44:55 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pMq0L-000Fg8-1n; Tue, 31 Jan 2023 14:44:53 +0200
-Date: Tue, 31 Jan 2023 14:44:53 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: linux-next: manual merge of the usb tree with the
- drm-intel-fixes tree
-Message-ID: <Y9kNRVppj5Uxa9ub@smile.fi.intel.com>
-References: <20230131130305.019029ff@canb.auug.org.au>
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C803D10E32A
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 12:45:16 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id bk15so41192895ejb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 04:45:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8xbu9OSYb70xb94Yeo31t8Oaxtx3TEHDRghlLnFGwEE=;
+ b=HOQM9HVcHNtPQArB9zdGc+O47H5Vo84d9V9VhhhQrU/5yzCLU+SMlVuEXnZEe41pPW
+ xCHkVMP0gyrDWj5XBdMUjyi6KNx3SI0bCDzcCw//4Q4eJ0BFD31xHLDO1LwVeNj/HU1n
+ pn7Yrhd9FC4tgM74wBgvGOolUVNYG7r6SnbaOrdBKMg+Kqu4XwGbYpdeBgJZXgB+tx5W
+ JS6wjUKIIWY0euwy/bDqjwp8YBzxeaXhNr7BKPX0CRbvGRHsHRdviH54iPCU6xATZPhd
+ 0DvpWRLxxdpNcx2zvS58RGKJzBNRgo8/NV9p6BdhTEQOR3YIKSVo0LTqoThKIYQUrkVI
+ 7IZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8xbu9OSYb70xb94Yeo31t8Oaxtx3TEHDRghlLnFGwEE=;
+ b=EoOYxZK+YlsQ6DkxGFcQEU97NiWPPmlVZPbRVUE92vaE/xpxQuqUdLmxFbpXCxMRe/
+ NmLDn7sp3r5VcrjkP6Mtz9U8CAI7wCi0vmuPPOks0ErNGR4nG8PPqN9YvQIfLPHRII5H
+ Q0WM/mP2HdSVVy2q7FSKRwNvqABkERUNXqiBTaaFQO1hZBQqDUYeR2L+L/D8XPgX+kDg
+ E4+hkJ7UI3HxzlTwRsBs3np3vhPcnOjU66x/SLjv6W+sjt/hYZx5FXJAYWz5+JZ1KCA+
+ jlh/Vhvj83fHcetguD2sdUfI5H93f3Dc44wBf2d7DrrO7GLNkoljotnzwCrUhOrYSDqf
+ 00GA==
+X-Gm-Message-State: AO0yUKVc/vYQ1+rLMSRJD0NGz0AtTEsJRNuZJL7JwN5XLQ2ys1W1EmlJ
+ N8H9S4815M4zlIBex3KNop2x5g==
+X-Google-Smtp-Source: AK7set+xEX/0VUfgwRIBFa8ZDHADe1V6jD0Mhcsk+kdmw3nw7+rNAJsp1S6XWKh5HOt4IleZY/zvCw==
+X-Received: by 2002:a17:907:a0d2:b0:878:7f6e:38a7 with SMTP id
+ hw18-20020a170907a0d200b008787f6e38a7mr3298474ejc.44.1675169115144; 
+ Tue, 31 Jan 2023 04:45:15 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ hq15-20020a1709073f0f00b00877ff0c2bb0sm8411192ejc.166.2023.01.31.04.45.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Jan 2023 04:45:14 -0800 (PST)
+Message-ID: <7b90ce05-29ac-da1c-ca3c-c52577d131ea@linaro.org>
+Date: Tue, 31 Jan 2023 14:45:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230131130305.019029ff@canb.auug.org.au>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v12 02/14] drm/msm/disp/dpu: get timing engine status from
+ intf status register
+Content-Language: en-GB
+To: Vinod Polimera <quic_vpolimer@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+References: <1675091494-13988-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1675091494-13988-3-git-send-email-quic_vpolimer@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1675091494-13988-3-git-send-email-quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,50 +79,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Greg KH <greg@kroah.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- John Harrison <John.C.Harrison@intel.com>
+Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
+ quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
+ quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_khsieh@quicinc.com, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 31, 2023 at 01:03:05PM +1100, Stephen Rothwell wrote:
-> Hi all,
+On 30/01/2023 17:11, Vinod Polimera wrote:
+> Recommended way of reading the interface timing gen status is via
+> status register. Timing gen status register will give a reliable status
+> of the interface especially during ON/OFF transitions. This support was
+> added from DPU version 5.0.0.
 > 
-> Today's linux-next merge of the usb tree got a conflict in:
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  6 ++++--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 12 +++++++-----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c    |  8 +++++++-
+>   3 files changed, 18 insertions(+), 8 deletions(-)
 > 
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> 
-> between commit:
-> 
->   5bc4b43d5c6c ("drm/i915: Fix up locking around dumping requests lists")
-> 
-> from the drm-intel-fixes tree and commit:
-> 
->   4d70c74659d9 ("i915: Move list_count() to list.h as list_count_nodes() for broader use")
-> 
-> from the usb tree.
-> 
-> I fixed it up (the former removed the code changed by the latter)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index cf053e8..ce6e9e6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -78,9 +78,11 @@
+>   
+>   #define INTF_SDM845_MASK (0)
+>   
+> -#define INTF_SC7180_MASK BIT(DPU_INTF_INPUT_CTRL) | BIT(DPU_INTF_TE)
+> +#define INTF_SC7180_MASK \
+> +	(BIT(DPU_INTF_INPUT_CTRL) | BIT(DPU_INTF_TE) | BIT(DPU_INTF_STATUS_SUPPORTED))
+>   
+> -#define INTF_SC7280_MASK INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN)
+> +#define INTF_SC7280_MASK \
+> +	(INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN))
 
-Hmm... Currently I see that 20230127002842.3169194-4-John.C.Harrison@Intel.com
-moves the code to the drivers/gpu/drm/i915/gt/intel_execlists_submission.c.
+Not necessary anymore.
 
-Is there any new series beside the above mentioned that touches that file and
-actually _removes_ that code?
+With that fixed:
 
->	and
-> can carry the fix as necessary. This is now fixed as far as linux-next
-> is concerned, but any non trivial conflicts should be mentioned to your
-> upstream maintainer when your tree is submitted for merging.  You may
-> also want to consider cooperating with the maintainer of the conflicting
-> tree to minimise any particularly complex conflicts.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+>   
+>   #define IRQ_SDM845_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+>   			 BIT(MDP_SSPP_TOP0_INTR2) | \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index ddab9ca..08cd1a1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -213,17 +213,19 @@ enum {
+>   
+>   /**
+>    * INTF sub-blocks
+> - * @DPU_INTF_INPUT_CTRL         Supports the setting of pp block from which
+> - *                              pixel data arrives to this INTF
+> - * @DPU_INTF_TE                 INTF block has TE configuration support
+> - * @DPU_DATA_HCTL_EN            Allows data to be transferred at different rate
+> -                                than video timing
+> + * @DPU_INTF_INPUT_CTRL             Supports the setting of pp block from which
+> + *                                  pixel data arrives to this INTF
+> + * @DPU_INTF_TE                     INTF block has TE configuration support
+> + * @DPU_DATA_HCTL_EN                Allows data to be transferred at different rate
+> + *                                  than video timing
+> + * @DPU_INTF_STATUS_SUPPORTED       INTF block has INTF_STATUS register
+>    * @DPU_INTF_MAX
+>    */
+>   enum {
+>   	DPU_INTF_INPUT_CTRL = 0x1,
+>   	DPU_INTF_TE,
+>   	DPU_DATA_HCTL_EN,
+> +	DPU_INTF_STATUS_SUPPORTED,
+>   	DPU_INTF_MAX
+>   };
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> index 7ce66bf..84ee2ef 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> @@ -62,6 +62,7 @@
+>   #define   INTF_LINE_COUNT               0x0B0
+>   
+>   #define   INTF_MUX                      0x25C
+> +#define   INTF_STATUS                   0x26C
+>   
+>   #define INTF_CFG_ACTIVE_H_EN	BIT(29)
+>   #define INTF_CFG_ACTIVE_V_EN	BIT(30)
+> @@ -297,8 +298,13 @@ static void dpu_hw_intf_get_status(
+>   		struct intf_status *s)
+>   {
+>   	struct dpu_hw_blk_reg_map *c = &intf->hw;
+> +	unsigned long cap = intf->cap->features;
+> +
+> +	if (cap & BIT(DPU_INTF_STATUS_SUPPORTED))
+> +		s->is_en = DPU_REG_READ(c, INTF_STATUS) & BIT(0);
+> +	else
+> +		s->is_en = DPU_REG_READ(c, INTF_TIMING_ENGINE_EN);
+>   
+> -	s->is_en = DPU_REG_READ(c, INTF_TIMING_ENGINE_EN);
+>   	s->is_prog_fetch_en = !!(DPU_REG_READ(c, INTF_CONFIG) & BIT(31));
+>   	if (s->is_en) {
+>   		s->frame_count = DPU_REG_READ(c, INTF_FRAME_COUNT);
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+With best wishes
+Dmitry
 
