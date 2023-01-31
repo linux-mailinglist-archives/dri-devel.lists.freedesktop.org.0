@@ -2,42 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C976821D2
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 03:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A676822E3
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 04:35:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C98310E30B;
-	Tue, 31 Jan 2023 02:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B7EC10E0C8;
+	Tue, 31 Jan 2023 03:35:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3185810E30A;
- Tue, 31 Jan 2023 02:03:37 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4P5SyC5PCSz4xwq;
- Tue, 31 Jan 2023 13:03:31 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1675130613;
- bh=wMaAeKI0zF7GwzSps0H7CB6N6KHHwOabGNIZQ95HWBg=;
- h=Date:From:To:Cc:Subject:From;
- b=BVKQ98PvgZqHBLO2kR3gbz02EFoXyRvgJn7RDLChli+kDiMtRPGgobJWGfKsFhTc+
- tnVDdnFuw6ENs0lKFT6rghKG60ufhvd2OKPyysZvQvLus5kDvxX2/MtY21iGB3DC5a
- +RwKyJMApMj6umiLScqmyMqitWFnVfKMV/Mr+V7F8ZUva7d5h7tYt1u1F0lx/lzvY2
- Bt78VMJd4pxHH0oeYkRcAj0TeibDVxcIdDVI8oZrGVJJasodXGHC0pp7S3zxRi1LoZ
- kHRaD8F1fLb9PL8Ddvci328VeguR2xfRw7mw1Gx/JtMmkFhdfAiYjzMoCUf8DIRBfa
- X77dipw83qBYg==
-Date: Tue, 31 Jan 2023 13:03:05 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Greg KH <greg@kroah.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, Jani
- Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: linux-next: manual merge of the usb tree with the drm-intel-fixes tree
-Message-ID: <20230131130305.019029ff@canb.auug.org.au>
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0135E10E065
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 03:35:47 +0000 (UTC)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 66E663211E2;
+ Tue, 31 Jan 2023 03:35:45 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1675136145; bh=wqcqBx4Qvz2cL98OMKzs0u4i98LBRJXNznZ45MW24P8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=bvAK6Q8sl3XXbzTWzxiP53p7DraS7EFoGKgq0wqOvJeCUGxWMOfaAPfz/MNa3dAh+
+ HatM16yhfSbg9vQVB3EWLx/LRYS2Fj6lfvLAmE5tqzdUC5vxuvm14svRiCqLEn927y
+ DKr6lVUMmy9a1YzECPrdEEbdrBtr+fhlUwZi5SEQMM39jbDE6X6GW7gVK20nj12gpN
+ TgKEi51P5M4gkCbK9bMutRjXjaJhMV3Rz1l7IVezShUQYdcY8J12iq62OQsAotYhQK
+ JPSBi0hjIs4cluYVYgU0s+S0iJTm1rE2liBv0LEokERlAX/8YEpEQgxElXgvc+Y+QL
+ xWSKQGddbzaMg==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/8] drm/vmwgfx: Refactor the buffer object code
+Date: Mon, 30 Jan 2023 22:35:34 -0500
+Message-Id: <20230131033542.953249-1-zack@kde.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/dTmyzOU1EnNXR2Sh6q=MHTo";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,62 +45,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/dTmyzOU1EnNXR2Sh6q=MHTo
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Zack Rusin <zackr@vmware.com>
 
-Hi all,
+v2: Fix all the issues which Thomas pointed out in the initial review
+and split the "simplify fb pinning" change into two commits with the
+second one being just the rename.
 
-Today's linux-next merge of the usb tree got a conflict in:
+The series refactors the buffer object code to make more alike the
+other ttm drivers. The placement becomes a property of the bo which makes
+it a lot easier to correctly validate based on the current usage.
+vmwgfx tends to do more validation due to forced moves, because the
+buffer placement sometimes need to change due to userspace commands, i.e.
+some commands e.g. SURFACE_DMA implies GMR's which are really deprecated
+in favor of MOB's, but the x11 driver still uses GMR's so buffers tend
+to flip between GMR's and MOB's a bit when running on X11.
+                                                                           
+The functionality remains largely unchanged, but the LOC are reduced by
+about 400 and the groundwork is done for adding prime support with SG
+ttm buffers.
 
-  drivers/gpu/drm/i915/gt/intel_engine_cs.c
+Zack Rusin (8):
+  drm/vmwgfx: Use the common gem mmap instead of the custom code
+  drm/vmwgfx: Remove the duplicate bo_free function
+  drm/vmwgfx: Rename vmw_buffer_object to vmw_bo
+  drm/vmwgfx: Simplify fb pinning
+  drm/vmwgfx: Cleanup the vmw bo usage in the cursor paths
+  drm/vmwgfx: Rename dummy to is_iomem
+  drm/vmwgfx: Abstract placement selection
+  drm/vmwgfx: Stop using raw ttm_buffer_object's
 
-between commit:
+ drivers/gpu/drm/vmwgfx/Makefile               |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            | 392 +++++++++---------
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h            | 203 +++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c           |  14 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c        |  53 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_context.c       |  36 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c       |  65 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  26 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 245 +++--------
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c       | 102 +++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c           |  89 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 230 ++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h           |  43 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c           |  57 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_mob.c           |  45 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c       |  20 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c    |  68 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c      | 243 +++++------
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource_priv.h |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c          |  53 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c        |  65 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_so.c            |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c          | 323 ++-------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_streamoutput.c  |  20 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       | 111 ++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    | 116 +-----
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c      | 110 -----
+ drivers/gpu/drm/vmwgfx/vmwgfx_va.c            |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.c    | 150 +++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_validation.h    |  10 +-
+ 31 files changed, 1248 insertions(+), 1667 deletions(-)
+ create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c
 
-  5bc4b43d5c6c ("drm/i915: Fix up locking around dumping requests lists")
+-- 
+2.38.1
 
-from the drm-intel-fixes tree and commit:
-
-  4d70c74659d9 ("i915: Move list_count() to list.h as list_count_nodes() fo=
-r broader use")
-
-from the usb tree.
-
-I fixed it up (the former removed the code changed by the latter) and
-can carry the fix as necessary. This is now fixed as far as linux-next
-is concerned, but any non trivial conflicts should be mentioned to your
-upstream maintainer when your tree is submitted for merging.  You may
-also want to consider cooperating with the maintainer of the conflicting
-tree to minimise any particularly complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/dTmyzOU1EnNXR2Sh6q=MHTo
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPYdtkACgkQAVBC80lX
-0GzxOwf9H9KgKNxnEkcMqyn6HV7TCodkrJAi9nEvNMBrRRottaKd5N7bsouPLC/X
-f0WfJlwSxldmWxwLCDfsjJwI62sXjaaSIaYDIYt5rXxChJvOD/URZMGK0bcwBCzV
-ZGfWW0+zH7Qp8xYImST9wr2tuRn8SGivLr17oXd+Fj9Y24JRsWSPF22/Vpzu883e
-LBiKJTJycDze69CBhu6LpAxmCv+H2RtrKdso2XKUFT9O70nCA0qoR525fZidU/P4
-HUICvWbzPcBOGjdtmPIWiYssx/OsbFSW6bz/D1vjch5Bz8IKBwdF0HJoWh66cG6y
-Vq5TGBAdcw9JnFEgYPqMQbt0bnDrNw==
-=uMpd
------END PGP SIGNATURE-----
-
---Sig_/dTmyzOU1EnNXR2Sh6q=MHTo--
