@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EAC6838D7
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 22:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5251C683947
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 23:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CBDB10E2BD;
-	Tue, 31 Jan 2023 21:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8938A10E2DD;
+	Tue, 31 Jan 2023 22:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92BF610E2BA;
- Tue, 31 Jan 2023 21:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675201461; x=1706737461;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=cZidDXHL/IDAvgcMIRA+zwP+GRrWYlFlPE4VDinv6zc=;
- b=bLo+NLjWjVJL9T6QFQd1yWs6kU43LeqW2DphjdCp/CcUaSp28HIhWcZL
- f+KkJQBKW6pdnxeXVIfPepGOuR7/jjVujg+8CjywcCXZapuz9PoNd5Xmy
- Tpcqxo2hhGyGEOGlRNA8ZeE+Id9pLBDEFu+KUmuol0zExd5RXECdcV0zt
- wrc/7bQ++v1v5hDTMUFilZcNZxLFuJyrgg3GAci5Z6vtVgOAb4CsLCMe3
- KnotjioFDeiCqDVgJzDwHc4eLkqrFddUh53bdUYkfhl6NwVbOiOkTQRoJ
- zdrHeCeCr4g2VjrQiqo0aUFZwXBVcrrnBE6F8I9198lODXbbIwy02RUJ7 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="327981350"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="327981350"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2023 13:44:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="910064958"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="910064958"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 13:44:19 -0800
-Received: from mwajdecz-MOBL.ger.corp.intel.com
- (mwajdecz-MOBL.ger.corp.intel.com [10.249.150.146])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id C2FAC34933;
- Tue, 31 Jan 2023 21:44:18 +0000 (GMT)
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/guc: Improve debug message on context reset
- notification
-Date: Tue, 31 Jan 2023 22:44:13 +0100
-Message-Id: <20230131214413.1879-1-michal.wajdeczko@intel.com>
-X-Mailer: git-send-email 2.21.0
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F019610E2BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 22:22:18 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id 5so16592477plo.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 14:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=nDJfgGY2Uq4pkbdaiIQ1ONvu1Aumpm8UVU5btqep3hU=;
+ b=C//XxpbCdZukvZqKglW8c6wuEVing1SDTbUUogS/ymch/qoW0vbXqPjsij+7C39bKM
+ cz2v/jqa/PU4i47Iz53rPk2Vw3mNsCvZevPClswFn03twuQH9OPEeoCTzI0WxPUHRVN+
+ yilQTQAnqMoG4QmPIPzwSaV9MSqokzOW+hEIU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nDJfgGY2Uq4pkbdaiIQ1ONvu1Aumpm8UVU5btqep3hU=;
+ b=VorOCnfZWvhUp4ESZRafVrsPc4WIofaaTN+mynuohsk6sgYMWEmpoPIaNc0ltdxIt0
+ 4oWMoog+te0hYi7RLMg6Ha1yUA3I2aVGjjdT63TdMK1pAm+yYOl2CxVpV0jTe7cuWjXw
+ h/dYC7ym4tL/HZnStcrjy+pISTKqZ2ApPCzrNziXBXD/ElrnWk2zoR7Y2cx4HSo5i/DM
+ MO7z0fbVudMN1smFI231wwb5PPABruTK7Fy90QoYS4GNNTlt1nj7LBwW0HGQrvOuncnA
+ G3Tok19NiMKSiMN/IsuqQ1QYsSrehVwNpemRtTCmAb+e6UaqI50+smwkJ3dUDUcu0X9x
+ S5cg==
+X-Gm-Message-State: AO0yUKUj8sSLiF3iFs/zUEJiEw3G5Q3lSNcCrHkC0yxMdfkQpM9s7LmA
+ Jy5jAtcMUb0cwYjiyJbPnf1yP2vjZvAN7JloCsM=
+X-Google-Smtp-Source: AK7set9E0fDgYOMAjwM1gzKlM6zWrGLc2FbOBfwbJBwFkBrg9zJem7/LBAqKEjhYlOZ3sKIlqEM0TA==
+X-Received: by 2002:a17:903:138c:b0:192:d625:ecc4 with SMTP id
+ jx12-20020a170903138c00b00192d625ecc4mr495493plb.18.1675203738010; 
+ Tue, 31 Jan 2023 14:22:18 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:9d:2:138e:73d3:502:64f])
+ by smtp.gmail.com with ESMTPSA id
+ d18-20020a170903231200b0019339f3368asm10377471plh.3.2023.01.31.14.22.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Jan 2023 14:22:17 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [RFT PATCH v2 1/3] drm/bridge: tc358762: Set pre_enable_prev_first
+Date: Tue, 31 Jan 2023 14:18:24 -0800
+Message-Id: <20230131141756.RFT.v2.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
+X-Mailer: git-send-email 2.39.1.456.gfc5497dd1b-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,41 +67,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: freedreno@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just recently we switched over to new GuC oriented log macros but in
-the meantime yet another message was added that we missed to update.
+Set the "pre_enable_prev_first" as provided by commit 4fb912e5e190
+("drm/bridge: Introduce pre_enable_prev_first to alter bridge init
+order"). This should allow us to revert commit ec7981e6c614
+("drm/msm/dsi: don't powerup at modeset time for parade-ps8640") and
+commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
+time").
 
-While around improve that new message by adding engine name and use
-existing helpers to check for context state.
-
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 53f3ed3244d5..be495e657d66 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -4660,9 +4660,10 @@ static void guc_handle_context_reset(struct intel_guc *guc,
- {
- 	trace_intel_context_reset(ce);
+(no changes since v1)
+
+ drivers/gpu/drm/bridge/tc358762.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
+index 0b6a28436885..77f7f7f54757 100644
+--- a/drivers/gpu/drm/bridge/tc358762.c
++++ b/drivers/gpu/drm/bridge/tc358762.c
+@@ -229,6 +229,7 @@ static int tc358762_probe(struct mipi_dsi_device *dsi)
+ 	ctx->bridge.funcs = &tc358762_bridge_funcs;
+ 	ctx->bridge.type = DRM_MODE_CONNECTOR_DPI;
+ 	ctx->bridge.of_node = dev->of_node;
++	ctx->bridge.pre_enable_prev_first = true;
  
--	drm_dbg(&guc_to_gt(guc)->i915->drm, "Got GuC reset of 0x%04X, exiting = %d, banned = %d\n",
--		ce->guc_id.id, test_bit(CONTEXT_EXITING, &ce->flags),
--		test_bit(CONTEXT_BANNED, &ce->flags));
-+	guc_dbg(guc, "Got context reset notification: 0x%04X on %s, exiting = %s, banned = %s\n",
-+		ce->guc_id.id, ce->engine->name,
-+		str_yes_no(intel_context_is_exiting(ce)),
-+		str_yes_no(intel_context_is_banned(ce)));
+ 	drm_bridge_add(&ctx->bridge);
  
- 	if (likely(intel_context_is_schedulable(ce))) {
- 		capture_error_state(guc, ce);
 -- 
-2.25.1
+2.39.1.456.gfc5497dd1b-goog
 
