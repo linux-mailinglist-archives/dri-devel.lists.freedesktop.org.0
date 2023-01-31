@@ -2,36 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5763E6861EC
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 09:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D483A6861EE
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 09:48:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B42EA10E173;
-	Wed,  1 Feb 2023 08:47:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4FCF10E16F;
+	Wed,  1 Feb 2023 08:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3ED610E06A
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 16:29:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 470D4B81DB0;
- Tue, 31 Jan 2023 16:29:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 727A2C433EF;
- Tue, 31 Jan 2023 16:28:50 +0000 (UTC)
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: (subset) [PATCH 00/35] Documentation: correct lots of spelling
- errors (series 1)
-Date: Tue, 31 Jan 2023 16:28:48 +0000
-Message-Id: <167518251202.582976.5415495075435902323.b4-ty@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
+X-Greylist: delayed 1501 seconds by postgrey-1.36 at gabe;
+ Tue, 31 Jan 2023 19:45:07 UTC
+Received: from mx07-0063e101.pphosted.com (mx07-0063e101.pphosted.com
+ [205.220.184.123])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5CB010E0C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 19:45:07 +0000 (UTC)
+Received: from pps.filterd (m0247495.ppops.net [127.0.0.1])
+ by mx08-0063e101.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30VJJGoR005577; Tue, 31 Jan 2023 19:20:02 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
+ by mx08-0063e101.pphosted.com (PPS) with ESMTPS id 3ncsu32d0c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 31 Jan 2023 19:20:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KRAyIpFOHt70zZSyvi3XNGibshc5LN4xUVipiYjqWqoIk/0OrEvYZel9aAGmBn5N+FyOKt6rWOd6hVIBr31joKXtprVBioHCO6aKzhLi88u/zeXZg/EGASq+YeCk+nlUBqT/pe1vsZ4/lItWUO5Ts9j/njaP23LydHrl9W89HEJ/IKFkl/wYG9K+SM980+QjFQuRz//QVoD3Yh/B4P1YCm/lJ7YgFwE5Zq+OC31Gaeaq8XdK9xZltmv3C+Hv+66CQ8dO+PDceJajky/jYyfeGC0FfZ5J/L/8r1nBMRSbt0Tl+6RKkMyGWK4XuBYK9AwFZqoI926pKoJDQIo3zGHpsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QvQo2QTnFc6PnhwvyN4x0vgtasuhGfQIJ8BwhVIeqF4=;
+ b=ie9XepCaiQjBwrvMpke0QE7LfTwu34sNcXR7jsRCsElSKSXl+bN8aBfop2mpI3fbjgF5caBbi0LcIbcBvdbM8jgUHHfJF8IVbDif2FYLTJhYd5h+3Gh1ntewfvtobKXFtwtREKt0YM7as9sfJKmTnhp64AxEMuREK0d+bdOWX0pPv3vkO6Y/q8B4vfB3/WpoiLQo4hsrSUDmqyUCRn/hN3bpDq5Kq4GX94/+QNCCd4cEmnzzfvNIJZXiK61umNGaZ+uOE8ZZgMWuoVgtd4HYAD7j0bbv9HhJ46kt/4UNZTTsS8za6GWlQg5BX6+NeiYvn4olTLhA6bkKYw1aqr8MUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=blaize.com; dmarc=pass action=none header.from=blaize.com;
+ dkim=pass header.d=blaize.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=BLAIZE.COM;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QvQo2QTnFc6PnhwvyN4x0vgtasuhGfQIJ8BwhVIeqF4=;
+ b=H9TG4VPZapIDiph/vIpyMp+0RAxB5x+eAu4cPIi1kZhIkmMbv4PrDNnhe93cUzFJnQW/NtYYTTBhDWf9YwYJsHSn2Nxv7jdMUtI6orAp8rQSMCCwEQkijptVIpB7aS8ZNiNGJFl64PK3RWXckqiX/Tk+KLB+Nltpg+JVVdRs1tw=
+Received: from MAZPR01MB7261.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:5b::9)
+ by MAZPR01MB7328.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:46::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.22; Tue, 31 Jan
+ 2023 19:19:57 +0000
+Received: from MAZPR01MB7261.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::6847:b57b:6b84:28a2]) by MAZPR01MB7261.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::6847:b57b:6b84:28a2%2]) with mapi id 15.20.6064.022; Tue, 31 Jan 2023
+ 19:19:57 +0000
+From: James Cowgill <james.cowgill@blaize.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
+ <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Philippe CORNU <philippe.cornu@st.com>
+Subject: [RESEND PATCH] drm/panel: otm8009a: Set backlight parent to panel
+ device
+Thread-Topic: [RESEND PATCH] drm/panel: otm8009a: Set backlight parent to
+ panel device
+Thread-Index: AQHZNakBZUUgkrNplEWf8+OaQ+Z2iw==
+Date: Tue, 31 Jan 2023 19:19:57 +0000
+Message-ID: <20230131191748.874884-1-james.cowgill@blaize.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MAZPR01MB7261:EE_|MAZPR01MB7328:EE_
+x-ms-office365-filtering-correlation-id: cd34869e-37a9-4a5e-928e-08db03c023fc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nsJA6NRSGCzia+CdMEUmfdnigkl/sQjrDaq4ZhiBcon2YhWVjhbrHFBhBg61TOAY/6UaNYP+qYM0yStRnPLStn+S/00/lARMUUxJmKb9qKCdXZpVnIPVEdmTdBO56IMnOoOwEPBnjl8TwFxxzk2j2/bCNhLfMvxHqSGThgKzjW5NhDaB8I4ekvkJHFBAdya4o5nHBecEWkyFWcyJSbvfSjU8JjG3zQt5jZqJfBQMeeVeaAnNZ2+74wIbQ1+3K8/MCJzyMwdIfx4onl22thGIbZo+hvvDKq2e/3Z4MiEbmM8dzUlXs/tXO3NO6QysIeSjbZsA3B68NeRl4KXzVCeNYW1uutqmc/X1ncQ60UaiLi0BNvBmECqjwUOWg/5wjl3sUL61w9+NZCmP/JIc1bjyqpCciUYcOc8h2w6UFbGSGOwL/Y59tLXVJXhuBX2xN7UDAZYkj1TG+K/FK2sJSWzvtQadqEZhhXQ4zEo96ykvczVaH+0q9h6I7k2OCdqamgrjaLzvynYTRx9b9Y0OS8mi6ZLeLVvn0Gts+EhnTkdoQ6e7I8c5yD9y2mMny3E3uGNUv47dsddKk31pWwKGM8YHJryHvzw11xneMew9vI1eMsDMUCcPi6I58KIwmgK0iKp9EE8rxQU7Hlvr+H4LpNCsgGO3ODp+ZvPsPrOUltH8w2UTSODyq7CgfDfWGaivmvSgduRUA4Iuhs8f8yPSqaPSig==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MAZPR01MB7261.INDPRD01.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230025)(396003)(376002)(39840400004)(366004)(346002)(136003)(451199018)(36756003)(5660300002)(2906002)(71200400001)(316002)(186003)(2616005)(83380400001)(6512007)(478600001)(6486002)(110136005)(6506007)(26005)(1076003)(54906003)(64756008)(86362001)(66446008)(66476007)(66556008)(8936002)(44832011)(41300700001)(38070700005)(91956017)(4326008)(8676002)(122000001)(66946007)(38100700002)(76116006);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?tFt9cHDKUrgRIEifjlIYUMhSBz55EdI6z4n9PUaZVSGzEFMxThKW6w7u2J?=
+ =?iso-8859-1?Q?mLcuRqVLdeTLpfBSKdCSU+ELdeOD7dRaV1oWoiOUpzFodxpHiWjbN6nthu?=
+ =?iso-8859-1?Q?AL/qf/3xqWfshc9wYmSkvfLtgQaEva7sJR6FuXLY6L9LkS1B+Oq0DlxzRO?=
+ =?iso-8859-1?Q?Dm7McuBF9BHybSIszBeY/60c2k44vBi7ZI8LU26bwZ/VCZePDvo0PRRCUG?=
+ =?iso-8859-1?Q?rJlvlPt72LwKbYD6mqeDP6sQp2AUgTOkiG7s6TZgLTWiiI5t7GOK8PmOYD?=
+ =?iso-8859-1?Q?NOyhg0XIpBYQEGAWu+XhhSHf1YhCJhJYGXxRh5A5mR+ysCuSJjGSggbJ7J?=
+ =?iso-8859-1?Q?cj8Y/szKXJ+DvrumP2GmzxKfGidHmQMFFwEPFaEJcVir6cflw9pPWgUcHT?=
+ =?iso-8859-1?Q?1vrrU/rYAKg79qssIBc/4MtmcemOM23K3JQfpv+LcRkIyc+bCVIPsWEWg2?=
+ =?iso-8859-1?Q?NpV8C53oq0l3vW5gkxaN25CQE1XcXpcPYp9HQrj5eMhjpmE9RD8pI6C/13?=
+ =?iso-8859-1?Q?Az3tnTaMIi2ZK/kSuHoztjwyZ3zVfLIpjHB/HmA3Zz5BJGl6hN+RDi9fGT?=
+ =?iso-8859-1?Q?aB7fpFmAKRlMt4VTT8ak+Z/qaKyq03XkPWNSBVB7ir7293SPFq8W2awvo4?=
+ =?iso-8859-1?Q?YBVFk2G8dkptWq8TDtgPtBV8t3nGSPIAnpcWqOKwb3VIOH1gpOjGWUUEEA?=
+ =?iso-8859-1?Q?SmcGUK3wpJ8T3pfRvNYPGu9Ca6N5rOR7xtRYWMZV65p+4sVerW6TKJ67T3?=
+ =?iso-8859-1?Q?kYsZzmrc4yAiJBTUgkj3XDd39ddQ12aR3m5zpIyDr2bkUmGUAA39VoeHNo?=
+ =?iso-8859-1?Q?zoeBDDiuOKtWHVKBpjLCb7WhOJXqmhA3rJBFqbCW1QzJlC5bUR0GIkDOsF?=
+ =?iso-8859-1?Q?9D93sx2/xM6RBJXOE0eUZMPtPyeyZQ6hCO9YFotZHY3iV8LNi2Gs6HySf3?=
+ =?iso-8859-1?Q?NOYUgx1EYfqkC7suSf4cTioenkVmwVRlUBrXxB0aSjuMDhJK3/ecRkD7F+?=
+ =?iso-8859-1?Q?JxmIWZKFA+9yMNBQ1lvNaoLGrpks+4rui22Ecgwt87KKE4w7sipiMi2oiw?=
+ =?iso-8859-1?Q?jAjZw3SytFULH8s1t6r5VgEkEWeW6jfeyRwFo7c6CO1gsbi2LBjR8gfViH?=
+ =?iso-8859-1?Q?1lLx/quCYA+mCNO7gi2rYYx7KgYDJmMnL4F3LESxMlSbKnMKmwYkAhpFM6?=
+ =?iso-8859-1?Q?gKHXp6CeDYMz9oXuPXhVZ4k3Ui036uOqQ2rtRqTbFJK1XCRwVVNweH5zdW?=
+ =?iso-8859-1?Q?kSnnPu8W3EFtKoJEKQ4pK8gkYNMu5j6E5kMxjbwIzC6NIIeZW0EEmVfZuM?=
+ =?iso-8859-1?Q?zam5L2D9OiKT41Y1b6MYzVoqXUlmloBUWle8F0qzaHsH+pu3NyZ6hdNWS8?=
+ =?iso-8859-1?Q?dakbNXeA2GBmx0WzWf/JSLqku/1vTouy8tHiSfBelctJHe1hDv+fCyP6Cc?=
+ =?iso-8859-1?Q?WlknK+Q7K5B8TwzWpYQV+rrb0LRz17dOa1F658mazRQkxR57s1BeEayrJH?=
+ =?iso-8859-1?Q?TENMl7LAmmDcerne2YgGYqVeY3NFH9IsBBqd7VzHgohylhlNTdf0ZCbxH3?=
+ =?iso-8859-1?Q?K+PXzhIA18c9MAKGV3BHSXuqH5ZzTwIrv4JowJI/16ycZeAwnob4cvBBSS?=
+ =?iso-8859-1?Q?TqKIGMlcVaxK4iBddaAWtOxusK/Whp319x?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: blaize.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MAZPR01MB7261.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd34869e-37a9-4a5e-928e-08db03c023fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2023 19:19:57.4948 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9d1c3c89-8615-4064-88a7-bb1a8537c779
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4Ah2CtB+FbUIqs7vxqJO8qb7DTE0S36jhSGyMz/ljF9pWN1VoT9hAc7fLzjiuBIX8wFxN+b+LRUlq99lvLz8tg4dStHDjNqrxojpkPf/FCI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB7328
+X-Proofpoint-GUID: rMgVotVNIMLkYlutfg-nnY2Biucg2A54
+X-Proofpoint-ORIG-GUID: rMgVotVNIMLkYlutfg-nnY2Biucg2A54
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-31_08,2023-01-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 impostorscore=0
+ mlxlogscore=848 suspectscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 bulkscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2301310168
 X-Mailman-Approved-At: Wed, 01 Feb 2023 08:47:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,78 +139,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, Juri Lelli <juri.lelli@redhat.com>,
- Henrik Rydberg <rydberg@bitmath.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Pavel Machek <pavel@ucw.cz>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Evgeniy Polyakov <zbr@ioremap.net>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Michael Ellerman <mpe@ellerman.id.au>, James Morris <jmorris@namei.org>,
- linux-acpi@vger.kernel.org, Len Brown <len.brown@intel.com>,
- linux-pm@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- linux-sgx@vger.kernel.org, Karsten Keil <isdn@linux-pingi.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-spi@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, alsa-devel@alsa-project.org,
- linux-doc@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
- keyrings@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-s390@vger.kernel.org, Paul Moore <paul@paul-moore.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- Andrii Nakryiko <andrii@kernel.org>,
- Daniel Jordan <daniel.m.jordan@oracle.com>, linux-trace-kernel@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, coresight@lists.linaro.org,
- Bjorn Helgaas <bhelgaas@google.com>, Stafford Horne <shorne@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Jarkko Sakkinen <jarkko@kernel.org>, linux-pci@vger.kernel.org,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Will Deacon <will@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jonathan Corbet <corbet@lwn.net>, isdn4linux@listserv.isdn4linux.de,
- linux-input@vger.kernel.org, "Serge E. Hallyn" <serge@hallyn.com>,
- Fenghua Yu <fenghua.yu@intel.com>, Jiri Kosina <jikos@kernel.org>,
- Akinobu Mita <akinobu.mita@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- linux-crypto@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Borislav Petkov <bp@alien8.de>, linux-fbdev@vger.kernel.org,
- Reinette Chatre <reinette.chatre@intel.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>, target-devel@vger.kernel.org,
- bpf@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
- Peter Zijlstra <peterz@infradead.org>, David Howells <dhowells@redhat.com>,
- linux-mm@kvack.org, linux-trace-devel@vger.kernel.org,
- live-patching@vger.kernel.org, Miroslav Benes <mbenes@suse.cz>,
- linux-leds@vger.kernel.org, Steffen Klassert <steffen.klassert@secunet.com>,
- linux-scsi@vger.kernel.org, Marc Zyngier <maz@kernel.org>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, Ingo Molnar <mingo@redhat.com>,
- Jonas Bonn <jonas@southpole.se>, Heiko Carstens <hca@linux.ibm.com>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
- linux-block@vger.kernel.org,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- openrisc@lists.librecores.org, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, netdev@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-security-module@vger.kernel.org,
- Daniel Bristot de Oliveira <bristot@kernel.org>, linuxppc-dev@lists.ozlabs.org
+Cc: Thierry Reding <treding@nvidia.com>,
+ James Cowgill <james.cowgill@blaize.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 26 Jan 2023 22:39:30 -0800, Randy Dunlap wrote:
-> Correct many spelling errors in Documentation/ as reported by codespell.
-> 
-> Maintainers of specific kernel subsystems are only Cc-ed on their
-> respective patches, not the entire series. [if all goes well]
-> 
-> These patches are based on linux-next-20230125.
-> 
-> [...]
+This is the logical place to put the backlight device, and it also
+fixes a kernel crash if the MIPI host is removed. Previously the
+backlight device would be unregistered twice when this happened - once
+as a child of the MIPI host through `mipi_dsi_host_unregister`, and
+once when the panel device is destroyed.
 
-Applied to arm64 (for-next/misc), thanks!
+Fixes: 12a6cbd4f3f1 ("drm/panel: otm8009a: Use new backlight API")
+Signed-off-by: James Cowgill <james.cowgill@blaize.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[01/35] Documentation: arm64: correct spelling
-        https://git.kernel.org/arm64/c/a70f00e7f1a3
-
--- 
-Catalin
+diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu=
+/drm/panel/panel-orisetech-otm8009a.c
+index b4729a94c34a8..898b892f11439 100644
+--- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
++++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+@@ -471,7 +471,7 @@ static int otm8009a_probe(struct mipi_dsi_device *dsi)
+ 		       DRM_MODE_CONNECTOR_DSI);
+=20
+ 	ctx->bl_dev =3D devm_backlight_device_register(dev, dev_name(dev),
+-						     dsi->host->dev, ctx,
++						     dev, ctx,
+ 						     &otm8009a_backlight_ops,
+ 						     NULL);
+ 	if (IS_ERR(ctx->bl_dev)) {
+--=20
+2.39.1
 
