@@ -2,52 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D6F6836FB
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 21:02:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E76468374A
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 21:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D76CE10E391;
-	Tue, 31 Jan 2023 20:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3817D10E393;
+	Tue, 31 Jan 2023 20:09:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EEEC10E391
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 20:02:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=oT2hLpNFKGyJ3wJhnZtdrGsic4/uehcjPnc9HvQVqrQ=; b=onNOJo3rTyC1whqkTF6bPRxbtO
- kAAGE8XdW7y2Vc8fHsCaQwOCXMSNIaSjet90lgub4z/RwKPTLfTgdwjjV+bsCnq8I9Kwbfx1wmINf
- HWtJ8XiDs9rKoyhCK49JV1Hj4FDuuUxutcDdtfZ9Y6alwLjtcSUo50ZNsulmSMcbFJsl7fQzBGkgn
- I8GFtboS1JyzqfmA2+CY1s++Fj2MT75VQN5op1GDraNYZ6+qw3/AR4aYtTtvYYI4yHaYmo/3Amurl
- QFioySJ3dplEoiY7GEFjD9Ipolkg/a0gXz6+DvXC3murzfZ8wXmIVlxA3+tUdXEBU69p+LabQiNPA
- 10XNdw1Q==;
-Received: from [187.36.234.139] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pMwpV-005kjr-W3; Tue, 31 Jan 2023 21:02:10 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Liviu Dudau <liviu.dudau@arm.com>,
- Brian Starkey <brian.starkey@arm.com>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Melissa Wen <mwen@igalia.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v3 6/6] drm/debugfs: Make the struct drm_debugfs_entry
- independent of DRM device
-Date: Tue, 31 Jan 2023 16:58:26 -0300
-Message-Id: <20230131195825.677487-7-mcanal@igalia.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230131195825.677487-1-mcanal@igalia.com>
-References: <20230131195825.677487-1-mcanal@igalia.com>
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
+ [IPv6:2607:f8b0:4864:20::f2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63CB410E393
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 20:08:58 +0000 (UTC)
+Received: by mail-qv1-xf2a.google.com with SMTP id lc15so3964127qvb.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 12:08:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zCsFrFxTu2Wx/3OnYl4yRwvfLp07q19BSTrZLYzDynI=;
+ b=Tlq6vZ3Z+bOChVvdcjQhHB9km22BDOkkZ/qWueLyVRqyLF/yYjO5mWrVeLXmvQb9Hf
+ dKM4M8ZGRrZQ/dS3TmSu2sqPQR3T5tCBu6Kt24m6IvM6wKf20RvJstZ6r7/A3rXylWKt
+ RtYPf4cKcW09My0AGcaGdQQFGg6xotxnFBJxo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zCsFrFxTu2Wx/3OnYl4yRwvfLp07q19BSTrZLYzDynI=;
+ b=q0U/ts6IX4PBNMUV0KUosfqIC+l2FiG2tqkUirFScTqHOeLsEtcumLyC2d6A6wrciR
+ VHydE7WAHndQ1AHgX6OpPa9PldqGTt3ZdNPkvteSniFzMr8f+6pSriPdUJbOIsUD6Cto
+ 4bWIUptfxb0C6prP4qZZXGUrY+xpxBALF8gxV5Dsji+5pGKiv2jsTPZHm8ReNYQKxGUL
+ 95CWap7TR44rkNEijEi8esLlzV0JlWcIsBAjLKIZsDxHPkahy6bj64JNUwjj4Qx0N1Yg
+ MXqDiJTrvXeVqClP7afvG2syjgkPLtUHd3sPVurJW/ZmLhD7R+GA83tE6DWxG/I+rc55
+ VV9Q==
+X-Gm-Message-State: AO0yUKU+C7oygh2kiaymsJ5j21gG+ZAnZ80MUtcvyhZNu5SX5ykaHQ92
+ NoxIR3OuqyYXMllFJ+uZ8PDcVA==
+X-Google-Smtp-Source: AK7set85WIQ9wkzkoIEEQYoy3mBKFMptDGQsWp5LC2F/fasO0rQjL8HOj7i6LoFemKwmeMixeByhbQ==
+X-Received: by 2002:a0c:e909:0:b0:538:861f:cfd7 with SMTP id
+ a9-20020a0ce909000000b00538861fcfd7mr255616qvo.42.1675195737469; 
+ Tue, 31 Jan 2023 12:08:57 -0800 (PST)
+Received: from greenjustin3.nyc.corp.google.com
+ ([2620:0:1003:314:502d:723:d741:14cd])
+ by smtp.gmail.com with ESMTPSA id
+ m186-20020a37bcc3000000b007068b49b8absm10658782qkf.62.2023.01.31.12.08.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Jan 2023 12:08:57 -0800 (PST)
+From: Justin Green <greenjustin@chromium.org>
+To: linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2 v6] drm/mediatek: Add support for 10-bit overlays
+Date: Tue, 31 Jan 2023 15:08:40 -0500
+Message-Id: <20230131200842.341272-1-greenjustin@chromium.org>
+X-Mailer: git-send-email 2.39.1.456.gfc5497dd1b-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,59 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, Justin Green <greenjustin@chromium.org>,
+ airlied@linux.ie, jason-jh.lin@mediatek.com, justin.yeh@mediatek.com,
+ wenst@chromium.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to turn the API more expansible to other DRM objects, such as
-the struct drm_connector, make the struct drm_debugfs_entry hold a void
-pointer and cast the void pointer to the struct drm_device when needed.
+This patch series adds support for 10-bit overlays to the Mediatek DRM driver.
+Specifically, we add support for AR30 and BA30 overlays on MT8195 devices and
+lay the groundwork for supporting more 10-bit formats on more devices.
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/drm_debugfs.c | 4 ++--
- include/drm/drm_debugfs.h     | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+1. Refactor plane initialization logic to allow individual DDP components to
+provide their supported pixel formats.
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 21f01c7d0ab1..f12c3fdf61bb 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -141,7 +141,7 @@ static int drm_debugfs_dev_show(struct seq_file *m, void *unused)
- 	struct drm_debugfs_entry *entry = m->private;
- 	int (*show)(struct seq_file *, struct drm_device *, void *) = entry->file.show;
- 
--	return show(m, entry->dev, entry->file.data);
-+	return show(m, entry->object, entry->file.data);
- }
- 
- static int drm_debugfs_open(struct inode *inode, struct file *file)
-@@ -362,7 +362,7 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
- 	entry->file.name = name;
- 	entry->file.show = show;
- 	entry->file.data = data;
--	entry->dev = dev;
-+	entry->object = dev;
- 
- 	drm_debugfs_files_add(dev->debugfs_files, &entry->list);
- }
-diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
-index 0fb7ad5f6893..4ab0557f55e0 100644
---- a/include/drm/drm_debugfs.h
-+++ b/include/drm/drm_debugfs.h
-@@ -130,8 +130,8 @@ struct drm_debugfs_info {
-  * drm_debugfs_info on a &struct drm_device.
-  */
- struct drm_debugfs_entry {
--	/** @dev: &struct drm_device for this node. */
--	struct drm_device *dev;
-+	/** @object: The DRM object that owns this node. */
-+	void *object;
- 
- 	/** @file: Template for this node. */
- 	struct drm_debugfs_info file;
+2. Add AR30 and BA30 support to the MT8195 overlay driver.
+
+
+Version history:
+v6:
+ * Refactor patch into patch series.
+ * Add formats directly to private data.
+
+v5:
+* Removed some dead defines.
+* Refactored mtk_ovl_set_afbc().
+
+v4:
+* Move modifier validation to format_mod_supported function.
+* Add modifiers to drm_universal_plane_init() call.
+* Make comparisons to DRM_FORMAT_MOD_LINEAR explicit rather than relying on
+  DRM_FORMAT_LINEAR being equal to 0.
+* Gate AFBC control bit writes on device compatibility.
+
+v3:
+* Replaced pitch bitshift math with union based approach.
+* Refactored overlay register writes to shared code between non-AFBC and
+  AFBC.
+* Minor code cleanups.
+
+v2:
+* Marked mtk_ovl_set_afbc as static.
+* Reflowed some lines to fit column limit.
+
+
+Justin Green (2):
+  drm/mediatek: Refactor pixel format logic
+  drm/mediatek: Add support for AR30 and BA30 overlays
+
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  4 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     | 89 +++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    | 38 +++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  4 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 20 +++++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 24 ++----
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h    |  3 +-
+ 8 files changed, 168 insertions(+), 18 deletions(-)
+
 -- 
-2.39.1
+2.39.1.456.gfc5497dd1b-goog
 
