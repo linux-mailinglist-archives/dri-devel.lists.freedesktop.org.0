@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1C96830D4
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 16:06:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 961F46830CF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 16:06:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69B8B10E387;
-	Tue, 31 Jan 2023 15:06:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 942DD10E381;
+	Tue, 31 Jan 2023 15:06:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F75210E380;
- Tue, 31 Jan 2023 15:06:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C70B010E37A;
+ Tue, 31 Jan 2023 15:06:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675177569; x=1706713569;
+ t=1675177570; x=1706713570;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Xb02vIQIgXwqReykZnFavPw9RCMa3+WLedoxNY6Xnwk=;
- b=h5NOeGxsH5OqWwquaBp0yrBBQdrSVJ/Ro4SG9uCOA2XX/VTAo0bYIudk
- Bha7w2v5H6zuMj/N1a6pDdP5oe7Ga+t4KO82uuEUE2TgdqpatRAv7Y5pm
- Agyt7MA5biKMEG9Qk+LoUbCzAGLPDqVOmphxYw29agCgT8gLSY72VYSgY
- HVZMzMbiUmK0HC86rMfRFd6QlH8Loersn5zt67YEfBC4SxefxyFVNbEvG
- aotAn+kRJfUkiQj9Hwx4D/Nss5YhiCwf1sK5HX3hX5Kh+pduAh25mTqSj
- I5rmcn6T6JhO6tdUSUSYrMkir0tlobRKzyTjZW/47ECbsZyJcpXUjt4nZ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="308205582"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="308205582"
+ bh=70ncopoHGtYk9Twq8aYixnl0XY6kiVdLrV0O6I9A4KQ=;
+ b=dvh1S4URalQnzs2c6/Hz32P7hYjRUiJELf5hOwBRxkLmHBYurwGrxk9R
+ YtVn+fRsqykxuUDi2NVSc4MncCS63BFd7xJFVTeWBkTOrd/qkWAbaGNVa
+ eGhKwSOpg0tFO4dPtcgoSvDnBG9Hfs8JA3Dan/hAZ7CnqcUFRfqbB1BiF
+ SeDTXbuF2eiCOvuExBm80GP0JlmaLvE+CXzECBuVe0QIHHZgL5cQZNN3o
+ qnECk1PEz16sVcbrlbp++qrymPLRCosc3dIiNc5hxULUOKfq69qYPQnva
+ VmldJx4+0vtXVF4BN92Jtp1qrWSQi4EXDtHrpOX5PuG53bJW6IZBrsQZG w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="308205590"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="308205590"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2023 07:06:09 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="807155335"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="807155335"
+ 31 Jan 2023 07:06:10 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="807155340"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="807155340"
 Received: from ideak-desk.fi.intel.com ([10.237.72.58])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2023 07:06:07 -0800
+ 31 Jan 2023 07:06:09 -0800
 From: Imre Deak <imre.deak@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 11/17] drm/display/dp_mst: Add helpers to query for payload
- allocation errors
-Date: Tue, 31 Jan 2023 17:05:42 +0200
-Message-Id: <20230131150548.1614458-12-imre.deak@intel.com>
+Subject: [PATCH v2 12/17] drm/display/dp_mst: Add helpers to query payload
+ allocation properties
+Date: Tue, 31 Jan 2023 17:05:43 +0200
+Message-Id: <20230131150548.1614458-13-imre.deak@intel.com>
 X-Mailer: git-send-email 2.31.1.189.g2e36527f23
 In-Reply-To: <20230131150548.1614458-1-imre.deak@intel.com>
 References: <20230131150548.1614458-1-imre.deak@intel.com>
@@ -62,109 +62,96 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a way for drivers to query if allocating time slots for any payloads
-in a given MST topology failed. This is needed by a follow-up i915 patch
-verifying the SW vs. HW state of the MST topology.
+Add helper functions to query the virtual channel and time slots for a
+payload and the current payload count and total allocated time slots in
+an MST topology. These are needed by a follow-up i915 patch verifying
+the SW vs. HW state of the MST topology.
 
 Cc: Lyude Paul <lyude@redhat.com>
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 35 ++++++++++++++++---
- include/drm/display/drm_dp_mst_helper.h       |  3 ++
- 2 files changed, 33 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 36 +++++++++++++++++++
+ include/drm/display/drm_dp_mst_helper.h       | 21 +++++++++++
+ 2 files changed, 57 insertions(+)
 
 diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index e57dd16955d52..f2081f3fad0da 100644
+index f2081f3fad0da..47605f67578ad 100644
 --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3306,15 +3306,14 @@ int drm_dp_add_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
- 			     struct drm_dp_mst_atomic_payload *payload)
- {
- 	struct drm_dp_mst_port *port;
--	int ret;
-+	int ret = 0;
- 
- 	port = drm_dp_mst_topology_get_port_validated(mgr, payload->port);
- 	if (!port) {
- 		drm_dbg_kms(mgr->dev,
- 			    "VCPI %d for port %p not in topology, not creating a payload\n",
- 			    payload->vcpi, payload->port);
--		payload->vc_start_slot = -1;
--		return 0;
-+		goto alloc_fail;
- 	}
- 
- 	if (mgr->payload_count == 0)
-@@ -3327,14 +3326,21 @@ int drm_dp_add_payload_part1(struct drm_dp_mst_topology_mgr *mgr,
- 	if (ret < 0) {
- 		drm_warn(mgr->dev, "Failed to create MST payload for port %p: %d\n",
- 			 payload->port, ret);
--		payload->vc_start_slot = -1;
--		return ret;
-+		goto alloc_fail;
- 	}
- 
-+	payload->alloc_failed = false;
-+
- 	mgr->payload_count++;
- 	mgr->next_start_slot += payload->time_slots;
- 
- 	return 0;
-+
-+alloc_fail:
-+	payload->vc_start_slot = -1;
-+	payload->alloc_failed = true;
-+
-+	return ret;
+@@ -3448,6 +3448,42 @@ bool drm_dp_mst_has_payload_alloc_errors(const struct drm_dp_mst_topology_state
  }
- EXPORT_SYMBOL(drm_dp_add_payload_part1);
- 
-@@ -3423,6 +3429,25 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
- }
- EXPORT_SYMBOL(drm_dp_add_payload_part2);
+ EXPORT_SYMBOL(drm_dp_mst_has_payload_alloc_errors);
  
 +/**
-+ * drm_dp_mst_has_payload_alloc_errors - Query for payload allocation errors
-+ * @mst_state: The MST atomic state
++ * drm_dp_mst_payload_vchannel - Return the DP virtual channel for a payload
++ * @mst_state: The MST atomic state containing @payload
++ * @payload: The payload to get the virtual channel for
 + *
-+ * Returns %true if the allocation of any of the payloads in @mst_state
-+ * failed, %false otherwise.
++ * Return the DP virtual channel for @payload. The virtual channel is a
++ * contiguous range of MST Transmission Units on the DP main lanes between
++ * the source DPTX and the first downstream MST hub DPRX. Accordingly the
++ * channel is determined by the payload's position on the payload list
++ * ordered by VC start slot.
++ *
++ * Returns the 0-based virtual channel of @payload if it's in @mst_state with
++ * its time slots being allocated, or -1 otherwise.
 + */
-+bool drm_dp_mst_has_payload_alloc_errors(const struct drm_dp_mst_topology_state *mst_state)
++int drm_dp_mst_payload_vchannel(const struct drm_dp_mst_topology_state *mst_state,
++				const struct drm_dp_mst_atomic_payload *payload)
 +{
 +	struct drm_dp_mst_atomic_payload *pos;
++	int vc = 0;
++	bool found = false;
 +
-+	list_for_each_entry(pos, &mst_state->payloads, next)
-+		if (pos->alloc_failed)
-+			return true;
++	list_for_each_entry(pos, &mst_state->payloads, next) {
++		if (pos->vc_start_slot == -1)
++			continue;
 +
-+	return false;
++		if (pos == payload)
++			found = true;
++
++		if (pos->vc_start_slot < payload->vc_start_slot)
++			vc++;
++	}
++
++	return found ? vc : -1;
 +}
-+EXPORT_SYMBOL(drm_dp_mst_has_payload_alloc_errors);
++EXPORT_SYMBOL(drm_dp_mst_payload_vchannel);
 +
  static int drm_dp_send_dpcd_read(struct drm_dp_mst_topology_mgr *mgr,
  				 struct drm_dp_mst_port *port,
  				 int offset, int size, u8 *bytes)
 diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-index 44c6710ebf315..53b251b264e89 100644
+index 53b251b264e89..bb7c595096fed 100644
 --- a/include/drm/display/drm_dp_mst_helper.h
 +++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -568,6 +568,8 @@ struct drm_dp_mst_atomic_payload {
- 	bool delete : 1;
- 	/** @dsc_enabled: Whether or not this payload has DSC enabled */
- 	bool dsc_enabled : 1;
-+	/** @alloc_failed: Whether or not allocating this payload failed */
-+	bool alloc_failed : 1;
- 
- 	/** @next: The list node for this payload */
- 	struct list_head next;
-@@ -843,6 +845,7 @@ void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
- 			   struct drm_dp_mst_topology_state *mst_state,
+@@ -846,6 +846,27 @@ void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
  			   const struct drm_dp_mst_atomic_payload *old_payload,
  			   struct drm_dp_mst_atomic_payload *new_payload);
-+bool drm_dp_mst_has_payload_alloc_errors(const struct drm_dp_mst_topology_state *mst_state);
+ bool drm_dp_mst_has_payload_alloc_errors(const struct drm_dp_mst_topology_state *mst_state);
++int drm_dp_mst_payload_vchannel(const struct drm_dp_mst_topology_state *mst_state,
++				const struct drm_dp_mst_atomic_payload *payload);
++
++static inline int
++drm_dp_mst_payload_count(const struct drm_dp_mst_topology_state *mst_state)
++{
++	return mst_state->mgr->payload_count;
++}
++
++static inline int
++drm_dp_mst_allocated_time_slots(const struct drm_dp_mst_topology_state *mst_state)
++{
++	return drm_dp_mst_payload_count(mst_state) ?
++		mst_state->mgr->next_start_slot - mst_state->start_slot : 0;
++}
++
++static inline int
++drm_dp_mst_payload_time_slots(const struct drm_dp_mst_atomic_payload *payload)
++{
++	return payload->time_slots;
++}
  
  int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
  
