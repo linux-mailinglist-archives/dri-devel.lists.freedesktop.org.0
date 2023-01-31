@@ -1,72 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C48682CDB
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 13:45:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9041682CE7
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 13:46:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E70410E32A;
-	Tue, 31 Jan 2023 12:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCD5F10E343;
+	Tue, 31 Jan 2023 12:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C803D10E32A
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 12:45:16 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id bk15so41192895ejb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 04:45:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8xbu9OSYb70xb94Yeo31t8Oaxtx3TEHDRghlLnFGwEE=;
- b=HOQM9HVcHNtPQArB9zdGc+O47H5Vo84d9V9VhhhQrU/5yzCLU+SMlVuEXnZEe41pPW
- xCHkVMP0gyrDWj5XBdMUjyi6KNx3SI0bCDzcCw//4Q4eJ0BFD31xHLDO1LwVeNj/HU1n
- pn7Yrhd9FC4tgM74wBgvGOolUVNYG7r6SnbaOrdBKMg+Kqu4XwGbYpdeBgJZXgB+tx5W
- JS6wjUKIIWY0euwy/bDqjwp8YBzxeaXhNr7BKPX0CRbvGRHsHRdviH54iPCU6xATZPhd
- 0DvpWRLxxdpNcx2zvS58RGKJzBNRgo8/NV9p6BdhTEQOR3YIKSVo0LTqoThKIYQUrkVI
- 7IZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8xbu9OSYb70xb94Yeo31t8Oaxtx3TEHDRghlLnFGwEE=;
- b=EoOYxZK+YlsQ6DkxGFcQEU97NiWPPmlVZPbRVUE92vaE/xpxQuqUdLmxFbpXCxMRe/
- NmLDn7sp3r5VcrjkP6Mtz9U8CAI7wCi0vmuPPOks0ErNGR4nG8PPqN9YvQIfLPHRII5H
- Q0WM/mP2HdSVVy2q7FSKRwNvqABkERUNXqiBTaaFQO1hZBQqDUYeR2L+L/D8XPgX+kDg
- E4+hkJ7UI3HxzlTwRsBs3np3vhPcnOjU66x/SLjv6W+sjt/hYZx5FXJAYWz5+JZ1KCA+
- jlh/Vhvj83fHcetguD2sdUfI5H93f3Dc44wBf2d7DrrO7GLNkoljotnzwCrUhOrYSDqf
- 00GA==
-X-Gm-Message-State: AO0yUKVc/vYQ1+rLMSRJD0NGz0AtTEsJRNuZJL7JwN5XLQ2ys1W1EmlJ
- N8H9S4815M4zlIBex3KNop2x5g==
-X-Google-Smtp-Source: AK7set+xEX/0VUfgwRIBFa8ZDHADe1V6jD0Mhcsk+kdmw3nw7+rNAJsp1S6XWKh5HOt4IleZY/zvCw==
-X-Received: by 2002:a17:907:a0d2:b0:878:7f6e:38a7 with SMTP id
- hw18-20020a170907a0d200b008787f6e38a7mr3298474ejc.44.1675169115144; 
- Tue, 31 Jan 2023 04:45:15 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- hq15-20020a1709073f0f00b00877ff0c2bb0sm8411192ejc.166.2023.01.31.04.45.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 04:45:14 -0800 (PST)
-Message-ID: <7b90ce05-29ac-da1c-ca3c-c52577d131ea@linaro.org>
-Date: Tue, 31 Jan 2023 14:45:12 +0200
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62C5310E338
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 12:46:02 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id ED7E52B066FA;
+ Tue, 31 Jan 2023 07:45:53 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Tue, 31 Jan 2023 07:45:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1675169153; x=
+ 1675176353; bh=PtYaZxMNlPd+V1POWIMFc+00gyDuCAmPoEPHzvrYLTY=; b=Y
+ 2rpavMmA6wrzSwSljI8brRDsxWI1aa0/CnLeZm8LQmBgidWUpAI6OOyXg4uauxAc
+ UoVu+u7fyEc+97JUW6/Q1Lw0ZSS1EZyDDHMLXeiHh3SoZQRFZ2nH2B5NJTDUuIu9
+ K6+IFc4Sf/jyNoV4p1KLzPu3UTGqw37wEu7jcbWy2ByOoNVY0KvrrK+puSLlao/Z
+ W2WKYtf18lCLtFqVGB0qq6Tv+BRyY0R2JqZO6iRwvziVYpaerQ3E4stDpQ0BbZtg
+ Nv0OnXeBGMYqGghCe/qw7P67eTPye6jC6V2ysWw6fPeL1mowgGqDwYAaozNQTLX0
+ QS0qHicYBu8oMsKxm0nTA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1675169153; x=
+ 1675176353; bh=PtYaZxMNlPd+V1POWIMFc+00gyDuCAmPoEPHzvrYLTY=; b=c
+ h81WKeuGP2BGjN2vQHQgyBaWZCweqrz6mR7hJeAF+amxmgD07U9kli0nakyaNMhJ
+ Khqu+PJ9ksyOr2pZAmtGoyPa4DfnB96vPuTUAXU1ykKIBv4ll1y5+m9lJMacpvGv
+ ZJGxPmeov9hzTCmzXTZTp3nBLLxDoX6hSpaInk3a+wWU7XScUkTP/l2cpnRBhYE0
+ MsbUo02LL+bWtvA5dfnEyzpMQcwhNtcKVdRrFTAAHu/loKJJkfjBOQ6Wt2bq6o8l
+ kjUeG9vuDz5QfsRF/UUpoFZWApFZXjMERRp7vFM106VtXf6Kvr/x/GyQrWdIDzb1
+ Z0HODQusZLKof1f0XK0rA==
+X-ME-Sender: <xms:gA3ZY39ABJWqg85jAQVkE6rACECTQzN-KVDMIEFUNLYMzQ2jcxIVMA>
+ <xme:gA3ZYzusyyM8jxwVAFQ2vP3h5eU6ouhOStTd2BANH7N-u8wFp3owyBcwGMNIq7rSn
+ aZpMMybGnERSR6B4WQ>
+X-ME-Received: <xmr:gA3ZY1CvOSJs30u6KQbSOjvhbk9TqMsDfjzISQwqOO-CpOmkudIIb9T2v9l4WIrZvBrXz9iUHliKFqzK-ScUyMB1yfh_YDna7SZlp5YeZAjPzQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefgedggeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhephfduvdejlefhteetffdvgfeuhedvueeggfetheeihfektefftddtieff
+ vddtueehnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpfhhrvggvuggvshhkthhoph
+ drohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+ pehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:gA3ZYzfxtKgO0R-PWSwvQDsA_9eq7pBv3jZhUFw0q3T1Zpqw-uzPJw>
+ <xmx:gA3ZY8PiubIebRHN8gornKb8bagBb8VHDrA56ha5APpYrkXhnVu0sQ>
+ <xmx:gA3ZY1lbi8FpQsQ9CrsA2Nb7cIWZaF87vuxbBHrU6ZqWoPuqO2L-RQ>
+ <xmx:gQ3ZY4QdbUH7U4emnAc2SpTVMDSyxEHuAiDDGV1y-nxi10sZPNUODYRxbR4>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 31 Jan 2023 07:45:52 -0500 (EST)
+Date: Tue, 31 Jan 2023 13:45:50 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [RESEND PATCH v11 02/18] drm: bridge: panel: Add
+ devm_drm_of_dsi_get_bridge helper
+Message-ID: <20230131124550.6oalx43vz26gi5wt@houat>
+References: <20230123151212.269082-1-jagan@amarulasolutions.com>
+ <20230123151212.269082-3-jagan@amarulasolutions.com>
+ <20230126121227.qcnftqvgiz44egpg@houat>
+ <CAMty3ZB6QiqgQN_zWEXULHiipQWU_VaWxDWf9W8OTVQvkACu5A@mail.gmail.com>
+ <CAMty3ZDTuvYKQYpVnoUU_-b3znJiyR0yBADO-5_5+86KgwYv3Q@mail.gmail.com>
+ <20230130125648.mlrtubymeooejvhg@houat>
+ <CAMty3ZANxwUp8yOjo+EWHNngi7SoMYhm1FchM38v_EUDpLY7UQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v12 02/14] drm/msm/disp/dpu: get timing engine status from
- intf status register
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1675091494-13988-1-git-send-email-quic_vpolimer@quicinc.com>
- <1675091494-13988-3-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1675091494-13988-3-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMty3ZANxwUp8yOjo+EWHNngi7SoMYhm1FchM38v_EUDpLY7UQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,109 +92,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
- quic_khsieh@quicinc.com, swboyd@chromium.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/01/2023 17:11, Vinod Polimera wrote:
-> Recommended way of reading the interface timing gen status is via
-> status register. Timing gen status register will give a reliable status
-> of the interface especially during ON/OFF transitions. This support was
-> added from DPU version 5.0.0.
-> 
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  6 ++++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 12 +++++++-----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c    |  8 +++++++-
->   3 files changed, 18 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index cf053e8..ce6e9e6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -78,9 +78,11 @@
->   
->   #define INTF_SDM845_MASK (0)
->   
-> -#define INTF_SC7180_MASK BIT(DPU_INTF_INPUT_CTRL) | BIT(DPU_INTF_TE)
-> +#define INTF_SC7180_MASK \
-> +	(BIT(DPU_INTF_INPUT_CTRL) | BIT(DPU_INTF_TE) | BIT(DPU_INTF_STATUS_SUPPORTED))
->   
-> -#define INTF_SC7280_MASK INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN)
-> +#define INTF_SC7280_MASK \
-> +	(INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN))
+On Mon, Jan 30, 2023 at 06:54:54PM +0530, Jagan Teki wrote:
+> On Mon, Jan 30, 2023 at 6:26 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > On Fri, Jan 27, 2023 at 11:09:26PM +0530, Jagan Teki wrote:
+> > > Hi,
+> > >
+> > > On Thu, Jan 26, 2023 at 8:48 PM Jagan Teki <jagan@amarulasolutions.co=
+m> wrote:
+> > > >
+> > > > On Thu, Jan 26, 2023 at 5:42 PM Maxime Ripard <maxime@cerno.tech> w=
+rote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On Mon, Jan 23, 2023 at 08:41:56PM +0530, Jagan Teki wrote:
+> > > > > > Add devm OF helper to return the next DSI bridge in the chain.
+> > > > > >
+> > > > > > Unlike general bridge return helper devm_drm_of_get_bridge, this
+> > > > > > helper uses the dsi specific panel_or_bridge helper to find the
+> > > > > > next DSI device in the pipeline.
+> > > > > >
+> > > > > > Helper lookup a given child DSI node or a DT node's port and
+> > > > > > endpoint number, find the connected node and return either
+> > > > > > the associated struct drm_panel or drm_bridge device.
+> > > > >
+> > > > > I'm not sure that using a device managed helper is the right choi=
+ce
+> > > > > here. The bridge will stay longer than the backing device so it w=
+ill
+> > > > > create a use-after-free. You should probably use a DRM-managed ac=
+tion
+> > > > > here instead.
+> > > >
+> > > > Thanks for the comments. If I understand correctly we can use
+> > > > drmm_panel_bridge_add instead devm_drm_panel_bridge_add once we fou=
+nd
+> > > > the panel or bridge - am I correct?
+> > >
+> > > Look like it is not possible to use DRM-managed action helper here as
+> > > devm_drm_of_dsi_get_bridge is calling from the DSI host attach hook in
+> > > which we cannot find drm_device pointer (as drm_device pointer is
+> > > mandatory for using DRM-managed action).
+> > > https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/dr=
+m/bridge/samsung-dsim.c#L1545
+> > >
+> > > Please check and correct me if I mentioned any incorrect details.
+> >
+> > You shouldn't call that function from attach anyway:
+> > https://dri.freedesktop.org/docs/drm/gpu/drm-kms-helpers.html#special-c=
+are-with-mipi-dsi-bridges
+>=20
+> True, If I remember we have bridges earlier to find the downstream
+> bridge/panels from the bridge ops and attach the hook, if that is the
+> case maybe we can use this DRM-managed action as we can get the
+> drm_device pointer from the bridge pointer.
 
-Not necessary anymore.
+I'm not quite sure what you mean. You shouldn't retrieve the bridge from
+the attach hook but from the probe / bind ones. If that's not working
+for you, this is a bug in the documentation we should address.
 
-With that fixed:
+> So, what is the best we can do here, add any TODO comment to follow up
+> the same in the future or something else, please let me know?
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Make it work in a safe way, as described in the documentation?
 
->   
->   #define IRQ_SDM845_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
->   			 BIT(MDP_SSPP_TOP0_INTR2) | \
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> index ddab9ca..08cd1a1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> @@ -213,17 +213,19 @@ enum {
->   
->   /**
->    * INTF sub-blocks
-> - * @DPU_INTF_INPUT_CTRL         Supports the setting of pp block from which
-> - *                              pixel data arrives to this INTF
-> - * @DPU_INTF_TE                 INTF block has TE configuration support
-> - * @DPU_DATA_HCTL_EN            Allows data to be transferred at different rate
-> -                                than video timing
-> + * @DPU_INTF_INPUT_CTRL             Supports the setting of pp block from which
-> + *                                  pixel data arrives to this INTF
-> + * @DPU_INTF_TE                     INTF block has TE configuration support
-> + * @DPU_DATA_HCTL_EN                Allows data to be transferred at different rate
-> + *                                  than video timing
-> + * @DPU_INTF_STATUS_SUPPORTED       INTF block has INTF_STATUS register
->    * @DPU_INTF_MAX
->    */
->   enum {
->   	DPU_INTF_INPUT_CTRL = 0x1,
->   	DPU_INTF_TE,
->   	DPU_DATA_HCTL_EN,
-> +	DPU_INTF_STATUS_SUPPORTED,
->   	DPU_INTF_MAX
->   };
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> index 7ce66bf..84ee2ef 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
-> @@ -62,6 +62,7 @@
->   #define   INTF_LINE_COUNT               0x0B0
->   
->   #define   INTF_MUX                      0x25C
-> +#define   INTF_STATUS                   0x26C
->   
->   #define INTF_CFG_ACTIVE_H_EN	BIT(29)
->   #define INTF_CFG_ACTIVE_V_EN	BIT(30)
-> @@ -297,8 +298,13 @@ static void dpu_hw_intf_get_status(
->   		struct intf_status *s)
->   {
->   	struct dpu_hw_blk_reg_map *c = &intf->hw;
-> +	unsigned long cap = intf->cap->features;
-> +
-> +	if (cap & BIT(DPU_INTF_STATUS_SUPPORTED))
-> +		s->is_en = DPU_REG_READ(c, INTF_STATUS) & BIT(0);
-> +	else
-> +		s->is_en = DPU_REG_READ(c, INTF_TIMING_ENGINE_EN);
->   
-> -	s->is_en = DPU_REG_READ(c, INTF_TIMING_ENGINE_EN);
->   	s->is_prog_fetch_en = !!(DPU_REG_READ(c, INTF_CONFIG) & BIT(31));
->   	if (s->is_en) {
->   		s->frame_count = DPU_REG_READ(c, INTF_FRAME_COUNT);
-
--- 
-With best wishes
-Dmitry
-
+Maxime
