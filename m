@@ -1,78 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D72D6823AB
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 06:13:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF1C68241D
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 06:45:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0BE10E31D;
-	Tue, 31 Jan 2023 05:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0D5410E06D;
+	Tue, 31 Jan 2023 05:45:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD5A10E31D;
- Tue, 31 Jan 2023 05:13:11 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30V30iL2031822; Tue, 31 Jan 2023 05:13:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=dp6TaI6YOeHYSAAdNvyDIAfBqoqGpZgIN2szVnJWjZ0=;
- b=AbXMZ4OeRH3/9gYGjZbUStfdKE5duies+HmBUZ3uiK3mE3fwHCWZJr7t9yHDhePUXqFw
- FhIKVHEZthY4cYcbbWHeP3beocfmXDXUO0/kPxpinXOnbqhIrjyHs9Hida7BU8Uhj8iF
- rEIpLU3gqWI3T9ieJDPS25JUVHXRxyjZjAydzjdUWKmbqyj8x+ee5Nu4bPBMziBNuThL
- 5mA0/wpGCEyJK03IY6QmU0DivrZbRL2LY1DAm92FQ98otiSAIkKDsKOvt5qtHU1sBC2U
- yjuDj7WMTVp8FjH+0QadEZvqUnzFLgmC5fx0ovE/r+p+AwwVFaUSLpPLNd0c5XzHC7qB jg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ncsdpwmf0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 31 Jan 2023 05:13:04 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 30V5D3va005838
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 31 Jan 2023 05:13:04 GMT
-Received: from [10.110.114.165] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 30 Jan
- 2023 21:13:03 -0800
-Message-ID: <bbb6ff43-a432-c0a6-e108-7bf8bc170f52@quicinc.com>
-Date: Mon, 30 Jan 2023 21:13:02 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 10/27] drm/msm/dpu: pass dpu_format to
- _dpu_hw_sspp_setup_scaler3()
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com
+ (mail-tyzapc01olkn2047.outbound.protection.outlook.com [40.92.107.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D1610E06D
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 05:45:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DM7qfpOVYFKLh/09Zf3rCBe5vZkYVA2KmAbh/8z17sGUi1yId9K94MBLJsvl1dbvyiFiNopbcYnYnJZPpx5Wuyi+AmP0TF940H2ae8YJvT9obaPU3AQXVSCxiYbTBUynHteWWWtuVJn9IQVWE17KyuFsCyjus1yE1hJwQ3J7rqqFFL7v5sHrl3wD4JMc3dKTQx8WQs8zfJLiXGcZmMfrCVc4sjWradGjBzsV2BBhIqzIKO3/uoMyCHAn35bn5tUQVDkLCpyy9CFbHKo5ar2k6gldOcagoTjyK3ZthEip4zqGC3QKanjJBVkZ88bUiyOcGTaueFRKq+NoJ5jh5Lcnlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RDQ1TgS8RjqOhyiq1mVId8IMr37b3vZ7hnckRcEnTK8=;
+ b=IWKgQERUUeme7ABSh0F0DXb+f7GZkrjK0gfR4eGY7e9GG18TEO9SVlQOFnw1ym24BdKTw4dQt5hh63og6GCpGz6u0ubWqto4aNSb9Bt3DqnE+iRFosxQidsZ7o1cLsV+MRiC0VGsMRJcjQ77y9pCyVTSPSrLU0ooUwQZWUsEksungkQ0C5Vo7FOW3fzLzhc4bOp+oDzfUWxcvkFUejpQdli85nJcu2+AhAOB++GN8mwZeiY518OXqWYH76xXfk8yJ4qgeFZwdy9KuQxbtQOXFbvIRgU806i5dWkw8kbz/NoP0ZBKivsy081IrEHeynbfjrJMAXBAsqzk5O7+dGkXaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RDQ1TgS8RjqOhyiq1mVId8IMr37b3vZ7hnckRcEnTK8=;
+ b=Vg8PqAWL1wDMSW8LzTAd1WACDD9iTOToqysajqok9AwBzTmF3ViK3m+iwyCKOb/633ElClV1q+3skZoB/mEAjIgS6ouzqckNHVrlkQUs3TbC1NQ2I9kUVXCa+RnhlUTstAPmG7jWR2iXD/Ki7j0P8HFvAxvZRmJE1bMnmL1q8lzJ9vPJuxyLSdXdXHBAu0uPVve058pxNWwb/ObWmIGjqBxj261RZmDJpb/O6jmdGf2d0SiIMkBm2enKy75ppKoCeCep9nr2SPpNOboluC4p7ZM72cIr85Zz8TMvFKE/Tfl55S3VmEAkgo+DxTuunlj7Csy3ooTVWYoBcGKzEYH4xw==
+Received: from OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:aa::11)
+ by OSZP286MB2315.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:181::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Tue, 31 Jan
+ 2023 05:45:37 +0000
+Received: from OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::202f:5bbf:ade5:e4f7]) by OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::202f:5bbf:ade5:e4f7%3]) with mapi id 15.20.6043.038; Tue, 31 Jan 2023
+ 05:45:37 +0000
+Message-ID: <OS0P286MB01937E0F8CCCB0F83D8FF6C8B4D09@OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM>
+Date: Tue, 31 Jan 2023 13:45:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: Bug report: kernel oops in vmw_fb_dirty_flush()
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
- <20221229191856.3508092-11-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20221229191856.3508092-11-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: d2dDPQzwp9jI8IOmiILJvdePENBI542T
-X-Proofpoint-ORIG-GUID: d2dDPQzwp9jI8IOmiILJvdePENBI542T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-31_02,2023-01-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
- spamscore=0 clxscore=1015 impostorscore=0 mlxscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301310047
+To: Zack Rusin <zackr@vmware.com>
+References: <OS0P286MB019398DDFF6011038AD841C0B4D39@OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM>
+ <accd0313931a3633a7e1997cb06bc824336f1f8b.camel@vmware.com>
+From: Keyu Tao <taoky99@outlook.com>
+In-Reply-To: <accd0313931a3633a7e1997cb06bc824336f1f8b.camel@vmware.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TMN: [vyOS4CGO3TFV8VM+hQUxxtO9Jjdu9H+LtfSlVjqY3vlc1gd5kNFVJGJ6T5teYRbb]
+X-ClientProxiedBy: SG2PR02CA0075.apcprd02.prod.outlook.com
+ (2603:1096:4:90::15) To OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:aa::11)
+X-Microsoft-Original-Message-ID: <7b7f71fe-5335-81ca-a558-08d37b98f6e9@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS0P286MB0193:EE_|OSZP286MB2315:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f0b8486-1966-4b1e-2beb-08db034e6080
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vnhgYjpfufKhrwxso8sZOW/kqR8QKJ6rkBrNWSw2jRsjWmM30bWvtpWM/APmxZdxDCWIQVJNOCUt7XVIuYF+knaxwsEerCUj4Ky9RjjuBW9y7Pi1lMcQubK9D0Fm5T1J4kqE/l//xK8EjcM741UYZL4jstZmom7QNL1xlEOSWA244Aep3R6Vqzp1XKRd0xpP3W0jDAsP56l7X29fr/YqGt1+HV8MuB+pg7/3NDV0ZJ3DSZOSCuiS8tvxyf1fTL88cZk771p4b51ZPv7fRfXvKReGdHgi0TjWZW5Xzqn9M3yVrTRwmQ1azjJe6x6vfzlnipLAqLhV1eyhJQCiw4PJYC3QNFA8IbWkTXQnHRpXkIxsmomlWBDwbuLwqR8FzadXgZ6yMLmiHOoej4wRBrmJ57RlaBjqfGjhzM9DNryPv9pIGJgpTZ2jEJHHxgS6LGEwt32f5KkSXSoAQ52BeRKwsJHWsEx7UsH7CgVGniqJHAjhntopAuSgdHEGXD4pxdUjFESGcdmqsoW7z/WYFcg+dO3BxqneSDwCm1+u8Uer6rcYEw7hfh+Q1GSIq7E/Lww/AUvzgRzDwwgyJakGOC3iVBClp7yRadKO/SyXIexb5lmJVkyY29blSaaWLD8UUTZxLrTGuNTcKLGz0Gg6Op6ANA==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0xMdjdOSXdSZ3doV241UFVDZkFZTzJEMm1udmFqRVpYZElxS0NkM05DQlhm?=
+ =?utf-8?B?d2ZoSHZ3eVNnSXp2dnU0OHZ5WWRkaXFSdkhXamFvSjlPZjV2ODY5WWQ5dEhG?=
+ =?utf-8?B?TGxmcnhyZTZoeGJsdDNaTTNEWGh4ejBsdENxY2ZpT0lGbURZZm1ybjE1RGpV?=
+ =?utf-8?B?TnRsZlZ3dkNBTjBIcHdGck5MbDk1cERONFJaSGFReUM3cDVydFNTdGVmbk1r?=
+ =?utf-8?B?V1RpU2xoM0JmaWNmbkE0NkZ0eFhFSmM3b0xhVm5RdzRIZG1wMWVKdU1JQ2Nk?=
+ =?utf-8?B?T2s0R2ZlaTdyUkp6cDBveE51YVZrQnFpemFCQUlnbmZ3dHR6NlpUcExJWHRK?=
+ =?utf-8?B?eW56M0k1MVd1VS8yOThQWHNCVExCWDI5em81WlNxNVJwcVZXck5XbGRLZWJI?=
+ =?utf-8?B?ZXlpK1QyalJ0LzhaV3djRExaY0VtUXRBbzVWQXNpMDRMa3hrMUFPWUxrWG9E?=
+ =?utf-8?B?cnZlUUdqeVNHaG42ZG9SZWNGVGcxZVdKN3pKV0xUVE9EZWJ1ZC8yWksxL2Nw?=
+ =?utf-8?B?b2M2L1pacG0vN0I5UDVzWXE0K2J2R29henZDRWhZUXR3ZE92RTJjTU5tSEQy?=
+ =?utf-8?B?c0NnQ2pQbnRWVlN4LzdQbEVPSHhjZEcwYmVtM0E3eWJ6WDQvVy8vWFh6N2dw?=
+ =?utf-8?B?L21MclgxYm9uYjFlOEJBd3JCaTRTa21VMm9ZVDM3UCt1MzNMTW5uQytZdEcx?=
+ =?utf-8?B?bWdRZHEydGU4TFcwMi8xdGtIZW93dHhleGt3SXpZMFhzSWV1U1I1SURUZkJK?=
+ =?utf-8?B?Y3V6amh3STVMMzdKdnJZRWdSU1kxNlhPZzRaODU4aVVMQm9YUVorWWFob2Zk?=
+ =?utf-8?B?Ti9nRU1nczZhNU4rNEhIWjlkdThXRXdRMjFUdmNsYU5obkJoS3FlRkdST3ZL?=
+ =?utf-8?B?K1N3M3BTL2JSbXBTTVRzekFLMlllVEptUnpYTUpWVFdKblhzMGNiSUxUMjB1?=
+ =?utf-8?B?T3R3ZFA1Q3hnRXpBcGplNm1mTUN0Y3plTnk4UDN2UGtTOCs4R2NPSGQwV05v?=
+ =?utf-8?B?Ty83NnVaSjFIZlNleittaE5pNkpycUNiei9pYVZuWmhrVWtKVDB2a3Z4Y1k1?=
+ =?utf-8?B?cTY1UEtjYWpmcUhBL2xFajc2UCtIaS9nWkcwa2ZhTXpvUXQwaStmUEt3ZnR4?=
+ =?utf-8?B?Mk9XUlUyaEhuRWN1d3J0K1VWdXpHaGdoNFBYcmJXUm41WndSRUFzcW5zV1Jh?=
+ =?utf-8?B?OVBNVldPSXROU3RSaHYwRTQ4LzdaN05pK2llY1c1Yk1Fc0cxK2NkWEcyTEtk?=
+ =?utf-8?B?TXFrSXZlZnNFZVoxZWp6WUQ0b1hFVVovOUw1SWt2Sy9kcGNHQ091Z21ybW81?=
+ =?utf-8?B?WTkxdmJDZWFsSW52THlvQjRPZC96UmIxZ0Nra2l0Y0VLNitpY09YTUkrblU2?=
+ =?utf-8?B?bWdncFZFUitrbVdUSEEzVnZ6cEQvdTZZa2x5STdETzVCZlo0ZS9DNExBVDNJ?=
+ =?utf-8?B?YlNGRUwxNVdLa3JmNExXRExrZnJzRGxYSXZoZkdYazF6VWR3dk1nT0dLZHdy?=
+ =?utf-8?B?VHJZMGpyTHM5OHhXdkRoYjV4WFNpdjI2cjN2TDArMk1RRkIrcjZKWkF0THU5?=
+ =?utf-8?B?VUxvbEZjTXFLN1BMeVlRdVBBQnVVdCt4ZVNXZ0YzOTFwSllya2NrR2w2Tk9r?=
+ =?utf-8?B?Q1NwUkZYMWVqZmVXNCs0ZUNXQjloL28zb1NQYi9mMmgrSWRyYlhwZW4vZ3g5?=
+ =?utf-8?B?dkxIZnlUUEVzUi9URmRTZ0xDZkUxOENLV0pKczQ0UHV2ZUNOZ0dvbzlLQ2VW?=
+ =?utf-8?Q?0ZsjvoFdCrmqoZKjlOf9dWqr5D/Jg1DyFbGmaYv?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f0b8486-1966-4b1e-2beb-08db034e6080
+X-MS-Exchange-CrossTenant-AuthSource: OS0P286MB0193.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 05:45:37.0026 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZP286MB2315
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,92 +113,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "1029602@bugs.debian.org" <1029602@bugs.debian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Rusin,
 
+Thank you for your timely response. I tested that this bug is not 
+reproducible in v6.2-rc5 yesterday.
 
-On 12/29/2022 11:18 AM, Dmitry Baryshkov wrote:
-> There is no need to pass full dpu_hw_pipe_cfg instance to
-> _dpu_hw_sspp_setup_scaler3, pass just struct dpu_format pointer.
+On 1/31/23 03:54, Zack Rusin wrote:
+> On Tue, 2023-01-31 at 00:36 +0800, Keyu Tao wrote:
+>> !! External Email
+>>
+>> Hi vmwgfx maintainers,
+>>
+>> An out-of-bound access in vmwgfx specific framebuffer implementation can
+>> be easily triggered by fbterm (a framebuffer terminal emulator) when it
+>> is going to scroll screen.
+>>
+>> With some debugging, it seems that vmw_fb_dirty_flush() cannot handle
+>> the vinfo.yoffset correctly after calling `ioctl(fbdev_fd,
+>> FBIOPAN_DISPLAY, &vinfo);`, and then subsequent access to the mapped
+>> memory area causes the oops.
+>>
+>> As current mainline vmwgfx implementation (in Linux 6.2-rc) has removed
+>> this framebuffer implementation, this bug can be triggered only in Linux
+>> stable. I have tested it with vanilla 6.1.8 and 5.10.165 and they all oops.
+>>
+>> This bug is reported in
+>> <
+>> https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugs.debian.org%2
+>> Fcgi-
+>> bin%2Fbugreport.cgi%3Fbug%3D1029602&data=05%7C01%7Czackr%40vmware.com%7C63862e731c
+>> 3b4a97796808db02e03145%7Cb39138ca3cee4b4aa4d6cd83d9dd62f0%7C0%7C1%7C63810693415592
+>> 2769%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiL
+>> CJXVCI6Mn0%3D%7C2000%7C%7C%7C&sdata=uVOtDBAyn%2BDx5w8r1twuKO4Xd0Lma6zCr2ie3lQ%2BRR
+>> E%3D&reserved=0> first, and
+>> the maintainer there suggests me to report this issue to upstream :)
+>>
+>> Relevant information (for self-compiled Linux 6.1.8):
+>>
+>> - /proc/version: Linux version 6.1.8 (tao@mira) (gcc (Debian 10.2.1-6)
+>> 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2) #7 SMP
+>> PREEMPT_DYNAMIC Mon Jan 30 21:09:02 CST 2023
+>>
+>> - Linux distribution: Debian GNU/Linux 11 (bullseye)
+>>
+>> - Architecture (uname -mi): x86_64 unknown
+>>
+>> - Virtualization software: VMware Fusion 13 Player
+>>
+>> - How to reproduce:
+>>     1. Install (or compile) fbterm
+>>     2. Run fbterm under a tty (by a user with read & write permission to
+>> /dev/fb0, usually users in video group), and try to make it scroll (for
+>> example by pressing Enter for a few seconds)
+>>     3. The graphics hang and it oops.
+>>
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 9 ++++-----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 7 +++----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 4 ++--
->   3 files changed, 9 insertions(+), 11 deletions(-)
+> Thanks a lot for the detailed report. Is there any chance that you could try any of
+> the 6.2 rc releases to see if you can reproduce? We removed all of the hand rolled
+> fb code and ported it to drm helpers in change:
+> df42523c12f8 ("drm/vmwgfx: Port the framebuffer code to drm fb helpers")
+> which for the first time got into the official kernel in v6.2-rc1 . So any kernel
+> after that shouldn't crash with fbterm, if anyone could verify that'd be much
+> appreciated.
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> index f7f81ab08fa2..176cd6dc9a69 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-> @@ -415,19 +415,18 @@ static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_sspp *ctx,
->   }
->   
->   static void _dpu_hw_sspp_setup_scaler3(struct dpu_hw_sspp *ctx,
-> -		struct dpu_hw_pipe_cfg *sspp,
-> -		void *scaler_cfg)
-> +		struct dpu_hw_scaler3_cfg *scaler3_cfg,
-> +		const struct dpu_format *format)
->   {
->   	u32 idx;
-> -	struct dpu_hw_scaler3_cfg *scaler3_cfg = scaler_cfg;
->   
-> -	if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx) || !sspp
-> +	if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx)
->   		|| !scaler3_cfg)
-
-Do we need to check for !format ?
-
->   		return;
->   
->   	dpu_hw_setup_scaler3(&ctx->hw, scaler3_cfg, idx,
->   			ctx->cap->sblk->scaler_blk.version,
-> -			sspp->layout.format);
-> +			format);
->   }
->   
->   static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_sspp *ctx)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> index f5aae563741a..c713343378aa 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> @@ -317,13 +317,12 @@ struct dpu_hw_sspp_ops {
->   
->   	/**
->   	 * setup_scaler - setup scaler
-> -	 * @ctx: Pointer to pipe context
-> -	 * @pipe_cfg: Pointer to pipe configuration
->   	 * @scaler_cfg: Pointer to scaler configuration
-
-This doc needs to be fixed from scaler_cfg to scaler3_cfg
-
-> +	 * @format: pixel format parameters
->   	 */
->   	void (*setup_scaler)(struct dpu_hw_sspp *ctx,
-> -		struct dpu_hw_pipe_cfg *pipe_cfg,
-> -		void *scaler_cfg);
-> +		struct dpu_hw_scaler3_cfg *scaler3_cfg,
-> +		const struct dpu_format *format);
->   
->   	/**
->   	 * get_scaler_ver - get scaler h/w version
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 172a2c012917..cbff4dea8662 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -677,8 +677,8 @@ static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
->   	if (pipe_hw->ops.setup_scaler &&
->   			pipe->multirect_index != DPU_SSPP_RECT_1)
->   		pipe_hw->ops.setup_scaler(pipe_hw,
-> -				pipe_cfg,
-> -				&scaler3_cfg);
-> +				&scaler3_cfg,
-> +				fmt);
->   }
->   
->   /**
+> z
