@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F57B682588
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 08:27:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCFC682622
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 09:08:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 631AE10E33C;
-	Tue, 31 Jan 2023 07:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C5010E10A;
+	Tue, 31 Jan 2023 08:08:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F98010E33C
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 07:27:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1675150070; x=1706686070;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=xNwizkJY+v60PNO9GG4mkHO1ahzr03HqLvbQsMxs1tQ=;
- b=phVEuMVaNlKjfXq2NakXUBX7HNOTYfaUIfOY7YwdcIgKplEVIuCh7QmW
- JKYqgpn0f6R+gzUJJvg43fYIRXvvY6i24kzcsW4IIdcwS5xc3F9hibyEN
- Lj+k53qIXGcfp8Jh74vEHY3U1WKlmq5grrVNan3fW4B/067f3qGnWBKCG
- eAUtwAaBH+RKANmkh2mEzOM368WlA6e3tmFguz3nSR1AxdFLv6pQ7OUSH
- Rj3usPfRaZogPipn66onZ6mIMsWjH/899HElFxkqBY1wPs4jNDLlZYdBW
- 5ru2D9y5/+SW+qTXGm8BZ0ouzVpbr3ryHG5cVTRmGQF9bPXi57FrQFAUW g==;
-X-IronPort-AV: E=Sophos;i="5.97,259,1669071600"; d="scan'208";a="28758465"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 31 Jan 2023 08:27:48 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 31 Jan 2023 08:27:48 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 31 Jan 2023 08:27:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1675150068; x=1706686068;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=xNwizkJY+v60PNO9GG4mkHO1ahzr03HqLvbQsMxs1tQ=;
- b=krbHB8bD1twLxw4NPWwxL7tuxe05ZDg4cVx300IjLc2qmrNXbf7AOsn1
- TpN7ctjIYorY9n3HIfny1Ar3BwBWOKZyHjGWuRpiAhWr8Fq0i2s9To3pK
- hZ0nGY0I/uI6Y+xVuNd6qidOUiqK5TDCLoZ+V0Vl4ZJpObEWbE6gF/Qmh
- jOpchq9ZGcZPmJpE+WlFzdkjCvwhMDp/xHrjSRWa7cZuT5NpOyZghdF/i
- NDR3BEt2QLm+I6W6jMnN4QvhA/ZbUOmtSmUdSXzzQ/5B+CSR3GX8u5HsL
- F59HeK35gXgdb9MFTkp9Xz7zQcp1JGDYtq8qs3kmf5Rj9Pl6ZbbNCZiqE Q==;
-X-IronPort-AV: E=Sophos;i="5.97,259,1669071600"; d="scan'208";a="28758463"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 31 Jan 2023 08:27:48 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A25910E10A
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:08:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2B58B280056;
- Tue, 31 Jan 2023 08:27:48 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
-Date: Tue, 31 Jan 2023 08:27:45 +0100
-Message-ID: <4811510.31r3eYUQgx@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <f6cea911-783c-f59d-503c-1576358ae7cb@prevas.dk>
-References: <20230126144427.607098-1-jagan@amarulasolutions.com>
- <31ccc974-4b01-ae47-9505-626617f07758@denx.de>
- <f6cea911-783c-f59d-503c-1576358ae7cb@prevas.dk>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B18B1223CC;
+ Tue, 31 Jan 2023 08:08:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675152484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z7HK8UYDwB33pMv7HD3wcFevOB00q8oelqRN6wKCPK8=;
+ b=n6ItYPVt6G/uELsMG3kB7xZbcatYB/4uwOIaaTJOOjsYb1hb2IONjEeMsVxLLc9ZT7sWW6
+ qPOibuwAMeVgEwQSsQZfaCfI3SpgTpSwyQ7LQeXGRZ23lhdfMSvtQKMCrJuHNCNwrLzrw3
+ HBg7SRa8IMtmQnyvZ8aJBJlIKzWCifE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675152484;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z7HK8UYDwB33pMv7HD3wcFevOB00q8oelqRN6wKCPK8=;
+ b=idIUJ2fIIIloiTIP1scA0aHGth77tchlK/n4PqC3G7gX0WAPsYwWYYsC8qm9m5U8bhLfoD
+ 8+hTcpZ5761PUpDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92984138E8;
+ Tue, 31 Jan 2023 08:08:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id gpbXImTM2GOmDgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 31 Jan 2023 08:08:04 +0000
+Message-ID: <2f47e3f5-bb41-b270-ff49-00055a3aa76c@suse.de>
+Date: Tue, 31 Jan 2023 09:08:03 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 6/8] drm/vmwgfx: Rename dummy to is_iomem
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+References: <20230131033542.953249-1-zack@kde.org>
+ <20230131033542.953249-7-zack@kde.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230131033542.953249-7-zack@kde.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------QiHN0trbFF0SPC7J6IX16esY"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,76 +70,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- matteo.lisi@engicam.com, linux-amarula@amarulasolutions.com,
- sw0312.kim@samsung.com, linux-imx@nxp.com, dri-devel@lists.freedesktop.org,
- frieder.schrempf@kontron.de, kyungmin.park@samsung.com,
- Jagan Teki <jagan@amarulasolutions.com>, andrzej.hajda@intel.com,
- m.szyprowski@samsung.com, aford173@gmail.com,
- linux-arm-kernel@lists.infradead.org, Laurent.pinchart@ideasonboard.com
+Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rasmus,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------QiHN0trbFF0SPC7J6IX16esY
+Content-Type: multipart/mixed; boundary="------------v3TOjfa7fgfndRQsdEsteX6W";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
+Message-ID: <2f47e3f5-bb41-b270-ff49-00055a3aa76c@suse.de>
+Subject: Re: [PATCH v2 6/8] drm/vmwgfx: Rename dummy to is_iomem
+References: <20230131033542.953249-1-zack@kde.org>
+ <20230131033542.953249-7-zack@kde.org>
+In-Reply-To: <20230131033542.953249-7-zack@kde.org>
 
-Am Montag, 30. Januar 2023, 13:45:38 CET schrieb Rasmus Villemoes:
-> On 27/01/2023 12.30, Marek Vasut wrote:
-> > On 1/27/23 12:04, Jagan Teki wrote:
-> >>> Thanks, but that's exactly what I'm doing, and I don't see any
-> >>> modification of imx8mp.dtsi in that branch. I'm basically looking for
-> >>> help to do the equivalent of
-> >>> 
-> >>>    88775338cd58 - arm64: dts: imx8mm: Add MIPI DSI pipeline
-> >>>    f964f67dd6ee - arm64: dts: imx8mm: Add eLCDIF node support
-> >>> 
-> >>> for imx8mp in order to test those patches on our boards (we have two
-> >>> variants).
-> >> 
-> >> Marek, any help here, thanks.
-> > 
-> > Try attached patch.
-> 
-> Thanks. I removed the lcdif2 and ldb nodes I had added from Alexander's
-> patch (94e6197dadc9 in linux-next) in order to apply it. I get a couple
-> of errors during boot:
-> 
->   clk: /soc@0/bus@32c00000/mipi_dsi@32e60000: failed to reparent
-> media_apb to sys_pll1_266m: -22
-> 
-> and enabling a pr_debug in clk_core_set_parent_nolock() shows that this
-> is because
-> 
->   clk_core_set_parent_nolock: clk sys_pll1_266m can not be parent of clk
-> media_apb
-> 
-> Further, the mipi_dsi fails to probe due to
-> 
->   /soc@0/bus@32c00000/mipi_dsi@32e60000: failed to get
-> 'samsung,burst-clock-frequency' property
-> 
-> All other .dtsi files seem to have those samsung,burst-clock-frequency
-> and samsung,esc-clock-frequency properties, so I suppose those should
-> also go into the imx8mp.dtsi and are not something that the board .dts
-> file should supply(?).
-> 
-> 
-> [There's also some differences between your patch and Alexander's
-> regarding the lcdif2 and ldb nodes, so while my lvds display still sorta
-> works, I get
-> 
->   fsl-ldb 32ec0000.blk-ctrl:lvds-ldb: Configured LDB clock (297000000
-> Hz) does not match requested LVDS clock: 346500000 Hz
-> 
-> and the image is oddly distorted/shifted. But I suppose that's
-> orthogonal to getting the lcdif1 -> mipi-dsi -> ... pipeline working.]
+--------------v3TOjfa7fgfndRQsdEsteX6W
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-It seems my patch indicates exactly what's your problem here. Your clock rate 
-configuration for LCDIF2 and LDB are not compatible (ratio 1:7). For now 
-manual clock config is necessary in this case.
-Check the clock tree in debugfs how your root clocks are configured and if it 
-affects lcdif1 and lcdif2.
+DQoNCkFtIDMxLjAxLjIzIHVtIDA0OjM1IHNjaHJpZWIgWmFjayBSdXNpbjoNCj4gRnJvbTog
+WmFjayBSdXNpbiA8emFja3JAdm13YXJlLmNvbT4NCj4gDQo+IFJlbmFtZSBkdW1teSB0byBp
+c19pb21lbSBiZWNhdXNlIHRoYXQncyB3aGF0IGl0IGlzIGV2ZW4gaWYgd2UncmUgbm90DQo+
+IGFjdGl2ZWxseSB1c2luZyBpdC4gTWFrZXMgdGhlIGNvZGUgZWFzaWVyIHRvIHJlYWQuDQo+
+IA0KPiBTaWduZWQtb2ZmLWJ5OiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPg0KDQpS
+ZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoN
+Cj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfa21zLmMgfCAxNiAr
+KysrKysrKy0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwg
+OCBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdm13
+Z2Z4L3Ztd2dmeF9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5j
+DQo+IGluZGV4IDEwODIyMThhMWNmYy4uZTgzMjg2ZTA4ODM3IDEwMDY0NA0KPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuYw0KPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuYw0KPiBAQCAtMTUzLDkgKzE1Myw5IEBAIHN0YXRp
+YyB2b2lkIHZtd19jdXJzb3JfdXBkYXRlX21vYihzdHJ1Y3Qgdm13X3ByaXZhdGUgKmRldl9w
+cml2LA0KPiAgIAlTVkdBR0JDdXJzb3JIZWFkZXIgKmhlYWRlcjsNCj4gICAJU1ZHQUdCQWxw
+aGFDdXJzb3JIZWFkZXIgKmFscGhhX2hlYWRlcjsNCj4gICAJY29uc3QgdTMyIGltYWdlX3Np
+emUgPSB3aWR0aCAqIGhlaWdodCAqIHNpemVvZigqaW1hZ2UpOw0KPiAtCWJvb2wgZHVtbXk7
+DQo+ICsJYm9vbCBpc19pb21lbTsNCj4gICANCj4gLQloZWFkZXIgPSB0dG1fa21hcF9vYmpf
+dmlydHVhbCgmdnBzLT5jdXJzb3IubWFwLCAmZHVtbXkpOw0KPiArCWhlYWRlciA9IHR0bV9r
+bWFwX29ial92aXJ0dWFsKCZ2cHMtPmN1cnNvci5tYXAsICZpc19pb21lbSk7DQo+ICAgCWFs
+cGhhX2hlYWRlciA9ICZoZWFkZXItPmhlYWRlci5hbHBoYUhlYWRlcjsNCj4gICANCj4gICAJ
+bWVtc2V0KGhlYWRlciwgMCwgc2l6ZW9mKCpoZWFkZXIpKTsNCj4gQEAgLTE4NSwxMyArMTg1
+LDEzIEBAIHN0YXRpYyB1MzIgdm13X2R1X2N1cnNvcl9tb2Jfc2l6ZSh1MzIgdywgdTMyIGgp
+DQo+ICAgICovDQo+ICAgc3RhdGljIHUzMiAqdm13X2R1X2N1cnNvcl9wbGFuZV9hY3F1aXJl
+X2ltYWdlKHN0cnVjdCB2bXdfcGxhbmVfc3RhdGUgKnZwcykNCj4gICB7DQo+IC0JYm9vbCBk
+dW1teTsNCj4gKwlib29sIGlzX2lvbWVtOw0KPiAgIAlpZiAodnBzLT5zdXJmKSB7DQo+ICAg
+CQlpZiAodnBzLT5zdXJmX21hcHBlZCkNCj4gICAJCQlyZXR1cm4gdm13X2JvX21hcF9hbmRf
+Y2FjaGUodnBzLT5zdXJmLT5yZXMuYmFja3VwKTsNCj4gICAJCXJldHVybiB2cHMtPnN1cmYt
+PnNub29wZXIuaW1hZ2U7DQo+ICAgCX0gZWxzZSBpZiAodnBzLT5ibykNCj4gLQkJcmV0dXJu
+IHR0bV9rbWFwX29ial92aXJ0dWFsKCZ2cHMtPmJvLT5tYXAsICZkdW1teSk7DQo+ICsJCXJl
+dHVybiB0dG1fa21hcF9vYmpfdmlydHVhbCgmdnBzLT5iby0+bWFwLCAmaXNfaW9tZW0pOw0K
+PiAgIAlyZXR1cm4gTlVMTDsNCj4gICB9DQo+ICAgDQo+IEBAIC0zNjQsNyArMzY0LDcgQEAg
+dm9pZCB2bXdfa21zX2N1cnNvcl9zbm9vcChzdHJ1Y3Qgdm13X3N1cmZhY2UgKnNyZiwNCj4g
+ICAJU1ZHQTNkQ29weUJveCAqYm94Ow0KPiAgIAl1bnNpZ25lZCBib3hfY291bnQ7DQo+ICAg
+CXZvaWQgKnZpcnR1YWw7DQo+IC0JYm9vbCBkdW1teTsNCj4gKwlib29sIGlzX2lvbWVtOw0K
+PiAgIAlzdHJ1Y3Qgdm13X2RtYV9jbWQgew0KPiAgIAkJU1ZHQTNkQ21kSGVhZGVyIGhlYWRl
+cjsNCj4gICAJCVNWR0EzZENtZFN1cmZhY2VETUEgZG1hOw0KPiBAQCAtNDI0LDcgKzQyNCw3
+IEBAIHZvaWQgdm13X2ttc19jdXJzb3Jfc25vb3Aoc3RydWN0IHZtd19zdXJmYWNlICpzcmYs
+DQo+ICAgCWlmICh1bmxpa2VseShyZXQgIT0gMCkpDQo+ICAgCQlnb3RvIGVycl91bnJlc2Vy
+dmU7DQo+ICAgDQo+IC0JdmlydHVhbCA9IHR0bV9rbWFwX29ial92aXJ0dWFsKCZtYXAsICZk
+dW1teSk7DQo+ICsJdmlydHVhbCA9IHR0bV9rbWFwX29ial92aXJ0dWFsKCZtYXAsICZpc19p
+b21lbSk7DQo+ICAgDQo+ICAgCWlmIChib3gtPncgPT0gVk1XX0NVUlNPUl9TTk9PUF9XSURU
+SCAmJiBjbWQtPmRtYS5ndWVzdC5waXRjaCA9PSBpbWFnZV9waXRjaCkgew0KPiAgIAkJbWVt
+Y3B5KHNyZi0+c25vb3Blci5pbWFnZSwgdmlydHVhbCwNCj4gQEAgLTY1OCwxNCArNjU4LDE0
+IEBAIHZtd19kdV9jdXJzb3JfcGxhbmVfY2xlYW51cF9mYihzdHJ1Y3QgZHJtX3BsYW5lICpw
+bGFuZSwNCj4gICB7DQo+ICAgCXN0cnVjdCB2bXdfY3Vyc29yX3BsYW5lICp2Y3AgPSB2bXdf
+cGxhbmVfdG9fdmNwKHBsYW5lKTsNCj4gICAJc3RydWN0IHZtd19wbGFuZV9zdGF0ZSAqdnBz
+ID0gdm13X3BsYW5lX3N0YXRlX3RvX3ZwcyhvbGRfc3RhdGUpOw0KPiAtCWJvb2wgZHVtbXk7
+DQo+ICsJYm9vbCBpc19pb21lbTsNCj4gICANCj4gICAJaWYgKHZwcy0+c3VyZl9tYXBwZWQp
+IHsNCj4gICAJCXZtd19ib191bm1hcCh2cHMtPnN1cmYtPnJlcy5iYWNrdXApOw0KPiAgIAkJ
+dnBzLT5zdXJmX21hcHBlZCA9IGZhbHNlOw0KPiAgIAl9DQo+ICAgDQo+IC0JaWYgKHZwcy0+
+Ym8gJiYgdHRtX2ttYXBfb2JqX3ZpcnR1YWwoJnZwcy0+Ym8tPm1hcCwgJmR1bW15KSkgew0K
+PiArCWlmICh2cHMtPmJvICYmIHR0bV9rbWFwX29ial92aXJ0dWFsKCZ2cHMtPmJvLT5tYXAs
+ICZpc19pb21lbSkpIHsNCj4gICAJCWNvbnN0IGludCByZXQgPSB0dG1fYm9fcmVzZXJ2ZSgm
+dnBzLT5iby0+YmFzZSwgdHJ1ZSwgZmFsc2UsIE5VTEwpOw0KPiAgIA0KPiAgIAkJaWYgKGxp
+a2VseShyZXQgPT0gMCkpIHsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
+RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
+DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
+IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Best regards
-Alexander
+--------------v3TOjfa7fgfndRQsdEsteX6W--
 
+--------------QiHN0trbFF0SPC7J6IX16esY
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPYzGMFAwAAAAAACgkQlh/E3EQov+Dn
+zw//XIicbAF9nK9QzxnOjqSW2ftpeok4WXemmdmvb3pgj9Sr3BDj+OeF0J2AB6Cyv6V1E5HzOi3C
+NhCUaiNu81VvfqM+i3qCwxU3uySs4Pyslj3TC1aE9IgTMG3wFKaUhRNxdTwyLMvlm78PSCfHIIwJ
+YchDtKvzbi+NH+Z9dNBbqX0j+loxo7vdtQkZYwz53sb7Gvxz61dbN2nHOiSUBfUz3sk4spVlDaTJ
+ZS1VHDWGqR368uf/8nkB0WW92cU8sbPj5Glb1/nAZgqXtPFFjqYAIk9YxVehANqwxYEh1/+lkoc8
+rU4z/CmE291lhm1pl7gCWAlz1mgRo9bdnoDZ8VfuIW02w4CQU8BDbjmd4B1CFrlBTtUzmSrOxUW4
+1xNGpDRUJqerjQHDFP7j8lISzNpoQDO31VKjCu/uG1DEGqAA7m3iN4IkQE+VMrCmM7plpuykDsv8
+UCVbkxoUiPkAbhYHM2PX+cAtK3Gikp8+U4k9f2IOTo6CydGfgh8ADenc2SUYQGuBZ9vBauBnQjdR
+k2gbq9QemzzfHVtrvC4LHQGYj7i+Wm3JNoR3kaovWQgLla4pIhNDMWFajwRxAfG6wz0IDj2HWgSH
+syyfZ+LZwRfuQVIeCQ/UqpWR/wp6o3JmhQvpw2kBb57J/yPr5bgKj9h4HJKN0Ve8KCekOiliZFZ0
+sdI=
+=G5zx
+-----END PGP SIGNATURE-----
+
+--------------QiHN0trbFF0SPC7J6IX16esY--
