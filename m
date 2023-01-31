@@ -1,68 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1013F683468
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 18:57:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D51468351C
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 19:23:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B4010E071;
-	Tue, 31 Jan 2023 17:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C844E10E383;
+	Tue, 31 Jan 2023 18:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3E3410E071
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 17:57:55 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id a3so8315458wrt.6
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 09:57:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=7hpHKoT0J/9lA0Urx6OWDWdlwdgaY7ZvRcfvsBqh+7U=;
- b=S0FaqOC209UTLl924Val6jGb2+ibAr/mzN/GIfzeIbuwSRc4k3iGSujcCXNB5PEgp8
- +W3VoHaz3IgTA5JI4e8+T2wtlubm8YobByQERoBVrvuuc5BrKT+/CGiEZIsoGACUsKkZ
- c1nXB0CPnyT5dvLsWuyqh3vD3P+fQQgJc2LpQ+hIkRVjdDQPjNddw9LdZSJzRWWkosfi
- J9ja9hbVMVLxV8MsH5IeqpkFySLFdTTUcnq/y0Em22VoHmnXH7+yn5uI8eR04HoXpUMu
- RvBbnwJNBMJhh4ZFw0WEAEQ0RqPtQ5dcW2Io3EGW0BjxDk7QeEkIqNFg8DtxoXb7ZZpJ
- 03nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7hpHKoT0J/9lA0Urx6OWDWdlwdgaY7ZvRcfvsBqh+7U=;
- b=EnYgH1/LwrZ6sV8L3paNf2u3m5horY3TUY+bFEf9HlN/TOAEw32KWn6SJLrKNy2K1t
- +M+3AlqPZIqlGZk8owIS0ZOtULoP9w92kgz7bIVTZx62Wtgey52LcgXhMWEto7Dacm2Q
- /iKNiU8ZPftzmCPgZC8NcfyoTthCYGEMj3io2G/fhy88EUzNhfTfIO5u/clzYY4A/ebB
- Rlt8RvyBTozt8D1KFu2osvn4epc6af8omYgg3T45mFto6jKWrdBCeZWWNIRUYT2FH4yg
- KMOCFxp355xrguNrQyyfNjEf+j/7dtydxkMv7Rg3w//nkSixztCAsdwe/HbRpuK9tMYU
- FGjg==
-X-Gm-Message-State: AO0yUKU18R6WtmSk3MNTfWO+t3Ad+TQnFvMmRqzsuFv3BAVCxWXzCYGA
- MiPFhvnM7g74w95K3d13hoaFFhBjfxE=
-X-Google-Smtp-Source: AK7set8ChxJSbcwfi2e58dfWVR2+Om5tDNwmnc80hXFKHSkg658xmVVq2sWmPDGpXk9giqkcR1lp8A==
-X-Received: by 2002:adf:e645:0:b0:2bf:b8f0:f6c6 with SMTP id
- b5-20020adfe645000000b002bfb8f0f6c6mr22813957wrn.45.1675187874199; 
- Tue, 31 Jan 2023 09:57:54 -0800 (PST)
-Received: from [192.168.2.181] (84-238-195-59.ip.btc-net.bg. [84.238.195.59])
- by smtp.gmail.com with ESMTPSA id
- f28-20020a5d58fc000000b002be5401ef5fsm15835166wrd.39.2023.01.31.09.57.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 09:57:53 -0800 (PST)
-Message-ID: <28fcae00-8d73-6ba1-2e40-c166bfa33571@gmail.com>
-Date: Tue, 31 Jan 2023 19:57:52 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE72410E37A;
+ Tue, 31 Jan 2023 18:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=l/rgvxGWnSIZxhDHA+PyLokEZEN7lUSjVRJmpoECKkU=; b=lUSTTmdbQWoWZwzGj1mvEpNaQt
+ XhFhBiRXyEuUqewMvBHAeBS8OdSrxwb9VMj5UsRUI6QEsPj7W4MstfFRVQO6UqJ786jOslJmdLPZl
+ jd7bqP43hfyaYpOhdQpXuF6+wrYFXfHFoRGSSckgzg9KdQ7/XNaGFAs1leyj4ir2ONE1Z7BglO5CG
+ 8lEs2dZesj9oi0cGEF7cH+fmXUBNKUjFN/MRg+3Wcicwgo7tfQSzjtM6xWhsRlQ/ARludP+rkijGZ
+ p+snt7g9VyQ3Ml3rLah+kd7jqCnMuMeL5ZJWUOwyZoYE9HIO99kA7seWb4xV3n3c5KsVZRog2e6M2
+ q3rWg/kA==;
+Received: from [187.10.60.187] (helo=[192.168.1.60])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pMvHm-005h7w-E1; Tue, 31 Jan 2023 19:23:18 +0100
+Message-ID: <94f48675-54be-6d88-8940-86c90ebf1e1c@igalia.com>
+Date: Tue, 31 Jan 2023 15:22:51 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 6/8] drm/vmwgfx: Rename dummy to is_iomem
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] drm/amdgpu/fence: Fix oops due to non-matching drm_sched
+ init/fini
 Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20230131033542.953249-1-zack@kde.org>
- <20230131033542.953249-7-zack@kde.org>
-From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
-In-Reply-To: <20230131033542.953249-7-zack@kde.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20230130214504.1305042-1-gpiccoli@igalia.com>
+ <ac604d40-ef87-7147-b1ee-3620e68b3268@igalia.com>
+ <CADnq5_NEyGNXpo3mZ=WR5Me8b9r24aq0MmMZ6GsvBRoBmNVGGQ@mail.gmail.com>
+ <DM5PR12MB24693E815CAB63FE2DE06E4CF1D09@DM5PR12MB2469.namprd12.prod.outlook.com>
+ <DM5PR12MB24696F955FF95A7AB00E1956F1D09@DM5PR12MB2469.namprd12.prod.outlook.com>
+ <984ee981-2906-0eaf-ccec-9f80975cb136@amd.com>
+ <DM5PR12MB246930987580ACA15EA44C2BF1D09@DM5PR12MB2469.namprd12.prod.outlook.com>
+ <6a5bea62-b711-6f2e-b366-a1083bc7327f@igalia.com>
+ <CADnq5_OdBJiDa9Y2s6orJu7Ez0Lkx37xceHhfDCDnKNKdvpT7g@mail.gmail.com>
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <CADnq5_OdBJiDa9Y2s6orJu7Ez0Lkx37xceHhfDCDnKNKdvpT7g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,96 +63,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
+Cc: "kernel@gpiccoli.net" <kernel@gpiccoli.net>, "Chen,
+ Guchun" <Guchun.Chen@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Tuikov,
+ Luben" <Luben.Tuikov@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "kernel-dev@igalia.com" <kernel-dev@igalia.com>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>, "Limonciello,
+ Mario" <Mario.Limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+On 31/01/2023 14:52, Alex Deucher wrote:
+> [...]
+>> (b) We can't use sched.ready, which would make sense...but amdgpu
+>> overrides its meaning, the driver manipulates this value for its own
+>> purposes of tracking ring init, or something like that.
+>>
+>> This is the tangential topic: what should we do here? My understanding
+>> of Alex's message is that we could have a "ready" field in the ring
+>> structure and stop messing with sched.ready - does it make sense Alex?
+> 
+> Yes, I think so.  The tricky part will be figuring out which current
+> sched.ready checks are checking for the scheduler being ready vs.
+> whether the ring itself is ready.
+> 
+
+Thanks, makes sense!
+
+$ grep -nr "sched.ready" drivers/gpu/drm/amd/ | wc -l
+83
+
+Maybe not super tough, I hope heh
+
+>>
+>> Guchun / Christian, does it also make sense for you?
+>>
+>>
+>> Regarding (a), I could re-submit having s/sched.name/sched.ops, no
+>> biggies, I tested both to be fair, before sending...I just chose name
+>> but any field that is proper initialized on drm_sched_init() would work.
+> 
+> Yeah, I think ops is fine.  You could even use sched.ready after we
+> clean up the use of that in the driver.  There are already a bunch of
+> places where we check sched.ready to check if the scheduler really is
+> ready.
+
+Hmm..unfortunately, doesn't work. This was a case in which sched.ready
+was set to true in the ring init routine, but scheduler wasn't properly
+initialized. So, a different key for comparison is required..I'll
+re-submit with sched.ops.
+
+After a potential rework of the driver to get rid of sched.ready
+manipulation, then it could be fixed to properly use this flag...makes
+sense to you?
+
+Tnx again for the prompt review!
+Cheers,
 
 
-LGTM
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-
-
-Regards,
-Martin
-
-
-On 31.01.23 г. 5:35 ч., Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
->
-> Rename dummy to is_iomem because that's what it is even if we're not
-> activelly using it. Makes the code easier to read.
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> index 1082218a1cfc..e83286e08837 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -153,9 +153,9 @@ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
->   	SVGAGBCursorHeader *header;
->   	SVGAGBAlphaCursorHeader *alpha_header;
->   	const u32 image_size = width * height * sizeof(*image);
-> -	bool dummy;
-> +	bool is_iomem;
->   
-> -	header = ttm_kmap_obj_virtual(&vps->cursor.map, &dummy);
-> +	header = ttm_kmap_obj_virtual(&vps->cursor.map, &is_iomem);
->   	alpha_header = &header->header.alphaHeader;
->   
->   	memset(header, 0, sizeof(*header));
-> @@ -185,13 +185,13 @@ static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
->    */
->   static u32 *vmw_du_cursor_plane_acquire_image(struct vmw_plane_state *vps)
->   {
-> -	bool dummy;
-> +	bool is_iomem;
->   	if (vps->surf) {
->   		if (vps->surf_mapped)
->   			return vmw_bo_map_and_cache(vps->surf->res.backup);
->   		return vps->surf->snooper.image;
->   	} else if (vps->bo)
-> -		return ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
-> +		return ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem);
->   	return NULL;
->   }
->   
-> @@ -364,7 +364,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
->   	SVGA3dCopyBox *box;
->   	unsigned box_count;
->   	void *virtual;
-> -	bool dummy;
-> +	bool is_iomem;
->   	struct vmw_dma_cmd {
->   		SVGA3dCmdHeader header;
->   		SVGA3dCmdSurfaceDMA dma;
-> @@ -424,7 +424,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
->   	if (unlikely(ret != 0))
->   		goto err_unreserve;
->   
-> -	virtual = ttm_kmap_obj_virtual(&map, &dummy);
-> +	virtual = ttm_kmap_obj_virtual(&map, &is_iomem);
->   
->   	if (box->w == VMW_CURSOR_SNOOP_WIDTH && cmd->dma.guest.pitch == image_pitch) {
->   		memcpy(srf->snooper.image, virtual,
-> @@ -658,14 +658,14 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
->   {
->   	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
->   	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
-> -	bool dummy;
-> +	bool is_iomem;
->   
->   	if (vps->surf_mapped) {
->   		vmw_bo_unmap(vps->surf->res.backup);
->   		vps->surf_mapped = false;
->   	}
->   
-> -	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &dummy)) {
-> +	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem)) {
->   		const int ret = ttm_bo_reserve(&vps->bo->base, true, false, NULL);
->   
->   		if (likely(ret == 0)) {
+Guilherme
