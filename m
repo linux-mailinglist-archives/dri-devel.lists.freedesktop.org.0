@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E22D68279E
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 09:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5426827CB
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 09:57:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63F4510E147;
-	Tue, 31 Jan 2023 08:54:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD2210E31E;
+	Tue, 31 Jan 2023 08:57:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5701810E147
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:53:59 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19BA310E31E
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:57:22 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C69F0B81A7C
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:53:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE203C433A8
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675155236;
- bh=JRJCmS7TbfihSxBfK2OlvDfGSJCL2cPfzKd3PSOst4I=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=e0WzMsnXMRgESaubaTkB9p7ctnndIMMwUJLZYY2btHtiLh5di4VpWu52eCP9dxAnL
- yvDs4wZz64JrZ1tf2tXp6YmtBKARaS8Hj5nfh1MkL5Mb7AYD1ogervNbxNUf/zNOAK
- KEMySNNUvRRH2u3zjHB8HRTyqtlzV5ahX2wCW0tHXCu5zZ/bZJAbLdg/efleEi5Ymk
- yWxN8V38htp20sOk16CDFI6EKGeYZviq+KoQTtt95qFPpfv4/W8k7bT9lnoyY02RxC
- gO2RjyXBddRUuOs4jUqogCMNSchFuX4+l8pOk4/ILagiBFFqlS3SrdjuP9A8lRDljm
- 5gQHuWywTJGIA==
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-50660e2d2ffso194714977b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 00:53:55 -0800 (PST)
-X-Gm-Message-State: AFqh2koMnXI/i5SkeOrCtXt+yHIbAgpoe8h4+gcQnCv/llDztlNryz1g
- /und5by+zhutjdhTRwnDgNeAFYhgmy2cTXlvyvo=
-X-Google-Smtp-Source: AMrXdXt9H80BxARzMJJWDaxQGGFOEhNQbEiRDMS6HuGbtD0/x3qYCDvGhyZLLu6Gk5B3Ci3YWGlZ2hpvM4AKOSMrydU=
-X-Received: by 2002:a81:14d3:0:b0:459:ef5d:529c with SMTP id
- 202-20020a8114d3000000b00459ef5d529cmr8910623ywu.211.1675155234934; Tue, 31
- Jan 2023 00:53:54 -0800 (PST)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B03F82046E;
+ Tue, 31 Jan 2023 08:57:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675155440; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9lYs5UJZfSHr2t4Wtw9DA3HI1a+TliioCEJTazPDmBI=;
+ b=bA+0TxU5KVGKEiKpY/6B3Q8kqEO5kn64Imfo7/b/JH+XDI+DUVae1YYDb3OAE4JzHs5bRt
+ qZ/ONa+yJUHZawPITmFNLR1Q+aGz0wIuB47xUEDJRIEmDd8rCGZWMs82NIusNslVIlRZ3h
+ 0Lne6cVg6PexXZXMtXvZkmwx/2AgYAs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675155440;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9lYs5UJZfSHr2t4Wtw9DA3HI1a+TliioCEJTazPDmBI=;
+ b=YCZxt1WNOOdG3I3E6EsObVdiRobRZgNHqi4me0W782HBmM9MAnhYEfb8OvgRJfhPeg5hgu
+ DJl1UzE1sx0KHjAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 722B513585;
+ Tue, 31 Jan 2023 08:57:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id H7ruGvDX2GNlJQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 31 Jan 2023 08:57:20 +0000
+Message-ID: <ee4af5cb-6f2b-fde4-b81c-ef088d3272a8@suse.de>
+Date: Tue, 31 Jan 2023 09:57:19 +0100
 MIME-Version: 1.0
-References: <20230127221504.2522909-1-arnd@kernel.org>
-In-Reply-To: <20230127221504.2522909-1-arnd@kernel.org>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Tue, 31 Jan 2023 10:53:28 +0200
-X-Gmail-Original-Message-ID: <CAFCwf10RRFUqYEATg7p-LmKSEkFtAhneufJTdezFA7i3HJaDDw@mail.gmail.com>
-Message-ID: <CAFCwf10RRFUqYEATg7p-LmKSEkFtAhneufJTdezFA7i3HJaDDw@mail.gmail.com>
-Subject: Re: [PATCH] [v2] accel: fix CONFIG_DRM dependencies
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v4 1/2] drm/simpledrm: Allow physical width and height
+ configuration via panel node
+Content-Language: en-US
+To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
+References: <20230126182435.70544-1-rayyan@ansari.sh>
+ <20230126182435.70544-2-rayyan@ansari.sh>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230126182435.70544-2-rayyan@ansari.sh>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------VRDBOmJ1uHgwfQWzhxmFFfyZ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,70 +71,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Airlie <airlied@redhat.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, janne@jannau.net,
+ linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jan 28, 2023 at 12:15 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> At the moment, accel drivers can be built-in even with CONFIG_DRM=m,
-> but this causes a link failure:
->
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_dev_init':
-> ivpu_drv.c:(.text+0x1535): undefined reference to `drmm_kmalloc'
-> x86_64-linux-ld: ivpu_drv.c:(.text+0x1562): undefined reference to `drmm_kmalloc'
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_remove':
-> ivpu_drv.c:(.text+0x1faa): undefined reference to `drm_dev_unregister'
-> x86_64-linux-ld: drivers/accel/ivpu/ivpu_drv.o: in function `ivpu_probe':
-> ivpu_drv.c:(.text+0x1fef): undefined reference to `__devm_drm_dev_alloc'
->
-> The problem is that DRM_ACCEL is a 'bool' symbol symbol, so driver that
-> only depend on DRM_ACCEL but not also on DRM do not see the restriction
-> to =m configs.
->
-> To ensure that each accel driver has an implied dependency on CONFIG_DRM,
-> enclose the entire Kconfig file in an if/endif check.
->
-> Fixes: 8bf4889762a8 ("drivers/accel: define kconfig and register a new major")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> v2: rearrage the DRM dependency rather than requiring DRM to be built-in
-> ---
->  drivers/accel/Kconfig | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
-> index 834863902e16..c437206aa3f1 100644
-> --- a/drivers/accel/Kconfig
-> +++ b/drivers/accel/Kconfig
-> @@ -6,9 +6,10 @@
->  # as, but not limited to, Machine-Learning and Deep-Learning acceleration
->  # devices
->  #
-> +if DRM
-> +
->  menuconfig DRM_ACCEL
->         bool "Compute Acceleration Framework"
-> -       depends on DRM
->         help
->           Framework for device drivers of compute acceleration devices, such
->           as, but not limited to, Machine-Learning and Deep-Learning
-> @@ -25,3 +26,5 @@ menuconfig DRM_ACCEL
->
->  source "drivers/accel/habanalabs/Kconfig"
->  source "drivers/accel/ivpu/Kconfig"
-> +
-> +endif
-> --
-> 2.39.0
->
-This patch is:
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------VRDBOmJ1uHgwfQWzhxmFFfyZ
+Content-Type: multipart/mixed; boundary="------------BhqH5e0Wj40xoBWNu7IsO9dU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ janne@jannau.net, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev
+Message-ID: <ee4af5cb-6f2b-fde4-b81c-ef088d3272a8@suse.de>
+Subject: Re: [PATCH v4 1/2] drm/simpledrm: Allow physical width and height
+ configuration via panel node
+References: <20230126182435.70544-1-rayyan@ansari.sh>
+ <20230126182435.70544-2-rayyan@ansari.sh>
+In-Reply-To: <20230126182435.70544-2-rayyan@ansari.sh>
+
+--------------BhqH5e0Wj40xoBWNu7IsO9dU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+DQoNCkFtIDI2LjAxLjIzIHVtIDE5OjI0IHNjaHJpZWIgUmF5eWFuIEFuc2FyaToNCj4gUGFy
+c2UgdGhlIHdpZHRoLW1tIGFuZCBoZWlnaHQtbW0gZGV2aWNldHJlZSBwcm9wZXJ0aWVzIG9m
+IHRoZSBwYW5lbCBub2RlLA0KPiBhbmQgdXNlIHRoaXMgdG8gc2V0IHRoZSBEUk0gRGlzcGxh
+eSBNb2RlIGluc3RlYWQgb2YgY2FsY3VsYXRpbmcgaXQNCj4gYmFzZWQgb24gYSBoYXJkY29k
+ZWQgRFBJLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogUmF5eWFuIEFuc2FyaSA8cmF5eWFuQGFu
+c2FyaS5zaD4NCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFu
+bkBzdXNlLmRlPg0KDQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRy
+bS5jIHwgMzIgKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0NCj4gICAxIGZpbGUg
+Y2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYyBiL2RyaXZlcnMvZ3B1
+L2RybS90aW55L3NpbXBsZWRybS5jDQo+IGluZGV4IDE2MmViNDRkY2JhOC4uZjhiMTg0NDFj
+ZmNiIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0K
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBAQCAtNTk5LDE2
+ICs1OTksMTIgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fbW9kZV9jb25maWdfZnVuY3Mg
+c2ltcGxlZHJtX21vZGVfY29uZmlnX2Z1bmNzID0gew0KPiAgICAqLw0KPiAgIA0KPiAgIHN0
+YXRpYyBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBzaW1wbGVkcm1fbW9kZSh1bnNpZ25lZCBp
+bnQgd2lkdGgsDQo+IC0JCQkJCSAgICAgIHVuc2lnbmVkIGludCBoZWlnaHQpDQo+ICsJCQkJ
+CSAgICAgIHVuc2lnbmVkIGludCBoZWlnaHQsDQo+ICsJCQkJCSAgICAgIHVuc2lnbmVkIGlu
+dCB3aWR0aF9tbSwNCj4gKwkJCQkJICAgICAgdW5zaWduZWQgaW50IGhlaWdodF9tbSkNCj4g
+ICB7DQo+IC0JLyoNCj4gLQkgKiBBc3N1bWUgYSBtb25pdG9yIHJlc29sdXRpb24gb2YgOTYg
+ZHBpIHRvDQo+IC0JICogZ2V0IGEgc29tZXdoYXQgcmVhc29uYWJsZSBzY3JlZW4gc2l6ZS4N
+Cj4gLQkgKi8NCj4gICAJY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgbW9kZSA9IHsN
+Cj4gLQkJRFJNX01PREVfSU5JVCg2MCwgd2lkdGgsIGhlaWdodCwNCj4gLQkJCSAgICAgIERS
+TV9NT0RFX1JFU19NTSh3aWR0aCwgOTZ1bCksDQo+IC0JCQkgICAgICBEUk1fTU9ERV9SRVNf
+TU0oaGVpZ2h0LCA5NnVsKSkNCj4gKwkJRFJNX01PREVfSU5JVCg2MCwgd2lkdGgsIGhlaWdo
+dCwgd2lkdGhfbW0sIGhlaWdodF9tbSkNCj4gICAJfTsNCj4gICANCj4gICAJcmV0dXJuIG1v
+ZGU7DQo+IEBAIC02MjIsNiArNjE4LDggQEAgc3RhdGljIHN0cnVjdCBzaW1wbGVkcm1fZGV2
+aWNlICpzaW1wbGVkcm1fZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgZHJtX2RyaXZlciAqZHJ2LA0K
+PiAgIAlzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldjsNCj4gICAJc3RydWN0IGRybV9k
+ZXZpY2UgKmRldjsNCj4gICAJaW50IHdpZHRoLCBoZWlnaHQsIHN0cmlkZTsNCj4gKwlpbnQg
+d2lkdGhfbW0gPSAwLCBoZWlnaHRfbW0gPSAwOw0KPiArCXN0cnVjdCBkZXZpY2Vfbm9kZSAq
+cGFuZWxfbm9kZTsNCj4gICAJY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0
+Ow0KPiAgIAlzdHJ1Y3QgcmVzb3VyY2UgKnJlcywgKm1lbTsNCj4gICAJdm9pZCBfX2lvbWVt
+ICpzY3JlZW5fYmFzZTsNCj4gQEAgLTY3Niw2ICs2NzQsMTMgQEAgc3RhdGljIHN0cnVjdCBz
+aW1wbGVkcm1fZGV2aWNlICpzaW1wbGVkcm1fZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgZHJtX2Ry
+aXZlciAqZHJ2LA0KPiAgIAkJZm9ybWF0ID0gc2ltcGxlZmJfZ2V0X2Zvcm1hdF9vZihkZXYs
+IG9mX25vZGUpOw0KPiAgIAkJaWYgKElTX0VSUihmb3JtYXQpKQ0KPiAgIAkJCXJldHVybiBF
+UlJfQ0FTVChmb3JtYXQpOw0KPiArDQo+ICsJCXBhbmVsX25vZGUgPSBvZl9wYXJzZV9waGFu
+ZGxlKG9mX25vZGUsICJwYW5lbCIsIDApOw0KPiArCQlpZiAocGFuZWxfbm9kZSkgew0KPiAr
+CQkJc2ltcGxlZmJfcmVhZF91MzJfb2YoZGV2LCBwYW5lbF9ub2RlLCAid2lkdGgtbW0iLCAm
+d2lkdGhfbW0pOw0KPiArCQkJc2ltcGxlZmJfcmVhZF91MzJfb2YoZGV2LCBwYW5lbF9ub2Rl
+LCAiaGVpZ2h0LW1tIiwgJmhlaWdodF9tbSk7DQo+ICsJCQlvZl9ub2RlX3B1dChwYW5lbF9u
+b2RlKTsNCj4gKwkJfQ0KPiAgIAl9IGVsc2Ugew0KPiAgIAkJZHJtX2VycihkZXYsICJubyBz
+aW1wbGVmYiBjb25maWd1cmF0aW9uIGZvdW5kXG4iKTsNCj4gICAJCXJldHVybiBFUlJfUFRS
+KC1FTk9ERVYpOw0KPiBAQCAtNjg2LDcgKzY5MSwxNiBAQCBzdGF0aWMgc3RydWN0IHNpbXBs
+ZWRybV9kZXZpY2UgKnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0cnVjdCBkcm1fZHJpdmVy
+ICpkcnYsDQo+ICAgCQkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7DQo+ICAgCX0NCj4gICAN
+Cj4gLQlzZGV2LT5tb2RlID0gc2ltcGxlZHJtX21vZGUod2lkdGgsIGhlaWdodCk7DQo+ICsJ
+LyoNCj4gKwkgKiBBc3N1bWUgYSBtb25pdG9yIHJlc29sdXRpb24gb2YgOTYgZHBpIGlmIHBo
+eXNpY2FsIGRpbWVuc2lvbnMNCj4gKwkgKiBhcmUgbm90IHNwZWNpZmllZCB0byBnZXQgYSBz
+b21ld2hhdCByZWFzb25hYmxlIHNjcmVlbiBzaXplLg0KPiArCSAqLw0KPiArCWlmICghd2lk
+dGhfbW0pDQo+ICsJCXdpZHRoX21tID0gRFJNX01PREVfUkVTX01NKHdpZHRoLCA5NnVsKTsN
+Cj4gKwlpZiAoIWhlaWdodF9tbSkNCj4gKwkJaGVpZ2h0X21tID0gRFJNX01PREVfUkVTX01N
+KGhlaWdodCwgOTZ1bCk7DQo+ICsNCj4gKwlzZGV2LT5tb2RlID0gc2ltcGxlZHJtX21vZGUo
+d2lkdGgsIGhlaWdodCwgd2lkdGhfbW0sIGhlaWdodF9tbSk7DQo+ICAgCXNkZXYtPmZvcm1h
+dCA9IGZvcm1hdDsNCj4gICAJc2Rldi0+cGl0Y2ggPSBzdHJpZGU7DQo+ICAgDQoNCi0tIA0K
+VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
+dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
+cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
+ZsO8aHJlcjogSXZvIFRvdGV2DQo=
+
+--------------BhqH5e0Wj40xoBWNu7IsO9dU--
+
+--------------VRDBOmJ1uHgwfQWzhxmFFfyZ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPY1+8FAwAAAAAACgkQlh/E3EQov+Ap
+rBAAnNb0+xGgF6wok0+sXTo9yTCeKShTFhLJ1H3IdFpTlCuyIGLDZJILtQWGjCKGmiEpa2qYtGi6
+UB05X+m+A/b9njDjJEMS+dXbqbyZ6c/tb+yLDKQyNFjvDEPVo3YPM4eu8xBWpBFPx5XR/zWTWf3J
+czs9CjrjdAm4uKMwxq8Vp8mkJ1AJgPil5B0JUEmLDxtyzrZzXye2griD11G9GG7QzOFQnMzU5R+j
+z2Eh3xsHYtqY573xdra/BTsYiQAUMyn+k0+yd7Pc0t+p3oUdZbpv6FuERJCQGx8OugrmumMut0pQ
+C0nobpiGh6s6urgsUMlo7eDkpAd3xE0xUr4HBB1/UIGUkxyHB4NSJyNBXSL27cSjsFE94XlDKczh
+MZCStOZ0CoBkbqxRNRYGenUH5hAbVkA0mWVE8Sr3WJGT/ZeSannsh8LkZDPNwgmOxBE5LgIQhiUa
+ILPJtUw7pVxFeDYSetjM5/QFi6nov4uXIBhFRXACxM+Pjs4bjYa6uiJFTZXbZWNP4NPM1NZBR2PE
+UGK7rvSOSneETQGHHKK6puuZV0r9iK81rjAa7VmjH3Eusy9QhmtdKKMKIEwxzKWwrZNAgd0C7Hix
+kwhvGdglHntlQ0+eskQ+779Q09DTFHgrlo2yq4+D0hVoKR93DXMMaA1orXOrZkOZzb6L7BKEVI1/
+SUI=
+=rZGJ
+-----END PGP SIGNATURE-----
+
+--------------VRDBOmJ1uHgwfQWzhxmFFfyZ--
