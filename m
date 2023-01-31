@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D2B6861FE
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 09:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 226936861F6
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 09:48:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6AF10E3C6;
-	Wed,  1 Feb 2023 08:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4224510E3BB;
+	Wed,  1 Feb 2023 08:48:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0D58810E34B
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:40:01 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 478E310E147
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:40:03 +0000 (UTC)
 Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
- by 156.147.23.52 with ESMTP; 31 Jan 2023 17:40:01 +0900
+ by 156.147.23.51 with ESMTP; 31 Jan 2023 17:40:01 +0900
 X-Original-SENDERIP: 156.147.1.127
 X-Original-MAILFROM: max.byungchul.park@gmail.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,9 +22,9 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: max.byungchul.park@gmail.com
 From: Byungchul Park <max.byungchul.park@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v9 19/25] dept: Apply timeout consideration to swait
-Date: Tue, 31 Jan 2023 17:39:48 +0900
-Message-Id: <1675154394-25598-20-git-send-email-max.byungchul.park@gmail.com>
+Subject: [PATCH v9 20/25] dept: Apply timeout consideration to waitqueue wait
+Date: Tue, 31 Jan 2023 17:39:49 +0900
+Message-Id: <1675154394-25598-21-git-send-email-max.byungchul.park@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1675154394-25598-1-git-send-email-max.byungchul.park@gmail.com>
 References: <1675154394-25598-1-git-send-email-max.byungchul.park@gmail.com>
@@ -64,27 +64,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Now that CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT was introduced, apply the
-consideration to swait, assuming an input 'ret' in ___swait_event()
-macro is used as a timeout value.
+consideration to waitqueue wait, assuming an input 'ret' in
+___wait_event() macro is used as a timeout value.
 
 Signed-off-by: Byungchul Park <max.byungchul.park@gmail.com>
 ---
- include/linux/swait.h | 2 +-
+ include/linux/wait.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/swait.h b/include/linux/swait.h
-index 0284821..def1e47 100644
---- a/include/linux/swait.h
-+++ b/include/linux/swait.h
-@@ -162,7 +162,7 @@ static inline bool swq_has_sleeper(struct swait_queue_head *wq)
- 	struct swait_queue __wait;					\
- 	long __ret = ret;						\
- 									\
--	sdt_might_sleep_start(NULL);					\
-+	sdt_might_sleep_start_timeout(NULL, __ret);			\
- 	INIT_LIST_HEAD(&__wait.task_list);				\
- 	for (;;) {							\
- 		long __int = prepare_to_swait_event(&wq, &__wait, state);\
+diff --git a/include/linux/wait.h b/include/linux/wait.h
+index ff349e6..aa1bd96 100644
+--- a/include/linux/wait.h
++++ b/include/linux/wait.h
+@@ -304,7 +304,7 @@ static inline void wake_up_pollfree(struct wait_queue_head *wq_head)
+ 	struct wait_queue_entry __wq_entry;					\
+ 	long __ret = ret;	/* explicit shadow */				\
+ 										\
+-	sdt_might_sleep_start(NULL);						\
++	sdt_might_sleep_start_timeout(NULL, __ret);				\
+ 	init_wait_entry(&__wq_entry, exclusive ? WQ_FLAG_EXCLUSIVE : 0);	\
+ 	for (;;) {								\
+ 		long __int = prepare_to_wait_event(&wq_head, &__wq_entry, state);\
 -- 
 1.9.1
 
