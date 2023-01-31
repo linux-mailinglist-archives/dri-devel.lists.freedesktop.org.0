@@ -1,73 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611F7682C60
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 13:15:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B650D682CD6
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 13:45:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE8710E335;
-	Tue, 31 Jan 2023 12:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE15810E32D;
+	Tue, 31 Jan 2023 12:45:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16E3810E32D
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 12:15:40 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id ml19so17449976ejb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 04:15:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mhtv0ODRBlTpxDV/APPa73s4nDJP3dDm4ZD4J8aRvNY=;
- b=UsaHUY8te724GyFULneEvRi7onjFVb0YO1+XQODuiMN+7yLJjq+v7uO6f8+3axOx+I
- ojoQdZovek893Ai1j3jmS0kIGohjbMfCWlaJCbcXNqUYRDc1zJZlQAEntfQ8vEmWUD6L
- IrE/zHap3TVVA/sbXvF1FDjq0BHB+6epO4tp2byRxdq+D04XtVjwdhlWUio7BwPMOJ0a
- EW7dSlgtofoSOHIB8HQea+5g36F4KK/92BKgIAh6m5ijvY4hc//gNh8d6dces4t3DGy5
- W5icbL+CaIdX0OPAh7ULkR+NG131IoVzBngo3bme/Y0zu0q7nMtLgy5NxViKgqRYZKVT
- pPXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mhtv0ODRBlTpxDV/APPa73s4nDJP3dDm4ZD4J8aRvNY=;
- b=4Ib925wWxMX/2QHIR9ipeoDu3IcBJA+ecgq1BL1Q59vL9eE9GtkaD3qJBASwW9jSKh
- La/Y7Akf63mNOPFMsvk7Y10scgz4SfQg+UMYgrksRoIugdZPq8F3aPywW48J5xx18Jio
- NUyqSNk3plFF3m0NWAUx+jiKwFrPF5rTovhQJTOZBIuULQ/KUfY6KVaK5PYdwW4z4xvV
- iu6AhHxsQWOeO1bjVSq+ys60PykE0VXXeezPrQbYRXGhlcQyv5QeQ+IcSqkMlCvfcudQ
- uT7othFwcJPWTI/TZRytYpdjhBvrtHxu+WyMe9HwKHlR11Zg4hETDQlC7Izzz1+n9BZ4
- GUVg==
-X-Gm-Message-State: AO0yUKU2nK7a2PQPtw0voePYuQNsiJjq6HpedHoec/g/FwB4MjDXzjOj
- EGl3V/ZQM6n8EMyg8zAjJoG3HA==
-X-Google-Smtp-Source: AK7set/x66Cy6xuPwKUNLizlKs3jJEot0LID2oRqSrotXAnzbVteEE5qYnHHzlVkqsc/hlokOmVIfQ==
-X-Received: by 2002:a17:906:9487:b0:878:8087:3b71 with SMTP id
- t7-20020a170906948700b0087880873b71mr20179854ejx.17.1675167338531; 
- Tue, 31 Jan 2023 04:15:38 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- fy15-20020a1709069f0f00b0084c62b7b7d8sm8265192ejc.187.2023.01.31.04.15.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 04:15:38 -0800 (PST)
-Message-ID: <01a23b0b-ee27-af2e-dbf2-79de76235d48@linaro.org>
-Date: Tue, 31 Jan 2023 14:15:37 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40EDB10E32D;
+ Tue, 31 Jan 2023 12:44:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675169099; x=1706705099;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/RwQqzhoI4pLDu/LgYP8NfjxFwOXtYObH6J5azZ9fcE=;
+ b=WCWqomjSPzzN647NwnwJN8aMyAwE37oEnyLnortjwErUFIQ3hEUIj3c2
+ EoRK4Y48qpKRVdtnfhriTC9s74Uhf0aJ+HVJU8mMXeBlVsfI1nev0IixR
+ 45ULTPUvjNus7wdxQzagdReQ/4qBmTTZcc+7ysqS4hv2CXiqvKplDAWJm
+ N/lU+Ai36dOc+XvBO/aYE04Aw9XgiQXI3qwAmbCIBMDYd4FgMA3BHYlAt
+ 12G7jQyTh3PziusBCSly9y/kCVIz2Ts6GT1+MHcXxw060k52JuJdlE+k0
+ aBq/wqbDLCEGJm9CWSpYCDzQIaPHDi536PpJf+7wDxapE33h66LzUkA/U w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="325525923"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="325525923"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2023 04:44:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10606"; a="733097607"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="733097607"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga004.fm.intel.com with ESMTP; 31 Jan 2023 04:44:55 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1pMq0L-000Fg8-1n; Tue, 31 Jan 2023 14:44:53 +0200
+Date: Tue, 31 Jan 2023 14:44:53 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: linux-next: manual merge of the usb tree with the
+ drm-intel-fixes tree
+Message-ID: <Y9kNRVppj5Uxa9ub@smile.fi.intel.com>
+References: <20230131130305.019029ff@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2 10/27] drm/msm/dpu: pass dpu_format to
- _dpu_hw_sspp_setup_scaler3()
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
- <20221229191856.3508092-11-dmitry.baryshkov@linaro.org>
- <bbb6ff43-a432-c0a6-e108-7bf8bc170f52@quicinc.com>
- <9542e211-0cab-07b4-2d58-7fa16839a187@linaro.org>
-In-Reply-To: <9542e211-0cab-07b4-2d58-7fa16839a187@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230131130305.019029ff@canb.auug.org.au>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,107 +61,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Greg KH <greg@kroah.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/01/2023 14:10, Dmitry Baryshkov wrote:
-> On 31/01/2023 07:13, Abhinav Kumar wrote:
->>
->>
->> On 12/29/2022 11:18 AM, Dmitry Baryshkov wrote:
->>> There is no need to pass full dpu_hw_pipe_cfg instance to
->>> _dpu_hw_sspp_setup_scaler3, pass just struct dpu_format pointer.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 9 ++++-----
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 7 +++----
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 4 ++--
->>>   3 files changed, 9 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>> index f7f81ab08fa2..176cd6dc9a69 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>> @@ -415,19 +415,18 @@ static void dpu_hw_sspp_setup_pe_config(struct 
->>> dpu_hw_sspp *ctx,
->>>   }
->>>   static void _dpu_hw_sspp_setup_scaler3(struct dpu_hw_sspp *ctx,
->>> -        struct dpu_hw_pipe_cfg *sspp,
->>> -        void *scaler_cfg)
->>> +        struct dpu_hw_scaler3_cfg *scaler3_cfg,
->>> +        const struct dpu_format *format)
->>>   {
->>>       u32 idx;
->>> -    struct dpu_hw_scaler3_cfg *scaler3_cfg = scaler_cfg;
->>> -    if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx) || !sspp
->>> +    if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx)
->>>           || !scaler3_cfg)
->>
->> Do we need to check for !format ?
+On Tue, Jan 31, 2023 at 01:03:05PM +1100, Stephen Rothwell wrote:
+> Hi all,
 > 
-> We don't have since the calling sequence ensures that it is not NULL, 
-> but let's check for it since it's a different module.
+> Today's linux-next merge of the usb tree got a conflict in:
+> 
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> 
+> between commit:
+> 
+>   5bc4b43d5c6c ("drm/i915: Fix up locking around dumping requests lists")
+> 
+> from the drm-intel-fixes tree and commit:
+> 
+>   4d70c74659d9 ("i915: Move list_count() to list.h as list_count_nodes() for broader use")
+> 
+> from the usb tree.
+> 
+> I fixed it up (the former removed the code changed by the latter)
 
-On the other hand, dpu_hw_setup_scaler3() properly handles the !format 
-case and programs the rest of the scaler setup. So in the end I'll skip 
-this check.
+Hmm... Currently I see that 20230127002842.3169194-4-John.C.Harrison@Intel.com
+moves the code to the drivers/gpu/drm/i915/gt/intel_execlists_submission.c.
 
-> 
->>
->>>           return;
->>>       dpu_hw_setup_scaler3(&ctx->hw, scaler3_cfg, idx,
->>>               ctx->cap->sblk->scaler_blk.version,
->>> -            sspp->layout.format);
->>> +            format);
->>>   }
->>>   static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_sspp *ctx)
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>> index f5aae563741a..c713343378aa 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>> @@ -317,13 +317,12 @@ struct dpu_hw_sspp_ops {
->>>       /**
->>>        * setup_scaler - setup scaler
->>> -     * @ctx: Pointer to pipe context
->>> -     * @pipe_cfg: Pointer to pipe configuration
->>>        * @scaler_cfg: Pointer to scaler configuration
->>
->> This doc needs to be fixed from scaler_cfg to scaler3_cfg
->>
->>> +     * @format: pixel format parameters
->>>        */
->>>       void (*setup_scaler)(struct dpu_hw_sspp *ctx,
->>> -        struct dpu_hw_pipe_cfg *pipe_cfg,
->>> -        void *scaler_cfg);
->>> +        struct dpu_hw_scaler3_cfg *scaler3_cfg,
->>> +        const struct dpu_format *format);
->>>       /**
->>>        * get_scaler_ver - get scaler h/w version
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> index 172a2c012917..cbff4dea8662 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> @@ -677,8 +677,8 @@ static void _dpu_plane_setup_scaler(struct 
->>> dpu_sw_pipe *pipe,
->>>       if (pipe_hw->ops.setup_scaler &&
->>>               pipe->multirect_index != DPU_SSPP_RECT_1)
->>>           pipe_hw->ops.setup_scaler(pipe_hw,
->>> -                pipe_cfg,
->>> -                &scaler3_cfg);
->>> +                &scaler3_cfg,
->>> +                fmt);
->>>   }
->>>   /**
-> 
+Is there any new series beside the above mentioned that touches that file and
+actually _removes_ that code?
+
+>	and
+> can carry the fix as necessary. This is now fixed as far as linux-next
+> is concerned, but any non trivial conflicts should be mentioned to your
+> upstream maintainer when your tree is submitted for merging.  You may
+> also want to consider cooperating with the maintainer of the conflicting
+> tree to minimise any particularly complex conflicts.
 
 -- 
-With best wishes
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
 
