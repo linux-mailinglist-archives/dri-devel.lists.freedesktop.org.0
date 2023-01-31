@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6656829E8
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 11:07:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823F2682A31
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 11:15:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7591710E296;
-	Tue, 31 Jan 2023 10:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11C5510E29E;
+	Tue, 31 Jan 2023 10:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6396310E1B4
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 10:06:51 +0000 (UTC)
-Date: Tue, 31 Jan 2023 10:06:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1675159608; x=1675418808;
- bh=PKjpB873KFVEKBlEethlWB5JT7+2UnaIsAv0b3E2kIs=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=wsuOR3mX603RNEeWhABWWFmL2nbJYBaLdk8yrFbaio/m0XrH/Sy/Kt6xgSjDJSeV5
- GP7z7pl1OWG1AXhl9IBrPmjfBsK4QyElr+Me+wOu3Jl4WY7Ye6XIcECf+A6lSSYPQm
- ckdzRe3aK3Q+Ehk7D/XtwcrVqP5S75ZlCG+G3x4AmeFAXROjgCIRdHHywO+h4NOASu
- XK+5QRcX/wVTHAtlZSe3tKrzyae5weCO+FNRz5uWBY3o8MkyFw25gpX/Do6fm+bx0F
- K6fEcLUjTsEpPAiQo0ZDvpRtxNhvZDBKvbbLeqc31PG6rNGZl8Otf77HuWUkNoDVVk
- j7H6oOD6Fi51A==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC PATCH v3 0/3] Support for Solid Fill Planes
-Message-ID: <9Q0ano1jjZ1LTNWaVcVkDp0-jsTSUJKoNrKwvpGpIuejUSB33DK-uOpeLmyMbbk6tdfWG8RS83AGyB--EPEHqJe5shq6RC_gVpPLR7sUScY=@emersion.fr>
-In-Reply-To: <20230131112527.32ab8ba5@eldfell>
-References: <20230104234036.636-1-quic_jesszhan@quicinc.com>
- <Y7a1hCmsvJHKdW1Y@phenom.ffwll.local>
- <58caf08c-3a02-82ce-4452-8ae7f22f373d@quicinc.com>
- <CAA8EJppnAmN6+S-emEfXJEc1iVf+DjeLBmCQpGd-nRY2M2AAQQ@mail.gmail.com>
- <Y7hrWDpg8msuefgZ@phenom.ffwll.local>
- <CAA8EJppoejPPNhu3eHBc_vsstHvEEwYx67HZLo8+4W3K-gHkag@mail.gmail.com>
- <20230131112527.32ab8ba5@eldfell>
-Feedback-ID: 1358184:user:proton
+Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5D110E29E
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 10:15:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1675160108; cv=none; d=zohomail.in; s=zohoarc; 
+ b=AnMq+5elFPUhIPHg/lZuIkx2KbX18eyi/w4q9RVOhNH7TpnU/ONgLQVxp90U89axUjmmh8X+VWhKe2raktiSmF3yTmcbk2HRsUN8NM1CyRvLKwhOHDg9/X5bIQYbMELCGU3GH8LO7uOnOg3hWFzM6vmy+C6PIYth3nfPIp2ARKQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1675160108;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=n92mC6ZuA5G2Jp0m1IQ48fttaRXQ9O8TIQKnESJL3cQ=; 
+ b=a2REufaeh+DpT2R0cjEq5Cp+C6ZHOjaQWSIxWz5r8/9Nf+tGDaJdqZ4A3sfRmM2nfk1jtOcR09WZEOmGGKMp7Gmg9/ZLlAFApiPgyoUPqi2mXbve4Wj5QQARwpGWBvqnO9m9ZJpYeNRzxtfm82evExPJvH6HIpCCMtQU6cDdTms=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1675160108; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=Message-ID:Date:Date:MIME-Version:To:To:Cc:Cc:References:Subject:Subject:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=n92mC6ZuA5G2Jp0m1IQ48fttaRXQ9O8TIQKnESJL3cQ=;
+ b=Xz1m4dolZOV3RcJSMWFiHahqu6Rhr9/YiCh2bOyj5na18HaxytQvZTasgm8QQdxJ
+ Er3r6X0MyQXshw3Ghi557cyboDC/Jh2fdDSS+RVeVB7lFW60sT+fYXbSmtDn8WBfxn8
+ SO46bqDhpaeQ5gaoD0Jq6e7+SxbsUSrA43s0CDPQ=
+Received: from [192.168.1.9] (117.97.173.26 [117.97.173.26]) by mx.zoho.in
+ with SMTPS id 1675160107680903.5041974356834;
+ Tue, 31 Jan 2023 15:45:07 +0530 (IST)
+Message-ID: <1393b9df-f234-04c7-0471-1012b54aadbb@siddh.me>
+Date: Tue, 31 Jan 2023 15:45:02 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Simon Ser <contact@emersion.fr>, Jim Cromie <jim.cromie@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <cover.1673269059.git.code@siddh.me>
+Subject: Re: [PATCH v6 00/10] drm: Remove usage of deprecated DRM_* macros
+Content-Language: en-US, en-GB, hi-IN
+From: Siddh Raman Pant <code@siddh.me>
+In-Reply-To: <cover.1673269059.git.code@siddh.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,29 +62,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sebastian.wick@redhat.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
- daniel.vetter@ffwll.ch, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, wayland-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, January 31st, 2023 at 10:25, Pekka Paalanen <ppaalanen@gmail.co=
-m> wrote:
+On Mon, 9 Jan 2023 at 18:30:25 +0530, Siddh Raman Pant wrote:
+> This patchset aims to remove usages of deprecated DRM_* macros from the
+> files residing in drivers/gpu/drm root.
+> 
+> In process, I found out that NULL as first argument of drm_dbg_* wasn't
+> working, but it was listed as the alternative in deprecation comment,
+> so I fixed that before removing usages of DRM_DEBUG_* macros. Courtesy
+> discussion on v1, I added support for NULL in drm_()* macros too.
+> 
+> This patchset should be applied in order as changes might be dependent.
+> 
+> Please review and let me know if any errors are there, and hopefully
+> this gets accepted.
+> 
+> ---
+> v5 -> v6:
+> - Move drm_device to default case in _Generic as it is the default behaviour.
+> - Fix incorrect const drm_device handling in _Generic.
+> - Minor positioning / comment changes.
+> 
+> [...]
+> 
+> Siddh Raman Pant (10):
+>   drm/print: Fix and add support for NULL as first argument in drm_*
+>     macros
+>   drm: Remove usage of deprecated DRM_INFO
+>   drm: Remove usage of deprecated DRM_NOTE
+>   drm: Remove usage of deprecated DRM_ERROR
+>   drm: Remove usage of deprecated DRM_DEBUG
+>   drm: Remove usage of deprecated DRM_DEBUG_DRIVER
+>   drm: Remove usage of deprecated DRM_DEBUG_KMS
+>   drm: Remove usage of deprecated DRM_DEBUG_PRIME
+>   drm/drm_blend: Remove usage of deprecated DRM_DEBUG_ATOMIC
+>   drm/drm_lease: Remove usage of deprecated DRM_DEBUG_LEASE
+> 
+>  [...]
 
-> indeed, what about simply using a 1x1 framebuffer for real? Why was that
-> approach rejected?
+Hello,
 
-Ideally we don't want to allocate any GPU memory for the solid-fill
-stuff. And if we special-case 1x1 FB creation to not be backed by real
-GPU memory then we hit several situations where user-space expects a
-real FB but there isn't: for instance, GETFB2 converts from FB object
-ID to GEM handles. Even if we make GETFB2 fail and accept that this
-breaks user-space, then there is no way for user-space to recover the
-FB color for flicker-free transitions and such.
+Please review these patches, which I sent more than 2 weeks ago. Note
+that the last three patches have been already merged. Lore link is:
+https://lore.kernel.org/dri-devel/cover.1673269059.git.code@siddh.me/
 
-This is all purely from a uAPI PoV, completely ignoring the potential
-issues with the internal kernel abstractions which might not be suitable
-for this either.
+Thanks,
+Siddh
