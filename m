@@ -1,62 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5375683688
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 20:28:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9C26836F6
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 21:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7165A10E389;
-	Tue, 31 Jan 2023 19:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 683BD10E385;
+	Tue, 31 Jan 2023 20:02:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1879E10E389
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 19:28:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9A1A02012A;
- Tue, 31 Jan 2023 19:28:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675193282; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hVsJxJR+NZ86+KEnON9fveEJZWLUM+FrlwGeUPdHZLw=;
- b=PFt/Hy2s6rlfGN62oYD6emu1+MsT5HLf0c1uOZSD4ORZVDqF8uyPTQF4UhM2QHrVzpWp2K
- YbssRdBg5ZRtiBa1Mwnid29ScWJV+5Y7uMygTU+MHPgxn+2mAn13hZrJrZRHTxSLYS4g9p
- okx4aRP1Yqib9uF8eZrMZJX3aIXgj8o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675193282;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hVsJxJR+NZ86+KEnON9fveEJZWLUM+FrlwGeUPdHZLw=;
- b=L5OvGYzZK9DcEh/YHca8CgUHIXDzs4ayocCU5uDGAOuMxlTJGQokIheUCgZ+7ccmVPtoss
- SmOKZ9783IvgzHAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7CAE913585;
- Tue, 31 Jan 2023 19:28:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sfmZHcJr2WP2NgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 31 Jan 2023 19:28:02 +0000
-Message-ID: <446db473-ddb2-623c-c0d0-4a1bbd501aa9@suse.de>
-Date: Tue, 31 Jan 2023 20:28:02 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F03B710E0B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 20:01:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Wz0/qmVw6hOdxRkjd5onX1mjQPbJRu8HvetTxZj5PE8=; b=gpYameofozvnnXjQLY+Ps8P/Zn
+ gv79PFTP3hK1FiFO9mFlWyCQhJyRuEeu+0omf0fYIV0SLjKhts0D3Di3alV78qWbr0WuW5L46mLGh
+ PVxHda93DCxwtTik70vW0+jF3r4jd+nZOlkqa+zYEjDvvCaBQfxMQlYv5JoD3BQOCUAblljwr7slH
+ pnq5JyOqb8wEZYIZJdbKPZUV74PxDaOFExbngzNkvKEFK2828yc+e08tM2MFYk6RAVVLm1b6nk1r1
+ vnRYwdxvzv2+sXMHz6S6eO9LtC/ut0lM4+JZgHaVySIyT6qMUi4r2CflwRy7BzTEx+omTrPI9q2WC
+ 1f32MMZQ==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pMwoz-005kjr-NL; Tue, 31 Jan 2023 21:01:38 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Liviu Dudau <liviu.dudau@arm.com>,
+ Brian Starkey <brian.starkey@arm.com>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Melissa Wen <mwen@igalia.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH v3 0/6] drm/debugfs: Make the debugfs structure more generic
+Date: Tue, 31 Jan 2023 16:58:20 -0300
+Message-Id: <20230131195825.677487-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 0/8] drm/vmwgfx: Refactor the buffer object code
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20230131033542.953249-1-zack@kde.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230131033542.953249-1-zack@kde.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------t7MlRON40OVrpr98PSQsCeqf"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,124 +58,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------t7MlRON40OVrpr98PSQsCeqf
-Content-Type: multipart/mixed; boundary="------------4rMZHa4pu38nUoMjvlRGuuOw";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-Cc: krastevm@vmware.com, banackm@vmware.com, mombasawalam@vmware.com
-Message-ID: <446db473-ddb2-623c-c0d0-4a1bbd501aa9@suse.de>
-Subject: Re: [PATCH v2 0/8] drm/vmwgfx: Refactor the buffer object code
-References: <20230131033542.953249-1-zack@kde.org>
-In-Reply-To: <20230131033542.953249-1-zack@kde.org>
+This series is the first step to introduce a debugfs structure to KMS objects
+and it is inspired by the feedback provided in [1]. Thanks, Jani and Daniel for
+all the feedback provided!
 
---------------4rMZHa4pu38nUoMjvlRGuuOw
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+This first step is making the current API more generic and preparing it to
+receive the KMS objects in the future. Moreover, this will help to avoid
+copypasting when expanding the API.
 
-SGksDQoNCkkgY2Fubm90IGNvbW1lbnQgbXVjaCBvbiB0aGUgaW50ZXJuYWwgd29ya2luZ3Mg
-b2YgdGhlIHZtd2dmeCBkcml2ZXIsIGJ1dCANCmZlZWwgZnJlZSB0byBhZGQNCg0KQWNrZWQt
-Ynk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQp0byB0aGUg
-cGF0Y2hlcyB0aGF0IGRvbid0IGFscmVhZHkgaGF2ZSBteSByLWIuDQoNCkJlc3QgcmVnYXJk
-cw0KVGhvbWFzDQoNCkFtIDMxLjAxLjIzIHVtIDA0OjM1IHNjaHJpZWIgWmFjayBSdXNpbjoN
-Cj4gRnJvbTogWmFjayBSdXNpbiA8emFja3JAdm13YXJlLmNvbT4NCj4gDQo+IHYyOiBGaXgg
-YWxsIHRoZSBpc3N1ZXMgd2hpY2ggVGhvbWFzIHBvaW50ZWQgb3V0IGluIHRoZSBpbml0aWFs
-IHJldmlldw0KPiBhbmQgc3BsaXQgdGhlICJzaW1wbGlmeSBmYiBwaW5uaW5nIiBjaGFuZ2Ug
-aW50byB0d28gY29tbWl0cyB3aXRoIHRoZQ0KPiBzZWNvbmQgb25lIGJlaW5nIGp1c3QgdGhl
-IHJlbmFtZS4NCj4gDQo+IFRoZSBzZXJpZXMgcmVmYWN0b3JzIHRoZSBidWZmZXIgb2JqZWN0
-IGNvZGUgdG8gbWFrZSBtb3JlIGFsaWtlIHRoZQ0KPiBvdGhlciB0dG0gZHJpdmVycy4gVGhl
-IHBsYWNlbWVudCBiZWNvbWVzIGEgcHJvcGVydHkgb2YgdGhlIGJvIHdoaWNoIG1ha2VzDQo+
-IGl0IGEgbG90IGVhc2llciB0byBjb3JyZWN0bHkgdmFsaWRhdGUgYmFzZWQgb24gdGhlIGN1
-cnJlbnQgdXNhZ2UuDQo+IHZtd2dmeCB0ZW5kcyB0byBkbyBtb3JlIHZhbGlkYXRpb24gZHVl
-IHRvIGZvcmNlZCBtb3ZlcywgYmVjYXVzZSB0aGUNCj4gYnVmZmVyIHBsYWNlbWVudCBzb21l
-dGltZXMgbmVlZCB0byBjaGFuZ2UgZHVlIHRvIHVzZXJzcGFjZSBjb21tYW5kcywgaS5lLg0K
-PiBzb21lIGNvbW1hbmRzIGUuZy4gU1VSRkFDRV9ETUEgaW1wbGllcyBHTVIncyB3aGljaCBh
-cmUgcmVhbGx5IGRlcHJlY2F0ZWQNCj4gaW4gZmF2b3Igb2YgTU9CJ3MsIGJ1dCB0aGUgeDEx
-IGRyaXZlciBzdGlsbCB1c2VzIEdNUidzIHNvIGJ1ZmZlcnMgdGVuZA0KPiB0byBmbGlwIGJl
-dHdlZW4gR01SJ3MgYW5kIE1PQidzIGEgYml0IHdoZW4gcnVubmluZyBvbiBYMTEuDQo+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICANCj4gVGhlIGZ1bmN0aW9uYWxpdHkgcmVtYWlucyBsYXJn
-ZWx5IHVuY2hhbmdlZCwgYnV0IHRoZSBMT0MgYXJlIHJlZHVjZWQgYnkNCj4gYWJvdXQgNDAw
-IGFuZCB0aGUgZ3JvdW5kd29yayBpcyBkb25lIGZvciBhZGRpbmcgcHJpbWUgc3VwcG9ydCB3
-aXRoIFNHDQo+IHR0bSBidWZmZXJzLg0KPiANCj4gWmFjayBSdXNpbiAoOCk6DQo+ICAgIGRy
-bS92bXdnZng6IFVzZSB0aGUgY29tbW9uIGdlbSBtbWFwIGluc3RlYWQgb2YgdGhlIGN1c3Rv
-bSBjb2RlDQo+ICAgIGRybS92bXdnZng6IFJlbW92ZSB0aGUgZHVwbGljYXRlIGJvX2ZyZWUg
-ZnVuY3Rpb24NCj4gICAgZHJtL3Ztd2dmeDogUmVuYW1lIHZtd19idWZmZXJfb2JqZWN0IHRv
-IHZtd19ibw0KPiAgICBkcm0vdm13Z2Z4OiBTaW1wbGlmeSBmYiBwaW5uaW5nDQo+ICAgIGRy
-bS92bXdnZng6IENsZWFudXAgdGhlIHZtdyBibyB1c2FnZSBpbiB0aGUgY3Vyc29yIHBhdGhz
-DQo+ICAgIGRybS92bXdnZng6IFJlbmFtZSBkdW1teSB0byBpc19pb21lbQ0KPiAgICBkcm0v
-dm13Z2Z4OiBBYnN0cmFjdCBwbGFjZW1lbnQgc2VsZWN0aW9uDQo+ICAgIGRybS92bXdnZng6
-IFN0b3AgdXNpbmcgcmF3IHR0bV9idWZmZXJfb2JqZWN0J3MNCj4gDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL3Ztd2dmeC9NYWtlZmlsZSAgICAgICAgICAgICAgIHwgICAyICstDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfYm8uYyAgICAgICAgICAgIHwgMzkyICsrKysr
-KysrKy0tLS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2JvLmgg
-ICAgICAgICAgICB8IDIwMyArKysrKysrKysNCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4
-L3Ztd2dmeF9jbWQuYyAgICAgICAgICAgfCAgMTQgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0v
-dm13Z2Z4L3Ztd2dmeF9jbWRidWYuYyAgICAgICAgfCAgNTMgKy0tDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL3Ztd2dmeC92bXdnZnhfY29udGV4dC5jICAgICAgIHwgIDM2ICstDQo+ICAgZHJp
-dmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfY290YWJsZS5jICAgICAgIHwgIDY1ICstLQ0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5jICAgICAgICAgICB8ICAy
-NiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5oICAgICAgICAg
-ICB8IDI0NSArKystLS0tLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4
-X2V4ZWNidWYuYyAgICAgICB8IDEwMiArKystLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdn
-Zngvdm13Z2Z4X2ZlbmNlLmMgICAgICAgICB8ICAgMiArLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X2dlbS5jICAgICAgICAgICB8ICA4OSArKy0tDQo+ICAgZHJpdmVy
-cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfa21zLmMgICAgICAgICAgIHwgMjMwICsrKystLS0t
-LS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuaCAgICAgICAgICAg
-fCAgNDMgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9sZHUuYyAgICAg
-ICAgICAgfCAgNTcgKystDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfbW9i
-LmMgICAgICAgICAgIHwgIDQ1ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
-Znhfb3ZlcmxheS5jICAgICAgIHwgIDIwICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dm
-eC92bXdnZnhfcGFnZV9kaXJ0eS5jICAgIHwgIDY4ICsrLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X3Jlc291cmNlLmMgICAgICB8IDI0MyArKysrKy0tLS0tLQ0KPiAg
-IGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3Jlc291cmNlX3ByaXYuaCB8ICAxMCAr
-LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3Njcm4uYyAgICAgICAgICB8
-ICA1MyArLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9zaGFkZXIuYyAg
-ICAgICAgfCAgNjUgKy0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfc28u
-YyAgICAgICAgICAgIHwgICA2ICstDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
-Znhfc3RkdS5jICAgICAgICAgIHwgMzIzICsrLS0tLS0tLS0tLS0tLQ0KPiAgIGRyaXZlcnMv
-Z3B1L2RybS92bXdnZngvdm13Z2Z4X3N0cmVhbW91dHB1dC5jICB8ICAyMCArLQ0KPiAgIGRy
-aXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3N1cmZhY2UuYyAgICAgICB8IDExMSArKy0t
-LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3R0bV9idWZmZXIuYyAgICB8
-IDExNiArLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fZ2x1
-ZS5jICAgICAgfCAxMTAgLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dm
-eF92YS5jICAgICAgICAgICAgfCAgIDYgKy0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4
-L3Ztd2dmeF92YWxpZGF0aW9uLmMgICAgfCAxNTAgKysrLS0tLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS92bXdnZngvdm13Z2Z4X3ZhbGlkYXRpb24uaCAgICB8ICAxMCArLQ0KPiAgIDMxIGZp
-bGVzIGNoYW5nZWQsIDEyNDggaW5zZXJ0aW9ucygrKSwgMTY2NyBkZWxldGlvbnMoLSkNCj4g
-ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfYm8u
-aA0KPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dm
-eF90dG1fZ2x1ZS5jDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
-Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
-QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Make the debug structure more generic by:
 
---------------4rMZHa4pu38nUoMjvlRGuuOw--
+- Passing the right pointer to the functions as an explicit parameter. So, the
+  show function signature should be
 
---------------t7MlRON40OVrpr98PSQsCeqf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+    int show(struct seq_file *m, struct drm_device *dev, void *data)
 
------BEGIN PGP SIGNATURE-----
+  Note that with this approach, the show callback doesn't need to use the struct
+  drm_debugfs_entry anymore.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPZa8IFAwAAAAAACgkQlh/E3EQov+Af
-rg//Sf2olKU/8ePeAwrXi7i8nbYe9O/mCynJNEhkTQQNgIt0O1vdHiJclJiuBzgmvx7fKlxDzhAW
-8S4yQrh/0ntjGDq5fZoaRMFIHIrLlzxlY/FmGvraXc/0JgJFQvca7n2sXPxivwxrBdYvBSW2szR3
-jbBy1YrwlotPLtErRjYiDESHpXICOmxdiIRMr5qOFYjiiAr3BWNaq0vPl3HFvFqsPuk4bv377tcL
-Jx6wgh0lcuVVv0ZpbGu4lInVbF5kgLqVTvj4Hb7u6MmFrqjvxgOQ2Boe2ewufdEE3Hryz9HcXJft
-lrUfEea8YfitWETMMBbKsygjUemvoEPOrVDbaRyr+undiY3NLfOQRPGYAkyrxVy7N7Mz7Snt8Jex
-JrVVx/iYothGqSzN2ytDMoWLoLzBXMER6mSz6uENJn2lBAi/O1WR3qyN3/Z9nlKCxdiWSO5jAMuF
-idMqKUIIJzQttGSjz6jSwFLuVKyoU6G3hh1G1R2WLOuIyBzwxN6GtxxJvqithQZSMV1AwJUQYLlC
-6HkYiyvkkP14DH/FKCySd0z9dyh2Uf9XMa/CToWKE/co/epQyTrTkWL+yhpBV5wuWz4droc8RUpH
-9n4TsgINjVKh5w/xkzoVH/CsqV5Z7UtnO9HVCBzbwaP4aNoVMNKuzdpjcao9XRryLsdHLjbZmdqt
-zck=
-=7tYY
------END PGP SIGNATURE-----
+- Switch the pointer in struct drm_debugfs_entry to void *, so that, in the
+  future, the struct drm_debugfs_entry can receive different types of DRM
+  objects (struct drm_device, struct drm_connector, struct drm_crtc...).
 
---------------t7MlRON40OVrpr98PSQsCeqf--
+- Switch the show callback pointer to void * and cast it in the show callback
+  wrapper. This way in the future we can create different callback wrappers and
+  cast each one to the proper function signature.
+
+- Add a struct wrapper for debugfs_list and debugfs_mutex, and also create
+  helpers to init the list, destroy the list, register the list's files and add
+  files to the list.
+
+v1 -> v2: https://lore.kernel.org/dri-devel/20230116102815.95063-1-mcanal@igalia.com/T/
+
+- Use forward declaration instead of the header (Jani Nikula).
+- Make the struct drm_debugfs_files a pointer in struct drm_device (Jani Nikula).
+- Change the parameter order of `drm_debugfs_files_add` (Jani Nikula).
+- s/struct drm_debugfs_list/struct drm_debugfs_files (Jani Nikula).
+
+v2 -> v3: https://lore.kernel.org/dri-devel/20230130123008.287141-1-mcanal@igalia.com/T/
+
+- Fix compilation errors for CONFIG_DEBUG_FS=n (kernel test robot).
+
+[1] https://lore.kernel.org/dri-devel/20230111173748.752659-1-mcanal@igalia.com/T/
+
+Best Regards,
+- Maíra Canal
+
+Maíra Canal (6):
+  drm/debugfs: Introduce wrapper for debugfs list
+  drm/debugfs: Make drm_device use the struct drm_debugfs_files
+  drm/debugfs: Create wrapper to add files to debugfs list
+  drm/debugfs: Create wrapper to register debugfs
+  drm/debugfs: Make the show callback pass the pointer to the right
+    object
+  drm/debugfs: Make the struct drm_debugfs_entry independent of DRM
+    device
+
+ drivers/gpu/drm/arm/hdlcd_drv.c       |  8 +--
+ drivers/gpu/drm/drm_atomic.c          |  4 +-
+ drivers/gpu/drm/drm_client.c          |  5 +-
+ drivers/gpu/drm/drm_debugfs.c         | 81 +++++++++++++++++----------
+ drivers/gpu/drm/drm_drv.c             |  7 ++-
+ drivers/gpu/drm/drm_framebuffer.c     |  4 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c |  5 +-
+ drivers/gpu/drm/drm_internal.h        | 12 ++++
+ drivers/gpu/drm/gud/gud_drv.c         |  5 +-
+ drivers/gpu/drm/v3d/v3d_debugfs.c     | 16 ++----
+ drivers/gpu/drm/vc4/vc4_bo.c          |  4 +-
+ drivers/gpu/drm/vc4/vc4_debugfs.c     |  6 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c        |  6 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c         |  8 +--
+ drivers/gpu/drm/vc4/vc4_v3d.c         |  4 +-
+ drivers/gpu/drm/vkms/vkms_drv.c       |  4 +-
+ include/drm/drm_debugfs.h             | 34 ++++++++---
+ include/drm/drm_device.h              | 12 +---
+ 18 files changed, 120 insertions(+), 105 deletions(-)
+
+-- 
+2.39.1
+
