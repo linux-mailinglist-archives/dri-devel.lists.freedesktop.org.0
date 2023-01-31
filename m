@@ -2,71 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8715E682D1B
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 13:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9EC682E51
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 14:48:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B874010E06E;
-	Tue, 31 Jan 2023 12:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8945410E34D;
+	Tue, 31 Jan 2023 13:48:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A798710E34B
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 12:58:50 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id fi26so14298315edb.7
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 04:58:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IkyFyenacXd17rNywCrJx/hKCAb3GagOAKoON+f0+6U=;
- b=xvjussJajMGrV0E16LOEg6Xo1NdVhD1K2qehnwgL2nO62EsrAsujBgzOvxLBNuWIjc
- FItyKlZPBGn9TEhEOoKVsBF4uKWKuNRBCPYaoa39PgMG2j183FwRryXCD1kFW487MSPK
- f8kYY4gNZj4Ryd8bQmFio6830hyXTSS98GbnjqYT0YWbp0JDy9QhR/OyDKCRp1vQSzYY
- WbyfgjJx3FGIGd8NYg69KOZbtAUliGMClLUWZnhvoVbWyNyiWp3KNT5RyewaWO2Z11RO
- 4ivceMHpQouAnBjIkkmbPeLfef1tBj3/zN07qHmKZ26a1NUhIimLyyS9VrvqYbYFdR0E
- qlFQ==
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EABC10E2BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 13:48:03 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id e15so18096647ybn.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 05:48:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=cSXpJOa9iEfg0k5fDlS7y4qL3SedBz+BCWAw9qFTuQQ=;
+ b=nP3CdyfPD+RVr+WbuyLRr3gd7peTtFCrRMvrXM+G4KFp3YBknchXXIRkvwa4jkcPDa
+ 4PXe+KFvCIw1nAC/tN7Tzh4Xgr7yCZYmz20gpAwf78MIV1NJi3PPU9+ic+3OY9g7ya/T
+ IJZ3y8Mb1f21o+YWF/KMxZKaQsFA09f6EdLIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IkyFyenacXd17rNywCrJx/hKCAb3GagOAKoON+f0+6U=;
- b=IFl2XkNikIFSKNWefOppXPN9dbPJDuosa1bjKXfJt8APQxiw5Jvi8ezf9/9xBWpmSb
- rSico6xSr4SaayGA0KyqK8bKEOId3XC/fA8f2Me4iwd2FFKzY9GjfcqU8yx9SiIXYAu7
- f+EeK5GGoxDv4dzU2XzICPexzvBJ2gHr2I6IlIBQuf+Bi8QTMZRQxKek8mKILKxQ0fNk
- K4QEZGmOX1j5HtmACS/xcSpyoArjHXR8CtiOR87hcnhbojlDKgYWsHvrnjlglAp+v04I
- CJC1rN/9gxmCiffom3nTK2P/UxUuCsFOdm4WHDHuccm3BSwgKamZZFXocijNScKP0M6K
- 1ESA==
-X-Gm-Message-State: AO0yUKUJtX4uqkZTfHTiz0EkXe+ZHlycmct5cHZemLR9ato63Jv95mLs
- 1UOrpR8x+yWmme4/6g7z0Y9drKexI6bavqKR3sM=
-X-Google-Smtp-Source: AK7set9DTffFITUeObIldoYH99bvR7fanzNv9obiIvPU2KG2ZgBN3vkTKSyWZa/gE145bKkkX5/SZw==
-X-Received: by 2002:a05:6402:4502:b0:4a2:b97:adc4 with SMTP id
- ez2-20020a056402450200b004a20b97adc4mr3204700edb.38.1675169929238; 
- Tue, 31 Jan 2023 04:58:49 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- i11-20020a50870b000000b004a0f9d31d18sm7957666edb.71.2023.01.31.04.58.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 04:58:48 -0800 (PST)
-Message-ID: <60af517c-e22d-780c-221c-4df41f1e7c5c@linaro.org>
-Date: Tue, 31 Jan 2023 14:58:47 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cSXpJOa9iEfg0k5fDlS7y4qL3SedBz+BCWAw9qFTuQQ=;
+ b=iVCbZpL+FyjV+WNbj7LhopHBKqG+EhqakWRM9m3kimcuHbGrTD70XSxANW+GXg9r1n
+ zkVSkf6BSouJDSFDxxr/kScZ4A3oPfHCB+VaEikk2c3l+rh/NQJgQBlsezAIkaj3dCVF
+ SGdXwFQQ1ElSbQRUWo0wGvUDcNE0jfpVXtwkrOyuwFZ0jeAt5HCwvaJuQJ2k19Rehm6k
+ y6Ag0441W6o7qk7LdR/bR1WheAWhmspyH2DIzFl9Z6wQ/Vv1xfd578p0rOTV6369nK90
+ /pQQlxdPd04R30RLfIC2Y0H6f2FvsK6iPCLqxWIUIcbsnOS6rVy8l/VHAXdTxXfazlt9
+ WiKQ==
+X-Gm-Message-State: AO0yUKVbfhSXOYrrDF5Z6u6wWh9OE1KkUluFrbfL9J3n2Tgqy4PBhomf
+ Pyboq/axoplaumj9nZJQgJD51PknA6lWGCRNzQHYEQ==
+X-Google-Smtp-Source: AK7set/dJ2/j0hNK/iwX7WOu/h0ISBKCdvYDjoi8Gvq4HzXHHv67o+G4XdbXKpJ0y1LC0o5hai8NYJAmCy/qxchkEn4=
+X-Received: by 2002:a25:3c5:0:b0:835:560e:ab15 with SMTP id
+ 188-20020a2503c5000000b00835560eab15mr348969ybd.84.1675172882378; Tue, 31 Jan
+ 2023 05:48:02 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v12 13/14] drm/msm/disp/dpu: add PSR support for eDP
- interface in dpu driver
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1675091494-13988-1-git-send-email-quic_vpolimer@quicinc.com>
- <1675091494-13988-14-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1675091494-13988-14-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230123151212.269082-1-jagan@amarulasolutions.com>
+ <20230123151212.269082-3-jagan@amarulasolutions.com>
+ <20230126121227.qcnftqvgiz44egpg@houat>
+ <CAMty3ZB6QiqgQN_zWEXULHiipQWU_VaWxDWf9W8OTVQvkACu5A@mail.gmail.com>
+ <CAMty3ZDTuvYKQYpVnoUU_-b3znJiyR0yBADO-5_5+86KgwYv3Q@mail.gmail.com>
+ <20230130125648.mlrtubymeooejvhg@houat>
+ <CAMty3ZANxwUp8yOjo+EWHNngi7SoMYhm1FchM38v_EUDpLY7UQ@mail.gmail.com>
+ <20230131124550.6oalx43vz26gi5wt@houat>
+In-Reply-To: <20230131124550.6oalx43vz26gi5wt@houat>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 31 Jan 2023 19:17:50 +0530
+Message-ID: <CAMty3ZAtOV-jzpoJHdctEES-Mf3eNSKyuuCSgR5V2R+=K2W1aw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v11 02/18] drm: bridge: panel: Add
+ devm_drm_of_dsi_get_bridge helper
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,136 +70,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
- quic_khsieh@quicinc.com, swboyd@chromium.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/01/2023 17:11, Vinod Polimera wrote:
-> Enable PSR on eDP interface using drm self-refresh librabry.
-> This patch uses a trigger from self-refresh library to enter/exit
-> into PSR, when there are no updates from framework.
-> 
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 13 ++++++++++++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 14 ++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
->   3 files changed, 27 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index f29a339..60e5984 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -21,6 +21,7 @@
->   #include <drm/drm_probe_helper.h>
->   #include <drm/drm_rect.h>
->   #include <drm/drm_vblank.h>
-> +#include <drm/drm_self_refresh_helper.h>
->   
->   #include "dpu_kms.h"
->   #include "dpu_hw_lm.h"
-> @@ -1021,6 +1022,9 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
->   
->   	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
->   
-> +	if (old_crtc_state->self_refresh_active)
-> +		return;
-> +
+On Tue, Jan 31, 2023 at 6:16 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Mon, Jan 30, 2023 at 06:54:54PM +0530, Jagan Teki wrote:
+> > On Mon, Jan 30, 2023 at 6:26 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > On Fri, Jan 27, 2023 at 11:09:26PM +0530, Jagan Teki wrote:
+> > > > Hi,
+> > > >
+> > > > On Thu, Jan 26, 2023 at 8:48 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > > > >
+> > > > > On Thu, Jan 26, 2023 at 5:42 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > > >
+> > > > > > Hi,
+> > > > > >
+> > > > > > On Mon, Jan 23, 2023 at 08:41:56PM +0530, Jagan Teki wrote:
+> > > > > > > Add devm OF helper to return the next DSI bridge in the chain.
+> > > > > > >
+> > > > > > > Unlike general bridge return helper devm_drm_of_get_bridge, this
+> > > > > > > helper uses the dsi specific panel_or_bridge helper to find the
+> > > > > > > next DSI device in the pipeline.
+> > > > > > >
+> > > > > > > Helper lookup a given child DSI node or a DT node's port and
+> > > > > > > endpoint number, find the connected node and return either
+> > > > > > > the associated struct drm_panel or drm_bridge device.
+> > > > > >
+> > > > > > I'm not sure that using a device managed helper is the right choice
+> > > > > > here. The bridge will stay longer than the backing device so it will
+> > > > > > create a use-after-free. You should probably use a DRM-managed action
+> > > > > > here instead.
+> > > > >
+> > > > > Thanks for the comments. If I understand correctly we can use
+> > > > > drmm_panel_bridge_add instead devm_drm_panel_bridge_add once we found
+> > > > > the panel or bridge - am I correct?
+> > > >
+> > > > Look like it is not possible to use DRM-managed action helper here as
+> > > > devm_drm_of_dsi_get_bridge is calling from the DSI host attach hook in
+> > > > which we cannot find drm_device pointer (as drm_device pointer is
+> > > > mandatory for using DRM-managed action).
+> > > > https://github.com/openedev/kernel/blob/imx8mm-dsi-v12/drivers/gpu/drm/bridge/samsung-dsim.c#L1545
+> > > >
+> > > > Please check and correct me if I mentioned any incorrect details.
+> > >
+> > > You shouldn't call that function from attach anyway:
+> > > https://dri.freedesktop.org/docs/drm/gpu/drm-kms-helpers.html#special-care-with-mipi-dsi-bridges
+> >
+> > True, If I remember we have bridges earlier to find the downstream
+> > bridge/panels from the bridge ops and attach the hook, if that is the
+> > case maybe we can use this DRM-managed action as we can get the
+> > drm_device pointer from the bridge pointer.
+>
+> I'm not quite sure what you mean. You shouldn't retrieve the bridge from
+> the attach hook but from the probe / bind ones. If that's not working
+> for you, this is a bug in the documentation we should address.
 
-I have been looking at the crtc_needs_disable(). It explicitly mentions 
-that 'We also need to run through the crtc_funcs->disable() function 
-[..] if it's transitioning to self refresh mode...'. Don't we need to 
-perform some cleanup here (like disabling the vblank irq handling, 
-freeing the bandwidth, etc)?
+Something like this, afterward the design has updated to move the
+panel or bridge found to be in host attach.
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/gpu/drm/bridge/nwl-dsi.c?h=v5.10#n911
 
->   	/* Disable/save vblank irq handling */
->   	drm_crtc_vblank_off(crtc);
->   
-> @@ -1577,7 +1581,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->   {
->   	struct drm_crtc *crtc = NULL;
->   	struct dpu_crtc *dpu_crtc = NULL;
-> -	int i;
-> +	int i, ret;
->   
->   	dpu_crtc = kzalloc(sizeof(*dpu_crtc), GFP_KERNEL);
->   	if (!dpu_crtc)
-> @@ -1614,6 +1618,13 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
->   	/* initialize event handling */
->   	spin_lock_init(&dpu_crtc->event_lock);
->   
-> +	ret = drm_self_refresh_helper_init(crtc);
-> +	if (ret) {
-> +		DPU_ERROR("Failed to initialize %s with self-refresh helpers %d\n",
-> +			crtc->name, ret);
-> +		return ERR_PTR(ret);
-> +	}
-> +
->   	DRM_DEBUG_KMS("%s: successfully initialized crtc\n", dpu_crtc->name);
->   	return crtc;
->   }
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 01b7509..450abb1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -12,6 +12,7 @@
->   #include <linux/kthread.h>
->   #include <linux/seq_file.h>
->   
-> +#include <drm/drm_atomic.h>
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_file.h>
->   #include <drm/drm_probe_helper.h>
-> @@ -1212,11 +1213,24 @@ static void dpu_encoder_virt_atomic_disable(struct drm_encoder *drm_enc,
->   					struct drm_atomic_state *state)
->   {
->   	struct dpu_encoder_virt *dpu_enc = NULL;
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *old_state = NULL;
->   	int i = 0;
->   
->   	dpu_enc = to_dpu_encoder_virt(drm_enc);
->   	DPU_DEBUG_ENC(dpu_enc, "\n");
->   
-> +	crtc = drm_atomic_get_old_crtc_for_encoder(state, drm_enc);
-> +	if (crtc)
-> +		old_state = drm_atomic_get_old_crtc_state(state, crtc);
-> +
-> +	/*
-> +	 * The encoder is already disabled if self refresh mode was set earlier,
-> +	 * in the old_state for the corresponding crtc.
-> +	 */
-> +	if (old_state && old_state->self_refresh_active)
-> +		return;
-> +
+>
+> > So, what is the best we can do here, add any TODO comment to follow up
+> > the same in the future or something else, please let me know?
+>
+> Make it work in a safe way, as described in the documentation?
 
-Again the same question here, doesn't crtc_needs_disable() take care of 
-this clause? I might be missing something in the PSR state transitions. 
-Could you please add some explanation here?
+Yeah, it is a clear deadlock. It is not possible to use DM-managed
+action helper in host attach as there is no drm_device pointer and we
+cannot move panel or bridge finding out of host attach as per design
+documentation. I'm thinking of go-ahead with adding TODO for adding
+the safe way with an existing patch. Please let me know.
 
->   	mutex_lock(&dpu_enc->enc_lock);
->   	dpu_enc->enabled = false;
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index a683bd9..681dd2e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -491,7 +491,7 @@ static void dpu_kms_wait_for_commit_done(struct msm_kms *kms,
->   		return;
->   	}
->   
-> -	if (!crtc->state->active) {
-> +	if (!drm_atomic_crtc_effectively_active(crtc->state)) {
->   		DPU_DEBUG("[crtc:%d] not active\n", crtc->base.id);
->   		return;
->   	}
-
--- 
-With best wishes
-Dmitry
-
+Thanks,
+Jagan.
