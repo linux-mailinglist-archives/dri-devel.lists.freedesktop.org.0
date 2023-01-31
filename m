@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9C26836F6
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 21:02:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9454D6836F7
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 21:02:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 683BD10E385;
-	Tue, 31 Jan 2023 20:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD9B10E0B4;
+	Tue, 31 Jan 2023 20:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F03B710E0B4
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 20:01:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E05510E021
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 20:01:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Wz0/qmVw6hOdxRkjd5onX1mjQPbJRu8HvetTxZj5PE8=; b=gpYameofozvnnXjQLY+Ps8P/Zn
- gv79PFTP3hK1FiFO9mFlWyCQhJyRuEeu+0omf0fYIV0SLjKhts0D3Di3alV78qWbr0WuW5L46mLGh
- PVxHda93DCxwtTik70vW0+jF3r4jd+nZOlkqa+zYEjDvvCaBQfxMQlYv5JoD3BQOCUAblljwr7slH
- pnq5JyOqb8wEZYIZJdbKPZUV74PxDaOFExbngzNkvKEFK2828yc+e08tM2MFYk6RAVVLm1b6nk1r1
- vnRYwdxvzv2+sXMHz6S6eO9LtC/ut0lM4+JZgHaVySIyT6qMUi4r2CflwRy7BzTEx+omTrPI9q2WC
- 1f32MMZQ==;
+ bh=XkB4su4Rh7U0VfEq2e+KDb3unId5y1z34/ahmNlKMBo=; b=ihDsdVx5mUFLaMeFLVxivbRInU
+ r4mmI8BHegHEyShDwlLnGFr8aR1TLPIBVKjpnR8BchRBchZ5fmvfk4j2aasmR18I2xWafVPrhVsBb
+ /cZa7R+IzYsJ81P/xr8ZGUfkfWTpWFlX0rtjEVElmq/ehTbWyT5IOCulFWdOAaiv1RPo+bK+8Hy2w
+ YyoNpib57jTahJMk26CJRng21oK2KZ0hS1p6jPrMKNbQyWe4+ibu555DFaOY/yKbhcMid3l8NyFl0
+ Y1ucE1FcE6ByD1aN5Pqlo/1zvMU+8+kXjS603LXi/eboJhRiogiVDlikojXUQhMEPR1AhdJlZAUln
+ 5z1xky4A==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pMwoz-005kjr-NL; Tue, 31 Jan 2023 21:01:38 +0100
+ id 1pMwp5-005kjr-4x; Tue, 31 Jan 2023 21:01:43 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -39,10 +39,12 @@ To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Melissa Wen <mwen@igalia.com>,
  Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
  Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH v3 0/6] drm/debugfs: Make the debugfs structure more generic
-Date: Tue, 31 Jan 2023 16:58:20 -0300
-Message-Id: <20230131195825.677487-1-mcanal@igalia.com>
+Subject: [PATCH v3 1/6] drm/debugfs: Introduce wrapper for debugfs list
+Date: Tue, 31 Jan 2023 16:58:21 -0300
+Message-Id: <20230131195825.677487-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230131195825.677487-1-mcanal@igalia.com>
+References: <20230131195825.677487-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,82 +66,119 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series is the first step to introduce a debugfs structure to KMS objects
-and it is inspired by the feedback provided in [1]. Thanks, Jani and Daniel for
-all the feedback provided!
+Introduce a struct wrapper for all the debugfs-related stuff: the list
+of debugfs files and the mutex that protects it. This will make it
+easier to initialize all the debugfs list in a DRM object and will
+create a good abstraction for a possible implementation of the debugfs
+infrastructure for KMS objects.
 
-This first step is making the current API more generic and preparing it to
-receive the KMS objects in the future. Moreover, this will help to avoid
-copypasting when expanding the API.
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/drm_debugfs.c  | 18 ++++++++++++++++++
+ drivers/gpu/drm/drm_internal.h | 12 ++++++++++++
+ include/drm/drm_debugfs.h      | 16 ++++++++++++++++
+ 3 files changed, 46 insertions(+)
 
-Make the debug structure more generic by:
-
-- Passing the right pointer to the functions as an explicit parameter. So, the
-  show function signature should be
-
-    int show(struct seq_file *m, struct drm_device *dev, void *data)
-
-  Note that with this approach, the show callback doesn't need to use the struct
-  drm_debugfs_entry anymore.
-
-- Switch the pointer in struct drm_debugfs_entry to void *, so that, in the
-  future, the struct drm_debugfs_entry can receive different types of DRM
-  objects (struct drm_device, struct drm_connector, struct drm_crtc...).
-
-- Switch the show callback pointer to void * and cast it in the show callback
-  wrapper. This way in the future we can create different callback wrappers and
-  cast each one to the proper function signature.
-
-- Add a struct wrapper for debugfs_list and debugfs_mutex, and also create
-  helpers to init the list, destroy the list, register the list's files and add
-  files to the list.
-
-v1 -> v2: https://lore.kernel.org/dri-devel/20230116102815.95063-1-mcanal@igalia.com/T/
-
-- Use forward declaration instead of the header (Jani Nikula).
-- Make the struct drm_debugfs_files a pointer in struct drm_device (Jani Nikula).
-- Change the parameter order of `drm_debugfs_files_add` (Jani Nikula).
-- s/struct drm_debugfs_list/struct drm_debugfs_files (Jani Nikula).
-
-v2 -> v3: https://lore.kernel.org/dri-devel/20230130123008.287141-1-mcanal@igalia.com/T/
-
-- Fix compilation errors for CONFIG_DEBUG_FS=n (kernel test robot).
-
-[1] https://lore.kernel.org/dri-devel/20230111173748.752659-1-mcanal@igalia.com/T/
-
-Best Regards,
-- Maíra Canal
-
-Maíra Canal (6):
-  drm/debugfs: Introduce wrapper for debugfs list
-  drm/debugfs: Make drm_device use the struct drm_debugfs_files
-  drm/debugfs: Create wrapper to add files to debugfs list
-  drm/debugfs: Create wrapper to register debugfs
-  drm/debugfs: Make the show callback pass the pointer to the right
-    object
-  drm/debugfs: Make the struct drm_debugfs_entry independent of DRM
-    device
-
- drivers/gpu/drm/arm/hdlcd_drv.c       |  8 +--
- drivers/gpu/drm/drm_atomic.c          |  4 +-
- drivers/gpu/drm/drm_client.c          |  5 +-
- drivers/gpu/drm/drm_debugfs.c         | 81 +++++++++++++++++----------
- drivers/gpu/drm/drm_drv.c             |  7 ++-
- drivers/gpu/drm/drm_framebuffer.c     |  4 +-
- drivers/gpu/drm/drm_gem_vram_helper.c |  5 +-
- drivers/gpu/drm/drm_internal.h        | 12 ++++
- drivers/gpu/drm/gud/gud_drv.c         |  5 +-
- drivers/gpu/drm/v3d/v3d_debugfs.c     | 16 ++----
- drivers/gpu/drm/vc4/vc4_bo.c          |  4 +-
- drivers/gpu/drm/vc4/vc4_debugfs.c     |  6 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c        |  6 +-
- drivers/gpu/drm/vc4/vc4_hvs.c         |  8 +--
- drivers/gpu/drm/vc4/vc4_v3d.c         |  4 +-
- drivers/gpu/drm/vkms/vkms_drv.c       |  4 +-
- include/drm/drm_debugfs.h             | 34 ++++++++---
- include/drm/drm_device.h              | 12 +---
- 18 files changed, 120 insertions(+), 105 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 4f643a490dc3..8658d3929ea5 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -218,6 +218,24 @@ void drm_debugfs_create_files(const struct drm_info_list *files, int count,
+ }
+ EXPORT_SYMBOL(drm_debugfs_create_files);
+ 
++struct drm_debugfs_files *drm_debugfs_files_init(void)
++{
++	struct drm_debugfs_files *debugfs_files;
++
++	debugfs_files = kzalloc(sizeof(*debugfs_files), GFP_KERNEL);
++
++	INIT_LIST_HEAD(&debugfs_files->list);
++	mutex_init(&debugfs_files->mutex);
++
++	return debugfs_files;
++}
++
++void drm_debugfs_files_destroy(struct drm_debugfs_files *debugfs_files)
++{
++	mutex_destroy(&debugfs_files->mutex);
++	kfree(debugfs_files);
++}
++
+ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 		     struct dentry *root)
+ {
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index ed2103ee272c..f1c8766ed828 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -23,6 +23,7 @@
+ 
+ #include <linux/kthread.h>
+ 
++#include <drm/drm_debugfs.h>
+ #include <drm/drm_ioctl.h>
+ #include <drm/drm_vblank.h>
+ 
+@@ -183,6 +184,8 @@ int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
+ 
+ /* drm_debugfs.c drm_debugfs_crc.c */
+ #if defined(CONFIG_DEBUG_FS)
++struct drm_debugfs_files *drm_debugfs_files_init(void);
++void drm_debugfs_files_destroy(struct drm_debugfs_files *debugfs_files);
+ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 		     struct dentry *root);
+ void drm_debugfs_cleanup(struct drm_minor *minor);
+@@ -193,6 +196,15 @@ void drm_debugfs_crtc_add(struct drm_crtc *crtc);
+ void drm_debugfs_crtc_remove(struct drm_crtc *crtc);
+ void drm_debugfs_crtc_crc_add(struct drm_crtc *crtc);
+ #else
++static inline struct drm_debugfs_files *drm_debugfs_files_init(void)
++{
++	return NULL;
++}
++
++static inline void drm_debugfs_files_destroy(struct drm_debugfs_files *debugfs_files)
++{
++}
++
+ static inline int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+ 				   struct dentry *root)
+ {
+diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
+index 7616f457ce70..423aa3de506a 100644
+--- a/include/drm/drm_debugfs.h
++++ b/include/drm/drm_debugfs.h
+@@ -32,6 +32,8 @@
+ #ifndef _DRM_DEBUGFS_H_
+ #define _DRM_DEBUGFS_H_
+ 
++#include <linux/list.h>
++#include <linux/mutex.h>
+ #include <linux/types.h>
+ #include <linux/seq_file.h>
+ /**
+@@ -79,6 +81,20 @@ struct drm_info_node {
+ 	struct dentry *dent;
+ };
+ 
++/**
++ * struct drm_debugfs_files - Encapsulates the debugfs list and its mutex
++ *
++ * This structure represents the debugfs list of files and is encapsulated
++ * with a mutex to protect the access of the list.
++ */
++struct drm_debugfs_files {
++	/** @list: List of debugfs files to be created by the DRM object. */
++	struct list_head list;
++
++	/** @mutex: Protects &list access. */
++	struct mutex mutex;
++};
++
+ /**
+  * struct drm_debugfs_info - debugfs info list entry
+  *
 -- 
 2.39.1
 
