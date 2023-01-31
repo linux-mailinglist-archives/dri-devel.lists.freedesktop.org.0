@@ -1,39 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C8268215A
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 02:21:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E906821B3
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 02:59:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3144110E124;
-	Tue, 31 Jan 2023 01:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2C4610E08D;
+	Tue, 31 Jan 2023 01:59:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE4510E124
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 01:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=XwacVAoDlSbhvdOZfOteaBXk54tWeyXApMz+z+NJOP8=; b=S7YpfgA9tRx/yCrjFvVnTUdkaq
- 7fd9YB2tGyuYg39ZO5DFdQRLD4Ou1hGkwFM2Eq7C+l6B4EaVTCtrCoQDgJZ+WUeJyvT2cYsK+vlH5
- E5olaslqFU49EEFSlhmPkNAvLKYFzAb5xQ3Tqne+jAgVRn2o9LKWESJeBKPuwoR18mjmRKPNkhEd/
- bgZgTvNyuF82ZeAmrqO3fozLEY6kN5xQaxb0RYUHxT4HDIDXRpC1RhqLuQuiXtoFAvJbzTd9htorE
- PtLW/OB0rdr+mHu6hOo7W+sIRN8uCfj6Dbu3hCEv2E82KVpkn5oJBDLZKvzkGoImLw63P/YYTfq1U
- X1EdmorQ==;
-Received: from [2601:1c2:d00:6a60::9526] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pMfKg-005zG6-D6; Tue, 31 Jan 2023 01:21:10 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH -next] drm/client: fix kernel-doc warning in drm_client.h
-Date: Mon, 30 Jan 2023 17:21:07 -0800
-Message-Id: <20230131012107.20943-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.1
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDE1B10E08D
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 01:59:27 +0000 (UTC)
+X-UUID: e1e4847ea10a11ed945fc101203acc17-20230131
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=WJYXLBX/n/oH+RscWZpywMvfmWqQoxEHuehKlop3feY=; 
+ b=QZhxSHGyJX4kFS6bhvcMoqITURSAxh7H3nFwucSWt8tggqmXTl4ZWYJpmpAFZiVHgYh8gCRYcmoNkCCzIz4XMHO1nTq6QjxvoOW3W2HF65aQ6Opid87WL+137DT+GIJ/QfZ3qLPlgjfFFEHAcbh0q/xl0Zd5bIjRqe3WKAMHYMs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.18, REQID:01f3b4b0-ab2b-460d-9b86-ce47af99efae, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:95
+X-CID-INFO: VERSION:1.1.18, REQID:01f3b4b0-ab2b-460d-9b86-ce47af99efae, IP:0,
+ URL
+ :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+ :quarantine,TS:95
+X-CID-META: VersionHash:3ca2d6b, CLOUDID:529ccc55-dd49-462e-a4be-2143a3ddc739,
+ B
+ ulkID:230131095924V3P8PX7O,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+ C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+ ,OSI:0,OSA:0
+X-CID-BVR: 0
+X-UUID: e1e4847ea10a11ed945fc101203acc17-20230131
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
+ mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 85077795; Tue, 31 Jan 2023 09:59:22 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Tue, 31 Jan 2023 09:59:21 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Tue, 31 Jan 2023 09:59:21 +0800
+From: <xinlei.lee@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <jitao.shi@mediatek.com>,
+ <thierry.reding@gmail.com>, <sam@ravnborg.org>
+Subject: [PATCH v3 0/2] Reduce lcm_reset to DSI LP11 send cmd time
+Date: Tue, 31 Jan 2023 09:59:17 +0800
+Message-ID: <1675130359-24459-1-git-send-email-xinlei.lee@mediatek.com>
+X-Mailer: git-send-email 2.6.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,39 +69,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Xinlei Lee <xinlei.lee@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-scripts/kernel-doc complains about the comment for hotplug_failed,
-so fix it:
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-include/drm/drm_client.h:111: warning: Incorrect use of kernel-doc format:          * @hotplug failed:
+The panel spec stipulates that after lcm_reset is pulled high, cmd
+should be sent to initialize the panel. Within the allowable range of
+the DSI spec, this time needs to be reduced to avoid panel exceptions.
 
-Fixes: 6a9d5ad3af65 ("drm/client: Add hotplug_failed flag")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
----
- include/drm/drm_client.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Base on the branch of linus/master v6.2.
 
-diff -- a/include/drm/drm_client.h b/include/drm/drm_client.h
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -108,7 +108,7 @@ struct drm_client_dev {
- 	struct drm_mode_set *modesets;
- 
- 	/**
--	 * @hotplug failed:
-+	 * @hotplug_failed:
- 	 *
- 	 * Set by client hotplug helpers if the hotplugging failed
- 	 * before. It is usually not tried again.
+Change since v2:
+1. Remove the applied patch.
+2. Change the commit title and the description.
+
+Change since v1:
+1. Added fine-tuning panel power sequence modification.
+
+Xinlei Lee (2):
+  drm/panel: boe-tv101wum-nl6: Reduce lcm_reset to send initial code
+    time
+  drm/panel: boe-tv101wum-nl6: Fine tune the panel power sequence
+
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+-- 
+2.18.0
+
