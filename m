@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC7A6828E6
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 10:33:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9BBD682936
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 10:42:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D62910E319;
-	Tue, 31 Jan 2023 09:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B62B10E05A;
+	Tue, 31 Jan 2023 09:42:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE28510E319;
- Tue, 31 Jan 2023 09:33:10 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id y19so15328300ljq.7;
- Tue, 31 Jan 2023 01:33:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a9ECooIcFbu5C1mGggvE7E2dQ8t0fyLVsQDAfjE5kEA=;
- b=d2DQM+MT8LFpCtb4n85XbkX9wwpCioorNPtn29H1zyJ1icZU6FwhlKr5uO5R6AKseo
- IFqcMPpHaJz+K8Lvns3ajauxGrPmmIxxzErCcfIO1SDUzwNQk+VYVk6MzbqSoECKyqOf
- TkFA/izx2K25mK2ZF/4+Tr2KNWBQ4yuLzvyx/7F5AuNuOSs1LLnBQZ+Baa5fVGeP2iOt
- 9Bv5lSjohhZykNV46anoCDoe+g1NDETB/6ZO5mNxvWtQTEq06aKEag1yHHUJZq4it7MT
- ex62Vvc0MPUNoNtq+zJZSjdT93MgksM29ipSHtNKIBdc4D7oehXKXouSXq4PEGKEpQ26
- 1Bpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a9ECooIcFbu5C1mGggvE7E2dQ8t0fyLVsQDAfjE5kEA=;
- b=VQiDjmkmV4Ml6N7v3fWBP/RaQATDL8CD0xtImXI0jg6phTXvNWlKhs678jfTIKLnwb
- Mnt8u41YKMQfuX0g8Mzj3FOlNZt9/xw1j646gZdQQmAtMpa+du/K5r0ALwAHQdnOCjFA
- gdsi6JxvB1gF+O0ZfYxauhV0L3eTVHhWK9FbDjwkNyeJgSRCGsHUfr6Hh8UScYI9zws8
- KXpzoVUfRWn8UXrrxsyusbCHg9ckoCi0ZVeZhS1MMEP9NMq7jKcqCMYq1zN7y9XbCCGt
- NUbZzqq5yKmjxVVKykafcZg2qbtuly0eZ0BKv8Flt3KDEl8P8VbiTcvFBS5u+sQfdWLL
- YWMQ==
-X-Gm-Message-State: AO0yUKVqUqCi3zfbu2QMnZ4WIJoJkZSP5OxyceB7wgT0lJRrtnuQLXeb
- iWL8aQtstbVVn9NwMkFDY8BCOdGTswYB1JUguR/bnxRVQ9VRjA==
-X-Google-Smtp-Source: AK7set8/COOTQHvjvlm8e2edTncISJaS3cRKlrSC5V6HWCNbzjL3Sx7ChZerq6/3305ODtArb2oCNtY/olpgaLK5EHc=
-X-Received: by 2002:a2e:8248:0:b0:28d:756a:5ade with SMTP id
- j8-20020a2e8248000000b0028d756a5ademr2000341ljh.85.1675157589017; Tue, 31 Jan
- 2023 01:33:09 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67FDB10E05A
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 09:42:42 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 928A9204DC;
+ Tue, 31 Jan 2023 09:42:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675158160; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vatAf4PA7oDC3qG6Ue8FoZZjsEq4Bdh1B0/k8ZQrTUg=;
+ b=gMhWmTrc01TgLLV8/IeGhnFBJM4GcUYvw4lY4dB1//uRSyA/Gg5OACxbr1kveVnuJANNPG
+ 4J0JY8QnzqABcd7bhm28E78+rsyHH2TTlcKBv/CSUD4kBycejiP6IrTv7rhyLtLf68CgB7
+ Y2sMD7oWVorTHewyxaIYO7EZDk0ME4c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675158160;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vatAf4PA7oDC3qG6Ue8FoZZjsEq4Bdh1B0/k8ZQrTUg=;
+ b=GLY2i5COFd94mFE4jR18lrRkUMnnzt9idGAB9CoC3pHu3qqdeEh0kSlhsoOuUg+/+Q6NAd
+ uTz6Ov8dMKEExpBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4DB6F138E8;
+ Tue, 31 Jan 2023 09:42:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6jAfEpDi2GMAOgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 31 Jan 2023 09:42:40 +0000
+Message-ID: <6f63f1cc-ba33-2253-cd90-e01285bc6ff1@suse.de>
+Date: Tue, 31 Jan 2023 10:42:39 +0100
 MIME-Version: 1.0
-References: <20230125155023.105584-1-christian.koenig@amd.com>
- <20230125155023.105584-2-christian.koenig@amd.com>
- <CAM0jSHPoXqLVCkC77JDURw-zSY6=ryDwA43xH9Y+D7uMiZOJVg@mail.gmail.com>
- <8e247c51-7ff0-fb2b-e62c-bc7071248fa9@amd.com>
- <CAM0jSHP8KULMcfjuTGNS5qxtiAyeNTFjP6eVBUU+F9aaS2s0xQ@mail.gmail.com>
-In-Reply-To: <CAM0jSHP8KULMcfjuTGNS5qxtiAyeNTFjP6eVBUU+F9aaS2s0xQ@mail.gmail.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 31 Jan 2023 09:32:41 +0000
-Message-ID: <CAM0jSHMXe75dfD516sUkFK9ncwaxnSKLBo2tjDsoYzSjNkpyrg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/ttm: revert "stop allocating dummy resources
- during BO creation"
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v4 0/2] SimpleDRM: allow configuring physical width and
+ height
+Content-Language: en-US
+To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
+References: <20230126182435.70544-1-rayyan@ansari.sh>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230126182435.70544-1-rayyan@ansari.sh>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------vKdGn7SnPXKMfMFUmfsmOGd5"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +70,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, janne@jannau.net,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 25 Jan 2023 at 16:24, Matthew Auld
-<matthew.william.auld@gmail.com> wrote:
->
-> On Wed, 25 Jan 2023 at 16:15, Christian K=C3=B6nig <christian.koenig@amd.=
-com> wrote:
-> >
-> > Am 25.01.23 um 17:13 schrieb Matthew Auld:
-> > > On Wed, 25 Jan 2023 at 15:50, Christian K=C3=B6nig
-> > > <ckoenig.leichtzumerken@gmail.com> wrote:
-> > >> This reverts commit 00984ad39599bb2a1e6ec5d4e9c75a749f7f45c9.
-> > >>
-> > >> It seems to still breka i915.
-> > > We also need to revert the third patch:
-> > >
-> > > b49323aa35d5 drm/ttm: prevent moving of pinned BOs
-> > >
-> > > It introduces the side effect of no longer calling tt_create(true) in
-> > > ttm_bo_validate(), and I'm 99% sure that will break object clearing.
-> > > We rely on having a ttm_tt for the initial dummy placement, with
-> > > FLAG_ZERO_ALLOC set if clear is needed. Also I'm not sure who even
-> > > creates the ttm_tt now, if ttm_bo_validate() doesn't, and we don't
-> > > have the dummy move, like with this patch.
-> >
-> > Oh, yes of course. Can I add your Acked-by to reverting all three?
->
-> Yeah, feel free to add. I can then resend your series with the extra
-> stuff we need for i915.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------vKdGn7SnPXKMfMFUmfsmOGd5
+Content-Type: multipart/mixed; boundary="------------0RUuxtggqXskTXKOjH6pMaNX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev,
+ janne@jannau.net, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>
+Message-ID: <6f63f1cc-ba33-2253-cd90-e01285bc6ff1@suse.de>
+Subject: Re: [PATCH v4 0/2] SimpleDRM: allow configuring physical width and
+ height
+References: <20230126182435.70544-1-rayyan@ansari.sh>
+In-Reply-To: <20230126182435.70544-1-rayyan@ansari.sh>
 
-https://patchwork.freedesktop.org/series/113484/
+--------------0RUuxtggqXskTXKOjH6pMaNX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-CI appears to be happy now. Feel free to merge the series.
+SGksDQoNCnRoYW5rcyBhIGxvdC4gSSd2ZSBhZGRlZCB5b3VyIHBhdGNoZXMgdG8gZHJtLW1p
+c2MtbmV4dC4gVGhleSBzaG91bGQgYmUgDQppbiBMaW51eCB2Ni40Lg0KDQpCZXN0IHJlZ2Fy
+ZHMNClRob21hcw0KDQpBbSAyNi4wMS4yMyB1bSAxOToyNCBzY2hyaWViIFJheXlhbiBBbnNh
+cmk6DQo+IEhlbGxvLA0KPiANCj4gVGhlIGZvbGxvd2luZyBwYXRjaGVzOg0KPiAtIEFkZCBz
+dXBwb3J0IGZvciBjb25maWd1cmluZyB0aGUgd2lkdGgtbW0gYW5kIGhlaWdodC1tbSBEUk0g
+bW9kZQ0KPiAgICBwcm9wZXJ0aWVzIGluIHRoZSBTaW1wbGVEUk0gZHJpdmVyIHZpYSBEZXZp
+Y2UgVHJlZQ0KPiAtIERvY3VtZW50IHRoZXNlIHR3byBuZXcgRGV2aWNlIFRyZWUgcHJvcGVy
+dGllcw0KPiANCj4gVGhpcyBpcyB1c2VmdWwgZm9yIGFsbG93aW5nIGludGVyZmFjZXMgc3Vj
+aCBhcyBQaG9zaCB0byBjYWxjdWxhdGUNCj4gcHJvcGVyIHNjYWxpbmcgdmFsdWVzIGFuZCBm
+b3IgZWFybHkgYm9vdCBjb2RlIGtub3dpbmcgaWYgaGktZHBpDQo+IHJlbmRlcmluZyBpcyBu
+ZWNlc3NhcnkuDQo+IA0KPiBDaGFuZ2VzIHNpbmNlIHYzOg0KPiAtIFVzZSBwYW5lbCBub2Rl
+DQo+IA0KPiBSYXl5YW4gQW5zYXJpICgyKToNCj4gICAgZHJtL3NpbXBsZWRybTogQWxsb3cg
+cGh5c2ljYWwgd2lkdGggYW5kIGhlaWdodCBjb25maWd1cmF0aW9uIHZpYSBwYW5lbA0KPiAg
+ICAgIG5vZGUNCj4gICAgZHQtYmluZGluZ3M6IGRpc3BsYXk6IHNpbXBsZS1mcmFtZWJ1ZmZl
+cjogRG9jdW1lbnQgdGhlIHBhbmVsIG5vZGUNCj4gDQo+ICAgLi4uL2JpbmRpbmdzL2Rpc3Bs
+YXkvc2ltcGxlLWZyYW1lYnVmZmVyLnlhbWwgIHwgIDkgKysrKysrDQo+ICAgZHJpdmVycy9n
+cHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgICAgICAgICAgICAgIHwgMzIgKysrKysrKysrKysr
+Ky0tLS0tLQ0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgMzIgaW5zZXJ0aW9ucygrKSwgOSBkZWxl
+dGlvbnMoLSkNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
+ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4
+ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBO
+w7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
->
-> >
-> > Thanks,
-> > Christian.
-> >
-> > >
-> > >> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > >> ---
-> > >>   drivers/gpu/drm/ttm/ttm_bo.c | 7 +++++++
-> > >>   1 file changed, 7 insertions(+)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_=
-bo.c
-> > >> index 33471e363ff4..9baccb2f6e99 100644
-> > >> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > >> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > >> @@ -957,6 +957,7 @@ int ttm_bo_init_reserved(struct ttm_device *bdev=
-, struct ttm_buffer_object *bo,
-> > >>                           struct sg_table *sg, struct dma_resv *resv=
-,
-> > >>                           void (*destroy) (struct ttm_buffer_object =
-*))
-> > >>   {
-> > >> +       static const struct ttm_place sys_mem =3D { .mem_type =3D TT=
-M_PL_SYSTEM };
-> > >>          int ret;
-> > >>
-> > >>          kref_init(&bo->kref);
-> > >> @@ -973,6 +974,12 @@ int ttm_bo_init_reserved(struct ttm_device *bde=
-v, struct ttm_buffer_object *bo,
-> > >>                  bo->base.resv =3D &bo->base._resv;
-> > >>          atomic_inc(&ttm_glob.bo_count);
-> > >>
-> > >> +       ret =3D ttm_resource_alloc(bo, &sys_mem, &bo->resource);
-> > >> +       if (unlikely(ret)) {
-> > >> +               ttm_bo_put(bo);
-> > >> +               return ret;
-> > >> +       }
-> > >> +
-> > >>          /*
-> > >>           * For ttm_bo_type_device buffers, allocate
-> > >>           * address space from the device.
-> > >> --
-> > >> 2.34.1
-> > >>
-> >
+--------------0RUuxtggqXskTXKOjH6pMaNX--
+
+--------------vKdGn7SnPXKMfMFUmfsmOGd5
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPY4o8FAwAAAAAACgkQlh/E3EQov+AE
+dA//fz/G8qQwPJkI47+I8GMBOVSE0os63R/mcfTCuVXyWtQhEOUBELIoW99tguWlMkflPXxOMVfw
+1H18lB5liJ1wmzTb8lOdXmvA8sgpdjWnyJ7buKNIZIKPGmorPF4fHa6Wxk+Uko9Qemz4f9r6z9eN
+2OzEk+OPbUvApCF9tAm3q8+8Yazzb4O1gypgjzOmEA0cfP6plSNMJXTfSbFMUaZngHFNH0arC3OR
+NnLhIqgt255hOJhr1isUebefE8Gj98QAnPuIqBQ2r7k6vVQ1qAt7kyuhcYuELaFuMS/koioVzgng
+/oIejnRrCgw6Y9L/NWwA0RJB76Ju0CMs0kYYL7Pr6zr380TU7NN+hOq8op7lk8B7czIvgDg1hmi3
+kBAeTnsuxnSdQA8POeOEgJWaPb15LsL5gBzFlZGmJnLmwRDJ9JLtvQ+ybiY9EUlDDr0nCXBN/fPy
+Wn3tBkGEJ6D4LLB1z9FrRhJuEE/j1/4VFSNyUXbYIhpx5qsuPSulwIBr7fET/fyvCSp8O55mhOOb
+2WDM9yUQXTnpPGsnQ9F0ZlKLMV4tIT/kt0FxVe230F+la3nVsUIbdMmU3e6dRRYsVFd8mWmPqonm
+sY86vsrN/xjQOpDjRsJL8hImirw0ponZB4d4qXbTvGz/dVywnCOAriHDtAfmoM61EPVXUVkAK1qe
+wu0=
+=+yZq
+-----END PGP SIGNATURE-----
+
+--------------vKdGn7SnPXKMfMFUmfsmOGd5--
