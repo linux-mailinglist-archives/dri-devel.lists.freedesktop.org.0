@@ -1,52 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779166833C0
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 18:22:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1656833C1
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 18:22:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F93D10E378;
-	Tue, 31 Jan 2023 17:22:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 901CF10E158;
+	Tue, 31 Jan 2023 17:22:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62BB410E2A7;
- Tue, 31 Jan 2023 17:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675185731; x=1706721731;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=bpvJgwwe71sy+pvgY/I6hCatJa+6nAncMTfShycDUFo=;
- b=UAC7P6616YNkbornukrK2ujkgX6tyvQGAZ/4RPL2KzYp4BvG0XJcK7y9
- vs7KOQxHmaO4bMPjR/JwCmFp8nGdwoTk4NXubjrNjNVnj4cBqxcu8L9wi
- soAIVEWvN5KN1tIeTohh0M/HgBRaQCP7a59zW4e9c0ST2DCuYuytFSoUA
- sGMiQFv6c4xu7wzX6ODyDx7Zb7FCNyR0JpZV+StOH7fJ8qBF7d2seyiF3
- 7aMxswORNii1JGNe6KNYTEmPDKlzhXANSQhM84FJ79WR9fLkrSrgZ2A7P
- VYJTcCuoLcOhgr/6y/NSbFdGzWpgsn7MNWVp2HT/S5io2kgS65gJ2bh0j Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="355228113"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="355228113"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2023 09:22:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="728019117"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="728019117"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 31 Jan 2023 09:22:06 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pMuKb-0004a6-2P;
- Tue, 31 Jan 2023 17:22:05 +0000
-Date: Wed, 01 Feb 2023 01:21:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 80bd9028fecadae4e8e3a278cd32d74badc2a6e0
-Message-ID: <63d94e2e.jzxGzbcXl36Z5WOi%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D06810E158;
+ Tue, 31 Jan 2023 17:22:31 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-15085b8a2f7so20252395fac.2; 
+ Tue, 31 Jan 2023 09:22:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jJ4ivKCSSjC/nsEprnt+8Zq1TU7NBjHqzheuppe5Hlc=;
+ b=aubPHj9Bqdk7dreN5BitMQndcJvpdoL/53VtmiC4laWRWmkd1Yb7Bnxfw+uMEMJhJh
+ 9ADBdMjJKGhCV6HuPnQID9W4steAnGR8UVEq6U7ewy3gSnAvSAeUWACXvwI4oV2rJ5to
+ S5sxFbTMLLw2ASIQDFRgwEi3pS1QZA0z9+yjp7KNZNURvy4lJGBxChLjLYRbl2StshA9
+ tnVZplvBEGTSjJ7DglZc+sOkeAcwkMlULANmxMZzWjlWRdtW68WHxGcaQ2TCErxxwonX
+ AE5m1o71AkIr47TRynvJ7W7KU91zvit13a6YYwB6L92aBzYyBu9arVX1mn8+MtjYtq4e
+ qEKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jJ4ivKCSSjC/nsEprnt+8Zq1TU7NBjHqzheuppe5Hlc=;
+ b=LUGfykCyK1zPQfMRtzY8g8BH7IKUC6n3UWA8llledOaz+CrsvxRqY+AAT611+WgPgZ
+ AwS8w/cOMZFPJzPziptOBcs+u85b2SvuwcYf5r3TNpHB9o/2bI2Kl3q55Fd2DydM7m4x
+ BufUN1ihX3DH5NPICDABHU+nVa8z+kdsWTN5o7UpoX2b82CmpFejaqA6Fz6WDsilaZJ9
+ LhHiGu7CI83iOqQe6/wf/MZppNCip4zmtTDLG885v6aVBIL1dP3ZUtZ4omrZrFfF/3L+
+ 7yznXBcuv8byaxayQ3zwBH/pyS1ceQ0gm90j/qIrTXaOg5Klaxv9AxpAjUbIrfEYzrnd
+ TxSw==
+X-Gm-Message-State: AO0yUKU2JIRWPHBR6H9bcgFYFUsrcpYHWUz7VnJ5YbRwEVQP4ZRYJqm7
+ BMh6FbmHfT4gfAR5OJLKwM6iBlLIwXXzlz9t/pQquLVk
+X-Google-Smtp-Source: AK7set/L5JhayGONTYLQxHrTfP9o0V2pHohgI/C0z5ya1GYvsguIk4c3xqh5rQSPnSuia4QPomH3wrYxML1a5IHYTQo=
+X-Received: by 2002:a05:6870:b522:b0:163:8cc6:86a with SMTP id
+ v34-20020a056870b52200b001638cc6086amr1618651oap.46.1675185750411; Tue, 31
+ Jan 2023 09:22:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20230126204935.819030-1-trix@redhat.com>
+In-Reply-To: <20230126204935.819030-1-trix@redhat.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 31 Jan 2023 12:22:18 -0500
+Message-ID: <CADnq5_NKPO3gEST2oqp9bB77y2iFHtvnNzKnnT8dSVTAEzY=bw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: reduce else-if to else in
+ dcn32_calculate_dlg_params()
+To: Tom Rix <trix@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,202 +66,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kvmarm@lists.linux.dev,
- amd-gfx@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-riscv@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org, linux-trace-kernel@vger.kernel.org
+Cc: Dillon.Varone@amd.com, rdunlap@infradead.org, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nevenko.Stupar@amd.com, Alvin.Lee2@amd.com, george.shen@amd.com,
+ alexander.deucher@amd.com, David.Galiffi@amd.com, jun.lei@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 80bd9028fecadae4e8e3a278cd32d74badc2a6e0  Add linux-next specific files for 20230131
+Applied.  Thanks!
 
-Error/Warning reports:
+Alex
 
-https://lore.kernel.org/oe-kbuild-all/202301230743.Xnut0Zvc-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301300743.bp7Dpazv-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301301801.y5O08tQx-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301302110.mEtNwkBD-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301310227.SeMvYeta-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301310939.TAgCOEZb-lkp@intel.com
-
-Error/Warning: (recently discovered and may have been fixed)
-
-Documentation/riscv/uabi.rst:24: WARNING: Enumerated list ends without a blank line; unexpected unindent.
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-arch/arm64/kvm/arm.c:2206: warning: expecting prototype for Initialize Hyp(). Prototype was for kvm_arm_init() instead
-drivers/clk/qcom/gcc-sa8775p.c:313:32: warning: unused variable 'gcc_parent_map_10' [-Wunused-const-variable]
-drivers/clk/qcom/gcc-sa8775p.c:318:37: warning: unused variable 'gcc_parent_data_10' [-Wunused-const-variable]
-drivers/clk/qcom/gcc-sa8775p.c:333:32: warning: unused variable 'gcc_parent_map_12' [-Wunused-const-variable]
-drivers/clk/qcom/gcc-sa8775p.c:338:37: warning: unused variable 'gcc_parent_data_12' [-Wunused-const-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:148:6: warning: no previous prototype for 'link_dp_trace_set_edp_power_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:158:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweron_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:163:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweroff_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1295:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:279:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1585:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
-drivers/gpu/host1x/dev.c:520:6: warning: variable 'syncpt_irq' is uninitialized when used here [-Wuninitialized]
-ftrace-ops.c:(.init.text+0x2cb): undefined reference to `__udivdi3'
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/nvmem/imx-ocotp.c:599:21: sparse: sparse: symbol 'imx_ocotp_layout' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:106:40: sparse: sparse: symbol 'tsens_9607_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:26:40: sparse: sparse: symbol 'tsens_8916_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:42:40: sparse: sparse: symbol 'tsens_8939_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:62:40: sparse: sparse: symbol 'tsens_8974_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:84:40: sparse: sparse: symbol 'tsens_8974_backup_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:24:40: sparse: sparse: symbol 'tsens_qcs404_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:45:40: sparse: sparse: symbol 'tsens_8976_nvmem' was not declared. Should it be static?
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- alpha-randconfig-s052-20230129
-|   |-- drivers-nvmem-imx-ocotp.c:sparse:sparse:symbol-imx_ocotp_layout-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8916_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8939_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8974_backup_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8974_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_9607_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v1.c:sparse:sparse:symbol-tsens_8976_nvmem-was-not-declared.-Should-it-be-static
-|   `-- drivers-thermal-qcom-tsens-v1.c:sparse:sparse:symbol-tsens_qcs404_nvmem-was-not-declared.-Should-it-be-static
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm-randconfig-s032-20230129
-|   `-- drivers-nvmem-imx-ocotp.c:sparse:sparse:symbol-imx_ocotp_layout-was-not-declared.-Should-it-be-static
-|-- arm-randconfig-s041-20230129
-|   `-- drivers-nvmem-imx-ocotp.c:sparse:sparse:symbol-imx_ocotp_layout-was-not-declared.-Should-it-be-static
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm64-buildonly-randconfig-r005-20230130
-|   `-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
-|-- csky-randconfig-c44-20230131
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-clang_recent_errors
-|-- arm-randconfig-r001-20230129
-|   `-- drivers-gpu-host1x-dev.c:warning:variable-syncpt_irq-is-uninitialized-when-used-here
-|-- mips-buildonly-randconfig-r006-20230129
-|   |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_data_10
-|   |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_data_12
-|   |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_map_10
-|   `-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_map_12
-`-- mips-randconfig-r036-20230129
-    |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_data_10
-    |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_data_12
-    |-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_map_10
-    `-- drivers-clk-qcom-gcc-sa8775p.c:warning:unused-variable-gcc_parent_map_12
-
-elapsed time: 723m
-
-configs tested: 69
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                            allnoconfig
-arc                                 defconfig
-s390                             allmodconfig
-alpha                               defconfig
-s390                                defconfig
-x86_64               randconfig-a001-20230130
-i386                                defconfig
-s390                             allyesconfig
-x86_64               randconfig-a003-20230130
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20230130
-i386                 randconfig-a002-20230130
-x86_64               randconfig-a002-20230130
-x86_64                    rhel-8.3-kselftests
-i386                 randconfig-a001-20230130
-x86_64                          rhel-8.3-func
-i386                 randconfig-a004-20230130
-x86_64               randconfig-a006-20230130
-i386                 randconfig-a003-20230130
-x86_64                              defconfig
-i386                 randconfig-a005-20230130
-x86_64               randconfig-a005-20230130
-ia64                             allmodconfig
-i386                 randconfig-a006-20230130
-x86_64                               rhel-8.3
-i386                             allyesconfig
-arm                                 defconfig
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           allyesconfig
-alpha                            allyesconfig
-arc                  randconfig-r043-20230129
-x86_64                           rhel-8.3-kvm
-m68k                             allyesconfig
-m68k                             allmodconfig
-x86_64                           rhel-8.3-bpf
-arc                              allyesconfig
-arm                  randconfig-r046-20230129
-arm                  randconfig-r046-20230130
-sh                               allmodconfig
-arc                  randconfig-r043-20230130
-i386                          randconfig-c001
-mips                             allyesconfig
-arm64                            allyesconfig
-powerpc                          allmodconfig
-arm                              allyesconfig
-
-clang tested configs:
-x86_64                          rhel-8.3-rust
-x86_64               randconfig-a014-20230130
-x86_64               randconfig-a012-20230130
-x86_64               randconfig-a013-20230130
-x86_64               randconfig-a011-20230130
-x86_64               randconfig-a015-20230130
-hexagon              randconfig-r041-20230129
-x86_64               randconfig-a016-20230130
-riscv                randconfig-r042-20230129
-i386                 randconfig-a013-20230130
-riscv                randconfig-r042-20230130
-i386                 randconfig-a012-20230130
-hexagon              randconfig-r045-20230130
-i386                 randconfig-a014-20230130
-hexagon              randconfig-r041-20230130
-hexagon              randconfig-r045-20230129
-i386                 randconfig-a015-20230130
-i386                 randconfig-a011-20230130
-s390                 randconfig-r044-20230129
-i386                 randconfig-a016-20230130
-s390                 randconfig-r044-20230130
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+On Thu, Jan 26, 2023 at 3:50 PM Tom Rix <trix@redhat.com> wrote:
+>
+> cppcheck reports
+> drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c:1403:76: style:
+>   Expression is always true because 'else if' condition is opposite to previous condition at line 1396. [multiCondition]
+>    } else if (context->res_ctx.pipe_ctx[i].stream->mall_stream_config.type == SUBVP_PHANTOM) {
+>                                                                            ^
+> drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c:1396:69: note: first condition
+>    if (context->res_ctx.pipe_ctx[i].stream->mall_stream_config.type != SUBVP_PHANTOM) {
+>                                                                     ^
+> drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c:1403:76: note: else if condition is opposite to first condition
+>    } else if (context->res_ctx.pipe_ctx[i].stream->mall_stream_config.type == SUBVP_PHANTOM) {
+>
+> It is not necessary to explicitly the check != condition, an else is simplier.
+>
+> Fixes: 238debcaebe4 ("drm/amd/display: Use DML for MALL SS and Subvp allocation calculations")
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+> index 0dc1a03999b6..c96cbd88e20d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+> @@ -1400,7 +1400,7 @@ static void dcn32_calculate_dlg_params(struct dc *dc, struct dc_state *context,
+>                                         /* SS PSR On: all active surfaces part of streams not supporting PSR stored in MALL */
+>                                         context->bw_ctx.bw.dcn.mall_ss_psr_active_size_bytes += context->res_ctx.pipe_ctx[i].surface_size_in_mall_bytes;
+>                                 }
+> -                       } else if (context->res_ctx.pipe_ctx[i].stream->mall_stream_config.type == SUBVP_PHANTOM) {
+> +                       } else {
+>                                 /* SUBVP: phantom surfaces only stored in MALL */
+>                                 context->bw_ctx.bw.dcn.mall_subvp_size_bytes += context->res_ctx.pipe_ctx[i].surface_size_in_mall_bytes;
+>                         }
+> --
+> 2.26.3
+>
