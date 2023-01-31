@@ -2,124 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974DC68317F
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 16:27:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E66E68338E
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 18:16:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B212210E36B;
-	Tue, 31 Jan 2023 15:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D88BC10E0B5;
+	Tue, 31 Jan 2023 17:16:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2077.outbound.protection.outlook.com [40.107.212.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6456D10E36D;
- Tue, 31 Jan 2023 15:27:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h48aHeVC67AcDYveTDywqpMcI3ZxQfvhQDD45gmQpY/TvOQ8e9cEbRVPs+Qc7012SdaiKXhwft7bFTqQd5HudUDr2rnWGliKUi1RXFEM66ad047vlm1Xav+SrqydUWeaLpUO0+9wfRPygpqs1n58CHC7epOdf/UYbmMED0BYL/YMxpxDlTURVXjQLEIKjYl3hejlNJLiStQjeD8YnCECwt95nu/WZjbiIlB+NTGtonMWJpwevdRvYRZayrAmh2xuLAuTTt0H8lxWEYcY7iMRGDqttUNUoq1TG1dSdFHckvzWH1B5wRtdctYUs+JB6DevDyGErlcBS78vNShk9xKCCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K+fTJqB3xp4cXoMeJx9VahUh86m+8ysfkRJsivdk4lM=;
- b=PXfVwFqyye8W4o78h3uVp69ESHO+2PygSARe5SALMBp11euNIjynIUNBXqYVITTYZd7fpUW8AStbjKJtoh2swg5K6UAU7IEtUYL0OxeKa4NftZ0rkDoyT54fL6OQyTHiv0tG3mqeVVICrReT0g0ly/4rc/KEkPsOrzqUG2Xhq+T2UWR7fqN54lJwy7FcpI3mDlEFi0Ys7DDS3rQjjdEBpBl3RudfxkdzGNAFuuHNVosI/siXAo1d6V2fPr05boa7ATWVXSfrtCssMKy6afFQZ91OeqZjqvlIMRPNpMHAbA5fOyXyvPtrLd33WaOTOSxVP4HbJJj2p2vwFgr+NJS/Wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K+fTJqB3xp4cXoMeJx9VahUh86m+8ysfkRJsivdk4lM=;
- b=VNs6Tp2PwQXlTE2YYF01Zd4/W388BokmQvYBq0/nROSTVoyiojVhlbQ0KZ72NGL8cOQuFcPt4EqqeTQSPtOf3ozkqua3ZTR0TgodNdDxcgMt3ZxsCj3+xW6lnQa+1jo0H3grQLQjH9qZWx7+6kKTLTISln1v+J+41qZrnxE3Dm4=
-Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
- by PH7PR12MB5733.namprd12.prod.outlook.com (2603:10b6:510:1e0::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Tue, 31 Jan
- 2023 15:27:34 +0000
-Received: from BL1PR12MB5144.namprd12.prod.outlook.com
- ([fe80::5cbd:2c52:1e96:dd41]) by BL1PR12MB5144.namprd12.prod.outlook.com
- ([fe80::5cbd:2c52:1e96:dd41%7]) with mapi id 15.20.6043.038; Tue, 31 Jan 2023
- 15:27:34 +0000
-From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-To: Sasha Levin <sashal@kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "stable@vger.kernel.org"
- <stable@vger.kernel.org>
-Subject: RE: [PATCH AUTOSEL 6.1 20/20] amdgpu: fix build on non-DCN platforms.
-Thread-Topic: [PATCH AUTOSEL 6.1 20/20] amdgpu: fix build on non-DCN platforms.
-Thread-Index: AQHZNYTGI/3Z9L7IvESKLAO1TzX65q64pU/w
-Date: Tue, 31 Jan 2023 15:27:34 +0000
-Message-ID: <BL1PR12MB51446A7B671814A565749C45F7D09@BL1PR12MB5144.namprd12.prod.outlook.com>
-References: <20230131145946.1249850-1-sashal@kernel.org>
- <20230131145946.1249850-20-sashal@kernel.org>
-In-Reply-To: <20230131145946.1249850-20-sashal@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=true;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-01-31T15:27:29Z; 
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Name=General;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ActionId=d0d7540c-8beb-49f4-be25-7d3ebe266c1b;
- MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=1
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_enabled: true
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_setdate: 2023-01-31T15:27:29Z
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_method: Standard
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_name: General
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_actionid: d016dbf0-f368-4f92-b5b2-bbdb091fa5f1
-msip_label_4342314e-0df4-4b58-84bf-38bed6170a0f_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL1PR12MB5144:EE_|PH7PR12MB5733:EE_
-x-ms-office365-filtering-correlation-id: 20cf6edb-a9c5-442c-26af-08db039fad6e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8hsCDWQBq7gkIS/CAmT7/2GudK7F4SD6rSseAqlHleIcs0IRnS7fIkGMnaEORXX96s33GEWSBLuq0OGGIhytHS2fasBi36JVqVwuWKW0zcaqCzQ5pst2M/SQ8JNdhP5CkuetSC1N8AArp5iONc1RkezPu43RaujYzB4P44gfRT8T4sBEqvwvgIzDqk6FknhiGVqDAvAvycCfRu6HktrUGvzXokp4NH2WBrgeLRRSRvoKZc7U2KiNm/pZS5Qjugj79Lli42vNOCcVobKban4TgEJIpLnMa8hVfQh+g7tJ8uu20pfOFWoCBLb+77veiu2E8/97CdGR8lto4rwpW2/1nmt7+Iq/GN2bIDPHPjD7Uxq6EwTs2C+WYYjO4pWh+RmHzRU5ba6xSs/OgfDOe+d+XGTIJ7Fjy3uulWrV7J9M/tRM9SilLa+P+LeEWuyIxHftjwVgDxWD4lS9DrEf9R2YvVHJqzOd1b8UYGrtfm4u5UgaaJDEU6u1QFwHsXdahmTTqQgTKZtf9Vd2WHYa7SnXfAvHUYHW46MK9d8SljUdSakmF09Y7ZvyjEuZJCMFj2cTYcLn6/rVPIz7O86LDAbapKXP61jAGZ/NQVcjLLqQqvVBs4fPRi5D8MRUU6RU2v+27coAM00yPiDtGtTssLjCIISA6VxWCIKeMs6hFfdVin/KZ5KqT3JErTdTfJnF6SgoqrHKSwCoQ0HsT3xvvIV2Tw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5144.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(136003)(396003)(346002)(39860400002)(376002)(366004)(451199018)(86362001)(38070700005)(33656002)(38100700002)(122000001)(41300700001)(8936002)(5660300002)(52536014)(316002)(110136005)(54906003)(66556008)(66946007)(66446008)(64756008)(66476007)(4326008)(76116006)(8676002)(55016003)(2906002)(83380400001)(7696005)(478600001)(186003)(53546011)(26005)(9686003)(6506007)(71200400001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?jQGoL54AOfnuta7WXK2J3qLVre+rlCJVz/pxMtN9W7AYeynH7UuY94j/jddO?=
- =?us-ascii?Q?jHZcp3yyJSNjnIJi/Nro9Xv4FuG2dzRkiZlO2k3aksK/eCBoYrbeoB267y5l?=
- =?us-ascii?Q?W+WFl7BG3fgD9uepjdr+5TOmmkJDp5AB/tww4juIrL3MdtGXqRNVEMtRScte?=
- =?us-ascii?Q?WpHDHWCmpeBtPIP2btpDmc9SFaDLa+tPRaVxbHxneeF7pJSILoF3ivWO9iUr?=
- =?us-ascii?Q?Uszpeg5haUEzQ92BSG7eN5iVRo+VW4FrWvlP8wYX3SjgPa8V+LpkqbkAX+yn?=
- =?us-ascii?Q?IhXczUnKZi047NFTOJRzrsGrPMuqLjdYZRfPFd3MKmb2s+s/gRr0nPHhpAsM?=
- =?us-ascii?Q?oJdOweVX5KNdOi5+NDEocWn88tfTCwnoVb9JFCBK63cFZlLmpwLqYDE1eiOt?=
- =?us-ascii?Q?Zg3gq+RxfcZ5SV3kiLy3F1xBN2EnYvuzRgGP/ybijXCyyqo+lwHqRnOQ5qFw?=
- =?us-ascii?Q?rgsFGOFVlYlJNnbxkK1UJOMNTOcmL+E+1iP5oYal0+5kXVMcBqwuT1g/o6hj?=
- =?us-ascii?Q?eLqZJhJHgbpCbVm5nUfuAsDkDPl9CMxk6BGntB3J8ALORPYkNKcKqJFsUxbU?=
- =?us-ascii?Q?6teley2iO8DAj3bZQSo3ihtgCoUDjdn6vTYhEA0Xjyn4fEK1/1OX3B4kDyhx?=
- =?us-ascii?Q?c24vSIPnsQ8Scud/QVEkJTEiP8a0IxUsyxj9wKEySQEdUFOVnRe44YeVKf8t?=
- =?us-ascii?Q?FVvqfMgeWaR+15LwnGgReTeCnv/1PR4QYon8KrwkAXPZKGtNjY1yi+2+nllA?=
- =?us-ascii?Q?kTJv52+GLrnOhl3KKtPaD75JDDvcsZxIWigPw8le8a9weycNLRdsKr28Arss?=
- =?us-ascii?Q?B6IvEUYkGvn8C4ySa0pnkq1appdweUQVIdiQbq/XgOeO7EHoFIfv3fu03lJZ?=
- =?us-ascii?Q?5QeSisSECkO7aUMCsoTAdrggFqh/03SJR2NHPRxQGu4+cY4PWaDGBbqkAqye?=
- =?us-ascii?Q?jLT8o9Vbya75TGlMXop0AgMnx6A9eAUNJnoSA/5P4gCHVSCfr7Lnua8oZrS8?=
- =?us-ascii?Q?thYvUYYj1LGhtorss8YAV4VeiUSlF6/vUqTX2p9+rOSgwca+pTdahuqPOWQ3?=
- =?us-ascii?Q?b2DGoAA3PVupvgoQ1+6+NmMnMzUKV4ezf0f3MxsnTsVKra/ufHycJl3jEdbh?=
- =?us-ascii?Q?9heiPMyWTlF4dhXFj0BGnvENs+LvgJd1Mwwkw2xr8Mgidg82MQIXijAirqls?=
- =?us-ascii?Q?khD+IB+Q2zpvq0gZJIEDD0vw2qYXMZzUufPb/B2ns97XA2CRTMcB64tVnusM?=
- =?us-ascii?Q?3qMoY8g/uh7SqvSXef9aC9fRBJSdAXGnea1LdkwQmSa3iewKBxeX+ibIOiHJ?=
- =?us-ascii?Q?sN2yzZT+DQgYEvHKz1gga7f/qi89riYgPnVcrw+s/n8wj33qLXkClOxQDSz5?=
- =?us-ascii?Q?fK5A0n+D9sg7rLAoQ8u5O0BWnSMo8uuX94JNs29BwmGV0Hev6pHpjMZlqK/3?=
- =?us-ascii?Q?HrpUZgNVAx52y+0Tq2eRaLFGO5TuAsSgclLuPNvqfyPQWChUxnrNIM4j530T?=
- =?us-ascii?Q?+APUOdKAQX7l00ODIFA8vGz1KiHIyqZqMU8fZSwCjf0V1hrff7txL55c3Xw2?=
- =?us-ascii?Q?YghgTbKaErtmpypI3AouxY3/7J+CgIKXhc5f+lQ6?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A65F010E0B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 17:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675185375; x=1706721375;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Op6oOPjZa/XKHb2hgme2xZtsHTajm9ixJNwLFc4AhG0=;
+ b=ed3Kk/dTFkkHg0tfSzdtc0k2Px0/BjKPKhbsVW5n1I/LPzOyQHsT4aew
+ RhnDQdcmKI5XywMT51Dx5UnnPK6zbaRib9XMTnv4T4D+2TAZa4iGeOOhB
+ JyHpYL23hU8Ry2CXYvSn0DZYEDfjtUYKFsapQ5tnSV0MciAhEVNCXDDtX
+ oRxgSmnLCrnfigsidOzcJa2edC2GKTW+12tVT1tsVVVAHOHA5z/Kk1pK7
+ TQ24UXR5wbdCQdrZ88e0rF228FMUSeV2X4bUHUFRUFaDL6M7aMjSReVvP
+ NxWv4lbXQ+GifqXlGnFilk4QBDI5hb29JbSoxD3AEdnpLJD6/lmAGyMTQ A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="315862417"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="315862417"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jan 2023 09:16:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="666562712"
+X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="666562712"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 31 Jan 2023 09:16:05 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pMuEm-0004Zq-2Z;
+ Tue, 31 Jan 2023 17:16:04 +0000
+Date: Wed, 1 Feb 2023 01:15:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Liviu Dudau <liviu.dudau@arm.com>,
+ Brian Starkey <brian.starkey@arm.com>,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 2/6] drm/debugfs: Make drm_device use the struct
+ drm_debugfs_files
+Message-ID: <202302010102.Zlw3VTYI-lkp@intel.com>
+References: <20230130123008.287141-3-mcanal@igalia.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20cf6edb-a9c5-442c-26af-08db039fad6e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2023 15:27:34.7261 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PXMkdMOHz2bG/14KOngAo/sJLwYcjFuLb+aAtmPgYWUWfN/372F7MCBZQr1yqSOB1lW9h8YxZpLaiqt3RPmK1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5733
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230130123008.287141-3-mcanal@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,65 +70,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Wang, Chao-kai \(Stylon\)" <Stylon.Wang@amd.com>, "Li,
- Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>, "Li, Roman" <Roman.Li@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Zuo, 
- Jerry" <Jerry.Zuo@amd.com>, "Pillai, Aurabindo" <Aurabindo.Pillai@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only - General]
+Hi Maíra,
 
-> -----Original Message-----
-> From: Sasha Levin <sashal@kernel.org>
-> Sent: Tuesday, January 31, 2023 10:00 AM
-> To: linux-kernel@vger.kernel.org; stable@vger.kernel.org
-> Cc: Dave Airlie <airlied@redhat.com>; Sasha Levin <sashal@kernel.org>;
-> Wentland, Harry <Harry.Wentland@amd.com>; Li, Sun peng (Leo)
-> <Sunpeng.Li@amd.com>; Siqueira, Rodrigo <Rodrigo.Siqueira@amd.com>;
-> Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
-> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>;
-> airlied@gmail.com; daniel@ffwll.ch; Li, Roman <Roman.Li@amd.com>;
-> Wang, Chao-kai (Stylon) <Stylon.Wang@amd.com>; Pillai, Aurabindo
-> <Aurabindo.Pillai@amd.com>; Zuo, Jerry <Jerry.Zuo@amd.com>; amd-
-> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> Subject: [PATCH AUTOSEL 6.1 20/20] amdgpu: fix build on non-DCN
-> platforms.
->=20
-> From: Dave Airlie <airlied@redhat.com>
->=20
-> [ Upstream commit f439a959dcfb6b39d6fd4b85ca1110a1d1de1587 ]
->=20
-> This fixes the build here locally on my 32-bit arm build.
->=20
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Thank you for the patch! Yet something to improve:
 
-This patch is only applicable to kernel 6.1.x and newer.
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip next-20230131]
+[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.2-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Alex
+url:    https://github.com/intel-lab-lkp/linux/commits/Ma-ra-Canal/drm-debugfs-Introduce-wrapper-for-debugfs-list/20230130-203549
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230130123008.287141-3-mcanal%40igalia.com
+patch subject: [PATCH v2 2/6] drm/debugfs: Make drm_device use the struct drm_debugfs_files
+config: arc-randconfig-r043-20230129 (https://download.01.org/0day-ci/archive/20230201/202302010102.Zlw3VTYI-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/776660a442d9112d8fbc06b0b8b0b77852b18fca
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ma-ra-Canal/drm-debugfs-Introduce-wrapper-for-debugfs-list/20230130-203549
+        git checkout 776660a442d9112d8fbc06b0b8b0b77852b18fca
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/
 
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 15b408e3a705..d756a606b5e2 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -9411,6 +9411,8 @@ static int amdgpu_dm_atomic_check(struct
-> drm_device *dev,
->  	bool lock_and_validation_needed =3D false;
->  	struct dm_crtc_state *dm_old_crtc_state, *dm_new_crtc_state;  #if
-> defined(CONFIG_DRM_AMD_DC_DCN)
-> +	struct drm_dp_mst_topology_mgr *mgr;
-> +	struct drm_dp_mst_topology_state *mst_state;
->  	struct dsc_mst_fairness_vars vars[MAX_PIPES];  #endif
->=20
-> --
-> 2.39.0
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/drm_drv.c: In function 'drm_dev_init_release':
+>> drivers/gpu/drm/drm_drv.c:602:9: error: implicit declaration of function 'drm_debugfs_files_destroy'; did you mean 'drm_debugfs_list_destroy'? [-Werror=implicit-function-declaration]
+     602 |         drm_debugfs_files_destroy(dev->debugfs_files);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |         drm_debugfs_list_destroy
+   drivers/gpu/drm/drm_drv.c: In function 'drm_dev_init':
+>> drivers/gpu/drm/drm_drv.c:650:30: error: implicit declaration of function 'drm_debugfs_files_init'; did you mean 'drm_debugfs_list_init'? [-Werror=implicit-function-declaration]
+     650 |         dev->debugfs_files = drm_debugfs_files_init();
+         |                              ^~~~~~~~~~~~~~~~~~~~~~
+         |                              drm_debugfs_list_init
+>> drivers/gpu/drm/drm_drv.c:650:28: warning: assignment to 'struct drm_debugfs_files *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     650 |         dev->debugfs_files = drm_debugfs_files_init();
+         |                            ^
+   cc1: some warnings being treated as errors
+
+
+vim +602 drivers/gpu/drm/drm_drv.c
+
+   562	
+   563	/**
+   564	 * DOC: component helper usage recommendations
+   565	 *
+   566	 * DRM drivers that drive hardware where a logical device consists of a pile of
+   567	 * independent hardware blocks are recommended to use the :ref:`component helper
+   568	 * library<component>`. For consistency and better options for code reuse the
+   569	 * following guidelines apply:
+   570	 *
+   571	 *  - The entire device initialization procedure should be run from the
+   572	 *    &component_master_ops.master_bind callback, starting with
+   573	 *    devm_drm_dev_alloc(), then binding all components with
+   574	 *    component_bind_all() and finishing with drm_dev_register().
+   575	 *
+   576	 *  - The opaque pointer passed to all components through component_bind_all()
+   577	 *    should point at &struct drm_device of the device instance, not some driver
+   578	 *    specific private structure.
+   579	 *
+   580	 *  - The component helper fills the niche where further standardization of
+   581	 *    interfaces is not practical. When there already is, or will be, a
+   582	 *    standardized interface like &drm_bridge or &drm_panel, providing its own
+   583	 *    functions to find such components at driver load time, like
+   584	 *    drm_of_find_panel_or_bridge(), then the component helper should not be
+   585	 *    used.
+   586	 */
+   587	
+   588	static void drm_dev_init_release(struct drm_device *dev, void *res)
+   589	{
+   590		drm_legacy_ctxbitmap_cleanup(dev);
+   591		drm_legacy_remove_map_hash(dev);
+   592		drm_fs_inode_free(dev->anon_inode);
+   593	
+   594		put_device(dev->dev);
+   595		/* Prevent use-after-free in drm_managed_release when debugging is
+   596		 * enabled. Slightly awkward, but can't really be helped. */
+   597		dev->dev = NULL;
+   598		mutex_destroy(&dev->master_mutex);
+   599		mutex_destroy(&dev->clientlist_mutex);
+   600		mutex_destroy(&dev->filelist_mutex);
+   601		mutex_destroy(&dev->struct_mutex);
+ > 602		drm_debugfs_files_destroy(dev->debugfs_files);
+   603		drm_legacy_destroy_members(dev);
+   604	}
+   605	
+   606	static int drm_dev_init(struct drm_device *dev,
+   607				const struct drm_driver *driver,
+   608				struct device *parent)
+   609	{
+   610		struct inode *inode;
+   611		int ret;
+   612	
+   613		if (!drm_core_init_complete) {
+   614			DRM_ERROR("DRM core is not initialized\n");
+   615			return -ENODEV;
+   616		}
+   617	
+   618		if (WARN_ON(!parent))
+   619			return -EINVAL;
+   620	
+   621		kref_init(&dev->ref);
+   622		dev->dev = get_device(parent);
+   623		dev->driver = driver;
+   624	
+   625		INIT_LIST_HEAD(&dev->managed.resources);
+   626		spin_lock_init(&dev->managed.lock);
+   627	
+   628		/* no per-device feature limits by default */
+   629		dev->driver_features = ~0u;
+   630	
+   631		if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL) &&
+   632					(drm_core_check_feature(dev, DRIVER_RENDER) ||
+   633					drm_core_check_feature(dev, DRIVER_MODESET))) {
+   634			DRM_ERROR("DRM driver can't be both a compute acceleration and graphics driver\n");
+   635			return -EINVAL;
+   636		}
+   637	
+   638		drm_legacy_init_members(dev);
+   639		INIT_LIST_HEAD(&dev->filelist);
+   640		INIT_LIST_HEAD(&dev->filelist_internal);
+   641		INIT_LIST_HEAD(&dev->clientlist);
+   642		INIT_LIST_HEAD(&dev->vblank_event_list);
+   643	
+   644		spin_lock_init(&dev->event_lock);
+   645		mutex_init(&dev->struct_mutex);
+   646		mutex_init(&dev->filelist_mutex);
+   647		mutex_init(&dev->clientlist_mutex);
+   648		mutex_init(&dev->master_mutex);
+   649	
+ > 650		dev->debugfs_files = drm_debugfs_files_init();
+   651	
+   652		ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
+   653		if (ret)
+   654			return ret;
+   655	
+   656		inode = drm_fs_inode_new();
+   657		if (IS_ERR(inode)) {
+   658			ret = PTR_ERR(inode);
+   659			DRM_ERROR("Cannot allocate anonymous inode: %d\n", ret);
+   660			goto err;
+   661		}
+   662	
+   663		dev->anon_inode = inode;
+   664	
+   665		if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL)) {
+   666			ret = drm_minor_alloc(dev, DRM_MINOR_ACCEL);
+   667			if (ret)
+   668				goto err;
+   669		} else {
+   670			if (drm_core_check_feature(dev, DRIVER_RENDER)) {
+   671				ret = drm_minor_alloc(dev, DRM_MINOR_RENDER);
+   672				if (ret)
+   673					goto err;
+   674			}
+   675	
+   676			ret = drm_minor_alloc(dev, DRM_MINOR_PRIMARY);
+   677			if (ret)
+   678				goto err;
+   679		}
+   680	
+   681		ret = drm_legacy_create_map_hash(dev);
+   682		if (ret)
+   683			goto err;
+   684	
+   685		drm_legacy_ctxbitmap_init(dev);
+   686	
+   687		if (drm_core_check_feature(dev, DRIVER_GEM)) {
+   688			ret = drm_gem_init(dev);
+   689			if (ret) {
+   690				DRM_ERROR("Cannot initialize graphics execution manager (GEM)\n");
+   691				goto err;
+   692			}
+   693		}
+   694	
+   695		ret = drm_dev_set_unique(dev, dev_name(parent));
+   696		if (ret)
+   697			goto err;
+   698	
+   699		return 0;
+   700	
+   701	err:
+   702		drm_managed_release(dev);
+   703	
+   704		return ret;
+   705	}
+   706	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
