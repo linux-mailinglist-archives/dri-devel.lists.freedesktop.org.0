@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7C66861EF
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 09:48:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E01796861F4
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 09:48:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4716610E2E3;
-	Wed,  1 Feb 2023 08:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8261010E37C;
+	Wed,  1 Feb 2023 08:48:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
- by gabe.freedesktop.org (Postfix) with ESMTP id 34DDD10E147
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:40:04 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo12.lge.com [156.147.23.52])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 267A110E144
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:40:03 +0000 (UTC)
 Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
- by 156.147.23.51 with ESMTP; 31 Jan 2023 17:40:02 +0900
+ by 156.147.23.52 with ESMTP; 31 Jan 2023 17:40:02 +0900
 X-Original-SENDERIP: 156.147.1.127
 X-Original-MAILFROM: max.byungchul.park@gmail.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,10 +22,9 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: max.byungchul.park@gmail.com
 From: Byungchul Park <max.byungchul.park@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v9 21/25] dept: Apply timeout consideration to
- hashed-waitqueue wait
-Date: Tue, 31 Jan 2023 17:39:50 +0900
-Message-Id: <1675154394-25598-22-git-send-email-max.byungchul.park@gmail.com>
+Subject: [PATCH v9 22/25] dept: Apply timeout consideration to dma fence wait
+Date: Tue, 31 Jan 2023 17:39:51 +0900
+Message-Id: <1675154394-25598-23-git-send-email-max.byungchul.park@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1675154394-25598-1-git-send-email-max.byungchul.park@gmail.com>
 References: <1675154394-25598-1-git-send-email-max.byungchul.park@gmail.com>
@@ -65,27 +64,35 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Now that CONFIG_DEPT_AGGRESSIVE_TIMEOUT_WAIT was introduced, apply the
-consideration to hashed-waitqueue wait, assuming an input 'ret' in
-___wait_var_event() macro is used as a timeout value.
+consideration to dma fence wait.
 
 Signed-off-by: Byungchul Park <max.byungchul.park@gmail.com>
 ---
- include/linux/wait_bit.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma-buf/dma-fence.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/wait_bit.h b/include/linux/wait_bit.h
-index fe89282..3ef450d 100644
---- a/include/linux/wait_bit.h
-+++ b/include/linux/wait_bit.h
-@@ -247,7 +247,7 @@ struct wait_bit_queue_entry {
- 	struct wait_bit_queue_entry __wbq_entry;			\
- 	long __ret = ret; /* explicit shadow */				\
- 									\
--	sdt_might_sleep_start(NULL);					\
-+	sdt_might_sleep_start_timeout(NULL, __ret);			\
- 	init_wait_var_entry(&__wbq_entry, var,				\
- 			    exclusive ? WQ_FLAG_EXCLUSIVE : 0);		\
- 	for (;;) {							\
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 1db4bc0..a1ede7b46 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -783,7 +783,7 @@ struct default_wait_cb {
+ 	cb.task = current;
+ 	list_add(&cb.base.node, &fence->cb_list);
+ 
+-	sdt_might_sleep_start(NULL);
++	sdt_might_sleep_start_timeout(NULL, timeout);
+ 	while (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) && ret > 0) {
+ 		if (intr)
+ 			__set_current_state(TASK_INTERRUPTIBLE);
+@@ -887,7 +887,7 @@ struct default_wait_cb {
+ 		}
+ 	}
+ 
+-	sdt_might_sleep_start(NULL);
++	sdt_might_sleep_start_timeout(NULL, timeout);
+ 	while (ret > 0) {
+ 		if (intr)
+ 			set_current_state(TASK_INTERRUPTIBLE);
 -- 
 1.9.1
 
