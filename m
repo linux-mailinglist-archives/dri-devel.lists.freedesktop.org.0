@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031E6686216
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 09:49:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFA068621B
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 09:51:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37FD010E3DB;
-	Wed,  1 Feb 2023 08:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D59310E3A1;
+	Wed,  1 Feb 2023 08:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
- by gabe.freedesktop.org (Postfix) with ESMTP id B41F410E11E
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0CEAC10E144
  for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 08:39:58 +0000 (UTC)
 Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
- by 156.147.23.53 with ESMTP; 31 Jan 2023 17:39:58 +0900
+ by 156.147.23.51 with ESMTP; 31 Jan 2023 17:39:58 +0900
 X-Original-SENDERIP: 156.147.1.127
 X-Original-MAILFROM: max.byungchul.park@gmail.com
 Received: from unknown (HELO localhost.localdomain) (10.177.244.38)
@@ -22,9 +22,10 @@ X-Original-SENDERIP: 10.177.244.38
 X-Original-MAILFROM: max.byungchul.park@gmail.com
 From: Byungchul Park <max.byungchul.park@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v9 09/25] dept: Apply sdt_might_sleep_{start,end}() to swait
-Date: Tue, 31 Jan 2023 17:39:38 +0900
-Message-Id: <1675154394-25598-10-git-send-email-max.byungchul.park@gmail.com>
+Subject: [PATCH v9 10/25] dept: Apply sdt_might_sleep_{start,
+ end}() to waitqueue wait
+Date: Tue, 31 Jan 2023 17:39:39 +0900
+Message-Id: <1675154394-25598-11-git-send-email-max.byungchul.park@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1675154394-25598-1-git-send-email-max.byungchul.park@gmail.com>
 References: <1675154394-25598-1-git-send-email-max.byungchul.park@gmail.com>
@@ -63,39 +64,39 @@ Cc: hamohammed.sa@gmail.com, hdanton@sina.com, jack@suse.cz,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Makes Dept able to track dependencies by swaits.
+Makes Dept able to track dependencies by waitqueue waits.
 
 Signed-off-by: Byungchul Park <max.byungchul.park@gmail.com>
 ---
- include/linux/swait.h | 3 +++
+ include/linux/wait.h | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/swait.h b/include/linux/swait.h
-index 6a8c22b..0284821 100644
---- a/include/linux/swait.h
-+++ b/include/linux/swait.h
-@@ -6,6 +6,7 @@
+diff --git a/include/linux/wait.h b/include/linux/wait.h
+index a0307b5..ff349e6 100644
+--- a/include/linux/wait.h
++++ b/include/linux/wait.h
+@@ -7,6 +7,7 @@
+ #include <linux/list.h>
  #include <linux/stddef.h>
  #include <linux/spinlock.h>
- #include <linux/wait.h>
 +#include <linux/dept_sdt.h>
- #include <asm/current.h>
  
- /*
-@@ -161,6 +162,7 @@ static inline bool swq_has_sleeper(struct swait_queue_head *wq)
- 	struct swait_queue __wait;					\
- 	long __ret = ret;						\
- 									\
-+	sdt_might_sleep_start(NULL);					\
- 	INIT_LIST_HEAD(&__wait.task_list);				\
- 	for (;;) {							\
- 		long __int = prepare_to_swait_event(&wq, &__wait, state);\
-@@ -176,6 +178,7 @@ static inline bool swq_has_sleeper(struct swait_queue_head *wq)
- 		cmd;							\
- 	}								\
- 	finish_swait(&wq, &__wait);					\
-+	sdt_might_sleep_end();						\
- __out:	__ret;								\
+ #include <asm/current.h>
+ #include <uapi/linux/wait.h>
+@@ -303,6 +304,7 @@ static inline void wake_up_pollfree(struct wait_queue_head *wq_head)
+ 	struct wait_queue_entry __wq_entry;					\
+ 	long __ret = ret;	/* explicit shadow */				\
+ 										\
++	sdt_might_sleep_start(NULL);						\
+ 	init_wait_entry(&__wq_entry, exclusive ? WQ_FLAG_EXCLUSIVE : 0);	\
+ 	for (;;) {								\
+ 		long __int = prepare_to_wait_event(&wq_head, &__wq_entry, state);\
+@@ -318,6 +320,7 @@ static inline void wake_up_pollfree(struct wait_queue_head *wq_head)
+ 		cmd;								\
+ 	}									\
+ 	finish_wait(&wq_head, &__wq_entry);					\
++	sdt_might_sleep_end();							\
+ __out:	__ret;									\
  })
  
 -- 
