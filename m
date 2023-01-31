@@ -1,49 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B2A683956
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 23:28:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2156839BF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 23:57:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE67D10E39B;
-	Tue, 31 Jan 2023 22:28:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF45C10E396;
+	Tue, 31 Jan 2023 22:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B2410E396;
- Tue, 31 Jan 2023 22:28:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675204127; x=1706740127;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=lrak0xBccXTCpTCSt2RcPVBAxGd6Nu1VYPiiR1uyXWU=;
- b=B58Ky5IWysAM/oOZ9DcTXAiZ8iASMqxdW8hw9XyBzeiH/5DDZJz93E6r
- 77aPcRemRZEwqkEZGwSAL0xEqWFDllrmEZh0+Vmz3R/ENOCfOUBzWq2Zk
- BvmeOQRhlZeObqJqsm+gJ0SGbdZ9r38/ALWXLWdlEQxsPOTIUh7zKQTap
- JR4d1SLSBRcQnZXT/R+vYiClgebHMY4L8lRnaJCAY2Q0SF0tb3OSWUJVe
- i85XrRvUwWnnEnK9KZ7xWqQiUpqNXL/mN/aje+HpyYxJWRnj0QWcPAPNx
- ryhcQG8y5MXxnclX7QRpNP9Ux5LiM9/d2ByZESV9bGxgZWkiIgeUurPKi w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="307634384"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="307634384"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2023 14:28:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10607"; a="910073537"
-X-IronPort-AV: E=Sophos;i="5.97,261,1669104000"; d="scan'208";a="910073537"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by fmsmga006.fm.intel.com with ESMTP; 31 Jan 2023 14:28:45 -0800
-Received: from mwajdecz-MOBL.ger.corp.intel.com
- (mwajdecz-MOBL.ger.corp.intel.com [10.249.150.146])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id 04EBC333E5;
- Tue, 31 Jan 2023 22:28:43 +0000 (GMT)
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/huc: Add and use HuC oriented print macros
-Date: Tue, 31 Jan 2023 23:28:37 +0100
-Message-Id: <20230131222837.1921-1-michal.wajdeczko@intel.com>
-X-Mailer: git-send-email 2.21.0
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C665310E396
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 22:57:13 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ cq16-20020a17090af99000b0022c9791ac39so155433pjb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Jan 2023 14:57:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kpHHAw+i1ZP/EdJYy8iLuB5fyNZHOMf4w2HHkl2VS3k=;
+ b=aK7X6+aPOLty1cU5iJDPudo7Et/cOC8RejVJ0Z7h4CPmE3GCVqCrqoWmSWmjefY5fq
+ ToGJYbRfEFCB7CtQTbEPIczBYoRKPvnrooecqPfLMMo8/aBTcBvIdu+DFlf7vNKaV+ZO
+ ogA34MLPbXMnvLbh5EItV4TKxPGo/Fd93CCGjm+9tRKqJMRBYVAZx7k32GER2hkvsYRY
+ bXGDHOe39IOugodjLDAlYfvWg00kafQgtYdeCPO8TLw4DG2SnuRP55YJOYabyIpJDmyM
+ xc7oo+Tq/N0Q2WkNmURx0pIsIAemFzBnBDhVuyHW5ro4Aa1Z30iGidKMdtgtTZAaxaJ1
+ rNJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kpHHAw+i1ZP/EdJYy8iLuB5fyNZHOMf4w2HHkl2VS3k=;
+ b=lDoAPzrQlJ5ctOa5tEa8/U+ImR9lzk2zpbyVvzkuc8XYXvoMDhpLYp6HAPr3CggKPk
+ zjewOH0VYUxcRIEFHCFgK0dWuQQAjCpC7wqteGmn6duWoY7LYsyaevNPKYlE/xnfxXR/
+ hZpq2TjKC5vGo/ZeOxBIYw4Oau2G81qNyekWZ1VKQq7xfxqhYD91egOQ7hcaruuQvTXJ
+ bRnxIjZar5K3iU+6u7jTWZu0OSuoNJmL8Kol9nv6uY+Ul7fnGA3/v51kSE1kHVUcUwIT
+ Tx5QwtIDuQHxFzW+BL/Rjwb5dO1MUaJ56J5jM9L059F9s1KPoffNJtVFRAtYBdQprSXb
+ A9hA==
+X-Gm-Message-State: AO0yUKWcAohK6WYMZyXSpKXnavBGlIWC+nqDHrRpIVxDwIoaaVX07Dg8
+ ZNTDHUhFiQFdNLLyQ7DwYhc=
+X-Google-Smtp-Source: AK7set+Ji9OBJYURmyAYP9SXKiCgfigEX/0ltPB+8ioE1R+p9GdDWYdYRNMDhDIUCGcMkMbFfgWA2w==
+X-Received: by 2002:a17:902:dac5:b0:195:e577:231c with SMTP id
+ q5-20020a170902dac500b00195e577231cmr759984plx.31.1675205832830; 
+ Tue, 31 Jan 2023 14:57:12 -0800 (PST)
+Received: from dtor-ws.mtv.corp.google.com
+ ([2620:15c:9d:2:effb:a74f:225a:28ef])
+ by smtp.gmail.com with ESMTPSA id
+ t3-20020a170902b20300b001963bc7bdb8sm10229945plr.274.2023.01.31.14.57.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Jan 2023 14:57:12 -0800 (PST)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Subject: [PATCH 1/2] backlight: hx8357: switch to using gpiod API
+Date: Tue, 31 Jan 2023 14:57:06 -0800
+Message-Id: <20230131225707.3599889-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.39.1.456.gfc5497dd1b-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,161 +71,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Like we did it for GuC, introduce some helper print macros for
-HuC to have unified format of messages that also include GT#.
+Switch the driver from legacy gpio API that is deprecated to the newer
+gpiod API that respects line polarities described in ACPI/DT.
 
-While around improve some messages and use %pe if possible.
+This makes driver use standard property name for the reset gpio
+("reset-gpios" vs "gpios-reset"), however there is a quirk in gpiolib
+to also recognize the legacy name and keep compatibility with older
+DTSes.
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_huc.c | 44 ++++++++++++++------------
- 1 file changed, 23 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index 410905da8e97..834e3b5b8f4b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -6,6 +6,7 @@
- #include <linux/types.h>
+All preparation gpiolib work to handle legacy names and polarity quirks
+has landed in mainline...
+
+ drivers/video/backlight/hx8357.c | 82 ++++++++++++++------------------
+ 1 file changed, 37 insertions(+), 45 deletions(-)
+
+diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
+index 9b50bc96e00f..a93e14adb846 100644
+--- a/drivers/video/backlight/hx8357.c
++++ b/drivers/video/backlight/hx8357.c
+@@ -6,11 +6,12 @@
+  */
  
- #include "gt/intel_gt.h"
-+#include "gt/intel_gt_print.h"
- #include "intel_guc_reg.h"
- #include "intel_huc.h"
- #include "i915_drv.h"
-@@ -13,6 +14,15 @@
- #include <linux/device/bus.h>
- #include <linux/mei_aux.h>
+ #include <linux/delay.h>
++#include <linux/err.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/lcd.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+-#include <linux/of_gpio.h>
+ #include <linux/spi/spi.h>
  
-+#define huc_printk(_huc, _level, _fmt, ...) \
-+	gt_##_level(huc_to_gt(_huc), "HuC: " _fmt, ##__VA_ARGS__)
-+#define huc_err(_huc, _fmt, ...)	huc_printk((_huc), err, _fmt, ##__VA_ARGS__)
-+#define huc_warn(_huc, _fmt, ...)	huc_printk((_huc), warn, _fmt, ##__VA_ARGS__)
-+#define huc_notice(_huc, _fmt, ...)	huc_printk((_huc), notice, _fmt, ##__VA_ARGS__)
-+#define huc_info(_huc, _fmt, ...)	huc_printk((_huc), info, _fmt, ##__VA_ARGS__)
-+#define huc_dbg(_huc, _fmt, ...)	huc_printk((_huc), dbg, _fmt, ##__VA_ARGS__)
-+#define huc_probe_error(_huc, _fmt, ...) huc_printk((_huc), probe_error, _fmt, ##__VA_ARGS__)
+ #define HX8357_NUM_IM_PINS	3
+@@ -83,8 +84,8 @@
+ #define HX8369_SET_GAMMA_CURVE_RELATED		0xe0
+ 
+ struct hx8357_data {
+-	unsigned		im_pins[HX8357_NUM_IM_PINS];
+-	unsigned		reset;
++	struct gpio_desc	*im_pins[HX8357_NUM_IM_PINS];
++	struct gpio_desc	*reset;
+ 	struct spi_device	*spi;
+ 	int			state;
+ 	bool			use_im_pins;
+@@ -321,11 +322,11 @@ static void hx8357_lcd_reset(struct lcd_device *lcdev)
+ 	struct hx8357_data *lcd = lcd_get_data(lcdev);
+ 
+ 	/* Reset the screen */
+-	gpio_set_value(lcd->reset, 1);
++	gpiod_set_value_cansleep(lcd->reset, 0);
+ 	usleep_range(10000, 12000);
+-	gpio_set_value(lcd->reset, 0);
++	gpiod_set_value_cansleep(lcd->reset, 1);
+ 	usleep_range(10000, 12000);
+-	gpio_set_value(lcd->reset, 1);
++	gpiod_set_value_cansleep(lcd->reset, 0);
+ 
+ 	/* The controller needs 120ms to recover from reset */
+ 	msleep(120);
+@@ -341,9 +342,9 @@ static int hx8357_lcd_init(struct lcd_device *lcdev)
+ 	 * wires
+ 	 */
+ 	if (lcd->use_im_pins) {
+-		gpio_set_value_cansleep(lcd->im_pins[0], 1);
+-		gpio_set_value_cansleep(lcd->im_pins[1], 0);
+-		gpio_set_value_cansleep(lcd->im_pins[2], 1);
++		gpiod_set_value_cansleep(lcd->im_pins[0], 1);
++		gpiod_set_value_cansleep(lcd->im_pins[1], 0);
++		gpiod_set_value_cansleep(lcd->im_pins[2], 1);
+ 	}
+ 
+ 	ret = hx8357_spi_write_array(lcdev, hx8357_seq_power,
+@@ -601,48 +602,39 @@ static int hx8357_probe(struct spi_device *spi)
+ 	if (!match || !match->data)
+ 		return -EINVAL;
+ 
+-	lcd->reset = of_get_named_gpio(spi->dev.of_node, "gpios-reset", 0);
+-	if (!gpio_is_valid(lcd->reset)) {
+-		dev_err(&spi->dev, "Missing dt property: gpios-reset\n");
+-		return -EINVAL;
+-	}
+-
+-	ret = devm_gpio_request_one(&spi->dev, lcd->reset,
+-				    GPIOF_OUT_INIT_HIGH,
+-				    "hx8357-reset");
++	lcd->reset = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_LOW);
++	ret = PTR_ERR_OR_ZERO(lcd->reset);
+ 	if (ret) {
+-		dev_err(&spi->dev,
+-			"failed to request gpio %d: %d\n",
+-			lcd->reset, ret);
+-		return -EINVAL;
++		dev_err(&spi->dev, "failed to request reset gpio: %d\n", ret);
++		return ret;
+ 	}
+ 
+-	if (of_find_property(spi->dev.of_node, "im-gpios", NULL)) {
+-		lcd->use_im_pins = 1;
+-
+-		for (i = 0; i < HX8357_NUM_IM_PINS; i++) {
+-			lcd->im_pins[i] = of_get_named_gpio(spi->dev.of_node,
+-							    "im-gpios", i);
+-			if (lcd->im_pins[i] == -EPROBE_DEFER) {
+-				dev_info(&spi->dev, "GPIO requested is not here yet, deferring the probe\n");
+-				return -EPROBE_DEFER;
+-			}
+-			if (!gpio_is_valid(lcd->im_pins[i])) {
+-				dev_err(&spi->dev, "Missing dt property: im-gpios\n");
+-				return -EINVAL;
++	gpiod_set_consumer_name(lcd->reset, "hx8357-reset");
 +
- /**
-  * DOC: HuC
-  *
-@@ -107,11 +117,9 @@ static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrti
++	for (i = 0; i < HX8357_NUM_IM_PINS; i++) {
++		lcd->im_pins[i] = devm_gpiod_get_index(&spi->dev,
++						       "im", i, GPIOD_OUT_LOW);
++		ret = PTR_ERR_OR_ZERO(lcd->im_pins[i]);
++		if (ret) {
++			if (ret == -ENOENT) {
++				if (i == 0)
++					break;
++				dev_err(&spi->dev, "Missing im gpios[%d]\n", i);
++				ret = -EINVAL;
++			} if (ret == -EPROBE_DEFER) {
++				dev_info(&spi->dev, "im gpio[%d] is not here yet, deferring the probe\n",
++					 i);
++			} else {
++				dev_err(&spi->dev, "failed to request im gpio[%d]: %d\n",
++					i, ret);
+ 			}
  
- 	if (!intel_huc_is_authenticated(huc)) {
- 		if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
--			drm_notice(&huc_to_gt(huc)->i915->drm,
--				   "timed out waiting for MEI GSC init to load HuC\n");
-+			huc_notice(huc, "load timed out waiting for MEI GSC\n");
- 		else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
--			drm_notice(&huc_to_gt(huc)->i915->drm,
--				   "timed out waiting for MEI PXP init to load HuC\n");
-+			huc_notice(huc, "load timed out waiting for MEI PXP\n");
- 		else
- 			MISSING_CASE(huc->delayed_load.status);
- 
-@@ -174,8 +182,7 @@ static int gsc_notifier(struct notifier_block *nb, unsigned long action, void *d
- 
- 	case BUS_NOTIFY_DRIVER_NOT_BOUND: /* mei driver fails to be bound */
- 	case BUS_NOTIFY_UNBIND_DRIVER: /* mei driver about to be unbound */
--		drm_info(&huc_to_gt(huc)->i915->drm,
--			 "mei driver not bound, disabling HuC load\n");
-+		huc_info(huc, "MEI driver not bound, disabling load\n");
- 		gsc_init_error(huc);
- 		break;
- 	}
-@@ -193,8 +200,7 @@ void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus
- 	huc->delayed_load.nb.notifier_call = gsc_notifier;
- 	ret = bus_register_notifier(bus, &huc->delayed_load.nb);
- 	if (ret) {
--		drm_err(&huc_to_gt(huc)->i915->drm,
--			"failed to register GSC notifier\n");
-+		huc_err(huc, "failed to register GSC notifier %pe\n", ERR_PTR(ret));
- 		huc->delayed_load.nb.notifier_call = NULL;
- 		gsc_init_error(huc);
- 	}
-@@ -306,29 +312,25 @@ static int check_huc_loading_mode(struct intel_huc *huc)
- 			      GSC_LOADS_HUC;
- 
- 	if (fw_needs_gsc != hw_uses_gsc) {
--		drm_err(&gt->i915->drm,
--			"mismatch between HuC FW (%s) and HW (%s) load modes\n",
--			HUC_LOAD_MODE_STRING(fw_needs_gsc),
--			HUC_LOAD_MODE_STRING(hw_uses_gsc));
-+		huc_err(huc, "mismatch between FW (%s) and HW (%s) load modes\n",
-+			HUC_LOAD_MODE_STRING(fw_needs_gsc), HUC_LOAD_MODE_STRING(hw_uses_gsc));
- 		return -ENOEXEC;
+-			ret = devm_gpio_request_one(&spi->dev, lcd->im_pins[i],
+-						    GPIOF_OUT_INIT_LOW,
+-						    "im_pins");
+-			if (ret) {
+-				dev_err(&spi->dev, "failed to request gpio %d: %d\n",
+-					lcd->im_pins[i], ret);
+-				return -EINVAL;
+-			}
++			return ret;
+ 		}
+-	} else {
+-		lcd->use_im_pins = 0;
++
++		gpiod_set_consumer_name(lcd->im_pins[i], "im_pins");
++
++		lcd->use_im_pins = true;
  	}
  
- 	/* make sure we can access the GSC via the mei driver if we need it */
- 	if (!(IS_ENABLED(CONFIG_INTEL_MEI_PXP) && IS_ENABLED(CONFIG_INTEL_MEI_GSC)) &&
- 	    fw_needs_gsc) {
--		drm_info(&gt->i915->drm,
--			 "Can't load HuC due to missing MEI modules\n");
-+		huc_info(huc, "can't load due to missing MEI modules\n");
- 		return -EIO;
- 	}
- 
--	drm_dbg(&gt->i915->drm, "GSC loads huc=%s\n", str_yes_no(fw_needs_gsc));
-+	huc_dbg(huc, "loaded by GSC = %s\n", str_yes_no(fw_needs_gsc));
- 
- 	return 0;
- }
- 
- int intel_huc_init(struct intel_huc *huc)
- {
--	struct drm_i915_private *i915 = huc_to_gt(huc)->i915;
- 	int err;
- 
- 	err = check_huc_loading_mode(huc);
-@@ -345,7 +347,7 @@ int intel_huc_init(struct intel_huc *huc)
- 
- out:
- 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
--	drm_info(&i915->drm, "HuC init failed with %d\n", err);
-+	huc_info(huc, "initialization failed %pe\n", ERR_PTR(err));
- 	return err;
- }
- 
-@@ -389,13 +391,13 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
- 	delayed_huc_load_complete(huc);
- 
- 	if (ret) {
--		drm_err(&gt->i915->drm, "HuC: Firmware not verified %d\n", ret);
-+		huc_err(huc, "firmware not verified %pe\n", ERR_PTR(ret));
- 		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_LOAD_FAIL);
- 		return ret;
- 	}
- 
- 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
--	drm_info(&gt->i915->drm, "HuC authenticated\n");
-+	huc_info(huc, "authenticated!\n");
- 	return 0;
- }
- 
-@@ -430,7 +432,7 @@ int intel_huc_auth(struct intel_huc *huc)
- 
- 	ret = intel_guc_auth_huc(guc, intel_guc_ggtt_offset(guc, huc->fw.rsa_data));
- 	if (ret) {
--		DRM_ERROR("HuC: GuC did not ack Auth request %d\n", ret);
-+		huc_err(huc, "authentication by GuC failed %pe\n", ERR_PTR(ret));
- 		goto fail;
- 	}
- 
-@@ -442,7 +444,7 @@ int intel_huc_auth(struct intel_huc *huc)
- 	return 0;
- 
- fail:
--	i915_probe_error(gt->i915, "HuC: Authentication failed %d\n", ret);
-+	huc_probe_error(huc, "authentication failed %pe\n", ERR_PTR(ret));
- 	return ret;
- }
- 
+ 	lcdev = devm_lcd_device_register(&spi->dev, "mxsfb", &spi->dev, lcd,
 -- 
-2.25.1
+2.39.1.456.gfc5497dd1b-goog
 
