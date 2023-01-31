@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B0A68339F
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 18:18:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A40796833B6
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Jan 2023 18:20:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF6410E152;
-	Tue, 31 Jan 2023 17:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01DEE10E14C;
+	Tue, 31 Jan 2023 17:20:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13C0B10E2A4;
- Tue, 31 Jan 2023 17:18:31 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id r205so13407906oib.9;
- Tue, 31 Jan 2023 09:18:31 -0800 (PST)
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68BD210E14C;
+ Tue, 31 Jan 2023 17:20:43 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-1631b928691so20199284fac.11; 
+ Tue, 31 Jan 2023 09:20:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3NoU1EXovLnFLevH5+dru1O1RM5oa8IccUfESnUe7Q8=;
- b=MpgLmRdf4UpdmRw6C1M2N73PBlyKKVVdoyrSaCTLUHwPkUxnfQ7vzoggNfm4nM3JYu
- 5BM4MJfgOpsD/5EZ552iW/0xenZduj7kNYpREOM3WqBc7fs1rPN5OHg5/giLGl1rTPwt
- e/xNy0KxeTn6fzIaD6/WIfcCm7gD2A4bGV4g8FyfEXtGvLsyD4Y3aeee48Ui15U1q7id
- dbtaLzRgGpbqMjfKwqzsmn9YFEHW3iEh1OHrBa6iJAbQyJvaZWuUWA3NRVPej3A64vgm
- mkJUuln7McItNBp5jJqmwOEL9Rw3aXT5fSGauhpyG4mRQZpWVayDv8dFnhEGBhVXHbgm
- 5nfw==
+ bh=a5eYX76zIAVB8c95dz15j8MnE/5jf22tihPTxYs5fCU=;
+ b=O3ngQ/VkcLAuKvEdievGcuURl+oH+4IPZ4bQrAQgxM1UYmBKySfahajHio8W7xevPb
+ QzufZQQgW5xc/4zNiljJWzk52yK/qtS93CQvcHe8RsgllYZLkjqjkJkZ78Me+kjCDY5n
+ u9b3LjbzkpywoJT4kWqY3t7n1aJpcONUlFEzO1aYJPQJ6ny5m/uMVaxStOB/Ldd118I+
+ jSQ02FuU/njJlsSoWBtEJ8HJcWTbGgsgTkNOyAUPJf8at53k8HeB2dLcdRkByuz42ePv
+ nfKsUCMeu2VPnrPjmYYm78EqM8D41CtujqXkzXlxx0I/V/t6v7pa/NmgYRfnvpwsj/S0
+ r1bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3NoU1EXovLnFLevH5+dru1O1RM5oa8IccUfESnUe7Q8=;
- b=cl9DgV57TfrnWdP05ZC7CtFeEKdX7TzqgEQDv5sZi7sTz0ILyZw2flRT1sgrJ2mK5B
- KQPkqxR7aSdBNvdyPnITNiutUlFuH5izxomqYRd4QiMydsCCkp3ilVtymsXX805Uw8IP
- cMF5nfUosRqoE1OPxWK9bgmD/0N/7SRn4Cu2pQln9vd3gXWCY23we560HX/XHvfxCBZU
- Ly4kch+RQClh8uToCnNcJ0XhtRcXtN+DRhIpxLJym097y+LIbat9uS0fNSqAkvli/wrY
- S//Rlf5wdVq8DSDNN6ip8SfRpvolgDfZ9qRD2UPjrOg5CFFyxKMHpdWt41/mx/mh07ae
- +qEA==
-X-Gm-Message-State: AFqh2kpzbgWyMT6IYzNKsh97Fchc0jR85V3lDsZ5UX1QrjETeDEMcr7d
- tl4nk1O+WwSXLtvSMmP17aXpbKaMhgdPsKvXr/k=
-X-Google-Smtp-Source: AMrXdXtq9ETxjTpquXp6xMOCFLNGsDfdhQgYEHycqqdimQWIi+k0o73I+TMPM6JUs6ufmAIcvMZj4jdA3+gNyB/Lewo=
-X-Received: by 2002:a05:6808:4387:b0:35b:d93f:cbc4 with SMTP id
- dz7-20020a056808438700b0035bd93fcbc4mr3059225oib.96.1675185505458; Tue, 31
- Jan 2023 09:18:25 -0800 (PST)
+ bh=a5eYX76zIAVB8c95dz15j8MnE/5jf22tihPTxYs5fCU=;
+ b=usVkrbi/FptVApIjVjTHHUpUfENVMUyUihiNxMImwTSs7O0JNYgEoT1KJhadW16NO2
+ aO8M0s0z4GXIQZVljiaxYxQRH2UBgW1NoMsOwYk4X7vmlBS36FHcDwhx1NCyh3bgfDPy
+ ABd1l+sdz0Ih8CmGID221zh5IGyYYMKUwO3bbVgNFd+AtyvYxGE2cMnfJAx/Z9xVliof
+ ZF4U+4+nvkUw6LjLYGvqzoUF7LLgPk0lmEdETpE6YbR1JaJnBx33o7+SF1IXqSo+1cKX
+ W07fr+fLZYsxSA2qyXaVOgdUrYYYyeNK6vQkrwt3rmWk/U3WAkuSqyLaJDiI2KwwJTgu
+ aHKw==
+X-Gm-Message-State: AO0yUKUpWpYlR12wei79WBaVq3pEiXvLw+mBxduBQK8bt6bDufxmwBfD
+ SkaZmxt2eyBMNfW7oaOgCK1ak5HNsnBT4FzAxKo=
+X-Google-Smtp-Source: AK7set8grw5QUR1EUF7PjRLznxHD6+NW/n6GZEOFxILkd06E+DRdVlXMEF8HTULGdTUDD717b+hnU+ZJQJx1cOiy1rA=
+X-Received: by 2002:a05:6870:b522:b0:163:8cc6:86a with SMTP id
+ v34-20020a056870b52200b001638cc6086amr1617905oap.46.1675185642695; Tue, 31
+ Jan 2023 09:20:42 -0800 (PST)
 MIME-Version: 1.0
-References: <202301280939083976293@zte.com.cn>
-In-Reply-To: <202301280939083976293@zte.com.cn>
+References: <20230127013823.832698-1-trix@redhat.com>
+In-Reply-To: <20230127013823.832698-1-trix@redhat.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 31 Jan 2023 12:18:14 -0500
-Message-ID: <CADnq5_NhqLdLxvFXjNgD1oLz-yzf_ozqoM4HjxRVzMZPJCaFDQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/display: remove duplicate include header in
- files
-To: ye.xingchen@zte.com.cn
+Date: Tue, 31 Jan 2023 12:20:31 -0500
+Message-ID: <CADnq5_NpjoaU5+HThA5s5-KANfoYSgwr2Vj6pYuqWKqJrdXRkg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: reduce else-if to else in
+ dcn10_blank_pixel_data()
+To: Tom Rix <trix@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,40 +66,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: haoping.liu@amd.com, ian.chen@amd.com, dingchen.zhang@amd.com,
- sunpeng.li@amd.com, wenjing.liu@amd.com, xinhui.pan@amd.com,
- rodrigo.siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- george.shen@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: wenjing.liu@amd.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Anthony.Koo@amd.com, Rodrigo.Siqueira@amd.com,
+ amd-gfx@lists.freedesktop.org, alex.hung@amd.com, aurabindo.pillai@amd.com,
+ sivapiriyan.kumarasamy@amd.com, martin.tsai@amd.com, sunpeng.li@amd.com,
+ mwen@igalia.com, Tony.Cheng@amd.com, Dillon.Varone@amd.com,
+ dingchen.zhang@amd.com, Wesley.Chalmers@amd.com, Xinhui.Pan@amd.com,
+ Roman.Li@amd.com, Max.Tseng@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-Alex
-
-On Fri, Jan 27, 2023 at 8:39 PM <ye.xingchen@zte.com.cn> wrote:
+On Thu, Jan 26, 2023 at 8:38 PM Tom Rix <trix@redhat.com> wrote:
 >
-> From: ye xingchen <ye.xingchen@zte.com.cn>
+> checkpatch reports
+> drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c:2902:13: style:
+>   Expression is always true because 'else if' condition is opposite to previous condition at line 2895. [multiCondition]
+>  } else if (blank) {
+>             ^
+> drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c:2895:6: note: first condition
+>  if (!blank) {
+>      ^
+> drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c:2902:13: note: else if condition is opposite to first condition
+>  } else if (blank) {
 >
-> opp.h is included more than once.
+> It is not necessary to explicitly the check != condition, an else is simplier.
 >
-> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+> Fixes: aa5a57773042 ("drm/amd/display: Vari-bright looks disabled near end of MM14")
+> Signed-off-by: Tom Rix <trix@redhat.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/core/dc_link.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> index 6475664baa8a..1a2ab934b4bd 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> @@ -46,7 +46,6 @@
->  #include "dpcd_defs.h"
->  #include "dmcu.h"
->  #include "dsc.h"
-> -#include "opp.h"
->  #include "hw/clk_mgr.h"
->  #include "dce/dmub_psr.h"
->  #include "dmub/dmub_srv.h"
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> index bb155734ac93..f735ae5e045f 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+> @@ -2899,7 +2899,7 @@ void dcn10_blank_pixel_data(
+>                         dc->hwss.set_pipe(pipe_ctx);
+>                         stream_res->abm->funcs->set_abm_level(stream_res->abm, stream->abm_level);
+>                 }
+> -       } else if (blank) {
+> +       } else {
+>                 dc->hwss.set_abm_immediate_disable(pipe_ctx);
+>                 if (stream_res->tg->funcs->set_blank) {
+>                         stream_res->tg->funcs->wait_for_state(stream_res->tg, CRTC_STATE_VBLANK);
 > --
-> 2.25.1
+> 2.26.3
+>
