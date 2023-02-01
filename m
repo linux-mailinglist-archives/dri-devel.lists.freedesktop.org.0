@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DAC6870C8
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 23:01:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 574FF6870F2
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 23:28:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D462010E091;
-	Wed,  1 Feb 2023 22:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE8E810E1A3;
+	Wed,  1 Feb 2023 22:28:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6AD10E091
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 22:01:10 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 2FFEA85E33;
- Wed,  1 Feb 2023 23:00:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1675288863;
- bh=6GRRYt5aNMZNRsKyHoSmp4/NA2MSLR8z21thUyNxF1o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=icLiCMCaFPfnCGXlot0hfgoXpeWQFDjCihSFyAxIBm7/YABoRyyMJc5GyjfyHyX6U
- CkHVLhAQrBSSbEl1lhQMVjm7eFmrQxh9ofDHD7WOyD2qWD0s9eAS0uagJNQt8I2AGH
- NvZC53e+0VJkdQlpDJc9Ht6E9hrWN39wtm4mnUyAd8+9/gGEsvn6eo57Ts2hp0UyOj
- S7JrrpQX+bQbXQfCAc3CRIvY9vGyePNVwlQ9W2RVvz80rOlqtIHzlh59Ml0gesyBBG
- q1nDTSIdSPFmjacwDU7HSRCROLLxFVbHOihDdv7lrFVxpj2H8MjN70vcFT6FdvbxeK
- W32yJYqhuMlEg==
-Message-ID: <dcc28c36-9b09-ea92-be21-665c6cbf35b3@denx.de>
-Date: Wed, 1 Feb 2023 23:00:54 +0100
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA5610E1A3;
+ Wed,  1 Feb 2023 22:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675290517; x=1706826517;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=q5zCMQ8i+T+NLbdI+kb3KovMphPiz+ZVDmw6YhoUWyE=;
+ b=PDaMEQJYLTAG/hU6/OatZEojI2EP+7ko7DPQJ1qJWyJicTiWOsBoYG/l
+ nb+Jy5lfHKrVBfqLj/UlSorZNvwmRK1jZr2NY+CZUOoWBL9MxiiX7w+2z
+ HUxOyJbg21JFBfhV+goQTxjIo5NrInHYVv9nzYoLGsRkAsBCkCdFiIvt8
+ dgD2IfWsdvRQS6QVC4+/oA0fOsTTomdP1IoJzn+qX5yL/rixnK0J/pJic
+ LMcQzW7AiIraUF8eOEEifkJGRqO1sgdGt7Q1+TR/tzB9jSrOxHOh53kI/
+ kXLvf1fQJtzVXQhP4UqNU4dPjpthmYQLmRecfvU/UgktJgA3obXuIpP9p Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="355626145"
+X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; d="scan'208";a="355626145"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2023 14:28:36 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807733572"
+X-IronPort-AV: E=Sophos;i="5.97,265,1669104000"; d="scan'208";a="807733572"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2023 14:28:36 -0800
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/4] drm/i915/pvc: Annotate two more workaround/tuning
+ registers as MCR
+Date: Wed,  1 Feb 2023 14:28:28 -0800
+Message-Id: <20230201222831.608281-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
-Content-Language: en-US
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>,
- Jagan Teki <jagan@amarulasolutions.com>
-References: <20230126144427.607098-1-jagan@amarulasolutions.com>
- <06e5423f-c022-7a1c-efe0-0f4fbab664c1@prevas.dk>
- <CAMty3ZBRDDnNdmgD5ji11SdCuOcmu3ZyBPyB28cF1aRTyxp+fg@mail.gmail.com>
- <be95e4f7-15a8-ba99-6b39-6f7f0ea71201@prevas.dk>
- <CAMty3ZBNLpV9orVRD897ZeR3Hj9RWOau07b1ZGDUoBRej=Cj-Q@mail.gmail.com>
- <31ccc974-4b01-ae47-9505-626617f07758@denx.de>
- <f6cea911-783c-f59d-503c-1576358ae7cb@prevas.dk>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <f6cea911-783c-f59d-503c-1576358ae7cb@prevas.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,71 +55,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, matteo.lisi@engicam.com,
- linux-amarula@amarulasolutions.com, sw0312.kim@samsung.com,
- dri-devel@lists.freedesktop.org, frieder.schrempf@kontron.de,
- kyungmin.park@samsung.com, Laurent.pinchart@ideasonboard.com,
- andrzej.hajda@intel.com, m.szyprowski@samsung.com, aford173@gmail.com,
- linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/30/23 13:45, Rasmus Villemoes wrote:
-> On 27/01/2023 12.30, Marek Vasut wrote:
->> On 1/27/23 12:04, Jagan Teki wrote:
-> 
->>>> Thanks, but that's exactly what I'm doing, and I don't see any
->>>> modification of imx8mp.dtsi in that branch. I'm basically looking for
->>>> help to do the equivalent of
->>>>
->>>>     88775338cd58 - arm64: dts: imx8mm: Add MIPI DSI pipeline
->>>>     f964f67dd6ee - arm64: dts: imx8mm: Add eLCDIF node support
->>>>
->>>> for imx8mp in order to test those patches on our boards (we have two
->>>> variants).
->>>
->>> Marek, any help here, thanks.
->>
->> Try attached patch.
-> 
-> Thanks. I removed the lcdif2 and ldb nodes I had added from Alexander's
-> patch (94e6197dadc9 in linux-next) in order to apply it. I get a couple
-> of errors during boot:
-> 
->    clk: /soc@0/bus@32c00000/mipi_dsi@32e60000: failed to reparent
-> media_apb to sys_pll1_266m: -22
-> 
-> and enabling a pr_debug in clk_core_set_parent_nolock() shows that this
-> is because
-> 
->    clk_core_set_parent_nolock: clk sys_pll1_266m can not be parent of clk
-> media_apb
-> 
-> Further, the mipi_dsi fails to probe due to
-> 
->    /soc@0/bus@32c00000/mipi_dsi@32e60000: failed to get
-> 'samsung,burst-clock-frequency' property
-> 
-> All other .dtsi files seem to have those samsung,burst-clock-frequency
-> and samsung,esc-clock-frequency properties, so I suppose those should
-> also go into the imx8mp.dtsi and are not something that the board .dts
-> file should supply(?).
+XEHPC_LNCFMISCCFGREG0 and XEHPC_L3SCRUB are both in MCR register ranges
+on PVC (with HALFBSLICE and L3BANK replication respectively), so they
+should be explicitly declared as MCR registers and use MCR-aware
+workaround handlers.
 
-No, that samsung,esc-clock-frequency (should be some 10-20 MHz, based on 
-your panel/bridge) and samsung,burst-clock-frequency (that's the HS 
-clock) should go into board DT, as those are property of the attached 
-panel/bridge.
+The workarounds/tuning settings should still be applied properly on PVC
+even without the MCR annotation, but readback verification on
+CONFIG_DRM_I915_DEBUG_GEM builds could potentitally give false positive
+"workaround lost on load" warnings on parts fused such that a unicast
+read targets a terminated register instance.
 
-> [There's also some differences between your patch and Alexander's
-> regarding the lcdif2 and ldb nodes, so while my lvds display still sorta
-> works, I get
-> 
->    fsl-ldb 32ec0000.blk-ctrl:lvds-ldb: Configured LDB clock (297000000
-> Hz) does not match requested LVDS clock: 346500000 Hz
-> 
-> and the image is oddly distorted/shifted. But I suppose that's
-> orthogonal to getting the lcdif1 -> mipi-dsi -> ... pipeline working.]
+Fixes: a9e69428b1b4 ("drm/i915: Define MCR registers explicitly")
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 12 +++++++++---
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-Alexander is right in the reply below, you have to configure the LVDS 
-serializer clock in DT and they must match LCDIF2 pixel clock which are 
-also configured in DT then, else you won't get the correct LVDS clock.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 7fa18a3b3957..928698c621e5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -979,7 +979,7 @@
+ #define   GEN7_WA_FOR_GEN7_L3_CONTROL		0x3C47FF8C
+ #define   GEN7_L3AGDIS				(1 << 19)
+ 
+-#define XEHPC_LNCFMISCCFGREG0			_MMIO(0xb01c)
++#define XEHPC_LNCFMISCCFGREG0			MCR_REG(0xb01c)
+ #define   XEHPC_HOSTCACHEEN			REG_BIT(1)
+ #define   XEHPC_OVRLSCCC			REG_BIT(0)
+ 
+@@ -1042,7 +1042,7 @@
+ #define XEHP_L3SCQREG7				MCR_REG(0xb188)
+ #define   BLEND_FILL_CACHING_OPT_DIS		REG_BIT(3)
+ 
+-#define XEHPC_L3SCRUB				_MMIO(0xb18c)
++#define XEHPC_L3SCRUB				MCR_REG(0xb18c)
+ #define   SCRUB_CL_DWNGRADE_SHARED		REG_BIT(12)
+ #define   SCRUB_RATE_PER_BANK_MASK		REG_GENMASK(2, 0)
+ #define   SCRUB_RATE_4B_PER_CLK			REG_FIELD_PREP(SCRUB_RATE_PER_BANK_MASK, 0x6)
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 29718d0595f4..f45ca3d4a07c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -240,6 +240,12 @@ wa_write(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
+ 	wa_write_clr_set(wal, reg, ~0, set);
+ }
+ 
++static void
++wa_mcr_write(struct i915_wa_list *wal, i915_mcr_reg_t reg, u32 set)
++{
++	wa_mcr_write_clr_set(wal, reg, ~0, set);
++}
++
+ static void
+ wa_write_or(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
+ {
+@@ -2892,9 +2898,9 @@ add_render_compute_tuning_settings(struct drm_i915_private *i915,
+ 				   struct i915_wa_list *wal)
+ {
+ 	if (IS_PONTEVECCHIO(i915)) {
+-		wa_write(wal, XEHPC_L3SCRUB,
++		wa_mcr_write(wal, XEHPC_L3SCRUB,
+ 			 SCRUB_CL_DWNGRADE_SHARED | SCRUB_RATE_4B_PER_CLK);
+-		wa_masked_en(wal, XEHPC_LNCFMISCCFGREG0, XEHPC_HOSTCACHEEN);
++		wa_mcr_masked_en(wal, XEHPC_LNCFMISCCFGREG0, XEHPC_HOSTCACHEEN);
+ 	}
+ 
+ 	if (IS_DG2(i915)) {
+@@ -2984,7 +2990,7 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
+ 
+ 	if (IS_PONTEVECCHIO(i915)) {
+ 		/* Wa_16016694945 */
+-		wa_masked_en(wal, XEHPC_LNCFMISCCFGREG0, XEHPC_OVRLSCCC);
++		wa_mcr_masked_en(wal, XEHPC_LNCFMISCCFGREG0, XEHPC_OVRLSCCC);
+ 	}
+ 
+ 	if (IS_XEHPSDV(i915)) {
+-- 
+2.39.1
+
