@@ -1,77 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3537C686776
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 14:51:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7532686826
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 15:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8403310E400;
-	Wed,  1 Feb 2023 13:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23BDE89190;
+	Wed,  1 Feb 2023 14:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F129E10E402;
- Wed,  1 Feb 2023 13:51:09 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- m16-20020a05600c3b1000b003dc4050c94aso1486860wms.4; 
- Wed, 01 Feb 2023 05:51:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=skHdOUp8a0O2VeWC0Ud27F7Yg35quVymPzucu8ggf5c=;
- b=lgqYQTYgmGKYJ3VcE3XqFsCLGAX/Zmt8c/6e0c1SgNnvDHSZVeZ9P5i9M8YYsxcmZa
- 91GSQZ+BPi0OpXsAW4x91Hkb+RPCW6//wvl/leUU6T3LLrI3jQP+7TtdzMZbDgKqaUH2
- lUhB3ReSwYPlArKYc6G+egKktrYvh1uV3pYDrHS4lNxuY0ROM01e7WonAp3pJ7qjE/J9
- Vi2LnZoJwXpbucDjvskR/yvh0sBGMRcHoCJocEKRpX/+dgSfxu8KecIoDr3GpeEZN4gP
- VVaC6CVXNGlIGQ56Ot8zRbz3f00XBAVFZa+qWXcCsEfMXglAivF4zMYgdd0/rAcB0KAh
- bx4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=skHdOUp8a0O2VeWC0Ud27F7Yg35quVymPzucu8ggf5c=;
- b=KHktrMvkSfqyQtZkLkvGlX08uKn1E3xr17XbOIP0Hk8gwB+vdhBQq3rHFDVl6yKcwG
- 5Zzqksj0D47AmRa/LN1mmcVo5AQ0FvUChHKeXbJuHbZbO1HaKDsw9RnC9/sun95slSvg
- NdhKIEN3JlbOQy9bB4ktdThGWsi21wbYc4gze9FFSSJ3XU2mAb+DORE6xh0yKEalhW+o
- 2UnPJklDuhAhFrGHFbBa4DhDwCPAKCwEG2Z6g+gZ+hG0dXOFDpY/73j6ixOazp9l8YEU
- WWLC7YJGHJYJiodc58x1PpA7jTzJXXAXvwWBxugeaBM/SDBK/KOh0IgNXpiyfT/cVz8Q
- Sv1g==
-X-Gm-Message-State: AO0yUKXjrOH4eHNjbc/3eD25A3o4tSBQpvTdCt5KFAj8l9BCwHMsHP5W
- wx1CsGdViip/s/lDHq+gSWQ=
-X-Google-Smtp-Source: AK7set/asA5ao0giThJfFqWEnETU4WRPPmZ/hdU64C5avUmycquMj1kcyW3sm8UkFcf/wTzMYWmJPw==
-X-Received: by 2002:a05:600c:1e24:b0:3da:f665:5b66 with SMTP id
- ay36-20020a05600c1e2400b003daf6655b66mr2454442wmb.6.1675259468375; 
- Wed, 01 Feb 2023 05:51:08 -0800 (PST)
-Received: from [192.168.1.10] (97e09f27.skybroadband.com. [151.224.159.39])
- by smtp.googlemail.com with ESMTPSA id
- i13-20020a1c540d000000b003db03725e86sm1903981wmb.8.2023.02.01.05.51.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 05:51:07 -0800 (PST)
-Message-ID: <1632a9ef-2954-c8f0-cdc9-03157c9d8547@googlemail.com>
-Date: Wed, 1 Feb 2023 13:51:03 +0000
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30C8989190
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 14:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675261417; x=1706797417;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8sZMEHk8pe9rMkHcroXBwwvy+4dmtJw9gS0wdi+sTdY=;
+ b=PrERx5gfAgGMChnJIoY8Tth0rwywNIM9UgCexv+XDeHMxTZF9EjHXfTc
+ XNNQ0Dwr2FQiX//GrbFiRvob5DjlHQvHCzbKLcXGlkef4+b/6FnPM8HCr
+ d8M+Q5tPkEW316siXhTxzKpPic5JEKQCmF8s+DvTy1JGu9tzFwn+F7wfd
+ 4IojU4u1DmMM5t8A8V57vsoRBEk4E/6C/mX3v4QjtZXeERbNIJrxYPbmG
+ 3ldRoIguCWVPSQ8wK2Ranu7HUaxp/nqofsBIqiB20cvP+RCKTdYr+iNz8
+ IVxxkh7VpolucmP2/1rMu8s1TdF+NnyRvzlQEE5znMlaEmoD6OXhEXG1g Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="308493814"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; d="scan'208";a="308493814"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2023 06:23:36 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807578398"
+X-IronPort-AV: E=Sophos;i="5.97,263,1669104000"; d="scan'208";a="807578398"
+Received: from jazminsx-mobl1.ger.corp.intel.com (HELO [10.213.218.124])
+ ([10.213.218.124])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Feb 2023 06:23:30 -0800
+Message-ID: <15adf130-61f7-2423-2a48-883e611e3304@linux.intel.com>
+Date: Wed, 1 Feb 2023 14:23:28 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-From: Chris Clayton <chris2553@googlemail.com>
-Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
-To: Ben Skeggs <skeggsb@gmail.com>
-References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
- <fcec3c78-b5d9-eb48-0fc0-d1f27de87f23@leemhuis.info>
- <b21fa1f6-a71d-5657-8596-ee0be73185ea@leemhuis.info>
- <3ab28896-70e9-6f90-5b97-e5397b06e715@googlemail.com>
- <a163dd7b-c5d1-a07b-a816-7a2dfd3edfd4@leemhuis.info>
- <ab1b0f73-6b4e-8602-2999-b7bec25d92db@googlemail.com>
- <CACAvsv4sOtPjCVnEcKd2RCUqYWxSn5XKyksbS-Bds2qCqyusVw@mail.gmail.com>
- <1cdb84ac-f7a8-66ba-98fc-3db302b49a5a@googlemail.com>
- <dab6eb81-db3f-8fa1-84ad-9b40e209514b@googlemail.com>
- <CACAvsv5iYdF3P8AbyrbYo3zGmYRYhxDWn7WbAR5V9qHpbgBXRA@mail.gmail.com>
-Content-Language: en-GB
-In-Reply-To: <CACAvsv5iYdF3P8AbyrbYo3zGmYRYhxDWn7WbAR5V9qHpbgBXRA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
+Content-Language: en-US
+To: "T.J. Mercier" <tjmercier@google.com>
+References: <20230123191728.2928839-1-tjmercier@google.com>
+ <20230123191728.2928839-2-tjmercier@google.com>
+ <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
+ <20230124194628.d44rtcfsv23fndxw@google.com>
+ <Y9EX+usSpAjZ/8LS@dhcp22.suse.cz>
+ <347560bc-d06a-92b7-8003-133d2b8af2df@linux.intel.com>
+ <CABdmKX09S3bYzX+xBkhfkFULk2BtzS11RhzrvWv94j+cHSezPA@mail.gmail.com>
+ <ad6bd448-91bd-d47e-5b54-8755fe0e0340@linux.intel.com>
+ <CABdmKX3VSdF3jmktpw9VH4k+J+ZtQCLCPdNN6uye4XnZGPhG5g@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CABdmKX3VSdF3jmktpw9VH4k+J+ZtQCLCPdNN6uye4XnZGPhG5g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,113 +69,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Karol Herbst <kherbst@redhat.com>, ML nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com
+Cc: Michal Hocko <mhocko@suse.com>, linux-doc@vger.kernel.org,
+ daniel.vetter@ffwll.ch, Roman Gushchin <roman.gushchin@linux.dev>,
+ cmllamas@google.com, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ jstultz@google.com, Zefan Li <lizefan.x@bytedance.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, android-mm@google.com,
+ Jonathan Corbet <corbet@lwn.net>, jeffv@google.com,
+ linux-media@vger.kernel.org, selinux@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
+ cgroups@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 30/01/2023 23:27, Ben Skeggs wrote:
-> On Tue, 31 Jan 2023 at 09:09, Chris Clayton <chris2553@googlemail.com> wrote:
+On 01/02/2023 01:49, T.J. Mercier wrote:
+> On Tue, Jan 31, 2023 at 6:01 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
 >>
->> Hi again.
 >>
->> On 30/01/2023 20:19, Chris Clayton wrote:
->>> Thanks, Ben.
->>
->> <snip>
->>
->>>> Hey,
+>> On 25/01/2023 20:04, T.J. Mercier wrote:
+>>> On Wed, Jan 25, 2023 at 9:31 AM Tvrtko Ursulin
+>>> <tvrtko.ursulin@linux.intel.com> wrote:
 >>>>
->>>> This is a complete shot-in-the-dark, as I don't see this behaviour on
->>>> *any* of my boards.  Could you try the attached patch please?
->>>
->>> Unfortunately, the patch made no difference.
->>>
->>> I've been looking at how the graphics on my laptop is set up, and have a bit of a worry about whether the firmware might
->>> be playing a part in this problem. In order to offload video decoding to the NVidia TU117 GPU, it seems the scrubber
->>> firmware must be available, but as far as I know,that has not been released by NVidia. To get it to work, I followed
->>> what ubuntu have done and the scrubber in /lib/firmware/nvidia/tu117/nvdec/ is a symlink to
->>> ../../tu116/nvdev/scrubber.bin. That, of course, means that some of the firmware loaded is for a different card is being
->>> loaded. I note that processing related to firmware is being changed in the patch. Might my set up be at the root of my
->>> problem?
->>>
->>> I'll have a fiddle an see what I can work out.
->>>
->>> Chris
->>>
 >>>>
->>>> Thanks,
->>>> Ben.
+>>>> Hi,
 >>>>
+>>>> On 25/01/2023 11:52, Michal Hocko wrote:
+>>>>> On Tue 24-01-23 19:46:28, Shakeel Butt wrote:
+>>>>>> On Tue, Jan 24, 2023 at 03:59:58PM +0100, Michal Hocko wrote:
+>>>>>>> On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
+>>>>>>>> When a buffer is exported to userspace, use memcg to attribute the
+>>>>>>>> buffer to the allocating cgroup until all buffer references are
+>>>>>>>> released.
+>>>>>>>
+>>>>>>> Is there any reason why this memory cannot be charged during the
+>>>>>>> allocation (__GFP_ACCOUNT used)?
+>>>>>>> Also you do charge and account the memory but underlying pages do not
+>>>>>>> know about their memcg (this is normally done with commit_charge for
+>>>>>>> user mapped pages). This would become a problem if the memory is
+>>>>>>> migrated for example.
+>>>>>>
+>>>>>> I don't think this is movable memory.
+>>>>>>
+>>>>>>> This also means that you have to maintain memcg
+>>>>>>> reference outside of the memcg proper which is not really nice either.
+>>>>>>> This mimicks tcp kmem limit implementation which I really have to say I
+>>>>>>> am not a great fan of and this pattern shouldn't be coppied.
+>>>>>>>
+>>>>>>
+>>>>>> I think we should keep the discussion on technical merits instead of
+>>>>>> personal perference. To me using skmem like interface is totally fine
+>>>>>> but the pros/cons need to be very explicit and the clear reasons to
+>>>>>> select that option should be included.
 >>>>>
+>>>>> I do agree with that. I didn't want sound to be personal wrt tcp kmem
+>>>>> accounting but the overall code maintenance cost is higher because
+>>>>> of how tcp take on accounting differs from anything else in the memcg
+>>>>> proper. I would prefer to not grow another example like that.
+>>>>>
+>>>>>> To me there are two options:
+>>>>>>
+>>>>>> 1. Using skmem like interface as this patch series:
+>>>>>>
+>>>>>> The main pros of this option is that it is very simple. Let me list down
+>>>>>> the cons of this approach:
+>>>>>>
+>>>>>> a. There is time window between the actual memory allocation/free and
+>>>>>> the charge and uncharge and [un]charge happen when the whole memory is
+>>>>>> allocated or freed. I think for the charge path that might not be a big
+>>>>>> issue but on the uncharge, this can cause issues. The application and
+>>>>>> the potential shrinkers have freed some of this dmabuf memory but until
+>>>>>> the whole dmabuf is freed, the memcg uncharge will not happen. This can
+>>>>>> consequences on reclaim and oom behavior of the application.
+>>>>>>
+>>>>>> b. Due to the usage model i.e. a central daemon allocating the dmabuf
+>>>>>> memory upfront, there is a requirement to have a memcg charge transfer
+>>>>>> functionality to transfer the charge from the central daemon to the
+>>>>>> client applications. This does introduce complexity and avenues of weird
+>>>>>> reclaim and oom behavior.
+>>>>>>
+>>>>>>
+>>>>>> 2. Allocate and charge the memory on page fault by actual user
+>>>>>>
+>>>>>> In this approach, the memory is not allocated upfront by the central
+>>>>>> daemon but rather on the page fault by the client application and the
+>>>>>> memcg charge happen at the same time.
+>>>>>>
+>>>>>> The only cons I can think of is this approach is more involved and may
+>>>>>> need some clever tricks to track the page on the free patch i.e. we to
+>>>>>> decrement the dmabuf memcg stat on free path. Maybe a page flag.
+>>>>>>
+>>>>>> The pros of this approach is there is no need have a charge transfer
+>>>>>> functionality and the charge/uncharge being closely tied to the actual
+>>>>>> memory allocation and free.
+>>>>>>
+>>>>>> Personally I would prefer the second approach but I don't want to just
+>>>>>> block this work if the dmabuf folks are ok with the cons mentioned of
+>>>>>> the first approach.
+>>>>>
+>>>>> I am not familiar with dmabuf internals to judge complexity on their end
+>>>>> but I fully agree that charge-when-used is much more easier to reason
+>>>>> about and it should have less subtle surprises.
+>>>>
+>>>> Disclaimer that I don't seem to see patches 3&4 on dri-devel so maybe I
+>>>> am missing something, but in principle yes, I agree that the 2nd option
+>>>> (charge the user, not exporter) should be preferred. Thing being that at
+>>>> export time there may not be any backing store allocated, plus if the
+>>>> series is restricting the charge transfer to just Android clients then
+>>>> it seems it has the potential to miss many other use cases. At least
+>>>> needs to outline a description on how the feature will be useful outside
+>>>> Android.
+>>>>
+>>> There is no restriction like that. It's available to anybody who wants
+>>> to call dma_buf_charge_transfer if they actually have a need for that,
+>>> which I don't really expect to be common since most users/owners of
+>>> the buffers will be the ones causing the export in the first place.
+>>> It's just not like that on Android with the extra allocator process in
+>>> the middle most of the time.
 >>
->> Well, my fiddling has got my system rebooting and shutting down successfully again. I found that if I delete the symlink
->> to the scrubber firmware, reboot and shutdown work again. There are however, a number of other files in the tu117
->> firmware directory tree that that are symlinks to actual files in its tu116 counterpart. So I deleted all of those too.
->> Unfortunately, the absence of one or more of those symlinks causes Xorg to fail to start. I've reinstated all the links
->> except scrubber and I now have a system that works as it did until I tried to run a kernel that includes the bad commit
->> I identified in my bisection. That includes offloading video decoding to the NVidia card, so what ever I read that said
->> the scrubber firmware was needed seems to have been wrong. I get a new message that (nouveau 0000:01:00.0: fb: VPR
->> locked, but no scrubber binary!), but, hey, we can't have everything.
+>> Yeah I used the wrong term "restrict", apologies. What I meant was, if
+>> the idea was to allow spotting memory leaks, with the charge transfer
+>> being optional and in the series only wired up for Android Binder, then
+>> it obviously only fully works for that one case. So a step back..
 >>
->> If you still want to get to the bottom of this, let me know what you need me to provide and I'll do my best. I suspect
->> you might want to because there will a n awful lot of Ubuntu-based systems out there with that scrubber.bin symlink in
->> place. On the other hand,m it could but quite a while before ubuntu are deploying 6.2 or later kernels.
-> The symlinks are correct - whole groups of GPUs share the same FW, and
-> we use symlinks in linux-firmware to represent this.
+> Oh, spotting kernel memory leaks is a side-benefit of accounting
+> kernel-only buffers in the root cgroup. The primary goal is to
+> attribute buffers to applications that originated them (via
+> per-application cgroups) simply for accounting purposes. Buffers are
+> using memory on the system, and we want to know who created them and
+> how much memory is used. That information is/will no longer available
+> with the recent deprecation of the dmabuf sysfs statistics.
 > 
-> I don't really have any ideas how/why this patch causes issues with
-> shutdown - it's a path that only gets executed during initialisation.
-> Can you try and capture the kernel log during shutdown ("dmesg -w"
-> over ssh? netconsole?), and see if there's any relevant messages
-> providing a hint at what's going on?  Alternatively, you could try
-> unloading the module (you will have to stop X/wayland/gdm/etc/etc
-> first) and seeing if that hangs too.
+>> .. For instance, it is not feasible to transfer the charge when dmabuf
+>> is attached, or imported? That would attribute the usage to the
+>> user/importer so give better visibility on who is actually causing the
+>> memory leak.
+>>
+> Instead of accounting at export, we could account at attach. That just
+> turns out not to be very useful when the majority of our
+> heap-allocated buffers don't have attachments at any particular point
+> in time. :\ But again it's less about leaks and more about knowing
+> which buffers exist in the first place.
 > 
-> Ben.
-
-Sorry for the delay - I've been learning about netconsole and netcat. However, I had no success with ssh and netconsole
-produced a log with nothing unusual in it.
-
-Simply stopping Xorg and removing the nouveau module succeeds.
-
-So, I rebuilt rc6+ after a pull from linus' tree this morning and set the nouveau debug level to 7. I then booted to a
-console before doing a reboot (with Ctl+Alt+Del). As expected the machine locked up just before it would ordinarily
-restart. The last few lines on the console might be helpful:
-
-...
-nouveau 0000:01:00:0  fifo: preinit running...
-nouveau 0000:01:00:0  fifo: preinit completed in 4us
-nouveau 0000:01:00:0  gr: preinit running...
-nouveau 0000:01:00:0  gr: preinit completed in 0us
-nouveau 0000:01:00:0  nvdec0: preinit running...
-nouveau 0000:01:00:0  nvdec0: preinit completed in 0us
-nouveau 0000:01:00:0  nvdec0: preinit running...
-nouveau 0000:01:00:0  nvdec0: preinit completed in 0us
-nouveau 0000:01:00:0  sec2: preinit running...
-nouveau 0000:01:00:0  sec2: preinit completed in 0us
-nouveau 0000:01:00:0  fb:.VPR locked, running scrubber binary
-
-These messages appear after the "sd 4:0:0:0 [sda] Stopping disk" I reported in my initial email.
-
-After the "running scrubber" line appears the machine is locked and I have to hold down the power button to recover. I
-get the same outcome from running "halt -dip", "poweroff -di" and "shutdown -h -P now". I guess it's no surprise that
-all three result in the same outcome because invocations halt, poweroff and reboot (without the -f argument)from a
-runlevel other than 0 resukt in shutdown being run. switching to runlevel 0 with "telenit 0" results in the same
-messages from nouveau followed by the lockup.
-
-Let me know if you need any additional diagnostics.
-
-Chris
-
-> 
+>> Further more, if above is feasible, then could it also be implemented in
+>> the common layer so it would automatically cover all drivers?
 >>
->> Thanks,
+> Which common layer code specifically? The dmabuf interface appears to
+> be the most central/common place to me.
+
+Yes, I meant dma_buf_attach / detach. More below.
+>>>> Also stepping back for a moment - is a new memory category really
+>>>> needed, versus perhaps attempting to charge the actual backing store
+>>>> memory to the correct client? (There might have been many past
+>>>> discussions on this so it's okay to point me towards something in the
+>>>> archives.)
+>>>>
+>>> Well the dmabuf counter for the stat file is really just a subcategory
+>>> of memory that is charged. Its existence is not related to getting the
+>>> charge attributed to the right process/cgroup. We do want to know how
+>>> much of the memory attributed to a process is for dmabufs, which is
+>>> the main point of this series.
 >>
->> Chris
+>> Then I am probably missing something because the statement how proposal
+>> is not intended to charge to the right process, but wants to know how
+>> much dmabuf "size" is attributed to a process, confuses me due a seeming
+>> contradiction. And the fact it would not be externally observable how
+>> much of the stats is accurate and how much is not (without knowing the
+>> implementation detail of which drivers implement charge transfer and
+>> when). Maybe I completely misunderstood the use case.
 >>
->> <snip>
+> Hmm, did I clear this up above or no? The current proposal is for the
+> process causing the export of a buffer to be charged for it,
+> regardless of whatever happens afterwards. (Unless that process is
+> like gralloc on Android, in which case the charge is transferred from
+> gralloc to whoever called gralloc to allocate the buffer on their
+> behalf.)
+
+Main problem for me is that charging at export time has no relation to memory used. But I am not familiar with the memcg counters to know if any other counter sets that same precedent. If all other are about real memory use then IMO this does not fit that well. I mean specifically this:
+
++	  dmabuf (npn)
++		Amount of memory used for exported DMA buffers allocated by the cgroup.
++		Stays with the allocating cgroup regardless of how the buffer is shared.
++
+
+I think that "Amount of memory used for exported..." is not correct. As implemented it is more akin the virtual address space size in the cpu space - it can have no relation to the actual usage since backing store is not allocated until the attachment is made.
+
+Then also this:
+
+@@ -446,6 +447,8 @@ struct dma_buf {
+  		struct dma_buf *dmabuf;
+  	} *sysfs_entry;
+  #endif
++	/* The cgroup to which this buffer is currently attributed */
++	struct mem_cgroup *memcg;
+  };
+
+Does not conceptually fit in my mind. Dmabufs are not associated with one cgroup at a time.
+
+So if you would place tracking into dma_buf_attach/detach you would be able to charge to correct cgroup regardless of a driver and since by contract at this stage there is backing store, the reflected memory usage counter would be truthful.
+
+But then you state a problem, that majority of the time there are no attachments in your setup, and you also say the proposal is not so much about leaks but more about knowing what is exported.
+
+In this case you could additionally track that via dma_buf_getfile / dma_buf_file_release as a separate category like dmabuf-exported? But again, I personally don't know if such "may not really be using memory" counters fit in memcg.
+
+(Hm you'd probably still need dmabuf->export_memcg to store who was the original caller of dma_buf_getfile, in case last reference is dropped from a different process/context. Even dmabuf->attach_memcg for attach/detach to work correctly for the same reason.)
+
+Regards,
+
+Tvrtko
