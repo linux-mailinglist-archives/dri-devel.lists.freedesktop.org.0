@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F00686A3D
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 16:27:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2D0686A43
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 16:29:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E480610E412;
-	Wed,  1 Feb 2023 15:27:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1A3410E418;
+	Wed,  1 Feb 2023 15:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E2710E412
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 15:27:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 199EA10E418
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 15:29:12 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1pNF1X-00016z-Nd; Wed, 01 Feb 2023 16:27:47 +0100
+ id 1pNF2q-0001Cd-VI; Wed, 01 Feb 2023 16:29:09 +0100
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
-Subject: [PATCH] drm/etnaviv: show number of NN cores in GPU debugfs info
-Date: Wed,  1 Feb 2023 16:27:47 +0100
-Message-Id: <20230201152747.1428179-1-l.stach@pengutronix.de>
+Subject: [PATCH] drm/etnaviv: add HWDB entry for VIP8000 Nano r8002
+Date: Wed,  1 Feb 2023 16:29:07 +0100
+Message-Id: <20230201152907.1443837-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -42,33 +42,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For NPUs the number of NN cores is a interesting property, which is useful
-to show in the debugfs information.
+This is the NPU found on the NXP i.MX8MP SoC. Feature bits taken
+from the downstream kernel driver 6.4.3.p4.4.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_hwdb.c | 32 ++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 27c10584773d..de8c9894967c 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -961,6 +961,8 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
- 			gpu->identity.vertex_cache_size);
- 	seq_printf(m, "\t shader_core_count: %d\n",
- 			gpu->identity.shader_core_count);
-+	seq_printf(m, "\t nn_core_count: %d\n",
-+			gpu->identity.nn_core_count);
- 	seq_printf(m, "\t pixel_pipes: %d\n",
- 			gpu->identity.pixel_pipes);
- 	seq_printf(m, "\t vertex_output_buffer_size: %d\n",
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+index 383a1a97ea6a..7f700d79d74d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_hwdb.c
+@@ -196,6 +196,38 @@ static const struct etnaviv_chip_identity etnaviv_chip_identities[] = {
+ 		.minor_features10 = 0x108048c0,
+ 		.minor_features11 = 0x00000010,
+ 	},
++	{
++		.model = 0x8000,
++		.revision = 0x8002,
++		.product_id = 0x5080009,
++		.customer_id = 0x9f,
++		.eco_id = 0x6000000,
++		.stream_count = 8,
++		.register_max = 64,
++		.thread_count = 256,
++		.shader_core_count = 1,
++		.nn_core_count = 6,
++		.vertex_cache_size = 16,
++		.vertex_output_buffer_size = 1024,
++		.pixel_pipes = 1,
++		.instruction_count = 512,
++		.num_constants = 320,
++		.buffer_size = 0,
++		.varyings_count = 16,
++		.features = 0xe0287cac,
++		.minor_features0 = 0xc1799eff,
++		.minor_features1 = 0xfefbfadb,
++		.minor_features2 = 0xeb9d6fbf,
++		.minor_features3 = 0xedfffced,
++		.minor_features4 = 0xd30dafc7,
++		.minor_features5 = 0x7b5ac333,
++		.minor_features6 = 0xfc8ee200,
++		.minor_features7 = 0x03fffa6f,
++		.minor_features8 = 0x00fe0ef0,
++		.minor_features9 = 0x0088003c,
++		.minor_features10 = 0x108048c0,
++		.minor_features11 = 0x00000010,
++	},
+ };
+ 
+ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu)
 -- 
 2.39.1
 
