@@ -1,45 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D62D6870FA
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 23:30:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AEFC6871CA
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 00:19:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEAC510E1A4;
-	Wed,  1 Feb 2023 22:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5126210E1AF;
+	Wed,  1 Feb 2023 23:19:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1EB710E1A4
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 22:30:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 375F6B821C8;
- Wed,  1 Feb 2023 22:30:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AE91C433D2;
- Wed,  1 Feb 2023 22:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675290633;
- bh=zot7qOvxCoMuk3Wa7msvKuV8ZKjBUkCftR+hKbpMvKg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=G6BGYj8GNN1wSIw5qe4+JxQaJlNBaLF4nV7u7LDHOCEUorpic/7/hdux1jfRK8GLi
- A06Jui8y/0k9u7PZfSQ/4XKzZHLAtiOB1JqkI779XfcWpCG16HNN0DcPQuNrfxlFmr
- WNl3b4rzTYeL+opzUO7mcOv4QNbOPwHELFYPCLXUhAMrqrE5HS6jfe2XihaXjeJFiN
- USV4kfR1Pj3w6nETSKBrEIqrKuHhaDYnVD0zdZ4f/T8nOW5TJxh3M5iXjVRjFapoYR
- LrnpN1j+KST+snypzKs/4c7W2iD/v8aP4baRDDE6/pOtKwNLta62Bc1WdWrd8NMcpd
- TgBKkJmvxp3zA==
-Date: Wed, 1 Feb 2023 16:30:32 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [REGRESSION] [Bug 216859] New: PCI bridge to bus boot hang at
- enumeration
-Message-ID: <20230201223032.GA1904036@bhelgaas>
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A405E10E1AF
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 23:19:37 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id 141so131673pgc.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Feb 2023 15:19:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=UfvfdYoklJloAro8ZE+SRmZ2YsAYATSVu+Qj+tuYXzs=;
+ b=ndoZUIiiXWibJX2FI3qUcRHP9YcXJd3NDudb2WUoXWuvbltA3Ox2R7fcgJIg2rgSWB
+ C4HtH9soZJG4frvEWKXm61nj0xe8Qrz7qBMV9k/DZsQb4go6lyojJhqNYiPj211zca5o
+ BMKNteONR293rcXzYN5HKQPV58Ke4WUud+StdtLyuKqeriV9ZSQQPfCX/3zQKt76Mp6o
+ hvcu5ZrnVpstxJ/h0Ns3wrXJcBP3LKy4EbBYEqWYk1miTpLjyVOXq2fh+XD8Bl58+34U
+ GJ24GI8dk26Dm/DUphHrG3VIDsfVw5u812C/8X/BBX4WD7gtLVFJB8SOYLcF335lMBPc
+ J6rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UfvfdYoklJloAro8ZE+SRmZ2YsAYATSVu+Qj+tuYXzs=;
+ b=oOMc8YzygW3kbGgDp08Lk8nKUb3AbNrapl1Y70uceEjswuq4195Xoj42ujae3oEz6e
+ P0QoZvK7kFRjU+DXgY7dZHbXo4C4VgxpLsY3SVOfVE7oqRvMFt4dCFtLdXRYHGmj89/0
+ BSRMbyi4n+xBUbvbIESzx7g93UnmO5zLOfoIZ0bzs3/blIBPzvqAkfQJ2hdGtWaAZWBS
+ tOmCx0ZuGvAu7ZRE7BzJBhqfwwvQoQsdOJricDXejoC6N/Riacy8j3lCcj/C1YvaDrqr
+ OXPNLq2wSPdqxKWNfPo2UiFaT588kfmD9uMglUy6wWAx+CO+LVb6YaBdqBPs3FpeU3M2
+ pU2A==
+X-Gm-Message-State: AO0yUKUPGLxpkIxKx8wHBHiVEN+Sl0RAF24I3sPdz8/0Lm3KrDFUqEdD
+ 0oQEGBxwLav9AUC4G644V9EEeA==
+X-Google-Smtp-Source: AK7set9inbJv/M/vfdju8z207Qoxp12XibCyhHzDRAcGnrVUKe0FvFj3EQzothiblU4uGo1rVlTICQ==
+X-Received: by 2002:a62:b41a:0:b0:593:d7fd:aaf7 with SMTP id
+ h26-20020a62b41a000000b00593d7fdaaf7mr413693pfn.16.1675293576923; 
+ Wed, 01 Feb 2023 15:19:36 -0800 (PST)
+Received: from google.com ([2620:15c:2d1:203:341e:6979:102e:c9d9])
+ by smtp.gmail.com with ESMTPSA id
+ t26-20020aa7947a000000b0058bbe1240easm349789pfq.190.2023.02.01.15.19.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Feb 2023 15:19:36 -0800 (PST)
+Date: Wed, 1 Feb 2023 15:19:31 -0800
+From: Nick Desaulniers <ndesaulniers@google.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] gpu: host1x: fix uninitialized variable use
+Message-ID: <Y9rzg9Mizckjf+Fp@google.com>
+References: <20230127221418.2522612-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230126121124.GA1258686@bhelgaas>
+In-Reply-To: <20230127221418.2522612-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,50 +70,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- alsa-devel@alsa-project.org, regressions@lists.linux.dev,
- Antonino Daplas <adaplas@gmail.com>, linux-pci@vger.kernel.org,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
- "Zeno R.R. Davatz" <zdavatz@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
+ llvm@lists.linux.dev, Robin Murphy <robin.murphy@arm.com>,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[+cc Geert]
-
-On Thu, Jan 26, 2023 at 06:11:24AM -0600, Bjorn Helgaas wrote:
-> On Thu, Jan 12, 2023 at 02:08:19PM -0600, Bjorn Helgaas wrote:
-> > On Wed, Dec 28, 2022 at 06:02:48AM -0600, Bjorn Helgaas wrote:
-> > > On Wed, Dec 28, 2022 at 08:37:52AM +0000, bugzilla-daemon@kernel.org wrote:
-> > > > https://bugzilla.kernel.org/show_bug.cgi?id=216859
-> > > 
-> > > >            Summary: PCI bridge to bus boot hang at enumeration
-> > > >     Kernel Version: 6.1-rc1
-> > > > ...
-> > > 
-> > > > With Kernel 6.1-rc1 the enumeration process stopped working for me,
-> > > > see attachments.
-> > > > 
-> > > > The enumeration works fine with Kernel 6.0 and below.
-> > > > 
-> > > > Same problem still exists with v6.1. and v6.2.-rc1
+On Fri, Jan 27, 2023 at 11:14:00PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> This is a regression between v6.0 and v6.1-rc1.  Console output during
-> boot freezes after nvidiafb deactivates the VGA console.
+> The error handling for platform_get_irq() failing no longer
+> works after a recent change, clang now points this out with
+> a warning:
 > 
-> It was a lot of work for Zeno, but we finally isolated this console
-> hang to 145eed48de27 ("fbdev: Remove conflicting devices on PCI bus").
+> drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
+>         if (syncpt_irq < 0)
+>             ^~~~~~~~~~
 > 
-> The system actually does continue to boot and is accessible via ssh, 
-> but the console appears hung, at least for output.  More details in
-> the bugzilla starting at
-> https://bugzilla.kernel.org/show_bug.cgi?id=216859#c47 .
+> Fix this by removing the variable and checking the correct
+> error status.
+> 
+> Fixes: 625d4ffb438c ("gpu: host1x: Rewrite syncpoint interrupt handling")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-145eed48de27 ("fbdev: Remove conflicting devices on PCI bus") doesn't
-say what the benefit is, or what would break if we reverted it.
+Thanks Arnd, I saw some reports from kernelci about this, too.
+https://lore.kernel.org/linux-next/?q=warning%3A+variable+%27syncpt_irq%27+is+uninitialized+when+used+here
 
-Does anybody have any clues?  It would be nice to resolve this
-regression before v6.2, which will probably be released 2/12 or 2/19.
+Reported-by: "kernelci.org bot" <bot@kernelci.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Bjorn
+> ---
+>  drivers/gpu/host1x/dev.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> index 4872d183d860..aae2efeef503 100644
+> --- a/drivers/gpu/host1x/dev.c
+> +++ b/drivers/gpu/host1x/dev.c
+> @@ -487,7 +487,6 @@ static int host1x_get_resets(struct host1x *host)
+>  static int host1x_probe(struct platform_device *pdev)
+>  {
+>  	struct host1x *host;
+> -	int syncpt_irq;
+>  	int err;
+>  
+>  	host = devm_kzalloc(&pdev->dev, sizeof(*host), GFP_KERNEL);
+> @@ -517,8 +516,8 @@ static int host1x_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	host->syncpt_irq = platform_get_irq(pdev, 0);
+> -	if (syncpt_irq < 0)
+> -		return syncpt_irq;
+> +	if (host->syncpt_irq < 0)
+> +		return host->syncpt_irq;
+>  
+>  	mutex_init(&host->devices_lock);
+>  	INIT_LIST_HEAD(&host->devices);
+> -- 
+> 2.39.0
+> 
+> 
