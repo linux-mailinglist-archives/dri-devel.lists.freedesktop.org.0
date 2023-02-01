@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63933685C34
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 01:34:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C436685C36
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 01:35:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C18410E3A5;
-	Wed,  1 Feb 2023 00:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6D9510E3AA;
+	Wed,  1 Feb 2023 00:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D29B10E3A5
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 00:34:29 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 2364F3200932;
- Tue, 31 Jan 2023 19:34:28 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF5710E3AA
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 00:35:03 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 6AB7732008FB;
+ Tue, 31 Jan 2023 19:35:02 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 31 Jan 2023 19:34:28 -0500
+ by compute1.internal (MEProxy); Tue, 31 Jan 2023 19:35:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
  cc:cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1675211667; x=
- 1675298067; bh=F1zgPnu9638/1L+uhTRgouSFhdA2BukVapgoZVYxt4Y=; b=J
- RViv5ATKKUTrOb+2pFfK8QJNklkznAPbJHYBLTwuYPt/YS9aNBi9eJlKWS4wZkGy
- bxLfD98gS6H1swJygFNAaILLhiasVDvjzSQRkRPpSHP1pHAmJm1whCAGOU+H6pXN
- VZrbgXV/xjJ7mMGTMDpC/ZDZHaXwHQFdrQaiOAVQUqwgwv6HjZsfNIbGnlthN6Ar
- vNuM8L5mPbWcF4J7t16NCTYLlCmqs1ZDO00ZW8YbOJJA/wdMMAIoriwuDaFaypXQ
- 2EWwoopKS+6Nr6aohFLLfURw1ml29qwaBuJFY3SBgKlUIotbUEMhu7ITtpkMR6j8
- eGgbx+1QZwvC/lUpc9ekQ==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1675211701; x=
+ 1675298101; bh=6MWxM3NVBSIwoPIaF8/5p5q5VQs7dtC6/W4ECHYjNBc=; b=L
+ YKyW5Bx87owntRJPge/GgvS0EjTilGbjxqN7ZNgM84sLDcP1x6CW3gcLhE0oNZGe
+ PkMo9tDxZFk9Wov1/O92Ni/IYAHaamCZgdUcwKAQbk2cB4a5y/S23mcx2UqmEkOd
+ CnV+JtxZKl301X4k/mzl0G1lnqoB8/0WRgfI38K5Dz7zvUbpgh5H7tF1ExQB/rUL
+ TT2CuH8c5Iz0qT8MdL6I8yk7lOP8b8Gae9fD3IEltJvbI//4/Ov9tpTRqaycecta
+ nG9doczDjkALHYmFq2IQKYws6l+03QrDVqsM1m03UnnjXQrPlcHhRJLvAysy0uMZ
+ RWb3jaYqo/1aHzqPWpKnw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1675211667; x=
- 1675298067; bh=F1zgPnu9638/1L+uhTRgouSFhdA2BukVapgoZVYxt4Y=; b=T
- Ln99GF7AT0z/71+SrFG7GuQ56BOTaqDbLNmKY/Nt7puysiY6o3pn7emWSXp7jihL
- ZjRk1IsnowP10cq3wDV2Yq9OSiAr2KSg0pN6vHAIKsS3x0xQBYhyuOzEE0SR/N3/
- kBToLY/2Noln5j26JrCvuOE2+UuFdyW+6JVvIRTke8FB07+1Tvj8Lwku8BCMDZIq
- +DAyAsh8S4Ab3l9TLuyQ64CSVJbXYcam9zQLaBlfnJscCG2qe4yOgYxtfwBT+xD9
- rWxkxkaL9HdOvqvIZTxVmP7gqRFBlbokfRqiYPjPbXAa7mwB9nDSvwllzrUdkT97
- XReWN1ZG3/SwSfb8eCwiQ==
-X-ME-Sender: <xms:k7PZYxi-XumeCX_ugOMcTvTZM7f_m88CEqsYurJTQjVSAJH3clewFw>
- <xme:k7PZY2CcNtKWUwDpWbGbyyjB5QNLA0ZjLkv80yt6RrIuq0kWS7FrXrh5awaKVs5Tv
- Uv9avzH6PD4Up6MO_U>
-X-ME-Received: <xmr:k7PZYxEtn_EKI0fAtctQ8dqyQ1D0_q_GCx1xlEQzRWUJkMcnwPjYWG4pdDjDwA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefhedgvdeiucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1675211701; x=
+ 1675298101; bh=6MWxM3NVBSIwoPIaF8/5p5q5VQs7dtC6/W4ECHYjNBc=; b=b
+ 8DWnKdbz+te6QUHesrZ3rCPts6153lwvAwtIiBr2oqUipgl241H4hyQx7w0MGEqQ
+ vUQCsDnAZReW7WsqfyiLz41zy8scUFUNmpcxd/I5cL1IfJo0fQuk9950OkmhRUJy
+ 9zifoP/0Q1rZdKkUOPZmFVh3jDAGwwkkoUgUNEkejNw7zQ6Z8PjeqUbfqBN5KMax
+ do7lAgCdAE5omirwqDLGlCoeFwV8LMtCwkHdaQ1gsT4ldhsbgp9YDKVteZjVXhRc
+ fAcdqHA8QLbL6stWihfpZ44cAYt98w9TFKKsh9lLq2o7/9PwTSJk6Q2voWCKwbpW
+ QbD0YnLfr1sVW7tpQhRHg==
+X-ME-Sender: <xms:tbPZY7_3s9ozch2ixRr7zqIwpb775o7rD_ejitgyk80w3XO9xqDQtw>
+ <xme:tbPZY3syQB3X2p4aDXI6uUASE3jX1d7BDudyVKY5D2mRE4la-AEIhXFxLJjP2qM9r
+ cvaN6E9mZou5vtkBQg>
+X-ME-Received: <xmr:tbPZY5BYdEzji1praZZcb7EpiZvp22D20qkex_HdOixnLkRsiKiFRhTv9gAOUQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefhedgvdehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtfeejnecuhfhrohhmpedfmgdf
@@ -55,26 +55,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefhedgvdeiucetufdoteggod
  ffejlefhgfdufeduueejvdevheevuefhtefhtdejffenucevlhhushhtvghrufhiiigvpe
  dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrggriihmsehfrghsthhmrghilhdrtgho
  mh
-X-ME-Proxy: <xmx:k7PZY2Ti0nGNkD48rGefeHfyXY7JH3hEgFxjF1_1yXQNLGhNJVsMyQ>
- <xmx:k7PZY-wApJYk8Rnk703LX2G2tGhOeEQmM3PMWX7ztBoyzELGeGukGA>
- <xmx:k7PZY84IH382EQ1zwbGFDYDwuzPngeSnVj5DzgZVAaTnpl47ylkenQ>
- <xmx:k7PZYy965sZSOIiaEGgYZX3gci5j7bndkFhhCpLfZF6FQN2XWC-Ryw>
+X-ME-Proxy: <xmx:tbPZY3eBvt78tUaFNB1OBrgF8-a55E0OoJasmiLB6qcjgTGY9fDNmA>
+ <xmx:tbPZYwPOZcfWJ4KRhSS4XmoS2Mr7jj_eT6Z-E2QMwLf91X4L-KY7VA>
+ <xmx:tbPZY5kFGmO3eI1xYtKV6y5ILS1hhtVWLvpQ1zRa5x3EoL_10VlOkg>
+ <xmx:tbPZY1olmqshuDrQNoRnUhHhplXwImv50960Y4m8fSsZSlFVwNOLCQ>
 Feedback-ID: i1b1946fb:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 31 Jan 2023 19:34:26 -0500 (EST)
-Message-ID: <52e93e1e-0e89-ff11-153e-506b40e0d678@fastmail.com>
-Date: Tue, 31 Jan 2023 16:34:21 -0800
+ 31 Jan 2023 19:35:01 -0500 (EST)
+Message-ID: <ab3706b1-9068-5105-8552-789fabda0057@fastmail.com>
+Date: Tue, 31 Jan 2023 16:34:55 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v2 5/8] drm/vmwgfx: Cleanup the vmw bo usage in the cursor
- paths
+Subject: Re: [PATCH v2 6/8] drm/vmwgfx: Rename dummy to is_iomem
 Content-Language: en-US
 To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
 References: <20230131033542.953249-1-zack@kde.org>
- <20230131033542.953249-6-zack@kde.org>
+ <20230131033542.953249-7-zack@kde.org>
 From: "\"Maaz Mombasawala (VMware)" <maazm@fastmail.com>
-In-Reply-To: <20230131033542.953249-6-zack@kde.org>
+In-Reply-To: <20230131033542.953249-7-zack@kde.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,81 +95,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 1/30/23 19:35, Zack Rusin wrote:
 > From: Zack Rusin <zackr@vmware.com>
 > 
-> Base mapped count is useless because the ttm unmap functions handle
-> null maps just fine so completely remove all the code related to it.
+> Rename dummy to is_iomem because that's what it is even if we're not
+> activelly using it. Makes the code easier to read.
 > 
 > Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Reviewed-by: Martin Krastev <krastevm@vmware.com>
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.h  |  3 ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 12 +-----------
->  2 files changed, 1 insertion(+), 14 deletions(-)
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> index e2dadd68a16d..2ede1e28d7ce 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
-> @@ -44,7 +44,6 @@ struct vmw_resource;
->   * struct vmw_bo - TTM buffer object with vmwgfx additions
->   * @base: The TTM buffer object
->   * @res_tree: RB tree of resources using this buffer object as a backing MOB
-> - * @base_mapped_count: ttm BO mapping count; used by KMS atomic helpers.
->   * @cpu_writers: Number of synccpu write grabs. Protected by reservation when
->   * increased. May be decreased without reservation.
->   * @dx_query_ctx: DX context if this buffer object is used as a DX query MOB
-> @@ -55,8 +54,6 @@ struct vmw_resource;
->  struct vmw_bo {
->  	struct ttm_buffer_object base;
->  	struct rb_root res_tree;
-> -	/* For KMS atomic helpers: ttm bo mapping count */
-> -	atomic_t base_mapped_count;
->  
->  	atomic_t cpu_writers;
->  	/* Not ref-counted.  Protected by binding_mutex */
 > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> index 6780391c57ea..1082218a1cfc 100644
+> index 1082218a1cfc..e83286e08837 100644
 > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -669,8 +669,7 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
+> @@ -153,9 +153,9 @@ static void vmw_cursor_update_mob(struct vmw_private *dev_priv,
+>  	SVGAGBCursorHeader *header;
+>  	SVGAGBAlphaCursorHeader *alpha_header;
+>  	const u32 image_size = width * height * sizeof(*image);
+> -	bool dummy;
+> +	bool is_iomem;
+>  
+> -	header = ttm_kmap_obj_virtual(&vps->cursor.map, &dummy);
+> +	header = ttm_kmap_obj_virtual(&vps->cursor.map, &is_iomem);
+>  	alpha_header = &header->header.alphaHeader;
+>  
+>  	memset(header, 0, sizeof(*header));
+> @@ -185,13 +185,13 @@ static u32 vmw_du_cursor_mob_size(u32 w, u32 h)
+>   */
+>  static u32 *vmw_du_cursor_plane_acquire_image(struct vmw_plane_state *vps)
+>  {
+> -	bool dummy;
+> +	bool is_iomem;
+>  	if (vps->surf) {
+>  		if (vps->surf_mapped)
+>  			return vmw_bo_map_and_cache(vps->surf->res.backup);
+>  		return vps->surf->snooper.image;
+>  	} else if (vps->bo)
+> -		return ttm_kmap_obj_virtual(&vps->bo->map, &dummy);
+> +		return ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem);
+>  	return NULL;
+>  }
+>  
+> @@ -364,7 +364,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
+>  	SVGA3dCopyBox *box;
+>  	unsigned box_count;
+>  	void *virtual;
+> -	bool dummy;
+> +	bool is_iomem;
+>  	struct vmw_dma_cmd {
+>  		SVGA3dCmdHeader header;
+>  		SVGA3dCmdSurfaceDMA dma;
+> @@ -424,7 +424,7 @@ void vmw_kms_cursor_snoop(struct vmw_surface *srf,
+>  	if (unlikely(ret != 0))
+>  		goto err_unreserve;
+>  
+> -	virtual = ttm_kmap_obj_virtual(&map, &dummy);
+> +	virtual = ttm_kmap_obj_virtual(&map, &is_iomem);
+>  
+>  	if (box->w == VMW_CURSOR_SNOOP_WIDTH && cmd->dma.guest.pitch == image_pitch) {
+>  		memcpy(srf->snooper.image, virtual,
+> @@ -658,14 +658,14 @@ vmw_du_cursor_plane_cleanup_fb(struct drm_plane *plane,
+>  {
+>  	struct vmw_cursor_plane *vcp = vmw_plane_to_vcp(plane);
+>  	struct vmw_plane_state *vps = vmw_plane_state_to_vps(old_state);
+> -	bool dummy;
+> +	bool is_iomem;
+>  
+>  	if (vps->surf_mapped) {
+>  		vmw_bo_unmap(vps->surf->res.backup);
+>  		vps->surf_mapped = false;
+>  	}
+>  
+> -	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &dummy)) {
+> +	if (vps->bo && ttm_kmap_obj_virtual(&vps->bo->map, &is_iomem)) {
 >  		const int ret = ttm_bo_reserve(&vps->bo->base, true, false, NULL);
 >  
 >  		if (likely(ret == 0)) {
-> -			if (atomic_read(&vps->bo->base_mapped_count) == 0)
-> -			    ttm_bo_kunmap(&vps->bo->map);
-> +			ttm_bo_kunmap(&vps->bo->map);
->  			ttm_bo_unreserve(&vps->bo->base);
->  		}
->  	}
-> @@ -744,9 +743,6 @@ vmw_du_cursor_plane_prepare_fb(struct drm_plane *plane,
->  
->  		ret = ttm_bo_kmap(&vps->bo->base, 0, PFN_UP(size), &vps->bo->map);
->  
-> -		if (likely(ret == 0))
-> -			atomic_inc(&vps->bo->base_mapped_count);
-> -
->  		ttm_bo_unreserve(&vps->bo->base);
->  
->  		if (unlikely(ret != 0))
-> @@ -786,7 +782,6 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
->  	struct vmw_plane_state *vps = vmw_plane_state_to_vps(new_state);
->  	struct vmw_plane_state *old_vps = vmw_plane_state_to_vps(old_state);
->  	s32 hotspot_x, hotspot_y;
-> -	bool dummy;
->  
->  	hotspot_x = du->hotspot_x;
->  	hotspot_y = du->hotspot_y;
-> @@ -828,11 +823,6 @@ vmw_du_cursor_plane_atomic_update(struct drm_plane *plane,
->  						hotspot_x, hotspot_y);
->  	}
->  
-> -	if (vps->bo) {
-> -		if (ttm_kmap_obj_virtual(&vps->bo->map, &dummy))
-> -			atomic_dec(&vps->bo->base_mapped_count);
-> -	}
-> -
->  	du->cursor_x = new_state->crtc_x + du->set_gui_x;
->  	du->cursor_y = new_state->crtc_y + du->set_gui_y;
->  
+
 
 LGTM!
 
