@@ -2,26 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1B8686A38
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 16:26:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8243E686A3A
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Feb 2023 16:26:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE8B10E411;
-	Wed,  1 Feb 2023 15:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13CA010E415;
+	Wed,  1 Feb 2023 15:26:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D077F10E40F
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 15:26:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F86310E40F
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Feb 2023 15:26:14 +0000 (UTC)
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1pNEzy-0000ja-If; Wed, 01 Feb 2023 16:26:10 +0100
+ id 1pNEzy-0000ja-U4; Wed, 01 Feb 2023 16:26:10 +0100
 From: Lucas Stach <l.stach@pengutronix.de>
 To: etnaviv@lists.freedesktop.org
-Subject: [PATCH v3 2/3] drm/etnaviv: allocate unique ID per drm_file
-Date: Wed,  1 Feb 2023 16:26:08 +0100
-Message-Id: <20230201152609.1395525-2-l.stach@pengutronix.de>
+Subject: [PATCH v3 3/3] drm/etnaviv: export client GPU usage statistics via
+ fdinfo
+Date: Wed,  1 Feb 2023 16:26:09 +0100
+Message-Id: <20230201152609.1395525-3-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230201152609.1395525-1-l.stach@pengutronix.de>
 References: <20230201152609.1395525-1-l.stach@pengutronix.de>
@@ -49,83 +50,77 @@ Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allows to easily track if several fd are pointing to the same
-execution context due to being dup'ed.
+This exposes a accumulated GPU active time per client via the
+fdinfo infrastructure.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
-v3: use xarray to track the active contexts to avoid issues
-    on rollover
+v3: handle NPU cores
 ---
- drivers/gpu/drm/etnaviv/etnaviv_drv.c | 11 +++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_drv.h |  4 ++++
- 2 files changed, 15 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 43 ++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 1d2b4fb4bcf8..31a7f59ccb49 100644
+index 31a7f59ccb49..44ca803237a5 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -56,6 +56,11 @@ static int etnaviv_open(struct drm_device *dev, struct drm_file *file)
- 	if (!ctx)
- 		return -ENOMEM;
+@@ -22,6 +22,7 @@
+ #include "etnaviv_gem.h"
+ #include "etnaviv_mmu.h"
+ #include "etnaviv_perfmon.h"
++#include "common.xml.h"
  
-+	ret = xa_alloc_cyclic(&priv->active_contexts, &ctx->id, ctx,
-+			      xa_limit_32b, &priv->next_context_id, GFP_KERNEL);
-+	if (ret < 0)
-+		goto out_free;
-+
- 	ctx->mmu = etnaviv_iommu_context_init(priv->mmu_global,
- 					      priv->cmdbuf_suballoc);
- 	if (!ctx->mmu) {
-@@ -99,6 +104,8 @@ static void etnaviv_postclose(struct drm_device *dev, struct drm_file *file)
- 
- 	etnaviv_iommu_context_put(ctx->mmu);
- 
-+	xa_erase(&priv->active_contexts, ctx->id);
-+
- 	kfree(ctx);
- }
- 
-@@ -514,6 +521,8 @@ static int etnaviv_bind(struct device *dev)
- 
- 	dma_set_max_seg_size(dev, SZ_2G);
- 
-+	xa_init_flags(&priv->active_contexts, XA_FLAGS_ALLOC);
-+
- 	mutex_init(&priv->gem_lock);
- 	INIT_LIST_HEAD(&priv->gem_list);
- 	priv->num_gpus = 0;
-@@ -563,6 +572,8 @@ static void etnaviv_unbind(struct device *dev)
- 
- 	etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
- 
-+	xa_destroy(&priv->active_contexts);
-+
- 	drm->dev_private = NULL;
- 	kfree(priv);
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index 0b311af04f1d..b3eb1662e90c 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -29,6 +29,7 @@ struct etnaviv_iommu_global;
- #define ETNAVIV_SOFTPIN_START_ADDRESS	SZ_4M /* must be >= SUBALLOC_SIZE */
- 
- struct etnaviv_file_private {
-+	int id;
- 	struct etnaviv_iommu_context	*mmu;
- 	struct drm_sched_entity		sched_entity[ETNA_MAX_PIPES];
+ /*
+  * DRM operations:
+@@ -475,7 +476,47 @@ static const struct drm_ioctl_desc etnaviv_ioctls[] = {
+ 	ETNA_IOCTL(PM_QUERY_SIG, pm_query_sig, DRM_RENDER_ALLOW),
  };
-@@ -41,6 +42,9 @@ struct etnaviv_drm_private {
- 	struct etnaviv_cmdbuf_suballoc *cmdbuf_suballoc;
- 	struct etnaviv_iommu_global *mmu_global;
  
-+	struct xarray active_contexts;
-+	u32 next_context_id;
+-DEFINE_DRM_GEM_FOPS(fops);
++static void etnaviv_fop_show_fdinfo(struct seq_file *m, struct file *f)
++{
++	struct drm_file *file = f->private_data;
++	struct drm_device *dev = file->minor->dev;
++	struct etnaviv_drm_private *priv = dev->dev_private;
++	struct etnaviv_file_private *ctx = file->driver_priv;
 +
- 	/* list of GEM objects: */
- 	struct mutex gem_lock;
- 	struct list_head gem_list;
++	/*
++	 * For a description of the text output format used here, see
++	 * Documentation/gpu/drm-usage-stats.rst.
++	 */
++	seq_printf(m, "drm-driver:\t%s\n", dev->driver->name);
++	seq_printf(m, "drm-client-id:\t%u\n", ctx->id);
++
++	for (int i = 0; i < ETNA_MAX_PIPES; i++) {
++		struct etnaviv_gpu *gpu = priv->gpu[i];
++		char engine[10] = "UNK";
++		int cur = 0;
++
++		if (!gpu)
++			continue;
++
++		if (gpu->identity.features & chipFeatures_PIPE_2D)
++			cur = snprintf(engine, sizeof(engine), "2D");
++		if (gpu->identity.features & chipFeatures_PIPE_3D)
++			cur = snprintf(engine + cur, sizeof(engine) - cur,
++				       "%s3D", cur ? "/" : "");
++		if (gpu->identity.nn_core_count > 0)
++			cur = snprintf(engine + cur, sizeof(engine) - cur,
++				       "%sNN", cur ? "/" : "");
++
++		seq_printf(m, "drm-engine-%s:\t%llu ns\n", engine,
++			   ctx->sched_entity[i].elapsed_ns);
++	}
++}
++
++static const struct file_operations fops = {
++	.owner = THIS_MODULE,
++	DRM_GEM_FOPS,
++	.show_fdinfo = etnaviv_fop_show_fdinfo,
++};
+ 
+ static const struct drm_driver etnaviv_drm_driver = {
+ 	.driver_features    = DRIVER_GEM | DRIVER_RENDER,
 -- 
 2.39.1
 
