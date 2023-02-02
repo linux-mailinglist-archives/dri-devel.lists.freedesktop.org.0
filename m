@@ -1,68 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7AB687DDD
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 13:50:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C10687DFB
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 13:55:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF7410E50A;
-	Thu,  2 Feb 2023 12:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2C5510E0A5;
+	Thu,  2 Feb 2023 12:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3C610E0A5;
- Thu,  2 Feb 2023 12:50:21 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id t18so1623462wro.1;
- Thu, 02 Feb 2023 04:50:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=w5NS+1c8Tu2PGFvK4AFEdfQ0iYep75esswQI1225dSM=;
- b=S7yIohgxwKAADl61gLn3ethmknWpCDOxD611Nhp4wn7OpDjidJ+3j0AyxWK+QLhJb0
- A7x2wzR8uKW8dVcVhy6KMC+9JBXqQYXP3cCLe9bdFzgMyociIRYLMdf7sOKQAOERQkVZ
- TGHtUzYkbV3daP3VDzoLDiApjv6uDFHiUcdnZ58612cUZteYbEUBa+xkaIlMyYWLO/Gq
- 4x+QzKCbNdCNCVE2n4yEUAhbQGocwljziYZ20LaA1ibkMv0diz8W28XmCHtJB+KCru8w
- 86teva9QCv/IGpnfPvD0VeiR0dMWyPCc6RFJWeTygEACQ3211VfsZPHHOksyfSIrI1HC
- ANpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w5NS+1c8Tu2PGFvK4AFEdfQ0iYep75esswQI1225dSM=;
- b=lQf+lUUlqDhS7jPK+d1IZUa3ahQf5WXSMoACD5r9ardnz8/gtBZNvMR9Tvt7Swpa8e
- YjxBtY20awiSWFMAmuIvbTaBAENpdOC1I/9xNnflf3ynWDOSe9BjS9t7WVqHuBchVhHf
- nOfMzDktcQBa3OLGu+w14O5K/SDBLB9FuucmoVhG6lzomCA4VFo8tCt1am9xew77BcbB
- q/wroPMUP1oiE6sg5CKkN5we3t1PD7UB/vFZZ24iBXSLIZIeGAKQCmUrXke2ev2AH9wc
- kj/wT3GFvihIMzOMzDlKm75FF8Yrv8Uv59o+LyhDdIIuIY58ejVyLqRb/M4oMQp3DwqE
- pe+w==
-X-Gm-Message-State: AO0yUKV4d+cj4ixbj3t+q6cQtsQ1IyJnz518YBO/D/2jB/MZUInu8Rtw
- vn01007X5i/s/XavDETjEIg=
-X-Google-Smtp-Source: AK7set9GirxZBqSwgFAsMboxKE8Izp95X1pyquunjVvuEGOfw96gDntzRpcsoOrreA5T5hjVvI/7Pw==
-X-Received: by 2002:a05:6000:1285:b0:2bf:ee0f:9f04 with SMTP id
- f5-20020a056000128500b002bfee0f9f04mr6115932wrx.45.1675342219853; 
- Thu, 02 Feb 2023 04:50:19 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- d7-20020a056000114700b00241fab5a296sm19667773wrx.40.2023.02.02.04.50.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 04:50:19 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH][next] i915/gvt: Fix spelling mistake "vender" -> "vendor"
-Date: Thu,  2 Feb 2023 12:50:18 +0000
-Message-Id: <20230202125018.285523-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9176910E0A5
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 12:55:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Zj1CR3hp4TnKkQl5/oUcWXed8rRcig149A9gfMBde0s=; b=pmnKgr/+qrvkc/+Q13HM+2+v1e
+ XIP11y9Okla23VMpmpX0BB/emeu3P3wPv9nurj8IJ4+QYxya/QPk0TTgR9tJ2tcbTB9dF6JJDwNj2
+ i+kfsyMzKCKo9F7rWN6jqp8npoGrCzRGhgSMH2gmrL9TqY6BgVlnpH1UBv+ohLPHYIhC2lkUMBDV2
+ mY+TrfjvcmBWrTFkZlnDM5Y6JvJbTZTomE/57/FtcUYnRktkhGiMShkJSYs9tTzkFrSqs52K7IE1a
+ Ob2OSptH8Zj3KuEi1lrLx/yNUVoP2usDFmzjoAH+0KbpRL1GVs+HLBweBPBgx/glRnwsdWzDVZOnu
+ kezDULUg==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pNZ7h-007LVM-BZ; Thu, 02 Feb 2023 13:55:29 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Melissa Wen <mwen@igalia.com>
+Subject: [PATCH] drm/vgem: add missing mutex_destroy
+Date: Thu,  2 Feb 2023 09:55:17 -0300
+Message-Id: <20230202125517.427976-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,30 +51,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a spelling mistake in a literal string. Fix it.
+vgem_fence_open() instantiates a mutex for a particular fence
+instance, but never destroys it by calling mutex_destroy() in
+vgem_fence_close().
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+So, add the missing mutex_destroy() to guarantee proper resource
+destruction.
+
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/i915/gvt/firmware.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/vgem/vgem_fence.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/gvt/firmware.c b/drivers/gpu/drm/i915/gvt/firmware.c
-index dce93738e98a..4dd52ac2043e 100644
---- a/drivers/gpu/drm/i915/gvt/firmware.c
-+++ b/drivers/gpu/drm/i915/gvt/firmware.c
-@@ -171,7 +171,7 @@ static int verify_firmware(struct intel_gvt *gvt,
- 	mem = (fw->data + h->cfg_space_offset);
- 
- 	id = *(u16 *)(mem + PCI_VENDOR_ID);
--	VERIFY("vender id", id, pdev->vendor);
-+	VERIFY("vendor id", id, pdev->vendor);
- 
- 	id = *(u16 *)(mem + PCI_DEVICE_ID);
- 	VERIFY("device id", id, pdev->device);
+diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+index c2a879734d40..e15754178395 100644
+--- a/drivers/gpu/drm/vgem/vgem_fence.c
++++ b/drivers/gpu/drm/vgem/vgem_fence.c
+@@ -249,4 +249,5 @@ void vgem_fence_close(struct vgem_file *vfile)
+ {
+ 	idr_for_each(&vfile->fence_idr, __vgem_fence_idr_fini, vfile);
+ 	idr_destroy(&vfile->fence_idr);
++	mutex_destroy(&vfile->fence_mutex);
+ }
 -- 
-2.30.2
+2.39.1
 
