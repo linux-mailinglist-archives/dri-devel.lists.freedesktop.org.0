@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242B4688284
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 16:31:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C95F6883A8
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 17:05:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FACF10E1E1;
-	Thu,  2 Feb 2023 15:31:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CE8510E1E3;
+	Thu,  2 Feb 2023 16:05:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 795CF10E1E1;
- Thu,  2 Feb 2023 15:31:52 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD53410E1DC;
+ Thu,  2 Feb 2023 16:05:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675351912; x=1706887912;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=1hiGSI7yYJkj7zXJb3P5ImKWY0yPb5nCR7lnpVL9118=;
- b=EACGJJ5DwXu48TQtdGjzhYFIsPmBL7z5hov3ZFigA1ll599UtrV5P3IJ
- 6PRZeRwRzx6COW4Bl+XLdN8W4DFhL7A2CI4SoPFLdHJ1z2YFAr6VKoSQO
- KhntZhrrVn3nQm9juWhVSwEY6uNqpEIRvuCuSzPfycUy8BVevBAQ6C5r9
- viojQ1NoHwzCMkeETZegTN+yBoshw6MQzESOd/Q326pTJsIYAJgj/CpTr
- 1DhSTgD1Wrzeqy8mGQ0+yMXLrR/jnflHrFOazXop82IM0kq0+k1JKya94
- hvppogjBJj4eeLoCTPC0yMolV96d8qtVt5PCMqfX3/Tpj/9hyKqE+466H Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="393055060"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="393055060"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 07:26:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="667316707"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="667316707"
-Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 02 Feb 2023 07:26:36 -0800
-Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pNbTv-0006cC-17;
- Thu, 02 Feb 2023 15:26:35 +0000
-Date: Thu, 02 Feb 2023 23:25:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- ea4dabbb4ad7eb52632a2ca0b8f89f0ea7c55dcf
-Message-ID: <63dbd5f9.EHwMUB1NksMSVh+v%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+ t=1675353950; x=1706889950;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XAgaZNx1eTlE/sCAgEQ4/PiRWrfQ/+8GRUTlFeg/DYI=;
+ b=Cv44xUa3sganp/2TP2ZDMdUHbzuC2kCOKAec5CzMrLQRLt8vs0BlLjA9
+ XzyK1bDZxFRlobb3/30ot5y8hjhsVzC7hgjWOfI0gJZLRa1Zr6pZdAzew
+ udOhYj0D0w37dtF4o8ewssuXJShz80JDigCAzzlu5IB7jn+KEzEJT5Gt+
+ M3N9KNluod46h4xdvH7sdeWJVkeX875ra1u8lRY2Pcfw5xDh4YSXP41Cx
+ 45eOBEs8DnMjobjbL+PGR+FTDfgu/LKv11K+AJQvNH+fj105x9/CTNofR
+ /795mymqnygWXyNIUI3T5r4XgfN+EWJSZsu9o9tKCFyRvTgH86vQAF28R Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="390871068"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="390871068"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2023 08:04:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="658779531"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="658779531"
+Received: from mrogowsx-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.249.35.12])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2023 08:04:53 -0800
+Date: Thu, 2 Feb 2023 17:04:50 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Subject: Re: [PATCH v10 12/23] drm/i915/vm_bind: Use common execbuf functions
+ in execbuf path
+Message-ID: <Y9vfIlS1X/EYKFFm@ashyti-mobl2.lan>
+References: <20230118071609.17572-1-niranjana.vishwanathapura@intel.com>
+ <20230118071609.17572-13-niranjana.vishwanathapura@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20230118071609.17572-13-niranjana.vishwanathapura@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,197 +59,722 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-arm-msm@vger.kernel.org, kasan-dev@googlegroups.com,
- kvmarm@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
+ lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com, jani.nikula@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com, jason@jlekstrand.net,
+ andi.shyti@linux.intel.com, daniel.vetter@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: ea4dabbb4ad7eb52632a2ca0b8f89f0ea7c55dcf  Add linux-next specific files for 20230202
+Hi Niranjana,
 
-Error/Warning reports:
+On Tue, Jan 17, 2023 at 11:15:58PM -0800, Niranjana Vishwanathapura wrote:
+> Update the execbuf path to use common execbuf functions to
+> reduce code duplication with the newer execbuf3 path.
+> 
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 
-https://lore.kernel.org/oe-kbuild-all/202301301801.y5O08tQx-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301302110.mEtNwkBD-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301310227.SeMvYeta-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301310939.TAgCOEZb-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302021325.700zGa0M-lkp@intel.com
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Error/Warning: (recently discovered and may have been fixed)
+Andi
 
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-arch/arm64/kvm/arm.c:2206: warning: expecting prototype for Initialize Hyp(). Prototype was for kvm_arm_init() instead
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:148:6: warning: no previous prototype for 'link_dp_trace_set_edp_power_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:148:6: warning: no previous prototype for function 'link_dp_trace_set_edp_power_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:158:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweron_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:158:10: warning: no previous prototype for function 'link_dp_trace_get_edp_poweron_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:163:10: warning: no previous prototype for 'link_dp_trace_get_edp_poweroff_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/accessories/link_dp_trace.c:163:10: warning: no previous prototype for function 'link_dp_trace_get_edp_poweroff_timestamp' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1295:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:279:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1585:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
-drivers/gpu/host1x/dev.c:521:10: warning: variable 'syncpt_irq' is uninitialized when used here [-Wuninitialized]
-ftrace-ops.c:(.init.text+0x2c3): undefined reference to `__udivdi3'
-mm/kasan/report.c:272:44: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/media/i2c/max9286.c:802 max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
-drivers/nvmem/imx-ocotp.c:599:21: sparse: sparse: symbol 'imx_ocotp_layout' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:106:40: sparse: sparse: symbol 'tsens_9607_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:26:40: sparse: sparse: symbol 'tsens_8916_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:42:40: sparse: sparse: symbol 'tsens_8939_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:62:40: sparse: sparse: symbol 'tsens_8974_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:84:40: sparse: sparse: symbol 'tsens_8974_backup_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:24:40: sparse: sparse: symbol 'tsens_qcs404_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:45:40: sparse: sparse: symbol 'tsens_8976_nvmem' was not declared. Should it be static?
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- alpha-randconfig-r026-20230129
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- alpha-randconfig-s052-20230129
-|   |-- drivers-nvmem-imx-ocotp.c:sparse:sparse:symbol-imx_ocotp_layout-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8916_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8939_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8974_backup_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_8974_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v0_1.c:sparse:sparse:symbol-tsens_9607_nvmem-was-not-declared.-Should-it-be-static
-|   |-- drivers-thermal-qcom-tsens-v1.c:sparse:sparse:symbol-tsens_8976_nvmem-was-not-declared.-Should-it-be-static
-|   `-- drivers-thermal-qcom-tsens-v1.c:sparse:sparse:symbol-tsens_qcs404_nvmem-was-not-declared.-Should-it-be-static
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm64-buildonly-randconfig-r004-20230130
-|   |-- arch-arm64-kvm-arm.c:warning:expecting-prototype-for-Initialize-Hyp().-Prototype-was-for-kvm_arm_init()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_get_edp_poweron_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-link_dp_trace_set_edp_power_timestamp
-clang_recent_errors
-|-- arm-randconfig-r033-20230129
-|   |-- drivers-gpu-host1x-dev.c:warning:variable-syncpt_irq-is-uninitialized-when-used-here
-|   `-- mm-kasan-report.c:warning:format-specifies-type-unsigned-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
-|-- arm64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-function-link_dp_trace_get_edp_poweroff_timestamp
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-function-link_dp_trace_get_edp_poweron_timestamp
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-accessories-link_dp_trace.c:warning:no-previous-prototype-for-function-link_dp_trace_set_edp_power_timestamp
-`-- powerpc-randconfig-r015-20230130
-    `-- mm-kasan-report.c:warning:format-specifies-type-unsigned-long-but-the-argument-has-type-size_t-(aka-unsigned-int-)
-
-elapsed time: 723m
-
-configs tested: 67
-configs skipped: 3
-
-gcc tested configs:
-x86_64                            allnoconfig
-x86_64               randconfig-a001-20230130
-i386                 randconfig-a002-20230130
-x86_64               randconfig-a003-20230130
-i386                 randconfig-a001-20230130
-x86_64               randconfig-a004-20230130
-um                             i386_defconfig
-x86_64               randconfig-a002-20230130
-i386                 randconfig-a004-20230130
-i386                 randconfig-a003-20230130
-x86_64               randconfig-a006-20230130
-um                           x86_64_defconfig
-i386                 randconfig-a005-20230130
-x86_64               randconfig-a005-20230130
-i386                 randconfig-a006-20230130
-arc                                 defconfig
-m68k                             allmodconfig
-alpha                            allyesconfig
-s390                             allmodconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-x86_64                    rhel-8.3-kselftests
-alpha                               defconfig
-s390                                defconfig
-x86_64                          rhel-8.3-func
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-s390                             allyesconfig
-x86_64                              defconfig
-mips                             allyesconfig
-sh                               allmodconfig
-arc                  randconfig-r043-20230129
-arm                                 defconfig
-arm                  randconfig-r046-20230129
-i386                                defconfig
-ia64                             allmodconfig
-x86_64                               rhel-8.3
-arm                  randconfig-r046-20230130
-arc                  randconfig-r043-20230130
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-x86_64                           rhel-8.3-kvm
-arm64                            allyesconfig
-x86_64                           rhel-8.3-bpf
-arm                              allyesconfig
-x86_64                           allyesconfig
-i386                             allyesconfig
-
-clang tested configs:
-x86_64               randconfig-a012-20230130
-x86_64               randconfig-a013-20230130
-x86_64               randconfig-a011-20230130
-x86_64               randconfig-a014-20230130
-x86_64               randconfig-a015-20230130
-x86_64                          rhel-8.3-rust
-x86_64               randconfig-a016-20230130
-i386                 randconfig-a013-20230130
-i386                 randconfig-a012-20230130
-i386                 randconfig-a014-20230130
-hexagon              randconfig-r045-20230130
-i386                 randconfig-a015-20230130
-i386                 randconfig-a011-20230130
-i386                 randconfig-a016-20230130
-hexagon              randconfig-r041-20230130
-hexagon              randconfig-r045-20230129
-s390                 randconfig-r044-20230129
-s390                 randconfig-r044-20230130
-riscv                randconfig-r042-20230129
-riscv                randconfig-r042-20230130
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> ---
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 513 ++----------------
+>  1 file changed, 39 insertions(+), 474 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index 6a7f0227f65f..8b49543f3265 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -28,6 +28,7 @@
+>  #include "i915_file_private.h"
+>  #include "i915_gem_clflush.h"
+>  #include "i915_gem_context.h"
+> +#include "i915_gem_execbuffer_common.h"
+>  #include "i915_gem_evict.h"
+>  #include "i915_gem_ioctls.h"
+>  #include "i915_reg.h"
+> @@ -236,13 +237,6 @@ enum {
+>   * the batchbuffer in trusted mode, otherwise the ioctl is rejected.
+>   */
+>  
+> -struct eb_fence {
+> -	struct drm_syncobj *syncobj; /* Use with ptr_mask_bits() */
+> -	struct dma_fence *dma_fence;
+> -	u64 value;
+> -	struct dma_fence_chain *chain_fence;
+> -};
+> -
+>  struct i915_execbuffer {
+>  	struct drm_i915_private *i915; /** i915 backpointer */
+>  	struct drm_file *file; /** per-file lookup tables and limits */
+> @@ -2452,164 +2446,29 @@ static const enum intel_engine_id user_ring_map[] = {
+>  	[I915_EXEC_VEBOX]	= VECS0
+>  };
+>  
+> -static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel_context *ce)
+> -{
+> -	struct intel_ring *ring = ce->ring;
+> -	struct intel_timeline *tl = ce->timeline;
+> -	struct i915_request *rq;
+> -
+> -	/*
+> -	 * Completely unscientific finger-in-the-air estimates for suitable
+> -	 * maximum user request size (to avoid blocking) and then backoff.
+> -	 */
+> -	if (intel_ring_update_space(ring) >= PAGE_SIZE)
+> -		return NULL;
+> -
+> -	/*
+> -	 * Find a request that after waiting upon, there will be at least half
+> -	 * the ring available. The hysteresis allows us to compete for the
+> -	 * shared ring and should mean that we sleep less often prior to
+> -	 * claiming our resources, but not so long that the ring completely
+> -	 * drains before we can submit our next request.
+> -	 */
+> -	list_for_each_entry(rq, &tl->requests, link) {
+> -		if (rq->ring != ring)
+> -			continue;
+> -
+> -		if (__intel_ring_space(rq->postfix,
+> -				       ring->emit, ring->size) > ring->size / 2)
+> -			break;
+> -	}
+> -	if (&rq->link == &tl->requests)
+> -		return NULL; /* weird, we will check again later for real */
+> -
+> -	return i915_request_get(rq);
+> -}
+> -
+> -static int eb_pin_timeline(struct i915_execbuffer *eb, struct intel_context *ce,
+> -			   bool throttle)
+> -{
+> -	struct intel_timeline *tl;
+> -	struct i915_request *rq = NULL;
+> -
+> -	/*
+> -	 * Take a local wakeref for preparing to dispatch the execbuf as
+> -	 * we expect to access the hardware fairly frequently in the
+> -	 * process, and require the engine to be kept awake between accesses.
+> -	 * Upon dispatch, we acquire another prolonged wakeref that we hold
+> -	 * until the timeline is idle, which in turn releases the wakeref
+> -	 * taken on the engine, and the parent device.
+> -	 */
+> -	tl = intel_context_timeline_lock(ce);
+> -	if (IS_ERR(tl))
+> -		return PTR_ERR(tl);
+> -
+> -	intel_context_enter(ce);
+> -	if (throttle)
+> -		rq = eb_throttle(eb, ce);
+> -	intel_context_timeline_unlock(tl);
+> -
+> -	if (rq) {
+> -		bool nonblock = eb->file->filp->f_flags & O_NONBLOCK;
+> -		long timeout = nonblock ? 0 : MAX_SCHEDULE_TIMEOUT;
+> -
+> -		if (i915_request_wait(rq, I915_WAIT_INTERRUPTIBLE,
+> -				      timeout) < 0) {
+> -			i915_request_put(rq);
+> -
+> -			/*
+> -			 * Error path, cannot use intel_context_timeline_lock as
+> -			 * that is user interruptable and this clean up step
+> -			 * must be done.
+> -			 */
+> -			mutex_lock(&ce->timeline->mutex);
+> -			intel_context_exit(ce);
+> -			mutex_unlock(&ce->timeline->mutex);
+> -
+> -			if (nonblock)
+> -				return -EWOULDBLOCK;
+> -			else
+> -				return -EINTR;
+> -		}
+> -		i915_request_put(rq);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  static int eb_pin_engine(struct i915_execbuffer *eb, bool throttle)
+>  {
+> -	struct intel_context *ce = eb->context, *child;
+>  	int err;
+> -	int i = 0, j = 0;
+>  
+>  	GEM_BUG_ON(eb->args->flags & __EXEC_ENGINE_PINNED);
+>  
+> -	if (unlikely(intel_context_is_banned(ce)))
+> -		return -EIO;
+> -
+> -	/*
+> -	 * Pinning the contexts may generate requests in order to acquire
+> -	 * GGTT space, so do this first before we reserve a seqno for
+> -	 * ourselves.
+> -	 */
+> -	err = intel_context_pin_ww(ce, &eb->ww);
+> +	err = i915_eb_pin_engine(eb->context, &eb->ww, throttle,
+> +				 eb->file->filp->f_flags & O_NONBLOCK);
+>  	if (err)
+>  		return err;
+> -	for_each_child(ce, child) {
+> -		err = intel_context_pin_ww(child, &eb->ww);
+> -		GEM_BUG_ON(err);	/* perma-pinned should incr a counter */
+> -	}
+> -
+> -	for_each_child(ce, child) {
+> -		err = eb_pin_timeline(eb, child, throttle);
+> -		if (err)
+> -			goto unwind;
+> -		++i;
+> -	}
+> -	err = eb_pin_timeline(eb, ce, throttle);
+> -	if (err)
+> -		goto unwind;
+>  
+>  	eb->args->flags |= __EXEC_ENGINE_PINNED;
+>  	return 0;
+> -
+> -unwind:
+> -	for_each_child(ce, child) {
+> -		if (j++ < i) {
+> -			mutex_lock(&child->timeline->mutex);
+> -			intel_context_exit(child);
+> -			mutex_unlock(&child->timeline->mutex);
+> -		}
+> -	}
+> -	for_each_child(ce, child)
+> -		intel_context_unpin(child);
+> -	intel_context_unpin(ce);
+> -	return err;
+>  }
+>  
+>  static void eb_unpin_engine(struct i915_execbuffer *eb)
+>  {
+> -	struct intel_context *ce = eb->context, *child;
+> -
+>  	if (!(eb->args->flags & __EXEC_ENGINE_PINNED))
+>  		return;
+>  
+>  	eb->args->flags &= ~__EXEC_ENGINE_PINNED;
+>  
+> -	for_each_child(ce, child) {
+> -		mutex_lock(&child->timeline->mutex);
+> -		intel_context_exit(child);
+> -		mutex_unlock(&child->timeline->mutex);
+> -
+> -		intel_context_unpin(child);
+> -	}
+> -
+> -	mutex_lock(&ce->timeline->mutex);
+> -	intel_context_exit(ce);
+> -	mutex_unlock(&ce->timeline->mutex);
+> -
+> -	intel_context_unpin(ce);
+> +	i915_eb_unpin_engine(eb->context);
+>  }
+>  
+>  static unsigned int
+> @@ -2658,7 +2517,7 @@ eb_select_legacy_ring(struct i915_execbuffer *eb)
+>  static int
+>  eb_select_engine(struct i915_execbuffer *eb)
+>  {
+> -	struct intel_context *ce, *child;
+> +	struct intel_context *ce;
+>  	unsigned int idx;
+>  	int err;
+>  
+> @@ -2683,36 +2542,10 @@ eb_select_engine(struct i915_execbuffer *eb)
+>  	}
+>  	eb->num_batches = ce->parallel.number_children + 1;
+>  
+> -	for_each_child(ce, child)
+> -		intel_context_get(child);
+> -	intel_gt_pm_get(ce->engine->gt);
+> -
+> -	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
+> -		err = intel_context_alloc_state(ce);
+> -		if (err)
+> -			goto err;
+> -	}
+> -	for_each_child(ce, child) {
+> -		if (!test_bit(CONTEXT_ALLOC_BIT, &child->flags)) {
+> -			err = intel_context_alloc_state(child);
+> -			if (err)
+> -				goto err;
+> -		}
+> -	}
+> -
+> -	/*
+> -	 * ABI: Before userspace accesses the GPU (e.g. execbuffer), report
+> -	 * EIO if the GPU is already wedged.
+> -	 */
+> -	err = intel_gt_terminally_wedged(ce->engine->gt);
+> +	err = i915_eb_select_engine(ce);
+>  	if (err)
+>  		goto err;
+>  
+> -	if (!i915_vm_tryget(ce->vm)) {
+> -		err = -ENOENT;
+> -		goto err;
+> -	}
+> -
+>  	eb->context = ce;
+>  	eb->gt = ce->engine->gt;
+>  
+> @@ -2721,12 +2554,9 @@ eb_select_engine(struct i915_execbuffer *eb)
+>  	 * during ww handling. The pool is destroyed when last pm reference
+>  	 * is dropped, which breaks our -EDEADLK handling.
+>  	 */
+> -	return err;
+> +	return 0;
+>  
+>  err:
+> -	intel_gt_pm_put(ce->engine->gt);
+> -	for_each_child(ce, child)
+> -		intel_context_put(child);
+>  	intel_context_put(ce);
+>  	return err;
+>  }
+> @@ -2734,24 +2564,7 @@ eb_select_engine(struct i915_execbuffer *eb)
+>  static void
+>  eb_put_engine(struct i915_execbuffer *eb)
+>  {
+> -	struct intel_context *child;
+> -
+> -	i915_vm_put(eb->context->vm);
+> -	intel_gt_pm_put(eb->gt);
+> -	for_each_child(eb->context, child)
+> -		intel_context_put(child);
+> -	intel_context_put(eb->context);
+> -}
+> -
+> -static void
+> -__free_fence_array(struct eb_fence *fences, unsigned int n)
+> -{
+> -	while (n--) {
+> -		drm_syncobj_put(ptr_mask_bits(fences[n].syncobj, 2));
+> -		dma_fence_put(fences[n].dma_fence);
+> -		dma_fence_chain_free(fences[n].chain_fence);
+> -	}
+> -	kvfree(fences);
+> +	i915_eb_put_engine(eb->context);
+>  }
+>  
+>  static int
+> @@ -2762,7 +2575,6 @@ add_timeline_fence_array(struct i915_execbuffer *eb,
+>  	u64 __user *user_values;
+>  	struct eb_fence *f;
+>  	u64 nfences;
+> -	int err = 0;
+>  
+>  	nfences = timeline_fences->fence_count;
+>  	if (!nfences)
+> @@ -2797,9 +2609,9 @@ add_timeline_fence_array(struct i915_execbuffer *eb,
+>  
+>  	while (nfences--) {
+>  		struct drm_i915_gem_exec_fence user_fence;
+> -		struct drm_syncobj *syncobj;
+> -		struct dma_fence *fence = NULL;
+> +		bool wait, signal;
+>  		u64 point;
+> +		int ret;
+>  
+>  		if (__copy_from_user(&user_fence,
+>  				     user_fences++,
+> @@ -2812,75 +2624,16 @@ add_timeline_fence_array(struct i915_execbuffer *eb,
+>  		if (__get_user(point, user_values++))
+>  			return -EFAULT;
+>  
+> -		syncobj = drm_syncobj_find(eb->file, user_fence.handle);
+> -		if (!syncobj) {
+> -			drm_dbg(&eb->i915->drm,
+> -				"Invalid syncobj handle provided\n");
+> -			return -ENOENT;
+> -		}
+> -
+> -		fence = drm_syncobj_fence_get(syncobj);
+> -
+> -		if (!fence && user_fence.flags &&
+> -		    !(user_fence.flags & I915_EXEC_FENCE_SIGNAL)) {
+> -			drm_dbg(&eb->i915->drm,
+> -				"Syncobj handle has no fence\n");
+> -			drm_syncobj_put(syncobj);
+> -			return -EINVAL;
+> -		}
+> -
+> -		if (fence)
+> -			err = dma_fence_chain_find_seqno(&fence, point);
+> -
+> -		if (err && !(user_fence.flags & I915_EXEC_FENCE_SIGNAL)) {
+> -			drm_dbg(&eb->i915->drm,
+> -				"Syncobj handle missing requested point %llu\n",
+> -				point);
+> -			dma_fence_put(fence);
+> -			drm_syncobj_put(syncobj);
+> -			return err;
+> -		}
+> -
+> -		/*
+> -		 * A point might have been signaled already and
+> -		 * garbage collected from the timeline. In this case
+> -		 * just ignore the point and carry on.
+> -		 */
+> -		if (!fence && !(user_fence.flags & I915_EXEC_FENCE_SIGNAL)) {
+> -			drm_syncobj_put(syncobj);
+> +		wait = user_fence.flags & I915_EXEC_FENCE_WAIT;
+> +		signal = user_fence.flags & I915_EXEC_FENCE_SIGNAL;
+> +		ret = i915_eb_add_timeline_fence(eb->i915, eb->file,
+> +						 user_fence.handle, point,
+> +						 f, wait, signal);
+> +		if (ret < 0)
+> +			return ret;
+> +		else if (!ret)
+>  			continue;
+> -		}
+> -
+> -		/*
+> -		 * For timeline syncobjs we need to preallocate chains for
+> -		 * later signaling.
+> -		 */
+> -		if (point != 0 && user_fence.flags & I915_EXEC_FENCE_SIGNAL) {
+> -			/*
+> -			 * Waiting and signaling the same point (when point !=
+> -			 * 0) would break the timeline.
+> -			 */
+> -			if (user_fence.flags & I915_EXEC_FENCE_WAIT) {
+> -				drm_dbg(&eb->i915->drm,
+> -					"Trying to wait & signal the same timeline point.\n");
+> -				dma_fence_put(fence);
+> -				drm_syncobj_put(syncobj);
+> -				return -EINVAL;
+> -			}
+> -
+> -			f->chain_fence = dma_fence_chain_alloc();
+> -			if (!f->chain_fence) {
+> -				drm_syncobj_put(syncobj);
+> -				dma_fence_put(fence);
+> -				return -ENOMEM;
+> -			}
+> -		} else {
+> -			f->chain_fence = NULL;
+> -		}
+>  
+> -		f->syncobj = ptr_pack_bits(syncobj, user_fence.flags, 2);
+> -		f->dma_fence = fence;
+> -		f->value = point;
+>  		f++;
+>  		eb->num_fences++;
+>  	}
+> @@ -2962,60 +2715,6 @@ static int add_fence_array(struct i915_execbuffer *eb)
+>  	return 0;
+>  }
+>  
+> -static void put_fence_array(struct eb_fence *fences, int num_fences)
+> -{
+> -	if (fences)
+> -		__free_fence_array(fences, num_fences);
+> -}
+> -
+> -static int
+> -await_fence_array(struct i915_execbuffer *eb,
+> -		  struct i915_request *rq)
+> -{
+> -	unsigned int n;
+> -	int err;
+> -
+> -	for (n = 0; n < eb->num_fences; n++) {
+> -		if (!eb->fences[n].dma_fence)
+> -			continue;
+> -
+> -		err = i915_request_await_dma_fence(rq, eb->fences[n].dma_fence);
+> -		if (err < 0)
+> -			return err;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> -static void signal_fence_array(const struct i915_execbuffer *eb,
+> -			       struct dma_fence * const fence)
+> -{
+> -	unsigned int n;
+> -
+> -	for (n = 0; n < eb->num_fences; n++) {
+> -		struct drm_syncobj *syncobj;
+> -		unsigned int flags;
+> -
+> -		syncobj = ptr_unpack_bits(eb->fences[n].syncobj, &flags, 2);
+> -		if (!(flags & I915_EXEC_FENCE_SIGNAL))
+> -			continue;
+> -
+> -		if (eb->fences[n].chain_fence) {
+> -			drm_syncobj_add_point(syncobj,
+> -					      eb->fences[n].chain_fence,
+> -					      fence,
+> -					      eb->fences[n].value);
+> -			/*
+> -			 * The chain's ownership is transferred to the
+> -			 * timeline.
+> -			 */
+> -			eb->fences[n].chain_fence = NULL;
+> -		} else {
+> -			drm_syncobj_replace_fence(syncobj, fence);
+> -		}
+> -	}
+> -}
+> -
+>  static int
+>  parse_timeline_fences(struct i915_user_extension __user *ext, void *data)
+>  {
+> @@ -3028,80 +2727,6 @@ parse_timeline_fences(struct i915_user_extension __user *ext, void *data)
+>  	return add_timeline_fence_array(eb, &timeline_fences);
+>  }
+>  
+> -static void retire_requests(struct intel_timeline *tl, struct i915_request *end)
+> -{
+> -	struct i915_request *rq, *rn;
+> -
+> -	list_for_each_entry_safe(rq, rn, &tl->requests, link)
+> -		if (rq == end || !i915_request_retire(rq))
+> -			break;
+> -}
+> -
+> -static int eb_request_add(struct i915_execbuffer *eb, struct i915_request *rq,
+> -			  int err, bool last_parallel)
+> -{
+> -	struct intel_timeline * const tl = i915_request_timeline(rq);
+> -	struct i915_sched_attr attr = {};
+> -	struct i915_request *prev;
+> -
+> -	lockdep_assert_held(&tl->mutex);
+> -	lockdep_unpin_lock(&tl->mutex, rq->cookie);
+> -
+> -	trace_i915_request_add(rq);
+> -
+> -	prev = __i915_request_commit(rq);
+> -
+> -	/* Check that the context wasn't destroyed before submission */
+> -	if (likely(!intel_context_is_closed(eb->context))) {
+> -		attr = eb->gem_context->sched;
+> -	} else {
+> -		/* Serialise with context_close via the add_to_timeline */
+> -		i915_request_set_error_once(rq, -ENOENT);
+> -		__i915_request_skip(rq);
+> -		err = -ENOENT; /* override any transient errors */
+> -	}
+> -
+> -	if (intel_context_is_parallel(eb->context)) {
+> -		if (err) {
+> -			__i915_request_skip(rq);
+> -			set_bit(I915_FENCE_FLAG_SKIP_PARALLEL,
+> -				&rq->fence.flags);
+> -		}
+> -		if (last_parallel)
+> -			set_bit(I915_FENCE_FLAG_SUBMIT_PARALLEL,
+> -				&rq->fence.flags);
+> -	}
+> -
+> -	__i915_request_queue(rq, &attr);
+> -
+> -	/* Try to clean up the client's timeline after submitting the request */
+> -	if (prev)
+> -		retire_requests(tl, prev);
+> -
+> -	mutex_unlock(&tl->mutex);
+> -
+> -	return err;
+> -}
+> -
+> -static int eb_requests_add(struct i915_execbuffer *eb, int err)
+> -{
+> -	int i;
+> -
+> -	/*
+> -	 * We iterate in reverse order of creation to release timeline mutexes in
+> -	 * same order.
+> -	 */
+> -	for_each_batch_add_order(eb, i) {
+> -		struct i915_request *rq = eb->requests[i];
+> -
+> -		if (!rq)
+> -			continue;
+> -		err |= eb_request_add(eb, rq, err, i == 0);
+> -	}
+> -
+> -	return err;
+> -}
+> -
+>  static const i915_user_extension_fn execbuf_extensions[] = {
+>  	[DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES] = parse_timeline_fences,
+>  };
+> @@ -3128,73 +2753,26 @@ parse_execbuf2_extensions(struct drm_i915_gem_execbuffer2 *args,
+>  				    eb);
+>  }
+>  
+> -static void eb_requests_get(struct i915_execbuffer *eb)
+> -{
+> -	unsigned int i;
+> -
+> -	for_each_batch_create_order(eb, i) {
+> -		if (!eb->requests[i])
+> -			break;
+> -
+> -		i915_request_get(eb->requests[i]);
+> -	}
+> -}
+> -
+> -static void eb_requests_put(struct i915_execbuffer *eb)
+> -{
+> -	unsigned int i;
+> -
+> -	for_each_batch_create_order(eb, i) {
+> -		if (!eb->requests[i])
+> -			break;
+> -
+> -		i915_request_put(eb->requests[i]);
+> -	}
+> -}
+> -
+>  static struct sync_file *
+>  eb_composite_fence_create(struct i915_execbuffer *eb, int out_fence_fd)
+>  {
+>  	struct sync_file *out_fence = NULL;
+> -	struct dma_fence_array *fence_array;
+> -	struct dma_fence **fences;
+> -	unsigned int i;
+> -
+> -	GEM_BUG_ON(!intel_context_is_parent(eb->context));
+> +	struct dma_fence *fence;
+>  
+> -	fences = kmalloc_array(eb->num_batches, sizeof(*fences), GFP_KERNEL);
+> -	if (!fences)
+> -		return ERR_PTR(-ENOMEM);
+> -
+> -	for_each_batch_create_order(eb, i) {
+> -		fences[i] = &eb->requests[i]->fence;
+> -		__set_bit(I915_FENCE_FLAG_COMPOSITE,
+> -			  &eb->requests[i]->fence.flags);
+> -	}
+> -
+> -	fence_array = dma_fence_array_create(eb->num_batches,
+> -					     fences,
+> -					     eb->context->parallel.fence_context,
+> -					     eb->context->parallel.seqno++,
+> -					     false);
+> -	if (!fence_array) {
+> -		kfree(fences);
+> -		return ERR_PTR(-ENOMEM);
+> -	}
+> -
+> -	/* Move ownership to the dma_fence_array created above */
+> -	for_each_batch_create_order(eb, i)
+> -		dma_fence_get(fences[i]);
+> +	fence = i915_eb_composite_fence_create(eb->requests, eb->num_batches,
+> +					       eb->context);
+> +	if (IS_ERR(fence))
+> +		return ERR_CAST(fence);
+>  
+>  	if (out_fence_fd != -1) {
+> -		out_fence = sync_file_create(&fence_array->base);
+> +		out_fence = sync_file_create(fence);
+>  		/* sync_file now owns fence_arry, drop creation ref */
+> -		dma_fence_put(&fence_array->base);
+> +		dma_fence_put(fence);
+>  		if (!out_fence)
+>  			return ERR_PTR(-ENOMEM);
+>  	}
+>  
+> -	eb->composite_fence = &fence_array->base;
+> +	eb->composite_fence = fence;
+>  
+>  	return out_fence;
+>  }
+> @@ -3226,7 +2804,7 @@ eb_fences_add(struct i915_execbuffer *eb, struct i915_request *rq,
+>  	}
+>  
+>  	if (eb->fences) {
+> -		err = await_fence_array(eb, rq);
+> +		err = i915_eb_await_fence_array(eb->fences, eb->num_fences, rq);
+>  		if (err)
+>  			return ERR_PTR(err);
+>  	}
+> @@ -3244,23 +2822,6 @@ eb_fences_add(struct i915_execbuffer *eb, struct i915_request *rq,
+>  	return out_fence;
+>  }
+>  
+> -static struct intel_context *
+> -eb_find_context(struct i915_execbuffer *eb, unsigned int context_number)
+> -{
+> -	struct intel_context *child;
+> -
+> -	if (likely(context_number == 0))
+> -		return eb->context;
+> -
+> -	for_each_child(eb->context, child)
+> -		if (!--context_number)
+> -			return child;
+> -
+> -	GEM_BUG_ON("Context not found");
+> -
+> -	return NULL;
+> -}
+> -
+>  static struct sync_file *
+>  eb_requests_create(struct i915_execbuffer *eb, struct dma_fence *in_fence,
+>  		   int out_fence_fd)
+> @@ -3270,7 +2831,9 @@ eb_requests_create(struct i915_execbuffer *eb, struct dma_fence *in_fence,
+>  
+>  	for_each_batch_create_order(eb, i) {
+>  		/* Allocate a request for this batch buffer nice and early. */
+> -		eb->requests[i] = i915_request_create(eb_find_context(eb, i));
+> +		eb->requests[i] =
+> +			i915_request_create(i915_eb_find_context(eb->context,
+> +								 i));
+>  		if (IS_ERR(eb->requests[i])) {
+>  			out_fence = ERR_CAST(eb->requests[i]);
+>  			eb->requests[i] = NULL;
+> @@ -3450,13 +3013,15 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+>  	err = eb_submit(&eb);
+>  
+>  err_request:
+> -	eb_requests_get(&eb);
+> -	err = eb_requests_add(&eb, err);
+> +	i915_eb_requests_get(eb.requests, eb.num_batches);
+> +	err = i915_eb_requests_add(eb.requests, eb.num_batches, eb.context,
+> +				   eb.gem_context->sched, err);
+>  
+>  	if (eb.fences)
+> -		signal_fence_array(&eb, eb.composite_fence ?
+> -				   eb.composite_fence :
+> -				   &eb.requests[0]->fence);
+> +		i915_eb_signal_fence_array(eb.fences, eb.num_fences,
+> +					   eb.composite_fence ?
+> +					   eb.composite_fence :
+> +					   &eb.requests[0]->fence);
+>  
+>  	if (out_fence) {
+>  		if (err == 0) {
+> @@ -3479,7 +3044,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+>  	if (!out_fence && eb.composite_fence)
+>  		dma_fence_put(eb.composite_fence);
+>  
+> -	eb_requests_put(&eb);
+> +	i915_eb_requests_put(eb.requests, eb.num_batches);
+>  
+>  err_vma:
+>  	eb_release_vmas(&eb, true);
+> @@ -3500,7 +3065,7 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+>  err_in_fence:
+>  	dma_fence_put(in_fence);
+>  err_ext:
+> -	put_fence_array(eb.fences, eb.num_fences);
+> +	i915_eb_put_fence_array(eb.fences, eb.num_fences);
+>  	return err;
+>  }
+>  
+> -- 
+> 2.21.0.rc0.32.g243a4c7e27
