@@ -2,40 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9BD687C5B
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 12:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D634687C5C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 12:33:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD6A10E184;
-	Thu,  2 Feb 2023 11:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7068610E1D7;
+	Thu,  2 Feb 2023 11:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED72910E184
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 11:33:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4D310E1DB
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 11:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=q0mloO5zA9Q4e1v1bB1TvvWGQJNzEV2eRcI0LFKgLg0=; b=EerMgFcd9XDXgbWQS0Aur8EBkM
- fcpIJL5wQT3F11rK34vB0bgzp5SedxiGKpJjmklE9/A9bDYiaVJrBcyFZUnfWJVGEMqJz8OykkqK2
- AKTETAnRuY3HgGnNI4m4hFIMduQPUrdK9eaKWMUXEjCoB2rTuMDMWmUIyZKcGTtK8RjbIvz1858bR
- ZyIPd87ukHgmHctO1/4IWaoi5/NtpozMMq76hVn/OBxp45960hUzS+vANwXdeaJCRyjcz4H5bhafQ
- adrfx58lzNrEruFrmATAf5fRwlnxEwCqRQrZu0Ha5zDPJpS1fT9mDyi9DIt0ePtW6WHfj1vVoqMIE
- 1NqMz2ag==;
+ bh=Ohyn5gXDjBXchsT1030n5tgMEdCqaZUlGtW3BHwQ/A0=; b=PWC3ye0CkCU4WLcuPJjtZ0uR5J
+ g+1V++dYByxK7Py3Dpz3mA49bjGb5PBrgaun80zqEahoCwHl2zzR8t8Di2e5cKLf1/fjdlPnYqruK
+ 7TGcHmGqi+sO73Qz32M4O3jqx/X1qWR3CWBqNovkhFKTDNAhgGedPnN2ClKslEfLfHHroEnJrtV1v
+ nh20rX4RG6DZjnS2+erwP9rBr//y9sYj+av66T70RYj4KDUKuLwC8auY0qRQ2nqodShnFsDPeniOi
+ tZSFF7p426GtwC4wRqhvmE+GvtrGxdn4Rc5JDyEnsKac/fEp9gcprn4n31k8nraprSSFDuT0ZWBdw
+ 7v3Todtg==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pNXqD-007IGk-8T; Thu, 02 Feb 2023 12:33:21 +0100
+ id 1pNXqG-007IGk-E2; Thu, 02 Feb 2023 12:33:25 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH v2 0/2] drm/vc4: Improve drm_gem_object handling
-Date: Thu,  2 Feb 2023 08:19:42 -0300
-Message-Id: <20230202111943.111757-1-mcanal@igalia.com>
+Subject: [PATCH v2 1/2] drm/vc4: replace drm_gem_dma_object for drm_gem_object
+ in vc4_exec_info
+Date: Thu,  2 Feb 2023 08:19:43 -0300
+Message-Id: <20230202111943.111757-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230202111943.111757-1-mcanal@igalia.com>
+References: <20230202111943.111757-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -52,32 +55,195 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the array of BOs that are lookup up at the start of exec is being
-instantiated as drm_gem_dma_object, which is not needed and makes it difficult
-to use the drm_gem_objects_lookup() helper. Therefore, replace
-drm_gem_dma_object for drm_gem_object and then replace obj lookup steps with
-drm_gem_objects_lookup().
+The array of BOs that are lookup at the start of exec doesn't need
+to be instantiated as drm_gem_dma_object, as it doesn't benefit
+from its attributes. So, simplify the code by replacing the array of
+drm_gem_dma_object for an array of drm_gem_object in the struct
+vc4_exec_info.
 
-v1 -> v2:
-
-* Add André Almeida's Reviewed-by.
-
-Best Regards,
-- Maíra Canal
-
-Maíra Canal (2):
-  drm/vc4: replace drm_gem_dma_object for drm_gem_object in vc4_exec_info
-  drm/vc4: replace obj lookup steps with drm_gem_objects_lookup
-
+Suggested-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: André Almeida <andrealmeid@igalia.com>
+---
  drivers/gpu/drm/vc4/vc4_drv.h      |  2 +-
- drivers/gpu/drm/vc4/vc4_gem.c      | 78 +++++++-----------------------
- drivers/gpu/drm/vc4/vc4_validate.c |  4 +-
- 3 files changed, 21 insertions(+), 63 deletions(-)
+ drivers/gpu/drm/vc4/vc4_gem.c      | 37 ++++++++++++++----------------
+ drivers/gpu/drm/vc4/vc4_validate.c |  4 ++--
+ 3 files changed, 20 insertions(+), 23 deletions(-)
 
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 95069bb16821..8768566c610b 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -690,7 +690,7 @@ struct vc4_exec_info {
+ 	/* This is the array of BOs that were looked up at the start of exec.
+ 	 * Command validation will use indices into this array.
+ 	 */
+-	struct drm_gem_dma_object **bo;
++	struct drm_gem_object **bo;
+ 	uint32_t bo_count;
+ 
+ 	/* List of BOs that are being written by the RCL.  Other than
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+index 628d40ff3aa1..d6985d067e34 100644
+--- a/drivers/gpu/drm/vc4/vc4_gem.c
++++ b/drivers/gpu/drm/vc4/vc4_gem.c
+@@ -199,7 +199,7 @@ vc4_save_hang_state(struct drm_device *dev)
+ 			continue;
+ 
+ 		for (j = 0; j < exec[i]->bo_count; j++) {
+-			bo = to_vc4_bo(&exec[i]->bo[j]->base);
++			bo = to_vc4_bo(exec[i]->bo[j]);
+ 
+ 			/* Retain BOs just in case they were marked purgeable.
+ 			 * This prevents the BO from being purged before
+@@ -207,8 +207,8 @@ vc4_save_hang_state(struct drm_device *dev)
+ 			 */
+ 			WARN_ON(!refcount_read(&bo->usecnt));
+ 			refcount_inc(&bo->usecnt);
+-			drm_gem_object_get(&exec[i]->bo[j]->base);
+-			kernel_state->bo[k++] = &exec[i]->bo[j]->base;
++			drm_gem_object_get(exec[i]->bo[j]);
++			kernel_state->bo[k++] = exec[i]->bo[j];
+ 		}
+ 
+ 		list_for_each_entry(bo, &exec[i]->unref_list, unref_head) {
+@@ -558,7 +558,7 @@ vc4_update_bo_seqnos(struct vc4_exec_info *exec, uint64_t seqno)
+ 	unsigned i;
+ 
+ 	for (i = 0; i < exec->bo_count; i++) {
+-		bo = to_vc4_bo(&exec->bo[i]->base);
++		bo = to_vc4_bo(exec->bo[i]);
+ 		bo->seqno = seqno;
+ 
+ 		dma_resv_add_fence(bo->base.base.resv, exec->fence,
+@@ -585,11 +585,8 @@ vc4_unlock_bo_reservations(struct drm_device *dev,
+ {
+ 	int i;
+ 
+-	for (i = 0; i < exec->bo_count; i++) {
+-		struct drm_gem_object *bo = &exec->bo[i]->base;
+-
+-		dma_resv_unlock(bo->resv);
+-	}
++	for (i = 0; i < exec->bo_count; i++)
++		dma_resv_unlock(exec->bo[i]->resv);
+ 
+ 	ww_acquire_fini(acquire_ctx);
+ }
+@@ -614,7 +611,7 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+ 
+ retry:
+ 	if (contended_lock != -1) {
+-		bo = &exec->bo[contended_lock]->base;
++		bo = exec->bo[contended_lock];
+ 		ret = dma_resv_lock_slow_interruptible(bo->resv, acquire_ctx);
+ 		if (ret) {
+ 			ww_acquire_done(acquire_ctx);
+@@ -626,19 +623,19 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+ 		if (i == contended_lock)
+ 			continue;
+ 
+-		bo = &exec->bo[i]->base;
++		bo = exec->bo[i];
+ 
+ 		ret = dma_resv_lock_interruptible(bo->resv, acquire_ctx);
+ 		if (ret) {
+ 			int j;
+ 
+ 			for (j = 0; j < i; j++) {
+-				bo = &exec->bo[j]->base;
++				bo = exec->bo[j];
+ 				dma_resv_unlock(bo->resv);
+ 			}
+ 
+ 			if (contended_lock != -1 && contended_lock >= i) {
+-				bo = &exec->bo[contended_lock]->base;
++				bo = exec->bo[contended_lock];
+ 
+ 				dma_resv_unlock(bo->resv);
+ 			}
+@@ -659,7 +656,7 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+ 	 * before we commit the CL to the hardware.
+ 	 */
+ 	for (i = 0; i < exec->bo_count; i++) {
+-		bo = &exec->bo[i]->base;
++		bo = exec->bo[i];
+ 
+ 		ret = dma_resv_reserve_fences(bo->resv, 1);
+ 		if (ret) {
+@@ -797,7 +794,7 @@ vc4_cl_lookup_bos(struct drm_device *dev,
+ 		}
+ 
+ 		drm_gem_object_get(bo);
+-		exec->bo[i] = (struct drm_gem_dma_object *)bo;
++		exec->bo[i] = bo;
+ 	}
+ 	spin_unlock(&file_priv->table_lock);
+ 
+@@ -805,7 +802,7 @@ vc4_cl_lookup_bos(struct drm_device *dev,
+ 		goto fail_put_bo;
+ 
+ 	for (i = 0; i < exec->bo_count; i++) {
+-		ret = vc4_bo_inc_usecnt(to_vc4_bo(&exec->bo[i]->base));
++		ret = vc4_bo_inc_usecnt(to_vc4_bo(exec->bo[i]));
+ 		if (ret)
+ 			goto fail_dec_usecnt;
+ 	}
+@@ -823,12 +820,12 @@ vc4_cl_lookup_bos(struct drm_device *dev,
+ 	 * step.
+ 	 */
+ 	for (i-- ; i >= 0; i--)
+-		vc4_bo_dec_usecnt(to_vc4_bo(&exec->bo[i]->base));
++		vc4_bo_dec_usecnt(to_vc4_bo(exec->bo[i]));
+ 
+ fail_put_bo:
+ 	/* Release any reference to acquired objects. */
+ 	for (i = 0; i < exec->bo_count && exec->bo[i]; i++)
+-		drm_gem_object_put(&exec->bo[i]->base);
++		drm_gem_object_put(exec->bo[i]);
+ 
+ fail:
+ 	kvfree(handles);
+@@ -974,10 +971,10 @@ vc4_complete_exec(struct drm_device *dev, struct vc4_exec_info *exec)
+ 
+ 	if (exec->bo) {
+ 		for (i = 0; i < exec->bo_count; i++) {
+-			struct vc4_bo *bo = to_vc4_bo(&exec->bo[i]->base);
++			struct vc4_bo *bo = to_vc4_bo(exec->bo[i]);
+ 
+ 			vc4_bo_dec_usecnt(bo);
+-			drm_gem_object_put(&exec->bo[i]->base);
++			drm_gem_object_put(exec->bo[i]);
+ 		}
+ 		kvfree(exec->bo);
+ 	}
+diff --git a/drivers/gpu/drm/vc4/vc4_validate.c b/drivers/gpu/drm/vc4/vc4_validate.c
+index 520231af4df9..7dff3ca5af6b 100644
+--- a/drivers/gpu/drm/vc4/vc4_validate.c
++++ b/drivers/gpu/drm/vc4/vc4_validate.c
+@@ -117,7 +117,7 @@ vc4_use_bo(struct vc4_exec_info *exec, uint32_t hindex)
+ 			  hindex, exec->bo_count);
+ 		return NULL;
+ 	}
+-	obj = exec->bo[hindex];
++	obj = to_drm_gem_dma_obj(exec->bo[hindex]);
+ 	bo = to_vc4_bo(&obj->base);
+ 
+ 	if (bo->validated_shader) {
+@@ -810,7 +810,7 @@ validate_gl_shader_rec(struct drm_device *dev,
+ 			return -EINVAL;
+ 		}
+ 
+-		bo[i] = exec->bo[src_handles[i]];
++		bo[i] = to_drm_gem_dma_obj(exec->bo[src_handles[i]]);
+ 		if (!bo[i])
+ 			return -EINVAL;
+ 	}
 -- 
 2.39.1
 
