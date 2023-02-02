@@ -1,64 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4FD687E44
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 14:05:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CC0687E49
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 14:08:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD4DD10E1E2;
-	Thu,  2 Feb 2023 13:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 590EC10E50C;
+	Thu,  2 Feb 2023 13:08:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFD510E50C
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 13:05:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AAA243370E;
- Thu,  2 Feb 2023 13:05:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675343114; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e9IjrdN9ufa9KfH8PTvyFHcTuZnLSxhttNdIiL7loUw=;
- b=K9m0MEosC7sED43ndZdVbauv4MF1z3U5tDrT4fHsiMdkZ3EZlaPAKZY0f6YIWeJNHZXq4I
- zlFPtLqV2jTjcBZGDeVdfbZsMo90VC9i0Nld2M9IO25aPAqLqCNsyxLVDrQXeRkBJPYGiI
- VGa1CYyJF/vsX8iSmKJcIqKvGKhYuhA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675343114;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e9IjrdN9ufa9KfH8PTvyFHcTuZnLSxhttNdIiL7loUw=;
- b=QPE3t+rbGU8D/fj8dQ/IyAiOTcz/+P882vTc2PPXHCQDaGKGScJnkbAGy3PdRViuewJtCY
- PR+LTriP2NxO4yAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8EA4E138E8;
- Thu,  2 Feb 2023 13:05:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bTviIQq122M+IwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 02 Feb 2023 13:05:14 +0000
-Message-ID: <ec8c04f7-963a-6e70-fe5b-0fd032bb1455@suse.de>
-Date: Thu, 2 Feb 2023 14:05:14 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2D610E50E
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 13:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675343316; x=1706879316;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=E7KEmjqkA0ZeZr3bz8rnRGZaOvQ7/getmN/0QWoPgd8=;
+ b=HG9VAqKRLW57lfPWPrRuz3OCeW6nLerWWfPOeBPoVTTvJkOK+9IRqh/f
+ 8hV0qqnxwNmN9T50JI+o7SY6ffnp5akuXItdnZGQOPN10DX2sWOdhWCqv
+ +3fjNAC5nngMo7CiaRfXQvOnO8NblXwp1yN67IkTcpZU5k20AIluD6p6+
+ KIKVyxJB0UdU9PGHhny84CA9PCSR7PV7lyQWqWTUd2YJtpQaQLZsS94wM
+ pJ7jqa22QENNgxHlGzr0+R0HlYukyZ4nHEki49ZSWOEdJdR6IIktL4FzA
+ U3w1r7mw2+O0jlwcTPsRfhKw0dnkzGr5tHj87lS3U01TFfBCAKq3nIY4/ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="327090869"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="327090869"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2023 05:08:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="728855726"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="728855726"
+Received: from lkp-server01.sh.intel.com (HELO ffa7f14d1d0f) ([10.239.97.150])
+ by fmsmga008.fm.intel.com with ESMTP; 02 Feb 2023 05:08:31 -0800
+Received: from kbuild by ffa7f14d1d0f with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pNZKJ-0006WZ-0f;
+ Thu, 02 Feb 2023 13:08:31 +0000
+Date: Thu, 2 Feb 2023 21:07:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH] drm/client: Convert to VISIBLE_IF_KUNIT
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
+Message-ID: <202302022027.LWmJQ4lL-lkp@intel.com>
 References: <20230202110312.808607-1-maxime@cerno.tech>
- <9eaa27aa-85e4-aee2-22ba-1c49465ecbc6@suse.de>
- <20230202123555.r2qvjjhtqwx7e2zo@houat>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230202123555.r2qvjjhtqwx7e2zo@houat>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YezYI1yW4yuG5wdw3U0tHX6A"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230202110312.808607-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,105 +62,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YezYI1yW4yuG5wdw3U0tHX6A
-Content-Type: multipart/mixed; boundary="------------HTIvYTLpK7orp3E69Upc3ZRD";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <ec8c04f7-963a-6e70-fe5b-0fd032bb1455@suse.de>
-Subject: Re: [PATCH] drm/client: Convert to VISIBLE_IF_KUNIT
-References: <20230202110312.808607-1-maxime@cerno.tech>
- <9eaa27aa-85e4-aee2-22ba-1c49465ecbc6@suse.de>
- <20230202123555.r2qvjjhtqwx7e2zo@houat>
-In-Reply-To: <20230202123555.r2qvjjhtqwx7e2zo@houat>
+Hi Maxime,
 
---------------HTIvYTLpK7orp3E69Upc3ZRD
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I love your patch! Perhaps something to improve:
 
-SGkNCg0KQW0gMDIuMDIuMjMgdW0gMTM6MzUgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBI
-aSwNCj4gDQo+IE9uIFRodSwgRmViIDAyLCAyMDIzIGF0IDAxOjIyOjAxUE0gKzAxMDAsIFRo
-b21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gQW0gMDIuMDIuMjMgdW0gMTI6MDMgc2Nocmll
-YiBNYXhpbWUgUmlwYXJkOg0KPj4+IENvbW1pdCA4ZmMwMzgwZjZiYTcgKCJkcm0vY2xpZW50
-OiBBZGQgc29tZSB0ZXN0cyBmb3INCj4+PiBkcm1fY29ubmVjdG9yX3BpY2tfY21kbGluZV9t
-b2RlKCkiKSB3YXMgbWVhbnQgdG8gaW50cm9kdWNlIHVuaXQgdGVzdHMNCj4+PiBmb3IgdGhl
-IHN0YXRpYyBkcm1fY29ubmVjdG9yX3BpY2tfY21kbGluZV9tb2RlKCkgZnVuY3Rpb24uDQo+
-Pj4NCj4+PiBJbiBzdWNoIGEgY2FzZSwgdGhlIGt1bml0IGRvY3VtZW50YXRpb24gcmVjb21t
-ZW5kZWQgdG8gaW1wb3J0IHRoZSB0ZXN0cw0KPj4+IHNvdXJjZSBmaWxlIGRpcmVjdGx5IGZy
-b20gdGhlIHNvdXJjZSBmaWxlIHdpdGggdGhlIHN0YXRpYyBmdW5jdGlvbiB0bw0KPj4+IHRl
-c3QuDQo+Pj4NCj4+PiBXaGlsZSBpdCB3YXMgd29ya2luZywgaXQncyBnZW5lcmFsbHkgZnJv
-d25lZCB1cG9uLiBGb3J0dW5hdGVseSwgY29tbWl0DQo+Pj4gOWM5ODhmYWU2ZjZhICgia3Vu
-aXQ6IGFkZCBtYWNybyB0byBhbGxvdyBjb25kaXRpb25hbGx5IGV4cG9zaW5nIHN0YXRpYw0K
-Pj4+IHN5bWJvbHMgdG8gdGVzdHMiKSBpbnRyb2R1Y2VkIG1hY3JvcyB0byBlYXNpbHkgZGVh
-bCB3aXRoIHRoYXQgY2FzZS4gV2UNCj4+PiBjYW4gdGh1cyByZW1vdmUgb3VyIGluY2x1ZGUg
-YW5kIHVzZSB0aG9zZSBtYWNyb3MgaW5zdGVhZC4NCj4+DQo+PiBJIGxpa2UgdGhhdCB0aGlz
-IGluY2x1ZGUgc3RhdGVtZW50cyBpcyBnb2luZyBhd2F5Lg0KPiANCj4gWWVhaCwgd2hlbiBJ
-IHNhdyB0aGF0IGl0IHdhcyBub3cgYXZhaWxhYmxlLCBJIHJlbWVtYmVyZWQgeW91IHJlYWxs
-eQ0KPiBkaWRuJ3QgbGlrZSBpdCA6KQ0KPiANCj4+IEJ1dCBjaGFuZ2luZyBzeW1ib2wgdmlz
-aWJpbGl0eSBmb3IgdGVzdHMgaXMgbGlrZXdpc2UgYXdrd2FyZC4NCj4+DQo+PiBNYXliZSBp
-J20gYXNraW4gZ3RvbyBtaXVjaCBmb3IgdGhpcyBzaW1wbGUgcGF0Y2gsIGJ1dCBjYW4ndCB3
-ZSBoYXZlIGEgaGVscGVyDQo+PiBtYWNybyB0aGF0IGdlbmVyYXRlcyBhbiBleHBvcnRlZCB3
-cmFwcGVyIGZvciBLdW5pdCB0ZXN0cz8gU29tZXRoaW5nIGxpa2UNCj4+IHRoaXM6DQo+Pg0K
-Pj4gRVhQT1JUX0tVTklUX1dSQVBQRVIoc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKlwNCj4+
-IAkJCWRybV9jb25uZWN0b3JfcGlja19jbWRsaW5lX21vZGUsDQo+PiAJCQlzdHJ1Y3QgZHJt
-X2Nvbm5lY3RvciAqY29ubmVjdG9yKTsNCj4+DQo+PiB3aGljaCB0aGVuIGdlbmVyYXRlcyBz
-b21ldGhpbmcgbGlrZSB0aGlzOg0KPj4NCj4+IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICog
-ZHJtX2Nvbm5lY3Rvcl9waWNrX2NtZGxpbmVfbW9kZV9rdW5pdCgNCj4+IAlzdHJ1Y3QgZHJt
-X2Nvbm5lY3RvciAqY29ubmVjdG9yKQ0KPj4gew0KPj4gCXJldHVybiBkcm1fY29ubmVjdG9y
-X3BpY2tfY21kbGluZV9tb2RlKGNvbm5lY3Rvcik7DQo+PiB9DQo+Pg0KPj4gSSBrbm93IHRo
-YXQgdGhlIG1hY3JvIGZvciBnZW5lcmF0aW5nIHRoaXMgY29kZSBpcyBtb3JlIGNvbXBsZXgg
-dGhhbg0KPj4gaWxsdXN0cmF0ZWQgaGVyZS4gQnV0IHRoaXMgc29sdXRpb24gc2VwYXJhdGVz
-IEt1bml0IGFuZCBmdW5jdGlvbnMgY2xlYW5seS4NCj4+IFRoZSBzdGF0aWMgZnVuY3Rpb25z
-IHRoYXQgYXJlIGV4cG9ydGVkIGZvciBLdW5pdCB0ZXN0aW5nIHN0aWxsIG5lZWQgdG8gYmUN
-Cj4+IGRlY2xhcmVkIGluIGEgaGVhZGVyIGZpbGUuIFRoYXQgY291bGQgYWxzbyBiZSBkb25l
-IHZpYSBzdWNoIGEgbWFjcm8uDQo+IA0KPiBJIG1lYW4sIEkgZ3Vlc3Mgd2UgY291bGQgZG8g
-dGhhdCwgYnV0IHdoYXQncyB0aGUgcG9pbnQ/IEkgZG9uJ3QgcmVhbGx5DQo+IGdldCB3aGF0
-IHRoYXQgd3JhcHBlciBicmluZ3MgdG8gdGhlIHRhYmxlLg0KDQpUaGUgYmlnIGJlbmVmaXQg
-b2YgdGhlIGt1bml0IHdyYXBwZXIgaXMgdGhhdCB3ZSBkb24ndCBjaGFuZ2UgdGhlIA0Kdmlz
-aWJpbGl0eSBvciBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgdGVzdGVkIGNvZGUuIFRoZSBjdXJy
-ZW50bHkgZXhpc3RpbmcgDQptYWNyb3MgaW52aXRlIGxpbmtlciBlcnJvcnMgYmVjYXVzZSBz
-eW1ib2wgdmlzaWJpbGl0eSBub3cgZGVwZW5kcyBvbiANCndoZXRoZXIgS3VuaXQgaXQgZW5h
-YmxlZC4gSXQncyBhbHNvIG5vdCBjbGVhciB0byBtZSBob3cgS3VuaXQga25vd3MgdGhlIA0K
-c3ltYm9sLiBJcyB0aGVyZSBhIGZ1bmN0aW9uIGRlY2xhcmF0aW9uIGluIHRoZSBLdW5pdCB0
-ZXN0J3Mgc291cmNlIGNvZGU/IA0KSWYgc28sIGl0IG1pZ2h0IGRpdmVyZ2UgZnJvbSB0aGUg
-aW1wbGVtZW50YXRpb247IHdpdGggY29uc2VxdWVuY2VzLg0KDQpCZXN0IHJlZ2FyZHMNClRo
-b21hcw0KDQo+IA0KPiBBbHNvLCB0aGlzIGRldmlhdGVzIGZyb20gdGhlIGV4aXN0aW5nIHBy
-YWN0aWNlIHdlIGhhZCBmb3Igc2VsZnRlc3RzIGFuZA0KPiBFWFBPUlRfU1lNQk9MX0ZPUl9U
-RVNUU19PTkxZDQo+IA0KPiBNYXhpbWUNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.2-rc6 next-20230202]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-client-Convert-to-VISIBLE_IF_KUNIT/20230202-190453
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230202110312.808607-1-maxime%40cerno.tech
+patch subject: [PATCH] drm/client: Convert to VISIBLE_IF_KUNIT
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230202/202302022027.LWmJQ4lL-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/dd1e4c34178f4049f33e639350a6ef66ae9b5fd3
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maxime-Ripard/drm-client-Convert-to-VISIBLE_IF_KUNIT/20230202-190453
+        git checkout dd1e4c34178f4049f33e639350a6ef66ae9b5fd3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_client_modeset.c:166:1: warning: no previous prototype for 'drm_connector_pick_cmdline_mode' [-Wmissing-prototypes]
+     166 | drm_connector_pick_cmdline_mode(struct drm_connector *connector)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
---------------HTIvYTLpK7orp3E69Upc3ZRD--
+vim +/drm_connector_pick_cmdline_mode +166 drivers/gpu/drm/drm_client_modeset.c
 
---------------YezYI1yW4yuG5wdw3U0tHX6A
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+   164	
+   165	VISIBLE_IF_KUNIT struct drm_display_mode *
+ > 166	drm_connector_pick_cmdline_mode(struct drm_connector *connector)
+   167	{
+   168		struct drm_cmdline_mode *cmdline_mode;
+   169		struct drm_display_mode *mode;
+   170		bool prefer_non_interlace;
+   171	
+   172		/*
+   173		 * Find a user-defined mode. If the user gave us a valid
+   174		 * mode on the kernel command line, it will show up in this
+   175		 * list.
+   176		 */
+   177	
+   178		list_for_each_entry(mode, &connector->modes, head) {
+   179			if (mode->type & DRM_MODE_TYPE_USERDEF)
+   180				return mode;
+   181		}
+   182	
+   183		cmdline_mode = &connector->cmdline_mode;
+   184		if (cmdline_mode->specified == false)
+   185			return NULL;
+   186	
+   187		/*
+   188		 * Attempt to find a matching mode in the list of modes we
+   189		 * have gotten so far.
+   190		 */
+   191	
+   192		prefer_non_interlace = !cmdline_mode->interlace;
+   193	again:
+   194		list_for_each_entry(mode, &connector->modes, head) {
+   195			/* check width/height */
+   196			if (mode->hdisplay != cmdline_mode->xres ||
+   197			    mode->vdisplay != cmdline_mode->yres)
+   198				continue;
+   199	
+   200			if (cmdline_mode->refresh_specified) {
+   201				if (drm_mode_vrefresh(mode) != cmdline_mode->refresh)
+   202					continue;
+   203			}
+   204	
+   205			if (cmdline_mode->interlace) {
+   206				if (!(mode->flags & DRM_MODE_FLAG_INTERLACE))
+   207					continue;
+   208			} else if (prefer_non_interlace) {
+   209				if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+   210					continue;
+   211			}
+   212			return mode;
+   213		}
+   214	
+   215		if (prefer_non_interlace) {
+   216			prefer_non_interlace = false;
+   217			goto again;
+   218		}
+   219	
+   220		return NULL;
+   221	}
+   222	EXPORT_SYMBOL_IF_KUNIT(drm_connector_pick_cmdline_mode);
+   223	
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPbtQoFAwAAAAAACgkQlh/E3EQov+DT
-wg/+LB1jmeDHgX7I/ldm6Qc2pirDrw+hbeMpceLR29fCpEXmDvc22gOggUn0KjDT4RJ96G5rOWxv
-BtxyrUUUN10OUbD/MvUtxPTjPOqhtGu6/Nnm1oDyyw0N30U7k1A9OrMxgI+61zpDdzVkUk2JdUTP
-RcL/Em21Ut8CtHi/92vcFGoN7Q3j5VRh/wVshnsyYV5RMmQtYDHOX5RleX2qk7VDv/663qmQ6+ez
-F3TeGmfYRzX8B/vhz896JSlojI1GV2EMpPCIMDt5qFRzo7Vvn4cJSoEnKWyAbusW2L/MjJ/vZ6iD
-DeAsrxmLxYvQE6RH2NufR6OOhjtYyJ86u3CmJC/CoenxAVQwzd1otGfpOsx8IC6omJIUWSWb4xY2
-ete7oBVbR16pFYp9wsmqewp7NgWpMv5/zVkiVHerDoflLDjP/dAW8O7l6fvP+cKNwdBLjaaKtCXa
-OHjNcFfeDilYCwwSUJNpWIDlysaBnDaNVaU+cQyigAcHRnIp+pJVLkDU8sALZufCa34i2iYJoHXD
-MQEzEfDqCC89CdbN0Dx86z2rBg1yN/J6nsV/fcNKDDqKOXjqEc0f5UOCBkAjnLSDSHUtlobFWd2c
-/I14CYKMuYkAidUoYsEN2zr0c74RwrZkQaU04OzQ6EqYP9p4TtgdyxdxcLOxIiM2fP3oiLNoqZLc
-Ll0=
-=2TM+
------END PGP SIGNATURE-----
-
---------------YezYI1yW4yuG5wdw3U0tHX6A--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
