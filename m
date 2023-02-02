@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78EB06878CF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 10:28:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A9E687909
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 10:38:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D04C10E4AF;
-	Thu,  2 Feb 2023 09:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 291BE10E4AE;
+	Thu,  2 Feb 2023 09:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C506310E4BB;
- Thu,  2 Feb 2023 09:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675330118; x=1706866118;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=vqvCC9LCIlouzJ8sYr7Nj1neFZDvumfBnAArdIQ5uIM=;
- b=RVd0q6jSNFKYFBG/Dg1yFQoIS8/pB6Ue0vzJYvvWDBqGiYU7qK580+sC
- jKqgIj133eX0h60eozkbJlZMmRtBaiB2gdmrSyWtySCmVOzSgG633r9wl
- /q0BK6ENn3BpODHbgG/upUvC2r5LAhtLvQfpdnKEcaUlOmTKIAY3qn2On
- wGAaIxjscJGZdwaKgU29gFZcsm3KCFC1mK/EapegmB9vOiM9Q1Be6rpIP
- f9lPsZYZeMmKqCCaxxE/QoaolDeBoqJ16WE0eRzQD872/Ld04kwXi8Oty
- oIM5mB9naNXNExiRwvWSrIoT7PlI1DAqdrvWfqPvm1DPnOycAZVxKLzT5 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="312048363"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="312048363"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 01:28:38 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="695722903"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="695722903"
-Received: from mrogowsx-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.249.35.12])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 01:28:35 -0800
-Date: Thu, 2 Feb 2023 10:28:31 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/pcode: Wait 10 seconds for pcode to
- settle
-Message-ID: <Y9uCP2ejUJOw/J5t@ashyti-mobl2.lan>
-References: <b3d4b882-cb0b-a3c1-2609-6065f379ed15@intel.com>
- <Y9OSyhWHWu8iliP5@ashyti-mobl2.lan>
- <bfe11cf8-87a5-3768-92d5-3415145d8c8f@intel.com>
- <Y9eEX95t1i1YRVOk@ashyti-mobl2.lan> <Y9fXFrJp/N0cit18@intel.com>
- <Y9fsgJd7y6aEt/sT@ashyti-mobl2.lan> <Y9fySWFQwTPC1VAM@intel.com>
- <Y9f+sGkj2/rJpaMD@intel.com> <Y9grflHnhExehDO4@ashyti-mobl2.lan>
- <cd3ff678-30a4-172a-fa68-d4df1636c46e@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0275710E4AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 09:38:29 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6DFF46602EDA;
+ Thu,  2 Feb 2023 09:38:27 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1675330708;
+ bh=T3a1RTmc7bqKNC8RsSYzoSMpeLuyxvbNktMrz/S6qn4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Q6ulCjWSaQLtba9oozrUKNMaf1CBo+th5cIQ5Pu60QJBsjyOnlAWVbJh+IeyClX3Y
+ g3J/nYick4sWvVJp14IKidxBAc7eGKQ3Nepb036iriz/xfCTedVmmeWI/u4RujDypo
+ 0lZBZ7b4uvXgkH9DkAbOHethjfueAlVAU5VDol2UCCL0UGcumzFR9SZaRwZYDSqLkw
+ r1s3qoHs9bFdSUrVWBLhwqae1sV1CKPvnDvV6SDlszHs9W5SILzmxBuBgqOTMjNSfn
+ edNO601DMyA2eJvAefQDpKujnDBWD/7grDKZzUHrKSldKocwQ6LCXzCicxCcXOcWwl
+ Dg8qa0Su3mRig==
+Message-ID: <ddf75149-e5ec-8093-2d36-55b6f2341d6a@collabora.com>
+Date: Thu, 2 Feb 2023 10:38:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd3ff678-30a4-172a-fa68-d4df1636c46e@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v29 0/7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Content-Language: en-US
+To: "Nancy.Lin" <nancy.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, krzysztof.kozlowski+dt@linaro.org
+References: <20221227081011.6426-1-nancy.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221227081011.6426-1-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,461 +58,227 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ David Airlie <airlied@linux.ie>, singo.chang@mediatek.com,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ clang-built-linux@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi GG,
+Il 27/12/22 09:10, Nancy.Lin ha scritto:
+> The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
+> 
+> Add DRM and these modules support by the patches below:
+> 
 
-On Thu, Feb 02, 2023 at 10:22:30AM +0200, Gwan-gyeong Mun wrote:
-> Hi Andi,
-> 
-> You gave a lot of explanations, and confirmed that this patch solves the
-> problem, but the root cause of this problem still seems to be unclear.
-> 
-> In the logs where this problem was reported, the logs were output in the
-> following order.
-> 
-> link
->  : https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_1294/bat-atsm-1/igt@i915_module_load@resize-bar.html#dmesg-warnings17324
-> 
-> [log]
-> <7> [268.276586] i915 0000:4d:00.0: [drm:skl_pcode_request [i915]] PCODE
-> timeout, retrying with preemption disabled
-> ...
-> <4> [268.276942] WARNING: CPU: 1 PID: 1678 at
-> drivers/gpu/drm/i915/intel_pcode.c:196 skl_pcode_request+0x242/0x260 [i915]
-> ...
-> <3> [268.329058] i915 0000:4d:00.0: [drm] *ERROR* gt0: intel_pcode_init
-> failed -11
-> 
-> 
-> In other words, -EAGAIN was not returned when the first
-> skl_pcode_try_request() was executed in the skl_pcode_request() function,
-> but the logs confirmed that the _wait_for(COND ...) of the
-> skl_pcode_request() function was executed.
+Hello Chun-Kuang,
 
-I'm not following... how can you say that -EAGAIN was not
-returned, it's written explecetly that pcode_init failed with
--11, i.e. -EAGAIN.
+This series reached version 29 and was tested for a long time.
+Is there anything else to fix in here, or can it be finally picked?
 
-Besides if we get as far as to receive "PCODE timeout, retrying
-with preemption disabled" isn't it because we failed twice? And
-apparently with -EAGAIN?
+Its soc/mediatek counterpart was already picked by Matthias.
 
-How can you say from the logs above that this
+Thanks,
+Angelo
 
-	if (COND) {
-		ret = 0;
-		goto out;
-	}
+> Changes in v29:
+> - rebase to next-20221226
+> - fix reviewer comment in v28
+>    - keep original flow if comp node not found in mtk_drm_crtc_create()
+> 
+> Changes in v28:
+> - rebase to next-20221107
+> - fix reviewer comment in v27
+>    - extra new line at the end mtk_ethdr.h
+> 
+> Changes in v27:
+> - rebase to next-20221102
+> - change mmsys compatible for mt8195 vdosys1
+>    - base on jason's series[ref 1]
+> - fix reviewer comment
+>    - add error return code if no ovl_adaptor's comp found
+> 
+> Changes in v26:
+> - rebase to next-20220819
+> - resend for patch corrupted in v25
+> 
+> Changes in v25:
+> - rebase to next-20220803
+> 
+> Changes in v24:
+> - fix ovl_adaptor binding issue (mtk_disp_ovl_adaptor.c)
+>    - Since ovl_adaptor is an aggregated component, it should be bounded after
+>      all its child components are bounded.
+> - rebase to next-20220708
+> 
+> Changes in v23:
+> - separate[7] mmsys/mutex and drm patches into two series
+> 
+> Changes in v22:
+> - rebase to next-20220525
+> - rebase to vdosys0 series v22
+> - separate dts to a new patch
+> 
+> Changes in v21:
+> - fix reviewer comment
+>    - fix rdma and ethdr binding doc and dts
+> 
+> Changes in v20:
+> - fix reviewer comment
+>    - update mmsys update bit api name
+>    - add mtk_mmsys_update_bits error message if lose gce property
+>    - list all mt8195 vdosys1 reset bits
+> 
+> Changes in v19:
+> - fix reviewer comment
+>    - separate mt8195 mmsys component to a new patch
+>    - separate mt8195 vdo0 and vdo1 routing table
+>    - separate mmsys_write_reg api to a new patch and simplify write reg code
+>    - separate mmsys 64 bit reset to a new patch
+>    - separate mtk-mutex dp_intf1 component to a new patch
+> 
+> Changes in v18:
+> - fix reviewer comment
+>    - fix rdma binding doc
+>    - fix ethdr binding doc
+>    - refine mmsys config cmdq support
+>    - refine merge reset control flow, get reset control in probe function
+>    - add ethdr reset control error handling and remove dbg log
+> - rebase to vdosys0 series v20 (ref [5])
+> 
+> Changes in v17:
+> - fix reviewer comment in v16
+>    - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+>    - separate mmsys config API
+>    - move mdp_rdma binding yaml
+> - fix ovl adaptor pm runtime get sync timing issue
+> - rebase to vdosys0 series v19 (ref [5])
+> - rebase to [7] for modify vblank register change
+> 
+> Changes in v16:
+> - fix reviewer comment in v 15
+>    - fix mtk_drm_ddp_comp.c alignment
+>    - fix vdosys0 mmsys num before adding vdosys1 patch
+> 
+> Changes in v15:
+> - fix ethdr uppercase hex number in dts
+> 
+> Changes in v14:
+> - remove MTK_MMSYS 64 bit dependency
+> - add ethdr.yaml back and fix dt_schema check fail
+> 
+> Resend v13
+> - add related maintainer in maillist
+> 
+> Changes in v13:
+> - fix reviewer comment in v12
+>    - fix rdma dt-binding format
+>    - fix dts node naming
+> - fix 32 bit build error
+>    - modify 64bit dependency for mtk-mmsys
+> - rebase to vdosys0 series v16. (ref [5])
+> 
+> Changes in v12:
+> - fix reviewer comment in v11
+>    - modify mbox index
+>    - refine dma dev for ovl_adaptor sub driver
+> 
+> Changes in v11:
+> - remove ethdr vblank spin lock
+> - refine ovl_adaptor print message
+> 
+> Changes in v10:
+> - refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+> - fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+> 
+> Changes in v9:
+> - rebase on kernel-5.16-rc1
+> - rebase on vdosys0 series v13. (ref [5])
+> - fix ovl_adaptor sub driver is brought up unintentionally
+> - fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue
+> 
+> Changes in v8:
+> - separate merge async reset to new patch.
+> - separate drm ovl_adaptor sub driver to new patch.
+> - fix reviewer comment in v7.
+> 
+> Changes in v7:
+> - rebase on vdosys0 series v12 (ref[5])
+> - add dma description in ethdr binding document.
+> - refine vdosys1 bit definition of mmsys routing table.
+> - separate merge modification into 3 pathces.
+> - separate mutex modification into 2 patches.
+> - add plane color coding for mdp_rdma csc.
+> - move mdp_rdma pm control to ovl_adaptor.
+> - fix reviewer comment in v6.
+> 
+> Changes in v6:
+> - rebase on kernel-5.15-rc1.
+> - change mbox label to gce0 for dts node of vdosys1.
+> - modify mmsys reset num for mt8195.
+> - rebase on vdosys0 series v10. (ref [5])
+> - use drm to bring up ovl_adaptor driver.
+> - move drm iommu/mutex check from kms init to drm bind.
+> - modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+> - modify for reviewer's comment in v5.
+> 
+> Changes in v5:
+> - add mmsys reset controller reference.
+> 
+> Changes in v4:
+> - use merge common driver for merge1~4.
+> - refine ovl_adaptor rdma driver.
+> - use ovl_adaptor ddp_comp function instead of ethdr.
+> - modify for reviewer's comment in v3.
+> 
+> Changes in v3:
+> - modify for reviewer's comment in v2.
+> - add vdosys1 2 pixels align limit.
+> - add mixer odd offset support.
+> 
+> Changes in v2:
+> - Merge PSEUDO_OVL and ETHDR into one DRM component.
+> - Add mmsys config API for vdosys1 hardware setting.
+> - Add mmsys reset control using linux reset framework.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> 
+> This series are based on the following patch:
+> [1] Change mmsys compatible for mt8195 mediatek-drm
+>      20221126101220.18179-1-jason-jh.lin@mediatek.com
+> [2] Add MediaTek SoC(vdosys1) support for mt8195
+>      20221103032512.9144-1-nancy.lin@mediatek.com
+> 
+> Nancy.Lin (7):
+>    dt-bindings: mediatek: add ethdr definition for mt8195
+>    drm/mediatek: add ETHDR support for MT8195
+>    drm/mediatek: add ovl_adaptor support for MT8195
+>    drm/mediatek: add dma dev get function
+>    drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+>    drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+>    drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+> 
+>   .../display/mediatek/mediatek,ethdr.yaml      | 188 ++++++
+>   drivers/gpu/drm/mediatek/Makefile             |   2 +
+>   drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  26 +
+>   .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 533 ++++++++++++++++++
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  85 ++-
+>   drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   6 +-
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 129 +++--
+>   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  58 +-
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 366 ++++++++----
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  24 +-
+>   drivers/gpu/drm/mediatek/mtk_ethdr.c          | 370 ++++++++++++
+>   drivers/gpu/drm/mediatek/mtk_ethdr.h          |  25 +
+>   12 files changed, 1624 insertions(+), 188 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+>   create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+> 
 
-has not failed with -EAGAIN? The logs are not telling us how the
-calls to __skl_pcode_try_request() failed. I am telling you after
-I tested it.
 
-I hope I understood what you are saying. Otherwise, let's have an
-offline chat.
 
-Andi
-
-> And, I reviewed bpsec in more detail to see if I missed anything related to
-> the status and restrictions of the initial GTDRIVER_MAILBOX_INTERFACE
-> (PCODE).
-> 
-> I've reviewed bpsec in detail for the two below where
-> GTDRIVER_MAILBOX_INTERFACE is mentioned, but I haven't identified any
-> additional constraints other than those described below.
-> 
-> 
-> Pcode Driver Mailbox Spec: 34151
-> Driver Initialization Programming Sequence: 33149
-> 
-> RUN_BUSY: SW may write to the two mailbox registers only when RUN_BUSY is
-> cleared (0b)
-> 
-> My suggestion is that the HW should explain and analyze the root cause of
-> the situation where it takes more than 180s for the Busy bit of
-> GTDRIVER_MAILBOX_INTERFACE to change to 0.
-> 
-> And the method of the proposed patch, the newly added line
-> "__intel_wait_for_register_fw(uncore, GEN6_PCODE_MAILBOX, GEN6_PCODE_READY,
-> 0, 500, 10000, NULL))" succeeded, but the existing method of trying 180s
-> with checking intel_uncore_read_fw(uncore,
-> GEN6_PCODE_MAILBOX)&GEN6_PCODE_READY) failed. Therefore please review it
-> again.
-> (Checking the code, it appears that both call usleep_range(wait__, wait__ *
-> 2); in __wait_for().)
-> 
-> Br,
-> 
-> G.G.
-> 
-> int skl_pcode_request(struct intel_uncore *uncore, u32 mbox, u32 request,
-> 		      u32 reply_mask, u32 reply, int timeout_base_ms)
-> {
-> 	u32 status;
-> 	int ret;
-> 
-> 	mutex_lock(&uncore->i915->sb_lock);
-> 
-> #define COND \
-> 	skl_pcode_try_request(uncore, mbox, request, reply_mask, reply, &status)
-> 
-> 	/*
-> 	 * Prime the PCODE by doing a request first. Normally it guarantees
-> 	 * that a subsequent request, at most @timeout_base_ms later, succeeds.
-> 	 * _wait_for() doesn't guarantee when its passed condition is evaluated
-> 	 * first, so send the first request explicitly.
-> 	 */
-> 	if (COND) {
-> 		ret = 0;
-> 		goto out;
-> 	}
-> 	ret = _wait_for(COND, timeout_base_ms * 1000, 10, 10);
-> 	if (!ret)
-> 		goto out;
-> 
-> 	/*
-> 	 * The above can time out if the number of requests was low (2 in the
-> 	 * worst case) _and_ PCODE was busy for some reason even after a
-> 	 * (queued) request and @timeout_base_ms delay. As a workaround retry
-> 	 * the poll with preemption disabled to maximize the number of
-> 	 * requests. Increase the timeout from @timeout_base_ms to 50ms to
-> 	 * account for interrupts that could reduce the number of these
-> 	 * requests, and for any quirks of the PCODE firmware that delays
-> 	 * the request completion.
-> 	 */
-> 	drm_dbg_kms(&uncore->i915->drm,
-> 		    "PCODE timeout, retrying with preemption disabled\n");
-> 	drm_WARN_ON_ONCE(&uncore->i915->drm, timeout_base_ms > 3);
-> 	preempt_disable();
-> 	ret = wait_for_atomic(COND, 50);
-> 	preempt_enable();
-> 
-> out:
-> 	mutex_unlock(&uncore->i915->sb_lock);
-> 	return status ? status : ret;
-> #undef COND
-> }
-> 
-> 
-> 
-> 
-> 
-> 
-> On 1/30/23 10:41 PM, Andi Shyti wrote:
-> > Hi Rodrigo,
-> > 
-> > first of all, thanks for looking into this!
-> > 
-> > > > > > > > In the call flow invoked by intel_pcode_init(), I've added brief comments
-> > > > > > > > where further clarification is needed in this scenario, and a description of
-> > > > > > > > the suspicious scenario at the bottom.
-> > > > > > > > 
-> > > > > > > > -------------------------------------------------------------------------
-> > > > > > > > intel_pcode_init()
-> > > > > > > >   |
-> > > > > > > >   +-> skl_pcode_request(uncore, DG1_PCODE_STATUS,
-> > > > > > > >                         DG1_UNCORE_GET_INIT_STATUS,
-> > > > > > > >                         DG1_UNCORE_INIT_STATUS_COMPLETE,
-> > > > > > > >                         DG1_UNCORE_INIT_STATUS_COMPLETE, 180000);
-> > > > > > > >         |
-> > > > > > > >         +-> skl_pcode_try_request()
-> > > > > > > >               |
-> > > > > > > >               +->  *status = __snb_pcode_rw(uncore, mbox, &request, NULL,
-> > > > > > > >                                             500, 0, true);
-> > > > > > > > 
-> > > > > > > > -------------------------------------------------------------------------
-> > > > > > > > static int __snb_pcode_rw(struct intel_uncore *uncore, u32 mbox,
-> > > > > > > > 		          u32 *val, u32 *val1,
-> > > > > > > > 			  int fast_timeout_us, int slow_timeout_ms,
-> > > > > > > > 			  bool is_read)
-> > > > > > > > {
-> > > > > > > > ...
-> > > > > > > >          /* Before writing a value to the GEN6_PCODE_DATA register,
-> > > > > > > >             check if the bit in the GEN6_PCODE_MAILBOX register indicates
-> > > > > > > >             BUSY. */
-> > > > > > > > 	if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
-> > > > > > > > 		return -EAGAIN;
-> > > > > > > 
-> > > > > > > what if we fail here because the punit is still initializing and
-> > > > > > > will be ready, say, in 10 seconds?
-> > > > > > > 
-> > > > > > > GG, without going any further, we fail here! The -EAGAIN we
-> > > > > > > receive from the test comes from this point. We don't fail with
-> > > > > > > -ETIMEDOUT, but with -EAGAIN and the reason is because the punit
-> > > > > > > is not ready to perform the very fist communication and we fail
-> > > > > > > the probing.
-> > > > > > > 
-> > > > > > > It doesn't mean, though, that there is anything wrong, we just
-> > > > > > > need to wait a bit before "taking drastic decisions"!
-> > > > > > > 
-> > > > > > > This patch is suggesting to wait up to 10s for the punit to be
-> > > > > > > ready and eventually try to probe again... and, indeed, it works!
-> > > > > > 
-> > > > > > As GG, what I still don't understand is how this extra 10 seconds
-> > > > > > wait helps... have you tried to simple add the 10 to the 180 and
-> > > > > > make the code 190 sec instead?
-> > > > > 
-> > > > > maybe I haven't been able to explain the issue properly.
-> > > > > 
-> > > > > I can even set that timer to 2hrs and a half and nothing changes
-> > > > > because we fail before.
-> > > > > 
-> > > > > Here it's not a matter of how much do I wait but when do I check
-> > > > > the pcode readiness (i.e. signalled by the GEN6_PCODE_READY bit
-> > > > > in the GEN6_PCODE_MAILBOX register).
-> > > > > 
-> > > > > During a normal run we are always sure that communicating with
-> > > > > the punit works, because we made it sure during the previous
-> > > > > transaction.
-> > > > > 
-> > > > > During probe there is no previous transaction and we start
-> > > > > communicating with the punit without making sure that it is
-> > > > > ready. And indeed some times it is not, so that we suppress the
-> > > > > probing on purpose instead of giving it another chance.
-> > > > > 
-> > > > > I admit that the commit message is not written properly and
-> > > > > rather misleading, but here it's not at all a matter of how much
-> > > > > do I wait.
-> > > > 
-> > > > The commit message was initially confused because it looks like
-> > > > we are just adding a wait, without doing anything....
-> > > > 
-> > > > But looking to the code we can see that it will wait until
-> > > > pcode is ready with a timeout of 10 seconds.
-> > > > 
-> > > > But if pcode is ready in 10 seconds, why pcode is not ready
-> > > > in 190 seconds. We are doing absolutely nothing more that could
-> > > > make pcode ready in 10 seconds that won't be in 190.
-> > > > 
-> > > > This is what we are missing here... The code as is doesn't make
-> > > > a lot of sense to us and it looks like it is solving the issue
-> > > > by the 10 extra seconds and not by some special status checking.
-> > > 
-> > > Okay, after an offline talk I am convinced now that we need some
-> > > check like this in some place.
-> > > 
-> > > But the commit message needs be be fully re-written.
-> > > 
-> > > It needs to be clear that underneath, the pcode communication
-> > > functions will do a check for ready without any wait, what will
-> > > make desired timeout to never really wait for the pcode done
-> > > and prematurely return.
-> > > 
-> > > at __snb_pcode_rw():
-> > > 
-> > >   if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
-> > >                  return -EAGAIN;
-> > > 
-> > > So, for this reason we need to ensure that pcode is really ready
-> > > before we wait.
-> > > 
-> > > Other options are to handle the EAGAIN return and then wait.
-> > > Or even change the __snb_pcode_rw to ensure that it is ready...
-> > > 
-> > > Something like:
-> > > 
-> > > -       if (intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) & GEN6_PCODE_READY)
-> > > -               return -EAGAIN;
-> > > +       if (__intel_wait_for_register_fw(uncore, GEN6_PCODE_MAILBOX,
-> > > +                                        GEN6_PCODE_READY, GEN6_PCODE_READY,
-> > > +                                        fast_timeout_us,
-> > > +                                        slow_timeout_ms,
-> > > +                                        NULL))
-> > > +               return -ETIMEDOUT;
-> > 
-> > This works, but the difference is that you are putting it on any
-> > call to the __snb_pcode_rw(), even when not necessary.
-> > 
-> > Putting it in the schema we used in our offline chat, the
-> > original implementation was:
-> > 
-> >   +-----------------------+
-> >   | r/w -> check if ready |-> r/w -> cir -> r/w -> cir -> r/w -> ...
-> >   +-----------------------+
-> >     probe time
-> > 
-> > (where cir stands for "check if ready"). Because in the first
-> > r/w we didn't check the status of the punit we added:
-> > 
-> >   +-------------------+
-> >   | cir -> r/w -> cir |-> r/w -> cir -> r/w -> cir -> r/w -> ...
-> >   +-------------------+
-> >      probe time
-> > 
-> > So that we are sure that the first r/w works. What you are
-> > suggesting is:
-> > 
-> >   +-------------------+
-> >   | cir -> r/w -> cir |-> cir -> r/w -> cir -> cir -> r/w -> cir ->
-> >   --------------------+
-> >      probe time
-> > 
-> > As you can se we have two "check if ready" in a raw, which might
-> > be a bit of an overkill, it doesn't hurt much but it would look
-> > like:
-> > 
-> >    if (__intel_wait_for_register_fw())
-> >    	return -EAGAIN;
-> > 
-> >    intel_uncore_write_fw......
-> > 
-> >    if (__intel_wait_for_register_fw())
-> >    	return -TIMEDOUT;
-> > 
-> > and this for every single snb_pcode_r/w.
-> > 
-> > Besides some functions might need the first wait, some might not.
-> > Check, for example icl_tc_cold_exit() where the -EAGAIN is
-> > handled. With your version the retries would be quite ponderous.
-> > 
-> > I'm sorry, but I can't take your suggestion as it can have major
-> > consequences along i915, it requires more changes and and it
-> > needs to be carefully tested.
-> > 
-> > On top of that I like Ashutosh refactoring that is quite an
-> > elegant way to gain more flexibility at boot time without any
-> > further impact.
-> > 
-> > > In the best regular case it will not change anything since the wait
-> > > for will return 0 immediatelly... in the worst case we would double
-> > > the timeout value, but this would be only in this insane case of
-> > > 180 seconds anyway and if it goes really really nasty...
-> > > 
-> > > But anyway, now the motivation and the source of the issue is pretty
-> > > clear, I can add my rv-b there, but I really want a better commit msg
-> > > at least...
-> > 
-> > I definitely need to make a better commit message :)
-> > 
-> > Thanks a lot,
-> > Andi
-> > 
-> > > > 
-> > > > > 
-> > > > > Thanks, Rodrigo!
-> > > > > Andi
-> > > > > 
-> > > > > > > 
-> > > > > > > Andi
-> > > > > > > 
-> > > > > > > > 
-> > > > > > > >          /* write value to GEN6_PCODE_DATA register */
-> > > > > > > > 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA, *val);
-> > > > > > > > 
-> > > > > > > > 	intel_uncore_write_fw(uncore, GEN6_PCODE_DATA1, val1 ? *val1 : 0);
-> > > > > > > > 
-> > > > > > > >          /* In this scenario, the value
-> > > > > > > >             "DG1_PCODE_STATUS | GEN6_PCODE_READY"
-> > > > > > > >             is written to the GEN6_PCODE_MAILBOX register,
-> > > > > > > >             so that the Busy status of the GEN6_PCODE_MAILBOX register
-> > > > > > > >             can be checked later.
-> > > > > > > >             (When the value of the GEN6_PCODE_READY bit of the
-> > > > > > > >              GEN6_PCODE_MAILBOX register changes to 0, the operation can
-> > > > > > > >              be considered completed.) */
-> > > > > > > > 	intel_uncore_write_fw(uncore,
-> > > > > > > > 			      GEN6_PCODE_MAILBOX, GEN6_PCODE_READY | mbox);
-> > > > > > > > 
-> > > > > > > >          /* In this scenario, verify that the BUSY status bit in the
-> > > > > > > >             GEN6_PCODE_MAILBOX register turns off for up to 500us. */
-> > > > > > > > 	if (__intel_wait_for_register_fw(uncore,
-> > > > > > > > 					 GEN6_PCODE_MAILBOX,
-> > > > > > > > 					 GEN6_PCODE_READY, 0,
-> > > > > > > > 					 fast_timeout_us,
-> > > > > > > > 					 slow_timeout_ms,
-> > > > > > > > 					 &mbox))
-> > > > > > > > 		return -ETIMEDOUT;
-> > > > > > > >          /* If there is a failure here, it may be considered that the
-> > > > > > > >             "DG1_PCODE_STATUS | GEN6_PCODE_READY" operation was not
-> > > > > > > >             completed within 500us */
-> > > > > > > > ...
-> > > > > > > > }
-> > > > > > > > 
-> > > > > > > > int skl_pcode_request(struct intel_uncore *uncore, u32 mbox, u32 request,
-> > > > > > > > 		      u32 reply_mask, u32 reply, int timeout_base_ms)
-> > > > > > > > {
-> > > > > > > > 	u32 status;
-> > > > > > > > 	int ret;
-> > > > > > > > 
-> > > > > > > > 	mutex_lock(&uncore->i915->sb_lock);
-> > > > > > > > 
-> > > > > > > > #define COND \
-> > > > > > > > 	skl_pcode_try_request(uncore, mbox, request, reply_mask, reply, &status)
-> > > > > > > > 
-> > > > > > > >          /* the first trial for skl_pcode_try_request() can return
-> > > > > > > >             -EAGAIN or -ETIMEDOUT. And the code did not check the error
-> > > > > > > >             code here, so we don't know how far the __snb_pcode_rw()
-> > > > > > > >             function went. It is not known whether the pcode_mailbox
-> > > > > > > >             status was busy before writing the value to the
-> > > > > > > >             GEN6_PCODE_DATA register or after.*/
-> > > > > > > > 	if (COND) {
-> > > > > > > > 		ret = 0;
-> > > > > > > > 		goto out;
-> > > > > > > > 	}
-> > > > > > > > 
-> > > > > > > >          /* In this scenario, skl_pcode_try_request() is invoked every
-> > > > > > > >             10us for 180 seconds. When skl_pcode_try_request() returns
-> > > > > > > >             -EAGAIN and -ETIMEDOUT by _wait_for(),
-> > > > > > > >             -ETIMEDOUT is returned to a variable ret. */
-> > > > > > > > 
-> > > > > > > > 	ret = _wait_for(COND, timeout_base_ms * 1000, 10, 10);
-> > > > > > > > 
-> > > > > > > > 	if (!ret)
-> > > > > > > > 		goto out;
-> > > > > > > > 
-> > > > > > > > 	/*
-> > > > > > > > 	 * The above can time out if the number of requests was low (2 in the
-> > > > > > > > 	 * worst case) _and_ PCODE was busy for some reason even after a
-> > > > > > > > 	 * (queued) request and @timeout_base_ms delay. As a workaround retry
-> > > > > > > > 	 * the poll with preemption disabled to maximize the number of
-> > > > > > > > 	 * requests. Increase the timeout from @timeout_base_ms to 50ms to
-> > > > > > > > 	 * account for interrupts that could reduce the number of these
-> > > > > > > > 	 * requests, and for any quirks of the PCODE firmware that delays
-> > > > > > > > 	 * the request completion.
-> > > > > > > > 	 */
-> > > > > > > > 	drm_dbg_kms(&uncore->i915->drm,
-> > > > > > > > 		    "PCODE timeout, retrying with preemption disabled\n");
-> > > > > > > > 	drm_WARN_ON_ONCE(&uncore->i915->drm, timeout_base_ms > 3);
-> > > > > > > > 	preempt_disable();
-> > > > > > > > 	ret = wait_for_atomic(COND, 50);
-> > > > > > > > 
-> > > > > > > > 	preempt_enable();
-> > > > > > > > 
-> > > > > > > > out:
-> > > > > > > > 	mutex_unlock(&uncore->i915->sb_lock);
-> > > > > > > > 	return status ? status : ret;
-> > > > > > > > #undef COND
-> > > > > > > > }
-> > > > > > > > 
-> > > > > > > > ---------------------------------------------------------
-> > > > > > > > 
-> > > > > > > > If you try skl_pcode_try_request() for 180 seconds in skl_pcode_request(),
-> > > > > > > > and the first "intel_uncore_read_fw(uncore, GEN6_PCODE_MAILBOX) &
-> > > > > > > > GEN6_PCODE_READY)" call in __snb_pcode_rw() that skl_pcode_try_request()
-> > > > > > > > invokes always fails. if then it does not make sense to me why this patch
-> > > > > > > > fixes it by just waiting 10 seconds.This is because if it was called with
-> > > > > > > > the flow described above, 180 seconds is longer than 10 seconds, so the
-> > > > > > > > scenario you mentioned is also covered in the existing code.
-> > > > > > > > 
-> > > > > > > > To describe in more detail the second scenario I previously commented on:
-> > > > > > > > skl_pcode_request() tries skl_pcode_try_request() for 180 seconds
-> > > > > > > >   1) In skl_pcode_try_request(), the GEN6_PCODE_MAILBOX register bit is not
-> > > > > > > > BUSY, so the value is written to the GEN6_PCODE_DATA1 register.
-> > > > > > > >   2) skl_pcode_try_request() returns -ETIMEDOUT value because the operation
-> > > > > > > > of 1) does not complete within 500us.
-> > > > > > > >   3) Scenario in which the GEN6_PCODE_MAILBOX register bit is checked as BUSY
-> > > > > > > > and returns -EAGAIN in the last call of skl_pcode_try_request() invoked by
-> > > > > > > > skl_pcode_request()
-> > > > > > > > 
-> > > > > > > > If the reason why this problem occurred is because of this scenario,
-> > > > > > > > shouldn't there be an attempt to increase fast_timeout_us used as an
-> > > > > > > > argument of __snb_pcode_rw() to 500us or more when skl_pcode_try_request()
-> > > > > > > > returns -ETIMEDOUT?
-> > > > > > > > 
-> > > > > > > > Br,
-> > > > > > > > G.G.
