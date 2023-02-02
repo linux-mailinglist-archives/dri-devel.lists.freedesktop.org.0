@@ -1,56 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D9B687911
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 10:39:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E61B5687995
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 10:56:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB49410E4B9;
-	Thu,  2 Feb 2023 09:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F5810E4C9;
+	Thu,  2 Feb 2023 09:56:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79AEA10E4B8;
- Thu,  2 Feb 2023 09:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675330773; x=1706866773;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=TxVncC8sDWqPcKk/0yaKgffM7cA6YOJZMIuLRp/9FCQ=;
- b=C5lg+1AtOAgaOmJ92XgTQAXVi1oD0TczsuR4uuueM+PRytMfKVaw+nN4
- qGy8GAwlS03Fv62m/7J7NaiZ5m8wCZl1zLMz0UdulWyESm4273eI9laCC
- wQav8aPu6yibDCMdie1J1PHEaH5h/hglZCbIUDSdhT1ovpozH5J4wJV2P
- 7fog7METueOV+9TGFH9ZWv1qeAtusn4PpHlDLlLtPjcO2eX/e5Dt139Fu
- YMzPdHAMdEwxU3JSC56S2K5b7On7R39QQdrmN0Jzu7eGlnLNvH4KuxPsg
- tFZt1HLBcfW3iH2RpvaiFT5PGHn0y0YFAC9aZcMkVn/zG5oK+BiSjFndd g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="312051154"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="312051154"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 01:39:29 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="658664509"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="658664509"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.4.221])
- ([10.213.4.221])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 01:39:28 -0800
-Message-ID: <983c9904-e9f7-1aa2-fb8c-738ad47195a7@intel.com>
-Date: Thu, 2 Feb 2023 10:39:26 +0100
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 824F910E4C9
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 09:56:42 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ f47-20020a05600c492f00b003dc584a7b7eso3283910wmp.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Feb 2023 01:56:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=g/86veRiNMAotlC8E0v66dTb033ZYUef8g783vJEeso=;
+ b=YFCI8EFeCKYROGksvronNRcrP2dUv7lv5d83xpOGukCR2zmdfK9Y5acLGr5BQiJ/yf
+ mIb7Ap6/BSnvDzEYjcmwtifoC/UNLk3KnZoWCk9SKvoXOYNJbfcRqky9V6NAXMlicM72
+ GYiHow9zyNP0Ts0TQyh4Yc5lE42Szfa74niaAM9zBU686dRPY9FtOoBvJDYR1CzS9YdH
+ yow9KWz1NYlsZ5gcm4PdaEs64mX/zJj39IdVooIhTiFxOrExzTqc4S5/KM0Px0LFuxPn
+ fzjvf87fYmmAIX3p/6keLN0dSypDEz9Y/ae4dHk5FGhF9FsPy0puR8pmiDSs8Rv/pZnl
+ NOxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g/86veRiNMAotlC8E0v66dTb033ZYUef8g783vJEeso=;
+ b=mTNvhkHG3/144tPgL09neZLwjiIeqNmK4Ro2glDV12MyKXKO/CHb+/gNr7ZsCLqWpG
+ yPftLSpxJsE4ZvGEyx1Omqhez/Z9HayC7R8HON4GGy0ubAYVeHn4yhfgWRQFSUX6eevZ
+ 9a14BjXs12zfbfGMr4NQcHt1syg4j4nJKSpizN2sF7QkRZAURyDpCmKUrS9g3ardLMKX
+ RFwQIfXobzHtPPvyu7tfoOsBCShoB7XaonP2CtbsELHl5VW5n43gZD/EHz9HVkKZuhIe
+ HHYVue1wRDLEsE83R6GANBKPlfF+iThxntJkrqQWilZBNiqJSGhZ/ykM9NQXJ6trcwLx
+ z/Zw==
+X-Gm-Message-State: AO0yUKX2tcL1ie/A2OYpV5ddGko+TtkDRxWIl7tmarCjn80F2Hcf47ei
+ Ma0qKJW7jFKs9O5CCwQg1DY=
+X-Google-Smtp-Source: AK7set/jUCFaL62fEij5mmBXq0rmi9tGj3yGhlRhFiz5oyT6fMYAFUcO6qIEIwd7Uu9v6LHsmXmdgg==
+X-Received: by 2002:a05:600c:4f07:b0:3dc:50c1:5fd4 with SMTP id
+ l7-20020a05600c4f0700b003dc50c15fd4mr5713832wmq.15.1675331800896; 
+ Thu, 02 Feb 2023 01:56:40 -0800 (PST)
+Received: from [192.168.2.177] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ y21-20020a05600c17d500b003dc5b59ed7asm3895142wmo.11.2023.02.02.01.56.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Feb 2023 01:56:40 -0800 (PST)
+Message-ID: <1287614a-754f-a5b9-d940-3f4fdc8f3bce@gmail.com>
+Date: Thu, 2 Feb 2023 10:56:39 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.6.1
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915: Consolidate TLB invalidation flow
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2] drm/mediatek: dp: Only trigger DRM HPD events if
+ bridge is attached
 Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230201165146.4056691-1-tvrtko.ursulin@linux.intel.com>
- <f575e344-e915-c85f-49cd-28fa426bcfd6@intel.com>
- <117482b6-7baf-5b79-27ed-7c33630bd86d@linux.intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <117482b6-7baf-5b79-27ed-7c33630bd86d@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230202045734.2773503-1-wenst@chromium.org>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230202045734.2773503-1-wenst@chromium.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,37 +78,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Guillaume Ranquet <granquet@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02.02.2023 09:33, Tvrtko Ursulin wrote:
+
+
+On 02/02/2023 05:57, Chen-Yu Tsai wrote:
+> The MediaTek DisplayPort interface bridge driver starts its interrupts
+> as soon as its probed. However when the interrupts trigger the bridge
+> might not have been attached to a DRM device. As drm_helper_hpd_irq_event()
+> does not check whether the passed in drm_device is valid or not, a NULL
+> pointer passed in results in a kernel NULL pointer dereference in it.
 > 
-> On 02/02/2023 07:43, Andrzej Hajda wrote:
->> On 01.02.2023 17:51, Tvrtko Ursulin wrote:
+> Check whether the bridge is attached and only trigger an HPD event if
+> it is.
 > 
-> [snip]
+> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Reviewed-by: Guillaume Ranquet <granquet@baylibre.com>
+
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+
+> ---
+> Changes since v1
+> - Dropped prerequisite-patch-ids
+> - Added Guillaume's Reviewed-by
 > 
->
+> This applies on top of mediatek-drm-next.
 > 
-> Btw - do you have any idea why the test is suppressed already?! CI told 
-> me BAT was a success...
-
-
-Except this patch, igt@i915_selftest@live@gt_tlb always succeeds[1][2]. 
-So I guess this is just CI logic which do not trust new tests, sounds 
-reasonable. Lets wait few days to see if it changes.
-
-[1]: 
-http://gfx-ci.igk.intel.com/cibuglog-ng/results/all?query_key=d3cc1f04e52acd0f911cd54fd855a3f085a40e14
-[2]: 
-https://lore.kernel.org/intel-gfx/?q=igt%40i915_selftest%40live%40gt_tlb
-
-
-Regards
-Andrzej
-
+>   drivers/gpu/drm/mediatek/mtk_dp.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Regards,
-> 
-> Tvrtko
-
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+> index 1f94fcc144d3..a82f53e1a146 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -1823,7 +1823,8 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
+>   	spin_unlock_irqrestore(&mtk_dp->irq_thread_lock, flags);
+>   
+>   	if (status & MTK_DP_THREAD_CABLE_STATE_CHG) {
+> -		drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
+> +		if (mtk_dp->bridge.dev)
+> +			drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
+>   
+>   		if (!mtk_dp->train_info.cable_plugged_in) {
+>   			mtk_dp_disable_sdp_aui(mtk_dp);
