@@ -1,79 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95CA6887D5
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 20:54:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 580276887ED
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 21:00:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6A010E616;
-	Thu,  2 Feb 2023 19:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5C3210E614;
+	Thu,  2 Feb 2023 20:00:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7B610E614;
- Thu,  2 Feb 2023 19:54:41 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 312JotaC024398; Thu, 2 Feb 2023 19:54:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=qKbOhAe9paxsOQhap9T7MNDcLAgv6A3Ta1dIkEmrPJE=;
- b=VfwJnQhKtiImw6ZkMaLuOUiRMzSyLfFHcN11ZpLcHjMyYrFsANuYclgWD9xdVagFcNie
- +2prwLX+KUdybkSAqZq9FR/+zbZ3nsWrsWRHfINX/+DruqIHEqU/U4MqY+rxtlu/h0/t
- OlSynPZSEG66bdQGg1ADiAvBionX1MFUczfTPOBXKfbGyvUrF8Ei/XEdVW2if581crJj
- 9MriGOSE+/1uS/Yj1dJSHWa8Q05dhDbIi7ZzAoxmBM/Gx5LSZzLTMQr6bpWbvnJdApD/
- KgZGNVr909Ny3iIxeJ/8NrE+yx/V820PFRQj0gdvo8eIgZryEX9omP7J5/0QPMIK/uY3 FQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nfm9cv0dm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Feb 2023 19:54:35 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 312JsYZb032019
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 2 Feb 2023 19:54:34 GMT
-Received: from [10.110.99.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 2 Feb 2023
- 11:54:33 -0800
-Message-ID: <62ace381-2c59-9096-2b4f-412b329ad78e@quicinc.com>
-Date: Thu, 2 Feb 2023 11:54:32 -0800
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD49D10E614;
+ Thu,  2 Feb 2023 20:00:16 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id z1so3010584plg.6;
+ Thu, 02 Feb 2023 12:00:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+ :reply-to; bh=KTEXTLdEtQvrB7aVFpBYAbH4Vf/ihPabgDflRw+s72o=;
+ b=CuJhJ9UTVuPY/jraolwLg+hw6h/pKxRy1SLRd/hEO8GnE3cDoiPidADrjRGw4Tat7E
+ jsPj+B5/JWPEzkR1ov2cP4QLjkGjelgudaCyhdc4WTw+8Tb5Oonu+M6rmd85VoAp+09n
+ p29yqXXOCqF9Y85uU7Om7KJ2ttMYgVWNGXZB9YxNzDvxDzbpksNHc1G+p86CxKdlN0Ty
+ +rwXXExzAQPU5AL4D29Etk7FWGP466Or/Daf4dCE9QSEqudpR8qq8SpggqjYy48/R5Nd
+ XYVHbi+FsHBVz+Wv+DIRXgY0DRGWK3xQsCPpOzfidwB7nrd2hKVFHAH562MKRavuNJmY
+ xtXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KTEXTLdEtQvrB7aVFpBYAbH4Vf/ihPabgDflRw+s72o=;
+ b=cOd056a/GrX8pDWiMPmEczovXW5fRre5zYkRDlcnSekjPs8L9PBKpMH2rItQHddIJa
+ zxZMKG68YT/e828qzS7lxnB3WJqVIf8h+jlVLkdqfvj7/BmUz722xTeyuGZCqQaLLosN
+ oMkySNy1o0Bk7Gg2plZ1uNIZ3/BAsTOKyk33lhBzxGz72sxGq0fbc/y3cPMxemITxwmy
+ o+rhN668Uyp8C//Jl9Yz1QKu2Jhr8ft/0qS+fdagAacdrgblmlNnly/ilzEJU3OCYlyB
+ rjMYTeYgd5wknFO42NySWrBeShp288n48Fm7GUsRxGhcL8y/d66pmMqZ+vi4TrzFe4iS
+ aASw==
+X-Gm-Message-State: AO0yUKVVM6tNk8TWqBYloZd1h3HXfzZvYt05O93EUWsAz0K1MuB8ogYS
+ U6ZjEIEJFq2+A4yPVW5BWm4=
+X-Google-Smtp-Source: AK7set8Q9bsQxt4cyQu1ye65OLJScIues9R6Sdz55WQAGcTEZjBv9qXC8qRJpwpjQ6p92muQd2Vhww==
+X-Received: by 2002:a17:903:1111:b0:196:6ec4:52db with SMTP id
+ n17-20020a170903111100b001966ec452dbmr8506618plh.51.1675368016015; 
+ Thu, 02 Feb 2023 12:00:16 -0800 (PST)
+Received: from localhost ([2620:10d:c090:400::5:48a9])
+ by smtp.gmail.com with ESMTPSA id
+ 10-20020a170902c14a00b001933b4b1a49sm53850plj.183.2023.02.02.12.00.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 12:00:15 -0800 (PST)
+Date: Thu, 2 Feb 2023 10:00:14 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [RFC 10/12] cgroup/drm: Introduce weight based drm cgroup control
+Message-ID: <Y9wWTspETnYYodDc@slm.duckdns.org>
+References: <20230112165609.1083270-1-tvrtko.ursulin@linux.intel.com>
+ <20230112165609.1083270-11-tvrtko.ursulin@linux.intel.com>
+ <Y9R2N8sl+7f8Zacv@slm.duckdns.org>
+ <27b7882e-1201-b173-6f56-9ececb5780e8@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 12/27] drm/msm/dpu: remove dpu_hw_fmt_layout from
- struct dpu_hw_pipe_cfg
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
- <20221229191856.3508092-13-dmitry.baryshkov@linaro.org>
- <77764494-8a74-8450-ac75-33d6de0b2f8d@quicinc.com>
- <CAA8EJpq4ybOQg-Mb5RM+dcrBbR+3WrWSgvd4d20C6NKa90C15Q@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpq4ybOQg-Mb5RM+dcrBbR+3WrWSgvd4d20C6NKa90C15Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: jdWLeJvMZHaKzN9e4Up1mSLCoh-nAET0
-X-Proofpoint-GUID: jdWLeJvMZHaKzN9e4Up1mSLCoh-nAET0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-02_14,2023-02-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- suspectscore=0 spamscore=0 clxscore=1015 impostorscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302020178
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <27b7882e-1201-b173-6f56-9ececb5780e8@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,206 +73,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
+ Dave Airlie <airlied@redhat.com>,
+ =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
+ Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
+ "T . J . Mercier" <tjmercier@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
+On Thu, Feb 02, 2023 at 02:26:06PM +0000, Tvrtko Ursulin wrote:
+> When you say active/inactive - to what you are referring in the cgroup
+> world? Offline/online? For those my understanding was offline was a
+> temporary state while css is getting destroyed.
 
-On 2/2/2023 11:45 AM, Dmitry Baryshkov wrote:
-> On Thu, 2 Feb 2023 at 21:38, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 12/29/2022 11:18 AM, Dmitry Baryshkov wrote:
->>> Remove dpu_hw_fmt_layout instance from struct dpu_hw_pipe_cfg, leaving
->>> only src_rect and dst_rect. This way right and left pipes will have
->>> separate dpu_hw_pipe_cfg isntances, while the layout is common to both
->>> of them.
->>>
->>
->> Sorry for not responding to this comment earlier.
->>
->> https://patchwork.freedesktop.org/patch/473168/?series=99909&rev=1#comment_875370
->>
->>   From the perspective of wide planes you are right that the layout is
->> common but not true from smart DMA point of view.
->>
->> For wide planes, yes, its usually the same buffer with just the src_x
->> being different but conceptually and even HW wise each rectangle of the
->> smart DMA is capable of fetching from a different buffer.
->>
->>   From the pov, this decision of not having the dpu_hw_fmt_layout as part
->> of dpu_hw_pipe_cfg seems incorrect to me.
-> 
-> Yes, each rectangle/pipe can fetch from a different buffer. However in
-> our use case the layout is not defined for each pipe. It is defined
-> for a plane, no matter how many pipes are used for the plane, since
-> the buffer is also defined per plane.
-> 
-Even if the layout is defined per plane.
+Oh, it's just based on activity. So, for example, iocost puts a cgroup on
+its active list which is canned periodically when an IO is issued from an
+inactive cgroup. If an active cgroup doesn't have any activity between two
+scans, it becomes inactive and dropped from the list. drm can prolly use the
+same approach?
 
-So lets say
+> Also, I am really postponing implementing those changes until I hear at
+> least something from the DRM community.
 
-plane A with layout A maps to rect 1 of DMA0
-plane B with layout B maps to rect 2 of DMA0
+Yeah, that sounds like a good idea.
 
-How can layout be assumed to be duplicated in this case?
+Thanks.
 
-This is not a wide plane use-case but just smartDMA case of two 
-different layers.
-
-Maybe I am missing something but this is the example i am interested about.
-
->>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 30 ++++++++++-----------
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  6 ++---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 10 +++----
->>>    3 files changed, 22 insertions(+), 24 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>> index 2bd39c13d54d..400d043f37fa 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>> @@ -486,7 +486,7 @@ static void dpu_hw_sspp_setup_rects(struct dpu_sw_pipe *pipe,
->>>    }
->>>
->>>    static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
->>> -             struct dpu_hw_pipe_cfg *cfg)
->>> +             struct dpu_hw_fmt_layout *layout)
->>>    {
->>>        struct dpu_hw_sspp *ctx = pipe->sspp;
->>>        u32 ystride0, ystride1;
->>> @@ -497,41 +497,41 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
->>>                return;
->>>
->>>        if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
->>> -             for (i = 0; i < ARRAY_SIZE(cfg->layout.plane_addr); i++)
->>> +             for (i = 0; i < ARRAY_SIZE(layout->plane_addr); i++)
->>>                        DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx + i * 0x4,
->>> -                                     cfg->layout.plane_addr[i]);
->>> +                                     layout->plane_addr[i]);
->>>        } else if (pipe->multirect_index == DPU_SSPP_RECT_0) {
->>>                DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx,
->>> -                             cfg->layout.plane_addr[0]);
->>> +                             layout->plane_addr[0]);
->>>                DPU_REG_WRITE(&ctx->hw, SSPP_SRC2_ADDR + idx,
->>> -                             cfg->layout.plane_addr[2]);
->>> +                             layout->plane_addr[2]);
->>>        } else {
->>>                DPU_REG_WRITE(&ctx->hw, SSPP_SRC1_ADDR + idx,
->>> -                             cfg->layout.plane_addr[0]);
->>> +                             layout->plane_addr[0]);
->>>                DPU_REG_WRITE(&ctx->hw, SSPP_SRC3_ADDR + idx,
->>> -                             cfg->layout.plane_addr[2]);
->>> +                             layout->plane_addr[2]);
->>>        }
->>>
->>>        if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
->>> -             ystride0 = (cfg->layout.plane_pitch[0]) |
->>> -                     (cfg->layout.plane_pitch[1] << 16);
->>> -             ystride1 = (cfg->layout.plane_pitch[2]) |
->>> -                     (cfg->layout.plane_pitch[3] << 16);
->>> +             ystride0 = (layout->plane_pitch[0]) |
->>> +                     (layout->plane_pitch[1] << 16);
->>> +             ystride1 = (layout->plane_pitch[2]) |
->>> +                     (layout->plane_pitch[3] << 16);
->>>        } else {
->>>                ystride0 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE0 + idx);
->>>                ystride1 = DPU_REG_READ(&ctx->hw, SSPP_SRC_YSTRIDE1 + idx);
->>>
->>>                if (pipe->multirect_index == DPU_SSPP_RECT_0) {
->>>                        ystride0 = (ystride0 & 0xFFFF0000) |
->>> -                             (cfg->layout.plane_pitch[0] & 0x0000FFFF);
->>> +                             (layout->plane_pitch[0] & 0x0000FFFF);
->>>                        ystride1 = (ystride1 & 0xFFFF0000)|
->>> -                             (cfg->layout.plane_pitch[2] & 0x0000FFFF);
->>> +                             (layout->plane_pitch[2] & 0x0000FFFF);
->>>                } else {
->>>                        ystride0 = (ystride0 & 0x0000FFFF) |
->>> -                             ((cfg->layout.plane_pitch[0] << 16) &
->>> +                             ((layout->plane_pitch[0] << 16) &
->>>                                 0xFFFF0000);
->>>                        ystride1 = (ystride1 & 0x0000FFFF) |
->>> -                             ((cfg->layout.plane_pitch[2] << 16) &
->>> +                             ((layout->plane_pitch[2] << 16) &
->>>                                 0xFFFF0000);
->>>                }
->>>        }
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>> index c713343378aa..8dad52eb2a90 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
->>> @@ -154,13 +154,11 @@ struct dpu_hw_pixel_ext {
->>>
->>>    /**
->>>     * struct dpu_hw_pipe_cfg : Pipe description
->>> - * @layout:    format layout information for programming buffer to hardware
->>>     * @src_rect:  src ROI, caller takes into account the different operations
->>>     *             such as decimation, flip etc to program this field
->>>     * @dest_rect: destination ROI.
->>>     */
->>>    struct dpu_hw_pipe_cfg {
->>> -     struct dpu_hw_fmt_layout layout;
->>>        struct drm_rect src_rect;
->>>        struct drm_rect dst_rect;
->>>    };
->>> @@ -243,10 +241,10 @@ struct dpu_hw_sspp_ops {
->>>        /**
->>>         * setup_sourceaddress - setup pipe source addresses
->>>         * @pipe: Pointer to software pipe context
->>> -      * @cfg: Pointer to pipe config structure
->>> +      * @layout: format layout information for programming buffer to hardware
->>>         */
->>>        void (*setup_sourceaddress)(struct dpu_sw_pipe *ctx,
->>> -                                 struct dpu_hw_pipe_cfg *cfg);
->>> +                                 struct dpu_hw_fmt_layout *layout);
->>>
->>>        /**
->>>         * setup_csc - setup color space coversion
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> index cbff4dea8662..0d2a7170e0ab 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->>> @@ -471,21 +471,21 @@ static void _dpu_plane_set_qos_remap(struct drm_plane *plane)
->>>
->>>    static void _dpu_plane_set_scanout(struct drm_plane *plane,
->>>                struct dpu_plane_state *pstate,
->>> -             struct dpu_hw_pipe_cfg *pipe_cfg,
->>>                struct drm_framebuffer *fb)
->>>    {
->>>        struct dpu_plane *pdpu = to_dpu_plane(plane);
->>>        struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
->>>        struct msm_gem_address_space *aspace = kms->base.aspace;
->>> +     struct dpu_hw_fmt_layout layout;
->>>        int ret;
->>>
->>> -     ret = dpu_format_populate_layout(aspace, fb, &pipe_cfg->layout);
->>> +     ret = dpu_format_populate_layout(aspace, fb, &layout);
->>>        if (ret)
->>>                DPU_ERROR_PLANE(pdpu, "failed to get format layout, %d\n", ret);
->>>        else if (pstate->pipe.sspp->ops.setup_sourceaddress) {
->>>                trace_dpu_plane_set_scanout(&pstate->pipe,
->>> -                                         &pipe_cfg->layout);
->>> -             pstate->pipe.sspp->ops.setup_sourceaddress(&pstate->pipe, pipe_cfg);
->>> +                                         &layout);
->>> +             pstate->pipe.sspp->ops.setup_sourceaddress(&pstate->pipe, &layout);
->>>        }
->>>    }
->>>
->>> @@ -1134,7 +1134,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->>>
->>>        memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
->>>
->>> -     _dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
->>> +     _dpu_plane_set_scanout(plane, pstate, fb);
->>>
->>>        pstate->pending = true;
->>>
-> 
-> 
-> 
+-- 
+tejun
