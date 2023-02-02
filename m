@@ -1,66 +1,152 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78291688B02
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 00:43:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3E3688B1C
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 00:48:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85E1010E68A;
-	Thu,  2 Feb 2023 23:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CD9810E68B;
+	Thu,  2 Feb 2023 23:48:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF49D10E68A
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 23:43:55 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id e15so4349811ybn.10
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Feb 2023 15:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=2wm/NlzXmgoX1Za7m/JN5kvV3kDVgYLyVFlp+hlDUaY=;
- b=EH2GSsYfJDkeOiqe3uKMYPViCk7B5QaAIR8nkniO2pC+GJ5gD8KSGwZjSWeLm2XCjp
- X8Sr+dq8mnyNa0KhcV8VF8gRR2UN65i4k0k8EGn5Oxw6ihc9MYxpl9F9AmttY8vRzH40
- wJXWr0EhT/z916R8NgI5EJbQsdU37Zt8GmBmYFJu+7mo16/yHBc45+IkwtgoidPbUsck
- Ba5Udivs4qxhXjB7QqxgBhXE5D+7hGNSScL7gFKicK5dWQpVQQcSBx5PU8ZHyDE5pCer
- 4O6L3/MlaoaMA6QUqDl1E4YrL7OcP5uS3d5ITXkz639XuOoDHk9NwubvoWux16aprV6a
- Yaog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2wm/NlzXmgoX1Za7m/JN5kvV3kDVgYLyVFlp+hlDUaY=;
- b=vWrJvr3OEQ6ScBEvJw9cdseWzgHN/F2FORTQo8fEHk5eSGEluDNEV3kOIjBl07AWZY
- l1oSK1qyU30waaH8OsL9YIW65Yz1VBY7YlpcEg8AvnpbngWL8/6DknwnmS4+b2eyW9Wv
- lg2N7tZT9Zrj7+yeg6ZxY1/G3Ft0jnLMQTYklrI5SkBXD/UNSKLKqN7SfDdmNsaTJanY
- qV06Qg6mIX97ctvRP3vLrPK+4wjV8KaNW8hNxTrpUU/jv1dG9lG5mU/NHw8QIq25/QtX
- lBrW8LCYDPaNJg0LLnTbBBjvTak1q8XQTVIix/EmSm2AvXeYWphRM0eNsjFwDqv+6eht
- TuVw==
-X-Gm-Message-State: AO0yUKWr5xnmMH8yCbJM+28Q3+mtFC+M9FdqejhV0jdp65o1FKXCqXTK
- ssjKS6WnP6W9M7gVBpRIq+n7ovvUAL3/CG8zZ6atLQ==
-X-Google-Smtp-Source: AK7set+7D4Y2dVNlJhWUWCCozQJ6glzUDGk+H7dLmRwOi38G6/a8PAmxCjrb0Hg+epnUIHXjD6OHN12V8G05QwEHJWg=
-X-Received: by 2002:a25:ed02:0:b0:863:407d:7d61 with SMTP id
- k2-20020a25ed02000000b00863407d7d61mr220524ybh.352.1675381434664; Thu, 02 Feb
- 2023 15:43:54 -0800 (PST)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BFA510E68B;
+ Thu,  2 Feb 2023 23:48:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675381702; x=1706917702;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=vvYTPYS8GdUQGwjmk3c3bOXBT5HaV41Jkpg0a9W+S48=;
+ b=BIzdbVsDAaLpHUNAvcnNHnatkf5s/1nqQtyZWaVbnL/7ilR88yV9bGXk
+ kBLMaHE+f8tnjOoqHZo+NKRJERCE9zX5M1BQUjP57hH/acJwdODJXe9k/
+ Z+o768/WgE0OtfgZdGB17GbCEedmplIxVEfkBxtdntsrhMRiTYUn66ybN
+ lnj8BGr+1kI4vL4lrNdvkdGFbVveli6fHlp1Eai13wPQqrvQ28FEqUhcu
+ r6Ow/TM9whmXMAjuBNkJCx68rEMgZLZBbeslw3kNpUAWNrtgHbeXMCMZr
+ p3rE26NKuVxIWPFWmQLA/cGEbp+CiQJ8M/QhWoNbRA3gzfWdT8q/WdG4h g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="327250982"
+X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; d="scan'208";a="327250982"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2023 15:48:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="665509216"
+X-IronPort-AV: E=Sophos;i="5.97,268,1669104000"; d="scan'208";a="665509216"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga002.jf.intel.com with ESMTP; 02 Feb 2023 15:48:20 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 2 Feb 2023 15:48:20 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Thu, 2 Feb 2023 15:48:19 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Thu, 2 Feb 2023 15:48:19 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Thu, 2 Feb 2023 15:48:19 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NxDjbuStGYKuek4nQ0s+6bD0oSqzU3Sf4D9uS0hlMa90uNF2jAO31VLiDMEIqpehMMtocpwVH/H0f9Br5XMdFje7Juq++OHBDdmnY+EKiZfTCh3ra0uFmUz3TUKENdJaTeWwAQN0Q5BpU0CqiGPKwaHtl16w45md+s2nbDShjcnJEjMxcFpMOUCbPm1K3UqUCxsWDrnEbCqnDSARD9vCH30GnR/j5iAFPVuIE5Wkrre/PEGXsoSNmT9dCEo8si5eqp0YOFejRAmphDfu+g2yyX/kFdUUS60TJRQODnjdW3Ya0uhlRtjP5PmfTSCQUD4Kl0IGQXGk3QTPyhv6NpFgdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3pyn8DdyAG9/3IFSi9NUCmaEIxD0ivmDUXySR1DtglY=;
+ b=J0X1V8GoGscsOhHQbHvcNYYz0zNZGzx3zqVuYfA4FJB/dnD0ooyP9pOBE23Lj+dmHP+CrMkTpiiPCzCydpNK3hV9JAJ6bTNHYD9lCIpPd66Sg/HD1XX1AqA+VYMThAKw2Ks0BRXBkclabH9Ju3alScQIRc7VEGNbkNb9oG6nocv9n8u79qhp+QiLAdgwL3kEJFl4LLYsNzWhZyOJsupoa/XR/5jHYabIndAYc/a7SR9L4WP2mTaDq/zNVtW7VRwmhkzMHYefaSenhAQJFBX6hIJvVcyGTo8wXf8Lwlwmao7+DHhYmeLGzFW0yn3e47DXD3X3I3O5CXj5pR+VpRefNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ BN9PR11MB5228.namprd11.prod.outlook.com (2603:10b6:408:135::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6064.25; Thu, 2 Feb 2023 23:48:17 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::218f:c449:80c8:7ad9]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::218f:c449:80c8:7ad9%5]) with mapi id 15.20.6064.024; Thu, 2 Feb 2023
+ 23:48:17 +0000
+Message-ID: <77eb3a1b-8fe8-9476-3aa5-400fe0de36d3@intel.com>
+Date: Thu, 2 Feb 2023 15:48:14 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] drm/i915/huc: Add and use HuC oriented print macros
+Content-Language: en-US
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+References: <20230131222837.1921-1-michal.wajdeczko@intel.com>
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20230131222837.1921-1-michal.wajdeczko@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0215.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c1::10) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
-References: <20230123191728.2928839-1-tjmercier@google.com>
- <20230123191728.2928839-2-tjmercier@google.com>
- <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
- <20230124194628.d44rtcfsv23fndxw@google.com> <Y9EX+usSpAjZ/8LS@dhcp22.suse.cz>
- <347560bc-d06a-92b7-8003-133d2b8af2df@linux.intel.com>
- <CABdmKX09S3bYzX+xBkhfkFULk2BtzS11RhzrvWv94j+cHSezPA@mail.gmail.com>
- <ad6bd448-91bd-d47e-5b54-8755fe0e0340@linux.intel.com>
- <CABdmKX3VSdF3jmktpw9VH4k+J+ZtQCLCPdNN6uye4XnZGPhG5g@mail.gmail.com>
- <15adf130-61f7-2423-2a48-883e611e3304@linux.intel.com>
- <b1e1777b-2392-872b-7306-045b923f7360@linux.intel.com>
-In-Reply-To: <b1e1777b-2392-872b-7306-045b923f7360@linux.intel.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Thu, 2 Feb 2023 15:43:43 -0800
-Message-ID: <CABdmKX3v1Wz3Lowc5zr+vzy1xT4-agu0cEDH1F7yjWpw8cqWXg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|BN9PR11MB5228:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd9e010e-902e-4e27-76f2-08db0577f4eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uheCuM/mbPB25Q3vFHKBAYAJvqwdQ7rjkgELXxwxC0/ZAq7B6hlfvo6CbOWGGAs1y64Qk3SoKuNCVtAYch4J8Y25/zMCElhB1HY222loClvCUhdP+ry/MWrDwvfBE2zS2brlmC9/iYI4paCbFP3QtJvRRPwjTKl8uctpV3YCiC9yx3ytlVWPQtDi9o1ityr0/EkgVSldeiA5HxoHMJhyF5fGjSl99NTRmq1HvEh2c7ZHQt8HDZD9JIEobJkO9zrunDrLaD+gXWH7hK7itXYuUft1DHFRHT/GFJ/gM8na4VtgVqgFxZQY9elJoWe6BcP9jiiMkPzKCxy77/19lSJ2xqY1qz3rMx8/Lo+Q90ROlrNNQNMpebsPGj58pR6iG3VJ/sKIsakfp5u+jv5U7SlJUQRKE0CSCIXZYHdx6a6z+wxEeV3WqtYDohu5Yuo01UDlILj1WskwaxO8qJmUV8+ye9sTh4XVGIbOrbSoecIdbyKx4vacZbtGsHVaE9aIqJBCqh+LKOMFBcFaYH7y7h8aHVUahRJOMKXYs0J/OPHQfmowwsp52ZW0Cblfecw4QyN+T+kXrp39rXSqjMhLme7i9g9cS0kN9+70NGjO33uWjd6GuR/i7rbQ/tJt6zv5aGAxYSUkOQegYMT4C8Kmo3raBo1Z1UFy7zbAD3hiK77ZkxKog5vutBE194FhxZxy7T5PBzzptFLMkDGr2EFSgl840gygfuKVig/6Nx70IanmlLg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(376002)(366004)(346002)(136003)(39860400002)(396003)(451199018)(8936002)(2616005)(5660300002)(4326008)(316002)(2906002)(8676002)(41300700001)(66556008)(6512007)(66476007)(6486002)(26005)(6666004)(66946007)(478600001)(186003)(6506007)(53546011)(83380400001)(38100700002)(450100002)(31686004)(31696002)(86362001)(36756003)(82960400001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlVQUVBZcTR0RFdLc2FSVDRiZnprM2YrQXhwZVZGZlF4U2ROSExmRUMrMERz?=
+ =?utf-8?B?Uy8yMVQ4STB0TG95UHFEN0VOT0xNaHFHVUYrNlhQVS8zYUZmUWkyd1kzc2Jt?=
+ =?utf-8?B?aTZTcDFJdWloYUl3MEFHRmZwcEpVODZadUtXZHFxV0Y5bTZKd2d0dGdPTlV5?=
+ =?utf-8?B?c1R6UDdOaHdUdlVEbW1DL1pNM09KK1p3Q2RsV0ZVemJvcTg4QUV6RmZWVjlS?=
+ =?utf-8?B?UTVIdE9kbmVzVVNOK3BkUXJtQkpydG5VZHhzQmhlRHVJMUJjZFZhT2Vta051?=
+ =?utf-8?B?eVBJMGlwZHU3bVE1ZHdMS3BsL2tBSldSNjhLNGJWYUtwdUlGVHRYRWxCZVRE?=
+ =?utf-8?B?eEMwZ3NlL3FHL1JWdjVleEpOQms2bElQN1hSc0xlNStFRGxUOWl6WHdQMzNL?=
+ =?utf-8?B?WXh1QTh3ak8rQ0VWMjBWVVlCaWJjRWcwUkg0T2FHVHZsYmZqczNNN1JpcS9U?=
+ =?utf-8?B?RzZTVkRMd3RMSTBqbFpVMGVVNzNORnBReGd5SmtTdWNydEl1ck9TU1NCMFhH?=
+ =?utf-8?B?dHZwY2wzSzVCUDZJZEh0Z2QrQnRiUDIyRUZVMzVYb2VGbnNmcDhGSERhT0FB?=
+ =?utf-8?B?WEZlWVFudDRpZ0EzcXY3ejYxNG9UbVo0Tk5Na21iZmZVTVU1d2M1TVJMNnFF?=
+ =?utf-8?B?eG5wL0g2NWZqSitoblpqdTUrMDVaVmJoaG5lM05hWXVPN0hnNkxSSFZ4ZjJZ?=
+ =?utf-8?B?Q2cxbytVNjdJODVYUDV6UzFadHZ1ZUNibUQ5UHA0MTRpd0ZscU0vaWFBN3o1?=
+ =?utf-8?B?aFQ5Y3NTakpubFNMTTFjczFudm8xeTEzWi9uN2h0NldiSDRKUWhmNmlFOHJ0?=
+ =?utf-8?B?VlhWVkJRQ3Q5QnBIaTlKeGM1SVFiOTR1UEV2c09oKzY1dFhva2tITlM1aVhv?=
+ =?utf-8?B?MzdVRWVGVjNnYUZEQUp2c3Z6Kzl6SG1NNkxKSEszeXAxcEsvajRLUVVmRHYx?=
+ =?utf-8?B?bnN1NlZBdGppMGxIZTJHc0h3WjRDcXY4anVWNnlRWklGTGtQdHRyZ1VEZ1Nj?=
+ =?utf-8?B?dnlBUmlCQTRCcmhkNmM1czBpYmM3TjhJMDFnMElHRUQ3VkJ0TWwxcVdwb094?=
+ =?utf-8?B?L0diK3JlK2F3azBtcU5KMExNSTZwUi9jd1N6elN6dm55YlYrTUE3eTBNQlVv?=
+ =?utf-8?B?ZVB2aGc3VFVBRmV5VjBBcmV5eU51NlVyV3lTc0pDdGxKZXBZWC9PbWRYYUZS?=
+ =?utf-8?B?eEF1QkdkSjBSR2R3RGhzcjFXdlBwTSt5NGRHWVR5REJTL21hejBxUmhFY3Y3?=
+ =?utf-8?B?YXJveDF6aGNxMnN2L1JpZ2laT3NUOXhUL2dkWXNYYkJvbUMvRUVabDI1RGZH?=
+ =?utf-8?B?L242Vjc0L1Y5cmh2RjNCcm9ub0FJbkdDYVlDdTFCRmR4UDlqeWl1OVFsbnF4?=
+ =?utf-8?B?cnZoOGlHR2h6Zkw3K1dxckxZblJ3TUJVRWQwM3VhdVMrQ0syM3BsbEpiZVF1?=
+ =?utf-8?B?ZzVuVzFRRVB2V1RQeVp1VXNXaFk4TTFqRTdseHplcjBTWmx6NjBlWGdSdFVz?=
+ =?utf-8?B?WVU2LzJnTENZaTBCdkJOejdBSmx4RDFBSDhTeTlVZzZGb3RobW9FZktEclFO?=
+ =?utf-8?B?ell3Q1ZQQjFzdUlaNTlxZG9RRk9qVkpVR0MybkwxTkppczJ1SG00RjBVdWVo?=
+ =?utf-8?B?Wjl5bEd2YlI3cnNOdUtiazVTekVJWTFPcWlPb0IxOHJlOWxHcGVJTDRvd3ZW?=
+ =?utf-8?B?RW4vOW1xR3ZLaUdpV1RHRHREU0NBN2swaFhkdEZrL3VXZGZZVVJpSGtOTVls?=
+ =?utf-8?B?cUlGS0RldVJuYW1ZSlUyS2NDWVNLamV1Q1J4eW5wUUcrRkozOFhWOFVLN29o?=
+ =?utf-8?B?Nmo1cW1YSTdtVFZmaEdzVWQyeWJWQ20wZHRwQnEraEEyajhIVzdYUVNLQTgx?=
+ =?utf-8?B?NVFOSkdGb2d5Tmdsb0FEKzBjMlJPcGczNVVIYytnR0F1Zjc2WGY5M2FuM3BT?=
+ =?utf-8?B?ek9JTlREQ2xUNm1lSVY0NGlvS1FFTFpmS0puZktNek5aNERmeEN5amphOXcx?=
+ =?utf-8?B?TUpIN3BCVzVJQlo5ZEVia3BCeHIra1JEcUQvdTZKUEJZNjJ0NFZWZ1g3V1or?=
+ =?utf-8?B?M1dBZ3lMamsrNTJZRXlrekpIcFBDaEZzeTkzWUorVnk5QlkxRWI5UU9jblJj?=
+ =?utf-8?B?TXdsemYwVU5VdmkxSE5JQ0JQY0gxQzF6NTJ6NVAzOGlKRlNGcWx3dXdLMFJF?=
+ =?utf-8?Q?mDqEctvHxzGdnVhe2Nk7hZY=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd9e010e-902e-4e27-76f2-08db0577f4eb
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 23:48:17.3108 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hsw+TRD8pNpK5ltjRXEala+yDGyNDLtSR9iuyaT6i/AHk0u6SKMDPqX1q8hXXu4M5EKAIfWzWWLr76GfrvHwnflyc0uuF8G5qD9cDLNxObY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5228
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,285 +159,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, linux-doc@vger.kernel.org,
- daniel.vetter@ffwll.ch, Roman Gushchin <roman.gushchin@linux.dev>,
- cmllamas@google.com, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- jstultz@google.com, Zefan Li <lizefan.x@bytedance.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, android-mm@google.com,
- Jonathan Corbet <corbet@lwn.net>, jeffv@google.com,
- linux-media@vger.kernel.org, selinux@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- cgroups@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 1, 2023 at 6:52 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 01/02/2023 14:23, Tvrtko Ursulin wrote:
-> >
-> > On 01/02/2023 01:49, T.J. Mercier wrote:
-> >> On Tue, Jan 31, 2023 at 6:01 AM Tvrtko Ursulin
-> >> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>
-> >>>
-> >>> On 25/01/2023 20:04, T.J. Mercier wrote:
-> >>>> On Wed, Jan 25, 2023 at 9:31 AM Tvrtko Ursulin
-> >>>> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>>>
-> >>>>>
-> >>>>> Hi,
-> >>>>>
-> >>>>> On 25/01/2023 11:52, Michal Hocko wrote:
-> >>>>>> On Tue 24-01-23 19:46:28, Shakeel Butt wrote:
-> >>>>>>> On Tue, Jan 24, 2023 at 03:59:58PM +0100, Michal Hocko wrote:
-> >>>>>>>> On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
-> >>>>>>>>> When a buffer is exported to userspace, use memcg to attribute the
-> >>>>>>>>> buffer to the allocating cgroup until all buffer references are
-> >>>>>>>>> released.
-> >>>>>>>>
-> >>>>>>>> Is there any reason why this memory cannot be charged during the
-> >>>>>>>> allocation (__GFP_ACCOUNT used)?
-> >>>>>>>> Also you do charge and account the memory but underlying pages
-> >>>>>>>> do not
-> >>>>>>>> know about their memcg (this is normally done with commit_charge
-> >>>>>>>> for
-> >>>>>>>> user mapped pages). This would become a problem if the memory is
-> >>>>>>>> migrated for example.
-> >>>>>>>
-> >>>>>>> I don't think this is movable memory.
-> >>>>>>>
-> >>>>>>>> This also means that you have to maintain memcg
-> >>>>>>>> reference outside of the memcg proper which is not really nice
-> >>>>>>>> either.
-> >>>>>>>> This mimicks tcp kmem limit implementation which I really have
-> >>>>>>>> to say I
-> >>>>>>>> am not a great fan of and this pattern shouldn't be coppied.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> I think we should keep the discussion on technical merits instead of
-> >>>>>>> personal perference. To me using skmem like interface is totally
-> >>>>>>> fine
-> >>>>>>> but the pros/cons need to be very explicit and the clear reasons to
-> >>>>>>> select that option should be included.
-> >>>>>>
-> >>>>>> I do agree with that. I didn't want sound to be personal wrt tcp kmem
-> >>>>>> accounting but the overall code maintenance cost is higher because
-> >>>>>> of how tcp take on accounting differs from anything else in the memcg
-> >>>>>> proper. I would prefer to not grow another example like that.
-> >>>>>>
-> >>>>>>> To me there are two options:
-> >>>>>>>
-> >>>>>>> 1. Using skmem like interface as this patch series:
-> >>>>>>>
-> >>>>>>> The main pros of this option is that it is very simple. Let me
-> >>>>>>> list down
-> >>>>>>> the cons of this approach:
-> >>>>>>>
-> >>>>>>> a. There is time window between the actual memory allocation/free
-> >>>>>>> and
-> >>>>>>> the charge and uncharge and [un]charge happen when the whole
-> >>>>>>> memory is
-> >>>>>>> allocated or freed. I think for the charge path that might not be
-> >>>>>>> a big
-> >>>>>>> issue but on the uncharge, this can cause issues. The application
-> >>>>>>> and
-> >>>>>>> the potential shrinkers have freed some of this dmabuf memory but
-> >>>>>>> until
-> >>>>>>> the whole dmabuf is freed, the memcg uncharge will not happen.
-> >>>>>>> This can
-> >>>>>>> consequences on reclaim and oom behavior of the application.
-> >>>>>>>
-> >>>>>>> b. Due to the usage model i.e. a central daemon allocating the
-> >>>>>>> dmabuf
-> >>>>>>> memory upfront, there is a requirement to have a memcg charge
-> >>>>>>> transfer
-> >>>>>>> functionality to transfer the charge from the central daemon to the
-> >>>>>>> client applications. This does introduce complexity and avenues
-> >>>>>>> of weird
-> >>>>>>> reclaim and oom behavior.
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> 2. Allocate and charge the memory on page fault by actual user
-> >>>>>>>
-> >>>>>>> In this approach, the memory is not allocated upfront by the central
-> >>>>>>> daemon but rather on the page fault by the client application and
-> >>>>>>> the
-> >>>>>>> memcg charge happen at the same time.
-> >>>>>>>
-> >>>>>>> The only cons I can think of is this approach is more involved
-> >>>>>>> and may
-> >>>>>>> need some clever tricks to track the page on the free patch i.e.
-> >>>>>>> we to
-> >>>>>>> decrement the dmabuf memcg stat on free path. Maybe a page flag.
-> >>>>>>>
-> >>>>>>> The pros of this approach is there is no need have a charge transfer
-> >>>>>>> functionality and the charge/uncharge being closely tied to the
-> >>>>>>> actual
-> >>>>>>> memory allocation and free.
-> >>>>>>>
-> >>>>>>> Personally I would prefer the second approach but I don't want to
-> >>>>>>> just
-> >>>>>>> block this work if the dmabuf folks are ok with the cons
-> >>>>>>> mentioned of
-> >>>>>>> the first approach.
-> >>>>>>
-> >>>>>> I am not familiar with dmabuf internals to judge complexity on
-> >>>>>> their end
-> >>>>>> but I fully agree that charge-when-used is much more easier to reason
-> >>>>>> about and it should have less subtle surprises.
-> >>>>>
-> >>>>> Disclaimer that I don't seem to see patches 3&4 on dri-devel so
-> >>>>> maybe I
-> >>>>> am missing something, but in principle yes, I agree that the 2nd
-> >>>>> option
-> >>>>> (charge the user, not exporter) should be preferred. Thing being
-> >>>>> that at
-> >>>>> export time there may not be any backing store allocated, plus if the
-> >>>>> series is restricting the charge transfer to just Android clients then
-> >>>>> it seems it has the potential to miss many other use cases. At least
-> >>>>> needs to outline a description on how the feature will be useful
-> >>>>> outside
-> >>>>> Android.
-> >>>>>
-> >>>> There is no restriction like that. It's available to anybody who wants
-> >>>> to call dma_buf_charge_transfer if they actually have a need for that,
-> >>>> which I don't really expect to be common since most users/owners of
-> >>>> the buffers will be the ones causing the export in the first place.
-> >>>> It's just not like that on Android with the extra allocator process in
-> >>>> the middle most of the time.
-> >>>
-> >>> Yeah I used the wrong term "restrict", apologies. What I meant was, if
-> >>> the idea was to allow spotting memory leaks, with the charge transfer
-> >>> being optional and in the series only wired up for Android Binder, then
-> >>> it obviously only fully works for that one case. So a step back..
-> >>>
-> >> Oh, spotting kernel memory leaks is a side-benefit of accounting
-> >> kernel-only buffers in the root cgroup. The primary goal is to
-> >> attribute buffers to applications that originated them (via
-> >> per-application cgroups) simply for accounting purposes. Buffers are
-> >> using memory on the system, and we want to know who created them and
-> >> how much memory is used. That information is/will no longer available
-> >> with the recent deprecation of the dmabuf sysfs statistics.
-> >>
-> >>> .. For instance, it is not feasible to transfer the charge when dmabuf
-> >>> is attached, or imported? That would attribute the usage to the
-> >>> user/importer so give better visibility on who is actually causing the
-> >>> memory leak.
-> >>>
-> >> Instead of accounting at export, we could account at attach. That just
-> >> turns out not to be very useful when the majority of our
-> >> heap-allocated buffers don't have attachments at any particular point
-> >> in time. :\ But again it's less about leaks and more about knowing
-> >> which buffers exist in the first place.
-> >>
-> >>> Further more, if above is feasible, then could it also be implemented in
-> >>> the common layer so it would automatically cover all drivers?
-> >>>
-> >> Which common layer code specifically? The dmabuf interface appears to
-> >> be the most central/common place to me.
-> >
-> > Yes, I meant dma_buf_attach / detach. More below.
-> >>>>> Also stepping back for a moment - is a new memory category really
-> >>>>> needed, versus perhaps attempting to charge the actual backing store
-> >>>>> memory to the correct client? (There might have been many past
-> >>>>> discussions on this so it's okay to point me towards something in the
-> >>>>> archives.)
-> >>>>>
-> >>>> Well the dmabuf counter for the stat file is really just a subcategory
-> >>>> of memory that is charged. Its existence is not related to getting the
-> >>>> charge attributed to the right process/cgroup. We do want to know how
-> >>>> much of the memory attributed to a process is for dmabufs, which is
-> >>>> the main point of this series.
-> >>>
-> >>> Then I am probably missing something because the statement how proposal
-> >>> is not intended to charge to the right process, but wants to know how
-> >>> much dmabuf "size" is attributed to a process, confuses me due a seeming
-> >>> contradiction. And the fact it would not be externally observable how
-> >>> much of the stats is accurate and how much is not (without knowing the
-> >>> implementation detail of which drivers implement charge transfer and
-> >>> when). Maybe I completely misunderstood the use case.
-> >>>
-> >> Hmm, did I clear this up above or no? The current proposal is for the
-> >> process causing the export of a buffer to be charged for it,
-> >> regardless of whatever happens afterwards. (Unless that process is
-> >> like gralloc on Android, in which case the charge is transferred from
-> >> gralloc to whoever called gralloc to allocate the buffer on their
-> >> behalf.)
-> >
-> > Main problem for me is that charging at export time has no relation to
-> > memory used. But I am not familiar with the memcg counters to know if
-> > any other counter sets that same precedent. If all other are about real
-> > memory use then IMO this does not fit that well. I mean specifically this:
-> >
-> > +      dmabuf (npn)
-> > +        Amount of memory used for exported DMA buffers allocated by the
-> > cgroup.
-> > +        Stays with the allocating cgroup regardless of how the buffer
-> > is shared.
-> > +
-> >
-> > I think that "Amount of memory used for exported..." is not correct. As
-> > implemented it is more akin the virtual address space size in the cpu
-> > space - it can have no relation to the actual usage since backing store
-> > is not allocated until the attachment is made.
-> >
-> > Then also this:
-> >
-> > @@ -446,6 +447,8 @@ struct dma_buf {
-> >           struct dma_buf *dmabuf;
-> >       } *sysfs_entry;
-> >   #endif
-> > +    /* The cgroup to which this buffer is currently attributed */
-> > +    struct mem_cgroup *memcg;
-> >   };
-> >
-> > Does not conceptually fit in my mind. Dmabufs are not associated with
-> > one cgroup at a time.
-> >
-> > So if you would place tracking into dma_buf_attach/detach you would be
-> > able to charge to correct cgroup regardless of a driver and since by
-> > contract at this stage there is backing store, the reflected memory
-> > usage counter would be truthful.
-> >
-> > But then you state a problem, that majority of the time there are no
-> > attachments in your setup, and you also say the proposal is not so much
-> > about leaks but more about knowing what is exported.
-> >
-> > In this case you could additionally track that via dma_buf_getfile /
-> > dma_buf_file_release as a separate category like dmabuf-exported? But
-> > again, I personally don't know if such "may not really be using memory"
-> > counters fit in memcg.
-> >
-> > (Hm you'd probably still need dmabuf->export_memcg to store who was the
-> > original caller of dma_buf_getfile, in case last reference is dropped
-> > from a different process/context. Even dmabuf->attach_memcg for
-> > attach/detach to work correctly for the same reason.)
->
-> Or to work around the "may not really be using memory" problem with the
-> exported tracking, perhaps you could record dmabuf->export_memcg at
-> dma_buf_export time, but only charge against it at dma_buf_getfile time.
-> Assuming it is possible to keep references to those memcg's over the
-> dmabuf lifetime without any issues.
->
-I don't follow here. dma_buf_export calls dma_buf_getfile. Did you
-mean dma_buf_attach / dma_buf_mmap instead of dma_buf_getfile? If so
-that's an interesting idea, but want to make sure I'm tracking
-correctly.
 
-> That way we could have dmabuf-exported and dmabuf-imported memcg
-> categories which would better correlate with real memory usage. I say
-> better, because I don't think it would still be perfect since individual
-> drivers are allowed to hold onto the backing store post detach and that
-> is invisible to dmabuf API. But that probably is a different problem.
->
-Oh, that sounds... broken.
 
-> Regards,
+On 1/31/2023 2:28 PM, Michal Wajdeczko wrote:
+> Like we did it for GuC, introduce some helper print macros for
+> HuC to have unified format of messages that also include GT#.
 >
-> Tvrtko
+> While around improve some messages and use %pe if possible.
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_huc.c | 44 ++++++++++++++------------
+>   1 file changed, 23 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> index 410905da8e97..834e3b5b8f4b 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+> @@ -6,6 +6,7 @@
+>   #include <linux/types.h>
+>   
+>   #include "gt/intel_gt.h"
+> +#include "gt/intel_gt_print.h"
+>   #include "intel_guc_reg.h"
+>   #include "intel_huc.h"
+>   #include "i915_drv.h"
+> @@ -13,6 +14,15 @@
+>   #include <linux/device/bus.h>
+>   #include <linux/mei_aux.h>
+>   
+> +#define huc_printk(_huc, _level, _fmt, ...) \
+> +	gt_##_level(huc_to_gt(_huc), "HuC: " _fmt, ##__VA_ARGS__)
+> +#define huc_err(_huc, _fmt, ...)	huc_printk((_huc), err, _fmt, ##__VA_ARGS__)
+> +#define huc_warn(_huc, _fmt, ...)	huc_printk((_huc), warn, _fmt, ##__VA_ARGS__)
+> +#define huc_notice(_huc, _fmt, ...)	huc_printk((_huc), notice, _fmt, ##__VA_ARGS__)
+> +#define huc_info(_huc, _fmt, ...)	huc_printk((_huc), info, _fmt, ##__VA_ARGS__)
+> +#define huc_dbg(_huc, _fmt, ...)	huc_printk((_huc), dbg, _fmt, ##__VA_ARGS__)
+> +#define huc_probe_error(_huc, _fmt, ...) huc_printk((_huc), probe_error, _fmt, ##__VA_ARGS__)
+> +
+>   /**
+>    * DOC: HuC
+>    *
+> @@ -107,11 +117,9 @@ static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrti
+>   
+>   	if (!intel_huc_is_authenticated(huc)) {
+>   		if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
+> -			drm_notice(&huc_to_gt(huc)->i915->drm,
+> -				   "timed out waiting for MEI GSC init to load HuC\n");
+> +			huc_notice(huc, "load timed out waiting for MEI GSC\n");
+
+I think this rewording makes the error message less clear. We didn't 
+time out loading HuC, we timed out waiting for the required components 
+to be ready before we even started the load process. Same for the one below.
+Apart from this the patch LGTM.
+
+Daniele
+
+>   		else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
+> -			drm_notice(&huc_to_gt(huc)->i915->drm,
+> -				   "timed out waiting for MEI PXP init to load HuC\n");
+> +			huc_notice(huc, "load timed out waiting for MEI PXP\n");
+>   		else
+>   			MISSING_CASE(huc->delayed_load.status);
+>   
+> @@ -174,8 +182,7 @@ static int gsc_notifier(struct notifier_block *nb, unsigned long action, void *d
+>   
+>   	case BUS_NOTIFY_DRIVER_NOT_BOUND: /* mei driver fails to be bound */
+>   	case BUS_NOTIFY_UNBIND_DRIVER: /* mei driver about to be unbound */
+> -		drm_info(&huc_to_gt(huc)->i915->drm,
+> -			 "mei driver not bound, disabling HuC load\n");
+> +		huc_info(huc, "MEI driver not bound, disabling load\n");
+>   		gsc_init_error(huc);
+>   		break;
+>   	}
+> @@ -193,8 +200,7 @@ void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus
+>   	huc->delayed_load.nb.notifier_call = gsc_notifier;
+>   	ret = bus_register_notifier(bus, &huc->delayed_load.nb);
+>   	if (ret) {
+> -		drm_err(&huc_to_gt(huc)->i915->drm,
+> -			"failed to register GSC notifier\n");
+> +		huc_err(huc, "failed to register GSC notifier %pe\n", ERR_PTR(ret));
+>   		huc->delayed_load.nb.notifier_call = NULL;
+>   		gsc_init_error(huc);
+>   	}
+> @@ -306,29 +312,25 @@ static int check_huc_loading_mode(struct intel_huc *huc)
+>   			      GSC_LOADS_HUC;
+>   
+>   	if (fw_needs_gsc != hw_uses_gsc) {
+> -		drm_err(&gt->i915->drm,
+> -			"mismatch between HuC FW (%s) and HW (%s) load modes\n",
+> -			HUC_LOAD_MODE_STRING(fw_needs_gsc),
+> -			HUC_LOAD_MODE_STRING(hw_uses_gsc));
+> +		huc_err(huc, "mismatch between FW (%s) and HW (%s) load modes\n",
+> +			HUC_LOAD_MODE_STRING(fw_needs_gsc), HUC_LOAD_MODE_STRING(hw_uses_gsc));
+>   		return -ENOEXEC;
+>   	}
+>   
+>   	/* make sure we can access the GSC via the mei driver if we need it */
+>   	if (!(IS_ENABLED(CONFIG_INTEL_MEI_PXP) && IS_ENABLED(CONFIG_INTEL_MEI_GSC)) &&
+>   	    fw_needs_gsc) {
+> -		drm_info(&gt->i915->drm,
+> -			 "Can't load HuC due to missing MEI modules\n");
+> +		huc_info(huc, "can't load due to missing MEI modules\n");
+>   		return -EIO;
+>   	}
+>   
+> -	drm_dbg(&gt->i915->drm, "GSC loads huc=%s\n", str_yes_no(fw_needs_gsc));
+> +	huc_dbg(huc, "loaded by GSC = %s\n", str_yes_no(fw_needs_gsc));
+>   
+>   	return 0;
+>   }
+>   
+>   int intel_huc_init(struct intel_huc *huc)
+>   {
+> -	struct drm_i915_private *i915 = huc_to_gt(huc)->i915;
+>   	int err;
+>   
+>   	err = check_huc_loading_mode(huc);
+> @@ -345,7 +347,7 @@ int intel_huc_init(struct intel_huc *huc)
+>   
+>   out:
+>   	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+> -	drm_info(&i915->drm, "HuC init failed with %d\n", err);
+> +	huc_info(huc, "initialization failed %pe\n", ERR_PTR(err));
+>   	return err;
+>   }
+>   
+> @@ -389,13 +391,13 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
+>   	delayed_huc_load_complete(huc);
+>   
+>   	if (ret) {
+> -		drm_err(&gt->i915->drm, "HuC: Firmware not verified %d\n", ret);
+> +		huc_err(huc, "firmware not verified %pe\n", ERR_PTR(ret));
+>   		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_LOAD_FAIL);
+>   		return ret;
+>   	}
+>   
+>   	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
+> -	drm_info(&gt->i915->drm, "HuC authenticated\n");
+> +	huc_info(huc, "authenticated!\n");
+>   	return 0;
+>   }
+>   
+> @@ -430,7 +432,7 @@ int intel_huc_auth(struct intel_huc *huc)
+>   
+>   	ret = intel_guc_auth_huc(guc, intel_guc_ggtt_offset(guc, huc->fw.rsa_data));
+>   	if (ret) {
+> -		DRM_ERROR("HuC: GuC did not ack Auth request %d\n", ret);
+> +		huc_err(huc, "authentication by GuC failed %pe\n", ERR_PTR(ret));
+>   		goto fail;
+>   	}
+>   
+> @@ -442,7 +444,7 @@ int intel_huc_auth(struct intel_huc *huc)
+>   	return 0;
+>   
+>   fail:
+> -	i915_probe_error(gt->i915, "HuC: Authentication failed %d\n", ret);
+> +	huc_probe_error(huc, "authentication failed %pe\n", ERR_PTR(ret));
+>   	return ret;
+>   }
+>   
+
