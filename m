@@ -1,69 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4A66879DF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 11:12:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8F7687A1B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 11:23:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76DBA10E038;
-	Thu,  2 Feb 2023 10:12:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5074510E00A;
+	Thu,  2 Feb 2023 10:23:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E07BA10E4D5
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 10:12:11 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id q5so1244714wrv.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Feb 2023 02:12:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=M/O8m3Tu7QUrsruCqpFCy7yupD/hlwqyVYceONRYcvI=;
- b=hW8BFD9Y0HleZOJn18fvxLUyprlrKHtILedP2aCNQxVNQ7lkb/QCJdzEw+Q6QGDJl2
- hrY1Ad3uUhkNbCrBTt55J3FtrhTyMqG23Xow/3UWIJb52H6XNRmF9+BAXiE3HdIEKZMS
- sNamuNi4fcEOrqO0ehj/GijImIubAM0XM295QV8XDqh8duQbfDIzVDvgtOJAOVinWGn8
- zv5E+Rs7BUDDymtHYRN9+J57u6VWEM6ITGBDvx3jURovt31FKicKWWjWpAg5E5Z9tkpE
- kzlFnbWVulhJSYXLcSPvZE1rcJTmgqziCklcEj6Yt7nmFogrmqa0j08vZRDuK6snEVCt
- Zw+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M/O8m3Tu7QUrsruCqpFCy7yupD/hlwqyVYceONRYcvI=;
- b=WnIPlGC0Z2bw5VSv/5fScV3js+TSyUUO9oXiX7bud8CVsRKNA7X9evtNt22s9sSTo1
- GEiLr6/P1h4SalCLE62qE7wHwd8A5LZhyfFpVK3Nen5YMul3G5GPUwKezb/IZkgialmh
- WKgoa6dlNQLHDkUFd/MBP46PfIfi6l8m1o5/3MqpvXin+jltrbhqSr4NHZhDesVMmpvU
- naxqKJQun6qjChKBeqfvaW82FUy5NK8jQXQkS3s1yvsMWcU7a8ci9H1USbaFPqjZbY7X
- a29UNEvue08WFzifZxf8rz6h2UwTVs9bGnx3Run4OtCDTiBTmpdefbkBXzeXV0BjgDym
- QUTw==
-X-Gm-Message-State: AO0yUKVmi+RVbuOoZvkONArPsUYvQGNe2Zec0Ixu0VVNoiSwfKc2b/88
- pWZqh1HaAHGW6DB25gc692g=
-X-Google-Smtp-Source: AK7set9qcgtdgwtBCY3bAUh8GE68YA23k6QCIv1vg30Gu+HIyXv2tpL3Z+BQyuAeCqdFXDcqDDzw0Q==
-X-Received: by 2002:a05:6000:1f0f:b0:2bf:bbd1:1db3 with SMTP id
- bv15-20020a0560001f0f00b002bfbbd11db3mr5187356wrb.44.1675332730446; 
- Thu, 02 Feb 2023 02:12:10 -0800 (PST)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- v14-20020adfe4ce000000b002bfafadb22asm20143890wrm.87.2023.02.02.02.12.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 02:12:09 -0800 (PST)
-Message-ID: <e938bbee-3a93-6e08-c5d7-5b5b346062b1@gmail.com>
-Date: Thu, 2 Feb 2023 11:12:08 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DCA210E00A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 10:23:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 182E9B82272;
+ Thu,  2 Feb 2023 10:23:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1679FC433EF;
+ Thu,  2 Feb 2023 10:23:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675333431;
+ bh=GQnjXYU/0vipHeT3iMCCPZhv1dMM4Kiss8fVyftaCCs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=FO9KuJmGsOGokap/NEOXVwllrmT7/6YtYkfeRLa2ZwjrTHQ8zI26aUPp0/nfeN/t9
+ cCjFtnkV0KssN6qacocE4N7GjxfflefrDXQveEVBTwUnlElU2mExy2WxQfZKlBfS7K
+ OzuhIA636DPK8xJWjTIqf8hskhTkaHv6Bd4lDXGK/RdjnQCYLvghkCO/ZmcDrxHxF2
+ 6/HD5LaqWB3sh7Oo3FI2rtBPSwh6EWDxMQC8g+XWGDreVmqxGZaVN7yFioYRFEcssv
+ dgo+j/smoUfTQO3+YoiJHuG2BIYZILCwOU7xMD3GfXCykI0vYvLbxrFwXsnAFcqgkK
+ aX4YKVSLCPpqQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Emma Anholt <emma@anholt.net>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH] drm/vc4: allow DRM_VC4_KUNIT_TEST to be a loadable module
+Date: Thu,  2 Feb 2023 11:23:32 +0100
+Message-Id: <20230202102346.868771-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 3/3] drm/mediatek: Enable AR30 and BA30 overlays on MT8195
-Content-Language: en-US
-To: Justin Green <greenjustin@chromium.org>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20230201170210.1253505-1-greenjustin@chromium.org>
- <20230201170210.1253505-4-greenjustin@chromium.org>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20230201170210.1253505-4-greenjustin@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,64 +51,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
- justin.yeh@mediatek.com, wenst@chromium.org,
- angelogioacchino.delregno@collabora.com
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Zheng Bin <zhengbin13@huawei.com>,
+ Danilo Krummrich <dakr@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Arnd Bergmann <arnd@arndb.de>
 
+In configurations with CONFIG_KUNIT=m, builting the unit test
+into the kernel causes a link failure:
 
-On 01/02/2023 18:02, Justin Green wrote:
-> Tested using "modetest -P" on an MT8195 device.
-> 
-> Signed-off-by: Justin Green <greenjustin@chromium.org>
-> ---
->   drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 21 +++++++++++++++++++--
->   1 file changed, 19 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> index a6255e847104..7d26f7055751 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> @@ -85,6 +85,22 @@ static const u32 mt8173_formats[] = {
->   	DRM_FORMAT_YUYV,
->   };
->   
-> +static const u32 mt8195_formats[] = {
+arm-linux-gnueabi-ld: drivers/gpu/drm/vc4/tests/vc4_mock.o: in function `__build_mock':
+vc4_mock.c:(.text+0x6e): undefined reference to `kunit_do_failed_assertion'
+arm-linux-gnueabi-ld: vc4_mock.c:(.text+0x9c): undefined reference to `kunit_do_failed_assertion'
+arm-linux-gnueabi-ld: vc4_mock.c:(.text+0x100): undefined reference to `kunit_ptr_not_err_assert_format'
+...
 
-I'd call it mt8195_ovl_formats, to make it explicit that it's only for the OVL.
+Allow this to be a loadable module as well to have Kconfig
+sort out the dependencies correctly.
 
-Regards,
-Matthias
+Fixes: f759f5b53f1c ("drm/vc4: tests: Introduce a mocking infrastructure")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/vc4/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_ARGB8888,
-> +	DRM_FORMAT_ARGB2101010,
-> +	DRM_FORMAT_BGRX8888,
-> +	DRM_FORMAT_BGRA8888,
-> +	DRM_FORMAT_BGRA1010102,
-> +	DRM_FORMAT_ABGR8888,
-> +	DRM_FORMAT_XBGR8888,
-> +	DRM_FORMAT_RGB888,
-> +	DRM_FORMAT_BGR888,
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_UYVY,
-> +	DRM_FORMAT_YUYV,
-> +};
-> +
->   struct mtk_disp_ovl_data {
->   	unsigned int addr;
->   	unsigned int gmc_bits;
-> @@ -616,8 +632,9 @@ static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
->   	.fmt_rgb565_is_0 = true,
->   	.smi_id_en = true,
->   	.supports_afbc = true,
-> -	.formats = mt8173_formats,
-> -	.num_formats = ARRAY_SIZE(mt8173_formats),
-> +	.formats = mt8195_formats,
-> +	.num_formats = ARRAY_SIZE(mt8195_formats),
-> +	.supports_clrfmt_ext = true,
->   };
->   
->   static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
+diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
+index f423941c028d..91dcf8d174d6 100644
+--- a/drivers/gpu/drm/vc4/Kconfig
++++ b/drivers/gpu/drm/vc4/Kconfig
+@@ -36,7 +36,7 @@ config DRM_VC4_HDMI_CEC
+ 	  and want to use CEC.
+ 
+ config DRM_VC4_KUNIT_TEST
+-	bool "KUnit tests for VC4" if !KUNIT_ALL_TESTS
++	tristate "KUnit tests for VC4" if !KUNIT_ALL_TESTS
+ 	depends on DRM_VC4 && KUNIT
+ 	select DRM_KUNIT_TEST_HELPERS
+ 	default KUNIT_ALL_TESTS
+-- 
+2.39.0
+
