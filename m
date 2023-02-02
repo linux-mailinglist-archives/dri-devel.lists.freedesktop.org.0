@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F3687885
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 10:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3B26878A4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Feb 2023 10:21:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B76D10E136;
-	Thu,  2 Feb 2023 09:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9D5310E0AA;
+	Thu,  2 Feb 2023 09:21:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D3710E136
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 09:14:45 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A1F66602EDA;
- Thu,  2 Feb 2023 09:14:43 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1675329284;
- bh=kJVMCUJpyDJwkWtgM+hXBLW2SmGxN8YP7dAvyuM/vFY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=igEIQVhUKu6p+1rwaQMxBD5dfVZSA+M5+dFbUB9seJEIJVHngm4ZW0R5n6CmoskBx
- 6l0A57/6OsGLVAVP92hBy64sP0OndboXMpy6Bk4GkH69rTh3YOb9lCA1bd227XA/vx
- TXhNSGL/O5L7YO9sIrSUI4JmjN3ijhJHXe16AOJb/8uktexyHlsLVOvQ8L21RubloB
- TafxIXdNI673qvgUllCHWEU5J9d1UJXjkeXgjrU9+MP6qUfE2jXAR6TzWqB43DvQu4
- M3tSWTXjDlszi+AjzZjzt5IDnN05d5lgMXQ0FV9WKPvx6uJWKp1CMk9rJ2YDAGe8BF
- 71E6bYGMCy8qg==
-Message-ID: <e2e02a7b-0e0c-e0f8-df49-ae2ea27c4440@collabora.com>
-Date: Thu, 2 Feb 2023 10:14:40 +0100
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B920C10E0AA
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Feb 2023 09:21:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675329697; x=1706865697;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wzSrJUUsbCEdfX8yOZakCGTwlkkIrhcRVIsON5LFy2k=;
+ b=O+NRVhZ6/oCmSKyAoxro5vIP4VFGOS1PnrtYfmd/i4c3b1NErLFYIX52
+ mJG01RP12ee2SgVxiDGJC1FMmZRXcuIRx+dtamzbgefelhRsTmgO+D58A
+ Pt+U70nNmimkA4SrB0tx1iBcfG4UdPO3LTd9i60Lfmftl3X/q1PKaG0yN
+ x7qMhLruwc381xskSZK/NsHE0LrxYO6vlsfCb2aD7/VXtXU0GWOCYbRN3
+ UuUsgzTgeBCIqxz85uqIH4GBerP6DzD8I0Ja+4U4ZsuB0WwolMhNE/Ws1
+ zNSFvD0TcFaBLiPKxr83tOqC5NjsOS/TZF3dkBjQtPl6t7aJ2nX3dr9YJ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="390791405"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="390791405"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2023 01:21:36 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="665216042"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="665216042"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2023 01:21:35 -0800
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/4] accel/ivpu: Fixes for 6.3
+Date: Thu,  2 Feb 2023 10:21:10 +0100
+Message-Id: <20230202092114.2637452-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2] drm/mediatek: dp: Only trigger DRM HPD events if
- bridge is attached
-Content-Language: en-US
-To: Chen-Yu Tsai <wenst@chromium.org>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230202045734.2773503-1-wenst@chromium.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230202045734.2773503-1-wenst@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,26 +54,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Guillaume Ranquet <granquet@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 02/02/23 05:57, Chen-Yu Tsai ha scritto:
-> The MediaTek DisplayPort interface bridge driver starts its interrupts
-> as soon as its probed. However when the interrupts trigger the bridge
-> might not have been attached to a DRM device. As drm_helper_hpd_irq_event()
-> does not check whether the passed in drm_device is valid or not, a NULL
-> pointer passed in results in a kernel NULL pointer dereference in it.
-> 
-> Check whether the bridge is attached and only trigger an HPD event if
-> it is.
-> 
-> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> Reviewed-by: Guillaume Ranquet <granquet@baylibre.com>
+Few fixes intended for 6.3.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Andrzej Kacprowski (2):
+  accel/ivpu: Fix FW API data alignment issues
+  accel/ivpu: Send VPU_JSM_MSG_CONTEXT_DELETE when deleting context
 
+Stanislaw Gruszka (2):
+  accel/ivpu: Set dma max_segment_size
+  accel/ivpu: Fix old dma_buf api usage
+
+ drivers/accel/ivpu/ivpu_drv.c     |  2 +
+ drivers/accel/ivpu/ivpu_fw.c      | 37 +++++++++++------
+ drivers/accel/ivpu/ivpu_gem.c     |  8 +---
+ drivers/accel/ivpu/ivpu_job.c     |  5 ++-
+ drivers/accel/ivpu/ivpu_jsm_msg.c | 11 +++++
+ drivers/accel/ivpu/ivpu_jsm_msg.h |  2 +-
+ drivers/accel/ivpu/vpu_jsm_api.h  | 67 ++++++++++++++++++-------------
+ 7 files changed, 81 insertions(+), 51 deletions(-)
+
+-- 
+2.25.1
 
