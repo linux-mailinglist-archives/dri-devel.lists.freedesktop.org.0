@@ -2,47 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2815689978
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 14:10:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760E66899D7
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 14:35:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2716310E21A;
-	Fri,  3 Feb 2023 13:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9128A10E796;
+	Fri,  3 Feb 2023 13:35:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC9B010E78D
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 13:09:57 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1pNvp8-00051O-FZ; Fri, 03 Feb 2023 14:09:50 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1pNvp1-0008Iw-Vz; Fri, 03 Feb 2023 14:09:43 +0100
-Date: Fri, 3 Feb 2023 14:09:43 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: FUKAUMI Naoki <naoki@radxa.com>
-Subject: Re: [PATCH v3 0/3] drm/rockchip: dw_hdmi: Add 4k@30 support
-Message-ID: <20230203130943.GX13319@pengutronix.de>
-References: <20230118132213.2911418-1-s.hauer@pengutronix.de>
- <20230131080928.GG23347@pengutronix.de>
- <3C4B67628F8D73D6+63ea74ac-b8a2-45b1-5f92-8c7868906687@radxa.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE5210E57F;
+ Fri,  3 Feb 2023 13:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675431319; x=1706967319;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=MLFA9sc6d6UkWzA6YjJyjSI+gD+WpHjmuvxAX7ugnKc=;
+ b=CHHDLWQO7sk6XHhZW8XLkY+y04Mc40VKFop/9ARuoyMbtxsfV9CyqsV8
+ e22MH/t7l3bm530ueKaIBh4skDmoFVG7UzkfKElJ4ckhmgk1Q3tqyVdft
+ B9+Y5ascE+0mGTQnFpDTPQMEPmwe6kZGoTfEjAGd2bMkv/w4ky4wcZhqZ
+ a453iGx8QUlLaHp/5YgwfNx1K8peaJ8bgUFHirdJoZbOJ7ek9cpyXO63e
+ 1O86tdbqFz+JwwP1dC+a/ZDM6P7elsInhyjgwEC1Ctixm+3qmL/dULMTJ
+ TVBgNRS/ItgbzXsNrEhJLJCOkzCdf/mY7VWQPgm+4f/E1wU89D6LRIHiE w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="316741957"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="316741957"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2023 05:35:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="808362345"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="808362345"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
+ by fmsmga001.fm.intel.com with SMTP; 03 Feb 2023 05:35:14 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 03 Feb 2023 15:35:14 +0200
+Date: Fri, 3 Feb 2023 15:35:14 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
+ drm_colorspace enum
+Message-ID: <Y90NkvVabh+ue9hF@intel.com>
+References: <20230203020744.30745-1-joshua@froggi.es>
+ <20230203020744.30745-3-joshua@froggi.es>
+ <Y9zkef5FjtZ7guVS@intel.com>
+ <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <3C4B67628F8D73D6+63ea74ac-b8a2-45b1-5f92-8c7868906687@radxa.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,90 +64,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Johansen <strit@manjaro.org>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Robin Murphy <robin.murphy@arm.com>
+Cc: amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Fri, Feb 03, 2023 at 01:59:07PM +0100, Sebastian Wick wrote:
+> On Fri, Feb 3, 2023 at 11:40 AM Ville Syrjälä
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Fri, Feb 03, 2023 at 02:07:44AM +0000, Joshua Ashton wrote:
+> > > Userspace has no way of controlling or knowing the pixel encoding
+> > > currently, so there is no way for it to ever get the right values here.
+> >
+> > That applies to a lot of the other values as well (they are
+> > explicitly RGB or YCC). The idea was that this property sets the
+> > infoframe/MSA/SDP value exactly, and other properties should be
+> > added to for use userspace to control the pixel encoding/colorspace
+> > conversion(if desired, or userspace just makes sure to
+> > directly feed in correct kind of data).
+> 
+> I'm all for getting userspace control over pixel encoding but even
+> then the kernel always knows which pixel encoding is selected and
+> which InfoFrame has to be sent. Is there a reason why userspace would
+> want to control the variant explicitly to the wrong value?
 
-On Wed, Feb 01, 2023 at 09:23:56AM +0900, FUKAUMI Naoki wrote:
-> hi,
-> 
-> I'm trying this patch series with 6.1.x kernel. it works fine on rk356x
-> based boards (ROCK 3), but it has a problem on rk3399 boards (ROCK 4).
-> 
-> on rk3399 with this patch, I can see large noise area (about one third right
-> side of the screen) at 4k@30. 1080p works fine as same as before.
-> 
-> can someone reproduce this problem on rk3399?
-
-I have a RK339 board here, I can try to reproduce this next week. Of
-course I have no idea what the issue might be, in the downstream Kernel
-I can't find anything that is handled specially for the RK3399.
-
-What might be worth checking is the VOP clock rate. Does the VOP clock
-in /sys/kernel/debug/clk/clk_summary (I don't know which one it is
-though) match the pixelclock?
-
-If nothing else helps I can change the code to only allow the higher
-resolutions on RK3568 where we know it works.
-
-Sascha
-
-> 
-> --
-> FUKAUMI Naoki
-> 
-> On 1/31/23 17:09, Sascha Hauer wrote:
-> > Heiko, Sandy,
-> > 
-> > Ok to apply these patches?
-> > 
-> > Sascha
-> > 
-> > On Wed, Jan 18, 2023 at 02:22:10PM +0100, Sascha Hauer wrote:
-> > > It's been some time since I last sent this series. This version fixes
-> > > a regression Dan Johansen reported. The reason turned out to be simple,
-> > > I used the YUV420 register values instead of the RGB ones.
-> > > 
-> > > I realized that we cannot achieve several modes offered by my monitor
-> > > as these require pixelclocks that are slightly below the standard
-> > > pixelclocks. As these are lower than the standard clock rates the PLL
-> > > driver offers the clk driver falls back to a way lower frequency
-> > > which results in something the monitor can't display, so this series
-> > > now contains a patch to discard these unachievable modes.
-> > > 
-> > > Sascha
-> > > 
-> > > Changes since v2:
-> > > - Use correct register values for mpll_cfg
-> > > - Add patch to discard modes we cannot achieve
-> > > 
-> > > Changes since v1:
-> > > - Allow non standard clock rates only on Synopsys phy as suggested by
-> > >    Robin Murphy
-> > > 
-> > > Sascha Hauer (3):
-> > >    drm/rockchip: dw_hdmi: relax mode_valid hook
-> > >    drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
-> > >    drm/rockchip: dw_hdmi: discard modes with unachievable pixelclocks
-> > > 
-> > >   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 40 ++++++++++++++++-----
-> > >   1 file changed, 32 insertions(+), 8 deletions(-)
-> > > 
-> > > -- 
-> > > 2.30.2
-> > > 
-> > > 
-> > 
-> 
-> 
+What do you mean wrong value? Userspace sets it based on what
+kind of data it has generated (or asked the display hardware
+to generate if/when we get explicit control over that part).
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Ville Syrjälä
+Intel
