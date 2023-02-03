@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312B8689A50
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 14:54:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A400F689AE3
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 15:03:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF1910E7A1;
-	Fri,  3 Feb 2023 13:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD3C010E059;
+	Fri,  3 Feb 2023 14:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C7310E7A1
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 13:54:02 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id e19so2883145qvw.13
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Feb 2023 05:54:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nbKgXRRhHOsf8b2qFYqubarXiD/2JOI3CXyxQSetlOo=;
- b=wZSqL7udI0UewPr7kKCCMKgFqFLTD7/Od5kQAAUC9avzwkMDLMYFhQyfv4eqTIvqPC
- MjiWmBW1P1RNN3gP4/nu/7XmgzbADSb3L4Yw6NFjuz+TGdK5saD6cRCT1FNWNfz+Cp5V
- ULP/bAgajSJ01288TzWXqI18OXyAQ3WJKtzshd5T7QwTNhsAic6n4tc+asj7qqbhjBGt
- gJL6X61d63O4wWddjtMbYdAhBgZEZCcvg+EkuEg4fIgZvf7eDltpcv6w5IqQ19Gxhrbw
- mY03hekgB0dpTicAuYh0nUzt4rdLi98t1qokrlUemHliX1UtB6EIRan/T4eBwZ/yQ3D+
- AhsQ==
-X-Gm-Message-State: AO0yUKXGok9r9msJJfZ1tvVZOddMWSF2dd3v0a0xEj439xvQB71aaV3p
- PFRK/+LN4+Wjx5w0PlXkVBbBi1plzLljKw==
-X-Google-Smtp-Source: AK7set9USHjeX37i7IilclIPc/eUKqeczJTPtswS6lrEjD8sS2Aik7N1kF/7l6fNQvC2gPCUFi3oKw==
-X-Received: by 2002:a05:6214:2aa2:b0:539:80d6:c892 with SMTP id
- js2-20020a0562142aa200b0053980d6c892mr18452194qvb.8.1675432441514; 
- Fri, 03 Feb 2023 05:54:01 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
- [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
- f18-20020a05620a20d200b007090f7a4f2asm1812383qka.82.2023.02.03.05.54.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 05:54:00 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-4a263c4ddbaso69775647b3.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Feb 2023 05:54:00 -0800 (PST)
-X-Received: by 2002:a0d:c2c4:0:b0:514:a90f:10ea with SMTP id
- e187-20020a0dc2c4000000b00514a90f10eamr1025067ywd.316.1675432440139; Fri, 03
- Feb 2023 05:54:00 -0800 (PST)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DED510E059;
+ Fri,  3 Feb 2023 14:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675432977; x=1706968977;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=irv3lGzYjgRrPupsMvPPq8fHSBpnLKmUkKwUr8MxDSE=;
+ b=hjD1qntADYKQ1Us+Y+xLmbLv7ZwN3JkH6okpugshN5IP3UMPEYNpwoou
+ Alw8qD0WF4Tqs3vk6rMQSprhNHBqkIF+VVN2gQ5RzhFcxqHhnxJIYyuM1
+ ar5o69kA1CShPQ5/6CJRRdA0zFVmiMh1WwrgpGY4PPgg3UAAYmBVmYVZV
+ os3NI1JRLxKLJDuqBfy7MK2HpIRf1U7xDYW8v04gueVGvyxDbFAOtKaNQ
+ nx8ilGa6ukmnzr2e2cteZ2LWHIpyAzB1UUg9+qk59LC2CO+wMUqj+P3BL
+ Zka4mjj6acxQyQ0pZTlY0rabI60DEnslXjR2tCcdBTpVZDD7cMlWZy1J9 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="328767145"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="328767145"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2023 06:02:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="665726345"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="665726345"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
+ by orsmga002.jf.intel.com with SMTP; 03 Feb 2023 06:02:53 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 03 Feb 2023 16:02:51 +0200
+Date: Fri, 3 Feb 2023 16:02:51 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
+ drm_colorspace enum
+Message-ID: <Y90UC43KouMRh8I2@intel.com>
+References: <20230203020744.30745-1-joshua@froggi.es>
+ <20230203020744.30745-3-joshua@froggi.es>
+ <Y9zkef5FjtZ7guVS@intel.com>
+ <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
+ <Y90NkvVabh+ue9hF@intel.com>
+ <CA+hFU4xR_8=w=z=Jqs3sujTvnXfEQJVHAMFW-X4-55POF=Bu9g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230113062339.1909087-1-hch@lst.de>
- <20230113062339.1909087-2-hch@lst.de>
- <Y8EMZ0GI5rtor9xr@pendragon.ideasonboard.com> <20230203071506.GB24833@lst.de>
- <Y90Q73ykVEHRNII4@pendragon.ideasonboard.com>
-In-Reply-To: <Y90Q73ykVEHRNII4@pendragon.ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 3 Feb 2023 14:53:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVi1DPqYNbB5xWeG+1kK4x=8zQ0y57WSJ_j2xENCjQREQ@mail.gmail.com>
-Message-ID: <CAMuHMdVi1DPqYNbB5xWeG+1kK4x=8zQ0y57WSJ_j2xENCjQREQ@mail.gmail.com>
-Subject: Re: [PATCH 01/22] gpu/drm: remove the shmobile drm driver
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+hFU4xR_8=w=z=Jqs3sujTvnXfEQJVHAMFW-X4-55POF=Bu9g@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,45 +66,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+On Fri, Feb 03, 2023 at 02:52:50PM +0100, Sebastian Wick wrote:
+> On Fri, Feb 3, 2023 at 2:35 PM Ville Syrjälä
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Fri, Feb 03, 2023 at 01:59:07PM +0100, Sebastian Wick wrote:
+> > > On Fri, Feb 3, 2023 at 11:40 AM Ville Syrjälä
+> > > <ville.syrjala@linux.intel.com> wrote:
+> > > >
+> > > > On Fri, Feb 03, 2023 at 02:07:44AM +0000, Joshua Ashton wrote:
+> > > > > Userspace has no way of controlling or knowing the pixel encoding
+> > > > > currently, so there is no way for it to ever get the right values here.
+> > > >
+> > > > That applies to a lot of the other values as well (they are
+> > > > explicitly RGB or YCC). The idea was that this property sets the
+> > > > infoframe/MSA/SDP value exactly, and other properties should be
+> > > > added to for use userspace to control the pixel encoding/colorspace
+> > > > conversion(if desired, or userspace just makes sure to
+> > > > directly feed in correct kind of data).
+> > >
+> > > I'm all for getting userspace control over pixel encoding but even
+> > > then the kernel always knows which pixel encoding is selected and
+> > > which InfoFrame has to be sent. Is there a reason why userspace would
+> > > want to control the variant explicitly to the wrong value?
+> >
+> > What do you mean wrong value? Userspace sets it based on what
+> > kind of data it has generated (or asked the display hardware
+> > to generate if/when we get explicit control over that part).
+> 
+> Wrong in the sense of sending the YCC variant when the pixel encoding
+> is RGB for example.
+> 
+> Maybe I'm missing something here but my assumption is that the kernel
+> always has to know the pixel encoding anyway. The color pipeline also
+> assumes that the pixel values are RGB. User space might be able to
+> generate YCC content but for subsampling etc the pixel encoding still
+> has to be explicitly set.
 
-On Fri, Feb 3, 2023 at 2:49 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Feb 03, 2023 at 08:15:06AM +0100, Christoph Hellwig wrote:
-> > So given that the big series doesn't go in, can we get this removal
-> > picked up through the drm tree?
->
-> Geert has a board with an ARM-based SoC compatible with this driver, and
-> he expressed interest in taking over maintainership. Geert, could you
-> share your plans ? Should the shmobile_drm driver be dropped now, or
-> will you revive it in a relatively near future ?
+The kernel doesn't really know much atm. In theory you can just
+configure the thing to do a straight passthough and put anything you
+want into your pixels.
 
-(Trying to) get it working on that board is on my list...
+> 
+> So with the kernel always knowing exactly what pixel encoding is sent,
+> why do we need those variants? I just don't see why this is necessary.
+> 
+> >
+> > --
+> > Ville Syrjälä
+> > Intel
+> >
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Ville Syrjälä
+Intel
