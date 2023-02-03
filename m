@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283B4688E55
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 04:59:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF953688F9B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 07:22:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264A310E052;
-	Fri,  3 Feb 2023 03:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E9D610E71B;
+	Fri,  3 Feb 2023 06:22:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D8210E052
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 03:59:32 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id p26so11891915ejx.13
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Feb 2023 19:59:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=/HlJLIJB30yl57RTUgClv87FLJ7IQRamzOi8wxBgdAI=;
- b=XPqUtAefxI0KO9zPTYhfKzcbKWw256bX3U6D1BYH12PyaKUSgkDYUo+pIleRZA9swh
- 8+jNh0xrBRa+2dW/rWwzEQ0zTU7aoTqw4ELFyHA3KIR6zLzL8mv7RP3dkRqQtEY/x/yH
- ljSv+aYpODsc9E8Wi5UqpoHRbKapy9WJvaXlblU03mAx4jVnS5WxCc/oo/+28rr8W5Tp
- X8DTnwX2D3KwHyfj20wSRl5Lz0Av5CGYr/mhFw29q6yLHozQpJTgrOa9GbnmbIV0W3qt
- vr/fYsfjaJeckNaF4eIADhmCIlUz/KeSgRlm29IdlK1EoKnc/EjwKzFI7vmGdh2ujvDl
- S4/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/HlJLIJB30yl57RTUgClv87FLJ7IQRamzOi8wxBgdAI=;
- b=6+mg7RgiinJVaR+Cb8t5ZtRYFqJkiY1APn7Z7+/MZiVudbawrG8uNH8eazPilT938q
- oK84baju1vh46gF3SpMpViPDIDuhzWaS1yLTFIkC/8DzApsumd6ptGAuiSC/LCr2cU8r
- cfC6E6fvYkp7Ob6mZkilwv6la9gbu27FC+VP4Zuojh9d1K54J6KBebEGxOadniK4Y6Re
- oShBQ/NxClH2k9q1nl82EqD0sFTUyKB/vLqCUPM7l/KRJcObQGKDSJX00aLMRAXi7qk+
- G0+1xf9KgyopssZRePk9vM2jZZqfXqYnfnQ8bvaGmlLKbkAS+KBJlGjPqwEysGDjoU1b
- mkpg==
-X-Gm-Message-State: AO0yUKU3aNXL2J93xvFLZLJ/30ZYEP/meU2g48VwIfVO04dvGQdJ3iui
- x/QJFOufcppOg0Ad9r/w4D2dviAYHwCa1eno7Iw=
-X-Google-Smtp-Source: AK7set8X5pDJ/58JaxwRicSoZopP5EMD99JTuUxmpsKkcGgbIyONsiO6x3PNA4TpDD/0SusQBSZdE3QhQ/iN+sH7mhY=
-X-Received: by 2002:a17:907:bb99:b0:888:2d04:2c36 with SMTP id
- xo25-20020a170907bb9900b008882d042c36mr2124289ejc.278.1675396770728; Thu, 02
- Feb 2023 19:59:30 -0800 (PST)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22AEF10E71B
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 06:22:18 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3136Lf7W035470;
+ Fri, 3 Feb 2023 00:21:41 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1675405301;
+ bh=l25UEVixOyFOcihudAXONA6spJ9+qf/KGX7SmPDUpy8=;
+ h=Date:From:Subject:To:CC:References:In-Reply-To;
+ b=qjR6+d/UB5ekuJr3MiVFs8p0g7m0yrdKHoZaudFhcFOCfbLx2Oh+LhyjBCzcHFyed
+ SgRi87UzmQOR55kVzJaHdmit8OAFqTT2MTTUihcIjT1ehCTPpSslV1Vk4saKD0rufr
+ at9rNlCW6mzqUTS3nlqD2ccdgy5vwkRQiqpybA24=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3136LfdC023256
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 3 Feb 2023 00:21:41 -0600
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Fri, 3
+ Feb 2023 00:21:40 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Fri, 3 Feb 2023 00:21:40 -0600
+Received: from [172.24.222.47] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3136LUTK032367;
+ Fri, 3 Feb 2023 00:21:31 -0600
+Message-ID: <4134f4c2-450c-e560-82c2-82fe1fc4e90d@ti.com>
+Date: Fri, 3 Feb 2023 11:51:30 +0530
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 3 Feb 2023 13:59:18 +1000
-Message-ID: <CAPM=9tyO4mgZr-r-sSJnNUOzVV53RSeC0BGSULwD=ebJ4WTYZg@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.2-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH v2 3/4] dt-bindings: panel: Introduce dual-link LVDS panel
+To: Rob Herring <robh@kernel.org>
+References: <20230124101238.4542-1-a-bhatia1@ti.com>
+ <20230124101238.4542-4-a-bhatia1@ti.com>
+ <20230130170441.GA2796575-robh@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20230130170441.GA2796575-robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,200 +65,277 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Guo Ren <guoren@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Linux RISC-V List <linux-riscv@lists.infradead.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux C-SKY Arch List <linux-csky@vger.kernel.org>,
+ Devicetree List <devicetree@vger.kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jai Luthra <j-luthra@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Mark Brown <broonie@kernel.org>,
+ Linux Mediatek List <linux-mediatek@lists.infradead.org>,
+ Maxime Ripard <maxime@cerno.tech>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Linux ARM Kernel List <linux-arm-kernel@lists.infradead.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Rob,
 
-A few more fixes this week, a bit more spread out though. We have a
-bunch of nouveau regression and stabilisation fixes, along with usual
-amdgpu, and i915. Otherwise just some minor misc ones.
+On 30-Jan-23 22:34, Rob Herring wrote:
+> On Tue, Jan 24, 2023 at 03:42:37PM +0530, Aradhya Bhatia wrote:
+>> Dual-link LVDS interfaces have 2 links, with even pixels traveling on
+>> one link, and odd pixels on the other. These panels are also generic in
+>> nature, with no documented constraints, much like their single-link
+>> counterparts, "panel-lvds".
+>>
+>> Add a new compatible, "panel-dual-lvds", and a dt-binding document for
+>> these panels.
+>>
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> ---
+>>   .../display/panel/panel-dual-lvds.yaml        | 149 ++++++++++++++++++
+>>   MAINTAINERS                                   |   1 +
+>>   2 files changed, 150 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+>> new file mode 100644
+>> index 000000000000..e2ce1768e9a3
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+>> @@ -0,0 +1,149 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/panel/panel-dual-lvds.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Generic Dual-Link LVDS Display Panel
+>> +
+>> +maintainers:
+>> +  - Aradhya Bhatia <a-bhatia1@ti.com>
+>> +  - Thierry Reding <thierry.reding@gmail.com>
+>> +
+>> +description: |
+>> +  A dual-LVDS interface is a dual-link connection with the even pixels
+>> +  traveling on one link, and the odd pixels traveling on the other.
+>> +
+>> +allOf:
+>> +  - $ref: panel-common.yaml#
+>> +  - $ref: /schemas/display/lvds.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +          - lincolntech,lcd185-101ct
+>> +          - microtips,mf-101hiebcaf0
+>> +      - const: panel-dual-lvds
+> 
+> Why do we need a new compatible? You have ports and properties to see if
+> the panel is dual link.
 
-Dave.
+Do you mean to say that we can have a generic dual-link panel
+dt-binding, which will allow others to add their own dual-link panel
+compatibles, but instead with the mandatory compatible "panel-lvds"?
 
-drm-fixes-2023-02-03:
-drm fixes for 6.2-rc7
+> 
+> We already have dual link LVDS supported in advantech,idk-2121wr.yaml
+> which says is compatible with 'panel-lvds', so that decision has already
+> been made. The hint was you added the compatible match to the driver
+> with 0 other changes needed.
+> 
 
-dma-fence:
-- fix signaling bit for private fences
+The code which represents the HW difference between the 2 types of
+panels was merged in drm/drm_of.c along with the advantech binding.
 
-panel:
-- boe-tv101wum-nl6 disable fix
+And a dual-link panel can still be made to work as single-link, as Tomi
+had pointed out in the previous series[1]. So, it wouldn't be wrong to
+say that a dual-link panel is panel-lvds.
 
-nouveau:
-- gm20b acr regression fix
-- tu102 scrub status fix
-- tu102 wait for firmware fix
+The reason I have been pushing for a new compatible and binding is
+because the 2nd sink in dual-lvds panels make them different enough
+their from single link counterparts. At the very least, we should have
+different bindings for the both of them, for ease of maintenance in
+future, when more properties will get added. So, if you indeed are
+suggesting that we have a separate dt-binding for these panels, but not
+a new generic compatible, then I can get behind that.
 
-i915:
-- Fixes for potential use-after-free and double-free
-- GuC locking and refcount fixes
-- Display's reference clock value fix
+And If we do go that way, I think one of your suggestions on advantech
+dt-binding series[2] also gets relevant here.
 
-amdgpu:
-- GC11 fixes
-- DCN 3.1.4 fixes
-- NBIO 4.3 fix
-- DCN 3.2 fixes
-- Properly handle additional cases where DCN is not supported
-- SMU13 fixes
+oneOf:
+  - required: [ports]
+  - required: [port]
 
-vc4:
-- fix CEC adapter names
+This way, we can have dual-lvds panels support single link mode as well.
 
-ssd130x:
-- fix display init regression
-The following changes since commit 6d796c50f84ca79f1722bb131799e5a5710c4700:
+> That schema is missing type definitions and constraints for
+> dual-lvds-odd-pixels/dual-lvds-even-pixels so there does need to be some
+> changes to add those.
 
-  Linux 6.2-rc6 (2023-01-29 13:59:43 -0800)
+You are right. AFAIK, the the advantech,idk-2121wr panel is also a
+generic model. Which is why, these patches started out as a renaming of
+the advantech binding and making the properties generic. But the diff
+got bigger and I decided to make a new file.
 
-are available in the Git repository at:
+The idea for future work, now, is to merge the "advantech,idk-2121wr"
+compatible along with other panel specific compatibles in this binding.
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-02-03
 
-for you to fetch changes up to f1a9e82a1203802df3c917dd7ab1b5a5ded55793:
+Regards
+Aradhya
 
-  Merge tag 'amd-drm-fixes-6.2-2023-02-01' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2023-02-03
-13:28:06 +1000)
 
-----------------------------------------------------------------
-drm fixes for 6.2-rc7
+[1]: https://lore.kernel.org/all/808e831f-4282-0e58-ebb2-2f556aaeaca4@ideasonboard.com/
+[2]: https://lore.kernel.org/all/CAL_Jsq+5FMHK4W4UQU24g+rm3CLjnhRcB29skygRB++GaJyM0A@mail.gmail.com/
 
-dma-fence:
-- fix signaling bit for private fences
-
-panel:
-- boe-tv101wum-nl6 disable fix
-
-nouveau:
-- gm20b acr regression fix
-- tu102 scrub status fix
-- tu102 wait for firmware fix
-
-i915:
-- Fixes for potential use-after-free and double-free
-- GuC locking and refcount fixes
-- Display's reference clock value fix
-
-amdgpu:
-- GC11 fixes
-- DCN 3.1.4 fixes
-- NBIO 4.3 fix
-- DCN 3.2 fixes
-- Properly handle additional cases where DCN is not supported
-- SMU13 fixes
-
-vc4:
-- fix CEC adapter names
-
-ssd130x:
-- fix display init regression
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amd/display: Properly handle additional cases where DCN is
-not supported
-
-Ben Skeggs (3):
-      drm/nouveau/devinit/tu102-: wait for GFW_BOOT_PROGRESS == COMPLETED
-      drm/nouveau/fb/tu102-: fix register used to determine scrub status
-      drm/nouveau/acr/gm20b: regression fixes
-
-Chaitanya Kumar Borah (1):
-      drm/i915/adlp: Fix typo for reference clock
-
-Daniel Miess (2):
-      drm/amd/display: Add missing brackets in calculation
-      drm/amd/display: Adjust downscaling limits for dcn314
-
-Danilo Krummrich (1):
-      dma-buf: actually set signaling bit for private stub fences
-
-Dave Airlie (3):
-      Merge tag 'drm-misc-fixes-2023-02-02' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2023-02-02' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.2-2023-02-01' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Evan Quan (1):
-      drm/amdgpu: enable HDP SD for gfx 11.0.3
-
-George Shen (1):
-      drm/amd/display: Unassign does_plane_fit_in_mall function from dcn3.2
-
-Graham Sider (1):
-      drm/amdgpu: update wave data type to 3 for gfx11
-
-Hans Verkuil (1):
-      drm/vc4: hdmi: make CEC adapter name unique
-
-Javier Martinez Canillas (1):
-      drm/ssd130x: Init display before the SSD130X_DISPLAY_ON command
-
-John Harrison (3):
-      drm/i915/guc: Fix locking when searching for a hung request
-      drm/i915: Fix request ref counting during error capture & debugfs dump
-      drm/i915: Fix up locking around dumping requests lists
-
-Mario Limonciello (1):
-      drm/amd: Fix initialization for nbio 4.3.0
-
-Nicholas Kazlauskas (1):
-      drm/amd/display: Reset DMUB mailbox SW state after HW reset
-
-Rob Clark (2):
-      drm/i915: Avoid potential vm use-after-free
-      drm/i915: Fix potential bit_17 double-free
-
-Stephen Boyd (1):
-      drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed during disable
-
-Tim Huang (1):
-      drm/amd/pm: drop unneeded dpm features disablement for SMU 13.0.4/11
-
-Yiqing Yao (1):
-      drm/amdgpu: Enable vclk dclk node for gc11.0.3
-
- drivers/dma-buf/dma-fence.c                        |  2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  4 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v4_3.c             |  8 ++-
- drivers/gpu/drm/amd/amdgpu/soc21.c                 |  3 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 11 ++++
- .../drm/amd/display/dc/dcn314/dcn314_resource.c    |  5 +-
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c  |  2 +-
- .../display/dc/dml/dcn314/display_mode_vba_314.c   |  2 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    | 12 ++++
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  6 +-
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          | 14 ++++
- drivers/gpu/drm/i915/display/intel_cdclk.c         |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        | 14 +++-
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |  9 +--
- drivers/gpu/drm/i915/gt/intel_context.c            |  4 +-
- drivers/gpu/drm/i915/gt/intel_context.h            |  3 +-
- drivers/gpu/drm/i915/gt/intel_engine.h             |  4 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          | 74 ++++++++++++----------
- .../gpu/drm/i915/gt/intel_execlists_submission.c   | 27 ++++++++
- .../gpu/drm/i915/gt/intel_execlists_submission.h   |  4 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  | 14 +++-
- drivers/gpu/drm/i915/i915_gpu_error.c              | 33 ++--------
- drivers/gpu/drm/nouveau/include/nvkm/subdev/fb.h   |  1 +
- drivers/gpu/drm/nouveau/nvkm/core/firmware.c       |  3 +
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  | 10 +--
- drivers/gpu/drm/nouveau/nvkm/falcon/gm200.c        | 14 +++-
- .../gpu/drm/nouveau/nvkm/subdev/devinit/tu102.c    | 23 +++++++
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/Kbuild      |  1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ga102.c     |  8 +--
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/gv100.c     |  5 --
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/priv.h      |  2 +
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/tu102.c     | 55 ++++++++++++++++
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c    |  2 +-
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     | 16 +++--
- drivers/gpu/drm/solomon/ssd130x.c                  | 18 ++----
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |  3 +-
- 36 files changed, 296 insertions(+), 122 deletions(-)
- create mode 100644 drivers/gpu/drm/nouveau/nvkm/subdev/fb/tu102.c
+> 
+>> +
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>> +        unevaluatedProperties: false
+>> +        description: The sink for first set of LVDS pixels.
+>> +
+>> +        properties:
+>> +          dual-lvds-odd-pixels:
+>> +            type: boolean
+>> +
+>> +          dual-lvds-even-pixels:
+>> +            type: boolean
+>> +
+>> +        oneOf:
+>> +          - required: [dual-lvds-odd-pixels]
+>> +          - required: [dual-lvds-even-pixels]
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>> +        unevaluatedProperties: false
+>> +        description: The sink for second set of LVDS pixels.
+>> +
+>> +        properties:
+>> +          dual-lvds-even-pixels:
+>> +            type: boolean
+>> +
+>> +          dual-lvds-odd-pixels:
+>> +            type: boolean
+>> +
+>> +        oneOf:
+>> +          - required: [dual-lvds-even-pixels]
+>> +          - required: [dual-lvds-odd-pixels]
+>> +
+>> +    allOf:
+>> +      - if:
+>> +          properties:
+>> +            port@0:
+>> +              required:
+>> +                - dual-lvds-odd-pixels
+>> +        then:
+>> +          properties:
+>> +            port@1:
+>> +              properties:
+>> +                dual-lvds-odd-pixels: false
+>> +
+>> +      - if:
+>> +          properties:
+>> +            port@0:
+>> +              required:
+>> +                - dual-lvds-even-pixels
+>> +        then:
+>> +          properties:
+>> +            port@1:
+>> +              properties:
+>> +                dual-lvds-even-pixels: false
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>> +  port: false
+>> +
+>> +unevaluatedProperties: false
+>> +
+>> +required:
+>> +  - compatible
+>> +  - width-mm
+>> +  - height-mm
+>> +  - data-mapping
+>> +  - panel-timing
+>> +  - ports
+>> +
+>> +examples:
+>> +  - |
+>> +    panel {
+>> +      compatible = "microtips,mf-101hiebcaf0", "panel-dual-lvds";
+>> +
+>> +      width-mm = <217>;
+>> +      height-mm = <136>;
+>> +
+>> +      data-mapping = "vesa-24";
+>> +
+>> +      panel-timing {
+>> +        clock-frequency = <150275000>;
+>> +        hactive = <1920>;
+>> +        vactive = <1200>;
+>> +        hfront-porch = <32>;
+>> +        hsync-len = <52>;
+>> +        hback-porch = <24>;
+>> +        vfront-porch = <24>;
+>> +        vsync-len = <8>;
+>> +        vback-porch = <3>;
+>> +        de-active = <1>;
+>> +      };
+>> +
+>> +      ports {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        port@0 {
+>> +          reg = <0>;
+>> +          dual-lvds-odd-pixels;
+>> +          lcd_in0: endpoint {
+>> +            remote-endpoint = <&oldi_out0>;
+>> +          };
+>> +        };
+>> +
+>> +        port@1 {
+>> +          reg = <1>;
+>> +          dual-lvds-even-pixels;
+>> +          lcd_in1: endpoint {
+>> +            remote-endpoint = <&oldi_out1>;
+>> +          };
+>> +        };
+>> +      };
+>> +    };
+>> +
+>> +...
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 5e18388b4579..6025bb024586 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -6461,6 +6461,7 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+>>   S:	Maintained
+>>   F:	drivers/gpu/drm/panel/panel-lvds.c
+>>   F:	Documentation/devicetree/bindings/display/lvds.yaml
+>> +F:	Documentation/devicetree/bindings/display/panel/panel-dual-lvds.yaml
+>>   F:	Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
+>>   
+>>   DRM DRIVER FOR MANTIX MLAF057WE51 PANELS
+>> -- 
+>> 2.39.0
+>>
