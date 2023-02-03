@@ -1,64 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B960D68B84B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 10:11:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1486F68B849
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 10:11:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B34DA10E179;
-	Mon,  6 Feb 2023 09:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A748F10E164;
+	Mon,  6 Feb 2023 09:10:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C87510E881
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 19:04:45 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id r8so6225562pls.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Feb 2023 11:04:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oo+cKWPEpO2P7RN4zwy1Qd55HkzgWFy9L7T7gDL31nA=;
- b=gTdG2KorutmiQNyxFEPOV9rMuAr4eAnvBj7vMpFlDNzfEk3oPMJvwZnusYta/UmMM9
- 793g9QhfVtBRSmrSfPndOdJN65JClVwUyk6CC62nul4toTsipo4quHHtotRbcqIg1Ef/
- PGbej4rh+YcSpJSuMAnkhqc1YXoZt/ytHIXpE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oo+cKWPEpO2P7RN4zwy1Qd55HkzgWFy9L7T7gDL31nA=;
- b=pn+edFDLX20Lj96WjlMZAOTPqUQS+jtsb6NTQYXd4P8WS+yjSm0TWrI3tOGeHwo6oH
- jRy3yDChzw+Ckyjp0QQ2Dt45xtT4UsPvG7zHXB8puV3gRoDWHaIqIrvIw/T/FjLtsXC6
- bMtWcGFo1/F46JlXodwMnAxUEd8l0fZI4d3ZQ9pjyprV4JQDKaKe111AY5MtB7BmPIS6
- 3MIJ8wpi57TTDecRfjxb8FnMyhBTceddUNKjboY1n1X2tXuSTVNK3lKsCGJ7cnJS5p+O
- t4O2+MyZ7Pn7n+I6qPU84NHmGIHW1sUcZS4IAaTYkM3LA/wEUf+mhhI2aoQaW9zVwns9
- b88A==
-X-Gm-Message-State: AO0yUKVQ/VjP7AW9kmmx1+cbqLsWwl5y7anrkRc354Xh/n+hM4wYOm4J
- ikFMBkRP026x9eC2m/vVF27/mA==
-X-Google-Smtp-Source: AK7set9H6v9nr05hTQf2r0CEJ5i21ZnzeRuOt0NDWByly/VLH+B2Nbu3d7bepYZPUftSDEWtZo+IUA==
-X-Received: by 2002:a05:6a21:338a:b0:bc:6e88:7f58 with SMTP id
- yy10-20020a056a21338a00b000bc6e887f58mr14503202pzb.51.1675451085184; 
- Fri, 03 Feb 2023 11:04:45 -0800 (PST)
-Received: from google.com ([2620:15c:9d:200:7617:a96c:96d2:ed12])
- by smtp.gmail.com with ESMTPSA id
- v14-20020a170902e8ce00b001949c680b52sm1936334plg.193.2023.02.03.11.04.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 11:04:44 -0800 (PST)
-Date: Fri, 3 Feb 2023 11:04:42 -0800
-From: Ryan Neph <ryanneph@chromium.org>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH] drm/virtio: exbuf->fence_fd unmodified on interrupted wait
-Message-ID: <20230203190442.krow5p3bd5u27pg4@google.com>
-References: <20230126225815.1518839-1-ryanneph@chromium.org>
- <dee14d1b-fc28-e867-b425-ab11c31d799d@collabora.com>
- <CAJs_Fx4w-a0t9ekHvV55Ys6dYuTsKMa=az9E3UZcsej5AYNdGQ@mail.gmail.com>
- <08560b81-5f97-bd6f-3af0-68cba6bc0bd8@collabora.com>
- <3d347ccc-5867-4a64-a94c-c6141624571e@collabora.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 430C510E8E6;
+ Fri,  3 Feb 2023 21:10:52 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 313KenUI024989; Fri, 3 Feb 2023 21:10:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=ZrXUH0Omg6RzsJR3syi23SBibtjJaDRCIYaiu1onFk0=;
+ b=TsbV0n6AKPZDBX9pHKYLr9Madn8vG3vbMLbAm4A+gQ8v/KOg1ZnO7/TQahQjVPOcHgYY
+ z/fE29YA0YqUmTv68hyF7t4bTKi4+omTtvdjOjoYeoyzd5yVU1S8TSM0iu8vrtT5KDuR
+ 2QQ1mM+JDM8SsHmr8poKHTRRGTfdxXd2vxlW/rfzTF0upDrUM3WIj83wbQLMdwIQdE9h
+ xPwMJ1w68OJx2Jkc2izXQGhqwNO96KekmCMSysTZqXQpT6Ri7W16PTw8N1cLax5+1rfh
+ z1JZzaaXVJBvx89jutvc2jFYPgMmimgCwXUAIKPuu69EQBWR+t8Y1o28dsJOb43KA9ZN tQ== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ngns2jha8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Feb 2023 21:10:17 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 313LAGUp006424
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 3 Feb 2023 21:10:16 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Fri, 3 Feb 2023 13:10:15 -0800
+From: Elliot Berman <quic_eberman@quicinc.com>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Russell King
+ <linux@armlinux.org.uk>, "Rafael J. Wysocki" <rafael@kernel.org>, "Daniel
+ Lezcano" <daniel.lezcano@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ "Abhinav Kumar" <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Will Deacon
+ <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Joerg Roedel
+ <joro@8bytes.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ "Vikash Garodia" <quic_vgarodia@quicinc.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Adrian Hunter
+ <adrian.hunter@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>, Alex Elder
+ <elder@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Amit Kucheria <amitk@kernel.org>,
+ Thara Gopinath <thara.gopinath@gmail.com>, Zhang Rui <rui.zhang@intel.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: [PATCH] firmware: qcom_scm: Move qcom_scm.h to
+ include/linux/firmware/qcom/
+Date: Fri, 3 Feb 2023 13:09:52 -0800
+Message-ID: <20230203210956.3580811-1-quic_eberman@quicinc.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3d347ccc-5867-4a64-a94c-c6141624571e@collabora.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ZlK216WrMbhK0f96yjsuQBwOakhKfBhG
+X-Proofpoint-ORIG-GUID: ZlK216WrMbhK0f96yjsuQBwOakhKfBhG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-03_19,2023-02-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1011
+ spamscore=0 malwarescore=0 priorityscore=1501 suspectscore=0 mlxscore=0
+ adultscore=0 mlxlogscore=999 impostorscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302030190
 X-Mailman-Approved-At: Mon, 06 Feb 2023 09:10:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,87 +101,384 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Yiwei Zhang <zzyiwei@chromium.org>,
+Cc: linux-wireless@vger.kernel.org, Elliot Berman <quic_eberman@quicinc.com>,
+ linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-mmc@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- virtualization@lists.linux-foundation.org,
- Emil Velikov <emil.velikov@collabora.com>
+ linux-gpio@vger.kernel.org, iommu@lists.linux.dev, ath10k@lists.infradead.org,
+ netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 02, 2023 at 05:24:34AM +0300, Dmitry Osipenko wrote:
-> On 2/2/23 05:17, Dmitry Osipenko wrote:
-> > On 2/1/23 18:48, Rob Clark wrote:
-> >> On Wed, Feb 1, 2023 at 5:28 AM Dmitry Osipenko
-> >> <dmitry.osipenko@collabora.com> wrote:
-> >>>
-> >>> On 1/27/23 01:58, Ryan Neph wrote:
-> >>>> An interrupted dma_fence_wait() becomes an -ERESTARTSYS returned
-> >>>> to userspace ioctl(DRM_IOCTL_VIRTGPU_EXECBUFFER) calls, prompting to
-> >>>> retry the ioctl(), but the passed exbuf->fence_fd has been reset to -1,
-> >>>> making the retry attempt fail at sync_file_get_fence().
-> >>>>
-> >>>> The uapi for DRM_IOCTL_VIRTGPU_EXECBUFFER is changed to retain the
-> >>>> passed value for exbuf->fence_fd when returning ERESTARTSYS or EINTR.
-> >>>>
-> >>>> Fixes: 2cd7b6f08bc4 ("drm/virtio: add in/out fence support for explicit synchronization")
-> >>>> Signed-off-by: Ryan Neph <ryanneph@chromium.org>
-> >>>> ---
-> >>>>
-> >>>>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 9 ++++++---
-> >>>>  include/uapi/drm/virtgpu_drm.h         | 3 +++
-> >>>>  2 files changed, 9 insertions(+), 3 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> >>>> index 9f4a90493aea..ffce4e2a409a 100644
-> >>>> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> >>>> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> >>>> @@ -132,6 +132,8 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
-> >>>>       uint64_t fence_ctx;
-> >>>>       uint32_t ring_idx;
-> >>>>
-> >>>> +     exbuf->fence_fd = -1;
-> >>>> +
-> >>>>       fence_ctx = vgdev->fence_drv.context;
-> >>>>       ring_idx = 0;
-> >>>>
-> >>>> @@ -152,8 +154,6 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
-> >>>>               ring_idx = exbuf->ring_idx;
-> >>>>       }
-> >>>>
-> >>>> -     exbuf->fence_fd = -1;
-> >>>
-> >>> Is there any userspace relying on this -1 behaviour? Wouldn't be better
-> >>> to remove this offending assignment?
-> >>
-> >> Looking at current mesa, removing the assignment should be ok (and
-> >> more consistent with other drivers).  But I can't say if this was
-> >> always true, or that there aren't other non-mesa users, so I can see
-> >> the argument for the more conservative uabi change that this patch
-> >> went with.
-> > 
-> > Realistically, Mesa is the only user of this IOCTL. In general, in a
-> > such case of doubt, I'll do the UABI change and then wait for complains.
-> > If there is a complaint, then the change is reverted. Also will be good
-> > to know about existence of other users :)
-> > 
-> > Given that -1 already wasn't consistently set for all error code paths,
-> > it's tempting to see it removed.
-> > 
-> > The code change of this patch is trivial, hence should fine to keep the
-> > -1 if you prefer that, but the patch won't apply cleanly to the stable
-> > kernels because of the "exbuf->fence_fd = -1" movement. If stable
-> > maintainers won't put effort into rebasing the patch, then better to do
-> > the removal and live with a cleaner driver code, IMO.
-> 
-> Although, there will be a merge conflict either way. I'll give the r-b,
-> still removing -1 feels more attractive to me.
+Move include/linux/qcom_scm.h to include/linux/firmware/qcom/qcom_scm.h.
+This removes 1 of a few remaining Qualcomm-specific headers into a more
+approciate subdirectory under include/.
 
-I'm not opposed to removing the "exbuf->fence_fd = -1" on error. I made the
-v1 patch with extra care to fix the known issue while minimizing the uabi
-change, but I'd prefer to see it changed too; thanks for the comments.
+Suggested-by: Bjorn Andersson <andersson@kernel.org>
+Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+---
+ arch/arm/mach-qcom/platsmp.c                     | 2 +-
+ drivers/cpuidle/cpuidle-qcom-spm.c               | 2 +-
+ drivers/firmware/qcom_scm-legacy.c               | 2 +-
+ drivers/firmware/qcom_scm-smc.c                  | 2 +-
+ drivers/firmware/qcom_scm.c                      | 2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c            | 2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c          | 2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_hdcp.c             | 2 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom-debug.c | 2 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c       | 2 +-
+ drivers/iommu/arm/arm-smmu/qcom_iommu.c          | 2 +-
+ drivers/media/platform/qcom/venus/firmware.c     | 2 +-
+ drivers/misc/fastrpc.c                           | 2 +-
+ drivers/mmc/host/sdhci-msm.c                     | 2 +-
+ drivers/net/ipa/ipa_main.c                       | 2 +-
+ drivers/net/wireless/ath/ath10k/qmi.c            | 2 +-
+ drivers/pinctrl/qcom/pinctrl-msm.c               | 2 +-
+ drivers/remoteproc/qcom_q6v5_mss.c               | 2 +-
+ drivers/remoteproc/qcom_q6v5_pas.c               | 2 +-
+ drivers/remoteproc/qcom_wcnss.c                  | 2 +-
+ drivers/soc/qcom/mdt_loader.c                    | 2 +-
+ drivers/soc/qcom/ocmem.c                         | 2 +-
+ drivers/soc/qcom/rmtfs_mem.c                     | 2 +-
+ drivers/thermal/qcom/lmh.c                       | 2 +-
+ drivers/ufs/host/ufs-qcom-ice.c                  | 2 +-
+ include/linux/{ => firmware/qcom}/qcom_scm.h     | 0
+ 26 files changed, 25 insertions(+), 25 deletions(-)
+ rename include/linux/{ => firmware/qcom}/qcom_scm.h (100%)
 
-I'll follow up with a v2 that removes the modification of "exbuf->fence_fd"
-unless the IOCTL succeeds.
+diff --git a/arch/arm/mach-qcom/platsmp.c b/arch/arm/mach-qcom/platsmp.c
+index 5d2f386a46d8..eca2fe0f4314 100644
+--- a/arch/arm/mach-qcom/platsmp.c
++++ b/arch/arm/mach-qcom/platsmp.c
+@@ -14,7 +14,7 @@
+ #include <linux/of_address.h>
+ #include <linux/smp.h>
+ #include <linux/io.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ 
+ #include <asm/smp_plat.h>
+ 
+diff --git a/drivers/cpuidle/cpuidle-qcom-spm.c b/drivers/cpuidle/cpuidle-qcom-spm.c
+index beedf22cbe78..4ac83918edf2 100644
+--- a/drivers/cpuidle/cpuidle-qcom-spm.c
++++ b/drivers/cpuidle/cpuidle-qcom-spm.c
+@@ -17,7 +17,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/cpuidle.h>
+ #include <linux/cpu_pm.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <soc/qcom/spm.h>
+ 
+ #include <asm/proc-fns.h>
+diff --git a/drivers/firmware/qcom_scm-legacy.c b/drivers/firmware/qcom_scm-legacy.c
+index 9f918b9e6f8f..029e6d117cb8 100644
+--- a/drivers/firmware/qcom_scm-legacy.c
++++ b/drivers/firmware/qcom_scm-legacy.c
+@@ -9,7 +9,7 @@
+ #include <linux/mutex.h>
+ #include <linux/errno.h>
+ #include <linux/err.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/arm-smccc.h>
+ #include <linux/dma-mapping.h>
+ 
+diff --git a/drivers/firmware/qcom_scm-smc.c b/drivers/firmware/qcom_scm-smc.c
+index bb3235a64b8f..16cf88acfa8e 100644
+--- a/drivers/firmware/qcom_scm-smc.c
++++ b/drivers/firmware/qcom_scm-smc.c
+@@ -8,7 +8,7 @@
+ #include <linux/mutex.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/arm-smccc.h>
+ #include <linux/dma-mapping.h>
+ 
+diff --git a/drivers/firmware/qcom_scm.c b/drivers/firmware/qcom_scm.c
+index 2000323722bf..468d4d5ab550 100644
+--- a/drivers/firmware/qcom_scm.c
++++ b/drivers/firmware/qcom_scm.c
+@@ -12,7 +12,7 @@
+ #include <linux/interconnect.h>
+ #include <linux/module.h>
+ #include <linux/types.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 660ba0db8900..d09221f97f71 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -5,7 +5,7 @@
+ #include <linux/kernel.h>
+ #include <linux/types.h>
+ #include <linux/cpumask.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/pm_opp.h>
+ #include <linux/nvmem-consumer.h>
+ #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 57586c794b84..89ff978b81bb 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -8,7 +8,7 @@
+ 
+ #include <linux/ascii85.h>
+ #include <linux/interconnect.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/kernel.h>
+ #include <linux/of_address.h>
+ #include <linux/pm_opp.h>
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hdcp.c b/drivers/gpu/drm/msm/hdmi/hdmi_hdcp.c
+index e7748461cffc..0752fe373351 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_hdcp.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_hdcp.c
+@@ -3,7 +3,7 @@
+  */
+ 
+ #include "hdmi.h"
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ 
+ #define HDCP_REG_ENABLE 0x01
+ #define HDCP_REG_DISABLE 0x00
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom-debug.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom-debug.c
+index 74e9ef2fd580..b5b14108e086 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom-debug.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom-debug.c
+@@ -4,7 +4,7 @@
+  */
+ 
+ #include <linux/of_device.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/ratelimit.h>
+ 
+ #include "arm-smmu.h"
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index 91d404deb115..ef42329e82ce 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -7,7 +7,7 @@
+ #include <linux/adreno-smmu-priv.h>
+ #include <linux/delay.h>
+ #include <linux/of_device.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ 
+ #include "arm-smmu.h"
+ #include "arm-smmu-qcom.h"
+diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+index 270c3d9128ba..1e0b7b2e9fbd 100644
+--- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
++++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+@@ -27,7 +27,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm.h>
+ #include <linux/pm_runtime.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ 
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index 142d4c74017c..e5759d7e9ede 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -12,7 +12,7 @@
+ #include <linux/of_address.h>
+ #include <linux/platform_device.h>
+ #include <linux/of_device.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/sizes.h>
+ #include <linux/soc/qcom/mdt_loader.h>
+ 
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index c9902a1dcf5d..04f80e754477 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -18,7 +18,7 @@
+ #include <linux/rpmsg.h>
+ #include <linux/scatterlist.h>
+ #include <linux/slab.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <uapi/misc/fastrpc.h>
+ #include <linux/of_reserved_mem.h>
+ 
+diff --git a/drivers/mmc/host/sdhci-msm.c b/drivers/mmc/host/sdhci-msm.c
+index 4ac8651d0b29..8ac81d57a3df 100644
+--- a/drivers/mmc/host/sdhci-msm.c
++++ b/drivers/mmc/host/sdhci-msm.c
+@@ -13,7 +13,7 @@
+ #include <linux/pm_opp.h>
+ #include <linux/slab.h>
+ #include <linux/iopoll.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/interconnect.h>
+ #include <linux/pinctrl/consumer.h>
+diff --git a/drivers/net/ipa/ipa_main.c b/drivers/net/ipa/ipa_main.c
+index 4fb92f771974..90baf7a54d9a 100644
+--- a/drivers/net/ipa/ipa_main.c
++++ b/drivers/net/ipa/ipa_main.c
+@@ -16,7 +16,7 @@
+ #include <linux/of_device.h>
+ #include <linux/of_address.h>
+ #include <linux/pm_runtime.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/soc/qcom/mdt_loader.h>
+ 
+ #include "ipa.h"
+diff --git a/drivers/net/wireless/ath/ath10k/qmi.c b/drivers/net/wireless/ath/ath10k/qmi.c
+index 3f94fbf83702..90f457b8e1fe 100644
+--- a/drivers/net/wireless/ath/ath10k/qmi.c
++++ b/drivers/net/wireless/ath/ath10k/qmi.c
+@@ -13,7 +13,7 @@
+ #include <linux/module.h>
+ #include <linux/net.h>
+ #include <linux/platform_device.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/soc/qcom/smem.h>
+ #include <linux/string.h>
+ #include <net/sock.h>
+diff --git a/drivers/pinctrl/qcom/pinctrl-msm.c b/drivers/pinctrl/qcom/pinctrl-msm.c
+index 47e9a8b0d474..e0128c69bfbf 100644
+--- a/drivers/pinctrl/qcom/pinctrl-msm.c
++++ b/drivers/pinctrl/qcom/pinctrl-msm.c
+@@ -14,7 +14,7 @@
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/reboot.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+diff --git a/drivers/remoteproc/qcom_q6v5_mss.c b/drivers/remoteproc/qcom_q6v5_mss.c
+index fddb63cffee0..da2513bb6387 100644
+--- a/drivers/remoteproc/qcom_q6v5_mss.c
++++ b/drivers/remoteproc/qcom_q6v5_mss.c
+@@ -34,7 +34,7 @@
+ #include "qcom_pil_info.h"
+ #include "qcom_q6v5.h"
+ 
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ 
+ #define MPSS_CRASH_REASON_SMEM		421
+ 
+diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+index dc6f07ca8341..d5a049669616 100644
+--- a/drivers/remoteproc/qcom_q6v5_pas.c
++++ b/drivers/remoteproc/qcom_q6v5_pas.c
+@@ -18,7 +18,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_runtime.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/remoteproc.h>
+ #include <linux/soc/qcom/mdt_loader.h>
+diff --git a/drivers/remoteproc/qcom_wcnss.c b/drivers/remoteproc/qcom_wcnss.c
+index 68f37296b151..9881443cb8df 100644
+--- a/drivers/remoteproc/qcom_wcnss.c
++++ b/drivers/remoteproc/qcom_wcnss.c
+@@ -19,7 +19,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_runtime.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/remoteproc.h>
+ #include <linux/soc/qcom/mdt_loader.h>
+diff --git a/drivers/soc/qcom/mdt_loader.c b/drivers/soc/qcom/mdt_loader.c
+index 3f11554df2f3..33dd8c315eb7 100644
+--- a/drivers/soc/qcom/mdt_loader.c
++++ b/drivers/soc/qcom/mdt_loader.c
+@@ -12,7 +12,7 @@
+ #include <linux/firmware.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/sizes.h>
+ #include <linux/slab.h>
+ #include <linux/soc/qcom/mdt_loader.h>
+diff --git a/drivers/soc/qcom/ocmem.c b/drivers/soc/qcom/ocmem.c
+index c92d26b73e6f..199fe9872035 100644
+--- a/drivers/soc/qcom/ocmem.c
++++ b/drivers/soc/qcom/ocmem.c
+@@ -16,7 +16,7 @@
+ #include <linux/module.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ #include <linux/sizes.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+diff --git a/drivers/soc/qcom/rmtfs_mem.c b/drivers/soc/qcom/rmtfs_mem.c
+index 9d59ad509a5c..2d3ee22b9249 100644
+--- a/drivers/soc/qcom/rmtfs_mem.c
++++ b/drivers/soc/qcom/rmtfs_mem.c
+@@ -14,7 +14,7 @@
+ #include <linux/slab.h>
+ #include <linux/uaccess.h>
+ #include <linux/io.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ 
+ #define QCOM_RMTFS_MEM_DEV_MAX	(MINORMASK + 1)
+ #define NUM_MAX_VMIDS		2
+diff --git a/drivers/thermal/qcom/lmh.c b/drivers/thermal/qcom/lmh.c
+index 4122a51e9874..f6edb12ec004 100644
+--- a/drivers/thermal/qcom/lmh.c
++++ b/drivers/thermal/qcom/lmh.c
+@@ -10,7 +10,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/of_platform.h>
+ #include <linux/slab.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ 
+ #define LMH_NODE_DCVS			0x44435653
+ #define LMH_CLUSTER0_NODE_ID		0x6370302D
+diff --git a/drivers/ufs/host/ufs-qcom-ice.c b/drivers/ufs/host/ufs-qcom-ice.c
+index 62387ccd5b30..453978877ae9 100644
+--- a/drivers/ufs/host/ufs-qcom-ice.c
++++ b/drivers/ufs/host/ufs-qcom-ice.c
+@@ -8,7 +8,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/platform_device.h>
+-#include <linux/qcom_scm.h>
++#include <linux/firmware/qcom/qcom_scm.h>
+ 
+ #include "ufs-qcom.h"
+ 
+diff --git a/include/linux/qcom_scm.h b/include/linux/firmware/qcom/qcom_scm.h
+similarity index 100%
+rename from include/linux/qcom_scm.h
+rename to include/linux/firmware/qcom/qcom_scm.h
+
+base-commit: 3866989ec2c319341e2cf69ec6116269b634a271
+-- 
+2.39.1
+
