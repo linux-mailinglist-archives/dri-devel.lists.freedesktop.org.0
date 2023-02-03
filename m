@@ -1,71 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489FE688C13
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 01:46:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF964688C2D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 01:57:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4491910E028;
-	Fri,  3 Feb 2023 00:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 165EF10E6D5;
+	Fri,  3 Feb 2023 00:57:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 304F810E028
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 00:46:02 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id h24so3982055qta.12
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Feb 2023 16:46:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=A3ZdY21LXjE3PyX5fpTlE0/f6/GAdOiGr62nnKIP3aI=;
- b=XqmKvE/220WSzs0GhJ44A5LIXEmpXnCvVQd9D5uzyUIT3830BQHAqJwInbX68g1gOX
- 48ZWklm9NO4kuHW00FcLFdeIknSgSmyrbbjZgFCCS2Tw2y8QXc0iRIm7jcY7UHd/ABe7
- SQoKqAlY8t5PtyHQkpA6HfrNiOJoTDO6RtgWc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=A3ZdY21LXjE3PyX5fpTlE0/f6/GAdOiGr62nnKIP3aI=;
- b=28CGPzx/+Bt+JYt8DtPRU+nufHi3U2YQ+noNMsOvX618wncwyZVbOQUVczFQXxNXRG
- NNXNLXFhmzEngSzWGptJJQY2i4+FvZKFr/Ubej7KlVrgzRWKj1a0DmpJ6FZlsSkd0Z97
- Cqoy5V4062icFG6TmbXs54K3350emYTfXA4ZY8CnPoUAU4cLTc7EonSDWhKzvgrrB/Ue
- eeb4lkAlhWq14CVy9h14edCNhMqRYHRdAhKa8IEW76FgjY2DrsU0A/L+3baXa1w8QQ+7
- CfEbMm7VowtyCkY5nG8MKaKEHsSsfd6cNjlP2zNmzWwXdl6KfmJFR9eI4tCD8ZHoUa5F
- mdPg==
-X-Gm-Message-State: AO0yUKW2IjuJhJiLJevws1O+XcoP9IjAElKygMI55FZkp1fHYSg4FWd3
- JmlrJ6eOwiFqpX6hkA54P0Dk1f79Z5AeGjhvMkQ=
-X-Google-Smtp-Source: AK7set+C8BlFk2nfGmM0fFx7athIOkqr81MfZE5JKa2LINbIPReSrWC7lfuUxD2ak5acwehR68bGtA==
-X-Received: by 2002:ac8:5703:0:b0:3b8:2175:fcff with SMTP id
- 3-20020ac85703000000b003b82175fcffmr17720524qtw.31.1675385160866; 
- Thu, 02 Feb 2023 16:46:00 -0800 (PST)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- bb10-20020a05622a1b0a00b003b9a73cd120sm639632qtb.17.2023.02.02.16.45.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 16:45:59 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id m199so4530155ybm.4
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Feb 2023 16:45:58 -0800 (PST)
-X-Received: by 2002:a25:9741:0:b0:804:3d1e:68af with SMTP id
- h1-20020a259741000000b008043d1e68afmr1156308ybo.258.1675385158481; Thu, 02
- Feb 2023 16:45:58 -0800 (PST)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F86410E6D2;
+ Fri,  3 Feb 2023 00:57:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675385852; x=1706921852;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LyC8h69hMx8mNaqm5d2N5AzhpT3gK69+9V1NnRyPdPE=;
+ b=ipdjfPsWixas/RFDdhO5WJlCXFWDTZgyliPUAFNROGGqUrhYAVVbCuSL
+ Rc7rmR6jbOmmDRqE73OxwqX6+aQqbZDnursmwccauHxd6Y9miPoW9S/xX
+ N8ikJkay61DLcAFJmkwTYm5BzUdAj5ljYbuMo9BxXsC9Vu1HWaeD3Ovra
+ ZCoe1sUUhhWSsQXvOIdgOBTy9UB3vbYRS/+30+G99PjO75sD4YrqdYnw2
+ xWmMqYljW+rvsjhIfU6F+QIyk2bgABsrdzy7X6lybmrdsShLVfDPF8Ipa
+ YGrCDUc1UC6K0UG1LKwSp9Au6KhOZ3gvIC9fc+QCmEGekeqjD3XN2HTY1 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="316618623"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; d="scan'208";a="316618623"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2023 16:57:31 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="734138520"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; d="scan'208";a="734138520"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Feb 2023 16:57:30 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915: Fix GEN8_MISCCPCTL
+Date: Thu,  2 Feb 2023 16:57:08 -0800
+Message-Id: <20230203005709.2612633-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230120114313.2087015-1-john@metanate.com>
- <CAD=FV=UPD6c+NY8Ub37N7LmrRFpcr6gKOh0Os14DaKrf3bKo2A@mail.gmail.com>
- <Y8uo7vIcQ6caH9pu@ravnborg.org> <Y8wnswk++tvr9xMe@donbot>
- <Y81Px74OUYt21nj4@pendragon.ideasonboard.com>
- <Y856rWmtA4tQCcZz@donbot> <Y86wO8nvFbC81b1S@pendragon.ideasonboard.com>
-In-Reply-To: <Y86wO8nvFbC81b1S@pendragon.ideasonboard.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 2 Feb 2023 16:45:45 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UwMS86RKR9dqzOnjEhKxh=d=EJPfjcCOvWZMjVVQsmKw@mail.gmail.com>
-Message-ID: <CAD=FV=UwMS86RKR9dqzOnjEhKxh=d=EJPfjcCOvWZMjVVQsmKw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: panel: Set orientation on panel_bridge
- connector
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,109 +54,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
+ Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
+ Matt Atwood <matthew.s.atwood@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Gustavo Sousa <gustavo.sousa@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Register 0x9424 is not replicated on any platform, so it shouldn't be
+declared with REG_MCR(). Declaring it with _MMIO() is basically
+duplicate of the GEN7 version, so just remove the GEN8 and change all
+the callers to use the right functions.
 
-On Mon, Jan 23, 2023 at 8:05 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi John,
->
-> On Mon, Jan 23, 2023 at 12:16:45PM +0000, John Keeping wrote:
-> > On Sun, Jan 22, 2023 at 05:01:27PM +0200, Laurent Pinchart wrote:
-> > > On Sat, Jan 21, 2023 at 05:58:11PM +0000, John Keeping wrote:
-> > > > On Sat, Jan 21, 2023 at 09:57:18AM +0100, Sam Ravnborg wrote:
-> > > > > On Fri, Jan 20, 2023 at 01:44:38PM -0800, Doug Anderson wrote:
-> > > > > > On Fri, Jan 20, 2023 at 3:43 AM John Keeping wrote:
-> > > > > > >
-> > > > > > > Commit 15b9ca1641f0 ("drm: Config orientation property if panel provides
-> > > > > > > it") added a helper to set the panel panel orientation early but only
-> > > > > > > connected this for drm_bridge_connector, which constructs a panel bridge
-> > > > > > > with DRM_BRIDGE_ATTACH_NO_CONNECTOR and creates the connector itself.
-> > > > > > >
-> > > > > > > When the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag is not specified and the
-> > > > > > > panel_bridge creates its own connector the orientation is not set unless
-> > > > > > > the panel does it in .get_modes which is too late and leads to a warning
-> > > > > > > splat from __drm_mode_object_add() because the device is already
-> > > > > > > registered.
-> > > > > > >
-> > > > > > > Call the necessary function to set add the orientation property when the
-> > > > > > > connector is created so that it is available before the device is
-> > > > > > > registered.
-> > > > > >
-> > > > > > I have no huge objection to your patch and it looks OK to me. That
-> > > > > > being said, my understanding is that:
-> > > > > >
-> > > > > > 1. DRM_BRIDGE_ATTACH_NO_CONNECTOR is "the future" and not using the
-> > > > > > flag is "deprecated".
-> > > > >
-> > > > > Correct.
-> > > > > Could we take a look at how much is required to move the relevant driver
-> > > > > to use DRM_BRIDGE_ATTACH_NO_CONNECTOR?
-> > > > >
-> > > > > If this is too much work now we may land this simple patch, but the
-> > > > > preference is to move all drivers to the new bridge handling and thus
-> > > > > asking display drivers to create the connector.
-> > >
-> > > I fully agree with Doug and Sam here. Let's see if we can keep the yak
-> > > shaving minimal :-)
-> > >
-> > > > > What display driver are we dealing with here?
-> > > >
-> > > > This is dw-mipi-dsi-rockchip which uses the component path in
-> > > > dw-mipi-dsi (and, in fact, is the only driver using that mode of
-> > > > dw-mipi-dsi).
-> > > >
-> > > > I'm not familiar enough with DRM to say whether it's easy to convert to
-> > > > DRM_BRIDGE_ATTACH_NO_CONNECTOR - should dw-mipi-dsi-rockchip be moving
-> > > > to use dw-mipi-dsi as a bridge driver or should dw_mipi_dsi_bind() have
-> > > > a drm_bridge_attach_flags argument?  But I'm happy to test patches if it
-> > > > looks easy to convert to you :-)
-> > >
-> > > I'd go for the former (use dw_mipi_dsi_probe() and acquire the DSI
-> > > bridge with of_drm_find_bridge() instead of using the component
-> > > framework) if possible, but I don't know how intrusive that would be.
-> >
-> > I'm a bit confused about what's required since dw-mipi-dsi-rockchip
-> > already uses dw_mipi_dsi_probe(),
->
-> Indeed, my bad.
->
-> > but I think moving away from the
-> > component framework would be significant work as that's how the MIPI
-> > subdriver fits in to the overall Rockchip display driver.
->
-> It will be some work, yes. It however doesn't mean that the whole
-> Rockchip display driver needs to move away from the component framework,
-> it can be limited to the DSI encoder. It's not immediately clear to me
-> why the DSI encoder uses the component framework in the first place, and
-> if it would be difficult to move away from it.
->
-> > Any changes / modernisation to the Rockchip MIPI driver look like it
-> > will take more time than I have available to spend on this, so I'd
-> > really like to see this patch land as it's a simple fix to an existing
-> > working code path.
->
-> So who volunteers for fixing it properly ? :-)
->
-> I'll let Doug and Sam decide regarding mering this patch.
+Also use intel_uncore_rmw() rather than a read + write where possible.
 
-This thread seems to have gone silent.
+Fixes: a9e69428b1b4 ("drm/i915: Define MCR registers explicitly")
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Gustavo Sousa <gustavo.sousa@intel.com>
+Cc: Matt Atwood <matthew.s.atwood@intel.com>
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  5 +----
+ drivers/gpu/drm/i915/gt/intel_workarounds.c |  4 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c   |  5 ++---
+ drivers/gpu/drm/i915/intel_pm.c             | 10 +++++-----
+ 4 files changed, 10 insertions(+), 14 deletions(-)
 
-I'm inclined to merge this patch (removing the "Fixes" tag) since it's
-a one-line fix. While we want to encourage people to move to "the
-future", it seems like it would be better to wait until someone is
-trying to land something more intrusive than a 1-line fix before truly
-forcing the issue.
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 7fa18a3b3957..cc1539c7a6b6 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -686,10 +686,7 @@
+ #define GEN6_RSTCTL				_MMIO(0x9420)
+ 
+ #define GEN7_MISCCPCTL				_MMIO(0x9424)
+-#define   GEN7_DOP_CLOCK_GATE_ENABLE		(1 << 0)
+-
+-#define GEN8_MISCCPCTL				MCR_REG(0x9424)
+-#define   GEN8_DOP_CLOCK_GATE_ENABLE		REG_BIT(0)
++#define   GEN7_DOP_CLOCK_GATE_ENABLE		REG_BIT(0)
+ #define   GEN12_DOP_CLOCK_GATE_RENDER_ENABLE	REG_BIT(1)
+ #define   GEN8_DOP_CLOCK_GATE_CFCLK_ENABLE	(1 << 2)
+ #define   GEN8_DOP_CLOCK_GATE_GUC_ENABLE	(1 << 4)
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 29718d0595f4..cfc122c17e28 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -1645,7 +1645,7 @@ dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+ 	wa_mcr_write_or(wal, XEHP_SQCM, EN_32B_ACCESS);
+ 
+ 	/* Wa_14015795083 */
+-	wa_mcr_write_clr(wal, GEN8_MISCCPCTL, GEN12_DOP_CLOCK_GATE_RENDER_ENABLE);
++	wa_write_clr(wal, GEN7_MISCCPCTL, GEN12_DOP_CLOCK_GATE_RENDER_ENABLE);
+ 
+ 	/* Wa_18018781329 */
+ 	wa_mcr_write_or(wal, RENDER_MOD_CTRL, FORCE_MISS_FTLB);
+@@ -1664,7 +1664,7 @@ pvc_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+ 	pvc_init_mcr(gt, wal);
+ 
+ 	/* Wa_14015795083 */
+-	wa_mcr_write_clr(wal, GEN8_MISCCPCTL, GEN12_DOP_CLOCK_GATE_RENDER_ENABLE);
++	wa_write_clr(wal, GEN7_MISCCPCTL, GEN12_DOP_CLOCK_GATE_RENDER_ENABLE);
+ 
+ 	/* Wa_18018781329 */
+ 	wa_mcr_write_or(wal, RENDER_MOD_CTRL, FORCE_MISS_FTLB);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+index 3d2249bda368..69133420c78b 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+@@ -39,9 +39,8 @@ static void guc_prepare_xfer(struct intel_gt *gt)
+ 
+ 	if (GRAPHICS_VER(uncore->i915) == 9) {
+ 		/* DOP Clock Gating Enable for GuC clocks */
+-		intel_gt_mcr_multicast_write(gt, GEN8_MISCCPCTL,
+-					     GEN8_DOP_CLOCK_GATE_GUC_ENABLE |
+-					     intel_gt_mcr_read_any(gt, GEN8_MISCCPCTL));
++		intel_uncore_rmw(uncore, GEN7_MISCCPCTL, 0,
++				 GEN8_DOP_CLOCK_GATE_GUC_ENABLE);
+ 
+ 		/* allows for 5us (in 10ns units) before GT can go to RC6 */
+ 		intel_uncore_write(uncore, GUC_ARAT_C6DIS, 0x1FF);
+diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+index e0364c4141b8..798607959458 100644
+--- a/drivers/gpu/drm/i915/intel_pm.c
++++ b/drivers/gpu/drm/i915/intel_pm.c
+@@ -4300,8 +4300,8 @@ static void gen8_set_l3sqc_credits(struct drm_i915_private *dev_priv,
+ 	u32 val;
+ 
+ 	/* WaTempDisableDOPClkGating:bdw */
+-	misccpctl = intel_gt_mcr_multicast_rmw(to_gt(dev_priv), GEN8_MISCCPCTL,
+-					       GEN8_DOP_CLOCK_GATE_ENABLE, 0);
++	misccpctl = intel_uncore_rmw(&dev_priv->uncore, GEN7_MISCCPCTL,
++				     GEN7_DOP_CLOCK_GATE_ENABLE, 0);
+ 
+ 	val = intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_L3SQCREG1);
+ 	val &= ~L3_PRIO_CREDITS_MASK;
+@@ -4315,7 +4315,7 @@ static void gen8_set_l3sqc_credits(struct drm_i915_private *dev_priv,
+ 	 */
+ 	intel_gt_mcr_read_any(to_gt(dev_priv), GEN8_L3SQCREG1);
+ 	udelay(1);
+-	intel_gt_mcr_multicast_write(to_gt(dev_priv), GEN8_MISCCPCTL, misccpctl);
++	intel_uncore_write(&dev_priv->uncore, GEN7_MISCCPCTL, misccpctl);
+ }
+ 
+ static void icl_init_clock_gating(struct drm_i915_private *dev_priv)
+@@ -4453,8 +4453,8 @@ static void skl_init_clock_gating(struct drm_i915_private *dev_priv)
+ 	gen9_init_clock_gating(dev_priv);
+ 
+ 	/* WaDisableDopClockGating:skl */
+-	intel_gt_mcr_multicast_rmw(to_gt(dev_priv), GEN8_MISCCPCTL,
+-				   GEN8_DOP_CLOCK_GATE_ENABLE, 0);
++	intel_uncore_rmw(&dev_priv->uncore, GEN7_MISCCPCTL,
++			 GEN7_DOP_CLOCK_GATE_ENABLE, 0);
+ 
+ 	/* WAC6entrylatency:skl */
+ 	intel_uncore_rmw(&dev_priv->uncore, FBC_LLC_READ_CTRL, 0, FBC_LLC_FULLY_OPEN);
+-- 
+2.39.0
 
-I'll plan to merge the patch to drm-misc-next early next week assuming
-there are no objections.
-
--Doug
