@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC03689444
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 10:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527BE689475
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 10:58:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD0710E203;
-	Fri,  3 Feb 2023 09:46:42 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 276D110E203
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 09:46:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E77910E4BD;
+	Fri,  3 Feb 2023 09:57:55 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9C710E201;
+ Fri,  3 Feb 2023 09:57:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675417600; x=1706953600;
+ t=1675418273; x=1706954273;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=xdffIUHA+7+J+16AG2rhvVGHZkGMMU1Otb3Wlnns3A8=;
- b=TgvntGkvy5kqR4jubw4RH5HFclqJnSRU0pq0Hb8n674JnBLXnkE0R0/m
- a/5NFTwamTt2lClxg7RnVuYOCI9qt+rAqG1DRitl59ttQjMh5lSNJ/jDB
- TsYKqaRlvN0JoyjMWL7X3uumF8ZL1F3AXWKR6hdGk8FvTVjey3Htj0TXr
- A/Uo9o+w0EABU56XaV3/cbsvmC9Y7954YW4llMRbYLiGexQnu74O9ep0R
- tNvJ5M3M0aBfp9e8pnd9ZVASk2LpNNSFdns7KPU3TCI2vkNLGAS1DHDq5
- BgzRBfvjXXdKjkh1ICUj9nCta7bvotgxkwbGS2xcj2yEfBb90G5ggi4Ga Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="326401865"
-X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="326401865"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2023 01:46:37 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="643210973"
-X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="643210973"
-Received: from lhime-mobl1.ger.corp.intel.com (HELO [10.213.220.100])
- ([10.213.220.100])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2023 01:46:31 -0800
-Message-ID: <fd4d20c3-de97-6da0-3b95-32c830726716@linux.intel.com>
-Date: Fri, 3 Feb 2023 09:46:29 +0000
+ bh=u6aCuv4dAwJJ7x3RGKIBMET/y49JEdtv67kZJelbSXI=;
+ b=W90S8mnkCFUZ6YvqiZrPM8/LS16oP34kAJJwXkTrO38D1n7WAxmd5z5U
+ D+ge8uxmUrp9RGyx9aMlK5yu07vQM+4oVThrj6O030v0pRxQDv++BT62O
+ ggqERpzDp6Cvz/sEgZ5E9bqP9zBqxZJS4i7PaNiePJHpHu8gzwBf4zk8Z
+ ZFp1iBYr5J9SmDn0fbVQj78D/SgwoIzmE4K+opHX35y7D3D00JRf709s1
+ 3tDhaH9Od8FsXXBgHrpxb/920aEcyCBEHuhzK9fRAZMUMW9AgnjrKHHXf
+ ADV6sDzaGNr9IDO+J3+y7BUjMNqyPN9xjCoUxIyxbmSgf2Ag15n50F7NH A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="393301266"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="393301266"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2023 01:54:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="615649616"
+X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="615649616"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by orsmga003.jf.intel.com with ESMTP; 03 Feb 2023 01:54:10 -0800
+Received: from [10.249.139.149] (mwajdecz-MOBL.ger.corp.intel.com
+ [10.249.139.149])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id 4361F37833;
+ Fri,  3 Feb 2023 09:54:09 +0000 (GMT)
+Message-ID: <2cca4c1d-39c6-7b3a-0207-4541abf5aff3@intel.com>
+Date: Fri, 3 Feb 2023 10:54:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/4] memcg: Track exported dma-buffers
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.6.1
+Subject: Re: [Intel-gfx] [PATCH 4/6] drm/i915/guc: More debug print updates -
+ GuC selftests
 Content-Language: en-US
-To: "T.J. Mercier" <tjmercier@google.com>
-References: <20230123191728.2928839-1-tjmercier@google.com>
- <20230123191728.2928839-2-tjmercier@google.com>
- <Y8/ybgp2FW+e3bjc@dhcp22.suse.cz>
- <20230124194628.d44rtcfsv23fndxw@google.com>
- <Y9EX+usSpAjZ/8LS@dhcp22.suse.cz>
- <347560bc-d06a-92b7-8003-133d2b8af2df@linux.intel.com>
- <CABdmKX09S3bYzX+xBkhfkFULk2BtzS11RhzrvWv94j+cHSezPA@mail.gmail.com>
- <ad6bd448-91bd-d47e-5b54-8755fe0e0340@linux.intel.com>
- <CABdmKX3VSdF3jmktpw9VH4k+J+ZtQCLCPdNN6uye4XnZGPhG5g@mail.gmail.com>
- <15adf130-61f7-2423-2a48-883e611e3304@linux.intel.com>
- <CABdmKX181c21dbFGR+F=n_tF1MUeNPhXZXTNkAcW5FNRcLfxaQ@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CABdmKX181c21dbFGR+F=n_tF1MUeNPhXZXTNkAcW5FNRcLfxaQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20230203001143.3323433-1-John.C.Harrison@Intel.com>
+ <20230203001143.3323433-5-John.C.Harrison@Intel.com>
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <20230203001143.3323433-5-John.C.Harrison@Intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,248 +65,334 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michal Hocko <mhocko@suse.com>, linux-doc@vger.kernel.org,
- daniel.vetter@ffwll.ch, Roman Gushchin <roman.gushchin@linux.dev>,
- cmllamas@google.com, dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- jstultz@google.com, Zefan Li <lizefan.x@bytedance.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, android-mm@google.com,
- Jonathan Corbet <corbet@lwn.net>, jeffv@google.com,
- linux-media@vger.kernel.org, selinux@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Shakeel Butt <shakeelb@google.com>,
- cgroups@vger.kernel.org, Muchun Song <muchun.song@linux.dev>,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 02/02/2023 23:43, T.J. Mercier wrote:
-> On Wed, Feb 1, 2023 at 6:23 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->>
->> On 01/02/2023 01:49, T.J. Mercier wrote:
->>> On Tue, Jan 31, 2023 at 6:01 AM Tvrtko Ursulin
->>> <tvrtko.ursulin@linux.intel.com> wrote:
->>>>
->>>>
->>>> On 25/01/2023 20:04, T.J. Mercier wrote:
->>>>> On Wed, Jan 25, 2023 at 9:31 AM Tvrtko Ursulin
->>>>> <tvrtko.ursulin@linux.intel.com> wrote:
->>>>>>
->>>>>>
->>>>>> Hi,
->>>>>>
->>>>>> On 25/01/2023 11:52, Michal Hocko wrote:
->>>>>>> On Tue 24-01-23 19:46:28, Shakeel Butt wrote:
->>>>>>>> On Tue, Jan 24, 2023 at 03:59:58PM +0100, Michal Hocko wrote:
->>>>>>>>> On Mon 23-01-23 19:17:23, T.J. Mercier wrote:
->>>>>>>>>> When a buffer is exported to userspace, use memcg to attribute the
->>>>>>>>>> buffer to the allocating cgroup until all buffer references are
->>>>>>>>>> released.
->>>>>>>>>
->>>>>>>>> Is there any reason why this memory cannot be charged during the
->>>>>>>>> allocation (__GFP_ACCOUNT used)?
->>>>>>>>> Also you do charge and account the memory but underlying pages do not
->>>>>>>>> know about their memcg (this is normally done with commit_charge for
->>>>>>>>> user mapped pages). This would become a problem if the memory is
->>>>>>>>> migrated for example.
->>>>>>>>
->>>>>>>> I don't think this is movable memory.
->>>>>>>>
->>>>>>>>> This also means that you have to maintain memcg
->>>>>>>>> reference outside of the memcg proper which is not really nice either.
->>>>>>>>> This mimicks tcp kmem limit implementation which I really have to say I
->>>>>>>>> am not a great fan of and this pattern shouldn't be coppied.
->>>>>>>>>
->>>>>>>>
->>>>>>>> I think we should keep the discussion on technical merits instead of
->>>>>>>> personal perference. To me using skmem like interface is totally fine
->>>>>>>> but the pros/cons need to be very explicit and the clear reasons to
->>>>>>>> select that option should be included.
->>>>>>>
->>>>>>> I do agree with that. I didn't want sound to be personal wrt tcp kmem
->>>>>>> accounting but the overall code maintenance cost is higher because
->>>>>>> of how tcp take on accounting differs from anything else in the memcg
->>>>>>> proper. I would prefer to not grow another example like that.
->>>>>>>
->>>>>>>> To me there are two options:
->>>>>>>>
->>>>>>>> 1. Using skmem like interface as this patch series:
->>>>>>>>
->>>>>>>> The main pros of this option is that it is very simple. Let me list down
->>>>>>>> the cons of this approach:
->>>>>>>>
->>>>>>>> a. There is time window between the actual memory allocation/free and
->>>>>>>> the charge and uncharge and [un]charge happen when the whole memory is
->>>>>>>> allocated or freed. I think for the charge path that might not be a big
->>>>>>>> issue but on the uncharge, this can cause issues. The application and
->>>>>>>> the potential shrinkers have freed some of this dmabuf memory but until
->>>>>>>> the whole dmabuf is freed, the memcg uncharge will not happen. This can
->>>>>>>> consequences on reclaim and oom behavior of the application.
->>>>>>>>
->>>>>>>> b. Due to the usage model i.e. a central daemon allocating the dmabuf
->>>>>>>> memory upfront, there is a requirement to have a memcg charge transfer
->>>>>>>> functionality to transfer the charge from the central daemon to the
->>>>>>>> client applications. This does introduce complexity and avenues of weird
->>>>>>>> reclaim and oom behavior.
->>>>>>>>
->>>>>>>>
->>>>>>>> 2. Allocate and charge the memory on page fault by actual user
->>>>>>>>
->>>>>>>> In this approach, the memory is not allocated upfront by the central
->>>>>>>> daemon but rather on the page fault by the client application and the
->>>>>>>> memcg charge happen at the same time.
->>>>>>>>
->>>>>>>> The only cons I can think of is this approach is more involved and may
->>>>>>>> need some clever tricks to track the page on the free patch i.e. we to
->>>>>>>> decrement the dmabuf memcg stat on free path. Maybe a page flag.
->>>>>>>>
->>>>>>>> The pros of this approach is there is no need have a charge transfer
->>>>>>>> functionality and the charge/uncharge being closely tied to the actual
->>>>>>>> memory allocation and free.
->>>>>>>>
->>>>>>>> Personally I would prefer the second approach but I don't want to just
->>>>>>>> block this work if the dmabuf folks are ok with the cons mentioned of
->>>>>>>> the first approach.
->>>>>>>
->>>>>>> I am not familiar with dmabuf internals to judge complexity on their end
->>>>>>> but I fully agree that charge-when-used is much more easier to reason
->>>>>>> about and it should have less subtle surprises.
->>>>>>
->>>>>> Disclaimer that I don't seem to see patches 3&4 on dri-devel so maybe I
->>>>>> am missing something, but in principle yes, I agree that the 2nd option
->>>>>> (charge the user, not exporter) should be preferred. Thing being that at
->>>>>> export time there may not be any backing store allocated, plus if the
->>>>>> series is restricting the charge transfer to just Android clients then
->>>>>> it seems it has the potential to miss many other use cases. At least
->>>>>> needs to outline a description on how the feature will be useful outside
->>>>>> Android.
->>>>>>
->>>>> There is no restriction like that. It's available to anybody who wants
->>>>> to call dma_buf_charge_transfer if they actually have a need for that,
->>>>> which I don't really expect to be common since most users/owners of
->>>>> the buffers will be the ones causing the export in the first place.
->>>>> It's just not like that on Android with the extra allocator process in
->>>>> the middle most of the time.
->>>>
->>>> Yeah I used the wrong term "restrict", apologies. What I meant was, if
->>>> the idea was to allow spotting memory leaks, with the charge transfer
->>>> being optional and in the series only wired up for Android Binder, then
->>>> it obviously only fully works for that one case. So a step back..
->>>>
->>> Oh, spotting kernel memory leaks is a side-benefit of accounting
->>> kernel-only buffers in the root cgroup. The primary goal is to
->>> attribute buffers to applications that originated them (via
->>> per-application cgroups) simply for accounting purposes. Buffers are
->>> using memory on the system, and we want to know who created them and
->>> how much memory is used. That information is/will no longer available
->>> with the recent deprecation of the dmabuf sysfs statistics.
->>>
->>>> .. For instance, it is not feasible to transfer the charge when dmabuf
->>>> is attached, or imported? That would attribute the usage to the
->>>> user/importer so give better visibility on who is actually causing the
->>>> memory leak.
->>>>
->>> Instead of accounting at export, we could account at attach. That just
->>> turns out not to be very useful when the majority of our
->>> heap-allocated buffers don't have attachments at any particular point
->>> in time. :\ But again it's less about leaks and more about knowing
->>> which buffers exist in the first place.
->>>
->>>> Further more, if above is feasible, then could it also be implemented in
->>>> the common layer so it would automatically cover all drivers?
->>>>
->>> Which common layer code specifically? The dmabuf interface appears to
->>> be the most central/common place to me.
->>
->> Yes, I meant dma_buf_attach / detach. More below.
->>>>>> Also stepping back for a moment - is a new memory category really
->>>>>> needed, versus perhaps attempting to charge the actual backing store
->>>>>> memory to the correct client? (There might have been many past
->>>>>> discussions on this so it's okay to point me towards something in the
->>>>>> archives.)
->>>>>>
->>>>> Well the dmabuf counter for the stat file is really just a subcategory
->>>>> of memory that is charged. Its existence is not related to getting the
->>>>> charge attributed to the right process/cgroup. We do want to know how
->>>>> much of the memory attributed to a process is for dmabufs, which is
->>>>> the main point of this series.
->>>>
->>>> Then I am probably missing something because the statement how proposal
->>>> is not intended to charge to the right process, but wants to know how
->>>> much dmabuf "size" is attributed to a process, confuses me due a seeming
->>>> contradiction. And the fact it would not be externally observable how
->>>> much of the stats is accurate and how much is not (without knowing the
->>>> implementation detail of which drivers implement charge transfer and
->>>> when). Maybe I completely misunderstood the use case.
->>>>
->>> Hmm, did I clear this up above or no? The current proposal is for the
->>> process causing the export of a buffer to be charged for it,
->>> regardless of whatever happens afterwards. (Unless that process is
->>> like gralloc on Android, in which case the charge is transferred from
->>> gralloc to whoever called gralloc to allocate the buffer on their
->>> behalf.)
->>
->> Main problem for me is that charging at export time has no relation to memory used. But I am not familiar with the memcg counters to know if any other counter sets that same precedent. If all other are about real memory use then IMO this does not fit that well. I mean specifically this:
->>
->> +         dmabuf (npn)
->> +               Amount of memory used for exported DMA buffers allocated by the cgroup.
->> +               Stays with the allocating cgroup regardless of how the buffer is shared.
->> +
->>
->> I think that "Amount of memory used for exported..." is not correct. As implemented it is more akin the virtual address space size in the cpu space - it can have no relation to the actual usage since backing store is not allocated until the attachment is made.
->>
->> Then also this:
->>
->> @@ -446,6 +447,8 @@ struct dma_buf {
->>                  struct dma_buf *dmabuf;
->>          } *sysfs_entry;
->>    #endif
->> +       /* The cgroup to which this buffer is currently attributed */
->> +       struct mem_cgroup *memcg;
->>    };
->>
->> Does not conceptually fit in my mind. Dmabufs are not associated with one cgroup at a time.
->>
-> It's true that a dmabuf could be shared among processes in different
-> cgroups, but this refers to the one that's charged for it. Similar to
-> how the shmem pages that back memfds which can be similarly shared get
-> charged to the first cgroup that touches each page, here it's the
-> entire buffer instead of each individual page. Maybe it'd be possible
-> to charge whoever attaches / maps first, but I have to point out
-> there'd be a gap between then and export where we'd have no accounting
-> of the memory for cases where pages actually do get allocated during
-> export (like in the system_heap).
 
-Okay I wasn't familiar with heaps until now - indeed - allocating a dma 
-buf from there is allocation and export in one, no delayed/lazy anything 
-on neither edge. Therefore charge at exports works there.
+On 03.02.2023 01:11, John.C.Harrison@Intel.com wrote:
+> From: John Harrison <John.C.Harrison@Intel.com>
+> 
+> Update a bunch more debug prints to use the new GT based scheme.
+> 
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/selftest_guc.c     | 35 ++++++++++---------
+>  .../drm/i915/gt/uc/selftest_guc_hangcheck.c   | 23 ++++++------
+>  .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   | 11 +++---
+>  3 files changed, 36 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> index e28518fe8b908..6cc1e9c7a47d6 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+> @@ -3,6 +3,7 @@
+>   * Copyright �� 2021 Intel Corporation
+>   */
+>  
+> +#include "intel_guc_print.h"
 
-One option - rename the proposed memcg category to be clear it is only 
-for dma buf heaps?
+You've included right headers but then you mostly used gt_xxx() macros
+instead of guc_xxx() ones which IMHO are way more appropriate as we are
+in GuC selftests
 
-But does it not create double accounting btw? Since there are both 
-pages/cma allocations that would be tracked and the new dma buf category.
+Michal
 
-Another option was allow each "backend" to specify if export charge 
-needs to happen on export or import to be more accurate? (Like a flag 
-for dma_buf_export_info maybe.)
-
-Regards,
-
-Tvrtko
-
->> So if you would place tracking into dma_buf_attach/detach you would be able to charge to correct cgroup regardless of a driver and since by contract at this stage there is backing store, the reflected memory usage counter would be truthful.
->>
->> But then you state a problem, that majority of the time there are no attachments in your setup, and you also say the proposal is not so much about leaks but more about knowing what is exported.
->>
->> In this case you could additionally track that via dma_buf_getfile / dma_buf_file_release as a separate category like dmabuf-exported? But again, I personally don't know if such "may not really be using memory" counters fit in memcg.
->>
->> (Hm you'd probably still need dmabuf->export_memcg to store who was the original caller of dma_buf_getfile, in case last reference is dropped from a different process/context. Even dmabuf->attach_memcg for attach/detach to work correctly for the same reason.)
->>
->> Regards,
->>
->> Tvrtko
+>  #include "selftests/igt_spinner.h"
+>  #include "selftests/intel_scheduler_helpers.h"
+>  
+> @@ -65,7 +66,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+>  		ce = intel_context_create(engine);
+>  		if (IS_ERR(ce)) {
+>  			ret = PTR_ERR(ce);
+> -			drm_err(&gt->i915->drm, "Failed to create context, %d: %d\n", i, ret);
+> +			gt_err(gt, "Failed to create context, %d: %d\n", i, ret);
+>  			goto err;
+>  		}
+>  
+> @@ -86,7 +87,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+>  
+>  		if (IS_ERR(rq)) {
+>  			ret = PTR_ERR(rq);
+> -			drm_err(&gt->i915->drm, "Failed to create request, %d: %d\n", i, ret);
+> +			gt_err(gt, "Failed to create request, %d: %d\n", i, ret);
+>  			goto err;
+>  		}
+>  
+> @@ -96,7 +97,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+>  	for (i = 0; i < 3; ++i) {
+>  		ret = i915_request_wait(last[i], 0, HZ);
+>  		if (ret < 0) {
+> -			drm_err(&gt->i915->drm, "Last request failed to complete: %d\n", ret);
+> +			gt_err(gt, "Last request failed to complete: %d\n", ret);
+>  			goto err;
+>  		}
+>  		i915_request_put(last[i]);
+> @@ -113,7 +114,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+>  	/* GT will not idle if G2H are lost */
+>  	ret = intel_gt_wait_for_idle(gt, HZ);
+>  	if (ret < 0) {
+> -		drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
+> +		gt_err(gt, "GT failed to idle: %d\n", ret);
+>  		goto err;
+>  	}
+>  
+> @@ -153,7 +154,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  
+>  	ce = kcalloc(GUC_MAX_CONTEXT_ID, sizeof(*ce), GFP_KERNEL);
+>  	if (!ce) {
+> -		drm_err(&gt->i915->drm, "Context array allocation failed\n");
+> +		guc_err(guc, "Context array allocation failed\n");
+>  		return -ENOMEM;
+>  	}
+>  
+> @@ -167,24 +168,24 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  	if (IS_ERR(ce[context_index])) {
+>  		ret = PTR_ERR(ce[context_index]);
+>  		ce[context_index] = NULL;
+> -		drm_err(&gt->i915->drm, "Failed to create context: %d\n", ret);
+> +		guc_err(guc, "Failed to create context: %d\n", ret);
+>  		goto err_wakeref;
+>  	}
+>  	ret = igt_spinner_init(&spin, engine->gt);
+>  	if (ret) {
+> -		drm_err(&gt->i915->drm, "Failed to create spinner: %d\n", ret);
+> +		guc_err(guc, "Failed to create spinner: %d\n", ret);
+>  		goto err_contexts;
+>  	}
+>  	spin_rq = igt_spinner_create_request(&spin, ce[context_index],
+>  					     MI_ARB_CHECK);
+>  	if (IS_ERR(spin_rq)) {
+>  		ret = PTR_ERR(spin_rq);
+> -		drm_err(&gt->i915->drm, "Failed to create spinner request: %d\n", ret);
+> +		guc_err(guc, "Failed to create spinner request: %d\n", ret);
+>  		goto err_contexts;
+>  	}
+>  	ret = request_add_spin(spin_rq, &spin);
+>  	if (ret) {
+> -		drm_err(&gt->i915->drm, "Failed to add Spinner request: %d\n", ret);
+> +		guc_err(guc, "Failed to add Spinner request: %d\n", ret);
+>  		goto err_spin_rq;
+>  	}
+>  
+> @@ -194,7 +195,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  		if (IS_ERR(ce[context_index])) {
+>  			ret = PTR_ERR(ce[context_index--]);
+>  			ce[context_index] = NULL;
+> -			drm_err(&gt->i915->drm, "Failed to create context: %d\n", ret);
+> +			guc_err(guc, "Failed to create context: %d\n", ret);
+>  			goto err_spin_rq;
+>  		}
+>  
+> @@ -203,7 +204,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  			ret = PTR_ERR(rq);
+>  			rq = NULL;
+>  			if (ret != -EAGAIN) {
+> -				drm_err(&gt->i915->drm, "Failed to create request, %d: %d\n",
+> +				guc_err(guc, "Failed to create request, %d: %d\n",
+>  					context_index, ret);
+>  				goto err_spin_rq;
+>  			}
+> @@ -218,7 +219,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  	igt_spinner_end(&spin);
+>  	ret = intel_selftest_wait_for_rq(spin_rq);
+>  	if (ret) {
+> -		drm_err(&gt->i915->drm, "Spin request failed to complete: %d\n", ret);
+> +		guc_err(guc, "Spin request failed to complete: %d\n", ret);
+>  		i915_request_put(last);
+>  		goto err_spin_rq;
+>  	}
+> @@ -230,7 +231,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  	ret = i915_request_wait(last, 0, HZ * 30);
+>  	i915_request_put(last);
+>  	if (ret < 0) {
+> -		drm_err(&gt->i915->drm, "Last request failed to complete: %d\n", ret);
+> +		guc_err(guc, "Last request failed to complete: %d\n", ret);
+>  		goto err_spin_rq;
+>  	}
+>  
+> @@ -238,7 +239,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  	rq = nop_user_request(ce[context_index], NULL);
+>  	if (IS_ERR(rq)) {
+>  		ret = PTR_ERR(rq);
+> -		drm_err(&gt->i915->drm, "Failed to steal guc_id, %d: %d\n", context_index, ret);
+> +		guc_err(guc, "Failed to steal guc_id, %d: %d\n", context_index, ret);
+>  		goto err_spin_rq;
+>  	}
+>  
+> @@ -246,20 +247,20 @@ static int intel_guc_steal_guc_ids(void *arg)
+>  	ret = i915_request_wait(rq, 0, HZ);
+>  	i915_request_put(rq);
+>  	if (ret < 0) {
+> -		drm_err(&gt->i915->drm, "Request with stolen guc_id failed to complete: %d\n", ret);
+> +		guc_err(guc, "Request with stolen guc_id failed to complete: %d\n", ret);
+>  		goto err_spin_rq;
+>  	}
+>  
+>  	/* Wait for idle */
+>  	ret = intel_gt_wait_for_idle(gt, HZ * 30);
+>  	if (ret < 0) {
+> -		drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
+> +		guc_err(guc, "GT failed to idle: %d\n", ret);
+>  		goto err_spin_rq;
+>  	}
+>  
+>  	/* Verify a guc_id was stolen */
+>  	if (guc->number_guc_id_stolen == number_guc_id_stolen) {
+> -		drm_err(&gt->i915->drm, "No guc_id was stolen");
+> +		guc_err(guc, "No guc_id was stolen");
+>  		ret = -EINVAL;
+>  	} else {
+>  		ret = 0;
+> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c
+> index d91b58f704039..fffe95ac15c4e 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c
+> @@ -3,6 +3,7 @@
+>   * Copyright © 2022 Intel Corporation
+>   */
+>  
+> +#include "intel_guc_print.h"
+>  #include "selftests/igt_spinner.h"
+>  #include "selftests/igt_reset.h"
+>  #include "selftests/intel_scheduler_helpers.h"
+> @@ -45,7 +46,7 @@ static int intel_hang_guc(void *arg)
+>  
+>  	ctx = kernel_context(gt->i915, NULL);
+>  	if (IS_ERR(ctx)) {
+> -		drm_err(&gt->i915->drm, "Failed get kernel context: %ld\n", PTR_ERR(ctx));
+> +		gt_err(gt, "Failed get kernel context: %ld\n", PTR_ERR(ctx));
+>  		return PTR_ERR(ctx);
+>  	}
+>  
+> @@ -54,7 +55,7 @@ static int intel_hang_guc(void *arg)
+>  	ce = intel_context_create(engine);
+>  	if (IS_ERR(ce)) {
+>  		ret = PTR_ERR(ce);
+> -		drm_err(&gt->i915->drm, "Failed to create spinner request: %d\n", ret);
+> +		gt_err(gt, "Failed to create spinner request: %d\n", ret);
+>  		goto err;
+>  	}
+>  
+> @@ -63,13 +64,13 @@ static int intel_hang_guc(void *arg)
+>  	old_beat = engine->props.heartbeat_interval_ms;
+>  	ret = intel_engine_set_heartbeat(engine, BEAT_INTERVAL);
+>  	if (ret) {
+> -		drm_err(&gt->i915->drm, "Failed to boost heatbeat interval: %d\n", ret);
+> +		gt_err(gt, "Failed to boost heatbeat interval: %d\n", ret);
+>  		goto err;
+>  	}
+>  
+>  	ret = igt_spinner_init(&spin, engine->gt);
+>  	if (ret) {
+> -		drm_err(&gt->i915->drm, "Failed to create spinner: %d\n", ret);
+> +		gt_err(gt, "Failed to create spinner: %d\n", ret);
+>  		goto err;
+>  	}
+>  
+> @@ -77,28 +78,28 @@ static int intel_hang_guc(void *arg)
+>  	intel_context_put(ce);
+>  	if (IS_ERR(rq)) {
+>  		ret = PTR_ERR(rq);
+> -		drm_err(&gt->i915->drm, "Failed to create spinner request: %d\n", ret);
+> +		gt_err(gt, "Failed to create spinner request: %d\n", ret);
+>  		goto err_spin;
+>  	}
+>  
+>  	ret = request_add_spin(rq, &spin);
+>  	if (ret) {
+>  		i915_request_put(rq);
+> -		drm_err(&gt->i915->drm, "Failed to add Spinner request: %d\n", ret);
+> +		gt_err(gt, "Failed to add Spinner request: %d\n", ret);
+>  		goto err_spin;
+>  	}
+>  
+>  	ret = intel_reset_guc(gt);
+>  	if (ret) {
+>  		i915_request_put(rq);
+> -		drm_err(&gt->i915->drm, "Failed to reset GuC, ret = %d\n", ret);
+> +		gt_err(gt, "Failed to reset GuC, ret = %d\n", ret);
+>  		goto err_spin;
+>  	}
+>  
+>  	guc_status = intel_uncore_read(gt->uncore, GUC_STATUS);
+>  	if (!(guc_status & GS_MIA_IN_RESET)) {
+>  		i915_request_put(rq);
+> -		drm_err(&gt->i915->drm, "GuC failed to reset: status = 0x%08X\n", guc_status);
+> +		gt_err(gt, "Failed to reset GuC: status = 0x%08X\n", guc_status);
+>  		ret = -EIO;
+>  		goto err_spin;
+>  	}
+> @@ -107,12 +108,12 @@ static int intel_hang_guc(void *arg)
+>  	ret = intel_selftest_wait_for_rq(rq);
+>  	i915_request_put(rq);
+>  	if (ret) {
+> -		drm_err(&gt->i915->drm, "Request failed to complete: %d\n", ret);
+> +		gt_err(gt, "Request failed to complete: %d\n", ret);
+>  		goto err_spin;
+>  	}
+>  
+>  	if (i915_reset_count(global) == reset_count) {
+> -		drm_err(&gt->i915->drm, "Failed to record a GPU reset\n");
+> +		gt_err(gt, "Failed to record a GPU reset\n");
+>  		ret = -EINVAL;
+>  		goto err_spin;
+>  	}
+> @@ -132,7 +133,7 @@ static int intel_hang_guc(void *arg)
+>  		ret = intel_selftest_wait_for_rq(rq);
+>  		i915_request_put(rq);
+>  		if (ret) {
+> -			drm_err(&gt->i915->drm, "No-op failed to complete: %d\n", ret);
+> +			gt_err(gt, "No-op failed to complete: %d\n", ret);
+>  			goto err;
+>  		}
+>  	}
+> diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+> index d17982c36d256..0e64be0918ae5 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+> @@ -3,6 +3,7 @@
+>   * Copyright �� 2019 Intel Corporation
+>   */
+>  
+> +#include "intel_guc_print.h"
+>  #include "selftests/igt_spinner.h"
+>  #include "selftests/igt_reset.h"
+>  #include "selftests/intel_scheduler_helpers.h"
+> @@ -115,30 +116,30 @@ static int __intel_guc_multi_lrc_basic(struct intel_gt *gt, unsigned int class)
+>  
+>  	parent = multi_lrc_create_parent(gt, class, 0);
+>  	if (IS_ERR(parent)) {
+> -		drm_err(&gt->i915->drm, "Failed creating contexts: %ld", PTR_ERR(parent));
+> +		gt_err(gt, "Failed creating contexts: %ld\n", PTR_ERR(parent));
+>  		return PTR_ERR(parent);
+>  	} else if (!parent) {
+> -		drm_dbg(&gt->i915->drm, "Not enough engines in class: %d", class);
+> +		gt_dbg(gt, "Not enough engines in class: %d\n", class);
+>  		return 0;
+>  	}
+>  
+>  	rq = multi_lrc_nop_request(parent);
+>  	if (IS_ERR(rq)) {
+>  		ret = PTR_ERR(rq);
+> -		drm_err(&gt->i915->drm, "Failed creating requests: %d", ret);
+> +		gt_err(gt, "Failed creating requests: %d\n", ret);
+>  		goto out;
+>  	}
+>  
+>  	ret = intel_selftest_wait_for_rq(rq);
+>  	if (ret)
+> -		drm_err(&gt->i915->drm, "Failed waiting on request: %d", ret);
+> +		gt_err(gt, "Failed waiting on request: %d\n", ret);
+>  
+>  	i915_request_put(rq);
+>  
+>  	if (ret >= 0) {
+>  		ret = intel_gt_wait_for_idle(gt, HZ * 5);
+>  		if (ret < 0)
+> -			drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
+> +			gt_err(gt, "GT failed to idle: %d\n", ret);
+>  	}
+>  
+>  out:
