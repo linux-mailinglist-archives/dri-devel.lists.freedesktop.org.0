@@ -2,72 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E3568A159
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 19:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D545E68A167
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 19:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B2010E834;
-	Fri,  3 Feb 2023 18:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4858910E833;
+	Fri,  3 Feb 2023 18:16:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB41A10E833;
- Fri,  3 Feb 2023 18:12:55 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 313HKuGj015312; Fri, 3 Feb 2023 18:12:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=fqQpv3FLRrrFIU3VTK6WAjqSO36QpMpTsucAWSbwDcM=;
- b=lNFM6t6KtSv/xt0oulbkPshGMGSq/v5mSkUSakTFv6ci49mj+FCr31wELyubSR64fhJX
- AOX60bmS/Xa4Tj/GjQXNRidBKV/u0NDi8q1WhMXXQoUbplKC7h1XvwleCuHDlgOyW6wq
- +Wg9poFNXV02FHbl8UDJ5ifQ3MSGO7QpMEvDIO9oVbjFxRPejjSSb8kpGIBXxFFbgxQq
- gbq4+8eDB9/FlWjXTGCRhKZ2poQtOPKGETF8a2ajJK/Afk31vfTGvbqjSnJpuRz5VpJv
- mwoxT8dcJ/TNAQR5DqHJcHhpgnZo/CZ+fd2loQ/F/cGyhHieyqoIwB4yiuSLwwTnOVhh yg== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ngw4p9f1x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Feb 2023 18:12:52 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 313ICpk9012727
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 3 Feb 2023 18:12:51 GMT
-Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Fri, 3 Feb 2023 10:12:50 -0800
-From: Bjorn Andersson <quic_bjorande@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-Subject: [RFC] drm/msm/adreno: Balance pm_runtime enable
-Date: Fri, 3 Feb 2023 10:12:45 -0800
-Message-ID: <20230203181245.3523937-1-quic_bjorande@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E5B10E833;
+ Fri,  3 Feb 2023 18:15:59 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id dt8so4888958oib.0;
+ Fri, 03 Feb 2023 10:15:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=b3t3H+aA2KgB4EAc83s9ir4SliyMLQWPAeErskn177Q=;
+ b=oEu2PRhO+MVkx90VLgdYyS9aKsEXIZcUQajibKOHHouCYkjo8/w5jghE1UOfnH+Sem
+ hyCOjkNLKNz/q7UQDjUY1fIAWdGB6XXnlQQVwEq1JnKJOqLVeub/ZJi5piL33q9ActHZ
+ ppzwpetCs3HninK06SkZqIf165gB70O5HKXvU8Tb9+hdlpEgDxVUeWO+YhK7n7Spf7KG
+ ZkYI5QDBXzJdImFn6zrHtKwTXQpTvoyisIPpAJIyPfi8auKXFrAeXBvcCZxRY2rv+EmH
+ Jj3AFPQtaS/0CpQC6sl2WqW15gw4ObSo9RqA2DMl0TPnJxBzQh4dU0JqC3Eexy2BM4KW
+ iLiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=b3t3H+aA2KgB4EAc83s9ir4SliyMLQWPAeErskn177Q=;
+ b=zPO/tr05DZEn2+acsc6PI0BH+R7QTDar/jDB5rRQKWxglGgL//yEthaSJCNokyI7Mh
+ ZFWIgReMHsBFJrNSaCyr3YndkjFRdMl89dJuwrrXvH8NTP36Zq4vRpakxzlYjhrM/X0o
+ ET3gMzPrWdEKz1hMsv5L9N8bEERw8i1bv6pX1691GHCFYPZrTqfU1cCkVLqUZuVZeBIJ
+ 9htloM9Wfyc1mSqJT+47N24vj6+SitzVLEsJ4Lfzr4ugtbo7RXTF5ICMO/9aAirVYBSx
+ sg/EAElyiR9WZfciVxYSuxHmpA8UdT3hUROTVfvRRr5u38QGMfoImk5nS+NYFLcHMxir
+ IbVw==
+X-Gm-Message-State: AO0yUKVHByve6aQFBIgKZ5IMjDorzvP03znHm7DjTubZuvUIuPX+dXQX
+ B5WAAos1t3wFu3DJ28aEbUQX/cUwYgc5Jt4juin/sR8xP4Q=
+X-Google-Smtp-Source: AK7set9vjkE7o//vYuc1JhS77XzL5YZeTi+iclQY94ulHq8v4hgWcin4xF42ng4qxsn8v4qpvaGu0IC+ydiJ3PrDsw0=
+X-Received: by 2002:a05:6808:280e:b0:360:ffcc:3685 with SMTP id
+ et14-20020a056808280e00b00360ffcc3685mr385441oib.183.1675448158043; Fri, 03
+ Feb 2023 10:15:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 0OTKZfOuRO0MlWtDZk3Pums6klRY0Mz1
-X-Proofpoint-ORIG-GUID: 0OTKZfOuRO0MlWtDZk3Pums6klRY0Mz1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_17,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 impostorscore=0 spamscore=0 suspectscore=0 adultscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302030166
+References: <20230203164937.4035503-1-robdclark@gmail.com>
+In-Reply-To: <20230203164937.4035503-1-robdclark@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 3 Feb 2023 10:15:56 -0800
+Message-ID: <CAF6AEGvanLri-+Z5KgmgSFX2ShB09T7X7wxcSQk_0JV7PKGRng@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Move fd_install after last use of fence
+To: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,61 +64,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, jason.ekstrand@collabora.com,
+ intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When any of the components in the mdss hierarchy fails to bind,
-previously bound components are being unbound again.
+On Fri, Feb 3, 2023 at 8:49 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Because eb_composite_fence_create() drops the fence_array reference
+> after creation of the sync_file, only the sync_file holds a ref to the
+> fence.  But fd_install() makes that reference visable to userspace, so
+> it must be the last thing we do with the fence.
+>
 
-One such case happens when the DP controller fails to find its bridge or
-panel, where adreno_unbind() will be invoked without adreno_load_gpu()
-being called to invoke pm_runtime_enable().
+Fixes: 00dae4d3d35d ("drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)")
 
-The result is that once everything is bound the pm_runtime_get_sync()
-call find the power-domain to have a positive disable_depth, fails
-with -EACCESS and prevents the GPU device to be powered up.
-
-Move the pm_runtime_enable() to adreno_bind(), in order to balance it
-with any calls to adreno_unbind().
-
-Fixes: 4b18299b3365 ("drm/msm/adreno: Defer enabling runpm until hw_init()")
-Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
----
- drivers/gpu/drm/msm/adreno/adreno_device.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 36f062c7582f..ca38b837dedb 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -432,15 +432,6 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
- 	if (ret)
- 		return NULL;
- 
--	/*
--	 * Now that we have firmware loaded, and are ready to begin
--	 * booting the gpu, go ahead and enable runpm:
--	 */
--	pm_runtime_enable(&pdev->dev);
--
--	/* Make sure pm runtime is active and reset any previous errors */
--	pm_runtime_set_active(&pdev->dev);
--
- 	ret = pm_runtime_get_sync(&pdev->dev);
- 	if (ret < 0) {
- 		pm_runtime_put_sync(&pdev->dev);
-@@ -548,6 +539,8 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 		return PTR_ERR(gpu);
- 	}
- 
-+	pm_runtime_enable(dev);
-+
- 	return 0;
- }
- 
--- 
-2.25.1
-
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index f266b68cf012..0f2e056c02dd 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -3476,38 +3476,38 @@ i915_gem_do_execbuffer(struct drm_device *dev,
+>
+>  err_request:
+>         eb_requests_get(&eb);
+>         err = eb_requests_add(&eb, err);
+>
+>         if (eb.fences)
+>                 signal_fence_array(&eb, eb.composite_fence ?
+>                                    eb.composite_fence :
+>                                    &eb.requests[0]->fence);
+>
+> +       if (unlikely(eb.gem_context->syncobj)) {
+> +               drm_syncobj_replace_fence(eb.gem_context->syncobj,
+> +                                         eb.composite_fence ?
+> +                                         eb.composite_fence :
+> +                                         &eb.requests[0]->fence);
+> +       }
+> +
+>         if (out_fence) {
+>                 if (err == 0) {
+>                         fd_install(out_fence_fd, out_fence->file);
+>                         args->rsvd2 &= GENMASK_ULL(31, 0); /* keep in-fence */
+>                         args->rsvd2 |= (u64)out_fence_fd << 32;
+>                         out_fence_fd = -1;
+>                 } else {
+>                         fput(out_fence->file);
+>                 }
+>         }
+>
+> -       if (unlikely(eb.gem_context->syncobj)) {
+> -               drm_syncobj_replace_fence(eb.gem_context->syncobj,
+> -                                         eb.composite_fence ?
+> -                                         eb.composite_fence :
+> -                                         &eb.requests[0]->fence);
+> -       }
+> -
+>         if (!out_fence && eb.composite_fence)
+>                 dma_fence_put(eb.composite_fence);
+>
+>         eb_requests_put(&eb);
+>
+>  err_vma:
+>         eb_release_vmas(&eb, true);
+>         WARN_ON(err == -EDEADLK);
+>         i915_gem_ww_ctx_fini(&eb.ww);
+>
+> --
+> 2.38.1
+>
