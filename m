@@ -1,73 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1F968B848
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 10:11:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F38968B851
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 10:11:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C871F892FD;
-	Mon,  6 Feb 2023 09:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A09010E338;
+	Mon,  6 Feb 2023 09:11:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70AA210E08F;
- Fri,  3 Feb 2023 21:55:55 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 313KTSjW025071; Fri, 3 Feb 2023 21:55:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=qcppdkim1; bh=zXDLHevRmbNSieNjjZ1itBUbVMHRS4dQ8ncRciz05CU=;
- b=FnAt2NZyHNV925FRMJKX5HNFpbtGl80xJ5Simzd4dnspOfwMwmJY3Kq/mxJkJYucCcM5
- ZrhNIHiMbmasCmA+UdX35t4SvXC3y//w9S0LXF8zViotoGYqj3OS4TMFPlxLKVWRm2Sb
- S74EUPFZJEbnmYukTsRs75yWT0n1UEAzFeqdEtOGZ0CAjUAusSbb7RlU/C5+zYoWzf+3
- UZBV7FdzQl84NnWUgpDVWIhzXwFgYB3XpHwpHwkrNj+5OcIFqU34wjW5EeP/Ev207PNW
- vV42m8XCBn1squCKUoXdorylZE2Y3lNSWd2RsmFrF00WR+bdSkVYJNCrKSo/35wP8dFA QA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ngw4p9thc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Feb 2023 21:55:35 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 313LtYE4001279
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 3 Feb 2023 21:55:34 GMT
-Received: from quicinc.com (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 3 Feb 2023
- 13:55:33 -0800
-Date: Fri, 3 Feb 2023 13:55:32 -0800
-From: Guru Das Srinagesh <quic_gurus@quicinc.com>
-To: Elliot Berman <quic_eberman@quicinc.com>
-Subject: Re: [PATCH] firmware: qcom_scm: Move qcom_scm.h to
- include/linux/firmware/qcom/
-Message-ID: <20230203215532.GA10258@quicinc.com>
-References: <20230203210956.3580811-1-quic_eberman@quicinc.com>
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4707910E949
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 23:34:13 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id g13so2044464ple.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Feb 2023 15:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6oU+/BUJEqSH1rwyi+AFr1P0CnGEURs/L67LaOUlsvI=;
+ b=MWi1HGbriGJlFR7rmopelt7eIZpVNld6It8CyxxIDjlZVJBvAIJsiQfdo0sxwXjFHK
+ NRBzgZpd9fyRXRg9WozmvwZ//jCcAp+z2BfHA0oMliaqBGjUw7rE2dCKNhrbMZpIPvTc
+ RzOQgSSAn1wa199dehrjf8zmZy/nmSut7c58g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6oU+/BUJEqSH1rwyi+AFr1P0CnGEURs/L67LaOUlsvI=;
+ b=nh1a0lz0Qky14Gi3KZraQWOtp5mIFw2o0oWs1lgwSvi0pKvPpT9plU0XTNOx9ka4FH
+ Jx3A0gi9HGPHrzsMyh2F+1+UIoRhVpKGS/w5Hxb4m0fnwdxQwkQUVGCy3mni8TI0+aIj
+ fpYm3GykMkqnWaJGIEK9bqDhbXpHprf6Am4uK8Zm4TKy43Muw0tE+Sa/Lbe2A0197mLY
+ kXF0jXTIq3cEtEi32dbIUR2xyzhXFMf8kF/WcCB9qTdN1wZQdG5ujH/lagQpyJ20dE4H
+ u4xmf4h7o15TqV/ks3qIrDr4/otNA2PaF1cFV6WwqTzPWgf0AovL+AW50VEfJVfxng8I
+ taOw==
+X-Gm-Message-State: AO0yUKXk/WHRRqxKWK2h2NRhMfvdRzP/yMMPH6gyJMfPu4UoXPfvA9ut
+ bH5Ralxf0SBpqVtHR08U/gl78A==
+X-Google-Smtp-Source: AK7set9LBswFtzsZwcR9gI92dra3cplBvHIJtb4P0+iR/Itdg7R5FNXZd6oCRgXiBpg57MuEu89ZQA==
+X-Received: by 2002:a17:902:c20c:b0:194:9b4e:1c90 with SMTP id
+ 12-20020a170902c20c00b001949b4e1c90mr11508975pll.57.1675467252881; 
+ Fri, 03 Feb 2023 15:34:12 -0800 (PST)
+Received: from ryanneph-glaptop.corp.google.com
+ ([2620:15c:9d:200:7617:a96c:96d2:ed12])
+ by smtp.gmail.com with ESMTPSA id
+ x21-20020a170902ea9500b001947c617c45sm2144320plb.221.2023.02.03.15.34.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Feb 2023 15:34:12 -0800 (PST)
+From: Ryan Neph <ryanneph@chromium.org>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/virtio: exbuf->fence_fd unmodified on interrupted wait
+Date: Fri,  3 Feb 2023 15:33:44 -0800
+Message-Id: <20230203233345.2477767-1-ryanneph@chromium.org>
+X-Mailer: git-send-email 2.39.1.519.gcb327c4b5f-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230203210956.3580811-1-quic_eberman@quicinc.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: IakSQGYsVJaEfb-gAExeEyYclWwLMuK5
-X-Proofpoint-ORIG-GUID: IakSQGYsVJaEfb-gAExeEyYclWwLMuK5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-03_19,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 impostorscore=0 spamscore=0 suspectscore=0 adultscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302030197
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 06 Feb 2023 09:10:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,44 +71,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-wireless@vger.kernel.org,
- Amit Kucheria <amitk@kernel.org>, linux-remoteproc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Vikash
- Garodia <quic_vgarodia@quicinc.com>, Eric Dumazet <edumazet@google.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Will Deacon <will@kernel.org>, linux-scsi@vger.kernel.org,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Joerg Roedel <joro@8bytes.org>, Daniel
- Lezcano <daniel.lezcano@linaro.org>, Russell King <linux@armlinux.org.uk>,
- ath10k@lists.infradead.org, iommu@lists.linux.dev,
- Andy Gross <agross@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Paolo Abeni <pabeni@redhat.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-media@vger.kernel.org,
- freedreno@lists.freedesktop.org, Thara Gopinath <thara.gopinath@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Kalle Valo <kvalo@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-gpio@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, Alex Elder <elder@kernel.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-mmc@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, netdev@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>,
- Robin Murphy <robin.murphy@arm.com>, "David S. Miller" <davem@davemloft.net>
+Cc: Rob Clark <robdclark@chromium.org>, Ryan Neph <ryanneph@chromium.org>,
+ Yiwei Zhang <zzyiwei@chromium.org>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Emil Velikov <emil.velikov@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Feb 03 2023 13:09, Elliot Berman wrote:
-> Move include/linux/qcom_scm.h to include/linux/firmware/qcom/qcom_scm.h.
-> This removes 1 of a few remaining Qualcomm-specific headers into a more
-> approciate subdirectory under include/.
-> 
-> Suggested-by: Bjorn Andersson <andersson@kernel.org>
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+An interrupted dma_fence_wait() becomes an -ERESTARTSYS returned
+to userspace ioctl(DRM_IOCTL_VIRTGPU_EXECBUFFER) calls, prompting to
+retry the ioctl(), but the passed exbuf->fence_fd has been reset to -1,
+making the retry attempt fail at sync_file_get_fence().
 
-Reviewed-by: Guru Das Srinagesh <quic_gurus@quicinc.com>
+The uapi for DRM_IOCTL_VIRTGPU_EXECBUFFER is changed to retain the
+passed value for exbuf->fence_fd when returning anything besides a
+successful result from the ioctl.
+
+Fixes: 2cd7b6f08bc4 ("drm/virtio: add in/out fence support for explicit synchronization")
+Signed-off-by: Ryan Neph <ryanneph@chromium.org>
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+
+---
+
+Changes in v2:
+- No longer modifies exbuf->fence_fd unless DRM_IOCTL_VIRTGPU_EXECBUFFER
+  succeeds.
+- Added r-b tags (Rob/Dmitry) from v1.
+
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 5 +----
+ include/uapi/drm/virtgpu_drm.h         | 1 +
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index 9f4a90493aea..da45215a933d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -126,7 +126,6 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 	void __user *user_bo_handles = NULL;
+ 	struct virtio_gpu_object_array *buflist = NULL;
+ 	struct sync_file *sync_file;
+-	int in_fence_fd = exbuf->fence_fd;
+ 	int out_fence_fd = -1;
+ 	void *buf;
+ 	uint64_t fence_ctx;
+@@ -152,13 +151,11 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 		ring_idx = exbuf->ring_idx;
+ 	}
+ 
+-	exbuf->fence_fd = -1;
+-
+ 	virtio_gpu_create_context(dev, file);
+ 	if (exbuf->flags & VIRTGPU_EXECBUF_FENCE_FD_IN) {
+ 		struct dma_fence *in_fence;
+ 
+-		in_fence = sync_file_get_fence(in_fence_fd);
++		in_fence = sync_file_get_fence(exbuf->fence_fd);
+ 
+ 		if (!in_fence)
+ 			return -EINVAL;
+diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
+index 0512fde5e697..7b158fcb02b4 100644
+--- a/include/uapi/drm/virtgpu_drm.h
++++ b/include/uapi/drm/virtgpu_drm.h
+@@ -64,6 +64,7 @@ struct drm_virtgpu_map {
+ 	__u32 pad;
+ };
+ 
++/* fence_fd is modified on success if VIRTGPU_EXECBUF_FENCE_FD_OUT flag is set. */
+ struct drm_virtgpu_execbuffer {
+ 	__u32 flags;
+ 	__u32 size;
+-- 
+2.39.1.519.gcb327c4b5f-goog
+
