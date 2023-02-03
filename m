@@ -2,58 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A400F689AE3
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 15:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB800689B2E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 15:10:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD3C010E059;
-	Fri,  3 Feb 2023 14:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65A7310E061;
+	Fri,  3 Feb 2023 14:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DED510E059;
- Fri,  3 Feb 2023 14:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675432977; x=1706968977;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=irv3lGzYjgRrPupsMvPPq8fHSBpnLKmUkKwUr8MxDSE=;
- b=hjD1qntADYKQ1Us+Y+xLmbLv7ZwN3JkH6okpugshN5IP3UMPEYNpwoou
- Alw8qD0WF4Tqs3vk6rMQSprhNHBqkIF+VVN2gQ5RzhFcxqHhnxJIYyuM1
- ar5o69kA1CShPQ5/6CJRRdA0zFVmiMh1WwrgpGY4PPgg3UAAYmBVmYVZV
- os3NI1JRLxKLJDuqBfy7MK2HpIRf1U7xDYW8v04gueVGvyxDbFAOtKaNQ
- nx8ilGa6ukmnzr2e2cteZ2LWHIpyAzB1UUg9+qk59LC2CO+wMUqj+P3BL
- Zka4mjj6acxQyQ0pZTlY0rabI60DEnslXjR2tCcdBTpVZDD7cMlWZy1J9 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="328767145"
-X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="328767145"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2023 06:02:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="665726345"
-X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="665726345"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga002.jf.intel.com with SMTP; 03 Feb 2023 06:02:53 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 03 Feb 2023 16:02:51 +0200
-Date: Fri, 3 Feb 2023 16:02:51 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
- drm_colorspace enum
-Message-ID: <Y90UC43KouMRh8I2@intel.com>
-References: <20230203020744.30745-1-joshua@froggi.es>
- <20230203020744.30745-3-joshua@froggi.es>
- <Y9zkef5FjtZ7guVS@intel.com>
- <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
- <Y90NkvVabh+ue9hF@intel.com>
- <CA+hFU4xR_8=w=z=Jqs3sujTvnXfEQJVHAMFW-X4-55POF=Bu9g@mail.gmail.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37AB310E061
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 14:09:54 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id dr8so15574110ejc.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Feb 2023 06:09:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Gzy7uk6PIWZpzhHS9Q2N99o+izHmIpMwH2uTxhvt0hI=;
+ b=nOwbPfqnnx+JtB+p1BbdTSGh0gHcr0+Upl9ouZ2UPfjBVuvvAZVkG3KyN/Yr1/z/2u
+ Vcj7T29Zk36njq5kFBg8BX83oNQHLfqJ02YtWHlrmnBLeQ3bEjVJ7SW2Q0aLw2DcRpSb
+ DXuWO+jg5erBHkAOk/yl+LtJa3qZwehkHzc4RckkzbHWBj5Tv0V8C/kbUlIRIk6yVNs/
+ gTAbcLpVZeLrUjTi3N10sOP+GhegPzU0A7kpaoQaVoB7GjFnP+DnrMh642qKMV+QBjHK
+ PJYkWGfpcuVzdh5v3LQY08Qa/nqdQojbqEPgZ5qJ+6UkA06clnMMlgDT1kpEYjb9A4DW
+ f1yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Gzy7uk6PIWZpzhHS9Q2N99o+izHmIpMwH2uTxhvt0hI=;
+ b=sjoXeGRPgSgyC4y2OlciS/9FbbpOgT7j/Aa1k9kKDQ+bqOZ+troPzZTah96UTH/rPn
+ xLKrO3fso8+zpqoT7DFA4AofohcX8Q/Kkg/jKh0xGGz/pqCFy4SjXwL21CwkmNvnSQBf
+ JyLkmcQS2WXzu5mtgT+5yUjFDBIitYVwpO/TqGWH0FQJ+1rCoi4ATCMoxwq9heSd1rWK
+ F8wk8pQRFGFt8+8TbRnvvZW1MDcvQ5y3zKLtC0vC8XP1duwSiCBC2K1J8DoL3pieODjG
+ wGsK9OVgGssdfZIk5Wd6RoCjvU82QqXno0/ZNZqNacJUeDKTqwhJ1psO3uwHG9MisLoJ
+ viyw==
+X-Gm-Message-State: AO0yUKVNoC8G0tR4sGEH2RYdplagcpWcjcv/bPjO+ho29Nuth+xqID5w
+ L+JZ/ge1uMxrxyUZp+Q4Kk+j/xSS224RjwuK
+X-Google-Smtp-Source: AK7set9edBQbx/D5pwmn4ZFPTE1VYiA4G1b4YT/Qc54v54/iiy6PRnPkZjXg31eFobRLQTLhmPfplw==
+X-Received: by 2002:a17:906:4fc7:b0:87b:1be:a8c2 with SMTP id
+ i7-20020a1709064fc700b0087b01bea8c2mr11962181ejw.73.1675433392680; 
+ Fri, 03 Feb 2023 06:09:52 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ f17-20020a1709064dd100b0087276f66c6asm1417029ejw.115.2023.02.03.06.09.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Feb 2023 06:09:52 -0800 (PST)
+Message-ID: <fbdab5e4-4f48-f18f-561d-442d493724e5@linaro.org>
+Date: Fri, 3 Feb 2023 16:09:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 12/27] drm/msm/dpu: remove dpu_hw_fmt_layout from
+ struct dpu_hw_pipe_cfg
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20221229191856.3508092-1-dmitry.baryshkov@linaro.org>
+ <20221229191856.3508092-13-dmitry.baryshkov@linaro.org>
+ <77764494-8a74-8450-ac75-33d6de0b2f8d@quicinc.com>
+ <CAA8EJpq4ybOQg-Mb5RM+dcrBbR+3WrWSgvd4d20C6NKa90C15Q@mail.gmail.com>
+ <62ace381-2c59-9096-2b4f-412b329ad78e@quicinc.com>
+ <c6eb252e-fdff-8e17-4acb-cdb3ba850887@linaro.org>
+ <a4af7146-126f-cd6e-4c65-dbdffe6cca82@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <a4af7146-126f-cd6e-4c65-dbdffe6cca82@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+hFU4xR_8=w=z=Jqs3sujTvnXfEQJVHAMFW-X4-55POF=Bu9g@mail.gmail.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,63 +82,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- Uma Shankar <uma.shankar@intel.com>, dri-devel@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 03, 2023 at 02:52:50PM +0100, Sebastian Wick wrote:
-> On Fri, Feb 3, 2023 at 2:35 PM Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Fri, Feb 03, 2023 at 01:59:07PM +0100, Sebastian Wick wrote:
-> > > On Fri, Feb 3, 2023 at 11:40 AM Ville Syrjälä
-> > > <ville.syrjala@linux.intel.com> wrote:
-> > > >
-> > > > On Fri, Feb 03, 2023 at 02:07:44AM +0000, Joshua Ashton wrote:
-> > > > > Userspace has no way of controlling or knowing the pixel encoding
-> > > > > currently, so there is no way for it to ever get the right values here.
-> > > >
-> > > > That applies to a lot of the other values as well (they are
-> > > > explicitly RGB or YCC). The idea was that this property sets the
-> > > > infoframe/MSA/SDP value exactly, and other properties should be
-> > > > added to for use userspace to control the pixel encoding/colorspace
-> > > > conversion(if desired, or userspace just makes sure to
-> > > > directly feed in correct kind of data).
-> > >
-> > > I'm all for getting userspace control over pixel encoding but even
-> > > then the kernel always knows which pixel encoding is selected and
-> > > which InfoFrame has to be sent. Is there a reason why userspace would
-> > > want to control the variant explicitly to the wrong value?
-> >
-> > What do you mean wrong value? Userspace sets it based on what
-> > kind of data it has generated (or asked the display hardware
-> > to generate if/when we get explicit control over that part).
+On 02/02/2023 22:14, Abhinav Kumar wrote:
 > 
-> Wrong in the sense of sending the YCC variant when the pixel encoding
-> is RGB for example.
 > 
-> Maybe I'm missing something here but my assumption is that the kernel
-> always has to know the pixel encoding anyway. The color pipeline also
-> assumes that the pixel values are RGB. User space might be able to
-> generate YCC content but for subsampling etc the pixel encoding still
-> has to be explicitly set.
+> On 2/2/2023 12:10 PM, Dmitry Baryshkov wrote:
+>> On 02/02/2023 21:54, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 2/2/2023 11:45 AM, Dmitry Baryshkov wrote:
+>>>> On Thu, 2 Feb 2023 at 21:38, Abhinav Kumar 
+>>>> <quic_abhinavk@quicinc.com> wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>>> On 12/29/2022 11:18 AM, Dmitry Baryshkov wrote:
+>>>>>> Remove dpu_hw_fmt_layout instance from struct dpu_hw_pipe_cfg, 
+>>>>>> leaving
+>>>>>> only src_rect and dst_rect. This way right and left pipes will have
+>>>>>> separate dpu_hw_pipe_cfg isntances, while the layout is common to 
+>>>>>> both
+>>>>>> of them.
+>>>>>>
+>>>>>
+>>>>> Sorry for not responding to this comment earlier.
+>>>>>
+>>>>> https://patchwork.freedesktop.org/patch/473168/?series=99909&rev=1#comment_875370
+>>>>>
+>>>>> Â  From the perspective of wide planes you are right that the layout is
+>>>>> common but not true from smart DMA point of view.
+>>>>>
+>>>>> For wide planes, yes, its usually the same buffer with just the src_x
+>>>>> being different but conceptually and even HW wise each rectangle of 
+>>>>> the
+>>>>> smart DMA is capable of fetching from a different buffer.
+>>>>>
+>>>>> Â  From the pov, this decision of not having the dpu_hw_fmt_layout 
+>>>>> as part
+>>>>> of dpu_hw_pipe_cfg seems incorrect to me.
+>>>>
+>>>> Yes, each rectangle/pipe can fetch from a different buffer. However in
+>>>> our use case the layout is not defined for each pipe. It is defined
+>>>> for a plane, no matter how many pipes are used for the plane, since
+>>>> the buffer is also defined per plane.
+>>>>
+>>> Even if the layout is defined per plane.
+>>>
+>>> So lets say
+>>>
+>>> plane A with layout A maps to rect 1 of DMA0
+>>> plane B with layout B maps to rect 2 of DMA0
+>>>
+>>> How can layout be assumed to be duplicated in this case?
+>>>
+>>> This is not a wide plane use-case but just smartDMA case of two 
+>>> different layers.
+>>>
+>>> Maybe I am missing something but this is the example i am interested 
+>>> about.
+>>
+>> PlaneA has layoutA. So dpu_plane_sspp_update_pipe() will program 
+>> layoutA using (DMA0, rect1)->setup_sourceaddress(layoutA).
+>>
+>> PlaneB has layoutB, so (DMA0, rect2)->setup_sourceaddress(layoutB).
+>>
+>> Maybe the commit message is misleading. The layout is not common to 
+>> rect1 and rect2. It is common to all pipes/rectangles driving a single 
+>> plane.
+>>
+> 
+> Ack, Its clear now.
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-The kernel doesn't really know much atm. In theory you can just
-configure the thing to do a straight passthough and put anything you
-want into your pixels.
+I have rephrased the last sentence of the commit message in the 
+following way. Hopefully it will be cleaner now:
 
-> 
-> So with the kernel always knowing exactly what pixel encoding is sent,
-> why do we need those variants? I just don't see why this is necessary.
-> 
-> >
-> > --
-> > Ville Syrjälä
-> > Intel
-> >
+This way all the pipes used by the plane
+will have a common layout instance (as the framebuffer is shared between
+them), while still keeping a separate src/dst rectangle configuration
+for each pipe.
 
 -- 
-Ville Syrjälä
-Intel
+With best wishes
+Dmitry
+
