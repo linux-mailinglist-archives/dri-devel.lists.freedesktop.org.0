@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D545E68A167
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 19:16:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B318D68A18A
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 19:21:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4858910E833;
-	Fri,  3 Feb 2023 18:16:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5738410E84F;
+	Fri,  3 Feb 2023 18:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E5B10E833;
- Fri,  3 Feb 2023 18:15:59 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id dt8so4888958oib.0;
- Fri, 03 Feb 2023 10:15:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=b3t3H+aA2KgB4EAc83s9ir4SliyMLQWPAeErskn177Q=;
- b=oEu2PRhO+MVkx90VLgdYyS9aKsEXIZcUQajibKOHHouCYkjo8/w5jghE1UOfnH+Sem
- hyCOjkNLKNz/q7UQDjUY1fIAWdGB6XXnlQQVwEq1JnKJOqLVeub/ZJi5piL33q9ActHZ
- ppzwpetCs3HninK06SkZqIf165gB70O5HKXvU8Tb9+hdlpEgDxVUeWO+YhK7n7Spf7KG
- ZkYI5QDBXzJdImFn6zrHtKwTXQpTvoyisIPpAJIyPfi8auKXFrAeXBvcCZxRY2rv+EmH
- Jj3AFPQtaS/0CpQC6sl2WqW15gw4ObSo9RqA2DMl0TPnJxBzQh4dU0JqC3Eexy2BM4KW
- iLiA==
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B2DD10E84D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 18:21:35 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id f7so6020878edw.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Feb 2023 10:21:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WGKE13ayREA4KV+L46TJJMJbDC7nd328BU5Zt24LcKc=;
+ b=ohhqCzMssyMZXUTrNFtbgp36X68VKAkcwae+aLZJSMqLDTZoJ7xBrP636bMX4E8z0x
+ Oc1aRjPmNMOgaZjJM4RKvBTit2Ur6Ey7xBRSNVHW5lGdQxhyQHGICXgcYn/WkgfRaJib
+ fYHY8hVGnptT3lxOWSy+k8WwJYP/ontzbKYJgpjhx8hJQxDDGx9dXJvYuJ+KqUf1F3Vd
+ nLvDjV/Rb9z+b5V743Io2f8QrTy/TYvQGr82d+XVpuNGhWGXYGymFSL8dvQWO3J0jA9h
+ 0O7Sb03oB3RsillTO0L1aR9D+XE9ABPgwIz69lou8h54/Tt2Bi4P89xeyj/KWp1iRbrU
+ VRsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=b3t3H+aA2KgB4EAc83s9ir4SliyMLQWPAeErskn177Q=;
- b=zPO/tr05DZEn2+acsc6PI0BH+R7QTDar/jDB5rRQKWxglGgL//yEthaSJCNokyI7Mh
- ZFWIgReMHsBFJrNSaCyr3YndkjFRdMl89dJuwrrXvH8NTP36Zq4vRpakxzlYjhrM/X0o
- ET3gMzPrWdEKz1hMsv5L9N8bEERw8i1bv6pX1691GHCFYPZrTqfU1cCkVLqUZuVZeBIJ
- 9htloM9Wfyc1mSqJT+47N24vj6+SitzVLEsJ4Lfzr4ugtbo7RXTF5ICMO/9aAirVYBSx
- sg/EAElyiR9WZfciVxYSuxHmpA8UdT3hUROTVfvRRr5u38QGMfoImk5nS+NYFLcHMxir
- IbVw==
-X-Gm-Message-State: AO0yUKVHByve6aQFBIgKZ5IMjDorzvP03znHm7DjTubZuvUIuPX+dXQX
- B5WAAos1t3wFu3DJ28aEbUQX/cUwYgc5Jt4juin/sR8xP4Q=
-X-Google-Smtp-Source: AK7set9vjkE7o//vYuc1JhS77XzL5YZeTi+iclQY94ulHq8v4hgWcin4xF42ng4qxsn8v4qpvaGu0IC+ydiJ3PrDsw0=
-X-Received: by 2002:a05:6808:280e:b0:360:ffcc:3685 with SMTP id
- et14-20020a056808280e00b00360ffcc3685mr385441oib.183.1675448158043; Fri, 03
- Feb 2023 10:15:58 -0800 (PST)
+ bh=WGKE13ayREA4KV+L46TJJMJbDC7nd328BU5Zt24LcKc=;
+ b=Ze52n5Bv6TQRjcs+oqM0A49Ur6M/OuLL5V+lf01BJCiXJkDzebgtXLpy/U14auOowz
+ xl+3SKq33lHFOtTXufyJUz3Bmm9EbOPsT+ixpDQKCuQM7vwmS1OydjtI5yHNb0IhsQK8
+ zWIQCl4TqKmW/Kaoz8TZULvIuQPJbVywFSx3e96OVJgu8cW/UJ2z7msUWtHdOOtNCOOw
+ I0ByIkPjov9t2IQ1aJyOIuZA+3iHAICBxo2pZDMBm5K6SCKdTA3g0yxrxBNpfstpmPFE
+ 1K3kN0ggfHy+9+llxvkb3QfFlX6Kcuot0orUoDPt3DGMSedq70gkfVCnLfrGhkAwuECy
+ 9DIA==
+X-Gm-Message-State: AO0yUKXI3YghgHN4KDOVLhLNudiWgJk8KzhSQvP3Na1POZ04bV3mxMrg
+ EL7t/H5aKTp27f6LaiHgjJIlerXxf8pChV0v
+X-Google-Smtp-Source: AK7set8ZgYcNscYoblwstBhus5m0eJK9ttlcrjfP1UiARr40MJVBgTPYpEIrJ7B/p8Ed3EyUrLQpEg==
+X-Received: by 2002:a05:6402:50c7:b0:49e:2109:6f57 with SMTP id
+ h7-20020a05640250c700b0049e21096f57mr14717077edb.19.1675448493730; 
+ Fri, 03 Feb 2023 10:21:33 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ w16-20020a05640234d000b0046267f8150csm1487523edc.19.2023.02.03.10.21.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Feb 2023 10:21:33 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v3 00/27] drm/msm/dpu: wide planes support
+Date: Fri,  3 Feb 2023 20:21:05 +0200
+Message-Id: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230203164937.4035503-1-robdclark@gmail.com>
-In-Reply-To: <20230203164937.4035503-1-robdclark@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 3 Feb 2023 10:15:56 -0800
-Message-ID: <CAF6AEGvanLri-+Z5KgmgSFX2ShB09T7X7wxcSQk_0JV7PKGRng@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915: Move fd_install after last use of fence
-To: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,86 +69,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, jason.ekstrand@collabora.com,
- intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 3, 2023 at 8:49 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> Because eb_composite_fence_create() drops the fence_array reference
-> after creation of the sync_file, only the sync_file holds a ref to the
-> fence.  But fd_install() makes that reference visable to userspace, so
-> it must be the last thing we do with the fence.
->
+The review of the first half of v2 took more than a month. Let's update
+the reviewed patches in attempt to get the first half of the series into
+the acked and mergeable state. This would allow us to lower the impact
+(and the patch count). At 27 patches this series is approaching the
+limits of manageability.
 
-Fixes: 00dae4d3d35d ("drm/i915: Implement SINGLE_TIMELINE with a syncobj (v4)")
+This patchset brings in multirect usage to support using two SSPP
+rectangles for a single plane. Full virtual planes support is omitted
+from this pull request, it will come later.
 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index f266b68cf012..0f2e056c02dd 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -3476,38 +3476,38 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->
->  err_request:
->         eb_requests_get(&eb);
->         err = eb_requests_add(&eb, err);
->
->         if (eb.fences)
->                 signal_fence_array(&eb, eb.composite_fence ?
->                                    eb.composite_fence :
->                                    &eb.requests[0]->fence);
->
-> +       if (unlikely(eb.gem_context->syncobj)) {
-> +               drm_syncobj_replace_fence(eb.gem_context->syncobj,
-> +                                         eb.composite_fence ?
-> +                                         eb.composite_fence :
-> +                                         &eb.requests[0]->fence);
-> +       }
-> +
->         if (out_fence) {
->                 if (err == 0) {
->                         fd_install(out_fence_fd, out_fence->file);
->                         args->rsvd2 &= GENMASK_ULL(31, 0); /* keep in-fence */
->                         args->rsvd2 |= (u64)out_fence_fd << 32;
->                         out_fence_fd = -1;
->                 } else {
->                         fput(out_fence->file);
->                 }
->         }
->
-> -       if (unlikely(eb.gem_context->syncobj)) {
-> -               drm_syncobj_replace_fence(eb.gem_context->syncobj,
-> -                                         eb.composite_fence ?
-> -                                         eb.composite_fence :
-> -                                         &eb.requests[0]->fence);
-> -       }
-> -
->         if (!out_fence && eb.composite_fence)
->                 dma_fence_put(eb.composite_fence);
->
->         eb_requests_put(&eb);
->
->  err_vma:
->         eb_release_vmas(&eb, true);
->         WARN_ON(err == -EDEADLK);
->         i915_gem_ww_ctx_fini(&eb.ww);
->
-> --
-> 2.38.1
->
+Changes since v1 (which was ages ago):
+- Rebased on top of 6.2-rc1
+- Dropped the controversial _dpu_crtc_blend_setup() split patch
+- Renamed dpu_hw_pipe to dpu_hw_sspp
+- Other misc changes
+
+Dmitry Baryshkov (27):
+  drm/msm/dpu: rename struct dpu_hw_pipe(_cfg) to dpu_hw_sspp(_cfg)
+  drm/msm/dpu: move SSPP allocation to the RM
+  drm/msm/dpu: move SSPP debugfs creation to dpu_kms.c
+  drm/msm/dpu: drop EAGAIN check from dpu_format_populate_layout
+  drm/msm/dpu: move pipe_hw to dpu_plane_state
+  drm/msm/dpu: drop dpu_plane_pipe function
+  drm/msm/dpu: introduce struct dpu_sw_pipe
+  drm/msm/dpu: use dpu_sw_pipe for dpu_hw_sspp callbacks
+  drm/msm/dpu: pass dpu_format to _dpu_hw_sspp_setup_scaler3()
+  drm/msm/dpu: clean up SRC addresses when setting up SSPP for solid
+    fill
+  drm/msm/dpu: move stride programming to
+    dpu_hw_sspp_setup_sourceaddress
+  drm/msm/dpu: remove dpu_hw_fmt_layout from struct dpu_hw_sspp_cfg
+  drm/msm/dpu: drop src_split and multirect check from
+    dpu_crtc_atomic_check
+  drm/msm/dpu: don't use unsupported blend stages
+  drm/msm/dpu: move the rest of plane checks to dpu_plane_atomic_check()
+  drm/msm/dpu: drop redundant plane dst check from
+    dpu_crtc_atomic_check()
+  drm/msm/dpu: rewrite plane's QoS-related functions to take dpu_sw_pipe
+    and dpu_format
+  drm/msm/dpu: populate SmartDMA features in hw catalog
+  drm/msm/dpu: make _dpu_plane_calc_clk accept mode directly
+  drm/msm/dpu: add dpu_hw_pipe_cfg to dpu_plane_state
+  drm/msm/dpu: simplify dpu_plane_validate_src()
+  drm/msm/dpu: rework dpu_plane_sspp_atomic_update()
+  drm/msm/dpu: rework dpu_plane_atomic_check()
+  drm/msm/dpu: rework plane CSC setting
+  drm/msm/dpu: rework static color fill code
+  drm/msm/dpu: split pipe handling from _dpu_crtc_blend_setup_mixer
+  drm/msm/dpu: add support for wide planes
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 285 ++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |  10 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 168 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   | 110 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  18 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 745 ++++++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |  23 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  22 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |  12 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     |  25 +-
+ 11 files changed, 707 insertions(+), 721 deletions(-)
+
+-- 
+2.39.1
+
