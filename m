@@ -2,80 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C8468921B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 09:26:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D8D6892E8
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 09:59:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5010210E702;
-	Fri,  3 Feb 2023 08:26:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 096CB10E186;
+	Fri,  3 Feb 2023 08:59:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BBB410E702
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 08:26:13 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 6C01C581E82;
- Fri,  3 Feb 2023 03:26:11 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 03 Feb 2023 03:26:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1675412771; x=1675419971; bh=Hiq2WjR2Ol
- vvDxbH7MqY8IVkRM1I4s545FJQW/y5s1o=; b=ksWatFdyCqjO37U8x0MoerxK1i
- m+7ut/27xNbNGIoeijphIpa8MgQ0S499dwH84VvqtknIY4HOvlE1QjZyIB3BnBYd
- uRRqninIXV/uaNVYsVdi9ltCcEz67qaDhRW5x0r8qXerAk18SOaSQyvPLnYrYIgF
- 4cPkR4hkEzoTMNybjtC9vQBw3TsSHFR7vRzfukhk5G5giQIoZ37FPAPPm3JeOxzF
- kHSJadsi1Nrys8u3btRCJuZWiB9mhT8tzE5OBn8jnFvuHDIIsQqvd6r6/5H+ULi7
- YwEYzaNGF7KCCTt3JEQdEmwt8tAkIf+pKSwlBkZzAE6QAaAnV5oWVOz4YKcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1675412771; x=1675419971; bh=Hiq2WjR2OlvvDxbH7MqY8IVkRM1I
- 4s545FJQW/y5s1o=; b=OCurBW0KxT5Fzul8EWcy0oTdLuLrlSH1Mcibiiw3TNP1
- 3jhXXo208QjVmJyRH2gcdt2cD6iAuySYI7PMNAIS77C4LBbNiPZXkNerXpbYiwkC
- rQ5nX3ctpJl+C6QEumw0wYOTy7No45t/asi2nsVfTgs0JeiO0gVsRohqFbSB08oK
- ZJyRs8IiQQaunbTrgVklDHv4Ybju45tYCJOm3PoczxKNm5V0G+QdnEd7LHNzBEzE
- rXpHUqu5KiPOox1RRWyxNU0S9aJd1khEbF6pbu2vVkqSLW7XQDSfgjEWrkEfsLN8
- PEr7AiRRVF1ZEbpbxHeA6bch8+A2uoOnmhjm/oXaDA==
-X-ME-Sender: <xms:IsXcY9m56d6d_AwLcKi_TY675ZeanCwKoZ_e0gdhE2oG_Qsrpcz5tQ>
- <xme:IsXcY40zf7DhEuK7U44twA7eWxfUy9SbI8GybghqSrtjIQju3qzh7rDIbvmUKNKSg
- po-z0q86MgTvbqYeJI>
-X-ME-Received: <xmr:IsXcYzr51TEOyh-TUjxk-Nv611nO16lxeEIewMBy_ivSAKqRl5Vnj8mL63tVVh2KPIWt61k7sbb70IHjt6XH2f8VcWIaPgCIvI0SbVLnMEEZLw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefledguddujecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
- fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:IsXcY9mlYMiiFFqPFKaPZM809GtETvLovsjd75EtVSadM4jz05Q9-Q>
- <xmx:IsXcY71Xd3SPlnXsFi66dQpzW_YqR3P4obwaapjkJGXHD5lktgQAfA>
- <xmx:IsXcY8vFxhiX-D9G8e-sisu19taR4XMf_u2fTglsSP7XDLlmeBfgBA>
- <xmx:I8XcYy62z3QuriRqzMY6WgV-YlUtZRPbodhgjvvOeMdZawKFDgKDMA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Feb 2023 03:26:09 -0500 (EST)
-Date: Fri, 3 Feb 2023 09:26:07 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [RESEND PATCH v11 02/18] drm: bridge: panel: Add
- devm_drm_of_dsi_get_bridge helper
-Message-ID: <20230203082607.xu6xv7c6eq2yq64c@houat>
-References: <20230123151212.269082-1-jagan@amarulasolutions.com>
- <20230123151212.269082-3-jagan@amarulasolutions.com>
- <20230126121227.qcnftqvgiz44egpg@houat>
- <CAMty3ZB6QiqgQN_zWEXULHiipQWU_VaWxDWf9W8OTVQvkACu5A@mail.gmail.com>
- <20230130125828.qkqsq6ax5mojkdbq@houat>
- <CAMty3ZD82xZnRxuTq2RdEGAJcEgnaJhKX3CDWGNeSWSQD7xNxg@mail.gmail.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D8110E186;
+ Fri,  3 Feb 2023 08:59:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675414761; x=1706950761;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=H9ZpFYxAS+6QYpyAW6xdI1nCCzcJJndbRVFAG1cVA+I=;
+ b=ZdpqWl6DTU7WkegTagNQ6QEv4UilAaJ91StbP0fp2nYXj9riQRV7aHy9
+ CiTobcghWVhf+Lx4JNS5H6nBJX/e/TPk+pFgLJO6wGWNEviq4eJjLF/CY
+ Mhq025monVnt4r/5Y8Pi29MvXq7MpvJEiGjhlsGAvDDZy9PDQFMY1Us6Y
+ gpW5hfkpsS/2EQNtSDATPgU8yQY9SlQAqmLuh2ckH6CIHbgNiegcLWcQw
+ cpS+TGBywCO7h6blKIBWYckHQc0DoU2e9Z/738vRFodertOjhsixjihbP
+ avR08lEzfvR2sTgJ4EL7FWft1nm+HxYZJjGbKHdOUrAK0V+G90/VypYXN A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="356038807"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; d="scan'208";a="356038807"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2023 00:59:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10609"; a="615638246"
+X-IronPort-AV: E=Sophos;i="5.97,269,1669104000"; d="scan'208";a="615638246"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+ by orsmga003.jf.intel.com with ESMTP; 03 Feb 2023 00:59:18 -0800
+Received: from mwajdecz-MOBL.ger.corp.intel.com
+ (mwajdecz-MOBL.ger.corp.intel.com [10.249.139.149])
+ by irvmail002.ir.intel.com (Postfix) with ESMTP id D17EF365DA;
+ Fri,  3 Feb 2023 08:59:17 +0000 (GMT)
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/huc: Add and use HuC oriented print macros
+Date: Fri,  3 Feb 2023 09:59:12 +0100
+Message-Id: <20230203085912.1963-1-michal.wajdeczko@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="pfht2erx4nbed6u7"
-Content-Disposition: inline
-In-Reply-To: <CAMty3ZD82xZnRxuTq2RdEGAJcEgnaJhKX3CDWGNeSWSQD7xNxg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,127 +58,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
- linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@linaro.org>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Robert Foss <robert.foss@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Like we did it for GuC, introduce some helper print macros for
+HuC to have unified format of messages that also include GT#.
 
---pfht2erx4nbed6u7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+While around improve some messages and use %pe if possible.
 
-On Thu, Feb 02, 2023 at 10:22:42PM +0530, Jagan Teki wrote:
-> Hi Maxime,
->=20
-> On Mon, Jan 30, 2023 at 6:28 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > On Thu, Jan 26, 2023 at 08:48:48PM +0530, Jagan Teki wrote:
-> > > On Thu, Jan 26, 2023 at 5:42 PM Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > >
-> > > > Hi,
-> > > >
-> > > > On Mon, Jan 23, 2023 at 08:41:56PM +0530, Jagan Teki wrote:
-> > > > > Add devm OF helper to return the next DSI bridge in the chain.
-> > > > >
-> > > > > Unlike general bridge return helper devm_drm_of_get_bridge, this
-> > > > > helper uses the dsi specific panel_or_bridge helper to find the
-> > > > > next DSI device in the pipeline.
-> > > > >
-> > > > > Helper lookup a given child DSI node or a DT node's port and
-> > > > > endpoint number, find the connected node and return either
-> > > > > the associated struct drm_panel or drm_bridge device.
-> > > >
-> > > > I'm not sure that using a device managed helper is the right choice
-> > > > here. The bridge will stay longer than the backing device so it will
-> > > > create a use-after-free. You should probably use a DRM-managed acti=
-on
-> > > > here instead.
-> > >
-> > > Thanks for the comments. If I understand correctly we can use
-> > > drmm_panel_bridge_add instead devm_drm_panel_bridge_add once we found
-> > > the panel or bridge - am I correct?
-> >
-> > It's not that we can, it's that the devm_panel_bridge_add is unsafe:
-> > when the module is removed the device will go away and all the devm
-> > resources freed, but the DRM device sticks around until the last
-> > application with a fd open closes that fd.
->=20
-> Would you please check this, Here I'm trying to do
->=20
-> 1. find a panel or bridge
-> 2. if panel add it as a panel bridge
-> 3. add DRM-managed action with the help of bridge->dev after step 2.
+v2: update GSC/PXP timeout message
 
-The logic is sound in your patch
+Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c | 44 ++++++++++++++------------
+ 1 file changed, 23 insertions(+), 21 deletions(-)
 
-> Didn't test the behavior, just wanted to check whether it can be a
-> possibility to use bridge->dev as this dev is assigned with
-> encoder->dev during the bridge attach the chain. Please check and let
-> me know.
->=20
-> struct drm_bridge *devm_drm_of_dsi_get_bridge(struct device *dev,
->                                               struct device_node *np,
->                                               u32 port, u32 endpoint)
-> {
->         struct drm_bridge *bridge;
->         struct drm_panel *panel;
->         int ret;
->=20
->         ret =3D drm_of_dsi_find_panel_or_bridge(np, port, endpoint,
->                                               &panel, &bridge);
->         if (ret)
->                 return ERR_PTR(ret);
->=20
->         if (panel)
->                 bridge =3D devm_drm_panel_bridge_add(dev, panel);
->=20
->         if (IS_ERR(bridge))
->                 return bridge;
->=20
->         ret =3D drmm_add_action_or_reset(bridge->dev,
-> drmm_drm_panel_bridge_release,
->                                        bridge);
->         if (ret)
->                 return ERR_PTR(ret);
->=20
->         return bridge;
-> }
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index 410905da8e97..72884e21470b 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -6,6 +6,7 @@
+ #include <linux/types.h>
+ 
+ #include "gt/intel_gt.h"
++#include "gt/intel_gt_print.h"
+ #include "intel_guc_reg.h"
+ #include "intel_huc.h"
+ #include "i915_drv.h"
+@@ -13,6 +14,15 @@
+ #include <linux/device/bus.h>
+ #include <linux/mei_aux.h>
+ 
++#define huc_printk(_huc, _level, _fmt, ...) \
++	gt_##_level(huc_to_gt(_huc), "HuC: " _fmt, ##__VA_ARGS__)
++#define huc_err(_huc, _fmt, ...)	huc_printk((_huc), err, _fmt, ##__VA_ARGS__)
++#define huc_warn(_huc, _fmt, ...)	huc_printk((_huc), warn, _fmt, ##__VA_ARGS__)
++#define huc_notice(_huc, _fmt, ...)	huc_printk((_huc), notice, _fmt, ##__VA_ARGS__)
++#define huc_info(_huc, _fmt, ...)	huc_printk((_huc), info, _fmt, ##__VA_ARGS__)
++#define huc_dbg(_huc, _fmt, ...)	huc_printk((_huc), dbg, _fmt, ##__VA_ARGS__)
++#define huc_probe_error(_huc, _fmt, ...) huc_printk((_huc), probe_error, _fmt, ##__VA_ARGS__)
++
+ /**
+  * DOC: HuC
+  *
+@@ -107,11 +117,9 @@ static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrti
+ 
+ 	if (!intel_huc_is_authenticated(huc)) {
+ 		if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
+-			drm_notice(&huc_to_gt(huc)->i915->drm,
+-				   "timed out waiting for MEI GSC init to load HuC\n");
++			huc_notice(huc, "timed out waiting for MEI GSC\n");
+ 		else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
+-			drm_notice(&huc_to_gt(huc)->i915->drm,
+-				   "timed out waiting for MEI PXP init to load HuC\n");
++			huc_notice(huc, "timed out waiting for MEI PXP\n");
+ 		else
+ 			MISSING_CASE(huc->delayed_load.status);
+ 
+@@ -174,8 +182,7 @@ static int gsc_notifier(struct notifier_block *nb, unsigned long action, void *d
+ 
+ 	case BUS_NOTIFY_DRIVER_NOT_BOUND: /* mei driver fails to be bound */
+ 	case BUS_NOTIFY_UNBIND_DRIVER: /* mei driver about to be unbound */
+-		drm_info(&huc_to_gt(huc)->i915->drm,
+-			 "mei driver not bound, disabling HuC load\n");
++		huc_info(huc, "MEI driver not bound, disabling load\n");
+ 		gsc_init_error(huc);
+ 		break;
+ 	}
+@@ -193,8 +200,7 @@ void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus
+ 	huc->delayed_load.nb.notifier_call = gsc_notifier;
+ 	ret = bus_register_notifier(bus, &huc->delayed_load.nb);
+ 	if (ret) {
+-		drm_err(&huc_to_gt(huc)->i915->drm,
+-			"failed to register GSC notifier\n");
++		huc_err(huc, "failed to register GSC notifier %pe\n", ERR_PTR(ret));
+ 		huc->delayed_load.nb.notifier_call = NULL;
+ 		gsc_init_error(huc);
+ 	}
+@@ -306,29 +312,25 @@ static int check_huc_loading_mode(struct intel_huc *huc)
+ 			      GSC_LOADS_HUC;
+ 
+ 	if (fw_needs_gsc != hw_uses_gsc) {
+-		drm_err(&gt->i915->drm,
+-			"mismatch between HuC FW (%s) and HW (%s) load modes\n",
+-			HUC_LOAD_MODE_STRING(fw_needs_gsc),
+-			HUC_LOAD_MODE_STRING(hw_uses_gsc));
++		huc_err(huc, "mismatch between FW (%s) and HW (%s) load modes\n",
++			HUC_LOAD_MODE_STRING(fw_needs_gsc), HUC_LOAD_MODE_STRING(hw_uses_gsc));
+ 		return -ENOEXEC;
+ 	}
+ 
+ 	/* make sure we can access the GSC via the mei driver if we need it */
+ 	if (!(IS_ENABLED(CONFIG_INTEL_MEI_PXP) && IS_ENABLED(CONFIG_INTEL_MEI_GSC)) &&
+ 	    fw_needs_gsc) {
+-		drm_info(&gt->i915->drm,
+-			 "Can't load HuC due to missing MEI modules\n");
++		huc_info(huc, "can't load due to missing MEI modules\n");
+ 		return -EIO;
+ 	}
+ 
+-	drm_dbg(&gt->i915->drm, "GSC loads huc=%s\n", str_yes_no(fw_needs_gsc));
++	huc_dbg(huc, "loaded by GSC = %s\n", str_yes_no(fw_needs_gsc));
+ 
+ 	return 0;
+ }
+ 
+ int intel_huc_init(struct intel_huc *huc)
+ {
+-	struct drm_i915_private *i915 = huc_to_gt(huc)->i915;
+ 	int err;
+ 
+ 	err = check_huc_loading_mode(huc);
+@@ -345,7 +347,7 @@ int intel_huc_init(struct intel_huc *huc)
+ 
+ out:
+ 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
+-	drm_info(&i915->drm, "HuC init failed with %d\n", err);
++	huc_info(huc, "initialization failed %pe\n", ERR_PTR(err));
+ 	return err;
+ }
+ 
+@@ -389,13 +391,13 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
+ 	delayed_huc_load_complete(huc);
+ 
+ 	if (ret) {
+-		drm_err(&gt->i915->drm, "HuC: Firmware not verified %d\n", ret);
++		huc_err(huc, "firmware not verified %pe\n", ERR_PTR(ret));
+ 		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_LOAD_FAIL);
+ 		return ret;
+ 	}
+ 
+ 	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
+-	drm_info(&gt->i915->drm, "HuC authenticated\n");
++	huc_info(huc, "authenticated!\n");
+ 	return 0;
+ }
+ 
+@@ -430,7 +432,7 @@ int intel_huc_auth(struct intel_huc *huc)
+ 
+ 	ret = intel_guc_auth_huc(guc, intel_guc_ggtt_offset(guc, huc->fw.rsa_data));
+ 	if (ret) {
+-		DRM_ERROR("HuC: GuC did not ack Auth request %d\n", ret);
++		huc_err(huc, "authentication by GuC failed %pe\n", ERR_PTR(ret));
+ 		goto fail;
+ 	}
+ 
+@@ -442,7 +444,7 @@ int intel_huc_auth(struct intel_huc *huc)
+ 	return 0;
+ 
+ fail:
+-	i915_probe_error(gt->i915, "HuC: Authentication failed %d\n", ret);
++	huc_probe_error(huc, "authentication failed %pe\n", ERR_PTR(ret));
+ 	return ret;
+ }
+ 
+-- 
+2.25.1
 
-It's the implementation that isn't. You cannot use a devm hook to
-register a KMS structure, so it's not that you should add a
-drmm_add_action call, it's that you shouldn't call
-devm_drm_panel_bridge_add in the first place.
-
-So either you use drm_panel_bridge_add and a custom drmm action, or you
-add a drmm_panel_bridge_add function and use it.
-
-Maxime
-
---pfht2erx4nbed6u7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY9zFFgAKCRDj7w1vZxhR
-xQE/AQCMlx3Vg1Fu2fddsqf/qHcBrT+gkRDdTzgrEOTJxQw5QgD/etl/1NZ5BdN7
-8LhdTH8aUOEItDaD6THKM5u3luUBDwo=
-=8DoN
------END PGP SIGNATURE-----
-
---pfht2erx4nbed6u7--
