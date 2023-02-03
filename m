@@ -1,64 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E93D6897AE
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 12:25:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D81C96897B3
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 12:28:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD0A410E02E;
-	Fri,  3 Feb 2023 11:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475C010E76C;
+	Fri,  3 Feb 2023 11:28:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C87E10E02E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 11:25:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 868BAB82A74
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 11:25:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2D45AC4339E
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 11:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675423541;
- bh=YhgbeFtdM4MkQIbiRvM+d6GjakZ5xZ0i+pL3uzvmwMA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=QSEJzwsxcG0opMu58B0nNQchnlS++WQQo1mevXzlNss6rA6TH/rfUybhZDd/0Cg0V
- M97abgMgXL8MkrrqzUugIrdo2ZLfm8WsYxZHT7cOtajSaUn7ZkIKd1IQIQBa+I8y7a
- 7i00GodDr+me16RN9Fx3ZCsdISTNn+nhahM4C7Z8DaAzNL+FGvR2NjfUs52Mo2rfJT
- KLnq8bN9bBelvwqzyafE+dmOF6h7bB3fgfq+xx75EbSW2WM52q4E2P4r/+9oMrICJF
- 1HbNM3fQLePGsQlPe0SSLI8GEgH8cB7CffKl5ywUTZwYpJ55ebn6g0qaDVtVrY6IQs
- 5JbA88FeCSMBw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 15D01C072A6; Fri,  3 Feb 2023 11:25:41 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Fri, 03 Feb 2023 11:25:40 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h.judt@gmx.at
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-bKUQuYSYlh@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A5AF10E76A
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 11:28:04 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1pNuEb-00079L-P7; Fri, 03 Feb 2023 12:28:01 +0100
+Message-ID: <99c4db33a1966bd1979817277facb4a42ba2333f.camel@pengutronix.de>
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix elapsed_ns kernel-doc error
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Intel Graphics Development List
+ <intel-gfx@lists.freedesktop.org>, DRI Development List
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Date: Fri, 03 Feb 2023 12:27:55 +0100
+In-Reply-To: <20230203100215.31852-3-bagasdotme@gmail.com>
+References: <20230203100215.31852-1-bagasdotme@gmail.com>
+ <20230203100215.31852-3-bagasdotme@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,28 +52,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Srinivasan Shanmugam <srinivasan.s@intel.com>,
+ Matt Atwood <matthew.s.atwood@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Gustavo Sousa <gustavo.sousa@intel.com>, Hans de Goede <hdegoede@redhat.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ =?ISO-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+Am Freitag, dem 03.02.2023 um 17:02 +0700 schrieb Bagas Sanjaya:
+> Stephen Rothwell reported htmldocs warnings:
+>=20
+> include/drm/gpu_scheduler.h:232: warning: Incorrect use of kernel-doc for=
+mat:          * @elapsed_ns
+> include/drm/gpu_scheduler.h:238: warning: Function parameter or member 'e=
+lapsed_ns' not described in 'drm_sched_entity'
+>=20
+> Fix the error by appending missing colon to @elapsed_ns name in its
+> kernel-doc comment.
+>=20
 
---- Comment #51 from Harald Judt (h.judt@gmx.at) ---
-Ok. After some tests with 6.1.8 and later, things seem to be a bit more sta=
-ble,
-though I do not know whether the reason is actually the newer kernel or more
-exact tests on my part.
+Thanks, I've added this to the etnaviv tree.
 
-It now seems that as long as I only switch between X window sessions
-(VT-switching from one X session to another one), the crash does not occur.=
- As
-soon as I switch to any non-X VT, the screen stays blank or freezes with the
-text cursor not visible. I can restart the computer using Ctrl-Alt-Delete, =
-and
-switching back to another X VT also works, but of course the X session is
-frozen too.
+Since the commit is only in -next and not a non-rebase tree yet, I
+might be tempted to squash the fix into the offending commit. What
+would be the right way to credit you for the fix in that case?
 
---=20
-You may reply to this email to add a comment.
+Regards,
+Lucas
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> Link: https://lore.kernel.org/linux-next/20230203135027.1a4679d3@canb.auu=
+g.org.au/
+> Fixes: 248cd9b265fca6 ("drm/scheduler: track GPU active time per entity")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  include/drm/gpu_scheduler.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 9a50365621ed8d..9db9e5e504eeb3 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -229,7 +229,7 @@ struct drm_sched_entity {
+>  	struct rb_node			rb_tree_node;
+> =20
+>  	/**
+> -	 * @elapsed_ns
+> +	 * @elapsed_ns:
+>  	 *
+>  	 * Records the amount of time where jobs from this entity were active
+>  	 * on the GPU.
+
