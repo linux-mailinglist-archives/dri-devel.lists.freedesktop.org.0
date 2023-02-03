@@ -1,47 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD88D689E8A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 16:54:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3420B689E98
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 16:57:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4774B10E7ED;
-	Fri,  3 Feb 2023 15:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2991F10E805;
+	Fri,  3 Feb 2023 15:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8592010E7ED;
- Fri,  3 Feb 2023 15:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675439653; x=1706975653;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=tI/lvEIUjklskP31NFna3SiKvQVYHWgixX1v1UFK9H4=;
- b=X3xGQ5lVpTZd3BDTqjLmzFZONwHd8fUdY/8RRXzEo5AXsOUuyNrnVuoX
- 2A1JfrgYnneXIDfO1VYNzzRsCefbzPNlpA5ksZc4EjJTqr2nTk2487sBp
- nEYcS6hpPXZ8BDpvq/WZ/e8n2ZLO39yq5Wgh0it87ZjC+4ZGPHkMfOxZM
- uXKrSUV6v6VEllOlkdVPa9vU9pfp+djbNFlzQqgJiRpmC9pvC0mfP5GvR
- wB+UP1JT3YlxYXsYvg/F/UMlDROkXeGU7DOroJeroVs1IxLkZWljvy3S9
- 9kkpk9hthnV4dVnIFdh0c2RoHnhyBDnb0qK7tkkIJmo6k3GVVjnz8qVJy A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="393367291"
-X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="393367291"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2023 07:53:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="696197465"
-X-IronPort-AV: E=Sophos;i="5.97,270,1669104000"; d="scan'208";a="696197465"
-Received: from orsosgc001.jf.intel.com ([10.165.21.138])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2023 07:53:13 -0800
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/hwmon: Enable PL1 power limit
-Date: Fri,  3 Feb 2023 07:53:09 -0800
-Message-Id: <20230203155309.1042297-1-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.38.0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7D3110E805
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 15:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=RABYZKQEnf0QK23SEeW3xVSQhJGlQ3o0a9xB2pxXdFg=; b=mxbhKN8eDLHf3sRbpUD1Pm5ad9
+ DUxn/adCxDe6jPyxHF/gdCrJDf3lsIsIixEOuV8CpNuzkiX752ZBaf0wsnY0b2i3cM9FUEcN20eX2
+ rIR05AXVLD17i/oQNhbkjja3UIifH2qUWnxDkJqAUC7NG8o6c1/1J2q0zeQmeJMRLojURzkVBUv7W
+ j9O4rmt4LMN1wjI6tRgPyBaBqiFphCrvwmB0uTJBDK4DzjkMj6rO8E5wNKaysJXqmttqL9r4yHFrh
+ f47+XS3tx6LOOWc7AZ91W6sFA96KtfzRuvr3oItFzuKm5u8MGjDHAAIf0SDJC5iX+lV71N215QhEo
+ +ggV+adQ==;
+Received: from [2601:1c2:d00:6a60::9526]
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pNyR8-002pf0-3m; Fri, 03 Feb 2023 15:57:14 +0000
+Message-ID: <f6a60193-a5d1-c42c-158a-4b0bfe9c7538@infradead.org>
+Date: Fri, 3 Feb 2023 07:57:12 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: remove arch/sh
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+ <20230203071423.GA24833@lst.de>
+ <afd056a95d21944db1dc0c9708f692dd1f7bb757.camel@physik.fu-berlin.de>
+ <20230203083037.GA30738@lst.de>
+ <d10fe31b2af6cf4e03618f38ca9d3ca5c72601ed.camel@physik.fu-berlin.de>
+ <CAMuHMdUitVfW088YOmqYm4kwbKwkwb22fAakHcu6boxv7dXDfQ@mail.gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAMuHMdUitVfW088YOmqYm4kwbKwkwb22fAakHcu6boxv7dXDfQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,43 +60,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previous documentation suggested that PL1 power limit is always
-enabled. However we now find this not to be the case on some
-platforms (such as ATSM). Therefore enable PL1 power limit during hwmon
-initialization.
+Hi--
 
-Bspec: 51864
+On 2/3/23 02:33, Geert Uytterhoeven wrote:
+> Hi Adrian,
+> 
+> On Fri, Feb 3, 2023 at 11:29 AM John Paul Adrian Glaubitz
+> <glaubitz@physik.fu-berlin.de> wrote:
+>> On Fri, 2023-02-03 at 09:30 +0100, Christoph Hellwig wrote:
+>>> On Fri, Feb 03, 2023 at 09:24:46AM +0100, John Paul Adrian Glaubitz wrote:
+>>>> Since this is my very first time stepping up as a kernel maintainer, I was hoping
+>>>> to get some pointers on what to do to make this happen.
+>>>>
+>>>> So far, we have set up a new kernel tree and I have set up a local development and
+>>>> test environment for SH kernels using my SH7785LCR board as the target platform.
+>>>>
+>>>> Do I just need to send a patch asking to change the corresponding entry in the
+>>>> MAINTAINERS file?
+>>>
+>>> I'm not sure a there is a document, but:
+>>>
+>>>  - add the MAINTAINERS change to your tree
+>>>  - ask Stephen to get your tree included in linux-next
+>>>
+>>> then eventually send a pull request to Linus with all of that.  Make
+>>> sure it's been in linux-next for a while.
+>>
+>> OK, thanks for the pointers! Will try to get this done by next week.
+>>
+>> We're still discussing among SuperH developer community whether there will be a second
+>> maintainer, so please bear with us a few more days. I will collect patches in the
+>> meantime.
+> 
+> Thanks a lot!
+> 
+> If you need any help with process, setup, ... don't hesitate to ask
+> (on e.g. #renesas-soc on Libera).
 
-v2: Add Bspec reference (Gwan-gyeong)
-v3: Add Fixes tag
+While Adrian and Geert are reading this, I have a question:
 
-Fixes: 99f55efb79114 ("drm/i915/hwmon: Power PL1 limit and TDP setting")
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Reviewed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
----
- drivers/gpu/drm/i915/i915_hwmon.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Is this "sh64" still accurate and applicable? from Documentation/kbuild/kbuild.rst:
 
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-index 1225bc432f0d5..4683a5b96eff1 100644
---- a/drivers/gpu/drm/i915/i915_hwmon.c
-+++ b/drivers/gpu/drm/i915/i915_hwmon.c
-@@ -687,6 +687,11 @@ hwm_get_preregistration_info(struct drm_i915_private *i915)
- 		for_each_gt(gt, i915, i)
- 			hwm_energy(&hwmon->ddat_gt[i], &energy);
- 	}
-+
-+	/* Enable PL1 power limit */
-+	if (i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
-+		hwm_locked_with_pm_intel_uncore_rmw(ddat, hwmon->rg.pkg_rapl_limit,
-+						    PKG_PWR_LIM_1_EN, PKG_PWR_LIM_1_EN);
- }
- 
- void i915_hwmon_register(struct drm_i915_private *i915)
+But some architectures such as x86 and sparc have aliases.
+
+- x86: i386 for 32 bit, x86_64 for 64 bit
+- sh: sh for 32 bit, sh64 for 64 bit <<<<<<<<<<<<<<<
+- sparc: sparc32 for 32 bit, sparc64 for 64 bit
+
+
+
+Thanks.
 -- 
-2.38.0
-
+~Randy
