@@ -2,44 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C81768921A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 09:25:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C8468921B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Feb 2023 09:26:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6429910E21C;
-	Fri,  3 Feb 2023 08:25:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5010210E702;
+	Fri,  3 Feb 2023 08:26:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
- [130.133.4.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E5F10E21C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 08:25:02 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
- tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1pNrNI-003Nx4-Ij; Fri, 03 Feb 2023 09:24:48 +0100
-Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100]
- helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
- with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1pNrNI-0042Ei-Ac; Fri, 03 Feb 2023 09:24:48 +0100
-Message-ID: <afd056a95d21944db1dc0c9708f692dd1f7bb757.camel@physik.fu-berlin.de>
-Subject: Re: remove arch/sh
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Christoph Hellwig <hch@lst.de>
-Date: Fri, 03 Feb 2023 09:24:46 +0100
-In-Reply-To: <20230203071423.GA24833@lst.de>
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de>
- <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
- <20230203071423.GA24833@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BBB410E702
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Feb 2023 08:26:13 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6C01C581E82;
+ Fri,  3 Feb 2023 03:26:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 03 Feb 2023 03:26:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1675412771; x=1675419971; bh=Hiq2WjR2Ol
+ vvDxbH7MqY8IVkRM1I4s545FJQW/y5s1o=; b=ksWatFdyCqjO37U8x0MoerxK1i
+ m+7ut/27xNbNGIoeijphIpa8MgQ0S499dwH84VvqtknIY4HOvlE1QjZyIB3BnBYd
+ uRRqninIXV/uaNVYsVdi9ltCcEz67qaDhRW5x0r8qXerAk18SOaSQyvPLnYrYIgF
+ 4cPkR4hkEzoTMNybjtC9vQBw3TsSHFR7vRzfukhk5G5giQIoZ37FPAPPm3JeOxzF
+ kHSJadsi1Nrys8u3btRCJuZWiB9mhT8tzE5OBn8jnFvuHDIIsQqvd6r6/5H+ULi7
+ YwEYzaNGF7KCCTt3JEQdEmwt8tAkIf+pKSwlBkZzAE6QAaAnV5oWVOz4YKcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1675412771; x=1675419971; bh=Hiq2WjR2OlvvDxbH7MqY8IVkRM1I
+ 4s545FJQW/y5s1o=; b=OCurBW0KxT5Fzul8EWcy0oTdLuLrlSH1Mcibiiw3TNP1
+ 3jhXXo208QjVmJyRH2gcdt2cD6iAuySYI7PMNAIS77C4LBbNiPZXkNerXpbYiwkC
+ rQ5nX3ctpJl+C6QEumw0wYOTy7No45t/asi2nsVfTgs0JeiO0gVsRohqFbSB08oK
+ ZJyRs8IiQQaunbTrgVklDHv4Ybju45tYCJOm3PoczxKNm5V0G+QdnEd7LHNzBEzE
+ rXpHUqu5KiPOox1RRWyxNU0S9aJd1khEbF6pbu2vVkqSLW7XQDSfgjEWrkEfsLN8
+ PEr7AiRRVF1ZEbpbxHeA6bch8+A2uoOnmhjm/oXaDA==
+X-ME-Sender: <xms:IsXcY9m56d6d_AwLcKi_TY675ZeanCwKoZ_e0gdhE2oG_Qsrpcz5tQ>
+ <xme:IsXcY40zf7DhEuK7U44twA7eWxfUy9SbI8GybghqSrtjIQju3qzh7rDIbvmUKNKSg
+ po-z0q86MgTvbqYeJI>
+X-ME-Received: <xmr:IsXcYzr51TEOyh-TUjxk-Nv611nO16lxeEIewMBy_ivSAKqRl5Vnj8mL63tVVh2KPIWt61k7sbb70IHjt6XH2f8VcWIaPgCIvI0SbVLnMEEZLw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefledguddujecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
+ fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:IsXcY9mlYMiiFFqPFKaPZM809GtETvLovsjd75EtVSadM4jz05Q9-Q>
+ <xmx:IsXcY71Xd3SPlnXsFi66dQpzW_YqR3P4obwaapjkJGXHD5lktgQAfA>
+ <xmx:IsXcY8vFxhiX-D9G8e-sisu19taR4XMf_u2fTglsSP7XDLlmeBfgBA>
+ <xmx:I8XcYy62z3QuriRqzMY6WgV-YlUtZRPbodhgjvvOeMdZawKFDgKDMA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Feb 2023 03:26:09 -0500 (EST)
+Date: Fri, 3 Feb 2023 09:26:07 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [RESEND PATCH v11 02/18] drm: bridge: panel: Add
+ devm_drm_of_dsi_get_bridge helper
+Message-ID: <20230203082607.xu6xv7c6eq2yq64c@houat>
+References: <20230123151212.269082-1-jagan@amarulasolutions.com>
+ <20230123151212.269082-3-jagan@amarulasolutions.com>
+ <20230126121227.qcnftqvgiz44egpg@houat>
+ <CAMty3ZB6QiqgQN_zWEXULHiipQWU_VaWxDWf9W8OTVQvkACu5A@mail.gmail.com>
+ <20230130125828.qkqsq6ax5mojkdbq@houat>
+ <CAMty3ZD82xZnRxuTq2RdEGAJcEgnaJhKX3CDWGNeSWSQD7xNxg@mail.gmail.com>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.148.100
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pfht2erx4nbed6u7"
+Content-Disposition: inline
+In-Reply-To: <CAMty3ZD82xZnRxuTq2RdEGAJcEgnaJhKX3CDWGNeSWSQD7xNxg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,61 +88,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-gpio@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@linaro.org>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Matteo Lisi <matteo.lisi@engicam.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Christoph!
 
-On Fri, 2023-02-03 at 08:14 +0100, Christoph Hellwig wrote:
-> On Mon, Jan 16, 2023 at 09:52:10AM +0100, John Paul Adrian Glaubitz wrote=
-:
-> > We have had a discussion between multiple people invested in the SuperH=
- port and
-> > I have decided to volunteer as a co-maintainer of the port to support R=
-ich Felker
-> > when he isn't available.
+--pfht2erx4nbed6u7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Feb 02, 2023 at 10:22:42PM +0530, Jagan Teki wrote:
+> Hi Maxime,
 >=20
-> So, this still isn't reflected in MAINTAINERS in linux-next.  When
-> do you plan to take over?
+> On Mon, Jan 30, 2023 at 6:28 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > On Thu, Jan 26, 2023 at 08:48:48PM +0530, Jagan Teki wrote:
+> > > On Thu, Jan 26, 2023 at 5:42 PM Maxime Ripard <maxime@cerno.tech> wro=
+te:
+> > > >
+> > > > Hi,
+> > > >
+> > > > On Mon, Jan 23, 2023 at 08:41:56PM +0530, Jagan Teki wrote:
+> > > > > Add devm OF helper to return the next DSI bridge in the chain.
+> > > > >
+> > > > > Unlike general bridge return helper devm_drm_of_get_bridge, this
+> > > > > helper uses the dsi specific panel_or_bridge helper to find the
+> > > > > next DSI device in the pipeline.
+> > > > >
+> > > > > Helper lookup a given child DSI node or a DT node's port and
+> > > > > endpoint number, find the connected node and return either
+> > > > > the associated struct drm_panel or drm_bridge device.
+> > > >
+> > > > I'm not sure that using a device managed helper is the right choice
+> > > > here. The bridge will stay longer than the backing device so it will
+> > > > create a use-after-free. You should probably use a DRM-managed acti=
+on
+> > > > here instead.
+> > >
+> > > Thanks for the comments. If I understand correctly we can use
+> > > drmm_panel_bridge_add instead devm_drm_panel_bridge_add once we found
+> > > the panel or bridge - am I correct?
+> >
+> > It's not that we can, it's that the devm_panel_bridge_add is unsafe:
+> > when the module is removed the device will go away and all the devm
+> > resources freed, but the DRM device sticks around until the last
+> > application with a fd open closes that fd.
+>=20
+> Would you please check this, Here I'm trying to do
+>=20
+> 1. find a panel or bridge
+> 2. if panel add it as a panel bridge
+> 3. add DRM-managed action with the help of bridge->dev after step 2.
 
-Since this is my very first time stepping up as a kernel maintainer, I was =
-hoping
-to get some pointers on what to do to make this happen.
+The logic is sound in your patch
 
-So far, we have set up a new kernel tree and I have set up a local developm=
-ent and
-test environment for SH kernels using my SH7785LCR board as the target plat=
-form.
+> Didn't test the behavior, just wanted to check whether it can be a
+> possibility to use bridge->dev as this dev is assigned with
+> encoder->dev during the bridge attach the chain. Please check and let
+> me know.
+>=20
+> struct drm_bridge *devm_drm_of_dsi_get_bridge(struct device *dev,
+>                                               struct device_node *np,
+>                                               u32 port, u32 endpoint)
+> {
+>         struct drm_bridge *bridge;
+>         struct drm_panel *panel;
+>         int ret;
+>=20
+>         ret =3D drm_of_dsi_find_panel_or_bridge(np, port, endpoint,
+>                                               &panel, &bridge);
+>         if (ret)
+>                 return ERR_PTR(ret);
+>=20
+>         if (panel)
+>                 bridge =3D devm_drm_panel_bridge_add(dev, panel);
+>=20
+>         if (IS_ERR(bridge))
+>                 return bridge;
+>=20
+>         ret =3D drmm_add_action_or_reset(bridge->dev,
+> drmm_drm_panel_bridge_release,
+>                                        bridge);
+>         if (ret)
+>                 return ERR_PTR(ret);
+>=20
+>         return bridge;
+> }
 
-Do I just need to send a patch asking to change the corresponding entry in =
-the
-MAINTAINERS file?
+It's the implementation that isn't. You cannot use a devm hook to
+register a KMS structure, so it's not that you should add a
+drmm_add_action call, it's that you shouldn't call
+devm_drm_panel_bridge_add in the first place.
 
-> What platforms will remain supported and what can we start dropping due t=
-o
-> being unused and unmaintained?
+So either you use drm_panel_bridge_add and a custom drmm action, or you
+add a drmm_panel_bridge_add function and use it.
 
-This has not been sorted out yet.
+Maxime
 
-Adrian
+--pfht2erx4nbed6u7
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY9zFFgAKCRDj7w1vZxhR
+xQE/AQCMlx3Vg1Fu2fddsqf/qHcBrT+gkRDdTzgrEOTJxQw5QgD/etl/1NZ5BdN7
+8LhdTH8aUOEItDaD6THKM5u3luUBDwo=
+=8DoN
+-----END PGP SIGNATURE-----
+
+--pfht2erx4nbed6u7--
