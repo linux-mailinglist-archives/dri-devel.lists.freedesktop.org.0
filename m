@@ -2,76 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CA968A886
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Feb 2023 07:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4C668A8CC
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Feb 2023 08:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18BF510E0BA;
-	Sat,  4 Feb 2023 06:09:50 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9294A10E060
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Feb 2023 06:09:48 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so7405156wmb.2
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Feb 2023 22:09:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=froggi.es; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=W66RnPr8JIOCxTmk17xRzi5pC7iGA+sDw7TDAFUhQto=;
- b=CD+0hzlMTdkEJ4vCmE4FnN3eYKFC1HKqGQPSEHT74IDFqwmJP7MhBh7EkzEiNmNXnW
- NArTzdf1BUSSiZWkY3TOH5Vp2TE6edBi+razrWrVpgrYAHNIYJPR8o5qlyKd7t9kzEFL
- rcAh4ii+juRDk5+fxJo3dsYvCjayNyVIgMzx4TsfIMxMGBIHDXJMTDvfoA0QVSIkim/w
- o+esAx8K98YtnnDuaofOT6BVRXsvVVDtltkG5bQPqCJef59NFoxPnUQOvg/8t+g/HiyT
- 0gMIKA2ASe9KpI+RALTDRTQ1YSKSLzTFdTAixlfTJo9VGHBKeqQPKGiuGcn9ur2tWkSd
- nWjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=W66RnPr8JIOCxTmk17xRzi5pC7iGA+sDw7TDAFUhQto=;
- b=AK7wSXnUZUswwGqCbpOx/vxpmWj6YnpfBYRXb50Iq2t/nmSi/SNwSxOc3RDT5oprGg
- 3lc5cqFvmelDyz2RTviCVVBb1LUFT0x1fNFLCQEVZXBbEuK8pvO2orI8RZg/ZtHZUuWN
- jCtDYA4UOZcQbmCyQQszJQCKtUJMhEZzKU0nnz4gNKIJXrMm2bJEk9JshVPzPOMmmZ+J
- Nh01BznjtHd0hxHLuY4f0Cpa1Q6PrQy1EJnPGD3i/00ZoX2HIKqi86A1ccj0ktdx1x12
- 8Y+X/5OraWRTTL7QOMVBLxVg2PMigevFHBxC9eZlSwcwks7AhgoQCY8NtJNYSN/OLuDk
- /ZTg==
-X-Gm-Message-State: AO0yUKWH0brSjRDDHG/TLXc2D5vO1OdJ8uhtK6x8AfaN3aLJRkEfg+Xl
- BiRU/hcn1nswCxUMvJSX/1GZcg==
-X-Google-Smtp-Source: AK7set8d0J7JTyt8kwfZddTmA5h+tz3k3sUqFes4exIhg1x675pADS8q0NFIXv3i+UB0bC2NEiVNoQ==
-X-Received: by 2002:a05:600c:3b9d:b0:3df:de27:4191 with SMTP id
- n29-20020a05600c3b9d00b003dfde274191mr8011323wms.16.1675490986935; 
- Fri, 03 Feb 2023 22:09:46 -0800 (PST)
-Received: from [192.168.0.89]
- (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
- by smtp.gmail.com with ESMTPSA id
- n29-20020a05600c181d00b003db06224953sm4367323wmp.41.2023.02.03.22.09.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 22:09:46 -0800 (PST)
-Message-ID: <a3d46b3a-ebd5-e02c-3db4-783f2a34b36c@froggi.es>
-Date: Sat, 4 Feb 2023 06:09:45 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
- drm_colorspace enum
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Harry Wentland <harry.wentland@amd.com>
-References: <20230203020744.30745-3-joshua@froggi.es>
- <Y9zkef5FjtZ7guVS@intel.com>
- <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
- <0fc18aec-0703-55f4-f635-d09d345e8dc0@amd.com> <Y90l+DY0rSaMvN1U@intel.com>
- <758e5cf6-53e0-567c-c760-5b773bc7a11c@amd.com> <Y90vrEa3/1RbaGOV@intel.com>
- <f9633729-2db0-3bf1-311d-f03bd04d47a6@amd.com> <Y91Y98jyOimabC3O@intel.com>
- <Y91fsmgAx65koWI5@intel.com> <Y91hyNAplv4nuW5Y@intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id D48D310E98A;
+	Sat,  4 Feb 2023 07:29:26 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED1E710E117;
+ Sat,  4 Feb 2023 07:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675495763; x=1707031763;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=rYfyBwOJpZoJBEEDq9OMIG8u6VRtevBpHMd4ksed6dc=;
+ b=YIoYfk+/HoZB601x1jpLD1kF+T5zmv0IsW4tPbL5IlOZjOZGkDDQI4Rf
+ rIDJMoeX/4QrstPquR9Z0B1mLZdrZCclKz63aTvwY7JjXb4FV8PkL08zY
+ 9kWtPlAIt98Nw6xM6FZkqhKb9x7C85aqaI3DcjeK6xtnthDucNhQ1frCN
+ UODc0ZHR2PT+77O/AJINhalupgcO3JJXuMMLrGuo4PC6zeKkyG4sNQhS8
+ nmQbXkPkfXT3kumPvnLgA0+uF+de4JxKMea2ykwD5+kOXZ1yYWK8RlZO6
+ q8QPzKhTKGfYiMvB5cdRaoI0iUPL0YamFDBuMWl1jCAP8oQGzNakMTZgD A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="312581839"
+X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; d="scan'208";a="312581839"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2023 23:29:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="789929110"
+X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; d="scan'208";a="789929110"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga004.jf.intel.com with ESMTP; 03 Feb 2023 23:29:23 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 3 Feb 2023 23:29:22 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Fri, 3 Feb 2023 23:29:22 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.175)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Fri, 3 Feb 2023 23:29:22 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d2o7PLvEIXrMZZX7uDxF7FhyMDgd+yilKWwlDrDxIJ+S0a1yKO5VqvigqHsa3JIZQI4iZa2OmIcHApaSJcd36T5PENOAHi2tHYhZIzVCggUMJnRJhfOqp9PPcPA4tq1sjE4YR5jxXTH/6BHaOOIA3jyKhy8bxspn0EDM4k/BTqGim17LZPRsPZ05k9zTkbH5FX7GUFfukqoTEs/bRpp4McuZOnD/ok4npPVmgdk3VdT8nJZ/5jUR8cSZ6ktTlBSf2o6uI3EpvVht1hMgApsXYP66D9fOUVyEu4wVbAfSiQDPWGs8dFq3jQs6ghfe310Uir8XZkN6nVyf8GYoGYSZoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rYfyBwOJpZoJBEEDq9OMIG8u6VRtevBpHMd4ksed6dc=;
+ b=hEH8OxB3FEx1W35JSaXZBdwf9yNGTaqH2VNOy7I4fXRR/7sLfou8mr1JbKfIUpcHxtQVocHGhF1cXntayO90CvXoIob4VBNexE0XkqBM/9Wo788SqHcMCgUjAr4Pz7glU4aiNSTsGeCXGdCeTmYYI8SvVyPw8VwVphH+hodPIbbErcvSqcHz7FNtyOIwHqGYe0hZuOrNxfBlP8DxLrTXLITiO3ujx1f1ERBq2IC02uRFHAdrhke81GHEtQNtnU0zPhRKEwstHJ9hXC+L76idO0osNVRma70udzbUzJv5RlY+/IluVUqrtL3kbfUpLtb0/RElRaAZG7iIKPjD0sLpdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN0PR11MB5758.namprd11.prod.outlook.com (2603:10b6:408:166::18)
+ by DM4PR11MB5471.namprd11.prod.outlook.com (2603:10b6:5:39d::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.31; Sat, 4 Feb
+ 2023 07:29:14 +0000
+Received: from BN0PR11MB5758.namprd11.prod.outlook.com
+ ([fe80::17f6:2dff:ce11:ff0d]) by BN0PR11MB5758.namprd11.prod.outlook.com
+ ([fe80::17f6:2dff:ce11:ff0d%9]) with mapi id 15.20.6064.027; Sat, 4 Feb 2023
+ 07:29:14 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "Harrison, John C" <john.c.harrison@intel.com>,
+ "Intel-GFX@Lists.FreeDesktop.Org" <Intel-GFX@Lists.FreeDesktop.Org>
+Subject: Re: [Intel-gfx] [PATCH 2/3] drm/i915/guc: Clean up of register
+ capture search
+Thread-Topic: [Intel-gfx] [PATCH 2/3] drm/i915/guc: Clean up of register
+ capture search
+Thread-Index: AQHZN2xpoTvMN9AS5US6J7pprGf2366+ZegA
+Date: Sat, 4 Feb 2023 07:29:14 +0000
+Message-ID: <3b2ef1cbe2eea5c13da72feec8fc2bb9d3cc5ec1.camel@intel.com>
+References: <20230203011043.3427096-1-John.C.Harrison@Intel.com>
+ <20230203011043.3427096-3-John.C.Harrison@Intel.com>
+In-Reply-To: <20230203011043.3427096-3-John.C.Harrison@Intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Joshua Ashton <joshua@froggi.es>
-In-Reply-To: <Y91hyNAplv4nuW5Y@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR11MB5758:EE_|DM4PR11MB5471:EE_
+x-ms-office365-filtering-correlation-id: 96af4586-b005-4af9-ad0a-08db06818439
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VzFobAGIlrbX9gdhULQ1wgFe8d62VHgAtDH3wQ+Cuytyyw1ud9x5ExoLvb3DLfdZMAFbbTqwVw0YKDkqt/XnsZpmaM0p2VJcxKg0YiXWuxisPWEuvV9TXJAi4xQ/6FBONf//rU84bkfZ/DaJGbCm9NBCVfbQdmXcn9t6xNhe8MoCQOYV3gT7G5IrCT5w/w2LVPJUrTjWxrrNh1aqci35bgeT8X9KYugW0DDNJn7EsGHk1cALfWm7ffMoI4QyJ3IpaJl5LsgqYYVJVIMOAs1MxOkU2Jwjb9r9Vczi7sBmTYe15ohrL6wqQUKvtG8z8OBUcIYlGQmE5Vx48cKwLDbMyEEk4yCOYgeU9EeqIiqFXR4+uadzZS3E7XFFXA/P00j9KAAprB9N3E55ChhttGACDGPs3KXMI8ryUs8j/kzB6gZob2lhBZAe3wC4jzBSdtNExgipYg9sz/kvl4KnGNxh6sv5xhVC68Pd7WEYj2cML2rKG6xWJgH0S6LE/YnHVSrw474pqwSe3eb+/pGdjiBqvKPmdHmzFGQH9ZyAuGCIFynfk5IlXJcxu4MTqXv10DgSPYsd+hSh64LRpLrcdw2+v5v51m3URGTVQvikDQvpkaShHZQnLWZzi+JV685FTrbngSCQpURuIklNX+cnPkVT6GT18NldIxlv+ru2TiW/1G3sbh/G3MFaN8MGKwIhi7BLV+qHOVEeEpI4IbvAii8Gyg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR11MB5758.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(396003)(366004)(346002)(136003)(376002)(39860400002)(451199018)(186003)(6512007)(26005)(83380400001)(36756003)(6506007)(82960400001)(5660300002)(38100700002)(122000001)(2906002)(8676002)(4326008)(66556008)(64756008)(76116006)(91956017)(66946007)(316002)(110136005)(450100002)(66446008)(66476007)(8936002)(41300700001)(6486002)(478600001)(86362001)(2616005)(38070700005)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cHdndDV2V0RXZlJBcU52TVlneWlWcGpWbko5VElLemNnb2Y1Q2JLK2V3OHcw?=
+ =?utf-8?B?UzM2ZzRhV2RHZmdhcUc2SGRHMHVEaWlzTXB0eDM1R1hkbm9TVTJNS0VZeEdN?=
+ =?utf-8?B?eVliYjE0VFpiZGpKT21kaU1rSTVrR1UzRS9KMjczN2VHS1l3T0Q2dGtSWTgw?=
+ =?utf-8?B?MjdqRkRYUnNLQ3FYNGYwYXh2YTg0ZGVmQk5OaFFySVBoUEFPOXZxMk42cklq?=
+ =?utf-8?B?V3dMVzFtQlFKNmphZG1kTk9DVXBDUHJwMldERXR6cGoxeVdvdm1FeGFTMXZq?=
+ =?utf-8?B?TTBTYUxRSVNDRDIrV2t2RUszUVNoaGc5dGFMUTl0TTYyZWJudm1JTXJnWHJW?=
+ =?utf-8?B?TjAyalkyNnNVZ0xlVVFqSGtoSzBSa1B0WjduRW95VGI3ZFN1TWIzaStCcFEw?=
+ =?utf-8?B?SG5YT21GT2pkVEpFSlZ5NHQrYmYvMkxydTN4aXBNbkRxT0E2TXljUmJkakl1?=
+ =?utf-8?B?Vys0RlBBRHdRVHRzZUpsc2FpTGFhUThjc3lxNlpUT25YZE12YmV1cmdtVjNG?=
+ =?utf-8?B?NmN0YXM1cENWMUc2MXlici8vb3BHa2M0SW1TS2pYSEk1M3AyM0MxTUlzYmhi?=
+ =?utf-8?B?OWNqWVlDUGxjczBXWTFIRUVrOHdUYnZYWk5MVHE2NG9ub1dxWVJCQXhRVGlG?=
+ =?utf-8?B?dmppWDltWG9wQlpOUTFGL21UNTVwbmtiRXBQZU5mK0dDa3Z5cFpvLzFwb0xX?=
+ =?utf-8?B?NFh1eUl2dWRJc2xTK1BaMllxWHAzZ3RlQzVuVHBjTTAzaG5zaDBObE5iQk5Q?=
+ =?utf-8?B?TVVKUFIvZng3aHZ4R1VSQXZkMWJtZE8wWksvbWR4cTN6NnJkR3dvMkpUakkx?=
+ =?utf-8?B?bGFYd2xlZlV1ck9rL3c3QzZJSE9xZzJVNmdZMmZmbEZ2Z3BBYUV3S0ZHU3Nh?=
+ =?utf-8?B?MEhQZGdCTWZwNGgvaEw1VWo4bWd1Q2U3RDZaQ3BROFFmcWEyaVY0ZGNPNlUz?=
+ =?utf-8?B?SHhob3Y4Sk05RDNCS1kyb1VnT0EyMmo4dlZDR091RFpqZmRrMTlBWGdtYWRO?=
+ =?utf-8?B?NjJzd1E0TUs2ZVpybHlzV2VMbVlnbmZiUjJqVzRoV2dyK3kyd012Y0ljblRv?=
+ =?utf-8?B?Q2lqQmFuV0hZckZ2aVVRYjErVDlYVUhWblkwRUd6RTFpNGxHdEdaTC96MU5I?=
+ =?utf-8?B?WW92VDFqWEZsb2ZSTkZlY05CT3FjeTNCOVRkU29rbkFkNVNZVHdadmhyUldQ?=
+ =?utf-8?B?TUhpVUZqSVBrUjZMZ2hsMmMvUnRuT1ZZT0p1dUpMRjNtSUFvd0kzTVNyb1J1?=
+ =?utf-8?B?NHVmNkk5WFhBWjl0NnZ2ZmtvN2hLbk9Wd1FWazg1STNWSkV3Mi8vMktDdVY4?=
+ =?utf-8?B?d3FMajdLb3o2RjZZUkxCRXVjbWJ3QllMMVBTcUIvbThHb2Rhck5GcWpvZm1q?=
+ =?utf-8?B?QmM4YmRMSjU0Q3VHdTgyc2o5djg2R3c3cTc4SytPcGxicmlUQzhLNU42ZDA1?=
+ =?utf-8?B?TkZZb2JOQTViNlB3RWFwRW5oYmovQ3VWaU00TTNWTkRnbVlubjM2YmpDRWpy?=
+ =?utf-8?B?Rm8zMGtqOEtyWVBtYXVpYzFvUnBHRkU1U2kzZkxpWHFNK3JGc0RhTFJCZ0lU?=
+ =?utf-8?B?YVBTdE1TYmF1TW1QeS9GR1hiSmNqK2JTdnRkaFpoZlYwR3I3MzZzQ3AvQXpk?=
+ =?utf-8?B?Zit6d3djNFl1S1R3SDBmOEIwRFZPZHlla2phcW5pY1N4RUpQSXV3Q0hzK20z?=
+ =?utf-8?B?SGRyTzVPYmVTRVNsb25DNlRFQnB3L2ZKck0xQ1JRSXhvNzl3eldTWDhFUEI0?=
+ =?utf-8?B?YWs3QTFUK1pkMVF3YkFxT2doU0hLRkY4ZmhIMEUwTnBDOUt0Q2lEVUIxUFJT?=
+ =?utf-8?B?bUU3ZWRSK2RGQTZSd1Y2cXdsMXpkUy9zSlhFZ241N2Q0a3A0RUpwQllqaGFy?=
+ =?utf-8?B?K0dmMHM2MHVFRjE4bWtRRWhSdUFJbkloc3FPd2tHZUkxMUd2WHp5RFZTdU95?=
+ =?utf-8?B?SHZOeWdPbkV6OEpOd2NQVWFPeEhreS9QK3RKZUllUzljbEk0NkxhSnVXWHZk?=
+ =?utf-8?B?aVZpWkVIS0dCRTdmUTcwQS9OeE13Q29CUlhGOHE2akFrSDMxeW9scjltRHBR?=
+ =?utf-8?B?b001dkNOUjdJb2RCaUh6MG91T3k3Nm4wU3VFLzhsbnkzd0lkS3FKUmJsL2F1?=
+ =?utf-8?B?Vm5ydjdtMkZIdnJaRGtyQW15TFp6MTg1Mnd3NE5TR2JxR2hhVXJpdTY2REJi?=
+ =?utf-8?Q?kHuXHVhhPJNCvYdz10wY8k0=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3986D89C1E0CAD46A9E00FFA751F6761@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR11MB5758.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96af4586-b005-4af9-ad0a-08db06818439
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2023 07:29:14.1352 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kFehKZnTSC4Km45O+FAN954XRsumLS2EaXDxbYIAwehAfQx3moYzK0/WcJu967Azz2wU5K15oVLPs9W9lLK7Q7izNgPoD9yfy1z8FAluPumZv8Ha6uEE5YmA2DmAbvRr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5471
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,194 +160,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
- Pekka Paalanen <ppaalanen@gmail.com>, Uma Shankar <uma.shankar@intel.com>,
- dri-devel@lists.freedesktop.org, Vitaly.Prosyak@amd.com
+Cc: "DRI-Devel@Lists.FreeDesktop.Org" <DRI-Devel@Lists.FreeDesktop.Org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/3/23 19:34, Ville Syrjälä wrote:
-> On Fri, Feb 03, 2023 at 09:25:38PM +0200, Ville Syrjälä wrote:
->> On Fri, Feb 03, 2023 at 08:56:55PM +0200, Ville Syrjälä wrote:
->>> On Fri, Feb 03, 2023 at 01:28:20PM -0500, Harry Wentland wrote:
->>>>
->>>>
->>>> On 2/3/23 11:00, Ville Syrjälä wrote:
->>>>> On Fri, Feb 03, 2023 at 10:24:52AM -0500, Harry Wentland wrote:
->>>>>>
->>>>>>
->>>>>> On 2/3/23 10:19, Ville Syrjälä wrote:
->>>>>>> On Fri, Feb 03, 2023 at 09:39:42AM -0500, Harry Wentland wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> On 2/3/23 07:59, Sebastian Wick wrote:
->>>>>>>>> On Fri, Feb 3, 2023 at 11:40 AM Ville Syrjälä
->>>>>>>>> <ville.syrjala@linux.intel.com> wrote:
->>>>>>>>>>
->>>>>>>>>> On Fri, Feb 03, 2023 at 02:07:44AM +0000, Joshua Ashton wrote:
->>>>>>>>>>> Userspace has no way of controlling or knowing the pixel encoding
->>>>>>>>>>> currently, so there is no way for it to ever get the right values here.
->>>>>>>>>>
->>>>>>>>>> That applies to a lot of the other values as well (they are
->>>>>>>>>> explicitly RGB or YCC). The idea was that this property sets the
->>>>>>>>>> infoframe/MSA/SDP value exactly, and other properties should be
->>>>>>>>>> added to for use userspace to control the pixel encoding/colorspace
->>>>>>>>>> conversion(if desired, or userspace just makes sure to
->>>>>>>>>> directly feed in correct kind of data).
->>>>>>>>>
->>>>>>>>> I'm all for getting userspace control over pixel encoding but even
->>>>>>>>> then the kernel always knows which pixel encoding is selected and
->>>>>>>>> which InfoFrame has to be sent. Is there a reason why userspace would
->>>>>>>>> want to control the variant explicitly to the wrong value?
->>>>>>>>>
->>>>>>>>
->>>>>>>> I've asked this before but haven't seen an answer: Is there an existing
->>>>>>>> upstream userspace project that makes use of this property (other than
->>>>>>>> what Joshua is working on in gamescope right now)? That would help us
->>>>>>>> understand the intent better.
->>>>>>>
->>>>>>> The intent was to control the infoframe colorimetry bits,
->>>>>>> nothing more. No idea what real userspace there was, if any.
-
-Controlling the infoframe alone isn't useful at all unless you can 
-guarantee the wire encoding, which we cannot do.
-
->>>>>>>
->>>>>>>>
->>>>>>>> I don't think giving userspace explicit control over the exact infoframe
->>>>>>>> values is the right thing to do.
-
-+1
-
->>>>>>>
->>>>>>> Only userspace knows what kind of data it's stuffing into
->>>>>>> the pixels (and/or how it configures the csc units/etc.) to
->>>>>>> generate them.
->>>>>>>
->>>>>>
->>>>>> Yes, but userspace doesn't control or know whether we drive
->>>>>> RGB or YCbCr on the wire. In fact, in some cases our driver
->>>>>> needs to fallback to YCbCr420 for bandwidth reasons. There
->>>>>> is currently no way for userspace to know that and I don't
->>>>>> think it makes sense.
->>>>>
->>>>> People want that control as well for whatever reason. We've
->>>>> been asked to allow YCbCr 4:4:4 output many times.
->>>>>
->>>>> The automagic 4:2:0 fallback I think is rather fundementally
->>>>> incompatible with fancy color management. How would we even
->>>>> know whether to use eg. BT.2020 vs. BT.709 matrix? In i915
->>>>> that stuff is just always BT.709 limited range, no questions
->>>>> asked.
-
-That's what the Colorspace property *should* be determining here.
-That's what we have it set up to do in SteamOS/my tree right now.
-
->>>>>
->>>>
->>>> We use what we're telling the display, i.e., the value in the
->>>> colorspace property. That way we know whether to use a BT.2020
->>>> or BT.709 matrix.
->>>
->>> And given how these things have gone in the past I think
->>> that is likey to bite someone at in the future. Also not
->>> what this property was meant to do nor does on any other
->>> driver AFAIK.
->>>
->>>> I don't see how it's fundamentally incompatible with fancy
->>>> color management stuff.
->>>>
->>>> If we start forbidding drivers from falling back to YCbCr
->>>> (whether 4:4:4 or 4:2:0) we will break existing behavior on
->>>> amdgpu and will see bug reports.
->>>
->>> The compositors could deal with that if/when they start doing
->>> the full color management stuff. The current stuff only really
->>> works when the kernel is allowed to do whatever it wants.
->>>
->>>>
->>>>> So I think if userspace wants real color management it's
->>>>> going to have to set up the whole pipeline. And for that
->>>>> we need at least one new property to control the RGB->YCbCr
->>>>> conversion (or to explicitly avoid it).
-
-I mentioned this in my commit description, we absolutely should offer 
-fine control here eventually.
-
-I don't think we need to solve that problem here though.
-
->>>>>
->>>>> And given that the proposed patch just swept all the
->>>>> non-BT.2020 issues under the rug makes me think no
->>>>> one has actually come up with any kind of consistent
->>>>> plan for anything else really.
->>>>>
->>>>
->>>> Does anyone actually use the non-BT.2020 colorspace stuff?
->>>
->>> No idea if anyone is using any of it. It's a bit hard to do
->>> right now outside the full passthrough case since we have no
->>> properties to control how the hardware will convert stuff.
-
-No, every userspace knows that encoding of the output buffer before 
-going to the wire format is RGB.
-
-It's the only way you can have planes alpha-blend, or mix and match RGB 
-and NV12, etc.
-
->>>
->>> Anyways, sounds like what you're basically proposing is
->>> getting rid of this property and starting from scratch.
->>
->> Hmm. I guess one option would be to add that property to
->> control the output encoding, but include a few extra
->> "automagic" values to it which would retain the kernel's
->> freedom to select whether to do the RGB->YCbCr conversion
->> or not.
->>
->> enum output_encoding {
->> 	auto rgb=default/nodata,ycbcr=bt601
->> 	auto rgb=default/nodata,ycbcr=bt709
->> 	auto rgb=bt2020,ycbcr=bt2020
->> 	passthrough,
->> 	rgb->ycbcr bt601,
->> 	rgb->ycbcr bt709,
->> 	rgb->ycbcr bt2020,
->> }
-> 
-> In fact there should perhaps be a lot more of the explicit
-> options to get all subsamlings and quantizations ranges
-> coverted. That might actually be really nice for an igt
-> to get more full test coverage.
-> 
-The choice of encoding of the pixel on the wire should be unrelated to 
-the overall output colorspace from the userspace side -- but how the 
-display engine converts the output to that wire format *is* dependent on 
-the colorspace.
-eg. picking a rec.709 ctc vs a rec.2020 ctc matrix.
-
-I see you are proposing a "passthrough" but that wouldn't work at all as 
-you still need to at know if you are RGB or YCbCr for the infoframe and 
-to perform chroma subsampling in the display engine.
-
-I perused the initial patches that added this property, and it seems 
-there were no IGT tests or userspace implementation, so I am not 
-entirely sure why it was committed in the first place.
-
-Nobody can safely use Colorspace because of this problem right now.
-
-If nobody is using this property, perhaps we could just get a fresh 
-start, and either re-purpose it with new enum values, or obsolete it and 
-make a new property.
-If we do this, let's start with the absolute bare minimum, such as:
-"Default/Rec.709 (sRGB), BT.2020"
-and then grow as we need, making sure we have the full circle from 
-userspace->output complete and working for each new value we add.
-
-Please don't take this as me saying we shouldn't add all these other 
-options like opRGB, etc, I just want us to progress to a solid base for 
-expanding further here, which we really don't have right now.
-
-- Joshie 🐸✨
+SSBzZWUgeW91IGFyZSBpbmZlcnJpbmcgdGhhdCBhIGd1Yy1pZCBvZiB6ZXJvIGNhbiBiZSB2YWxp
+ZC4NCkkgYW0gZ3Vlc3NpbmcgdGhhdCBtaWdodCBoYXZlIGNvbnRyaWJ1dGVkIHRvIHNvbWUgbG9z
+dCBjYXB0dXJlcz8NClRoYW5rcyBmb3IgY2F0Y2hpbmcgdGhpcy4NCg0KUmV2aWV3ZWQtYnk6IEFs
+YW4gUHJldmluIDxhbGFuLnByZXZpbi50ZXJlcy5hbGV4aXNAaW50ZWwuY29tPg0KDQpPbiBUaHUs
+IDIwMjMtMDItMDIgYXQgMTc6MTAgLTA4MDAsIEpvaG4uQy5IYXJyaXNvbkBJbnRlbC5jb20gd3Jv
+dGU6DQo+IEZyb206IEpvaG4gSGFycmlzb24gPEpvaG4uQy5IYXJyaXNvbkBJbnRlbC5jb20+DQo+
+IA0KPiBUaGUgY29tcGFyaXNvbiBpbiB0aGUgc2VhcmNoIGZvciBhIG1hdGNoaW5nIHJlZ2lzdGVy
+IGNhcHR1cmUgbm9kZSB3YXMNCj4gbm90IHRoZSBtb3N0IHJlYWRhYmxlLiBTbyByZW1vdmUgdHdv
+IHJlZHVuZGFudCB0ZXJtcyBhbmQgcmUtZm9ybWF0IHRvDQo+IGtlZXAgZWFjaCB0ZXJtIG9uIGEg
+c2luZ2xlIGxpbmUsIGFuZCBvbmx5IG9uZSB0ZXJtIHBlciBsaW5lLg0KPiANCj4gU2lnbmVkLW9m
+Zi1ieTogSm9obiBIYXJyaXNvbiA8Sm9obi5DLkhhcnJpc29uQEludGVsLmNvbT4NCj4gLS0tDQo+
+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC91Yy9pbnRlbF9ndWNfY2FwdHVyZS5jIHwgNSArKy0t
+LQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4g
+DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC91Yy9pbnRlbF9ndWNfY2Fw
+dHVyZS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvdWMvaW50ZWxfZ3VjX2NhcHR1cmUuYw0K
+PiBpbmRleCA3MTA5OTlkNzE4OWVlLi44N2IwODBkZDZiZWFkIDEwMDY0NA0KPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vaTkxNS9ndC91Yy9pbnRlbF9ndWNfY2FwdHVyZS5jDQo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2d0L3VjL2ludGVsX2d1Y19jYXB0dXJlLmMNCj4gQEAgLTE2MjcsOSAr
+MTYyNyw4IEBAIHZvaWQgaW50ZWxfZ3VjX2NhcHR1cmVfZ2V0X21hdGNoaW5nX25vZGUoc3RydWN0
+IGludGVsX2d0ICpndCwNCj4gICAgICAgICBsaXN0X2Zvcl9lYWNoX2VudHJ5X3NhZmUobiwgbnRt
+cCwgJmd1Yy0+Y2FwdHVyZS0+b3V0bGlzdCwgbGluaykgew0KPiAgICAgICAgICAgICAgICAgaWYg
+KG4tPmVuZ19pbnN0ID09IEdVQ19JRF9UT19FTkdJTkVfSU5TVEFOQ0UoZWUtPmVuZ2luZS0+Z3Vj
+X2lkKSAmJg0KPiAgICAgICAgICAgICAgICAgICAgIG4tPmVuZ19jbGFzcyA9PSBHVUNfSURfVE9f
+RU5HSU5FX0NMQVNTKGVlLT5lbmdpbmUtPmd1Y19pZCkgJiYNCj4gLSAgICAgICAgICAgICAgICAg
+ICBuLT5ndWNfaWQgJiYgbi0+Z3VjX2lkID09IGNlLT5ndWNfaWQuaWQgJiYNCj4gLSAgICAgICAg
+ICAgICAgICAgICAobi0+bHJjYSAmIENUWF9HVFRfQUREUkVTU19NQVNLKSAmJiAobi0+bHJjYSAm
+IENUWF9HVFRfQUREUkVTU19NQVNLKSA9PQ0KPiAtICAgICAgICAgICAgICAgICAgIChjZS0+bHJj
+LmxyY2EgJiBDVFhfR1RUX0FERFJFU1NfTUFTSykpIHsNCj4gKyAgICAgICAgICAgICAgICAgICBu
+LT5ndWNfaWQgPT0gY2UtPmd1Y19pZC5pZCAmJg0KPiArICAgICAgICAgICAgICAgICAgIChuLT5s
+cmNhICYgQ1RYX0dUVF9BRERSRVNTX01BU0spID09IChjZS0+bHJjLmxyY2EgJiBDVFhfR1RUX0FE
+RFJFU1NfTUFTSykpIHsNCj4gICAgICAgICAgICAgICAgICAgICAgICAgbGlzdF9kZWwoJm4tPmxp
+bmspOw0KPiAgICAgICAgICAgICAgICAgICAgICAgICBlZS0+Z3VjX2NhcHR1cmVfbm9kZSA9IG47
+DQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGVlLT5ndWNfY2FwdHVyZSA9IGd1Yy0+Y2FwdHVy
+ZTsNCg0K
