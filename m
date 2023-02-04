@@ -1,52 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6551868A97E
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Feb 2023 11:29:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 223A068A988
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Feb 2023 11:43:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2182310E0D7;
-	Sat,  4 Feb 2023 10:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3DD110E156;
+	Sat,  4 Feb 2023 10:43:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3688710E0AC;
- Sat,  4 Feb 2023 10:29:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675506583; x=1707042583;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=xmuMJtnHaj+RrRrfbUPcpDf/Ht5U+PSFr3iikPbCXPI=;
- b=io27IX9wBpeV6a4uf0vtZmdKJRVjNB+kXU75mbjz09lLhfQDi36RmhJy
- ZMTwY5H+CYsLcVf1avq48bBOwnAJP+T7nHdEhMMjKo09xg7wH0+AreyPa
- ZF5QKdISB5l9P0IZ/rXofewaceEOxF3pYLyZUp3a02+yGYGIkht+YB7Kq
- q9SlqUtRrMQjXr16iydcAuXGKacbO2e7FwDovtCxtLCkCHyd9qwk04frX
- pteECFwTFhLr6ojKy+iXS6eBrIKoSaQozqKRFfjtrYe8Cbm6bj7atr93K
- p7XaFkD5d12xNDJIC6J8yNH6vxWlSWJSCciK/ZrYnWXlzOQfkaLjl1JYb Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="326628615"
-X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; d="scan'208";a="326628615"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2023 02:29:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="754743155"
-X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; d="scan'208";a="754743155"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
- by FMSMGA003.fm.intel.com with ESMTP; 04 Feb 2023 02:29:40 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pOFnf-0001EO-2y;
- Sat, 04 Feb 2023 10:29:39 +0000
-Date: Sat, 4 Feb 2023 18:28:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joshua Ashton <joshua@froggi.es>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
-Message-ID: <202302041801.feSkJReM-lkp@intel.com>
-References: <20230203020744.30745-1-joshua@froggi.es>
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90C9D10E0DA
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Feb 2023 10:43:44 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id m2so21799053ejb.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Feb 2023 02:43:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HN9r4b9P/+PBlO+lQJOLpyUbQijsh414B6hdUqmV1Ns=;
+ b=ZypADk0p27+11vYLucdQgJd4/eJSjuuRlOOpVTiV1UJbRlHLU/pUXCedSDRqTsyqLc
+ NJmiJZgbaVxHqHUaqJWPYyC9T2ICLtvdnQffTD+3CYtxj/jL1ZVmS+6hkhqbm3vePL04
+ qZP1ahdMDvWGjO58/7HTsu0MDDkOPEPdLY7BK3XSqra1UqDnjEScOvwGgcwi2As1nJPd
+ hejr8/nXv+Acyur2oJQ2LktUf20hwFyg7Ig2MKk4bWeoEd/79taIQAnU3ENaknvy4RTb
+ TiyNfNcwGw+YngTZCfSrwlfS9sIH6zELiqRwE/EoasVAbzscKIl5z/wFBJ7GIO1MfOnk
+ 2GAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HN9r4b9P/+PBlO+lQJOLpyUbQijsh414B6hdUqmV1Ns=;
+ b=UZ+uEdHxig8GH3Exk4kYLX+pHB3fOv1Ug/rEHojwiuH8427S0pG5uveDiSpadu2dSq
+ gCELBhiU/ldFIj6vaEo+RgPSQELKVi39zhhuR1tDGMCElzU8J+yjBeBLn/slFSEqkBba
+ KFK4OhMIrG40zodzd3Uoa/TZOFOmptVtUMpSySbV0skJcn8oCZ9AjHdRq1EjU2LlVbFf
+ myToJ7hYqNEXPlIlK80zU6IzwhwbQt8w0Ne8eWa3vgHzjbHa/M/Jc4sS4B6RNBJGQHQX
+ mn3HnZFc5qt2rNFKJdtFIDaeodmdjnF3Vhgw3gS9g4XKY03j4d1Cl/k0n3VvPtFCxS8m
+ ePjQ==
+X-Gm-Message-State: AO0yUKVGmmIpTCYlJKrczsYbjLzej8uoK+ccQ/Vg61tUgEcjVSBDBIxn
+ ILWXV7zio7GJq4XiSCxBhhxtFQ==
+X-Google-Smtp-Source: AK7set/L6NLE3uZcPCBH1bNufat8uLGfW8wWf8/R9GX9sFMb0z2kUCADwK7VfquClsbHh45nKCv4Yw==
+X-Received: by 2002:a17:906:c18d:b0:878:5372:a34b with SMTP id
+ g13-20020a170906c18d00b008785372a34bmr12681102ejz.45.1675507423099; 
+ Sat, 04 Feb 2023 02:43:43 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ v5-20020a1709061dc500b0084d4e9a13cbsm2646236ejh.221.2023.02.04.02.43.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Feb 2023 02:43:42 -0800 (PST)
+Message-ID: <6d171f4b-9a49-ea90-8cf3-518bea0964b3@linaro.org>
+Date: Sat, 4 Feb 2023 12:43:41 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230203020744.30745-1-joshua@froggi.es>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 18/27] drm/msm/dpu: populate SmartDMA features in hw
+ catalog
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
+ <20230203182132.1307834-19-dmitry.baryshkov@linaro.org>
+ <c04a01d1-0375-16be-b8d0-022704ae89a5@quicinc.com>
+ <3754a9a9-8b64-62ae-0b0d-f379debefa16@linaro.org>
+ <ddb0de30-9e29-f6f0-028c-48530bee4a6b@quicinc.com>
+ <42e6237d-9fae-0679-1354-7df74594a9db@linaro.org>
+ <d89a1735-4351-a9b5-c6e3-d0d05af9d283@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <d89a1735-4351-a9b5-c6e3-d0d05af9d283@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,86 +83,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, llvm@lists.linux.dev,
- amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- Uma Shankar <uma.shankar@intel.com>, Vitaly.Prosyak@amd.com,
- oe-kbuild-all@lists.linux.dev, Joshua Ashton <joshua@froggi.es>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joshua,
+On 04/02/2023 07:10, Abhinav Kumar wrote:
+> 
+> 
+> On 2/3/2023 8:10 PM, Dmitry Baryshkov wrote:
+>> On 04/02/2023 04:43, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 2/3/2023 6:29 PM, Dmitry Baryshkov wrote:
+>>>> On 04/02/2023 01:35, Abhinav Kumar wrote:
+>>>>>
+>>>>>
+>>>>> On 2/3/2023 10:21 AM, Dmitry Baryshkov wrote:
+>>>>>> Downstream driver uses dpu->caps->smart_dma_rev to update
+>>>>>> sspp->cap->features with the bit corresponding to the supported 
+>>>>>> SmartDMA
+>>>>>> version. Upstream driver does not do this, resulting in SSPP 
+>>>>>> subdriver
+>>>>>> not enbaling setup_multirect callback. Add corresponding SmartDMA 
+>>>>>> SSPP
+>>>>>> feature bits to dpu hw catalog.
+>>>>>>
+>>>>>
+>>>>> While reviewing this patch, I had a first hand experience of how we 
+>>>>> are reusing SSPP bitmasks for so many chipsets but I think overall 
+>>>>> you got them right here :)
+>>>>>
+>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>> ---
+>>>>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 10 +++++++---
+>>>>>>   1 file changed, 7 insertions(+), 3 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
+>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>>>> index cf053e8f081e..fc818b0273e7 100644
+>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>>>>>> @@ -21,13 +21,16 @@
+>>>>>>       (VIG_MASK | BIT(DPU_SSPP_SCALER_QSEED3))
+>>>>>>   #define VIG_SDM845_MASK \
+>>>>>> -    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | 
+>>>>>> BIT(DPU_SSPP_SCALER_QSEED3))
+>>>>>> +    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | 
+>>>>>> BIT(DPU_SSPP_SCALER_QSEED3) |\
+>>>>>> +    BIT(DPU_SSPP_SMART_DMA_V2))
+>>>>>>   #define VIG_SC7180_MASK \
+>>>>>> -    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | 
+>>>>>> BIT(DPU_SSPP_SCALER_QSEED4))
+>>>>>> +    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | 
+>>>>>> BIT(DPU_SSPP_SCALER_QSEED4) |\
+>>>>>> +    BIT(DPU_SSPP_SMART_DMA_V2))
+>>>>>>   #define VIG_SM8250_MASK \
+>>>>>> -    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | 
+>>>>>> BIT(DPU_SSPP_SCALER_QSEED3LITE))
+>>>>>> +    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | 
+>>>>>> BIT(DPU_SSPP_SCALER_QSEED3LITE) |\
+>>>>>> +    BIT(DPU_SSPP_SMART_DMA_V2))
+>>>>>>   #define VIG_QCM2290_MASK (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL))
+>>>>>> @@ -42,6 +45,7 @@
+>>>>>>   #define DMA_SDM845_MASK \
+>>>>>>       (BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | 
+>>>>>> BIT(DPU_SSPP_QOS_8LVL) |\
+>>>>>>       BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+>>>>>> +    BIT(DPU_SSPP_SMART_DMA_V2) |\
+>>>>>>       BIT(DPU_SSPP_CDP) | BIT(DPU_SSPP_EXCL_RECT))
+>>>>>>   #define DMA_CURSOR_SDM845_MASK \
+>>>>>
+>>>>> VIG_SDM845_MASK and DMA_SDM845_MASK are used for many other 
+>>>>> chipsets like 8250, 8450, 8550.
+>>>>>
+>>>>> At the moment, for visual validation of this series, I only have 
+>>>>> sc7180/sc7280. We are leaving the rest for CI.
+>>>>>
+>>>>> Was that an intentional approach?
+>>>>>
+>>>>> If so, we will need tested-by tags from folks having 
+>>>>> 8350/8450/8550/sc8280x,qcm2290?
+>>>>>
+>>>>> I am only owning the visual validation on sc7280 atm.
+>>>>
+>>>> I'm not quite sure what is your intent here. Are there any SoCs 
+>>>> after 845 that do not have SmartDMA 2.5? Or do you propose to enable 
+>>>> SmartDMA only for the chipsets that we can visually test? That 
+>>>> sounds strange.
+>>>>
+>>>
+>>> Yes I was thinking to enable smartDMA at the moment on chipsets which 
+>>> we can validate visually that display comes up. But I am not sure if 
+>>> thats entirely practical.
+>>>
+>>> But the intent was I just want to make sure basic display does come 
+>>> up with smartDMA enabled if we are enabling it for all chipsets.
+>>
+>> I don't think it is practical or logical. We don't require validating 
+>> other changes on all possible chipsets, so what is so different with 
+>> this one?
+>>
+> 
+> Thats because with smartDMA if the programming of stages goes wrong we 
+> could potentially just see a blank screen. Its not about other changes, 
+> this change in particular controls enabling a feature.
+> 
+> But thats just my thought. I am not going to request to ensure this or 
+> block this for this.
+> 
+> You can still have my
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> But think of the validations that have to be done before we merge it.
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.2-rc6 next-20230203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Ashton/drm-connector-Add-enum-documentation-to-drm_colorspace/20230203-100927
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230203020744.30745-1-joshua%40froggi.es
-patch subject: [PATCH 1/3] drm/connector: Convert DRM_MODE_COLORIMETRY to enum
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230204/202302041801.feSkJReM-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/146e4b57c07c6b478f24bb7cf2603ab123dcb6f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Joshua-Ashton/drm-connector-Add-enum-documentation-to-drm_colorspace/20230203-100927
-        git checkout 146e4b57c07c6b478f24bb7cf2603ab123dcb6f2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/display/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/display/drm_hdmi_helper.c:108:3: error: use of undeclared identifier 'DRM_MODE_COLORIMETRY_NO_DATA'; did you mean 'DRM_MODE_COLORIMETRY_OPRGB'?
-           [DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            DRM_MODE_COLORIMETRY_OPRGB
-   include/drm/drm_connector.h:441:2: note: 'DRM_MODE_COLORIMETRY_OPRGB' declared here
-           DRM_MODE_COLORIMETRY_OPRGB,
-           ^
-   drivers/gpu/drm/display/drm_hdmi_helper.c:115:33: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           [DRM_MODE_COLORIMETRY_OPRGB] = HDMI_COLORIMETRY_OPRGB,
-                                          ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/display/drm_hdmi_helper.c:100:34: note: expanded from macro 'HDMI_COLORIMETRY_OPRGB'
-   #define HDMI_COLORIMETRY_OPRGB                  (C(3) | EC(4) | ACE(0))
-                                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/display/drm_hdmi_helper.c:108:35: note: previous initialization is here
-           [DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
-                                            ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/display/drm_hdmi_helper.c:93:35: note: expanded from macro 'HDMI_COLORIMETRY_NO_DATA'
-   #define HDMI_COLORIMETRY_NO_DATA                0x0
-                                                   ^~~
-   1 warning and 1 error generated.
-
-
-vim +108 drivers/gpu/drm/display/drm_hdmi_helper.c
-
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  106  
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  107  static const u32 hdmi_colorimetry_val[] = {
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21 @108  	[DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  109  	[DRM_MODE_COLORIMETRY_SMPTE_170M_YCC] = HDMI_COLORIMETRY_SMPTE_170M_YCC,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  110  	[DRM_MODE_COLORIMETRY_BT709_YCC] = HDMI_COLORIMETRY_BT709_YCC,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  111  	[DRM_MODE_COLORIMETRY_XVYCC_601] = HDMI_COLORIMETRY_XVYCC_601,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  112  	[DRM_MODE_COLORIMETRY_XVYCC_709] = HDMI_COLORIMETRY_XVYCC_709,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  113  	[DRM_MODE_COLORIMETRY_SYCC_601] = HDMI_COLORIMETRY_SYCC_601,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  114  	[DRM_MODE_COLORIMETRY_OPYCC_601] = HDMI_COLORIMETRY_OPYCC_601,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  115  	[DRM_MODE_COLORIMETRY_OPRGB] = HDMI_COLORIMETRY_OPRGB,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  116  	[DRM_MODE_COLORIMETRY_BT2020_CYCC] = HDMI_COLORIMETRY_BT2020_CYCC,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  117  	[DRM_MODE_COLORIMETRY_BT2020_RGB] = HDMI_COLORIMETRY_BT2020_RGB,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  118  	[DRM_MODE_COLORIMETRY_BT2020_YCC] = HDMI_COLORIMETRY_BT2020_YCC,
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  119  };
-4fc8cb47fcfdc93 Thomas Zimmermann 2022-04-21  120  
+The usual way: verify as much as feasible and let anybody else complain 
+during the development cycle.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+With best wishes
+Dmitry
+
