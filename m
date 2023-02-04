@@ -2,46 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D056F68A877
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Feb 2023 06:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CA968A886
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Feb 2023 07:09:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0D9810E0B8;
-	Sat,  4 Feb 2023 05:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18BF510E0BA;
+	Sat,  4 Feb 2023 06:09:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7274710E0B8;
- Sat,  4 Feb 2023 05:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675489733; x=1707025733;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=6+3jYaebQNwT79YoJp4eNyOyyxhZqNcAFzLoH54E6A4=;
- b=f/nV85uStklkORA/VQG4NmD5jfjphtMVDx2R3oKc0pDtW8fmp9oGKGV4
- a9mBS7ohJKjKzHuidujq9Q2y2vBIo3z3PMCqkP/pj/fjfFAtEsRD6FH9V
- /QoKt2FWpemvqhkG/ACEsnFl5CbHQQK1E7q1fs4h2/ms+HQeMDkL53/o+
- 5ilyEe95F6w8bVcQttIWDqt1ZwpOnbjYUO3AjJh5fYynNFvbq/izcfZrm
- cp9uABxMpU+0MDblv8riEO/JzhzmfM4U76Shc61CbLd5+mLuRRfcHdXOa
- /lh7OZTCgEmqP31kxDA/p1ueM2ONRCBqRBsZIp5+8ZNilB3OO2vEaZ7ZH w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="330211898"
-X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; d="scan'208";a="330211898"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2023 21:48:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10610"; a="774574077"
-X-IronPort-AV: E=Sophos;i="5.97,272,1669104000"; d="scan'208";a="774574077"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2023 21:48:52 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/pxp: limit drm-errors or warning on firmware API
- failures
-Date: Fri,  3 Feb 2023 21:48:52 -0800
-Message-Id: <20230204054852.592917-1-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9294A10E060
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Feb 2023 06:09:48 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so7405156wmb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Feb 2023 22:09:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=froggi.es; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=W66RnPr8JIOCxTmk17xRzi5pC7iGA+sDw7TDAFUhQto=;
+ b=CD+0hzlMTdkEJ4vCmE4FnN3eYKFC1HKqGQPSEHT74IDFqwmJP7MhBh7EkzEiNmNXnW
+ NArTzdf1BUSSiZWkY3TOH5Vp2TE6edBi+razrWrVpgrYAHNIYJPR8o5qlyKd7t9kzEFL
+ rcAh4ii+juRDk5+fxJo3dsYvCjayNyVIgMzx4TsfIMxMGBIHDXJMTDvfoA0QVSIkim/w
+ o+esAx8K98YtnnDuaofOT6BVRXsvVVDtltkG5bQPqCJef59NFoxPnUQOvg/8t+g/HiyT
+ 0gMIKA2ASe9KpI+RALTDRTQ1YSKSLzTFdTAixlfTJo9VGHBKeqQPKGiuGcn9ur2tWkSd
+ nWjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=W66RnPr8JIOCxTmk17xRzi5pC7iGA+sDw7TDAFUhQto=;
+ b=AK7wSXnUZUswwGqCbpOx/vxpmWj6YnpfBYRXb50Iq2t/nmSi/SNwSxOc3RDT5oprGg
+ 3lc5cqFvmelDyz2RTviCVVBb1LUFT0x1fNFLCQEVZXBbEuK8pvO2orI8RZg/ZtHZUuWN
+ jCtDYA4UOZcQbmCyQQszJQCKtUJMhEZzKU0nnz4gNKIJXrMm2bJEk9JshVPzPOMmmZ+J
+ Nh01BznjtHd0hxHLuY4f0Cpa1Q6PrQy1EJnPGD3i/00ZoX2HIKqi86A1ccj0ktdx1x12
+ 8Y+X/5OraWRTTL7QOMVBLxVg2PMigevFHBxC9eZlSwcwks7AhgoQCY8NtJNYSN/OLuDk
+ /ZTg==
+X-Gm-Message-State: AO0yUKWH0brSjRDDHG/TLXc2D5vO1OdJ8uhtK6x8AfaN3aLJRkEfg+Xl
+ BiRU/hcn1nswCxUMvJSX/1GZcg==
+X-Google-Smtp-Source: AK7set8d0J7JTyt8kwfZddTmA5h+tz3k3sUqFes4exIhg1x675pADS8q0NFIXv3i+UB0bC2NEiVNoQ==
+X-Received: by 2002:a05:600c:3b9d:b0:3df:de27:4191 with SMTP id
+ n29-20020a05600c3b9d00b003dfde274191mr8011323wms.16.1675490986935; 
+ Fri, 03 Feb 2023 22:09:46 -0800 (PST)
+Received: from [192.168.0.89]
+ (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
+ by smtp.gmail.com with ESMTPSA id
+ n29-20020a05600c181d00b003db06224953sm4367323wmp.41.2023.02.03.22.09.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Feb 2023 22:09:46 -0800 (PST)
+Message-ID: <a3d46b3a-ebd5-e02c-3db4-783f2a34b36c@froggi.es>
+Date: Sat, 4 Feb 2023 06:09:45 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
+ drm_colorspace enum
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Harry Wentland <harry.wentland@amd.com>
+References: <20230203020744.30745-3-joshua@froggi.es>
+ <Y9zkef5FjtZ7guVS@intel.com>
+ <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
+ <0fc18aec-0703-55f4-f635-d09d345e8dc0@amd.com> <Y90l+DY0rSaMvN1U@intel.com>
+ <758e5cf6-53e0-567c-c760-5b773bc7a11c@amd.com> <Y90vrEa3/1RbaGOV@intel.com>
+ <f9633729-2db0-3bf1-311d-f03bd04d47a6@amd.com> <Y91Y98jyOimabC3O@intel.com>
+ <Y91fsmgAx65koWI5@intel.com> <Y91hyNAplv4nuW5Y@intel.com>
+Content-Language: en-US
+From: Joshua Ashton <joshua@froggi.es>
+In-Reply-To: <Y91hyNAplv4nuW5Y@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,173 +84,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Pekka Paalanen <ppaalanen@gmail.com>, Uma Shankar <uma.shankar@intel.com>,
+ dri-devel@lists.freedesktop.org, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MESA driver is creating protected context on every driver handle
-creation to query caps bits for app. So when running CI tests,
-they are observing hundreds of drm_errors when enabling PXP
-in .config but using SOC fusing or BIOS configuration that cannot
-support PXP sessions.
 
-The fixes tag referenced below was to resolve a related issue
-where we wanted to silence error messages, but that case was due
-to outdated IFWI (firmware) that definitely needed an upgrade and
-was, at that point, considered a one-off case as opposed to today's
-realization that default CI was enabling PXP in kernel config for
-all testing.
 
-So with this patch, let's strike a balance between issues that is
-critical but are root-caused from HW/platform gaps (louder drm-warn
-but just ONCE) vs other cases where it could also come from session
-state machine (which cannot be a WARN_ONCE since it can be triggered
-due to runtime operation events).
+On 2/3/23 19:34, Ville Syrjälä wrote:
+> On Fri, Feb 03, 2023 at 09:25:38PM +0200, Ville Syrjälä wrote:
+>> On Fri, Feb 03, 2023 at 08:56:55PM +0200, Ville Syrjälä wrote:
+>>> On Fri, Feb 03, 2023 at 01:28:20PM -0500, Harry Wentland wrote:
+>>>>
+>>>>
+>>>> On 2/3/23 11:00, Ville Syrjälä wrote:
+>>>>> On Fri, Feb 03, 2023 at 10:24:52AM -0500, Harry Wentland wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 2/3/23 10:19, Ville Syrjälä wrote:
+>>>>>>> On Fri, Feb 03, 2023 at 09:39:42AM -0500, Harry Wentland wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 2/3/23 07:59, Sebastian Wick wrote:
+>>>>>>>>> On Fri, Feb 3, 2023 at 11:40 AM Ville Syrjälä
+>>>>>>>>> <ville.syrjala@linux.intel.com> wrote:
+>>>>>>>>>>
+>>>>>>>>>> On Fri, Feb 03, 2023 at 02:07:44AM +0000, Joshua Ashton wrote:
+>>>>>>>>>>> Userspace has no way of controlling or knowing the pixel encoding
+>>>>>>>>>>> currently, so there is no way for it to ever get the right values here.
+>>>>>>>>>>
+>>>>>>>>>> That applies to a lot of the other values as well (they are
+>>>>>>>>>> explicitly RGB or YCC). The idea was that this property sets the
+>>>>>>>>>> infoframe/MSA/SDP value exactly, and other properties should be
+>>>>>>>>>> added to for use userspace to control the pixel encoding/colorspace
+>>>>>>>>>> conversion(if desired, or userspace just makes sure to
+>>>>>>>>>> directly feed in correct kind of data).
+>>>>>>>>>
+>>>>>>>>> I'm all for getting userspace control over pixel encoding but even
+>>>>>>>>> then the kernel always knows which pixel encoding is selected and
+>>>>>>>>> which InfoFrame has to be sent. Is there a reason why userspace would
+>>>>>>>>> want to control the variant explicitly to the wrong value?
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> I've asked this before but haven't seen an answer: Is there an existing
+>>>>>>>> upstream userspace project that makes use of this property (other than
+>>>>>>>> what Joshua is working on in gamescope right now)? That would help us
+>>>>>>>> understand the intent better.
+>>>>>>>
+>>>>>>> The intent was to control the infoframe colorimetry bits,
+>>>>>>> nothing more. No idea what real userspace there was, if any.
 
-Let's use helpers for these so as more functions are added in future
-features / HW (or as FW designers continue to bless upstreaming of
-the error codes and meanings), we only need to update the helpers.
+Controlling the infoframe alone isn't useful at all unless you can 
+guarantee the wire encoding, which we cannot do.
 
-NOTE: Don't completely remove FW errors (via drm_debug) or else cusomer
-apps that really needs to know that content protection failed won't
-be aware of it.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> I don't think giving userspace explicit control over the exact infoframe
+>>>>>>>> values is the right thing to do.
 
-Fixes: b762787bf767 ("drm/i915/pxp: Use drm_dbg if arb session failed due to fw version")
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- .../i915/pxp/intel_pxp_cmd_interface_cmn.h    |  3 +
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  2 +-
- drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 73 +++++++++++++++----
- 3 files changed, 64 insertions(+), 14 deletions(-)
++1
 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-index ae9b151b7cb7..6f6541d5e49a 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-@@ -18,6 +18,9 @@
- enum pxp_status {
- 	PXP_STATUS_SUCCESS = 0x0,
- 	PXP_STATUS_ERROR_API_VERSION = 0x1002,
-+	PXP_STATUS_NOT_READY = 0x100e,
-+	PXP_STATUS_PLATFCONFIG_KF1_NOVERIF = 0x101a,
-+	PXP_STATUS_PLATFCONFIG_KF1_BAD = 0x101f,
- 	PXP_STATUS_OP_NOT_PERMITTED = 0x4013
- };
- 
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-index 448cacb0465d..7de849cb6c47 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-@@ -74,7 +74,7 @@ static int pxp_create_arb_session(struct intel_pxp *pxp)
- 
- 	ret = pxp_wait_for_session_state(pxp, ARB_SESSION, true);
- 	if (ret) {
--		drm_err(&gt->i915->drm, "arb session failed to go in play\n");
-+		drm_dbg(&gt->i915->drm, "arb session failed to go in play\n");
- 		return ret;
- 	}
- 	drm_dbg(&gt->i915->drm, "PXP ARB session is alive\n");
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-index d9d248b48093..2d3bcff93da3 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-@@ -19,6 +19,37 @@
- #include "intel_pxp_tee.h"
- #include "intel_pxp_types.h"
- 
-+static bool
-+is_fw_err_platform_config(u32 type)
-+{
-+	switch (type) {
-+	case PXP_STATUS_ERROR_API_VERSION:
-+	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
-+	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
-+		return true;
-+	default:
-+		break;
-+	}
-+	return false;
-+}
-+
-+static const char *
-+fw_err_to_string(u32 type)
-+{
-+	switch (type) {
-+	case PXP_STATUS_ERROR_API_VERSION:
-+		return "ERR_API_VERSION";
-+	case PXP_STATUS_NOT_READY:
-+		return "ERR_NOT_READY";
-+	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
-+	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
-+		return "ERR_PLATFORM_CONFIG";
-+	default:
-+		break;
-+	}
-+	return NULL;
-+}
-+
- static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
- 				    void *msg_in, u32 msg_in_size,
- 				    void *msg_out, u32 msg_out_max_size,
-@@ -307,15 +338,21 @@ int intel_pxp_tee_cmd_create_arb_session(struct intel_pxp *pxp,
- 				       &msg_out, sizeof(msg_out),
- 				       NULL);
- 
--	if (ret)
--		drm_err(&i915->drm, "Failed to send tee msg ret=[%d]\n", ret);
--	else if (msg_out.header.status == PXP_STATUS_ERROR_API_VERSION)
--		drm_dbg(&i915->drm, "PXP firmware version unsupported, requested: "
--			"CMD-ID-[0x%08x] on API-Ver-[0x%08x]\n",
--			msg_in.header.command_id, msg_in.header.api_version);
--	else if (msg_out.header.status != 0x0)
--		drm_warn(&i915->drm, "PXP firmware failed arb session init request ret=[0x%08x]\n",
--			 msg_out.header.status);
-+	if (ret) {
-+		drm_err(&i915->drm, "Failed to send tee msg init arb session, ret=[%d]\n", ret);
-+	} else if (msg_out.header.status != 0) {
-+		if (is_fw_err_platform_config(msg_out.header.status))
-+			drm_WARN_ONCE(&i915->drm, true,
-+				      "PXP init-arb-session-%d failed due to BIOS/SOC:0x%08x:%s\n",
-+				      (int)arb_session_id, msg_out.header.status,
-+				      fw_err_to_string(msg_out.header.status));
-+		else
-+			drm_dbg(&i915->drm, "PXP init-arb-session--%d failed 0x%08x:%st:\n"
-+				"CMD-ID-[0x%08x]:API-Ver-[0x%08x]\n",
-+				(int)arb_session_id, msg_out.header.status,
-+				fw_err_to_string(msg_out.header.status),
-+				msg_in.header.command_id, msg_in.header.api_version);
-+	}
- 
- 	return ret;
- }
-@@ -347,10 +384,20 @@ void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32 session_id)
- 	if ((ret || msg_out.header.status != 0x0) && ++trials < 3)
- 		goto try_again;
- 
--	if (ret)
-+	if (ret) {
- 		drm_err(&i915->drm, "Failed to send tee msg for inv-stream-key-%d, ret=[%d]\n",
- 			session_id, ret);
--	else if (msg_out.header.status != 0x0)
--		drm_warn(&i915->drm, "PXP firmware failed inv-stream-key-%d with status 0x%08x\n",
--			 session_id, msg_out.header.status);
-+	} else if (msg_out.header.status != 0) {
-+		if (is_fw_err_platform_config(msg_out.header.status))
-+			drm_WARN_ONCE(&i915->drm, true,
-+				      "PXP inv-stream-key-%d failed due to BIOS/SOC :0x%08x:%s\n",
-+				      (int)session_id, msg_out.header.status,
-+				      fw_err_to_string(msg_out.header.status));
-+		else
-+			drm_dbg(&i915->drm, "PXP inv-stream-key-%d failed 0x%08x:%s:\n"
-+				"CMD-ID-[0x%08x]:API-Ver-[0x%08x]\n",
-+				(int)session_id, msg_out.header.status,
-+				fw_err_to_string(msg_out.header.status),
-+				msg_in.header.command_id, msg_in.header.api_version);
-+	}
- }
--- 
-2.39.0
+>>>>>>>
+>>>>>>> Only userspace knows what kind of data it's stuffing into
+>>>>>>> the pixels (and/or how it configures the csc units/etc.) to
+>>>>>>> generate them.
+>>>>>>>
+>>>>>>
+>>>>>> Yes, but userspace doesn't control or know whether we drive
+>>>>>> RGB or YCbCr on the wire. In fact, in some cases our driver
+>>>>>> needs to fallback to YCbCr420 for bandwidth reasons. There
+>>>>>> is currently no way for userspace to know that and I don't
+>>>>>> think it makes sense.
+>>>>>
+>>>>> People want that control as well for whatever reason. We've
+>>>>> been asked to allow YCbCr 4:4:4 output many times.
+>>>>>
+>>>>> The automagic 4:2:0 fallback I think is rather fundementally
+>>>>> incompatible with fancy color management. How would we even
+>>>>> know whether to use eg. BT.2020 vs. BT.709 matrix? In i915
+>>>>> that stuff is just always BT.709 limited range, no questions
+>>>>> asked.
 
+That's what the Colorspace property *should* be determining here.
+That's what we have it set up to do in SteamOS/my tree right now.
+
+>>>>>
+>>>>
+>>>> We use what we're telling the display, i.e., the value in the
+>>>> colorspace property. That way we know whether to use a BT.2020
+>>>> or BT.709 matrix.
+>>>
+>>> And given how these things have gone in the past I think
+>>> that is likey to bite someone at in the future. Also not
+>>> what this property was meant to do nor does on any other
+>>> driver AFAIK.
+>>>
+>>>> I don't see how it's fundamentally incompatible with fancy
+>>>> color management stuff.
+>>>>
+>>>> If we start forbidding drivers from falling back to YCbCr
+>>>> (whether 4:4:4 or 4:2:0) we will break existing behavior on
+>>>> amdgpu and will see bug reports.
+>>>
+>>> The compositors could deal with that if/when they start doing
+>>> the full color management stuff. The current stuff only really
+>>> works when the kernel is allowed to do whatever it wants.
+>>>
+>>>>
+>>>>> So I think if userspace wants real color management it's
+>>>>> going to have to set up the whole pipeline. And for that
+>>>>> we need at least one new property to control the RGB->YCbCr
+>>>>> conversion (or to explicitly avoid it).
+
+I mentioned this in my commit description, we absolutely should offer 
+fine control here eventually.
+
+I don't think we need to solve that problem here though.
+
+>>>>>
+>>>>> And given that the proposed patch just swept all the
+>>>>> non-BT.2020 issues under the rug makes me think no
+>>>>> one has actually come up with any kind of consistent
+>>>>> plan for anything else really.
+>>>>>
+>>>>
+>>>> Does anyone actually use the non-BT.2020 colorspace stuff?
+>>>
+>>> No idea if anyone is using any of it. It's a bit hard to do
+>>> right now outside the full passthrough case since we have no
+>>> properties to control how the hardware will convert stuff.
+
+No, every userspace knows that encoding of the output buffer before 
+going to the wire format is RGB.
+
+It's the only way you can have planes alpha-blend, or mix and match RGB 
+and NV12, etc.
+
+>>>
+>>> Anyways, sounds like what you're basically proposing is
+>>> getting rid of this property and starting from scratch.
+>>
+>> Hmm. I guess one option would be to add that property to
+>> control the output encoding, but include a few extra
+>> "automagic" values to it which would retain the kernel's
+>> freedom to select whether to do the RGB->YCbCr conversion
+>> or not.
+>>
+>> enum output_encoding {
+>> 	auto rgb=default/nodata,ycbcr=bt601
+>> 	auto rgb=default/nodata,ycbcr=bt709
+>> 	auto rgb=bt2020,ycbcr=bt2020
+>> 	passthrough,
+>> 	rgb->ycbcr bt601,
+>> 	rgb->ycbcr bt709,
+>> 	rgb->ycbcr bt2020,
+>> }
+> 
+> In fact there should perhaps be a lot more of the explicit
+> options to get all subsamlings and quantizations ranges
+> coverted. That might actually be really nice for an igt
+> to get more full test coverage.
+> 
+The choice of encoding of the pixel on the wire should be unrelated to 
+the overall output colorspace from the userspace side -- but how the 
+display engine converts the output to that wire format *is* dependent on 
+the colorspace.
+eg. picking a rec.709 ctc vs a rec.2020 ctc matrix.
+
+I see you are proposing a "passthrough" but that wouldn't work at all as 
+you still need to at know if you are RGB or YCbCr for the infoframe and 
+to perform chroma subsampling in the display engine.
+
+I perused the initial patches that added this property, and it seems 
+there were no IGT tests or userspace implementation, so I am not 
+entirely sure why it was committed in the first place.
+
+Nobody can safely use Colorspace because of this problem right now.
+
+If nobody is using this property, perhaps we could just get a fresh 
+start, and either re-purpose it with new enum values, or obsolete it and 
+make a new property.
+If we do this, let's start with the absolute bare minimum, such as:
+"Default/Rec.709 (sRGB), BT.2020"
+and then grow as we need, making sure we have the full circle from 
+userspace->output complete and working for each new value we add.
+
+Please don't take this as me saying we shouldn't add all these other 
+options like opRGB, etc, I just want us to progress to a solid base for 
+expanding further here, which we really don't have right now.
+
+- Joshie 🐸✨
