@@ -1,78 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77A568AA1D
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Feb 2023 14:31:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E82C568AA18
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Feb 2023 14:31:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9454510E20E;
-	Sat,  4 Feb 2023 13:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15A5010E1D4;
+	Sat,  4 Feb 2023 13:31:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D561110E20C
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Feb 2023 13:31:47 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id bd15so5537836pfb.8
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Feb 2023 05:31:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=daGp5PoG0OrPfl60A6az47mpAJxpghRoHNP94dlB8eU=;
- b=L7dAfUNBrb1nRVOe/tgmzBeRDWXGSr9dg4Jb4hBT2EXsfRGOEzDIJAz9ADGKorArqM
- jH9X7fM/3wzCbcwwKKc0JDT+YDN6VUULeCr4Ui9tJUhNgyPEpqdRJsiqbU8bg6emCw6g
- x4WWCNGmVncvIbkeCLlsBNBaVHzXCdnh5F6/k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=daGp5PoG0OrPfl60A6az47mpAJxpghRoHNP94dlB8eU=;
- b=CIpIqJBO35g6v5Ap9W8LS2d2xICF8D+WojP3ULcM2pLB7zpRzd76QoPQ9RwK55Mf1C
- XBXIFZByVBPMbSsg5Uul1XHXLVqbnk6f4MVselBHuUT7uxKDxELx57p1LBQkGugu1pGh
- 9nlIK5OIv4iSnqi3vPQ0W4GQGFTzYI8HY0gS3KcWLtTrRRfNhe+nY8zd2xUC9h502dQq
- WtblKUDo/3Lip1twkzwCJMoNG86Zul74alY/ONOYNsq4g3W8yTDAbNq5gSLJtndVrrcM
- kyjgmlB7YIL7O6HWeimGIf2QdBvpsrxnhxJxSkxzHioTnN9WQlcVsuFSTgpvL/94sWxX
- apfA==
-X-Gm-Message-State: AO0yUKXtqMa20dpY2xxytf4Slp/mUT3A1Mjlju6NV8qTwkpZk84yPsBA
- S/fpzyoc2HTN4GyKhAs6vqKOiA==
-X-Google-Smtp-Source: AK7set/40ct+tyVMRwiWGG4iS8StGf6zvFVDZqXkxGxyiA7MdgelG9KQ4yQA25mKOo/brEg68xULxg==
-X-Received: by 2002:a62:5254:0:b0:594:1f1c:3d2f with SMTP id
- g81-20020a625254000000b005941f1c3d2fmr6530068pfb.4.1675517507366; 
- Sat, 04 Feb 2023 05:31:47 -0800 (PST)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:c1ad:2bdc:7b5a:72e3])
- by smtp.gmail.com with ESMTPSA id
- 144-20020a621596000000b00593ce7ebbaasm3655639pfv.184.2023.02.04.05.31.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Feb 2023 05:31:47 -0800 (PST)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v11 9/9] drm/bridge: it6505: Register Type C mode switches
-Date: Sat,  4 Feb 2023 21:30:40 +0800
-Message-Id: <20230204133040.1236799-10-treapking@chromium.org>
-X-Mailer: git-send-email 2.39.1.519.gcb327c4b5f-goog
-In-Reply-To: <20230204133040.1236799-1-treapking@chromium.org>
-References: <20230204133040.1236799-1-treapking@chromium.org>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 302B610E1D4
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Feb 2023 13:31:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1675517484; bh=JmNQMhDVYE6HTRGGF7ip3u8xIrOvPY8fxYH0WA8Xc3o=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=Nl9idx2+J7BR8+6Ji9RTods7QTPkL8EUdZ/6zRugiYE7XbAjXI0mE46N5r5XQ65vR
+ V213nAb61LdHeuv5nMxx8JshW4Gm/BlgX9KZ/S9Xd8xjB6nIWBAxy0GQsAfby5aPnZ
+ tQYCCKbRJAtRkyJYq0jZAk46BtHN3XZZOx0gN/d7t4ygtlVeR0eC6v29b8YosiaHBe
+ L7ZscKyJDWutm++r3mTBxaBAE6jKWd1/omynFiJ1vXm8rNgZEJmQHVnnx80pgdR9es
+ 5ZDDceKKkshsO2j7wNVDz20pADD66vDbnawcQuD/uJPKBNiHYSoJillLwwIg3aqtsP
+ hUHSE8xHQqiAA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.151.109]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N79u8-1oYg0u0AO4-017Sf4; Sat, 04
+ Feb 2023 14:31:24 +0100
+Message-ID: <5fcd25ee-07bb-6eab-3e73-22680a0104bf@gmx.de>
+Date: Sat, 4 Feb 2023 14:31:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCHv2] fbcon: Check font dimension limits
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Sanan Hasanov <sanan.hasanov@knights.ucf.edu>
+References: <20230129151740.x5p7jj2pbuilpzzt@begin>
+ <Y9kq4ZoBs8LkEtqs@kroah.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <Y9kq4ZoBs8LkEtqs@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mFA08GgcKqDGyKWP6edsJPY+2S/tECSNGrcGyR90v+m7m2pcCMB
+ 73i0y88ik/5FFH0DqwYUjJBWn5/4qDUooAMFHJQcfg5EUoGiU166QbTTdZ29/qElgYJbPrJ
+ wvdGyyrIM4vod0QU8YtFAbLO3XpRSNAs28BWZDgPJg7d0P6kiaWX/AZ7KJ8oaLnUbCVBf1F
+ 9d89/7iD18mjri/B0QQYg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Jep8DGUR1Jw=;v4xqMDz47w93YWvJczXEDaP8KBV
+ /lWn4l7hUyuvxqm34NE9BDV/0TmjdzVWgi9J3gmXk5Rt/IkVipmo368S5CQWny2mhyjneCept
+ A4zaSYSi81C5raDAk7shEseDldv8jhjDvaVNQMTHZ109PgrLwbsPsLnzPzkc0u1DYB5dF1PXt
+ xYJdWQ+fzbKnHbZy0lkVVlYqcqIj9In62JXgUnC1QGc7IY8FoIJONY20RnWzMk5ytJAMLKkzz
+ RJ1LEtp7GcImoo1fys+ARig69fBRbcJRCTRdMtXL/p0LnNqv0MrFyH9TPtsjMgasbIRqfQ6yN
+ 4TBmskzm2ERw6CukOAJFxYu3u+ChIGureU9HND/yZjcWSL+BB+PuqCBvq1BcOQbWVU7MJtrGK
+ TXZXocov5/oblUw/EudaPiiysalOE+qPcL04NPBCo/zSDLghem/wGscJjKPQTTdwwxtzLQKWt
+ +8H6zD4keiwg2xAZz5QfqxXN1EE5INXRkkPraq+yq3IiMhhNs09a4NjOi8IFRPqr/Gc7PXr30
+ o52S1y+G2pYFfDjwtMPYbiu70CO4QhCvOZ682DJ6RwtvF1Bldp1gmx95sslffVx9Hdnm01wF5
+ XHuFl1jeXVjTyz08N0WjSyT+TaBBu8MeyVsnAw0eE82a+3BIPOZBCIAm7T/iNHzDXQZD9gjd6
+ hPUf1nbrkcJp+Xh4NtSCcm0Rc5mMwOEuug0AZ4H2USLdNNP3fuLqI+4vQsnLDjn+enhDNjyUa
+ ytns0zNx2JZ+eobMjB5E0IeVKKWcObdG482CwqOVB26TXwVHUYcI3GPSxPSItA3DNyNCtvv0u
+ Gp9XBSVmm3UKFD4erLObca00bDc9XR1I9apLtVrau7lA7lQCBaG9S6aRDFWP/aU6/18+B2Ebo
+ ThY9drGSNj+dXcBIXJt/Mh39NS46HXD4pO5j/eNNj8hKehDXfWk+GJRL3GXiDzoUD4sXKZUdE
+ tXVYAvT5noZsGD41EjmSgQWKWodRMhbSQApq/PMtK/4MXkjMA/LhYrDpUvggtNwQwNNFaA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,288 +75,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, linux-acpi@vger.kernel.org,
- Allen Chen <allen.chen@ite.com.tw>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>, chrome-platform@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Javier Martinez Canillas <javierm@redhat.com>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register USB Type-C mode switches when the "mode-switch" property and
-relevant port are available in Device Tree. Configure the "lane_swap"
-state based on the entered alternate mode for a specific Type-C
-connector, which ends up updating the lane swap registers of the it6505
-chip.
+On 1/31/23 15:51, Greg KH wrote:
+> On Sun, Jan 29, 2023 at 04:17:40PM +0100, Samuel Thibault wrote:
+>> blit_x and blit_y are u32, so fbcon currently cannot support fonts
+>> larger than 32x32.
+>>
+>> The 32x32 case also needs shifting an unsigned int, to properly set bit
+>> 31, otherwise we get "UBSAN: shift-out-of-bounds in fbcon_set_font",
+>> as reported on:
+>>
+>> http://lore.kernel.org/all/IA1PR07MB98308653E259A6F2CE94A4AFABCE9@IA1PR=
+07MB9830.namprd07.prod.outlook.com
+>> Kernel Branch: 6.2.0-rc5-next-20230124
+>> Kernel config: https://drive.google.com/file/d/1F-LszDAizEEH0ZX0HcSR06v=
+5q8FPl2Uv/view?usp=3Dsharing
+>> Reproducer: https://drive.google.com/file/d/1mP1jcLBY7vWCNM60OMf-ogw-ur=
+QRjNrm/view?usp=3Dsharing
+>>
+>> Reported-by: Sanan Hasanov <sanan.hasanov@Knights.ucf.edu>
+>> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+>> Fixes: 2d2699d98492 ("fbcon: font setting should check limitation of dr=
+iver")
+>> Cc: stable@vger.kernel.org
+>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+applied to fbdev git tree.
 
----
-
-Changes in v11:
-- Added back "data-lanes" parsing logics
-- Removed Kconfig dependency
-- Updated the usage of the private data
-
-Changes in v7:
-- Fixed style issues in it6505 driver
-- Removed the redundant sleep in it6505 driver
-- Removed DT property validation in it6505 driver
-- Rebased to drm-misc-next
-- Extracted common codes to another commit
-
-Changes in v6:
-- Changed it6505_typec_mux_set callback function to accommodate with
-  the latest drm-misc patches
-- Changed the driver implementation to accommodate with the new binding
-- Squashed to a single patch
-
- drivers/gpu/drm/bridge/ite-it6505.c | 179 +++++++++++++++++++++++++++-
- 1 file changed, 175 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 9cda2df21b88..902f27875177 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -17,6 +17,8 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/types.h>
-+#include <linux/usb/typec_dp.h>
-+#include <linux/usb/typec_mux.h>
- #include <linux/wait.h>
- 
- #include <crypto/hash.h>
-@@ -28,6 +30,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -402,6 +405,11 @@ struct debugfs_entries {
- 	const struct file_operations *fops;
- };
- 
-+struct it6505_typec_port_data {
-+	bool dp_connected;
-+	bool lane_swap;
-+};
-+
- struct it6505 {
- 	struct drm_dp_aux aux;
- 	struct drm_bridge bridge;
-@@ -455,6 +463,9 @@ struct it6505 {
- 	struct delayed_work delayed_audio;
- 	struct it6505_audio_data audio;
- 	struct dentry *debugfs;
-+	struct completion mux_register;
-+	struct drm_dp_typec_switch_desc switch_desc;
-+	struct it6505_typec_port_data *port_data;
- 
- 	/* it6505 driver hold option */
- 	bool enable_drv_hold;
-@@ -3346,12 +3357,157 @@ static void it6505_shutdown(struct i2c_client *client)
- 		it6505_lane_off(it6505);
- }
- 
-+static void it6505_typec_ports_update(struct it6505 *it6505)
-+{
-+	int i;
-+
-+	/* Check if both ports available and do nothing to retain the current one */
-+	if (it6505->port_data[0].dp_connected && it6505->port_data[1].dp_connected)
-+		return;
-+
-+	for (i = 0; i < 2; i++) {
-+		if (it6505->port_data[i].dp_connected)
-+			it6505->lane_swap = it6505->port_data[i].lane_swap;
-+	}
-+}
-+
-+static int it6505_typec_mux_set(struct typec_mux_dev *mux,
-+				struct typec_mux_state *state)
-+{
-+	struct drm_dp_typec_port_data *port = typec_mux_get_drvdata(mux);
-+	struct it6505 *it6505 = (struct it6505 *) port->data;
-+	struct device *dev = &it6505->client->dev;
-+	struct drm_dp_typec_switch_desc switch_desc = it6505->switch_desc;
-+	bool old_dp_connected, new_dp_connected;
-+
-+	if (switch_desc.num_typec_switches == 1)
-+		return 0;
-+
-+	mutex_lock(&it6505->extcon_lock);
-+	wait_for_completion(&it6505->mux_register);
-+
-+	old_dp_connected = it6505->port_data[0].dp_connected ||
-+			   it6505->port_data[1].dp_connected;
-+
-+	it6505->port_data[port->port_num].dp_connected =
-+		state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
-+		state->alt->mode == USB_TYPEC_DP_MODE;
-+
-+	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-+		it6505->port_data[0].dp_connected, it6505->port_data[1].dp_connected);
-+
-+	new_dp_connected = it6505->port_data[0].dp_connected ||
-+			   it6505->port_data[1].dp_connected;
-+
-+	if (it6505->enable_drv_hold) {
-+		dev_dbg(dev, "enable driver hold\n");
-+		goto unlock;
-+	}
-+
-+	it6505_typec_ports_update(it6505);
-+
-+	if (!old_dp_connected && new_dp_connected) {
-+		int ret = pm_runtime_get_sync(dev);
-+
-+		/*
-+		 * pm_runtime_force_suspend() disables runtime PM when the
-+		 * system enters suspend state. But on system resume, mux_set
-+		 * can be triggered before pm_runtime_force_resume() re-enables
-+		 * runtime PM. This makes the bridge stay powered off if the
-+		 * downstream display is connected when the system is suspended.
-+		 * Handling the error here to make sure the bridge is powered
-+		 * on, and leave the PM runtime usage count incremented so
-+		 * the future runtime PM calls is balanced.
-+		 */
-+		if (ret < 0)
-+			it6505_poweron(it6505);
-+
-+		complete_all(&it6505->extcon_completion);
-+	}
-+
-+	if (old_dp_connected && !new_dp_connected) {
-+		reinit_completion(&it6505->extcon_completion);
-+		pm_runtime_put_sync(dev);
-+		if (it6505->bridge.dev)
-+			drm_helper_hpd_irq_event(it6505->bridge.dev);
-+		memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
-+	}
-+
-+unlock:
-+	mutex_unlock(&it6505->extcon_lock);
-+	return 0;
-+}
-+
-+static void it6505_unregister_typec_switches(struct it6505 *it6505)
-+{
-+	drm_dp_unregister_typec_switches(&it6505->switch_desc);
-+}
-+
-+static int it6505_register_typec_switches(struct device *dev, struct it6505 *it6505)
-+{
-+	struct device_node *port_node = of_graph_get_port_by_id(dev->of_node, 1);
-+	struct drm_dp_typec_switch_desc *switch_desc = &it6505->switch_desc;
-+	int ret;
-+	u32 dp_lanes[4];
-+	unsigned int i, num_lanes;
-+
-+	ret = drm_dp_register_typec_switches(dev, &port_node->fwnode,
-+					     &it6505->switch_desc, it6505,
-+					     it6505_typec_mux_set);
-+	if (ret)
-+		return ret;
-+
-+	it6505->port_data = devm_kcalloc(
-+		dev, switch_desc->num_typec_switches,
-+		sizeof(struct it6505_typec_port_data), GFP_KERNEL);
-+
-+	if (!it6505->port_data) {
-+		ret = -ENOMEM;
-+		goto unregister_mux;
-+	}
-+
-+	for (i = 0; i < switch_desc->num_typec_switches; i++) {
-+		struct drm_dp_typec_port_data *port = &switch_desc->typec_ports[i];
-+		struct fwnode_handle *fwnode = port->fwnode;
-+
-+		num_lanes = fwnode_property_read_u32_array(fwnode, "data-lanes",
-+							   NULL, 0);
-+
-+		if (num_lanes <= 0 || num_lanes > 2) {
-+			dev_err(dev,
-+				"Error on getting data lanes count from %pfwP: %d\n",
-+				fwnode, num_lanes);
-+			ret = num_lanes;
-+			goto unregister_mux;
-+		}
-+
-+		ret = fwnode_property_read_u32_array(fwnode, "data-lanes",
-+						     dp_lanes, num_lanes);
-+		if (ret) {
-+			dev_err(dev,
-+				"Failed to read the data-lanes variable: %d\n",
-+				ret);
-+			goto unregister_mux;
-+		}
-+
-+		it6505->port_data[i].lane_swap = (dp_lanes[0] / 2 == 1);
-+	}
-+	complete_all(&it6505->mux_register);
-+
-+	return 0;
-+
-+unregister_mux:
-+	complete_all(&it6505->mux_register);
-+	it6505_unregister_typec_switches(it6505);
-+	return ret;
-+}
-+
- static int it6505_i2c_probe(struct i2c_client *client)
- {
- 	struct it6505 *it6505;
- 	struct device *dev = &client->dev;
- 	struct extcon_dev *extcon;
--	int err, intp_irq;
-+	int err, intp_irq, ret;
- 
- 	it6505 = devm_kzalloc(&client->dev, sizeof(*it6505), GFP_KERNEL);
- 	if (!it6505)
-@@ -3371,11 +3527,25 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 	if (PTR_ERR(extcon) == -EPROBE_DEFER)
- 		return -EPROBE_DEFER;
- 	if (IS_ERR(extcon)) {
--		dev_err(dev, "can not get extcon device!");
--		return PTR_ERR(extcon);
-+		if (PTR_ERR(extcon) != -ENODEV)
-+			dev_warn(dev, "Cannot get extcon device: %ld\n",
-+				 PTR_ERR(extcon));
-+		it6505->extcon = NULL;
-+	} else {
-+		it6505->extcon = extcon;
- 	}
- 
--	it6505->extcon = extcon;
-+	init_completion(&it6505->mux_register);
-+	ret = it6505_register_typec_switches(dev, it6505);
-+	if (ret) {
-+		if (ret != -ENODEV)
-+			dev_warn(dev, "Didn't register Type-C switches, err: %d\n",
-+				 ret);
-+		if (!it6505->extcon) {
-+			dev_err(dev, "Both extcon and typec-switch are not registered.\n");
-+			return -EINVAL;
-+		}
-+	}
- 
- 	it6505->regmap = devm_regmap_init_i2c(client, &it6505_regmap_config);
- 	if (IS_ERR(it6505->regmap)) {
-@@ -3447,6 +3617,7 @@ static void it6505_i2c_remove(struct i2c_client *client)
- 	it6505_debugfs_remove(it6505);
- 	it6505_poweroff(it6505);
- 	it6505_remove_edid(it6505);
-+	it6505_unregister_typec_switches(it6505);
- }
- 
- static const struct i2c_device_id it6505_id[] = {
--- 
-2.39.1.519.gcb327c4b5f-goog
-
+Thanks!
+Helge
