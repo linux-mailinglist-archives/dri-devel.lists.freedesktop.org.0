@@ -2,60 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1755F68B04D
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Feb 2023 15:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E639668B070
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Feb 2023 15:56:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4409710E18C;
-	Sun,  5 Feb 2023 14:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F75B10E19F;
+	Sun,  5 Feb 2023 14:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A10610E18C
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Feb 2023 14:32:10 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 315EVmHq001124;
- Sun, 5 Feb 2023 08:31:48 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1675607508;
- bh=YZuVF63MW2U2mNEZ5pPQ0LVoy/puMzmMfHN/t2Px0oI=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=mlehZzBcbBYF4y/UmxPvMJu6jMEBD2ZVWGXgEJ2oHXhwAcL7CQD//hoQWcbvoqIaP
- QNLNMN4mSzQ8Xxs9GprAWgjif/4mQF9ErYmbgIURVXoh31+ZtOh8wAR2L36HhWoLZQ
- VhkUt/FHGdsERU1gYNpjr4HhgQ0T4K9Sx8806FJo=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 315EVmxN013296
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Sun, 5 Feb 2023 08:31:48 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Sun, 5
- Feb 2023 08:31:48 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Sun, 5 Feb 2023 08:31:48 -0600
-Received: from [10.250.235.106] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 315EVhgh016739;
- Sun, 5 Feb 2023 08:31:44 -0600
-Message-ID: <1662a593-8a5d-9214-8a3e-ef2699a35265@ti.com>
-Date: Sun, 5 Feb 2023 20:01:43 +0530
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8E310E19F
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Feb 2023 14:56:32 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=phil.lan) by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1pOgRL-0007OK-UW; Sun, 05 Feb 2023 15:56:24 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Brian Norris <briannorris@chromium.org>
+Subject: Re: [PATCH] drm/rockchip: vop: Quiet always-warning AFBC log
+Date: Sun,  5 Feb 2023 15:56:19 +0100
+Message-Id: <167560896726.1025063.9551484368846993659.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20221031101557.1.Ic1569d394173c1c3016142fee4bb87a09753db94@changeid>
+References: <20221031101557.1.Ic1569d394173c1c3016142fee4bb87a09753db94@changeid>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v7 3/6] drm/tidss: Add support for AM625 DSS
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230125113529.13952-1-a-bhatia1@ti.com>
- <20230125113529.13952-4-a-bhatia1@ti.com>
- <ab6f52bb-a3f5-afda-c037-f009153a0bb6@ideasonboard.com>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <ab6f52bb-a3f5-afda-c037-f009153a0bb6@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,61 +40,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 03-Feb-23 21:03, Tomi Valkeinen wrote:
-> On 25/01/2023 13:35, Aradhya Bhatia wrote:
->> Add support for the DSS controller on TI's new AM625 SoC in the tidss
->> driver.
->>
->> The first video port (VP0) in am625-dss can output OLDI signals through
->> 2 OLDI TXes. A 3rd output port has been added with "DISPC_PORT_OLDI" bus
->> type.
+On Mon, 31 Oct 2022 10:16:01 -0700, Brian Norris wrote:
+> The downstream code from which this was derived didn't ever run through
+> this 'switch' block with non-AFBC formats, but the upstream code does --
+> we use this function to probe whether a given format is supported.
 > 
-> Not a big thing here as you add support for a new SoC, but the ordering
-> of the patches is not optimal. Here you add the AM625 DSS support, but
-> then you continue actually adding the DSS support (well, mainly OLDI) in
-> the following patches.
+> Demote the warning to eliminate this sort of warning seen on every
+> boot:
 > 
-> I think patch 6 could be before this patch. Parts of patch 4 could also
-> be before this patch. The AM65X renames from patch 5 could be before
-> this patch.
+> [...]
 
-I can move whole of Patch 6 and even of Patch 4 before this one. I have
-mentioned 'AM625-DSS' in a couple comments which I can make generic,
-and the rest everything is SoC-agnostic.
+Applied, thanks!
 
-I haven't tried this, but my concern is if we break patch 5 into 2
-separate patches,
+[1/1] drm/rockchip: vop: Quiet always-warning AFBC log
+      commit: 582212ee1611f77e0360d249f11c0f703ed723dc
 
-i. AM65X rename plus SoC based switch case, and
-ii. Addition of AM625 SoC case
-
-then I might have to overwrite some changes implemented during (i) in
-(ii). I don't suppose that would be okay, would it?
-
-Also, is it important to keep the compatible-addition patches of
-DT-binding and driver next to each other in the series? Or should
-the DT-binding patches should be the first ones? Just curious! =)
-
-> 
-> I'm mainly thinking of a case where someone uses AM625 and is bisecting
-> a problem. What happens if his board uses OLDI, and he happens to hit
-> one of these patches during bisect? If the display just stays black, but
-> otherwise everything works fine, then no problem. But if it crashes or
-> starts spamming sync losts or such or gives errors, it's not so nice.
-> 
-You are right! This certainly makes sense.
-
-
-Regards
-Aradhya
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
