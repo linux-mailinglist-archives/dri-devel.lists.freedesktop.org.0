@@ -2,86 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E1A68AD9E
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Feb 2023 01:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048B268AF0C
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Feb 2023 10:44:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E76F810E0F6;
-	Sun,  5 Feb 2023 00:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 129B510E06D;
+	Sun,  5 Feb 2023 09:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8BCA10E0E0;
- Sun,  5 Feb 2023 00:36:39 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3150Tn7g006574; Sun, 5 Feb 2023 00:36:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=WgM0W+aObmmjy1v7Zkc+1t2W1bWQ3m5yY7AOH8yvVGI=;
- b=g3IbTYG9uvuWRxkngKkqQcK2Kn37SC4G9RsqaYgLzbfZZDbgQVlvGRKkzQHJKH4/c4kB
- f57+WIXgq2j5t+pcUbzGc+FzH0+KbXm9OjxNS1KuwJPKgO13NblWUhrbEFLO/J88dvaG
- DcRaRW2jIU6HZ4iIeZYHPYLhybaZ8c1RD5OTKgDLXd5YC4BNE7+CuBpfmFtto2/LknjT
- 9ueWQSJdAt19Is+LP6q7ub8wfngGuiT9Q2/UEBPfunzw/e7srEaCt+E/Uawv07Be8v+E
- C9MVfQEBAURpNczVrtEl7QrAusWBpqfbf4MAsNVV1owF3mO79xvGvULFJ+Q2P78nlF1a iw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nhfres44a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Feb 2023 00:36:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3150aWOi004564
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 5 Feb 2023 00:36:32 GMT
-Received: from [10.110.99.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Sat, 4 Feb 2023
- 16:36:31 -0800
-Message-ID: <42cd459a-2c44-eeb3-ff6f-daac54ae467d@quicinc.com>
-Date: Sat, 4 Feb 2023 16:36:30 -0800
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 863A810E06D
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Feb 2023 09:44:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1675590265; bh=UR5JiAGIMlz6X9Cdqq2wgkG8j96lA/E+jMDdXd5wrgE=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=aCK9loipCDe9ngykteluEaVvtnnPDBBOukftp5/iUGpshlcU0+CRJiAJETCrAFjy+
+ RBRrqUiw0XrJgD5NBRbNGxOI84+w54h9jWx+Qt1BPRjyqdH/mj7wWnD5BjWITX9mmT
+ Yt2CGmMXmyZQW1kCZytHi7+JOwsRV1fOHsp1FtykEvZvaEg12JXqsJDVItME1iTcAq
+ 37dUNcUaDZeD3H3TiXtAyTa6r/LmYreP5UOcZk6TiQdIGYfC987tnFJS/jQNHbG83h
+ 8HFR1mt4KomCXRbakoef9dT3thkMQaiEa2pQJaPf/C1M9YzFzgoI0JtrqjGiivQvnd
+ VvEAe2S81E3sw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ls3530 ([92.116.173.244]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1ML9uK-1p6Nvn0tco-00I9my; Sun, 05
+ Feb 2023 10:44:25 +0100
+Date: Sun, 5 Feb 2023 10:44:23 +0100
+From: Helge Deller <deller@gmx.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes for v6.2-rc7
+Message-ID: <Y996d9DJSOK3hT3A@ls3530>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v3 18/27] drm/msm/dpu: populate SmartDMA features in hw
- catalog
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
- <20230203182132.1307834-19-dmitry.baryshkov@linaro.org>
- <c04a01d1-0375-16be-b8d0-022704ae89a5@quicinc.com>
- <3754a9a9-8b64-62ae-0b0d-f379debefa16@linaro.org>
- <ddb0de30-9e29-f6f0-028c-48530bee4a6b@quicinc.com>
- <42e6237d-9fae-0679-1354-7df74594a9db@linaro.org>
- <d89a1735-4351-a9b5-c6e3-d0d05af9d283@quicinc.com>
- <6d171f4b-9a49-ea90-8cf3-518bea0964b3@linaro.org>
- <edc1aab6-b38f-c0ec-9339-01117d037ebf@quicinc.com>
- <5d482d65-858f-7c6c-1f93-dabc6e2f4be9@linaro.org>
- <616460ed-2385-cefb-5bb5-491fa42f1e54@quicinc.com>
- <CAA8EJpqEq4Wirj0SmxcJYbiw0taUmbLpC8RYFCzkBfsPxc-aZA@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJpqEq4Wirj0SmxcJYbiw0taUmbLpC8RYFCzkBfsPxc-aZA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 6Qxuw0zE3bkV1H_WcJeqCataR4yZ16Ze
-X-Proofpoint-GUID: 6Qxuw0zE3bkV1H_WcJeqCataR4yZ16Ze
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-04_13,2023-02-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 impostorscore=0 mlxscore=0
- malwarescore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
- phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302050001
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:4I3p7DxPNQAaF2icixvVhv/C/mp5VwgKAhBRzEfc+xmjnIKqLPY
+ j8hUpQnu18CCtCnzho83rZU+eIgP3LXegRuvngSz7S968CwPvc/pgT2m+qmeSATfsiLGaNW
+ 5Su+JBb7DrWbrOqV6MNXuoe02vbaSrWojjfnef4gOo5Q8Bjq3bmvrNO2hMLo44INdLgUpuF
+ aWFlBOz56oAIFnYN/GZ1g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:A/zKnyAk7rU=;HKuxYvDgulOV9DeiOU5JaL2hWg5
+ 1wT/cCSQ73PYS16kMZ6y/yF1zDlJVzhlaPmjD7oO2nBvWRlqCXaZVesZGAFYUfr+AblAjdehF
+ 4svgsueXmcS3QCmmb8JjKo4ygzI1sACxPwNinMJH1+c/1An7Gk8qPcoViVgVJH3Af6+ED1qT7
+ 6FjI/5Xhr6cpjqm/u68CCG4rqOpsof+0rRV+pow0KvGCdmygd88fEa3nMzyoQCQoSGJwuZ//J
+ Irg+t9TqVz8ARA4vKUsM/mCR77GGK5rPJE4Qr9EFjEKG63HODasve7HZT0oWSVL99idSn+cQE
+ evIUUf5YSWEl4Vre+VBMmvZ3PtbyQdp0DaK3/F7QNJWhkGwsPrTGlxZ13mgMpYcfR6Rej7qQK
+ KncbBUG9oZkoaSZK7vSClZ0+DnptrztJtZloeLEbspu5M2QdSWBVleDAKE8lx34hV5pmQNtle
+ R73LPzZru94ebrP3GfcDzJy73eFSra+FrNNNFxSmI1NMCJMISykfc0qkOHuwkVqOIKTVzmpDZ
+ VI/i4KumgAyEclcQ7GTdOiLGdsWZ5XjWEtwHMdVxLp6ollvwu82A6NoSin2u4WkYPGzA1VY6u
+ Gs2iSndPTaJzk8l+tw8Zh0fzm3hu55ATK9i9gy36DSNm9TFxMQ6yaRm6/hEZYXNQUZlsdK5V0
+ 7U8oyRemsmO48jUBs5z2QkmCwSrXHB7VXCaeeGkALHpqk5ZPK3lAdyqugTg1lOK6rmh2ffNL1
+ NeQq1PwDMh8oxdvCGSyQTMwRESol27EEyvYZWbTvqIP3gF3jh6w1BUq5svOMFe+MhFtaITvTE
+ DDmE7mgAozZqB9BBrSIPfcTowMHGCXnBDq1ySnktpxZvB0A1dn3/CIy3Vf8MsGnDaAq1W3Kgi
+ +QbljzXbRB6B0gW0KXMWeMRXaF2Z7GSmo2+CPzxqxh0XV4STlfko9nclMRaLlNjElz0ZFQ3kC
+ gA2LMgkRQ8J62V7PZWud1Arr8Lk=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,214 +68,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus,
 
+please pull the latest fbdev fixes for 6.2-rc7, which
+- fix fbcon to prevent fonts bigger than 32x32 pixels to avoid
+  overflows reported by syzbot,
+- switch omapfb to use kstrtobool(), and
+- switch some fbdev drivers to use the backlight helpers
 
-On 2/4/2023 4:29 PM, Dmitry Baryshkov wrote:
-> On Sun, 5 Feb 2023 at 01:20, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 2/4/2023 1:08 PM, Dmitry Baryshkov wrote:
->>> On 04/02/2023 20:35, Abhinav Kumar wrote:
->>>>
->>>>
->>>> On 2/4/2023 2:43 AM, Dmitry Baryshkov wrote:
->>>>> On 04/02/2023 07:10, Abhinav Kumar wrote:
->>>>>>
->>>>>>
->>>>>> On 2/3/2023 8:10 PM, Dmitry Baryshkov wrote:
->>>>>>> On 04/02/2023 04:43, Abhinav Kumar wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> On 2/3/2023 6:29 PM, Dmitry Baryshkov wrote:
->>>>>>>>> On 04/02/2023 01:35, Abhinav Kumar wrote:
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> On 2/3/2023 10:21 AM, Dmitry Baryshkov wrote:
->>>>>>>>>>> Downstream driver uses dpu->caps->smart_dma_rev to update
->>>>>>>>>>> sspp->cap->features with the bit corresponding to the supported
->>>>>>>>>>> SmartDMA
->>>>>>>>>>> version. Upstream driver does not do this, resulting in SSPP
->>>>>>>>>>> subdriver
->>>>>>>>>>> not enbaling setup_multirect callback. Add corresponding
->>>>>>>>>>> SmartDMA SSPP
->>>>>>>>>>> feature bits to dpu hw catalog.
->>>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> While reviewing this patch, I had a first hand experience of how
->>>>>>>>>> we are reusing SSPP bitmasks for so many chipsets but I think
->>>>>>>>>> overall you got them right here :)
->>>>>>>>>>
->>>>>>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>>>>>> ---
->>>>>>>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 10 +++++++---
->>>>>>>>>>>    1 file changed, 7 insertions(+), 3 deletions(-)
->>>>>>>>>>>
->>>>>>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>>>>>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>>>>>>>>> index cf053e8f081e..fc818b0273e7 100644
->>>>>>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>>>>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->>>>>>>>>>> @@ -21,13 +21,16 @@
->>>>>>>>>>>        (VIG_MASK | BIT(DPU_SSPP_SCALER_QSEED3))
->>>>>>>>>>>    #define VIG_SDM845_MASK \
->>>>>>>>>>> -    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) |
->>>>>>>>>>> BIT(DPU_SSPP_SCALER_QSEED3))
->>>>>>>>>>> +    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) |
->>>>>>>>>>> BIT(DPU_SSPP_SCALER_QSEED3) |\
->>>>>>>>>>> +    BIT(DPU_SSPP_SMART_DMA_V2))
->>>>>>>>>>>    #define VIG_SC7180_MASK \
->>>>>>>>>>> -    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) |
->>>>>>>>>>> BIT(DPU_SSPP_SCALER_QSEED4))
->>>>>>>>>>> +    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) |
->>>>>>>>>>> BIT(DPU_SSPP_SCALER_QSEED4) |\
->>>>>>>>>>> +    BIT(DPU_SSPP_SMART_DMA_V2))
->>>>>>>>>>>    #define VIG_SM8250_MASK \
->>>>>>>>>>> -    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) |
->>>>>>>>>>> BIT(DPU_SSPP_SCALER_QSEED3LITE))
->>>>>>>>>>> +    (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) |
->>>>>>>>>>> BIT(DPU_SSPP_SCALER_QSEED3LITE) |\
->>>>>>>>>>> +    BIT(DPU_SSPP_SMART_DMA_V2))
->>>>>>>>>>>    #define VIG_QCM2290_MASK (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL))
->>>>>>>>>>> @@ -42,6 +45,7 @@
->>>>>>>>>>>    #define DMA_SDM845_MASK \
->>>>>>>>>>>        (BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) |
->>>>>>>>>>> BIT(DPU_SSPP_QOS_8LVL) |\
->>>>>>>>>>>        BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
->>>>>>>>>>> +    BIT(DPU_SSPP_SMART_DMA_V2) |\
->>>>>>>>>>>        BIT(DPU_SSPP_CDP) | BIT(DPU_SSPP_EXCL_RECT))
->>>>>>>>>>>    #define DMA_CURSOR_SDM845_MASK \
->>>>>>>>>>
->>>>>>>>>> VIG_SDM845_MASK and DMA_SDM845_MASK are used for many other
->>>>>>>>>> chipsets like 8250, 8450, 8550.
->>>>>>>>>>
->>>>>>>>>> At the moment, for visual validation of this series, I only have
->>>>>>>>>> sc7180/sc7280. We are leaving the rest for CI.
->>>>>>>>>>
->>>>>>>>>> Was that an intentional approach?
->>>>>>>>>>
->>>>>>>>>> If so, we will need tested-by tags from folks having
->>>>>>>>>> 8350/8450/8550/sc8280x,qcm2290?
->>>>>>>>>>
->>>>>>>>>> I am only owning the visual validation on sc7280 atm.
->>>>>>>>>
->>>>>>>>> I'm not quite sure what is your intent here. Are there any SoCs
->>>>>>>>> after 845 that do not have SmartDMA 2.5? Or do you propose to
->>>>>>>>> enable SmartDMA only for the chipsets that we can visually test?
->>>>>>>>> That sounds strange.
->>>>>>>>>
->>>>>>>>
->>>>>>>> Yes I was thinking to enable smartDMA at the moment on chipsets
->>>>>>>> which we can validate visually that display comes up. But I am not
->>>>>>>> sure if thats entirely practical.
->>>>>>>>
->>>>>>>> But the intent was I just want to make sure basic display does
->>>>>>>> come up with smartDMA enabled if we are enabling it for all chipsets.
->>>>>>>
->>>>>>> I don't think it is practical or logical. We don't require
->>>>>>> validating other changes on all possible chipsets, so what is so
->>>>>>> different with this one?
->>>>>>>
->>>>>>
->>>>>> Thats because with smartDMA if the programming of stages goes wrong
->>>>>> we could potentially just see a blank screen. Its not about other
->>>>>> changes, this change in particular controls enabling a feature.
->>>>>>
->>>>>> But thats just my thought. I am not going to request to ensure this
->>>>>> or block this for this.
->>>>>>
->>>>>> You can still have my
->>>>>>
->>>>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>>>
->>>>>> But think of the validations that have to be done before we merge it.
->>>>>
->>>>> The usual way: verify as much as feasible and let anybody else
->>>>> complain during the development cycle.
->>>>>
->>>>
->>>> Well, our perspective is to enable the feature on devices on which you
->>>> are able to test and not enable then wait for others to complain.
->>>
->>> This would not be really practical. There are plenty of people who can
->>> test things on obscure platforms, but unfortunately far less amount of
->>> people who tightly follow the development and can track which new
->>> feature applies to a particular platform. I hope to be able to fix that
->>> slightly with the hw catalog rework. However enabling features on other
->>> platforms definitely requires more knowledge than simply testing the
->>> kernel.
->>>
->>>>
->>>> I did not say test all devices. My point was to enable smartDMA on
->>>> devices which we are able to test.
->>>>
->>>> There are other examples of this, like inline rotation, writeback etc.
->>>> which are at the moment enabled only on devices which QC or others
->>>> have tested on.
->>>
->>> But at the time it was added, inline rotation 2.0 could only be
->>> supported on sc7280. Probably we should expand it not to sc8280xp and
->>> sm8[345]50.
->>>
->>> For WB I don't remember which platforms were supported at the moment it
->>> was added. But it's also worth expanding support to new platforms.
->>>
->>> And, as we speak about testing, is there an easy way to setup the plane
->>> with UBWC format modifier? Also, did the WB support patches land into
->>> libdrm?
->>>
->>
->> I will check the compositor code and update you on the UWBC format
->> modifier as I am not too familiar with it.
-> 
-> Ideally it would be nice to support ubwc planes in some simple tool,
-> e.g. modetest.
-> 
->>
->> libdrm always supported virtual encoder
->> https://github.com/grate-driver/libdrm/blob/master/include/drm/drm_mode.h#L352
->>
->> What other support patches are needed? Right now we only use IGT to
->> validate writeback.
-> 
-> I remember there was a patchset to make modeset to support using
-> writeback. What was its fate?
-> 
+Thanks,
+Helge
 
-Once our intern finished his internship, noone could take up the pending 
-review comments after that so its yet to be merged.
+=2D------
 
-https://patchwork.kernel.org/project/dri-devel/list/?series=667290&archive=both
+The following changes since commit b7bfaa761d760e72a969d116517eaa12e404c26=
+2:
 
-Once more item to the to-do list.
+  Linux 6.2-rc3 (2023-01-08 11:49:43 -0600)
 
->>
->>>> So when i said my suggestion was not practical, yes because if you
->>>> want to go ahead with this change in the current form, you would have
->>>> to validate all the chipsets as you are enabling smartDMA on all of them.
->>>>
->>>> If you enable smartDMA only on the chipsets you OR others can validate
->>>> and give Tested-by for like I was planning to do for sc7280, then I am
->>>> not sure why it doesnt sound logical.
->>>>
->>>> But like I said, thats my perspective. I will let you decide as you
->>>> would know how confident you are with this getting enabled for all
->>>> chipsets upstream.
->>>
->>> I'd say, that once tested on some of the platforms and granted that even
->>> smalled (qcm2290, sm6115) platforms support smartdma, it will be safe to
->>> enable smart DMA globablly for every SoC >= sdm845. If I remember
->>> correctly, msm8998 (and sdm660/630) support smartdma/rect only on DMA
->>> planes. Is it correct?
->>>
->>>
->> Yes thats right msm8998 supports smartdma only on DMA sspps.
-> 
-> Good
-> 
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git ta=
+gs/fbdev-for-6.2-rc7
+
+for you to fetch changes up to 2b09d5d364986f724f17001ccfe4126b9b43a0be:
+
+  fbcon: Check font dimension limits (2023-02-04 14:29:19 +0100)
+
+=2D---------------------------------------------------------------
+fbdev updates for kernel 6.2-rc7:
+
+- Check font size in fbcon, reported by UBSAN and syzbot
+- Use backlight helpers in various fbdev drivers
+
+=2D---------------------------------------------------------------
+Christophe JAILLET (1):
+      fbdev: omapfb: Use kstrtobool() instead of strtobool()
+
+Randy Dunlap (1):
+      fbdev: fbmon: fix function name in kernel-doc
+
+Samuel Thibault (1):
+      fbcon: Check font dimension limits
+
+Stephen Kitt (8):
+      fbdev: aty128fb: Use backlight helper
+      fbdev: atyfb: Use backlight helper
+      fbdev: radeon: Use backlight helper
+      fbdev: mx3fb: Use backlight helper
+      fbdev: nvidia: Use backlight helper
+      fbdev: omapfb: panel-dsi-cm: Use backlight helper
+      fbdev: riva: Use backlight helper
+      fbdev: atmel_lcdfb: Rework backlight status updates
+
+ drivers/video/fbdev/atmel_lcdfb.c                  | 22 +----------------=
+-----
+ drivers/video/fbdev/aty/aty128fb.c                 |  6 ++----
+ drivers/video/fbdev/aty/atyfb_base.c               |  8 +-------
+ drivers/video/fbdev/aty/radeon_backlight.c         |  6 +-----
+ drivers/video/fbdev/core/fbcon.c                   |  7 +++++--
+ drivers/video/fbdev/core/fbmon.c                   |  2 +-
+ drivers/video/fbdev/mx3fb.c                        |  7 +------
+ drivers/video/fbdev/nvidia/nv_backlight.c          |  8 +-------
+ .../fbdev/omap2/omapfb/displays/panel-dsi-cm.c     |  8 +-------
+ .../video/fbdev/omap2/omapfb/dss/display-sysfs.c   |  7 ++++---
+ .../video/fbdev/omap2/omapfb/dss/manager-sysfs.c   |  7 ++++---
+ .../video/fbdev/omap2/omapfb/dss/overlay-sysfs.c   |  3 ++-
+ drivers/video/fbdev/omap2/omapfb/omapfb-sysfs.c    |  3 ++-
+ drivers/video/fbdev/riva/fbdev.c                   |  8 +-------
+ 14 files changed, 27 insertions(+), 75 deletions(-)
