@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CA168C036
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 15:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E8A68C06F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 15:48:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1E010E3AA;
-	Mon,  6 Feb 2023 14:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4490410E3E3;
+	Mon,  6 Feb 2023 14:48:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 901 seconds by postgrey-1.36 at gabe;
- Mon, 06 Feb 2023 14:35:35 UTC
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2F3010E3AA
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 14:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
- q=dns/txt; i=@phytec.de; t=1675693231; x=1678285231;
- h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=q5FIAJjK7joiRJaf0JPpzOWdUDayNYkOXzSXsHkAAp0=;
- b=KgzbUKyQ629vS5AexuyD+Ay67GEgjXzFY+HVUXOfym45ISa/3w2FIVxCi8S8lli8
- SwWvgQnG4MV9pEgkyXKU6LPJb2krgdmBpPtLOsUaM4rEQCpm73X4m+PjqH4jzoA4
- R96OG137u13qiPCy+pqC4m8ZpE2qvGhHwG17tEgOUyU=;
-X-AuditID: ac14000a-923ff70000007ecb-8f-63e10caf0ce8
-Received: from Diagnostix.phytec.de (Diagnostix.phytec.de [172.25.0.14])
- (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (Client did not present a certificate)
- by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 30.CE.32459.FAC01E36;
- Mon,  6 Feb 2023 15:20:31 +0100 (CET)
-Received: from Florix.phytec.de (172.25.0.13) by Diagnostix.phytec.de
- (172.25.0.14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 6 Feb
- 2023 15:20:31 +0100
-Received: from Florix.phytec.de ([fe80::a802:84f9:c56c:4c6d]) by
- florix.phytec.de ([fe80::a802:84f9:c56c:4c6d%5]) with mapi id 15.01.2375.018; 
- Mon, 6 Feb 2023 15:20:31 +0100
-From: Dominik Haller <D.Haller@phytec.de>
-To: "robh+dt@kernel.org" <robh+dt@kernel.org>, "sam@ravnborg.org"
- <sam@ravnborg.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 2/2] drm/panel: simple: Add EDT ETML1010G0DKA panel
-Thread-Topic: [PATCH 2/2] drm/panel: simple: Add EDT ETML1010G0DKA panel
-Thread-Index: AQHYt+xq34hFG5cNnESyWWcHUzxQe67C67mA
-Date: Mon, 6 Feb 2023 14:20:31 +0000
-Message-ID: <ba13246c-3838-4993-12ef-420d82730b28@phytec.de>
-References: <20220818124518.42080-1-d.haller@phytec.de>
- <20220818124518.42080-2-d.haller@phytec.de>
-In-Reply-To: <20220818124518.42080-2-d.haller@phytec.de>
-Accept-Language: en-DE, de-DE, en-US
-Content-Language: aa
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.0.11]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C3392DDF7449474AA06C6F09FE10890A@phytec.de>
-Content-Transfer-Encoding: base64
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF8F110E40E;
+ Mon,  6 Feb 2023 14:48:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 38028B811C9;
+ Mon,  6 Feb 2023 14:48:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56162C433A0;
+ Mon,  6 Feb 2023 14:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675694921;
+ bh=HYdJr2k8xDsH9UDytuxcvFsS8NUtWpMmOCXLy/R0vfY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=rnFXM4aISGhBNRn4hSR7eWhrhUqOEbjjg0C59+ZDrMmpa6Z2I+6ozrRA3B3/LaJe7
+ l7ensMX+XxaF70p6LE0yuz2OhGFl1TRO3OZdO/SdM6rOYOYCgOANjgFL0UzXqJ8fk9
+ jdD8/8lPphHo5p8hX7WNdKxFydlozOzAANzbjpStLNaYJRGJh05lAnThIHisKH/xoh
+ 8b2+oVcz/19f/Iv/vTSe/PEmm2vZiXoZIgMpHlHrTzmNV4QdhlPFWUj/KFs+vR/+Fs
+ o+k9HqBv+NhmKQM17nj1JEjTet1QUV/a0q9wnES2mYnMaVZfZJFfD2ShnrziZQXQgJ
+ AlL8iaN2xotAw==
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-52a849206adso12541377b3.4; 
+ Mon, 06 Feb 2023 06:48:41 -0800 (PST)
+X-Gm-Message-State: AO0yUKV/8FHrqDsQ4zmvM6xONrLjcQ4PaY2tM9I51qIXgIcVCHmSa7C1
+ G/XCY1mum57iE2s/DniN61kKcVBWV057Cgajkj4=
+X-Google-Smtp-Source: AK7set8XPchtwOOx5zc+24WB7S/trNyqjWhqIRW0/wKJiCz5RqFF+C1SwTDZZC/hmiQNqmKeHvc18dggdQwMcgaP/lU=
+X-Received: by 2002:a81:7c84:0:b0:52a:76d3:27fe with SMTP id
+ x126-20020a817c84000000b0052a76d327femr275586ywc.487.1675694920333; Mon, 06
+ Feb 2023 06:48:40 -0800 (PST)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBIsWRmVeSWpSXmKPExsWyRpKBT3c9z8Nkg4v7DCzmHznHanHl63s2
- i74XD5ktWvceYbdY8XMro8XPXfNYHNg8ds66y+6xaVUnm8eda3vYPO53H2fyWDLtKpvH501y
- AWxRXDYpqTmZZalF+nYJXBkTFvxiKTglXvF67Sr2BsY/Yl2MnBwSAiYSt25eZOxi5OIQEljL
- JHHqfSOU85hR4t31eSwQzkZGiZZvl5lAWtgENCVeTr3NCpIQEbjBKHF24XewFmaQquOd7Ywg
- VcIC7hJdv7pYQWwRAQ+JxQ+fMUHYRhIvD59lB7FZBFQkZj0/wAxi8wrYSLy6sxQsLiSQKrH9
- 3RmwXk4BC4k931rAZjIC1d9++QvMZhYQkei9DhGXEBCQWLLnPDOELSrx8vE/VghbXuLErWlA
- ezmA6jUl1u/Sh2i1kFj99TQzhK0oMaX7ITvECYISJ2c+YZnAKD4LyYZZCN2zkHTPQtI9C0n3
- AkbWVYxCuZnJ2alFmdl6BRmVJanJeimpmxhBsSvCwLWDsW+OxyFGJg7GQ4wSHMxKIrymBx4k
- C/GmJFZWpRblxxeV5qQWH2KU5mBREue938OUKCSQnliSmp2aWpBaBJNl4uCUamCsEG6QYsyQ
- L9Y93t/Vt2jxzEhTljCfdS0ey92Yg4y9AvvX/WEWveBr8FegYdGEhwXnj5v9fatT29hhWLxq
- vt/VkoZtr25zcse9/Ws18d6fYKveWY1npzt7Td6n/ydW7qHyHDu71oZrX0Vl564WylykM/VM
- zOy0ZK+nK3K+Ref+15KdV7prqYsSS3FGoqEWc1FxIgCNOD4LywIAAA==
+References: <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
+ <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
+ <3602500f-05f5-10b8-5ec6-0a6246e2bb6b@amd.com>
+ <bcbef353-f579-4e90-1c77-be36bbe61c0f@redhat.com>
+ <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
+ <0f2d6e1a-a3b5-f323-a29d-caade427292c@redhat.com>
+ <CADnq5_Nh-1esiHzvTG+qFBCfMjy21efX-YN2jfGG=WC+-4LwLQ@mail.gmail.com>
+ <CAPM=9txMZO1uYj+kVdTfmCwV2Fq8uu_b3i4eq4xhqPEPKBW8Eg@mail.gmail.com>
+ <7839c47e-6692-b93b-69a8-9584193cb07d@amd.com>
+ <6566870d-6256-8eef-5879-cb13711e4bed@redhat.com>
+ <Y8jT1TazLddqZjG4@DUT025-TGLU.fm.intel.com>
+In-Reply-To: <Y8jT1TazLddqZjG4@DUT025-TGLU.fm.intel.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Mon, 6 Feb 2023 16:48:13 +0200
+X-Gmail-Original-Message-ID: <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
+Message-ID: <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
+Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
+ UAPI
+To: Matthew Brost <matthew.brost@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,48 +72,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "upstream@phytec.de" <upstream@phytec.de>
+Cc: jason@jlekstrand.net, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
+ bskeggs@redhat.com, tzimmermann@suse.de, airlied@redhat.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sDQoNCnBpbmcgaGVyZSwgdGhpcyBvbmUgZ290IGZvcmdvdHRlbi4NCkl0IHN0aWxsIGFw
-cGxpZXMgb24gZHJtLW1pc2MtbmV4dCBhbmQgdjYuMi1yYzcNCg0KDQpPbiAxOC4wOC4yMiAxNDo0
-NSwgRG9taW5payBIYWxsZXIgd3JvdGU6DQo+IEFkZCBzdXBwb3J0IGZvciB0aGUgRURUIEVUTUwx
-MDEwRzBES0EgMTAuMSIgMTI4MHg4MDAgTFZEUyBwYW5lbC4NCj4NCj4gU2lnbmVkLW9mZi1ieTog
-RG9taW5payBIYWxsZXIgPGQuaGFsbGVyQHBoeXRlYy5kZT4NCj4gLS0tDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jIHwgMjkgKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspDQo+DQo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMNCj4gaW5kZXggZjllMWY4NWRhZWY3Li45MzE0ZGIyNGFi
-NTEgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYw0K
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2ltcGxlLmMNCj4gQEAgLTE3Nzks
-NiArMTc3OSwzMiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHBhbmVsX2Rlc2MgZWR0X2V0bWwwNzAw
-eTVkaGEgPSB7DQo+ICAgCS5jb25uZWN0b3JfdHlwZSA9IERSTV9NT0RFX0NPTk5FQ1RPUl9MVkRT
-LA0KPiAgIH07DQo+ICAgDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
-ZWR0X2V0bWwxMDEwZzBka2FfbW9kZSA9IHsNCj4gKwkuY2xvY2sgPSA3MDAwMCwNCj4gKwkuaGRp
-c3BsYXkgPSAxMjgwLA0KPiArCS5oc3luY19zdGFydCA9IDEyODAgKyAxMDAsDQo+ICsJLmhzeW5j
-X2VuZCA9IDEyODAgKyAxMDAgKyAxOSwNCj4gKwkuaHRvdGFsID0gMTI4MCArIDEwMCArIDE5ICsg
-NDEsDQo+ICsJLnZkaXNwbGF5ID0gODAwLA0KPiArCS52c3luY19zdGFydCA9IDgwMCArIDQsDQo+
-ICsJLnZzeW5jX2VuZCA9IDgwMCArIDQgKyA0LA0KPiArCS52dG90YWwgPSA4MDAgKyA0ICsgNCAr
-IDE1LA0KPiArCS5mbGFncyA9IERSTV9NT0RFX0ZMQUdfUEhTWU5DIHwgRFJNX01PREVfRkxBR19Q
-VlNZTkMsDQo+ICt9Ow0KPiArDQo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IHBhbmVsX2Rlc2MgZWR0
-X2V0bWwxMDEwZzBka2EgPSB7DQo+ICsJLm1vZGVzID0gJmVkdF9ldG1sMTAxMGcwZGthX21vZGUs
-DQo+ICsJLm51bV9tb2RlcyA9IDEsDQo+ICsJLmJwYyA9IDgsDQo+ICsJLnNpemUgPSB7DQo+ICsJ
-CS53aWR0aCA9IDIxNiwNCj4gKwkJLmhlaWdodCA9IDEzNSwNCj4gKwl9LA0KPiArCS5idXNfZm9y
-bWF0ID0gTUVESUFfQlVTX0ZNVF9SR0I4ODhfMVg3WDRfU1BXRywNCj4gKwkuYnVzX2ZsYWdzID0g
-RFJNX0JVU19GTEFHX0RFX0hJR0gsDQo+ICsJLmNvbm5lY3Rvcl90eXBlID0gRFJNX01PREVfQ09O
-TkVDVE9SX0xWRFMsDQo+ICt9Ow0KPiArDQo+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZGlz
-cGxheV9tb2RlIGVkdF9ldG12NTcwZzJkaHVfbW9kZSA9IHsNCj4gICAJLmNsb2NrID0gMjUxNzUs
-DQo+ICAgCS5oZGlzcGxheSA9IDY0MCwNCj4gQEAgLTQwNTcsNiArNDA4Myw5IEBAIHN0YXRpYyBj
-b25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIHBsYXRmb3JtX29mX21hdGNoW10gPSB7DQo+ICAgCX0s
-IHsNCj4gICAJCS5jb21wYXRpYmxlID0gImVkdCxldG1sMDcwMHk1ZGhhIiwNCj4gICAJCS5kYXRh
-ID0gJmVkdF9ldG1sMDcwMHk1ZGhhLA0KPiArCX0sIHsNCj4gKwkJLmNvbXBhdGlibGUgPSAiZWR0
-LGV0bWwxMDEwZzBka2EiLA0KPiArCQkuZGF0YSA9ICZlZHRfZXRtbDEwMTBnMGRrYSwNCj4gICAJ
-fSwgew0KPiAgIAkJLmNvbXBhdGlibGUgPSAiZWR0LGV0bXY1NzBnMmRodSIsDQo+ICAgCQkuZGF0
-YSA9ICZlZHRfZXRtdjU3MGcyZGh1LA0KDQoNCi0tIA0KUEhZVEVDIE1lc3N0ZWNobmlrIEdtYkgg
-fCBCYXJjZWxvbmEtQWxsZWUgMSB8IDU1MTI5IE1haW56LCBHZXJtYW55DQoNCkdlc2Now6RmdHNm
-w7xocmVyOiBEaXBsLi1JbmcuIE1pY2hhZWwgTWl0ZXpraSwgRGlwbC4tSW5nLiBCb2RvIEh1YmVy
-IHwNCkhhbmRlbHNyZWdpc3RlciBNYWlueiBIUkIgNDY1NiB8IEZpbmFuemFtdCBNYWluei1NaXR0
-ZSB8IFN0Lk5yLg0KMjY2NTAwNjA4LCBERSAxNDkwNTk4NTUNCg0K
+On Thu, Jan 19, 2023 at 7:24 AM Matthew Brost <matthew.brost@intel.com> wro=
+te:
+>
+> On Thu, Jan 19, 2023 at 05:04:32AM +0100, Danilo Krummrich wrote:
+> > On 1/18/23 20:48, Christian K=C3=B6nig wrote:
+> > > Am 18.01.23 um 20:17 schrieb Dave Airlie:
+> > > > On Thu, 19 Jan 2023 at 02:54, Alex Deucher <alexdeucher@gmail.com> =
+wrote:
+> > > > > On Wed, Jan 18, 2023 at 11:50 AM Danilo Krummrich
+> > > > > <dakr@redhat.com> wrote:
+> > > > > >
+> > > > > >
+> > > > > > On 1/18/23 17:30, Alex Deucher wrote:
+> > > > > > > On Wed, Jan 18, 2023 at 11:19 AM Danilo Krummrich
+> > > > > > > <dakr@redhat.com> wrote:
+> > > > > > > > On 1/18/23 16:37, Christian K=C3=B6nig wrote:
+> > > > > > > > > Am 18.01.23 um 16:34 schrieb Danilo Krummrich:
+> > > > > > > > > > Hi Christian,
+> > > > > > > > > >
+> > > > > > > > > > On 1/18/23 09:53, Christian K=C3=B6nig wrote:
+> > > > > > > > > > > Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
+> > > > > > > > > > > > This patch series provides a new UAPI for the Nouve=
+au driver in
+> > > > > > > > > > > > order to
+> > > > > > > > > > > > support Vulkan features, such as
+> > > > > > > > > > > > sparse bindings and sparse
+> > > > > > > > > > > > residency.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Furthermore, with the DRM GPUVA
+> > > > > > > > > > > > manager it provides a new DRM core
+> > > > > > > > > > > > feature to
+> > > > > > > > > > > > keep track of GPU virtual address
+> > > > > > > > > > > > (VA) mappings in a more generic way.
+> > > > > > > > > > > >
+> > > > > > > > > > > > The DRM GPUVA manager is indented to help drivers i=
+mplement
+> > > > > > > > > > > > userspace-manageable
+> > > > > > > > > > > > GPU VA spaces in reference to the Vulkan API. In or=
+der to achieve
+> > > > > > > > > > > > this goal it
+> > > > > > > > > > > > serves the following purposes in this context.
+> > > > > > > > > > > >
+> > > > > > > > > > > >        1) Provide a dedicated range allocator to tr=
+ack GPU VA
+> > > > > > > > > > > > allocations and
+> > > > > > > > > > > >           mappings, making use of the drm_mm range =
+allocator.
+> > > > > > > > > > > This means that the ranges are allocated
+> > > > > > > > > > > by the kernel? If yes that's
+> > > > > > > > > > > a really really bad idea.
+> > > > > > > > > > No, it's just for keeping track of the
+> > > > > > > > > > ranges userspace has allocated.
+> > > > > > > > > Ok, that makes more sense.
+> > > > > > > > >
+> > > > > > > > > So basically you have an IOCTL which asks kernel
+> > > > > > > > > for a free range? Or
+> > > > > > > > > what exactly is the drm_mm used for here?
+> > > > > > > > Not even that, userspace provides both the base
+> > > > > > > > address and the range,
+> > > > > > > > the kernel really just keeps track of things.
+> > > > > > > > Though, writing a UAPI on
+> > > > > > > > top of the GPUVA manager asking for a free range instead wo=
+uld be
+> > > > > > > > possible by just adding the corresponding wrapper functions=
+ to get a
+> > > > > > > > free hole.
+> > > > > > > >
+> > > > > > > > Currently, and that's what I think I read out of
+> > > > > > > > your question, the main
+> > > > > > > > benefit of using drm_mm over simply stuffing the
+> > > > > > > > entries into a list or
+> > > > > > > > something boils down to easier collision detection and iter=
+ating
+> > > > > > > > sub-ranges of the whole VA space.
+> > > > > > > Why not just do this in userspace?  We have a range manager i=
+n
+> > > > > > > libdrm_amdgpu that you could lift out into libdrm or some oth=
+er
+> > > > > > > helper.
+> > > > > > The kernel still needs to keep track of the mappings within the=
+ various
+> > > > > > VA spaces, e.g. it silently needs to unmap mappings that are ba=
+cked by
+> > > > > > BOs that get evicted and remap them once they're validated (or =
+swapped
+> > > > > > back in).
+> > > > > Ok, you are just using this for maintaining the GPU VM space in
+> > > > > the kernel.
+> > > > >
+> > > > Yes the idea behind having common code wrapping drm_mm for this is =
+to
+> > > > allow us to make the rules consistent across drivers.
+> > > >
+> > > > Userspace (generally Vulkan, some compute) has interfaces that pret=
+ty
+> > > > much dictate a lot of how VMA tracking works, esp around lifetimes,
+> > > > sparse mappings and splitting/merging underlying page tables, I'd
+> > > > really like this to be more consistent across drivers, because alre=
+ady
+> > > > I think we've seen with freedreno some divergence from amdgpu and w=
+e
+> > > > also have i915/xe to deal with. I'd like to at least have one place
+> > > > that we can say this is how it should work, since this is something
+> > > > that *should* be consistent across drivers mostly, as it is more ab=
+out
+> > > > how the uapi is exposed.
+> > >
+> > > That's a really good idea, but the implementation with drm_mm won't w=
+ork
+> > > like that.
+> > >
+> > > We have Vulkan applications which use the sparse feature to create
+> > > literally millions of mappings. That's why I have fine tuned the mapp=
+ing
+>
+> Is this not an application issue? Millions of mappings seems a bit
+> absurd to me.
+If I look at the most extreme case for AI, assuming 256GB of HBM
+memory and page mapping of 2MB, we get to 128K of mappings. But that's
+really the extreme case imo. I assume most mappings will be much
+larger. In fact, in the most realistic scenario of large-scale
+training, a single user will probably map the entire HBM memory using
+1GB pages.
+
+I have also a question, could this GPUVA code manage VA ranges
+mappings for userptr mappings, assuming we work without svm/uva/usm
+(pointer-is-a-pointer) ? Because then we are talking about possible
+4KB mappings of 1 - 1.5 TB host server RAM (Implied in my question is
+the assumption this can be used also for non-VK use-cases. Please tell
+me if I'm totally wrong here).
+
+Thanks,
+Oded
