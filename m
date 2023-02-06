@@ -1,152 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7C268C661
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 20:03:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 716A868C66E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 20:08:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B315310EA1C;
-	Mon,  6 Feb 2023 19:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F74C10E195;
+	Mon,  6 Feb 2023 19:08:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C09E10E195;
- Mon,  6 Feb 2023 19:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675710214; x=1707246214;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=g47qkuK0uFUfguV8hUQKvMKVKCIfiHHDZ5uKgRiWa5Y=;
- b=h4+4woSh5pNwViPypH9YPOGkJtDwghtbUi7OQFGqPao6lfJeaT7TrVOm
- 7Xoi/Sw3ZlA4yTINoc7qSBIdZjMSoXPBlsrrW5NDjvDSZozTN9gf/L8q+
- UPyoyO5bhah/gGg1CwXCk692wtW70PiIoVpOto3u/LI7vDTXbhGW1OWcD
- ogJBV34FGD1SoCGD8U2AZt01+yIsVbsVObkDrXPWLpHpY0V+9fDJYGg5g
- KAPSlI+FTsIbibbEOMvz+VqMFYL2h1ytKT81Buz8bUQ2jevG8zb1ZpBbU
- cBgf8H9Sx62Lsb8LvN7w/lvi7fV6tpBgolsMSM0IT61OVd1aPi8iI9SP3 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="312942802"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="312942802"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2023 11:03:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="755338795"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="755338795"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by FMSMGA003.fm.intel.com with ESMTP; 06 Feb 2023 11:03:32 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 6 Feb 2023 11:03:32 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 6 Feb 2023 11:03:31 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 6 Feb 2023 11:03:31 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 6 Feb 2023 11:03:31 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LKT6vr7lF0AFmpV3FgOdZaxjbZ1LXJkcqT7QtGRSnDqCW8eOMP0QrHuTsqM0Vs0VZZo3db/DK121KRLLQvrRENI0raKz+4HnK1z40b1ZlUnin/knAAfRnOMzVsoLyufswUtMTkNfDLXcAensxqNjq6W494CFNvHZKqY11y2xjGEO6JEvefaeSAQWHJTr+km/HynJ9p5Nq2jqIiH9tsMtoCWqFCpsyQqd4ckCJRtmUtDXh+Q/NV9YUJn86tbkz5KyXwHtKXdAP3SaPjyqBZzbCk9XTfVWFg8ichCkxVSEig6H3UKU0EJnk0IrTuh+RaIKinL4Qp2XiW9oFphuM7g+eA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k0XLwmR0/7bj+PwR4VCccVyWepeQGgnxuTIGZxRrgTM=;
- b=GsFQuxLSniKHEvcPkA5a7o2a4GMIYkEWTrbfrV7xr2QEBTLUxe3HHfUqKDTNyjDsXiIzGeIYYMQwaDrjkg/Tc69uqU85WPwOPLsDD9dix8FLIsSJKwd1B6jttk9OQ+0yjwjwrbUSkC/3SH99HbXkUEKSUKbmsojCG8tvZZadFLiLwA3x+0aWz0FowSMGeGXnjDfDjVljsHGQp54ertxZfnJY8vOdAn/gwoYouoa70wpw+zIBDLNiNdNT+MZMdUkBh3JT35qo+4NqzowqL1bOhZCWcqXfBt6joPpoFDc1IdONsbfZRqS503qyKVIilywirEwKUhaAJEt1pi+/TXv2tA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- PH7PR11MB7513.namprd11.prod.outlook.com (2603:10b6:510:270::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.34; Mon, 6 Feb
- 2023 19:03:29 +0000
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::218f:c449:80c8:7ad9]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::218f:c449:80c8:7ad9%5]) with mapi id 15.20.6064.034; Mon, 6 Feb 2023
- 19:03:29 +0000
-Message-ID: <1ee2902c-dcfb-7f9a-75f1-4f912fead180@intel.com>
-Date: Mon, 6 Feb 2023 11:03:26 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2] drm/i915/huc: Add and use HuC oriented print macros
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3055010E195;
+ Mon,  6 Feb 2023 19:08:06 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 316IqmxF027785; Mon, 6 Feb 2023 19:08:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=uIJzNVae7twb2yzgMADriGyIb2GKZdfimt/CObM9pqc=;
+ b=pNbrx3yiK8mSXhAg0iwioaAvDxEglEYt0i8TvzR5MTdfRMhS+WRWl8A/U+y4DKlXO8am
+ YJ/4oO4QWfZBwxPSYMqYiDRhJhXj2861Qw2Lh0gcYHwFXJG4GUYfobJIHbR7pkEUe9uo
+ +BSk0VTwgtbhKfmpeiRK6jWsc1fNDZTmprDfeXFiiAsk2zE2v+4q2qgakyYal4PGADvS
+ R6PhIw3T7lS4emp9iV4CTvGDBlH5OmxLrwIfoGjDVqo6M8buzAUN4VBkEA7bbLT0r6kb
+ pH9GgNPPVulfXp1bOYanwdkLgorYEl7sq4tI/siJ03bgXlv1VTw4EfF5VDWpzVc7rczd 7Q== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nhcqxvqwa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 19:08:00 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 316J7xFA024491
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 6 Feb 2023 19:07:59 GMT
+Received: from [10.110.44.26] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 6 Feb 2023
+ 11:07:58 -0800
+Message-ID: <8e89bdc2-94ff-63b8-3089-c946e0226cff@quicinc.com>
+Date: Mon, 6 Feb 2023 11:07:57 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v3 20/27] drm/msm/dpu: add dpu_hw_pipe_cfg to
+ dpu_plane_state
 Content-Language: en-US
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20230203085912.1963-1-michal.wajdeczko@intel.com>
-From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20230203085912.1963-1-michal.wajdeczko@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
+ <20230203182132.1307834-21-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230203182132.1307834-21-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR01CA0067.prod.exchangelabs.com (2603:10b6:a03:94::44)
- To DM4PR11MB5488.namprd11.prod.outlook.com
- (2603:10b6:5:39d::5)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|PH7PR11MB7513:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc3c299e-c247-4666-a71c-08db0874d504
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UETNBD3/WHUjpyX3xqXmXcn7Za7PHFUi6vUmeAa9x6v5qOfUPg4/Iu0CS5BYD6x8MYTJRF1jJXL4yYlSOeLlEIiavHp30DoRDAGOqQaMLDNwE+CT5RACGkCQrneowguDIZEwNuxhRY86NVnk7e1WZb4oEDrVx+jk4ig3/wjHYTMrsfNgad65O5ypB89C92Tm4TAQMsHo6O5osIrnb97fIJSEcbHZqsWWaeKYhCJ597lVlVIRspEaAS3zKA+SZ+JLZ30zLznT8OuhBEyheO/iu1oP14ku5f5VPQ2rYnJZTsVP+4Njb4mt7r0yTp0cu93ZVxWVYQswOy1nD7jitjEuba6tIUKHsIujCeQ6N5yGmpN5/52dJE+MoWCQWjTJagMpYxNgLPi3XqBC1q8wwQj1gCsD1xx9hOYkfBrJ+wCaHYAXr17hu+tH1dycFpUrdHfukV/lT12scDDLu6/Fn4FKFeSuCGLSKTuYvCe9v1bIaXVkO/mUNs/VvwAcD38HAOfGDor9x7ygJDWINFFacVQ+/lMAc/N41Gq2P/MZ1SvBEHGGeHkngPn0B52pGm4m+CNkNaS7ztvfsy8ED4vDsu28YqaRSKbl7/SrCqahBjpJnNN8cYES0iRRaZrXeqqzCq2GQms5ntCoJUoXAVgGswF3slkUmKnm1nSLSX9+sWV1UlPJneSiQi3Jl4i+LsaRiUDsg8QEIQbbS5UFeUfQDehBSH/YNT5a8JO2YwZw1whI6jc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(366004)(136003)(346002)(39860400002)(396003)(376002)(451199018)(36756003)(6512007)(53546011)(6506007)(107886003)(478600001)(186003)(6486002)(26005)(6666004)(41300700001)(2906002)(5660300002)(8936002)(316002)(8676002)(66556008)(4326008)(450100002)(66476007)(38100700002)(86362001)(66946007)(31696002)(82960400001)(2616005)(83380400001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVIycUxXY3FDZ090NGpDOWhzR29iLzhJd2JGVWJvVklWcERYK1hxTU84cXpP?=
- =?utf-8?B?ckZPZUV2cnJEVCtFQVVqQVdaK0htQ2xoeHhSUXByV1Z0K2tzUy9wWDcwd0xs?=
- =?utf-8?B?MDR3dFFDdjh5aTIzL1JIUXhhUXp0YnphMmRJTDBlVWtRUFQ3UEVZYUoxTHlC?=
- =?utf-8?B?SWZFWlFFNEpBeDBrRnIwUFRveUltRFhrZ05mcy9EbkJ3VFJlbEVHYlpRZkIw?=
- =?utf-8?B?WDJwaEttYW45NHREVHBDbms5U2hPM0NNMDhFV1JQOUZOVzhDQlMwNXJ2NGVH?=
- =?utf-8?B?K3NOVzJjQWhyN2ZrSGFYSEY3S3VtWStYU1F6dVBIUEd4ZVZucDNqbG5KVjVF?=
- =?utf-8?B?MmdZMWtwcXh0RXBqZ25VWktPSmNjSHJObjF4dXlGaVVwZklxOUNmZ3dXdzBl?=
- =?utf-8?B?d0FnQlVuRUMrNVRQZFpsSHJmbHZXM2MxeDdCTkRqRnFhMG1yM0ZvSko0dHF5?=
- =?utf-8?B?TUlDdGplSGlveTF4YnVuRHozcURTelloRkpzK1JqNlBWYnE5aVh3QVl4VC9j?=
- =?utf-8?B?QllFbW1YOGE4aGwyQVZFSG96TDRoL1BibjlIcmo1emU1M0RaM1p2R0hIU0wz?=
- =?utf-8?B?dEJ1MUhNdDdCTmZTWjF5MWRkd0RWcUpULzZMb0g4Y3Iwa3FibC9sRXRpeW1J?=
- =?utf-8?B?RmlNVlU5WjdXUmUwTENGSTlhUHNVZzlEdmMzR2NlS0NaL210K0N0aXpOTjR5?=
- =?utf-8?B?MjI5czFMMlRrWFF5T21NL2h0OEMxSzFKUDhiMWpNWHo2SWRVUnFoTEpPb0I3?=
- =?utf-8?B?d1ZZNFU4OUFRR0JLMVhkOGIvNUp3TjMzYXNqKzBDT1VCaCs4aXl1QmMxV0hQ?=
- =?utf-8?B?OEpWb2N0Q1VmTFB6cER3cVRvMWdmd0R6SGpXamVibzhPMTlkTnc0d1Y5Tjhz?=
- =?utf-8?B?aFVibWJ0aWRYQXd4ZkorTTc5b21YQXRSSXQ4MU03Snp4SzJ1bW42aWpWQjk0?=
- =?utf-8?B?elgyZXFMRVg3WGZFeU8yT09QZU5Cb1hOMlFwYWVPaHBacGFGR2Q4aThCZFhn?=
- =?utf-8?B?cW91YldoZGZmR0Nka2I0dDVnbnVlMk5BTll1bmxTai90Qmd6ay9pY3g1QTR1?=
- =?utf-8?B?a1hIcm0zNUI0cEpzQU9KZGZQamRpczlDNHZhbTE3bllncGhRQmtSSEs5N05r?=
- =?utf-8?B?VHIzNzMxeHlSWjdCQ290Uk1oSUg2WEMzUHRIMEtZZy9qVjRzZWFHbU5WMjl5?=
- =?utf-8?B?d2FoN2tmR3IvbXRUdnA5RHdNZ3MwTUp2Z0NLSkFldDdSUnhxNW5tc0ljY3VR?=
- =?utf-8?B?SmlET1QxeWkzYXJkNWdvOWJhQWMvMWFRVEx6N3BQdkF6M1NXQ2NjUjNVU0hY?=
- =?utf-8?B?aDl6eFZBL1AxbkQ4ZTZVblphaHpaelFjTDhFamZrUDlYSjkrSXFLUkdNcjRO?=
- =?utf-8?B?ZXI3RmRHY1poWXR2cFVCaEIrRGd1RWl3QlBBbE9idCt3cXh2TWFCU2p2RGow?=
- =?utf-8?B?eWcrZ24yOVM5MHZMQTl4SWlmWG5ieFdEY2xteXFtY0xhN1JwbExRd0lMZ09J?=
- =?utf-8?B?RXBWR3BLek9JbC82cXlvMml1S29hdW5SZHZHcmd5REM0YXJScUZFTS85VEdF?=
- =?utf-8?B?bkJ2cWFIS21KUFkxUEZRRDFQRDRKMXdEQUNxOFBvV2ZMd2svN1VNb0F2K3lT?=
- =?utf-8?B?VGRyY0N2MlJGTXFYR0gvbXBvS1ZkbUlVMHY1K2RtSzZNc2pLZ1lidTFQS0tw?=
- =?utf-8?B?TVVXMStqOXpUSzFtKzAvci9iRUZmNlFlYUFOUVJoekdiZ1pWKzBSbHdoVG5G?=
- =?utf-8?B?TmtmOWFzVDllYnpkdVBya282clZHS1VnTmsrWlI5ODBZVWlGNk5XdHJHK3ZB?=
- =?utf-8?B?bzhaSlhJeTdVaGQvWnl0L3RqWkVNWDVIK3I4VjZ0NU5QU2h3anRUMFRJMjl4?=
- =?utf-8?B?WkJzSWN0cUgxS3UwR0wxLzV2U1NHMGtTTlE3UVBIcjZwTnhRTkQrYzd2M3BX?=
- =?utf-8?B?S3dQVktnYnJDSzJYaGwrNGdWRE1DdFlJTFBQNnZWR0Znc3ZvTlZ6cmdUU1FB?=
- =?utf-8?B?VStsbTI2bFhoRXdmUm5QN29scU42bGljVDIrTmd6REFOSk5QNWcwcUp3ZDls?=
- =?utf-8?B?bzZKUEVVQlErR1hFN1RESlVqV0lkNmtHMDNiaHE5UmtkZm5kaXdJUTB6U2Z0?=
- =?utf-8?B?dFNlQ2E1Z2RxWVZhcmNPaHo0VFFpSENlTWphZ0VQT1lJdktYNmMwQU9OM1h5?=
- =?utf-8?Q?TgQ0GhyPZphXzy84f/lUTAQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc3c299e-c247-4666-a71c-08db0874d504
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2023 19:03:29.1761 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WiUvImUWbIfUSy0Ijp0jcwOqS78UexD7qxc4rGXU/QvWrU0l9ma6mKnp55ctD3dqF/eFFFetOu8xu1PkrZ7J4SFgE5dnRoZaq2MBX5PgdG8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7513
-X-OriginatorOrg: intel.com
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: d0PwH237qKeu6ikM1_mkqZok_Irj22Wl
+X-Proofpoint-GUID: d0PwH237qKeu6ikM1_mkqZok_Irj22Wl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302060166
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,169 +85,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2/3/2023 12:59 AM, Michal Wajdeczko wrote:
-> Like we did it for GuC, introduce some helper print macros for
-> HuC to have unified format of messages that also include GT#.
->
-> While around improve some messages and use %pe if possible.
->
-> v2: update GSC/PXP timeout message
->
-> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> Cc: John Harrison <John.C.Harrison@Intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+On 2/3/2023 10:21 AM, Dmitry Baryshkov wrote:
+> Now as all accesses to pipe_cfg and pstate have been cleaned, re-add
+> struct dpu_hw_pipe_cfg back to dpu_plane_state, so that
+> dpu_plane_atomic_check() and dpu_plane_atomic_update() do not have a
+> chance to disagree about src/dst rectangles (currently
+> dpu_plane_atomic_check() uses unclipped rectangles, while
+> dpu_plane_atomic_update() uses clipped rectangles calculated by
+> drm_atomic_helper_check_plane_state()).
+> 
+The title of the patch should now say "add dpu_hw_sspp_cfg"
 
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+I have a question on the commit text, why does it say "re-add" and not 
+"add".
 
-Daniele
+dpu_hw_pipe_cfg/dpu_hw_sspp_cfg was not a part of dpu_plane_state even 
+before and I dont recall it was removed in this series and then added back.
 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/i915/gt/uc/intel_huc.c | 44 ++++++++++++++------------
->   1 file changed, 23 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> index 410905da8e97..72884e21470b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> @@ -6,6 +6,7 @@
->   #include <linux/types.h>
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 64 ++++++++++-------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  2 +
+>   2 files changed, 30 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 09a3fde1c910..ecf5402ab61a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -951,7 +951,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+>   	const struct drm_crtc_state *crtc_state = NULL;
+>   	const struct dpu_format *fmt;
+> -	struct drm_rect src, dst, fb_rect = { 0 };
+> +	struct dpu_hw_sspp_cfg *pipe_cfg = &pstate->pipe_cfg;
+> +	struct drm_rect fb_rect = { 0 };
+>   	uint32_t min_src_size, max_linewidth;
+>   	unsigned int rotation;
+>   	uint32_t supported_rotations;
+> @@ -984,12 +985,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   		return -EINVAL;
+>   	}
 >   
->   #include "gt/intel_gt.h"
-> +#include "gt/intel_gt_print.h"
->   #include "intel_guc_reg.h"
->   #include "intel_huc.h"
->   #include "i915_drv.h"
-> @@ -13,6 +14,15 @@
->   #include <linux/device/bus.h>
->   #include <linux/mei_aux.h>
+> -	src.x1 = new_plane_state->src_x >> 16;
+> -	src.y1 = new_plane_state->src_y >> 16;
+> -	src.x2 = src.x1 + (new_plane_state->src_w >> 16);
+> -	src.y2 = src.y1 + (new_plane_state->src_h >> 16);
+> +	pipe_cfg->src_rect = new_plane_state->src;
 >   
-> +#define huc_printk(_huc, _level, _fmt, ...) \
-> +	gt_##_level(huc_to_gt(_huc), "HuC: " _fmt, ##__VA_ARGS__)
-> +#define huc_err(_huc, _fmt, ...)	huc_printk((_huc), err, _fmt, ##__VA_ARGS__)
-> +#define huc_warn(_huc, _fmt, ...)	huc_printk((_huc), warn, _fmt, ##__VA_ARGS__)
-> +#define huc_notice(_huc, _fmt, ...)	huc_printk((_huc), notice, _fmt, ##__VA_ARGS__)
-> +#define huc_info(_huc, _fmt, ...)	huc_printk((_huc), info, _fmt, ##__VA_ARGS__)
-> +#define huc_dbg(_huc, _fmt, ...)	huc_printk((_huc), dbg, _fmt, ##__VA_ARGS__)
-> +#define huc_probe_error(_huc, _fmt, ...) huc_printk((_huc), probe_error, _fmt, ##__VA_ARGS__)
+> -	dst = drm_plane_state_dest(new_plane_state);
+> +	/* state->src is 16.16, src_rect is not */
+> +	pipe_cfg->src_rect.x1 >>= 16;
+> +	pipe_cfg->src_rect.x2 >>= 16;
+> +	pipe_cfg->src_rect.y1 >>= 16;
+> +	pipe_cfg->src_rect.y2 >>= 16;
 > +
->   /**
->    * DOC: HuC
->    *
-> @@ -107,11 +117,9 @@ static enum hrtimer_restart huc_delayed_load_timer_callback(struct hrtimer *hrti
+> +	pipe_cfg->dst_rect = new_plane_state->dst;
 >   
->   	if (!intel_huc_is_authenticated(huc)) {
->   		if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_GSC)
-> -			drm_notice(&huc_to_gt(huc)->i915->drm,
-> -				   "timed out waiting for MEI GSC init to load HuC\n");
-> +			huc_notice(huc, "timed out waiting for MEI GSC\n");
->   		else if (huc->delayed_load.status == INTEL_HUC_WAITING_ON_PXP)
-> -			drm_notice(&huc_to_gt(huc)->i915->drm,
-> -				   "timed out waiting for MEI PXP init to load HuC\n");
-> +			huc_notice(huc, "timed out waiting for MEI PXP\n");
->   		else
->   			MISSING_CASE(huc->delayed_load.status);
+>   	fb_rect.x2 = new_plane_state->fb->width;
+>   	fb_rect.y2 = new_plane_state->fb->height;
+> @@ -1008,30 +1012,30 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   		return -EINVAL;
 >   
-> @@ -174,8 +182,7 @@ static int gsc_notifier(struct notifier_block *nb, unsigned long action, void *d
+>   	/* check src bounds */
+> -	} else if (!dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
+> +	} else if (!dpu_plane_validate_src(&pipe_cfg->src_rect, &fb_rect, min_src_size)) {
+>   		DPU_DEBUG_PLANE(pdpu, "invalid source " DRM_RECT_FMT "\n",
+> -				DRM_RECT_ARG(&src));
+> +				DRM_RECT_ARG(&pipe_cfg->src_rect));
+>   		return -E2BIG;
 >   
->   	case BUS_NOTIFY_DRIVER_NOT_BOUND: /* mei driver fails to be bound */
->   	case BUS_NOTIFY_UNBIND_DRIVER: /* mei driver about to be unbound */
-> -		drm_info(&huc_to_gt(huc)->i915->drm,
-> -			 "mei driver not bound, disabling HuC load\n");
-> +		huc_info(huc, "MEI driver not bound, disabling load\n");
->   		gsc_init_error(huc);
->   		break;
->   	}
-> @@ -193,8 +200,7 @@ void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus
->   	huc->delayed_load.nb.notifier_call = gsc_notifier;
->   	ret = bus_register_notifier(bus, &huc->delayed_load.nb);
->   	if (ret) {
-> -		drm_err(&huc_to_gt(huc)->i915->drm,
-> -			"failed to register GSC notifier\n");
-> +		huc_err(huc, "failed to register GSC notifier %pe\n", ERR_PTR(ret));
->   		huc->delayed_load.nb.notifier_call = NULL;
->   		gsc_init_error(huc);
->   	}
-> @@ -306,29 +312,25 @@ static int check_huc_loading_mode(struct intel_huc *huc)
->   			      GSC_LOADS_HUC;
+>   	/* valid yuv image */
+>   	} else if (DPU_FORMAT_IS_YUV(fmt) &&
+> -		   (src.x1 & 0x1 || src.y1 & 0x1 ||
+> -		    drm_rect_width(&src) & 0x1 ||
+> -		    drm_rect_height(&src) & 0x1)) {
+> +		   (pipe_cfg->src_rect.x1 & 0x1 || pipe_cfg->src_rect.y1 & 0x1 ||
+> +		    drm_rect_width(&pipe_cfg->src_rect) & 0x1 ||
+> +		    drm_rect_height(&pipe_cfg->src_rect) & 0x1)) {
+>   		DPU_DEBUG_PLANE(pdpu, "invalid yuv source " DRM_RECT_FMT "\n",
+> -				DRM_RECT_ARG(&src));
+> +				DRM_RECT_ARG(&pipe_cfg->src_rect));
+>   		return -EINVAL;
 >   
->   	if (fw_needs_gsc != hw_uses_gsc) {
-> -		drm_err(&gt->i915->drm,
-> -			"mismatch between HuC FW (%s) and HW (%s) load modes\n",
-> -			HUC_LOAD_MODE_STRING(fw_needs_gsc),
-> -			HUC_LOAD_MODE_STRING(hw_uses_gsc));
-> +		huc_err(huc, "mismatch between FW (%s) and HW (%s) load modes\n",
-> +			HUC_LOAD_MODE_STRING(fw_needs_gsc), HUC_LOAD_MODE_STRING(hw_uses_gsc));
->   		return -ENOEXEC;
+>   	/* min dst support */
+> -	} else if (drm_rect_width(&dst) < 0x1 || drm_rect_height(&dst) < 0x1) {
+> +	} else if (drm_rect_width(&pipe_cfg->dst_rect) < 0x1 || drm_rect_height(&pipe_cfg->dst_rect) < 0x1) {
+>   		DPU_DEBUG_PLANE(pdpu, "invalid dest rect " DRM_RECT_FMT "\n",
+> -				DRM_RECT_ARG(&dst));
+> +				DRM_RECT_ARG(&pipe_cfg->dst_rect));
+>   		return -EINVAL;
+>   
+>   	/* check decimated source width */
+> -	} else if (drm_rect_width(&src) > max_linewidth) {
+> +	} else if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+>   		DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
+> -				DRM_RECT_ARG(&src), max_linewidth);
+> +				DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+>   		return -E2BIG;
 >   	}
 >   
->   	/* make sure we can access the GSC via the mei driver if we need it */
->   	if (!(IS_ENABLED(CONFIG_INTEL_MEI_PXP) && IS_ENABLED(CONFIG_INTEL_MEI_GSC)) &&
->   	    fw_needs_gsc) {
-> -		drm_info(&gt->i915->drm,
-> -			 "Can't load HuC due to missing MEI modules\n");
-> +		huc_info(huc, "can't load due to missing MEI modules\n");
->   		return -EIO;
+> @@ -1045,7 +1049,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   
+>   	if ((pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION)) &&
+>   		(rotation & DRM_MODE_ROTATE_90)) {
+> -		ret = dpu_plane_check_inline_rotation(pdpu, sblk, src, fmt);
+> +		ret = dpu_plane_check_inline_rotation(pdpu, sblk, pipe_cfg->src_rect, fmt);
+>   		if (ret)
+>   			return ret;
+>   	}
+> @@ -1120,9 +1124,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   	bool is_rt_pipe;
+>   	const struct dpu_format *fmt =
+>   		to_dpu_format(msm_framebuffer_format(fb));
+> -	struct dpu_hw_sspp_cfg pipe_cfg;
+> -
+> -	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_sspp_cfg));
+> +	struct dpu_hw_sspp_cfg *pipe_cfg = &pstate->pipe_cfg;
+>   
+>   	_dpu_plane_set_scanout(plane, pstate, fb);
+>   
+> @@ -1139,16 +1141,6 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   			crtc->base.id, DRM_RECT_ARG(&state->dst),
+>   			(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
+>   
+> -	pipe_cfg.src_rect = state->src;
+> -
+> -	/* state->src is 16.16, src_rect is not */
+> -	pipe_cfg.src_rect.x1 >>= 16;
+> -	pipe_cfg.src_rect.x2 >>= 16;
+> -	pipe_cfg.src_rect.y1 >>= 16;
+> -	pipe_cfg.src_rect.y2 >>= 16;
+> -
+> -	pipe_cfg.dst_rect = state->dst;
+> -
+>   	/* override for color fill */
+>   	if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
+>   		/* skip remaining processing on color fill */
+> @@ -1157,10 +1149,10 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   
+>   	if (pipe->sspp->ops.setup_rects) {
+>   		pipe->sspp->ops.setup_rects(pipe,
+> -				&pipe_cfg);
+> +				pipe_cfg);
 >   	}
 >   
-> -	drm_dbg(&gt->i915->drm, "GSC loads huc=%s\n", str_yes_no(fw_needs_gsc));
-> +	huc_dbg(huc, "loaded by GSC = %s\n", str_yes_no(fw_needs_gsc));
+> -	_dpu_plane_setup_scaler(pipe, fmt, false, &pipe_cfg, pstate->rotation);
+> +	_dpu_plane_setup_scaler(pipe, fmt, false, pipe_cfg, pstate->rotation);
 >   
->   	return 0;
+>   	if (pipe->sspp->ops.setup_multirect)
+>   		pipe->sspp->ops.setup_multirect(
+> @@ -1201,12 +1193,12 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   		}
+>   	}
+>   
+> -	_dpu_plane_set_qos_lut(plane, pipe, fmt, &pipe_cfg);
+> +	_dpu_plane_set_qos_lut(plane, pipe, fmt, &pstate->pipe_cfg);
+>   	_dpu_plane_set_danger_lut(plane, pipe, fmt);
+>   
+>   	if (plane->type != DRM_PLANE_TYPE_CURSOR) {
+>   		_dpu_plane_set_qos_ctrl(plane, pipe, true, DPU_PLANE_QOS_PANIC_CTRL);
+> -		_dpu_plane_set_ot_limit(plane, pipe, crtc, &pipe_cfg);
+> +		_dpu_plane_set_ot_limit(plane, pipe, crtc, &pstate->pipe_cfg);
+>   	}
+>   
+>   	if (pstate->needs_qos_remap) {
+> @@ -1214,9 +1206,9 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+>   		_dpu_plane_set_qos_remap(plane, pipe);
+>   	}
+>   
+> -	pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, &pipe_cfg);
+> +	pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, &pstate->pipe_cfg);
+>   
+> -	pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, &pipe_cfg);
+> +	pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, &pstate->pipe_cfg);
 >   }
 >   
->   int intel_huc_init(struct intel_huc *huc)
->   {
-> -	struct drm_i915_private *i915 = huc_to_gt(huc)->i915;
->   	int err;
->   
->   	err = check_huc_loading_mode(huc);
-> @@ -345,7 +347,7 @@ int intel_huc_init(struct intel_huc *huc)
->   
->   out:
->   	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_INIT_FAIL);
-> -	drm_info(&i915->drm, "HuC init failed with %d\n", err);
-> +	huc_info(huc, "initialization failed %pe\n", ERR_PTR(err));
->   	return err;
->   }
->   
-> @@ -389,13 +391,13 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc)
->   	delayed_huc_load_complete(huc);
->   
->   	if (ret) {
-> -		drm_err(&gt->i915->drm, "HuC: Firmware not verified %d\n", ret);
-> +		huc_err(huc, "firmware not verified %pe\n", ERR_PTR(ret));
->   		intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_LOAD_FAIL);
->   		return ret;
->   	}
->   
->   	intel_uc_fw_change_status(&huc->fw, INTEL_UC_FIRMWARE_RUNNING);
-> -	drm_info(&gt->i915->drm, "HuC authenticated\n");
-> +	huc_info(huc, "authenticated!\n");
->   	return 0;
->   }
->   
-> @@ -430,7 +432,7 @@ int intel_huc_auth(struct intel_huc *huc)
->   
->   	ret = intel_guc_auth_huc(guc, intel_guc_ggtt_offset(guc, huc->fw.rsa_data));
->   	if (ret) {
-> -		DRM_ERROR("HuC: GuC did not ack Auth request %d\n", ret);
-> +		huc_err(huc, "authentication by GuC failed %pe\n", ERR_PTR(ret));
->   		goto fail;
->   	}
->   
-> @@ -442,7 +444,7 @@ int intel_huc_auth(struct intel_huc *huc)
->   	return 0;
->   
->   fail:
-> -	i915_probe_error(gt->i915, "HuC: Authentication failed %d\n", ret);
-> +	huc_probe_error(huc, "authentication failed %pe\n", ERR_PTR(ret));
->   	return ret;
->   }
->   
-
+>   static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> index a08b0539513b..079dad83eb37 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> @@ -19,6 +19,7 @@
+>    * @base:	base drm plane state object
+>    * @aspace:	pointer to address space for input/output buffers
+>    * @pipe:	software pipe description
+> + * @pipe_cfg:	software pipe configuration
+>    * @stage:	assigned by crtc blender
+>    * @needs_qos_remap: qos remap settings need to be updated
+>    * @multirect_index: index of the rectangle of SSPP
+> @@ -33,6 +34,7 @@ struct dpu_plane_state {
+>   	struct drm_plane_state base;
+>   	struct msm_gem_address_space *aspace;
+>   	struct dpu_sw_pipe pipe;
+> +	struct dpu_hw_sspp_cfg pipe_cfg;
+>   	enum dpu_stage stage;
+>   	bool needs_qos_remap;
+>   	bool pending;
