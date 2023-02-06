@@ -2,40 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F0E68C602
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 19:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF39F68C615
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 19:47:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A65C510E9F7;
-	Mon,  6 Feb 2023 18:42:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 244CC10EA00;
+	Mon,  6 Feb 2023 18:47:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 067E910EA00;
- Mon,  6 Feb 2023 18:42:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1675708944; bh=EwXs/jy7qgWsP5jG0wksqu1PcOs1hmaF0jlonE09KTw=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=DYwKNXU8lW7Itk1KxIupSb4I+CMGUb8JTh1JhRCwYj1sIiCX8Bq4AyLQ9XRPxHVSR
- pvYBuZk26K7PQBK9urljRuOBDeM+cVyEynZsS+rcl+pM9T444gc6nQvYuq0TiEDvUN
- qtAQcs24N8WyjFCdioeQmmUCUhxp8RGHOpyhebY4=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Mon,  6 Feb 2023 19:42:24 +0100 (CET)
-X-EA-Auth: X5Xltbtqqf5tc8FJUeUZhlekEgROBmK6blXxKp89tuOlOy1hPJvnaRvqLlK7d2EJr4VQLYGQCgwYcanwqLbMfuuss9wGjl1Q
-Date: Tue, 7 Feb 2023 00:12:18 +0530
-From: Deepak R Varma <drv@mailo.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH] drm/i915/gt: Avoid redundant pointer validity check
-Message-ID: <Y+FKCth+0r/757Xu@ubun2204.myguest.virtualbox.org>
-References: <Y91g081OauhQNxMe@ubun2204.myguest.virtualbox.org>
- <d58fff32-edad-4a7f-7409-7e57593df3ed@linux.intel.com>
- <aa8af778-2a40-7fe0-eb14-234469c74523@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68DC710EA00
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 18:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675709238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hZ8casbfFD6TcKT9nSSfpPqsT0aAOl1x1pNCxblmoQc=;
+ b=Z6K9tfvlj08KN9rJU//0ZIFPZurAa2+qQQ9uyPYHba6J/3wlt3fmm3FeunIhlNP3DwMjAX
+ q+mxtyTPx8CYdLyDoEkpAsC8/1Mu/FH9x9QQI+ejaFqPg/L0Ty2m2gJJomHnIUFqqEQ725
+ FD4LMObxLA1W0jd/a7lo9ATsFZfJYhs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-662-7v_t-o08Nc-xkS0lO9aaxw-1; Mon, 06 Feb 2023 13:47:16 -0500
+X-MC-Unique: 7v_t-o08Nc-xkS0lO9aaxw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ d14-20020a05600c34ce00b003dd07ce79c8so6978184wmq.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 10:47:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hZ8casbfFD6TcKT9nSSfpPqsT0aAOl1x1pNCxblmoQc=;
+ b=VsHILRyWf3s23YhNk/Bempda0R7Z4et87GXGF1ppcTWl/fOpjswv1FvKmU07LGmlsl
+ C5hcrLQHjOupdxLnAWkvhaJzEaav9TSOfSzTTbg34yHur9lolFYyDm0wxyxbsg5APMhn
+ OClwdnm44SaP1sdX/nyrZBCsaAHWEONwRgKy009ECbRkPTBxbY24OkbHb422af5Pb6NO
+ T3nXUmGJ3xpY884fqVfXbBoiNliSqGcgvgLARXcOKnH1NKCrcPG2IIwdd54jzAnSSK6m
+ LiSgmeCufnek84BXwIWy/u7k1KyvtAmmozs1XFXopWNAdQzRAc3UuOWXVtAvT0zEmK4Q
+ uf3w==
+X-Gm-Message-State: AO0yUKVgrfFaYZd0A8e0ZxFZnpyT3AtzS9yxjmrDf0Gr0yjM7WXL4ExQ
+ lDhURLChSJS2fPXWtx8oI+qKCjlOLADVZMBKz02MLuV204CVmycfEc/LbONMLdFidopDwPRe39k
+ XKJmw9+Eqxl++n+3I47D+Rj9eyvNL
+X-Received: by 2002:a05:600c:18a6:b0:3dd:1a8b:7374 with SMTP id
+ x38-20020a05600c18a600b003dd1a8b7374mr702586wmp.5.1675709235680; 
+ Mon, 06 Feb 2023 10:47:15 -0800 (PST)
+X-Google-Smtp-Source: AK7set9O+AFBlSx1vEYGijuQNmYcM6SnLQcrjncn2maMR7AxUw5thKkNysCaeGtaTLYwLHkwW2zybw==
+X-Received: by 2002:a05:600c:18a6:b0:3dd:1a8b:7374 with SMTP id
+ x38-20020a05600c18a600b003dd1a8b7374mr702568wmp.5.1675709235494; 
+ Mon, 06 Feb 2023 10:47:15 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ c7-20020a05600c0ac700b003d1d5a83b2esm16444126wmr.35.2023.02.06.10.47.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 10:47:15 -0800 (PST)
+Message-ID: <a1cd8c74-98f4-bff0-0344-cbece787c6e8@redhat.com>
+Date: Mon, 6 Feb 2023 19:47:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aa8af778-2a40-7fe0-eb14-234469c74523@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
+ drm_gem_shmem_get_pages_sgt()
+To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230205125124.2260-1-lina@asahilina.net>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20230205125124.2260-1-lina@asahilina.net>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,82 +89,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Deepak R Varma <drv@mailo.com>, Thomas Hellstrom <thomas.hellstrom@intel.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 06, 2023 at 10:33:13AM +0000, Matthew Auld wrote:
-> On 06/02/2023 09:45, Tvrtko Ursulin wrote:
-> > 
-> > Hi,
-> > 
-> > Adding Matt & Thomas as potential candidates to review.
-> > 
-> > Regards,
-> > 
-> > Tvrtko
-> > 
-> > On 03/02/2023 19:30, Deepak R Varma wrote:
-> > > The macro definition of gen6_for_all_pdes() expands to a for loop such
-> > > that it breaks when the page table is null. Hence there is no need to
-> > > again test validity of the page table entry pointers in the pde list.
-> > > This change is identified using itnull.cocci semantic patch.
-> > > 
-> > > Signed-off-by: Deepak R Varma <drv@mailo.com>
-> > > ---
-> > > Please note: Proposed change is compile tested only.
-> > > 
-> > >   drivers/gpu/drm/i915/gt/gen6_ppgtt.c | 5 ++---
-> > >   1 file changed, 2 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> > > b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> > > index 5aaacc53fa4c..787b9e6d9f59 100644
-> > > --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> > > +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-> > > @@ -258,8 +258,7 @@ static void gen6_ppgtt_free_pd(struct gen6_ppgtt
-> > > *ppgtt)
-> > >       u32 pde;
-> > >       gen6_for_all_pdes(pt, pd, pde)
-> > > -        if (pt)
-> > > -            free_pt(&ppgtt->base.vm, pt);
-> > > +        free_pt(&ppgtt->base.vm, pt);
-> > >   }
-> > >   static void gen6_ppgtt_cleanup(struct i915_address_space *vm)
-> > > @@ -304,7 +303,7 @@ static void pd_vma_unbind(struct
-> > > i915_address_space *vm,
-> > >       /* Free all no longer used page tables */
-> > >       gen6_for_all_pdes(pt, ppgtt->base.pd, pde) {
-> > > -        if (!pt || atomic_read(&pt->used))
-> > > +        if (atomic_read(&pt->used))
-> 
-> Wow, I was really confused trying to remember how this all works.
-> 
-> The gen6_for_all_pdes() does:
-> 
-> (pt = i915_pt_entry(pd, iter), true)
-> 
-> So NULL pt is expected, and does not 'break' here, since 'true' is always
-> the value that decides whether to terminate the loop. So this patch would
-> lead to NULL ptr deref, AFAICT.
+Hello Lina,
 
-Hello Matt,
-I understand it now. I was misreading the true as part of the function argument.
-Could you please also comment if the implementation of gen6_ppgtt_free_pd() in
-the same file is safe? It doesn't appear to have an check on pt validity here.
-
-Thank you,
-deepak.
-
+On 2/5/23 13:51, Asahi Lina wrote:
+> Other functions touching shmem->sgt take the pages lock, so do that here
+> too. drm_gem_shmem_get_pages() & co take the same lock, so move to the
+> _locked() variants to avoid recursive locking.
 > 
+> Discovered while auditing locking to write the Rust abstractions.
 > 
-> 
-> > >               continue;
-> > >           free_pt(&ppgtt->base.vm, pt);
+> Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
+> Fixes: 4fa3d66f132b ("drm/shmem: Do dma_unmap_sg before purging pages")
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
 
+Good catch. The patch looks good to me.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+What about drm_gem_shmem_free() BTW, I believe that the helper should also
+grab the lock before unmap / free the sgtable?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
