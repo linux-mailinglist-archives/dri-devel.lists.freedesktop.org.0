@@ -1,100 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A67E68C5FB
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 19:41:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B64AF68C5A6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 19:22:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5C310E253;
-	Mon,  6 Feb 2023 18:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B69010E42F;
+	Mon,  6 Feb 2023 18:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D69D10E253
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 18:41:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675708887;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mV7wu48lUfeS3GU07IXyzbGWRiDs4lMjYJhBoJBL7dQ=;
- b=GRzj6Qgw29zOkVEJcN9HSVhRPFvkcq8MjD2iNkDET0B7nQ61uOwz/cJPr6EWkDBQdRkarT
- Qcft7vmmKkLxhsITPMIKrxrrjwM6gMOezbI3gkX3DOWy80Kn/jBFsCfxIC1jUlqwYyGC1w
- yK7mVTFaQ7XuqS9Tm9sIdraLYSQS3hw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-U4mdYwKMMXqZJhIGzwBTMA-1; Mon, 06 Feb 2023 13:41:26 -0500
-X-MC-Unique: U4mdYwKMMXqZJhIGzwBTMA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- o21-20020aa7dd55000000b004a245f58006so8392714edw.12
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 10:41:26 -0800 (PST)
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80EA810E42F;
+ Mon,  6 Feb 2023 18:22:10 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-1685cf2003aso16126184fac.12; 
+ Mon, 06 Feb 2023 10:22:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=J7e8GU9xSC1sP5VIpcopkgOF82v0TP3oKnk/11tSpP0=;
+ b=AxUKFec2/yYtc34aAbMml1uUi5rUZKsLvPJ2ut79kAsHZukakfQ2QvJ4YlaLZfv1w5
+ GYzWohONUwHzSHZsJbCcEnGhoh3XuETMS/NZAl/+UX8sTKmjPvckY5YwZ9d0Ev2aC2/d
+ yTXh08vGy9qkZOpMMV6Io04TNM0WmbMlbJDWqp1zKqADOj/L73JCIsixB8Jy065pL22x
+ Fs3M1H/pTeDYNSxVn5Vcw5a1jOU6dwVSzBD4HkPxpIMfYrWthtwFITtsrwIsG8DT5TUP
+ Daxeh9L0koy5qiT5VvUslmHGC3/Z87PQT5pxCi+3swjMGAglkJVyChi/RcOySXaCuymx
+ 5iRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mV7wu48lUfeS3GU07IXyzbGWRiDs4lMjYJhBoJBL7dQ=;
- b=Fxih3Z/rV3yjrPcS0uKhO0IF8B5TF9Zipx6q6dlJP+PpgMhtI6DlYRd7JoZRpOEIaY
- 9N/XHAV6/PpM6TGiJhzeETK5BbEGn2rqiH3o+LrqjKWg5aeq7TiStVYuXzRXk0NMzaq4
- eBmzPj0gq3BRXr5mFk6HCPA0dBxTV2UtatVS29vpOuT6N8rI7FjQ9/zWy7Y3+LpCkm3K
- vVS87tgeeVpMi7tEOhco2kJXCUMLd2WGCR1WXJ1ydnXyYs3Sbm9LzMOUYEusG9GiTyl6
- 9KVJAwSfuX1OV4FKrgjsCQiy3GaBz5w6g+/UxzAjGEYTGhRUeiUmzLaH5/VOH22ikc/O
- Mskw==
-X-Gm-Message-State: AO0yUKWO12YSTJ3BBz3plqeP6PS8Gpi5UngdOCE2Eq+CX+GFiYHbSpqO
- S7zWcHnLjZ1W32ZhfWtH5XN5ZYqCaWmp6ftPxAT2TxsJPKI3Ir3uGIwVMKQRRlBFFCSTK9On1mN
- x6zxS4WUC0a+DGW1aZPbvcHTXrDS+
-X-Received: by 2002:a17:906:1dc8:b0:878:8237:7abb with SMTP id
- v8-20020a1709061dc800b0087882377abbmr383415ejh.35.1675708885089; 
- Mon, 06 Feb 2023 10:41:25 -0800 (PST)
-X-Google-Smtp-Source: AK7set9FFg9WxyaDxE9MX9rbZD0l91/5bcmXcVyXebsSOuym8lZQpDrI3Bo83tXHjG/CiZX7/gEa+A==
-X-Received: by 2002:a17:906:1dc8:b0:878:8237:7abb with SMTP id
- v8-20020a1709061dc800b0087882377abbmr383390ejh.35.1675708884883; 
- Mon, 06 Feb 2023 10:41:24 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- bu18-20020a170906a15200b0088351ea808bsm5750226ejb.46.2023.02.06.10.41.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 10:41:24 -0800 (PST)
-Message-ID: <4439c44b-cbd0-7160-da3d-e78f6aeeec77@redhat.com>
-Date: Mon, 6 Feb 2023 19:20:52 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=J7e8GU9xSC1sP5VIpcopkgOF82v0TP3oKnk/11tSpP0=;
+ b=Gb90hM5fzFP6QDCjPmUsJyliwUmvUTFCXz7HRPWx35ZVKgiEqcnOdCKm7FJUuXG9eU
+ 2bDTeN7Su8j0GnMVwqdPa0BmaDMOZZqsDP+ZS0AOklOmILcVKjQqxY+4hObBfDl7ZrEy
+ IVnBpW3HgaF7Eb2zEOJ9YSlH2lLdAkWbuJKq7DaZ2wywnXuCJNCXS854FnxUrUQYjB1W
+ mpRHilZL1hCZlFRpyeTbldh4lf+5sk9jxdePS0eavnHugkoVjlRNAgv8BISbfH7IZlE/
+ I7K3lgNXC/xoBO+f0PhJYkzgoef6JPlnV6vhsQeSTesZj4cr3Bn7bjA98uAG7Rv5Xfs1
+ pgHQ==
+X-Gm-Message-State: AO0yUKWHhtudhoIh/mn70CaRMzDoS1qJxxGIXbzIAMKbZ8zqVy5M4eNp
+ ksc3lSksjnaO10skQKZ/cvMH85uC0EWeHUbSyDo=
+X-Google-Smtp-Source: AK7set+yVVcaiUCUBgcMs3+pTWuTLaezK5+rSwnpMO/PfEL4Ya6vQe1iIoTXlqJW135Qgr9ym4Rue46r4whDjVkDRvM=
+X-Received: by 2002:a05:6870:14c8:b0:163:999e:6460 with SMTP id
+ l8-20020a05687014c800b00163999e6460mr57502oab.38.1675707729560; Mon, 06 Feb
+ 2023 10:22:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi
- interfaces
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Dave Airlie <airlied@gmail.com>
-References: <20230118061256.2689-1-dakr@redhat.com>
- <20230118061256.2689-6-dakr@redhat.com>
- <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
- <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
- <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
- <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
- <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
- <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
- <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
- <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
- <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
- <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
- <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
- <a1c526e0-0df7-12cb-c5a1-06e9cd0d876b@amd.com>
- <3f935a7e-fede-2bad-c029-4a3af850c9b5@redhat.com>
- <95d0631b-545c-ea4d-7439-75422e9a9120@amd.com>
- <67958920-c5bb-a0f5-2306-e3ae4fdbaeb3@redhat.com>
- <c0635ff3-027f-bcd7-afbc-46f4e62d3651@amd.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <c0635ff3-027f-bcd7-afbc-46f4e62d3651@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230203181005.4129175-1-robdclark@gmail.com>
+ <2d5fc6f8-2247-8a8b-1174-eccdc2b08064@amd.com>
+ <CAF6AEGtAqE-h06zgCzjr+R-WWj0ELfyKkD8KHZUYeo6cjS1ceQ@mail.gmail.com>
+ <c6c9b6af-f832-3cc3-2d03-29d5f7aaddef@amd.com>
+In-Reply-To: <c6c9b6af-f832-3cc3-2d03-29d5f7aaddef@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 6 Feb 2023 10:21:58 -0800
+Message-ID: <CAF6AEGuxsYQo5yHhXkJHagM4Wiq0XCughPfSFxyTWZPorp5mgw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix potential race processing vm->freed
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,70 +70,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, jason@jlekstrand.net,
- linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org, corbet@lwn.net,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, bskeggs@redhat.com
+Cc: Rob Clark <robdclark@chromium.org>, Philip Yang <Philip.Yang@amd.com>,
+ Jammy Zhou <Jammy.Zhou@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Qiang Yu <qiang.yu@amd.com>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/6/23 17:14, Christian König wrote:
-> Concentrating this discussion on a very big misunderstanding first.
-> 
-> Am 06.02.23 um 14:27 schrieb Danilo Krummrich:
->> [SNIP]
->> My understanding is that userspace is fully responsible on the parts 
->> of the GPU VA space it owns. This means that userspace needs to take 
->> care to *not* ask the kernel to modify mappings that are in use 
->> currently.
-> 
-> This is a completely wrong assumption! Take a look at what games like 
-> Forza Horizzon are doing.
-> 
-> Basically that game allocates a very big sparse area and fills it with 
-> pages from BOs while shaders are accessing it. And yes, as far as I know 
-> this is completely valid behavior.
+On Mon, Feb 6, 2023 at 8:05 AM Christian K=C3=B6nig <christian.koenig@amd.c=
+om> wrote:
+>
+> Am 06.02.23 um 16:52 schrieb Rob Clark:
+> > On Mon, Feb 6, 2023 at 2:15 AM Christian K=C3=B6nig <christian.koenig@a=
+md.com> wrote:
+> >> Am 03.02.23 um 19:10 schrieb Rob Clark:
+> >>> From: Rob Clark <robdclark@chromium.org>
+> >>>
+> >>> If userspace calls the AMDGPU_CS ioctl from multiple threads, because
+> >>> the vm is global to the drm_file, you can end up with multiple thread=
+s
+> >>> racing in amdgpu_vm_clear_freed().  So the freed list should be
+> >>> protected with the status_lock, similar to other vm lists.
+> >> Well this is nonsense. To process the freed list the VM root PD lock
+> >> must be held anyway.
+> >>
+> >> If we have a call path where this isn't true then we have a major bug =
+at
+> >> a different place here.
+> > I'm not super familiar w/ the amdgpu cs parser stuff, but the only
+> > thing that I'm seeing that protects things is the bo_list_mutex and it
+> > isn't clear to me that this is 1:1 with the vm (it looks like it is
+> > not).
+>
+> Do you have a backtrace?
+>
+> Take a look at the reservation object of vm->root.bo. This should always
+> be locked first before doing *anything* in a CS.
+>
+> If that isn't the case we have a much worse problem.
 
-I also think this is valid behavior. That's not the problem I'm trying 
-to describe. In this case userspace modifies the VA space 
-*intentionally* while shaders are accessing it, because it knows that 
-the shaders can deal with reading 0s.
+In this case, maybe an dma_resv_assert_held() would be a good idea?
 
-Just to have it all in place, the example I gave was:
-  - two virtually contiguous buffers A and B
-  - binding 1 mapped to A with BO offset 0
-  - binding 2 mapped to B with BO offset length(A)
+BR,
+-R
 
-What I did not mention both A and B aren't sparse buffers in this 
-example, although it probably doesn't matter too much.
-
-Since the conditions to do so are given, we merge binding 1 and binding 
-2 right at the time when binding 2 is requested. To do so a driver might 
-unmap binding 1 for a very short period of time (e.g. to (re-)map the 
-freshly merged binding with a different page size if possible).
-
- From userspace perspective buffer A is ready to use before applying 
-binding 2 to buffer B, hence it would be illegal to touch binding 1 
-again when userspace asks the kernel to map binding 2 to buffer B.
-
-Besides that I think there is no point in merging between buffers anyway 
-because we'd end up splitting such a merged mapping anyway later on when 
-one of the two buffers is destroyed.
-
-Also, I think the same applies to sparse buffers as well, a mapping 
-within A isn't expected to be re-mapped just because something is mapped 
-to B.
-
-However, in this context I start wondering if re-mapping in the context 
-of merge and split is allowed at all, even within the same sparse buffer 
-(and even with a separate page table for sparse mappings as described in 
-my last mail; shaders would never fault).
-
-> 
-> So you need to be able to handle this case anyway and the approach with 
-> the regions won't help you at all preventing that.
-> 
+> > (I cc'd you on the bug report, jfyi)
+>
+> I unfortunately only get a permission denied when I try to access that on=
+e.
+>
 > Regards,
 > Christian.
-> 
-
+>
+> >
+> > BR,
+> > -R
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Fixes: d38ceaf99ed0 ("drm/amdgpu: add core driver (v4)")
+> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>> ---
+> >>>    drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 33 ++++++++++++++++++++++=
+----
+> >>>    1 file changed, 29 insertions(+), 4 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm=
+/amd/amdgpu/amdgpu_vm.c
+> >>> index b9441ab457ea..aeed7bc1512f 100644
+> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> >>> @@ -1240,10 +1240,19 @@ int amdgpu_vm_clear_freed(struct amdgpu_devic=
+e *adev,
+> >>>        struct amdgpu_bo_va_mapping *mapping;
+> >>>        uint64_t init_pte_value =3D 0;
+> >>>        struct dma_fence *f =3D NULL;
+> >>> +     struct list_head freed;
+> >>>        int r;
+> >>>
+> >>> -     while (!list_empty(&vm->freed)) {
+> >>> -             mapping =3D list_first_entry(&vm->freed,
+> >>> +     /*
+> >>> +      * Move the contents of the VM's freed list to a local list
+> >>> +      * that we can iterate without racing against other threads:
+> >>> +      */
+> >>> +     spin_lock(&vm->status_lock);
+> >>> +     list_replace_init(&vm->freed, &freed);
+> >>> +     spin_unlock(&vm->status_lock);
+> >>> +
+> >>> +     while (!list_empty(&freed)) {
+> >>> +             mapping =3D list_first_entry(&freed,
+> >>>                        struct amdgpu_bo_va_mapping, list);
+> >>>                list_del(&mapping->list);
+> >>>
+> >>> @@ -1258,6 +1267,15 @@ int amdgpu_vm_clear_freed(struct amdgpu_device=
+ *adev,
+> >>>                amdgpu_vm_free_mapping(adev, vm, mapping, f);
+> >>>                if (r) {
+> >>>                        dma_fence_put(f);
+> >>> +
+> >>> +                     /*
+> >>> +                      * Move any unprocessed mappings back to the fr=
+eed
+> >>> +                      * list:
+> >>> +                      */
+> >>> +                     spin_lock(&vm->status_lock);
+> >>> +                     list_splice_tail(&freed, &vm->freed);
+> >>> +                     spin_unlock(&vm->status_lock);
+> >>> +
+> >>>                        return r;
+> >>>                }
+> >>>        }
+> >>> @@ -1583,11 +1601,14 @@ int amdgpu_vm_bo_unmap(struct amdgpu_device *=
+adev,
+> >>>        mapping->bo_va =3D NULL;
+> >>>        trace_amdgpu_vm_bo_unmap(bo_va, mapping);
+> >>>
+> >>> -     if (valid)
+> >>> +     if (valid) {
+> >>> +             spin_lock(&vm->status_lock);
+> >>>                list_add(&mapping->list, &vm->freed);
+> >>> -     else
+> >>> +             spin_unlock(&vm->status_lock);
+> >>> +     } else {
+> >>>                amdgpu_vm_free_mapping(adev, vm, mapping,
+> >>>                                       bo_va->last_pt_update);
+> >>> +     }
+> >>>
+> >>>        return 0;
+> >>>    }
+> >>> @@ -1671,7 +1692,9 @@ int amdgpu_vm_bo_clear_mappings(struct amdgpu_d=
+evice *adev,
+> >>>                    tmp->last =3D eaddr;
+> >>>
+> >>>                tmp->bo_va =3D NULL;
+> >>> +             spin_lock(&vm->status_lock);
+> >>>                list_add(&tmp->list, &vm->freed);
+> >>> +             spin_unlock(&vm->status_lock);
+> >>>                trace_amdgpu_vm_bo_unmap(NULL, tmp);
+> >>>        }
+> >>>
+> >>> @@ -1788,7 +1811,9 @@ void amdgpu_vm_bo_del(struct amdgpu_device *ade=
+v,
+> >>>                amdgpu_vm_it_remove(mapping, &vm->va);
+> >>>                mapping->bo_va =3D NULL;
+> >>>                trace_amdgpu_vm_bo_unmap(bo_va, mapping);
+> >>> +             spin_lock(&vm->status_lock);
+> >>>                list_add(&mapping->list, &vm->freed);
+> >>> +             spin_unlock(&vm->status_lock);
+> >>>        }
+> >>>        list_for_each_entry_safe(mapping, next, &bo_va->invalids, list=
+) {
+> >>>                list_del(&mapping->list);
+>
