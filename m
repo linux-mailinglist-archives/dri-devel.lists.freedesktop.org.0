@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B813068B84F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 10:11:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B204E68B827
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 10:06:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C3D710E331;
-	Mon,  6 Feb 2023 09:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC2A710E314;
+	Mon,  6 Feb 2023 09:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1DD210E330
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 08:54:23 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id e22so2767650ejb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 00:54:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5K/+n4xNab3o/nLIaDh95b6yAKziU1tvSQuqOiWt3OA=;
- b=dP4sWNbjALMahOPsT5Tb6lcwugvRxESmf1F9vvxJGnwe/GzhB5k3TKlb92QjsvsrV9
- qrKyvnw0hxxKB6biqnP3OIfOoCNKPS+H7YCEnyd+ggtbWFdSxvhwVyuYmz4Ur4UAcw38
- bHLBcZxdAedA3nnBjQnHpR20jQ9ikXOdur5+NVlvbQeVedMApXVzeQG4eDaedEONOp2m
- uJ+EBdybvGARjhnURMBe9nm/HDLcPhTHRpSgk8KKoHE7EGFEIIv0ukaklDWn4BEMV4uT
- Wp4/2lsoYD0Hgv4toHUJpxH+V2DcTmygpfGTMtRJnulvMGFChGcAcsFGpqLEPipYEfUE
- +0Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5K/+n4xNab3o/nLIaDh95b6yAKziU1tvSQuqOiWt3OA=;
- b=yaQUlCV1QMYR9MNvriKrHRmYSlHtb06iFTA997lr1OitfBA5mqDXRXp7ervNCh8Y5b
- pFHk1xykbkScUXWM712HVRxk6f2K5b5CFbGYQQZT89XjrgmGp7mBsiS1bcc1O91/m+RV
- mP0ripieHEPuPdbVQ0arJQF4uTmC9FCKcrWX1IB0R2LaNfr/AEEgfC05FtWAjdzT/uBr
- Du13+LXLUj4S27rFpKfe5+u95JgABTWJnXpLPcnjtdO31trbDoYQAlEwdjnXPJO4KdqB
- QDcfzLVLfRTil0JbtW+P6oQpK9yC8Dw0lDwv/XNHllzxoVXI8Tmw5ZHO3ZymBncZyvZU
- YKqw==
-X-Gm-Message-State: AO0yUKW2kAx6WrqdsDbglEwFnKuo2aGFwoUalxvuNdm9Ra4PVVWlJfp1
- f4LNU4zB6JI+yypgOFCcMSkzPZoRvmCLn//iDLA1yettd+14+w==
-X-Google-Smtp-Source: AK7set8/28B3/8TsdW+DdIKZXThf8UCw64vcxMlprv1Xh/pwk5jbYFTq6/2hdfjxW8972wHzuE0vBS1Pvf46HpmWdx0=
-X-Received: by 2002:a17:906:6d0d:b0:87e:94bb:8174 with SMTP id
- m13-20020a1709066d0d00b0087e94bb8174mr5738984ejr.249.1675673662383; Mon, 06
- Feb 2023 00:54:22 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6485910E314
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 09:06:28 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A927D20BAB;
+ Mon,  6 Feb 2023 09:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675674386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=o75v98pfKmR0LvegZafGd9TbXNjLWR8JOn3HV5m8E/8=;
+ b=e+snpO0pCATc9XJcooIepaVZNy7raIsPDs0vGGFlzuyBOxTulv7tw3RJbBXM+YhWWdLE0L
+ bUxJt1MXYDMrnvet474/uB7TQGa+2pq5EL87cNPT98wjYMfP9mttOxIHWCFK4TG2jlxA4J
+ EnhwQ5TtQ0k2V5k9jece/xmiPsSZ+CU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675674386;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=o75v98pfKmR0LvegZafGd9TbXNjLWR8JOn3HV5m8E/8=;
+ b=sU8OTN15vxyKtdoWtV0L9Z/KBcPa/lGL6KVQlOD/iJjNnjdzhiqxGTLE4ZfFvoyiiCUxOq
+ Dhmp/GXQDOYOPgDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8800E138E8;
+ Mon,  6 Feb 2023 09:06:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id EnlhIBLD4GM4LQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 06 Feb 2023 09:06:26 +0000
+Message-ID: <d76a8946-e898-2e18-a2b5-04db696040ab@suse.de>
+Date: Mon, 6 Feb 2023 10:05:48 +0100
 MIME-Version: 1.0
-References: <20230205210751.3842103-1-airlied@gmail.com>
- <CAOkhzLWSJsDK9Gm-AzeUw7fCpkjDg7d9GuDWyF-6hDr5UZ4DZg@mail.gmail.com>
- <CAPM=9tyaCUmA2bNP1YA1B=cFZP=nKPhQoWR7UwBD2Nfj8ZTODA@mail.gmail.com>
- <CAOkhzLVLbOEp4QnJynxV3cgiqOV5Rm=+dMgexiRmyDs-bRCTPg@mail.gmail.com>
- <CAPM=9tx0D54oQ6QmjF_NxnBBxbLzhXxi5uH2p6fLWfg2L3xPFw@mail.gmail.com>
- <CAOkhzLUspmZjC0x6nJoHyc9nijqZu7BOWc8vsqHSRbQhVzd=Gw@mail.gmail.com>
- <CAMwc25q9LO0N45DAV6HeONVsWBbOxxYCkSV12Yhr3PVorrr4dg@mail.gmail.com>
-In-Reply-To: <CAMwc25q9LO0N45DAV6HeONVsWBbOxxYCkSV12Yhr3PVorrr4dg@mail.gmail.com>
-From: Zeno Davatz <zdavatz@gmail.com>
-Date: Mon, 6 Feb 2023 09:54:11 +0100
-Message-ID: <CAOkhzLXMFwO9hYcwrr9O7xoVs_kprfv4DG8fiNyOsWNLF_VS9g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
 Subject: Re: [PATCH] nvidiafb: detect the hardware support before removing
  console.
-To: David Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Mon, 06 Feb 2023 09:10:58 +0000
+Content-Language: en-US
+To: Dave Airlie <airlied@gmail.com>, linux-fbdev@vger.kernel.org
+References: <20230205210751.3842103-1-airlied@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230205210751.3842103-1-airlied@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------dgPVUGP2NEqfx0RUaGIvtheN"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,270 +70,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Helgaas <helgaas@kernel.org>,
- Bjorn Helgaas <bjorn@helgaas.com>
+Cc: Dave Airlie <airlied@redhat.com>, Zeno Davatz <zdavatz@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Dave
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------dgPVUGP2NEqfx0RUaGIvtheN
+Content-Type: multipart/mixed; boundary="------------VUEcQaCCkLFZS1a37FQ6RJTN";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, linux-fbdev@vger.kernel.org
+Cc: Dave Airlie <airlied@redhat.com>, Zeno Davatz <zdavatz@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <d76a8946-e898-2e18-a2b5-04db696040ab@suse.de>
+Subject: Re: [PATCH] nvidiafb: detect the hardware support before removing
+ console.
+References: <20230205210751.3842103-1-airlied@gmail.com>
+In-Reply-To: <20230205210751.3842103-1-airlied@gmail.com>
 
-On Mon, Feb 6, 2023 at 9:40 AM David Airlie <airlied@redhat.com> wrote:
->
-> On Mon, Feb 6, 2023 at 6:38 PM Zeno Davatz <zdavatz@gmail.com> wrote:
-> >
-> > Dear Dave
-> >
-> > On Mon, Feb 6, 2023 at 9:10 AM Dave Airlie <airlied@gmail.com> wrote:
-> > >
-> > > On Mon, 6 Feb 2023 at 18:01, Zeno Davatz <zdavatz@gmail.com> wrote:
-> > > >
-> > > > Dear Dave
-> > > >
-> > > > On Mon, Feb 6, 2023 at 8:54 AM Dave Airlie <airlied@gmail.com> wrote:
-> > > > >
-> > > > > On Mon, 6 Feb 2023 at 17:52, Zeno Davatz <zdavatz@gmail.com> wrote:
-> > > > > >
-> > > > > > Dear Dave
-> > > > > >
-> > > > > > Thank you for your patch.
-> > > > > >
-> > > > > > On Sun, Feb 5, 2023 at 10:07 PM Dave Airlie <airlied@gmail.com> wrote:
-> > > > > > >
-> > > > > > > From: Dave Airlie <airlied@redhat.com>
-> > > > > > >
-> > > > > > > This driver removed the console, but hasn't yet decided if it could
-> > > > > > > take over the console yet. Instead of doing that, probe the hw for
-> > > > > > > support and then remove the console afterwards.
-> > > > > > >
-> > > > > > > Signed-off-by: Dave Airlie <airlied@redhat.com>
-> > > > > > > Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=216859
-> > > > > > > Reported-by: Zeno Davatz <zdavatz@gmail.com>
-> > > > > > > ---
-> > > > > > >  drivers/video/fbdev/nvidia/nvidia.c | 81 +++++++++++++++--------------
-> > > > > > >  1 file changed, 42 insertions(+), 39 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-> > > > > > > index 1960916098d4..e60a276b4855 100644
-> > > > > > > --- a/drivers/video/fbdev/nvidia/nvidia.c
-> > > > > > > +++ b/drivers/video/fbdev/nvidia/nvidia.c
-> > > > > > > @@ -1197,17 +1197,17 @@ static int nvidia_set_fbinfo(struct fb_info *info)
-> > > > > > >         return nvidiafb_check_var(&info->var, info);
-> > > > > > >  }
-> > > > > > >
-> > > > > > > -static u32 nvidia_get_chipset(struct fb_info *info)
-> > > > > > > +static u32 nvidia_get_chipset(struct pci_dev *pci_dev,
-> > > > > > > +                             volatile u32 __iomem *REGS)
-> > > > > > >  {
-> > > > > > > -       struct nvidia_par *par = info->par;
-> > > > > > > -       u32 id = (par->pci_dev->vendor << 16) | par->pci_dev->device;
-> > > > > > > +       u32 id = (pci_dev->vendor << 16) | pci_dev->device;
-> > > > > > >
-> > > > > > >         printk(KERN_INFO PFX "Device ID: %x \n", id);
-> > > > > > >
-> > > > > > >         if ((id & 0xfff0) == 0x00f0 ||
-> > > > > > >             (id & 0xfff0) == 0x02e0) {
-> > > > > > >                 /* pci-e */
-> > > > > > > -               id = NV_RD32(par->REGS, 0x1800);
-> > > > > > > +               id = NV_RD32(REGS, 0x1800);
-> > > > > > >
-> > > > > > >                 if ((id & 0x0000ffff) == 0x000010DE)
-> > > > > > >                         id = 0x10DE0000 | (id >> 16);
-> > > > > > > @@ -1220,12 +1220,11 @@ static u32 nvidia_get_chipset(struct fb_info *info)
-> > > > > > >         return id;
-> > > > > > >  }
-> > > > > > >
-> > > > > > > -static u32 nvidia_get_arch(struct fb_info *info)
-> > > > > > > +static u32 nvidia_get_arch(u32 Chipset)
-> > > > > > >  {
-> > > > > > > -       struct nvidia_par *par = info->par;
-> > > > > > >         u32 arch = 0;
-> > > > > > >
-> > > > > > > -       switch (par->Chipset & 0x0ff0) {
-> > > > > > > +       switch (Chipset & 0x0ff0) {
-> > > > > > >         case 0x0100:            /* GeForce 256 */
-> > > > > > >         case 0x0110:            /* GeForce2 MX */
-> > > > > > >         case 0x0150:            /* GeForce2 */
-> > > > > > > @@ -1278,16 +1277,44 @@ static int nvidiafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
-> > > > > > >         struct fb_info *info;
-> > > > > > >         unsigned short cmd;
-> > > > > > >         int ret;
-> > > > > > > +       volatile u32 __iomem *REGS;
-> > > > > > > +       int Chipset;
-> > > > > > > +       u32 Architecture;
-> > > > > > >
-> > > > > > >         NVTRACE_ENTER();
-> > > > > > >         assert(pd != NULL);
-> > > > > > >
-> > > > > > > +       if (pci_enable_device(pd)) {
-> > > > > > > +               printk(KERN_ERR PFX "cannot enable PCI device\n");
-> > > > > > > +               return -ENODEV;
-> > > > > > > +       }
-> > > > > > > +
-> > > > > > > +       /* enable IO and mem if not already done */
-> > > > > > > +       pci_read_config_word(pd, PCI_COMMAND, &cmd);
-> > > > > > > +       cmd |= (PCI_COMMAND_IO | PCI_COMMAND_MEMORY);
-> > > > > > > +       pci_write_config_word(pd, PCI_COMMAND, cmd);
-> > > > > > > +
-> > > > > > > +       nvidiafb_fix.mmio_start = pci_resource_start(pd, 0);
-> > > > > > > +       nvidiafb_fix.mmio_len = pci_resource_len(pd, 0);
-> > > > > > > +
-> > > > > > > +       REGS = ioremap(nvidiafb_fix.mmio_start, nvidiafb_fix.mmio_len);
-> > > > > > > +       if (!REGS) {
-> > > > > > > +               printk(KERN_ERR PFX "cannot ioremap MMIO base\n");
-> > > > > > > +               return -ENODEV;
-> > > > > > > +       }
-> > > > > > > +
-> > > > > > > +       Chipset = nvidia_get_chipset(pd, REGS);
-> > > > > > > +       Architecture = nvidia_get_arch(Chipset);
-> > > > > > > +       if (Architecture == 0) {
-> > > > > > > +               printk(KERN_ERR PFX "unknown NV_ARCH\n");
-> > > > > > > +               goto err_out;
-> > > > > > > +       }
-> > > > > > > +
-> > > > > > >         ret = aperture_remove_conflicting_pci_devices(pd, "nvidiafb");
-> > > > > > >         if (ret)
-> > > > > > > -               return ret;
-> > > > > > > +               goto err_out;
-> > > > > > >
-> > > > > > >         info = framebuffer_alloc(sizeof(struct nvidia_par), &pd->dev);
-> > > > > > > -
-> > > > > > >         if (!info)
-> > > > > > >                 goto err_out;
-> > > > > > >
-> > > > > > > @@ -1298,11 +1325,6 @@ static int nvidiafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
-> > > > > > >         if (info->pixmap.addr == NULL)
-> > > > > > >                 goto err_out_kfree;
-> > > > > > >
-> > > > > > > -       if (pci_enable_device(pd)) {
-> > > > > > > -               printk(KERN_ERR PFX "cannot enable PCI device\n");
-> > > > > > > -               goto err_out_enable;
-> > > > > > > -       }
-> > > > > > > -
-> > > > > > >         if (pci_request_regions(pd, "nvidiafb")) {
-> > > > > > >                 printk(KERN_ERR PFX "cannot request PCI regions\n");
-> > > > > > >                 goto err_out_enable;
-> > > > > > > @@ -1318,34 +1340,17 @@ static int nvidiafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
-> > > > > > >         par->paneltweak = paneltweak;
-> > > > > > >         par->reverse_i2c = reverse_i2c;
-> > > > > > >
-> > > > > > > -       /* enable IO and mem if not already done */
-> > > > > > > -       pci_read_config_word(pd, PCI_COMMAND, &cmd);
-> > > > > > > -       cmd |= (PCI_COMMAND_IO | PCI_COMMAND_MEMORY);
-> > > > > > > -       pci_write_config_word(pd, PCI_COMMAND, cmd);
-> > > > > > > -
-> > > > > > > -       nvidiafb_fix.mmio_start = pci_resource_start(pd, 0);
-> > > > > > >         nvidiafb_fix.smem_start = pci_resource_start(pd, 1);
-> > > > > > > -       nvidiafb_fix.mmio_len = pci_resource_len(pd, 0);
-> > > > > > > -
-> > > > > > > -       par->REGS = ioremap(nvidiafb_fix.mmio_start, nvidiafb_fix.mmio_len);
-> > > > > > >
-> > > > > > > -       if (!par->REGS) {
-> > > > > > > -               printk(KERN_ERR PFX "cannot ioremap MMIO base\n");
-> > > > > > > -               goto err_out_free_base0;
-> > > > > > > -       }
-> > > > > > > +       par->REGS = REGS;
-> > > > > > >
-> > > > > > > -       par->Chipset = nvidia_get_chipset(info);
-> > > > > > > -       par->Architecture = nvidia_get_arch(info);
-> > > > > > > -
-> > > > > > > -       if (par->Architecture == 0) {
-> > > > > > > -               printk(KERN_ERR PFX "unknown NV_ARCH\n");
-> > > > > > > -               goto err_out_arch;
-> > > > > > > -       }
-> > > > > > > +       par->Chipset = Chipset;
-> > > > > > > +       par->Architecture = Architecture;
-> > > > > > >
-> > > > > > >         sprintf(nvidiafb_fix.id, "NV%x", (pd->device & 0x0ff0) >> 4);
-> > > > > > >
-> > > > > > >         if (NVCommonSetup(info))
-> > > > > > > -               goto err_out_arch;
-> > > > > > > +               goto err_out_free_base0;
-> > > > > > >
-> > > > > > >         par->FbAddress = nvidiafb_fix.smem_start;
-> > > > > > >         par->FbMapSize = par->RamAmountKBytes * 1024;
-> > > > > > > @@ -1401,7 +1406,6 @@ static int nvidiafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
-> > > > > > >                 goto err_out_iounmap_fb;
-> > > > > > >         }
-> > > > > > >
-> > > > > > > -
-> > > > > > >         printk(KERN_INFO PFX
-> > > > > > >                "PCI nVidia %s framebuffer (%dMB @ 0x%lX)\n",
-> > > > > > >                info->fix.id,
-> > > > > > > @@ -1415,15 +1419,14 @@ static int nvidiafb_probe(struct pci_dev *pd, const struct pci_device_id *ent)
-> > > > > > >  err_out_free_base1:
-> > > > > > >         fb_destroy_modedb(info->monspecs.modedb);
-> > > > > > >         nvidia_delete_i2c_busses(par);
-> > > > > > > -err_out_arch:
-> > > > > > > -       iounmap(par->REGS);
-> > > > > > > - err_out_free_base0:
-> > > > > > > +err_out_free_base0:
-> > > > > > >         pci_release_regions(pd);
-> > > > > > >  err_out_enable:
-> > > > > > >         kfree(info->pixmap.addr);
-> > > > > > >  err_out_kfree:
-> > > > > > >         framebuffer_release(info);
-> > > > > > >  err_out:
-> > > > > > > +       iounmap(REGS);
-> > > > > > >         return -ENODEV;
-> > > > > > >  }
-> > > > > > >
-> > > > > > > --
-> > > > > > > 2.38.1
-> > > > > >
-> > > > > > This patch fails for me.
-> > > > >
-> > > > > I've based the patch on 6.2-rc7, please make sure to not have the
-> > > > > previous revert committed, this is to replace that patch.
-> > > >
-> > > > Can you guide me through the steps please?
-> > > >
-> > > > I done:
-> > > >
-> > > > 1. cd /usr/src/linux
-> > > > 2. sudo git pull
-> > > > 3. then I applied your patch.
-> > > >
-> > > > Am I doing something wrong?
-> > >
-> > > What is your top of tree commit? (git log)
-> > >
-> > > have you got any commits on top?
-> > >
-> > > git reset --hard origin/master should reset your tree to Linus top.
-> >
-> > 1. git log shows "d2d11f342b179f1894a901f143ec7c008caba43e"
-> > 2. No, no patches on top.
-> > 3. I am doing the following steps:
-> > /usr/src/linux> sudo git reset --hard origin/master
-> > Passwort:
-> > HEAD ist jetzt bei d2d11f342b17 Merge branch 'fixes' of
-> > git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs
-> > /usr/src/linux> sudo patch -p1 < /tmp/patch
-> > patching file drivers/video/fbdev/nvidia/nvidia.c
-> > Hunk #1 FAILED at 1197.
-> > Hunk #2 FAILED at 1220.
-> > Hunk #3 FAILED at 1278.
-> > Hunk #4 FAILED at 1298.
-> > Hunk #5 FAILED at 1318.
-> > Hunk #6 FAILED at 1401.
-> > Hunk #7 FAILED at 1415.
-> > 7 out of 7 hunks FAILED -- saving rejects to file
-> > drivers/video/fbdev/nvidia/nvidia.c.rej
-> >
-> Are you pulling the patch from email? I guess your email service or
-> something is mangling it.
->
-> I've attached it to see if that helps.
+--------------VUEcQaCCkLFZS1a37FQ6RJTN
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Thank you! This patch works and I am booting perfectly well now!
+SGkgRGF2ZSwNCg0KdGhhbmtzIGEgbG90LiBJIHdhcyBhYmxlIHRvIHJlcHJvZHVjZSB0aGUg
+cHJvYmxlbSBhbmQgZ2V0IGl0IGZpeGVkIGJ5IA0KdGhlIHBhdGNoLiBBcyBleHBlY3RlZCwg
+dGhlcmUncyBzdGlsbCB0aGUgd2FybmluZyBhYm91dCAndW5rbm93biANCk5WX0FSQ0gnLCBi
+dXQgdGhlIGZpcm13YXJlIGRpc3BsYXkgcmVtYWlucyBhY3RpdmUuICBBcHBsaWVzIGNsZWFu
+bHkgdG8gDQpkcm0tdGlwIEJUVy4NCg0KQW0gMDUuMDIuMjMgdW0gMjI6MDcgc2NocmllYiBE
+YXZlIEFpcmxpZToNCj4gRnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4N
+Cj4gDQo+IFRoaXMgZHJpdmVyIHJlbW92ZWQgdGhlIGNvbnNvbGUsIGJ1dCBoYXNuJ3QgeWV0
+IGRlY2lkZWQgaWYgaXQgY291bGQNCj4gdGFrZSBvdmVyIHRoZSBjb25zb2xlIHlldC4gSW5z
+dGVhZCBvZiBkb2luZyB0aGF0LCBwcm9iZSB0aGUgaHcgZm9yDQo+IHN1cHBvcnQgYW5kIHRo
+ZW4gcmVtb3ZlIHRoZSBjb25zb2xlIGFmdGVyd2FyZHMuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5
+OiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPg0KPiBGaXhlczogaHR0cHM6Ly9i
+dWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTY4NTkNCj4gUmVwb3J0ZWQt
+Ynk6IFplbm8gRGF2YXR6IDx6ZGF2YXR6QGdtYWlsLmNvbT4NCg0KVGVzdGVkLWJ5OiBUaG9t
+YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NClJldmlld2VkLWJ5OiBUaG9t
+YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCkZpeGVzOiAxNDVlZWQ0OGRl
+MjcgKCJmYmRldjogUmVtb3ZlIGNvbmZsaWN0aW5nIGRldmljZXMgb24gUENJIGJ1cyIpDQoN
+Cg0KPiAtLS0NCj4gICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L252aWRpYS9udmlkaWEuYyB8IDgx
+ICsrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDQy
+IGluc2VydGlvbnMoKyksIDM5IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvdmlkZW8vZmJkZXYvbnZpZGlhL252aWRpYS5jIGIvZHJpdmVycy92aWRlby9mYmRl
+di9udmlkaWEvbnZpZGlhLmMNCj4gaW5kZXggMTk2MDkxNjA5OGQ0Li5lNjBhMjc2YjQ4NTUg
+MTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvbnZpZGlhL252aWRpYS5jDQo+
+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvbnZpZGlhL252aWRpYS5jDQo+IEBAIC0xMTk3
+LDE3ICsxMTk3LDE3IEBAIHN0YXRpYyBpbnQgbnZpZGlhX3NldF9mYmluZm8oc3RydWN0IGZi
+X2luZm8gKmluZm8pDQo+ICAgCXJldHVybiBudmlkaWFmYl9jaGVja192YXIoJmluZm8tPnZh
+ciwgaW5mbyk7DQo+ICAgfQ0KPiAgIA0KPiAtc3RhdGljIHUzMiBudmlkaWFfZ2V0X2NoaXBz
+ZXQoc3RydWN0IGZiX2luZm8gKmluZm8pDQo+ICtzdGF0aWMgdTMyIG52aWRpYV9nZXRfY2hp
+cHNldChzdHJ1Y3QgcGNpX2RldiAqcGNpX2RldiwNCj4gKwkJCSAgICAgIHZvbGF0aWxlIHUz
+MiBfX2lvbWVtICpSRUdTKQ0KPiAgIHsNCj4gLQlzdHJ1Y3QgbnZpZGlhX3BhciAqcGFyID0g
+aW5mby0+cGFyOw0KPiAtCXUzMiBpZCA9IChwYXItPnBjaV9kZXYtPnZlbmRvciA8PCAxNikg
+fCBwYXItPnBjaV9kZXYtPmRldmljZTsNCj4gKwl1MzIgaWQgPSAocGNpX2Rldi0+dmVuZG9y
+IDw8IDE2KSB8IHBjaV9kZXYtPmRldmljZTsNCj4gICANCj4gICAJcHJpbnRrKEtFUk5fSU5G
+TyBQRlggIkRldmljZSBJRDogJXggXG4iLCBpZCk7DQo+ICAgDQo+ICAgCWlmICgoaWQgJiAw
+eGZmZjApID09IDB4MDBmMCB8fA0KPiAgIAkgICAgKGlkICYgMHhmZmYwKSA9PSAweDAyZTAp
+IHsNCj4gICAJCS8qIHBjaS1lICovDQo+IC0JCWlkID0gTlZfUkQzMihwYXItPlJFR1MsIDB4
+MTgwMCk7DQo+ICsJCWlkID0gTlZfUkQzMihSRUdTLCAweDE4MDApOw0KPiAgIA0KPiAgIAkJ
+aWYgKChpZCAmIDB4MDAwMGZmZmYpID09IDB4MDAwMDEwREUpDQo+ICAgCQkJaWQgPSAweDEw
+REUwMDAwIHwgKGlkID4+IDE2KTsNCj4gQEAgLTEyMjAsMTIgKzEyMjAsMTEgQEAgc3RhdGlj
+IHUzMiBudmlkaWFfZ2V0X2NoaXBzZXQoc3RydWN0IGZiX2luZm8gKmluZm8pDQo+ICAgCXJl
+dHVybiBpZDsNCj4gICB9DQo+ICAgDQo+IC1zdGF0aWMgdTMyIG52aWRpYV9nZXRfYXJjaChz
+dHJ1Y3QgZmJfaW5mbyAqaW5mbykNCj4gK3N0YXRpYyB1MzIgbnZpZGlhX2dldF9hcmNoKHUz
+MiBDaGlwc2V0KQ0KPiAgIHsNCj4gLQlzdHJ1Y3QgbnZpZGlhX3BhciAqcGFyID0gaW5mby0+
+cGFyOw0KPiAgIAl1MzIgYXJjaCA9IDA7DQo+ICAgDQo+IC0Jc3dpdGNoIChwYXItPkNoaXBz
+ZXQgJiAweDBmZjApIHsNCj4gKwlzd2l0Y2ggKENoaXBzZXQgJiAweDBmZjApIHsNCj4gICAJ
+Y2FzZSAweDAxMDA6CQkvKiBHZUZvcmNlIDI1NiAqLw0KPiAgIAljYXNlIDB4MDExMDoJCS8q
+IEdlRm9yY2UyIE1YICovDQo+ICAgCWNhc2UgMHgwMTUwOgkJLyogR2VGb3JjZTIgKi8NCj4g
+QEAgLTEyNzgsMTYgKzEyNzcsNDQgQEAgc3RhdGljIGludCBudmlkaWFmYl9wcm9iZShzdHJ1
+Y3QgcGNpX2RldiAqcGQsIGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICplbnQpDQo+ICAg
+CXN0cnVjdCBmYl9pbmZvICppbmZvOw0KPiAgIAl1bnNpZ25lZCBzaG9ydCBjbWQ7DQo+ICAg
+CWludCByZXQ7DQo+ICsJdm9sYXRpbGUgdTMyIF9faW9tZW0gKlJFR1M7DQo+ICsJaW50IENo
+aXBzZXQ7DQo+ICsJdTMyIEFyY2hpdGVjdHVyZTsNCj4gICANCj4gICAJTlZUUkFDRV9FTlRF
+UigpOw0KPiAgIAlhc3NlcnQocGQgIT0gTlVMTCk7DQo+ICAgDQo+ICsJaWYgKHBjaV9lbmFi
+bGVfZGV2aWNlKHBkKSkgew0KPiArCQlwcmludGsoS0VSTl9FUlIgUEZYICJjYW5ub3QgZW5h
+YmxlIFBDSSBkZXZpY2VcbiIpOw0KPiArCQlyZXR1cm4gLUVOT0RFVjsNCj4gKwl9DQo+ICsN
+Cj4gKwkvKiBlbmFibGUgSU8gYW5kIG1lbSBpZiBub3QgYWxyZWFkeSBkb25lICovDQo+ICsJ
+cGNpX3JlYWRfY29uZmlnX3dvcmQocGQsIFBDSV9DT01NQU5ELCAmY21kKTsNCj4gKwljbWQg
+fD0gKFBDSV9DT01NQU5EX0lPIHwgUENJX0NPTU1BTkRfTUVNT1JZKTsNCj4gKwlwY2lfd3Jp
+dGVfY29uZmlnX3dvcmQocGQsIFBDSV9DT01NQU5ELCBjbWQpOw0KPiArDQo+ICsJbnZpZGlh
+ZmJfZml4Lm1taW9fc3RhcnQgPSBwY2lfcmVzb3VyY2Vfc3RhcnQocGQsIDApOw0KPiArCW52
+aWRpYWZiX2ZpeC5tbWlvX2xlbiA9IHBjaV9yZXNvdXJjZV9sZW4ocGQsIDApOw0KPiArDQo+
+ICsJUkVHUyA9IGlvcmVtYXAobnZpZGlhZmJfZml4Lm1taW9fc3RhcnQsIG52aWRpYWZiX2Zp
+eC5tbWlvX2xlbik7DQo+ICsJaWYgKCFSRUdTKSB7DQo+ICsJCXByaW50ayhLRVJOX0VSUiBQ
+RlggImNhbm5vdCBpb3JlbWFwIE1NSU8gYmFzZVxuIik7DQo+ICsJCXJldHVybiAtRU5PREVW
+Ow0KPiArCX0NCj4gKw0KPiArCUNoaXBzZXQgPSBudmlkaWFfZ2V0X2NoaXBzZXQocGQsIFJF
+R1MpOw0KPiArCUFyY2hpdGVjdHVyZSA9IG52aWRpYV9nZXRfYXJjaChDaGlwc2V0KTsNCj4g
+KwlpZiAoQXJjaGl0ZWN0dXJlID09IDApIHsNCj4gKwkJcHJpbnRrKEtFUk5fRVJSIFBGWCAi
+dW5rbm93biBOVl9BUkNIXG4iKTsNCj4gKwkJZ290byBlcnJfb3V0Ow0KPiArCX0NCj4gKw0K
+PiAgIAlyZXQgPSBhcGVydHVyZV9yZW1vdmVfY29uZmxpY3RpbmdfcGNpX2RldmljZXMocGQs
+ICJudmlkaWFmYiIpOw0KPiAgIAlpZiAocmV0KQ0KPiAtCQlyZXR1cm4gcmV0Ow0KPiArCQln
+b3RvIGVycl9vdXQ7DQo+ICAgDQo+ICAgCWluZm8gPSBmcmFtZWJ1ZmZlcl9hbGxvYyhzaXpl
+b2Yoc3RydWN0IG52aWRpYV9wYXIpLCAmcGQtPmRldik7DQo+IC0NCj4gICAJaWYgKCFpbmZv
+KQ0KPiAgIAkJZ290byBlcnJfb3V0Ow0KPiAgIA0KPiBAQCAtMTI5OCwxMSArMTMyNSw2IEBA
+IHN0YXRpYyBpbnQgbnZpZGlhZmJfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkLCBjb25zdCBz
+dHJ1Y3QgcGNpX2RldmljZV9pZCAqZW50KQ0KPiAgIAlpZiAoaW5mby0+cGl4bWFwLmFkZHIg
+PT0gTlVMTCkNCj4gICAJCWdvdG8gZXJyX291dF9rZnJlZTsNCj4gICANCj4gLQlpZiAocGNp
+X2VuYWJsZV9kZXZpY2UocGQpKSB7DQo+IC0JCXByaW50ayhLRVJOX0VSUiBQRlggImNhbm5v
+dCBlbmFibGUgUENJIGRldmljZVxuIik7DQo+IC0JCWdvdG8gZXJyX291dF9lbmFibGU7DQo+
+IC0JfQ0KPiAtDQo+ICAgCWlmIChwY2lfcmVxdWVzdF9yZWdpb25zKHBkLCAibnZpZGlhZmIi
+KSkgew0KPiAgIAkJcHJpbnRrKEtFUk5fRVJSIFBGWCAiY2Fubm90IHJlcXVlc3QgUENJIHJl
+Z2lvbnNcbiIpOw0KPiAgIAkJZ290byBlcnJfb3V0X2VuYWJsZTsNCj4gQEAgLTEzMTgsMzQg
+KzEzNDAsMTcgQEAgc3RhdGljIGludCBudmlkaWFmYl9wcm9iZShzdHJ1Y3QgcGNpX2RldiAq
+cGQsIGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICplbnQpDQo+ICAgCXBhci0+cGFuZWx0
+d2VhayA9IHBhbmVsdHdlYWs7DQo+ICAgCXBhci0+cmV2ZXJzZV9pMmMgPSByZXZlcnNlX2ky
+YzsNCj4gICANCj4gLQkvKiBlbmFibGUgSU8gYW5kIG1lbSBpZiBub3QgYWxyZWFkeSBkb25l
+ICovDQo+IC0JcGNpX3JlYWRfY29uZmlnX3dvcmQocGQsIFBDSV9DT01NQU5ELCAmY21kKTsN
+Cj4gLQljbWQgfD0gKFBDSV9DT01NQU5EX0lPIHwgUENJX0NPTU1BTkRfTUVNT1JZKTsNCj4g
+LQlwY2lfd3JpdGVfY29uZmlnX3dvcmQocGQsIFBDSV9DT01NQU5ELCBjbWQpOw0KPiAtDQo+
+IC0JbnZpZGlhZmJfZml4Lm1taW9fc3RhcnQgPSBwY2lfcmVzb3VyY2Vfc3RhcnQocGQsIDAp
+Ow0KPiAgIAludmlkaWFmYl9maXguc21lbV9zdGFydCA9IHBjaV9yZXNvdXJjZV9zdGFydChw
+ZCwgMSk7DQo+IC0JbnZpZGlhZmJfZml4Lm1taW9fbGVuID0gcGNpX3Jlc291cmNlX2xlbihw
+ZCwgMCk7DQo+IC0NCj4gLQlwYXItPlJFR1MgPSBpb3JlbWFwKG52aWRpYWZiX2ZpeC5tbWlv
+X3N0YXJ0LCBudmlkaWFmYl9maXgubW1pb19sZW4pOw0KPiAgIA0KPiAtCWlmICghcGFyLT5S
+RUdTKSB7DQo+IC0JCXByaW50ayhLRVJOX0VSUiBQRlggImNhbm5vdCBpb3JlbWFwIE1NSU8g
+YmFzZVxuIik7DQo+IC0JCWdvdG8gZXJyX291dF9mcmVlX2Jhc2UwOw0KPiAtCX0NCj4gKwlw
+YXItPlJFR1MgPSBSRUdTOw0KPiAgIA0KPiAtCXBhci0+Q2hpcHNldCA9IG52aWRpYV9nZXRf
+Y2hpcHNldChpbmZvKTsNCj4gLQlwYXItPkFyY2hpdGVjdHVyZSA9IG52aWRpYV9nZXRfYXJj
+aChpbmZvKTsNCj4gLQ0KPiAtCWlmIChwYXItPkFyY2hpdGVjdHVyZSA9PSAwKSB7DQo+IC0J
+CXByaW50ayhLRVJOX0VSUiBQRlggInVua25vd24gTlZfQVJDSFxuIik7DQo+IC0JCWdvdG8g
+ZXJyX291dF9hcmNoOw0KPiAtCX0NCj4gKwlwYXItPkNoaXBzZXQgPSBDaGlwc2V0Ow0KPiAr
+CXBhci0+QXJjaGl0ZWN0dXJlID0gQXJjaGl0ZWN0dXJlOw0KPiAgIA0KPiAgIAlzcHJpbnRm
+KG52aWRpYWZiX2ZpeC5pZCwgIk5WJXgiLCAocGQtPmRldmljZSAmIDB4MGZmMCkgPj4gNCk7
+DQo+ICAgDQo+ICAgCWlmIChOVkNvbW1vblNldHVwKGluZm8pKQ0KPiAtCQlnb3RvIGVycl9v
+dXRfYXJjaDsNCj4gKwkJZ290byBlcnJfb3V0X2ZyZWVfYmFzZTA7DQo+ICAgDQo+ICAgCXBh
+ci0+RmJBZGRyZXNzID0gbnZpZGlhZmJfZml4LnNtZW1fc3RhcnQ7DQo+ICAgCXBhci0+RmJN
+YXBTaXplID0gcGFyLT5SYW1BbW91bnRLQnl0ZXMgKiAxMDI0Ow0KPiBAQCAtMTQwMSw3ICsx
+NDA2LDYgQEAgc3RhdGljIGludCBudmlkaWFmYl9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGQs
+IGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICplbnQpDQo+ICAgCQlnb3RvIGVycl9vdXRf
+aW91bm1hcF9mYjsNCj4gICAJfQ0KPiAgIA0KPiAtDQo+ICAgCXByaW50ayhLRVJOX0lORk8g
+UEZYDQo+ICAgCSAgICAgICAiUENJIG5WaWRpYSAlcyBmcmFtZWJ1ZmZlciAoJWRNQiBAIDB4
+JWxYKVxuIiwNCj4gICAJICAgICAgIGluZm8tPmZpeC5pZCwNCj4gQEAgLTE0MTUsMTUgKzE0
+MTksMTQgQEAgc3RhdGljIGludCBudmlkaWFmYl9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGQs
+IGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICplbnQpDQo+ICAgZXJyX291dF9mcmVlX2Jh
+c2UxOg0KPiAgIAlmYl9kZXN0cm95X21vZGVkYihpbmZvLT5tb25zcGVjcy5tb2RlZGIpOw0K
+PiAgIAludmlkaWFfZGVsZXRlX2kyY19idXNzZXMocGFyKTsNCj4gLWVycl9vdXRfYXJjaDoN
+Cj4gLQlpb3VubWFwKHBhci0+UkVHUyk7DQo+IC0gZXJyX291dF9mcmVlX2Jhc2UwOg0KPiAr
+ZXJyX291dF9mcmVlX2Jhc2UwOg0KPiAgIAlwY2lfcmVsZWFzZV9yZWdpb25zKHBkKTsNCj4g
+ICBlcnJfb3V0X2VuYWJsZToNCj4gICAJa2ZyZWUoaW5mby0+cGl4bWFwLmFkZHIpOw0KPiAg
+IGVycl9vdXRfa2ZyZWU6DQo+ICAgCWZyYW1lYnVmZmVyX3JlbGVhc2UoaW5mbyk7DQo+ICAg
+ZXJyX291dDoNCj4gKwlpb3VubWFwKFJFR1MpOw0KPiAgIAlyZXR1cm4gLUVOT0RFVjsNCj4g
+ICB9DQo+ICAgDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
+ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVs
+ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xy
+bmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-~/.backup> uname -a
-Linux zenogentoo 6.2.0-rc7-00002-gd2d11f342b17-dirty #144 SMP
-PREEMPT_DYNAMIC Mon Feb  6 09:42:58 CET 2023 x86_64 Intel(R) Core(TM)
-i7 CPU 960 @ 3.20GHz GenuineIntel GNU/Linux
+--------------VUEcQaCCkLFZS1a37FQ6RJTN--
 
-Please let me know if the patch makes it into mainline for the 6.2 release ;).
+--------------dgPVUGP2NEqfx0RUaGIvtheN
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Best
-Zeno
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPgwuwFAwAAAAAACgkQlh/E3EQov+As
+VRAAxDHvhCvR7AProl2HIn59tMHvbqGPG+5dRCPZKxGtJ88JA9SiPRN90+/dRLvyhep33XzI99XN
+s6Wnpdcp7piOrgDHZpBIeF1v9n6qfUxlrvUsja4jISXsTLSskBr1NtB0kecP0ijKmOIdm4FyJHM+
+zWjIlbhQgypHQFLHrKpuZP7t7uJw15unw53zwS4izlR7NXnlthYbMUQb/Wr8AH6olkPlD2iTvo5Q
+JACWt4DDrsJ/34hDlISGxuN8iABXEbfiCBPOTYNF4N+Y26TR6+wWXg6+oiiLciUF3fbEEAGWumT8
+uWGku87ch26aXZTF3JcYRmm0noAGmglSA+ww50XoKOhhSZfayAAMw//meQykjykBmi84ZCJALd4Q
+pZBf6Tk2I5Y66q/IANV7TxhMOniJbmOudRA6UzQyR9vj1lKFPzZj2t8hL8e+pcWk+cxcDcCRsL+P
+nQ+Px3QAnbm/l/wjmShE5uqn3wlMAMsBRFrV5tYfZ4u/79ZNACXe8FQYyAk0SXkSwA9Z2wQ2o/Ns
+ODORwhSxPfNJ3bPAmwTizXPsw9WTJBLu6nAjw25tk6UR100caADju4S9cMzNg+dbqVSsqzXXrlyT
+e5aMqqhRWb64LmIjbXhqg6qriilGhVUN1b12jEC0SlmNMRhy/o0RcJecCWZE4U+R1xzq/AkSP4HP
+qrQ=
+=mhS7
+-----END PGP SIGNATURE-----
+
+--------------dgPVUGP2NEqfx0RUaGIvtheN--
