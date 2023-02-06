@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6D168B9F0
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 11:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0B968BA42
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 11:33:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874AB10E182;
-	Mon,  6 Feb 2023 10:22:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC90B10E368;
+	Mon,  6 Feb 2023 10:33:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com
- [IPv6:2607:f8b0:4864:20::e36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4628D10E182
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 10:22:53 +0000 (UTC)
-Received: by mail-vs1-xe36.google.com with SMTP id a24so12139085vsl.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 02:22:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IDFXynxhTW1MwQ5q7ACPsdQYoX0X11isexUWJq5g+yg=;
- b=Tn+42238E/9sl6eoWwma3KtObVRsN/fRvB+q+b9YCSNv+D3eCfQs1FaM3VJac8A3r/
- DRhLjpUmzMZPlOcK4vFkiPX7O2EbwTtrNBHslK4TrfU5m1lwFmhchOwPN20shA+qADeN
- GIgNAy56Yw6c7Uv/a5ovUg0s+6fOBYxNGV9dg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IDFXynxhTW1MwQ5q7ACPsdQYoX0X11isexUWJq5g+yg=;
- b=7JdOgx2xQlH3oG1gA2OSk1cpXQRGJGfRdXeM6z+CIJt+cipwZgedq0FkOasmH5MMuW
- b9UqkIY+2s/J8ZL5ePmkpW7s3H5DHBImYLxPHCxgZ1X7dcdKZKJaQSNPup0K0ug7uZwx
- tnXbDSVA5a76yPmJm++eI5OgzGm/obZSScz/vHqrDd9zekFOEUDbgeDhP9cP6cQucn+E
- tlRna+mZvg2x0tJJtBDvPKYl4mdCnFRCB5J2MDhJAkE3ecFYAFXaFRDDkMKoBhlKJZwJ
- 0GAI43hXuwRJOz2iU6VOQ7EbqcXIevWEDorNUT7dMBpL5tLHMbX1uorBPXMK/esYwsOU
- 9tZA==
-X-Gm-Message-State: AO0yUKUXLl7XvdetfW0p6VBjhJ3t43fDp/tiEWohsyHQ6FLamLb67z32
- KW4BuWG+USvPGIcB7r+B+iLnvrk1zepyQnC93PpMQA==
-X-Google-Smtp-Source: AK7set9UEObC8Y3n/7lmYrPAsFQnv8OgXuuTtX5cUD3nMzyjS/+VIqLpJpkmCwvPrE9S9lf2zhO2/iIUbDgx4yAMAfo=
-X-Received: by 2002:a05:6102:322a:b0:3fe:ae88:d22 with SMTP id
- x10-20020a056102322a00b003feae880d22mr2896334vsf.65.1675678972359; Mon, 06
- Feb 2023 02:22:52 -0800 (PST)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47EF510E366;
+ Mon,  6 Feb 2023 10:33:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675679600; x=1707215600;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=QuGXFzog/2TLYOIOh3hII8O6V1snANioCocHfYn8yws=;
+ b=bQyWyulOhyYCetzlkgjc+bj83lYq5tGaRlNINcNQK0eTlNj5wyOzsFGM
+ Hl/DcrC57xT00a02lCkpFs0rUBXdbs8gdTqGetIhs2oNh7THCkfwOmh6I
+ MwaJody7AHe953tZlI48cpYW+SbqTuLD1BFLpPrdM1uNtMBALP7wYw9WD
+ c5dyFa7gASVsAq1B9lSpWcZcy+4by7svXkaDAA+w5cKCU2rKi4S1TJ2+U
+ Wfw4AnimuWogxHvwjJI7UJygtt7cu8MGRTAbVT8hKvTyh/KtNP6cAm8MZ
+ z3KkThyKNcPzP3Ku6EggWLr2BT/4pfWHRF+ubRms0+FIoAeF6ntDVpm5c Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="308818086"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="308818086"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2023 02:33:19 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10612"; a="790393723"
+X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="790393723"
+Received: from abotsiev-mobl.ger.corp.intel.com (HELO [10.252.3.115])
+ ([10.252.3.115])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2023 02:33:16 -0800
+Message-ID: <aa8af778-2a40-7fe0-eb14-234469c74523@intel.com>
+Date: Mon, 6 Feb 2023 10:33:13 +0000
 MIME-Version: 1.0
-References: <20230204133040.1236799-1-treapking@chromium.org>
- <20230204133040.1236799-8-treapking@chromium.org>
-In-Reply-To: <20230204133040.1236799-8-treapking@chromium.org>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 6 Feb 2023 18:22:41 +0800
-Message-ID: <CAGXv+5FBHKgOA_XAr7HzsZhsB_W5QbdY6R3q+5PCy5yynduprw@mail.gmail.com>
-Subject: Re: [PATCH v11 7/9] dt-bindings: display: bridge: it6505: Add
- mode-switch support
-To: Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.7.1
+Subject: Re: [PATCH] drm/i915/gt: Avoid redundant pointer validity check
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Deepak R Varma <drv@mailo.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>
+References: <Y91g081OauhQNxMe@ubun2204.myguest.virtualbox.org>
+ <d58fff32-edad-4a7f-7409-7e57593df3ed@linux.intel.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <d58fff32-edad-4a7f-7409-7e57593df3ed@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,224 +67,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 4, 2023 at 9:31 PM Pin-yen Lin <treapking@chromium.org> wrote:
->
-> ITE IT6505 can be used in systems to switch the DP traffic between
-> two downstreams, which can be USB Type-C DisplayPort alternate mode
-> lane or regular DisplayPort output ports.
->
-> Update the binding to accommodate this usage by introducing a
-> data-lanes and a mode-switch property on endpoints.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> ---
->
-> Changes in v11:
-> - Updated the description of the endpoints in the bindings
-> - Referenced video-interfaces.yaml instead for the endpoints binding
-> - Removed duplicated definitions from inherited schema
->
-> Changes in v9:
-> - Fixed subject prefix again
-> - Changed the naming of the example node for it6505
->
-> Changes in v8:
-> - Updated bindings for data-lanes property
-> - Fixed subject prefix
->
-> Changes in v7:
-> - Fixed issues reported by dt_binding_check.
-> - Updated the schema and the example dts for data-lanes.
-> - Changed to generic naming for the example dts node.
->
-> Changes in v6:
-> - Remove switches node and use endpoints and data-lanes property to
->   describe the connections.
->
->  .../bindings/display/bridge/ite,it6505.yaml   | 101 +++++++++++++++---
->  1 file changed, 88 insertions(+), 13 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> index b16a9d9127dd..8ae9c5cba22c 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> @@ -75,22 +75,49 @@ properties:
->        port@1:
->          $ref: /schemas/graph.yaml#/$defs/port-base
->          unevaluatedProperties: false
-> -        description: Video port for DP output
-> +        description:
-> +          Video port for DP output. Each endpoint connects to a video output
-> +          downstream, and the "data-lanes" property is used to describe the pin
-> +          connections. 0, 1, 2, 3 in "data-lanes" maps to TX0, TX1, TX2, TX3,
-> +          respectively.
->
-> -        properties:
-> -          endpoint:
-> -            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +
-> +        patternProperties:
-> +          "^endpoint@[01]$":
-> +            $ref: /schemas/media/video-interfaces.yaml#
->              unevaluatedProperties: false
->
->              properties:
-> +              reg: true
-> +
-> +              remote-endpoint: true
-> +
->                data-lanes:
-> -                minItems: 1
-> -                uniqueItems: true
-> -                items:
-> -                  - enum: [ 0, 1 ]
-> -                  - const: 1
-> -                  - const: 2
-> -                  - const: 3
-> +                oneOf:
-> +                  - items:
-> +                      - enum: [0, 1, 2, 3]
+On 06/02/2023 09:45, Tvrtko Ursulin wrote:
+> 
+> Hi,
+> 
+> Adding Matt & Thomas as potential candidates to review.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> On 03/02/2023 19:30, Deepak R Varma wrote:
+>> The macro definition of gen6_for_all_pdes() expands to a for loop such
+>> that it breaks when the page table is null. Hence there is no need to
+>> again test validity of the page table entry pointers in the pde list.
+>> This change is identified using itnull.cocci semantic patch.
+>>
+>> Signed-off-by: Deepak R Varma <drv@mailo.com>
+>> ---
+>> Please note: Proposed change is compile tested only.
+>>
+>>   drivers/gpu/drm/i915/gt/gen6_ppgtt.c | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c 
+>> b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+>> index 5aaacc53fa4c..787b9e6d9f59 100644
+>> --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+>> +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+>> @@ -258,8 +258,7 @@ static void gen6_ppgtt_free_pd(struct gen6_ppgtt 
+>> *ppgtt)
+>>       u32 pde;
+>>       gen6_for_all_pdes(pt, pd, pde)
+>> -        if (pt)
+>> -            free_pt(&ppgtt->base.vm, pt);
+>> +        free_pt(&ppgtt->base.vm, pt);
+>>   }
+>>   static void gen6_ppgtt_cleanup(struct i915_address_space *vm)
+>> @@ -304,7 +303,7 @@ static void pd_vma_unbind(struct 
+>> i915_address_space *vm,
+>>       /* Free all no longer used page tables */
+>>       gen6_for_all_pdes(pt, ppgtt->base.pd, pde) {
+>> -        if (!pt || atomic_read(&pt->used))
+>> +        if (atomic_read(&pt->used))
 
-Based on the datasheets we have and the downstream driver, I assume
-the hardware implements "lane swap" as simply reversing the order
-of the output pins.
+Wow, I was really confused trying to remember how this all works.
 
-In that case the hardware can't output 1 lane DP on any arbitrary lane,
-but only lane 0 or 3.
+The gen6_for_all_pdes() does:
 
-> +                  - items:
-> +                      - const: 0
-> +                      - const: 1
-> +
-> +                  - items:
-> +                      - const: 2
-> +                      - const: 3
+(pt = i915_pt_entry(pd, iter), true)
 
-And maybe a bit pedantic, but have the order correct as:
-
-    - const: 3
-    - const: 2
-
-> +                  - items:
-> +                      - const: 0
-> +                      - const: 1
-> +                      - const: 2
-> +                      - const: 3
-> +
-> +              mode-switch:
-> +                type: boolean
-> +                description: Register this node as a Type-C mode switch or not.
-
-Same as the anx7625 patch, I would reword this as "Serves as Type-C mode
-switch if present".
+So NULL pt is expected, and does not 'break' here, since 'true' is 
+always the value that decides whether to terminate the loop. So this 
+patch would lead to NULL ptr deref, AFAICT.
 
 
-ChenYu
 
-
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
->
->      required:
->        - port@0
-> @@ -102,7 +129,6 @@ required:
->    - pwr18-supply
->    - interrupts
->    - reset-gpios
-> -  - extcon
->    - ports
->
->  additionalProperties: false
-> @@ -139,8 +165,11 @@ examples:
->                  };
->
->                  port@1 {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
->                      reg = <1>;
-> -                    it6505_out: endpoint {
-> +                    it6505_out: endpoint@0 {
-> +                        reg = <0>;
->                          remote-endpoint = <&dp_in>;
->                          data-lanes = <0 1>;
->                      };
-> @@ -148,3 +177,49 @@ examples:
->              };
->          };
->      };
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        dp-bridge@5c {
-> +            compatible = "ite,it6505";
-> +            interrupts = <8 IRQ_TYPE_LEVEL_LOW 8 0>;
-> +            reg = <0x5c>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&it6505_pins>;
-> +            ovdd-supply = <&mt6366_vsim2_reg>;
-> +            pwr18-supply = <&pp1800_dpbrdg_dx>;
-> +            reset-gpios = <&pio 177 0>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                port@0 {
-> +                    reg = <0>;
-> +                    it6505_dpi_in: endpoint {
-> +                        remote-endpoint = <&dpi_out>;
-> +                    };
-> +                };
-> +                port@1 {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +                    reg = <1>;
-> +                    ite_typec0: endpoint@0 {
-> +                        reg = <0>;
-> +                        mode-switch;
-> +                        data-lanes = <0 1>;
-> +                        remote-endpoint = <&typec_port0>;
-> +                    };
-> +                    ite_typec1: endpoint@1 {
-> +                        reg = <1>;
-> +                        mode-switch;
-> +                        data-lanes = <2 3>;
-> +                        remote-endpoint = <&typec_port1>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> --
-> 2.39.1.519.gcb327c4b5f-goog
->
+>>               continue;
+>>           free_pt(&ppgtt->base.vm, pt);
