@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E8A68C06F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 15:48:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D4D68C09A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 15:57:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4490410E3E3;
-	Mon,  6 Feb 2023 14:48:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4E010E3EE;
+	Mon,  6 Feb 2023 14:57:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF8F110E40E;
- Mon,  6 Feb 2023 14:48:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 38028B811C9;
- Mon,  6 Feb 2023 14:48:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56162C433A0;
- Mon,  6 Feb 2023 14:48:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675694921;
- bh=HYdJr2k8xDsH9UDytuxcvFsS8NUtWpMmOCXLy/R0vfY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=rnFXM4aISGhBNRn4hSR7eWhrhUqOEbjjg0C59+ZDrMmpa6Z2I+6ozrRA3B3/LaJe7
- l7ensMX+XxaF70p6LE0yuz2OhGFl1TRO3OZdO/SdM6rOYOYCgOANjgFL0UzXqJ8fk9
- jdD8/8lPphHo5p8hX7WNdKxFydlozOzAANzbjpStLNaYJRGJh05lAnThIHisKH/xoh
- 8b2+oVcz/19f/Iv/vTSe/PEmm2vZiXoZIgMpHlHrTzmNV4QdhlPFWUj/KFs+vR/+Fs
- o+k9HqBv+NhmKQM17nj1JEjTet1QUV/a0q9wnES2mYnMaVZfZJFfD2ShnrziZQXQgJ
- AlL8iaN2xotAw==
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-52a849206adso12541377b3.4; 
- Mon, 06 Feb 2023 06:48:41 -0800 (PST)
-X-Gm-Message-State: AO0yUKV/8FHrqDsQ4zmvM6xONrLjcQ4PaY2tM9I51qIXgIcVCHmSa7C1
- G/XCY1mum57iE2s/DniN61kKcVBWV057Cgajkj4=
-X-Google-Smtp-Source: AK7set8XPchtwOOx5zc+24WB7S/trNyqjWhqIRW0/wKJiCz5RqFF+C1SwTDZZC/hmiQNqmKeHvc18dggdQwMcgaP/lU=
-X-Received: by 2002:a81:7c84:0:b0:52a:76d3:27fe with SMTP id
- x126-20020a817c84000000b0052a76d327femr275586ywc.487.1675694920333; Mon, 06
- Feb 2023 06:48:40 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99A2110E3EE
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 14:57:10 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id e22so5629139ejb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 06:57:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cLuf1U+2WjifV8fnrslcwZDFA4TZvCGB2iPkwtWqNUI=;
+ b=oq9jViBl3HA8dQj59yZsQcWYKhAEvJWr1Mqzc1nDjWd3kRLMlEJmDIhfOc2l+p9NLd
+ sEyjvRaMXAsm/bYtTpQnIz65QqWwNZzD2ixnXeIv/n7h0wwjcYKGqo5UlUhhHj/+UxhN
+ Vjip+0N5Gcg9eBr6e9L2FgnlD02pMQtDmefHpu6L6q15uOGJwGLd6Q+iHLS5qDhwcnpv
+ jcH/BDXAdXafNKaM0EBgworEii3bTIRcz1nDLBmzdKEdZFuwosxwjqEO4W6y868kqLfD
+ btVyftrdECwXZvuYQTLDMsH366OL3edNWQJg4/Ues9yHsG8FHbMc5frF17qLpR6RVgFB
+ TLKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cLuf1U+2WjifV8fnrslcwZDFA4TZvCGB2iPkwtWqNUI=;
+ b=LhXqQ5suMob6x/9y9zX6KDy2OBvvJWYQwF2+n5Tj8KJc90diFLVvyuKy87hnobQ4Up
+ KdAA7+mPaMvt/4Z5zjn5CoOOQW1mKTcbXzPYuWwuZpwJ4MdacdbMGEsWgqVuBGsJSfxy
+ /Wxo0GDvnSznruU6eKvSCaR6Th73jNTYqvd0hAAcNpxwuh2fb2r7PfSJ+VknjsYS8rGm
+ i4toKzc0U9FvMZvSemJHUWufPY3Ni7jNe+6reV4/7TmcCHnahOAWAZWpPH249Go7aIeG
+ LlG6ZZCrhp8b9xDkwhlld3yGi5eKKKfWYWKKU5K9ODutKiz0PW0oQaTZ0Boq3GRSKpeu
+ SaRg==
+X-Gm-Message-State: AO0yUKW4Z9ncHRABEZXqzBMq5TAKlLVkEJlPDZ8d2Z2dKJTbBT9HysS7
+ ozlPNIpkovRDyWJgJgEAj4H9hg==
+X-Google-Smtp-Source: AK7set/oKvZyc+ZrfLJPgnfOVLJVKoAm0Z0SgsTUoA8rN3b3dRK6zhySANFVfe+x2ByyCb7N0W7vLw==
+X-Received: by 2002:a17:907:7ba9:b0:87b:d3dd:e0ca with SMTP id
+ ne41-20020a1709077ba900b0087bd3dde0camr13140091ejc.26.1675695429234; 
+ Mon, 06 Feb 2023 06:57:09 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ gw1-20020a170906f14100b0087bd4e34eb8sm5495533ejb.203.2023.02.06.06.57.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 06:57:08 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Taniya Das <quic_tdas@quicinc.com>
+Subject: [PATCH v2 0/8] arm64: dts: qcom: sm8350: enable GPU on the HDK board
+Date: Mon,  6 Feb 2023 16:56:59 +0200
+Message-Id: <20230206145707.122937-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
- <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
- <3602500f-05f5-10b8-5ec6-0a6246e2bb6b@amd.com>
- <bcbef353-f579-4e90-1c77-be36bbe61c0f@redhat.com>
- <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
- <0f2d6e1a-a3b5-f323-a29d-caade427292c@redhat.com>
- <CADnq5_Nh-1esiHzvTG+qFBCfMjy21efX-YN2jfGG=WC+-4LwLQ@mail.gmail.com>
- <CAPM=9txMZO1uYj+kVdTfmCwV2Fq8uu_b3i4eq4xhqPEPKBW8Eg@mail.gmail.com>
- <7839c47e-6692-b93b-69a8-9584193cb07d@amd.com>
- <6566870d-6256-8eef-5879-cb13711e4bed@redhat.com>
- <Y8jT1TazLddqZjG4@DUT025-TGLU.fm.intel.com>
-In-Reply-To: <Y8jT1TazLddqZjG4@DUT025-TGLU.fm.intel.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Mon, 6 Feb 2023 16:48:13 +0200
-X-Gmail-Original-Message-ID: <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
-Message-ID: <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
-Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
- UAPI
-To: Matthew Brost <matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,144 +73,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jason@jlekstrand.net, corbet@lwn.net, nouveau@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- bskeggs@redhat.com, tzimmermann@suse.de, airlied@redhat.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 19, 2023 at 7:24 AM Matthew Brost <matthew.brost@intel.com> wro=
-te:
->
-> On Thu, Jan 19, 2023 at 05:04:32AM +0100, Danilo Krummrich wrote:
-> > On 1/18/23 20:48, Christian K=C3=B6nig wrote:
-> > > Am 18.01.23 um 20:17 schrieb Dave Airlie:
-> > > > On Thu, 19 Jan 2023 at 02:54, Alex Deucher <alexdeucher@gmail.com> =
-wrote:
-> > > > > On Wed, Jan 18, 2023 at 11:50 AM Danilo Krummrich
-> > > > > <dakr@redhat.com> wrote:
-> > > > > >
-> > > > > >
-> > > > > > On 1/18/23 17:30, Alex Deucher wrote:
-> > > > > > > On Wed, Jan 18, 2023 at 11:19 AM Danilo Krummrich
-> > > > > > > <dakr@redhat.com> wrote:
-> > > > > > > > On 1/18/23 16:37, Christian K=C3=B6nig wrote:
-> > > > > > > > > Am 18.01.23 um 16:34 schrieb Danilo Krummrich:
-> > > > > > > > > > Hi Christian,
-> > > > > > > > > >
-> > > > > > > > > > On 1/18/23 09:53, Christian K=C3=B6nig wrote:
-> > > > > > > > > > > Am 18.01.23 um 07:12 schrieb Danilo Krummrich:
-> > > > > > > > > > > > This patch series provides a new UAPI for the Nouve=
-au driver in
-> > > > > > > > > > > > order to
-> > > > > > > > > > > > support Vulkan features, such as
-> > > > > > > > > > > > sparse bindings and sparse
-> > > > > > > > > > > > residency.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Furthermore, with the DRM GPUVA
-> > > > > > > > > > > > manager it provides a new DRM core
-> > > > > > > > > > > > feature to
-> > > > > > > > > > > > keep track of GPU virtual address
-> > > > > > > > > > > > (VA) mappings in a more generic way.
-> > > > > > > > > > > >
-> > > > > > > > > > > > The DRM GPUVA manager is indented to help drivers i=
-mplement
-> > > > > > > > > > > > userspace-manageable
-> > > > > > > > > > > > GPU VA spaces in reference to the Vulkan API. In or=
-der to achieve
-> > > > > > > > > > > > this goal it
-> > > > > > > > > > > > serves the following purposes in this context.
-> > > > > > > > > > > >
-> > > > > > > > > > > >        1) Provide a dedicated range allocator to tr=
-ack GPU VA
-> > > > > > > > > > > > allocations and
-> > > > > > > > > > > >           mappings, making use of the drm_mm range =
-allocator.
-> > > > > > > > > > > This means that the ranges are allocated
-> > > > > > > > > > > by the kernel? If yes that's
-> > > > > > > > > > > a really really bad idea.
-> > > > > > > > > > No, it's just for keeping track of the
-> > > > > > > > > > ranges userspace has allocated.
-> > > > > > > > > Ok, that makes more sense.
-> > > > > > > > >
-> > > > > > > > > So basically you have an IOCTL which asks kernel
-> > > > > > > > > for a free range? Or
-> > > > > > > > > what exactly is the drm_mm used for here?
-> > > > > > > > Not even that, userspace provides both the base
-> > > > > > > > address and the range,
-> > > > > > > > the kernel really just keeps track of things.
-> > > > > > > > Though, writing a UAPI on
-> > > > > > > > top of the GPUVA manager asking for a free range instead wo=
-uld be
-> > > > > > > > possible by just adding the corresponding wrapper functions=
- to get a
-> > > > > > > > free hole.
-> > > > > > > >
-> > > > > > > > Currently, and that's what I think I read out of
-> > > > > > > > your question, the main
-> > > > > > > > benefit of using drm_mm over simply stuffing the
-> > > > > > > > entries into a list or
-> > > > > > > > something boils down to easier collision detection and iter=
-ating
-> > > > > > > > sub-ranges of the whole VA space.
-> > > > > > > Why not just do this in userspace?  We have a range manager i=
-n
-> > > > > > > libdrm_amdgpu that you could lift out into libdrm or some oth=
-er
-> > > > > > > helper.
-> > > > > > The kernel still needs to keep track of the mappings within the=
- various
-> > > > > > VA spaces, e.g. it silently needs to unmap mappings that are ba=
-cked by
-> > > > > > BOs that get evicted and remap them once they're validated (or =
-swapped
-> > > > > > back in).
-> > > > > Ok, you are just using this for maintaining the GPU VM space in
-> > > > > the kernel.
-> > > > >
-> > > > Yes the idea behind having common code wrapping drm_mm for this is =
-to
-> > > > allow us to make the rules consistent across drivers.
-> > > >
-> > > > Userspace (generally Vulkan, some compute) has interfaces that pret=
-ty
-> > > > much dictate a lot of how VMA tracking works, esp around lifetimes,
-> > > > sparse mappings and splitting/merging underlying page tables, I'd
-> > > > really like this to be more consistent across drivers, because alre=
-ady
-> > > > I think we've seen with freedreno some divergence from amdgpu and w=
-e
-> > > > also have i915/xe to deal with. I'd like to at least have one place
-> > > > that we can say this is how it should work, since this is something
-> > > > that *should* be consistent across drivers mostly, as it is more ab=
-out
-> > > > how the uapi is exposed.
-> > >
-> > > That's a really good idea, but the implementation with drm_mm won't w=
-ork
-> > > like that.
-> > >
-> > > We have Vulkan applications which use the sparse feature to create
-> > > literally millions of mappings. That's why I have fine tuned the mapp=
-ing
->
-> Is this not an application issue? Millions of mappings seems a bit
-> absurd to me.
-If I look at the most extreme case for AI, assuming 256GB of HBM
-memory and page mapping of 2MB, we get to 128K of mappings. But that's
-really the extreme case imo. I assume most mappings will be much
-larger. In fact, in the most realistic scenario of large-scale
-training, a single user will probably map the entire HBM memory using
-1GB pages.
+Add A660 device to the Qualcomm SM8350 platform and enable it for the
+sm8350-hdk board. Unfortunately while adding the GPU & related devices I
+noticed that DT nodes on SM8350 are greatly out of the preagreed order,
+so patches 4-6 reorder DT nodes to follow the agreement.
 
-I have also a question, could this GPUVA code manage VA ranges
-mappings for userptr mappings, assuming we work without svm/uva/usm
-(pointer-is-a-pointer) ? Because then we are talking about possible
-4KB mappings of 1 - 1.5 TB host server RAM (Implied in my question is
-the assumption this can be used also for non-VK use-cases. Please tell
-me if I'm totally wrong here).
+Changes since v1:
+- Fixed the subject and commit message for patch 1
+- Fixed GMU's clocks to follow the vendor kernel
+- Marked Adreno SMMU as dma-coherent
+- Dropped comments targeting sm8350 v1, we do not support that chip
+  revision.
 
-Thanks,
-Oded
+Dmitry Baryshkov (8):
+  dt-bindings: clock: Merge qcom,gpucc-sm8350 into qcom,gpucc.yaml
+  dt-bindings: power: qcom,rpmpd: add RPMH_REGULATOR_LEVEL_LOW_SVS_L1
+  dt-bindings: display/msm/gmu: add Adreno 660 support
+  arm64: dts: qcom: sm8350: reorder device nodes
+  arm64: dts: qcom: sm8350: move more nodes to correct place
+  arm64: dts: qcom: sm8350: finish reordering nodes
+  arm64: dts: qcom: sm8350: add GPU, GMU, GPU CC and SMMU nodes
+  arm64: dts: qcom: sm8350-hdk: enable GPU
+
+ .../bindings/clock/qcom,gpucc-sm8350.yaml     |   71 -
+ .../devicetree/bindings/clock/qcom,gpucc.yaml |    2 +
+ .../devicetree/bindings/display/msm/gmu.yaml  |    1 +
+ arch/arm64/boot/dts/qcom/sm8350-hdk.dts       |    8 +
+ arch/arm64/boot/dts/qcom/sm8350.dtsi          | 2512 +++++++++--------
+ include/dt-bindings/power/qcom-rpmpd.h        |    1 +
+ 6 files changed, 1357 insertions(+), 1238 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/clock/qcom,gpucc-sm8350.yaml
+
+-- 
+2.39.1
+
