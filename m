@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E82068C216
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 16:46:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C882068C22B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 16:49:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9DA510E0BC;
-	Mon,  6 Feb 2023 15:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9485A10E411;
+	Mon,  6 Feb 2023 15:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A29E10E0BC
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 15:46:35 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0C7BDB81255
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 15:46:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3591DC433AA
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 15:46:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675698392;
- bh=joRqx9Li9igfnC0oG6IHKkgO3cLoL5bazL6HXykW/Yk=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=JKn8eNaNJ4rikGY741Uy2+0jJ1t1CJnAt8eg4J/uwsGU91pzRtO8LzlwrMivN/3gp
- NceZa7of2rRpKnlzWWzal3WG40MtjMiIMZbaaoryIEx5QnsmTtPNSjX1udoaGNzRgT
- G+0+/6/mSUKlYDeinY+kmlCkoNaAKjbzQ/q6lmdGksIlr79l0R/s2IlClC45wK/H/E
- fJpyE8hsh7Nvh7Mo7QpuruZlyTxIR5J+/Sc4WgFdeTJJXmiyjrjIITLKZjrsHzdSZd
- FEGytUJ0kxZNmw6G78c7gyEYYv0ewaiHvm/ZsVrn0EfCLdlY3P0oMyVb9DDjyQy+q2
- tg7Sjb+4UeVag==
-Received: by mail-vs1-f47.google.com with SMTP id j7so13056816vsl.11
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 07:46:32 -0800 (PST)
-X-Gm-Message-State: AO0yUKUX2tzqdbWmTlzmVw72dTwEyG7XCh5Vld39lp7Parm3rJyC4I6Y
- lWQ5IUxSH1yvecDD+jju0lelaaxD65NQmgym+w==
-X-Google-Smtp-Source: AK7set8Tk9obdWMlC2bGawE53EVM/Oy5EZ7J8YanM63uhthmowerxVZw/LM6nc9a1zR0V1hhJv6Nifwjl9aigUei0n0=
-X-Received: by 2002:a67:cc1d:0:b0:3f3:5ce0:85ab with SMTP id
- q29-20020a67cc1d000000b003f35ce085abmr38443vsl.26.1675698390984; Mon, 06 Feb
- 2023 07:46:30 -0800 (PST)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C03C110E411
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 15:49:11 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1pP3js-00012d-K6; Mon, 06 Feb 2023 16:49:04 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1pP3jf-0007Ia-HV; Mon, 06 Feb 2023 16:48:51 +0100
+Date: Mon, 6 Feb 2023 16:48:51 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: FUKAUMI Naoki <naoki@radxa.com>
+Subject: Re: [PATCH v3 0/3] drm/rockchip: dw_hdmi: Add 4k@30 support
+Message-ID: <20230206154851.GD10447@pengutronix.de>
+References: <20230118132213.2911418-1-s.hauer@pengutronix.de>
+ <20230131080928.GG23347@pengutronix.de>
+ <3C4B67628F8D73D6+63ea74ac-b8a2-45b1-5f92-8c7868906687@radxa.com>
+ <20230206140448.GB10447@pengutronix.de>
 MIME-Version: 1.0
-References: <67771143-fd83-383d-41b2-68e8707134e8@gmail.com>
- <20230203182119.GA615242-robh@kernel.org>
- <87f5097d-1cd0-e09f-e759-8592a9165ea6@gmail.com>
- <5647788.DvuYhMxLoT@diego>
-In-Reply-To: <5647788.DvuYhMxLoT@diego>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 6 Feb 2023 09:46:19 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJJcRx0XAJmsS6Q-AmNGDd+bWPVgW1yLBq6o2kmxiEFAg@mail.gmail.com>
-Message-ID: <CAL_JsqJJcRx0XAJmsS6Q-AmNGDd+bWPVgW1yLBq6o2kmxiEFAg@mail.gmail.com>
-Subject: Re: [PATCH v6 01/17] dt-bindings: display: rockchip: convert
- rockchip-lvds.txt to YAML
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230206140448.GB10447@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,96 +56,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org, linux-samsung-soc@vger.kernel.org,
- jernej.skrabec@gmail.com, linux-rockchip@lists.infradead.org,
- alim.akhtar@samsung.com, devicetree@vger.kernel.org, jonas@kwiboo.se,
- Johan Jonker <jbx6244@gmail.com>, linux-arm-kernel@lists.infradead.org,
- neil.armstrong@linaro.org, gregkh@linuxfoundation.org,
- linux-usb@vger.kernel.org, sw0312.kim@samsung.com, hjc@rock-chips.com,
- robert.foss@linaro.org, kyungmin.park@samsung.com, philippe.cornu@foss.st.com
+Cc: Dan Johansen <strit@manjaro.org>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 5, 2023 at 8:12 AM Heiko St=C3=BCbner <heiko@sntech.de> wrote:
->
-> Hi,
->
-> Am Freitag, 3. Februar 2023, 20:02:54 CET schrieb Johan Jonker:
-> >
-> > On 2/3/23 19:21, Rob Herring wrote:
-> > > On Thu, Dec 22, 2022 at 03:22:14PM +0100, Johan Jonker wrote:
-> > >> Convert rockchip-lvds.txt to YAML.
-> > >>
-> > >> Changed:
-> > >>   Add power-domains property.
-> > >>   Requirements between PX30 and RK3288
-> > >>
-> > >> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> > >> Reviewed-by: Rob Herring <robh@kernel.org>
-> > >> ---
-> > >>
-> > >> Changed V3:
-> > >>   Filename matching compatible style
-> > >>   Drop "Regulator phandle for "
-> > >>   Specify properties and requirements per SoC
-> > >>   Sort order and restyle
-> > >>
-> > >> Changed V2:
-> > >>   Fix title
-> > >> ---
-> > >>  .../display/rockchip/rockchip,lvds.yaml       | 170 +++++++++++++++=
-+++
-> > >>  .../display/rockchip/rockchip-lvds.txt        |  92 ----------
-> > >>  2 files changed, 170 insertions(+), 92 deletions(-)
-> > >>  create mode 100644 Documentation/devicetree/bindings/display/rockch=
-ip/rockchip,lvds.yaml
-> > >>  delete mode 100644 Documentation/devicetree/bindings/display/rockch=
-ip/rockchip-lvds.txt
-> > >
-> >
-> > > What's the plan for these patches? Don't see them in linux-next still=
-.
-> > > Do you want me to take patches 1-8?
-> >
-> > Hi,
-> >
-> > The display patches normally go through the DRM git.
-> > Patch 2 must merge with grf.yaml.
-> > Heiko has merged now 3 PHY related patches to grf.yaml first.
-> >
-> > [PATCH v6 02/17] dt-bindings: soc: rockchip: grf: add rockchip,lvds.yam=
-l
-> >
-> > See current
-> > https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.gi=
-t/log/?h=3Dfor-next&qt=3Dgrep&q=3Djonker
-> >
-> > Not sure what Heiko's plans are.
-> > Patch 2 replaces  only a description text and some accolades removal, s=
-o not "too" important.
-> >
-> > I urgent then you could merge without conflict:
-> > 1, 3-8
->
-> So I've applied patches 1-7 to the drm-tree now.
+On Mon, Feb 06, 2023 at 03:04:48PM +0100, Sascha Hauer wrote:
+> On Wed, Feb 01, 2023 at 09:23:56AM +0900, FUKAUMI Naoki wrote:
+> > hi,
+> > 
+> > I'm trying this patch series with 6.1.x kernel. it works fine on rk356x
+> > based boards (ROCK 3), but it has a problem on rk3399 boards (ROCK 4).
+> > 
+> > on rk3399 with this patch, I can see large noise area (about one third right
+> > side of the screen) at 4k@30. 1080p works fine as same as before.
+> > 
+> > can someone reproduce this problem on rk3399?
+> 
+> Ok, I could easily reproduce the problem here.
+> 
+> The RK3399 has two VOPs, vopb(ig) and vopl(ittle). Only the former can
+> do 4k@30 while the latter can only do 1080p. Unfortunately vopl is used
+> by default. We can force using vopb by disabling vopl in the device tree
+> and get a good 4k@30 picture then. The other possibility I found is to
+> use the other CRTC with modetest. I have no idea how we could set the
+> default to vopb.
+> 
+> I guess a first step would be to limit the maximum resolution of vopl
+> to what the hardware can do. We would likely end up with 1080p by
+> default then for the applications.
 
-That would have been good a month ago. Now these won't land til 6.4.
-:( For that reason, if it is after the drm-misc cutoff, I prefer to
-take DT bindings via my tree.
+I did that, but the result is not what I expected. Discarding a mode in
+the connector means it won't show up in the connectors list of modes.
+Discarding it in the CRTC though means the mode is still exposed by the
+connector, but actually trying to use it then fails.
 
-> For the GRF-patch, I've dropped the quotes changes, as they are somewhat
-> unrelated to the lvds inclusion and so prevented any conflicts when apply=
-ing
-> the rest to the DRM tree.
+This means when discarding the mode in the CRTC the screen stays black.
 
-Only 1 hunk needed to be dropped to avoid the conflict (which also
-dropped quotes). If all the quote changes were dropped, please send
-another patch for that.
+I am not sure where I should go from here.
 
-> @Rob, if you could pick the fusb302 patch (number8), that would be great
+Sascha
 
-Will do.
-
-Rob
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
