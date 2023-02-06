@@ -1,69 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5DC68C0C1
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 15:57:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC5068C1EC
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 16:42:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7462B10E40E;
-	Mon,  6 Feb 2023 14:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF4710E4BC;
+	Mon,  6 Feb 2023 15:42:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E9D710E488
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 14:57:19 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id ml19so35108523ejb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 06:57:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rvpJire9Oix0QZVP0x0MsRm7055RqWG85WNJGR1ah78=;
- b=FhbKMLoNFUAWgn+KHQ69RJuJ/z1JEUNsDQLrN26ILh2sf38Q3tVGNkFLuWo7zm3hH4
- VLLg21KcCOr24lh65lsSoa7CFwvGDQg42Xs4nYoAgezqd74ZEifIf7d99YOwT2POgPxu
- j04Uzj4TeRpRGz/s1hUBFsC0C6dM0EcH5wEgBez56Xx15AdyJ/h91W2KsUEBWywAiVoO
- wx63kmm1nCsonj4IV3MCPAY8NJPyJylDJZEps7dYSqUZT3dHnoOkB2IbRt5G+ZvIOmf+
- 7DNnzBJwmUc79kb6U31NzTmt4lWLA3gS4hqhDcw2RKrAyNwORB1EVwHdF44tBgTWs+gc
- Qpbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rvpJire9Oix0QZVP0x0MsRm7055RqWG85WNJGR1ah78=;
- b=dqfD7Enugsh9EHnbUI2Nrp9EWtDjU/YouaoPTeg2XvAgUdoFRpF+lfkwshONmZnYjV
- Y+fUYzXXZENPniQ/ZWQdafFrjNs6eWFnKvZsaKcCHvxuINZDzckCAWc1kcl7+e3WpXij
- v9V8MZdviTKRgIjUMO0j3IDXtARTIGZ/QYdihMQwOlg7zJw/j/x6Ih+lFA9wNnxqrthX
- ZWRVmqGFXGNvjKlGMqkojVf2es/tURd5em7evKXo+nteJniVBwxhMnAgNO2Qd+WQu6bi
- AMdMeYBBQXACgHXhtqGLT3OO/jjGCGuTfsy7jeK1qQsI4CsmQROiw/94fXqivCai/xy0
- Wbkg==
-X-Gm-Message-State: AO0yUKWfrPe7Rxoy7iP55IpK5MHaosgmVAdQdLusaJyClZIFFGrdAPbu
- 0M/WlwY120eDzdbaoktp1d7hHw==
-X-Google-Smtp-Source: AK7set/BbBwZ2tUdJQcmNpQqX0iYCeNQD2U/sxj9vmbzbl37IVzdRVXDEFmvzjMIvEIWKes98WxnkA==
-X-Received: by 2002:a17:906:4b57:b0:885:2eb5:68a5 with SMTP id
- j23-20020a1709064b5700b008852eb568a5mr17647451ejv.66.1675695438882; 
- Mon, 06 Feb 2023 06:57:18 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- gw1-20020a170906f14100b0087bd4e34eb8sm5495533ejb.203.2023.02.06.06.57.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 06:57:18 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Taniya Das <quic_tdas@quicinc.com>
-Subject: [PATCH v2 8/8] arm64: dts: qcom: sm8350-hdk: enable GPU
-Date: Mon,  6 Feb 2023 16:57:07 +0200
-Message-Id: <20230206145707.122937-9-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230206145707.122937-1-dmitry.baryshkov@linaro.org>
-References: <20230206145707.122937-1-dmitry.baryshkov@linaro.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB78710E410
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 15:42:23 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 316C0PhC015227; Mon, 6 Feb 2023 15:42:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=lXF/rNvlyElCUh8Y3twha6RuV32W6dBQ0Klr8IIYMvg=;
+ b=Gn46WYZs/s+axc6bbT8kFA6sPRyOMNWRigSeCTnzbDWWHdYe1nAapQorfbsDWudbTFQa
+ n18RwxpjLxslWElA9DfEReWZBbpCs3fFQWTaGOLkXE+fCl9BcW7XsjA+mM0inb1SN6lu
+ U+DE238tzvy5yPdPoCBRtiMB5tpiEyaADWE+P0eJMv3a5urv+HOVUgaHUMWYmliOGbTG
+ upjOtvhqM+uzd4ipk++dEF16Gr7Z3tV8tnc26sOd5PyuS3kMaE4S4Dj+y6AZIRKw56/f
+ VQzkXt6RXHN86fwfA9K+laDfNlqFwQaAzgwedQ/KTM0quCd9Hmwz3CJT1aIUHD1jBuVS Yg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nhff2m17v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 15:42:10 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 316Fg8gk021200
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 6 Feb 2023 15:42:08 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.36; Mon, 6 Feb 2023 07:42:07 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v2 0/8] QAIC accel driver
+Date: Mon, 6 Feb 2023 08:41:37 -0700
+Message-ID: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: rCZPYX2tyLX9kVyXtwd7NsRHqq1VwVAT
+X-Proofpoint-GUID: rCZPYX2tyLX9kVyXtwd7NsRHqq1VwVAT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 malwarescore=0
+ spamscore=0 impostorscore=0 priorityscore=1501 bulkscore=0 mlxlogscore=698
+ suspectscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302060135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,40 +79,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- linux-clk@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
+ stanislaw.gruszka@linux.intel.com, quic_carlv@quicinc.com,
+ Jeffrey Hugo <jhugo@qti.qualcomm.com>, jacek.lawrynowicz@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the GPU on the SM8350-HDK device. The ZAP shader is required for
-the GPU to function properly.
+From: Jeffrey Hugo <jhugo@qti.qualcomm.com>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8350-hdk.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+This series introduces a driver under the accel subsystem (QAIC -
+Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
+a PCIe adapter card that hosts a dedicated machine learning inference
+accelerator.
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8350-hdk.dts b/arch/arm64/boot/dts/qcom/sm8350-hdk.dts
-index df841230d1b7..5e744423a673 100644
---- a/arch/arm64/boot/dts/qcom/sm8350-hdk.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8350-hdk.dts
-@@ -284,6 +284,14 @@ &gpi_dma1 {
- 	status = "okay";
- };
- 
-+&gpu {
-+	status = "okay";
-+
-+	zap-shader {
-+		firmware-name = "qcom/sm8350/a660_zap.mbn";
-+	};
-+};
-+
- &i2c15 {
- 	clock-frequency = <400000>;
- 	status = "okay";
+Regarding the open userspace (see the documentation patch), the UMD and
+compiler are a week or so away from being posted in the indicated repos.
+Just need to polish some documentation.
+
+The previous version (RFC) can be found at:
+https://lore.kernel.org/all/1660588956-24027-1-git-send-email-quic_jhugo@quicinc.com/
+
+v2:
+-Addressed comments from RFC
+-Reduced the code to the core minimum by dropping telemetery, etc
+-Conversion to accel subsystem
+-Dropped versioning
+-Add mhi_qaic_cntl component
+-Restructure the documentation
+-Pull in a few fixes from the downstream tree
+
+Jeffrey Hugo (7):
+  accel/qaic: Add documentation for AIC100 accelerator driver
+  accel/qaic: Add uapi and core driver file
+  accel/qaic: Add MHI controller
+  accel/qaic: Add control path
+  accel/qaic: Add datapath
+  accel/qaic: Add qaic driver to the build system
+  MAINTAINERS: Add entry for QAIC driver
+
+Pranjal Ramajor Asha Kanojiya (1):
+  accel/qaic: Add mhi_qaic_cntl
+
+ Documentation/accel/index.rst       |    1 +
+ Documentation/accel/qaic/aic100.rst |  498 +++++++++
+ Documentation/accel/qaic/index.rst  |   13 +
+ Documentation/accel/qaic/qaic.rst   |  169 +++
+ MAINTAINERS                         |    8 +
+ drivers/accel/Kconfig               |    1 +
+ drivers/accel/Makefile              |    1 +
+ drivers/accel/qaic/Kconfig          |   23 +
+ drivers/accel/qaic/Makefile         |   13 +
+ drivers/accel/qaic/mhi_controller.c |  576 +++++++++++
+ drivers/accel/qaic/mhi_controller.h |   19 +
+ drivers/accel/qaic/mhi_qaic_ctrl.c  |  586 +++++++++++
+ drivers/accel/qaic/mhi_qaic_ctrl.h  |   11 +
+ drivers/accel/qaic/qaic.h           |  321 ++++++
+ drivers/accel/qaic/qaic_control.c   | 1656 +++++++++++++++++++++++++++++
+ drivers/accel/qaic/qaic_data.c      | 1952 +++++++++++++++++++++++++++++++++++
+ drivers/accel/qaic/qaic_drv.c       |  771 ++++++++++++++
+ include/uapi/drm/qaic_accel.h       |  283 +++++
+ 18 files changed, 6902 insertions(+)
+ create mode 100644 Documentation/accel/qaic/aic100.rst
+ create mode 100644 Documentation/accel/qaic/index.rst
+ create mode 100644 Documentation/accel/qaic/qaic.rst
+ create mode 100644 drivers/accel/qaic/Kconfig
+ create mode 100644 drivers/accel/qaic/Makefile
+ create mode 100644 drivers/accel/qaic/mhi_controller.c
+ create mode 100644 drivers/accel/qaic/mhi_controller.h
+ create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
+ create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
+ create mode 100644 drivers/accel/qaic/qaic.h
+ create mode 100644 drivers/accel/qaic/qaic_control.c
+ create mode 100644 drivers/accel/qaic/qaic_data.c
+ create mode 100644 drivers/accel/qaic/qaic_drv.c
+ create mode 100644 include/uapi/drm/qaic_accel.h
+
 -- 
-2.39.1
+2.7.4
 
