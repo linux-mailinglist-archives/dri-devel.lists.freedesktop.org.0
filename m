@@ -2,76 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB9368BB59
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 12:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD26F68BBC0
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 12:35:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE7C10E386;
-	Mon,  6 Feb 2023 11:23:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B07510E389;
+	Mon,  6 Feb 2023 11:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56FA210E386
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 11:23:30 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id lu11so33236227ejb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 03:23:30 -0800 (PST)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85C4810E389
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 11:35:36 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id o36so8443076wms.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 03:35:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ox3sLMvy5JK6Q/gX+6AJCTV0Sr/EoCPVWT7KFDWPgWg=;
- b=yOMLpd8czAC6J1ZcVEbpS3ijmB5oKfB5VtKT+RLKhLBuhLjXssdx1J0oTKzgkEhqSr
- B8v0EJ5xHwIAkXkTbjedmC1iAsTvP40nEIAkktLfXnOS8EKlr1CRsLwLXYLyTNG7J5+6
- 2lAQKLOde2lYL/hJiMoQJ92qjx/qLqr/yBZnuxQXMD6lQ6r3V5qwa5hniuZdw3gBtrJM
- SX6rWUbruFO/cfjyu6IkqqMLRkOMVkafwN2e92b0pJlVkMflVERNHJRSB09V+Th2QSnb
- likk8M4ZYQJhRnDSxr/mfCKOnKYwAm3KkTKE8BJ8zHc4IRdTn5niSY1b4Z3zI7uNeMPu
- ncKA==
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pR8VY8MEaUw8uT3n7EK5kFq1p/76o+VV6eFTe4dXliU=;
+ b=YJDQNV6/1J1q36ybp2G2ZKvs1dYPlTrqYzKO5Be1jCumUHzKAKcyozOg2lqBZOwjz2
+ jIJCjKYnRDQ3IVAJ3fei9R4i1PIHUp5QXrZA8k0OrPo1D8Da445vzUbhu3XyQj7e/rlr
+ I1T6M9Fkyp+g1rQK90eWCwcmHvmfY8OLcAvgpCHnXGTMUEKdTY1k4/OtVLZrIEh/lydG
+ UTZ4xXB6PUy1Xjsliri3Iyem1Dp+5Z0YtKyxpNdFIl7Q4iFOpkogA/1AS70FrUZxtc6L
+ ko71QhPlsvuCB93OxY+yso8p+yFtiNJidbQIDBI3bDmpbTRkmSlAgigdUPckAYky7klt
+ WxQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ox3sLMvy5JK6Q/gX+6AJCTV0Sr/EoCPVWT7KFDWPgWg=;
- b=ZtkG9VGTBN6c1qGNCGy+KEN5+98uaifW1xdj7BL52kNsPDGkR0tqfh3WkGsUVLK55k
- 3X2Z9quhXCCPBpVR6ZMUrsJuLiX+BsFcs58o+BHL2FEAhQEpkldWjP1EbSxT1jF972qK
- QkyklwmyqqPrBgNTwuff71NMA4ZtctyZpjrXNwqNYjJxoIqcU7homolW0IMnO8lcv5Tm
- sanBqWQ/oFJJpQgWqzkTms2IC6tNSHNrBg9RjquU3+JFHtucSkz/gVe5cnHMs9iSB7Ju
- 7FPpkvu9LZyH4CbYbr3rDId2h8bzDODyBlENYG8DD7SDhrnWu9eQ5a8mRnCHm3NZYEbo
- 2ZRQ==
-X-Gm-Message-State: AO0yUKWo8PLrfBC6pWl8/pQnTcvCBq/1B+efwh7KkjssD5bvQbOjnJK5
- Ixgkl0JPIjhWdIRlt0AVyIRIKA==
-X-Google-Smtp-Source: AK7set+Ipi12ujUkGwXBVG19EHyv6UWyXlhzd4uEvFMQxrrgXjQAxrfRMv6ClUrW9ZI8GvM5FU6mLw==
-X-Received: by 2002:a17:906:140a:b0:88e:e498:109b with SMTP id
- p10-20020a170906140a00b0088ee498109bmr15880643ejc.5.1675682608885; 
- Mon, 06 Feb 2023 03:23:28 -0800 (PST)
-Received: from [192.168.1.101] (abyl20.neoplus.adsl.tpnet.pl. [83.9.31.20])
- by smtp.gmail.com with ESMTPSA id
- u21-20020a170906125500b0089b6fd89429sm2244298eja.10.2023.02.06.03.23.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 03:23:28 -0800 (PST)
-Message-ID: <20b91f29-b47d-3051-a84a-744b8b44f4e0@linaro.org>
-Date: Mon, 6 Feb 2023 12:23:26 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pR8VY8MEaUw8uT3n7EK5kFq1p/76o+VV6eFTe4dXliU=;
+ b=TE7gEMasNdVELPHE9f5ym9qNn8Hlh9JK3LLeF5PKp499RqCu0FgvGlaM6NBz20Z3de
+ dc+A02Js5lgoFMBSRxPA6C7FbkvWBCs0QttlyZKRYs9nTjEr9XM0jrm3oKwHp4Rcjlvb
+ 9KHaKjgJJlVOmAQ0BJBFdPvM8ScD3EllR0VeayK7Rj+075KW4+QdHKbURHAM0tYyThzP
+ 0X91b6EuXnCFca2urrA4ehjWNj3/citpUZBk3FxtxUg4iEYLODtmvOeNxKRYTjW/RTL4
+ 4YyzPn23EH5o5lBeB4SMnP/FmpFFcKekcvsOX5Hf3GIAKBnfNEoCkskt5ZHEgz3GHcak
+ xdiA==
+X-Gm-Message-State: AO0yUKV803Ij3pFb+n2/8Rq457mUNVnyygW2wFyfZOltncS0ZLMn5s/4
+ Qu7l+QCOZQQAaK5K/q22ethpDw==
+X-Google-Smtp-Source: AK7set/xN77otnGQhZNbFbdcG8zsWM3YHu8lPSRThnKghUb3pLW4WPhKlBSWyxklGkVCuojuTBpHJQ==
+X-Received: by 2002:a05:600c:4a9b:b0:3de:1d31:1043 with SMTP id
+ b27-20020a05600c4a9b00b003de1d311043mr18725422wmp.21.1675683334991; 
+ Mon, 06 Feb 2023 03:35:34 -0800 (PST)
+Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ d5-20020a1c7305000000b003dcc82ce53fsm1068040wmb.38.2023.02.06.03.35.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 03:35:34 -0800 (PST)
+Date: Mon, 6 Feb 2023 11:35:32 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH 1/2] backlight: hx8357: switch to using gpiod API
+Message-ID: <Y+DmBGiq9kvRBHLY@aspen.lan>
+References: <20230131225707.3599889-1-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/8] arm64: dts: qcom: sm8350: add
- RPMH_REGULATOR_LEVEL_LOW_SVS_L1
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Michael Turquette
- <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Taniya Das <quic_tdas@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>
-References: <20230206002735.2736935-1-dmitry.baryshkov@linaro.org>
- <20230206002735.2736935-3-dmitry.baryshkov@linaro.org>
- <f563f3e9-2c50-4509-a44d-9406bc725a95@linaro.org>
- <a5635503-2d03-3996-a60f-f6255e407ca1@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <a5635503-2d03-3996-a60f-f6255e407ca1@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230131225707.3599889-1-dmitry.torokhov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +70,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-clk@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 31, 2023 at 02:57:06PM -0800, Dmitry Torokhov wrote:
+> Switch the driver from legacy gpio API that is deprecated to the newer
+> gpiod API that respects line polarities described in ACPI/DT.
+>
+> This makes driver use standard property name for the reset gpio
+> ("reset-gpios" vs "gpios-reset"), however there is a quirk in gpiolib
+> to also recognize the legacy name and keep compatibility with older
+> DTSes.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>
+> All preparation gpiolib work to handle legacy names and polarity quirks
+> has landed in mainline...
+>
+>  drivers/video/backlight/hx8357.c | 82 ++++++++++++++------------------
+>  1 file changed, 37 insertions(+), 45 deletions(-)
+>
+> diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
+> index 9b50bc96e00f..a93e14adb846 100644
+> --- a/drivers/video/backlight/hx8357.c
+> +++ b/drivers/video/backlight/hx8357.c
+> [snip]
+> -	if (of_find_property(spi->dev.of_node, "im-gpios", NULL)) {
+> -		lcd->use_im_pins = 1;
+> -
+> -		for (i = 0; i < HX8357_NUM_IM_PINS; i++) {
+> -			lcd->im_pins[i] = of_get_named_gpio(spi->dev.of_node,
+> -							    "im-gpios", i);
+> -			if (lcd->im_pins[i] == -EPROBE_DEFER) {
+> -				dev_info(&spi->dev, "GPIO requested is not here yet, deferring the probe\n");
+> -				return -EPROBE_DEFER;
+> -			}
+> -			if (!gpio_is_valid(lcd->im_pins[i])) {
+> -				dev_err(&spi->dev, "Missing dt property: im-gpios\n");
+> -				return -EINVAL;
+> +	gpiod_set_consumer_name(lcd->reset, "hx8357-reset");
+> +
+> +	for (i = 0; i < HX8357_NUM_IM_PINS; i++) {
+> +		lcd->im_pins[i] = devm_gpiod_get_index(&spi->dev,
+> +						       "im", i, GPIOD_OUT_LOW);
+> +		ret = PTR_ERR_OR_ZERO(lcd->im_pins[i]);
+> +		if (ret) {
+> +			if (ret == -ENOENT) {
+> +				if (i == 0)
+> +					break;
+> +				dev_err(&spi->dev, "Missing im gpios[%d]\n", i);
+> +				ret = -EINVAL;
+> +			} if (ret == -EPROBE_DEFER) {
+> +				dev_info(&spi->dev, "im gpio[%d] is not here yet, deferring the probe\n",
+> +					 i);
+> +			} else {
+> +				dev_err(&spi->dev, "failed to request im gpio[%d]: %d\n",
+> +					i, ret);
+>  			}
+
+These last two clauses should be updated to return dev_err_probe(...)
+instead.
+
+With that change:
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
 
-On 6.02.2023 12:22, Dmitry Baryshkov wrote:
-> On 06/02/2023 12:44, Konrad Dybcio wrote:
->>
->>
->> On 6.02.2023 01:27, Dmitry Baryshkov wrote:
->>> Add another power saving state used on SM8350.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>   include/dt-bindings/power/qcom-rpmpd.h | 1 +
->> Wrong patch?
-> 
-> And this patch is correct. sm8350 GPU OPP table uses this value (but as doesn't reference the rpmh's opp states, we don't have to add one there).
-Okay, but it's *just* a header entry, so the subject is
-misleading and you're not adding the dt part here.
-
-Konrad
-> 
->>
->> Konrad
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/include/dt-bindings/power/qcom-rpmpd.h b/include/dt-bindings/power/qcom-rpmpd.h
->>> index 4a30d10e6b7d..1bf8e87ecd7e 100644
->>> --- a/include/dt-bindings/power/qcom-rpmpd.h
->>> +++ b/include/dt-bindings/power/qcom-rpmpd.h
->>> @@ -211,6 +211,7 @@
->>>   #define RPMH_REGULATOR_LEVEL_MIN_SVS    48
->>>   #define RPMH_REGULATOR_LEVEL_LOW_SVS_D1    56
->>>   #define RPMH_REGULATOR_LEVEL_LOW_SVS    64
->>> +#define RPMH_REGULATOR_LEVEL_LOW_SVS_L1    80
->>>   #define RPMH_REGULATOR_LEVEL_SVS    128
->>>   #define RPMH_REGULATOR_LEVEL_SVS_L0    144
->>>   #define RPMH_REGULATOR_LEVEL_SVS_L1    192
-> 
+Daniel.
