@@ -2,59 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B6B68C745
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 21:08:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D2668C778
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 21:19:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 614FF10E194;
-	Mon,  6 Feb 2023 20:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A951810E43A;
+	Mon,  6 Feb 2023 20:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 517 seconds by postgrey-1.36 at gabe;
- Mon, 06 Feb 2023 20:08:26 UTC
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAC4F10E194
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 20:08:26 +0000 (UTC)
-Received: from [192.168.178.23] (unknown [62.108.10.64])
- by mail.z3ntu.xyz (Postfix) with ESMTPSA id 040F5CD0C5;
- Mon,  6 Feb 2023 19:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=z3ntu.xyz; s=z3ntu;
- t=1675713557; bh=YAA9rHwEkOLJaOcAUYlj6+0wa5Hydp2D/H7mATvbTrs=;
- h=From:Date:Subject:To:Cc;
- b=tKqFR6U77OTqstAkqc4vo1XEPa6BWNizx4FrScJppofjOeX8oDMl1P6bDfm7AZo5P
- 5OeVH+6UfkHEj2+J6eFlls6yLabYd3AQTpmixZ0Mx3zouKbOVpQ4xghqYmzKpS2xcK
- +HZryf651keyUQZrCSeaVEzqZ/y50dikqV8Mi4GQ=
-From: Luca Weiss <luca@z3ntu.xyz>
-Date: Mon, 06 Feb 2023 20:58:30 +0100
-Subject: [PATCH] backlight: qcom-wled: Add PMI8950 compatible
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB62210EA36
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 20:19:05 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id a10so5821403edu.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 12:19:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YpSBEYnC1yN1Z48asglOX+KVnSlBsHak3KW73YE2TaY=;
+ b=s9pgKZv6vt41rE7EzzpJpXmOr8fEaNHTztldIuVXDDqVfSasjl0BdM+YCYYLO7FI8j
+ kAwYc1wep9rcIEHW4U9+b8nl4MPCpdIMbhVFY2XORAaEB/Be3SzjtYIcR/quaYvu8IgF
+ ON01RjCIkRDY3QJh7VI+qAx+VM3S6AR394PONdrpTVQKg88aZDFm+db5EnUWIKFAB+/3
+ g55mHYoOqsrG4EY2lWxJZDWL82fxrAnywPNM74BaNGQg3ei5MfnZ4qcOgcOh1UArAd2n
+ LzgYa/5PP6CorgICmOMufzvuZ0y/NLkztmzJM/LCMnROIbxXKrPGJak69BAhnahjeHAP
+ OWiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YpSBEYnC1yN1Z48asglOX+KVnSlBsHak3KW73YE2TaY=;
+ b=gb1lSu8tHpNFFSUSog+jsgd47b17rkBTGDoINOUCvswP6vtiQ0fwpD5dRGIZIsEKwO
+ aoEFS6rteUaU/Kc3nXnYGOsy2cA4+sVthhO1oJgw8FLSiqumNNGKa4LFSOb7eJz1E25x
+ wqk3lxi7uEYKeZK2CBvbV4UB45b9SxhI3j1zTK7o3OLHwVHiB5liQXVTULzooesPP7UF
+ NNGx34KHhC/mgvb1synVZP8uO/VMSpJdEXLX6zAsh22yQCf8skgwAaZLyhwWx5WM7dej
+ BBmIWQhsbqDr+zGl73GMRnYVdj0E18WwJc2yAWF4E9uW9ih5vrDJZY6RT3JiyRHGDC4H
+ Ideg==
+X-Gm-Message-State: AO0yUKXBPqh8iutTaKLgrsaK1KdLbTETLwOai8SQRNMxOFU0Bl8CxvIJ
+ jMuLkm6QLSMTdJEww3p+I7hs1A==
+X-Google-Smtp-Source: AK7set+93id+gKLuBNqT3Prum9OcgkVfpgKbUX+ICOlvjJ2gZ2QBT5DFEuY9o/3ohDGDi2lvDi2s1Q==
+X-Received: by 2002:a50:d7da:0:b0:4aa:b36a:7601 with SMTP id
+ m26-20020a50d7da000000b004aab36a7601mr998335edj.24.1675714744222; 
+ Mon, 06 Feb 2023 12:19:04 -0800 (PST)
+Received: from [192.168.1.101] (abxh117.neoplus.adsl.tpnet.pl. [83.9.1.117])
+ by smtp.gmail.com with ESMTPSA id
+ i3-20020aa7c9c3000000b004a087d1d313sm5478682edt.64.2023.02.06.12.19.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 12:19:03 -0800 (PST)
+Message-ID: <6ee1f7d7-a923-8f93-f68b-decdc263987a@linaro.org>
+Date: Mon, 6 Feb 2023 21:19:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 2/8] dt-bindings: power: qcom,rpmpd: add
+ RPMH_REGULATOR_LEVEL_LOW_SVS_L1
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette
+ <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Taniya Das <quic_tdas@quicinc.com>
+References: <20230206145707.122937-1-dmitry.baryshkov@linaro.org>
+ <20230206145707.122937-3-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230206145707.122937-3-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221226-msm8953-6-2-wled-v1-1-e318d4c71d05@z3ntu.xyz>
-X-B4-Tracking: v=1; b=H4sIAOVb4WMC/z2NQQrCMBAAv1L27JZka4P1K+IhaTZ2wUbJghZK/
- 97Ug8eBGWYF5SKscG1WKPwRlVeuYE8NjJPPD0aJlYEMkSVyOOt8GfoOHRJ+nxyxT4NzIflzDB3
- ULHhlDMXncTrCv9+a1ppDeBdOsvyet/u27XBJWt2DAAAA
-To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <daniel.thompson@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1141; i=luca@z3ntu.xyz;
- h=from:subject:message-id; bh=YAA9rHwEkOLJaOcAUYlj6+0wa5Hydp2D/H7mATvbTrs=;
- b=owEBbQKS/ZANAwAIAXLYQ7idTddWAcsmYgBj4VwQ1sqTedK0Bt8ocPrVnmBVs5dhpkKuSGowg
- OkxPIbDK4eJAjMEAAEIAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCY+FcEAAKCRBy2EO4nU3X
- VlXgD/9WAJwsC+gXcyebNw/UlnmkmjENHKMLER3oY+/btVXL6wnQI3snEaY1rFqi74RDsqZ3rj5
- 2K8E+H4dxIoQaCK048FjXSXb8V0+9AEH1bBkFQ8bSNGXBGPEVnC1uzkY5JpBGvGQeXJgxF9FThI
- f8cjkr0traDKBZWFSFJc6Kzj/h9dsrOSCt0pDoIxzFoyG9yeWet2H1UHYtsW0IeOPeEpGtQaWA/
- 7a6WVB0TeE4FzShG0REzZI1vuEsaogFlf34T+C+GlccDtdv8BTFo78H7PO7rq6B6oBwXgIxqcQ7
- EECX0f/e/unpMd4hsjK4ZNS54ZCLWUWdf39Env2wn7WP2ON4RvUz8t8TQWjhGOB6IM2jJ19K5qM
- eQ4r553HXq77V0DAIDZkHxmutZe9AGxtaY6DSb7zfUJuhAgRofPbXq9uNx0nklPx/VXIRm8haAW
- OogoMTgaZgUh5IP/AU0ZXgI0Z8e59s30P77ylKbwG8mXjL49Jr18Qe/hU6gw2QlXHQ/rwxlFORN
- /88PN8GAes8kd1tUBRA1C51xpnlH2Ixd6D3wxKWVpoWP2n4dlpCz1hltVwA+coAVRtF7MAojRB3
- VRVziIw9Q1SJ2pauruo6xToI/rkqKhsfuVKZHN6rgkmNxkZt2JV0gQb34/iit9CHyE27HPV5clF
- 18SQD/mIOf2ZQoA==
-X-Developer-Key: i=luca@z3ntu.xyz; a=openpgp;
- fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,40 +81,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Luca Weiss <luca@z3ntu.xyz>, linux-arm-msm@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PMI8950 contains WLED of version 4. Add support for it to the driver.
 
-Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
----
-While adding dt-bindings and dts in a previous series I forgot to add the
-compatible to the driver. Fix that now.
----
- drivers/video/backlight/qcom-wled.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index 527210e85795..5f504883aca5 100644
---- a/drivers/video/backlight/qcom-wled.c
-+++ b/drivers/video/backlight/qcom-wled.c
-@@ -1731,6 +1731,7 @@ static int wled_remove(struct platform_device *pdev)
- 
- static const struct of_device_id wled_match_table[] = {
- 	{ .compatible = "qcom,pm8941-wled", .data = (void *)3 },
-+	{ .compatible = "qcom,pmi8950-wled", .data = (void *)4 },
- 	{ .compatible = "qcom,pmi8994-wled", .data = (void *)4 },
- 	{ .compatible = "qcom,pmi8998-wled", .data = (void *)4 },
- 	{ .compatible = "qcom,pm660l-wled", .data = (void *)4 },
+On 6.02.2023 15:57, Dmitry Baryshkov wrote:
+> Add define for another power saving state used on SM8350 for the GPU.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
----
-base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-change-id: 20221226-msm8953-6-2-wled-5f966bfa4db3
-
-Best regards,
--- 
-Luca Weiss <luca@z3ntu.xyz>
-
+Konrad
+>  include/dt-bindings/power/qcom-rpmpd.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/dt-bindings/power/qcom-rpmpd.h b/include/dt-bindings/power/qcom-rpmpd.h
+> index 4a30d10e6b7d..1bf8e87ecd7e 100644
+> --- a/include/dt-bindings/power/qcom-rpmpd.h
+> +++ b/include/dt-bindings/power/qcom-rpmpd.h
+> @@ -211,6 +211,7 @@
+>  #define RPMH_REGULATOR_LEVEL_MIN_SVS	48
+>  #define RPMH_REGULATOR_LEVEL_LOW_SVS_D1	56
+>  #define RPMH_REGULATOR_LEVEL_LOW_SVS	64
+> +#define RPMH_REGULATOR_LEVEL_LOW_SVS_L1	80
+>  #define RPMH_REGULATOR_LEVEL_SVS	128
+>  #define RPMH_REGULATOR_LEVEL_SVS_L0	144
+>  #define RPMH_REGULATOR_LEVEL_SVS_L1	192
