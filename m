@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347FC68BB45
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 12:22:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E332268BB4B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 12:22:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1579610E37A;
-	Mon,  6 Feb 2023 11:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B1CE10E380;
+	Mon,  6 Feb 2023 11:22:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB44110E372
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 11:21:59 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id l12so2367484edb.0
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 03:21:59 -0800 (PST)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2449D10E37F
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 11:22:46 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id fi26so11268544edb.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 03:22:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ZK68PbjBgg4M4gPDk5TqCOuYlcFHTmMeQziL+2MsNis=;
- b=h2975W79UPeeiMEZ9AHtojxXjXqOEhIDNnOz1yRgLa3z3fTqwO5ib5AUvbn9kl8Xus
- eI8miGLIVwq79HupZGifhB8PqSOJOrF3JDBYP9XNQu6f96B9HxrjXCkpZnSvKxzx3/2M
- ULpkreJdUypaoZ4c537hHg2Mc8bA3z7ON/M2VvT/4XImGF+E34CktBe/FPDQi92zzIzu
- Dv0whz5pE5h+HT/IjJWz9A/ZKv6/8yQWVSpYxMnOpxzV8RqxdMraMlxriEBf42SlCKQ1
- mHjsp0TkTypKa8fR7mjQEXGmXuRe4rni2pR3H3xMhNAKgnTn0n9siJbq78W6jHRBRfEs
- Z26g==
+ bh=XhsHQwvlEXsEH00VOxDhufQtl5xrtldVJBiemzWzN+Q=;
+ b=PZ5eKoCgkHF43ZjOLchNOVMPGXcEm1LoxFaEdmziJtSEbnWbxsA4Us1UFQBE9f2maD
+ kGNl5gyND1zK/qSIYtRwp1FRmzE6CJzR7MYHhY2JFaFzJiJxeU60SWGeIauvtfymvG56
+ WNdb4RzHaIObXKGgVZc55fD4bGbU1+LQMtOEgL1YYtFPRHj4ntGevL+Q1P16xiuSezfy
+ E+ilwt+i9XC+1t9HbFldGu7WrYF8folXKzfTd4aXwGLLIAj3LhTh2+AoibrSn9kNopp7
+ hWl5NOetShpMpI9Hl+QpHVgDog1HGXgihm8c+Kma2oMtEjHAN5AziixcyRy3z6sZDqOQ
+ WZ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZK68PbjBgg4M4gPDk5TqCOuYlcFHTmMeQziL+2MsNis=;
- b=T+yCCuahT4QOMLJ1xkqVN+0uRtF441mWWEaEj43xghIqWh7fBWfWzQhO2nh4KQvd6Q
- 9lymIOadEt+snT6X16Dba5Bsc6HlutsRkt7omcht1oIwMocgGK+IwqckaYc7l6i4NhvD
- oNvYSaVHE2QxBjd6/EkYCJpD7E/BZIEPxUJwLqMsxXkDoZIyzctn9nEqfRjx9RImYyca
- ynXjoMR6r4FNnCUysRHw1ijYFl3IzBa/ChmDbwKl5GwLYKUFfGAJomOQJWww2DGxQfWt
- LfI5kEtPbAPRJd57I0qcc9SnZUheH4xUosAwcp1KiuJpw72PaQa7S8CRJeTuzVgyb8rL
- ztzA==
-X-Gm-Message-State: AO0yUKXMHCg7Yy8DpDLsWqlBLa5MiEF6s1ImW/jbB72rWJsYZTLu73C6
- tlJzBrloXboszz4wiydTu3jvVg==
-X-Google-Smtp-Source: AK7set9MAC+HCPhW7u6DHBaY5VdUEuLOfkagFMD0u5hl4QeVmrZYor/UME665PgvQT+hcODcQdZlcA==
-X-Received: by 2002:a50:fe86:0:b0:4a0:e415:d39f with SMTP id
- d6-20020a50fe86000000b004a0e415d39fmr17308791edt.41.1675682518249; 
- Mon, 06 Feb 2023 03:21:58 -0800 (PST)
+ bh=XhsHQwvlEXsEH00VOxDhufQtl5xrtldVJBiemzWzN+Q=;
+ b=dpO3Hz377ENc0JANp14xu+blSFHM99zUmfZ0BUUf1rIVzasxVI3SvDCv3l1DmaynxV
+ oPQC5mv9SDHMQ5b+jVQoewemQQ4ihwfVBRXeD5/l3kKy7Rt9PIe7p0yLheBN9BKJujMA
+ kSqdGecVqpnI7GFl0WDS6YUnPPT9cSN+70AsvuokaxGNmupVDWYxLCxihbpJeT3oYiLT
+ nNh1Zp9HIn4MWNEPugRqFdLaI/rBMlhTNp2qmYhrAIa5FUhwam26VmYC2sd18fp+Dcw7
+ cQNJhuh4Kyp0y+CHDlWOevR0aASiK8xhXoNs8+UgHD/KbmBq4duQP5w2Qvwga7aVMr8f
+ Lc4A==
+X-Gm-Message-State: AO0yUKWO1POvH/6/biXq4qfHq7gOLoYVdrtBYe290GeDkpcAlNkrkcGj
+ bT6j8mCVy9GLCWg0O2z71wiIJg==
+X-Google-Smtp-Source: AK7set/QXSx+xlzok3YT7LqHrvr9vnMxGjCoMErm9FyPlcBL/qsLFJOUBOfKnsozCi4EQfJOICO62g==
+X-Received: by 2002:a50:bb27:0:b0:4aa:a172:6612 with SMTP id
+ y36-20020a50bb27000000b004aaa1726612mr8607839ede.33.1675682564633; 
+ Mon, 06 Feb 2023 03:22:44 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- h23-20020aa7c957000000b00487fc51c532sm4971343edt.33.2023.02.06.03.21.57
+ b12-20020a056402350c00b0049e210884dasm4924504edd.15.2023.02.06.03.22.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Feb 2023 03:21:57 -0800 (PST)
-Message-ID: <5c2df97d-43a3-ccdb-267e-4dc5485dbeb2@linaro.org>
-Date: Mon, 6 Feb 2023 13:21:56 +0200
+ Mon, 06 Feb 2023 03:22:44 -0800 (PST)
+Message-ID: <a5635503-2d03-3996-a60f-f6255e407ca1@linaro.org>
+Date: Mon, 6 Feb 2023 13:22:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 2/8] arm64: dts: qcom: sm8450: add
+Subject: Re: [PATCH 2/8] arm64: dts: qcom: sm8350: add
  RPMH_REGULATOR_LEVEL_LOW_SVS_L1
 Content-Language: en-GB
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>, 
@@ -66,10 +66,10 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>
 References: <20230206002735.2736935-1-dmitry.baryshkov@linaro.org>
- <20230206002735.2736935-4-dmitry.baryshkov@linaro.org>
- <a38a7ba4-a336-3ad2-7dcd-4eb2195eb0ef@linaro.org>
+ <20230206002735.2736935-3-dmitry.baryshkov@linaro.org>
+ <f563f3e9-2c50-4509-a44d-9406bc725a95@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <a38a7ba4-a336-3ad2-7dcd-4eb2195eb0ef@linaro.org>
+In-Reply-To: <f563f3e9-2c50-4509-a44d-9406bc725a95@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,9 +99,10 @@ On 06/02/2023 12:44, Konrad Dybcio wrote:
 >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 >> ---
 >>   include/dt-bindings/power/qcom-rpmpd.h | 1 +
-> Wrong patch once more?
+> Wrong patch?
 
-This patch is wrong and was sent by mistake
+And this patch is correct. sm8350 GPU OPP table uses this value (but as 
+doesn't reference the rpmh's opp states, we don't have to add one there).
 
 > 
 > Konrad
