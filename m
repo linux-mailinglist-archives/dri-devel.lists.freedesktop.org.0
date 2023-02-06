@@ -1,78 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D549168C61A
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 19:48:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCA368C628
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 19:53:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9CC510EA13;
-	Mon,  6 Feb 2023 18:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5B2F10EA10;
+	Mon,  6 Feb 2023 18:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226B010EA10;
- Mon,  6 Feb 2023 18:48:16 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 316Cw2IY021098; Mon, 6 Feb 2023 18:48:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=+mN0wS4Qamrv2ha8IcZkJhBTolEwktW9Dhp38rGq00U=;
- b=kGVJ/7EhfQaq+qZccO8fYQSKmU00FBUvZNbXUFhS9mRWM8SNdH2tEvCKka1ZkERW05HJ
- 9IceS3t0xTiztSM/7OZEFvvNMkIMJm3IidPNeVRkK5KRYxYd/8UwfUdnN4o4V69H3Kzx
- d4ewp6ma1eMXyPIUOPa3LO8pLqqGw9P9UPkMxF4tl8c0ZVXlzrlZ6kkpvIUlUKu8sUJ8
- 2S3rg129wPK+ojWKug+uamhiSh6z1L7bPbQZhXOs/Q/3Gz5kqsiLtNutysQV1IYpbCCV
- wDD5vbamqb5aq16tSTyKngzclU/+JPO9k2j+piYh0EMvDlysYyS7gQukxL6QAdsZHHlT 3A== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nhg4rmafe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Feb 2023 18:48:10 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 316Im9Wc032340
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 6 Feb 2023 18:48:09 GMT
-Received: from [10.110.44.26] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 6 Feb 2023
- 10:48:08 -0800
-Message-ID: <d1a524c9-a7d9-3454-5e2d-bcdd2eabd583@quicinc.com>
-Date: Mon, 6 Feb 2023 10:48:08 -0800
+Received: from msg-2.mailo.com (msg-2.mailo.com [213.182.54.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD73210EA10;
+ Mon,  6 Feb 2023 18:53:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1675709602; bh=LL94QftrpebF5hQo1kJV15ayE2g5+ViggKSMsID+Xso=;
+ h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
+ b=XIxC8bFHOStgZNt3tRNRCRJz5goCJY/6C9VKgQ1qQI9FjvcHCrNr9xR4cIJ6PLoYV
+ XYxn5OEMZCcfB3r3AukJjKw4TjFa4O9ClOJGS52t0sN7FuHVqfGq/wmdQsCtRyzT4c
+ /Wu8oYcs/5AUTGHEKYGOtvZZNrsgoe3GzCpatDuk=
+Received: by b-4.in.mailobj.net [192.168.90.14] with ESMTP
+ via ip-206.mailobj.net [213.182.55.206]
+ Mon,  6 Feb 2023 19:53:22 +0100 (CET)
+X-EA-Auth: 7BcoLB2uw8kAqiclcp9bBXUawDPA9JTZN3vfAtxWvGMNGGJsgfzTPhy1XsSEGodM5h8G2oHzeYC6uJYvYqRsOXJB/AYji1fu
+Date: Tue, 7 Feb 2023 00:23:17 +0530
+From: Deepak R Varma <drv@mailo.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH] drm/i915/gt: Avoid redundant pointer validity check
+Message-ID: <Y+FMnZ5r+aCNjl81@ubun2204.myguest.virtualbox.org>
+References: <Y91g081OauhQNxMe@ubun2204.myguest.virtualbox.org>
+ <d58fff32-edad-4a7f-7409-7e57593df3ed@linux.intel.com>
+ <aa8af778-2a40-7fe0-eb14-234469c74523@intel.com>
+ <Y+FKCth+0r/757Xu@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v3 19/27] drm/msm/dpu: make _dpu_plane_calc_clk accept
- mode directly
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
- <20230203182132.1307834-20-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230203182132.1307834-20-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: TWqS220bD_gk4PBdiiW4LP9iS5Q_sCrp
-X-Proofpoint-GUID: TWqS220bD_gk4PBdiiW4LP9iS5Q_sCrp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 mlxscore=0 impostorscore=0 phishscore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 adultscore=0 bulkscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302060163
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y+FKCth+0r/757Xu@ubun2204.myguest.virtualbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,131 +49,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>,
+ Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/3/2023 10:21 AM, Dmitry Baryshkov wrote:
-> Rework bandwidth/clock calculation functions to use mode directly rather
-> than fetching it through the plane data.
+On Tue, Feb 07, 2023 at 12:12:18AM +0530, Deepak R Varma wrote:
+> On Mon, Feb 06, 2023 at 10:33:13AM +0000, Matthew Auld wrote:
+> > On 06/02/2023 09:45, Tvrtko Ursulin wrote:
+> > > 
+> > > Hi,
+> > > 
+> > > Adding Matt & Thomas as potential candidates to review.
+> > > 
+> > > Regards,
+> > > 
+> > > Tvrtko
+> > > 
+> > > On 03/02/2023 19:30, Deepak R Varma wrote:
+> > > > The macro definition of gen6_for_all_pdes() expands to a for loop such
+> > > > that it breaks when the page table is null. Hence there is no need to
+> > > > again test validity of the page table entry pointers in the pde list.
+> > > > This change is identified using itnull.cocci semantic patch.
+> > > > 
+> > > > Signed-off-by: Deepak R Varma <drv@mailo.com>
+> > > > ---
+> > > > Please note: Proposed change is compile tested only.
+> > > > 
+> > > >   drivers/gpu/drm/i915/gt/gen6_ppgtt.c | 5 ++---
+> > > >   1 file changed, 2 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> > > > b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> > > > index 5aaacc53fa4c..787b9e6d9f59 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> > > > @@ -258,8 +258,7 @@ static void gen6_ppgtt_free_pd(struct gen6_ppgtt
+> > > > *ppgtt)
+> > > >       u32 pde;
+> > > >       gen6_for_all_pdes(pt, pd, pde)
+> > > > -        if (pt)
+> > > > -            free_pt(&ppgtt->base.vm, pt);
+> > > > +        free_pt(&ppgtt->base.vm, pt);
+> > > >   }
+> > > >   static void gen6_ppgtt_cleanup(struct i915_address_space *vm)
+> > > > @@ -304,7 +303,7 @@ static void pd_vma_unbind(struct
+> > > > i915_address_space *vm,
+> > > >       /* Free all no longer used page tables */
+> > > >       gen6_for_all_pdes(pt, ppgtt->base.pd, pde) {
+> > > > -        if (!pt || atomic_read(&pt->used))
+> > > > +        if (atomic_read(&pt->used))
+> > 
+> > Wow, I was really confused trying to remember how this all works.
+> > 
+> > The gen6_for_all_pdes() does:
+> > 
+> > (pt = i915_pt_entry(pd, iter), true)
+> > 
+> > So NULL pt is expected, and does not 'break' here, since 'true' is always
+> > the value that decides whether to terminate the loop. So this patch would
+> > lead to NULL ptr deref, AFAICT.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Hello Matt,
+> I understand it now. I was misreading the true as part of the function argument.
+> Could you please also comment if the implementation of gen6_ppgtt_free_pd() in
+> the same file is safe? It doesn't appear to have an check on pt validity here.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Please ignore the question. I understand it now. My apologies for inconvenience.
+The patch is invalid and can be dropped.
 
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 39 ++++++++++-------------
->   1 file changed, 17 insertions(+), 22 deletions(-)
+deepak.
+
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index ee261a591d45..09a3fde1c910 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -127,20 +127,19 @@ static struct dpu_kms *_dpu_plane_get_kms(struct drm_plane *plane)
->   
->   /**
->    * _dpu_plane_calc_bw - calculate bandwidth required for a plane
-> - * @plane: Pointer to drm plane.
-> + * @catalog: Points to dpu catalog structure
->    * @fmt: Pointer to source buffer format
-> + * @mode: Pointer to drm display mode
->    * @pipe_cfg: Pointer to pipe configuration
->    * Result: Updates calculated bandwidth in the plane state.
->    * BW Equation: src_w * src_h * bpp * fps * (v_total / v_dest)
->    * Prefill BW Equation: line src bytes * line_time
->    */
-> -static void _dpu_plane_calc_bw(struct drm_plane *plane,
-> +static u64 _dpu_plane_calc_bw(const struct dpu_mdss_cfg *catalog,
->   	const struct dpu_format *fmt,
-> +	const struct drm_display_mode *mode,
->   	struct dpu_hw_sspp_cfg *pipe_cfg)
->   {
-> -	struct dpu_plane_state *pstate;
-> -	struct drm_display_mode *mode;
-> -	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
->   	int src_width, src_height, dst_height, fps;
->   	u64 plane_prefill_bw;
->   	u64 plane_bw;
-> @@ -148,9 +147,6 @@ static void _dpu_plane_calc_bw(struct drm_plane *plane,
->   	u64 scale_factor;
->   	int vbp, vpw, vfp;
->   
-> -	pstate = to_dpu_plane_state(plane->state);
-> -	mode = &plane->state->crtc->mode;
-> -
->   	src_width = drm_rect_width(&pipe_cfg->src_rect);
->   	src_height = drm_rect_height(&pipe_cfg->src_rect);
->   	dst_height = drm_rect_height(&pipe_cfg->dst_rect);
-> @@ -158,7 +154,7 @@ static void _dpu_plane_calc_bw(struct drm_plane *plane,
->   	vbp = mode->vtotal - mode->vsync_end;
->   	vpw = mode->vsync_end - mode->vsync_start;
->   	vfp = mode->vsync_start - mode->vdisplay;
-> -	hw_latency_lines =  dpu_kms->catalog->perf->min_prefill_lines;
-> +	hw_latency_lines =  catalog->perf->min_prefill_lines;
->   	scale_factor = src_height > dst_height ?
->   		mult_frac(src_height, 1, dst_height) : 1;
->   
-> @@ -178,37 +174,36 @@ static void _dpu_plane_calc_bw(struct drm_plane *plane,
->   		do_div(plane_prefill_bw, hw_latency_lines);
->   
->   
-> -	pstate->plane_fetch_bw = max(plane_bw, plane_prefill_bw);
-> +	return max(plane_bw, plane_prefill_bw);
->   }
->   
->   /**
->    * _dpu_plane_calc_clk - calculate clock required for a plane
-> - * @plane: Pointer to drm plane.
-> + * @mode: Pointer to drm display mode
->    * @pipe_cfg: Pointer to pipe configuration
->    * Result: Updates calculated clock in the plane state.
->    * Clock equation: dst_w * v_total * fps * (src_h / dst_h)
->    */
-> -static void _dpu_plane_calc_clk(struct drm_plane *plane, struct dpu_hw_sspp_cfg *pipe_cfg)
-> +static u64 _dpu_plane_calc_clk(const struct drm_display_mode *mode,
-> +		struct dpu_hw_sspp_cfg *pipe_cfg)
->   {
-> -	struct dpu_plane_state *pstate;
-> -	struct drm_display_mode *mode;
->   	int dst_width, src_height, dst_height, fps;
-> -
-> -	pstate = to_dpu_plane_state(plane->state);
-> -	mode = &plane->state->crtc->mode;
-> +	u64 plane_clk;
->   
->   	src_height = drm_rect_height(&pipe_cfg->src_rect);
->   	dst_width = drm_rect_width(&pipe_cfg->dst_rect);
->   	dst_height = drm_rect_height(&pipe_cfg->dst_rect);
->   	fps = drm_mode_vrefresh(mode);
->   
-> -	pstate->plane_clk =
-> +	plane_clk =
->   		dst_width * mode->vtotal * fps;
->   
->   	if (src_height > dst_height) {
-> -		pstate->plane_clk *= src_height;
-> -		do_div(pstate->plane_clk, dst_height);
-> +		plane_clk *= src_height;
-> +		do_div(plane_clk, dst_height);
->   	}
-> +
-> +	return plane_clk;
->   }
->   
->   /**
-> @@ -1219,9 +1214,9 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
->   		_dpu_plane_set_qos_remap(plane, pipe);
->   	}
->   
-> -	_dpu_plane_calc_bw(plane, fmt, &pipe_cfg);
-> +	pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, &pipe_cfg);
->   
-> -	_dpu_plane_calc_clk(plane, &pipe_cfg);
-> +	pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, &pipe_cfg);
->   }
->   
->   static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+> Thank you,
+> deepak.
+> 
+> > 
+> > 
+> > 
+> > > >               continue;
+> > > >           free_pt(&ppgtt->base.vm, pt);
+
+
