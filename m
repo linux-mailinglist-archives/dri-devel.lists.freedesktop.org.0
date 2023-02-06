@@ -1,49 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D78B68C3EA
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 17:54:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E9B68C3EC
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 17:56:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEF4610E9D9;
-	Mon,  6 Feb 2023 16:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34C7210E422;
+	Mon,  6 Feb 2023 16:56:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D7E910E422;
- Mon,  6 Feb 2023 16:54:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675702475; x=1707238475;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=PSYQAEUEBk3AiM9erWro/kil4zQ/kWzygn4bQTXV4Zo=;
- b=oBu2ThVo4m5ZvRkcxdjXQjforZJ2FrFY5RpBfz4etwN76jMJQs/YchBn
- 4qguQzcZcr0ba7phsn0L9wz3ViqVZ4QAtbVKreASOHj9di089pMcyTz1k
- qgSSGpxovfcL/0ihjFjidOl3l/WZdENmbl4y5RV9CiA25METpVJ80eNsb
- YhcZnw+00VR9mgMFD88ckBCrty+IrHQDmIg4AJq3Vlf8NXQOUqpyd+beq
- Pe+ORwLb7g181ujyqRoHKIjjQ37gOMuf8++o73jadDIC8qXrAz4HLdupL
- cnkR01Ko9+aKOQOlooTaoVwyH1MyuAdnFHTSJT3w2iNmglz2MBNxYA4KP A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="326939657"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="326939657"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2023 08:54:34 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="840410623"
-X-IronPort-AV: E=Sophos;i="5.97,276,1669104000"; d="scan'208";a="840410623"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2023 08:54:33 -0800
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/i915: Remove unused/wrong INF_UNIT_LEVEL_CLKGATE
-Date: Mon,  6 Feb 2023 08:54:10 -0800
-Message-Id: <20230206165410.3056073-2-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230206165410.3056073-1-lucas.demarchi@intel.com>
-References: <20230206165410.3056073-1-lucas.demarchi@intel.com>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2854710E422
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 16:56:39 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 316GuEqO004598;
+ Mon, 6 Feb 2023 10:56:14 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1675702574;
+ bh=v9ZYSO/ymnvx8bWPKuYYeREqbLf0jUXDtJGQaIeZtvg=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=oBUDxHoeGOaG1FEQnvgsQPGGV+DYB1aj9L670uQuOpPW9hGlmBjvKwTEV9jIueag0
+ cGAPhWnQzW0B0da6TFvfwUqYPjAKcByHDjHxYeVvAWpbOD2gaR+ITAoVbOxvCTlOoh
+ nZWCymQzLXf69YeeT9eToZGqO2biYa9uDxCNiVL0=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 316GuE8i110007
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 6 Feb 2023 10:56:14 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 6
+ Feb 2023 10:56:14 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Mon, 6 Feb 2023 10:56:14 -0600
+Received: from [10.250.235.106] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 316Gu85B046178;
+ Mon, 6 Feb 2023 10:56:08 -0600
+Message-ID: <d0a6be9e-1597-bd1a-84f3-390820e73a98@ti.com>
+Date: Mon, 6 Feb 2023 22:26:07 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v7 3/6] drm/tidss: Add support for AM625 DSS
+Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
+ Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230125113529.13952-1-a-bhatia1@ti.com>
+ <20230125113529.13952-4-a-bhatia1@ti.com>
+ <ab6f52bb-a3f5-afda-c037-f009153a0bb6@ideasonboard.com>
+ <1662a593-8a5d-9214-8a3e-ef2699a35265@ti.com>
+ <12ba1f03-d6dd-c9c5-abf0-e9298dc22f28@ideasonboard.com>
+From: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <12ba1f03-d6dd-c9c5-abf0-e9298dc22f28@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,36 +70,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>, dri-devel@lists.freedesktop.org,
- Gustavo Sousa <gustavo.sousa@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
+ Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-INF_UNIT_LEVEL_CLKGATE is not replicated, but since it's not actually
-used it can just be removed.
+Hi Tomi,
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_regs.h | 3 ---
- 1 file changed, 3 deletions(-)
+On 06-Feb-23 16:28, Tomi Valkeinen wrote:
+> On 05/02/2023 16:31, Aradhya Bhatia wrote:
+>>
+>>
+>> On 03-Feb-23 21:03, Tomi Valkeinen wrote:
+>>> On 25/01/2023 13:35, Aradhya Bhatia wrote:
+>>>> Add support for the DSS controller on TI's new AM625 SoC in the tidss
+>>>> driver.
+>>>>
+>>>> The first video port (VP0) in am625-dss can output OLDI signals through
+>>>> 2 OLDI TXes. A 3rd output port has been added with "DISPC_PORT_OLDI" bus
+>>>> type.
+>>>
+>>> Not a big thing here as you add support for a new SoC, but the ordering
+>>> of the patches is not optimal. Here you add the AM625 DSS support, but
+>>> then you continue actually adding the DSS support (well, mainly OLDI) in
+>>> the following patches.
+>>>
+>>> I think patch 6 could be before this patch. Parts of patch 4 could also
+>>> be before this patch. The AM65X renames from patch 5 could be before
+>>> this patch.
+>>
+>> I can move whole of Patch 6 and even of Patch 4 before this one. I have
+>> mentioned 'AM625-DSS' in a couple comments which I can make generic,
+>> and the rest everything is SoC-agnostic.
+>>
+>> I haven't tried this, but my concern is if we break patch 5 into 2
+>> separate patches,
+>>
+>> i. AM65X rename plus SoC based switch case, and
+>> ii. Addition of AM625 SoC case
+>>
+>> then I might have to overwrite some changes implemented during (i) in
+>> (ii). I don't suppose that would be okay, would it?
+> 
+> I'm not sure I follow here. Wouldn't (i) be a valid patch in its own?
+> Nothing wrong in expanding that later (even if you end up changing a lot
+> of it).
+> 
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index cc1539c7a6b6..7256f7e3fd11 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -769,9 +769,6 @@
- #define GEN10_DFR_RATIO_EN_AND_CHICKEN		MCR_REG(0x9550)
- #define   DFR_DISABLE				(1 << 9)
- 
--#define INF_UNIT_LEVEL_CLKGATE			MCR_REG(0x9560)
--#define   CGPSF_CLKGATE_DIS			(1 << 3)
--
- #define MICRO_BP0_0				_MMIO(0x9800)
- #define MICRO_BP0_2				_MMIO(0x9804)
- #define MICRO_BP0_1				_MMIO(0x9808)
--- 
-2.39.0
+(i) would be a valid patch, but implementing (ii) would over-write
+certain changes done in (i), albeit small changes in terms of brackets
+and indents. That didn't feel right initially and hence the question.
 
+> That said, I don't think this is a very important topic. There are only
+> a few commits in the history that might be problematic. A simple fix
+> would be to add all the features first, and only last add the compatible
+> string for am625.
+> 
+> Or do all the changes for am625 in a single patch, and try to implement
+> all the generic restructuring work before that.
+> 
+> Here we do have to change the vp-to-output mapping management, so maybe
+> the second option won't be simple enough, and it's better to do the
+> am625 changes in pieces, as in the first option.
+> 
+
+Yeah, the first option does seem a little less complicated. Will try to
+re-order this as much clearly as possible.
+
+> So, it's really up to you. Just wanted to raise this possible issue so
+> that you are aware of it and can do any easy fixes (if there are such).
+> 
+>> Also, is it important to keep the compatible-addition patches of
+>> DT-binding and driver next to each other in the series? Or should
+>> the DT-binding patches should be the first ones? Just curious! =)
+> 
+> I believe the convention is to have the DT-binding changes before you
+> add the compatible string to the driver (if I recall right checkpatch or
+> some other checking tool complains if you add a driver for a compatible
+> that doesn't have a DT binding). Generic restructurings could be before
+> the DT patch, of course, but usually I like to keep the DT binding
+> changes at the very beginning of the series.
+> 
+
+Okay, I will keep the compatible-append in the binding as the first
+patch in the series, before the other general structurings.
+
+Thank you!
+
+
+Regards
+Aradhya
