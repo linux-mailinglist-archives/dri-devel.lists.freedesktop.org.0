@@ -2,58 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D753068C79C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 21:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DE768C9B3
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 23:41:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2331E10EA42;
-	Mon,  6 Feb 2023 20:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A421A10EA5A;
+	Mon,  6 Feb 2023 22:41:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93FC510EA3F;
- Mon,  6 Feb 2023 20:24:52 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- n25-20020a9d7119000000b0068bd8c1e836so3556161otj.3; 
- Mon, 06 Feb 2023 12:24:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ii3QWaTSpWqp8nAIBHYKbEzhocMIY28k394B8Gv37po=;
- b=EIsiXELTDJZsBHSzEz0zei/PUThrVQSlx0895jVSVUXzJ9Ee0VIVViPE29DCHdJQ1I
- ueoaQxqXV4qHNWNBu6FhGAPMC3i3SsTdk3p9nY7zcUAizG7Zh539bk3rjJFuAQgf02Md
- wbmyC2j/iNPuVdMqHG0w81geTiflP2FO6+dW+rWN02ZYRuI5dNYXZ2Beh9tTg+cQ/8WW
- YdfESXCvyBZsWyQjfB+IzEXp15yDOnJvxBaTsuFYjWTVTu8xYibijEZXh2y29ujyQfSa
- zhVo3saNVNroFTdkrlh+zFCkNITKmkjN1PJ6hl65Vt4RHbE6RDMPKlPrY09T/jeT7Hdh
- Zc4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ii3QWaTSpWqp8nAIBHYKbEzhocMIY28k394B8Gv37po=;
- b=Fk+NJVCe3U2Btqq2GRmztwfSPsC8D3pXrWwwfAt3l4+KIroLSuPuUpwudhQc3CCVV/
- WClWFzf8B1HeoXv4+F7cFi+uC7DoKFtACccbdDQVhjg0vPL3qT48ytPyqtP05xpc7Ivy
- 6tUXRaGbN+toISbvGGyjqAgMGap1IofIzgwKgzcz/wa50yUIBeWeALPalO63cWdF+4U6
- eBLK8t/N98NLFC+kdZ96nTUxRRLBrHlXWxQpEnZHCYhVnjHZIoC6UpuqKG4Uqh+aNSMD
- ka+nd+dH2f98vHmyDmT6sI/xGF3giNJXgDShZQgWwDLSlscuKbCH4CBV55D6qBP0/0Iy
- omWQ==
-X-Gm-Message-State: AO0yUKUABwaL6xctpT02G31/LgEpaNV6VCHXibspUv3tj/xO8qbF/O+h
- 1FL90xnem90XJtIUrE0dTK6zhBpz3ztltjpZ7Nk=
-X-Google-Smtp-Source: AK7set9oYVPJvXFFlrdhnRzD5XmmpUtCk86aL0C9pwbKJGoLMv/n+wmWY4auI9t864Gv+GlUtukuDRtHa2bkjtuBMD4=
-X-Received: by 2002:a05:6830:22e1:b0:686:413a:59ae with SMTP id
- t1-20020a05683022e100b00686413a59aemr40628otc.120.1675715091814; Mon, 06 Feb
- 2023 12:24:51 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDE1010E448;
+ Mon,  6 Feb 2023 22:41:08 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 316LZ7kL025162; Mon, 6 Feb 2023 22:41:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=qxmgFX3uR17bheyYPvZb+m8zWhRhqqAapI4bxd4AHYI=;
+ b=I8asiENrr3VJ8FLU5xt9RHYDG5MXYjo1d63nUdheKJOf/ZYej1KZbJsIGGyfPAVMhADb
+ 3p4ZNXXz6q31V3VocqHCe69zMeLgQSXkMOxXlaBCOgDMrs75p5zvNjYOY4fiMGlcHFHQ
+ y28NvGNp+L1LcfNs0dJmCeFlPkEaViBx6cKnfd5joc5RWIcssOtheC/utZzDLoXTDdR/
+ lVK3PRJpRjPfJVRwtwJb8Ib3D32eFRH/Lp3/xXpeRu7pBMb9DBDXpvG4vDkVS+aN+azr
+ wUBTuJLevaAWT/wRJfqO7HhtbyJmgdHmSfYyH21cy9K7oivUpVM9sFyqgO1GPnWeQEyX mg== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nhfrevuxc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Feb 2023 22:41:00 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 316MexNf010777
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 6 Feb 2023 22:40:59 GMT
+Received: from [10.110.44.26] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 6 Feb 2023
+ 14:40:59 -0800
+Message-ID: <502f2c4b-193d-07ca-3b73-8fe7a608e736@quicinc.com>
+Date: Mon, 6 Feb 2023 14:40:58 -0800
 MIME-Version: 1.0
-References: <20230206193620.69550-1-arnd@kernel.org>
-In-Reply-To: <20230206193620.69550-1-arnd@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 6 Feb 2023 15:24:39 -0500
-Message-ID: <CADnq5_OAZ2-sKs8Cr3=t3SjMT9NoGBFRbh2Jtzpy60x_5xsKCQ@mail.gmail.com>
-Subject: Re: [PATCH] [SUBMITTED 20210927] [RESEND^2] drm/amdgpu: fix enum
- odm_combine_mode mismatch
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v3 21/27] drm/msm/dpu: simplify dpu_plane_validate_src()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
+ <20230203182132.1307834-22-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20230203182132.1307834-22-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 28MKAgPWnQOk-xWOUI9CurFybS69BJj0
+X-Proofpoint-GUID: 28MKAgPWnQOk-xWOUI9CurFybS69BJj0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-06_07,2023-02-06_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 impostorscore=0 mlxscore=0
+ malwarescore=0 priorityscore=1501 adultscore=0 mlxlogscore=802
+ phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302060197
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,160 +84,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- Nevenko Stupar <Nevenko.Stupar@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Yang Li <yang.lee@linux.alibaba.com>,
- Jun Lei <Jun.Lei@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavle Kotarac <Pavle.Kotarac@amd.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 6, 2023 at 2:36 PM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> A conversion from 'bool' to 'enum odm_combine_mode' was incomplete,
-> and gcc warns about this with many instances of
->
-> display/dc/dml/dcn20/display_mode_vba_20.c:3899:44: warning: implicit conversion from 'enum <anonymous>' to 'enum
-> odm_combine_mode' [-Wenum-conversion]
->  3899 |     locals->ODMCombineEnablePerState[i][k] = false;
->
-> Change the ones that we get a warning for, using the same numerical
-> values to leave the behavior unchanged.
->
-> Fixes: 5fc11598166d ("drm/amd/display: expand dml structs")
-> Link: https://lore.kernel.org/all/20201026210039.3884312-3-arnd@kernel.org/
-> Link: https://lore.kernel.org/all/20210927100659.1431744-1-arnd@kernel.org/
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> I sent this in 2020 and in 2021, but never got a reply and the warning
-> is still there.
 
-Applied.  Sorry for the delay.
 
-Alex
+On 2/3/2023 10:21 AM, Dmitry Baryshkov wrote:
+> Since the driver uses clipped src coordinates, there is no need to check
+> against the fb coordinates. Remove corresponding checks and inline
+> dpu_plane_validate_src().
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Can you please explain how the clipping in 
+drm_atomic_helper_check_plane_state() can allow us to remove checking 
+the fb co-ordinates?
+
+The clipping is done using the mode parameters.
+
+So lets say the FB being used is smaller than the source buffer by an 
+incorrect usermode setting.
+
+Then the src sspp shall try to fetch the full image of src rectangle 
+size from a FB which isnt that big leading to a fault.
+
+How does the clipping avoid such a case?
 
 > ---
->  .../amd/display/dc/dml/dcn20/display_mode_vba_20.c   |  8 ++++----
->  .../amd/display/dc/dml/dcn20/display_mode_vba_20v2.c | 10 +++++-----
->  .../amd/display/dc/dml/dcn21/display_mode_vba_21.c   | 12 ++++++------
->  3 files changed, 15 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-> index f34bc3c8da41..69c41e3e3ba2 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-> @@ -3901,14 +3901,14 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
->                                         mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine = mode_lib->vba.PixelClock[k] / 2
->                                                         * (1 + mode_lib->vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
->
-> -                               locals->ODMCombineEnablePerState[i][k] = false;
-> +                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
->                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
->                                 if (mode_lib->vba.ODMCapability) {
->                                         if (locals->PlaneRequiredDISPCLKWithoutODMCombine > mode_lib->vba.MaxDispclkRoundedDownToDFSGranularity) {
-> -                                               locals->ODMCombineEnablePerState[i][k] = true;
-> +                                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->HActive[k] > DCN20_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] == dm_420) {
-> -                                               locals->ODMCombineEnablePerState[i][k] = true;
-> +                                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         }
->                                 }
-> @@ -3961,7 +3961,7 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
->                                 locals->RequiredDISPCLK[i][j] = 0.0;
->                                 locals->DISPCLK_DPPCLK_Support[i][j] = true;
->                                 for (k = 0; k <= mode_lib->vba.NumberOfActivePlanes - 1; k++) {
-> -                                       locals->ODMCombineEnablePerState[i][k] = false;
-> +                                       locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
->                                         if (locals->SwathWidthYSingleDPP[k] <= locals->MaximumSwathWidth[k]) {
->                                                 locals->NoOfDPP[i][j][k] = 1;
->                                                 locals->RequiredDPPCLK[i][j][k] = locals->MinDPPCLKUsingSingleDPP[k]
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-> index 366138df0fe2..f475a0ae946c 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-> @@ -4012,17 +4012,17 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
->                                         mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine = mode_lib->vba.PixelClock[k] / 2
->                                                         * (1 + mode_lib->vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
->
-> -                               locals->ODMCombineEnablePerState[i][k] = false;
-> +                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
->                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
->                                 if (mode_lib->vba.ODMCapability) {
->                                         if (locals->PlaneRequiredDISPCLKWithoutODMCombine > MaxMaxDispclkRoundedDown) {
-> -                                               locals->ODMCombineEnablePerState[i][k] = true;
-> +                                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->DSCEnabled[k] && (locals->HActive[k] > DCN20_MAX_DSC_IMAGE_WIDTH)) {
-> -                                               locals->ODMCombineEnablePerState[i][k] = true;
-> +                                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->HActive[k] > DCN20_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] == dm_420) {
-> -                                               locals->ODMCombineEnablePerState[i][k] = true;
-> +                                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         }
->                                 }
-> @@ -4075,7 +4075,7 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode
->                                 locals->RequiredDISPCLK[i][j] = 0.0;
->                                 locals->DISPCLK_DPPCLK_Support[i][j] = true;
->                                 for (k = 0; k <= mode_lib->vba.NumberOfActivePlanes - 1; k++) {
-> -                                       locals->ODMCombineEnablePerState[i][k] = false;
-> +                                       locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
->                                         if (locals->SwathWidthYSingleDPP[k] <= locals->MaximumSwathWidth[k]) {
->                                                 locals->NoOfDPP[i][j][k] = 1;
->                                                 locals->RequiredDPPCLK[i][j][k] = locals->MinDPPCLKUsingSingleDPP[k]
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-> index eeb4d3441e1d..3a896d0172a9 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-> @@ -4106,17 +4106,17 @@ void dml21_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
->                                         mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine = mode_lib->vba.PixelClock[k] / 2
->                                                         * (1 + mode_lib->vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
->
-> -                               locals->ODMCombineEnablePerState[i][k] = false;
-> +                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
->                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
->                                 if (mode_lib->vba.ODMCapability) {
->                                         if (locals->PlaneRequiredDISPCLKWithoutODMCombine > MaxMaxDispclkRoundedDown) {
-> -                                               locals->ODMCombineEnablePerState[i][k] = true;
-> +                                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->DSCEnabled[k] && (locals->HActive[k] > DCN21_MAX_DSC_IMAGE_WIDTH)) {
-> -                                               locals->ODMCombineEnablePerState[i][k] = true;
-> +                                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->HActive[k] > DCN21_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] == dm_420) {
-> -                                               locals->ODMCombineEnablePerState[i][k] = true;
-> +                                               locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequiredDISPCLK = mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         }
->                                 }
-> @@ -4169,7 +4169,7 @@ void dml21_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
->                                 locals->RequiredDISPCLK[i][j] = 0.0;
->                                 locals->DISPCLK_DPPCLK_Support[i][j] = true;
->                                 for (k = 0; k <= mode_lib->vba.NumberOfActivePlanes - 1; k++) {
-> -                                       locals->ODMCombineEnablePerState[i][k] = false;
-> +                                       locals->ODMCombineEnablePerState[i][k] = dm_odm_combine_mode_disabled;
->                                         if (locals->SwathWidthYSingleDPP[k] <= locals->MaximumSwathWidth[k]) {
->                                                 locals->NoOfDPP[i][j][k] = 1;
->                                                 locals->RequiredDPPCLK[i][j][k] = locals->MinDPPCLKUsingSingleDPP[k]
-> @@ -5234,7 +5234,7 @@ void dml21_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
->                         mode_lib->vba.ODMCombineEnabled[k] =
->                                         locals->ODMCombineEnablePerState[mode_lib->vba.VoltageLevel][k];
->                 } else {
-> -                       mode_lib->vba.ODMCombineEnabled[k] = false;
-> +                       mode_lib->vba.ODMCombineEnabled[k] = dm_odm_combine_mode_disabled;
->                 }
->                 mode_lib->vba.DSCEnabled[k] =
->                                 locals->RequiresDSC[mode_lib->vba.VoltageLevel][k];
-> --
-> 2.39.0
->
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 30 ++++++++---------------
+>   1 file changed, 10 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index ecf5402ab61a..0986e740b978 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -894,25 +894,6 @@ static void dpu_plane_cleanup_fb(struct drm_plane *plane,
+>   				old_pstate->needs_dirtyfb);
+>   }
+>   
+> -static bool dpu_plane_validate_src(struct drm_rect *src,
+> -				   struct drm_rect *fb_rect,
+> -				   uint32_t min_src_size)
+> -{
+> -	/* Ensure fb size is supported */
+> -	if (drm_rect_width(fb_rect) > MAX_IMG_WIDTH ||
+> -	    drm_rect_height(fb_rect) > MAX_IMG_HEIGHT)
+> -		return false;
+> -
+> -	/* Ensure src rect is above the minimum size */
+> -	if (drm_rect_width(src) < min_src_size ||
+> -	    drm_rect_height(src) < min_src_size)
+> -		return false;
+> -
+> -	/* Ensure src is fully encapsulated in fb */
+> -	return drm_rect_intersect(fb_rect, src) &&
+> -		drm_rect_equals(fb_rect, src);
+> -}
+> -
+>   static int dpu_plane_check_inline_rotation(struct dpu_plane *pdpu,
+>   						const struct dpu_sspp_sub_blks *sblk,
+>   						struct drm_rect src, const struct dpu_format *fmt)
+> @@ -998,6 +979,14 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   	fb_rect.x2 = new_plane_state->fb->width;
+>   	fb_rect.y2 = new_plane_state->fb->height;
+>   
+> +	/* Ensure fb size is supported */
+> +	if (drm_rect_width(&fb_rect) > MAX_IMG_WIDTH ||
+> +	    drm_rect_height(&fb_rect) > MAX_IMG_HEIGHT) {
+> +		DPU_DEBUG_PLANE(pdpu, "invalid framebuffer " DRM_RECT_FMT "\n",
+> +				DRM_RECT_ARG(&fb_rect));
+> +		return -E2BIG;
+> +	}
+> +
+>   	max_linewidth = pdpu->catalog->caps->max_linewidth;
+>   
+>   	fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
+> @@ -1012,7 +1001,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>   		return -EINVAL;
+>   
+>   	/* check src bounds */
+> -	} else if (!dpu_plane_validate_src(&pipe_cfg->src_rect, &fb_rect, min_src_size)) {
+> +	} else if (drm_rect_width(&pipe_cfg->src_rect) < min_src_size ||
+> +		   drm_rect_height(&pipe_cfg->src_rect) < min_src_size) {
+>   		DPU_DEBUG_PLANE(pdpu, "invalid source " DRM_RECT_FMT "\n",
+>   				DRM_RECT_ARG(&pipe_cfg->src_rect));
+>   		return -E2BIG;
