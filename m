@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E9B68C3EC
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 17:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDADC68C410
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 18:00:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34C7210E422;
-	Mon,  6 Feb 2023 16:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFDB010E9DD;
+	Mon,  6 Feb 2023 16:59:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2854710E422
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 16:56:39 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 316GuEqO004598;
- Mon, 6 Feb 2023 10:56:14 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1675702574;
- bh=v9ZYSO/ymnvx8bWPKuYYeREqbLf0jUXDtJGQaIeZtvg=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=oBUDxHoeGOaG1FEQnvgsQPGGV+DYB1aj9L670uQuOpPW9hGlmBjvKwTEV9jIueag0
- cGAPhWnQzW0B0da6TFvfwUqYPjAKcByHDjHxYeVvAWpbOD2gaR+ITAoVbOxvCTlOoh
- nZWCymQzLXf69YeeT9eToZGqO2biYa9uDxCNiVL0=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 316GuE8i110007
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 6 Feb 2023 10:56:14 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 6
- Feb 2023 10:56:14 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Mon, 6 Feb 2023 10:56:14 -0600
-Received: from [10.250.235.106] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 316Gu85B046178;
- Mon, 6 Feb 2023 10:56:08 -0600
-Message-ID: <d0a6be9e-1597-bd1a-84f3-390820e73a98@ti.com>
-Date: Mon, 6 Feb 2023 22:26:07 +0530
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0173010E9DD;
+ Mon,  6 Feb 2023 16:59:56 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ v24-20020a05683011d800b0068bdd29b160so3353491otq.13; 
+ Mon, 06 Feb 2023 08:59:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bWK0RCI2c9XCQOLVOEExMr3jmCL7DBxo8zA9Z9kn5Ag=;
+ b=yKTbSydlinaRkT3foZpH0AVpbtmB0FTgPhVtYxMuy1kf8l0n/vTlllkoXzspf+GGR6
+ h9i7QSqVXcMDwaaER16ZEVOgpHuxJIf96Eri5hvBFuQL3iIGB17Hs6QOzeuphSSehOVA
+ GJ7FHxB9KoFlpkskANQdpmel5n0HwxVZRXb1/VlZa/5f7ZsGbrRx94a1P7zBPxm9yAY4
+ m7XDl9Qq4C/Q9k5O9YJw5RXPyoC+NWCYZIKBmNr7kgnHcDRx5YTe+Bxh2dhif117klQE
+ I895WKxLJizD9EFct4WszHXfNBRQg2Bla8beuWgvoliN2xaGw1jn/HWTDIAiTCIvoU4v
+ Esjw==
+X-Gm-Message-State: AO0yUKVuvE1HSwbWNhcEZuwcjMC58I/EDIMUIcQgOUZ3Imi/HhmJZb/c
+ 2dbIzUpc3n0cm2LLPLhBJg==
+X-Google-Smtp-Source: AK7set+XQrYkk7RAD6BXw1EcNpzL9QdntLhl7DipkBZC75I4/eFBpxanK/9FuQ3Xv7ABN9tYcoDv3Q==
+X-Received: by 2002:a05:6830:6483:b0:68d:51fe:7b6b with SMTP id
+ ck3-20020a056830648300b0068d51fe7b6bmr153666otb.8.1675702796198; 
+ Mon, 06 Feb 2023 08:59:56 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ r5-20020a9d7cc5000000b0068bcd200247sm5132312otn.75.2023.02.06.08.59.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Feb 2023 08:59:55 -0800 (PST)
+Received: (nullmailer pid 224852 invoked by uid 1000);
+ Mon, 06 Feb 2023 16:59:54 -0000
+Date: Mon, 6 Feb 2023 10:59:54 -0600
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH 1/8] dt-bindings: clock: Merge qcom,gpucc-sm8350 into
+ qcom,gpucc.yaml
+Message-ID: <167570279425.224789.8066014720500178753.robh@kernel.org>
+References: <20230206002735.2736935-1-dmitry.baryshkov@linaro.org>
+ <20230206002735.2736935-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v7 3/6] drm/tidss: Add support for AM625 DSS
-Content-Language: en-US
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Jyri Sarha <jyri.sarha@iki.fi>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230125113529.13952-1-a-bhatia1@ti.com>
- <20230125113529.13952-4-a-bhatia1@ti.com>
- <ab6f52bb-a3f5-afda-c037-f009153a0bb6@ideasonboard.com>
- <1662a593-8a5d-9214-8a3e-ef2699a35265@ti.com>
- <12ba1f03-d6dd-c9c5-abf0-e9298dc22f28@ideasonboard.com>
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-In-Reply-To: <12ba1f03-d6dd-c9c5-abf0-e9298dc22f28@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230206002735.2736935-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,97 +65,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Stephen Boyd <sboyd@kernel.org>, freedreno@lists.freedesktop.org,
+ Michael Turquette <mturquette@baylibre.com>,
+ Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org, Taniya Das <quic_tdas@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
 
-On 06-Feb-23 16:28, Tomi Valkeinen wrote:
-> On 05/02/2023 16:31, Aradhya Bhatia wrote:
->>
->>
->> On 03-Feb-23 21:03, Tomi Valkeinen wrote:
->>> On 25/01/2023 13:35, Aradhya Bhatia wrote:
->>>> Add support for the DSS controller on TI's new AM625 SoC in the tidss
->>>> driver.
->>>>
->>>> The first video port (VP0) in am625-dss can output OLDI signals through
->>>> 2 OLDI TXes. A 3rd output port has been added with "DISPC_PORT_OLDI" bus
->>>> type.
->>>
->>> Not a big thing here as you add support for a new SoC, but the ordering
->>> of the patches is not optimal. Here you add the AM625 DSS support, but
->>> then you continue actually adding the DSS support (well, mainly OLDI) in
->>> the following patches.
->>>
->>> I think patch 6 could be before this patch. Parts of patch 4 could also
->>> be before this patch. The AM65X renames from patch 5 could be before
->>> this patch.
->>
->> I can move whole of Patch 6 and even of Patch 4 before this one. I have
->> mentioned 'AM625-DSS' in a couple comments which I can make generic,
->> and the rest everything is SoC-agnostic.
->>
->> I haven't tried this, but my concern is if we break patch 5 into 2
->> separate patches,
->>
->> i. AM65X rename plus SoC based switch case, and
->> ii. Addition of AM625 SoC case
->>
->> then I might have to overwrite some changes implemented during (i) in
->> (ii). I don't suppose that would be okay, would it?
+On Mon, 06 Feb 2023 02:27:27 +0200, Dmitry Baryshkov wrote:
+> The GPU clock controller bindings for the Qualcomm sm8350 platform are
+> not correct. The driver uses .fw_name instead of using indices to bind
+> parent clocks, thus demanding the clock-names usage. With the proper
+> clock-names in place, the bindings becomes equal to the bindings defined
+> by qcom,gpucc.yaml, so it is impractical to keep them in a separate
+> file.
 > 
-> I'm not sure I follow here. Wouldn't (i) be a valid patch in its own?
-> Nothing wrong in expanding that later (even if you end up changing a lot
-> of it).
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../bindings/clock/qcom,gpucc-sm8350.yaml     | 71 -------------------
+>  .../devicetree/bindings/clock/qcom,gpucc.yaml |  2 +
+>  2 files changed, 2 insertions(+), 71 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/clock/qcom,gpucc-sm8350.yaml
 > 
 
-(i) would be a valid patch, but implementing (ii) would over-write
-certain changes done in (i), albeit small changes in terms of brackets
-and indents. That didn't feel right initially and hence the question.
+Acked-by: Rob Herring <robh@kernel.org>
 
-> That said, I don't think this is a very important topic. There are only
-> a few commits in the history that might be problematic. A simple fix
-> would be to add all the features first, and only last add the compatible
-> string for am625.
-> 
-> Or do all the changes for am625 in a single patch, and try to implement
-> all the generic restructuring work before that.
-> 
-> Here we do have to change the vp-to-output mapping management, so maybe
-> the second option won't be simple enough, and it's better to do the
-> am625 changes in pieces, as in the first option.
-> 
-
-Yeah, the first option does seem a little less complicated. Will try to
-re-order this as much clearly as possible.
-
-> So, it's really up to you. Just wanted to raise this possible issue so
-> that you are aware of it and can do any easy fixes (if there are such).
-> 
->> Also, is it important to keep the compatible-addition patches of
->> DT-binding and driver next to each other in the series? Or should
->> the DT-binding patches should be the first ones? Just curious! =)
-> 
-> I believe the convention is to have the DT-binding changes before you
-> add the compatible string to the driver (if I recall right checkpatch or
-> some other checking tool complains if you add a driver for a compatible
-> that doesn't have a DT binding). Generic restructurings could be before
-> the DT patch, of course, but usually I like to keep the DT binding
-> changes at the very beginning of the series.
-> 
-
-Okay, I will keep the compatible-append in the binding as the first
-patch in the series, before the other general structurings.
-
-Thank you!
-
-
-Regards
-Aradhya
