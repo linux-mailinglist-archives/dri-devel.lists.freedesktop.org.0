@@ -1,47 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E195768BD7C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 14:06:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE7E68BF9A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Feb 2023 15:10:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF9410E3C4;
-	Mon,  6 Feb 2023 13:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 633B010E0CC;
+	Mon,  6 Feb 2023 14:10:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C776F10E3C4
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 13:05:58 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 206C34DA;
- Mon,  6 Feb 2023 14:05:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1675688757;
- bh=IhSU+fSVgF1d+b2HqHDAubu4lYS9Osndjugth33p8w4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=aRofLLz+UsoWVPZARxJDiohBFJe9T3xEFdez/BIvDvBvjPuqSZ6o8CeC33HmxmMoP
- aD1pYkpdRZTELPdNdlej2aLri9GdkLfCz5b+Cucc7KJnkvF1t2Ii9farB3pbXC43Vl
- 7J8yX8juutVAr2BZx0e8Y6jaSBBMD7vSyldZhdJE=
-Message-ID: <c858250d-1406-dc3d-58d7-687cd891e7a5@ideasonboard.com>
-Date: Mon, 6 Feb 2023 15:05:53 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F49C10E0CC
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Feb 2023 14:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675692641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lwje8eVt7eXKybxFr462oqT0TYGic+yXzXszDGevFbE=;
+ b=abWaI7xydZThvoQXvaVC8TtRw1Ziwi3LHpgNDqgkiynvOV9c40pAC9GmkuZgiXzy4TqNNG
+ wDeOwdo14XFRHX9MQhK71scspzk03Xj2n2nAim+hZG4fi+5Vg/mXoGc05ebY8X4qSr112L
+ 3N3x6WLzPY5tYmGaGPW8lqoL5iam+d4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-343-yVa3rTOiMEyFL0CYZuokGw-1; Mon, 06 Feb 2023 09:10:39 -0500
+X-MC-Unique: yVa3rTOiMEyFL0CYZuokGw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ cb24-20020a0564020b7800b004aab5e79e6bso1381918edb.23
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 06:10:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lwje8eVt7eXKybxFr462oqT0TYGic+yXzXszDGevFbE=;
+ b=JY9Dz7athPZmRH75G4hk8f+M1foQh9eocJDpIGG1uSXUXuGpwqmIILs9czPoOjqLAg
+ 9/O1mx8m2GzoWs5roOOBtqLPdj/ba4ESic5M7cDbeRTNSUb2yuH2L6psASIobFW6RF6W
+ smVv7xhZBYIfhwirB2UHYIVjs/HiIeRC2jY6BnEJiIkqHC2EYu3DNjfYcXFMRIwqGckM
+ FwdiRdj8tQyD9byLAb0r3IY825DgstMzRWOEOIHLPZkES+MNcKLdYdI+C9MF0F/F6gai
+ n691HOSZlBObl06dSUrqDqIitzMZv0IrTohOf85EBeUMA8olGcz3EG1lU386xzooUVDn
+ xfIQ==
+X-Gm-Message-State: AO0yUKWqsFKNJMuJNcakfXcvSwCl2Ohp/lqvMqFL/7YVXoLskDwQdrG3
+ AqA8eo1Bp5dG6gaC/eVFHhwX/rQ4HwkOcTXWq8oqYLhRVKyMyOmvP05azIPFbYl6ZGpaDNyh9co
+ /9AeGQkbgGrVPN3mtOaxN70hdeMn1
+X-Received: by 2002:a17:906:9610:b0:887:dea8:b025 with SMTP id
+ s16-20020a170906961000b00887dea8b025mr23081893ejx.65.1675692638492; 
+ Mon, 06 Feb 2023 06:10:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/ZSeTcdWpLCRrHXd8AjWFnlgDO3CvqRfDlskfptE4Zi0pC0s+i2h2ytva6c0THMVfUFgf5XQ==
+X-Received: by 2002:a17:906:9610:b0:887:dea8:b025 with SMTP id
+ s16-20020a170906961000b00887dea8b025mr23081857ejx.65.1675692638197; 
+ Mon, 06 Feb 2023 06:10:38 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ j15-20020a170906094f00b0087fa83790d8sm5580399ejd.13.2023.02.06.06.10.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Feb 2023 06:10:37 -0800 (PST)
+Message-ID: <67958920-c5bb-a0f5-2306-e3ae4fdbaeb3@redhat.com>
+Date: Mon, 6 Feb 2023 14:27:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v7 1/6] drm/tidss: Remove Video Port to Output Port
- coupling
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230125113529.13952-1-a-bhatia1@ti.com>
- <20230125113529.13952-2-a-bhatia1@ti.com>
- <300c0351-6ee0-d703-bd53-bc4c0fe3af0f@ideasonboard.com>
- <94cf519a-a72f-89d8-fe2a-9fa795ede6ac@ti.com>
+Subject: Re: [Nouveau] [PATCH drm-next 05/14] drm/nouveau: new VM_BIND uapi
+ interfaces
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Dave Airlie <airlied@gmail.com>
+References: <20230118061256.2689-1-dakr@redhat.com>
+ <20230118061256.2689-6-dakr@redhat.com>
+ <Y9MjSeMcsd18r9vM@DUT025-TGLU.fm.intel.com>
+ <7c046ff9-728d-7634-9d77-8536308c7481@redhat.com>
+ <c2256c7d-e768-ae3f-d465-b9f8080d111b@amd.com>
+ <2427a918-5348-d1ef-ccae-a29c1ff33c83@redhat.com>
+ <a214b28b-043c-a8bb-69da-b4d8216fce56@amd.com>
+ <3a76bfa9-8ee5-a7d9-b9fb-a98181baec0b@redhat.com>
+ <49ac3f95-6eda-9009-4b28-0167213301b2@amd.com>
+ <bc523c5c-efe6-1a7f-b49a-e0867dc1413d@redhat.com>
+ <15fb0179-c7c5-8a64-ed08-841189919f5e@redhat.com>
+ <1840e9fb-fd1b-79b7-4238-54ae97333d0b@amd.com>
+ <CAPM=9txON8VCb3H7vDY_DOgtUg2Ad3mBvYVxgSMyZ1noOu-rBQ@mail.gmail.com>
+ <a1c526e0-0df7-12cb-c5a1-06e9cd0d876b@amd.com>
+ <3f935a7e-fede-2bad-c029-4a3af850c9b5@redhat.com>
+ <95d0631b-545c-ea4d-7439-75422e9a9120@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <95d0631b-545c-ea4d-7439-75422e9a9120@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <94cf519a-a72f-89d8-fe2a-9fa795ede6ac@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,349 +105,257 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Jayesh Choudhary <j-choudhary@ti.com>, Jai Luthra <j-luthra@ti.com>,
- Rahul T R <r-ravikumar@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, jason@jlekstrand.net,
+ linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/02/2023 15:08, Aradhya Bhatia wrote:
-> Hi Tomi,
-> 
-> Thanks for the review!
-> 
-> On 03-Feb-23 16:53, Tomi Valkeinen wrote:
->> On 25/01/2023 13:35, Aradhya Bhatia wrote:
->>> Make DSS Video Ports agnostic of output bus types.
+On 2/6/23 10:48, Christian König wrote:
+> Am 02.02.23 um 19:31 schrieb Danilo Krummrich:
+>> On 2/2/23 12:53, Christian König wrote:
+>>> Am 01.02.23 um 09:10 schrieb Dave Airlie:
+>>>> [SNIP]
+>>>>>> For drivers that don't intend to merge at all and (somehow) are
+>>>>>> capable of dealing with sparse regions without knowing the sparse
+>>>>>> region's boundaries, it'd be easy to make those gpuva_regions 
+>>>>>> optional.
+>>>>> Yeah, but this then defeats the approach of having the same hw
+>>>>> independent interface/implementation for all drivers.
+>>>> I think you are running a few steps ahead here. The plan isn't to have
+>>>> an independent interface, it's to provide a set of routines and
+>>>> tracking that will be consistent across drivers, so that all drivers
+>>>> once using them will operate in mostly the same fashion with respect
+>>>> to GPU VA tracking and VA/BO lifetimes. Already in the tree we have
+>>>> amdgpu and freedreno which I think end up operating slightly different
+>>>> around lifetimes. I'd like to save future driver writers the effort of
+>>>> dealing with those decisions and this should drive their user api
+>>>> design so to enable vulkan sparse bindings.
 >>>
->>> DSS controllers have had a 1-to-1 coupling between its VPs and its
->>> output ports. This no longer stands true for the new AM625 DSS. This
->>> coupling, hence, has been removed by renaming the 'vp_bus_type' to
->>> 'output_port_bus_type' because the VPs are essentially agnostic of the
->>> bus type and it is the output ports which have a bus type.
+>>> Ok in this case I'm pretty sure this is *NOT* a good idea.
 >>>
->>> The AM625 DSS has 2 VPs but requires 3 output ports to support its
->>> Dual-Link OLDI video output coming from a single VP.
->>
->> Not a biggie, but this sentence is a bit odd here at the end. Shouldn't
->> it be after the "...stands true for the new AM625 DSS."?
-> 
-> Yes! It should be. Will make the edit.
-> 
->>
->>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->>> ---
->>>    drivers/gpu/drm/tidss/tidss_dispc.c | 47 +++++++++++++++++------------
->>>    drivers/gpu/drm/tidss/tidss_dispc.h | 21 +++++++------
->>>    drivers/gpu/drm/tidss/tidss_drv.h   |  5 +--
->>>    drivers/gpu/drm/tidss/tidss_irq.h   |  2 +-
->>>    drivers/gpu/drm/tidss/tidss_kms.c   | 12 ++++----
->>>    5 files changed, 48 insertions(+), 39 deletions(-)
+>>> See this means that we define the UAPI implicitly by saying to 
+>>> drivers to use a common framework for their VM implementation which 
+>>> then results in behavior A,B,C,D....
 >>>
->>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> index 165365b515e1..c1c4faccbddc 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
->>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> @@ -61,7 +61,7 @@ const struct dispc_features dispc_k2g_feats = {
->>>        .min_pclk_khz = 4375,
->>>          .max_pclk_khz = {
->>> -        [DISPC_VP_DPI] = 150000,
->>> +        [DISPC_PORT_DPI] = 150000,
->>>        },
->>>          /*
->>> @@ -96,7 +96,6 @@ const struct dispc_features dispc_k2g_feats = {
->>>        .vp_name = { "vp1" },
->>>        .ovr_name = { "ovr1" },
->>>        .vpclk_name =  { "vp1" },
->>> -    .vp_bus_type = { DISPC_VP_DPI },
->>>          .vp_feat = { .color = {
->>>                .has_ctm = true,
->>> @@ -109,6 +108,9 @@ const struct dispc_features dispc_k2g_feats = {
->>>        .vid_name = { "vid1" },
->>>        .vid_lite = { false },
->>>        .vid_order = { 0 },
->>> +
->>> +    .num_output_ports = 1,
->>> +    .output_port_bus_type = { DISPC_PORT_DPI },
->>>    };
+>>> If a driver strides away from this common framework because it has 
+>>> different requirements based on how his hw work you certainly get 
+>>> different behavior again (and you have tons of hw specific 
+>>> requirements in here).
+>>>
+>>> What we should do instead if we want to have some common handling 
+>>> among drivers (which I totally agree on makes sense) then we should 
+>>> define the UAPI explicitly.
 >>
->> Just thinking out loud, as these will get more complex in the future,
->> maybe we should finally group them with struct. E.g. we could define
->> struct array for vps, like (just hacky example):
->>
->>      struct {
->>          const char *name;
->>          const char *clkname;
->>          struct tidss_vp_feat feat;
->>      } vps[TIDSS_MAX_PORTS];
->>
->> and then use them as:
->>
->>      .vps = {
->>          {
->>              .name = "kala",
->>              .clkname = "kissa",
->>              .feat.color.has_ctm = true,
->>          }, {
->>              .name = "kala2",
->>              .clkname = "kissa2",
->>              .feat.color.has_ctm = false,
->>          },
->>      },
->>
->> Perhaps something to try in the future.
->>
+>> By asking that I don't want to say I'm against this idea, I'm just 
+>> wondering how it becomes easier to deal with "tons of hw specific 
+>> requirements" by generalizing things even more?
 > 
-> Yes, agreed! Having that structure will tidy this up.
-> I will keep this under future work.
+> I'm already maintaining two different GPU VM solutions in the GPU 
+> drivers in the kernel, radeon and amdgpu. The hw they driver is 
+> identical, just the UAPI is different. And only because of the different 
+> UAPI they can't have the same VM backend implementation.
 > 
->>>    static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->>> @@ -140,8 +142,8 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->>>      const struct dispc_features dispc_am65x_feats = {
->>>        .max_pclk_khz = {
->>> -        [DISPC_VP_DPI] = 165000,
->>> -        [DISPC_VP_OLDI] = 165000,
->>> +        [DISPC_PORT_DPI] = 165000,
->>> +        [DISPC_PORT_OLDI] = 165000,
->>>        },
->>>          .scaling = {
->>> @@ -171,7 +173,6 @@ const struct dispc_features dispc_am65x_feats = {
->>>        .vp_name = { "vp1", "vp2" },
->>>        .ovr_name = { "ovr1", "ovr2" },
->>>        .vpclk_name =  { "vp1", "vp2" },
->>> -     .vp_bus_type = { DISPC_VP_OLDI, DISPC_VP_DPI },
->>>        .vp_feat = { .color = {
->>>                .has_ctm = true,
->>> @@ -185,6 +186,9 @@ const struct dispc_features dispc_am65x_feats = {
->>>        .vid_name = { "vid", "vidl1" },
->>>        .vid_lite = { false, true, },
->>>        .vid_order = { 1, 0 },
->>> +
->>> +    .num_output_ports = 2,
->>> +    .output_port_bus_type = { DISPC_PORT_OLDI, DISPC_PORT_DPI },
->>>    };
->>>      static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->>> @@ -229,8 +233,8 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->>>      const struct dispc_features dispc_j721e_feats = {
->>>        .max_pclk_khz = {
->>> -        [DISPC_VP_DPI] = 170000,
->>> -        [DISPC_VP_INTERNAL] = 600000,
->>> +        [DISPC_PORT_DPI] = 170000,
->>> +        [DISPC_PORT_INTERNAL] = 600000,
->>>        },
->>>          .scaling = {
->>> @@ -260,9 +264,7 @@ const struct dispc_features dispc_j721e_feats = {
->>>        .vp_name = { "vp1", "vp2", "vp3", "vp4" },
->>>        .ovr_name = { "ovr1", "ovr2", "ovr3", "ovr4" },
->>>        .vpclk_name = { "vp1", "vp2", "vp3", "vp4" },
->>> -    /* Currently hard coded VP routing (see dispc_initial_config()) */
->>> -    .vp_bus_type =    { DISPC_VP_INTERNAL, DISPC_VP_DPI,
->>> -              DISPC_VP_INTERNAL, DISPC_VP_DPI, },
->>> +
->>
->> I think this line feed is extra.
-> 
-> Okay! Will remove that from all SoC feat structs.
-> 
->>
->>>        .vp_feat = { .color = {
->>>                .has_ctm = true,
->>>                .gamma_size = 1024,
->>> @@ -273,6 +275,11 @@ const struct dispc_features dispc_j721e_feats = {
->>>        .vid_name = { "vid1", "vidl1", "vid2", "vidl2" },
->>>        .vid_lite = { 0, 1, 0, 1, },
->>>        .vid_order = { 1, 3, 0, 2 },
->>> +
->>> +    .num_output_ports = 4,
->>> +    /* Currently hard coded VP routing (see dispc_initial_config()) */
->>> +    .output_port_bus_type =    { DISPC_PORT_INTERNAL, DISPC_PORT_DPI,
->>> +              DISPC_PORT_INTERNAL, DISPC_PORT_DPI, },
->>
->> Indent doesn't look right (but it might be just because this is a diff).
-> 
-> I may have missed indenting this.
-> 
->>
->>>    };
->>>      static const u16 *dispc_common_regmap;
->>> @@ -287,12 +294,12 @@ struct dispc_device {
->>>       void __iomem *base_common;
->>>       void __iomem *base_vid[TIDSS_MAX_PLANES];
->>> -    void __iomem *base_ovr[TIDSS_MAX_PORTS];
->>> -    void __iomem *base_vp[TIDSS_MAX_PORTS];
->>> +    void __iomem *base_ovr[TIDSS_MAX_VPS];
->>> +    void __iomem *base_vp[TIDSS_MAX_VPS];
->>>       struct regmap *oldi_io_ctrl;
->>> -    struct clk *vp_clk[TIDSS_MAX_PORTS];
->>> +    struct clk *vp_clk[TIDSS_MAX_VPS];
->>>          const struct dispc_features *feat;
->>>    @@ -300,7 +307,7 @@ struct dispc_device {
->>>          bool is_enabled;
->>> -    struct dss_vp_data vp_data[TIDSS_MAX_PORTS];
->>> +    struct dss_vp_data vp_data[TIDSS_MAX_VPS];
->>>          u32 *fourccs;
->>>        u32 num_fourccs;
->>> @@ -851,7 +858,7 @@ int dispc_vp_bus_check(struct dispc_device *dispc, u32 hw_videoport,
->>>            return -EINVAL;
->>>        }
->>> -    if (dispc->feat->vp_bus_type[hw_videoport] != DISPC_VP_OLDI &&
->>> +    if (dispc->feat->output_port_bus_type[hw_videoport] != DISPC_PORT_OLDI &&
->>
->> Hmm, so is the hw_videoport a vp index or an output index? Sounds like
->> the former, so it's not right, even if at the moment they're identical.
->> We need some kind of mapping between those.
->>
-> 
-> It is indeed a vp index. And yes, I can come up with a mapping mechanism.
-> 
->> If the mapping can be changed (or just defined in the DT), I think we
->> need a variable in struct dispc_device, which tells the output to which
->> a videoport is connected to. Or vice versa, I'm not sure which direction
->> we need more. If the mapping is always the same on all SoC (but I don't
->> think so), we can have it in the feats.
->>
-> 
-> As of now, the mapping is always same. But I would like to make is
-> generalized for future. Hence, I am considering to keep the variable in
-> struct dispc_device.
-> 
-> My question though would be, how would one be able to find which kind
-> of device is the port connected to, if it is connected to a bridge? For
-> example, in case of panels, we have a "connector_type" variable in
-> drm_panel which tells what kind of sink it is. But there is no such
-> thing in drm_bridge.
-> 
-> This is required because what if we can connect an videoport to either
-> an LVDS/OLDI bridge or a DPI bridge.
+> The hw stuff is completely abstract able. That's just stuff you need to 
+> consider when defining the structures you pass around.
 
-The connector type shouldn't matter.
+Wouldn't we need to have strict limitations on that, such that HW 
+specific structures / fields are not allowed to break the semantics of 
+the UAPI? Because otherwise we wouldn't be able to attach generalized 
+components to the unified UAPI which ultimately would be the whole 
+purpose. So, if this consideration is correct, I'd still see a risk of 
+drivers striding away from it because of their requirements. Again, I 
+think a unified UAPI is a good idea, but it sounds more difficult to me 
+than this last paragraph implies.
 
-The DSS has VPs and outputs. The VPs are "generic" and identical to each 
-other, except in their possible connections to the outputs. The outputs, 
-at least at the moment, are DPI, LVDS and internal, where internal is 
-basically just DPI.
-
-Those are the three different cases we are interested in within the dss 
-driver, right? Does it matter where the DPI or LVDS output goes?
-
-So what I'm saying is that the DSS device tree data should already 
-define what kind of configuration we need, and there's no need to look 
-further into the panel/bridge nodes.
-
-> Also, implementing this might mean removal of the part of code which
-> confirms that the panel's "connector_type" indeed expects what the VP
-> can provide, unless there is a way to find out what the sink is before
-> calling the drm_of_find_panel_or_bridge API.
-
-Hmm, well, each DSS output (port in DT) is of a certain type, so we 
-should be able to validate that the output and the panel's 
-connector_type match.
-
-> On the direction, the primary requirement of hw_videoport has been in
-> the tidss_dispc.c file where the HW registers are getting configured.
-> 'hw_videoport' is a frequently passed parameter in function calls. So,
-> at a first glance the former option might makes more sense for
-> direction, i.e. to have a variable which tells the output to which a
-> videoport is connected to.
-
-Makes sense.
-
-> And while, there is also the tidss_kms.c file, which deals with
-> initializing encoders and attaching bridges. This is where the
-> output_port is required more often. But I am yet to think of a case
-> where the above direction could be an issue.
 > 
+> But a messed up UAPI is sometimes impossible to fix because of backward 
+> compatibility.
 > 
->> Also, I wonder if output_port is a good name as it has "port" in it
->> (like video port), and it's a bit long-ish. Would just "output" be
->> enough? We could, of course, shorten it to OP, but that looks odd to me =).
+> We learned that the hard way with radeon and mostly fixed it by coming 
+> up with a completely new implementation for amdgpu.
+> 
+>> What makes us think that we do a better job in considering all hw 
+>> specific requirements with a unified UAPI than with a more lightweight 
+>> generic component for tracking VA mappings?
+> 
+> Because this defines the UAPI implicitly and that's seldom a good idea.
+> 
+> As I said before tracking is the easy part of the job. Defining this 
+> generic component helps a little bit writing new drivers, but it leaves 
+> way to much room for speculations on the UAPI.
+> 
+
+Trying to move forward, I agree that a unified UAPI would improve the 
+situation regarding the problems you mentioned and the examples you have 
+given.
+
+However, not having the GPUVA manager wouldn't give us a unified UAPI 
+either. And as long as it delivers a generic component to solve a 
+problem while not making the overall situation worse or preventing us 
+from reaching this desirable goal of having a unified UAPI I tend to 
+think it's fine to have such a component.
+
+>> Also, wouldn't we need something like the GPUVA manager as part of a 
+>> unified UAPI?
+> 
+> Not necessarily. We can write components to help drivers implement the 
+> UAPI, but this isn't mandatory.
+
+Well, yes, not necessarily. However, as mentioned above, wouldn't it be 
+a major goal of a unified UAPI to be able to attach generic components 
+to it?
+
+> 
+>>
+>>>
+>>> For example we could have a DRM_IOCTL_GPU_VM which takes both driver 
+>>> independent as well as driver dependent information and then has the 
+>>> documented behavior:
+>>> a) VAs do (or don't) vanish automatically when the GEM handle is closed.
+>>> b) GEM BOs do (or don't) get an additional reference for each VM they 
+>>> are used in.
+>>> c) Can handle some common use cases driver independent (BO mappings, 
+>>> readonly, writeonly, sparse etc...).
+>>> d) Has a well defined behavior when the operation is executed async. 
+>>> E.g. in/out fences.
+>>> e) Can still handle hw specific stuff like (for example) trap on 
+>>> access etc....
+>>> ...
+>>>
+>>> Especially d is what Bas and I have pretty much already created a 
+>>> prototype for the amdgpu specific IOCTL for, but essentially this is 
+>>> completely driver independent and actually the more complex stuff. 
+>>> Compared to that common lifetime of BOs is just nice to have.
+>>>
+>>> I strongly think we should concentrate on getting this right as well.
+>>>
+>>>> Now if merging is a feature that makes sense to one driver maybe it
+>>>> makes sense to all, however there may be reasons amdgpu gets away
+>>>> without merging that other drivers might not benefit from, there might
+>>>> also be a benefit to amdgpu from merging that you haven't looked at
+>>>> yet, so I think we could leave merging as an optional extra driver
+>>>> knob here. The userspace API should operate the same, it would just be
+>>>> the gpu pagetables that would end up different sizes.
+>>>
+>>> Yeah, agree completely. The point is that we should not have 
+>>> complexity inside the kernel which is not necessarily needed in the 
+>>> kernel.
+>>>
+>>> So merging or not is something we have gone back and forth for 
+>>> amdgpu, one the one hand it reduces the memory footprint of the 
+>>> housekeeping overhead on the other hand it makes the handling more 
+>>> complex, error prone and use a few more CPU cycles.
+>>>
+>>> For amdgpu merging is mostly beneficial when you can get rid of a 
+>>> whole page tables layer in the hierarchy, but for this you need to 
+>>> merge at least 2MiB or 1GiB together. And since that case doesn't 
+>>> happen that often we stopped doing it.
+>>>
+>>> But for my understanding why you need the ranges for the merging? 
+>>> Isn't it sufficient to check that the mappings have the same type, 
+>>> flags, BO, whatever backing them?
+>>
+>> Not entirely. Let's assume userspace creates two virtually contiguous 
+>> buffers (VKBuffer) A and B. Userspace could bind a BO with BO offset 0 
+>> to A (binding 1) and afterwards bind the same BO with BO offset 
+>> length(A) to B (binding 2), maybe unlikely but AFAIK not illegal.
+>>
+>> If we don't know about the bounds of A and B in the kernel, we detect 
+>> that both bindings are virtually and physically contiguous and we 
+>> merge them.
+> 
+> Well as far as I can see this is actually legal and desirable.
+
+Legal, not sure, may depend on the semantics of the UAPI. (More on that 
+below your next paragraph.)
+
+Desirable, I don't think so. Since those mappings are associated with 
+different VKBuffers they get split up later on anyway, hence why bother 
+merging?
+
+> 
+>>
+>> In the best case this was simply useless, because we'll need to split 
+>> them anyway later on when A or B is destroyed, but in the worst case 
+>> we could fault the GPU, e.g. if merging leads to a change of the page 
+>> tables that are backing binding 1, but buffer A is already in use by 
+>> userspace.
+> 
+> WOW wait a second, regions absolutely don't help you with that anyway.
+> 
+> You need to keep track which mappings are used or otherwise any 
+> modification could lead to problems.
+> 
+> In other words when the GPU already uses A you *must* have a fence on 
+> the page tables backing A to prevent their destruction.
+> 
+
+As mentioned above, I'm not entirely sure about that and it might just 
+depend on the semantics of the UAPI.
+
+My understanding is that userspace is fully responsible on the parts of 
+the GPU VA space it owns. This means that userspace needs to take care 
+to *not* ask the kernel to modify mappings that are in use currently. 
+Hence, the kernel is in charge to not modify mappings it set up on 
+behalf of userspace unless userspace explicitly asks the kernel to do so.
+
+If those are valid preconditions, and based on them we want to support 
+merging, the kernel must know about the VA space allocations (or 
+VKBuffers in userspace terminology) to make sure it never merges across 
+their boundaries, which might not make much sense anyway.
+
+>>
+>> In Nouveau, I think we could also get rid of regions and do something 
+>> driver specific for the handling of the dual page tables, which I want 
+>> to use for sparse regions *and* just don't merge (at least for now). 
+>> But exactly for the sake of not limiting drivers in their HW specifics 
+>> I thought it'd be great if merging is supported in case it makes sense 
+>> for a specific HW, especially given the fact that memory sizes are 
+>> increasing.
+> 
+> What do you mean with that?
+> 
+> If you want your page tables to be modifiable while the GPU is using 
+> them (which is basically a standard requirement from sparse bindings in 
+> Vulkan) you need double housekeeping anyway.
+> 
+> Those regions strongly sound like you are pushing stuff which should be 
+> handled in userspace inside the kernel.
+
+1. userspace allocates a new VKBuffer with the sparse bit set (0x0 - 
+0x800000)
+
+2. kernel creates a new region structure with the range 0x800000 and 
+creates a new PT (A) with 4 PTEs with the sparse flag set (page shift is 21)
+
+3. userspace requests a memory backed mapping at 0x200000 with size 0x2000
+
+4. kernel creates a new mapping structure with base address 0x200000 and 
+range 0x2000 and creates a new PT (B) with 2 PTEs (page shift is 12) 
+"overlaying" PT A
+
+5. userspace crashes unexpectedly for some reason
+
+6. kernel needs to clean things up, iterates the list of mappings and 
+unmaps them (PT B is freed); kernel iterates all regions and removes 
+them (PT A is freed)
+
+> 
+> Regards,
+> Christian.
+> 
+>>
+>>
+>>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>
+>>>>
+>>>> Dave.
+>>>
 >>
 > 
->>>            fmt->is_oldi_fmt) {
->>>            dev_dbg(dispc->dev, "%s: %s is not OLDI-port\n",
->>>                __func__, dispc->feat->vp_name[hw_videoport]);
->>> @@ -955,7 +962,7 @@ void dispc_vp_prepare(struct dispc_device *dispc, u32 hw_videoport,
->>>        if (WARN_ON(!fmt))
->>>            return;
->>> -    if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI) {
->>> +    if (dispc->feat->output_port_bus_type[hw_videoport] == DISPC_PORT_OLDI) {
->>>            dispc_oldi_tx_power(dispc, true);
->>>              dispc_enable_oldi(dispc, hw_videoport, fmt);
->>> @@ -1014,7 +1021,7 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
->>>        align = true;
->>>          /* always use DE_HIGH for OLDI */
->>> -    if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI)
->>> +    if (dispc->feat->output_port_bus_type[hw_videoport] == DISPC_PORT_OLDI)
->>>            ieo = false;
->>>          dispc_vp_write(dispc, hw_videoport, DISPC_VP_POL_FREQ,
->>> @@ -1040,7 +1047,7 @@ void dispc_vp_disable(struct dispc_device *dispc, u32 hw_videoport)
->>>      void dispc_vp_unprepare(struct dispc_device *dispc, u32 hw_videoport)
->>>    {
->>> -    if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI) {
->>> +    if (dispc->feat->output_port_bus_type[hw_videoport] == DISPC_PORT_OLDI) {
->>>            dispc_vp_write(dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, 0);
->>>              dispc_oldi_tx_power(dispc, false);
->>> @@ -1116,10 +1123,10 @@ enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
->>>                         const struct drm_display_mode *mode)
->>>    {
->>>       u32 hsw, hfp, hbp, vsw, vfp, vbp;
->>> -    enum dispc_vp_bus_type bus_type;
->>> +    enum dispc_port_bus_type bus_type;
->>>       int max_pclk;
->>> -    bus_type = dispc->feat->vp_bus_type[hw_videoport];
->>> +    bus_type = dispc->feat->output_port_bus_type[hw_videoport];
->>>       max_pclk = dispc->feat->max_pclk_khz[bus_type];
->>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
->>> index e49432f0abf5..30fb44158347 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
->>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
->>> @@ -50,11 +50,11 @@ struct dispc_errata {
->>>        bool i2000; /* DSS Does Not Support YUV Pixel Data Formats */
->>>    };
->>> -enum dispc_vp_bus_type {
->>> -    DISPC_VP_DPI,        /* DPI output */
->>> -    DISPC_VP_OLDI,        /* OLDI (LVDS) output */
->>> -    DISPC_VP_INTERNAL,    /* SoC internal routing */
->>> -    DISPC_VP_MAX_BUS_TYPE,
->>> +enum dispc_port_bus_type {
->>> +    DISPC_PORT_DPI,            /* DPI output */
->>> +    DISPC_PORT_OLDI,        /* OLDI (LVDS) output */
->>> +    DISPC_PORT_INTERNAL,        /* SoC internal routing */
->>> +    DISPC_PORT_MAX_BUS_TYPE,
->>
->> Okay, so here you have just "port", not "output_port". In the DT,
->> they're ports, so... Maybe we could use that name too, and for video
->> port always use "vp". The current "hw_videoport" could be easily
->> mistaken with "port".
-> 
-> I see what you are saying and how somebody could confusre hw_videoport
-> for a physical connection (i.e. port). I have always understoof
-> hw_videoport to be a thing of the actual VP inside the SoC, but that may
-> be because I have been working on this, and not just trying to
-> understand the code from a high level.
-> 
-> How about if I change the output_port to "out_port"? I am okay to keep
-> "output" as the name to. I am saying this becuase I think, only keeping
-> "port" might just confuse more, as you mentioned above.
-
-Yes, I agree "port" is not good. Other than that, no strong opinions. 
-Whatever name you pick, someone will find it confusing ;). Just keep it 
-consistent, so that all enums, parameters, etc. use it a consistent 
-manner. If I had to choose, I'd go with the "output", but I'm fine with 
-other names too.
-
-> And then we can change "hw_videoport" to "vp_index", perhaps, or even
-> keep that as it is? Becuase if we do have a VP structure in future
-> like you suggested above, "vps" and "vp" would become a close overlap.
-> For eg, "vps[vp]".
-
-That is true. I think that was the reason I chose hw_videoport instead 
-of videoport or vp, although vps[hw_videoport] is only barely better.
-
-vp_index is ok for me, or maybe vp_idx or vp_num to have it a bit shorter.
-
-  Tomi
 
