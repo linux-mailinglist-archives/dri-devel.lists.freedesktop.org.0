@@ -1,71 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59CE68DCC6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 16:20:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC1B68DCCB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 16:21:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5356710E531;
-	Tue,  7 Feb 2023 15:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCF310E1B1;
+	Tue,  7 Feb 2023 15:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1551910E517
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 15:20:37 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id v13so15929982eda.11
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 07:20:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=rhCNOcyRpNLZBCgbM6oSGWNvw1+XdQSGy3BecVAhAEw=;
- b=E4nJecrnv18zMkprVCsirCNTaU/ult/DZ/EWlQU1Z3ZQ+p+7EM1R7UREVIUi4i2rPz
- Ek11py0bXP2n8N2tEHbHewXjZj/BW7UMX6y4tFZI7aFBmfdGWJFRPSznsAaWVIesF01z
- 8+Q+5Mw2rdApzpzRBVou+ivV7aZyRfAW48d6dR1jkoR1Q/gn1Q9NXZ2DY3yyUp9tgKj+
- wXMcqSvQ2mwlbeBy0mO8dPVRtOcAoM9rke//W7yFdud9x/QN6McDu3rnGJQvdZEsEcTY
- tW9ek2yD7v3kFpuweMQowWPEFQtBlQRaQ89Brb8ShcVUF8ldI0MAxBIbcuGq64MfKndg
- D5lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rhCNOcyRpNLZBCgbM6oSGWNvw1+XdQSGy3BecVAhAEw=;
- b=rC/dEm0nMaBk77ZO1d6ZURQDX28eYOrDxd9e26KYD8rHYHe0/a3uP0dQPzOGtCUD1n
- Z3OwBzd/YPKV8n1pqBw0HnXp8m6AOGDXQwi+qL70opswzMYQkZVRXQoBhBqjbn0hepiC
- aRCRKMzEk9lZJ+pxCC9k2z/pkFH6FloO3xhJbzmp8f36WdQv8yEWG9sJMX+6JHnKqR2Y
- W+Xh+n9KVcjB6eusdSBddjFWl+HGwB7qlkXaVK1WX3tdZiuR00nQWBGWMrbMH9iYO511
- EsaBfXyiQFvovCCL3ykSogCaCeF13Y8Sq10qd9xjb9S+/ggDKoQeB3s13UGIy+QFAUoZ
- AkCw==
-X-Gm-Message-State: AO0yUKWNvwrlANTegvODYHblqTZCLb0bhh1I4haD7K6hcq0AbSEvSqGe
- BOYZ4zejeKy2bZoIFW8QPn8g3g==
-X-Google-Smtp-Source: AK7set86e/LGn+ZCVqFVYC53Q4uR7aJ0HPCsmm5q9Ewnkb/wUQdVK8zCIeUfGl9odi9ZER2D5QOSqA==
-X-Received: by 2002:a50:d783:0:b0:481:420e:206d with SMTP id
- w3-20020a50d783000000b00481420e206dmr3723824edi.42.1675783235575; 
- Tue, 07 Feb 2023 07:20:35 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- u2-20020a509502000000b0049e08f781e3sm6695629eda.3.2023.02.07.07.20.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 07:20:35 -0800 (PST)
-Message-ID: <0b14695d-31c2-75cf-5c8c-9171136500f9@linaro.org>
-Date: Tue, 7 Feb 2023 17:20:33 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A40E10E1B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 15:21:01 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (unknown [109.136.43.56])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 774C34AF;
+ Tue,  7 Feb 2023 16:20:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1675783259;
+ bh=zNeqV5rEJ6QD24SL/I57YlWT7uP7NrrpeInbjDFscnQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OWXIcsieV9JnfRe/9elWLtZeo36LO67+GdhMcG7AzNfQAEBeS3BZnMq5wMxXQ0v3Y
+ 0OEFa4BWHX5VDUodegggK4/HKP9uaVdQs49a2rcM0AoqT6LEn7i81hFeR9qnzzV9Iq
+ OjTx6p8Ir3JmHED2jpznJq8nP8Ihk8i4ZEntpeZk=
+Date: Tue, 7 Feb 2023 17:20:57 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Pin-yen Lin <treapking@chromium.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Add GPIO display
+ mux binding
+Message-ID: <Y+JsWQZMKCuPSbeO@pendragon.ideasonboard.com>
+References: <20230116110820.2615650-1-treapking@chromium.org>
+ <20230116110820.2615650-2-treapking@chromium.org>
+ <20230117201703.GA3555326-robh@kernel.org>
+ <CAEXTbpdOg_un9rWD+QeS1rJLW8wHzDOnkJ-i6R0WNvAU4THEGQ@mail.gmail.com>
+ <Y+InK8qF0Izlv6s6@pendragon.ideasonboard.com>
+ <CAEXTbpc=2BOvcXDj-Bff7y3yZjaYr61RBphLiCkkUVzGFnVgKg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 1/4] drm/msm/dpu: clear DSPP reservations in rm release
-Content-Language: en-GB
-To: Kalyan Thota <quic_kalyant@quicinc.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <1675780196-3076-1-git-send-email-quic_kalyant@quicinc.com>
- <1675780196-3076-2-git-send-email-quic_kalyant@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1675780196-3076-2-git-send-email-quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAEXTbpc=2BOvcXDj-Bff7y3yZjaYr61RBphLiCkkUVzGFnVgKg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,47 +51,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
- linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com,
- marijn.suijten@somainline.org, swboyd@chromium.org
+Cc: Nicolas Boichat <drinkcat@chromium.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02/2023 16:29, Kalyan Thota wrote:
-> Clear DSPP reservations from the global state during
-> rm release
-> 
-> Fixes: e47616df008b ("drm/msm/dpu: add support for color
-> 		     processing blocks in dpu driver")
+Hello Pin-yen,
 
-This should fit into a single line (even it is longer than the 
-recommended length).
-
-And no empty lines between Fixes and next tags.
-
+On Tue, Feb 07, 2023 at 06:30:36PM +0800, Pin-yen Lin wrote:
+> On Tue, Feb 7, 2023 at 6:25 PM Laurent Pinchart wrote:
+> > On Tue, Feb 07, 2023 at 06:07:44PM +0800, Pin-yen Lin wrote:
+> > > On Wed, Jan 18, 2023 at 4:17 AM Rob Herring wrote:
+> > > > On Mon, Jan 16, 2023 at 07:08:19PM +0800, Pin-yen Lin wrote:
+> > > > > From: Nicolas Boichat <drinkcat@chromium.org>
+> > > > >
+> > > > > Add bindings for Generic GPIO mux driver.
+> > > > >
+> > > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+> > > > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> > > > > ---
+> > > > >
+> > > > > Changes in v2:
+> > > > > - Referenced existing dt-binding schemas from graph.yaml
+> > > > > - Added ddc-i2c-bus into the bindings
+> > > > >
+> > > > >  .../bindings/display/bridge/gpio-mux.yaml     | 95 +++++++++++++++++++
+> > > > >  1 file changed, 95 insertions(+)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml b/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..da29ba078f05
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
+> > > > > @@ -0,0 +1,95 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/display/bridge/gpio-mux.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: Generic display mux (1 input, 2 outputs)
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Nicolas Boichat <drinkcat@chromium.org>
+> > > > > +
+> > > > > +description: |
+> > > > > +  This bindings describes a simple display (e.g. HDMI) mux, that has 1
+> > > > > +  input, and 2 outputs. The mux status is controlled by hardware, and
+> > > > > +  its status is read back using a GPIO.
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    const: gpio-display-mux
+> > > > > +
+> > > > > +  detect-gpios:
+> > > > > +    maxItems: 1
+> > > > > +    description: GPIO that indicates the active output
+> > > >
+> > > > What are we detecting? That implies an input, but this is selecting the
+> > > > output path, right? Or what does 'mux status is controlled by hardware'
+> > > > mean exactly? Something else? That does not sound very generic.
+> > >
+> > > The GPIO (or any kind of MUX) is an input that indicates where the
+> > > output should go. The actual "output selection" procedure is done in
+> > > the driver. That is, the driver monitors this GPIO and selects the
+> > > output path accordingly. In our use case, the GPIO is reported by the
+> > > embedded controller on the device.
+> > >
+> > > [1] listed other similar bridges that can leverage this driver, so we
+> > > called this driver "generic".
+> > >
+> > > [1]: https://lore.kernel.org/all/CAJMQK-jGw8kJFNjoHjeZUL+3NCiOS2hgGERnAnMwNsL_cm_J=Q@mail.gmail.com/
+> > >
+> > > > In any case, we have a common mux binding so any kind of mux control
+> > > > could be used here, not just GPIO. Then you can make this just a generic
+> > > > display mux.
+> > >
+> > > Thanks for sharing this, I'll update the binding in the next version.
+> > >
+> > > > > +
+> > > > > +  ddc-i2c-bus:
+> > > > > +    description: phandle link to the I2C controller used for DDC EDID probing
+> > > > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > >
+> > > > This belongs in the connector node(s).
+> > >
+> > > The HDMI bridge before the MUX doesn't (and doesn't have to) know that
+> > > its next bridge is a MUX. We put it here so that the HDMI bridge can
+> > > parse the phandle and get the bus node.
+> >
+> > How does that work, does the HDMI encoder driver parse the ddc-i2c-bus
+> > property of the next DT node in the OF graph ?
 > 
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 2 ++
->   1 file changed, 2 insertions(+)
+> Yes. In our use case, mtk_hdmi.c[2] checks the remote node of its
+> output port to get the bus phandle. sun4i_hdmi_enc.c[3] seems to use a
+> similar approach as well.
+
+Peeking into nodes of other devices is a bad practice. I don't know how
+the code you mention below got merged, but I'm pretty sure I would have
+flagged it if I had reviewed the patches :-)
+
+The ddc-i2c-bus property should instead be specified in the node where
+it logically belongs (in this case, the connector node), and handled by
+the connector driver. You can then use drm_bridge operations to tie
+things together, like done in the drm_bridge_connector helper. I'd
+recommend using the drm_bridge_connector helper if you can, either
+as-is, or by extending it.
+
+> [2]: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/mediatek/mtk_hdmi.c#L1500
+> [3]: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c#L240
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index 73b3442..718ea0a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -572,6 +572,8 @@ void dpu_rm_release(struct dpu_global_state *global_state,
->   		ARRAY_SIZE(global_state->ctl_to_enc_id), enc->base.id);
->   	_dpu_rm_clear_mapping(global_state->dsc_to_enc_id,
->   		ARRAY_SIZE(global_state->dsc_to_enc_id), enc->base.id);
-> +	_dpu_rm_clear_mapping(global_state->dspp_to_enc_id,
-> +		ARRAY_SIZE(global_state->dspp_to_enc_id), enc->base.id);
->   }
->   
->   int dpu_rm_reserve(
+> > > > > +
+> > > > > +  ports:
+> > > > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > > +
+> > > > > +    properties:
+> > > > > +      port@0:
+> > > > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > > > +        description: |
+> > > > > +          Video port for input.
+> > > > > +
+> > > > > +      port@1:
+> > > > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > > > +        description: |
+> > > > > +          2 video ports for output.
+> > > > > +          The reg value in the endpoints matches the GPIO status: when
+> > > > > +          GPIO is asserted, endpoint with reg value <1> is selected.
+> > > > > +
+> > > > > +    required:
+> > > > > +      - port@0
+> > > > > +      - port@1
+> > > > > +
+> > > > > +required:
+> > > > > +  - compatible
+> > > > > +  - detect-gpios
+> > > > > +  - ports
+> > > > > +
+> > > > > +unevaluatedProperties: false
+> > > > > +
+> > > > > +examples:
+> > > > > +  - |
+> > > > > +    #include <dt-bindings/gpio/gpio.h>
+> > > > > +    hdmi_mux: hdmi_mux {
+> > > > > +      compatible = "gpio-display-mux";
+> > > > > +      detect-gpios = <&pio 36 GPIO_ACTIVE_HIGH>;
+> > > > > +      pinctrl-names = "default";
+> > > > > +      pinctrl-0 = <&hdmi_mux_pins>;
+> > > > > +      ddc-i2c-bus = <&hdmiddc0>;
+> > > > > +
+> > > > > +      ports {
+> > > > > +        #address-cells = <1>;
+> > > > > +        #size-cells = <0>;
+> > > > > +
+> > > > > +        port@0 { /* input */
+> > > > > +          reg = <0>;
+> > > > > +
+> > > > > +          hdmi_mux_in: endpoint {
+> > > > > +            remote-endpoint = <&hdmi0_out>;
+> > > > > +          };
+> > > > > +        };
+> > > > > +
+> > > > > +        port@1 { /* output */
+> > > > > +          reg = <1>;
+> > > > > +
+> > > > > +          #address-cells = <1>;
+> > > > > +          #size-cells = <0>;
+> > > > > +
+> > > > > +          hdmi_mux_out_anx: endpoint@0 {
+> > > > > +            reg = <0>;
+> > > > > +            remote-endpoint = <&dp_bridge_in>;
+> > > > > +          };
+> > > > > +
+> > > > > +          hdmi_mux_out_hdmi: endpoint@1 {
+> > > > > +            reg = <1>;
+> > > > > +            remote-endpoint = <&hdmi_connector_in>;
+> > > > > +          };
+> > > > > +        };
+> > > > > +      };
+> > > > > +    };
 
 -- 
-With best wishes
-Dmitry
+Regards,
 
+Laurent Pinchart
