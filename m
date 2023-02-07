@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7D968D1A5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 09:45:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A80968D1AB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 09:46:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2BE10E03A;
-	Tue,  7 Feb 2023 08:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A69C10E477;
+	Tue,  7 Feb 2023 08:45:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4196A10E469
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 08:45:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF37D10E477
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 08:45:52 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1pPJbj-0002Pr-5t; Tue, 07 Feb 2023 09:45:43 +0100
+ id 1pPJbj-0002Ps-5o; Tue, 07 Feb 2023 09:45:43 +0100
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1pPJbc-003FF7-VB; Tue, 07 Feb 2023 09:45:38 +0100
+ id 1pPJbd-003FFC-4X; Tue, 07 Feb 2023 09:45:38 +0100
 Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1pPJbd-004UQ0-Cz; Tue, 07 Feb 2023 09:45:37 +0100
+ id 1pPJbd-004UQ3-De; Tue, 07 Feb 2023 09:45:37 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/4] drm/rockchip: dw_hdmi: relax mode_valid hook
-Date: Tue,  7 Feb 2023 09:44:50 +0100
-Message-Id: <20230207084452.1069656-3-s.hauer@pengutronix.de>
+Subject: [PATCH v4 3/4] drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
+Date: Tue,  7 Feb 2023 09:44:51 +0100
+Message-Id: <20230207084452.1069656-4-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230207084452.1069656-1-s.hauer@pengutronix.de>
 References: <20230207084452.1069656-1-s.hauer@pengutronix.de>
@@ -61,90 +61,45 @@ Cc: Dan Johansen <strit@manjaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver checks if the pixel clock of the given mode matches an entry
-in the mpll config table. At least for the Synopsys phy the frequencies
-in the mpll table are meant as a frequency range up to which the entry
-works, not as a frequency that must match the pixel clock. Return
-MODE_OK when the pixelclock is smaller than one of the mpll frequencies
-to allow for more display resolutions.
-Limit this behaviour to the Synopsys phy at the moment and keep the
-current behaviour of forcing exact pixelclock rates for the other phys
-until it has been sorted out how and if the vendor specific phys work
-with non standard clock rates.
+This adds the PLL/phy settings to support higher resolutions like 4k@30.
+The values were taken from the Rockchip downstream Kernel.
 
 Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
-Link: https://lore.kernel.org/r/20220926080435.259617-2-s.hauer@pengutronix.de
+Link: https://lore.kernel.org/r/20220926080435.259617-3-s.hauer@pengutronix.de
 Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
 Tested-by: Dan Johansen <strit@manjaro.org>
-Link: https://lore.kernel.org/r/20230118132213.2911418-2-s.hauer@pengutronix.de
+Link: https://lore.kernel.org/r/20230118132213.2911418-3-s.hauer@pengutronix.de
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 26 +++++++++++++++------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 2f4b8f64cbad3..7d8bf292fedce 100644
+index 7d8bf292fedce..feba6b9becd6c 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -74,6 +74,7 @@ struct rockchip_hdmi {
- 	struct regmap *regmap;
- 	struct rockchip_encoder encoder;
- 	const struct rockchip_hdmi_chip_data *chip_data;
-+	const struct dw_hdmi_plat_data *plat_data;
- 	struct clk *ref_clk;
- 	struct clk *grf_clk;
- 	struct dw_hdmi *hdmi;
-@@ -241,23 +242,32 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
- }
- 
- static enum drm_mode_status
--dw_hdmi_rockchip_mode_valid(struct dw_hdmi *hdmi, void *data,
-+dw_hdmi_rockchip_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
- 			    const struct drm_display_info *info,
- 			    const struct drm_display_mode *mode)
- {
-+	struct rockchip_hdmi *hdmi = data;
- 	const struct dw_hdmi_mpll_config *mpll_cfg = rockchip_mpll_cfg;
- 	int pclk = mode->clock * 1000;
--	bool valid = false;
-+	bool exact_match = hdmi->plat_data->phy_force_vendor;
- 	int i;
- 
- 	for (i = 0; mpll_cfg[i].mpixelclock != (~0UL); i++) {
--		if (pclk == mpll_cfg[i].mpixelclock) {
--			valid = true;
--			break;
--		}
-+		/*
-+		 * For vendor specific phys force an exact match of the pixelclock
-+		 * to preserve the original behaviour of the driver.
-+		 */
-+		if (exact_match && pclk == mpll_cfg[i].mpixelclock)
-+			return MODE_OK;
-+		/*
-+		 * The Synopsys phy can work with pixelclocks up to the value given
-+		 * in the corresponding mpll_cfg entry.
-+		 */
-+		if (!exact_match && pclk <= mpll_cfg[i].mpixelclock)
-+			return MODE_OK;
+@@ -161,6 +161,12 @@ static const struct dw_hdmi_mpll_config rockchip_mpll_cfg[] = {
+ 			{ 0x214c, 0x0003},
+ 			{ 0x4064, 0x0003}
+ 		},
++	}, {
++		340000000, {
++			{ 0x0040, 0x0003 },
++			{ 0x3b4c, 0x0003 },
++			{ 0x5a64, 0x0003 },
++		},
+ 	}, {
+ 		~0UL, {
+ 			{ 0x00a0, 0x000a },
+@@ -186,6 +192,8 @@ static const struct dw_hdmi_curr_ctrl rockchip_cur_ctr[] = {
+ 		146250000, { 0x0038, 0x0038, 0x0038 },
+ 	}, {
+ 		148500000, { 0x0000, 0x0038, 0x0038 },
++	}, {
++		600000000, { 0x0000, 0x0000, 0x0000 },
+ 	}, {
+ 		~0UL,      { 0x0000, 0x0000, 0x0000},
  	}
- 
--	return (valid) ? MODE_OK : MODE_BAD;
-+	return MODE_BAD;
- }
- 
- static void dw_hdmi_rockchip_encoder_disable(struct drm_encoder *encoder)
-@@ -546,8 +556,10 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
- 		return -ENOMEM;
- 
- 	hdmi->dev = &pdev->dev;
-+	hdmi->plat_data = plat_data;
- 	hdmi->chip_data = plat_data->phy_data;
- 	plat_data->phy_data = hdmi;
-+	plat_data->priv_data = hdmi;
- 	encoder = &hdmi->encoder.encoder;
- 
- 	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
 -- 
 2.30.2
 
