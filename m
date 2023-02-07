@@ -2,52 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0C668D76E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 13:59:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FBC68D94F
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 14:30:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C135210E4D4;
-	Tue,  7 Feb 2023 12:59:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29CB010E2CF;
+	Tue,  7 Feb 2023 13:30:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B552F10E1C7;
- Tue,  7 Feb 2023 12:59:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675774792; x=1707310792;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=b/zS2z+oU7uGIJxYGzQqzvOunkWectcBBOnmqw3m0Zk=;
- b=QYHWa3G67LGVNdBvVqft2dklcEqLMqpZi2jYgreCykUeD8oEci5nbLtg
- 5v9DI9WvkF4LsEXruOkx+y9UpmRB7NuQd6BMbIxbN91z5socCx45d9NCn
- 7GdUoYl5/TMmzfEDh1r1Ws0wv1I7VyV0tKY/y8EQ2PTQMlQvpteB/pknK
- 5bZPYW0aCYcAW+R7kQqTdXsM0VkZlTIWmlljNCACVa7bGyszWTzjw6Bt0
- UkRfnXDD1Kej3AiLIQFUBqjfOZhsp02W8zIKUL6ZVM/OfQAjABxNWTi9E
- a19wiKTB0IG5Z9/5Vt7EVDZfCrvgthW7qfhIWkBhqPUQRwGhSAmq7kWYj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="356867599"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="356867599"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2023 04:59:51 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="730424307"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="730424307"
-Received: from ideak-desk.fi.intel.com ([10.237.72.58])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2023 04:59:48 -0800
-Date: Tue, 7 Feb 2023 14:59:45 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Lyude Paul <lyude@redhat.com>, Harry Wentland <harry.wentland@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [Intel-gfx] [CI 1/4] drm/i915/dp_mst: Add the MST topology state
- for modesetted CRTCs
-Message-ID: <Y+JLQfuSAS6xLPIS@ideak-desk.fi.intel.com>
-References: <20230206114856.2665066-1-imre.deak@intel.com>
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60CED10E2CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 13:30:38 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id y1so13570369wru.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 05:30:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=QFRY8l975SG0htBMNX2RaAHlE3X6PIi5Arw3VidyWxk=;
+ b=PzI8UYULwWu0ZkL3TzdEroaha7ac16Lsd6ACzqnS1czR/eFkebq/zPekJHdgwUP8ey
+ gVezDX3nKvLQ84rHuN1vO7mxYWmV2ZKYubaN0tS50a7HlHT10YiMgdERvpZofoQJt5em
+ Y/BX5a1Pz/0qqveRQi680OJQ0UDfnV1LPmELwW7ONMJdQp3t6+8GNgWLTYRMHW8WFO/A
+ bA/ofZhTwXdW3nZeTFaWs9QerwLp77BmkmDlpwPAGDXH2JaRrYP0ypQ1xlcvrBYCQS02
+ PWCViepUxb+7O42yaKbjpI2mfSEAYVivKXo7oKTFJvk8IpFyge7qVCJapqwYOw/WyaWA
+ 0Wpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QFRY8l975SG0htBMNX2RaAHlE3X6PIi5Arw3VidyWxk=;
+ b=zNYRw0hFWsXwXyeiORsZf5vhCh56bySXrKOoqh0g1T9I0/p2t7szQW+b5YA7N8DtyZ
+ 14v9Cs1tUu0hz35/QHNAagm0DLirf5tIDnz3MdSIH4tKtkO9bshR9VDuTFravloEgfmY
+ uXQAyjTjCsmE1Q7LMtFi0z97XOrNZb6hLKIaDAn0PUI/r6b624eBHJHiZcgz4RjNDvQm
+ LRA7FKrffMkoFNMDKmPVMZDbFCaqvvbgNdfuqlcBWLOLFPYpUEtk5rAOJglDwGiTjMMA
+ 74lVnYV+p4OrZsetIoArQI0m5pjebWcPw6Key6oZS5IJ3Dy2QtQNI323sImota30IfOn
+ c2rQ==
+X-Gm-Message-State: AO0yUKWz4J1a0XXobSndx1UEVAV1kaJVW9rPCMA3YOreLOmBewBQz3Nv
+ LBiF4hh/paeh2oh0SN6szHCg6Q==
+X-Google-Smtp-Source: AK7set8lMKCObqyAdbxEb0nTgdUyVM5rVpjgn42BqxPP5fL2YunnT7ZwjsQLHDKt6pgJf9pq87hmig==
+X-Received: by 2002:adf:f007:0:b0:2b6:7876:3cd4 with SMTP id
+ j7-20020adff007000000b002b678763cd4mr2691948wro.16.1675776636869; 
+ Tue, 07 Feb 2023 05:30:36 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:c58c:fc5c:67d6:e5f3?
+ ([2a01:e0a:982:cbb0:c58c:fc5c:67d6:e5f3])
+ by smtp.gmail.com with ESMTPSA id
+ o21-20020a5d58d5000000b002c3f0a78e39sm2651551wrf.9.2023.02.07.05.30.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 05:30:36 -0800 (PST)
+Message-ID: <31b5a693-d9e6-1c21-9fa7-32abc431a46d@linaro.org>
+Date: Tue, 7 Feb 2023 14:30:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230206114856.2665066-1-imre.deak@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v3 0/7] drm/bridge_connector: perform HPD enablement
+ automatically
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
+ <20230109162140.yelgy2da7aqa6sqv@fsr-ub1664-121.ea.freescale.net>
+ <323ec70e-4613-c0e9-0b39-ad2a0a76673d@linaro.org>
+ <20230110065712.lgjnmb66s4tlpoly@fsr-ub1664-121.ea.freescale.net>
+ <bf92569b-3886-113c-9e27-508e4cbfa4ba@linaro.org>
+ <CAMuHMdUbgvT5i4XiJxgKSiRSmFFXO_mMEbgHBgcJDwUPxEYRRA@mail.gmail.com>
+ <4bf0e5a2-23b6-1964-b30f-a5cb57f35e68@linaro.org>
+ <CAMuHMdXyMJZaeeaLjzhbb_A7_WDcyjAzpKNWG8f5gtvmZLW0AA@mail.gmail.com>
+ <CAMuHMdUgtiuxJ9dnjcGy77onHtrhabT5krJMp2XSr4KOD31ydQ@mail.gmail.com>
+Organization: Linaro Developer Services
+In-Reply-To: <CAMuHMdUgtiuxJ9dnjcGy77onHtrhabT5krJMp2XSr4KOD31ydQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,153 +86,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: Karol Herbst <kherbst@redhat.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Wayne Lin <Wayne.Lin@amd.com>, Ben Skeggs <bskeggs@redhat.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Sean Paul <sean@poorly.run>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, Tomi Valkeinen <tomba@kernel.org>,
+ freedreno@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
-
-On Mon, Feb 06, 2023 at 01:48:53PM +0200, Imre Deak wrote:
-> Add the MST topology for a CRTC to the atomic state if the driver
-> needs to force a modeset on the CRTC after the encoder compute config
-> functions are called.
+On 07/02/2023 11:19, Geert Uytterhoeven wrote:
+> Hi Neil,
 > 
-> Later the MST encoder's disable hook also adds the state, but that isn't
-> guaranteed to work (since in that hook getting the state may fail, which
-> can't be handled there). This should fix that, while a later patch fixes
-> the use of the MST state in the disable hook.
+> On Tue, Feb 7, 2023 at 11:02 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>> On Tue, Feb 7, 2023 at 10:59 AM Neil Armstrong
+>> <neil.armstrong@linaro.org> wrote:
+>>> On 07/02/2023 10:40, Geert Uytterhoeven wrote:
+>>>> On Tue, Jan 10, 2023 at 5:37 PM Dmitry Baryshkov
+>>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>> On 10/01/2023 08:57, Laurentiu Palcu wrote:
+>>>>>> On Mon, Jan 09, 2023 at 10:26:28PM +0200, Dmitry Baryshkov wrote:
+>>>>>>> On 09/01/2023 18:21, Laurentiu Palcu wrote:
+>>>>>>>> It looks like there are some issues with this patchset... :/ I just
+>>>>>>>> fetched the drm-tip and, with these patches included, the "Hot plug
+>>>>>>>> detection already enabled" warning is back for i.MX DCSS.
+>>>>>>>
+>>>>>>> Could you please provide a backtrace?
+>>>>>>
+>>>>>> Sure, see below:
+>>>>>
+>>>>> I wondered, why didn't I see this on msm, my main target nowadays. The
+>>>>> msm driver is calling msm_kms_helper_poll_init() after initializing
+>>>>> fbdev, so all previous kms_helper_poll_enable() calls return early.
+>>>>>
+>>>>> I think I have the fix ready. Let me test it locally before posting.
+>>>>
+>>>> Is this fix available?
+>>>> Do you have a lore link?
+>>>
+>>> The fix at [1] has been applied on 2023-01-26
+>>>
+>>> [1] https://lore.kernel.org/all/20230124104548.3234554-1-dmitry.baryshkov@linaro.org/
+>>
+>> Applied where? linux-next does not have it.
 > 
-> v2: Add missing forward struct declartions, caught by hdrtest.
-> v3: Factor out intel_dp_mst_add_topology_state_for_connector() used
->     later in the patchset.
+> commit cbf143b282c64e59
+> ("drm/probe_helper: extract two helper functions") in next-20230127
+> next-20230130 next-20230131
+> commit d33a54e3991dfce8
+> ("drm/probe_helper: sort out poll_running vs poll_enabled") in
+> next-20230127 next-20230130 next-20230131
 > 
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: stable@vger.kernel.org # 6.1
-> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com> # v2
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> but not in any later version?
 
-Is it ok to merge these 4 patches (also at [1]), via the i915 tree?
+$ git log --oneline --author=dmitry next-20230207 drivers/gpu/drm/drm_probe_helper.c
+c8268795c9a9 drm/probe-helper: enable and disable HPD on connectors
+78b991ccfa64 drm/poll-helper: merge drm_kms_helper_poll_disable() and _fini()
 
-If so could it be also acked from the AMD and Nouveau side?
+$ cat Next/SHA1s | grep drm
+drm-fixes       4ec5183ec48656cec489c49f989c508b68b518e3
+drm-intel-fixes 4c7b9344cadbed477372c75e3c0a8cfd542f5990
+drm-misc-fixes  8f20660f053cefd4693e69cfff9cf58f4f7c4929
+drm             1c0db6d84f8e0ac8f14178f13250e36ebcf457ee
+drm-misc        d20a8f409259f1782f080b434054854020878f23
+drm-intel       155c6b16eec2eaaaf6c71abf2d5e71641770d7ba
+drm-tegra       b9930311641cf2ed905a84aabe27e8f3868aee4a
+drm-msm         dbd7a2a941b8cbf9e5f79a777ed9fe0090eebb61
+drm-msm-lumag   1d233b1cb149ec78c20fac58331b27bb460f9558
+imx-drm         927d8fd465adbaaad6cce82f840d489d7c378f29
 
-[1] https://patchwork.freedesktop.org/series/113703/
+so weren't merged into drm-misc, I'll ping Thomas & Maxime on irc.
 
-> ---
->  drivers/gpu/drm/i915/display/intel_display.c |  4 ++
->  drivers/gpu/drm/i915/display/intel_dp_mst.c  | 61 ++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_dp_mst.h  |  4 ++
->  3 files changed, 69 insertions(+)
+Neil
+
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index 166662ade593c..38106cf63b3b9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -5936,6 +5936,10 @@ int intel_modeset_all_pipes(struct intel_atomic_state *state,
->  		if (ret)
->  			return ret;
->  
-> +		ret = intel_dp_mst_add_topology_state_for_crtc(state, crtc);
-> +		if (ret)
-> +			return ret;
-> +
->  		ret = intel_atomic_add_affected_planes(state, crtc);
->  		if (ret)
->  			return ret;
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index 8b0e4defa3f10..f3cb12dcfe0a7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -1223,3 +1223,64 @@ bool intel_dp_mst_is_slave_trans(const struct intel_crtc_state *crtc_state)
->  	return crtc_state->mst_master_transcoder != INVALID_TRANSCODER &&
->  	       crtc_state->mst_master_transcoder != crtc_state->cpu_transcoder;
->  }
-> +
-> +/**
-> + * intel_dp_mst_add_topology_state_for_connector - add MST topology state for a connector
-> + * @state: atomic state
-> + * @connector: connector to add the state for
-> + * @crtc: the CRTC @connector is attached to
-> + *
-> + * Add the MST topology state for @connector to @state.
-> + *
-> + * Returns 0 on success, negative error code on failure.
-> + */
-> +static int
-> +intel_dp_mst_add_topology_state_for_connector(struct intel_atomic_state *state,
-> +					      struct intel_connector *connector,
-> +					      struct intel_crtc *crtc)
-> +{
-> +	struct drm_dp_mst_topology_state *mst_state;
-> +
-> +	if (!connector->mst_port)
-> +		return 0;
-> +
-> +	mst_state = drm_atomic_get_mst_topology_state(&state->base,
-> +						      &connector->mst_port->mst_mgr);
-> +	if (IS_ERR(mst_state))
-> +		return PTR_ERR(mst_state);
-> +
-> +	mst_state->pending_crtc_mask |= drm_crtc_mask(&crtc->base);
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * intel_dp_mst_add_topology_state_for_crtc - add MST topology state for a CRTC
-> + * @state: atomic state
-> + * @crtc: CRTC to add the state for
-> + *
-> + * Add the MST topology state for @crtc to @state.
-> + *
-> + * Returns 0 on success, negative error code on failure.
-> + */
-> +int intel_dp_mst_add_topology_state_for_crtc(struct intel_atomic_state *state,
-> +					     struct intel_crtc *crtc)
-> +{
-> +	struct drm_connector *_connector;
-> +	struct drm_connector_state *conn_state;
-> +	int i;
-> +
-> +	for_each_new_connector_in_state(&state->base, _connector, conn_state, i) {
-> +		struct intel_connector *connector = to_intel_connector(_connector);
-> +		int ret;
-> +
-> +		if (conn_state->crtc != &crtc->base)
-> +			continue;
-> +
-> +		ret = intel_dp_mst_add_topology_state_for_connector(state, connector, crtc);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.h b/drivers/gpu/drm/i915/display/intel_dp_mst.h
-> index f7301de6cdfb3..f1815bb722672 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.h
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.h
-> @@ -8,6 +8,8 @@
->  
->  #include <linux/types.h>
->  
-> +struct intel_atomic_state;
-> +struct intel_crtc;
->  struct intel_crtc_state;
->  struct intel_digital_port;
->  struct intel_dp;
-> @@ -18,5 +20,7 @@ int intel_dp_mst_encoder_active_links(struct intel_digital_port *dig_port);
->  bool intel_dp_mst_is_master_trans(const struct intel_crtc_state *crtc_state);
->  bool intel_dp_mst_is_slave_trans(const struct intel_crtc_state *crtc_state);
->  bool intel_dp_mst_source_support(struct intel_dp *intel_dp);
-> +int intel_dp_mst_add_topology_state_for_crtc(struct intel_atomic_state *state,
-> +					     struct intel_crtc *crtc);
->  
->  #endif /* __INTEL_DP_MST_H__ */
-> -- 
-> 2.37.1
+> Gr{oetje,eeting}s,
 > 
+>                          Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                  -- Linus Torvalds
+
