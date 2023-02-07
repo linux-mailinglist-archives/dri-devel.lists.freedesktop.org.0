@@ -1,65 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA52668CE14
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 05:16:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC7768CEAF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 06:07:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1877010E1BD;
-	Tue,  7 Feb 2023 04:16:02 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C75310E1BD
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 04:16:00 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- c10-20020a17090a1d0a00b0022e63a94799so17328842pjd.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Feb 2023 20:16:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2C5M2n2QmosP+JmwI3LMq0zuwLZPr4grwBdxmYTFAJk=;
- b=ERileFf4lERt72Vv1Me4JBfKOrl1bjyYp8lFAwfFdhg7Mp/wn33iTwDReqYSyTv9UB
- 5eHk8gIUBaJK4PhdGk+7UePdArB703VNFZyfV1ZmqfCZZwDurRzGzl+jw+VPC2U02UV6
- m08s0ZYUN9pvVNg/Ex6ftB34Y9ouyUaDBzAytsE8XdKRurccLkvAing22zFNIjTsHMH4
- VS3yIJjxGMRULlKNUfOXMhbVCyEAIi84wAk0ZzTPZmJZEhIlbZV9VLvaD98m86R/84R1
- 5jf6GH8BG5VcPZaor07NVx5TBYxJdNTi/hz4GQG9MH2OiCillrOxG3wX4ld3YPCr6XlD
- e3Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2C5M2n2QmosP+JmwI3LMq0zuwLZPr4grwBdxmYTFAJk=;
- b=ivaagaw5Oxi3eHW/RYpjeloSh7sw2K5EIp5cCkdlPHXbtl8ZXmVrJlag6CAkZ1I5Vd
- Jre+6kuLCas8y68LFOrK+9DsNBvn45saBfsRmYmwYHYeGeIP6O4Dc0U2CqL7fsVn3RVE
- xLfEZF7hCXx5xkrcqo46ugpT+/H6i9e4rAxT/2E5ocnV4LCYz2lqEmCrQX7A+/c0Lttc
- GOOkVgc+jSQ0lBjztAH9EaPFM1eYw2yxpmyW4DpWXLKMIjoO5iJ2nveRYcp/ogqHjfO+
- OXnksCFBGLLymCQ79LlBTTAfaWCmzYC9kJRaWgYzqqQdS5n+YA+3j267akKCU2HoQhgS
- C1dA==
-X-Gm-Message-State: AO0yUKUD0/EYG5LKJPcWorXvL8IWb9vIgrq510xCu3g1clBp/DDq0OOg
- /WYwEO9YNoilozV4BiB6qh7YoMXPhMQ=
-X-Google-Smtp-Source: AK7set/fA+mhjJmmmjRqCn5WOKLa/XCg43FSX7iofX4GncywxkFyU/J+6RMjDO4H1P3Up/Fw8ofhaA==
-X-Received: by 2002:a17:90a:e7cb:b0:230:a49b:2e64 with SMTP id
- kb11-20020a17090ae7cb00b00230a49b2e64mr2356976pjb.29.1675743359769; 
- Mon, 06 Feb 2023 20:15:59 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:c930:81ab:3aec:b9cb])
- by smtp.gmail.com with ESMTPSA id
- i6-20020a17090ac40600b00229b17bb1e8sm7120181pjt.34.2023.02.06.20.15.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Feb 2023 20:15:59 -0800 (PST)
-Date: Mon, 6 Feb 2023 20:15:56 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH 1/2] backlight: hx8357: switch to using gpiod API
-Message-ID: <Y+HQfDtiqUso7e9k@google.com>
-References: <20230131225707.3599889-1-dmitry.torokhov@gmail.com>
- <Y+DmBGiq9kvRBHLY@aspen.lan>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2CF10E44F;
+	Tue,  7 Feb 2023 05:07:14 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6489510E2E2;
+ Tue,  7 Feb 2023 05:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675746428; x=1707282428;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=kHKMB3auQYQ3FHq7vV/Tp3ibj9lN1JwjBzdI/0x81vk=;
+ b=KeK0gF/7bHXhSQg4+6yMpuwsKAsZkT5gSg2V7NursMhexaMdYH+n9jqQ
+ CMsmGpWg1tDFLgySXBRjrNg4Kt4aBgnKruyfEEr/sYlajLRxGaPdC20yN
+ 6CKQCV49q9hx9p0DLdTWIWeUUk6QSm9Lh/eWVx9EcUGHJ86emXNWZg4kW
+ 4/pzXenWQlhpwjdZDCmgPQZ7eXtTtZr2k+vywO/pO0BriqyQmzZcFL4kF
+ XzeZ7OriOxvYBtMTz9HRUHRMMz/Z+VLJ1kuPFoSWLlndUIJqPWvRHMCte
+ EDNe+Z1ja+UQ81gHcGLuJEohAXua9fU/fY1XRajls5xVc01VBQY1fWqms w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="309049934"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="309049934"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2023 21:07:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="840631488"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="840631488"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orsmga005.jf.intel.com with ESMTP; 06 Feb 2023 21:07:07 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v2 0/6] More drm_dbg to guc_dbg changes
+Date: Mon,  6 Feb 2023 21:07:11 -0800
+Message-Id: <20230207050717.1833718-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+DmBGiq9kvRBHLY@aspen.lan>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,99 +56,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 06, 2023 at 11:35:32AM +0000, Daniel Thompson wrote:
-> On Tue, Jan 31, 2023 at 02:57:06PM -0800, Dmitry Torokhov wrote:
-> > Switch the driver from legacy gpio API that is deprecated to the newer
-> > gpiod API that respects line polarities described in ACPI/DT.
-> >
-> > This makes driver use standard property name for the reset gpio
-> > ("reset-gpios" vs "gpios-reset"), however there is a quirk in gpiolib
-> > to also recognize the legacy name and keep compatibility with older
-> > DTSes.
-> >
-> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > ---
-> >
-> > All preparation gpiolib work to handle legacy names and polarity quirks
-> > has landed in mainline...
-> >
-> >  drivers/video/backlight/hx8357.c | 82 ++++++++++++++------------------
-> >  1 file changed, 37 insertions(+), 45 deletions(-)
-> >
-> > diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
-> > index 9b50bc96e00f..a93e14adb846 100644
-> > --- a/drivers/video/backlight/hx8357.c
-> > +++ b/drivers/video/backlight/hx8357.c
-> > [snip]
-> > -	if (of_find_property(spi->dev.of_node, "im-gpios", NULL)) {
-> > -		lcd->use_im_pins = 1;
-> > -
-> > -		for (i = 0; i < HX8357_NUM_IM_PINS; i++) {
-> > -			lcd->im_pins[i] = of_get_named_gpio(spi->dev.of_node,
-> > -							    "im-gpios", i);
-> > -			if (lcd->im_pins[i] == -EPROBE_DEFER) {
-> > -				dev_info(&spi->dev, "GPIO requested is not here yet, deferring the probe\n");
-> > -				return -EPROBE_DEFER;
-> > -			}
-> > -			if (!gpio_is_valid(lcd->im_pins[i])) {
-> > -				dev_err(&spi->dev, "Missing dt property: im-gpios\n");
-> > -				return -EINVAL;
-> > +	gpiod_set_consumer_name(lcd->reset, "hx8357-reset");
-> > +
-> > +	for (i = 0; i < HX8357_NUM_IM_PINS; i++) {
-> > +		lcd->im_pins[i] = devm_gpiod_get_index(&spi->dev,
-> > +						       "im", i, GPIOD_OUT_LOW);
-> > +		ret = PTR_ERR_OR_ZERO(lcd->im_pins[i]);
-> > +		if (ret) {
-> > +			if (ret == -ENOENT) {
-> > +				if (i == 0)
-> > +					break;
-> > +				dev_err(&spi->dev, "Missing im gpios[%d]\n", i);
-> > +				ret = -EINVAL;
-> > +			} if (ret == -EPROBE_DEFER) {
+From: John Harrison <John.C.Harrison@Intel.com>
 
-I see I miss "else" here...
+Update more print messages to the new scheme.
 
-> > +				dev_info(&spi->dev, "im gpio[%d] is not here yet, deferring the probe\n",
-> > +					 i);
-> > +			} else {
-> > +				dev_err(&spi->dev, "failed to request im gpio[%d]: %d\n",
-> > +					i, ret);
-> >  			}
-> 
-> These last two clauses should be updated to return dev_err_probe(...)
-> instead.
-> 
-> With that change:
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+v2: Also change all errors to %pe rather than %d (MichalW).
+Few other tweaks.
 
-So you want to actually suppress the deferral message unless debug
-printks are enabled? So you want this to read:
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
 
-		if (ret) {
-			if (ret == -ENOENT) {
-				if (i == 0)
-					break;
+John Harrison (6):
+  drm/i915/guc: More debug print updates - UC firmware
+  drm/i915/guc: More debug print updates - GSC firmware
+  drm/i915/guc: More debug print updates - GuC reg capture
+  drm/i915/guc: More debug print updates - GuC selftests
+  drm/i915/guc: More debug print updates - GuC SLPC
+  drm/i915/guc: More debug print updates - GuC logging
 
-				dev_err(&spi->dev, "Missing im gpios[%d]\n", i);
-				return -EINVAL;
-			}
-
-			return dev_err_probe(&spi->dev, ret,
-					     "failed to request im gpio[%d]\n", i);
-		}
-
-
-Did I get it right?
-
-Thanks.
+ drivers/gpu/drm/i915/gt/intel_gt_print.h      |   3 +
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.c     |   9 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |   7 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  51 ++++----
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |   3 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_print.h  |   3 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c     |   8 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   |  61 ++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  42 +++----
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      | 116 +++++++++---------
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     |  42 ++++---
+ .../drm/i915/gt/uc/selftest_guc_hangcheck.c   |  23 ++--
+ .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  11 +-
+ 13 files changed, 174 insertions(+), 205 deletions(-)
 
 -- 
-Dmitry
+2.39.1
+
