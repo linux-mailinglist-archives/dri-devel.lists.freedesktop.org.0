@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F9C68CEAA
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 06:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4610768CEAC
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 06:07:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFE3210E2E9;
-	Tue,  7 Feb 2023 05:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2D5010E449;
+	Tue,  7 Feb 2023 05:07:12 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC23110E2E4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB52010E2E2;
  Tue,  7 Feb 2023 05:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1675746428; x=1707282428;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rk53c4u2zdjTqF9v7UX7pkPFywuj+sHDOJ0U+Si6OT0=;
- b=jn92o2UrY9JoT1ixzwSptpE2R2gvrJtos7bDZCG3F/bX+s0+LQukgmRd
- QAgoLYfhEHBk9czs7ONvDgaOwc9c/3P2/eCYzX7GZZ6rfnx+nQ7wcuDE6
- nXwO1AEbqB0cLC4AWPTl2rhLrmncTONkxKNWMlZQs1ZKP0YZ4QnZE+CGt
- k4ZlbfjX9x9T8M3Bu9yizDDikHrhWCrcdxNhD+purVdRybZXxX//Ftkk0
- pMgYTjBKieH17nUrzvc6bTh54xXnx1Y5USNoI+nBJpRV9fq6GUvPS1fe0
- 7P2kEEXuaXGrLGbbHvS6BsROU/y6C4RGbDydCb8Y9U57WxO10E4rLFmLO g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="309049940"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="309049940"
+ bh=O1gBr07DKuhzaazyb6prpoOfk5mVZL8FdW6O3iGDXFA=;
+ b=FpPr2AvQpB3PdTZTB4IWFFnBcFgHuk16RxiubdnBtVlBmjRhvOWQJOK7
+ xM4KQPXwQBdsBMRVs3bELXYdeTagVuSQRBCs0PakeCmSSm2vPhx5vog4h
+ cEiSsdefAkPzlF6qGzGoaOCPqjNw0BATyvjdEVgctrnyYYtxeAB3UFgdS
+ 194CUZCjPvHE++Vclarp27jB/gTcm7ufXdFC0vzu6b0mVyimc0G83mx5b
+ 9e7PTUy2FSjUomJiCxJsiE6sWG4xKdYpVb/MYWEx5msHKZ5i0R8gPnbFw
+ BzWAmCEqr1LgM0ZQ8BJt/OoO3yM3lMT+rhd+q+TOywEkp/B6Sasspip8x w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="309049942"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="309049942"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2023 21:07:07 -0800
+ 06 Feb 2023 21:07:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="840631502"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="840631502"
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="840631506"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="840631506"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by orsmga005.jf.intel.com with ESMTP; 06 Feb 2023 21:07:07 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v2 3/6] drm/i915/guc: More debug print updates - GuC reg
- capture
-Date: Mon,  6 Feb 2023 21:07:14 -0800
-Message-Id: <20230207050717.1833718-4-John.C.Harrison@Intel.com>
+Subject: [PATCH v2 4/6] drm/i915/guc: More debug print updates - GuC selftests
+Date: Mon,  6 Feb 2023 21:07:15 -0800
+Message-Id: <20230207050717.1833718-5-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230207050717.1833718-1-John.C.Harrison@Intel.com>
 References: <20230207050717.1833718-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
  Swindon SN3 1RJ
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,8 +59,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -68,258 +67,331 @@ From: John Harrison <John.C.Harrison@Intel.com>
 
 Update a bunch more debug prints to use the new GT based scheme.
 
-v2: Upgrade the no node found message to a warning on the grounds of
-it being quite important if the error capture can't find any register
-state information.
+v2: Also change prints to use %pe for error values (MichalW).
+Fix a context leak on error due to a -- being too early.
+Use the correct header file for the debug macros.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 51 ++++++++-----------
- 1 file changed, 21 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c     | 42 ++++++++++---------
+ .../drm/i915/gt/uc/selftest_guc_hangcheck.c   | 23 +++++-----
+ .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   | 11 ++---
+ 3 files changed, 40 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-index fc3b994626a4f..101d44de729b1 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-@@ -15,6 +15,7 @@
- #include "guc_capture_fwif.h"
- #include "intel_guc_capture.h"
- #include "intel_guc_fwif.h"
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+index e28518fe8b908..1fd760539f77b 100644
+--- a/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc.c
+@@ -3,6 +3,8 @@
+  * Copyright �� 2021 Intel Corporation
+  */
+ 
++#include "gt/intel_gt_print.h"
 +#include "intel_guc_print.h"
- #include "i915_drv.h"
- #include "i915_gpu_error.h"
- #include "i915_irq.h"
-@@ -353,7 +354,6 @@ guc_capture_alloc_steered_lists_xe_hpg(struct intel_guc *guc,
- 				       u32 ipver)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	struct sseu_dev_info *sseu;
- 	int slice, subslice, i, iter, num_steer_regs, num_tot_regs = 0;
- 	const struct __guc_mmio_reg_descr_group *list;
-@@ -402,7 +402,7 @@ guc_capture_alloc_steered_lists_xe_hpg(struct intel_guc *guc,
+ #include "selftests/igt_spinner.h"
+ #include "selftests/intel_scheduler_helpers.h"
+ 
+@@ -65,7 +67,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+ 		ce = intel_context_create(engine);
+ 		if (IS_ERR(ce)) {
+ 			ret = PTR_ERR(ce);
+-			drm_err(&gt->i915->drm, "Failed to create context, %d: %d\n", i, ret);
++			gt_err(gt, "Failed to create context %d: %pe\n", i, ce);
+ 			goto err;
  		}
- 	}
  
--	drm_dbg(&i915->drm, "GuC-capture found %d-ext-regs.\n", num_tot_regs);
-+	guc_dbg(guc, "capture found %d ext-regs.\n", num_tot_regs);
- 	guc->capture->extlists = extlists;
- }
+@@ -86,7 +88,7 @@ static int intel_guc_scrub_ctbs(void *arg)
  
-@@ -477,7 +477,6 @@ guc_capture_list_init(struct intel_guc *guc, u32 owner, u32 type, u32 classid,
- 		      struct guc_mmio_reg *ptr, u16 num_entries)
- {
- 	u32 i = 0, j = 0;
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	const struct __guc_mmio_reg_descr_group *reglists = guc->capture->reglists;
- 	struct __guc_mmio_reg_descr_group *extlists = guc->capture->extlists;
- 	const struct __guc_mmio_reg_descr_group *match;
-@@ -509,8 +508,7 @@ guc_capture_list_init(struct intel_guc *guc, u32 owner, u32 type, u32 classid,
+ 		if (IS_ERR(rq)) {
+ 			ret = PTR_ERR(rq);
+-			drm_err(&gt->i915->drm, "Failed to create request, %d: %d\n", i, ret);
++			gt_err(gt, "Failed to create request %d: %pe\n", i, rq);
+ 			goto err;
  		}
- 	}
- 	if (i < num_entries)
--		drm_dbg(&i915->drm, "GuC-capture: Init reglist short %d out %d.\n",
--			(int)i, (int)num_entries);
-+		guc_dbg(guc, "Got short capture reglist init: %d out %d.\n", i, num_entries);
  
- 	return 0;
- }
-@@ -540,12 +538,11 @@ guc_capture_getlistsize(struct intel_guc *guc, u32 owner, u32 type, u32 classid,
- 			size_t *size, bool is_purpose_est)
- {
- 	struct intel_guc_state_capture *gc = guc->capture;
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	struct __guc_capture_ads_cache *cache = &gc->ads_cache[owner][type][classid];
- 	int num_regs;
- 
- 	if (!gc->reglists) {
--		drm_warn(&i915->drm, "GuC-capture: No reglist on this device\n");
-+		guc_warn(guc, "No capture reglist for this device\n");
- 		return -ENODEV;
+@@ -96,7 +98,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+ 	for (i = 0; i < 3; ++i) {
+ 		ret = i915_request_wait(last[i], 0, HZ);
+ 		if (ret < 0) {
+-			drm_err(&gt->i915->drm, "Last request failed to complete: %d\n", ret);
++			gt_err(gt, "Last request failed to complete: %pe\n", ERR_PTR(ret));
+ 			goto err;
+ 		}
+ 		i915_request_put(last[i]);
+@@ -113,7 +115,7 @@ static int intel_guc_scrub_ctbs(void *arg)
+ 	/* GT will not idle if G2H are lost */
+ 	ret = intel_gt_wait_for_idle(gt, HZ);
+ 	if (ret < 0) {
+-		drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
++		gt_err(gt, "GT failed to idle: %pe\n", ERR_PTR(ret));
+ 		goto err;
  	}
  
-@@ -557,9 +554,9 @@ guc_capture_getlistsize(struct intel_guc *guc, u32 owner, u32 type, u32 classid,
- 	if (!is_purpose_est && owner == GUC_CAPTURE_LIST_INDEX_PF &&
- 	    !guc_capture_get_one_list(gc->reglists, owner, type, classid)) {
- 		if (type == GUC_CAPTURE_LIST_TYPE_GLOBAL)
--			drm_warn(&i915->drm, "Missing GuC-Err-Cap reglist Global!\n");
-+			guc_warn(guc, "Missing capture reglist: global!\n");
- 		else
--			drm_warn(&i915->drm, "Missing GuC-Err-Cap reglist %s(%u):%s(%u)!\n",
-+			guc_warn(guc, "Missing capture reglist: %s(%u):%s(%u)!\n",
- 				 __stringify_type(type), type,
- 				 __stringify_engclass(classid), classid);
- 		return -ENODATA;
-@@ -592,7 +589,6 @@ intel_guc_capture_getlist(struct intel_guc *guc, u32 owner, u32 type, u32 classi
- {
- 	struct intel_guc_state_capture *gc = guc->capture;
- 	struct __guc_capture_ads_cache *cache = &gc->ads_cache[owner][type][classid];
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	struct guc_debug_capture_list *listnode;
- 	int ret, num_regs;
- 	u8 *caplist, *tmp;
-@@ -623,7 +619,7 @@ intel_guc_capture_getlist(struct intel_guc *guc, u32 owner, u32 type, u32 classi
+@@ -153,7 +155,7 @@ static int intel_guc_steal_guc_ids(void *arg)
  
- 	caplist = kzalloc(size, GFP_KERNEL);
- 	if (!caplist) {
--		drm_dbg(&i915->drm, "GuC-capture: failed to alloc cached caplist");
-+		guc_dbg(guc, "Failed to alloc cached register capture list");
+ 	ce = kcalloc(GUC_MAX_CONTEXT_ID, sizeof(*ce), GFP_KERNEL);
+ 	if (!ce) {
+-		drm_err(&gt->i915->drm, "Context array allocation failed\n");
++		guc_err(guc, "Context array allocation failed\n");
  		return -ENOMEM;
  	}
  
-@@ -653,7 +649,6 @@ intel_guc_capture_getnullheader(struct intel_guc *guc,
- 				void **outptr, size_t *size)
- {
- 	struct intel_guc_state_capture *gc = guc->capture;
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	int tmp = sizeof(u32) * 4;
- 	void *null_header;
- 
-@@ -665,7 +660,7 @@ intel_guc_capture_getnullheader(struct intel_guc *guc,
- 
- 	null_header = kzalloc(tmp, GFP_KERNEL);
- 	if (!null_header) {
--		drm_dbg(&i915->drm, "GuC-capture: failed to alloc cached nulllist");
-+		guc_dbg(guc, "Failed to alloc cached register capture null list");
- 		return -ENOMEM;
+@@ -166,25 +168,25 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	ce[context_index] = intel_context_create(engine);
+ 	if (IS_ERR(ce[context_index])) {
+ 		ret = PTR_ERR(ce[context_index]);
++		guc_err(guc, "Failed to create context: %pe\n", ce[context_index]);
+ 		ce[context_index] = NULL;
+-		drm_err(&gt->i915->drm, "Failed to create context: %d\n", ret);
+ 		goto err_wakeref;
+ 	}
+ 	ret = igt_spinner_init(&spin, engine->gt);
+ 	if (ret) {
+-		drm_err(&gt->i915->drm, "Failed to create spinner: %d\n", ret);
++		guc_err(guc, "Failed to create spinner: %pe\n", ERR_PTR(ret));
+ 		goto err_contexts;
+ 	}
+ 	spin_rq = igt_spinner_create_request(&spin, ce[context_index],
+ 					     MI_ARB_CHECK);
+ 	if (IS_ERR(spin_rq)) {
+ 		ret = PTR_ERR(spin_rq);
+-		drm_err(&gt->i915->drm, "Failed to create spinner request: %d\n", ret);
++		guc_err(guc, "Failed to create spinner request: %pe\n", spin_rq);
+ 		goto err_contexts;
+ 	}
+ 	ret = request_add_spin(spin_rq, &spin);
+ 	if (ret) {
+-		drm_err(&gt->i915->drm, "Failed to add Spinner request: %d\n", ret);
++		guc_err(guc, "Failed to add Spinner request: %pe\n", ERR_PTR(ret));
+ 		goto err_spin_rq;
  	}
  
-@@ -727,7 +722,6 @@ guc_capture_output_min_size_est(struct intel_guc *guc)
- 
- static void check_guc_capture_size(struct intel_guc *guc)
- {
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	int min_size = guc_capture_output_min_size_est(guc);
- 	int spare_size = min_size * GUC_CAPTURE_OVERBUFFER_MULTIPLIER;
- 	u32 buffer_size = intel_guc_log_section_size_capture(&guc->log);
-@@ -741,13 +735,13 @@ static void check_guc_capture_size(struct intel_guc *guc)
- 	 * INTEL_GUC_STATE_CAPTURE_EVENT_STATUS_NOSPACE.
- 	 */
- 	if (min_size < 0)
--		drm_warn(&i915->drm, "Failed to calculate GuC error state capture buffer minimum size: %d!\n",
-+		guc_warn(guc, "Failed to calculate error state capture buffer minimum size: %d!\n",
- 			 min_size);
- 	else if (min_size > buffer_size)
--		drm_warn(&i915->drm, "GuC error state capture buffer maybe small: %d < %d\n",
-+		guc_warn(guc, "Error state capture buffer maybe small: %d < %d\n",
- 			 buffer_size, min_size);
- 	else if (spare_size > buffer_size)
--		drm_dbg(&i915->drm, "GuC error state capture buffer lacks spare size: %d < %d (min = %d)\n",
-+		guc_dbg(guc, "Error state capture buffer lacks spare size: %d < %d (min = %d)\n",
- 			buffer_size, spare_size, min_size);
- }
- 
-@@ -848,7 +842,6 @@ static int
- guc_capture_log_remove_dw(struct intel_guc *guc, struct __guc_capture_bufstate *buf,
- 			  u32 *dw)
- {
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	int tries = 2;
- 	int avail = 0;
- 	u32 *src_data;
-@@ -865,7 +858,7 @@ guc_capture_log_remove_dw(struct intel_guc *guc, struct __guc_capture_bufstate *
- 			return 4;
+@@ -192,9 +194,9 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	while (ret != -EAGAIN) {
+ 		ce[++context_index] = intel_context_create(engine);
+ 		if (IS_ERR(ce[context_index])) {
+-			ret = PTR_ERR(ce[context_index--]);
+-			ce[context_index] = NULL;
+-			drm_err(&gt->i915->drm, "Failed to create context: %d\n", ret);
++			ret = PTR_ERR(ce[context_index]);
++			guc_err(guc, "Failed to create context: %pe\n", ce[context_index]);
++			ce[context_index--] = NULL;
+ 			goto err_spin_rq;
  		}
- 		if (avail)
--			drm_dbg(&i915->drm, "GuC-Cap-Logs not dword aligned, skipping.\n");
-+			guc_dbg(guc, "Register capture log not dword aligned, skipping.\n");
- 		buf->rd = 0;
- 	}
  
-@@ -1118,13 +1111,12 @@ static void
- __guc_capture_create_prealloc_nodes(struct intel_guc *guc)
- {
- 	struct __guc_capture_parsed_output *node = NULL;
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	int i;
- 
- 	for (i = 0; i < PREALLOC_NODES_MAX_COUNT; ++i) {
- 		node = guc_capture_alloc_one_node(guc);
- 		if (!node) {
--			drm_warn(&i915->drm, "GuC Capture pre-alloc-cache failure\n");
-+			guc_warn(guc, "Register capture pre-alloc-cache failure\n");
- 			/* dont free the priors, use what we got and cleanup at shutdown */
- 			return;
- 		}
-@@ -1169,7 +1161,6 @@ guc_capture_create_prealloc_nodes(struct intel_guc *guc)
- static int
- guc_capture_extract_reglists(struct intel_guc *guc, struct __guc_capture_bufstate *buf)
- {
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	struct guc_state_capture_group_header_t ghdr = {0};
- 	struct guc_state_capture_header_t hdr = {0};
- 	struct __guc_capture_parsed_output *node = NULL;
-@@ -1183,7 +1174,7 @@ guc_capture_extract_reglists(struct intel_guc *guc, struct __guc_capture_bufstat
- 	if (!i)
- 		return -ENODATA;
- 	if (i % sizeof(u32)) {
--		drm_warn(&i915->drm, "GuC Capture new entries unaligned\n");
-+		guc_warn(guc, "Got mis-aligned register capture entries\n");
- 		ret = -EIO;
- 		goto bailout;
- 	}
-@@ -1301,7 +1292,7 @@ guc_capture_extract_reglists(struct intel_guc *guc, struct __guc_capture_bufstat
- 				break;
+@@ -203,8 +205,8 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 			ret = PTR_ERR(rq);
+ 			rq = NULL;
+ 			if (ret != -EAGAIN) {
+-				drm_err(&gt->i915->drm, "Failed to create request, %d: %d\n",
+-					context_index, ret);
++				guc_err(guc, "Failed to create request %d: %pe\n",
++					context_index, ERR_PTR(ret));
+ 				goto err_spin_rq;
  			}
- 			if (datatype != GUC_CAPTURE_LIST_TYPE_GLOBAL)
--				drm_dbg(&i915->drm, "GuC Capture missing global dump: %08x!\n",
-+				guc_dbg(guc, "Register capture missing global dump: %08x!\n",
- 					datatype);
- 		}
- 		node->is_partial = is_partial;
-@@ -1322,7 +1313,7 @@ guc_capture_extract_reglists(struct intel_guc *guc, struct __guc_capture_bufstat
+ 		} else {
+@@ -218,7 +220,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	igt_spinner_end(&spin);
+ 	ret = intel_selftest_wait_for_rq(spin_rq);
+ 	if (ret) {
+-		drm_err(&gt->i915->drm, "Spin request failed to complete: %d\n", ret);
++		guc_err(guc, "Spin request failed to complete: %pe\n", ERR_PTR(ret));
+ 		i915_request_put(last);
+ 		goto err_spin_rq;
+ 	}
+@@ -230,7 +232,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	ret = i915_request_wait(last, 0, HZ * 30);
+ 	i915_request_put(last);
+ 	if (ret < 0) {
+-		drm_err(&gt->i915->drm, "Last request failed to complete: %d\n", ret);
++		guc_err(guc, "Last request failed to complete: %pe\n", ERR_PTR(ret));
+ 		goto err_spin_rq;
+ 	}
  
- 		numregs = FIELD_GET(CAP_HDR_NUM_MMIOS, hdr.num_mmios);
- 		if (numregs > guc->capture->max_mmio_per_node) {
--			drm_dbg(&i915->drm, "GuC Capture list extraction clipped by prealloc!\n");
-+			guc_dbg(guc, "Register capture list extraction clipped by prealloc!\n");
- 			numregs = guc->capture->max_mmio_per_node;
- 		}
- 		node->reginfo[datatype].num_regs = numregs;
-@@ -1367,7 +1358,6 @@ static void __guc_capture_process_output(struct intel_guc *guc)
- {
- 	unsigned int buffer_size, read_offset, write_offset, full_count;
- 	struct intel_uc *uc = container_of(guc, typeof(*uc), guc);
--	struct drm_i915_private *i915 = guc_to_gt(guc)->i915;
- 	struct guc_log_buffer_state log_buf_state_local;
- 	struct guc_log_buffer_state *log_buf_state;
- 	struct __guc_capture_bufstate buf;
-@@ -1403,7 +1393,8 @@ static void __guc_capture_process_output(struct intel_guc *guc)
- 		write_offset = buffer_size;
- 	} else if (unlikely((read_offset > buffer_size) ||
- 			(write_offset > buffer_size))) {
--		drm_err(&i915->drm, "invalid GuC log capture buffer state!\n");
-+		guc_err(guc, "Register capture buffer in invalid state: read = 0x%X, size = 0x%X!\n",
-+			read_offset, buffer_size);
- 		/* copy whole buffer as offsets are unreliable */
- 		read_offset = 0;
- 		write_offset = buffer_size;
-@@ -1586,13 +1577,11 @@ void intel_guc_capture_get_matching_node(struct intel_gt *gt,
- 					 struct intel_context *ce)
- {
- 	struct __guc_capture_parsed_output *n, *ntmp;
--	struct drm_i915_private *i915;
- 	struct intel_guc *guc;
+@@ -238,7 +240,7 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	rq = nop_user_request(ce[context_index], NULL);
+ 	if (IS_ERR(rq)) {
+ 		ret = PTR_ERR(rq);
+-		drm_err(&gt->i915->drm, "Failed to steal guc_id, %d: %d\n", context_index, ret);
++		guc_err(guc, "Failed to steal guc_id %d: %pe\n", context_index, rq);
+ 		goto err_spin_rq;
+ 	}
  
- 	if (!gt || !ee || !ce)
- 		return;
+@@ -246,20 +248,20 @@ static int intel_guc_steal_guc_ids(void *arg)
+ 	ret = i915_request_wait(rq, 0, HZ);
+ 	i915_request_put(rq);
+ 	if (ret < 0) {
+-		drm_err(&gt->i915->drm, "Request with stolen guc_id failed to complete: %d\n", ret);
++		guc_err(guc, "Request with stolen guc_id failed to complete: %pe\n", ERR_PTR(ret));
+ 		goto err_spin_rq;
+ 	}
  
--	i915 = gt->i915;
- 	guc = &gt->uc.guc;
- 	if (!guc->capture)
- 		return;
-@@ -1615,7 +1604,9 @@ void intel_guc_capture_get_matching_node(struct intel_gt *gt,
- 			return;
+ 	/* Wait for idle */
+ 	ret = intel_gt_wait_for_idle(gt, HZ * 30);
+ 	if (ret < 0) {
+-		drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
++		guc_err(guc, "GT failed to idle: %pe\n", ERR_PTR(ret));
+ 		goto err_spin_rq;
+ 	}
+ 
+ 	/* Verify a guc_id was stolen */
+ 	if (guc->number_guc_id_stolen == number_guc_id_stolen) {
+-		drm_err(&gt->i915->drm, "No guc_id was stolen");
++		guc_err(guc, "No guc_id was stolen");
+ 		ret = -EINVAL;
+ 	} else {
+ 		ret = 0;
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c
+index d91b58f704039..34b5d952e2bcb 100644
+--- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_hangcheck.c
+@@ -3,6 +3,7 @@
+  * Copyright © 2022 Intel Corporation
+  */
+ 
++#include "gt/intel_gt_print.h"
+ #include "selftests/igt_spinner.h"
+ #include "selftests/igt_reset.h"
+ #include "selftests/intel_scheduler_helpers.h"
+@@ -45,7 +46,7 @@ static int intel_hang_guc(void *arg)
+ 
+ 	ctx = kernel_context(gt->i915, NULL);
+ 	if (IS_ERR(ctx)) {
+-		drm_err(&gt->i915->drm, "Failed get kernel context: %ld\n", PTR_ERR(ctx));
++		gt_err(gt, "Failed get kernel context: %pe\n", ctx);
+ 		return PTR_ERR(ctx);
+ 	}
+ 
+@@ -54,7 +55,7 @@ static int intel_hang_guc(void *arg)
+ 	ce = intel_context_create(engine);
+ 	if (IS_ERR(ce)) {
+ 		ret = PTR_ERR(ce);
+-		drm_err(&gt->i915->drm, "Failed to create spinner request: %d\n", ret);
++		gt_err(gt, "Failed to create spinner request: %pe\n", ce);
+ 		goto err;
+ 	}
+ 
+@@ -63,13 +64,13 @@ static int intel_hang_guc(void *arg)
+ 	old_beat = engine->props.heartbeat_interval_ms;
+ 	ret = intel_engine_set_heartbeat(engine, BEAT_INTERVAL);
+ 	if (ret) {
+-		drm_err(&gt->i915->drm, "Failed to boost heatbeat interval: %d\n", ret);
++		gt_err(gt, "Failed to boost heatbeat interval: %pe\n", ERR_PTR(ret));
+ 		goto err;
+ 	}
+ 
+ 	ret = igt_spinner_init(&spin, engine->gt);
+ 	if (ret) {
+-		drm_err(&gt->i915->drm, "Failed to create spinner: %d\n", ret);
++		gt_err(gt, "Failed to create spinner: %pe\n", ERR_PTR(ret));
+ 		goto err;
+ 	}
+ 
+@@ -77,28 +78,28 @@ static int intel_hang_guc(void *arg)
+ 	intel_context_put(ce);
+ 	if (IS_ERR(rq)) {
+ 		ret = PTR_ERR(rq);
+-		drm_err(&gt->i915->drm, "Failed to create spinner request: %d\n", ret);
++		gt_err(gt, "Failed to create spinner request: %pe\n", rq);
+ 		goto err_spin;
+ 	}
+ 
+ 	ret = request_add_spin(rq, &spin);
+ 	if (ret) {
+ 		i915_request_put(rq);
+-		drm_err(&gt->i915->drm, "Failed to add Spinner request: %d\n", ret);
++		gt_err(gt, "Failed to add Spinner request: %pe\n", ERR_PTR(ret));
+ 		goto err_spin;
+ 	}
+ 
+ 	ret = intel_reset_guc(gt);
+ 	if (ret) {
+ 		i915_request_put(rq);
+-		drm_err(&gt->i915->drm, "Failed to reset GuC, ret = %d\n", ret);
++		gt_err(gt, "Failed to reset GuC: %pe\n", ERR_PTR(ret));
+ 		goto err_spin;
+ 	}
+ 
+ 	guc_status = intel_uncore_read(gt->uncore, GUC_STATUS);
+ 	if (!(guc_status & GS_MIA_IN_RESET)) {
+ 		i915_request_put(rq);
+-		drm_err(&gt->i915->drm, "GuC failed to reset: status = 0x%08X\n", guc_status);
++		gt_err(gt, "Failed to reset GuC: status = 0x%08X\n", guc_status);
+ 		ret = -EIO;
+ 		goto err_spin;
+ 	}
+@@ -107,12 +108,12 @@ static int intel_hang_guc(void *arg)
+ 	ret = intel_selftest_wait_for_rq(rq);
+ 	i915_request_put(rq);
+ 	if (ret) {
+-		drm_err(&gt->i915->drm, "Request failed to complete: %d\n", ret);
++		gt_err(gt, "Request failed to complete: %pe\n", ERR_PTR(ret));
+ 		goto err_spin;
+ 	}
+ 
+ 	if (i915_reset_count(global) == reset_count) {
+-		drm_err(&gt->i915->drm, "Failed to record a GPU reset\n");
++		gt_err(gt, "Failed to record a GPU reset\n");
+ 		ret = -EINVAL;
+ 		goto err_spin;
+ 	}
+@@ -132,7 +133,7 @@ static int intel_hang_guc(void *arg)
+ 		ret = intel_selftest_wait_for_rq(rq);
+ 		i915_request_put(rq);
+ 		if (ret) {
+-			drm_err(&gt->i915->drm, "No-op failed to complete: %d\n", ret);
++			gt_err(gt, "No-op failed to complete: %pe\n", ERR_PTR(ret));
+ 			goto err;
  		}
  	}
--	drm_dbg(&i915->drm, "GuC capture can't match ee to node\n");
-+
-+	guc_warn(guc, "No register capture node found for 0x%04X / 0x%08X\n",
-+		 ce->guc_id.id, ce->lrc.lrca);
- }
+diff --git a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+index d17982c36d256..a40e7c32e6137 100644
+--- a/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
++++ b/drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
+@@ -3,6 +3,7 @@
+  * Copyright �� 2019 Intel Corporation
+  */
  
- void intel_guc_capture_process(struct intel_guc *guc)
++#include "gt/intel_gt_print.h"
+ #include "selftests/igt_spinner.h"
+ #include "selftests/igt_reset.h"
+ #include "selftests/intel_scheduler_helpers.h"
+@@ -115,30 +116,30 @@ static int __intel_guc_multi_lrc_basic(struct intel_gt *gt, unsigned int class)
+ 
+ 	parent = multi_lrc_create_parent(gt, class, 0);
+ 	if (IS_ERR(parent)) {
+-		drm_err(&gt->i915->drm, "Failed creating contexts: %ld", PTR_ERR(parent));
++		gt_err(gt, "Failed creating contexts: %pe\n", parent);
+ 		return PTR_ERR(parent);
+ 	} else if (!parent) {
+-		drm_dbg(&gt->i915->drm, "Not enough engines in class: %d", class);
++		gt_dbg(gt, "Not enough engines in class: %d\n", class);
+ 		return 0;
+ 	}
+ 
+ 	rq = multi_lrc_nop_request(parent);
+ 	if (IS_ERR(rq)) {
+ 		ret = PTR_ERR(rq);
+-		drm_err(&gt->i915->drm, "Failed creating requests: %d", ret);
++		gt_err(gt, "Failed creating requests: %pe\n", rq);
+ 		goto out;
+ 	}
+ 
+ 	ret = intel_selftest_wait_for_rq(rq);
+ 	if (ret)
+-		drm_err(&gt->i915->drm, "Failed waiting on request: %d", ret);
++		gt_err(gt, "Failed waiting on request: %pe\n", ERR_PTR(ret));
+ 
+ 	i915_request_put(rq);
+ 
+ 	if (ret >= 0) {
+ 		ret = intel_gt_wait_for_idle(gt, HZ * 5);
+ 		if (ret < 0)
+-			drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
++			gt_err(gt, "GT failed to idle: %pe\n", ERR_PTR(ret));
+ 	}
+ 
+ out:
 -- 
 2.39.1
 
