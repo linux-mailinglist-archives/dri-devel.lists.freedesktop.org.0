@@ -1,83 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBC768D4A8
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 11:43:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2734868D4BB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 11:47:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4A410E4BF;
-	Tue,  7 Feb 2023 10:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB7210E4D7;
+	Tue,  7 Feb 2023 10:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 957F810E00A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 10:43:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675766623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e9w8e2JcvMX6iMDnX/Jbx1d9onPql+IXVufG06c+nXs=;
- b=CWr2TY3bkpiHSA9OMEFpvNQ3EB+h/JmRrfHwHkpg+bAzAXaE9vWXfnUkcAzRvSX379md9c
- JsoawLCBokXsnvrHkP8mM0NdV6mVNXE240G+PtNJJ3OcSi0qCMVzcnnhCIJRmvJKz2PVF7
- 4Ri6Hl5Hs0XrKRxl9YB3NuvJo+C0AdM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-627-Z9-IsqmQPgC0YbIMCOUNEA-1; Tue, 07 Feb 2023 05:43:41 -0500
-X-MC-Unique: Z9-IsqmQPgC0YbIMCOUNEA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n7-20020a05600c3b8700b003dc55dcb298so7960764wms.8
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 02:43:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e9w8e2JcvMX6iMDnX/Jbx1d9onPql+IXVufG06c+nXs=;
- b=krgwLWVx+ISVd0AGNwDlp/S4w/UBU+Pub6GY7JHJ23QYx2Q3SOCqNCryVLcOgl3rDL
- pnnm+OM6lx3ejPVRT1IG4PO8EsKp1xEhfUw95NRagFov8LmF1fDeDhHQ/UDYgmTJblbh
- JsESxX/0SnDNdk86RhyDtFqJFJAcn+Vxo39eCT2511a44S69DtYC/ZOQVrK45bs1Izwz
- zcojk1MilOW+04THiTUFA0EMXaKF0TkaacZA3KjWMqisYQ6CSxDqn0znYLt8pCMVpq2f
- 7EiaI/ny7XLCKTNsd3QI4jBHEilN6lqwoOafPJLwijmbbw1ss9oRGdVMf5VTO8OcCugq
- /glQ==
-X-Gm-Message-State: AO0yUKU1KmyAhpXcRmUMIHjNbhdng+reoHA8PM6WCJRTdCb6Mt1YdOq2
- BDhF4Ciz2yqXFJw95O1bhfjYWa8wnvb3dIqyH+cs3fsD7ouHGrD654ZcgY4Y1aYEG+OnU683mh6
- DCXiF9x28X2SSO18zo0bQb6D+YfX6
-X-Received: by 2002:a05:600c:a68f:b0:3db:1f68:28f with SMTP id
- ip15-20020a05600ca68f00b003db1f68028fmr2479699wmb.24.1675766620729; 
- Tue, 07 Feb 2023 02:43:40 -0800 (PST)
-X-Google-Smtp-Source: AK7set+3X9OYULToFjxq0/e5ycg2dn+KVQVTkxzR4pq1pJZIYm4hVjPpyQn+MPCc8jKQ+WKwgg9A/w==
-X-Received: by 2002:a05:600c:a68f:b0:3db:1f68:28f with SMTP id
- ip15-20020a05600ca68f00b003db1f68028fmr2479685wmb.24.1675766620553; 
- Tue, 07 Feb 2023 02:43:40 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- r16-20020a05600c459000b003e00c9888besm2692340wmo.30.2023.02.07.02.43.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 02:43:40 -0800 (PST)
-Message-ID: <a69c7362-52a5-ed26-ce12-69364d12fcf6@redhat.com>
-Date: Tue, 7 Feb 2023 11:43:39 +0100
+Received: from xvfrqvdb.outbound-mail.sendgrid.net
+ (xvfrqvdb.outbound-mail.sendgrid.net [168.245.72.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E945910E4C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 10:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=mime-version:subject:references:from:in-reply-to:to:cc:content-type:
+ content-transfer-encoding:cc:content-type:from:subject:to;
+ s=s1; bh=TeAdhsuUySgsdqKZYCpqGccwXzV0io+AS8hRGWmXEzg=;
+ b=OJeVZ2XCYIMUjXnQCZCRtKi4uAIA+R8R3U6KzwNTBEeTnNpW0vbX4f7xLaJvbG1X78Jp
+ +rI2B45lH2O1lnHI0gqxWNscrSWpXY95mhX/69wPFNOyaVkXj3jOrpfTqbQYEuR7IN5C91
+ I6VDJ0ffuSBI8OmzcbzhCwRmjvRqtwN89mDpy6QpfgcZN6P1NTlT1RT4llyZYcQaJ2YR1v
+ vZXJHdGXxW33pIju5Y6t265z52XH+mRPJ6/hdL/LluQvRhsL1TNZucAb1gvbzj2tKkEN8Z
+ Qm4jeVnqi1c5Q1MsihIDEuUPbQGFNJNiZ51/MSxKaN0LBHLU/5kNs5+j77gZpPwA==
+Received: by filterdrecv-canary-675586c97f-ljfkn with SMTP id
+ filterdrecv-canary-675586c97f-ljfkn-1-63E22C19-13
+ 2023-02-07 10:46:49.664940703 +0000 UTC m=+7040478.176689283
+Received: from [192.168.1.50] (unknown) by geopod-ismtpd-2-2 (SG) with ESMTP
+ id zrmb6FtdQoGbFyn2IO06qw Tue, 07 Feb 2023 10:46:49.253 +0000 (UTC)
+Message-ID: <547c8e94-f2eb-2125-24fe-0dc035f9d6d2@kwiboo.se>
+Date: Tue, 07 Feb 2023 10:46:49 +0000 (UTC)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
- drm_gem_shmem_get_pages_sgt()
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230205125124.2260-1-lina@asahilina.net>
- <a1cd8c74-98f4-bff0-0344-cbece787c6e8@redhat.com>
- <d3331cf8-02df-bf15-586b-af9d10830758@asahilina.net>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <d3331cf8-02df-bf15-586b-af9d10830758@asahilina.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v4 1/4] drm/rockchip: vop: limit maximium resolution to
+ hardware capabilities
+References: <20230207084452.1069656-1-s.hauer@pengutronix.de>
+ <20230207084452.1069656-2-s.hauer@pengutronix.de>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20230207084452.1069656-2-s.hauer@pengutronix.de>
+X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
+ =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0hxdinM3QjwPf5Tzoe?=
+ =?us-ascii?Q?092bIWsa6F9TrIo12o=2FbuD3lC=2FgSK+MsYP54WjZ?=
+ =?us-ascii?Q?GGClw8SG2ioUs4Xs1J4lRZbmfuYk6e6IGrDyByh?=
+ =?us-ascii?Q?=2FJH=2F7P1DdQt+78trVEJ=2Fqvb9d6RaNNI3qaDV8Ik?=
+ =?us-ascii?Q?v=2FT5JS6yqjQmlXD2ddykyPUyHpJBnbt=2FGyQ1A2u?=
+ =?us-ascii?Q?3pWgZ5ThngR5XsdPn6Vmw=3D=3D?=
+To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
+X-Entity-ID: P7KYpSJvGCELWjBME/J5tg==
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,72 +62,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- linux-kernel@vger.kernel.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- asahi@lists.linux.dev
+Cc: Dan Johansen <strit@manjaro.org>, Sandy Huang <hjc@rock-chips.com>,
+ linux-rockchip@lists.infradead.org, FUKAUMI Naoki <naoki@radxa.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/7/23 11:33, Asahi Lina wrote:
-> On 07/02/2023 03.47, Javier Martinez Canillas wrote:
->> Hello Lina,
->>
->> On 2/5/23 13:51, Asahi Lina wrote:
->>> Other functions touching shmem->sgt take the pages lock, so do that here
->>> too. drm_gem_shmem_get_pages() & co take the same lock, so move to the
->>> _locked() variants to avoid recursive locking.
->>>
->>> Discovered while auditing locking to write the Rust abstractions.
->>>
->>> Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
->>> Fixes: 4fa3d66f132b ("drm/shmem: Do dma_unmap_sg before purging pages")
->>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>> ---
->>
->> Good catch. The patch looks good to me.
->>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->>
->> What about drm_gem_shmem_free() BTW, I believe that the helper should also
->> grab the lock before unmap / free the sgtable?
+Hi Sascha,
+On 2023-02-07 09:44, Sascha Hauer wrote:
+> The different VOP variants support different maximum resolutions. Reject
+> resolutions that are not supported by a specific variant.
 > 
-> That's called from driver free callbacks, so it should only be called
-> when there are no other users left and the refcount is zero, right? If
-> there's anyone else racing it I think we have bigger problems than the
-> pages lock at that point, since the last thing it does is `kfree(shmem);` ^^
->
+> This hasn't been a problem in the upstream driver so far as 1920x1080
+> has been the maximum resolution supported by the HDMI driver and that
+> resolution is supported by all VOP variants. Now with higher resolutions
+> supported in the HDMI driver we have to limit the resolutions to the
+> ones supported by the VOP.
+> 
+> The actual maximum resolutions are taken from the Rockchip downstream
+> Kernel.
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+> 
+> Notes:
+>     Changes since v3:
+>     - new patch
+> 
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 15 ++++++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  2 ++
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 31 +++++++++++++++++++++
+>  3 files changed, 48 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> index fa1f4ee6d1950..96b6bd8d17803 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -1174,6 +1174,20 @@ static void vop_crtc_disable_vblank(struct drm_crtc *crtc)
+>  	spin_unlock_irqrestore(&vop->irq_lock, flags);
+>  }
+>  
+> +static enum drm_mode_status vop_crtc_mode_valid(struct drm_crtc *crtc,
+> +						const struct drm_display_mode *mode)
+> +{
+> +	struct vop *vop = to_vop(crtc);
+> +
+> +	if (vop->data->max_xres && mode->hdisplay > vop->data->max_xres)
+> +		return MODE_BAD_HVALUE;
+> +
+> +	if (vop->data->max_yres && mode->vdisplay > vop->data->max_yres)
+> +		return MODE_BAD_VVALUE;
+> +
+> +	return MODE_OK;
+> +}
+> +
+>  static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
+>  				const struct drm_display_mode *mode,
+>  				struct drm_display_mode *adjusted_mode)
+> @@ -1585,6 +1599,7 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+>  }
+>  
+>  static const struct drm_crtc_helper_funcs vop_crtc_helper_funcs = {
+> +	.mode_valid = vop_crtc_mode_valid,
+>  	.mode_fixup = vop_crtc_mode_fixup,
+>  	.atomic_check = vop_crtc_atomic_check,
+>  	.atomic_begin = vop_crtc_atomic_begin,
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> index 8502849833d93..5c4875ca3f270 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> @@ -225,6 +225,8 @@ struct vop_data {
+>  	const struct vop_win_data *win;
+>  	unsigned int win_size;
+>  	unsigned int lut_size;
+> +	unsigned int max_xres;
+> +	unsigned int max_yres;
 
-Yes, I was wondering only for the critical section that does:
+I would suggest using the same struct vop_rect max_input/output as the
+vop2 driver instead of handling this differently between the two.
 
-		if (shmem->sgt) {
-			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
-					  DMA_BIDIRECTIONAL, 0);
-			sg_free_table(shmem->sgt);
-			kfree(shmem->sgt);
-		}
-		if (shmem->pages)
-			drm_gem_shmem_put_pages(shmem);
- 
-> (In Rust terms this is equivalent to the Drop trait, which takes a
-> mutable/exclusive reference, which means no other reference to the
-> object can exist at that point, so no races are possible. And in fact in
-> my Rust abstraction I trigger a drop of the Rust object embedded in the
-> shmem object before calling drm_gem_shmem_free(), so if this invariant
-> doesn't hold that code would be wrong too!)
->
+Regards,
+Jonas
 
-But I guess you are correct and would be safe to assume that the .free
-callback won't race against other struct drm_gem_object_funcs handlers.
-I just felt to ask since wasn't sure about that.
- 
-I'll wait a few days in case someone else wants to take a look to your
-patch and then push it to drm-misc. Thanks again! 
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+>  
+>  #define VOP_FEATURE_OUTPUT_RGB10	BIT(0)
+>  #define VOP_FEATURE_INTERNAL_RGB	BIT(1)
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> index 014f99e8928e3..dc1a703d9d1a8 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> @@ -181,6 +181,8 @@ static const struct vop_data rk3036_vop = {
+>  	.output = &rk3036_output,
+>  	.win = rk3036_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3036_vop_win_data),
+> +	.max_xres = 1920,
+> +	.max_yres = 1080,
+>  };
+>  
+>  static const struct vop_win_phy rk3126_win1_data = {
+> @@ -213,6 +215,8 @@ static const struct vop_data rk3126_vop = {
+>  	.output = &rk3036_output,
+>  	.win = rk3126_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3126_vop_win_data),
+> +	.max_xres = 1920,
+> +	.max_yres = 1080,
+>  };
+>  
+>  static const int px30_vop_intrs[] = {
+> @@ -340,6 +344,8 @@ static const struct vop_data px30_vop_big = {
+>  	.output = &px30_output,
+>  	.win = px30_vop_big_win_data,
+>  	.win_size = ARRAY_SIZE(px30_vop_big_win_data),
+> +	.max_xres = 1920,
+> +	.max_yres = 1080,
+>  };
+>  
+>  static const struct vop_win_data px30_vop_lit_win_data[] = {
+> @@ -356,6 +362,8 @@ static const struct vop_data px30_vop_lit = {
+>  	.output = &px30_output,
+>  	.win = px30_vop_lit_win_data,
+>  	.win_size = ARRAY_SIZE(px30_vop_lit_win_data),
+> +	.max_xres = 1920,
+> +	.max_yres = 1080,
+>  };
+>  
+>  static const struct vop_scl_regs rk3066_win_scl = {
+> @@ -479,6 +487,8 @@ static const struct vop_data rk3066_vop = {
+>  	.output = &rk3066_output,
+>  	.win = rk3066_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3066_vop_win_data),
+> +	.max_xres = 1920,
+> +	.max_yres = 1080,
+>  };
+>  
+>  static const struct vop_scl_regs rk3188_win_scl = {
+> @@ -585,6 +595,8 @@ static const struct vop_data rk3188_vop = {
+>  	.win = rk3188_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3188_vop_win_data),
+>  	.feature = VOP_FEATURE_INTERNAL_RGB,
+> +	.max_xres = 2048,
+> +	.max_yres = 1536,
+>  };
+>  
+>  static const struct vop_scl_extension rk3288_win_full_scl_ext = {
+> @@ -732,6 +744,13 @@ static const struct vop_data rk3288_vop = {
+>  	.win = rk3288_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
+>  	.lut_size = 1024,
+> +	/*
+> +	 * This is the maximum resolution for the VOPB, the VOPL can only do
+> +	 * 2560x1600, but we can't distinguish them as they have the same
+> +	 * compatible.
+> +	 */
+> +	.max_xres = 3840,
+> +	.max_yres = 2160,
+>  };
+>  
+>  static const int rk3368_vop_intrs[] = {
+> @@ -833,6 +852,8 @@ static const struct vop_data rk3368_vop = {
+>  	.misc = &rk3368_misc,
+>  	.win = rk3368_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3368_vop_win_data),
+> +	.max_xres = 4096,
+> +	.max_yres = 2160,
+>  };
+>  
+>  static const struct vop_intr rk3366_vop_intr = {
+> @@ -854,6 +875,8 @@ static const struct vop_data rk3366_vop = {
+>  	.misc = &rk3368_misc,
+>  	.win = rk3368_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3368_vop_win_data),
+> +	.max_xres = 4096,
+> +	.max_yres = 2160,
+>  };
+>  
+>  static const struct vop_output rk3399_output = {
+> @@ -984,6 +1007,8 @@ static const struct vop_data rk3399_vop_big = {
+>  	.win_size = ARRAY_SIZE(rk3399_vop_win_data),
+>  	.win_yuv2yuv = rk3399_vop_big_win_yuv2yuv_data,
+>  	.lut_size = 1024,
+> +	.max_xres = 4096,
+> +	.max_yres = 2160,
+>  };
+>  
+>  static const struct vop_win_data rk3399_vop_lit_win_data[] = {
+> @@ -1010,6 +1035,8 @@ static const struct vop_data rk3399_vop_lit = {
+>  	.win_size = ARRAY_SIZE(rk3399_vop_lit_win_data),
+>  	.win_yuv2yuv = rk3399_vop_lit_win_yuv2yuv_data,
+>  	.lut_size = 256,
+> +	.max_xres = 2560,
+> +	.max_yres = 1600,
+>  };
+>  
+>  static const struct vop_win_data rk3228_vop_win_data[] = {
+> @@ -1029,6 +1056,8 @@ static const struct vop_data rk3228_vop = {
+>  	.misc = &rk3368_misc,
+>  	.win = rk3228_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3228_vop_win_data),
+> +	.max_xres = 4096,
+> +	.max_yres = 2160,
+>  };
+>  
+>  static const struct vop_modeset rk3328_modeset = {
+> @@ -1100,6 +1129,8 @@ static const struct vop_data rk3328_vop = {
+>  	.misc = &rk3328_misc,
+>  	.win = rk3328_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3328_vop_win_data),
+> +	.max_xres = 4096,
+> +	.max_yres = 2160,
+>  };
+>  
+>  static const struct of_device_id vop_driver_dt_match[] = {
 
