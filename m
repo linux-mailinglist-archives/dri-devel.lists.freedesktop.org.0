@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE0C68D1AC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 09:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BD168D20C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 10:07:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAF7610E47D;
-	Tue,  7 Feb 2023 08:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2675A10E480;
+	Tue,  7 Feb 2023 09:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31C7910E477
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 08:45:53 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1pPJbj-0002Pp-5t; Tue, 07 Feb 2023 09:45:43 +0100
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <sha@pengutronix.de>)
- id 1pPJbc-003FF6-UV; Tue, 07 Feb 2023 09:45:38 +0100
-Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <sha@pengutronix.de>)
- id 1pPJbd-004UQ6-EF; Tue, 07 Feb 2023 09:45:37 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 4/4] drm/rockchip: dw_hdmi: discard modes with unachievable
- pixelclocks
-Date: Tue,  7 Feb 2023 09:44:52 +0100
-Message-Id: <20230207084452.1069656-5-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230207084452.1069656-1-s.hauer@pengutronix.de>
-References: <20230207084452.1069656-1-s.hauer@pengutronix.de>
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1114B10E1B7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 09:07:10 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
+ tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1pPJwG-001RJZ-JC; Tue, 07 Feb 2023 10:06:56 +0100
+Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100]
+ helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
+ with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1pPJwE-000mCw-Hc; Tue, 07 Feb 2023 10:06:56 +0100
+Message-ID: <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
+Subject: Re: remove arch/sh
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Christoph Hellwig <hch@lst.de>
+Date: Tue, 07 Feb 2023 10:06:53 +0100
+In-Reply-To: <20230203071423.GA24833@lst.de>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+ <20230203071423.GA24833@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.148.100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,49 +52,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Johansen <strit@manjaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- linux-rockchip@lists.infradead.org, FUKAUMI Naoki <naoki@radxa.com>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Robin Murphy <robin.murphy@arm.com>
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-gpio@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Rockchip PLL drivers are currently table based and support only
-the most common pixelclocks. Discard all modes we cannot achieve
-at all. Normally the desired pixelclocks have an exact match in the
-PLL driver, nevertheless allow for a 0.1% error just in case.
+Hello Christoph!
 
-Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
-Tested-by: Dan Johansen <strit@manjaro.org>
-Link: https://lore.kernel.org/r/20230118132213.2911418-4-s.hauer@pengutronix.de
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On Fri, 2023-02-03 at 08:14 +0100, Christoph Hellwig wrote:
+> On Mon, Jan 16, 2023 at 09:52:10AM +0100, John Paul Adrian Glaubitz wrote=
+:
+> > We have had a discussion between multiple people invested in the SuperH=
+ port and
+> > I have decided to volunteer as a co-maintainer of the port to support R=
+ich Felker
+> > when he isn't available.
+>=20
+> So, this still isn't reflected in MAINTAINERS in linux-next.  When
+> do you plan to take over?  What platforms will remain supported and
+> what can we start dropping due to being unused and unmaintained?
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index feba6b9becd6c..725952811752b 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -256,10 +256,14 @@ dw_hdmi_rockchip_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
- {
- 	struct rockchip_hdmi *hdmi = data;
- 	const struct dw_hdmi_mpll_config *mpll_cfg = rockchip_mpll_cfg;
--	int pclk = mode->clock * 1000;
-+	int rpclk, pclk = mode->clock * 1000;
- 	bool exact_match = hdmi->plat_data->phy_force_vendor;
- 	int i;
- 
-+	rpclk = clk_round_rate(hdmi->ref_clk, pclk);
-+	if (abs(rpclk - pclk) > pclk / 1000)
-+		return MODE_NOCLOCK;
-+
- 	for (i = 0; mpll_cfg[i].mpixelclock != (~0UL); i++) {
- 		/*
- 		 * For vendor specific phys force an exact match of the pixelclock
--- 
-2.30.2
+I'm getting everything ready now with Geert's help and I have a probably du=
+mb
+question regarding the MAINTAINERS file change: Shall I just add myself as =
+an
+additional maintainer first or shall I also drop Yoshinori Sato?
 
+Also, is it desirable to add a "T:" entry for the kernel tree?
+
+Thanks,
+Adrian
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
