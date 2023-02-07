@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5767468DE1F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 17:42:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3308F68DE1E
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 17:42:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4B9910E56B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A503D10E54F;
 	Tue,  7 Feb 2023 16:42:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 589 seconds by postgrey-1.36 at gabe;
- Tue, 07 Feb 2023 09:48:10 UTC
-Received: from mr85p00im-ztdg06011901.me.com (mr85p00im-ztdg06011901.me.com
- [17.58.23.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5741210E4B7
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 09:48:10 +0000 (UTC)
+X-Greylist: delayed 452 seconds by postgrey-1.36 at gabe;
+ Tue, 07 Feb 2023 10:14:07 UTC
+Received: from st43p00im-zteg10063501.me.com (st43p00im-zteg10063501.me.com
+ [17.58.63.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C381110E1A5
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 10:14:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1675762700;
+ s=1a1hai; t=1675764394;
  bh=uy/u/jBsLuDEhP7DZbXSmCIaVmd50OFJVFk6lVxCMTQ=;
  h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=IdNaGH+xWpP+bEltJRBGwq59N1vzX3jRcn7IhWiCvXkemsmknYb+6kk0LZu5kmHoj
- tlq5PJLm8RNV99aLNv9gGEDlVFmfJM7Et5WeRxe9gnQpl++lhJFay1zpfTUhgNrET0
- bQ+Z8ZDYaqVHIN3vYw8n8yIk5qEC3Ub3ORFS15RgKIXNOB4haO0SvnEDlzlneLeAoe
- iVKYZ++43efkadZ8DQ/Wup4kDpw0xgTPIjDSkPGV9GJ9tlSNg0HKMy5jJyW9X3z7pc
- 1d/CzEEeK2m1yI6xwAGHoh2yVboWm8/MUf/EYUgOyiFasaysIiRJWLDyEnF6MSTqyP
- ycyjMkjY6cDxw==
-Received: from apollo.fritz.box (mr38p00im-dlb-asmtp-mailmevip.me.com
- [17.57.152.18])
- by mr85p00im-ztdg06011901.me.com (Postfix) with ESMTPSA id 9F4F790056A;
- Tue,  7 Feb 2023 09:38:18 +0000 (UTC)
+ b=WE5GgMq/MzwH3oRueLocrSeoZKe//cptxsnNPSY1ZBvNgM05+hC8sEMOsNN5hBhzZ
+ C9i09bsvt7WkMCX0sjEZXoBP/Q6oG1v/9+ypNeEbIdjctQDhAIWH35s9pIcBtTbLkm
+ VhbMC5+z6c7FCo+wkYEReLGEbhrTFeIgrPVSS1hoIhDVmWQ6iZU7nNuxanUVep+sYn
+ Cwdn2HNfqRJKLV9vX79byWHAEuhdofpGC4UqjujvfUodn2d94kMJNWlzpStXiy/jk9
+ MWUqibOgw4NF+4jMyHdWnAXKbSphTdorNV5Wr3brrkUQJVta4TKuLuVBh0KdosMKDa
+ zBY/KIbGporHw==
+Received: from apollo.fritz.box (st43p00im-dlb-asmtp-mailmevip.me.com
+ [17.42.251.41])
+ by st43p00im-zteg10063501.me.com (Postfix) with ESMTPSA id 308374C17A5;
+ Tue,  7 Feb 2023 10:06:33 +0000 (UTC)
 From: Lucy Mielke <mielkesteven@icloud.com>
 To: deller@gmx.de, linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Subject: [PATCH] fbdev: omapfb: cleanup inconsistent indentation
-Date: Tue,  7 Feb 2023 10:36:11 +0100
-Message-Id: <20230207093611.9361-1-mielkesteven@icloud.com>
+Date: Tue,  7 Feb 2023 11:06:30 +0100
+Message-Id: <20230207100630.11644-1-mielkesteven@icloud.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: s1KjAHgi32XVWN0sMXv-uTz5FlrRyFXw
-X-Proofpoint-ORIG-GUID: s1KjAHgi32XVWN0sMXv-uTz5FlrRyFXw
+X-Proofpoint-GUID: Gq_PqnEGhE0xunAGRdTHGMQPVdHOi2Vh
+X-Proofpoint-ORIG-GUID: Gq_PqnEGhE0xunAGRdTHGMQPVdHOi2Vh
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.572,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-14=5F01:2022-01-14=5F01,2020-02-14=5F11,2021-12-02?=
  =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 clxscore=1011
- mlxlogscore=791 phishscore=0 malwarescore=0 suspectscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2302070086
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0 clxscore=1015
+ malwarescore=0 mlxlogscore=681 phishscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2302070090
 X-Mailman-Approved-At: Tue, 07 Feb 2023 16:42:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,8 +62,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucy Mielke <mielkesteven@icloud.com>, linux-kernel@vger.kernel.org,
- arnd@arndb.de, kernel test robot <lkp@intel.com>
+Cc: linux-kernel@vger.kernel.org, arnd@arndb.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
