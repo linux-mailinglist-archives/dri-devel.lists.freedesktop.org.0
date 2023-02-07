@@ -1,55 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5464168D634
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC8468D6D1
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 13:34:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8291510E163;
-	Tue,  7 Feb 2023 12:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF4C10E008;
+	Tue,  7 Feb 2023 12:34:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5727C10E055;
- Tue,  7 Feb 2023 12:11:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675771881; x=1707307881;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Iv1LhCTMrGj4lvOxxSzPqucf9wxFSxlQiom2lewwImI=;
- b=QVSlr/bH2EYO64o7q+9drGXB6iD80xjxqo1vYCpRrZ2G7CGIYuHRHu3W
- tVvf+j0GgAKCWdUYdXSt1wA3T2Y5mCrGkrcwevkGY3xJ8ePBgbMd66wsO
- sgAks+iW4s3mZvGDSwgOT6BeqC+nfB2A420GeCNKjnIRXGqMRpBjnYSjh
- G7U6mlD6pE4+Awqw0i4XYKxwTOQzehvYidq9fDl+S0v4uR545qBXgMSfT
- TnB3sRtwFRRRdYEnv0mM8nPuz9iVIBy6rQRmvU5kpDRl8ik+MqCO52Nos
- XB7S0YQhWLXu/HwhDxBdKzFy1n84YCpp3jyNFEg+7tVtNL6xoOmAJf7Lk g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="317506102"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="317506102"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2023 04:11:20 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="644429963"
-X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="644429963"
-Received: from ideak-desk.fi.intel.com ([10.237.72.58])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2023 04:11:17 -0800
-Date: Tue, 7 Feb 2023 14:11:14 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH v2 02/17] drm/display/dp_mst: Handle old/new payload
- states in drm_dp_remove_payload()
-Message-ID: <Y+I/wcEExBEbAV4L@ideak-desk.fi.intel.com>
-References: <20230131150548.1614458-1-imre.deak@intel.com>
- <20230131150548.1614458-3-imre.deak@intel.com>
- <ed8b73096a576f317979c3dd65392371d5b77612.camel@redhat.com>
- <Y9p/ZqVVpW/YMdUy@ideak-desk.fi.intel.com>
- <c74b71b1d998ce6b062405508354dd1943aafa38.camel@redhat.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92FA110E008
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 12:34:25 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1pPNB1-00022X-R0; Tue, 07 Feb 2023 13:34:23 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1pPNAx-0007P7-0E; Tue, 07 Feb 2023 13:34:19 +0100
+Date: Tue, 7 Feb 2023 13:34:18 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Jonas Karlman <jonas@kwiboo.se>
+Subject: Re: [PATCH v4 1/4] drm/rockchip: vop: limit maximium resolution to
+ hardware capabilities
+Message-ID: <20230207123418.GF10447@pengutronix.de>
+References: <20230207084452.1069656-1-s.hauer@pengutronix.de>
+ <20230207084452.1069656-2-s.hauer@pengutronix.de>
+ <547c8e94-f2eb-2125-24fe-0dc035f9d6d2@kwiboo.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c74b71b1d998ce6b062405508354dd1943aafa38.camel@redhat.com>
+In-Reply-To: <547c8e94-f2eb-2125-24fe-0dc035f9d6d2@kwiboo.se>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,205 +56,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: dri-devel@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
- intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- Ben Skeggs <bskeggs@redhat.com>, Wayne Lin <Wayne.Lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Dan Johansen <strit@manjaro.org>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ FUKAUMI Naoki <naoki@radxa.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 06, 2023 at 07:42:32PM -0500, Lyude Paul wrote:
-> On Wed, 2023-02-01 at 17:04 +0200, Imre Deak wrote:
+On Tue, Feb 07, 2023 at 10:46:49AM +0000, Jonas Karlman wrote:
+> Hi Sascha,
+> On 2023-02-07 09:44, Sascha Hauer wrote:
+> > The different VOP variants support different maximum resolutions. Reject
+> > resolutions that are not supported by a specific variant.
 > > 
-> > Yes, this patch should have no functional change, so please check what
-> > would apply to other drivers as well.
+> > This hasn't been a problem in the upstream driver so far as 1920x1080
+> > has been the maximum resolution supported by the HDMI driver and that
+> > resolution is supported by all VOP variants. Now with higher resolutions
+> > supported in the HDMI driver we have to limit the resolutions to the
+> > ones supported by the VOP.
 > > 
-> > Could you also check Ville's comment about storing start_slot elsewhere
-> > than the atomic state (leaving only time_slots there). I wonder if that
-> > would work, at least it would simplify things I think.
+> > The actual maximum resolutions are taken from the Rockchip downstream
+> > Kernel.
+> > 
+> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > ---
+> > 
+> > Notes:
+> >     Changes since v3:
+> >     - new patch
+> > 
+> >  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 15 ++++++++++
+> >  drivers/gpu/drm/rockchip/rockchip_drm_vop.h |  2 ++
+> >  drivers/gpu/drm/rockchip/rockchip_vop_reg.c | 31 +++++++++++++++++++++
+> >  3 files changed, 48 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> > index fa1f4ee6d1950..96b6bd8d17803 100644
+> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> > @@ -1174,6 +1174,20 @@ static void vop_crtc_disable_vblank(struct drm_crtc *crtc)
+> >  	spin_unlock_irqrestore(&vop->irq_lock, flags);
+> >  }
+> >  
+> > +static enum drm_mode_status vop_crtc_mode_valid(struct drm_crtc *crtc,
+> > +						const struct drm_display_mode *mode)
+> > +{
+> > +	struct vop *vop = to_vop(crtc);
+> > +
+> > +	if (vop->data->max_xres && mode->hdisplay > vop->data->max_xres)
+> > +		return MODE_BAD_HVALUE;
+> > +
+> > +	if (vop->data->max_yres && mode->vdisplay > vop->data->max_yres)
+> > +		return MODE_BAD_VVALUE;
+> > +
+> > +	return MODE_OK;
+> > +}
+> > +
+> >  static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
+> >  				const struct drm_display_mode *mode,
+> >  				struct drm_display_mode *adjusted_mode)
+> > @@ -1585,6 +1599,7 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+> >  }
+> >  
+> >  static const struct drm_crtc_helper_funcs vop_crtc_helper_funcs = {
+> > +	.mode_valid = vop_crtc_mode_valid,
+> >  	.mode_fixup = vop_crtc_mode_fixup,
+> >  	.atomic_check = vop_crtc_atomic_check,
+> >  	.atomic_begin = vop_crtc_atomic_begin,
+> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> > index 8502849833d93..5c4875ca3f270 100644
+> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> > @@ -225,6 +225,8 @@ struct vop_data {
+> >  	const struct vop_win_data *win;
+> >  	unsigned int win_size;
+> >  	unsigned int lut_size;
+> > +	unsigned int max_xres;
+> > +	unsigned int max_yres;
 > 
-> Ideally it'd be nice if we could have all this info in the atomic commit, but
-> yeah - you're not the first person to find this a bit confusing. FWIW though,
-> the way we store start_slot right now is intended to follow the same kind of
-> behavior we have with atomic CRTC commit dependencies, I think I also made it
-> that way so all of the state would be in a single place but there's no hard
-> requirement for it.
+> I would suggest using the same struct vop_rect max_input/output as the
+> vop2 driver instead of handling this differently between the two.
 
-As I understood the atomic state should be precomputed during atomic
-check and not changed later during the commit phase. In case of
-start_slot this would mean knowing in advance the actual (driver
-specific) disabling / enabling sequence of the payloads, not sure how
-feasible it is to figure that out. start_slot also changes dynamically
-as each payload is disabled, so these intermediate versions of the field
-would need to be tracked somehow separately from the final (precomputed)
-versions.
+As it was me who introduced struct vop_rect in the vop2 driver I
+probably have to agree ;)
 
-> So if you guys think it'd be better design-wise to store this something else,
-> I've got no strong feelings either way
-> > 
-> > > For 0-2:
-> > > 
-> > > Reviewed-by: Lyude Paul <lyude@redhat.com>
-> > 
-> > Thanks.
-> > 
-> > > 
-> > > > 
-> > > > Cc: Lyude Paul <lyude@redhat.com>
-> > > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > > > Cc: Karol Herbst <kherbst@redhat.com>
-> > > > Cc: Harry Wentland <harry.wentland@amd.com>
-> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > > Cc: Wayne Lin <Wayne.Lin@amd.com>
-> > > > Cc: stable@vger.kernel.org # 6.1
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > > > ---
-> > > >  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
-> > > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 26 ++++++++++---------
-> > > >  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  4 ++-
-> > > >  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 +-
-> > > >  include/drm/display/drm_dp_mst_helper.h       |  3 ++-
-> > > >  5 files changed, 21 insertions(+), 16 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > > > index a50319fc42b11..180d3893b68da 100644
-> > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-> > > > @@ -208,7 +208,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
-> > > >  	if (enable)
-> > > >  		drm_dp_add_payload_part1(mst_mgr, mst_state, payload);
-> > > >  	else
-> > > > -		drm_dp_remove_payload(mst_mgr, mst_state, payload);
-> > > > +		drm_dp_remove_payload(mst_mgr, mst_state, payload, payload);
-> > > >  
-> > > >  	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
-> > > >  	 * AUX message. The sequence is slot 1-63 allocated sequence for each
-> > > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > index 847c10aa2098c..1990ff5dc7ddd 100644
-> > > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> > > > @@ -3342,7 +3342,8 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
-> > > >   * drm_dp_remove_payload() - Remove an MST payload
-> > > >   * @mgr: Manager to use.
-> > > >   * @mst_state: The MST atomic state
-> > > > - * @payload: The payload to write
-> > > > + * @old_payload: The payload with its old state
-> > > > + * @new_payload: The payload to write
-> > > >   *
-> > > >   * Removes a payload from an MST topology if it was successfully assigned a start slot. Also updates
-> > > >   * the starting time slots of all other payloads which would have been shifted towards the start of
-> > > > @@ -3350,36 +3351,37 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
-> > > >   */
-> > > >  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
-> > > >  			   struct drm_dp_mst_topology_state *mst_state,
-> > > > -			   struct drm_dp_mst_atomic_payload *payload)
-> > > > +			   const struct drm_dp_mst_atomic_payload *old_payload,
-> > > > +			   struct drm_dp_mst_atomic_payload *new_payload)
-> > > >  {
-> > > >  	struct drm_dp_mst_atomic_payload *pos;
-> > > >  	bool send_remove = false;
-> > > >  
-> > > >  	/* We failed to make the payload, so nothing to do */
-> > > > -	if (payload->vc_start_slot == -1)
-> > > > +	if (new_payload->vc_start_slot == -1)
-> > > >  		return;
-> > > >  
-> > > >  	mutex_lock(&mgr->lock);
-> > > > -	send_remove = drm_dp_mst_port_downstream_of_branch(payload->port, mgr->mst_primary);
-> > > > +	send_remove = drm_dp_mst_port_downstream_of_branch(new_payload->port, mgr->mst_primary);
-> > > >  	mutex_unlock(&mgr->lock);
-> > > >  
-> > > >  	if (send_remove)
-> > > > -		drm_dp_destroy_payload_step1(mgr, mst_state, payload);
-> > > > +		drm_dp_destroy_payload_step1(mgr, mst_state, new_payload);
-> > > >  	else
-> > > >  		drm_dbg_kms(mgr->dev, "Payload for VCPI %d not in topology, not sending remove\n",
-> > > > -			    payload->vcpi);
-> > > > +			    new_payload->vcpi);
-> > > >  
-> > > >  	list_for_each_entry(pos, &mst_state->payloads, next) {
-> > > > -		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
-> > > > -			pos->vc_start_slot -= payload->time_slots;
-> > > > +		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
-> > > > +			pos->vc_start_slot -= old_payload->time_slots;
-> > > >  	}
-> > > > -	payload->vc_start_slot = -1;
-> > > > +	new_payload->vc_start_slot = -1;
-> > > >  
-> > > >  	mgr->payload_count--;
-> > > > -	mgr->next_start_slot -= payload->time_slots;
-> > > > +	mgr->next_start_slot -= old_payload->time_slots;
-> > > >  
-> > > > -	if (payload->delete)
-> > > > -		drm_dp_mst_put_port_malloc(payload->port);
-> > > > +	if (new_payload->delete)
-> > > > +		drm_dp_mst_put_port_malloc(new_payload->port);
-> > > >  }
-> > > >  EXPORT_SYMBOL(drm_dp_remove_payload);
-> > > >  
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > > > index f3cb12dcfe0a7..dc4e5ff1dbb31 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> > > > @@ -526,6 +526,8 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
-> > > >  		to_intel_connector(old_conn_state->connector);
-> > > >  	struct drm_dp_mst_topology_state *mst_state =
-> > > >  		drm_atomic_get_mst_topology_state(&state->base, &intel_dp->mst_mgr);
-> > > > +	struct drm_dp_mst_atomic_payload *payload =
-> > > > +		drm_atomic_get_mst_payload_state(mst_state, connector->port);
-> > > >  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> > > >  
-> > > >  	drm_dbg_kms(&i915->drm, "active links %d\n",
-> > > > @@ -534,7 +536,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
-> > > >  	intel_hdcp_disable(intel_mst->connector);
-> > > >  
-> > > >  	drm_dp_remove_payload(&intel_dp->mst_mgr, mst_state,
-> > > > -			      drm_atomic_get_mst_payload_state(mst_state, connector->port));
-> > > > +			      payload, payload);
-> > > >  
-> > > >  	intel_audio_codec_disable(encoder, old_crtc_state, old_conn_state);
-> > > >  }
-> > > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > > > index edcb2529b4025..ed9d374147b8d 100644
-> > > > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > > > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> > > > @@ -885,7 +885,7 @@ nv50_msto_prepare(struct drm_atomic_state *state,
-> > > >  
-> > > >  	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
-> > > >  	if (msto->disabled) {
-> > > > -		drm_dp_remove_payload(mgr, mst_state, payload);
-> > > > +		drm_dp_remove_payload(mgr, mst_state, payload, payload);
-> > > >  
-> > > >  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index, 0, 0, 0, 0);
-> > > >  	} else {
-> > > > diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-> > > > index 41fd8352ab656..f5eb9aa152b14 100644
-> > > > --- a/include/drm/display/drm_dp_mst_helper.h
-> > > > +++ b/include/drm/display/drm_dp_mst_helper.h
-> > > > @@ -841,7 +841,8 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
-> > > >  			     struct drm_dp_mst_atomic_payload *payload);
-> > > >  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
-> > > >  			   struct drm_dp_mst_topology_state *mst_state,
-> > > > -			   struct drm_dp_mst_atomic_payload *payload);
-> > > > +			   const struct drm_dp_mst_atomic_payload *old_payload,
-> > > > +			   struct drm_dp_mst_atomic_payload *new_payload);
-> > > >  
-> > > >  int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
-> > > >  
-> > > 
-> > > -- 
-> > > Cheers,
-> > >  Lyude Paul (she/her)
-> > >  Software Engineer at Red Hat
-> > > 
-> > 
-> 
-> -- 
-> Cheers,
->  Lyude Paul (she/her)
->  Software Engineer at Red Hat
-> 
+Sascha
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
