@@ -1,45 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0460568E46E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 00:33:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6161268E47A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 00:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D069410E63F;
-	Tue,  7 Feb 2023 23:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94DA810E643;
+	Tue,  7 Feb 2023 23:34:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2300A10E63F;
- Tue,  7 Feb 2023 23:32:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=5KKCxYUeoozeU27i58OD1InNHwJzW3SoY8B2DvPcOSg=; b=RdccXekeQ2yeF62bNcACqz+WqA
- jYCmL0ZdyUv38I/colbd7k8tHpi6t4FlEzbAvkoXtP1ImEzEdMdOkx2ERaEP1SsZ/q+szqTFsxVxj
- 2pSZw363tpWFnxTBbJk4sqXmN3WwJBkIHA8k3ZJz+kkD8toc4yM208WM/V7AunKTQ/sZG29stVEhN
- XSiOTe7hTL/gH72pzbNCSkP6w++0GKoq5OJoW25/99bTax60hvh0G3HfreFclKkVBotxDqqme2dpX
- g/HeCaqjOFcy/pIsYz+80hbfEvaRRleJ+zDQ0W+Y1k1st0GoW9zVTT1Rl5hxkfvjYUH6xIUCIIklD
- qfbNt2vQ==;
-Received: from [38.44.66.31] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pPXSE-00CH3W-3v; Wed, 08 Feb 2023 00:32:50 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/amd/display: fix glitches on hw rotation without pipe
- split
-Date: Tue,  7 Feb 2023 22:32:35 -0100
-Message-Id: <20230207233235.513948-1-mwen@igalia.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 304F510E643
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 23:34:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id B96E5420CF;
+ Tue,  7 Feb 2023 23:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1675812876;
+ bh=Xy3vMOIfFYc5nq14WL4mTN1YL0ebGR5OtV9XaHb9X74=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=P85+mHCFgZZkUVYvaKaulsowpsBFnJkG1b3TdYBVW+NZEGeZp4ul/f+mv5fcHJA/4
+ 4ejJ5qlgmK3pMS0k5K22tG6Yi6knLeqyET3LrsFgPobBZO84SeyHYOykHDgpSwwVN5
+ 5q2PWjFrHP194nqXTABYIBTQGxfu1JK7dOwCOXpCAKBz0Jd2moei6UyBkuG3F8Dps3
+ ornKGGCtakFbut0SKW6dwSlhb3r90auZsVn9C4nBp8hu1Xaa88a2Srud16lQm8uZYF
+ 5Y3nW/c+QWkqBDI7yoHwukXI0z+NDeuXErefMrfa35h5kTOGc0Avivq7T2koEAKEr+
+ L3BpzuNOCISbQ==
+Message-ID: <149ac5cb-e17f-0c37-b65d-5cfa0a4d8163@asahilina.net>
+Date: Wed, 8 Feb 2023 08:34:31 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
+ drm_gem_shmem_get_pages_sgt()
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230205125124.2260-1-lina@asahilina.net>
+ <77be28c1-52ff-87c8-b7f7-f99273d48267@suse.de>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <77be28c1-52ff-87c8-b7f7-f99273d48267@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,86 +59,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Brian Chang <Brian.Chang@amd.com>, David Galiffi <David.Galiffi@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Melissa Wen <mwen@igalia.com>,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Martin Leung <Martin.Leung@amd.com>, Martin Tsai <martin.tsai@amd.com>,
- sungjoon.kim@amd.com
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix glitches when moving cursor close to the edge on a rotated screen
-for drivers with one pipe (without pipe split) by halving dst_x_offset.
+Sorry, I accidentally sent this reply offlist! Resending, my apologies...
 
-Reported-by: Xaver Hugl <xaver.hugl@gmail.com>
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
+On 07/02/2023 20.29, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 05.02.23 um 13:51 schrieb Asahi Lina:
+>> Other functions touching shmem->sgt take the pages lock, so do that here
+> 
+> Really? I was just locking at the Lima driver and it apparently access 
+> sgt without locking in [1]. Not that I disagree with the patch in general.
 
-Hi,
+It looks like that lima code is reimplementing a lot of helper
+functionality. I imagine it was written before the helpers...? I think
+most of that function could be replaced with a call to
+drm_gem_shmem_get_pages_sgt().
 
-I'm not sure if having dst_x_offset (or only for the one pipe case) is
-the right solution, but it solves the issue on different devices when
-the pipe split policy is AVOID.
+I don't know exactly how the lima driver works, but if there is a
+possibility of multiple calls to lima_heap_alloc() on the same BO
+without a higher-level mutex protecting it, I would say that code is racy.
 
-Context:
+For the Rust abstraction (and really for a well-designed API in general)
+you want a coherent story on locking, so I think it makes sense to take
+the pages lock to manipulate the sgt, since
+drm_gem_shmem_get_pages_sgt() was already taking the pages lock for
+inner things anyway. Otherwise it's impossible to make safe without
+adding another discrete layer of locking around everything (I can't just
+take the pages lock in the wrapper since drm_gem_shmem_get_pages_sgt()
+would try to recursively lock it).
 
-Some artifacts appear on HW rotated screen when moving the cursor close
-to the edge, as reported in:
-https://gitlab.freedesktop.org/drm/amd/-/issues/2247
+> Best regards
+> Thomas
+> 
+> [1] 
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/lima/lima_gem.c#L21
 
-This issue was initially reported on DCN 3.0.1 and it's not present in
-DCN 2.1 by default, for example. These two drivers follow different
-pipe_split_policy, where there is no pipe split on DCN 3.0.1 (AVOID),
-but we see pipe splitting on DCN 2.1 (MPC_SPLIT_AVOID_MULT_DISP).
-
-Splitting (or not) the pipe changes the way DC calculates cursor
-movements and its position, as we can see in
-dcn10_set_cursor_position(). In addition, it's possible to reproduce the
-same issue found on DCN 3.0.1 by setting DCN 2.1 to avoid pipe splitting
-plus rotating the screen to any angle different from zero. However, from
-my experiments, setting DCN 3.0.1 to a different pipe split policy makes
-the system unstable and causes GPU reset (even though DYNAMIC seems to
-be the default policy for DC).
-
-I see that plugging/unplugging the charger changed the intensity of
-these artifacts and also see some temporary changes with different power
-performance settings. Keeping that in mind, I verified calculations and
-register updates related to cursor movements
-(dcn10_set_cursor_position(), hubp2_cursor_set_position()), and we can
-see that some clk values participates in the final result of
-dst_x_offset. After halving dst_x_offset, the artifacts no longer appear
-and it solves the problem when pipe splitting is not allowed.
-
-This change doesn't affect the correct behavior with more than one pipe,
-but may affect the optimal setup of bandwidth and clocks. Perhaps, the
-current values doesn't deliver the right performance when the pipe is
-not split and halving dst_x_offset is exactly the right step for only
-one pipe, but not for pipe split. 
-
-Finally, if this is not the right solution, I appreciate any feedback to
-address this problem correctly.
-
-Thanks,
-
-Melissa
-
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c
-index 4566bc7abf17..1ff85d81237e 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hubp.c
-@@ -1018,7 +1018,7 @@ void hubp2_cursor_set_position(
- 		src_y_offset = y_pos - (cursor_height - y_hotspot);
- 	}
- 
--	dst_x_offset = (src_x_offset >= 0) ? src_x_offset : 0;
-+	dst_x_offset = (src_x_offset >= 0) ? src_x_offset / 2 : 0;
- 	dst_x_offset *= param->ref_clk_khz;
- 	dst_x_offset /= param->pixel_clk_khz;
- 
--- 
-2.39.0
-
+~~ Lina
