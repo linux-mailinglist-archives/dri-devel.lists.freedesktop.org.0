@@ -1,35 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A80968D1AB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 09:46:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE0C68D1AC
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 09:46:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A69C10E477;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAF7610E47D;
 	Tue,  7 Feb 2023 08:45:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF37D10E477
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 08:45:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31C7910E477
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 08:45:53 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1pPJbj-0002Ps-5o; Tue, 07 Feb 2023 09:45:43 +0100
+ id 1pPJbj-0002Pp-5t; Tue, 07 Feb 2023 09:45:43 +0100
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1pPJbd-003FFC-4X; Tue, 07 Feb 2023 09:45:38 +0100
+ id 1pPJbc-003FF6-UV; Tue, 07 Feb 2023 09:45:38 +0100
 Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1pPJbd-004UQ3-De; Tue, 07 Feb 2023 09:45:37 +0100
+ id 1pPJbd-004UQ6-EF; Tue, 07 Feb 2023 09:45:37 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 3/4] drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
-Date: Tue,  7 Feb 2023 09:44:51 +0100
-Message-Id: <20230207084452.1069656-4-s.hauer@pengutronix.de>
+Subject: [PATCH v4 4/4] drm/rockchip: dw_hdmi: discard modes with unachievable
+ pixelclocks
+Date: Tue,  7 Feb 2023 09:44:52 +0100
+Message-Id: <20230207084452.1069656-5-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230207084452.1069656-1-s.hauer@pengutronix.de>
 References: <20230207084452.1069656-1-s.hauer@pengutronix.de>
@@ -61,45 +62,40 @@ Cc: Dan Johansen <strit@manjaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds the PLL/phy settings to support higher resolutions like 4k@30.
-The values were taken from the Rockchip downstream Kernel.
+The Rockchip PLL drivers are currently table based and support only
+the most common pixelclocks. Discard all modes we cannot achieve
+at all. Normally the desired pixelclocks have an exact match in the
+PLL driver, nevertheless allow for a 0.1% error just in case.
 
-Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
-Link: https://lore.kernel.org/r/20220926080435.259617-3-s.hauer@pengutronix.de
 Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+Tested-by: Michael Riesch <michael.riesch@wolfvision.net>
 Tested-by: Dan Johansen <strit@manjaro.org>
-Link: https://lore.kernel.org/r/20230118132213.2911418-3-s.hauer@pengutronix.de
+Link: https://lore.kernel.org/r/20230118132213.2911418-4-s.hauer@pengutronix.de
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index 7d8bf292fedce..feba6b9becd6c 100644
+index feba6b9becd6c..725952811752b 100644
 --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -161,6 +161,12 @@ static const struct dw_hdmi_mpll_config rockchip_mpll_cfg[] = {
- 			{ 0x214c, 0x0003},
- 			{ 0x4064, 0x0003}
- 		},
-+	}, {
-+		340000000, {
-+			{ 0x0040, 0x0003 },
-+			{ 0x3b4c, 0x0003 },
-+			{ 0x5a64, 0x0003 },
-+		},
- 	}, {
- 		~0UL, {
- 			{ 0x00a0, 0x000a },
-@@ -186,6 +192,8 @@ static const struct dw_hdmi_curr_ctrl rockchip_cur_ctr[] = {
- 		146250000, { 0x0038, 0x0038, 0x0038 },
- 	}, {
- 		148500000, { 0x0000, 0x0038, 0x0038 },
-+	}, {
-+		600000000, { 0x0000, 0x0000, 0x0000 },
- 	}, {
- 		~0UL,      { 0x0000, 0x0000, 0x0000},
- 	}
+@@ -256,10 +256,14 @@ dw_hdmi_rockchip_mode_valid(struct dw_hdmi *dw_hdmi, void *data,
+ {
+ 	struct rockchip_hdmi *hdmi = data;
+ 	const struct dw_hdmi_mpll_config *mpll_cfg = rockchip_mpll_cfg;
+-	int pclk = mode->clock * 1000;
++	int rpclk, pclk = mode->clock * 1000;
+ 	bool exact_match = hdmi->plat_data->phy_force_vendor;
+ 	int i;
+ 
++	rpclk = clk_round_rate(hdmi->ref_clk, pclk);
++	if (abs(rpclk - pclk) > pclk / 1000)
++		return MODE_NOCLOCK;
++
+ 	for (i = 0; mpll_cfg[i].mpixelclock != (~0UL); i++) {
+ 		/*
+ 		 * For vendor specific phys force an exact match of the pixelclock
 -- 
 2.30.2
 
