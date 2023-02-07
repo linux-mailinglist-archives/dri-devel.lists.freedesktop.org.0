@@ -1,46 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8657568D588
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 12:31:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6984E68D59C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 12:37:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF49310E4D5;
-	Tue,  7 Feb 2023 11:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 363E510E4E0;
+	Tue,  7 Feb 2023 11:37:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D475C10E4D5
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 11:31:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hHCsPYCpRP300StWPDu6A8v4ibXwL73uzjB/3CfgHlE=; b=XuTCMPtd86/V4iOeMx6MI5WiBj
- HGl83CqtJzaLOsgjhRPAtc+xXw6MBCiuVtTfjiSd/r4vp5cmwnEFIzNKjMNLHs/tNfbygfIIi2vFL
- 4cnbh80wHFhyJKqLof6k/FEn3+VjcsCLFabGfXZ6+OVZ46G0AvfORinCCWh8xEviFK9AZDQLtCOGH
- KwPi4anIxS5gWuTRyEcOz53ZnnDQbxUSM+YmH/d5trIsEYT4HghMn+2UR6boJbrQ3BuPnAHSSPwr7
- EUNS0ty+VkteQ9XdHmZg+B76fvyOHq6nWaWjdOrD2A7f1hynguMgr0mTxKihLO6jFyfBCKNYKsz/l
- EgdB1HRg==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pPMCA-00Bl67-2G; Tue, 07 Feb 2023 12:31:30 +0100
-Message-ID: <5dfdf605-55a2-28d3-aecf-713a632b2431@igalia.com>
-Date: Tue, 7 Feb 2023 08:31:23 -0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E05810E4E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 11:36:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675769818;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nHB65Kzx24a7EPBgs6C5aNQS+bVe0u0a5VcVS+Le8WU=;
+ b=B9yTjiQNLhl/yroIqd2LWC9jiOyRr6QcPWtrgKit5QY+dg7yM7SLALMkLlmymiNP+ZgU9z
+ dNauIcID3sykxTHBd+M4ryxGSaRMva1zxHVQZ2HGzPy/tp/UtDuHbFkM9dPIREjsexFiGL
+ x8IwrHeMmLeCdfCpNUj4NviWeVMZgb0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-464-4y4esj1OOH2yYPgxYZtBvg-1; Tue, 07 Feb 2023 06:36:57 -0500
+X-MC-Unique: 4y4esj1OOH2yYPgxYZtBvg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h9-20020a05600c350900b003e000facbb1so3213226wmq.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 03:36:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nHB65Kzx24a7EPBgs6C5aNQS+bVe0u0a5VcVS+Le8WU=;
+ b=IPAY2Gdhpz9tmsciOo0mkjQLVnV/abt/IbeXDNE6NPp0V3IANyo+gFlJ7YHZf/61tH
+ N7LrsVJmD9zQwfxoM59RtBic+3sdtRTIHQIP5CYgnkp+tOqX5cyOw/ofN+W2DDaySI3z
+ TDpyu1S/CS9Ro00kreleSbJe4CGydc+Wi5FFVhGwgSxWFZ9T6RvtbGrqL7pt7iD4okds
+ 73gHJZunjhCDmqsTxY3VxLpBG43/FQT2apNxw5ZRrwTIYK03vKXEYpShaFncTHdOc/1o
+ dftGp+fKIq/96v4cbtVwBy7I19fwlxa1N61k8ZPJ7bDGpHI/bmMn23ymquplb67YQZPp
+ sHHA==
+X-Gm-Message-State: AO0yUKWJ7TDaWw1ElsVZLbBLqIATFZfqYraAKbkUEjGQK97TFtuphvBP
+ Uh9aAAqczYVjn9NLeHVTbvi9gchymN7rX/Lo3KbfruCp9qkJpHPh+9JlrqY4rZ/N+17TKIRtpY6
+ d4yioiYCoB/ZTwaAv/Z/xTOHpBoyd
+X-Received: by 2002:a5d:5487:0:b0:2bf:b3ee:4a19 with SMTP id
+ h7-20020a5d5487000000b002bfb3ee4a19mr2452491wrv.9.1675769816104; 
+ Tue, 07 Feb 2023 03:36:56 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Q610L9EoZPilcdUVmaSFeQPP11qCExUrsB8FCYRSuNKpAGfKnUf89ROxMmZ7EbMHaVoFHgQ==
+X-Received: by 2002:a5d:5487:0:b0:2bf:b3ee:4a19 with SMTP id
+ h7-20020a5d5487000000b002bfb3ee4a19mr2452478wrv.9.1675769815867; 
+ Tue, 07 Feb 2023 03:36:55 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ v18-20020a5d43d2000000b002c3dd9bb283sm8547194wrr.37.2023.02.07.03.36.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 03:36:55 -0800 (PST)
+Message-ID: <5d79840c-b0d8-ead5-6fb9-9d13832c3c80@redhat.com>
+Date: Tue, 7 Feb 2023 12:36:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: DRM accel and debugfs/sysfs
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20230201152003.GA2623449@linux.intel.com>
+Subject: Re: [PATCH] drm/ast: Fix start address computation
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
+ jammy_huang@aspeedtech.com
+References: <20230207105317.224277-1-jfalempe@redhat.com>
+ <125d895f-7837-1ded-f121-ef0c5879bc2e@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <125d895f-7837-1ded-f121-ef0c5879bc2e@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230201152003.GA2623449@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,51 +89,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stanislaw,
-
-On 2/1/23 12:20, Stanislaw Gruszka wrote:
+On 07/02/2023 12:17, Thomas Zimmermann wrote:
 > Hi
 > 
-> I was about to send debugfs support for ivpu and noticed that there
-> are current changes that deprecate drm_devel->debugfs_init callback.
+> Am 07.02.23 um 11:53 schrieb Jocelyn Falempe:
+>> During the driver conversion to shmem, there is a missing page shift when
+>> computing the start address in GPU memory.
+>> This leads to graphic garbage when connecting to the remote BMC, 
+>> depending
+>> on the PCI start address.
+>>
+>> Tested on a sr645 affected by this bug.
+>>
+>> Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> ---
+>>   drivers/gpu/drm/ast/ast_mode.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>> b/drivers/gpu/drm/ast/ast_mode.c
+>> index c7443317c747..d75e4a7611b3 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -714,7 +714,7 @@ static int ast_primary_plane_init(struct 
+>> ast_private *ast)
+>>       struct ast_plane *ast_primary_plane = &ast->primary_plane;
+>>       struct drm_plane *primary_plane = &ast_primary_plane->base;
+>>       void __iomem *vaddr = ast->vram;
+>> -    u64 offset = ast->vram_base;
+>> +    u64 offset = ast->vram_base << PAGE_SHIFT;
 > 
-> Further I looked at this commit [1], that stated we should not
-> use drm_minor for debugfs and sysfs. What is quite contrary to
-> what drm accel framework did in the first place.
+> That can't be the problem, I think. vram_base is already an address. [1] 
+> In the old code, drm_gem_vram_pg_offset() returned a page index. So 
+> shifting it to the left here is most likely incorrect.
 > 
-> So my question is how we should use debugfs/sysfs in accel?
-> Use it with old fashioned minor-centric way or change
-> the framework somehow ?
+> Can you verify that the new offset is the same as the old one?
 
-As we are trying to replace drm_debugfs_create_files() [1], it would
-be nice to see the accel debugfs support use the new debugfs API. This
-would mean using the debugfs_list from the drm_device, deprecating
-the debugfs_init callback, and adding the a similar code snippet to
-accel_debugfs_init:
+Yes, I was also a bit unsure about this fix.
 
-list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
-	debugfs_create_file(entry->file.name, 0444,
-			    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
-	list_del(&entry->list);
+In my case, with the old code:
 
-Maybe Daniel has some more thoughts on this matter, but I guess it
-would be better to drop the use of the old-fashioned minor-centric
-implementation in accel.
+PCI base address is 0xce000000
 
-[1] https://cgit.freedesktop.org/drm/drm-misc/tree/Documentation/gpu/todo.rst#n511
+with old code:
+start address (which is 24bits) was 0
 
-Best Regards,
-- Maíra Canal
+with shmem code:
+start address is 0x800000
+
+So the additional page shift makes it 0, which fixes the display.
+
+I was wondering if this start address is not an offset in the GPU 
+memory, and in this case the primary plane offset should always be 0 ?
+
+Best regards,
 
 > 
-> [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=99845faae7099cd704ebf67514c1157c26960a26
+> Best regards
+> Thomas
 > 
-> Regards
-> Stanislaw
+> [1] 
+> https://elixir.bootlin.com/linux/v6.2-rc7/source/drivers/gpu/drm/ast/ast_mm.c#L96
 > 
+>>       unsigned long cursor_size = roundup(AST_HWC_SIZE + 
+>> AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+>>       unsigned long size = ast->vram_fb_available - cursor_size;
+>>       int ret;
+> 
+
