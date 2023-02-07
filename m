@@ -2,81 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6984E68D59C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 12:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5464168D634
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 13:11:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 363E510E4E0;
-	Tue,  7 Feb 2023 11:37:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8291510E163;
+	Tue,  7 Feb 2023 12:11:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E05810E4E0
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 11:36:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675769818;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nHB65Kzx24a7EPBgs6C5aNQS+bVe0u0a5VcVS+Le8WU=;
- b=B9yTjiQNLhl/yroIqd2LWC9jiOyRr6QcPWtrgKit5QY+dg7yM7SLALMkLlmymiNP+ZgU9z
- dNauIcID3sykxTHBd+M4ryxGSaRMva1zxHVQZ2HGzPy/tp/UtDuHbFkM9dPIREjsexFiGL
- x8IwrHeMmLeCdfCpNUj4NviWeVMZgb0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-464-4y4esj1OOH2yYPgxYZtBvg-1; Tue, 07 Feb 2023 06:36:57 -0500
-X-MC-Unique: 4y4esj1OOH2yYPgxYZtBvg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h9-20020a05600c350900b003e000facbb1so3213226wmq.9
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 03:36:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nHB65Kzx24a7EPBgs6C5aNQS+bVe0u0a5VcVS+Le8WU=;
- b=IPAY2Gdhpz9tmsciOo0mkjQLVnV/abt/IbeXDNE6NPp0V3IANyo+gFlJ7YHZf/61tH
- N7LrsVJmD9zQwfxoM59RtBic+3sdtRTIHQIP5CYgnkp+tOqX5cyOw/ofN+W2DDaySI3z
- TDpyu1S/CS9Ro00kreleSbJe4CGydc+Wi5FFVhGwgSxWFZ9T6RvtbGrqL7pt7iD4okds
- 73gHJZunjhCDmqsTxY3VxLpBG43/FQT2apNxw5ZRrwTIYK03vKXEYpShaFncTHdOc/1o
- dftGp+fKIq/96v4cbtVwBy7I19fwlxa1N61k8ZPJ7bDGpHI/bmMn23ymquplb67YQZPp
- sHHA==
-X-Gm-Message-State: AO0yUKWJ7TDaWw1ElsVZLbBLqIATFZfqYraAKbkUEjGQK97TFtuphvBP
- Uh9aAAqczYVjn9NLeHVTbvi9gchymN7rX/Lo3KbfruCp9qkJpHPh+9JlrqY4rZ/N+17TKIRtpY6
- d4yioiYCoB/ZTwaAv/Z/xTOHpBoyd
-X-Received: by 2002:a5d:5487:0:b0:2bf:b3ee:4a19 with SMTP id
- h7-20020a5d5487000000b002bfb3ee4a19mr2452491wrv.9.1675769816104; 
- Tue, 07 Feb 2023 03:36:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Q610L9EoZPilcdUVmaSFeQPP11qCExUrsB8FCYRSuNKpAGfKnUf89ROxMmZ7EbMHaVoFHgQ==
-X-Received: by 2002:a5d:5487:0:b0:2bf:b3ee:4a19 with SMTP id
- h7-20020a5d5487000000b002bfb3ee4a19mr2452478wrv.9.1675769815867; 
- Tue, 07 Feb 2023 03:36:55 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- v18-20020a5d43d2000000b002c3dd9bb283sm8547194wrr.37.2023.02.07.03.36.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 03:36:55 -0800 (PST)
-Message-ID: <5d79840c-b0d8-ead5-6fb9-9d13832c3c80@redhat.com>
-Date: Tue, 7 Feb 2023 12:36:54 +0100
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5727C10E055;
+ Tue,  7 Feb 2023 12:11:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675771881; x=1707307881;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=Iv1LhCTMrGj4lvOxxSzPqucf9wxFSxlQiom2lewwImI=;
+ b=QVSlr/bH2EYO64o7q+9drGXB6iD80xjxqo1vYCpRrZ2G7CGIYuHRHu3W
+ tVvf+j0GgAKCWdUYdXSt1wA3T2Y5mCrGkrcwevkGY3xJ8ePBgbMd66wsO
+ sgAks+iW4s3mZvGDSwgOT6BeqC+nfB2A420GeCNKjnIRXGqMRpBjnYSjh
+ G7U6mlD6pE4+Awqw0i4XYKxwTOQzehvYidq9fDl+S0v4uR545qBXgMSfT
+ TnB3sRtwFRRRdYEnv0mM8nPuz9iVIBy6rQRmvU5kpDRl8ik+MqCO52Nos
+ XB7S0YQhWLXu/HwhDxBdKzFy1n84YCpp3jyNFEg+7tVtNL6xoOmAJf7Lk g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="317506102"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="317506102"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2023 04:11:20 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10613"; a="644429963"
+X-IronPort-AV: E=Sophos;i="5.97,278,1669104000"; d="scan'208";a="644429963"
+Received: from ideak-desk.fi.intel.com ([10.237.72.58])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2023 04:11:17 -0800
+Date: Tue, 7 Feb 2023 14:11:14 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Lyude Paul <lyude@redhat.com>
+Subject: Re: [PATCH v2 02/17] drm/display/dp_mst: Handle old/new payload
+ states in drm_dp_remove_payload()
+Message-ID: <Y+I/wcEExBEbAV4L@ideak-desk.fi.intel.com>
+References: <20230131150548.1614458-1-imre.deak@intel.com>
+ <20230131150548.1614458-3-imre.deak@intel.com>
+ <ed8b73096a576f317979c3dd65392371d5b77612.camel@redhat.com>
+ <Y9p/ZqVVpW/YMdUy@ideak-desk.fi.intel.com>
+ <c74b71b1d998ce6b062405508354dd1943aafa38.camel@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] drm/ast: Fix start address computation
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
- jammy_huang@aspeedtech.com
-References: <20230207105317.224277-1-jfalempe@redhat.com>
- <125d895f-7837-1ded-f121-ef0c5879bc2e@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <125d895f-7837-1ded-f121-ef0c5879bc2e@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <c74b71b1d998ce6b062405508354dd1943aafa38.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,75 +62,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
+Cc: dri-devel@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
+ intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+ Ben Skeggs <bskeggs@redhat.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02/2023 12:17, Thomas Zimmermann wrote:
-> Hi
+On Mon, Feb 06, 2023 at 07:42:32PM -0500, Lyude Paul wrote:
+> On Wed, 2023-02-01 at 17:04 +0200, Imre Deak wrote:
+> > 
+> > Yes, this patch should have no functional change, so please check what
+> > would apply to other drivers as well.
+> > 
+> > Could you also check Ville's comment about storing start_slot elsewhere
+> > than the atomic state (leaving only time_slots there). I wonder if that
+> > would work, at least it would simplify things I think.
 > 
-> Am 07.02.23 um 11:53 schrieb Jocelyn Falempe:
->> During the driver conversion to shmem, there is a missing page shift when
->> computing the start address in GPU memory.
->> This leads to graphic garbage when connecting to the remote BMC, 
->> depending
->> on the PCI start address.
->>
->> Tested on a sr645 affected by this bug.
->>
->> Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> ---
->>   drivers/gpu/drm/ast/ast_mode.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->> b/drivers/gpu/drm/ast/ast_mode.c
->> index c7443317c747..d75e4a7611b3 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -714,7 +714,7 @@ static int ast_primary_plane_init(struct 
->> ast_private *ast)
->>       struct ast_plane *ast_primary_plane = &ast->primary_plane;
->>       struct drm_plane *primary_plane = &ast_primary_plane->base;
->>       void __iomem *vaddr = ast->vram;
->> -    u64 offset = ast->vram_base;
->> +    u64 offset = ast->vram_base << PAGE_SHIFT;
+> Ideally it'd be nice if we could have all this info in the atomic commit, but
+> yeah - you're not the first person to find this a bit confusing. FWIW though,
+> the way we store start_slot right now is intended to follow the same kind of
+> behavior we have with atomic CRTC commit dependencies, I think I also made it
+> that way so all of the state would be in a single place but there's no hard
+> requirement for it.
+
+As I understood the atomic state should be precomputed during atomic
+check and not changed later during the commit phase. In case of
+start_slot this would mean knowing in advance the actual (driver
+specific) disabling / enabling sequence of the payloads, not sure how
+feasible it is to figure that out. start_slot also changes dynamically
+as each payload is disabled, so these intermediate versions of the field
+would need to be tracked somehow separately from the final (precomputed)
+versions.
+
+> So if you guys think it'd be better design-wise to store this something else,
+> I've got no strong feelings either way
+> > 
+> > > For 0-2:
+> > > 
+> > > Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > 
+> > Thanks.
+> > 
+> > > 
+> > > > 
+> > > > Cc: Lyude Paul <lyude@redhat.com>
+> > > > Cc: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> > > > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > > > Cc: Karol Herbst <kherbst@redhat.com>
+> > > > Cc: Harry Wentland <harry.wentland@amd.com>
+> > > > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > > > Cc: Wayne Lin <Wayne.Lin@amd.com>
+> > > > Cc: stable@vger.kernel.org # 6.1
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > Reviewed-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> > > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > > ---
+> > > >  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  2 +-
+> > > >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 26 ++++++++++---------
+> > > >  drivers/gpu/drm/i915/display/intel_dp_mst.c   |  4 ++-
+> > > >  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  2 +-
+> > > >  include/drm/display/drm_dp_mst_helper.h       |  3 ++-
+> > > >  5 files changed, 21 insertions(+), 16 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > > index a50319fc42b11..180d3893b68da 100644
+> > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> > > > @@ -208,7 +208,7 @@ bool dm_helpers_dp_mst_write_payload_allocation_table(
+> > > >  	if (enable)
+> > > >  		drm_dp_add_payload_part1(mst_mgr, mst_state, payload);
+> > > >  	else
+> > > > -		drm_dp_remove_payload(mst_mgr, mst_state, payload);
+> > > > +		drm_dp_remove_payload(mst_mgr, mst_state, payload, payload);
+> > > >  
+> > > >  	/* mst_mgr->->payloads are VC payload notify MST branch using DPCD or
+> > > >  	 * AUX message. The sequence is slot 1-63 allocated sequence for each
+> > > > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > index 847c10aa2098c..1990ff5dc7ddd 100644
+> > > > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> > > > @@ -3342,7 +3342,8 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
+> > > >   * drm_dp_remove_payload() - Remove an MST payload
+> > > >   * @mgr: Manager to use.
+> > > >   * @mst_state: The MST atomic state
+> > > > - * @payload: The payload to write
+> > > > + * @old_payload: The payload with its old state
+> > > > + * @new_payload: The payload to write
+> > > >   *
+> > > >   * Removes a payload from an MST topology if it was successfully assigned a start slot. Also updates
+> > > >   * the starting time slots of all other payloads which would have been shifted towards the start of
+> > > > @@ -3350,36 +3351,37 @@ EXPORT_SYMBOL(drm_dp_add_payload_part1);
+> > > >   */
+> > > >  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
+> > > >  			   struct drm_dp_mst_topology_state *mst_state,
+> > > > -			   struct drm_dp_mst_atomic_payload *payload)
+> > > > +			   const struct drm_dp_mst_atomic_payload *old_payload,
+> > > > +			   struct drm_dp_mst_atomic_payload *new_payload)
+> > > >  {
+> > > >  	struct drm_dp_mst_atomic_payload *pos;
+> > > >  	bool send_remove = false;
+> > > >  
+> > > >  	/* We failed to make the payload, so nothing to do */
+> > > > -	if (payload->vc_start_slot == -1)
+> > > > +	if (new_payload->vc_start_slot == -1)
+> > > >  		return;
+> > > >  
+> > > >  	mutex_lock(&mgr->lock);
+> > > > -	send_remove = drm_dp_mst_port_downstream_of_branch(payload->port, mgr->mst_primary);
+> > > > +	send_remove = drm_dp_mst_port_downstream_of_branch(new_payload->port, mgr->mst_primary);
+> > > >  	mutex_unlock(&mgr->lock);
+> > > >  
+> > > >  	if (send_remove)
+> > > > -		drm_dp_destroy_payload_step1(mgr, mst_state, payload);
+> > > > +		drm_dp_destroy_payload_step1(mgr, mst_state, new_payload);
+> > > >  	else
+> > > >  		drm_dbg_kms(mgr->dev, "Payload for VCPI %d not in topology, not sending remove\n",
+> > > > -			    payload->vcpi);
+> > > > +			    new_payload->vcpi);
+> > > >  
+> > > >  	list_for_each_entry(pos, &mst_state->payloads, next) {
+> > > > -		if (pos != payload && pos->vc_start_slot > payload->vc_start_slot)
+> > > > -			pos->vc_start_slot -= payload->time_slots;
+> > > > +		if (pos != new_payload && pos->vc_start_slot > new_payload->vc_start_slot)
+> > > > +			pos->vc_start_slot -= old_payload->time_slots;
+> > > >  	}
+> > > > -	payload->vc_start_slot = -1;
+> > > > +	new_payload->vc_start_slot = -1;
+> > > >  
+> > > >  	mgr->payload_count--;
+> > > > -	mgr->next_start_slot -= payload->time_slots;
+> > > > +	mgr->next_start_slot -= old_payload->time_slots;
+> > > >  
+> > > > -	if (payload->delete)
+> > > > -		drm_dp_mst_put_port_malloc(payload->port);
+> > > > +	if (new_payload->delete)
+> > > > +		drm_dp_mst_put_port_malloc(new_payload->port);
+> > > >  }
+> > > >  EXPORT_SYMBOL(drm_dp_remove_payload);
+> > > >  
+> > > > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > index f3cb12dcfe0a7..dc4e5ff1dbb31 100644
+> > > > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > > > @@ -526,6 +526,8 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
+> > > >  		to_intel_connector(old_conn_state->connector);
+> > > >  	struct drm_dp_mst_topology_state *mst_state =
+> > > >  		drm_atomic_get_mst_topology_state(&state->base, &intel_dp->mst_mgr);
+> > > > +	struct drm_dp_mst_atomic_payload *payload =
+> > > > +		drm_atomic_get_mst_payload_state(mst_state, connector->port);
+> > > >  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> > > >  
+> > > >  	drm_dbg_kms(&i915->drm, "active links %d\n",
+> > > > @@ -534,7 +536,7 @@ static void intel_mst_disable_dp(struct intel_atomic_state *state,
+> > > >  	intel_hdcp_disable(intel_mst->connector);
+> > > >  
+> > > >  	drm_dp_remove_payload(&intel_dp->mst_mgr, mst_state,
+> > > > -			      drm_atomic_get_mst_payload_state(mst_state, connector->port));
+> > > > +			      payload, payload);
+> > > >  
+> > > >  	intel_audio_codec_disable(encoder, old_crtc_state, old_conn_state);
+> > > >  }
+> > > > diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > > index edcb2529b4025..ed9d374147b8d 100644
+> > > > --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > > +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> > > > @@ -885,7 +885,7 @@ nv50_msto_prepare(struct drm_atomic_state *state,
+> > > >  
+> > > >  	// TODO: Figure out if we want to do a better job of handling VCPI allocation failures here?
+> > > >  	if (msto->disabled) {
+> > > > -		drm_dp_remove_payload(mgr, mst_state, payload);
+> > > > +		drm_dp_remove_payload(mgr, mst_state, payload, payload);
+> > > >  
+> > > >  		nvif_outp_dp_mst_vcpi(&mstm->outp->outp, msto->head->base.index, 0, 0, 0, 0);
+> > > >  	} else {
+> > > > diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+> > > > index 41fd8352ab656..f5eb9aa152b14 100644
+> > > > --- a/include/drm/display/drm_dp_mst_helper.h
+> > > > +++ b/include/drm/display/drm_dp_mst_helper.h
+> > > > @@ -841,7 +841,8 @@ int drm_dp_add_payload_part2(struct drm_dp_mst_topology_mgr *mgr,
+> > > >  			     struct drm_dp_mst_atomic_payload *payload);
+> > > >  void drm_dp_remove_payload(struct drm_dp_mst_topology_mgr *mgr,
+> > > >  			   struct drm_dp_mst_topology_state *mst_state,
+> > > > -			   struct drm_dp_mst_atomic_payload *payload);
+> > > > +			   const struct drm_dp_mst_atomic_payload *old_payload,
+> > > > +			   struct drm_dp_mst_atomic_payload *new_payload);
+> > > >  
+> > > >  int drm_dp_check_act_status(struct drm_dp_mst_topology_mgr *mgr);
+> > > >  
+> > > 
+> > > -- 
+> > > Cheers,
+> > >  Lyude Paul (she/her)
+> > >  Software Engineer at Red Hat
+> > > 
+> > 
 > 
-> That can't be the problem, I think. vram_base is already an address. [1] 
-> In the old code, drm_gem_vram_pg_offset() returned a page index. So 
-> shifting it to the left here is most likely incorrect.
+> -- 
+> Cheers,
+>  Lyude Paul (she/her)
+>  Software Engineer at Red Hat
 > 
-> Can you verify that the new offset is the same as the old one?
-
-Yes, I was also a bit unsure about this fix.
-
-In my case, with the old code:
-
-PCI base address is 0xce000000
-
-with old code:
-start address (which is 24bits) was 0
-
-with shmem code:
-start address is 0x800000
-
-So the additional page shift makes it 0, which fixes the display.
-
-I was wondering if this start address is not an offset in the GPU 
-memory, and in this case the primary plane offset should always be 0 ?
-
-Best regards,
-
-> 
-> Best regards
-> Thomas
-> 
-> [1] 
-> https://elixir.bootlin.com/linux/v6.2-rc7/source/drivers/gpu/drm/ast/ast_mm.c#L96
-> 
->>       unsigned long cursor_size = roundup(AST_HWC_SIZE + 
->> AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
->>       unsigned long size = ast->vram_fb_available - cursor_size;
->>       int ret;
-> 
-
