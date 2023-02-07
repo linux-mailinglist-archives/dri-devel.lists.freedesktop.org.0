@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3308F68DE1E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 17:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59CE68DCC6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 16:20:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A503D10E54F;
-	Tue,  7 Feb 2023 16:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5356710E531;
+	Tue,  7 Feb 2023 15:20:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 452 seconds by postgrey-1.36 at gabe;
- Tue, 07 Feb 2023 10:14:07 UTC
-Received: from st43p00im-zteg10063501.me.com (st43p00im-zteg10063501.me.com
- [17.58.63.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C381110E1A5
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 10:14:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1675764394;
- bh=uy/u/jBsLuDEhP7DZbXSmCIaVmd50OFJVFk6lVxCMTQ=;
- h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=WE5GgMq/MzwH3oRueLocrSeoZKe//cptxsnNPSY1ZBvNgM05+hC8sEMOsNN5hBhzZ
- C9i09bsvt7WkMCX0sjEZXoBP/Q6oG1v/9+ypNeEbIdjctQDhAIWH35s9pIcBtTbLkm
- VhbMC5+z6c7FCo+wkYEReLGEbhrTFeIgrPVSS1hoIhDVmWQ6iZU7nNuxanUVep+sYn
- Cwdn2HNfqRJKLV9vX79byWHAEuhdofpGC4UqjujvfUodn2d94kMJNWlzpStXiy/jk9
- MWUqibOgw4NF+4jMyHdWnAXKbSphTdorNV5Wr3brrkUQJVta4TKuLuVBh0KdosMKDa
- zBY/KIbGporHw==
-Received: from apollo.fritz.box (st43p00im-dlb-asmtp-mailmevip.me.com
- [17.42.251.41])
- by st43p00im-zteg10063501.me.com (Postfix) with ESMTPSA id 308374C17A5;
- Tue,  7 Feb 2023 10:06:33 +0000 (UTC)
-From: Lucy Mielke <mielkesteven@icloud.com>
-To: deller@gmx.de, linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbdev: omapfb: cleanup inconsistent indentation
-Date: Tue,  7 Feb 2023 11:06:30 +0100
-Message-Id: <20230207100630.11644-1-mielkesteven@icloud.com>
-X-Mailer: git-send-email 2.39.1
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1551910E517
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 15:20:37 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id v13so15929982eda.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 07:20:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rhCNOcyRpNLZBCgbM6oSGWNvw1+XdQSGy3BecVAhAEw=;
+ b=E4nJecrnv18zMkprVCsirCNTaU/ult/DZ/EWlQU1Z3ZQ+p+7EM1R7UREVIUi4i2rPz
+ Ek11py0bXP2n8N2tEHbHewXjZj/BW7UMX6y4tFZI7aFBmfdGWJFRPSznsAaWVIesF01z
+ 8+Q+5Mw2rdApzpzRBVou+ivV7aZyRfAW48d6dR1jkoR1Q/gn1Q9NXZ2DY3yyUp9tgKj+
+ wXMcqSvQ2mwlbeBy0mO8dPVRtOcAoM9rke//W7yFdud9x/QN6McDu3rnGJQvdZEsEcTY
+ tW9ek2yD7v3kFpuweMQowWPEFQtBlQRaQ89Brb8ShcVUF8ldI0MAxBIbcuGq64MfKndg
+ D5lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rhCNOcyRpNLZBCgbM6oSGWNvw1+XdQSGy3BecVAhAEw=;
+ b=rC/dEm0nMaBk77ZO1d6ZURQDX28eYOrDxd9e26KYD8rHYHe0/a3uP0dQPzOGtCUD1n
+ Z3OwBzd/YPKV8n1pqBw0HnXp8m6AOGDXQwi+qL70opswzMYQkZVRXQoBhBqjbn0hepiC
+ aRCRKMzEk9lZJ+pxCC9k2z/pkFH6FloO3xhJbzmp8f36WdQv8yEWG9sJMX+6JHnKqR2Y
+ W+Xh+n9KVcjB6eusdSBddjFWl+HGwB7qlkXaVK1WX3tdZiuR00nQWBGWMrbMH9iYO511
+ EsaBfXyiQFvovCCL3ykSogCaCeF13Y8Sq10qd9xjb9S+/ggDKoQeB3s13UGIy+QFAUoZ
+ AkCw==
+X-Gm-Message-State: AO0yUKWNvwrlANTegvODYHblqTZCLb0bhh1I4haD7K6hcq0AbSEvSqGe
+ BOYZ4zejeKy2bZoIFW8QPn8g3g==
+X-Google-Smtp-Source: AK7set86e/LGn+ZCVqFVYC53Q4uR7aJ0HPCsmm5q9Ewnkb/wUQdVK8zCIeUfGl9odi9ZER2D5QOSqA==
+X-Received: by 2002:a50:d783:0:b0:481:420e:206d with SMTP id
+ w3-20020a50d783000000b00481420e206dmr3723824edi.42.1675783235575; 
+ Tue, 07 Feb 2023 07:20:35 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ u2-20020a509502000000b0049e08f781e3sm6695629eda.3.2023.02.07.07.20.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Feb 2023 07:20:35 -0800 (PST)
+Message-ID: <0b14695d-31c2-75cf-5c8c-9171136500f9@linaro.org>
+Date: Tue, 7 Feb 2023 17:20:33 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: Gq_PqnEGhE0xunAGRdTHGMQPVdHOi2Vh
-X-Proofpoint-ORIG-GUID: Gq_PqnEGhE0xunAGRdTHGMQPVdHOi2Vh
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.572,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-14=5F01:2022-01-14=5F01,2020-02-14=5F11,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0 clxscore=1015
- malwarescore=0 mlxlogscore=681 phishscore=0 bulkscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2302070090
-X-Mailman-Approved-At: Tue, 07 Feb 2023 16:42:33 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 1/4] drm/msm/dpu: clear DSPP reservations in rm release
+Content-Language: en-GB
+To: Kalyan Thota <quic_kalyant@quicinc.com>, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+References: <1675780196-3076-1-git-send-email-quic_kalyant@quicinc.com>
+ <1675780196-3076-2-git-send-email-quic_kalyant@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1675780196-3076-2-git-send-email-quic_kalyant@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,73 +78,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, arnd@arndb.de
+Cc: robdclark@chromium.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_vpolimer@quicinc.com,
+ marijn.suijten@somainline.org, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This cleans up the indentation according to the Linux kernel coding
-style, and should fix the warning created by the kernel test robot.
+On 07/02/2023 16:29, Kalyan Thota wrote:
+> Clear DSPP reservations from the global state during
+> rm release
+> 
+> Fixes: e47616df008b ("drm/msm/dpu: add support for color
+> 		     processing blocks in dpu driver")
 
-Fixes: 8b08cf2b64f5a60594b07795b2ad518c6d044566 ("OMAP: add TI OMAP
-	framebuffer driver")
+This should fit into a single line (even it is longer than the 
+recommended length).
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Lucy Mielke <mielkesteven@icloud.com>
----
- drivers/video/fbdev/omap/omapfb_main.c | 32 +++++++++++++++-----------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+And no empty lines between Fixes and next tags.
 
-diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
-index 1f3df2055ff0..4b673daa32cb 100644
---- a/drivers/video/fbdev/omap/omapfb_main.c
-+++ b/drivers/video/fbdev/omap/omapfb_main.c
-@@ -78,7 +78,7 @@ static struct platform_device omapdss_device = {
- 	.name		= "omapdss_dss",
- 	.id		= -1,
- 	.dev            = {
--		.release = omapdss_release,
-+	.release	= omapdss_release,
- 	},
- };
- 
-@@ -544,19 +544,25 @@ static int set_fb_var(struct fb_info *fbi,
- 		var->yoffset = var->yres_virtual - var->yres;
- 
- 	if (plane->color_mode == OMAPFB_COLOR_RGB444) {
--		var->red.offset	  = 8; var->red.length	 = 4;
--						var->red.msb_right   = 0;
--		var->green.offset = 4; var->green.length = 4;
--						var->green.msb_right = 0;
--		var->blue.offset  = 0; var->blue.length  = 4;
--						var->blue.msb_right  = 0;
-+		var->red.offset		= 8; 
-+		var->red.length		= 4;
-+		var->red.msb_right	= 0;
-+		var->green.offset	= 4; 
-+		var->green.length	= 4;
-+		var->green.msb_right	= 0;
-+		var->blue.offset	= 0; 
-+		var->blue.length	= 4;
-+		var->blue.msb_right	= 0;
- 	} else {
--		var->red.offset	 = 11; var->red.length	 = 5;
--						var->red.msb_right   = 0;
--		var->green.offset = 5;  var->green.length = 6;
--						var->green.msb_right = 0;
--		var->blue.offset = 0;  var->blue.length  = 5;
--						var->blue.msb_right  = 0;
-+		var->red.offset		= 11; 
-+		var->red.length		= 5;
-+		var->red.msb_right	= 0;
-+		var->green.offset	= 5;  
-+		var->green.length	= 6;
-+		var->green.msb_right	= 0;
-+		var->blue.offset	= 0;
-+		var->blue.length	= 5;
-+		var->blue.msb_right	= 0;
- 	}
- 
- 	var->height		= -1;
+> 
+> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index 73b3442..718ea0a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -572,6 +572,8 @@ void dpu_rm_release(struct dpu_global_state *global_state,
+>   		ARRAY_SIZE(global_state->ctl_to_enc_id), enc->base.id);
+>   	_dpu_rm_clear_mapping(global_state->dsc_to_enc_id,
+>   		ARRAY_SIZE(global_state->dsc_to_enc_id), enc->base.id);
+> +	_dpu_rm_clear_mapping(global_state->dspp_to_enc_id,
+> +		ARRAY_SIZE(global_state->dspp_to_enc_id), enc->base.id);
+>   }
+>   
+>   int dpu_rm_reserve(
+
 -- 
-2.39.1
+With best wishes
+Dmitry
 
