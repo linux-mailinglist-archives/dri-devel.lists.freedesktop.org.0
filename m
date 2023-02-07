@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9F668D3A5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 11:08:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526A668D3BD
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 11:11:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDAA10E4BB;
-	Tue,  7 Feb 2023 10:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41ED210E10D;
+	Tue,  7 Feb 2023 10:11:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C6710E1D8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 10:07:56 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id w24so5458336iow.13
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 02:07:56 -0800 (PST)
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF28310E10D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 10:11:29 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id k17so3062998ilq.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 02:11:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OUtfbS0GC3JJK/B5YtNwMVsFna40Ybwka57jHZjmmOU=;
- b=hT7TG39dijBvF0NlSxhfd0VPQvVGxZCZkeozw6VL2COqlxBvf/BM2Nt30mV7W4WzuB
- mjBqUdwrVdHGFuopwTRuTbwO+C0jeAadUVyE+jEpSIGsTv3FkzvV6O/9l4jxnuzHX7cU
- icRfMxUabw9wpgWXtEq/HBlhpq7ox3Eo07l6U=
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wGLVt33QptT1V9qlTmndDyVUdkEPlh9MnwGhnG7S+Dw=;
+ b=DdPR3zQi3FaRq/0DUytEr3pdQZJXEYAcVrcD7V59G77SlXPd4u49tC+gyGBwFJPFYy
+ 67/fa4FaZDJ7/nKp9i2do2fWQFcMfJbHpGPfUq6HvZUZF4UBEooUGXVzWBqMFMEnYZwN
+ rAaICWHuS5XF+Lo2bO8pVyMaqko727E+MSi7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OUtfbS0GC3JJK/B5YtNwMVsFna40Ybwka57jHZjmmOU=;
- b=ioMKKNJkDKvyCK0ZHba7o+YscsXWWLxvtZCFF8j15nqkU69JrBnrjqmXWJyUS++DO9
- 0AwAjzITZmM+d5sUKvjRlDx0eAbhnVJye7zR3bn1+EFLesUNLUd4lh/6K3wO7lq7RdCQ
- Rl0XtPUaXmBJQmbxAFNZ+MmCW08iDuo9GHNiTJxicU7HhIqwP9ln3CNkibpH2t2pWI+p
- E81muQ8f7h8op1q+j6qd9759vBZGyjuHeitDcWD1xfH3GGDzIO1uRoHIfnebbyzmF8vJ
- 2wd98h6FS0S31eGEF+U3QG7TqQEIl7yQw6vWWFK+DW4C5I+bETcSDMujoeJp74afzMlp
- Io4Q==
-X-Gm-Message-State: AO0yUKViaZpS660y1rJejZL8fMBEdoXQLgxrWO7bU+9hlr6K/s/n8L2u
- 6KK4ShT9oo9Dv6kkC6Lqyj+S5dP9j8oHVvJPiGeT8A==
-X-Google-Smtp-Source: AK7set92k3NRrPN2he11BGdlbGn60K3DywK0CbxSsYhZFMP0yqz9TN0nMnTZIMoiK0OGrH+RzO7evGw5Dv6xxrzg//4=
-X-Received: by 2002:a02:ca50:0:b0:3b2:a6c0:2879 with SMTP id
- i16-20020a02ca50000000b003b2a6c02879mr1987635jal.7.1675764475679; Tue, 07 Feb
- 2023 02:07:55 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wGLVt33QptT1V9qlTmndDyVUdkEPlh9MnwGhnG7S+Dw=;
+ b=bT20z87YKIhxO4sB6ef5CturUacGssjEuS4oE1an+TRx81RUmdrMxfUSQFPG+aF8FQ
+ O3n4dW+SC2IkojrRjkFmMkgtgvN9gRCovMN6aKrPuXSFCLr/+pPcizsx119NLUFnip/E
+ dET71AmV//9kkQxtfEjNH/fLQYV6GTs/f8Omr6aHjQpHyJsZf1z7LcGNLCq39mVI5aFC
+ Y6aM2oBAU2LQhJaCd3s2i5D3raqGU8Sc45iHWfcT79Oo3zW3HYqteeXVrE4BMhEgJ7RB
+ Qq12IKMF/aqNY7keBWTKM+wJB0RAk921GFD3+YhYcjIRX5fD12ItCKWFHD6pe0kPuyAp
+ 2siA==
+X-Gm-Message-State: AO0yUKU8zzDv7a3CUl6HNA/cZeYdMm9LFL7c/JoHm/FkjVK7r2q0el0z
+ KiJvM5V43B+cUIDsRvynhyVGhHh34Nls25yGGl9I0w==
+X-Google-Smtp-Source: AK7set+p9iSJUXF22CkwOZYUk1RTPFJALAKMX1xeE+pdWvWYe6DHfPcl7VfcfJVnxubu8xcpOm0LxJ22zFQvIXxeTUg=
+X-Received: by 2002:a92:4412:0:b0:310:fd95:6d81 with SMTP id
+ r18-20020a924412000000b00310fd956d81mr1835895ila.42.1675764689078; Tue, 07
+ Feb 2023 02:11:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20230116110820.2615650-1-treapking@chromium.org>
- <20230116110820.2615650-2-treapking@chromium.org>
- <20230117201703.GA3555326-robh@kernel.org>
-In-Reply-To: <20230117201703.GA3555326-robh@kernel.org>
+References: <20230109084101.265664-1-treapking@chromium.org>
+ <e620862840bcac9dcd46dd63e247966424af060f.camel@redhat.com>
+In-Reply-To: <e620862840bcac9dcd46dd63e247966424af060f.camel@redhat.com>
 From: Pin-yen Lin <treapking@chromium.org>
-Date: Tue, 7 Feb 2023 18:07:44 +0800
-Message-ID: <CAEXTbpdOg_un9rWD+QeS1rJLW8wHzDOnkJ-i6R0WNvAU4THEGQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Add GPIO display mux
- binding
-To: Rob Herring <robh@kernel.org>
+Date: Tue, 7 Feb 2023 18:11:18 +0800
+Message-ID: <CAEXTbpcEo1O3YYWjdYKMEotir8KoDEvsRtcD4SOvjGB08vhZ_Q@mail.gmail.com>
+Subject: Re: [PATCH v9 0/9] Register Type-C mode-switch in DP bridge endpoints
+To: Lyude Paul <lyude@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,176 +64,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Boichat <drinkcat@chromium.org>,
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+Hi Lyude,
 
-Thanks for the review.
+Thanks for letting me know!
 
-
-On Wed, Jan 18, 2023 at 4:17 AM Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, Jan 16, 2023 at 07:08:19PM +0800, Pin-yen Lin wrote:
-> > From: Nicolas Boichat <drinkcat@chromium.org>
-> >
-> > Add bindings for Generic GPIO mux driver.
-> >
-> > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> > ---
-> >
-> > Changes in v2:
-> > - Referenced existing dt-binding schemas from graph.yaml
-> > - Added ddc-i2c-bus into the bindings
-> >
-> >  .../bindings/display/bridge/gpio-mux.yaml     | 95 +++++++++++++++++++
-> >  1 file changed, 95 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml b/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> > new file mode 100644
-> > index 000000000000..da29ba078f05
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> > @@ -0,0 +1,95 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/gpio-mux.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Generic display mux (1 input, 2 outputs)
-> > +
-> > +maintainers:
-> > +  - Nicolas Boichat <drinkcat@chromium.org>
-> > +
-> > +description: |
-> > +  This bindings describes a simple display (e.g. HDMI) mux, that has 1
-> > +  input, and 2 outputs. The mux status is controlled by hardware, and
-> > +  its status is read back using a GPIO.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: gpio-display-mux
-> > +
-> > +  detect-gpios:
-> > +    maxItems: 1
-> > +    description: GPIO that indicates the active output
->
-> What are we detecting? That implies an input, but this is selecting the
-> output path, right? Or what does 'mux status is controlled by hardware'
-> mean exactly? Something else? That does not sound very generic.
-
-The GPIO (or any kind of MUX) is an input that indicates where the
-output should go. The actual "output selection" procedure is done in
-the driver. That is, the driver monitors this GPIO and selects the
-output path accordingly. In our use case, the GPIO is reported by the
-embedded controller on the device.
-
-[1] listed other similar bridges that can leverage this driver, so we
-called this driver "generic".
-
-[1]: https://lore.kernel.org/all/CAJMQK-jGw8kJFNjoHjeZUL+3NCiOS2hgGERnAnMwNsL_cm_J=Q@mail.gmail.com/
-
->
-> In any case, we have a common mux binding so any kind of mux control
-> could be used here, not just GPIO. Then you can make this just a generic
-> display mux.
-
-Thanks for sharing this, I'll update the binding in the next version.
->
-> > +
-> > +  ddc-i2c-bus:
-> > +    description: phandle link to the I2C controller used for DDC EDID probing
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
->
-> This belongs in the connector node(s).
-
-The HDMI bridge before the MUX doesn't (and doesn't have to) know that
-its next bridge is a MUX. We put it here so that the HDMI bridge can
-parse the phandle and get the bus node.
+I just sent out a v11 and already received some review comments, but
+reviews are always welcomed if you have time to take a look.
 
 Regards,
 Pin-yen
 
+On Tue, Jan 31, 2023 at 7:10 AM Lyude Paul <lyude@redhat.com> wrote:
 >
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: |
-> > +          Video port for input.
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: |
-> > +          2 video ports for output.
-> > +          The reg value in the endpoints matches the GPIO status: when
-> > +          GPIO is asserted, endpoint with reg value <1> is selected.
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - detect-gpios
-> > +  - ports
-> > +
-> > +unevaluatedProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    hdmi_mux: hdmi_mux {
-> > +      compatible = "gpio-display-mux";
-> > +      detect-gpios = <&pio 36 GPIO_ACTIVE_HIGH>;
-> > +      pinctrl-names = "default";
-> > +      pinctrl-0 = <&hdmi_mux_pins>;
-> > +      ddc-i2c-bus = <&hdmiddc0>;
-> > +
-> > +      ports {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        port@0 { /* input */
-> > +          reg = <0>;
-> > +
-> > +          hdmi_mux_in: endpoint {
-> > +            remote-endpoint = <&hdmi0_out>;
-> > +          };
-> > +        };
-> > +
-> > +        port@1 { /* output */
-> > +          reg = <1>;
-> > +
-> > +          #address-cells = <1>;
-> > +          #size-cells = <0>;
-> > +
-> > +          hdmi_mux_out_anx: endpoint@0 {
-> > +            reg = <0>;
-> > +            remote-endpoint = <&dp_bridge_in>;
-> > +          };
-> > +
-> > +          hdmi_mux_out_hdmi: endpoint@1 {
-> > +            reg = <1>;
-> > +            remote-endpoint = <&hdmi_connector_in>;
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > --
-> > 2.39.0.314.g84b9a713c41-goog
+> Don't know if this still needs reviews from me (feel free to respond if i=
+t
+> does!), but I wanted to say nice work! This is something I've wanted to s=
+ee
+> added to DRM for a while =E2=99=A5
+>
+>
+> On Mon, 2023-01-09 at 16:40 +0800, Pin-yen Lin wrote:
+> > This series introduces bindings for anx7625/it6505 to register Type-C
+> > mode-switch in their output endpoints, and use data-lanes property to
+> > describe the pin connections.
 > >
+> > The first two patch modifies fwnode_graph_devcon_matches and
+> > cros_typec_init_ports to enable the registration of the switches.
+> >
+> > Patch 4~6 introduce the bindings for anx7625 and the corresponding driv=
+er
+> > modifications.
+> >
+> > Patch 7~9 add similar bindings and driver changes for it6505.
+> >
+> > v7: https://lore.kernel.org/all/20230105132457.4125372-1-treapking@chro=
+mium.org/
+> > v6: https://lore.kernel.org/all/20221124102056.393220-1-treapking@chrom=
+ium.org/
+> > v5: https://lore.kernel.org/linux-usb/20220622173605.1168416-1-pmalani@=
+chromium.org/
+> >
+> > Changes in v9:
+> > - Collected Reviewed-by tag
+> > - Fixed subject prefix again
+> > - Changed the naming of the example node for it6505
+> >
+> > Changes in v8:
+> > - Fixed the build issue when CONFIG_TYPEC=3Dm
+> > - Fixed some style issues
+> > - Fixed the subject prefixes for the bindings patch
+> > - Fixed the bindings for data-lanes properties
+> >
+> > Changes in v7:
+> > - Fix the long comment lines
+> > - Extracted the common codes to a helper function
+> > - Fixed style issues in anx7625 driver
+> > - Removed DT property validation in anx7625 driver.
+> > - Fixed style issues in it6505 driver
+> > - Removed the redundant sleep in it6505 driver
+> > - Removed DT property validation in it6505 driver
+> > - Rebased to drm-misc-next
+> > - Fixed indentations in bindings patches
+> > - Added a new patch to fix indentations in Kconfig
+> >
+> > Changes in v6:
+> > - Changed it6505_typec_mux_set callback function to accommodate with
+> >   the latest drm-misc patches
+> > - Changed the driver implementation to accommodate with the new binding
+> > - Dropped typec-switch binding and use endpoints and data-lanes propert=
+ies
+> >   to describe the pin connections
+> > - Added new patches (patch 1,2,4) to fix probing issues
+> > - Changed the bindings of it6505/anx7625 and modified the drivers
+> >   accordingly
+> > - Merged it6505/anx7625 driver changes into a single patch
+> >
+> > Pin-yen Lin (7):
+> >   drm/display: Add Type-C switch helpers
+> >   dt-bindings: display: bridge: anx7625: Add mode-switch support
+> >   drm/bridge: anx7625: Check for Type-C during panel registration
+> >   drm/bridge: anx7625: Register Type C mode switches
+> >   dt-bindings: display: bridge: it6505: Add mode-switch support
+> >   drm/bridge: it6505: Fix Kconfig indentation
+> >   drm/bridge: it6505: Register Type C mode switches
+> >
+> > Prashant Malani (2):
+> >   device property: Add remote endpoint to devcon matcher
+> >   platform/chrome: cros_ec_typec: Purge blocking switch devlinks
+> >
+> >  .../display/bridge/analogix,anx7625.yaml      |  99 ++++++++++++-
+> >  .../bindings/display/bridge/ite,it6505.yaml   |  93 ++++++++++--
+> >  drivers/base/property.c                       |  15 ++
+> >  drivers/gpu/drm/bridge/Kconfig                |  21 +--
+> >  drivers/gpu/drm/bridge/analogix/Kconfig       |   1 +
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c     | 101 +++++++++++++-
+> >  drivers/gpu/drm/bridge/analogix/anx7625.h     |  13 ++
+> >  drivers/gpu/drm/bridge/ite-it6505.c           | 119 +++++++++++++++-
+> >  drivers/gpu/drm/display/drm_dp_helper.c       | 132 ++++++++++++++++++
+> >  drivers/platform/chrome/cros_ec_typec.c       |  10 ++
+> >  include/drm/display/drm_dp_helper.h           |  16 +++
+> >  11 files changed, 591 insertions(+), 29 deletions(-)
+> >
+>
+> --
+> Cheers,
+>  Lyude Paul (she/her)
+>  Software Engineer at Red Hat
+>
