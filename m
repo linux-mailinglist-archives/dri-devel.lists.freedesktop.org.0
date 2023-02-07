@@ -1,79 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FBC68D94F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 14:30:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4D268D951
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Feb 2023 14:31:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29CB010E2CF;
-	Tue,  7 Feb 2023 13:30:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1B0410E505;
+	Tue,  7 Feb 2023 13:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60CED10E2CF
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Feb 2023 13:30:38 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id y1so13570369wru.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 05:30:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=QFRY8l975SG0htBMNX2RaAHlE3X6PIi5Arw3VidyWxk=;
- b=PzI8UYULwWu0ZkL3TzdEroaha7ac16Lsd6ACzqnS1czR/eFkebq/zPekJHdgwUP8ey
- gVezDX3nKvLQ84rHuN1vO7mxYWmV2ZKYubaN0tS50a7HlHT10YiMgdERvpZofoQJt5em
- Y/BX5a1Pz/0qqveRQi680OJQ0UDfnV1LPmELwW7ONMJdQp3t6+8GNgWLTYRMHW8WFO/A
- bA/ofZhTwXdW3nZeTFaWs9QerwLp77BmkmDlpwPAGDXH2JaRrYP0ypQ1xlcvrBYCQS02
- PWCViepUxb+7O42yaKbjpI2mfSEAYVivKXo7oKTFJvk8IpFyge7qVCJapqwYOw/WyaWA
- 0Wpw==
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5957310E4DD;
+ Tue,  7 Feb 2023 13:31:08 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id q19so15510877edd.2;
+ Tue, 07 Feb 2023 05:31:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=GXHdokZjxa22DIUskiEjxAeqYnnbuCwx1pad8WkkQt0=;
+ b=Pu59I4/YpbkpkjZH/5bkbKQaF4pzUSdXAS/N56d0hM9LH7jGKK3G4KwT2UMFGPTn81
+ DCuIH3hkbiJZUYtwmXOJ4rHwFeLZbayBnMJdfWQkeMvBsKerWejqUodbwh8jAi47IqeV
+ 2ZgCeO2mNK2OiLm0nO2lZWrQyAleq9o23dsgzk1V8dbc2B10H61rtrND0wfElEpWm/uK
+ LhVBhD10UbjmkmYikaLBQmyvXGry/SKUy5bav4QojyyJ9rZRQKwx7E3GQsPZLpaWx6ic
+ nnIo2pzmDMcOwiNdmTgkgjs9GMvd9x1i9i7JyizzVRQdPYCFZ9JWosNjo0HdilSmGvML
+ QPnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QFRY8l975SG0htBMNX2RaAHlE3X6PIi5Arw3VidyWxk=;
- b=zNYRw0hFWsXwXyeiORsZf5vhCh56bySXrKOoqh0g1T9I0/p2t7szQW+b5YA7N8DtyZ
- 14v9Cs1tUu0hz35/QHNAagm0DLirf5tIDnz3MdSIH4tKtkO9bshR9VDuTFravloEgfmY
- uXQAyjTjCsmE1Q7LMtFi0z97XOrNZb6hLKIaDAn0PUI/r6b624eBHJHiZcgz4RjNDvQm
- LRA7FKrffMkoFNMDKmPVMZDbFCaqvvbgNdfuqlcBWLOLFPYpUEtk5rAOJglDwGiTjMMA
- 74lVnYV+p4OrZsetIoArQI0m5pjebWcPw6Key6oZS5IJ3Dy2QtQNI323sImota30IfOn
- c2rQ==
-X-Gm-Message-State: AO0yUKWz4J1a0XXobSndx1UEVAV1kaJVW9rPCMA3YOreLOmBewBQz3Nv
- LBiF4hh/paeh2oh0SN6szHCg6Q==
-X-Google-Smtp-Source: AK7set8lMKCObqyAdbxEb0nTgdUyVM5rVpjgn42BqxPP5fL2YunnT7ZwjsQLHDKt6pgJf9pq87hmig==
-X-Received: by 2002:adf:f007:0:b0:2b6:7876:3cd4 with SMTP id
- j7-20020adff007000000b002b678763cd4mr2691948wro.16.1675776636869; 
- Tue, 07 Feb 2023 05:30:36 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:c58c:fc5c:67d6:e5f3?
- ([2a01:e0a:982:cbb0:c58c:fc5c:67d6:e5f3])
- by smtp.gmail.com with ESMTPSA id
- o21-20020a5d58d5000000b002c3f0a78e39sm2651551wrf.9.2023.02.07.05.30.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Feb 2023 05:30:36 -0800 (PST)
-Message-ID: <31b5a693-d9e6-1c21-9fa7-32abc431a46d@linaro.org>
-Date: Tue, 7 Feb 2023 14:30:35 +0100
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GXHdokZjxa22DIUskiEjxAeqYnnbuCwx1pad8WkkQt0=;
+ b=KaN9gfkWC+BD+CkM85Tq13VQzeSppLOl6OrUhs8KqDOHO5SIPcQ1V+h/6WAMyPegji
+ rT5UM8bSKrjBrKeq8z2GdUWNjvXf/fVoSqpFAvxjlftCFw0xpyRu6LazW5t0aJm5zlaS
+ ykZLrXZsyqZBmp4c1FELrw9BSSMlpN4KuIcqgdqT9nTr/qL/RVCHhs0HMIYjSxoqSlQV
+ 8r6sNme/IuW2whC8PJzDzkqwrBm7idQIRzdotTl2s7ZRpuixvNH6NChRR3tCltBLhlHD
+ nLZ9V4gJRDH+yxWkERZf0KpJFfaR6rVKq69/Sc2uvZdVxmwJtqSt8PLkvzVhwpD/qa23
+ upVQ==
+X-Gm-Message-State: AO0yUKVHjjxHXscEGbqgkHvVkmZPYQKP23u6TQR4AlRQJ1vMlSlIjQIq
+ GqCfHQSXSXOP1yjYs7pkV2E=
+X-Google-Smtp-Source: AK7set9CRl2gFywQcWXN2JDgcJVzQCjy0jwH3HUvkJBnNrmNFOP3fzrivPXSruCCM9+pRruw0QQSRg==
+X-Received: by 2002:a50:d74c:0:b0:4aa:a4e9:fa28 with SMTP id
+ i12-20020a50d74c000000b004aaa4e9fa28mr3494777edj.34.1675776666816; 
+ Tue, 07 Feb 2023 05:31:06 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ e14-20020a056402190e00b0045ce419ecffsm6443760edz.58.2023.02.07.05.31.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Feb 2023 05:31:06 -0800 (PST)
+Date: Tue, 7 Feb 2023 15:30:48 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [RFC PATCH] drm: Create documentation about device resets
+Message-ID: <20230207153048.78697e7b@eldfell>
+In-Reply-To: <37e78013-5ed6-e80f-4a1c-1e61bed59735@amd.com>
+References: <20230123202646.356592-1-andrealmeid@igalia.com>
+ <20230123202646.356592-2-andrealmeid@igalia.com>
+ <37e78013-5ed6-e80f-4a1c-1e61bed59735@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v3 0/7] drm/bridge_connector: perform HPD enablement
- automatically
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
- <20230109162140.yelgy2da7aqa6sqv@fsr-ub1664-121.ea.freescale.net>
- <323ec70e-4613-c0e9-0b39-ad2a0a76673d@linaro.org>
- <20230110065712.lgjnmb66s4tlpoly@fsr-ub1664-121.ea.freescale.net>
- <bf92569b-3886-113c-9e27-508e4cbfa4ba@linaro.org>
- <CAMuHMdUbgvT5i4XiJxgKSiRSmFFXO_mMEbgHBgcJDwUPxEYRRA@mail.gmail.com>
- <4bf0e5a2-23b6-1964-b30f-a5cb57f35e68@linaro.org>
- <CAMuHMdXyMJZaeeaLjzhbb_A7_WDcyjAzpKNWG8f5gtvmZLW0AA@mail.gmail.com>
- <CAMuHMdUgtiuxJ9dnjcGy77onHtrhabT5krJMp2XSr4KOD31ydQ@mail.gmail.com>
-Organization: Linaro Developer Services
-In-Reply-To: <CAMuHMdUgtiuxJ9dnjcGy77onHtrhabT5krJMp2XSr4KOD31ydQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/9db4WWm0I_X2MQvPfj4lskX";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,93 +71,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Sean Paul <sean@poorly.run>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, Tomi Valkeinen <tomba@kernel.org>,
- freedreno@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: pierre-eric.pelloux-prayer@amd.com,
+ 'Marek =?UTF-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
+ amaranath.somalapuram@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, alexander.deucher@amd.com,
+ contactshashanksharma@gmail.com,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02/2023 11:19, Geert Uytterhoeven wrote:
-> Hi Neil,
-> 
-> On Tue, Feb 7, 2023 at 11:02 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> On Tue, Feb 7, 2023 at 10:59 AM Neil Armstrong
->> <neil.armstrong@linaro.org> wrote:
->>> On 07/02/2023 10:40, Geert Uytterhoeven wrote:
->>>> On Tue, Jan 10, 2023 at 5:37 PM Dmitry Baryshkov
->>>> <dmitry.baryshkov@linaro.org> wrote:
->>>>> On 10/01/2023 08:57, Laurentiu Palcu wrote:
->>>>>> On Mon, Jan 09, 2023 at 10:26:28PM +0200, Dmitry Baryshkov wrote:
->>>>>>> On 09/01/2023 18:21, Laurentiu Palcu wrote:
->>>>>>>> It looks like there are some issues with this patchset... :/ I just
->>>>>>>> fetched the drm-tip and, with these patches included, the "Hot plug
->>>>>>>> detection already enabled" warning is back for i.MX DCSS.
->>>>>>>
->>>>>>> Could you please provide a backtrace?
->>>>>>
->>>>>> Sure, see below:
->>>>>
->>>>> I wondered, why didn't I see this on msm, my main target nowadays. The
->>>>> msm driver is calling msm_kms_helper_poll_init() after initializing
->>>>> fbdev, so all previous kms_helper_poll_enable() calls return early.
->>>>>
->>>>> I think I have the fix ready. Let me test it locally before posting.
->>>>
->>>> Is this fix available?
->>>> Do you have a lore link?
->>>
->>> The fix at [1] has been applied on 2023-01-26
->>>
->>> [1] https://lore.kernel.org/all/20230124104548.3234554-1-dmitry.baryshkov@linaro.org/
->>
->> Applied where? linux-next does not have it.
-> 
-> commit cbf143b282c64e59
-> ("drm/probe_helper: extract two helper functions") in next-20230127
-> next-20230130 next-20230131
-> commit d33a54e3991dfce8
-> ("drm/probe_helper: sort out poll_running vs poll_enabled") in
-> next-20230127 next-20230130 next-20230131
-> 
-> but not in any later version?
+--Sig_/9db4WWm0I_X2MQvPfj4lskX
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-$ git log --oneline --author=dmitry next-20230207 drivers/gpu/drm/drm_probe_helper.c
-c8268795c9a9 drm/probe-helper: enable and disable HPD on connectors
-78b991ccfa64 drm/poll-helper: merge drm_kms_helper_poll_disable() and _fini()
+On Mon, 23 Jan 2023 21:38:11 +0100
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-$ cat Next/SHA1s | grep drm
-drm-fixes       4ec5183ec48656cec489c49f989c508b68b518e3
-drm-intel-fixes 4c7b9344cadbed477372c75e3c0a8cfd542f5990
-drm-misc-fixes  8f20660f053cefd4693e69cfff9cf58f4f7c4929
-drm             1c0db6d84f8e0ac8f14178f13250e36ebcf457ee
-drm-misc        d20a8f409259f1782f080b434054854020878f23
-drm-intel       155c6b16eec2eaaaf6c71abf2d5e71641770d7ba
-drm-tegra       b9930311641cf2ed905a84aabe27e8f3868aee4a
-drm-msm         dbd7a2a941b8cbf9e5f79a777ed9fe0090eebb61
-drm-msm-lumag   1d233b1cb149ec78c20fac58331b27bb460f9558
-imx-drm         927d8fd465adbaaad6cce82f840d489d7c378f29
+> Am 23.01.23 um 21:26 schrieb Andr=C3=A9 Almeida:
+> > Create a document that specifies how to deal with DRM device resets for
+> > kernel and userspace drivers.
+> >
+> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+> > ---
+> >   Documentation/gpu/drm-reset.rst | 51 +++++++++++++++++++++++++++++++++
+> >   Documentation/gpu/index.rst     |  1 +
+> >   2 files changed, 52 insertions(+)
+> >   create mode 100644 Documentation/gpu/drm-reset.rst
+> >
+> > diff --git a/Documentation/gpu/drm-reset.rst b/Documentation/gpu/drm-re=
+set.rst
+> > new file mode 100644
+> > index 000000000000..0dd11a469cf9
+> > --- /dev/null
+> > +++ b/Documentation/gpu/drm-reset.rst
+> > @@ -0,0 +1,51 @@
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +DRM Device Reset
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +The GPU stack is really complex and is prone to errors, from hardware =
+bugs,
+> > +faulty applications and everything in the many layers in between. To r=
+ecover
+> > +from this kind of state, sometimes is needed to reset the GPU. Unprope=
+r handling
+> > +of GPU resets can lead to an unstable userspace. This page describes w=
+hat's the
+> > +expected behaviour from DRM drivers to do in those situations, from us=
+ermode
+> > +drivers and compositors as well.
+> > +
+> > +Robustness
+> > +----------
+> > +
+> > +First of all, application robust APIs, when available, should be used.=
+ This
+> > +allows the application to correctly recover and continue to run after =
+a reset.
+> > +Apps that doesn't use this should be promptly killed when the kernel d=
+river
+> > +detects that it's in broken state. Specifically guidelines for some AP=
+Is:
+> > + =20
+>=20
+> > +- OpenGL: During a reset, KMD kill processes that haven't ARB Robustne=
+ss
+> > +  enabled, assuming they can't recover. =20
+>=20
+> This is a pretty clear NAK from my side to this approach. The KMD should=
+=20
+> never mess with an userspace process directly in such a way.
+>=20
+> Instead use something like this "OpenGL: KMD signals the abortion of=20
+> submitted commands and the UMD should then react accordingly and abort=20
+> the application.".
+>=20
+> > +- Vulkan: Assumes that every app is able to deal with ``VK_ERROR_DEVIC=
+E_LOST``,
+> > +  so KMD doesn't kill any. If it doesn't do it right, it's considered =
+a broken
+> > +  application and UMD will deal with it. =20
+>=20
+> Again, pleas remove the "KMD kill" reference.
+>=20
+> > +
+> > +Kernel mode driver
+> > +------------------
+> > +
+> > +The KMD should be able to detect that something is wrong with the appl=
+ication =20
+>=20
+> Please replace *should* with *must* here, this is mandatory or otherwise=
+=20
+> core memory management can run into deadlocks during reclaim.
+>=20
+> Regards,
+> Christian.
+>=20
+> > +and that a reset is needed to take place to recover the device (e.g. a=
+n endless
+> > +wait). It needs to properly track the context that is broken and mark =
+it as
+> > +dead, so any other syscalls to that context should be further rejected=
+. The
+> > +other contexts should be preserved when possible, avoid crashing the r=
+est of
+> > +userspace. KMD can ban a file descriptor that keeps causing resets, as=
+ it's
+> > +likely in a broken loop.
+> > +
+> > +User mode driver
+> > +----------------
+> > +
+> > +During a reset, UMD should be aware that rejected syscalls indicates t=
+hat the
+> > +context is broken and for robust apps the recovery should happen for t=
+he
+> > +context. Non-robust apps would be already terminated by KMD. If no new=
+ context
+> > +is created for some time, it is assumed that the recovery didn't work,=
+ so UMD
+> > +should terminate it.
 
-so weren't merged into drm-misc, I'll ping Thomas & Maxime on irc.
+Hi,
 
-Neil
+what Christian said, plus I would not assume that robust programs will
+always respond by creating a new context. They could also switch
+to a software renderer, or simply not do graphics again until something
+else happens.
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                  -- Linus Torvalds
+> > +
+> > +Compositors
+> > +-----------
+> > +
+> > +(In the long term) compositors should be robust as well to properly de=
+al with it
+> > +errors. Init systems should be aware of the compositor status and rese=
+t it if is
+> > +broken.
 
+I don't know how init systems could do that, or what difference does it
+make to an init system whether the display server is robust or not.
+Display servers can get stuck for other reasons as well. They may also
+be live-stuck, where they respond to keepalive, serve clients, and
+deliver input events, but still do not update the screen. You can't
+tell if that's a malfunction or expected.
+
+
+
+Have you checked
+https://www.kernel.org/doc/html/latest/gpu/drm-uapi.html#device-hot-unplug
+that you are consistent with hot-unplug plans?
+
+
+Thanks,
+pq
+
+> > diff --git a/Documentation/gpu/index.rst b/Documentation/gpu/index.rst
+> > index b99dede9a5b1..300b2529bd39 100644
+> > --- a/Documentation/gpu/index.rst
+> > +++ b/Documentation/gpu/index.rst
+> > @@ -9,6 +9,7 @@ Linux GPU Driver Developer's Guide
+> >      drm-mm
+> >      drm-kms
+> >      drm-kms-helpers
+> > +   drm-reset
+> >      drm-uapi
+> >      drm-usage-stats
+> >      driver-uapi =20
+>=20
+
+
+--Sig_/9db4WWm0I_X2MQvPfj4lskX
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPiUogACgkQI1/ltBGq
+qqelTQ//fJlGZa8DbtsnhMjlSHNEkUscr33DsHa67lB+rVgH5IlOLmaTRryrc/Cm
+FKNPaSxM8ejQWj5ROl4t1h5uNfK3u5nt15nzg44yOOs2FcCHKHeDsEWqKpznt//q
+QH198JFUnEHv0+HJCLEwo7FPnooQlXKZlx77s6NgOCy3BLolv9I2+hOSw5Mvl7Ld
+rrwXkfpWeRfqz0ILViEa4t37om4qNZxbcCikmOeckqQcPagWjiLNCRG3UJY2oIGU
+eCPrw/eOt1pAPFiYWeKJ3Y3HMIFvLo+/yCQnPYjq69Oufy5UtyXPZMI5JFSUZN2/
+9fi6MBDFh7WUbMp5iAcvFtOm4msQq6629RrGgYAuV2xkaTb5ifx+f69wHuuq9TZh
+6vyLiBTZhT80U+hd9r5atf0Gm0lACaufEl57OuCPFE6UlQ1WFD0Rg/AurWoPI5Or
+LIBfoxU6ZPSJOnhDfh0oDZmyCrJjlvY9ty5geFrxjOzvqD450ckzX/TtHzMfQokg
+ELGdSvOLhlsMJBV4I+HdvXqVZm5GxS0BPnhnrHXN684y6SWn/P3MZLEU2buCtA3M
+LefRCdXUPB1OR9b/cWSdw8XSKggmuGTqKkbYora4pW2L2t15kkTSdPoewavQJGPI
+qOzgQ0GNyJ+wNKW2LLRMdF+N5kQs+uO6h2SgCQaOwdINKg3hZZo=
+=7m4W
+-----END PGP SIGNATURE-----
+
+--Sig_/9db4WWm0I_X2MQvPfj4lskX--
