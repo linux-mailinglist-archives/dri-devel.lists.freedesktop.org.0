@@ -1,65 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B0A68F6C4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 19:19:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9375F68F6E8
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 19:31:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45A8910E05C;
-	Wed,  8 Feb 2023 18:19:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 111D910E6C0;
+	Wed,  8 Feb 2023 18:31:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A4D10E05C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 18:19:19 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id m8so21649556edd.10
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Feb 2023 10:19:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=cLcXf+eD3HBhyMLfz8YM8We2Va91mqTLE5XmnjVXfJI=;
- b=iTeiz8tGuJfOwDrM66L/OVlyj1dRpD7pYxgXHAXg2XvYGmkhM/ThjGgx2DohbfbquX
- ESE9Gebkrg/mQXkEq1Za7O5VGxNjjQRoTaonkHtRz8MA9TGs0PZs0fS0WyAPsejHKEJB
- p3NKz/1ujd4kzw9DLlTRKF6l0sB8EObyHrzwo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cLcXf+eD3HBhyMLfz8YM8We2Va91mqTLE5XmnjVXfJI=;
- b=MEZLWqMEjAuTSBmPa9oISCNrZi8CE+Q4FPwpMkOxYm5XoZebbi0PB85TbdejIL6PXw
- QjXlbYA3+PjsjDMvwAdctZ34UkQx03gDdhFV2zEHpcK7p/uIp84tioiogP2zSNqTZ+xu
- A0bN6yTZLgAH0qQVcxmbYAOWj5CIjC5aHrCQVB4Gz++MREsNTBWzQwoB1pFOORKrEVqB
- 7ES/ecbwsQR0zZjE4PfQ/nNN++VloakOTTkQMCfuTvRSvhEEKVJ10n7C8rGJSQW3PAys
- EdIH4Ox43IAvJc1DKZDkT1AcZz53Asc5kzczlvMC0qJLd9+Nk401T3cio1C+h/o1ZhxU
- Gj3w==
-X-Gm-Message-State: AO0yUKUVjK9G4X47XaaGd2BJAuTDWxIf2GfNoPy8wpDX6ZX+hcXzsk8S
- /oRKqI3RvC4F5ZVLO3dDi9bsXw==
-X-Google-Smtp-Source: AK7set/+W6SnJFbwOngjPgNY81AsE+Vs/tvEVTmaAEGnAw1vXwWJV70LRtN8nfOhZQKfJhFN20xZyg==
-X-Received: by 2002:a05:6402:5205:b0:4aa:a501:9bce with SMTP id
- s5-20020a056402520500b004aaa5019bcemr10523293edd.0.1675880358138; 
- Wed, 08 Feb 2023 10:19:18 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- h23-20020aa7c957000000b00487fc51c532sm8219032edt.33.2023.02.08.10.19.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 10:19:17 -0800 (PST)
-Date: Wed, 8 Feb 2023 19:19:15 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v3 1/6] drm/debugfs: Introduce wrapper for debugfs list
-Message-ID: <Y+Pno+ZG3gv6lwDT@phenom.ffwll.local>
-References: <20230131195825.677487-1-mcanal@igalia.com>
- <20230131195825.677487-2-mcanal@igalia.com>
- <Y+Pkm3ORQAipa/iD@phenom.ffwll.local>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF53510E6C0
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 18:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=b9fT0xiL+d4HYbF55jK9XASVobyxfE/UbSexv++6IKc=; b=QCwdfZ/XwnuMNKabC+Eg3z3Yef
+ Jv/4U41RUB6aG6gbSFTqmPOZl+xDKS8N9w4+xoQ2o9pUWZMm6fgom1yK07GsmlgJmyBhap67bRrse
+ ecWAQwjAJy8pVIptXhQbitWQ9cIQFLptVo4WPWRaPMqIQRtup7qHGraLNvI/Qfnl1PyXb+2xfkxw9
+ W2p6TQLYjso11L6VNeOiuTUFgbIKKPrrETOdNmaezrnRnOkeeczQdS9HjxB+kwEixoNhpL+TzbVlX
+ 4zmrk5xscnvSPEJ2WMBLUSrAywP+Q7RGN9KwjfvTzKJQ+aC3uplfkzT/g/pVLh2b9iT+3TQQdB6KE
+ Gk/h0HKw==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pPpEP-00D9YZ-S1; Wed, 08 Feb 2023 19:31:46 +0100
+Message-ID: <1a25cc58-ba2b-2529-2e02-5c610e9d3f58@igalia.com>
+Date: Wed, 8 Feb 2023 15:31:39 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: DRM accel and debugfs/sysfs
+Content-Language: en-US
+To: Oded Gabbay <ogabbay@kernel.org>, Daniel Vetter <daniel@ffwll.ch>
+References: <20230201152003.GA2623449@linux.intel.com>
+ <5dfdf605-55a2-28d3-aecf-713a632b2431@igalia.com>
+ <5651b98b-ace8-5009-409f-d6032cb5374d@quicinc.com>
+ <bdf077e8-87ff-108a-e1fe-44bd6db79674@igalia.com>
+ <Y+Pk185JOBg7/AKN@phenom.ffwll.local>
+ <CAFCwf11-46pknoh_S=GYWeQFP3Q6x+k7EcqsOapPEEji5Dygnw@mail.gmail.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <CAFCwf11-46pknoh_S=GYWeQFP3Q6x+k7EcqsOapPEEji5Dygnw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+Pkm3ORQAipa/iD@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,138 +59,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 08, 2023 at 07:06:19PM +0100, Daniel Vetter wrote:
-> On Tue, Jan 31, 2023 at 04:58:21PM -0300, Ma�ra Canal wrote:
-> > Introduce a struct wrapper for all the debugfs-related stuff: the list
-> > of debugfs files and the mutex that protects it. This will make it
-> > easier to initialize all the debugfs list in a DRM object and will
-> > create a good abstraction for a possible implementation of the debugfs
-> > infrastructure for KMS objects.
-> > 
-> > Signed-off-by: Ma�ra Canal <mcanal@igalia.com>
-> > ---
-> >  drivers/gpu/drm/drm_debugfs.c  | 18 ++++++++++++++++++
-> >  drivers/gpu/drm/drm_internal.h | 12 ++++++++++++
-> >  include/drm/drm_debugfs.h      | 16 ++++++++++++++++
-> >  3 files changed, 46 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> > index 4f643a490dc3..8658d3929ea5 100644
-> > --- a/drivers/gpu/drm/drm_debugfs.c
-> > +++ b/drivers/gpu/drm/drm_debugfs.c
-> > @@ -218,6 +218,24 @@ void drm_debugfs_create_files(const struct drm_info_list *files, int count,
-> >  }
-> >  EXPORT_SYMBOL(drm_debugfs_create_files);
-> >  
-> > +struct drm_debugfs_files *drm_debugfs_files_init(void)
-> > +{
-> > +	struct drm_debugfs_files *debugfs_files;
-> > +
-> > +	debugfs_files = kzalloc(sizeof(*debugfs_files), GFP_KERNEL);
-> > +
-> > +	INIT_LIST_HEAD(&debugfs_files->list);
-> > +	mutex_init(&debugfs_files->mutex);
-> > +
-> > +	return debugfs_files;
-> > +}
-> > +
-> > +void drm_debugfs_files_destroy(struct drm_debugfs_files *debugfs_files)
-> > +{
-> > +	mutex_destroy(&debugfs_files->mutex);
-> > +	kfree(debugfs_files);
-> > +}
-> > +
-> >  int drm_debugfs_init(struct drm_minor *minor, int minor_id,
-> >  		     struct dentry *root)
-> >  {
-> > diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> > index ed2103ee272c..f1c8766ed828 100644
-> > --- a/drivers/gpu/drm/drm_internal.h
-> > +++ b/drivers/gpu/drm/drm_internal.h
-> > @@ -23,6 +23,7 @@
-> >  
-> >  #include <linux/kthread.h>
-> >  
-> > +#include <drm/drm_debugfs.h>
-> >  #include <drm/drm_ioctl.h>
-> >  #include <drm/drm_vblank.h>
-> >  
-> > @@ -183,6 +184,8 @@ int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
-> >  
-> >  /* drm_debugfs.c drm_debugfs_crc.c */
-> >  #if defined(CONFIG_DEBUG_FS)
-> > +struct drm_debugfs_files *drm_debugfs_files_init(void);
-> > +void drm_debugfs_files_destroy(struct drm_debugfs_files *debugfs_files);
-> >  int drm_debugfs_init(struct drm_minor *minor, int minor_id,
-> >  		     struct dentry *root);
-> >  void drm_debugfs_cleanup(struct drm_minor *minor);
-> > @@ -193,6 +196,15 @@ void drm_debugfs_crtc_add(struct drm_crtc *crtc);
-> >  void drm_debugfs_crtc_remove(struct drm_crtc *crtc);
-> >  void drm_debugfs_crtc_crc_add(struct drm_crtc *crtc);
-> >  #else
-> > +static inline struct drm_debugfs_files *drm_debugfs_files_init(void)
-> > +{
-> > +	return NULL;
-> > +}
-> > +
-> > +static inline void drm_debugfs_files_destroy(struct drm_debugfs_files *debugfs_files)
-> > +{
-> > +}
-> > +
-> >  static inline int drm_debugfs_init(struct drm_minor *minor, int minor_id,
-> >  				   struct dentry *root)
-> >  {
-> > diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
-> > index 7616f457ce70..423aa3de506a 100644
-> > --- a/include/drm/drm_debugfs.h
-> > +++ b/include/drm/drm_debugfs.h
-> > @@ -32,6 +32,8 @@
-> >  #ifndef _DRM_DEBUGFS_H_
-> >  #define _DRM_DEBUGFS_H_
-> >  
-> > +#include <linux/list.h>
-> > +#include <linux/mutex.h>
-> >  #include <linux/types.h>
-> >  #include <linux/seq_file.h>
-> >  /**
-> > @@ -79,6 +81,20 @@ struct drm_info_node {
-> >  	struct dentry *dent;
-> >  };
-> >  
-> > +/**
-> > + * struct drm_debugfs_files - Encapsulates the debugfs list and its mutex
-> > + *
-> > + * This structure represents the debugfs list of files and is encapsulated
-> > + * with a mutex to protect the access of the list.
-> > + */
-> > +struct drm_debugfs_files {
-> > +	/** @list: List of debugfs files to be created by the DRM object. */
-> > +	struct list_head list;
-> > +
-> > +	/** @mutex: Protects &list access. */
-> > +	struct mutex mutex;
-> 
-> I'm not seeing any use for the mutex here? Also unless you also plan to
-> put like the debugfs directory pointers in this struct, I'm not sure we
-> need this abstraction since it's purely internal to debugfs code (so also
-> should really be in the headers where drivers could perhaps come up with
-> funny ideas).
+On 2/8/23 15:13, Oded Gabbay wrote:
+> On Wed, Feb 8, 2023 at 8:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>>
+>> On Tue, Feb 07, 2023 at 01:17:47PM -0300, Maíra Canal wrote:
+>>> On 2/7/23 12:43, Jeffrey Hugo wrote:
+>>>> On 2/7/2023 4:31 AM, Maíra Canal wrote:
+>>>>> Hi Stanislaw,
+>>>>>
+>>>>> On 2/1/23 12:20, Stanislaw Gruszka wrote:
+>>>>>> Hi
+>>>>>>
+>>>>>> I was about to send debugfs support for ivpu and noticed that there
+>>>>>> are current changes that deprecate drm_devel->debugfs_init callback.
+>>>>>>
+>>>>>> Further I looked at this commit [1], that stated we should not
+>>>>>> use drm_minor for debugfs and sysfs. What is quite contrary to
+>>>>>> what drm accel framework did in the first place.
+>>>>>>
+>>>>>> So my question is how we should use debugfs/sysfs in accel?
+>>>>>> Use it with old fashioned minor-centric way or change
+>>>>>> the framework somehow ?
+>>>>>
+>>>>> As we are trying to replace drm_debugfs_create_files() [1], it would
+>>>>> be nice to see the accel debugfs support use the new debugfs API. This
+>>>>> would mean using the debugfs_list from the drm_device, deprecating
+>>>>> the debugfs_init callback, and adding the a similar code snippet to
+>>>>> accel_debugfs_init:
+>>>>>
+>>>>> list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+>>>>>       debugfs_create_file(entry->file.name, 0444,
+>>>>>                   minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+>>>>>       list_del(&entry->list);
+>>>>>
+>>>>> Maybe Daniel has some more thoughts on this matter, but I guess it
+>>>>> would be better to drop the use of the old-fashioned minor-centric
+>>>>> implementation in accel.
+>>
+>> It was a simple case of two things landing in parallel and not being
+>> synchronized. Would be good if accel could be adapted to use the new
+>> debugfs infra, now that both accel and the new debugfs stuff have landed.
+>> -Daniel
+> Yes, definitely.
+> Does anyone volunteer to send a patch to align ?
 
-To clarify, I think any struct or code which is potentially type unsafe,
-like this one here or the drm_debugfs_entry one, should be moved into
-drm_debugfs.c. That way drivers do not ever see the potentially dangerous
-pieces, and only have a type-safe interface for everything.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I can send a patch this week align it.
+
+Best Regards,
+- Maíra Canal
+
+> If not, we will do it internally and send a patch.
+> 
+> Oded
+>>
+>>>>>
+>>>>> [1] https://cgit.freedesktop.org/drm/drm-misc/tree/Documentation/gpu/todo.rst#n511
+>>>>>
+>>>>> Best Regards,
+>>>>> - Maíra Canal
+>>>>
+>>>> Thank you for the details Maira.  It helps to explain what the todo is suggesting.  Is there an example of a driver/drm_device that uses debugfs_list which you can easily point to?
+>>>
+>>> The implementation of this device-centered infrastructure is linked in [1]
+>>> and an example of the conversion of debugfs APIs is linked in [2], and other
+>>> drivers such as v3d, vkms, vc4 and gud use this new API as well.
+>>>
+>>> [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1c9cacbea880513a896aee65a5c58007bcb55653
+>>> [2] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=2e3ab8a6994f265bbd4dbd00448b84548f18464c
+>>>
+>>> Best Regards,
+>>> - Maíra Canal
+>>>
+>>>>
+>>>> -Jeff
+>>>>
+>>>>>
+>>>>>>
+>>>>>> [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=99845faae7099cd704ebf67514c1157c26960a26
+>>>>>>
+>>>>>> Regards
+>>>>>> Stanislaw
+>>>>>>
+>>>>
+>>
+>> --
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> http://blog.ffwll.ch
