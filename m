@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C628D68ED16
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 11:37:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 815FA68ED1B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 11:37:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7F4610E733;
-	Wed,  8 Feb 2023 10:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE49B10E73E;
+	Wed,  8 Feb 2023 10:37:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E293010E73A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 10:37:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2C3310E73A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 10:37:32 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F29AB6600362;
- Wed,  8 Feb 2023 10:37:29 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DAD6E6602091;
+ Wed,  8 Feb 2023 10:37:30 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1675852650;
- bh=TVLY2L+iZ2tOkGaynl/eW0t9KWfRLxnjRTuTvMUlR9s=;
+ s=mail; t=1675852651;
+ bh=2pa0jFRatcXMZ9SnaIXUtFWvuVZm0Clr55bqDu2qpDA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DOF7DQKNlIx3DGDjusmsvqeIWQ4+zhnIynQ30pUL1pkwfdJI89U48pie4nUFO4GPR
- CwyqoL12zay29aDkxWhrAoFIQBhLw4Zz1J0HQ23nUlfRuTdH76apCqb5JtQe+zSuUJ
- iG3A4x8TRdAaWrS8IraO/6MWTTSz10KyMUSlddNViACkcI5A1eW4E+acudNZcoB5ea
- uTc0Rujx+MxqzPnqMMcSQU6QCUOAS+DDiZtqRfKdnrCaOc5B0Lf+31SmOpHvWVF9wv
- v4RI9X+dMjRXmziJrtlK7DDvziKDtiMR7VokYatVoOdFd5U63TzejumENi6pFk3LWA
- MTn81FLJ/bxOw==
+ b=VpkWOXIGyP9vosdNbC4o+VzOZQgIPd0IMHDDiDb6HoXAtn48eT7pQhg7LHKJ3OYPd
+ NqLjqw1PCw14weP0jrt5K/9cwIB2nKVtoYx0+t1KlA3LVfzcnz4P53OC/Ud2b3lcEm
+ FetNWbRbu29E7KDL0YkEN4w9vbaQm2HjcKmth3zuF1oUsOt5npxcVo/cah+iPdE041
+ ZhQJ12wIQ2wGyBhAaYMfKzb6ak8V6kGaOs+HNEOUh3fh4wDZ9Lk680IVxQiXeRhk5W
+ 8flOvLKXuYzyxUsXNrqbmTvAjTB2cJU6wpHqnZl2jYz1VgHYZw3lJO09Uc86ToKjUI
+ gPKGCQhsWpFoQ==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: airlied@gmail.com
-Subject: [PATCH 6/9] drm/panfrost: Increase MAX_PM_DOMAINS to 5
-Date: Wed,  8 Feb 2023 11:37:06 +0100
-Message-Id: <20230208103709.116896-7-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 7/9] drm/panfrost: Add the MT8192 GPU ID
+Date: Wed,  8 Feb 2023 11:37:07 +0100
+Message-Id: <20230208103709.116896-8-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
 References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
@@ -62,28 +62,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 
-Increase the MAX_PM_DOMAINS constant from 3 to 5, to support the
-extra power domains required by the Mali-G57 on the MT8192.
+MediaTek MT8192 has a Mali-G57 with a special GPU ID. Add its GPU ID,
+but treat it as otherwise identical to a standard Mali-G57.
+
+We do _not_ fix up the GPU ID here -- userspace needs to be aware of the
+special GPU ID, in case we find functional differences between
+MediaTek's implementation and the standard Mali-G57 down the line.
 
 Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_device.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_gpu.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index d9ba68cffb77..b0126b9fbadc 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -23,7 +23,7 @@ struct panfrost_job;
- struct panfrost_perfcnt;
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+index 6452e4e900dd..d28b99732dde 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+@@ -204,6 +204,14 @@ static const struct panfrost_model gpu_models[] = {
  
- #define NUM_JOB_SLOTS 3
--#define MAX_PM_DOMAINS 3
-+#define MAX_PM_DOMAINS 5
+ 	GPU_MODEL(g57, 0x9001,
+ 		GPU_REV(g57, 0, 0)),
++
++	/* MediaTek MT8192 has a Mali-G57 with a different GPU ID from the
++	 * standard. Arm's driver does not appear to handle this model.
++	 * ChromeOS has a hack downstream for it. Treat it as equivalent to
++	 * standard Mali-G57 for now.
++	 */
++	GPU_MODEL(g57, 0x9003,
++		GPU_REV(g57, 0, 0)),
+ };
  
- struct panfrost_features {
- 	u16 id;
+ static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
 -- 
 2.39.1
 
