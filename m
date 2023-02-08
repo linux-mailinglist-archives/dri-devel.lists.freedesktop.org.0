@@ -2,50 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C35C68F175
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 15:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455DC68F1AE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 16:11:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2910E7B2;
-	Wed,  8 Feb 2023 14:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F60110E04B;
+	Wed,  8 Feb 2023 15:11:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB3BB10E7B0;
- Wed,  8 Feb 2023 14:57:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675868245; x=1707404245;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=uV7AgTbrch/Eu7LxtX7piER6N6FgL/dvdUlPwqpriz0=;
- b=IqAgXwVtJIwpCdvv6s84vAZxUbU+FFGBx6YpekR+UbsIGOnGCVE2PO9B
- tojRLEnUQALkBE2jjUGMe4WW7kElM4lNGmLXTwpnD8xcK5WokdhxC1qSq
- 9OEmttkF2m/hjVHj6Kkkok70ymehu4+PcmQ0S+YkWQrZk1JgNRTSD+56I
- MOYd2I7qR/RaJ43e1r0y8SW+P7VfMXRg39hXBZhOI7z4Wknt7UEsgjL/u
- UtrX4igatqUAk0VzFsJu86ZBWhfQy37GpD/mzmwW4JNwdbU5vhfvuUtjn
- cUo/sCykg35B2SLoaUew+UszJKS5W2+M+UFglIWqDXrEggqHqhvirZ0VE A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="328469205"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="328469205"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 06:57:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="617233452"
-X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="617233452"
-Received: from hassanka-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.31.252])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Feb 2023 06:57:24 -0800
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/radeon: handle NULL bo->resource in move callback
-Date: Wed,  8 Feb 2023 14:53:19 +0000
-Message-Id: <20230208145319.397235-4-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230208145319.397235-1-matthew.auld@intel.com>
-References: <20230208145319.397235-1-matthew.auld@intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DADE510E061
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 15:11:53 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B54511477;
+ Wed,  8 Feb 2023 07:12:35 -0800 (PST)
+Received: from [10.57.12.246] (unknown [10.57.12.246])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D28A33F8C6;
+ Wed,  8 Feb 2023 07:11:49 -0800 (PST)
+Message-ID: <7e08656f-4908-43e3-57d6-2928b1eb12d5@arm.com>
+Date: Wed, 8 Feb 2023 15:11:47 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 0/9] Panfrost: Improve and add MediaTek SoCs support
+Content-Language: en-GB
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ airlied@gmail.com
+References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,39 +44,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: tomeu.vizoso@collabora.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+ alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ttm bo now initially has NULL bo->resource, and leaves the driver
-the handle that. However it looks like we forgot to handle that for
-radeon.  It looks like this will just null-ptr-deref in
-radeon_bo_move(), if bo->resource is NULL.
+On 08/02/2023 10:37, AngeloGioacchino Del Regno wrote:
+> This series adds support for new MediaTek SoCs (MT8186/MT8192/MT8195)
+> and improves MT8183 support: since the mtk-regulator-coupler driver
+> was picked, it is now useless for Panfrost to look for, and manage,
+> two regulators (GPU Vcore and GPU SRAM) on MediaTek;
 
-Fix this by calling move_null().
+Yay! ;) I never did like Panfrost dealing with two regulators.
 
-Fixes: 180253782038 ("drm/ttm: stop allocating dummy resources during BO creation")
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/radeon/radeon_ttm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> The aforementioned driver will take care of keeping the voltage
+> relation (/constraints) of the two regulators on its own when a
+> voltage change request is sent to the Vcore, solving the old time
+> issue with not working DVFS on Panfrost+MediaTek (due to devfreq
+> supporting only single regulator).
+> 
+> In the specific case of MT8183, in order to not break the ABI, it
+> was necessary to add a new compatible for enabling DVFS.
 
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 67075c85f847..2220cdf6a3f6 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -213,7 +213,8 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 
- 	rbo = container_of(bo, struct radeon_bo, tbo);
- 	rdev = radeon_get_rdev(bo->bdev);
--	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
-+	if (!old_mem || (old_mem->mem_type == TTM_PL_SYSTEM &&
-+			 bo->ttm == NULL)) {
- 		ttm_bo_move_null(bo, new_mem);
- 		goto out;
- 	}
--- 
-2.39.1
+It's a shame to need a new compatible, but it seems sensible to me.
+
+For the panfrost changes:
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+I'll let others comment on the DT binding changes.
+
+Thanks,
+
+Steve
+
+> Alyssa Rosenzweig (3):
+>   drm/panfrost: Increase MAX_PM_DOMAINS to 5
+>   drm/panfrost: Add the MT8192 GPU ID
+>   drm/panfrost: Add mediatek,mt8192-mali compatible
+> 
+> AngeloGioacchino Del Regno (6):
+>   dt-bindings: gpu: mali-bifrost: Don't allow sram-supply by default
+>   dt-bindings: gpu: mali-bifrost: Allow up to 5 power domains for MT8192
+>   dt-bindings: gpu: mali-bifrost: Add compatible for MT8195 SoC
+>   dt-bindings: gpu: mali-bifrost: Add new MT8183 compatible
+>   dt-bindings: gpu: mali-bifrost: Add a compatible for MediaTek MT8186
+>   drm/panfrost: Add new compatible for Mali on the MT8183 SoC
+> 
+>  .../bindings/gpu/arm,mali-bifrost.yaml        | 68 +++++++++++++++++--
+>  drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       | 28 ++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c       |  8 +++
+>  4 files changed, 99 insertions(+), 7 deletions(-)
+> 
 
