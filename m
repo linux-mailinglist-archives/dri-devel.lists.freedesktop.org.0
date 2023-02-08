@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2B768F849
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 20:49:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFB968F84A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 20:49:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9959810E844;
-	Wed,  8 Feb 2023 19:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D1E10E84A;
+	Wed,  8 Feb 2023 19:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8EB410E18F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 19:48:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB39910E850
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 19:49:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -19,16 +19,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=iUG1WhmhL6DueyVykI/Mnd37jhIwHZYrkso70sb5BWg=; b=E8B/Fhu6dNONP7Gf3IElMhKTsR
- NS8FywW+ifZj+r6aF9yXq1jMH/yTpM5ORJ8xJqjLFU9jv6aYy1C0+pbLcE/x7xiPcdNqUsJZ/AUen
- MfnQG1c1JpVAjtjgLihcX59TpspC5O+HPYIlx9IZzl0l5b6iO68k+9tvmexZiI8K39rZwmDCSgqfg
- EtriNk/byNo9+SoxykUXCEP5utONiT2mkXJThc+0BNkhfjmKH0Dc0FS2mOq+E0Qos6cSn95LGOLsC
- idNAJKPVcmd/Y+sPh1SAIipUFke51jWy7085iGctmzroLQAczBTOqZ/YjmchF03adv7UuGboITe0Y
- 4vpxvpsA==;
+ bh=wAVkk88UB+qmi2JVNKR/kpIZ2+DOKPhGRy3Uq4cU4R0=; b=T9WyGxyIJCejL/SUsHc4fefiPv
+ sROw3VK86V18rY4OeI5F+ruQYBgtWHA8DpPA8G9/SQeFn5jSecsL37EDgIA3Gz9UNKZksOCdrPbL2
+ ePC4KwBbNulw0EL19de5QEPfab5D9p2u/I8srX89dHbfBTfJU6Ee2xLYzft59VvqtoN1o68SEE3Ll
+ TvjirDfUxzXOvXZo6YKnpu8vxDvSJ1Z8CjslOIDYH9nDDIExWktWreaZ3GhrOkELR7c4d9YMB8Mcq
+ eioNnDx3rxEgO0apfYe3mIwSKfx8OdVpQHKUJHXjpm6E9vTOa5XqE6cXcftfkyeMLJTOAzTvDCxoN
+ WADKaxvg==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pPqQv-00DCm6-TW; Wed, 08 Feb 2023 20:48:46 +0100
+ id 1pPqR2-00DCm6-6T; Wed, 08 Feb 2023 20:48:52 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
@@ -40,10 +40,9 @@ To: Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
  Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Melissa Wen <mwen@igalia.com>
-Subject: [PATCH 1/5] drm/sched: Create wrapper to add a syncobj dependency to
- job
-Date: Wed,  8 Feb 2023 16:48:13 -0300
-Message-Id: <20230208194817.199932-2-mcanal@igalia.com>
+Subject: [PATCH 2/5] drm/lima: Use drm_sched_job_add_syncobj_dependency()
+Date: Wed,  8 Feb 2023 16:48:14 -0300
+Message-Id: <20230208194817.199932-3-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208194817.199932-1-mcanal@igalia.com>
 References: <20230208194817.199932-1-mcanal@igalia.com>
@@ -67,88 +66,43 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to add a syncobj's fence as a dependency to a job, it is
-necessary to call drm_syncobj_find_fence() to find the fence and then
-add the dependency with drm_sched_job_add_dependency(). So, wrap these
-steps in one single function, drm_sched_job_add_syncobj_dependency().
+As lima_gem_add_deps() performs the same steps as
+drm_sched_job_add_syncobj_dependency(), replace the open-coded
+implementation in Lima in order to simply, using the DRM function.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 29 ++++++++++++++++++++++++++
- include/drm/gpu_scheduler.h            |  6 ++++++
- 2 files changed, 35 insertions(+)
+ drivers/gpu/drm/lima/lima_gem.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 0e4378420271..d5331b1877a3 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -53,6 +53,7 @@
+diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+index 0f1ca0b0db49..10252dc11a22 100644
+--- a/drivers/gpu/drm/lima/lima_gem.c
++++ b/drivers/gpu/drm/lima/lima_gem.c
+@@ -277,21 +277,13 @@ static int lima_gem_add_deps(struct drm_file *file, struct lima_submit *submit)
+ 	int i, err;
  
- #include <drm/drm_print.h>
- #include <drm/drm_gem.h>
-+#include <drm/drm_syncobj.h>
- #include <drm/gpu_scheduler.h>
- #include <drm/spsc_queue.h>
+ 	for (i = 0; i < ARRAY_SIZE(submit->in_sync); i++) {
+-		struct dma_fence *fence = NULL;
+-
+ 		if (!submit->in_sync[i])
+ 			continue;
  
-@@ -718,6 +719,34 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
- }
- EXPORT_SYMBOL(drm_sched_job_add_dependency);
+-		err = drm_syncobj_find_fence(file, submit->in_sync[i],
+-					     0, 0, &fence);
++		err = drm_sched_job_add_syncobj_dependency(&submit->task->base, file,
++							   submit->in_sync[i], 0);
+ 		if (err)
+ 			return err;
+-
+-		err = drm_sched_job_add_dependency(&submit->task->base, fence);
+-		if (err) {
+-			dma_fence_put(fence);
+-			return err;
+-		}
+ 	}
  
-+/**
-+ * drm_sched_job_add_syncobj_dependency - adds a syncobj's fence as a job dependency
-+ * @job: scheduler job to add the dependencies to
-+ * @file_private: drm file private pointer
-+ * @handle: syncobj handle to lookup
-+ * @point: timeline point
-+ *
-+ * This adds the fence matching the given syncobj to @job.
-+ *
-+ * Returns:
-+ * 0 on success, or an error on failing to expand the array.
-+ */
-+int drm_sched_job_add_syncobj_dependency(struct drm_sched_job *job,
-+					 struct drm_file *file,
-+					 u32 handle,
-+					 u32 point)
-+{
-+	struct dma_fence *fence;
-+	int ret = 0;
-+
-+	ret = drm_syncobj_find_fence(file, handle, point, 0, &fence);
-+	if (ret)
-+		return ret;
-+
-+	return drm_sched_job_add_dependency(job, fence);
-+}
-+EXPORT_SYMBOL(drm_sched_job_add_syncobj_dependency);
-+
- /**
-  * drm_sched_job_add_resv_dependencies - add all fences from the resv to the job
-  * @job: scheduler job to add the dependencies to
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 9935d1e2ff69..4cc54f8b57b4 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -48,6 +48,8 @@ struct drm_gem_object;
- struct drm_gpu_scheduler;
- struct drm_sched_rq;
- 
-+struct drm_file;
-+
- /* These are often used as an (initial) index
-  * to an array, and as such should start at 0.
-  */
-@@ -515,6 +517,10 @@ int drm_sched_job_init(struct drm_sched_job *job,
- void drm_sched_job_arm(struct drm_sched_job *job);
- int drm_sched_job_add_dependency(struct drm_sched_job *job,
- 				 struct dma_fence *fence);
-+int drm_sched_job_add_syncobj_dependency(struct drm_sched_job *job,
-+					 struct drm_file *file,
-+					 u32 handle,
-+					 u32 point);
- int drm_sched_job_add_resv_dependencies(struct drm_sched_job *job,
- 					struct dma_resv *resv,
- 					enum dma_resv_usage usage);
+ 	return 0;
 -- 
 2.39.1
 
