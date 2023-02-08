@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815FA68ED1B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 11:37:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0218F68ED20
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 11:37:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE49B10E73E;
-	Wed,  8 Feb 2023 10:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7600310E741;
+	Wed,  8 Feb 2023 10:37:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2C3310E73A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 10:37:32 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9209B10E73A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 10:37:33 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DAD6E6602091;
- Wed,  8 Feb 2023 10:37:30 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B91B96602096;
+ Wed,  8 Feb 2023 10:37:31 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1675852651;
- bh=2pa0jFRatcXMZ9SnaIXUtFWvuVZm0Clr55bqDu2qpDA=;
+ s=mail; t=1675852652;
+ bh=LMwqpEoSTBoag1iPNbLWuJ7k3BNQAL+D9DLjE7DnY9A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VpkWOXIGyP9vosdNbC4o+VzOZQgIPd0IMHDDiDb6HoXAtn48eT7pQhg7LHKJ3OYPd
- NqLjqw1PCw14weP0jrt5K/9cwIB2nKVtoYx0+t1KlA3LVfzcnz4P53OC/Ud2b3lcEm
- FetNWbRbu29E7KDL0YkEN4w9vbaQm2HjcKmth3zuF1oUsOt5npxcVo/cah+iPdE041
- ZhQJ12wIQ2wGyBhAaYMfKzb6ak8V6kGaOs+HNEOUh3fh4wDZ9Lk680IVxQiXeRhk5W
- 8flOvLKXuYzyxUsXNrqbmTvAjTB2cJU6wpHqnZl2jYz1VgHYZw3lJO09Uc86ToKjUI
- gPKGCQhsWpFoQ==
+ b=cfCFb6dE/tVp+UCzTu0P7PveAPy3W365WlwuAqZ9TGV+jT1tt7LsqhLAx20mFF4uk
+ OHFJhvmFLqBtIeMGsaRDS7wFRaJUOrNdHkKsnR2zYW+QLFlHTwtGMZGhSgbroTouon
+ aFEThvfjhIUh002uNwUDhdEJVwIhnIOwCbrEN8CEl4qch5Se0jZK7mGgEjctPAbVQn
+ zY9vRJuIYusMAp6Cozze/Cc/OqbC8G/zBBnQGyDWM+fASe9rH+DHc0XXpCfBMtGJln
+ fB5AeySmDcjR2WENSv4FOSLOv6WBjlNm44DsTNC/NRhAik6cbIAfrBnohc4WaiUjbg
+ rq3mTg8ONrJnw==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: airlied@gmail.com
-Subject: [PATCH 7/9] drm/panfrost: Add the MT8192 GPU ID
-Date: Wed,  8 Feb 2023 11:37:07 +0100
-Message-Id: <20230208103709.116896-8-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 8/9] drm/panfrost: Add mediatek,mt8192-mali compatible
+Date: Wed,  8 Feb 2023 11:37:08 +0100
+Message-Id: <20230208103709.116896-9-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
 References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
@@ -62,38 +63,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 
-MediaTek MT8192 has a Mali-G57 with a special GPU ID. Add its GPU ID,
-but treat it as otherwise identical to a standard Mali-G57.
-
-We do _not_ fix up the GPU ID here -- userspace needs to be aware of the
-special GPU ID, in case we find functional differences between
-MediaTek's implementation and the standard Mali-G57 down the line.
+Required for Mali-G57 on the Mediatek MT8192 and MT8195, which
+uses even more power domains than the MT8183 before it.
 
 Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+[Angelo: Removed unneeded "sram" supply, added mt8195 to commit description]
+Co-developed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/panfrost/panfrost_gpu.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-index 6452e4e900dd..d28b99732dde 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
-@@ -204,6 +204,14 @@ static const struct panfrost_model gpu_models[] = {
- 
- 	GPU_MODEL(g57, 0x9001,
- 		GPU_REV(g57, 0, 0)),
-+
-+	/* MediaTek MT8192 has a Mali-G57 with a different GPU ID from the
-+	 * standard. Arm's driver does not appear to handle this model.
-+	 * ChromeOS has a hack downstream for it. Treat it as equivalent to
-+	 * standard Mali-G57 for now.
-+	 */
-+	GPU_MODEL(g57, 0x9003,
-+		GPU_REV(g57, 0, 0)),
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index abb0dadd8f63..5d25e77e1037 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -663,6 +663,16 @@ static const struct panfrost_compatible mediatek_mt8183_data = {
+ 	.pm_domain_names = mediatek_mt8183_pm_domains,
  };
  
- static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
++static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
++static const char * const mediatek_mt8192_pm_domains[] = { "core0", "core1", "core2",
++							   "core3", "core4" };
++static const struct panfrost_compatible mediatek_mt8192_data = {
++	.num_supplies = ARRAY_SIZE(mediatek_mt8192_supplies) - 1,
++	.supply_names = mediatek_mt8192_supplies,
++	.num_pm_domains = ARRAY_SIZE(mediatek_mt8192_pm_domains),
++	.pm_domain_names = mediatek_mt8192_pm_domains,
++};
++
+ static const struct of_device_id dt_match[] = {
+ 	/* Set first to probe before the generic compatibles */
+ 	{ .compatible = "amlogic,meson-gxm-mali",
+@@ -681,6 +691,7 @@ static const struct of_device_id dt_match[] = {
+ 	{ .compatible = "arm,mali-bifrost", .data = &default_data, },
+ 	{ .compatible = "arm,mali-valhall-jm", .data = &default_data, },
+ 	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
++	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, dt_match);
 -- 
 2.39.1
 
