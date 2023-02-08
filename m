@@ -1,50 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE71668E575
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 02:32:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D6D68E61B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 03:34:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0E010E66D;
-	Wed,  8 Feb 2023 01:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A93A310E68A;
+	Wed,  8 Feb 2023 02:34:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF3D10E66C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 01:32:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=jo71tlA2eEZPdxKjgTvLhMtzKyjxK2QlLMd+t0w/e3Q=; b=ay2mX2FLZ3Pvx6L5UJcyeffPih
- Z2FzC7RnqKsgae3U/fJ+2MREDfNnYcX+7/DIUMs8G3h8JY9UkvYd4HWnOOk7Is6BNTJaTYAZxe1vf
- l8LfWY1qS4pm/xpZ6w6Q4zuQ/rSlOUnCWslbQWOSRIy7DLC8xbsQgRlz+/9U8gmSYKYFTGHng3Won
- 9zYe4KLDgG2h5xOK/JslAPD/TMcDxUIDr8Uh+bYJm6gP5/ICWPz84oG5SIr1LjuTibzDMj3s3eZNT
- vAuQJO05IAMM1Vxg5h6AY1cFu3fy6HRqxOeCQZZ0SMxWcVxafZAqAdGTnLRRAF2dInznQN6ckvsDV
- zMkQoO9Q==;
-Received: from [2601:1c2:980:9ec0::df2f]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pPZJD-00Dmp1-1J; Wed, 08 Feb 2023 01:31:39 +0000
-Message-ID: <0e26bf17-864e-eb22-0d07-5b91af4fde92@infradead.org>
-Date: Tue, 7 Feb 2023 17:31:37 -0800
+Received: from out30-111.freemail.mail.aliyun.com
+ (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7979C10E696
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 02:34:42 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0Vb9eBbP_1675823672; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0Vb9eBbP_1675823672) by smtp.aliyun-inc.com;
+ Wed, 08 Feb 2023 10:34:38 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: hjc@rock-chips.com
+Subject: [PATCH] drm/rockchip: dsi: Remove the unused function dsi_read()
+Date: Wed,  8 Feb 2023 10:34:29 +0800
+Message-Id: <20230208023429.73696-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: remove arch/sh
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Christoph Hellwig <hch@lst.de>
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de>
- <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
- <20230203071423.GA24833@lst.de>
- <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,47 +40,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-gpio@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The function dsi_read is defined in the dw-mipi-dsi-rockchip.c file, but
+not called elsewhere, so remove this unused function.
 
+drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c:362:19: warning: unused function 'dsi_read'.
 
-On 2/7/23 01:06, John Paul Adrian Glaubitz wrote:
-> Hello Christoph!
-> 
-> On Fri, 2023-02-03 at 08:14 +0100, Christoph Hellwig wrote:
->> On Mon, Jan 16, 2023 at 09:52:10AM +0100, John Paul Adrian Glaubitz wrote:
->>> We have had a discussion between multiple people invested in the SuperH port and
->>> I have decided to volunteer as a co-maintainer of the port to support Rich Felker
->>> when he isn't available.
->>
->> So, this still isn't reflected in MAINTAINERS in linux-next.  When
->> do you plan to take over?  What platforms will remain supported and
->> what can we start dropping due to being unused and unmaintained?
-> 
-> I'm getting everything ready now with Geert's help and I have a probably dumb
-> question regarding the MAINTAINERS file change: Shall I just add myself as an
-> additional maintainer first or shall I also drop Yoshinori Sato?
-> 
-> Also, is it desirable to add a "T:" entry for the kernel tree?
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3984
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Yes, definitely.
-
-thanks.
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 7901c3babc8c..917e79951aac 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -359,11 +359,6 @@ static inline void dsi_write(struct dw_mipi_dsi_rockchip *dsi, u32 reg, u32 val)
+ 	writel(val, dsi->base + reg);
+ }
+ 
+-static inline u32 dsi_read(struct dw_mipi_dsi_rockchip *dsi, u32 reg)
+-{
+-	return readl(dsi->base + reg);
+-}
+-
+ static void dw_mipi_dsi_phy_write(struct dw_mipi_dsi_rockchip *dsi,
+ 				  u8 test_code,
+ 				  u8 test_data)
 -- 
-~Randy
+2.20.1.7.g153144c
+
