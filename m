@@ -1,71 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D6F68F9CB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 22:37:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BED568F9EE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 22:53:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E894910E08A;
-	Wed,  8 Feb 2023 21:37:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6D410E87C;
+	Wed,  8 Feb 2023 21:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E319610E834;
- Wed,  8 Feb 2023 21:37:33 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 318LR0r6022472; Wed, 8 Feb 2023 21:37:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=dXQHSAT6TPjiCFBIFs/QrCyAWa73Qd+48UyvDFAmmm4=;
- b=Ph4KLX6mFOgOl1uamI0+asMBAR5Q3j8gGxz43IQW17yyNcW7NQcZUXPTJySQTqv0miKc
- cpdEVKdptVTAewxFMBskcGpxDpQW+aZ/Q04cuVmCgz1IbY+dR8gvfTys9ImGWpyguRFt
- 1bWa13anp6v2rEL5tPVEwvem10/sORGH45D48rU0xU9D1+aDBCi/hN6g3TJjUmzn6/yV
- ac992htkLcefqJxYCTkRhSZEg6Ru2PF01a9keEHKAqcihZfRHDB76+s4NafyPuZR3dK3
- NLcsD7ERCvL2re3ZEklZ3W/HnKVuivGMfMnpdxA1Km8wWkzi+d37FF4pUl6RCAu90OZZ uA== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nm86msvcw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Feb 2023 21:37:30 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 318LbTOG014728
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 8 Feb 2023 21:37:29 GMT
-Received: from JESSZHAN.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Wed, 8 Feb 2023 13:37:29 -0800
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-Subject: [RFC PATCH] drm/msm/dpu: Move TE setup to prepare_for_kickoff()
-Date: Wed, 8 Feb 2023 13:37:13 -0800
-Message-ID: <20230208213713.1330-1-quic_jesszhan@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72B8F10E87C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 21:53:45 +0000 (UTC)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id F0FE8320ACF;
+ Wed,  8 Feb 2023 21:53:42 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1675893223; bh=70diEbLFOndJMAMdzahuRcmEjtNEzQSPzOJpjHTEx80=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NoGvMDu52Zty7Vhz1QZMt/EGZr2d1nVjy1dA+BcKw7gSYufwfeyll4taH4MryEF1t
+ f173/jeCu50f0qHy3vZhouyHxVuc8iDjGdhBju8vBHqZMO6YDuVg3+RtjdHblZ29sS
+ dQhSGPu5hHsN9BSFY0301UdoEJ2dhbd5VcZkF38r9EUB/HXDlul8c0Rb/CVqclo3ym
+ TOJO5WcDyLjbLTcVRh+MO2m1CCsUxDghQntyolX0NXWB+1Tj9hDNh5GnaY1pOO5BUc
+ M08m2KIldmxQtvopOy6QfZKJZPagSqeYbkmlVg04j20XioNqUa041Ja6r9AqnYZ8A6
+ zO9s6mdKYdrbw==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: Do not drop the reference to the handle too soon
+Date: Wed,  8 Feb 2023 16:53:40 -0500
+Message-Id: <20230208215340.2103955-1-zack@kde.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: -qLleWssL0OLw3GSVAaVkNn2Td7CbcBL
-X-Proofpoint-ORIG-GUID: -qLleWssL0OLw3GSVAaVkNn2Td7CbcBL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-08_09,2023-02-08_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- malwarescore=0 phishscore=0 bulkscore=0 clxscore=1011 priorityscore=1501
- adultscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2302080183
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,144 +45,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- marijn.suijten@somainline.org, dmitry.baryshkov@linaro.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, stable@vger.kernel.org, banackm@vmware.com,
+ mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, DPU will enable TE during prepare_commit(). However, this
-will cause issues when trying to read/write to register in
-get_autorefresh_config(), because the core clock rates aren't set at
-that time.
+From: Zack Rusin <zackr@vmware.com>
 
-This used to work because phys_enc->hw_pp is only initialized in mode
-set [1], so the first prepare_commit() will return before any register
-read/write as hw_pp would be NULL.
+It is possible for userspace to predict the next buffer handle and
+to destroy the buffer while it's still used by the kernel. Delay
+dropping the internal reference on the buffers until kernel is done
+with them.
 
-However, when we try to implement support for INTF TE, we will run into
-the clock issue described above as hw_intf will *not* be NULL on the
-first prepare_commit(). This is because the initialization of
-dpu_enc->hw_intf has been moved to dpu_encoder_setup() [2].
-
-To avoid this issue, let's enable TE during prepare_for_kickoff()
-instead as the core clock rates are guaranteed to be set then.
-
-Depends on: "Implement tearcheck support on INTF block" [3]
-
-[1] https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L1109
-[2] https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L2339
-[3] https://patchwork.freedesktop.org/series/112332/
-
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Fixes: 8afa13a0583f ("drm/vmwgfx: Implement DRIVER_GEM")
+Cc: <stable@vger.kernel.org> # v5.17+
 ---
- .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 78 ++++++++++---------
- 1 file changed, 43 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      | 3 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c     | 4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 1 -
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index 279a0b7015ce..746250bce3d1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -587,39 +587,6 @@ static void dpu_encoder_phys_cmd_destroy(struct dpu_encoder_phys *phys_enc)
- 	kfree(cmd_enc);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 43ffa5c7acbd..65bd88c8fef9 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -708,7 +708,8 @@ int vmw_dumb_create(struct drm_file *file_priv,
+ 	ret = vmw_gem_object_create_with_handle(dev_priv, file_priv,
+ 						args->size, &args->handle,
+ 						&vbo);
+-
++	/* drop reference from allocate - handle holds it now */
++	drm_gem_object_put(&vbo->tbo.base);
+ 	return ret;
  }
  
--static void dpu_encoder_phys_cmd_prepare_for_kickoff(
--		struct dpu_encoder_phys *phys_enc)
--{
--	struct dpu_encoder_phys_cmd *cmd_enc =
--			to_dpu_encoder_phys_cmd(phys_enc);
--	int ret;
--
--	if (!phys_enc->hw_pp) {
--		DPU_ERROR("invalid encoder\n");
--		return;
--	}
--	DRM_DEBUG_KMS("id:%u pp:%d pending_cnt:%d\n", DRMID(phys_enc->parent),
--		      phys_enc->hw_pp->idx - PINGPONG_0,
--		      atomic_read(&phys_enc->pending_kickoff_cnt));
--
--	/*
--	 * Mark kickoff request as outstanding. If there are more than one,
--	 * outstanding, then we have to wait for the previous one to complete
--	 */
--	ret = _dpu_encoder_phys_cmd_wait_for_idle(phys_enc);
--	if (ret) {
--		/* force pending_kickoff_cnt 0 to discard failed kickoff */
--		atomic_set(&phys_enc->pending_kickoff_cnt, 0);
--		DRM_ERROR("failed wait_for_idle: id:%u ret:%d pp:%d\n",
--			  DRMID(phys_enc->parent), ret,
--			  phys_enc->hw_pp->idx - PINGPONG_0);
--	}
--
--	DPU_DEBUG_CMDENC(cmd_enc, "pp:%d pending_cnt %d\n",
--			phys_enc->hw_pp->idx - PINGPONG_0,
--			atomic_read(&phys_enc->pending_kickoff_cnt));
--}
--
- static bool dpu_encoder_phys_cmd_is_ongoing_pptx(
- 		struct dpu_encoder_phys *phys_enc)
- {
-@@ -645,8 +612,7 @@ static bool dpu_encoder_phys_cmd_is_ongoing_pptx(
- 	return false;
- }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+index 51bd1f8c5cc4..d6baf73a6458 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+@@ -133,8 +133,6 @@ int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
+ 	(*p_vbo)->tbo.base.funcs = &vmw_gem_object_funcs;
  
--static void dpu_encoder_phys_cmd_prepare_commit(
--		struct dpu_encoder_phys *phys_enc)
-+static void dpu_encoder_phys_cmd_enable_te(struct dpu_encoder_phys *phys_enc)
- {
- 	struct dpu_encoder_phys_cmd *cmd_enc =
- 		to_dpu_encoder_phys_cmd(phys_enc);
-@@ -704,6 +670,48 @@ static void dpu_encoder_phys_cmd_prepare_commit(
- 			 "disabled autorefresh\n");
+ 	ret = drm_gem_handle_create(filp, &(*p_vbo)->tbo.base, handle);
+-	/* drop reference from allocate - handle holds it now */
+-	drm_gem_object_put(&(*p_vbo)->tbo.base);
+ out_no_bo:
+ 	return ret;
  }
+@@ -161,6 +159,8 @@ int vmw_gem_object_create_ioctl(struct drm_device *dev, void *data,
+ 	rep->map_handle = drm_vma_node_offset_addr(&vbo->tbo.base.vma_node);
+ 	rep->cur_gmr_id = handle;
+ 	rep->cur_gmr_offset = 0;
++	/* drop reference from allocate - handle holds it now */
++	drm_gem_object_put(&vbo->tbo.base);
+ out_no_bo:
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index 9d4ae9623a00..d18fec953fa7 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -867,7 +867,6 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 			goto out_unlock;
+ 		}
+ 		vmw_bo_reference(res->guest_memory_bo);
+-		drm_gem_object_get(&res->guest_memory_bo->tbo.base);
+ 	}
  
-+static void dpu_encoder_phys_cmd_prepare_for_kickoff(
-+		struct dpu_encoder_phys *phys_enc)
-+{
-+	struct dpu_encoder_phys_cmd *cmd_enc =
-+			to_dpu_encoder_phys_cmd(phys_enc);
-+	int ret;
-+
-+	if (!phys_enc->hw_pp) {
-+		DPU_ERROR("invalid encoder\n");
-+		return;
-+	}
-+
-+
-+	DRM_DEBUG_KMS("id:%u pp:%d pending_cnt:%d\n", DRMID(phys_enc->parent),
-+		      phys_enc->hw_pp->idx - PINGPONG_0,
-+		      atomic_read(&phys_enc->pending_kickoff_cnt));
-+
-+	/*
-+	 * Mark kickoff request as outstanding. If there are more than one,
-+	 * outstanding, then we have to wait for the previous one to complete
-+	 */
-+	ret = _dpu_encoder_phys_cmd_wait_for_idle(phys_enc);
-+	if (ret) {
-+		/* force pending_kickoff_cnt 0 to discard failed kickoff */
-+		atomic_set(&phys_enc->pending_kickoff_cnt, 0);
-+		DRM_ERROR("failed wait_for_idle: id:%u ret:%d pp:%d\n",
-+			  DRMID(phys_enc->parent), ret,
-+			  phys_enc->hw_pp->idx - PINGPONG_0);
-+	}
-+
-+	dpu_encoder_phys_cmd_enable_te(phys_enc);
-+
-+	DPU_DEBUG_CMDENC(cmd_enc, "pp:%d pending_cnt %d\n",
-+			phys_enc->hw_pp->idx - PINGPONG_0,
-+			atomic_read(&phys_enc->pending_kickoff_cnt));
-+}
-+
-+static void dpu_encoder_phys_cmd_prepare_commit(
-+		struct dpu_encoder_phys *phys_enc)
-+{
-+}
-+
- static int _dpu_encoder_phys_cmd_wait_for_ctl_start(
- 		struct dpu_encoder_phys *phys_enc)
- {
+ 	tmp = vmw_resource_reference(&srf->res);
 -- 
-2.39.1
+2.38.1
 
