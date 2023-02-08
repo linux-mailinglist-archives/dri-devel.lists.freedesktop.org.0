@@ -1,64 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813D268EB65
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 10:30:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53BB468EBC9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 10:39:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFD6310E722;
-	Wed,  8 Feb 2023 09:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23C1610E71C;
+	Wed,  8 Feb 2023 09:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 528BB10E722;
- Wed,  8 Feb 2023 09:30:47 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id dr8so49601513ejc.12;
- Wed, 08 Feb 2023 01:30:47 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E506510E71C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 09:39:24 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id b3so26286006lfv.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Feb 2023 01:39:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=0Q56cl7nbi6SYOA0h021d5Rnp5QFQpdom+ye/L9v3MQ=;
- b=Wom6MA9IjWDSm5qWG04yHxve1kBebOuo0Vy7eI3DlhnjUQwagP/TEIH8OFYzFmJSG2
- w/jlqq77wgud9Z4KdVgUcya2ydIAPVIfSdLgEFUPnDIXUsharH2evS14x2HXuhZnVi4J
- rxs7vm4CXLLNgpLAE11C4pW6CWGTxMwkrTbVgWaV/cpleVQlgWsE2rwYgs44reyHQpbs
- LYUOx5glSE/DQBT5103gHXG75a1i1ayIXbaurUHVvPJVrLTgegrr/PJe42UxcuJl6lNI
- ocvolBINXN+Mljz8p97oiqjTYO6pkO4Vv0aDOS03Gn26u7GRINMEQVuZz0jdLbyxZR1w
- 6Pfg==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bTD0AR/YGMFIF90P33uUcbMi749n8mVLp87OjdH0SgI=;
+ b=lQAQakw7GbLqt9yahOKmOI7ebirneB1vxvvWI3UukBiuSqG9gj4mfQjRYPUvm9PX4r
+ /R1uXpqkIfPiuAk0MyzuOCQ3rTki711DTPnq2/cU/EsUuiK5z4cWE+W1ywc6W71GedYz
+ UsE2CDkc3d3OECO+bHTYf6lwEfzEtnPpv6hFeUrlJTQC1+0rMgcJEph3sWdsxGjeD1Mf
+ vesg777urZ4K/nnMiopvkGjPlWgaqrKwnA85oClgIxzVPqV/WAJncj4GYu93SQq66Rnl
+ uDbnZu2IMeQ2X9uhr12UE7r2J8EFR0sda8QlMhuJSPUd/A1hssnX03aBxLuoO3ZdP/V/
+ f1IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0Q56cl7nbi6SYOA0h021d5Rnp5QFQpdom+ye/L9v3MQ=;
- b=bGqAteoLvzNCCN29uO6RUOsvqHbgRrLIVtoVcqlNLbTfzJyQGCmBtTuTRCLMb3kcB3
- XCbcGFRc3Fl/RTgSScHang4v3xuxLqtK28+lvCUxyLbV+tMKBfWIY7W8RpMv91wNVSIP
- FoScWxokXsCXSxQ+CAf1M1PD+BG0FH8USPZn9J2lTO+YjZwRYqJzWdEKsBowA7iwvKQ+
- vOed89o2tCHE6S/xUVxOjK/eWh83jdtZQNVKWS5VzMpRhkgKE5VL5cV4d9MZRKz7lxFG
- QIQup3gHoREEzS8FCkCG0Gwmxs70uaIbFssHX1ysrul+qZGp+huyUc9EWKgu9Qc4/yRP
- JLhw==
-X-Gm-Message-State: AO0yUKW1Y4mFD7HU3VLaFJywwNMy0iEd9lqxoakg1EbN8n1ssCK4NMDH
- dbqlTA6s2Qhix5tgksWayQc=
-X-Google-Smtp-Source: AK7set+FjmKalXK/aZP8ePtU3z6uRKQdnZILpGx1CEEcYg2oBu4la4Llt2f5o5WEmesDzwWP1TI7Tw==
-X-Received: by 2002:a17:906:3950:b0:887:3c7e:5df with SMTP id
- g16-20020a170906395000b008873c7e05dfmr7690471eje.73.1675848645689; 
- Wed, 08 Feb 2023 01:30:45 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- c12-20020a170906154c00b0088c224bf5b5sm8137920ejd.148.2023.02.08.01.30.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 01:30:45 -0800 (PST)
-Date: Wed, 8 Feb 2023 11:30:41 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Joshua Ashton <joshua@froggi.es>
-Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
- drm_colorspace enum
-Message-ID: <20230208113041.70691449@eldfell>
-In-Reply-To: <20230203020744.30745-3-joshua@froggi.es>
-References: <20230203020744.30745-1-joshua@froggi.es>
- <20230203020744.30745-3-joshua@froggi.es>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bTD0AR/YGMFIF90P33uUcbMi749n8mVLp87OjdH0SgI=;
+ b=davaE79+cv065Hu5hZl48USZCCBkXaEKDStwiRBYvmjLp/BhASSvx/maSpFAvtqVul
+ wZLlptSOxsFx4EVs3XWk8HozLqkzIYByRhiJfjr9qHFAX/DAmw5+GarQec9PYQxLu98X
+ j35oFrK2NSYWtKCkIuLsJM0nSyQrOqFszZUBlyp8glpZzOwE3km/47tqtsbsmQFbtVNt
+ 4Yp/SSQ7MabAxkwX4NYqZOWTT4AppFYn9blXry/yM0Vfg78EPF4lcIlo5rix6tg9gpbh
+ 8ZiYBPI75QQkqnCZCG39kODzN/PWvXjkyk+hT3esrOPC8b2FI0UM8YQeTUfMgifgH0FR
+ eglA==
+X-Gm-Message-State: AO0yUKUfJgiea//dJTfRMet1tbY0fbqAFsw3c8fnAP7c4kWg3JVkhFuG
+ 2H0kEYR7FJHUxLcZS7B09ZET/YT8uTKMMEtMXGM=
+X-Google-Smtp-Source: AK7set+W5520Dq3XFEYHk7ArcIztae0P7wHSSwaEHoYdw2LTMJtCQQdnQHDp4dH6spAtcrCZ04oRkOw6EXIv+GkUK6A=
+X-Received: by 2002:a05:6512:3c9:b0:4d5:aef9:daa2 with SMTP id
+ w9-20020a05651203c900b004d5aef9daa2mr1075859lfp.271.1675849163018; Wed, 08
+ Feb 2023 01:39:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/p1VnlJ5eibTtKqCOo=3USvg";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <202302081038.984b8c1-oliver.sang@intel.com>
+ <92630398-efd1-24a4-be2b-9e4e7a577f13@amd.com>
+In-Reply-To: <92630398-efd1-24a4-be2b-9e4e7a577f13@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Wed, 8 Feb 2023 09:38:55 +0000
+Message-ID: <CAM0jSHOcvZoyv-y6bnvFaUybRQsDx_mfOydL1uaNM4T4PgcA=A@mail.gmail.com>
+Subject: Re: [drm-misc:drm-misc-next] [drm/ttm] 1802537820:
+ WARNING:at_drivers/gpu/drm/drm_gem_vram_helper.c:#drm_gem_vram_offset
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,242 +68,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
- Vitaly.Prosyak@amd.com
+Cc: lkp@intel.com, Matthew Auld <matthew.auld@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ oe-lkp@lists.linux.dev, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/p1VnlJ5eibTtKqCOo=3USvg
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, 8 Feb 2023 at 08:32, Christian K=C3=B6nig <christian.koenig@amd.com=
+> wrote:
+>
+> Hey guys,
+>
+> I'm pretty sure this is a bug in bochs which happens to surface because
+> of a recent TTM change, we have seen similar problems in the past with
+> this driver.
+>
+> What happens is that userspace tries to bind a BO to a CRTC before the
+> BO has even a backing store.
+>
+> Any idea how to fix this? I can just remove the warning, but that's not
+> really a good solution.
 
-On Fri,  3 Feb 2023 02:07:44 +0000
-Joshua Ashton <joshua@froggi.es> wrote:
+IIUC this driver is just using ttm_bo_move_memcpy() underneath for its
+bo_move callback, which looks to be doing:
 
-> Userspace has no way of controlling or knowing the pixel encoding
-> currently, so there is no way for it to ever get the right values here.
->=20
-> When we do add pixel_encoding control from userspace,we can pick the
-> right value for the colorimetry packet based on the
-> pixel_encoding + the colorspace.
->=20
-> Let's deprecate these values, and have one BT.2020 colorspace entry
-> that userspace can use.
->=20
-> Note: _CYCC was effectively 'removed' by this change, but that was not
-> possible to be taken advantage of anyway, as there is currently no
-> pixel_encoding control so it would not be possible to output
-> linear YCbCr.
->=20
-> Signed-off-by: Joshua Ashton <joshua@froggi.es>
->=20
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/display/drm_hdmi_helper.c |  9 ++++-----
->  drivers/gpu/drm/drm_connector.c           | 12 ++++++------
->  drivers/gpu/drm/i915/display/intel_dp.c   | 20 +++++++++-----------
->  include/drm/drm_connector.h               | 19 ++++++++++---------
->  4 files changed, 29 insertions(+), 31 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/=
-display/drm_hdmi_helper.c
-> index 0264abe55278..c85860600395 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
-> @@ -99,8 +99,7 @@ EXPORT_SYMBOL(drm_hdmi_infoframe_set_hdr_metadata);
->  #define HDMI_COLORIMETRY_OPYCC_601		(C(3) | EC(3) | ACE(0))
->  #define HDMI_COLORIMETRY_OPRGB			(C(3) | EC(4) | ACE(0))
->  #define HDMI_COLORIMETRY_BT2020_CYCC		(C(3) | EC(5) | ACE(0))
-> -#define HDMI_COLORIMETRY_BT2020_RGB		(C(3) | EC(6) | ACE(0))
-> -#define HDMI_COLORIMETRY_BT2020_YCC		(C(3) | EC(6) | ACE(0))
-> +#define HDMI_COLORIMETRY_BT2020			(C(3) | EC(6) | ACE(0))
->  #define HDMI_COLORIMETRY_DCI_P3_RGB_D65		(C(3) | EC(7) | ACE(0))
->  #define HDMI_COLORIMETRY_DCI_P3_RGB_THEATER	(C(3) | EC(7) | ACE(1))
-> =20
-> @@ -113,9 +112,9 @@ static const u32 hdmi_colorimetry_val[] =3D {
->  	[DRM_MODE_COLORIMETRY_SYCC_601] =3D HDMI_COLORIMETRY_SYCC_601,
->  	[DRM_MODE_COLORIMETRY_OPYCC_601] =3D HDMI_COLORIMETRY_OPYCC_601,
->  	[DRM_MODE_COLORIMETRY_OPRGB] =3D HDMI_COLORIMETRY_OPRGB,
-> -	[DRM_MODE_COLORIMETRY_BT2020_CYCC] =3D HDMI_COLORIMETRY_BT2020_CYCC,
-> -	[DRM_MODE_COLORIMETRY_BT2020_RGB] =3D HDMI_COLORIMETRY_BT2020_RGB,
-> -	[DRM_MODE_COLORIMETRY_BT2020_YCC] =3D HDMI_COLORIMETRY_BT2020_YCC,
-> +	[DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1] =3D HDMI_COLORIMETRY_BT2020,
-> +	[DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2] =3D HDMI_COLORIMETRY_BT2020,
-> +	[DRM_MODE_COLORIMETRY_BT2020] =3D HDMI_COLORIMETRY_BT2020,
->  };
-> =20
->  #undef C
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 61c29ce74b03..58699ab15a6a 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1029,11 +1029,11 @@ static const struct drm_prop_enum_list hdmi_color=
-spaces[] =3D {
->  	/* Colorimetry based on IEC 61966-2-5 */
->  	{ DRM_MODE_COLORIMETRY_OPRGB, "opRGB" },
->  	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_CYCC, "BT2020_CYCC" },
-> +	{ DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1, "BT2020_DEPRECATED_1" },
->  	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_RGB, "BT2020_RGB" },
-> +	{ DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2, "BT2020_DEPRECATED_2" },
->  	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_YCC, "BT2020_YCC" },
-> +	{ DRM_MODE_COLORIMETRY_BT2020, "BT2020" },
->  	/* Added as part of Additional Colorimetry Extension in 861.G */
->  	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65, "DCI-P3_RGB_D65" },
->  	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER, "DCI-P3_RGB_Theater" },
-> @@ -1054,7 +1054,7 @@ static const struct drm_prop_enum_list dp_colorspac=
-es[] =3D {
->  	/* Colorimetry based on SMPTE RP 431-2 */
->  	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65, "DCI-P3_RGB_D65" },
->  	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_RGB, "BT2020_RGB" },
-> +	{ DRM_MODE_COLORIMETRY_BT2020, "BT2020" },
->  	{ DRM_MODE_COLORIMETRY_BT601_YCC, "BT601_YCC" },
->  	{ DRM_MODE_COLORIMETRY_BT709_YCC, "BT709_YCC" },
->  	/* Standard Definition Colorimetry based on IEC 61966-2-4 */
-> @@ -1066,9 +1066,9 @@ static const struct drm_prop_enum_list dp_colorspac=
-es[] =3D {
->  	/* Colorimetry based on IEC 61966-2-5 [33] */
->  	{ DRM_MODE_COLORIMETRY_OPYCC_601, "opYCC_601" },
->  	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_CYCC, "BT2020_CYCC" },
-> +	{ DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1, "BT2020_DEPRECATED_1" },
->  	/* Colorimetry based on ITU-R BT.2020 */
-> -	{ DRM_MODE_COLORIMETRY_BT2020_YCC, "BT2020_YCC" },
-> +	{ DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2, "BT2020_DEPRECATED_2" },
->  };
+if (!bo->resource)
+    return 0;
 
-Hi,
+Which doesn't make any sense to me.There should at least be a
+move_null(), and maybe also a multi-hop to handle clearing. Otherwise
+bo->resource is likely always NULL (and we hit the above warning),
+even after the dummy move. What do you think?
 
-do these not rename the old uAPI strings?
-
-Shouldn't the old strings be kept? It's much easier to scream "kernel
-regression" when the expected string is no longer found than a subtle
-change in behaviour that might not even be a change. ;-)
-
-If there is not going to be a difference in behaviour, the enum could
-expose e.g. all of "BT2020_RGB", "BT2020_CYCC" and "BT2020_YCC" as the
-same integer value. If old userspace exists, it would not notice any
-difference.
-
-I mean, the *strings* are the uAPI, not the integers, right?
-
-
-Thanks,
-pq
-
-> =20
->  /**
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i9=
-15/display/intel_dp.c
-> index c9be61d2348e..1aa5dedeec7b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -1763,14 +1763,12 @@ static void intel_dp_compute_vsc_colorimetry(cons=
-t struct intel_crtc_state *crtc
->  	case DRM_MODE_COLORIMETRY_OPYCC_601:
->  		vsc->colorimetry =3D DP_COLORIMETRY_OPYCC_601;
->  		break;
-> -	case DRM_MODE_COLORIMETRY_BT2020_CYCC:
-> -		vsc->colorimetry =3D DP_COLORIMETRY_BT2020_CYCC;
-> -		break;
-> -	case DRM_MODE_COLORIMETRY_BT2020_RGB:
-> -		vsc->colorimetry =3D DP_COLORIMETRY_BT2020_RGB;
-> -		break;
-> -	case DRM_MODE_COLORIMETRY_BT2020_YCC:
-> -		vsc->colorimetry =3D DP_COLORIMETRY_BT2020_YCC;
-> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1:
-> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2:
-> +	case DRM_MODE_COLORIMETRY_BT2020:
-> +		vsc->colorimetry =3D vsc->pixelformat =3D=3D DP_PIXELFORMAT_RGB
-> +			? DP_COLORIMETRY_BT2020_RGB
-> +			: DP_COLORIMETRY_BT2020_YCC;
->  		break;
->  	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
->  	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
-> @@ -3043,9 +3041,9 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_stat=
-e *crtc_state,
->  	switch (conn_state->colorspace) {
->  	case DRM_MODE_COLORIMETRY_SYCC_601:
->  	case DRM_MODE_COLORIMETRY_OPYCC_601:
-> -	case DRM_MODE_COLORIMETRY_BT2020_YCC:
-> -	case DRM_MODE_COLORIMETRY_BT2020_RGB:
-> -	case DRM_MODE_COLORIMETRY_BT2020_CYCC:
-> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1:
-> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2:
-> +	case DRM_MODE_COLORIMETRY_BT2020:
->  		return true;
->  	default:
->  		break;
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index eb4cc9076e16..42a3cf43168c 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -390,12 +390,13 @@ enum drm_privacy_screen_status {
->   *   opYCC601 colorimetry format
->   * @DRM_MODE_COLORIMETRY_OPRGB:
->   *   opRGB colorimetry format
-> - * @DRM_MODE_COLORIMETRY_BT2020_CYCC:
-> - *   ITU-R BT.2020 Y'c C'bc C'rc (linear) colorimetry format
-> - * @DRM_MODE_COLORIMETRY_BT2020_RGB:
-> - *   ITU-R BT.2020 R' G' B' colorimetry format
-> - * @DRM_MODE_COLORIMETRY_BT2020_YCC:
-> - *   ITU-R BT.2020 Y' C'b C'r colorimetry format
-> + * @DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1:
-> + * @DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2:
-> + * @DRM_MODE_COLORIMETRY_BT2020:
-> + *   ITU-R BT.2020 [R' G' B'] or
-> + * 	 ITU-R BT.2020 [Y' C'b C'r] or
-> + *   ITU-R BT.2020 [Y'c C'bc C'rc] (linear)
-> + *   colorimetry format
->   * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
->   *   DCI-P3 (SMPTE RP 431-2) colorimetry format
->   * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
-> @@ -420,9 +421,9 @@ enum drm_colorspace {
->  	DRM_MODE_COLORIMETRY_SYCC_601,
->  	DRM_MODE_COLORIMETRY_OPYCC_601,
->  	DRM_MODE_COLORIMETRY_OPRGB,
-> -	DRM_MODE_COLORIMETRY_BT2020_CYCC,
-> -	DRM_MODE_COLORIMETRY_BT2020_RGB,
-> -	DRM_MODE_COLORIMETRY_BT2020_YCC,
-> +	DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1,
-> +	DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2,
-> +	DRM_MODE_COLORIMETRY_BT2020,
->  	/* Additional Colorimetry extension added as part of CTA 861.G */
->  	DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65,
->  	DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER,
-
-
---Sig_/p1VnlJ5eibTtKqCOo=3USvg
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPja8EACgkQI1/ltBGq
-qqdOGQ//ZMiFOjj55v10Nb469J2VghA9I+cfqC/yKhYtdmM+8ECbmQJw6YtiZ0QJ
-0FxbJvaROGZb3ekanltvKP7OPRxeI/3+GuZLdA0vhHeX2CkVu9scAs7VoKtBWbLD
-N6QFNgcFhCmBoaACcbqcP/CGwVtw0X5L3QT1jxzkYVyFXbn8VTAj3wskq1leWIXC
-7sC6CShAtsw0Qom1yZw0rllUxvO7yLNJ1nsaGQLcneNvy+rwu2IQoB4nYq0Z5zbz
-YBsZPAhMs18oURYHj+w1ofaQDrdSx2Koe9om7mSsYYk0e+5STa7sWsNRC7MWtTxh
-XtlKL+o5QI8A7NRbfJzRwUFzfE/n+ZWHSSbYcc9c6e8Qlz/fiaFrRY5JA5lRQeAV
-t18meA1tDJa8Clg1dyfCrwgy1On7liPtyGenXLi89O9eXEd68oxLWiC5M1SXGOEY
-iAIBP/p93Lks9ut1qBhvBZZ8uSg1Ys2c6bSHExwEZbfmzBMHPIGVPAGhze8QsS2D
-faYZWR7aY/qFGyx4Q+BWQO/S7n5j4DfIpaMLmA2kC/0QypyeoAw10TGhK/x3X8Cs
-1Hny+ml/2UzxILZ2CLutD0xSYuedD/l2B9WPuc4XAqebjgaE6NjgZU2tj0rzP5AV
-E3pEJuPVDY/jqJLDnjqI32b7Rv4GvIOMvszbNiAkhD+jy+VOum8=
-=6boW
------END PGP SIGNATURE-----
-
---Sig_/p1VnlJ5eibTtKqCOo=3USvg--
+>
+> Regards,
+> Christian.
+>
+> Am 08.02.23 um 05:32 schrieb kernel test robot:
+> > Greeting,
+> >
+> > FYI, we noticed WARNING:at_drivers/gpu/drm/drm_gem_vram_helper.c:#drm_g=
+em_vram_offset due to commit (built with gcc-11):
+> >
+> > commit: 1802537820389183dfcd814e0f6a60d1496a75ef ("drm/ttm: stop alloca=
+ting dummy resources during BO creation")
+> > git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> >
+> > in testcase: boot
+> >
+> > on test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2=
+ -m 16G
+> >
+> > caused below changes (please refer to attached dmesg/kmsg for entire lo=
+g/backtrace):
+> >
+> >
+> > If you fix the issue, kindly add following tag
+> > | Reported-by: kernel test robot <oliver.sang@intel.com>
+> > | Link: https://lore.kernel.org/oe-lkp/202302081038.984b8c1-oliver.sang=
+@intel.com
+> >
+> >
+> > [   25.994992][    T1] ------------[ cut here ]------------
+> > [ 25.995050][ T1] WARNING: CPU: 0 PID: 1 at drivers/gpu/drm/drm_gem_vra=
+m_helper.c:255 drm_gem_vram_offset (??:?)
+> > [   25.995080][    T1] Modules linked in:
+> > [   25.995100][    T1] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G        =
+        T  6.2.0-rc6-01191-g180253782038 #1 a8db67375c3ac749313dafaec43f398=
+36e38fae9
+> > [   25.995117][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, =
+1996), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
+> > [ 25.995128][ T1] RIP: 0010:drm_gem_vram_offset (??:?)
+> > [ 25.995144][ T1] Code: 02 00 00 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48=
+ c1 ea 03 80 3c 02 00 74 05 e8 7f 1f eb fe 48 8b 9b 20 02 00 00 48 85 db 75=
+ 06 <0f> 0b 31 c0 eb 4b 48 8d 7b 10 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a
+> > All code
+> > =3D=3D=3D=3D=3D=3D=3D=3D
+> >     0:        02 00                   add    (%rax),%al
+> >     2:        00 b8 ff ff 37 00       add    %bh,0x37ffff(%rax)
+> >     8:        48 89 fa                mov    %rdi,%rdx
+> >     b:        48 c1 e0 2a             shl    $0x2a,%rax
+> >     f:        48 c1 ea 03             shr    $0x3,%rdx
+> >    13:        80 3c 02 00             cmpb   $0x0,(%rdx,%rax,1)
+> >    17:        74 05                   je     0x1e
+> >    19:        e8 7f 1f eb fe          callq  0xfffffffffeeb1f9d
+> >    1e:        48 8b 9b 20 02 00 00    mov    0x220(%rbx),%rbx
+> >    25:        48 85 db                test   %rbx,%rbx
+> >    28:        75 06                   jne    0x30
+> >    2a:*       0f 0b                   ud2             <-- trapping inst=
+ruction
+> >    2c:        31 c0                   xor    %eax,%eax
+> >    2e:        eb 4b                   jmp    0x7b
+> >    30:        48 8d 7b 10             lea    0x10(%rbx),%rdi
+> >    34:        b8 ff ff 37 00          mov    $0x37ffff,%eax
+> >    39:        48 89 fa                mov    %rdi,%rdx
+> >    3c:        48 c1 e0 2a             shl    $0x2a,%rax
+> >
+> > Code starting with the faulting instruction
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >     0:        0f 0b                   ud2
+> >     2:        31 c0                   xor    %eax,%eax
+> >     4:        eb 4b                   jmp    0x51
+> >     6:        48 8d 7b 10             lea    0x10(%rbx),%rdi
+> >     a:        b8 ff ff 37 00          mov    $0x37ffff,%eax
+> >     f:        48 89 fa                mov    %rdi,%rdx
+> >    12:        48 c1 e0 2a             shl    $0x2a,%rax
+> > [   25.995156][    T1] RSP: 0000:ffffc9000001f028 EFLAGS: 00210246
+> > [   25.995174][    T1] RAX: dffffc0000000000 RBX: 0000000000000000 RCX:=
+ 0000000000000000
+> > [   25.995186][    T1] RDX: 1ffff11026dee544 RSI: ffff8881372d4b10 RDI:=
+ ffff888136f72a20
+> > [   25.995196][    T1] RBP: ffffc9000001f030 R08: 0000000000000000 R09:=
+ 0000000000000000
+> > [   25.995206][    T1] R10: 0000000000000000 R11: 0000000000000000 R12:=
+ ffff8881372d4b00
+> > [   25.995215][    T1] R13: ffff888136e9ee00 R14: ffff888136f4a060 R15:=
+ 0000000000000500
+> > [   25.995225][    T1] FS:  0000000000000000(0000) GS:ffff8883aee00000(=
+0000) knlGS:0000000000000000
+> > [   25.995236][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003=
+3
+> > [   25.995247][    T1] CR2: 00000000f7fa1cd4 CR3: 0000000006015000 CR4:=
+ 00000000000406b0
+> > [   25.995262][    T1] Call Trace:
+> > [   25.995271][    T1]  <TASK>
+> > [ 25.995287][ T1] bochs_plane_update (bochs.c:?)
+> > [ 25.995308][ T1] ? rcu_read_lock_bh_held (??:?)
+> > [ 25.995337][ T1] ? bochs_pci_probe (bochs.c:?)
+> > [ 25.995352][ T1] ? srcu_read_unlock (blk-mq.c:?)
+> > [ 25.995396][ T1] bochs_pipe_enable (bochs.c:?)
+> > [ 25.995410][ T1] ? drm_dev_printk (??:?)
+> > [ 25.995435][ T1] ? bochs_pipe_update (bochs.c:?)
+> > [ 25.995454][ T1] ? bochs_plane_update (bochs.c:?)
+> > [ 25.995473][ T1] ? bochs_pipe_update (bochs.c:?)
+> > [ 25.995487][ T1] ? bochs_pipe_update (bochs.c:?)
+> > [ 25.995507][ T1] drm_simple_kms_crtc_enable (drm_simple_kms_helper.c:?=
+)
+> > [ 25.995533][ T1] drm_atomic_helper_commit_modeset_enables (??:?)
+> > [ 25.995570][ T1] drm_atomic_helper_commit_tail (??:?)
+> > [ 25.995591][ T1] commit_tail (drm_atomic_helper.c:?)
+> > [ 25.995631][ T1] drm_atomic_helper_commit (??:?)
+> > [ 25.995652][ T1] ? commit_work (??:?)
+> > [ 25.995670][ T1] drm_atomic_commit (??:?)
+> > [ 25.995689][ T1] ? drm_atomic_nonblocking_commit (??:?)
+> > [ 25.995703][ T1] ? __drm_atomic_helper_set_config (??:?)
+> > [ 25.995716][ T1] ? malformed_message+0xe0/0xe0
+> > [ 25.995741][ T1] ? update_output_state (??:?)
+> > [ 25.995757][ T1] ? malformed_message+0xe0/0xe0
+> > [ 25.995804][ T1] drm_client_modeset_commit_atomic (drm_client_modeset.=
+c:?)
+> > [ 25.995836][ T1] ? kmalloc_array (core.c:?)
+> > [ 25.995894][ T1] ? mutex_trylock (mutex.c:?)
+> > [ 25.995910][ T1] ? mark_lock+0x67/0x227
+> > [ 25.995951][ T1] ? drm_fb_helper_lastclose (??:?)
+> > [ 25.995966][ T1] drm_client_modeset_commit_locked (??:?)
+> > [ 25.995988][ T1] drm_client_modeset_commit (??:?)
+> > [ 25.996008][ T1] __drm_fb_helper_restore_fbdev_mode_unlocked (drm_fb_h=
+elper.c:?)
+> > [ 25.996032][ T1] drm_fb_helper_set_par (??:?)
+> > [ 25.996054][ T1] set_con2fb_map (fbcon.c:?)
+> > [ 25.996090][ T1] do_fb_registered (fbcon.c:?)
+> > [ 25.996119][ T1] fbcon_fb_registered (??:?)
+> > [ 25.996138][ T1] do_register_framebuffer (fbmem.c:?)
+> > [ 25.996158][ T1] ? get_fb_info+0xaa/0xaa
+> > [ 25.996218][ T1] register_framebuffer (??:?)
+> > [ 25.996241][ T1] __drm_fb_helper_initial_config_and_unlock (drm_fb_hel=
+per.c:?)
+> > [ 25.996268][ T1] ? __drm_fb_helper_find_sizes (drm_fb_helper.c:?)
+> > [ 25.996321][ T1] drm_fb_helper_initial_config (??:?)
+> > [ 25.996341][ T1] drm_fbdev_client_hotplug (drm_fbdev_generic.c:?)
+> > [ 25.996363][ T1] drm_fbdev_generic_setup (??:?)
+> > [ 25.996389][ T1] bochs_pci_probe (bochs.c:?)
+> > [ 25.996413][ T1] ? bochs_hw_init (bochs.c:?)
+> > [ 25.996429][ T1] ? trace_hardirqs_on (??:?)
+> > [ 25.996456][ T1] ? bochs_hw_init (bochs.c:?)
+> > [ 25.996477][ T1] local_pci_probe (pci-driver.c:?)
+> > [ 25.996507][ T1] pci_call_probe (pci-driver.c:?)
+> > [ 25.996520][ T1] ? rcu_read_lock_bh_held (??:?)
+> > [ 25.996543][ T1] ? local_pci_probe (pci-driver.c:?)
+> > [ 25.996563][ T1] ? __kasan_check_read (??:?)
+> > [ 25.996830][ T1] ? pci_match_id (??:?)
+> > [ 25.996854][ T1] ? pci_match_device (pci-driver.c:?)
+> > [ 25.996882][ T1] pci_device_probe (pci-driver.c:?)
+> > [ 25.996904][ T1] really_probe (dd.c:?)
+> > [ 25.996933][ T1] __driver_probe_device (dd.c:?)
+> > [ 25.996955][ T1] ? __device_attach_driver (dd.c:?)
+> > [ 25.996970][ T1] driver_probe_device (dd.c:?)
+> > [ 25.996992][ T1] __driver_attach (dd.c:?)
+> > [ 25.997014][ T1] ? __device_attach_driver (dd.c:?)
+> > [ 25.997030][ T1] bus_for_each_dev (??:?)
+> > [ 25.997050][ T1] ? next_device (core.c:?)
+> > [ 25.997069][ T1] ? do_raw_spin_unlock (??:?)
+> > [ 25.997107][ T1] driver_attach (??:?)
+> > [ 25.997127][ T1] bus_add_driver (??:?)
+> > [ 25.997158][ T1] driver_register (??:?)
+> > [ 25.997182][ T1] __pci_register_driver (??:?)
+> > [ 25.997202][ T1] ? etnaviv_init (bochs.c:?)
+> > [ 25.997221][ T1] bochs_pci_driver_init (bochs.c:?)
+> > [ 25.997240][ T1] do_one_initcall (??:?)
+> > [ 25.997260][ T1] ? rcu_lock_acquire (??:?)
+> > [ 25.997277][ T1] ? lock_is_held (signal.c:?)
+> > [ 25.997293][ T1] ? rcu_read_lock_sched_held (??:?)
+> > [ 25.997311][ T1] ? rcu_read_lock_bh_held (??:?)
+> > [ 25.997325][ T1] ? ____kasan_kmalloc (common.c:?)
+> > [ 25.997348][ T1] ? __kasan_check_read (??:?)
+> > [ 25.997376][ T1] do_initcalls (main.c:?)
+> > [ 25.997419][ T1] kernel_init_freeable (main.c:?)
+> > [ 25.997434][ T1] ? rest_init (main.c:?)
+> > [ 25.997461][ T1] kernel_init (main.c:?)
+> > [ 25.997481][ T1] ret_from_fork (??:?)
+> > [   25.997537][    T1]  </TASK>
+> > [   25.997547][    T1] irq event stamp: 177845
+> > [ 25.997555][ T1] hardirqs last enabled at (177851): console_trylock_sp=
+inning (printk.c:?)
+> > [ 25.997573][ T1] hardirqs last disabled at (177856): console_trylock_s=
+pinning (printk.c:?)
+> > [ 25.997589][ T1] softirqs last enabled at (176444): __do_softirq (??:?=
+)
+> > [ 25.997608][ T1] softirqs last disabled at (176437): __irq_exit_rcu (s=
+oftirq.c:?)
+> > [   25.997623][    T1] ---[ end trace 0000000000000000 ]---
+> > [   26.013462][   T14] general protection fault, probably for non-canon=
+ical address 0xdffffc0000000004: 0000 [#1] SMP KASAN
+> > [   26.013480][   T14] KASAN: null-ptr-deref in range [0x00000000000000=
+20-0x0000000000000027]
+> > [   26.013490][   T14] CPU: 0 PID: 14 Comm: kworker/0:1 Tainted: G     =
+   W       T  6.2.0-rc6-01191-g180253782038 #1 a8db67375c3ac749313dafaec43f=
+39836e38fae9
+> > [   26.013503][   T14] Hardware name: QEMU Standard PC (i440FX + PIIX, =
+1996), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
+> > [   26.013509][   T14] Workqueue: events drm_fb_helper_damage_work
+> > [ 26.013528][ T14] RIP: 0010:ttm_mem_io_reserve (??:?)
+> > [ 26.013544][ T14] Code: f6 31 ff 45 31 c0 c3 55 b8 ff ff 37 00 48 c1 e=
+0 2a 48 89 e5 41 55 49 89 fd 48 8d 7e 20 48 89 fa 41 54 49 89 f4 48 c1 ea 0=
+3 53 <80> 3c 02 00 74 05 e8 05 60 e5 fe 49 83 7c 24 20 00 74 07 31 c0 e9
+> > All code
+> > =3D=3D=3D=3D=3D=3D=3D=3D
+> >     0:        f6 31                   divb   (%rcx)
+> >     2:        ff 45 31                incl   0x31(%rbp)
+> >     5:        c0 c3 55                rol    $0x55,%bl
+> >     8:        b8 ff ff 37 00          mov    $0x37ffff,%eax
+> >     d:        48 c1 e0 2a             shl    $0x2a,%rax
+> >    11:        48 89 e5                mov    %rsp,%rbp
+> >    14:        41 55                   push   %r13
+> >
+> >
+> > To reproduce:
+> >
+> >          # build kernel
+> >       cd linux
+> >       cp config-6.2.0-rc6-01191-g180253782038 .config
+> >       make HOSTCC=3Dgcc-11 CC=3Dgcc-11 ARCH=3Dx86_64 olddefconfig prepa=
+re modules_prepare bzImage modules
+> >       make HOSTCC=3Dgcc-11 CC=3Dgcc-11 ARCH=3Dx86_64 INSTALL_MOD_PATH=
+=3D<mod-install-dir> modules_install
+> >       cd <mod-install-dir>
+> >       find lib/ | cpio -o -H newc --quiet | gzip > modules.cgz
+> >
+> >
+> >          git clone https://github.com/intel/lkp-tests.git
+> >          cd lkp-tests
+> >          bin/lkp qemu -k <bzImage> -m modules.cgz job-script # job-scri=
+pt is attached in this email
+> >
+> >          # if come across any failure that blocks the test,
+> >          # please remove ~/.lkp and /lkp dir to run from a clean state.
+> >
+> >
+> >
+>
