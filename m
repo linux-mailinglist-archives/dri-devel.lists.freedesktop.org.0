@@ -1,64 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12BD68EA3B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 09:56:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6446268EA56
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 10:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C1CE10E6FF;
-	Wed,  8 Feb 2023 08:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBD5610E6E7;
+	Wed,  8 Feb 2023 09:02:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE4E10E07A;
- Wed,  8 Feb 2023 08:56:27 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id dr8so49383885ejc.12;
- Wed, 08 Feb 2023 00:56:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=3S5QBxLDinDcOg+9K/QSPTkn2HaKsZvFE2yzJm3HC7A=;
- b=gLhA1dRLW3xG7rS+PG8hPgEo6+h7fRFnkwhQCgZhy3qIKkNP/EFX6T/UhBmglcuTrt
- 5pktLJCPFHpdh0dPfbmTwaihvh/02LmNcT2O30IrrVW2ExBWgUYb2oqfyQBPR84zboxq
- qgi1byTecBCKc1Iq8Qq8Y3p0MKZR4w+ZPyfS3uCY465ZSBi46oLUc1PjK21XNPWosZiZ
- Po0p1PiBpfM5JRIIVcfHWVB6J9G44LnEtwBNHJq7BRCvL3OsZ02kXlXittfK6WOkMPYE
- RT51dPVAMOgOtlj7QgQoFx8Gvt6RbQWfE3wfaj0lS4QGYRmgsbIcfXZtq7xX7R4PjmES
- ysQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3S5QBxLDinDcOg+9K/QSPTkn2HaKsZvFE2yzJm3HC7A=;
- b=df12SinQjXh0Aw6kK+CrCvG3+wH/ktVudoGSfR6TYMbxVPIBpMbck4YRgdrI6l0yJ9
- f2lvv805bmuHUXPPYn6DdFZAVFKARQK2JaYFu2XnKbr1YNMksAN49cTRkX6jyPaje26u
- X35uEDxKoN47S4g0zw5bVzIJzvD3a+nHyEbo2GmnOtO32RFdTl3CrvIZ7nPyfudfkOP+
- u6Z5TRlfXhEnZol7Pc830x9ceT0UXkCrPOZyH1FlUY8tXlSiPi9ciWljQoMFr0OW52nw
- Yd5RUOyppkUwLkybQYhaY6AxBkllgP+O7Ioqzr6eJl4DH+UHXOsR5EB52wR6hN9kMrEK
- Pyug==
-X-Gm-Message-State: AO0yUKX0cT28uwRYtao+Bw2rL0CcfksL4kNZOYyC8eSIBNJhZZymYBre
- jlNZSOW1TXUxjiez4KTCQYk=
-X-Google-Smtp-Source: AK7set8bD3EQRHTkbJcIbyU7G0wyKtt/aIJDIErtEtdBHYv+9An+zuy8dapXBQ+F93k4AP6AGmVmgA==
-X-Received: by 2002:a17:906:824c:b0:859:1d78:765 with SMTP id
- f12-20020a170906824c00b008591d780765mr6600849ejx.11.1675846585626; 
- Wed, 08 Feb 2023 00:56:25 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- s13-20020a170906c30d00b0088842b00241sm7989649ejz.114.2023.02.08.00.56.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 00:56:25 -0800 (PST)
-Date: Wed, 8 Feb 2023 10:56:21 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Joshua Ashton <joshua@froggi.es>
-Subject: Re: [PATCH 2/3] drm/connector: Add enum documentation to
- drm_colorspace
-Message-ID: <20230208105621.392fb2cc@eldfell>
-In-Reply-To: <20230203020744.30745-2-joshua@froggi.es>
-References: <20230203020744.30745-1-joshua@froggi.es>
- <20230203020744.30745-2-joshua@froggi.es>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2076.outbound.protection.outlook.com [40.107.102.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1920410E6FB;
+ Wed,  8 Feb 2023 09:02:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EyTAYUpU8j+N22WM1HFyF6KmlB/9VbcbqmcXHQdbVVdtC8vc6iuTREDa6FoCMJ4f3VZpaqQaK+2QdZF6yT9yG/PgHYbthRMmukorxOoE0LxS6nDlUg6fkseAMaCcfejsvyAGA9rua1P5sbRkTmNZ8A+RmmGo1KC/LAp8rZBP52Zy9Bkv5bplM4xKaKOl9eeEXlVmCpBhHIZjNi2cg5YYHvjuoBqKQYD1hoy1V42mM5nEwDeVH/ohglaXyw5so2SrYfDZ04jH0fpWl3zSkEnuPP9nWBiZ4Id1zL82SYR8uxef6FqfIcKn4e6RZk2VfKttYXuDRRM5c4Sal7HPyiLR2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qq1NTmmvf6gpMJ8tY6KJk7MPsdFUaad6aobSTKwETdk=;
+ b=WokhJdSqgRCJ/Tpwhv+Srlv9GgSPaQV4mOfRdypOHeVzriZYL3nFCto62bHViczCGpXG17ykqSBLB7LmFhAez9REqJ9N/7UjUOD8/Lx8I7KZnGyz8yr8BKoSvw91NNaR4q2LZuQBxdD2xFutuQV+4yg9x6K53pP5EBY2m+MFM8/rKfXTKOtXDYLDxl5yGCTL+6TJkDaW6H+oLeylS4ThdRGzbA2rIz0EX4+P6+Vnd61nsuQz1UE1EfLk8l5FAK/LTOGDrDV7hzai0yp+YoXiF3i5U25AX2IwbfEDCmYeQAxaDM4K/6yDKsMnyQ+IbvPgoAbPrMkz4Uw5JRPPfX9uXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qq1NTmmvf6gpMJ8tY6KJk7MPsdFUaad6aobSTKwETdk=;
+ b=EoxXikZlOgtm2W5ohHZCFghF69borwKTCG20r5JbSb1xdzolsoPFsf8rt+kRzCzenKPL6YSgVFz05cBC2J2A0vHyCmrt+N48CA9b7KXZUA6GNf0/kTVpsiwDlo16FfQRqvfLxgIW9RpVjlg5qfMvXIl+zskpeH/k3IDl51LiwvA=
+Received: from BN8PR07CA0012.namprd07.prod.outlook.com (2603:10b6:408:ac::25)
+ by SJ2PR12MB7944.namprd12.prod.outlook.com (2603:10b6:a03:4c5::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.35; Wed, 8 Feb
+ 2023 09:01:57 +0000
+Received: from BN8NAM11FT055.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ac:cafe::83) by BN8PR07CA0012.outlook.office365.com
+ (2603:10b6:408:ac::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.17 via Frontend
+ Transport; Wed, 8 Feb 2023 09:01:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT055.mail.protection.outlook.com (10.13.177.62) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6086.17 via Frontend Transport; Wed, 8 Feb 2023 09:01:57 +0000
+Received: from amar-X570-AORUS-ELITE.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Wed, 8 Feb 2023 03:01:45 -0600
+From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
+ <linux-graphics-maintainer@vmware.com>
+Subject: [PATCH 1/6] drm/gem: Remove BUG_ON in drm_gem_private_object_init
+Date: Wed, 8 Feb 2023 14:31:01 +0530
+Message-ID: <20230208090106.9659-1-Amaranath.Somalapuram@amd.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Oh1pUcgo2pR+IICUorw1QcK";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT055:EE_|SJ2PR12MB7944:EE_
+X-MS-Office365-Filtering-Correlation-Id: 636e20ec-a108-4929-70a0-08db09b321ab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bTu6tHK4J4kLc5G5fjiOhR9saZXE5e5YYZTXM40I/vCW4o4bn25aSMuHiAh0Yf8fUEsjVpPHL75M5hXCl69uD9jSrbhM0nSF+xKyhGCt+umHEEDp0aKXNTTLv9MbRB/8TKq3C5rpSKttbmJ8kgva/hj1wjj8c413Op6+oMGjGM36rYOe5d89YZM0Du67PpMRPG/81mH9T7lKhcvZIJHgXCCuRM8vLgkUqp8E4kGk/WOgamfGTJbZ2Ho3SF/23xuGhXVUg8fTzDZhFcw/GTKcnEyXQWHTpXqRIl/SAj6Hc3pZrSnx3K4dFngXlCJxb12EXATNj8nRyZoWkWhG13JxEGv1TIfNw3Ui4Vd0ON4oCMSvJ9tsx7pHsC255CAkRctmykXNvkrSnxaiR0WItStvG2mvf0va7nIiRGNb1r3XeFEpRNXgkPaNH3h4YlsJqA1JggZ/MlvfDHH8D2toBHnWjOPse2tBZbu06xH0LRh0rR3CutP9WInd8Bw1X2aahxYo5In2Je89Xkm660oJAwks4x5tK07loN1HOO/Mx5QZWLbt9mvsfDIXbnANqMmW1iGohTrjPQnr09V9AoleoC76s5IfLs7TyeTOpn/CN4vMeitIrgLnF/cdfVmkmvw4fUThpT3fINWFDnlQxuHuZbap9fK1NdvLZ4xBnVz7FsznC4MfcbALOb0PhlIaAST1XzsJZOWSydNN32N297zXBr7QpxwODgi3wqroTnJLbQvAw6I=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(346002)(376002)(39860400002)(396003)(136003)(451199018)(36840700001)(40470700004)(46966006)(2906002)(82310400005)(4744005)(36756003)(47076005)(5660300002)(8936002)(41300700001)(426003)(336012)(83380400001)(40460700003)(70206006)(70586007)(36860700001)(2616005)(4326008)(316002)(16526019)(186003)(86362001)(110136005)(356005)(81166007)(54906003)(1076003)(8676002)(40480700001)(26005)(478600001)(82740400003)(7696005)(6666004)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 09:01:57.1268 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 636e20ec-a108-4929-70a0-08db09b321ab
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT055.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7944
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,176 +100,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
- Vitaly.Prosyak@amd.com
+Cc: shashank.sharma@amd.com, arunpravin.paneerselvam@amd.com,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, arvind.yadav@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Oh1pUcgo2pR+IICUorw1QcK
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ttm_resource can allocate size in bytes to support less than page size.
 
-On Fri,  3 Feb 2023 02:07:43 +0000
-Joshua Ashton <joshua@froggi.es> wrote:
+Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+---
+ drivers/gpu/drm/drm_gem.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-> To match the other enums, and add more information about these values.
->=20
-> Signed-off-by: Joshua Ashton <joshua@froggi.es>
->=20
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> ---
->  include/drm/drm_connector.h | 41 +++++++++++++++++++++++++++++++++++--
->  1 file changed, 39 insertions(+), 2 deletions(-)
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 59a0bb5ebd85..ee8b5c2b6c60 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -152,8 +152,6 @@ EXPORT_SYMBOL(drm_gem_object_init);
+ void drm_gem_private_object_init(struct drm_device *dev,
+ 				 struct drm_gem_object *obj, size_t size)
+ {
+-	BUG_ON((size & (PAGE_SIZE - 1)) != 0);
+-
+ 	obj->dev = dev;
+ 	obj->filp = NULL;
+ 
+-- 
+2.32.0
 
-Hi Joshua,
-
-sorry for pushing you into a rabbit hole a bit. :-)
-
->=20
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index edef65388c29..eb4cc9076e16 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -363,13 +363,50 @@ enum drm_privacy_screen_status {
->  	PRIVACY_SCREEN_ENABLED_LOCKED,
->  };
-> =20
-> -/*
-> - * This is a consolidated colorimetry list supported by HDMI and
-> +/**
-> + * enum drm_colorspace - color space
-
-Documenting this enum is really nice. What would be even better if
-there was similar documentation in the UAPI doc of "Colorspace" under
-https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#standard-connector-=
-properties
-listing the strings that userspace must use/expect and what they refer
-to.
-
-
-> + *
-> + * This enum is a consolidated colorimetry list supported by HDMI and
->   * DP protocol standard. The respective connectors will register
->   * a property with the subset of this list (supported by that
->   * respective protocol). Userspace will set the colorspace through
->   * a colorspace property which will be created and exposed to
-
-Could this refer to "Colorspace" property explicitly instead of some
-unmentioned property?
-
->   * userspace.
-> + *
-> + * @DRM_MODE_COLORIMETRY_DEFAULT:
-> + *   sRGB (IEC 61966-2-1) or
-> + *   ITU-R BT.601 colorimetry format
-
-Is this what the "driver will set the colorspace" comment actually
-means? If so, I think the comment "driver will set the colorspace"
-could be better or replaced with "not from any standard" or "undefined".
-
-sRGB and BT.601 have different primaries. There are actually two
-different cases of BT.601 primaries: the 525 line and 625 line. How
-does that work? Are the drivers really choosing anything, or will they
-just send "undefined" to the sink, and then the sink does whatever it
-does?
-
-Or is this *only* about the RGB-to-YCbCr conversion matrix and not
-about colorimetry at all?
-
-If it's only about the conversion matrix (MatrixCoefficients in CICP
-(H.273) terms), then which ones of the below also define only the
-MatrixCoefficients but no colorimetry?
-
-> + * @DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
-> + *   SMPTE ST 170M colorimetry format
-> + * @DRM_MODE_COLORIMETRY_BT709_YCC:
-> + *   ITU-R BT.709 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_XVYCC_601:
-> + *   xvYCC601 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_XVYCC_709:
-> + *   xvYCC709 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_SYCC_601:
-> + *   sYCC601 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_OPYCC_601:
-> + *   opYCC601 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_OPRGB:
-> + *   opRGB colorimetry format
-> + * @DRM_MODE_COLORIMETRY_BT2020_CYCC:
-> + *   ITU-R BT.2020 Y'c C'bc C'rc (linear) colorimetry format
-
-Is this one known as the constant luminance variant which requires
-KMS/driver/hardware knowing also the transfer characteristic function?
-
-Is there perhaps an assumed TF here, since there is no KMS property to
-set a TF? Oh, maybe all of these imply the respective TF from the spec?
-
-I suspect the "linear" should read as "constant luminance".
-
-> + * @DRM_MODE_COLORIMETRY_BT2020_RGB:
-> + *   ITU-R BT.2020 R' G' B' colorimetry format
-> + * @DRM_MODE_COLORIMETRY_BT2020_YCC:
-> + *   ITU-R BT.2020 Y' C'b C'r colorimetry format
-
-...compared to this one known as the non-constant luminance variant,
-i.e. "the simple RGB-to-YCbCr conversion"?
-
-> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
-> + *   DCI-P3 (SMPTE RP 431-2) colorimetry format
-> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
-> + *   DCI-P3 (SMPTE RP 431-2) colorimetry format
-
-These two can't both be the same, right? That is, the description is
-missing something.
-
-> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
-> + *   RGB wide gamut fixed point colorimetry format
-
-Is this one scRGB too?
-
-> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
-> + *   RGB wide gamut floating point
-> + *   (scRGB (IEC 61966-2-2)) colorimetry format
-> + * @DRM_MODE_COLORIMETRY_BT601_YCC:
-> + *   ITU-R BT.609 colorimetry format
-
-Typo: BT.609
-
-Which one of the two BT.601?
-
->   */
->  enum drm_colorspace {
->  	/* For Default case, driver will set the colorspace */
-
-Thanks,
-pq
-
---Sig_/Oh1pUcgo2pR+IICUorw1QcK
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPjY7UACgkQI1/ltBGq
-qqdDkw//U2Wm7Xm26RMpKU0ti2n62PX6vil46utEj8hcQA10r0F9m8bFNe1TND3N
-XbTy6zo6WliKVcWxIFQMxVmOEoR5fSNKxb5qNwGnsA+5GBbuEmIqxK55frG5TB5T
-B3G61K7ibdWazK38k6En19/G+dk+QgLiSA8hDYiwpHlnUn3NnfcIkts75dgQBsc1
-HxMb+nGaMDwten3ycMrBGF/0ryiZC8LH2XNkH0LoOo1yAb8DQhq0KGFi0lXUjxY2
-P5dPha1uv8ao2CK4jBn5QxmdZTPgVKlOcbwHowAKLo4oGWqBfQxCIGfW6vdV6Pai
-VhH7MZ1zW/g9x0fxXI+J1w44rNfvZuO+sPr3iDBhMl8fBuNtrzKpHL1aEXPjUqIC
-vR/yFCpevottz2lzxtucwLxUgyWS48dp7++bpoVuyUqyBDCnYPE1K5u7FRx9Im7/
-j7vy6CDVGuMHPTsCA7sFU7zv8XHtb5J+8Xrb9EgojeI687tKlsog18lwzJJWWJ9i
-5BNV4R0d69mj/7oXqbjcwsvHR+bxF3AjhhE3ogISS6w2RiX9FK3xSGha3sathFYO
-vjX94zqmdeU4UqAWqPckJKTTReUdbbwZF3SM9E6KvDgzIcX6ICaPHmjn6oU3O/6/
-cbAW7ofhYb8v19V/4fOMPaSTHpFd/1kILLpCZfiNUCYPg+tCwuc=
-=RI1r
------END PGP SIGNATURE-----
-
---Sig_/Oh1pUcgo2pR+IICUorw1QcK--
