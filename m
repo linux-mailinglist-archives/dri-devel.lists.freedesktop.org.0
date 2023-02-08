@@ -1,36 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2167468EA8B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 10:08:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B71A168EA89
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 10:08:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B2A310E716;
-	Wed,  8 Feb 2023 09:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE72410E714;
+	Wed,  8 Feb 2023 09:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9524210E716
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 09:08:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E86210E714
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 09:08:32 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1pPgRC-0004ed-RW; Wed, 08 Feb 2023 10:08:22 +0100
+ id 1pPgRC-0004eg-RV; Wed, 08 Feb 2023 10:08:22 +0100
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1pPgR6-003TfI-Pz; Wed, 08 Feb 2023 10:08:18 +0100
+ id 1pPgR7-003TfO-5Q; Wed, 08 Feb 2023 10:08:18 +0100
 Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1pPgR7-00GG7j-7a; Wed, 08 Feb 2023 10:08:17 +0100
+ id 1pPgR7-00GG7q-8F; Wed, 08 Feb 2023 10:08:17 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 0/4] drm/rockchip: dw_hdmi: Add 4k@30 support
-Date: Wed,  8 Feb 2023 10:08:12 +0100
-Message-Id: <20230208090816.3810589-1-s.hauer@pengutronix.de>
+Subject: [PATCH v5 1/4] drm/rockchip: vop: limit maximium resolution to
+ hardware capabilities
+Date: Wed,  8 Feb 2023 10:08:13 +0100
+Message-Id: <20230208090816.3810589-2-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230208090816.3810589-1-s.hauer@pengutronix.de>
+References: <20230208090816.3810589-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -58,38 +61,220 @@ Cc: Dan Johansen <strit@manjaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some more small changes to this series, see changelog.
+The different VOP variants support different maximum resolutions. Reject
+resolutions that are not supported by a specific variant.
 
-Sascha
+This hasn't been a problem in the upstream driver so far as 1920x1080
+has been the maximum resolution supported by the HDMI driver and that
+resolution is supported by all VOP variants. Now with higher resolutions
+supported in the HDMI driver we have to limit the resolutions to the
+ones supported by the VOP.
 
-Changes since v4:
-- Use struct vop_reg to store resolutions
-- Only check for valid clock rates when clock != NULL
+The actual maximum resolutions are taken from the Rockchip downstream
+Kernel.
 
-Changes since v3
-- Add patch to limit VOP resolutions to hardware capabilitie
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+---
 
-Changes since v2:
-- Use correct register values for mpll_cfg
-- Add patch to discard modes we cannot achieve
+Notes:
+    Changes since v4:
+    - Use struct vop_rect for storing resolution
+    
+    Changes since v3:
+    - new patch
 
-Changes since v1:
-- Allow non standard clock rates only on Synopsys phy as suggested by
-  Robin Murphy
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c  | 15 +++++++++++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h  |  6 ++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  5 -----
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c  | 18 ++++++++++++++++++
+ 4 files changed, 39 insertions(+), 5 deletions(-)
 
-Sascha Hauer (4):
-  drm/rockchip: vop: limit maximium resolution to hardware capabilities
-  drm/rockchip: dw_hdmi: relax mode_valid hook
-  drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
-  drm/rockchip: dw_hdmi: discard modes with unachievable pixelclocks
-
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c  | 41 ++++++++++++++++----
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c  | 15 +++++++
- drivers/gpu/drm/rockchip/rockchip_drm_vop.h  |  6 +++
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  5 ---
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c  | 18 +++++++++
- 5 files changed, 73 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index fa1f4ee6d1950..3033ab1b52dd9 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1174,6 +1174,20 @@ static void vop_crtc_disable_vblank(struct drm_crtc *crtc)
+ 	spin_unlock_irqrestore(&vop->irq_lock, flags);
+ }
+ 
++static enum drm_mode_status vop_crtc_mode_valid(struct drm_crtc *crtc,
++						const struct drm_display_mode *mode)
++{
++	struct vop *vop = to_vop(crtc);
++
++	if (vop->data->max_output.width && mode->hdisplay > vop->data->max_output.height)
++		return MODE_BAD_HVALUE;
++
++	if (vop->data->max_output.height && mode->vdisplay > vop->data->max_output.height)
++		return MODE_BAD_VVALUE;
++
++	return MODE_OK;
++}
++
+ static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
+ 				const struct drm_display_mode *mode,
+ 				struct drm_display_mode *adjusted_mode)
+@@ -1585,6 +1599,7 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+ }
+ 
+ static const struct drm_crtc_helper_funcs vop_crtc_helper_funcs = {
++	.mode_valid = vop_crtc_mode_valid,
+ 	.mode_fixup = vop_crtc_mode_fixup,
+ 	.atomic_check = vop_crtc_atomic_check,
+ 	.atomic_begin = vop_crtc_atomic_begin,
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+index 8502849833d93..5f56e0597df84 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+@@ -42,6 +42,11 @@ enum vop_data_format {
+ 	VOP_FMT_YUV444SP,
+ };
+ 
++struct vop_rect {
++	int width;
++	int height;
++};
++
+ struct vop_reg {
+ 	uint32_t mask;
+ 	uint16_t offset;
+@@ -225,6 +230,7 @@ struct vop_data {
+ 	const struct vop_win_data *win;
+ 	unsigned int win_size;
+ 	unsigned int lut_size;
++	struct vop_rect max_output;
+ 
+ #define VOP_FEATURE_OUTPUT_RGB10	BIT(0)
+ #define VOP_FEATURE_INTERNAL_RGB	BIT(1)
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+index c727093a06d68..f1234a151130f 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+@@ -27,11 +27,6 @@ enum win_dly_mode {
+ 	VOP2_DLY_MODE_MAX,
+ };
+ 
+-struct vop_rect {
+-	int width;
+-	int height;
+-};
+-
+ enum vop2_scale_up_mode {
+ 	VOP2_SCALE_UP_NRST_NBOR,
+ 	VOP2_SCALE_UP_BIL,
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+index 014f99e8928e3..20ac7811c5eb7 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+@@ -181,6 +181,7 @@ static const struct vop_data rk3036_vop = {
+ 	.output = &rk3036_output,
+ 	.win = rk3036_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3036_vop_win_data),
++	.max_output = { 1920, 1080 },
+ };
+ 
+ static const struct vop_win_phy rk3126_win1_data = {
+@@ -213,6 +214,7 @@ static const struct vop_data rk3126_vop = {
+ 	.output = &rk3036_output,
+ 	.win = rk3126_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3126_vop_win_data),
++	.max_output = { 1920, 1080 },
+ };
+ 
+ static const int px30_vop_intrs[] = {
+@@ -340,6 +342,7 @@ static const struct vop_data px30_vop_big = {
+ 	.output = &px30_output,
+ 	.win = px30_vop_big_win_data,
+ 	.win_size = ARRAY_SIZE(px30_vop_big_win_data),
++	.max_output = { 1920, 1080 },
+ };
+ 
+ static const struct vop_win_data px30_vop_lit_win_data[] = {
+@@ -356,6 +359,7 @@ static const struct vop_data px30_vop_lit = {
+ 	.output = &px30_output,
+ 	.win = px30_vop_lit_win_data,
+ 	.win_size = ARRAY_SIZE(px30_vop_lit_win_data),
++	.max_output = { 1920, 1080 },
+ };
+ 
+ static const struct vop_scl_regs rk3066_win_scl = {
+@@ -479,6 +483,7 @@ static const struct vop_data rk3066_vop = {
+ 	.output = &rk3066_output,
+ 	.win = rk3066_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3066_vop_win_data),
++	.max_output = { 1920, 1080 },
+ };
+ 
+ static const struct vop_scl_regs rk3188_win_scl = {
+@@ -585,6 +590,7 @@ static const struct vop_data rk3188_vop = {
+ 	.win = rk3188_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3188_vop_win_data),
+ 	.feature = VOP_FEATURE_INTERNAL_RGB,
++	.max_output = { 2048, 1536 },
+ };
+ 
+ static const struct vop_scl_extension rk3288_win_full_scl_ext = {
+@@ -732,6 +738,12 @@ static const struct vop_data rk3288_vop = {
+ 	.win = rk3288_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
+ 	.lut_size = 1024,
++	/*
++	 * This is the maximum resolution for the VOPB, the VOPL can only do
++	 * 2560x1600, but we can't distinguish them as they have the same
++	 * compatible.
++	 */
++	.max_output = { 3840, 2160 },
+ };
+ 
+ static const int rk3368_vop_intrs[] = {
+@@ -833,6 +845,7 @@ static const struct vop_data rk3368_vop = {
+ 	.misc = &rk3368_misc,
+ 	.win = rk3368_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3368_vop_win_data),
++	.max_output = { 4096, 2160 },
+ };
+ 
+ static const struct vop_intr rk3366_vop_intr = {
+@@ -854,6 +867,7 @@ static const struct vop_data rk3366_vop = {
+ 	.misc = &rk3368_misc,
+ 	.win = rk3368_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3368_vop_win_data),
++	.max_output = { 4096, 2160 },
+ };
+ 
+ static const struct vop_output rk3399_output = {
+@@ -984,6 +998,7 @@ static const struct vop_data rk3399_vop_big = {
+ 	.win_size = ARRAY_SIZE(rk3399_vop_win_data),
+ 	.win_yuv2yuv = rk3399_vop_big_win_yuv2yuv_data,
+ 	.lut_size = 1024,
++	.max_output = { 4096, 2160 },
+ };
+ 
+ static const struct vop_win_data rk3399_vop_lit_win_data[] = {
+@@ -1010,6 +1025,7 @@ static const struct vop_data rk3399_vop_lit = {
+ 	.win_size = ARRAY_SIZE(rk3399_vop_lit_win_data),
+ 	.win_yuv2yuv = rk3399_vop_lit_win_yuv2yuv_data,
+ 	.lut_size = 256,
++	.max_output = { 2560, 1600 },
+ };
+ 
+ static const struct vop_win_data rk3228_vop_win_data[] = {
+@@ -1029,6 +1045,7 @@ static const struct vop_data rk3228_vop = {
+ 	.misc = &rk3368_misc,
+ 	.win = rk3228_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3228_vop_win_data),
++	.max_output = { 4096, 2160 },
+ };
+ 
+ static const struct vop_modeset rk3328_modeset = {
+@@ -1100,6 +1117,7 @@ static const struct vop_data rk3328_vop = {
+ 	.misc = &rk3328_misc,
+ 	.win = rk3328_vop_win_data,
+ 	.win_size = ARRAY_SIZE(rk3328_vop_win_data),
++	.max_output = { 4096, 2160 },
+ };
+ 
+ static const struct of_device_id vop_driver_dt_match[] = {
 -- 
 2.30.2
 
