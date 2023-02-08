@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A243E68EA66
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 10:02:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581D868EA67
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 10:02:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94CC210E70C;
-	Wed,  8 Feb 2023 09:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF42D10E70E;
+	Wed,  8 Feb 2023 09:02:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2053.outbound.protection.outlook.com [40.107.212.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78BF710E6F4;
- Wed,  8 Feb 2023 09:02:11 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2078.outbound.protection.outlook.com [40.107.93.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC8310E711;
+ Wed,  8 Feb 2023 09:02:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a+pfq4pwF+186jVNX3lWlgVIR0ObSz6pj0hu9oJ5n7XUMi47yviCS7Un97D7p1C70tFifjFkzJHiPQc9B6RKA72WqAaPNPkVCovSpVFezWo8shja64MWgDS5xPjSo7z4ybdFq6peYylX3aJd2JF8eS0JcqYZ5MCOkYTdJgDXkzgexCuGZk3qMoMaIJUfPOjX8jNzucYjx0n6wda98KjFniOsK5aYzUmjo7RNmuJS2VLtCHKrubPBN+AGVtzAKV6Y//AmmxMqylePEVVyF5YCd8we5/hEQH7SyWszVjXPlWpixtNtnDTkFGIY1KUMkFBV0OZn0LEEElZCZli90TH0+g==
+ b=fI3EmaA4H4PJ8mzPDCqDFEUvQf21pZUFYuwWr2xIaVtfmZ5iCi7xjH7tOM6px9JWfodKHoEMWqERllfRfx5UlcgSqS4i81NuRBVS1wRS5zeZynFH1Gd65ZNaU0GmhQZ3sBV7cJwhXMuSCu0UfoB117e3UXdYTk7sSutZRRjGU7k18HSP6gk9YbLqVN+HYAvdt8/BLvjEzBwXUmH1bp/KRU90gMKIJka/PQQOXOmJ6QM2D+scXDIoWVl2zKLV6W8bu+CNV2jB1FSsaLjHa7d0YE42g0c1JUn8P72RpvfJMsK42iVwlcyMRo1HROpk4AxfpJsfmkBmmdysaOHM1Q6GPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QKBT7tknXpXdR9G2s2ZJFhUaKgOXiUoYqriTj76oRGc=;
- b=f0qcIqY3TdgHMVtS5gRbhBxJuhSu3zFsZ4eGvHpWzcIU7TZ6uy9ofuX9l5NgPHTU1mt3m1tuJkzPN7q0zDPEiw5XQrt73p8bswIzw0/zQH81eapvx8U4uL3Vuf1eqS+k/JmFSsgM4CH+AA0iCBG6Aih9S7lRYxQoPpLiJiebWElgID4+ixGslmbMD3o+wdum3pum/bUTouMiUogmTYvdhApibngc+uzkRXDnspzDVT3X3UXvv3/po3TEb+r0LsB7WEeLy9xyn++IYs7CSHVrgl3mJ2HxXbvwdophZwyYc0qkzldkYHiYsUZ7uzvxdhG9DiDX0een/aQhCYUZ9cbq/w==
+ bh=p6vy3UM/G1Pz877Ac/yGDWZgIb6SA+6KU0M6goCLy9Q=;
+ b=YfSEFOHrHqwDLTsAW6DpFm4Jq+v/P9KXv9i1W66GJzyY+Ulwd2ZkDDNufcHFqapkqZ57sMbgdejoF+OJWQYK0unzRLZG2GbjphoDBl7o6L9+wxYJjuM8w7OVZdVLXB4H0NhYP9tmTC3ZmJmq3KG/LHN3+HnA2a9R19G2xB9VbiOmLxr/LPTZqmkODJORN/EwDGzPIGR2uRPS3Y1p5Kkii3A6BxSOUcN81v43FGdtWKm20LYE1alqkmoVOuD9Rp46t3XaCUA+/0Ba9dusybOsNsD6tvrgJ/FfSH11aeNuH6FglGuwVhRMl/QIOHu6vzHHcRZn1lDg4V///nCfMnos5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QKBT7tknXpXdR9G2s2ZJFhUaKgOXiUoYqriTj76oRGc=;
- b=hDh6LX1UGpIGQHsHrve1rJaRBPri3XGbXbhay23QpaE48vJLt1L+RficT2VZJDofpnYIod8GChWUp+1Zr5lfPooJl4p8NPvvm2pTqP/bM7Kdob5p5uywP6ptB0DGQb1zyj93iP/n1lGZzpQyqa1SBfQU3UYsuZgmWticTjsvkhc=
-Received: from BN9PR03CA0845.namprd03.prod.outlook.com (2603:10b6:408:13d::10)
- by BL3PR12MB6402.namprd12.prod.outlook.com (2603:10b6:208:3b2::17)
+ bh=p6vy3UM/G1Pz877Ac/yGDWZgIb6SA+6KU0M6goCLy9Q=;
+ b=DD15fSL5rrUL8MjA6TN7xVEOETIpegNFF0NAk+SSjwHYdNHiyGrO51c/ILJl5SudAm2Yv+mT6kwIHsY7IKpRjDFENfXS30q3knOd6/QJAyvMVPTFPlDlNyML0qVILK94Ut35HT3Mrh07hyyt+d5kETfkH/GbJ+67BR+C0q98DD4=
+Received: from BN0PR10CA0004.namprd10.prod.outlook.com (2603:10b6:408:143::18)
+ by PH7PR12MB7281.namprd12.prod.outlook.com (2603:10b6:510:208::6)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.27; Wed, 8 Feb
- 2023 09:02:09 +0000
-Received: from BN8NAM11FT093.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13d:cafe::18) by BN9PR03CA0845.outlook.office365.com
- (2603:10b6:408:13d::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.18 via Frontend
- Transport; Wed, 8 Feb 2023 09:02:09 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.32; Wed, 8 Feb
+ 2023 09:02:14 +0000
+Received: from BN8NAM11FT058.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:143:cafe::36) by BN0PR10CA0004.outlook.office365.com
+ (2603:10b6:408:143::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.36 via Frontend
+ Transport; Wed, 8 Feb 2023 09:02:13 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -45,21 +45,21 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT093.mail.protection.outlook.com (10.13.177.22) with Microsoft SMTP
+ BN8NAM11FT058.mail.protection.outlook.com (10.13.177.58) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6086.17 via Frontend Transport; Wed, 8 Feb 2023 09:02:08 +0000
+ 15.20.6086.17 via Frontend Transport; Wed, 8 Feb 2023 09:02:13 +0000
 Received: from amar-X570-AORUS-ELITE.amd.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 8 Feb 2023 03:02:05 -0600
+ 15.1.2375.34; Wed, 8 Feb 2023 03:02:10 -0600
 From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
  <intel-gfx@lists.freedesktop.org>, <nouveau@lists.freedesktop.org>,
  <linux-graphics-maintainer@vmware.com>
-Subject: [PATCH 4/6] drm/ttm: Change the parameters of ttm_range_man_init()
- from pages to bytes
-Date: Wed, 8 Feb 2023 14:31:04 +0530
-Message-ID: <20230208090106.9659-4-Amaranath.Somalapuram@amd.com>
+Subject: [PATCH 5/6] drm/ttm: Change the meaning of the fields in the
+ drm_mm_nodes structure from pfn to bytes
+Date: Wed, 8 Feb 2023 14:31:05 +0530
+Message-ID: <20230208090106.9659-5-Amaranath.Somalapuram@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20230208090106.9659-1-Amaranath.Somalapuram@amd.com>
 References: <20230208090106.9659-1-Amaranath.Somalapuram@amd.com>
@@ -71,26 +71,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT093:EE_|BL3PR12MB6402:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1e13629e-225a-44ea-10aa-08db09b328a8
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT058:EE_|PH7PR12MB7281:EE_
+X-MS-Office365-Filtering-Correlation-Id: 736b6719-97b8-4209-e45b-08db09b32b78
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hEItlewLzUZ0Eq0WxD/8Pe2+9eMpWZYG1TOHjDl7EFmvOOxa9DrVwm2l0zPv8VMLzhn6kXLSRXx/jPrInxJRGUbuuI4IoJRn9PSVUZBwgpanpN3x5ra5Mb0/Kz2JhLuzUWrDlfeS6jHeg1F5bqFJQk6YK8YXC63z+9J+fcNHjqjqNRo67F3PsKDXRBBFWFRg+WluoEamrb9ueDYe6ucid4O34sBDD2YTTQUAFek6yyk6rsottWHRtKNw9hL9ZSQ5KvUA08yo9G+/i3lh82UTCkv3csNWbW+o3eOjhqwmLOmd2bXzyf8FZGiaXx9gQUa8WD0VDazna22WBeEL/IxEdz+tz5aUSkhYhFYrUW+s965ON1WzN5pkLJ1XCLcwloCktMaMJywz6uXGgPdUy5CeMf8YWH3aNXuB6A+IAIy5rI2cBv5tDuKXdkPlWBUZdr7a+ucHa0FENvGpDShxRDgdyUhwWlhsaqo0tKva6Dei7DMYvPwxFgnddBTJVBYdsQGmBxfExIZtshh+E7ZXgjIreUz+LaPZLD4VlblH5y/sMJjWhkX3Bc+WLb+tVFtJkHFdMn4lPe7GFlC05VrbRQmz749euDXVaZjpO4V+SWUu2Zs8LJaDrs6Gub0B7kAd398nSoGC8hSJ7AJJZOUVcWO0CgCkdCSI8P9Ft6nkNhjGJDaHQ9pxvkG2bhIZ/K70XdF2k5UuCfvwOaqafzNMEBma67qxGfVGuZkgkRTaa9R4wEg=
+X-Microsoft-Antispam-Message-Info: 2V5cWEZ6dFS2lgGJPVjJDMpLVmymCkxviX1t/trJOb0zQV7gPm0PGHSwiMr8tdM4dJqNEIv9cY8kJl5nBcwhA3wLGORBncvr83n98LPzbwiN6tm7y2mJbNq/YKE4Kyx3khTGkeOJwbRrZX0JfO7phudFRm5Y/2xbRSyHmi8GKkCQEzJk9cQcwsBPFSaOPmGv59JZFZyrdxakilEOPwgM9EtBwD7Zh24MwwLynMVtvrtritRIMGvDGvCRdOC7usAb4fr70wNvSUl/d7iog9rPfrgAh8oG62iLyPxT1SyzBCU41GWef2f53CDfSlcbzhx1QWbIcHbUFeio73itq/0Xx9J+O2sc5kGqHISHck1rC+bLjokNWJB71RbnX9kHfuC/HYsAsIRUnggf6DueXXAhOCeqxkfGHzSr4IzrcpnpBbu5qjuA8xAqJhw5RWZiLKzqsdNQMob5PK6PgP+QKwxQpsvXzT1FuYSG6cNJLCEGgMe1pN6xXB7RGaTC0dFWQHT/Kst7Ojw/s7NZpN3QlLDvHjAkbEmntDa6//hMbIJiDl42dQC1Y3Zzsyn8TZdSI8MnqfTZSHmljCgZ9CxXGKEaUqwx8t1wmwwPIouz81QB4yPuKPA3QDUU3VGVBy8V1SmNA4j4faYOTy9I6SzpIje1be/wVK/qQ0ipAwurRXbFW9u1qeanBd0X/WaGj+5fZrbE25SVA+0vV+S/Hg6Gzq6r5ywFaM/5y1Mp9CmmMnq6wuo=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(396003)(376002)(136003)(346002)(451199018)(46966006)(40470700004)(36840700001)(7696005)(81166007)(110136005)(316002)(36860700001)(54906003)(82740400003)(356005)(40460700003)(16526019)(83380400001)(478600001)(82310400005)(186003)(70206006)(70586007)(336012)(8936002)(36756003)(2906002)(86362001)(5660300002)(26005)(8676002)(4326008)(40480700001)(1076003)(2616005)(47076005)(426003)(41300700001)(36900700001);
+ SFS:(13230025)(4636009)(136003)(39860400002)(396003)(376002)(346002)(451199018)(40470700004)(46966006)(36840700001)(36860700001)(82740400003)(2616005)(40480700001)(478600001)(356005)(186003)(2906002)(26005)(1076003)(81166007)(16526019)(6666004)(8936002)(40460700003)(426003)(47076005)(83380400001)(70206006)(70586007)(8676002)(4326008)(5660300002)(336012)(82310400005)(316002)(86362001)(54906003)(110136005)(7696005)(36756003)(41300700001)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 09:02:08.8487 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e13629e-225a-44ea-10aa-08db09b328a8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 09:02:13.5727 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 736b6719-97b8-4209-e45b-08db09b32b78
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT093.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT058.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6402
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7281
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,140 +109,83 @@ Cc: shashank.sharma@amd.com, arunpravin.paneerselvam@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the parameters of ttm_range_man_init_nocheck()
-size from page size to byte size.
-Cleanup the PAGE_SHIFT operation on the depended caller functions.
+Change the ttm_range_man_alloc() allocation from pages to size in bytes.
+Fix the dependent drm_mm_nodes start and size from pages to bytes.
 
 Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 ++--
- drivers/gpu/drm/drm_gem_vram_helper.c   | 2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c     | 4 ++--
- drivers/gpu/drm/ttm/ttm_range_manager.c | 8 ++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 2 +-
- include/drm/ttm/ttm_range_manager.h     | 6 +++---
- 6 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/i915_scatterlist.c |  6 +++---
+ drivers/gpu/drm/ttm/ttm_range_manager.c | 15 +++++++--------
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 6b270d4662a3..f0dabdfd3780 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -75,10 +75,10 @@ static void amdgpu_ttm_backend_unbind(struct ttm_device *bdev,
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
+index 756289e43dff..7defda1219d0 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.c
++++ b/drivers/gpu/drm/i915/i915_scatterlist.c
+@@ -94,7 +94,7 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+ 	if (!rsgt)
+ 		return ERR_PTR(-ENOMEM);
  
- static int amdgpu_ttm_init_on_chip(struct amdgpu_device *adev,
- 				    unsigned int type,
--				    uint64_t size_in_page)
-+				    uint64_t size)
- {
- 	return ttm_range_man_init(&adev->mman.bdev, type,
--				  false, size_in_page);
-+				  false, size << PAGE_SHIFT);
- }
+-	i915_refct_sgt_init(rsgt, node->size << PAGE_SHIFT);
++	i915_refct_sgt_init(rsgt, node->size);
+ 	st = &rsgt->table;
+ 	/* restricted by sg_alloc_table */
+ 	if (WARN_ON(overflows_type(DIV_ROUND_UP_ULL(node->size, segment_pages),
+@@ -110,8 +110,8 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+ 	sg = st->sgl;
+ 	st->nents = 0;
+ 	prev_end = (resource_size_t)-1;
+-	block_size = node->size << PAGE_SHIFT;
+-	offset = node->start << PAGE_SHIFT;
++	block_size = node->size;
++	offset = node->start;
  
- /**
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index e7be562790de..db1915414e4a 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -999,7 +999,7 @@ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
- 		return ret;
- 
- 	ret = ttm_range_man_init(&vmm->bdev, TTM_PL_VRAM,
--				 false, vram_size >> PAGE_SHIFT);
-+				 false, vram_size);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 777d38b211d2..aa8785b6b1e8 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -70,13 +70,13 @@ struct radeon_device *radeon_get_rdev(struct ttm_device *bdev)
- static int radeon_ttm_init_vram(struct radeon_device *rdev)
- {
- 	return ttm_range_man_init(&rdev->mman.bdev, TTM_PL_VRAM,
--				  false, rdev->mc.real_vram_size >> PAGE_SHIFT);
-+				  false, rdev->mc.real_vram_size);
- }
- 
- static int radeon_ttm_init_gtt(struct radeon_device *rdev)
- {
- 	return ttm_range_man_init(&rdev->mman.bdev, TTM_PL_TT,
--				  true, rdev->mc.gtt_size >> PAGE_SHIFT);
-+				  true, rdev->mc.gtt_size);
- }
- 
- static void radeon_evict_flags(struct ttm_buffer_object *bo,
+ 	while (block_size) {
+ 		u64 len;
 diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index ae11d07eb63a..62fddcc59f02 100644
+index 62fddcc59f02..ff9962f7f81d 100644
 --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
 +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -169,7 +169,7 @@ static const struct ttm_resource_manager_func ttm_range_manager_func = {
-  * @bdev: ttm device
-  * @type: memory manager type
-  * @use_tt: if the memory manager uses tt
-- * @p_size: size of area to be managed in pages.
-+ * @size: size of area to be managed in bytes.
-  *
-  * The range manager is installed for this device in the type slot.
-  *
-@@ -177,7 +177,7 @@ static const struct ttm_resource_manager_func ttm_range_manager_func = {
-  */
- int ttm_range_man_init_nocheck(struct ttm_device *bdev,
- 		       unsigned type, bool use_tt,
--		       unsigned long p_size)
-+		       u64 size)
+@@ -83,9 +83,10 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+ 
+ 	spin_lock(&rman->lock);
+ 	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
+-					  PFN_UP(node->base.size),
+-					  bo->page_alignment, 0,
+-					  place->fpfn, lpfn, mode);
++					  node->base.size,
++					  bo->page_alignment << PAGE_SHIFT, 0,
++					  place->fpfn << PAGE_SHIFT,
++					  lpfn << PAGE_SHIFT, mode);
+ 	spin_unlock(&rman->lock);
+ 
+ 	if (unlikely(ret)) {
+@@ -119,11 +120,10 @@ static bool ttm_range_man_intersects(struct ttm_resource_manager *man,
+ 				     size_t size)
  {
- 	struct ttm_resource_manager *man;
- 	struct ttm_range_manager *rman;
-@@ -191,9 +191,9 @@ int ttm_range_man_init_nocheck(struct ttm_device *bdev,
+ 	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
+-	u32 num_pages = PFN_UP(size);
  
- 	man->func = &ttm_range_manager_func;
+ 	/* Don't evict BOs outside of the requested placement range */
+-	if (place->fpfn >= (node->start + num_pages) ||
+-	    (place->lpfn && place->lpfn <= node->start))
++	if ((place->fpfn << PAGE_SHIFT) >= (node->start + size) ||
++	    (place->lpfn && (place->lpfn << PAGE_SHIFT) <= node->start))
+ 		return false;
  
--	ttm_resource_manager_init(man, bdev, p_size);
-+	ttm_resource_manager_init(man, bdev, size);
- 
--	drm_mm_init(&rman->mm, 0, p_size);
-+	drm_mm_init(&rman->mm, 0, size);
- 	spin_lock_init(&rman->lock);
- 
- 	ttm_set_driver_manager(bdev, type, &rman->manager);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 9ad28346aff7..4926e7c73e75 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -700,7 +700,7 @@ static int vmw_vram_manager_init(struct vmw_private *dev_priv)
+ 	return true;
+@@ -135,10 +135,9 @@ static bool ttm_range_man_compatible(struct ttm_resource_manager *man,
+ 				     size_t size)
  {
- 	int ret;
- 	ret = ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM, false,
--				 dev_priv->vram_size >> PAGE_SHIFT);
-+				 dev_priv->vram_size);
- 	ttm_resource_manager_set_used(ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM), false);
- 	return ret;
- }
-diff --git a/include/drm/ttm/ttm_range_manager.h b/include/drm/ttm/ttm_range_manager.h
-index 7963b957e9ef..05bffded1b53 100644
---- a/include/drm/ttm/ttm_range_manager.h
-+++ b/include/drm/ttm/ttm_range_manager.h
-@@ -36,15 +36,15 @@ to_ttm_range_mgr_node(struct ttm_resource *res)
+ 	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
+-	u32 num_pages = PFN_UP(size);
  
- int ttm_range_man_init_nocheck(struct ttm_device *bdev,
- 		       unsigned type, bool use_tt,
--		       unsigned long p_size);
-+		       u64 size);
- int ttm_range_man_fini_nocheck(struct ttm_device *bdev,
- 		       unsigned type);
- static __always_inline int ttm_range_man_init(struct ttm_device *bdev,
- 		       unsigned int type, bool use_tt,
--		       unsigned long p_size)
-+		       u64 size)
- {
- 	BUILD_BUG_ON(__builtin_constant_p(type) && type >= TTM_NUM_MEM_TYPES);
--	return ttm_range_man_init_nocheck(bdev, type, use_tt, p_size);
-+	return ttm_range_man_init_nocheck(bdev, type, use_tt, size);
- }
+ 	if (node->start < place->fpfn ||
+-	    (place->lpfn && (node->start + num_pages) > place->lpfn))
++	    (place->lpfn && (node->start + size) > place->lpfn << PAGE_SHIFT))
+ 		return false;
  
- static __always_inline int ttm_range_man_fini(struct ttm_device *bdev,
+ 	return true;
 -- 
 2.32.0
 
