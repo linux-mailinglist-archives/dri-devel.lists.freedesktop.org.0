@@ -2,66 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D92E68EA03
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 09:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3824B68EA2A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 09:48:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B53210E6E8;
-	Wed,  8 Feb 2023 08:38:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 228EA10E07D;
+	Wed,  8 Feb 2023 08:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6EA010E6EF
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 08:38:35 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id ml19so49526718ejb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Feb 2023 00:38:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=x3M36RLWQSE1ygMBMvnUOAalDXVqyZLOofNFnhzgK9M=;
- b=sZtoFgloUbTrGU6ndN/TgQJ4+ehIpi4DNQqZ/kodhJojF5GBEVzKoujDUbY/OLahIv
- K3xm/53uiZTVX17/LVfcAgI+NTVxE8AsUas2nGzTmFLo04NJKrbuIJK4xjHXWfJXTM36
- IgaX3+K7OBpZH8BhRFXCNzxWnf3c5g2KBoNh+P+5ZCusmKjxlhABll6HD9heZzqhAdTJ
- WqZr1VFG4+T/bYVHRUHho27FTiTBr4S5XII3m/7Y9xH74tJbGzupDkCLSgYF8m7UlqRD
- iDFZISBjTe4pIBjW0Yt8/v3MxIN7PXlckBM4iM+Tw6sSoxEgSQ9shSy9YHknWLu36Ggi
- MeHQ==
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB3610E07A;
+ Wed,  8 Feb 2023 08:48:29 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id o36so12800660wms.1;
+ Wed, 08 Feb 2023 00:48:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=1YhWIUQuspKwnf1RJNS+WEoyM4k3FQkpbf1DuyHpQ0I=;
+ b=KtrZ9XZBRhHf8wolcZBZLXibdV/1X9MpAw7nthzYQRE94gZNP72e88J6pDpSXGHQCn
+ R5prpEJqnEjEPdXBX30EA+1rqVcSLx0O2GnkD4f/Y0mEEmIV6HzVwxJA3U7zkRVVRD7l
+ 2gIj5b0XIf4FlFXGh4mSQkRD8qFD8y3CjHFA17XEMyeF4+uzpptNxPNklqgGeCz4Yf1s
+ GbpjisTZjI4hJw3ZIJo+3milbbBDvsEeBfnK5kj6rLiLt81gPP87z59W/mm4rPzSPcfT
+ D/NvpkkyiBMmWPUqlImpWReOAU5kdlki+xqJtgQLyiYukyuUmgjdQnamcwzI3naRf6II
+ urVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=x3M36RLWQSE1ygMBMvnUOAalDXVqyZLOofNFnhzgK9M=;
- b=oCIByqEHLCH5aYoaxCl+Dm7QO3IllScgtT0+f1vGc6EcvXo8PS5kpGqFlaapWykEGP
- 2NgYnO5kqWXoXhdqdNe7h4FQtXlHrgZ6NDiWcl9BM9sCw4vVOJUiXqYkWg2nuywfEhng
- XrgHJ2s3Unqcj0iI6l5DOY+uV6ftRkT2fbPdu6kyuIvBwSYknOFqpv3f0DP9bFlR+fNE
- di4RFLO1PIRhaWmYpZJdY5+ak8tiMoysX5WvIbwZM4fUt6JLtKf+IdszEink20TtppLE
- oQVlQa+CIssf01ePs71pl409iT+S6vxKlMDFCVJvVTdM3Yrn5U3gqF+wOrlM5y5uVlFR
- gwNw==
-X-Gm-Message-State: AO0yUKW/5oG/Aa77KjP4sDQ5D8lquV4I2l9dGwX70mFEKQr+psP5EuIJ
- wBmV8pVEvZJE35O17DrEVjS65Q==
-X-Google-Smtp-Source: AK7set8yZkcgcbxG1cIurycXSbPSDdDBgFix04S1M2m5B5rcNa3yOQTP7me7dQvmCIooIHSc8k8QvA==
-X-Received: by 2002:a17:906:3950:b0:887:3c7e:5df with SMTP id
- g16-20020a170906395000b008873c7e05dfmr7549632eje.73.1675845514269; 
- Wed, 08 Feb 2023 00:38:34 -0800 (PST)
-Received: from [192.168.1.101] (abxh117.neoplus.adsl.tpnet.pl. [83.9.1.117])
- by smtp.gmail.com with ESMTPSA id
- kb18-20020a1709070f9200b0088ef3c38a52sm8119132ejc.19.2023.02.08.00.38.32
+ bh=1YhWIUQuspKwnf1RJNS+WEoyM4k3FQkpbf1DuyHpQ0I=;
+ b=RIGmjGzcLv7t8KRR8YCquGL1wh6KVCQR68LOk0yqg3l48WdzpuYgSvBGQxnBNIYX/z
+ F/eEgpPFtptFxHQ8uxWdLvw4EL7n37o7sGNq2y60hPTcTxCyTdLuCh7W6GOvHBVHo4sJ
+ J+z6KXw4K5DiWk0GrxeTJRspgZQ6czqOBMdhRoRcenJBglDheN5xny8eNC1rP/TKzx4U
+ URsRg86v0WtChWebfOF5d+xOdYMp4zSYThLqnNwIJsK50bUMzFgzJVDhwt7F9R8gTrGS
+ GF99jpkMSPauKkgB02KMrX+fZMoxMcdBYvaVP/aBNZu7quT7Cg0v7G2B5rPqnC9SFSpr
+ H4Pw==
+X-Gm-Message-State: AO0yUKXE4xRtOmmPQ7gO/N0whiuUAoPfE1noKcXhliTbhoPAbxIzLT6S
+ amBPGid8odU9Yx2mdP6K90g=
+X-Google-Smtp-Source: AK7set9ycYc14r7fwKij4cP+qvNHtAux32nBwIIJmI+Y8TrAiMRobTDyCQIxDTpuDQUYli1I8GsUbA==
+X-Received: by 2002:a05:600c:998:b0:3e0:95:ea3e with SMTP id
+ w24-20020a05600c099800b003e00095ea3emr5863272wmp.22.1675846107796; 
+ Wed, 08 Feb 2023 00:48:27 -0800 (PST)
+Received: from [192.168.1.10] (97e09f27.skybroadband.com. [151.224.159.39])
+ by smtp.googlemail.com with ESMTPSA id
+ iv12-20020a05600c548c00b003db12112fcfsm1356808wmb.4.2023.02.08.00.48.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 00:38:33 -0800 (PST)
-Message-ID: <387c7252-2b35-46a1-fb6a-34e58545188a@linaro.org>
-Date: Wed, 8 Feb 2023 09:38:32 +0100
+ Wed, 08 Feb 2023 00:48:27 -0800 (PST)
+Message-ID: <5cf46df8-0fa2-e9f5-aa8e-7f7f703d96dd@googlemail.com>
+Date: Wed, 8 Feb 2023 08:48:25 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 2/3] arm64: dts: qcom: sc8280xp: Add GPU related nodes
-Content-Language: en-US
-To: Bjorn Andersson <quic_bjorande@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>
-References: <20230208034052.2047681-1-quic_bjorande@quicinc.com>
- <20230208034052.2047681-3-quic_bjorande@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230208034052.2047681-3-quic_bjorande@quicinc.com>
+Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
+From: Chris Clayton <chris2553@googlemail.com>
+To: Ben Skeggs <skeggsb@gmail.com>
+References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
+ <fcec3c78-b5d9-eb48-0fc0-d1f27de87f23@leemhuis.info>
+ <b21fa1f6-a71d-5657-8596-ee0be73185ea@leemhuis.info>
+ <3ab28896-70e9-6f90-5b97-e5397b06e715@googlemail.com>
+ <a163dd7b-c5d1-a07b-a816-7a2dfd3edfd4@leemhuis.info>
+ <ab1b0f73-6b4e-8602-2999-b7bec25d92db@googlemail.com>
+ <CACAvsv4sOtPjCVnEcKd2RCUqYWxSn5XKyksbS-Bds2qCqyusVw@mail.gmail.com>
+ <1cdb84ac-f7a8-66ba-98fc-3db302b49a5a@googlemail.com>
+ <dab6eb81-db3f-8fa1-84ad-9b40e209514b@googlemail.com>
+ <CACAvsv5iYdF3P8AbyrbYo3zGmYRYhxDWn7WbAR5V9qHpbgBXRA@mail.gmail.com>
+ <1632a9ef-2954-c8f0-cdc9-03157c9d8547@googlemail.com>
+ <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
+Content-Language: en-GB
+In-Reply-To: <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,232 +86,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, mani@kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- johan@kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, ML nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi.
 
+I'm assuming  that we are not going to see a fix for this regression before 6.2 is released. Consequently, I've
+implemented a (very simple) workaround. All that happens is that in the (sysv) init script that starts and stops SDDM,
+the nouveau module is removed once SDDM is stopped. With that in place, my system no longer freezes on reboot or poweroff.
 
-On 8.02.2023 04:40, Bjorn Andersson wrote:
-> From: Bjorn Andersson <bjorn.andersson@linaro.org>
+Let me know if I can provide any additional diagnostics although, with the problem seemingly occurring so late in the
+shutdown process, I may need help on how to go about capturing.
+
+Chris
+
+On 02/02/2023 20:45, Chris Clayton wrote:
 > 
-> Add Adreno SMMU, GPU clock controller, GMU and GPU nodes for the
-> SC8280XP.
 > 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Signed-off-by: Bjorn Andersson <quic_bjorande@quicinc.com>
-> ---
->  arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 171 +++++++++++++++++++++++++
->  1 file changed, 171 insertions(+)
+> On 01/02/2023 13:51, Chris Clayton wrote:
+>>
+>>
+>> On 30/01/2023 23:27, Ben Skeggs wrote:
+>>> On Tue, 31 Jan 2023 at 09:09, Chris Clayton <chris2553@googlemail.com> wrote:
+>>>>
+>>>> Hi again.
+>>>>
+>>>> On 30/01/2023 20:19, Chris Clayton wrote:
+>>>>> Thanks, Ben.
+>>>>
+>>>> <snip>
+>>>>
+>>>>>> Hey,
+>>>>>>
+>>>>>> This is a complete shot-in-the-dark, as I don't see this behaviour on
+>>>>>> *any* of my boards.  Could you try the attached patch please?
+>>>>>
+>>>>> Unfortunately, the patch made no difference.
+>>>>>
+>>>>> I've been looking at how the graphics on my laptop is set up, and have a bit of a worry about whether the firmware might
+>>>>> be playing a part in this problem. In order to offload video decoding to the NVidia TU117 GPU, it seems the scrubber
+>>>>> firmware must be available, but as far as I know,that has not been released by NVidia. To get it to work, I followed
+>>>>> what ubuntu have done and the scrubber in /lib/firmware/nvidia/tu117/nvdec/ is a symlink to
+>>>>> ../../tu116/nvdev/scrubber.bin. That, of course, means that some of the firmware loaded is for a different card is being
+>>>>> loaded. I note that processing related to firmware is being changed in the patch. Might my set up be at the root of my
+>>>>> problem?
+>>>>>
+>>>>> I'll have a fiddle an see what I can work out.
+>>>>>
+>>>>> Chris
+>>>>>
+>>>>>>
+>>>>>> Thanks,
+>>>>>> Ben.
+>>>>>>
+>>>>>>>
+>>>>
+>>>> Well, my fiddling has got my system rebooting and shutting down successfully again. I found that if I delete the symlink
+>>>> to the scrubber firmware, reboot and shutdown work again. There are however, a number of other files in the tu117
+>>>> firmware directory tree that that are symlinks to actual files in its tu116 counterpart. So I deleted all of those too.
+>>>> Unfortunately, the absence of one or more of those symlinks causes Xorg to fail to start. I've reinstated all the links
+>>>> except scrubber and I now have a system that works as it did until I tried to run a kernel that includes the bad commit
+>>>> I identified in my bisection. That includes offloading video decoding to the NVidia card, so what ever I read that said
+>>>> the scrubber firmware was needed seems to have been wrong. I get a new message that (nouveau 0000:01:00.0: fb: VPR
+>>>> locked, but no scrubber binary!), but, hey, we can't have everything.
+>>>>
+>>>> If you still want to get to the bottom of this, let me know what you need me to provide and I'll do my best. I suspect
+>>>> you might want to because there will a n awful lot of Ubuntu-based systems out there with that scrubber.bin symlink in
+>>>> place. On the other hand,m it could but quite a while before ubuntu are deploying 6.2 or later kernels.
+>>> The symlinks are correct - whole groups of GPUs share the same FW, and
+>>> we use symlinks in linux-firmware to represent this.
+>>>
+>>> I don't really have any ideas how/why this patch causes issues with
+>>> shutdown - it's a path that only gets executed during initialisation.
+>>> Can you try and capture the kernel log during shutdown ("dmesg -w"
+>>> over ssh? netconsole?), and see if there's any relevant messages
+>>> providing a hint at what's going on?  Alternatively, you could try
+>>> unloading the module (you will have to stop X/wayland/gdm/etc/etc
+>>> first) and seeing if that hangs too.
+>>>
+>>> Ben.
+>>
+>> Sorry for the delay - I've been learning about netconsole and netcat. However, I had no success with ssh and netconsole
+>> produced a log with nothing unusual in it.
+>>
+>> Simply stopping Xorg and removing the nouveau module succeeds.
+>>
+>> So, I rebuilt rc6+ after a pull from linus' tree this morning and set the nouveau debug level to 7. I then booted to a
+>> console before doing a reboot (with Ctl+Alt+Del). As expected the machine locked up just before it would ordinarily
+>> restart. The last few lines on the console might be helpful:
+>>
+>> ...
+>> nouveau 0000:01:00:0  fifo: preinit running...
+>> nouveau 0000:01:00:0  fifo: preinit completed in 4us
+>> nouveau 0000:01:00:0  gr: preinit running...
+>> nouveau 0000:01:00:0  gr: preinit completed in 0us
+>> nouveau 0000:01:00:0  nvdec0: preinit running...
+>> nouveau 0000:01:00:0  nvdec0: preinit completed in 0us
+>> nouveau 0000:01:00:0  nvdec0: preinit running...
+>> nouveau 0000:01:00:0  nvdec0: preinit completed in 0us
+>> nouveau 0000:01:00:0  sec2: preinit running...
+>> nouveau 0000:01:00:0  sec2: preinit completed in 0us
+>> nouveau 0000:01:00:0  fb:.VPR locked, running scrubber binary
+>>
+>> These messages appear after the "sd 4:0:0:0 [sda] Stopping disk" I reported in my initial email.
+>>
+>> After the "running scrubber" line appears the machine is locked and I have to hold down the power button to recover. I
+>> get the same outcome from running "halt -dip", "poweroff -di" and "shutdown -h -P now". I guess it's no surprise that
+>> all three result in the same outcome because invocations halt, poweroff and reboot (without the -f argument)from a
+>> runlevel other than 0 resukt in shutdown being run. switching to runlevel 0 with "telenit 0" results in the same
+>> messages from nouveau followed by the lockup.
+>>
+>> Let me know if you need any additional diagnostics.
+>>
+>> Chris
+>>
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> index fcd393444f47..94e8d0da9d7b 100644
-> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
-> @@ -6,6 +6,7 @@
->  
->  #include <dt-bindings/clock/qcom,dispcc-sc8280xp.h>
->  #include <dt-bindings/clock/qcom,gcc-sc8280xp.h>
-> +#include <dt-bindings/clock/qcom,gpucc-sc8280xp.h>
->  #include <dt-bindings/clock/qcom,rpmh.h>
->  #include <dt-bindings/interconnect/qcom,osm-l3.h>
->  #include <dt-bindings/interconnect/qcom,sc8280xp.h>
-> @@ -2275,6 +2276,176 @@ tcsr: syscon@1fc0000 {
->  			reg = <0x0 0x01fc0000 0x0 0x30000>;
->  		};
->  
-> +		gpu: gpu@3d00000 {
-> +			compatible = "qcom,adreno-690.0", "qcom,adreno";
-Did Qualcomm really pull off a chip this big with
-patchlevel=0/first try? Nice.
-
-> +			reg = <0 0x03d00000 0 0x40000>,
-> +			      <0 0x03d9e000 0 0x1000>,
-> +			      <0 0x03d61000 0 0x800>;
-> +			reg-names = "kgsl_3d0_reg_memory",
-> +				    "cx_mem",
-> +				    "cx_dbgc";
-> +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-> +			iommus = <&adreno_smmu 0 0xc00>, <&adreno_smmu 1 0xc00>;
-> +			operating-points-v2 = <&gpu_opp_table>;
-> +			qcom,gmu = <&gmu>;
-> +			interconnects = <&gem_noc MASTER_GFX3D 0 &mc_virt SLAVE_EBI1 0>;
-> +			interconnect-names = "gfx-mem";
-> +			#cooling-cells = <2>;
-> +
-> +			status = "disabled";
-> +
-> +			gpu_opp_table: opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-270000000 {
-> +					opp-hz = /bits/ 64 <270000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-> +					opp-peak-kBps = <451000>;
-> +				};
-> +
-> +				opp-410000000 {
-> +					opp-hz = /bits/ 64 <410000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-> +					opp-peak-kBps = <1555000>;
-> +				};
-> +
-> +				opp-500000000 {
-> +					opp-hz = /bits/ 64 <500000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-> +					opp-peak-kBps = <1555000>;
-> +				};
-> +
-> +				opp-547000000 {
-> +					opp-hz = /bits/ 64 <547000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
-> +					opp-peak-kBps = <1555000>;
-> +				};
-> +
-> +				opp-606000000 {
-> +					opp-hz = /bits/ 64 <606000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-> +					opp-peak-kBps = <2736000>;
-> +				};
-> +
-> +				opp-640000000 {
-> +					opp-hz = /bits/ 64 <640000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-> +					opp-peak-kBps = <2736000>;
-> +				};
-> +
-> +				opp-690000000 {
-> +					opp-hz = /bits/ 64 <690000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
-> +					opp-peak-kBps = <2736000>;
-> +				};
-> +			};
-> +		};
-> +
-> +		gmu: gmu@3d6a000 {
-> +			compatible="qcom,adreno-gmu-690.0", "qcom,adreno-gmu";
-This needs a binding update.
-
-> +			reg = <0 0x03d6a000 0 0x34000>,
-> +			      <0 0x03de0000 0 0x10000>,
-> +			      <0 0x0b290000 0 0x10000>,
-> +			      <0 0x0b490000 0 0x10000>;
-> +			reg-names = "gmu", "rscc", "gmu_pdc", "gmu_pdc_seq";
-I think this should be a vertical list with so many entries.
-
-> +			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "hfi", "gmu";
-> +			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-> +				 <&gpucc GPU_CC_CXO_CLK>,
-> +				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-> +				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +				 <&gpucc GPU_CC_AHB_CLK>,
-> +				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> +				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
-> +				 <&aoss_qmp>;
-> +			clock-names = "gmu",
-> +				      "cxo",
-> +				      "axi",
-> +				      "memnoc",
-> +				      "ahb",
-> +				      "hub",
-> +				      "smmu_vote",
-> +				      "apb_pclk";
-> +			power-domains = <&gpucc GPU_CC_CX_GDSC>,
-> +					<&gpucc GPU_CC_GX_GDSC>;
-> +			power-domain-names = "cx",
-> +					     "gx";
-> +			iommus = <&adreno_smmu 5 0xc00>;
-> +			operating-points-v2 = <&gmu_opp_table>;
-> +
-> +			status = "disabled";
-> +
-> +			gmu_opp_table: opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-200000000 {
-> +					opp-hz = /bits/ 64 <200000000>;
-> +					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
-> +				};
-> +			};
-> +		};
-> +
-> +		gpucc: clock-controller@3d90000 {
-> +			compatible = "qcom,sc8280xp-gpucc";
-> +			reg = <0 0x03d90000 0 0x9000>;
-> +			clocks = <&rpmhcc RPMH_CXO_CLK>,
-> +				 <&gcc GCC_GPU_GPLL0_CLK_SRC>,
-> +				 <&gcc GCC_GPU_GPLL0_DIV_CLK_SRC>;
-> +			clock-names = "bi_tcxo",
-> +				      "gcc_gpu_gpll0_clk_src",
-> +				      "gcc_gpu_gpll0_div_clk_src";
-> +
-> +			power-domains = <&rpmhpd SC8280XP_GFX>;
-> +			#clock-cells = <1>;
-> +			#reset-cells = <1>;
-> +			#power-domain-cells = <1>;
-> +
-> +			status = "disabled";
-Is there any benefit in not enabling this by default?
-
-> +		};
-> +
-> +		adreno_smmu: iommu@3da0000 {
-> +			compatible = "qcom,sc8280xp-smmu-500", "qcom,adreno-smmu", "arm,mmu-500";
-This needs a binding update.
-
-> +			reg = <0 0x03da0000 0 0x20000>;
-> +			#iommu-cells = <2>;
-> +			#global-interrupts = <2>;
-> +			interrupts = <GIC_SPI 672 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 673 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 678 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 679 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 680 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 681 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 682 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 683 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 684 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 685 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 686 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 687 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 688 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 689 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +				 <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>,
-> +				 <&gpucc GPU_CC_AHB_CLK>,
-> +				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
-> +				 <&gpucc GPU_CC_CX_GMU_CLK>,
-> +				 <&gpucc GPU_CC_HUB_CX_INT_CLK>,
-> +				 <&gpucc GPU_CC_HUB_AON_CLK>,
-> +				 <&aoss_qmp>;
-> +			clock-names = "gcc_gpu_memnoc_gfx_clk",
-> +				      "gcc_gpu_snoc_dvm_gfx_clk",
-> +				      "gpu_cc_ahb_clk",
-> +				      "gpu_cc_hlos1_vote_gpu_smmu_clk",
-> +				      "gpu_cc_cx_gmu_clk",
-> +				      "gpu_cc_hub_cx_int_clk",
-> +				      "gpu_cc_hub_aon_clk",
-> +				      "apb_pclk";
-You'll need to update the smmu bindings; I think this may
-be overkill for the SMMU.. usually you need 3-4 clks at
-max (snoc_dvm, memnoc, vote_smmu and some other thing).
-
-> +
-> +			power-domains = <&gpucc GPU_CC_CX_GDSC>;
-> +
-> +			status = "disabled";
-Not sure if there's any benefit in disabling this.
-
-Konrad
-> +		};
-> +
->  		usb_0_hsphy: phy@88e5000 {
->  			compatible = "qcom,sc8280xp-usb-hs-phy",
->  				     "qcom,usb-snps-hs-5nm-phy";
+> I've done some more investigation and found that I hadn't done sufficient amemdment the scripts run at shutdown to
+> prevent the network being shutdown. I've now got netconsole captures for 6.2.0-rc6+
+> (9f266ccaa2f5228bfe67ad58a94ca4e0109b954a) and, for comparison, 6.1.9. These two logs are attached.
+> 
+> Chris
+> 
+>>>
+>>>>
+>>>> Thanks,
+>>>>
+>>>> Chris
+>>>>
+>>>> <snip>
