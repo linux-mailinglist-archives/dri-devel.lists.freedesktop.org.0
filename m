@@ -1,79 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3824B68EA2A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 09:48:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D12BD68EA3B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 09:56:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 228EA10E07D;
-	Wed,  8 Feb 2023 08:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C1CE10E6FF;
+	Wed,  8 Feb 2023 08:56:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB3610E07A;
- Wed,  8 Feb 2023 08:48:29 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id o36so12800660wms.1;
- Wed, 08 Feb 2023 00:48:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=1YhWIUQuspKwnf1RJNS+WEoyM4k3FQkpbf1DuyHpQ0I=;
- b=KtrZ9XZBRhHf8wolcZBZLXibdV/1X9MpAw7nthzYQRE94gZNP72e88J6pDpSXGHQCn
- R5prpEJqnEjEPdXBX30EA+1rqVcSLx0O2GnkD4f/Y0mEEmIV6HzVwxJA3U7zkRVVRD7l
- 2gIj5b0XIf4FlFXGh4mSQkRD8qFD8y3CjHFA17XEMyeF4+uzpptNxPNklqgGeCz4Yf1s
- GbpjisTZjI4hJw3ZIJo+3milbbBDvsEeBfnK5kj6rLiLt81gPP87z59W/mm4rPzSPcfT
- D/NvpkkyiBMmWPUqlImpWReOAU5kdlki+xqJtgQLyiYukyuUmgjdQnamcwzI3naRf6II
- urVQ==
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE4E10E07A;
+ Wed,  8 Feb 2023 08:56:27 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id dr8so49383885ejc.12;
+ Wed, 08 Feb 2023 00:56:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3S5QBxLDinDcOg+9K/QSPTkn2HaKsZvFE2yzJm3HC7A=;
+ b=gLhA1dRLW3xG7rS+PG8hPgEo6+h7fRFnkwhQCgZhy3qIKkNP/EFX6T/UhBmglcuTrt
+ 5pktLJCPFHpdh0dPfbmTwaihvh/02LmNcT2O30IrrVW2ExBWgUYb2oqfyQBPR84zboxq
+ qgi1byTecBCKc1Iq8Qq8Y3p0MKZR4w+ZPyfS3uCY465ZSBi46oLUc1PjK21XNPWosZiZ
+ Po0p1PiBpfM5JRIIVcfHWVB6J9G44LnEtwBNHJq7BRCvL3OsZ02kXlXittfK6WOkMPYE
+ RT51dPVAMOgOtlj7QgQoFx8Gvt6RbQWfE3wfaj0lS4QGYRmgsbIcfXZtq7xX7R4PjmES
+ ysQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1YhWIUQuspKwnf1RJNS+WEoyM4k3FQkpbf1DuyHpQ0I=;
- b=RIGmjGzcLv7t8KRR8YCquGL1wh6KVCQR68LOk0yqg3l48WdzpuYgSvBGQxnBNIYX/z
- F/eEgpPFtptFxHQ8uxWdLvw4EL7n37o7sGNq2y60hPTcTxCyTdLuCh7W6GOvHBVHo4sJ
- J+z6KXw4K5DiWk0GrxeTJRspgZQ6czqOBMdhRoRcenJBglDheN5xny8eNC1rP/TKzx4U
- URsRg86v0WtChWebfOF5d+xOdYMp4zSYThLqnNwIJsK50bUMzFgzJVDhwt7F9R8gTrGS
- GF99jpkMSPauKkgB02KMrX+fZMoxMcdBYvaVP/aBNZu7quT7Cg0v7G2B5rPqnC9SFSpr
- H4Pw==
-X-Gm-Message-State: AO0yUKXE4xRtOmmPQ7gO/N0whiuUAoPfE1noKcXhliTbhoPAbxIzLT6S
- amBPGid8odU9Yx2mdP6K90g=
-X-Google-Smtp-Source: AK7set9ycYc14r7fwKij4cP+qvNHtAux32nBwIIJmI+Y8TrAiMRobTDyCQIxDTpuDQUYli1I8GsUbA==
-X-Received: by 2002:a05:600c:998:b0:3e0:95:ea3e with SMTP id
- w24-20020a05600c099800b003e00095ea3emr5863272wmp.22.1675846107796; 
- Wed, 08 Feb 2023 00:48:27 -0800 (PST)
-Received: from [192.168.1.10] (97e09f27.skybroadband.com. [151.224.159.39])
- by smtp.googlemail.com with ESMTPSA id
- iv12-20020a05600c548c00b003db12112fcfsm1356808wmb.4.2023.02.08.00.48.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Feb 2023 00:48:27 -0800 (PST)
-Message-ID: <5cf46df8-0fa2-e9f5-aa8e-7f7f703d96dd@googlemail.com>
-Date: Wed, 8 Feb 2023 08:48:25 +0000
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3S5QBxLDinDcOg+9K/QSPTkn2HaKsZvFE2yzJm3HC7A=;
+ b=df12SinQjXh0Aw6kK+CrCvG3+wH/ktVudoGSfR6TYMbxVPIBpMbck4YRgdrI6l0yJ9
+ f2lvv805bmuHUXPPYn6DdFZAVFKARQK2JaYFu2XnKbr1YNMksAN49cTRkX6jyPaje26u
+ X35uEDxKoN47S4g0zw5bVzIJzvD3a+nHyEbo2GmnOtO32RFdTl3CrvIZ7nPyfudfkOP+
+ u6Z5TRlfXhEnZol7Pc830x9ceT0UXkCrPOZyH1FlUY8tXlSiPi9ciWljQoMFr0OW52nw
+ Yd5RUOyppkUwLkybQYhaY6AxBkllgP+O7Ioqzr6eJl4DH+UHXOsR5EB52wR6hN9kMrEK
+ Pyug==
+X-Gm-Message-State: AO0yUKX0cT28uwRYtao+Bw2rL0CcfksL4kNZOYyC8eSIBNJhZZymYBre
+ jlNZSOW1TXUxjiez4KTCQYk=
+X-Google-Smtp-Source: AK7set8bD3EQRHTkbJcIbyU7G0wyKtt/aIJDIErtEtdBHYv+9An+zuy8dapXBQ+F93k4AP6AGmVmgA==
+X-Received: by 2002:a17:906:824c:b0:859:1d78:765 with SMTP id
+ f12-20020a170906824c00b008591d780765mr6600849ejx.11.1675846585626; 
+ Wed, 08 Feb 2023 00:56:25 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ s13-20020a170906c30d00b0088842b00241sm7989649ejz.114.2023.02.08.00.56.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Feb 2023 00:56:25 -0800 (PST)
+Date: Wed, 8 Feb 2023 10:56:21 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Joshua Ashton <joshua@froggi.es>
+Subject: Re: [PATCH 2/3] drm/connector: Add enum documentation to
+ drm_colorspace
+Message-ID: <20230208105621.392fb2cc@eldfell>
+In-Reply-To: <20230203020744.30745-2-joshua@froggi.es>
+References: <20230203020744.30745-1-joshua@froggi.es>
+ <20230203020744.30745-2-joshua@froggi.es>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
-From: Chris Clayton <chris2553@googlemail.com>
-To: Ben Skeggs <skeggsb@gmail.com>
-References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
- <fcec3c78-b5d9-eb48-0fc0-d1f27de87f23@leemhuis.info>
- <b21fa1f6-a71d-5657-8596-ee0be73185ea@leemhuis.info>
- <3ab28896-70e9-6f90-5b97-e5397b06e715@googlemail.com>
- <a163dd7b-c5d1-a07b-a816-7a2dfd3edfd4@leemhuis.info>
- <ab1b0f73-6b4e-8602-2999-b7bec25d92db@googlemail.com>
- <CACAvsv4sOtPjCVnEcKd2RCUqYWxSn5XKyksbS-Bds2qCqyusVw@mail.gmail.com>
- <1cdb84ac-f7a8-66ba-98fc-3db302b49a5a@googlemail.com>
- <dab6eb81-db3f-8fa1-84ad-9b40e209514b@googlemail.com>
- <CACAvsv5iYdF3P8AbyrbYo3zGmYRYhxDWn7WbAR5V9qHpbgBXRA@mail.gmail.com>
- <1632a9ef-2954-c8f0-cdc9-03157c9d8547@googlemail.com>
- <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
-Content-Language: en-GB
-In-Reply-To: <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/Oh1pUcgo2pR+IICUorw1QcK";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,135 +71,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- Karol Herbst <kherbst@redhat.com>, ML nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
+ Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi.
+--Sig_/Oh1pUcgo2pR+IICUorw1QcK
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I'm assuming  that we are not going to see a fix for this regression before 6.2 is released. Consequently, I've
-implemented a (very simple) workaround. All that happens is that in the (sysv) init script that starts and stops SDDM,
-the nouveau module is removed once SDDM is stopped. With that in place, my system no longer freezes on reboot or poweroff.
+On Fri,  3 Feb 2023 02:07:43 +0000
+Joshua Ashton <joshua@froggi.es> wrote:
 
-Let me know if I can provide any additional diagnostics although, with the problem seemingly occurring so late in the
-shutdown process, I may need help on how to go about capturing.
+> To match the other enums, and add more information about these values.
+>=20
+> Signed-off-by: Joshua Ashton <joshua@froggi.es>
+>=20
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Vitaly.Prosyak@amd.com
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
+> ---
+>  include/drm/drm_connector.h | 41 +++++++++++++++++++++++++++++++++++--
+>  1 file changed, 39 insertions(+), 2 deletions(-)
 
-Chris
+Hi Joshua,
 
-On 02/02/2023 20:45, Chris Clayton wrote:
-> 
-> 
-> On 01/02/2023 13:51, Chris Clayton wrote:
->>
->>
->> On 30/01/2023 23:27, Ben Skeggs wrote:
->>> On Tue, 31 Jan 2023 at 09:09, Chris Clayton <chris2553@googlemail.com> wrote:
->>>>
->>>> Hi again.
->>>>
->>>> On 30/01/2023 20:19, Chris Clayton wrote:
->>>>> Thanks, Ben.
->>>>
->>>> <snip>
->>>>
->>>>>> Hey,
->>>>>>
->>>>>> This is a complete shot-in-the-dark, as I don't see this behaviour on
->>>>>> *any* of my boards.  Could you try the attached patch please?
->>>>>
->>>>> Unfortunately, the patch made no difference.
->>>>>
->>>>> I've been looking at how the graphics on my laptop is set up, and have a bit of a worry about whether the firmware might
->>>>> be playing a part in this problem. In order to offload video decoding to the NVidia TU117 GPU, it seems the scrubber
->>>>> firmware must be available, but as far as I know,that has not been released by NVidia. To get it to work, I followed
->>>>> what ubuntu have done and the scrubber in /lib/firmware/nvidia/tu117/nvdec/ is a symlink to
->>>>> ../../tu116/nvdev/scrubber.bin. That, of course, means that some of the firmware loaded is for a different card is being
->>>>> loaded. I note that processing related to firmware is being changed in the patch. Might my set up be at the root of my
->>>>> problem?
->>>>>
->>>>> I'll have a fiddle an see what I can work out.
->>>>>
->>>>> Chris
->>>>>
->>>>>>
->>>>>> Thanks,
->>>>>> Ben.
->>>>>>
->>>>>>>
->>>>
->>>> Well, my fiddling has got my system rebooting and shutting down successfully again. I found that if I delete the symlink
->>>> to the scrubber firmware, reboot and shutdown work again. There are however, a number of other files in the tu117
->>>> firmware directory tree that that are symlinks to actual files in its tu116 counterpart. So I deleted all of those too.
->>>> Unfortunately, the absence of one or more of those symlinks causes Xorg to fail to start. I've reinstated all the links
->>>> except scrubber and I now have a system that works as it did until I tried to run a kernel that includes the bad commit
->>>> I identified in my bisection. That includes offloading video decoding to the NVidia card, so what ever I read that said
->>>> the scrubber firmware was needed seems to have been wrong. I get a new message that (nouveau 0000:01:00.0: fb: VPR
->>>> locked, but no scrubber binary!), but, hey, we can't have everything.
->>>>
->>>> If you still want to get to the bottom of this, let me know what you need me to provide and I'll do my best. I suspect
->>>> you might want to because there will a n awful lot of Ubuntu-based systems out there with that scrubber.bin symlink in
->>>> place. On the other hand,m it could but quite a while before ubuntu are deploying 6.2 or later kernels.
->>> The symlinks are correct - whole groups of GPUs share the same FW, and
->>> we use symlinks in linux-firmware to represent this.
->>>
->>> I don't really have any ideas how/why this patch causes issues with
->>> shutdown - it's a path that only gets executed during initialisation.
->>> Can you try and capture the kernel log during shutdown ("dmesg -w"
->>> over ssh? netconsole?), and see if there's any relevant messages
->>> providing a hint at what's going on?  Alternatively, you could try
->>> unloading the module (you will have to stop X/wayland/gdm/etc/etc
->>> first) and seeing if that hangs too.
->>>
->>> Ben.
->>
->> Sorry for the delay - I've been learning about netconsole and netcat. However, I had no success with ssh and netconsole
->> produced a log with nothing unusual in it.
->>
->> Simply stopping Xorg and removing the nouveau module succeeds.
->>
->> So, I rebuilt rc6+ after a pull from linus' tree this morning and set the nouveau debug level to 7. I then booted to a
->> console before doing a reboot (with Ctl+Alt+Del). As expected the machine locked up just before it would ordinarily
->> restart. The last few lines on the console might be helpful:
->>
->> ...
->> nouveau 0000:01:00:0  fifo: preinit running...
->> nouveau 0000:01:00:0  fifo: preinit completed in 4us
->> nouveau 0000:01:00:0  gr: preinit running...
->> nouveau 0000:01:00:0  gr: preinit completed in 0us
->> nouveau 0000:01:00:0  nvdec0: preinit running...
->> nouveau 0000:01:00:0  nvdec0: preinit completed in 0us
->> nouveau 0000:01:00:0  nvdec0: preinit running...
->> nouveau 0000:01:00:0  nvdec0: preinit completed in 0us
->> nouveau 0000:01:00:0  sec2: preinit running...
->> nouveau 0000:01:00:0  sec2: preinit completed in 0us
->> nouveau 0000:01:00:0  fb:.VPR locked, running scrubber binary
->>
->> These messages appear after the "sd 4:0:0:0 [sda] Stopping disk" I reported in my initial email.
->>
->> After the "running scrubber" line appears the machine is locked and I have to hold down the power button to recover. I
->> get the same outcome from running "halt -dip", "poweroff -di" and "shutdown -h -P now". I guess it's no surprise that
->> all three result in the same outcome because invocations halt, poweroff and reboot (without the -f argument)from a
->> runlevel other than 0 resukt in shutdown being run. switching to runlevel 0 with "telenit 0" results in the same
->> messages from nouveau followed by the lockup.
->>
->> Let me know if you need any additional diagnostics.
->>
->> Chris
->>
-> 
-> I've done some more investigation and found that I hadn't done sufficient amemdment the scripts run at shutdown to
-> prevent the network being shutdown. I've now got netconsole captures for 6.2.0-rc6+
-> (9f266ccaa2f5228bfe67ad58a94ca4e0109b954a) and, for comparison, 6.1.9. These two logs are attached.
-> 
-> Chris
-> 
->>>
->>>>
->>>> Thanks,
->>>>
->>>> Chris
->>>>
->>>> <snip>
+sorry for pushing you into a rabbit hole a bit. :-)
+
+>=20
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index edef65388c29..eb4cc9076e16 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -363,13 +363,50 @@ enum drm_privacy_screen_status {
+>  	PRIVACY_SCREEN_ENABLED_LOCKED,
+>  };
+> =20
+> -/*
+> - * This is a consolidated colorimetry list supported by HDMI and
+> +/**
+> + * enum drm_colorspace - color space
+
+Documenting this enum is really nice. What would be even better if
+there was similar documentation in the UAPI doc of "Colorspace" under
+https://www.kernel.org/doc/html/latest/gpu/drm-kms.html#standard-connector-=
+properties
+listing the strings that userspace must use/expect and what they refer
+to.
+
+
+> + *
+> + * This enum is a consolidated colorimetry list supported by HDMI and
+>   * DP protocol standard. The respective connectors will register
+>   * a property with the subset of this list (supported by that
+>   * respective protocol). Userspace will set the colorspace through
+>   * a colorspace property which will be created and exposed to
+
+Could this refer to "Colorspace" property explicitly instead of some
+unmentioned property?
+
+>   * userspace.
+> + *
+> + * @DRM_MODE_COLORIMETRY_DEFAULT:
+> + *   sRGB (IEC 61966-2-1) or
+> + *   ITU-R BT.601 colorimetry format
+
+Is this what the "driver will set the colorspace" comment actually
+means? If so, I think the comment "driver will set the colorspace"
+could be better or replaced with "not from any standard" or "undefined".
+
+sRGB and BT.601 have different primaries. There are actually two
+different cases of BT.601 primaries: the 525 line and 625 line. How
+does that work? Are the drivers really choosing anything, or will they
+just send "undefined" to the sink, and then the sink does whatever it
+does?
+
+Or is this *only* about the RGB-to-YCbCr conversion matrix and not
+about colorimetry at all?
+
+If it's only about the conversion matrix (MatrixCoefficients in CICP
+(H.273) terms), then which ones of the below also define only the
+MatrixCoefficients but no colorimetry?
+
+> + * @DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
+> + *   SMPTE ST 170M colorimetry format
+> + * @DRM_MODE_COLORIMETRY_BT709_YCC:
+> + *   ITU-R BT.709 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_XVYCC_601:
+> + *   xvYCC601 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_XVYCC_709:
+> + *   xvYCC709 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_SYCC_601:
+> + *   sYCC601 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_OPYCC_601:
+> + *   opYCC601 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_OPRGB:
+> + *   opRGB colorimetry format
+> + * @DRM_MODE_COLORIMETRY_BT2020_CYCC:
+> + *   ITU-R BT.2020 Y'c C'bc C'rc (linear) colorimetry format
+
+Is this one known as the constant luminance variant which requires
+KMS/driver/hardware knowing also the transfer characteristic function?
+
+Is there perhaps an assumed TF here, since there is no KMS property to
+set a TF? Oh, maybe all of these imply the respective TF from the spec?
+
+I suspect the "linear" should read as "constant luminance".
+
+> + * @DRM_MODE_COLORIMETRY_BT2020_RGB:
+> + *   ITU-R BT.2020 R' G' B' colorimetry format
+> + * @DRM_MODE_COLORIMETRY_BT2020_YCC:
+> + *   ITU-R BT.2020 Y' C'b C'r colorimetry format
+
+...compared to this one known as the non-constant luminance variant,
+i.e. "the simple RGB-to-YCbCr conversion"?
+
+> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+> + *   DCI-P3 (SMPTE RP 431-2) colorimetry format
+> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
+> + *   DCI-P3 (SMPTE RP 431-2) colorimetry format
+
+These two can't both be the same, right? That is, the description is
+missing something.
+
+> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
+> + *   RGB wide gamut fixed point colorimetry format
+
+Is this one scRGB too?
+
+> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
+> + *   RGB wide gamut floating point
+> + *   (scRGB (IEC 61966-2-2)) colorimetry format
+> + * @DRM_MODE_COLORIMETRY_BT601_YCC:
+> + *   ITU-R BT.609 colorimetry format
+
+Typo: BT.609
+
+Which one of the two BT.601?
+
+>   */
+>  enum drm_colorspace {
+>  	/* For Default case, driver will set the colorspace */
+
+Thanks,
+pq
+
+--Sig_/Oh1pUcgo2pR+IICUorw1QcK
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPjY7UACgkQI1/ltBGq
+qqdDkw//U2Wm7Xm26RMpKU0ti2n62PX6vil46utEj8hcQA10r0F9m8bFNe1TND3N
+XbTy6zo6WliKVcWxIFQMxVmOEoR5fSNKxb5qNwGnsA+5GBbuEmIqxK55frG5TB5T
+B3G61K7ibdWazK38k6En19/G+dk+QgLiSA8hDYiwpHlnUn3NnfcIkts75dgQBsc1
+HxMb+nGaMDwten3ycMrBGF/0ryiZC8LH2XNkH0LoOo1yAb8DQhq0KGFi0lXUjxY2
+P5dPha1uv8ao2CK4jBn5QxmdZTPgVKlOcbwHowAKLo4oGWqBfQxCIGfW6vdV6Pai
+VhH7MZ1zW/g9x0fxXI+J1w44rNfvZuO+sPr3iDBhMl8fBuNtrzKpHL1aEXPjUqIC
+vR/yFCpevottz2lzxtucwLxUgyWS48dp7++bpoVuyUqyBDCnYPE1K5u7FRx9Im7/
+j7vy6CDVGuMHPTsCA7sFU7zv8XHtb5J+8Xrb9EgojeI687tKlsog18lwzJJWWJ9i
+5BNV4R0d69mj/7oXqbjcwsvHR+bxF3AjhhE3ogISS6w2RiX9FK3xSGha3sathFYO
+vjX94zqmdeU4UqAWqPckJKTTReUdbbwZF3SM9E6KvDgzIcX6ICaPHmjn6oU3O/6/
+cbAW7ofhYb8v19V/4fOMPaSTHpFd/1kILLpCZfiNUCYPg+tCwuc=
+=RI1r
+-----END PGP SIGNATURE-----
+
+--Sig_/Oh1pUcgo2pR+IICUorw1QcK--
