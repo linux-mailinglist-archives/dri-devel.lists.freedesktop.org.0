@@ -2,43 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168C468EEDB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 13:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD94F68EF12
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 13:38:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B16910E763;
-	Wed,  8 Feb 2023 12:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE1110E769;
+	Wed,  8 Feb 2023 12:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF7A110E763
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 12:25:02 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7626BB81DB0
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 12:25:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EADCC433A0
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 12:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675859100;
- bh=RUfI31Jp44rV1IeXbD4t0AsPLNTznicHOFs5hGw+KFs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=bMMO1+Azhs4Km63qgW7MyIf+xqhtlvG35nq7SJSy2pRcyN1Otm0Ye2NpZm65hUFqw
- g2UXYyZAG7y/GFHBum+Tqvnc08IW/1rKLeK2jUsXxW7365sg7nfY60Nm/b5ecUvZQ+
- jq+lxc+dnzzsBOH4xyeBMTDmL0feOmwqVdR28/LMrsSb4zQ7MmlEy1CKADHvAJGQ10
- xpco4MhgWctFyqW7SPENgukrqaHiImxPZNFmW4rTruJqX80YiWBcJ9RCfx9cgGGxxL
- w+OZLjdQi4usnRrjDZg5ctNF6esi6dZRhb/3dLkvxKIhjpj2Rv5UGltstIpXEGZNZq
- KJq9yQDIINrkw==
-Received: by mail-ed1-f53.google.com with SMTP id v13so20135187eda.11
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Feb 2023 04:24:59 -0800 (PST)
-X-Gm-Message-State: AO0yUKWyrwaMBoTD8H72j5/r3PeUtykaTufKfrL0XPttUs4AWT0Exns6
- 6jTBYIUiUkFZ2b9dmBDa6eWkgeiAdmw00nTPhsI=
-X-Google-Smtp-Source: AK7set/Q+/uOAbYZFM/jkIz+fISRabx3Hr+/BidGERpWGk7aoFNjh3zSLNUNVVzX/I6kZ5ZONaxFoF5vNNtc7g05RbQ=
-X-Received: by 2002:a50:ce0c:0:b0:4aa:a4f7:2304 with SMTP id
- y12-20020a50ce0c000000b004aaa4f72304mr1816736edi.38.1675859098335; Wed, 08
- Feb 2023 04:24:58 -0800 (PST)
-MIME-Version: 1.0
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCD510E76C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 12:37:58 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
+ tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1pPjhm-002HdN-3f; Wed, 08 Feb 2023 13:37:42 +0100
+Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100]
+ helo=[192.168.178.81]) by inpost2.zedat.fu-berlin.de (Exim 4.95)
+ with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1pPjhl-000IqT-Oa; Wed, 08 Feb 2023 13:37:42 +0100
+Message-ID: <91be7f6b52d8ed74798e86270d59bc5cddefe130.camel@physik.fu-berlin.de>
+Subject: Re: remove arch/sh
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Huacai Chen <chenhuacai@kernel.org>
+Date: Wed, 08 Feb 2023 13:37:40 +0100
+In-Reply-To: <CAAhV-H57bV855SMr6iBqoQzdak5QSnaRLjQ9oAbOtYZnik5SoQ@mail.gmail.com>
 References: <20230113062339.1909087-1-hch@lst.de>
  <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
  <20230116071306.GA15848@lst.de>
@@ -47,14 +37,13 @@ References: <20230113062339.1909087-1-hch@lst.de>
  <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
  <0e26bf17-864e-eb22-0d07-5b91af4fde92@infradead.org>
  <f6317e9073362b13b10df57de23e63945becea32.camel@physik.fu-berlin.de>
-In-Reply-To: <f6317e9073362b13b10df57de23e63945becea32.camel@physik.fu-berlin.de>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 8 Feb 2023 20:24:44 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H57bV855SMr6iBqoQzdak5QSnaRLjQ9oAbOtYZnik5SoQ@mail.gmail.com>
-Message-ID: <CAAhV-H57bV855SMr6iBqoQzdak5QSnaRLjQ9oAbOtYZnik5SoQ@mail.gmail.com>
-Subject: Re: remove arch/sh
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+ <CAAhV-H57bV855SMr6iBqoQzdak5QSnaRLjQ9oAbOtYZnik5SoQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.148.100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,48 +76,24 @@ Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Emm, maybe this patch has its chance to be merged now. :)
+Hi Huacei!
 
-https://lore.kernel.org/linux-sh/CAAhV-H6siOtVkZpkS4aABejgZCqTwp3TihA0+0HGZ1+mU3XAVA@mail.gmail.com/T/#u
+On Wed, 2023-02-08 at 20:24 +0800, Huacai Chen wrote:
+> Emm, maybe this patch has its chance to be merged now. :)
+>=20
+> https://lore.kernel.org/linux-sh/CAAhV-H6siOtVkZpkS4aABejgZCqTwp3TihA0+0H=
+GZ1+mU3XAVA@mail.gmail.com/T/#u
 
-Huacai
+Yes, that's the plan. We're collecting the various patches people have sent
+in for arch/sh, review and test them and apply them.
 
-On Wed, Feb 8, 2023 at 8:14 PM John Paul Adrian Glaubitz
-<glaubitz@physik.fu-berlin.de> wrote:
->
-> Hi Randy!
->
-> On Tue, 2023-02-07 at 17:31 -0800, Randy Dunlap wrote:
-> >
-> > On 2/7/23 01:06, John Paul Adrian Glaubitz wrote:
-> > > Hello Christoph!
-> > >
-> > > On Fri, 2023-02-03 at 08:14 +0100, Christoph Hellwig wrote:
-> > > > On Mon, Jan 16, 2023 at 09:52:10AM +0100, John Paul Adrian Glaubitz wrote:
-> > > > > We have had a discussion between multiple people invested in the SuperH port and
-> > > > > I have decided to volunteer as a co-maintainer of the port to support Rich Felker
-> > > > > when he isn't available.
-> > > >
-> > > > So, this still isn't reflected in MAINTAINERS in linux-next.  When
-> > > > do you plan to take over?  What platforms will remain supported and
-> > > > what can we start dropping due to being unused and unmaintained?
-> > >
-> > > I'm getting everything ready now with Geert's help and I have a probably dumb
-> > > question regarding the MAINTAINERS file change: Shall I just add myself as an
-> > > additional maintainer first or shall I also drop Yoshinori Sato?
-> > >
-> > > Also, is it desirable to add a "T:" entry for the kernel tree?
-> >
-> > Yes, definitely.
->
-> Geert has suggested to wait with adding a tree source to the entry until I get my
-> own kernel.org account. I have enough GPG signatures from multiple kernel developers
-> on my GPG key, so I think it shouldn't be too difficult to qualify for an account.
->
-> Adrian
->
-> --
->  .''`.  John Paul Adrian Glaubitz
-> : :' :  Debian Developer
-> `. `'   Physicist
->   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+My test board is running the latest kernel now, so I can test new patches, =
+too.
+
+Adrian
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
