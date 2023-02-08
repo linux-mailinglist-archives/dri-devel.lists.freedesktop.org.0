@@ -1,65 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CE168F6AE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 19:12:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9056968F6B3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 19:14:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA59E10E821;
-	Wed,  8 Feb 2023 18:12:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB2210E2F1;
+	Wed,  8 Feb 2023 18:14:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56ADB10E2F1
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 18:12:26 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id u22so8614998ejj.10
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Feb 2023 10:12:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=KMExu3xWdAEVKMq3XW0fRdKiqyBP6KwM3k8GJLQWrYg=;
- b=khTkqQJcGAc0rvjuFwyPOwUsSwiXaS7Htr3sTrhhBUsgtPdxH8jHdmh53I+DiP3WSa
- IBqjbfRdIgiWtswUg9ubCvqlaYcH0Tvj8M/6R2/C/yrCVlWjI8qmp3OLPuoR98WCf5iJ
- IxjSFcLyKtWVUY83J+HZ57BjEgrIIb1FQzQEs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KMExu3xWdAEVKMq3XW0fRdKiqyBP6KwM3k8GJLQWrYg=;
- b=guPPse9PHxSmxo1DovmWgNNiGmIDnpECvJU76DOtMjluQrOSaiJJunqnzas1edBfpQ
- UtT2vw2rjn04mZOQ5mVdJsEI7Sa4ya+jK6KdIBiqFGMAyHV/7V/ps7UUqXuwxRu1K5xN
- dDgeHcFFgF0160PpPM5tN9ral8o7r+FK5FdExMdq1qpmfFrgkhtS+LgduodnIMQRYIkt
- xKo9WBfxtfJusPLLO4McPjOfiMQ+B4Aql8CWHm2Hppxu35SpH+BJla/0OnXl3bENowpM
- toc4SeH8JiL/fRswQytW5JJos9J4Zj166vRPHhpkbyYmUQGF1exR+JPGWKPF8T47qZiu
- GTBQ==
-X-Gm-Message-State: AO0yUKVVMGfJcYcqeZlZrrnubHCe0e9B5c5QMqLSKK2p8T/WQXv483IS
- n4N8AA2D9Zav5YvI3Db/bPBWyA==
-X-Google-Smtp-Source: AK7set/g/P6W56Rl+xfTerSUeDnH27Sma6zAG6GpEMzNILrGm/8FB9WHKk5+xNIzKRbMSduy/RU8xw==
-X-Received: by 2002:a17:906:d0:b0:882:bffc:f2d2 with SMTP id
- 16-20020a17090600d000b00882bffcf2d2mr7797489eji.2.1675879944821; 
- Wed, 08 Feb 2023 10:12:24 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- s19-20020a170906a19300b008898c93f086sm8567407ejy.71.2023.02.08.10.12.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Feb 2023 10:12:24 -0800 (PST)
-Date: Wed, 8 Feb 2023 19:12:22 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v3 5/6] drm/debugfs: Make the show callback pass the
- pointer to the right object
-Message-ID: <Y+PmBtbUx8joWOJa@phenom.ffwll.local>
-References: <20230131195825.677487-1-mcanal@igalia.com>
- <20230131195825.677487-6-mcanal@igalia.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1603910E2F1
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 18:14:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 599E46177B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 18:14:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2858C4339C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 18:14:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675880050;
+ bh=/dGZn5sjaw9tAFJdtl2X6h0qoi/XZq443pE4DiHDQoI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=FhVstkirvuh3WGxdccsP2vNNQYS9bzWU8fgtifVGyx8eAmV0Z5D0A/6DrOoPXjb26
+ nNggok6K2RclucbBdhuWAiY5H7mNvq0iuOGoGZvGHO5oCgW/ppG9g39jgJDrY74Ijw
+ EzZv8MUYwW8Z8hBvkNemW/MoRickP9aatNJetwm1I3oSAh5Ig/4UJ9T9IMR29pxSj3
+ 0yvImyK54DjgRVdSrlG9aoTh9as8hxit8klZuqj2hhMlAX7x2eYSUYdwC42A7Dqdbn
+ mAebdACec5gfiIxOmEdeJp4KQEUl/b54fvYgH9NU+tgEzZfUYIzJHdq1yz8En561DS
+ fxSloGwHUtDmg==
+Received: by mail-yb1-f177.google.com with SMTP id 23so16092130ybf.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Feb 2023 10:14:10 -0800 (PST)
+X-Gm-Message-State: AO0yUKWh0977U9rXA45rcBPoTQG2/nCxgRnqyWty/B1JcA73UG7A7/CU
+ kVWKm8Sv8q6mtEHUVLMd7859rAYqzEA/1+PdNps=
+X-Google-Smtp-Source: AK7set/a20myyU8UrcG3mBDQEv9g+tBiZ0ZIZGiMYfEfBSqWOna8e2D6/jj+RmtlJ6htNe5tPuXAkNUnQmVX6I2jAfc=
+X-Received: by 2002:a25:8f83:0:b0:85b:3c60:78e6 with SMTP id
+ u3-20020a258f83000000b0085b3c6078e6mr558324ybl.550.1675880049793; Wed, 08 Feb
+ 2023 10:14:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230131195825.677487-6-mcanal@igalia.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20230201152003.GA2623449@linux.intel.com>
+ <5dfdf605-55a2-28d3-aecf-713a632b2431@igalia.com>
+ <5651b98b-ace8-5009-409f-d6032cb5374d@quicinc.com>
+ <bdf077e8-87ff-108a-e1fe-44bd6db79674@igalia.com>
+ <Y+Pk185JOBg7/AKN@phenom.ffwll.local>
+In-Reply-To: <Y+Pk185JOBg7/AKN@phenom.ffwll.local>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Wed, 8 Feb 2023 20:13:43 +0200
+X-Gmail-Original-Message-ID: <CAFCwf11-46pknoh_S=GYWeQFP3Q6x+k7EcqsOapPEEji5Dygnw@mail.gmail.com>
+Message-ID: <CAFCwf11-46pknoh_S=GYWeQFP3Q6x+k7EcqsOapPEEji5Dygnw@mail.gmail.com>
+Subject: Re: DRM accel and debugfs/sysfs
+To: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,456 +65,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Liviu Dudau <liviu.dudau@arm.com>, dri-devel@lists.freedesktop.org,
- Melissa Wen <mwen@igalia.com>,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 31, 2023 at 04:58:25PM -0300, Maíra Canal wrote:
-> Currently, the drivers need to access the struct drm_debugfs_entry to
-> get the proper device on the show callback. There is no need for such
-> thing, as you can wrap the show callback in order to provide to the
-> driver the proper parameters: the struct seq_file, the struct drm_device
-> and the driver-specific data stored in the struct drm_debugfs_info.
-> 
-> Therefore, make the show callback pass the pointer to the right object
-> in the parameters, which makes the API more type-safe.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->  drivers/gpu/drm/arm/hdlcd_drv.c       |  8 ++------
->  drivers/gpu/drm/drm_atomic.c          |  4 +---
->  drivers/gpu/drm/drm_client.c          |  5 ++---
->  drivers/gpu/drm/drm_debugfs.c         | 25 ++++++++++++-------------
->  drivers/gpu/drm/drm_framebuffer.c     |  4 +---
->  drivers/gpu/drm/drm_gem_vram_helper.c |  5 ++---
->  drivers/gpu/drm/gud/gud_drv.c         |  5 ++---
->  drivers/gpu/drm/v3d/v3d_debugfs.c     | 16 ++++------------
->  drivers/gpu/drm/vc4/vc4_bo.c          |  4 +---
->  drivers/gpu/drm/vc4/vc4_debugfs.c     |  6 ++----
->  drivers/gpu/drm/vc4/vc4_hdmi.c        |  6 ++----
->  drivers/gpu/drm/vc4/vc4_hvs.c         |  8 ++------
->  drivers/gpu/drm/vc4/vc4_v3d.c         |  4 +---
->  drivers/gpu/drm/vkms/vkms_drv.c       |  4 +---
->  include/drm/drm_debugfs.h             | 14 ++++++++------
->  15 files changed, 43 insertions(+), 75 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-> index e3507dd6f82a..b70bc7b11764 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -193,10 +193,8 @@ static int hdlcd_setup_mode_config(struct drm_device *drm)
->  }
->  
->  #ifdef CONFIG_DEBUG_FS
-> -static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
-> +static int hdlcd_show_underrun_count(struct seq_file *m, struct drm_device *drm, void *arg)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *drm = entry->dev;
->  	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
->  
->  	seq_printf(m, "underrun : %d\n", atomic_read(&hdlcd->buffer_underrun_count));
-> @@ -206,10 +204,8 @@ static int hdlcd_show_underrun_count(struct seq_file *m, void *arg)
->  	return 0;
->  }
->  
-> -static int hdlcd_show_pxlclock(struct seq_file *m, void *arg)
-> +static int hdlcd_show_pxlclock(struct seq_file *m, struct drm_device *drm, void *arg)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *drm = entry->dev;
->  	struct hdlcd_drm_private *hdlcd = drm_to_hdlcd_priv(drm);
->  	unsigned long clkrate = clk_get_rate(hdlcd->clk);
->  	unsigned long mode_clock = hdlcd->crtc.mode.crtc_clock * 1000;
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 5457c02ca1ab..38f140481fcc 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1754,10 +1754,8 @@ void drm_state_dump(struct drm_device *dev, struct drm_printer *p)
->  EXPORT_SYMBOL(drm_state_dump);
->  
->  #ifdef CONFIG_DEBUG_FS
-> -static int drm_state_info(struct seq_file *m, void *data)
-> +static int drm_state_info(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct drm_printer p = drm_seq_file_printer(m);
->  
->  	__drm_state_dump(dev, &p, true);
-> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-> index 009e7b10455c..ec2e6bc3515d 100644
-> --- a/drivers/gpu/drm/drm_client.c
-> +++ b/drivers/gpu/drm/drm_client.c
-> @@ -488,10 +488,9 @@ int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, struct drm_re
->  EXPORT_SYMBOL(drm_client_framebuffer_flush);
->  
->  #ifdef CONFIG_DEBUG_FS
-> -static int drm_client_debugfs_internal_clients(struct seq_file *m, void *data)
-> +static int drm_client_debugfs_internal_clients(struct seq_file *m, struct drm_device *dev,
-> +					       void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct drm_printer p = drm_seq_file_printer(m);
->  	struct drm_client_dev *client;
->  
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index b4d2e7dd87f5..21f01c7d0ab1 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -49,10 +49,8 @@
->   * Initialization, etc.
->   **************************************************/
->  
-> -static int drm_name_info(struct seq_file *m, void *data)
-> +static int drm_name_info(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct drm_master *master;
->  
->  	mutex_lock(&dev->master_mutex);
-> @@ -70,10 +68,8 @@ static int drm_name_info(struct seq_file *m, void *data)
->  	return 0;
->  }
->  
-> -static int drm_clients_info(struct seq_file *m, void *data)
-> +static int drm_clients_info(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct drm_file *priv;
->  	kuid_t uid;
->  
-> @@ -122,11 +118,8 @@ static int drm_gem_one_name_info(int id, void *ptr, void *data)
->  	return 0;
->  }
->  
-> -static int drm_gem_name_info(struct seq_file *m, void *data)
-> +static int drm_gem_name_info(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
-> -
->  	seq_printf(m, "  name     size handles refcount\n");
->  
->  	mutex_lock(&dev->object_name_lock);
-> @@ -143,6 +136,13 @@ static const struct drm_debugfs_info drm_debugfs_list[] = {
->  };
->  #define DRM_DEBUGFS_ENTRIES ARRAY_SIZE(drm_debugfs_list)
->  
-> +static int drm_debugfs_dev_show(struct seq_file *m, void *unused)
-> +{
-> +	struct drm_debugfs_entry *entry = m->private;
-> +	int (*show)(struct seq_file *, struct drm_device *, void *) = entry->file.show;
-> +
-> +	return show(m, entry->dev, entry->file.data);
-> +}
->  
->  static int drm_debugfs_open(struct inode *inode, struct file *file)
->  {
-> @@ -154,9 +154,8 @@ static int drm_debugfs_open(struct inode *inode, struct file *file)
->  static int drm_debugfs_entry_open(struct inode *inode, struct file *file)
->  {
->  	struct drm_debugfs_entry *entry = inode->i_private;
-> -	struct drm_debugfs_info *node = &entry->file;
->  
-> -	return single_open(file, node->show, entry);
-> +	return single_open(file, drm_debugfs_dev_show, entry);
->  }
->  
->  static const struct file_operations drm_debugfs_entry_fops = {
-> @@ -353,7 +352,7 @@ void drm_debugfs_cleanup(struct drm_minor *minor)
->   * drm_debugfs_init.
->   */
->  void drm_debugfs_add_file(struct drm_device *dev, const char *name,
-> -			  int (*show)(struct seq_file*, void*), void *data)
-> +			  int (*show)(struct seq_file*, struct drm_device*, void*), void *data)
->  {
->  	struct drm_debugfs_entry *entry = drmm_kzalloc(dev, sizeof(*entry), GFP_KERNEL);
->  
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-> index aff3746dedfb..f01b3cca9e06 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -1201,10 +1201,8 @@ void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
->  }
->  
->  #ifdef CONFIG_DEBUG_FS
-> -static int drm_framebuffer_info(struct seq_file *m, void *data)
-> +static int drm_framebuffer_info(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct drm_printer p = drm_seq_file_printer(m);
->  	struct drm_framebuffer *fb;
->  
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index d40b3edb52d0..5fc78317ad9d 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -955,10 +955,9 @@ static struct ttm_device_funcs bo_driver = {
->   * struct drm_vram_mm
->   */
->  
-> -static int drm_vram_mm_debugfs(struct seq_file *m, void *data)
-> +static int drm_vram_mm_debugfs(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_vram_mm *vmm = entry->dev->vram_mm;
-> +	struct drm_vram_mm *vmm = dev->vram_mm;
->  	struct ttm_resource_manager *man = ttm_manager_type(&vmm->bdev, TTM_PL_VRAM);
->  	struct drm_printer p = drm_seq_file_printer(m);
->  
-> diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-> index 9d7bf8ee45f1..cfd887de599a 100644
-> --- a/drivers/gpu/drm/gud/gud_drv.c
-> +++ b/drivers/gpu/drm/gud/gud_drv.c
-> @@ -323,10 +323,9 @@ static struct drm_gem_object *gud_gem_prime_import(struct drm_device *drm, struc
->  	return drm_gem_prime_import_dev(drm, dma_buf, gdrm->dmadev);
->  }
->  
-> -static int gud_stats_debugfs(struct seq_file *m, void *data)
-> +static int gud_stats_debugfs(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct gud_device *gdrm = to_gud_device(entry->dev);
-> +	struct gud_device *gdrm = to_gud_device(dev);
->  	char buf[10];
->  
->  	string_get_size(gdrm->bulk_len, 1, STRING_UNITS_2, buf, sizeof(buf));
-> diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-> index 330669f51fa7..a142615f4789 100644
-> --- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-> +++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-> @@ -77,10 +77,8 @@ static const struct v3d_reg_def v3d_csd_reg_defs[] = {
->  	REGDEF(V3D_CSD_CURRENT_CFG6),
->  };
->  
-> -static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
-> +static int v3d_v3d_debugfs_regs(struct seq_file *m, struct drm_device *dev, void *unused)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct v3d_dev *v3d = to_v3d_dev(dev);
->  	int i, core;
->  
-> @@ -124,10 +122,8 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
->  	return 0;
->  }
->  
-> -static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
-> +static int v3d_v3d_debugfs_ident(struct seq_file *m, struct drm_device *dev, void *unused)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct v3d_dev *v3d = to_v3d_dev(dev);
->  	u32 ident0, ident1, ident2, ident3, cores;
->  	int core;
-> @@ -186,10 +182,8 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
->  	return 0;
->  }
->  
-> -static int v3d_debugfs_bo_stats(struct seq_file *m, void *unused)
-> +static int v3d_debugfs_bo_stats(struct seq_file *m, struct drm_device *dev, void *unused)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct v3d_dev *v3d = to_v3d_dev(dev);
->  
->  	mutex_lock(&v3d->bo_lock);
-> @@ -202,10 +196,8 @@ static int v3d_debugfs_bo_stats(struct seq_file *m, void *unused)
->  	return 0;
->  }
->  
-> -static int v3d_measure_clock(struct seq_file *m, void *unused)
-> +static int v3d_measure_clock(struct seq_file *m, struct drm_device *dev, void *unused)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct v3d_dev *v3d = to_v3d_dev(dev);
->  	uint32_t cycles;
->  	int core = 0;
-> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-> index 86d629e45307..ea58728799da 100644
-> --- a/drivers/gpu/drm/vc4/vc4_bo.c
-> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-> @@ -67,10 +67,8 @@ static void vc4_bo_stats_print(struct drm_printer *p, struct vc4_dev *vc4)
->  	mutex_unlock(&vc4->purgeable.lock);
->  }
->  
-> -static int vc4_bo_stats_debugfs(struct seq_file *m, void *unused)
-> +static int vc4_bo_stats_debugfs(struct seq_file *m, struct drm_device *dev, void *unused)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct vc4_dev *vc4 = to_vc4_dev(dev);
->  	struct drm_printer p = drm_seq_file_printer(m);
->  
-> diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
-> index fac624a663ea..42c5d3c95a3f 100644
-> --- a/drivers/gpu/drm/vc4/vc4_debugfs.c
-> +++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
-> @@ -32,11 +32,9 @@ vc4_debugfs_init(struct drm_minor *minor)
->  	}
->  }
->  
-> -static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
-> +static int vc4_debugfs_regset32(struct seq_file *m, struct drm_device *drm, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *drm = entry->dev;
-> -	struct debugfs_regset32 *regset = entry->file.data;
-> +	struct debugfs_regset32 *regset = data;
->  	struct drm_printer p = drm_seq_file_printer(m);
->  	int idx;
->  
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 14628864487a..5e1e1edc55db 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -158,11 +158,9 @@ static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
->  		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL;
->  }
->  
-> -static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
-> +static int vc4_hdmi_debugfs_regs(struct seq_file *m, struct drm_device *drm, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct vc4_hdmi *vc4_hdmi = entry->file.data;
-> -	struct drm_device *drm = vc4_hdmi->connector.dev;
-> +	struct vc4_hdmi *vc4_hdmi = data;
->  	struct drm_printer p = drm_seq_file_printer(m);
->  	int idx;
->  
-> diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-> index 4da66ef96783..8c37b5c3cb05 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hvs.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-> @@ -91,10 +91,8 @@ void vc4_hvs_dump_state(struct vc4_hvs *hvs)
->  	drm_dev_exit(idx);
->  }
->  
-> -static int vc4_hvs_debugfs_underrun(struct seq_file *m, void *data)
-> +static int vc4_hvs_debugfs_underrun(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct vc4_dev *vc4 = to_vc4_dev(dev);
->  	struct drm_printer p = drm_seq_file_printer(m);
->  
-> @@ -103,10 +101,8 @@ static int vc4_hvs_debugfs_underrun(struct seq_file *m, void *data)
->  	return 0;
->  }
->  
-> -static int vc4_hvs_debugfs_dlist(struct seq_file *m, void *data)
-> +static int vc4_hvs_debugfs_dlist(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct vc4_dev *vc4 = to_vc4_dev(dev);
->  	struct vc4_hvs *hvs = vc4->hvs;
->  	struct drm_printer p = drm_seq_file_printer(m);
-> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-> index 29a664c8bf44..49eb48a270db 100644
-> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
-> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-> @@ -94,10 +94,8 @@ static const struct debugfs_reg32 v3d_regs[] = {
->  	VC4_REG32(V3D_ERRSTAT),
->  };
->  
-> -static int vc4_v3d_debugfs_ident(struct seq_file *m, void *unused)
-> +static int vc4_v3d_debugfs_ident(struct seq_file *m, struct drm_device *dev, void *unused)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct vc4_dev *vc4 = to_vc4_dev(dev);
->  	int ret = vc4_v3d_pm_get(vc4);
->  
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> index 6d3a2d57d992..dde6a500f3b1 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -90,10 +90,8 @@ static void vkms_atomic_commit_tail(struct drm_atomic_state *old_state)
->  	drm_atomic_helper_cleanup_planes(dev, old_state);
->  }
->  
-> -static int vkms_config_show(struct seq_file *m, void *data)
-> +static int vkms_config_show(struct seq_file *m, struct drm_device *dev, void *data)
->  {
-> -	struct drm_debugfs_entry *entry = m->private;
-> -	struct drm_device *dev = entry->dev;
->  	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
->  
->  	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
-> diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
-> index 423aa3de506a..0fb7ad5f6893 100644
-> --- a/include/drm/drm_debugfs.h
-> +++ b/include/drm/drm_debugfs.h
-> @@ -36,6 +36,9 @@
->  #include <linux/mutex.h>
->  #include <linux/types.h>
->  #include <linux/seq_file.h>
-> +
-> +struct drm_device;
-> +
->  /**
->   * struct drm_info_list - debugfs info list entry
->   *
-> @@ -108,11 +111,10 @@ struct drm_debugfs_info {
->  	/**
->  	 * @show:
->  	 *
-> -	 * Show callback. &seq_file->private will be set to the &struct
-> -	 * drm_debugfs_entry corresponding to the instance of this info
-> -	 * on a given &struct drm_device.
-> +	 * Show callback. This callback will be casted in order to provide
-> +	 * the &seq_file, the DRM object and the data stored in this struct.
->  	 */
-> -	int (*show)(struct seq_file*, void*);
-> +	void *show;
+On Wed, Feb 8, 2023 at 8:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Tue, Feb 07, 2023 at 01:17:47PM -0300, Ma=C3=ADra Canal wrote:
+> > On 2/7/23 12:43, Jeffrey Hugo wrote:
+> > > On 2/7/2023 4:31 AM, Ma=C3=ADra Canal wrote:
+> > > > Hi Stanislaw,
+> > > >
+> > > > On 2/1/23 12:20, Stanislaw Gruszka wrote:
+> > > > > Hi
+> > > > >
+> > > > > I was about to send debugfs support for ivpu and noticed that the=
+re
+> > > > > are current changes that deprecate drm_devel->debugfs_init callba=
+ck.
+> > > > >
+> > > > > Further I looked at this commit [1], that stated we should not
+> > > > > use drm_minor for debugfs and sysfs. What is quite contrary to
+> > > > > what drm accel framework did in the first place.
+> > > > >
+> > > > > So my question is how we should use debugfs/sysfs in accel?
+> > > > > Use it with old fashioned minor-centric way or change
+> > > > > the framework somehow ?
+> > > >
+> > > > As we are trying to replace drm_debugfs_create_files() [1], it woul=
+d
+> > > > be nice to see the accel debugfs support use the new debugfs API. T=
+his
+> > > > would mean using the debugfs_list from the drm_device, deprecating
+> > > > the debugfs_init callback, and adding the a similar code snippet to
+> > > > accel_debugfs_init:
+> > > >
+> > > > list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+> > > >      debugfs_create_file(entry->file.name, 0444,
+> > > >                  minor->debugfs_root, entry, &drm_debugfs_entry_fop=
+s);
+> > > >      list_del(&entry->list);
+> > > >
+> > > > Maybe Daniel has some more thoughts on this matter, but I guess it
+> > > > would be better to drop the use of the old-fashioned minor-centric
+> > > > implementation in accel.
+>
+> It was a simple case of two things landing in parallel and not being
+> synchronized. Would be good if accel could be adapted to use the new
+> debugfs infra, now that both accel and the new debugfs stuff have landed.
+> -Daniel
+Yes, definitely.
+Does anyone volunteer to send a patch to align ?
+If not, we will do it internally and send a patch.
 
-The problem here is that with this we loose type-checking, and so all the
-users of drm_debugfs_add_file() have been missed in the conversion. That's
-not very good :-/
-
-I think the only way to sort this out is if we duplicate the driver-facing
-functions/structs (maybe we don't need the add_files() functions in all
-cases?), and only use the type-unsafe void* internally.
--Daniel
-
->  
->  	/** @driver_features: Required driver features for this entry. */
->  	u32 driver_features;
-> @@ -146,7 +148,7 @@ int drm_debugfs_remove_files(const struct drm_info_list *files,
->  			     int count, struct drm_minor *minor);
->  
->  void drm_debugfs_add_file(struct drm_device *dev, const char *name,
-> -			  int (*show)(struct seq_file*, void*), void *data);
-> +			  int (*show)(struct seq_file*, struct drm_device*, void*), void *data);
->  
->  void drm_debugfs_add_files(struct drm_device *dev,
->  			   const struct drm_debugfs_info *files, int count);
-> @@ -163,7 +165,7 @@ static inline int drm_debugfs_remove_files(const struct drm_info_list *files,
->  }
->  
->  static inline void drm_debugfs_add_file(struct drm_device *dev, const char *name,
-> -					int (*show)(struct seq_file*, void*),
-> +					int (*show)(struct seq_file*, struct drm_device*, void*),
->  					void *data)
->  {}
->  
-> -- 
-> 2.39.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Oded
+>
+> > > >
+> > > > [1] https://cgit.freedesktop.org/drm/drm-misc/tree/Documentation/gp=
+u/todo.rst#n511
+> > > >
+> > > > Best Regards,
+> > > > - Ma=C3=ADra Canal
+> > >
+> > > Thank you for the details Maira.  It helps to explain what the todo i=
+s suggesting.  Is there an example of a driver/drm_device that uses debugfs=
+_list which you can easily point to?
+> >
+> > The implementation of this device-centered infrastructure is linked in =
+[1]
+> > and an example of the conversion of debugfs APIs is linked in [2], and =
+other
+> > drivers such as v3d, vkms, vc4 and gud use this new API as well.
+> >
+> > [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D1c9cacbea880=
+513a896aee65a5c58007bcb55653
+> > [2] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D2e3ab8a6994f=
+265bbd4dbd00448b84548f18464c
+> >
+> > Best Regards,
+> > - Ma=C3=ADra Canal
+> >
+> > >
+> > > -Jeff
+> > >
+> > > >
+> > > > >
+> > > > > [1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D99845f=
+aae7099cd704ebf67514c1157c26960a26
+> > > > >
+> > > > > Regards
+> > > > > Stanislaw
+> > > > >
+> > >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
