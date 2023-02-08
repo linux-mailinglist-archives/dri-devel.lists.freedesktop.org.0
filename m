@@ -1,119 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D1968F8A8
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 21:15:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C60A568F97C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 22:10:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A59899A3;
-	Wed,  8 Feb 2023 20:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6F410E860;
+	Wed,  8 Feb 2023 21:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2062a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C640810E863;
- Wed,  8 Feb 2023 20:15:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aPpUjNPp3ZqvhTsduulDLeqFjFp5fdUy/xc3BbSWZvuBbpQwNJxzqHC3DQK78tc5X+XhNNV8XNyJpbe3pNdXEjE7ID5XcRfzrf+3hvhbRiWOni4SJsSbDVdswTGemhMcHdIR7JcUxzNupibv/wXO5k+0UxiSC4a0HrSFraTRQl9DcB6Y5lx9Q5eQAZqfIyQKot3raZsgitH5RyyfCGrYk+8mpAc2J+JXFfQnNCJuMiIFs+1op+s4timNbGWbIdjvLU0rgGhwd1PmYMRHFww46j//WKlR2dejPyT2Q3AHB+gcjcEKV55QQZh6i6Q6jpXzwWu7o9w4ycwVzTwHMTirAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GMsCqC5+85bQpeCOv+rUZYFL4rnl7CUgho59BJPalWo=;
- b=mn0ZgmtJloDWMrX0qQzjrm/mX9G4q7SjmPXWRNKW6IdcgHJK1qaOAMpnVuKrumiyArGG3bsfZ4zNfsGbFmYQioypsGDT4IaA76eXFjjmMnIicuz0lCy5RmyfxKbG73FpDL/qjOUJWzG5QfspxRlb6bNLgTkpoI8uLbUug/i1RZ5GS+knLn86NeeLSuxSsluFHQDCQk8rezhhi44XOE93oEBto0TsByUNwLUW+dTj4Z/8EhSGCOuzS/F0vpNZhoHYlgH1q1v0kbQZ7dCqLpZ5kcGSr8rKqkhg5/WvGf9Rof3fWiSS4CAPdn+vhF860A2rvZ9rRwYvfz3zBoqZ9o/HeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GMsCqC5+85bQpeCOv+rUZYFL4rnl7CUgho59BJPalWo=;
- b=0tXMNrKIsF4FwNHb3DgYksgIrebJXj/3/MOzv/a/VKfijlSGQU2PT0mnzTY5ujpeTQMBZH1XPQhSeLYa9I6bKlh5aTzhF5OvcnPtRI/z0Fw1Qj8Qis4ct4zHVCMqu2y3/G02TwobBII7ZCveYxGY3eSqj5MeOe0TZet41IjZKHY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by PH7PR12MB6419.namprd12.prod.outlook.com (2603:10b6:510:1fd::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.31; Wed, 8 Feb
- 2023 20:15:32 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::aa28:9378:593:868a]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::aa28:9378:593:868a%9]) with mapi id 15.20.6064.034; Wed, 8 Feb 2023
- 20:15:32 +0000
-Message-ID: <52f84169-b50f-3ac3-a4df-45e20b349fa2@amd.com>
-Date: Wed, 8 Feb 2023 15:15:27 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] drm/amd/display: don't call dc_interrupt_set() for
- disabled crtcs
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>, amd-gfx@lists.freedesktop.org
-References: <20230208200150.155684-1-hamza.mahfooz@amd.com>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20230208200150.155684-1-hamza.mahfooz@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0130.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2f::9) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15BAE10E860;
+ Wed,  8 Feb 2023 21:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675890622; x=1707426622;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=EICfGrcgFp4pD1wu67tjv5dZ89kguSgtYMBc4lxwVpI=;
+ b=YIilwn8IgV+psi8MFMUxUH0h8ISOHUjt+bGlLzBCDbbLuwa4k1VEPugT
+ u2eQFhS0up/33b3di2svgaHS00FXYJ3ZIbCY14EMn+k1o3KRqlckAGRgZ
+ vNYUJnWMbrz+bxPamtj9OAVZB2BVGl6Ws1C3AfMf5Oc0a82CWKZ5re5n/
+ Je02SSEq581chgFuc3zmcX3j2eEhorKG9udpn4MeIxdiRUHZA7i6w3SKm
+ /cSpHd3GxmxN6bg2DUCNHvOcEs6a8imOZXzRl9tkSYUMkZ0r4fb1vakKA
+ v0kfeDn8iq32Uk6tbQ5OTeMFWh8avRZ0hwEjY2O8+coqLAtDaJpQ3W9gr g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="329953588"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="329953588"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Feb 2023 13:10:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="660786218"
+X-IronPort-AV: E=Sophos;i="5.97,281,1669104000"; d="scan'208";a="660786218"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
+ by orsmga007.jf.intel.com with SMTP; 08 Feb 2023 13:10:17 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 08 Feb 2023 23:10:16 +0200
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm: Introduce plane SIZE_HINTS property
+Date: Wed,  8 Feb 2023 23:10:16 +0200
+Message-Id: <20230208211016.7034-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230208040911.12590-2-ville.syrjala@linux.intel.com>
+References: <20230208040911.12590-2-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|PH7PR12MB6419:EE_
-X-MS-Office365-Filtering-Correlation-Id: 65093a7e-60cc-48c8-fd44-08db0a113a8c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GYeHb+qzPz5+6d7xOegjVGdl936+gTj0v6d4PxU7mu+2u7TYdGr/cHTH1oVLZq+AAEBBuFTMyFbkwND4S5hDqEdgYZOO409sB/KafXeIJQHf9vvxtUwGSIp+YYk3nawrSXlPfWCNrH/aITdw9nM4CgqyO9OtDZ1ZasXiyKFkFUeQ2WRv4JkmwL8zH4UrbLirudDUHXrr0U4WRdkAvVGE8D5sohK4yeRqCcZUL0ei79T2auqe0PA/wA22wJJBA4ypR6Cq78B4kzmX+CjNm84K3L+TXW13vGoZwAI52laeU+RDEH8QR+UgNjFLYRMUGhuYA271UdjOVbGqNfcOBNm4Y67vIQFNVEo7dGyN2Jd+TjwmtPbYRAGdrdjVsJ63NtOoLCT903vx05iFE9yY62ebaXUm1/qBjzK3zBT7SdslC0h08xeikdL1fFo3fkGUdXHsm8fQL4VLU787Xur2E6nF5V+IGopCWyYUA/2DfXXAeCLYCSS+1xFFbjG3yOZ+o55rfLqvwurghmE4WHaQkcuKq571drhLxltXyD5x6hU6BK98BrjcrqdkPnYMyQoLm0AYObx/PnIMQpK2Fe+mBBJIW3N3BJPVfVsaex8r4TlMKzjOgx/S+5smXqf3zmEaXgCW8aoCmYm+6yemcH1nu2PfwodasA0yL13oxT3TfgUgQPZO/h2/bu8WDNLd8JAIr64jWmMjvk1JoDZ49syFRVDZ1Q3az3zxm8/dyamx43JnyhEKLYtS5td0cHFSfV5B5oK0
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(366004)(396003)(136003)(39860400002)(376002)(451199018)(26005)(6512007)(186003)(38100700002)(31686004)(2906002)(316002)(53546011)(8936002)(5660300002)(6506007)(54906003)(31696002)(83380400001)(6666004)(2616005)(86362001)(66476007)(36756003)(478600001)(4326008)(6486002)(66946007)(44832011)(66556008)(8676002)(41300700001)(17423001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGh1Ny9zUlAxejZna0RUUXNVcmtHaitCVXZKTklMbWptOWNveEY4b1RNN0VM?=
- =?utf-8?B?VHQ1VzRWd2xpeXh5ejllVnpMVkVKelpyTlVMcUVHTFNjaE80V05WSU5MbXp4?=
- =?utf-8?B?WDBlOWlpTGpxTTFaZ0JlME9HVXF0b3VJU0FYa1hGM3o2YlVrVGZJSkJ5ZkNX?=
- =?utf-8?B?bDI5YmIrL0x1UmFvdm9Bbml4SGI0aXk3V1dMVlYzdDNHa3V4RXRoOWFza2s2?=
- =?utf-8?B?OG1LcGFSYk9ab0xYTGh3eERwTWlzYjhYaytsV29yZVNsUTNLK3ROdWU3OWJx?=
- =?utf-8?B?b2poK1BySklSc2swTTZTaHdUVUpZemM0TXJVK1oySVB2WHkxdjZZZkRVTDNY?=
- =?utf-8?B?Z1dFZEE4bUpBbVJXdjlySDJLdjRDN29ROGk3cm9ibUE5allYZ2REUUdXZE5p?=
- =?utf-8?B?U1ltZHU1S00ybms4UDZBeVBMZ1RldndkSmZ1MUxaelhZclpQd2hSbnFWL3lh?=
- =?utf-8?B?TXNhaGlsalBGWGFXcjdGRTd3NTVHRUhpT3J6RzBxNDY0YUw2clM1cUZWcTFj?=
- =?utf-8?B?bmdUaW1GNzI1bmV4c3R1Yk9HQ3c0dkhEUDZ2Z0FSZWI0NEpwZlBDY3NVYWIv?=
- =?utf-8?B?bXFHY0p0MzBVeS9UWENhWmFoNmhBZUR2TTRYZFJUQjEzUTl3bzNVL1FCY1Fn?=
- =?utf-8?B?WHFhbGpFLytuZTZsSjl6MnFHZEJxU3lhc2s4NVhJWEMxaGpmYmZNUm8vL3lF?=
- =?utf-8?B?N2R1TmV6bHJZTUpvVFM0TEpWSUhYandVNmhlQUF3TVp2OUZ3ZVhsQi9aOEwx?=
- =?utf-8?B?MmJVVFRqSUw0THVoOW9tZ0RKYSt6TkRmc0ZXMERRdG16RC9wa3FORWdpc0tl?=
- =?utf-8?B?MzFDaHR4dTBrSlNaVGNKdmszZWRJdnc5ajIycm9YYWh1V2I1aXg1NnFDczRY?=
- =?utf-8?B?Tk10bFVVekQrZDF3d3pIdmxzR2pKeUtoNUxVMG8xRmhtMUludzZRbFN2VHg3?=
- =?utf-8?B?VzdiS0pPMjNUQlZjUTZRVHhKMzYxRTlHRE9QRVFvZUtSQ2RXNTJaTG1rL0kx?=
- =?utf-8?B?Ym0rcjlBcXZvd21pdWFSdS9TeFA1dkM4WldyQTM3cXNjM2JLUTZBODhIWkFs?=
- =?utf-8?B?MGs3NnBKUEFMdTRwM1pac0tQek5vSW9BM2lMYnNIaTJ6M0E3aW9QVktRZU9I?=
- =?utf-8?B?c3l3MnVNMmlBdlhNQmFIRlZNL09zMDJVNzBNby8vTWVxaUtDSk9yMi9EQzlt?=
- =?utf-8?B?Mk5hVW9Hb0R6eS9ZUytTWTRyV29xUERFZUpKSWhFLzFzNHFtWXpvL0lPQmUw?=
- =?utf-8?B?RnZFTTZoc254bStuTVJhL1B5djZTN21ZMmxLNHpSZ3pZRXhaUVhBZGpMZzhl?=
- =?utf-8?B?OVQ0OW03cE00dm5ENTRaN2FFWUo3dFdDS0ZmMlFKYlZBa2dxUWVVMGd2bE1w?=
- =?utf-8?B?Z2hScTJndzlBa24rQTIrcGU5dEJMQ1J0V2F4aFVZNDFFcGQzK2VWUDdqS1dN?=
- =?utf-8?B?R2tjclZ1d1VBbHczV3ppTFdnakhVZTd5MkR6cDJJWkxManA4WFliWEdGeDJm?=
- =?utf-8?B?Z21vQy9BdTJLU0tDakVNbTN6MUl2OTdqdnluM2Q5aU1mWWRIYjZwR2tNcHJh?=
- =?utf-8?B?bHFNTEkvZWw3NXp4SjJuUThJRDFQRTU1L2hLVE8vVks4QXoyVTRVNWxOWWgz?=
- =?utf-8?B?L1dHOXh1c2NiTnN6bmFwRmJsMVJuSVkyWHYxYUx4dkQwTzhrTWhpZGVYK1di?=
- =?utf-8?B?dnRkSENpRU0reWIxZ1VxN2JmUVZkdFJFenVFN2tJNTRXVWxvcGxWK2FWNjAy?=
- =?utf-8?B?NWVoZ0dhUmdGQXMyOHE3Sk5MR3VBbGpDRTZJZmhlMEhFaXRlRWpHenBueVpo?=
- =?utf-8?B?SnVTbXNoT3dMQ1ZQTmhNWE05K3IxYmlOSFNEUjNPOUpPbzdMRmE2WmFXOVla?=
- =?utf-8?B?bkFMTVdaeHFMSU1YRDVIYUI2OTE2R0lNRFhnOVhqdnpKRVc4ME9IdXRNZWhV?=
- =?utf-8?B?MEJQTVBtM2tJbnFtSmZnSjJqVGJsdzdHZjVISEp2aEZkc2pob09FNzdCTk50?=
- =?utf-8?B?OUR5UE9YOTE2RVFsbGhkc01lZjg3NmMwY1J0NnF2UStCZ1VNWEVkazI4YzdV?=
- =?utf-8?B?RFNHK2VxNFlPM29GMEQyY1l2bHoyNDdYeVRJRzZhMlVqOStxOFlEblZsWk9U?=
- =?utf-8?Q?ZeZycDZfPNrxI8jW1GOCJwu4X?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65093a7e-60cc-48c8-fd44-08db0a113a8c
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2023 20:15:31.8440 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s98JGYuYQ2K6xjckg5bycvulUgkXbn14mBKFFm2ScjI0GGnHAIai+tzjE/5LLLeFAIPjn+tO0hUAGi32ev3J/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6419
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,65 +59,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Liu <HaoPing.Liu@amd.com>, Deepak R Varma <drv@mailo.com>,
- Leo Li <sunpeng.li@amd.com>, Tony Cheng <Tony.Cheng@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ intel-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/8/23 15:01, Hamza Mahfooz wrote:
-> As made mention of in commit 4ea7fc09539b ("drm/amd/display: Do not
-> program interrupt status on disabled crtc"), we shouldn't program
-> disabled crtcs. So, filter out disabled crtcs in dm_set_vupdate_irq()
-> and dm_set_vblank().
-> 
-> Fixes: 589d2739332d ("drm/amd/display: Use crtc enable/disable_vblank hooks")
-> Fixes: d2574c33bb71 ("drm/amd/display: In VRR mode, do DRM core vblank handling at end of vblank. (v2)")
-> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Add a new immutable plane property by which a plane can advertise
+a handful of recommended plane sizes. This would be mostly exposed
+by cursor planes as a slightly more capable replacement for
+the DRM_CAP_CURSOR_WIDTH/HEIGHT caps, which can only declare
+a one size fits all limit for the whole device.
 
-Harry
+Currently eg. amdgpu/i915/nouveau just advertize the max cursor
+size via the cursor size caps. But always using the max sized
+cursor can waste a surprising amount of power, so a better
+stragey is desirable.
 
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> index 1e39d0939700..dc4f37240beb 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> @@ -77,6 +77,9 @@ int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
->  	struct amdgpu_device *adev = drm_to_adev(crtc->dev);
->  	int rc;
->  
-> +	if (acrtc->otg_inst == -1)
-> +		return 0;
-> +
->  	irq_source = IRQ_TYPE_VUPDATE + acrtc->otg_inst;
->  
->  	rc = dc_interrupt_set(adev->dm.dc, irq_source, enable) ? 0 : -EBUSY;
-> @@ -151,6 +154,9 @@ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
->  	struct vblank_control_work *work;
->  	int rc = 0;
->  
-> +	if (acrtc->otg_inst == -1)
-> +		goto skip;
-> +
->  	if (enable) {
->  		/* vblank irq on -> Only need vupdate irq in vrr mode */
->  		if (amdgpu_dm_vrr_active(acrtc_state))
-> @@ -168,6 +174,7 @@ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
->  	if (!dc_interrupt_set(adev->dm.dc, irq_source, enable))
->  		return -EBUSY;
->  
-> +skip:
->  	if (amdgpu_in_reset(adev))
->  		return 0;
->  
+Most other drivers don't specify any cursor size at all, in
+which case the ioctl code just claims that 64x64 is a great
+choice. Whether that is actually true is debatable.
+
+A poll of various compositor developers informs us that
+blindly probing with setcursor/atomic ioctl to determine
+suitable cursor sizes is not acceptable, thus the
+introduction of the new property to supplant the cursor
+size caps. The compositor will now be free to select a
+more optimal cursor size from the short list of options.
+
+Note that the reported sizes (either via the property or the
+caps) make no claims about things such as plane scaling. So
+these things should only really be consulted for simple
+"cursor like" use cases.
+
+v2: Try to add some docs
+
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Jonas Ådahl <jadahl@redhat.com>
+Cc: Daniel Stone <daniel@fooishbar.org>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Acked-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/drm_mode_config.c |  7 +++++
+ drivers/gpu/drm/drm_plane.c       | 48 +++++++++++++++++++++++++++++++
+ include/drm/drm_mode_config.h     |  5 ++++
+ include/drm/drm_plane.h           |  4 +++
+ include/uapi/drm/drm_mode.h       | 11 +++++++
+ 5 files changed, 75 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index 87eb591fe9b5..21860f94a18c 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -374,6 +374,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
+ 		return -ENOMEM;
+ 	dev->mode_config.modifiers_property = prop;
+ 
++	prop = drm_property_create(dev,
++				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
++				   "SIZE_HINTS", 0);
++	if (!prop)
++		return -ENOMEM;
++	dev->mode_config.size_hints_property = prop;
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 24e7998d1731..ae51b1f83755 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -140,6 +140,21 @@
+  *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
+  *     various bugs in this area with inconsistencies between the capability
+  *     flag and per-plane properties.
++ *
++ * SIZE_HINTS:
++ *     Blob property which contains the set of recommended plane size
++ *     which can used for simple "cursor like" use cases (eg. no scaling).
++ *     Using these hints frees userspace from extensive probing of
++ *     supported plane sizes through atomic/setcursor ioctls.
++ *
++ *     For optimal usage userspace should pick the smallest size
++ *     that satisfies its own requirements.
++ *
++ *     The blob contains an array of struct drm_plane_size_hint.
++ *
++ *     Drivers should only attach this property to planes that
++ *     support a very limited set of sizes (eg. cursor planes
++ *     on typical hardware).
+  */
+ 
+ static unsigned int drm_num_planes(struct drm_device *dev)
+@@ -1582,3 +1597,36 @@ int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_plane_create_scaling_filter_property);
++
++/**
++ * drm_plane_add_size_hint_property - create a size hint property
++ *
++ * @plane: drm plane
++ * @hints: size hints
++ * @num_hints: number of size hints
++ *
++ * Create a size hints property for the plane.
++ *
++ * RETURNS:
++ * Zero for success or -errno
++ */
++int drm_plane_add_size_hints_property(struct drm_plane *plane,
++				      const struct drm_plane_size_hint *hints,
++				      int num_hints)
++{
++	struct drm_device *dev = plane->dev;
++	struct drm_mode_config *config = &dev->mode_config;
++	struct drm_property_blob *blob;
++
++	blob = drm_property_create_blob(dev,
++					array_size(sizeof(hints[0]), num_hints),
++					hints);
++	if (IS_ERR(blob))
++		return PTR_ERR(blob);
++
++	drm_object_attach_property(&plane->base, config->size_hints_property,
++				   blob->base.id);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_plane_add_size_hints_property);
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index e5b053001d22..5bc8aed9b445 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -949,6 +949,11 @@ struct drm_mode_config {
+ 	 */
+ 	struct drm_property *modifiers_property;
+ 
++	/**
++	 * @size_hints_propertty: Plane SIZE_HINTS property.
++	 */
++	struct drm_property *size_hints_property;
++
+ 	/* cursor size */
+ 	uint32_t cursor_width, cursor_height;
+ 
+diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+index 51291983ea44..1997d7d64b69 100644
+--- a/include/drm/drm_plane.h
++++ b/include/drm/drm_plane.h
+@@ -32,6 +32,7 @@
+ #include <drm/drm_util.h>
+ 
+ struct drm_crtc;
++struct drm_plane_size_hint;
+ struct drm_printer;
+ struct drm_modeset_acquire_ctx;
+ 
+@@ -945,5 +946,8 @@ drm_plane_get_damage_clips(const struct drm_plane_state *state);
+ 
+ int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+ 					     unsigned int supported_filters);
++int drm_plane_add_size_hints_property(struct drm_plane *plane,
++				      const struct drm_plane_size_hint *hints,
++				      int num_hints);
+ 
+ #endif
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 46becedf5b2f..9d7c5967264f 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -849,6 +849,17 @@ struct drm_color_lut {
+ 	__u16 reserved;
+ };
+ 
++/**
++ * struct drm_plane_size_hint - Plane size hints
++ *
++ * The plane SIZE_HINTS property blob contains an
++ * array of struct drm_plane_size_hint.
++ */
++struct drm_plane_size_hint {
++	__u16 width;
++	__u16 height;
++};
++
+ /**
+  * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
+  *
+-- 
+2.39.1
 
