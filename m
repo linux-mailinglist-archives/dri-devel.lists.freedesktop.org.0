@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA88E68E991
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 09:09:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA62A68E995
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 09:09:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D710F10E037;
-	Wed,  8 Feb 2023 08:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567AC10E6C8;
+	Wed,  8 Feb 2023 08:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9349D10E696
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 03:16:10 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id o13so17073552pjg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 19:16:10 -0800 (PST)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB2F010E6CE
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 04:44:24 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id 7so11912871pga.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Feb 2023 20:44:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=asus-corp-partner-google-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
  bh=EJ7yIiNmxy2KVInIF+Vk3HIxzGj3yaMUNFlUJEi5vOo=;
- b=SLu+9aAiZzYF2D8KJKMO8rpkSZdQdSZQqjXpu3H/ZhMK4XXfiFeUtjbnFJTnlVR+7J
- qPMCvI2Xtr9393mEfQCBgRmekVdDCueADh3RZ1lebkjMdhclEsuFNJ9H5gJSu/fgcJPT
- 8mKL4Vg/+udQkW13jm+SPai42vZrpExHMWQIT7nwKMrOJdcLvDjblzS7R/qwTeE454At
- KvRApNIUm8OEFjI4d99DGfSKFPtaOzZ+qzMqSkJlU4iq9lVKoRNWRy1f49zn0WsRQ75A
- Um/jijaBruK+rNqMSlCPkjD9VYKIxbhRH2FwM6C1hgll4dTNq8DatAmh1quoLEhIsHPX
- pB4A==
+ b=e/V0Go6Ui5JzuqZ41s94m6vD4AUjhbNQt221LoVAtFnlWQG4GpsHd1Gp+jT9TafAQO
+ DjO4/qKLVBkwMmT7413q3nWQ6saRUhuHvKmDKKaJXj2dRRz0PSM+VJ+wG5ReEzP5EBFJ
+ thmdqOIATe3WFocqGMo5FUwcVPxgDO0lXvvNsOtkU9lDvDhRzx10NHoW9P3M4C5+mEca
+ tuuY0k8rUy5ezM3W1aFPjO8ee9ruRkvLkcbuBVA3zeL8c3rXyrjFaRGpP4EkrETD+uRR
+ rRDdvyqSsH5TFUulmeOzzhmXz7LIyp8/QxCGiebhar6bV4Gx71JU4rD7npzSil5Wm006
+ vQfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
  bh=EJ7yIiNmxy2KVInIF+Vk3HIxzGj3yaMUNFlUJEi5vOo=;
- b=GEfhQztV3lRrEpDXph1x7Mh0pLdj56R6pUbMgbn5SqSQQqYKitx72s5FV16OuUq4m1
- gJoPmyodsokH3iZBNurM66JlyuvqoIM+qCWQqLwfQKDsfKIxZwurpnINtq19yGA3aMfM
- vTY2CMdqRgqJgd3fJNp0CoTBMpnmA6w5MzST4QUdVW7grV2lqUii12Vu5R/9qVNmjvrB
- SXmZosjgfisE+OgKgG6+2oqPdRGKB4B1stm7E9HzLc5WAl1fqlzsxfJel8Bk9hVU3dxF
- W1j1EtuR5ZsgtCSP2+I5e0cAoJ6eOfXbd+yi6aer4rREMMlw4I3rY7q9lFbZKy3b+joT
- J05A==
-X-Gm-Message-State: AO0yUKVieBI5etTcUIE2MSECPhW5W4hhWN9yVWCDW41Q7zNAg3cMPhui
- sZheeHunzi2l31KHgQ28cIoUJg==
-X-Google-Smtp-Source: AK7set8kbvLyhrvJRranMQqUl3CTxP3WW9l9AHRwpCxsGAzwowEHQrtRnuxFr0YJ7MDhshRrl/vK1Q==
-X-Received: by 2002:a17:902:ca83:b0:198:e39a:b9ca with SMTP id
- v3-20020a170902ca8300b00198e39ab9camr4349240pld.23.1675826170167; 
- Tue, 07 Feb 2023 19:16:10 -0800 (PST)
+ b=iT7dL6yiXiFAsu4JulL93hP8pGcxDc8UUJhwZVnzwFCsAQGNekrI9Q+OgaT85ddTL9
+ ak5c5emEse1YE3GC0fhxo2wC+tdRVlHdPgR7Lg2sFS9Jh+2jimZPEQjxLkR61jdwF91H
+ iRS3nK3zewnN/GBs9utsPU9aIWK9ChwiAS61zPiODcxyl4zRq+qc2RpF8HbUvzFZRVLV
+ 3wCzQJNVA/+7aGlekhmefdeeINeJK0iFfVnMgGUXVtfbwPXaticd+ehd0Zf8r0NGL1oY
+ WRWjzMI/8KJzR+6XRE+qpbrFQszx9OtBptBlOU1Qa8RaExSiLAnU71CGlKyDF3oXJQ8U
+ LMQg==
+X-Gm-Message-State: AO0yUKXfRkFeaBLLF2AeGM07QxAkBK+At3OKwKF3DGZ1fP1G2z/vNC1P
+ zdd51IiWbia4fwcT33z1iOC64A==
+X-Google-Smtp-Source: AK7set+25XveFeJPmWK20Z1eYLgFDVPE5ZOqAOgucJmOUwYXpqmTY6XfHyTZaN97R8Ae0nnXJUqWgA==
+X-Received: by 2002:aa7:983d:0:b0:593:cdc7:5dd3 with SMTP id
+ q29-20020aa7983d000000b00593cdc75dd3mr5478121pfl.4.1675831464382; 
+ Tue, 07 Feb 2023 20:44:24 -0800 (PST)
 Received: from ken-ASUS-EXPERTBOOK-B1500CBA-B1500CBA..
  (61-216-65-192.hinet-ip.hinet.net. [61.216.65.192])
  by smtp.gmail.com with ESMTPSA id
- a4-20020a1709027e4400b0019942377f0bsm318860pln.91.2023.02.07.19.16.06
+ v14-20020aa7850e000000b005a81885f342sm637156pfn.21.2023.02.07.20.44.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Feb 2023 19:16:09 -0800 (PST)
+ Tue, 07 Feb 2023 20:44:24 -0800 (PST)
 From: Kencp huang <kencp_huang@asus.corp-partner.google.com>
-To: a.hajda@samsung.com, armstrong@baylibre.com, robert.foss@linaro.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch
+To: kencp_huang@asus.corp-partner.google.com
 Subject: [PATCH 1/1] drm/bridge: analogix_dp: add a quirk for Bob panel
-Date: Wed,  8 Feb 2023 11:15:19 +0800
-Message-Id: <20230208031519.7440-1-kencp_huang@asus.corp-partner.google.com>
+Date: Wed,  8 Feb 2023 12:44:06 +0800
+Message-Id: <20230208044406.8280-1-kencp_huang@asus.corp-partner.google.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230208031519.7440-1-kencp_huang@asus.corp-partner.google.com>
+References: <20230208031519.7440-1-kencp_huang@asus.corp-partner.google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 08 Feb 2023 08:09:13 +0000
@@ -73,10 +74,11 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: wzz@rock-chips.com, briannorris@chromium.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Kencp huang <kencp_huang@asus.corp-partner.google.com>, kencp_huang@asus.com,
- seanpaul@chromium.org, zyw@rock-chips.com, hoegsberg@chromium.org
+Cc: neil.armstrong@linaro.org, jernej.skrabec@gmail.com, rfoss@kernel.org,
+ andrzej.hajda@intel.com, jonas@kwiboo.se, briannorris@chromium.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kencp_huang@asus.com, wzz@rock-chips.com, seanpaul@chromium.org,
+ Laurent.pinchart@ideasonboard.com, zyw@rock-chips.com, hoegsberg@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
