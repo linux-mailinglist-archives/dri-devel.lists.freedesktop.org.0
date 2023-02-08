@@ -1,76 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325D368F05C
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 15:12:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E24E68F0C7
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Feb 2023 15:26:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9381810E21A;
-	Wed,  8 Feb 2023 14:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F0710E791;
+	Wed,  8 Feb 2023 14:26:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30A7510E057
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Feb 2023 14:12:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 75F1061554;
- Wed,  8 Feb 2023 14:12:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6EF7C4339C;
- Wed,  8 Feb 2023 14:12:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675865539;
- bh=CM9X2AuKUJbsYimacCNPKUAK4TpbgQFBIKIrx7h4lJw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LVucjxu+REx2vxJaU73V9LeqN0VfNlpVqOVjlgapAR7+Js6CJh2wUlBGjryat06Mx
- D9i30JRbIJdOspvFUtAoFUTSjc7q9zKrJAeQbeBiwFIiiX8euIEbk0Ty1Tz6V657+T
- FLA5gRRVsKUOtlkaWGYAvOyX2NIaQlgKRJiFZbCRwtUw7qjRf/eGTg/jPYZv/0q1tt
- FcUOC2BCeTia4s8YYIZRIs5mKBJvajFbiu7xD8C4mv+0OOcBl6e5vyuvgWOBBh+MUZ
- xz5q4YEAPB/J4RrPpxV69F8ll/mVwhh9Od/sV4/BiL8f+TOBF8F2/I8j5Fv6bLISdE
- LVYCGEEzxvGgw==
-Date: Wed, 8 Feb 2023 15:12:16 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: Re: remove arch/sh
-Message-ID: <Y+OtwCqt26UjCwkZ@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Huacai Chen <chenhuacai@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Christoph Hellwig <hch@lst.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Rich Felker <dalias@libc.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- linux-kernel@vger.kernel.org, linux-watchdog@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
- dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
- netdev@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sh@vger.kernel.org
-References: <20230113062339.1909087-1-hch@lst.de>
- <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
- <20230116071306.GA15848@lst.de>
- <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
- <20230203071423.GA24833@lst.de>
- <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
- <0e26bf17-864e-eb22-0d07-5b91af4fde92@infradead.org>
- <f6317e9073362b13b10df57de23e63945becea32.camel@physik.fu-berlin.de>
- <CAAhV-H57bV855SMr6iBqoQzdak5QSnaRLjQ9oAbOtYZnik5SoQ@mail.gmail.com>
- <91be7f6b52d8ed74798e86270d59bc5cddefe130.camel@physik.fu-berlin.de>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58CDF10E780;
+ Wed,  8 Feb 2023 14:26:43 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ m16-20020a05600c3b1000b003dc4050c94aso1607332wms.4; 
+ Wed, 08 Feb 2023 06:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kxmLNQGQnUPXCQmiQQ52CqZR+8qti5lEjpjLI5zEoyk=;
+ b=ji9NkTYUZDmD4HbhqqrUS6VeY9LZwfdC+ezz4YC/dBHIypAEitLkRNFVFqzt+/c/PG
+ miTL2fzpt/sIGPRoSMAAtEBCy4i68cJiKvuz1WvW3dR0+QjSZhuuvz2n7plDP5m1dHnU
+ uNb8RTgfr/p7Z2QB7ng8J/SybeyHNA3mUM5bCdOad230vVVEFyovuWPPiJSrgX3Z5jGy
+ xsSe6/A0m8GH8zqtmM1eVpxGcVlCEML/tLxEAWa825E2LQzehDO7ZRikpqgYWs2zHzBS
+ Jvs58Y7BbhAvmQ6ChfBtexeyeB1EIyxEZ2soKUytAG8hIIFyt+4XQqk+D5yTz8kO7XTl
+ YKCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kxmLNQGQnUPXCQmiQQ52CqZR+8qti5lEjpjLI5zEoyk=;
+ b=gMFJBz61skirkgIAa7rfnXHuW/cYf+IZWZbCe68uffXiNQc/SpHzP+IpLnYy/qB3j+
+ sj2K9dW8qnROzYDrXX1U3ZhoCPmhsaQawcBHd0HBWaXwHTegBJTnOBdp45zqykqSEGed
+ +6uhhQXxWpfoWclrImC91wsgWiQKYDjBq30l8yBMJktMtaGVBLMC9qngfqVI3VObHGIh
+ NxiP2hMqcM3Ab97CPWUKdz52Pn9ieI4/KHTtQePT82+SExdQRStbERT74ZMVjoHdI3zB
+ 8V5Jb9jYpGGJN3HP46o/5ZjNJf+Xg/xJQGfYthxpGMWzGgBDv9eOGBqXeWwQmAVu4K0R
+ w+cg==
+X-Gm-Message-State: AO0yUKXyJ9zPjfFjysd+Crk3xlZVDH4xBUe1ID7Wgt7kK/YvoMaWhHtT
+ lACzMNk/CYUEcW6oFGjg0jE=
+X-Google-Smtp-Source: AK7set/tLb7qwH+1NuCLkfVA22zjSgVa2zNLqGJBTREbn92FDuIP+l55nun5sR/LqCRq+xzXTkwurA==
+X-Received: by 2002:a05:600c:4586:b0:3df:9858:c03a with SMTP id
+ r6-20020a05600c458600b003df9858c03amr2455115wmo.15.1675866401857; 
+ Wed, 08 Feb 2023 06:26:41 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ p24-20020a05600c1d9800b003dd1bd0b915sm2058911wms.22.2023.02.08.06.26.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Feb 2023 06:26:41 -0800 (PST)
+Date: Wed, 8 Feb 2023 17:26:36 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: matthew.d.roper@intel.com
+Subject: [bug report] drm/i915/mtl: Add hardware-level lock for steering
+Message-ID: <Y+OxHCcNco8uwgvP@kili>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="H/y3lZ2MEalioY2m"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <91be7f6b52d8ed74798e86270d59bc5cddefe130.camel@physik.fu-berlin.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,64 +67,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
- linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Huacai Chen <chenhuacai@kernel.org>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- netdev@vger.kernel.org, dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-usb@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Matt Roper,
 
---H/y3lZ2MEalioY2m
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The patch 3100240bf846: "drm/i915/mtl: Add hardware-level lock for
+steering" from Nov 28, 2022, leads to the following Smatch static
+checker warning:
 
+drivers/gpu/drm/i915/gt/intel_gt_mcr.c:379 intel_gt_mcr_lock() warn: sleeping in atomic context
+CALL TREE:
+intel_engine_reset() <- disables preempt
+intel_gt_handle_error() <- disables preempt
+live_hold_reset() <- disables preempt
+reset_virtual_engine() <- disables preempt
+-> __intel_engine_reset_bh()
+   -> intel_engine_resume()
+      -> intel_engine_apply_workarounds()
+         -> wa_list_apply()
+            -> intel_gt_mcr_lock()
 
-> Yes, that's the plan. We're collecting the various patches people have se=
-nt
-> in for arch/sh, review and test them and apply them.
->=20
-> My test board is running the latest kernel now, so I can test new patches=
-, too.
+drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c:769 intel_guc_ct_send() warn: sleeping in atomic context
+CALL TREE:
+guc_submission_tasklet() <- disables preempt
+-> guc_dequeue_one_context()
+guc_submit_request() <- disables preempt
+-> guc_bypass_tasklet_submit()
+   -> guc_add_request()
+      -> __guc_add_request() <- disables preempt
+         -> intel_guc_send_nb()
+            -> intel_guc_ct_send()
 
-I am just witnessing this development, but I want to say thanks for your
-effort and congrats on your progress. Looks like you do the right things
-correctly, cool! Kudos also to Geert and others for their assistance.
+drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+    366 void intel_gt_mcr_lock(struct intel_gt *gt, unsigned long *flags)
+    367 {
+    368         unsigned long __flags;
+    369         int err = 0;
+    370 
+    371         lockdep_assert_not_held(&gt->uncore->lock);
+    372 
+    373         /*
+    374          * Starting with MTL, we need to coordinate not only with other
+    375          * driver threads, but also with hardware/firmware agents.  A dedicated
+    376          * locking register is used.
+    377          */
+    378         if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
+--> 379                 err = wait_for(intel_uncore_read_fw(gt->uncore,
+    380                                                     MTL_STEER_SEMAPHORE) == 0x1, 100);
 
+The wait_for() macro sleeps.  But we can't sleep if preempt is disabled.
+The code in the caller looks likes:
 
---H/y3lZ2MEalioY2m
-Content-Type: application/pgp-signature; name="signature.asc"
+drivers/gpu/drm/i915/gt/selftest_execlists.c
+   626                  err = engine_lock_reset_tasklet(engine);
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+local_bh_disable() bumps the preempt_count.
 
------BEGIN PGP SIGNATURE-----
+   627                  if (err)
+   628                          goto out;
+   629  
+   630                  engine->sched_engine->tasklet.callback(&engine->sched_engine->tasklet);
+   631                  GEM_BUG_ON(execlists_active(&engine->execlists) != rq);
+   632  
+   633                  i915_request_get(rq);
+   634                  execlists_hold(engine, rq);
+   635                  GEM_BUG_ON(!i915_request_on_hold(rq));
+   636  
+   637                  __intel_engine_reset_bh(engine, NULL);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sleeping.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmPjrbwACgkQFA3kzBSg
-KbYHCw//YV/RG0PWJ1txmpgpA0mLX7EfhxqJS6vwNlqziCSd910A+/ZNL7p2Q5Hx
-wVdeRoLHd9OcZFYXr0HLH0VCIJUYpr57DCy0AoIKL9q9CWET1hAMZjsIv5Kx2uVa
-1obdyCX46XEMqpSBhcsq8Vsq0TMQ4sCLdpVq/wPqBEDGUBGAIhkWX1UMQv2kiS1T
-uuYPKgsFmI2kl52owcOU2yZ42SVZNTEWiO2A8/4BXFfhhzKLWVcZQpEV9OInJ30n
-iXm6abMFAsFavgI90NZl1H4UKKLOzD5Jgr9Rv6DfYuyeADsKe2oQN1NvioHHVqvm
-qWG2b2UnZ7oS+dXxhS7YsQeiiTyZP/mpUprmrCrm0HMsl6iKCgCU8ceuRzy80Obt
-7u9CpA+ceRJ05Gfgo18YElk42l4Qhwk4zSWDQdOwtOlk1FpX9TBxOtOVngYEprMM
-UDRSSXFIJZTEyUAbqWqsMDuGRVcq3S9XAPYINbzig3H+Iy7an/wpxWBnYrRm+eCz
-/eb7eQ/iQYmBd7Zn8XO74E6vvH+pG8f9nqr2sRPpk89ZDPsZEk0wFCHpJQShIYJt
-iSeMDaLVGP+e+YlW7qvKavsdPISxlLhNFA1kj66ccHNZVbNQ5xyGhps/8qefpitG
-nN9N+KCLmNvyC8QCuMiMRDD9RVq8OSQ3VcL2zT8pj3XuJo2po4s=
-=9hIS
------END PGP SIGNATURE-----
+   638                  GEM_BUG_ON(rq->fence.error != -EIO);
+   639  
+   640                  engine_unlock_reset_tasklet(engine);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+preempt enabled again.
 
---H/y3lZ2MEalioY2m--
+   641  
+   642                  /* Check that we do not resubmit the held request */
+
+regards,
+dan carpenter
