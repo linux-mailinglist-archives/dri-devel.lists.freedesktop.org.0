@@ -2,53 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7CF6902EA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F3C6902EE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:11:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9727E10E972;
-	Thu,  9 Feb 2023 09:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF8210E969;
+	Thu,  9 Feb 2023 09:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com
- [IPv6:2607:f8b0:4864:20::92a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F24B910E972
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:10:27 +0000 (UTC)
-Received: by mail-ua1-x92a.google.com with SMTP id e3so111809ual.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 01:10:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gUiV/qw4JVOOcTovWw+xyQ31ogBLTJYuBUEOiv2Lb9U=;
- b=QIIdel1hmP8z81Hism+qg1TEwzk5Q4RapO0/kQvbT2plytwESYSceZGMKXLlsMHLnJ
- aQwTjjAYJQpFz0W0Q9oBoHZAVdYNXekXiEQ69PeqGwM/y6MTkxHOr539NoK1u1ne5tJs
- YzOWq9vDJkLexZVnCS4T9l4rHtNeFWP6KBsT8=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCB7810E969
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675933881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qfPjLudJxDgFfzgfTl3EDZTsNvVb8/CVcfYCLJC/TTU=;
+ b=R+ld3ReZUi4HJvdjrJHoGbkt1yrVGCi1B6bHf3Os2JEOo4+bRR7xxfvdGutdp65WpkGUnG
+ 0vwdvDlS8nubQ4C3xiK7U0QlfQMWFlxl1gr08PvidjWLyAESblDuDZXNwfdgLzqA1olutP
+ gxPiIrzSy5bIxuYxOUc0vAJzg62AB/Q=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-351-NuoI_zVcPa2o_pheFQnEpg-1; Thu, 09 Feb 2023 04:11:20 -0500
+X-MC-Unique: NuoI_zVcPa2o_pheFQnEpg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j20-20020a05600c1c1400b003dc5dd44c0cso772947wms.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 01:11:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gUiV/qw4JVOOcTovWw+xyQ31ogBLTJYuBUEOiv2Lb9U=;
- b=tLi+hsPs8cNBeHT1/niqEasac6HOBHREiUUnbofc8RNOKrq0tolyCchTsZZPLzar52
- H0eHKaPEdkFpX9EUjpqHFCTkoTvxsyZ9y5FaL+OqNuOXvFDjwE+0XPuPcdTfppkx+UUy
- 0LSdSNy4oKhWxCmG1cLnk2AJMySAGe8ijYDCqSE/FT7e41TpX1TFVmuIWBwqW79tgW3n
- 0swkWJ8NabzzQK0A1NlJWObuV8gcmuwajmP8VFKe9QjiTMFdPXFNlkjGM2WO7RCFcgsM
- 4uryCfZRGCtwZGTlJdX8SXnqi1nVFnj5Kw3Gvu6T611qrRQkDEeIBfNqENuDKW2B3R/q
- 0I3A==
-X-Gm-Message-State: AO0yUKU+deZqEM8dGezBe2m2fnT3A38LRxRwTSEv54BAOONrU3hJAxE1
- CDSvRUpV0QT7Cl/RzdvvBUbk+9SHa6ZZG4S47gr5rg==
-X-Google-Smtp-Source: AK7set9iFbENJrUNl+hKyQ+MIZq2ziVgQa1lldvrUJbRi6mBlcQ3E1DlqRIz/5dmXyM5bWmpsndHSjVSmc3EWCSsyvc=
-X-Received: by 2002:ab0:2bd5:0:b0:5e6:3536:22e4 with SMTP id
- s21-20020ab02bd5000000b005e6353622e4mr2456477uar.55.1675933826994; Thu, 09
- Feb 2023 01:10:26 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qfPjLudJxDgFfzgfTl3EDZTsNvVb8/CVcfYCLJC/TTU=;
+ b=iZo7kKYEgzWql+gPH0Ums45pmcvMYjwYMO+gLcYtShPSGLGHWPHCi5Q7pLmTrjmPN6
+ FN2SoSMaDt9lrvV+WRyaDYtV7Wv5V5MkL73/Lt2Lit7qTU9XMtI16YQnumCs6TChn6Gw
+ sRks5EpGe5TNDUrwyUfSoOa1cXo2IkZAu+XNpbiEe7gHqalZOQJmNqRmAxMoL1A3Kczz
+ 7W2fPncBjHzRp6fGfJuTTnjzIIHBuU6eHHMaaGKwQJHq6lzziaZBjiz3iWMreUHhRnS4
+ MWMkxNz/+ofcP4DQdvRX20vl0lQQ/hdVTRiud45pmU///uCgQWMie5mBEnxbFooOQo0X
+ vNNw==
+X-Gm-Message-State: AO0yUKXpYmFI+83/yNSK0jzr0yIJmjoYbSoDmQOo8GiHhOjyjW6GwdoI
+ R1oNYIK9xWrccBmP0I+pC2zTFDLF6gWX9elM372T27yQLuQvrZcYNHdkKzXMmZQOrjp8geRw1we
+ OIWNhx9yrLmn4Zn+ZG49dKLR/wxOvV3tK9A==
+X-Received: by 2002:a5d:6986:0:b0:2c4:61a:4666 with SMTP id
+ g6-20020a5d6986000000b002c4061a4666mr4583166wru.15.1675933879154; 
+ Thu, 09 Feb 2023 01:11:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set9nzqPKLjpk9qdccGuph0Z9GXzvYt8XlOKI+1Oi/1Xl9J/WHOIfTAfk9bk355c7CMkLklzzLA==
+X-Received: by 2002:a5d:6986:0:b0:2c4:61a:4666 with SMTP id
+ g6-20020a5d6986000000b002c4061a4666mr4583154wru.15.1675933878995; 
+ Thu, 09 Feb 2023 01:11:18 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ w19-20020a05600c475300b003dc433355aasm1396212wmo.18.2023.02.09.01.11.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Feb 2023 01:11:18 -0800 (PST)
+Message-ID: <d4cc2abb-260b-225e-8703-9c210379d517@redhat.com>
+Date: Thu, 9 Feb 2023 10:11:17 +0100
 MIME-Version: 1.0
-References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 9 Feb 2023 17:10:15 +0800
-Message-ID: <CAGXv+5HkdWUWmq0Jk5F2ZuFVHN5T07CYwBdzSWR7Z0=pmkJ5Mw@mail.gmail.com>
-Subject: Re: [PATCH 0/9] Panfrost: Improve and add MediaTek SoCs support
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] drm/ast: Fix start address computation
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
+ jammy_huang@aspeedtech.com
+References: <20230207105317.224277-1-jfalempe@redhat.com>
+ <125d895f-7837-1ded-f121-ef0c5879bc2e@suse.de>
+ <5d79840c-b0d8-ead5-6fb9-9d13832c3c80@redhat.com>
+In-Reply-To: <5d79840c-b0d8-ead5-6fb9-9d13832c3c80@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,39 +90,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> This series adds support for new MediaTek SoCs (MT8186/MT8192/MT8195)
-> and improves MT8183 support: since the mtk-regulator-coupler driver
-> was picked, it is now useless for Panfrost to look for, and manage,
-> two regulators (GPU Vcore and GPU SRAM) on MediaTek;
->
-> The aforementioned driver will take care of keeping the voltage
-> relation (/constraints) of the two regulators on its own when a
-> voltage change request is sent to the Vcore, solving the old time
-> issue with not working DVFS on Panfrost+MediaTek (due to devfreq
-> supporting only single regulator).
->
-> In the specific case of MT8183, in order to not break the ABI, it
-> was necessary to add a new compatible for enabling DVFS.
+On 07/02/2023 12:36, Jocelyn Falempe wrote:
+> On 07/02/2023 12:17, Thomas Zimmermann wrote:
+>> Hi
+>>
+> 
+> I was wondering if this start address is not an offset in the GPU 
+> memory, and in this case the primary plane offset should always be 0 ?
 
-Tested on MT8183 Juniper (Kukui-based device), MT8192 Hayato (Asurada-based),
-and MT8195 Tomato (Cherry-based).
+I think it's the case, so I will send a v2 shortly.
 
-GPU probed. When running glmark-es2-drm, observed state transitions in
-/sys/class/devfreq/13040000.gpu/trans_stat , as well as actual changes to
-values for regulators and clocks.
+> 
+> Best regards,
+> 
+>>
+>> Best regards
+>> Thomas
+>>
+>> [1] 
+>> https://elixir.bootlin.com/linux/v6.2-rc7/source/drivers/gpu/drm/ast/ast_mm.c#L96
+>>
+>>>       unsigned long cursor_size = roundup(AST_HWC_SIZE + 
+>>> AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+>>>       unsigned long size = ast->vram_fb_available - cursor_size;
+>>>       int ret;
+>>
+> 
 
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-
-Also observed that sometimes when glmark terminated, the GPU would not be
-brought down to the lowest OPP.
