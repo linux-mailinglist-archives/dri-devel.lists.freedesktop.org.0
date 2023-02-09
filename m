@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CA369101F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 19:13:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D1F691026
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 19:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C89310E267;
-	Thu,  9 Feb 2023 18:13:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6F910E26E;
+	Thu,  9 Feb 2023 18:15:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69A3C10E267
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 18:13:34 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- 14-20020a9d010e000000b0068bdddfa263so798357otu.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 10:13:34 -0800 (PST)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2D7310E26E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 18:15:31 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ r34-20020a05683044a200b0068d4a8a8d2dso787182otv.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 10:15:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4w2uvC7tKfN7ZfSyrpjhie/I8cEOrFcZDWMac10H+4k=;
- b=wVPynKM1ZP0rcqWAl7K6adAznsdscBgmdwDNl0gwy1X71JceZ0bOm+aD4fuEmmPn0N
- f6acU+7zmnLOmo23VVetsSlxPgGborB3XKFiAJorzMGFovwUzXiHOuT1XT7x+tgVOBGJ
- VNSucJF75TxlrY78LL1keoZCwLjWEHxqgVZrrP8K8FPwWUSvacNNNmCOUcRUuZ0WDnAi
- taDfMoyeL6KP8gt2rYW3j+x09KzYG7gBI5LuIB3uP3nXKlUf+6jxbS4vuswIuCLnEC7P
- RJUWYC1lZ90vw2CBeCokR920kPv/668DNqZt0qwlyq+EkrWy+OlvwfIkCBXWcOOdOgeU
- lXHQ==
-X-Gm-Message-State: AO0yUKVQIuXlv0gnVMZQslDd4Km6lT/DAIamlRAMzZE7LqamtNomLWKL
- oaKe74qaW4oXC2nzK7dkTg==
-X-Google-Smtp-Source: AK7set9geq4xni8+uYB8qGbMxQ7pUXj7wYLAoWyWFhJL4jxzTcF08XJ50z6U9Ah/fWoX6ss5tjhjwg==
-X-Received: by 2002:a05:6830:39e4:b0:68d:81ce:a8c1 with SMTP id
- bt36-20020a05683039e400b0068d81cea8c1mr6701035otb.13.1675966413640; 
- Thu, 09 Feb 2023 10:13:33 -0800 (PST)
+ bh=iGKDzpQl36bGqwBBeYFJNy6u4C/uzXcd+jWKiDdMto8=;
+ b=LYMwh0Rx8dMBgS6hMZWT2JxwkIL++VJPTHNUz+WZOlYhMRG/tbA+OvM8vnymjw8P+f
+ L7LOrKorRvFp/U22jcal8eAs7ER0Pr9WPxI/j1jDQm7L4PmziTIEx3o5lkUTHKHNgKiE
+ 7358QzORGs5jbprxbIpJhL0zQqdSfmF6dZXqnnwvHESEhfY7FIlWFAk/KJnW3O/rsP3G
+ V7JMafDMbhty6oVWUHAZbOw8KLv3nPG8yrjZqBJiHrxrDsucMKBRt2gwBf31BqRRzJOv
+ 9HrIu/tiqSzritzrDMSJKR3E/3kEH9bE1NX9N2xO7L9hJGMsKxoICwMzkOvmHSIFYCY0
+ 03Sg==
+X-Gm-Message-State: AO0yUKVtbOjzmFMxhi/Tgnp0JuW8AERq6zHVwsUbZ8Zx1/LsU7Mc+7J/
+ kCDW3kV2O7gP3j8Xk5F3nw==
+X-Google-Smtp-Source: AK7set/vKPnpTPG7LfxGY3SZG4NkXDy5WVxyF5/HKjTtS2pCGvrXXIv4QnhMbYB01iQJ9u0d1Jyjkw==
+X-Received: by 2002:a05:6830:6102:b0:68b:d679:9530 with SMTP id
+ ca2-20020a056830610200b0068bd6799530mr9249542otb.1.1675966530910; 
+ Thu, 09 Feb 2023 10:15:30 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- f17-20020a9d7b51000000b0068bdfa56717sm985127oto.36.2023.02.09.10.13.32
+ w3-20020a056830144300b0068d4292f4c0sm994977otp.35.2023.02.09.10.15.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 10:13:33 -0800 (PST)
-Received: (nullmailer pid 586379 invoked by uid 1000);
- Thu, 09 Feb 2023 18:13:32 -0000
-Date: Thu, 9 Feb 2023 12:13:32 -0600
+ Thu, 09 Feb 2023 10:15:30 -0800 (PST)
+Received: (nullmailer pid 588545 invoked by uid 1000);
+ Thu, 09 Feb 2023 18:15:29 -0000
+Date: Thu, 9 Feb 2023 12:15:29 -0600
 From: Rob Herring <robh@kernel.org>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 2/9] dt-bindings: gpu: mali-bifrost: Allow up to 5 power
- domains for MT8192
-Message-ID: <167596641142.586319.10372403582007442030.robh@kernel.org>
+Subject: Re: [PATCH 3/9] dt-bindings: gpu: mali-bifrost: Add compatible for
+ MT8195 SoC
+Message-ID: <167596652912.588493.7192091258835336091.robh@kernel.org>
 References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
- <20230208103709.116896-3-angelogioacchino.delregno@collabora.com>
+ <20230208103709.116896-4-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230208103709.116896-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230208103709.116896-4-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,23 +65,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- tomeu.vizoso@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+ alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
  matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 08 Feb 2023 11:37:02 +0100, AngeloGioacchino Del Regno wrote:
-> MediaTek MT8192 (and similar) needs five power domains for the
-> Mali GPU and no sram-supply: change the binding to allow so.
+On Wed, 08 Feb 2023 11:37:03 +0100, AngeloGioacchino Del Regno wrote:
+> The MediaTek MT8195 SoC has a Mali G57 MC5 (Valhall-JM) and has the
+> same number of power domains and requirements as MT8192 in terms of
+> bindings.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  .../bindings/gpu/arm,mali-bifrost.yaml        | 34 +++++++++++++++++--
->  1 file changed, 31 insertions(+), 3 deletions(-)
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
