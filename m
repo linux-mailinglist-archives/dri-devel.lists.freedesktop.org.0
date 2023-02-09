@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081F8690206
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 09:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B78A690213
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 09:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A55B10E944;
-	Thu,  9 Feb 2023 08:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5507C10E0C1;
+	Thu,  9 Feb 2023 08:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E68D10E936
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 08:18:46 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id h16so898896wrz.12
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 00:18:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NOtI2HKpzbpdAoapug+id9Mkg3MTgOUSvAB/EfkYBu0=;
- b=fMmptcW869FvfzMe6N0eDnUbrd0+XS6pttxsYOqiUKxq3jFWH3Wn3n0fFE2Fma18dY
- fOCUppFoxUrBxhL1nGt24pv2YAFOkCrPhw+2+VNHICQ5aahSCD3WavBBqG6XbfeqB+cF
- Upcn0g+uqCEzbRkUkpYczaUdIp8/iYsBJDxtEmrSiEHS+IwT1gKGDAejmpdcnKz8xmip
- JwEEB84IVQ59a0olStZ1wkSdYtnCZ+temym2JD1xN6Dur1v5C3GsgWNLAWaGehutWzLk
- IAbG2D+h6tZrGVovzW/RimQTet6z8UjX8x7IPmSF7Mhf9Cx8l/KaLAHz57SZ0HxaBzjJ
- KuGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NOtI2HKpzbpdAoapug+id9Mkg3MTgOUSvAB/EfkYBu0=;
- b=MehZXj74DE0B1p1diQUkF0IwuSggoR8Vzq2hxQovtCp7PBgRNvN1KsC2/PbKBHslOL
- CevS/aJd68qJfrnRwxalyJyLeGDlnpl0QpRzxYt6LUzNnnpHZKcxeMlvmFFkZng/vOMP
- 5DJ+PXl9wAGMVE14jLYNr2LKHQyjkJkY2YlmyrEAnoUPGoc9CkORnNr56KNoXaBl95AV
- cNHIIuAAO4unlQ01WuBTLG++aRQlKUP45OGUp2313L3z9roxEW/rk9Y8oQspWfRb9SZa
- p2rF+Cvflvzf8ykmGKEj3HHpZoSdGuM8hkwS4Ncrit1M3ADizeWeungnAAIfAln+j8MT
- sQmQ==
-X-Gm-Message-State: AO0yUKUqi5iJQZwD0MkQfOctX8IRaMXe0iiZU0vz67fi6oE7oS33GK4n
- Yk+8PjTgg159gzN24CFVpyw=
-X-Google-Smtp-Source: AK7set9i/bATXxvmvfUGHD9M3iFxXBF7JER/x76vBMqIpFwBb8k/dGBo7Fb/uX2YZb0fnERgvpHv4A==
-X-Received: by 2002:adf:f212:0:b0:2c3:f250:f217 with SMTP id
- p18-20020adff212000000b002c3f250f217mr10365657wro.1.1675930724846; 
- Thu, 09 Feb 2023 00:18:44 -0800 (PST)
-Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
- by smtp.gmail.com with ESMTPSA id
- n10-20020adffe0a000000b002c3ec35f360sm602056wrr.56.2023.02.09.00.18.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 00:18:44 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: daniel.vetter@ffwll.ch, wambui.karugax@gmail.com, mcanal@igalia.com,
- maxime@cerno.tech, mwen@igalia.com, mairacanal@riseup.net
-Subject: [PATCH 3/3] drm/debugfs: remove dev->debugfs_list and debugfs_mutex
-Date: Thu,  9 Feb 2023 09:18:38 +0100
-Message-Id: <20230209081838.45273-4-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230209081838.45273-1-christian.koenig@amd.com>
-References: <20230209081838.45273-1-christian.koenig@amd.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F92B10E0C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 08:25:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675931113; x=1707467113;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AZG4nt/NF5XD1bCU1D1DTXwVLKlPtu8KECtv/J/wG8I=;
+ b=BVxxHS2dktiNil9i1y0nsb//Iw/FkXoDEX3Yc2MbdssEx//YwIFVicbh
+ 9P1bSsbeI1G3SYjLZbmm16EhmW6/dqnWnpiVDoBEID71o2/BCCz9hlQc/
+ pMp2eN5lHcKaj+31+4aYBbGl5B0PdshY5fhKrQ/zN5vvVHUvJp1n6BVig
+ ft3SgChYMWZguQ5lOGqNSZZMywWydCUM1GaOaBa1pxAbDE0map0KSaNZD
+ INfObculeLYB+87xFv41Tj+ewS2ZyPhqbWGhTzpuTxWIakAaA+a9wlKYl
+ 4frTmll1mrstfWo0It38JjjrLcH44bnzarlZttm9LaMR0iK2pftRObgyt g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416272827"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; d="scan'208";a="416272827"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2023 00:25:09 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="913055567"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; d="scan'208";a="913055567"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com)
+ ([10.237.72.44])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2023 00:25:01 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+ by kekkonen.fi.intel.com (Postfix) with SMTP id 3D16811FADB;
+ Thu,  9 Feb 2023 10:24:59 +0200 (EET)
+Date: Thu, 9 Feb 2023 10:24:59 +0200
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Pin-yen Lin <treapking@chromium.org>
+Subject: Re: [PATCH v11 1/9] device property: Add remote endpoint to devcon
+ matcher
+Message-ID: <Y+St24gfyhb4VWPT@kekkonen.localdomain>
+References: <20230204133040.1236799-1-treapking@chromium.org>
+ <20230204133040.1236799-2-treapking@chromium.org>
+ <Y+AbhnfJvScvHTGY@kekkonen.localdomain>
+ <CAEXTbpf-s8NQKwSxhe=cO-KO=TTSXFznm=1J-ikhc558M6brdQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEXTbpf-s8NQKwSxhe=cO-KO=TTSXFznm=1J-ikhc558M6brdQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,170 +64,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mutex was completely pointless in the first place since any
-parallel adding of files to this list would result in random
-behavior since the list is filled and consumed multiple times.
+Hi Pin-yen,
 
-Completely drop that approach and just create the files directly.
+On Thu, Feb 09, 2023 at 12:28:33PM +0800, Pin-yen Lin wrote:
+> Hi Sakari,
+> 
+> Thanks for the review.
+> 
+> On Mon, Feb 6, 2023 at 5:11 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Pin-yen,
+> >
+> > On Sat, Feb 04, 2023 at 09:30:32PM +0800, Pin-yen Lin wrote:
+> > > From: Prashant Malani <pmalani@chromium.org>
+> > >
+> > > When searching the device graph for device matches, check the
+> > > remote-endpoint itself for a match.
+> > >
+> > > Some drivers register devices for individual endpoints. This allows
+> > > the matcher code to evaluate those for a match too, instead
+> > > of only looking at the remote parent devices. This is required when a
+> > > device supports two mode switches in its endpoints, so we can't simply
+> > > register the mode switch with the parent node.
+> > >
+> > > Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> > > Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> >
+> > Thanks for the update.
+> >
+> > I intended to give my Reviewed-by: but there's something still needs to be
+> > addressed. See below.
+> >
+> > >
+> > > ---
+> > >
+> > > Changes in v11:
+> > > - Added missing fwnode_handle_put in drivers/base/property.c
+> > >
+> > > Changes in v10:
+> > > - Collected Reviewed-by and Tested-by tags
+> > >
+> > > Changes in v6:
+> > > - New in v6
+> > >
+> > >  drivers/base/property.c | 16 ++++++++++++++++
+> > >  1 file changed, 16 insertions(+)
+> > >
+> > > diff --git a/drivers/base/property.c b/drivers/base/property.c
+> > > index 2a5a37fcd998..e6f915b72eb7 100644
+> > > --- a/drivers/base/property.c
+> > > +++ b/drivers/base/property.c
+> > > @@ -1223,6 +1223,22 @@ static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
+> > >                       break;
+> > >               }
+> > >
+> > > +             /*
+> > > +              * Some drivers may register devices for endpoints. Check
+> > > +              * the remote-endpoints for matches in addition to the remote
+> > > +              * port parent.
+> > > +              */
+> > > +             node = fwnode_graph_get_remote_endpoint(ep);
+> >
+> > Here fwnode_graph_get_remote_endpoint() returns an endpoint...
+> >
+> > > +             if (fwnode_device_is_available(node)) {
+> >
+> > and you're calling fwnode_device_is_available() on the endpoint node, which
+> > always returns true.
+> >
+> > Shouldn't you call this on the device node instead? What about match()
+> > below?
+> 
+> Yes we should have checked the availability on the device node itself
+> instead of the endpoint node. But regarding the match() call, we need
+> to call it with the endpoint node because that's where we put the
+> "mode-switch" properties and register the mode switches on. We can't
+> use the device node because we want to register two mode switches for
+> the same device node.
 
-This also re-adds the debugfs files to the render node directory and
-removes drm_debugfs_late_register().
+Ok.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/drm_debugfs.c     | 32 +++++++------------------------
- drivers/gpu/drm/drm_drv.c         |  3 ---
- drivers/gpu/drm/drm_internal.h    |  5 -----
- drivers/gpu/drm/drm_mode_config.c |  2 --
- include/drm/drm_device.h          | 15 ---------------
- 5 files changed, 7 insertions(+), 50 deletions(-)
+I think it should be documented for both fwnode_connection_find_match() and
+fwnode_connection_find_matches() may then be also called with the endpoint
+node.
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 558e3a7271a5..a40288e67264 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -246,31 +246,9 @@ void drm_debugfs_dev_register(struct drm_device *dev)
- void drm_debugfs_minor_register(struct drm_minor *minor)
- {
- 	struct drm_device *dev = minor->dev;
--	struct drm_debugfs_entry *entry, *tmp;
- 
- 	if (dev->driver->debugfs_init)
- 		dev->driver->debugfs_init(minor);
--
--	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
--		debugfs_create_file(entry->file.name, 0444,
--				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
--		list_del(&entry->list);
--	}
--}
--
--void drm_debugfs_late_register(struct drm_device *dev)
--{
--	struct drm_minor *minor = dev->primary;
--	struct drm_debugfs_entry *entry, *tmp;
--
--	if (!minor)
--		return;
--
--	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
--		debugfs_create_file(entry->file.name, 0444,
--				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
--		list_del(&entry->list);
--	}
- }
- 
- int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
-@@ -343,9 +321,13 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
- 	entry->file.data = data;
- 	entry->dev = dev;
- 
--	mutex_lock(&dev->debugfs_mutex);
--	list_add(&entry->list, &dev->debugfs_list);
--	mutex_unlock(&dev->debugfs_mutex);
-+	debugfs_create_file(name, 0444, dev->primary->debugfs_root, entry,
-+			    &drm_debugfs_entry_fops);
-+
-+	/* TODO: This should probably only be a symlink */
-+	if (dev->render)
-+		debugfs_create_file(name, 0444, dev->render->debugfs_root,
-+				    entry, &drm_debugfs_entry_fops);
- }
- EXPORT_SYMBOL(drm_debugfs_add_file);
- 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 2cbe028e548c..e7b88b65866c 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -597,7 +597,6 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
- 	mutex_destroy(&dev->clientlist_mutex);
- 	mutex_destroy(&dev->filelist_mutex);
- 	mutex_destroy(&dev->struct_mutex);
--	mutex_destroy(&dev->debugfs_mutex);
- 	drm_legacy_destroy_members(dev);
- }
- 
-@@ -638,14 +637,12 @@ static int drm_dev_init(struct drm_device *dev,
- 	INIT_LIST_HEAD(&dev->filelist_internal);
- 	INIT_LIST_HEAD(&dev->clientlist);
- 	INIT_LIST_HEAD(&dev->vblank_event_list);
--	INIT_LIST_HEAD(&dev->debugfs_list);
- 
- 	spin_lock_init(&dev->event_lock);
- 	mutex_init(&dev->struct_mutex);
- 	mutex_init(&dev->filelist_mutex);
- 	mutex_init(&dev->clientlist_mutex);
- 	mutex_init(&dev->master_mutex);
--	mutex_init(&dev->debugfs_mutex);
- 
- 	ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
- 	if (ret)
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 5ff7bf88f162..e215d00ba65c 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -188,7 +188,6 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
- void drm_debugfs_dev_register(struct drm_device *dev);
- void drm_debugfs_minor_register(struct drm_minor *minor);
- void drm_debugfs_cleanup(struct drm_minor *minor);
--void drm_debugfs_late_register(struct drm_device *dev);
- void drm_debugfs_connector_add(struct drm_connector *connector);
- void drm_debugfs_connector_remove(struct drm_connector *connector);
- void drm_debugfs_crtc_add(struct drm_crtc *crtc);
-@@ -205,10 +204,6 @@ static inline void drm_debugfs_cleanup(struct drm_minor *minor)
- {
- }
- 
--static inline void drm_debugfs_late_register(struct drm_device *dev)
--{
--}
--
- static inline void drm_debugfs_connector_add(struct drm_connector *connector)
- {
- }
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index 87eb591fe9b5..8525ef851540 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -54,8 +54,6 @@ int drm_modeset_register_all(struct drm_device *dev)
- 	if (ret)
- 		goto err_connector;
- 
--	drm_debugfs_late_register(dev);
--
- 	return 0;
- 
- err_connector:
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 7cf4afae2e79..900ad7478dd8 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -311,21 +311,6 @@ struct drm_device {
- 	 */
- 	struct drm_fb_helper *fb_helper;
- 
--	/**
--	 * @debugfs_mutex:
--	 *
--	 * Protects &debugfs_list access.
--	 */
--	struct mutex debugfs_mutex;
--
--	/**
--	 * @debugfs_list:
--	 *
--	 * List of debugfs files to be created by the DRM device. The files
--	 * must be added during drm_dev_register().
--	 */
--	struct list_head debugfs_list;
--
- 	/* Everything below here is for legacy driver, never use! */
- 	/* private: */
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
 -- 
-2.34.1
+Regards,
 
+Sakari Ailus
