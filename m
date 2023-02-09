@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13626902FA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:13:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09BBD690308
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:15:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 881A110E974;
-	Thu,  9 Feb 2023 09:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1334A8924F;
+	Thu,  9 Feb 2023 09:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8754C10E974
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675933988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4BaRmrGSF/qFjbxs/IBlMySBy+L22UaSVRpR0Q8agi0=;
- b=g8kk1BzyCq27qX8Tn5BE5zIvWTgNFj0egNssm+1soyun9DBnBysAyXkUCVU555J1Docz4v
- NRcJAENImfvVFcQbzPyKqykrcZCctWAjuLz5nShNkasieacBQOduDdBg5XobXP41sBqVjm
- xPGZWxiBJQttxvQtH7urLqa3taIiAqk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-RaYTQPGyPim6nmm52Y9hLw-1; Thu, 09 Feb 2023 04:13:05 -0500
-X-MC-Unique: RaYTQPGyPim6nmm52Y9hLw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF304101AA78;
- Thu,  9 Feb 2023 09:13:04 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B75D4140EBF6;
- Thu,  9 Feb 2023 09:13:03 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
-Subject: [PATCH v2] drm/ast: Fix start address computation
-Date: Thu,  9 Feb 2023 10:12:54 +0100
-Message-Id: <20230209091254.15455-1-jfalempe@redhat.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD7A10E977
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:15:38 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9E48966020B9;
+ Thu,  9 Feb 2023 09:15:36 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1675934137;
+ bh=8edIGnmtJ1NrcW68pSHJQfhqO7Od8cz1RPWn+l0cH7g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=e/Ni+IP7bUf1+wNovwd5vyh4UKNhtU+KHCLfOlNd4MqQoE7qe1vzU3cT6UBUHklbK
+ 0Wgwaea/4bQV139qiPB4PxTFgoEf8PVHzpNJkKztb5sdcSAOTmxs5kturOk/S211Uc
+ 4DImxXdQqRJbFFc4vfuBd8R88sTPfi9XvNOxKrSZQDjGAMV6WwoaFAJFC2eILgj+0Z
+ aiQk/SHHPVqqd2C4c1hVyMZ2xS1d1u8JB2MZHe3nbHG5Nf7UywFprjykJ/tt1n3FHJ
+ A10ciIkixCQKUYrGnylx90tXmvZVh431qQEuDciYH2s1g4tZBykE6KClzguv8fUAiG
+ DLMJNWWa01NzQ==
+Message-ID: <0faf89cb-4709-17c9-0d67-da7ef2ddb7e6@collabora.com>
+Date: Thu, 9 Feb 2023 10:15:33 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 1/9] dt-bindings: gpu: mali-bifrost: Don't allow
+ sram-supply by default
+Content-Language: en-US
+To: Chen-Yu Tsai <wenst@chromium.org>
+References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
+ <20230208103709.116896-2-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5Gm=Onu2RK+skLgN4Kzo9yP1n5Zb48oQNkQ019838QeEQ@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAGXv+5Gm=Onu2RK+skLgN4Kzo9yP1n5Zb48oQNkQ019838QeEQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,40 +58,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+ alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During the driver conversion to shmem, the start address for the
-scanout buffer was set to the base PCI address.
-In most cases it works because only the lower 24bits are used, and
-due to alignment it was almost always 0.
-But on some unlucky hardware, it's not the case, and some unitilized
-memory is displayed on the BMC.
-With shmem, the primary plane is always at offset 0 in GPU memory.
+Il 09/02/23 03:50, Chen-Yu Tsai ha scritto:
+> On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> The sram-supply is MediaTek-specific, it is and will ever be used
+>> only for the mediatek,mt8183-mali compatible due to the addition of
+>> the mediatek-regulator-coupler driver: change the binding to add
+>> this supply when mediatek,mt8183-mali is present as a compatible
+>> instead of disabling it when not present.
+>>
+>> This is done in preparation for adding new bindings for other
+>> MediaTek SoCs, such as MT8192 and others.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 4 +---
+>>   1 file changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>> index 78964c140b46..69212f3b1328 100644
+>> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>> @@ -57,8 +57,6 @@ properties:
+>>
+>>     mali-supply: true
+>>
+>> -  sram-supply: true
+>> -
+> 
+> Have you tried actually validating the device trees against this?
+> Based on my previous tests this gives out errors.
 
-Tested on a sr645 affected by this bug.
+I did... and I didn't get any complaint... but perhaps something went wrong
+on my side?
 
-Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/ast/ast_mode.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I mean, I can retry just to be sure.
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index c7443317c747..54deb29bfeb3 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -681,7 +681,8 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	if (!old_fb || old_fb->pitches[0] != fb->pitches[0])
- 		ast_set_offset_reg(ast, fb);
- 	if (!old_fb) {
--		ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
-+		/* with shmem, the primary plane is always at offset 0 */
-+		ast_set_start_address_crt1(ast, 0);
- 		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
- 	}
- }
--- 
-2.39.1
+> 
+> The reason is that each conditional is a separate sub-schema, and the
+> validator is run against each schema and sub-schema separately, instead
+> of collapsing matching schemas and sub-schemas together and validating
+> once. So we'll get a validation error on sram-supply not being a valid
+> property when validating current mt8183 against the base schema.
+> 
+> We have a similar issue with power-domain-names, for which I'll send
+> a patch to fix. See the following for the fix:
+> 
+>      http://git.kernel.org/wens/c/d1adb38ab2ad0442755607c2bcc726cc17cce2c7
+> 
+> and the following for what I did for MT8192 on top of the previous patch:
+> 
+>      http://git.kernel.org/wens/c/049bd164884398d7e5f72c710da6aaa9a95bc10a
+> 
+
+Thanks for the pointer, btw
+
+Cheers,
+Angelo
+
+> 
+> Regards
+> ChenYu
+> 
+>>     operating-points-v2: true
+>>
+>>     power-domains:
+>> @@ -157,6 +155,7 @@ allOf:
+>>               - const: core0
+>>               - const: core1
+>>               - const: core2
+>> +        sram-supply: true
+>>
+>>         required:
+>>           - sram-supply
+>> @@ -166,7 +165,6 @@ allOf:
+>>         properties:
+>>           power-domains:
+>>             maxItems: 1
+>> -        sram-supply: false
+>>     - if:
+>>         properties:
+>>           compatible:
+>> --
+>> 2.39.1
+>>
+
+
 
