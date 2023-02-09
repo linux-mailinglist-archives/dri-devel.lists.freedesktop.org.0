@@ -2,77 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A161690A91
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF82690AF8
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:55:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411EA10EAD4;
-	Thu,  9 Feb 2023 13:41:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DDD910EAE6;
+	Thu,  9 Feb 2023 13:55:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D58C10EAD5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675950062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OzV7p16/yEZQKmwWUFxj9RZMdMX7gGqoUkNDU++eOPw=;
- b=VlU+v4pGRIRSCBGmrrEKNGSjUa8Lk7Crk2TJHyegN1agdUxAIGJ2CRaXwzc1xnXkPbUXKS
- uG6cymLa37siLKjfwzWCVBKTb8gUAEsQpmBeubH/4/Z8B1CBNwFcbBAHa/oj+5vM9j2XK5
- ++3c/99cSwMPFMHqEl9WT1BSmOsAbSk=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-333-bTKL-L8rO3SmNMb1s8Taxw-1; Thu, 09 Feb 2023 08:40:59 -0500
-X-MC-Unique: bTKL-L8rO3SmNMb1s8Taxw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- cr22-20020a05622a429600b003b694a9f291so1106801qtb.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 05:40:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OzV7p16/yEZQKmwWUFxj9RZMdMX7gGqoUkNDU++eOPw=;
- b=uyitPU3CDQV8r+/O+fm4aJbbrpxCkh8T1YOXH5/wWgfIrBnBHUwHavtctoSaBeaGgF
- sJDgMkaodAK4josxyPSKxnUJ553I3LsNcZPtwunUard6hIPJL7KHQZzNGMzMIGqohtfm
- 9hhbLS/T32sda5vsE794fxDjc/ocI2m2p/TFeyjf3ICd3RqoRyyMTGHav2MicqzU4wnD
- xBc8yt1vOS2V+fJ5TqfLGMTw8QBwqX+kd+r9FGI7xtqDDIl9+6N7xM+4lQruJeQtTl0g
- RFHTSNoQ4EJ8UPIVlZOvT4HYEN1u46L7WvZKk2Fv0DDRPu3SDKcWLC/NyAmJsyQfDZnU
- nbAA==
-X-Gm-Message-State: AO0yUKWs47NLFub44Q1OzL+yZ9BDQ7x8tO59mhdS7X7/v/QYS9phsmIa
- OIPFwVR+c4ZW/fIIhQ/VkVlPBUE82aQ9z9eVs8hgdZCj36i/FEP7JtBREMSAwArK84Dc/tKOHjz
- R+iQ7qXX8JYFAxq33a7ri2ypS4VK9
-X-Received: by 2002:a05:6214:2684:b0:56b:f2d7:f66d with SMTP id
- gm4-20020a056214268400b0056bf2d7f66dmr21321725qvb.46.1675950058605; 
- Thu, 09 Feb 2023 05:40:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set8nFqGwwydA/Qv//jTnLpI8YmlDl2IBDR+nilaOo8Jek16gZhJgf+ALhc6AphqS+W1bio6i8w==
-X-Received: by 2002:a05:6214:2684:b0:56b:f2d7:f66d with SMTP id
- gm4-20020a056214268400b0056bf2d7f66dmr21321696qvb.46.1675950058373; 
- Thu, 09 Feb 2023 05:40:58 -0800 (PST)
-Received: from localhost.localdomain.com (024-205-208-113.res.spectrum.com.
- [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
- t187-20020ae9dfc4000000b0073902217c00sm224072qkf.23.2023.02.09.05.40.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 05:40:58 -0800 (PST)
-From: Tom Rix <trix@redhat.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, Dmytro.Laktyushkin@amd.com,
- qingqing.zhuo@amd.com, Charlene.Liu@amd.com, nicholas.kazlauskas@amd.com,
- meenakshikumar.somasundaram@amd.com
-Subject: [PATCH] drm/amd/display: set should_disable_otg
- storage-class-specifier to static
-Date: Thu,  9 Feb 2023 05:40:49 -0800
-Message-Id: <20230209134049.2000865-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB6C10EAE4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:55:14 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9CE3E229E0;
+ Thu,  9 Feb 2023 13:55:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675950912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=uRXYWe304mkCxYZE0lH4+u8aTbd19nfJc9iHmaY1sNs=;
+ b=rGoNUeHAKyyaOWP1mlyHpoRNo8hh31zgKYmRP6qxRNT8QfNwA6YaXG7rHjRGE1m/ylLMGR
+ g9ejrdOFZJ3NQA7dCMmp65bqYgU2kGtttdHBB326k38YyttBqXNB+ELPB4GiJtmucnSX6G
+ /PrKOuOx9K1EKieAsj2P1/t25VALtC8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675950912;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=uRXYWe304mkCxYZE0lH4+u8aTbd19nfJc9iHmaY1sNs=;
+ b=fxzGR2USnOzNJy0acLQiboQ/osEf+Oy+1nm5x8+ggn+D4J+XiU1aI6WICQgpe6xViZClJ+
+ fNNF/22aiuayXkAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5B3E3138E4;
+ Thu,  9 Feb 2023 13:55:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id iaZWFUD75GNTfwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Feb 2023 13:55:12 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, airlied@gmail.com, deller@gmx.de, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, geoff@infradead.org,
+ mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu
+Subject: [PATCH 00/11] drm,fbdev: Move video= option to drivers/video
+Date: Thu,  9 Feb 2023 14:54:58 +0100
+Message-Id: <20230209135509.7786-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,35 +63,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-smatch reports
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c:90:6:
-  warning: symbol 'should_disable_otg' was not declared. Should it be static?
+The kernel's video= option sets the initial video mode. It is shared
+by fbdev and DRM, but located within the fbdev code. Move it to
+drivers/video/ and adapt callers. Allows DRM (and others) to use the
+option without depending on fbdev.
 
-should_disable_otg() is only used in dcn315_clk_mgr.c, so it should be static
+While at it, fix the interface of the lookup functions. This requires
+a number of changes. First clarify the ownership of the option string
+in patch 2. The helper fb_get_options() returns the video= parameter's
+value. It's sometimes a copy and sometimes the original string. Hence
+callers, mostly fbdev drivers, have just leaked the returned string.
+Change this to always duplicate the option string in fb_get_options()
+and transfer ownership of the copy to the caller. We can then start to
+fix the memory leaks in the fbdev drivers.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There's a global video= setting and a number of per-output settings.
+In patches 3 to 5, support explicit lookup of the global video option
+and lookup the string in fbdev's modedb and in a PS3 driver. Then
+avoid exporting the global setting's internal state variable in patch 6.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-index 8c368bcc8e7e..a737782b2840 100644
---- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-+++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-@@ -87,7 +87,7 @@ static int dcn315_get_active_display_cnt_wa(
- 	return display_count;
- }
- 
--bool should_disable_otg(struct pipe_ctx *pipe)
-+static bool should_disable_otg(struct pipe_ctx *pipe)
- {
- 	bool ret = true;
- 
+Finally, in patches 7 to 11, move the video= option to drivers/video.
+It can be used directly in DRM and a PS3 driver. This fixes any memory
+leaks from the returned option string. For fbdev drivers, the helper
+fb_get_options() remains as an adapter aroudn the new interface.
+
+Tested with DRM and fbdev and built for the PS3.
+
+Thomas Zimmermann (11):
+  fbdev: Fix contact info in fb_cmdline.c
+  fbdev: Transfer video= option strings to caller; clarify ownership
+  fbdev: Support NULL for name in option-string lookup
+  drivers/ps3: Read video= option with fb_get_option()
+  fbdev: Read video= option with fb_get_option() in modedb
+  fbdev: Unexport fb_mode_option
+  fbdev: Move option-string lookup into helper
+  fbdev: Handle video= parameter in video/cmdline.c
+  driver/ps3: Include <video/cmdline.h> for mode parsing
+  drm: Include <video/cmdline.h> for mode parsing
+  drm: Fix comment on mode parsing
+
+ drivers/gpu/drm/Kconfig               |   2 +-
+ drivers/gpu/drm/drm_connector.c       |   9 +-
+ drivers/gpu/drm/drm_modes.c           |   3 +-
+ drivers/ps3/ps3av.c                   |   9 +-
+ drivers/video/Kconfig                 |   3 +
+ drivers/video/Makefile                |   1 +
+ drivers/video/cmdline.c               | 133 ++++++++++++++++++++++++++
+ drivers/video/fbdev/Kconfig           |   5 +-
+ drivers/video/fbdev/core/Makefile     |   3 +-
+ drivers/video/fbdev/core/fb_cmdline.c |  94 +++++-------------
+ drivers/video/fbdev/core/modedb.c     |   8 +-
+ include/linux/fb.h                    |   1 -
+ include/video/cmdline.h               |  20 ++++
+ 13 files changed, 202 insertions(+), 89 deletions(-)
+ create mode 100644 drivers/video/cmdline.c
+ create mode 100644 include/video/cmdline.h
+
+
+base-commit: 1a019dd7a5d25f7c1c9b77931138290e28947e6a
 -- 
-2.26.3
+2.39.1
 
