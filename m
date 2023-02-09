@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D8C690BC1
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 15:30:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AEF690BCD
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 15:31:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5D0210EB06;
-	Thu,  9 Feb 2023 14:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5AD410E23B;
+	Thu,  9 Feb 2023 14:31:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC5C210EB03;
- Thu,  9 Feb 2023 14:30:39 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-1685cf2003aso2672104fac.12; 
- Thu, 09 Feb 2023 06:30:39 -0800 (PST)
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E38E10EB03;
+ Thu,  9 Feb 2023 14:31:38 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-169ba826189so2762813fac.2; 
+ Thu, 09 Feb 2023 06:31:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=chp1QLTcxBkTY4TOrgE4Wi5O1rzO5OCYMKuxrfK4j68=;
- b=KNzH3CVAWGBGlv02T5KfmPqSWwO7h1UluFuofcAgn10PE3n/U1bbqOvsVle1x7k9rV
- VBVUp56CSkXO/8bpa4WQ81GmMxywPDVOGfEHMWYB2XCjcI1rX3O4J66ALFMcUzYyuDab
- JbNBJpTangtVEFzLI/gZniRel+0gH2xQgAwbAoKble+ZkU1XxPD8D7erln07QJViF0q3
- zdydHL0uCPq5QkPWlrRAq56K5Qd5GUbkeoalyK26KbjX3bEWcMTkHgnWsFVMIhQcfGsf
- B406GaCQkUoPkhlqlf0LbLj/20CG9T+aNF7z+6rVW4TcRKUmgpdWXfz4y2FZCYKfNM2O
- RYEg==
+ bh=bAHq2aXoHE9Fe/KZsmeyboiiKh6zP+A9gzRXjKBxKu8=;
+ b=ZcoBm1Ri0Z9Sk5SjI7nRheQwxs5BaGMxW+if4vsk8pC6GqwRLdSLhV+aNhibhJOOZ2
+ 8ojHsKob/AgvRN11PPVSh17NuQ1V/L/vJcUEBRFDt6e95suHbthebKmUyv3DowKX1H5u
+ jZAL1hTKf+UUfYIqFhMyu92POgbnS9hi3RnUBRO/zL1a5em5CHRfJeMFQRg+2dVZhfWS
+ vUuHQ+MfUD4iYHxLQfLtPxlPHTyii+nHqUD24gUV/UGT35S8CazCeiYBeVUpUUBUdBNE
+ XUGrvSfZHJbFrGKOC/Pu8XhjcYJoDtbfwMfS93GI9ne9diwciFOxP3PhhOhmEAQdUvs4
+ C1EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=chp1QLTcxBkTY4TOrgE4Wi5O1rzO5OCYMKuxrfK4j68=;
- b=irtAfTH5gW6L9vr6mixuK7KFVuh2b0vDWbngAoWu4sNQTpbd5KKZnNeqNv2MDhGmNO
- rdqWWbCEwtTpLzMn02WOPAICWGZFl9uK+ma7Yrah02s+LeFU4wfQHWkyc6iL4XlymEup
- TqkeiEf7xkylJ1l6VuE1U+TVwOpS8yRgKH2XCZAONDSFwW7JgslNhx9RhjSMeUD+z8A2
- m2o6ofsffH6kze+M1lPAzYhfMDyqPDGynRWPp0yLqt2REMrXsrHmBYI79HV1Qn0EnoFe
- 4uBFcq//E0Ixr7xzSYg1V+EQa/Tp2/q/DncXuVzujWELugRqSf7oCeFNxoD2U35xku+k
- X2Og==
-X-Gm-Message-State: AO0yUKXF6gMjfjDL+jLSkXzhXHMlFi+7sKhwKFytUQcSUFj9yPaJjq+2
- dnEgamGyW2sVYxQFldBw0Hoq7IzR8YYGQFkGV2c=
-X-Google-Smtp-Source: AK7set+vS39LPKDgruUd/z+73JEkh3t78Mgwy0EAHKWoE/WoO3LHHU9ATlmJ3FF5Bh4+XR4xzAXPfIXnILGdHIZVsJk=
+ bh=bAHq2aXoHE9Fe/KZsmeyboiiKh6zP+A9gzRXjKBxKu8=;
+ b=QJpcCXa9AKuLcjDjRzSbPhAhVxVW1J6U96njQ2akGfNMUidzwYI+WuAPFjjFiYjFvb
+ G3uFq/Al9R5TIFDIk8/JyZBqeMEneQlFXileFyK+PmzyMGi7G6VXe4vOx4cX42Aals/W
+ j7hyI+bANfVo4VnsqvSY/1UyY0UdlyDTQvzHgpKpgMrGAkpQ+z6VEarplFc1BAH5j9WF
+ gx9+7jnwbAmEteKPIrGRdhR8nzdTfsDzbL91CgJLEmP/r+iZmws15e++UoZksvUdRmc7
+ S8bsFLCmh25ttgUUdHjgBd6iPz0dvaXVom384adZiAxs66Ir8oq3EZT800tTKlkiujXi
+ EDcg==
+X-Gm-Message-State: AO0yUKVRwAInIJ8MyVzTL5X1P1RRCwGCrbIrn9ZQI23TgAQqLlx2tbUV
+ RO/2Vov6zQv5jDXrIJcs9ccu45NXbQnc++zzg68=
+X-Google-Smtp-Source: AK7set82uDRv5nADn17D2bnmo1l46P/8c3InNahDM5vhaCkpxSWLBEyOT4US+eVY9f1hThDEzvpdaL7BWFbrQfaRTzU=
 X-Received: by 2002:a05:6871:29c:b0:163:8cc6:86a with SMTP id
- i28-20020a056871029c00b001638cc6086amr1083190oae.46.1675953038825; Thu, 09
- Feb 2023 06:30:38 -0800 (PST)
+ i28-20020a056871029c00b001638cc6086amr1083579oae.46.1675953097478; Thu, 09
+ Feb 2023 06:31:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20230209134049.2000865-1-trix@redhat.com>
-In-Reply-To: <20230209134049.2000865-1-trix@redhat.com>
+References: <20230209124513.1341645-1-arnd@kernel.org>
+In-Reply-To: <20230209124513.1341645-1-arnd@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 9 Feb 2023 09:30:27 -0500
-Message-ID: <CADnq5_PnkVTYR87AWLBU1K6m4vVgp7vamVETO1DdRTXd9nUWfA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: set should_disable_otg
- storage-class-specifier to static
-To: Tom Rix <trix@redhat.com>
+Date: Thu, 9 Feb 2023 09:31:25 -0500
+Message-ID: <CADnq5_PMNWFZR-ZJ2d4RUtNJDLsP1AGEqLs27X4A7R22L5H3bQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: fix link_validation build failure
+To: Arnd Bergmann <arnd@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,12 +65,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Charlene.Liu@amd.com, sunpeng.li@amd.com, qingqing.zhuo@amd.com,
- Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com,
- meenakshikumar.somasundaram@amd.com, Dmytro.Laktyushkin@amd.com,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Arnd Bergmann <arnd@arndb.de>, Leo Li <sunpeng.li@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, George Shen <George.Shen@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -79,32 +79,42 @@ Applied.  Thanks!
 
 Alex
 
-On Thu, Feb 9, 2023 at 8:41 AM Tom Rix <trix@redhat.com> wrote:
+On Thu, Feb 9, 2023 at 7:45 AM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> smatch reports
-> drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c:90:6:
->   warning: symbol 'should_disable_otg' was not declared. Should it be static?
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> should_disable_otg() is only used in dcn315_clk_mgr.c, so it should be static
+> When CONFIG_DRM_AMD_DC_DCN is disabled, the is_frl member
+> is not defined:
 >
-> Signed-off-by: Tom Rix <trix@redhat.com>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c: In function 'dp_active_dongle_validate_timing':
+> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c:126:66: error: 'const struct dc_dsc_config' has no member named 'is_frl'
+>   126 |                         if (timing->flags.DSC && !timing->dsc_cfg.is_frl)
+>       |                                                                  ^
+>
+> Use the same #ifdef as the other references to this.
+>
+> Fixes: 54618888d1ea ("drm/amd/display: break down dc_link.c")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/display/dc/link/link_validation.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-> index 8c368bcc8e7e..a737782b2840 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-> @@ -87,7 +87,7 @@ static int dcn315_get_active_display_cnt_wa(
->         return display_count;
->  }
+> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_validation.c b/drivers/gpu/drm/amd/display/dc/link/link_validation.c
+> index cd821d077d73..8ddebf3bdd46 100644
+> --- a/drivers/gpu/drm/amd/display/dc/link/link_validation.c
+> +++ b/drivers/gpu/drm/amd/display/dc/link/link_validation.c
+> @@ -123,9 +123,11 @@ static bool dp_active_dongle_validate_timing(
+>                 if (dongle_caps->dp_hdmi_frl_max_link_bw_in_kbps > 0) { // DP to HDMI FRL converter
+>                         struct dc_crtc_timing outputTiming = *timing;
 >
-> -bool should_disable_otg(struct pipe_ctx *pipe)
-> +static bool should_disable_otg(struct pipe_ctx *pipe)
->  {
->         bool ret = true;
->
+> +#if defined(CONFIG_DRM_AMD_DC_DCN)
+>                         if (timing->flags.DSC && !timing->dsc_cfg.is_frl)
+>                                 /* DP input has DSC, HDMI FRL output doesn't have DSC, remove DSC from output timing */
+>                                 outputTiming.flags.DSC = 0;
+> +#endif
+>                         if (dc_bandwidth_in_kbps_from_timing(&outputTiming) > dongle_caps->dp_hdmi_frl_max_link_bw_in_kbps)
+>                                 return false;
+>                 } else { // DP to HDMI TMDS converter
 > --
-> 2.26.3
+> 2.39.1
 >
