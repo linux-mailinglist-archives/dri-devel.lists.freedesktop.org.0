@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E5269097F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA75690991
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:10:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF62F10EACB;
-	Thu,  9 Feb 2023 13:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA10B10EAC3;
+	Thu,  9 Feb 2023 13:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A07610EAC2
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:06:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=iISX3BECeONj5dpvsZDmRapnV6TUmb1U+NazBueluRk=; b=cKD7fD4VvVaLRsouQ8SfQTeZR/
- Ddp+m6K8N0XNYXnOfdL3lJ+O01CpfXqVmXQ3hoPH437+riE1x9bJLOUQfIgXjRZIYWhJ9LZbZUOn9
- fK3f4jsR7ijmccRe8UVoWb0fNU2dwoi7hcOmL3tB6bvPy33VVAvxulWejfWPAg+PRoIewypXi20OZ
- 3nfLVKSgROjgm7CR7P3aug8qwzL50l9nG7C/MGSOH4dlHGEoaar60xbOijjO2VFef6YDy9kxS2naB
- Avg4IYDjMFGI71SZHfxZIZJjV4Q/6IopStgHBmMndrdZKYwIQvBtF6Z2KMWZVImlvaiwsdbT1O8jE
- BXM7abvQ==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pQ6dA-00DwRi-Ot; Thu, 09 Feb 2023 14:06:29 +0100
-Message-ID: <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
-Date: Thu, 9 Feb 2023 10:06:25 -0300
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0840710EAC2;
+ Thu,  9 Feb 2023 13:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675948243; x=1707484243;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=O/vBPT8GM8Dr9BZ/ZfrdNmqBtCgatQbdkSLgfVSC1fs=;
+ b=Qk6n8zied416q5k7j7sbe/jGBKeRMYApM29mzCJcwZLQyWhqcmVmJPql
+ oC+tSyQu83H0U2gZpASlH8laOXlOl6U9oQCy+Tcw56FlC5wL5DHqWP4cW
+ +YNlhXCcElBaXket/DU64OnHc/Suu8h30S6Kpl2A9RJDcEosmn5bCNjNo
+ XKhqoiLbT0JJVmbylm64D0O5H6yyzHpI28/NudTjF2CLh77zRH4rpNb/w
+ +WZkrX6tLgH4E2BrliXwBkdQGm4clTnmGw9nLvA3xPfUyyOKFEyUJzTJM
+ Q5gegGiON7lm01Mch+U+60cK3jeKE7+NwKcohkWDd+sB1pNYl/U1OGKAk g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416320982"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; d="scan'208";a="416320982"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2023 05:10:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="731263182"
+X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; d="scan'208";a="731263182"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
+ by fmsmga008.fm.intel.com with SMTP; 09 Feb 2023 05:10:39 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 09 Feb 2023 15:10:38 +0200
+Date: Thu, 9 Feb 2023 15:10:38 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v2 1/2] drm: Introduce plane SIZE_HINTS property
+Message-ID: <Y+TwzhRCkFlo5U6S@intel.com>
+References: <20230208040911.12590-2-ville.syrjala@linux.intel.com>
+ <20230208211016.7034-1-ville.syrjala@linux.intel.com>
+ <20230209135855.22cf1b32.pekka.paalanen@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: Try to address the drm_debugfs issues
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- daniel.vetter@ffwll.ch, wambui.karugax@gmail.com, maxime@cerno.tech,
- mwen@igalia.com, mairacanal@riseup.net
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
- <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230209135855.22cf1b32.pekka.paalanen@collabora.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,113 +62,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+ Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/9/23 09:13, Christian König wrote:
-> Am 09.02.23 um 12:23 schrieb Maíra Canal:
->> On 2/9/23 05:18, Christian König wrote:
->>> Hello everyone,
->>>
->>> the drm_debugfs has a couple of well known design problems.
->>>
->>> Especially it wasn't possible to add files between initializing and registering
->>> of DRM devices since the underlying debugfs directory wasn't created yet.
->>>
->>> The resulting necessity of the driver->debugfs_init() callback function is a
->>> mid-layering which is really frowned on since it creates a horrible
->>> driver->DRM->driver design layering.
->>>
->>> The recent patch "drm/debugfs: create device-centered debugfs functions" tried
->>> to address those problem, but doesn't seem to work correctly. This looks like
->>> a misunderstanding of the call flow around drm_debugfs_init(), which is called
->>> multiple times, once for the primary and once for the render node.
->>>
->>> So what happens now is the following:
->>>
->>> 1. drm_dev_init() initially allocates the drm_minor objects.
->>> 2. ... back to the driver ...
->>> 3. drm_dev_register() is called.
->>>
->>> 4. drm_debugfs_init() is called for the primary node.
->>> 5. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
->>>     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)() to add the files
->>>     for the primary node.
->>> 6. The driver->debugfs_init() callback is called to add debugfs files for the
->>>     primary node.
->>> 7. The added files are consumed and added to the primary node debugfs directory.
->>>
->>> 8. drm_debugfs_init() is called for the render node.
->>> 9. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
->>>     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)() to add the files
->>>     again for the render node.
->>> 10. The driver->debugfs_init() callback is called to add debugfs files for the
->>>      render node.
->>> 11. The added files are consumed and added to the render node debugfs directory.
->>>
->>> 12. Some more files are added through drm_debugfs_add_file().
->>> 13. drm_debugfs_late_register() add the files once more to the primary node
->>>      debugfs directory.
->>> 14. From this point on files added through drm_debugfs_add_file() are simply ignored.
->>> 15. ... back to the driver ...
->>>
->>> Because of this the dev->debugfs_mutex lock is also completely pointless since
->>> any concurrent use of the interface would just randomly either add the files to
->>> the primary or render node or just not at all.
->>>
->>> Even worse is that this implementation nails the coffin for removing the
->>> driver->debugfs_init() mid-layering because otherwise drivers can't control
->>> where their debugfs (primary/render node) are actually added.
->>>
->>> This patch set here now tries to clean this up a bit, but most likely isn't
->>> fully complete either since I didn't audit every driver/call path.
->>
->> I tested the patchset on the v3d, vc4 and vkms and all the files are generated
->> as expected, but I'm getting the following errors on dmesg:
->>
->> [    3.872026] debugfs: File 'v3d_ident' in directory '0' already present!
->> [    3.872064] debugfs: File 'v3d_ident' in directory '128' already present!
->> [    3.872078] debugfs: File 'v3d_regs' in directory '0' already present!
->> [    3.872087] debugfs: File 'v3d_regs' in directory '128' already present!
->> [    3.872097] debugfs: File 'measure_clock' in directory '0' already present!
->> [    3.872105] debugfs: File 'measure_clock' in directory '128' already present!
->> [    3.872116] debugfs: File 'bo_stats' in directory '0' already present!
->> [    3.872124] debugfs: File 'bo_stats' in directory '128' already present!
->>
->> It looks like the render node is being added twice, since this doesn't happen
->> for vc4 and vkms.
+On Thu, Feb 09, 2023 at 01:58:55PM +0200, Pekka Paalanen wrote:
+> On Wed,  8 Feb 2023 23:10:16 +0200
+> Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
 > 
-> Thanks for the feedback and yes that's exactly what I meant with that I haven't looked into all code paths.
+> > From: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> > 
+> > Add a new immutable plane property by which a plane can advertise
+> > a handful of recommended plane sizes. This would be mostly exposed
+> > by cursor planes as a slightly more capable replacement for
+> > the DRM_CAP_CURSOR_WIDTH/HEIGHT caps, which can only declare
+> > a one size fits all limit for the whole device.
+> > 
+> > Currently eg. amdgpu/i915/nouveau just advertize the max cursor
+> > size via the cursor size caps. But always using the max sized
+> > cursor can waste a surprising amount of power, so a better
+> > stragey is desirable.
+> > 
+> > Most other drivers don't specify any cursor size at all, in
+> > which case the ioctl code just claims that 64x64 is a great
+> > choice. Whether that is actually true is debatable.
+> > 
+> > A poll of various compositor developers informs us that
+> > blindly probing with setcursor/atomic ioctl to determine
+> > suitable cursor sizes is not acceptable, thus the
+> > introduction of the new property to supplant the cursor
+> > size caps. The compositor will now be free to select a
+> > more optimal cursor size from the short list of options.
+> > 
+> > Note that the reported sizes (either via the property or the
+> > caps) make no claims about things such as plane scaling. So
+> > these things should only really be consulted for simple
+> > "cursor like" use cases.
+> > 
+> > v2: Try to add some docs
+> > 
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: Jonas �dahl <jadahl@redhat.com>
+> > Cc: Daniel Stone <daniel@fooishbar.org>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Acked-by: Harry Wentland <harry.wentland@amd.com>
+> > Signed-off-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_mode_config.c |  7 +++++
+> >  drivers/gpu/drm/drm_plane.c       | 48 +++++++++++++++++++++++++++++++
+> >  include/drm/drm_mode_config.h     |  5 ++++
+> >  include/drm/drm_plane.h           |  4 +++
+> >  include/uapi/drm/drm_mode.h       | 11 +++++++
+> >  5 files changed, 75 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> > index 87eb591fe9b5..21860f94a18c 100644
+> > --- a/drivers/gpu/drm/drm_mode_config.c
+> > +++ b/drivers/gpu/drm/drm_mode_config.c
+> > @@ -374,6 +374,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
+> >  		return -ENOMEM;
+> >  	dev->mode_config.modifiers_property = prop;
+> >  
+> > +	prop = drm_property_create(dev,
+> > +				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
+> > +				   "SIZE_HINTS", 0);
+> > +	if (!prop)
+> > +		return -ENOMEM;
+> > +	dev->mode_config.size_hints_property = prop;
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> > index 24e7998d1731..ae51b1f83755 100644
+> > --- a/drivers/gpu/drm/drm_plane.c
+> > +++ b/drivers/gpu/drm/drm_plane.c
+> > @@ -140,6 +140,21 @@
+> >   *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
+> >   *     various bugs in this area with inconsistencies between the capability
+> >   *     flag and per-plane properties.
+> > + *
+> > + * SIZE_HINTS:
+> > + *     Blob property which contains the set of recommended plane size
+> > + *     which can used for simple "cursor like" use cases (eg. no scaling).
+> > + *     Using these hints frees userspace from extensive probing of
+> > + *     supported plane sizes through atomic/setcursor ioctls.
+> > + *
+> > + *     For optimal usage userspace should pick the smallest size
+> > + *     that satisfies its own requirements.
+> > + *
+> > + *     The blob contains an array of struct drm_plane_size_hint.
+> > + *
+> > + *     Drivers should only attach this property to planes that
+> > + *     support a very limited set of sizes (eg. cursor planes
+> > + *     on typical hardware).
 > 
-> Could it be that v3d registers it's debugfs files from the debugfs_init callback?
+> Hi Ville,
+> 
+> sounds good. Maybe a minor nit about "typical hardware". Would e.g.
+> "legacy PC hardware" be more accurate?
 
-Although this is true, I'm not sure if this is the reason why the files are
-being registered twice, as this doesn't happen to vc4, and it also uses the
-debugfs_init callback. I believe it is somewhat related to the fact that
-v3d is the primary node and the render node.
+"legacy" doesn't feel quite right for current and upcoming hardware.
 
-Best Regards,
-- Maíra Canal
-
-> 
-> One alternative would be to just completely nuke support for separate render node debugfs files and only add a symlink to the primary node. Opinions?
-> 
-> Regards,
-> Christian.
-> 
->>
->> Otherwise, the patchset looks good to me, but maybe Daniel has some other
->> thoughts about it.
->>
->> Best Regards,
->> - Maíra Canal
->>
->>>
->>> Please comment/discuss.
->>>
->>> Cheers,
->>> Christian.
->>>
->>>
-> 
+-- 
+Ville Syrj�l�
+Intel
