@@ -1,45 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA2E69081A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 12:59:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8160690823
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 13:03:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7731510EA9C;
-	Thu,  9 Feb 2023 11:59:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033B610E9D7;
+	Thu,  9 Feb 2023 12:03:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9439E10EA9C;
- Thu,  9 Feb 2023 11:59:00 +0000 (UTC)
-Received: from eldfell (unknown [194.136.85.206])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested) (Authenticated sender: pq)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 97A3166020BA;
- Thu,  9 Feb 2023 11:58:58 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1675943939;
- bh=T3luzjuZC4EZh3RwrXqUWRTiTnko8361WJuZRqfARH0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ZFdiQwUMX/Y1vih2Fbs2H8o3rvJFQBcLBjwVTWhPJz27EH1hqL1lsyqvrASIW6Ux5
- V3fjqKjXvnyyXf5DqAd30vysw1OZ6+pTapdOuwwBTu0b20MgKA35dgR7ibeUme+lAc
- EPsei2qmTGkPIbV00/N70J2ksYD0LNJyEan43JrAr7Nh+jDuVw/vWGPxQvS2psv4JZ
- 3+EPCnt41ZuJlSamOLAeNyFRoCEqOpMB6E0wA2UdgnyFAsMFMrZBUAufDsYWTZNf9K
- jFkk7prpEuxhNSYMhPTmurebfZ6jrRP5h8mgIGUDlAvrMDmBkY/BTIHM3z485KY0jN
- bnb+GWUcsYZ1A==
-Date: Thu, 9 Feb 2023 13:58:55 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 1/2] drm: Introduce plane SIZE_HINTS property
-Message-ID: <20230209135855.22cf1b32.pekka.paalanen@collabora.com>
-In-Reply-To: <20230208211016.7034-1-ville.syrjala@linux.intel.com>
-References: <20230208040911.12590-2-ville.syrjala@linux.intel.com>
- <20230208211016.7034-1-ville.syrjala@linux.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC56C10EA9E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 12:03:46 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id by3so214202wrb.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 04:03:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/OAVNRfT0kn1U1GElPiFXbROqTcwgwT4Vi5ad6qircE=;
+ b=g0WCE9KYWwydd3B5LWswXpCmM4fzesW7Dr+26IhRpkAG5Yal5nY7pojl+HQ5tvVE4/
+ hMsunkaDwP3/e6Kl9KQ3mtz9xdZO3uLpXtTUNH9oDx9zs2fsTAsNnzr2UPpKRguMy19p
+ wlEi9In20o0VolmjJR1ZmigYFs9z8yjF9wnfc4t3+H7HJL25Pv7N8uiGoxfuxqydryBt
+ 0Uf8PzLMYzkz1Vnz5yWosBRVwoii3TLddrZjoe4tYPHKVmRj3tclPsUu2Yy0/kem7pOt
+ taUve/UzXe1KR5CRLsSFNpmC5eZF2Pv3per7ViTHD53CnaCvrgsKl6uWJ5aHtqgbcW+Q
+ M/Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/OAVNRfT0kn1U1GElPiFXbROqTcwgwT4Vi5ad6qircE=;
+ b=JRF1vczqIb4ObaOPalr8Y1agIMfAFwUfjye/zX8o2snC/42T8MgWqjb5HQILk5skjM
+ HgRwASexTsm+qQQq05p4o0SnR6ok2uqVhXUhlEHs6h+mGkFGN6O7e8HRGwU68gtRcP9q
+ 0FooK4EF5qmeP8YbgD6w0VAcgi07OzCYrP14fdyRuP/oakusMylOTsrHl4NOD9KLekCC
+ 1BMPFtt4GKnGrZgskKBAbkN1jA3FxM3EasotAlebl1xV8ta9aX5ddByA8n+/HcNuXglM
+ 0xmnHBGZJ66qfsLbouZUnAdSTftMExHZeWlKGwLgEBuYslpPShG7v5ryhJLt/pvCJbem
+ PsGQ==
+X-Gm-Message-State: AO0yUKWFttjV6O83SxzE0k6AuxnzWlSZUvudXndVRgRQF/5N1ss0MckK
+ Fo6qlaxuiWJlE1k2+yz65cg=
+X-Google-Smtp-Source: AK7set9K5pwa/Ac+OOyBZ0AahcdKjQSqUmLqNyAdttcl7uYMFsFIhurobWcp4Ws7dBP6hw58c8mlIA==
+X-Received: by 2002:adf:dd45:0:b0:2c4:760:5cb5 with SMTP id
+ u5-20020adfdd45000000b002c407605cb5mr3906208wrm.8.1675944225180; 
+ Thu, 09 Feb 2023 04:03:45 -0800 (PST)
+Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
+ [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
+ f5-20020adff445000000b002c53f5b13f9sm326268wrp.0.2023.02.09.04.03.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Feb 2023 04:03:44 -0800 (PST)
+Message-ID: <42f3a187-9a7b-2506-0fda-5c0c52b79f24@gmail.com>
+Date: Thu, 9 Feb 2023 13:03:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 2/3] drm/debugfs: split registration into dev and minor
+Content-Language: en-US
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>, daniel.vetter@ffwll.ch, 
+ wambui.karugax@gmail.com, maxime@cerno.tech, mwen@igalia.com,
+ mairacanal@riseup.net
+References: <20230209081838.45273-1-christian.koenig@amd.com>
+ <20230209081838.45273-3-christian.koenig@amd.com>
+ <9cac40bd-ce7f-ec39-ed5b-25a7ba34bc02@igalia.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <9cac40bd-ce7f-ec39-ed5b-25a7ba34bc02@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,222 +78,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  8 Feb 2023 23:10:16 +0200
-Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
+Am 09.02.23 um 12:12 schrieb Maíra Canal:
+> On 2/9/23 05:18, Christian König wrote:
+>> The different subsystems should probably only register their debugfs
+>> files once.
+>>
+>> This temporary removes the common files from the render node directory.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/drm_atomic.c        |  4 ++--
+>>   drivers/gpu/drm/drm_client.c        |  4 ++--
+>>   drivers/gpu/drm/drm_crtc_internal.h |  2 +-
+>>   drivers/gpu/drm/drm_debugfs.c       | 24 ++++++++++++------------
+>>   drivers/gpu/drm/drm_drv.c           |  4 +++-
+>>   drivers/gpu/drm/drm_framebuffer.c   |  4 ++--
+>>   drivers/gpu/drm/drm_internal.h      |  5 +++--
+>>   include/drm/drm_client.h            |  2 +-
+>>   8 files changed, 26 insertions(+), 23 deletions(-)
+>>
+>
+> [...]
+>
+>> diff --git a/drivers/gpu/drm/drm_internal.h 
+>> b/drivers/gpu/drm/drm_internal.h
+>> index 332fb65a935a..5ff7bf88f162 100644
+>> --- a/drivers/gpu/drm/drm_internal.h
+>> +++ b/drivers/gpu/drm/drm_internal.h
+>> @@ -185,7 +185,8 @@ int drm_gem_dumb_destroy(struct drm_file *file, 
+>> struct drm_device *dev,
+>>   #if defined(CONFIG_DEBUG_FS)
+>>   int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+>>                struct dentry *root);
+>> -void drm_debugfs_register(struct drm_minor *minor);
+>> +void drm_debugfs_dev_register(struct drm_device *dev);
+>> +void drm_debugfs_minor_register(struct drm_minor *minor);
+>
+> For this patch and the previous one, I believe you need to add the 
+> functions
+> to the #else path as well, otherwise it won't compile for 
+> CONFIG_DEBUG_FS=n.
 
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->=20
-> Add a new immutable plane property by which a plane can advertise
-> a handful of recommended plane sizes. This would be mostly exposed
-> by cursor planes as a slightly more capable replacement for
-> the DRM_CAP_CURSOR_WIDTH/HEIGHT caps, which can only declare
-> a one size fits all limit for the whole device.
->=20
-> Currently eg. amdgpu/i915/nouveau just advertize the max cursor
-> size via the cursor size caps. But always using the max sized
-> cursor can waste a surprising amount of power, so a better
-> stragey is desirable.
->=20
-> Most other drivers don't specify any cursor size at all, in
-> which case the ioctl code just claims that 64x64 is a great
-> choice. Whether that is actually true is debatable.
->=20
-> A poll of various compositor developers informs us that
-> blindly probing with setcursor/atomic ioctl to determine
-> suitable cursor sizes is not acceptable, thus the
-> introduction of the new property to supplant the cursor
-> size caps. The compositor will now be free to select a
-> more optimal cursor size from the short list of options.
->=20
-> Note that the reported sizes (either via the property or the
-> caps) make no claims about things such as plane scaling. So
-> these things should only really be consulted for simple
-> "cursor like" use cases.
->=20
-> v2: Try to add some docs
->=20
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Jonas =C3=85dahl <jadahl@redhat.com>
-> Cc: Daniel Stone <daniel@fooishbar.org>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Acked-by: Harry Wentland <harry.wentland@amd.com>
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_mode_config.c |  7 +++++
->  drivers/gpu/drm/drm_plane.c       | 48 +++++++++++++++++++++++++++++++
->  include/drm/drm_mode_config.h     |  5 ++++
->  include/drm/drm_plane.h           |  4 +++
->  include/uapi/drm/drm_mode.h       | 11 +++++++
->  5 files changed, 75 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode=
-_config.c
-> index 87eb591fe9b5..21860f94a18c 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -374,6 +374,13 @@ static int drm_mode_create_standard_properties(struc=
-t drm_device *dev)
->  		return -ENOMEM;
->  	dev->mode_config.modifiers_property =3D prop;
-> =20
-> +	prop =3D drm_property_create(dev,
-> +				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
-> +				   "SIZE_HINTS", 0);
-> +	if (!prop)
-> +		return -ENOMEM;
-> +	dev->mode_config.size_hints_property =3D prop;
-> +
->  	return 0;
->  }
-> =20
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 24e7998d1731..ae51b1f83755 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -140,6 +140,21 @@
->   *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there hav=
-e been
->   *     various bugs in this area with inconsistencies between the capabi=
-lity
->   *     flag and per-plane properties.
-> + *
-> + * SIZE_HINTS:
-> + *     Blob property which contains the set of recommended plane size
-> + *     which can used for simple "cursor like" use cases (eg. no scaling=
-).
-> + *     Using these hints frees userspace from extensive probing of
-> + *     supported plane sizes through atomic/setcursor ioctls.
-> + *
-> + *     For optimal usage userspace should pick the smallest size
-> + *     that satisfies its own requirements.
-> + *
-> + *     The blob contains an array of struct drm_plane_size_hint.
-> + *
-> + *     Drivers should only attach this property to planes that
-> + *     support a very limited set of sizes (eg. cursor planes
-> + *     on typical hardware).
-
-Hi Ville,
-
-sounds good. Maybe a minor nit about "typical hardware". Would e.g.
-"legacy PC hardware" be more accurate?
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-but let's see if that other option (allocate cap size, make FB with
-image size, guarantee zero padding) from my other email would be viable
-too.
-
+Oh, good point. Going to fix this.
 
 Thanks,
-pq
+Christian.
 
-
->   */
-> =20
->  static unsigned int drm_num_planes(struct drm_device *dev)
-> @@ -1582,3 +1597,36 @@ int drm_plane_create_scaling_filter_property(struc=
-t drm_plane *plane,
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_plane_create_scaling_filter_property);
-> +
-> +/**
-> + * drm_plane_add_size_hint_property - create a size hint property
-> + *
-> + * @plane: drm plane
-> + * @hints: size hints
-> + * @num_hints: number of size hints
-> + *
-> + * Create a size hints property for the plane.
-> + *
-> + * RETURNS:
-> + * Zero for success or -errno
-> + */
-> +int drm_plane_add_size_hints_property(struct drm_plane *plane,
-> +				      const struct drm_plane_size_hint *hints,
-> +				      int num_hints)
-> +{
-> +	struct drm_device *dev =3D plane->dev;
-> +	struct drm_mode_config *config =3D &dev->mode_config;
-> +	struct drm_property_blob *blob;
-> +
-> +	blob =3D drm_property_create_blob(dev,
-> +					array_size(sizeof(hints[0]), num_hints),
-> +					hints);
-> +	if (IS_ERR(blob))
-> +		return PTR_ERR(blob);
-> +
-> +	drm_object_attach_property(&plane->base, config->size_hints_property,
-> +				   blob->base.id);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_plane_add_size_hints_property);
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index e5b053001d22..5bc8aed9b445 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -949,6 +949,11 @@ struct drm_mode_config {
->  	 */
->  	struct drm_property *modifiers_property;
-> =20
-> +	/**
-> +	 * @size_hints_propertty: Plane SIZE_HINTS property.
-> +	 */
-> +	struct drm_property *size_hints_property;
-> +
->  	/* cursor size */
->  	uint32_t cursor_width, cursor_height;
-> =20
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 51291983ea44..1997d7d64b69 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -32,6 +32,7 @@
->  #include <drm/drm_util.h>
-> =20
->  struct drm_crtc;
-> +struct drm_plane_size_hint;
->  struct drm_printer;
->  struct drm_modeset_acquire_ctx;
-> =20
-> @@ -945,5 +946,8 @@ drm_plane_get_damage_clips(const struct drm_plane_sta=
-te *state);
-> =20
->  int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
->  					     unsigned int supported_filters);
-> +int drm_plane_add_size_hints_property(struct drm_plane *plane,
-> +				      const struct drm_plane_size_hint *hints,
-> +				      int num_hints);
-> =20
->  #endif
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 46becedf5b2f..9d7c5967264f 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -849,6 +849,17 @@ struct drm_color_lut {
->  	__u16 reserved;
->  };
-> =20
-> +/**
-> + * struct drm_plane_size_hint - Plane size hints
-> + *
-> + * The plane SIZE_HINTS property blob contains an
-> + * array of struct drm_plane_size_hint.
-> + */
-> +struct drm_plane_size_hint {
-> +	__u16 width;
-> +	__u16 height;
-> +};
-> +
->  /**
->   * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
->   *
+>
+> Best Regards,
+> - Maíra Canal
+>
+>>   void drm_debugfs_cleanup(struct drm_minor *minor);
+>>   void drm_debugfs_late_register(struct drm_device *dev);
+>>   void drm_debugfs_connector_add(struct drm_connector *connector);
+>> @@ -261,4 +262,4 @@ int drm_syncobj_query_ioctl(struct drm_device 
+>> *dev, void *data,
+>>   /* drm_framebuffer.c */
+>>   void drm_framebuffer_print_info(struct drm_printer *p, unsigned int 
+>> indent,
+>>                   const struct drm_framebuffer *fb);
+>> -void drm_framebuffer_debugfs_init(struct drm_minor *minor);
+>> +void drm_framebuffer_debugfs_init(struct drm_device *dev);
+>> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+>> index 39482527a775..507d132cf494 100644
+>> --- a/include/drm/drm_client.h
+>> +++ b/include/drm/drm_client.h
+>> @@ -200,6 +200,6 @@ int drm_client_modeset_dpms(struct drm_client_dev 
+>> *client, int mode);
+>>       drm_for_each_connector_iter(connector, iter) \
+>>           if (connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
+>>   -void drm_client_debugfs_init(struct drm_minor *minor);
+>> +void drm_client_debugfs_init(struct drm_device *dev);
+>>     #endif
 
