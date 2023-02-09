@@ -1,58 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C3B690410
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:45:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFC969043E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:55:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B638210E0EB;
-	Thu,  9 Feb 2023 09:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2477610E975;
+	Thu,  9 Feb 2023 09:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
- [IPv6:2607:f8b0:4864:20::e2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71CCC10E0EB
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:45:34 +0000 (UTC)
-Received: by mail-vs1-xe2f.google.com with SMTP id l8so1480856vsm.11
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 01:45:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kXhHlY1h7nocfeF1bOOwlqa9GLmp058pSwMc5Nw8eCs=;
- b=AVQtBu6a+GAA0YuBWAkZuoZ1RiMhYbu91H+uxx6jbo4OyTg1oInL7ybjONKCA9fYgV
- tXH2621Wu1HMYvV00UxmOK9/0ti5yO/2O700FMrMeyTsHiUghbsmknayRo6UceHPmf2F
- MS4KjYawZ5imA3BDzv/iFFibjSN2z+XaxLaXg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kXhHlY1h7nocfeF1bOOwlqa9GLmp058pSwMc5Nw8eCs=;
- b=rDQ5tFSiGJHOv7U52T4KS/1luU6dn43HilYLuDfMkxZ8zcxp5S1F8VNp3+hwDivPd6
- T/gc6axcYBfESl51vg3PitecfVqQ9MiFjFDS3EzgbHjjt/FT/TBkE0pzevQM2o+LdAVx
- kPQbzyfqIsr5IP09cyM6U9WSXhYsNBn39tv5aRalkho9aXO+iq0NEPB5widCtTjuixiL
- oCs5q4IhvQ2OOiZr/pIB3Jj23mHT4LnhQ7Fkes+aCni4bRVuENmM6VMka3EeekjC1LC6
- 4d8pHyODu2hiOOtaoyC3y22gJW91g6vtgWMkr4Z2MZdFfW0LptNHZJB/GwIjzCxioqOx
- Qt/g==
-X-Gm-Message-State: AO0yUKVF50nCfipAHq5Amb7SDRw6eVRtCcBAUM5kBgZndPAIx4Joro7N
- Cg50LYUfyuKkWntdImCuYLKTz/Sa05Pnc9egDQ7HFg==
-X-Google-Smtp-Source: AK7set9hqvzMQiDk15uKKV/k2E6K/8sc6RF0LbaAJ63u86p8XV6MRsIUixqUkVvQiR03JwtLvsvHt9Z3UruyeBFDCFU=
-X-Received: by 2002:a67:1904:0:b0:3e8:d5a8:3fbe with SMTP id
- 4-20020a671904000000b003e8d5a83fbemr2433227vsz.9.1675935933578; Thu, 09 Feb
- 2023 01:45:33 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 747D810E975
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:55:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 31AC41FDEF;
+ Thu,  9 Feb 2023 09:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1675936525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cUyo2pGPYpcqq73yM642w82y5JfqlO4L/s9qdRpJSKk=;
+ b=iI5gZ7+7PywQhOFohMfWc9njYDlCFZBamO92X6UfnS8eG7DDKlKa43aO5AoV4p1OGQloPm
+ K7OaDg59dlWLsNTcmRKd/EOvCAdwIibz95liY+PrDzJwg9HtTCUut5YAb8pBaWVJcaw8mE
+ S1PVpr+UdU2+eUYBZXqcJbo8n7n6QJI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1675936525;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cUyo2pGPYpcqq73yM642w82y5JfqlO4L/s9qdRpJSKk=;
+ b=OtTsfw2goqdeUCFHHGi36oJYhDC2Gx3lPmXWzyOfijtK+utDjkGGCadysjZ9BwvCo0tNJO
+ NkZv3WAgfTVQCrDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 10390138E4;
+ Thu,  9 Feb 2023 09:55:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0FYnAw3D5GOoFAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Feb 2023 09:55:25 +0000
+Message-ID: <76785a76-281d-f847-5904-d8df361aa0b4@suse.de>
+Date: Thu, 9 Feb 2023 10:55:24 +0100
 MIME-Version: 1.0
-References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
- <20230208103709.116896-6-angelogioacchino.delregno@collabora.com>
- <CAGXv+5FZqrGzzG8FrmLVzMd7=a23ZJPYGSy5yhYWgH+BFHNmxw@mail.gmail.com>
- <7784f5a2-3cfc-9999-0ad6-cb9cfc1f2822@collabora.com>
-In-Reply-To: <7784f5a2-3cfc-9999-0ad6-cb9cfc1f2822@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 9 Feb 2023 17:45:22 +0800
-Message-ID: <CAGXv+5EhDGuzoBA9ZV2=3PVZ209eFq+wOOcTGVvG+gmOnf5txQ@mail.gmail.com>
-Subject: Re: [PATCH 5/9] dt-bindings: gpu: mali-bifrost: Add a compatible for
- MediaTek MT8186
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3] drm/ast: Fix start address computation
+Content-Language: en-US
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+References: <20230209094417.21630-1-jfalempe@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230209094417.21630-1-jfalempe@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------a0JO0LyGSrGQWnLSu8ss3s7y"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,55 +70,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
- Fei Shao <fshao@chromium.org>, Nick Fan <Nick.Fan@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 9, 2023 at 5:20 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 09/02/23 09:49, Chen-Yu Tsai ha scritto:
-> > On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com> wrote:
-> >>
-> >> Get GPU support on MT8186 by adding its compatible.
-> >
-> > I'd skip MT8186 for now. We have to work out some binning details for the
-> > OPP, in particular how to deal with both Panfrost (or Mali) and SVS adding
-> > the OPP table. We were just looking at the Mali driver today.
-> >
->
-> Dealing with binning is fairly easy... I have something already done for
-> that one, but I'm not sure that it would be the best option.
-> My solution makes use of opp-supported-hw by "standard means", but perhaps
-> let's have a separated conversation about it?
->
-> I don't think that skipping this would give any benefit though, because
-> that is only adding a compatible and whatever binning support would have
-> to be generic and 99% not bound to any mediatek specific compatible.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------a0JO0LyGSrGQWnLSu8ss3s7y
+Content-Type: multipart/mixed; boundary="------------N80Oloa0ZlEYc0vLl9hYmhzt";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+Message-ID: <76785a76-281d-f847-5904-d8df361aa0b4@suse.de>
+Subject: Re: [PATCH v3] drm/ast: Fix start address computation
+References: <20230209094417.21630-1-jfalempe@redhat.com>
+In-Reply-To: <20230209094417.21630-1-jfalempe@redhat.com>
 
-The binning is related to voltage range, not maximum OPP. So it's more
-like fast/slow example in Documentation/devicetree/bindings/opp/opp-v2.yaml
-or the opp/allwinner,sun50i-h6-operating-points.yaml, minus the efuse node.
+--------------N80Oloa0ZlEYc0vLl9hYmhzt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The downstream DT currently looks like this:
+DQoNCkFtIDA5LjAyLjIzIHVtIDEwOjQ0IHNjaHJpZWIgSm9jZWx5biBGYWxlbXBlOg0KPiBE
+dXJpbmcgdGhlIGRyaXZlciBjb252ZXJzaW9uIHRvIHNobWVtLCB0aGUgc3RhcnQgYWRkcmVz
+cyBmb3IgdGhlDQo+IHNjYW5vdXQgYnVmZmVyIHdhcyBzZXQgdG8gdGhlIGJhc2UgUENJIGFk
+ZHJlc3MuDQo+IEluIG1vc3QgY2FzZXMgaXQgd29ya3MgYmVjYXVzZSBvbmx5IHRoZSBsb3dl
+ciAyNGJpdHMgYXJlIHVzZWQsIGFuZA0KPiBkdWUgdG8gYWxpZ25tZW50IGl0IHdhcyBhbG1v
+c3QgYWx3YXlzIDAuDQo+IEJ1dCBvbiBzb21lIHVubHVja3kgaGFyZHdhcmUsIGl0J3Mgbm90
+IHRoZSBjYXNlLCBhbmQgc29tZSB1bml0aWxpemVkDQoNCid1bmluaXRpYWxpemVkJw0KDQo+
+IG1lbW9yeSBpcyBkaXNwbGF5ZWQgb24gdGhlIEJNQy4NCj4gV2l0aCBzaG1lbSwgdGhlIHBy
+aW1hcnkgcGxhbmUgaXMgYWx3YXlzIGF0IG9mZnNldCAwIGluIEdQVSBtZW1vcnkuDQo+IA0K
+PiAgICogdjI6IHJld3JpdGUgdGhlIHBhdGNoIHRvIHNldCB0aGUgb2Zmc2V0IHRvIDAuIChU
+aG9tYXMgWmltbWVybWFubikNCj4gICAqIHYzOiBtb3ZlIHRoZSBjaGFuZ2UgdG8gcGxhbmVf
+aW5pdCgpIGFuZCBhbHNvIGZpeCB0aGUgY3Vyc29yIHBsYW5lLg0KPiAgICAgICAgIChKYW1t
+eSBIdWFuZykNCj4gDQo+IFRlc3RlZCBvbiBhIHNyNjQ1IGFmZmVjdGVkIGJ5IHRoaXMgYnVn
+Lg0KPiANCj4gRml4ZXM6IGYyZmE1YTk5Y2E4MSAoImRybS9hc3Q6IENvbnZlcnQgYXN0IHRv
+IFNITUVNIikNCj4gU2lnbmVkLW9mZi1ieTogSm9jZWx5biBGYWxlbXBlIDxqZmFsZW1wZUBy
+ZWRoYXQuY29tPg0KDQpSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
+YW5uQHN1c2UuZGU+DQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9k
+ZS5jIHwgNCArKy0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2Fz
+dF9tb2RlLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4gaW5kZXggYzc0
+NDMzMTdjNzQ3Li42NmE0YTQxYzNmZTkgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9hc3QvYXN0X21vZGUuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2Rl
+LmMNCj4gQEAgLTcxNCw3ICs3MTQsNyBAQCBzdGF0aWMgaW50IGFzdF9wcmltYXJ5X3BsYW5l
+X2luaXQoc3RydWN0IGFzdF9wcml2YXRlICphc3QpDQo+ICAgCXN0cnVjdCBhc3RfcGxhbmUg
+KmFzdF9wcmltYXJ5X3BsYW5lID0gJmFzdC0+cHJpbWFyeV9wbGFuZTsNCj4gICAJc3RydWN0
+IGRybV9wbGFuZSAqcHJpbWFyeV9wbGFuZSA9ICZhc3RfcHJpbWFyeV9wbGFuZS0+YmFzZTsN
+Cj4gICAJdm9pZCBfX2lvbWVtICp2YWRkciA9IGFzdC0+dnJhbTsNCj4gLQl1NjQgb2Zmc2V0
+ID0gYXN0LT52cmFtX2Jhc2U7DQo+ICsJdTY0IG9mZnNldCA9IDA7IC8qIHdpdGggc2htZW0s
+IHRoZSBwcmltYXJ5IHBsYW5lIGlzIGFsd2F5cyBhdCBvZmZzZXQgMCAqLw0KPiAgIAl1bnNp
+Z25lZCBsb25nIGN1cnNvcl9zaXplID0gcm91bmR1cChBU1RfSFdDX1NJWkUgKyBBU1RfSFdD
+X1NJR05BVFVSRV9TSVpFLCBQQUdFX1NJWkUpOw0KPiAgIAl1bnNpZ25lZCBsb25nIHNpemUg
+PSBhc3QtPnZyYW1fZmJfYXZhaWxhYmxlIC0gY3Vyc29yX3NpemU7DQo+ICAgCWludCByZXQ7
+DQo+IEBAIC05NzIsNyArOTcyLDcgQEAgc3RhdGljIGludCBhc3RfY3Vyc29yX3BsYW5lX2lu
+aXQoc3RydWN0IGFzdF9wcml2YXRlICphc3QpDQo+ICAgCQlyZXR1cm4gLUVOT01FTTsNCj4g
+ICANCj4gICAJdmFkZHIgPSBhc3QtPnZyYW0gKyBhc3QtPnZyYW1fZmJfYXZhaWxhYmxlIC0g
+c2l6ZTsNCj4gLQlvZmZzZXQgPSBhc3QtPnZyYW1fYmFzZSArIGFzdC0+dnJhbV9mYl9hdmFp
+bGFibGUgLSBzaXplOw0KPiArCW9mZnNldCA9IGFzdC0+dnJhbV9mYl9hdmFpbGFibGUgLSBz
+aXplOw0KPiAgIA0KPiAgIAlyZXQgPSBhc3RfcGxhbmVfaW5pdChkZXYsIGFzdF9jdXJzb3Jf
+cGxhbmUsIHZhZGRyLCBvZmZzZXQsIHNpemUsDQo+ICAgCQkJICAgICAweDAxLCAmYXN0X2N1
+cnNvcl9wbGFuZV9mdW5jcywNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
+RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
+DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
+IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-opp-950000000 {
-        opp-hz = /bits/ 64 <950000000>;
+--------------N80Oloa0ZlEYc0vLl9hYmhzt--
 
-/* This is Mali specific; ignore
-        opp-hz-real = /bits/ 64 <950000000>,
-                      /bits/ 64 <950000000>;
-*/
-        opp-microvolt = <900000>, <1000000>;
-        opp-microvolt-bin4 = <875000>, <975000>;
-        opp-microvolt-bin5 = <850000>, <950000>;
-};
+--------------a0JO0LyGSrGQWnLSu8ss3s7y
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
-ChenYu
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPkwwwFAwAAAAAACgkQlh/E3EQov+DA
+4BAAu1DYD/cS7Iz2yvTpuUzYFxxKHTdTnwm4smB64KFNHTMUWdq3mnHqH8O2m2wKYtjeoFqxjZIE
+bVSbdq+TuamiY08t5kzOT/v2dAsJ3NAbNICZVzCww4l5U9e0XPFfPouGbosueBPf6D7IQ3VxaTno
+ANwAEj2fj1I/SjUEgU8S9sUc/8n2GrJrH+cuIxfOyroVdhb9y6ZmtbuxV9Ntu0AUNQiU3s0hNKqJ
+4UrofL2i0clnlB6M9wzD97tSkfxys1L1wFpFi36NknKZcEOH32EObHnJE5LYLnYxq9rMDOuYgpzA
+Evo/QyNN/VXaK6wsaz/tuE46vveNKTMKbPi7QxEQ8XORieBDnlelRx8amfNChW6G23bVZ5h+jem+
+mlB54KJtBE9aHcYlJRLk8fLXSEgig97dy4yUoN7BzuThYkY+JKmUMiMSAtKjHPp2aI3sXkWOzR3b
+Mv5LqFGlhcD8dLbL14iQXXH4IXk3NrHjFdnpLHBciz/NSNuAnA+j/DHz/u2JatGk5HvzGQ9zh5R7
+ad5rBFNedx6HtW6JbfWWHKrZHchl9IibzvLdkwIuoIZLeohZlb23VTd+akfYxrFcJIqjj2N12SGo
+kBSESDDN3XF3tM+cDYGygPxiFt9wqVxVqVpBjls4K49Lbkd75XLW4Gx5AV/OYXPRhwcGdnlzoApS
+Hoo=
+=oFdi
+-----END PGP SIGNATURE-----
+
+--------------a0JO0LyGSrGQWnLSu8ss3s7y--
