@@ -1,84 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB01690D7F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 16:47:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3D2690D9E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 16:53:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCD010E5F3;
-	Thu,  9 Feb 2023 15:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28CAB10EB41;
+	Thu,  9 Feb 2023 15:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0B2710E5F3
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 15:47:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675957646;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=99X2d/7PnkDB3y5oN6cAQuHXSUMM+INOtp1CuXvzmRI=;
- b=aFxULGl1d+fJp8h3HlShyXaYcA+KLFHlTk/Dvy20d7Sw2XDscHN2z1N5J1wWNxyhe8DZMq
- QLgjmLrn/jGxuwHm92CTLEVuolZvQJFno/8d9YiRzoB1h/XdnEbYbWhtyfzpg37FygMv2F
- Yh8MEOELc0dNsLBDZnn4X/dZZatGXMQ=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-102-1v7Uxe5oO5SjV0dvjFKTUA-1; Thu, 09 Feb 2023 10:47:23 -0500
-X-MC-Unique: 1v7Uxe5oO5SjV0dvjFKTUA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- fd23-20020a056402389700b004aaa054d189so1728618edb.11
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 07:47:23 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3926F10EB3C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 15:52:59 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id v13so2441016eda.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 07:52:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PlDRqIzNfRpmS0D/1XZG8irCj5DR1jdxtMH8/taj2Wg=;
+ b=h1Q9xXb/QHlNb+RCceeZTaQaz8xXORmkPssZHBAtE+jVFIigMaYwSBvHPuryIdxzjj
+ PgNtHFCeapJJN2HndutHgoTw/Q9dYlFaT7VoZi1+DxBAZqXtlK/bQ6V98aDYthK2s1bU
+ A3HZPyH+oJuhcalqPLpDTPTDdJtiusVCGl/dpZEuKijJjekbcqjXo24ekZ+GaW9v9fB+
+ LcwNgOzCtdMnAFkWhNIawFfdAN/Q8/WFM9MHXQLPTWNvBtfNcxPVNcMNcLytSqdfhm+E
+ dGaHFNHgRyKxc0lurROivycJ+MKprJlqiSumVkOJFNAcKdNeGpi9UmBw/9syoBcpGZRS
+ AVsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=99X2d/7PnkDB3y5oN6cAQuHXSUMM+INOtp1CuXvzmRI=;
- b=ZtcxJ7mMaD1PxLWPTpvlu7Hy5FxgdhfnVONM2xK7V1pTvyP9LMvyHIH+9+cXMOmcRj
- Uzhp6UFbb/jM7jzLRjQHeYYeDIK97yQZwlAmPzm3SVSu86xqB3kICj+3RGaHzFJlXflb
- fWGx8YlIl7KLtLsL9VOmhaFAjOEcqhkHZo5JTJnrhBrxz83arQQVv6JhpUBaZLNsVjTr
- u5baQwg7RufPNkYmOZblH1TgzwyaUg9Aj/TXdbGfTsqfxG/6vgcS1idCOPFOG6vGM37s
- 6UtjupYe449Yxf7TEYvF1XfxMCcnUsb2r3v5rNKI8EfwIRvFee1ZFimgsN4oVhUoLlVf
- CN2w==
-X-Gm-Message-State: AO0yUKVes/a3axODZNLFUjn40H2rqUVWF1lBEOKpyY0qMKlbB4mmHgeL
- 2hUr5281i0fJDmNBS3XkdqFONpNh/USloR782q34Pds1AEKW/OBknh1titpvnbjyGrp39KMBeVY
- JnbsRDAfxAqKvj+2t3gucpkmK2UuX
-X-Received: by 2002:a17:906:798:b0:88f:6a7e:5fe8 with SMTP id
- l24-20020a170906079800b0088f6a7e5fe8mr13388230ejc.22.1675957642175; 
- Thu, 09 Feb 2023 07:47:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set8bH9yXuyJR9Eq5RXP63IN3huxAmn1Eoy+f/b6jPBUGaB8xRuruSmBZGeDEKDCr9mS4qoPgqg==
-X-Received: by 2002:a17:906:798:b0:88f:6a7e:5fe8 with SMTP id
- l24-20020a170906079800b0088f6a7e5fe8mr13388216ejc.22.1675957642021; 
- Thu, 09 Feb 2023 07:47:22 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ bh=PlDRqIzNfRpmS0D/1XZG8irCj5DR1jdxtMH8/taj2Wg=;
+ b=RrrO0RJtVLmFeduQjXyAmDefA/liED/P3TwOGtjUaniVvAMgIh+AHE4uuHfs8dTCnt
+ ie4opXcc4yOyMRQS7izLnfIe1eUqd1koOIogbs9IoFWOnhCYiKZj4RGzXlqIZ6BIJwEu
+ FHVxVfe8YpeyK2cdmI//8hqIeUjIkPGdZS9J2cODOdzDlRUWN1eCaDoJY6rMYMbvg2pr
+ SwC1u9WHCoRHJNOl5BGSpJy/+Xdo/DYhbOnMVqTSIYhU2KGpu3PeUVhjo9Mqa6mHlcau
+ qKkUj7/13a8hLaZsKxsvY7JhQd4vQvzyhqwIZGkLwMiszCLeRVAs/md0mY4rpUSd2Y9t
+ 4B/Q==
+X-Gm-Message-State: AO0yUKXcGFj5CQS4FqYtC2bJYzSiemVuiPSneCRRKwuFtr+lLwg9LIbM
+ xs54My5Apq1CaMkq7TD41D7JW1szfRzQQw==
+X-Google-Smtp-Source: AK7set8//MB8g6bE18vhBY6yspRljnY5sXdckp/JbGz1I/BRLtuP5Cg7pknMZnz1r9F1zMGtYHhlaQ==
+X-Received: by 2002:a50:9b0d:0:b0:4ab:ec2:3cd1 with SMTP id
+ o13-20020a509b0d000000b004ab0ec23cd1mr5829797edi.25.1675957977597; 
+ Thu, 09 Feb 2023 07:52:57 -0800 (PST)
+Received: from ?IPV6:2a02:908:1256:79a0:d1a:f894:9f34:a0dd?
+ ([2a02:908:1256:79a0:d1a:f894:9f34:a0dd])
  by smtp.gmail.com with ESMTPSA id
- se26-20020a170906ce5a00b0086621d9d9b0sm1012318ejb.81.2023.02.09.07.47.21
+ c1-20020a50d641000000b004ab1d683d3dsm902056edj.32.2023.02.09.07.52.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 07:47:21 -0800 (PST)
-Message-ID: <f04fb55c-5fa8-f38d-d6e0-7ba29c1973f6@redhat.com>
-Date: Thu, 9 Feb 2023 16:47:20 +0100
+ Thu, 09 Feb 2023 07:52:56 -0800 (PST)
+Message-ID: <95e7f52a-46ce-5e16-b686-5e4011693287@gmail.com>
+Date: Thu, 9 Feb 2023 16:52:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: drm: panel-orientation-quirks: Add quirk for Lenovo IdeaPad Duet
- 3 10IGL5
-To: Darrell Kavanagh <darrell.kavanagh@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <CAMxBKG1RwbRJMG0cKcnbyKgznXeZLL+Zp1zXeOnxpYU0NkOO8A@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAMxBKG1RwbRJMG0cKcnbyKgznXeZLL+Zp1zXeOnxpYU0NkOO8A@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: Try to address the drm_debugfs issues
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20230209081838.45273-1-christian.koenig@amd.com>
+ <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
+ <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
+ <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
+ <cbe1ac86-1d41-bcf7-679b-ad4e2a810361@gmail.com>
+ <20230209141923.4n4ffsqchdrx5vnp@houat>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20230209141923.4n4ffsqchdrx5vnp@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,81 +80,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: daniel.vetter@ffwll.ch, =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, mwen@igalia.com, mairacanal@riseup.net,
+ wambui.karugax@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Darrell,
+Am 09.02.23 um 15:19 schrieb Maxime Ripard:
+> On Thu, Feb 09, 2023 at 03:06:10PM +0100, Christian König wrote:
+>> Am 09.02.23 um 14:06 schrieb Maíra Canal:
+>>> On 2/9/23 09:13, Christian König wrote:
+>>>> Am 09.02.23 um 12:23 schrieb Maíra Canal:
+>>>>> On 2/9/23 05:18, Christian König wrote:
+>>>>>> Hello everyone,
+>>>>>>
+>>>>>> the drm_debugfs has a couple of well known design problems.
+>>>>>>
+>>>>>> Especially it wasn't possible to add files between
+>>>>>> initializing and registering
+>>>>>> of DRM devices since the underlying debugfs directory wasn't
+>>>>>> created yet.
+>>>>>>
+>>>>>> The resulting necessity of the driver->debugfs_init()
+>>>>>> callback function is a
+>>>>>> mid-layering which is really frowned on since it creates a horrible
+>>>>>> driver->DRM->driver design layering.
+>>>>>>
+>>>>>> The recent patch "drm/debugfs: create device-centered
+>>>>>> debugfs functions" tried
+>>>>>> to address those problem, but doesn't seem to work
+>>>>>> correctly. This looks like
+>>>>>> a misunderstanding of the call flow around
+>>>>>> drm_debugfs_init(), which is called
+>>>>>> multiple times, once for the primary and once for the render node.
+>>>>>>
+>>>>>> So what happens now is the following:
+>>>>>>
+>>>>>> 1. drm_dev_init() initially allocates the drm_minor objects.
+>>>>>> 2. ... back to the driver ...
+>>>>>> 3. drm_dev_register() is called.
+>>>>>>
+>>>>>> 4. drm_debugfs_init() is called for the primary node.
+>>>>>> 5. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
+>>>>>>      drm_atomic_debugfs_init() call drm_debugfs_add_file(s)()
+>>>>>> to add the files
+>>>>>>      for the primary node.
+>>>>>> 6. The driver->debugfs_init() callback is called to add
+>>>>>> debugfs files for the
+>>>>>>      primary node.
+>>>>>> 7. The added files are consumed and added to the primary
+>>>>>> node debugfs directory.
+>>>>>>
+>>>>>> 8. drm_debugfs_init() is called for the render node.
+>>>>>> 9. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
+>>>>>>      drm_atomic_debugfs_init() call drm_debugfs_add_file(s)()
+>>>>>> to add the files
+>>>>>>      again for the render node.
+>>>>>> 10. The driver->debugfs_init() callback is called to add
+>>>>>> debugfs files for the
+>>>>>>       render node.
+>>>>>> 11. The added files are consumed and added to the render
+>>>>>> node debugfs directory.
+>>>>>>
+>>>>>> 12. Some more files are added through drm_debugfs_add_file().
+>>>>>> 13. drm_debugfs_late_register() add the files once more to
+>>>>>> the primary node
+>>>>>>       debugfs directory.
+>>>>>> 14. From this point on files added through
+>>>>>> drm_debugfs_add_file() are simply ignored.
+>>>>>> 15. ... back to the driver ...
+>>>>>>
+>>>>>> Because of this the dev->debugfs_mutex lock is also
+>>>>>> completely pointless since
+>>>>>> any concurrent use of the interface would just randomly
+>>>>>> either add the files to
+>>>>>> the primary or render node or just not at all.
+>>>>>>
+>>>>>> Even worse is that this implementation nails the coffin for
+>>>>>> removing the
+>>>>>> driver->debugfs_init() mid-layering because otherwise
+>>>>>> drivers can't control
+>>>>>> where their debugfs (primary/render node) are actually added.
+>>>>>>
+>>>>>> This patch set here now tries to clean this up a bit, but
+>>>>>> most likely isn't
+>>>>>> fully complete either since I didn't audit every driver/call path.
+>>>>> I tested the patchset on the v3d, vc4 and vkms and all the files
+>>>>> are generated
+>>>>> as expected, but I'm getting the following errors on dmesg:
+>>>>>
+>>>>> [    3.872026] debugfs: File 'v3d_ident' in directory '0'
+>>>>> already present!
+>>>>> [    3.872064] debugfs: File 'v3d_ident' in directory '128'
+>>>>> already present!
+>>>>> [    3.872078] debugfs: File 'v3d_regs' in directory '0' already
+>>>>> present!
+>>>>> [    3.872087] debugfs: File 'v3d_regs' in directory '128'
+>>>>> already present!
+>>>>> [    3.872097] debugfs: File 'measure_clock' in directory '0'
+>>>>> already present!
+>>>>> [    3.872105] debugfs: File 'measure_clock' in directory '128'
+>>>>> already present!
+>>>>> [    3.872116] debugfs: File 'bo_stats' in directory '0' already
+>>>>> present!
+>>>>> [    3.872124] debugfs: File 'bo_stats' in directory '128'
+>>>>> already present!
+>>>>>
+>>>>> It looks like the render node is being added twice, since this
+>>>>> doesn't happen
+>>>>> for vc4 and vkms.
+>>>> Thanks for the feedback and yes that's exactly what I meant with
+>>>> that I haven't looked into all code paths.
+>>>>
+>>>> Could it be that v3d registers it's debugfs files from the
+>>>> debugfs_init callback?
+>>> Although this is true, I'm not sure if this is the reason why the files
+>>> are
+>>> being registered twice, as this doesn't happen to vc4, and it also uses
+>>> the
+>>> debugfs_init callback. I believe it is somewhat related to the fact that
+>>> v3d is the primary node and the render node.
+>> I see. Thanks for the hint.
+>>
+>>> Best Regards,
+>>> - Maíra Canal
+>>>
+>>>> One alternative would be to just completely nuke support for
+>>>> separate render node debugfs files and only add a symlink to the
+>>>> primary node. Opinions?
+>> What do you think of this approach? I can't come up with any reason why we
+>> should have separate debugfs files for render nodes and I think it is pretty
+>> much the same reason you came up with the patch for per device debugfs files
+>> instead of per minor.
+> They are two entirely separate devices and drivers, it doesn't make much
+> sense to move their debugfs files to one or the other.
 
-On 2/3/23 19:32, Darrell Kavanagh wrote:
-> Hi,
-> 
-> This is another Lenovo with detachable keyboard and 1200x1920 screen
-> mounted sideways.
-> 
-> The following has been tested with 6.2.0-rc6.
-> 
-> Thanks,
-> Darrell
+Well exactly that isn't true. The primary and render node are just two 
+file under /dev for the same hardware device and driver.
 
-Thank you for your patch. Note that instead of "Hi, ... Thanks, Darrell"
-there should be a message describing the what and why of the patch
-here, see e.g. :
+We just offer different functionality through the two interfaces, but 
+essentially there isn't any information we could expose for one which 
+isn't true for the other as well.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/drm_panel_orientation_quirks.c?id=653f2d94fcda200b02bd79cea2e0307b26c1b747
+Christian.
 
-I also notice that the diff output below has a bit weird file-paths,
-so this patch is clearly not the output of "git format-patch" +
-"git send-email" on a standard linux source tree git clone.
-
-The whole kernel patch workflow can be a bit daunting if you are just
-trying to submit a small quirk like this.
-
-So you can either try again if you want to, or I can fix all of this up
-for you if that is preferred.
-
-If you want me to fix this up for you, there is one thing which I still
-need from you, your patch is missing a Signed-off-by line in the commit-message.
-I can only accept patches with a Signed-off-by line in the commit-message like
-this:
-
-Signed-off-by: Your Real Name <email@your.domain>
-
-By adding this line you indicate that you are the author of the code and
-are submitting it under the existing license for the file which you are
-modifying (typically GPL-2.0) or that you have permission from the author
-to submit it under this license. See:
-
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
-
-If you want me to fix this up for you, please reply to this email
-with the proper Signed-off-by: ... line for me to add to the commit
-message.
-
-Regards,
-
-Hans
-
-
-
-
-> 
-> index 3659f04..590bb7b 100644
-> --- a/kernel/drm_panel_orientation
-> _quirks.c
-> +++ b/kernel/linux-6.2-rc6/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -304,6 +304,12 @@ static const struct dmi_system_id orientation_data[] = {
->                   DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad
-> D330-10IGM"),
->                 },
->                 .driver_data = (void *)&lcd1200x1920_rightside_up,
-> +       }, {    /* Lenovo IdeaPad Duet 3 10IGL5 */
-> +               .matches = {
-> +                 DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> +                 DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "IdeaPad Duet 3 10IGL5"),
-> +               },
-> +               .driver_data = (void *)&lcd1200x1920_rightside_up,
->         }, {    /* Lenovo Ideapad D330-10IGL (HD) */
->                 .matches = {
->                   DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> 
+>
+> Maxime
 
