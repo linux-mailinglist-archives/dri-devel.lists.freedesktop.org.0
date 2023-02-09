@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B78A690213
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 09:25:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7826690233
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 09:34:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5507C10E0C1;
-	Thu,  9 Feb 2023 08:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0965B10E950;
+	Thu,  9 Feb 2023 08:34:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F92B10E0C1
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 08:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675931113; x=1707467113;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=AZG4nt/NF5XD1bCU1D1DTXwVLKlPtu8KECtv/J/wG8I=;
- b=BVxxHS2dktiNil9i1y0nsb//Iw/FkXoDEX3Yc2MbdssEx//YwIFVicbh
- 9P1bSsbeI1G3SYjLZbmm16EhmW6/dqnWnpiVDoBEID71o2/BCCz9hlQc/
- pMp2eN5lHcKaj+31+4aYBbGl5B0PdshY5fhKrQ/zN5vvVHUvJp1n6BVig
- ft3SgChYMWZguQ5lOGqNSZZMywWydCUM1GaOaBa1pxAbDE0map0KSaNZD
- INfObculeLYB+87xFv41Tj+ewS2ZyPhqbWGhTzpuTxWIakAaA+a9wlKYl
- 4frTmll1mrstfWo0It38JjjrLcH44bnzarlZttm9LaMR0iK2pftRObgyt g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="416272827"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; d="scan'208";a="416272827"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2023 00:25:09 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="913055567"
-X-IronPort-AV: E=Sophos;i="5.97,283,1669104000"; d="scan'208";a="913055567"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com)
- ([10.237.72.44])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2023 00:25:01 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
- by kekkonen.fi.intel.com (Postfix) with SMTP id 3D16811FADB;
- Thu,  9 Feb 2023 10:24:59 +0200 (EET)
-Date: Thu, 9 Feb 2023 10:24:59 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Subject: Re: [PATCH v11 1/9] device property: Add remote endpoint to devcon
- matcher
-Message-ID: <Y+St24gfyhb4VWPT@kekkonen.localdomain>
-References: <20230204133040.1236799-1-treapking@chromium.org>
- <20230204133040.1236799-2-treapking@chromium.org>
- <Y+AbhnfJvScvHTGY@kekkonen.localdomain>
- <CAEXTbpf-s8NQKwSxhe=cO-KO=TTSXFznm=1J-ikhc558M6brdQ@mail.gmail.com>
+Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com
+ [IPv6:2607:f8b0:4864:20::a2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 132EC10E950
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 08:34:09 +0000 (UTC)
+Received: by mail-vk1-xa2d.google.com with SMTP id 9so561804vkq.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 00:34:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=gWuuUdo7aS+R+xwyMPT4inxSLLiy9YRKAIGpnfs3mMw=;
+ b=mnc8Ifx6QnAPmYWW1FKA6DpGkfoRhUGOlwZyawmaWZUYXBRs3P3lMZ6UuiJN+OVnrP
+ JYO03+hkMmh17dEbozQueyLF/rseofZe1Ytt3Bf02eSA13fv7UUEzVDkYLMk6yry8LOM
+ c7xhnpHflipzPwMHeJMaqdWdhYrJCxv4p+PSc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gWuuUdo7aS+R+xwyMPT4inxSLLiy9YRKAIGpnfs3mMw=;
+ b=nNIvZkQ8k0ZmJRSEF5A3qqaqN9AkWQANlIqWQlKYRH4qNs81QJHNfCFxHdbS56pVuB
+ 6kIRERdAy980XKpl7x2eLJPBzCClPAfbaJsA4xgOBFniA8CALVvYNDZTAiBW5V5YCjid
+ xEej46cuQCjfrR4tOgawM5anfz0/yFHD1rT2jr/JY6LbYuyxaIuyABuhp4uByojI5tVs
+ /9OPSuvEDGipOQSFE8jZFBAhTCTH4Les1MpwZHzCrgl5uItRjvV9haBm1s5qjmP/hHQ0
+ HtS8myWxJ4kheJOkxsp8ZsKNOHBIee/eQUilWDogWCaJuo3tiAniz1tT5pmOFtjX+Bru
+ VUwQ==
+X-Gm-Message-State: AO0yUKVcsWVtqxaErKYgRwRoeYEDEDgEyQbfWn2KtMNn4rC6pSkDkZT9
+ vhCghUGDGfX5ORDwv2pHHQPnt69/GEKFHe0TkuW+hg==
+X-Google-Smtp-Source: AK7set8pBou1qM81NL3KNWeDM08Kg7jVEwCB11009P47SaV8veeMsx+j8GewJrleWgySAp8Llo1VSXqxEKvDZ4DLKFA=
+X-Received: by 2002:a1f:9493:0:b0:3ea:7394:e9ef with SMTP id
+ w141-20020a1f9493000000b003ea7394e9efmr2102117vkd.11.1675931648111; Thu, 09
+ Feb 2023 00:34:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEXTbpf-s8NQKwSxhe=cO-KO=TTSXFznm=1J-ikhc558M6brdQ@mail.gmail.com>
+References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
+ <20230208103709.116896-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230208103709.116896-3-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 9 Feb 2023 16:33:57 +0800
+Message-ID: <CAGXv+5FXqEJaADrhgu-tPfEPPkP1B=bo_KytBH55xCRea4CmTQ@mail.gmail.com>
+Subject: Re: [PATCH 2/9] dt-bindings: gpu: mali-bifrost: Allow up to 5 power
+ domains for MT8192
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,118 +63,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Chen-Yu Tsai <wenst@chromium.org>, devicetree@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>
+Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+ alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pin-yen,
+On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> MediaTek MT8192 (and similar) needs five power domains for the
+> Mali GPU and no sram-supply: change the binding to allow so.
+>
 
-On Thu, Feb 09, 2023 at 12:28:33PM +0800, Pin-yen Lin wrote:
-> Hi Sakari,
-> 
-> Thanks for the review.
-> 
-> On Mon, Feb 6, 2023 at 5:11 AM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Pin-yen,
-> >
-> > On Sat, Feb 04, 2023 at 09:30:32PM +0800, Pin-yen Lin wrote:
-> > > From: Prashant Malani <pmalani@chromium.org>
-> > >
-> > > When searching the device graph for device matches, check the
-> > > remote-endpoint itself for a match.
-> > >
-> > > Some drivers register devices for individual endpoints. This allows
-> > > the matcher code to evaluate those for a match too, instead
-> > > of only looking at the remote parent devices. This is required when a
-> > > device supports two mode switches in its endpoints, so we can't simply
-> > > register the mode switch with the parent node.
-> > >
-> > > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> > > Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
-> >
-> > Thanks for the update.
-> >
-> > I intended to give my Reviewed-by: but there's something still needs to be
-> > addressed. See below.
-> >
-> > >
-> > > ---
-> > >
-> > > Changes in v11:
-> > > - Added missing fwnode_handle_put in drivers/base/property.c
-> > >
-> > > Changes in v10:
-> > > - Collected Reviewed-by and Tested-by tags
-> > >
-> > > Changes in v6:
-> > > - New in v6
-> > >
-> > >  drivers/base/property.c | 16 ++++++++++++++++
-> > >  1 file changed, 16 insertions(+)
-> > >
-> > > diff --git a/drivers/base/property.c b/drivers/base/property.c
-> > > index 2a5a37fcd998..e6f915b72eb7 100644
-> > > --- a/drivers/base/property.c
-> > > +++ b/drivers/base/property.c
-> > > @@ -1223,6 +1223,22 @@ static unsigned int fwnode_graph_devcon_matches(struct fwnode_handle *fwnode,
-> > >                       break;
-> > >               }
-> > >
-> > > +             /*
-> > > +              * Some drivers may register devices for endpoints. Check
-> > > +              * the remote-endpoints for matches in addition to the remote
-> > > +              * port parent.
-> > > +              */
-> > > +             node = fwnode_graph_get_remote_endpoint(ep);
-> >
-> > Here fwnode_graph_get_remote_endpoint() returns an endpoint...
-> >
-> > > +             if (fwnode_device_is_available(node)) {
-> >
-> > and you're calling fwnode_device_is_available() on the endpoint node, which
-> > always returns true.
-> >
-> > Shouldn't you call this on the device node instead? What about match()
-> > below?
-> 
-> Yes we should have checked the availability on the device node itself
-> instead of the endpoint node. But regarding the match() call, we need
-> to call it with the endpoint node because that's where we put the
-> "mode-switch" properties and register the mode switches on. We can't
-> use the device node because we want to register two mode switches for
-> the same device node.
+mt8192 compatible was already added, so this should have:
 
-Ok.
+Fixes: 5d82e74a97c2 ("dt-bindings: Add compatible for Mali Valhall (JM)")
 
-I think it should be documented for both fwnode_connection_find_match() and
-fwnode_connection_find_matches() may then be also called with the endpoint
-node.
-
--- 
-Regards,
-
-Sakari Ailus
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../bindings/gpu/arm,mali-bifrost.yaml        | 34 +++++++++++++++++--
+>  1 file changed, 31 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> index 69212f3b1328..e7aba66ddb8f 100644
+> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> @@ -61,7 +61,7 @@ properties:
+>
+>    power-domains:
+>      minItems: 1
+> -    maxItems: 3
+> +    maxItems: 5
+>
+>    resets:
+>      minItems: 1
+> @@ -141,6 +141,18 @@ allOf:
+>          - power-domains
+>          - resets
+>          - reset-names
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - mediatek,mt8183-mali
+> +                - mediatek,mt8192-mali
+> +    then:
+> +      properties:
+> +        power-domains:
+> +          maxItems: 1
+>    - if:
+>        properties:
+>          compatible:
+> @@ -161,10 +173,26 @@ allOf:
+>          - sram-supply
+>          - power-domains
+>          - power-domain-names
+> -    else:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8192-mali
+> +    then:
+>        properties:
+>          power-domains:
+> -          maxItems: 1
+> +          minItems: 5
+> +        power-domain-names:
+> +          items:
+> +            - const: core0
+> +            - const: core1
+> +            - const: core2
+> +            - const: core3
+> +            - const: core4
+> +
+> +      required:
+> +        - power-domains
+> +        - power-domain-names
+>    - if:
+>        properties:
+>          compatible:
+> --
+> 2.39.1
+>
