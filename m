@@ -1,70 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DD2690234
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 09:34:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2440369023A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 09:36:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77B6A10E954;
-	Thu,  9 Feb 2023 08:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DADBE10E957;
+	Thu,  9 Feb 2023 08:36:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C725610E954
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 08:34:13 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id n13so871774wmr.4
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 00:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=r6Gx4R8kVvNzk+VzWyuBo9M3Fq9oEvOv8oe6nnaK0aE=;
- b=F5oFQl7L2U3DDpre1RpSxGfinwhte/Lr3+J9RJP+F0nyRYTA3yyTobPu9I/iIBdE0H
- NWsQ3vdQjVhLRz8rgmq4ga2k10GQH/6vlsekQaMoL96KHz/ltojSGXepRtbbRawLuvie
- V4uU1PNzqut9r5BBRLq/S/PDyEd9rX23vOyXoYA6pIlvzmGxa/GuaKyq+nqKnoVtfstK
- mDpQNnmZ01AWSXQ+F0rO9NhIe+OUTpMkixkeuFKiPDZ++vdJlruiYlRvoT4iormZPLkR
- oJnIOeb+oFIPAosJ6yXwNN3+zSJcpGEz/kkrsNZAPs7tA5DUw4pF5eVXGNL91mbOzcbJ
- D/eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=r6Gx4R8kVvNzk+VzWyuBo9M3Fq9oEvOv8oe6nnaK0aE=;
- b=6hSgfD+ZJEC4B13sKcH5hEG4W/jhqhGP/GrRQ6qECSlp/6fqkoPSJAPINpVOIWHF9U
- SkHP8IWVw5oUr9qpKucH0bTnwT7I1hJGHdmDAb55jLboOALUOIKgpFeto5Oauyzq5I4g
- xRG6v8LBianttbXbmOOX3olLa0k74xBIR0QbCqwFOtBWeKEF7ePUimfkPGViTFEf2rSc
- InfDS6bO0lHyat1S7VrpqmOmPtOHXLonHyMpNvFb8SESbGYPkEsUZTdIwyIOb/yHPYZK
- i78mA/Eor0P6H3jfsWCEYe2C7GW72NX2whpR/pWgTaFT+KM4ctcCycsOLahla3bfwLiW
- J7kg==
-X-Gm-Message-State: AO0yUKV+zFOiL/if/VRyHTNJ57elZ65EokJqoPjwdp/PM81q/+osiZ8s
- cKP0jZPohdJipb+iMcJb/CGJZw==
-X-Google-Smtp-Source: AK7set/b0vsPagbekwWZBq/6HeoQJIXxxSx+zZ79h0wufDlPa4ndoZBBEuQP0/KgmaK9SX0yl31wwg==
-X-Received: by 2002:a05:600c:3510:b0:3dc:42d2:aeee with SMTP id
- h16-20020a05600c351000b003dc42d2aeeemr9147288wmq.25.1675931652307; 
- Thu, 09 Feb 2023 00:34:12 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- m18-20020a7bcb92000000b003c6bbe910fdsm4214648wmi.9.2023.02.09.00.34.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 00:34:11 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-In-Reply-To: <20230207-topic-sm8550-upstream-vtdr6130-bindings-fix-v1-1-0ba2323420c5@linaro.org>
-References: <20230207-topic-sm8550-upstream-vtdr6130-bindings-fix-v1-1-0ba2323420c5@linaro.org>
-Subject: Re: [PATCH] dt-bindings: display: panel: visionox,vtdr6130: add
- missing reg property
-Message-Id: <167593165135.1280212.15464621663027280533.b4-ty@linaro.org>
-Date: Thu, 09 Feb 2023 09:34:11 +0100
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E1010E957;
+ Thu,  9 Feb 2023 08:36:06 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E5CF4581F5B;
+ Thu,  9 Feb 2023 03:36:03 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 09 Feb 2023 03:36:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1675931763; x=1675938963; bh=VI1F6qQwdnd2e/jklyUoxXjZqqg0CwEfy3v
+ gBWoA9XE=; b=LJP6WhY3JUuLN3032F4mQEvNtoV0gpe7Afcb5aDE8XSeBgcFP/K
+ jd1tBJ+EQXrA3t5m7q5/9qJ4i59t+GO6qYDjmGJPsO/tcuXTYYVmtXccREs0VJek
+ g2eh0nOuGiI7Jt5oA6vCXzqcxxl5xB1Jt+Eq6VFlPJnV1IhfbBNJksGQB1QnFVFw
+ RJ93ntQbQSme6YRCyqoIJts8xuFAi8DNSzyaiTlXub8n+VNeXafFjzS5tg2QFCwg
+ FGD5j7ISJKwAeeyIh0toxlMhifsFcF3dOzmH70ulLr9ZPVmPFH5OEOUDywD3gVQ+
+ eonPMrh1xHL9xyThYUaweVG485xhafRwX1A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1675931763; x=
+ 1675938963; bh=VI1F6qQwdnd2e/jklyUoxXjZqqg0CwEfy3vgBWoA9XE=; b=C
+ Q1T5jCRyvTJhVGRK+sRvUZLYcqB7JWE9FVXhqhzUiJEFokpkoHJDdpLgfiKS/CI7
+ TV8CyCU5ga5tigpmS18RjauXn2dxvvTLodqR3SX+tqHi7goJXdM8UGBu9IRH9aeG
+ 0wS2Lz1oWASrn20v1lKg+Zgri8dJDM7QabXe4tS+lMcazEUtJ4AxcabasdSaMzMW
+ 7Z9sMdTFlDJ6C6kY9Z+gXqfMWEzK4qvJ5q4HlNLwuANOogUWyGwnFtyHMEscetyE
+ 714fYEm/HuzUb3r/xql2RISjQz3QF6HH6rM4D635zJBYStcddM2fGCnIYxJ8bLam
+ /NZrqoE/TJto3QbskCPZQ==
+X-ME-Sender: <xms:c7DkYwadd3jmK2xCOGylQvPITAVnmfbfaVW_lA8qxR75XwFvxSdiYQ>
+ <xme:c7DkY7Zbf_8DHL0c8OaYY8U4Xd4sz5gAkrqhAZikz-B9C4BEIexLSIk4J7sFHdBaU
+ -_NBmuKV5oPu_f7YjE>
+X-ME-Received: <xmr:c7DkY6_ox4x2DDMtRcrIe4Zr3NDkZOMLRUx3QRo_WTLvk6u3dJZMTyrJ5AHNqa2njFKTsg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudehvddgieehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeekheejgeeuhfethffgheekhedufeduhfejgfehffekudefgedugffhkeefhfev
+ vdenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:c7DkY6q4YhRmtWyXWrXZXpa6VVg1Z0jy8S-HUUCRM1hxebxcwBtw6g>
+ <xmx:c7DkY7og7URyQe1KCoA3Rx9zKdqC5nSoCgHaGbt57MPKkUtrAa9L4g>
+ <xmx:c7DkY4SnvFyf3QgUfzsW9pYtMks1bTepH3haDLrIQ7vxZz5JI6AaBA>
+ <xmx:c7DkY0ayDbNO7DMYSILAb7gjfmpv-6KWkkoIi-aZ6Ju2h0Qmhclzng>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Feb 2023 03:36:02 -0500 (EST)
+Date: Thu, 9 Feb 2023 09:36:00 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20230209083600.7hi6roht6xxgldgz@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="u3oitxqnyciu556w"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,24 +81,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Tue, 07 Feb 2023 11:04:36 +0100, Neil Armstrong wrote:
-> Add missing reg property and update example to add dsi top node.
-> 
-> 
+--u3oitxqnyciu556w
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next-fixes)
+Hi Dave, Daniel,
 
-[1/1] dt-bindings: display: panel: visionox,vtdr6130: add missing reg property
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=467fbc77f673ecc9dcf4e58ffc1fa426a22df7fd
+Here's this week drm-misc-fixes PR
 
--- 
-Neil
+Maxime
 
+drm-misc-fixes-2023-02-09:
+A fix for a circular refcounting in drm/client, one for a memory leak in
+amdgpu and a virtio fence fix when interrupted
+The following changes since commit a3ee9e0b57f8ecca02d1c16fad4941e09bfe2941:
+
+  drm/panel: boe-tv101wum-nl6: Ensure DSI writes succeed during disable (20=
+23-02-01 11:41:15 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-02-09
+
+for you to fetch changes up to 85e26dd5100a182bf8448050427539c0a66ab793:
+
+  drm/client: fix circular reference counting issue (2023-02-07 09:42:56 +0=
+100)
+
+----------------------------------------------------------------
+A fix for a circular refcounting in drm/client, one for a memory leak in
+amdgpu and a virtio fence fix when interrupted
+
+----------------------------------------------------------------
+Bert Karwatzki (1):
+      drm/amdgpu: fix memory leak in amdgpu_cs_sync_rings
+
+Christian K=F6nig (1):
+      drm/client: fix circular reference counting issue
+
+Ryan Neph (1):
+      drm/virtio: exbuf->fence_fd unmodified on interrupted wait
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c |  5 ++++-
+ drivers/gpu/drm/drm_client.c           | 33 ++++++++++++++++++++----------=
+---
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c |  5 +----
+ include/drm/drm_client.h               |  5 -----
+ include/uapi/drm/virtgpu_drm.h         |  1 +
+ 5 files changed, 26 insertions(+), 23 deletions(-)
+
+--u3oitxqnyciu556w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY+SwcAAKCRDj7w1vZxhR
+xU/NAQD1IHX9BnOcsLN7opP6XSCjNMuzwU67vm17u1g+ZhMArgD+Jw6tPIzZqMBT
+izRNyZFor67fPtDnnFQ2P3YgMdqdLgs=
+=Wo3Q
+-----END PGP SIGNATURE-----
+
+--u3oitxqnyciu556w--
