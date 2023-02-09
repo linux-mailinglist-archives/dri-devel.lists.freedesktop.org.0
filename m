@@ -1,68 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB2B6909C4
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:22:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDC3690A6F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:38:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF3010EAC2;
-	Thu,  9 Feb 2023 13:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C9D10E219;
+	Thu,  9 Feb 2023 13:38:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63B2A10EAC2
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:22:51 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- k8-20020a05600c1c8800b003dc57ea0dfeso3879229wms.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 05:22:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ya/Lza+YtJyLFI6B2w2Hs3lwrR09cwKynSHqyFXIapw=;
- b=GDNt7RvafCrOAaamrLBzZGXXrAeE0L/MYmPsFvUJxgyKVbHOuDuc+4URTcd1lhphuX
- m2Z2dvuY0dX6f5Tcctx0cSNMRKWGKO/emQXk1thTT1u43UndWKldRFC/EdT3jKKtAp2T
- b3VqxqewxNs2j2YU/vMCoON5eGRtCBU5wSsuOlibR1KkfH6bhDslU4A57bBcWvPGfL5P
- sNwYt0To2ZbOJupaTnFyQ71LfU9tOB/lmS1UpBRRqY22ySS+KPOPQylUclDRXoEe6oG+
- SUadUy77euhw44RsoLPUDTIN2MJFYzqfmvKBN92dCAgKXHrh1SLtIEzn8iNBChKnmQij
- FjlQ==
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0341110E219
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:38:42 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id m2so6375950ejb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 05:38:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bi+cNN8MNydS94MbkJOD784fZVEZBaEhzXHs2Upm2b4=;
+ b=D//V/YZZPzXi5NpsjvRuU+/1xhWiGYreIOG++95iz0ga2ChItuLx5keBwUJJkj17Pi
+ mWuT+sob8Df6fTEowKjNJM0mJe3g8l+vdFtohCUnOOTcN0Kkw7Vn6y29PzpWxQvdnukW
+ ZI0pwcb1r5VJ+uvv9gYeIEWDx4dND7rwHtJu5Cd97cRTGuvy8yZX4uCHOmVYbFEXud49
+ nV0QXxq4ZHTs3/kZXrBoEdK8dTBjC6bxzH+s7JS15un58rUAwexbEFoHgV9qRZanHjXC
+ X5nfye46QL2e5+b7+PW4Ff0K4oIc5ljKMY85HiJnhh8J0BOFuWLiaNVckWrFO1ib7UFs
+ KVlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ya/Lza+YtJyLFI6B2w2Hs3lwrR09cwKynSHqyFXIapw=;
- b=OR0QJ/OdMgbNGe1PxmHeqS6YdltPU2zweEA5T/JEPucK1XsB7cJhdj/4UJZ6/erCtQ
- rlyEJHsyjb5RLusoCSJW/sOwouKvpvO2hdA3gBwPHX/xShuSJBn+IH1khVkAszwDWM+u
- 0R3WZSGGHfLMLBu9KvI2ps2nOUlJyQUbfKG6x4B/P22CxHvxP0mSQ/KKLKJSw0PNfFsa
- A+0Xd8COWgGI7BhmQSqQjSsPES6jE8dFUaOJPjRhQBW36EwGhyT76fcEDIodE8fqXZLy
- TEjMdXhbDCwGvW9NEDLDdI5bmgFQ2IpCOs8W4CUF5k3sFjA4EIACiKakirXQkviHXgYA
- oj5A==
-X-Gm-Message-State: AO0yUKXeeLz9x2lMQv9hvA1D9Lol0B7uKurs4kAG4ur8P08m3Z+85xA6
- hFLku/yue3oT3s+BmMFq+d225aJOfNQ=
-X-Google-Smtp-Source: AK7set+eC4yVnyuJBhgBQcG/quYSi/tXd7UNmU2fkDHNOF8wuDIO8brMQLLgYX4LEYZ60AlGm0ivtg==
-X-Received: by 2002:a05:600c:810:b0:3df:f7e7:5f01 with SMTP id
- k16-20020a05600c081000b003dff7e75f01mr9723026wmp.15.1675948969894; 
- Thu, 09 Feb 2023 05:22:49 -0800 (PST)
-Received: from [192.168.2.181] (46-10-148-90.ip.btc-net.bg. [46.10.148.90])
- by smtp.gmail.com with ESMTPSA id
- s21-20020a1cf215000000b003e001119927sm4815757wmc.24.2023.02.09.05.22.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 05:22:49 -0800 (PST)
-Message-ID: <c6720432-102a-4d9d-f835-e919d35931c5@gmail.com>
-Date: Thu, 9 Feb 2023 15:22:48 +0200
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Bi+cNN8MNydS94MbkJOD784fZVEZBaEhzXHs2Upm2b4=;
+ b=EPiyhFWclSLavvuyKjSICk8HPQ66TuI63En7jzQdTYGsydvFGN923cG0Nxybiq/jif
+ yfqMct4hFnZ4wA3x+hByBhAROCqZCYMouZHQccDcTsMP2BjwpeLiBWv0cdc8+ClEPeMR
+ 4CLVxVJ6wflONlW2eViAShi+T6kIhQ5I7bpgetWC/zVt3QPnyZQubvN4S5uioR3IflZR
+ v1OepbEfJR606FSotqiAfng06B6QsKVGwUtQbyHnFyONCamp6Z4qfmg8Nqtefi6R9bOi
+ CREZmTLvQJT3kBRQ8mz0wmlhxCj/flRm4J3BaTHIw7o/ycchzwz3Yhnz8QXTl07c4i0L
+ w8yg==
+X-Gm-Message-State: AO0yUKXP80IXajZ2krdZKpqCFpmxGgIc3jRfOgdpeaZGt5esHnm3TpIo
+ hfDeIJNbL8h23Ng/Ay3s9CRuCA==
+X-Google-Smtp-Source: AK7set8jLbfeLd+2o5I0ZlDFcxN9JCOFY4+DgCS7ZZl/vH1aNdZrRRcCE6cR0FSPc0lHJKeI3thAzQ==
+X-Received: by 2002:a17:907:2175:b0:88b:109e:fbd3 with SMTP id
+ rl21-20020a170907217500b0088b109efbd3mr12149330ejb.24.1675949921602; 
+ Thu, 09 Feb 2023 05:38:41 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ cd17-20020a170906b35100b0088f8ee84b76sm885553ejb.105.2023.02.09.05.38.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Feb 2023 05:38:41 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v3 0/6] arm64: dts: qcom: sm8350: enable GPU on the HDK board
+Date: Thu,  9 Feb 2023 15:38:33 +0200
+Message-Id: <20230209133839.762631-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] drm/vmwgfx: Stop accessing buffer objects which failed
- init
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
-References: <20230208180050.2093426-1-zack@kde.org>
-From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
-In-Reply-To: <20230208180050.2093426-1-zack@kde.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,79 +72,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com, banackm@vmware.com,
- stable@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+Add A660 device to the Qualcomm SM8350 platform and enable it for the
+sm8350-hdk board. Unfortunately while adding the GPU & related devices I
+noticed that DT nodes on SM8350 are greatly out of the adress sorting
+order, so patches 2-4 reorder DT nodes to follow the agreement.
 
-Much nicer now.
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Changes since v1:
+- Dropped merged patches
+- Expanded commit messages to mention the sort order (by the node
+  address)
+- Rebased on top of latest Bjorn's tree
 
+Changes since v1:
+- Fixed the subject and commit message for patch 1
+- Fixed GMU's clocks to follow the vendor kernel
+- Marked Adreno SMMU as dma-coherent
+- Dropped comments targeting sm8350 v1, we do not support that chip
+  revision.
 
-Regards,
-Martin
+Dmitry Baryshkov (6):
+  dt-bindings: display/msm/gmu: add Adreno 660 support
+  arm64: dts: qcom: sm8350: reorder device nodes
+  arm64: dts: qcom: sm8350: move more nodes to correct place
+  arm64: dts: qcom: sm8350: finish reordering nodes
+  arm64: dts: qcom: sm8350: add GPU, GMU, GPU CC and SMMU nodes
+  arm64: dts: qcom: sm8350-hdk: enable GPU
 
-On 8.02.23 г. 20:00 ч., Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
->
-> ttm_bo_init_reserved on failure puts the buffer object back which
-> causes it to be deleted, but kfree was still being called on the same
-> buffer in vmw_bo_create leading to a double free.
->
-> After the double free the vmw_gem_object_create_with_handle was
-> setting the gem function objects before checking the return status
-> of vmw_bo_create leading to null pointer access.
->
-> Fix the entire path by relaying on ttm_bo_init_reserved to delete the
-> buffer objects on failure and making sure the return status is checked
-> before setting the gem function objects on the buffer object.
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Fixes: 8afa13a0583f ("drm/vmwgfx: Implement DRIVER_GEM")
-> Cc: <stable@vger.kernel.org> # v5.17+
-> ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_bo.c  | 4 +++-
->   drivers/gpu/drm/vmwgfx/vmwgfx_gem.c | 4 ++--
->   2 files changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> index 63486802c8fd..43ffa5c7acbd 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> @@ -431,13 +431,15 @@ int vmw_bo_create(struct vmw_private *vmw,
->   		return -ENOMEM;
->   	}
->   
-> +	/*
-> +	 * vmw_bo_init will delete the *p_bo object if it fails
-> +	 */
->   	ret = vmw_bo_init(vmw, *p_bo, params, vmw_bo_free);
->   	if (unlikely(ret != 0))
->   		goto out_error;
->   
->   	return ret;
->   out_error:
-> -	kfree(*p_bo);
->   	*p_bo = NULL;
->   	return ret;
->   }
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> index f042e22b8b59..51bd1f8c5cc4 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-> @@ -127,11 +127,11 @@ int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
->   	};
->   
->   	ret = vmw_bo_create(dev_priv, &params, p_vbo);
-> -
-> -	(*p_vbo)->tbo.base.funcs = &vmw_gem_object_funcs;
->   	if (ret != 0)
->   		goto out_no_bo;
->   
-> +	(*p_vbo)->tbo.base.funcs = &vmw_gem_object_funcs;
-> +
->   	ret = drm_gem_handle_create(filp, &(*p_vbo)->tbo.base, handle);
->   	/* drop reference from allocate - handle holds it now */
->   	drm_gem_object_put(&(*p_vbo)->tbo.base);
+ .../devicetree/bindings/display/msm/gmu.yaml  |    1 +
+ arch/arm64/boot/dts/qcom/sm8350-hdk.dts       |    8 +
+ arch/arm64/boot/dts/qcom/sm8350.dtsi          | 2512 +++++++++--------
+ 3 files changed, 1354 insertions(+), 1167 deletions(-)
+
+-- 
+2.39.1
+
