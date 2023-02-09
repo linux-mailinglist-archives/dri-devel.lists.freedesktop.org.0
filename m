@@ -1,135 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08513690E02
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 17:11:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36948690E76
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 17:39:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D093C10E0E7;
-	Thu,  9 Feb 2023 16:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1759510E22B;
+	Thu,  9 Feb 2023 16:39:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC1DA10E00E;
- Thu,  9 Feb 2023 16:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675959107; x=1707495107;
- h=date:from:to:cc:subject:message-id:
- content-transfer-encoding:mime-version;
- bh=8qZW5XnjTfH2euCqC4xFk82pJ6vHqmS1Xl8D+pUWYes=;
- b=YP/8B4MgssbKgNdB1xTmc06LJUo64suHCAZ9fHZNJnERVEt2WoZei5Ph
- 0VsgRYaQfqYCKA63ni2tF/ls66SdzvErFpVjS+cSAkrxKw4LM8f0QFt0L
- NCe20STCkih2XfkfDa4xUV0wdalJcPqO/lBwFM1mc5xM3JUp7OJmOt2Tw
- YmGEyjivLMuPF3jWCvZ6/XLMtG/lK9xqo6ofIP1K/w9+KhMSW8bQqRXLi
- mu8Ixg9WILq/A0Ni5Nb0kX+b7PsYR8TRpwW0MBMxkq4zTVhtZRxDaZjCo
- hHzvv94UBuUlhbG/2WAy3bZL+WLVaJIxQcV6gg7khEWRV1l6cOhyzGkYP Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="310503741"
-X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; d="scan'208";a="310503741"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2023 08:05:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10615"; a="996573738"
-X-IronPort-AV: E=Sophos;i="5.97,284,1669104000"; d="scan'208";a="996573738"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga005.fm.intel.com with ESMTP; 09 Feb 2023 08:05:47 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 9 Feb 2023 08:05:47 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 9 Feb 2023 08:05:47 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 9 Feb 2023 08:05:47 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XRVwV4grSHUVf5uTzOdKgeRz+6waCHFnvhNr4cz73d3r8pzdAakw7CxXhun8uOjsuh0ag6scZTCjZjG0gqcIHTiB96lGpfPH3HrR2EJxDwvzOyTNVVQtVIGG2EGc6CCgUTmeh2IEjUIgra2MtsdItf3ODsZweapzPaE+NZ/gnYPxnHfkzkuyQDni1kBtUlmLYy5WT6VhEUkEBKYOADWTwyUsv+iBvT4HBXrDeb2LPqEne/rtDlLkn8rdIg5bNNIQgCzl9EQz1k9TiDOGhZxXW3iqu8CURrwYtLxfZOsPtBkk7fa2A+QflTp/LV3yLREuswAmaYWgZO+7VaKHO9kAGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7QyEi0ZvHrl6PlU7nmQXD2oqpCtfqzTsWPwBQe2U3is=;
- b=LRl0+X9e82n2P9yMESv4M4fpIw2IrJQi7s8j30qnY7LCWent8a0JMehlVpMDkZ2csXUaQX8WgNlJR3RxzLtaxk+E2kiFhFhXEbtcStsuq++D0Lnt6pINEev5pWKHOrma00akalKDwcx0QlyQ8WIZkoGwU6zsGXGOx9nX57mS87TkHKKc4qJzHC50roKKYfoJB1VoHT6+gCkZmX3UDgXmDVfmgLfxUDfOuD8m7EqfQHj1Kt7rWrAvTbpoYQ1nTGkhhLWzXazEhKY6wGGm7WO5PTZrcYqyWWLqYWhySUNdj6V0OL+JfOqVmRj+goJFVQYFMpQSk7SKq+dY1AuKCFLfGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by BL3PR11MB6433.namprd11.prod.outlook.com (2603:10b6:208:3b9::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19; Thu, 9 Feb
- 2023 16:05:45 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::3bd5:710c:ebab:6158]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::3bd5:710c:ebab:6158%9]) with mapi id 15.20.6086.019; Thu, 9 Feb 2023
- 16:05:45 +0000
-Date: Thu, 9 Feb 2023 11:05:38 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <Y+UZ0rh2YlhTrE4t@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0P220CA0029.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::13) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4409910E220
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 16:39:02 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id j23so2426591wra.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 08:39:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=froggi.es; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=O8V3N6wSlSENNpeawEJmTyMSuquwbmA5xa/bqwuoK0Y=;
+ b=I7Xwb36JOGo7wg9KuYd6h73CYo1jAyipu4Q/20lqr9do+vqgVPYM6ExIDKrMYxm3HJ
+ aXUjZFo1CrH9FIHH9Mqo5o82hAvq/1GtJmURXp1u58gyGtX+VQyR5w7R4KH8xiMklDOG
+ XriUSGVqbiFGwtP8bvi85ILY+SRaEAOgU8LvgEe9N+VtcoQBGXJvclxmyBE2RU8kfyl1
+ uwP5onoXvjwoH0k2KBCjipd+wOx2jbV2ydHe6TdbK0wz7jC0RHZ40BnUniqTcKaA0TuF
+ 5dzGe1O3KKwc0fwEsjrZkrSA/0uGKIi4vr8Lt+1HBVDWaqti1UVRJQEOwrRtb5dwNLhv
+ D43w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=O8V3N6wSlSENNpeawEJmTyMSuquwbmA5xa/bqwuoK0Y=;
+ b=G7Kl8K5v0E73mh4ijrz4b+5CBO8F1ga6Py7zaBDVK0yIAzsGAu8SsAN7xUPV3WQIgy
+ 0advMZKjzdRUwuxCK/5QvwgyBieUoYMzQHdVw4kSRFW9BQOQA3Q/wwp2EvTO4OqK0Kaf
+ 5wY419VVmnL8auvOlfUxlLEdkabTB44s8NHf38TIEscDqdG4gBFzmhEdkJNLpAWLPCMT
+ 6YBPjghnSStzf2efB3SBG4mUz15Rc2dLSt7YB6kOXNTaxsJdxrT15CbNOU0S3J3OR1Gc
+ WUL5uj5ELRrUys9C/CLYkb3ntRl07pWEMDEZxrxuybbp9BxU0x3kcsSFoIH8yMTZI4RU
+ Wb3A==
+X-Gm-Message-State: AO0yUKUfT1DcXHkVPs4Sxyr2h1Pu/Qa6vF7AsuECrM3lCa324g9kH5Nt
+ lBJxGoEaEHdCk65SiH65pqWZvg==
+X-Google-Smtp-Source: AK7set83R8dvev7zmXdOCujzIkd7Tkf67Oj+b0b06B6eeFjdpoajjBc0HgNCyTCpWvdD/Td4Ps76pA==
+X-Received: by 2002:adf:dc04:0:b0:2c3:ea92:3494 with SMTP id
+ t4-20020adfdc04000000b002c3ea923494mr10642889wri.55.1675960740789; 
+ Thu, 09 Feb 2023 08:39:00 -0800 (PST)
+Received: from [192.168.0.89]
+ (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
+ by smtp.gmail.com with ESMTPSA id
+ o8-20020a5d58c8000000b002c3f0a4ce98sm1609104wrf.98.2023.02.09.08.38.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Feb 2023 08:39:00 -0800 (PST)
+Message-ID: <54695463-3e7f-4e4a-cd76-fa6f9de1d8e8@froggi.es>
+Date: Thu, 9 Feb 2023 16:38:54 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|BL3PR11MB6433:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c21da86-89c6-469f-27a2-08db0ab77fcb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: COBZuiJ1s+9P+RoIpHvRkcHblNNylckDwJpDiG9EXaDMUdokSORv2vclKPkclkRWuMDbPnVBToMHbzPGvYkbbnMZ6nN1nbHBNtUiODDH2YMLKz7Zi/2CArEv39xzlnT4JIA3306fOLz5naRdoUCpsWhyiT2QuTU+dMK3TTCobeUPzZ6CpCf0zOwo08ypnuMcLgdLT9wm/Yf9jIioO7VpDjTt9dCbI9npA64HrEPvWGUhBbaPH3YrvmZaMBrI9e8aXcsYla8dBWU2meo/hgtzF+LnInycRPWY4qDRbcTICOqpSQQrxxXCMFnx2ENGApjd/bsPRWwPbKQP7Q7sp3i01Hz0z1oAhadHoXVUy+sSWjWYuAAG4oz2Vli8zxtpxBy5s7xSRWE20n5zOO80ATwSFvcBbAedW8Vc3nSe8m5ryqLOL0AiCFlQlw3cIfJD324jRu1cjUeLjKt+8YcMgTL7qlcsuHUHz5s7I+ebHRo1aISa8Ta2QCopLN0QyxiRbk0uoGxmZ+cTJq1ruYHVndkLFnxz7IbJ7wOBBJTjRDHXxPHT74VHS+lQBIxJlKHfc7JbkmM8etdilWqiWtU7SXSQng7MLtiqk7BCUXiL/81xiJ2W2YP0cYj430CyeG54qucyNYiwOcRCGfiDU7LxjCSwOjj63FYpKbZMOAWzxcupl2TiWsquGBGc3zAn2e3ooiP2
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(39860400002)(396003)(366004)(346002)(376002)(136003)(451199018)(36756003)(82960400001)(6666004)(6506007)(26005)(186003)(86362001)(6512007)(478600001)(83380400001)(2616005)(8936002)(5660300002)(4326008)(41300700001)(2906002)(7416002)(54906003)(8676002)(44832011)(110136005)(66946007)(6486002)(66556008)(66476007)(38100700002)(316002)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?rdoXWPyC+ZC8KBIrK9fw7R/tHe2ACxaMsn6rVeVCu6mFRCyfsuWyXvcb+c?=
- =?iso-8859-1?Q?Ll1oetXtgFM4s0DDOB/6p8eO+GvnTUv2Qvl+lPkRn7i/Bb/0qu+YpI8evl?=
- =?iso-8859-1?Q?1mP7eBasf4HPrU0Ul20eRT4yanBU+DGYwAVJnwDKcjMzuikn9+S9eeVUov?=
- =?iso-8859-1?Q?OyPBp93x7Tbzo3G1FtlR01xlwV+9003VoC1Yy+DFpWVinROgZ7R1emWK+b?=
- =?iso-8859-1?Q?fS2+BqsmmNFnyDfPDM5yZFHkCk9i21/eHhCZwQFemUkkNo8ttQsvogKAjZ?=
- =?iso-8859-1?Q?MkWCLwfXWWy9+YegkSocuL06WbmmBzUhOuzvM+2hu0sCNiIHN9rIaJ8JI4?=
- =?iso-8859-1?Q?ZNhMbBfeeOMcgBugQgSlHjuWnyvPkGSjGEdvo8T08evHAEVvzd1YLh/RwN?=
- =?iso-8859-1?Q?fsth/LzX9Fl8Asuy7HvjEmWoFsLPQqfQtGOn/WdS0n1nqORkfw3nZWJPo5?=
- =?iso-8859-1?Q?7VjdWGHR2h/yYsycLnxFCN0Zm0GhQc4Co5EuPIPlhMqyu9+6sQeDOzObyv?=
- =?iso-8859-1?Q?80GDD4cRluXwP8uCFHGeSt8QPkcR2C6vaixt9vLDX3bikJ04X2ri8/jeeQ?=
- =?iso-8859-1?Q?RYi32BZKXIHMzu5q9GCLOqneMT6nyAYiIplup5G/q+vFVQqIlo45tdR4rO?=
- =?iso-8859-1?Q?7pS+Z9yNwvfGJQEk6lUamRv8NOfCgjJ80PycByW/x4CIJfl5OQ/vZO7KaQ?=
- =?iso-8859-1?Q?mVuzAebO1iQSkyyFEgPi084RsyaHZgzqFJkJro/Q7k/U70HHnW05jF61jK?=
- =?iso-8859-1?Q?XBrTVmansVtZhFd4LWTFIq+vs4R7o5qWkx6P8vCaFu6UEMVGIM0DT82eDL?=
- =?iso-8859-1?Q?Aues1Y7CNRR7k9p35OukzBmwBT56z36dtPnjSJYQG9b447xcG+yT2SVgJp?=
- =?iso-8859-1?Q?UbB+zRQVJDBFSidyJa7cDrSgeBYq+e/UO4zkaH82i99+J4Y9vj9mdejqUA?=
- =?iso-8859-1?Q?46Grf7i5ACMsAA0l3QZrwjFTvpE0nhbAL8AWCy3EmxOtjqe3KlqTXsU1Xv?=
- =?iso-8859-1?Q?RrT9SO5fFhnKZU3ijG1oS3PEQZqmghGXcFz/4tFEpsTY75otLU04lhSaIl?=
- =?iso-8859-1?Q?frPwfAtsbAEawWEdtpq4TudSCadQ+bivWDFbTrVYzcA6aHwHMi/ziZf70O?=
- =?iso-8859-1?Q?r+5h0PH2fOLSMpNPK70woyJl5NpJGpLG5QcLUJKgd6NcOg34gFSHobtnpm?=
- =?iso-8859-1?Q?HrYHHOPaJizz3aJL7sSfTfWIegxmlfkicf2XW0MlsGLaJvHm/v40BilBt5?=
- =?iso-8859-1?Q?RehbOus9N7pKJLJM0HkTNGpxzn5z4zRVwsuWZ8+lXSS41M7EOf/J8kObTF?=
- =?iso-8859-1?Q?jRfmVTm8MJlmCQG2lODvjdtJ6fcRUPfUNyJew/tGgiUVgNI2zeH36mbTJe?=
- =?iso-8859-1?Q?Fh85rOKcubEBR4ojObWs7W4RIdFPhQD+nwToP5RU8soHx/7a8JJnQ2k+Wp?=
- =?iso-8859-1?Q?Od4xu1ZfDXSFrNr/YMwibCh2KrE47XgbVQT6kDXc2Ct56p6TQY6BnlqRuV?=
- =?iso-8859-1?Q?n4E65x76mjX5h53BQaIxrC/K2sa3rTrAwbPdo3yQYgWhoYi1Ie4Qi3NC87?=
- =?iso-8859-1?Q?OmmUuzQay/MfQKM3GUlZZqGolbWfGrLxu+IgF90EwZZbGVjgeoNjBMazY3?=
- =?iso-8859-1?Q?4HY05CwLDhtfJPp6ACvgrUMy+yNvXYcyBLny1d5PrIAaWJpaUtJ1MwYw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c21da86-89c6-469f-27a2-08db0ab77fcb
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2023 16:05:45.1287 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w6iCP7nOD5AiSRH6EfYM3KNDvlrcFBJFlNNNil5bdpzZeBaOttg9Nks+X0McfxCDZ+gVcMjDThlIe5r9umKXiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6433
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
+ drm_colorspace enum
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20230203020744.30745-1-joshua@froggi.es>
+ <20230203020744.30745-3-joshua@froggi.es> <20230208113041.70691449@eldfell>
+Content-Language: en-US
+From: Joshua Ashton <joshua@froggi.es>
+In-Reply-To: <20230208113041.70691449@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,63 +77,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
+ Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
 
-Here goes our fixes for this week with a few patches targeting stable.
 
-drm-intel-fixes-2023-02-09:
-- Display watermark fix (Ville)
-- fbdev fix for PSR, FBC, DRRS (Jouni)
-- Move fd_install after last use of fence (Rob)
-- Initialize the obj flags for shmem objects (Aravind)
-- Fix VBT DSI DVO port handling (Ville)
+On 2/8/23 09:30, Pekka Paalanen wrote:
+> On Fri,  3 Feb 2023 02:07:44 +0000
+> Joshua Ashton <joshua@froggi.es> wrote:
+> 
+>> Userspace has no way of controlling or knowing the pixel encoding
+>> currently, so there is no way for it to ever get the right values here.
+>>
+>> When we do add pixel_encoding control from userspace,we can pick the
+>> right value for the colorimetry packet based on the
+>> pixel_encoding + the colorspace.
+>>
+>> Let's deprecate these values, and have one BT.2020 colorspace entry
+>> that userspace can use.
+>>
+>> Note: _CYCC was effectively 'removed' by this change, but that was not
+>> possible to be taken advantage of anyway, as there is currently no
+>> pixel_encoding control so it would not be possible to output
+>> linear YCbCr.
+>>
+>> Signed-off-by: Joshua Ashton <joshua@froggi.es>
+>>
+>> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+>> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+>> Cc: Vitaly.Prosyak@amd.com
+>> Cc: Uma Shankar <uma.shankar@intel.com>
+>> Cc: Ville Syrj√§l√§ <ville.syrjala@linux.intel.com>
+>> Cc: Joshua Ashton <joshua@froggi.es>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: amd-gfx@lists.freedesktop.org
+>> ---
+>>   drivers/gpu/drm/display/drm_hdmi_helper.c |  9 ++++-----
+>>   drivers/gpu/drm/drm_connector.c           | 12 ++++++------
+>>   drivers/gpu/drm/i915/display/intel_dp.c   | 20 +++++++++-----------
+>>   include/drm/drm_connector.h               | 19 ++++++++++---------
+>>   4 files changed, 29 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+>> index 0264abe55278..c85860600395 100644
+>> --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+>> +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+>> @@ -99,8 +99,7 @@ EXPORT_SYMBOL(drm_hdmi_infoframe_set_hdr_metadata);
+>>   #define HDMI_COLORIMETRY_OPYCC_601		(C(3) | EC(3) | ACE(0))
+>>   #define HDMI_COLORIMETRY_OPRGB			(C(3) | EC(4) | ACE(0))
+>>   #define HDMI_COLORIMETRY_BT2020_CYCC		(C(3) | EC(5) | ACE(0))
+>> -#define HDMI_COLORIMETRY_BT2020_RGB		(C(3) | EC(6) | ACE(0))
+>> -#define HDMI_COLORIMETRY_BT2020_YCC		(C(3) | EC(6) | ACE(0))
+>> +#define HDMI_COLORIMETRY_BT2020			(C(3) | EC(6) | ACE(0))
+>>   #define HDMI_COLORIMETRY_DCI_P3_RGB_D65		(C(3) | EC(7) | ACE(0))
+>>   #define HDMI_COLORIMETRY_DCI_P3_RGB_THEATER	(C(3) | EC(7) | ACE(1))
+>>   
+>> @@ -113,9 +112,9 @@ static const u32 hdmi_colorimetry_val[] = {
+>>   	[DRM_MODE_COLORIMETRY_SYCC_601] = HDMI_COLORIMETRY_SYCC_601,
+>>   	[DRM_MODE_COLORIMETRY_OPYCC_601] = HDMI_COLORIMETRY_OPYCC_601,
+>>   	[DRM_MODE_COLORIMETRY_OPRGB] = HDMI_COLORIMETRY_OPRGB,
+>> -	[DRM_MODE_COLORIMETRY_BT2020_CYCC] = HDMI_COLORIMETRY_BT2020_CYCC,
+>> -	[DRM_MODE_COLORIMETRY_BT2020_RGB] = HDMI_COLORIMETRY_BT2020_RGB,
+>> -	[DRM_MODE_COLORIMETRY_BT2020_YCC] = HDMI_COLORIMETRY_BT2020_YCC,
+>> +	[DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1] = HDMI_COLORIMETRY_BT2020,
+>> +	[DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2] = HDMI_COLORIMETRY_BT2020,
+>> +	[DRM_MODE_COLORIMETRY_BT2020] = HDMI_COLORIMETRY_BT2020,
+>>   };
+>>   
+>>   #undef C
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>> index 61c29ce74b03..58699ab15a6a 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -1029,11 +1029,11 @@ static const struct drm_prop_enum_list hdmi_colorspaces[] = {
+>>   	/* Colorimetry based on IEC 61966-2-5 */
+>>   	{ DRM_MODE_COLORIMETRY_OPRGB, "opRGB" },
+>>   	/* Colorimetry based on ITU-R BT.2020 */
+>> -	{ DRM_MODE_COLORIMETRY_BT2020_CYCC, "BT2020_CYCC" },
+>> +	{ DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1, "BT2020_DEPRECATED_1" },
+>>   	/* Colorimetry based on ITU-R BT.2020 */
+>> -	{ DRM_MODE_COLORIMETRY_BT2020_RGB, "BT2020_RGB" },
+>> +	{ DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2, "BT2020_DEPRECATED_2" },
+>>   	/* Colorimetry based on ITU-R BT.2020 */
+>> -	{ DRM_MODE_COLORIMETRY_BT2020_YCC, "BT2020_YCC" },
+>> +	{ DRM_MODE_COLORIMETRY_BT2020, "BT2020" },
+>>   	/* Added as part of Additional Colorimetry Extension in 861.G */
+>>   	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65, "DCI-P3_RGB_D65" },
+>>   	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER, "DCI-P3_RGB_Theater" },
+>> @@ -1054,7 +1054,7 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+>>   	/* Colorimetry based on SMPTE RP 431-2 */
+>>   	{ DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65, "DCI-P3_RGB_D65" },
+>>   	/* Colorimetry based on ITU-R BT.2020 */
+>> -	{ DRM_MODE_COLORIMETRY_BT2020_RGB, "BT2020_RGB" },
+>> +	{ DRM_MODE_COLORIMETRY_BT2020, "BT2020" },
+>>   	{ DRM_MODE_COLORIMETRY_BT601_YCC, "BT601_YCC" },
+>>   	{ DRM_MODE_COLORIMETRY_BT709_YCC, "BT709_YCC" },
+>>   	/* Standard Definition Colorimetry based on IEC 61966-2-4 */
+>> @@ -1066,9 +1066,9 @@ static const struct drm_prop_enum_list dp_colorspaces[] = {
+>>   	/* Colorimetry based on IEC 61966-2-5 [33] */
+>>   	{ DRM_MODE_COLORIMETRY_OPYCC_601, "opYCC_601" },
+>>   	/* Colorimetry based on ITU-R BT.2020 */
+>> -	{ DRM_MODE_COLORIMETRY_BT2020_CYCC, "BT2020_CYCC" },
+>> +	{ DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1, "BT2020_DEPRECATED_1" },
+>>   	/* Colorimetry based on ITU-R BT.2020 */
+>> -	{ DRM_MODE_COLORIMETRY_BT2020_YCC, "BT2020_YCC" },
+>> +	{ DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2, "BT2020_DEPRECATED_2" },
+>>   };
+> 
+> Hi,
+> 
+> do these not rename the old uAPI strings?
+> 
+> Shouldn't the old strings be kept? It's much easier to scream "kernel
+> regression" when the expected string is no longer found than a subtle
+> change in behaviour that might not even be a change. ;-)
+> 
+> If there is not going to be a difference in behaviour, the enum could
+> expose e.g. all of "BT2020_RGB", "BT2020_CYCC" and "BT2020_YCC" as the
+> same integer value. If old userspace exists, it would not notice any
+> difference.
+> 
+> I mean, the *strings* are the uAPI, not the integers, right?
 
-Thanks,
-Rodrigo.
+Both are uAPI these days.
 
-The following changes since commit 4ec5183ec48656cec489c49f989c508b68b518e3:
+I was wrong when I did this commit either way.
 
-  Linux 6.2-rc7 (2023-02-05 13:13:28 -0800)
+- Joshie üê∏‚ú®
 
-are available in the Git repository at:
+> 
+> 
+> Thanks,
+> pq
+> 
+>>   
+>>   /**
+>> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+>> index c9be61d2348e..1aa5dedeec7b 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+>> @@ -1763,14 +1763,12 @@ static void intel_dp_compute_vsc_colorimetry(const struct intel_crtc_state *crtc
+>>   	case DRM_MODE_COLORIMETRY_OPYCC_601:
+>>   		vsc->colorimetry = DP_COLORIMETRY_OPYCC_601;
+>>   		break;
+>> -	case DRM_MODE_COLORIMETRY_BT2020_CYCC:
+>> -		vsc->colorimetry = DP_COLORIMETRY_BT2020_CYCC;
+>> -		break;
+>> -	case DRM_MODE_COLORIMETRY_BT2020_RGB:
+>> -		vsc->colorimetry = DP_COLORIMETRY_BT2020_RGB;
+>> -		break;
+>> -	case DRM_MODE_COLORIMETRY_BT2020_YCC:
+>> -		vsc->colorimetry = DP_COLORIMETRY_BT2020_YCC;
+>> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1:
+>> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2:
+>> +	case DRM_MODE_COLORIMETRY_BT2020:
+>> +		vsc->colorimetry = vsc->pixelformat == DP_PIXELFORMAT_RGB
+>> +			? DP_COLORIMETRY_BT2020_RGB
+>> +			: DP_COLORIMETRY_BT2020_YCC;
+>>   		break;
+>>   	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+>>   	case DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
+>> @@ -3043,9 +3041,9 @@ intel_dp_needs_vsc_sdp(const struct intel_crtc_state *crtc_state,
+>>   	switch (conn_state->colorspace) {
+>>   	case DRM_MODE_COLORIMETRY_SYCC_601:
+>>   	case DRM_MODE_COLORIMETRY_OPYCC_601:
+>> -	case DRM_MODE_COLORIMETRY_BT2020_YCC:
+>> -	case DRM_MODE_COLORIMETRY_BT2020_RGB:
+>> -	case DRM_MODE_COLORIMETRY_BT2020_CYCC:
+>> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1:
+>> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2:
+>> +	case DRM_MODE_COLORIMETRY_BT2020:
+>>   		return true;
+>>   	default:
+>>   		break;
+>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>> index eb4cc9076e16..42a3cf43168c 100644
+>> --- a/include/drm/drm_connector.h
+>> +++ b/include/drm/drm_connector.h
+>> @@ -390,12 +390,13 @@ enum drm_privacy_screen_status {
+>>    *   opYCC601 colorimetry format
+>>    * @DRM_MODE_COLORIMETRY_OPRGB:
+>>    *   opRGB colorimetry format
+>> - * @DRM_MODE_COLORIMETRY_BT2020_CYCC:
+>> - *   ITU-R BT.2020 Y'c C'bc C'rc (linear) colorimetry format
+>> - * @DRM_MODE_COLORIMETRY_BT2020_RGB:
+>> - *   ITU-R BT.2020 R' G' B' colorimetry format
+>> - * @DRM_MODE_COLORIMETRY_BT2020_YCC:
+>> - *   ITU-R BT.2020 Y' C'b C'r colorimetry format
+>> + * @DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1:
+>> + * @DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2:
+>> + * @DRM_MODE_COLORIMETRY_BT2020:
+>> + *   ITU-R BT.2020 [R' G' B'] or
+>> + * 	 ITU-R BT.2020 [Y' C'b C'r] or
+>> + *   ITU-R BT.2020 [Y'c C'bc C'rc] (linear)
+>> + *   colorimetry format
+>>    * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+>>    *   DCI-P3 (SMPTE RP 431-2) colorimetry format
+>>    * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
+>> @@ -420,9 +421,9 @@ enum drm_colorspace {
+>>   	DRM_MODE_COLORIMETRY_SYCC_601,
+>>   	DRM_MODE_COLORIMETRY_OPYCC_601,
+>>   	DRM_MODE_COLORIMETRY_OPRGB,
+>> -	DRM_MODE_COLORIMETRY_BT2020_CYCC,
+>> -	DRM_MODE_COLORIMETRY_BT2020_RGB,
+>> -	DRM_MODE_COLORIMETRY_BT2020_YCC,
+>> +	DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_1,
+>> +	DRM_MODE_COLORIMETRY_BT2020_DEPRECATED_2,
+>> +	DRM_MODE_COLORIMETRY_BT2020,
+>>   	/* Additional Colorimetry extension added as part of CTA 861.G */
+>>   	DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65,
+>>   	DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER,
+> 
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-02-09
-
-for you to fetch changes up to 6a7ff131f17f44c593173c5ee30e2c03ef211685:
-
-  drm/i915: Fix VBT DSI DVO port handling (2023-02-08 08:39:44 -0500)
-
-----------------------------------------------------------------
-- Display watermark fix (Ville)
-- fbdev fix for PSR, FBC, DRRS (Jouni)
-- Move fd_install after last use of fence (Rob)
-- Initialize the obj flags for shmem objects (Aravind)
-- Fix VBT DSI DVO port handling (Ville)
-
-----------------------------------------------------------------
-Aravind Iddamsetty (1):
-      drm/i915: Initialize the obj flags for shmem objects
-
-Jouni Hˆgander (1):
-      drm/i915/fbdev: Implement fb_dirty for intel custom fb helper
-
-Rob Clark (1):
-      drm/i915: Move fd_install after last use of fence
-
-Ville Syrj‰l‰ (2):
-      drm/i915: Don't do the WM0->WM1 copy w/a if WM1 is already enabled
-      drm/i915: Fix VBT DSI DVO port handling
-
- drivers/gpu/drm/i915/display/intel_bios.c      | 33 ++++++++++++++++++--------
- drivers/gpu/drm/i915/display/intel_fbdev.c     | 12 ++++++++++
- drivers/gpu/drm/i915/display/skl_watermark.c   |  3 ++-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 14 +++++------
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c      |  2 +-
- 5 files changed, 45 insertions(+), 19 deletions(-)
