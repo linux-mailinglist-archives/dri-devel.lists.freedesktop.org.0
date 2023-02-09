@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BBD690308
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:15:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC1469030E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:16:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1334A8924F;
-	Thu,  9 Feb 2023 09:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC49010E0E9;
+	Thu,  9 Feb 2023 09:16:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD7A10E977
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:15:38 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9E48966020B9;
- Thu,  9 Feb 2023 09:15:36 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1675934137;
- bh=8edIGnmtJ1NrcW68pSHJQfhqO7Od8cz1RPWn+l0cH7g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=e/Ni+IP7bUf1+wNovwd5vyh4UKNhtU+KHCLfOlNd4MqQoE7qe1vzU3cT6UBUHklbK
- 0Wgwaea/4bQV139qiPB4PxTFgoEf8PVHzpNJkKztb5sdcSAOTmxs5kturOk/S211Uc
- 4DImxXdQqRJbFFc4vfuBd8R88sTPfi9XvNOxKrSZQDjGAMV6WwoaFAJFC2eILgj+0Z
- aiQk/SHHPVqqd2C4c1hVyMZ2xS1d1u8JB2MZHe3nbHG5Nf7UywFprjykJ/tt1n3FHJ
- A10ciIkixCQKUYrGnylx90tXmvZVh431qQEuDciYH2s1g4tZBykE6KClzguv8fUAiG
- DLMJNWWa01NzQ==
-Message-ID: <0faf89cb-4709-17c9-0d67-da7ef2ddb7e6@collabora.com>
-Date: Thu, 9 Feb 2023 10:15:33 +0100
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+ [130.133.4.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9073110E0E9
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:16:11 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.95) with esmtps (TLS1.3)
+ tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1pQ323-003ncL-Bt; Thu, 09 Feb 2023 10:15:55 +0100
+Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100]
+ helo=suse-laptop.fritz.box) by inpost2.zedat.fu-berlin.de (Exim 4.95)
+ with esmtpsa (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1pQ323-0012H8-3k; Thu, 09 Feb 2023 10:15:55 +0100
+Message-ID: <ed4a36508c3d047f9e9a882475388be18b790b76.camel@physik.fu-berlin.de>
+Subject: Re: remove arch/sh
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Rob Landley <rob@landley.net>, Randy Dunlap <rdunlap@infradead.org>, 
+ Christoph Hellwig <hch@lst.de>
+Date: Thu, 09 Feb 2023 10:15:52 +0100
+In-Reply-To: <1c6e7a19-a650-1852-6f74-ca5547db44c4@landley.net>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+ <20230203071423.GA24833@lst.de>
+ <60ed320c8f5286e8dbbf71be29b760339fd25069.camel@physik.fu-berlin.de>
+ <0e26bf17-864e-eb22-0d07-5b91af4fde92@infradead.org>
+ <f6317e9073362b13b10df57de23e63945becea32.camel@physik.fu-berlin.de>
+ <1c6e7a19-a650-1852-6f74-ca5547db44c4@landley.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 1/9] dt-bindings: gpu: mali-bifrost: Don't allow
- sram-supply by default
-Content-Language: en-US
-To: Chen-Yu Tsai <wenst@chromium.org>
-References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
- <20230208103709.116896-2-angelogioacchino.delregno@collabora.com>
- <CAGXv+5Gm=Onu2RK+skLgN4Kzo9yP1n5Zb48oQNkQ019838QeEQ@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAGXv+5Gm=Onu2RK+skLgN4Kzo9yP1n5Zb48oQNkQ019838QeEQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.148.100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,99 +57,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-arch@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ linux-gpio@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, linux-rtc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/02/23 03:50, Chen-Yu Tsai ha scritto:
-> On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> The sram-supply is MediaTek-specific, it is and will ever be used
->> only for the mediatek,mt8183-mali compatible due to the addition of
->> the mediatek-regulator-coupler driver: change the binding to add
->> this supply when mediatek,mt8183-mali is present as a compatible
->> instead of disabling it when not present.
->>
->> This is done in preparation for adding new bindings for other
->> MediaTek SoCs, such as MT8192 and others.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 4 +---
->>   1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
->> index 78964c140b46..69212f3b1328 100644
->> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
->> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
->> @@ -57,8 +57,6 @@ properties:
->>
->>     mali-supply: true
->>
->> -  sram-supply: true
->> -
-> 
-> Have you tried actually validating the device trees against this?
-> Based on my previous tests this gives out errors.
+On Wed, 2023-02-08 at 21:09 -0600, Rob Landley wrote:
+> > Geert has suggested to wait with adding a tree source to the entry unti=
+l I get my
+> > own kernel.org account. I have enough GPG signatures from multiple kern=
+el developers
+> > on my GPG key, so I think it shouldn't be too difficult to qualify for =
+an account.
+>=20
+> So you're not planning to use https://lk.j-core.org/J-Core-Developers/sh-=
+linux
+> but push to kernel.org and ask Linus to pull from there?
 
-I did... and I didn't get any complaint... but perhaps something went wrong
-on my side?
+Yes, that's what Geert recommended.
 
-I mean, I can retry just to be sure.
+Adrian
 
-> 
-> The reason is that each conditional is a separate sub-schema, and the
-> validator is run against each schema and sub-schema separately, instead
-> of collapsing matching schemas and sub-schemas together and validating
-> once. So we'll get a validation error on sram-supply not being a valid
-> property when validating current mt8183 against the base schema.
-> 
-> We have a similar issue with power-domain-names, for which I'll send
-> a patch to fix. See the following for the fix:
-> 
->      http://git.kernel.org/wens/c/d1adb38ab2ad0442755607c2bcc726cc17cce2c7
-> 
-> and the following for what I did for MT8192 on top of the previous patch:
-> 
->      http://git.kernel.org/wens/c/049bd164884398d7e5f72c710da6aaa9a95bc10a
-> 
-
-Thanks for the pointer, btw
-
-Cheers,
-Angelo
-
-> 
-> Regards
-> ChenYu
-> 
->>     operating-points-v2: true
->>
->>     power-domains:
->> @@ -157,6 +155,7 @@ allOf:
->>               - const: core0
->>               - const: core1
->>               - const: core2
->> +        sram-supply: true
->>
->>         required:
->>           - sram-supply
->> @@ -166,7 +165,6 @@ allOf:
->>         properties:
->>           power-domains:
->>             maxItems: 1
->> -        sram-supply: false
->>     - if:
->>         properties:
->>           compatible:
->> --
->> 2.39.1
->>
-
-
-
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
