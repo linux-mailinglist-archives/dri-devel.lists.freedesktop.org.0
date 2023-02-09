@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C55690354
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:20:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216666903B3
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:30:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2532310E979;
-	Thu,  9 Feb 2023 09:20:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A027910E97C;
+	Thu,  9 Feb 2023 09:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2156B10E979
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:20:50 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2093366020BC;
- Thu,  9 Feb 2023 09:20:48 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1675934448;
- bh=XK89DpHTkrbWesh1OFAIn18zG/r2PRgD+/v++LschwY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lqtvD/mTT0Ly2chZp849w/RLuviHsFeOJD1cgW9SpALvw1pwRE8yT88jAUe2ufll4
- 6AWlK77SBPAlnFztsCo9KFtM87fQTk1BcnhfYQfRponS3JVsPEpgsCy4Q9h3ivveI+
- LDmYQ5fL/rA2f4/vt9vHT4x2Z6ABhoBwABrXfRC6FT9Zbi12hasLs7uBhkL4FmZmGU
- 5+yYxapS1gsYEQ2Mbs5gRHvt1+VTnABTwUboGxPgRv30vUFMx6Qtejs/lC1CKSNv7W
- uLkCvo1z3CZ936nCMnQqbqlbNLcj2vtMjQwD+Gxs/gkckCtgohqkcYYB/UcOmMszSp
- F/6dOiDm357Pg==
-Message-ID: <7784f5a2-3cfc-9999-0ad6-cb9cfc1f2822@collabora.com>
-Date: Thu, 9 Feb 2023 10:20:45 +0100
+X-Greylist: delayed 479 seconds by postgrey-1.36 at gabe;
+ Thu, 09 Feb 2023 09:30:27 UTC
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A896010E97C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:30:27 +0000 (UTC)
+Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
+ by twspam01.aspeedtech.com with ESMTP id 3199AH6t026357
+ for <dri-devel@lists.freedesktop.org>; Thu, 9 Feb 2023 17:10:17 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 3199A8ZR026341;
+ Thu, 9 Feb 2023 17:10:08 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 9 Feb
+ 2023 17:22:22 +0800
+Message-ID: <65c4af68-3808-4021-ae4f-d0c07c908431@aspeedtech.com>
+Date: Thu, 9 Feb 2023 17:22:22 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 5/9] dt-bindings: gpu: mali-bifrost: Add a compatible for
- MediaTek MT8186
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v2] drm/ast: Fix start address computation
 Content-Language: en-US
-To: Chen-Yu Tsai <wenst@chromium.org>
-References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
- <20230208103709.116896-6-angelogioacchino.delregno@collabora.com>
- <CAGXv+5FZqrGzzG8FrmLVzMd7=a23ZJPYGSy5yhYWgH+BFHNmxw@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAGXv+5FZqrGzzG8FrmLVzMd7=a23ZJPYGSy5yhYWgH+BFHNmxw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Jocelyn Falempe <jfalempe@redhat.com>, <dri-devel@lists.freedesktop.org>, 
+ <tzimmermann@suse.de>, <airlied@redhat.com>,
+ <kuohsiang_chou@aspeedtech.com>
+References: <20230209091254.15455-1-jfalempe@redhat.com>
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <20230209091254.15455-1-jfalempe@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 3199A8ZR026341
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,36 +58,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
- Fei Shao <fshao@chromium.org>, Nick Fan <Nick.Fan@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/02/23 09:49, Chen-Yu Tsai ha scritto:
-> On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Get GPU support on MT8186 by adding its compatible.
-> 
-> I'd skip MT8186 for now. We have to work out some binning details for the
-> OPP, in particular how to deal with both Panfrost (or Mali) and SVS adding
-> the OPP table. We were just looking at the Mali driver today.
-> 
+Hello,
 
-Dealing with binning is fairly easy... I have something already done for
-that one, but I'm not sure that it would be the best option.
-My solution makes use of opp-supported-hw by "standard means", but perhaps
-let's have a separated conversation about it?
+The offset given to ast_set_start_address_crt1() should be offset in 
+vram. It should 0 now as your patch.
 
-I don't think that skipping this would give any benefit though, because
-that is only adding a compatible and whatever binning support would have
-to be generic and 99% not bound to any mediatek specific compatible.
+I think it is better to correct it in ast_primary_plane_init() and 
+ast_cursor_plane_init() as below.
 
-Angelo
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -714,7 +714,7 @@ static int ast_primary_plane_init(struct ast_private 
+*ast)
+         struct ast_plane *ast_primary_plane = &ast->primary_plane;
+         struct drm_plane *primary_plane = &ast_primary_plane->base;
+         void __iomem *vaddr = ast->vram;
+-       u64 offset = ast->vram_base;
++       u64 offset = 0;
+         unsigned long cursor_size = roundup(AST_HWC_SIZE + 
+AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+         unsigned long size = ast->vram_fb_available - cursor_size;
+         int ret;
+@@ -972,7 +972,7 @@ static int ast_cursor_plane_init(struct ast_private 
+*ast)
+                 return -ENOMEM;
 
-> ChenYu
+         vaddr = ast->vram + ast->vram_fb_available - size;
+-       offset = ast->vram_base + ast->vram_fb_available - size;
++       offset = st->vram_fb_available - size;
+
+On 2023/2/9 下午 05:12, Jocelyn Falempe wrote:
+> During the driver conversion to shmem, the start address for the
+> scanout buffer was set to the base PCI address.
+> In most cases it works because only the lower 24bits are used, and
+> due to alignment it was almost always 0.
+> But on some unlucky hardware, it's not the case, and some unitilized
+> memory is displayed on the BMC.
+> With shmem, the primary plane is always at offset 0 in GPU memory.
+>
+> Tested on a sr645 affected by this bug.
+>
+> Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>   drivers/gpu/drm/ast/ast_mode.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index c7443317c747..54deb29bfeb3 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -681,7 +681,8 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   	if (!old_fb || old_fb->pitches[0] != fb->pitches[0])
+>   		ast_set_offset_reg(ast, fb);
+>   	if (!old_fb) {
+> -		ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
+> +		/* with shmem, the primary plane is always at offset 0 */
+> +		ast_set_start_address_crt1(ast, 0);
+>   		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
+>   	}
+>   }
+
+-- 
+Best Regards
+Jammy
 
