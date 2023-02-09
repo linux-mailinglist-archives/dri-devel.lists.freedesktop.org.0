@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CBC69067A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 12:17:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC5B69067C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 12:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE82D10E9B1;
-	Thu,  9 Feb 2023 11:17:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE1110E9B2;
+	Thu,  9 Feb 2023 11:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13D1C10E9A9;
- Thu,  9 Feb 2023 11:17:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A038A10E9AF;
+ Thu,  9 Feb 2023 11:17:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9E264619E8;
- Thu,  9 Feb 2023 11:17:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4185BC433D2;
- Thu,  9 Feb 2023 11:17:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2B02161A33;
+ Thu,  9 Feb 2023 11:17:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CCBC433D2;
+ Thu,  9 Feb 2023 11:17:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675941440;
- bh=+vhK7e6XhuIH/Br9csMJjJgtHpt33A6BtnHyMAY8D0s=;
+ s=k20201202; t=1675941445;
+ bh=gVh6vKcD3veQO8dD/zvVPFaBQ6I3xHyzxSFt5Ew0QQ0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eWkbWtyBUtkbbyltFY6fTa7MMqZClr8rWL5FCPTKYqXgOKsXCsUJhN3mjYWk1LLB0
- 8dgvV4btpYbq2GPqSI6nSejxxlsrPDN25ZbPTRXRKzmzBusfLPzlN4rBObM87dH2yJ
- D8xhlhwp+de9drlIX+7Wrnr+kOvl076BZUueCxsXVPJ1kXGbH/eu92cniZU/7hKB1B
- 6E9kHO1DwJMEfAuo0KMlxxaXg/Q6WoRfFeIxCZwimyelhi9estBgAMgM2VHGxUmwUo
- KwWSUf4ICs5eeOqmiWhxFX7y+4amFYm8qZgXSApWBXXqyaO+jRnFhIxui+tnANyYLD
- GZrmD1bvf4sIg==
+ b=nm91bZHIQXMkdSs0UUnqYJTd4aAsp4y2mrAbO1FMMm3/mI6HsyGpUPrnCr8iOS3L1
+ nZAkoaIum9f77oTMXD31822zostzHF7pN7x8YUMbrlYUeErpMWp13UsYXYBBKsmicN
+ vB64zG+4ZRNPh2HWRQGZgeQqfDwciGnVh6dzo3TljSwzv0d+AX1CpFdAv7mPP60hYb
+ /qvvtVnaW4W9t+HP3d366T0Z0KH/w19fBSxf6i704BCOuxsA4WAs2ikm5yEnjbIL6C
+ eWY0OwSxyi88Ev6Db0Y+RkZUkv34dQzKMWJik+CIgxIdrbu5GC2tXOvV4zv7XMV0cJ
+ mOietlAk5LyLg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 34/38] drm/amdgpu: Enable vclk dclk node for
- gc11.0.3
-Date: Thu,  9 Feb 2023 06:14:53 -0500
-Message-Id: <20230209111459.1891941-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 35/38] drm/amd/display: Properly handle additional
+ cases where DCN is not supported
+Date: Thu,  9 Feb 2023 06:14:54 -0500
+Message-Id: <20230209111459.1891941-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230209111459.1891941-1-sashal@kernel.org>
 References: <20230209111459.1891941-1-sashal@kernel.org>
@@ -56,51 +56,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Yiqing Yao <yiqing.yao@amd.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- evan.quan@amd.com, christian.koenig@amd.com,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, stylon.wang@amd.com, sunpeng.li@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, roman.li@amd.com,
+ amd-gfx@lists.freedesktop.org, Jerry.Zuo@amd.com,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yiqing Yao <yiqing.yao@amd.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit ac7170082c0e140663f0853d3de733a5341ce7b0 ]
+[ Upstream commit 6fc547a5a2ef5ce05b16924106663ab92f8f87a7 ]
 
-These sysfs nodes are tested supported, so enable them.
+There could be boards with DCN listed in IP discovery, but no
+display hardware actually wired up.  In this case the vbios
+display table will not be populated.  Detect this case and
+skip loading DM when we detect it.
 
-Signed-off-by: Yiqing Yao <yiqing.yao@amd.com>
-Reviewed-by: Hawking Zhang <Hawking.Zhang@amd.com>
+v2: Mark DCN as harvested as well so other display checks
+elsewhere in the driver are handled properly.
+
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/pm/amdgpu_pm.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-index 236657eece477..a9170360d7e85 100644
---- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-+++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
-@@ -2007,14 +2007,16 @@ static int default_attr_update(struct amdgpu_device *adev, struct amdgpu_device_
- 		      gc_ver == IP_VERSION(10, 3, 0) ||
- 		      gc_ver == IP_VERSION(10, 1, 2) ||
- 		      gc_ver == IP_VERSION(11, 0, 0) ||
--		      gc_ver == IP_VERSION(11, 0, 2)))
-+		      gc_ver == IP_VERSION(11, 0, 2) ||
-+		      gc_ver == IP_VERSION(11, 0, 3)))
- 			*states = ATTR_STATE_UNSUPPORTED;
- 	} else if (DEVICE_ATTR_IS(pp_dpm_dclk)) {
- 		if (!(gc_ver == IP_VERSION(10, 3, 1) ||
- 		      gc_ver == IP_VERSION(10, 3, 0) ||
- 		      gc_ver == IP_VERSION(10, 1, 2) ||
- 		      gc_ver == IP_VERSION(11, 0, 0) ||
--		      gc_ver == IP_VERSION(11, 0, 2)))
-+		      gc_ver == IP_VERSION(11, 0, 2) ||
-+		      gc_ver == IP_VERSION(11, 0, 3)))
- 			*states = ATTR_STATE_UNSUPPORTED;
- 	} else if (DEVICE_ATTR_IS(pp_power_profile_mode)) {
- 		if (amdgpu_dpm_get_power_profile_mode(adev, NULL) == -EOPNOTSUPP)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 85bd1f18259c7..c92aaf5c36ef5 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -4512,6 +4512,17 @@ DEVICE_ATTR_WO(s3_debug);
+ static int dm_early_init(void *handle)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
++	struct amdgpu_mode_info *mode_info = &adev->mode_info;
++	struct atom_context *ctx = mode_info->atom_context;
++	int index = GetIndexIntoMasterTable(DATA, Object_Header);
++	u16 data_offset;
++
++	/* if there is no object header, skip DM */
++	if (!amdgpu_atom_parse_data_header(ctx, index, NULL, NULL, NULL, &data_offset)) {
++		adev->harvest_ip_mask |= AMD_HARVEST_IP_DMU_MASK;
++		dev_info(adev->dev, "No object header, skipping DM\n");
++		return -ENOENT;
++	}
+ 
+ 	switch (adev->asic_type) {
+ #if defined(CONFIG_DRM_AMD_DC_SI)
 -- 
 2.39.0
 
