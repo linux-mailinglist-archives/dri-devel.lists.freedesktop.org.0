@@ -2,55 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7826690233
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 09:34:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DD2690234
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 09:34:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0965B10E950;
-	Thu,  9 Feb 2023 08:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B6A10E954;
+	Thu,  9 Feb 2023 08:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com
- [IPv6:2607:f8b0:4864:20::a2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 132EC10E950
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 08:34:09 +0000 (UTC)
-Received: by mail-vk1-xa2d.google.com with SMTP id 9so561804vkq.9
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 00:34:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gWuuUdo7aS+R+xwyMPT4inxSLLiy9YRKAIGpnfs3mMw=;
- b=mnc8Ifx6QnAPmYWW1FKA6DpGkfoRhUGOlwZyawmaWZUYXBRs3P3lMZ6UuiJN+OVnrP
- JYO03+hkMmh17dEbozQueyLF/rseofZe1Ytt3Bf02eSA13fv7UUEzVDkYLMk6yry8LOM
- c7xhnpHflipzPwMHeJMaqdWdhYrJCxv4p+PSc=
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C725610E954
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 08:34:13 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id n13so871774wmr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 00:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=r6Gx4R8kVvNzk+VzWyuBo9M3Fq9oEvOv8oe6nnaK0aE=;
+ b=F5oFQl7L2U3DDpre1RpSxGfinwhte/Lr3+J9RJP+F0nyRYTA3yyTobPu9I/iIBdE0H
+ NWsQ3vdQjVhLRz8rgmq4ga2k10GQH/6vlsekQaMoL96KHz/ltojSGXepRtbbRawLuvie
+ V4uU1PNzqut9r5BBRLq/S/PDyEd9rX23vOyXoYA6pIlvzmGxa/GuaKyq+nqKnoVtfstK
+ mDpQNnmZ01AWSXQ+F0rO9NhIe+OUTpMkixkeuFKiPDZ++vdJlruiYlRvoT4iormZPLkR
+ oJnIOeb+oFIPAosJ6yXwNN3+zSJcpGEz/kkrsNZAPs7tA5DUw4pF5eVXGNL91mbOzcbJ
+ D/eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gWuuUdo7aS+R+xwyMPT4inxSLLiy9YRKAIGpnfs3mMw=;
- b=nNIvZkQ8k0ZmJRSEF5A3qqaqN9AkWQANlIqWQlKYRH4qNs81QJHNfCFxHdbS56pVuB
- 6kIRERdAy980XKpl7x2eLJPBzCClPAfbaJsA4xgOBFniA8CALVvYNDZTAiBW5V5YCjid
- xEej46cuQCjfrR4tOgawM5anfz0/yFHD1rT2jr/JY6LbYuyxaIuyABuhp4uByojI5tVs
- /9OPSuvEDGipOQSFE8jZFBAhTCTH4Les1MpwZHzCrgl5uItRjvV9haBm1s5qjmP/hHQ0
- HtS8myWxJ4kheJOkxsp8ZsKNOHBIee/eQUilWDogWCaJuo3tiAniz1tT5pmOFtjX+Bru
- VUwQ==
-X-Gm-Message-State: AO0yUKVcsWVtqxaErKYgRwRoeYEDEDgEyQbfWn2KtMNn4rC6pSkDkZT9
- vhCghUGDGfX5ORDwv2pHHQPnt69/GEKFHe0TkuW+hg==
-X-Google-Smtp-Source: AK7set8pBou1qM81NL3KNWeDM08Kg7jVEwCB11009P47SaV8veeMsx+j8GewJrleWgySAp8Llo1VSXqxEKvDZ4DLKFA=
-X-Received: by 2002:a1f:9493:0:b0:3ea:7394:e9ef with SMTP id
- w141-20020a1f9493000000b003ea7394e9efmr2102117vkd.11.1675931648111; Thu, 09
- Feb 2023 00:34:08 -0800 (PST)
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=r6Gx4R8kVvNzk+VzWyuBo9M3Fq9oEvOv8oe6nnaK0aE=;
+ b=6hSgfD+ZJEC4B13sKcH5hEG4W/jhqhGP/GrRQ6qECSlp/6fqkoPSJAPINpVOIWHF9U
+ SkHP8IWVw5oUr9qpKucH0bTnwT7I1hJGHdmDAb55jLboOALUOIKgpFeto5Oauyzq5I4g
+ xRG6v8LBianttbXbmOOX3olLa0k74xBIR0QbCqwFOtBWeKEF7ePUimfkPGViTFEf2rSc
+ InfDS6bO0lHyat1S7VrpqmOmPtOHXLonHyMpNvFb8SESbGYPkEsUZTdIwyIOb/yHPYZK
+ i78mA/Eor0P6H3jfsWCEYe2C7GW72NX2whpR/pWgTaFT+KM4ctcCycsOLahla3bfwLiW
+ J7kg==
+X-Gm-Message-State: AO0yUKV+zFOiL/if/VRyHTNJ57elZ65EokJqoPjwdp/PM81q/+osiZ8s
+ cKP0jZPohdJipb+iMcJb/CGJZw==
+X-Google-Smtp-Source: AK7set/b0vsPagbekwWZBq/6HeoQJIXxxSx+zZ79h0wufDlPa4ndoZBBEuQP0/KgmaK9SX0yl31wwg==
+X-Received: by 2002:a05:600c:3510:b0:3dc:42d2:aeee with SMTP id
+ h16-20020a05600c351000b003dc42d2aeeemr9147288wmq.25.1675931652307; 
+ Thu, 09 Feb 2023 00:34:12 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ m18-20020a7bcb92000000b003c6bbe910fdsm4214648wmi.9.2023.02.09.00.34.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Feb 2023 00:34:11 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20230207-topic-sm8550-upstream-vtdr6130-bindings-fix-v1-1-0ba2323420c5@linaro.org>
+References: <20230207-topic-sm8550-upstream-vtdr6130-bindings-fix-v1-1-0ba2323420c5@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display: panel: visionox,vtdr6130: add
+ missing reg property
+Message-Id: <167593165135.1280212.15464621663027280533.b4-ty@linaro.org>
+Date: Thu, 09 Feb 2023 09:34:11 +0100
 MIME-Version: 1.0
-References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
- <20230208103709.116896-3-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230208103709.116896-3-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 9 Feb 2023 16:33:57 +0800
-Message-ID: <CAGXv+5FXqEJaADrhgu-tPfEPPkP1B=bo_KytBH55xCRea4CmTQ@mail.gmail.com>
-Subject: Re: [PATCH 2/9] dt-bindings: gpu: mali-bifrost: Allow up to 5 power
- domains for MT8192
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,91 +77,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> MediaTek MT8192 (and similar) needs five power domains for the
-> Mali GPU and no sram-supply: change the binding to allow so.
->
+Hi,
 
-mt8192 compatible was already added, so this should have:
+On Tue, 07 Feb 2023 11:04:36 +0100, Neil Armstrong wrote:
+> Add missing reg property and update example to add dsi top node.
+> 
+> 
 
-Fixes: 5d82e74a97c2 ("dt-bindings: Add compatible for Mali Valhall (JM)")
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next-fixes)
 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  .../bindings/gpu/arm,mali-bifrost.yaml        | 34 +++++++++++++++++--
->  1 file changed, 31 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 69212f3b1328..e7aba66ddb8f 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -61,7 +61,7 @@ properties:
->
->    power-domains:
->      minItems: 1
-> -    maxItems: 3
-> +    maxItems: 5
->
->    resets:
->      minItems: 1
-> @@ -141,6 +141,18 @@ allOf:
->          - power-domains
->          - resets
->          - reset-names
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - mediatek,mt8183-mali
-> +                - mediatek,mt8192-mali
-> +    then:
-> +      properties:
-> +        power-domains:
-> +          maxItems: 1
->    - if:
->        properties:
->          compatible:
-> @@ -161,10 +173,26 @@ allOf:
->          - sram-supply
->          - power-domains
->          - power-domain-names
-> -    else:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8192-mali
-> +    then:
->        properties:
->          power-domains:
-> -          maxItems: 1
-> +          minItems: 5
-> +        power-domain-names:
-> +          items:
-> +            - const: core0
-> +            - const: core1
-> +            - const: core2
-> +            - const: core3
-> +            - const: core4
-> +
-> +      required:
-> +        - power-domains
-> +        - power-domain-names
->    - if:
->        properties:
->          compatible:
-> --
-> 2.39.1
->
+[1/1] dt-bindings: display: panel: visionox,vtdr6130: add missing reg property
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=467fbc77f673ecc9dcf4e58ffc1fa426a22df7fd
+
+-- 
+Neil
+
