@@ -1,53 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25D269040E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:44:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C3B690410
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:45:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B1810E148;
-	Thu,  9 Feb 2023 09:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B638210E0EB;
+	Thu,  9 Feb 2023 09:45:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D1C10E0EB
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:44:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675935868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ivyRedCODwQ3UXF109vN07cTt7TY50DWth+trokSXto=;
- b=PTTSoXdgqQAmjuklgoYUy04nm78Dzv6LYPsrELaRI16xgB2Nb7niPlI1YGZF3K6pS1LoPC
- MDkANUwOnkayOcwpc1nCFwmk1zjrO2LoK4LK2HEU0l++zA0iQs9PSEC6+dBFyrdc1uwc20
- xwxkDsi19f3TcQOAhKeVz9ETeg709DA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-HQcDXoiiPVW1UGJ0UBX9gw-1; Thu, 09 Feb 2023 04:44:25 -0500
-X-MC-Unique: HQcDXoiiPVW1UGJ0UBX9gw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6B67802D2A;
- Thu,  9 Feb 2023 09:44:24 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58FA7140EBF6;
- Thu,  9 Feb 2023 09:44:23 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
-Subject: [PATCH v3] drm/ast: Fix start address computation
-Date: Thu,  9 Feb 2023 10:44:17 +0100
-Message-Id: <20230209094417.21630-1-jfalempe@redhat.com>
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
+ [IPv6:2607:f8b0:4864:20::e2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71CCC10E0EB
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:45:34 +0000 (UTC)
+Received: by mail-vs1-xe2f.google.com with SMTP id l8so1480856vsm.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 01:45:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=kXhHlY1h7nocfeF1bOOwlqa9GLmp058pSwMc5Nw8eCs=;
+ b=AVQtBu6a+GAA0YuBWAkZuoZ1RiMhYbu91H+uxx6jbo4OyTg1oInL7ybjONKCA9fYgV
+ tXH2621Wu1HMYvV00UxmOK9/0ti5yO/2O700FMrMeyTsHiUghbsmknayRo6UceHPmf2F
+ MS4KjYawZ5imA3BDzv/iFFibjSN2z+XaxLaXg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kXhHlY1h7nocfeF1bOOwlqa9GLmp058pSwMc5Nw8eCs=;
+ b=rDQ5tFSiGJHOv7U52T4KS/1luU6dn43HilYLuDfMkxZ8zcxp5S1F8VNp3+hwDivPd6
+ T/gc6axcYBfESl51vg3PitecfVqQ9MiFjFDS3EzgbHjjt/FT/TBkE0pzevQM2o+LdAVx
+ kPQbzyfqIsr5IP09cyM6U9WSXhYsNBn39tv5aRalkho9aXO+iq0NEPB5widCtTjuixiL
+ oCs5q4IhvQ2OOiZr/pIB3Jj23mHT4LnhQ7Fkes+aCni4bRVuENmM6VMka3EeekjC1LC6
+ 4d8pHyODu2hiOOtaoyC3y22gJW91g6vtgWMkr4Z2MZdFfW0LptNHZJB/GwIjzCxioqOx
+ Qt/g==
+X-Gm-Message-State: AO0yUKVF50nCfipAHq5Amb7SDRw6eVRtCcBAUM5kBgZndPAIx4Joro7N
+ Cg50LYUfyuKkWntdImCuYLKTz/Sa05Pnc9egDQ7HFg==
+X-Google-Smtp-Source: AK7set9hqvzMQiDk15uKKV/k2E6K/8sc6RF0LbaAJ63u86p8XV6MRsIUixqUkVvQiR03JwtLvsvHt9Z3UruyeBFDCFU=
+X-Received: by 2002:a67:1904:0:b0:3e8:d5a8:3fbe with SMTP id
+ 4-20020a671904000000b003e8d5a83fbemr2433227vsz.9.1675935933578; Thu, 09 Feb
+ 2023 01:45:33 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
+ <20230208103709.116896-6-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5FZqrGzzG8FrmLVzMd7=a23ZJPYGSy5yhYWgH+BFHNmxw@mail.gmail.com>
+ <7784f5a2-3cfc-9999-0ad6-cb9cfc1f2822@collabora.com>
+In-Reply-To: <7784f5a2-3cfc-9999-0ad6-cb9cfc1f2822@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 9 Feb 2023 17:45:22 +0800
+Message-ID: <CAGXv+5EhDGuzoBA9ZV2=3PVZ209eFq+wOOcTGVvG+gmOnf5txQ@mail.gmail.com>
+Subject: Re: [PATCH 5/9] dt-bindings: gpu: mali-bifrost: Add a compatible for
+ MediaTek MT8186
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
+ Fei Shao <fshao@chromium.org>, Nick Fan <Nick.Fan@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+ alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During the driver conversion to shmem, the start address for the
-scanout buffer was set to the base PCI address.
-In most cases it works because only the lower 24bits are used, and
-due to alignment it was almost always 0.
-But on some unlucky hardware, it's not the case, and some unitilized
-memory is displayed on the BMC.
-With shmem, the primary plane is always at offset 0 in GPU memory.
+On Thu, Feb 9, 2023 at 5:20 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Il 09/02/23 09:49, Chen-Yu Tsai ha scritto:
+> > On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
+> > <angelogioacchino.delregno@collabora.com> wrote:
+> >>
+> >> Get GPU support on MT8186 by adding its compatible.
+> >
+> > I'd skip MT8186 for now. We have to work out some binning details for the
+> > OPP, in particular how to deal with both Panfrost (or Mali) and SVS adding
+> > the OPP table. We were just looking at the Mali driver today.
+> >
+>
+> Dealing with binning is fairly easy... I have something already done for
+> that one, but I'm not sure that it would be the best option.
+> My solution makes use of opp-supported-hw by "standard means", but perhaps
+> let's have a separated conversation about it?
+>
+> I don't think that skipping this would give any benefit though, because
+> that is only adding a compatible and whatever binning support would have
+> to be generic and 99% not bound to any mediatek specific compatible.
 
- * v2: rewrite the patch to set the offset to 0. (Thomas Zimmermann)
- * v3: move the change to plane_init() and also fix the cursor plane.
-       (Jammy Huang)
+The binning is related to voltage range, not maximum OPP. So it's more
+like fast/slow example in Documentation/devicetree/bindings/opp/opp-v2.yaml
+or the opp/allwinner,sun50i-h6-operating-points.yaml, minus the efuse node.
 
-Tested on a sr645 affected by this bug.
+The downstream DT currently looks like this:
 
-Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/ast/ast_mode.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+opp-950000000 {
+        opp-hz = /bits/ 64 <950000000>;
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index c7443317c747..66a4a41c3fe9 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -714,7 +714,7 @@ static int ast_primary_plane_init(struct ast_private *ast)
- 	struct ast_plane *ast_primary_plane = &ast->primary_plane;
- 	struct drm_plane *primary_plane = &ast_primary_plane->base;
- 	void __iomem *vaddr = ast->vram;
--	u64 offset = ast->vram_base;
-+	u64 offset = 0; /* with shmem, the primary plane is always at offset 0 */
- 	unsigned long cursor_size = roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
- 	unsigned long size = ast->vram_fb_available - cursor_size;
- 	int ret;
-@@ -972,7 +972,7 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- 		return -ENOMEM;
- 
- 	vaddr = ast->vram + ast->vram_fb_available - size;
--	offset = ast->vram_base + ast->vram_fb_available - size;
-+	offset = ast->vram_fb_available - size;
- 
- 	ret = ast_plane_init(dev, ast_cursor_plane, vaddr, offset, size,
- 			     0x01, &ast_cursor_plane_funcs,
--- 
-2.39.1
+/* This is Mali specific; ignore
+        opp-hz-real = /bits/ 64 <950000000>,
+                      /bits/ 64 <950000000>;
+*/
+        opp-microvolt = <900000>, <1000000>;
+        opp-microvolt-bin4 = <875000>, <975000>;
+        opp-microvolt-bin5 = <850000>, <950000>;
+};
 
+
+ChenYu
