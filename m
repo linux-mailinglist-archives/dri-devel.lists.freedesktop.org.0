@@ -1,38 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD61690904
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 13:37:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B70AD690933
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 13:46:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86AE710E100;
-	Thu,  9 Feb 2023 12:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9396810E9ED;
+	Thu,  9 Feb 2023 12:46:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9699510E100
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 12:37:36 +0000 (UTC)
-Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
- [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 2C1FF3249AD;
- Thu,  9 Feb 2023 12:37:33 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1675946254; bh=3DMnXlDngm4Z8DLUUZqryTbqaWS55Y9iV4V6Wa9G3uU=;
- h=From:To:Cc:Subject:Date:From;
- b=H54syAsn9tPgYlWOlp3bN+GNg1cg1ieWQcSLxecmhQQLxXFhS8ktvY2LaaHkqjP/v
- iAP1SosRUpdBqnAWjw+WIq0HN/ed1SOcnI27c9ANCvsoRs4vN93W5NGGfYRh0VYUG+
- XK6eoIfJCh6rD4azpv46uQZ0zI02OiwSZOab3DRcW2hO9/uNYxiYJRm1x4wPqA7eQU
- j2Ug1CCddyvoQRBbvpvLxtpIhhuh8469THxSpeJXvdI19lfNdD159r3qXQ8swIu4AR
- hscZeTf+jn9QlYGVxf6uzsFRceJna+mOOJ4Pe0sioEoRwAIZCCozgpOPt9LyZGJJ5n
- 84ZhPlzXfbs8A==
-From: Zack Rusin <zack@kde.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/vmwgfx: Do not drop the reference to the handle too
- soon
-Date: Thu,  9 Feb 2023 07:37:31 -0500
-Message-Id: <20230209123731.2137787-1-zack@kde.org>
-X-Mailer: git-send-email 2.38.1
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94D1A10E9ED
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 12:46:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=nrzzneY/RR13n1ov7hDmLaAXXqJgk6/dSsbmM+cnECs=; b=Iy3uWcrqd+sSfHaCcS3BoMWshO
+ XpHpOTsEetZSfUPPjO8PDtgDL1dl0AMpqPMzp6pigjZjVw4RAOE3fgrdmlqwTIXwQ65BHgA8/wHG5
+ NoPC99jRh1iK/xS+sv4eHLozBe/5bVQLQk7NpL3ZPQxN5rZbLFDgGLo35hmvYrIxqOQMk+r3YkDIx
+ +o1V7yOBbwF5Mc+xpUlMThkd5nVU3HOBfFXadTD6BzTNVIxoBbQEMc7zOnKnsFMxX8V8Dze1xFDY3
+ K9yh6CUczHT5jTFYRHbQ3g5oDf6FSbiQQYLcJ1ZfmvYBlSH/RnitrLbhQqEPaMM2hcKxTecbJmB0i
+ G8JkFtYg==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pQ6JI-00DvU2-QF; Thu, 09 Feb 2023 13:45:57 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Rob Clark <robdclark@gmail.com>,
+ Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Melissa Wen <mwen@igalia.com>
+Subject: [PATCH v2 0/5] drm/sched: Create wrapper to add a syncobj dependency
+ to job
+Date: Thu,  9 Feb 2023 09:44:43 -0300
+Message-Id: <20230209124447.467867-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,85 +60,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, stable@vger.kernel.org, banackm@vmware.com,
- mombasawalam@vmware.com
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
+Some drivers perform the same operation to add a syncobj's fence to the sched
+as a dependency: first, call drm_syncobj_find_fence() to find the fence and
+then, call drm_sched_job_add_dependency(). Therefore, create a wrapper to
+encapsulate those steps in one single function.
 
-v2: Update the commit message to include note describing why the second
-usag of vmw_gem_object_create_with_handle in vmwgfx_surface.c wasn't
-changed
+The first patch creates the wrapper for the operation and the following
+patches make the drivers use the new function drm_sched_job_add_syncobj_dependency().
 
-It is possible for userspace to predict the next buffer handle and
-to destroy the buffer while it's still used by the kernel. Delay
-dropping the internal reference on the buffers until kernel is done
-with them.
+v1 -> v2: https://lore.kernel.org/dri-devel/20230208194817.199932-1-mcanal@igalia.com/T/
 
-Also fixes the second usage of vmw_gem_object_create_with_handle in
-vmwgfx_surface.c which wasn't grabbing an explicit reference
-to the gem object which could have been destroyed by the userspace
-on the owning surface at any point.
+- Don't initialize any local return variables if it isn't necessary (Christian König).
+- Remove unused "fence" variable from msm.
+- Handle the -ENOENT case in v3d (Melissa Wen).
+- Add Christian's, Alyssa's, and Luben's Reviewed-by.
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Fixes: 8afa13a0583f ("drm/vmwgfx: Implement DRIVER_GEM")
-Cc: <stable@vger.kernel.org> # v5.17+
----
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      | 3 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_gem.c     | 4 ++--
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 1 -
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Best Regards,
+- Maíra Canal
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-index 43ffa5c7acbd..65bd88c8fef9 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -708,7 +708,8 @@ int vmw_dumb_create(struct drm_file *file_priv,
- 	ret = vmw_gem_object_create_with_handle(dev_priv, file_priv,
- 						args->size, &args->handle,
- 						&vbo);
--
-+	/* drop reference from allocate - handle holds it now */
-+	drm_gem_object_put(&vbo->tbo.base);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-index 51bd1f8c5cc4..d6baf73a6458 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
-@@ -133,8 +133,6 @@ int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
- 	(*p_vbo)->tbo.base.funcs = &vmw_gem_object_funcs;
- 
- 	ret = drm_gem_handle_create(filp, &(*p_vbo)->tbo.base, handle);
--	/* drop reference from allocate - handle holds it now */
--	drm_gem_object_put(&(*p_vbo)->tbo.base);
- out_no_bo:
- 	return ret;
- }
-@@ -161,6 +159,8 @@ int vmw_gem_object_create_ioctl(struct drm_device *dev, void *data,
- 	rep->map_handle = drm_vma_node_offset_addr(&vbo->tbo.base.vma_node);
- 	rep->cur_gmr_id = handle;
- 	rep->cur_gmr_offset = 0;
-+	/* drop reference from allocate - handle holds it now */
-+	drm_gem_object_put(&vbo->tbo.base);
- out_no_bo:
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 9d4ae9623a00..d18fec953fa7 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -867,7 +867,6 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 			goto out_unlock;
- 		}
- 		vmw_bo_reference(res->guest_memory_bo);
--		drm_gem_object_get(&res->guest_memory_bo->tbo.base);
- 	}
- 
- 	tmp = vmw_resource_reference(&srf->res);
+Maíra Canal (5):
+  drm/sched: Create wrapper to add a syncobj dependency to job
+  drm/lima: Use drm_sched_job_add_syncobj_dependency()
+  drm/msm: Use drm_sched_job_add_syncobj_dependency()
+  drm/panfrost: Use drm_sched_job_add_syncobj_dependency()
+  drm/v3d: Use drm_sched_job_add_syncobj_dependency()
+
+ drivers/gpu/drm/lima/lima_gem.c         | 12 ++--------
+ drivers/gpu/drm/msm/msm_gem_submit.c    |  9 ++------
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 11 ++--------
+ drivers/gpu/drm/scheduler/sched_main.c  | 29 +++++++++++++++++++++++++
+ drivers/gpu/drm/v3d/v3d_gem.c           | 22 ++++---------------
+ include/drm/gpu_scheduler.h             |  6 +++++
+ 6 files changed, 45 insertions(+), 44 deletions(-)
+
 -- 
-2.38.1
+2.39.1
 
