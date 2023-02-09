@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571BB690AFF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB06690B00
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:55:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C331310EAEC;
-	Thu,  9 Feb 2023 13:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 041B810EAEE;
+	Thu,  9 Feb 2023 13:55:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9575710EAE4
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9E4B10EAE4
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:55:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 35C8C5D031;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 754C7229FA;
  Thu,  9 Feb 2023 13:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1675950913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jRGV1sHWfA7dHKuzbZtPETV56sGZm893xDJqn9cFqAI=;
- b=ysXmUKmdYXeGDvLEm+JQVP6v7SCD19NlPd+F4LIqlZ5CPgmjMdhcaMGivagmFoyJmPkD3X
- fllymK0hneVqsFRNk48x7r79fovNMEuuZHHCWc0IZ66Jy7r3iOvggKFmE9cG2Jani52bMh
- DELoNCZiMwIUkc2gAo4HUoDas3QPwk4=
+ bh=kgQsjwqOWkegEQwhCA0vXxb8H/G8l/Mn0HdB+pT9yi4=;
+ b=A72ExH9XqqIvCiwkmXutNdzfBj0p26bIsdTaZbdfhsM4lh6uTXKmCMaBbdigKbFZA+RDsE
+ 3bxVscHPBVA/pH3axAiRW3zHWgU8Je09kvWxnUHsJSFAvxF2wAP6qGAk9LN0qdDjtbo1il
+ U1V+0pD2xaDA11ypPqlRZlEwaJ1Y8hI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1675950913;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jRGV1sHWfA7dHKuzbZtPETV56sGZm893xDJqn9cFqAI=;
- b=swXYWmDfLiLpLXZVgBaUGMMoVUFVyi3ll6Vjpk9dJdYBEhGtsxvlSYiq5s+/pkkJWzgV1A
- bmFCfMPDFVn9lTCg==
+ bh=kgQsjwqOWkegEQwhCA0vXxb8H/G8l/Mn0HdB+pT9yi4=;
+ b=4+HZO7hfNYIRH3XythLS8e3AYkH7hcjPbL7VrBkz8MVPHSF4mxhok29IxxRuEsDedg62I4
+ 5MpN3EUbFqxlu8Bg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EE117138E4;
- Thu,  9 Feb 2023 13:55:12 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3A06613915;
+ Thu,  9 Feb 2023 13:55:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UD5MOUD75GNTfwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Feb 2023 13:55:12 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id UJdgDUH75GNTfwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Feb 2023 13:55:13 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@gmail.com, deller@gmx.de, javierm@redhat.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, geoff@infradead.org,
  mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu
-Subject: [PATCH 02/11] fbdev: Transfer video= option strings to caller;
- clarify ownership
-Date: Thu,  9 Feb 2023 14:55:00 +0100
-Message-Id: <20230209135509.7786-3-tzimmermann@suse.de>
+Subject: [PATCH 03/11] fbdev: Support NULL for name in option-string lookup
+Date: Thu,  9 Feb 2023 14:55:01 +0100
+Message-Id: <20230209135509.7786-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209135509.7786-1-tzimmermann@suse.de>
 References: <20230209135509.7786-1-tzimmermann@suse.de>
@@ -75,69 +74,39 @@ Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In fb_get_options(), always duplicate the returned option string and
-transfer ownership of the memory to the function's caller.
-
-Until now, only the global option string got duplicated and transferred
-to the caller; the per-driver options were owned by fb_get_options().
-In the end, it was impossible for the function's caller to detect if
-it had to release the string's memory buffer. Hence, all calling drivers
-leak the memory buffer. The leaks have existed ever since, but drivers
-only call fb_get_option() once as part of module initialization. So the
-amount of leaked memory is not significant.
-
-Fix the semantics of fb_get_option() by unconditionally transferring
-ownership of the memory buffer to the caller. Later patches can resolve
-the memory leaks in the fbdev drivers.
+Ignore the per-driver video options if no driver name has been
+specified to fb_get_option(). Return the global options in this
+case.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/core/fb_cmdline.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/core/fb_cmdline.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/video/fbdev/core/fb_cmdline.c b/drivers/video/fbdev/core/fb_cmdline.c
-index 6792010d6716..702b00b71870 100644
+index 702b00b71870..cc8a88e8f308 100644
 --- a/drivers/video/fbdev/core/fb_cmdline.c
 +++ b/drivers/video/fbdev/core/fb_cmdline.c
-@@ -30,13 +30,17 @@ EXPORT_SYMBOL_GPL(fb_mode_option);
-  *          (video=<name>:<options>)
-  * @option: the option will be stored here
-  *
-+ * The caller owns the string returned in @option and is
-+ * responsible for releasing the memory.
-+ *
-  * NOTE: Needed to maintain backwards compatibility
-  */
- int fb_get_options(const char *name, char **option)
+@@ -39,13 +39,18 @@ int fb_get_options(const char *name, char **option)
  {
--	char *opt, *options = NULL;
-+	const char *options = NULL;
+ 	const char *options = NULL;
  	int retval = 0;
- 	int name_len = strlen(name), i;
-+	char *opt;
+-	int name_len = strlen(name), i;
++	size_t name_len;
+ 	char *opt;
  
++	if (name)
++		name_len = strlen(name);
++
  	if (name_len && ofonly && strncmp(name, "offb", 4))
  		retval = 1;
-@@ -55,12 +59,16 @@ int fb_get_options(const char *name, char **option)
- 	}
- 	/* No match, pass global option */
- 	if (!options && option && fb_mode_option)
--		options = kstrdup(fb_mode_option, GFP_KERNEL);
-+		options = fb_mode_option;
- 	if (options && !strncmp(options, "off", 3))
- 		retval = 1;
  
--	if (option)
--		*option = options;
-+	if (option) {
-+		if (options)
-+			*option = kstrdup(options, GFP_KERNEL);
-+		else
-+			*option = NULL;
-+	}
- 
- 	return retval;
- }
+ 	if (name_len && !retval) {
++		unsigned int i;
++
+ 		for (i = 0; i < FB_MAX; i++) {
+ 			if (video_options[i] == NULL)
+ 				continue;
 -- 
 2.39.1
 
