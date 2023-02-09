@@ -1,49 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BD268FE77
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 05:21:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B83268FE79
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 05:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DAE810E8F8;
-	Thu,  9 Feb 2023 04:21:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0564B10E8F6;
+	Thu,  9 Feb 2023 04:22:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7209110E1F0;
- Thu,  9 Feb 2023 04:21:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93BB410E8F0;
+ Thu,  9 Feb 2023 04:22:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E15C2B81FFD;
- Thu,  9 Feb 2023 04:21:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53158C433EF;
- Thu,  9 Feb 2023 04:21:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C70DF618A6;
+ Thu,  9 Feb 2023 04:22:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1454C433EF;
+ Thu,  9 Feb 2023 04:22:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675916494;
- bh=q12p7eZHBxQbbpAcbSwCfdY+opa1+EkxvIOWze4/zAc=;
+ s=k20201202; t=1675916532;
+ bh=r896al9/ic3TVzWhQihrH5WWe9yq5i1aPuOB0FJblUQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m/APx6iphluKKbsqfkMBLMtE1ZhYs6yRjrIXfSoEItVbtU1MLlEt6NAnC9px2rbru
- uVNlOCgPbI8qscLy7vRu0jfyluGPzprJUtGEH5yzlMRCjt2HfYwJxPa+EO8liB3FaL
- H8QN5qRJix+ntIb5M9t1W9RVEFTrb4SsYNClF1GhbuIutRNHbYCsHgC1BxvqOHc68h
- DJSQBq+KiolEjtRdtv7BtDJENcXehEOlcWNZpUITcOKjH1m+ou+lQCBkkOKOIcK/+2
- QI24QRxTm7tXWlRrZlTCKiyMOstuVGfzKBEuITebt7UjkHsoHQ/YvvkKmXfh/HQlKJ
- k/2w60BE3ezYw==
+ b=BN/W1fmhyUDYnWQNFRl0yiZAlLtkPZOeM9PRJliT8ril6wiUbcRvBv1HMVz8E0tvT
+ mbyq5LYLXG+Q0iC3FE+j8oPN8wrX8CzcUUbhXZ8fLkv6SW7OFkTdgoSDQ4Z4S7676q
+ ekM+HlbJO6e1a7rJmpHX2uhrjQmq5U7OdTYpCuhnJvE8DoMV488k6BQ9GV5iJQMl+R
+ Z4eAbD3zOtPVRjxwl6mYHQRaDOaj1IjnIDvEt0MNJ02q3yVnhiKjhsmUqY3r16pJbp
+ 2l1erYVmeAs/OrQ3L+bCLx5ypvDAgc3kGR5MyqzFDCB3QgSGPs4TzDKRQdWSO0Gb80
+ XNY+n6Qa5PJyg==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Andy Gross <agross@kernel.org>,
+To: Rob Clark <robdclark@gmail.com>, Eric Dumazet <edumazet@google.com>,
+ Robin Murphy <robin.murphy@arm.com>, Russell King <linux@armlinux.org.uk>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Jakub Kicinski <kuba@kernel.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ Elliot Berman <quic_eberman@quicinc.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Adrian Hunter <adrian.hunter@intel.com>, Andy Gross <agross@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Alex Elder <elder@kernel.org>, Sean Paul <sean@poorly.run>,
+ Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Will Deacon <will@kernel.org>, Thara Gopinath <thara.gopinath@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ David Airlie <airlied@gmail.com>, "David S. Miller" <davem@davemloft.net>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Taniya Das <quic_tdas@quicinc.com>
-Subject: Re: (subset) [PATCH v2 0/8] arm64: dts: qcom: sm8350: enable GPU on
- the HDK board
-Date: Wed,  8 Feb 2023 20:22:50 -0800
-Message-Id: <167591660372.1230100.2973091993035118368.b4-ty@kernel.org>
+ Daniel Vetter <daniel@ffwll.ch>, Amit Kucheria <amitk@kernel.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>,
+ Zhang Rui <rui.zhang@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>
+Subject: Re: [PATCH] firmware: qcom_scm: Move qcom_scm.h to
+ include/linux/firmware/qcom/
+Date: Wed,  8 Feb 2023 20:23:26 -0800
+Message-Id: <167591660372.1230100.2523010471979974316.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230206145707.122937-1-dmitry.baryshkov@linaro.org>
-References: <20230206145707.122937-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230203210956.3580811-1-quic_eberman@quicinc.com>
+References: <20230203210956.3580811-1-quic_eberman@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -59,32 +78,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- linux-clk@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
+ iommu@lists.linux.dev, ath10k@lists.infradead.org, netdev@vger.kernel.org,
+ linux-mmc@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 6 Feb 2023 16:56:59 +0200, Dmitry Baryshkov wrote:
-> Add A660 device to the Qualcomm SM8350 platform and enable it for the
-> sm8350-hdk board. Unfortunately while adding the GPU & related devices I
-> noticed that DT nodes on SM8350 are greatly out of the preagreed order,
-> so patches 4-6 reorder DT nodes to follow the agreement.
+On Fri, 3 Feb 2023 13:09:52 -0800, Elliot Berman wrote:
+> Move include/linux/qcom_scm.h to include/linux/firmware/qcom/qcom_scm.h.
+> This removes 1 of a few remaining Qualcomm-specific headers into a more
+> approciate subdirectory under include/.
 > 
-> Changes since v1:
-> - Fixed the subject and commit message for patch 1
-> - Fixed GMU's clocks to follow the vendor kernel
-> - Marked Adreno SMMU as dma-coherent
-> - Dropped comments targeting sm8350 v1, we do not support that chip
->   revision.
 > 
-> [...]
 
 Applied, thanks!
 
-[2/8] dt-bindings: power: qcom,rpmpd: add RPMH_REGULATOR_LEVEL_LOW_SVS_L1
-      commit: bdd133c2eeffad142e7c8a48ab7e86e1ca37e67d
+[1/1] firmware: qcom_scm: Move qcom_scm.h to include/linux/firmware/qcom/
+      commit: 3bf90eca76c98c55c975fa817799789b9176f9f3
 
 Best regards,
 -- 
