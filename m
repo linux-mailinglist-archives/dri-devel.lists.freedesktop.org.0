@@ -2,55 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E41668FD54
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 03:50:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A422E68FD5C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 03:53:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A661210E0A7;
-	Thu,  9 Feb 2023 02:50:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0079310E8D8;
+	Thu,  9 Feb 2023 02:53:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5024F10E0A7
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 02:50:30 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id y2so195155iot.4
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Feb 2023 18:50:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BYIk4P2p6gp1gkykneVTXGgTOGI8BQeMJrJn0G8vBFQ=;
- b=HtmNzDuqZVPNnKVKdiDx+Z3cYsXnlZoWJEZPqX81nlx4s12FG5mKWN7Iz8QgRroITS
- uI/SE/a6wLxuTbZ2XqIIRFA0hAyZXeC//DLKyZBwhoYviw0jixTfnpdaGsaTmcSOV3n6
- NcyRBoPWk0t+FdFXhhVMlviUuItG+Tvvb8OQg=
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0C3C10E8D8
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 02:53:23 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-142b72a728fso957699fac.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Feb 2023 18:53:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=landley-net.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uim76Lm5dMHI6OEZRl5dYh1Pi4k74h79vxsD8ejV228=;
+ b=cGJLZWh92YeqRetjDZ7mm7cWN9+7V9DkC4NxT3TFyzxOr/dT+y9RySdTXQJoGNFodj
+ Lhk5mURgRjvFpcDTTz997u4uYb5mXXSYufkvOHW16uecAigBafpKfrfPhjupqfB69TqU
+ CpdJtnnu16tBfQsfiDPbx5CJt8woI9p/61QJECQkg6ib53DsbPoG/6qEIFtT82h7XZEd
+ bH7zIZ7zeIu+guqsHWHH7HwzmCW5uJfaHSVq8vhoIZZxTs9cCuui2tEeecApAXxH34Kl
+ VCUo/SLo54vsVKd1HLhUdcTfFi+wK+KZOUpQFgXm1zVH8Gmha3IwtqAbksT7XdA8QMjg
+ 0+9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BYIk4P2p6gp1gkykneVTXGgTOGI8BQeMJrJn0G8vBFQ=;
- b=31y4unuXc2hmxepik5wxnStgXTOeqtTXAyeRWnRXrDxUwlaMbWg3CTXmfh6S/hsBOw
- ETVqDAfzFQXwTaXCNbxIjc31VJESRHrDr6mcUfYaZ4HPWX5Y0aNhmxq2exqZ7LmRG0ZO
- tNYpS7kQQvAM6fX99ojsKwjWAWvKoI0wwhUXRo3j7pPE34A7Snv7gNM6JrJ6tuDOlFpC
- gZ4PZdkCr/0cPd0mCsWKtXuxqV4WqIXsIfoBbDBvNepcxHTKjt7krEZ+pgisPgd8FVb1
- eXBTIil0s5KtkKIS6md5IiRokGNdPUyXz9Sc6BkAyaJ+WCPz6eUTQ1YC3JXp72dQfZHR
- P28Q==
-X-Gm-Message-State: AO0yUKW++lxrLRsB9SutoFi6j6UXDAHkkXnoURfWuMskfh+7lRbKVCcD
- SFdDkee7Ep0Mzy8n08rnLDjSAXKz16cxtqTI71ylgw==
-X-Google-Smtp-Source: AK7set+bvKsydzGygJFYL5iQOvjw3Jv58rqgkJyZjXTUoGYryQCk+flVM83OAnzthJ9iLUo6Kt6Ev143YXLr6ftrCik=
-X-Received: by 2002:a02:cc37:0:b0:3a9:6b85:41ed with SMTP id
- o23-20020a02cc37000000b003a96b8541edmr6496673jap.57.1675911029590; Wed, 08
- Feb 2023 18:50:29 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uim76Lm5dMHI6OEZRl5dYh1Pi4k74h79vxsD8ejV228=;
+ b=k9fYg2Bb8gAgG1m3FC3Y9Gii01FLpjD2WP8fHxRF0+hRZLe6aUrgJh7+GVxpB0CE0k
+ WhIBfahuLAhtkPrymm14U9DpnKrm1IwZ6dpYieV0KvzfRfyGnHN8qNG/g0QZ+YGoMmRZ
+ /0VZ/Kkt5x45QKe6Nl29oG3PTU0HtXCJJb6gPt0coQgO8M/v8Q2QM7+js4uutYg/mJj4
+ oi6pKiCxJnegSrwdab+HGhVjpgyWtAiBoQNOS1kl2KzdLzHfyXdk11gNP6SuSaLPGvQb
+ y5D5FYsYwXX2e2Zg84eg9lgzJ19npx5tKALUpDL7sdDTHrB8rc+w8tdaUnugU1J5aECr
+ BOOQ==
+X-Gm-Message-State: AO0yUKWoX3+R46mrE3nJQJ/ca1vvubqnIrupgsxWt5RSVp+n1tkEsck9
+ ZtVu0N3Nbx8l2uWuieQnPSf32Q==
+X-Google-Smtp-Source: AK7set/IY8hpNoA4Lil9GPnYxD0kM8QMzh26dc48QApuMMt+T/W+mzLQoVZI9oh721NfnL8VF3E7Fg==
+X-Received: by 2002:a05:6870:7386:b0:163:ad96:f89c with SMTP id
+ z6-20020a056870738600b00163ad96f89cmr5551951oam.15.1675911202632; 
+ Wed, 08 Feb 2023 18:53:22 -0800 (PST)
+Received: from [192.168.86.224] ([136.62.38.22])
+ by smtp.gmail.com with ESMTPSA id
+ v6-20020a4a5a06000000b00517b076e071sm100253ooa.47.2023.02.08.18.53.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Feb 2023 18:53:21 -0800 (PST)
+Message-ID: <b394bf10-2fc5-6498-955f-a904a756e0c9@landley.net>
+Date: Wed, 8 Feb 2023 21:06:19 -0600
 MIME-Version: 1.0
-References: <20230208103709.116896-1-angelogioacchino.delregno@collabora.com>
- <20230208103709.116896-2-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230208103709.116896-2-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 9 Feb 2023 10:50:18 +0800
-Message-ID: <CAGXv+5Gm=Onu2RK+skLgN4Kzo9yP1n5Zb48oQNkQ019838QeEQ@mail.gmail.com>
-Subject: Re: [PATCH 1/9] dt-bindings: gpu: mali-bifrost: Don't allow
- sram-supply by default
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: remove arch/sh
+Content-Language: en-US
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+References: <20230113062339.1909087-1-hch@lst.de>
+ <11e2e0a8-eabe-2d8c-d612-9cdd4bcc3648@physik.fu-berlin.de>
+ <20230116071306.GA15848@lst.de>
+ <40dc1bc1-d9cd-d9be-188e-5167ebae235c@physik.fu-berlin.de>
+ <20230203071423.GA24833@lst.de>
+ <afd056a95d21944db1dc0c9708f692dd1f7bb757.camel@physik.fu-berlin.de>
+ <20230203083037.GA30738@lst.de>
+ <d10fe31b2af6cf4e03618f38ca9d3ca5c72601ed.camel@physik.fu-berlin.de>
+ <CAMuHMdUitVfW088YOmqYm4kwbKwkwb22fAakHcu6boxv7dXDfQ@mail.gmail.com>
+ <f6a60193-a5d1-c42c-158a-4b0bfe9c7538@infradead.org>
+From: Rob Landley <rob@landley.net>
+In-Reply-To: <f6a60193-a5d1-c42c-158a-4b0bfe9c7538@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,83 +87,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, tomeu.vizoso@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ linux-rtc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, linux-arch@vger.kernel.org,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-gpio@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ netdev@vger.kernel.org, dmaengine@vger.kernel.org, alsa-devel@alsa-project.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 8, 2023 at 6:37 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> The sram-supply is MediaTek-specific, it is and will ever be used
-> only for the mediatek,mt8183-mali compatible due to the addition of
-> the mediatek-regulator-coupler driver: change the binding to add
-> this supply when mediatek,mt8183-mali is present as a compatible
-> instead of disabling it when not present.
->
-> This is done in preparation for adding new bindings for other
-> MediaTek SoCs, such as MT8192 and others.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 78964c140b46..69212f3b1328 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -57,8 +57,6 @@ properties:
->
->    mali-supply: true
->
-> -  sram-supply: true
-> -
+On 2/3/23 09:57, Randy Dunlap wrote:
+> Hi--
+> 
+> On 2/3/23 02:33, Geert Uytterhoeven wrote:
+>> Hi Adrian,
+>> 
+>> On Fri, Feb 3, 2023 at 11:29 AM John Paul Adrian Glaubitz
+>> <glaubitz@physik.fu-berlin.de> wrote:
+>>> On Fri, 2023-02-03 at 09:30 +0100, Christoph Hellwig wrote:
+>>>> On Fri, Feb 03, 2023 at 09:24:46AM +0100, John Paul Adrian Glaubitz wrote:
+>>>>> Since this is my very first time stepping up as a kernel maintainer, I was hoping
+>>>>> to get some pointers on what to do to make this happen.
+>>>>>
+>>>>> So far, we have set up a new kernel tree and I have set up a local development and
+>>>>> test environment for SH kernels using my SH7785LCR board as the target platform.
+>>>>>
+>>>>> Do I just need to send a patch asking to change the corresponding entry in the
+>>>>> MAINTAINERS file?
+>>>>
+>>>> I'm not sure a there is a document, but:
+>>>>
+>>>>  - add the MAINTAINERS change to your tree
+>>>>  - ask Stephen to get your tree included in linux-next
+>>>>
+>>>> then eventually send a pull request to Linus with all of that.  Make
+>>>> sure it's been in linux-next for a while.
+>>>
+>>> OK, thanks for the pointers! Will try to get this done by next week.
+>>>
+>>> We're still discussing among SuperH developer community whether there will be a second
+>>> maintainer, so please bear with us a few more days. I will collect patches in the
+>>> meantime.
+>> 
+>> Thanks a lot!
+>> 
+>> If you need any help with process, setup, ... don't hesitate to ask
+>> (on e.g. #renesas-soc on Libera).
+> 
+> While Adrian and Geert are reading this, I have a question:
+> 
+> Is this "sh64" still accurate and applicable?
 
-Have you tried actually validating the device trees against this?
-Based on my previous tests this gives out errors.
+I hadn't noticed it was there... Randy Dunlap added that in 2018 (commit
+09b1565324cba). I wonder why?
 
-The reason is that each conditional is a separate sub-schema, and the
-validator is run against each schema and sub-schema separately, instead
-of collapsing matching schemas and sub-schemas together and validating
-once. So we'll get a validation error on sram-supply not being a valid
-property when validating current mt8183 against the base schema.
+> from Documentation/kbuild/kbuild.rst:
 
-We have a similar issue with power-domain-names, for which I'll send
-a patch to fix. See the following for the fix:
+There isn't an active 64 bit superh architecture for the moment: sh5 was a
+prototype that never shipped in volume, and support was removed in commit
+37744feebc08. From the j-core side j64 hasn't shipped yet either (still planned
+last I heard, but j-core went downmarket first instead due to customer demand,
+and multi-issue is on the roadmap before 64 bit address space).
 
-    http://git.kernel.org/wens/c/d1adb38ab2ad0442755607c2bcc726cc17cce2c7
+The general trend in linux kernel architectures has been to merge 32 and 64 bit
+anyway, and just have the .config set CONFIG_64BIT to distinguish: arch/x86 was
+created by merging arch/i386 and arch/x86_64 in 2007, arch/powerpc merged the 32
+and 64 bit directories in 2005, arch/s390 and s390x are in the same dir,
+arch/mips... (For some reason arm and arm64 are still split, but that might be
+fallout from Arm Ltd trying to distinguish aarrcchh6644 from "arm" for some
+reason? Dunno.)
 
-and the following for what I did for MT8192 on top of the previous patch:
+I wonder why is this going the other way? I thought $ARCH mostly just specified
+the subdirectory under arch/ with a few historical aliases in the top level
+Makefile:
 
-    http://git.kernel.org/wens/c/049bd164884398d7e5f72c710da6aaa9a95bc10a
+# Additional ARCH settings for x86
+ifeq ($(ARCH),i386)
+        SRCARCH := x86
+endif
+ifeq ($(ARCH),x86_64)
+        SRCARCH := x86
+endif
 
+# Additional ARCH settings for sparc
+ifeq ($(ARCH),sparc32)
+       SRCARCH := sparc
+endif
+ifeq ($(ARCH),sparc64)
+       SRCARCH := sparc
+endif
 
-Regards
-ChenYu
+# Additional ARCH settings for parisc
+ifeq ($(ARCH),parisc64)
+       SRCARCH := parisc
+endif
 
->    operating-points-v2: true
->
->    power-domains:
-> @@ -157,6 +155,7 @@ allOf:
->              - const: core0
->              - const: core1
->              - const: core2
-> +        sram-supply: true
->
->        required:
->          - sram-supply
-> @@ -166,7 +165,6 @@ allOf:
->        properties:
->          power-domains:
->            maxItems: 1
-> -        sram-supply: false
->    - if:
->        properties:
->          compatible:
-> --
-> 2.39.1
->
+But you could always just specify the correct ARCH directory directly and it
+would work. (Always did when I tried it, although I haven't built sparc in years
+because there's no musl-libc support, and never built parisc64 because I
+couldn't get it to work with uClibc even before musl. I _am_ still building both
+32 bit and 64 bit x86 with ARCH=x86 both times...)
+
+> But some architectures such as x86 and sparc have aliases.
+> 
+> - x86: i386 for 32 bit, x86_64 for 64 bit
+> - sh: sh for 32 bit, sh64 for 64 bit <<<<<<<<<<<<<<<
+> - sparc: sparc32 for 32 bit, sparc64 for 64 bit
+
+Randy also added the sparc alias in commit 5ba800962a80. That at least exists in
+the top level Makefile.
+
+Did he mean parisc64 and typoed sh64? Because that's the only other alias in the
+top level Makefile...
+
+In any case, these are historical aliases for old builds, which can probably get
+yanked because it should be a trivial fix to use the right ARCH= value for
+modern builds? (I'd think?)
+
+You'd even be able to build a 64 bit version of ARCH=i386 just fine if it wasn't
+for the ONE place in arch/x86/Kconfig that actually checks:
+
+config 64BIT
+        bool "64-bit kernel" if "$(ARCH)" = "x86"
+        default "$(ARCH)" != "i386"
+
+Same for arch/sparc/Kconfig:
+
+config 64BIT
+        bool "64-bit kernel" if "$(ARCH)" = "sparc"
+        default "$(ARCH)" = "sparc64"
+
+Nothing else anywhere seems to care...
+
+> Thanks.
+
+Rob
