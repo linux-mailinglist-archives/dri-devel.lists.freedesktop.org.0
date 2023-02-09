@@ -2,64 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4916903EA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B56F6903F9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:40:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2AB810E97F;
-	Thu,  9 Feb 2023 09:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E15A10E983;
+	Thu,  9 Feb 2023 09:40:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCE8510E975
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:35:30 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 88A5B20608;
- Thu,  9 Feb 2023 09:35:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675935329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A790D10E975
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:40:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675935599;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=572xqWkY9J8TKX5MKmliGZPFMo/rwyEPc+ZMDZIRkFU=;
- b=mku5rn0cLBwa84lvhXvFL1NPfr1wG1TbhNUQg9OvmD15Q1ILXxklbUk6lqNo5msH9wH5lZ
- iU7OABQd13wWNxUEfhNmp3rjMF6qv4h3aaLeZ7LDhE4wFoTA6qwm46+7fAsBi/X0g/Suux
- +whImzajvFDGbeGYAyEzeKUy0EtEAbA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675935329;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=572xqWkY9J8TKX5MKmliGZPFMo/rwyEPc+ZMDZIRkFU=;
- b=pQ+yg04LECwxvvGlUu60Zcf8UoFPXoM5Azw5pwIpoA5LJhx4jl9EcNg055JsGRHjDLNK4U
- QFrBIYFgm1wIarBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6BE15138E4;
- Thu,  9 Feb 2023 09:35:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id JvePGWG+5GO/CQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Feb 2023 09:35:29 +0000
-Message-ID: <dc897487-9e17-036d-b0b3-6c15903dd009@suse.de>
-Date: Thu, 9 Feb 2023 10:35:29 +0100
+ bh=M6XBJsaUpiCjlyVPxMsAhVdSvzsLV3MJdUJQfLsvKQk=;
+ b=VKpcmdEo/A0Kf+5EX6e+UJZmlTg0SYpbhMnfhsWiKJ9hogsJe6r5XbmV8cZueRKXwBO5sR
+ cDlqnrI4PpKWblO2mWGW5O70qWrlLOqaE+ZsEtKatcIQ5NVPSm2VzUXj3i31HDRqjovArV
+ 0ZDuCjR4RZ5jkwEbw8tPkXtlNwrYeyQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-629-l284gGEFN5SZJNLQLB37QQ-1; Thu, 09 Feb 2023 04:39:58 -0500
+X-MC-Unique: l284gGEFN5SZJNLQLB37QQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ a15-20020adfe5cf000000b002c500989222so214897wrn.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 01:39:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=M6XBJsaUpiCjlyVPxMsAhVdSvzsLV3MJdUJQfLsvKQk=;
+ b=eAufgv5uHWPDWpPBo68HKalEMfi3tw3SrkJ5Hw/+LIDv3zvbn4yEdLyA2sajNPUNlm
+ RaBs8qZUl8L9OtsoDVbke74+72juQGKcr+HpuSfSNjM3hCtpmoi7fvhgzxrhd8RNej2r
+ Wp3UzbFCPpocg3QVDsXyzCoYOO8VmdJnQg26E4fUy7JZeA/YiduVi9g5TLdhVQxaBt/S
+ tSxcBdm8VOLAvrYClWV5+Bvc/3jbTA5DhO1xqpp/xE4RrbNAZdFrRl7uzgnbbpWL06vW
+ xHTmN5xztxRq/mZYz57JeR0iskGOKQCz7O1PuggvNFFl2SvRzGmQjM4y1OAZkso7fPm9
+ b50Q==
+X-Gm-Message-State: AO0yUKWneQyyuIJJIAOHTphdbTBb/gsIrNDTXca08UTuFylz6qR3kP0c
+ w7/xn+J/+RicLdkqcgd+6udlnLuq+kTRoW0HUzEq0pS+Wy/vkhD3JcHOuba5/frqW/ih1PXMrSZ
+ DHmPh98bHudOaDNJ8v8Os5Or2s+EXI2wu+Q==
+X-Received: by 2002:a05:600c:340a:b0:3e0:185:44af with SMTP id
+ y10-20020a05600c340a00b003e0018544afmr3908342wmp.20.1675935597517; 
+ Thu, 09 Feb 2023 01:39:57 -0800 (PST)
+X-Google-Smtp-Source: AK7set9bPYen6cm4KQb+UCgs3Oq89ZZTH4tMtbNfwzSeZiLXSCKW70PqlXBefRESlU04kTpDK0Y2Jg==
+X-Received: by 2002:a05:600c:340a:b0:3e0:185:44af with SMTP id
+ y10-20020a05600c340a00b003e0018544afmr3908333wmp.20.1675935597357; 
+ Thu, 09 Feb 2023 01:39:57 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ d2-20020adfe2c2000000b002c3f7dfd15csm792461wrj.32.2023.02.09.01.39.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Feb 2023 01:39:56 -0800 (PST)
+Message-ID: <8eed17db-50fa-711d-d2fe-135f9b8f35ca@redhat.com>
+Date: Thu, 9 Feb 2023 10:39:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
+ Thunderbird/102.7.1
 Subject: Re: [PATCH v2] drm/ast: Fix start address computation
-Content-Language: en-US
-To: Jammy Huang <jammy_huang@aspeedtech.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Jammy Huang <jammy_huang@aspeedtech.com>, dri-devel@lists.freedesktop.org,
  airlied@redhat.com, kuohsiang_chou@aspeedtech.com
 References: <20230209091254.15455-1-jfalempe@redhat.com>
  <65c4af68-3808-4021-ae4f-d0c07c908431@aspeedtech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <65c4af68-3808-4021-ae4f-d0c07c908431@aspeedtech.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------sJiQEQcOrtWA5jBNoc8meSGX"
+ <dc897487-9e17-036d-b0b3-6c15903dd009@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <dc897487-9e17-036d-b0b3-6c15903dd009@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,106 +93,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------sJiQEQcOrtWA5jBNoc8meSGX
-Content-Type: multipart/mixed; boundary="------------k44L7xeM6G7wwKeskVlA114P";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jammy Huang <jammy_huang@aspeedtech.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com
-Message-ID: <dc897487-9e17-036d-b0b3-6c15903dd009@suse.de>
-Subject: Re: [PATCH v2] drm/ast: Fix start address computation
-References: <20230209091254.15455-1-jfalempe@redhat.com>
- <65c4af68-3808-4021-ae4f-d0c07c908431@aspeedtech.com>
-In-Reply-To: <65c4af68-3808-4021-ae4f-d0c07c908431@aspeedtech.com>
+On 09/02/2023 10:35, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 09.02.23 um 10:22 schrieb Jammy Huang:
+>> Hello,
+>>
+>> The offset given to ast_set_start_address_crt1() should be offset in 
+>> vram. It should 0 now as your patch.
+>>
+>> I think it is better to correct it in ast_primary_plane_init() and 
+>> ast_cursor_plane_init() as below.
+> 
+> I was about to write the same. Thanks for the review.
+> 
+>>
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -714,7 +714,7 @@ static int ast_primary_plane_init(struct 
+>> ast_private *ast)
+>>          struct ast_plane *ast_primary_plane = &ast->primary_plane;
+>>          struct drm_plane *primary_plane = &ast_primary_plane->base;
+>>          void __iomem *vaddr = ast->vram;
+>> -       u64 offset = ast->vram_base;
+>> +       u64 offset = 0;
+>>          unsigned long cursor_size = roundup(AST_HWC_SIZE + 
+>> AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+>>          unsigned long size = ast->vram_fb_available - cursor_size;
+>>          int ret;
+>> @@ -972,7 +972,7 @@ static int ast_cursor_plane_init(struct 
+>> ast_private *ast)
+>>                  return -ENOMEM;
+>>
+>>          vaddr = ast->vram + ast->vram_fb_available - size;
+>> -       offset = ast->vram_base + ast->vram_fb_available - size;
+>> +       offset = st->vram_fb_available - size;
+> 
+> This is confusing me, because in my tests I still saw a cursor, even 
+> though the address is currently wrong.
 
---------------k44L7xeM6G7wwKeskVlA114P
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I think it's because the PCI base address has its 26 bits lower part set 
+to 0. So in most hardware it will works.
+you can see in ast_set_cursor_base() that only the lower 26 bits are used.
 
-SGkNCg0KQW0gMDkuMDIuMjMgdW0gMTA6MjIgc2NocmllYiBKYW1teSBIdWFuZzoNCj4gSGVs
-bG8sDQo+IA0KPiBUaGUgb2Zmc2V0IGdpdmVuIHRvIGFzdF9zZXRfc3RhcnRfYWRkcmVzc19j
-cnQxKCkgc2hvdWxkIGJlIG9mZnNldCBpbiANCj4gdnJhbS4gSXQgc2hvdWxkIDAgbm93IGFz
-IHlvdXIgcGF0Y2guDQo+IA0KPiBJIHRoaW5rIGl0IGlzIGJldHRlciB0byBjb3JyZWN0IGl0
-IGluIGFzdF9wcmltYXJ5X3BsYW5lX2luaXQoKSBhbmQgDQo+IGFzdF9jdXJzb3JfcGxhbmVf
-aW5pdCgpIGFzIGJlbG93Lg0KDQpJIHdhcyBhYm91dCB0byB3cml0ZSB0aGUgc2FtZS4gVGhh
-bmtzIGZvciB0aGUgcmV2aWV3Lg0KDQo+IA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0
-L2FzdF9tb2RlLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+
-IEBAIC03MTQsNyArNzE0LDcgQEAgc3RhdGljIGludCBhc3RfcHJpbWFyeV9wbGFuZV9pbml0
-KHN0cnVjdCBhc3RfcHJpdmF0ZSANCj4gKmFzdCkNCj4gIMKgwqDCoMKgwqDCoMKgIHN0cnVj
-dCBhc3RfcGxhbmUgKmFzdF9wcmltYXJ5X3BsYW5lID0gJmFzdC0+cHJpbWFyeV9wbGFuZTsN
-Cj4gIMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fcGxhbmUgKnByaW1hcnlfcGxhbmUgPSAm
-YXN0X3ByaW1hcnlfcGxhbmUtPmJhc2U7DQo+ICDCoMKgwqDCoMKgwqDCoCB2b2lkIF9faW9t
-ZW0gKnZhZGRyID0gYXN0LT52cmFtOw0KPiAtwqDCoMKgwqDCoMKgIHU2NCBvZmZzZXQgPSBh
-c3QtPnZyYW1fYmFzZTsNCj4gK8KgwqDCoMKgwqDCoCB1NjQgb2Zmc2V0ID0gMDsNCj4gIMKg
-wqDCoMKgwqDCoMKgIHVuc2lnbmVkIGxvbmcgY3Vyc29yX3NpemUgPSByb3VuZHVwKEFTVF9I
-V0NfU0laRSArIA0KPiBBU1RfSFdDX1NJR05BVFVSRV9TSVpFLCBQQUdFX1NJWkUpOw0KPiAg
-wqDCoMKgwqDCoMKgwqAgdW5zaWduZWQgbG9uZyBzaXplID0gYXN0LT52cmFtX2ZiX2F2YWls
-YWJsZSAtIGN1cnNvcl9zaXplOw0KPiAgwqDCoMKgwqDCoMKgwqAgaW50IHJldDsNCj4gQEAg
-LTk3Miw3ICs5NzIsNyBAQCBzdGF0aWMgaW50IGFzdF9jdXJzb3JfcGxhbmVfaW5pdChzdHJ1
-Y3QgYXN0X3ByaXZhdGUgDQo+ICphc3QpDQo+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgcmV0dXJuIC1FTk9NRU07DQo+IA0KPiAgwqDCoMKgwqDCoMKgwqAgdmFkZHIgPSBh
-c3QtPnZyYW0gKyBhc3QtPnZyYW1fZmJfYXZhaWxhYmxlIC0gc2l6ZTsNCj4gLcKgwqDCoMKg
-wqDCoCBvZmZzZXQgPSBhc3QtPnZyYW1fYmFzZSArIGFzdC0+dnJhbV9mYl9hdmFpbGFibGUg
-LSBzaXplOw0KPiArwqDCoMKgwqDCoMKgIG9mZnNldCA9IHN0LT52cmFtX2ZiX2F2YWlsYWJs
-ZSAtIHNpemU7DQoNClRoaXMgaXMgY29uZnVzaW5nIG1lLCBiZWNhdXNlIGluIG15IHRlc3Rz
-IEkgc3RpbGwgc2F3IGEgY3Vyc29yLCBldmVuIA0KdGhvdWdoIHRoZSBhZGRyZXNzIGlzIGN1
-cnJlbnRseSB3cm9uZy4NCg0KQmVzdCByZWdhcmQNClRob21hcw0KDQo+IA0KPiBPbiAyMDIz
-LzIvOSDkuIvljYggMDU6MTIsIEpvY2VseW4gRmFsZW1wZSB3cm90ZToNCj4+IER1cmluZyB0
-aGUgZHJpdmVyIGNvbnZlcnNpb24gdG8gc2htZW0sIHRoZSBzdGFydCBhZGRyZXNzIGZvciB0
-aGUNCj4+IHNjYW5vdXQgYnVmZmVyIHdhcyBzZXQgdG8gdGhlIGJhc2UgUENJIGFkZHJlc3Mu
-DQo+PiBJbiBtb3N0IGNhc2VzIGl0IHdvcmtzIGJlY2F1c2Ugb25seSB0aGUgbG93ZXIgMjRi
-aXRzIGFyZSB1c2VkLCBhbmQNCj4+IGR1ZSB0byBhbGlnbm1lbnQgaXQgd2FzIGFsbW9zdCBh
-bHdheXMgMC4NCj4+IEJ1dCBvbiBzb21lIHVubHVja3kgaGFyZHdhcmUsIGl0J3Mgbm90IHRo
-ZSBjYXNlLCBhbmQgc29tZSB1bml0aWxpemVkDQo+PiBtZW1vcnkgaXMgZGlzcGxheWVkIG9u
-IHRoZSBCTUMuDQo+PiBXaXRoIHNobWVtLCB0aGUgcHJpbWFyeSBwbGFuZSBpcyBhbHdheXMg
-YXQgb2Zmc2V0IDAgaW4gR1BVIG1lbW9yeS4NCj4+DQo+PiBUZXN0ZWQgb24gYSBzcjY0NSBh
-ZmZlY3RlZCBieSB0aGlzIGJ1Zy4NCj4+DQo+PiBGaXhlczogZjJmYTVhOTljYTgxICgiZHJt
-L2FzdDogQ29udmVydCBhc3QgdG8gU0hNRU0iKQ0KPj4gU2lnbmVkLW9mZi1ieTogSm9jZWx5
-biBGYWxlbXBlIDxqZmFsZW1wZUByZWRoYXQuY29tPg0KPj4gLS0tDQo+PiDCoCBkcml2ZXJz
-L2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgfCAzICsrLQ0KPj4gwqAgMSBmaWxlIGNoYW5nZWQs
-IDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgDQo+PiBiL2RyaXZlcnMvZ3B1L2RybS9h
-c3QvYXN0X21vZGUuYw0KPj4gaW5kZXggYzc0NDMzMTdjNzQ3Li41NGRlYjI5YmZlYjMgMTAw
-NjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMNCj4+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPj4gQEAgLTY4MSw3ICs2ODEsOCBA
-QCBzdGF0aWMgdm9pZCANCj4+IGFzdF9wcmltYXJ5X3BsYW5lX2hlbHBlcl9hdG9taWNfdXBk
-YXRlKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLA0KPj4gwqDCoMKgwqDCoCBpZiAoIW9sZF9m
-YiB8fCBvbGRfZmItPnBpdGNoZXNbMF0gIT0gZmItPnBpdGNoZXNbMF0pDQo+PiDCoMKgwqDC
-oMKgwqDCoMKgwqAgYXN0X3NldF9vZmZzZXRfcmVnKGFzdCwgZmIpOw0KPj4gwqDCoMKgwqDC
-oCBpZiAoIW9sZF9mYikgew0KPj4gLcKgwqDCoMKgwqDCoMKgIGFzdF9zZXRfc3RhcnRfYWRk
-cmVzc19jcnQxKGFzdCwgKHUzMilhc3RfcGxhbmUtPm9mZnNldCk7DQo+PiArwqDCoMKgwqDC
-oMKgwqAgLyogd2l0aCBzaG1lbSwgdGhlIHByaW1hcnkgcGxhbmUgaXMgYWx3YXlzIGF0IG9m
-ZnNldCAwICovDQo+PiArwqDCoMKgwqDCoMKgwqAgYXN0X3NldF9zdGFydF9hZGRyZXNzX2Ny
-dDEoYXN0LCAwKTsNCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBhc3Rfc2V0X2luZGV4X3JlZ19t
-YXNrKGFzdCwgQVNUX0lPX1NFUV9QT1JULCAweDEsIDB4ZGYsIDB4MDApOw0KPj4gwqDCoMKg
-wqDCoCB9DQo+PiDCoCB9DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgw
-OSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+-- 
 
---------------k44L7xeM6G7wwKeskVlA114P--
+Jocelyn
 
---------------sJiQEQcOrtWA5jBNoc8meSGX
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> 
+> Best regard
+> Thomas
+> 
+>>
+>> On 2023/2/9 下午 05:12, Jocelyn Falempe wrote:
+>>> During the driver conversion to shmem, the start address for the
+>>> scanout buffer was set to the base PCI address.
+>>> In most cases it works because only the lower 24bits are used, and
+>>> due to alignment it was almost always 0.
+>>> But on some unlucky hardware, it's not the case, and some unitilized
+>>> memory is displayed on the BMC.
+>>> With shmem, the primary plane is always at offset 0 in GPU memory.
+>>>
+>>> Tested on a sr645 affected by this bug.
+>>>
+>>> Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
+>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>> ---
+>>>   drivers/gpu/drm/ast/ast_mode.c | 3 ++-
+>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>>> b/drivers/gpu/drm/ast/ast_mode.c
+>>> index c7443317c747..54deb29bfeb3 100644
+>>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>>> @@ -681,7 +681,8 @@ static void 
+>>> ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>>>       if (!old_fb || old_fb->pitches[0] != fb->pitches[0])
+>>>           ast_set_offset_reg(ast, fb);
+>>>       if (!old_fb) {
+>>> -        ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
+>>> +        /* with shmem, the primary plane is always at offset 0 */
+>>> +        ast_set_start_address_crt1(ast, 0);
+>>>           ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
+>>>       }
+>>>   }
+>>
+> 
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPkvmEFAwAAAAAACgkQlh/E3EQov+D4
-ng//TynFG7bbBMOKmCI+HMCsukmpPAoxVqfCMfzwxzFCHP0nyMhCXEwQynjd3/Qq9EXEWo17eVP1
-FPw1RfUZUQ5hYXvXdAnQxKJ5JRsoYopIqgV1oAQKTr3HGCfKCETzR2xQnhAut8an4hFw97RRvdyQ
-uKwZFBsAL9hwMblCUPsmdBLVtXT9v0SqP2nyVn3wsmeoeCwfEHYYGtx93o7HkNDTbJLsk5ELBMh8
-O1yoaCVqIlDvx4o7VxZtf6bmDaQ3dU1ltmBs5iZnGWoOU0QqyxZHsBYZCcjtA/4xSrWPsNVnb4ZC
-p9K5jqyWrgRissYU0O9GrJU6LEN4V62r6j0+4tBCuBEfmj7mwzcPhsvjv4EZR4t9JzL54IlEIhHk
-fZqu84bXIAEhmMO6V+xtW7nKW1dwJpHThipVqN4Yv2tX2IocavtbDUV7HVSV/w2lJ9AS9xNTBKA1
-SvcaomPvntZxESZPu0XtAStoc5q2SV8y1GmmwRqDY+aOIcJEZgWtQUWz7/xG7Zt2WhiJntay7H5O
-27htjcPYRMxJnWMdufCBf1z2WEkglcasL+HXbmcTuxn/6u6uTVw5Ho3AsSkEVkYpcWkJoqqgyAzV
-/WbEAbAA1zCpOCu3JR8JJqH3A/1KgDZu8qg06wmH6b5adnXUpu3c/zxyp/Ej2yejJVZ7rrCTmrKj
-Teg=
-=+iUi
------END PGP SIGNATURE-----
-
---------------sJiQEQcOrtWA5jBNoc8meSGX--
