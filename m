@@ -1,81 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3DEF691248
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 21:56:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BD4691297
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 22:24:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE0810EB84;
-	Thu,  9 Feb 2023 20:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B291410EBB4;
+	Thu,  9 Feb 2023 21:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB41B10EB84
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 20:56:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675976177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GOijvwsKDok7G2BOzmH1GSGEU6At5AF1U1zcEVVJWFM=;
- b=RPS27plWqrP4AkkcU8vLbA05zvmqzMXVrr34rY6U0VmBWd+joZ3Ta48kNcSYpefEqK+tz6
- 37R/AP/w0UPzFuzslNncgrimFsEDj2JpfPbgzESC/TMnMFFPOQVo5Cmb1Q6r/HW7iq9lQM
- yaq91YwBKea0cYV4xXO1wB9Wr88Y3M8=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-21-ULBmap9OOqmRq52z-Cos_Q-1; Thu, 09 Feb 2023 15:56:16 -0500
-X-MC-Unique: ULBmap9OOqmRq52z-Cos_Q-1
-Received: by mail-qv1-f72.google.com with SMTP id
- x20-20020ad44594000000b0056c25bbe602so1964238qvu.10
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 12:56:16 -0800 (PST)
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86A1B10EBB4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 21:24:01 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id a1so4013174ybj.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 13:24:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=E1LFJxDs1uBU42FGGehCvceuoy2IM0b64f7Dp8P0mt0=;
+ b=UCG0yKlj2c4xdydNeBS3ioZ1COWxPfadRLcaScnWFW1SvLiXVXexLR0cIko0oZF+Fg
+ szhLKT8ak+Cp0AF5vQWDLrNoj4Cq+srDD9C5Y+yo3zlmX2LotqWLBpvTVgOuzkoAhGgg
+ +ajsawh3NSd1jVu2h3Co4wrA28G6pURp2q3UvJXYjUzlmFoMNYxc4/8xX9fkOs6JyBhB
+ uU1MvjFz5Djkyl6SkWqOv3rEwRNpe7Ng3hKPEakDF5ODmLQpw2mF5mcoEL6OGFNv5LFS
+ IYCgS5Qk3RM/uuPbEV7ZT0vkq93JOTNSr4x1H2BMeTuNz7FL+QS6ur8wgqK2rEYmNTvO
+ E/tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MwvhZIExeC6pg1mA1eBczPhmNq0o9JVqra38D4tU9DA=;
- b=aW5r+xrW6/zEkIL/gTjK39PC51MxBFXo/7j3PJO6R9r+x6E5h0dqVofMyA9QAQRoKb
- W5djLOSfI5LWvu2FGAPT3XNqszVO8JuUqMRr5szTyNL+hYzFKTkuGJG4qUVAo4CBoQiy
- 1Z8Sbu5chQ5rQit7rMor9FZUlN/ympqWiaJe+1xWp6ZyB71SJMwxv8UEaNLjp5gxi3r6
- KsHDY2D0Ks+V6o6FQmoNgHxfcGqYHfA1iN8x7SqQL/eEpDN1oa3f7GYrhMyFCE5UQPCm
- i5TSG/4FZhUvSlb9ACd5HzMUSVFAEsMA/tIFI4fR6QxMXVu7JvAP1cykNaUXBM56idRU
- H2GQ==
-X-Gm-Message-State: AO0yUKUWHAJGPG4V8NHn21Z8/zwk+y+cEzjRbJUuZstZrpHJjlvOk9Yw
- 3Oe/uQI4EEaKsflSNhiShauLA++67ueexnyWoQ3x8vPwr/qk8QwbOerNcc7jPZbwbaT8JYZFy5Y
- HhLOo62bTKlrJK0/S6RZyUDxfEtac
-X-Received: by 2002:ac8:5842:0:b0:3b6:3508:2a3e with SMTP id
- h2-20020ac85842000000b003b635082a3emr22689024qth.4.1675976175885; 
- Thu, 09 Feb 2023 12:56:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set/Sgu6IrdyuvSr/55VxeDEiDRADgmgMtUxxr0kepPtczgL94WYP5qNW4ED01WvYyZ4jpi+QiA==
-X-Received: by 2002:ac8:5842:0:b0:3b6:3508:2a3e with SMTP id
- h2-20020ac85842000000b003b635082a3emr22688994qth.4.1675976175614; 
- Thu, 09 Feb 2023 12:56:15 -0800 (PST)
-Received: from ?IPv6:2600:4040:5c68:6800:3463:5df7:aced:152e?
- ([2600:4040:5c68:6800:3463:5df7:aced:152e])
- by smtp.gmail.com with ESMTPSA id
- 73-20020a370b4c000000b007259807a512sm2078501qkl.12.2023.02.09.12.56.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Feb 2023 12:56:15 -0800 (PST)
-Message-ID: <4ecbb8cde92a422fab52e29f826b7d5dda0ac681.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/disp: Fix nvif_outp_acquire_dp() argument size
-From: Lyude Paul <lyude@redhat.com>
-To: Kees Cook <keescook@chromium.org>
-Date: Thu, 09 Feb 2023 15:56:14 -0500
-In-Reply-To: <202301271141.6741F43@keescook>
-References: <20221127183036.never.139-kees@kernel.org>
- <202301251214.8E52414D0@keescook>
- <9c53c624604b7415ceeedf7222e78abc2c64430f.camel@redhat.com>
- <202301271141.6741F43@keescook>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=E1LFJxDs1uBU42FGGehCvceuoy2IM0b64f7Dp8P0mt0=;
+ b=qea42hlhre2JN9niWnrxK3v77/armbcGQGfe9oTcT4v+TJRdmiXhIYH/2YkEOuHDeI
+ P5q3bytj+0XpvxeSb4q5xrAunvY7XIJIyQaXVZ0ay1eUiEXJOuSg32bCgLsHBtL2yuOY
+ jA5B6wZewXKhboBt10ynw0DeQdmlJspm4RUCV+K+97syDrDdLLeWclITjlWwBv+PrQvy
+ 9nRTE9bg/0nU8pbfiRNn0d0p5K+XB2S30Mqvanclf24nB46XQsjCOxnuowVHaM9e0BGF
+ c3ltRdwLGxAXhTzegdpI4CoKhBZ7n3zCDMlDuRBOoNiJL0oPuFqQT7tb+J77PDlE4jkd
+ S9Ug==
+X-Gm-Message-State: AO0yUKWsVhTLLgmOmjVV4vgagLsB/aKhr9+sGnZ8h/mvecQE/Dsh+GUT
+ EC7Z3n4IG4Ze5eFYZ1TjX3jeYQpOU14SsvdG+OEmXw==
+X-Google-Smtp-Source: AK7set9eBXNpQ3aKBAYureooVsW9/fdrfFpxjqLHdZ+oSO2lLxPGxTnBOhbB9E9t4Nr13czmOeSUHPoJwtzBATajLXw=
+X-Received: by 2002:a5b:4c:0:b0:8b2:1ee3:c1a8 with SMTP id
+ e12-20020a5b004c000000b008b21ee3c1a8mr1195540ybp.288.1675977840171; 
+ Thu, 09 Feb 2023 13:24:00 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
+ <20230203182132.1307834-28-dmitry.baryshkov@linaro.org>
+ <fd654e2e-4cc0-29bf-374d-beed0bada0bc@quicinc.com>
+ <CAA8EJpocfk2bY0fGaGrzcho-NmHyam3NR-=W3L0E9M7nrY_wVw@mail.gmail.com>
+ <ef0482a4-6c07-873c-62d8-e16e0220b75f@quicinc.com>
+In-Reply-To: <ef0482a4-6c07-873c-62d8-e16e0220b75f@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 9 Feb 2023 23:23:49 +0200
+Message-ID: <CAA8EJppHhd5WSqOsz5tfW0zwyqevZgYANHhg8Yqwvr4X3jZ65A@mail.gmail.com>
+Subject: Re: [PATCH v3 27/27] drm/msm/dpu: add support for wide planes
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,144 +68,558 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
- linux-hardening@vger.kernel.org
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I think that shoud be fine, which branch is it on?
+Hi Abhinav,
 
-On Fri, 2023-01-27 at 11:42 -0800, Kees Cook wrote:
-> On Wed, Jan 25, 2023 at 04:24:19PM -0500, Lyude Paul wrote:
-> > Sorry! I've been pretty busy until now, this is:
-> >=20
-> > Reviewed-by: Lyude Paul <lyude@redhat.com>
-> >=20
-> > Let me know if you've pushed it already or if you want me to push it to=
- drm-
-> > misc
->=20
-> Either way is fine. I'm currently carrying it, but I can easily drop it
-> if you prefer it go via drm-misc.
->=20
-> Thanks!
->=20
-> -Kees
->=20
-> >=20
-> > On Wed, 2023-01-25 at 12:15 -0800, Kees Cook wrote:
-> > > Ping. I'll take this via my tree unless someone else wants to take it=
-...
-> > >=20
-> > > On Sun, Nov 27, 2022 at 10:30:41AM -0800, Kees Cook wrote:
-> > > > Both Coverity and GCC with -Wstringop-overflow noticed that
-> > > > nvif_outp_acquire_dp() accidentally defined its second argument wit=
-h 1
-> > > > additional element:
-> > > >=20
-> > > > drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_pior_ato=
-mic_enable':
-> > > > drivers/gpu/drm/nouveau/dispnv50/disp.c:1813:17: error: 'nvif_outp_=
-acquire_dp' accessing 16 bytes in a region of size 15 [-Werror=3Dstringop-o=
-verflow=3D]
-> > > >  1813 |                 nvif_outp_acquire_dp(&nv_encoder->outp, nv_=
-encoder->dp.dpcd, 0, 0, false, false);
-> > > >       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > drivers/gpu/drm/nouveau/dispnv50/disp.c:1813:17: note: referencing =
-argument 2 of type 'u8[16]' {aka 'unsigned char[16]'}
-> > > > drivers/gpu/drm/nouveau/include/nvif/outp.h:24:5: note: in a call t=
-o function 'nvif_outp_acquire_dp'
-> > > >    24 | int nvif_outp_acquire_dp(struct nvif_outp *, u8 dpcd[16],
-> > > >       |     ^~~~~~~~~~~~~~~~~~~~
-> > > >=20
-> > > > Avoid these warnings by defining the argument size using the matchi=
-ng
-> > > > define (DP_RECEIVER_CAP_SIZE, 15) instead of having it be a literal
-> > > > (and incorrect) value (16).
-> > > >=20
-> > > > Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-> > > > Addresses-Coverity-ID: 1527269 ("Memory - corruptions")
-> > > > Addresses-Coverity-ID: 1527268 ("Memory - corruptions")
-> > > > Link: https://lore.kernel.org/lkml/202211100848.FFBA2432@keescook/
-> > > > Link: https://lore.kernel.org/lkml/202211100848.F4C2819BB@keescook/
-> > > > Fixes: 813443721331 ("drm/nouveau/disp: move DP link config into ac=
-quire")
-> > > > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > > > Cc: Karol Herbst <kherbst@redhat.com>
-> > > > Cc: Lyude Paul <lyude@redhat.com>
-> > > > Cc: David Airlie <airlied@gmail.com>
-> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > Cc: Dave Airlie <airlied@redhat.com>
-> > > > Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-> > > > Cc: dri-devel@lists.freedesktop.org
-> > > > Cc: nouveau@lists.freedesktop.org
-> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > > ---
-> > > >  drivers/gpu/drm/nouveau/include/nvif/outp.h | 3 ++-
-> > > >  drivers/gpu/drm/nouveau/nvif/outp.c         | 2 +-
-> > > >  2 files changed, 3 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/nouveau/include/nvif/outp.h b/drivers/=
-gpu/drm/nouveau/include/nvif/outp.h
-> > > > index 45daadec3c0c..fa76a7b5e4b3 100644
-> > > > --- a/drivers/gpu/drm/nouveau/include/nvif/outp.h
-> > > > +++ b/drivers/gpu/drm/nouveau/include/nvif/outp.h
-> > > > @@ -3,6 +3,7 @@
-> > > >  #define __NVIF_OUTP_H__
-> > > >  #include <nvif/object.h>
-> > > >  #include <nvif/if0012.h>
-> > > > +#include <drm/display/drm_dp.h>
-> > > >  struct nvif_disp;
-> > > > =20
-> > > >  struct nvif_outp {
-> > > > @@ -21,7 +22,7 @@ int nvif_outp_acquire_rgb_crt(struct nvif_outp *)=
-;
-> > > >  int nvif_outp_acquire_tmds(struct nvif_outp *, int head,
-> > > >  =09=09=09   bool hdmi, u8 max_ac_packet, u8 rekey, u8 scdc, bool h=
-da);
-> > > >  int nvif_outp_acquire_lvds(struct nvif_outp *, bool dual, bool bpc=
-8);
-> > > > -int nvif_outp_acquire_dp(struct nvif_outp *, u8 dpcd[16],
-> > > > +int nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIV=
-ER_CAP_SIZE],
-> > > >  =09=09=09 int link_nr, int link_bw, bool hda, bool mst);
-> > > >  void nvif_outp_release(struct nvif_outp *);
-> > > >  int nvif_outp_infoframe(struct nvif_outp *, u8 type, struct nvif_o=
-utp_infoframe_v0 *, u32 size);
-> > > > diff --git a/drivers/gpu/drm/nouveau/nvif/outp.c b/drivers/gpu/drm/=
-nouveau/nvif/outp.c
-> > > > index 7da39f1eae9f..c24bc5eae3ec 100644
-> > > > --- a/drivers/gpu/drm/nouveau/nvif/outp.c
-> > > > +++ b/drivers/gpu/drm/nouveau/nvif/outp.c
-> > > > @@ -127,7 +127,7 @@ nvif_outp_acquire(struct nvif_outp *outp, u8 pr=
-oto, struct nvif_outp_acquire_v0
-> > > >  }
-> > > > =20
-> > > >  int
-> > > > -nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[16],
-> > > > +nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIVER_C=
-AP_SIZE],
-> > > >  =09=09     int link_nr, int link_bw, bool hda, bool mst)
-> > > >  {
-> > > >  =09struct nvif_outp_acquire_v0 args;
-> > > > --=20
-> > > > 2.34.1
-> > > >=20
-> > >=20
-> >=20
-> > --=20
-> > Cheers,
-> >  Lyude Paul (she/her)
-> >  Software Engineer at Red Hat
-> >=20
->=20
+On Thu, 9 Feb 2023 at 21:25, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 2/9/2023 3:45 AM, Dmitry Baryshkov wrote:
+> > On Thu, 9 Feb 2023 at 04:19, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >>
+> >>
+> >> On 2/3/2023 10:21 AM, Dmitry Baryshkov wrote:
+> >>> Typically SSPP can support rectangle with width up to 2560. However it's
+> >>
+> >> Not always 2560. Depends on the chipset.
+> >
+> > _typically_
+> >
+>
+> Would just say maxlinewidth of SSPP instead of giving some hardcoded number.
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Ack.
 
+>
+> >>
+> >>> possible to use multirect feature and split source to use the SSPP to
+> >>> output two consecutive rectangles. This commit brings in this capability
+> >>> to support wider screen resolutions.
+> >>>
+> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>> ---
+> >>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |   6 ++
+> >>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 116 +++++++++++++++++++---
+> >>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |   4 +
+> >>>    3 files changed, 114 insertions(+), 12 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >>> index 0ca3bc38ff7e..867832a752b2 100644
+> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >>> @@ -485,6 +485,12 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+> >>>                                           fetch_active,
+> >>>                                           &pstate->pipe);
+> >>>
+> >>> +             _dpu_crtc_blend_setup_pipe(crtc, plane,
+> >>> +                                        mixer, cstate->num_mixers,
+> >>> +                                        stage_cfg, pstate->stage, 1,
+> >>> +                                        fetch_active,
+> >>> +                                        &pstate->r_pipe);
+> >>> +
+> >>>                /* blend config update */
+> >>>                for (lm_idx = 0; lm_idx < cstate->num_mixers; lm_idx++) {
+> >>>                        _dpu_crtc_setup_blend_cfg(mixer + lm_idx, pstate, format);
+> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>> index e2e85688ed3c..401ead64c6bd 100644
+> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> >>> @@ -365,6 +365,9 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
+> >>>        struct dpu_plane *pdpu = to_dpu_plane(plane);
+> >>>        struct dpu_hw_pipe_qos_cfg pipe_qos_cfg;
+> >>>
+> >>> +     if (!pipe->sspp)
+> >>> +             return;
+> >>> +
+> >>>        memset(&pipe_qos_cfg, 0, sizeof(pipe_qos_cfg));
+> >>>
+> >>>        if (flags & DPU_PLANE_QOS_VBLANK_CTRL) {
+> >>> @@ -647,6 +650,9 @@ static int _dpu_plane_color_fill_pipe(struct dpu_plane_state *pstate,
+> >>>    {
+> >>>        struct dpu_hw_sspp_cfg pipe_cfg;
+> >>>
+> >>> +     if (!pipe->sspp)
+> >>> +             return 0;
+> >>
+> >> instead of checking if sspp was present, is it not better for the caller
+> >> to check if the rpipe is valid before calling this?
+> >>
+> >>> +
+> >>>        /* update sspp */
+> >>>        if (!pipe->sspp->ops.setup_solidfill)
+> >>>                return 0;
+> >>> @@ -701,6 +707,8 @@ static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
+> >>>
+> >>>        /* update sspp */
+> >>>        _dpu_plane_color_fill_pipe(pstate, &pstate->pipe, &pstate->pipe_cfg, fill_color, fmt);
+> >>> +
+> >>> +     _dpu_plane_color_fill_pipe(pstate, &pstate->r_pipe, &pstate->r_pipe_cfg, fill_color, fmt);
+> >>>    }
+> >>
+> >> So cant we do
+> >>
+> >> if (pstate->r_pipe.sspp)
+> >>          _dpu_plane_color_fill_pipe(pstate, &pstate->r_pipe,
+> >>                  &pstate->r_pipe_cfg, fill_color, fmt);
+> >>
+> >> It just seems better to me as the caller would already know if the sspp
+> >> was assigned.
+> >
+> >   I think I had this kind of code earlier, but then I found it more
+> > logical to move the check to the called function. I'll move it back.
+> >
+> >>
+> >>>
+> >>>    int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
+> >>> @@ -911,6 +919,9 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
+> >>>    {
+> >>>        uint32_t min_src_size;
+> >>>
+> >>> +     if (!pipe->sspp)
+> >>> +             return 0;
+> >>> +
+> >>>        min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
+> >>>
+> >>>        if (DPU_FORMAT_IS_YUV(fmt) &&
+> >>> @@ -957,9 +968,12 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >>>        int ret = 0, min_scale;
+> >>>        struct dpu_plane *pdpu = to_dpu_plane(plane);
+> >>>        struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+> >>> +     struct dpu_sw_pipe *pipe = &pstate->pipe;
+> >>> +     struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> >>>        const struct drm_crtc_state *crtc_state = NULL;
+> >>>        const struct dpu_format *fmt;
+> >>>        struct dpu_hw_sspp_cfg *pipe_cfg = &pstate->pipe_cfg;
+> >>> +     struct dpu_hw_sspp_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> >>>        struct drm_rect fb_rect = { 0 };
+> >>>        uint32_t max_linewidth;
+> >>>        unsigned int rotation;
+> >>> @@ -983,8 +997,11 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >>>        if (!new_plane_state->visible)
+> >>>                return 0;
+> >>>
+> >>> -     pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
+> >>> -     pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> >>> +     pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> >>> +     pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> >>> +     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> >>> +     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> >>> +     r_pipe->sspp = NULL;
+> >>>
+> >>>        pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
+> >>>        if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
+> >>> @@ -1016,16 +1033,53 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+> >>>
+> >>>        max_linewidth = pdpu->catalog->caps->max_linewidth;
+> >>>
+> >>> -     /* check decimated source width */
+> >>>        if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+> >>> -             DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
+> >>> -                             DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> >>> -             return -E2BIG;
+> >>> +             /* struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state); */
+> >>> +
+> >>> +             if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
+> >>> +                     DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
+> >>> +                                     DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> >>> +                     return -E2BIG;
+> >>> +             }
+> >>
+> >> This is where I am a bit concerned enabling it for all chipsets in one go.
+> >
+> > As I wrote earlier, I'd prefer the opt-out rather than opt-in here. It
+> > is much easier to handle the reports "I have a device with sm6543,
+> > where the display worked before 6.4, but started failing afterwards"
+> > rather than trying to find a person with sm6543 and asking him if he
+> > can enable this and that on his device. And even a lower chance of a
+> > person with sm6543 coming up with a patch 'hey, I enabled this for my
+> > phone and it works!'.
+> >
+> > If we find any issues during or close to the end of the development
+> > cycle, we can add a 'don't enable wide plane here' switch and enable
+> > it for failing platforms. But each enablement of this switch should
+> > come with a reason (wide planes not working here because ....). In the
+> > end this switch should be gone and transformed into proper HW
+> > limitation checks.
+> >
+>
+> As it has become clear that with this patch series 4K with UBWC cannot
+> be supported without true virtual planes (with two SSPPs), why do you
+> need to relax this check right now?
+
+Yes. It enables support for 4k @ linear formats. So my plan for this
+series is to land 4k with all the proper applicable restrictions.
+
+> You can relax this when you add the support for virtual planes till then
+> let it be this way.
+>
+> Its not going to break smartDMA as such. You can still use it for layers
+> < 2560.
+>
+> That way we stay true to the purpose of the feature. I think originally
+> you wanted to get this in for smartDMA and not to support wide plane and
+> that purpose will still be achieved even with keeping this check intact.
+
+Actually, no. With this series I wanted to get 4k. It was developed in
+parallel with the 4k enablement for RB3 (posted, bridge patches are
+being merged for 6.3) and RB5 (delayed for now, I have other issues
+there).
+
+> You can relax it in the virtual plane series.
+>
+> Regarding issues, this is where it gets tricky. We should be aligning
+> with what the product supports. QC will not support issues arising with
+> 4K on chipsets on which 4K is not advertized.
+
+So, we have several different items here:
+- SmartDMA v2 per se, supporting two rectangles per VIG or DMA plane,
+- Source split support,
+- Supporting 4k modes.
+
+I think we should tend them one by one. This series concerns SmartDMA
+v2. Using SmartDMA it is possible to use two rectangles side by side
+to emulate a wide plane. This series doesn't care at all about max
+resolutions. These two items are completely orthogonal.
+
+> >> As you are aware,  we have an open bug today that we do not filter out
+> >> the modes which we do not support.
+> >>
+> >> https://gitlab.freedesktop.org/drm/msm/-/issues/21
+> >
+> > I thought that with the link-frequencies in place and with the DSI
+> > checking the OPP tables this issue is mostly handled. Isn't it?
+> > Is a mode check in the DPU driver itself the last missing piece?
+> >
+>
+> opp based checking was implemented only for DSI. That one is byte clk based.
+>
+> DP uses link rate for opp table.
+>
+> Even with a 5.4G link rate (the one in sc7180 chromebook) 4k@30 would
+> still be possible but it was not advertized
+>
+> https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/prod_brief_qcom_sd7c.pdf
+>
+> These docs are available in public domain.
+>
+> As we synced up last time on
+> https://patchwork.freedesktop.org/series/107917/, even with these limits
+> in place, its not matching the advertized limits.
+>
+> >>
+> >> Due to this, on all chipsets we will end up trying to do a 4K on
+> >> external display which we dont know what bugs it will expose.
+> >
+> > If we do not expose bugs, we do not have a way to fix them. And I
+> > definitely think that all the bugs should be listed as early as
+> > possible, while both of us still remember the code under the question.
+> >
+>
+> Yes but on chipsets where 4K is supported ( and hence needed ).
+
+4k, SmartDMA, src-split, split-display, etc.
+
+
+>
+> >>
+> >> So lets say if we test it on sc7280 fully but not on sc7180, we will
+> >> still hit this condition on sc7180 too but on that chipset we did not
+> >> advertise 4K as a capability in the product spec.
+> >
+> > Is it 'not advertised' or 'not supported by hw'?
+> >
+>
+> The document
+> https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/prod_brief_qcom_sd7c.pdf
+> is made from inputs from not just display team but overall system
+> limits. So even though you could argue that this falls within the
+> display capabilities, all I can say at the moment is we have to stick to
+> the advertized limits as its compiled with inputs from all the teams
+> (system/performance etc).
+
+So, there should be a limiting factor (or a combination of them).
+Filter out 4k modes on sc7180. Or modes using fill rate higher than N.
+Pixel clock rate higher than M. But it has nothing to do with these
+patches enabling SmartDMA support on this platform.
+
+Even if we look at the vendor kernels, we don't see 'maximum external
+resolution'. Instead I see a combination of linewidth and bandwidth
+limitations. If we can stick to that, that would be great.
+
+>
+> >>
+> >> With the max_linewidth check relaxed nothing prevents us from doing 4K
+> >> on a chipset which doesnt support 4K.
+> >
+> > What prevents sc7180 from supporting 4k? Does it support Smart DMA?
+> > Does it support having two LMs per INTF/CRTC? Is there a limitation on
+> > the linewidth of two LMs or two SSPPs?
+> >
+> > I see that sm7125 (which has the same DPU revision) even contains
+> > "qcom,sde-vig-sspp-linewidth = <4096>;" in the DTS, despite official
+> > 'product brief' advertising only 2520x1080 output resolution.
+> >
+>
+> My previous response should have answered this.
+
+Up to some point, thanks.
+
+>
+> >>
+> >>> +
+> >>> +             /*
+> >>> +              * FIXME: it's not possible to check if sourcesplit is supported,
+> >>> +              * LMs is not assigned yet. It happens in dpu_encoder_virt_mode_set
+> >>> +              */
+> >>> +             if (drm_rect_width(&pipe_cfg->src_rect) != drm_rect_width(&pipe_cfg->dst_rect) ||
+> >>> +                        drm_rect_height(&pipe_cfg->src_rect) != drm_rect_height(&pipe_cfg->dst_rect) ||
+> >>> +                        (!test_bit(DPU_SSPP_SMART_DMA_V1, &pipe->sspp->cap->features) &&
+> >>> +                         !test_bit(DPU_SSPP_SMART_DMA_V2, &pipe->sspp->cap->features)) ||
+> >>> +                        /* cstate->num_mixers < 2 ||
+> >>> +                        !test_bit(DPU_MIXER_SOURCESPLIT, &cstate->mixers[0].hw_lm->cap->features) || */
+> >>> +                        DPU_FORMAT_IS_YUV(fmt)) {
+> >>> +                     DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u, can't use split source\n",
+> >>> +                                     DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> >>> +                     return -E2BIG;
+> >>> +             }
+> >>> +
+> >>> +             /* Use multirect for wide plane. We do not support dynamic assignment of SSPPs, so we know the configuration. */
+> >>> +             pipe->multirect_index = DPU_SSPP_RECT_0;
+> >>> +             pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> >>> +
+> >>> +             r_pipe->sspp = pipe->sspp;
+> >>> +             r_pipe->multirect_index = DPU_SSPP_RECT_1;
+> >>> +             r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
+> >>
+> >>
+> >>> +
+> >>> +             *r_pipe_cfg = *pipe_cfg;
+> >>> +             pipe_cfg->src_rect.x2 = (pipe_cfg->src_rect.x1 + pipe_cfg->src_rect.x2) >> 1;
+> >>> +             pipe_cfg->dst_rect.x2 = (pipe_cfg->dst_rect.x1 + pipe_cfg->dst_rect.x2) >> 1;
+> >>> +             r_pipe_cfg->src_rect.x1 = pipe_cfg->src_rect.x2;
+> >>> +             r_pipe_cfg->dst_rect.x1 = pipe_cfg->dst_rect.x2;
+> >>>        }
+> >>>
+> >>
+> >> As you requested just wanted to summarize the condition in the email.
+> >>
+> >> In parallel fetch mode, the downstream driver for UBWC formats, we check
+> >> whether the src width of each rectangle is > maxlinewidth/2
+> >>
+> >> https://git.codelinaro.org/clo/la/platform/vendor/opensource/display-drivers/-/blob/DISPLAY.LA.2.0.r3-00500-WAIPIO.0/msm/sde/sde_plane.c#L1835
+> >
+> > Thanks. Please double check my understanding: If the rectangle is used
+> > for the tiled format, then it's max_linewidth is effectively halved.
+> > So we can use rect_solo with full width, but for rect_0/rect_1 we
+> > should halve it, even if two rectangles are used in the time split?
+> >
+>
+> Not in time split mode. Only in parallel fetch mode which is being used
+> here. Rest of your understanding is correct.
+
+Ack, thanks for the correction. This is important for plane checks.
+
+>
+> >>
+> >> For sc7280, maxlinewidth is 2400
+> >>
+> >> static const struct dpu_caps sc7280_dpu_caps = {
+> >>           .max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+> >>           .max_mixer_blendstages = 0x7,
+> >>           .qseed_type = DPU_SSPP_SCALER_QSEED4,
+> >>           .smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
+> >>           .ubwc_version = DPU_HW_UBWC_VER_30,
+> >>           .has_dim_layer = true,
+> >>           .has_idle_pc = true,
+> >>           .max_linewidth = 2400,
+> >>           .pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+> >> };
+> >>
+> >> Hence for UBWC formats which are by default used on the sc7280
+> >> chromebook, each rectangle should be < 1200
+> >>
+> >> SmartDMA is therefore not enough to support 4K on sc7280 and we need
+> >> true virtual planes ( using two SSPPs to display the 4K layer )
+> >>
+> >> Also, probably worth commenting that time multiplex mode support is not
+> >> added in this series.
+> >
+> > Ack.
+> >
+> >>
+> >>>        fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
+> >>>
+> >>> -     ret = dpu_plane_atomic_check_pipe(pdpu, &pstate->pipe, pipe_cfg, fmt);
+> >>> +     ret = dpu_plane_atomic_check_pipe(pdpu, pipe, pipe_cfg, fmt);
+> >>> +     if (ret)
+> >>> +             return ret;
+> >>> +
+> >>> +     ret = dpu_plane_atomic_check_pipe(pdpu, r_pipe, r_pipe_cfg, fmt);
+> >>>        if (ret)
+> >>>                return ret;
+> >>>
+> >>> @@ -1094,8 +1148,10 @@ void dpu_plane_flush(struct drm_plane *plane)
+> >>>        else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
+> >>>                /* force 100% alpha */
+> >>>                _dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
+> >>> -     else
+> >>> +     else {
+> >>>                dpu_plane_flush_csc(pdpu, &pstate->pipe);
+> >>> +             dpu_plane_flush_csc(pdpu, &pstate->r_pipe);
+> >>> +     }
+> >>>
+> >>>        /* flag h/w flush complete */
+> >>>        if (plane->state)
+> >>> @@ -1130,6 +1186,9 @@ static void dpu_plane_sspp_update_pipe(struct drm_plane *plane,
+> >>>        struct drm_plane_state *state = plane->state;
+> >>>        struct dpu_plane_state *pstate = to_dpu_plane_state(state);
+> >>>
+> >>> +     if (!pipe->sspp)
+> >>> +             return;
+> >>> +
+> >>>        if (layout && pipe->sspp->ops.setup_sourceaddress) {
+> >>>                trace_dpu_plane_set_scanout(pipe, layout);
+> >>>                pipe->sspp->ops.setup_sourceaddress(pipe, layout);
+> >>> @@ -1207,13 +1266,14 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+> >>>        struct drm_plane_state *state = plane->state;
+> >>>        struct dpu_plane_state *pstate = to_dpu_plane_state(state);
+> >>>        struct dpu_sw_pipe *pipe = &pstate->pipe;
+> >>> +     struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> >>>        struct drm_crtc *crtc = state->crtc;
+> >>>        struct drm_framebuffer *fb = state->fb;
+> >>>        bool is_rt_pipe;
+> >>>        const struct dpu_format *fmt =
+> >>>                to_dpu_format(msm_framebuffer_format(fb));
+> >>>        struct dpu_hw_sspp_cfg *pipe_cfg = &pstate->pipe_cfg;
+> >>> -
+> >>> +     struct dpu_hw_sspp_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> >>>        struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
+> >>>        struct msm_gem_address_space *aspace = kms->base.aspace;
+> >>>        struct dpu_hw_fmt_layout layout;
+> >>> @@ -1241,12 +1301,22 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+> >>>                                   drm_mode_vrefresh(&crtc->mode),
+> >>>                                   layout_valid ? &layout: NULL);
+> >>>
+> >>> +     dpu_plane_sspp_update_pipe(plane, r_pipe, r_pipe_cfg, fmt,
+> >>> +                                drm_mode_vrefresh(&crtc->mode),
+> >>> +                                layout_valid ? &layout: NULL);
+> >>> +
+> >>>        if (pstate->needs_qos_remap)
+> >>>                pstate->needs_qos_remap = false;
+> >>>
+> >>>        pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, pipe_cfg);
+> >>>
+> >>>        pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, pipe_cfg);
+> >>> +
+> >>> +     if (r_pipe->sspp) {
+> >>> +             pstate->plane_fetch_bw += _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, r_pipe_cfg);
+> >>> +
+> >>> +             pstate->plane_clk = max(pstate->plane_clk, _dpu_plane_calc_clk(&crtc->mode, r_pipe_cfg));
+> >>> +     }
+> >>>    }
+> >>>
+> >>>    static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+> >>> @@ -1289,6 +1359,8 @@ static void dpu_plane_destroy(struct drm_plane *plane)
+> >>>                pstate = to_dpu_plane_state(plane->state);
+> >>>                _dpu_plane_set_qos_ctrl(plane, &pstate->pipe, false, DPU_PLANE_QOS_PANIC_CTRL);
+> >>>
+> >>> +             _dpu_plane_set_qos_ctrl(plane, &pstate->r_pipe, false, DPU_PLANE_QOS_PANIC_CTRL);
+> >>> +
+> >>>                mutex_destroy(&pdpu->lock);
+> >>>
+> >>>                /* this will destroy the states as well */
+> >>> @@ -1369,11 +1441,26 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
+> >>>                const struct drm_plane_state *state)
+> >>>    {
+> >>>        const struct dpu_plane_state *pstate = to_dpu_plane_state(state);
+> >>> +     const struct dpu_sw_pipe *pipe = &pstate->pipe;
+> >>> +     const struct dpu_hw_sspp_cfg *pipe_cfg = &pstate->pipe_cfg;
+> >>> +     const struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+> >>> +     const struct dpu_hw_sspp_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+> >>>
+> >>>        drm_printf(p, "\tstage=%d\n", pstate->stage);
+> >>> -     drm_printf(p, "\tsspp=%s\n", pstate->pipe.sspp->cap->name);
+> >>> -     drm_printf(p, "\tmultirect_mode=%s\n", dpu_get_multirect_mode(pstate->pipe.multirect_mode));
+> >>> -     drm_printf(p, "\tmultirect_index=%s\n", dpu_get_multirect_index(pstate->pipe.multirect_index));
+> >>> +
+> >>> +     drm_printf(p, "\tsspp[0]=%s\n", pipe->sspp->cap->name);
+> >>> +     drm_printf(p, "\tmultirect_mode[0]=%s\n", dpu_get_multirect_mode(pipe->multirect_mode));
+> >>> +     drm_printf(p, "\tmultirect_index[0]=%s\n", dpu_get_multirect_index(pipe->multirect_index));
+> >>> +     drm_printf(p, "\tsrc[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->src_rect));
+> >>> +     drm_printf(p, "\tdst[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->dst_rect));
+> >>> +
+> >>> +     if (r_pipe->sspp) {
+> >>> +             drm_printf(p, "\tsspp[1]=%s\n", r_pipe->sspp->cap->name);
+> >>> +             drm_printf(p, "\tmultirect_mode[1]=%s\n", dpu_get_multirect_mode(r_pipe->multirect_mode));
+> >>> +             drm_printf(p, "\tmultirect_index[1]=%s\n", dpu_get_multirect_index(r_pipe->multirect_index));
+> >>> +             drm_printf(p, "\tsrc[1]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&r_pipe_cfg->src_rect));
+> >>> +             drm_printf(p, "\tdst[1]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&r_pipe_cfg->dst_rect));
+> >>> +     }
+> >>>    }
+> >>
+> >> Do you think that changing the atomic_print_state to print the r_pipe
+> >> sspp can be moved to a separate patch? So that way we only keep the core
+> >> logic of atomic check of smartDMA in this patch.
+> >>
+> >>>
+> >>>    static void dpu_plane_reset(struct drm_plane *plane)
+> >>> @@ -1407,6 +1494,10 @@ static void dpu_plane_reset(struct drm_plane *plane)
+> >>>         * This is the place where the state is allocated, so fill it fully.
+> >>>         */
+> >>>        pstate->pipe.sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
+> >>> +     pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
+> >>> +     pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> >>> +
+> >>> +     pstate->r_pipe.sspp = NULL;
+> >>>
+> >>>        __drm_atomic_helper_plane_reset(plane, &pstate->base);
+> >>>    }
+> >>> @@ -1423,6 +1514,7 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
+> >>>
+> >>>        pm_runtime_get_sync(&dpu_kms->pdev->dev);
+> >>>        _dpu_plane_set_qos_ctrl(plane, &pstate->pipe, enable, DPU_PLANE_QOS_PANIC_CTRL);
+> >>> +     _dpu_plane_set_qos_ctrl(plane, &pstate->r_pipe, enable, DPU_PLANE_QOS_PANIC_CTRL);
+> >>>        pm_runtime_put_sync(&dpu_kms->pdev->dev);
+> >>>    }
+> >>>    #endif
+> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> >>> index 079dad83eb37..183c95949885 100644
+> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> >>> @@ -19,7 +19,9 @@
+> >>>     * @base:   base drm plane state object
+> >>>     * @aspace: pointer to address space for input/output buffers
+> >>>     * @pipe:   software pipe description
+> >>> + * @r_pipe:  software pipe description of the second pipe
+> >>>     * @pipe_cfg:       software pipe configuration
+> >>> + * @r_pipe_cfg:      software pipe configuration for the second pipe
+> >>>     * @stage:  assigned by crtc blender
+> >>>     * @needs_qos_remap: qos remap settings need to be updated
+> >>>     * @multirect_index: index of the rectangle of SSPP
+> >>> @@ -34,7 +36,9 @@ struct dpu_plane_state {
+> >>>        struct drm_plane_state base;
+> >>>        struct msm_gem_address_space *aspace;
+> >>>        struct dpu_sw_pipe pipe;
+> >>> +     struct dpu_sw_pipe r_pipe;
+> >>>        struct dpu_hw_sspp_cfg pipe_cfg;
+> >>> +     struct dpu_hw_sspp_cfg r_pipe_cfg;
+> >>>        enum dpu_stage stage;
+> >>>        bool needs_qos_remap;
+> >>>        bool pending;
+> >
+> >
+> >
+
+
+
+--
+With best wishes
+Dmitry
