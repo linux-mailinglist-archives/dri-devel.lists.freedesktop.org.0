@@ -1,71 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27BA69086C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 13:13:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3086908F5
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 13:36:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4C7310E0D6;
-	Thu,  9 Feb 2023 12:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B31D310E060;
+	Thu,  9 Feb 2023 12:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B07010E0D6
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 12:13:51 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- c4-20020a1c3504000000b003d9e2f72093so3725416wma.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 04:13:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Vxwq3qZx7HhOezXOacCmPWf5sAxEpqoAH1aP+iuc7PU=;
- b=nmkTnImy0DIsoJ4ymEqxr1q0ILRtZjOhgYWHN0tkNVq68FiptuB96kSgpluWoNsaSb
- IcVj/jXWYlePgZ+oqCIpY8RTbX2+8O99CTuwiS9v1vlwTpnXNcT8CIhpP9zsu+fLL2v/
- MRY8p7kiX6gfoVupyrF9YRADABUuBonEt/la68vouIsNBSqY6G31x2oSqzR6MkQAZSfs
- xRkEEarA9pi0tGEfwIds02ycDOd0RNKnCaXflTO6rFYS9WCFtlV/H2n73gsMYARsWDhr
- yU3zeJPAjnNsWQJQ6G72eON+qiMJ+/E0+im6Aj2vrfBZ4VYoNx7mhsErEKFQ68TWkUFO
- 0mWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vxwq3qZx7HhOezXOacCmPWf5sAxEpqoAH1aP+iuc7PU=;
- b=N1mVG5es2XgsGZVCqL0M9GxAqRj+Xbts2wJMAbHagPYjY1KeqQb5ZIovVmiSCLsJ7B
- WPAhu6jUAAqoVABA/9bn5VLxrfwLjZBMkg9qURDMx10igl08bQb/2upH4isUn9TpTAlZ
- qF9y32GfaLls5V7LUIHiYKyoQpXNE5ATOYCaTVdCWQOI2d2ExR45qsjEQxoG8muoegmw
- A8twtsEfZomGyv2b2hgF3wnDWXHvWEjj8Zu0NTgtgxXesexKZmVOsL6mldywSWCI7yO5
- cQbt3uPeQ2ynuqM2xqHb4Hg6alVfGY53e9BOQAubo2PC/eeA/zpq6IkH6kJ7ZT9Ugfxn
- KzWw==
-X-Gm-Message-State: AO0yUKVy5O5I34B6ee19rTD8v0/HFUZIb2F0jAoRy7LU8JwJ5wUbOsPV
- InFnqG/21QC19UPDKxUqT5E=
-X-Google-Smtp-Source: AK7set/U4X6cKjiLMb8OKtniLVEuiIXbvRNjxiGmXzxpdLl9+afw7HEAbR2n/OXg17Gee8M3dlyyEQ==
-X-Received: by 2002:a05:600c:3423:b0:3dd:b0b3:811b with SMTP id
- y35-20020a05600c342300b003ddb0b3811bmr9800189wmp.31.1675944829632; 
- Thu, 09 Feb 2023 04:13:49 -0800 (PST)
-Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
- [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
- j40-20020a05600c1c2800b003dc4480df80sm5419689wms.34.2023.02.09.04.13.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 04:13:49 -0800 (PST)
-Message-ID: <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
-Date: Thu, 9 Feb 2023 13:13:47 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8674D10E100
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 12:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=EBlWBxOhyoDO5dXhvsOtmD3whL9PVjYauzJq6Up20zE=; b=ks9kp+CgJXmy87rtcYg2d3Zyy3
+ Dq1lO0EVTWzfge/TJoeLC6ylvS/uGV8D3jCDUT88OScZwpfm68rdYqTR/pnpaqhDaUXQO31KPLkbh
+ 3rvgwHbbSgKT1cSQpwIbHKQehdoHBQs6hi9RWK2wxtLkDpf/YGNxiq3vClhOSilBYgf1oMiiywwPm
+ cIAoVVYprwlBSRLmx/+FH3DuZu3cR1NusN3N+TQ0k2cDjHqHMBs0okVgxiWhbTZM/mZTVw5RqqhoZ
+ j0hgXEXtixu1XiaEi6ce8CPS67sZnl/CfQIKwoArObEf1b7BalJdSFfM7XttxdZXQTnenIj5IBMMe
+ W/nEjh6g==;
+Received: from [38.44.66.31] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pQ69r-00DvCB-0w; Thu, 09 Feb 2023 13:36:11 +0100
+Date: Thu, 9 Feb 2023 11:36:05 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 5/5] drm/v3d: Use drm_sched_job_add_syncobj_dependency()
+Message-ID: <20230209123605.ctr7g75ekslmmboh@mail.igalia.com>
+References: <20230208194817.199932-1-mcanal@igalia.com>
+ <20230208194817.199932-6-mcanal@igalia.com>
+ <20230209112731.bzwlhwmimg5vvmhd@mail.igalia.com>
+ <df67ca19-5bfa-ba1f-3601-1218db2a0aa5@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: Try to address the drm_debugfs issues
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>, daniel.vetter@ffwll.ch, 
- wambui.karugax@gmail.com, maxime@cerno.tech, mwen@igalia.com,
- mairacanal@riseup.net
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="keu55znf33ac4cho"
+Content-Disposition: inline
+In-Reply-To: <df67ca19-5bfa-ba1f-3601-1218db2a0aa5@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,133 +55,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.02.23 um 12:23 schrieb Maíra Canal:
-> On 2/9/23 05:18, Christian König wrote:
->> Hello everyone,
->>
->> the drm_debugfs has a couple of well known design problems.
->>
->> Especially it wasn't possible to add files between initializing and 
->> registering
->> of DRM devices since the underlying debugfs directory wasn't created 
->> yet.
->>
->> The resulting necessity of the driver->debugfs_init() callback 
->> function is a
->> mid-layering which is really frowned on since it creates a horrible
->> driver->DRM->driver design layering.
->>
->> The recent patch "drm/debugfs: create device-centered debugfs 
->> functions" tried
->> to address those problem, but doesn't seem to work correctly. This 
->> looks like
->> a misunderstanding of the call flow around drm_debugfs_init(), which 
->> is called
->> multiple times, once for the primary and once for the render node.
->>
->> So what happens now is the following:
->>
->> 1. drm_dev_init() initially allocates the drm_minor objects.
->> 2. ... back to the driver ...
->> 3. drm_dev_register() is called.
->>
->> 4. drm_debugfs_init() is called for the primary node.
->> 5. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
->>     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)() to add 
->> the files
->>     for the primary node.
->> 6. The driver->debugfs_init() callback is called to add debugfs files 
->> for the
->>     primary node.
->> 7. The added files are consumed and added to the primary node debugfs 
->> directory.
->>
->> 8. drm_debugfs_init() is called for the render node.
->> 9. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
->>     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)() to add 
->> the files
->>     again for the render node.
->> 10. The driver->debugfs_init() callback is called to add debugfs 
->> files for the
->>      render node.
->> 11. The added files are consumed and added to the render node debugfs 
->> directory.
->>
->> 12. Some more files are added through drm_debugfs_add_file().
->> 13. drm_debugfs_late_register() add the files once more to the 
->> primary node
->>      debugfs directory.
->> 14. From this point on files added through drm_debugfs_add_file() are 
->> simply ignored.
->> 15. ... back to the driver ...
->>
->> Because of this the dev->debugfs_mutex lock is also completely 
->> pointless since
->> any concurrent use of the interface would just randomly either add 
->> the files to
->> the primary or render node or just not at all.
->>
->> Even worse is that this implementation nails the coffin for removing the
->> driver->debugfs_init() mid-layering because otherwise drivers can't 
->> control
->> where their debugfs (primary/render node) are actually added.
->>
->> This patch set here now tries to clean this up a bit, but most likely 
->> isn't
->> fully complete either since I didn't audit every driver/call path.
->
-> I tested the patchset on the v3d, vc4 and vkms and all the files are 
-> generated
-> as expected, but I'm getting the following errors on dmesg:
->
-> [    3.872026] debugfs: File 'v3d_ident' in directory '0' already 
-> present!
-> [    3.872064] debugfs: File 'v3d_ident' in directory '128' already 
-> present!
-> [    3.872078] debugfs: File 'v3d_regs' in directory '0' already present!
-> [    3.872087] debugfs: File 'v3d_regs' in directory '128' already 
-> present!
-> [    3.872097] debugfs: File 'measure_clock' in directory '0' already 
-> present!
-> [    3.872105] debugfs: File 'measure_clock' in directory '128' 
-> already present!
-> [    3.872116] debugfs: File 'bo_stats' in directory '0' already present!
-> [    3.872124] debugfs: File 'bo_stats' in directory '128' already 
-> present!
->
-> It looks like the render node is being added twice, since this doesn't 
-> happen
-> for vc4 and vkms.
 
-Thanks for the feedback and yes that's exactly what I meant with that I 
-haven't looked into all code paths.
+--keu55znf33ac4cho
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Could it be that v3d registers it's debugfs files from the debugfs_init 
-callback?
+On 02/09, Christian K=F6nig wrote:
+> Am 09.02.23 um 12:27 schrieb Melissa Wen:
+> > On 02/08, Ma=EDra Canal wrote:
+> > > As v3d_job_add_deps() performs the same steps as
+> > > drm_sched_job_add_syncobj_dependency(), replace the open-coded
+> > > implementation in v3d in order to simply, using the DRM function.
+> > >=20
+> > > Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
+> > > ---
+> > >   drivers/gpu/drm/v3d/v3d_gem.c | 9 +--------
+> > >   1 file changed, 1 insertion(+), 8 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_=
+gem.c
+> > > index 5da1806f3969..f149526ec971 100644
+> > > --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> > > +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> > > @@ -400,14 +400,7 @@ static int
+> > >   v3d_job_add_deps(struct drm_file *file_priv, struct v3d_job *job,
+> > >   		 u32 in_sync, u32 point)
+> > >   {
+> > > -	struct dma_fence *in_fence =3D NULL;
+> > > -	int ret;
+> > > -
+> > > -	ret =3D drm_syncobj_find_fence(file_priv, in_sync, point, 0, &in_fe=
+nce);
+> > > -	if (ret =3D=3D -EINVAL)
+> > > -		return ret;
+> > > -
+> > > -	return drm_sched_job_add_dependency(&job->base, in_fence);
+> > > +	return drm_sched_job_add_syncobj_dependency(&job->base, file_priv, =
+in_sync, point);
+> > Hi Ma=EDra,
+> >=20
+> > First, thanks for making this function a common-code.
+> >=20
+> > There are two issues to address before moving v3d to the new
+> > drm_sche_job_add_syncobj_dependency():
+> >=20
+> > 1. We don't need the v3d_job_add_deps one line function just wrapping
+> > the new drm_sched_job_add_syncobj_dependency() with the same parameters.
+> > We can just replace all occurrences of v3d function with drm_sched
+> > function. Except if we use v3d_job_add_deps to address the second issue:
+> >=20
+> > 2. Currently, v3d_job_add_deps returns 0 (success) if
+> > drm_syncobj_find_fence() doesn't find the syncobj from handle (-ENOENT),
+> > but drm_sched_job_add_syncobj_dependency() returns a negative value on
+> > this case. If it happens, job submissions will fail (and may cause a
+> > regression). One way to solve it is checking the return value of
+> > drm_sched_job_add_syncobj_dependency in v3d_job_add_deps.  The second
+> > way is to replace v3d_job_add_deps by
+> > drm_sched_job_add_syncobj_dependency and check expected return values
+> > there.
+>=20
+> Oh, wait a second. This behavior is most likely a bug in V3D.
+>=20
+> When a syncobj can't find a timeline point aborting the IOCTL with -ENOENT
+> is mandatory or otherwise you run into trouble with wait before signal
+> handling for Vulkan.
+>=20
+> This should be common behavior for all drivers which at some point want to
+> support Vulkan.
 
-One alternative would be to just completely nuke support for separate 
-render node debugfs files and only add a symlink to the primary node. 
-Opinions?
+So, v3d doesn't support timeline syncobj yet, and I took a look at
+returning errors on drm_syncobj_find_fence, for timeline syncobj they
+can be `-ETIME` and `-ERESTARTSYS`.
 
-Regards,
-Christian.
+TBH, I don't exactly know the design reason for accepting a ENOENT from
+drm_syncobj_find_fence. I suspect it's only trying to deal with the
+`in_sync =3D=3D 0` case (that would be better replaced by a `if then;
+continue;`).
 
->
-> Otherwise, the patchset looks good to me, but maybe Daniel has some other
-> thoughts about it.
->
-> Best Regards,
-> - Maíra Canal
->
->>
->> Please comment/discuss.
->>
->> Cheers,
->> Christian.
->>
->>
+In any case, I think it isn't good to change this behavior in the same
+time we are moving to another function. I'd prefer to preserve the
+current behavior here and better investigate/address this issue in
+another patch.
 
+Melissa
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Melissa
+> >=20
+> > >   }
+> > >   static int
+> > > --=20
+> > > 2.39.1
+> > >=20
+>=20
+
+--keu55znf33ac4cho
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmPk6LAACgkQwqF3j0dL
+ehwXOg//TZFCLNFVTSx1xHGLBwsXe2LzoOOYjIoJ5fpzQNS6vyVn1jvjskhQvOoC
+7Gzc5lOoNBVz/TzuQ/njGx0vuSOLdDQSUd8SxtQ8y6oH0SnVt4b61dx4a6k3ekXx
+wmza5oKqzgcvH7uQRJ2ITx9Dm2sbwo7E3SfQ/SUCiUWJkzD8/XJFwL2ZzMweNhGo
+QWbg7n2JcpjcYQJXIwPg4ODx3hPp1ecERzPi8zj9MlucRCJteSwBKENATVtPbNw3
+4sntEy1TsRtEV8T2b1GUgOPfZxd7MsekopiO2GAd1/igfoJJDsemIcrxZwju4ssC
+zUGbgP8HbIMu11IzxbX9zxufl53+6tAIP2GeyngR2xWVyda5TBsEyOh90cMCXiKw
+64cE1camzUPU0S4RYjws76EuXO7XH71AGZMvuOmv6IccSzMx9WCRwbDIKELGIZu5
+v+I7QqeJq9lP24lT4dYChV/gPmm3Z4S/dpznt8oqSETBUab15hlMkuv/D20068GL
+ZloYl0XgnRE8h751Q/Kg2g6yPoBr8PG5WBX00mpag26a8rvXmXg8KTrk2mgO8avy
+Jm8bPcNg7+/6GCDClOzRUwRXcwgAnTzfRgFeTZS2lNkSnRgl+nMOPcoBTGuVmutT
+gZJaENMJZXXX1MRKvamjRZ9dcUjnZUaYq0Ha7Ih75Dw55UYAhgg=
+=CIbu
+-----END PGP SIGNATURE-----
+
+--keu55znf33ac4cho--
