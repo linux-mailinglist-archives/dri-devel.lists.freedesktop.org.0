@@ -2,70 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F99690B50
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 15:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D141690B7A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 15:16:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB0A610E21E;
-	Thu,  9 Feb 2023 14:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D9610E1E0;
+	Thu,  9 Feb 2023 14:16:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6004210E21E
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 14:06:14 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id ba1so1880801wrb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 06:06:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EveanFg3hxB9mTm692lwFHENNHiMzJdi6qXb5Y0aUHE=;
- b=VaFFghYRGgBUhLCy34zTRriQe+cAR37nZEisk3sVvdi8fZPTyQjlRFT/MvpbcLgxdt
- Ib8Mpr0qA3wtXV6D7o0AnnXlqTDcsQJAjfkgoy/8OKhRSW0F4F+NcY+7OI+tmxLd9xmc
- s+x01bbG/P+s4S/pCBCFle6spo7dJNjosu8blMpd/93sDNMjJnMok+zFR6elwpyb6h06
- /Zsn1sxQhpdlhVEr3DRzXDcbvJUXLIvs7ajg2vPJ9yk6DlUwrnHJTITVkXMQH9d4qhqy
- idqUk7UVMG82Z/yfCMN2MCuNmZCXNi/JZdPFMrb7bjfxmpmH0yKROfdhZx8ju7hp3q1G
- TArg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9575710E1BC
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 14:16:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675952189;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UyJQ2V6OUoGVtLaq/bsURHNDQDpONLSuKUQ+fRTBOmM=;
+ b=F3hffwdUnUqw9OEiUrKYj2KGleu5+7fkiKyGz/EH1umK8jIxFY8xHJ54aI8Rh5PAH6DnVC
+ SJQ7TnN/cR+dWpoZ89n4RWnESGHq7vwjSzEVBY+prXvYy8r7+GXcLvaa3/LVGsiXJwSS/y
+ VPeXNPTRftjGDY5XQVWD2R/6eDoNz20=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-315-xypKP64pNf6Y5yXvYyJ4OQ-1; Thu, 09 Feb 2023 09:16:28 -0500
+X-MC-Unique: xypKP64pNf6Y5yXvYyJ4OQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ ev18-20020a056402541200b004a621e993a8so1542906edb.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 06:16:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EveanFg3hxB9mTm692lwFHENNHiMzJdi6qXb5Y0aUHE=;
- b=GUm7sLIMaTWlW0a9L7XA1ce6QqHxBeZNzvvTdU/z6Tf3uLvTwQFaEg9CDQq8wItumv
- MSv8WjwcbZAxk3ogzYQGe5/RKvzBj1OPDFsW4ZOJ56ijIvB8zoaTulnwEBOwPlJ4jBgk
- CC7XP4aEAl2kccPUQQXp+ug7zy8ayQnIAtRZKWjvttZ0L/Ptve9c364gGNXFTvX3cxab
- 3HZVKCheLJKJlJAz+1txhmGNoAz7X2jN4y7rL2GtLatePEJrHsZoOonvcY3CxufnBqG3
- ESuYDCVtEvr0q6KzSuP75VdHUlRv4oWuNvJDxHd8t2ozvt5Ga6SVzasgGalyJ3rs2le5
- RN6Q==
-X-Gm-Message-State: AO0yUKUXifng6j1f1khkG6AzmnD9oIneSK6pgBK7NvhOdq8MgnToAObG
- UAZbJy1kYP7R0bv2SOxf0OA=
-X-Google-Smtp-Source: AK7set+bQKu0SP6SZgmmFoxorGhC3sCncj/7p7Q6XZejJFa26kSmwc2cnhtzH0B9NX3TymY95MayPg==
-X-Received: by 2002:adf:dc8a:0:b0:2bf:cbf5:ac10 with SMTP id
- r10-20020adfdc8a000000b002bfcbf5ac10mr11264277wrj.11.1675951572737; 
- Thu, 09 Feb 2023 06:06:12 -0800 (PST)
-Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
- [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
- w7-20020a5d4047000000b002c3daf229b1sm1301762wrp.55.2023.02.09.06.06.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 06:06:12 -0800 (PST)
-Message-ID: <cbe1ac86-1d41-bcf7-679b-ad4e2a810361@gmail.com>
-Date: Thu, 9 Feb 2023 15:06:10 +0100
+ bh=UyJQ2V6OUoGVtLaq/bsURHNDQDpONLSuKUQ+fRTBOmM=;
+ b=Ae1n9Un7em4SFQUXd1Eh62c5XJbcFQbbWkCngGQ2EPnByFVT1agZ9TEsazHVEgfWhP
+ xan6dWvdGpqMQ0b9zLkOAulYJa3HAnW4qNS5fKkLVXLa91wnJpXGBFpj3LDsP3HVVTRd
+ sW+zmH1+quxVu2eljpSDJRIW8wlR1ITeRr0bh2aYNrL7oUG5Q+C6cEnlKec8zmIfi4AN
+ q3Ze1eEL3KlWgFjdVA8Szpq0TSjAnp5hoZw8r1ZyBfZ9YxSynRbDxm5yDdIeGsNQQ1Ew
+ sVhnU8+beslmcEG+Ef92loOy2Fbh47dX8ZchFkSz7w7afPiymhHdNEZI7AgGUXthvt7K
+ dilQ==
+X-Gm-Message-State: AO0yUKVI8OwbO9CxnwFeB6Q4d1U2QztrSntMRuWO5Pmp9yy53CLplUHf
+ fP/rEF95CtpGTUEB2a4zAnS69UJWF6+NERMRnjbHnNCNtFZN7RPpjoKTLBc2FU0AuZoQx2b4wnB
+ kIjiXiEqhmNXL0t7+EBbRh2gD1ZBu+R3Qc+Pm
+X-Received: by 2002:a17:906:651:b0:88e:e498:109b with SMTP id
+ t17-20020a170906065100b0088ee498109bmr12458436ejb.5.1675952186210; 
+ Thu, 09 Feb 2023 06:16:26 -0800 (PST)
+X-Google-Smtp-Source: AK7set/rJu9Z3yKCKf3qx21yVK9ctyOV5jDy3kCvS+pTwgJweaGwo7g8XTNVjXz154MFq0G3stNAPw==
+X-Received: by 2002:a17:906:651:b0:88e:e498:109b with SMTP id
+ t17-20020a170906065100b0088ee498109bmr12458423ejb.5.1675952186063; 
+ Thu, 09 Feb 2023 06:16:26 -0800 (PST)
+Received: from redhat.com (host-95-193-75-109.mobileonline.telia.com.
+ [95.193.75.109]) by smtp.gmail.com with ESMTPSA id
+ k16-20020a170906681000b0087223b8d6efsm948548ejr.16.2023.02.09.06.16.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Feb 2023 06:16:25 -0800 (PST)
+Date: Thu, 9 Feb 2023 15:16:23 +0100
+From: Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2 1/2] drm: Introduce plane SIZE_HINTS property
+Message-ID: <Y+UAN7V+kA58yMfn@redhat.com>
+References: <20230208040911.12590-2-ville.syrjala@linux.intel.com>
+ <20230208211016.7034-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: Try to address the drm_debugfs issues
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>, daniel.vetter@ffwll.ch, 
- wambui.karugax@gmail.com, maxime@cerno.tech, mwen@igalia.com,
- mairacanal@riseup.net
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
- <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
- <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20230208211016.7034-1-ville.syrjala@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,163 +84,220 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.02.23 um 14:06 schrieb Maíra Canal:
-> On 2/9/23 09:13, Christian König wrote:
->> Am 09.02.23 um 12:23 schrieb Maíra Canal:
->>> On 2/9/23 05:18, Christian König wrote:
->>>> Hello everyone,
->>>>
->>>> the drm_debugfs has a couple of well known design problems.
->>>>
->>>> Especially it wasn't possible to add files between initializing and 
->>>> registering
->>>> of DRM devices since the underlying debugfs directory wasn't 
->>>> created yet.
->>>>
->>>> The resulting necessity of the driver->debugfs_init() callback 
->>>> function is a
->>>> mid-layering which is really frowned on since it creates a horrible
->>>> driver->DRM->driver design layering.
->>>>
->>>> The recent patch "drm/debugfs: create device-centered debugfs 
->>>> functions" tried
->>>> to address those problem, but doesn't seem to work correctly. This 
->>>> looks like
->>>> a misunderstanding of the call flow around drm_debugfs_init(), 
->>>> which is called
->>>> multiple times, once for the primary and once for the render node.
->>>>
->>>> So what happens now is the following:
->>>>
->>>> 1. drm_dev_init() initially allocates the drm_minor objects.
->>>> 2. ... back to the driver ...
->>>> 3. drm_dev_register() is called.
->>>>
->>>> 4. drm_debugfs_init() is called for the primary node.
->>>> 5. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
->>>>     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)() to add 
->>>> the files
->>>>     for the primary node.
->>>> 6. The driver->debugfs_init() callback is called to add debugfs 
->>>> files for the
->>>>     primary node.
->>>> 7. The added files are consumed and added to the primary node 
->>>> debugfs directory.
->>>>
->>>> 8. drm_debugfs_init() is called for the render node.
->>>> 9. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
->>>>     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)() to add 
->>>> the files
->>>>     again for the render node.
->>>> 10. The driver->debugfs_init() callback is called to add debugfs 
->>>> files for the
->>>>      render node.
->>>> 11. The added files are consumed and added to the render node 
->>>> debugfs directory.
->>>>
->>>> 12. Some more files are added through drm_debugfs_add_file().
->>>> 13. drm_debugfs_late_register() add the files once more to the 
->>>> primary node
->>>>      debugfs directory.
->>>> 14. From this point on files added through drm_debugfs_add_file() 
->>>> are simply ignored.
->>>> 15. ... back to the driver ...
->>>>
->>>> Because of this the dev->debugfs_mutex lock is also completely 
->>>> pointless since
->>>> any concurrent use of the interface would just randomly either add 
->>>> the files to
->>>> the primary or render node or just not at all.
->>>>
->>>> Even worse is that this implementation nails the coffin for 
->>>> removing the
->>>> driver->debugfs_init() mid-layering because otherwise drivers can't 
->>>> control
->>>> where their debugfs (primary/render node) are actually added.
->>>>
->>>> This patch set here now tries to clean this up a bit, but most 
->>>> likely isn't
->>>> fully complete either since I didn't audit every driver/call path.
->>>
->>> I tested the patchset on the v3d, vc4 and vkms and all the files are 
->>> generated
->>> as expected, but I'm getting the following errors on dmesg:
->>>
->>> [    3.872026] debugfs: File 'v3d_ident' in directory '0' already 
->>> present!
->>> [    3.872064] debugfs: File 'v3d_ident' in directory '128' already 
->>> present!
->>> [    3.872078] debugfs: File 'v3d_regs' in directory '0' already 
->>> present!
->>> [    3.872087] debugfs: File 'v3d_regs' in directory '128' already 
->>> present!
->>> [    3.872097] debugfs: File 'measure_clock' in directory '0' 
->>> already present!
->>> [    3.872105] debugfs: File 'measure_clock' in directory '128' 
->>> already present!
->>> [    3.872116] debugfs: File 'bo_stats' in directory '0' already 
->>> present!
->>> [    3.872124] debugfs: File 'bo_stats' in directory '128' already 
->>> present!
->>>
->>> It looks like the render node is being added twice, since this 
->>> doesn't happen
->>> for vc4 and vkms.
->>
->> Thanks for the feedback and yes that's exactly what I meant with that 
->> I haven't looked into all code paths.
->>
->> Could it be that v3d registers it's debugfs files from the 
->> debugfs_init callback?
->
-> Although this is true, I'm not sure if this is the reason why the 
-> files are
-> being registered twice, as this doesn't happen to vc4, and it also 
-> uses the
-> debugfs_init callback. I believe it is somewhat related to the fact that
-> v3d is the primary node and the render node.
+On Wed, Feb 08, 2023 at 11:10:16PM +0200, Ville Syrjala wrote:
+> From: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> 
+> Add a new immutable plane property by which a plane can advertise
+> a handful of recommended plane sizes. This would be mostly exposed
+> by cursor planes as a slightly more capable replacement for
+> the DRM_CAP_CURSOR_WIDTH/HEIGHT caps, which can only declare
+> a one size fits all limit for the whole device.
+> 
+> Currently eg. amdgpu/i915/nouveau just advertize the max cursor
+> size via the cursor size caps. But always using the max sized
+> cursor can waste a surprising amount of power, so a better
+> stragey is desirable.
+> 
+> Most other drivers don't specify any cursor size at all, in
+> which case the ioctl code just claims that 64x64 is a great
+> choice. Whether that is actually true is debatable.
+> 
+> A poll of various compositor developers informs us that
+> blindly probing with setcursor/atomic ioctl to determine
+> suitable cursor sizes is not acceptable, thus the
+> introduction of the new property to supplant the cursor
+> size caps. The compositor will now be free to select a
+> more optimal cursor size from the short list of options.
+> 
+> Note that the reported sizes (either via the property or the
+> caps) make no claims about things such as plane scaling. So
+> these things should only really be consulted for simple
+> "cursor like" use cases.
+> 
+> v2: Try to add some docs
+> 
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: Jonas �dahl <jadahl@redhat.com>
+> Cc: Daniel Stone <daniel@fooishbar.org>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Acked-by: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_mode_config.c |  7 +++++
+>  drivers/gpu/drm/drm_plane.c       | 48 +++++++++++++++++++++++++++++++
+>  include/drm/drm_mode_config.h     |  5 ++++
+>  include/drm/drm_plane.h           |  4 +++
+>  include/uapi/drm/drm_mode.h       | 11 +++++++
+>  5 files changed, 75 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index 87eb591fe9b5..21860f94a18c 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -374,6 +374,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
+>  		return -ENOMEM;
+>  	dev->mode_config.modifiers_property = prop;
+>  
+> +	prop = drm_property_create(dev,
+> +				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
+> +				   "SIZE_HINTS", 0);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +	dev->mode_config.size_hints_property = prop;
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 24e7998d1731..ae51b1f83755 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -140,6 +140,21 @@
+>   *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
+>   *     various bugs in this area with inconsistencies between the capability
+>   *     flag and per-plane properties.
+> + *
+> + * SIZE_HINTS:
+> + *     Blob property which contains the set of recommended plane size
+> + *     which can used for simple "cursor like" use cases (eg. no scaling).
+> + *     Using these hints frees userspace from extensive probing of
+> + *     supported plane sizes through atomic/setcursor ioctls.
+> + *
+> + *     For optimal usage userspace should pick the smallest size
+> + *     that satisfies its own requirements.
+> + *
+> + *     The blob contains an array of struct drm_plane_size_hint.
+> + *
+> + *     Drivers should only attach this property to planes that
+> + *     support a very limited set of sizes (eg. cursor planes
+> + *     on typical hardware).
 
-I see. Thanks for the hint.
+This is a bit awkward since problematic drivers would only expose
+this property if they are new enough.
 
->
-> Best Regards,
-> - Maíra Canal
->
->>
->> One alternative would be to just completely nuke support for separate 
->> render node debugfs files and only add a symlink to the primary node. 
->> Opinions?
+A way to avoid this is for all new drivers expose this property, but
+special case the size 0x0 as "everything below the max limit goes". Then
+userspace can do (ignoring the missing cap fallback).
 
-What do you think of this approach? I can't come up with any reason why 
-we should have separate debugfs files for render nodes and I think it is 
-pretty much the same reason you came up with the patch for per device 
-debugfs files instead of per minor.
+    if (has(SIZE_HINTS))
+        size = figure_out_size(SIZE_HINTS,
+	                       DRM_CAP_CURSOR_WIDTH,
+			       DRM_CAP_CURSOR_HEIGHT,
+			       preferred_size);
+    else
+        size = DRM_CAP_CURSOR_WIDTH x DRM_CAP_CURSOR_WIDTH;
 
-Regards,
-Christian.
+With `figure_out_size()` knowing how to deal with 0x0 in the size hints
+to use `preferred_size` directly.
 
->>
->> Regards,
->> Christian.
->>
->>>
->>> Otherwise, the patchset looks good to me, but maybe Daniel has some 
->>> other
->>> thoughts about it.
->>>
->>> Best Regards,
->>> - Maíra Canal
->>>
->>>>
->>>> Please comment/discuss.
->>>>
->>>> Cheers,
->>>> Christian.
->>>>
->>>>
->>
+
+Jonas
+
+>   */
+>  
+>  static unsigned int drm_num_planes(struct drm_device *dev)
+> @@ -1582,3 +1597,36 @@ int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_plane_create_scaling_filter_property);
+> +
+> +/**
+> + * drm_plane_add_size_hint_property - create a size hint property
+> + *
+> + * @plane: drm plane
+> + * @hints: size hints
+> + * @num_hints: number of size hints
+> + *
+> + * Create a size hints property for the plane.
+> + *
+> + * RETURNS:
+> + * Zero for success or -errno
+> + */
+> +int drm_plane_add_size_hints_property(struct drm_plane *plane,
+> +				      const struct drm_plane_size_hint *hints,
+> +				      int num_hints)
+> +{
+> +	struct drm_device *dev = plane->dev;
+> +	struct drm_mode_config *config = &dev->mode_config;
+> +	struct drm_property_blob *blob;
+> +
+> +	blob = drm_property_create_blob(dev,
+> +					array_size(sizeof(hints[0]), num_hints),
+> +					hints);
+> +	if (IS_ERR(blob))
+> +		return PTR_ERR(blob);
+> +
+> +	drm_object_attach_property(&plane->base, config->size_hints_property,
+> +				   blob->base.id);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_plane_add_size_hints_property);
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index e5b053001d22..5bc8aed9b445 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -949,6 +949,11 @@ struct drm_mode_config {
+>  	 */
+>  	struct drm_property *modifiers_property;
+>  
+> +	/**
+> +	 * @size_hints_propertty: Plane SIZE_HINTS property.
+> +	 */
+> +	struct drm_property *size_hints_property;
+> +
+>  	/* cursor size */
+>  	uint32_t cursor_width, cursor_height;
+>  
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 51291983ea44..1997d7d64b69 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -32,6 +32,7 @@
+>  #include <drm/drm_util.h>
+>  
+>  struct drm_crtc;
+> +struct drm_plane_size_hint;
+>  struct drm_printer;
+>  struct drm_modeset_acquire_ctx;
+>  
+> @@ -945,5 +946,8 @@ drm_plane_get_damage_clips(const struct drm_plane_state *state);
+>  
+>  int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+>  					     unsigned int supported_filters);
+> +int drm_plane_add_size_hints_property(struct drm_plane *plane,
+> +				      const struct drm_plane_size_hint *hints,
+> +				      int num_hints);
+>  
+>  #endif
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 46becedf5b2f..9d7c5967264f 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -849,6 +849,17 @@ struct drm_color_lut {
+>  	__u16 reserved;
+>  };
+>  
+> +/**
+> + * struct drm_plane_size_hint - Plane size hints
+> + *
+> + * The plane SIZE_HINTS property blob contains an
+> + * array of struct drm_plane_size_hint.
+> + */
+> +struct drm_plane_size_hint {
+> +	__u16 width;
+> +	__u16 height;
+> +};
+> +
+>  /**
+>   * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
+>   *
+> -- 
+> 2.39.1
+> 
 
