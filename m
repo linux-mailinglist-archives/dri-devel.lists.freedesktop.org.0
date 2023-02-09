@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCA2690D38
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 16:41:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38077690D37
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 16:41:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5BB10EB2A;
-	Thu,  9 Feb 2023 15:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3A3310EB27;
+	Thu,  9 Feb 2023 15:41:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D83A610E20D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 15:41:11 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E9A10E22D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 15:41:12 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6759A3763F;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 995B25D111;
  Thu,  9 Feb 2023 15:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1675957270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a0sW0sk1bF24mD6WoKzz5Ym0vymRE4dvpBxtBJdeiCo=;
- b=JLS1ExCZeYOO6DTQt18h7jtaZGqUn2CLcJm7NUSd/pSL6OtSs4vmRTWh162+w4Nl96A4O9
- X0W2pdFvYmXPXws3CgUKxm0sww5i0vnqayszUmE7Nuj5CSKQ4NbUzRHJ5XyWMhQZ5cgr7c
- WDqxFMvAinqiq6r0ZvA+6P5U1lwin0g=
+ bh=IsGmey0iUuZZSoPIujbf6ocGueYvy3qO8I6teP4gKyQ=;
+ b=tq+B1KfrZFaqjvJhyC4rJMbwdEvZPLndrmNf3ktllN4z9wG7BjvC/Pd7C8HjqbATrn8MQt
+ BG4mqNXmF4i/lE2oIxMtmmwdPvziBLfxWOql4lNjfMqTgl5x/fIZfnqSagrA1Q/7FYPc1f
+ GNWgFm6ibRr2LmoqkkwKo0N9Hr5k0lw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1675957270;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a0sW0sk1bF24mD6WoKzz5Ym0vymRE4dvpBxtBJdeiCo=;
- b=t4u1HRPn3EBWusuV2LXHxeaSdQA7RMhB2jX2D0FHydbkNu31q1RRhk9mjsEiPUw+3xp+By
- CELmjwzPnB1A8LAw==
+ bh=IsGmey0iUuZZSoPIujbf6ocGueYvy3qO8I6teP4gKyQ=;
+ b=moegZmIJVc8JhD3vA/cK5j2VsrLg1BelK7L2W2CsOnIkIjG24vn2Z77vZK4iiSCBMO3oFx
+ fdCAWJ8XntwaqiBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3DA641339E;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6BE7913915;
  Thu,  9 Feb 2023 15:41:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sChVDhYU5WM5PwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6MaCGRYU5WM5PwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 09 Feb 2023 15:41:10 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, jyri.sarha@iki.fi,
  tomba@kernel.org
-Subject: [PATCH 4/6] drm/mgag200: Implement struct
- drm_plane_helper_funcs.atomic_enable
-Date: Thu,  9 Feb 2023 16:41:05 +0100
-Message-Id: <20230209154107.30680-5-tzimmermann@suse.de>
+Subject: [PATCH 5/6] drm/tidss: Remove return values from dispc_plane_{setup,
+ enable}()
+Date: Thu,  9 Feb 2023 16:41:06 +0100
+Message-Id: <20230209154107.30680-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230209154107.30680-1-tzimmermann@suse.de>
 References: <20230209154107.30680-1-tzimmermann@suse.de>
@@ -74,74 +74,98 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the primary plane for mgag200 hardware via atomic_enable.
-Atomic helpers invoke this callback only when the plane becomes
-active.
+Calls to dispc_plane_setup() and dispc_plane_enable() cannot fail.
+Remove the return value.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.h  |  3 +++
- drivers/gpu/drm/mgag200/mgag200_mode.c | 19 ++++++++++++-------
- 2 files changed, 15 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 12 ++++--------
+ drivers/gpu/drm/tidss/tidss_dispc.h |  8 ++++----
+ drivers/gpu/drm/tidss/tidss_plane.c | 11 +----------
+ 3 files changed, 9 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 9e604dbb8e44..57c7edcab602 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -375,12 +375,15 @@ int mgag200_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 					      struct drm_atomic_state *new_state);
- void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 						struct drm_atomic_state *old_state);
-+void mgag200_primary_plane_helper_atomic_enable(struct drm_plane *plane,
-+						struct drm_atomic_state *state);
- void mgag200_primary_plane_helper_atomic_disable(struct drm_plane *plane,
- 						 struct drm_atomic_state *old_state);
- #define MGAG200_PRIMARY_PLANE_HELPER_FUNCS \
- 	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS, \
- 	.atomic_check = mgag200_primary_plane_helper_atomic_check, \
- 	.atomic_update = mgag200_primary_plane_helper_atomic_update, \
-+	.atomic_enable = mgag200_primary_plane_helper_atomic_enable, \
- 	.atomic_disable = mgag200_primary_plane_helper_atomic_disable
- 
- #define MGAG200_PRIMARY_PLANE_FUNCS \
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 47e86eadb239..0f2dd26755df 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -501,7 +501,6 @@ void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_atomic_helper_damage_iter iter;
- 	struct drm_rect damage;
--	u8 seq1;
- 
- 	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
- 	drm_atomic_for_each_plane_damage(&iter, &damage) {
-@@ -511,13 +510,19 @@ void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 	/* Always scanout image at VRAM offset 0 */
- 	mgag200_set_startadd(mdev, (u32)0);
- 	mgag200_set_offset(mdev, fb);
-+}
- 
--	if (!old_plane_state->crtc && plane_state->crtc) { // enabling
--		RREG_SEQ(0x01, seq1);
--		seq1 &= ~MGAREG_SEQ1_SCROFF;
--		WREG_SEQ(0x01, seq1);
--		msleep(20);
--	}
-+void mgag200_primary_plane_helper_atomic_enable(struct drm_plane *plane,
-+						struct drm_atomic_state *state)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct mga_device *mdev = to_mga_device(dev);
-+	u8 seq1;
-+
-+	RREG_SEQ(0x01, seq1);
-+	seq1 &= ~MGAREG_SEQ1_SCROFF;
-+	WREG_SEQ(0x01, seq1);
-+	msleep(20);
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index 165365b515e1..dca077411f77 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -1985,9 +1985,9 @@ dma_addr_t dispc_plane_state_p_uv_addr(const struct drm_plane_state *state)
+ 		(y * fb->pitches[1] / fb->format->vsub);
  }
  
- void mgag200_primary_plane_helper_atomic_disable(struct drm_plane *plane,
+-int dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
+-		      const struct drm_plane_state *state,
+-		      u32 hw_videoport)
++void dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
++		       const struct drm_plane_state *state,
++		       u32 hw_videoport)
+ {
+ 	bool lite = dispc->feat->vid_lite[hw_plane];
+ 	u32 fourcc = state->fb->format->format;
+@@ -2066,15 +2066,11 @@ int dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
+ 	else
+ 		VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, 0,
+ 				28, 28);
+-
+-	return 0;
+ }
+ 
+-int dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable)
++void dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable)
+ {
+ 	VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, !!enable, 0, 0);
+-
+-	return 0;
+ }
+ 
+ static u32 dispc_vid_get_fifo_size(struct dispc_device *dispc, u32 hw_plane)
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+index e49432f0abf5..946ed769caaf 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.h
++++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+@@ -123,10 +123,10 @@ int dispc_runtime_resume(struct dispc_device *dispc);
+ int dispc_plane_check(struct dispc_device *dispc, u32 hw_plane,
+ 		      const struct drm_plane_state *state,
+ 		      u32 hw_videoport);
+-int dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
+-		      const struct drm_plane_state *state,
+-		      u32 hw_videoport);
+-int dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable);
++void dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
++		       const struct drm_plane_state *state,
++		       u32 hw_videoport);
++void dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable);
+ const u32 *dispc_plane_formats(struct dispc_device *dispc, unsigned int *len);
+ 
+ int dispc_init(struct tidss_device *tidss);
+diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+index fe2c41f0cd4f..0b12405edb47 100644
+--- a/drivers/gpu/drm/tidss/tidss_plane.c
++++ b/drivers/gpu/drm/tidss/tidss_plane.c
+@@ -113,7 +113,6 @@ static void tidss_plane_atomic_update(struct drm_plane *plane,
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	u32 hw_videoport;
+-	int ret;
+ 
+ 	dev_dbg(ddev->dev, "%s\n", __func__);
+ 
+@@ -124,15 +123,7 @@ static void tidss_plane_atomic_update(struct drm_plane *plane,
+ 
+ 	hw_videoport = to_tidss_crtc(new_state->crtc)->hw_videoport;
+ 
+-	ret = dispc_plane_setup(tidss->dispc, tplane->hw_plane_id,
+-				new_state, hw_videoport);
+-
+-	if (ret) {
+-		dev_err(plane->dev->dev, "%s: Failed to setup plane %d\n",
+-			__func__, tplane->hw_plane_id);
+-		dispc_plane_enable(tidss->dispc, tplane->hw_plane_id, false);
+-		return;
+-	}
++	dispc_plane_setup(tidss->dispc, tplane->hw_plane_id, new_state, hw_videoport);
+ 
+ 	dispc_plane_enable(tidss->dispc, tplane->hw_plane_id, true);
+ }
 -- 
 2.39.1
 
