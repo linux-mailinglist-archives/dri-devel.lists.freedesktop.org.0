@@ -1,83 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F3C6902EE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:11:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D13626902FA
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 10:13:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CF8210E969;
-	Thu,  9 Feb 2023 09:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 881A110E974;
+	Thu,  9 Feb 2023 09:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCB7810E969
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:11:22 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8754C10E974
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 09:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675933881;
+ s=mimecast20190719; t=1675933988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qfPjLudJxDgFfzgfTl3EDZTsNvVb8/CVcfYCLJC/TTU=;
- b=R+ld3ReZUi4HJvdjrJHoGbkt1yrVGCi1B6bHf3Os2JEOo4+bRR7xxfvdGutdp65WpkGUnG
- 0vwdvDlS8nubQ4C3xiK7U0QlfQMWFlxl1gr08PvidjWLyAESblDuDZXNwfdgLzqA1olutP
- gxPiIrzSy5bIxuYxOUc0vAJzg62AB/Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-351-NuoI_zVcPa2o_pheFQnEpg-1; Thu, 09 Feb 2023 04:11:20 -0500
-X-MC-Unique: NuoI_zVcPa2o_pheFQnEpg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j20-20020a05600c1c1400b003dc5dd44c0cso772947wms.8
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 01:11:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qfPjLudJxDgFfzgfTl3EDZTsNvVb8/CVcfYCLJC/TTU=;
- b=iZo7kKYEgzWql+gPH0Ums45pmcvMYjwYMO+gLcYtShPSGLGHWPHCi5Q7pLmTrjmPN6
- FN2SoSMaDt9lrvV+WRyaDYtV7Wv5V5MkL73/Lt2Lit7qTU9XMtI16YQnumCs6TChn6Gw
- sRks5EpGe5TNDUrwyUfSoOa1cXo2IkZAu+XNpbiEe7gHqalZOQJmNqRmAxMoL1A3Kczz
- 7W2fPncBjHzRp6fGfJuTTnjzIIHBuU6eHHMaaGKwQJHq6lzziaZBjiz3iWMreUHhRnS4
- MWMkxNz/+ofcP4DQdvRX20vl0lQQ/hdVTRiud45pmU///uCgQWMie5mBEnxbFooOQo0X
- vNNw==
-X-Gm-Message-State: AO0yUKXpYmFI+83/yNSK0jzr0yIJmjoYbSoDmQOo8GiHhOjyjW6GwdoI
- R1oNYIK9xWrccBmP0I+pC2zTFDLF6gWX9elM372T27yQLuQvrZcYNHdkKzXMmZQOrjp8geRw1we
- OIWNhx9yrLmn4Zn+ZG49dKLR/wxOvV3tK9A==
-X-Received: by 2002:a5d:6986:0:b0:2c4:61a:4666 with SMTP id
- g6-20020a5d6986000000b002c4061a4666mr4583166wru.15.1675933879154; 
- Thu, 09 Feb 2023 01:11:19 -0800 (PST)
-X-Google-Smtp-Source: AK7set9nzqPKLjpk9qdccGuph0Z9GXzvYt8XlOKI+1Oi/1Xl9J/WHOIfTAfk9bk355c7CMkLklzzLA==
-X-Received: by 2002:a5d:6986:0:b0:2c4:61a:4666 with SMTP id
- g6-20020a5d6986000000b002c4061a4666mr4583154wru.15.1675933878995; 
- Thu, 09 Feb 2023 01:11:18 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
- ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
- by smtp.gmail.com with ESMTPSA id
- w19-20020a05600c475300b003dc433355aasm1396212wmo.18.2023.02.09.01.11.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Feb 2023 01:11:18 -0800 (PST)
-Message-ID: <d4cc2abb-260b-225e-8703-9c210379d517@redhat.com>
-Date: Thu, 9 Feb 2023 10:11:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] drm/ast: Fix start address computation
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4BaRmrGSF/qFjbxs/IBlMySBy+L22UaSVRpR0Q8agi0=;
+ b=g8kk1BzyCq27qX8Tn5BE5zIvWTgNFj0egNssm+1soyun9DBnBysAyXkUCVU555J1Docz4v
+ NRcJAENImfvVFcQbzPyKqykrcZCctWAjuLz5nShNkasieacBQOduDdBg5XobXP41sBqVjm
+ xPGZWxiBJQttxvQtH7urLqa3taIiAqk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-RaYTQPGyPim6nmm52Y9hLw-1; Thu, 09 Feb 2023 04:13:05 -0500
+X-MC-Unique: RaYTQPGyPim6nmm52Y9hLw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF304101AA78;
+ Thu,  9 Feb 2023 09:13:04 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.193.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B75D4140EBF6;
+ Thu,  9 Feb 2023 09:13:03 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- airlied@redhat.com, kuohsiang_chou@aspeedtech.com,
- jammy_huang@aspeedtech.com
-References: <20230207105317.224277-1-jfalempe@redhat.com>
- <125d895f-7837-1ded-f121-ef0c5879bc2e@suse.de>
- <5d79840c-b0d8-ead5-6fb9-9d13832c3c80@redhat.com>
-In-Reply-To: <5d79840c-b0d8-ead5-6fb9-9d13832c3c80@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de, airlied@redhat.com,
+ kuohsiang_chou@aspeedtech.com, jammy_huang@aspeedtech.com
+Subject: [PATCH v2] drm/ast: Fix start address computation
+Date: Thu,  9 Feb 2023 10:12:54 +0100
+Message-Id: <20230209091254.15455-1-jfalempe@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,33 +60,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02/2023 12:36, Jocelyn Falempe wrote:
-> On 07/02/2023 12:17, Thomas Zimmermann wrote:
->> Hi
->>
-> 
-> I was wondering if this start address is not an offset in the GPU 
-> memory, and in this case the primary plane offset should always be 0 ?
+During the driver conversion to shmem, the start address for the
+scanout buffer was set to the base PCI address.
+In most cases it works because only the lower 24bits are used, and
+due to alignment it was almost always 0.
+But on some unlucky hardware, it's not the case, and some unitilized
+memory is displayed on the BMC.
+With shmem, the primary plane is always at offset 0 in GPU memory.
 
-I think it's the case, so I will send a v2 shortly.
+Tested on a sr645 affected by this bug.
 
-> 
-> Best regards,
-> 
->>
->> Best regards
->> Thomas
->>
->> [1] 
->> https://elixir.bootlin.com/linux/v6.2-rc7/source/drivers/gpu/drm/ast/ast_mm.c#L96
->>
->>>       unsigned long cursor_size = roundup(AST_HWC_SIZE + 
->>> AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
->>>       unsigned long size = ast->vram_fb_available - cursor_size;
->>>       int ret;
->>
-> 
+Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/ast/ast_mode.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index c7443317c747..54deb29bfeb3 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -681,7 +681,8 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 	if (!old_fb || old_fb->pitches[0] != fb->pitches[0])
+ 		ast_set_offset_reg(ast, fb);
+ 	if (!old_fb) {
+-		ast_set_start_address_crt1(ast, (u32)ast_plane->offset);
++		/* with shmem, the primary plane is always at offset 0 */
++		ast_set_start_address_crt1(ast, 0);
+ 		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x00);
+ 	}
+ }
+-- 
+2.39.1
 
