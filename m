@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9BA69063D
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 12:13:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF368690661
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 12:16:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1ACA10E98E;
-	Thu,  9 Feb 2023 11:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 308CD10E991;
+	Thu,  9 Feb 2023 11:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 015CE10E17D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 11:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=es/f8tsoNpnBdz/hijlrPyn8DRqu183Lgn2j5/G0UOc=; b=q1bk4vIHL++mJ36fdpf30dp9hU
- nHldgtt+GokutZnf8nuMxY3QQVJzB7NebDIsrdBBJ8a3uwdi+hZb3YMiLbz3Bo2VjoUyjpKyxeDOe
- Fr1S0t+7BzuRbZAzGVA99F/aBJiDlasK20hubdzAWe8OC1EDoFK5L4P4JrQ6sYSwr7wxs8gOjgaSv
- 3iCNtH+9jlCA+NpBV+OXdPWRtJdANujvny6XHg3/7YGUTKjzYXmq2qUexQclGQTkbShc0z+6dmssc
- RS9NE1aOhgGa2pugClkfIR98hXrjCqKmVn6dnA51lfWsrOFr0BmRtjvmwT684kWVqNbMuGkGCpw3G
- mF2p+IRg==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pQ4rL-00DsCF-ER; Thu, 09 Feb 2023 12:12:59 +0100
-Message-ID: <9cac40bd-ce7f-ec39-ed5b-25a7ba34bc02@igalia.com>
-Date: Thu, 9 Feb 2023 08:12:51 -0300
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F37010E156;
+ Thu,  9 Feb 2023 11:16:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9FFD3B81FF4;
+ Thu,  9 Feb 2023 11:16:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66BDAC433D2;
+ Thu,  9 Feb 2023 11:16:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675941394;
+ bh=fmwrvlSnzYMpOU6Bb/kbeD5NAHZC6hAf1LWtjxppyh8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=fe7a0eF2Z/4f9pzwCIURmjMK00WA6oNYBctLOZ2rUVv8emKe66aOp34YibkHvI5sp
+ jsqZ6GQ/SSaeUPNv/TMIIKhVPt03ZxGNSGbk+wgbdS3nTxK5mohThnmdzPavPYog3r
+ PnQ32mRW3UAdJQrRwyp0RPPBQ9GPEgA2TIgK+ahG4CnNZmaTjXHU3xgjXkEv0RCmiM
+ BZ2a84SOY3MM/mLd5PC5aaay3x+SME3B6aE4sbtawjytIdyLFHGkNk7TDFuAjI7NPj
+ 6FjOQG5KN6nNx8kHeLf5tPqyIdrPOIANzOm8lC7KGZmsuNSX37QLkHzOhFZErBSZc3
+ sjeeNOsVkVLkA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 22/38] drm/nouveau/devinit/tu102-: wait for
+ GFW_BOOT_PROGRESS == COMPLETED
+Date: Thu,  9 Feb 2023 06:14:41 -0500
+Message-Id: <20230209111459.1891941-22-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230209111459.1891941-1-sashal@kernel.org>
+References: <20230209111459.1891941-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/3] drm/debugfs: split registration into dev and minor
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- daniel.vetter@ffwll.ch, wambui.karugax@gmail.com, maxime@cerno.tech,
- mwen@igalia.com, mairacanal@riseup.net
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <20230209081838.45273-3-christian.koenig@amd.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230209081838.45273-3-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,67 +56,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, kherbst@redhat.com,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/9/23 05:18, Christian König wrote:
-> The different subsystems should probably only register their debugfs
-> files once.
-> 
-> This temporary removes the common files from the render node directory.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/drm_atomic.c        |  4 ++--
->   drivers/gpu/drm/drm_client.c        |  4 ++--
->   drivers/gpu/drm/drm_crtc_internal.h |  2 +-
->   drivers/gpu/drm/drm_debugfs.c       | 24 ++++++++++++------------
->   drivers/gpu/drm/drm_drv.c           |  4 +++-
->   drivers/gpu/drm/drm_framebuffer.c   |  4 ++--
->   drivers/gpu/drm/drm_internal.h      |  5 +++--
->   include/drm/drm_client.h            |  2 +-
->   8 files changed, 26 insertions(+), 23 deletions(-)
-> 
+From: Ben Skeggs <bskeggs@redhat.com>
 
-[...]
+[ Upstream commit d22915d22ded21fd5b24b60d174775789f173997 ]
 
-> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> index 332fb65a935a..5ff7bf88f162 100644
-> --- a/drivers/gpu/drm/drm_internal.h
-> +++ b/drivers/gpu/drm/drm_internal.h
-> @@ -185,7 +185,8 @@ int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
->   #if defined(CONFIG_DEBUG_FS)
->   int drm_debugfs_init(struct drm_minor *minor, int minor_id,
->   		     struct dentry *root);
-> -void drm_debugfs_register(struct drm_minor *minor);
-> +void drm_debugfs_dev_register(struct drm_device *dev);
-> +void drm_debugfs_minor_register(struct drm_minor *minor);
+Starting from Turing, the driver is no longer responsible for initiating
+DEVINIT when required as the GPU started loading a FW image from ROM and
+executing DEVINIT itself after power-on.
 
-For this patch and the previous one, I believe you need to add the functions
-to the #else path as well, otherwise it won't compile for CONFIG_DEBUG_FS=n.
+However - we apparently still need to wait for it to complete.
 
-Best Regards,
-- Maíra Canal
+This should correct some issues with runpm on some systems, where we get
+control of the HW before it's been fully reinitialised after resume from
+suspend.
 
->   void drm_debugfs_cleanup(struct drm_minor *minor);
->   void drm_debugfs_late_register(struct drm_device *dev);
->   void drm_debugfs_connector_add(struct drm_connector *connector);
-> @@ -261,4 +262,4 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
->   /* drm_framebuffer.c */
->   void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
->   				const struct drm_framebuffer *fb);
-> -void drm_framebuffer_debugfs_init(struct drm_minor *minor);
-> +void drm_framebuffer_debugfs_init(struct drm_device *dev);
-> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-> index 39482527a775..507d132cf494 100644
-> --- a/include/drm/drm_client.h
-> +++ b/include/drm/drm_client.h
-> @@ -200,6 +200,6 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode);
->   	drm_for_each_connector_iter(connector, iter) \
->   		if (connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
->   
-> -void drm_client_debugfs_init(struct drm_minor *minor);
-> +void drm_client_debugfs_init(struct drm_device *dev);
->   
->   #endif
+Signed-off-by: Ben Skeggs <bskeggs@redhat.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230130223715.1831509-1-bskeggs@redhat.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../drm/nouveau/nvkm/subdev/devinit/tu102.c   | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/tu102.c b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/tu102.c
+index 634f64f88fc8b..81a1ad2c88a7e 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/tu102.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/devinit/tu102.c
+@@ -65,10 +65,33 @@ tu102_devinit_pll_set(struct nvkm_devinit *init, u32 type, u32 freq)
+ 	return ret;
+ }
+ 
++static int
++tu102_devinit_wait(struct nvkm_device *device)
++{
++	unsigned timeout = 50 + 2000;
++
++	do {
++		if (nvkm_rd32(device, 0x118128) & 0x00000001) {
++			if ((nvkm_rd32(device, 0x118234) & 0x000000ff) == 0xff)
++				return 0;
++		}
++
++		usleep_range(1000, 2000);
++	} while (timeout--);
++
++	return -ETIMEDOUT;
++}
++
+ int
+ tu102_devinit_post(struct nvkm_devinit *base, bool post)
+ {
+ 	struct nv50_devinit *init = nv50_devinit(base);
++	int ret;
++
++	ret = tu102_devinit_wait(init->base.subdev.device);
++	if (ret)
++		return ret;
++
+ 	gm200_devinit_preos(init, post);
+ 	return 0;
+ }
+-- 
+2.39.0
+
