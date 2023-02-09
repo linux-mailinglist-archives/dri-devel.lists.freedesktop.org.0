@@ -2,55 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57E4690B20
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 14:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F99690B50
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Feb 2023 15:06:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B6C10E1E7;
-	Thu,  9 Feb 2023 13:58:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB0A610E21E;
+	Thu,  9 Feb 2023 14:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 110A210E1E7
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:58:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 44EDE61AA5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:58:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15AD4C433A8
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 13:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675951109;
- bh=93VyRdd+x46c6JfnCI26c2eQ2tKwTRA+5LoCiqT+VC0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=jmQdnIc4ohWuhyM/wboCHrBLSTj4CBb+bA/6XmgM59Q+I305QMacZrl3VDyL2kBav
- V+1/wPdF7b0HEIXSoijDHkuPV5z0XqxTJanmcMWS5lO34S8DhKBpd7T3TP+FUZpLUh
- tZJBxTdDaccDbjmQ5ndcwIGj+l7Iwvq8iMsQdVXrYHTIqdPf/Gw/zaZWqIXkyFj5of
- ajadWgbeABINJgNePiULZcqGc0DQSJYpJMU7JkD0JEAX7Zszy2qoLcTzfAMF02hgoF
- XsPx7jDziQAd1KU3raoq78O7x+gHUmPk6F1amZhrmlpRwglJ1YOlWVIOES7eTgbJAT
- oO2I2RcwNsTZA==
-Received: by mail-vs1-f47.google.com with SMTP id p24so1344412vsn.12
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 05:58:28 -0800 (PST)
-X-Gm-Message-State: AO0yUKU6gXuLCn0wTBtxCG2ikWRRjR6YVIUK1YaI26UdVBMtNbyQh2pg
- 3+y+dKLV9i6vrNHiMUf+4wmQI39UJT+3/SPrdw==
-X-Google-Smtp-Source: AK7set+jecLjckPcdRc6heEopqoGnC8BMT68O2x6tSHaNNqZRNC1BW5aLQrtdmUMcVM3DFY1urReQ/39uyBueeBrXyw=
-X-Received: by 2002:a67:cc1d:0:b0:3f3:5ce0:85ab with SMTP id
- q29-20020a67cc1d000000b003f35ce085abmr3125109vsl.26.1675951107969; Thu, 09
- Feb 2023 05:58:27 -0800 (PST)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6004210E21E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Feb 2023 14:06:14 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id ba1so1880801wrb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 06:06:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EveanFg3hxB9mTm692lwFHENNHiMzJdi6qXb5Y0aUHE=;
+ b=VaFFghYRGgBUhLCy34zTRriQe+cAR37nZEisk3sVvdi8fZPTyQjlRFT/MvpbcLgxdt
+ Ib8Mpr0qA3wtXV6D7o0AnnXlqTDcsQJAjfkgoy/8OKhRSW0F4F+NcY+7OI+tmxLd9xmc
+ s+x01bbG/P+s4S/pCBCFle6spo7dJNjosu8blMpd/93sDNMjJnMok+zFR6elwpyb6h06
+ /Zsn1sxQhpdlhVEr3DRzXDcbvJUXLIvs7ajg2vPJ9yk6DlUwrnHJTITVkXMQH9d4qhqy
+ idqUk7UVMG82Z/yfCMN2MCuNmZCXNi/JZdPFMrb7bjfxmpmH0yKROfdhZx8ju7hp3q1G
+ TArg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EveanFg3hxB9mTm692lwFHENNHiMzJdi6qXb5Y0aUHE=;
+ b=GUm7sLIMaTWlW0a9L7XA1ce6QqHxBeZNzvvTdU/z6Tf3uLvTwQFaEg9CDQq8wItumv
+ MSv8WjwcbZAxk3ogzYQGe5/RKvzBj1OPDFsW4ZOJ56ijIvB8zoaTulnwEBOwPlJ4jBgk
+ CC7XP4aEAl2kccPUQQXp+ug7zy8ayQnIAtRZKWjvttZ0L/Ptve9c364gGNXFTvX3cxab
+ 3HZVKCheLJKJlJAz+1txhmGNoAz7X2jN4y7rL2GtLatePEJrHsZoOonvcY3CxufnBqG3
+ ESuYDCVtEvr0q6KzSuP75VdHUlRv4oWuNvJDxHd8t2ozvt5Ga6SVzasgGalyJ3rs2le5
+ RN6Q==
+X-Gm-Message-State: AO0yUKUXifng6j1f1khkG6AzmnD9oIneSK6pgBK7NvhOdq8MgnToAObG
+ UAZbJy1kYP7R0bv2SOxf0OA=
+X-Google-Smtp-Source: AK7set+bQKu0SP6SZgmmFoxorGhC3sCncj/7p7Q6XZejJFa26kSmwc2cnhtzH0B9NX3TymY95MayPg==
+X-Received: by 2002:adf:dc8a:0:b0:2bf:cbf5:ac10 with SMTP id
+ r10-20020adfdc8a000000b002bfcbf5ac10mr11264277wrj.11.1675951572737; 
+ Thu, 09 Feb 2023 06:06:12 -0800 (PST)
+Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
+ [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
+ w7-20020a5d4047000000b002c3daf229b1sm1301762wrp.55.2023.02.09.06.06.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Feb 2023 06:06:12 -0800 (PST)
+Message-ID: <cbe1ac86-1d41-bcf7-679b-ad4e2a810361@gmail.com>
+Date: Thu, 9 Feb 2023 15:06:10 +0100
 MIME-Version: 1.0
-References: <20230204133040.1236799-1-treapking@chromium.org>
- <20230204133040.1236799-8-treapking@chromium.org>
- <20230207205221.GA4121517-robh@kernel.org>
- <CAEXTbpf5KqH7zev+kooUmz2DiMya-53UmvAMJfcOYcm7CCDthQ@mail.gmail.com>
-In-Reply-To: <CAEXTbpf5KqH7zev+kooUmz2DiMya-53UmvAMJfcOYcm7CCDthQ@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 9 Feb 2023 07:58:16 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ35gJnpwfOtW8jQP2RmzJtLG2YdTC6dt7pf-GjJggORw@mail.gmail.com>
-Message-ID: <CAL_JsqJ35gJnpwfOtW8jQP2RmzJtLG2YdTC6dt7pf-GjJggORw@mail.gmail.com>
-Subject: Re: [PATCH v11 7/9] dt-bindings: display: bridge: it6505: Add
- mode-switch support
-To: Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: Try to address the drm_debugfs issues
+Content-Language: en-US
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>, daniel.vetter@ffwll.ch, 
+ wambui.karugax@gmail.com, maxime@cerno.tech, mwen@igalia.com,
+ mairacanal@riseup.net
+References: <20230209081838.45273-1-christian.koenig@amd.com>
+ <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
+ <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
+ <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,152 +79,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 8, 2023 at 10:00 PM Pin-yen Lin <treapking@chromium.org> wrote:
+Am 09.02.23 um 14:06 schrieb Maíra Canal:
+> On 2/9/23 09:13, Christian König wrote:
+>> Am 09.02.23 um 12:23 schrieb Maíra Canal:
+>>> On 2/9/23 05:18, Christian König wrote:
+>>>> Hello everyone,
+>>>>
+>>>> the drm_debugfs has a couple of well known design problems.
+>>>>
+>>>> Especially it wasn't possible to add files between initializing and 
+>>>> registering
+>>>> of DRM devices since the underlying debugfs directory wasn't 
+>>>> created yet.
+>>>>
+>>>> The resulting necessity of the driver->debugfs_init() callback 
+>>>> function is a
+>>>> mid-layering which is really frowned on since it creates a horrible
+>>>> driver->DRM->driver design layering.
+>>>>
+>>>> The recent patch "drm/debugfs: create device-centered debugfs 
+>>>> functions" tried
+>>>> to address those problem, but doesn't seem to work correctly. This 
+>>>> looks like
+>>>> a misunderstanding of the call flow around drm_debugfs_init(), 
+>>>> which is called
+>>>> multiple times, once for the primary and once for the render node.
+>>>>
+>>>> So what happens now is the following:
+>>>>
+>>>> 1. drm_dev_init() initially allocates the drm_minor objects.
+>>>> 2. ... back to the driver ...
+>>>> 3. drm_dev_register() is called.
+>>>>
+>>>> 4. drm_debugfs_init() is called for the primary node.
+>>>> 5. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
+>>>>     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)() to add 
+>>>> the files
+>>>>     for the primary node.
+>>>> 6. The driver->debugfs_init() callback is called to add debugfs 
+>>>> files for the
+>>>>     primary node.
+>>>> 7. The added files are consumed and added to the primary node 
+>>>> debugfs directory.
+>>>>
+>>>> 8. drm_debugfs_init() is called for the render node.
+>>>> 9. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
+>>>>     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)() to add 
+>>>> the files
+>>>>     again for the render node.
+>>>> 10. The driver->debugfs_init() callback is called to add debugfs 
+>>>> files for the
+>>>>      render node.
+>>>> 11. The added files are consumed and added to the render node 
+>>>> debugfs directory.
+>>>>
+>>>> 12. Some more files are added through drm_debugfs_add_file().
+>>>> 13. drm_debugfs_late_register() add the files once more to the 
+>>>> primary node
+>>>>      debugfs directory.
+>>>> 14. From this point on files added through drm_debugfs_add_file() 
+>>>> are simply ignored.
+>>>> 15. ... back to the driver ...
+>>>>
+>>>> Because of this the dev->debugfs_mutex lock is also completely 
+>>>> pointless since
+>>>> any concurrent use of the interface would just randomly either add 
+>>>> the files to
+>>>> the primary or render node or just not at all.
+>>>>
+>>>> Even worse is that this implementation nails the coffin for 
+>>>> removing the
+>>>> driver->debugfs_init() mid-layering because otherwise drivers can't 
+>>>> control
+>>>> where their debugfs (primary/render node) are actually added.
+>>>>
+>>>> This patch set here now tries to clean this up a bit, but most 
+>>>> likely isn't
+>>>> fully complete either since I didn't audit every driver/call path.
+>>>
+>>> I tested the patchset on the v3d, vc4 and vkms and all the files are 
+>>> generated
+>>> as expected, but I'm getting the following errors on dmesg:
+>>>
+>>> [    3.872026] debugfs: File 'v3d_ident' in directory '0' already 
+>>> present!
+>>> [    3.872064] debugfs: File 'v3d_ident' in directory '128' already 
+>>> present!
+>>> [    3.872078] debugfs: File 'v3d_regs' in directory '0' already 
+>>> present!
+>>> [    3.872087] debugfs: File 'v3d_regs' in directory '128' already 
+>>> present!
+>>> [    3.872097] debugfs: File 'measure_clock' in directory '0' 
+>>> already present!
+>>> [    3.872105] debugfs: File 'measure_clock' in directory '128' 
+>>> already present!
+>>> [    3.872116] debugfs: File 'bo_stats' in directory '0' already 
+>>> present!
+>>> [    3.872124] debugfs: File 'bo_stats' in directory '128' already 
+>>> present!
+>>>
+>>> It looks like the render node is being added twice, since this 
+>>> doesn't happen
+>>> for vc4 and vkms.
+>>
+>> Thanks for the feedback and yes that's exactly what I meant with that 
+>> I haven't looked into all code paths.
+>>
+>> Could it be that v3d registers it's debugfs files from the 
+>> debugfs_init callback?
 >
-> Hi Rob,
+> Although this is true, I'm not sure if this is the reason why the 
+> files are
+> being registered twice, as this doesn't happen to vc4, and it also 
+> uses the
+> debugfs_init callback. I believe it is somewhat related to the fact that
+> v3d is the primary node and the render node.
+
+I see. Thanks for the hint.
+
 >
-> Thanks for the review.
+> Best Regards,
+> - Maíra Canal
 >
-> On Wed, Feb 8, 2023 at 4:52 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Sat, Feb 04, 2023 at 09:30:38PM +0800, Pin-yen Lin wrote:
-> > > ITE IT6505 can be used in systems to switch the DP traffic between
-> > > two downstreams, which can be USB Type-C DisplayPort alternate mode
-> > > lane or regular DisplayPort output ports.
-> > >
-> > > Update the binding to accommodate this usage by introducing a
-> > > data-lanes and a mode-switch property on endpoints.
-> > >
-> > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> > >
-> > > ---
-> > >
-> > > Changes in v11:
-> > > - Updated the description of the endpoints in the bindings
-> > > - Referenced video-interfaces.yaml instead for the endpoints binding
-> > > - Removed duplicated definitions from inherited schema
-> > >
-> > > Changes in v9:
-> > > - Fixed subject prefix again
-> > > - Changed the naming of the example node for it6505
-> > >
-> > > Changes in v8:
-> > > - Updated bindings for data-lanes property
-> > > - Fixed subject prefix
-> > >
-> > > Changes in v7:
-> > > - Fixed issues reported by dt_binding_check.
-> > > - Updated the schema and the example dts for data-lanes.
-> > > - Changed to generic naming for the example dts node.
-> > >
-> > > Changes in v6:
-> > > - Remove switches node and use endpoints and data-lanes property to
-> > >   describe the connections.
-> > >
-> > >  .../bindings/display/bridge/ite,it6505.yaml   | 101 +++++++++++++++---
-> > >  1 file changed, 88 insertions(+), 13 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > > index b16a9d9127dd..8ae9c5cba22c 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> > > @@ -75,22 +75,49 @@ properties:
-> > >        port@1:
-> > >          $ref: /schemas/graph.yaml#/$defs/port-base
-> > >          unevaluatedProperties: false
-> > > -        description: Video port for DP output
-> > > +        description:
-> > > +          Video port for DP output. Each endpoint connects to a video output
-> > > +          downstream, and the "data-lanes" property is used to describe the pin
-> > > +          connections. 0, 1, 2, 3 in "data-lanes" maps to TX0, TX1, TX2, TX3,
-> > > +          respectively.
-> > >
-> > > -        properties:
-> > > -          endpoint:
-> > > -            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > > +
-> > > +        patternProperties:
-> > > +          "^endpoint@[01]$":
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > >              unevaluatedProperties: false
-> > >
-> > >              properties:
-> > > +              reg: true
-> > > +
-> > > +              remote-endpoint: true
-> > > +
-> > >                data-lanes:
-> > > -                minItems: 1
-> > > -                uniqueItems: true
-> > > -                items:
-> > > -                  - enum: [ 0, 1 ]
-> > > -                  - const: 1
-> > > -                  - const: 2
-> > > -                  - const: 3
-> > > +                oneOf:
-> > > +                  - items:
-> > > +                      - enum: [0, 1, 2, 3]
-> > > +
-> > > +                  - items:
-> > > +                      - const: 0
-> > > +                      - const: 1
-> > > +
-> > > +                  - items:
-> > > +                      - const: 2
-> > > +                      - const: 3
-> > > +
-> > > +                  - items:
-> > > +                      - const: 0
-> > > +                      - const: 1
-> > > +                      - const: 2
-> > > +                      - const: 3
-> > > +
-> > > +              mode-switch:
-> > > +                type: boolean
-> > > +                description: Register this node as a Type-C mode switch or not.
-> >
-> > Existing users put this property in the device's node, not the endpoint.
-> > That seems more like a property of the device, than the DP link.
->
-> In our use case, we want to register two mode switches for the same
-> device. That's why we put the "mode-switch" property in the endpoints
-> instead of the device node.
+>>
+>> One alternative would be to just completely nuke support for separate 
+>> render node debugfs files and only add a symlink to the primary node. 
+>> Opinions?
 
-Then do that. Register a mode switch for each endpoint connected to a
-USB-C connector. You can walk the graph to see what type of connector.
+What do you think of this approach? I can't come up with any reason why 
+we should have separate debugfs files for render nodes and I think it is 
+pretty much the same reason you came up with the patch for per device 
+debugfs files instead of per minor.
 
-The only way I could see this as an issue is you have 2 USB-C
-connectors and one is a mode switch and one is not. Not sure if such a
-scenario is likely or possible. If it is, please educate me.
+Regards,
+Christian.
 
-> > You are using fwnode_typec_mux_get(), right?
->
-> Yes. This is called by cros_ec_typec.c[1] in our use case.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Otherwise, the patchset looks good to me, but maybe Daniel has some 
+>>> other
+>>> thoughts about it.
+>>>
+>>> Best Regards,
+>>> - Maíra Canal
+>>>
+>>>>
+>>>> Please comment/discuss.
+>>>>
+>>>> Cheers,
+>>>> Christian.
+>>>>
+>>>>
+>>
 
-That code looks for 'mode-switch' in the device's node, not the
-endpoint. So how does it work for you?
-
-Rob
