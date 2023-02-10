@@ -1,31 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08B86916AD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 03:28:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1136916B5
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 03:34:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A925C10E125;
-	Fri, 10 Feb 2023 02:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA7F310EC21;
+	Fri, 10 Feb 2023 02:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-124.freemail.mail.aliyun.com
- (out30-124.freemail.mail.aliyun.com [115.124.30.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D034F10E125;
- Fri, 10 Feb 2023 02:28:51 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VbI6omF_1675996121; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VbI6omF_1675996121) by smtp.aliyun-inc.com;
- Fri, 10 Feb 2023 10:28:46 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/amd/display: Remove the unused variable ds_port
-Date: Fri, 10 Feb 2023 10:28:39 +0800
-Message-Id: <20230210022839.3152-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF2BB10EC21
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 02:34:43 +0000 (UTC)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id D217B3249FE;
+ Fri, 10 Feb 2023 02:34:40 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1675996481; bh=mP3VWYjiUybqNGjxW7eeY6Sblu/YiIxP3ek7YTREK2w=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mN33PSBFlaq9JvJhbL9OHr+RvpbpsXSw8wt0MLN0/PCzVg8BPszzom+a2JIFk54J1
+ o6qOSkd5tI/pGD5vQPO0WuYAtBEwKqdRdGHdRN9jsIe7f9raWYqPvgjYBOqDaaKQGW
+ bHlcXRnDvqJ/A2uC52JWXihQzTCFPBQpEkeZ3oZLTs/+42I6WNFl2wBAVRhqicEv4J
+ Hf807tWGtQWHyJrNjqu6SNK4YpDyrHKoY9mj8UW9btJdytg02dMsbHyVeDnbbMYwlG
+ 0AhFSnuHGIa/GCTrHH8MhVbHUA/QR87pxANYF2Q7fsmwkTA/rKvsa1ZhYJUnTVZKJZ
+ oQVGNcBhJtpeA==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: Make the driver work without the dummy resources
+Date: Thu,  9 Feb 2023 21:34:37 -0500
+Message-Id: <20230210023437.2214816-1-zack@kde.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -41,46 +46,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: banackm@vmware.com, krastevm@vmware.com, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ mombasawalam@vmware.com, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Variable ds_port is not effectively used, so delete it.
+From: Zack Rusin <zackr@vmware.com>
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:280:35: warning: variable ‘ds_port’ set but not used.
+In change 180253782038 ("drm/ttm: stop allocating dummy resources during BO creation")
+ttm stopped allocating dummy resources but vmwgfx was never ported to
+handle it. Make the driver treat null resources as initial creation and
+port code to handle null resources in general.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4030
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Fixes kernel oops'es on boot with vmwgfx.
+
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Fixes: 180253782038 ("drm/ttm: stop allocating dummy resources during BO creation")
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 ---
- .../drm/amd/display/dc/link/protocols/link_dp_capability.c    | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c   |  3 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 18 ++++++++++++++----
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-index 24d356ebd7a9..816bf4ff8017 100644
---- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-@@ -277,7 +277,6 @@ static void dp_wa_power_up_0010FA(struct dc_link *link, uint8_t *dpcd_data,
- 		int length)
- {
- 	int retry = 0;
--	union dp_downstream_port_present ds_port = { 0 };
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+index 54e942df3b8e..71eeabf001c8 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+@@ -837,7 +837,8 @@ void vmw_query_move_notify(struct ttm_buffer_object *bo,
+ 	mutex_lock(&dev_priv->binding_mutex);
  
- 	if (!link->dpcd_caps.dpcd_rev.raw) {
- 		do {
-@@ -290,9 +289,6 @@ static void dp_wa_power_up_0010FA(struct dc_link *link, uint8_t *dpcd_data,
- 		} while (retry++ < 4 && !link->dpcd_caps.dpcd_rev.raw);
+ 	/* If BO is being moved from MOB to system memory */
+-	if (new_mem->mem_type == TTM_PL_SYSTEM &&
++	if (old_mem &&
++	    new_mem->mem_type == TTM_PL_SYSTEM &&
+ 	    old_mem->mem_type == VMW_PL_MOB) {
+ 		struct vmw_fence_obj *fence;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index 4daebc5b9eb4..af8562c95cc3 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -515,9 +515,13 @@ static int vmw_move(struct ttm_buffer_object *bo,
+ 		    struct ttm_resource *new_mem,
+ 		    struct ttm_place *hop)
+ {
+-	struct ttm_resource_manager *old_man = ttm_manager_type(bo->bdev, bo->resource->mem_type);
+-	struct ttm_resource_manager *new_man = ttm_manager_type(bo->bdev, new_mem->mem_type);
+-	int ret;
++	struct ttm_resource_manager *new_man;
++	struct ttm_resource_manager *old_man = NULL;
++	int ret = 0;
++
++	new_man = ttm_manager_type(bo->bdev, new_mem->mem_type);
++	if (bo->resource)
++		old_man = ttm_manager_type(bo->bdev, bo->resource->mem_type);
+ 
+ 	if (new_man->use_tt && !vmw_memtype_is_system(new_mem->mem_type)) {
+ 		ret = vmw_ttm_bind(bo->bdev, bo->ttm, new_mem);
+@@ -525,9 +529,15 @@ static int vmw_move(struct ttm_buffer_object *bo,
+ 			return ret;
  	}
  
--	ds_port.byte = dpcd_data[DP_DOWNSTREAMPORT_PRESENT -
--				 DP_DPCD_REV];
--
- 	if (link->dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_VGA_CONVERTER) {
- 		switch (link->dpcd_caps.branch_dev_id) {
- 		/* 0010FA active dongles (DP-VGA, DP-DLDVI converters) power down
++	if (!bo->resource || (bo->resource->mem_type == TTM_PL_SYSTEM &&
++			      bo->ttm == NULL)) {
++		ttm_bo_move_null(bo, new_mem);
++		return 0;
++	}
++
+ 	vmw_move_notify(bo, bo->resource, new_mem);
+ 
+-	if (old_man->use_tt && new_man->use_tt) {
++	if (old_man && old_man->use_tt && new_man->use_tt) {
+ 		if (vmw_memtype_is_system(bo->resource->mem_type)) {
+ 			ttm_bo_move_null(bo, new_mem);
+ 			return 0;
 -- 
-2.20.1.7.g153144c
+2.38.1
 
