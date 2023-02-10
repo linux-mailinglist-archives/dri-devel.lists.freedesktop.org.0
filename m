@@ -2,46 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7168691D1B
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 11:45:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC58691D30
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 11:48:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E71E10ECDD;
-	Fri, 10 Feb 2023 10:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76B6F10E0F2;
+	Fri, 10 Feb 2023 10:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB4410ECE1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 10:45:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6EEDEE70;
- Fri, 10 Feb 2023 11:45:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1676025931;
- bh=WYejOAru+yFhw+n9t7uNdKpMF9d1GP7xXKe2v27N13w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b2jdlCXf3vXv6FGAPLqhctt/qg6LJONbzqTqusW6Kk/Z0tTL8SEfauCegoppJxD5W
- Hi49wT91V36YAR5733quPagRKmIPiRvlbzqb6f1a1vY7dSe8EeOmklIxBRtYZnoY1i
- g7F1KyVTI8hlLi/pn4jk6tD0exJNfx8Z8Iz7zezA=
-Date: Fri, 10 Feb 2023 12:45:30 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Add GPIO display
- mux binding
-Message-ID: <Y+YgSn8y9DaonkE8@pendragon.ideasonboard.com>
-References: <20230116110820.2615650-1-treapking@chromium.org>
- <20230116110820.2615650-2-treapking@chromium.org>
- <20230117201703.GA3555326-robh@kernel.org>
- <CAEXTbpdOg_un9rWD+QeS1rJLW8wHzDOnkJ-i6R0WNvAU4THEGQ@mail.gmail.com>
- <Y+InK8qF0Izlv6s6@pendragon.ideasonboard.com>
- <CAEXTbpc=2BOvcXDj-Bff7y3yZjaYr61RBphLiCkkUVzGFnVgKg@mail.gmail.com>
- <Y+JsWQZMKCuPSbeO@pendragon.ideasonboard.com>
- <CAEXTbpf+wK8hLmN=E=Z7zaM+p0OW5sNW83pq9HFmdwWsE7uM=w@mail.gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E04CC10E0F2;
+ Fri, 10 Feb 2023 10:47:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676026078; x=1707562078;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=pf056wxaf9+3pMVFuyOB0yeKHcsdpjtr3/dwXb+Uw3o=;
+ b=KL5Xp6YREn+oo1JNLJY3uzCP8qWuOkVFmTPkpHQIiZjAUJjyiv3gVJ2H
+ 3ePs1lYL3hdeGziogLQGcZuR/LyyaxAxas+Vzc0ZBedxptYCLhVlVRcpZ
+ 0X2kcimD1zLZQrRF1cVIXS8VjI0JX5YPcMvy3I6DJusBexbAK1tk6el7q
+ 5N/layh8WNwkCG4vd8Ym6x0o4qsQwYZPi+o1c7XiyyA0tAB6A/uAWqn9g
+ HohQ5BHsYQXcNB8oDQW9dSnCt2PssUymYy7usp/9mksPjyYJQemyG5g5W
+ RtCIXoslZFHMdYVovA+HzfvHEfmQf3HdFhk/r1W0VU8THAdDqvQU2Xz0J g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="330397603"
+X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; d="scan'208";a="330397603"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2023 02:47:58 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="810776659"
+X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; d="scan'208";a="810776659"
+Received: from myegin-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.38.74])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2023 02:47:54 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lyude Paul <lyude@redhat.com>, imre.deak@intel.com, Harry Wentland
+ <harry.wentland@amd.com>, Alex Deucher <alexander.deucher@amd.com>, Daniel
+ Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [Cc: drm-misc folks] Re: [Intel-gfx] [CI 1/4] drm/i915/dp_mst:
+ Add the MST topology state for modesetted CRTCs
+In-Reply-To: <0b5a4e81dc98f9c28d77f0f53741712d1c7c3c09.camel@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230206114856.2665066-1-imre.deak@intel.com>
+ <Y+JLQfuSAS6xLPIS@ideak-desk.fi.intel.com>
+ <0b5a4e81dc98f9c28d77f0f53741712d1c7c3c09.camel@redhat.com>
+Date: Fri, 10 Feb 2023 12:47:51 +0200
+Message-ID: <87bkm1x0dk.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAEXTbpf+wK8hLmN=E=Z7zaM+p0OW5sNW83pq9HFmdwWsE7uM=w@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,212 +63,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Boichat <drinkcat@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: Karol Herbst <kherbst@redhat.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Wayne Lin <Wayne.Lin@amd.com>,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Pin-yen,
+On Thu, 09 Feb 2023, Lyude Paul <lyude@redhat.com> wrote:
+> On Tue, 2023-02-07 at 14:59 +0200, Imre Deak wrote:
+>> Hi all,
+>>=20
+>> On Mon, Feb 06, 2023 at 01:48:53PM +0200, Imre Deak wrote:
+>> > Add the MST topology for a CRTC to the atomic state if the driver
+>> > needs to force a modeset on the CRTC after the encoder compute config
+>> > functions are called.
+>> >=20
+>> > Later the MST encoder's disable hook also adds the state, but that isn=
+'t
+>> > guaranteed to work (since in that hook getting the state may fail, whi=
+ch
+>> > can't be handled there). This should fix that, while a later patch fix=
+es
+>> > the use of the MST state in the disable hook.
+>> >=20
+>> > v2: Add missing forward struct declartions, caught by hdrtest.
+>> > v3: Factor out intel_dp_mst_add_topology_state_for_connector() used
+>> >     later in the patchset.
+>> >=20
+>> > Cc: Lyude Paul <lyude@redhat.com>
+>> > Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> > Cc: stable@vger.kernel.org # 6.1
+>> > Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> #=
+ v2
+>> > Reviewed-by: Lyude Paul <lyude@redhat.com>
+>> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+>>=20
+>> Is it ok to merge these 4 patches (also at [1]), via the i915 tree?
+>>=20
+>> If so could it be also acked from the AMD and Nouveau side?
+>
+> Whichever branch works best for y'all is fine by me, if it's via i915's t=
+ree I
+> guess we might need to back-merge drm-misc at some point so I can write up
+> equivalent fixes for nouveau as well.
+>
+> (Added Thomas Zimmermann to Cc)
 
-On Fri, Feb 10, 2023 at 03:38:00PM +0800, Pin-yen Lin wrote:
-> On Tue, Feb 7, 2023 at 11:21 PM Laurent Pinchart wrote:
-> > On Tue, Feb 07, 2023 at 06:30:36PM +0800, Pin-yen Lin wrote:
-> > > On Tue, Feb 7, 2023 at 6:25 PM Laurent Pinchart wrote:
-> > > > On Tue, Feb 07, 2023 at 06:07:44PM +0800, Pin-yen Lin wrote:
-> > > > > On Wed, Jan 18, 2023 at 4:17 AM Rob Herring wrote:
-> > > > > > On Mon, Jan 16, 2023 at 07:08:19PM +0800, Pin-yen Lin wrote:
-> > > > > > > From: Nicolas Boichat <drinkcat@chromium.org>
-> > > > > > >
-> > > > > > > Add bindings for Generic GPIO mux driver.
-> > > > > > >
-> > > > > > > Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > > > > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> > > > > > > ---
-> > > > > > >
-> > > > > > > Changes in v2:
-> > > > > > > - Referenced existing dt-binding schemas from graph.yaml
-> > > > > > > - Added ddc-i2c-bus into the bindings
-> > > > > > >
-> > > > > > >  .../bindings/display/bridge/gpio-mux.yaml     | 95 +++++++++++++++++++
-> > > > > > >  1 file changed, 95 insertions(+)
-> > > > > > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> > > > > > >
-> > > > > > > diff --git a/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml b/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..da29ba078f05
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/Documentation/devicetree/bindings/display/bridge/gpio-mux.yaml
-> > > > > > > @@ -0,0 +1,95 @@
-> > > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > > > +%YAML 1.2
-> > > > > > > +---
-> > > > > > > +$id: http://devicetree.org/schemas/display/bridge/gpio-mux.yaml#
-> > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > > +
-> > > > > > > +title: Generic display mux (1 input, 2 outputs)
-> > > > > > > +
-> > > > > > > +maintainers:
-> > > > > > > +  - Nicolas Boichat <drinkcat@chromium.org>
-> > > > > > > +
-> > > > > > > +description: |
-> > > > > > > +  This bindings describes a simple display (e.g. HDMI) mux, that has 1
-> > > > > > > +  input, and 2 outputs. The mux status is controlled by hardware, and
-> > > > > > > +  its status is read back using a GPIO.
-> > > > > > > +
-> > > > > > > +properties:
-> > > > > > > +  compatible:
-> > > > > > > +    const: gpio-display-mux
-> > > > > > > +
-> > > > > > > +  detect-gpios:
-> > > > > > > +    maxItems: 1
-> > > > > > > +    description: GPIO that indicates the active output
-> > > > > >
-> > > > > > What are we detecting? That implies an input, but this is selecting the
-> > > > > > output path, right? Or what does 'mux status is controlled by hardware'
-> > > > > > mean exactly? Something else? That does not sound very generic.
-> > > > >
-> > > > > The GPIO (or any kind of MUX) is an input that indicates where the
-> > > > > output should go. The actual "output selection" procedure is done in
-> > > > > the driver. That is, the driver monitors this GPIO and selects the
-> > > > > output path accordingly. In our use case, the GPIO is reported by the
-> > > > > embedded controller on the device.
-> > > > >
-> > > > > [1] listed other similar bridges that can leverage this driver, so we
-> > > > > called this driver "generic".
-> > > > >
-> > > > > [1]: https://lore.kernel.org/all/CAJMQK-jGw8kJFNjoHjeZUL+3NCiOS2hgGERnAnMwNsL_cm_J=Q@mail.gmail.com/
-> > > > >
-> > > > > > In any case, we have a common mux binding so any kind of mux control
-> > > > > > could be used here, not just GPIO. Then you can make this just a generic
-> > > > > > display mux.
-> > > > >
-> > > > > Thanks for sharing this, I'll update the binding in the next version.
-> > > > >
-> > > > > > > +
-> > > > > > > +  ddc-i2c-bus:
-> > > > > > > +    description: phandle link to the I2C controller used for DDC EDID probing
-> > > > > > > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > > > > >
-> > > > > > This belongs in the connector node(s).
-> > > > >
-> > > > > The HDMI bridge before the MUX doesn't (and doesn't have to) know that
-> > > > > its next bridge is a MUX. We put it here so that the HDMI bridge can
-> > > > > parse the phandle and get the bus node.
-> > > >
-> > > > How does that work, does the HDMI encoder driver parse the ddc-i2c-bus
-> > > > property of the next DT node in the OF graph ?
-> > >
-> > > Yes. In our use case, mtk_hdmi.c[2] checks the remote node of its
-> > > output port to get the bus phandle. sun4i_hdmi_enc.c[3] seems to use a
-> > > similar approach as well.
-> >
-> > Peeking into nodes of other devices is a bad practice. I don't know how
-> > the code you mention below got merged, but I'm pretty sure I would have
-> > flagged it if I had reviewed the patches :-)
-> >
-> > The ddc-i2c-bus property should instead be specified in the node where
-> > it logically belongs (in this case, the connector node), and handled by
-> > the connector driver. You can then use drm_bridge operations to tie
-> > things together, like done in the drm_bridge_connector helper. I'd
-> > recommend using the drm_bridge_connector helper if you can, either
-> > as-is, or by extending it.
-> 
-> So, even if the connector does not have its own i2c controller, we
-> should put ddc-i2c-bus property in the connector DT node and tell the
-> DRM core that this bridge (driver) has the ability to read EDID?
+I suggest merging the series via drm-misc-next-fixes branch, to get them
+to Linus' tree in the upcoming merge window. They all apply cleanly
+there. The drivers can backmerge them from drm-next in the mean time, or
+wait for v6.3-rc1.
 
-That's the idea, yes, if the DDC lines are connected to an I2C
-controller on the SoC. Of course, if the DDC lines are connected
-directly to an HDMI encoder that has an internal I2C controller, then
-the ddc-i2c-bus property shouldn't be added, and the DRM bridge driver
-for the HDMI encoder should report the EDID read ability.
+Daniel acked this (well, any -next-fixes branch) on IRC yesterday,
+obviously ack from me too.
 
-> If so, I'll fix up the mtk_hdmi.c driver and update the anx7688 driver
-> in the next version.
+I take the above as Lyude's ack for nouveau.
 
-Thank you. I had a quick look at the mtk_hdmi driver, ideally support
-for reading EDID should be dropped from there. As far as I understand,
-the mtk_hdmi bridge is connected to the mtk_dpi bridge, whose driver
-uses the drm_bridge_connector helper, so it shouldn't be too difficult.
+Harry, Wayne, do you agree with this, ack for merging the AMD part via
+drm-misc-next-fixes? (Alex suggested to get your input.)
 
-> > > [2]: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/mediatek/mtk_hdmi.c#L1500
-> > > [3]: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c#L240
-> > >
-> > > > > > > +
-> > > > > > > +  ports:
-> > > > > > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > > > > +
-> > > > > > > +    properties:
-> > > > > > > +      port@0:
-> > > > > > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > > > > > +        description: |
-> > > > > > > +          Video port for input.
-> > > > > > > +
-> > > > > > > +      port@1:
-> > > > > > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > > > > > +        description: |
-> > > > > > > +          2 video ports for output.
-> > > > > > > +          The reg value in the endpoints matches the GPIO status: when
-> > > > > > > +          GPIO is asserted, endpoint with reg value <1> is selected.
-> > > > > > > +
-> > > > > > > +    required:
-> > > > > > > +      - port@0
-> > > > > > > +      - port@1
-> > > > > > > +
-> > > > > > > +required:
-> > > > > > > +  - compatible
-> > > > > > > +  - detect-gpios
-> > > > > > > +  - ports
-> > > > > > > +
-> > > > > > > +unevaluatedProperties: false
-> > > > > > > +
-> > > > > > > +examples:
-> > > > > > > +  - |
-> > > > > > > +    #include <dt-bindings/gpio/gpio.h>
-> > > > > > > +    hdmi_mux: hdmi_mux {
-> > > > > > > +      compatible = "gpio-display-mux";
-> > > > > > > +      detect-gpios = <&pio 36 GPIO_ACTIVE_HIGH>;
-> > > > > > > +      pinctrl-names = "default";
-> > > > > > > +      pinctrl-0 = <&hdmi_mux_pins>;
-> > > > > > > +      ddc-i2c-bus = <&hdmiddc0>;
-> > > > > > > +
-> > > > > > > +      ports {
-> > > > > > > +        #address-cells = <1>;
-> > > > > > > +        #size-cells = <0>;
-> > > > > > > +
-> > > > > > > +        port@0 { /* input */
-> > > > > > > +          reg = <0>;
-> > > > > > > +
-> > > > > > > +          hdmi_mux_in: endpoint {
-> > > > > > > +            remote-endpoint = <&hdmi0_out>;
-> > > > > > > +          };
-> > > > > > > +        };
-> > > > > > > +
-> > > > > > > +        port@1 { /* output */
-> > > > > > > +          reg = <1>;
-> > > > > > > +
-> > > > > > > +          #address-cells = <1>;
-> > > > > > > +          #size-cells = <0>;
-> > > > > > > +
-> > > > > > > +          hdmi_mux_out_anx: endpoint@0 {
-> > > > > > > +            reg = <0>;
-> > > > > > > +            remote-endpoint = <&dp_bridge_in>;
-> > > > > > > +          };
-> > > > > > > +
-> > > > > > > +          hdmi_mux_out_hdmi: endpoint@1 {
-> > > > > > > +            reg = <1>;
-> > > > > > > +            remote-endpoint = <&hdmi_connector_in>;
-> > > > > > > +          };
-> > > > > > > +        };
-> > > > > > > +      };
-> > > > > > > +    };
 
--- 
-Regards,
+BR,
+Jani.
 
-Laurent Pinchart
+
+>
+>>=20
+>> [1] https://patchwork.freedesktop.org/series/113703/
+>>=20
+>> > ---
+>> >  drivers/gpu/drm/i915/display/intel_display.c |  4 ++
+>> >  drivers/gpu/drm/i915/display/intel_dp_mst.c  | 61 ++++++++++++++++++++
+>> >  drivers/gpu/drm/i915/display/intel_dp_mst.h  |  4 ++
+>> >  3 files changed, 69 insertions(+)
+>> >=20
+>> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gp=
+u/drm/i915/display/intel_display.c
+>> > index 166662ade593c..38106cf63b3b9 100644
+>> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+>> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+>> > @@ -5936,6 +5936,10 @@ int intel_modeset_all_pipes(struct intel_atomic=
+_state *state,
+>> >  		if (ret)
+>> >  			return ret;
+>> >=20=20
+>> > +		ret =3D intel_dp_mst_add_topology_state_for_crtc(state, crtc);
+>> > +		if (ret)
+>> > +			return ret;
+>> > +
+>> >  		ret =3D intel_atomic_add_affected_planes(state, crtc);
+>> >  		if (ret)
+>> >  			return ret;
+>> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu=
+/drm/i915/display/intel_dp_mst.c
+>> > index 8b0e4defa3f10..f3cb12dcfe0a7 100644
+>> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+>> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+>> > @@ -1223,3 +1223,64 @@ bool intel_dp_mst_is_slave_trans(const struct i=
+ntel_crtc_state *crtc_state)
+>> >  	return crtc_state->mst_master_transcoder !=3D INVALID_TRANSCODER &&
+>> >  	       crtc_state->mst_master_transcoder !=3D crtc_state->cpu_transc=
+oder;
+>> >  }
+>> > +
+>> > +/**
+>> > + * intel_dp_mst_add_topology_state_for_connector - add MST topology s=
+tate for a connector
+>> > + * @state: atomic state
+>> > + * @connector: connector to add the state for
+>> > + * @crtc: the CRTC @connector is attached to
+>> > + *
+>> > + * Add the MST topology state for @connector to @state.
+>> > + *
+>> > + * Returns 0 on success, negative error code on failure.
+>> > + */
+>> > +static int
+>> > +intel_dp_mst_add_topology_state_for_connector(struct intel_atomic_sta=
+te *state,
+>> > +					      struct intel_connector *connector,
+>> > +					      struct intel_crtc *crtc)
+>> > +{
+>> > +	struct drm_dp_mst_topology_state *mst_state;
+>> > +
+>> > +	if (!connector->mst_port)
+>> > +		return 0;
+>> > +
+>> > +	mst_state =3D drm_atomic_get_mst_topology_state(&state->base,
+>> > +						      &connector->mst_port->mst_mgr);
+>> > +	if (IS_ERR(mst_state))
+>> > +		return PTR_ERR(mst_state);
+>> > +
+>> > +	mst_state->pending_crtc_mask |=3D drm_crtc_mask(&crtc->base);
+>> > +
+>> > +	return 0;
+>> > +}
+>> > +
+>> > +/**
+>> > + * intel_dp_mst_add_topology_state_for_crtc - add MST topology state =
+for a CRTC
+>> > + * @state: atomic state
+>> > + * @crtc: CRTC to add the state for
+>> > + *
+>> > + * Add the MST topology state for @crtc to @state.
+>> > + *
+>> > + * Returns 0 on success, negative error code on failure.
+>> > + */
+>> > +int intel_dp_mst_add_topology_state_for_crtc(struct intel_atomic_stat=
+e *state,
+>> > +					     struct intel_crtc *crtc)
+>> > +{
+>> > +	struct drm_connector *_connector;
+>> > +	struct drm_connector_state *conn_state;
+>> > +	int i;
+>> > +
+>> > +	for_each_new_connector_in_state(&state->base, _connector, conn_state=
+, i) {
+>> > +		struct intel_connector *connector =3D to_intel_connector(_connector=
+);
+>> > +		int ret;
+>> > +
+>> > +		if (conn_state->crtc !=3D &crtc->base)
+>> > +			continue;
+>> > +
+>> > +		ret =3D intel_dp_mst_add_topology_state_for_connector(state, connec=
+tor, crtc);
+>> > +		if (ret)
+>> > +			return ret;
+>> > +	}
+>> > +
+>> > +	return 0;
+>> > +}
+>> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.h b/drivers/gpu=
+/drm/i915/display/intel_dp_mst.h
+>> > index f7301de6cdfb3..f1815bb722672 100644
+>> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.h
+>> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.h
+>> > @@ -8,6 +8,8 @@
+>> >=20=20
+>> >  #include <linux/types.h>
+>> >=20=20
+>> > +struct intel_atomic_state;
+>> > +struct intel_crtc;
+>> >  struct intel_crtc_state;
+>> >  struct intel_digital_port;
+>> >  struct intel_dp;
+>> > @@ -18,5 +20,7 @@ int intel_dp_mst_encoder_active_links(struct intel_d=
+igital_port *dig_port);
+>> >  bool intel_dp_mst_is_master_trans(const struct intel_crtc_state *crtc=
+_state);
+>> >  bool intel_dp_mst_is_slave_trans(const struct intel_crtc_state *crtc_=
+state);
+>> >  bool intel_dp_mst_source_support(struct intel_dp *intel_dp);
+>> > +int intel_dp_mst_add_topology_state_for_crtc(struct intel_atomic_stat=
+e *state,
+>> > +					     struct intel_crtc *crtc);
+>> >=20=20
+>> >  #endif /* __INTEL_DP_MST_H__ */
+>> > --=20
+>> > 2.37.1
+>> >=20
+>>=20
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
