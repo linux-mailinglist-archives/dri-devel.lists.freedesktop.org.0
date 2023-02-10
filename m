@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0219B691F8F
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B504F691F90
 	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 14:07:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6B510ED1A;
-	Fri, 10 Feb 2023 13:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D5010ED19;
+	Fri, 10 Feb 2023 13:07:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18C9410E259;
- Fri, 10 Feb 2023 13:07:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6535810E278;
+ Fri, 10 Feb 2023 13:07:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676034423; x=1707570423;
+ t=1676034424; x=1707570424;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=fBvOEzsEUpuULwaHPJM994RuIgwkgHj0Lxh3VNlA7mU=;
- b=EJRByqzJbc62FlADDlhtuDWkIkOtxDW2swtSHoKDrvpODqSMFVBtVSkG
- jgJ89if/BrBDGQqQvWOhneCtkxmhGcl/0w543loyWY3diqTr8ZNzbh5Mz
- pPVlqFTr3z4CKTY3GRZldcvFLubI5Eaz9sluCWqLiSw0vVQxdQpSUC/AC
- iEZO8D1ORhVnfxBTVIyCGJZu0FbJ1+LKFDRZYKMqRsuWxtBUzQCx0cYqF
- CXspVC3xfn2I2sZXyqtop9rBVP5AR6WjLIFsulhIbZsjyvCyaF6zK2+Qq
- R94nYrm8mY5HO1gfbCQZx0Zl16us26cd/EusCJwEJO8ccpcLLCzNop18X w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="329045888"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="329045888"
+ bh=/CcC0aOeeAtqrOsPao/E+8cmDCKIM6s5J/aBXV6fZRc=;
+ b=VMCwUOqVkNZXPC2VY+/qzaK/tM6tZzHfyWmhnYnkPQMEGSXROZj8vpbk
+ Cu3UrUNKUF/VPCdJf69ZrgfWbnpEn49QJn+v7DmJIoMK8E0kb14o4KF5K
+ xKxo6rYtfBW5NDJIUThl3XBQ3kcJPnH5irVag7u7HRwrYob839e3vIoUl
+ GUFv4i5w20SZgNr75Ava64TB2cp8GVjKbj6ToMKnOOBlLE6PONL/OAhgM
+ VxjYdrTMk/tGnpjidt0Uj6jXoY+QRdQpv0xp2vFOl64IbF4eULmhvPy1u
+ DUrEReNjsx4eWw7ZQGxsW7snP0oP2XNdNwdVcpE4CBCnrYuth5S1C9hLE g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="329045895"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="329045895"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2023 05:07:02 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="731711305"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="731711305"
+ 10 Feb 2023 05:07:04 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="731711317"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="731711317"
 Received: from athornbe-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.209.249])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2023 05:07:01 -0800
+ 10 Feb 2023 05:07:03 -0800
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 4/5] drm/i915: Mark waits as explicit
-Date: Fri, 10 Feb 2023 13:06:46 +0000
-Message-Id: <20230210130647.580135-5-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 5/5] drm/i915: Wait boost requests waited upon by others
+Date: Fri, 10 Feb 2023 13:06:47 +0000
+Message-Id: <20230210130647.580135-6-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230210130647.580135-1-tvrtko.ursulin@linux.intel.com>
 References: <20230210130647.580135-1-tvrtko.ursulin@linux.intel.com>
@@ -64,9 +64,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Use the previously added dma-fence API to mark the direct i915 waits as
-explicit. This has no significant effect apart from following the new
-pattern.
+Use the newly added dma-fence API to apply waitboost not only requests
+which have been marked with I915_WAIT_PRIORITY by i915, but which may be
+waited upon by others (such as for instance buffer sharing in multi-GPU
+scenarios).
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
@@ -74,19 +75,19 @@ Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 8989f62a7fba..488b180f8821 100644
+index 488b180f8821..e24fac5c1567 100644
 --- a/drivers/gpu/drm/i915/i915_request.c
 +++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -2046,7 +2046,8 @@ long i915_request_wait_timeout(struct i915_request *rq,
+@@ -2042,7 +2042,8 @@ long i915_request_wait_timeout(struct i915_request *rq,
+ 	 * but at a cost of spending more power processing the workload
+ 	 * (bad for battery).
+ 	 */
+-	if (flags & I915_WAIT_PRIORITY && !i915_request_started(rq))
++	if (((flags & I915_WAIT_PRIORITY) || dma_fence_wait_count(&rq->fence))
++	    && !i915_request_started(rq))
  		intel_rps_boost(rq);
  
  	wait.tsk = current;
--	if (dma_fence_add_callback(&rq->fence, &wait.cb, request_wait_wake))
-+	if (dma_fence_add_wait_callback(&rq->fence, &wait.cb,
-+					request_wait_wake))
- 		goto out;
- 
- 	/*
 -- 
 2.34.1
 
