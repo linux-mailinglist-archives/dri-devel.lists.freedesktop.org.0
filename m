@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBEB6921CE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 16:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F71C6921D4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 16:18:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D778D10E269;
-	Fri, 10 Feb 2023 15:18:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61FFA10E254;
+	Fri, 10 Feb 2023 15:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCFD010E18C
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 15:18:07 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id fj20so5033606edb.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 07:18:07 -0800 (PST)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26CAE10E254
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 15:18:48 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id dr8so16661691ejc.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 07:18:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=02mVlAKKl5whYqnP1fhbv+HUroK8DSxLT6KvxX0YmEU=;
- b=d80SCFeeuXdzM2sc0gNhKexwi2OYpwvllAanBCtNQFUACaIKCwzcTKOlDp5lYf6Y14
- 9WlT9bOY6ck+OsK9+bCwE60vkbmunWSO574f8WHJ1DqQ1vMXo8CaF2gY5N6v09fqENiC
- GNbW4T/3/0y33GHxS+cTuQgMJ/vp+xjDMmASxek7TaDBgADIXZk9M+6mlryf7wel7PJZ
- 5TrwR9vpEmiNb/teZs7Rjz7uwYqVuouZWPsTRD8U/NivqPjlvXDE8KW6Z/wmNbvTobvm
- 9bxRSX7pACBLWedpPQ6HxhEu45bBq3hRPibIpdUm3vGbJ4P7nHhbHxBEBXIjDmsgeTbL
- ms4Q==
+ bh=tTrO0+Hb16Dwx8dCNpH5NI+RsYPIYieTzZZe10P29jw=;
+ b=ySY7RxpaqV2HY9FGqcE2zcSd+PgtI475d+BgkR5T6WcjQdYq77wgt4IQfz4ADfeeNR
+ +d3iiSH+Ukt5Htj8Ij/E7xAStZNVEvTQYKJr2dNBAQQDOgWwmvbXeoOa6y5Z6zdnvAcn
+ 2utD1WW/rSGvhEiJP1tpUZbaaxfL0vNaC4kxukx3MJ5e/Ys5dHJkN2KTvaQVdZCPh+iO
+ 54hgQYe7XfY67Cv7Ld7xnDm6SBxhWgoLoWev+s4+4yJ3EWV+2b/TAHRglaD3G+oa4FX2
+ 27Z7Jnq7Jyw36KB8sTLvuLbPxaplzYiHlPpHzktEdKTYTMgmVgmcJgKJulqjMJjJjT5I
+ JUDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=02mVlAKKl5whYqnP1fhbv+HUroK8DSxLT6KvxX0YmEU=;
- b=mhsvLd4iR5JKAsjM1TyoW4JT1IxXfQBhnSsUckQSqko6CmVIwsl17WmTKmWStd+puo
- GXQfGMD5+ThEMlBitc+vdwYORUIWc2wo52vNBJZwS8ZvrcBueurk+ky0uh3NxPDsvL83
- w/MdgRyvhPrbEU/HclJCaMhtjp1IpuggOdfjIavQWwhjdLYTNpGJfuvIO8aPcOZU0peJ
- h4qUOM4FLEiLKj3Sw3UipHveHsQHEXEgKPzjOaaCKVNx3ySUN2cYB9H+TYTwg7TdYIX9
- jqkzX1V//r53cPmsu3x5QwdkuCiydRwDlmIuR1dTOsynfNDEW+HupSiF+sRpWMB67Kjg
- Z6/w==
-X-Gm-Message-State: AO0yUKWlcoKdiC/+Ukb5FPlOc336RKO+sq9lOqlwUrD6yA3zN80z6mS1
- p7WWDU3ctWi3JIybwuGbhYhNnQ==
-X-Google-Smtp-Source: AK7set/iNkirutTUnbExRgezrYds0gZeyGu3ozG/ELlq3e0A3uK/LBqaiqxq4aGczsJNKJv1AGSCrQ==
-X-Received: by 2002:a50:ce41:0:b0:4ab:4b85:a69f with SMTP id
- k1-20020a50ce41000000b004ab4b85a69fmr2491931edj.1.1676042286235; 
- Fri, 10 Feb 2023 07:18:06 -0800 (PST)
+ bh=tTrO0+Hb16Dwx8dCNpH5NI+RsYPIYieTzZZe10P29jw=;
+ b=5pLi3rHnkeg1UyTSVQHuT8NcbvudEnfzhG0YpOfwW3gXyhA3pARAisXxGFEwNFwdF2
+ YidGIu8xp6J06az+lNeVRwUAmOGxYIDNWOuPKwDC7RM8nhY2sGnTqGY2PpK8xVa9nEiu
+ nCrp2gAUlT4QbCsJwWV7RVDiEIBYzsseyJW7j0hnykZdsKYvkRfNWUgNcHO8GIXIp7j8
+ Px/9OXia4DYyNmCjJrTzqtmRO0221c0ICZegbAPitHANVW9uIt020pgZav05e1DIx5Bl
+ szD9vlnBXbLhLje/bwxt8BJDH7PvCCmcjM9iMiEQJvAGQQ1oyJLX39ckfNSa7s42DbOt
+ 6C3g==
+X-Gm-Message-State: AO0yUKViTPeVYSRkGRBpJj0sNA8Uqm1ptznlMQn8jV6bEWlqZ+klFIf6
+ gnHlRdQ6xm0m5vug3rmb2Swq1g==
+X-Google-Smtp-Source: AK7set+wB2F1D1yafXt73sb47xKeVWVy5imjwfiTNYit/QK0pZoxEzn7pYyun3egopr92hzm3yYD7g==
+X-Received: by 2002:a17:906:1614:b0:87b:dba1:1bf3 with SMTP id
+ m20-20020a170906161400b0087bdba11bf3mr15955265ejd.30.1676042326666; 
+ Fri, 10 Feb 2023 07:18:46 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- t18-20020a50c252000000b0049148f6461dsm2321942edf.65.2023.02.10.07.18.05
+ hf27-20020a1709072c5b00b0088cdb05f1d5sm2524339ejc.113.2023.02.10.07.18.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 07:18:05 -0800 (PST)
-Message-ID: <44fa957a-b47d-d913-917c-a614884d62ca@linaro.org>
-Date: Fri, 10 Feb 2023 17:18:04 +0200
+ Fri, 10 Feb 2023 07:18:46 -0800 (PST)
+Message-ID: <d5dd4982-af33-6f9e-afd9-61d632df7c8a@linaro.org>
+Date: Fri, 10 Feb 2023 17:18:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v3 3/5] arm64: dts: qcom: sm8350: add dp controller
+Subject: Re: [PATCH v3 4/5] arm64: dts: qcom: sm8450: switch to usb3/dp combo
+ phy
 Content-Language: en-GB
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -66,9 +67,9 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>
 References: <20230206-topic-sm8450-upstream-dp-controller-v3-0-636ef9e99932@linaro.org>
- <20230206-topic-sm8450-upstream-dp-controller-v3-3-636ef9e99932@linaro.org>
+ <20230206-topic-sm8450-upstream-dp-controller-v3-4-636ef9e99932@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230206-topic-sm8450-upstream-dp-controller-v3-3-636ef9e99932@linaro.org>
+In-Reply-To: <20230206-topic-sm8450-upstream-dp-controller-v3-4-636ef9e99932@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,13 +91,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/02/2023 16:44, Neil Armstrong wrote:
-> Add the Display Port controller subnode to the MDSS node.
+> The QMP PHY is a USB3/DP combo phy, switch to the newly
+> documented bindings and register the clocks to the GCC
+> and DISPCC controllers.
 > 
-> Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #SM8350-HDK
 > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->   arch/arm64/boot/dts/qcom/sm8350.dtsi | 79 ++++++++++++++++++++++++++++++++++++
->   1 file changed, 79 insertions(+)
+>   arch/arm64/boot/dts/qcom/sm8450.dtsi | 42 +++++++++++++-----------------------
+>   1 file changed, 15 insertions(+), 27 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
