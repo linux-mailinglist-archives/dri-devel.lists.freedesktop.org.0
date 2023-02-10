@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A489692037
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 14:50:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDDC8692057
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 14:58:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8C6510ED2D;
-	Fri, 10 Feb 2023 13:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066F410ED28;
+	Fri, 10 Feb 2023 13:58:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03BB510ED32
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 13:50:23 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id ud5so16034563ejc.4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 05:50:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=HLLhisC9CobeA/CvC0IpPzgGnh3OKWszAb7m9DO1ayI=;
- b=cAkW97y2+HDo1PejMMPYqqnXP/0/o+lIOcuHWo2/z582g4pNvN307Zc3hglO+QW9UG
- +EAAe+yL1sMRHGrxb8NmF9O0k/GMCJAWA4xgdTLHX9cBFV+eqzsmbqSKywrg/O0IMwCz
- vciZ7DQTTgVkFgLUy7whVbrHNCfocGwura5fWgEDoqkXZ917TQ3Ex8KYeEYkCStl+A6J
- C/yHyeTcn92jskP000bYfqT5je7JFb6MbQLdvNbqBYN1WfORDBQyhcW8HyRQsLjYDx6M
- +OFza4MCXgbyOMWYy6ZPywnzTxnUJCfnN6RoNHbJYXv0pfYQN1dkq7BZIeSxritEjE2W
- Syow==
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+ [209.85.167.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4CEF10ED28
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 13:58:36 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id cz14so4454697oib.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 05:58:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HLLhisC9CobeA/CvC0IpPzgGnh3OKWszAb7m9DO1ayI=;
- b=vm12iHk82gtVN3VV2OcvdKBGFGBACjK2ZtYWULKjRKF8nH57I8kkPTPsEkhxsFiCoW
- vyINmSP97wwiJ+/ObKG8SBqzXD3YiEryJ4LN4977FenfMwpwi1afqrT8EnCVQJvnnJ+L
- kAlia4Abx7m4FbUZTQRhbxs2iPTY7YY9s4Yja/ZrLN/jDpKW3Fl15eRXoP5f/xg07KcE
- wK/ps5AvRvTz7JT8Uz//3cRujSDk8MOVM6T3enQhXIBvsieaCiBLpZtm9UiHvaPm6tvG
- CT4KG8fHD4kZIV1gljNedW1hiySGB+L7Ifsk2qdm3AOc/F0J2KZMOzei3/j5FbJV9a9q
- UzmA==
-X-Gm-Message-State: AO0yUKU4Rc+TRmsN20vkD3riQNB9V03F8LzBEeJ748wyPtigqX+Kn0iX
- 1NwJeFj7O6ZwB8W7xg3Bl4f+0A==
-X-Google-Smtp-Source: AK7set8McDsNCzpGhy32A31BWwkbNIhWeQvhRb405swL6v6rFs0P9F+nPIh7ivTe3xcIUckjsAwkIQ==
-X-Received: by 2002:a17:907:2104:b0:88d:697d:a3d2 with SMTP id
- qn4-20020a170907210400b0088d697da3d2mr14790974ejb.54.1676037021558; 
- Fri, 10 Feb 2023 05:50:21 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- j22-20020a17090686d600b008aeed39adc7sm2405404ejy.63.2023.02.10.05.50.20
+ h=date:subject:message-id:references:in-reply-to:cc:to:from
+ :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=SdF7IjwVWEryt8TEzv+aDOxdwYEmUMSt2CzE37oNJPU=;
+ b=n9d9nxbhlzBMe0gwodzqyfQGCwVuK3zcSEyZ7r2O6zFdSixX+RBeec6tmbz5Y+qinS
+ QVAp3su2H28WhYznyu/lTg+aLxKv9NGZO2eRFs5JUjmkb/XwLv4voBfmvb0DFaoQcl4c
+ nFHmrXgku65cqw2gog+lGwsKsaaBF1u5ZqvtIDLR4RP379R04KVu+pXS5Z2q6WX9Rscy
+ yslvwiw4cGhXrqFKwHUS6rAJTqM88DhMv5UYfg/5T3gbf113v3ZnEQonhv6GGeEZOAPX
+ m7vCjEtlSUfZNoacx+P/8RT0RZZw7hHjOI4pYJtfUX6mvLVfy8grDxx8oX9W9GeBrUXK
+ 4TAA==
+X-Gm-Message-State: AO0yUKUVVGusd3lSmOZoGbMfwCc1yQC2i2vUnyR6pGCPFJuSkTVajyv5
+ 02TA4Lr6+OgIF/REmM1hhQ==
+X-Google-Smtp-Source: AK7set+LxaqBSLF07hlU2q0YNSjGca6vF1vGfkoe5LxLRchYcgOk9FugTzcqrgX+YZEPSRvodU6FjQ==
+X-Received: by 2002:a05:6808:6285:b0:367:281:d2a5 with SMTP id
+ du5-20020a056808628500b003670281d2a5mr6545918oib.30.1676037515750; 
+ Fri, 10 Feb 2023 05:58:35 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ n7-20020aca4007000000b0037d6f6d01d8sm229520oia.12.2023.02.10.05.58.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 05:50:20 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2] drm/msm/dpu: disable features unsupported by QCM2290
-Date: Fri, 10 Feb 2023 15:50:19 +0200
-Message-Id: <20230210135019.925145-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.1
-MIME-Version: 1.0
+ Fri, 10 Feb 2023 05:58:35 -0800 (PST)
+Received: (nullmailer pid 2493635 invoked by uid 1000);
+ Fri, 10 Feb 2023 13:58:31 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: Rob Herring <robh@kernel.org>
+To: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230210113116.404773-2-u.kleine-koenig@pengutronix.de>
+References: <20230210113116.404773-1-u.kleine-koenig@pengutronix.de>
+ <20230210113116.404773-2-u.kleine-koenig@pengutronix.de>
+Message-Id: <167603709389.2486198.11711191457514951514.robh@kernel.org>
+Subject: Re: [PATCH v4 1/2] dt-bindings: display: imx: Describe drm binding
+ for fsl,imx-lcdc
+Date: Fri, 10 Feb 2023 07:58:31 -0600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,75 +64,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Loic Poulain <loic.poulain@linaro.org>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QCM2290 doesn't seem to support reg-dma, UBWC and CSC. Drop
-corresponding features being incorrectly enabled for qcm2290.
 
-Cc: Loic Poulain <loic.poulain@linaro.org>
-Fixes: 5334087ee743 ("drm/msm: add support for QCM2290 MDSS")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
+On Fri, 10 Feb 2023 12:31:15 +0100, Uwe Kleine-König wrote:
+> Modify the existing (fb-like) binding to support the drm-like binding in
+> parallel.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  .../bindings/display/imx/fsl,imx-lcdc.yaml    | 46 ++++++++++++++++++-
+>  1 file changed, 45 insertions(+), 1 deletion(-)
+> 
 
-Changes since v1:
-- Reenabled CDP, exclusion rectangles and SmartDMA
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+yamllint warnings/errors:
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 71df24a134ed..23b22a9e8e99 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -12,11 +12,15 @@
- #include "dpu_hw_catalog.h"
- #include "dpu_kms.h"
- 
--#define VIG_MASK \
-+#define VIG_BASE_MASK \
- 	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) |\
--	BIT(DPU_SSPP_CSC_10BIT) | BIT(DPU_SSPP_CDP) |\
-+	BIT(DPU_SSPP_CDP) |\
- 	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_EXCL_RECT))
- 
-+#define VIG_MASK \
-+	(VIG_BASE_MASK | \
-+	BIT(DPU_SSPP_CSC_10BIT))
-+
- #define VIG_MSM8998_MASK \
- 	(VIG_MASK | BIT(DPU_SSPP_SCALER_QSEED3))
- 
-@@ -29,7 +33,7 @@
- #define VIG_SM8250_MASK \
- 	(VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3LITE))
- 
--#define VIG_QCM2290_MASK (VIG_MASK | BIT(DPU_SSPP_QOS_8LVL))
-+#define VIG_QCM2290_MASK (VIG_BASE_MASK | BIT(DPU_SSPP_QOS_8LVL))
- 
- #define DMA_MSM8998_MASK \
- 	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) |\
-@@ -317,7 +321,6 @@ static const struct dpu_caps qcm2290_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0x4,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
--	.ubwc_version = DPU_HW_UBWC_VER_20,
- 	.has_dim_layer = true,
- 	.has_idle_pc = true,
- 	.max_linewidth = 2160,
-@@ -2841,8 +2844,6 @@ static const struct dpu_mdss_cfg qcm2290_dpu_cfg = {
- 	.intf = qcm2290_intf,
- 	.vbif_count = ARRAY_SIZE(sdm845_vbif),
- 	.vbif = sdm845_vbif,
--	.reg_dma_count = 1,
--	.dma_cfg = &sdm845_regdma,
- 	.perf = &qcm2290_perf_data,
- 	.mdss_irqs = IRQ_SC7180_MASK,
- };
--- 
-2.39.1
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml: allOf: {'if': {'properties': {'compatible': {'contains': {'enum': ['fsl,imx1-lcdc', 'fsl,imx21-lcdc']}}}}, 'then': {'properties': {'display': False, 'fsl,dmacr': False, 'fsl,lpccr': False, 'fsl,lscr1': False}, 'required': ['port']}, 'else': {'properties': {'port': False}, 'required': ['display']}} is not of type 'array'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml: ignoring, error in schema: allOf
+Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.example.dtb: /example-0/lcdc@53fbc000: failed to match any schema with compatible: ['fsl,imx25-lcdc', 'fsl,imx21-lcdc']
+Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.example.dtb: /example-0/lcdc@53fbc000: failed to match any schema with compatible: ['fsl,imx25-lcdc', 'fsl,imx21-lcdc']
+Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.example.dtb: /example-1/fb@10021000: failed to match any schema with compatible: ['fsl,imx21-fb']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230210113116.404773-2-u.kleine-koenig@pengutronix.de
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
