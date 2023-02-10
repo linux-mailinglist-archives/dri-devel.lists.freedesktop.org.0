@@ -1,47 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300B3691629
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 02:21:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A4B691668
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 02:56:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEA0710EC17;
-	Fri, 10 Feb 2023 01:21:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2591610EC2C;
+	Fri, 10 Feb 2023 01:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 590AD10EC17;
- Fri, 10 Feb 2023 01:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675992089; x=1707528089;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ciSXvpWlgnOs/L5NpH9BRu5QQR07nXf7EQ6ovOWBZvo=;
- b=PLeKFZXuZansVpS9mGgEPD4jkVrjAcpMYEgvA8yqhuOeNQ7F8LoKPwsM
- Nx+GeS3f/w0B/P8gLMLZIax+LjlGcmPffwg5gDjt+CRSZoyyM+T8mz6b5
- q8m2ny6jc0odAgq7B0DNgzrWa8dV26iONMHV7s19lZdK0YfmHZNFXRDa+
- +VbHflacNZHx8a338lrQ8QiMj6YEcyZM9/88iwi5fTy/3cB4tws0bnl2e
- JNPGr8krJ8EeaI4psKeX1/73oQpw2EO2n6GZgkDlpRe7qGVB8QES+BpnT
- 1siM8/t4YgNSQLNxKvCJCTvkZMVLKWdsn/Vna5a8z0LK2mExtG6un5g9g A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="327997493"
-X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; d="scan'208";a="327997493"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2023 17:21:28 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="810615756"
-X-IronPort-AV: E=Sophos;i="5.97,285,1669104000"; d="scan'208";a="810615756"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Feb 2023 17:21:28 -0800
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [RFC] drm/i915/uapi/huc: two levels of HuC authentication
-Date: Thu,  9 Feb 2023 17:28:04 -0800
-Message-Id: <20230210012804.2223978-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.37.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D72F910E125
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 01:56:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8393CB823B5;
+ Fri, 10 Feb 2023 01:56:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4EB12C433EF;
+ Fri, 10 Feb 2023 01:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675994191;
+ bh=bcPjDfvMzZA5oOJEPAtNUf5zODbvzRsKlND8PjAokts=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=HYTN0Eanl+9O43bhKlTx0pD0AILjvlfN6DAKxyredarvbBtFnuNrUvZAhNlhiJ5fS
+ w8bACoVO5kVN2cvcR7m8seSv/taHXzZjNr0p8T5QJB/WKzwKABFEyUcr8uZfWPw5Il
+ m2vHAh4pqp2bKRjSsZlRKb+ED6NW3f8hJNTwnP3R2W6Yzii3g+rlQNAxz/mVXR1yYF
+ Jzd2CQPLtumkNQVvkUU+I8J6O5EIPd8hcTgYQwmou2JwWegJFzAYNOUUv6FW8AWDRr
+ 5SgzTRCZHuL2bY9S1u5vSk0/aA+TNdnHxoKjGwkj1xmalOWrJA4lbt5olMqJmRoDFy
+ YJJ38vMNgAPfQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 3E784E21ECB; Fri, 10 Feb 2023 01:56:31 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.2-rc8
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tyEJyxto-DDoerhGFxZWG8-M3xOsAfDhKfgAy8yARhvOA@mail.gmail.com>
+References: <CAPM=9tyEJyxto-DDoerhGFxZWG8-M3xOsAfDhKfgAy8yARhvOA@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9tyEJyxto-DDoerhGFxZWG8-M3xOsAfDhKfgAy8yARhvOA@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2023-02-10
+X-PR-Tracked-Commit-Id: 777c1e01cb7e1947765fb0c3b9b71dab18e53e46
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 38c1e0c65865426676123cc9a127526fa02bcac6
+Message-Id: <167599419124.18539.12388719795658212182.pr-tracker-bot@kernel.org>
+Date: Fri, 10 Feb 2023 01:56:31 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,67 +62,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Ye <tony.ye@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Ankit Jain <ankit1.jain@intel.com>, dri-devel@lists.freedesktop.org,
- Carl Zhang <carl.zhang@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Starting on DG2, the owner of HuC authentication is the GSC FW. On MTL,
-with the GSC moving into the media GT and being loaded by i915, this can
-result in a significant delay in HuC readiness on init/resume. To reduce
-the impact, the HuC load & authentication has been split in 2 parts:
+The pull request you sent on Fri, 10 Feb 2023 11:19:51 +1000:
 
-1) The HuC is loaded via DMA and authenticated by the GuC, like on older
-platforms. However, this is now considered a partial authentication and
-only allows clear-media workloads.
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-02-10
 
-2) After the GSC FW is loaded, the HuC is re-authenticated with a PXP
-command. This is a full authentication and allows all workloads.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/38c1e0c65865426676123cc9a127526fa02bcac6
 
-This way, only the protected content operations are impacted by the
-GSC-introduced delay, which is not an issue because GSC is required
-for those anyway.
+Thank you!
 
-To report the different steps to userspace, a new value is introduced
-for the HuC status ioctl.
-
-RFC: I'm asking for comments ahead of the implementation to make sure
-there are no concerns with the proposed interface change. I've kept
-value '1' as the "full authentication" mode because that is what it
-represents on older platforms. The media driver currently checks for
-value != 0, which will keep working for clear-media and allow it to
-start submitting without waiting for the GSC auth, while the protected
-content side of things will have to adapt to explicitly check for
-value == 1 (which will work on existing platforms as well).
-
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Ankit Jain <ankit1.jain@intel.com>
-Cc: Tony Ye <tony.ye@intel.com>
-Cc: Carl Zhang <carl.zhang@intel.com>
----
- include/uapi/drm/i915_drm.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 8df261c5ab9b..8a69014f3fd9 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -659,7 +659,8 @@ typedef struct drm_i915_irq_wait {
-  * If the IOCTL is successful, the returned parameter will be set to one of the
-  * following values:
-  *  * 0 if HuC firmware load is not complete,
-- *  * 1 if HuC firmware is authenticated and running.
-+ *  * 1 if HuC firmware is loaded and fully authenticated,
-+ *  * 2 if HuC firmware is loaded and authenticated for clear media only
-  */
- #define I915_PARAM_HUC_STATUS		 42
- 
 -- 
-2.37.3
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
