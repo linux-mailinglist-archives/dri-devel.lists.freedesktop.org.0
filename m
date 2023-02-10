@@ -1,52 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD88E691D53
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 11:54:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1A3691D5F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 11:57:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7B410E1E8;
-	Fri, 10 Feb 2023 10:54:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B33CD10ECCF;
+	Fri, 10 Feb 2023 10:57:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE0F10E115;
- Fri, 10 Feb 2023 10:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676026456; x=1707562456;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=AqOM13J9VRPclf+hYsuTaxcBQktb1KPvyl1aqw26wok=;
- b=Siz8jNzpeYIJvAaGlB6IxdFeO+L1l9XtjsvfPjoHN34WMSke8fi15P1/
- CdRzwdTnfE5u1EIc60IqYEN6nKykx5czNAvxJIxlYU0KwQxKP0Dh9fEKy
- icE9k3HGerXXiW8l8H1QhyN4my4Uo7D4sCCdPV7trXD58kLs3N5M2w6zU
- FOHza3Wdbg38lQ3vxL8KtPEjDNtGfjUz3xnNx4Dca53/LJ9OHnZNJTqN4
- Ee1MMW/w7JTbKphY48sKVlyagvkQClFerNXJcOtuDd0vx3X8o0r7CgNqT
- T2yv0cPR5outUHyBUSZU7sxSqj1WIaX2HXmdiZtXC9kZ2jUGlD+HBiS19 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="394996943"
-X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; d="scan'208";a="394996943"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2023 02:54:15 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10616"; a="645594214"
-X-IronPort-AV: E=Sophos;i="5.97,286,1669104000"; d="scan'208";a="645594214"
-Received: from myegin-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.38.74])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2023 02:54:12 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] drm: Disable dynamic debug as broken
-In-Reply-To: <Y+KOszHLodcTx9Sr@kroah.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230207143337.2126678-1-jani.nikula@intel.com>
- <Y+KOszHLodcTx9Sr@kroah.com>
-Date: Fri, 10 Feb 2023 12:54:09 +0200
-Message-ID: <878rh5x032.fsf@intel.com>
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98D9C10ECD8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 10:57:06 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ m16-20020a05600c3b1000b003dc4050c94aso3756557wms.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 02:57:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gxFJW5wMWFSgwofHY83IGRmWRME/u231OOEuiB6E6rw=;
+ b=aojESYChzWo8ja2Kpou77qQnRGwHD/xM1FLKoOgU2+BUcxjCuMdr/DOSA8Czp96JMv
+ oOXOKEnkyR2GZR+rTnQ/Kfviro+4IzQsUjV+1MmrRHZtQmqZEUzWHad2LRH7+ChV75RZ
+ uNgaqTMUEf7u2mZOEwK+t8/OpqmRjkb79BHAqwcG/XbqPmZIfm3bzRCn7Ka7mCar5N/k
+ 8Znz0mrYBjzQIPj3w+xm5jD0g/EbXotm8FyD/F7Qn2dQ9mNa1tGMcK9UDlALy7UKcTe0
+ X0eCejYgMDP0HO5so1SnMVqUdb1VIa2PQLIOOLK4+ADT95E8jgMUH5Enzgu6i3W6AfjE
+ +v1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gxFJW5wMWFSgwofHY83IGRmWRME/u231OOEuiB6E6rw=;
+ b=HWoW8+86zZikKjr1HrGBBsSvwv8BIu7EJ5OicizkkbMupwUdKUG0sLnbEs9HojqHkP
+ 23uzZh7i/xGP1ODsdxKmEvRle6EicK/PTYIDcqV3HwKhvD7bbryqjvrdB+2SHoZUj72b
+ ekM/MFWVRnYfUxl+s2zdDvaBlDm1oMDkjRIykSYALM4kvIWw99X2W60t8cUnyFUGGM6I
+ 0t4bcfjj8na6jKQyXqtcuN0jEpFmAZIaarkhPnQmV7yUIuKTBCwI88bgbOWillO4mTZo
+ J1wATETSgCHaCKdgy6BH13yZYoY2fHx7lBvMVhAsK6AaCsKaYZMgKfidi/eC4fUCSv9I
+ vwKg==
+X-Gm-Message-State: AO0yUKU105ilO0V2d6tTlOXVGSg2JyFCE1ER0NqvLruGfFlTPG1BtCkd
+ BK3EriuTDsqt+yGYd0JDDFSgHQ==
+X-Google-Smtp-Source: AK7set+prGY1H0ukKTktyiVy+Uhot76X1GyOTcxgbUK9hltwD8dL7jvL/W4wECXhkHKsN6qrlPghnQ==
+X-Received: by 2002:a05:600c:993:b0:3e1:577:80f5 with SMTP id
+ w19-20020a05600c099300b003e1057780f5mr10446539wmp.31.1676026625087; 
+ Fri, 10 Feb 2023 02:57:05 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ w19-20020a05600c475300b003e11f280b8bsm1961050wmo.44.2023.02.10.02.57.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 02:57:04 -0800 (PST)
+Message-ID: <039b8306-04a8-ead3-7a5f-3593c01496a5@linaro.org>
+Date: Fri, 10 Feb 2023 11:57:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: msm: dp-controller: document
+ SM8450 compatible
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org>
+ <20230206-topic-sm8450-upstream-dp-controller-v2-1-529da2203659@linaro.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230206-topic-sm8450-upstream-dp-controller-v2-1-529da2203659@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,72 +85,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 07 Feb 2023, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> On Tue, Feb 07, 2023 at 04:33:37PM +0200, Jani Nikula wrote:
->> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>=20
->> CONFIG_DRM_USE_DYNAMIC_DEBUG breaks debug prints for (at least modular)
->> drm drivers. The debug prints can be reinstated by manually frobbing
->> /sys/module/drm/parameters/debug after the fact, but at that point the
->> damage is done and all debugs from driver probe are lost. This makes
->> drivers totally undebuggable.
->>=20
->> There's a more complete fix in progress [1], with further details, but
->> we need this fixed in stable kernels. Mark the feature as broken and
->> disable it by default, with hopes distros follow suit and disable it as
->> well.
->>=20
->> [1] https://lore.kernel.org/r/20230125203743.564009-1-jim.cromie@gmail.c=
-om
->>=20
->> Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor fac=
-tory macro")
->> Cc: Jim Cromie <jim.cromie@gmail.com>
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: <stable@vger.kernel.org> # v6.1+
->> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/Kconfig | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index f42d4c6a19f2..dc0f94f02a82 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -52,7 +52,8 @@ config DRM_DEBUG_MM
->>=20=20
->>  config DRM_USE_DYNAMIC_DEBUG
->>  	bool "use dynamic debug to implement drm.debug"
->> -	default y
->> +	default n
->> +	depends on BROKEN
->>  	depends on DRM
->>  	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
->>  	depends on JUMP_LABEL
->
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-Thanks Greg, any more acks from anyone?
-
-Maxime, since there's going to be an -rc8, I suggest taking this via
-drm-misc-fixes. Is that okay with you? (You're doing drm-misc-fixes this
-round, right?)
-
-BR,
-Jani.
+On 10/02/2023 11:34, Neil Armstrong wrote:
+> The SM8450 & SM350 shares the same DT TX IP version, use the
+> SM8350 compatible as fallback for SM8450.
 
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
+
