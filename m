@@ -2,65 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D751691CD0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 11:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5E5691CE0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 11:35:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3132D10E05A;
-	Fri, 10 Feb 2023 10:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B216E10ECC7;
+	Fri, 10 Feb 2023 10:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A889310E05A
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 10:34:55 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- l37-20020a05600c1d2500b003dfe46a9801so3761922wms.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 02:34:55 -0800 (PST)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 171C410E107
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 10:34:57 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ k8-20020a05600c1c8800b003dc57ea0dfeso5971828wms.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 02:34:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8XZSQeymgbSKF089aMqGe9wzwMVmhXvBiXAbN2uEqt8=;
- b=lzHJBaJl8AJTpnefmvl94FhPLlq5ip7BTHqmKgHyD1SWYoYi7hUbDVVFdYcIfo7zu5
- hCFEn2aLgEx4wJBDAj6ZxoPX6fmiaCxqsFCU2KzGX4ehNSGESszrSq1Sd9MxOlEVb9RM
- L84COcM9LjwmBe/RAeina+Ux+fbWBOXRwlVx49HFay0j5x5lNHDVEoX8L0cQnphTT5I9
- UYoXQN9atsK9aIvcK9fWsk9FhNO49ZnW1wm24VwGEJwJSgs1bkCnZcybWGZ3WXZsKFIv
- cymIySIBkkZgxKYurb8wZqoQSkeBMQkmYKeuHI8R71dk2idM1DqXmkBdzZl05JTf9RA2
- Z6Kw==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=HgLUw1PhteCNPI8sPDiupyYC9yeutB/HXKoZYukFVKI=;
+ b=xLSuCxtgzIt1SrtWhhHQbOXoV910RujM7FZAYSUlNOYFH/wQwtAbjnP1PU89PRSWpq
+ JG3c/DRgCgtvvyediOtIPoy4035xUKs9hdBJePfO42ZFaxPn5oI7RF5/I+faQdjnmB8v
+ gws507y9JPogUHvr54LnbClFUBMjlqy1QWrw4u5EN8bfL6tCB0x/pqOqvB0sgFX7gzXG
+ v2kTOGiLum/gfWjuUAbH04MK/Cr1e4FhjeQW/YZN/wjQxyzx5MPcK0/xcbuMjP4cfrWZ
+ 1wqpKBtkiP8dLxVyxUELvV36YfN6GssLDtS+d8wXN64heEqBayMH/+ej8R18Or0TqJzf
+ VUnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8XZSQeymgbSKF089aMqGe9wzwMVmhXvBiXAbN2uEqt8=;
- b=wrNSZuMAsrSv0S8Kx28blU34oCIcs3Ag46ajlEN5dfoAJxIAOK3CvSHaVaamdlzpKm
- Tsdgman7qsv3aYmjp883xQb0QXiryV8QFEe99yyYfCkzV9VG8l8flPIXltFt7M6jQpHr
- LnHlbAnQsN77f3KFNQLw2QLjS3/c/Fdt90Zhbra4ujY1rNVNg0UsQ6F6LW3gh7iWM3qM
- /ZxmxRnsAhmAh/pItO5iQ6JzU2oeLeZT9xOeZFRuPAPuxGMfM/CbHcwcm/yt20BGIqbu
- 1QxW16cVLAnzxWxPPvlVtBuproTBdu94TxRPzaYEkr4iEVDaGaWyFeDi8WGQ4g2SHQtt
- DfFw==
-X-Gm-Message-State: AO0yUKXV8dOmx7Md5ZQ9w3vDXNZ1KTrECvMGU14GNEI+0/Nt6lWZj9Hp
- kaW+guy86+YHqNV1IRylQSkSSQ==
-X-Google-Smtp-Source: AK7set9T2/fE1SAQdTpAMcLuRXTrYLj5mQyAfoiq6FSHMrseUqen3bW1riS3g/jAfnvbHBDI5yAzug==
-X-Received: by 2002:a05:600c:993:b0:3e1:577:80f5 with SMTP id
- w19-20020a05600c099300b003e1057780f5mr10366027wmp.31.1676025294226; 
- Fri, 10 Feb 2023 02:34:54 -0800 (PST)
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HgLUw1PhteCNPI8sPDiupyYC9yeutB/HXKoZYukFVKI=;
+ b=3aHNSBBMwWstZhBMoDe94dwob04EcBNovF18jzDNT/GK4/3b+RU8NZOoE4717K7n+0
+ 9F1UOKsoWK/V1EpmwxjaJdj22B7kpy7tHME69aomGhN1KjBiTZ14UYo3oHGOxKLU41hN
+ oeSHE9JxIG7viDtkglqb3j5tuYjAAj8bvV81nvirkdHk2wqpBPpCnzV7cU8KXOFb+9SS
+ MPyckHiKBpiCFym8Fg9D/pL674DhMKDHKiYcDUwo2FlfYLrLAKiNZxwEP43GNTXSNUaa
+ KGor33bOYjys4sO8HyfjFaQx6noXMPc3Iwz7rbU+jud3N2Io8vXkBuWZ6lS3iEscIYKw
+ w+oA==
+X-Gm-Message-State: AO0yUKVk+/hvW+4JMg4J3Dgm5RwJEThKGXL3SRazMo46Q6CMDmK7DEUf
+ +ERjhM8N2ssxhmziX3xLdNcWFg==
+X-Google-Smtp-Source: AK7set9cuj8TlG1EIrMpXEoARaeczICbTNeZbhRngvYeX65Qs5XdVco0wZ80MHNMBz40jtEjjWmrwg==
+X-Received: by 2002:a05:600c:340a:b0:3dc:45a7:2b8a with SMTP id
+ y10-20020a05600c340a00b003dc45a72b8amr12542640wmp.10.1676025295517; 
+ Fri, 10 Feb 2023 02:34:55 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- b18-20020a05600c4e1200b003e00c453447sm7937958wmq.48.2023.02.10.02.34.52
+ b18-20020a05600c4e1200b003e00c453447sm7937958wmq.48.2023.02.10.02.34.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 02:34:53 -0800 (PST)
+ Fri, 10 Feb 2023 02:34:54 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v2 0/5] arm64: dts: qcom: add DP Controller to SM8350 &
- SM8450 DTS
-Date: Fri, 10 Feb 2023 11:34:49 +0100
-Message-Id: <20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org>
+Date: Fri, 10 Feb 2023 11:34:50 +0100
+Subject: [PATCH v2 1/5] dt-bindings: display: msm: dp-controller: document
+ SM8450 compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMkd5mMC/5WOQQ6DIBBFr9Kw7jSA2tqueo/GBcKoJAhkQNPGe
- PdSb9Dle4v//sYSksXEHqeNEa422eALyPOJ6Un5EcGawkxyWXHJr5BDtBrS3NYNhyWmTKhmMBF
- 08JmCc0ggOW9q1cuWG2RlqVcJoSfl9VS2/OJckZFwsO8j/eoKTzblQJ/jySp+9r/oKoDDIKq6a
- W8Sjbg/nfWKwiXQyLp937+lTmzz7AAAAA==
+Message-Id: <20230206-topic-sm8450-upstream-dp-controller-v2-1-529da2203659@linaro.org>
+References: <20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org>
+In-Reply-To: <20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -89,47 +87,51 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch the QMP PHY to the newly documented USB3/DP Combo PHY
-bindings at [1] and add the DP controller nodes.
-
-The DP output is shared with the USB3 SuperSpeed lanes and is
-usually connected to an USB-C port which Altmode is controlled
-by the PMIC Glink infrastructure in discution at [2] & [3].
-
-DT changes tying the DP controller to the USB-C port on the HDK
-boards will be sent later.
-
-Bindings dependencies at [1]
-
-[1] https://lore.kernel.org/all/20230206-topic-sm8350-upstream-usb-dp-combo-phy-v1-1-ed849ae6b849@linaro.org/
-[2] https://lore.kernel.org/all/20230201041853.1934355-1-quic_bjorande@quicinc.com/
-[3] https://lore.kernel.org/all/20230130-topic-sm8450-upstream-pmic-glink-v1-0-0b0acfad301e@linaro.org/
+The SM8450 & SM350 shares the same DT TX IP version, use the
+SM8350 compatible as fallback for SM8450.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
-Changes in v2:
-- fixed the bindings
-- cleaned up the usb_1_qmpphy &  displayport-controller nodes as requested by dmitry
-- removed invalid mdss_dp0 change in sm8450-hdk.dts
-- Link to v1: https://lore.kernel.org/r/20230206-topic-sm8450-upstream-dp-controller-v1-0-f1345872ed19@linaro.org
+ .../bindings/display/msm/dp-controller.yaml        | 25 +++++++++++++---------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
----
-Neil Armstrong (5):
-      dt-bindings: display: msm: dp-controller: document SM8450 compatible
-      arm64: dts: qcom: sm8350: switch to combo usb3/dp phy
-      arm64: dts: qcom: sm8350: add dp controller
-      arm64: dst: qcom: sm8450: switch to usb3/dp combo phy
-      arm64: dts: qcom: sm8450: add dp controller
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index 0e8d8df686dc..f0c2237d5f82 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -15,16 +15,21 @@ description: |
+ 
+ properties:
+   compatible:
+-    enum:
+-      - qcom,sc7180-dp
+-      - qcom,sc7280-dp
+-      - qcom,sc7280-edp
+-      - qcom,sc8180x-dp
+-      - qcom,sc8180x-edp
+-      - qcom,sc8280xp-dp
+-      - qcom,sc8280xp-edp
+-      - qcom,sdm845-dp
+-      - qcom,sm8350-dp
++    oneOf:
++      - enum:
++          - qcom,sc7180-dp
++          - qcom,sc7280-dp
++          - qcom,sc7280-edp
++          - qcom,sc8180x-dp
++          - qcom,sc8180x-edp
++          - qcom,sc8280xp-dp
++          - qcom,sc8280xp-edp
++          - qcom,sdm845-dp
++          - qcom,sm8350-dp
++      - items:
++          - enum:
++              - qcom,sm8450-dp
++          - const: qcom,sm8350-dp
+ 
+   reg:
+     minItems: 4
 
- .../bindings/display/msm/dp-controller.yaml        |  25 +++--
- arch/arm64/boot/dts/qcom/sm8350.dtsi               | 122 +++++++++++++++-----
- arch/arm64/boot/dts/qcom/sm8450.dtsi               | 123 ++++++++++++++++-----
- 3 files changed, 202 insertions(+), 68 deletions(-)
----
-base-commit: 20f513df926fac0594a3b65f79d856bd64251861
-change-id: 20230206-topic-sm8450-upstream-dp-controller-20054ab280de
-
-Best regards,
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
+2.34.1
 
