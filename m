@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2645B692465
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 18:26:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4046924F7
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 19:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 561E910E03D;
-	Fri, 10 Feb 2023 17:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78ABD10E29A;
+	Fri, 10 Feb 2023 18:00:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
- [IPv6:2607:f8b0:4864:20::e35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357F910E03D;
- Fri, 10 Feb 2023 17:26:51 +0000 (UTC)
-Received: by mail-vs1-xe35.google.com with SMTP id y8so6442725vsq.0;
- Fri, 10 Feb 2023 09:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1676050010;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RehKrwzxHb0yZ51xrZqY5znickazVA/y+gvM1FSD2Dc=;
- b=LWTEJdiR5kX7u2OjvFwTPLGKKX07+wDA44KwOpiw+SWhQwqr1QUReUp4WtlvtehD42
- SNJN/M5cNl6rpr9TX6yKGDhdVjb+P9b30ZyDEXp7Cv34Dzwyjw9284JECxoc5iu2NkOH
- LrB+SyTo+lYwZN7QuFTuPUHvoyvcBut7EQs3bwY8he4EvdwFvrW9pW+t0UAVJDQOPQie
- 93RZr643pX7rLQxSRaZyXmvCBJZ4lX1nVGzbZAogndFqfQgYt6RodV74lfec7ZNtlNpL
- EADvyvJAQUcvh/KXG3yD3SzYOqQlW/TDOgPV63Cu4cz1qoA7aRTheEzh2RGy6jQHCPV8
- uHyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1676050010;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RehKrwzxHb0yZ51xrZqY5znickazVA/y+gvM1FSD2Dc=;
- b=3Lh3h1fIY+4hprspO7I4tg9YfqfP/s8roV8EUMOenYoog8gs9+RKShxTVLaHsjBs8J
- AL5n3murEvWhiyPgMjCQ7HsFLGChQB4xh4PNFIj2v3NeYkvm9rQ8OW+OU81IlO8GeoXa
- JdnnXn0dZ7bbgbSoUkzEgKi9sfYxCjAysvyfzPTYWoXNv4TGWVP6caB/zkMoNtBVN5UX
- s0YjRbPval1mSGCAa1EL7tXIn+V0w/OcFEeIHO8fqdzKTVYPyrsWGu1H6MQMq4fydomF
- 0ds7ZOPayHW1IioaTiwBLb6WS5l/NcAlRuj0KgoyhPCvjBhXaLVRtD751Lomcw9x3YLI
- 2MCw==
-X-Gm-Message-State: AO0yUKVkth+Q5oe0uEkz7b2fwbh4475qm8kNn8bFMjMM/V908aiHnS8d
- dln6PlM/tVxKEy9NIcdAnAtKBCDwiDQiS2+0nNM=
-X-Google-Smtp-Source: AK7set9nHpclcgx3OJ0QPt0VsrPTKCnXQCzVKu9UofvBepaI+exPKwYBRMrg9Ie0VdtyQhJV6z+hvO/w+T79X5j1WTI=
-X-Received: by 2002:a67:c297:0:b0:3fe:5a64:f8ea with SMTP id
- k23-20020a67c297000000b003fe5a64f8eamr2935530vsj.54.1676050010233; Fri, 10
- Feb 2023 09:26:50 -0800 (PST)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F99710E14B
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 18:00:42 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pQXhH-0001UQ-UW; Fri, 10 Feb 2023 19:00:31 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pQXh4-0042Xf-8S; Fri, 10 Feb 2023 19:00:19 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pQXh4-002UH0-SH; Fri, 10 Feb 2023 19:00:18 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Danilo Krummrich <dakr@redhat.com>, Liu Ying <victor.liu@nxp.com>
+Subject: [PATCH v5 0/2] drm/imx/lcdc: Implement DRM driver for imx25
+Date: Fri, 10 Feb 2023 19:00:12 +0100
+Message-Id: <20230210180014.173379-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <20230207143337.2126678-1-jani.nikula@intel.com>
-In-Reply-To: <20230207143337.2126678-1-jani.nikula@intel.com>
-From: jim.cromie@gmail.com
-Date: Fri, 10 Feb 2023 10:26:24 -0700
-Message-ID: <CAJfuBxyY94QXwTU2EEHuieQDi8WuMPLkjHJnbUuhcO4PsPC1sw@mail.gmail.com>
-Subject: Re: [PATCH] drm: Disable dynamic debug as broken
-To: Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2052;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=7l5mxHoZRbMAg4sXmEaUsC/6Vqo/ZnWe47QzOFaC5eo=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBj5oYeQtTsUT30R9vBgbJdBhUn4Vt7q1E2ylqgMLUr
+ xP4/WHiJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY+aGHgAKCRDB/BR4rcrsCTUiB/
+ wNxTwe0HO77r9cHm/bkPZ6ukfV8+lldR/Yggyil4+M/MeZKzFKj2EqO5J19LHVSMlsfpJww8XmMR+L
+ sDKYedbRPW1JaJng0P7Quscu+hmHWIGkcjV5Ye8yLXNLg4KkFmzZpbHwC2GISVHXTOExgsIZONRc6a
+ xmyK8iRrWcegYgvrRDnBqohXaOK8R/LRE05W8BNFV1wmDymUeJMAlHAtwWmCKHjoK7zH6E5wtxcQKO
+ vo8syJ0XgT2YHWLiZG4T+kcD7HQoGGSwj2IBRPI0MXTHPNZalo/7CSIUrGgBmik2WTKfgFRgJPJC98
+ g2768wUg9I0FpcZLPUUnO2rGu60eLc
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 7, 2023 at 10:21 AM Jani Nikula <jani.nikula@intel.com> wrote:
->
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
-> CONFIG_DRM_USE_DYNAMIC_DEBUG breaks debug prints for (at least modular)
-> drm drivers. The debug prints can be reinstated by manually frobbing
-> /sys/module/drm/parameters/debug after the fact, but at that point the
-> damage is done and all debugs from driver probe are lost. This makes
-> drivers totally undebuggable.
->
-> There's a more complete fix in progress [1], with further details, but
-> we need this fixed in stable kernels. Mark the feature as broken and
-> disable it by default, with hopes distros follow suit and disable it as
-> well.
->
-> [1] https://lore.kernel.org/r/20230125203743.564009-1-jim.cromie@gmail.co=
-m
->
-> Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor fact=
-ory macro")
-> Cc: Jim Cromie <jim.cromie@gmail.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.1+
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index f42d4c6a19f2..dc0f94f02a82 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -52,7 +52,8 @@ config DRM_DEBUG_MM
->
->  config DRM_USE_DYNAMIC_DEBUG
->         bool "use dynamic debug to implement drm.debug"
-> -       default y
-> +       default n
-> +       depends on BROKEN
->         depends on DRM
->         depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
->         depends on JUMP_LABEL
-> --
-> 2.34.1
->
+Hello,
 
-Acked-by: Jim Cromie <jim.cromie@gmail.com>
+Changes since v4:
+
+ - Explicitly handle the connector and pass
+   DRM_BRIDGE_ATTACH_NO_CONNECTOR to drm_bridge_attach (Laurent)
+ - Fix binding syntax hopfully makeing Rob's dt-checker bot happy
+ - Resort #includes alphabetically
+
+A big thanks to Philipp who (again!) was a great help to get v5 out.
+
+Patch 1 depends on patch "dt-bindings: display: Convert fsl,imx-fb.txt
+to dt-schema" which currently sits in Rob's tree as
+93266da2409b1709474be00f1becbbdaddb2b706. Patch 2 bases on "drm/imx:
+move IPUv3 driver into separate subdirectory" which currentlich sits in
+drm-misc-next-2023-01-03 as 4b6cb2b67da883bc5095ee6d77f951f1cd7a1c24.
+
+Unchanged since v3 is that the binding is using a different compatible. This is
+a bit ugly, but a drm driver needs a considerably different binding anyhow and
+this is the chance to pick a better name: The legacy binding uses "imx25-fb"
+(and similar for other SoCs), but the hardware unit is called LCDC and so I
+picked "imx25-lcdc" as new name. The idea is to deprecate imx25-fb (et al) and
+convert the imx25.dtsi to imx25-lcdc. (So I don't plan to have both variants in
+the dtsi file which Rob considered ugly.)
+
+Marian Cichy (1):
+  drm/imx/lcdc: Implement DRM driver for imx25
+
+Uwe Kleine-König (1):
+  dt-bindings: display: imx: Describe drm binding for fsl,imx-lcdc
+
+ .../bindings/display/imx/fsl,imx-lcdc.yaml    |  46 +-
+ drivers/gpu/drm/imx/Kconfig                   |   1 +
+ drivers/gpu/drm/imx/Makefile                  |   1 +
+ drivers/gpu/drm/imx/lcdc/Kconfig              |   7 +
+ drivers/gpu/drm/imx/lcdc/Makefile             |   1 +
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c           | 553 ++++++++++++++++++
+ 6 files changed, 608 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/imx/lcdc/Kconfig
+ create mode 100644 drivers/gpu/drm/imx/lcdc/Makefile
+ create mode 100644 drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+
+base-commit: 2591939e881cf728b6ac45971eeec2f58051c101
+prerequisite-patch-id: c3ef3de02516b5c159e76b40d2b4348a5ce0fe51
+-- 
+2.39.0
+
