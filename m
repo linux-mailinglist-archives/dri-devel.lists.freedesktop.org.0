@@ -1,57 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDC8692057
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 14:58:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7807969207C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 15:06:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 066F410ED28;
-	Fri, 10 Feb 2023 13:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5221C10E102;
+	Fri, 10 Feb 2023 14:06:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
- [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4CEF10ED28
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 13:58:36 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id cz14so4454697oib.12
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 05:58:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SdF7IjwVWEryt8TEzv+aDOxdwYEmUMSt2CzE37oNJPU=;
- b=n9d9nxbhlzBMe0gwodzqyfQGCwVuK3zcSEyZ7r2O6zFdSixX+RBeec6tmbz5Y+qinS
- QVAp3su2H28WhYznyu/lTg+aLxKv9NGZO2eRFs5JUjmkb/XwLv4voBfmvb0DFaoQcl4c
- nFHmrXgku65cqw2gog+lGwsKsaaBF1u5ZqvtIDLR4RP379R04KVu+pXS5Z2q6WX9Rscy
- yslvwiw4cGhXrqFKwHUS6rAJTqM88DhMv5UYfg/5T3gbf113v3ZnEQonhv6GGeEZOAPX
- m7vCjEtlSUfZNoacx+P/8RT0RZZw7hHjOI4pYJtfUX6mvLVfy8grDxx8oX9W9GeBrUXK
- 4TAA==
-X-Gm-Message-State: AO0yUKUVVGusd3lSmOZoGbMfwCc1yQC2i2vUnyR6pGCPFJuSkTVajyv5
- 02TA4Lr6+OgIF/REmM1hhQ==
-X-Google-Smtp-Source: AK7set+LxaqBSLF07hlU2q0YNSjGca6vF1vGfkoe5LxLRchYcgOk9FugTzcqrgX+YZEPSRvodU6FjQ==
-X-Received: by 2002:a05:6808:6285:b0:367:281:d2a5 with SMTP id
- du5-20020a056808628500b003670281d2a5mr6545918oib.30.1676037515750; 
- Fri, 10 Feb 2023 05:58:35 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- n7-20020aca4007000000b0037d6f6d01d8sm229520oia.12.2023.02.10.05.58.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 05:58:35 -0800 (PST)
-Received: (nullmailer pid 2493635 invoked by uid 1000);
- Fri, 10 Feb 2023 13:58:31 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 145F810E14D;
+ Fri, 10 Feb 2023 14:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676037999; x=1707573999;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=OVozveDUHgfynAT+si9XRh9yxwW8TU+NAQ5WLXmDOMQ=;
+ b=lsJjFEVx3L8ZTrJIMcjagpKJOASUkCsOPl4tzIY6f54+FmbM2mnnJCAQ
+ 94B3NcNfLE+KgkRFCTUcy6fpJyr7F7lkpGYDYVD2daDPijyHsaqoGUB57
+ vz1s/9T/S/ESrEIoklrnYlPhqU8FHlLzdZ6cZGkb98gTogLwz/drj39Pl
+ Lg1Ioi86lRh+ttNVJbRnYjuOV/fs6b2y+0fP1gca4q8mluEEaOvM+Myn+
+ Dh8PfxgX1v18j3Q4IP53snThpwUsyA8cb4KWRnxwJDrMMIbWSwQBkZoOX
+ SKDU1ENH9MozMPlM3Hi9J8AT51bFIlSuOOXeLj+Q//dBv12eMdsC8q1fW Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="314072018"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="314072018"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2023 06:06:38 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="913539357"
+X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="913539357"
+Received: from mleshin-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.48.65])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2023 06:06:35 -0800
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/gt: Make sure that errors are propagated through
+ request chains
+Date: Fri, 10 Feb 2023 15:06:09 +0100
+Message-Id: <20230210140609.988022-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230210113116.404773-2-u.kleine-koenig@pengutronix.de>
-References: <20230210113116.404773-1-u.kleine-koenig@pengutronix.de>
- <20230210113116.404773-2-u.kleine-koenig@pengutronix.de>
-Message-Id: <167603709389.2486198.11711191457514951514.robh@kernel.org>
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: imx: Describe drm binding
- for fsl,imx-lcdc
-Date: Fri, 10 Feb 2023 07:58:31 -0600
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,53 +57,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Shawn Guo <shawnguo@kernel.org>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, stable@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi@etezian.org>, Chris Wilson <chris.p.wilson@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Currently, for operations like memory clear or copy for big
+chunks of memory, we generate multiple requests executed in a
+chain.
 
-On Fri, 10 Feb 2023 12:31:15 +0100, Uwe Kleine-König wrote:
-> Modify the existing (fb-like) binding to support the drm-like binding in
-> parallel.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  .../bindings/display/imx/fsl,imx-lcdc.yaml    | 46 ++++++++++++++++++-
->  1 file changed, 45 insertions(+), 1 deletion(-)
-> 
+But if one of the requests generated fails we would not know it
+to unless it happens to the last request, because errors are not
+properly propagated.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+For this we need to keep propagating the chain of fence
+notification in order to always reach the final fence associated
+to the final request.
 
-yamllint warnings/errors:
+This way we would know that the memory operation has failed and
+whether the memory is still invalid.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml: allOf: {'if': {'properties': {'compatible': {'contains': {'enum': ['fsl,imx1-lcdc', 'fsl,imx21-lcdc']}}}}, 'then': {'properties': {'display': False, 'fsl,dmacr': False, 'fsl,lpccr': False, 'fsl,lscr1': False}, 'required': ['port']}, 'else': {'properties': {'port': False}, 'required': ['display']}} is not of type 'array'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.yaml: ignoring, error in schema: allOf
-Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.example.dtb: /example-0/lcdc@53fbc000: failed to match any schema with compatible: ['fsl,imx25-lcdc', 'fsl,imx21-lcdc']
-Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.example.dtb: /example-0/lcdc@53fbc000: failed to match any schema with compatible: ['fsl,imx25-lcdc', 'fsl,imx21-lcdc']
-Documentation/devicetree/bindings/display/imx/fsl,imx-lcdc.example.dtb: /example-1/fb@10021000: failed to match any schema with compatible: ['fsl,imx21-fb']
+On copy and clear migration signal fences upon completion.
 
-doc reference errors (make refcheckdocs):
+Fixes: cf586021642d80 ("drm/i915/gt: Pipelined page migration")
+Reported-by: Matthew Auld <matthew.auld@intel.com>
+Suggested-by: Chris Wilson <chris@chris-wilson.co.uk>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 31 +++++++++++++++++--------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230210113116.404773-2-u.kleine-koenig@pengutronix.de
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 3f638f1987968..8a293045a7b96 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -748,7 +748,7 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 		rq = i915_request_create(ce);
+ 		if (IS_ERR(rq)) {
+ 			err = PTR_ERR(rq);
+-			goto out_ce;
++			break;
+ 		}
+ 
+ 		if (deps) {
+@@ -878,10 +878,14 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
+-		if (*out)
+-			i915_request_put(*out);
+-		*out = i915_request_get(rq);
++		i915_sw_fence_await(&rq->submit);
++		i915_request_get(rq);
+ 		i915_request_add(rq);
++		if (*out) {
++			i915_sw_fence_complete(&(*out)->submit);
++			i915_request_put(*out);
++		}
++		*out = rq;
+ 
+ 		if (err)
+ 			break;
+@@ -905,7 +909,8 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 		cond_resched();
+ 	} while (1);
+ 
+-out_ce:
++	if (*out)
++		i915_sw_fence_complete(&(*out)->submit);
+ 	return err;
+ }
+ 
+@@ -1005,7 +1010,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 		rq = i915_request_create(ce);
+ 		if (IS_ERR(rq)) {
+ 			err = PTR_ERR(rq);
+-			goto out_ce;
++			break;
+ 		}
+ 
+ 		if (deps) {
+@@ -1056,17 +1061,23 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
+-		if (*out)
+-			i915_request_put(*out);
+-		*out = i915_request_get(rq);
++		i915_sw_fence_await(&rq->submit);
++		i915_request_get(rq);
+ 		i915_request_add(rq);
++		if (*out) {
++			i915_sw_fence_complete(&(*out)->submit);
++			i915_request_put(*out);
++		}
++		*out = rq;
++
+ 		if (err || !it.sg || !sg_dma_len(it.sg))
+ 			break;
+ 
+ 		cond_resched();
+ 	} while (1);
+ 
+-out_ce:
++	if (*out)
++		i915_sw_fence_complete(&(*out)->submit);
+ 	return err;
+ }
+ 
+-- 
+2.39.1
 
