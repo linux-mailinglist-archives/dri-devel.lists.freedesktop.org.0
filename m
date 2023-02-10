@@ -1,76 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A993691A03
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 09:29:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9202C691A2F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 09:43:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED9F110EC82;
-	Fri, 10 Feb 2023 08:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A886E10ECA0;
+	Fri, 10 Feb 2023 08:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 073D810EC97
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 08:29:05 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id r2so4235939wrv.7
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 00:29:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:reply-to:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=6tE1c8DX1v8mq8zoUCAIlPkRHC7+cDeEHJZKSrjk8IA=;
- b=hHm3T8b07r++hVJS3bQDQPb8kda5vBpkvDme6ZbXdLqhcM9fDX5oFyYu/n6qlFQcZ+
- iYnatEhZBe2gJ2wPUQHlIp6tOWV+kFRO6IFOsML793dYvUdmykYe5h4kstTSQKQSctaj
- oCGaxEXxiwEUGjY3YtXmK+ClIf4Wch7r5ypjWXB0RjDIg+HyfTeRc0RdO8FR6ncCp1f7
- 4anrFnVwmlc7tdaIo13VsLpIFr/SrIxAD/c8iMq7w5+CyAxHQnglEHkXJ9KBF4plk6Op
- g4bpFy0zj4RO/xfYfqVNoZeBhIXZH0VdUI6o1Y50ypaAjEohACrSg5Y2ZZbr35Ta6Ymh
- Rhvw==
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
+ [IPv6:2607:f8b0:4864:20::d31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 822F510ECA0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 08:43:13 +0000 (UTC)
+Received: by mail-io1-xd31.google.com with SMTP id l128so1686556iof.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 00:43:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bZdTaoQdI84eQVm+vowEVZgNB1qPoT93d6+CHcz4blI=;
+ b=iyvEHGe6/7SbWqRS09KX0I+WywD0bnenAZGLlHm5sfjEHyNlDI4l22hm+KQEtrgKZE
+ R1fXVtPTQCsz8siZwhwpUvt+AwDA7Np2E63V//ExCV+a0C3BJUGbXnV4efB3gR+9zt2h
+ qlR2l5eyXw1krz28H+TQq+pLLfQ0HzyhMAQcU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:reply-to:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6tE1c8DX1v8mq8zoUCAIlPkRHC7+cDeEHJZKSrjk8IA=;
- b=B9AbhByRaaIbMzyR70AHMHMcDnpzQIqTGEMm2O5AXU2WY8xmzGB3SwSih5PzQB1A+F
- zYP2/wjXsoWRgcgu125Nqwq986wGC76sy862khnVGBad7qYW/UUx7CrOxfgCmQWASOsf
- l/jhwDSPvXIhe5pQtLxB1At1MkbUojWoExJFVQU3plorHYDH9OOZ0A5idflxzsNTYBEQ
- W8fTT+TRuFi2nh+6p/VzXEvBKSl5gmjzFnqqB62loFPHAXwsGs0Ltx4jX8wA/4Gsx24j
- P0feaEPcCDPjiHWCVk1WWPgLsD2Gekhbn7qj0gj6UC7/6Cuf2jany3JjSy/XUpfNnCh4
- o/wA==
-X-Gm-Message-State: AO0yUKWGQWWgQ0aa2/o1/qmrlXJBRBix2/6bVuXjmLptfBpU0wJvRvW3
- 9lbzMJvEaR+VW+g5xG6vPXQFkQ==
-X-Google-Smtp-Source: AK7set8CXKm1YKEByQG/0WbPGVGfw7alomSEHGXKLAfAg83bzNQrVs9gDjx9S1V0J6uUMIHVjvhQXg==
-X-Received: by 2002:adf:f308:0:b0:2c4:242:1e09 with SMTP id
- i8-20020adff308000000b002c402421e09mr8851999wro.41.1676017743399; 
- Fri, 10 Feb 2023 00:29:03 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:5a65:5553:55cf:3027?
- ([2a01:e0a:982:cbb0:5a65:5553:55cf:3027])
- by smtp.gmail.com with ESMTPSA id
- g16-20020adfe410000000b002bfae1398bbsm2965946wrm.42.2023.02.10.00.29.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 00:29:02 -0800 (PST)
-Message-ID: <3fe5605e-de5a-53dc-0bf0-c6aff81f2453@linaro.org>
-Date: Fri, 10 Feb 2023 09:29:02 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bZdTaoQdI84eQVm+vowEVZgNB1qPoT93d6+CHcz4blI=;
+ b=tvAUBjLpAAa2rl2ToeYeZAwpP4DG99rgXTOpZTii3rJaKqegc5CfgYbs7pzprwyMDm
+ XFxlrlw8dKs8WNnKmdFxph9xi8Epm362W994oHOLgSIbEbOR6K2nWgRAEkywCo/31U5Z
+ c7u4HdasnuR66VVQlHb2hw1wNs2NnxY85/eEex4uTI33byrBTZspXr+C7hasugIF2YV5
+ FNgC3qYsLs6rroCS0WhfyoSYnb2FaYwBpJt7t9UJHNTrKioxnsQWvR9joHPHaKU5KFja
+ 2Tw2kftYRpf4gll09Y2+t27h0TnQ0/JECfNReckDAzonOMUaC+Lc+6Orm0/mtepgpGHs
+ wbRg==
+X-Gm-Message-State: AO0yUKU4RpbYIcylc7/oVK9ggimUH20jjyFVAF8F3CWYFiiYhg/Nhr0S
+ WyOGlgsLcuxnJOdU+OzeOB6TXrqD07qv+aznuRY8nw==
+X-Google-Smtp-Source: AK7set/VfS77SYvoCBXeLjVPuFwQjPzNpXxw20gUzrrgPUaIYOvSb9+5aL4Cd9lr+FCStNinLRHbmx9wj26VQvZpD4w=
+X-Received: by 2002:a05:6602:348:b0:6de:383e:4146 with SMTP id
+ w8-20020a056602034800b006de383e4146mr7976471iou.48.1676018592711; Fri, 10 Feb
+ 2023 00:43:12 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 0/6] arm64: dts: qcom: sm8350: enable GPU on the HDK
- board
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230209133839.762631-1-dmitry.baryshkov@linaro.org>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20230209133839.762631-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230204133040.1236799-1-treapking@chromium.org>
+ <20230204133040.1236799-8-treapking@chromium.org>
+ <20230207205221.GA4121517-robh@kernel.org>
+ <CAEXTbpf5KqH7zev+kooUmz2DiMya-53UmvAMJfcOYcm7CCDthQ@mail.gmail.com>
+ <CAL_JsqJ35gJnpwfOtW8jQP2RmzJtLG2YdTC6dt7pf-GjJggORw@mail.gmail.com>
+In-Reply-To: <CAL_JsqJ35gJnpwfOtW8jQP2RmzJtLG2YdTC6dt7pf-GjJggORw@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 10 Feb 2023 16:43:01 +0800
+Message-ID: <CAEXTbpcoS6us6Qz4UmdR8zC7n-euLQr25dv4Hg2JkqVL2pX5LA@mail.gmail.com>
+Subject: Re: [PATCH v11 7/9] dt-bindings: display: bridge: it6505: Add
+ mode-switch support
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,66 +66,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
+ Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/02/2023 14:38, Dmitry Baryshkov wrote:
-> Add A660 device to the Qualcomm SM8350 platform and enable it for the
-> sm8350-hdk board. Unfortunately while adding the GPU & related devices I
-> noticed that DT nodes on SM8350 are greatly out of the adress sorting
-> order, so patches 2-4 reorder DT nodes to follow the agreement.
-> 
-> Changes since v1:
-> - Dropped merged patches
-> - Expanded commit messages to mention the sort order (by the node
->    address)
-> - Rebased on top of latest Bjorn's tree
+On Thu, Feb 9, 2023 at 9:58 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, Feb 8, 2023 at 10:00 PM Pin-yen Lin <treapking@chromium.org> wrote:
+> >
+> > Hi Rob,
+> >
+> > Thanks for the review.
+> >
+> > On Wed, Feb 8, 2023 at 4:52 AM Rob Herring <robh@kernel.org> wrote:
+> > >
+> > > On Sat, Feb 04, 2023 at 09:30:38PM +0800, Pin-yen Lin wrote:
+> > > > ITE IT6505 can be used in systems to switch the DP traffic between
+> > > > two downstreams, which can be USB Type-C DisplayPort alternate mode
+> > > > lane or regular DisplayPort output ports.
+> > > >
+> > > > Update the binding to accommodate this usage by introducing a
+> > > > data-lanes and a mode-switch property on endpoints.
+> > > >
+> > > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> > > >
+> > > > ---
+> > > >
+> > > > Changes in v11:
+> > > > - Updated the description of the endpoints in the bindings
+> > > > - Referenced video-interfaces.yaml instead for the endpoints binding
+> > > > - Removed duplicated definitions from inherited schema
+> > > >
+> > > > Changes in v9:
+> > > > - Fixed subject prefix again
+> > > > - Changed the naming of the example node for it6505
+> > > >
+> > > > Changes in v8:
+> > > > - Updated bindings for data-lanes property
+> > > > - Fixed subject prefix
+> > > >
+> > > > Changes in v7:
+> > > > - Fixed issues reported by dt_binding_check.
+> > > > - Updated the schema and the example dts for data-lanes.
+> > > > - Changed to generic naming for the example dts node.
+> > > >
+> > > > Changes in v6:
+> > > > - Remove switches node and use endpoints and data-lanes property to
+> > > >   describe the connections.
+> > > >
+> > > >  .../bindings/display/bridge/ite,it6505.yaml   | 101 +++++++++++++++---
+> > > >  1 file changed, 88 insertions(+), 13 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> > > > index b16a9d9127dd..8ae9c5cba22c 100644
+> > > > --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> > > > +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> > > > @@ -75,22 +75,49 @@ properties:
+> > > >        port@1:
+> > > >          $ref: /schemas/graph.yaml#/$defs/port-base
+> > > >          unevaluatedProperties: false
+> > > > -        description: Video port for DP output
+> > > > +        description:
+> > > > +          Video port for DP output. Each endpoint connects to a video output
+> > > > +          downstream, and the "data-lanes" property is used to describe the pin
+> > > > +          connections. 0, 1, 2, 3 in "data-lanes" maps to TX0, TX1, TX2, TX3,
+> > > > +          respectively.
+> > > >
+> > > > -        properties:
+> > > > -          endpoint:
+> > > > -            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > > > +
+> > > > +        patternProperties:
+> > > > +          "^endpoint@[01]$":
+> > > > +            $ref: /schemas/media/video-interfaces.yaml#
+> > > >              unevaluatedProperties: false
+> > > >
+> > > >              properties:
+> > > > +              reg: true
+> > > > +
+> > > > +              remote-endpoint: true
+> > > > +
+> > > >                data-lanes:
+> > > > -                minItems: 1
+> > > > -                uniqueItems: true
+> > > > -                items:
+> > > > -                  - enum: [ 0, 1 ]
+> > > > -                  - const: 1
+> > > > -                  - const: 2
+> > > > -                  - const: 3
+> > > > +                oneOf:
+> > > > +                  - items:
+> > > > +                      - enum: [0, 1, 2, 3]
+> > > > +
+> > > > +                  - items:
+> > > > +                      - const: 0
+> > > > +                      - const: 1
+> > > > +
+> > > > +                  - items:
+> > > > +                      - const: 2
+> > > > +                      - const: 3
+> > > > +
+> > > > +                  - items:
+> > > > +                      - const: 0
+> > > > +                      - const: 1
+> > > > +                      - const: 2
+> > > > +                      - const: 3
+> > > > +
+> > > > +              mode-switch:
+> > > > +                type: boolean
+> > > > +                description: Register this node as a Type-C mode switch or not.
+> > >
+> > > Existing users put this property in the device's node, not the endpoint.
+> > > That seems more like a property of the device, than the DP link.
+> >
+> > In our use case, we want to register two mode switches for the same
+> > device. That's why we put the "mode-switch" property in the endpoints
+> > instead of the device node.
+>
+> Then do that. Register a mode switch for each endpoint connected to a
+> USB-C connector. You can walk the graph to see what type of connector.
+>
+> The only way I could see this as an issue is you have 2 USB-C
+> connectors and one is a mode switch and one is not. Not sure if such a
+> scenario is likely or possible. If it is, please educate me.
 
-Can you specify which tree and commit ?
+We can know which endpoints should be registered as a MUX by walking
+through the graph, but the typec_mux_match[1] checks if the node
+explicitly specifies a "mode-switch" property. So we still have to put
+the property in the endpoints.
 
-I tried next-20230207, next-20230208 & next-20230209 and patch 2 doesn't apply.
+[1]: https://elixir.bootlin.com/linux/latest/source/drivers/usb/typec/mux.c#L265
+>
+> > > You are using fwnode_typec_mux_get(), right?
+> >
+> > Yes. This is called by cros_ec_typec.c[1] in our use case.
+>
+> That code looks for 'mode-switch' in the device's node, not the
+> endpoint. So how does it work for you?
 
-On the 3 trees I have:
-d7133d6d25fb arm64: dts: qcom: sm8350: use qcom,sm8350-dsi-ctrl compatibles
-b904227a4b69 arm64: dts: qcom: sm8350: Hook up DSI1 to MDP
-2a07efb8c086 arm64: dts: qcom: sm8350: Add mdss_ prefix to DSIn out labels
-e3e654ced376 arm64: dts: qcom: sm8350: Fix DSI PLL size
-45cd807de143 arm64: dts: qcom: sm8350: Fix DSI PHY compatibles
-0af6a4012b38 arm64: dts: qcom: sm8350: Feed DSI1 PHY clocks to DISPCC
-1eed7995d9da arm64: dts: qcom: sm8350: Fix DSI1 interrupt
-6636818ecf0f arm64: dts: qcom: sm8350: Add missing #address/size-cells to DSIn
-f3c08ae6fea7 arm64: dts: qcom: sm8350: Pad addresses to 8 hex digits
-1ccad21aa996 Merge tag 'qcom-arm64-fixes-for-6.2' into arm64-for-6.3
-...
+We modified the function in patch 1/9 of this series to make it also
+look for endpoints.
+>
+> Rob
 
-Can you use --base in format-patch (or use b4 prep !) ?
-
-Thanks,
-Neil
-
-> 
-> Changes since v1:
-> - Fixed the subject and commit message for patch 1
-> - Fixed GMU's clocks to follow the vendor kernel
-> - Marked Adreno SMMU as dma-coherent
-> - Dropped comments targeting sm8350 v1, we do not support that chip
->    revision.
-> 
-> Dmitry Baryshkov (6):
->    dt-bindings: display/msm/gmu: add Adreno 660 support
->    arm64: dts: qcom: sm8350: reorder device nodes
->    arm64: dts: qcom: sm8350: move more nodes to correct place
->    arm64: dts: qcom: sm8350: finish reordering nodes
->    arm64: dts: qcom: sm8350: add GPU, GMU, GPU CC and SMMU nodes
->    arm64: dts: qcom: sm8350-hdk: enable GPU
-> 
->   .../devicetree/bindings/display/msm/gmu.yaml  |    1 +
->   arch/arm64/boot/dts/qcom/sm8350-hdk.dts       |    8 +
->   arch/arm64/boot/dts/qcom/sm8350.dtsi          | 2512 +++++++++--------
->   3 files changed, 1354 insertions(+), 1167 deletions(-)
-> 
-
+Regards,
+Pin-yen
