@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5452F692386
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 17:40:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2645B692465
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 18:26:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3007510E072;
-	Fri, 10 Feb 2023 16:40:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 561E910E03D;
+	Fri, 10 Feb 2023 17:26:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66CD610E072
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 16:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676047243; x=1707583243;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=RUZgZBx3oQiMxDCthkthnTbvBLMr0fJ2Gimhu2vEwQs=;
- b=A7iJTqUizJ/aYBT3tsBeWLuSShXwvZFUeS/i2yug76qlQl2ZP0GpeImW
- cpxcaB4sTjiPLAqtl7RVZfwl10iANF3HlyZ6Y2W7kFdpimdazrPYgQwql
- Iop/PASHrfMtWhsd7tANiuV3J3UVuFmvFRMO59NiNl/1AK8sSeMVgqB5T
- ZLb1gx94biPAsbRo1zrfZNTArlawAjYd9wz72zi92JCvLtSZQjkPP0XfD
- BFGAiRC2mwZWU7rSfssdUtxt4Mmiqml7yxaO6TWxYnOWXDgZGi6xzoDy3
- KECHg77qkdz23GhznY9nLw+97SnpJqhEL+DNXwt6aHuppoFDbZJcGVK06 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="416685950"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="416685950"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2023 08:40:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="617939668"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="617939668"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
- by orsmga003.jf.intel.com with ESMTP; 10 Feb 2023 08:40:40 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pQWS0-0005ub-0E;
- Fri, 10 Feb 2023 16:40:40 +0000
-Date: Sat, 11 Feb 2023 00:40:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- Emma Anholt <emma@anholt.net>, Melissa Wen <mwen@igalia.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/v3d: New debugfs end-points to query GPU usage stats.
-Message-ID: <202302110040.uoXcpWUN-lkp@intel.com>
-References: <20230210143421.1879915-1-jmcasanova@igalia.com>
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
+ [IPv6:2607:f8b0:4864:20::e35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 357F910E03D;
+ Fri, 10 Feb 2023 17:26:51 +0000 (UTC)
+Received: by mail-vs1-xe35.google.com with SMTP id y8so6442725vsq.0;
+ Fri, 10 Feb 2023 09:26:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1676050010;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RehKrwzxHb0yZ51xrZqY5znickazVA/y+gvM1FSD2Dc=;
+ b=LWTEJdiR5kX7u2OjvFwTPLGKKX07+wDA44KwOpiw+SWhQwqr1QUReUp4WtlvtehD42
+ SNJN/M5cNl6rpr9TX6yKGDhdVjb+P9b30ZyDEXp7Cv34Dzwyjw9284JECxoc5iu2NkOH
+ LrB+SyTo+lYwZN7QuFTuPUHvoyvcBut7EQs3bwY8he4EvdwFvrW9pW+t0UAVJDQOPQie
+ 93RZr643pX7rLQxSRaZyXmvCBJZ4lX1nVGzbZAogndFqfQgYt6RodV74lfec7ZNtlNpL
+ EADvyvJAQUcvh/KXG3yD3SzYOqQlW/TDOgPV63Cu4cz1qoA7aRTheEzh2RGy6jQHCPV8
+ uHyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1676050010;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RehKrwzxHb0yZ51xrZqY5znickazVA/y+gvM1FSD2Dc=;
+ b=3Lh3h1fIY+4hprspO7I4tg9YfqfP/s8roV8EUMOenYoog8gs9+RKShxTVLaHsjBs8J
+ AL5n3murEvWhiyPgMjCQ7HsFLGChQB4xh4PNFIj2v3NeYkvm9rQ8OW+OU81IlO8GeoXa
+ JdnnXn0dZ7bbgbSoUkzEgKi9sfYxCjAysvyfzPTYWoXNv4TGWVP6caB/zkMoNtBVN5UX
+ s0YjRbPval1mSGCAa1EL7tXIn+V0w/OcFEeIHO8fqdzKTVYPyrsWGu1H6MQMq4fydomF
+ 0ds7ZOPayHW1IioaTiwBLb6WS5l/NcAlRuj0KgoyhPCvjBhXaLVRtD751Lomcw9x3YLI
+ 2MCw==
+X-Gm-Message-State: AO0yUKVkth+Q5oe0uEkz7b2fwbh4475qm8kNn8bFMjMM/V908aiHnS8d
+ dln6PlM/tVxKEy9NIcdAnAtKBCDwiDQiS2+0nNM=
+X-Google-Smtp-Source: AK7set9nHpclcgx3OJ0QPt0VsrPTKCnXQCzVKu9UofvBepaI+exPKwYBRMrg9Ie0VdtyQhJV6z+hvO/w+T79X5j1WTI=
+X-Received: by 2002:a67:c297:0:b0:3fe:5a64:f8ea with SMTP id
+ k23-20020a67c297000000b003fe5a64f8eamr2935530vsj.54.1676050010233; Fri, 10
+ Feb 2023 09:26:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230210143421.1879915-1-jmcasanova@igalia.com>
+References: <20230207143337.2126678-1-jani.nikula@intel.com>
+In-Reply-To: <20230207143337.2126678-1-jani.nikula@intel.com>
+From: jim.cromie@gmail.com
+Date: Fri, 10 Feb 2023 10:26:24 -0700
+Message-ID: <CAJfuBxyY94QXwTU2EEHuieQDi8WuMPLkjHJnbUuhcO4PsPC1sw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Disable dynamic debug as broken
+To: Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,109 +67,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jose,
+On Tue, Feb 7, 2023 at 10:21 AM Jani Nikula <jani.nikula@intel.com> wrote:
+>
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>
+> CONFIG_DRM_USE_DYNAMIC_DEBUG breaks debug prints for (at least modular)
+> drm drivers. The debug prints can be reinstated by manually frobbing
+> /sys/module/drm/parameters/debug after the fact, but at that point the
+> damage is done and all debugs from driver probe are lost. This makes
+> drivers totally undebuggable.
+>
+> There's a more complete fix in progress [1], with further details, but
+> we need this fixed in stable kernels. Mark the feature as broken and
+> disable it by default, with hopes distros follow suit and disable it as
+> well.
+>
+> [1] https://lore.kernel.org/r/20230125203743.564009-1-jim.cromie@gmail.co=
+m
+>
+> Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor fact=
+ory macro")
+> Cc: Jim Cromie <jim.cromie@gmail.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v6.1+
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/Kconfig | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index f42d4c6a19f2..dc0f94f02a82 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -52,7 +52,8 @@ config DRM_DEBUG_MM
+>
+>  config DRM_USE_DYNAMIC_DEBUG
+>         bool "use dynamic debug to implement drm.debug"
+> -       default y
+> +       default n
+> +       depends on BROKEN
+>         depends on DRM
+>         depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
+>         depends on JUMP_LABEL
+> --
+> 2.34.1
+>
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.2-rc7 next-20230210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jose-Maria-Casanova-Crespo/drm-v3d-New-debugfs-end-points-to-query-GPU-usage-stats/20230210-223726
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230210143421.1879915-1-jmcasanova%40igalia.com
-patch subject: [PATCH] drm/v3d: New debugfs end-points to query GPU usage stats.
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230211/202302110040.uoXcpWUN-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/890feddd5e794bae0b486a18c0b905c78309d445
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jose-Maria-Casanova-Crespo/drm-v3d-New-debugfs-end-points-to-query-GPU-usage-stats/20230210-223726
-        git checkout 890feddd5e794bae0b486a18c0b905c78309d445
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302110040.uoXcpWUN-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/v3d/v3d_sched.c:140:1: warning: no previous prototype for 'v3d_sched_stats_add_job' [-Wmissing-prototypes]
-     140 | v3d_sched_stats_add_job(struct v3d_queue_stats *queue_stats,
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/v3d_sched_stats_add_job +140 drivers/gpu/drm/v3d/v3d_sched.c
-
-   134	
-   135	/*
-   136	 * Updates the queue usage adding the information of a new job that is
-   137	 * about to be sent to the GPU to be executed.
-   138	 */
-   139	int
- > 140	v3d_sched_stats_add_job(struct v3d_queue_stats *queue_stats,
-   141				struct drm_sched_job *sched_job)
-   142	{
-   143	
-   144		struct v3d_queue_pid_stats *pid_stats = NULL;
-   145		struct v3d_job *job = sched_job?to_v3d_job(sched_job):NULL;
-   146		struct v3d_queue_pid_stats *cur;
-   147		struct list_head *pid_stats_list = &queue_stats->pid_stats_list;
-   148		int ret = 0;
-   149	
-   150		mutex_lock(&queue_stats->lock);
-   151	
-   152		/* Completion of previous job requires an update of its runtime */
-   153		v3d_sched_stats_update(queue_stats);
-   154	
-   155		queue_stats->last_exec_start = local_clock();
-   156		queue_stats->last_exec_end = 0;
-   157		queue_stats->jobs_sent++;
-   158		queue_stats->last_pid = job->client_pid;
-   159	
-   160		/* gpu usage stats by process are being collected */
-   161		if (queue_stats->collect_pid_stats) {
-   162			list_for_each_entry(cur, pid_stats_list, list) {
-   163				if (cur->pid == job->client_pid) {
-   164					pid_stats = cur;
-   165					break;
-   166				}
-   167			}
-   168			/* client pid_stats is moved to the head of the list. */
-   169			if (pid_stats) {
-   170				list_move(&pid_stats->list, pid_stats_list);
-   171			} else {
-   172				pid_stats = kzalloc(sizeof(struct v3d_queue_pid_stats),
-   173						    GFP_KERNEL);
-   174				if (!pid_stats) {
-   175					ret = -ENOMEM;
-   176					goto err_mem;
-   177				}
-   178				pid_stats->pid = job->client_pid;
-   179				list_add(&pid_stats->list, pid_stats_list);
-   180			}
-   181			pid_stats->jobs_sent++;
-   182			pid_stats->timeout_purge = jiffies + V3D_QUEUE_STATS_TIMEOUT;
-   183		}
-   184	
-   185	err_mem:
-   186		mutex_unlock(&queue_stats->lock);
-   187		return ret;
-   188	}
-   189	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Acked-by: Jim Cromie <jim.cromie@gmail.com>
