@@ -1,76 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04609691DED
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 12:15:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3D1691E4B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 12:31:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A018E10ECE5;
-	Fri, 10 Feb 2023 11:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 521A210ECED;
+	Fri, 10 Feb 2023 11:31:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB7510ECED
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 11:15:33 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id u21so4483475edv.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 03:15:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/nDb+1G2Hg9ewX5c0k1gBGf1XvvZ5lw8Ee/MhP2h9Cg=;
- b=pNKkrpGnRE83xoilG6x1lSfsQg6AT0DobI+raAUTKAuKnWrgF5ZMcBuew5tnzjxMLb
- cPmYMviudekgs3aF481XV/78W8aTUKZQhGrZi5OaMidtNYrnCWG22dSy27odUNE6mok7
- sCEfGEmwEHUrQRCcK89x/NqLjzPdhV0hKS2gm42Nb0MHIlcvg9a7dTu2ClB7lPl1Sass
- 2xJSyA41p5uG+5Y/41j6zGXYaRtzi2sTxY3jh0+1VxpoTwsrXGkr3YNuB3rdFKmbAnDc
- j9B9TCTQI2TQWqIVkdvSXLZ5q0025i0xirDIfv4dGTiOxvIOCevx6PSQhtO4oFBXFZln
- kQRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/nDb+1G2Hg9ewX5c0k1gBGf1XvvZ5lw8Ee/MhP2h9Cg=;
- b=OMXWCUT8fm2E4d9ck6NQZQ5e8LL95uOlvu3BhJWFNu9sVpFvrb9Ls+kYzRdYFI87ZN
- 4ABx5Qf2/Ilb3/Srz9kYrZcNZ0o43ukr8oG6VMsyOatYVqzitExNPBEFuhhBkWgKVmgH
- kz87kx5/juMACr0DMfW42AVTz+y3xsUaK2t/RHDi5pDfmqKBlZUPkzMnq5zZrrUHAwbw
- 3+SdfT4tX/CM0O/l+7tKHnPGQ61GrdlvGZkPMKZOxJ44Jn1Lj0ae1eOkjvKCLlunPyYu
- dopDrzCAYM3OWGPoKafAqnb3cbR1UepRm9f5Wvh1i52GgScBjtEeePfGLDJrRHrnlcqi
- rYJg==
-X-Gm-Message-State: AO0yUKUbv7cCzFJ2zbGEjzIHb3oIM7rdBYtOVeSVDw7c040IwySLBqHN
- tq585ue4kUvEm4c2fQ7MhoMeFQ==
-X-Google-Smtp-Source: AK7set9xjSG768re8CoHosg4OZZK6xmT196MPSG7VNm6tq6VOHCf7sBGUuq17NJ1ujjwzfnn1QD0NA==
-X-Received: by 2002:a50:d08c:0:b0:4ab:15d4:4e0d with SMTP id
- v12-20020a50d08c000000b004ab15d44e0dmr10721172edd.31.1676027731851; 
- Fri, 10 Feb 2023 03:15:31 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- r23-20020a50aad7000000b0049f29a7c0d6sm2069263edc.34.2023.02.10.03.15.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 03:15:31 -0800 (PST)
-Message-ID: <3af85f94-0de6-35dd-dbcd-5c01a4d3b3ce@linaro.org>
-Date: Fri, 10 Feb 2023 13:15:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 0/5] arm64: dts: qcom: add DP Controller to SM8350 &
- SM8450 DTS
-Content-Language: en-GB
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2893010E11D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 11:31:41 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pQRcp-00060J-3o; Fri, 10 Feb 2023 12:31:31 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pQRcm-003xHG-Vj; Fri, 10 Feb 2023 12:31:30 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pQRcn-002OQt-1t; Fri, 10 Feb 2023 12:31:29 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Danilo Krummrich <dakr@redhat.com>, Liu Ying <victor.liu@nxp.com>
+Subject: [PATCH v4 0/2] drm/imx/lcdc: Implement DRM driver for imx25
+Date: Fri, 10 Feb 2023 12:31:14 +0100
+Message-Id: <20230210113116.404773-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2394;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=Ez5XmZpZkVJKS/bmsGXsqscoKBsbRCxcShNhvoPQzu0=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBj5irlTqOv8W/RcSuOKpWDBAsjc2zeHIL5VeTwWGMW
+ LuM7EQCJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCY+Yq5QAKCRDB/BR4rcrsCWV1B/
+ 9Lz6RzBl/liixdm3dLaopbdbYwCZRyn6+o8+h4/cNn/otLUTLvUtwLqDkLVeZi/3a3HBVrQeG0sRZx
+ qLF5TgqTUgaR6lF2EKKOHMwQQDPBwQ/T1B0HnEpTxLfRzqbwa/wyrazfQMq7O9AxhigLgjDYH0OOx0
+ ShiPrAMGrdw2SbpYIWEwU+MLt0J5RuuiUumNeoML7xC4Q0Jl77b133BU1Jhfuq7Rs/AcwQGtyoXec+
+ UWUClz92559clfd7KCP7eDtrH8OzqtZQZV55IWZOs/2egD74CiVMUTI/ZXZAJySwjEsOS4jMB08oCr
+ pDhSTY2LpfCQWW2Pa6kG9Cu1Nlm/+V
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,34 +69,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/02/2023 12:34, Neil Armstrong wrote:
-> Switch the QMP PHY to the newly documented USB3/DP Combo PHY
-> bindings at [1] and add the DP controller nodes.
-> 
-> The DP output is shared with the USB3 SuperSpeed lanes and is
-> usually connected to an USB-C port which Altmode is controlled
-> by the PMIC Glink infrastructure in discution at [2] & [3].
-> 
-> DT changes tying the DP controller to the USB-C port on the HDK
-> boards will be sent later.
-> 
-> Bindings dependencies at [1]
-> 
-> [1] https://lore.kernel.org/all/20230206-topic-sm8350-upstream-usb-dp-combo-phy-v1-1-ed849ae6b849@linaro.org/
-> [2] https://lore.kernel.org/all/20230201041853.1934355-1-quic_bjorande@quicinc.com/
-> [3] https://lore.kernel.org/all/20230130-topic-sm8450-upstream-pmic-glink-v1-0-0b0acfad301e@linaro.org/
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+Hello,
 
-Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #SM8350-HDK
+Changes since v3:
 
+ - Don't use drm_of_find_panel_or_bridge, rely on panel-bridges instead (Sam)
+ - Add support for XRGB8888 (Sam)
+ - Make sure Kconfig + Makefile are added to the patch (*sigh*) (Philipp)
+ - Rebase on a newer tree (which involves among others changes for 8ab59da26bc0
+   ("drm/fb-helper: Move generic fbdev emulation into separate source file")
+   and 00b5497d642b ("drm/simple-kms: Remove
+   drm_gem_simple_display_pipe_prepare_fb()"). (Philipp)
+ - Whitespace cleanup (Philipp)
+
+A big thanks to Philipp who explained the necessary changes to drop
+drm_of_find_panel_or_bridge and even implemented a part of it himself.
+
+Patch 1 depends on patch "dt-bindings: display: Convert fsl,imx-fb.txt
+to dt-schema" which currently sits in Rob's tree as
+93266da2409b1709474be00f1becbbdaddb2b706. Patch 2 bases on "drm/imx:
+move IPUv3 driver into separate subdirectory" which currentlich sits in
+drm-misc-next-2023-01-03 as 4b6cb2b67da883bc5095ee6d77f951f1cd7a1c24.
+
+Unchanged since v3 is that the binding is using a different compatible. This is
+a bit ugly, but a drm driver needs a considerably different binding anyhow and
+this is the chance to pick a better name: The legacy binding uses "imx25-fb"
+(and similar for other SoCs), but the hardware unit is called LCDC and so I
+picked "imx25-lcdc" as new name. The idea is to deprecate imx25-fb (et al) and
+convert the imx25.dtsi to imx25-lcdc. (So I don't plan to have both variants in
+the dtsi file which Rob considered ugly.)
+
+Marian Cichy (1):
+  drm/imx/lcdc: Implement DRM driver for imx25
+
+Uwe Kleine-König (1):
+  dt-bindings: display: imx: Describe drm binding for fsl,imx-lcdc
+
+ .../bindings/display/imx/fsl,imx-lcdc.yaml    |  46 +-
+ drivers/gpu/drm/imx/Kconfig                   |   1 +
+ drivers/gpu/drm/imx/Makefile                  |   1 +
+ drivers/gpu/drm/imx/lcdc/Kconfig              |   7 +
+ drivers/gpu/drm/imx/lcdc/Makefile             |   1 +
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c           | 555 ++++++++++++++++++
+ 6 files changed, 610 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/imx/lcdc/Kconfig
+ create mode 100644 drivers/gpu/drm/imx/lcdc/Makefile
+ create mode 100644 drivers/gpu/drm/imx/lcdc/imx-lcdc.c
+
+base-commit: 2591939e881cf728b6ac45971eeec2f58051c101
+prerequisite-patch-id: c3ef3de02516b5c159e76b40d2b4348a5ce0fe51
 -- 
-With best wishes
-Dmitry
+2.39.0
 
