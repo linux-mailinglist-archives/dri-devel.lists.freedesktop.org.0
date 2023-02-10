@@ -2,53 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A19D692141
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 15:57:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21A6692162
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 16:02:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFEA10E153;
-	Fri, 10 Feb 2023 14:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF50810ED56;
+	Fri, 10 Feb 2023 15:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29FB410E153;
- Fri, 10 Feb 2023 14:56:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676041015; x=1707577015;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=uGsHhSmLfn0k4uR1/avlGQfHpqa+SE/uoIYkvAW37Bw=;
- b=NVQlDXxtAMNd5YonS0XNshrPjCE8g6Qf9ew7YWy4odvCpBidiE8yU+EI
- h4cxxxzdPkFidx8Muf1Klztga0D+puUSzYFgBdZef3OHHC3OOWDpuoDP9
- xJm8v4rzZFhuzxyOoMaijUiWZqo9XKj0WyffN6BKiIUGN3/lpnxkNGtM+
- BitxyT8WIl/nvPN7J1uTxJ2UZf+/wSROzUudrF9jbJsH5F1MzZLDJ+E1A
- Iwj3e2mpUZmP0YRfnflWO3TavpHAP9JwQZiGsBv9OML+Hntzt+uJ9GNCJ
- 4ynBlfQzscWcRgBzT1pVQ4kmt8ggiOwl+TBDYYLIcQEt8TkUaHOjKQ54u Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="395041701"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="395041701"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2023 06:56:54 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="731735842"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; d="scan'208";a="731735842"
-Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.0.158])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2023 06:56:47 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Isabella Basso <isabbasso@riseup.net>
-Subject: Re: [igt-dev] [PATCH i-g-t v2 3/4] lib/igt_kmod: add compatibility
- for KUnit
-Date: Fri, 10 Feb 2023 15:56:44 +0100
-Message-ID: <7621786.lvqk35OSZv@jkrzyszt-mobl1.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <66E07FE6-0FE1-4CDF-A346-CF23C7B9D073@riseup.net>
-References: <20220829000920.38185-1-isabbasso@riseup.net>
- <2101392.KlZ2vcFHjT@jkrzyszt-mobl1.ger.corp.intel.com>
- <66E07FE6-0FE1-4CDF-A346-CF23C7B9D073@riseup.net>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68DAD10ED56
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 15:02:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676041347;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aiigPyN5SiiDX7CiFNVb4PdP2y01RICIdjqkmFe2Y2c=;
+ b=d+Nlr0s2p8ILeFtJMTbb+6zZ/0WPqKi+QFb4bF/Pom7FqoC/GZ6wV1Mf3n8Z4AW/s3QrdN
+ MdkowEdjK8ap7wJfV9qpAg00dbBWlDUAdsVutHzYvo8TAhT8hEAihTnQ/p5dLBD5oFHtVn
+ M09F2NAu39x5CFqa/KPDcBeRbelxCl4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-13-ex1H2ZULMGOY3j-l_OumLw-1; Fri, 10 Feb 2023 10:02:26 -0500
+X-MC-Unique: ex1H2ZULMGOY3j-l_OumLw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p7-20020a5d48c7000000b002c53d342406so1252202wrs.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 07:02:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aiigPyN5SiiDX7CiFNVb4PdP2y01RICIdjqkmFe2Y2c=;
+ b=RDik7h8YZKrGvxNor4PmrYuN3pCIwAjg1lTmr1bkJIdYh70XqyLIeRC/pQ5r+dmra0
+ Uu6uO8eWS+W6Af1gmzjdeTJArDYpyiUzRtYgrpAGlemMYIE5eTLuU8fUqRhmtNBoiI46
+ JkVMJ0nO2VCnyo6W9+WvS2Xl88AGLHOTn698RaU/8y29QkiyM7swFyByc/lHTPmym/em
+ nfXxc3/cwZWf16aTiEI4uYQ/K0UyOrd5MeNgwTyADq+rnpIdmBiAjbhfKnBWO5cDlohe
+ iPIbAI/lVmZft69ygMZ55TNIc0LXf7jvnb0eX/mLtrR/mLQRW+h7RRUwwoEyTRGZL+Ct
+ /w0g==
+X-Gm-Message-State: AO0yUKVnis7sXOrTboJ4w3qK4z6A9TJCJVyM80NpHcVwn3oUzSGH1wdJ
+ CDiZ01PQM3VCaSpW0v2r3X8DeNGVCIAPDT0HOR2SpXoYmOW4aIDkST9LzJy3XsO2bqzOEHdHqTy
+ O5WxtiKD8kBVVQiSW4euiNDDUVP9B
+X-Received: by 2002:a5d:6206:0:b0:2c3:e868:cf54 with SMTP id
+ y6-20020a5d6206000000b002c3e868cf54mr16986987wru.13.1676041344865; 
+ Fri, 10 Feb 2023 07:02:24 -0800 (PST)
+X-Google-Smtp-Source: AK7set9avT3xGLvvN9r+5VcbJiFPk0AiaD5irD4eOAU1hr/lBRxw5C2LmKWvGSiA3THkRnloarpN5w==
+X-Received: by 2002:a5d:6206:0:b0:2c3:e868:cf54 with SMTP id
+ y6-20020a5d6206000000b002c3e868cf54mr16986969wru.13.1676041344687; 
+ Fri, 10 Feb 2023 07:02:24 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e?
+ ([2a01:e0a:c:37e0:38da:a7d9:7cc9:db3e])
+ by smtp.gmail.com with ESMTPSA id
+ m9-20020adfe0c9000000b002c3d29d83d2sm3908666wri.63.2023.02.10.07.02.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Feb 2023 07:02:24 -0800 (PST)
+Message-ID: <3d6b1064-46ff-9e73-63ac-e4209e2ca46c@redhat.com>
+Date: Fri, 10 Feb 2023 16:02:23 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3] drm/ast: Fix start address computation
+To: Jammy Huang <jammy_huang@aspeedtech.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com, kuohsiang_chou@aspeedtech.com
+References: <20230209094417.21630-1-jfalempe@redhat.com>
+ <76785a76-281d-f847-5904-d8df361aa0b4@suse.de>
+ <c223bcc5-dfa2-66e1-a58e-a1634237894c@aspeedtech.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <c223bcc5-dfa2-66e1-a58e-a1634237894c@aspeedtech.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,42 +90,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- linux-kselftest@vger.kernel.org, Magali Lemes <magalilemes00@gmail.com>,
- =?ISO-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
- Daniel Latypov <dlatypov@google.com>,
- Tales Aparecida <tales.aparecida@gmail.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- kernel list <linux-kernel@vger.kernel.org>, leandro.ribeiro@collabora.com,
- igt-dev@lists.freedesktop.org, ML dri-devel <dri-devel@lists.freedesktop.org>,
- n@nfraprado.net, David Gow <davidgow@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@riseup.net>,
- KUnit Development <kunit-dev@googlegroups.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Isabella,
-
-On Monday, 19 September 2022 22:55:44 CET Isabella Basso wrote:
-> Hi, Janusz,
+On 10/02/2023 01:33, Jammy Huang wrote:
 > 
-> > Am 09/09/2022 um 12:18 PM schrieb Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>:
-> > 
-> > ...
-> > 
-> > Anyway, related to my comment about naming that function a parser, I think the 
-> > best approach would be for that parser to return a generic set of results from 
-> > kunit execution, then we could feed that data into an IGT specific handler 
-> > that would convert them to IGT results (SUCCESS, FAIL, or SKIP) as if returned 
-> > by a set of IGT dynamic subtests.
+> On 2023/2/9 下午 05:55, Thomas Zimmermann wrote:
+>>
+>>
+>> Am 09.02.23 um 10:44 schrieb Jocelyn Falempe:
+>>> During the driver conversion to shmem, the start address for the
+>>> scanout buffer was set to the base PCI address.
+>>> In most cases it works because only the lower 24bits are used, and
+>>> due to alignment it was almost always 0.
+>>> But on some unlucky hardware, it's not the case, and some unitilized
+>>
+>> 'uninitialized'
+>>
+>>> memory is displayed on the BMC.
+>>> With shmem, the primary plane is always at offset 0 in GPU memory.
+>>>
+>>>   * v2: rewrite the patch to set the offset to 0. (Thomas Zimmermann)
+>>>   * v3: move the change to plane_init() and also fix the cursor plane.
+>>>         (Jammy Huang)
+>>>
+>>> Tested on a sr645 affected by this bug.
+>>>
+>>> Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
+>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> That sounds like a good idea to me, I might take some extra time before v3 to
-> do that, though. 
+> Reviewed-by: Jammy Huang <jammy_huang@aspeedtech.com>
 
-Were you able to make any progress?  Do you need any help?
+I just pushed it to drm-misc-fixes.
 
-Thanks,
-Janusz
+Thanks a lot,
+
+-- 
+
+Jocelyn
 
 
