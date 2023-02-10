@@ -1,65 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28681691522
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 01:09:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D2869158D
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 01:33:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD9E810EC03;
-	Fri, 10 Feb 2023 00:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75A3410EC0F;
+	Fri, 10 Feb 2023 00:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84D4A10EBF9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 00:09:43 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-5258f66721bso47850547b3.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Feb 2023 16:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SV7aG7csL3WZApSmYLUI0O5N0JmbOW8vJxQYfktW/UM=;
- b=NjHFYbjRcc2DRiVcdKmqa0hhbhzlP0cyzpKsCrIJP+gIKwbMDLjGPcTlgyWgS67gNc
- vsNsC9YVXJcVMLGluMOFnf20Ll8Jjf8VMO2ZIXJyTV5T5IqPEA6oe6LhZDccYJ+Xt3DC
- PlufuqTiJdkoAs3aVt8ZB3o/3bwzA0Uf2WE8GJ1JPiR071FYY2/ykrO86HX2dEfJRTnz
- fuMi4wZ+MjPQv21FXhJZPP/nM0DW+IEXdbYS9DCSpf1sLQWVG26ByhPtT1aKDUt3sQif
- qTZ3LjALrtPKDftV28KoieOnxZ3d9gFYol62GuYJgfSfnOC5CUOLpDggFf58iRtHOlGZ
- e21w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SV7aG7csL3WZApSmYLUI0O5N0JmbOW8vJxQYfktW/UM=;
- b=QZZBDc3nMptmjZu9oAH+5MfVRlwfNvNpANeCXTcivEHq4rbmfTm5Mbn4cEcWit6v7m
- Duw+VtTppIsyp9K3xJU/o9k0spB7GBBaJRI5irpzI3dD1Hc0RmEeXbJYDe8knwlULOhV
- ouq8Qz9pUPyScOiYesX+At86XDjlBfpcImwpgfXHobYs+/NBMyzOv0e6h/p1ZmwjyU1O
- Wum3cKmyMJy+eNs1qQRIXZ/hQJxjlY0ArowrKdjAJVlplXib+RTAOiDsvsyROG9Q+4A6
- IY6Sh2UyJPGk7CJY38OsdbSQHVDP4EsBz8muZRgYPWXOovlhvVbEAGTBFYk7VjVFhyIC
- 7r0w==
-X-Gm-Message-State: AO0yUKUfjNvesEotCLFLdb3+b0BINY11JHmlyCZ2Btw5LM8UycvKG3rO
- u+PfJbFE4fz+dlZoFgynh181K8xN1Vb/cMM/3Fv3GQ==
-X-Google-Smtp-Source: AK7set9NaBwX5GN5vRVwyTW3Nkh4jqkqxcjjtOOo9+ZpSRWgGYI2Kk12VHF2hS/A2Mp1isqegA1g8mvaSgB3/6JIEUo=
-X-Received: by 2002:a0d:ea09:0:b0:52e:c4d8:53ee with SMTP id
- t9-20020a0dea09000000b0052ec4d853eemr331606ywe.378.1675987782424; Thu, 09 Feb
- 2023 16:09:42 -0800 (PST)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED48410EC1B
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 00:33:10 +0000 (UTC)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 31A0KnXW028229;
+ Fri, 10 Feb 2023 08:20:49 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 10 Feb
+ 2023 08:33:03 +0800
+Content-Type: multipart/alternative;
+ boundary="------------Q45V7jN0Ub9lA0PLsdjLGgDK"
+Message-ID: <c223bcc5-dfa2-66e1-a58e-a1634237894c@aspeedtech.com>
+Date: Fri, 10 Feb 2023 08:33:06 +0800
 MIME-Version: 1.0
-References: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
- <20230203182132.1307834-28-dmitry.baryshkov@linaro.org>
- <fd654e2e-4cc0-29bf-374d-beed0bada0bc@quicinc.com>
- <CAA8EJpocfk2bY0fGaGrzcho-NmHyam3NR-=W3L0E9M7nrY_wVw@mail.gmail.com>
- <ef0482a4-6c07-873c-62d8-e16e0220b75f@quicinc.com>
- <CAA8EJppHhd5WSqOsz5tfW0zwyqevZgYANHhg8Yqwvr4X3jZ65A@mail.gmail.com>
- <396c388b-de81-6794-d846-636234f1edb0@quicinc.com>
-In-Reply-To: <396c388b-de81-6794-d846-636234f1edb0@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 10 Feb 2023 02:09:31 +0200
-Message-ID: <CAA8EJppuM97q2uc04_id7fEY26WHbnb=Mc0eAU1sDMTNwguAYg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH v3 27/27] drm/msm/dpu: add support for wide
- planes
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3] drm/ast: Fix start address computation
+To: Thomas Zimmermann <tzimmermann@suse.de>, Jocelyn Falempe
+ <jfalempe@redhat.com>,
+ <dri-devel@lists.freedesktop.org>, <airlied@redhat.com>,
+ <kuohsiang_chou@aspeedtech.com>
+References: <20230209094417.21630-1-jfalempe@redhat.com>
+ <76785a76-281d-f847-5904-d8df361aa0b4@suse.de>
+Content-Language: en-US
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <76785a76-281d-f847-5904-d8df361aa0b4@suse.de>
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 31A0KnXW028229
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,411 +54,863 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, freedreno@lists.freedesktop.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- .
+--------------Q45V7jN0Ub9lA0PLsdjLGgDK
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 10 Feb 2023 at 00:12, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+
+On 2023/2/9 下午 05:55, Thomas Zimmermann wrote:
 >
-> Hi Dmitry
 >
-> On 2/9/2023 1:23 PM, Dmitry Baryshkov wrote:
-> > Hi Abhinav,
-> >
-> > On Thu, 9 Feb 2023 at 21:25, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 2/9/2023 3:45 AM, Dmitry Baryshkov wrote:
-> >>> On Thu, 9 Feb 2023 at 04:19, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 2/3/2023 10:21 AM, Dmitry Baryshkov wrote:
-> >>>>> Typically SSPP can support rectangle with width up to 2560. However it's
-> >>>>
-> >>>> Not always 2560. Depends on the chipset.
-> >>>
-> >>> _typically_
-> >>>
-> >>
-> >> Would just say maxlinewidth of SSPP instead of giving some hardcoded number.
-> >
-> > Ack.
-> >
-> >>
-> >>>>
-> >>>>> possible to use multirect feature and split source to use the SSPP to
-> >>>>> output two consecutive rectangles. This commit brings in this capability
-> >>>>> to support wider screen resolutions.
-> >>>>>
-> >>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>>>> ---
-> >>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |   6 ++
-> >>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 116 +++++++++++++++++++---
-> >>>>>     drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |   4 +
-> >>>>>     3 files changed, 114 insertions(+), 12 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> >>>>> index 0ca3bc38ff7e..867832a752b2 100644
-> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> >>>>> @@ -485,6 +485,12 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
-> >>>>>                                            fetch_active,
-> >>>>>                                            &pstate->pipe);
-> >>>>>
-> >>>>> +             _dpu_crtc_blend_setup_pipe(crtc, plane,
-> >>>>> +                                        mixer, cstate->num_mixers,
-> >>>>> +                                        stage_cfg, pstate->stage, 1,
-> >>>>> +                                        fetch_active,
-> >>>>> +                                        &pstate->r_pipe);
-> >>>>> +
-> >>>>>                 /* blend config update */
-> >>>>>                 for (lm_idx = 0; lm_idx < cstate->num_mixers; lm_idx++) {
-> >>>>>                         _dpu_crtc_setup_blend_cfg(mixer + lm_idx, pstate, format);
-> >>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> >>>>> index e2e85688ed3c..401ead64c6bd 100644
-> >>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> >>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> >>>>> @@ -365,6 +365,9 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
-> >>>>>         struct dpu_plane *pdpu = to_dpu_plane(plane);
-> >>>>>         struct dpu_hw_pipe_qos_cfg pipe_qos_cfg;
-> >>>>>
-> >>>>> +     if (!pipe->sspp)
-> >>>>> +             return;
-> >>>>> +
-> >>>>>         memset(&pipe_qos_cfg, 0, sizeof(pipe_qos_cfg));
-> >>>>>
-> >>>>>         if (flags & DPU_PLANE_QOS_VBLANK_CTRL) {
-> >>>>> @@ -647,6 +650,9 @@ static int _dpu_plane_color_fill_pipe(struct dpu_plane_state *pstate,
-> >>>>>     {
-> >>>>>         struct dpu_hw_sspp_cfg pipe_cfg;
-> >>>>>
-> >>>>> +     if (!pipe->sspp)
-> >>>>> +             return 0;
-> >>>>
-> >>>> instead of checking if sspp was present, is it not better for the caller
-> >>>> to check if the rpipe is valid before calling this?
-> >>>>
-> >>>>> +
-> >>>>>         /* update sspp */
-> >>>>>         if (!pipe->sspp->ops.setup_solidfill)
-> >>>>>                 return 0;
-> >>>>> @@ -701,6 +707,8 @@ static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
-> >>>>>
-> >>>>>         /* update sspp */
-> >>>>>         _dpu_plane_color_fill_pipe(pstate, &pstate->pipe, &pstate->pipe_cfg, fill_color, fmt);
-> >>>>> +
-> >>>>> +     _dpu_plane_color_fill_pipe(pstate, &pstate->r_pipe, &pstate->r_pipe_cfg, fill_color, fmt);
-> >>>>>     }
-> >>>>
-> >>>> So cant we do
-> >>>>
-> >>>> if (pstate->r_pipe.sspp)
-> >>>>           _dpu_plane_color_fill_pipe(pstate, &pstate->r_pipe,
-> >>>>                   &pstate->r_pipe_cfg, fill_color, fmt);
-> >>>>
-> >>>> It just seems better to me as the caller would already know if the sspp
-> >>>> was assigned.
-> >>>
-> >>>    I think I had this kind of code earlier, but then I found it more
-> >>> logical to move the check to the called function. I'll move it back.
-> >>>
-> >>>>
-> >>>>>
-> >>>>>     int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
-> >>>>> @@ -911,6 +919,9 @@ static int dpu_plane_atomic_check_pipe(struct dpu_plane *pdpu,
-> >>>>>     {
-> >>>>>         uint32_t min_src_size;
-> >>>>>
-> >>>>> +     if (!pipe->sspp)
-> >>>>> +             return 0;
-> >>>>> +
-> >>>>>         min_src_size = DPU_FORMAT_IS_YUV(fmt) ? 2 : 1;
-> >>>>>
-> >>>>>         if (DPU_FORMAT_IS_YUV(fmt) &&
-> >>>>> @@ -957,9 +968,12 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
-> >>>>>         int ret = 0, min_scale;
-> >>>>>         struct dpu_plane *pdpu = to_dpu_plane(plane);
-> >>>>>         struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
-> >>>>> +     struct dpu_sw_pipe *pipe = &pstate->pipe;
-> >>>>> +     struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
-> >>>>>         const struct drm_crtc_state *crtc_state = NULL;
-> >>>>>         const struct dpu_format *fmt;
-> >>>>>         struct dpu_hw_sspp_cfg *pipe_cfg = &pstate->pipe_cfg;
-> >>>>> +     struct dpu_hw_sspp_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
-> >>>>>         struct drm_rect fb_rect = { 0 };
-> >>>>>         uint32_t max_linewidth;
-> >>>>>         unsigned int rotation;
-> >>>>> @@ -983,8 +997,11 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
-> >>>>>         if (!new_plane_state->visible)
-> >>>>>                 return 0;
-> >>>>>
-> >>>>> -     pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
-> >>>>> -     pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> >>>>> +     pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> >>>>> +     pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> >>>>> +     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> >>>>> +     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> >>>>> +     r_pipe->sspp = NULL;
-> >>>>>
-> >>>>>         pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
-> >>>>>         if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
-> >>>>> @@ -1016,16 +1033,53 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
-> >>>>>
-> >>>>>         max_linewidth = pdpu->catalog->caps->max_linewidth;
-> >>>>>
-> >>>>> -     /* check decimated source width */
-> >>>>>         if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
-> >>>>> -             DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
-> >>>>> -                             DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> >>>>> -             return -E2BIG;
-> >>>>> +             /* struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state); */
-> >>>>> +
-> >>>>> +             if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
-> >>>>> +                     DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
-> >>>>> +                                     DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
-> >>>>> +                     return -E2BIG;
-> >>>>> +             }
-> >>>>
-> >>>> This is where I am a bit concerned enabling it for all chipsets in one go.
-> >>>
-> >>> As I wrote earlier, I'd prefer the opt-out rather than opt-in here. It
-> >>> is much easier to handle the reports "I have a device with sm6543,
-> >>> where the display worked before 6.4, but started failing afterwards"
-> >>> rather than trying to find a person with sm6543 and asking him if he
-> >>> can enable this and that on his device. And even a lower chance of a
-> >>> person with sm6543 coming up with a patch 'hey, I enabled this for my
-> >>> phone and it works!'.
-> >>>
-> >>> If we find any issues during or close to the end of the development
-> >>> cycle, we can add a 'don't enable wide plane here' switch and enable
-> >>> it for failing platforms. But each enablement of this switch should
-> >>> come with a reason (wide planes not working here because ....). In the
-> >>> end this switch should be gone and transformed into proper HW
-> >>> limitation checks.
-> >>>
-> >>
-> >> As it has become clear that with this patch series 4K with UBWC cannot
-> >> be supported without true virtual planes (with two SSPPs), why do you
-> >> need to relax this check right now?
-> >
-> > Yes. It enables support for 4k @ linear formats. So my plan for this
-> > series is to land 4k with all the proper applicable restrictions.
-> >
-> >> You can relax this when you add the support for virtual planes till then
-> >> let it be this way.
-> >>
-> >> Its not going to break smartDMA as such. You can still use it for layers
-> >> < 2560.
-> >>
-> >> That way we stay true to the purpose of the feature. I think originally
-> >> you wanted to get this in for smartDMA and not to support wide plane and
-> >> that purpose will still be achieved even with keeping this check intact.
-> >
-> > Actually, no. With this series I wanted to get 4k. It was developed in
-> > parallel with the 4k enablement for RB3 (posted, bridge patches are
-> > being merged for 6.3) and RB5 (delayed for now, I have other issues
-> > there).
-> >
+> Am 09.02.23 um 10:44 schrieb Jocelyn Falempe:
+>> During the driver conversion to shmem, the start address for the
+>> scanout buffer was set to the base PCI address.
+>> In most cases it works because only the lower 24bits are used, and
+>> due to alignment it was almost always 0.
+>> But on some unlucky hardware, it's not the case, and some unitilized
 >
-> With the UBWC related checks, this wont support 4K for UBWC layers which
-> is default on QC chipsets. So I am fine with respect to that. But still
-> this does not address the product spec advertized modes. Like I
-> mentioned before, relaxing the maxlinewidth check with the added UBWC
-> checks is fine from DPU point of view but not from the product POV.
+> 'uninitialized'
 >
-> As things stand today, this is the only check failing the 4K modes on
-> chipsets which shouldnt support 4k (linear or UBWC doesnt matter).
+>> memory is displayed on the BMC.
+>> With shmem, the primary plane is always at offset 0 in GPU memory.
+>>
+>>   * v2: rewrite the patch to set the offset to 0. (Thomas Zimmermann)
+>>   * v3: move the change to plane_init() and also fix the cursor plane.
+>>         (Jammy Huang)
+>>
+>> Tested on a sr645 affected by this bug.
+>>
+>> Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 >
-> >> You can relax it in the virtual plane series.
-> >>
-> >> Regarding issues, this is where it gets tricky. We should be aligning
-> >> with what the product supports. QC will not support issues arising with
-> >> 4K on chipsets on which 4K is not advertized.
-> >
-> > So, we have several different items here:
-> > - SmartDMA v2 per se, supporting two rectangles per VIG or DMA plane,
-> > - Source split support,
-> > - Supporting 4k modes.
-> >
-> > I think we should tend them one by one. This series concerns SmartDMA
-> > v2. Using SmartDMA it is possible to use two rectangles side by side
-> > to emulate a wide plane. This series doesn't care at all about max
-> > resolutions. These two items are completely orthogonal.
-> >
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Reviewed-by: Jammy Huang <jammy_huang@aspeedtech.com>
+
 >
-> No its not orthogonal. Relaxing the maxlinewidth check in the
-> atomic_check() will allow 4K layers now even on chipsets where 4K wasnt
-> advertized. Linear or UBWC doesnt matter as the spec doesnt go into that.
-
-Please correct my answers, if I got something wrong here:
-
-Does sc7180 support SmartDMA? Yes it does.
-Can QC or CrOS validate SmartDMA separately on sc7180? I hope you can.
-Should the hw-supported feature be enabled? Yes, it should.
-
-Now limiting out 4k by not supporting SmartDMA looks like a misfeature.
-I can only suggest sending a change to block 4k on sc7180.
-
-> >>>> As you are aware,  we have an open bug today that we do not filter out
-> >>>> the modes which we do not support.
-> >>>>
-> >>>> https://gitlab.freedesktop.org/drm/msm/-/issues/21
-> >>>
-> >>> I thought that with the link-frequencies in place and with the DSI
-> >>> checking the OPP tables this issue is mostly handled. Isn't it?
-> >>> Is a mode check in the DPU driver itself the last missing piece?
-> >>>
-> >>
-> >> opp based checking was implemented only for DSI. That one is byte clk based.
-> >>
-> >> DP uses link rate for opp table.
-> >>
-> >> Even with a 5.4G link rate (the one in sc7180 chromebook) 4k@30 would
-> >> still be possible but it was not advertized
-> >>
-> >> https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/prod_brief_qcom_sd7c.pdf
-> >>
-> >> These docs are available in public domain.
-> >>
-> >> As we synced up last time on
-> >> https://patchwork.freedesktop.org/series/107917/, even with these limits
-> >> in place, its not matching the advertized limits.
-> >>
-> >>>>
-> >>>> Due to this, on all chipsets we will end up trying to do a 4K on
-> >>>> external display which we dont know what bugs it will expose.
-> >>>
-> >>> If we do not expose bugs, we do not have a way to fix them. And I
-> >>> definitely think that all the bugs should be listed as early as
-> >>> possible, while both of us still remember the code under the question.
-> >>>
-> >>
-> >> Yes but on chipsets where 4K is supported ( and hence needed ).
-> >
-> > 4k, SmartDMA, src-split, split-display, etc.
-> >
+>> ---
+>>   drivers/gpu/drm/ast/ast_mode.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>> b/drivers/gpu/drm/ast/ast_mode.c
+>> index c7443317c747..66a4a41c3fe9 100644
+>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>> @@ -714,7 +714,7 @@ static int ast_primary_plane_init(struct 
+>> ast_private *ast)
+>>       struct ast_plane *ast_primary_plane = &ast->primary_plane;
+>>       struct drm_plane *primary_plane = &ast_primary_plane->base;
+>>       void __iomem *vaddr = ast->vram;
+>> -    u64 offset = ast->vram_base;
+>> +    u64 offset = 0; /* with shmem, the primary plane is always at 
+>> offset 0 */
+>>       unsigned long cursor_size = roundup(AST_HWC_SIZE + 
+>> AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+>>       unsigned long size = ast->vram_fb_available - cursor_size;
+>>       int ret;
+>> @@ -972,7 +972,7 @@ static int ast_cursor_plane_init(struct 
+>> ast_private *ast)
+>>           return -ENOMEM;
+>>         vaddr = ast->vram + ast->vram_fb_available - size;
+>> -    offset = ast->vram_base + ast->vram_fb_available - size;
+>> +    offset = ast->vram_fb_available - size;
+>>         ret = ast_plane_init(dev, ast_cursor_plane, vaddr, offset, size,
+>>                    0x01, &ast_cursor_plane_funcs,
 >
-> The visual issues reported on sdm845 on the other thread are a classic
-> example of what I just wrote on that patchset and thats why I was
-> emphasizing a visual validation OR in other words enable the feature on
-> which you are able to visually validate it.
+-- 
+Best Regards
+Jammy
 
-Yes. And if we did not enable the feature, Amit would not be able to
-spot that. I can repeat my suggestion:
+--------------Q45V7jN0Ub9lA0PLsdjLGgDK
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-- prevalidate these features for the accessible platforms (e.g. I only
-have sdm845, sm8250 and sm8350 at hand)
-- enable SmartDMA for all chipsets where SmartDMA is supported
-- collect possible tested-by and broken-at reports, while the patches
-sit in linux-next
-- disable SmartDMA basing on the feedback from the previous step (e.g.
-select from 'mostly disable', 'disable for the bugged cases', 'do not
-disable at all', etc).
-  I can promise that if we see a significant validation failure rate I
-will not oppose disabling SmartDMA.
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2023/2/9 下午 05:55, Thomas Zimmermann
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:76785a76-281d-f847-5904-d8df361aa0b4@suse.de">
+      <br>
+      <br>
+      Am 09.02.23 um 10:44 schrieb Jocelyn Falempe:
+      <br>
+      <blockquote type="cite">During the driver conversion to shmem, the
+        start address for the
+        <br>
+        scanout buffer was set to the base PCI address.
+        <br>
+        In most cases it works because only the lower 24bits are used,
+        and
+        <br>
+        due to alignment it was almost always 0.
+        <br>
+        But on some unlucky hardware, it's not the case, and some
+        unitilized
+        <br>
+      </blockquote>
+      <br>
+      'uninitialized'
+      <br>
+      <br>
+      <blockquote type="cite">memory is displayed on the BMC.
+        <br>
+        With shmem, the primary plane is always at offset 0 in GPU
+        memory.
+        <br>
+        <br>
+          * v2: rewrite the patch to set the offset to 0. (Thomas
+        Zimmermann)
+        <br>
+          * v3: move the change to plane_init() and also fix the cursor
+        plane.
+        <br>
+                (Jammy Huang)
+        <br>
+        <br>
+        Tested on a sr645 affected by this bug.
+        <br>
+        <br>
+        Fixes: f2fa5a99ca81 ("drm/ast: Convert ast to SHMEM")
+        <br>
+        Signed-off-by: Jocelyn Falempe <a class="moz-txt-link-rfc2396E" href="mailto:jfalempe@redhat.com">&lt;jfalempe@redhat.com&gt;</a>
+        <br>
+      </blockquote>
+      <br>
+      Reviewed-by: Thomas Zimmermann <a class="moz-txt-link-rfc2396E" href="mailto:tzimmermann@suse.de">&lt;tzimmermann@suse.de&gt;</a>
+      <br>
+    </blockquote>
+    <p>Reviewed-by: Jammy Huang <a class="moz-txt-link-rfc2396E"
+        href="mailto:tzimmermann@suse.de">&lt;</a><a
+        class="moz-txt-link-rfc2396E" href="mailto:tzimmermann@suse.de"><!--[if gte mso 9]><xml>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+ </o:OfficeDocumentSettings>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Normal</w:View>
+  <w:Zoom>0</w:Zoom>
+  <w:TrackMoves/>
+  <w:TrackFormatting/>
+  <w:PunctuationKerning/>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>ZH-TW</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:EnableOpenTypeKerning/>
+   <w:DontFlipMirrorIndents/>
+   <w:OverrideTableStyleHps/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="376">
+  <w:LsdException Locked="false" Priority="0" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index 9"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" Name="toc 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="header"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footer"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="index heading"/>
+  <w:LsdException Locked="false" Priority="35" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of figures"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="envelope return"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="footnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="line number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="page number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote reference"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="endnote text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="table of authorities"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="macro"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="toa heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Bullet 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Number 5"/>
+  <w:LsdException Locked="false" Priority="10" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Closing"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Signature"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="List Continue 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Message Header"/>
+  <w:LsdException Locked="false" Priority="11" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Salutation"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Date"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text First Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Note Heading"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Body Text Indent 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Block Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="FollowedHyperlink"/>
+  <w:LsdException Locked="false" Priority="22" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Document Map"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Plain Text"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="E-mail Signature"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Top of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Bottom of Form"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal (Web)"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Acronym"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Address"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Cite"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Code"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Definition"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Keyboard"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Preformatted"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Sample"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Typewriter"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="HTML Variable"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Normal Table"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="annotation subject"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="No List"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Outline List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Simple 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Classic 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Colorful 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Columns 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Grid 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table List 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table 3D effects 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Contemporary"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Elegant"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Professional"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Subtle 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Web 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Balloon Text"/>
+  <w:LsdException Locked="false" Priority="39" Name="Table Grid"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Table Theme"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+  <w:LsdException Locked="false" Priority="41" Name="Plain Table 1"/>
+  <w:LsdException Locked="false" Priority="42" Name="Plain Table 2"/>
+  <w:LsdException Locked="false" Priority="43" Name="Plain Table 3"/>
+  <w:LsdException Locked="false" Priority="44" Name="Plain Table 4"/>
+  <w:LsdException Locked="false" Priority="45" Name="Plain Table 5"/>
+  <w:LsdException Locked="false" Priority="40" Name="Grid Table Light"/>
+  <w:LsdException Locked="false" Priority="46" Name="Grid Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="Grid Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="Grid Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="46" Name="List Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="List Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="List Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Hyperlink"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Hashtag"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Unresolved Mention"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   Name="Smart Link"/>
+ </w:LatentStyles>
+</xml><![endif]--><!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:表格內文;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+</style>
+<![endif]--><span style="font-size:11.0pt;font-family:
+&quot;Calibri&quot;,sans-serif;mso-fareast-font-family:新細明體;mso-ansi-language:EN-US;
+          mso-fareast-language:ZH-TW;mso-bidi-language:AR-SA"
+          lang="EN-US">jammy_huang@aspeedtech.com</span>&gt;</a></p>
+    <blockquote type="cite"
+      cite="mid:76785a76-281d-f847-5904-d8df361aa0b4@suse.de">
+      <br>
+      <blockquote type="cite">---
+        <br>
+          drivers/gpu/drm/ast/ast_mode.c | 4 ++--
+        <br>
+          1 file changed, 2 insertions(+), 2 deletions(-)
+        <br>
+        <br>
+        diff --git a/drivers/gpu/drm/ast/ast_mode.c
+        b/drivers/gpu/drm/ast/ast_mode.c
+        <br>
+        index c7443317c747..66a4a41c3fe9 100644
+        <br>
+        --- a/drivers/gpu/drm/ast/ast_mode.c
+        <br>
+        +++ b/drivers/gpu/drm/ast/ast_mode.c
+        <br>
+        @@ -714,7 +714,7 @@ static int ast_primary_plane_init(struct
+        ast_private *ast)
+        <br>
+              struct ast_plane *ast_primary_plane =
+        &amp;ast-&gt;primary_plane;
+        <br>
+              struct drm_plane *primary_plane =
+        &amp;ast_primary_plane-&gt;base;
+        <br>
+              void __iomem *vaddr = ast-&gt;vram;
+        <br>
+        -    u64 offset = ast-&gt;vram_base;
+        <br>
+        +    u64 offset = 0; /* with shmem, the primary plane is always
+        at offset 0 */
+        <br>
+              unsigned long cursor_size = roundup(AST_HWC_SIZE +
+        AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+        <br>
+              unsigned long size = ast-&gt;vram_fb_available -
+        cursor_size;
+        <br>
+              int ret;
+        <br>
+        @@ -972,7 +972,7 @@ static int ast_cursor_plane_init(struct
+        ast_private *ast)
+        <br>
+                  return -ENOMEM;
+        <br>
+                vaddr = ast-&gt;vram + ast-&gt;vram_fb_available - size;
+        <br>
+        -    offset = ast-&gt;vram_base + ast-&gt;vram_fb_available -
+        size;
+        <br>
+        +    offset = ast-&gt;vram_fb_available - size;
+        <br>
+                ret = ast_plane_init(dev, ast_cursor_plane, vaddr,
+        offset, size,
+        <br>
+                           0x01, &amp;ast_cursor_plane_funcs,
+        <br>
+      </blockquote>
+      <br>
+    </blockquote>
+    <pre class="moz-signature" cols="72">-- 
+Best Regards
+Jammy</pre>
+  </body>
+</html>
 
-As a reminder: if the patchset is ready at the time of 6.3-rc1 (in
-three weeks from now), it is going to be merged into linux-next first,
-after that it can go into the main Linus'es tree at 6.4-rc1. So we
-will have _two_ kernel cycles to collect bug reports and to disable
-(or fix) broken cases.
-
-> We can evaluate and enable smartDMA on other chipsets on a need basis.
->
-> We discussed this again even today in the team discussion. Our team's
-> PoV doesnt change. We would still like to enable smartDMA only on
-> chipsets which can be visually validated first to limit the debugging
-> effort to one chipset first and then perfect it. Otherwise its too much
-> effort on QC side to debug those issues on all chipsets.
-
-I think QC mostly debugs issues on sc7180/sc7280 and sometimes on
-sdm845/sm8250 (and now on sm8350). I think we can let people
-(somainline, PmOS) test features on other platforms.
-And testing happens better if we can say 'please test linux-next'
-rather than 'please test linux-next + this patch to enable the feature
-+ that patch to enable the second patch of the feature'.
-
-> >>>> So lets say if we test it on sc7280 fully but not on sc7180, we will
-> >>>> still hit this condition on sc7180 too but on that chipset we did not
-> >>>> advertise 4K as a capability in the product spec.
-> >>>
-> >>> Is it 'not advertised' or 'not supported by hw'?
-> >>>
-> >>
-> >> The document
-> >> https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/prod_brief_qcom_sd7c.pdf
-> >> is made from inputs from not just display team but overall system
-> >> limits. So even though you could argue that this falls within the
-> >> display capabilities, all I can say at the moment is we have to stick to
-> >> the advertized limits as its compiled with inputs from all the teams
-> >> (system/performance etc).
-> >
-> > So, there should be a limiting factor (or a combination of them).
-> > Filter out 4k modes on sc7180. Or modes using fill rate higher than N.
-> > Pixel clock rate higher than M. But it has nothing to do with these
-> > patches enabling SmartDMA support on this platform.
-> >
-> > Even if we look at the vendor kernels, we don't see 'maximum external
-> > resolution'. Instead I see a combination of linewidth and bandwidth
-> > limitations. If we can stick to that, that would be great.
-> >
->
-> Can you please point me to bandwidth limitation checks? How are other
-> vendors coming up with this number? It has to be based on some
-> resolution too right?
-
-Usually it is considered in the other direction. The SoC can support
-this-and-that pixel clock and bandwidth, so put the NxM resolution to
-the datasheet as the max supported one.
-
-Can you point out how the vendor kernel limits DP modes? I checked out
-several dtsi files. For sm8250 the DP is limited to 1920x1080 (while
-PB explicitly mentions 4k@60).
-sm7125 is limited to 2560x1600. sm6150 again 1920x1080. From the pile
-of the DTS that I have here the rest lists only
-qcom,max-pclk-frequency-khz
-
-> My RFC https://patchwork.freedesktop.org/series/107917/ considered pixel
-> clk as the limiting factor which was posted after discussions
-> internally. In the absence of another way, that remains the only
-> solution to tackle this.
-
-If I remember correctly the mentioned patchset used manually crafted
-pixel clocks. And for example for sm8250 this clock doesn't correspond
-to verifiable source.
-Your patchset used 594000 KHz as max ext pclk for sm8250. vendor dtsi
-lists 187500 KHz as maximum DP pclk for RB5 and 150000 KHz in all
-other cases. And, at the same time, it lists a 3840x2160@60 mode for
-the DSI/lt9611uxc with the pixel clock as high as 608040 KHz.
-
-I suggest we stop the discussion at this point, unless there is
-anything else wrong with this patchset itself.
-
-I noted the point regarding UBWC & parallel mode. I will handle it in
-the next iteration.
-
-I noted your valid point about the visual verification. I proposed a
-way to ease validation, allowing it to be enabled for testers and
-early adopters for nearly two cycles. I hope you'd agree to this plan.
-I on the other side agree to revert to opt-in if the failure rate is
-high.
-
-Please stop bringing max resolution issues to this patchserie. It must
-be handled separately. I hope to see the mode filter patch targeting
-sc7180 & sc7280. With the DSI opp check in place I think we should
-concentrate on the DP case. If nothing else, I think even adding the
-max PCLK to the msm_dp_desc should be sufficient to your worries. I'd
-prefer to be able to override it for the particular board, but I think
-this can come later, as it would require an agreement from the DT
-schema team.
-
---
-With best wishes
-Dmitry
+--------------Q45V7jN0Ub9lA0PLsdjLGgDK--
