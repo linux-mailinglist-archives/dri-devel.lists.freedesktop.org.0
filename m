@@ -2,71 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CC1691D8C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 12:04:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352FD691D94
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 12:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD93110ECE1;
-	Fri, 10 Feb 2023 11:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7517810ECDE;
+	Fri, 10 Feb 2023 11:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF0A10ECD7
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 11:04:03 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id p26so14768211ejx.13
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 03:04:03 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75C5510ECD7
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 11:06:27 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id m2so14825237ejb.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 03:06:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=r2U3F1uwjHuiqAIBv6x42HMg+Ngi+9HEBlLmfRU10dY=;
- b=sNU+vqWq+Ivn/7scG/wrYUESzYM2w8UZrlpU+1KA/KCciCbp8dN7Ys22Xb4UWF8fmw
- /sBrqExdaeAb9IXWtMXZy+Kh1CxGIpb0m6XzAP7fxHTUo4/fdWHa3x+YJlf9maz7WvHQ
- ifX9D9391L80rzk3rsgBh1ErSHfjliHkSYUqQRnwjXti+LxsvAtztBV1UwwsmzoaNSlk
- lY4oLPThik7vcvaBufqk6A9mITfa0LyqCmMatkL10nB/zZAZcw1chwREOGTgzSWAZPZe
- DsSQWNwtuX59xLvwsywjf4Km5b6xjb4OVc1kQafRf7DZRy0fIDanTz5Dj2G9HUNJb+KV
- 6Plw==
+ bh=tH6uHPrahlXBtLrMhQxPy8ErppcAnDGeUuUs4pDFeFw=;
+ b=fvQqTnHY3ncLjfr1NMtxHpJj36h0R8NeRDyocRtixV+DDcESeScPWnMNp2CtcUzjHP
+ CY029SxeNQwRnqv58F3PS/Mgb8V02XTgrpfKIObIeS1Jjese7qmodLNQzD+3e2YUtI9G
+ iydCC5yjrqQMuAEBdSBERF/iXX6scbTQqhsbHHBqXXwMVQoKaImVBPMRuMVF8J+rxNpv
+ cTmg9MSMxl9j/wCpAsxh9apvrlfXfF/5ejpDLA5Qm9SwkzyHEXvz1F3yvYq7hWLj2Xp5
+ 5r0XqXN9bZMLCyTPQfv5Hpw+216f9gHKvxgtDudf8zahf+ILdDwSJOLohUZm6v9F+Qyu
+ fV4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r2U3F1uwjHuiqAIBv6x42HMg+Ngi+9HEBlLmfRU10dY=;
- b=C++6ZNeQXSPjZ8UoAMvFF1BvDHLpARLbZzJBrS/n7CTqqx6kNn4fSbZ4PIYA//CO51
- BpybStyL7QBVSYuJwVLYru4cGVRtwyH7MnjNNtPJuzCsuxm0jrFWWsVB9SpxpFKB3McY
- LItvWhmzwz2au64uiNKWczgSn6aVoZm0OWd+9IxfVOPaobDjWPeMDqMV+rINpbvIkPrD
- 3L+eojNtW4MeTdq6q6kiT3OYo8nULKU62lsoXsKLiY+Kq7syN0aADCvHgObWlLylMS05
- 4lnIlM/72fVZPImazmn28IZeuT4wOltnlT4dPLwFHeqqCuQPZdhzgyxSycLTrDI38HEd
- W3Og==
-X-Gm-Message-State: AO0yUKXtWOx8YRXWZPPShKl5Wqh3No72O23SR0VfnY9cd/HzGOkjtDfl
- nqQAzsZ5msFat0JPIBpDoXY0kg==
-X-Google-Smtp-Source: AK7set+cf/2j9bzg5hcSYnMQxA4s688mptKE/8TYDB4LNSSKTNiil0acJUZs6xlyHtaKqW3VDA3iGg==
-X-Received: by 2002:a17:906:2851:b0:8a6:93a4:c892 with SMTP id
- s17-20020a170906285100b008a693a4c892mr15372625ejc.44.1676027041858; 
- Fri, 10 Feb 2023 03:04:01 -0800 (PST)
-Received: from [192.168.1.101] (abxh117.neoplus.adsl.tpnet.pl. [83.9.1.117])
+ bh=tH6uHPrahlXBtLrMhQxPy8ErppcAnDGeUuUs4pDFeFw=;
+ b=jV4dLzGE4t31EdJ64nTRxEocSGHy5N4mPZ9awknnBZs4Cb2oepFR/WdpnkcDWkkjXV
+ kcF1UWLZ7cuokXhnsms5beAB45Z+I5Grdt5PfMOCmSdw8cn5a/gvzFdynaCe12N+dw2S
+ 8KFqKDxRoFoeTPdudYiVWn8JW8OmoO6YSICRpXoeEN5tfRFbg8lqwMhJRh7CMIDAm7C0
+ xdQHMdOfyCY2VBLsBkcwcIIRdHQiI0NCK+A0kvTiw5KsBg2CEGRvk8rRQ4y1VmGouKgB
+ R4ItZNR5WlKMrpgWPqoJphCUwTkdRA4IizQXPCd4P/VazbFA3oL5phWJtP/pyHf3UfKX
+ Ke2A==
+X-Gm-Message-State: AO0yUKUdWmm7pOmOI4k8hyxGu2nKooVlGCG/Ew036WClp4gmd9Y/cTs/
+ ovMi0gv8Fmj+HNYYnOxgC3+v7Q==
+X-Google-Smtp-Source: AK7set8fDQ6xW20fEQRKoaxBZ3mvVV7Prw/07OHfucce/6tJfp8Z6DzzQ6QdnubiXQG6R8do6hnMXg==
+X-Received: by 2002:a17:906:3582:b0:888:1f21:4429 with SMTP id
+ o2-20020a170906358200b008881f214429mr12351428ejb.19.1676027185961; 
+ Fri, 10 Feb 2023 03:06:25 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- n24-20020a170906379800b008af2c131d4csm2222698ejc.5.2023.02.10.03.03.59
+ a9-20020a17090640c900b008720c458bd4sm2236948ejk.3.2023.02.10.03.06.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 03:04:01 -0800 (PST)
-Message-ID: <addce6b1-1d3c-9094-b6e6-c060b0d0435a@linaro.org>
-Date: Fri, 10 Feb 2023 12:03:59 +0100
+ Fri, 10 Feb 2023 03:06:25 -0800 (PST)
+Message-ID: <2b6b5983-355e-0fde-d6c8-989e06f567e4@linaro.org>
+Date: Fri, 10 Feb 2023 13:06:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v3 3/6] arm64: dts: qcom: sm8350: move more nodes to
- correct place
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230209133839.762631-1-dmitry.baryshkov@linaro.org>
- <20230209133839.762631-4-dmitry.baryshkov@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230209133839.762631-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 2/5] arm64: dts: qcom: sm8350: switch to combo usb3/dp
+ phy
+Content-Language: en-GB
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org>
+ <20230206-topic-sm8450-upstream-dp-controller-v2-2-529da2203659@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230206-topic-sm8450-upstream-dp-controller-v2-2-529da2203659@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,385 +84,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 9.02.2023 14:38, Dmitry Baryshkov wrote:
-> Continue ordering DT nodes by their address. Move RNG, UFS, system NoC
-> and SLPI nodes to the proper position.
+On 10/02/2023 12:34, Neil Armstrong wrote:
+> The first QMP PHY is an USB3/DP combo phy, switch to the newly
+> documented bindings and register the clocks to the GCC
+> and DISPCC controllers.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-Konrad
->  arch/arm64/boot/dts/qcom/sm8350.dtsi | 314 +++++++++++++--------------
->  1 file changed, 157 insertions(+), 157 deletions(-)
+With the following few nits fixed:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+>   arch/arm64/boot/dts/qcom/sm8350.dtsi | 40 ++++++++++++------------------------
+>   1 file changed, 13 insertions(+), 27 deletions(-)
 > 
 > diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-> index b85bd8fd28c0..8bf38d350521 100644
+> index 04bb838189a6..d490ce84a022 100644
 > --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
 > +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
-> @@ -1421,6 +1421,13 @@ spi13: spi@a94000 {
->  			};
->  		};
->  
-> +		rng: rng@10d3000 {
-> +			compatible = "qcom,prng-ee";
-> +			reg = <0 0x010d3000 0 0x1000>;
-> +			clocks = <&rpmhcc RPMH_HWKM_CLK>;
-> +			clock-names = "core";
-> +		};
-> +
->  		config_noc: interconnect@1500000 {
->  			compatible = "qcom,sm8350-config-noc";
->  			reg = <0 0x01500000 0 0xa580>;
-> @@ -1641,18 +1648,76 @@ pcie1_phy: phy@1c0f000 {
->  			status = "disabled";
->  		};
->  
-> -		lpass_ag_noc: interconnect@3c40000 {
-> -			compatible = "qcom,sm8350-lpass-ag-noc";
-> -			reg = <0 0x03c40000 0 0xf080>;
-> -			#interconnect-cells = <2>;
-> -			qcom,bcm-voters = <&apps_bcm_voter>;
-> +		ufs_mem_hc: ufshc@1d84000 {
-> +			compatible = "qcom,sm8350-ufshc", "qcom,ufshc",
-> +				     "jedec,ufs-2.0";
-> +			reg = <0 0x01d84000 0 0x3000>;
-> +			interrupts = <GIC_SPI 265 IRQ_TYPE_LEVEL_HIGH>;
-> +			phys = <&ufs_mem_phy_lanes>;
-> +			phy-names = "ufsphy";
-> +			lanes-per-direction = <2>;
-> +			#reset-cells = <1>;
-> +			resets = <&gcc GCC_UFS_PHY_BCR>;
-> +			reset-names = "rst";
-> +
-> +			power-domains = <&gcc UFS_PHY_GDSC>;
-> +
-> +			iommus = <&apps_smmu 0xe0 0x0>;
-> +
-> +			clock-names =
-> +				"core_clk",
-> +				"bus_aggr_clk",
-> +				"iface_clk",
-> +				"core_clk_unipro",
-> +				"ref_clk",
-> +				"tx_lane0_sync_clk",
-> +				"rx_lane0_sync_clk",
-> +				"rx_lane1_sync_clk";
-> +			clocks =
-> +				<&gcc GCC_UFS_PHY_AXI_CLK>,
-> +				<&gcc GCC_AGGRE_UFS_PHY_AXI_CLK>,
-> +				<&gcc GCC_UFS_PHY_AHB_CLK>,
-> +				<&gcc GCC_UFS_PHY_UNIPRO_CORE_CLK>,
-> +				<&rpmhcc RPMH_CXO_CLK>,
-> +				<&gcc GCC_UFS_PHY_TX_SYMBOL_0_CLK>,
-> +				<&gcc GCC_UFS_PHY_RX_SYMBOL_0_CLK>,
-> +				<&gcc GCC_UFS_PHY_RX_SYMBOL_1_CLK>;
-> +			freq-table-hz =
-> +				<75000000 300000000>,
-> +				<0 0>,
-> +				<0 0>,
-> +				<75000000 300000000>,
-> +				<0 0>,
-> +				<0 0>,
-> +				<0 0>,
-> +				<0 0>;
-> +			status = "disabled";
->  		};
->  
-> -		compute_noc: interconnect@a0c0000 {
-> -			compatible = "qcom,sm8350-compute-noc";
-> -			reg = <0 0x0a0c0000 0 0xa180>;
-> -			#interconnect-cells = <2>;
-> -			qcom,bcm-voters = <&apps_bcm_voter>;
-> +		ufs_mem_phy: phy@1d87000 {
-> +			compatible = "qcom,sm8350-qmp-ufs-phy";
-> +			reg = <0 0x01d87000 0 0x1c4>;
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +			ranges;
-> +			clock-names = "ref",
-> +				      "ref_aux";
-> +			clocks = <&rpmhcc RPMH_CXO_CLK>,
-> +				 <&gcc GCC_UFS_PHY_PHY_AUX_CLK>;
-> +
-> +			resets = <&ufs_mem_hc 0>;
-> +			reset-names = "ufsphy";
-> +			status = "disabled";
-> +
-> +			ufs_mem_phy_lanes: phy@1d87400 {
-> +				reg = <0 0x01d87400 0 0x188>,
-> +				      <0 0x01d87600 0 0x200>,
-> +				      <0 0x01d87c00 0 0x200>,
-> +				      <0 0x01d87800 0 0x188>,
-> +				      <0 0x01d87a00 0 0x200>;
-> +				#clock-cells = <1>;
-> +				#phy-cells = <0>;
-> +			};
->  		};
->  
->  		ipa: ipa@1e40000 {
-> @@ -1700,6 +1765,13 @@ tcsr_mutex: hwlock@1f40000 {
->  			#hwlock-cells = <1>;
->  		};
->  
-> +		lpass_ag_noc: interconnect@3c40000 {
-> +			compatible = "qcom,sm8350-lpass-ag-noc";
-> +			reg = <0 0x03c40000 0 0xf080>;
-> +			#interconnect-cells = <2>;
-> +			qcom,bcm-voters = <&apps_bcm_voter>;
-> +		};
-> +
->  		mpss: remoteproc@4080000 {
->  			compatible = "qcom,sm8350-mpss-pas";
->  			reg = <0x0 0x04080000 0x0 0x4040>;
-> @@ -1742,6 +1814,74 @@ IPCC_MPROC_SIGNAL_GLINK_QMP
->  			};
->  		};
->  
-> +		slpi: remoteproc@5c00000 {
-> +			compatible = "qcom,sm8350-slpi-pas";
-> +			reg = <0 0x05c00000 0 0x4000>;
-> +
-> +			interrupts-extended = <&pdc 9 IRQ_TYPE_LEVEL_HIGH>,
-> +					      <&smp2p_slpi_in 0 IRQ_TYPE_EDGE_RISING>,
-> +					      <&smp2p_slpi_in 1 IRQ_TYPE_EDGE_RISING>,
-> +					      <&smp2p_slpi_in 2 IRQ_TYPE_EDGE_RISING>,
-> +					      <&smp2p_slpi_in 3 IRQ_TYPE_EDGE_RISING>;
-> +			interrupt-names = "wdog", "fatal", "ready",
-> +					  "handover", "stop-ack";
-> +
-> +			clocks = <&rpmhcc RPMH_CXO_CLK>;
-> +			clock-names = "xo";
-> +
-> +			power-domains = <&rpmhpd SM8350_LCX>,
-> +					<&rpmhpd SM8350_LMX>;
-> +			power-domain-names = "lcx", "lmx";
-> +
-> +			memory-region = <&pil_slpi_mem>;
-> +
-> +			qcom,qmp = <&aoss_qmp>;
-> +
-> +			qcom,smem-states = <&smp2p_slpi_out 0>;
-> +			qcom,smem-state-names = "stop";
-> +
-> +			status = "disabled";
-> +
-> +			glink-edge {
-> +				interrupts-extended = <&ipcc IPCC_CLIENT_SLPI
-> +							     IPCC_MPROC_SIGNAL_GLINK_QMP
-> +							     IRQ_TYPE_EDGE_RISING>;
-> +				mboxes = <&ipcc IPCC_CLIENT_SLPI
-> +						IPCC_MPROC_SIGNAL_GLINK_QMP>;
-> +
-> +				label = "slpi";
-> +				qcom,remote-pid = <3>;
-> +
-> +				fastrpc {
-> +					compatible = "qcom,fastrpc";
-> +					qcom,glink-channels = "fastrpcglink-apps-dsp";
-> +					label = "sdsp";
-> +					qcom,non-secure-domain;
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					compute-cb@1 {
-> +						compatible = "qcom,fastrpc-compute-cb";
-> +						reg = <1>;
-> +						iommus = <&apps_smmu 0x0541 0x0>;
-> +					};
-> +
-> +					compute-cb@2 {
-> +						compatible = "qcom,fastrpc-compute-cb";
-> +						reg = <2>;
-> +						iommus = <&apps_smmu 0x0542 0x0>;
-> +					};
-> +
-> +					compute-cb@3 {
-> +						compatible = "qcom,fastrpc-compute-cb";
-> +						reg = <3>;
-> +						iommus = <&apps_smmu 0x0543 0x0>;
-> +						/* note: shared-cb = <4> in downstream */
-> +					};
-> +				};
-> +			};
-> +		};
-> +
->  		pdc: interrupt-controller@b220000 {
->  			compatible = "qcom,sm8350-pdc", "qcom,pdc";
->  			reg = <0 0x0b220000 0 0x30000>, <0 0x17c000f0 0 0x60>;
-> @@ -2012,153 +2152,6 @@ qup_i2c19_default: qup-i2c19-default-state {
->  			};
->  		};
->  
-> -		rng: rng@10d3000 {
-> -			compatible = "qcom,prng-ee";
-> -			reg = <0 0x010d3000 0 0x1000>;
-> -			clocks = <&rpmhcc RPMH_HWKM_CLK>;
-> -			clock-names = "core";
-> -		};
-> -
-> -		ufs_mem_hc: ufshc@1d84000 {
-> -			compatible = "qcom,sm8350-ufshc", "qcom,ufshc",
-> -				     "jedec,ufs-2.0";
-> -			reg = <0 0x01d84000 0 0x3000>;
-> -			interrupts = <GIC_SPI 265 IRQ_TYPE_LEVEL_HIGH>;
-> -			phys = <&ufs_mem_phy_lanes>;
-> -			phy-names = "ufsphy";
-> -			lanes-per-direction = <2>;
-> -			#reset-cells = <1>;
-> -			resets = <&gcc GCC_UFS_PHY_BCR>;
-> -			reset-names = "rst";
-> -
-> -			power-domains = <&gcc UFS_PHY_GDSC>;
-> -
-> -			iommus = <&apps_smmu 0xe0 0x0>;
-> -
-> -			clock-names =
-> -				"core_clk",
-> -				"bus_aggr_clk",
-> -				"iface_clk",
-> -				"core_clk_unipro",
-> -				"ref_clk",
-> -				"tx_lane0_sync_clk",
-> -				"rx_lane0_sync_clk",
-> -				"rx_lane1_sync_clk";
-> -			clocks =
-> -				<&gcc GCC_UFS_PHY_AXI_CLK>,
-> -				<&gcc GCC_AGGRE_UFS_PHY_AXI_CLK>,
-> -				<&gcc GCC_UFS_PHY_AHB_CLK>,
-> -				<&gcc GCC_UFS_PHY_UNIPRO_CORE_CLK>,
-> -				<&rpmhcc RPMH_CXO_CLK>,
-> -				<&gcc GCC_UFS_PHY_TX_SYMBOL_0_CLK>,
-> -				<&gcc GCC_UFS_PHY_RX_SYMBOL_0_CLK>,
-> -				<&gcc GCC_UFS_PHY_RX_SYMBOL_1_CLK>;
-> -			freq-table-hz =
-> -				<75000000 300000000>,
-> -				<0 0>,
-> -				<0 0>,
-> -				<75000000 300000000>,
-> -				<0 0>,
-> -				<0 0>,
-> -				<0 0>,
-> -				<0 0>;
+> @@ -652,7 +652,7 @@ gcc: clock-controller@100000 {
+>   				 <&ufs_mem_phy_lanes 0>,
+>   				 <&ufs_mem_phy_lanes 1>,
+>   				 <&ufs_mem_phy_lanes 2>,
+> -				 <0>,
+> +				 <&usb_1_qmpphy 0>,
+
+
+<&usb_1_qmpphy QMP_USB43DP_USB3_PIPE_CLK> ?
+
+
+>   				 <0>;
+>   		};
+>   
+> @@ -2601,37 +2601,24 @@ usb_2_hsphy: phy@88e4000 {
+>   			resets = <&gcc GCC_QUSB2PHY_SEC_BCR>;
+>   		};
+>   
+> -		usb_1_qmpphy: phy-wrapper@88e9000 {
+> -			compatible = "qcom,sm8350-qmp-usb3-phy";
+> -			reg = <0 0x088e9000 0 0x200>,
+> -			      <0 0x088e8000 0 0x20>;
 > -			status = "disabled";
-> -		};
-> -
-> -		ufs_mem_phy: phy@1d87000 {
-> -			compatible = "qcom,sm8350-qmp-ufs-phy";
-> -			reg = <0 0x01d87000 0 0x1c4>;
 > -			#address-cells = <2>;
 > -			#size-cells = <2>;
 > -			ranges;
-> -			clock-names = "ref",
-> -				      "ref_aux";
-> -			clocks = <&rpmhcc RPMH_CXO_CLK>,
-> -				 <&gcc GCC_UFS_PHY_PHY_AUX_CLK>;
-> -
-> -			resets = <&ufs_mem_hc 0>;
-> -			reset-names = "ufsphy";
-> -			status = "disabled";
-> -
-> -			ufs_mem_phy_lanes: phy@1d87400 {
-> -				reg = <0 0x01d87400 0 0x188>,
-> -				      <0 0x01d87600 0 0x200>,
-> -				      <0 0x01d87c00 0 0x200>,
-> -				      <0 0x01d87800 0 0x188>,
-> -				      <0 0x01d87a00 0 0x200>;
-> -				#clock-cells = <1>;
+> +		usb_1_qmpphy: phy@88e9000 {
+> +			compatible = "qcom,sm8350-qmp-usb3-dp-phy";
+> +			reg = <0 0x088e8000 0 0x3000>;
+>   
+>   			clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
+>   				 <&rpmhcc RPMH_CXO_CLK>,
+> -				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>;
+> -			clock-names = "aux", "ref_clk_src", "com_aux";
+> +				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>,
+> +				 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
+> +			clock-names = "aux", "ref", "com_aux", "usb3_pipe";
+>   
+>   			resets = <&gcc GCC_USB3_DP_PHY_PRIM_BCR>,
+>   				 <&gcc GCC_USB3_PHY_PRIM_BCR>;
+>   			reset-names = "phy", "common";
+>   
+> -			usb_1_ssphy: phy@88e9200 {
+> -				reg = <0 0x088e9200 0 0x200>,
+> -				      <0 0x088e9400 0 0x200>,
+> -				      <0 0x088e9c00 0 0x400>,
+> -				      <0 0x088e9600 0 0x200>,
+> -				      <0 0x088e9800 0 0x200>,
+> -				      <0 0x088e9a00 0 0x100>;
 > -				#phy-cells = <0>;
+> -				#clock-cells = <0>;
+> -				clocks = <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
+> -				clock-names = "pipe0";
+> -				clock-output-names = "usb3_phy_pipe_clk_src";
 > -			};
-> -		};
-> -
-> -		slpi: remoteproc@5c00000 {
-> -			compatible = "qcom,sm8350-slpi-pas";
-> -			reg = <0 0x05c00000 0 0x4000>;
-> -
-> -			interrupts-extended = <&pdc 9 IRQ_TYPE_LEVEL_HIGH>,
-> -					      <&smp2p_slpi_in 0 IRQ_TYPE_EDGE_RISING>,
-> -					      <&smp2p_slpi_in 1 IRQ_TYPE_EDGE_RISING>,
-> -					      <&smp2p_slpi_in 2 IRQ_TYPE_EDGE_RISING>,
-> -					      <&smp2p_slpi_in 3 IRQ_TYPE_EDGE_RISING>;
-> -			interrupt-names = "wdog", "fatal", "ready",
-> -					  "handover", "stop-ack";
-> -
-> -			clocks = <&rpmhcc RPMH_CXO_CLK>;
-> -			clock-names = "xo";
-> -
-> -			power-domains = <&rpmhpd SM8350_LCX>,
-> -					<&rpmhpd SM8350_LMX>;
-> -			power-domain-names = "lcx", "lmx";
-> -
-> -			memory-region = <&pil_slpi_mem>;
-> -
-> -			qcom,qmp = <&aoss_qmp>;
-> -
-> -			qcom,smem-states = <&smp2p_slpi_out 0>;
-> -			qcom,smem-state-names = "stop";
-> -
-> -			status = "disabled";
-> -
-> -			glink-edge {
-> -				interrupts-extended = <&ipcc IPCC_CLIENT_SLPI
-> -							     IPCC_MPROC_SIGNAL_GLINK_QMP
-> -							     IRQ_TYPE_EDGE_RISING>;
-> -				mboxes = <&ipcc IPCC_CLIENT_SLPI
-> -						IPCC_MPROC_SIGNAL_GLINK_QMP>;
-> -
-> -				label = "slpi";
-> -				qcom,remote-pid = <3>;
-> -
-> -				fastrpc {
-> -					compatible = "qcom,fastrpc";
-> -					qcom,glink-channels = "fastrpcglink-apps-dsp";
-> -					label = "sdsp";
-> -					qcom,non-secure-domain;
-> -					#address-cells = <1>;
-> -					#size-cells = <0>;
-> -
-> -					compute-cb@1 {
-> -						compatible = "qcom,fastrpc-compute-cb";
-> -						reg = <1>;
-> -						iommus = <&apps_smmu 0x0541 0x0>;
-> -					};
-> -
-> -					compute-cb@2 {
-> -						compatible = "qcom,fastrpc-compute-cb";
-> -						reg = <2>;
-> -						iommus = <&apps_smmu 0x0542 0x0>;
-> -					};
-> -
-> -					compute-cb@3 {
-> -						compatible = "qcom,fastrpc-compute-cb";
-> -						reg = <3>;
-> -						iommus = <&apps_smmu 0x0543 0x0>;
-> -						/* note: shared-cb = <4> in downstream */
-> -					};
-> -				};
-> -			};
-> -		};
-> -
->  		sdhc_2: mmc@8804000 {
->  			compatible = "qcom,sm8350-sdhci", "qcom,sdhci-msm-v5";
->  			reg = <0 0x08804000 0 0x1000>;
-> @@ -2307,6 +2300,13 @@ system-cache-controller@9200000 {
->  			reg-names = "llcc_base", "llcc_broadcast_base";
->  		};
->  
-> +		compute_noc: interconnect@a0c0000 {
-> +			compatible = "qcom,sm8350-compute-noc";
-> +			reg = <0 0x0a0c0000 0 0xa180>;
-> +			#interconnect-cells = <2>;
-> +			qcom,bcm-voters = <&apps_bcm_voter>;
-> +		};
+> +			#clock-cells = <1>;
+> +			#phy-cells = <1>;
 > +
->  		usb_1: usb@a6f8800 {
->  			compatible = "qcom,sm8350-dwc3", "qcom,dwc3";
->  			reg = <0 0x0a6f8800 0 0x400>;
+> +			status = "disabled";
+>   		};
+>   
+>   		usb_2_qmpphy: phy-wrapper@88eb000 {
+> @@ -2727,7 +2714,7 @@ usb_1_dwc3: usb@a600000 {
+>   				iommus = <&apps_smmu 0x0 0x0>;
+>   				snps,dis_u2_susphy_quirk;
+>   				snps,dis_enblslpm_quirk;
+> -				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
+> +				phys = <&usb_1_hsphy>, <&usb_1_qmpphy 0>;
+
+
+<&usb_1_qmpphy QMP_USB43DP_USB3_PHY> ?
+
+
+>   				phy-names = "usb2-phy", "usb3-phy";
+>   			};
+>   		};
+> @@ -3092,8 +3079,7 @@ dispcc: clock-controller@af00000 {
+>   			clocks = <&rpmhcc RPMH_CXO_CLK>,
+>   				 <&mdss_dsi0_phy 0>, <&mdss_dsi0_phy 1>,
+>   				 <&mdss_dsi1_phy 0>, <&mdss_dsi1_phy 1>,
+> -				 <0>,
+> -				 <0>;
+> +				 <&usb_1_qmpphy 1>, <&usb_1_qmpphy 2>;
+
+<&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>, <&usb_1_qmpphy 
+QMP_USB43DP_DP_VCO_DIV_CLK>
+
+>   			clock-names = "bi_tcxo",
+>   				      "dsi0_phy_pll_out_byteclk",
+>   				      "dsi0_phy_pll_out_dsiclk",
+> 
+
+-- 
+With best wishes
+Dmitry
+
