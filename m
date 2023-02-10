@@ -2,71 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C366920AD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 15:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F376920B0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Feb 2023 15:20:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE0710ED2B;
-	Fri, 10 Feb 2023 14:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 668A710ED39;
+	Fri, 10 Feb 2023 14:20:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A0910ED39
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 14:19:10 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id a2so5219284wrd.6
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 06:19:10 -0800 (PST)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B673810ED39
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 14:20:00 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id qb15so14186280ejc.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 06:20:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:reply-to:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=1uTFfmvobksvpoGMelQsFMa0FYBiyHzYPIzwFP1iQCw=;
- b=OTFNGu03iKhaysy/pY/1pl3FPBrTNkjUm6x5Sb/3sRJoxAE76OhyP0zP72fc2EtuOd
- XJFePkwrYGy1yhpPYo7IsuNsHrqFTjin4aNNlpKZUIjYlmmI/UY/bJZV2UxN7iUGgLz5
- 8sUBB27Z7UZuzcsC4Ff9TyKOL/Lrrmj04YlIISU2RmoEXhJeTvWYAE9Hx3Fgk7K4Af7/
- oOZ06FWW0NIdNCmw5fwGEDjItE1OSgZRAsyGeH2KUAUAnoeODq3E76ajy18qIckAkKsr
- QMkByf81kU5S5vctaL5a5IAqkLmZepYEIedIdC7nPgcdaS75KzwO5STeMF6YlmXxDJ5y
- 9B0A==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1yeTUYV9DwvmvumapxveCYKLkr4TLgt1HykRgiLQgSg=;
+ b=PZD18EyHYR2HZg93WKDj6/g1Sl72V5Gg9ccQiT7XyhsvH7ZH6xBrflo9dWbWVzLNQM
+ WFlCaJ61SA+fCHm9frVrgTVH9mBzLVKpy7hr8XMS81emZOkp8PBdgiKRJBYTHJv5X2RH
+ yeyxQiMz0ZfBw/3YatSc1Yvrff4iDRpMhEx4VIu85HITwU0Wu+zILpGQOrBWTcwPceLB
+ qjYTq/P5CEssy6TTTR0qHjeeWQfdMiK/eR+f3OYL+7HMMrXB644BEq69ikyJ0881bLM/
+ ffgT2CQdWVi5HbSzIa10b5X+MXcFW/FBnXRLaKWGSx11OGtzPIhmNp2678bqHS3u2X/u
+ gtBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:reply-to:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1uTFfmvobksvpoGMelQsFMa0FYBiyHzYPIzwFP1iQCw=;
- b=Py6Gb03bVy6p18MtGupkwXUGTm7rNz+w+75gzfn71QKqBl+LUie/YVhvJkIoYIvJNO
- BGvbJlqVxlNvGfPlA4Ok6wF/LljL/JfGJwAyC3x/2a3TZVOoGJkFzQrpTpv+LUFLcOHI
- 1m9fQBUu3dsct2q2gwEIG95pBfLYbxVAYsku8FiwGSo20MAipB0lsWxgfPX4FihnllHB
- dc+hOP1ZPOu9jO/broN7Gul8EgfulKEWdVimFZuVQsgkQRXJBsCpkr2h3oIL9KbYfMS4
- va9mYgsvTPW1g/qqylSqpYTZfDAZ+BHSIg5VF/XUYnAA0x9OcAlBvsHuuLAOs/x283sa
- GkhQ==
-X-Gm-Message-State: AO0yUKV2HtZci0R4RRRstCacy9d7O9PFEDn5OPuf/Z2/ld8t8s0UZkaw
- YoTFK+8Bro6pSbGlMO/NQLElWg==
-X-Google-Smtp-Source: AK7set8E+f+ZV83w6B4IZTO9iq19ePvcHokwop+CDn+zBqZ/sctxhXM7i0ujcsYzlSt9Utc2g5ywwQ==
-X-Received: by 2002:a5d:464b:0:b0:2c3:f8b6:666b with SMTP id
- j11-20020a5d464b000000b002c3f8b6666bmr4591136wrs.26.1676038748717; 
- Fri, 10 Feb 2023 06:19:08 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:5a65:5553:55cf:3027?
- ([2a01:e0a:982:cbb0:5a65:5553:55cf:3027])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1yeTUYV9DwvmvumapxveCYKLkr4TLgt1HykRgiLQgSg=;
+ b=aoYvjhpzFNUsytplu5jE04qi07d9r9pv3E8dinpeZ4AFZydOin5Bb0Vw5rUYPFCBU0
+ XellZN6J+yuCrG9USLcbFRwaisu0ZOlHNyDHrxks5jbtrFtDIiGb3Pv4eYBrCYuHz29e
+ b9G1t2qs1onTaAGLrgpg1H3rqdo2O9pHE1t65FiResU/NikX1Tkd7murDoZHbSbDOUmE
+ t9YWbDvV+SEqV/twRbzOWnONrMwO84N4NcEX+ozPLkMsgi3mGZ53weIJqllCERuDm1DQ
+ 4QD14gHMElpe0xYeWIeROwB7QC1em4WGjt7HM8U/z61CqpmvWRkuj9mA2D+5LuFvoUPa
+ NDrA==
+X-Gm-Message-State: AO0yUKV2rat22Kdtf/gUDuymkS/7Gy81T8RX0Kaqh6pRSWTa1DGldpA9
+ zwOegc4OxspYtP67nIQNqZ6Qmk2W0iIf21hU
+X-Google-Smtp-Source: AK7set+NpQMZbv5ZXwmnSHxh8Yc3tiwUG09wLMeLAvVpFA5+yXPGm2Glt6S1EsUDBk30Kyow7w+/3A==
+X-Received: by 2002:a17:906:6a20:b0:8af:33f8:dcb3 with SMTP id
+ qw32-20020a1709066a2000b008af33f8dcb3mr8466028ejc.57.1676038799317; 
+ Fri, 10 Feb 2023 06:19:59 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- u13-20020a5d468d000000b002c54c92e125sm584454wrq.46.2023.02.10.06.19.07
+ c18-20020a17090618b200b0088452ca0666sm2410748ejf.196.2023.02.10.06.19.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Feb 2023 06:19:08 -0800 (PST)
-Message-ID: <63ea4f1a-a9be-eef7-bfe9-acb5567b4107@linaro.org>
-Date: Fri, 10 Feb 2023 15:19:06 +0100
+ Fri, 10 Feb 2023 06:19:58 -0800 (PST)
+Message-ID: <97d75a6d-0b75-f0c2-1327-ceece0e4a17a@linaro.org>
+Date: Fri, 10 Feb 2023 16:19:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH] drm/msm/dpu: set DPU_MDP_PERIPH_0_REMOVED for sc8280xp
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20230210141554.928883-1-dmitry.baryshkov@linaro.org>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20230210141554.928883-1-dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 3/5] arm64: dts: qcom: sm8350: add dp controller
+Content-Language: en-GB
+To: neil.armstrong@linaro.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org>
+ <20230206-topic-sm8450-upstream-dp-controller-v2-3-529da2203659@linaro.org>
+ <df068428-c086-4f6a-3cda-9ef6ce665f13@linaro.org>
+ <37d23af4-7920-055f-76b0-87ad907896e2@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <37d23af4-7920-055f-76b0-87ad907896e2@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,35 +85,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/02/2023 15:15, Dmitry Baryshkov wrote:
-> The SC8280XP also has a black hole at the top of MDP_TOP region. Set
-> corresponding bit to disable access to that region.
+On 10/02/2023 16:18, Neil Armstrong wrote:
+> On 10/02/2023 12:08, Dmitry Baryshkov wrote:
+>> On 10/02/2023 12:34, Neil Armstrong wrote:
+>>> Add the Display Port controller subnode to the MDSS node.
+>>>
+>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>> ---
+>>>   arch/arm64/boot/dts/qcom/sm8350.dtsi | 82 
+>>> +++++++++++++++++++++++++++++++++++-
+>>>   1 file changed, 80 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi 
+>>> b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+>>> index d490ce84a022..eb636b7dffa7 100644
+>>> --- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
+>>> +++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+>>> @@ -2862,13 +2862,20 @@ ports {
+>>>                       port@0 {
+>>>                           reg = <0>;
+>>> -                        dpu_intf1_out: endpoint {
+>>> -                            remote-endpoint = <&mdss_dsi0_in>;
+>>> +                        dpu_intf0_out: endpoint {
+>>> +                            remote-endpoint = <&mdss_dp_in>;
+>>
+>> No need to reorder these ports. Please add DP to the end.
 > 
-> Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index 3fa202da62fb..f792275dc48f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -743,7 +743,7 @@ static const struct dpu_mdp_cfg sc8280xp_mdp[] = {
->   	{
->   	.name = "top_0", .id = MDP_TOP,
->   	.base = 0x0, .len = 0x494,
-> -	.features = 0,
-> +	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
->   	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0},
->   	.clk_ctrls[DPU_CLK_CTRL_VIG1] = { .reg_off = 0x2b4, .bit_off = 0},
->   	.clk_ctrls[DPU_CLK_CTRL_VIG2] = { .reg_off = 0x2bc, .bit_off = 0},
+> Right, but I'll keep the dpu_intf0_out label for this port,
+> but having dpu_intf1_out, dpu_intf2_out then dpu_intf0_out isn't very 
+> clean...
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+I don't have a strong opinion here. I think we can ignore it.
+
+-- 
+With best wishes
+Dmitry
+
