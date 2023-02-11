@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC391692CB2
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 02:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ECBE692CCB
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 03:11:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D25A210E0CA;
-	Sat, 11 Feb 2023 01:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96CFB10E2D5;
+	Sat, 11 Feb 2023 02:10:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1168C10E0CA
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 01:59:10 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id sa10so20120002ejc.9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 17:59:10 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3668910E2D5
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 02:10:57 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id qb15so18130723ejc.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 18:10:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WsYj1dvpr8aqC1MHtJmuXbUcdvOjnso7J/f67jxofCo=;
- b=lXI/sFqen0oshgAA2YEH725UdyKaMCaZFY6j5dXA9HdJ8+Ek3+h8A/lGz0RlgUb6r2
- /CzbteHFyPs8xHI+wfz4ZkjNx0z2ZJW0F3Y3/63cIx3IFN5G3ea1PAlAtrbUG8qIlq5o
- xW5qTABRYlEquNfOtVfH/K825dJr75MLLZT6ImJssxfxEwOFprutnhjvPZoOtwvbIO5D
- mAeolfEO6pPuti99MXkWMNuNKj15gmxCEgoI7JPNU29f3ylK2kiSYw6Y5PRsDBo8Pmwu
- 1ZAZCBt83iK6kjmDxw3z0JpqPssWaDxp0krc+vkNhG8PIOcTD3e/uzCuWeRiveZrPi1I
- tzzg==
+ bh=6hXY5qH7E6QkEVbSGwR80wGsqXPfBW3dz3Y94maE6JY=;
+ b=b05kldMrVKaejm2R68XOD3ANon3jqRUn9tj69avSInETqVyQeCrpUzrYfI3HXF9tmI
+ P+/NptKfKKTkmOG6rZkjHwOaoZhNyra9djB1FMHStvGmAomoO02wHA7GmIinY3DIY9jJ
+ GBNkUzxSutucEDH2PLXv4om7jmVZU5vredBk+zZIJoJTDyKxqoTxz5ei7GspKGTF60ZI
+ Rq0RPRwJWr0UuDWKzy8bt5IdxVqT9C/aMTJ28U7rw/OXEJQbaTnFA668PnzUX0fOkbAD
+ 9nqikMqMAMl5YkUqf8NyVfXXdzyRLeopYj53zIkkQqIX+isOrwxSDIC1cpQCdA+qY4P/
+ KYgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=WsYj1dvpr8aqC1MHtJmuXbUcdvOjnso7J/f67jxofCo=;
- b=eK+Z32SXM3IT9DwYDect3qWLHH3YDLnMa1zT19UG39ClmDb8ThlHY6jmuAwuFVLnfK
- xSO6XgxeRVltG7eM3w0a0MGLSKQe89UYLj3KVDGGG3RIwYXIjkeHHvHXUCm70VCHZiLg
- umjOz7Ug5Olrx07pNaf+Me7ytnmj8uuI5HgnqUOUSm2nD4zKg0C6JulMqN9QRDQiO+FN
- VFD3dqBEjq7mDj1OkhDkvnImtF2mvJFdVwnqDqtyOGSdIR1M8icENS4LOKu0+cHdQMJJ
- TW69WcZ+PUbiLMoMX6KkePd3ymD1DsGJ/C1MhY5um9ya2JF0YCqqyNI51PJGI8bIlRy/
- EJKw==
-X-Gm-Message-State: AO0yUKWqytdfg5DHe2aCJvJ6jvHWAtELOzohHhOG6s1xwWAUC8QaWBIq
- LY8/pkKn4DDPyODcVrLIBdnQOw==
-X-Google-Smtp-Source: AK7set8lr2hecxNLdc0jB2qgDBb3EvRe0hdI1d1P8WmlFNoiqDDr5c3KP/VvgRK/pFJjHN01M6fq3Q==
-X-Received: by 2002:a17:906:1250:b0:87b:da77:eec2 with SMTP id
- u16-20020a170906125000b0087bda77eec2mr18025808eja.19.1676080749346; 
- Fri, 10 Feb 2023 17:59:09 -0800 (PST)
+ bh=6hXY5qH7E6QkEVbSGwR80wGsqXPfBW3dz3Y94maE6JY=;
+ b=yTmDkmAyuIeY22RLij6Sk2uFfwADDrVvIPXCRz4q0Eli9dAbnmnydqnj/oDEkEuyKz
+ M/zcX0zZrOq+ko87B3UA2i96QUMTBf2O+2uLSEhMmgxiD6i/Ri6tpQmmTh8nimC/hcsk
+ 47W3cEoDg8hCGfoKfnizatxIM8Q0u34CaIIV9LIhfrtSIwLyHXVHzDOXV9DcTHIAm1JE
+ 7ZubUhWHcEcUlTUqVKCW64nMVeuMOHMF74U1TL5bj5Bp4U0nygXhUyMfNX2LRBRY/+WO
+ 4x72MWQhkF3q/q9Q+NtyhUuml61KyPI8ej2PDhXN/WMcFjbdcUvjsAPMbIlcK68GE6MV
+ 1Kcg==
+X-Gm-Message-State: AO0yUKVmU2ZkqC2zXYglV5+ndx2+LiZXKH0Hb+iq+dMW2etZVhcUgcDu
+ kh7NeNrIRHX+wgP85n9kn8H12w==
+X-Google-Smtp-Source: AK7set8PJOR2U2iajUihDbLspiFSxFRTazkl/1iSqzcfV3oQIjOeLvCR7mB+LkGWB7VnAdkRnVCkiQ==
+X-Received: by 2002:a17:907:318e:b0:8b0:7cf6:104 with SMTP id
+ xe14-20020a170907318e00b008b07cf60104mr166609ejb.67.1676081455379; 
+ Fri, 10 Feb 2023 18:10:55 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- j9-20020aa7ca49000000b0045ce419ecffsm2987146edt.58.2023.02.10.17.59.08
+ e20-20020a170906c01400b008ae3324c8adsm3180831ejz.214.2023.02.10.18.10.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 17:59:08 -0800 (PST)
+ Fri, 10 Feb 2023 18:10:55 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v2] drm/msm/dpu: set DPU_MDP_PERIPH_0_REMOVED for sc8280xp
-Date: Sat, 11 Feb 2023 03:59:07 +0200
-Message-Id: <20230211015907.1077839-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 00/43] drm/msm/dpu: rework HW catalog
+Date: Sat, 11 Feb 2023 04:10:10 +0200
+Message-Id: <20230211021053.1078648-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,40 +69,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SC8280XP also has a black hole at the top of MDP_TOP region. Set
-corresponding bit to disable access to that region.
+This huge series attempts to restructure the DPU HW catalog into a
+manageable and reviewable data set.
 
-Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
+First 3 patches clean up the catalog a bit.
 
-Changes since v1: rebase on top of the msm-next
+Then the next batch of 13 + 5 patches split the hw catalog entries into
+per-SoC files.
 
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Next 14 patches rework catalog entries, mostly targeting QSEED cleanup
+and deduplication of data used by several platforms. At this moment only
+three pairs (out of 13 devices supported by DPU) are merged. However
+this part lays out the ground to ease adding support for new platforms,
+some of which use the same configuration as the existing platforms.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 71df24a134ed..fb5120afb028 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -696,7 +696,7 @@ static const struct dpu_mdp_cfg sc8280xp_mdp[] = {
- 	{
- 	.name = "top_0", .id = MDP_TOP,
- 	.base = 0x0, .len = 0x494,
--	.features = 0,
-+	.features = BIT(DPU_MDP_PERIPH_0_REMOVED),
- 	.highest_bank_bit = 2,
- 	.ubwc_swizzle = 6,
- 	.clk_ctrls[DPU_CLK_CTRL_VIG0] = { .reg_off = 0x2ac, .bit_off = 0},
+Last batch of 8 patches renames existing macros to ease using them while
+adding support for new devices.
+
+This pile of patches is submitted in a sinle batch to allow one to
+observe the final goal of the cleanup.
+
+Dependencies:
+- https://patchwork.freedesktop.org/series/112847/
+- https://patchwork.freedesktop.org/series/113894/
+- https://patchwork.freedesktop.org/series/113206/
+
+Dmitry Baryshkov (43):
+  drm/msm/dpu: constify DSC data structures
+  drm/msm/dpu: mark remaining pp data as const
+  drm/msm/dpu: move UBWC/memory configuration to separate struct
+  drm/msm/dpu: split SM8550 catalog entry to the separate file
+  drm/msm/dpu: split SM8450 catalog entry to the separate file
+  drm/msm/dpu: split SC8280XP catalog entry to the separate file
+  drm/msm/dpu: split SC7280 catalog entry to the separate file
+  drm/msm/dpu: split SM8350 catalog entry to the separate file
+  drm/msm/dpu: split SM6115 catalog entry to the separate file
+  drm/msm/dpu: split QCM2290 catalog entry to the separate file
+  drm/msm/dpu: split SC7180 catalog entry to the separate file
+  drm/msm/dpu: split SM8250 catalog entry to the separate file
+  drm/msm/dpu: split SC8180X catalog entry to the separate file
+  drm/msm/dpu: split SM8150 catalog entry to the separate file
+  drm/msm/dpu: split MSM8998 catalog entry to the separate file
+  drm/msm/dpu: split SDM845 catalog entry to the separate file
+  drm/msm/dpu: duplicate sdm845 catalog entries
+  drm/msm/dpu: duplicate sc7180 catalog entries
+  drm/msm/dpu: duplicate sm8150 catalog entries
+  drm/msm/dpu: duplicate sm8250 catalog entries
+  drm/msm/dpu: duplicate sm8350 catalog entries
+  drm/msm/dpu: use defined symbol for sc8280xp's maxwidth
+  drm/msm/dpu: enable DPU_CTL_SPLIT_DISPLAY for sc8280xp
+  drm/msm/dpu: enable DSPP_2/3 for LM_2/3 on sm8450
+  drm/msm/dpu: fix typo in in sm8550's dma_sblk_5
+  drm/msm/dpu: correct sm8550 scaler
+  drm/msm/dpu: correct sc8280xp scaler
+  drm/msm/dpu: correct sm8450 scaler
+  drm/msm/dpu: correct sm8250 and sm8350 scaler
+  drm/msm/dpu: drop duplicate vig_sblk instances
+  drm/msm/dpu: rename VIG_SM8250_MASK to VIG_SM6115_MASK
+  drm/msm/dpu: enable DSPP on sc8180x
+  drm/msm/dpu: deduplicate sc8180x with sm8150
+  drm/msm/dpu: deduplicate sm6115 with qcm2290
+  drm/msm/dpu: deduplicate sc8280xp with sm8450
+  drm/msm/dpu: drop unused macros from hw catalog
+  drm/msm/dpu: inline IRQ_n_MASK defines
+  drm/msm/dpu: rename INTF_foo_MASK to contain major DPU version
+  drm/msm/dpu: rename CTL_foo_MASK to contain major DPU version
+  drm/msm/dpu: rename VIG and DMA_foo_MASK to contain major DPU version
+  drm/msm/dpu: drop DPU_DIM_LAYER from MIXER_MSM8998_MASK
+  drm/msm/dpu: rename MIXER_foo_MASK to contain major DPU version
+  drm/msm/dpu: rename MERGE_3D_foo_MASK to contain major DPU version
+
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  211 ++
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  211 ++
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |   97 +
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |   91 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h |  152 ++
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  244 ++
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  152 ++
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   95 +
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   84 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h |   54 +
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  226 ++
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  159 ++
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  117 +
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  123 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h |  118 +
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  209 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 2170 +----------------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   37 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    |    4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |   18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |    4 +-
+ 21 files changed, 2423 insertions(+), 2153 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+
+
+base-commit: 1d233b1cb149ec78c20fac58331b27bb460f9558
+prerequisite-patch-id: 0898891b053cb26fac9905ab98ec0c80ff643200
+prerequisite-patch-id: a2eee8202ca90755a5accc450b34ccd0851c862e
+prerequisite-patch-id: e9c11a97aa84bd0f560cd13a54943ec53a8686db
+prerequisite-patch-id: 1f4d1c2fdd7700dbf00f466c0a03d0d890e9f4c3
 -- 
 2.39.1
 
