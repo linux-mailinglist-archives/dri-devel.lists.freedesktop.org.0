@@ -1,64 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DEE692D42
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 03:12:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 561AD692E74
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 06:05:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2562D10EE96;
-	Sat, 11 Feb 2023 02:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9BCC10E06A;
+	Sat, 11 Feb 2023 05:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8CE210EE87
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 02:11:40 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id lu11so20241826ejb.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 18:11:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zXrZAAMcbS02VPRHpSg/5kqN0f51nQe0BfxjseY+MyU=;
- b=xOPVhIK4At5K2KcDfwmPHUW+vbHPihQk6RZhUjO/6rX5wKORB+EnoDrNyLoWnuCIwx
- loDlYZe+E50vDrbCDgYKEdTwXtFUBUS1K/Q+8lMVJbga/k329eb0Joyg3na3RgDyoOsF
- N6paWNmxD+EeLv2lRFMFEzBImwaUbohsNL5j+8sbu7x3fk+6BrIgYJQbgZCp5+62WfWM
- z1ugm2PKfzU0e/1LNCf+Gjtte/5ijYeTT75XwNW7CeRtTrN5GPOy2rXuXvHkIB81yk0v
- ydsJZle+9CzdAKN0qZDR0usswYk7d1WgZdiqGwz45SbotZoJ6G+QEE36V26HM+FqsSuD
- fxmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zXrZAAMcbS02VPRHpSg/5kqN0f51nQe0BfxjseY+MyU=;
- b=aGYU/da32lXDJJXSXBoDOkwNjiKbG4Kx5G4W429sMjyv6wPIMGf/sTy4w/NnRtZWBC
- 5lB/paH+ZJyTc7keMFb9Yh8Av1xAdiXP7fDrVc5oF2aQss3VNTosPQgYfj13LkihgXGK
- MbyThuFvyk5DOpGBuzCQWiL64cG4IwthU2VI7FWsYhPSWnaj4XGrnYNe9KMtRmXo3XeO
- fcDZH8R5nFt/1eegWQq3qlcnccuu4FjK/hOTWiSNSVDLbz4yDv9D4gwlpngzhXnzGQnI
- kvYMlJqO8OdfNxAlV7SrBehA8T2Z7E5FHrPQ0JPPYr5maK70zq4OzDr7jRmKwkEaLEO0
- 01mA==
-X-Gm-Message-State: AO0yUKVk4bMyQ7whDxtTGqkjdQuvkpa+HEK8+h/Csj+sfGm7fnZLvmET
- dvhKj3TE1JWVmyG543BGyR5dSA==
-X-Google-Smtp-Source: AK7set/WWCG0Y19dBysdVZMG8J7kAJ3fT3s4OMXvHdfKLy502BLRGMbQhEoWIcN1F4+XTrcfWuul+Q==
-X-Received: by 2002:a17:907:208c:b0:878:8249:bef6 with SMTP id
- pv12-20020a170907208c00b008788249bef6mr15641953ejb.59.1676081500334; 
- Fri, 10 Feb 2023 18:11:40 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- e20-20020a170906c01400b008ae3324c8adsm3180831ejz.214.2023.02.10.18.11.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 18:11:40 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 43/43] drm/msm/dpu: rename MERGE_3D_foo_MASK to contain major
- DPU version
-Date: Sat, 11 Feb 2023 04:10:53 +0200
-Message-Id: <20230211021053.1078648-44-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230211021053.1078648-1-dmitry.baryshkov@linaro.org>
-References: <20230211021053.1078648-1-dmitry.baryshkov@linaro.org>
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F88410E06A
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 05:05:20 +0000 (UTC)
+Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 3ED7F320F40;
+ Sat, 11 Feb 2023 05:05:17 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1676091918; bh=VE9uW2xbrRGBt1AOLbeWHee+LoPKNNj4SOnCz92UtEM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=C5FLVW+Ogl+rB5L2rfP1ltVP90UDc5cITtSHa72tt5o8KdsUahX6CA2glnvI2FjVd
+ 9UnyCJLCz0rUmrRrlSejp5vA7/Zy4kBoWpHkJmyvGwvnBWTZW31YaaZF9+CvhTjogx
+ mJj577q+NIhzPV6bF328O+Hq0N7MrXWgFIfMAoaiJ6MVQq8glkuEuiYD3fOhgOHUcn
+ 9pobWs1mhf/u2bxU+PurSae0lJMXIf0ylzvIokvq0OCsIlK3LK1neX2dh5OJCfM3Aq
+ 7P/GoGFnqyDL5XaFbVgyEbJBbWnH213MREa0zBmclt4at9z30K/HEh+N4QIP60sgRs
+ Pkc/jPoJaeHfQ==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3] drm/vmwgfx: Do not drop the reference to the handle too
+ soon
+Date: Sat, 11 Feb 2023 00:05:14 -0500
+Message-Id: <20230211050514.2431155-1-zack@kde.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,42 +46,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, stable@vger.kernel.org, banackm@vmware.com,
+ mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To ease review and reuse rename MERGE_3D feature masks to contain base
-DPU version since which this mask is used.
+From: Zack Rusin <zackr@vmware.com>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+v3: Fix vmw_user_bo_lookup which was also dropping the gem reference
+before the kernel was done with buffer depending on userspace doing
+the right thing. Same bug, different spot.
+
+It is possible for userspace to predict the next buffer handle and
+to destroy the buffer while it's still used by the kernel. Delay
+dropping the internal reference on the buffers until kernel is done
+with them.
+
+Instead of immediately dropping the gem reference in vmw_user_bo_lookup
+and vmw_gem_object_create_with_handle let the callers decide when they're
+ready give the control back to userspace.
+
+Also fixes the second usage of vmw_gem_object_create_with_handle in
+vmwgfx_surface.c which wasn't grabbing an explicit reference
+to the gem object which could have been destroyed by the userspace
+on the owning surface at any point.
+
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Fixes: 8afa13a0583f ("drm/vmwgfx: Implement DRIVER_GEM")
+Cc: <stable@vger.kernel.org> # v5.17+
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      |  8 +++++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |  2 ++
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c     |  4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c     |  4 +++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c  |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 10 ++++++----
+ 7 files changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 45f9be9665ae..f377598c75ce 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -70,7 +70,7 @@
- #define CTL_DPU_9_MASK \
- 	(CTL_DPU_7_MASK | BIT(DPU_CTL_HAS_LAYER_EXT4))
- 
--#define MERGE_3D_SM8150_MASK (0)
-+#define MERGE_3D_DPU_5_MASK (0)
- 
- #define DSPP_MSM8998_MASK BIT(DPU_DSPP_PCC) | BIT(DPU_DSPP_GC)
- 
-@@ -507,7 +507,7 @@ static const struct dpu_pingpong_sub_blks sc7280_pp_sblk = {
- 	{\
- 	.name = _name, .id = _id, \
- 	.base = _base, .len = 0x100, \
--	.features = MERGE_3D_SM8150_MASK, \
-+	.features = MERGE_3D_DPU_5_MASK, \
- 	.sblk = NULL \
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 7a00314882a3..82094c137855 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -500,6 +500,7 @@ static int vmw_user_bo_synccpu_release(struct drm_file *filp,
+ 		ttm_bo_put(&vmw_bo->tbo);
  	}
  
++	drm_gem_object_put(&vmw_bo->tbo.base);
+ 	return ret;
+ }
+ 
+@@ -540,6 +541,7 @@ int vmw_user_bo_synccpu_ioctl(struct drm_device *dev, void *data,
+ 
+ 		ret = vmw_user_bo_synccpu_grab(vbo, arg->flags);
+ 		vmw_bo_unreference(&vbo);
++		drm_gem_object_put(&vbo->tbo.base);
+ 		if (unlikely(ret != 0)) {
+ 			if (ret == -ERESTARTSYS || ret == -EBUSY)
+ 				return -EBUSY;
+@@ -596,7 +598,7 @@ int vmw_bo_unref_ioctl(struct drm_device *dev, void *data,
+  * struct vmw_bo should be placed.
+  * Return: Zero on success, Negative error code on error.
+  *
+- * The vmw buffer object pointer will be refcounted.
++ * The vmw buffer object pointer will be refcounted (both ttm and gem)
+  */
+ int vmw_user_bo_lookup(struct drm_file *filp,
+ 		       u32 handle,
+@@ -613,7 +615,6 @@ int vmw_user_bo_lookup(struct drm_file *filp,
+ 
+ 	*out = to_vmw_bo(gobj);
+ 	ttm_bo_get(&(*out)->tbo);
+-	drm_gem_object_put(gobj);
+ 
+ 	return 0;
+ }
+@@ -693,7 +694,8 @@ int vmw_dumb_create(struct drm_file *file_priv,
+ 	ret = vmw_gem_object_create_with_handle(dev_priv, file_priv,
+ 						args->size, &args->handle,
+ 						&vbo);
+-
++	/* drop reference from allocate - handle holds it now */
++	drm_gem_object_put(&vbo->tbo.base);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 6d1b46c23719..6b9aa2b4ef54 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -1165,6 +1165,7 @@ static int vmw_translate_mob_ptr(struct vmw_private *dev_priv,
+ 	vmw_bo_placement_set(vmw_bo, VMW_BO_DOMAIN_MOB, VMW_BO_DOMAIN_MOB);
+ 	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo);
+ 	ttm_bo_put(&vmw_bo->tbo);
++	drm_gem_object_put(&vmw_bo->tbo.base);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+ 
+@@ -1221,6 +1222,7 @@ static int vmw_translate_guest_ptr(struct vmw_private *dev_priv,
+ 			     VMW_BO_DOMAIN_GMR | VMW_BO_DOMAIN_VRAM);
+ 	ret = vmw_validation_add_bo(sw_context->ctx, vmw_bo);
+ 	ttm_bo_put(&vmw_bo->tbo);
++	drm_gem_object_put(&vmw_bo->tbo.base);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+index 51bd1f8c5cc4..d6baf73a6458 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
+@@ -133,8 +133,6 @@ int vmw_gem_object_create_with_handle(struct vmw_private *dev_priv,
+ 	(*p_vbo)->tbo.base.funcs = &vmw_gem_object_funcs;
+ 
+ 	ret = drm_gem_handle_create(filp, &(*p_vbo)->tbo.base, handle);
+-	/* drop reference from allocate - handle holds it now */
+-	drm_gem_object_put(&(*p_vbo)->tbo.base);
+ out_no_bo:
+ 	return ret;
+ }
+@@ -161,6 +159,8 @@ int vmw_gem_object_create_ioctl(struct drm_device *dev, void *data,
+ 	rep->map_handle = drm_vma_node_offset_addr(&vbo->tbo.base.vma_node);
+ 	rep->cur_gmr_id = handle;
+ 	rep->cur_gmr_offset = 0;
++	/* drop reference from allocate - handle holds it now */
++	drm_gem_object_put(&vbo->tbo.base);
+ out_no_bo:
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 8659de9d23f3..84d6380b9895 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -1725,8 +1725,10 @@ static struct drm_framebuffer *vmw_kms_fb_create(struct drm_device *dev,
+ 
+ err_out:
+ 	/* vmw_user_lookup_handle takes one ref so does new_fb */
+-	if (bo)
++	if (bo) {
+ 		vmw_bo_unreference(&bo);
++		drm_gem_object_put(&bo->tbo.base);
++	}
+ 	if (surface)
+ 		vmw_surface_unreference(&surface);
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+index 7bcda29a2897..8d171d71cb8a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c
+@@ -458,6 +458,7 @@ int vmw_overlay_ioctl(struct drm_device *dev, void *data,
+ 	ret = vmw_overlay_update_stream(dev_priv, buf, arg, true);
+ 
+ 	vmw_bo_unreference(&buf);
++	drm_gem_object_put(&buf->tbo.base);
+ 
+ out_unlock:
+ 	mutex_unlock(&overlay->mutex);
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+index 6b8e984695ed..e7226db8b242 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_shader.c
+@@ -810,6 +810,7 @@ static int vmw_shader_define(struct drm_device *dev, struct drm_file *file_priv,
+ 				    num_output_sig, tfile, shader_handle);
+ out_bad_arg:
+ 	vmw_bo_unreference(&buffer);
++	drm_gem_object_put(&buffer->tbo.base);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+index 9d4ae9623a00..5db403ee8261 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
+@@ -686,7 +686,7 @@ static void vmw_user_surface_base_release(struct ttm_base_object **p_base)
+ 	    container_of(base, struct vmw_user_surface, prime.base);
+ 	struct vmw_resource *res = &user_srf->srf.res;
+ 
+-	if (base->shareable && res && res->guest_memory_bo)
++	if (res->guest_memory_bo)
+ 		drm_gem_object_put(&res->guest_memory_bo->tbo.base);
+ 
+ 	*p_base = NULL;
+@@ -867,7 +867,11 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
+ 			goto out_unlock;
+ 		}
+ 		vmw_bo_reference(res->guest_memory_bo);
+-		drm_gem_object_get(&res->guest_memory_bo->tbo.base);
++		/*
++		 * We don't expose the handle to the userspace and surface
++		 * already holds a gem reference
++		 */
++		drm_gem_handle_delete(file_priv, backup_handle);
+ 	}
+ 
+ 	tmp = vmw_resource_reference(&srf->res);
+@@ -1571,8 +1575,6 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
+ 			drm_vma_node_offset_addr(&res->guest_memory_bo->tbo.base.vma_node);
+ 		rep->buffer_size = res->guest_memory_bo->tbo.base.size;
+ 		rep->buffer_handle = backup_handle;
+-		if (user_srf->prime.base.shareable)
+-			drm_gem_object_get(&res->guest_memory_bo->tbo.base);
+ 	} else {
+ 		rep->buffer_map_handle = 0;
+ 		rep->buffer_size = 0;
 -- 
-2.39.1
+2.38.1
 
