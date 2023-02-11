@@ -1,47 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1287B69349D
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 00:06:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF306934A7
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 00:13:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42DC710E3B3;
-	Sat, 11 Feb 2023 23:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 059F510E3BB;
+	Sat, 11 Feb 2023 23:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D212910E3B3
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 23:05:57 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pQywK-0001tc-I5; Sun, 12 Feb 2023 00:05:52 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pQywI-004J3b-EI; Sun, 12 Feb 2023 00:05:51 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pQywI-002mD3-H7; Sun, 12 Feb 2023 00:05:50 +0100
-Date: Sun, 12 Feb 2023 00:05:45 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH] backlight: ktz8866: Convert to i2c's .probe_new()
-Message-ID: <20230211230545.lv5g2f376rojlwyc@pengutronix.de>
-References: <20230127152639.1347229-1-u.kleine-koenig@pengutronix.de>
- <Y9eQ6QTngI18zUJn@google.com>
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE39E10E3B7
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 23:13:03 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id qw12so23993807ejc.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 15:13:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=klX8Gu05uLxUPMLxAWhxmZEz4L07M9aHLS/sF2xndig=;
+ b=yTjTqElq2EUEZpj+6zF0Ez5GDHZQmtAeitEULYW+eK/kvyPLP/R7lfdLvJKg5hnU0Q
+ YVCeNOOUGT4Q1wvYTrBH2soGxJta4OywoBfksUcWWrLbWy1qBg9CNEq6Yuj/cFelyhPT
+ tx4znnDEfolU7YCiVncIveIEWIOrcqzY1STQ0n17mxpl1WLSBGfaL306exS3s7+I3mWF
+ kmrF4vypwcIBPv0LqrYAlqBcCNM8SviXr5hvhS0YG7vHKAdjmf53ADXVQXiZZtQk4P9A
+ z3bS7OrDR5tBBt+mdUUNSEKlEDI1ZOKUzmavgDyMVtjKbRABPPJpoMeE/d7Sy+VqFFTY
+ R2Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=klX8Gu05uLxUPMLxAWhxmZEz4L07M9aHLS/sF2xndig=;
+ b=fBUwoCfxj45PToHfVwIWAmLoP6GmV3TjH+herTAAj9XSKyFsaDECvIlGvgJqzmEhAK
+ rYZD1stoxGh22CUmqjgwkbegIsov6p7JJ6Jyud2XfjmS6rx5d9uRkzUoISlnNNycWaoF
+ H7izPlmFbilXXm8bsr/VrKDLK5AwJa5Iu6EusnryozcqM9El8qvxjC/ZwjZtiObBgMb6
+ TGGnRFxZha46azdPimirM4iADbNcF2QoJfkeHM/go0kAtIjcpIq57U/ry2avBWSSqswz
+ Usl8HsKUyFlRtbt3oPuH83ouEDQ4lg/iNwtW7Frv1ghjuODHyW68KRoE2x5eUkeFpX/I
+ 7uuA==
+X-Gm-Message-State: AO0yUKVpm8L2RplA/yQHTfNpjGo+Sf3UkvRpQLb2A6NDqp/MoUnEDFyG
+ wilEJ8c+UBXUw5S/nDdjKgdGoQ==
+X-Google-Smtp-Source: AK7set+Ur2ylNzOrSh351MIcPuUw7NVZcr6iYgGcFFvHSXOmHpQrHpwcRmJQOxgXRCsVwiAvNBOlbQ==
+X-Received: by 2002:a17:906:7097:b0:86f:5636:4712 with SMTP id
+ b23-20020a170906709700b0086f56364712mr23478649ejk.7.1676157182224; 
+ Sat, 11 Feb 2023 15:13:02 -0800 (PST)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ k20-20020a1709061c1400b00871390a3b74sm4517149ejg.177.2023.02.11.15.13.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Feb 2023 15:13:01 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 00/50] drm/msm/dpu: rework HW catalog
+Date: Sun, 12 Feb 2023 01:12:09 +0200
+Message-Id: <20230211231259.1308718-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qwkgf64vf5d6bpiz"
-Content-Disposition: inline
-In-Reply-To: <Y9eQ6QTngI18zUJn@google.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,68 +69,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jianhua Lu <lujianhua000@gmail.com>,
- kernel@pengutronix.de
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This huge series attempts to restructure the DPU HW catalog into a
+manageable and reviewable data set. In order to ease review and testing
+I merged all the necessary fixes into this series. Also I cherry-picked
+& slightly fixed Konrad's patch adding size to the SSPP and INTF macros.
 
---qwkgf64vf5d6bpiz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+First 12 patches are catalog fixes, which can be probably picked into
+the msm-fixes.
 
-Hello Lee,
+Next 5 patches clean up the catalog a bit in order to make it more
+suitable for refactoring.
 
-On Mon, Jan 30, 2023 at 09:42:01AM +0000, Lee Jones wrote:
-> On Fri, 27 Jan 2023, Uwe Kleine-K=F6nig wrote:
->=20
-> > The probe function doesn't make use of the i2c_device_id * parameter so
-> > it can be trivially converted.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
-> > Hello,
-> >=20
-> > there is an ongoing effort to convert all drivers to .probe_new to
-> > eventually drop .probe with the i2c_device_id parameter. This driver
-> > currently sits in next so wasn't on my radar before.
-> >=20
-> > My plan is to tackle that after the next merge window. So I ask you to
-> > either apply this patch during the next merge window or accept that it
-> > will go in via the i2c tree together with the patch that drops .probe().
-> >=20
-> >  drivers/video/backlight/ktz8866.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
->=20
-> Applied, thanks
+Then the next batch of 13 + 5 patches split the hw catalog entries into
+per-SoC files.
 
-Thanks, this patch didn't make it into next yet though. Is there a
-problem other than pending tests before you publish it in your tree that
-gets pulled into next?
+Next 8 patches rework catalog entries, mostly targeting QSEED cleanup
+and deduplication of data used by several platforms. At this moment only
+three pairs (out of 13 devices supported by DPU) are merged. However
+this part lays out the ground to ease adding support for new platforms,
+some of which use the same configuration as the existing platforms
 
-Best regards
-Uwe
+Last batch of 7 patches renames existing macros to ease using them while
+adding support for new devices.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+This pile of patches is submitted in a sinle batch to allow one to
+observe the final goal of the cleanup which otherwise might be hard to
+assess.
 
---qwkgf64vf5d6bpiz
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes since v1:
+- Picked up Konrad's patch
+- Picked up dependencies into the main series
+- Moved qseed3lite vs qseed4 patches into the fixes part
+- Fixed sm6115 in a similar manner.
 
------BEGIN PGP SIGNATURE-----
+Dmitry Baryshkov (49):
+  drm/msm/dpu: set DPU_MDP_PERIPH_0_REMOVED for sc8280xp
+  drm/msm/dpu: disable features unsupported by QCM2290
+  drm/msm/dpu: fix typo in in sm8550's dma_sblk_5
+  drm/msm/dpu: fix len of sc7180 ctl blocks
+  drm/msm/dpu: fix sm6115 and qcm2290 mixer width limits
+  drm/msm/dpu: correct sm8550 scaler
+  drm/msm/dpu: correct sc8280xp scaler
+  drm/msm/dpu: correct sm8450 scaler
+  drm/msm/dpu: correct sm8250 and sm8350 scaler
+  drm/msm/dpu: correct sm6115 scaler
+  drm/msm/dpu: drop DPU_DIM_LAYER from MIXER_MSM8998_MASK
+  drm/msm/dpu: fix clocks settings for msm8998 SSPP blocks
+  drm/msm/dpu: don't use DPU_CLK_CTRL_CURSORn for DMA SSPP clocks
+  drm/msm/dpu: constify DSC data structures
+  drm/msm/dpu: mark remaining pp data as const
+  drm/msm/dpu: move UBWC/memory configuration to separate struct
+  drm/msm/dpu: split SM8550 catalog entry to the separate file
+  drm/msm/dpu: split SM8450 catalog entry to the separate file
+  drm/msm/dpu: split SC8280XP catalog entry to the separate file
+  drm/msm/dpu: split SC7280 catalog entry to the separate file
+  drm/msm/dpu: split SM8350 catalog entry to the separate file
+  drm/msm/dpu: split SM6115 catalog entry to the separate file
+  drm/msm/dpu: split QCM2290 catalog entry to the separate file
+  drm/msm/dpu: split SC7180 catalog entry to the separate file
+  drm/msm/dpu: split SM8250 catalog entry to the separate file
+  drm/msm/dpu: split SC8180X catalog entry to the separate file
+  drm/msm/dpu: split SM8150 catalog entry to the separate file
+  drm/msm/dpu: split MSM8998 catalog entry to the separate file
+  drm/msm/dpu: split SDM845 catalog entry to the separate file
+  drm/msm/dpu: duplicate sdm845 catalog entries
+  drm/msm/dpu: duplicate sc7180 catalog entries
+  drm/msm/dpu: duplicate sm8150 catalog entries
+  drm/msm/dpu: duplicate sm8250 catalog entries
+  drm/msm/dpu: duplicate sm8350 catalog entries
+  drm/msm/dpu: use defined symbol for sc8280xp's maxwidth
+  drm/msm/dpu: enable DPU_CTL_SPLIT_DISPLAY for sc8280xp
+  drm/msm/dpu: enable DSPP_2/3 for LM_2/3 on sm8450
+  drm/msm/dpu: drop duplicate vig_sblk instances
+  drm/msm/dpu: enable DSPP on sc8180x
+  drm/msm/dpu: deduplicate sc8180x with sm8150
+  drm/msm/dpu: deduplicate sm6115 with qcm2290
+  drm/msm/dpu: deduplicate sc8280xp with sm8450
+  drm/msm/dpu: drop unused macros from hw catalog
+  drm/msm/dpu: inline IRQ_n_MASK defines
+  drm/msm/dpu: rename INTF_foo_MASK to contain major DPU version
+  drm/msm/dpu: rename CTL_foo_MASK to contain major DPU version
+  drm/msm/dpu: rename VIG and DMA_foo_MASK to contain major DPU version
+  drm/msm/dpu: rename MIXER_foo_MASK to contain major DPU version
+  drm/msm/dpu: rename MERGE_3D_foo_MASK to contain major DPU version
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPoH0YACgkQwfwUeK3K
-7AmvtQf8CZ1xnldsOEhsbgM0A3XY3DdZOaVJ6UTkFRkoBrJjoEl9SI6UdGczGNsI
-+8lbaOfCTZc+cQ4zQlOYAgFBptunH40yJFp6hWo24VRcJPNt6VeflmF6ccv7/tJW
-lP+IDQgmGaXsd9jw48R/bHn4Hl7+pCIo1qczjq8jxsQoSPlCFw8yfmkTk3yWmDVm
-0WxHszd43dH67eMsr0dKhmT6VJUMr/KnJ0gUc3kaRbV9x9ei8drtsqhg33roi0lF
-KhYvpfhu3f5qkCmVxZN0H4pjWbftTxgG/nvpmd/GKu+9YHKUmEnHYhtral0N5pT7
-AGK69JeZtM/8AoYquZ/PHoGIdjWg8Q==
-=ZsI9
------END PGP SIGNATURE-----
+Konrad Dybcio (1):
+  drm/msm/dpu: Allow variable SSPP/INTF_BLK size
 
---qwkgf64vf5d6bpiz--
+ .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  211 ++
+ .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  211 ++
+ .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |   97 +
+ .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |   91 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h |  152 ++
+ .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  244 ++
+ .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  152 ++
+ .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   92 +
+ .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   84 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h |   54 +
+ .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  226 ++
+ .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  159 ++
+ .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  117 +
+ .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  123 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h |  118 +
+ .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  209 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 2193 +----------------
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   39 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    |    4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |   18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |    4 +-
+ 21 files changed, 2434 insertions(+), 2164 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+
+-- 
+2.39.1
+
