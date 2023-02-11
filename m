@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88956930A2
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 12:52:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963DD6930DC
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 13:27:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2B0710E182;
-	Sat, 11 Feb 2023 11:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E21410E179;
+	Sat, 11 Feb 2023 12:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 470C810E165
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 11:52:13 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id p12so149000edc.0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 03:52:13 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF82010E171
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 12:27:02 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id dr8so21789083ejc.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 04:27:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ep4dAxNDBfiGXuqBk5NhBpEX23ggwEaT57AExj6qK0E=;
- b=Ws9TMQBBjwg4Bf+XyEsFTANdDjnR52eVQqWllfm/eL6AswidbXnlQJFDHH4YLmfETD
- U3OxqDa/TZbXDxlHMmsZi40sD+HCNDSN34F3xv8sTzXEdmPfYuwUdiWzAWnb61rVQ0xf
- j8B+2w5F3dKIm3fGRFDOHXMjEtM6O+TU1dpWFBhRoB9K2Nv6uCaSb/rotnGu6iYPUOvA
- FuF2RJQaRu2z1CVEicVn07dV6HUMckQrZ67f3T8p84wIYZWVvYQ0Z+IO3oLs3J1l8Jk9
- 6ZTftQ2i8DJ9seg2/lTq/0tRRfa1/PJlP2CkPgmbRZ8d5rL8G1g6yB1W82v84ptd3yGh
- gc/Q==
+ bh=UHheap62xUTlR5nYAk+Jh1vpzTppzTaMXhpOmRALAYI=;
+ b=JZMN+4hSY640k6Kja8OEBIuj0yWLh5OZ1zOwcmtNaNn0KoXB0JLEBY9/Kwc7/GqgiF
+ m1ajvu/oQv9m83TfWB2xAJ8XRJTq+b6iDh92VLLtaqcKXEgguqz5BlupzibNuRLjbcEZ
+ YosZ6bhGT2WfNj9cLqEZYVGDKk6FCjMzxWI8i7R9/l1Ca1x6IO0mHBtfBX3RsHJYsM8S
+ 2c6Ila8w+ZbK+3pe/IWZq+aV7lSBHAtsUPDn0UyIMVgYYsrJxKo/ACJivXEmt6GFzTPE
+ +/a3l/WMkp5C33z0vtu06C6DtXfbAfgSxPEtrhA6DgE16cTUUhbxNMYbAKNdcmu6+Wh6
+ pbZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ep4dAxNDBfiGXuqBk5NhBpEX23ggwEaT57AExj6qK0E=;
- b=rayJ43UbzCqFMjEDdZcxYK8m8fy2SXtpVqYo8gHpYiZFQYyR49y7NSs1q02Tl6Eg4l
- HAWEXFyLPdq+avFMNQqospJea6myySfy4S8wpRo3AsLb+QhIrenYGo/KGII+F1Lss6JA
- cBJ5dFMyWAmS0cWrRB4JOm7rcwQKEnBVnkmGd3fDhYDOGHNM8/RFrp1nmw06zGjTEWhW
- FTvzSVL0HWxJnopc0Jr1Vme08yknt2rirc1VRM2PuJWinNWw7kT1GQBl5OokLHwUOeoY
- 74v0zepUZC3v75Ze1HA3ZbLHokvGP6B7+FtxHnRK3FXJJQFPCds7s7bjX4XgNUWUahMH
- zadQ==
-X-Gm-Message-State: AO0yUKXjCQPJxvUaH7FpkLo3gIQ4+dGYzmLPj4ZurZ8sxHmx5vrz06IC
- 3/pfVDxgaRdW8H6BBSB/Lwtxnw==
-X-Google-Smtp-Source: AK7set8nFD70BQHFMI+e62J+GhDF/grxODnHtEHEYhGYWTRQeWxm2mDUL3KfNlThoD0Bp0JBR/zXtQ==
-X-Received: by 2002:a50:9e6e:0:b0:4aa:a709:8aaa with SMTP id
- z101-20020a509e6e000000b004aaa7098aaamr19205386ede.26.1676116331919; 
- Sat, 11 Feb 2023 03:52:11 -0800 (PST)
+ bh=UHheap62xUTlR5nYAk+Jh1vpzTppzTaMXhpOmRALAYI=;
+ b=FNSXHOz+Zt+fCzZDkUej0qABAMRAXdIoujfb6r6b7t3IQseTRD5xK3cizV5jmycQmJ
+ fE+FwkDQ/8JF6vhH4o1gTT53EJ2q2miI+W5mfkvpr6QXT16fGC9NkkwdJKaJuPMxcXp+
+ 1zo3ILTuHuM4KkEKXXWNJ/zoTrUrnygDFnwHmzLkyBe5iPOgLbgh+fYdUh6GTBf68VOW
+ uTvi5nGz2kzTrFreOHuZjlo8GO5/6kpxMbbvTTGRxSGvgOwSEs23hgT7wyovTUOf2lgB
+ 8FsdfwFn8SFOkVEqF5T3Jo+4LZCOQkdfArTixZ53zUPIzqyL1z9YJ5jJeSL3b2d4PFW/
+ fvxQ==
+X-Gm-Message-State: AO0yUKVJ67gZX5XdwyToGupFf/rPdlWWp1zrbH4Hb/bVIdIjSA0KOOYB
+ zAYjQxqs6bky8SE/jNB+tPxGQQ==
+X-Google-Smtp-Source: AK7set8ZFbIY5TBzWXOS1C1MfTjkBrsnU/cixmxrIKXASrqcqd0fgrjzx9nXG8WSbxwhzFSQIByu3Q==
+X-Received: by 2002:a17:907:6e17:b0:8af:2af5:1191 with SMTP id
+ sd23-20020a1709076e1700b008af2af51191mr12961239ejc.18.1676118421369; 
+ Sat, 11 Feb 2023 04:27:01 -0800 (PST)
 Received: from localhost.localdomain (abxh117.neoplus.adsl.tpnet.pl.
  [83.9.1.117]) by smtp.gmail.com with ESMTPSA id
- r10-20020a50d68a000000b004aabb714230sm3636070edi.35.2023.02.11.03.52.10
+ mv9-20020a170907838900b0087bd2ebe474sm3767941ejc.208.2023.02.11.04.26.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Feb 2023 03:52:11 -0800 (PST)
+ Sat, 11 Feb 2023 04:27:01 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
  krzysztof.kozlowski@linaro.org
-Subject: [PATCH 09/10] dt-bindings: display/msm: dsi-controller-main: Add
- SM6115
-Date: Sat, 11 Feb 2023 12:51:09 +0100
-Message-Id: <20230211115110.1462920-10-konrad.dybcio@linaro.org>
+Subject: [PATCH 01/10] dt-bindings: display/msm: dsi-controller-main: Add
+ SM6350
+Date: Sat, 11 Feb 2023 13:26:47 +0100
+Message-Id: <20230211122656.1479141-2-konrad.dybcio@linaro.org>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230211115110.1462920-1-konrad.dybcio@linaro.org>
-References: <20230211115110.1462920-1-konrad.dybcio@linaro.org>
+In-Reply-To: <20230211122656.1479141-1-konrad.dybcio@linaro.org>
+References: <20230211122656.1479141-1-konrad.dybcio@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,7 +84,7 @@ Cc: freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a compatible for the DSI on SM6115.
+Add the DSI host found on SM6350.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
@@ -92,22 +92,22 @@ Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index 2494817c1bd6..f195530ae964 100644
+index f195530ae964..2f946bb9fe24 100644
 --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -25,6 +25,7 @@ properties:
-               - qcom,sc7280-dsi-ctrl
+@@ -26,6 +26,7 @@ properties:
                - qcom,sdm660-dsi-ctrl
                - qcom,sdm845-dsi-ctrl
-+              - qcom,sm6115-dsi-ctrl
+               - qcom,sm6115-dsi-ctrl
++              - qcom,sm6350-dsi-ctrl
                - qcom,sm8150-dsi-ctrl
                - qcom,sm8250-dsi-ctrl
                - qcom,sm8350-dsi-ctrl
-@@ -351,6 +352,7 @@ allOf:
+@@ -286,6 +287,7 @@ allOf:
            contains:
              enum:
-               - qcom,sdm845-dsi-ctrl
-+              - qcom,sm6115-dsi-ctrl
+               - qcom,msm8998-dsi-ctrl
++              - qcom,sm6350-dsi-ctrl
      then:
        properties:
          clocks:
