@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C319A692D31
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 03:12:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F64C692D2F
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 03:12:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D975910EE7F;
-	Sat, 11 Feb 2023 02:11:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF3FD10EE80;
+	Sat, 11 Feb 2023 02:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1865610EE75
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 02:11:25 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id qb15so18132049ejc.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 18:11:25 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2439310EE74
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 02:11:26 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id p26so20141864ejx.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Feb 2023 18:11:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IZqb0RTRJtacj55tawWGTJ/A0DH+6EK+HSS/WV528Xc=;
- b=ntWYbNEj/CkNod+cQs9sigJr+hky565rND8VYa2yAD8GfbdloZtJo9rQ1uZjiSoOLR
- k1Y/k0Cozh4CdRjNCaJJsfpxs5Gx86djdCUPcMiNiSbfRMgVMlN7E8Qd3mLnm/B0Hhe7
- xPTk8uGOyNLBV7B2ldtnhSzFhROLQUNzFN1esr2cXFRVzNe04Xbb+4ayXJATOfPu5ZzV
- rRLFtsW36YJutStch0Yo50u2AqfNOO91r0cBlvfKUzWZSTwDcbKk0JOUkhBiCn8F30fv
- wVKFXR88vp34xd2YarcypEWT2I0EWoClYFYXZWLkqTp59NFcIKJgS0zSAs4keonheptH
- mKkQ==
+ bh=h0m+O5994gWQGGYj1wNziqqAL2VQwWNTz9ekdJO6TCI=;
+ b=jn2Lc3hpJ8yoc6WotfIr9bcQ7gJyq/xChrD95+mAESIU7pmZqCG4GBPYxXh5ZHNjhe
+ wpLTDH0Esrh1iM0Go2Tt+XohEC/XA0qlUUr9nJYQUFB6aDs+9Q5ran4LZhF+ApQpOw+O
+ xw0CLizhyaNudP5q1VErTAT7SijcZ2P4F3/fdJ25Xc8zq312UR88+GWy36V37kG0laNE
+ z7xnHhcgvf4FZz61AlKMorBzP7jBBSuMfQ4PX3bWpEFk9e1VSC/gx4IIbnaK84Mmnz5D
+ qO9A+HikRjNxeNJX6co9U+53Jp4Q5ltwP5k7AxK9Ai+bynbkAcZCRfr67wyg1q5ucvcE
+ 09JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IZqb0RTRJtacj55tawWGTJ/A0DH+6EK+HSS/WV528Xc=;
- b=O6wR7FvuXVOzfq59RHzyVy1bqxqc6dBfO3wz5vaMaZkPECN9x7Nx5V0ZZYdSrguj24
- bwtUOcMgoXvqYYCGBdeWNxui0wFnXfb3uW4x/Mcng7ID/QbFeGRHYktLwnEKcOtnvFyj
- qXFipdjohojUwBN0P1YRMN5+hLlF2Qk8b/j7zj4OC5EEYlM4pUlxFstbLHSUSHMWPVf8
- Jxq10Lgj0Y8XbfGQXbHgIOCzHUZle0gzC37KdcolKmGpvdgTM+gHcIdgi1uLi+gYEujg
- N/WKsFiXkZFyd3htdbOm+7qrmKTFfn8m1VweMe+N3YG5IpBhRYjc2SbPOFGcf4lS5TuS
- 2ntQ==
-X-Gm-Message-State: AO0yUKUj+Jflh4ZnwIug5TFGJwN+Z6Ln6f5K7LKsxQ3IMwRJ/bStz7QZ
- LHIXSztXfB+2EwVYl8hc6LqRUA==
-X-Google-Smtp-Source: AK7set8VHD0OkRisnqitT5g+pGQ26vwd7PgOHCT964tqum7SjJ1ztCsOAVtN4zLrwUdSvTVGgtDKcA==
-X-Received: by 2002:a17:907:8b06:b0:8af:391e:e4c4 with SMTP id
- sz6-20020a1709078b0600b008af391ee4c4mr8792982ejc.41.1676081484734; 
- Fri, 10 Feb 2023 18:11:24 -0800 (PST)
+ bh=h0m+O5994gWQGGYj1wNziqqAL2VQwWNTz9ekdJO6TCI=;
+ b=8BVxoVNgc6QSNYusJGDnlkTDHgjYdhAWQrAp7KuEN3OthPEtWk8D6oJa7b/BhDGiBo
+ 8UAhDyg/7W24UQcKYUb/YPblL0KLt76eHN9kGPu3b7XNwrq3XPUOfb7IsLO7f+q2IDLd
+ 1gbIPFQo70GJYWxLej75TXpvXnbNwxCGq4qSZ0Y4Df5GzqKBqVq/idSP0I+04Nq1E0KH
+ 2trksL3tMw3T8I96QjR2DZzs8svzbkmnsbTLjLgUGc/s/BALOrQqJgom4RtwWgc8Ma4A
+ 8Yzzm3Ud9Utxrg70QapRn3ZPjcXYqKGBKHVHul1S3OKjO/AE/9BQkYnzlOqVqduICsvf
+ yzjg==
+X-Gm-Message-State: AO0yUKWuU3tNWg8LqTDHgpCUiMATTVArV3dw9wkXiTTnw1U/3Wqz/gnm
+ o1W8PsM8I25+fKrSA+8NK5INqg==
+X-Google-Smtp-Source: AK7set/nbXUoHYFl6p1jFqR85htILl0r1JJ9mB4q6zbq9DDQ2s8FCaZVutfnLh2iOo1l3GSMatqEVw==
+X-Received: by 2002:a17:906:308e:b0:88a:da35:dd51 with SMTP id
+ 14-20020a170906308e00b0088ada35dd51mr17273048ejv.14.1676081485759; 
+ Fri, 10 Feb 2023 18:11:25 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- e20-20020a170906c01400b008ae3324c8adsm3180831ejz.214.2023.02.10.18.11.23
+ e20-20020a170906c01400b008ae3324c8adsm3180831ejz.214.2023.02.10.18.11.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Feb 2023 18:11:24 -0800 (PST)
+ Fri, 10 Feb 2023 18:11:25 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 28/43] drm/msm/dpu: correct sm8450 scaler
-Date: Sat, 11 Feb 2023 04:10:38 +0200
-Message-Id: <20230211021053.1078648-29-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 29/43] drm/msm/dpu: correct sm8250 and sm8350 scaler
+Date: Sat, 11 Feb 2023 04:10:39 +0200
+Message-Id: <20230211021053.1078648-30-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230211021053.1078648-1-dmitry.baryshkov@linaro.org>
 References: <20230211021053.1078648-1-dmitry.baryshkov@linaro.org>
@@ -79,35 +79,99 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 QSEED4 is a newer variant of QSEED3LITE, which should be used on
-sm8450. Fix the used feature masks.
+sm8250 and sm8350. Fix the DPU caps structure and used feature masks.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 10 +++++-----
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 10 +++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c         |  8 ++++----
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+index 2bf2288cf522..059461d641de 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+@@ -10,7 +10,7 @@
+ static const struct dpu_caps sm8250_dpu_caps = {
+ 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+-	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
++	.qseed_type = DPU_SSPP_SCALER_QSEED4,
+ 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+@@ -84,13 +84,13 @@ static const struct dpu_ctl_cfg sm8250_ctl[] = {
+ };
+ 
+ static const struct dpu_sspp_cfg sm8250_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+ 		sm8250_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+-	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SM8250_MASK,
++	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SC7180_MASK,
+ 		sm8250_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+-	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SM8250_MASK,
++	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SC7180_MASK,
+ 		sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+-	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SM8250_MASK,
++	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SC7180_MASK,
+ 		sm8250_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+ 	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, DMA_SDM845_MASK,
+ 		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+index 2154d31eb107..f9f22cc96238 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+@@ -10,7 +10,7 @@
+ static const struct dpu_caps sm8350_dpu_caps = {
+ 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
+ 	.max_mixer_blendstages = 0xb,
+-	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
++	.qseed_type = DPU_SSPP_SCALER_QSEED4,
+ 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
+ 	.has_src_split = true,
+ 	.has_dim_layer = true,
+@@ -82,13 +82,13 @@ static const struct dpu_ctl_cfg sm8350_ctl[] = {
+ };
+ 
+ static const struct dpu_sspp_cfg sm8350_sspp[] = {
+-	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SM8250_MASK,
++	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, VIG_SC7180_MASK,
+ 		sm8250_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+-	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SM8250_MASK,
++	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, VIG_SC7180_MASK,
+ 		sm8250_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+-	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SM8250_MASK,
++	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, VIG_SC7180_MASK,
+ 		sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+-	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SM8250_MASK,
++	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, VIG_SC7180_MASK,
+ 		sm8250_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+ 	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, DMA_SDM845_MASK,
+ 		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index f3649ac9cc70..1acd109607b6 100644
+index 1acd109607b6..e0e45557e7bc 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -415,13 +415,13 @@ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
- 				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE);
+@@ -406,13 +406,13 @@ static const struct dpu_sspp_sub_blks sm6115_vig_sblk_0 =
+ 				_VIG_SBLK("0", 2, DPU_SSPP_SCALER_QSEED3LITE);
  
- static const struct dpu_sspp_sub_blks sm8450_vig_sblk_0 =
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
 -				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
 +				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED4);
- static const struct dpu_sspp_sub_blks sm8450_vig_sblk_1 =
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_1 =
 -				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE);
 +				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED4);
- static const struct dpu_sspp_sub_blks sm8450_vig_sblk_2 =
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_2 =
 -				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED3LITE);
 +				_VIG_SBLK("2", 7, DPU_SSPP_SCALER_QSEED4);
- static const struct dpu_sspp_sub_blks sm8450_vig_sblk_3 =
+ static const struct dpu_sspp_sub_blks sm8250_vig_sblk_3 =
 -				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED3LITE);
 +				_VIG_SBLK("3", 8, DPU_SSPP_SCALER_QSEED4);
  
- static const struct dpu_sspp_sub_blks sm8550_vig_sblk_0 =
- 				_VIG_SBLK("0", 7, DPU_SSPP_SCALER_QSEED4);
+ static const struct dpu_sspp_sub_blks sm8450_vig_sblk_0 =
+ 				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED4);
 -- 
 2.39.1
 
