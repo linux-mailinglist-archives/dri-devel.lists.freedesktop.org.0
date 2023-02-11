@@ -1,76 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE94692BD1
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 01:13:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 890EF692C14
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Feb 2023 01:30:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A0210E0A6;
-	Sat, 11 Feb 2023 00:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89F8610E07C;
+	Sat, 11 Feb 2023 00:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C84010E0A6;
- Sat, 11 Feb 2023 00:13:48 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31B0CT2M009512; Sat, 11 Feb 2023 00:13:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=xENFj6HB6ark6IN3iEi2OK48ZvVNMg8HurrgPVnyJ4s=;
- b=huAjWcvyElV+ZIEMhxmV4Rs6olNrNB7Dsit+mBK+6vnyKOq+CZVp1xdt7MmXCSf0WauA
- pVLLMAjOM8Ot2YEu0KR6L7bF/hDpcu2fPeSmuJCutMN6UHs8LEBAf88BtWOVjMNtlGR7
- t1/Dj8iMpQcTylbF7GZ3D+cFwpmvhI4YKRc5IUXDoIX59D1RmHMQ4AQAciMMXf8DVQO8
- 0060Qn+qmtVswndn2Py7XbB59Z2eiTp/cWRqpYX3NMTKcq6Y3atnCtHnwtVy9q51b5a+
- df0BukFJSK4hLsyOJin/h9u3ufcWua3NScEMKx5jEUi8sMTCIsGDqwrxGroOb2xffnT1 WQ== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nnrxdrwge-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 11 Feb 2023 00:13:41 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31B0DfjS011769
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 11 Feb 2023 00:13:41 GMT
-Received: from [10.110.17.125] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Fri, 10 Feb
- 2023 16:13:39 -0800
-Message-ID: <f6e228af-430e-1d29-db87-e13c29f31ac0@quicinc.com>
-Date: Fri, 10 Feb 2023 16:13:38 -0800
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19A1510E07C
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 00:30:24 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 68D32B82658;
+ Sat, 11 Feb 2023 00:30:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99F72C433EF;
+ Sat, 11 Feb 2023 00:30:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1676075420;
+ bh=XEnPFOJ4CxMJH7vgfkFyQKY4s2/0EUC8Eknfpc5jk+s=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=ax5Fd5J1UIn8ED+GyB4f+E8hJ9LztVDn7UWC4mXnOgmf1KRe9qg37VcP6B98kKnsO
+ LZzZNA4MyyMSEIeG7mqIPLuzuz9GmmbPPuWcsDH0Kn9CG/IJyeHa00w9d6VJpmGmI4
+ NXRL4d9rj/vrxhHmcYkuvvsfAImKsX22nRKpEN6IZm/ArT43ezp69CpPKFWLzONl7c
+ 8gCOQZrkyi8vqNwPvy5MhnCJYm+ujIZHdOmgGLEGxaUbIkSFrVEqOIZ1FTpVoog4RF
+ TTYadPmdXwwh9e6QDAyw5jGTuEaFaEB2cc1S76SGjrhSDxS3EsrNV3ZLEUNm5ahnDy
+ xyu+Hg0HqKq8Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 740A6E21EC7; Sat, 11 Feb 2023 00:30:20 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dpu: set DPU_MDP_PERIPH_0_REMOVED for sc8280xp
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230210141554.928883-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230210141554.928883-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Y1WTdicAWqHdeX0AoOuiAg_bnQvQQ4ji
-X-Proofpoint-ORIG-GUID: Y1WTdicAWqHdeX0AoOuiAg_bnQvQQ4ji
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-10_17,2023-02-09_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 priorityscore=1501 adultscore=0 mlxscore=0 suspectscore=0
- lowpriorityscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
- mlxlogscore=755 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302100209
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/24 v2] Documentation: correct lots of spelling errors
+ (series 1)
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167607542046.32477.11523239261636548840.git-patchwork-notify@kernel.org>
+Date: Sat, 11 Feb 2023 00:30:20 +0000
+References: <20230209071400.31476-1-rdunlap@infradead.org>
+In-Reply-To: <20230209071400.31476-1-rdunlap@infradead.org>
+To: Randy Dunlap <rdunlap@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,24 +57,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linmiaohe@huawei.com, juri.lelli@redhat.com, linux-fbdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, fenghua.yu@intel.com,
+ peterz@infradead.org, linux-pci@vger.kernel.org, lpieralisi@kernel.org,
+ linux-trace-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ jmorris@namei.org, dhowells@redhat.com, jcmvbkbc@gmail.com,
+ keyrings@vger.kernel.org, live-patching@vger.kernel.org, zbr@ioremap.net,
+ agordeev@linux.ibm.com, mbenes@suse.cz, will@kernel.org, tglx@linutronix.de,
+ steffen.klassert@secunet.com, linux-s390@vger.kernel.org,
+ vincent.guittot@linaro.org, paul@paul-moore.com, linux-scsi@vger.kernel.org,
+ corbet@lwn.net, linux-xtensa@linux-xtensa.org, maz@kernel.org, deller@gmx.de,
+ rydberg@bitmath.org, linux@armlinux.org.uk, daniel.m.jordan@oracle.com,
+ mingo@redhat.com, linux-security-module@vger.kernel.org,
+ linux-input@vger.kernel.org, coresight@lists.linaro.org, serge@hallyn.com,
+ pmladek@suse.com, gor@linux.ibm.com, suzuki.poulose@arm.com, hca@linux.ibm.com,
+ jikos@kernel.org, akinobu.mita@gmail.com, rostedt@goodmis.org,
+ stefan.kristiansson@saunalahti.fi, linux-block@vger.kernel.org,
+ jglisse@redhat.com, openrisc@lists.librecores.org, bp@alien8.de,
+ bhelgaas@google.com, shorne@gmail.com, reinette.chatre@intel.com,
+ jpoimboe@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sgx@vger.kernel.org, axboe@kernel.dk, chris@zankel.net,
+ isdn@linux-pingi.de, jonas@southpole.se, mathieu.poirier@linaro.org,
+ linux-mm@kvack.org, netdev@vger.kernel.org, dmitry.torokhov@gmail.com,
+ naoya.horiguchi@nec.com, linux-kernel@vger.kernel.org, jarkko@kernel.org,
+ linux-trace-devel@vger.kernel.org, mhiramat@kernel.org, bristot@kernel.org,
+ mpe@ellerman.id.au, linux-crypto@vger.kernel.org, olteanv@gmail.com,
+ linuxppc-dev@lists.ozlabs.org, x86@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello:
 
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-On 2/10/2023 6:15 AM, Dmitry Baryshkov wrote:
-> The SC8280XP also has a black hole at the top of MDP_TOP region. Set
-> corresponding bit to disable access to that region.
+On Wed,  8 Feb 2023 23:13:36 -0800 you wrote:
+> Correct many spelling errors in Documentation/ as reported by codespell.
 > 
-> Fixes: 4a352c2fc15a ("drm/msm/dpu: Introduce SC8280XP")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Maintainers of specific kernel subsystems are only Cc-ed on their
+> respective patches, not the entire series.
+> 
+> These patches are based on linux-next-20230209.
+> 
+> [...]
 
-Will pick this up for -fixes,
+Here is the summary with links:
+  - [03/24] Documentation: core-api: correct spelling
+    (no matching commit)
+  - [08/24] Documentation: isdn: correct spelling
+    https://git.kernel.org/netdev/net-next/c/d12f9ad02806
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
