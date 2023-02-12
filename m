@@ -1,39 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72508693945
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 19:11:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DCD69394B
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 19:11:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB05810E412;
-	Sun, 12 Feb 2023 18:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD2D110E437;
+	Sun, 12 Feb 2023 18:11:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 436 seconds by postgrey-1.36 at gabe;
- Sat, 11 Feb 2023 17:25:24 UTC
 Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
  [IPv6:2001:67c:2050:0:465::101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5712610E345
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Feb 2023 17:25:24 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 747BF10E038
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 12:08:44 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4PDckT72HJz9sTR;
- Sat, 11 Feb 2023 18:18:09 +0100 (CET)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4PF5pw3TBgz9scG;
+ Sun, 12 Feb 2023 13:08:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1676135890;
+ s=MBO0001; t=1676203720;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lmPdZlycIN75f7vuovHWz+/2BHjIn41XrnOla1taexs=;
- b=GYrpv1AUe7sTIk2cvOrNsK752yR8v7HrvOlN92yTHSCSc4EWa5UIJD34xk7rbZRrW8bfIY
- yuBpn1D1QwG3+CAzHienzwaJa7T0GbfQ4WDub7xedHFxOqDO+ROJbhIT3JBzozZSK1TcCQ
- 7uhgTQaMqcdq3Fs5E8JuR0wzTzR6owIkT3di5jZU6WFH+YnWQDC3JBRsa1v1R0EsJ3pe+H
- FE14BzPb4sesD1iZDRXNiUwxlWTin5aeyDQic6aEu+NJ6GDR0FwPZfoZWHG/bgbg9doNZm
- YmjL2ZjU75t12b5UgiYz8zxSPPshHHoh0U3L2ct4lC2iF1nToBb2M/sDMNJ0bw==
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=B05YiRdcBvqwty9QnLiifB3HgSAbyHH2GODfXEZv2EU=;
+ b=m1IKBXwAOloKJlMLqn1MZ2drjnzx7aW1qLDobF2YqHSayxCXKqvmDggepbmQnUHU1usHRY
+ S8cA83BxKPocqm/AC9ieyvQhp4jhseieIkWesUxZH1n1CU0sTHm/4KgoJU5DZDmOW4OPau
+ sQClzbUOh+0jvd8K6KVX//kZ9XzKoJ35etaYTZ9YZQ9w8hBO8z7PN7ZgqN7oPBcGeSP50w
+ AZs3XugU72UaWrgglpIIDdJGIBvEe8OIubdouPktbUmTbIaQ+UqzemhjrMDCoJnDwsFvPM
+ MXTB/0KN+BDHkJye/w65tGS2APbI9ODMWC5B1Ag7G83pW/IFNwjlUSzLWJndxg==
 From: Frank Oltmanns <frank@oltmanns.dev>
 To: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
  Purism Kernel Team <kernel@puri.sm>, Ondrej Jirman <megous@megous.com>,
@@ -41,14 +37,12 @@ To: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org (open list:DRM PANEL DRIVERS),
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/1] drm/panel: st7703: Pick different reset sequence
-Date: Sat, 11 Feb 2023 18:17:48 +0100
-Message-Id: <20230211171748.36692-2-frank@oltmanns.dev>
-In-Reply-To: <20230211171748.36692-1-frank@oltmanns.dev>
-References: <20230211171748.36692-1-frank@oltmanns.dev>
+Subject: [PATCH 0/1] drm/panel: st7703: Fix resume of XBD599 panel
+Date: Sun, 12 Feb 2023 13:08:28 +0100
+Message-Id: <20230212120830.46880-1-frank@oltmanns.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4PDckT72HJz9sTR
 X-Mailman-Approved-At: Sun, 12 Feb 2023 18:11:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,79 +56,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megi@xff.cz>, Frank Oltmanns <frank@oltmanns.dev>,
- Samuel Holland <samuel@sholland.org>
+Cc: Frank Oltmanns <frank@oltmanns.dev>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ondrej Jirman <megi@xff.cz>
+This patch fixes flickering after resume from sleep on panel
+xingbangda,xbd599 (e.g. used in PinePhone).
 
-Switching to a different reset sequence, enabling IOVCC before enabling
-VCC.
+It was originally submitted by Ondrej Jirman in July 2020:
+https://lore.kernel.org/all/20200716123753.3552425-1-megous@megous.com/
 
-There also needs to be a delay after enabling the supplies and before
-deasserting the reset. The datasheet specifies 1ms after the supplies
-reach the required voltage. Use 10-20ms to also give the power supplies
-some time to reach the required voltage, too.
+The original patchset contained two patches. This submission fixes the
+patch that broke handling of the JH057N panel of the Purism Librem 5.
 
-This fixes intermittent panel initialization failures and screen
-corruption during resume from sleep on panel xingbangda,xbd599 (e.g.
-used in PinePhone).
+In essence, it does not change any behavior towards the JH057N panel,
+but only affects the XDB599.
 
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
-Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
-Reported-by: Samuel Holland <samuel@sholland.org>
----
- drivers/gpu/drm/panel/panel-sitronix-st7703.c | 25 ++++++++++---------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+The patch is just a refactoring of Ondřej's original patch, that is
+already used today by PinePhone distributions like PostmarketOS.
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-index 6747ca237ced..45695aa51f62 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-@@ -411,29 +411,30 @@ static int st7703_prepare(struct drm_panel *panel)
- 		return 0;
- 
- 	dev_dbg(ctx->dev, "Resetting the panel\n");
--	ret = regulator_enable(ctx->vcc);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+
-+	ret = regulator_enable(ctx->iovcc);
- 	if (ret < 0) {
--		dev_err(ctx->dev, "Failed to enable vcc supply: %d\n", ret);
-+		dev_err(ctx->dev, "Failed to enable iovcc supply: %d\n", ret);
- 		return ret;
- 	}
--	ret = regulator_enable(ctx->iovcc);
-+
-+	ret = regulator_enable(ctx->vcc);
- 	if (ret < 0) {
--		dev_err(ctx->dev, "Failed to enable iovcc supply: %d\n", ret);
--		goto disable_vcc;
-+		dev_err(ctx->dev, "Failed to enable vcc supply: %d\n", ret);
-+		regulator_disable(ctx->iovcc);
-+		return ret;
- 	}
- 
--	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
--	usleep_range(20, 40);
-+	/* Give power supplies time to stabilize before deasserting reset. */
-+	usleep_range(10000, 20000);
-+
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
--	msleep(20);
-+	usleep_range(15000, 20000);
- 
- 	ctx->prepared = true;
- 
- 	return 0;
--
--disable_vcc:
--	regulator_disable(ctx->vcc);
--	return ret;
- }
- 
- static const u32 mantix_bus_formats[] = {
+I was torn between using function pointers and just calling msleep()
+with device specific delays. I decided to go with function pointers,
+because my understanding is that calling msleep(0), which would be
+required for waiting for the JH057N display to discharge, still results
+in a delay. The empty function I used has no side effect on that panel.
+
+The patch is based on drm-next.
+
+Ondřej, since this is just a refactoring, I would gladly add your SoB,
+if you wish so.
+
+Thanks,
+  Frank
+
+Frank Oltmanns (1):
+  drm/panel: st7703: Fix resume of XBD599 panel
+
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c | 40 ++++++++++++++++---
+ 1 file changed, 35 insertions(+), 5 deletions(-)
+
 -- 
 2.39.1
 
