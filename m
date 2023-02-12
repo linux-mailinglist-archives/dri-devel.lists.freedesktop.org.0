@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2965693686
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 09:46:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBF9693687
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 09:46:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D994210E1C1;
-	Sun, 12 Feb 2023 08:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4BB10E1C3;
+	Sun, 12 Feb 2023 08:46:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10A4F10E1C1
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 08:46:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0129710E1C3
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 08:46:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 795C060C7E;
- Sun, 12 Feb 2023 08:46:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97661C4339E;
- Sun, 12 Feb 2023 08:46:26 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 65B4560C7F;
+ Sun, 12 Feb 2023 08:46:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DDE1C433D2;
+ Sun, 12 Feb 2023 08:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676191590;
- bh=wJKO+AO9ehGyCmpU0Nwq3DEZS0c6b1KlppYJ5nGg6XM=;
+ s=k20201202; t=1676191595;
+ bh=fNKiSkZ0o+fOQDkH9eY0UIJa/qeemlNg5a9Sbw7z4oc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nwKbB+zMw9BFAoqSQ1PEav58XX8TubiRD9FWzPHjS+PetN4JGZlDDWLdp5ZaWd3iy
- B0AZJyl0tvIP813KlE+MlgwL68ykOxAHHUT5yW2h6Oe53GguBeLLCKqoupq6FDTYC5
- Qq0k6Jx3xEAABQ+xR1KwgmlXFGkQ7iaE4WRtMGs+ckdYdx+/E0+RAo6IpWSTVnXSPG
- 5Af2K9uMqW3qP6LNOokN/G2+XC6Nlgfve4Rj0YfRdNcirv8rOcOHGh9Ry2WaALQwRZ
- DroMXoGsz1rviych9nxkPDi32UHxhA7zKHWb/FrTsxNbv5KkKTWNhr6C/9Jf3toM7B
- BBeqjvqC40gMQ==
+ b=JUVV+chRkL08PzBAHoMlpmcJa2IhpSQwAz96rwplIsxNTcOagjdz1FjKgKIZm9Xz7
+ 4pv6hHt7b9nmaV+hF833gn5hNvsDucwwTXlMhpuMzThGhvVuFGMqBA2B5yRqwzl9KX
+ 2Wc43Xj/4Yfdsa0SIH7Q5qUXhOFTLhOk1YBgVMXYGMKSEd71o/EYsAImLe9oH0tXo8
+ IToPWVX6nfL1eBM61cT0MPNI30pgAm15llCo3a4+ZAa7MfdSDZzLkYkYfIFt92bOZ2
+ SPXfPRn2/UPxDP60AHCYuVhKHfGgEbsnHoBn/wXC8LSi6TGrRpBsT6yHBMhlRtOwBk
+ OSNHjjVZwDwtw==
 From: Mike Rapoport <rppt@kernel.org>
 To: Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH 1/2] char/agp: consolidate {alloc,free}_gatt_pages()
-Date: Sun, 12 Feb 2023 10:46:10 +0200
-Message-Id: <20230212084611.1311177-2-rppt@kernel.org>
+Subject: [PATCH 2/2] char/agp: introduce asm-generic/agp.h
+Date: Sun, 12 Feb 2023 10:46:11 +0200
+Message-Id: <20230212084611.1311177-3-rppt@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20230212084611.1311177-1-rppt@kernel.org>
 References: <20230212084611.1311177-1-rppt@kernel.org>
@@ -65,133 +65,198 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 
-There is a copy of alloc_gatt_pages() and free_gatt_pages in several
-architectures in arch/$ARCH/include/asm/agp.h. All the copies do exactly
-the same: alias alloc_gatt_pages() to __get_free_pages(GFP_KERNEL) and
-alias free_gatt_pages() to free_pages().
+There are several architectures that duplicate definitions of
+map_page_into_agp(), unmap_page_from_agp() and flush_agp_cache().
 
-Define alloc_gatt_pages() and free_gatt_pages() in drivers/char/agp/agp.h
-and drop per-architecture definitions.
+Define those in asm-generic/agp.h and use it instead of duplicated
+per-architecture headers.
 
 Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
 ---
- arch/alpha/include/asm/agp.h   | 6 ------
- arch/ia64/include/asm/agp.h    | 6 ------
- arch/parisc/include/asm/agp.h  | 6 ------
- arch/powerpc/include/asm/agp.h | 6 ------
- arch/sparc/include/asm/agp.h   | 6 ------
- arch/x86/include/asm/agp.h     | 6 ------
- drivers/char/agp/agp.h         | 6 ++++++
- 7 files changed, 6 insertions(+), 36 deletions(-)
+ arch/alpha/include/asm/Kbuild                 |  1 +
+ arch/alpha/include/asm/agp.h                  | 13 ------------
+ arch/ia64/include/asm/Kbuild                  |  1 +
+ arch/ia64/include/asm/agp.h                   | 21 -------------------
+ arch/parisc/include/asm/Kbuild                |  1 +
+ arch/parisc/include/asm/agp.h                 | 15 -------------
+ arch/powerpc/include/asm/Kbuild               |  1 +
+ arch/sparc/include/asm/Kbuild                 |  1 +
+ arch/sparc/include/asm/agp.h                  | 11 ----------
+ .../include/asm => include/asm-generic}/agp.h |  8 +++----
+ 10 files changed, 8 insertions(+), 65 deletions(-)
+ delete mode 100644 arch/alpha/include/asm/agp.h
+ delete mode 100644 arch/ia64/include/asm/agp.h
+ delete mode 100644 arch/parisc/include/asm/agp.h
+ delete mode 100644 arch/sparc/include/asm/agp.h
+ rename {arch/powerpc/include/asm => include/asm-generic}/agp.h (59%)
 
+diff --git a/arch/alpha/include/asm/Kbuild b/arch/alpha/include/asm/Kbuild
+index 42911c8340c7..54f5126628c6 100644
+--- a/arch/alpha/include/asm/Kbuild
++++ b/arch/alpha/include/asm/Kbuild
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ generated-y += syscall_table.h
++generic-y += agp.h
+ generic-y += export.h
+ generic-y += kvm_para.h
+ generic-y += mcs_spinlock.h
 diff --git a/arch/alpha/include/asm/agp.h b/arch/alpha/include/asm/agp.h
-index 7874f063d000..4197b3bc78ee 100644
+deleted file mode 100644
+index 4197b3bc78ee..000000000000
 --- a/arch/alpha/include/asm/agp.h
-+++ b/arch/alpha/include/asm/agp.h
-@@ -10,10 +10,4 @@
- #define unmap_page_from_agp(page)	do { } while (0)
- #define flush_agp_cache() mb()
- 
--/* GATT allocation. Returns/accepts GATT kernel virtual address. */
--#define alloc_gatt_pages(order)		\
--	((char *)__get_free_pages(GFP_KERNEL, (order)))
--#define free_gatt_pages(table, order)	\
--	free_pages((unsigned long)(table), (order))
++++ /dev/null
+@@ -1,13 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef AGP_H
+-#define AGP_H 1
 -
- #endif
+-#include <asm/io.h>
+-
+-/* dummy for now */
+-
+-#define map_page_into_agp(page)		do { } while (0)
+-#define unmap_page_from_agp(page)	do { } while (0)
+-#define flush_agp_cache() mb()
+-
+-#endif
+diff --git a/arch/ia64/include/asm/Kbuild b/arch/ia64/include/asm/Kbuild
+index f994c1daf9d4..aefae2efde9f 100644
+--- a/arch/ia64/include/asm/Kbuild
++++ b/arch/ia64/include/asm/Kbuild
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ generated-y += syscall_table.h
++generic-y += agp.h
+ generic-y += kvm_para.h
+ generic-y += mcs_spinlock.h
+ generic-y += vtime.h
 diff --git a/arch/ia64/include/asm/agp.h b/arch/ia64/include/asm/agp.h
-index 0261507dc264..f42c7dcb3d79 100644
+deleted file mode 100644
+index f42c7dcb3d79..000000000000
 --- a/arch/ia64/include/asm/agp.h
-+++ b/arch/ia64/include/asm/agp.h
-@@ -18,10 +18,4 @@
- #define unmap_page_from_agp(page)	do { } while (0)
- #define flush_agp_cache()		mb()
- 
--/* GATT allocation. Returns/accepts GATT kernel virtual address. */
--#define alloc_gatt_pages(order)		\
--	((char *)__get_free_pages(GFP_KERNEL, (order)))
--#define free_gatt_pages(table, order)	\
--	free_pages((unsigned long)(table), (order))
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef _ASM_IA64_AGP_H
+-#define _ASM_IA64_AGP_H
 -
- #endif /* _ASM_IA64_AGP_H */
+-/*
+- * IA-64 specific AGP definitions.
+- *
+- * Copyright (C) 2002-2003 Hewlett-Packard Co
+- *	David Mosberger-Tang <davidm@hpl.hp.com>
+- */
+-
+-/*
+- * To avoid memory-attribute aliasing issues, we require that the AGPGART engine operate
+- * in coherent mode, which lets us map the AGP memory as normal (write-back) memory
+- * (unlike x86, where it gets mapped "write-coalescing").
+- */
+-#define map_page_into_agp(page)		do { } while (0)
+-#define unmap_page_from_agp(page)	do { } while (0)
+-#define flush_agp_cache()		mb()
+-
+-#endif /* _ASM_IA64_AGP_H */
+diff --git a/arch/parisc/include/asm/Kbuild b/arch/parisc/include/asm/Kbuild
+index e6e7f74c8ac9..4fb596d94c89 100644
+--- a/arch/parisc/include/asm/Kbuild
++++ b/arch/parisc/include/asm/Kbuild
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ generated-y += syscall_table_32.h
+ generated-y += syscall_table_64.h
++generic-y += agp.h
+ generic-y += kvm_para.h
+ generic-y += mcs_spinlock.h
+ generic-y += user.h
 diff --git a/arch/parisc/include/asm/agp.h b/arch/parisc/include/asm/agp.h
-index 14ae54cfd368..d193a48490e2 100644
+deleted file mode 100644
+index d193a48490e2..000000000000
 --- a/arch/parisc/include/asm/agp.h
-+++ b/arch/parisc/include/asm/agp.h
-@@ -12,10 +12,4 @@
- #define unmap_page_from_agp(page)	do { } while (0)
- #define flush_agp_cache()		mb()
- 
--/* GATT allocation. Returns/accepts GATT kernel virtual address. */
--#define alloc_gatt_pages(order)		\
--	((char *)__get_free_pages(GFP_KERNEL, (order)))
--#define free_gatt_pages(table, order)	\
--	free_pages((unsigned long)(table), (order))
++++ /dev/null
+@@ -1,15 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef _ASM_PARISC_AGP_H
+-#define _ASM_PARISC_AGP_H
 -
- #endif /* _ASM_PARISC_AGP_H */
-diff --git a/arch/powerpc/include/asm/agp.h b/arch/powerpc/include/asm/agp.h
-index 6b6485c988dd..e86f2ce476c9 100644
+-/*
+- * PARISC specific AGP definitions.
+- * Copyright (c) 2006 Kyle McMartin <kyle@parisc-linux.org>
+- *
+- */
+-
+-#define map_page_into_agp(page)		do { } while (0)
+-#define unmap_page_from_agp(page)	do { } while (0)
+-#define flush_agp_cache()		mb()
+-
+-#endif /* _ASM_PARISC_AGP_H */
+diff --git a/arch/powerpc/include/asm/Kbuild b/arch/powerpc/include/asm/Kbuild
+index bcf95ce0964f..419319c4963c 100644
+--- a/arch/powerpc/include/asm/Kbuild
++++ b/arch/powerpc/include/asm/Kbuild
+@@ -2,6 +2,7 @@
+ generated-y += syscall_table_32.h
+ generated-y += syscall_table_64.h
+ generated-y += syscall_table_spu.h
++generic-y += agp.h
+ generic-y += export.h
+ generic-y += kvm_types.h
+ generic-y += mcs_spinlock.h
+diff --git a/arch/sparc/include/asm/Kbuild b/arch/sparc/include/asm/Kbuild
+index 0b9d98ced34a..595ca0be286b 100644
+--- a/arch/sparc/include/asm/Kbuild
++++ b/arch/sparc/include/asm/Kbuild
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ generated-y += syscall_table_32.h
+ generated-y += syscall_table_64.h
++generic-y += agp.h
+ generic-y += export.h
+ generic-y += kvm_para.h
+ generic-y += mcs_spinlock.h
+diff --git a/arch/sparc/include/asm/agp.h b/arch/sparc/include/asm/agp.h
+deleted file mode 100644
+index 5186924fa673..000000000000
+--- a/arch/sparc/include/asm/agp.h
++++ /dev/null
+@@ -1,11 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef AGP_H
+-#define AGP_H 1
+-
+-/* dummy for now */
+-
+-#define map_page_into_agp(page)		do { } while (0)
+-#define unmap_page_from_agp(page)	do { } while (0)
+-#define flush_agp_cache()		mb()
+-
+-#endif
+diff --git a/arch/powerpc/include/asm/agp.h b/include/asm-generic/agp.h
+similarity index 59%
+rename from arch/powerpc/include/asm/agp.h
+rename to include/asm-generic/agp.h
+index e86f2ce476c9..10db92ede168 100644
 --- a/arch/powerpc/include/asm/agp.h
-+++ b/arch/powerpc/include/asm/agp.h
-@@ -9,11 +9,5 @@
++++ b/include/asm-generic/agp.h
+@@ -1,7 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+-#ifndef _ASM_POWERPC_AGP_H
+-#define _ASM_POWERPC_AGP_H
+-#ifdef __KERNEL__
++#ifndef _ASM_GENERIC_AGP_H
++#define _ASM_GENERIC_AGP_H
+ 
+ #include <asm/io.h>
+ 
+@@ -9,5 +8,4 @@
  #define unmap_page_from_agp(page) do {} while (0)
  #define flush_agp_cache() mb()
  
--/* GATT allocation. Returns/accepts GATT kernel virtual address. */
--#define alloc_gatt_pages(order)		\
--	((char *)__get_free_pages(GFP_KERNEL, (order)))
--#define free_gatt_pages(table, order)	\
--	free_pages((unsigned long)(table), (order))
--
- #endif /* __KERNEL__ */
- #endif	/* _ASM_POWERPC_AGP_H */
-diff --git a/arch/sparc/include/asm/agp.h b/arch/sparc/include/asm/agp.h
-index 2d0ff84cee3f..5186924fa673 100644
---- a/arch/sparc/include/asm/agp.h
-+++ b/arch/sparc/include/asm/agp.h
-@@ -8,10 +8,4 @@
- #define unmap_page_from_agp(page)	do { } while (0)
- #define flush_agp_cache()		mb()
- 
--/* GATT allocation. Returns/accepts GATT kernel virtual address. */
--#define alloc_gatt_pages(order)		\
--	((char *)__get_free_pages(GFP_KERNEL, (order)))
--#define free_gatt_pages(table, order)	\
--	free_pages((unsigned long)(table), (order))
--
- #endif
-diff --git a/arch/x86/include/asm/agp.h b/arch/x86/include/asm/agp.h
-index cd7b14322035..c8c111d8fbd7 100644
---- a/arch/x86/include/asm/agp.h
-+++ b/arch/x86/include/asm/agp.h
-@@ -23,10 +23,4 @@
-  */
- #define flush_agp_cache() wbinvd()
- 
--/* GATT allocation. Returns/accepts GATT kernel virtual address. */
--#define alloc_gatt_pages(order)		\
--	((char *)__get_free_pages(GFP_KERNEL, (order)))
--#define free_gatt_pages(table, order)	\
--	free_pages((unsigned long)(table), (order))
--
- #endif /* _ASM_X86_AGP_H */
-diff --git a/drivers/char/agp/agp.h b/drivers/char/agp/agp.h
-index bb09d64cd51e..8771dcc9b8e2 100644
---- a/drivers/char/agp/agp.h
-+++ b/drivers/char/agp/agp.h
-@@ -236,6 +236,12 @@ void agp3_generic_tlbflush(struct agp_memory *mem);
- int agp3_generic_configure(void);
- void agp3_generic_cleanup(void);
- 
-+/* GATT allocation. Returns/accepts GATT kernel virtual address. */
-+#define alloc_gatt_pages(order)		\
-+	((char *)__get_free_pages(GFP_KERNEL, (order)))
-+#define free_gatt_pages(table, order)	\
-+	free_pages((unsigned long)(table), (order))
-+
- /* aperture sizes have been standardised since v3 */
- #define AGP_GENERIC_SIZES_ENTRIES 11
- extern const struct aper_size_info_16 agp3_generic_sizes[];
+-#endif /* __KERNEL__ */
+-#endif	/* _ASM_POWERPC_AGP_H */
++#endif	/* _ASM_GENERIC_AGP_H */
 -- 
 2.35.1
 
