@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AD26939E4
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 21:45:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF06F6939E5
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 21:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3232510E05F;
-	Sun, 12 Feb 2023 20:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FB9410E46B;
+	Sun, 12 Feb 2023 20:45:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5FFE10E468
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 20:45:14 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35F9210E468
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 20:45:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6189AB80D4D
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 20:45:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E03FC433D2
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 20:45:10 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CA05BB80D3A;
+ Sun, 12 Feb 2023 20:45:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AA71C433EF;
+ Sun, 12 Feb 2023 20:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676234712;
- bh=xqSeGc4aQQD8RzCLD+cYr9xcazpov2LaqIsn2u+hpd8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=aMX6vmzqKpvv2GCpS/wwk45Hk8mq8Ogd7u4KxjNPEeY/bhLhLcQzeeIPs+Fy1LlZ3
- m2Z0VVTVLZhNQmzodZMU/5JS04TmF/1l5NjyFIAM36PV/EiwzunW50eu8N/SN/B8LZ
- 2XYIoXj2U/Ntq85Af6kL0tGmFbOKCothx5mnAuthzCoBUZa5mNYmyzAntc5jX3xk+J
- Aa+5Z/QPxMI/RJocc64rOkeRUI4WMPUgp9+8uCIlMjv1rsGGSNdEnCNTgO+UMVVtB5
- Zlqnw1/5BXRTBFtJ22P6pAg/nEFFE6fjZZsLC59ye3I9QQvRCO6fCFy78qs6lwd+O0
- 6pC0+ojY9r+3Q==
+ s=k20201202; t=1676234713;
+ bh=nisZ8gALnJ/CI6sEMwu1usOhPUGChVJOgsq1Mie1EDs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=XQbpTO2s0C6elHX0P91eyjFH6DC1Sfu01HnKFg3soM+aOLhVXJpvqyJZ7KIoSetXR
+ MXULL8yKyFRLyqp8RXc/ct85unPoqYEEM+oMmv+oYSNM1dmBMujFmaPT6rjZEdJogm
+ ivcYKk5QaUmI+jH4ZoN8MnlwXOFcsAxPSwq/tQZED5lbPLeZGdaWJEV/1pRjLMvj5f
+ DPrfHicBiNFVeVvuKOskuo32pJku33Wrht7OEaua5yVtPR+OJYgCfzM7T8V0rr7JrN
+ GuJt3JuL9V9yKFF4rC8ZS269WNyY5WFMBnyFEJUztdhRzv2mH8hK7qzNjNaurRjcVB
+ yN+NzmfKIvWyw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 05/27] habanalabs: refactor debugfs init
-Date: Sun, 12 Feb 2023 22:44:32 +0200
-Message-Id: <20230212204454.2938561-5-ogabbay@kernel.org>
+Subject: [PATCH 06/27] habanalabs: use memhash_node_export_put() in
+ hl_release_dmabuf()
+Date: Sun, 12 Feb 2023 22:44:33 +0200
+Message-Id: <20230212204454.2938561-6-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230212204454.2938561-1-ogabbay@kernel.org>
 References: <20230212204454.2938561-1-ogabbay@kernel.org>
@@ -52,298 +52,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tomer Tayar <ttayar@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make it easier to later add support for accel device.
+From: Tomer Tayar <ttayar@habana.ai>
 
+The same mutex lock/unlock and counter decrementing in
+hl_release_dmabuf() is already done in the memhash_node_export_put()
+helper function.
+
+Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/debugfs.c | 129 ++++++++++++----------
- 1 file changed, 68 insertions(+), 61 deletions(-)
+ drivers/accel/habanalabs/common/memory.c | 89 ++++++++++++------------
+ 1 file changed, 43 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/debugfs.c b/drivers/accel/habanalabs/common/debugfs.c
-index 945c0e6758ca..86901ff4aa02 100644
---- a/drivers/accel/habanalabs/common/debugfs.c
-+++ b/drivers/accel/habanalabs/common/debugfs.c
-@@ -1583,209 +1583,216 @@ static const struct file_operations hl_debugfs_fops = {
- 	.release = single_release,
- };
- 
--static void add_secured_nodes(struct hl_dbg_device_entry *dev_entry)
-+static void add_secured_nodes(struct hl_dbg_device_entry *dev_entry, struct dentry *root)
- {
- 	debugfs_create_u8("i2c_bus",
- 				0644,
--				dev_entry->root,
-+				root,
- 				&dev_entry->i2c_bus);
- 
- 	debugfs_create_u8("i2c_addr",
- 				0644,
--				dev_entry->root,
-+				root,
- 				&dev_entry->i2c_addr);
- 
- 	debugfs_create_u8("i2c_reg",
- 				0644,
--				dev_entry->root,
-+				root,
- 				&dev_entry->i2c_reg);
- 
- 	debugfs_create_u8("i2c_len",
- 				0644,
--				dev_entry->root,
-+				root,
- 				&dev_entry->i2c_len);
- 
- 	debugfs_create_file("i2c_data",
- 				0644,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_i2c_data_fops);
- 
- 	debugfs_create_file("led0",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_led0_fops);
- 
- 	debugfs_create_file("led1",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_led1_fops);
- 
- 	debugfs_create_file("led2",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_led2_fops);
+diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
+index e6474d38afc4..7b3809853dd5 100644
+--- a/drivers/accel/habanalabs/common/memory.c
++++ b/drivers/accel/habanalabs/common/memory.c
+@@ -1779,6 +1779,47 @@ static void hl_unmap_dmabuf(struct dma_buf_attachment *attachment,
+ 	kfree(sgt);
  }
  
--void hl_debugfs_add_device(struct hl_device *hdev)
-+static void add_files_to_device(struct hl_device *hdev, struct hl_dbg_device_entry *dev_entry,
-+				struct dentry *root)
- {
--	struct hl_dbg_device_entry *dev_entry = &hdev->hl_debugfs;
- 	int count = ARRAY_SIZE(hl_debugfs_list);
- 	struct hl_debugfs_entry *entry;
- 	int i;
- 
--	dev_entry->hdev = hdev;
--	dev_entry->entry_arr = kmalloc_array(count,
--					sizeof(struct hl_debugfs_entry),
--					GFP_KERNEL);
--	if (!dev_entry->entry_arr)
--		return;
--
--	dev_entry->data_dma_blob_desc.size = 0;
--	dev_entry->data_dma_blob_desc.data = NULL;
--	dev_entry->mon_dump_blob_desc.size = 0;
--	dev_entry->mon_dump_blob_desc.data = NULL;
--
--	INIT_LIST_HEAD(&dev_entry->file_list);
--	INIT_LIST_HEAD(&dev_entry->cb_list);
--	INIT_LIST_HEAD(&dev_entry->cs_list);
--	INIT_LIST_HEAD(&dev_entry->cs_job_list);
--	INIT_LIST_HEAD(&dev_entry->userptr_list);
--	INIT_LIST_HEAD(&dev_entry->ctx_mem_hash_list);
--	mutex_init(&dev_entry->file_mutex);
--	init_rwsem(&dev_entry->state_dump_sem);
--	spin_lock_init(&dev_entry->cb_spinlock);
--	spin_lock_init(&dev_entry->cs_spinlock);
--	spin_lock_init(&dev_entry->cs_job_spinlock);
--	spin_lock_init(&dev_entry->userptr_spinlock);
--	spin_lock_init(&dev_entry->ctx_mem_hash_spinlock);
--
--	dev_entry->root = debugfs_create_dir(dev_name(hdev->dev),
--						hl_debug_root);
--
- 	debugfs_create_x64("memory_scrub_val",
- 				0644,
--				dev_entry->root,
-+				root,
- 				&hdev->memory_scrub_val);
- 
- 	debugfs_create_file("memory_scrub",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_mem_scrub_fops);
- 
- 	debugfs_create_x64("addr",
- 				0644,
--				dev_entry->root,
-+				root,
- 				&dev_entry->addr);
- 
- 	debugfs_create_file("data32",
- 				0644,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_data32b_fops);
- 
- 	debugfs_create_file("data64",
- 				0644,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_data64b_fops);
- 
- 	debugfs_create_file("set_power_state",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_power_fops);
- 
- 	debugfs_create_file("device",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_device_fops);
- 
- 	debugfs_create_file("clk_gate",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_clk_gate_fops);
- 
- 	debugfs_create_file("stop_on_err",
- 				0644,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_stop_on_err_fops);
- 
- 	debugfs_create_file("dump_security_violations",
- 				0644,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_security_violations_fops);
- 
- 	debugfs_create_file("dump_razwi_events",
- 				0644,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_razwi_check_fops);
- 
- 	debugfs_create_file("dma_size",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_dma_size_fops);
- 
- 	debugfs_create_blob("data_dma",
- 				0400,
--				dev_entry->root,
-+				root,
- 				&dev_entry->data_dma_blob_desc);
- 
- 	debugfs_create_file("monitor_dump_trig",
- 				0200,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_monitor_dump_fops);
- 
- 	debugfs_create_blob("monitor_dump",
- 				0400,
--				dev_entry->root,
-+				root,
- 				&dev_entry->mon_dump_blob_desc);
- 
- 	debugfs_create_x8("skip_reset_on_timeout",
- 				0644,
--				dev_entry->root,
-+				root,
- 				&hdev->reset_info.skip_reset_on_timeout);
- 
- 	debugfs_create_file("state_dump",
- 				0600,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_state_dump_fops);
- 
- 	debugfs_create_file("timeout_locked",
- 				0644,
--				dev_entry->root,
-+				root,
- 				dev_entry,
- 				&hl_timeout_locked_fops);
- 
- 	debugfs_create_u32("device_release_watchdog_timeout",
- 				0644,
--				dev_entry->root,
-+				root,
- 				&hdev->device_release_watchdog_timeout_sec);
- 
- 	for (i = 0, entry = dev_entry->entry_arr ; i < count ; i++, entry++) {
- 		debugfs_create_file(hl_debugfs_list[i].name,
- 					0444,
--					dev_entry->root,
-+					root,
- 					entry,
- 					&hl_debugfs_fops);
- 		entry->info_ent = &hl_debugfs_list[i];
- 		entry->dev_entry = dev_entry;
- 	}
++static struct hl_vm_hash_node *memhash_node_export_get(struct hl_ctx *ctx, u64 addr)
++{
++	struct hl_device *hdev = ctx->hdev;
++	struct hl_vm_hash_node *hnode;
++
++	/* get the memory handle */
++	mutex_lock(&ctx->mem_hash_lock);
++	hash_for_each_possible(ctx->mem_hash, hnode, node, (unsigned long)addr)
++		if (addr == hnode->vaddr)
++			break;
++
++	if (!hnode) {
++		mutex_unlock(&ctx->mem_hash_lock);
++		dev_dbg(hdev->dev, "map address %#llx not found\n", addr);
++		return ERR_PTR(-EINVAL);
++	}
++
++	if (upper_32_bits(hnode->handle)) {
++		mutex_unlock(&ctx->mem_hash_lock);
++		dev_dbg(hdev->dev, "invalid handle %#llx for map address %#llx\n",
++				hnode->handle, addr);
++		return ERR_PTR(-EINVAL);
++	}
++
++	/*
++	 * node found, increase export count so this memory cannot be unmapped
++	 * and the hash node cannot be deleted.
++	 */
++	hnode->export_cnt++;
++	mutex_unlock(&ctx->mem_hash_lock);
++
++	return hnode;
 +}
 +
-+void hl_debugfs_add_device(struct hl_device *hdev)
++static void memhash_node_export_put(struct hl_ctx *ctx, struct hl_vm_hash_node *hnode)
 +{
-+	struct hl_dbg_device_entry *dev_entry = &hdev->hl_debugfs;
-+	int count = ARRAY_SIZE(hl_debugfs_list);
++	mutex_lock(&ctx->mem_hash_lock);
++	hnode->export_cnt--;
++	mutex_unlock(&ctx->mem_hash_lock);
++}
 +
-+	dev_entry->hdev = hdev;
-+	dev_entry->entry_arr = kmalloc_array(count,
-+					sizeof(struct hl_debugfs_entry),
-+					GFP_KERNEL);
-+	if (!dev_entry->entry_arr)
-+		return;
-+
-+	dev_entry->data_dma_blob_desc.size = 0;
-+	dev_entry->data_dma_blob_desc.data = NULL;
-+	dev_entry->mon_dump_blob_desc.size = 0;
-+	dev_entry->mon_dump_blob_desc.data = NULL;
-+
-+	INIT_LIST_HEAD(&dev_entry->file_list);
-+	INIT_LIST_HEAD(&dev_entry->cb_list);
-+	INIT_LIST_HEAD(&dev_entry->cs_list);
-+	INIT_LIST_HEAD(&dev_entry->cs_job_list);
-+	INIT_LIST_HEAD(&dev_entry->userptr_list);
-+	INIT_LIST_HEAD(&dev_entry->ctx_mem_hash_list);
-+	mutex_init(&dev_entry->file_mutex);
-+	init_rwsem(&dev_entry->state_dump_sem);
-+	spin_lock_init(&dev_entry->cb_spinlock);
-+	spin_lock_init(&dev_entry->cs_spinlock);
-+	spin_lock_init(&dev_entry->cs_job_spinlock);
-+	spin_lock_init(&dev_entry->userptr_spinlock);
-+	spin_lock_init(&dev_entry->ctx_mem_hash_spinlock);
-+
-+	dev_entry->root = debugfs_create_dir(dev_name(hdev->dev),
-+						hl_debug_root);
+ static void hl_release_dmabuf(struct dma_buf *dmabuf)
+ {
+ 	struct hl_dmabuf_priv *hl_dmabuf = dmabuf->priv;
+@@ -1789,11 +1830,8 @@ static void hl_release_dmabuf(struct dma_buf *dmabuf)
  
-+	add_files_to_device(hdev, dev_entry, dev_entry->root);
- 	if (!hdev->asic_prop.fw_security_enabled)
--		add_secured_nodes(dev_entry);
-+		add_secured_nodes(dev_entry, dev_entry->root);
+ 	ctx = hl_dmabuf->ctx;
+ 
+-	if (hl_dmabuf->memhash_hnode) {
+-		mutex_lock(&ctx->mem_hash_lock);
+-		hl_dmabuf->memhash_hnode->export_cnt--;
+-		mutex_unlock(&ctx->mem_hash_lock);
+-	}
++	if (hl_dmabuf->memhash_hnode)
++		memhash_node_export_put(ctx, hl_dmabuf->memhash_hnode);
+ 
+ 	hl_ctx_put(ctx);
+ 	kfree(hl_dmabuf);
+@@ -1933,47 +1971,6 @@ static int validate_export_params(struct hl_device *hdev, u64 device_addr, u64 s
+ 	return 0;
  }
  
- void hl_debugfs_remove_device(struct hl_device *hdev)
+-static struct hl_vm_hash_node *memhash_node_export_get(struct hl_ctx *ctx, u64 addr)
+-{
+-	struct hl_device *hdev = ctx->hdev;
+-	struct hl_vm_hash_node *hnode;
+-
+-	/* get the memory handle */
+-	mutex_lock(&ctx->mem_hash_lock);
+-	hash_for_each_possible(ctx->mem_hash, hnode, node, (unsigned long)addr)
+-		if (addr == hnode->vaddr)
+-			break;
+-
+-	if (!hnode) {
+-		mutex_unlock(&ctx->mem_hash_lock);
+-		dev_dbg(hdev->dev, "map address %#llx not found\n", addr);
+-		return ERR_PTR(-EINVAL);
+-	}
+-
+-	if (upper_32_bits(hnode->handle)) {
+-		mutex_unlock(&ctx->mem_hash_lock);
+-		dev_dbg(hdev->dev, "invalid handle %#llx for map address %#llx\n",
+-				hnode->handle, addr);
+-		return ERR_PTR(-EINVAL);
+-	}
+-
+-	/*
+-	 * node found, increase export count so this memory cannot be unmapped
+-	 * and the hash node cannot be deleted.
+-	 */
+-	hnode->export_cnt++;
+-	mutex_unlock(&ctx->mem_hash_lock);
+-
+-	return hnode;
+-}
+-
+-static void memhash_node_export_put(struct hl_ctx *ctx, struct hl_vm_hash_node *hnode)
+-{
+-	mutex_lock(&ctx->mem_hash_lock);
+-	hnode->export_cnt--;
+-	mutex_unlock(&ctx->mem_hash_lock);
+-}
+-
+ static struct hl_vm_phys_pg_pack *get_phys_pg_pack_from_hash_node(struct hl_device *hdev,
+ 							struct hl_vm_hash_node *hnode)
+ {
 -- 
 2.25.1
 
