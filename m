@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6FC86943B7
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:02:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F3A6943C8
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:04:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0216210E541;
-	Mon, 13 Feb 2023 11:02:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A455F10E4C2;
+	Mon, 13 Feb 2023 11:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEFC810E541
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:02:22 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id jg8so30861323ejc.6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 03:02:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=70NMlQcw2iBDbRyN8g9R2UaDW8v0WsBUWLxPKnQsybw=;
- b=c7+dVyzFuA7FINtkSmjmxRUKSB2Bl19v2Vt3RFREtrf0BounA7cRttqNJLgOoW3+ub
- aX+Frz6guaGOHS2YiK8mYQyzthBjzxt+Yh01a9Q0SprnC7pXvfGaF2tMWf77AnWfmvVd
- Ya+doB0PJj6PpjMpGEF6tq85pWy++zHQlz1pmF94OnyNLjqnbo0MA4JJRVJY9hUXzHLq
- wL56JmJbnZb4Eu0Rv6bZnNity5ZbCzS+QBldrB83Z2d7HhS+4sgxakPsPfqCC/fRcUPw
- FVlkQjmuW+TccEtYrQP3E/L2z+r8MYnIuBK6R+wYShX9tSgFQMWhGcyAdgfjBCGzaZ3i
- cFRA==
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA6BC10E4C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:04:32 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id d8so11901142plr.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 03:04:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=CzN50lIcZGBFDntOn8igk3Ln2b075PMIFDDX4eI/7dE=;
+ b=i/1ycPfwnxtLqbPd8axwK16ZKstxlhG+1vFVRwfiJ6PauMp67fftQ/tOzg4kBCvclP
+ 6R4Jz9DtaAWmuaJwIQVX4Kv3ZkmXbsSbawWPfcJiNl5mbNSJzdyr4G9VkqZfAx32Qu/d
+ H+9Jyt7W686kidgYp4/rZmDwAoAz+aCFTLkVI8Nr7IqOhoyqGvBShu8Q2EeuWDbA7xio
+ R+fppiaMvGLrgJLbZlmKb2PE2w1Wkzu09MY9kQCZY84ZIkq1k/4w2f6dOS2FaBke56b8
+ Yf5OQgwAhpWuwxjc0/D4UB7Vxhsrl7TEJORROhEN6NMo4KTR7FMvaqcx8RT88TelKKvV
+ 36Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=70NMlQcw2iBDbRyN8g9R2UaDW8v0WsBUWLxPKnQsybw=;
- b=0U1xRXLiLnHjzKD2ptXQmfXubVDB++8XiUDwZTl5/v0WMFpjXKSGZwVfkwx5AZofks
- 6at9tBEkQfsVhccuMFMl9pIEkG81H2wzIMRfgk4EQxo68HqZw1JCfy/9d8upstExEyto
- c8jNxnjaO53YhbKQK5VQJTDVAflFofa/y9WZWgIH4GujSajlePmSAfT+dhwuHwuoSJsN
- yT6JBk969lyWeKdAPESXNN8bEGQHE/4MHr0bHN7z25icPLCKYUKw8autPcjUMG+ckIl1
- ky91yfk6bYQqGeFrVJ2IntYCuA54Ei7WD1QTkmerA0jgr8ckMMJrRJ7DvcTzcV5Fveb3
- 3FUw==
-X-Gm-Message-State: AO0yUKXezdLAE9soUyR2URTqdIQYJSMdQlM9/+IkXO97M4MdjVYXsVer
- J0zK0BZPgGwDtaKzB0znAtW6UQ==
-X-Google-Smtp-Source: AK7set8cYRCrSRY/vmPzO6qb6ELLhtVHAtQS9hVUyeOcISQNnglfyNIgD+XLwVGCSteK3zVaYKevDw==
-X-Received: by 2002:a17:907:8686:b0:8aa:be85:fc56 with SMTP id
- qa6-20020a170907868600b008aabe85fc56mr28490957ejc.47.1676286141103; 
- Mon, 13 Feb 2023 03:02:21 -0800 (PST)
-Received: from jade (h-46-59-78-111.A175.priv.bahnhof.se. [46.59.78.111])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CzN50lIcZGBFDntOn8igk3Ln2b075PMIFDDX4eI/7dE=;
+ b=4asFt4rcmhSM8USxMHjuScRNgdSapebpd+ZodNE0+sdz3TgWIh+dp9iOhQ2a3cYMtu
+ urhhvJkiVXmzP16RibaeicyfL+gN+1MG/2Mz98kjsBCGzre6JxmE4fqcWDZKrT6Lr9Rp
+ uRDHYIRXf1FIUSU4ly822yqLPj8h++w2PLh+ZtUeOgRZPAe+PhMRx9Y/s/XPSgoFQa5n
+ 8tgq55WIVcXPCmxYFqoK27DFCXo2gQ01qrEhvMvvfBez8fmhAUH/E475TFsytSLW8rRs
+ 8ZV0XCm2A9ZvzNIAQHoWl55lJgfjbtJQiTaXq7IrLqEAf1OcAi0Fh+WkyzCprUa27FhE
+ bSmw==
+X-Gm-Message-State: AO0yUKX31NtRvMMWIo0/dafiz95HVB33PSsWFWlOuM6pBbz3C9G4UCam
+ FsktFGfkzZCnYAHwCPlTQFg=
+X-Google-Smtp-Source: AK7set+RKDadqVzvT05fEYtx/HyoM0eOT/3UqvoygsGwDBL51skMUuDazlf8uNCR+PyFlReSF3bKvw==
+X-Received: by 2002:a17:90b:1e46:b0:230:7aeb:2936 with SMTP id
+ pi6-20020a17090b1e4600b002307aeb2936mr25721092pjb.20.1676286272423; 
+ Mon, 13 Feb 2023 03:04:32 -0800 (PST)
+Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
  by smtp.gmail.com with ESMTPSA id
- d18-20020a1709063cf200b008af4dadd9c4sm5217871ejh.116.2023.02.13.03.02.20
+ p9-20020a17090a2d8900b00233bab35b57sm4459375pjd.29.2023.02.13.03.04.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 03:02:20 -0800 (PST)
-Date: Mon, 13 Feb 2023 12:02:18 +0100
-From: Jens Wiklander <jens.wiklander@linaro.org>
-To: Cyrille Fleury <cyrille.fleury@nxp.com>
-Subject: Re: [EXT] Re: [PATCH v2 1/1] tee: new ioctl to a register tee_shm
- from a dmabuf file descriptor
-Message-ID: <Y+oYundNEN9TDiQ8@jade>
-References: <20220812143055.12938-2-olivier.masse@nxp.com>
- <30534fadb8172088eddef46ae71d87c167cbf32e.camel@nxp.com>
- <CAFA6WYOMCswgHHxsgc9Hgi7rmTPaZDqce=BixvYoFTfL0bTFDQ@mail.gmail.com>
- <PA4PR04MB75204E8D2B959893A04D55F388D69@PA4PR04MB7520.eurprd04.prod.outlook.com>
- <CAFA6WYPGT8xZnB1idcxcHT1bvM=0kwFssBQbn063-qg=czM-ZQ@mail.gmail.com>
- <CAN5uoS8XgvAKVwKHx-uOe3hAa4Jrd5FJt6xNOG5s-simkRND9w@mail.gmail.com>
- <c86d1a46af6e076038b3f0c2dd68213ff1e8b254.camel@nxp.com>
- <CAN5uoS-A8EovbnxvcXqiYHcy95d-PTYUZvnNr3=kf84AGkG8Kw@mail.gmail.com>
- <f3ccd7ad-0bbb-be39-c989-765552e2c6af@linaro.org>
- <PA4PR04MB75207FF08A6C2EEC1944FFFE88D79@PA4PR04MB7520.eurprd04.prod.outlook.com>
+ Mon, 13 Feb 2023 03:04:32 -0800 (PST)
+Date: Mon, 13 Feb 2023 19:04:25 +0800
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add Novatek NT36523
+ bindings
+Message-ID: <Y+oZOXyE8/a+vreS@Gentoo>
+References: <20230210161925.32343-1-lujianhua000@gmail.com>
+ <6cffa875-d8cc-a4fe-e18d-2e24c28a49d8@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PA4PR04MB75207FF08A6C2EEC1944FFFE88D79@PA4PR04MB7520.eurprd04.prod.outlook.com>
+In-Reply-To: <6cffa875-d8cc-a4fe-e18d-2e24c28a49d8@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,180 +72,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "sumit.garg@linaro.org" <sumit.garg@linaro.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Jerome Forissier <jerome.forissier@linaro.org>,
- =?utf-8?Q?Cl=C3=A9ment?= Faure <clement.faure@nxp.com>,
- "fredgc@google.com" <fredgc@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "afd@ti.com" <afd@ti.com>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- Olivier Masse <olivier.masse@nxp.com>,
- "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
- Etienne Carriere <etienne.carriere@linaro.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, Feb 03, 2023 at 02:13:53PM +0000, Cyrille Fleury wrote:
+On Mon, Feb 13, 2023 at 11:45:23AM +0100, Krzysztof Kozlowski wrote:
+> On 10/02/2023 17:19, Jianhua Lu wrote:
+> > Novatek NT36523 is a display driver IC that can drive DSI panel. It
+> > is also present in the csot and boe video mode panels. It is found
+> > in Xiaomi Mi Pad 5 series.
+> > 
+> > Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> > ---
+> >  .../display/panel/novatek,nt36523.yaml        | 101 ++++++++++++++++++
+> >  1 file changed, 101 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+> > new file mode 100644
+> > index 000000000000..a7098d0ce7e1
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+> > @@ -0,0 +1,101 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/panel/novatek,nt36523.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Novatek NT36523 based DSI display Panels
+> > +
+> > +maintainers:
+> > +  - Jianhua Lu <lujianhua000@gmail.com>
+> > +
+> > +description: |
+> > +  The nt36523 IC from Novatek is a generic DSI Panel IC used to drive dsi
+> > +  panels.
+> > +  Right now, only support cost and boe LCD display panels with the
 > 
+> boe? both?
+Boe Technology Group Co., Ltd
 > 
-> -----Original Message-----
-> From: Jerome Forissier <jerome.forissier@linaro.org>
-> Sent: Friday, February 3, 2023 1:32 PM
-> To: Etienne Carriere <etienne.carriere@linaro.org>; Olivier Masse <olivier.masse@nxp.com>
-> Cc: sumit.garg@linaro.org; linux-media@vger.kernel.org; fredgc@google.com; linaro-mm-sig@lists.linaro.org; afd@ti.com; op-tee@lists.trustedfirmware.org; jens.wiklander@linaro.org; joakim.bech@linaro.org; sumit.semwal@linaro.org; Cyrille Fleury <cyrille.fleury@nxp.com>; Peter Griffin <peter.griffin@linaro.org>; linux-kernel@vger.kernel.org; dri-devel@lists.freedesktop.org; Clément Faure <clement.faure@nxp.com>; christian.koenig@amd.com
-> Subject: Re: [EXT] Re: [PATCH v2 1/1] tee: new ioctl to a register tee_shm from a dmabuf file descriptor
+> > +  resolution of 1600x2560. It is a video mode DSI panel.
 > 
-> On 2/3/23 15:12, Cyrille Fleury wrote:
-> Hi all,
+> The binding or hardware supports only 1600x2560? The how it can be
+> "right now"? It's defined, isn't it?
+Yes
 > 
-> >On 2/3/23 12:37, Etienne Carriere wrote:
-> >> Hell all,
-> >>
-> >> +jerome f.
-> >>
-> >> On Fri, 3 Feb 2023 at 12:01, Olivier Masse <olivier.masse@nxp.com> wrote:
-> >>>
-> >>> On jeu., 2023-02-02 at 10:58 +0100, Etienne Carriere wrote:
-> >>>> Caution: EXT Email
-> >>>>
-> >>>> On Thu, 2 Feb 2023 at 09:35, Sumit Garg <sumit.garg@linaro.org>
-> >>>> wrote:
-> >>>>> Hi Cyrille,
-> >>>>>
-> >>>>> Please don't top post as it makes it harder to follow-up.
-> >>>>>
-> >>>>> On Thu, 2 Feb 2023 at 13:26, Cyrille Fleury <cyrille.fleury@nxp.com
-> >>>>>> wrote:
-> >>>>>> Hi Sumit, all
-> >>>>>>
-> >>>>>> Upstream OP-TEE should support registering a dmabuf since a while, 
-> >>>>>> given how widely dmabuf is used in Linux for passing buffers 
-> >>>>>> around between devices.
-> >>>>>>
-> >>>>>> Purpose of the new register_tee_shm ioctl is to allow OPTEE to use 
-> >>>>>> memory allocated from the exiting linux dma buffer. We don't need 
-> >>>>>> to have secure dma-heap up streamed.
-> >>>>>>
-> >>>>>> You mentioned secure dma-buffer, but secure dma-buffer is a dma- 
-> >>>>>> buffer, so the work to be done for secure or "regular" dma buffers 
-> >>>>>> by the register_tee_shm ioctl is 100% the same.
-> >>>>>>
-> >>>>>> The scope of this ioctl is limited to what existing upstream dma- 
-> >>>>>> buffers are:
-> >>>>>>         -> sharing buffers for hardware (DMA) access across 
-> >>>>>> multiple device drivers and subsystems, and for synchronizing 
-> >>>>>> asynchronous hardware access.
-> >>>>>>        -> It means continuous memory only.
-> >>>>>>
-> >>>>>> So if we reduce the scope of register tee_shm to exiting dma- 
-> >>>>>> buffer area, the current patch does the job.
-> >>>>>
-> >>>>> Do you have a corresponding real world use-case supported by 
-> >>>>> upstream OP-TEE? AFAIK, the Secure Data Path (SDP) use-case is the 
-> >>>>> one supported in OP-TEE upstream but without secure dmabuf heap [1] 
-> >>>>> available, the new ioctl can't be exercised.
-> >>>>>
-> >>>>> [1] 
-> >>>>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fg
-> >>>>> ithub.com%2FOP-TEE%2Foptee_test%2Fblob%2Fmaster%2Fhost%2Fxtest%2Fsd
-> >>>>> p_basic.h%23L15&data=05%7C01%7Ccyrille.fleury%40nxp.com%7C9ff962fb5
-> >>>>> 8f6401c597808db05e2a64b%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%
-> >>>>> 7C638110243232457377%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLC
-> >>>>> JQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=
-> >>>>> UNB88rvmhQ5qRoIGN%2FpS4cQTES5joM8AjoyAAYzPKl0%3D&reserved=0
-> >>>>
-> >>>> OP-TEE has some SDP test taht can exercice SDP: 'xtest 
-> >>>> regression_1014'.
-> >>>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgi
-> >>>> thub.com%2FOP-TEE%2Foptee_test%2Fblob%2F3.20.0%2Fhost%2Fxtest%2Fregr
-> >>>> ession_1000.c%23L1256&data=05%7C01%7Ccyrille.fleury%40nxp.com%7C9ff9
-> >>>> 62fb58f6401c597808db05e2a64b%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%
-> >>>> 7C0%7C638110243232457377%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDA
-> >>>> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdat
-> >>>> a=e%2B40rwWvtvVFG8aWZNeu%2FgjMXXvZ3pRhJfHLkdurovs%3D&reserved=0
-> >>>>
-> >>>> The test relies on old staged ION + local secure dmabuf heaps no 
-> >>>> more maintained, so this test is currently not functional.
-> >>>> If we upgrade the test to mainline dmabuf alloc means, and apply the 
-> >>>> change discussed here, we should be able to regularly test SDP in 
-> >>>> OP-TEE project CI.
-> >>>> The part to update is the userland allocation of the dmabuf:
-> >>>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgi
-> >>>> thub.com%2FOP-TEE%2Foptee_test%2Fblob%2F3.20.0%2Fhost%2Fxtest%2Fsdp_
-> >>>> basic.c%23L91&data=05%7C01%7Ccyrille.fleury%40nxp.com%7C9ff962fb58f6
-> >>>> 401c597808db05e2a64b%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63
-> >>>> 8110243232457377%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjo
-> >>>> iV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=5rPV1j
-> >>>> qzqjVh2N5pdUW41YwF6EkgIDwfhyfYkgmtdZI%3D&reserved=0
-> >>>>
-> >>>>
-> >>>
-> >>> the test was already updated to support secure dma heap with Kernel 
-> >>> version 5.11 and higher. the userland allocation could be find here:
-> >>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit
-> >>> hub.com%2FOP-TEE%2Foptee_test%2Fblob%2F3.20.0%2Fhost%2Fxtest%2Fsdp_ba
-> >>> sic.c%23L153&data=05%7C01%7Ccyrille.fleury%40nxp.com%7C9ff962fb58f640
-> >>> 1c597808db05e2a64b%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63811
-> >>> 0243232457377%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2l
-> >>> uMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=01H96n47K6R
-> >>> mBKZQhRdcqX3nE5VBHOXNfGuMmmkVSvc%3D&reserved=0
-> >>>
-> >>
-> >> Oh, right. So fine, optee_test is ready for the new flavor of secure 
-> >> buffer fd's.
-> >>
-> >>
-> >>> This upgrade need a Linux dma-buf patch:
-> >>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flor
-> >>> e.kernel.org%2Fall%2F20220805154139.2qkqxwklufjpsfdx%40000377403353%2
-> >>> FT%2F&data=05%7C01%7Ccyrille.fleury%40nxp.com%7C9ff962fb58f6401c59780
-> >>> 8db05e2a64b%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C638110243232
-> >>> 457377%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLC
-> >>> JBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=yCS%2BDcuGp%2BafAL
-> >>> tpw74O1bI0K%2Fwnt%2FOw5ob1ngfDA0E%3D&reserved=0
-> >>
-> >> @Jens, @Jerome, do we want to pick the 2 necessary Linux patches in 
-> >> our Linux kernel fork (github.com/linaro-swg/linux.git) to exercise 
-> >> SDP in our CI and be ready if dma-buf secure heaps (ref right above) 
-> >> is accepted and merged in mainline kernel?.
-> >
-> >How would that help? I mean, when the kernel patches are merged and if things break we can make the necessary adjustments in the optee_test app or whatever, but in the meantime I don't see much point. I suppose the people who are actively developing the patches do make sure it works with OP-TEE ;-)
-> >
-> >Regards,
-> >--
-> >Jerome
+> > +
+> > +allOf:
+> > +  - $ref: panel-common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - xiaomi,elish-csot-nt36523
+> > +          - xiaomi,elish-boe-nt36523
+> > +      - const: novatek,nt36523
+> > +    description: This indicates the panel manufacturer of the panel that is
+> > +      in turn using the NT36523 panel driver. This compatible string
+> > +      determines how the NT36523 panel driver is configured for the indicated
+> > +      panel. The novatek,nt36523 compatible shall always be provided as a fallback.
 > 
-> As mentioned in the cover letter, this IOCTL got tested by Jens Wiklander <jens.wiklander@linaro.org>, using Linaro reference board from Hikey 6620:
-> https://lists.trustedfirmware.org/archives/list/op-tee@lists.trustedfirmware.org/thread/I3TZN4TBDOUVE567VMMN2TAXGWZNY7S3/
-> It also works on i.MX8M EVK boards.
+> Drop description. First it is free form text of binding, so unnecessary.
+> Second, does not really bring any new information.
+Acked
 > 
-> My understanding today is we are good to upstream this patch, knowing:
->      - Upstream OPTEE driver should support registering a dmabuf since a while, given how widely dmabuf is used in Linux for passing buffers around between devices.
->      - review is OK 
->      - test environment is already available in optee-test
->      - it has been tested on 2 different platforms
->      - the scope of the new ioctl is limited to existing feature in dma-buffer
->      
-> What is missing from this list preventing to upstream ? 
-
-Please address the comments from Etienne and post a new version of the
-patch based on the latest kernel. Please try to improve the language in
-the commit message.
-
-Is it possible to update the tests so this can be tested on QEMU in our
-CI loop? That should help to get the review restarted.
-
-Thanks,
-Jens
-
-> Who do we still need to convince ?
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +    description: phandle of gpio for reset line - This should be 8mA, gpio
+> > +      can be configured using mux, pinctrl, pinctrl-names (active high)
 > 
-> Regards.
+> Simplify description - 90% of it is redundant and only drive strength of
+> 8 mA is important.
+Acked
+> 
+> > +
+> > +  vddio-supply:
+> > +    description: regulator that supplies the I/O voltage
+> > +
+> > +  vddpos-supply:
+> > +    description: positive boost supply regulator
+> > +
+> > +  vddneg-supply:
+> > +    description: negative boost supply regulator
+> > +
+> > +  reg: true
+> > +  ports: true
+> > +  backlight: true
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - vddio-supply
+> > +  - vddpos-supply
+> > +  - vddneg-supply
+> > +  - reset-gpios
+> > +  - ports
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |+
+> 
+> Drop +
+Acked
+> 
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    dsi0 {
+> 
+> dsi {
+Acked
+> 
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        panel@0 {
+> > +            compatible = "xiaomi,elish-csot-nt36523", "novatek,nt36523";
+> > +            reg = <0>;
+> > +            vddio-supply = <&vreg_l14a_1p88>;
+> > +            vddpos-supply = <&lcd_vddpos_5p5>;
+> > +            vddneg-supply = <&lcd_vddneg_5p5>;
+> > +
+> > +            backlight = <&backlight>;
+> > +            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
+> > +
+> > +            ports {
+> > +              #address-cells = <1>;
+> > +              #size-cells = <0>;
+> > +
+> > +              port@0 {
+> > +                reg = <0>;
+> 
+> Mixed up indentation.
+Acked
+> 
+> Best regards,
+> Krzysztof
+> 
