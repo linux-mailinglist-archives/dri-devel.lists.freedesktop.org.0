@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9550A694C2D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:15:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48145694C32
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:16:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5BB410E062;
-	Mon, 13 Feb 2023 16:15:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B44F10E60A;
+	Mon, 13 Feb 2023 16:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1597810E602;
- Mon, 13 Feb 2023 16:15:41 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-16cc1e43244so11462433fac.12; 
- Mon, 13 Feb 2023 08:15:41 -0800 (PST)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D151F10E60A;
+ Mon, 13 Feb 2023 16:16:24 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id bj22so10606901oib.11;
+ Mon, 13 Feb 2023 08:16:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n00XwKmDj7Zhd185pYuu8ZoQFNENKpBwwusRZRdqFfA=;
- b=B7Ms3LWMXQT1D2m+TZUxvcLgPRJY0e1HjsPk1qEfUWwrMXjM/cBH03F42Oq0GY3t/2
- Vk60mCS+nRAf4XWaUcxxAN7C4dPPE0PTjyfOYz77owMl5uDG7unIFED5/4nGCaPLuxxK
- uhscyN+sbD1jm8ZVmWQyVdlw4wuahoBZrK62Bzx3amZLlPCICeVtV858iR+wSQgOD0WX
- +OrfR4zm02S140bYQM+5sxpuHZezSM/4NwiY4kf9mfUaV7hZr0/NdfXyCMM8cRm3KfGe
- YyF2h/JWt+3nLMifBPDzxGmboHb+Rz1sY4dOsL9EKpjGf1y1rLmaJUWtkPp08ctF70QT
- 85Jw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3+M7WtemNip/UJvGhOQX8hNfkWUyxL/twEyAekdKObY=;
+ b=FS0X5VFg/YFXbL6u6zZoIt3SzuxfTpvN95kD2y5SzyJnr1o4689pb+wARuSrUhiH1O
+ G3AkvOikpY9FK1242nbEWxw+tEJIntXD6sGZ0SeXAwvdtJ8VPGNIrn/IE7fBmnH/v2zD
+ 3nDiLWmBhCap7k5kXMyWCgoFKmWPjpzEIML0mgWCRdtHBU6e6YogxJZw5eDyQdPieVEK
+ ynBx5MpB99ZmjGLgpOdR1OijMaCs7ac3zMWwPPzdPMG5FjdVnx2taim7juH0eDvTBmy2
+ Yt2k7mUkkGcm+VUf+0L3ySTW8p4OLIwb1obdiIPXDTPIZa+5CJbo7Quc3d5IEacZuIgC
+ Y5QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=n00XwKmDj7Zhd185pYuu8ZoQFNENKpBwwusRZRdqFfA=;
- b=0slvxodAuwd8RXUQhcJSxi+Ekh4h2/zHiA26rZlonu8UODBUnwKHfX1CQEKGS0pocu
- yXcBXuOPWEg8vlfgGSgdbZhBS4tbzSeXe8zWBoNW2aqLc6uIVBhcsNHnhk34zSGwfB0V
- syONGwifY+kvmhgdbTBFJolg3Jcwio66uIcBDMWzWkL1cpdIjPHRHVO0btbUSuX23JCW
- O8T0LZnDGCUo5JiMb3B62fE0j6M65NaRs6EXr3baOBE8qvxNE5P4/vddVE3/vuZ/N+TK
- pJ+2mzgyxSTFI+lKbcxXvbMCf7AFp7WtibaI7gvY0BYitqI0KEnrhvwq3C6+U1TIQOVK
- yH7Q==
-X-Gm-Message-State: AO0yUKX694wmBmbSPL2lfta9Kogag9lOiS/S7WyfA3/+C7wElXMhNKGB
- aqrRNX8yTkUbeHx1HmXJ6jo1WivBwRVJQIFgW/g=
-X-Google-Smtp-Source: AK7set9RyIIPHVCELYmiS06jLlThqm2dDvK3fN3R53a2gbk5cyFDMJ6F/3CaMYl3xWodnmdfFNn9dpOMGkBZ55r14gI=
-X-Received: by 2002:a05:6870:13d1:b0:163:a303:fe2f with SMTP id
- 17-20020a05687013d100b00163a303fe2fmr2647823oat.96.1676304940310; Mon, 13 Feb
- 2023 08:15:40 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3+M7WtemNip/UJvGhOQX8hNfkWUyxL/twEyAekdKObY=;
+ b=v1jwJBKDJ9G8aetRcaI3Est/cb0F6AevWA5N+pPUDssQcxa4Dkoq4528DnkwzpUArD
+ ETDDtUpC+5n0o3A80KQPxX1A5ASnlnm+VKK0BZapgRLfnBoM12ZZs/BGXDZPulsu6iFE
+ gktfiEWnKcJ/O87Z8sBTCauoXENhJFbxC9/CS9D/V5qx6451/kshmmnyqXxvuY1nR+k6
+ tiWlSVU6oZJTAvJ3LENzwiO62re8x+uS3IcWVR/KDxf4P8tTngqNPGKpgqqQHYeL6MO4
+ 74ysfNGU2RrwcW8ilM1e1/uUJj/qol0OWpozwCFW1VZZLK2lFaqgfptW5Ou6HYbm3RKJ
+ CkPA==
+X-Gm-Message-State: AO0yUKWqIRCR6OiFYXsfwBNZjSXZjED6ZRQDXkTNA3dJyiI3Xao44NE4
+ Y3rT7SNCthvJnmcERQCX7uoJq0waFr80gwTJR7U=
+X-Google-Smtp-Source: AK7set/69DU7Esqov48oCY93FnjRw6qc7JKs9WQo+x54lEtrHwEU+0tqMbfjGKFPZ7t7V1t1018RdoZ6dgu9fHInmLU=
+X-Received: by 2002:aca:3dd4:0:b0:378:4edd:a89c with SMTP id
+ k203-20020aca3dd4000000b003784edda89cmr2010642oia.46.1676304984022; Mon, 13
+ Feb 2023 08:16:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20230210022839.3152-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20230210022839.3152-1-jiapeng.chong@linux.alibaba.com>
+References: <20230210024343.26220-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20230210024343.26220-1-jiapeng.chong@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 13 Feb 2023 11:15:28 -0500
-Message-ID: <CADnq5_OaFqucwsJwm5CCQw=R5CpKnnWFDvp_M0=hutEKAbA0Og@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove the unused variable ds_port
+Date: Mon, 13 Feb 2023 11:16:12 -0500
+Message-ID: <CADnq5_O_byNv=MVKQSL8hCXy-ENtLo31vq5zdmrE_dKZwif=nA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Remove the unused variable
+ pre_connection_type
 To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,48 +74,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Thu, Feb 9, 2023 at 9:28 PM Jiapeng Chong
+On Thu, Feb 9, 2023 at 9:44 PM Jiapeng Chong
 <jiapeng.chong@linux.alibaba.com> wrote:
 >
-> Variable ds_port is not effectively used, so delete it.
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capabilit=
-y.c:280:35: warning: variable =E2=80=98ds_port=E2=80=99 set but not used.
+> Variable pre_connection_type is not effectively used, so delete it.
 >
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D4030
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4031
 > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->  .../drm/amd/display/dc/link/protocols/link_dp_capability.c    | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/link/link_detection.c | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capabi=
-lity.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-> index 24d356ebd7a9..816bf4ff8017 100644
-> --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-> +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
-> @@ -277,7 +277,6 @@ static void dp_wa_power_up_0010FA(struct dc_link *lin=
-k, uint8_t *dpcd_data,
->                 int length)
->  {
->         int retry =3D 0;
-> -       union dp_downstream_port_present ds_port =3D { 0 };
+> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> index 63e75c392031..d224a44c4cc8 100644
+> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> @@ -886,7 +886,6 @@ static bool detect_link_and_local_sink(struct dc_link *link,
+>         struct dc_sink *prev_sink = NULL;
+>         struct dpcd_caps prev_dpcd_caps;
+>         enum dc_connection_type new_connection_type = dc_connection_none;
+> -       enum dc_connection_type pre_connection_type = dc_connection_none;
+>         const uint32_t post_oui_delay = 30; // 30ms
 >
->         if (!link->dpcd_caps.dpcd_rev.raw) {
->                 do {
-> @@ -290,9 +289,6 @@ static void dp_wa_power_up_0010FA(struct dc_link *lin=
-k, uint8_t *dpcd_data,
->                 } while (retry++ < 4 && !link->dpcd_caps.dpcd_rev.raw);
->         }
+>         DC_LOGGER_INIT(link->ctx->logger);
+> @@ -923,7 +922,6 @@ static bool detect_link_and_local_sink(struct dc_link *link,
 >
-> -       ds_port.byte =3D dpcd_data[DP_DOWNSTREAMPORT_PRESENT -
-> -                                DP_DPCD_REV];
-> -
->         if (link->dpcd_caps.dongle_type =3D=3D DISPLAY_DONGLE_DP_VGA_CONV=
-ERTER) {
->                 switch (link->dpcd_caps.branch_dev_id) {
->                 /* 0010FA active dongles (DP-VGA, DP-DLDVI converters) po=
-wer down
+>         link_disconnect_sink(link);
+>         if (new_connection_type != dc_connection_none) {
+> -               pre_connection_type = link->type;
+>                 link->type = new_connection_type;
+>                 link->link_state_valid = false;
+>
 > --
 > 2.20.1.7.g153144c
 >
