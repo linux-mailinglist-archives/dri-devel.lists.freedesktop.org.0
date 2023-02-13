@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541B869400E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 09:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF13F69400F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 09:55:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0A310E4DF;
-	Mon, 13 Feb 2023 08:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA4B310E4E0;
+	Mon, 13 Feb 2023 08:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on20625.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e1a::625])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E03710E4DF
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 08:55:33 +0000 (UTC)
+ (mail-db8eur05on2059.outbound.protection.outlook.com [40.107.20.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5C2010E4E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 08:55:38 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iCAnVHn6k94fvQ3X8X0AkW6mTe+/DY5sLO08M+YoubwPGYnj8DnvM9LWUc0c1n0RTTW5RhjWFxhXAkzkAeRLKVAX+INL6xgcYRIaq7OXK4fELAJOgaKq888z616gHXvvPnlvVZYLL+3hT3uOzbCC/VEv72Gc90lXFBhoNq1d1nwKTn1WQe2iPKuE2Qm1ZlsYaQyJu+X1Y5vt+5ZHrPcWd5fZjSPQszWwSFOnUyXb29/0dSoKDjgTuD/IVVhcj+XP3gqvAkfsxTHNSu1CVU1TC2fHsnEpwFK8IePpGnnvfWrZS1pvtbJdSn/up+s8RQ6xUB8FJ2CEUD7ldZmpDGs09g==
+ b=WR/KK3m5Exy1+JygnECvxL5NdjifdmYFHoOEdhWD4Sccy6392v7FgVgcA/k5jrq5JgeUS5+OXBtnOik/Q4c8wcWyKiYzT5/mbvFkA3TjUh96guCYrx1IdROYhTCw6hB9ud8WVv6Ros9Bq9l6bVPCUM+LJV9/37IDC1Nqlj8xUduvlnY4CdiXEUo/dAP1k1rW1apoJLTwoPRvPP3uuhzB7rAMgO/lthRPtIVWxvVGCxRgCLmFAkS6j5IHOt+vkT5O1nm8aXEfNCH5OaX81ItWPCnukBJEYNPTCGnKO/vySmq0zwxJxSPQs3HJeaSLYPQ2tTOMzaZrzPGEIEsa94o23w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NLz1nghvDdeU8XX4c8mS1zhXYI5HBw4HFppFon0xTiY=;
- b=E4insgQn6eHOTw9Z300gPizT5MUGHZcPjFoXB8cJB7pFRmHI7rCknPSeV2PdfvIdKN6xHZnSAOKaGLVBdF2P6RkgNBTVsiAzgvB6ytl/cNv1GTkqCgAmkHVvlWsyPwCO70pDfS0hn5oeXZ3YdwiCuucMlrp15wrt5UyaZ0O/6OK8iZhMLaHYz2vnxjG6NvS2ZrToquybsI50O+xDFVJ0yIRz5jgKFqeG0Uyy/f//Xl8dSowx5xBNpGXQ8g9nGkXDwI6ut9NZg+5km9cs84sEIqpyhAwSMpjJI/JcTsv+sacLbgwKCSoFKnDdusaSEY4TcVzJN3llLeQDT4FhCzJsAQ==
+ bh=iYic69GlxJLmbZGNNJ92I/sTEku99+XOdbfKZ12DIp0=;
+ b=Edn3wDKmLrZIWngeuJ2dpATuWyAgIJwXkuUursA4n7KNJCswSy917yJkdILCL7n8XESB1tcqTe4VdYTyvrxSHD3kP29XbRwO19Oaim4ASJffd6bZTJCoaiBbU+Yx/f6KkPTkSko2ekWGfzMsxCJO7VI5RjRVeqsM6/vboRZRVzuAFq/ihJeVRwT73FDHwl9lyxqHA6eqxsSW5CS2B0+Vh32oJZ9pEP0XDcZsBDBz8kl3nyhXH/wPT0N9k7j5M/cw6tTXkjiwp4qNN+LfY6sDdoWiJBa1ry5HytoFtvadCDBUTouJAvd3u8PAN8tG9vFR9V6zi5q60pupqXvllveDSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NLz1nghvDdeU8XX4c8mS1zhXYI5HBw4HFppFon0xTiY=;
- b=oEtHM8Iyy9KaitMs0nXzcu1znDjBbRmYAGd9fhVtuLEYqAQUis6CQYil53fr4m1+lmLsrSyFTwU8A73XoWqhvEqqqNGscvpPQQojjxKAe+kkCSlbkml5TCRI19aosOt1TKNZLVLwqMTdlZMHcmvLRGqzY/V/lB4+C+nU6JmQLJk=
+ bh=iYic69GlxJLmbZGNNJ92I/sTEku99+XOdbfKZ12DIp0=;
+ b=Z1GGFUNYI6BVAWzQU9xaBr2fSGVQ/2Z84CTCR75f56F+ApuI66ZQjQ3pDwYY+WfpeAyjOWglCpkZiQ0GkoBknBlaA8krCyNBCNX8R5jBa43lpH+D4HfVUm5ijf687LpJK/XjkrrIKhtoM6T/y624Us8l1jgm5t3vfvkZ1ot4a3s=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by PA4PR04MB7600.eurprd04.prod.outlook.com (2603:10a6:102:f2::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Mon, 13 Feb
- 2023 08:55:30 +0000
+ 2023 08:55:36 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::5725:92ec:f43e:f5fc%9]) with mapi id 15.20.6086.023; Mon, 13 Feb 2023
- 08:55:30 +0000
+ 08:55:36 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 4/6] drm: lcdif: Check consistent bus format and flags
- across first bridges
-Date: Mon, 13 Feb 2023 16:56:10 +0800
-Message-Id: <20230213085612.1026538-5-victor.liu@nxp.com>
+Subject: [PATCH v3 5/6] drm: lcdif: Add multiple encoders and first bridges
+ support
+Date: Mon, 13 Feb 2023 16:56:11 +0800
+Message-Id: <20230213085612.1026538-6-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20230213085612.1026538-1-victor.liu@nxp.com>
 References: <20230213085612.1026538-1-victor.liu@nxp.com>
@@ -57,52 +56,52 @@ X-ClientProxiedBy: SI2PR01CA0009.apcprd01.prod.exchangelabs.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB7600:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4fc3dd94-8fcc-4d32-3ea0-08db0da00f37
+X-MS-Office365-Filtering-Correlation-Id: 9c30c05d-3879-439c-1994-08db0da01284
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hhmHmGbvOEHgFL2T1c3czTMnnNwkSWa9C6RsxRXcABkWXfabj8dG2S5XYt2/oQsWkA1eQ41/juv4oIC96mpVU8T+UM0XahOcKW31GFlH07wt4GuXVqSf3zCgQC+UB+e9JZytzdGiKjTz8zDowtlgmdcL7/ASfKRSxR25Z02x3oqxYK2jHJFixW+CGXkoi+4MupF4s+XtvENIERlZ9ZZkSzefC/ta/rFADTnarzVAVdC8gfl3wuHoRfgUFva8puuCOwJfYdAD91MWQUeC8mrjQk5+kHJCNd9WnTSO2hxi93QFs2d47cU7u8spIZSA+PswMRjdVv5LwOVKahAXLvrglByPUV3NqA8OICyHzTfeZknWZrIJFcOZtQd3o6/F2NLTS/xEPJWMEbmGUFsef8wh8tdX0YJe0VW4mUG1dRjajtmrX+OslsI261escMgcWhKu1ahOgSpTljVTotMVJmEYJIy9DRXkH64vw2O+Lx4kdxcbBZ8HFF7o4UrTyLyA+au+PC3fqt0CjImqEpyrNmCbJ0/6tGZRczkYpEtJIibEayCel92hxNAkJnMpn/hHgMY/EUm7vOkY7or2w8nmM3PrZEQD1FRGqXopbn7yqmcl9TC+ueBNZDzo2ER9/weaYBKANN/hrZ1YFtnI36y2UpH4NzkJ/ylkIW38OV2WpkIFYt3/hg60yBhxjBOAjUQ6SCyle6VNP0LFyZygZMKvC8m8Cg==
+X-Microsoft-Antispam-Message-Info: I8wav9f0dLUp01/WIWRK8TLCTu5t09W7L/5PXxaU3xG9qHHtKcdAKuFgBU9Z+X4dw6/0BXPLYTJowa4rNZNAWNADSpnTIDCjb/GgAZbebGQfoKYmihslFlGC6LHDSsX3rzEelFHkgSItqwb6VBPcjkNhLGOE1Y6z968oOpgGnFcVa/5sTlP1FYiDx7nxHXIeIQs5VRCSY60YXWvwcxJz2OH1TbSqQ5yxx0T4aYb9RUy/ZbkrVdWiFy0Y8kYg73umVMxOpv9u1G0mOEDHjiFMSBKYLK9NTB6hDSj1Skfp08tblFLCUU1QW36dGTUpB4MvResceqlobwEl5fJZlduX2tVqd4sd7paa0vtPXd8eOfWf842Ta4vatQuT0/8UXMFANxeFaoOcPuFjHEdze/npCFpXTjfjIyJ5kK5wSTg/RAJe3EeuwS9jf8HwHOmT79vmgE4pYi7atQTdNj4jwA+CeOFDRn5R8dj3qa6vz87kqBBxrJdHOMwoBJgwO8f/g7nguMqO6v6C0i2M7JXRImTAB4rmzG7O7fuwn2R65bdcUMta+252/Fac9DGU2Xe4BtqhcN3geAcSBYfRKc/w0u01fcRv+qomnTvzX2WhskWewi/nDuu8DntOqm0mlgk/loEIYrXvUwy9jG/h6RtNHjc8zUWJLi3QVus4pYVv/CJBd2xd50vAwGRNdSoCfT6cQopFytILUmd9d9flDIi9rHo01g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230025)(4636009)(136003)(366004)(396003)(39860400002)(346002)(376002)(451199018)(4326008)(8676002)(1076003)(66946007)(316002)(86362001)(36756003)(2616005)(186003)(83380400001)(6512007)(6506007)(38350700002)(38100700002)(26005)(66476007)(7416002)(6666004)(478600001)(6486002)(52116002)(41300700001)(2906002)(66556008)(8936002)(5660300002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uHKPTBaqBqksCDI19n4TKMlvar9Hgz7XtHzsKbEhYbhSp9KO32UItG/dYfjG?=
- =?us-ascii?Q?ycXofSPdjErZfNYQk9IjzKMYYYuFYR3j9mSdh79Z+ik2H+egck/pAd9qkRxc?=
- =?us-ascii?Q?DS3tKl81hKsClTj/tbyGq+XjU+2KcrQ58g8K9sP/zXrEMVBYI6lAyF727rgC?=
- =?us-ascii?Q?KFhCQVvM67eZxpWaypMai0BHtQ/h4TRwCP5RKFvKvs/Sc5pzV9DHGgxTixVw?=
- =?us-ascii?Q?RzmsYJD+l98S3ctMVwE8XcdHbat5XqiqjvkMONF3PqeqKkhbCyT6TzGDkQAS?=
- =?us-ascii?Q?2I/StiYNHi0Vt4ygnwNGrki0sK6YwtxaqxCYd4Uv2+7e3+WyHCA0YcsFM1+Z?=
- =?us-ascii?Q?xi96dlooq+BbO31N7rYw0Hcvej0ACGFNbDXQOA5eLWA+kr+WwkjSTDufkGrT?=
- =?us-ascii?Q?tRHhjmeOnPv+C288A5sIz6ZIKqLDfDqqtvb13eB3fqA/U8SnHyuzn1XEAaLh?=
- =?us-ascii?Q?6l4o+ZJ3zrT/jNUeVPAuv/uVv1ZFW4d+GJA9nCYu4suTPzHmMADrLs3q3enP?=
- =?us-ascii?Q?GN7kSs7oVqoiaUuRgovwXaHoSzew89kFY5iGF3kAd8zOyNDB5KiJwCAh5BFC?=
- =?us-ascii?Q?mjmGOwbjovOLPeqU498PxA6yt6nSF/LvQ85FqorSo/mZGtMlSHa3kY4qMsCh?=
- =?us-ascii?Q?v5r7sOIS7PSioe7JtNOLc0Fc8Hh34SEmJF79C7VuihsN5nPx2kPHW4WlnEgZ?=
- =?us-ascii?Q?eUiVz86M47FaubIUdO9FbUqQbvjQiSHVtKVodEpE1KgLct08AjRzenCOh/2W?=
- =?us-ascii?Q?zY59eOgNYYdQQClD9uFv4RtSTt3yveHsc+8576110LHUm5enY/hk76vGD4zA?=
- =?us-ascii?Q?ReNLNiaxtI1yCo/YHcKwoj2EvnrKBeT7vooguX4r8uy/xgkMjjXF70euqa2o?=
- =?us-ascii?Q?/kEmfNDe9JfkKRlHstD0xysZ3K+7encPxhvmjbCmQS8aD8F1+zGqm26KIGSb?=
- =?us-ascii?Q?iSsnIYquGXKF3BPfQuFWumQwYVzpG2GHIiDN/eXLNuuuQWGRTaeZQdn/gUgj?=
- =?us-ascii?Q?Boh/oTqb48sVl3VXBKb5x2B0h2L8FtnbQjKbMFfw1wYe5cT+YzrcWsEbtZJD?=
- =?us-ascii?Q?0YA12FrAfB7cenLUljgk6yPgRLYLxUmDk15Hg56HjOvUkvROAN+oqO68loM2?=
- =?us-ascii?Q?K114U9B0mlD3h8lRHTCl5xL0rzkoZYa6wHXZdjkyCZVn7+LcfsXVqMLW/R9u?=
- =?us-ascii?Q?rj/Hi6pgO9x2KubW+1SjN8wDbq+cF8x/xiy2SqaCxHUdUcfUBKIrEjvN+6xU?=
- =?us-ascii?Q?52XyusnNnVGg+5QjQ/OcBbn2GSIg9GXR35PQbROhSRKlQp4+kO8X8Z9kKSUz?=
- =?us-ascii?Q?EBYuqHitfhxLXwHvTXbpPQLsqgzYH+L2a02TcEgs4wAiteLBzl/hxb+p1p7o?=
- =?us-ascii?Q?eQJIQZF5WwYTzZsMZ4YTCtcSkNj699OrzHPEoJmF8wTHkfzPTi1R07VOp4xV?=
- =?us-ascii?Q?rSxAcQ5a6BaFstqNSIoc+wswZqYuAYFWdw0yZ7GeXt6sX5PUvXn43Sw1s8pH?=
- =?us-ascii?Q?qMj1lsaO0f98BO4AzsSlmZytj/HBg84I/X5Sc7Gwm6tbkvlaKIOVGRdMDRi8?=
- =?us-ascii?Q?VP2+/Ls140yZmqoWCU8q3rioaRiHzWnLidRx1iCX?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/al4g7AnZhpNshsjdqM0hGwiwYr3lreyDVL64MwykSXQuZ7gxwD3LSGZCghD?=
+ =?us-ascii?Q?ma/WRU2weSRqm2iULp7213oGHT7AEXob4pKuR2PpZkHD5pMXOu5balKokjSW?=
+ =?us-ascii?Q?FCtuwCf6srdNOiV3H1oub1YxKgtMV1A0MQqoWnKWeVmY6p1wJ+5/jiYKDZPd?=
+ =?us-ascii?Q?4rDrdCXdGXxiC7D2DjxpKIvrDEIuoHP8U99MYPbxsqgS6wJqShNp6rmxGhlA?=
+ =?us-ascii?Q?bIQPQR5thdiPQL2NXjpp8vZnCt5oiLaDFAR0pnvr9Xt+Y9hvUkiAPkbhwrn4?=
+ =?us-ascii?Q?E7MgDLj+9VMdRdcAl4o4j9VtLf9aOHYwdgmJ1LmMeIObI2Hk8LtsGBdetBJF?=
+ =?us-ascii?Q?HnWby8fLX4AFFulbGhLKYY4l5CI0ol7XFKGun9/UJIo7ogbyE0etXQe/Oz0u?=
+ =?us-ascii?Q?HhyaFrDkOGx6NOCwjN9utAlXFGMhpRPHpEgls2vf6kaTtCcM3XYN2HSjr86V?=
+ =?us-ascii?Q?1guAh0fa8rN+5JOneoW4lU9fVrfclYiCyAw3bm2jdvwVE9G6uL71l9ZbsEja?=
+ =?us-ascii?Q?NzP0+rA7hjlW9KLrfvmAN5MC6YX/5801EBrKGpia80V9lXs5o0kInqW/08HW?=
+ =?us-ascii?Q?vVqertt8N1BBn7gL+Tb4/jW4VlHKqGUAyRNm62OH1FUWLvqceFjlX2Ar8rRz?=
+ =?us-ascii?Q?Jf/8/KfZVIyOM9+P1lDiKPUvfRXspvKvHr4JvWBnpGWPh1qYFV6O01LAzHYY?=
+ =?us-ascii?Q?84BVlkrpk+LATJsbmhLWKEU7dYeN2ii0r4W9MjUWngJ5x+nkdaLLQ85Ap8EF?=
+ =?us-ascii?Q?tgGiMcLOosdC+bUx6ZLnbwK60SAAS0rgJLfdrhxAyQe+qWLK2trDjzHAfbpK?=
+ =?us-ascii?Q?laKsywkgf1VPvO3oj+YGkeZzJRyoRJ0eDrRoslIAAjFsv8ynPMq7tgfD4dNL?=
+ =?us-ascii?Q?/EXsAw+SFwvXmhepR1WBHzBxN4TvXxPgC/klAQfA+eA7G7wqpGBEfLuQwiiY?=
+ =?us-ascii?Q?FWd+Fk4yUR3fvVpHhpC3VUEm44eBFKddOA04+eTJcXpSUGZDalwcqoUGtRTa?=
+ =?us-ascii?Q?PRNK1aoLTltQgT8TTASE3ICzYYWXD7exSV3m+S/RkA3xxQ5SmdVU6b1ToLT6?=
+ =?us-ascii?Q?aAbekAlKIlz+w1h2DbJnPJo4XPBGJ9dkvTM8HPPuDKJTgRoCYTscDWy9A7S0?=
+ =?us-ascii?Q?orYRWg6ckRqZ4YNkiXk2MOQZ7bRDKQim+zNC61UQ0AQWUh/7fKo5M3lrNeKS?=
+ =?us-ascii?Q?fT5SSd46BV+YKqfvJWdzud6XHKd98XL+6shA+3ksIdq5ESBjCLGxNnzB4dMe?=
+ =?us-ascii?Q?s6jUYSH1/GJ0OrGI5Zf/9HqhKzjiLX84Q2DHlVM54rDpNwbXov5TLuSzzXj5?=
+ =?us-ascii?Q?OZm2CBQXKfFrl6Z77ska1UrtYoP+6419cdR4iFJYgUPZKDTO04+sLfx5/wtX?=
+ =?us-ascii?Q?TSX2ttvAEc4RKP/xYaGN3sWpk9KKz1y29HMX+uQLdbwpkCVVvUlKaJ6Awzey?=
+ =?us-ascii?Q?bJAx2ADgQKm9MwbXy9GQYB7Y94xhF3XizBJunF36UH3o18INATdRN5e6dsfc?=
+ =?us-ascii?Q?VTCuPNiaSToyx/cea6rB3xNCD2xxLeWaYciHSQ2UgxekpiNeWh8OjrbujJpP?=
+ =?us-ascii?Q?nBMFAd83CF0JcC1vs2Hu1e5LW6SfTOAwADbEUldL?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fc3dd94-8fcc-4d32-3ea0-08db0da00f37
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c30c05d-3879-439c-1994-08db0da01284
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 08:55:30.5670 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 08:55:36.1825 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gEb6K5FhNL9y3TUj9o3Cgzb39TPFsH2hVtqhpVlTE1vdqWlBJpKLBj2bKehcoqghqGaV8lHytDXC8nb6A+Tlyg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: RDvaKCoMmYVfntyNo5dreBJzjxSpovwaTzUg1w+f3zXMraQ9GUZAZFxtQbbp+Nf84QJM3T+AGoKT49n8Jby/Hg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7600
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,9 +123,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The single LCDIF embedded in i.MX93 SoC may drive multiple displays
-simultaneously.  Check bus format and flags across first bridges in
-->atomic_check() to ensure they are consistent.  This is a preparation
-for adding i.MX93 LCDIF support.
+simultaneously.  Look at LCDIF output port's remote port parents to
+find all enabled first bridges.  Add an encoder for each found bridge
+and attach the bridge to the encoder.  This is a preparation for
+adding i.MX93 LCDIF support.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
@@ -135,147 +135,178 @@ v2->v3:
 
 v1->v2:
 * Split from patch 2/2 in v1. (Marek, Alexander)
-* Drop a comment about bridge input bus format from lcdif_crtc_atomic_check().
+* Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
+* Drop unneeded 'bridges' member from lcdif_drm_private structure.
 
- drivers/gpu/drm/mxsfb/lcdif_drv.c |  2 -
- drivers/gpu/drm/mxsfb/lcdif_drv.h |  1 -
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 76 ++++++++++++++++++++++---------
- 3 files changed, 55 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/mxsfb/lcdif_drv.c | 68 +++++++++++++++++++++++++++----
+ drivers/gpu/drm/mxsfb/lcdif_drv.h |  4 +-
+ drivers/gpu/drm/mxsfb/lcdif_kms.c | 21 ++--------
+ 3 files changed, 66 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index cc2ceb301b96..b5b9a8e273c6 100644
+index b5b9a8e273c6..eb6c265fa2fe 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
 +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -52,8 +52,6 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
- 	if (ret)
- 		return dev_err_probe(drm->dev, ret, "Failed to attach bridge\n");
+@@ -9,13 +9,16 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_graph.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
  
--	lcdif->bridge = bridge;
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_drv.h>
++#include <drm/drm_encoder.h>
+ #include <drm/drm_fbdev_generic.h>
+ #include <drm/drm_gem_dma_helper.h>
+ #include <drm/drm_gem_framebuffer_helper.h>
+@@ -38,19 +41,68 @@ static const struct drm_mode_config_helper_funcs lcdif_mode_config_helpers = {
+ 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+ };
+ 
++static const struct drm_encoder_funcs lcdif_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
+ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+ {
+-	struct drm_device *drm = lcdif->drm;
++	struct device *dev = lcdif->drm->dev;
++	struct device_node *ep;
+ 	struct drm_bridge *bridge;
+ 	int ret;
+ 
+-	bridge = devm_drm_of_get_bridge(drm->dev, drm->dev->of_node, 0, 0);
+-	if (IS_ERR(bridge))
+-		return PTR_ERR(bridge);
 -
+-	ret = drm_bridge_attach(&lcdif->encoder, bridge, NULL, 0);
+-	if (ret)
+-		return dev_err_probe(drm->dev, ret, "Failed to attach bridge\n");
++	for_each_endpoint_of_node(dev->of_node, ep) {
++		struct device_node *remote;
++		struct of_endpoint of_ep;
++		struct drm_encoder *encoder;
++
++		remote = of_graph_get_remote_port_parent(ep);
++		if (!of_device_is_available(remote)) {
++			of_node_put(remote);
++			continue;
++		}
++		of_node_put(remote);
++
++		ret = of_graph_parse_endpoint(ep, &of_ep);
++		if (ret < 0) {
++			dev_err(dev, "Failed to parse endpoint %pOF\n", ep);
++			of_node_put(ep);
++			return ret;
++		}
++
++		if (of_ep.id >= MAX_DISPLAYS) {
++			dev_warn(dev, "invalid endpoint id %u\n", of_ep.id);
++			continue;
++		}
++
++		bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, of_ep.id);
++		if (IS_ERR(bridge)) {
++			of_node_put(ep);
++			return dev_err_probe(dev, PTR_ERR(bridge),
++					     "Failed to get bridge for endpoint%u\n",
++					     of_ep.id);
++		}
++
++		encoder = &lcdif->encoders[of_ep.id];
++		encoder->possible_crtcs = drm_crtc_mask(&lcdif->crtc);
++		ret = drm_encoder_init(lcdif->drm, encoder, &lcdif_encoder_funcs,
++				       DRM_MODE_ENCODER_NONE, NULL);
++		if (ret) {
++			dev_err(dev, "Failed to initialize encoder for endpoint%u: %d\n",
++				of_ep.id, ret);
++			of_node_put(ep);
++			return ret;
++		}
++
++		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
++		if (ret) {
++			of_node_put(ep);
++			return dev_err_probe(dev, ret,
++					     "Failed to attach bridge for endpoint%u\n",
++					     of_ep.id);
++		}
++	}
+ 
  	return 0;
  }
- 
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.h b/drivers/gpu/drm/mxsfb/lcdif_drv.h
-index 6cdba6e20c02..aa6d099a1897 100644
+index aa6d099a1897..c7400bd9bbd9 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_drv.h
 +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.h
-@@ -31,7 +31,6 @@ struct lcdif_drm_private {
+@@ -14,6 +14,8 @@
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_plane.h>
+ 
++#define MAX_DISPLAYS	3
++
+ struct clk;
+ 
+ struct lcdif_drm_private {
+@@ -30,7 +32,7 @@ struct lcdif_drm_private {
+ 		/* i.MXRT does support overlay planes, add them here. */
  	} planes;
  	struct drm_crtc			crtc;
- 	struct drm_encoder		encoder;
--	struct drm_bridge		*bridge;
+-	struct drm_encoder		encoder;
++	struct drm_encoder		encoders[MAX_DISPLAYS];
  };
  
  static inline struct lcdif_drm_private *
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index 294cecdf5439..4ea3d2b2cf61 100644
+index 4ea3d2b2cf61..5f34d01e133e 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -17,6 +17,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_color_mgmt.h>
-+#include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_fb_dma_helper.h>
-@@ -424,15 +425,19 @@ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
- {
- 	struct drm_device *drm = crtc->dev;
--	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(drm);
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
- 									  crtc);
- 	struct lcdif_crtc_state *lcdif_crtc_state = to_lcdif_crtc_state(crtc_state);
- 	bool has_primary = crtc_state->plane_mask &
- 			   drm_plane_mask(crtc->primary);
-+	struct drm_connector_state *connector_state;
-+	struct drm_connector *connector;
-+	struct drm_encoder *encoder;
- 	struct drm_bridge_state *bridge_state;
--	struct drm_bridge *bridge = lcdif->bridge;
--	int ret;
-+	struct drm_bridge *bridge;
-+	u32 bus_format, bus_flags;
-+	bool format_set = false, flags_set = false;
-+	int ret, i;
+@@ -654,14 +654,6 @@ static const struct drm_crtc_funcs lcdif_crtc_funcs = {
+ 	.disable_vblank = lcdif_crtc_disable_vblank,
+ };
  
- 	/* The primary plane has to be enabled when the CRTC is active. */
- 	if (crtc_state->active && !has_primary)
-@@ -442,26 +447,55 @@ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (ret)
+-/* -----------------------------------------------------------------------------
+- * Encoder
+- */
+-
+-static const struct drm_encoder_funcs lcdif_encoder_funcs = {
+-	.destroy = drm_encoder_cleanup,
+-};
+-
+ /* -----------------------------------------------------------------------------
+  * Planes
+  */
+@@ -754,7 +746,6 @@ int lcdif_kms_init(struct lcdif_drm_private *lcdif)
+ 					BIT(DRM_COLOR_YCBCR_BT2020);
+ 	const u32 supported_ranges = BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+ 				     BIT(DRM_COLOR_YCBCR_FULL_RANGE);
+-	struct drm_encoder *encoder = &lcdif->encoder;
+ 	struct drm_crtc *crtc = &lcdif->crtc;
+ 	int ret;
+ 
+@@ -778,13 +769,7 @@ int lcdif_kms_init(struct lcdif_drm_private *lcdif)
  		return ret;
  
--	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
--	if (!bridge_state)
--		lcdif_crtc_state->bus_format = MEDIA_BUS_FMT_FIXED;
--	else
--		lcdif_crtc_state->bus_format = bridge_state->input_bus_cfg.format;
+ 	drm_crtc_helper_add(crtc, &lcdif_crtc_helper_funcs);
+-	ret = drm_crtc_init_with_planes(lcdif->drm, crtc,
+-					&lcdif->planes.primary, NULL,
+-					&lcdif_crtc_funcs, NULL);
+-	if (ret)
+-		return ret;
 -
--	if (lcdif_crtc_state->bus_format == MEDIA_BUS_FMT_FIXED) {
--		dev_warn_once(drm->dev,
--			      "Bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
--			      "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n");
--		lcdif_crtc_state->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+	/* Try to find consistent bus format and flags across first bridges. */
-+	for_each_new_connector_in_state(state, connector, connector_state, i) {
-+		if (!connector_state->crtc)
-+			continue;
-+
-+		encoder = connector_state->best_encoder;
-+
-+		bridge = drm_bridge_chain_get_first_bridge(encoder);
-+		if (!bridge)
-+			continue;
-+
-+		bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
-+		if (!bridge_state)
-+			bus_format = MEDIA_BUS_FMT_FIXED;
-+		else
-+			bus_format = bridge_state->input_bus_cfg.format;
-+
-+		if (bus_format == MEDIA_BUS_FMT_FIXED) {
-+			dev_warn(drm->dev,
-+				 "[ENCODER:%d:%s]'s bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
-+				 "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n",
-+				 encoder->base.id, encoder->name);
-+			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-+		}
-+
-+		if (!format_set) {
-+			lcdif_crtc_state->bus_format = bus_format;
-+			format_set = true;
-+		} else if (lcdif_crtc_state->bus_format != bus_format) {
-+			DRM_DEV_DEBUG_DRIVER(drm->dev, "inconsistent bus format\n");
-+			return -EINVAL;
-+		}
-+
-+		if (bridge->timings)
-+			bus_flags = bridge->timings->input_bus_flags;
-+		else if (bridge_state)
-+			bus_flags = bridge_state->input_bus_cfg.flags;
-+		else
-+			bus_flags = 0;
-+
-+		if (!flags_set) {
-+			lcdif_crtc_state->bus_flags = bus_flags;
-+			flags_set = true;
-+		} else if (lcdif_crtc_state->bus_flags != bus_flags) {
-+			DRM_DEV_DEBUG_DRIVER(drm->dev, "inconsistent bus flags\n");
-+			return -EINVAL;
-+		}
- 	}
- 
--	if (bridge->timings)
--		lcdif_crtc_state->bus_flags = bridge->timings->input_bus_flags;
--	else if (bridge_state)
--		lcdif_crtc_state->bus_flags = bridge_state->input_bus_cfg.flags;
--	else
--		lcdif_crtc_state->bus_flags = 0;
--
- 	return 0;
+-	encoder->possible_crtcs = drm_crtc_mask(crtc);
+-	return drm_encoder_init(lcdif->drm, encoder, &lcdif_encoder_funcs,
+-				DRM_MODE_ENCODER_NONE, NULL);
++	return drm_crtc_init_with_planes(lcdif->drm, crtc,
++					 &lcdif->planes.primary, NULL,
++					 &lcdif_crtc_funcs, NULL);
  }
- 
 -- 
 2.37.1
 
