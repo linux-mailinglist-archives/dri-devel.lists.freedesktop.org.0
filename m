@@ -2,48 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B311C694CE3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13BC694CF3
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1EA410E049;
-	Mon, 13 Feb 2023 16:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AECD910E61E;
+	Mon, 13 Feb 2023 16:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEB6B10E049
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 16:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=bGNxZYPN8DFGD+DAyTWS3zPGWV5ykBQ5tFyV385U9oc=; b=R4iTn6xH8zDJTusokMQXuA5WPJ
- Oh+/9/zhQ1iGYv06sWa4L39n+21g1lSA8X0KLvTooiD4limw8fjBX+LzN6N2N9QBMDeVc67SFGS7j
- X/JXtkCSz3XcM8VXpeiEYXUFxm8F9U+pdp046JlHjG+uSepuEYVupTGDjAJ3AZ8kc587hFnyehufg
- m9k4/xBxDK8i2PX/3jJJKGMucsVX/12Dxx4EnBmOlvTqyFh8Ov+oNT3Ijyj29u7MUkaGdaxRl6Lfd
- aUzKLC6n14UuTVnhsiPJuObd+hsAyu+ZQcmxlqIvc3dSzpXeRrhhYfz6HpjQuLF5pKFF0B++FOLRC
- VUF4+4wg==;
-Received: from 108-90-42-56.lightspeed.sntcca.sbcglobal.net ([108.90.42.56]
- helo=[192.168.1.80])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pRbjk-005vGY-H6; Mon, 13 Feb 2023 16:31:29 +0000
-Message-ID: <f8b1ef96-3d33-fa35-d99f-af00bf8c2e40@infradead.org>
-Date: Mon, 13 Feb 2023 08:31:19 -0800
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2218510E620
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 16:32:14 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DFBC54B3;
+ Mon, 13 Feb 2023 08:32:56 -0800 (PST)
+Received: from [10.57.13.51] (unknown [10.57.13.51])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1DD973F703;
+ Mon, 13 Feb 2023 08:32:10 -0800 (PST)
+Message-ID: <5c8d003c-c460-62e1-e32a-7ed37ae1f52f@arm.com>
+Date: Mon, 13 Feb 2023 16:32:08 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 04/11] drivers/ps3: Read video= option with fb_get_option()
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de, javierm@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, mpe@ellerman.id.au,
- npiggin@gmail.com, christophe.leroy@csgroup.eu
-References: <20230209135509.7786-1-tzimmermann@suse.de>
- <20230209135509.7786-5-tzimmermann@suse.de>
- <06917dd0-c4f1-c80a-16a7-f2baac47027d@infradead.org>
- <fedc746f-1685-a5a1-b847-7031b66c1fd2@suse.de>
-Content-Language: en-US
-From: Geoff Levand <geoff@infradead.org>
-In-Reply-To: <fedc746f-1685-a5a1-b847-7031b66c1fd2@suse.de>
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 4/5] drm/panfrost: Use
+ drm_sched_job_add_syncobj_dependency()
+Content-Language: en-GB
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Rob Clark <robdclark@gmail.com>, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Melissa Wen <mwen@igalia.com>
+References: <20230209124447.467867-1-mcanal@igalia.com>
+ <20230209124447.467867-5-mcanal@igalia.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230209124447.467867-5-mcanal@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,39 +54,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Alyssa Rosenzweig <alyssa@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 2/13/23 03:29, Thomas Zimmermann wrote:
-> Am 12.02.23 um 17:53 schrieb Geoff Levand:
->> On 2/9/23 05:55, Thomas Zimmermann wrote:
->>> Get the kernel's global video= parameter with fb_get_option(). Done
->>> to unexport the internal fbdev state fb_mode_config. No functional
->>> changes.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> ---
->>>   drivers/ps3/ps3av.c | 11 +++++++++--
->>>   1 file changed, 9 insertions(+), 2 deletions(-)
->>
->> I wanted to test these changes on the PS3, but got this
->> error when trying to apply this patch set to Linux-6.2-rc7:
->>
->>    Applying: fbdev: Handle video= parameter in video/cmdline.c
->>    error: patch failed: drivers/gpu/drm/Kconfig:10
->>    error: drivers/gpu/drm/Kconfig: patch does not apply
->>
->> Is there a Linux kernel revision that these will apply to,
->> or is there a git repository I can pull them from?
+On 09/02/2023 12:44, Maíra Canal wrote:
+> As panfrost_copy_in_sync() performs the same steps as
+> drm_sched_job_add_syncobj_dependency(), replace the open-coded
+> implementation in Panfrost in order to simply use the DRM function.
 > 
-> Thanks for testing.  My base version is a recent DRM development tree. The repo is at https://cgit.freedesktop.org/drm/drm-tip/, the branch is drm-tip.
+> Reviewed-by: Alyssa Rosenzweig <alyssa@collabora.com>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 
-I tested the drm-tip branch at c54b5fcf3e68 on PS3 and it
-seemed to work OK.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Tested-by: Geoff Levand <geoff@infradead.org>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 11 ++---------
+>  1 file changed, 2 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index abb0dadd8f63..f49096f53141 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -220,15 +220,8 @@ panfrost_copy_in_sync(struct drm_device *dev,
+>  	}
+>  
+>  	for (i = 0; i < in_fence_count; i++) {
+> -		struct dma_fence *fence;
+> -
+> -		ret = drm_syncobj_find_fence(file_priv, handles[i], 0, 0,
+> -					     &fence);
+> -		if (ret)
+> -			goto fail;
+> -
+> -		ret = drm_sched_job_add_dependency(&job->base, fence);
+> -
+> +		ret = drm_sched_job_add_syncobj_dependency(&job->base, file_priv,
+> +							   handles[i], 0);
+>  		if (ret)
+>  			goto fail;
+>  	}
 
