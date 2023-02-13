@@ -1,50 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209F8694003
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 09:55:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC87694004
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 09:55:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C37A810E053;
-	Mon, 13 Feb 2023 08:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E44A710E054;
+	Mon, 13 Feb 2023 08:55:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR02-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur02on2079.outbound.protection.outlook.com [40.107.241.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60B6110E053
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 08:55:10 +0000 (UTC)
+ (mail-vi1eur02on2083.outbound.protection.outlook.com [40.107.241.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4B0910E054
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 08:55:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RalFhc2LssZ3kb+u4s62QIHaOXTdLHPDRYnd2kuA7RjuYnkxYOFUyO14GN+DLx2w+tqRoH25DZCO3cBWcDhvHFkihs5ArqFH6uSeZOmz8K+zqnxwcg0rYUSzDf3wucBZS5p78IUz1YCEUybhtcb5C8G0Tuy65Gv7ywlcUKg+vfa56tDN5Oxq5AcMcQcAu88a4boUfocQSTzjPW0cXphw+l1Y4bk1TTW+Fafm8s9FCK95U9KG1q5T6mNos4+V3Tt0i9lWCdBwLS7dfwNBKT4pSksxn5DBPN049LuS3gcnJIZI/B2QkygE5yoaXWbfpk2r1Nbh3zcCVOGr1zN7oDXMOw==
+ b=lG5N2t/9ZOjW7BQLuWh0t4qv+1G7xWJwftom7HzsoUXOojtA+pTstbGSGwM/tGkUDrN2c6PAM9ipMRlxlGzihAIoEPtjAXAz/HR/4QA0r8wEpI2N4GtJC45AtQrWOcxj3PTK/7yh49dBI+jiaPvXAEE6I7rf+SZuqixUiI6a9RdR2TWNHSjZxlA7rJvQIiFFtXhAtL6wVgerveaEtMA9hhaEPpOXKomJuLhyRZ1ZnAlDvLWzS52xz0YuYzC6mTRq/Lu65SZEdOrnQF9ONq513Jii/ZXg7gvbFg0hROut9fw0HyIat6es+3ozwUIw6NpqiRCouYlvjPhcVg3jW3DkBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QJMm3IOd1DDNx9oNhC8B5KvhlUiTeQv8H4vh3lJzxAY=;
- b=hokUwqrEhMd+05jw7nF9v8Ws8903JwmbNC0Ym3EpOoJPtmEfsO0wcEwgEvOX861JFQVHBfWyIF/V5btTqbZRpcBl/UK7yj/BOgIyYFj1+klMbQNgvMap9VojGWDTUgRb82yTAagdOsKwjSbmWFhl2eapkI5MxtbDtIUYYHH7rkYy855CT72L9vIJMXxu6TWghKeoyvbCVsiQn4zzgcS2uxJQrk74PN85e/bSgJZOfbnAeATy5o65wq7SSMEvDeiXJpXblMBRIq7KoTOouiRM5DMWgVT+SIXHDrExWlZdzgI/OL/GGyjxKe9PJZvUS+1ySb0ltjP+6hpCuuNYQyyrsw==
+ bh=/SUhQVQzokpbnZ5hLrxn16lkitUjkIbMyWXVpWOhCJY=;
+ b=DS8SH64AWK8tgfc5t+2Eue1ACngM2ZvmGlYTJNcGnYTZX6DMGt7sJyMB11ZXZ7ykRcHBoiktzf8mlw0bVWhB/XyaP/AMb0pA/Kh+4if//22rw3U+nBIMre5gGUnedjPHJq6l8M92HsiEonj6OawKZEsGCc7lS8GW7gehegF+NI6SMVfuwDX6xtT1+hYbDMUpdRDhG5e2vqL8zL+JMBJRa4C41fnrZQHk9YO9tysOSk0IFIVBRNJayk3Yvgso8UiXWgG3HyLy0ZKa9Tn1HkvYL7NGo341RqgLpEdNJ/q+uL05wanlE5+oc+yqoydAWzhoSjpfdGyWp8ybIc04/msDVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QJMm3IOd1DDNx9oNhC8B5KvhlUiTeQv8H4vh3lJzxAY=;
- b=B/ok7L7eWPIRQPJ98ToElotqhRWL7AvnJGo4AO1V677wFnFu0NkefYzTo3o6oph2nrznqVrRmycCzpg8nRdrE/zSi1KDfVeO02eHTeJrua+5sd8A8slvyu+sl+FiuRmLC+kp2QOmyDWKxx1parDrxoRHpGLvgOLh72ez+4i2aZ8=
+ bh=/SUhQVQzokpbnZ5hLrxn16lkitUjkIbMyWXVpWOhCJY=;
+ b=pvFnckTLdJlr9MGdLiLWo/zLZ0E1IDTs+VER8KIyEmi2vumzLMP86VXJTNNAXSP6PeT3G0ljfrorZPI/bN5Hmr6sTnaNfRMLzlUowJJd95RGds4QLtz5rPmG4/gQZkw7JigJ9TZ6qA+O4V7XkWcqOupwLEeGyiJeuXREXXt7T8E=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by GV1PR04MB9135.eurprd04.prod.outlook.com (2603:10a6:150:26::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Mon, 13 Feb
- 2023 08:55:06 +0000
+ 2023 08:55:12 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::5725:92ec:f43e:f5fc%9]) with mapi id 15.20.6086.023; Mon, 13 Feb 2023
- 08:55:06 +0000
+ 08:55:12 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 0/6] drm: lcdif: Add i.MX93 LCDIF support
-Date: Mon, 13 Feb 2023 16:56:06 +0800
-Message-Id: <20230213085612.1026538-1-victor.liu@nxp.com>
+Subject: [PATCH v3 1/6] dt-bindings: lcdif: Add i.MX93 LCDIF support
+Date: Mon, 13 Feb 2023 16:56:07 +0800
+Message-Id: <20230213085612.1026538-2-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20230213085612.1026538-1-victor.liu@nxp.com>
+References: <20230213085612.1026538-1-victor.liu@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SI2PR01CA0009.apcprd01.prod.exchangelabs.com
@@ -53,52 +55,52 @@ X-ClientProxiedBy: SI2PR01CA0009.apcprd01.prod.exchangelabs.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GV1PR04MB9135:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec7c285b-248e-4faa-e76d-08db0da000e4
+X-MS-Office365-Filtering-Correlation-Id: ff2c6fbb-9d7f-43a8-7773-08db0da00433
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0g3pMP7ZLkoZidsGlSi0rAMYcqTGcUYLGyXDANIVprbl3NH2078MO3y4q3LpJiVq5g2sRb7udwHjCbTJlR9W3SkCVmUcDuisg6CS/e6GVtTuM4NopG/lVDEt9olLwLGUTBvfwXB1srlJHtRtP3pXLxaiOchu2ITqJE8Aw31jGPyVzwl/5aGPmryKHW1sh3o0HrpE6eXdGhPZW4LOfWChZ/DfgG00g/yHW58N2jfyUoSNWVHeKgJp/1UNAzRRCAZw3AHp+dRA+gEZ/0FqFxZE5b+0ymf9KqHbn8saOBJQazY9lRiFerjZ2hfC4xLDoTkxlBJqkvkZVQS0NUtsMShLV/zUMlJzrsknbxkBEsKsRT049mYPNYMeqR9inQxQVJFl0OYTcZK0BV6UhMPIuxaKENX0yjf4nwEgHXGBSfYlkYjK093B8TPgi+bRehvy3WHTnAb/Kkajz81o2B3VHBdSmQeUwjIeJhptjgWgIkjtzQG6auoBOROlcSs5VrF/QMnm9y2cxzIMB7fWwuSSkBUhlSiPIvbqw8xDFcDPMhkV3tblryFJ5bPiQ1HI9hICZBRoYK1hc406vQBK5e8nLrLZ2hzirwm397qqqkY9GvNYBmFAA3llimxYtCGnIXzav+/6BJ44tVHoXDdAkwuNcCZukIcJzKSh/aP0/F7/vbYRY8pTifAJWOpw7cUl/wH2pkdb82WPNVU22oXGEPOkSzqgpA==
+X-Microsoft-Antispam-Message-Info: nwDVYcBx1lzJhbB83re9vGKK3lnmVd21qtclL/o7eorEwfsPFG60ZTA6/bi/1aJti+ge16Yy8nnPIGqHpqIeEO1qeZbQDzas/ApW16mgafDQ9467tqjonEHDqJlfJ0zyDn+9fDxuTbUY+tfEyb00ebA+OuU4e6xcNJqfJOx6YH7F/8rNozjoWjKtKxmmsBhvcZZ88d5vSu2kHH8oVS9iRRqz3sTlmT+NsqpgB4nA9u53Rwoc9kLsm4HoZ73QJ07j1RK/9vsZsFp+PzGuuKXomEcsS4hsAaoEVjUW8Dd1Or2e1/3ZwmZ1ay7SGgiI7Vq5EjLvJOXHovue/2wy3+mKZyCIKzqVN+RyOydF8IDOejcqBHEQTCw9Au9/jwBtjFsxlT3zOGpo7k40mG2G4pKYxtuc6jkMZEGruuvYpJS2QRdPONLIi3QMb85wEJb79of4tMXa4VcPkFKC68+TauL1CRbFtQ9cQZHSjgyIJz7ZX3+dYpHr48DxwEKF1STmpJ5gT666tQ7FxacG3a7o8usoMYa3DQVZmfBI0PbYWyaIk/wdDC9X6y3hIAwWzep/0mEJAxqGgwYBLm1CaYhqzoA8JFAqoDoTfBW7TdkKXYVWGYzFy+vyX9b0AM0vPEEOdx5NztK6QwoaQ1+0n8rBl1+38NWL1aYMUO2xMuncG/E3bK5ey+hbmRIaphmTz/3fP6xrQKpA4ow9ovZdkFvUedldYQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(451199018)(26005)(186003)(86362001)(83380400001)(36756003)(52116002)(6486002)(316002)(6512007)(1076003)(6506007)(2906002)(38100700002)(5660300002)(38350700002)(478600001)(2616005)(8936002)(8676002)(7416002)(66556008)(66946007)(66476007)(4326008)(41300700001);
+ SFS:(13230025)(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(451199018)(26005)(186003)(86362001)(83380400001)(36756003)(52116002)(6486002)(316002)(6512007)(1076003)(6506007)(6666004)(2906002)(38100700002)(5660300002)(38350700002)(478600001)(2616005)(8936002)(8676002)(7416002)(66556008)(66946007)(66476007)(4326008)(41300700001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?C0wp2T5nOEkyXDYXPqkt9AFp51GB/KcJ2KCLkKowJinRMy4n908saPRin1cr?=
- =?us-ascii?Q?AxcuQwoyH52z7O4/9ujlVfUa7UhFfhdpbwiItQgUfOQHT0ulCn7RF/1ns5ad?=
- =?us-ascii?Q?uPkeqjTeCvEoANeRKoHh/HOKwedtJadI15jmitvgumutZJMlnQdat7aJRgtQ?=
- =?us-ascii?Q?Kak9jbvZbXQ9RHul/cMkwqioBesEHrmYLw5XRNZJ/paPFylJWGVse/ljgsqP?=
- =?us-ascii?Q?8dL+xiWYF17PG6HujEDMb7F/l0bts0TjwgB1UAoJ1644XuZDcJhn6J5Hgc0a?=
- =?us-ascii?Q?FuQ3bzjeUBlfnkRo/WH1d25YZNIL9c5SpSUzhWnnbcN40Xi2Vu7LTJtW9/Z6?=
- =?us-ascii?Q?tKVrrZUHntq12l8lobLfvzv8oqc/MZ7Wt7faVqwarTuKoyufLLieRGzBlcsR?=
- =?us-ascii?Q?Tt4c5V1LV1li8VN7W7TL3W3/Z95jpvhevCJDH3f+woHyZJcadWl7e7dFdWW2?=
- =?us-ascii?Q?Zf94KX70R+v5GNhJzU921IMwbjq+icANz06UClpEPLm34WaHFyno3lSPOEo2?=
- =?us-ascii?Q?ySiiYIKyBh3uTipqzxK8LAQ2PbFF8RqC5jxE0f3Bys8Xq6l/RgLM+QZuuHGc?=
- =?us-ascii?Q?9jzqU+jcltIOCYLhFGMQHZPvjIC6w0BfFhdJx0WYdCtAGX4HKrDdlHQPriUb?=
- =?us-ascii?Q?pGYBZ1WWJN74JeALFFGapDKrR2eW9kUsJN1f54SG/XGU2YNXO4s7fwudp38q?=
- =?us-ascii?Q?xCKmvGSIqTS/OBHaV7EAjIZL32m7CO/wafVwnoGT1aJqBw60A2cbgzsqEXnO?=
- =?us-ascii?Q?38I5Ww2dnSGyRRGS9RbQ7zTxYv0ZWfLvfP1QLWbLq3gVLIpmlbJPxo98Z9iY?=
- =?us-ascii?Q?Vc+5TPU/EjCHP1PTIvHwLrSIviJueRw6MMlcer4stowytoB+wUXbp5sa+EJ7?=
- =?us-ascii?Q?NwvtqpzSMwag/xAUoH93DhNMb7UhgYIWjv2jO1V0dxNRYQITz+3N0/e218YX?=
- =?us-ascii?Q?TwWaCgCMya0Jdy+ORIw0d8zF9mSebR1EAe99DmwpmfgXVSXIXltcqNbb//4d?=
- =?us-ascii?Q?UIl0XD2w2PeXeQOGCmBexEA1jmRut6r9NVas7txwzkPkW0CeB9WaQ3so6UzL?=
- =?us-ascii?Q?TpGbGRdZYn+PAgWwaM/l4IimR5d93iUS7G0C4YbhU2jTCj327Fd3OWjZlzyR?=
- =?us-ascii?Q?6JcWtcs8Exsv9f9/q0Ih2J5uWBi2JuP7c8onU/0a8HiqkbkPuzAAnUGr6OBW?=
- =?us-ascii?Q?exmwVsAGDyiUI974pirgOj5uRq3QC1G2FLz9nxk1WtBPO7x24GSDAxxsOgkx?=
- =?us-ascii?Q?KmJgIheCr9AONcfa/67yj+9ECmhBfufV0rpv6QQ8TBBMbwLoVCnLKFE/TyN+?=
- =?us-ascii?Q?unmGc7bsGbwzlvBg3K8UC5ndumuKNIwkIZlwotvfBZFuccW1LYo9pu/ZkTZk?=
- =?us-ascii?Q?WsI98f38aCHuKRWQdLenI7aH39t/OdDA/5xF5fZh1QZlvsym66EnjHMT8E70?=
- =?us-ascii?Q?ytYXl7c9hWdJkeA0ziJWezcyuBAlRXDHRM/k8PSh5SlM2QXvInH/w4J9Js/a?=
- =?us-ascii?Q?68ktHVE+6St5dhTFsq67Trs47v5qt6ylWA8PVzWJPUIfkGZYwzbiR6pyRXlD?=
- =?us-ascii?Q?K/8mWh5865r5A9uIgSQasZyxrlAYl7uNBnF13FZC?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nai0GX83DPAdmaWc/iPq2Fj4Ee8/CIWHlXVqsrapkd7iA2X1qlIwcByO+FYz?=
+ =?us-ascii?Q?IvnVssc8WePNdQTPOWD/Ixx+vj0Sf22N2pvVHcmt+w+N886gLoo454uacP1C?=
+ =?us-ascii?Q?ARRMA9S+jB67cnJ1byGqj5X6frDDfb/jCl2+mhrWDqcSF03Z9e2JPqHVo1IW?=
+ =?us-ascii?Q?OT281R3t1f+cm7wSgS6YzRZ6Ok7PggnS1fTAuNd1s5I0m66PPfpanexV6Nhw?=
+ =?us-ascii?Q?ZuMY/+jnD89VChkt+9nm8qgydMp2zjfkUB3SNgFKVktCMYtvSeZ5GDvXke6f?=
+ =?us-ascii?Q?qRbIOAyVMEpLwbIfK5c7jtlvWqvvY+AJ5KPFaG4gpuK/2Z3+u3MFGX5U3SJr?=
+ =?us-ascii?Q?ZXP8WS/Dofir/pgJKNYsBApcs9Swepds+4Vzh+4lFsFPvfrZ/VGzXjWYXbT3?=
+ =?us-ascii?Q?85xc3kcSOFqW65NEnIPueg3ZZtg+WYsLKAiDrHivFi7LXTvWt3Ei18vDMQ76?=
+ =?us-ascii?Q?p0Gj7pmbM5fThVapmlKox4S80aq0qBkdFiuNRTB0gkHeWBJIi9I0McBbj+GW?=
+ =?us-ascii?Q?r+FJfybaNwGsoedUh7LJgcWiIQyl2pxv5pXbIAx8n/udl3b62kwwevir0PBf?=
+ =?us-ascii?Q?vYHI5xDl7kvF8kvjOCNFzZQl9/Qp5V9SLPj36wcTfCWFZQUxABvSMMr9H5te?=
+ =?us-ascii?Q?Z0iodyxGn7NBagM96eFRuSKQrsKkwNf0QWBVyY20xXihUjvgJ4LM8MmuKM5Q?=
+ =?us-ascii?Q?R9EbITLA9EXBm1uCb8eQniIKHJJIeiMGkV9CB+Jbq4/C2dJVH3VBtUoAehAC?=
+ =?us-ascii?Q?rgMKKB0SGiXDlZyXaQXHZOvM/QrS53lR2UEXEn+mJ0QQjxGY2y9FoBiASAyp?=
+ =?us-ascii?Q?En8brR1U6KmPEAmjDnR8DnbV8yVpg/MNui50tlx8CTAMVhJiaq4Oi++Wp3dr?=
+ =?us-ascii?Q?3J5fQCSQYm6Ep1TORnEHi+bcR95KbG6jCDibGSaw7pB9vYLQLfL+OMAegsy+?=
+ =?us-ascii?Q?eoJ3Gzc2Py7bTAv05LvLmbFTJYewXpTcgvCVSyo2jfcx31AD4fg+30SMH1YN?=
+ =?us-ascii?Q?g32uZQtQszFXU7AQGE9h8ORv5A6ndaG3mlBjwPjICdsnBh9ay7An1dqUYq4R?=
+ =?us-ascii?Q?K/14aM3vJ7IV5jytw5nxnXGTLzrydazH+A4sgr+zQqgwg0CBlLuBB9wm1t/M?=
+ =?us-ascii?Q?NOhDdlNvbuOvTvEz+ZlleoXV+Y4zRmGopNB2/ZRKG1YbxW7f6fmcxgtfdhsV?=
+ =?us-ascii?Q?2FkYOhlSrzy2WUqUFYG7qAcpafJbawizWO19z6oRQX7BijnbtzXhZGBXGpSC?=
+ =?us-ascii?Q?3D/CsesDl3STe2Q5rDRVGSBTGhMu7ht0bEmRnWLsSRMlirI6mlssmi+m4434?=
+ =?us-ascii?Q?ZllUPSUtrGy9GzDQWYQTlpVIWDF4so29wZ9bZokF3UxT2Q+ixFeCYqfY0+6x?=
+ =?us-ascii?Q?UAim+DA9ycq0SEMnYDQzAc+zO8HDxYuYLFsEnobtSMfFFqbaTjrgqWdKB5zV?=
+ =?us-ascii?Q?jNlyO6TafmDYQLmbFmASUkPJxOVgz2q2DDRUKA3fpf7OT9dm3amcmfkLliBy?=
+ =?us-ascii?Q?jQq1oP99wgv8DNmGtF7+Imr8RVY67KFkyBfoqK9tTI1Kk3TcjDpOiWHtxw3K?=
+ =?us-ascii?Q?pRxi5jzH6Z9EfDo6xpT8o14Pf4oSc6k1zRNrmasL?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec7c285b-248e-4faa-e76d-08db0da000e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff2c6fbb-9d7f-43a8-7773-08db0da00433
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 08:55:06.6642 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 08:55:12.4634 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T5yeg+CCOZI3Ggq8w+tiV9NHVHHH0EH9c5AN/jLNgoR+ugVmeKYGg/ySgfCMC69gIIxd+VZ9I4Jh3UOMJWODKQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: T3qmzM2mFi8F91tXOQJZGM1AQQbLlMUAA+IP7kGY5xbmoDK/RuqzssNJOu6M2OudSEN5CeQu3n1/pMjEZHFnXA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -119,50 +121,66 @@ Cc: marex@denx.de, alexander.stein@ew.tq-group.com, shawnguo@kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+There is one LCDIF embedded in i.MX93 SoC to connect with
+MIPI DSI controller through LCDIF cross line pattern(controlled
+by mediamix blk-ctrl) or connect with LVDS display bridge(LDB)
+directly or connect with a parallel display through parallel
+display format(also controlled by mediamix blk-ctrl).  i.MX93
+LCDIF IP is essentially the same to i.MX8MP LCDIF IP.  Add device
+tree binding for i.MX93 LCDIF.
 
-This patch set aims to add i.MX93 LCDIF display controller support
-in the existing LCDIF DRM driver.  The LCDIF embedded in i.MX93 SoC
-is essentially the same to those embedded in i.MX8mp SoC.  Through
-internal bridges, i.MX93 LCDIF may drive a MIPI DSI display or a LVDS
-display or a parallel display.
-
-Patch 1/6 adds device tree binding support for i.MX93 LCDIF in the
-existing fsl,lcdif.yaml.
-
-Patch 2/6 drops lcdif->bridge NULL pointer check as a cleanup patch.
-
-Patch 3/6~5/6 prepare for adding i.MX93 LCDIF support step by step.
-
-Patch 6/6 adds i.MX93 LCDIF compatible string as the last step of
-adding i.MX93 LCDIF support.
-
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
 v2->v3:
-* Fix a trivial typo in patch 6/6's commit message.
+* No change.
 
 v1->v2:
 * Add Krzysztof's A-b and Marek's R-b tags on patch 1/6.
-* Split patch 2/2 in v1 into patch 2/6~6/6 in v2. (Marek, Alexander)
-* Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
-* Add comment on the 'base' member of lcdif_crtc_state structure to
-  note it should always be the first member. (Lothar)
-* Drop unneeded 'bridges' member from lcdif_drm_private structure.
-* Drop a comment about bridge input bus format from lcdif_crtc_atomic_check().
 
-Liu Ying (6):
-  dt-bindings: lcdif: Add i.MX93 LCDIF support
-  drm: lcdif: Drop unnecessary NULL pointer check on lcdif->bridge
-  drm: lcdif: Determine bus format and flags in ->atomic_check()
-  drm: lcdif: Check consistent bus format and flags across first bridges
-  drm: lcdif: Add multiple encoders and first bridges support
-  drm: lcdif: Add i.MX93 LCDIF compatible string
+ Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
- .../bindings/display/fsl,lcdif.yaml           |   7 +-
- drivers/gpu/drm/mxsfb/lcdif_drv.c             |  71 +++++-
- drivers/gpu/drm/mxsfb/lcdif_drv.h             |   5 +-
- drivers/gpu/drm/mxsfb/lcdif_kms.c             | 202 ++++++++++++------
- 4 files changed, 207 insertions(+), 78 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+index 75b4efd70ba8..fc11ab5fc465 100644
+--- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
++++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+@@ -21,6 +21,7 @@ properties:
+           - fsl,imx28-lcdif
+           - fsl,imx6sx-lcdif
+           - fsl,imx8mp-lcdif
++          - fsl,imx93-lcdif
+       - items:
+           - enum:
+               - fsl,imx6sl-lcdif
+@@ -88,7 +89,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: fsl,imx8mp-lcdif
++            enum:
++              - fsl,imx8mp-lcdif
++              - fsl,imx93-lcdif
+     then:
+       properties:
+         clocks:
+@@ -107,6 +110,7 @@ allOf:
+               enum:
+                 - fsl,imx6sx-lcdif
+                 - fsl,imx8mp-lcdif
++                - fsl,imx93-lcdif
+     then:
+       properties:
+         clocks:
+@@ -123,6 +127,7 @@ allOf:
+               - fsl,imx8mm-lcdif
+               - fsl,imx8mn-lcdif
+               - fsl,imx8mp-lcdif
++              - fsl,imx93-lcdif
+     then:
+       required:
+         - power-domains
 -- 
 2.37.1
 
