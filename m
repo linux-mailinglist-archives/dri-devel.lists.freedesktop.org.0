@@ -1,40 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A5A694804
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 15:28:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 520B269481A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 15:31:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EECC910E051;
-	Mon, 13 Feb 2023 14:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 518C910E5BD;
+	Mon, 13 Feb 2023 14:31:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC7A910E221
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 14:28:34 +0000 (UTC)
+Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC8A10E5BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 14:31:51 +0000 (UTC)
 Received: from SoMainline.org (D57D4C6E.static.ziggozakelijk.nl
  [213.125.76.110])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 804A43E986;
- Mon, 13 Feb 2023 15:28:32 +0100 (CET)
-Date: Mon, 13 Feb 2023 15:28:31 +0100
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 742433F4EA;
+ Mon, 13 Feb 2023 15:31:49 +0100 (CET)
+Date: Mon, 13 Feb 2023 15:31:48 +0100
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 06/10] drm/msm/dpu: Add SM6350 support
-Message-ID: <20230213142831.hbzfp2chekshsqyy@SoMainline.org>
+Subject: Re: [PATCH 05/10] drm/msm/dpu: Allow variable SSPP/INTF_BLK size
+Message-ID: <20230213143148.qvyagudd3qm5jgwd@SoMainline.org>
 References: <20230211122656.1479141-1-konrad.dybcio@linaro.org>
- <20230211122656.1479141-7-konrad.dybcio@linaro.org>
- <a18cf663-115d-edc8-5e4b-3d19fcd9a02c@linaro.org>
- <cc364658-478a-f239-5d17-5ca2b7f7df8b@linaro.org>
- <20230213113008.ih7ii5m3cz4w3lmz@SoMainline.org>
- <8560b69f-8d42-995d-2f4d-11d6a64afef0@linaro.org>
+ <20230211122656.1479141-6-konrad.dybcio@linaro.org>
+ <20230213111220.ietr4aro6xu4emtu@SoMainline.org>
+ <e6653ceb-bce1-9552-019d-278f455ba8a5@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8560b69f-8d42-995d-2f4d-11d6a64afef0@linaro.org>
+In-Reply-To: <e6653ceb-bce1-9552-019d-278f455ba8a5@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,67 +45,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinod Koul <vkoul@kernel.org>, Liu Shixin <liushixin2@huawei.com>,
- Robert Foss <rfoss@kernel.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, freedreno@lists.freedesktop.org,
- krzysztof.kozlowski@linaro.org, agross@kernel.org,
- dri-devel@lists.freedesktop.org,
+Cc: freedreno@lists.freedesktop.org, Robert Foss <rfoss@kernel.org>,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, agross@kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-02-13 13:35:01, Dmitry Baryshkov wrote:
-> On 13/02/2023 13:30, Marijn Suijten wrote:
-> > On 2023-02-13 12:15:19, Konrad Dybcio wrote:
-> > [...]
-> >>>> @@ -1674,6 +1765,15 @@ static struct dpu_pingpong_cfg sc8280xp_pp[] = {
-> >>>>              DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31), -1),
-> >>>>    };
-> >>>>    +static struct dpu_pingpong_cfg sm6350_pp[] = {
-> >>>> +    PP_BLK("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk,
-> >>>
-> >>> No TE support?
-> >> It's.. complicated.. With just this patch, display refreshes, albeit
-> >> not at 60fps. Marijn is working on getting it going, though
+On 2023-02-13 13:38:33, Dmitry Baryshkov wrote:
+> On 13/02/2023 13:12, Marijn Suijten wrote:
+> > On 2023-02-11 13:26:51, Konrad Dybcio wrote:
+> >> These blocks are of variable length on different SoCs. Set the
+> >> correct values where I was able to retrieve it from downstream
+> >> DTs and leave the old defaults (0x1c8 for sspp and 0x280 for
+> >> intf) otherwise.
 > >>
-> >> https://github.com/SoMainline/linux/commits/marijn/longbois-next/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> >> ---
+> >>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 242 +++++++++---------
+> >>   1 file changed, 121 insertions(+), 121 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> index 802050118345..d9ef1e133c1e 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > [..]
+> >> @@ -1848,10 +1848,10 @@ static struct dpu_dsc_cfg sm8150_dsc[] = {
+> >>   /*************************************************************
+> >>    * INTF sub blocks config
+> >>    *************************************************************/
+> >> -#define INTF_BLK(_name, _id, _base, _type, _ctrl_id, _progfetch, _features, _reg, _underrun_bit, _vsync_bit) \
+> >> +#define INTF_BLK(_name, _id, _base, _len, _type, _ctrl_id, _progfetch, _features, _reg, _underrun_bit, _vsync_bit) \
 > > 
-> > This branch hasn't been updated for the longest time.  I'm preparing v2
-> > of the INTF TE series at:
-> > 
-> > https://github.com/SoMainline/linux/commits/marijn/dpu/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > 
-> > and it has about ±40% of Dmitry's review applied.  More to come now that
-> > hiatus is over.
+> > Dmitry and I discussed in #freedreno to instead add the INTF_BLK_DSI_TE
+> > macro that accounts for the INTF TE registers using this higher register
+> > area, as well as an extended signature to configure extra interrupts.
 > 
-> We should agree on landing order for my rework vs your changes. Can I 
-> try persuading you to review that 50-patches beast? With the hope that 
-> you'd agree to land your changes on top of it?
+> Yes, that's still the plan. It's slightly painful that we are touching 
+> this are simultaneously.
 
-SM6115 unexpectedly landing in advance of SM8[345]0 was already an
-unnecessary headache to deal with, and now we're "changing direction" on
-landing SM6350/75 in advance of INTF TE too...  not to forget about
-SM6125 which I also keep rebasing locally but planned on landing _after_
-INTF TE.  Regardless of the extra effort it will take from me I'd be
-happy to land my patches after everyone else's to have final say over
-which setup gets what bitflags and interrupts, as these typically got
-botched in our trees after rebases leading to broken INTF TE.
-Perhaps I should resubmit the individual Fixes: commits though?
-
-Feel free to propose a merge order listing all the aforementioned SoCs,
-your rework, my INTF TE patches and whatever else is in the pipeline.
-As I've been away for a while, and only have limited hobby time (_and_
-have to split that on various projects), I'm behind on what's currently
-in swing for DPU (need additional time to catch back up) nor will be
-able to rebase/resubmit my patches often (a set-in-stone merge order
-will really help prioritise/plan ahead here).
-
-Sure, I will at least start looking at your 50-patch as part of catching
-back up.  Do you want to process that on the mailing list or via
-https://gitlab.freedesktop.org/drm/msm/-/merge_requests/44?
+Should we (Konrad) then drop this patch as there's no need to add these
+(mostly RAZ/WI) registers to the dump until my INTF TE series starts
+using them?  That'll make rebasing easier on everyone too.
 
 - Marijn
+
+> > (Besides, I think the len is currently only used for snapshot dumping
+> > and no validation for out-of-blk reads/writes)
+> 
+> Yes. Because in most of the cases non-existing registers seem to be RAZ/WI.
+> 
+> > 
+> >>   	{\
+> >>   	.name = _name, .id = _id, \
+> >> -	.base = _base, .len = 0x280, \
+> >> +	.base = _base, .len = _len, \
+> >>   	.features = _features, \
+> >>   	.type = _type, \
+> >>   	.controller_id = _ctrl_id, \
+> > [..]
+> > 
+> > - Marijn
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
