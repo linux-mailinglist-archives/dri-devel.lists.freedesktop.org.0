@@ -2,53 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4EFF694A7B
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 16:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754C9694A80
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 16:13:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31EFF10E5E4;
-	Mon, 13 Feb 2023 15:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C98D510E5F2;
+	Mon, 13 Feb 2023 15:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D0C10E5E4;
- Mon, 13 Feb 2023 15:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676301181; x=1707837181;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=H36clka671RDw1FhzSGBSeD52zHbFPjr8GiDS8is9xY=;
- b=ExORhCieDoDLlDjfs+EIz9c7b2KTIzE2deJDYo6XFOmy42yOFcGfr/BW
- r3FAf8aR1i878dMxGexx0U9YQ2sAOPL7k+tmFD0Z8d8w5k8Cl5GeZsRNC
- j6FLDpkDptxr4UzHHJjuxRHGDrjaK+3/BaXEoFEe4bqTKeIEeOjU9/z6J
- TG3JtV4CnsFuRezPK6CayZAQ3G3xCTdr/TZ2kLmOtNml3xQFtyFOAtnFB
- EHZnR4OZBm6U3+X3MWPOnbb2r1F4DHo/xOfeNBDMvcGNjqixj+9EQyA7P
- YxiVU6JTdi9fVuRIsGhZRx50VRaLjcSKitH1UoSjPXhvldcvbY6iS7FWV A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="310541854"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="310541854"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 07:13:01 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="792758879"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="792758879"
-Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.19.172])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 07:12:57 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: =?UTF-8?B?4pyT?= Fi.CI.BAT: success for drm/i915/active: Fix
- misuse of non-idle barriers as fence trackers
-Date: Mon, 13 Feb 2023 16:12:54 +0100
-Message-ID: <3663372.MHq7AAxBmi@jkrzyszt-mobl1.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <167629606262.20213.9123371560394852051@emeril.freedesktop.org>
-References: <20230213130546.20370-1-janusz.krzysztofik@linux.intel.com>
- <167629606262.20213.9123371560394852051@emeril.freedesktop.org>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F4E10E5F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 15:13:10 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id lu11so32696776ejb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 07:13:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=CLlvNqYXoYkTP0kXk28TWwYetNOEku1lexXp3so1wpQ=;
+ b=i7NsvwPz0kahrM5fmdDO8q9o7THzA08ppzN+JveeQ4RQLJDW/l6vWNnLV78c7gExHX
+ KabUpzj74TNt6CnADvUDMHssiOwqR/92UDc64YSlupnLFl31kpygOuacCQngej6gf5E1
+ r4lV5GOLSjhcKt7VweKuXNG/BecKGYPOSxwp02tuPffxZMneRy8IWyZCAsUhtZQ75cQ7
+ CrznSmVG0VCB9CaqSk0kgVi38UZShPeIr8wgOSzbTyP9BFNymxpNpckxjyO3nc5Te12c
+ KGqeri9GUPow2yQLblLSdiBN0eJCEnHusxAjM17kEV/foIjNJtXXvQufsGr74cCvxuPW
+ zz0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CLlvNqYXoYkTP0kXk28TWwYetNOEku1lexXp3so1wpQ=;
+ b=AKM6WGFm/1J2h3s+PlRkrWsjnNikmMEWjdfD8/gcn0dPppbuMtxlvbj0F3EIcB7cuB
+ GAkyQI+4ddrQLjHERNqAB8KKNxTUvIcZY+Pe24yboAuICRukQlugyzuqE41fX1H18bYz
+ MmXQ2OexwID78dov4NJrfrq29PMRdZQ5fzDslIzXlCnAZRd47lpQySusAOJhpqSecP6M
+ aX2Tz6s++DZ+FrC86+QnCz9K3gOmWNyTrVhErTbknzN9I8/raO1l9bc8z95ZkuQ33czu
+ oSgrsAYKd7HkccY7Yv6BLH5hWlkkyhWwHgMxaGz48LtdStwLu3KuMTSPtvV3ckUVZB3z
+ yKOA==
+X-Gm-Message-State: AO0yUKXffjYUs1LYqSpWfyKuBo+V1u1FVdBPLP5F6ihBEWsp5z3dLg9D
+ VJXFxfxsKxEtQMNydUpJH6BE4Q==
+X-Google-Smtp-Source: AK7set9ykx5c1Vf7M0592+yTkU1k83xL2xhs21Zp2nvIMxqWJocncbuq/2Y9bpmpoRD2syn1SRetNw==
+X-Received: by 2002:a17:907:2c54:b0:882:82b3:58bc with SMTP id
+ hf20-20020a1709072c5400b0088282b358bcmr27039031ejc.65.1676301188746; 
+ Mon, 13 Feb 2023 07:13:08 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ z15-20020a1709064e0f00b008af424d4d75sm6487522eju.194.2023.02.13.07.13.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 07:13:07 -0800 (PST)
+Message-ID: <5a9f869e-da91-d79b-c94c-74734cd39904@linaro.org>
+Date: Mon, 13 Feb 2023 17:13:06 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 06/10] drm/msm/dpu: Add SM6350 support
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230211122656.1479141-1-konrad.dybcio@linaro.org>
+ <20230211122656.1479141-7-konrad.dybcio@linaro.org>
+ <a18cf663-115d-edc8-5e4b-3d19fcd9a02c@linaro.org>
+ <cc364658-478a-f239-5d17-5ca2b7f7df8b@linaro.org>
+ <20230213113008.ih7ii5m3cz4w3lmz@SoMainline.org>
+ <8560b69f-8d42-995d-2f4d-11d6a64afef0@linaro.org>
+ <20230213142831.hbzfp2chekshsqyy@SoMainline.org>
+ <28c9ea04-fedb-16cf-f874-f4c965fbc445@linaro.org>
+In-Reply-To: <28c9ea04-fedb-16cf-f874-f4c965fbc445@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,168 +82,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Liu Shixin <liushixin2@huawei.com>,
+ Robert Foss <rfoss@kernel.org>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, freedreno@lists.freedesktop.org,
+ krzysztof.kozlowski@linaro.org, agross@kernel.org,
+ dri-devel@lists.freedesktop.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, 13 February 2023 14:47:42 CET Patchwork wrote:
-> == Series Details ==
+On 13/02/2023 16:58, Dmitry Baryshkov wrote:
+> On 13/02/2023 16:28, Marijn Suijten wrote:
+>> Feel free to propose a merge order listing all the aforementioned SoCs,
+>> your rework, my INTF TE patches and whatever else is in the pipeline.
+>> As I've been away for a while, and only have limited hobby time (_and_
+>> have to split that on various projects), I'm behind on what's currently
+>> in swing for DPU (need additional time to catch back up) nor will be
+>> able to rebase/resubmit my patches often (a set-in-stone merge order
+>> will really help prioritise/plan ahead here).
 > 
-> Series: drm/i915/active: Fix misuse of non-idle barriers as fence trackers
-> URL   : https://patchwork.freedesktop.org/series/113950/
-> State : success
+> We have several patchsets in the pipeline (PSR, color-transformation 
+> rework, wide planes) which do not touch the catalog, so the amount of 
+> conflicts should be pretty minimal. We are still waiting for DSC 1.2 v2, 
+> but it definitely will take time to mature even if v2 is posted today.
 > 
-> == Summary ==
-> 
-> CI Bug Log - changes from CI_DRM_12730 -> Patchwork_113950v1
-> ====================================================
-> 
-> Summary
-> -------
-> 
->   **SUCCESS**
-> 
->   No regressions found.
-> 
->   External URL: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/index.html
-> 
-> Participating hosts (40 -> 37)
-> ------------------------------
-> 
->   Missing    (3): fi-tgl-1115g4 bat-atsm-1 fi-snb-2520m 
-> 
-> Possible new issues
-> -------------------
-> 
->   Here are the unknown changes that may have been introduced in Patchwork_113950v1:
-> 
-> ### IGT changes ###
-> 
-> #### Possible regressions ####
+> So, *possible* the merge order is the following:
+> - fixes from https://patchwork.freedesktop.org/series/113910/ go to 
+> msm-fixes
+> - fixes from your intf-te go to msm-fixes
+> - https://patchwork.freedesktop.org/series/111751/
+> - the rest of intf-te and catalog (*see below)
+> - DPU features
+> - new DPU platforms (might go together with DPU features)
 
-No mor list corruptions, only issues already reported by the new 
-igt@gem_barrier_race@remote-request test before (without this patch in place).
-
->   * {igt@gem_barrier_race@remote-request@rcs0} (NEW):
->     - fi-rkl-11600:       NOTRUN -> [ABORT][1]
->    [1]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-rkl-11600/igt@gem_barrier_race@remote-request@rcs0.html
->     - bat-dg1-5:          NOTRUN -> [ABORT][2]
->    [2]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/bat-dg1-5/igt@gem_barrier_race@remote-request@rcs0.html
-
-Infinite __i915_active_wait(), similar to 
-https://intel-gfx-ci.01.org/tree/drm-tip/TrybotIGT_706/fi-cfl-8109u/igt@gem_barrier_race@remote-request@rcs0.html
-
->     - {bat-adlm-1}:       NOTRUN -> [DMESG-WARN][3]
->    [3]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/bat-adlm-1/igt@gem_barrier_race@remote-request@rcs0.html
-
-Suspicious RCU usage, equivalent to 
-https://intel-gfx-ci.01.org/tree/drm-tip/TrybotIGT_706/bat-dg1-7/igt@gem_barrier_race@remote-request@rcs0.html,
-also seen before, e.g., 
-https://gitlab.freedesktop.org/drm/intel/-/issues/7390, 
-https://gitlab.freedesktop.org/drm/intel/-/issues/6616
-
-Thanks,
-Janusz
+Just to clarify here: I want to hold on adding new platforms to DPU 
+driver only. MDSS, DSI etc. patches are free to go.
 
 > 
->   
-> New tests
-> ---------
+> * That really depends on the availability of the patchsets. Most 
+> probably, as your patchset also contains several fixups, it would be 
+> easier to land it before catalog split/rework.
 > 
->   New tests have been introduced between CI_DRM_12730 and Patchwork_113950v1:
+> So, if you have the available timeslot, could you please finish & send 
+> intf te on top of msm-next.
 > 
-> ### New IGT tests (2) ###
+>> Sure, I will at least start looking at your 50-patch as part of catching
+>> back up.  Do you want to process that on the mailing list or via
+>> https://gitlab.freedesktop.org/drm/msm/-/merge_requests/44?
 > 
->   * igt@gem_barrier_race@remote-request:
->     - Statuses :
->     - Exec time: [None] s
-> 
->   * igt@gem_barrier_race@remote-request@rcs0:
->     - Statuses : 2 abort(s) 1 dmesg-warn(s) 27 pass(s) 5 skip(s)
->     - Exec time: [0.0] s
-> 
->   
-> 
-> Known issues
-> ------------
-> 
->   Here are the changes found in Patchwork_113950v1 that come from known issues:
-> 
-> ### IGT changes ###
-> 
-> #### Issues hit ####
-> 
->   * {igt@gem_barrier_race@remote-request@rcs0} (NEW):
->     - fi-pnv-d510:        NOTRUN -> [SKIP][4] ([fdo#109271])
->    [4]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-pnv-d510/igt@gem_barrier_race@remote-request@rcs0.html
->     - fi-blb-e6850:       NOTRUN -> [SKIP][5] ([fdo#109271])
->    [5]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-blb-e6850/igt@gem_barrier_race@remote-request@rcs0.html
->     - fi-ivb-3770:        NOTRUN -> [SKIP][6] ([fdo#109271])
->    [6]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-ivb-3770/igt@gem_barrier_race@remote-request@rcs0.html
->     - fi-elk-e7500:       NOTRUN -> [SKIP][7] ([fdo#109271])
->    [7]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-elk-e7500/igt@gem_barrier_race@remote-request@rcs0.html
->     - fi-ilk-650:         NOTRUN -> [SKIP][8] ([fdo#109271])
->    [8]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-ilk-650/igt@gem_barrier_race@remote-request@rcs0.html
-> 
->   
-> #### Possible fixes ####
-> 
->   * igt@i915_selftest@live@gt_heartbeat:
->     - fi-apl-guc:         [DMESG-FAIL][9] ([i915#5334]) -> [PASS][10]
->    [9]: https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12730/fi-apl-guc/igt@i915_selftest@live@gt_heartbeat.html
->    [10]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-apl-guc/igt@i915_selftest@live@gt_heartbeat.html
-> 
->   * igt@i915_selftest@live@requests:
->     - {bat-rpls-2}:       [ABORT][11] ([i915#7982]) -> [PASS][12]
->    [11]: https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12730/bat-rpls-2/igt@i915_selftest@live@requests.html
->    [12]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/bat-rpls-2/igt@i915_selftest@live@requests.html
-> 
->   * igt@kms_cursor_legacy@basic-busy-flip-before-cursor@atomic-transitions:
->     - fi-bsw-n3050:       [FAIL][13] ([i915#6298]) -> [PASS][14]
->    [13]: https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12730/fi-bsw-n3050/igt@kms_cursor_legacy@basic-busy-flip-before-cursor@atomic-transitions.html
->    [14]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-bsw-n3050/igt@kms_cursor_legacy@basic-busy-flip-before-cursor@atomic-transitions.html
-> 
->   
->   {name}: This element is suppressed. This means it is ignored when computing
->           the status of the difference (SUCCESS, WARNING, or FAILURE).
-> 
->   [fdo#109271]: https://bugs.freedesktop.org/show_bug.cgi?id=109271
->   [i915#4983]: https://gitlab.freedesktop.org/drm/intel/issues/4983
->   [i915#5334]: https://gitlab.freedesktop.org/drm/intel/issues/5334
->   [i915#6298]: https://gitlab.freedesktop.org/drm/intel/issues/6298
->   [i915#6367]: https://gitlab.freedesktop.org/drm/intel/issues/6367
->   [i915#7699]: https://gitlab.freedesktop.org/drm/intel/issues/7699
->   [i915#7982]: https://gitlab.freedesktop.org/drm/intel/issues/7982
->   [i915#7996]: https://gitlab.freedesktop.org/drm/intel/issues/7996
-> 
-> 
-> Build changes
-> -------------
-> 
->   * IGT: IGT_7157 -> TrybotIGT_706
->   * Linux: CI_DRM_12730 -> Patchwork_113950v1
-> 
->   CI-20190529: 20190529
->   CI_DRM_12730: c54b5fcf3e686a0abfdd7d6af53e9014c137023a @ git://anongit.freedesktop.org/gfx-ci/linux
->   IGT_7157: 96d12fdc942cee9526a951b377b195ca9c8276b1 @ https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
->   Patchwork_113950v1: c54b5fcf3e686a0abfdd7d6af53e9014c137023a @ git://anongit.freedesktop.org/gfx-ci/linux
->   TrybotIGT_706: https://intel-gfx-ci.01.org/tree/drm-tip/TrybotIGT_706/index.html
-> 
-> 
-> ### Linux commits
-> 
-> 44de67f6c674 drm/i915/active: Fix misuse of non-idle barriers as fence trackers
-> 
-> == Logs ==
-> 
-> For more details see: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/index.html
+> I'd prefer to use email. The MR was open to doublecheck that nothing got 
+> broken on sc7180.
 > 
 
-
-
+-- 
+With best wishes
+Dmitry
 
