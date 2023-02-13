@@ -1,66 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BED7695367
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 22:51:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9F1695389
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 23:00:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0EF810E747;
-	Mon, 13 Feb 2023 21:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC42F10E749;
+	Mon, 13 Feb 2023 22:00:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
  [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB0310E747
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 21:51:33 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id p26so35262154ejx.13
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 13:51:33 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CEBD10E09C
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 22:00:49 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id lf10so3530268ejc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 14:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vUpjCT580eIamS7QEB/Hj5fWMwSgSVQG6uKwdpnGJwo=;
- b=S+sOkd0b6eN7z3Ur5MTQ7tVd+PEnlrg4GQlMZjXGjwZ3bIwh8ntLN6LyTo4kWlk8cD
- iWgZxT6zetryWitgM1p5Hln517yd+J6QkNL/5/390W2PcpqLaiTRAY2/pWMknpGeB1CD
- ifz34yh1uLSXIH1fwz8yY7TvcyNmgS4Y2T+mkB4tm3kM7zHxpNmzRnry4KB6XKVHDqKc
- eA4uV5Qi+7mrnDmH3368PDO/cQfPioOzxSmy2OLN8fmDDdNnqfLtkCFuKGVlLiFg3QYe
- LGfpEy1vaX72mlGI2GfFxlFyWg5xl83n4+uc177UFJEct2HizO0+F9cSBl4eQNSwlmzv
- dBWw==
+ bh=jfMz92HNte4OxYOZHBs0G2ecQ/enNd85Ii98wdoFnJ8=;
+ b=ma0Qeuh75j2DffOMVHcLWMPg09xQN9m2Y46fkJ1gtOCPuH/tWPGCqS+EuN/xHJLbQ9
+ 1WCDW7c05cH+fbu/r2Lu8zdyPWQrstunz3wMlgAP2bFWueuh2PXAC8XKqoPohL0kktjq
+ QgKnLXPqkHwM6qDfk7Vp4QH4N9Psw4jDI+AaECtRyZSz+p57UEC4UvdgdUuNdLauj6WX
+ ltE4fDPHDk6RyZOZI3F5b+Q2F4AfuQzz/tEE4g6lDNv0dd+qoSC1LuwUPiVvLH75NKZW
+ lTQIRIeoPNs8wMFKrQPYqM8LSB/DRBTQWQVGakKRKAJ88Qv+4pOvezsBhXBM8DaEV2zd
+ QYmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vUpjCT580eIamS7QEB/Hj5fWMwSgSVQG6uKwdpnGJwo=;
- b=lmptbB/+O57s3O7+G9XFyGB6j46DoZ6fvtFW+2qgFakKsUZ3wyBZSlxD4uLUb/IR6d
- HUuqCbYXQ3phf2qlGuqyN5xSQwy8dNv6k2CA3K1RAqbA5aHTrptFXS8T9ToIzw1tcpYM
- RFUJE+UVwZvB9SuSKr6tfEOkHJCXc/yp62sgLzyxnPqcXhI1xgC+a4/owLm9pk0VjE1C
- LcO9sNlVyKrGUXnt+YT3Hx8+78+HDzPTf8UyYZOkoLXNnmc5JwoHvRjbadZpt8Mn8Vxx
- dQ5EDo6QSrQwibkrYPtf2EGY2TsDIo0fV0KMv7DkAWs6GrCy+GEeM9MclwkWlgW1yrSU
- 7zcg==
-X-Gm-Message-State: AO0yUKWp6s0p7uZkqHS8udcP5B+6FXdfb7Ytww6vIWPS6OfhqCVbmfms
- ocItkG2qrzRA97sLfXCrYMtGzg==
-X-Google-Smtp-Source: AK7set9qLV84uDx5VeuBXVeINqKPVKCp3FzJQJDsXdvkFLe6k7HBV8fW5OJ5TgIWROtz7o3hn2kUbw==
-X-Received: by 2002:a17:906:87d1:b0:889:1eb1:7517 with SMTP id
- zb17-20020a17090687d100b008891eb17517mr413130ejb.30.1676325091616; 
- Mon, 13 Feb 2023 13:51:31 -0800 (PST)
+ bh=jfMz92HNte4OxYOZHBs0G2ecQ/enNd85Ii98wdoFnJ8=;
+ b=OAoXbYI9z7YHuwBZiBs10TsLwFHgfNR3wMqDCP8nsz+g4zNOwoy/Z8m7aWdhOcscis
+ 0ggxFxgtBja+aymDNMQ6V9bKxUJXY6aCi5GlrUXqbikNrmX8Dg+GmP3EQ1TRDujtcmN7
+ lrUnd46OLsPPfHwHhyFdcuB14SlwJTXnctvCnlpqlNmkqgjrdQ/9pm0tDTGY1Tz7RWGK
+ AZ0yNvtv9wIw33r+UN3nqdAjK8JdryqVLb4lAMsYT8/tcxXwmAc5GiwSu0x851FQ2V5f
+ 3u3/yyyhfHD3qDvFJtEe6dFUi3MKqcVLeR7xMC3BEDK/uh04HqoOk+qcf8TdTp8PvaT2
+ tbWA==
+X-Gm-Message-State: AO0yUKVpC9VF4PkDIZt5/JWo7LmG14wZ5RYHQe4Abp71k+GwDenmvkIk
+ kfx8TftThBbxXZnDV0H9/dFCdQ==
+X-Google-Smtp-Source: AK7set8u37sCkq/3IKGC9gHoChsI2qDVUV1alQ2l0JwZ/lZCteDhdjAGGQXXIATnvlHrXMc9BEuukw==
+X-Received: by 2002:a17:906:f9ca:b0:8b1:16b3:303f with SMTP id
+ lj10-20020a170906f9ca00b008b116b3303fmr463054ejb.8.1676325647734; 
+ Mon, 13 Feb 2023 14:00:47 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- o13-20020a17090611cd00b008b12c368ba0sm66995eja.45.2023.02.13.13.51.30
+ t21-20020a170906179500b0088a9e083318sm7319016eje.168.2023.02.13.14.00.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 13:51:31 -0800 (PST)
-Message-ID: <af5679a4-93b9-fb9b-cc5f-8669da57b7cf@linaro.org>
-Date: Mon, 13 Feb 2023 23:51:30 +0200
+ Mon, 13 Feb 2023 14:00:47 -0800 (PST)
+Message-ID: <40c72da1-18b3-3858-479d-fb149d423e66@linaro.org>
+Date: Tue, 14 Feb 2023 00:00:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [RFC PATCH v3 0/4] Move TE setup to prepare_for_kickoff()
+Subject: Re: [RFC PATCH v3 1/4] drm/msm/dpu: Move TE setup to
+ prepare_for_kickoff()
 Content-Language: en-GB
 To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 References: <20230213194819.608-1-quic_jesszhan@quicinc.com>
+ <20230213194819.608-2-quic_jesszhan@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230213194819.608-1-quic_jesszhan@quicinc.com>
+In-Reply-To: <20230213194819.608-2-quic_jesszhan@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,39 +84,94 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 13/02/2023 21:48, Jessica Zhang wrote:
-> Move TE setup to prepare_for_kickoff() and remove empty prepare_commit()
-> functions in both MDP4 and DPU drivers.
+> Currently, DPU will enable TE during prepare_commit(). However, this
+> will cause issues when trying to read/write to register in
+
+Nit: what issues? SError? reboot to the sahara? board reset?
+
+> get_autorefresh_config(), because the core clock rates aren't set at
+> that time.
 > 
-> Changes in V2:
-> - Added changes to remove empty prepare_commit() functions
+> This used to work because phys_enc->hw_pp is only initialized in mode
+> set [1], so the first prepare_commit() will return before any register
+> read/write as hw_pp would be NULL.
+> 
+> However, when we try to implement support for INTF TE, we will run into
+> the clock issue described above as hw_intf will *not* be NULL on the
+> first prepare_commit(). This is because the initialization of
+> dpu_enc->hw_intf has been moved to dpu_encoder_setup() [2].
+> 
+> To avoid this issue, let's enable TE during prepare_for_kickoff()
+> instead as the core clock rates are guaranteed to be set then.
+> 
+> Depends on: "Implement tearcheck support on INTF block" [3]
 > 
 > Changes in V3:
-> - Reordered "drm/msm/dpu: Move TE setup to prepare_for_kickoff()" for
->    clarity
-> - Fixed spelling mistakes and wording issues
-> - Picked up "Reviewed-by" tags for patches [2/4] and [4/4]
-
-Is it just me or patch 4/4 is missing? Patchwork also hasn't seen it:
-https://patchwork.freedesktop.org/series/113967/
-
-If you can send it with the proper in-reply-to (set to 
-20230213194819.608-1-quic_jesszhan@quicinc.com), that would be great.
-
+> - Added function prototypes
+> - Reordered function definitions to make change more legible
+> - Removed prepare_commit() function from dpu_encoder_phys_cmd
 > 
-> Jessica Zhang (4):
->    drm/msm/dpu: Move TE setup to prepare_for_kickoff()
->    drm/msm: Check for NULL before calling prepare_commit()
->    drm/msm/dpu: Remove empty prepare_commit() function
->    drm/msm/mdp4: Remove empty prepare_commit() function
+> [1] https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L1109
+> [2] https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L2339
+> [3] https://patchwork.freedesktop.org/series/112332/
 > 
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 19 -----------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |  7 -------
->   .../drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c  | 10 ++++++---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 21 -------------------
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |  5 -----
->   drivers/gpu/drm/msm/msm_atomic.c              |  3 ++-
->   6 files changed, 9 insertions(+), 56 deletions(-)
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index cb05036f2916..c6feffafa13f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -40,6 +40,10 @@
+>   
+>   #define DPU_ENC_MAX_POLL_TIMEOUT_US	2000
+>   
+> +static bool dpu_encoder_phys_cmd_is_ongoing_pptx(
+> +		struct dpu_encoder_phys *phys_enc);
+
+This should not be necessary.
+
+
+> +static void dpu_encoder_phys_cmd_enable_te(struct dpu_encoder_phys *phys_enc);
+> +
+>   static bool dpu_encoder_phys_cmd_is_master(struct dpu_encoder_phys *phys_enc)
+>   {
+>   	return (phys_enc->split_role != ENC_ROLE_SLAVE);
+> @@ -611,6 +615,8 @@ static void dpu_encoder_phys_cmd_prepare_for_kickoff(
+>   			  phys_enc->hw_pp->idx - PINGPONG_0);
+>   	}
+>   
+> +	dpu_encoder_phys_cmd_enable_te(phys_enc);
+> +
+
+And this is much cleaner and easier to spot the difference than it was 
+in the previous patch. Thank you!
+
+With the dpu_encoder_phys_cmd_is_ongoing_pptx() prototype removed it LGTM.
+
+>   	DPU_DEBUG_CMDENC(cmd_enc, "pp:%d pending_cnt %d\n",
+>   			phys_enc->hw_pp->idx - PINGPONG_0,
+>   			atomic_read(&phys_enc->pending_kickoff_cnt));
+> @@ -641,8 +647,7 @@ static bool dpu_encoder_phys_cmd_is_ongoing_pptx(
+>   	return false;
+>   }
+>   
+> -static void dpu_encoder_phys_cmd_prepare_commit(
+> -		struct dpu_encoder_phys *phys_enc)
+> +static void dpu_encoder_phys_cmd_enable_te(struct dpu_encoder_phys *phys_enc)
+>   {
+>   	struct dpu_encoder_phys_cmd *cmd_enc =
+>   		to_dpu_encoder_phys_cmd(phys_enc);
+> @@ -799,7 +804,6 @@ static void dpu_encoder_phys_cmd_trigger_start(
+>   static void dpu_encoder_phys_cmd_init_ops(
+>   		struct dpu_encoder_phys_ops *ops)
+>   {
+> -	ops->prepare_commit = dpu_encoder_phys_cmd_prepare_commit;
+>   	ops->is_master = dpu_encoder_phys_cmd_is_master;
+>   	ops->atomic_mode_set = dpu_encoder_phys_cmd_atomic_mode_set;
+>   	ops->enable = dpu_encoder_phys_cmd_enable;
 
 -- 
 With best wishes
