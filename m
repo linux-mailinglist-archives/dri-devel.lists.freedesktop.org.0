@@ -2,51 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F12E694D1C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693ED694D40
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:49:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67FF310E622;
-	Mon, 13 Feb 2023 16:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28E2C10E62B;
+	Mon, 13 Feb 2023 16:49:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 294B810E622;
- Mon, 13 Feb 2023 16:43:43 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27B4010E624;
+ Mon, 13 Feb 2023 16:49:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676306623; x=1707842623;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=0n+HIBdxHdzt277lPdNmpKc0Tu1vAbJdNbPGnkpCCNw=;
- b=PPyPCrgi7wjuL8rhJ8/icbAKgLDCaUKQcgzoIsFVGgXi/ve7k1dbeIy/
- ytJn8RtM19yV2pqaC3JxRVEj4tknIb1ZGzZuSoAUm2KBmxJ4mPNjUv4KD
- RIOUUr+mzlxgIZAVkrJ5UkPXov92TqEliGFGyojzr2wVWzPTUYU4btBrJ
- t8j6zfE5AaNx3Aj/xhJt++LXNZ+rypdxpk11DyhuYvPuPTgAovIhLhOrr
- 3oBh2qKEHnJMpXVav8uxTLW8nJ45kLKTfC/eJb20PlMCNGc2jvd5/bHRq
- A7dRvMAHjRrZTnKx8mupnTT7AOhnBDrmkxZoMQqWn9EwrUfkm3iz7dw68 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="318953360"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="318953360"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 08:43:42 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="701329108"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="701329108"
-Received: from tkatila-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.50.147])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 08:43:38 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [Intel-gfx] [PATCH] drm: Disable dynamic debug as broken
-In-Reply-To: <878rh5x032.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230207143337.2126678-1-jani.nikula@intel.com>
- <Y+KOszHLodcTx9Sr@kroah.com> <878rh5x032.fsf@intel.com>
-Date: Mon, 13 Feb 2023 18:43:31 +0200
-Message-ID: <875yc5v7m4.fsf@intel.com>
+ t=1676306974; x=1707842974;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0KbU8qx6+nttW/Z/s1Bm63rCx4oHghoLn6E6b77GuSk=;
+ b=NHuJVMaGkzmMDrPQv2zwaT2f3l50Q5/k6VRJPUPd1aol9Z/2YCrOuUJb
+ hXCB8jHngq50WCSXQ6qBEoJEskbHiXSkOg3+oE6QtYTRIlfxK8upoXj9H
+ A8q3yB2abwnl+4CgFMp+Un5rm59jmB5fBHkvQPHwMKKYE6H4axtQ2ZQOQ
+ 8tifUil4L4fvDhKK6Ye7PfT2f9uLRB3CiPk3gIfhsPjEItbtObZtzKtN+
+ zGlHCmynfen0pUulr7NYFyyynecevXh25TwQAnhAC+yPGRvVG/EJ+JZIh
+ wLdyCOwp4y9op3bAXoaAIggBNl0SGeUITrVGBfd3RM6YSASx7rErSdIVd w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="393333280"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="393333280"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 08:49:33 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="792798265"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="792798265"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.19.172])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 08:49:29 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH 0/1] drm/i915/active: Serialize access to barrier tasks lists
+Date: Mon, 13 Feb 2023 17:49:11 +0100
+Message-Id: <20230213164912.51132-1-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,81 +55,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Feb 2023, Jani Nikula <jani.nikula@intel.com> wrote:
-> On Tue, 07 Feb 2023, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrot=
-e:
->> On Tue, Feb 07, 2023 at 04:33:37PM +0200, Jani Nikula wrote:
->>> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>>=20
->>> CONFIG_DRM_USE_DYNAMIC_DEBUG breaks debug prints for (at least modular)
->>> drm drivers. The debug prints can be reinstated by manually frobbing
->>> /sys/module/drm/parameters/debug after the fact, but at that point the
->>> damage is done and all debugs from driver probe are lost. This makes
->>> drivers totally undebuggable.
->>>=20
->>> There's a more complete fix in progress [1], with further details, but
->>> we need this fixed in stable kernels. Mark the feature as broken and
->>> disable it by default, with hopes distros follow suit and disable it as
->>> well.
->>>=20
->>> [1] https://lore.kernel.org/r/20230125203743.564009-1-jim.cromie@gmail.=
-com
->>>=20
->>> Fixes: 84ec67288c10 ("drm_print: wrap drm_*_dbg in dyndbg descriptor fa=
-ctory macro")
->>> Cc: Jim Cromie <jim.cromie@gmail.com>
->>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>> Cc: Maxime Ripard <mripard@kernel.org>
->>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>> Cc: David Airlie <airlied@gmail.com>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>> Cc: dri-devel@lists.freedesktop.org
->>> Cc: <stable@vger.kernel.org> # v6.1+
->>> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>> ---
->>>  drivers/gpu/drm/Kconfig | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>=20
->>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>> index f42d4c6a19f2..dc0f94f02a82 100644
->>> --- a/drivers/gpu/drm/Kconfig
->>> +++ b/drivers/gpu/drm/Kconfig
->>> @@ -52,7 +52,8 @@ config DRM_DEBUG_MM
->>>=20=20
->>>  config DRM_USE_DYNAMIC_DEBUG
->>>  	bool "use dynamic debug to implement drm.debug"
->>> -	default y
->>> +	default n
->>> +	depends on BROKEN
->>>  	depends on DRM
->>>  	depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
->>>  	depends on JUMP_LABEL
->>
->> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> Thanks Greg, any more acks from anyone?
->
-> Maxime, since there's going to be an -rc8, I suggest taking this via
-> drm-misc-fixes. Is that okay with you? (You're doing drm-misc-fixes this
-> round, right?)
+Test-with: <20230213095040.13457-2-janusz.krzysztofik@linux.intel.com>
 
-Pushed to drm-misc-fixes with Maxime's IRC ack and Jim's ack elsewhere
-in the thread. Thanks.
+New igt@gem_barrier_race@remote-request subtest, intended for triggering
+list corruptions reported by perf users, also revealed issues potentially
+related to engine barrier tasks lists handling.  For example, timeouts on
+infinite __i915_active_wait() can be potentially caused by the list
+falsely reported as empty to intel_engine_flush_barriers().
 
-BR,
-Jani.
+Protect sensitive users of a barrier tasks list from races with a
+dedicated spinlock.
 
+Note:
+Similar to "drm/i915/active: Fix misuse of non-idle barriers as fence
+trackers", I'm submitting this fix with a request to CI for testing it
+with trybot submission of the new igt@gem_barrier_race@remote-request
+subtest, not yet in upstream IGT, to get comparable results from the
+widest possible HW range.
 
->
-> BR,
-> Jani.
+Janusz Krzysztofik (1):
+  drm/i915/active: Serialize access to barrier tasks lists
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  6 +++
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  | 10 ++++-
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c     |  4 ++
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |  1 +
+ drivers/gpu/drm/i915/gt/mock_engine.c         |  2 +
+ .../drm/i915/gt/selftest_engine_heartbeat.c   |  5 +++
+ drivers/gpu/drm/i915/i915_active.c            | 39 +++++++++++++++----
+ 7 files changed, 59 insertions(+), 8 deletions(-)
+
+-- 
+2.25.1
+
