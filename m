@@ -2,54 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D52F6943FA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0033A6943FE
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:12:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A46AB10E54B;
-	Mon, 13 Feb 2023 11:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4EAC10E559;
+	Mon, 13 Feb 2023 11:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2862B10E555
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676286701; x=1707822701;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=5V7ibw1r5Bmu9z9b7YvauYuBzcaPkTNEeovkdnv9j0E=;
- b=RjlTZnAkudJed8xc24OlW4qPksv1bU1LWCalF5/YJBb/fyxVqPisiSCd
- dE9vfu1LtjlYFZWbpfepF82a0qEiDDEktcpemMPeSJCFlRcvbn7s2gx2y
- lQoRckrrHHBU0UnysIEp++Y/jYq1MILlNA0V2ssnn3gIE6irigavMyUQN
- ylAWBQkLoaoB+2lvYZsQFBsJVK0L/E2qNlw2q6FQauIZgmg236BzNpE03
- Lu5c0j4XagFAqev3pIo0mIX1EUIupxR/80dBZrvyz352XG7F9RnQ6ovQE
- IDouq83W2bUHpfmit5xN7Q49ZYT+4g7bHra5F4HHBBmpefoFu03OpcOyc Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="311228734"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="311228734"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 03:11:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670785834"
-X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670785834"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by fmsmga007.fm.intel.com with SMTP; 13 Feb 2023 03:11:37 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 13 Feb 2023 13:11:36 +0200
-Date: Mon, 13 Feb 2023 13:11:36 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: Re: [PATCH v1 RFC] video/hdmi: Fix HDMI_VENDOR_INFOFRAME_SIZE
-Message-ID: <Y+oa6O6+s5UXvOP6@intel.com>
-References: <20230109223110.1165433-1-martin.blumenstingl@googlemail.com>
- <Y+DPQjukgC0BELkN@intel.com>
- <CAFBinCBpbRu9xfCEfZJfT7t3doV=+CX03+h7W+HsoW5T4X0W0w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFBinCBpbRu9xfCEfZJfT7t3doV=+CX03+h7W+HsoW5T4X0W0w@mail.gmail.com>
-X-Patchwork-Hint: comment
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 299D410E54A;
+ Mon, 13 Feb 2023 11:11:56 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31DAmwTe008650; Mon, 13 Feb 2023 11:11:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc : subject : date : message-id; s=qcppdkim1;
+ bh=FI9pWqx/wksFLp55LbWyExjYvgbCxbDA+SayAaq4sV8=;
+ b=GiF9YuZ+9MV0plhHsi3M0zDfdXvZ2OclTTqPYKM2k8/zDkyKpCpNo9RNqz5S2iinRWuu
+ e6Kl8AcPInNRDejV12sIJ9gnOm2tfejHBk+iDuNxxPA/VjJfrZLZ4zA+RrquQANZk9VQ
+ lxeKBb8afiYjqn5hrCzJlmGD+M0FaxhBI6iuHvW0i0iGJSmhUhy0cubIHRDE7xgDc+mU
+ cKEAcOgPSQi3WsqxRDiIiFu1G+QReJDnSavAzWI+MIhFyLWl4wetCMTJfb7Mtklgpxsa
+ hebnGkmvFs5aMQ7aUdfY+hMVXMPdjnzZFzPIKVENzwai1MIuPQ66DdZMkpqFNfVyuhdj BQ== 
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3np3deuyqa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Feb 2023 11:11:53 +0000
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 31DBBnCt018455; 
+ Mon, 13 Feb 2023 11:11:49 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 3np43k9kt9-1;
+ Mon, 13 Feb 2023 11:11:49 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31DBBn4i018425;
+ Mon, 13 Feb 2023 11:11:49 GMT
+Received: from kalyant-linux.qualcomm.com (kalyant-linux.qualcomm.com
+ [10.204.66.210])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 31DBBngq018422;
+ Mon, 13 Feb 2023 11:11:49 +0000
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id ECDE24C09; Mon, 13 Feb 2023 03:11:47 -0800 (PST)
+From: Kalyan Thota <quic_kalyant@quicinc.com>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [PATCH v4 0/4] Reserve DSPPs based on user request
+Date: Mon, 13 Feb 2023 03:11:40 -0800
+Message-Id: <1676286704-818-1-git-send-email-quic_kalyant@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: p5a0VV9ziUkaOJRyL_g5Wa4Wg0XUj5KT
+X-Proofpoint-ORIG-GUID: p5a0VV9ziUkaOJRyL_g5Wa4Wg0XUj5KT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-13_06,2023-02-13_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ clxscore=1015 adultscore=0 mlxlogscore=791 malwarescore=0 phishscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302130101
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,60 +81,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Bernard Zhao <bernard@vivo.com>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Hans Verkuil <hans.verkuil@cisco.com>
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, robdclark@chromium.org,
+ dianders@chromium.org, quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ swboyd@chromium.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, quic_vpolimer@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 11, 2023 at 09:43:50PM +0100, Martin Blumenstingl wrote:
-> Hello Ville.
-> 
-> On Mon, Feb 6, 2023 at 10:58 AM Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
-> [...]
-> > > Change HDMI_VENDOR_INFOFRAME_SIZE to 6 bytes so
-> > > hdmi_vendor_infoframe_pack_only() can properly check the passed buffer
-> > > size and avoid an out of bounds write to ptr[8] or ptr[9].
-> >
-> > The function should return -ENOSPC if the caller didn't
-> > provide a big enough buffer.
-> Indeed, I'm not sure why I didn't notice when I sent the patch.
-> 
-> > Are you saying there are drivers that are passing a bogus size here?
-> Thankfully not - at least when I checked the last time drivers passed
-> a 10 byte - or bigger - buffer.
-> My main concern is the HDMI_INFOFRAME_SIZE macro. It's used in various
-> drivers like this:
->   u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
-> 
-> One could use HDMI_VENDOR_INFOFRAME_SIZE with this as well:
->   u8 buffer[HDMI_INFOFRAME_SIZE(VENDOR)];
-> But it would only result in an 8 byte wide buffer.
-> Nobody uses it like this yet.
+This series will enable color features on sc7280 target which has 
+primary panel as eDP
 
-Not sure that would make any sense since a vendor
-specific infoframe has no defined size until you
-figure out which vendor defined it (via the OUI).
+The series removes DSPP allocation based on encoder type and allows 
+the DSPP reservation based on user request via CTM.
 
-I suppose the current value of 4 is also a bit nonsense
-as well then, becasue that is a legal value for the
-HDMI 1.4 vendor specific infoframe, but might not be
-valid for any other infoframe.
+The series will release/reserve the dpu resources whenever there is 
+a CTM enable/disable change so that DSPPs are allocated appropriately.
 
-We should perhaps just get rid of HDMI_VENDOR_INFOFRAME_SIZE
-entirely.
+Kalyan Thota (4):
+  drm/msm/dpu: clear DSPP reservations in rm release
+  drm/msm/dpu: add DSPPs into reservation upon a CTM request
+  drm/msm/dpu: avoid unnecessary check in DPU reservations
+  drm/msm/dpu: manage DPU resources if CTM is requested
 
-> 
-> Do you see any reason why my patch could cause problems?
-> If not then I want to re-send it with an updated description.
-> 
-> 
-> Best regards,
-> Martin
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 38 ++++++++++++-----------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  2 ++
+ drivers/gpu/drm/msm/msm_atomic.c            | 18 ++++++++++++++
+ drivers/gpu/drm/msm/msm_drv.c               |  2 +-
+ drivers/gpu/drm/msm/msm_drv.h               |  1 +
+ 5 files changed, 38 insertions(+), 23 deletions(-)
 
 -- 
-Ville Syrjälä
-Intel
+2.7.4
+
