@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B214A6945D3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 13:33:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A3A6945D7
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 13:33:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DCF110E574;
-	Mon, 13 Feb 2023 12:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B1E10E5A1;
+	Mon, 13 Feb 2023 12:33:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5355010E574
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 12:32:55 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B60E10E5A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 12:33:00 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4PFkJM2l9Zz9sRf;
- Mon, 13 Feb 2023 13:32:51 +0100 (CET)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4PFkJT1QT4z9sZg;
+ Mon, 13 Feb 2023 13:32:57 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1676291571;
+ s=MBO0001; t=1676291577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ap3SZLIZ3ABe6KM6cgsMPbXThiqYabgT0Ez6IQos/cE=;
- b=GH6kJr+x853Q70eiM3EHrYJQv5ihmlVN0b6Ytbstqgb/xbFnKEWTQmZEXgZKzcpSDicTs6
- DltS6nran7utguJ2+sU/VuPobUyel5kB86odsn/114BgeYIvFvONXPf8YGgQTXyzWnIbJa
- Caa06lUewA1wpExgsINHnn3OTQHUTBrvSbR1fF8yxCVR4+wVcsxXLkpl4wX8JE06e0r3J8
- 5UB6bN4ObCMpEKPnGwP0p9gwb3ye0qyUFZB0cFRXAYDwi9/sWDCdcfbzaN4FiiT2YEzU7B
- t0x65J8GFOqOiZmokcuwva0leaI8jDtfc+2GbWaloAxlPftPW+1Ti6bK8zmgXA==
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NmcPQbXPr0WHWnVrlJ8mwjTopUrw6rswtOKlLypnddk=;
+ b=NZFX2mxPuZC0QMxzyKG64b39/NlwoN9BX8rR8f/L0XFa9ncEonhvJm6YbHwIT0ZNS3asmm
+ E6hI8XoHMs6pcRjQ0vo57FMwigzPILDMOpF8/xG1oMzBH44aD+SiUvEcCtXTAYKO9oY1O3
+ bAoSPU3AjUVPBiDELt2skKKOKsOWLR/BlthJvwzWkXXd0SuJ7pwEBl8SmKhrlEvGgCvKVL
+ VuuhpjRm3kBfUOi7vNZAhf2hgaJJ0FWw+MNLbHYegQxb2J1Kl5ESS5GZMg0OaDUzOYBsnv
+ VRNfeB8LrGFiXlj3R1MOgJ8foO42DGR0nVKkyADFPmnPkB6XmGF++QOx3ICQZQ==
 From: Frank Oltmanns <frank@oltmanns.dev>
 To: Ondrej Jirman <megi@xff.cz>,
  =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
@@ -38,13 +38,14 @@ To: Ondrej Jirman <megi@xff.cz>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org (open list:DRM PANEL DRIVERS),
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 0/1] drm/panel: st7703: Fix resume of XBD599 panel
-Date: Mon, 13 Feb 2023 13:32:37 +0100
-Message-Id: <20230213123238.76889-1-frank@oltmanns.dev>
+Subject: [PATCH v2 1/1] drm/panel: st7703: Fix timings when entering/exiting
+ sleep
+Date: Mon, 13 Feb 2023 13:32:38 +0100
+Message-Id: <20230213123238.76889-2-frank@oltmanns.dev>
+In-Reply-To: <20230213123238.76889-1-frank@oltmanns.dev>
+References: <20230213123238.76889-1-frank@oltmanns.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4PFkJM2l9Zz9sRf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,41 +58,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Frank Oltmanns <frank@oltmanns.dev>, Samuel Holland <samuel@sholland.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is V2 of a patch that fixes flickering after resume from sleep on
-panel xingbangda,xbd599 (e.g. used in PinePhone).
+Fix flickering of the pinephone's XDB599 panel that happens after
+resume.
 
-Please see here for the discussion around V1:
-https://lore.kernel.org/all/20230212120830.46880-1-frank@oltmanns.dev/T/
+Extend the delay after issuing the command to exit sleep mode from 60 to
+120 msec as per the controller's specification.
 
-V1 introduced panel specific functions for the JH057N and XBD599 panels.
-Ondřej Dirman deemed this unneccesary and finally convinced me.
+Introduce a 120 msec delay after issuing the command to enter sleep
+mode. This is needed in order for the controller to reliably finalize
+the sleep in sequence before switching of power supply.
 
-Therefore, V2 is a much simpler patch.
+In contrast to the JH057N panel, the XBD599 panel does not require a 20
+msec delay after initialization and exiting sleep mode. Therefore, move
+the delay into the already existing device specific initialization
+function.
 
-The patch is just a refactoring of Ondřej's original patch, that is
-already used today by PinePhone distributions like PostmarketOS.
+The XDB599 does not require a 20 msec delay between the SETBGP and
+SETVCOM commands. Therefore, remove the delay from the device specific
+initialization function.
 
-This patch has not been tested with the JH057N panel used in the Librem
-5 devkit. I hereby kindly ask for Librem (i.e. Guido) to test this.
-
-The patch is based on drm-next.
-
-Ondřej, since this is just a very minor refactoring of your work, I
-would gladly put you as the author, if you wish so.
-
-Thanks,
-  Frank
-
-Frank Oltmanns (1):
-  drm/panel: st7703: Fix timings when entering/exiting sleep
-
+Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+Cc: Ondrej Jirman <megi@xff.cz>
+Reported-by: Samuel Holland <samuel@sholland.org>
+---
  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 11 ++++++-----
  1 file changed, 6 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+index 6747ca237ced..c49f4ef883fc 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
+@@ -126,6 +126,7 @@ static int jh057n_init_sequence(struct st7703 *ctx)
+ 				   0x18, 0x00, 0x09, 0x0E, 0x29, 0x2D, 0x3C, 0x41,
+ 				   0x37, 0x07, 0x0B, 0x0D, 0x10, 0x11, 0x0F, 0x10,
+ 				   0x11, 0x18);
++	msleep(20);
+ 
+ 	return 0;
+ }
+@@ -273,7 +274,6 @@ static int xbd599_init_sequence(struct st7703 *ctx)
+ 	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETBGP,
+ 			       0x07, /* VREF_SEL = 4.2V */
+ 			       0x07  /* NVREF_SEL = 4.2V */);
+-	msleep(20);
+ 
+ 	mipi_dsi_dcs_write_seq(dsi, ST7703_CMD_SETVCOM,
+ 			       0x2C, /* VCOMDC_F = -0.67V */
+@@ -350,16 +350,14 @@ static int st7703_enable(struct drm_panel *panel)
+ 		return ret;
+ 	}
+ 
+-	msleep(20);
+-
+ 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+ 	if (ret < 0) {
+ 		dev_err(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-	/* Panel is operational 120 msec after reset */
+-	msleep(60);
++	/* It takes the controller 120 msec to wake up after sleep. */
++	msleep(120);
+ 
+ 	ret = mipi_dsi_dcs_set_display_on(dsi);
+ 	if (ret)
+@@ -384,6 +382,9 @@ static int st7703_disable(struct drm_panel *panel)
+ 	if (ret < 0)
+ 		dev_err(ctx->dev, "Failed to enter sleep mode: %d\n", ret);
+ 
++	/* It takes the controller 120 msec to enter sleep mode. */
++	msleep(120);
++
+ 	return 0;
+ }
+ 
 -- 
 2.39.1
 
