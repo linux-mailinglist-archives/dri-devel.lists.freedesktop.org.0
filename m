@@ -1,69 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D6C6943DC
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:08:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D52F6943FA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C49610E202;
-	Mon, 13 Feb 2023 11:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A46AB10E54B;
+	Mon, 13 Feb 2023 11:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 254FA10E202
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:08:31 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id he5so609320wmb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 03:08:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ci7SGpz5xwcVvCeC2hns6KTay+j1oi3+2QU9QteusJ8=;
- b=tEnyfhSwXOZZy8qLrmPSapSq6NAsSpelq2RSYh2KsdRQ0jDUnBssqht3mhcl5zE2Ek
- JLbGWbsH6NBGpsaaUFpEep0Jsab6adVER3B2HXFXAKGvOPuPNRX2XdKVAMywNuZ8brxc
- lZuvwsDYFCejfGzANCNvp4M/Go6UAb/JkCQAdM9sZ3I8Q0WnjXLsMlo076LVDNIk6lNR
- WjpxSjhDCN772I+GDjsS9aqw0pSGAcoMOJ7A6dc4kdAGxMYyWxFl/t/uWzpArXs49u4S
- B2WKQXwmNms2PUZAZW1yie3LmVJzBqxIuMAAEqLKVbE2/ygyYAF736HvRg0VPOWgOpBN
- vuuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ci7SGpz5xwcVvCeC2hns6KTay+j1oi3+2QU9QteusJ8=;
- b=Xm8KreB303z1RTAOrz20L1v3U2yxnYhcLW0CYF5PMD0Ulmd0RK5pr5IpEeB5s7k6h9
- 0aJjEkkeBoEkem7OeMg7YKyPWLQElg7VskxKhdsV7t8Qf1ZsujMnEozyWmtYYITXDiBx
- c9ZzB38+S2GXfO3t+PQeHGaDMNu0hxUQBgwHdmzDRz5ZCR5WAfif+bDZ1QRGMWT44P0Y
- Im37Ic7caomi0VzC4IcfhHRI/Wac2KMK9UmBsE+e8yZcR4Y6jqxerhsXP2a3k2vlGNmS
- eiBVM2zZW87iiAhzPmdSSFmNQzCceUBJGlMqhiewISbaSjQfvFfhxq+nQrRpo4TLK58c
- nAKQ==
-X-Gm-Message-State: AO0yUKUa1Tx3YfAz6BlSCL0vwGwzIY3EmCB3NGUF1srhfuS/QG2ObY00
- JRM4SNb5+n+YodvB4f1F9eMk8w==
-X-Google-Smtp-Source: AK7set8zGnBL7fWkj1f+KORxV7qKneEFzwp0gQJb+tFbe8XnmCznu6V3D422grwPOLw/8N1rXOh77Q==
-X-Received: by 2002:a05:600c:4485:b0:3e0:185:e93a with SMTP id
- e5-20020a05600c448500b003e00185e93amr18997485wmo.25.1676286509649; 
- Mon, 13 Feb 2023 03:08:29 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- q14-20020a05600c46ce00b003db12112fcfsm14925223wmo.4.2023.02.13.03.08.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 03:08:29 -0800 (PST)
-Message-ID: <ad5dd369-842f-7301-e57d-d0445f0a5268@linaro.org>
-Date: Mon, 13 Feb 2023 12:08:27 +0100
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2862B10E555
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:11:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676286701; x=1707822701;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=5V7ibw1r5Bmu9z9b7YvauYuBzcaPkTNEeovkdnv9j0E=;
+ b=RjlTZnAkudJed8xc24OlW4qPksv1bU1LWCalF5/YJBb/fyxVqPisiSCd
+ dE9vfu1LtjlYFZWbpfepF82a0qEiDDEktcpemMPeSJCFlRcvbn7s2gx2y
+ lQoRckrrHHBU0UnysIEp++Y/jYq1MILlNA0V2ssnn3gIE6irigavMyUQN
+ ylAWBQkLoaoB+2lvYZsQFBsJVK0L/E2qNlw2q6FQauIZgmg236BzNpE03
+ Lu5c0j4XagFAqev3pIo0mIX1EUIupxR/80dBZrvyz352XG7F9RnQ6ovQE
+ IDouq83W2bUHpfmit5xN7Q49ZYT+4g7bHra5F4HHBBmpefoFu03OpcOyc Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="311228734"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="311228734"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 03:11:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670785834"
+X-IronPort-AV: E=Sophos;i="5.97,293,1669104000"; d="scan'208";a="670785834"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
+ by fmsmga007.fm.intel.com with SMTP; 13 Feb 2023 03:11:37 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 13 Feb 2023 13:11:36 +0200
+Date: Mon, 13 Feb 2023 13:11:36 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: Re: [PATCH v1 RFC] video/hdmi: Fix HDMI_VENDOR_INFOFRAME_SIZE
+Message-ID: <Y+oa6O6+s5UXvOP6@intel.com>
+References: <20230109223110.1165433-1-martin.blumenstingl@googlemail.com>
+ <Y+DPQjukgC0BELkN@intel.com>
+ <CAFBinCBpbRu9xfCEfZJfT7t3doV=+CX03+h7W+HsoW5T4X0W0w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add Novatek NT36523
- bindings
-Content-Language: en-US
-To: Jianhua Lu <lujianhua000@gmail.com>
-References: <20230210161925.32343-1-lujianhua000@gmail.com>
- <6cffa875-d8cc-a4fe-e18d-2e24c28a49d8@linaro.org> <Y+oZOXyE8/a+vreS@Gentoo>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y+oZOXyE8/a+vreS@Gentoo>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFBinCBpbRu9xfCEfZJfT7t3doV=+CX03+h7W+HsoW5T4X0W0w@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,66 +62,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Bernard Zhao <bernard@vivo.com>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Hans Verkuil <hans.verkuil@cisco.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2023 12:04, Jianhua Lu wrote:
-> On Mon, Feb 13, 2023 at 11:45:23AM +0100, Krzysztof Kozlowski wrote:
->> On 10/02/2023 17:19, Jianhua Lu wrote:
->>> Novatek NT36523 is a display driver IC that can drive DSI panel. It
->>> is also present in the csot and boe video mode panels. It is found
->>> in Xiaomi Mi Pad 5 series.
->>>
->>> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
->>> ---
->>>  .../display/panel/novatek,nt36523.yaml        | 101 ++++++++++++++++++
->>>  1 file changed, 101 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
->>> new file mode 100644
->>> index 000000000000..a7098d0ce7e1
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
->>> @@ -0,0 +1,101 @@
->>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/display/panel/novatek,nt36523.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Novatek NT36523 based DSI display Panels
->>> +
->>> +maintainers:
->>> +  - Jianhua Lu <lujianhua000@gmail.com>
->>> +
->>> +description: |
->>> +  The nt36523 IC from Novatek is a generic DSI Panel IC used to drive dsi
->>> +  panels.
->>> +  Right now, only support cost and boe LCD display panels with the
->>
->> boe? both?
-> Boe Technology Group Co., Ltd
+On Sat, Feb 11, 2023 at 09:43:50PM +0100, Martin Blumenstingl wrote:
+> Hello Ville.
+> 
+> On Mon, Feb 6, 2023 at 10:58 AM Ville Syrjälä
+> <ville.syrjala@linux.intel.com> wrote:
+> [...]
+> > > Change HDMI_VENDOR_INFOFRAME_SIZE to 6 bytes so
+> > > hdmi_vendor_infoframe_pack_only() can properly check the passed buffer
+> > > size and avoid an out of bounds write to ptr[8] or ptr[9].
+> >
+> > The function should return -ENOSPC if the caller didn't
+> > provide a big enough buffer.
+> Indeed, I'm not sure why I didn't notice when I sent the patch.
+> 
+> > Are you saying there are drivers that are passing a bogus size here?
+> Thankfully not - at least when I checked the last time drivers passed
+> a 10 byte - or bigger - buffer.
+> My main concern is the HDMI_INFOFRAME_SIZE macro. It's used in various
+> drivers like this:
+>   u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
+> 
+> One could use HDMI_VENDOR_INFOFRAME_SIZE with this as well:
+>   u8 buffer[HDMI_INFOFRAME_SIZE(VENDOR)];
+> But it would only result in an 8 byte wide buffer.
+> Nobody uses it like this yet.
 
-Then what is "cost"? If both are names, then they start with capital
-letters or how the company officially spells itself.
+Not sure that would make any sense since a vendor
+specific infoframe has no defined size until you
+figure out which vendor defined it (via the OUI).
 
->>
->>> +  resolution of 1600x2560. It is a video mode DSI panel.
->>
->> The binding or hardware supports only 1600x2560? The how it can be
->> "right now"? It's defined, isn't it?
-> Yes
+I suppose the current value of 4 is also a bit nonsense
+as well then, becasue that is a legal value for the
+HDMI 1.4 vendor specific infoframe, but might not be
+valid for any other infoframe.
 
-What yes? How it can be "right now"? It implies it will change, so how
-hardware can change?
+We should perhaps just get rid of HDMI_VENDOR_INFOFRAME_SIZE
+entirely.
 
+> 
+> Do you see any reason why my patch could cause problems?
+> If not then I want to re-send it with an updated description.
+> 
+> 
+> Best regards,
+> Martin
 
-Best regards,
-Krzysztof
-
+-- 
+Ville Syrjälä
+Intel
