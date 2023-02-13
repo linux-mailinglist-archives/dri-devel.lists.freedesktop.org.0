@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48145694C32
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:16:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B106694C9A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:25:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B44F10E60A;
-	Mon, 13 Feb 2023 16:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C091B10E611;
+	Mon, 13 Feb 2023 16:25:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D151F10E60A;
- Mon, 13 Feb 2023 16:16:24 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id bj22so10606901oib.11;
- Mon, 13 Feb 2023 08:16:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3+M7WtemNip/UJvGhOQX8hNfkWUyxL/twEyAekdKObY=;
- b=FS0X5VFg/YFXbL6u6zZoIt3SzuxfTpvN95kD2y5SzyJnr1o4689pb+wARuSrUhiH1O
- G3AkvOikpY9FK1242nbEWxw+tEJIntXD6sGZ0SeXAwvdtJ8VPGNIrn/IE7fBmnH/v2zD
- 3nDiLWmBhCap7k5kXMyWCgoFKmWPjpzEIML0mgWCRdtHBU6e6YogxJZw5eDyQdPieVEK
- ynBx5MpB99ZmjGLgpOdR1OijMaCs7ac3zMWwPPzdPMG5FjdVnx2taim7juH0eDvTBmy2
- Yt2k7mUkkGcm+VUf+0L3ySTW8p4OLIwb1obdiIPXDTPIZa+5CJbo7Quc3d5IEacZuIgC
- Y5QA==
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83C6D10E611
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 16:25:25 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id ml19so33393499ejb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 08:25:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eWFr1CwZvMY5/EN0vu8t/Vj+LDxEJAQErVcpCjqVbII=;
+ b=oUUfDS770cSTzQ+Zst5e/kfjkax8DHMQvYXxccdwc0dMN3GliHUDJxG6T2ZaP7YTR8
+ jdFWlcGRBlGRccBQNkWLmQtXBGZQTefa6O9eOHp1A1HNW6m12xNuQ9ys6UrhlXeBjvsE
+ 04kcceD/awx0pgM/VzIyOjbK1yEWzustl7WTzzxA8cJIg79gqqQYeTedR2elW6fI0Xvl
+ b+ymiN4Y2YnilSNvSXG9Gz5XbThGIuuOjdDMT9+LUN9C52JxNRq8E3qTZQ9cHz3JJzmu
+ NWEJvzNE79Skg1l2HQLM0Qt7R8LWbsDiFOtm+l089E/7pr8GPln12yWnSE8d8D+Eh04p
+ Kntg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3+M7WtemNip/UJvGhOQX8hNfkWUyxL/twEyAekdKObY=;
- b=v1jwJBKDJ9G8aetRcaI3Est/cb0F6AevWA5N+pPUDssQcxa4Dkoq4528DnkwzpUArD
- ETDDtUpC+5n0o3A80KQPxX1A5ASnlnm+VKK0BZapgRLfnBoM12ZZs/BGXDZPulsu6iFE
- gktfiEWnKcJ/O87Z8sBTCauoXENhJFbxC9/CS9D/V5qx6451/kshmmnyqXxvuY1nR+k6
- tiWlSVU6oZJTAvJ3LENzwiO62re8x+uS3IcWVR/KDxf4P8tTngqNPGKpgqqQHYeL6MO4
- 74ysfNGU2RrwcW8ilM1e1/uUJj/qol0OWpozwCFW1VZZLK2lFaqgfptW5Ou6HYbm3RKJ
- CkPA==
-X-Gm-Message-State: AO0yUKWqIRCR6OiFYXsfwBNZjSXZjED6ZRQDXkTNA3dJyiI3Xao44NE4
- Y3rT7SNCthvJnmcERQCX7uoJq0waFr80gwTJR7U=
-X-Google-Smtp-Source: AK7set/69DU7Esqov48oCY93FnjRw6qc7JKs9WQo+x54lEtrHwEU+0tqMbfjGKFPZ7t7V1t1018RdoZ6dgu9fHInmLU=
-X-Received: by 2002:aca:3dd4:0:b0:378:4edd:a89c with SMTP id
- k203-20020aca3dd4000000b003784edda89cmr2010642oia.46.1676304984022; Mon, 13
- Feb 2023 08:16:24 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=eWFr1CwZvMY5/EN0vu8t/Vj+LDxEJAQErVcpCjqVbII=;
+ b=sSu9JpXAJYHs8FIFQMSXpyg3y9rdTigDl0ClpR3CEvp7glIy+IIdw15xayNXyDF8jv
+ RyWnmtZK792o6VPf+/5W1btHPt746cNXBxZ9lcHuPQs/XdP8ysriHHDrgztXPSDLoDej
+ hkSjsR1U13xz6A0S0t5XjjJUssiB/4jBAnx7XTCLXIO016Qq2nHCUOccsgZDcOCeDyCe
+ zC7+HLOwAK5fB74r5+83mriEVaGZjPWLx6f+6Bnnw0gX/H69SpwS49o49SNGpGCzp/y4
+ pOoebJ3rwvIs3HPER+HYVwuk4kygi4bU0llV1LZbbl/JTYMFFW/ogIlE/9QHC7Pcj4LX
+ 1w5A==
+X-Gm-Message-State: AO0yUKUe9C16aYF7EpfnJBZ1F8QixdjlHk2nOP0u3yvC6G3T676OWRjn
+ A6afIVK3F2jLWjXmURDVrKgL6Q==
+X-Google-Smtp-Source: AK7set/WZntuEziXN2YaI/cS4O20orw4Yw3GpGUOrBGyNYo6PuwOs635uCnb9R3l1O3CyZKM0lIQqQ==
+X-Received: by 2002:a17:906:1511:b0:88d:d304:3432 with SMTP id
+ b17-20020a170906151100b0088dd3043432mr25472687ejd.60.1676305524040; 
+ Mon, 13 Feb 2023 08:25:24 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ lu19-20020a170906fad300b007a9c3831409sm6915447ejb.137.2023.02.13.08.25.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 08:25:23 -0800 (PST)
+Message-ID: <56281f37-2c7f-5f70-6c9e-87e950f06b0e@linaro.org>
+Date: Mon, 13 Feb 2023 18:25:21 +0200
 MIME-Version: 1.0
-References: <20230210024343.26220-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20230210024343.26220-1-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 13 Feb 2023 11:16:12 -0500
-Message-ID: <CADnq5_O_byNv=MVKQSL8hCXy-ENtLo31vq5zdmrE_dKZwif=nA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove the unused variable
- pre_connection_type
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 06/10] drm/msm/dpu: Add SM6350 support
+Content-Language: en-GB
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230211122656.1479141-1-konrad.dybcio@linaro.org>
+ <20230211122656.1479141-7-konrad.dybcio@linaro.org>
+ <a18cf663-115d-edc8-5e4b-3d19fcd9a02c@linaro.org>
+ <cc364658-478a-f239-5d17-5ca2b7f7df8b@linaro.org>
+ <20230213113008.ih7ii5m3cz4w3lmz@SoMainline.org>
+ <8560b69f-8d42-995d-2f4d-11d6a64afef0@linaro.org>
+ <20230213142831.hbzfp2chekshsqyy@SoMainline.org>
+ <28c9ea04-fedb-16cf-f874-f4c965fbc445@linaro.org>
+ <20230213151413.qhpzzcz4c6m6rynk@SoMainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230213151413.qhpzzcz4c6m6rynk@SoMainline.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,47 +83,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinhui.Pan@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: Vinod Koul <vkoul@kernel.org>, Liu Shixin <liushixin2@huawei.com>,
+ Robert Foss <rfoss@kernel.org>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, freedreno@lists.freedesktop.org,
+ krzysztof.kozlowski@linaro.org, agross@kernel.org,
+ dri-devel@lists.freedesktop.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On 13/02/2023 17:14, Marijn Suijten wrote:
+> On 2023-02-13 16:58:00, Dmitry Baryshkov wrote:
+>> So, *possible* the merge order is the following:
+>> - fixes from https://patchwork.freedesktop.org/series/113910/ go to
+>> msm-fixes
+>> - fixes from your intf-te go to msm-fixes
+>> - https://patchwork.freedesktop.org/series/111751/
+>> - the rest of intf-te and catalog (*see below)
+>> - DPU features
+>> - new DPU platforms (might go together with DPU features)
+>>
+>> * That really depends on the availability of the patchsets. Most
+>> probably, as your patchset also contains several fixups, it would be
+>> easier to land it before catalog split/rework.
+>>
+>> So, if you have the available timeslot, could you please finish & send
+>> intf te on top of msm-next.
+> 
+> Ack, I'll get to that immediately.  You might even pull in the
+> intermediate patches linked above (that touch the catalog) to see how it
+> integrates, if I remember correctly (it has been a while) the catalog
+> changes should now be independent of driver changes...?
 
-On Thu, Feb 9, 2023 at 9:44 PM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> Variable pre_connection_type is not effectively used, so delete it.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4031
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/link/link_detection.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> index 63e75c392031..d224a44c4cc8 100644
-> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> @@ -886,7 +886,6 @@ static bool detect_link_and_local_sink(struct dc_link *link,
->         struct dc_sink *prev_sink = NULL;
->         struct dpcd_caps prev_dpcd_caps;
->         enum dc_connection_type new_connection_type = dc_connection_none;
-> -       enum dc_connection_type pre_connection_type = dc_connection_none;
->         const uint32_t post_oui_delay = 30; // 30ms
->
->         DC_LOGGER_INIT(link->ctx->logger);
-> @@ -923,7 +922,6 @@ static bool detect_link_and_local_sink(struct dc_link *link,
->
->         link_disconnect_sink(link);
->         if (new_connection_type != dc_connection_none) {
-> -               pre_connection_type = link->type;
->                 link->type = new_connection_type;
->                 link->link_state_valid = false;
->
-> --
-> 2.20.1.7.g153144c
->
+I'll check and if it goes well, I'll just cherry-pick them into my branch.
+
+> 
+>>> Sure, I will at least start looking at your 50-patch as part of catching
+>>> back up.  Do you want to process that on the mailing list or via
+>>> https://gitlab.freedesktop.org/drm/msm/-/merge_requests/44?
+>>
+>> I'd prefer to use email. The MR was open to doublecheck that nothing got
+>> broken on sc7180.
+> 
+> Ack; will try providing feedback on the 50-patch series via email in
+> parallel to getting INTF TE v2 out ASAP.  As discussed before I should
+> probably add myself as reviewer to the drm/msm subsystem to have these
+> patches in my inbox from the get-go though...
+
+I'd support this.
+
+
+-- 
+With best wishes
+Dmitry
+
