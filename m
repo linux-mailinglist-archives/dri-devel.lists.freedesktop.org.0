@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC39D6939FB
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Feb 2023 21:46:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F5A693B53
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 01:23:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 127C210E488;
-	Sun, 12 Feb 2023 20:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03FD310E078;
+	Mon, 13 Feb 2023 00:23:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5305210E474
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 20:45:46 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D513E60B35;
- Sun, 12 Feb 2023 20:45:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 617CCC433D2;
- Sun, 12 Feb 2023 20:45:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676234745;
- bh=dHdx8uSXwdR0AeBdqA2WsjSIeksu2Braq06Ba1WJHmU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QGcCTxaRK9a6W/3c6PCaW3QVI+hi4ZKdrQeU8kZAg2KSKjpx/sND8YxkfrJWhJsG7
- 9qAfqYzAlaW/eOlOBuPMlfXJtToSlXBFbVPMHYUxTO0yPF00+QyoAk8jOBSMGAAol9
- 1QqvzMTAcqycm/XGIPznrS7AwfD29U3KeR93S8CZ+/97gYzirbpmb/4ush7ru61qFg
- rVdWzF0BeIH8FFy1Vhx49OkmUqNFXzec0KLIghJMYNfrJHsp6vOyZrmVScUGFtPEWL
- zxx4HXwg8Y1cyu8kIG9CiS1WYmbpmF8z/G0+pKOR66aT2H5ihEJh2XXEdNJ1HYnvjB
- tFeHK2QMwtDAw==
-From: Oded Gabbay <ogabbay@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 27/27] habanalabs: don't trace cpu accessible dma alloc/free
-Date: Sun, 12 Feb 2023 22:44:54 +0200
-Message-Id: <20230212204454.2938561-27-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230212204454.2938561-1-ogabbay@kernel.org>
-References: <20230212204454.2938561-1-ogabbay@kernel.org>
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3361410E078
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 00:23:15 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PFQ6P72rNz4x5d;
+ Mon, 13 Feb 2023 11:23:09 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1676247790;
+ bh=Yyyvbo13QpsgerZjiZxaf69UduH/BU5Wj/AcGWfEDsM=;
+ h=Date:From:To:Cc:Subject:From;
+ b=aiMd8pBPOR1Qb+i/vGVh0wCStjnbT6D9cvIecNJYNLHRN+zIpjXbXR4B3q+MuKdPF
+ cUje+YKDN+8opGNNTJPFLwPlSNlfCP8nHJ4QLwCtKWl9ATE1VqUMk7uYPi3BYy52YG
+ 7zXt2eWcAocoQ4b7YoYGod1DJUlVZV6ozUp2Pg2ADbgCbRxIHZHycC0Mp1bScDtCjq
+ QvrgXpsis31vfmaBjtrf6bTRTribezzkLR4Hp/1cG3z3bT95vQZ75aK1FB8sDjebOi
+ WVlu++qz191nZDLfPkxHahXrh+zhuDxOSpEvpQyiE4g531ltKX15v7VwR9NCSG6Ytm
+ e9xSZCmraT18w==
+Date: Mon, 13 Feb 2023 11:23:09 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@redhat.com>
+Subject: linux-next: manual merge of the drm tree with the drm-fixes tree
+Message-ID: <20230213112309.7a349346@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/YYRHbLN=YrKkj2UNlr7_YGl";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,134 +49,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dhirschfeld@habana.ai>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dafna Hirschfeld <dhirschfeld@habana.ai>
+--Sig_/YYRHbLN=YrKkj2UNlr7_YGl
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The cpu accessible dma allocations use the gen_pool api which actually
-does not allocate new memory from the system but manages memory already
-allocated before. When tracing this together with real dma
-allocation/free it cause confusing logs like a '0' dma address and
-a cpu address appearing twice etc.
+Hi all,
 
-Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
----
- drivers/accel/habanalabs/common/device.c     | 29 +++++++-------------
- drivers/accel/habanalabs/common/habanalabs.h | 12 ++------
- 2 files changed, 12 insertions(+), 29 deletions(-)
+Today's linux-next merge of the drm tree got a conflict in:
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 8e71793c6ad1..fefe70bbbede 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -22,7 +22,6 @@
- 
- enum dma_alloc_type {
- 	DMA_ALLOC_COHERENT,
--	DMA_ALLOC_CPU_ACCESSIBLE,
- 	DMA_ALLOC_POOL,
- };
- 
-@@ -121,9 +120,6 @@ static void *hl_dma_alloc_common(struct hl_device *hdev, size_t size, dma_addr_t
- 	case DMA_ALLOC_COHERENT:
- 		ptr = hdev->asic_funcs->asic_dma_alloc_coherent(hdev, size, dma_handle, flag);
- 		break;
--	case DMA_ALLOC_CPU_ACCESSIBLE:
--		ptr = hdev->asic_funcs->cpu_accessible_dma_pool_alloc(hdev, size, dma_handle);
--		break;
- 	case DMA_ALLOC_POOL:
- 		ptr = hdev->asic_funcs->asic_dma_pool_zalloc(hdev, size, flag, dma_handle);
- 		break;
-@@ -147,9 +143,6 @@ static void hl_asic_dma_free_common(struct hl_device *hdev, size_t size, void *c
- 	case DMA_ALLOC_COHERENT:
- 		hdev->asic_funcs->asic_dma_free_coherent(hdev, size, cpu_addr, dma_handle);
- 		break;
--	case DMA_ALLOC_CPU_ACCESSIBLE:
--		hdev->asic_funcs->cpu_accessible_dma_pool_free(hdev, size, cpu_addr);
--		break;
- 	case DMA_ALLOC_POOL:
- 		hdev->asic_funcs->asic_dma_pool_free(hdev, cpu_addr, dma_handle);
- 		break;
-@@ -170,18 +163,6 @@ void hl_asic_dma_free_coherent_caller(struct hl_device *hdev, size_t size, void
- 	hl_asic_dma_free_common(hdev, size, cpu_addr, dma_handle, DMA_ALLOC_COHERENT, caller);
- }
- 
--void *hl_cpu_accessible_dma_pool_alloc_caller(struct hl_device *hdev, size_t size,
--						dma_addr_t *dma_handle, const char *caller)
--{
--	return hl_dma_alloc_common(hdev, size, dma_handle, 0, DMA_ALLOC_CPU_ACCESSIBLE, caller);
--}
--
--void hl_cpu_accessible_dma_pool_free_caller(struct hl_device *hdev, size_t size, void *vaddr,
--						const char *caller)
--{
--	hl_asic_dma_free_common(hdev, size, vaddr, 0, DMA_ALLOC_CPU_ACCESSIBLE, caller);
--}
--
- void *hl_asic_dma_pool_zalloc_caller(struct hl_device *hdev, size_t size, gfp_t mem_flags,
- 					dma_addr_t *dma_handle, const char *caller)
- {
-@@ -194,6 +175,16 @@ void hl_asic_dma_pool_free_caller(struct hl_device *hdev, void *vaddr, dma_addr_
- 	hl_asic_dma_free_common(hdev, 0, vaddr, dma_addr, DMA_ALLOC_POOL, caller);
- }
- 
-+void *hl_cpu_accessible_dma_pool_alloc(struct hl_device *hdev, size_t size, dma_addr_t *dma_handle)
-+{
-+	return hdev->asic_funcs->cpu_accessible_dma_pool_alloc(hdev, size, dma_handle);
-+}
-+
-+void hl_cpu_accessible_dma_pool_free(struct hl_device *hdev, size_t size, void *vaddr)
-+{
-+	hdev->asic_funcs->cpu_accessible_dma_pool_free(hdev, size, vaddr);
-+}
-+
- int hl_dma_map_sgtable(struct hl_device *hdev, struct sg_table *sgt, enum dma_data_direction dir)
- {
- 	struct asic_fixed_properties *prop = &hdev->asic_prop;
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index ec0879168adf..7b6b4ff20a3b 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -155,18 +155,12 @@ enum hl_mmu_enablement {
- #define hl_asic_dma_alloc_coherent(hdev, size, dma_handle, flags) \
- 	hl_asic_dma_alloc_coherent_caller(hdev, size, dma_handle, flags, __func__)
- 
--#define hl_cpu_accessible_dma_pool_alloc(hdev, size, dma_handle) \
--	hl_cpu_accessible_dma_pool_alloc_caller(hdev, size, dma_handle, __func__)
--
- #define hl_asic_dma_pool_zalloc(hdev, size, mem_flags, dma_handle) \
- 	hl_asic_dma_pool_zalloc_caller(hdev, size, mem_flags, dma_handle, __func__)
- 
- #define hl_asic_dma_free_coherent(hdev, size, cpu_addr, dma_handle) \
- 	hl_asic_dma_free_coherent_caller(hdev, size, cpu_addr, dma_handle, __func__)
- 
--#define hl_cpu_accessible_dma_pool_free(hdev, size, vaddr) \
--	hl_cpu_accessible_dma_pool_free_caller(hdev, size, vaddr, __func__)
--
- #define hl_asic_dma_pool_free(hdev, vaddr, dma_addr) \
- 	hl_asic_dma_pool_free_caller(hdev, vaddr, dma_addr, __func__)
- 
-@@ -3602,14 +3596,12 @@ static inline bool hl_mem_area_crosses_range(u64 address, u32 size,
- }
- 
- uint64_t hl_set_dram_bar_default(struct hl_device *hdev, u64 addr);
-+void *hl_cpu_accessible_dma_pool_alloc(struct hl_device *hdev, size_t size, dma_addr_t *dma_handle);
-+void hl_cpu_accessible_dma_pool_free(struct hl_device *hdev, size_t size, void *vaddr);
- void *hl_asic_dma_alloc_coherent_caller(struct hl_device *hdev, size_t size, dma_addr_t *dma_handle,
- 					gfp_t flag, const char *caller);
- void hl_asic_dma_free_coherent_caller(struct hl_device *hdev, size_t size, void *cpu_addr,
- 					dma_addr_t dma_handle, const char *caller);
--void *hl_cpu_accessible_dma_pool_alloc_caller(struct hl_device *hdev, size_t size,
--						dma_addr_t *dma_handle, const char *caller);
--void hl_cpu_accessible_dma_pool_free_caller(struct hl_device *hdev, size_t size, void *vaddr,
--						const char *caller);
- void *hl_asic_dma_pool_zalloc_caller(struct hl_device *hdev, size_t size, gfp_t mem_flags,
- 					dma_addr_t *dma_handle, const char *caller);
- void hl_asic_dma_pool_free_caller(struct hl_device *hdev, void *vaddr, dma_addr_t dma_addr,
--- 
-2.25.1
+  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 
+between commits:
+
+  877f26bf3ca6 ("drm/amd/display: disable S/G display on DCN 2.1.0")
+  077e9659581a ("drm/amd/display: disable S/G display on DCN 3.1.2/3")
+  7ece674cd946 ("Revert "drm/amd/display: disable S/G display on DCN 3.1.4"=
+")
+  9734a75cd99d ("Revert "drm/amd/display: disable S/G display on DCN 3.1.2/=
+3"")
+  1b7ac7989ad8 ("Revert "drm/amd/display: disable S/G display on DCN 2.1.0"=
+")
+  e7d636476ba7 ("Revert "drm/amd/display: disable S/G display on DCN 3.1.5"=
+")
+
+from the drm-fixes tree and commits:
+
+  2404f9b0ea01 ("drm/amd/display: disable S/G display on DCN 2.1.0")
+  f081cd4ca265 ("drm/amd/display: disable S/G display on DCN 3.1.2/3")
+  69ed0c5d44d7 ("Revert "drm/amd/display: disable S/G display on DCN 3.1.4"=
+")
+
+from the drm tree.
+
+Git's automatic merge ignored commit 1b7ac7989ad8, since on the HEAD
+side it was cancelled out by commit 877f26bf3ca6.  So I have to manually
+reapply commit 1b7ac7989ad8.
+
+This is an issue with duplicate patches that you need to keep in mind.
+
+I fixed it up (I used the former changes) and can carry the fix as
+necessary. This is now fixed as far as linux-next is concerned, but any
+non trivial conflicts should be mentioned to your upstream maintainer
+when your tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/YYRHbLN=YrKkj2UNlr7_YGl
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmPpgu0ACgkQAVBC80lX
+0GxX8Af+LoPtNAX3DX07rz5dYjFy6GdKVlJR6VyujeWgnO+dKlClUFYxy2L6/TGB
+x/azEPVrvzYCeP6Hc7idT/KB4kkTgT/wnF00kLXbi+nMjM2pYAZhjoWd4dsgzmCL
+hnP4a2rxi/BYCEt0uOHi7FrpPUhx9ROjgEB9sBHAvoPYCaBlF6gbzfh9rJZ51YZb
+b4bhlN0TPLK/0Wk/6xkTEtM/ZDap34BvlvazALo74YNL2ump4xAauiWZ2unKkctR
+BWQpAfpS6pvADwLgMcHXvvZLct72npAlntNUs/ryl814Y51DM2766tdU/4Neo0ZM
+qoyB3XlOCDlUfm7yPoL2V7pNN4FIXg==
+=QLcv
+-----END PGP SIGNATURE-----
+
+--Sig_/YYRHbLN=YrKkj2UNlr7_YGl--
