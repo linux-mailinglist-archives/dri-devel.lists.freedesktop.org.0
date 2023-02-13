@@ -2,71 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20E2694449
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F31269444C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:20:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92A3510E201;
-	Mon, 13 Feb 2023 11:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C093E10E55A;
+	Mon, 13 Feb 2023 11:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3606E10E55A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:18:46 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id hx15so30904839ejc.11
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 03:18:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KIx9QnDEiIMrF+ea+ic9s2yvBT4Dedk7T3dn3hJI1QI=;
- b=pOOkQDaSGu4cphWcInPo7p2cNnaPIdjifY7CyoPkbXO66aI5vGY/I2rsKksmODIoiD
- bL86qkglO7JgYVX1tkHq+AstdqQA59JYh4YHfbMwPm+2Q7UAtIvnoODioOBApbYLOi0x
- Z46SFiumclgP8AdfuJmCRSPl2sorVNHqWZXAeB+gnp7Q0Ohxer5YiQYwNV7KNCacdbRC
- 4RQ8xmuJIDWKE+bRok0yvx/q9PvQ6mPsSQLmMFkm65vHbm6Ihi8KUheR4GY0tXDB66ni
- EQnLS4lBbAp0l6hhkSBfpRBXw45OX+lKzvdz9ZSUTUxljFKoWXwGpSVxTK5C9pjbf6Kq
- gBbg==
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67C6F10E55A
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:20:34 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id mg23so5035987pjb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 03:20:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=yhUwkGMbfcta0BgiSZrgFVKdvG85/JtJXXzQxSbA5YQ=;
+ b=B6fPkWSEu9uiErCCsKFH4Qb+CG8wznVqNXHcGOl+/oxHKNpZxDDNCC8ApRe23IPnjQ
+ YMiBYq8TMAIekQvSZ0iSkLAYRKr7uyTWQ62H0oUBB4+n9qzlDYR8JZFp+s9s69UTOiy/
+ GZA4Y+9rDimUIXiDbwSybiOMt5Pg77f6mwfObFAzGvN5QZ8MJmGKr3WU7oyGrxGI3V1l
+ evuq8IkzHWirRrvEqMefvSxk99GF5D7lncdSBEZY5SNokXebCfSzMomc4MX9NUIrtSOA
+ f22sApfftWaxt8ODCbSbWRslv4Dyd9ibnkXkvr5hFEL/mXDEXR4KJcFazUxy50m5o65v
+ 3ioA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KIx9QnDEiIMrF+ea+ic9s2yvBT4Dedk7T3dn3hJI1QI=;
- b=PKfipbvtcObOSwOUAKVRHs2AzRxZ0x9Lo7A224F580OGhlaaJxwOXG0AZD4HdzNb30
- KQApHITLqXZQ6ZvcEcafNBaWZzNLGlmsuFI6jI1i6XTUqB1FznU0In4u/odRw8GkHHwf
- zh5UC3cDyU9SviRktokmTnmRntelX6qJsmvlKUq0BUpXqRBBQlBa7VyRiLZR3WjchwPF
- Y22cfAoeUHhcffOWcAyY4IrB64ZZVKQl/ibKHlWqIoZfKdmkj43FR7p+s1NUcoDDFc7N
- jqrXr/Mn6PJJmGuvYn84t2LjlR0xWJvod8m3scmAisr4PNaftxXSsLJ7BddhEHlb+46D
- Erwg==
-X-Gm-Message-State: AO0yUKWK947gINpk0neq15NPYaQ/lcVAMgPoGm+knKnfZjP1ApZ7vLUg
- D5Wmz8WZbu+PANFeQV6kPiXf/w==
-X-Google-Smtp-Source: AK7set/vk5VCJ4aeYKvsO3L83u1LiQeST5URkCTbDzfs2h9uWKdJZFMZ27L/BDnDZtErGxAbuiCGnw==
-X-Received: by 2002:a17:906:70c7:b0:885:6a2e:f941 with SMTP id
- g7-20020a17090670c700b008856a2ef941mr22618956ejk.54.1676287124813; 
- Mon, 13 Feb 2023 03:18:44 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yhUwkGMbfcta0BgiSZrgFVKdvG85/JtJXXzQxSbA5YQ=;
+ b=ojdf28Ft+/6guGJLWmQ0q08eYuJfvHGjzDEcYxNzVVgEg/6mUr1Ikw2PC3j0FRk/HS
+ 1w9s7N6SGQFlpAga2gsz0ljHoajR/1EgBJQT4LGicGxboUOvRfifqpgWXP1pSIEhERgW
+ v9N32SwPeGa7T+UH7peQchgl4Hj0Vd06e96t0YLlRF8YACYt7XMV6IXbYL/xDsDC9ZxT
+ Zt4GfBhyFppldtWrFE0J0WxFh+DHwm7Rca8pI0tGE7LCVxL88nrVbQeNLqvlhJcdBKZf
+ v1x9cBfdvnnR7l+G5fYS4f0iSpSezYMAd2W3tIeKye/YQx5odSV6VVSPhOdecBTWFMKu
+ 6Dvg==
+X-Gm-Message-State: AO0yUKW1kHVH2OTzmtvJh/uGJT/8IutcLFjxs/tCUhxfsOcZo7A6ZkcE
+ FpaxFzGtdK961V6hXeeWV7U=
+X-Google-Smtp-Source: AK7set+uAhLU/ISmNgXiCtRLzy+Ssc5QgA2lwcvZbThMYhB+3YMWL1TTaVsO0Mt6Wu/EUPH1xlvPQg==
+X-Received: by 2002:a17:90a:195a:b0:231:284:ea4d with SMTP id
+ 26-20020a17090a195a00b002310284ea4dmr21468329pjh.22.1676287233846; 
+ Mon, 13 Feb 2023 03:20:33 -0800 (PST)
+Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
  by smtp.gmail.com with ESMTPSA id
- j22-20020a17090686d600b008aeed39adc7sm6648687ejy.63.2023.02.13.03.18.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 03:18:44 -0800 (PST)
-Message-ID: <526734f4-d2a6-b8b3-d300-dbf0bcfde91f@linaro.org>
-Date: Mon, 13 Feb 2023 13:18:42 +0200
+ m11-20020a17090a3f8b00b002312586b5b1sm7702406pjc.57.2023.02.13.03.20.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Feb 2023 03:20:33 -0800 (PST)
+Date: Mon, 13 Feb 2023 19:20:26 +0800
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add Novatek NT36523
+ bindings
+Message-ID: <Y+oc+kEDoiMsebWF@Gentoo>
+References: <20230210161925.32343-1-lujianhua000@gmail.com>
+ <6cffa875-d8cc-a4fe-e18d-2e24c28a49d8@linaro.org>
+ <Y+oZOXyE8/a+vreS@Gentoo>
+ <ad5dd369-842f-7301-e57d-d0445f0a5268@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 14/50] drm/msm/dpu: Allow variable SSPP/INTF_BLK size
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20230211231259.1308718-1-dmitry.baryshkov@linaro.org>
- <20230211231259.1308718-15-dmitry.baryshkov@linaro.org>
- <f0cc19ec-83ee-151d-e4d2-83a2cd5dc7f7@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <f0cc19ec-83ee-151d-e4d2-83a2cd5dc7f7@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad5dd369-842f-7301-e57d-d0445f0a5268@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +74,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2023 13:01, Konrad Dybcio wrote:
+On Mon, Feb 13, 2023 at 12:08:27PM +0100, Krzysztof Kozlowski wrote:
+> On 13/02/2023 12:04, Jianhua Lu wrote:
+> > On Mon, Feb 13, 2023 at 11:45:23AM +0100, Krzysztof Kozlowski wrote:
+> >> On 10/02/2023 17:19, Jianhua Lu wrote:
+> >>> Novatek NT36523 is a display driver IC that can drive DSI panel. It
+> >>> is also present in the csot and boe video mode panels. It is found
+> >>> in Xiaomi Mi Pad 5 series.
+> >>>
+> >>> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> >>> ---
+> >>>  .../display/panel/novatek,nt36523.yaml        | 101 ++++++++++++++++++
+> >>>  1 file changed, 101 insertions(+)
+> >>>  create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+> >>> new file mode 100644
+> >>> index 000000000000..a7098d0ce7e1
+> >>> --- /dev/null
+> >>> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+> >>> @@ -0,0 +1,101 @@
+> >>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> >>> +%YAML 1.2
+> >>> +---
+> >>> +$id: http://devicetree.org/schemas/display/panel/novatek,nt36523.yaml#
+> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>> +
+> >>> +title: Novatek NT36523 based DSI display Panels
+> >>> +
+> >>> +maintainers:
+> >>> +  - Jianhua Lu <lujianhua000@gmail.com>
+> >>> +
+> >>> +description: |
+> >>> +  The nt36523 IC from Novatek is a generic DSI Panel IC used to drive dsi
+> >>> +  panels.
+> >>> +  Right now, only support cost and boe LCD display panels with the
+> >>
+> >> boe? both?
+> > Boe Technology Group Co., Ltd
+> 
+> Then what is "cost"? If both are names, then they start with capital
+> letters or how the company officially spells itself.
+both are company name, I will search offical name for it.
+> 
+> >>
+> >>> +  resolution of 1600x2560. It is a video mode DSI panel.
+> >>
+> >> The binding or hardware supports only 1600x2560? The how it can be
+> >> "right now"? It's defined, isn't it?
+> > Yes
+> 
+> What yes? How it can be "right now"? It implies it will change, so how
+> hardware can change?
+sorry, my wrong. This binding only support 1600x2560.
 > 
 > 
-> On 12.02.2023 00:12, Dmitry Baryshkov wrote:
->> From: Konrad Dybcio <konrad.dybcio@linaro.org>
->>
->> These blocks are of variable length on different SoCs. Set the
->> correct values where I was able to retrieve it from downstream
->> DTs and leave the old defaults (0x1c8 for sspp and 0x280 for
->> intf) otherwise.
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> [DB: fixed some of lengths]
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
-> Oh you fixed it quicker than I could respond!
-
-Yes, I wanted to include it into this patchset, so I had to fix it.
-
+> Best regards,
+> Krzysztof
 > 
-> Still, I think the 8280 sspp size should not be
-> 2x the norm..
-
-Let's doublecheck this with somebody having access to docs.
-
--- 
-With best wishes
-Dmitry
-
