@@ -1,68 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E656C6945E4
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 13:34:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EF66945EB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 13:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF4EE10E5A3;
-	Mon, 13 Feb 2023 12:34:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF7A10E5A0;
+	Mon, 13 Feb 2023 12:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBF0410E5A3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 12:34:44 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id dr8so31382631ejc.12
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 04:34:44 -0800 (PST)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9357A10E5A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 12:35:33 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id ml19so31620739ejb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 04:35:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=J74YHf3ie7EaU63+SY0GQSf4YHEgWreO7FWC0ay2bw8=;
- b=KRPaa3mRTKfV9nEWIVZacyPcGFYG2GDfrUIyqJCfRYOZne58j6YgASCAtJSgrtdGMU
- LESaAHJysEkYczmZes/snqjGhvp2z69rjDVifAA1vH9z7XimouO/0m4cMWhcPg5/5Mu3
- GRk/q5ZI+p4W/p4xj/do3ZKRP4YRkP7FLOHIufGnK/Yvu+5zWciGgJ9Z5cjMPhDNW4pZ
- R+U7Vq+iBlKR1JvCrMv6u8WuMwg7sx6LHKFsT34AXpyMrZ04HlVI5v54QRay/lLWYwly
- 7wwfuTYj2yXJI1x5YXHH091sr7Gn3HUEv9z7ra91TPNesyp+Pnc+dYKFwwJDbIh5Z+OY
- P14Q==
+ bh=g6etP0PHoEzmwkAwU1sWyc/fLmfc1gwqL6wt4gHzdmw=;
+ b=hnv0aANWv0LshJQhx6NxJdjMa9idzF2ChBnJpk4z4R8hie6sV8ZbP6dbf9ZIetFPYL
+ 7+21H4Ja7Kziwvjl7VrH3kNQxctWTHHf6OfVJJzWVOyWEMhlSCCTa2wfzjqHn1WtOfco
+ /65cXuNQ29DgfUdbg2q7jJG/mInbyOAX9OIkUkWqu1ot08iOIzNTa9Vaos2j5ptJcGww
+ Db0Z9soV9OGsUn8RIYthoo9d1Qj5EH5xO8JAqqHm647HGf2jUqtfosYyh0evnFO5cOzG
+ +VrpB1B2iaiUatlxDG9tCiGOgGNxy0b78QGkBRSclusVBTs3vQqDv+M2cRT1ZxTBoExb
+ kYCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J74YHf3ie7EaU63+SY0GQSf4YHEgWreO7FWC0ay2bw8=;
- b=v6dsRwR9Ohrd+T1vGak9PkkVrx7NgIeMRuV3grAnmw2j5UcNby4reWPq3wWUZiJlYU
- mvetA53v5OG51VSRKTrWiUVNYylpUCnTa+g0p7IbL6dQ/KKH48TlJ6jrYHI+4+L4/wK/
- dAwbY+uo7PuLspTAdp+yFhpJg+uDjgGMrGrzMDqEhO5KuqpTsLbW4y1ekIw/NoCcpXC8
- wLO4cEfbWdjYrpvZuageENc0Pf7Z+AgklR+y7r7fjzYMtryLlZU8qj+JdewlsCIfkUIa
- MhyxXb/nICbhSTMgVLRY9L9NEjf6egFTwwT/YksgWuFP8E/6C2rps62BCYYrOzXZkbwV
- 4/ZQ==
-X-Gm-Message-State: AO0yUKXFiZh+/Eg3c4uuq45XDLk6kLCX8+rQpIjPE7mdKoPgiQGtK08x
- /hW2ZfJ4kSLsit8ZFjSmUFlHng==
-X-Google-Smtp-Source: AK7set8AgoS42l3aYBmi6ssUgphTAVWKiJuZGpw8TVRlOcNRbOod9d2aTGw/bl90SBxhX0d8T/pI9w==
-X-Received: by 2002:a17:906:3994:b0:878:4dd1:5161 with SMTP id
- h20-20020a170906399400b008784dd15161mr22037674eje.11.1676291683426; 
- Mon, 13 Feb 2023 04:34:43 -0800 (PST)
+ bh=g6etP0PHoEzmwkAwU1sWyc/fLmfc1gwqL6wt4gHzdmw=;
+ b=vjQ5e76J9dW98SYWWK3T+2zf1zWCuZtFG1XjJUjP4YbFnEfC3qAsU8HjOmUkWRa4j3
+ YYeSUmD39+Aps+0P4ASgj3BG2G8jL0AuPbqdYJj7UKsarrtPfS7nOf4Wjv9/hUMcq+QR
+ NW8ZqkyasGSm86/640baPJh5n2LWcjkHZYgdHBqmlTvNy3HJcz9SB0W3TGAduEDnKu4X
+ /4cmecsKqLspK9sVRuAesoS90ChdUAQSZ1YSEAc0olvNkSsRcUSbRJMbmh/eHJV7UayW
+ fZd9j2DIbqEuDiHCE/3dHNclKcZZM1HF+tWgL69sfdfa1XZAP+H1+ft1cKA7JbMQqgIL
+ N8HQ==
+X-Gm-Message-State: AO0yUKWq6W5LNRzKSf1S4m0xGa8uOAVzrHS16TVXcUFspjyfyzazF38Q
+ dTmv/hnvRWFkZvbMPp+8vELjmw==
+X-Google-Smtp-Source: AK7set/a4QxyKqE9KlCKpOjOcecOb57gmOGMtMJ0rcHamtTPFjtjef7xpvmMt4Hd8ptxbq3EdiB6DQ==
+X-Received: by 2002:a17:906:5d9:b0:878:45e9:6f96 with SMTP id
+ t25-20020a17090605d900b0087845e96f96mr24442385ejt.49.1676291732123; 
+ Mon, 13 Feb 2023 04:35:32 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- by8-20020a170906a2c800b0088b93bfa777sm6839596ejb.149.2023.02.13.04.34.41
+ n5-20020a17090673c500b0088aadc18b69sm6747375ejl.101.2023.02.13.04.35.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 04:34:42 -0800 (PST)
-Message-ID: <6760207f-b2db-1f19-f265-1d965f8a155f@linaro.org>
-Date: Mon, 13 Feb 2023 14:34:41 +0200
+ Mon, 13 Feb 2023 04:35:31 -0800 (PST)
+Message-ID: <8b8f61ea-8419-c4b5-0434-276d13fe3e39@linaro.org>
+Date: Mon, 13 Feb 2023 14:35:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v2 2/9] drm/msm/dsi: Get rid of msm_dsi_config::num_dsi
+Subject: Re: [PATCH v2 3/9] drm/msm/dsi: Fix DSI index detection when version
+ clash occurs
 Content-Language: en-GB
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
  andersson@kernel.org, agross@kernel.org, krzysztof.kozlowski@linaro.org
 References: <20230213121012.1768296-1-konrad.dybcio@linaro.org>
- <20230213121012.1768296-3-konrad.dybcio@linaro.org>
+ <20230213121012.1768296-4-konrad.dybcio@linaro.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230213121012.1768296-3-konrad.dybcio@linaro.org>
+In-Reply-To: <20230213121012.1768296-4-konrad.dybcio@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,20 +89,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 13/02/2023 14:10, Konrad Dybcio wrote:
-> In preparation for supporting multiple sets of possible base registers,
-> remove the num_dsi variable. We're comparing the io_start array contents
-> with the reg value from the DTS, so it will either match one of the
-> expected values or don't match against a zero (which we get from partial
-> array initialization).
+> Currently, we allow for MAX_DSI entries in io_start to facilitate for
+> MAX_DSI number of DSI hosts at different addresses. The configuration
+> is matched against the DSI CTRL hardware revision read back from the
+> component. We need a way to resolve situations where multiple SoCs
+> with different register maps may use the same version of DSI CTRL. In
+> preparation to do so, make msm_dsi_config a 2d array where each entry
+> represents a set of configurations adequate for a given SoC.
+> 
+> This is totally fine to do, as the only differentiating factors
+> between same-version-different-SoCs configurations are the number of
+> DSI hosts (1 or 2, at least as of today) and the set of base registers.
+> The regulator setup is the same, because the DSI hardware is the same,
+> regardless of the SoC it was implemented in.
+> 
+> In addition to that, update the matching logic such that it will loop
+> over VARIANTS_MAX variants, making sure they are all taken into account.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->   drivers/gpu/drm/msm/dsi/dsi_cfg.c  | 13 -------------
->   drivers/gpu/drm/msm/dsi/dsi_cfg.h  |  1 -
->   drivers/gpu/drm/msm/dsi/dsi_host.c |  2 +-
->   3 files changed, 1 insertion(+), 15 deletions(-)
+>   drivers/gpu/drm/msm/dsi/dsi_cfg.c  | 52 ++++++++++++++++++++++--------
+>   drivers/gpu/drm/msm/dsi/dsi_cfg.h  |  5 ++-
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 10 +++---
+>   3 files changed, 48 insertions(+), 19 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 -- 
 With best wishes
