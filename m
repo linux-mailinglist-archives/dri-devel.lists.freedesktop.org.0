@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020F2695008
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 19:57:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A39694EED
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 19:11:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C50C110E6AE;
-	Mon, 13 Feb 2023 18:57:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D9B610E693;
+	Mon, 13 Feb 2023 18:11:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 3070 seconds by postgrey-1.36 at gabe;
- Mon, 13 Feb 2023 18:57:31 UTC
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88D5E10E6AE
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 18:57:31 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31DF4ojM001249; Mon, 13 Feb 2023 19:06:17 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=selector1; bh=lFvVE6a0bpKOP2vnegCzoLsc/2F0/jk1UuFDh9YzM0A=;
- b=h35cN+Sfa0RNuzqkx8c5jV4c3wZ0q6sUuR/SEKsyKrl8D9H7f7XebHDxVhPDxrthUFbI
- rjFN1EQ+Wv+9VuwfDToLWRcdQA+BNzzhW7WUZIwGlIIUPEp32jQVkyucU0qwraZZQAq1
- pkyBoFtkDyHTrUHgNXHG60MBMBtWu1i9gkm9kofV+eDr9L+eL3NU6wYi7B8l7EeZRs8h
- 0oknRDp5bykgxJcJeRPcrB9eOAGRmt6OE4Y9aXj+TkEUVciLxKpmi7XBoPqOfR+XebxZ
- 7kiFG5UB1n6PMmW0ArfnLZpnbRKVx1HwkNF0cJFidm7QcSg4C9Jb8MyN/Wa9DlUxBAqq vA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3np2spvj78-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Feb 2023 19:06:17 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B971010002A;
- Mon, 13 Feb 2023 19:06:15 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A5AE62309C0;
- Mon, 13 Feb 2023 19:06:15 +0100 (CET)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Mon, 13 Feb
- 2023 19:06:15 +0100
-Date: Mon, 13 Feb 2023 19:06:08 +0100
-From: Alain Volmat <alain.volmat@foss.st.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-Subject: Re: [PATCH][next] drm/sti: Fix spelling mistake "top_cmd_offest" ->
- "top_cmd_offset"
-Message-ID: <20230213180608.GA1925841@gnbcxd0016.gnb.st.com>
-Mail-Followup-To: Colin Ian King <colin.i.king@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20230213100522.106595-1-colin.i.king@gmail.com>
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com
+ [IPv6:2607:f8b0:4864:20::e2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B08A010E68F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 18:11:30 +0000 (UTC)
+Received: by mail-vs1-xe2c.google.com with SMTP id cz15so13955184vsb.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 10:11:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=YhyueGm0rbJoXfAMuP4ME9y20a+9vEsRucr9LaCFZhw=;
+ b=SVjPeLrC97MbzGve1F6WSqRht948tpI14Bwxv9/AJydgcsAhw641XoEX6j3j67NsS1
+ IqGHj2wxZY9CTt0ZEHwT/6H31umeLxUHTwMStANUidaIIJWsfVUYlK1ANPNyXd78J+2/
+ 3mTe11CYF/HJ2JZj2tLKeCcpP4i6yRbjk1wMw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YhyueGm0rbJoXfAMuP4ME9y20a+9vEsRucr9LaCFZhw=;
+ b=oL9IvNp4V3+cCJYKoy9XToT8TS2EHNUeqI1XfsmCHrG7zfNYGaYYL8jDGMpoSUpAQ9
+ vgctDEYvg0peJOeuhCh+9L7CkKo3Zvj+06c+z9YQCixHoc4bwhXp1dVoBu4j5nRp81z2
+ OwoWxj/KsPlJblALMiyckk534wbHm2EVmYZXsANmOTVyGS/+ccHV3Ve46scuGzGeXO4l
+ gt4ccVKlq3ofSqd7p/4oyTykghw7Xk+ovjGyReG8mYYpKopccuptxp4oqIVpbzZZFYTh
+ vmmdDSEhvmlnEFUHR2xyPkFKhoAkew/kYVzvyBxhE59xb5Vu1U09pCds+A7Jve62G1I/
+ lfYQ==
+X-Gm-Message-State: AO0yUKW3Imgetceh+72io5noDxnGZghVVslbucOmocWm6Y8POt0mfCyB
+ JZlxHXLYO2qThfbqblGQkJ2bqFwwY3eLj2vn
+X-Google-Smtp-Source: AK7set/xCdaPOLtUUp2jxhqeHAgahaRakYi8rvqjNpLEHQUvkRwBsiOTZWBzu8qg8PQvxkrvUS2xEQ==
+X-Received: by 2002:a67:6d44:0:b0:412:4cdf:a6ea with SMTP id
+ i65-20020a676d44000000b004124cdfa6eamr354848vsc.23.1676311889378; 
+ Mon, 13 Feb 2023 10:11:29 -0800 (PST)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com.
+ [209.85.221.172]) by smtp.gmail.com with ESMTPSA id
+ u18-20020ab05b12000000b00686f9905ca8sm1043338uae.14.2023.02.13.10.11.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 10:11:28 -0800 (PST)
+Received: by mail-vk1-f172.google.com with SMTP id bs10so6692100vkb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 10:11:28 -0800 (PST)
+X-Received: by 2002:a05:6122:243:b0:401:4f4b:22c2 with SMTP id
+ t3-20020a056122024300b004014f4b22c2mr967178vko.28.1676311888469; Mon, 13 Feb
+ 2023 10:11:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230213100522.106595-1-colin.i.king@gmail.com>
-X-Disclaimer: ce message est personnel / this message is private
-X-Originating-IP: [10.129.178.213]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-13_11,2023-02-13_01,2023-02-09_01
+References: <1674814487-2112-1-git-send-email-quic_kalyant@quicinc.com>
+In-Reply-To: <1674814487-2112-1-git-send-email-quic_kalyant@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 13 Feb 2023 10:11:15 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XKOm1zLH+grTMD33QX_uX67AQ1ZUoyCYoAfUpqktCshg@mail.gmail.com>
+Message-ID: <CAD=FV=XKOm1zLH+grTMD33QX_uX67AQ1ZUoyCYoAfUpqktCshg@mail.gmail.com>
+Subject: Re: [v12] drm/msm/disp/dpu1: add support for dspp sub block flush in
+ sc7280
+To: Kalyan Thota <quic_kalyant@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,60 +74,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, quic_vpolimer@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-thanks for the patch.
-
-
-On Mon, Feb 13, 2023 at 10:05:22AM +0000, Colin Ian King wrote:
-> There is a spelling mistake in a variable name. Fix it.
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+On Fri, Jan 27, 2023 at 2:15 AM Kalyan Thota <quic_kalyant@quicinc.com> wrote:
+>
+> Flush mechanism for DSPP blocks has changed in sc7280 family, it
+> allows individual sub blocks to be flushed in coordination with
+> master flush control.
+>
+> Representation: master_flush && (PCC_flush | IGC_flush .. etc )
+>
+> This change adds necessary support for the above design.
+>
+> Changes in v1:
+> - Few nits (Doug, Dmitry)
+> - Restrict sub-block flush programming to dpu_hw_ctl file (Dmitry)
+>
+> Changes in v2:
+> - Move the address offset to flush macro (Dmitry)
+> - Separate ops for the sub block flush (Dmitry)
+>
+> Changes in v3:
+> - Reuse the DPU_DSPP_xx enum instead of a new one (Dmitry)
+>
+> Changes in v4:
+> - Use shorter version for unsigned int (Stephen)
+>
+> Changes in v5:
+> - Spurious patch please ignore.
+>
+> Changes in v6:
+> - Add SOB tag (Doug, Dmitry)
+>
+> Changes in v7:
+> - Cache flush mask per dspp (Dmitry)
+> - Few nits (Marijn)
+>
+> Changes in v8:
+> - Few nits (Marijn)
+>
+> Changes in v9:
+> - Use DSPP enum while accessing flush mask to make it readable (Dmitry)
+> - Few nits (Dmitry)
+>
+> Changes in v10:
+> - Fix white spaces in a separate patch (Dmitry)
+>
+> Changes in v11:
+> - Define a macro for dspp flush selection (Marijn)
+> - Few nits (Marijn)
+>
+> Changes in v12:
+> - Minor comments (reorder macros and a condition) (Marijn)
+>
+> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
 > ---
->  drivers/gpu/drm/sti/sti_hqvdp.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-> index 02b77279f6e4..711a6e333afc 100644
-> --- a/drivers/gpu/drm/sti/sti_hqvdp.c
-> +++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-> @@ -797,7 +797,7 @@ static void sti_hqvdp_disable(struct sti_hqvdp *hqvdp)
->  static int sti_hqvdp_vtg_cb(struct notifier_block *nb, unsigned long evt, void *data)
->  {
->  	struct sti_hqvdp *hqvdp = container_of(nb, struct sti_hqvdp, vtg_nb);
-> -	int btm_cmd_offset, top_cmd_offest;
-> +	int btm_cmd_offset, top_cmd_offset;
->  	struct sti_hqvdp_cmd *btm_cmd, *top_cmd;
->  
->  	if ((evt != VTG_TOP_FIELD_EVENT) && (evt != VTG_BOTTOM_FIELD_EVENT)) {
-> @@ -816,14 +816,14 @@ static int sti_hqvdp_vtg_cb(struct notifier_block *nb, unsigned long evt, void *
->  	if (hqvdp->btm_field_pending) {
->  		/* Create the btm field command from the current one */
->  		btm_cmd_offset = sti_hqvdp_get_free_cmd(hqvdp);
-> -		top_cmd_offest = sti_hqvdp_get_curr_cmd(hqvdp);
-> -		if ((btm_cmd_offset == -1) || (top_cmd_offest == -1)) {
-> +		top_cmd_offset = sti_hqvdp_get_curr_cmd(hqvdp);
-> +		if ((btm_cmd_offset == -1) || (top_cmd_offset == -1)) {
->  			DRM_DEBUG_DRIVER("Warning: no cmd, will skip field\n");
->  			return -EBUSY;
->  		}
->  
->  		btm_cmd = hqvdp->hqvdp_cmd + btm_cmd_offset;
-> -		top_cmd = hqvdp->hqvdp_cmd + top_cmd_offest;
-> +		top_cmd = hqvdp->hqvdp_cmd + top_cmd_offset;
->  
->  		memcpy(btm_cmd, top_cmd, sizeof(*btm_cmd));
->  
-> -- 
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c       |  2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c |  5 ++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 +++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c     | 49 +++++++++++++++++++++++---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h     |  5 ++-
+>  5 files changed, 58 insertions(+), 7 deletions(-)
 
-Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+There's a (trivial to resolve) merge conflict when applying this patch
+against msm-next. I dunno if that means you should send a v13?
 
-Alain
+In any case, when using this patch together with the DSPP series [1]
+the internal night light works on sc7280-herobrine based boards. Thus:
 
-> 2.30.2
-> 
+Tested-by: Douglas Anderson <dianders@chromium.org>
+
+
+[1] https://lore.kernel.org/r/1676286704-818-1-git-send-email-quic_kalyant@quicinc.com/
