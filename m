@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F95694B60
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 16:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71D5694C1E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 17:13:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1A4E10E57F;
-	Mon, 13 Feb 2023 15:38:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A341C10E610;
+	Mon, 13 Feb 2023 16:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 416AB10E061
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 15:38:31 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id lf10so1015345ejc.5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 07:38:31 -0800 (PST)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5E6E10E062;
+ Mon, 13 Feb 2023 16:13:34 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-16df32f2ffdso5040346fac.1; 
+ Mon, 13 Feb 2023 08:13:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aD93lPaEpLbO12AG6KFXUrKcEBNMZrAt4589lIUtesY=;
- b=IRZIXuNAUAG+0zE/5LfJMJKmXT1wn/RbaM9uAG50k32gEjAAEhoazoB2Opl2+fnT57
- M+aRXPU6ZW6qfiik9IlFHU27iWoRN4dPCmJVr6pN5IOxUW9XPKFj8Dp3tOWpDd2gILqN
- D9APtDR1f6TvcEgbrU0Q39wfiKvclIf8z2BSG8XF1BAF5yFGavdq5ZLeJNYufchdrcey
- 4I60aGAW5wJ4N6/ntyCFSRkLnkpWG2z59lmkAtuYeOf2D2kUBCqPY62lDjmwtL72UU66
- /lyFAoOj8EZ0KKz2d7P3VbcZsIBAsMADZwu72gqC80NE0VsRhCW+kS8fSZFr6dRzk09c
- ochA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=HOydk6f84zeK5t+nIiZ1wDb4AVF47DPeadPPFSHvPJc=;
+ b=HC0mIP+w3RPfsCmj0wmS+ImFgNYE3XYFw5PVe53+TRWvZSAjbl9vb9taNnzbmcwhDS
+ E8kfabCq1CWjn58/nwd/32SJPsKfMsTNGimZ4rNY/GlTDcIWtcop0Sv9gToNamMaCjUH
+ xGkbrGJHMxKP6YGuRNTHdz1IcmHrSROTpmkTDQbyQubc47WJe/TpQ0nBdbdn2sR67obA
+ zEuspuxtvx4lcR/6swPWZ/VButDBCRWaUSFSWOZ+zflPgd/kDWXtByjHBf7AzGrIUyCB
+ xvQhAjytrT0L7RNKJGk7y9IGq9q5BQWBsBPl55ZOuyw4Cq4sd7u6u6QaYLdmN2Htu8Ag
+ Dg8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aD93lPaEpLbO12AG6KFXUrKcEBNMZrAt4589lIUtesY=;
- b=yTJGTmnWp/ZxlG6saH8ZPmrMiVYch2hCruuiSRdJhxVg98kPZ1Ko2qf6FfLzKKg2ee
- qg5s8t/bxrGBT0uyBXRM1QwuStAz4MXuOXxDPc5GXK5qWVwcWn9q5jwjqGHH+LbF8uD9
- 8ZBXz4xImfJJfksT+brTIvRCe8IEhMk29JgX9G3M3igu97ynQHIe+M4KtxMxRUTstO9T
- yyj47XVZUN3R+vM04XbHbM1XpNL9U2XbFkNNmwGuAK0H5LZxLpXRRDEjd7Mlmi3e7HA9
- iCcx+wr6HyfE85qzZ1d/JvmcEamaVjuY7oQvBN4kT58Sf29NJNOX60rYQZTTfV6WXcTg
- 42Sg==
-X-Gm-Message-State: AO0yUKW9frw0TvqSUKwgiA94zbQwFMsHJxuAB/cPvPE9rVSWTc4cuNVh
- sy3MybDwHafdj9XeuVbFnFQ=
-X-Google-Smtp-Source: AK7set8SN3JGKNPB4GtbNHjJ+rOSGFuY4qfwA63W6uys5Z0Dn0pmZkVfBbgeX3yFzqPHGZZrzaMKTA==
-X-Received: by 2002:a17:906:7704:b0:872:27cb:9436 with SMTP id
- q4-20020a170906770400b0087227cb9436mr25379952ejm.43.1676302709837; 
- Mon, 13 Feb 2023 07:38:29 -0800 (PST)
-Received: from localhost.localdomain (83.24.145.108.ipv4.supernova.orange.pl.
- [83.24.145.108]) by smtp.gmail.com with ESMTPSA id
- gf17-20020a170906e21100b008b12614ee06sm115901ejb.161.2023.02.13.07.38.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 07:38:29 -0800 (PST)
-From: Maya Matuszczyk <maccraft123mc@gmail.com>
-To: heiko@sntech.de, Jagan Teki <jagan@amarulasolutions.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 3/4] drm: panel: Add orientation support for st7701
-Date: Mon, 13 Feb 2023 16:38:15 +0100
-Message-Id: <20230213153816.213526-4-maccraft123mc@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230213153816.213526-1-maccraft123mc@gmail.com>
-References: <20230213153816.213526-1-maccraft123mc@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HOydk6f84zeK5t+nIiZ1wDb4AVF47DPeadPPFSHvPJc=;
+ b=avKqSAzHgIOBqHDZofOI0zd7OTOBt/dlCeDPV65fmQa+mcUyGW4A4x5Lnucsat1rsD
+ NJET6ozOyK6z7xDZwEtLN2+1ELkAPRcTz8bAEdCH2a+9ESUSuNshMdNa2gvzkWUu3oC4
+ qP2sAxfDSS4Xj+MC9XcxvwOjhXD7SotqDm2VE7S5jiuvuNEBZAV8ioyfE8m9Oe+A1pDe
+ KWUEGV35ZtPvEX/RqJsA4xdHPZn406vC+yfnTy9gke/EnCsRIjHkpOpSpz7tbr9LAMUh
+ Xq7sEhWy2YQiqUyU1V1G/pRoxYKO0sFkrRhEDsZqT5STzxq4jWDFdEMwhkinEw7s4KPY
+ 2iwA==
+X-Gm-Message-State: AO0yUKWOVf5Ne4tQ1lKIt+UfRbtr/v7AcefzE2OCpO5cIKh6m6nFAZUL
+ 1JpaMNqOxN+J27x7AxDFHUl+LRZWAzst57X2RjY=
+X-Google-Smtp-Source: AK7set/+1BMz88y4VQ6Euwne6f3OxLMLtGXYlj3boy9L2t2Ld3F0bsO6hDBA9bIjQfHtI3wcFCTsVFD8Uf3x7wTeTiw=
+X-Received: by 2002:a05:6870:13d1:b0:163:a303:fe2f with SMTP id
+ 17-20020a05687013d100b00163a303fe2fmr2647166oat.96.1676304814031; Mon, 13 Feb
+ 2023 08:13:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230210005859.397-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230210005859.397-1-yang.lee@linux.alibaba.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 13 Feb 2023 11:13:22 -0500
+Message-ID: <CADnq5_OCRemgZTS3R7soFcsnUqgf+sewJ4GM42jkTBDyrKXyLg@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/amd/display: Simplify bool conversion
+To: Yang Li <yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,81 +65,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: sunpeng.li@amd.com, Abaci Robot <abaci@linux.alibaba.com>,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Note that this patch is 'heavily inspired' by orientation support in driver
-for Elida KD35T133 panel
+Applied.  Thanks.
 
-Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
----
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 21 ++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index 660c3f435008..c9ae5c456f41 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -135,6 +135,7 @@ struct st7701 {
- 	struct regulator_bulk_data supplies[2];
- 	struct gpio_desc *reset;
- 	unsigned int sleep_delay;
-+	enum drm_panel_orientation orientation;
- };
- 
- static inline struct st7701 *panel_to_st7701(struct drm_panel *panel)
-@@ -514,15 +515,29 @@ static int st7701_get_modes(struct drm_panel *panel,
- 	connector->display_info.width_mm = desc_mode->width_mm;
- 	connector->display_info.height_mm = desc_mode->height_mm;
- 
-+	/*
-+	 * TODO: Remove once all drm drivers call
-+	 * drm_connector_set_orientation_from_panel()
-+	 */
-+	drm_connector_set_panel_orientation(connector, st7701->orientation);
-+
- 	return 1;
- }
- 
-+static enum drm_panel_orientation st7701_get_orientation(struct drm_panel *panel)
-+{
-+	struct st7701 *st7701 = panel_to_st7701(panel);
-+
-+	return st7701->orientation;
-+}
-+
- static const struct drm_panel_funcs st7701_funcs = {
- 	.disable	= st7701_disable,
- 	.unprepare	= st7701_unprepare,
- 	.prepare	= st7701_prepare,
- 	.enable		= st7701_enable,
- 	.get_modes	= st7701_get_modes,
-+	.get_orientation = st7701_get_orientation,
- };
- 
- static const struct drm_display_mode ts8550b_mode = {
-@@ -733,7 +748,7 @@ static const struct drm_display_mode kd50t048a_mode = {
- 	.hsync_end      = 480 + 2 + 10,
- 	.htotal         = 480 + 2 + 10 + 2,
- 
--	.vdisplay       = 854, // was: 854 12 2 60
-+	.vdisplay       = 854,
- 	.vsync_start    = 854 + 2,
- 	.vsync_end      = 854 + 2 + 2,
- 	.vtotal         = 854 + 2 + 2 + 17,
-@@ -854,6 +869,10 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
- 		return PTR_ERR(st7701->reset);
- 	}
- 
-+	ret = of_drm_get_panel_orientation(dsi->dev.of_node, &st7701->orientation);
-+	if (ret < 0)
-+		return dev_err_probe(&dsi->dev, ret, "Failed to get orientation\n");
-+
- 	drm_panel_init(&st7701->panel, &dsi->dev, &st7701_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 
--- 
-2.39.1
-
+On Thu, Feb 9, 2023 at 7:59 PM Yang Li <yang.lee@linux.alibaba.com> wrote:
+>
+> ./drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c:1610:68-73: WARNING: conversion to bool not needed here
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4025
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> ---
+>  .../gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c  | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> index 24d356ebd7a9..cb38afde3fc8 100644
+> --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> @@ -1607,7 +1607,7 @@ static bool retrieve_link_cap(struct dc_link *link)
+>                         dpcd_data[DP_TRAINING_AUX_RD_INTERVAL];
+>
+>                 link->dpcd_caps.ext_receiver_cap_field_present =
+> -                               aux_rd_interval.bits.EXT_RECEIVER_CAP_FIELD_PRESENT == 1 ? true:false;
+> +                               aux_rd_interval.bits.EXT_RECEIVER_CAP_FIELD_PRESENT == 1;
+>
+>                 if (aux_rd_interval.bits.EXT_RECEIVER_CAP_FIELD_PRESENT == 1) {
+>                         uint8_t ext_cap_data[16];
+> --
+> 2.20.1.7.g153144c
+>
