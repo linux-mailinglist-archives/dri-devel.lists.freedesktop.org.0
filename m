@@ -1,73 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F136669449D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:35:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E37886944AA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:38:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6C1F10E522;
-	Mon, 13 Feb 2023 11:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE6910E56C;
+	Mon, 13 Feb 2023 11:38:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF64310E522
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:35:05 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id fi26so12400178edb.7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 03:35:05 -0800 (PST)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27BA710E56C
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:38:37 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id jg8so31094480ejc.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 03:38:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5kO61Xdr+q3Xm/aE1pgal7R7MWN8+6oxdSKgU0U1UyM=;
- b=aNkt7NyT/zDXkcN+k4nhOMnT+Q4V2oMXq57WA+MQzmYKT828gn+Qb0d/73CmKSyGVy
- ZsKQozLMCViOvi/1/0vN2cT9pzpvfHXg7Hj/jF+mq7BAO2UdBGhpvqubOcUYu8UMetwE
- +xG0txJEaTcuJuc3k76xnvbkedvCjF89AhaC9Bm+wzeslIQk0vfbclQJKlJ+pD4exWx1
- Xe8Z+2T2QitIwu9FTxgRQDHOC3tkhMjlbf/ZIBVwmv1qkLAjUs+jP+bOSt4zIuqmXAmK
- 3yfh4vnWbd12j05E1qaphjH1VYJTGSxRH6XJpANN4WIsOVgao+322I1nB6opXkPZ6twq
- aIkg==
+ bh=r8vF+glCGL/TIHZAeFd6umlQYUbpkh549EdL910Nq6g=;
+ b=pbzrgTDa/e/4xlg4PGDTCGTOAIrar5NNyj1XRDqVj2OW2kFztgpd8dfuWPW2mMUB5/
+ Kam3Hmw6s1u9RG7HZC8au2k//hLg4JZ+MdamafPtasioKUV8usFJ+bR+VDvQZSuTDc8c
+ DTQCRhiuXbjC6otr2LbJS9OWT5S7jNCs+X2eCIzRzyhdOnPm5rzYZBroC5YSQGpCQzMR
+ KQYXwL0XuYBbZiHOnjZkRocRjs5WQnddxMVHQaJtbPZUzz2lnE000ZBWOg04wz6tXkAb
+ rTgkgL0CfKG2SfKyeioa/MzemDIdfpFlwBjHMCs5qdhfbukBEnQD8tHbuD8DkDTKEUgi
+ YIFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5kO61Xdr+q3Xm/aE1pgal7R7MWN8+6oxdSKgU0U1UyM=;
- b=j7dg1eezN50UEM1EhM7mP8YqZrnKXEkD8bcqrYK6MJO+fXGepMM463HSK+8b3IQJr9
- Zh89SMBFCniMur/RI5nLB+Py4lSI8WdqG4BLimN5nS5L9jmM973tYZu+A64Cu3C8eNwx
- 6lcndbCcOAw1DSnV6Ae2ZD1QwLRyY8iVFWvohDqWpnOG+1k+Jc4gergq7WpBdEocsmie
- t4nA3q7r9LzN8wgiFM0n+l+k7+JDaOZqHjAQSC8dtpUZjZ+/KLZ5+ia6qw5TU+ulc2YQ
- MBHtWOUz+EmgxgMsft61IzOSWxW123PfDSzlquiB83wrNcCIUHskoGAI92UlcMVJH5wT
- 4IzA==
-X-Gm-Message-State: AO0yUKXZebyaFZGFH3A2PL+N6rJ2Qeo/xKzI13gJghONoyre+pWxrx8F
- NFgh0SrQLioIoFwFz1uFTU4/qg==
-X-Google-Smtp-Source: AK7set86B+Ujcg/vW0N50ATX4TqqCB7mTK19gsN++SiRbozDYUP8807huE7WiHrtRmFGrNHon15wcw==
-X-Received: by 2002:a50:9e2a:0:b0:4ab:d15:7e5c with SMTP id
- z39-20020a509e2a000000b004ab0d157e5cmr19017164ede.36.1676288104215; 
- Mon, 13 Feb 2023 03:35:04 -0800 (PST)
+ bh=r8vF+glCGL/TIHZAeFd6umlQYUbpkh549EdL910Nq6g=;
+ b=RZ7ZQ4id3Ua3ZBnDFtUUnlRcwvnrPUyiNCojErWSfiftpN/FGe5CeSjnfmyI1FENkW
+ sdsTQTWBQBRcrbZNW+cI5XrN1khR/lTp2FsZXNSxg20GulXwOchv2UGhrsI4A1VewIrk
+ gcqUVLKNaYURcgx55Kfladlljl7xnbtvL48jXgz6h6pIsTn38oqoJmt1ncrRi3aCI1PI
+ 18dEurZgs9tgGrcgBaFOv947sCtP2u82fiGFtQQd/k7sGXTcsnc2dxBlbk0NwYwsNOd5
+ Ndj0a7TwK77hKwdl3rLU0/BgXEGS8JoGfK2ztPlI3OFCd1+nrKfV1tbbgZkoQQ2Zw658
+ rbyg==
+X-Gm-Message-State: AO0yUKX6duoftKf/i6ZD04L8cWmOTwCV0xqUBD1lIBNLtcDkJ6ncVeNX
+ zCp4mV7t2poPPT9S9qRYMMXf3Q==
+X-Google-Smtp-Source: AK7set8vw+ntyrLewHqJOjyeT2fk0N1lSDwSYCQMzlHCi7qiYZ98Cc2LOazfM4b9+yhsYZF/cbKmtA==
+X-Received: by 2002:a17:906:9b96:b0:8af:370a:c1f8 with SMTP id
+ dd22-20020a1709069b9600b008af370ac1f8mr20437423ejc.23.1676288315728; 
+ Mon, 13 Feb 2023 03:38:35 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- eg21-20020a056402289500b004acb6189693sm3760351edb.83.2023.02.13.03.35.01
+ n8-20020a1709065e0800b0087fa83790d8sm6755316eju.13.2023.02.13.03.38.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 03:35:03 -0800 (PST)
-Message-ID: <8560b69f-8d42-995d-2f4d-11d6a64afef0@linaro.org>
-Date: Mon, 13 Feb 2023 13:35:01 +0200
+ Mon, 13 Feb 2023 03:38:35 -0800 (PST)
+Message-ID: <e6653ceb-bce1-9552-019d-278f455ba8a5@linaro.org>
+Date: Mon, 13 Feb 2023 13:38:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 06/10] drm/msm/dpu: Add SM6350 support
+Subject: Re: [PATCH 05/10] drm/msm/dpu: Allow variable SSPP/INTF_BLK size
 Content-Language: en-GB
 To: Marijn Suijten <marijn.suijten@somainline.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>
 References: <20230211122656.1479141-1-konrad.dybcio@linaro.org>
- <20230211122656.1479141-7-konrad.dybcio@linaro.org>
- <a18cf663-115d-edc8-5e4b-3d19fcd9a02c@linaro.org>
- <cc364658-478a-f239-5d17-5ca2b7f7df8b@linaro.org>
- <20230213113008.ih7ii5m3cz4w3lmz@SoMainline.org>
+ <20230211122656.1479141-6-konrad.dybcio@linaro.org>
+ <20230213111220.ietr4aro6xu4emtu@SoMainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230213113008.ih7ii5m3cz4w3lmz@SoMainline.org>
+In-Reply-To: <20230213111220.ietr4aro6xu4emtu@SoMainline.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,45 +78,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinod Koul <vkoul@kernel.org>, Robert Foss <rfoss@kernel.org>,
+Cc: freedreno@lists.freedesktop.org, Robert Foss <rfoss@kernel.org>,
  linux-arm-msm@vger.kernel.org, andersson@kernel.org,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Liu Shixin <liushixin2@huawei.com>, freedreno@lists.freedesktop.org,
- krzysztof.kozlowski@linaro.org, agross@kernel.org,
- dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski@linaro.org, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, agross@kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2023 13:30, Marijn Suijten wrote:
-> On 2023-02-13 12:15:19, Konrad Dybcio wrote:
-> [...]
->>>> @@ -1674,6 +1765,15 @@ static struct dpu_pingpong_cfg sc8280xp_pp[] = {
->>>>              DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 31), -1),
->>>>    };
->>>>    +static struct dpu_pingpong_cfg sm6350_pp[] = {
->>>> +    PP_BLK("pingpong_0", PINGPONG_0, 0x70000, 0, sdm845_pp_sblk,
->>>
->>> No TE support?
->> It's.. complicated.. With just this patch, display refreshes, albeit
->> not at 60fps. Marijn is working on getting it going, though
+On 13/02/2023 13:12, Marijn Suijten wrote:
+> On 2023-02-11 13:26:51, Konrad Dybcio wrote:
+>> These blocks are of variable length on different SoCs. Set the
+>> correct values where I was able to retrieve it from downstream
+>> DTs and leave the old defaults (0x1c8 for sspp and 0x280 for
+>> intf) otherwise.
 >>
->> https://github.com/SoMainline/linux/commits/marijn/longbois-next/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
+>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 242 +++++++++---------
+>>   1 file changed, 121 insertions(+), 121 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> index 802050118345..d9ef1e133c1e 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> [..]
+>> @@ -1848,10 +1848,10 @@ static struct dpu_dsc_cfg sm8150_dsc[] = {
+>>   /*************************************************************
+>>    * INTF sub blocks config
+>>    *************************************************************/
+>> -#define INTF_BLK(_name, _id, _base, _type, _ctrl_id, _progfetch, _features, _reg, _underrun_bit, _vsync_bit) \
+>> +#define INTF_BLK(_name, _id, _base, _len, _type, _ctrl_id, _progfetch, _features, _reg, _underrun_bit, _vsync_bit) \
 > 
-> This branch hasn't been updated for the longest time.  I'm preparing v2
-> of the INTF TE series at:
-> 
-> https://github.com/SoMainline/linux/commits/marijn/dpu/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> 
-> and it has about ±40% of Dmitry's review applied.  More to come now that
-> hiatus is over.
+> Dmitry and I discussed in #freedreno to instead add the INTF_BLK_DSI_TE
+> macro that accounts for the INTF TE registers using this higher register
+> area, as well as an extended signature to configure extra interrupts.
 
-We should agree on landing order for my rework vs your changes. Can I 
-try persuading you to review that 50-patches beast? With the hope that 
-you'd agree to land your changes on top of it?
+Yes, that's still the plan. It's slightly painful that we are touching 
+this are simultaneously.
+
+> 
+> (Besides, I think the len is currently only used for snapshot dumping
+> and no validation for out-of-blk reads/writes)
+
+Yes. Because in most of the cases non-existing registers seem to be RAZ/WI.
+
+> 
+>>   	{\
+>>   	.name = _name, .id = _id, \
+>> -	.base = _base, .len = 0x280, \
+>> +	.base = _base, .len = _len, \
+>>   	.features = _features, \
+>>   	.type = _type, \
+>>   	.controller_id = _ctrl_id, \
+> [..]
+> 
+> - Marijn
 
 -- 
 With best wishes
