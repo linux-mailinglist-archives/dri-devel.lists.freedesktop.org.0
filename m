@@ -1,71 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE59D694455
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:23:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B425A69447A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 12:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 118B810E4BD;
-	Mon, 13 Feb 2023 11:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E73ED10E567;
+	Mon, 13 Feb 2023 11:29:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DC4E10E4BD
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:23:08 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- hn2-20020a05600ca38200b003dc5cb96d46so11003972wmb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 03:23:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=B5s73haLgCQe0oGyFxUQwRNC+nBVILY3pPaoktdMhe0=;
- b=nwNfc2hdmvasij0R00HLwp16SvZrLPDmnDnKHni8ifBORewNhFllZqfYkzt2Hyzpgj
- XsVoPoVlMVe0ib4sFQvbprXzLrhyNqlOghra1JGAsi+Lt0voIfWrpPTYEpYy3/8nVSyw
- 8sYE8AfQSVIsit8Pw3v1mMQB/I6FFs/fgaRceaUIzN1gqprHmj6a5g4liBLQ82IWgwla
- O+tudN/VV389iOt2i5dBM/aPglQW9GBAiauiN4wQ12/Y0k8qLmBubFv9Ynt6TWrUaJKM
- /Cj4tKffz/QjBDKJ+gsChjdIKAb6SDO4upU1Ep5HooeRNKfDJNZejdB7jANqkeYDDuq9
- HcjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B5s73haLgCQe0oGyFxUQwRNC+nBVILY3pPaoktdMhe0=;
- b=gv0o+OJLHJ1OLZyesB5uM0TYiiwChOWyLGD0Aypa3rFcqFs/R25F1C+5nr6w9naVG1
- GNAxmIPPD7EqIj3seXYrsRsQwWJlbtyWeeBDtOnunZjciVUlVIwysS09c1ap04UBruFX
- TzoDtN8w+c079gEHy1YO8mwY3qK+cdZJfAeMFsR19xo5MaKjy00rBR9s0JBZAvRfSyZF
- +e5TW6chvmyWshxfyI+A04a0+eRXtxm6awIc3MsNeFH456X+z170LYnYcekJSXREFBuo
- YNVq093xRpBKxTKVJuW1bGMFeJf1sN+SwxrTp42043rqJMIokoriecpDP/yJQCLrQbAV
- L8hA==
-X-Gm-Message-State: AO0yUKXOEzPY8Mc9IXyoTkD/bm7m/GoeDVjodCScjoDPhs9bQMqcQtIg
- PVwwWp5L7EHiC7EDG4Id/ZEq8Q==
-X-Google-Smtp-Source: AK7set/nHT0SISpzHCnF1bmBGGaoXtmCsQlkjzNQTuWz+SzowtVIgu2b83bExFK/910REwbuqV8vMQ==
-X-Received: by 2002:a05:600c:2e94:b0:3da:fa71:a333 with SMTP id
- p20-20020a05600c2e9400b003dafa71a333mr20497597wmn.12.1676287387165; 
- Mon, 13 Feb 2023 03:23:07 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- z9-20020a05600c114900b003e1df9bc86csm7018278wmz.3.2023.02.13.03.23.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 03:23:06 -0800 (PST)
-Message-ID: <4055b041-c012-3be6-0aef-085ec389aabd@linaro.org>
-Date: Mon, 13 Feb 2023 12:23:04 +0100
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2FF010E4DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 11:29:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6BD9E1FDD0;
+ Mon, 13 Feb 2023 11:29:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676287788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=duqsYYc06i4gLX3sYLYkIx0tFuQmGy6/uxJD+3QoXL0=;
+ b=cNjcr7RQamlxjuJE/F3p6ItNZws4ctn1w5WqugE3bQawd5TvVo7qedXrXV9tXTI1l6tY3m
+ WUyGsw+4+jetwrfhC9SWyj0SlmE31uWLAujMRKuGGKLIsfvMvE72KIAWXH6g9ugkBKrGx0
+ qh8OBPbcsvSJWJ1q+2zSIVQO8/f2HXg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676287788;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=duqsYYc06i4gLX3sYLYkIx0tFuQmGy6/uxJD+3QoXL0=;
+ b=SHfPB0jCw8jgCo98m6k1Ogov2+P8PJ8u9As/Z/pl+cGMnZNnQxZ7QQsM+/j+vzFpp0mVVg
+ RKt4vKvs87RkctBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 280FF1391B;
+ Mon, 13 Feb 2023 11:29:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id bbCqCCwf6mPGHgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 13 Feb 2023 11:29:48 +0000
+Message-ID: <fedc746f-1685-a5a1-b847-7031b66c1fd2@suse.de>
+Date: Mon, 13 Feb 2023 12:29:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] dt-bindings: display: panel: Add Novatek NT36523
- bindings
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 04/11] drivers/ps3: Read video= option with fb_get_option()
+To: Geoff Levand <geoff@infradead.org>, daniel@ffwll.ch, airlied@gmail.com,
+ deller@gmx.de, javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+ christophe.leroy@csgroup.eu
+References: <20230209135509.7786-1-tzimmermann@suse.de>
+ <20230209135509.7786-5-tzimmermann@suse.de>
+ <06917dd0-c4f1-c80a-16a7-f2baac47027d@infradead.org>
 Content-Language: en-US
-To: Jianhua Lu <lujianhua000@gmail.com>
-References: <20230210161925.32343-1-lujianhua000@gmail.com>
- <6cffa875-d8cc-a4fe-e18d-2e24c28a49d8@linaro.org> <Y+oZOXyE8/a+vreS@Gentoo>
- <ad5dd369-842f-7301-e57d-d0445f0a5268@linaro.org> <Y+oc+kEDoiMsebWF@Gentoo>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <Y+oc+kEDoiMsebWF@Gentoo>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <06917dd0-c4f1-c80a-16a7-f2baac47027d@infradead.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------yCCWD0exDdL5H6rPLKNTYS0G"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,76 +74,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2023 12:20, Jianhua Lu wrote:
-> On Mon, Feb 13, 2023 at 12:08:27PM +0100, Krzysztof Kozlowski wrote:
->> On 13/02/2023 12:04, Jianhua Lu wrote:
->>> On Mon, Feb 13, 2023 at 11:45:23AM +0100, Krzysztof Kozlowski wrote:
->>>> On 10/02/2023 17:19, Jianhua Lu wrote:
->>>>> Novatek NT36523 is a display driver IC that can drive DSI panel. It
->>>>> is also present in the csot and boe video mode panels. It is found
->>>>> in Xiaomi Mi Pad 5 series.
->>>>>
->>>>> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
->>>>> ---
->>>>>  .../display/panel/novatek,nt36523.yaml        | 101 ++++++++++++++++++
->>>>>  1 file changed, 101 insertions(+)
->>>>>  create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
->>>>> new file mode 100644
->>>>> index 000000000000..a7098d0ce7e1
->>>>> --- /dev/null
->>>>> +++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
->>>>> @@ -0,0 +1,101 @@
->>>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->>>>> +%YAML 1.2
->>>>> +---
->>>>> +$id: http://devicetree.org/schemas/display/panel/novatek,nt36523.yaml#
->>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>> +
->>>>> +title: Novatek NT36523 based DSI display Panels
->>>>> +
->>>>> +maintainers:
->>>>> +  - Jianhua Lu <lujianhua000@gmail.com>
->>>>> +
->>>>> +description: |
->>>>> +  The nt36523 IC from Novatek is a generic DSI Panel IC used to drive dsi
->>>>> +  panels.
->>>>> +  Right now, only support cost and boe LCD display panels with the
->>>>
->>>> boe? both?
->>> Boe Technology Group Co., Ltd
->>
->> Then what is "cost"? If both are names, then they start with capital
->> letters or how the company officially spells itself.
-> both are company name, I will search offical name for it.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------yCCWD0exDdL5H6rPLKNTYS0G
+Content-Type: multipart/mixed; boundary="------------W5mLJmvS7RAua9GDKVebrBjK";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geoff Levand <geoff@infradead.org>, daniel@ffwll.ch, airlied@gmail.com,
+ deller@gmx.de, javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+ christophe.leroy@csgroup.eu
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+Message-ID: <fedc746f-1685-a5a1-b847-7031b66c1fd2@suse.de>
+Subject: Re: [PATCH 04/11] drivers/ps3: Read video= option with
+ fb_get_option()
+References: <20230209135509.7786-1-tzimmermann@suse.de>
+ <20230209135509.7786-5-tzimmermann@suse.de>
+ <06917dd0-c4f1-c80a-16a7-f2baac47027d@infradead.org>
+In-Reply-To: <06917dd0-c4f1-c80a-16a7-f2baac47027d@infradead.org>
 
-"cost" is company name? Then why do you call binding with different one?
+--------------W5mLJmvS7RAua9GDKVebrBjK
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->>
->>>>
->>>>> +  resolution of 1600x2560. It is a video mode DSI panel.
->>>>
->>>> The binding or hardware supports only 1600x2560? The how it can be
->>>> "right now"? It's defined, isn't it?
->>> Yes
->>
->> What yes? How it can be "right now"? It implies it will change, so how
->> hardware can change?
-> sorry, my wrong. This binding only support 1600x2560.
+SGkNCg0KQW0gMTIuMDIuMjMgdW0gMTc6NTMgc2NocmllYiBHZW9mZiBMZXZhbmQ6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIDIvOS8yMyAwNTo1NSwgVGhvbWFzIFppbW1lcm1hbm4gd3Jv
+dGU6DQo+PiBHZXQgdGhlIGtlcm5lbCdzIGdsb2JhbCB2aWRlbz0gcGFyYW1ldGVyIHdpdGgg
+ZmJfZ2V0X29wdGlvbigpLiBEb25lDQo+PiB0byB1bmV4cG9ydCB0aGUgaW50ZXJuYWwgZmJk
+ZXYgc3RhdGUgZmJfbW9kZV9jb25maWcuIE5vIGZ1bmN0aW9uYWwNCj4+IGNoYW5nZXMuDQo+
+Pg0KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
+c2UuZGU+DQo+PiAtLS0NCj4+ICAgZHJpdmVycy9wczMvcHMzYXYuYyB8IDExICsrKysrKysr
+Ky0tDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pDQo+IA0KPiBJIHdhbnRlZCB0byB0ZXN0IHRoZXNlIGNoYW5nZXMgb24gdGhlIFBTMywg
+YnV0IGdvdCB0aGlzDQo+IGVycm9yIHdoZW4gdHJ5aW5nIHRvIGFwcGx5IHRoaXMgcGF0Y2gg
+c2V0IHRvIExpbnV4LTYuMi1yYzc6DQo+IA0KPiAgICBBcHBseWluZzogZmJkZXY6IEhhbmRs
+ZSB2aWRlbz0gcGFyYW1ldGVyIGluIHZpZGVvL2NtZGxpbmUuYw0KPiAgICBlcnJvcjogcGF0
+Y2ggZmFpbGVkOiBkcml2ZXJzL2dwdS9kcm0vS2NvbmZpZzoxMA0KPiAgICBlcnJvcjogZHJp
+dmVycy9ncHUvZHJtL0tjb25maWc6IHBhdGNoIGRvZXMgbm90IGFwcGx5DQo+IA0KPiBJcyB0
+aGVyZSBhIExpbnV4IGtlcm5lbCByZXZpc2lvbiB0aGF0IHRoZXNlIHdpbGwgYXBwbHkgdG8s
+DQo+IG9yIGlzIHRoZXJlIGEgZ2l0IHJlcG9zaXRvcnkgSSBjYW4gcHVsbCB0aGVtIGZyb20/
+DQoNClRoYW5rcyBmb3IgdGVzdGluZy4gIE15IGJhc2UgdmVyc2lvbiBpcyBhIHJlY2VudCBE
+Uk0gZGV2ZWxvcG1lbnQgdHJlZS4gDQpUaGUgcmVwbyBpcyBhdCBodHRwczovL2NnaXQuZnJl
+ZWRlc2t0b3Aub3JnL2RybS9kcm0tdGlwLywgdGhlIGJyYW5jaCBpcyANCmRybS10aXAuDQoN
+CklmIGFjY2VwdGFibGUsIEknZCBsYXRlciBsaWtlIHRvIG1lcmdlIHRoZSBQUzMgcGF0Y2hl
+cyB0aHJvdWdoIERSTSB0cmVlcy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4g
+LUdlb2ZmDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0
+ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJl
+cmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-How binding can support only 1600x2560? How does it exactly work for
-binding?
+--------------W5mLJmvS7RAua9GDKVebrBjK--
 
+--------------yCCWD0exDdL5H6rPLKNTYS0G
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Best regards,
-Krzysztof
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPqHysFAwAAAAAACgkQlh/E3EQov+AP
+Xg/7Bct0gFS5T/lwv2UFvbQi5YiJYvvh3fp69WF5uEkgrxCBYT+/YjtZQhU51PS26gf1EIG/dVKj
+as3D+QDCgKR4UmsD8LpT1tJE17ccywfhDYseymqSaVAuwQB9W14svzkRmpBpJlXqYBf4JKDwTaSu
+sijzqXGeM6bpL+gmIpHpmp3Ef8axbP9ENzt+7hafhFHMFx/Hly3le1R6uVS+WQ2W4KqfJ39CTo7K
+e21VlTXbAvYbRzjES4znpD082tVKHvq5LcCksrJeCjxwrOiPCHV/zFQYR+91+DMHg3Ux6fiWQqBH
+V4pF9bO8dx4/UfioGZ92XpJzi5tCuYn1UkJhjMFpA1D7wV7PNB70IFSy05HeV1oPMilujOkz7bsK
+KSZeP+nRHIrhm2cznV6X23FdMJjPXJ7ClqSgV+0UgV3/3zJj8UAM38nTf3sTgfeM4j/iaKJiEJRw
+yb+FxELAg+9A0NYh2flM5jbmq0lZRMe0aocdYIJl8OLYqgXteLey9HjcOaULLVW6ztHBcJ/hEeLX
+f+DBAKy75nlr9YW4XHHFSaSinxy4TVOsI66+r6bCPcubDce5n2NqWqmcaQK57gslWxUl7kzXtKGD
+MRZ0izcT3w+DTSKTZGlxZYH+BJzMH9GemKeAu4MRw11vhfhmLHEFXCIybabEYCrWZKMWK2naINZN
+J/o=
+=hcCu
+-----END PGP SIGNATURE-----
+
+--------------yCCWD0exDdL5H6rPLKNTYS0G--
