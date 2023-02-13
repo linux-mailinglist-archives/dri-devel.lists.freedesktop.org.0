@@ -1,56 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C91694A66
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 16:09:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EFF694A7B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 16:13:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF2F10E5EE;
-	Mon, 13 Feb 2023 15:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31EFF10E5E4;
+	Mon, 13 Feb 2023 15:13:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
- [209.85.166.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D05DC10E5EE;
- Mon, 13 Feb 2023 15:09:44 +0000 (UTC)
-Received: by mail-il1-f181.google.com with SMTP id s9so4153825ilt.1;
- Mon, 13 Feb 2023 07:09:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=date:subject:message-id:references:in-reply-to:cc:to:from
- :mime-version:content-transfer-encoding:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=ogFsLNQEFVm7C6QvQZMbka0qqj2F6J8HwmRYO32/VOg=;
- b=bQ28pSjjEtHHLB0V8WSZqToAh+XG8IdGpqbPi7nKp5L8gc9anIC7Ns8qKF6tDq4ViZ
- 2q687pbLTmQHCqs5/4pCrzX1O0yh5nRdVPaLZK1TEwYpUPPScp37aVCAGJ6GMRJ/gtZl
- pgCgBXIsXlTAucF2BC+wsQj1gXDexJWUy38tqSE/0ENulLR5KTY0e9LmOdblMT6a5ys6
- etO4iTdtciS55qOYD00QYvllR1EfMuhsp1KUqHwW9M7QtGqzrpnNbPa2sbheHDLdCbTX
- 8sJk+0gwnC1RtKGW/rgBORPNmIVshVHN6xPFdDZYWxeecwMglyhOekVftiTYlcbjgZzW
- tqkw==
-X-Gm-Message-State: AO0yUKXPnhxfqZAqEXKsGc5GJHjgWtrW5xCvCeQpUbQfWYIKPA3wOWNp
- ZQ19Z4/MNwabQwNHMGcd7w==
-X-Google-Smtp-Source: AK7set9DOOH8pVq0q18oUvyYwV+s2TWpICsRn/3fLBdCPEA0O6cjKYg+qIAzs4dUab0rq9PFB6kMoQ==
-X-Received: by 2002:a92:a007:0:b0:313:d914:e544 with SMTP id
- e7-20020a92a007000000b00313d914e544mr21549100ili.23.1676300983976; 
- Mon, 13 Feb 2023 07:09:43 -0800 (PST)
-Received: from robh_at_kernel.org (c-73-14-99-67.hsd1.co.comcast.net.
- [73.14.99.67]) by smtp.gmail.com with ESMTPSA id
- g15-20020a056e021a2f00b003141eddd283sm2746676ile.22.2023.02.13.07.09.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 07:09:43 -0800 (PST)
-Received: (nullmailer pid 11608 invoked by uid 1000);
- Mon, 13 Feb 2023 15:09:41 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7D0C10E5E4;
+ Mon, 13 Feb 2023 15:13:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676301181; x=1707837181;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=H36clka671RDw1FhzSGBSeD52zHbFPjr8GiDS8is9xY=;
+ b=ExORhCieDoDLlDjfs+EIz9c7b2KTIzE2deJDYo6XFOmy42yOFcGfr/BW
+ r3FAf8aR1i878dMxGexx0U9YQ2sAOPL7k+tmFD0Z8d8w5k8Cl5GeZsRNC
+ j6FLDpkDptxr4UzHHJjuxRHGDrjaK+3/BaXEoFEe4bqTKeIEeOjU9/z6J
+ TG3JtV4CnsFuRezPK6CayZAQ3G3xCTdr/TZ2kLmOtNml3xQFtyFOAtnFB
+ EHZnR4OZBm6U3+X3MWPOnbb2r1F4DHo/xOfeNBDMvcGNjqixj+9EQyA7P
+ YxiVU6JTdi9fVuRIsGhZRx50VRaLjcSKitH1UoSjPXhvldcvbY6iS7FWV A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="310541854"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="310541854"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 07:13:01 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="792758879"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="792758879"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.19.172])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 07:12:57 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: =?UTF-8?B?4pyT?= Fi.CI.BAT: success for drm/i915/active: Fix
+ misuse of non-idle barriers as fence trackers
+Date: Mon, 13 Feb 2023 16:12:54 +0100
+Message-ID: <3663372.MHq7AAxBmi@jkrzyszt-mobl1.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <167629606262.20213.9123371560394852051@emeril.freedesktop.org>
+References: <20230213130546.20370-1-janusz.krzysztofik@linux.intel.com>
+ <167629606262.20213.9123371560394852051@emeril.freedesktop.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230211122656.1479141-4-konrad.dybcio@linaro.org>
-References: <20230211122656.1479141-1-konrad.dybcio@linaro.org>
- <20230211122656.1479141-4-konrad.dybcio@linaro.org>
-Message-Id: <167630050949.6199.14243256327599171035.robh@kernel.org>
-Subject: Re: [PATCH 03/10] dt-bindings: display/msm: Add SM6350 DPU & MDSS
-Date: Mon, 13 Feb 2023 09:09:41 -0600
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,62 +61,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, andersson@kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
- Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, agross@kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Sat, 11 Feb 2023 13:26:49 +0100, Konrad Dybcio wrote:
-> Document 6350 DPU and MDSS.
+On Monday, 13 February 2023 14:47:42 CET Patchwork wrote:
+> == Series Details ==
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  .../bindings/display/msm/qcom,sm6350-dpu.yaml |  94 ++++++++
->  .../display/msm/qcom,sm6350-mdss.yaml         | 213 ++++++++++++++++++
->  2 files changed, 307 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm6350-dpu.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml
+> Series: drm/i915/active: Fix misuse of non-idle barriers as fence trackers
+> URL   : https://patchwork.freedesktop.org/series/113950/
+> State : success
+> 
+> == Summary ==
+> 
+> CI Bug Log - changes from CI_DRM_12730 -> Patchwork_113950v1
+> ====================================================
+> 
+> Summary
+> -------
+> 
+>   **SUCCESS**
+> 
+>   No regressions found.
+> 
+>   External URL: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/index.html
+> 
+> Participating hosts (40 -> 37)
+> ------------------------------
+> 
+>   Missing    (3): fi-tgl-1115g4 bat-atsm-1 fi-snb-2520m 
+> 
+> Possible new issues
+> -------------------
+> 
+>   Here are the unknown changes that may have been introduced in Patchwork_113950v1:
+> 
+> ### IGT changes ###
+> 
+> #### Possible regressions ####
+
+No mor list corruptions, only issues already reported by the new 
+igt@gem_barrier_race@remote-request test before (without this patch in place).
+
+>   * {igt@gem_barrier_race@remote-request@rcs0} (NEW):
+>     - fi-rkl-11600:       NOTRUN -> [ABORT][1]
+>    [1]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-rkl-11600/igt@gem_barrier_race@remote-request@rcs0.html
+>     - bat-dg1-5:          NOTRUN -> [ABORT][2]
+>    [2]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/bat-dg1-5/igt@gem_barrier_race@remote-request@rcs0.html
+
+Infinite __i915_active_wait(), similar to 
+https://intel-gfx-ci.01.org/tree/drm-tip/TrybotIGT_706/fi-cfl-8109u/igt@gem_barrier_race@remote-request@rcs0.html
+
+>     - {bat-adlm-1}:       NOTRUN -> [DMESG-WARN][3]
+>    [3]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/bat-adlm-1/igt@gem_barrier_race@remote-request@rcs0.html
+
+Suspicious RCU usage, equivalent to 
+https://intel-gfx-ci.01.org/tree/drm-tip/TrybotIGT_706/bat-dg1-7/igt@gem_barrier_race@remote-request@rcs0.html,
+also seen before, e.g., 
+https://gitlab.freedesktop.org/drm/intel/-/issues/7390, 
+https://gitlab.freedesktop.org/drm/intel/-/issues/6616
+
+Thanks,
+Janusz
+
+> 
+>   
+> New tests
+> ---------
+> 
+>   New tests have been introduced between CI_DRM_12730 and Patchwork_113950v1:
+> 
+> ### New IGT tests (2) ###
+> 
+>   * igt@gem_barrier_race@remote-request:
+>     - Statuses :
+>     - Exec time: [None] s
+> 
+>   * igt@gem_barrier_race@remote-request@rcs0:
+>     - Statuses : 2 abort(s) 1 dmesg-warn(s) 27 pass(s) 5 skip(s)
+>     - Exec time: [0.0] s
+> 
+>   
+> 
+> Known issues
+> ------------
+> 
+>   Here are the changes found in Patchwork_113950v1 that come from known issues:
+> 
+> ### IGT changes ###
+> 
+> #### Issues hit ####
+> 
+>   * {igt@gem_barrier_race@remote-request@rcs0} (NEW):
+>     - fi-pnv-d510:        NOTRUN -> [SKIP][4] ([fdo#109271])
+>    [4]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-pnv-d510/igt@gem_barrier_race@remote-request@rcs0.html
+>     - fi-blb-e6850:       NOTRUN -> [SKIP][5] ([fdo#109271])
+>    [5]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-blb-e6850/igt@gem_barrier_race@remote-request@rcs0.html
+>     - fi-ivb-3770:        NOTRUN -> [SKIP][6] ([fdo#109271])
+>    [6]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-ivb-3770/igt@gem_barrier_race@remote-request@rcs0.html
+>     - fi-elk-e7500:       NOTRUN -> [SKIP][7] ([fdo#109271])
+>    [7]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-elk-e7500/igt@gem_barrier_race@remote-request@rcs0.html
+>     - fi-ilk-650:         NOTRUN -> [SKIP][8] ([fdo#109271])
+>    [8]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-ilk-650/igt@gem_barrier_race@remote-request@rcs0.html
+> 
+>   
+> #### Possible fixes ####
+> 
+>   * igt@i915_selftest@live@gt_heartbeat:
+>     - fi-apl-guc:         [DMESG-FAIL][9] ([i915#5334]) -> [PASS][10]
+>    [9]: https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12730/fi-apl-guc/igt@i915_selftest@live@gt_heartbeat.html
+>    [10]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-apl-guc/igt@i915_selftest@live@gt_heartbeat.html
+> 
+>   * igt@i915_selftest@live@requests:
+>     - {bat-rpls-2}:       [ABORT][11] ([i915#7982]) -> [PASS][12]
+>    [11]: https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12730/bat-rpls-2/igt@i915_selftest@live@requests.html
+>    [12]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/bat-rpls-2/igt@i915_selftest@live@requests.html
+> 
+>   * igt@kms_cursor_legacy@basic-busy-flip-before-cursor@atomic-transitions:
+>     - fi-bsw-n3050:       [FAIL][13] ([i915#6298]) -> [PASS][14]
+>    [13]: https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12730/fi-bsw-n3050/igt@kms_cursor_legacy@basic-busy-flip-before-cursor@atomic-transitions.html
+>    [14]: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/fi-bsw-n3050/igt@kms_cursor_legacy@basic-busy-flip-before-cursor@atomic-transitions.html
+> 
+>   
+>   {name}: This element is suppressed. This means it is ignored when computing
+>           the status of the difference (SUCCESS, WARNING, or FAILURE).
+> 
+>   [fdo#109271]: https://bugs.freedesktop.org/show_bug.cgi?id=109271
+>   [i915#4983]: https://gitlab.freedesktop.org/drm/intel/issues/4983
+>   [i915#5334]: https://gitlab.freedesktop.org/drm/intel/issues/5334
+>   [i915#6298]: https://gitlab.freedesktop.org/drm/intel/issues/6298
+>   [i915#6367]: https://gitlab.freedesktop.org/drm/intel/issues/6367
+>   [i915#7699]: https://gitlab.freedesktop.org/drm/intel/issues/7699
+>   [i915#7982]: https://gitlab.freedesktop.org/drm/intel/issues/7982
+>   [i915#7996]: https://gitlab.freedesktop.org/drm/intel/issues/7996
+> 
+> 
+> Build changes
+> -------------
+> 
+>   * IGT: IGT_7157 -> TrybotIGT_706
+>   * Linux: CI_DRM_12730 -> Patchwork_113950v1
+> 
+>   CI-20190529: 20190529
+>   CI_DRM_12730: c54b5fcf3e686a0abfdd7d6af53e9014c137023a @ git://anongit.freedesktop.org/gfx-ci/linux
+>   IGT_7157: 96d12fdc942cee9526a951b377b195ca9c8276b1 @ https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+>   Patchwork_113950v1: c54b5fcf3e686a0abfdd7d6af53e9014c137023a @ git://anongit.freedesktop.org/gfx-ci/linux
+>   TrybotIGT_706: https://intel-gfx-ci.01.org/tree/drm-tip/TrybotIGT_706/index.html
+> 
+> 
+> ### Linux commits
+> 
+> 44de67f6c674 drm/i915/active: Fix misuse of non-idle barriers as fence trackers
+> 
+> == Logs ==
+> 
+> For more details see: https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_113950v1/index.html
 > 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml:55:11: [warning] wrong indentation: expected 8 but found 10 (indentation)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml: patternProperties:^dsi@[0-9a-f]+$:properties:compatible: [{'const': 'qcom,sm6350-dsi-ctrl'}, {'const': 'qcom,mdss-dsi-ctrl'}] is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.yaml: ignoring, error in schema: patternProperties: ^dsi@[0-9a-f]+$: properties: compatible
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.example.dtb: dsi@ae94000: compatible:0: 'qcom,sm6350-dsi-ctrl' is not one of ['qcom,mdss-dsi-ctrl', 'qcom,dsi-ctrl-6g-qcm2290']
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.example.dtb: dsi@ae94000: compatible: ['qcom,sm6350-dsi-ctrl', 'qcom,mdss-dsi-ctrl'] is too long
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm6350-mdss.example.dtb: phy@ae94400: 'vdds-supply' is a required property
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230211122656.1479141-4-konrad.dybcio@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
