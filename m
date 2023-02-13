@@ -1,58 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF126951D5
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 21:25:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F33C69522A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 21:49:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32B0A10E70B;
-	Mon, 13 Feb 2023 20:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4432A10E714;
+	Mon, 13 Feb 2023 20:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA5710E2FE
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 20:25:52 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id u76so2079320ybi.7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 12:25:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/0Ws/YlbYYoxDYDAzi4lHOOroimYy2NYmSbxJOySDP4=;
- b=FtxD+4keDj4WORQa3590d18w1Tgvlh+vZeAuVrxN6og/aSdvNMP1Dk0n3WC5kqOkxN
- qdY2ivrbuuH3zqFaBLo5rI/Rguy/C/JqGn9eKiXAlXI6ZhSs4rcbOTbNEWNvC2+eJn8c
- Rl/J74HQm5QH+/eIFPAjonIKpObtvg2WPjyE1Lfmhu8dAwh9vQn5tNrY12OvbjusI2D7
- oIRihtsZ9OccWOerJflZGAl0Tnx+6wQMDJQFo1ZvYS24EMrJEF4kFbFE1Zye1TfHqtv9
- ra8KahXUSZqA5WGsALtahPuMRATBc1pSk1uJ+BeJiGgRbxcKp8FP+B2Iz7yQbbbT/m2V
- w4iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/0Ws/YlbYYoxDYDAzi4lHOOroimYy2NYmSbxJOySDP4=;
- b=PU+VVuSHXsGM5AhtxyCZyy4ffuvQWSBycWBo2JElIsGRoognOK1ea4YnUHCCPpugLi
- tCQVR7d98IBt78RjFF8gmhbiECJdZgPX8l240ACGwYIN1J1WgidSI6w2HUCGp9VjdpPr
- fOtPvW6esW2roZ73JDe0AtQamYUcWbCNAyYENtg3ftvgTTIlVr9yPzfZWU9KlKHLO0BS
- axGRqeolc3QIS1ugi6teLfoCpcmBMylfxNEn3w2WwenvyoSRYz5WO3N/9aab3/e+FFSw
- exyj2rcR8Kt7V03D4IMPjkOuEX01R0I8Q4bu18oL7N3yXNa8Geyh9EQfQKTz3dttEVFI
- AmdQ==
-X-Gm-Message-State: AO0yUKU2mSITFLDU3OaZD7oht7Q6z9d4bQljONgNAwuf8g/qKKSkQg21
- ShbADFjQOC898bK7xkEBvDd4whyMjCMnGdQLEYu8wYSvZR0FZw==
-X-Google-Smtp-Source: AK7set/J+/iYGG/w89J6BRAoLZRY7PDAaMX8d4rSeEC+A9phEA8KjwshqjneIfaPRQlFeIYiRbKJH52D151YyS4LfTQ=
-X-Received: by 2002:a25:9a49:0:b0:86a:e417:b66e with SMTP id
- r9-20020a259a49000000b0086ae417b66emr13117ybo.382.1676319951658; Mon, 13 Feb
- 2023 12:25:51 -0800 (PST)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7207110E713;
+ Mon, 13 Feb 2023 20:49:50 +0000 (UTC)
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4PFxKp11kxzDrt1;
+ Mon, 13 Feb 2023 20:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1676321390; bh=wZ2k6D1sf+LAhw4sQy5FBqNVX/9/c++77YoxwTZ/l74=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NiOI0dUKmW9qxTAQBFZ3KnDSwEBmU5aVk+uUw+r9sjcxp1RdlvXo7KVexYHihKIbk
+ Vr29XkSSZWvdTOFHiIXKlZWnVVfGxRv6xNx3+I9+SoZA/8AwbJplnoJmZQg66zZ0zd
+ rHs1O3Dcjd//hQwHuoPdySxpIR6R39az2i2wiwFs=
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4PFxKn1Zs2z9ssg;
+ Mon, 13 Feb 2023 20:49:49 +0000 (UTC)
+X-Riseup-User-ID: B6C2F566C47B4AEFE85B775391F6C3F1DED2A77D0E80149B80AD474C46AEA140
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4PFxKd1Jpjz1yNK;
+ Mon, 13 Feb 2023 20:49:40 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/10] Resolve warnings from AMDGPU
+Date: Mon, 13 Feb 2023 17:49:13 -0300
+Message-Id: <20230213204923.111948-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-References: <1676286704-818-1-git-send-email-quic_kalyant@quicinc.com>
- <CAD=FV=WdMtzHryJXxMgYqXkqtFzowqcdvWYOxn4du8mQwYKvcg@mail.gmail.com>
-In-Reply-To: <CAD=FV=WdMtzHryJXxMgYqXkqtFzowqcdvWYOxn4du8mQwYKvcg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 13 Feb 2023 22:25:40 +0200
-Message-ID: <CAA8EJppF-UuoooGaX6ySo7CqfnSPBoJiVYBb9QRdyqvWBYAXEg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] Reserve DSPPs based on user request
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,73 +57,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kalyan Thota <quic_kalyant@quicinc.com>, devicetree@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, marijn.suijten@somainline.org, robdclark@chromium.org,
- freedreno@lists.freedesktop.org, quic_vpolimer@quicinc.com
+Cc: sunpeng.li@amd.com, tales.aparecida@gmail.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, Arthur Grillo <arthurgrillo@riseup.net>,
+ mairacanal@riseup.net, alexander.deucher@amd.com, andrealmeid@riseup.net,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Feb 2023 at 20:12, Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Mon, Feb 13, 2023 at 3:11 AM Kalyan Thota <quic_kalyant@quicinc.com> wrote:
-> >
-> > This series will enable color features on sc7280 target which has
-> > primary panel as eDP
-> >
-> > The series removes DSPP allocation based on encoder type and allows
-> > the DSPP reservation based on user request via CTM.
-> >
-> > The series will release/reserve the dpu resources whenever there is
-> > a CTM enable/disable change so that DSPPs are allocated appropriately.
-> >
-> > Kalyan Thota (4):
-> >   drm/msm/dpu: clear DSPP reservations in rm release
-> >   drm/msm/dpu: add DSPPs into reservation upon a CTM request
-> >   drm/msm/dpu: avoid unnecessary check in DPU reservations
-> >   drm/msm/dpu: manage DPU resources if CTM is requested
-> >
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 38 ++++++++++++-----------------
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  2 ++
-> >  drivers/gpu/drm/msm/msm_atomic.c            | 18 ++++++++++++++
-> >  drivers/gpu/drm/msm/msm_drv.c               |  2 +-
-> >  drivers/gpu/drm/msm/msm_drv.h               |  1 +
-> >  5 files changed, 38 insertions(+), 23 deletions(-)
->
-> For whatever reason when I use "b4 shazam" on your series it yells:
->
-> Patch failed at 0002 drm/msm/dpu: add DSPPs into reservation upon a CTM request
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> error: patch failed: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:573
-> error: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: patch does not apply
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
->
-> ...but then I can apply it with `git am --show-current-patch=diff |
-> patch -p1` and it just applies with fuzz. Presumably Abhniav / Dmitry
-> can do the same but it would be nice if your patch applied cleanly to
-> msm-next.
+Hi,
 
-Hopefully it is not some 'tested on 5.15' story.
+This series resolve some of the warnings that appear when compiling AMDGPU
+with W=1.
 
-> In any case, I tried this patch on both a herobrine (sc7280) and
-> trogdor (sc7180) based board running msm-next (including the sc7280
-> patch [1]). In both cases the night light on the internal display
-> worked fine when using ChromeOS. External night light didn't work on
-> either of them (as expected) because we don't have the compositor
-> support yet.
->
-> I'm happy enough with:
->
-> Tested-by: Douglas Anderson <dianders@chromium.org>
+Each patch is focused in a specific warning.
 
-Thanks for the testing!
+This is my First Patch for the GSoC Project Idea about increasing code
+coverage of the DRM code[1].
 
+Thanks for reviewing!
+
+Best regards,
+Arthur Grillo
+
+[1]: https://www.x.org/wiki/DRMcoverage2023/#firstpatch
+
+---
+
+Arthur Grillo (10):
+  drm/amd/display: Turn global functions into static
+  drm/amd/display: Add function prototypes to headers
+  drm/amd/amdgpu: Add function prototypes to headers
+  drm/amd/display: Add previously missing includes
+  drm/amd/display: Fix excess arguments on kernel-doc
+  drm/amd/display: Fix implicit enum conversion
+  drm/amd/amdgpu: Deal with possible fail allocation
+  drm/amd/display: Remove unused local variables
+  drm/amd/display: Make variables declaration inside ifdef guard
+  drm/amd/display: Remove unused local variables and function
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c       |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h     |  1 +
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        | 15 ++++---
+ .../dc/clk_mgr/dcn315/dcn315_clk_mgr.c        |  2 +-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |  2 +-
+ .../drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c |  2 +-
+ .../amd/display/dc/dcn10/dcn10_link_encoder.c |  3 --
+ .../drm/amd/display/dc/dcn201/dcn201_dpp.c    |  7 ----
+ .../drm/amd/display/dc/dcn201/dcn201_hwseq.c  |  2 -
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_afmt.c |  2 -
+ .../gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c |  4 --
+ .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    |  3 --
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_apg.c  | 41 -------------------
+ .../drm/amd/display/dc/dcn31/dcn31_hubbub.h   |  2 +
+ .../drm/amd/display/dc/dcn32/dcn32_hubbub.h   |  2 +
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_hubp.h |  2 +
+ .../gpu/drm/amd/display/dc/dcn32/dcn32_init.c |  1 +
+ .../drm/amd/display/dc/dcn32/dcn32_resource.c |  5 +--
+ .../display/dc/dcn32/dcn32_resource_helpers.c |  4 --
+ .../dc/dml/dcn20/display_mode_vba_20.c        |  9 ++--
+ .../dc/dml/dcn20/display_mode_vba_20v2.c      | 10 ++---
+ .../dc/dml/dcn21/display_mode_vba_21.c        | 12 +++---
+ .../dc/dml/dcn31/display_mode_vba_31.c        |  4 ++
+ .../dc/dml/dcn31/display_rq_dlg_calc_31.c     |  2 -
+ .../dc/dml/dcn314/display_mode_vba_314.c      |  4 ++
+ .../dc/irq/dcn201/irq_service_dcn201.c        |  2 +-
+ .../dc/link/accessories/link_dp_trace.c       |  1 +
+ .../dc/link/protocols/link_dp_capability.c    |  4 --
+ 28 files changed, 47 insertions(+), 103 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.1
+
