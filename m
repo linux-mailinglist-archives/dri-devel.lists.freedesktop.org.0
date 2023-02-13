@@ -1,66 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD196694EF0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 19:12:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C43F694F0C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 19:17:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBF4E10E680;
-	Mon, 13 Feb 2023 18:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEEB710E676;
+	Mon, 13 Feb 2023 18:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD14510E12F
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 18:11:59 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id 139so13950312ybe.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 10:11:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Sb3LshHLxSQgF3w0k9C11QJ/y6qj7sAJ3S8kmCUrATA=;
- b=c2vB7YepOv3IasRmcEsYKNTFXbAREvzH2Jzz9ZqXKc9LKKJN4DwSMLQbFzMk6jRKf7
- wjyW1FMLu6kf+tpkMB4eYPphpxFII5HbWM9MaByn+UIe1U2O+SKvSJp3t7/IPuMpSF6F
- 56ECThgLIUwn0lGSUzcCICY6TlEwwarijCqBE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Sb3LshHLxSQgF3w0k9C11QJ/y6qj7sAJ3S8kmCUrATA=;
- b=O0PJW0HlRhWPDsUyrNecHuBY0rEJ/7Lv8l85AAFx5Qj6XCr48bCsga++IgKgieyHqk
- tTqoedCclq7QJLhc2hnL4M6vQ3eay0Uqb2AwbU8ccW+HA6cqoz7QeOh3SCEFfSN1Hq9C
- /UC1P3PtZf7o6oSl/FKDWQwWNXEOe7tq/8EUrtejmtpEcHeFOpfqkgsZrdF6c3EhTku2
- tmEitZmg+gCpD3dROvrg9oUAsZwmSwjdNnV72/BRarENkLjUkFT/cdd0+aImINvvO20A
- I2kEx95yPZ2zNpQYdRl0aAstQmsEWZNWNS6qIGLao5hSGbjXq62+c82lfRLtLORgv3AN
- oaxw==
-X-Gm-Message-State: AO0yUKXB6fJmFcEVScMIVcx9h1rPDgCtoDClfylnEzYzYOXA+YFYVYPZ
- CFXerN2eo2SzmjapqQ3UDogL9Te58+fhd3Df
-X-Google-Smtp-Source: AK7set9j1QNPE/Rg4HXqrRmBRXAK7MUshqOnAonBNwrJq0zetRblH5ND7QcHhB9dTMRpLMJDV1s9BQ==
-X-Received: by 2002:a25:2f0f:0:b0:8ea:13f1:d49a with SMTP id
- v15-20020a252f0f000000b008ea13f1d49amr10901260ybv.6.1676311918411; 
- Mon, 13 Feb 2023 10:11:58 -0800 (PST)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com.
- [209.85.217.52]) by smtp.gmail.com with ESMTPSA id
- z8-20020ab05648000000b005ae285f4c22sm1045918uaa.21.2023.02.13.10.11.57
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 10:11:57 -0800 (PST)
-Received: by mail-vs1-f52.google.com with SMTP id g8so13961639vso.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 10:11:57 -0800 (PST)
-X-Received: by 2002:a05:6102:1590:b0:411:c7ae:5b47 with SMTP id
- g16-20020a056102159000b00411c7ae5b47mr2679338vsv.68.1676311917426; Mon, 13
- Feb 2023 10:11:57 -0800 (PST)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0611D10E676
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 18:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676312218; x=1707848218;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=J4niuSN8gIklKAAL55qUfOPn4HVxFfv9JXS4kugTmWw=;
+ b=PZGkXoVj2iAt9sPzdWLoSbf13MEupdL/jy+4cEssO6C0XlOeipUsZqae
+ RC3EQWBcjDE3S/aYi0rdI1xKgJSpbChhZ3bDd7sngGPIm5slIFBixSHmf
+ BUL6j4mi7vtZUjE3l7U3yKeGmELWFmk5O/AnTO5n3WySjR6xcViDFYNFH
+ lTjvufq2aTh/AFrcXLsPocTsALZaSgXWCUnTLxfRhP2rT1TRLMCIRlhgC
+ KDqnpJFTM4vy5V3nDMuZVyC8uOJVMVbu9jWcMTpAAUNvTUztZtk8sEATe
+ D6H7UVYlZcZwtUboR53EWp33qpsRX1V5pYW5NjLatadTl/L8BGNjI0D+3 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="314598942"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="314598942"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 10:16:55 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="842859181"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="842859181"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 10:16:53 -0800
+Date: Mon, 13 Feb 2023 19:16:51 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
+Subject: Re: Try to address the drm_debugfs issues
+Message-ID: <20230213181651.GA2822143@linux.intel.com>
+References: <20230209081838.45273-1-christian.koenig@amd.com>
+ <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
+ <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
+ <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
 MIME-Version: 1.0
-References: <1676286704-818-1-git-send-email-quic_kalyant@quicinc.com>
-In-Reply-To: <1676286704-818-1-git-send-email-quic_kalyant@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 13 Feb 2023 10:11:45 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WdMtzHryJXxMgYqXkqtFzowqcdvWYOxn4du8mQwYKvcg@mail.gmail.com>
-Message-ID: <CAD=FV=WdMtzHryJXxMgYqXkqtFzowqcdvWYOxn4du8mQwYKvcg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] Reserve DSPPs based on user request
-To: Kalyan Thota <quic_kalyant@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,66 +60,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: robdclark@chromium.org, devicetree@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, dmitry.baryshkov@linaro.org,
- marijn.suijten@somainline.org, quic_vpolimer@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, mwen@igalia.com, mairacanal@riseup.net,
+ maxime@cerno.tech, daniel.vetter@ffwll.ch, wambui.karugax@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Feb 09, 2023 at 10:06:25AM -0300, Maíra Canal wrote:
+> > > [    3.872026] debugfs: File 'v3d_ident' in directory '0' already present!
+> > > [    3.872064] debugfs: File 'v3d_ident' in directory '128' already present!
+> > > [    3.872078] debugfs: File 'v3d_regs' in directory '0' already present!
+> > > [    3.872087] debugfs: File 'v3d_regs' in directory '128' already present!
+> > > [    3.872097] debugfs: File 'measure_clock' in directory '0' already present!
+> > > [    3.872105] debugfs: File 'measure_clock' in directory '128' already present!
+> > > [    3.872116] debugfs: File 'bo_stats' in directory '0' already present!
+> > > [    3.872124] debugfs: File 'bo_stats' in directory '128' already present!
+> > > 
+> > > It looks like the render node is being added twice, since this doesn't happen
+> > > for vc4 and vkms.
+> > 
+> > Thanks for the feedback and yes that's exactly what I meant with that I haven't looked into all code paths.
+> > 
+> > Could it be that v3d registers it's debugfs files from the debugfs_init callback?
+> 
+> Although this is true, I'm not sure if this is the reason why the files are
+> being registered twice, as this doesn't happen to vc4, and it also uses the
+> debugfs_init callback. I believe it is somewhat related to the fact that
+> v3d is the primary node and the render node.
 
-On Mon, Feb 13, 2023 at 3:11 AM Kalyan Thota <quic_kalyant@quicinc.com> wrote:
->
-> This series will enable color features on sc7280 target which has
-> primary panel as eDP
->
-> The series removes DSPP allocation based on encoder type and allows
-> the DSPP reservation based on user request via CTM.
->
-> The series will release/reserve the dpu resources whenever there is
-> a CTM enable/disable change so that DSPPs are allocated appropriately.
->
-> Kalyan Thota (4):
->   drm/msm/dpu: clear DSPP reservations in rm release
->   drm/msm/dpu: add DSPPs into reservation upon a CTM request
->   drm/msm/dpu: avoid unnecessary check in DPU reservations
->   drm/msm/dpu: manage DPU resources if CTM is requested
->
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 38 ++++++++++++-----------------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  2 ++
->  drivers/gpu/drm/msm/msm_atomic.c            | 18 ++++++++++++++
->  drivers/gpu/drm/msm/msm_drv.c               |  2 +-
->  drivers/gpu/drm/msm/msm_drv.h               |  1 +
->  5 files changed, 38 insertions(+), 23 deletions(-)
+Yes, this seems to be because ->debugfs_init = v3d_debugfs_init() uses
+drm_debugfs_add_files() which create files for both primary and render.
+And ->debugfs_init is called via drm_minor_register() also for both
+when registering. 
 
-For whatever reason when I use "b4 shazam" on your series it yells:
+Probably need to change debugfs_init callback to create files just
+for one minor. And if we don't want to use minor pointer directly in
+drivers, the callback can take debugfs dir as argument.
 
-Patch failed at 0002 drm/msm/dpu: add DSPPs into reservation upon a CTM request
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-error: patch failed: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:573
-error: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: patch does not apply
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-
-...but then I can apply it with `git am --show-current-patch=diff |
-patch -p1` and it just applies with fuzz. Presumably Abhniav / Dmitry
-can do the same but it would be nice if your patch applied cleanly to
-msm-next.
-
-In any case, I tried this patch on both a herobrine (sc7280) and
-trogdor (sc7180) based board running msm-next (including the sc7280
-patch [1]). In both cases the night light on the internal display
-worked fine when using ChromeOS. External night light didn't work on
-either of them (as expected) because we don't have the compositor
-support yet.
-
-I'm happy enough with:
-
-Tested-by: Douglas Anderson <dianders@chromium.org>
-
-
-[1] https://lore.kernel.org/r/1674814487-2112-1-git-send-email-quic_kalyant@quicinc.com/
+Regards
+Stanislaw
