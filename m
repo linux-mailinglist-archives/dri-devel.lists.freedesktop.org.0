@@ -1,48 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAB4693B55
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 01:25:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E08693CB1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 03:57:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0095C10E1FD;
-	Mon, 13 Feb 2023 00:25:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A276910E035;
+	Mon, 13 Feb 2023 02:57:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com
- [209.85.166.208])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC0D10E1FD
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 00:25:51 +0000 (UTC)
-Received: by mail-il1-f208.google.com with SMTP id
- h7-20020a056e021d8700b0031532629b80so2597276ila.14
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Feb 2023 16:25:51 -0800 (PST)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2972110E035;
+ Mon, 13 Feb 2023 02:57:47 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id w3so4069197edc.2;
+ Sun, 12 Feb 2023 18:57:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=hw9ehYVDq4moKFFfu+9OhsPZCy7y23ffO2nBq/yLrA4=;
+ b=PJrSank/HxSMunzkm1fR5tYP9U7Z8BvPW9A0/ge4QaohJG+zg4gfB+0kLZNR8O8w0c
+ rgGY+nFWRqAsO3bYR6kaqoVXT4XmhFi64UVXIdHTJUCyjsfzNy/B62cITCl1m7k5vTVE
+ jLhNCEt19V+6WoPstiHKU9RVs8lJP7hNDffQACva4go52M5BuI/HxdQiqIhXVE+eHtyz
+ Exj9shR338hQzgVtytzQXCQYY8tHAMPnxKo8kiGejAKh40Uiu2TTUlVr+PRLg5dUZ4Ic
+ epiynC1faSejQjvJCGQETmrp6DHmy8ZsHkaHjZlVliJalnkLnbm8vI7q24DLf1fhdF5h
+ IxwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=84tGHx2dc/bSnFn3PlEGqqtj4JokcAjpVRmrBLqOmcE=;
- b=ubpg57UO5ChnzFM+IAamcNupBDW6iRiNZIO+BDFMrWwi8DtyGQ83tUkxdTaxAmEI+g
- 6JNmH1pFX9kyH2t6JIDXBzwUiaQE7yo0nH01UyUbWVDelL3huvpuF7sMfNdEMoTW9xnl
- MWE7HqivDiRxORvl8XtjBcELfA1mL8Ezk7QmmyZX02D/FGXueCOFnjTzaumYCXuof6tp
- sgP6mZ736KF2hx9dDCwUo8eJ4hKIlSXMvtLTod1ckiXjrRRYsiVoIrlnSFN85Y9OkjMM
- RQqEjUrX+PUlg6+QlxPE6h68GL5mJdpyZ46+Fy/j5uJqRmgjwzqPawCMaa2+Xh/u64m1
- zmcA==
-X-Gm-Message-State: AO0yUKUulLtgfhl+2nlY7P1MaG5jgYjvRKbAp03xHzwGIc9n/RdSdfrK
- oB/QZI+e/KOpUMIPfxy30l+r0dk2oaVrGnwKpqy4iQPsueJp
-X-Google-Smtp-Source: AK7set/i/sqqOGmFgt09qN5g0QG296Hn7EN5R+rfjDiPS0pT2DEFht5FIA7XeWf7TPT1DR3hy94RqOs9wseDFLSxY9YOyTvodlwT
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hw9ehYVDq4moKFFfu+9OhsPZCy7y23ffO2nBq/yLrA4=;
+ b=KROn4m1mo3Wi9j//iv1Xjxodv7BPoApHFlw4R3w3TxvF3xXlFl/Jf9+7c/kS2EPOT+
+ azKGFZs8FvDeH8qEpBrml991j145afdT7w8iOBzuwGz1pU4QToDHOmxAxgW8x7k5mxT2
+ C0vEf5qzuy30iEJCahj93rc2FyW5/Z3nds/KKXd2cYbF1oWnBRVB7HA7NTJNPAK/JSnW
+ BwmrqIqrTRpByo9na21qJCKwjb8rhl7Iw7jbMTpXeGP6IuEDBE5IyuO/qHZQhAgqursZ
+ co1om+9WL0riKhbUrCvct6mw3Zrx3gucB9h86Fn/rPW8syVEsUZBEAwTVwjvinQGpClD
+ ZQGQ==
+X-Gm-Message-State: AO0yUKWDNAjj4LxnaZTruNI6Iu4XXvdrfOcsSMcYfK3023I71/yHyoN3
+ 2ExOaViaEBFbmF3YI4aVOUKQ/Lfx+F7pXFD+OPk=
+X-Google-Smtp-Source: AK7set9mBuQIrk3oO2rWHodC/1gO5O/yOJ2sf/e+WQ0l7IxCo7aLgd6UYYj2pbnhDI/nTsLxr8j0ivM4KjuT+dYQTxY=
+X-Received: by 2002:a50:9eee:0:b0:4aa:a4f2:ca1a with SMTP id
+ a101-20020a509eee000000b004aaa4f2ca1amr5993822edf.0.1676257065447; Sun, 12
+ Feb 2023 18:57:45 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:889:b0:313:b6f1:e839 with SMTP id
- z9-20020a056e02088900b00313b6f1e839mr11390107ils.89.1676247950456; Sun, 12
- Feb 2023 16:25:50 -0800 (PST)
-Date: Sun, 12 Feb 2023 16:25:50 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a47fd205f489e34b@google.com>
-Subject: [syzbot] memory leak in vma_node_allow
-From: syzbot <syzbot+58ea3177ba8bd0a5d8ee@syzkaller.appspotmail.com>
-To: airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
+ <fcec3c78-b5d9-eb48-0fc0-d1f27de87f23@leemhuis.info>
+ <b21fa1f6-a71d-5657-8596-ee0be73185ea@leemhuis.info>
+ <3ab28896-70e9-6f90-5b97-e5397b06e715@googlemail.com>
+ <a163dd7b-c5d1-a07b-a816-7a2dfd3edfd4@leemhuis.info>
+ <ab1b0f73-6b4e-8602-2999-b7bec25d92db@googlemail.com>
+ <CACAvsv4sOtPjCVnEcKd2RCUqYWxSn5XKyksbS-Bds2qCqyusVw@mail.gmail.com>
+ <1cdb84ac-f7a8-66ba-98fc-3db302b49a5a@googlemail.com>
+ <dab6eb81-db3f-8fa1-84ad-9b40e209514b@googlemail.com>
+ <CACAvsv5iYdF3P8AbyrbYo3zGmYRYhxDWn7WbAR5V9qHpbgBXRA@mail.gmail.com>
+ <1632a9ef-2954-c8f0-cdc9-03157c9d8547@googlemail.com>
+ <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
+ <5cf46df8-0fa2-e9f5-aa8e-7f7f703d96dd@googlemail.com>
+ <f72fe15b-db1d-56dd-aaf6-3cba68a8bf0a@leemhuis.info>
+ <CACO55tvR4ydDOXt=9nbR3n2aFLKrj8zeuGRR_xpezVQBBLrjqg@mail.gmail.com>
+ <a6188878-f84c-0fcc-9509-b9d7ab797f4c@leemhuis.info>
+ <d031f0a5-8d5e-af51-6db6-11844de3eeba@googlemail.com>
+In-Reply-To: <d031f0a5-8d5e-af51-6db6-11844de3eeba@googlemail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 13 Feb 2023 12:57:32 +1000
+Message-ID: <CAPM=9tz+wksJTvMi_4Ef7XWezfH0ReN2se189s8Q=obJjHC+Fw@mail.gmail.com>
+Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
+To: Chris Clayton <chris2553@googlemail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,137 +80,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, ML nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com,
+ Ben Skeggs <skeggsb@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Sun, 12 Feb 2023 at 00:43, Chris Clayton <chris2553@googlemail.com> wrote:
+>
+>
+>
+> On 10/02/2023 19:33, Linux regression tracking (Thorsten Leemhuis) wrote:
+> > On 10.02.23 20:01, Karol Herbst wrote:
+> >> On Fri, Feb 10, 2023 at 7:35 PM Linux regression tracking (Thorsten
+> >> Leemhuis) <regressions@leemhuis.info> wrote:
+> >>>
+> >>> On 08.02.23 09:48, Chris Clayton wrote:
+> >>>>
+> >>>> I'm assuming  that we are not going to see a fix for this regression before 6.2 is released.
+> >>>
+> >>> Yeah, looks like it. That's unfortunate, but happens. But there is still
+> >>> time to fix it and there is one thing I wonder:
+> >>>
+> >>> Did any of the nouveau developers look at the netconsole captures Chris
+> >>> posted more than a week ago to check if they somehow help to track down
+> >>> the root of this problem?
+> >>
+> >> I did now and I can't spot anything. I think at this point it would
+> >> make sense to dump the active tasks/threads via sqsrq keys to see if
+> >> any is in a weird state preventing the machine from shutting down.
+> >
+> > Many thx for looking into it!
+>
+> Yes, thanks Karol.
+>
+> Attached is the output from dmesg when this block of code:
+>
+>         /bin/mount /dev/sda7 /mnt/sda7
+>         /bin/mountpoint /proc || /bin/mount /proc
+>         /bin/dmesg -w > /mnt/sda7/sysrq.dmesg.log &
+>         /bin/echo t > /proc/sysrq-trigger
+>         /bin/sleep 1
+>         /bin/sync
+>         /bin/sleep 1
+>         kill $(pidof dmesg)
+>         /bin/umount /mnt/sda7
+>
+> is executed immediately before /sbin/reboot is called as the final step of rebooting my system.
+>
+> I hope this is what you were looking for, but if not, please let me know what you need
 
-syzbot found the following issue on:
+Another shot in the dark, but does nouveau.runpm=0 help at all?
 
-HEAD commit:    0983f6bf2bfc Merge tag 'devicetree-fixes-for-6.2-2' of git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=134dab4d480000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9e55e71813900595
-dashboard link: https://syzkaller.appspot.com/bug?extid=58ea3177ba8bd0a5d8ee
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15052a83480000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13073cfb480000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/dfe2e2ac7b39/disk-0983f6bf.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/bd09e355e210/vmlinux-0983f6bf.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/8409e5f10fab/bzImage-0983f6bf.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+58ea3177ba8bd0a5d8ee@syzkaller.appspotmail.com
-
-Warning: Permanently added '10.128.1.168' (ECDSA) to the list of known hosts.
-executing program
-executing program
-BUG: memory leak
-unreferenced object 0xffff88810f1c75c0 (size 64):
-  comm "syz-executor750", pid 5060, jiffies 4294945258 (age 13.860s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 d6 e4 04 81 88 ff ff  ................
-  backtrace:
-    [<ffffffff81508f84>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1062
-    [<ffffffff82787cca>] kmalloc include/linux/slab.h:580 [inline]
-    [<ffffffff82787cca>] vma_node_allow+0x3a/0x150 drivers/gpu/drm/drm_vma_manager.c:255
-    [<ffffffff8276788e>] drm_gem_handle_create_tail+0x10e/0x250 drivers/gpu/drm/drm_gem.c:377
-    [<ffffffff8278ed4d>] drm_gem_shmem_create_with_handle drivers/gpu/drm/drm_gem_shmem_helper.c:432 [inline]
-    [<ffffffff8278ed4d>] drm_gem_shmem_dumb_create+0xbd/0x200 drivers/gpu/drm/drm_gem_shmem_helper.c:534
-    [<ffffffff82753a5b>] drm_mode_create_dumb+0x11b/0x150 drivers/gpu/drm/drm_dumb_buffers.c:96
-    [<ffffffff82768e28>] drm_ioctl_kernel+0x148/0x260 drivers/gpu/drm/drm_ioctl.c:788
-    [<ffffffff82769230>] drm_ioctl+0x2f0/0x500 drivers/gpu/drm/drm_ioctl.c:891
-    [<ffffffff81642600>] vfs_ioctl fs/ioctl.c:51 [inline]
-    [<ffffffff81642600>] __do_sys_ioctl fs/ioctl.c:870 [inline]
-    [<ffffffff81642600>] __se_sys_ioctl fs/ioctl.c:856 [inline]
-    [<ffffffff81642600>] __x64_sys_ioctl+0x100/0x140 fs/ioctl.c:856
-    [<ffffffff8498c889>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff8498c889>] do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff84a0008b>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-BUG: memory leak
-unreferenced object 0xffff888109662d80 (size 64):
-  comm "syz-executor750", pid 5060, jiffies 4294945258 (age 13.870s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 d6 e4 04 81 88 ff ff  ................
-  backtrace:
-    [<ffffffff81508f84>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1062
-    [<ffffffff82787cca>] kmalloc include/linux/slab.h:580 [inline]
-    [<ffffffff82787cca>] vma_node_allow+0x3a/0x150 drivers/gpu/drm/drm_vma_manager.c:255
-    [<ffffffff8276788e>] drm_gem_handle_create_tail+0x10e/0x250 drivers/gpu/drm/drm_gem.c:377
-    [<ffffffff8278ed4d>] drm_gem_shmem_create_with_handle drivers/gpu/drm/drm_gem_shmem_helper.c:432 [inline]
-    [<ffffffff8278ed4d>] drm_gem_shmem_dumb_create+0xbd/0x200 drivers/gpu/drm/drm_gem_shmem_helper.c:534
-    [<ffffffff82753a5b>] drm_mode_create_dumb+0x11b/0x150 drivers/gpu/drm/drm_dumb_buffers.c:96
-    [<ffffffff82768e28>] drm_ioctl_kernel+0x148/0x260 drivers/gpu/drm/drm_ioctl.c:788
-    [<ffffffff82769230>] drm_ioctl+0x2f0/0x500 drivers/gpu/drm/drm_ioctl.c:891
-    [<ffffffff81642600>] vfs_ioctl fs/ioctl.c:51 [inline]
-    [<ffffffff81642600>] __do_sys_ioctl fs/ioctl.c:870 [inline]
-    [<ffffffff81642600>] __se_sys_ioctl fs/ioctl.c:856 [inline]
-    [<ffffffff81642600>] __x64_sys_ioctl+0x100/0x140 fs/ioctl.c:856
-    [<ffffffff8498c889>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff8498c889>] do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff84a0008b>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-BUG: memory leak
-unreferenced object 0xffff888109662900 (size 64):
-  comm "syz-executor750", pid 5069, jiffies 4294945834 (age 8.110s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 ce 8f 09 81 88 ff ff  ................
-  backtrace:
-    [<ffffffff81508f84>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1062
-    [<ffffffff82787cca>] kmalloc include/linux/slab.h:580 [inline]
-    [<ffffffff82787cca>] vma_node_allow+0x3a/0x150 drivers/gpu/drm/drm_vma_manager.c:255
-    [<ffffffff8276788e>] drm_gem_handle_create_tail+0x10e/0x250 drivers/gpu/drm/drm_gem.c:377
-    [<ffffffff8278ed4d>] drm_gem_shmem_create_with_handle drivers/gpu/drm/drm_gem_shmem_helper.c:432 [inline]
-    [<ffffffff8278ed4d>] drm_gem_shmem_dumb_create+0xbd/0x200 drivers/gpu/drm/drm_gem_shmem_helper.c:534
-    [<ffffffff82753a5b>] drm_mode_create_dumb+0x11b/0x150 drivers/gpu/drm/drm_dumb_buffers.c:96
-    [<ffffffff82768e28>] drm_ioctl_kernel+0x148/0x260 drivers/gpu/drm/drm_ioctl.c:788
-    [<ffffffff82769230>] drm_ioctl+0x2f0/0x500 drivers/gpu/drm/drm_ioctl.c:891
-    [<ffffffff81642600>] vfs_ioctl fs/ioctl.c:51 [inline]
-    [<ffffffff81642600>] __do_sys_ioctl fs/ioctl.c:870 [inline]
-    [<ffffffff81642600>] __se_sys_ioctl fs/ioctl.c:856 [inline]
-    [<ffffffff81642600>] __x64_sys_ioctl+0x100/0x140 fs/ioctl.c:856
-    [<ffffffff8498c889>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff8498c889>] do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff84a0008b>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-BUG: memory leak
-unreferenced object 0xffff888109662940 (size 64):
-  comm "syz-executor750", pid 5069, jiffies 4294945834 (age 8.110s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 ce 8f 09 81 88 ff ff  ................
-  backtrace:
-    [<ffffffff81508f84>] kmalloc_trace+0x24/0x90 mm/slab_common.c:1062
-    [<ffffffff82787cca>] kmalloc include/linux/slab.h:580 [inline]
-    [<ffffffff82787cca>] vma_node_allow+0x3a/0x150 drivers/gpu/drm/drm_vma_manager.c:255
-    [<ffffffff8276788e>] drm_gem_handle_create_tail+0x10e/0x250 drivers/gpu/drm/drm_gem.c:377
-    [<ffffffff8278ed4d>] drm_gem_shmem_create_with_handle drivers/gpu/drm/drm_gem_shmem_helper.c:432 [inline]
-    [<ffffffff8278ed4d>] drm_gem_shmem_dumb_create+0xbd/0x200 drivers/gpu/drm/drm_gem_shmem_helper.c:534
-    [<ffffffff82753a5b>] drm_mode_create_dumb+0x11b/0x150 drivers/gpu/drm/drm_dumb_buffers.c:96
-    [<ffffffff82768e28>] drm_ioctl_kernel+0x148/0x260 drivers/gpu/drm/drm_ioctl.c:788
-    [<ffffffff82769230>] drm_ioctl+0x2f0/0x500 drivers/gpu/drm/drm_ioctl.c:891
-    [<ffffffff81642600>] vfs_ioctl fs/ioctl.c:51 [inline]
-    [<ffffffff81642600>] __do_sys_ioctl fs/ioctl.c:870 [inline]
-    [<ffffffff81642600>] __se_sys_ioctl fs/ioctl.c:856 [inline]
-    [<ffffffff81642600>] __x64_sys_ioctl+0x100/0x140 fs/ioctl.c:856
-    [<ffffffff8498c889>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff8498c889>] do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff84a0008b>] entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Dave.
