@@ -2,69 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434B469538C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 23:03:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3059E6953B7
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 23:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7862210E09C;
-	Mon, 13 Feb 2023 22:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40D7C10E08A;
+	Mon, 13 Feb 2023 22:21:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
- [IPv6:2a00:1450:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD5110E189
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 22:03:52 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id rp23so35379103ejb.7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 14:03:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SciaDGlhBSACeEgmQUctvCJzUdxmTqWquIcBNRcQQUE=;
- b=qAUVIMC+kxGeBGNC8PtHQK3/XUIUx+e027q4Aye6trnlmNsJKvFzFM243I+N4pYU5b
- /CC14MXMszJUy5agtczW7mAlyynsNIdLMT5+qjWMdRytyz1cGWVSupc6NvFRRu3RgbmU
- XeZoLLzPgajFYh9kw3YakluNdbpFyZAzoA+q1fth0/8UOadMxeyZlpYuPjC+lxE9ZTne
- jQR+naF+SyZ5BdhPH1Gf9OBhB5SsU5g/sdsBG/yyYR4RhEv2BNV3EY4vAkDyDrF5iFob
- EaXdUn3nVijeBkxhvxGfNkjyB8GWfJFgmRCVfkzJBnWJEFCUxLuEPdw74cCAlH9AA+8C
- tXKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SciaDGlhBSACeEgmQUctvCJzUdxmTqWquIcBNRcQQUE=;
- b=uYU+eyxtWJrmSGlGr4OYKWz5WkIAPvwGmHTOWOFZBBdU+66ivg7yyiTaepsslxKeKb
- C6Mr06yXwh1GXNGYupmjLO9Z8GkZG1ohca1ZmbrBsBxEHh3KC25kT3OV/eYtqPpWYSHt
- wIw2bPRnuTSocDO3MOAV1Xcp7/Fl+U/Eb0B+B5xP/mcFb/UFj3BYMbfpHmpPCBv3kuK9
- gOpoqG0zF0wbOgcfGcVEkna/DuCdwh9HyC7GimBtGCPG69yESm8WrEi/HT6jopPJ7gWf
- tffLojG5hfO2uvi2GblJ3jS2ewB76b5DGz3YZfqJ0hrkgyo+q/HGeXSSJfJgkYQwgJ9/
- V7dA==
-X-Gm-Message-State: AO0yUKVYyMik7lDnF9YcsUg/gVcSclWvV+47fora9pFrokLOUkK0Tf6v
- 8VK1yVpjhH8amw5ocu6eW5/dBw==
-X-Google-Smtp-Source: AK7set/cQftJ3aQ9LX+7ynFyd9oqMGzpGy76JqW65Ia+KeGGF8ri9wWHOvqmZwvJtKPsunxoXmAtOQ==
-X-Received: by 2002:a17:906:e99:b0:861:7a02:1046 with SMTP id
- p25-20020a1709060e9900b008617a021046mr377565ejf.37.1676325830819; 
- Mon, 13 Feb 2023 14:03:50 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- dx12-20020a170906a84c00b008b128106fc7sm396128ejb.46.2023.02.13.14.03.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Feb 2023 14:03:50 -0800 (PST)
-Message-ID: <9e68a5fb-8dc1-481c-ebf3-b6ad3545319f@linaro.org>
-Date: Tue, 14 Feb 2023 00:03:49 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFF010E08A;
+ Mon, 13 Feb 2023 22:21:05 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7152A61321;
+ Mon, 13 Feb 2023 22:21:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB4CC433A0;
+ Mon, 13 Feb 2023 22:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1676326863;
+ bh=MAFEEpooP81rHga3hyR7q68TKMP8X0VWoBWQ9cj/IzA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=oY5aS8mtACHUYH8oywWM6PjXK2+FSJBLfIVpkFu2Jdb+zxScYYMPG8EciOaW4TYKW
+ 6SFFbpineQMZPTgCG1eGylsVifVPfhJywExsLjKGoQy9ED197UcBhOlqq3qH42kpxd
+ Wba2KBUMwAniSj3T0B6O5Txu2V1k9yXDwXycuqYFJxtWpZM+vUY89fQf2fx/wBGsU3
+ O4QJZBJiaAwJ/iHkuRCWttpA1yuzII8YnX4i3sgLZekmNNL1FO3m5pWYin6NxuySHS
+ PtpJloWMCtKfIDSpWCR7zHS0Se0dcSFN4Q/Z9WKltWTJTf2HrpGo1yvP91LgvDf0AB
+ e5kZCxnxMo9Ww==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Andy Gross <agross@kernel.org>, Sean Paul <sean@poorly.run>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v3 0/6] arm64: dts: qcom: sm8350: enable GPU on the HDK
+ board
+Date: Mon, 13 Feb 2023 14:23:00 -0800
+Message-Id: <167632698310.557014.3960232028013864693.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230209133839.762631-1-dmitry.baryshkov@linaro.org>
+References: <20230209133839.762631-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RFC PATCH v3 3/4] drm/msm/dpu: Remove empty prepare_commit()
- function
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20230213194819.608-1-quic_jesszhan@quicinc.com>
- <20230213194819.608-4-quic_jesszhan@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230213194819.608-4-quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,67 +59,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- marijn.suijten@somainline.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2023 21:48, Jessica Zhang wrote:
-> Now that the TE setup has been moved to prepare_for_kickoff(), and
-> dpu_encoder_prepare_commit() is not empty, remove prepare_commit()
-> from DPU driver.
-
-Well. dpu_encoder_prepare_commit() is not empty. I'd say instead:
-
-"... to prepare_for_kickoff(), we have no prepare_commit() callbacks 
-left. This makes dpu_encoder_prepare_commit() do nothing. Remove ..."
-
-Otherwise LGTM.
-
+On Thu, 9 Feb 2023 15:38:33 +0200, Dmitry Baryshkov wrote:
+> Add A660 device to the Qualcomm SM8350 platform and enable it for the
+> sm8350-hdk board. Unfortunately while adding the GPU & related devices I
+> noticed that DT nodes on SM8350 are greatly out of the adress sorting
+> order, so patches 2-4 reorder DT nodes to follow the agreement.
 > 
-> Changes in V3:
-> - Reworded commit message to be more clear
-> - Corrected spelling mistake in commit message
+> Changes since v1:
+> - Dropped merged patches
+> - Expanded commit messages to mention the sort order (by the node
+>   address)
+> - Rebased on top of latest Bjorn's tree
 > 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 19 -------------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  7 -------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 21 ---------------------
->   3 files changed, 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index dcceed91aed8..35e120b5ef53 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -2090,25 +2090,6 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
->   	ctl->ops.clear_pending_flush(ctl);
->   }
->   
-> -void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
-> -{
-> -	struct dpu_encoder_virt *dpu_enc;
-> -	struct dpu_encoder_phys *phys;
-> -	int i;
-> -
-> -	if (!drm_enc) {
-> -		DPU_ERROR("invalid encoder\n");
-> -		return;
-> -	}
-> -	dpu_enc = to_dpu_encoder_virt(drm_enc);
-> -
-> -	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-> -		phys = dpu_enc->phys_encs[i];
-> -		if (phys->ops.prepare_commit)
-> -			phys->ops.prepare_commit(phys);
-> -	}
-> -}
-> -
+> [...]
 
-[skipped the rest]
+Applied, thanks!
 
+[1/6] dt-bindings: display/msm/gmu: add Adreno 660 support
+      (no commit info)
+[2/6] arm64: dts: qcom: sm8350: reorder device nodes
+      commit: f5f6bd58186afa4ec1ebcd074bc30255826e8480
+[3/6] arm64: dts: qcom: sm8350: move more nodes to correct place
+      commit: 1417372f4f846fbc28b4306370eb011d1f0853ca
+[4/6] arm64: dts: qcom: sm8350: finish reordering nodes
+      commit: 51f83fbbf1c8d7a09885099f9a8f25b3c9139797
+[5/6] arm64: dts: qcom: sm8350: add GPU, GMU, GPU CC and SMMU nodes
+      commit: 54af0ceb75958a8b7e62138646cfa6c114e71a77
+[6/6] arm64: dts: qcom: sm8350-hdk: enable GPU
+      commit: a8ecd17bb681d1743309b0d2a4622b643b61d69c
+
+Best regards,
 -- 
-With best wishes
-Dmitry
-
+Bjorn Andersson <andersson@kernel.org>
