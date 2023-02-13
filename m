@@ -2,49 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188BA694685
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 14:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E744694780
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 14:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBFB710E5C0;
-	Mon, 13 Feb 2023 13:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1BD910E5C4;
+	Mon, 13 Feb 2023 13:56:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48EAD10E5B9;
- Mon, 13 Feb 2023 13:06:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676293604; x=1707829604;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=HnlpTL+XAwn825BNpdfY5l+tRvfwDmhxQ86CVYs1BFc=;
- b=IopT2+TDx/YtN9MZvIR96Rr6vhgU7meU7V48xmaRocZ47wlESzyRmhZC
- /Sqy8Cc9Sysq63BDY0ogurDtd3D7G6gTkJ33KkA1KwQemaRWo2sYyUB0E
- ZiYk2Gn12s1/ZkA6gmbljWQkrmeTPDTDIYybAQppwdOmrxM4MmGHIXtly
- tS+OytVpGX0MtO+WAdU/F3tP9Dmko87Dbwzkh7VYiPkUDNOq6F7TazqpV
- taoYPWXktJ+HV+kZVG5oybsip9tn4yExugS4bmjgZIcaCoKdNRHeS/xq6
- wxQGJ8azfCdrxWgPWRHFq7wbzHj+Xhi/gg15Jh4+xpyucjBswwsYKTFXL A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="314526488"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="314526488"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 05:06:44 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10619"; a="670811526"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="670811526"
-Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.19.172])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 05:06:40 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: [PATCH 1/1] drm/i915/active: Fix misuse of non-idle barriers as fence
- trackers
-Date: Mon, 13 Feb 2023 14:05:46 +0100
-Message-Id: <20230213130546.20370-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230213130546.20370-1-janusz.krzysztofik@linux.intel.com>
-References: <20230213130546.20370-1-janusz.krzysztofik@linux.intel.com>
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E986E10E5BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 13:56:08 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id k3so4687603wrv.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 05:56:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :from:content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=1Uy5CSnBerGct98JAqbVYGF95fZTgd+o15YjTkcuIPk=;
+ b=xZJT6Spjz5YhxcyphM9ApKsAYqrAbbXecAiawIW5K2Flh9rnsQ8qDatufAylRsgoki
+ ++yrs+wwnD3MuoQarcAugWmIIqSDY0AaiDd1NiQzVxNQS/sQUqFU5YrtEbaxdJQ3BS/M
+ NWAxYNH73CvXqqzp5BbXuN7fHKbyy3mG9EoS3DYshvTymcoVgCNPde3dvMRuj27aLeOM
+ ui6UJzcSabTiHtaRUOW/xeUoEoToFsqP5KSbTMz8hwlgyZ1nLEqOctDKSNb+Gus8KYoL
+ p0SeR4LyIjc+UAmtI4TeCEfXdzdgp7f8ZrY8u2g4RHCEEqNBk6eFbYLVQIznT2pt0rVX
+ RFtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :from:content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1Uy5CSnBerGct98JAqbVYGF95fZTgd+o15YjTkcuIPk=;
+ b=O5cNp857N9PeRvLTnwtfZy3/5dFuvMySnjSNTbq+IpIYFBMdaPRsq4p1HJ+pBnDPdx
+ HvaSuc/eDZK9Ue2NoYXohArL4WK0CnXUBO2jFNYuTuoQLu5h6t6Okx+++HLd22hj4scF
+ piyINS7loi/o8FgztScIhOfdhss9lkrkMAi2td0RAgUSIxZIEsWcAc5T6MO9K6QfZrW8
+ QshoacZ+xyCwEr1kZgtaGf9mPu4JI54MU4pLzwuSZKckSWufZF1LIg8odPolwpIKAWzM
+ sXF88Vp9NGfbJmHbH7Umc1EwMeO4yip2sqplWwODfrmcy8RUpSv4hnttYzTVAsmJn/S1
+ mF8g==
+X-Gm-Message-State: AO0yUKWGFRN46ZHNzVvcgTx413+Z+8A81ObZEbRF3kHFVd8EuLgax++4
+ 1Cist03YPOWsHNziHs4ENMgMIw==
+X-Google-Smtp-Source: AK7set+D3CHlBRertMGZvD1SZZYSxdyV0jk07kZ5xiDaPn1MIZfSnQEaX9uZIv7om6WSAzxFky7u9Q==
+X-Received: by 2002:a5d:6210:0:b0:2be:c41:4758 with SMTP id
+ y16-20020a5d6210000000b002be0c414758mr20399555wru.38.1676296567433; 
+ Mon, 13 Feb 2023 05:56:07 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:915c:811a:b081:f099?
+ ([2a01:e0a:982:cbb0:915c:811a:b081:f099])
+ by smtp.gmail.com with ESMTPSA id
+ d15-20020a5d6dcf000000b002c3f9404c45sm10917766wrz.7.2023.02.13.05.56.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Feb 2023 05:56:06 -0800 (PST)
+Message-ID: <83603bc5-4b32-b759-5e5c-a590c2952039@linaro.org>
+Date: Mon, 13 Feb 2023 14:56:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3 5/5] arm64: dts: qcom: sm8450: add dp controller
+Content-Language: en-US
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230206-topic-sm8450-upstream-dp-controller-v3-0-636ef9e99932@linaro.org>
+ <20230206-topic-sm8450-upstream-dp-controller-v3-5-636ef9e99932@linaro.org>
+ <347a5193-f7b1-7f8e-0c60-3d435bdf952c@linaro.org>
+ <f5a26fff-2dc2-2397-a80c-2477176a5864@linaro.org>
+ <880e691a-0512-6325-f27c-9be59abdd647@linaro.org>
+ <b43179c4-bbf5-1d38-6ff0-8ddd0356d6d1@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <b43179c4-bbf5-1d38-6ff0-8ddd0356d6d1@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,125 +89,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Users reported oopses on list corruptions when using i915 perf with a
-number of concurrently running graphics applications.  Root cause analysis
-pointed out to an issue in barrier processing code -- a race among perf
-open / close replacing active barriers with perf requests on kernel
-contexts and concurrent barrier preallocate / acquire operations performed
-during user context first pin / last unpin.
+On 13/02/2023 13:32, neil.armstrong@linaro.org wrote:
+> On 10/02/2023 16:54, Dmitry Baryshkov wrote:
+>> On 10/02/2023 17:28, Neil Armstrong wrote:
+>>> On 10/02/2023 16:24, Dmitry Baryshkov wrote:
+>>>> On 10/02/2023 16:44, Neil Armstrong wrote:
+>>>>> Add the Display Port controller subnode to the MDSS node.
+>>>>>
+>>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>>>> ---
+>>>>>   arch/arm64/boot/dts/qcom/sm8450.dtsi | 79 ++++++++++++++++++++++++++++++++++++
+>>>>>   1 file changed, 79 insertions(+)
+>>>>>
+>>>>> diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+>>>>> index 6caa2c8efb46..72d54beb7d7c 100644
+>>>>> --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
+>>>>> +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+>>>>> @@ -2751,6 +2751,13 @@ dpu_intf2_out: endpoint {
+>>>>>                           };
+>>>>>                       };
+>>>>> +                    port@2 {
+>>>>> +                        reg = <2>;
+>>>>> +                        dpu_intf0_out: endpoint {
+>>>>> +                            remote-endpoint = <&mdss_dp0_in>;
+>>>>> +                        };
+>>>>> +                    };
+>>>>> +
+>>>>>                   };
+>>>>>                   mdp_opp_table: opp-table {
+>>>>> @@ -2783,6 +2790,78 @@ opp-500000000 {
+>>>>>                   };
+>>>>>               };
+>>>>> +            mdss_dp0: displayport-controller@ae90000 {
+>>>>> +                compatible = "qcom,sm8350-dp";
+>>>
+>>> Exact, must fix.
+>>>
+>>>>
+>>>> Missing "qcom,sm8450-dp". As I wrote in the comment to patch 1, I'd suggest having just a single entry here rather than keeping both 8350 and 8450 entries.
+>>>>
+>>>>> +                reg = <0 0xae90000 0 0xfc>,
+>>>>> +                      <0 0xae90200 0 0xc0>,
+>>>>> +                      <0 0xae90400 0 0x770>,
+>>>>> +                      <0 0xae91000 0 0x98>,
+>>>>> +                      <0 0xae91400 0 0x98>;
+>>>>
+>>>>
+>>>> While this sounds correct, usually we used the even size here (0x200, 0x400, etc.). Can we please switch to it (especially since sm8350-dp uses even sizes).
+>>>
+>>> I don't have access to registers layout for HDK8450 but the system freezes when using even sizes, using
+>>> the exact register size works fine.
+>>
+>> Interesting. Could you please trace, what exactly makes it fail, since specifying bigger region size should not cause such issues.
+> 
+> Yep I'll trace what's happening.
 
-When adding a request to a composite tracker, we try to use an existing
-fence tracker already registered with that composite tracker.  The tracker
-we obtain can already track another fence, can be an idle barrier, or an
-active barrier.  The first two cases seem easy to handle and we seem to
-do that correctly.  In the last case, we attempt to replace the active
-barrier with our request.  However, when the tracker occurs a barrier
-and we try to delete that barrier from a list of barrier tasks it belongs
-to, we ignore return value from that operation, which informs us whether
-the deletion succeeded or not, and we reuse the barrier as if it was
-idle.
+OK weird, I tried with the same sizes as sm8350, and it works fine.
 
-On the other side, barriers are now deleted from a barrier tasks list by
-temporarily removing the list content, traversing that content with skip
-over the node to be deleted, then adding the modified content back to the
-list.  Since that complex operation is not serialized with other
-concurrent uses of the list, including similar barrier deletions,
-functions that depend on the list being either empty or not empty can take
-wrong decisions.
+Will resend with this fixed.
 
-A failed barrier deletion can be a side effect of the way we have it
-implemented -- another thread can have temporarily emptied the list before
-we manage to do that.  If we ignore such failure, that other thread can
-then add our fence tracker back to the barrier tasks list.  Since the same
-structure field of the tracker is used as a list node with both barrier
-tasks lists and fence callback lists, list corruption occurs.  However,
-list corruptions were still observed when running the user workload on top
-of an experimental patch that serialized all operations on barrier tasks
-lists with a spinlock.  Then, other race scenarios leading to list
-corruptions likely exist.
+Neil
 
-Based on those observations, respecting the return code from barrier
-deletion seems required for effectively fixing the issue.  However, we
-need to handle those few above mentioned cases carefully.
-
-Respect results of barrier deletion attempts -- mark the barrier as idle
-only after successfully deleted from the list.  Then, before proceeding
-with setting our fence as the one currently tracked, make sure that the
-tracker we've got is not a non-idle barrier.  If that check fails, don't
-use that tracker but go back and try to acquire a new, usable one.
-
-Extensive testing shows that this patch effectively fixes barrier related
-list corruptions.  However, other potentially related issues have been
-observed, reported by a new subtest we have developed for this case,
-with this fix applied.  Then, we may still want to get back to this soon
-and refactor our intentionally racy but potentially fragile way of barrier
-tasks lists handling.
-
-Fixes: d8af05ff38ae ("drm/i915: Allow sharing the idle-barrier from other kernel requests")
-References: https://gitlab.freedesktop.org/drm/intel/-/issues/6333
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: stable@vger.kernel.org # v5.4
----
- drivers/gpu/drm/i915/i915_active.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-index 7412abf166a8c..f9282b8c87c1c 100644
---- a/drivers/gpu/drm/i915/i915_active.c
-+++ b/drivers/gpu/drm/i915/i915_active.c
-@@ -422,12 +422,12 @@ replace_barrier(struct i915_active *ref, struct i915_active_fence *active)
- 	 * we can use it to substitute for the pending idle-barrer
- 	 * request that we want to emit on the kernel_context.
- 	 */
--	__active_del_barrier(ref, node_from_active(active));
--	return true;
-+	return __active_del_barrier(ref, node_from_active(active));
- }
- 
- int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
- {
-+	u64 idx = i915_request_timeline(rq)->fence_context;
- 	struct dma_fence *fence = &rq->fence;
- 	struct i915_active_fence *active;
- 	int err;
-@@ -437,16 +437,19 @@ int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
- 	if (err)
- 		return err;
- 
--	active = active_instance(ref, i915_request_timeline(rq)->fence_context);
--	if (!active) {
--		err = -ENOMEM;
--		goto out;
--	}
-+	do {
-+		active = active_instance(ref, idx);
-+		if (!active) {
-+			err = -ENOMEM;
-+			goto out;
-+		}
-+
-+		if (replace_barrier(ref, active)) {
-+			RCU_INIT_POINTER(active->fence, NULL);
-+			atomic_dec(&ref->count);
-+		}
-+	} while (is_barrier(active));
- 
--	if (replace_barrier(ref, active)) {
--		RCU_INIT_POINTER(active->fence, NULL);
--		atomic_dec(&ref->count);
--	}
- 	if (!__i915_active_fence_set(active, fence))
- 		__i915_active_acquire(ref);
- 
--- 
-2.25.1
+> 
+> Neil
+> 
+>>
+> 
 
