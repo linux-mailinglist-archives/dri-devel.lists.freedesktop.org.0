@@ -1,67 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570426951CA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 21:24:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF126951D5
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 21:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4853910E703;
-	Mon, 13 Feb 2023 20:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32B0A10E70B;
+	Mon, 13 Feb 2023 20:25:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
- [IPv6:2607:f8b0:4864:20::112a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E17F610E703
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 20:24:41 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-52ec329dc01so159819667b3.10
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 12:24:41 -0800 (PST)
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AA5710E2FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 20:25:52 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id u76so2079320ybi.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 12:25:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IozIfz/lMOPx2rs8ffv5j6yodYzusrmdIZCeFx4II1E=;
- b=YiRsAA8Os3DmpiNGwzSvpeSFM2FCzNEpYpUMkECOQzKYp2RDpc01r1XqGhVjYrAdLn
- 2mtpZpQ6hdSDJ+3QYcGs+XvXOuHSkouqHaWkSgD8b6A/6S8S7iJKSrFGTjQs8nHLjrQW
- +fmbnL90JLrju3GlqlvRl0FVVTebkAvc2v+HfQ/WKEoDeBraXZImDpF2SnkvMRwezNG4
- TXiK8bMQUKXU2tEwNl1Ki1HBiALrIgnYeUyoBjhtprgd9dTQ6RSXkLka2mFpQv08pSEY
- MVSVjP0AlF6jIlfp1jUmPZEIjURzDtYVbQotGHyeX6VXTgATlXtrj42eZowObKjQ7Ybd
- O2SQ==
+ bh=/0Ws/YlbYYoxDYDAzi4lHOOroimYy2NYmSbxJOySDP4=;
+ b=FtxD+4keDj4WORQa3590d18w1Tgvlh+vZeAuVrxN6og/aSdvNMP1Dk0n3WC5kqOkxN
+ qdY2ivrbuuH3zqFaBLo5rI/Rguy/C/JqGn9eKiXAlXI6ZhSs4rcbOTbNEWNvC2+eJn8c
+ Rl/J74HQm5QH+/eIFPAjonIKpObtvg2WPjyE1Lfmhu8dAwh9vQn5tNrY12OvbjusI2D7
+ oIRihtsZ9OccWOerJflZGAl0Tnx+6wQMDJQFo1ZvYS24EMrJEF4kFbFE1Zye1TfHqtv9
+ ra8KahXUSZqA5WGsALtahPuMRATBc1pSk1uJ+BeJiGgRbxcKp8FP+B2Iz7yQbbbT/m2V
+ w4iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=IozIfz/lMOPx2rs8ffv5j6yodYzusrmdIZCeFx4II1E=;
- b=MJhj1ZfrD/3ROOdtLvejnL44qnmzFHm94ewnZI4dtGTnG/4nmivYPLV7qWRqCBQzPl
- DGmycSJAvO+naaV918XwXDfiehAaRaIQPKmfWtX5qpbpm+0VhW+D9Qb76inhldD92mV+
- v+d9kB3vCtPvOl8GeFPfvy6Krt+5HtBM0aEssB1VKYqN10aihB2l3m7Uy6niMw3p1tKo
- 71YThcKAcJjGwKOvkV02o5in7W649jTtorjpvf6dswAcHsmOfHElfTMZZ2ov7+Bn76gc
- 6yDB80atwootz/VuC1a8yxgVfgrCsbzb5lk2tiqUrpK03BCgBlnUsGgzKMoqnGd2VYzV
- UPsg==
-X-Gm-Message-State: AO0yUKV8MqEot248Wcj2jQQBhm6VL84fbwjUq2bmynYB+paiCKTHZGKp
- 4x276xKR2FPgA6t/V6TRNYdVByGrH8wXY/hS5tYEqw==
-X-Google-Smtp-Source: AK7set88SCxq80AaNbdYEdAzMQhu6gTClIokiS5I8cC4uNE+rETzLwdIDBKFIOyCT6jtH1wbwH134P1scqVX1Q83S1c=
-X-Received: by 2002:a0d:d696:0:b0:52f:230a:f922 with SMTP id
- y144-20020a0dd696000000b0052f230af922mr618289ywd.481.1676319880944; Mon, 13
- Feb 2023 12:24:40 -0800 (PST)
+ bh=/0Ws/YlbYYoxDYDAzi4lHOOroimYy2NYmSbxJOySDP4=;
+ b=PU+VVuSHXsGM5AhtxyCZyy4ffuvQWSBycWBo2JElIsGRoognOK1ea4YnUHCCPpugLi
+ tCQVR7d98IBt78RjFF8gmhbiECJdZgPX8l240ACGwYIN1J1WgidSI6w2HUCGp9VjdpPr
+ fOtPvW6esW2roZ73JDe0AtQamYUcWbCNAyYENtg3ftvgTTIlVr9yPzfZWU9KlKHLO0BS
+ axGRqeolc3QIS1ugi6teLfoCpcmBMylfxNEn3w2WwenvyoSRYz5WO3N/9aab3/e+FFSw
+ exyj2rcR8Kt7V03D4IMPjkOuEX01R0I8Q4bu18oL7N3yXNa8Geyh9EQfQKTz3dttEVFI
+ AmdQ==
+X-Gm-Message-State: AO0yUKU2mSITFLDU3OaZD7oht7Q6z9d4bQljONgNAwuf8g/qKKSkQg21
+ ShbADFjQOC898bK7xkEBvDd4whyMjCMnGdQLEYu8wYSvZR0FZw==
+X-Google-Smtp-Source: AK7set/J+/iYGG/w89J6BRAoLZRY7PDAaMX8d4rSeEC+A9phEA8KjwshqjneIfaPRQlFeIYiRbKJH52D151YyS4LfTQ=
+X-Received: by 2002:a25:9a49:0:b0:86a:e417:b66e with SMTP id
+ r9-20020a259a49000000b0086ae417b66emr13117ybo.382.1676319951658; Mon, 13 Feb
+ 2023 12:25:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20230211122656.1479141-1-konrad.dybcio@linaro.org>
- <20230211122656.1479141-7-konrad.dybcio@linaro.org>
- <a18cf663-115d-edc8-5e4b-3d19fcd9a02c@linaro.org>
- <cc364658-478a-f239-5d17-5ca2b7f7df8b@linaro.org>
- <20230213113008.ih7ii5m3cz4w3lmz@SoMainline.org>
- <8560b69f-8d42-995d-2f4d-11d6a64afef0@linaro.org>
- <20230213142831.hbzfp2chekshsqyy@SoMainline.org>
- <28c9ea04-fedb-16cf-f874-f4c965fbc445@linaro.org>
- <20230213151413.qhpzzcz4c6m6rynk@SoMainline.org>
- <56281f37-2c7f-5f70-6c9e-87e950f06b0e@linaro.org>
- <cf77995f-3adf-d1a4-40ac-2f524b926835@quicinc.com>
-In-Reply-To: <cf77995f-3adf-d1a4-40ac-2f524b926835@quicinc.com>
+References: <1676286704-818-1-git-send-email-quic_kalyant@quicinc.com>
+ <CAD=FV=WdMtzHryJXxMgYqXkqtFzowqcdvWYOxn4du8mQwYKvcg@mail.gmail.com>
+In-Reply-To: <CAD=FV=WdMtzHryJXxMgYqXkqtFzowqcdvWYOxn4du8mQwYKvcg@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 13 Feb 2023 22:24:29 +0200
-Message-ID: <CAA8EJpqrHAUcpgPOnHtqrMLb1ZoSvNNj=fcXwXFpqMBh3i6=7g@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 06/10] drm/msm/dpu: Add SM6350 support
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Date: Mon, 13 Feb 2023 22:25:40 +0200
+Message-ID: <CAA8EJppF-UuoooGaX6ySo7CqfnSPBoJiVYBb9QRdyqvWBYAXEg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] Reserve DSPPs based on user request
+To: Doug Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,85 +65,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Robert Foss <rfoss@kernel.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Liu Shixin <liushixin2@huawei.com>, krzysztof.kozlowski@linaro.org,
- Vinod Koul <vkoul@kernel.org>, agross@kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Kalyan Thota <quic_kalyant@quicinc.com>, devicetree@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, marijn.suijten@somainline.org, robdclark@chromium.org,
+ freedreno@lists.freedesktop.org, quic_vpolimer@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Feb 2023 at 21:14, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> On 2/13/2023 8:25 AM, Dmitry Baryshkov wrote:
-> > On 13/02/2023 17:14, Marijn Suijten wrote:
-> >> On 2023-02-13 16:58:00, Dmitry Baryshkov wrote:
-> >>> So, *possible* the merge order is the following:
-> >>> - fixes from https://patchwork.freedesktop.org/series/113910/ go to
-> >>> msm-fixes
-> >>> - fixes from your intf-te go to msm-fixes
-> >>> - https://patchwork.freedesktop.org/series/111751/
-> >>> - the rest of intf-te and catalog (*see below)
-> >>> - DPU features
-> >>> - new DPU platforms (might go together with DPU features)
-> >>>
+On Mon, 13 Feb 2023 at 20:12, Doug Anderson <dianders@chromium.org> wrote:
 >
-> Fixes from https://patchwork.freedesktop.org/series/113910/ can be
-> pulled into -fixes. Will send it out in a MR. I can see that you have
-> absorbed a couple of independent fixes into this too (which were already
-> reviewed outside the HW catalog rework series)
+> Hi,
 >
-> And from the intf TE series only this one right?
->
-> https://patchwork.freedesktop.org/patch/516429/
-
-I think so. At least in the first submission.
-
->
-> Other than this there are no "fixes" in that series.
->
-> >>> * That really depends on the availability of the patchsets. Most
-> >>> probably, as your patchset also contains several fixups, it would be
-> >>> easier to land it before catalog split/rework.
-> >>>
-> >>> So, if you have the available timeslot, could you please finish & send
-> >>> intf te on top of msm-next.
-> >>
-> >> Ack, I'll get to that immediately.  You might even pull in the
-> >> intermediate patches linked above (that touch the catalog) to see how it
-> >> integrates, if I remember correctly (it has been a while) the catalog
-> >> changes should now be independent of driver changes...?
+> On Mon, Feb 13, 2023 at 3:11 AM Kalyan Thota <quic_kalyant@quicinc.com> wrote:
 > >
-> > I'll check and if it goes well, I'll just cherry-pick them into my branch.
+> > This series will enable color features on sc7280 target which has
+> > primary panel as eDP
 > >
-> >>
-> >>>> Sure, I will at least start looking at your 50-patch as part of
-> >>>> catching
-> >>>> back up.  Do you want to process that on the mailing list or via
-> >>>> https://gitlab.freedesktop.org/drm/msm/-/merge_requests/44?
-> >>>
-> >>> I'd prefer to use email. The MR was open to doublecheck that nothing got
-> >>> broken on sc7180.
-> >>
-> >> Ack; will try providing feedback on the 50-patch series via email in
-> >> parallel to getting INTF TE v2 out ASAP.  As discussed before I should
-> >> probably add myself as reviewer to the drm/msm subsystem to have these
-> >> patches in my inbox from the get-go though...
+> > The series removes DSPP allocation based on encoder type and allows
+> > the DSPP reservation based on user request via CTM.
 > >
+> > The series will release/reserve the dpu resources whenever there is
+> > a CTM enable/disable change so that DSPPs are allocated appropriately.
+> >
+> > Kalyan Thota (4):
+> >   drm/msm/dpu: clear DSPP reservations in rm release
+> >   drm/msm/dpu: add DSPPs into reservation upon a CTM request
+> >   drm/msm/dpu: avoid unnecessary check in DPU reservations
+> >   drm/msm/dpu: manage DPU resources if CTM is requested
+> >
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 38 ++++++++++++-----------------
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |  2 ++
+> >  drivers/gpu/drm/msm/msm_atomic.c            | 18 ++++++++++++++
+> >  drivers/gpu/drm/msm/msm_drv.c               |  2 +-
+> >  drivers/gpu/drm/msm/msm_drv.h               |  1 +
+> >  5 files changed, 38 insertions(+), 23 deletions(-)
 >
-> Jessica had some minor comments/questions on the intf te series. We have
-> finished integrating and testing that on sm8350 while bringing up the
-> DSC 1.2 panel and thats what led to
-> https://patchwork.freedesktop.org/series/113851/
+> For whatever reason when I use "b4 shazam" on your series it yells:
 >
-> Please wait for her comments / R-b .
+> Patch failed at 0002 drm/msm/dpu: add DSPPs into reservation upon a CTM request
+> When you have resolved this problem, run "git am --continue".
+> If you prefer to skip this patch, run "git am --skip" instead.
+> To restore the original branch and stop patching, run "git am --abort".
+> error: patch failed: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:573
+> error: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: patch does not apply
+> hint: Use 'git am --show-current-patch=diff' to see the failed patch
+>
+> ...but then I can apply it with `git am --show-current-patch=diff |
+> patch -p1` and it just applies with fuzz. Presumably Abhniav / Dmitry
+> can do the same but it would be nice if your patch applied cleanly to
+> msm-next.
 
-Yes. My plan is to think about cherry-picking hw-catalog entries from
-that patchset, which hopefully are good on their own.
+Hopefully it is not some 'tested on 5.15' story.
+
+> In any case, I tried this patch on both a herobrine (sc7280) and
+> trogdor (sc7180) based board running msm-next (including the sc7280
+> patch [1]). In both cases the night light on the internal display
+> worked fine when using ChromeOS. External night light didn't work on
+> either of them (as expected) because we don't have the compositor
+> support yet.
+>
+> I'm happy enough with:
+>
+> Tested-by: Douglas Anderson <dianders@chromium.org>
+
+Thanks for the testing!
+
 
 -- 
 With best wishes
