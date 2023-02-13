@@ -1,120 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2E169528E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 22:01:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9886952B5
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 22:10:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCFC810E6D6;
-	Mon, 13 Feb 2023 21:01:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC9710E744;
+	Mon, 13 Feb 2023 21:10:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2068.outbound.protection.outlook.com [40.107.237.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40CB710E6D6;
- Mon, 13 Feb 2023 21:01:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N4UrlETAgA5PH56fGaLashGWBTwfzZU8qlG/9+RHveUlq/u0zWLpDXE+tXy4mVGN0c2ROThD/vSo3E+jWZrnmJrioPIVEfC8B62mllRYys8zF6KFgAV+lS/rDC9T3bMStZWQIMnJf9oRlZfHV+WzWZzaAOO1K/CaYCyI7JBmtWTARBmwHRl4eDTaHoeYAjhL/Ta5XcIGyXdU8PAN0l8KJ/qDLxuDKrojhnnwrUyhHbCq4HUZuQxUgMIVKYKNoPDhoGHfCnpLnxaOowBbMl+pTZkRhYhbqqOryqZtDU429ICNMzBcxhztHzNa9FPbwaSE96YuV5o1byUatO5DWod+fA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pppOI6VpggdabalokJfB/g3Te+aB3u4Vtfi/NPfL5hw=;
- b=EeEQnq4uIvi2FgdNlKntK44fAR0b4dkpSS+Za58bflg8bNh72O5M797R6YphWAZfR55h9fb1raxLwAEA+L7F48vpY8HAWun7/3NnWC8FRpjG7WN5J0iJI0YygYIZd0p+ZzDtRnahNL9+uc9kttigXrBspBfVYWEuqqnZbBmD4uUCytHAsNucpqq8x+ugDAGZYhmoK2CrySUUEFyAJDuX6MF+LfBVC6p2AiO1MxgyOlKBZsACoRuvFI6frIXPfxqAbyFuE4UuX1N9KSezL/mcutaMBY6AUfi9qzraYpXS6sTbDEH3/5itvMdeAoxn2GRqMUGtTU2GtkRKhA7ZNE7nWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pppOI6VpggdabalokJfB/g3Te+aB3u4Vtfi/NPfL5hw=;
- b=DOB10GlqlLaz9quUDEuJxzKxew9Hq3u4x7THA56lXTY8hTHLYG2mYyNkvam/EHEGeKmN1jgmoy1nCwqeZ8qrmqkAtiU/Gx0WGJJFC0fOLLoyIKlVBNDrKko1bm8xN7hpSkCn+liWX/wCw3RTk3kSyYACh4Y5/GsvsRzI8myQeR0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS0PR12MB6582.namprd12.prod.outlook.com (2603:10b6:8:d2::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.22; Mon, 13 Feb
- 2023 21:01:18 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6086.024; Mon, 13 Feb 2023
- 21:01:18 +0000
-Message-ID: <f82c95c6-324a-cb43-b8e3-d216bf2491fb@amd.com>
-Date: Mon, 13 Feb 2023 22:01:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 07/10] drm/amd/amdgpu: Deal with possible fail allocation
-Content-Language: en-US
-To: Arthur Grillo <arthurgrillo@riseup.net>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20230213204923.111948-1-arthurgrillo@riseup.net>
- <20230213204923.111948-8-arthurgrillo@riseup.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230213204923.111948-8-arthurgrillo@riseup.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0202.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a5::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C161610E740;
+ Mon, 13 Feb 2023 21:10:01 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id r28so11407776oiw.3;
+ Mon, 13 Feb 2023 13:10:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2C+dfS7aZrzePxXr86QZwJijvA3CYqrHuqOi129q1w0=;
+ b=PZM3n8uFRKP3hiuy91LqwBn/FBhYPSXHJRHyWXy/9ESSmIC6hQnyPwMrQo9IEu1Csm
+ KthqwZB6FN08lRk9WeJu0jW4WUMbfrhXgcZyxpcJyvaqbu1NknE3KBGnQowgwMe3hLco
+ QVlZm/PiRaCLtA7ESRjzu/CCp7O7s5IDotUyuzZ562uo5KyEiO7Oj9RN4cPquArrS7yp
+ AbIc38cUJH+LXxhmEjGiBIUR83B0YjMOeNLXhJHadIaGvGZMd2JxazMOWkq0wMCg0fsP
+ OOtd3dOll9UNuVZtfBdqKM2rFnhcFVPvrHS0vg+sTTUT4Laqut+b+DrNjE3Sh1cq3pUe
+ H/Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2C+dfS7aZrzePxXr86QZwJijvA3CYqrHuqOi129q1w0=;
+ b=l0ya+79WBrAGnVKbeKaQXQpjNTREdVZjpsXzdXIlKPV1zDgZM3hQa4c0gweIfmnt2M
+ RAeh2Qr5gPmMsGxCg8MRw4UnRFxxZ4hp786U2QwcCj2pG087qOB1Yl4t8KqGUGhW1qGK
+ 1h212KDZ2WWWlYSaeUaTaqIlqCo7ur/tAhIjNNTw5obBiCfmjhNKl1lnnrEjUZnlYuiq
+ hE6mpKZXNbdvMOC+PGdBpg4YROqeE/fD5Gj3TfeejVy6c9/fOe0kcdktF9MnFSNcyx+U
+ v8o4ewHCm0eruBT4Havh9zvs2ACQE7Up77jvYbE83GrYSAewxkDk443fCF6YVnZvdqkL
+ /ypQ==
+X-Gm-Message-State: AO0yUKUl2oZ/Z4uVzVmz1kjmqLn8UxhA/oikmh0Uq84I4ffS3Gvs9QUw
+ HgfAZ+FCbX3N71IDhti+riMWyskNjUPnW/AwAgU=
+X-Google-Smtp-Source: AK7set/0sGBqHpYjluIsb2xhR56wVVBS/I8xGl+ngyXxEW1zeQWck3n5g3nIUMnf9Rf0Y86DXg8D7I5csrdavz5geCM=
+X-Received: by 2002:aca:c108:0:b0:35b:d93f:cbc4 with SMTP id
+ r8-20020acac108000000b0035bd93fcbc4mr1752859oif.96.1676322600761; Mon, 13 Feb
+ 2023 13:10:00 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB6582:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3d51b53-9301-42b6-b4e9-08db0e057394
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kTXa2IaJiQMTyQZDYGlhT+SnpZbTGLszkoDjyaD/Zun4/Gwv2I/Dby5IBiMNL0i/LjXPu4lMNrE84IKwKr0m2sZGcAFu3ewa8jKtQ44VJNEc5SQ8o/eUG0ETBVRr7xT+Tzf5QgEAHopMv84GE3zrrDtz79zw+KmWtH4KOwB/eg6/eqx18thHgx46Cfu5imKv8/VYVK0AJyVIU51iw0fBjLOiioKJppV7o8Ya9GIJTNLJKFIl4Z7XLXvhIBi63Wni9IBy6buKswDraV6D5XiOK1tntc+pn3iGIH4LTZ64OYF7qL1bdELEJ9Tc4IIPt3nJYIBld0jsbzFDX2109Lwri3ZD/qzJjaR+0qqV0JWH4FeWrlzvXuyKI4b91DfEsFYsw4UEuzSNCjnaf+DNnki2F8APi92TiUOTjJWuLL2caSpbRxkDIRycRYl6voDSplR9RAzt+LKNquvs9RfIGN3YGAQjYA4iBiafR5UxIt9D/Ht/E79YFxG5OOeqf1p8O1daFZMjGRok/Lhwdye/5LBfHA0UCmjo7aJ/ggEXgnk0d2yuAyWMe4k6NFGO+HUzGQcU7EmCHlEgMxjdmuhb1S93d+m4MziLGwEOcteVz+so0J6aPRbG2uQuQI87NHQfa9PwcME2wc0oUi8spvngoey1eX9HzLQDXg7GzMmA0Ki/x7Bb3+LOn2kHrIM88sfE+zdQcgfzO1F/JTz5iCtvqHc/lSI2FmFuqec65WlsO9DDg3o=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(39860400002)(396003)(346002)(376002)(136003)(451199018)(6486002)(31686004)(31696002)(2616005)(86362001)(83380400001)(36756003)(2906002)(478600001)(186003)(6666004)(6512007)(66899018)(6506007)(41300700001)(38100700002)(5660300002)(8676002)(8936002)(4326008)(66476007)(66556008)(66946007)(316002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bUkxam12K0ZsU2tXVnp6MHpLR0d6b1M5S0RzREl3M21EN3N3SFNJdENhc1pR?=
- =?utf-8?B?MjNCeUNmZ2M5NkJNL09zNWs3L1BZMHpRb2NteGswUFZCZWdILzNVb1p3cU5D?=
- =?utf-8?B?aTg0VDVUeHNZYTZXeGZaSlRIYVdBemF0VENDMmJxMGppdTNxcThJV3JxYTFl?=
- =?utf-8?B?aGFnOGMwbUJUdWppN2NmQVA2dk5hSTB3d3FJUitTU2lBYlRvRElFQm9Wc3Q0?=
- =?utf-8?B?azV6RHZweFdJSEp6bVd0MVBBMFpHajVaaEUrNFU1anM1ZWVOVHJ0UDVQa2NS?=
- =?utf-8?B?M1htYjRQcG9NcEo2TUg3Z2lqWVZ2ZFdXSkF0SGhUREN4S0Jody9lSVQ3Y2lt?=
- =?utf-8?B?SElVeTFxS05paXpTTGZtZTEvdkthYW1rYk1UVTd3cGdoODhpaXZnZENJbGU1?=
- =?utf-8?B?a08zdVI2WnZMQ3J4WUh3cjB5VkE2STMwTmZKUU5vcEc2Y1pRSlozMVJtbU1v?=
- =?utf-8?B?UVhyZU5FTUJ2TWEyWXlGTEQxWkY5VHN2dmVLQlNXY2VQZDFaMnI1UGZyVTBZ?=
- =?utf-8?B?U0p5eXBzdGRWcU1xTGZVQzlRV2N6aFpUZlR0WFlLWTQyZFl5TjhkVW5FR3Rj?=
- =?utf-8?B?MmRTeXNZSjVEYXZ3eGVHL2Z2dFBUMXNGNG1UbDAxazZXQXkyd2lSZlBNeWNO?=
- =?utf-8?B?TDRUUzRwckorS1NqRTdQRi94cVRFRnkxWVFaRnVCa29hM0dyZHBqT25mV3Fo?=
- =?utf-8?B?TmN3RFh2c2hsY1ZPM2pwVC9ESUhIV2pWMG1HclBHTWdFRm84djIrZFlWaXVl?=
- =?utf-8?B?VVlGYXB1anVqaHQ2bExMSXFqdy82MVpwdVhuK1JLb29kTTZYVGJyRkxKdGN4?=
- =?utf-8?B?SnllbkRtakFUSWlOL0x5TkpnQXhicUljYmlKS1hGbnNvN3YxRlFWVE1aeU1X?=
- =?utf-8?B?a2d1cGdXdnJLMmdJb01XNWQvbXpnRmNGZHlEWFNLUWdmakE5QTlOODl4K25I?=
- =?utf-8?B?TUFlOElCU2JiNlB6dUFyU1EyVmJxNWpBMGpSNlI4VFdLS01pdk9GTzV5c3I3?=
- =?utf-8?B?Q0VwMjZFa2dmNFJ3OEIzSzdUdGdBdHVhTGkwUVprS1FyQXVaVWZhYm1NVS9m?=
- =?utf-8?B?bGcxUENJTzg0Q0tuSTJyaFBEcnFDQWZoclhkSTdGMDQxRW12WlFZZ2NlTnEv?=
- =?utf-8?B?UUh5dzlPRVpValFWNVVkTTJQT3JQYlBoZ2dPZXhnWkZsOVZ5aER2elV3eUNF?=
- =?utf-8?B?aGY3RzJpM2hnRjQrbzRmZmppT3VzR2tRYTBmRDNFK3VDUnlMRlpzWXRZajNw?=
- =?utf-8?B?Vzl5aHhCK0lSYmMxQ0d2VVBMWmNYVzA4RHp2SkswM240VDlyZmF2UTB4NTN3?=
- =?utf-8?B?RGFyUDREZHJsaVo5VzI3WnVkdDlqTVh2a1pjOW9RNW90SnFSU2RUZ2NRY3d3?=
- =?utf-8?B?dG9XYjV1T3ptdlMveFAxY2lFdGloNkFWNUJXRUR1QUFWOE5XQzZjV0NOZ1A2?=
- =?utf-8?B?NkxXNlE3MEk1OTd2L0JKN1hwdGtIcWl3Q0dKSVdsaHJYMFlOU2tvam45VlMw?=
- =?utf-8?B?S0pRcmg4MzV2UHdWR0N1RFJZU2FKbkwyZGZWbTRaM2tZR3RnUEJrbk5yUURI?=
- =?utf-8?B?OFZSeTN3Nno2NU5yVFA1eVhyTlFmWVB3WjBrVHZjcXFHdnpkOHMvanc5Z3pJ?=
- =?utf-8?B?MEFvMnZnQ2hTaGtWTXVOMWRTbjFOWmhQMEQrM2IxMmlPTm9sVUExaXhjbTN4?=
- =?utf-8?B?djM1MytEL3pTUEc2am5hQ2RrUDB4dDZjb04zalg2cVZic2VjTnZub29oUjJN?=
- =?utf-8?B?NUllRk40ZzJVYXZSTC94Z1pFSzlNZG5qeWpkdHhjKy9zbDRLd3UrU2kvMWhL?=
- =?utf-8?B?NnFVaWl4czVrdjl5TStLczg4bUFFU3cwMXN4YlQ5aEcxZ1RPWlVOVThZNGtH?=
- =?utf-8?B?b3c2aTNsQ3pCalRsTGtKWmFQM29FaGJ1WlhBWlROTElVbE1GQUhpS3c4enVk?=
- =?utf-8?B?MFBsb2dUNEhXbkpGaktIejF6dDBaNHQ0NVk5REFaN1JYekpwenExSGYwV0sw?=
- =?utf-8?B?ZWlCbnZWQzY2NUpPK1pFL0VBb1RzeDlGWjBhODBKRkxqQkZPOVQ5bDlBUDZz?=
- =?utf-8?B?MUlFSHp1ckZ3c0V5WCszVUZjT3pBUWN1LzRBdjJid1FORlZockVydDRROGVL?=
- =?utf-8?B?YlkzWkVyWDJEbU40UTA0YUlrU1NnRXZvNFJadlhTZXFGWXlTR2J4anFUVjJx?=
- =?utf-8?Q?v/2jBIlcZrpqxvbuyx9EgryC/vxH+bGgOK3pNyD+C5Ox?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3d51b53-9301-42b6-b4e9-08db0e057394
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2023 21:01:18.2151 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bemht8xDjbmIYfPkLQrbL6gdd3qJ2surMgDOirItIx/6FblKkOC/taqnM69xEAEp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6582
+References: <20230213204923.111948-1-arthurgrillo@riseup.net>
+ <20230213204923.111948-9-arthurgrillo@riseup.net>
+In-Reply-To: <20230213204923.111948-9-arthurgrillo@riseup.net>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 13 Feb 2023 16:09:49 -0500
+Message-ID: <CADnq5_NAo8ADjHMc2-VACBZfxYukx886CO5X8UhFi5ws0WFJ4w@mail.gmail.com>
+Subject: Re: [PATCH 08/10] drm/amd/display: Remove unused local variables
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,39 +66,253 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: sunpeng.li@amd.com, tales.aparecida@gmail.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, mairacanal@riseup.net, alexander.deucher@amd.com,
- andrealmeid@riseup.net
+ Rodrigo.Siqueira@amd.com, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.02.23 um 21:49 schrieb Arthur Grillo:
-> Deal with return value of an allocation. This reduces the number of
-> -Wunused-but-set-variable warnings.
+On Mon, Feb 13, 2023 at 3:50 PM Arthur Grillo <arthurgrillo@riseup.net> wrote:
+>
+> Remove local variables that were just set but were never used. This
+> decrease the number of -Wunused-but-set-variable warnings.
 >
 > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c | 2 ++
->   1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c  | 3 ---
+>  drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c         | 7 -------
+>  drivers/gpu/drm/amd/display/dc/dcn201/dcn201_hwseq.c       | 2 --
+>  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_afmt.c          | 2 --
+>  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c          | 4 ----
+>  drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c         | 3 ---
+>  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c      | 5 +----
+>  .../gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c  | 4 ----
+>  .../drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c  | 2 --
+>  .../drm/amd/display/dc/link/protocols/link_dp_capability.c | 4 ----
+>  10 files changed, 1 insertion(+), 35 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-> index 82e27bd4f038..00c0876840c1 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-> @@ -1104,6 +1104,8 @@ int amdgpu_mes_ctx_alloc_meta_data(struct amdgpu_device *adev,
->   			    &ctx_data->meta_data_obj,
->   			    &ctx_data->meta_data_mc_addr,
->   			    &ctx_data->meta_data_ptr);
-> +	if (r)
-> +		return r;
->   	if (!ctx_data->meta_data_obj)
->   		return -ENOMEM;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
+> index c4287147b853..81aa1631945a 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
+> @@ -1219,7 +1219,6 @@ void dcn10_link_encoder_update_mst_stream_allocation_table(
+>         const struct link_mst_stream_allocation_table *table)
+>  {
+>         struct dcn10_link_encoder *enc10 = TO_DCN10_LINK_ENC(enc);
+> -       uint32_t value0 = 0;
+>         uint32_t value1 = 0;
+>         uint32_t value2 = 0;
+>         uint32_t slots = 0;
+> @@ -1321,8 +1320,6 @@ void dcn10_link_encoder_update_mst_stream_allocation_table(
+>         do {
+>                 udelay(10);
+>
+> -               value0 = REG_READ(DP_MSE_SAT_UPDATE);
+> -
 
-That change doesn't make much sense.
+This may have impacts on behavior since we are reading a register here.
 
-We already check ctx_data->meta_data_obj and return -ENOMEM here when 
-something goes wrong.
+Alex
 
-We could potentially remove that, but it's not really a problem as far 
-as I can see.
-
-Christian.
+>                 REG_GET(DP_MSE_SAT_UPDATE,
+>                                 DP_MSE_SAT_UPDATE, &value1);
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c
+> index f50ab961bc17..a7268027a472 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c
+> @@ -185,13 +185,6 @@ static bool dpp201_get_optimal_number_of_taps(
+>                 struct scaler_data *scl_data,
+>                 const struct scaling_taps *in_taps)
+>  {
+> -       uint32_t pixel_width;
+> -
+> -       if (scl_data->viewport.width > scl_data->recout.width)
+> -               pixel_width = scl_data->recout.width;
+> -       else
+> -               pixel_width = scl_data->viewport.width;
+> -
+>         if (scl_data->viewport.width  != scl_data->h_active &&
+>                 scl_data->viewport.height != scl_data->v_active &&
+>                 dpp->caps->dscl_data_proc_format == DSCL_DATA_PRCESSING_FIXED_FORMAT &&
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_hwseq.c
+> index 61bcfa03c4e7..1aeb04fbd89d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_hwseq.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_hwseq.c
+> @@ -541,8 +541,6 @@ void dcn201_pipe_control_lock(
+>         bool lock)
+>  {
+>         struct dce_hwseq *hws = dc->hwseq;
+> -       struct hubp *hubp = NULL;
+> -       hubp = dc->res_pool->hubps[pipe->pipe_idx];
+>         /* use TG master update lock to lock everything on the TG
+>          * therefore only top pipe need to lock
+>          */
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_afmt.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_afmt.c
+> index 95528e5ef89e..55e388c4c98b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_afmt.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_afmt.c
+> @@ -123,7 +123,6 @@ void afmt3_se_audio_setup(
+>  {
+>         struct dcn30_afmt *afmt3 = DCN30_AFMT_FROM_AFMT(afmt);
+>
+> -       uint32_t speakers = 0;
+>         uint32_t channels = 0;
+>
+>         ASSERT(audio_info);
+> @@ -131,7 +130,6 @@ void afmt3_se_audio_setup(
+>         if (audio_info == NULL)
+>                 return;
+>
+> -       speakers = audio_info->flags.info.ALLSPEAKERS;
+>         channels = speakers_to_channels(audio_info->flags.speaker_flags).all;
+>
+>         /* setup the audio stream source select (audio -> dig mapping) */
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
+> index dc3e8df706b3..e46bbe7ddcc9 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
+> @@ -47,13 +47,9 @@ void hubp3_set_vm_system_aperture_settings(struct hubp *hubp,
+>  {
+>         struct dcn20_hubp *hubp2 = TO_DCN20_HUBP(hubp);
+>
+> -       PHYSICAL_ADDRESS_LOC mc_vm_apt_default;
+>         PHYSICAL_ADDRESS_LOC mc_vm_apt_low;
+>         PHYSICAL_ADDRESS_LOC mc_vm_apt_high;
+>
+> -       // The format of default addr is 48:12 of the 48 bit addr
+> -       mc_vm_apt_default.quad_part = apt->sys_default.quad_part >> 12;
+> -
+>         // The format of high/low are 48:18 of the 48 bit addr
+>         mc_vm_apt_low.quad_part = apt->sys_low.quad_part >> 18;
+>         mc_vm_apt_high.quad_part = apt->sys_high.quad_part >> 18;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+> index 444f9fad3de6..1d848d14508b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+> @@ -322,13 +322,10 @@ void dcn30_enable_writeback(
+>  {
+>         struct dwbc *dwb;
+>         struct mcif_wb *mcif_wb;
+> -       struct timing_generator *optc;
+>
+>         dwb = dc->res_pool->dwbc[wb_info->dwb_pipe_inst];
+>         mcif_wb = dc->res_pool->mcif_wb[wb_info->dwb_pipe_inst];
+>
+> -       /* set the OPTC source mux */
+> -       optc = dc->res_pool->timing_generators[dwb->otg_inst];
+>         DC_LOG_DWB("%s dwb_pipe_inst = %d, mpcc_inst = %d",\
+>                 __func__, wb_info->dwb_pipe_inst,\
+>                 wb_info->mpcc_inst);
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
+> index 74e50c09bb62..e997bb98b43d 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
+> @@ -1611,7 +1611,6 @@ bool dcn32_acquire_post_bldn_3dlut(
+>                 struct dc_transfer_func **shaper)
+>  {
+>         bool ret = false;
+> -       union dc_3dlut_state *state;
+>
+>         ASSERT(*lut == NULL && *shaper == NULL);
+>         *lut = NULL;
+> @@ -1620,7 +1619,6 @@ bool dcn32_acquire_post_bldn_3dlut(
+>         if (!res_ctx->is_mpc_3dlut_acquired[mpcc_id]) {
+>                 *lut = pool->mpc_lut[mpcc_id];
+>                 *shaper = pool->mpc_shaper[mpcc_id];
+> -               state = &pool->mpc_lut[mpcc_id]->state;
+>                 res_ctx->is_mpc_3dlut_acquired[mpcc_id] = true;
+>                 ret = true;
+>         }
+> @@ -1913,7 +1911,6 @@ int dcn32_populate_dml_pipes_from_context(
+>         struct resource_context *res_ctx = &context->res_ctx;
+>         struct pipe_ctx *pipe;
+>         bool subvp_in_use = false;
+> -       uint8_t is_pipe_split_expected[MAX_PIPES] = {0};
+>         struct dc_crtc_timing *timing;
+>
+>         dcn20_populate_dml_pipes_from_context(dc, context, pipes, fast_validate);
+> @@ -2002,7 +1999,7 @@ int dcn32_populate_dml_pipes_from_context(
+>                 }
+>
+>                 DC_FP_START();
+> -               is_pipe_split_expected[i] = dcn32_predict_pipe_split(context, &pipes[pipe_cnt]);
+> +               dcn32_predict_pipe_split(context, &pipes[pipe_cnt]);
+>                 DC_FP_END();
+>
+>                 pipe_cnt++;
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
+> index 3a2d7bcc4b6d..a616cf078cf4 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource_helpers.c
+> @@ -59,25 +59,21 @@ uint32_t dcn32_helper_calculate_mall_bytes_for_cursor(
+>  {
+>         struct hubp *hubp = pipe_ctx->plane_res.hubp;
+>         uint32_t cursor_size = hubp->curs_attr.pitch * hubp->curs_attr.height;
+> -       uint32_t cursor_bpp = 4;
+>         uint32_t cursor_mall_size_bytes = 0;
+>
+>         switch (pipe_ctx->stream->cursor_attributes.color_format) {
+>         case CURSOR_MODE_MONO:
+>                 cursor_size /= 2;
+> -               cursor_bpp = 4;
+>                 break;
+>         case CURSOR_MODE_COLOR_1BIT_AND:
+>         case CURSOR_MODE_COLOR_PRE_MULTIPLIED_ALPHA:
+>         case CURSOR_MODE_COLOR_UN_PRE_MULTIPLIED_ALPHA:
+>                 cursor_size *= 4;
+> -               cursor_bpp = 4;
+>                 break;
+>
+>         case CURSOR_MODE_COLOR_64BIT_FP_PRE_MULTIPLIED:
+>         case CURSOR_MODE_COLOR_64BIT_FP_UN_PRE_MULTIPLIED:
+>                 cursor_size *= 8;
+> -               cursor_bpp = 8;
+>                 break;
+>         }
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> index 35d10b4d018b..2244e4fb8c96 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+> @@ -902,7 +902,6 @@ static void dml_rq_dlg_get_dlg_params(
+>         double hratio_c;
+>         double vratio_l;
+>         double vratio_c;
+> -       bool scl_enable;
+>
+>         unsigned int swath_width_ub_l;
+>         unsigned int dpte_groups_per_row_ub_l;
+> @@ -1020,7 +1019,6 @@ static void dml_rq_dlg_get_dlg_params(
+>         hratio_c = scl->hscl_ratio_c;
+>         vratio_l = scl->vscl_ratio;
+>         vratio_c = scl->vscl_ratio_c;
+> -       scl_enable = scl->scl_enable;
+>
+>         swath_width_ub_l = rq_dlg_param->rq_l.swath_width_ub;
+>         dpte_groups_per_row_ub_l = rq_dlg_param->rq_l.dpte_groups_per_row_ub;
+> diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> index 138e5684c7fd..1c2ce08bdece 100644
+> --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> @@ -276,7 +276,6 @@ static void dp_wa_power_up_0010FA(struct dc_link *link, uint8_t *dpcd_data,
+>                 int length)
+>  {
+>         int retry = 0;
+> -       union dp_downstream_port_present ds_port = { 0 };
+>
+>         if (!link->dpcd_caps.dpcd_rev.raw) {
+>                 do {
+> @@ -289,9 +288,6 @@ static void dp_wa_power_up_0010FA(struct dc_link *link, uint8_t *dpcd_data,
+>                 } while (retry++ < 4 && !link->dpcd_caps.dpcd_rev.raw);
+>         }
+>
+> -       ds_port.byte = dpcd_data[DP_DOWNSTREAMPORT_PRESENT -
+> -                                DP_DPCD_REV];
+> -
+>         if (link->dpcd_caps.dongle_type == DISPLAY_DONGLE_DP_VGA_CONVERTER) {
+>                 switch (link->dpcd_caps.branch_dev_id) {
+>                 /* 0010FA active dongles (DP-VGA, DP-DLDVI converters) power down
+> --
+> 2.39.1
+>
