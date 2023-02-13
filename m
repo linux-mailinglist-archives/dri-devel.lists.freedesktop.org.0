@@ -2,39 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16E069523F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 21:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE51C695242
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Feb 2023 21:50:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD6810E723;
-	Mon, 13 Feb 2023 20:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3043B10E721;
+	Mon, 13 Feb 2023 20:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7671410E71B;
- Mon, 13 Feb 2023 20:50:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C79910E71E;
+ Mon, 13 Feb 2023 20:50:16 +0000 (UTC)
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4PFxLH4ndFzDrtC;
+ Mon, 13 Feb 2023 20:50:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1676321415; bh=qSzOgwBfWlWzG9KtttT5nF4Q+sFniSnXt8jGIQdXQl0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=hBom7EIt3TH9DPsPL7tWfffCgb21EjvZ7PebgQBoWlvvm1MgnT+Js4y1wQN+KVeQC
+ on1vgaRHu8wdVQIeUTWdblRSaguv5L2RmzGUemA09W2NgyL1amnfxnlXiVqm+i72fw
+ s23nAmq1Akn7NIDa41QYEVBcf0D2pdv6wnxnywKg=
 Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
  client-signature RSA-PSS (2048 bits) client-digest SHA256)
  (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4PFxL86x8VzDr25;
- Mon, 13 Feb 2023 20:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1676321409; bh=HgPuyU+/BDFUTh/CtyNSpSpJXSPfMv23ttLd1xyx4NY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Znrik2NdnwL1a/OWPXTIDBC2/4c9T5uLPbr4cKZdpp4wSFq9CpPjlVbaE6GCQ1gdk
- z3QMpJXs6lExErQ7z/Q+1nL92JHATiA7h6Ih2TAZc4X9ykHfChsdqa0JAu1oQPXAzV
- yr56hnx8ExlNLnBIzam67Ll5730Br3T2sfMC8z8U=
-X-Riseup-User-ID: 2DAD43A7F1764841A7B072E1B18AC42C55D8B14CE21517B0BE3ABEFB57E14441
+ by mx0.riseup.net (Postfix) with ESMTPS id 4PFxLH1PYGz9stW;
+ Mon, 13 Feb 2023 20:50:15 +0000 (UTC)
+X-Riseup-User-ID: D5AD1A8E1F77654C997A80EB847AECA96AB47E895197FB0839FB9BFF4AB9A3DB
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4PFxL35FVGz1y8Z;
- Mon, 13 Feb 2023 20:50:03 +0000 (UTC)
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4PFxL92Yq0z1y8Z;
+ Mon, 13 Feb 2023 20:50:09 +0000 (UTC)
 From: Arthur Grillo <arthurgrillo@riseup.net>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 03/10] drm/amd/amdgpu: Add function prototypes to headers
-Date: Mon, 13 Feb 2023 17:49:16 -0300
-Message-Id: <20230213204923.111948-4-arthurgrillo@riseup.net>
+Subject: [PATCH 04/10] drm/amd/display: Add previously missing includes
+Date: Mon, 13 Feb 2023 17:49:17 -0300
+Message-Id: <20230213204923.111948-5-arthurgrillo@riseup.net>
 In-Reply-To: <20230213204923.111948-1-arthurgrillo@riseup.net>
 References: <20230213204923.111948-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
@@ -58,26 +65,39 @@ Cc: sunpeng.li@amd.com, tales.aparecida@gmail.com, Xinhui.Pan@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add function prototypes to headers to reduce the number of
+Add includes that were previously missing to reduce the number of
 -Wmissing-prototypes warnings.
 
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c               | 1 +
+ drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_trace.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h
-index bee93ab4298f..b03321e7d2d8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.h
-@@ -538,6 +538,7 @@ struct amdgpu_firmware {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
+index 330d7cbc7398..3069af3684c6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_init.c
+@@ -30,6 +30,7 @@
+ #include "dcn30/dcn30_hwseq.h"
+ #include "dcn31/dcn31_hwseq.h"
+ #include "dcn32_hwseq.h"
++#include "dcn32_init.h"
  
- void amdgpu_ucode_print_mc_hdr(const struct common_firmware_header *hdr);
- void amdgpu_ucode_print_smc_hdr(const struct common_firmware_header *hdr);
-+void amdgpu_ucode_print_imu_hdr(const struct common_firmware_header *hdr);
- void amdgpu_ucode_print_gfx_hdr(const struct common_firmware_header *hdr);
- void amdgpu_ucode_print_rlc_hdr(const struct common_firmware_header *hdr);
- void amdgpu_ucode_print_sdma_hdr(const struct common_firmware_header *hdr);
+ static const struct hw_sequencer_funcs dcn32_funcs = {
+ 	.program_gamut_remap = dcn10_program_gamut_remap,
+diff --git a/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_trace.c b/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_trace.c
+index 04838a31e513..257f4fc065a5 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_trace.c
++++ b/drivers/gpu/drm/amd/display/dc/link/accessories/link_dp_trace.c
+@@ -24,6 +24,7 @@
+  */
+ #include "dc_link.h"
+ #include "link_dp_trace.h"
++#include "link.h"
+ 
+ void dp_trace_init(struct dc_link *link)
+ {
 -- 
 2.39.1
 
