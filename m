@@ -2,55 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39EB1696657
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 15:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781536967FA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 16:25:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE2EB10E1C9;
-	Tue, 14 Feb 2023 14:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F1B10E4DE;
+	Tue, 14 Feb 2023 15:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30C3710E1C6
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 14:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676384208; x=1707920208;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=zXTf3MmymcGTYiS/8pw46Ic62YElU9b0FxEiZvXIB58=;
- b=aUjnbClh0rHBifaLtHI9+ENaL+uqSBWHMsFmyZSzdp21O3fOrp1wXuku
- UsvUO87YaDMXYpGX9DWtKvsHoDYPWQlT/nyHnA7chm1V0jq+FccyuqE4k
- U1/v7C133xb4W/ijzi12EDXA0fAuoTppNHaXVGVBCmdMcelV5+Fj2leDi
- JLNoZhmuNYQkOyidv9XODScu8MCQ7kMzdMzNazexcVSTj1JD3AG/XUJmH
- +p5QSoJ/iXxD//vGyRjTWw+TnOjwfMbKIMiufZUVkw6nfmHl+FU1jK9xn
- 8Y11AirAhA90kXNNL7WBWHZpFjczLiZQJjubVkrFHmGI/ysOebI1+fv0v A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="328879396"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="328879396"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 06:16:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="671231034"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="671231034"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by fmsmga007.fm.intel.com with SMTP; 14 Feb 2023 06:16:41 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 14 Feb 2023 16:16:41 +0200
-Date: Tue, 14 Feb 2023 16:16:41 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH v3 3/6] drm: lcdif: Determine bus format and flags in
- ->atomic_check()
-Message-ID: <Y+uXyfZLyZ7Bm4j8@intel.com>
-References: <20230213085612.1026538-1-victor.liu@nxp.com>
- <20230213085612.1026538-4-victor.liu@nxp.com>
- <1755644.VLH7GnMWUR@steina-w>
+Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com
+ [IPv6:2607:f8b0:4864:20::a36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC9F10E228
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 15:25:14 +0000 (UTC)
+Received: by mail-vk1-xa36.google.com with SMTP id v189so8129692vkf.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 07:25:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=iT7OrS0tLMyMBH4C21ZIMhCJMcTe4803pwrO0JMxYJA=;
+ b=jVBIudOsjKVvsYLCyJNmT8yPOv8ahQqjzAD6Ny6RSEe+ICGvxskFxhMNLtdFzvAX25
+ qTH+f30CscyTaVsysLcWkkyBt6SV2n8AWPtClFioKjp9+5f6EvFKhEklDIawYtSgRmo/
+ C1/u1GGo22UIWz7fPKEO6A2aD/huFqtAw+G7A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iT7OrS0tLMyMBH4C21ZIMhCJMcTe4803pwrO0JMxYJA=;
+ b=D2irPI4jWz/ER3in/WYz3QSvIL5722RjzjyrbvotuPghx3hgTO61T6iHjKnUr5yUY+
+ QjhYQZPqVvZzn1RlvoEfOY1XzsspRLyPqLu3TllZvCgEWsmMB3th6s0zyn1X6S0DN3Ij
+ i3QuOlk+oeHGaPNw+2jCW6ivzJ4XV1TkjF9aUUkN5wnMc1ZrEZ8/WDWx12PvTYO4f37b
+ YSBAncViiGA3iQlJnq45QjV5JtTK17zRcXnEafYxee9c6bCmLafZYV1vZ8Ahu0jRR0bG
+ Dy0FmVvw0ERe+nJbV5QHXOm69Cs2EPeV1N9KfN4YhGGyzLWWX2qQ0n9BV43QWsyiBWLE
+ MfkA==
+X-Gm-Message-State: AO0yUKUZJg++HaB0TjcTdaO/cGQpHxeMNjGmqEsnNfs74fmGRLXdsolw
+ 4HpYp3RBtKSqn7CzVGGIWf8YGKmtG2JDi1NL
+X-Google-Smtp-Source: AK7set9+1jXXaoTsrsgNE5K49X3eot3HYpTHCO45D9MDb/um59lM8MPiMo3cbnuQduTNXOisCX45eA==
+X-Received: by 2002:a1f:a354:0:b0:400:f875:4ea1 with SMTP id
+ m81-20020a1fa354000000b00400f8754ea1mr2629938vke.12.1676388312610; 
+ Tue, 14 Feb 2023 07:25:12 -0800 (PST)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com.
+ [209.85.217.54]) by smtp.gmail.com with ESMTPSA id
+ 129-20020a1f0187000000b00401d2365721sm42587vkb.41.2023.02.14.07.25.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 07:25:12 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id g9so118457vst.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 07:25:11 -0800 (PST)
+X-Received: by 2002:a05:6102:3712:b0:412:626b:1655 with SMTP id
+ s18-20020a056102371200b00412626b1655mr259256vst.68.1676388311514; Tue, 14 Feb
+ 2023 07:25:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1755644.VLH7GnMWUR@steina-w>
-X-Patchwork-Hint: comment
+References: <20230131141756.RFT.v2.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
+ <20230131141756.RFT.v2.3.I3c87b53c4ab61a7d5e05f601a4eb44c7e3809a01@changeid>
+ <0419b0c8-fb30-f8df-1b9a-19e106680948@quicinc.com>
+ <CAD=FV=Xk6qFokozxEa+MaCgii3zpSWZRDe52FoP17E-DOFXoyg@mail.gmail.com>
+ <1f204585-88e2-abae-1216-92f739ac9e91@quicinc.com>
+In-Reply-To: <1f204585-88e2-abae-1216-92f739ac9e91@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 14 Feb 2023 07:24:58 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UKnhdRgxMJNctaHuH3o9ZLACaX16U7b=PonUhL1+FXpQ@mail.gmail.com>
+Message-ID: <CAD=FV=UKnhdRgxMJNctaHuH3o9ZLACaX16U7b=PonUhL1+FXpQ@mail.gmail.com>
+Subject: Re: [Freedreno] [RFT PATCH v2 3/3] drm/msm/dsi: More properly handle
+ errors in regards to dsi_mgr_bridge_power_on()
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,62 +78,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, devicetree@vger.kernel.org, kernel@pengutronix.de,
- Liu Ying <victor.liu@nxp.com>, s.hauer@pengutronix.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, linux-imx@nxp.com,
- krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
- linux-arm-kernel@lists.infradead.org, LW@karo-electronics.de
+Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-kernel@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, Vinod Koul <vkoul@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 14, 2023 at 03:12:55PM +0100, Alexander Stein wrote:
-> Hi Liu,
-> 
-> thanks for the update.
-> 
-> Am Montag, 13. Februar 2023, 09:56:09 CET schrieb Liu Ying:
-> > Instead of determining LCDIF output bus format and bus flags in
-> > ->atomic_enable(), do that in ->atomic_check().  This is a
-> > preparation for the upcoming patch to check consistent bus format
-> > and bus flags across all first downstream bridges in ->atomic_check().
-> > New lcdif_crtc_state structure is introduced to cache bus format
-> > and bus flags states in ->atomic_check() so that they can be read
-> > in ->atomic_enable().
-> > 
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v2->v3:
-> > * No change.
-> > 
-> > v1->v2:
-> > * Split from patch 2/2 in v1. (Marek, Alexander)
-> > * Add comment on the 'base' member of lcdif_crtc_state structure to
-> >   note it should always be the first member. (Lothar)
-> > 
-> >  drivers/gpu/drm/mxsfb/lcdif_kms.c | 138 ++++++++++++++++++++++--------
-> >  1 file changed, 100 insertions(+), 38 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > b/drivers/gpu/drm/mxsfb/lcdif_kms.c index e54200a9fcb9..294cecdf5439 100644
-> > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-> > @@ -30,6 +30,18 @@
-> >  #include "lcdif_drv.h"
-> >  #include "lcdif_regs.h"
-> > 
-> > +struct lcdif_crtc_state {
-> > +	struct drm_crtc_state	base;	/* always be the first 
-> member */
-> 
-> Is it strictly necessary that base is the first member? to_lcdif_crtc_state() 
-> should be able to handle any position within the struct. I mean it's sensible 
-> to put it in first place. But the comment somehow bugs me.
+Hi,
 
-NULL pointers is where these things go bad if it't not at
-offset 0. Unless you're willing to always handle those
-explicitly.
+On Mon, Feb 13, 2023 at 6:02 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+> Hi Doug
+>
+> Sorry for the delayed response.
+>
+> On 2/2/2023 2:46 PM, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Thu, Feb 2, 2023 at 2:37 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+> >>
+> >> Hi Doug
+> >>
+> >> On 1/31/2023 2:18 PM, Douglas Anderson wrote:
+> >>> In commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
+> >>> time") the error handling with regards to dsi_mgr_bridge_power_on()
+> >>> got a bit worse. Specifically if we failed to power the bridge on then
+> >>> nothing would really notice. The modeset function couldn't return an
+> >>> error and thus we'd blindly go forward and try to do the pre-enable.
+> >>>
+> >>> In commit ec7981e6c614 ("drm/msm/dsi: don't powerup at modeset time
+> >>> for parade-ps8640") we added a special case to move the powerup back
+> >>> to pre-enable time for ps8640. When we did that, we didn't try to
+> >>> recover the old/better error handling just for ps8640.
+> >>>
+> >>> In the patch ("drm/msm/dsi: Stop unconditionally powering up DSI hosts
+> >>> at modeset") we've now moved the powering up back to exclusively being
+> >>> during pre-enable. That means we can add the better error handling
+> >>> back in, so let's do it. To do so we'll add a new function
+> >>> dsi_mgr_bridge_power_off() that's matches how errors were handled
+> >>> prior to commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to
+> >>> modeset time").
+> >>>
+> >>> NOTE: Now that we have dsi_mgr_bridge_power_off(), it feels as if we
+> >>> should be calling it in dsi_mgr_bridge_post_disable(). That would make
+> >>> some sense, but doing so would change the current behavior and thus
+> >>> should be a separate patch. Specifically:
+> >>> * dsi_mgr_bridge_post_disable() always calls dsi_mgr_phy_disable()
+> >>>     even in the slave-DSI case of bonded DSI. We'd need to add special
+> >>>     handling for this if it's truly needed.
+> >>> * dsi_mgr_bridge_post_disable() calls msm_dsi_phy_pll_save_state()
+> >>>     midway through the poweroff.
+> >>> * dsi_mgr_bridge_post_disable() has a different order of some of the
+> >>>     poweroffs / IRQ disables.
+> >>> For now we'll leave dsi_mgr_bridge_post_disable() alone.
+> >>>
+> >>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> >>> ---
+> >>>
+> >>> Changes in v2:
+> >>> - ("More properly handle errors...") new for v2.
+> >>>
+> >>>    drivers/gpu/drm/msm/dsi/dsi_manager.c | 32 ++++++++++++++++++++++-----
+> >>>    1 file changed, 26 insertions(+), 6 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> >>> index 2197a54b9b96..28b8012a21f2 100644
+> >>> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> >>> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> >>> @@ -228,7 +228,7 @@ static void msm_dsi_manager_set_split_display(u8 id)
+> >>>        }
+> >>>    }
+> >>>
+> >>> -static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
+> >>> +static int dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
+> >>>    {
+> >>>        int id = dsi_mgr_bridge_get_id(bridge);
+> >>>        struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+> >>> @@ -268,14 +268,31 @@ static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
+> >>>        if (is_bonded_dsi && msm_dsi1)
+> >>>                msm_dsi_host_enable_irq(msm_dsi1->host);
+> >>>
+> >>> -     return;
+> >>> +     return 0;
+> >>>
+> >>>    host1_on_fail:
+> >>>        msm_dsi_host_power_off(host);
+> >>>    host_on_fail:
+> >>>        dsi_mgr_phy_disable(id);
+> >>>    phy_en_fail:
+> >>> -     return;
+> >>> +     return ret;
+> >>> +}
+> >>> +
+> >>> +static void dsi_mgr_bridge_power_off(struct drm_bridge *bridge)
+> >>> +{
+> >>> +     int id = dsi_mgr_bridge_get_id(bridge);
+> >>> +     struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+> >>> +     struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
+> >>> +     struct mipi_dsi_host *host = msm_dsi->host;
+> >>> +     bool is_bonded_dsi = IS_BONDED_DSI();
+> >>> +
+> >>> +     msm_dsi_host_disable_irq(host);
+> >>> +     if (is_bonded_dsi && msm_dsi1) {
+> >>> +             msm_dsi_host_disable_irq(msm_dsi1->host);
+> >>> +             msm_dsi_host_power_off(msm_dsi1->host);
+> >>> +     }
+> >>
+> >> The order of disabling the IRQs should be opposite of how they were enabled.
+> >>
+> >> So while enabling it was DSI0 and then DSI1.
+> >>
+> >> Hence while disabling it should be DSI1 and then DSI0.
+> >>
+> >> So the order here should be
+> >>
+> >> DSI1 irq disable
+> >> DSI0 irq disable
+> >> DSI1 host power off
+> >> DSI0 host power off
+> >
+> > Right. Normally you want to go opposite. I guess a few points, though:
+> >
+> > 1. As talked about in the commit message, the order I have matches the
+> > order we had prior to commit 7d8e9a90509f ("drm/msm/dsi: move DSI host
+> > powerup to modeset time").
+> >
+> > 2. I'd be curious if it matters. The order you request means we need
+> > to check for `(is_bonded_dsi && msm_dsi1)` twice. While that's not a
+> > big deal if it's important, it's nice not to have to do so.
+> >
+> > 3. As talked about in the commit message, eventually we should
+> > probably resolve this order with the order of things in
+> > dsi_mgr_bridge_post_disable(), which is yet a different ordering.
+> > Ideally this resolution would be done by someone who actually has
+> > proper documentation of the hardware and how it's supposed to work
+> > (AKA not me).
+> >
+> > So my preference would be to either land or drop ${SUBJECT} patch
+> > (either is fine with me) and then someone at Qualcomm could then take
+> > over further cleanup.
+> >
+>
+> I do think the ordering matters but you are right, this change brings
+> back the ordering we had before so lets handle the re-ordering of all
+> places in a separate change. I am okay with this change to go-in, hence
+>
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>
+> What is the plan to land the patches?
+>
+> 2 & 3 go in msm-next but 1 goes in drm-misc?
 
--- 
-Ville Syrjälä
-Intel
+We can do that and I'm happy to land patch #1 in drm-misc. Then I
+assume we'd want to wait until the change makes its way into mainline
+before landing patch #2/#3?
+
+Given how tiny patch #1 is, though, it sure seems like it would be
+nice / easier if they all went through the msm tree. I guess we'd want
+one of the drm-misc maintainers (not just a committer like me) to Ack
+this? Maybe it's not worth it and we should just go the slow route?
+
+-Doug
