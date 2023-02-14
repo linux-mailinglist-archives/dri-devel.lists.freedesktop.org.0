@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1251696BDA
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 18:39:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC43D696BE2
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 18:41:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A010210E231;
-	Tue, 14 Feb 2023 17:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5DA510E242;
+	Tue, 14 Feb 2023 17:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BAD310E0ED;
- Tue, 14 Feb 2023 17:39:37 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id bx13so13573426oib.13;
- Tue, 14 Feb 2023 09:39:37 -0800 (PST)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBAF610E263;
+ Tue, 14 Feb 2023 17:41:00 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-16aa71c1600so19938299fac.11; 
+ Tue, 14 Feb 2023 09:41:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZFFMcODzFR4+yM9tm6tOX9VuK4ZVp3Utj5wx4NaZaMk=;
- b=gw44pMMxp5ODEfpnpMhTBLzOxZtOLSvvGmUBADdGBmV6tRdYzHqjzcsZdbPGS/87Hk
- NDB0KKheYwF5xNDenpMuw2mER6AEu7keGMgJEWto2C19I30AJ+eLsoRQqRL2iaC/91rL
- kxmOY0CR7ORBNhi/kuan6+7WtJXMAVcS/zH5QypHSDMTdAHP+aUkUwnsCBszkaStOlwW
- 5yfUDIuhrneQkHGsLxiiI308Vwi6xiVfb7l5fMeaPVFZVaoKdIyOcB6RQbP4XOc4MxJe
- RRoPRg5EwZFjN25Zs055SbA/fJAHgfAPPd+duu04W3KxhFKo9bY8XACY+3B3IDQdvoSS
- YbWQ==
+ bh=c3+qCkN2LjXU9wdlskKeXV1f7YIw+Dw3wL4cke/NBXs=;
+ b=O7lnX86nedndzTHO2cIe1U9Q+Zb46HfI/rkJZdfe75Tkn0Um8KMM3XigDOoiJYK/hZ
+ OtK6GWXzy/dwNKPHn4ry2JvIzd+LX6/Ugiqaba1YDUAbWtmv1svMFqdAnQDmXALeiqM/
+ 7eecl5h91cItROovkOC9AKytTnWACuCv6LytlNIRpbm9iBY9BT4kT5Fs/XJ+mVw8cBaP
+ G4UKoxwRaSAoFGIS9/5SXagsaJRR5PbYVJRLL17OJWpep91jMtS3Vc63c+XAZgwsjKIs
+ jwfk4Ui1bAp0ckqdOwPovwLR2KjbVGRXal5Ik7lgZpJOh9vG8Sf0amJaCnwKfo1klrBI
+ 0UCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ZFFMcODzFR4+yM9tm6tOX9VuK4ZVp3Utj5wx4NaZaMk=;
- b=P6bK3+Pa4JLMX3EvIk2FanBmHxSCZI4yFmHh3FWPaGc4cQHhYYNzDAxVH6VEZD0Ya4
- Sqp1igkIHXII41wBPuwR/gBTTJd8ZeYr/RJype6hEGaBYDakvrUFi3GBuSUsb5GT/tVF
- 0DS52ABoTPPgiHMyaiTUzzrd0HXLe6zxCclZMh52yG8JaPhdn+OnMA71XxS6bqwXjS0G
- 3rD0O462AKrXZ/ayulyVKck2CXS/gdUiIMfUXL26cmrEHzx9nvP2/tUayd1l8ki1/2Nb
- eH/4x+m33Ql/4kiiUzmU3cfD0ygWtwVS2q6YwgU9tArmaYR4mLbet2c2+N9AFx8TAFkr
- 3NJQ==
-X-Gm-Message-State: AO0yUKXn0Umlb72oqkc3eZq+HD5uXsAE13lHzxBDpBdQC4xWr2Ryjvaw
- 0+7KVB8vaEk8aHHABKOAMxUMrsxzC0NFFNzmA2Q=
-X-Google-Smtp-Source: AK7set8/rNX6eScQImS8fwmDlfo6Tfrkdl4BoyhCpYhTswk4X3g0BwPsoY9iZXQUreI88xhvgFBNiFcRbTCC7dMrqFc=
-X-Received: by 2002:a05:6808:a10:b0:35b:d93f:cbc4 with SMTP id
- n16-20020a0568080a1000b0035bd93fcbc4mr23447oij.96.1676396376636; Tue, 14 Feb
- 2023 09:39:36 -0800 (PST)
+ bh=c3+qCkN2LjXU9wdlskKeXV1f7YIw+Dw3wL4cke/NBXs=;
+ b=WoB64H/iRyFi4P7DKWJ+D5alYsM4EvoIFBXM2zRJtz4wa6QH9ohkX7J1of2byq66tQ
+ zkJ1mSB+OWsjC9ry9BSeea6KayY9GBQUFUsFXEZC8l+6wHh5utRsqyFqrmJvph4iMSKT
+ v/pOQfbcUQ3J+2FXIM4rIbM/tK1cx6UpcDXK72YtoKl3Dg3i6BRQQLX1nq8GHAr3vzmK
+ YluBAE5BQ5vSnMCWkdsDFVoyrIRQfUpshXgWeB/eWk4NXB4LDsVd+2qzDyYBnYJgLyFN
+ iBN9K1WrVu5HoLqAQehvhDVuzdq5QMHBLliaipSqxol5uQvem0bg9wOwR2mulK9Wk7mi
+ 3QKA==
+X-Gm-Message-State: AO0yUKXKQwMbcAXrIzoT0v1rdEYlguzB3WyhFVeinLh7LOh7yYgMoBhs
+ 0ghhKgpVSTLW2E/7CH70bFnScbOt/kb/Wdayijg=
+X-Google-Smtp-Source: AK7set9lTncuGv2q+IVj/HjwkeJ5SzlWHaWQhGH+EOQl8mGOQYgk+4bbdoEAbhi20VsbzhPX5D7cga0yJhO5eVWMMhA=
+X-Received: by 2002:a05:6870:c154:b0:16e:2d40:daf5 with SMTP id
+ g20-20020a056870c15400b0016e2d40daf5mr40700oad.96.1676396460141; Tue, 14 Feb
+ 2023 09:41:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20230213204923.111948-1-arthurgrillo@riseup.net>
- <20230213204923.111948-2-arthurgrillo@riseup.net>
-In-Reply-To: <20230213204923.111948-2-arthurgrillo@riseup.net>
+ <20230213204923.111948-3-arthurgrillo@riseup.net>
+In-Reply-To: <20230213204923.111948-3-arthurgrillo@riseup.net>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 14 Feb 2023 12:39:25 -0500
-Message-ID: <CADnq5_MNyA9HF-YKUqRO8W9GFJh8KFWt0v=TGA1T++93PMcE1Q@mail.gmail.com>
-Subject: Re: [PATCH 01/10] drm/amd/display: Turn global functions into static
+Date: Tue, 14 Feb 2023 12:40:48 -0500
+Message-ID: <CADnq5_Ox-ZO6rdQ7xqavryuDOxQzd9cTyxYA6xJnLFwpSB=x4Q@mail.gmail.com>
+Subject: Re: [PATCH 02/10] drm/amd/display: Add function prototypes to headers
 To: Arthur Grillo <arthurgrillo@riseup.net>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,48 +73,59 @@ Cc: sunpeng.li@amd.com, tales.aparecida@gmail.com, Xinhui.Pan@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 13, 2023 at 3:49 PM Arthur Grillo <arthurgrillo@riseup.net> wrote:
+Applied.  Thanks!
+
+On Mon, Feb 13, 2023 at 3:50 PM Arthur Grillo <arthurgrillo@riseup.net> wrote:
 >
-> Turn global functions that are only used locally into static ones. This
-> reduces the number of -Wmissing-prototypes warnings.
+> Add function prototypes to headers to reduce the number of
+> -Wmissing-prototypes warnings.
 >
 > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-
-The first hunk was already fixed, but I applied the second hunk.
-
-Alex
-
 > ---
->  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c | 2 +-
->  drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.h | 2 ++
+>  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.h | 2 ++
+>  drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.h   | 2 ++
+>  3 files changed, 6 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-> index 8c368bcc8e7e..a737782b2840 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
-> @@ -87,7 +87,7 @@ static int dcn315_get_active_display_cnt_wa(
->         return display_count;
->  }
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.h b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.h
+> index e015e5a6c866..89d6208287b5 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.h
+> @@ -133,6 +133,8 @@
+>  int hubbub31_init_dchub_sys_ctx(struct hubbub *hubbub,
+>                 struct dcn_hubbub_phys_addr_config *pa_config);
 >
-> -bool should_disable_otg(struct pipe_ctx *pipe)
-> +static bool should_disable_otg(struct pipe_ctx *pipe)
->  {
->         bool ret = true;
+> +void hubbub31_init(struct hubbub *hubbub);
+> +
+>  void hubbub31_construct(struct dcn20_hubbub *hubbub3,
+>         struct dc_context *ctx,
+>         const struct dcn_hubbub_registers *hubbub_regs,
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.h b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.h
+> index bdc146890fca..b20eb04724bb 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubbub.h
+> @@ -204,6 +204,8 @@ void hubbub32_force_usr_retraining_allow(struct hubbub *hubbub, bool allow);
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c b/drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c
-> index 27dc8c9955f4..3c7cb3dc046b 100644
-> --- a/drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c
-> +++ b/drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c
-> @@ -37,7 +37,7 @@
->  #include "soc15_hw_ip.h"
->  #include "ivsrcid/dcn/irqsrcs_dcn_1_0.h"
+>  void hubbub32_force_wm_propagate_to_pipes(struct hubbub *hubbub);
 >
-> -enum dc_irq_source to_dal_irq_source_dcn201(
-> +static enum dc_irq_source to_dal_irq_source_dcn201(
->                 struct irq_service *irq_service,
->                 uint32_t src_id,
->                 uint32_t ext_id)
+> +void hubbub32_init(struct hubbub *hubbub);
+> +
+>  void dcn32_program_det_size(struct hubbub *hubbub, int hubp_inst, unsigned int det_buffer_size_in_kbyte);
+>
+>  void hubbub32_construct(struct dcn20_hubbub *hubbub2,
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.h b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.h
+> index 56ef71151536..4cdbf63c952b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hubp.h
+> @@ -61,6 +61,8 @@ void hubp32_phantom_hubp_post_enable(struct hubp *hubp);
+>  void hubp32_cursor_set_attributes(struct hubp *hubp,
+>                 const struct dc_cursor_attributes *attr);
+>
+> +void hubp32_init(struct hubp *hubp);
+> +
+>  bool hubp32_construct(
+>         struct dcn20_hubp *hubp2,
+>         struct dc_context *ctx,
 > --
 > 2.39.1
 >
