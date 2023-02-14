@@ -1,53 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082CC6963C5
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 13:46:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F0D6963E6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 13:51:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E4B410E0D6;
-	Tue, 14 Feb 2023 12:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D067710E1FB;
+	Tue, 14 Feb 2023 12:51:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F80210E1FB
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 12:46:09 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5337510E117;
+ Tue, 14 Feb 2023 12:51:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676378769; x=1707914769;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=/Wi8sKzzfRBBBvZyhOaWYWmRYEuxgvpW7Q6JHl010VA=;
- b=OSfMaCmlOO+IIhA5JVUHdA0qQFi6pRr2Pkgyy9LcCn4WDG0yzPs67gj2
- i4vi22G7HXvRBuYD7Z6JJQCreVCHIA3BooAcRwYqvJV0nh4nCY4roKFw1
- G/yU7BDnJRbgDxa6C2OBqNtD4EDwYWrCKKAYlIfGfwTMO7/E/qfN0V7Vj
- 7KsBkxPJ7xMNolXO5Zkk9NlkRlLjZHzuCMWFkLTwX4TJIv8UyToJ+Po7H
- ltp2y7HHaK9R5z3RzjhUTeAbQd9q8pqlWxpI0vA4uc+sqJGA99IqbglPz
- NsM4T56ZfOLxfP3qHOq/1VnQexZYzdw6hKSIBKAFSrdas62bDZRWhYPXy g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="314794642"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="314794642"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 04:46:08 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="699529440"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="699529440"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 04:46:06 -0800
-Date: Tue, 14 Feb 2023 13:46:03 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 3/3] drm/debugfs: remove dev->debugfs_list and
- debugfs_mutex
-Message-ID: <20230214124603.GA2827732@linux.intel.com>
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <20230209081838.45273-4-christian.koenig@amd.com>
- <20230214121951.GD2824715@linux.intel.com>
+ t=1676379095; x=1707915095;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hJu7TZpVPtec73hfeBA/avwcYvPTNTBMYqIl7PC5FV0=;
+ b=WGWgN8d2LF+B7wGAlYZwUTfmHtXQb4JY9vsbTspzAVRxGGnLaBPHWBpT
+ BRYQyyd+7iiu5yg0m+MvnLBGo04TUK7GRVo6k/90FPaHZ1rliv9dZiHNQ
+ uIkT60mv8GLcW/cXOxQ9zy8QO6GXA77qQwdvzFBDR4qWlNm1kYvZDDzGb
+ JsYh4caw/6L8QTyL565iVDilh152pH1eiRHGLqi0Y7nTNIUKuSyLjgwKT
+ lYQXvgQbKGjDFjAYxpC/ufMuz4o7u0tTHDP3Z9MX01JYWuAdTFe6MenVm
+ dPFNGp/ojX3eiRfKaAn3yc9Zypha2zG2IruQx2+G1BcxDJde9DtSZVL/M w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="331149529"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="331149529"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 04:51:33 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="669152938"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="669152938"
+Received: from ahmedm3x-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.226.130])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 04:51:10 -0800
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/gem: Expose the buffer object handle to userspace last
+Date: Tue, 14 Feb 2023 12:50:50 +0000
+Message-Id: <20230214125050.1205394-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230214121951.GD2824715@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +56,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, daniel.vetter@ffwll.ch,
- Oded Gabbay <ogabbay@kernel.org>, mcanal@igalia.com,
- dri-devel@lists.freedesktop.org, mwen@igalia.com, mairacanal@riseup.net,
- jacek.lawrynowicz@linux.intel.com, wambui.karugax@gmail.com, maxime@cerno.tech
+Cc: Rob Clark <robdclark@chromium.org>, lima@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, nouveau@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Herrmann <dh.herrmann@gmail.com>,
+ spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 14, 2023 at 01:19:51PM +0100, Stanislaw Gruszka wrote:
-> On Thu, Feb 09, 2023 at 09:18:38AM +0100, Christian Kˆnig wrote:
-> > -void drm_debugfs_late_register(struct drm_device *dev)
-> > -{
-> > -	struct drm_minor *minor = dev->primary;
-> > -	struct drm_debugfs_entry *entry, *tmp;
-> > -
-> > -	if (!minor)
-> > -		return;
-> > -
-> > -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
-> > -		debugfs_create_file(entry->file.name, 0444,
-> > -				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
-> > -		list_del(&entry->list);
-> > -	}
-> >  }
-> >  
-> >  int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
-> > @@ -343,9 +321,13 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
-> >  	entry->file.data = data;
-> >  	entry->dev = dev;
-> >  
-> > -	mutex_lock(&dev->debugfs_mutex);
-> > -	list_add(&entry->list, &dev->debugfs_list);
-> > -	mutex_unlock(&dev->debugfs_mutex);
-> > +	debugfs_create_file(name, 0444, dev->primary->debugfs_root, entry,
-> > +			    &drm_debugfs_entry_fops);
-> > +
-> > +	/* TODO: This should probably only be a symlink */
-> > +	if (dev->render)
-> > +		debugfs_create_file(name, 0444, dev->render->debugfs_root,
-> > +				    entry, &drm_debugfs_entry_fops);
-> 
-> For accel we would need conditional check for DRM_MINOR_ACCEL here as
-> well.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Actually my comment make no sense, since we do not have minor pointer
-here. What is needed is additional dev->accel code like for dev->render,
-perhaps also make dev->primary conditional.
+Currently drm_gem_handle_create_tail exposes the handle to userspace
+before the buffer object constructions is complete. This allowing
+of working against a partially constructed object, which may also be in
+the process of having its creation fail, can have a range of negative
+outcomes.
 
-Alternatively we can just create separate helper: accel_debugfs_add_file.
+A lot of those will depend on what the individual drivers are doing in
+their obj->funcs->open() callbacks, and also with a common failure mode
+being -ENOMEM from drm_vma_node_allow.
 
-> With this change and one from first patch, drm_debugfs_add_file() should
-> work for accel as well. We could get rid of debugfs_init from accel_debugfs_init().
-> 
-> However we still need support for writable files. I think we can just
-> add helper for providing debugfs dir to drivers i.e:
-> 
-> struct dentry *accel_debugfs_dir(struct drm_device *drm) 
-> {
-> 	return drm->accel->debugfs_root;
-> }
+We can make sure none of this can happen by allocating a handle last,
+although with a downside that more of the function now runs under the
+dev->object_name_lock.
 
-or just this :-)
+Looking into the individual drivers open() hooks, we have
+amdgpu_gem_object_open which seems like it could have a potential security
+issue without this change.
 
-Regards
-Stanislaw
+A couple drivers like qxl_gem_object_open and vmw_gem_object_open
+implement no-op hooks so no impact for them.
+
+A bunch of other require a deeper look by individual owners to asses for
+impact. Those are lima_gem_object_open, nouveau_gem_object_open,
+panfrost_gem_open, radeon_gem_object_open and virtio_gpu_gem_object_open.
+
+Putting aside the risk assesment of the above, some common scenarios to
+think about are along these lines:
+
+1)
+Userspace closes a handle by speculatively "guessing" it from a second
+thread.
+
+This results in an unreachable buffer object so, a memory leak.
+
+2)
+Same as 1), but object is in the process of getting closed (failed
+creation).
+
+The second thread is then able to re-cycle the handle and idr_remove would
+in the first thread would then remove the handle it does not own from the
+idr.
+
+3)
+Going back to the earlier per driver problem space - individual impact
+assesment of allowing a second thread to access and operate on a partially
+constructed handle / object. (Can something crash? Leak information?)
+
+In terms of identifying when the problem started I will tag some patches
+as references, but not all, if even any, of them actually point to a
+broken state. I am just identifying points at which more opportunity for
+issues to arise was added.
+
+References: 304eda32920b ("drm/gem: add hooks to notify driver when object handle is created/destroyed")
+References: ca481c9b2a3a ("drm/gem: implement vma access management")
+References: b39b5394fabc ("drm/gem: Add drm_gem_object_funcs")
+Cc: dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: David Herrmann <dh.herrmann@gmail.com>
+Cc: Noralf Tr√∏nnes <noralf@tronnes.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: lima@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: Steven Price <steven.price@arm.com>
+Cc: virtualization@lists.linux-foundation.org
+Cc: spice-devel@lists.freedesktop.org
+Cc: Zack Rusin <zackr@vmware.com>
+---
+ drivers/gpu/drm/drm_gem.c | 48 +++++++++++++++++++--------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index aa15c52ae182..e3d897bca0f2 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -356,52 +356,52 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 			   u32 *handlep)
+ {
+ 	struct drm_device *dev = obj->dev;
+-	u32 handle;
+ 	int ret;
+ 
+ 	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+ 	if (obj->handle_count++ == 0)
+ 		drm_gem_object_get(obj);
+ 
++	ret = drm_vma_node_allow(&obj->vma_node, file_priv);
++	if (ret)
++		goto err_put;
++
++	if (obj->funcs->open) {
++		ret = obj->funcs->open(obj, file_priv);
++		if (ret)
++			goto err_revoke;
++	}
++
+ 	/*
+-	 * Get the user-visible handle using idr.  Preload and perform
+-	 * allocation under our spinlock.
++	 * Get the user-visible handle using idr as the _last_ step.
++	 * Preload and perform allocation under our spinlock.
+ 	 */
+ 	idr_preload(GFP_KERNEL);
+ 	spin_lock(&file_priv->table_lock);
+-
+ 	ret = idr_alloc(&file_priv->object_idr, obj, 1, 0, GFP_NOWAIT);
+-
+ 	spin_unlock(&file_priv->table_lock);
+ 	idr_preload_end();
+ 
+-	mutex_unlock(&dev->object_name_lock);
+ 	if (ret < 0)
+-		goto err_unref;
+-
+-	handle = ret;
++		goto err_close;
+ 
+-	ret = drm_vma_node_allow(&obj->vma_node, file_priv);
+-	if (ret)
+-		goto err_remove;
++	mutex_unlock(&dev->object_name_lock);
+ 
+-	if (obj->funcs->open) {
+-		ret = obj->funcs->open(obj, file_priv);
+-		if (ret)
+-			goto err_revoke;
+-	}
++	*handlep = ret;
+ 
+-	*handlep = handle;
+ 	return 0;
+ 
++err_close:
++	if (obj->funcs->close)
++		obj->funcs->close(obj, file_priv);
+ err_revoke:
+ 	drm_vma_node_revoke(&obj->vma_node, file_priv);
+-err_remove:
+-	spin_lock(&file_priv->table_lock);
+-	idr_remove(&file_priv->object_idr, handle);
+-	spin_unlock(&file_priv->table_lock);
+-err_unref:
+-	drm_gem_object_handle_put_unlocked(obj);
++err_put:
++	if (--obj->handle_count == 0)
++		drm_gem_object_put(obj);
++
++	mutex_unlock(&dev->object_name_lock);
++
+ 	return ret;
+ }
+ 
+-- 
+2.34.1
 
