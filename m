@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF8A696B9B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 18:32:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34270696B9C
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 18:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D91610E944;
-	Tue, 14 Feb 2023 17:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1021010E93C;
+	Tue, 14 Feb 2023 17:32:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47B9710E943
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 17:32:10 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id eq11so18484189edb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 09:32:10 -0800 (PST)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBC5C10E93C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 17:32:12 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id fj20so18516322edb.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 09:32:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OY08lSRJ0khJ3YSfU40JW9rAgs8VWCIlhnOm90/cUOg=;
- b=frfKn93kiQebkp11O4duo98V/VYbcCaSsG8zEDPRN7bXFw6RY8w5rF0knMGnhEFM5l
- /02KkVtTMObUBFykV6Q5lsPHyvYFJ18icSwP8QxYbEKJm0GziPhXz0K7e79e5kaYvj//
- MS6T5e9SIcAfpUlqhOEg1ndoWsCUUKWFg445luwHBacOWbuGwDsfbwR1KP3wMID1li1E
- 5i+1tgcFdWF5aZQM85pLheVzpKKlkMtlWj55tgeH5yuU36lfSWefZCJ0q2Rw0Cy8pCFy
- 6WOeJw7XAPSGjYLTQoBwmt5Yh46Y768uSz7iPY/rtkgyFu49b7B8JZJkKUPmyLkSwTAI
- WsHA==
+ bh=aCCbSlMjNx5L3JbI+yxmCqJTM703drqGHbbH/KoYNcE=;
+ b=UB/rfIQ8kQgMmMUAWxOZPzuSgFHFDqpMLIMDpHWl7HIegwaxvdZaqGa30kHwfTbeQp
+ 7ZsMd8W+dKrdk+I9p10m1aTphQTC3KM2K7Qavphr4HBOUAusWmL4W3h+HluIsFtPNWeZ
+ Ul6OWFxJxszjGTuWkyjNFyUMuWvFvt8BZx1e8WneRxUXp8XzxW8ynqh7fkiM0H8EulSZ
+ dPS0fxPF4towZpOtmdyNIUFwirKsNqNkiiaJSwj4Gi9BCCPoOnAv14K04jpy3jGav+pK
+ jwbn6j/p095LA+2apeELdP6lbcXngMgtm0gNyHDEILSEQxHBNegYylL2cwYbB6bCSpVl
+ rLeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OY08lSRJ0khJ3YSfU40JW9rAgs8VWCIlhnOm90/cUOg=;
- b=wUVmLks6x1jpBYx5nnKTv1kO4Tod2CGsJmxAzObJJOQcXsAX9pyytBk5SGfagW6Foj
- G9O9aLkQXGnNJ3en9lBPl9MQcgqUzwmnr0BsRSqoSl8K9FSfMmZSXcEKM4uHi3KdgUE8
- 15kTR2uWj9nflN3/w7VAMig34UjjGIRGQzvoA+xmMisKf2FqGKMYdDskYVHC9SUAmBVh
- G15uVkUJkYGONWC64ThfCGrzxto3YK3oiFvd04sDDUOK3RxNR70wywQiJ7/oZ8gGBbC+
- 00+RdfsNThIdZTjOdXdbNZktwMW0CclaWmFEjonR+g78MsmdX16EINJjuKmsT2H+fuXS
- gBqQ==
-X-Gm-Message-State: AO0yUKUmj8gPMkhmcmXgyY2Tn7ciDghMj0uprGWT9Ka5mV+iBsezc9B1
- RAwdOnsF5jsUqrTo4UJnikmloA==
-X-Google-Smtp-Source: AK7set+p3q4YKuAdCoI2TlDfL0AaC/b3D1U8fkZW8bGwqj3d2sCOyEM/PtwXUq2iGExPskN1ATR+EQ==
-X-Received: by 2002:a50:931e:0:b0:4a2:2e8a:14cc with SMTP id
- m30-20020a50931e000000b004a22e8a14ccmr4271090eda.1.1676395928744; 
- Tue, 14 Feb 2023 09:32:08 -0800 (PST)
+ bh=aCCbSlMjNx5L3JbI+yxmCqJTM703drqGHbbH/KoYNcE=;
+ b=6o16bnSPM/ePn1EBBU5qVOrS5P790bRwX2/6OlPxR523j/mLNsesqYQknN9eng+zhi
+ Q/lmbH9Jz8Mj1w9Hyuad4WkUHZV5RPSBNrSJbmpO9n9cXpGv00+OeSBe/In+Q5B0Wvxx
+ km441dpigTFfl1h2m+UM7+YSNQ0kIHK3Z0N7Op9309eKLqmOh0gK533h4GjJPHf9Ud0M
+ UHRvTZN/1eytJOmXiOEXOjXt90qII2gv5uqezDkRAQhwVhPcvsZH5GWE4N4J2YGUdNaN
+ +bJWvMCknQUegyc9gOv2ZPLAvNQQhaQwCJ2zYQspTxeHkSM+GfN7HAuHvXnCg6P9GYTf
+ fi+g==
+X-Gm-Message-State: AO0yUKWpxiuwo5TkqvoeibOx2YmInyhot4VMA7sNOlr4JBN0evMuD3NR
+ 34q7tJqrXGKLs4+a9yOIioTb8Q==
+X-Google-Smtp-Source: AK7set8Qu1sZENJSKRws0s9U+f/9W6outwfMSSC/5d4Kj6gfPjPKyISNG9v6fJ8GsR8Y4KxoC+/koQ==
+X-Received: by 2002:a50:d5de:0:b0:4aa:aaf6:e6be with SMTP id
+ g30-20020a50d5de000000b004aaaaf6e6bemr3648055edj.7.1676395931356; 
+ Tue, 14 Feb 2023 09:32:11 -0800 (PST)
 Received: from localhost.localdomain (abxh117.neoplus.adsl.tpnet.pl.
  [83.9.1.117]) by smtp.gmail.com with ESMTPSA id
- w8-20020a50c448000000b0049668426aa6sm8325787edf.24.2023.02.14.09.32.07
+ w8-20020a50c448000000b0049668426aa6sm8325787edf.24.2023.02.14.09.32.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 09:32:08 -0800 (PST)
+ Tue, 14 Feb 2023 09:32:10 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 To: linux-arm-msm@vger.kernel.org,
 	andersson@kernel.org,
 	agross@kernel.org
-Subject: [PATCH v2 05/14] drm/msm/adreno: Disable has_cached_coherent for
- A610/A619_holi
-Date: Tue, 14 Feb 2023 18:31:36 +0100
-Message-Id: <20230214173145.2482651-6-konrad.dybcio@linaro.org>
+Subject: [PATCH v2 06/14] drm/msm/gpu: Use dev_pm_opp_set_rate for non-GMU GPUs
+Date: Tue, 14 Feb 2023 18:31:37 +0100
+Message-Id: <20230214173145.2482651-7-konrad.dybcio@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
 References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
@@ -74,46 +73,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
+Cc: freedreno@lists.freedesktop.org, Dan Carpenter <error27@gmail.com>,
+ Emma Anholt <emma@anholt.net>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- Ricardo Ribalda <ribalda@chromium.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These SKUs don't support the feature. Disable it to make the GPU stop
-crashing after almost each and every submission - the received data on
-the GPU end was simply incomplete in garbled, resulting in almost nothing
-being executed properly.
+Currently we only utilize the OPP table connected to the GPU for
+getting (available) frequencies. We do however need to scale the
+voltage rail(s) accordingly to ensure that we aren't trying to
+run the GPU at 1GHz with a VDD_LOW vote, as that would result in
+an otherwise inexplainable hang.
+
+Tell the OPP framework that we want to scale the "core" clock
+and swap out the clk_set_rate to a dev_pm_opp_set_rate in
+msm_devfreq_target() to enable usage of required-opps and by
+extension proper voltage level/corner scaling.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 4 ++++
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c   | 2 +-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 36f062c7582f..82757f005a1a 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -540,7 +540,13 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 		config.rev.minor, config.rev.patchid);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index ce6b76c45b6f..15e405e4f977 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -1047,6 +1047,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 	const char *gpu_name;
+ 	u32 speedbin;
  
- 	priv->is_a2xx = config.rev.core == 2;
--	priv->has_cached_coherent = config.rev.core >= 6;
++	/* This can only be done here, or devm_pm_opp_set_supported_hw will WARN_ON() */
++	if (!IS_ERR(devm_clk_get(dev, "core")))
++		devm_pm_opp_set_clkname(dev, "core");
 +
-+	if (config.rev.core >= 6) {
-+		/* Exclude A610 and A619_holi */
-+		if (!(adreno_cmp_rev(ADRENO_REV(6, 1, 0, ANY_ID), config.rev) ||
-+		      adreno_cmp_rev(ADRENO_REV(6, 1, 9, 1), config.rev)))
-+			priv->has_cached_coherent = true;
-+	}
+ 	adreno_gpu->funcs = funcs;
+ 	adreno_gpu->info = adreno_info(config->rev);
+ 	adreno_gpu->gmem = adreno_gpu->info->gmem;
+diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+index e27dbf12b5e8..ea70c1c32d94 100644
+--- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
++++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+@@ -48,7 +48,7 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
+ 		gpu->funcs->gpu_set_freq(gpu, opp, df->suspended);
+ 		mutex_unlock(&df->lock);
+ 	} else {
+-		clk_set_rate(gpu->core_clk, *freq);
++		dev_pm_opp_set_rate(dev, *freq);
+ 	}
  
- 	gpu = info->init(drm);
- 	if (IS_ERR(gpu)) {
+ 	dev_pm_opp_put(opp);
 -- 
 2.39.1
 
