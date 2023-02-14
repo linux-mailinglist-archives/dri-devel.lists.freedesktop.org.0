@@ -2,38 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB30695571
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 01:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA26695645
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 03:02:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8680110E7BA;
-	Tue, 14 Feb 2023 00:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6AE010E02C;
+	Tue, 14 Feb 2023 02:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9211F10E7B8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 00:37:43 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
- [213.243.189.158])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 194FB3D7;
- Tue, 14 Feb 2023 01:37:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1676335062;
- bh=6P5t4s1EwSRu/HMKbiO2w1pauCdw8QdMPyjpn0A36A8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m3HYHoIq8LA11K1UPCAVS8MuerkpMY6DLFmTiNJbDtG0UumWhm+li89lomPljDNvC
- a7MjzVCfDxURXsQHJEM+WvzSryT1rXq3m+5Lf8mI8oC0uXjlnismyEIez0Kj8vbUkh
- CEVC8jxkuOeiXR4d5rT0WvmjVxW4elphRU4CrERE=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm: rcar-du: lvds: Fix LVDS PLL disable on D3/E3
-Date: Tue, 14 Feb 2023 02:37:36 +0200
-Message-Id: <20230214003736.18871-4-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230214003736.18871-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20230214003736.18871-1-laurent.pinchart+renesas@ideasonboard.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B67C10E02C;
+ Tue, 14 Feb 2023 02:02:30 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31E12GtI016457; Tue, 14 Feb 2023 02:02:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=lJz5eGqaxgHQKzHuSFKlsdBxHRKjzQfoAz1ZMLpBdgQ=;
+ b=j59b05SXJtA82s2SVnaym4Chl9LYdFjboQ3juXxQTwr30WbiWfpPh9CHxrWU3/DdnS2s
+ TmXN33eeE6sXDga3gx6TFXyy8Jb9b607TxIA6hR7sZ1OMkp4RzLn5gS0lcDO4xEFsyvw
+ aCw9xdtTpe/1DWi6jAhEXW2DDmRTyByMwYQmb/c5e6XZQ2TvjWNXzrF3ZciRfDq4scfP
+ rQMsIHZ/T2S3Ncm0UrHSUNYDcpE3weSD/fbn+nV8Ab8jtul0yqIfPpnDRDEM3DlZh7+X
+ +D0iUECcrF0Ky0/8xKYiGtrAQUzwABOpTmraHHxIwzntbxduCnF5awH85xxlAi46RpSt bQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nqtv08qv3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Feb 2023 02:02:16 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31E227pn008665
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Feb 2023 02:02:15 GMT
+Received: from [10.110.55.187] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Mon, 13 Feb
+ 2023 18:02:10 -0800
+Message-ID: <1f204585-88e2-abae-1216-92f739ac9e91@quicinc.com>
+Date: Mon, 13 Feb 2023 18:02:09 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [RFT PATCH v2 3/3] drm/msm/dsi: More properly handle
+ errors in regards to dsi_mgr_bridge_power_on()
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>
+References: <20230131141756.RFT.v2.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
+ <20230131141756.RFT.v2.3.I3c87b53c4ab61a7d5e05f601a4eb44c7e3809a01@changeid>
+ <0419b0c8-fb30-f8df-1b9a-19e106680948@quicinc.com>
+ <CAD=FV=Xk6qFokozxEa+MaCgii3zpSWZRDe52FoP17E-DOFXoyg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAD=FV=Xk6qFokozxEa+MaCgii3zpSWZRDe52FoP17E-DOFXoyg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: gaKiNskB2BCdFws96mtY_2Uk_EMulKRp
+X-Proofpoint-ORIG-GUID: gaKiNskB2BCdFws96mtY_2Uk_EMulKRp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-14_01,2023-02-13_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1011
+ impostorscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302140014
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,329 +86,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-kernel@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, Vinod Koul <vkoul@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On R-Car D3 and E3, the LVDS encoder provides the dot (pixel) clock to
-the DU, regardless of whether the LVDS output is used or not. When using
-the DPAD (RGB) output, the DU driver thus enables and disables the LVDS
-PLL manually, while when using the LVDS output, it lets the LVDS bridge
-driver handle the PLL configuration internally as part of the atomic
-enable and disable operations.
+Hi Doug
 
-This causes an issue when using the LVDS output. As bridges are disabled
-before CRTCs, the current implementation violates the enable/disable
-sequences documented in the hardware datasheet, which requires the dot
-clock to be enabled before the CRTC is started and disabled after it
-gets stopped.
+Sorry for the delayed response.
 
-Fix the problem by enabling/disabling the LVDS PLL manually from the DU
-regardless of which output is used, and skipping the PLL handling in the
-LVDS bridge atomic enable and disable operations.
+On 2/2/2023 2:46 PM, Doug Anderson wrote:
+> Hi,
+> 
+> On Thu, Feb 2, 2023 at 2:37 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>> Hi Doug
+>>
+>> On 1/31/2023 2:18 PM, Douglas Anderson wrote:
+>>> In commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
+>>> time") the error handling with regards to dsi_mgr_bridge_power_on()
+>>> got a bit worse. Specifically if we failed to power the bridge on then
+>>> nothing would really notice. The modeset function couldn't return an
+>>> error and thus we'd blindly go forward and try to do the pre-enable.
+>>>
+>>> In commit ec7981e6c614 ("drm/msm/dsi: don't powerup at modeset time
+>>> for parade-ps8640") we added a special case to move the powerup back
+>>> to pre-enable time for ps8640. When we did that, we didn't try to
+>>> recover the old/better error handling just for ps8640.
+>>>
+>>> In the patch ("drm/msm/dsi: Stop unconditionally powering up DSI hosts
+>>> at modeset") we've now moved the powering up back to exclusively being
+>>> during pre-enable. That means we can add the better error handling
+>>> back in, so let's do it. To do so we'll add a new function
+>>> dsi_mgr_bridge_power_off() that's matches how errors were handled
+>>> prior to commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to
+>>> modeset time").
+>>>
+>>> NOTE: Now that we have dsi_mgr_bridge_power_off(), it feels as if we
+>>> should be calling it in dsi_mgr_bridge_post_disable(). That would make
+>>> some sense, but doing so would change the current behavior and thus
+>>> should be a separate patch. Specifically:
+>>> * dsi_mgr_bridge_post_disable() always calls dsi_mgr_phy_disable()
+>>>     even in the slave-DSI case of bonded DSI. We'd need to add special
+>>>     handling for this if it's truly needed.
+>>> * dsi_mgr_bridge_post_disable() calls msm_dsi_phy_pll_save_state()
+>>>     midway through the poweroff.
+>>> * dsi_mgr_bridge_post_disable() has a different order of some of the
+>>>     poweroffs / IRQ disables.
+>>> For now we'll leave dsi_mgr_bridge_post_disable() alone.
+>>>
+>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>>> ---
+>>>
+>>> Changes in v2:
+>>> - ("More properly handle errors...") new for v2.
+>>>
+>>>    drivers/gpu/drm/msm/dsi/dsi_manager.c | 32 ++++++++++++++++++++++-----
+>>>    1 file changed, 26 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>> index 2197a54b9b96..28b8012a21f2 100644
+>>> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+>>> @@ -228,7 +228,7 @@ static void msm_dsi_manager_set_split_display(u8 id)
+>>>        }
+>>>    }
+>>>
+>>> -static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
+>>> +static int dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
+>>>    {
+>>>        int id = dsi_mgr_bridge_get_id(bridge);
+>>>        struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+>>> @@ -268,14 +268,31 @@ static void dsi_mgr_bridge_power_on(struct drm_bridge *bridge)
+>>>        if (is_bonded_dsi && msm_dsi1)
+>>>                msm_dsi_host_enable_irq(msm_dsi1->host);
+>>>
+>>> -     return;
+>>> +     return 0;
+>>>
+>>>    host1_on_fail:
+>>>        msm_dsi_host_power_off(host);
+>>>    host_on_fail:
+>>>        dsi_mgr_phy_disable(id);
+>>>    phy_en_fail:
+>>> -     return;
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +static void dsi_mgr_bridge_power_off(struct drm_bridge *bridge)
+>>> +{
+>>> +     int id = dsi_mgr_bridge_get_id(bridge);
+>>> +     struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
+>>> +     struct msm_dsi *msm_dsi1 = dsi_mgr_get_dsi(DSI_1);
+>>> +     struct mipi_dsi_host *host = msm_dsi->host;
+>>> +     bool is_bonded_dsi = IS_BONDED_DSI();
+>>> +
+>>> +     msm_dsi_host_disable_irq(host);
+>>> +     if (is_bonded_dsi && msm_dsi1) {
+>>> +             msm_dsi_host_disable_irq(msm_dsi1->host);
+>>> +             msm_dsi_host_power_off(msm_dsi1->host);
+>>> +     }
+>>
+>> The order of disabling the IRQs should be opposite of how they were enabled.
+>>
+>> So while enabling it was DSI0 and then DSI1.
+>>
+>> Hence while disabling it should be DSI1 and then DSI0.
+>>
+>> So the order here should be
+>>
+>> DSI1 irq disable
+>> DSI0 irq disable
+>> DSI1 host power off
+>> DSI0 host power off
+> 
+> Right. Normally you want to go opposite. I guess a few points, though:
+> 
+> 1. As talked about in the commit message, the order I have matches the
+> order we had prior to commit 7d8e9a90509f ("drm/msm/dsi: move DSI host
+> powerup to modeset time").
+> 
+> 2. I'd be curious if it matters. The order you request means we need
+> to check for `(is_bonded_dsi && msm_dsi1)` twice. While that's not a
+> big deal if it's important, it's nice not to have to do so.
+> 
+> 3. As talked about in the commit message, eventually we should
+> probably resolve this order with the order of things in
+> dsi_mgr_bridge_post_disable(), which is yet a different ordering.
+> Ideally this resolution would be done by someone who actually has
+> proper documentation of the hardware and how it's supposed to work
+> (AKA not me).
+> 
+> So my preference would be to either land or drop ${SUBJECT} patch
+> (either is fine with me) and then someone at Qualcomm could then take
+> over further cleanup.
+> 
 
-This is however not enough. Disabling the LVDS encoder while leaving the
-PLL on still results in a vertical blanking wait timeout when disabling
-the DU. Investigation showed that the culprit is the LVEN bit. For an
-unclear reason, clearing the bit when disabling the LVDS encoder blocks
-vertical blanking interrupts. We thus have to delay disabling the whole
-LVDS encoder, not just disabling the PLL, until the DU is disabled.
+I do think the ordering matters but you are right, this change brings 
+back the ordering we had before so lets handle the re-ordering of all 
+places in a separate change. I am okay with this change to go-in, hence
 
-We could split the LVDS disable sequence by clearing the LVRES bit in
-the LVDS bridge atomic disable handler, and delaying the rest of the
-operations, in order to disable the LVDS output at bridge atomic disable
-time, before stopping the CRTC. This would make the code more complex,
-without a clear benefit, so keep the implementation simple(r).
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  18 ++--
- drivers/gpu/drm/rcar-du/rcar_lvds.c    | 114 +++++++++++++++----------
- drivers/gpu/drm/rcar-du/rcar_lvds.h    |  12 ++-
- 3 files changed, 86 insertions(+), 58 deletions(-)
+What is the plan to land the patches?
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 008e172ed43b..71e7fbace38d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -749,16 +749,17 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 
- 	/*
- 	 * On D3/E3 the dot clock is provided by the LVDS encoder attached to
--	 * the DU channel. We need to enable its clock output explicitly if
--	 * the LVDS output is disabled.
-+	 * the DU channel. We need to enable its clock output explicitly before
-+	 * starting the CRTC, as the bridge hasn't been enabled by the atomic
-+	 * helpers yet.
- 	 */
--	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
--	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
-+	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
-+		bool dot_clk_only = rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0);
- 		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
- 		const struct drm_display_mode *mode =
- 			&crtc->state->adjusted_mode;
- 
--		rcar_lvds_pclk_enable(bridge, mode->clock * 1000);
-+		rcar_lvds_pclk_enable(bridge, mode->clock * 1000, dot_clk_only);
- 	}
- 
- 	/*
-@@ -795,15 +796,15 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
- 	rcar_du_crtc_stop(rcrtc);
- 	rcar_du_crtc_put(rcrtc);
- 
--	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
--	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
-+	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
-+		bool dot_clk_only = rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0);
- 		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
- 
- 		/*
- 		 * Disable the LVDS clock output, see
- 		 * rcar_du_crtc_atomic_enable().
- 		 */
--		rcar_lvds_pclk_disable(bridge);
-+		rcar_lvds_pclk_disable(bridge, dot_clk_only);
- 	}
- 
- 	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
-@@ -815,7 +816,6 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
- 		 * Disable the DSI clock output, see
- 		 * rcar_du_crtc_atomic_enable().
- 		 */
--
- 		rcar_mipi_dsi_pclk_disable(bridge);
- 	}
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 70cdd5ec64d5..ca215b588fd7 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -269,8 +269,8 @@ static void rcar_lvds_d3_e3_pll_calc(struct rcar_lvds *lvds, struct clk *clk,
- 		pll->pll_m, pll->pll_n, pll->pll_e, pll->div);
- }
- 
--static void __rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
--					unsigned int freq, bool dot_clock_only)
-+static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
-+				      unsigned int freq, bool dot_clock_only)
- {
- 	struct pll_info pll = { .diff = (unsigned long)-1 };
- 	u32 lvdpllcr;
-@@ -305,11 +305,6 @@ static void __rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
- 		rcar_lvds_write(lvds, LVDDIV, 0);
- }
- 
--static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds, unsigned int freq)
--{
--	__rcar_lvds_pll_setup_d3_e3(lvds, freq, false);
--}
--
- /* -----------------------------------------------------------------------------
-  * Enable/disable
-  */
-@@ -425,8 +420,12 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
- 	/*
- 	 * PLL clock configuration on all instances but the companion in
- 	 * dual-link mode.
-+	 *
-+	 * The extended PLL has been turned on by an explicit call to
-+	 * rcar_lvds_pclk_enable() from the DU driver.
- 	 */
--	if (lvds->link_type == RCAR_LVDS_SINGLE_LINK || lvds->companion) {
-+	if ((lvds->link_type == RCAR_LVDS_SINGLE_LINK || lvds->companion) &&
-+	    !(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
- 		const struct drm_crtc_state *crtc_state =
- 			drm_atomic_get_new_crtc_state(state, crtc);
- 		const struct drm_display_mode *mode =
-@@ -491,11 +490,56 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
- 	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
- }
- 
-+static void rcar_lvds_disable(struct drm_bridge *bridge)
-+{
-+	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-+	u32 lvdcr0;
-+
-+	/*
-+	 * Clear the LVDCR0 bits in the order specified by the hardware
-+	 * documentation, ending with a write of 0 to the full register to
-+	 * clear all remaining bits.
-+	 */
-+	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
-+
-+	lvdcr0 &= ~LVDCR0_LVRES;
-+	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-+
-+	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
-+		lvdcr0 &= ~LVDCR0_LVEN;
-+		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-+	}
-+
-+	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
-+		lvdcr0 &= ~LVDCR0_PWD;
-+		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-+	}
-+
-+	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
-+		lvdcr0 &= ~LVDCR0_PLLON;
-+		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-+	}
-+
-+	rcar_lvds_write(lvds, LVDCR0, 0);
-+	rcar_lvds_write(lvds, LVDCR1, 0);
-+
-+	/* The extended PLL is turned off in rcar_lvds_pclk_disable(). */
-+	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL))
-+		rcar_lvds_write(lvds, LVDPLLCR, 0);
-+
-+	/* Disable the companion LVDS encoder in dual-link mode. */
-+	if (lvds->link_type != RCAR_LVDS_SINGLE_LINK && lvds->companion)
-+		rcar_lvds_disable(lvds->companion);
-+
-+	pm_runtime_put_sync(lvds->dev);
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Clock - D3/E3 only
-  */
- 
--int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
-+int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
-+			  bool dot_clk_only)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 	int ret;
-@@ -509,13 +553,13 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
- 	if (ret)
- 		return ret;
- 
--	__rcar_lvds_pll_setup_d3_e3(lvds, freq, true);
-+	rcar_lvds_pll_setup_d3_e3(lvds, freq, dot_clk_only);
- 
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(rcar_lvds_pclk_enable);
- 
--void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
-+void rcar_lvds_pclk_disable(struct drm_bridge *bridge, bool dot_clk_only)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 
-@@ -524,6 +568,9 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
- 
- 	dev_dbg(lvds->dev, "disabling LVDS PLL\n");
- 
-+	if (!dot_clk_only)
-+		rcar_lvds_disable(bridge);
-+
- 	rcar_lvds_write(lvds, LVDPLLCR, 0);
- 
- 	pm_runtime_put_sync(lvds->dev);
-@@ -552,42 +599,21 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
- 				     struct drm_bridge_state *old_bridge_state)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
--	u32 lvdcr0;
- 
- 	/*
--	 * Clear the LVDCR0 bits in the order specified by the hardware
--	 * documentation, ending with a write of 0 to the full register to
--	 * clear all remaining bits.
-+	 * For D3 and E3, disabling the LVDS encoder before the DU would stall
-+	 * the DU, causing a vblank wait timeout when stopping the DU. This has
-+	 * been traced to clearing the LVEN bit, but the exact reason is
-+	 * unknown. Keep the encoder enabled, it will be disabled by an explicit
-+	 * call to rcar_lvds_pclk_disable() from the DU driver.
-+	 *
-+	 * We could clear the LVRES bit already to disable the LVDS output, but
-+	 * that's likely pointless.
- 	 */
--	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
-+	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-+		return;
- 
--	lvdcr0 &= ~LVDCR0_LVRES;
--	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
--
--	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
--		lvdcr0 &= ~LVDCR0_LVEN;
--		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
--	}
--
--	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
--		lvdcr0 &= ~LVDCR0_PWD;
--		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
--	}
--
--	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
--		lvdcr0 &= ~LVDCR0_PLLON;
--		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
--	}
--
--	rcar_lvds_write(lvds, LVDCR0, 0);
--	rcar_lvds_write(lvds, LVDCR1, 0);
--	rcar_lvds_write(lvds, LVDPLLCR, 0);
--
--	/* Disable the companion LVDS encoder in dual-link mode. */
--	if (lvds->link_type != RCAR_LVDS_SINGLE_LINK && lvds->companion)
--		rcar_lvds_atomic_disable(lvds->companion, old_bridge_state);
--
--	pm_runtime_put_sync(lvds->dev);
-+	rcar_lvds_disable(bridge);
- }
- 
- static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
-@@ -924,14 +950,12 @@ static const struct rcar_lvds_device_info rcar_lvds_r8a77990_info = {
- 	.gen = 3,
- 	.quirks = RCAR_LVDS_QUIRK_GEN3_LVEN | RCAR_LVDS_QUIRK_EXT_PLL
- 		| RCAR_LVDS_QUIRK_DUAL_LINK,
--	.pll_setup = rcar_lvds_pll_setup_d3_e3,
- };
- 
- static const struct rcar_lvds_device_info rcar_lvds_r8a77995_info = {
- 	.gen = 3,
- 	.quirks = RCAR_LVDS_QUIRK_GEN3_LVEN | RCAR_LVDS_QUIRK_PWD
- 		| RCAR_LVDS_QUIRK_EXT_PLL | RCAR_LVDS_QUIRK_DUAL_LINK,
--	.pll_setup = rcar_lvds_pll_setup_d3_e3,
- };
- 
- static const struct of_device_id rcar_lvds_of_table[] = {
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-index bee7033b60d6..887c63500000 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-@@ -13,17 +13,21 @@
- struct drm_bridge;
- 
- #if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
--int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq);
--void rcar_lvds_pclk_disable(struct drm_bridge *bridge);
-+int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
-+			  bool dot_clk_only);
-+void rcar_lvds_pclk_disable(struct drm_bridge *bridge, bool dot_clk_only);
- bool rcar_lvds_dual_link(struct drm_bridge *bridge);
- bool rcar_lvds_is_connected(struct drm_bridge *bridge);
- #else
- static inline int rcar_lvds_pclk_enable(struct drm_bridge *bridge,
--					unsigned long freq)
-+					unsigned long freq, bool dot_clk_only)
- {
- 	return -ENOSYS;
- }
--static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge) { }
-+static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge,
-+					  bool dot_clock_only)
-+{
-+}
- static inline bool rcar_lvds_dual_link(struct drm_bridge *bridge)
- {
- 	return false;
--- 
-Regards,
+2 & 3 go in msm-next but 1 goes in drm-misc?
 
-Laurent Pinchart
+Thanks
 
+Abhinav
+
+
+> -Doug
