@@ -2,65 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91991695F7F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 10:42:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FFD695FBE
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 10:50:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1450F10E84A;
-	Tue, 14 Feb 2023 09:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7DF8924F;
+	Tue, 14 Feb 2023 09:50:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 487F710E837;
- Tue, 14 Feb 2023 09:42:33 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id eq11so16455197edb.6;
- Tue, 14 Feb 2023 01:42:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=CneLcNePTxmxPCuMN5qgIM5RhFk7J8/AUOOpDjXCfTo=;
- b=YBEhYcRWrVFXOsfSSWfonp/Ty9WSpV18PzjzrXCoMq1c/cqAyRoXS9uO4qGQgKdiJ4
- YqC6SRScz+yHlIOFLmzJmgrBwj4jaV+mrZPyac77o7qscxPdhPeOxrParkCsPIU5zKOO
- V2+0b2yUPwYZhSondGbOVdNVAax98z/wurwVlUWkSsMWcCTWy79gURMOapAsQno7oRSJ
- kwEiq9vX/YM1PzRuP+jlSdulUOrTFkFbzZW6MawrvPyjeN1GnGQaQh9sM9FEG7fh7jHY
- 21ArKpcy96sfUEYHE1f/Pvsr3lhvAqBS90+d2sfJ2MU9dBGYVItFhY1c4JuyNlk3ahi8
- 7nUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CneLcNePTxmxPCuMN5qgIM5RhFk7J8/AUOOpDjXCfTo=;
- b=J8FFJJYz6u9EEj1txhwarrxPzT7uhiIFHpa4UFlrt/aDTdEcTz1W+TxDLoC6BOjUIO
- amsQRcdumu0UV1T8X4U2PHLNKf5/K0xri9oN7/s9ZRZXBnKUHzuZVieKtJXesIqNlwQQ
- fse9bkfnfrTdY9WiEOfOObcdduBhFJKhGAIHfZmhmYmsANpu6AKeRs8GhJPy/JBUfTBi
- QyYUWpQXk3ONPkF+WPzoYX0QMbSBNXAvidkKLeteewczDKwDMBlPRKJWteZez7fvJMrP
- vVJQH4rP9Ksu7PS09H5KNrRPxo0FyOb4IBs7nONHsk9510QEsgeuTmGh6xE8KScJtLUe
- PCKA==
-X-Gm-Message-State: AO0yUKUbDcegmawbemw7p/9Bk0RwedAmqnFc4p6wNAfcgdOh0LuFjqtx
- 9nITZHJ5geDwCNDRp3/XjoU=
-X-Google-Smtp-Source: AK7set/DKg4offrj49NOcxRraTwrBgS5kW5JzQYHzaPC48O0tJhS6QfPsTr0d+WQ7dX0m9sIgNFifA==
-X-Received: by 2002:a50:9b58:0:b0:4aa:c3da:3ac5 with SMTP id
- a24-20020a509b58000000b004aac3da3ac5mr1582849edj.3.1676367751641; 
- Tue, 14 Feb 2023 01:42:31 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- n12-20020a5099cc000000b004acce817ab7sm1884104edb.2.2023.02.14.01.42.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 01:42:31 -0800 (PST)
-Date: Tue, 14 Feb 2023 11:42:27 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm: Introduce plane SIZE_HINTS property
-Message-ID: <20230214114227.7fa94b78@eldfell>
-In-Reply-To: <20230209135105.4137872c.pekka.paalanen@collabora.com>
-References: <20230208040911.12590-1-ville.syrjala@linux.intel.com>
- <20230208040911.12590-2-ville.syrjala@linux.intel.com>
- <20230208141312.76df0cb0.pekka.paalanen@collabora.com>
- <Y+OdtR78JnQOTj38@intel.com> <Y+QRSH3kLD4Xrktc@intel.com>
- <20230209135105.4137872c.pekka.paalanen@collabora.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3827F8924F;
+ Tue, 14 Feb 2023 09:50:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676368240; x=1707904240;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=EhBWla462uE1/WQewQ2F+AfWTlZLdWeKkC1spHlwS1w=;
+ b=dEqfISczJoXvld6TK9G8NEX988aOwsTalTIft8Wr5Us6qxs3gb2DmqwX
+ VOSBt2d6NYl7djWNcH3IxiepG42d8Mp+2AkcTvPnu81NX22Wof3rUfFmi
+ 5qDUPHBg8PzYjX54nvfyV6xuYim/PAQJT+xrDU4IPhGtoYzOueeADYlx7
+ v2Gy8BAy6um+IFSZ9cErqIf1mh2LxBdU6YDjlNoAnhJzepsSggL5SeWvH
+ JjI+v/2KIDzNlD94tzjGnH3ru2fp9rTuKvIAIO9chSNdyyQXfdg4AK5on
+ QSaxUYlXWG7aNlAcKg5Y5/XLGBv66pRFH7xsyrNK5xw2YP0th6b7ocLw1 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="417341085"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="417341085"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 01:50:39 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="701601503"
+X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="701601503"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.19.67])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 01:50:33 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Isabella Basso <isabbasso@riseup.net>
+Subject: Re: [igt-dev] [PATCH i-g-t v2 3/4] lib/igt_kmod: add compatibility
+ for KUnit
+Date: Tue, 14 Feb 2023 10:50:30 +0100
+Message-ID: <4438162.8F6SAcFxjW@jkrzyszt-mobl1.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <F50369FC-2168-44EC-9BD9-53CF23A5EB97@riseup.net>
+References: <20220829000920.38185-1-isabbasso@riseup.net>
+ <7621786.lvqk35OSZv@jkrzyszt-mobl1.ger.corp.intel.com>
+ <F50369FC-2168-44EC-9BD9-53CF23A5EB97@riseup.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/On3glXAj27+16GJv4.m=zYE";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,60 +61,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>
+Cc: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
+ linux-kselftest@vger.kernel.org, Magali Lemes <magalilemes00@gmail.com>,
+ =?ISO-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
+ Daniel Latypov <dlatypov@google.com>,
+ Tales Aparecida <tales.aparecida@gmail.com>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ kernel list <linux-kernel@vger.kernel.org>, leandro.ribeiro@collabora.com,
+ igt-dev@lists.freedesktop.org, ML dri-devel <dri-devel@lists.freedesktop.org>,
+ n@nfraprado.net, David Gow <davidgow@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@riseup.net>,
+ KUnit Development <kunit-dev@googlegroups.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/On3glXAj27+16GJv4.m=zYE
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Isabella,
 
-On Thu, 9 Feb 2023 13:51:05 +0200
-Pekka Paalanen <pekka.paalanen@collabora.com> wrote:
-
-> Maybe we could refine this so that userspace uses the stride and height
-> implied by the caps for allocation, and then use the exact cursor image
-> size for AddFB2? And have drivers pick any size between those two they
-> can use. The kernel would need the userspace to promise that the
-> padding is always zero-initialized, so the driver can simply scan out
-> any area of the buffer it needs.
+On Friday, 10 February 2023 17:55:34 CET Isabella Basso wrote:
+> Hi, Janusz,
 >=20
-> Then we don't need SIZE_HINTS.
+> > Am 2023-02-10 um 11:56 AM schrieb Janusz Krzysztofik <janusz.krzysztofi=
+k@linux.intel.com>:
+> >=20
+> > Hi Isabella,
+> >=20
+> > On Monday, 19 September 2022 22:55:44 CET Isabella Basso wrote:
+> >> Hi, Janusz,
+> >>=20
+> >>> Am 09/09/2022 um 12:18 PM schrieb Janusz Krzysztofik <janusz.krzyszto=
+fik@linux.intel.com>:
+> >>>=20
+> >>> ...
+> >>>=20
+> >>> Anyway, related to my comment about naming that function a parser, I =
+think the=20
+> >>> best approach would be for that parser to return a generic set of res=
+ults from=20
+> >>> kunit execution, then we could feed that data into an IGT specific ha=
+ndler=20
+> >>> that would convert them to IGT results (SUCCESS, FAIL, or SKIP) as if=
+ returned=20
+> >>> by a set of IGT dynamic subtests.
+> >>=20
+> >> That sounds like a good idea to me, I might take some extra time befor=
+e v3 to
+> >> do that, though.=20
+> >=20
+> > Were you able to make any progress?  Do you need any help?
+>=20
+> I=E2=80=99ve already handled most common cases but I still have to addres=
+s Chehab=E2=80=99s comments =E2=80=94 specifically in what concerns crashes=
+=2E I=E2=80=99ve been doing most of the development by myself as GSoC has e=
+nded so I=E2=80=99m taking my time on this.
+>=20
+> My most up-to-date work is available at [1], so if you have any suggestio=
+ns as to what might be done I=E2=80=99d love to hear them before sending ou=
+t v3 to the mailing list.
+>=20
+> [1] - https://gitlab.freedesktop.org/isinyaaa/igt-gpu-tools/-/merge_reque=
+sts/1
 
-Would there be any problem with this?
+Thanks for pointing me to that merge request, it's great to know there is=20
+some progress.  I've just had a look and I can see you are now working on s=
+ome=20
+comments from Maria and Tales.  I've requested to be notified on new posts =
+to=20
+that merge request so I hope to review your next update when available.
 
-If this works, it would seem the superior solution to me, because
-userspace does not need to guess or test for the exact right size.
-Simply allocate at the CAP size, pad the cursor image with transparent
-pixels, and let the kernel scan out the optimal area.
-
-And if the kernel needs to do a pixel format conversion, it only needs
-to do the optimal minimum amount of work.
-
+As soon as you resolve issues and feel comfortable with sharing your work,=
+=20
+please submit your changes to the igt-dev list to give them a try on our CI=
+=20
+system.
 
 Thanks,
-pq
+Janusz
 
---Sig_/On3glXAj27+16GJv4.m=zYE
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>=20
+> Cheers,
+> --
+> Isabella Basso
+>=20
+> > Thanks,
+> > Janusz
+> >=20
+> >=20
+>=20
+>=20
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPrV4MACgkQI1/ltBGq
-qqcRDBAAopAby9MTWTwn7DiqGy1CRVadFw6HjCoSZ0kej1evlbqCHy8YC2kkBM+g
-xw/rPWJ5Y8k4AKDw2iLKmWW+zCGMPCgodSBmfx+HTDs7AIhGK6hwCkeOQDUolDG/
-SJ2M6RX1IN/qE4Ru4Wav9SDPqTsre4ph58DjZtWQ0MWwXWJFNDdGLddxDzOrILXO
-2FkxZcCAAqRDm6Z5O+O2S2rQiuAv2fMgqLTr1tc2FpGcygmNSpJ6KKx6cmSD7pyE
-Ay9KiFdU68FGVqSmbvxttDBdM73cgrBF4VCb/lnSuIhn1qDrg4tzoya3gHVoEGTu
-QZHb+Zi9MhwCKZWjPShdILtcPDGG117CsZprzvb+7jEPezkX4OVvxIbm8A7fllxJ
-R37N+yAf8I/RxAYq1chm6vUG7ZMaLhSqRb5+Smi53m9dbbVW8sbiVO63A3oPia2r
-iS6b61C8GjfegLH7KLtBd+gmKgX4e3QlCcAz/cJnz7gkj7KWaBVCM0IL92isq1t/
-XhKsYQNnhuAolcGDq9ZYIBxk6C3ewktkhbYGlsiPjue8mk6oGDMWjPE7x2r1x3tS
-4p06RYdCrj4ZeF3lRVJv4WzABcqMQsrLXnW7hQbEytV2EyFLAvsvUQ4hl6u8JOyr
-5R5VRGBhAa7jhssmG9Uxi8DdwAt4yUr7HPV55ccMVRyGnneGpIs=
-=EWOM
------END PGP SIGNATURE-----
 
---Sig_/On3glXAj27+16GJv4.m=zYE--
+
