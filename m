@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23846696BAB
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 18:32:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727EF696BAC
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 18:32:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F17710E94D;
-	Tue, 14 Feb 2023 17:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 629B910E94E;
+	Tue, 14 Feb 2023 17:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98E2D10E94C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 17:32:24 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id cq19so15760630edb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 09:32:24 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FBD10E94C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 17:32:27 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id eq11so18485320edb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 09:32:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=s1VnqaeSXrO+gCHDWuaerBua6k+Y5bwVYRUkuUYOrlE=;
- b=YeeydWfoX2xfVh03xRn1ywPqXFmedWgX1EOrwzb3sUM0wWK8I6R8NL20s9kLEsC7Pt
- dII5UE0fby2W2wTs5fQKq5QNNLUZM2OgnezieqWsn9CTlG4JDeNEfxLOtNfVu/spvMbh
- BICjgaTIAzY87jk8CI1v3ZKWz695+D6jvea7jvz3PYjzuki+fvLevr2HCvcyT25cny28
- fSLFV3UX3VvCU9Xfgfu/216qdMVeQ3lXFcP/UCNfvJv+uhfM7Mp+GHw6kweh9DM+c6/R
- jVXBjr6SPlVCIK2pHwss49m4QatVKSFwZTHdRtAVT34Y6u6f+7BuoPShldWw9q+ImBmz
- Ruwg==
+ bh=75tuzeWbOHge8haUYR8VqjYvI04B0j5B+fIBRQ7seb4=;
+ b=dAcCPrk/5VN/ClxEQr1TVvSb/2mo/TA+rgX9sxkv6f+KXSvy4R1iQXsx0231GcB+V0
+ QOLx5lBOHEQ8hvs83FoiRKhPFLzJ6SQzY76lgQR5cd43St9NTG2RSiaj1DckHoCi3hLz
+ lFsG0VuBW1ny48WR4JXTzZ6JtfEQLTY0nyHBQQy1Wc7xlOlXhNuRCGfR0CLMJX0MdRn9
+ i5K/pRPH1NmekmUqOBeVHcgCA5BJtnvtd0ZHhqxZWckykRn9NUpB0Rgc01iCkSk/VaBO
+ zqUZBD1bewZd/l9DLSDMzUv60BHMQ7YorigdRgm9ozGtsGeinss72sAgge78ie5IPZl/
+ 96tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=s1VnqaeSXrO+gCHDWuaerBua6k+Y5bwVYRUkuUYOrlE=;
- b=fQQrKsfCuioRM9Ci0mOg/noRSDq/UixvET5RzQSF/SC1cYqK34b8ImgEgOGY4RURIN
- 5hRftShSNuEhS1ydI6pDvvywEMxXz8jRKctdk2mgcWpwF0t9/oC9WAVT8CX06PKa/9ek
- H0pDskO7zwiWpN4C/GRp7OCwa28DwpCJcryBREag6rVZwkYHYalWAZryKioMNvszkFfv
- vLgEo7VmPw3/LqLvK7+NWRi29aL+lM3Fx2IWEEcdBUWw6oPb4P0f7EpU9zLzeOhaLQj4
- yqzG4K++RZ/3UMo8P9dDddJRZbIYXeAJEjKsVfxSjs0FR634DKc/5QzytXP0QIHcsWuY
- ThkQ==
-X-Gm-Message-State: AO0yUKWgRuJIeA//f6DcocCGb65Q9fGoIBs+mcPQinzCoKEJH6GlUsTv
- +q5DVs0cTY6d+B6aGftA5oEGZg==
-X-Google-Smtp-Source: AK7set8YiZfP/xwaOzQhPzlA/7gYfk6dMCXFLDqoEk9YJK72ZblW4knHYFjE0YxrGl+/HlIxgI5c9g==
-X-Received: by 2002:a50:c304:0:b0:4ac:b2dc:8d51 with SMTP id
- a4-20020a50c304000000b004acb2dc8d51mr4339498edb.38.1676395944230; 
- Tue, 14 Feb 2023 09:32:24 -0800 (PST)
+ bh=75tuzeWbOHge8haUYR8VqjYvI04B0j5B+fIBRQ7seb4=;
+ b=epjdZW6OMZwUq8NaUvtYliATkaKjhiXZGaSuoPigNnXpbqfcpg0Zdz1OsRNVwVu+zG
+ l4wO7UA9nzchMkA+t+0k91kVTy2uhgdzCkiI1jrcadzWrqTFPRjokvUWlt2bW/fyAAiz
+ HXkEFj9Hg6Se6IBb04F/eov/eWcSWMqhaq3fZmNXHmRLObSSc1QVDRVy14Yxcr+GlEtX
+ TSB5XruQxnKAtFpVKgMUkd+raldshciAJTuZ8y5Jsfe8n2y/MkxvrWk3aW71AIioj+hz
+ DvTumrmeb1Z/kpssl+zoE7/fF1MGMwjEr+v5OP4YXIeDoMbax4CTaiz5m9kDdaKelhM0
+ RkbA==
+X-Gm-Message-State: AO0yUKW1rGbw8m7KxkRVnSRgxm8l8WaYAogay/heeddF4BGT/RCdcRbM
+ y35xO8D6qaFHbdQQkpxTP/wkNw==
+X-Google-Smtp-Source: AK7set/hSEouGe401ODACUcZFYBVji3OrHZ/i1V9rNpDQ648ZWtc7eok3NgCAYZbGBGbGPuBvWYMOw==
+X-Received: by 2002:a50:ce4e:0:b0:4aa:a4e9:fa28 with SMTP id
+ k14-20020a50ce4e000000b004aaa4e9fa28mr3000868edj.34.1676395946610; 
+ Tue, 14 Feb 2023 09:32:26 -0800 (PST)
 Received: from localhost.localdomain (abxh117.neoplus.adsl.tpnet.pl.
  [83.9.1.117]) by smtp.gmail.com with ESMTPSA id
- w8-20020a50c448000000b0049668426aa6sm8325787edf.24.2023.02.14.09.32.22
+ w8-20020a50c448000000b0049668426aa6sm8325787edf.24.2023.02.14.09.32.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Feb 2023 09:32:23 -0800 (PST)
+ Tue, 14 Feb 2023 09:32:26 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 To: linux-arm-msm@vger.kernel.org,
 	andersson@kernel.org,
 	agross@kernel.org
-Subject: [PATCH v2 10/14] drm/msm/a6xx: Fix up A6XX protected registers
-Date: Tue, 14 Feb 2023 18:31:41 +0100
-Message-Id: <20230214173145.2482651-11-konrad.dybcio@linaro.org>
+Subject: [PATCH v2 11/14] drm/msm/a6xx: Enable optional icc voting from OPP
+ tables
+Date: Tue, 14 Feb 2023 18:31:42 +0100
+Message-Id: <20230214173145.2482651-12-konrad.dybcio@linaro.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
 References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
@@ -73,8 +74,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>,
+Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
  Douglas Anderson <dianders@chromium.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
@@ -83,28 +83,30 @@ Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-One of the protected ranges was too small (compared to the data we
-have downstream). Fix it.
+On GMU-equipped GPUs, the GMU requests appropriate bandwidth votes
+for us. This is however not the case for the other GPUs. Add the
+dev_pm_opp_of_find_icc_paths() call to let the OPP framework handle
+bus voting as part of power level setting.
 
-Fixes: 408434036958 ("drm/msm/a6xx: update/fix CP_PROTECT initialization")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 503c750216e6..d6b38bfdb3b4 100644
+index d6b38bfdb3b4..b08ed127f8c4 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -690,7 +690,7 @@ static const u32 a6xx_protect[] = {
- 	A6XX_PROTECT_NORDWR(0x00800, 0x0082),
- 	A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
- 	A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
--	A6XX_PROTECT_RDONLY(0x008de, 0x00ae),
-+	A6XX_PROTECT_RDONLY(0x008d0, 0x00bc),
- 	A6XX_PROTECT_NORDWR(0x00900, 0x004d),
- 	A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
- 	A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
+@@ -2338,5 +2338,9 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 		msm_mmu_set_fault_handler(gpu->aspace->mmu, gpu,
+ 				a6xx_fault_handler);
+ 
++	ret = dev_pm_opp_of_find_icc_paths(&pdev->dev, NULL);
++	if (ret)
++		return ERR_PTR(ret);
++
+ 	return gpu;
+ }
 -- 
 2.39.1
 
