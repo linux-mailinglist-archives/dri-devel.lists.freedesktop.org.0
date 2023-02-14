@@ -2,43 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D59369554B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 01:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE4869556D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 01:37:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6ACF10E7B3;
-	Tue, 14 Feb 2023 00:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67F7410E7B4;
+	Tue, 14 Feb 2023 00:37:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F85E10E7B3;
- Tue, 14 Feb 2023 00:19:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676333969; x=1707869969;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=vAvLL9pAHpGLGY+SxpVEV6Dz0JOTkIEd9Qz5SNE3IYs=;
- b=lENfFhOelrIhBNk0mHlZsp9WXXKbSkUWWpCpz1jD/9gti9/UTj/dJZTv
- oSU10SVttkAD+FCrqjUNMcaNZR7xS9kh8iPKGTAQzCafE4g6jJBF29a/Q
- j+rqrDvUkk5vHvNMOpxZ2rjAQ0BjrKplcJcKYkB+Gux5elGAJ8Hh0YtxG
- 5igB4WBG38L403eIl5ZG5blmu3G996HzPSfcdphQZJSMzX+jA3GFYt5fF
- YQS7pGrabLw6xLmSz0v6T22C551297eFc+qHaFy43T4jR7fJTn4E/woSe
- q5cX9RgKgiVl0/fNSDsbdmpSgwhfqhs+ar6f+t8sjoVGCTNMDiAhAA3iF w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="310669889"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="310669889"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 16:19:20 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="792918654"
-X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="792918654"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Feb 2023 16:19:12 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/xelpmp: Consider GSI offset when doing MCR lookups
-Date: Mon, 13 Feb 2023 16:19:06 -0800
-Message-Id: <20230214001906.1477370-1-matthew.d.roper@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF1210E7B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 00:37:39 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4313B3D7;
+ Tue, 14 Feb 2023 01:37:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1676335057;
+ bh=oK9K1dHY0egTuw0eGZmS4ldHFcwlutfiU1zfyIs4blc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=UPRbdST860cxRD6yjMX35G6xfTIRVdQFCLIcnBe0mtHpNS3SPnyRVUrn9SofaYm4o
+ ws95NaL1tvJ1/5Jroy1uiFnCAl4o4qyHgVPdTTCn0c0s2EGWlFtdwO/7iBg5oYNWFY
+ p1tO0Za8jMmqVDXR556mkYX9ILf3x2ScyzJxfTY8=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm: rcar-du: Fix vblank wait timeout when stopping LVDS
+ output
+Date: Tue, 14 Feb 2023 02:37:33 +0200
+Message-Id: <20230214003736.18871-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -54,42 +45,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MCR range tables use the final MMIO offset of a register (including the
-0x380000 GSI offset when applicable).  Since the i915_mcr_reg_t passed
-as a parameter during steering lookup does not include the GSI offset,
-we need to add it back in for GSI registers before searching the tables.
+Hello,
 
-Fixes: a7ec65fc7e83 ("drm/i915/xelpmp: Add multicast steering for media GT")
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_mcr.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+This patch series fixes an issue on the R-Car D3 and E3 SoCs, which
+causes a vertical blanking wait timeout when stopping an LVDS output.
+Patches 1/3 and 2/3 perform preparatory refactoring, and patch 3/3 fixes
+the problem. Please see the commit message of the last patch for a
+detailed explanation of the issue.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-index a4a8b8bc5737..03632df27de3 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-@@ -561,12 +561,15 @@ static bool reg_needs_read_steering(struct intel_gt *gt,
- 				    i915_mcr_reg_t reg,
- 				    enum intel_steering_type type)
- {
--	const u32 offset = i915_mmio_reg_offset(reg);
-+	u32 offset = i915_mmio_reg_offset(reg);
- 	const struct intel_mmio_range *entry;
- 
- 	if (likely(!gt->steering_table[type]))
- 		return false;
- 
-+	if (IS_GSI_REG(offset))
-+		offset += gt->uncore->gsi_offset;
-+
- 	for (entry = gt->steering_table[type]; entry->end; entry++) {
- 		if (offset >= entry->start && offset <= entry->end)
- 			return true;
+Laurent Pinchart (3):
+  drm: rcar-du: lvds: Call function directly instead of through pointer
+  drm: rcar-du: lvds: Move LVDS enable code to separate code section
+  drm: rcar-du: lvds: Fix LVDS PLL disable on D3/E3
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  18 +--
+ drivers/gpu/drm/rcar-du/rcar_lvds.c    | 176 ++++++++++++++-----------
+ drivers/gpu/drm/rcar-du/rcar_lvds.h    |  12 +-
+ 3 files changed, 118 insertions(+), 88 deletions(-)
+
+
+base-commit: 48075a66fca613477ac1969b576a93ef5db0164f
 -- 
-2.39.1
+Regards,
+
+Laurent Pinchart
 
