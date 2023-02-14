@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E116E696BCD
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 18:34:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1251696BDA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 18:39:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6D410E935;
-	Tue, 14 Feb 2023 17:34:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A010210E231;
+	Tue, 14 Feb 2023 17:39:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C60510E0ED;
- Tue, 14 Feb 2023 17:34:48 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- 14-20020a9d010e000000b0068bdddfa263so4874635otu.2; 
- Tue, 14 Feb 2023 09:34:48 -0800 (PST)
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BAD310E0ED;
+ Tue, 14 Feb 2023 17:39:37 +0000 (UTC)
+Received: by mail-oi1-x231.google.com with SMTP id bx13so13573426oib.13;
+ Tue, 14 Feb 2023 09:39:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=quw4WERq0qtsQq8yz2KJlgOpPpt3pCQr7AJgZ9gs9bs=;
- b=bAXZ/atYkTz7tSYeqI6xy/QoS/duSLwMmMA9ve5lqoV/KKLzbv7kN44Pmy1DN/RO91
- t3qr5gD+5mh/aKbciaun41iUX1V27VRbm8ntkE5vcZvYVC4gfQzOK/pwwwvQink2b54m
- aLEoX/Ns6L1r5Yb8YDmVrZ4vrwqOK5ElVtYDE9S0yt3eIq3Jt4a8Voftn/T1F2GjEDm7
- yu1jYTGkRLIwK6kTBVnf7OBugIQrgf40cFAe0cWfovvM0OahMWgdlt+r35JCaIQTv/JP
- KN+JyAafeUJJhi6D6yA1omEvTNl6CX+bAUQ5ZSLbPKlHo77RmexBC9sGLLw72MLiCdVD
- MctQ==
+ bh=ZFFMcODzFR4+yM9tm6tOX9VuK4ZVp3Utj5wx4NaZaMk=;
+ b=gw44pMMxp5ODEfpnpMhTBLzOxZtOLSvvGmUBADdGBmV6tRdYzHqjzcsZdbPGS/87Hk
+ NDB0KKheYwF5xNDenpMuw2mER6AEu7keGMgJEWto2C19I30AJ+eLsoRQqRL2iaC/91rL
+ kxmOY0CR7ORBNhi/kuan6+7WtJXMAVcS/zH5QypHSDMTdAHP+aUkUwnsCBszkaStOlwW
+ 5yfUDIuhrneQkHGsLxiiI308Vwi6xiVfb7l5fMeaPVFZVaoKdIyOcB6RQbP4XOc4MxJe
+ RRoPRg5EwZFjN25Zs055SbA/fJAHgfAPPd+duu04W3KxhFKo9bY8XACY+3B3IDQdvoSS
+ YbWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=quw4WERq0qtsQq8yz2KJlgOpPpt3pCQr7AJgZ9gs9bs=;
- b=an62b5hpHI6bzBRJjR0UbJxD089YMcAtMrgRI7kR7i/KnaZX/cUT8gk+XtxNOh0DRE
- XV38iXa8uB6ghatIeJqURSkB7TUxmCLiciiaENLh58lez3JeAh3wWc8SwD7BMOE1Dn3C
- KSs09qULnzBMN6S6PQYcJ5UuSyeX54Tz47IsRuY+5QdM08aolE8hOkodSiyCZtqt2O8V
- tahe1AKuaQMIwfWsFR+ue+DMBrcYvqxf6DkhSPVxQ35GcKnu3eC1wTq5ULHkxOESlEZu
- fFweEU28mxvNKxvIjEN5KJvWSIwvMJr+PbJ/P8GSTRr326Fz1OTPQoQCLNy8/SW0B8Ki
- nrLQ==
-X-Gm-Message-State: AO0yUKWHU0DmLvOmQbJI7/SFDpaDAaWtsTPn80Fw5fJqKPRcDWGH5pMC
- IxtgDtDvmiqamlI0LpzWOUDC7zMKGGswByfpsRo=
-X-Google-Smtp-Source: AK7set+vDYIH90pdNzC/mL976gQIxoSspEFrcyzWfPMG3tzTnF1uXRIxi7C3oM70Jt3grRiebofLGoAPVamFDDOqh+c=
-X-Received: by 2002:a9d:6f83:0:b0:66c:5685:5415 with SMTP id
- h3-20020a9d6f83000000b0066c56855415mr146769otq.125.1676396087727; Tue, 14 Feb
- 2023 09:34:47 -0800 (PST)
+ bh=ZFFMcODzFR4+yM9tm6tOX9VuK4ZVp3Utj5wx4NaZaMk=;
+ b=P6bK3+Pa4JLMX3EvIk2FanBmHxSCZI4yFmHh3FWPaGc4cQHhYYNzDAxVH6VEZD0Ya4
+ Sqp1igkIHXII41wBPuwR/gBTTJd8ZeYr/RJype6hEGaBYDakvrUFi3GBuSUsb5GT/tVF
+ 0DS52ABoTPPgiHMyaiTUzzrd0HXLe6zxCclZMh52yG8JaPhdn+OnMA71XxS6bqwXjS0G
+ 3rD0O462AKrXZ/ayulyVKck2CXS/gdUiIMfUXL26cmrEHzx9nvP2/tUayd1l8ki1/2Nb
+ eH/4x+m33Ql/4kiiUzmU3cfD0ygWtwVS2q6YwgU9tArmaYR4mLbet2c2+N9AFx8TAFkr
+ 3NJQ==
+X-Gm-Message-State: AO0yUKXn0Umlb72oqkc3eZq+HD5uXsAE13lHzxBDpBdQC4xWr2Ryjvaw
+ 0+7KVB8vaEk8aHHABKOAMxUMrsxzC0NFFNzmA2Q=
+X-Google-Smtp-Source: AK7set8/rNX6eScQImS8fwmDlfo6Tfrkdl4BoyhCpYhTswk4X3g0BwPsoY9iZXQUreI88xhvgFBNiFcRbTCC7dMrqFc=
+X-Received: by 2002:a05:6808:a10:b0:35b:d93f:cbc4 with SMTP id
+ n16-20020a0568080a1000b0035bd93fcbc4mr23447oij.96.1676396376636; Tue, 14 Feb
+ 2023 09:39:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20230214020956.164473-1-dmitry.baryshkov@linaro.org>
- <20230214020956.164473-5-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230214020956.164473-5-dmitry.baryshkov@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 14 Feb 2023 09:35:02 -0800
-Message-ID: <CAF6AEGvW5qJ1q83a7Ny-BMq9BOt88h9+Kfs6DGEBPnO+1iQazA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/msm/a5xx: fix context faults during ring switch
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230213204923.111948-1-arthurgrillo@riseup.net>
+ <20230213204923.111948-2-arthurgrillo@riseup.net>
+In-Reply-To: <20230213204923.111948-2-arthurgrillo@riseup.net>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 14 Feb 2023 12:39:25 -0500
+Message-ID: <CADnq5_MNyA9HF-YKUqRO8W9GFJh8KFWt0v=TGA1T++93PMcE1Q@mail.gmail.com>
+Subject: Re: [PATCH 01/10] drm/amd/display: Turn global functions into static
+To: Arthur Grillo <arthurgrillo@riseup.net>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,53 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Yassine Oudjana <y.oudjana@protonmail.com>,
- Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Jami Kettunen <jami.kettunen@protonmail.com>, linux-arm-msm@vger.kernel.org
+Cc: sunpeng.li@amd.com, tales.aparecida@gmail.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 13, 2023 at 6:10 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+On Mon, Feb 13, 2023 at 3:49 PM Arthur Grillo <arthurgrillo@riseup.net> wrote:
 >
-> The rptr_addr is set in the preempt_init_ring(), which is called from
-> a5xx_gpu_init(). It uses shadowptr() to set the address, however the
-> shadow_iova is not yet initialized at that time. Move the rptr_addr
-> setting to the a5xx_preempt_hw_init() which is called after setting the
-> shadow_iova, getting the correct value for the address.
+> Turn global functions that are only used locally into static ones. This
+> reduces the number of -Wmissing-prototypes warnings.
 >
-> Fixes: 8907afb476ac ("drm/msm: Allow a5xx to mark the RPTR shadow as privileged")
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 
-Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/7555
+The first hunk was already fixed, but I applied the second hunk.
 
-> Suggested-by: Rob Clark <robdclark@gmail.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Alex
+
 > ---
->  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c | 2 +-
+>  drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-> index 7e0affd60993..f58dd564d122 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_preempt.c
-> @@ -207,6 +207,7 @@ void a5xx_preempt_hw_init(struct msm_gpu *gpu)
->                 a5xx_gpu->preempt[i]->wptr = 0;
->                 a5xx_gpu->preempt[i]->rptr = 0;
->                 a5xx_gpu->preempt[i]->rbase = gpu->rb[i]->iova;
-> +               a5xx_gpu->preempt[i]->rptr_addr = shadowptr(a5xx_gpu, gpu->rb[i]);
->         }
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
+> index 8c368bcc8e7e..a737782b2840 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c
+> @@ -87,7 +87,7 @@ static int dcn315_get_active_display_cnt_wa(
+>         return display_count;
+>  }
 >
->         /* Write a 0 to signal that we aren't switching pagetables */
-> @@ -257,7 +258,6 @@ static int preempt_init_ring(struct a5xx_gpu *a5xx_gpu,
->         ptr->data = 0;
->         ptr->cntl = MSM_GPU_RB_CNTL_DEFAULT | AXXX_CP_RB_CNTL_NO_UPDATE;
+> -bool should_disable_otg(struct pipe_ctx *pipe)
+> +static bool should_disable_otg(struct pipe_ctx *pipe)
+>  {
+>         bool ret = true;
 >
-> -       ptr->rptr_addr = shadowptr(a5xx_gpu, ring);
->         ptr->counter = counters_iova;
+> diff --git a/drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c b/drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c
+> index 27dc8c9955f4..3c7cb3dc046b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c
+> +++ b/drivers/gpu/drm/amd/display/dc/irq/dcn201/irq_service_dcn201.c
+> @@ -37,7 +37,7 @@
+>  #include "soc15_hw_ip.h"
+>  #include "ivsrcid/dcn/irqsrcs_dcn_1_0.h"
 >
->         return 0;
+> -enum dc_irq_source to_dal_irq_source_dcn201(
+> +static enum dc_irq_source to_dal_irq_source_dcn201(
+>                 struct irq_service *irq_service,
+>                 uint32_t src_id,
+>                 uint32_t ext_id)
 > --
-> 2.30.2
+> 2.39.1
 >
