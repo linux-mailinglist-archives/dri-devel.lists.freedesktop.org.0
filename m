@@ -1,57 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD4C069623E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 12:20:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89769696262
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 12:25:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3319510E890;
-	Tue, 14 Feb 2023 11:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D4F010E8A2;
+	Tue, 14 Feb 2023 11:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAE9810E88E;
- Tue, 14 Feb 2023 11:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676373595; x=1707909595;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=iMHZnxWcPsjaaO41GWmVBXwP4XD6SQv3nHB2je2NCds=;
- b=nDFXkdOf9saYiOB4FHMrus7Mt8prqjk/BN2TlNtf2kVqZL2QU0fkC6GQ
- s6a3W9clC8pccOOvL4vDFsCpxwKVmLbOQLDrvDJ7vsY3suOcqmGjCpFLH
- Kq+y/SDYg1x0Ov/n04cJKLtSgL+G8DaijcKKFXIIEhPxtfU1NdLVwfoWO
- uNihCOQp/eVgheWTDHrqn6uOaoiYXkwz6FOyR/4cVXNQowkbUrV02O7EX
- aBC+g4nX3pTzryfgi3Pjf9UnMkAZFvUt3Yq+u2pFlgDIp519VAXejCsF1
- FXMR60LuNu3UjRoG3wfrazgvBSLNT2oArMfKLOjFRUn2iY4ttdbQJTLCk Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="332449531"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="332449531"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 03:19:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="732862268"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="732862268"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by fmsmga008.fm.intel.com with SMTP; 14 Feb 2023 03:19:51 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 14 Feb 2023 13:19:51 +0200
-Date: Tue, 14 Feb 2023 13:19:51 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>
-Subject: Re: [PATCH v2 1/2] drm: Introduce plane SIZE_HINTS property
-Message-ID: <Y+tuV91XeDoXXp3t@intel.com>
-References: <20230208040911.12590-2-ville.syrjala@linux.intel.com>
- <20230208211016.7034-1-ville.syrjala@linux.intel.com>
- <Y+UAN7V+kA58yMfn@redhat.com> <Y+tTpH1nfHIG/Dxg@intel.com>
- <Y+taU+zDiTO9aA0U@redhat.com> <Y+tiXJglfpzgUEFD@intel.com>
- <Y+tqHZQ/sg3u/VxR@redhat.com>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7E410E88F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 11:25:05 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id lf10so7364124ejc.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 03:25:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5TGkTb84xWLMG/13fJRvA7TRiYPYi0w1Swy3fYZHFmQ=;
+ b=qrsYnscwV52Y0VUk71OYY1ldy21oHOaKQ5RlMrj9BazqS2SQShekW4a4HfU+4rB3VN
+ eKjZz4661I5EKvhJhXeNNHvUBorw47RrH6T2cX+AhC/+FsxwmccjjJo1nTlPZljHzuQl
+ vJWw7CxaSf7GPUq0t1yy1Ypq8LBirVW77n1O3KsIBugDnWfQGKA889w4mpV+EHm81dTV
+ K+2ID04MgeDLrZV4vl0evUgnGrGYqsZS7i0kKLBj05BL2e7f6GUg43RFYXoxfkLhV83Q
+ YWiQ8yJJQZd5mTEiYl4eFprQhgxIRGOKPlE/yDnX7YTvryxn+SBRGFd1s7/xvZP+P5yo
+ Zxig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5TGkTb84xWLMG/13fJRvA7TRiYPYi0w1Swy3fYZHFmQ=;
+ b=I/oC+kUescJmr32Niq58JewYhfCXt/jPkJgXVrvPokm0pdO9YcYRnoxIuVCA8iXb52
+ 23OjXJ1v4EeKdYGK45xJpKCKy7BBSFctV3NJ42w09OCp19XEJaRmjsF+Ci6no76tqAgW
+ UWHqkDZ7v4QH7+fb9gXkyUlaa0kzw5dyXWo2FUIcm1940oRwqDNd3a63EPPnH0X/Jg2e
+ IWeiv8q8iem57T9v9bjehsOlMJaVjWUuTuMuiXP0yNT8h0FVHu3OCes+Puy9FPeDdF6k
+ +bNckH/sQVFROpv6T9msshiud0X5JiK3Y0M9rkrDDCNCdful8zZcn4B6tq1ljmEsWGqT
+ RGig==
+X-Gm-Message-State: AO0yUKVwST7ayq2nXduTLSpYJWjMjqe8assgz1cOx1vCES2TjOnIeGFE
+ 2s8lPJ9oTC6XCpG1xx3OrH8loA==
+X-Google-Smtp-Source: AK7set8d4qwwJ3IKiKndtYvjo+bLtM6RA5dfulIstN4IPGmyQeW5ECkuHkFFF5kRAariNWsOgwnDYg==
+X-Received: by 2002:a17:907:2087:b0:8ae:e876:ea68 with SMTP id
+ pv7-20020a170907208700b008aee876ea68mr2544984ejb.74.1676373903653; 
+ Tue, 14 Feb 2023 03:25:03 -0800 (PST)
+Received: from [192.168.1.101] (abxh117.neoplus.adsl.tpnet.pl. [83.9.1.117])
+ by smtp.gmail.com with ESMTPSA id
+ 2-20020a170906210200b00888f92f0708sm8229934ejt.15.2023.02.14.03.25.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Feb 2023 03:25:03 -0800 (PST)
+Message-ID: <48364c3f-699d-ce14-37c4-53bf4a90bc23@linaro.org>
+Date: Tue, 14 Feb 2023 12:25:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y+tqHZQ/sg3u/VxR@redhat.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [Freedreno] [PATCH 09/14] drm/msm/a6xx: Fix some A619 tunables
+Content-Language: en-US
+To: linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org,
+ krzysztof.kozlowski@linaro.org, freedreno@lists.freedesktop.org,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ marijn.suijten@somainline.org, Sean Paul <sean@poorly.run>,
+ Chia-I Wu <olvaffe@gmail.com>, linux-kernel@vger.kernel.org
+References: <20230126151618.225127-1-konrad.dybcio@linaro.org>
+ <20230126151618.225127-10-konrad.dybcio@linaro.org>
+ <20230208182101.53ykatzah6zvpy76@amazon.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230208182101.53ykatzah6zvpy76@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,150 +84,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 14, 2023 at 12:01:49PM +0100, Jonas Ådahl wrote:
-> On Tue, Feb 14, 2023 at 12:28:44PM +0200, Ville Syrjälä wrote:
-> > On Tue, Feb 14, 2023 at 10:54:27AM +0100, Jonas Ådahl wrote:
-> > > On Tue, Feb 14, 2023 at 11:25:56AM +0200, Ville Syrjälä wrote:
-> > > > On Thu, Feb 09, 2023 at 03:16:23PM +0100, Jonas Ådahl wrote:
-> > > > > On Wed, Feb 08, 2023 at 11:10:16PM +0200, Ville Syrjala wrote:
-> > > > > > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > > > 
-> > > > > > Add a new immutable plane property by which a plane can advertise
-> > > > > > a handful of recommended plane sizes. This would be mostly exposed
-> > > > > > by cursor planes as a slightly more capable replacement for
-> > > > > > the DRM_CAP_CURSOR_WIDTH/HEIGHT caps, which can only declare
-> > > > > > a one size fits all limit for the whole device.
-> > > > > > 
-> > > > > > Currently eg. amdgpu/i915/nouveau just advertize the max cursor
-> > > > > > size via the cursor size caps. But always using the max sized
-> > > > > > cursor can waste a surprising amount of power, so a better
-> > > > > > stragey is desirable.
-> > > > > > 
-> > > > > > Most other drivers don't specify any cursor size at all, in
-> > > > > > which case the ioctl code just claims that 64x64 is a great
-> > > > > > choice. Whether that is actually true is debatable.
-> > > > > > 
-> > > > > > A poll of various compositor developers informs us that
-> > > > > > blindly probing with setcursor/atomic ioctl to determine
-> > > > > > suitable cursor sizes is not acceptable, thus the
-> > > > > > introduction of the new property to supplant the cursor
-> > > > > > size caps. The compositor will now be free to select a
-> > > > > > more optimal cursor size from the short list of options.
-> > > > > > 
-> > > > > > Note that the reported sizes (either via the property or the
-> > > > > > caps) make no claims about things such as plane scaling. So
-> > > > > > these things should only really be consulted for simple
-> > > > > > "cursor like" use cases.
-> > > > > > 
-> > > > > > v2: Try to add some docs
-> > > > > > 
-> > > > > > Cc: Simon Ser <contact@emersion.fr>
-> > > > > > Cc: Jonas Ådahl <jadahl@redhat.com>
-> > > > > > Cc: Daniel Stone <daniel@fooishbar.org>
-> > > > > > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > > Acked-by: Harry Wentland <harry.wentland@amd.com>
-> > > > > > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/drm_mode_config.c |  7 +++++
-> > > > > >  drivers/gpu/drm/drm_plane.c       | 48 +++++++++++++++++++++++++++++++
-> > > > > >  include/drm/drm_mode_config.h     |  5 ++++
-> > > > > >  include/drm/drm_plane.h           |  4 +++
-> > > > > >  include/uapi/drm/drm_mode.h       | 11 +++++++
-> > > > > >  5 files changed, 75 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> > > > > > index 87eb591fe9b5..21860f94a18c 100644
-> > > > > > --- a/drivers/gpu/drm/drm_mode_config.c
-> > > > > > +++ b/drivers/gpu/drm/drm_mode_config.c
-> > > > > > @@ -374,6 +374,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
-> > > > > >  		return -ENOMEM;
-> > > > > >  	dev->mode_config.modifiers_property = prop;
-> > > > > >  
-> > > > > > +	prop = drm_property_create(dev,
-> > > > > > +				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
-> > > > > > +				   "SIZE_HINTS", 0);
-> > > > > > +	if (!prop)
-> > > > > > +		return -ENOMEM;
-> > > > > > +	dev->mode_config.size_hints_property = prop;
-> > > > > > +
-> > > > > >  	return 0;
-> > > > > >  }
-> > > > > >  
-> > > > > > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> > > > > > index 24e7998d1731..ae51b1f83755 100644
-> > > > > > --- a/drivers/gpu/drm/drm_plane.c
-> > > > > > +++ b/drivers/gpu/drm/drm_plane.c
-> > > > > > @@ -140,6 +140,21 @@
-> > > > > >   *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
-> > > > > >   *     various bugs in this area with inconsistencies between the capability
-> > > > > >   *     flag and per-plane properties.
-> > > > > > + *
-> > > > > > + * SIZE_HINTS:
-> > > > > > + *     Blob property which contains the set of recommended plane size
-> > > > > > + *     which can used for simple "cursor like" use cases (eg. no scaling).
-> > > > > > + *     Using these hints frees userspace from extensive probing of
-> > > > > > + *     supported plane sizes through atomic/setcursor ioctls.
-> > > > > > + *
-> > > > > > + *     For optimal usage userspace should pick the smallest size
-> > > > > > + *     that satisfies its own requirements.
-> > > > > > + *
-> > > > > > + *     The blob contains an array of struct drm_plane_size_hint.
-> > > > > > + *
-> > > > > > + *     Drivers should only attach this property to planes that
-> > > > > > + *     support a very limited set of sizes (eg. cursor planes
-> > > > > > + *     on typical hardware).
-> > > > > 
-> > > > > This is a bit awkward since problematic drivers would only expose
-> > > > > this property if they are new enough.
-> > > > > 
-> > > > > A way to avoid this is for all new drivers expose this property, but
-> > > > > special case the size 0x0 as "everything below the max limit goes". Then
-> > > > > userspace can do (ignoring the missing cap fallback).
-> > > > 
-> > > > I don't think there are any drivers that need that.
-> > > > So I'm thinking we can just ignore that for now.
-> > > 
-> > > None the less, userspace not seeing SIZE_HINTS will be required to
-> > > indefinitely use the existing "old" behavior using the size cap as the
-> > > buffer size with a fallback, and drivers without any size limitations
-> > > that, i.e. details that are hard to express with a set of accepted
-> > > sizes, will still use the inoptimal buffer sizes.
-> > > 
-> > > If I read [1] correctly, AMD has no particular size limitations other
-> > > than a size limit, but without a SIZE_HINTS, userspace still needs to
-> > > use the maximum size.
-> > 
-> > Simon pointed out they have pretty much the same exact limits as i915.
-> > Ie. only a few power of two sizes, and stride must match width.
-> 
-> How about various ARM drivers, where the cursor plane is a regular
-> overlay plane with an artificial 'cursor' stamp on it?
 
-They don't even bother with the size cap currently. So the
-generic ioctl code currently just decides that 64x64 is good
-enough for them.
+
+On 8.02.2023 19:21, Jordan Crouse wrote:
+> On Thu, Jan 26, 2023 at 04:16:13PM +0100, Konrad Dybcio wrote:
+>> Adreno 619 expects some tunables to be set differently. Make up for it.
+>>
+>> Fixes: b7616b5c69e6 ("drm/msm/adreno: Add A619 support")
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
+>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> index 7a480705f407..f34ab3f39f09 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>> @@ -1171,6 +1171,8 @@ static int hw_init(struct msm_gpu *gpu)
+>>                 gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00200200);
+>>         else if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
+>>                 gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
+>> +       else if (adreno_is_a619(adreno_gpu))
+>> +               gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00018000);
+>>         else if (adreno_is_a610(adreno_gpu))
+>>                 gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00080000);
+>>         else
+>> @@ -1188,7 +1190,9 @@ static int hw_init(struct msm_gpu *gpu)
+>>         a6xx_set_ubwc_config(gpu);
+>>
+>>         /* Enable fault detection */
+>> -       if (adreno_is_a610(adreno_gpu))
+>> +       if (adreno_is_a619(adreno_gpu))
+>> +               gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x3fffff);
+>> +       else if (adreno_is_a610(adreno_gpu))
+>>                 gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x3ffff);
+>>         else
+>>                 gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x1fffff);
+> 
+> The number appended to the register is the number of clock ticks to wait
+> before declaring a hang. 0x3fffff happens to be the largest value that
+> can be set for the a6xx family (excepting the 610 which, IIRC, used older
+> hardware that had a smaller field for the counter).
+Makes sense!
+
+Downstream the
+> number would creep up over time as unexplained hangs were discovered and
+> diagnosed or covered up as "just wait longer".
+lol..
 
 > 
-> Either way, the documentation creates an impossible expectation -
-> drivers, existing of future, that does not "support for a very limited
-> set of sizes" but actually any size below a limit, can't communicate to
-> userspace that it can handle cursor buffers with an arbitrary sizes,
-> without userspace breaking on todays kernels.
+> So in theory you could leave this with the "default value" or even bump
+> up the default value to 0x3fffff for all targets if you wanted to. An
+> alternate solution (that downstream does) is to put this as a
+> pre-defined configuration in gpulist[].
+I'm not sure it's a good idea to let things loose, as that may let some
+bugs slip through.. Perhaps let's leave that as-is until we have a seriously
+otherwise-unresolvable situation..
 
-I don't see how anything would break. You just won't get a 100%
-optimal result potentially if you don't declare any smaller
-sizes. And I think we can always specify that magic 0x0 value
-later (or a new cap/etc) should an actual user for it appear.
-
-I guess to play it safe we could specify 0x0 as a value that
-might become valid in the future, so userspace should check
-for it and treat it the same as not having the prop at all.
-
--- 
-Ville Syrjälä
-Intel
+Konrad
+> 
+> Jordan
