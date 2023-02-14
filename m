@@ -1,44 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3885E69579E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 04:52:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 552A869588A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 06:33:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22EAE10E099;
-	Tue, 14 Feb 2023 03:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55B3C10E096;
+	Tue, 14 Feb 2023 05:33:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
- [185.70.41.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7696410E099;
- Tue, 14 Feb 2023 03:52:51 +0000 (UTC)
-Date: Tue, 14 Feb 2023 03:51:47 +0000
-Authentication-Results: mail-41103.protonmail.ch;
- dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com
- header.b="QCqSa/pM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail3; t=1676346718; x=1676605918;
- bh=0Om9daH+srbk1Ex/nmyUaiTIs6i2DWm1NO4B9XgAcyY=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=QCqSa/pMmKl1ay1aobbYEyGECEStKkRwFgCn1Zg9Srvv0ADhfNSXrEAXEM6ff+L0s
- 5OEaYgf+G458WSp0jHGTETKoGpGQBOcJgpQqr4f9KSO4s6JyfruycXkKcupJFOQZ+d
- gSCaQsPkASYWcV0Hv3/2GhXsaV80ZyiST44YNHSoxYhW/5nfNq8D6QkMicu7VAfd6p
- QbMORxWvEFlRSZveKY30PdDfauIQN13hAeCkiiyKspG00RgbeDuboJwsXXAgwpTScy
- Dl9B9YBEDbqEbWGJgLnIR3H4wS66XaL/idGJ0cQrq/MqZiuC8LJgiH0TWYGMnbotS1
- 1TEZw3unvTxzA==
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-From: Yassine Oudjana <y.oudjana@protonmail.com>
-Subject: Re: [PATCH 0/4] drm/msm/a5xx: make it work with the latest Mesa
-Message-ID: <Y8RflDlhcu8n8TdSUK96ddC4DWbEDkGMcVEPfYYB2QiGB84R1-KDaERr26P7SOmBrxowVqP75m6dC2r_30-Wx5mSxgS3ytWnvQhhsB4C1DU=@protonmail.com>
-In-Reply-To: <20230214020956.164473-1-dmitry.baryshkov@linaro.org>
-References: <20230214020956.164473-1-dmitry.baryshkov@linaro.org>
-Feedback-ID: 6882736:user:proton
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4E110E096;
+ Tue, 14 Feb 2023 05:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676352827; x=1707888827;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9qrB8i6I8jOvQtnzY9iAwMDwgOWiLaQT40HUJ7CRQTU=;
+ b=X3N43xTC3dMH2z5kJimMKf6vk+psJAxe4eawc+x6ty64COIMWUdICq6n
+ PrmI5AmtVJFD/LtZCVGOtSzGoULjWByGtABAE1pcK3x5dcUL40tls0FH8
+ xDqw30+GlWXLMyNZi/ou5YhCQrSE4fYyG1g3jnb4Rv3Q9Aq51lYgq3+ec
+ 7rXd98XTrqmbYYwmt19T7fYXC/WlfysMfAaCeu3C0jtV0YECJtfwvkWF2
+ GG+j98czi7s45tI293rMoI/V+w8t8gtVyTlQxi7jrlnT8Y8cX8Amt9/UA
+ Rg73FOXyOUqaXSGC2knu6dsyFoKfpmo653tljM1tGD+1wzVSJX8v6wQSS Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="358491791"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="358491791"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 21:33:46 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="669047075"
+X-IronPort-AV: E=Sophos;i="5.97,294,1669104000"; d="scan'208";a="669047075"
+Received: from orsosgc001.jf.intel.com ([10.165.21.138])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Feb 2023 21:33:46 -0800
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/3] PL1 power limit fixes for ATSM
+Date: Mon, 13 Feb 2023 21:33:39 -0800
+Message-Id: <20230214053342.1952226-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,38 +54,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Jami Kettunen <jami.kettunen@protonmail.com>, linux-arm-msm@vger.kernel.org
+Cc: linux-hwmon@vger.kernel.org, Anshuman Gupta <anshuman.gupta@intel.com>,
+ dri-devel@lists.freedesktop.org, gwan-gyeong.mun@intel.com,
+ Badal Nilawar <badal.nilawar@intel.com>, Riana Tauro <riana.tauro@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, February 14th, 2023 at 6:09 AM, Dmitry Baryshkov <dmitry.barysh=
-kov@linaro.org> wrote:
+Previous PL1 power limit implementation assumed that the PL1 limit is
+always enabled in HW. However we now find this not to be the case on ATSM
+where the PL1 limit is disabled at power up. This requires changes in the
+previous PL1 limit implementation.
 
-> Mesa 22.3.x changed the priorities used for the GPU contexts, making
-> kernel switch between different ring buffers. This uncovered several
-> issues in the A5xx preemption code, which are now being resolved by this
-> patchset.
->=20
-> Dmitry Baryshkov (4):
-> drm/msm/a5xx: fix setting of the CP_PREEMPT_ENABLE_LOCAL register
-> drm/msm/a5xx: fix highest bank bit for a530
-> drm/msm/a5xx: fix the emptyness check in the preempt code
-> drm/msm/a5xx: fix context faults during ring switch
->=20
-> drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 6 +++---
-> drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 4 ++--
-> 2 files changed, 5 insertions(+), 5 deletions(-)
->=20
-> --
-> 2.30.2
+Submitting 3 patches for easier review but patches can be squashed if
+needed.
 
-Thanks for the fix!
+Ashutosh Dixit (3):
+  drm/i915/hwmon: Replace hwm_field_scale_and_write with
+    hwm_power_max_write
+  drm/i915/hwmon: Enable PL1 limit when writing limit value to HW
+  drm/i915/hwmon: Expose power1_max_enable
 
-For the whole series, on MSM8996:
+ .../ABI/testing/sysfs-driver-intel-i915-hwmon |  7 ++
+ drivers/gpu/drm/i915/i915_hwmon.c             | 85 +++++++++++++------
+ 2 files changed, 68 insertions(+), 24 deletions(-)
 
-Tested-by: Yassine Oudjana <y.oudjana@protonmail.com>
+-- 
+2.38.0
 
