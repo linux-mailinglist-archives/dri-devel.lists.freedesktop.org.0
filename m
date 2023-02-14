@@ -1,47 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F9F696854
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 16:43:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4D7696877
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 16:49:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D11A610E23B;
-	Tue, 14 Feb 2023 15:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13DDB10E900;
+	Tue, 14 Feb 2023 15:49:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B46A10E23B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 15:43:13 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1pRxSZ-0001Sy-7o; Tue, 14 Feb 2023 16:43:11 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1pRxSS-0008FL-NN; Tue, 14 Feb 2023 16:43:04 +0100
-Date: Tue, 14 Feb 2023 16:43:04 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: FUKAUMI Naoki <naoki@radxa.com>
-Subject: Re: [PATCH v5 0/4] drm/rockchip: dw_hdmi: Add 4k@30 support
-Message-ID: <20230214154304.GK10447@pengutronix.de>
-References: <20230208090816.3810589-1-s.hauer@pengutronix.de>
- <43BFE269C2D3B94A+72719122-bfdd-8e99-9176-a6f5e30abfb2@radxa.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0543E10E900
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 15:49:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676389775;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MR8cRaV4hzh8Hs+6FhOVU0l7I7C0xQGATnrWDzUluwU=;
+ b=aoL0tQtEqQy3BQ7SUUu4ZOSdsPWrtIYOBTl0EW/1ckF1kOgGZCwaRNsgq1js7mo3YqlSi/
+ kVZ82V/bN96o9Zi8+Ooi1ALxnI8SbbuVuvqelsOG5+YuaN5gQoV9V//AdLIfaD+FqCNhGU
+ 627oPXLyBcmsqVF/HvedD79kJK0oang=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-45-L84IkNFCNq2qeFaOaCpaBg-1; Tue, 14 Feb 2023 10:49:33 -0500
+X-MC-Unique: L84IkNFCNq2qeFaOaCpaBg-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ c8-20020a630d08000000b004fb299589a2so6047881pgl.15
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 07:49:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MR8cRaV4hzh8Hs+6FhOVU0l7I7C0xQGATnrWDzUluwU=;
+ b=nbbWvJ4r6h564/kPLx3vCaCzJ/XAsQJL/KGaRSgaN/Z5reeCYC5tKFSVUOiT0xkSlq
+ uKcFAXPlk7M+BTvC9bVe/BWsRl6sqvAV89GGWc2LUAQxyuJ3ssLSSaNT04YtxEDwNjHG
+ yb9W5Zh9k1JY459UmvhqfDrCO3uZDZWed2moF1h+bXBBtCp+bY5z8B5xbx7FeMuJFNJJ
+ H3FVsl9qWBQIEkAAhDpJ/9cE4bam10+fqeJVeJCQ410tmms/i//O73SK4DrKDHQzFGl0
+ /pfuD/xvzgUfH/+EZL/pwQMCkPR+KpQMnMUxyr50cpHIJ5THYJopS0OAeqlpdKgVCgIx
+ 1pXQ==
+X-Gm-Message-State: AO0yUKWzUxpJWLrVjgJA4YVgpvrsIgHhDbRJP0RpUS9I+kQNLtct5KCK
+ pXYn53fhah56rEk7xEfWdq/S2RIWMn3McWUolB6Q17gzZzxD3Q6CWY7S6QmfxLamrW4bY1unqmi
+ JKjrdhxULnsMDIejZ1yDFLzZk23iD/gI6ZinIK2ZOU+e7
+X-Received: by 2002:a17:903:2695:b0:199:2b80:4d3c with SMTP id
+ jf21-20020a170903269500b001992b804d3cmr853689plb.31.1676389772768; 
+ Tue, 14 Feb 2023 07:49:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set/aTyTqpV20bIc7D+CbXkg1ahwPVjcSzTH2lC73cxC8F8fuLEyJvlPZLr2up+FSVbOGM7j8OeUjaIHT2jfymjg=
+X-Received: by 2002:a17:903:2695:b0:199:2b80:4d3c with SMTP id
+ jf21-20020a170903269500b001992b804d3cmr853682plb.31.1676389772437; Tue, 14
+ Feb 2023 07:49:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <43BFE269C2D3B94A+72719122-bfdd-8e99-9176-a6f5e30abfb2@radxa.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20230203020744.30745-1-joshua@froggi.es>
+ <20230203020744.30745-3-joshua@froggi.es>
+ <Y9zkef5FjtZ7guVS@intel.com>
+ <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
+ <0fc18aec-0703-55f4-f635-d09d345e8dc0@amd.com> <Y90l+DY0rSaMvN1U@intel.com>
+ <758e5cf6-53e0-567c-c760-5b773bc7a11c@amd.com> <Y90vrEa3/1RbaGOV@intel.com>
+In-Reply-To: <Y90vrEa3/1RbaGOV@intel.com>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Tue, 14 Feb 2023 16:49:18 +0100
+Message-ID: <CA+hFU4wuM_xHniFyRT+jouQ3k_S3UJsRpAtd1Lgx9UVLtrqZrQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
+ drm_colorspace enum
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,87 +83,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Johansen <strit@manjaro.org>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Robin Murphy <robin.murphy@arm.com>
+Cc: dri-devel@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 13, 2023 at 04:11:46PM +0900, FUKAUMI Naoki wrote:
-> hi,
-> 
-> on my rk3399 boards(ROCK Pi 4B+ and ROCK 4C+), fb0 is configured as
-> 1920x1080, and nothing is displayed... "no signal" on display.
+On Fri, Feb 3, 2023 at 5:00 PM Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
+>
+> On Fri, Feb 03, 2023 at 10:24:52AM -0500, Harry Wentland wrote:
+> >
+> >
+> > On 2/3/23 10:19, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > On Fri, Feb 03, 2023 at 09:39:42AM -0500, Harry Wentland wrote:
+> > >>
+> > >>
+> > >> On 2/3/23 07:59, Sebastian Wick wrote:
+> > >>> On Fri, Feb 3, 2023 at 11:40 AM Ville Syrj=C3=A4l=C3=A4
+> > >>> <ville.syrjala@linux.intel.com> wrote:
+> > >>>>
+> > >>>> On Fri, Feb 03, 2023 at 02:07:44AM +0000, Joshua Ashton wrote:
+> > >>>>> Userspace has no way of controlling or knowing the pixel encoding
+> > >>>>> currently, so there is no way for it to ever get the right values=
+ here.
+> > >>>>
+> > >>>> That applies to a lot of the other values as well (they are
+> > >>>> explicitly RGB or YCC). The idea was that this property sets the
+> > >>>> infoframe/MSA/SDP value exactly, and other properties should be
+> > >>>> added to for use userspace to control the pixel encoding/colorspac=
+e
+> > >>>> conversion(if desired, or userspace just makes sure to
+> > >>>> directly feed in correct kind of data).
+> > >>>
+> > >>> I'm all for getting userspace control over pixel encoding but even
+> > >>> then the kernel always knows which pixel encoding is selected and
+> > >>> which InfoFrame has to be sent. Is there a reason why userspace wou=
+ld
+> > >>> want to control the variant explicitly to the wrong value?
+> > >>>
+> > >>
+> > >> I've asked this before but haven't seen an answer: Is there an exist=
+ing
+> > >> upstream userspace project that makes use of this property (other th=
+an
+> > >> what Joshua is working on in gamescope right now)? That would help u=
+s
+> > >> understand the intent better.
+> > >
+> > > The intent was to control the infoframe colorimetry bits,
+> > > nothing more. No idea what real userspace there was, if any.
+> > >
+> > >>
+> > >> I don't think giving userspace explicit control over the exact infof=
+rame
+> > >> values is the right thing to do.
+> > >
+> > > Only userspace knows what kind of data it's stuffing into
+> > > the pixels (and/or how it configures the csc units/etc.) to
+> > > generate them.
+> > >
+> >
+> > Yes, but userspace doesn't control or know whether we drive
+> > RGB or YCbCr on the wire. In fact, in some cases our driver
+> > needs to fallback to YCbCr420 for bandwidth reasons. There
+> > is currently no way for userspace to know that and I don't
+> > think it makes sense.
+>
+> People want that control as well for whatever reason. We've
+> been asked to allow YCbCr 4:4:4 output many times.
 
-I can confirm this.
+I don't really think it's a question of if we want it but rather how
+we get there. Harry is completely right that if we would make the
+subsampling controllable by user space instead of the kernel handling
+it magically, user space which does not adapt to the new control won't
+be able to light up some modes which worked before.
 
-First of all there is a stupid bug in my patch:
+This is obviously a problem and not one we can easily fix. We would
+need a new cap for user space to signal "I know that I can control
+bpc, subsampling and compression to lower the bandwidth and light up
+modes which otherwise fail". That cap would also remove all the
+properties which require kernel magic to work (that's also what I
+proposed for my KMS color pipeline API).
 
-> +       if (vop->data->max_output.width && mode->hdisplay > vop->data->max_output.height)
-> +               return MODE_BAD_HVALUE;
+We all want to expose more of the scanout capability and give user
+space more control but I don't think an incremental approach works
+here and we would all do better if we accept that the current API
+requires kernel magic to work and has a few implicit assumptions baked
+in.
 
-The comparison should be against the width here of course, not against
-the height. Fixing this should at least allow you to display something
-when a 1080p display is connected.
+With all that being said, I think the right decision here is to
 
-The other problem comes with the legacy fbdev emulation. I think failure
-is pretty much expected here. The fbdev emulation happens to use the
-VOPL to display a 4k picture, but the VOPL can only do up to 2560x1600
-and so the mode is denied in vop_crtc_mode_valid(). Quoting Daniel Stone
-on this topic:
+1. Ignore subsampling for now
+2. Let the kernel select YCC or RGB on the cable
+3. Let the kernel figure out the conversion between RGB and YCC based
+on the color space selected
+4. Let the kernel send the correct infoframe based on the selected
+color space and cable encoding
+5. Only expose color spaces for which the kernel can do the conversion
+and send the infoframe
+6. Work on the new API which is hidden behind a cap
 
-> You've done the right thing. Userspace should detect this and try with
-> alternative CRTC routing. The kernel shouldn't be trying to solve this
-> problem.
-
-Trying an alternative CRTC routing is exactly what the fbdev emulation
-doesn't do. Now my "userspace" is in kernel and the kernel shouldn't try
-to solve this problem. We're trapped :-/
-
-Sascha
-
-> 
+> The automagic 4:2:0 fallback I think is rather fundementally
+> incompatible with fancy color management. How would we even
+> know whether to use eg. BT.2020 vs. BT.709 matrix? In i915
+> that stuff is just always BT.709 limited range, no questions
+> asked.
+>
+> So I think if userspace wants real color management it's
+> going to have to set up the whole pipeline. And for that
+> we need at least one new property to control the RGB->YCbCr
+> conversion (or to explicitly avoid it).
+>
+> And given that the proposed patch just swept all the
+> non-BT.2020 issues under the rug makes me think no
+> one has actually come up with any kind of consistent
+> plan for anything else really.
+>
+> >
+> > Userspace needs full control of framebuffer pixel formats,
+> > as well as control over DEGAMMA, GAMMA, CTM color operations.
+> > It also needs to be able to select whether to drive the panel
+> > as sRGB or BT.2020/PQ but it doesn't make sense for it to
+> > control the pixel encoding on the wire (RGB vs YCbCr).
+> >
+> > > I really don't want a repeat of the disaster of the
+> > > 'Broadcast RGB' which has coupled together the infoframe
+> > > and automagic conversion stuff. And I think this one would
+> > > be about 100x worse given this property has something
+> > > to do with actual colorspaces as well.
+> > >
+> >
+> > I'm unaware of this disaster. Could you elaborate?
+>
+> The property now controls both the infoframe stuff (and
+> whatever super vague stuff DP has for it in MSA) and
+> full->limited range compression in the display pipeline.
+> And as a result  there is no way to eg. allow already
+> limited range input, which is what some people wanted.
+>
+> And naturally it's all made a lot more terrible by all
+> the displays that fail to implement the spec correctly,
+> but that's another topic.
+>
 > --
-> FUKAUMI Naoki
-> 
-> On 2/8/23 18:08, Sascha Hauer wrote:
-> > Some more small changes to this series, see changelog.
-> > 
-> > Sascha
-> > 
-> > Changes since v4:
-> > - Use struct vop_reg to store resolutions
-> > - Only check for valid clock rates when clock != NULL
-> > 
-> > Changes since v3
-> > - Add patch to limit VOP resolutions to hardware capabilitie
-> > 
-> > Changes since v2:
-> > - Use correct register values for mpll_cfg
-> > - Add patch to discard modes we cannot achieve
-> > 
-> > Changes since v1:
-> > - Allow non standard clock rates only on Synopsys phy as suggested by
-> >    Robin Murphy
-> > 
-> > Sascha Hauer (4):
-> >    drm/rockchip: vop: limit maximium resolution to hardware capabilities
-> >    drm/rockchip: dw_hdmi: relax mode_valid hook
-> >    drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
-> >    drm/rockchip: dw_hdmi: discard modes with unachievable pixelclocks
-> > 
-> >   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c  | 41 ++++++++++++++++----
-> >   drivers/gpu/drm/rockchip/rockchip_drm_vop.c  | 15 +++++++
-> >   drivers/gpu/drm/rockchip/rockchip_drm_vop.h  |  6 +++
-> >   drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  5 ---
-> >   drivers/gpu/drm/rockchip/rockchip_vop_reg.c  | 18 +++++++++
-> >   5 files changed, 73 insertions(+), 12 deletions(-)
-> > 
-> 
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
+>
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
