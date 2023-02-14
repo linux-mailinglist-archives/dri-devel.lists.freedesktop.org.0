@@ -2,58 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AA2696285
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 12:35:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53ED2696299
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 12:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F11AD10E08C;
-	Tue, 14 Feb 2023 11:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBBEC10E066;
+	Tue, 14 Feb 2023 11:42:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD28610E08C;
- Tue, 14 Feb 2023 11:35:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676374536; x=1707910536;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=jtZ5PCi8GSmEnz2460D5rlnWgt7rQHRU2Rt5k9+j6u4=;
- b=ZL/3P3IBl1n5noh6W1Lz4e2n2XUkrkDwbQZYUi1A9oVIdNaXKX9VjeLi
- lKntBl1/36mMEds9QtpNlI9CGdW/E6xdVElyiu8i2/kSxqI4W9aivJw+N
- kOwZc/opi7PG+iDlKtQrCbBmqcupUAA0O5qth5Kls3Ihj0IPbs32PD4tg
- frgNKt6qXG9r0W1GVrWkXFkYu6A7uxN/vB0xOnZe8tCpJ4cWMPVEFMqzu
- 3fvh6qtl73aZ/fXS86Y0IHUccCnEcFvu32w6/JV9h1A5sBwsnvz6cj0Tg
- 7PRtT1aPzO986Mpimc3ajWST0ecX4gHx2UxUS+71dXodYLxOw2rTW9AQV A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="332451649"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="332451649"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 03:35:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="732866612"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="732866612"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by fmsmga008.fm.intel.com with SMTP; 14 Feb 2023 03:35:32 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 14 Feb 2023 13:35:32 +0200
-Date: Tue, 14 Feb 2023 13:35:32 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm: Introduce plane SIZE_HINTS property
-Message-ID: <Y+tyBGmlQi6IGqF0@intel.com>
-References: <20230208040911.12590-1-ville.syrjala@linux.intel.com>
- <20230208040911.12590-2-ville.syrjala@linux.intel.com>
- <20230208141312.76df0cb0.pekka.paalanen@collabora.com>
- <Y+OdtR78JnQOTj38@intel.com> <Y+QRSH3kLD4Xrktc@intel.com>
- <20230209135105.4137872c.pekka.paalanen@collabora.com>
- <20230214114227.7fa94b78@eldfell> <Y+tiIYMVnQ6gyJ/e@intel.com>
- <20230214131745.294d5363@eldfell>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A494310E066;
+ Tue, 14 Feb 2023 11:42:31 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4PGK7l6xN0z9sS1;
+ Tue, 14 Feb 2023 12:42:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1676374947;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bpxBXi/C0ESDbbBrRbwGSesIMfbtRruhtAnq66OD38k=;
+ b=h8nrwUfPISMDZA5ONGRgTSVZ7zVlhAfPKpIMFcRZs/dsPoP499zVefTB2n5PgBG0P9A2J3
+ gxOGfXs7Vvonpe+Fro3aIgOcEQibTgGgzQtWU5hnzoWwYAs2BAWeqoD6ChMQepNoiwASqK
+ vshlXMrfvqPRRBwoGVuD/V5t5DYRinPA/ke0pYve/AirGF40JfQkmmd/pMrs1hOUqu2b71
+ VcUWGUzFB+9LFRWG9X9440sebIzOWe2gQFk7xdng0yIeAT+OzBn5oQ7ok1n9H3fbizJowE
+ DTivE1OsDdek7EgW+c9hLOBiQOtStqRhH0iIYe9QdeT3J/acSSoqUgug0IBkug==
+Message-ID: <a3e4887b-ee5f-f41c-621c-d3f057528f9f@mailbox.org>
+Date: Tue, 14 Feb 2023 12:42:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Subject: Re: [PATCH 06/10] drm/amd/display: Fix implicit enum conversion
+To: Arthur Grillo <arthurgrillo@riseup.net>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230213204923.111948-1-arthurgrillo@riseup.net>
+ <20230213204923.111948-7-arthurgrillo@riseup.net>
+Content-Language: en-CA
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <20230213204923.111948-7-arthurgrillo@riseup.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230214131745.294d5363@eldfell>
-X-Patchwork-Hint: comment
+X-MBO-RS-META: egsu9frrzwd99krj16ynoeuffhtrbcw8
+X-MBO-RS-ID: 4c36c591adb6f2225ad
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,51 +57,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>
+Cc: sunpeng.li@amd.com, tales.aparecida@gmail.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, mairacanal@riseup.net, alexander.deucher@amd.com,
+ andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 14, 2023 at 01:17:45PM +0200, Pekka Paalanen wrote:
-> On Tue, 14 Feb 2023 12:27:45 +0200
-> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+On 2/13/23 21:49, Arthur Grillo wrote:
+> Make implicit enum conversion to avoid -Wenum-conversion warning, such
+> as:
 > 
-> > On Tue, Feb 14, 2023 at 11:42:27AM +0200, Pekka Paalanen wrote:
-> > > On Thu, 9 Feb 2023 13:51:05 +0200
-> > > Pekka Paalanen <pekka.paalanen@collabora.com> wrote:
-> > >   
-> > > > Maybe we could refine this so that userspace uses the stride and height
-> > > > implied by the caps for allocation, and then use the exact cursor image
-> > > > size for AddFB2? And have drivers pick any size between those two they
-> > > > can use. The kernel would need the userspace to promise that the
-> > > > padding is always zero-initialized, so the driver can simply scan out
-> > > > any area of the buffer it needs.
-> > > > 
-> > > > Then we don't need SIZE_HINTS.  
-> > > 
-> > > Would there be any problem with this?
-> > > 
-> > > If this works, it would seem the superior solution to me, because
-> > > userspace does not need to guess or test for the exact right size.
-> > > Simply allocate at the CAP size, pad the cursor image with transparent
-> > > pixels, and let the kernel scan out the optimal area.  
-> > 
-> > No, the hardware cannot scan out a smaller area because the
-> > stride will be wrong.
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn21/display_mode_vba_21.c:4109:88: warning: implicit conversion from â€˜enum <anonymous>â€™ to â€˜enum odm_combine_modeâ€™ [-Wenum-conversion]
+>  4109 |                                                 locals->ODMCombineEnablePerState[i][k] = true;
+>       |                                                                                        ^
 > 
-> In another email of yours you said that hardware requires stride to be
-> equivalent to the width. So it's not that hardware supports only
-> specific strides, it must equal to width. That's really unfortunate and
-> surprising.
+> [...]
+> 
+> @@ -3897,14 +3898,14 @@ void dml20_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+>  					mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine = mode_lib->vba.PixelClock[k] / 2
+>  							* (1 + mode_lib->vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+>  
+> -				locals->ODMCombineEnablePerState[i][k] = false;
+> +				locals->ODMCombineEnablePerState[i][k] = (enum odm_combine_mode)false;
 
-Yeah, probably some Windows legacy hangover that refuses to die.
+dm_odm_combine_mode_disabled would seem clearer than (enum odm_combine_mode)false.
 
-Ye olde Intel gen2 desktop chipsets (i845/i865) had a somewhat
-programmable stride for cursors (still POT, but could exceed 
-the width), but the mobile chipsets (i830/i85x) did not.
-Unfortunately the mobile lineage won out and we've been stuck
-with this limitation ever since.
+
+> -						locals->ODMCombineEnablePerState[i][k] = true;
+> +						locals->ODMCombineEnablePerState[i][k] = (enum odm_combine_mode)true;
+
+I'm not sure which enum value (enum odm_combine_mode)true will be converted to, probably dm_odm_combine_mode_2to1? Is that really appropriate everywhere true is used? If so, again 
+dm_odm_combine_mode_2to1 would seem clearer.
+
 
 -- 
-Ville Syrjälä
-Intel
+Earthling Michel DÃ¤nzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
+
