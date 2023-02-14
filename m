@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCA8696FE4
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 22:39:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0F0697032
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 22:56:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63D110E9D4;
-	Tue, 14 Feb 2023 21:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB7B10E036;
+	Tue, 14 Feb 2023 21:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 200DC10E9B7;
- Tue, 14 Feb 2023 21:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676410728; x=1707946728;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=MY1oiS6CKPNSasyeskC3s3LWK3s5B6xKseA7RkRNibU=;
- b=cbZVk0uWcfCJP+/MlwWRqeUUkFb8Uai1Ubqi+qn2Or4dCMAmKGuSaHvZ
- 8XT54kO9iF552PNk36006sQc+F9sIsJM/BeQYC80G+756EWT28cX6tvEP
- KqspKKSSt5ypnxDejWln2A0gF1l1XiBB7IZaruG9oa3+7PNKcQubeZeVA
- 0cA3Hh5iI2WETz5/iBSzb7GazClDKCbduytCeDlraH+nRLs4VAkxP+m2o
- IE/dRerhCU+znKRhv+8ePa7VVXdgtEgPRYJb/4i6mZmTnmqSmTrz/MF3c
- g/5Azt6PYKeevEy7hsUA0BBdqxu2hoK7SOBfUY90rzSt+eQ7SgoyttdnS Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="332587487"
-X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; d="scan'208";a="332587487"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 13:38:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="914898091"
-X-IronPort-AV: E=Sophos;i="5.97,297,1669104000"; d="scan'208";a="914898091"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by fmsmga006.fm.intel.com with ESMTP; 14 Feb 2023 13:38:46 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 8/8] drm/i915/pxp: Enable PXP with MTL-GSC-CS
-Date: Tue, 14 Feb 2023 13:38:44 -0800
-Message-Id: <20230214213844.2890382-9-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230214213844.2890382-1-alan.previn.teres.alexis@intel.com>
-References: <20230214213844.2890382-1-alan.previn.teres.alexis@intel.com>
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38AB210E036;
+ Tue, 14 Feb 2023 21:56:24 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-16dcb07b805so14264631fac.0; 
+ Tue, 14 Feb 2023 13:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KSatBS/MK7pWYdNv/VGlbNMDCcLZ1O3J6AhpFAuuvQc=;
+ b=KOHGs9dCx/MV5ZSbYtdWT5FCwSTrVkX2xYV6S0HrXEr4H00koyiEhV1NXFgvu61Fne
+ kxPQi+ZqgnPIpsXOq11R3ZCV9GkMCuAdxzdfFt0w99rPOPFvW6jg5qo3cUBbBxWCUGn5
+ y6cyxVh/MBz6dVPj3nyEwUc7wZTw1Od0lYgqeQxrqwwFUCw9wf2CnvJxd38tY57sONk7
+ 9+p1YPMPH9hPUSbe5cXZMKYY/CGcFsfuXB5DjKjg1V1jx8GyfhLlq+6e2DpGN0HnphK3
+ fVMqkGR6fQfswCa930JZoYgmd+Xh60/FFbRI2U2dqRX1jsuil4sgXdeFbOkW7SeU6VIE
+ CO3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KSatBS/MK7pWYdNv/VGlbNMDCcLZ1O3J6AhpFAuuvQc=;
+ b=ZTQSB5RU0LdM7kmRfoFb/bU7pio4+C06BPaTVBVJ1lrHyHF6LXHSfY5PXSZBJSpw7f
+ 40nbSbhheu9QAu/iPxron4GhgPxYsET29kV54G1YemBVkuGpRzdjly2dULS8HYFdH69r
+ 7rWtwAhYUndtRDf++fstX1X7ApDGpDnshahTVsHKuYJPw02rvL2CrRl8LWgYGtK46U3o
+ UmTWycVVxyCVPRQooCHBY7Eydc8CoWRPTF7TJMfyHC167ym9WZmiQDq53Ms4xsF7bEPS
+ A15Ir/gwvAfHJC+ID81aHyDFRkduDn4GtMPeRDLMMwkc2lUjOEDWVCrVyt7WkeK2gNYD
+ bMaA==
+X-Gm-Message-State: AO0yUKUvGdlz0JLwvV5li6veptpR/5FE9r5wxAvR2YBii4u5qkkQ020b
+ g6Pb41vKE4iX1ZOd3xQ5X97TRCSZxpzHZ0t9MGc=
+X-Google-Smtp-Source: AK7set/1yYVnUjCEQyoiqfPka498lLP+fGlZ/ugd5TRwuKES936/s9KcP5OJ6pv2MK1r++0COFnb908+NObCmlnu0C4=
+X-Received: by 2002:a05:6871:259b:b0:16e:2bc5:1601 with SMTP id
+ yy27-20020a056871259b00b0016e2bc51601mr32544oab.38.1676411783384; Tue, 14 Feb
+ 2023 13:56:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
+ <20230214173145.2482651-11-konrad.dybcio@linaro.org>
+In-Reply-To: <20230214173145.2482651-11-konrad.dybcio@linaro.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 14 Feb 2023 13:56:12 -0800
+Message-ID: <CAF6AEGva3ecxTOx3Yb+Wh-1K=jYA3tDo_aXg09jS9pzJupYExQ@mail.gmail.com>
+Subject: Re: [PATCH v2 10/14] drm/msm/a6xx: Fix up A6XX protected registers
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,47 +66,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juston Li <justonli@chromium.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ agross@kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ marijn.suijten@somainline.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable PXP with MTL-GSC-CS: add the has_pxp into device info
-and increase the timeouts for new GSC-CS + firmware specs.
+On Tue, Feb 14, 2023 at 9:32 AM Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>
+> One of the protected ranges was too small (compared to the data we
+> have downstream). Fix it.
+>
+> Fixes: 408434036958 ("drm/msm/a6xx: update/fix CP_PROTECT initialization")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 503c750216e6..d6b38bfdb3b4 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -690,7 +690,7 @@ static const u32 a6xx_protect[] = {
+>         A6XX_PROTECT_NORDWR(0x00800, 0x0082),
+>         A6XX_PROTECT_NORDWR(0x008a0, 0x0008),
+>         A6XX_PROTECT_NORDWR(0x008ab, 0x0024),
+> -       A6XX_PROTECT_RDONLY(0x008de, 0x00ae),
+> +       A6XX_PROTECT_RDONLY(0x008d0, 0x00bc),
 
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/i915_pci.c              | 1 +
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Nak, this is intentional, we need userspace to be able to configure
+the CP counters.  Otherwise this would break fdperf, perfetto, etc
 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index a8d942b16223..4ecf0f2ab6ec 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1150,6 +1150,7 @@ static const struct intel_device_info mtl_info = {
- 	.has_guc_deprivilege = 1,
- 	.has_mslice_steering = 0,
- 	.has_snoop = 1,
-+	.has_pxp = 1,
- 	.__runtime.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
- 	.__runtime.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(CCS0),
- 	.require_force_probe = 1,
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-index 4ddf2ee60222..03f006f9dc2e 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-@@ -44,7 +44,7 @@ static int pxp_wait_for_session_state(struct intel_pxp *pxp, u32 id, bool in_pla
- 				      KCR_SIP(pxp->kcr_base),
- 				      mask,
- 				      in_play ? mask : 0,
--				      100);
-+				      250);
- 
- 	intel_runtime_pm_put(uncore->rpm, wakeref);
- 
--- 
-2.39.0
+(although maybe we should comment where we diverge from downstream)
 
+BR,
+-R
+
+>         A6XX_PROTECT_NORDWR(0x00900, 0x004d),
+>         A6XX_PROTECT_NORDWR(0x0098d, 0x0272),
+>         A6XX_PROTECT_NORDWR(0x00e00, 0x0001),
+> --
+> 2.39.1
+>
