@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F0D6963E6
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 13:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA6369643C
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 14:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D067710E1FB;
-	Tue, 14 Feb 2023 12:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE1E10E16D;
+	Tue, 14 Feb 2023 13:06:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5337510E117;
- Tue, 14 Feb 2023 12:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676379095; x=1707915095;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=hJu7TZpVPtec73hfeBA/avwcYvPTNTBMYqIl7PC5FV0=;
- b=WGWgN8d2LF+B7wGAlYZwUTfmHtXQb4JY9vsbTspzAVRxGGnLaBPHWBpT
- BRYQyyd+7iiu5yg0m+MvnLBGo04TUK7GRVo6k/90FPaHZ1rliv9dZiHNQ
- uIkT60mv8GLcW/cXOxQ9zy8QO6GXA77qQwdvzFBDR4qWlNm1kYvZDDzGb
- JsYh4caw/6L8QTyL565iVDilh152pH1eiRHGLqi0Y7nTNIUKuSyLjgwKT
- lYQXvgQbKGjDFjAYxpC/ufMuz4o7u0tTHDP3Z9MX01JYWuAdTFe6MenVm
- dPFNGp/ojX3eiRfKaAn3yc9Zypha2zG2IruQx2+G1BcxDJde9DtSZVL/M w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="331149529"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="331149529"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 04:51:33 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10620"; a="669152938"
-X-IronPort-AV: E=Sophos;i="5.97,296,1669104000"; d="scan'208";a="669152938"
-Received: from ahmedm3x-mobl.ger.corp.intel.com (HELO localhost.localdomain)
- ([10.213.226.130])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Feb 2023 04:51:10 -0800
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/gem: Expose the buffer object handle to userspace last
-Date: Tue, 14 Feb 2023 12:50:50 +0000
-Message-Id: <20230214125050.1205394-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 694AB10E8C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 13:06:41 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id C6BD4200B6;
+ Tue, 14 Feb 2023 14:06:37 +0100 (CET)
+Date: Tue, 14 Feb 2023 14:06:36 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [RFC PATCH 5/7] drm/msm/dpu: Document and enable TEAR interrupts
+ on DSI interfaces
+Message-ID: <20230214130636.ldckqgcq6ajph372@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ phone-devel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Adam Skladowski <a39.skl@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20221231215006.211860-1-marijn.suijten@somainline.org>
+ <20221231215006.211860-6-marijn.suijten@somainline.org>
+ <773cd72b-a766-1764-e25f-0af1174f0e51@quicinc.com>
+ <1051d6bd-eb3c-6293-0bd2-3f4ea28fa3f8@linaro.org>
+ <df059f88-6ff6-5906-58f1-4f6c752c4214@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <df059f88-6ff6-5906-58f1-4f6c752c4214@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,171 +69,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, lima@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, nouveau@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Ben Skeggs <bskeggs@redhat.com>, David Herrmann <dh.herrmann@gmail.com>,
- spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ dri-devel@lists.freedesktop.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ phone-devel@vger.kernel.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Adam Skladowski <a39.skl@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, Sean Paul <sean@poorly.run>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On 2023-02-13 19:09:32, Abhinav Kumar wrote:
+> 
+> 
+> On 2/13/2023 1:46 PM, Dmitry Baryshkov wrote:
+> > On 13/02/2023 21:37, Jessica Zhang wrote:
+> >>
+> >>
+> >> On 12/31/2022 1:50 PM, Marijn Suijten wrote:
+> >>> All SoCs since DPU 5.0.0 (and seemingly up until and including 6.0.0,
+> >>> but excluding 7.x.x) have the tear interrupt and control registers moved
+> >>> out of the PINGPONG block and into the INTF block.† Wire up the
+> >>> necessary interrupts and IRQ masks on all supported hardware.
+> >>
+> >> Hi Marijn,
+> >>
+> >> Thanks for the patch.
+> >>
+> >> I saw that in your commit msg, you mentioned that 7.x doesn't have 
+> >> tearcheck in the INTF block -- can you double check that this is correct?
 
-Currently drm_gem_handle_create_tail exposes the handle to userspace
-before the buffer object constructions is complete. This allowing
-of working against a partially constructed object, which may also be in
-the process of having its creation fail, can have a range of negative
-outcomes.
+It wasn't correct and has already been removed for v2 [1] after rebasing
+on top of SM8[345]50 support, where the registers reside at a different
+(named 7xxxx downstream) offset.
 
-A lot of those will depend on what the individual drivers are doing in
-their obj->funcs->open() callbacks, and also with a common failure mode
-being -ENOMEM from drm_vma_node_allow.
+[1] https://github.com/SoMainline/linux/commit/886d3fb9eed925e7e9c8d6ca63d2439eaec1c702
 
-We can make sure none of this can happen by allocating a handle last,
-although with a downside that more of the function now runs under the
-dev->object_name_lock.
+> >> I'm working on SM8350 (DPU v7) and I'm seeing that it does have 
+> >> tearcheck in INTF block.
+> > 
+> > I confirm, according to the vendor drivers INTF TE should be used for 
+> > all DPU >= 5.0, including 7.x and 8.x
+> > 
+> > However I think I know what Marijn meant here. For 5.x and 6.x these 
+> > IRQs are handled at the address MDSS + 0x6e800 / + 0x6e900 (which means 
+> > offset here should 0x6d800 and 0x6d900) for INTF_1 and INTF_2. Since DPU 
+> > 7.x these IRQ registers were moved close to the main INTF block (0x36800 
+> > and 0x37800 = INTF + 0x800).
 
-Looking into the individual drivers open() hooks, we have
-amdgpu_gem_object_open which seems like it could have a potential security
-issue without this change.
+That might have been the case.
 
-A couple drivers like qxl_gem_object_open and vmw_gem_object_open
-implement no-op hooks so no impact for them.
+> Got it, then the commit text should remove "control" and just say tear 
+> interrupt registers. It got a bit confusing.
 
-A bunch of other require a deeper look by individual owners to asses for
-impact. Those are lima_gem_object_open, nouveau_gem_object_open,
-panfrost_gem_open, radeon_gem_object_open and virtio_gpu_gem_object_open.
+The wording here points to both the interrupt (MDP_INTFx_TEAR_INTR)
+registers and control (INTF_TEAR_xxx) registers separately.  Feel free
+to bikeshed the wording in preliminary v2 [1]; should I drop the mention
+of the control registers being "moved" from PP to INTF entirely, leaving
+just the wording about the interrupt registers moving from
+MDP_SSPP_TOP0_INTR to a dedicated MDP_INTFx_TEAR_INTR region?
 
-Putting aside the risk assesment of the above, some common scenarios to
-think about are along these lines:
+> We will add the 7xxx intf tear check support on top of this series.
 
-1)
-Userspace closes a handle by speculatively "guessing" it from a second
-thread.
+No need, that is already taken care of in an impending v2 [1] (unless
+additional changes are required beyond the moved register offset).
 
-This results in an unreachable buffer object so, a memory leak.
+> >>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> >>> ---
+> >>> † .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c††† | 78 +++++++++++--------
+> >>> † .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h††† |† 6 +-
+> >>> † .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 12 +++
+> >>> † .../gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.h |† 2 +
+> >>> † drivers/gpu/drm/msm/disp/dpu1/dpu_hwio.h††††† |† 3 +
+> >>> † 5 files changed, 68 insertions(+), 33 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c 
+> >>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>> index 1cfe94494135..b9b9b5b0b615 100644
+> >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> >>> @@ -86,6 +86,15 @@
+> >>> † #define INTF_SC7280_MASK INTF_SC7180_MASK | BIT(DPU_DATA_HCTL_EN)
+> >>> +#define IRQ_MSM8998_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+> >>> +†††††††††††† BIT(MDP_SSPP_TOP0_INTR2) | \
+> >>> +†††††††††††† BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF0_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF1_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF2_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF3_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF4_INTR))
+> >>> +
+> >>> † #define IRQ_SDM845_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+> >>> †††††††††††††† BIT(MDP_SSPP_TOP0_INTR2) | \
+> >>> †††††††††††††† BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> >>> @@ -100,13 +109,15 @@
+> >>> † #define IRQ_QCM2290_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+> >>> †††††††††††††† BIT(MDP_SSPP_TOP0_INTR2) | \
+> >>> †††††††††††††† BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> >>> -†††††††††††† BIT(MDP_INTF1_INTR))
+> >>> +†††††††††††† BIT(MDP_INTF1_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF1_TEAR_INTR))
+> >>> † #define IRQ_SC7180_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+> >>> †††††††††††††† BIT(MDP_SSPP_TOP0_INTR2) | \
+> >>> †††††††††††††† BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> >>> †††††††††††††† BIT(MDP_INTF0_INTR) | \
+> >>> -†††††††††††† BIT(MDP_INTF1_INTR))
+> >>> +†††††††††††† BIT(MDP_INTF1_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF1_TEAR_INTR))
+> >>> † #define IRQ_SC7280_MASK (BIT(MDP_SSPP_TOP0_INTR) | \
+> >>> †††††††††††††† BIT(MDP_SSPP_TOP0_INTR2) | \
+> >>> @@ -120,7 +131,9 @@
+> >>> †††††††††††††† BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> >>> †††††††††††††† BIT(MDP_INTF0_INTR) | \
+> >>> †††††††††††††† BIT(MDP_INTF1_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF1_TEAR_INTR) | \
+> >>> †††††††††††††† BIT(MDP_INTF2_INTR) | \
+> >>> +†††††††††††† BIT(MDP_INTF2_TEAR_INTR) | \
+> >>> †††††††††††††† BIT(MDP_INTF3_INTR) | \
+> >>> †††††††††††††† BIT(MDP_INTF4_INTR))
+> >>> @@ -129,7 +142,9 @@
+> >>> ††††††††††††††† BIT(MDP_SSPP_TOP0_HIST_INTR) | \
+> >>> ††††††††††††††† BIT(MDP_INTF0_INTR) | \
+> >>> ††††††††††††††† BIT(MDP_INTF1_INTR) | \
+> >>> +††††††††††††† BIT(MDP_INTF1_TEAR_INTR) | \
+> >>> ††††††††††††††† BIT(MDP_INTF2_INTR) | \
+> >>> +††††††††††††† BIT(MDP_INTF2_TEAR_INTR) | \
+> >>> ††††††††††††††† BIT(MDP_INTF3_INTR) | \
+> >>> ††††††††††††††† BIT(MDP_INTF4_INTR) | \
+> >>> ††††††††††††††† BIT(MDP_INTF5_INTR) | \
+> >>> @@ -1300,63 +1315,64 @@ static struct dpu_dsc_cfg sdm845_dsc[] = {
+> >>> † /*************************************************************
+> >>> †† * INTF sub blocks config
+> >>> †† *************************************************************/
+> >>> -#define INTF_BLK(_name, _id, _base, _type, _ctrl_id, _progfetch, 
+> >>> _features, _reg, _underrun_bit, _vsync_bit) \
+> >>> +#define INTF_BLK(_name, _id, _base, _len, _type, _ctrl_id, 
+> >>> _progfetch, _features, _reg, _underrun_bit, _vsync_bit, _tear_reg, 
+> >>> _tear_rd_ptr_bit) \
+> >>> ††††† {\
+> >>> ††††† .name = _name, .id = _id, \
+> >>> -††† .base = _base, .len = 0x280, \
+> >>> +††† .base = _base, .len = _len, \
+> >>> ††††† .features = _features, \
+> >>> ††††† .type = _type, \
+> >>> ††††† .controller_id = _ctrl_id, \
+> >>> ††††† .prog_fetch_lines_worst_case = _progfetch, \
+> >>> ††††† .intr_underrun = DPU_IRQ_IDX(_reg, _underrun_bit), \
+> >>> ††††† .intr_vsync = DPU_IRQ_IDX(_reg, _vsync_bit), \
+> >>> +††† .intr_tear_rd_ptr = DPU_IRQ_IDX(_tear_reg, _tear_rd_ptr_bit), \
+> >>> ††††† }
+> >>> † static const struct dpu_intf_cfg msm8998_intf[] = {
+> >>> -††† INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 25, 
+> >>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> >>> -††† INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 25, 
+> >>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+> >>> -††† INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 25, 
+> >>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+> >>> -††† INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_HDMI, 0, 25, 
+> >>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+> >>> +††† INTF_BLK("intf_0", INTF_0, 0x6A000, 0x268, INTF_DP, 0, 25, 
+> >>> INTF_SDM845_MASK, MDP_SSPP_TOP0_INTR, 24, 25, -1, -1),
+> >>
+> >> Just wondering, how were the lengths calculated for the INTF blocks? 
+> >> The values in general seem a little off to me.
 
-2)
-Same as 1), but object is in the process of getting closed (failed
-creation).
+These (for MSM8998) have been taken from downstream specifically; my
+series starts using INTF_STATUS at 0x26C which conveniently is the
+register right after 0x268, matching the fact that INTF TE and these
+registers weren't supported/available yet on MSM8998.
 
-The second thread is then able to re-cycle the handle and idr_remove would
-in the first thread would then remove the handle it does not own from the
-idr.
+> >> For example, I'm looking downstream and it seems to me that the length 
+> >> for the INTF_0 on MSM8998 should be 0x280. Similarly for SC7280, I'm 
+> >> seeing that length for INTF + tearcheck should be 0x2c4.
 
-3)
-Going back to the earlier per driver problem space - individual impact
-assesment of allowing a second thread to access and operate on a partially
-constructed handle / object. (Can something crash? Leak information?)
+There are many different downstream sources and tags with seemingly
+conflicting/confusing information.  For v2 [2] I've picked the highest
+register used by the driver which is INTF_TEAR_AUTOREFRESH_CONFIG at
+0x2B4 (but there might always be more registers that don't need to be
+poked at by the driver, but contain magic debug information and the
+like... those would be useful to capture in the dump going forward).
 
-In terms of identifying when the problem started I will tag some patches
-as references, but not all, if even any, of them actually point to a
-broken state. I am just identifying points at which more opportunity for
-issues to arise was added.
+[2]: https://github.com/SoMainline/linux/commit/2bbc609dd28aa0bd0a2dede20163e521912d0072
 
-References: 304eda32920b ("drm/gem: add hooks to notify driver when object handle is created/destroyed")
-References: ca481c9b2a3a ("drm/gem: implement vma access management")
-References: b39b5394fabc ("drm/gem: Add drm_gem_object_funcs")
-Cc: dri-devel@lists.freedesktop.org
-Cc: Rob Clark <robdclark@chromium.org>
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: David Herrmann <dh.herrmann@gmail.com>
-Cc: Noralf Tr√∏nnes <noralf@tronnes.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: lima@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Cc: Steven Price <steven.price@arm.com>
-Cc: virtualization@lists.linux-foundation.org
-Cc: spice-devel@lists.freedesktop.org
-Cc: Zack Rusin <zackr@vmware.com>
----
- drivers/gpu/drm/drm_gem.c | 48 +++++++++++++++++++--------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+> > We have discussed INTF lengths in [1]. The current understanding of the 
+> > block lengths can be found at [2]. Please comment there if any of the 
+> > fixed lengths sounds incorrect to you.
+> > 
+> > [1] https://patchwork.freedesktop.org/patch/522187/
+> > [2] https://patchwork.freedesktop.org/patch/522227/
+> > 
+> > [skipped the rest]
+> > 
+> 
+> Please correct my understanding here, it was agreed to fix intf blocks 
+> to 0x2c4 here https://patchwork.freedesktop.org/patch/522227/ but I dont 
+> see this was merged?
+> 
+> It was agreed to first land INTF_TE and then add the higher addresses 
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index aa15c52ae182..e3d897bca0f2 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -356,52 +356,52 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
- 			   u32 *handlep)
- {
- 	struct drm_device *dev = obj->dev;
--	u32 handle;
- 	int ret;
- 
- 	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
- 	if (obj->handle_count++ == 0)
- 		drm_gem_object_get(obj);
- 
-+	ret = drm_vma_node_allow(&obj->vma_node, file_priv);
-+	if (ret)
-+		goto err_put;
-+
-+	if (obj->funcs->open) {
-+		ret = obj->funcs->open(obj, file_priv);
-+		if (ret)
-+			goto err_revoke;
-+	}
-+
- 	/*
--	 * Get the user-visible handle using idr.  Preload and perform
--	 * allocation under our spinlock.
-+	 * Get the user-visible handle using idr as the _last_ step.
-+	 * Preload and perform allocation under our spinlock.
- 	 */
- 	idr_preload(GFP_KERNEL);
- 	spin_lock(&file_priv->table_lock);
--
- 	ret = idr_alloc(&file_priv->object_idr, obj, 1, 0, GFP_NOWAIT);
--
- 	spin_unlock(&file_priv->table_lock);
- 	idr_preload_end();
- 
--	mutex_unlock(&dev->object_name_lock);
- 	if (ret < 0)
--		goto err_unref;
--
--	handle = ret;
-+		goto err_close;
- 
--	ret = drm_vma_node_allow(&obj->vma_node, file_priv);
--	if (ret)
--		goto err_remove;
-+	mutex_unlock(&dev->object_name_lock);
- 
--	if (obj->funcs->open) {
--		ret = obj->funcs->open(obj, file_priv);
--		if (ret)
--			goto err_revoke;
--	}
-+	*handlep = ret;
- 
--	*handlep = handle;
- 	return 0;
- 
-+err_close:
-+	if (obj->funcs->close)
-+		obj->funcs->close(obj, file_priv);
- err_revoke:
- 	drm_vma_node_revoke(&obj->vma_node, file_priv);
--err_remove:
--	spin_lock(&file_priv->table_lock);
--	idr_remove(&file_priv->object_idr, handle);
--	spin_unlock(&file_priv->table_lock);
--err_unref:
--	drm_gem_object_handle_put_unlocked(obj);
-+err_put:
-+	if (--obj->handle_count == 0)
-+		drm_gem_object_put(obj);
-+
-+	mutex_unlock(&dev->object_name_lock);
-+
- 	return ret;
- }
- 
--- 
-2.34.1
+Seems like it, at least if I interpret [3] correctly.  My series adds a
+new define that will hardcode _len to 0x2B8 for now, and Dmitry/Konrad
+can later extend it to whatever is stated by the correct downstream
+source.
 
+[3]: https://lore.kernel.org/linux-arm-msm/6ad96cff-b91b-a4c7-4573-7bb8de7194f8@linaro.org/
+
+> but I dont see such a change, am i missing something?
+
+This was discussed just yesterday.  And it wouldn't make much sense to
+make such a change now, knowing that my v2 for this series - which isn't
+even on the lists yet - will already change the INTF_BLK macro resulting
+in unneeded conflicts.  As requested by Dmitry, let's get INTF TE
+processed first before rebasing the block length change?
+
+- Marijn
