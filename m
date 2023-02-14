@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246C169566B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 03:10:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE33695671
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 03:10:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F02B210E7BF;
-	Tue, 14 Feb 2023 02:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB50710E7C7;
+	Tue, 14 Feb 2023 02:10:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA6A10E7C2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 02:09:59 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id z37so6733591ljq.8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 18:09:59 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7D810E7C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 02:10:01 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id g28so8963041lfv.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Feb 2023 18:10:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NUZxia39KmOd95/1X/mi4qtVDn1DxbEw4iWrgdt25uI=;
- b=D884lBTIs+xeTiJamcskBqMMshJVklBckHxzHVJxhoDR4+M994/O9OxtVHJEN+i9bR
- /9gFPB+SnSUvedKTMQH3YalhfCiY/CB01RrF120YLcEHn/HKeMmLCmfGyHQIwSh86bSv
- 1icvXTgLruDkuPJ+GW6/9ZevCu+F6Ouh1tkBjaOJgnk3aNDxYJ22Zd5XluzKQJpf/1op
- HJgRqTz5lQF7H6lPsUKqVfOq1meXrYabA9JfyibStLrKCiVmG5zv4Lh7BROKOrzvfU4W
- TCtLm0Ds8wesAkHC/pkQomKL+FftX9nIHyQXVEksO3EPfW2kyoM9roeOm3SLvAEfYqU6
- C//A==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ac3xQ5ZUoVSKxTI11AHh9uZyaZAnwe6vnehDNppWK68=;
+ b=trrt6/rzH5bHCCxtVqo0krY9ns1kGhbfaJh9zTU677RQ5y1eGUkCSE2QbdQWQj6FyE
+ atxz4ErFcYGGXmWkdzf9fe7Xvc51BA+sQTv/ArTafUfpRYcMJWUEjX1BKvjSdy29xAnN
+ pfBwX7vzKSzLnnPIeQkQ3vyYAJUWHTwsMcIOkLUSA+sRj7IqVG+jAgvPRYmDUTpNY9AG
+ 7CsD70KHC2OuPa2pAGwBmSNQJOwdvAepGjJ2jGs9Cj1AXpq6ayZ6T4MfFYnGRYW/fEi7
+ sBK1/2SjhGLo1XRyMz0TnBn/YYekI4M4WqDxtg3ph+7LCm+bLBSpRnYH12BPnfMI/f6Q
+ hNpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NUZxia39KmOd95/1X/mi4qtVDn1DxbEw4iWrgdt25uI=;
- b=AfSGU7GrdNN7svDqC0nRsQ5Lh/nAuC+pnfBFhvJXGEBChQleKJBCIdfQEisrMdAANt
- I+oCLVpmm5wHWk+uzl57yyQO67ZNL+IIQ/VkRZoSGEhNSYPsOTnaF659lS74d9R+JQp9
- GhzDVSzwOzKOqPPoYc7AcFuthi48m7F0fqN31612fypyWYsjdvIgGISBJjYZidyQUqZA
- 96j1t7ZNyd4yxlB8+aDj9CAIhHoPLT7kBQ3Qwe5X+hGsy+6HXcgsR9JRcGYeGNJLFubn
- sOQtmfaNPM4mUN3c/ndCDT0pDalSAdbeU+5I/lzzFT3T3pv+TDAw3sRrLaivayB2sx2H
- +BSQ==
-X-Gm-Message-State: AO0yUKX2ckSlxw9zH4i8y/FNRkD/nfNNcz09aVkVX1XB2NHxykzcaZMl
- 8wMvFpXfaoGrQAhXSN+Pqi8llg==
-X-Google-Smtp-Source: AK7set/UWLb5Lkz55p0NgV+9IoDwUsfA2RFxX3Vl1on0pxk2ofkmeDEDDcfWuFkHvYwooh4eknAC1A==
-X-Received: by 2002:a2e:6a08:0:b0:293:4b59:52a3 with SMTP id
- f8-20020a2e6a08000000b002934b5952a3mr97952ljc.2.1676340597847; 
- Mon, 13 Feb 2023 18:09:57 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ac3xQ5ZUoVSKxTI11AHh9uZyaZAnwe6vnehDNppWK68=;
+ b=SZPWMyScI/2jJpeYChISmYNHZxKkbGtY3qaCRmPTVCHbudZYeNyjF3EY4+/7fQNKgi
+ PsVOy62WsybocPqJff2ooYyvCxkm5IcIfL+mHMInOqb6h5yTGQSo8/7Ppj8M9G6rGfqP
+ RXMSy0bPM4kNuDKUYntLBiRHDSnN4XGVSt0YO+tpvN3yaDb2EPxKpVTDhEX53BxRxgaV
+ A1lNX3S7gFP87MySkFVtwYckFwmyV5RcXifmFl4VGjLsbxndxwSjsEoRTai89eFi1LpG
+ HebNc0d52b03F3NWAVabT18JgMeGiv+cQlQHNBEy1/xDJIa8nVEuasl1qNOL3Goga+Qx
+ QrqA==
+X-Gm-Message-State: AO0yUKVJgS79v395btL8o4sdZWQ2awIU0cj9LJVn0W9LnUbmU5ieMycX
+ FBE+7M8wwmEFm+gXSDO16MAvyw==
+X-Google-Smtp-Source: AK7set959ogo8tDxOu4t+CSiHvfxWQJKZfjF2fsph3mmtEVLZirFn08L0gODw8a6jK2UBm8OogMFFw==
+X-Received: by 2002:ac2:5df2:0:b0:4d8:584c:a6e0 with SMTP id
+ z18-20020ac25df2000000b004d8584ca6e0mr138279lfq.14.1676340599157; 
+ Mon, 13 Feb 2023 18:09:59 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- j17-20020a2eb711000000b0029066c8906dsm2239518ljo.23.2023.02.13.18.09.56
+ j17-20020a2eb711000000b0029066c8906dsm2239518ljo.23.2023.02.13.18.09.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Feb 2023 18:09:57 -0800 (PST)
+ Mon, 13 Feb 2023 18:09:58 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 0/4] drm/msm/a5xx: make it work with the latest Mesa
-Date: Tue, 14 Feb 2023 05:09:52 +0300
-Message-Id: <20230214020956.164473-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 1/4] drm/msm/a5xx: fix setting of the CP_PREEMPT_ENABLE_LOCAL
+ register
+Date: Tue, 14 Feb 2023 05:09:53 +0300
+Message-Id: <20230214020956.164473-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230214020956.164473-1-dmitry.baryshkov@linaro.org>
+References: <20230214020956.164473-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,21 +80,31 @@ Cc: freedreno@lists.freedesktop.org, Yassine Oudjana <y.oudjana@protonmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mesa 22.3.x changed the priorities used for the GPU contexts, making
-kernel switch between different ring buffers. This uncovered several
-issues in the A5xx preemption code, which are now being resolved by this
-patchset.
+Rather than writing CP_PREEMPT_ENABLE_GLOBAL twice, follow the vendor
+kernel and set CP_PREEMPT_ENABLE_LOCAL register instead. a5xx_submit()
+will override it during submission, but let's get the sequence correct.
 
-Dmitry Baryshkov (4):
-  drm/msm/a5xx: fix setting of the CP_PREEMPT_ENABLE_LOCAL register
-  drm/msm/a5xx: fix highest bank bit for a530
-  drm/msm/a5xx: fix the emptyness check in the preempt code
-  drm/msm/a5xx: fix context faults during ring switch
+Fixes: b1fc2839d2f9 ("drm/msm: Implement preemption for A5XX targets")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c     | 6 +++---
- drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 660ba0db8900..8b2df12d8681 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -151,8 +151,8 @@ static void a5xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	OUT_RING(ring, 1);
+ 
+ 	/* Enable local preemption for finegrain preemption */
+-	OUT_PKT7(ring, CP_PREEMPT_ENABLE_GLOBAL, 1);
+-	OUT_RING(ring, 0x02);
++	OUT_PKT7(ring, CP_PREEMPT_ENABLE_LOCAL, 1);
++	OUT_RING(ring, 0x1);
+ 
+ 	/* Allow CP_CONTEXT_SWITCH_YIELD packets in the IB2 */
+ 	OUT_PKT7(ring, CP_YIELD_ENABLE, 1);
 -- 
 2.30.2
 
