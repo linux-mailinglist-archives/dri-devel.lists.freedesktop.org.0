@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649AC696204
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 12:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0BD696212
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Feb 2023 12:11:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAB4710E884;
-	Tue, 14 Feb 2023 11:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB84910E885;
+	Tue, 14 Feb 2023 11:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1354910E884
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 11:09:44 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id d8so15471138plr.10
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 03:09:44 -0800 (PST)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 625F610E885
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 11:11:22 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ fu4-20020a17090ad18400b002341fadc370so3242051pjb.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 03:11:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YV6VJE7WrIiVKYGNmWA3UqKcU/lEHYr8sr/5rV6yN4Q=;
- b=UVI5lcmYUcXnV+Ym1kZVTpGvI60tl9hm40lokSNkXH639b0LI+XWpZOGW6IesL8n4K
- anOIsDUFeoXK1mN9AG+xec16EfFnck2cuIR8pA0pniPnTa6DAS5tziiA8br0ZRn7xfwf
- ZgosuYU9oNEvIqf0FQNOssQ7X/AHrbDQy+ibg+cn0DAnDQCWoLu4sLdFxEkqhL15YOx4
- oidD5VcPcvdyQ2AzGb/HbAzuyhFo4tf8ovdksorwMj4DYZ53KXGBgPOqaHJmXy+ouEeH
- gpXEL470sm9FCWZSra3i+vsQjm65LarkoZiKYFgRHaPYShjqNtTyr57bFvStvU2qecuR
- cN3Q==
+ bh=Ky17l8iHWA+nurbdhU7Dvug8BSc+GSjC5WigIc/2O64=;
+ b=TtE5mLMTOJZu7jg7Wi/r2is93T8mFOyVp8z2fwRxcPuZNEOADvL56XolJIbAZZXCUD
+ EBfDbtDnnKvT3xcFNUpSCu5jdZmdoaG/4PA+CrGYXaxXaCSl3C5r5FEfDJzHdqg9vfoX
+ gDpKOAMHyV7u+l5n/qRUICsPPjfwdIk8yGuurXiIO/+LzXSAF911Bb3xBi+ZKp7r61Vt
+ L045/BEdXHhLPZnM+cT0V/0Zvi9b4xTdeFTII/JW9BkyJpSSxPz3jwZFcG8BcJymDaCE
+ J5tSh9Si0FVocZuktjnC//TveJqUsIjSifIHMY+AVioNHKHVl9HalNnVl2f6KHuXREMJ
+ lNcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YV6VJE7WrIiVKYGNmWA3UqKcU/lEHYr8sr/5rV6yN4Q=;
- b=5EIBXBBXYRP40myZe8iPJ2gOjsjzgtRE7OBndOwjY/9CSm7RIVci85MU19bQU6i8+q
- t8PInYS4CDIaZ/QEwOX2vC89pcrlXAUaSJQjEGDhcvomLQPflRd2BreXAuVsGF170jiY
- l2UvBREPfQtyvWhBHXr1GQHeN91cTi1LOAMq6pxebDGQalAxEQ3lzHtODbS9xGFq7j0p
- vqC3db1OsRVembFyH3seXKcJWA0DCqGnfihcWhG0kFzjHWEp04XZMBG1MAYR8Q81eBl2
- xrPT1v9Wp8CP2bIFO7stf6KwZyk6TVHcfBimBn4gi3hD0k86Qje3qFRRmNG2Ziw1SM8C
- W+yg==
-X-Gm-Message-State: AO0yUKWJ6We6CGq3AK1ctmiafxJKcNNxRmEqBE5EtFM/eEEP2lMw5QLD
- nBR0+2viM9b1PrjK3avvrzewgiRB0X95TGln90I=
-X-Google-Smtp-Source: AK7set/6exmanuIDSEZac7sutaeaZiv4wudKz90YgkooBOyBlwl8OwVUuEyIWeZSeVkDQ9A6w5kW7sNw2jVunnWqny8=
-X-Received: by 2002:a17:902:c942:b0:19a:9605:b958 with SMTP id
- i2-20020a170902c94200b0019a9605b958mr570666pla.32.1676372983572; Tue, 14 Feb
- 2023 03:09:43 -0800 (PST)
+ bh=Ky17l8iHWA+nurbdhU7Dvug8BSc+GSjC5WigIc/2O64=;
+ b=QF+QKZaFSK4XZ94Ty/4LNLupQI7b8qXGedQUERDqe67WXkGKFtKeuPTcDCYPPOuM45
+ HfxgoEExBGmW1Yut8hYYuDRz+jx1CfwR2kpoZ6BU8Jt/rqxcdNBJbAxqmic5kdFobdQ8
+ a6VY6iylCBM39RjOEGKrTIv/raFcXmp9/tk5kAYhH2SDFz96Oi+VTI5BHStWJ1dj8x/e
+ 8DlHa4e0wtS7+HueHXSHQAnH5lv1aMa3OlTenZBa+uoRckeO7p6K2aq+s4b4l8WUT72M
+ emCCoeTsdzxGEVXn6WBUifJXIjYxJ2ARKjZQkLaH4RBP3Elgz8Wv5Kdc7EfFJxfBikgR
+ 5RzA==
+X-Gm-Message-State: AO0yUKVBAMHhRFLYXh5maJzKLjc72pMt4ViB7+WvZ7K5jWo50zPj5nQ9
+ cFfHWhga5dNNddIlkmrdl9Jk432hOtNinQLZUb0=
+X-Google-Smtp-Source: AK7set+L+qwFIv/uwm+extZxpVupTYLYJ54DD3h5lIDQ7Xb8iFU2mYJYOuJcOIxVbuwmjwjEYnvDp/PZAV/eDEefaeQ=
+X-Received: by 2002:a17:90a:d710:b0:233:bc13:2cbb with SMTP id
+ y16-20020a17090ad71000b00233bc132cbbmr2915383pju.39.1676373081859; Tue, 14
+ Feb 2023 03:11:21 -0800 (PST)
 MIME-Version: 1.0
 References: <20230126144427.607098-1-jagan@amarulasolutions.com>
  <06e5423f-c022-7a1c-efe0-0f4fbab664c1@prevas.dk>
@@ -57,10 +58,11 @@ References: <20230126144427.607098-1-jagan@amarulasolutions.com>
  <c9dc0b2b-8850-6227-163b-85c53c5d72ef@prevas.dk>
  <12d5568f-c12c-970d-0f78-17d6dc7c0c1d@denx.de>
  <6ceb6866-f8a5-072f-3d86-895024fcec79@prevas.dk>
-In-Reply-To: <6ceb6866-f8a5-072f-3d86-895024fcec79@prevas.dk>
+ <CAOMZO5C1oau7+YAbadD=8ERiNSLi_Z1k3VC9HVmT8aVpQF5hiQ@mail.gmail.com>
+In-Reply-To: <CAOMZO5C1oau7+YAbadD=8ERiNSLi_Z1k3VC9HVmT8aVpQF5hiQ@mail.gmail.com>
 From: Fabio Estevam <festevam@gmail.com>
-Date: Tue, 14 Feb 2023 08:09:32 -0300
-Message-ID: <CAOMZO5C1oau7+YAbadD=8ERiNSLi_Z1k3VC9HVmT8aVpQF5hiQ@mail.gmail.com>
+Date: Tue, 14 Feb 2023 08:11:11 -0300
+Message-ID: <CAOMZO5AxHbi1w9w244SjYXNjv-P8MDzRvAmnWgYwsVOJ_kqtdQ@mail.gmail.com>
 Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
 To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 Content-Type: text/plain; charset="UTF-8"
@@ -86,30 +88,11 @@ Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rasmus,
+On Tue, Feb 14, 2023 at 8:09 AM Fabio Estevam <festevam@gmail.com> wrote:
 
-On Tue, Feb 14, 2023 at 7:55 AM Rasmus Villemoes
-<rasmus.villemoes@prevas.dk> wrote:
+> Some extra ADV7535 patches were needed. Please check patches 0020-0023
+> and see if they help.
 
-> Well, the data sheet for the dsi86 says up to 750MHz DSI HS clock, and
-> if the value specified in samsung,burst-clock-frequency is twice the DSI
-> HS clk, I suppose I should be good up to 1.5GHz? I have tried many
-> different values, but I never seem to get anything through; I think I'm
-> missing some piece.
->
-> So now I've tried to use these patches on the imx8mp-evk with the
-> mipi->hdmi accessory from NXP, just to see if I can ever get any
-> graphics through the mipi interface. And there the story is the same:
-> the adv7535 bridge gets probed, and can read out the edid from the
-> monitor over hdmi. And while the mipi block and the bridge seem to
-> attach to each other, I still don't get any output.
->
-> Do any of you happen to have this working on the imx8mp-evk, and if so,
-> can you share the .dts updates you've done and how exactly you test the
-> graphics?
+Sorry, forgot to put the repo URL:
 
-I don't have access to an imx8mp-evk, but I tested the ADV7535 MIPI to
-HDMI daughter card on an imx8mm-evk.
-
-Some extra ADV7535 patches were needed. Please check patches 0020-0023
-and see if they help.
+https://github.com/fabioestevam/meta-imx8mmevk-bsp/tree/kirkstone/recipes-kernel/linux/linux-stable/6.1/imx8mmevk
