@@ -1,73 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204E1697971
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 11:01:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A05C16979B5
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 11:19:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AA2210EA7F;
-	Wed, 15 Feb 2023 10:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDD3410EA90;
+	Wed, 15 Feb 2023 10:19:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 093DA10EA7F;
- Wed, 15 Feb 2023 10:01:32 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id t24so6538236eji.4;
- Wed, 15 Feb 2023 02:01:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=dz9vllzKoHBb6DA1A7MKhCFZvJ98n6y0MD2xLT4e4Gc=;
- b=dgQBNwZDSgtNGJKK1fQ57MCsZfNS+NLqv+pQc+W4gSjlPrKUQiP7vax8A2txNB1IRS
- lWoJHJJGSbI1DfIWV7ELmQ0Sban2dOlgKF8JQkhWAneBe6MSjDN3UwiRvemE9yhdJfpA
- sw1+YelZsgr9bjo7MdfAkMXkq7GHj2m0CFyXhiGAWHtsX4FynFX/brAPWo/5FnH1mTKU
- 2E8xZh1JX09qt60g2zXYQTYvrnColZg5RfaiieCLrWxW0YVl3GmJOBLuYVL27zYJL+sf
- 8cEpp0JtuilWLrKSDil9q4sI7eznm9WgA38kpLIH+bQH7Y2gf/xBUUot3A5tJtalDAM1
- qrxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dz9vllzKoHBb6DA1A7MKhCFZvJ98n6y0MD2xLT4e4Gc=;
- b=J2MhxopAJRmFXGsB24UtoOfWCDLYuj/pw6BV3sMzaCDfEHT7pLyAG44jeZTypn28Q9
- XYQjB5Mwuwv4VsGrOfjaUcyKaG5NVQSuf9UWwVGLys3IDzm+dRf+O51LwCHI3nq0mjC5
- KROp1vZhgAhLIz9LBF3yFQeqww+r5B1Z4wl8EnZWCsYWToCJorceVbf/QuM5pgSiJcxu
- iI3ggeXLYxyxPq5klDidgOBtJTnNXYgGQ+54Myor0Bwu8YbV4LZ2Zh13QB7eEuPIjTQH
- xF+hpveCwGuE2MjegR0qDlweNa+dpUiakM2a+AAZYxhncCEMnJIbbiRTXmNxDX6+u8nI
- jPBw==
-X-Gm-Message-State: AO0yUKVxvOGzM2TzVm676WJQDbeCfFayibOTchFiHjtlOZLSFfwFH5Ch
- 5Ou5oqltbgd6hwJsMijF8nc=
-X-Google-Smtp-Source: AK7set95rbVUueJvjnrbG85Xf7CWjzBixNroyz0+feMVW4XW8qPoixUtQPElG2UcAOh6J05JxqRUZg==
-X-Received: by 2002:a17:906:1ec7:b0:8a9:273d:634c with SMTP id
- m7-20020a1709061ec700b008a9273d634cmr1777795ejj.21.1676455290203; 
- Wed, 15 Feb 2023 02:01:30 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- r1-20020a17090638c100b0088091cca1besm9448986ejd.134.2023.02.15.02.01.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 02:01:29 -0800 (PST)
-Date: Wed, 15 Feb 2023 12:01:25 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
- drm_colorspace enum
-Message-ID: <20230215120125.59b5965c@eldfell>
-In-Reply-To: <Y+vqu3qGUQayTjd+@intel.com>
-References: <20230203020744.30745-3-joshua@froggi.es>
- <Y9zkef5FjtZ7guVS@intel.com>
- <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
- <0fc18aec-0703-55f4-f635-d09d345e8dc0@amd.com>
- <Y90l+DY0rSaMvN1U@intel.com>
- <758e5cf6-53e0-567c-c760-5b773bc7a11c@amd.com>
- <Y90vrEa3/1RbaGOV@intel.com>
- <CA+hFU4wuM_xHniFyRT+jouQ3k_S3UJsRpAtd1Lgx9UVLtrqZrQ@mail.gmail.com>
- <98d1d22a-1c29-5271-1eaf-89c962eb9678@amd.com>
- <CA+hFU4y=N3bR-vXXeLP0xTe0-HJPgF_GTbKrb3A9St-z2LignQ@mail.gmail.com>
- <Y+vqu3qGUQayTjd+@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99FC210EA8F
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 10:19:39 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi
+ [213.243.189.158])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0121827C;
+ Wed, 15 Feb 2023 11:19:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1676456377;
+ bh=q25GRWgDe20t7+kIGr1n8EloFprO379as99aEYupkyA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FIK0wH1TFJTRw5XNBvzHU+QAejPaYSdzeU+MRPQLX+xjacjbnFA7vzh5FGaXHowF+
+ /iDzx/o+P6HLapL/ZjZbTbpvNMlcxHI8crooVZdBN13fW5SbI6exAiSMWPcXJYfWye
+ pnWc3JCcYO5QiPBusEADsSj/07/5hWsRf6g4ZiyI=
+Date: Wed, 15 Feb 2023 12:19:36 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 3/3] drm: rcar-du: lvds: Fix LVDS PLL disable on D3/E3
+Message-ID: <Y+yxuL4tVuA1bdJN@pendragon.ideasonboard.com>
+References: <20230214003736.18871-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20230214003736.18871-4-laurent.pinchart+renesas@ideasonboard.com>
+ <d910efcb-e910-d506-88e0-08186d3ab3f2@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/i20NCVKD7xBSv62G7yFyKfA";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d910efcb-e910-d506-88e0-08186d3ab3f2@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,87 +48,360 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/i20NCVKD7xBSv62G7yFyKfA
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Tomi,
 
-On Tue, 14 Feb 2023 22:10:35 +0200
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+On Wed, Feb 15, 2023 at 08:29:47AM +0200, Tomi Valkeinen wrote:
+> On 14/02/2023 02:37, Laurent Pinchart wrote:
+> > On R-Car D3 and E3, the LVDS encoder provides the dot (pixel) clock to
+> > the DU, regardless of whether the LVDS output is used or not. When using
+> > the DPAD (RGB) output, the DU driver thus enables and disables the LVDS
+> > PLL manually, while when using the LVDS output, it lets the LVDS bridge
+> > driver handle the PLL configuration internally as part of the atomic
+> > enable and disable operations.
+> > 
+> > This causes an issue when using the LVDS output. As bridges are disabled
+> > before CRTCs, the current implementation violates the enable/disable
+> > sequences documented in the hardware datasheet, which requires the dot
+> > clock to be enabled before the CRTC is started and disabled after it
+> > gets stopped.
+> > 
+> > Fix the problem by enabling/disabling the LVDS PLL manually from the DU
+> > regardless of which output is used, and skipping the PLL handling in the
+> > LVDS bridge atomic enable and disable operations.
+> > 
+> > This is however not enough. Disabling the LVDS encoder while leaving the
+> > PLL on still results in a vertical blanking wait timeout when disabling
+> > the DU. Investigation showed that the culprit is the LVEN bit. For an
+> > unclear reason, clearing the bit when disabling the LVDS encoder blocks
+> > vertical blanking interrupts. We thus have to delay disabling the whole
+> > LVDS encoder, not just disabling the PLL, until the DU is disabled.
+> > 
+> > We could split the LVDS disable sequence by clearing the LVRES bit in
+> > the LVDS bridge atomic disable handler, and delaying the rest of the
+> > operations, in order to disable the LVDS output at bridge atomic disable
+> > time, before stopping the CRTC. This would make the code more complex,
+> > without a clear benefit, so keep the implementation simple(r).
+> 
+> The asymmetry of all this makes me grit my teeth, but SW has to do what 
+> SW has to do...
 
-> On Tue, Feb 14, 2023 at 08:45:00PM +0100, Sebastian Wick wrote:
+I have the same feeling :-( It would be nice if the DU and LVDS were
+better partitioned. And if we knew exactly what the hardware
+requirements are regarding the start and stop sequences. Maybe we're
+spoiled, we're not happy when we can get datasheets, and dream of
+getting the RTL. Of course it may well turn into a nightmare if we
+actually had access to that.
 
-...
+> Just a minor comment below, other than that:
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >   drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  18 ++--
+> >   drivers/gpu/drm/rcar-du/rcar_lvds.c    | 114 +++++++++++++++----------
+> >   drivers/gpu/drm/rcar-du/rcar_lvds.h    |  12 ++-
+> >   3 files changed, 86 insertions(+), 58 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > index 008e172ed43b..71e7fbace38d 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > @@ -749,16 +749,17 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+> >   
+> >   	/*
+> >   	 * On D3/E3 the dot clock is provided by the LVDS encoder attached to
+> > -	 * the DU channel. We need to enable its clock output explicitly if
+> > -	 * the LVDS output is disabled.
+> > +	 * the DU channel. We need to enable its clock output explicitly before
+> > +	 * starting the CRTC, as the bridge hasn't been enabled by the atomic
+> > +	 * helpers yet.
+> >   	 */
+> > -	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
+> > -	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
+> > +	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
+> > +		bool dot_clk_only = rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0);
+> >   		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
+> >   		const struct drm_display_mode *mode =
+> >   			&crtc->state->adjusted_mode;
+> >   
+> > -		rcar_lvds_pclk_enable(bridge, mode->clock * 1000);
+> > +		rcar_lvds_pclk_enable(bridge, mode->clock * 1000, dot_clk_only);
+> >   	}
+> >   
+> >   	/*
+> > @@ -795,15 +796,15 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+> >   	rcar_du_crtc_stop(rcrtc);
+> >   	rcar_du_crtc_put(rcrtc);
+> >   
+> > -	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
+> > -	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
+> > +	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index)) {
+> > +		bool dot_clk_only = rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0);
+> >   		struct drm_bridge *bridge = rcdu->lvds[rcrtc->index];
+> >   
+> >   		/*
+> >   		 * Disable the LVDS clock output, see
+> >   		 * rcar_du_crtc_atomic_enable().
+> >   		 */
+> 
+> This could mention that when LVDS output is used, also the LVDS output 
+> is disabled here.
 
-> > We also have to figure out how a user space which doesn't
-> > know about the new property behaves when another client has set that
-> > property. If any property which currently might change the pixel
-> > values is used, we can't expose the entire color pipeline because the
-> > kernel might have to use some element in it to achieve its magic
-> > conversion. So essentially you already have this hard device between
-> > "old" and "new" and you can't use the new stuff incrementally. =20
->=20
-> That problem exists with any new property. Old userspace and new
-> userspace may interact badly enought that nothing works right.
-> In that sense I think these props might even be pretty mundane
-> as the worst you might get from setting the infoframe wrong is
-> perhaps wrong colors on your display.
->=20
-> To solve that particular problem there has been talk (for years)
-> about some kind of "reset all" knob to make sure everything is
-> at a safe default value. I have a feeling there was even some
-> kind of semi-real proposal in recent times, but maybe I imgained
-> it?
+I'll write
 
-I've been talking about that too, but I think it all collapsed into
-"let's just fix all KMS apps to always set all KMS properties" which
-results in patches like
-https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/952
+   		/*
+   		 * Disable the LVDS clock output, see
+   		 * rcar_du_crtc_atomic_enable(). When the LVDS output is used,
+		 * this also disables the LVDS encoder.
+   		 */
 
-It does not seem to be a serious enough problem for anyone to put in
-the work. And why would it be, when you can easily fix it in your own
-project like that Weston example. The Weston example is not even
-representative, because I did it before I saw any real problems.
+> > -		rcar_lvds_pclk_disable(bridge);
+> > +		rcar_lvds_pclk_disable(bridge, dot_clk_only);
+> >   	}
+> >   
+> >   	if ((rcdu->info->dsi_clk_mask & BIT(rcrtc->index)) &&
+> > @@ -815,7 +816,6 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+> >   		 * Disable the DSI clock output, see
+> >   		 * rcar_du_crtc_atomic_enable().
+> >   		 */
+> > -
+> >   		rcar_mipi_dsi_pclk_disable(bridge);
+> >   	}
+> >   
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > index 70cdd5ec64d5..ca215b588fd7 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > @@ -269,8 +269,8 @@ static void rcar_lvds_d3_e3_pll_calc(struct rcar_lvds *lvds, struct clk *clk,
+> >   		pll->pll_m, pll->pll_n, pll->pll_e, pll->div);
+> >   }
+> >   
+> > -static void __rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
+> > -					unsigned int freq, bool dot_clock_only)
+> > +static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
+> > +				      unsigned int freq, bool dot_clock_only)
+> >   {
+> >   	struct pll_info pll = { .diff = (unsigned long)-1 };
+> >   	u32 lvdpllcr;
+> > @@ -305,11 +305,6 @@ static void __rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds,
+> >   		rcar_lvds_write(lvds, LVDDIV, 0);
+> >   }
+> >   
+> > -static void rcar_lvds_pll_setup_d3_e3(struct rcar_lvds *lvds, unsigned int freq)
+> > -{
+> > -	__rcar_lvds_pll_setup_d3_e3(lvds, freq, false);
+> > -}
+> > -
+> >   /* -----------------------------------------------------------------------------
+> >    * Enable/disable
+> >    */
+> > @@ -425,8 +420,12 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
+> >   	/*
+> >   	 * PLL clock configuration on all instances but the companion in
+> >   	 * dual-link mode.
+> > +	 *
+> > +	 * The extended PLL has been turned on by an explicit call to
+> > +	 * rcar_lvds_pclk_enable() from the DU driver.
+> >   	 */
+> > -	if (lvds->link_type == RCAR_LVDS_SINGLE_LINK || lvds->companion) {
+> > +	if ((lvds->link_type == RCAR_LVDS_SINGLE_LINK || lvds->companion) &&
+> > +	    !(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+> >   		const struct drm_crtc_state *crtc_state =
+> >   			drm_atomic_get_new_crtc_state(state, crtc);
+> >   		const struct drm_display_mode *mode =
+> > @@ -491,11 +490,56 @@ static void rcar_lvds_enable(struct drm_bridge *bridge,
+> >   	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> >   }
+> >   
+> > +static void rcar_lvds_disable(struct drm_bridge *bridge)
+> > +{
+> > +	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> > +	u32 lvdcr0;
+> > +
+> > +	/*
+> > +	 * Clear the LVDCR0 bits in the order specified by the hardware
+> > +	 * documentation, ending with a write of 0 to the full register to
+> > +	 * clear all remaining bits.
+> > +	 */
+> > +	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
+> > +
+> > +	lvdcr0 &= ~LVDCR0_LVRES;
+> > +	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +
+> > +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
+> > +		lvdcr0 &= ~LVDCR0_LVEN;
+> > +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +	}
+> > +
+> > +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
+> > +		lvdcr0 &= ~LVDCR0_PWD;
+> > +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +	}
+> > +
+> > +	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+> > +		lvdcr0 &= ~LVDCR0_PLLON;
+> > +		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > +	}
+> > +
+> > +	rcar_lvds_write(lvds, LVDCR0, 0);
+> > +	rcar_lvds_write(lvds, LVDCR1, 0);
+> > +
+> > +	/* The extended PLL is turned off in rcar_lvds_pclk_disable(). */
+> > +	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL))
+> > +		rcar_lvds_write(lvds, LVDPLLCR, 0);
+> > +
+> > +	/* Disable the companion LVDS encoder in dual-link mode. */
+> > +	if (lvds->link_type != RCAR_LVDS_SINGLE_LINK && lvds->companion)
+> > +		rcar_lvds_disable(lvds->companion);
+> > +
+> > +	pm_runtime_put_sync(lvds->dev);
+> > +}
+> > +
+> >   /* -----------------------------------------------------------------------------
+> >    * Clock - D3/E3 only
+> >    */
+> >   
+> > -int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
+> > +int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
+> > +			  bool dot_clk_only)
+> >   {
+> >   	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> >   	int ret;
+> > @@ -509,13 +553,13 @@ int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq)
+> >   	if (ret)
+> >   		return ret;
+> >   
+> > -	__rcar_lvds_pll_setup_d3_e3(lvds, freq, true);
+> > +	rcar_lvds_pll_setup_d3_e3(lvds, freq, dot_clk_only);
+> >   
+> >   	return 0;
+> >   }
+> >   EXPORT_SYMBOL_GPL(rcar_lvds_pclk_enable);
+> >   
+> > -void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
+> > +void rcar_lvds_pclk_disable(struct drm_bridge *bridge, bool dot_clk_only)
+> >   {
+> >   	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> >   
+> > @@ -524,6 +568,9 @@ void rcar_lvds_pclk_disable(struct drm_bridge *bridge)
+> >   
+> >   	dev_dbg(lvds->dev, "disabling LVDS PLL\n");
+> >   
+> > +	if (!dot_clk_only)
+> > +		rcar_lvds_disable(bridge);
+> > +
+> >   	rcar_lvds_write(lvds, LVDPLLCR, 0);
+> >   
+> >   	pm_runtime_put_sync(lvds->dev);
+> > @@ -552,42 +599,21 @@ static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+> >   				     struct drm_bridge_state *old_bridge_state)
+> >   {
+> >   	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> > -	u32 lvdcr0;
+> >   
+> >   	/*
+> > -	 * Clear the LVDCR0 bits in the order specified by the hardware
+> > -	 * documentation, ending with a write of 0 to the full register to
+> > -	 * clear all remaining bits.
+> > +	 * For D3 and E3, disabling the LVDS encoder before the DU would stall
+> > +	 * the DU, causing a vblank wait timeout when stopping the DU. This has
+> > +	 * been traced to clearing the LVEN bit, but the exact reason is
+> > +	 * unknown. Keep the encoder enabled, it will be disabled by an explicit
+> > +	 * call to rcar_lvds_pclk_disable() from the DU driver.
+> > +	 *
+> > +	 * We could clear the LVRES bit already to disable the LVDS output, but
+> > +	 * that's likely pointless.
+> >   	 */
+> > -	lvdcr0 = rcar_lvds_read(lvds, LVDCR0);
+> > +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
+> > +		return;
+> >   
+> > -	lvdcr0 &= ~LVDCR0_LVRES;
+> > -	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > -
+> > -	if (lvds->info->quirks & RCAR_LVDS_QUIRK_GEN3_LVEN) {
+> > -		lvdcr0 &= ~LVDCR0_LVEN;
+> > -		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > -	}
+> > -
+> > -	if (lvds->info->quirks & RCAR_LVDS_QUIRK_PWD) {
+> > -		lvdcr0 &= ~LVDCR0_PWD;
+> > -		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > -	}
+> > -
+> > -	if (!(lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)) {
+> > -		lvdcr0 &= ~LVDCR0_PLLON;
+> > -		rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> > -	}
+> > -
+> > -	rcar_lvds_write(lvds, LVDCR0, 0);
+> > -	rcar_lvds_write(lvds, LVDCR1, 0);
+> > -	rcar_lvds_write(lvds, LVDPLLCR, 0);
+> > -
+> > -	/* Disable the companion LVDS encoder in dual-link mode. */
+> > -	if (lvds->link_type != RCAR_LVDS_SINGLE_LINK && lvds->companion)
+> > -		rcar_lvds_atomic_disable(lvds->companion, old_bridge_state);
+> > -
+> > -	pm_runtime_put_sync(lvds->dev);
+> > +	rcar_lvds_disable(bridge);
+> >   }
+> >   
+> >   static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
+> > @@ -924,14 +950,12 @@ static const struct rcar_lvds_device_info rcar_lvds_r8a77990_info = {
+> >   	.gen = 3,
+> >   	.quirks = RCAR_LVDS_QUIRK_GEN3_LVEN | RCAR_LVDS_QUIRK_EXT_PLL
+> >   		| RCAR_LVDS_QUIRK_DUAL_LINK,
+> > -	.pll_setup = rcar_lvds_pll_setup_d3_e3,
+> >   };
+> >   
+> >   static const struct rcar_lvds_device_info rcar_lvds_r8a77995_info = {
+> >   	.gen = 3,
+> >   	.quirks = RCAR_LVDS_QUIRK_GEN3_LVEN | RCAR_LVDS_QUIRK_PWD
+> >   		| RCAR_LVDS_QUIRK_EXT_PLL | RCAR_LVDS_QUIRK_DUAL_LINK,
+> > -	.pll_setup = rcar_lvds_pll_setup_d3_e3,
+> >   };
+> >   
+> >   static const struct of_device_id rcar_lvds_of_table[] = {
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > index bee7033b60d6..887c63500000 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > @@ -13,17 +13,21 @@
+> >   struct drm_bridge;
+> >   
+> >   #if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
+> > -int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq);
+> > -void rcar_lvds_pclk_disable(struct drm_bridge *bridge);
+> > +int rcar_lvds_pclk_enable(struct drm_bridge *bridge, unsigned long freq,
+> > +			  bool dot_clk_only);
+> > +void rcar_lvds_pclk_disable(struct drm_bridge *bridge, bool dot_clk_only);
+> >   bool rcar_lvds_dual_link(struct drm_bridge *bridge);
+> >   bool rcar_lvds_is_connected(struct drm_bridge *bridge);
+> >   #else
+> >   static inline int rcar_lvds_pclk_enable(struct drm_bridge *bridge,
+> > -					unsigned long freq)
+> > +					unsigned long freq, bool dot_clk_only)
+> >   {
+> >   	return -ENOSYS;
+> >   }
+> > -static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge) { }
+> > +static inline void rcar_lvds_pclk_disable(struct drm_bridge *bridge,
+> > +					  bool dot_clock_only)
+> > +{
+> > +}
+> >   static inline bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+> >   {
+> >   	return false;
+> 
 
-Other musings have been in the direction that maybe logind (since it
-opens DRM devices for you) should save the full KMS state on the very
-first open after a reboot, and then KMS applications can ask logind
-what the boot-up state was. This is a variation of "save all KMS state
-from the moment you launch, and use that as the base if you ever let
-something else touch KMS in between".
+-- 
+Regards,
 
-You also never see the problem to begin with, if you never let
-something else touch KMS in between, so that already makes the problem
-rare outside of the tiny set of compositor developers.
-
-
-Thanks,
-pq
-
---Sig_/i20NCVKD7xBSv62G7yFyKfA
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPsrXUACgkQI1/ltBGq
-qqeCUBAAiAjI/J/36l25DY7OQcIQL1j8hTOVE/tfkwfxvqzx4MvFFfJCeWWRhK9l
-zfTb7y5vP/YYxGOtX4zbOQpkKRMOeDp1RAQzcr961BPZr58J7EODG2rwMsFqGrIU
-OOMEsy4BiBI1x8QnOzeemvycXuFW3BUEUwnvXy+bvSSBXjMdkM0699F0tvFEfU7t
-sgTL87GCTK2+wPG2Z0QDwYHQwjLhdPzZZbRygsSfHq2qieIhf6qbRxLlrvMl0yuO
-jcRs+U0OuRu6XnilbjmofEF5BEUs9J6i518FbCE4XvHzO3DDNn45cVjDmucRa8pQ
-w/85ILU2+cHYQAYgO7PEjOxvlXv+aDgrxW4ezt/Vcld9BP1QxFOdSfCAXSQiGh03
-yVnv41krTyPZ7hfgzvk338VvqLAp4n8t3j6oBxpOnQjNuh6pUrnoSEIMkabP1FBw
-NbZhp3C4XPg3oGAxE22UrDXe/RTVx5rGgNxNNmry+xH21ZudgJqIsTWeE44UbXJZ
-IfEkCexaTu3wF2dvkDbDWfXRehQdevtHS0iwvTeIXKjmT0L+g2NQdFqCIMJNrgWP
-oJErl9j8BiErrvADK3dk2JVxJKqZsdSuKQT9Rmca2NnI4mjQWYqfMo0Zz97zu6tF
-4AvMAeN+ej+YrdRCtrXoAkNoMBCarD9UJghJO5Zf5Jdjh0NndzU=
-=CJr0
------END PGP SIGNATURE-----
-
---Sig_/i20NCVKD7xBSv62G7yFyKfA--
+Laurent Pinchart
