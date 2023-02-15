@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29783697B8D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 13:14:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258A3697BC0
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 13:30:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C21D10E107;
-	Wed, 15 Feb 2023 12:13:59 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8A0F10E107
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 12:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39A4510E11D;
+	Wed, 15 Feb 2023 12:30:26 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8602210E0B9;
+ Wed, 15 Feb 2023 12:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676463236; x=1707999236;
+ t=1676464222; x=1708000222;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=FHerWK72UG+H3H8mwhnAfMb+sPcrV3PH32jnJGYAJlk=;
- b=dZDEmZuCCzHIGNxv6ZZsSIZFuXjcz1ujGGvpCq6h1y6HZQfQmuXmGN5U
- u+MkqmjX2j9OJIpTat/snhvEDdBjrAcswgdYlTgdzVDC3oyKfe98GA4L2
- /QTgN2nZE0iODFKJn+hq9ycF3iGg3GPxMJ8SnMlhEf/Qic2Sqh5wHuxej
- g4nWVMreIP82HuMrGF9dpWCXH+4gEyBjOOLqxuukMB3XugzhIuDa+Ey72
- /ObE8D8NS3dOLBIn1TQSp568YeNnWw5yn8b1UbGn1+wuCBkBYHrOsTxgv
- p/EbFpLWdYvJw6z3XppX8xv2Zusw7z6IGPOZVBWUX+b2cE+hDdYngJnfP A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="358834199"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="358834199"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2023 04:13:56 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="671617697"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="671617697"
-Received: from josefgel-mobl.ger.corp.intel.com (HELO [10.251.213.167])
- ([10.251.213.167])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2023 04:13:54 -0800
-Message-ID: <9e6b428e-81c0-4e2a-6825-43f022483013@linux.intel.com>
-Date: Wed, 15 Feb 2023 13:13:52 +0100
+ bh=20t+hjDeumVKYIA26f5ntiUb7MxZW/ZHR6agrgPdo7A=;
+ b=JtmQoxvlFbTDyjyoBqreQzVMH/EYE+WSxJq8ejEtkbwyibx5W9Epirlq
+ h1pEIx0VcKr1VX+h3roEcmE51TYajBoHoXP4D8V0zHyf350I330Zl63zm
+ CeiMk1BS6AgYzfcfrSK07oFdaAIdTsZrrLxg50NAMAF/Lqd/JN5Rsa9UR
+ HLsltfKriS+PO2I/+i/9d3LfE0Qc7l5FTBcMeecvovF/fxDKH9eBqXAtO
+ SvoqJ7LbTjJBXJ6wkKvrKAkZXoVtFU5Nspe46WbwbkWDf7wi/xUXC9EBP
+ Hb+Kz7P+3Iiz1KL8WJIMVQj0C2LGzAWD0jdVjCkKcWdNNH4MBTGHVL2Cl w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="315070395"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="315070395"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2023 04:30:21 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="915132770"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="915132770"
+Received: from odaniele-mobl2.ger.corp.intel.com (HELO [10.213.228.205])
+ ([10.213.228.205])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2023 04:30:20 -0800
+Message-ID: <f7eb5124-7db2-cbe1-0023-196885e8353b@linux.intel.com>
+Date: Wed, 15 Feb 2023 12:30:18 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.7.1
-Subject: Re: Question: partial transfers of DMABUFs
+ Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Don't use stolen memory for ring
+ buffers
 Content-Language: en-US
-To: Paul Cercueil <paul@crapouillou.net>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Vinod Koul <vkoul@kernel.org>
-References: <53ea4d2db570d3ca514a69015488bd5b849a5193.camel@crapouillou.net>
- <836d600a-bb1c-fbb2-89f5-7c79c3150e8c@linux.intel.com>
- <d540965a25138772fa063d62e907ffd611f93205.camel@crapouillou.net>
- <05fb3949-d0aa-b653-d9a3-236a4c95a5a3@linux.intel.com>
- <77fc4dec6738d57ae6ca6232e502e3b228b1ae03.camel@crapouillou.net>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <77fc4dec6738d57ae6ca6232e502e3b228b1ae03.camel@crapouillou.net>
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ John.C.Harrison@Intel.com, Intel-GFX@Lists.FreeDesktop.Org
+References: <20230214234856.744573-1-John.C.Harrison@Intel.com>
+ <e07ec6ca-dbd7-2f17-a99f-7b91a530d359@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <e07ec6ca-dbd7-2f17-a99f-7b91a530d359@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,116 +64,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2023-02-15 13:00, Paul Cercueil wrote:
-> Hi Maarten,
->
-> Le mercredi 15 février 2023 à 12:52 +0100, Maarten Lankhorst a écrit :
->> Hey,
+On 15/02/2023 01:56, Ceraolo Spurio, Daniele wrote:
+> 
+> 
+> On 2/14/2023 3:48 PM, John.C.Harrison@Intel.com wrote:
+>> From: John Harrison <John.C.Harrison@Intel.com>
 >>
->> On 2023-02-15 12:47, Paul Cercueil wrote:
->>> Hi Maarten,
->>>
->>> Le mercredi 15 février 2023 à 12:30 +0100, Maarten Lankhorst a
->>> écrit :
->>>> Hey,
->>>>
->>>> On 2023-02-15 11:48, Paul Cercueil wrote:
->>>>> Hi,
->>>>>
->>>>> I am working on adding support for DMABUFs in the IIO
->>>>> subsystem.
->>>>>
->>>>> One thing we want there, is the ability to specify the number
->>>>> of
->>>>> bytes
->>>>> to transfer (while still defaulting to the DMABUF size).
->>>>>
->>>>> Since dma_buf_map_attachment() returns a sg_table, I basically
->>>>> have
->>>>> two
->>>>> options, and I can't decide which one is the best (or the less
->>>>> ugly):
->>>>>
->>>>> - Either I add a new API function similar to
->>>>> dmaengine_prep_slave_sg(),
->>>>> which still takes a scatterlist as argument but also takes the
->>>>> number
->>>>> of bytes as argument;
->>>>>
->>>>> - Or I add a function to duplicate the scatterlist and then
->>>>> shrink
->>>>> it
->>>>> manually, which doesn't sound like a good idea either.
->>>>>
->>>>> What would be the recommended way?
->>>> Does this need an api change? If you create a DMA-BUF of size X,
->>>> it
->>>> has
->>>> to be of size X. You can pad with a dummy page probably if you
->>>> know
->>>> it
->>>> in advance. But after it has been imported, it cannot change
->>>> size.
->>> Yes, the sizes are fixed.
->>>
->>>> You don´t have to write the entire dma-buf either, so if you want
->>>> to
->>>> create a 1GB buf and only use the first 4K, that is allowed. The
->>>> contents of  the remainder of the DMA-BUF are undefined. It's up
->>>> to
->>>> userspace to assign a meaning to it.
->>>>
->>>> I think I'm missing something here that makes the whole question
->>>> m,ake
->>>> more sense.
->>> I want my userspace to be able to specify how much of the DMABUF is
->>> to
->>> be read from or written to.
->>>
->>> So in my new "dmabuf enqueue" IOCTL that I want to add to IIO, I
->>> added
->>> a parameter to specify the number of bytes to transfer (where 0
->>> means
->>> the whole buffer).
->>>
->>> The problem I have now, is that the current dmaengine core does not
->>> have a API function that takes a scatterlist (returned by
->>> dma_map_attachment()) and a transfer size in bytes, it will always
->>> transfer the whole scatterlist.
->>>
->>> So my two options would be to add a new API function to support
->>> specifying a bytes count, or add a mechanism to duplicate a
->>> scatterlist, so that I can tweak it to the right size.
->> This doesn't have to happen through DMA-BUF. Presumably you are both
->> the
->> importer and the exporter, so after you know how much is read, you
->> can
->> tell this to the importer that X number of bytes can be read from
->> DMA-BUF Y.
-> Yes, I do that already as it is an argument in my ioctl.
->
->> In your case, when enqueing you will get a full SG list, but if you
->> know
->> only X bytes are read/written you only have to map the first X bytes
->> to
->> your IIO device. The rest of the SG list could be ignored safely.
-> Yes. But I don't know how to "ignore the rest of the SG list".
->
-> - dma_buf_map_attachment() does not have a parameter to specify that I
-> only need the first X bytes mapped;
->
-> - if I map the whole thing, dmaengine_prep_slave_sg() does not have an
-> option to specify that I only want the first X bytes transferred.
+>> Direction from hardware is that stolen memory should never be used for
+>> ring buffer allocations. There are too many caching pitfalls due to the
+>> way stolen memory accesses are routed. So it is safest to just not use
+>> it.
+> 
+> I'm wondering if this applies to machines in ringbuffer mode as well, as 
+> some of the caching stuff that according to the HW team may not work 
+> properly with stolen mem accesses from the CS (mocs, ppat) came with 
+> gen8/gen9.
+> Maybe limit this change to gen8+, to avoid changing the behavior for 
+> very old platforms?
 
-sg_split apppears to allow you to split it? I'm not 100% sure whether it 
-leaves the original SG untouched, but you can try to put it in between 
-those 2 calls to get a smaller SG to pass to prep_slave_sg.
+If Gen8+ can have bugs due this then:
 
-~Maarten
+Fixes: c58b735fc762 ("drm/i915: Allocate rings from stolen")
+Cc: <stable@vger.kernel.org> # v4.9+
 
+Or even before:
+
+Fixes: ebc052e0c65f ("drm/i915: Allocate ringbuffers from stolen memory")
+Cc: <stable@vger.kernel.org> # v3.9+
+
+Hm lets see when BDW when out of force probe:
+
+Fixes: babb1903511f ("drm/i915/bdw: remove preliminary_hw_support flag from BDW")
+Cc: <stable@vger.kernel.org> # v3.14+
+
+Depends also how the problem statement interacts with LLC. If !LLC platforms are okay then the first one from the above list is enough.
+
+Because
+
+Regards,
+
+Tvrtko
+
+>>
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_ring.c | 2 --
+>>   1 file changed, 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c 
+>> b/drivers/gpu/drm/i915/gt/intel_ring.c
+>> index 15ec64d881c44..d1a47e1ae6452 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_ring.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_ring.c
+>> @@ -116,8 +116,6 @@ static struct i915_vma *create_ring_vma(struct 
+>> i915_ggtt *ggtt, int size)
+>>       obj = i915_gem_object_create_lmem(i915, size, 
+>> I915_BO_ALLOC_VOLATILE |
+>>                         I915_BO_ALLOC_PM_VOLATILE);
+>> -    if (IS_ERR(obj) && i915_ggtt_has_aperture(ggtt))
+>> -        obj = i915_gem_object_create_stolen(i915, size);
+> 
+> There is code in ring_pin/unpin() that only applies to rings in stolen 
+> memory, so you need to remove that as well if you drop stolen for rings 
+> on all platforms.
+> 
+> Daniele
+> 
+>>       if (IS_ERR(obj))
+>>           obj = i915_gem_object_create_internal(i915, size);
+>>       if (IS_ERR(obj))
+> 
