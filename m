@@ -1,68 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B68369783E
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 09:34:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A0B697864
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 09:41:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7C710EA66;
-	Wed, 15 Feb 2023 08:34:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CD410EA6B;
+	Wed, 15 Feb 2023 08:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C6E310EA64;
- Wed, 15 Feb 2023 08:34:21 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id qb15so44185201ejc.1;
- Wed, 15 Feb 2023 00:34:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=ow+dbAVl79ki+MZ8nATa0JVm3fsTiISknOInRt9KgtY=;
- b=kVw8TWP6vycfvqSygbA2PhcDmQvEsAi8DfzLgAybco0eH1CRqXTbUjgYkq22XhGwxa
- 3xdFLEgBRq567s6NiTS6K6KTC037N9PavQzd0ykJaH4d4mkE+cuvl6+n/cIijtYB1ybF
- J7+aX93e9G82mu/RkaZ0dL7l1so+tfP/6tM5n/iSDe0+26L8xgl/MHRSXiZXDgFyqkU4
- ASt6RI4qBu/2kWJrpUWJHbfmNNIdqFnFbX78vhll29jeWX+PR62n9PvBFBlaC75+gu3S
- +KhSFvoHxL3Z3NiYcswg+SiatvJnUBpRFDA4KdvF/hQ//Jk9K468aSsPWmUL1o7k31wm
- bxPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ow+dbAVl79ki+MZ8nATa0JVm3fsTiISknOInRt9KgtY=;
- b=E1jnj3I3mnhfdT3/TV+FDPeEWpHZ9EQ05fk5vu8TgFRGNqMYEToKPD1g5lco5XE9YP
- KV14MUnlqWSHjKfIHS2boGF+PUsM6bfemaF0+ZJRpZnOwrLmEyXiwZ7kc4jLq/XcV+zi
- yInBIttSe8WtSYmsy1bZalQHW90hBRjYzc/I9S0yOxxUU5Pb6+yT+/hIIILDIFmo7/nd
- 4OaOi9Wf64Tt54Dm+NDhOABT123fyLdRmMba/NOZRtLQ1Gu1x0lde3WKDWRDqHS8GVGt
- Q1o8Q4dE6jaighAHiy8PHbHho/kyhmfGWBR+K1MYArnHfTpLVU/k5A9ydMvloQMfcm5l
- dEQw==
-X-Gm-Message-State: AO0yUKXR4vEzLYqrcuZ3g4VcSl4U//mD3EBVAKAPdtRkmxATq+0YOubw
- 1LAJ43FI6PO+wvjZTLTNcWY=
-X-Google-Smtp-Source: AK7set/hZCE+EjIQeQ7ANzyGZLSQ0gVGMEw8cUKuRTX2vYJfOcKTlnlzMIdBOxDKZ+NHQXr7setbFQ==
-X-Received: by 2002:a17:907:d305:b0:870:94e:13f9 with SMTP id
- vg5-20020a170907d30500b00870094e13f9mr1715361ejc.0.1676450060137; 
- Wed, 15 Feb 2023 00:34:20 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- m6-20020a170906258600b008b0fbd27fc0sm5075819ejb.121.2023.02.15.00.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Feb 2023 00:34:19 -0800 (PST)
-Date: Wed, 15 Feb 2023 10:34:05 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Melissa Wen <mwen@igalia.com>
-Subject: Re: [RFC PATCH v2 00/18] Add DRM CRTC 3D LUT interface
-Message-ID: <20230215103405.0726a419@eldfell>
-In-Reply-To: <20230214111947.44aa177d@eldfell>
-References: <20230109143846.1966301-1-mwen@igalia.com>
- <20230109153809.mmjm22oa2gkwe3sf@mail.igalia.com>
- <20230131110735.60f8ff04@eldfell>
- <20230209142702.7w4mqed6zqtk5m6g@mail.igalia.com>
- <20230210112846.2103eb00@eldfell>
- <20230213192655.mac3fhhb2aayffiw@mail.igalia.com>
- <20230214111947.44aa177d@eldfell>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2086.outbound.protection.outlook.com [40.107.104.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66EFF10EA69
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 08:41:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F96SpeDNGQm1g+Zftjl7z4t8ZAaa9nGPu5ytZvyvQqbgnMoLB1Yb+9oX1OmegqH+Tu2WjIle2cSRYGZ2WVVLPb2mX/TLTCWdBjfYt4TxoQhQkH/myM1na7EkNoYTBvjjDhUQJ+SXNIC3QT1+EtqpJwF5EfHBY0bTabvOt4QaKLGGX7wp1zs4xghDMvFzncBIQHUksmCVKLb1iaBqF7mQtk075nf9+nQaXZ7BxxACKnj5qcTHAvrEpdk6IY/52/xbllrHDIwaDses6MUFbzuaxqC4T9EBBTFA1rVg//+dlDldofqd6fg2GnlmWjwkUpMuq89auW3u7o4Ts0lEoLWQbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KOWFuV8HJVvJrD9M1sceX697/AmNyZadrWxh2tE+Gx0=;
+ b=iuAjpCWEz5nmd+KGqCTTwMLWYmdBa9X7yJ0w0dC2gj1+X/s2AJIssb0d4hm6Fd85wnFaoiRAkAiD9lQvm8sSBwdYjjwsurNwkRKSgxYsdj/b20yS/cYIw9ylKla1C1+U4eCg3yqmkAQSJ2jiDE/+edKjVCTdoP778tFA2oSG6MsEDzG2+k1BEwI2I57c123W5suVlqxmgvGa7WNtcC4UilgEbTv1u6sTNWnkSxwelB+hm3n2yufSHa1FTTyZTwwEdJKknHsWIuMLy2KxdpN0qbXFWhv8pV9LMcD/KQYU+RyZIGzRY78GxwyEbAUVx/bdpT5Zv+D3fnjbrNbuQqKSkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KOWFuV8HJVvJrD9M1sceX697/AmNyZadrWxh2tE+Gx0=;
+ b=fHKi/JNiM/VwrbFyVRNSGDy8mPUUqOUVsqdC/uypvdAFr9sj5+w9H5xYGZqSYmV8U/8x1tljn5ZDK7Qqhs3zL/wxfmchjFnEWqhQUD+Vx0D8RBI8iJSZ7NvMAzmval5bFTxSAAf04TnGNDJ8XWe60WKzFR6DGyHlJsbQ04EYVUQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by PA4PR04MB9342.eurprd04.prod.outlook.com (2603:10a6:102:2a6::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19; Wed, 15 Feb
+ 2023 08:41:27 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5725:92ec:f43e:f5fc%9]) with mapi id 15.20.6086.026; Wed, 15 Feb 2023
+ 08:41:27 +0000
+Message-ID: <8ccdba247e1b3649af382b77039afa9d19bf81e2.camel@nxp.com>
+Subject: Re: [PATCH v3 4/6] drm: lcdif: Check consistent bus format and
+ flags across first bridges
+From: Liu Ying <victor.liu@nxp.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date: Wed, 15 Feb 2023 16:40:48 +0800
+In-Reply-To: <2148647.Icojqenx9y@steina-w>
+References: <20230213085612.1026538-1-victor.liu@nxp.com>
+ <20230213085612.1026538-5-victor.liu@nxp.com> <2148647.Icojqenx9y@steina-w>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI1PR02CA0034.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::10) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Omdk9IUYOBdmp7+gB_=mzyN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB9342:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8072d6c-eab0-43df-e4d0-08db0f306d50
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iK2gVJQWFqR8WfQ8Ve86epdRNOrTnbCAoKds4FRRS/x2JqBMXvr37Qb2HmICn+mpy1s7FYNk0KahYJcWwZAyLHpW6O16i3Le7GzjxkLn3p1KZ12wFEtuMpuyxA03feAn4etTyzf/XMUYKjxboIwWgkMnN/IaeEG9BhLqnyjUpWIp5Nc5Vs+jKQD7+kFSySD8aNz1mpEPWwamlM21lIU5pY0FnwGfCQnyvhr3ZGkaJwc5hJvci1MFSZtfSeEArJCOSjHQ0NXKxaiznEnfVBfIBU8l6C/HvI+7IpuyXGJw88pZBIbJAHz93iqPFZXq07hFS4DxZ1T0cxLaKOcLIaEnY4MuTYl7SSBfV6Gy0Se85rBKgbp0wNVzoABrLu8jPRBqka6caZHXOQ3IP+Jf7KvNmkU8EVwjgOnLW3RQGRfVscjOOKE62SdxAq3i7Z5qJesg1CUV8aisNIsSJzV82w+W2BgskVTxBSEHxTwrDBzprqFOyJNVsLdkor0THaTEh/jZ4R/p55eegA5ZwzCr/YyuWR4QhfsjyjpsqbZC3aknpvpAr8Bz2AHIx6jvM5S7x7dE/pw535iFAwwcvNBfh7kmz6bIOx2T2VQBfVwXiFlKgiKSkidTQYSAXO5rBXgSdgWjeOOCPWUkTk6/5Am/d9L+ZYYaWsH8KwfaK9y8u2UhbdUfS2FZOSaDVDV+Gxmx8OTxxX7TU306g7fV2vNvP2cvOJi6aWOGY1ssQBf9+hiG+to=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(346002)(136003)(396003)(39860400002)(366004)(376002)(451199018)(186003)(86362001)(2906002)(36756003)(2616005)(7416002)(83380400001)(6486002)(26005)(38350700002)(38100700002)(316002)(66476007)(66946007)(66556008)(8676002)(8936002)(6506007)(52116002)(478600001)(6666004)(5660300002)(6512007)(41300700001)(4326008)(99106002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGRkcW5NRUVhZkR0R1BubTFETkJLbTZCREtXditzZTMxTFdMR3JyTDhiUk1t?=
+ =?utf-8?B?ZGRDMnJScDkyMG1NVjlsRkN2OTlNM0F5N1l6UlZ3R1pvREgvYnRneVNEU0lP?=
+ =?utf-8?B?SkV3NUtBTi96RG5ybmM5RzNoVUgrbStlb2QwUWJVbUNEOFpMWFE0d0pLZm1k?=
+ =?utf-8?B?NE01VlNzaVJ1dGN1QXVmVUZUQXZrd2pmbTR4VktSSFFLOTErRXNpQjNEQy9y?=
+ =?utf-8?B?d3huTUV5Y0d2SEpSbkROQ0o3T1VmRHhvU1dzNExFdEliY3VwQXdmYmU3LzJ0?=
+ =?utf-8?B?VDRxM1NCaXhBNmZhcjBUU2pDN240S3FrdUQ4UkcyZ0haOGM1Q29vOERuNW9K?=
+ =?utf-8?B?U1l5MzBzaVBDUXNHVStyNFMyWTZJUGlBRWRUQ091TFNLdml5T2c2a3pCUkJ1?=
+ =?utf-8?B?QmU0NytORUsxUEJSTDlTTFgza1ZmTXZzakkzeWhGaVFtUGJQQnFidjBNaE9O?=
+ =?utf-8?B?Z3MweHMvU0VWNk9RTXZHUFlaNUU3MXRrQnZNempNRXBDUXRvMkRQeHJCdE5B?=
+ =?utf-8?B?ZjhWWHFCOVZTMVFkemc2RDZRSnZMVG9oQzVlK2s3Rlgyd3JBNVR2TFdaeTRa?=
+ =?utf-8?B?T3YrR0V2Zm91Z0pVQWZFYTRQVStORElrUERLVjZvVG1kR3U0RHlua3dUOENJ?=
+ =?utf-8?B?dU01cmIvdVA3bXlRd1lYWUx4VUI5YnQrSGhJN0FQM0ExcUdEU00rZGp2RzEw?=
+ =?utf-8?B?ZUtNYW41dWpoeTdIYlpyOEFFbE1nU21qOXljQ3FiTWdQYzJrNG9iYXJ0UWxi?=
+ =?utf-8?B?Y08wYUlycVVLTjl2ME8zd20zVGNPUXptdGdaa2xCVG9rTldrbzZIRXFuU2cy?=
+ =?utf-8?B?c28yYXI4Tkh3S2RTRHZMT0I0R0w3WmRZNU92M1NNcU9vUnhDTmhiZ1BzYnEy?=
+ =?utf-8?B?QmxHY1VFL0l6V2RzTE0zME1CWGlUTndlOXFvL0V5dFlvaVFxbkxzVVVzblR6?=
+ =?utf-8?B?eVl0SlIwL1FqYW5Sa2F1STRQUnVjQndSeFVmci9aSjZidmhlYnR2ZzdtUEI2?=
+ =?utf-8?B?MG84cm0zNHRkTERVR0JJc21RNFBCaXNwaU00S0tadUhSNnJTQVFtMUlvZUQ2?=
+ =?utf-8?B?MzRnUmVEdGx4UmwzdGRoSkZqNXFsZWJCV3RTMWRNVE9pU3h2eFdoS1JPdGxK?=
+ =?utf-8?B?dmJPTjErUnFXWjZmc0QrWWdLc1hhZURFS0RBa1N5ck1hYTJLVURTZ3lQQlNj?=
+ =?utf-8?B?MlNKL3FUWks5bUhISmFkbFcrQVozSk5zZS91N0hta1J4VFBoTlRXUFZuSXl2?=
+ =?utf-8?B?UGxzdWhkMVRpMHZJT0prNnk5Mjg2aXdiV3BFL3FFMDZqbkQyOHJJOU5EY01x?=
+ =?utf-8?B?eXRyMkYrQndxbTA3OGVNZmdpNTJpOUhScEFyQzdBYmE5aCtpejhrZmNTOEti?=
+ =?utf-8?B?RVpDdWtuSE5jWno2YklSY09ubjFTUVJMcFd4UU1wWW5iT0ZnbnhOeVNwZXZW?=
+ =?utf-8?B?Y0txOUE1UmNjN0xqTnFVemhqRTNWY3NwWkFLUXUvalBoS0hnZ2NsVGxQUFlJ?=
+ =?utf-8?B?Sk5TekpZcHBYM2NHTTRxNlNJWDAzOXh6a0pNeFgxYWZUWGV2S3RJVzBSbzRJ?=
+ =?utf-8?B?ZU02K2F4Ri9kbXFuajJPbEpaZGpnYTdadXplSkRVSFBHSllwT2dyMjIvOUN2?=
+ =?utf-8?B?NGxGNDNsdjc2RmpFZGVCd2xCQ0Q3RHZyRUJRK0R1eGVQMVZRb29YL1o2L0lz?=
+ =?utf-8?B?Sk1ERUVNUk9pS2VGdE81elJRc0JlNmY5cWVWU0NZaFBScmYrZFdtMXJLUEQw?=
+ =?utf-8?B?eU9qa3BXWmN0SCtYUGpIdnNGWW5uWHZQZ3dZaFVZNkh2bC9DUXl1ZDMwbnVM?=
+ =?utf-8?B?QXhmTE82OVRHaUk2RHhFQTB3RFBDeFY4SU9xK1liTjFybDFyZXptR0x2M3pW?=
+ =?utf-8?B?TlhVdGNCMXFDVTlML2pZV212aUZaOFJNRXE2d204KzcrOU41WndjMm9pMjdN?=
+ =?utf-8?B?NVNqcThaWkpYc0NpNlY5aFc0aGZVYTlhTGJEM1g5b1IyVUFwbWYzN3ZrY3dG?=
+ =?utf-8?B?MGNjcGlra3ludGZoWURGYmN5WU1Wc3E2N2xLQi9Ud1J4UmxVcTNDSFE1b3dt?=
+ =?utf-8?B?MkJOL2Uyb2ZIaFcrWE0wVEtuOUVERU9IVFUwM2Yra1hWVzhobWNRb2Q5ZjFL?=
+ =?utf-8?Q?mqPMKFD70zZUDLxTzH7GbhLfW?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8072d6c-eab0-43df-e4d0-08db0f306d50
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 08:41:27.1015 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mlx8eCRGdF7+8kgPvohakJRbtFy8K6tICEthj/75Bh7jnhj6RWoxNSFIS/H3tEcMpVnzjs190QzQPgfDx2gZPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9342
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,326 +126,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, laurent.pinchart+renesas@ideasonboard.com,
- Shashank Sharma <shashank.sharma@amd.com>, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, alex.hung@amd.com, tzimmermann@suse.de,
- sunpeng.li@amd.com, seanpaul@chromium.org, bhawanpreet.lakha@amd.com,
- sungjoon.kim@amd.com, Xinhui.Pan@amd.com, christian.koenig@amd.com,
- kernel-dev@igalia.com, alexander.deucher@amd.com, nicholas.kazlauskas@amd.com,
- Joshua Ashton <joshua@froggi.es>
+Cc: marex@denx.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, linux-imx@nxp.com,
+ krzysztof.kozlowski+dt@linaro.org, kernel@pengutronix.de,
+ LW@karo-electronics.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Omdk9IUYOBdmp7+gB_=mzyN
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2023-02-15 at 08:55 +0100, Alexander Stein wrote:
+> Hi Liu,
 
-On Tue, 14 Feb 2023 11:19:47 +0200
-Pekka Paalanen <ppaalanen@gmail.com> wrote:
+Hi Alexander,
 
-> On Mon, 13 Feb 2023 18:26:55 -0100
-> Melissa Wen <mwen@igalia.com> wrote:
->=20
-> > On 02/10, Pekka Paalanen wrote: =20
-> > > On Thu, 9 Feb 2023 13:27:02 -0100
-> > > Melissa Wen <mwen@igalia.com> wrote:
-> > >    =20
-> > > > On 01/31, Pekka Paalanen wrote:   =20
-> > > > > On Mon, 9 Jan 2023 14:38:09 -0100
-> > > > > Melissa Wen <mwen@igalia.com> wrote:
-> > > > >      =20
-> > > > > > On 01/09, Melissa Wen wrote:     =20
-> > > > > > > Hi,
-> > > > > > >=20
-> > > > > > > After collecting comments in different places, here is a seco=
-nd version
-> > > > > > > of the work on adding DRM CRTC 3D LUT support to the current =
-DRM color
-> > > > > > > mgmt interface. In comparison to previous proposals [1][2][3]=
-, here we
-> > > > > > > add 3D LUT before gamma 1D LUT, but also a shaper 1D LUT befo=
-re 3D LUT,
-> > > > > > > that means the following DRM CRTC color correction pipeline:
-> > > > > > >=20
-> > > > > > > Blend -> Degamma 1D LUT -> CTM -> Shaper 1D LUT -> 3D LUT -> =
-Gamma 1D LUT     =20
-> > > > >=20
-> > > > > Hi Melissa,
-> > > > >=20
-> > > > > that makes sense to me, for CRTCs. It would be really good to hav=
-e that
-> > > > > as a diagram in the KMS UAPI documentation.
-> > > > >      =20
-> > > >=20
-> > > > Hi Pekka,
-> > > >=20
-> > > > Thanks for your feedbacks and your time reviewing this proposal.   =
-=20
-> > >=20
-> > > No problem, and sorry it took so long!
-> > >=20
-> > > I'm just finishing the catch-up with everything that happened during
-> > > winter holidays.
-> > >    =20
-> > > > > If someone wants to add a 3D LUT to KMS planes as well, then I'm =
-not
-> > > > > sure if it should be this order or swapped. I will probably have =
-an
-> > > > > opinion about that once Weston is fully HDR capable and has been =
-tried
-> > > > > in the wild for a while with the HDR color operations fine-tuned =
-based
-> > > > > on community feedback. IOW, not for a long time. The YUV to RGB
-> > > > > conversion factors in there as well.
-> > > > >      =20
-> > > > I see, this is also the reason I reuse here Alex Hung's proposal for
-> > > > pre-blending API. I'll work on better documentation.
-> > > >    =20
-> > > > >      =20
-> > > > > > >=20
-> > > > > > > and we also add a DRM CRTC LUT3D_MODE property, based on Alex=
- Hung
-> > > > > > > proposal for pre-blending 3D LUT [4] (Thanks!), instead of ju=
-st a
-> > > > > > > LUT3D_SIZE, that allows userspace to use different supported =
-settings of
-> > > > > > > 3D LUT, fitting VA-API and new color API better. In this sens=
-e, I
-> > > > > > > adjusted the pre-blending proposal for post-blending usage.
-> > > > > > >=20
-> > > > > > > Patches 1-6 targets the addition of shaper LUT and 3D LUT pro=
-perties to
-> > > > > > > the current DRM CRTC color mgmt pipeline. Patch 6 can be cons=
-idered an
-> > > > > > > extra/optional patch to define a default value for LUT3D_MODE=
-, inspired
-> > > > > > > by what we do for the plane blend mode property (pre-multipli=
-ed).
-> > > > > > >=20
-> > > > > > > Patches 7-18 targets AMD display code to enable shaper and 3D=
- LUT usage
-> > > > > > > on DCN 301 (our HW case). Patches 7-9 performs code cleanups =
-on current
-> > > > > > > AMD DM colors code, patch 10 updates AMD stream in case of us=
-er 3D LUT
-> > > > > > > changes, patch 11/12 rework AMD MPC 3D LUT resource handling =
-by context
-> > > > > > > for DCN 301 (easily extendible to other DCN families). Finall=
-y, from
-> > > > > > > 13-18, we wire up SHAPER LUT, LUT3D and LUT3D MODE to AMD dis=
-play
-> > > > > > > driver, exposing modes supported by HW and programming user s=
-haper and
-> > > > > > > 3D LUT accordingly.
-> > > > > > >=20
-> > > > > > > Our target userspace is Gamescope/SteamOS.
-> > > > > > >=20
-> > > > > > > Basic IGT tests were based on [5][6] and are available here (=
-in-progress):
-> > > > > > > https://gitlab.freedesktop.org/mwen/igt-gpu-tools/-/commits/c=
-rtc-lut3d-api
-> > > > > > >=20
-> > > > > > > [1] https://lore.kernel.org/all/20201221015730.28333-1-lauren=
-t.pinchart+renesas@ideasonboard.com/
-> > > > > > > [2] https://github.com/vsyrjala/linux/commit/4d28e8ddf2a076f3=
-0f9e5bdc17cbb4656fe23e69
-> > > > > > > [3] https://lore.kernel.org/amd-gfx/20220619223104.667413-1-m=
-wen@igalia.com/
-> > > > > > > [4] https://lore.kernel.org/dri-devel/20221004211451.1475215-=
-1-alex.hung@amd.com/
-> > > > > > > [5] https://patchwork.freedesktop.org/series/90165/
-> > > > > > > [6] https://patchwork.freedesktop.org/series/109402/
-> > > > > > > [VA_API] http://intel.github.io/libva/structVAProcFilterParam=
-eterBuffer3DLUT.html
-> > > > > > > [KMS_pipe_API] https://gitlab.freedesktop.org/pq/color-and-hd=
-r/-/issues/11
-> > > > > > >=20
-> > > > > > > Let me know your thoughts.       =20
-> > > > > >=20
-> > > > > > +Simon Ser, +Pekka Paalanen who might also be interested in thi=
-s series.     =20
-> > > > >=20
-> > > > > Unfortunately I don't have the patch emails to reply to, so here'=
-s a
-> > > > > messy bunch of comments. I'll concentrate on the UAPI design as a=
-lways.     =20
-> > > >=20
-> > > > Sorry, the patchset is here: https://lore.kernel.org/dri-devel/2023=
-0109143846.1966301-1-mwen@igalia.com/
-> > > > In the next version, I won't forget cc'ing you at first.   =20
-> > > > >=20
-> > > > > +/*
-> > > > > + * struct drm_mode_lut3d_mode - 3D LUT mode information.
-> > > > > + * @lut_size: number of valid points on every dimension of 3D LU=
-T.
-> > > > > + * @lut_stride: number of points on every dimension of 3D LUT.
-> > > > > + * @bit_depth: number of bits of RGB. If color_mode defines entr=
-ies with higher
-> > > > > + *             bit_depth the least significant bits will be trun=
-cated.
-> > > > > + * @color_format: fourcc values, ex. DRM_FORMAT_XRGB16161616 or =
-DRM_FORMAT_XBGR16161616.
-> > > > > + * @flags: flags for hardware-sepcific features
-> > > > > + */
-> > > > > +struct drm_mode_lut3d_mode {
-> > > > > +	__u16 lut_size;
-> > > > > +	__u16 lut_stride[3];
-> > > > > +	__u16 bit_depth;
-> > > > > +	__u32 color_format;
-> > > > > +	__u32 flags;
-> > > > > +};
+> 
+> thanks for the update.
 
-Btw. there is an odd number of u16 members before a u32 member. That
-means there is invisible padding in this struct, I believe. I suppose
-that's not different between 32-bit and 64-bit architectures, since
-there are no 64-bit members, but it's still a hole. I assume the kernel
-makes sure the hole cannot contain uninitialized values which would
-leak kernel data to userspace...
+Thanks for the review.
 
-For more things you might want to check, I think Daniel's botching up
-ioctls article is appropriate. This is not an ioctl struct, but it's...
-well, essentially it is. Just read-only.
+> 
+> Am Montag, 13. Februar 2023, 09:56:10 CET schrieb Liu Ying:
+> > The single LCDIF embedded in i.MX93 SoC may drive multiple displays
+> > simultaneously.  Check bus format and flags across first bridges in
+> > ->atomic_check() to ensure they are consistent.  This is a
+> > preparation
+> > for adding i.MX93 LCDIF support.
+> > 
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > ---
+> > v2->v3:
+> > * No change.
+> > 
+> > v1->v2:
+> > * Split from patch 2/2 in v1. (Marek, Alexander)
+> > * Drop a comment about bridge input bus format from
+> > lcdif_crtc_atomic_check().
+> > 
+> >  drivers/gpu/drm/mxsfb/lcdif_drv.c |  2 -
+> >  drivers/gpu/drm/mxsfb/lcdif_drv.h |  1 -
+> >  drivers/gpu/drm/mxsfb/lcdif_kms.c | 76 ++++++++++++++++++++++-----
+> > ----
+> >  3 files changed, 55 insertions(+), 24 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> > b/drivers/gpu/drm/mxsfb/lcdif_drv.c index
+> > cc2ceb301b96..b5b9a8e273c6 100644
+> > --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> > +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> > @@ -52,8 +52,6 @@ static int lcdif_attach_bridge(struct
+> > lcdif_drm_private
+> > *lcdif) if (ret)
+> >  		return dev_err_probe(drm->dev, ret, "Failed to attach 
+> 
+> bridge\n");
+> > 
+> > -	lcdif->bridge = bridge;
+> > -
+> >  	return 0;
+> >  }
+> > 
+> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> > b/drivers/gpu/drm/mxsfb/lcdif_drv.h index
+> > 6cdba6e20c02..aa6d099a1897 100644
+> > --- a/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> > +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> > @@ -31,7 +31,6 @@ struct lcdif_drm_private {
+> >  	} planes;
+> >  	struct drm_crtc			crtc;
+> >  	struct drm_encoder		encoder;
+> > -	struct drm_bridge		*bridge;
+> >  };
+> > 
+> >  static inline struct lcdif_drm_private *
+> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > b/drivers/gpu/drm/mxsfb/lcdif_kms.c index
+> > 294cecdf5439..4ea3d2b2cf61 100644
+> > --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > @@ -17,6 +17,7 @@
+> >  #include <drm/drm_atomic_helper.h>
+> >  #include <drm/drm_bridge.h>
+> >  #include <drm/drm_color_mgmt.h>
+> > +#include <drm/drm_connector.h>
+> >  #include <drm/drm_crtc.h>
+> >  #include <drm/drm_encoder.h>
+> >  #include <drm/drm_fb_dma_helper.h>
+> > @@ -424,15 +425,19 @@ static int lcdif_crtc_atomic_check(struct
+> > drm_crtc
+> > *crtc, struct drm_atomic_state *state)
+> >  {
+> >  	struct drm_device *drm = crtc->dev;
+> > -	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(drm);
+> >  	struct drm_crtc_state *crtc_state = 
+> 
+> drm_atomic_get_new_crtc_state(state,
+> >  								
+> 
+> 	  crtc);
+> >  	struct lcdif_crtc_state *lcdif_crtc_state =
+> > to_lcdif_crtc_state(crtc_state); bool has_primary = crtc_state-
+> > >plane_mask
+> > &
+> >  			   drm_plane_mask(crtc->primary);
+> > +	struct drm_connector_state *connector_state;
+> > +	struct drm_connector *connector;
+> > +	struct drm_encoder *encoder;
+> >  	struct drm_bridge_state *bridge_state;
+> > -	struct drm_bridge *bridge = lcdif->bridge;
+> > -	int ret;
+> > +	struct drm_bridge *bridge;
+> > +	u32 bus_format, bus_flags;
+> > +	bool format_set = false, flags_set = false;
+> > +	int ret, i;
+> > 
+> >  	/* The primary plane has to be enabled when the CRTC is active.
+> > */
+> >  	if (crtc_state->active && !has_primary)
+> > @@ -442,26 +447,55 @@ static int lcdif_crtc_atomic_check(struct
+> > drm_crtc
+> > *crtc, if (ret)
+> >  		return ret;
+> > 
+> > -	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
+> > -	if (!bridge_state)
+> > -		lcdif_crtc_state->bus_format = MEDIA_BUS_FMT_FIXED;
+> > -	else
+> > -		lcdif_crtc_state->bus_format = bridge_state-
+> > input_bus_cfg.format;
+> > -
+> > -	if (lcdif_crtc_state->bus_format == MEDIA_BUS_FMT_FIXED) {
+> > -		dev_warn_once(drm->dev,
+> > -			      "Bridge does not provide bus format, 
+> 
+> assuming
+> > MEDIA_BUS_FMT_RGB888_1X24.\n" -			      "Please
+> > fix 
+> 
+> bridge driver by
+> > handling atomic_get_input_bus_fmts.\n"); -		lcdif_crtc_stat
+> > e-
+> > bus_format =
+> > MEDIA_BUS_FMT_RGB888_1X24;
+> > +	/* Try to find consistent bus format and flags across first
+> > bridges. 
+> 
+> */
+> > +	for_each_new_connector_in_state(state, connector,
+> > connector_state, 
+> 
+> i) {
+> > +		if (!connector_state->crtc)
+> > +			continue;
+> > +
+> > +		encoder = connector_state->best_encoder;
+> > +
+> > +		bridge = drm_bridge_chain_get_first_bridge(encoder);
+> > +		if (!bridge)
+> > +			continue;
+> > +
+> > +		bridge_state = drm_atomic_get_new_bridge_state(state, 
+> 
+> bridge);
+> > +		if (!bridge_state)
+> > +			bus_format = MEDIA_BUS_FMT_FIXED;
+> > +		else
+> > +			bus_format = bridge_state-
+> > >input_bus_cfg.format;
+> > +
+> > +		if (bus_format == MEDIA_BUS_FMT_FIXED) {
+> > +			dev_warn(drm->dev,
+> > +				 "[ENCODER:%d:%s]'s bridge does not 
+> 
+> provide bus format, assuming
+> > MEDIA_BUS_FMT_RGB888_1X24.\n" +				 
+> 
+> "Please fix bridge driver by handling
+> > atomic_get_input_bus_fmts.\n", +				 
+> 
+> encoder->base.id, encoder->name);
+> > +			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> > +		}
+> > +
+> > +		if (!format_set) {
+> > +			lcdif_crtc_state->bus_format = bus_format;
+> > +			format_set = true;
+> > +		} else if (lcdif_crtc_state->bus_format != bus_format)
+> > {
+> > +			DRM_DEV_DEBUG_DRIVER(drm->dev, "inconsistent
+> > bus 
+> 
+> format\n");
+> 
+> Is there another way to know the actual reason the atomic_check
+> fails? Maybe 
+> this is worthy to be an error message instead.
 
-https://www.kernel.org/doc/Documentation/ioctl/botching-up-ioctls.rst
+No, I don't think there is any other way.  -EINVAL is what we can tell 
+userspace about the reason why the atomic check fails, plus the debug
+message if userspace wants to look at it.
 
-...
+Error message is not appropriate here.  Userspace supposes to try
+another combination of output modes and hopes it passes atomic check.
+We don't want to give too much error message to userspace.
 
-> > > > > + * =E2=80=9CLUT3D_MODE=E2=80=9D:
-> > > > > + *	Enum property to give the mode of the 3D lookup table to be s=
-et on the
-> > > > > + *	LUT3D property. A mode specifies size, stride, bit depth and =
-color
-> > > > > + *	format and depends on the underlying hardware). If drivers su=
-pport
-> > > > > + *	multiple 3D LUT modes, they should be declared in a array of
-> > > > > + *	drm_color_lut3d_mode and they will be advertised as an enum.
-> > > > >=20
-> > > > > How does that work exactly? I didn't get it. I could guess, but h=
-aving
-> > > > > to guess on API is bad.     =20
-> > > >=20
-> > > > The driver advertises all supported modes (each combination of valu=
-es)
-> > > > in a array as a enum, userspace can check all accepted modes and se=
-t the
-> > > > one that fits the user 3D LUT settings. I think it's possible to ge=
-t the
-> > > > idea from this IGT test:
-> > > > https://gitlab.freedesktop.org/mwen/igt-gpu-tools/-/commit/8771f444=
-c3dcd126d7590d5a9b1b0db9706bbf6e#ed5dbc960ac210e3fbacd2361fe0270709767aaa_2=
-05_205   =20
-> > > > >    =20
-> > >=20
-> > > You lost me at "an array as an enum".
-> > >=20
-> > > I understand there is a blob containing an array of struct
-> > > drm_mode_lut3d_mode. What I don't understand is that you say LUT3D_MO=
-DE
-> > > is an enum property. Where does the blob come from, then? What proper=
-ty
-> > > provides the blob?
-> > >=20
-> > > Am I correct in guessing that the values of LUT3D_MODE enum property
-> > > are indices into the array in the blob, and that userspace will set i=
-t?
-> > > That sounds good to me, if it's the integer value of the enum. But en=
-um
-> > > values also need string names, because that is how the values are
-> > > usually recognized, so what name strings will be used?   =20
-> >=20
-> > So, in this proposal, LUT3D_MODE is a list of indexes for a blob that d=
-escribe a supported
-> > 3D LUT mode =20
->=20
-> Hi Melissa,
->=20
-> are you sure? I believe you are looking at and explaining some kernel
-> internal APIs, and not the uAPI which is the important part. Internal
-> APIs can always be changed later, uAPI cannot.
->=20
-> After I had sent that email, I might have understood how it was
-> supposed to work instead: there is no array of struct
-> drm_mode_lut3d_mode.
->=20
-> Instead, LUT3D_MODE is a KMS property of type enum. Each integer value
-> of the enum is also a blob id. Each blob named by those ids is a single
-> struct drm_mode_lut3d_mode that userspace needs to retrieve individually
-> to understand what that specific enum value means.
->=20
-> > i.e. a `struct drm_mode_lut3d_mode` with size, stride, bit depth, etc. =
-Strings here follow this pattern
-> > `lut3d_{size}_{bit_depth}bit` [1]. When enabling 3D LUT support, the
-> > driver should pass an array of `struct drm_mode_lut3d_mode` as supported
-> > modes, with at least one element. =20
->=20
-> To be clear, I do not care about kernel internal interfaces at all. I
-> only care about the uAPI. Therefore talking about kernel internal API
-> will only confuse me and every other userspace developer. Evidently it
-> has even confused some IGT developers, as I point out some IGT code
-> problems below.
->=20
-> If the struct drm_mode_lut3d_mode is the authoritative definition of
-> what each enum value means, then I think the string names should not
-> attempt to convey any meaning nor information. The strings should be
-> just "blob id 77" etc. That makes it clear what the value is.
+Regards,
+Liu Ying
 
-One more thing came to mind: extendability.
-
-If it turns out that struct drm_mode_lut3d_mode is not good enough for
-some future hardware, what could we do? Do you have a plan for that?
-
-A) Thinking again, I would suggest to make the enum value string names
-of the format "drm_mode_lut3d_mode %u". That way the name identifies the
-blob binary structure and the blob id makes it unique. If we hope that
-userspace checks the name, the kernel could later add a different
-structure when necessary. Even if userspace fails in that, it would
-still be an informative name.
-
-B) Otherwise, or in addition, the structure needs to be designed to be
-extendable like ioctl structs. A flags field maybe? But again we trust
-that userspace checks the flags before trying to interpret any further.
-
-C) Yet another option is a new DRM client CAP, which userspace can set
-to tell the kernel that userspace does understand and expect that some
-new kind of structure might be present. But this needs also A or B to
-identify the struct.
-
-D) Invent a whole new KMS property for the next generation 3D LUTs. In
-that case the new and old properties probably need to be mutually
-exclusive.
-
-
-> Otherwise userspace will be tempted to use the string names only (as is
-> the usual uAPI design) to find the right enum value, and not look into
-> the struct drm_mode_lut3d_mode at all. Therefore, if you don't encode
-> absolutely everything of struct drm_mode_lut3d_mode into the string
-> name, you should encode nothing in the name. You might also have two
-> different descriptions ending up with the same string name under the
-> same enum property instance, and that must not happen.
-
-
-Thanks,
-pq
-
---Sig_/Omdk9IUYOBdmp7+gB_=mzyN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPsmP0ACgkQI1/ltBGq
-qqfcIg/7B2rUQBXa/5BEwFv5BgBs2Me9SW+qvM/74gBzWI3cp1VB60bsVuTcn4Pw
-ARkzwaoU9VG2SkNIbKBzxNkV7pix2WN/pRq7Znyw5ayXczlrHarAWgxgmNbMINS5
-tDVnyJ53hWCbdUkU3CMf4+ri1x7b7iTaYPsqDDanRC53IhIWqtBCUy0UOychYw9z
-GkAVGFsMyAApCoDmy2v+cxk+vZZi00CbjrRwVSgGCt1UwvtV6aoWXZ4rkE2PhST3
-4YNYydvEgV9F8xZcT170bXpicovjjhHt1UdczF4iMYx41k2T/iS6AMz69+LPRlqx
-QZbSZ/7X/neWtxwMoqZ+9UBl2iLxTMtmjSSgXUYEH+DEYImSzq6x8KlEUrI2p9HV
-71cgCN91imfJWmNUnGIDL9gwoje3101VndaGrRsVcIvwwLoi/yNZMkc+a2kUFm3P
-MvDx/sHJ3wrZYf/QE4iBv2mT5buKk5/ixSXbFvCvTtxbSrn0OMopB3tEIFOHiWZ6
-XvibPWOVn3Y5awHVUi719QQWJ38eCyLkXBlEewvZmvgk62GCg9B7KFNZk4bXJ+rr
-UIkFqB5EgtlMY5fNApNsCYo7tE2RTPN7QMfNfRqlA/ua1+P7vUy1tD/uxG6PvMgs
-anjbUMhZrM2C2F+K7m1qu9VaMfvPYby4e7OiCef/Rinq/NmMnmw=
-=GNGu
------END PGP SIGNATURE-----
-
---Sig_/Omdk9IUYOBdmp7+gB_=mzyN--
