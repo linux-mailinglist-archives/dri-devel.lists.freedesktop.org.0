@@ -2,76 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901266977D8
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 09:15:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90934697716
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 08:06:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A10310EA55;
-	Wed, 15 Feb 2023 08:15:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34D4710E122;
+	Wed, 15 Feb 2023 07:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54C0E10E19C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Feb 2023 16:58:26 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31EGXk5t027870; Tue, 14 Feb 2023 16:57:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2022-7-12;
- bh=COxPmLf+paRDDdFuvH25Zi2bcrkGUWbmw1AV1Vzz6fg=;
- b=YLvFKW+EqHo4lJihtKam5O2u/Ez9btXYR9UATFH2zB8Iu5e5Y/RW6Fp0KY6CkhCradAN
- WTilqdKWZFcLKiqsqfa4V8mYN1ZQvBadLk2TsOnIkEtZUKsfbgOWWK7HvSPFJKd8W46X
- 6I8lZN4dOtwp7sy+z6JM8Hyy2wb+bAGvhr+gIyRw8kVIAEWVmTfaTTf5O0Ec6XCJ2W+/
- s+ECjqJ+6XkIgXtXUIiTIJDq/ia5qoW1iTGafvouFXOp0XKQKEIPCwqm6SXEU/hwPFGd
- rIIwhMwB2pOtB0Be/uO7OEApgaB8P0mSiaWnOpESEKGFyDpTBPCUpGUYLIbIrtBSw8Fd aQ== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3np2mtdxts-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Feb 2023 16:57:48 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 31EGuKPb009707; Tue, 14 Feb 2023 16:57:47 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3np1f5uuka-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Feb 2023 16:57:47 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 31EGuHor039739;
- Tue, 14 Feb 2023 16:57:45 GMT
-Received: from ca-mkp2.ca.oracle.com.com
- (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com
- [100.100.251.135])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3np1f5uuff-9; Tue, 14 Feb 2023 16:57:45 +0000
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: (subset) [PATCH 00/35] Documentation: correct lots of spelling
- errors (series 1)
-Date: Tue, 14 Feb 2023 11:57:35 -0500
-Message-Id: <167639371105.486235.1228754650636546815.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230127064005.1558-1-rdunlap@infradead.org>
-References: <20230127064005.1558-1-rdunlap@infradead.org>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B952D10E111;
+ Wed, 15 Feb 2023 07:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676444759; x=1707980759;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=v0HZJmds0TuG9z0N2FOHhx57xtypMjsdYvZDGJXnunQ=;
+ b=ikuhZA/nd8FAmE8h1bO+A8H8Am83I+VuixP+EGJRhSZOBZIPQ+whGfb6
+ BWJNz2tYvnN3LyGvkOxrIoPrMeZtG5a2lqDSfext+RTTKaSFDp/BST66x
+ eArFt5ZSdowuL4sOuKHyfr19CX0B0ib7C3+ILgJdgIVAFYgNKSBpJuOVB
+ EWoWAR1rhVVjeplW1eUkDiStxW7C5q8DT6R2yz/vvSo2RDg5NKdZNu/fD
+ 0BM6XeXRtsDn5qqOsPANoLeD1WsAEOXXcErt+MuSvxFcOFrCxOC/3l0g+
+ uxYtOoIqBfZCDn8m+0OyoXsarqrxCqZhJI2ZTfX4XgWC6j52D5+g0msnd g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="329079751"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="329079751"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2023 23:05:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="758296074"
+X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="758296074"
+Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost)
+ ([10.239.160.112])
+ by FMSMGA003.fm.intel.com with ESMTP; 14 Feb 2023 23:05:48 -0800
+Date: Wed, 15 Feb 2023 15:13:36 +0800
+From: Zhao Liu <zhao1.liu@linux.intel.com>
+To: Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [PATCH 0/9] drm/i915: Replace kmap_atomic() with kmap_local_page()
+Message-ID: <Y+yGIPcTfirmdIdK@liuzhao-OptiPlex-7080>
+References: <20221017093726.2070674-1-zhao1.liu@linux.intel.com>
+ <63ec5ea4d162d_18bf5929443@iweiny-mobl.notmuch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-14_11,2023-02-14_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- phishscore=0
- suspectscore=0 mlxscore=0 spamscore=0 mlxlogscore=997 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302140144
-X-Proofpoint-GUID: F9bpdPmEiXIR5xn5JduF_4kuCVCc4so3
-X-Proofpoint-ORIG-GUID: F9bpdPmEiXIR5xn5JduF_4kuCVCc4so3
-X-Mailman-Approved-At: Wed, 15 Feb 2023 08:15:44 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63ec5ea4d162d_18bf5929443@iweiny-mobl.notmuch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,78 +58,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, Juri Lelli <juri.lelli@redhat.com>,
- Henrik Rydberg <rydberg@bitmath.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Pavel Machek <pavel@ucw.cz>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Evgeniy Polyakov <zbr@ioremap.net>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Michael Ellerman <mpe@ellerman.id.au>, James Morris <jmorris@namei.org>,
- linux-acpi@vger.kernel.org, Len Brown <len.brown@intel.com>,
- linux-pm@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- linux-sgx@vger.kernel.org, Karsten Keil <isdn@linux-pingi.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-spi@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>,
- Vladimir Oltean <olteanv@gmail.com>, alsa-devel@alsa-project.org,
- linux-doc@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
- keyrings@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-s390@vger.kernel.org, Paul Moore <paul@paul-moore.com>,
- linux-trace-kernel@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Daniel Jordan <daniel.m.jordan@oracle.com>, linux-crypto@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, Vasily Gorbik <gor@linux.ibm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, coresight@lists.linaro.org,
- Bjorn Helgaas <bhelgaas@google.com>, Stafford Horne <shorne@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Chris Zankel <chris@zankel.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Wolfram Sang <wsa@kernel.org>,
- Jarkko Sakkinen <jarkko@kernel.org>, linux-pci@vger.kernel.org,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
- Will Deacon <will@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Jonathan Corbet <corbet@lwn.net>, isdn4linux@listserv.isdn4linux.de,
- linux-input@vger.kernel.org, "Serge E. Hallyn" <serge@hallyn.com>,
- Fenghua Yu <fenghua.yu@intel.com>, Jiri Kosina <jikos@kernel.org>,
- Akinobu Mita <akinobu.mita@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Mark Brown <broonie@kernel.org>, Borislav Petkov <bp@alien8.de>,
- linux-fbdev@vger.kernel.org, Reinette Chatre <reinette.chatre@intel.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>, target-devel@vger.kernel.org,
- bpf@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
- Peter Zijlstra <peterz@infradead.org>, David Howells <dhowells@redhat.com>,
- linux-mm@kvack.org, linux-trace-devel@vger.kernel.org,
- live-patching@vger.kernel.org, Miroslav Benes <mbenes@suse.cz>,
- linux-leds@vger.kernel.org, Steffen Klassert <steffen.klassert@secunet.com>,
- linux-scsi@vger.kernel.org, Marc Zyngier <maz@kernel.org>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, Ingo Molnar <mingo@redhat.com>,
- Jonas Bonn <jonas@southpole.se>, Heiko Carstens <hca@linux.ibm.com>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
- linux-block@vger.kernel.org,
- =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
- openrisc@lists.librecores.org, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, netdev@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-security-module@vger.kernel.org,
- Daniel Bristot de Oliveira <bristot@kernel.org>, linuxppc-dev@lists.ozlabs.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
+ Thomas =?utf-8?B?SGVsbHN0cu+/vW0=?= <thomas.hellstrom@linux.intel.com>,
+ "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris@chris-wilson.co.uk>, Zhao Liu <zhao1.liu@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Christian =?utf-8?B?S++/vW5pZw==?= <christian.koenig@amd.com>,
+ Zhao Liu <zhao1.liu@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 26 Jan 2023 22:39:30 -0800, Randy Dunlap wrote:
-
-> Correct many spelling errors in Documentation/ as reported by codespell.
+On Tue, Feb 14, 2023 at 08:25:08PM -0800, Ira Weiny wrote:
+> Date: Tue, 14 Feb 2023 20:25:08 -0800
+> From: Ira Weiny <ira.weiny@intel.com>
+> Subject: Re: [PATCH 0/9] drm/i915: Replace kmap_atomic() with
+>  kmap_local_page()
 > 
-> Maintainers of specific kernel subsystems are only Cc-ed on their
-> respective patches, not the entire series. [if all goes well]
+> Zhao Liu wrote:
+> > From: Zhao Liu <zhao1.liu@intel.com>
+> > 
+> > The use of kmap_atomic() is being deprecated in favor of
+> > kmap_local_page()[1].
 > 
-> These patches are based on linux-next-20230125.
+> Zhao,
 > 
-> [...]
+> Was there ever a v2 of this series?  I'm not finding it on Lore.
 
-Applied to 6.3/scsi-queue, thanks!
+Sorry Ira, my delay is too long, I was busy with other patch work,
+I will refresh v2 soon, and push this forward!
 
-[28/35] Documentation: target: correct spelling
-        https://git.kernel.org/mkp/scsi/c/c57ac5748be5
+Best Regards,
+Zhao
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+> 
+> Thanks,
+> Ira
+> 
+> > 
+> > In the following patches, we can convert the calls of kmap_atomic() /
+> > kunmap_atomic() to kmap_local_page() / kunmap_local(), which can
+> > instead do the mapping / unmapping regardless of the context.
+> > 
+> > With kmap_local_page(), the mapping is per thread, CPU local and not
+> > globally visible.
+> > 
+> > [1]: https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
+> > ---
+> > Zhao Liu (9):
+> >   drm/i915: Use kmap_local_page() in gem/i915_gem_object.c
+> >   drm/i915: Use kmap_local_page() in gem/i915_gem_pyhs.c
+> >   drm/i915: Use kmap_local_page() in gem/i915_gem_shmem.c
+> >   drm/i915: Use kmap_local_page() in gem/selftests/huge_pages.c
+> >   drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_coherency.c
+> >   drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_context.c
+> >   drm/i915: Use memcpy_from_page() in gt/uc/intel_uc_fw.c
+> >   drm/i915: Use kmap_local_page() in i915_cmd_parser.c
+> >   drm/i915: Use kmap_local_page() in gem/i915_gem_execbuffer.c
+> > 
+> >  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c       | 10 +++++-----
+> >  drivers/gpu/drm/i915/gem/i915_gem_object.c           |  8 +++-----
+> >  drivers/gpu/drm/i915/gem/i915_gem_phys.c             |  8 ++++----
+> >  drivers/gpu/drm/i915/gem/i915_gem_shmem.c            |  6 ++++--
+> >  drivers/gpu/drm/i915/gem/selftests/huge_pages.c      |  6 +++---
+> >  .../gpu/drm/i915/gem/selftests/i915_gem_coherency.c  | 12 ++++--------
+> >  .../gpu/drm/i915/gem/selftests/i915_gem_context.c    |  8 ++++----
+> >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c             |  5 +----
+> >  drivers/gpu/drm/i915/i915_cmd_parser.c               |  4 ++--
+> >  9 files changed, 30 insertions(+), 37 deletions(-)
+> > 
+> > -- 
+> > 2.34.1
+> > 
+> 
+> 
