@@ -2,60 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CC0698082
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 17:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53FA6980E7
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 17:32:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 278B110EB1E;
-	Wed, 15 Feb 2023 16:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 651E210EADF;
+	Wed, 15 Feb 2023 16:32:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 653F610EB1A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 16:15:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 25047339A5;
- Wed, 15 Feb 2023 16:15:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676477731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9CWPde2C04jJr2C1MeEVVna2dSpUdXhWD+6VsGR2hZ4=;
- b=t5tGCvXYv+z8OhAFJYhyxeNmflwkHQhuK8hzQ6lrGD+I+8C+MSCNYXQuiAQYzWRwoQ53Qp
- RjMiwEqZG6FDnMoh7l8DAOy369FtFOvLVNBjHPWmeAwllJHIPHdqgIOdGMmI0CrQNlsZaN
- o5qPQXc/UBpAiwQhflTPEpmczl9iY4E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676477731;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9CWPde2C04jJr2C1MeEVVna2dSpUdXhWD+6VsGR2hZ4=;
- b=Txfw6V0ZZC1D/VMSwUlYLwQ7tDbG3VdvtH6pXtuLUbhC44G3eMulVcQlpqow/u8KQzBpv9
- JD4xAUqZgP8pTMCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B946813928;
- Wed, 15 Feb 2023 16:15:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CFsvLCIF7WNHOgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 15 Feb 2023 16:15:30 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kraxel@redhat.com, airlied@redhat.com, daniel@ffwll.ch, sam@ravnborg.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH 17/17] drm/cirrus: Use VGA macro constants to unblank
-Date: Wed, 15 Feb 2023 17:15:17 +0100
-Message-Id: <20230215161517.5113-18-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230215161517.5113-1-tzimmermann@suse.de>
-References: <20230215161517.5113-1-tzimmermann@suse.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C21D10E28A;
+ Wed, 15 Feb 2023 16:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676478752; x=1708014752;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=lXFju9gOE7j5cKrCN30L2c9pP8xDGLgCH8yDOjjwb9A=;
+ b=loiUUGL1MmM9vugG5fo395nHQAl+99DsWoC6pJStFjKpNHu3T/a32DJ2
+ LB5yFWhqFa/pw2WszJEAu0Rj/OC1YDti3iOIRB1jW+qA+iOdKYW/GycTK
+ VJpYtEwD343Fg1rNuvOkWO/8Ntwhm4J4dDqns7LzSMir7f/wv0BmmhM8p
+ ci2L14R1I7tLaCwGaWfbgMuiBA/yPrDHDKYpI8lXqH4Xe4DXKy1PCsw7D
+ ZwQqrowB8fdxGspLtmFejE3/PPcRzQTAEQMMFqJOxzwWIJcXJAcs56HWy
+ DZ2iLTtbPpgc2z5JM8mc+7AZYq/8GRJ4qR27vMzz12d4JCp8ppeGkDUJC w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="358895588"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="358895588"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2023 08:32:31 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="758478180"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="758478180"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.251.28.186])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2023 08:32:31 -0800
+Date: Wed, 15 Feb 2023 08:24:51 -0800
+Message-ID: <875yc2oq0c.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] Revert "drm/i915/hwmon: Enable PL1 power
+ limit"
+In-Reply-To: <877cwjq6rp.fsf@intel.com>
+References: <20230208190312.1611335-1-ashutosh.dixit@intel.com>	<Y+QBJLXJ7uTo3p7l@intel.com>	<877cwjq6rp.fsf@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,32 +60,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- virtualization@lists.linux-foundation.org
+Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the VGA bit for unblanking with macro constants instead of magic
-values. No functional changes.
+On Wed, 15 Feb 2023 07:37:30 -0800, Jani Nikula wrote:
+>
+> On Wed, 08 Feb 2023, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> > On Wed, Feb 08, 2023 at 11:03:12AM -0800, Ashutosh Dixit wrote:
+> >> This reverts commit 0349c41b05968befaffa5fbb7e73d0ee6004f610.
+> >>
+> >> 0349c41b0596 ("drm/i915/hwmon: Enable PL1 power limit") is incorrect and
+> >> caused a major regression on ATSM. The change enabled the PL1 power limit
+> >> but FW sets the default value of the PL1 limit to 0 which implies HW now
+> >> works at minimum power and therefore the lowest effective frequency. This
+> >> means all workloads now run slower resulting in even GuC FW load operations
+> >> timing out, rendering ATSM unusable.
+> >>
+> >> A different solution to the original issue of the PL1 limit being disabled
+> >> on ATSM is needed but till that is developed, revert 0349c41b0596.
+> >>
+> >> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
+> >
+> > pushed to drm-intel-next and removed from drm-intel-fixes.
+> >
+> > Thanks for the quick reaction.
+>
+> Please always add Fixes: tags also to reverts.
+>
+> I suppose we should fix dim to also detect reverts, but I ended up
+> cherry-picking and pushing the original commit out to
+> drm-intel-next-fixes before realizing it's been reverted.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/tiny/cirrus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index ad67fb895213..594bc472862f 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -509,7 +509,7 @@ static void cirrus_crtc_helper_atomic_enable(struct drm_crtc *crtc,
- 	cirrus_mode_set(cirrus, &crtc_state->mode);
- 
- 	/* Unblank (needed on S3 resume, vgabios doesn't do it then) */
--	outb(0x20, 0x3c0);
-+	outb(VGA_AR_ENABLE_DISPLAY, VGA_ATT_W);
- 
- 	drm_dev_exit(idx);
- }
--- 
-2.39.1
-
+Oops, sorry!
