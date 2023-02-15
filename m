@@ -1,118 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C263D697790
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 08:50:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9968D6977A6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 08:54:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7EB10EA3F;
-	Wed, 15 Feb 2023 07:50:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6B6F10EA54;
+	Wed, 15 Feb 2023 07:54:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (mail-dbaeur03on2059.outbound.protection.outlook.com [40.107.104.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0347A10EA3F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 07:50:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FKXLP/SExeGhe7NXSJg2XrLBv3SgjwdEC56ODV67tsOHr06agdeItMZYswKTOz3XOgFlcXXBRZFBpbNj/da9UVhqyTgScGEC/p3yFvWEcdWMukdwYqkEC7zoN81NvjhNI3dKcI76m7LEQLtGhZq+w5+BB7S0+sYTrkThQ08XEr4NqLI62RGVEP45GFjvhRczvwhiNK9naxZCDo38N/X9Wc6VnwAGRiyjGVEfNGWbfPwdNE9sBzJh6G0S7BbF6HHkK/ZssyAC7Vn7ZOcwzVd9c4+V1KEra35wRjsyvIqbvKAsU3v9O7jVw6oIcjpJBHDaLpMT761zKhApo59zDFoWTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7MFJ8W0jH5fCt8F4Yd+YqHbvNHRcTQGH79WtqfPf8Io=;
- b=SsuHnggoS/tY3MEsIyx+28NdjRbH6QEM7nJtBDXl3JQX3jDRYWDZ1bsOGMbxEYIgEPPE5LYj84cDJ6gYLqmHjcO+6iBxYSPAVtsKi0pFNlNtmHu0WNr5Z4RSzX+Dux61WMLbeVBmtW9oGj9AWkK487EJAv/yexeYLf1jyCIJfsA6rKm6YtLrnI/wivBHffd3kcwN+uVn5N75vMtkHBJxcq+vUzubmz/Rkw+xOFAZ1J5/pEGj5I1knFyjy4J9G2pv2Y+K5A3dX8R1bOmOyBpAe97YWNgDmS85Xgpm3BqU0SxnJHNZLqSr8u/zSk/7bvNsJtRr3L1TJ3ePuCB/EddFig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7MFJ8W0jH5fCt8F4Yd+YqHbvNHRcTQGH79WtqfPf8Io=;
- b=ljRJ1TpfZpyRNLLVLFLef+2EHB4HjID7UgFuV7lfFa7rcQOVwloGHao6pzQsbRni6Q4A3iAdbIuigWNAeR5YWIR8M6gqhuoEk7Du08WKm8HQTAn8dIQ+47VldcbEw+D16OoqQruPcygP22jNX9QAzgMIMM7OVwzR2ntdDijgMa4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM9PR04MB8177.eurprd04.prod.outlook.com (2603:10a6:20b:3b7::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Wed, 15 Feb
- 2023 07:50:22 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::5725:92ec:f43e:f5fc%9]) with mapi id 15.20.6086.026; Wed, 15 Feb 2023
- 07:50:22 +0000
-Message-ID: <41bc30ac7af4b0ce3ff608b604fb6ea762428680.camel@nxp.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: lcdif: Add i.MX93 LCDIF support
-From: Liu Ying <victor.liu@nxp.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date: Wed, 15 Feb 2023 15:49:56 +0800
-In-Reply-To: <2551514.Lt9SDvczpP@steina-w>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5329E10EA54
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 07:54:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1676447694; x=1707983694;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=kmB3ZyRL9WLhReGN/zQsy3Lf0X194Zzb2QgZBtzAYLo=;
+ b=XiY37ik1ZpN7WiPs7WpMr0F3q9el5IFytnwEn2+CYNgi7ZCgdvGjuiLC
+ Wj5qWUG/4HFYlsCN4yg8s7ABbXCWuFaPtC4lsftIVLmfuj2Gn+lNvu4ns
+ GrfQ/yL1Me6mjU1cKA6KD2S8MeCqr8lJrbmd6UHF1Qg0cDa6KG46gGAs2
+ Enps8WQDHmI9cxexaPpGHuEusr/KEA0wGBPxR+Cx9ZG7FvVOv0WjASE4W
+ BFNu4o3FN1ZeChNAe6f04sgMrD+JANPPbf8A/tsgV4A2Ed6YN9Pd2BbBw
+ 8noI2Tp7BnZiWoL0mp0925sWkgL0TJchB+WLX9+E1srye5zB9xs+D79FO w==;
+X-IronPort-AV: E=Sophos;i="5.97,299,1669071600"; d="scan'208";a="29090186"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 15 Feb 2023 08:54:52 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Wed, 15 Feb 2023 08:54:52 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Wed, 15 Feb 2023 08:54:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1676447692; x=1707983692;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=kmB3ZyRL9WLhReGN/zQsy3Lf0X194Zzb2QgZBtzAYLo=;
+ b=W/KeE4vOo0315s601L2Ug8QlZWUWl+2EkIvFnW8ORwnxSc0fjJBqj5cp
+ oF/++7LPCIZpzRU/TBf1OKH9nXgds+mVXNVJsbRw8IuZtb4D/wE4o3uBb
+ VnwNbMT/EJdbKu6m6Qn7LjqL3DN0Y4Blq7d+e7CdQc6QquXl7yr106yFa
+ bR6DJwugbVNOMpwcSG+ui1X4esH9I0169nZIGCqHNEYpHZtoHWGvvYk+r
+ G/hMp7NBfavSNWthgFxf1Xr/Dte5aBQNSrNGPOBE1FmUhr9QDqj1q7Muj
+ BUPIKdEnZNpGlSnPKd9XpxULzR3eTiyy64il+aEmSyodiDW12aD6i6UOk g==;
+X-IronPort-AV: E=Sophos;i="5.97,299,1669071600"; d="scan'208";a="29090185"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 15 Feb 2023 08:54:52 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 27501280056;
+ Wed, 15 Feb 2023 08:54:52 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v3 5/6] drm: lcdif: Add multiple encoders and first
+ bridges support
+Date: Wed, 15 Feb 2023 08:54:50 +0100
+Message-ID: <1893357.taCxCBeP46@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230213085612.1026538-6-victor.liu@nxp.com>
 References: <20230213085612.1026538-1-victor.liu@nxp.com>
- <20230213085612.1026538-2-victor.liu@nxp.com> <2551514.Lt9SDvczpP@steina-w>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR02CA0131.apcprd02.prod.outlook.com
- (2603:1096:4:188::6) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+ <20230213085612.1026538-6-victor.liu@nxp.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM9PR04MB8177:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f3fa30d-3f45-4480-b6cf-08db0f294a72
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QO7KpAA5Rh1G0iPyEZ5ay7FsTcUuuIFxSvVu9vxRB/D02gvdW7YksRYBT47aQIon2ZHVDR2XybBwBva5GRROvd6SO40n6p47fd+yuh/zqKFbZVXOkTNlk6v8l80cVu2aAIT8uIwyJ2HdhaCujWrXVIC6aYLuK3yeLpaE3pNGyNVCP76j0dmnSB3ooHe88PhNjR6fMZHlEVVhwsnCbAWM1HTbXicGDkVUKLfTQn3504wJ3/VGFlmmuYR+meZJVkDwQ+VnFOhCcWDPYC/Ar+gVyFXlmfAQ+NlvE750kz/FeIXShz1S8g1Nvk7PyaSuzIAWcO4WYrNSUIJVWmtVXkXq+sDDOcKWBVkXZnzQ+f7WNSiPWSJrqOXojKd72Ptrr2Q1fGxhjEoQyC0iQ64w6NDybITMXb4SMSGdAicdoFHjWEtyp0vqU/kCsjlKAFUOLS9BXMbWGpkXLwmr9SCMc9k9TK6GSGR8LlqDer3LnAmlbjiazfTYQYlqclsPwN6ajqS/repfOxxMHhDy50RHcD1PpnCpk9mg6GCNLlJc8megb82bAiSPxtlsjl7pXVtSxBv9ASJH5k7UH5MLeq1O8wcHsq5/OmnjZiGKixPT8FLtmaM+yqutnWUBwAadt8MPqTolAS8HtBQQ/ukQuWQ9OK1GRNAYGGpMdL8Qq0uQXmghHaY2pDzK+jSsxOWxOc5nnLxyiuYRm+mvdcTfMqDwgfApgA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(346002)(39860400002)(396003)(376002)(136003)(451199018)(2616005)(86362001)(6486002)(83380400001)(966005)(478600001)(186003)(52116002)(26005)(6512007)(6666004)(6506007)(36756003)(38100700002)(38350700002)(8936002)(41300700001)(5660300002)(7416002)(316002)(4326008)(66946007)(66476007)(66556008)(8676002)(2906002)(99106002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dlJMeEZnc2tWUjdKdUlYQ1NwQ25TaHplOEV6ak41SWQzS0ROVnRhV2RkY1cr?=
- =?utf-8?B?QzBaS2x6RzdNNlV3U1A4dUEySUtFTkR2RE1EcUZSWklNekRvRjc4dVJvVjJX?=
- =?utf-8?B?d3hPMG90NXlVNmg5a1BIbEljRFZBa1htaE5EbzBJdGx6ay8vZHhaV2NXWGV3?=
- =?utf-8?B?N3lOSFN1U2pnV1U2b3hNU0pDMzBpa3pMWm1FbE1CdTYzMGpKcG9meXYxTk9a?=
- =?utf-8?B?aDNPaWJpbkw1QnZzT05tUjJvenNVaW1WNGtnblBaMDNhNzZOUVNTaU5Dcm1n?=
- =?utf-8?B?a2pOTm8rYXYveUFtdEpSQXdvWVRaOEVuNFFKYWxyeFNKelRpaWxXcXV3bGpM?=
- =?utf-8?B?VW41V3p4TzFSUGdYdlVkSGV2R09tc1BITGZFMEFLeE04Y3ZNMlpXN216TlN1?=
- =?utf-8?B?SWVOVm5WRkR0eDdralVBUmsvUlpOVkhGWEFSeTdlUExua0JGUnR1cCtmZG5S?=
- =?utf-8?B?c21lMTNOTEp0Z0UrTmVKOGxRWXJKT1VKZnVDaFFKYlFiU0xTOElYOFU3bVdY?=
- =?utf-8?B?UDJ5bENXZWd0d21nTDUyR0RkQkZ3NXo0aElUeGc1ZTRJRjdkS293b01HWGZX?=
- =?utf-8?B?QVNCSmJjTXlPanB1eUNYNlFiYy91SlRxWHhtTjVmSWtST3poT2tjczFWYkta?=
- =?utf-8?B?WVRKcmJOLzBabHgyZDZ0WlB2QWNUTW9MREg5bFN4akhBdzZQbjhmdmZZdnhs?=
- =?utf-8?B?bVRJUnhLaGhxZFpnQklYalZvWWNmZHo3L291T0pWYnJENEtwYWZGQ3I3OXhj?=
- =?utf-8?B?UFczVldyZ0tWRU1HKzFqV25iSEV5NXQwdVV4SW5XSmw5QVdjQnYxRndRZzVl?=
- =?utf-8?B?S3kweUhqUzhsM041citpSFJZeDUrTlh1dEsyQm82Z0h6NStLSlZwbXp5TUtx?=
- =?utf-8?B?d3FaR3FLQ0Jhc0FGNkNaRHJKUWZyMTlDRlNmL2k0Q2piVlNZSi9BRDVvNnhZ?=
- =?utf-8?B?dHJaMk1yK3Q1cHJtMXk0SEZaK0o2aHRDUk9LNlozNDhYYlU5bm5QcEVCc21F?=
- =?utf-8?B?Tm5GdTJhcmJyaVp6NE5SbjBtOVdsOS84eTRwSnJFS1FmVjdvVndTM1VHcGFB?=
- =?utf-8?B?Rks4L0FhRENQaXZRT1Y1T1Q1eTV5VEI2Y0pEYUdWQmRqZHprSE14VzlzQkt0?=
- =?utf-8?B?UFp4WnNrVVZMNmZWQjJoZjg3MDZ1UGtVQkpYVExSbnFvM2hTak1lSVV6Q3Na?=
- =?utf-8?B?TFdaOE41Mm00aHBjRjZIRWxKeUIrVmRRSTBkS28ySnl0WElWZ2hPN0ZNcFJD?=
- =?utf-8?B?bW01SHdTclBYcVExRS9sWldjUTFlTU04aERlVFVIdGV0cDJsQjRNSlEzN2hw?=
- =?utf-8?B?SUFRQlMwbTBIcXAyTm8wYnM3MUMzb2VDZU9RQndRaDRCWGV6aWlSWVlRY1lO?=
- =?utf-8?B?NVNUa1I2TFc1U29NcHF0Ly85WjU0QzNvaEZnVGtuSkczdExHY0ZreTFmSGRo?=
- =?utf-8?B?UGY3dVlTa2pUODlQZDFLUHNUMlhDM3dFSXVJalRCbEEvRFRwd016cU5qb3dU?=
- =?utf-8?B?RTQyQkJPVVVxZ2puR2JCdkV0dVExSmQwbnpTSTdHWWY5amQzcjZpdzZEUzR3?=
- =?utf-8?B?elRjT21LSEhudVhqY2N0eXlKOTdwZm1nUm9Fc2pjckh4UE84WlJhY1RyUXNK?=
- =?utf-8?B?OERnL2N3REpXRXlDbk9CL1V2dDRqNy81ancvMFZhNm40UGlYc2pGMWg5d2VR?=
- =?utf-8?B?WkFoeW9hZi9JRlQ2QmRrVlRoY25MdzIxSElqV0k2aHdNdzhuWGRnbEJ2MTlL?=
- =?utf-8?B?bHBzMG5VTWpVWGE2cmJSdGNhd1RrMnlSYmJVVlFSNUg4RjJQcW5YaEpjT2Fu?=
- =?utf-8?B?OEhkSElPVm5ZRWFRRUhtWElHQnhOUnZ4TXRFeldDTmtTcFo4dU56WkFQM0tK?=
- =?utf-8?B?VU1DeXIwalptZk8reGIybE03bUkxU2gwRFRkRmJicWdwR21qeDZNbC81Nm9E?=
- =?utf-8?B?U25rVGdBQkRGWkY5M1dwNmZnTUlwdkk4amZKM3AwVXk0UHZKeEFweEFjcXRQ?=
- =?utf-8?B?cU0yOVJWU2J1cklsWWZnakhHY3VmQXk3aDF0M3g4NDlyNlhLVy9pRHBoUjBh?=
- =?utf-8?B?QWNlYUlRZUVPeTh2V29mSU1RT2gwb1A2a3psZHRVaVBMaS9BN1JvRFF0dlQ3?=
- =?utf-8?Q?+dpvTCLjTb80m+VvwIRrt8BCT?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f3fa30d-3f45-4480-b6cf-08db0f294a72
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 07:50:22.7663 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wrkvfM008B1aGUcZsqCpZALpztu7ZGqmycH6qJydIEUxaBI/Eo+Pbg/XI5IzBtURI+1AQok8kwW8Rktchm2TnQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8177
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,118 +86,240 @@ Cc: marex@denx.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2023-02-15 at 08:26 +0100, Alexander Stein wrote:
-> Hi Liu,
+Hi Liu,
 
-Hi Alexander,
+thanks for the update.
 
-> 
-> thanks for the update.
+Am Montag, 13. Februar 2023, 09:56:11 CET schrieb Liu Ying:
+> The single LCDIF embedded in i.MX93 SoC may drive multiple displays
+> simultaneously.  Look at LCDIF output port's remote port parents to
+> find all enabled first bridges.  Add an encoder for each found bridge
+> and attach the bridge to the encoder.  This is a preparation for
+> adding i.MX93 LCDIF support.
+>=20
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v2->v3:
+> * No change.
+>=20
+> v1->v2:
+> * Split from patch 2/2 in v1. (Marek, Alexander)
+> * Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
+> * Drop unneeded 'bridges' member from lcdif_drm_private structure.
+>=20
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c | 68 +++++++++++++++++++++++++++----
+>  drivers/gpu/drm/mxsfb/lcdif_drv.h |  4 +-
+>  drivers/gpu/drm/mxsfb/lcdif_kms.c | 21 ++--------
+>  3 files changed, 66 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> b/drivers/gpu/drm/mxsfb/lcdif_drv.c index b5b9a8e273c6..eb6c265fa2fe 1006=
+44
+> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> @@ -9,13 +9,16 @@
+>  #include <linux/dma-mapping.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/of_device.h>
+> +#include <linux/of_graph.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>=20
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_drv.h>
+> +#include <drm/drm_encoder.h>
+>  #include <drm/drm_fbdev_generic.h>
+>  #include <drm/drm_gem_dma_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> @@ -38,19 +41,68 @@ static const struct drm_mode_config_helper_funcs
+> lcdif_mode_config_helpers =3D { .atomic_commit_tail =3D
+> drm_atomic_helper_commit_tail_rpm,
+>  };
+>=20
+> +static const struct drm_encoder_funcs lcdif_encoder_funcs =3D {
+> +	.destroy =3D drm_encoder_cleanup,
+> +};
+> +
+>  static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+>  {
+> -	struct drm_device *drm =3D lcdif->drm;
+> +	struct device *dev =3D lcdif->drm->dev;
+> +	struct device_node *ep;
+>  	struct drm_bridge *bridge;
+>  	int ret;
+>=20
+> -	bridge =3D devm_drm_of_get_bridge(drm->dev, drm->dev->of_node, 0, 0);
+> -	if (IS_ERR(bridge))
+> -		return PTR_ERR(bridge);
+> -
+> -	ret =3D drm_bridge_attach(&lcdif->encoder, bridge, NULL, 0);
+> -	if (ret)
+> -		return dev_err_probe(drm->dev, ret, "Failed to attach=20
+bridge\n");
+> +	for_each_endpoint_of_node(dev->of_node, ep) {
+> +		struct device_node *remote;
+> +		struct of_endpoint of_ep;
+> +		struct drm_encoder *encoder;
+> +
+> +		remote =3D of_graph_get_remote_port_parent(ep);
 
-Thanks for the review.
+Is it possible for remote to be NULL?
 
-> 
-> Am Montag, 13. Februar 2023, 09:56:07 CET schrieb Liu Ying:
-> > There is one LCDIF embedded in i.MX93 SoC to connect with
-> > MIPI DSI controller through LCDIF cross line pattern(controlled
-> > by mediamix blk-ctrl) or connect with LVDS display bridge(LDB)
-> > directly or connect with a parallel display through parallel
-> > display format(also controlled by mediamix blk-ctrl).  i.MX93
-> > LCDIF IP is essentially the same to i.MX8MP LCDIF IP.  Add device
-> > tree binding for i.MX93 LCDIF.
-> > 
-> > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Reviewed-by: Marek Vasut <marex@denx.de>
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v2->v3:
-> > * No change.
-> > 
-> > v1->v2:
-> > * Add Krzysztof's A-b and Marek's R-b tags on patch 1/6.
-> > 
-> >  Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 7
-> > ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> > b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml index
-> > 75b4efd70ba8..fc11ab5fc465 100644
-> > --- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> > +++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
-> > @@ -21,6 +21,7 @@ properties:
-> >            - fsl,imx28-lcdif
-> >            - fsl,imx6sx-lcdif
-> >            - fsl,imx8mp-lcdif
-> > +          - fsl,imx93-lcdif
-> >        - items:
-> >            - enum:
-> >                - fsl,imx6sl-lcdif
-> > @@ -88,7 +89,9 @@ allOf:
-> >        properties:
-> >          compatible:
-> >            contains:
-> > -            const: fsl,imx8mp-lcdif
-> > +            enum:
-> > +              - fsl,imx8mp-lcdif
-> > +              - fsl,imx93-lcdif
-> >      then:
-> >        properties:
-> >          clocks:
-> > @@ -107,6 +110,7 @@ allOf:
-> >                enum:
-> >                  - fsl,imx6sx-lcdif
-> >                  - fsl,imx8mp-lcdif
-> > +                - fsl,imx93-lcdif
-> >      then:
-> >        properties:
-> >          clocks:
-> > @@ -123,6 +127,7 @@ allOf:
-> >                - fsl,imx8mm-lcdif
-> >                - fsl,imx8mn-lcdif
-> >                - fsl,imx8mp-lcdif
-> > +              - fsl,imx93-lcdif
-> >      then:
-> >        required:
-> >          - power-domains
-> 
-> I would have expected that fsl,imx93-lcdif supports up to 3 endpoints
-> (MIPI 
-> DSI, LVDS, and parallel) in a 'ports' subnode. But this binding only
-> supports 
-> a single 'port' sub-node. Also an example for this case might be very
-> helpful.
+> +		if (!of_device_is_available(remote)) {
+> +			of_node_put(remote);
+> +			continue;
+> +		}
+> +		of_node_put(remote);
+> +
+> +		ret =3D of_graph_parse_endpoint(ep, &of_ep);
+> +		if (ret < 0) {
+> +			dev_err(dev, "Failed to parse endpoint %pOF\n",=20
+ep);
+> +			of_node_put(ep);
+> +			return ret;
+> +		}
+> +
+> +		if (of_ep.id >=3D MAX_DISPLAYS) {
+> +			dev_warn(dev, "invalid endpoint id %u\n",=20
+of_ep.id);
 
-The port node allows multiple endpoints(See graph.yaml[1]).  It's
-enough to use the existing port node instead of using ports node.
+I would write
+dev_warn(dev, "ignoring invalid endpoint id %u\n", of_ep.id);
+just because the parsing continues but this one is skipped.
 
-For i.MX93 LCDIF, the port node will be something like this:
---------------------8<--------------------------
-port {
-        #address-cells = <1>;
-        #size-cells = <0>;
+> +			continue;
+> +		}
+> +
+> +		bridge =3D devm_drm_of_get_bridge(dev, dev->of_node, 0,=20
+of_ep.id);
+> +		if (IS_ERR(bridge)) {
+> +			of_node_put(ep);
+> +			return dev_err_probe(dev, PTR_ERR(bridge),
+> +					     "Failed to get bridge=20
+for endpoint%u\n",
+> +					     of_ep.id);
+> +		}
+> +
+> +		encoder =3D &lcdif->encoders[of_ep.id];
+> +		encoder->possible_crtcs =3D drm_crtc_mask(&lcdif->crtc);
+> +		ret =3D drm_encoder_init(lcdif->drm, encoder,=20
+&lcdif_encoder_funcs,
+> +				       DRM_MODE_ENCODER_NONE, NULL);
+> +		if (ret) {
+> +			dev_err(dev, "Failed to initialize encoder for=20
+endpoint%u: %d\n",
+> +				of_ep.id, ret);
+> +			of_node_put(ep);
+> +			return ret;
+> +		}
+> +
+> +		ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
+> +		if (ret) {
+> +			of_node_put(ep);
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to attach=20
+bridge for endpoint%u\n",
+> +					     of_ep.id);
+> +		}
 
-        lcdif_to_pdfc: endpoint@0 {
-                reg = <0>;
-        };
+Admittedly I'm not used to the drm API, but do we need to some manual clean=
+up/
+revert if some endpoints is e.g. deferred, but previous endpoints already h=
+ave=20
+been successfully added? e.g. endpoint 0 is added, but adding endpoint 1=20
+fails.
 
-        lcdif_to_ldb: endpoint@1 {
-                reg = <1>;
-        };
+Best regards,
+Alexander
 
-        lcdif_to_cross_line_pattern: endpoint@2 {
-                reg = <2>;
-        };
-};
---------------------8<--------------------------
+> +	}
+>=20
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> b/drivers/gpu/drm/mxsfb/lcdif_drv.h index aa6d099a1897..c7400bd9bbd9 1006=
+44
+> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> @@ -14,6 +14,8 @@
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_plane.h>
+>=20
+> +#define MAX_DISPLAYS	3
+> +
+>  struct clk;
+>=20
+>  struct lcdif_drm_private {
+> @@ -30,7 +32,7 @@ struct lcdif_drm_private {
+>  		/* i.MXRT does support overlay planes, add them here. */
+>  	} planes;
+>  	struct drm_crtc			crtc;
+> -	struct drm_encoder		encoder;
+> +	struct drm_encoder		encoders[MAX_DISPLAYS];
+>  };
+>=20
+>  static inline struct lcdif_drm_private *
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> b/drivers/gpu/drm/mxsfb/lcdif_kms.c index 4ea3d2b2cf61..5f34d01e133e 1006=
+44
+> --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> @@ -654,14 +654,6 @@ static const struct drm_crtc_funcs lcdif_crtc_funcs =
+=3D {
+> .disable_vblank =3D lcdif_crtc_disable_vblank,
+>  };
+>=20
+> -/*
+> -------------------------------------------------------------------------=
+=2D-
+> -- - * Encoder
+> - */
+> -
+> -static const struct drm_encoder_funcs lcdif_encoder_funcs =3D {
+> -	.destroy =3D drm_encoder_cleanup,
+> -};
+> -
+>  /*
+> -------------------------------------------------------------------------=
+=2D-
+> -- * Planes
+>   */
+> @@ -754,7 +746,6 @@ int lcdif_kms_init(struct lcdif_drm_private *lcdif)
+>  					BIT(DRM_COLOR_YCBCR_BT2020);
+>  	const u32 supported_ranges =3D BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+>  				     BIT(DRM_COLOR_YCBCR_FULL_RANGE);
+> -	struct drm_encoder *encoder =3D &lcdif->encoder;
+>  	struct drm_crtc *crtc =3D &lcdif->crtc;
+>  	int ret;
+>=20
+> @@ -778,13 +769,7 @@ int lcdif_kms_init(struct lcdif_drm_private *lcdif)
+>  		return ret;
+>=20
+>  	drm_crtc_helper_add(crtc, &lcdif_crtc_helper_funcs);
+> -	ret =3D drm_crtc_init_with_planes(lcdif->drm, crtc,
+> -					&lcdif->planes.primary,=20
+NULL,
+> -					&lcdif_crtc_funcs, NULL);
+> -	if (ret)
+> -		return ret;
+> -
+> -	encoder->possible_crtcs =3D drm_crtc_mask(crtc);
+> -	return drm_encoder_init(lcdif->drm, encoder, &lcdif_encoder_funcs,
+> -				DRM_MODE_ENCODER_NONE, NULL);
+> +	return drm_crtc_init_with_planes(lcdif->drm, crtc,
+> +					 &lcdif->planes.primary,=20
+NULL,
+> +					 &lcdif_crtc_funcs, NULL);
+>  }
 
-Looks like it's not necessary to add a specifc example for i.MX93
-LCDIF.
 
-[1] 
-https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/graph.yaml#L48
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-Regards,
-Liu Ying
 
