@@ -1,68 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F68C6987A2
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 23:07:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 237DF698874
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 00:01:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 283F710EC60;
-	Wed, 15 Feb 2023 22:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C77B10E2CA;
+	Wed, 15 Feb 2023 23:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D2B10EC6B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 22:07:46 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id q13so253982qtx.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 14:07:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=tEDwLa0nzqfWeWBY3WezxbextkU33J6bq+CoUoE9s3o=;
- b=Hvq/EKdYeFvjgSd8wYuxIPXkzcCDNyA0chEl7RG37xF2no/+26zz3WSG2i1AAPpbkR
- Gy3YZmBSiwYU9QdnpBGLjQ5rhF45jk9lyaQ237VmMm0ODjRDo4zgWvxjLXWESHG25vy+
- 0dRj4FUlKW3/YldLDzYYD1dINTKVXIKQcx3XDMNO81M61Ubp1k9rBPX0D9Zpwk4VHMiC
- CbYwMxzqX7xl4rrasyh79Y/hHf0iCN2SeZrdLtMmgwJ5zivxZAVWkIb7xUIwusxxDrrX
- 2BompUNgpb1b0mV1lkm1WJ42nNzKJRldwqs+CmPuYp3zIEUE5ZgTQc7u1LTfn2s58p1s
- +1hQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A9810E2CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 23:01:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676502094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GqVitRGjYBX8GSzEkilO7B7lFiZnfb8r4eRKt2Vhqk0=;
+ b=fYfqtpMxJevMU/cbTTwbOxM96QwVsbF994+WpSqzHc8m0nRl73cBaCRDMNmzH+7OAefdgk
+ AT/cEgUxNm9nsEH5XVf5nQDz7MLYIPhnsVUhnMdmzCit2f/jZnqjrU6YCUUvr0nEDv6sOZ
+ 0FlDB/jLmXXrK2sz7m0lwEJXzKF8aUo=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-504-D1mIKGieMXKb7tQw_29cIw-1; Wed, 15 Feb 2023 18:01:33 -0500
+X-MC-Unique: D1mIKGieMXKb7tQw_29cIw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ j29-20020a05620a001d00b00724fd33cb3eso97825qki.14
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 15:01:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tEDwLa0nzqfWeWBY3WezxbextkU33J6bq+CoUoE9s3o=;
- b=YehufheGVGdGiv5qgK5z2s5Xjvcru29oyFyllqVMC0k6FHYI37Ad6ITv4f8xFFxKHW
- P0VLigOEMCIVQ1OiWqJqfC+nOaOpaxi0kEPoVmOkumcIzESKlSol9E4eaeksvHecPG0R
- OZdxKZ+PAJ6VBYANQ9meR/8tqygPxDBuF6KI43q/XlddvuNmh2TGxbkRrCy9y3nUQQtM
- ezuIvNxxABUoOne3NO/9iQ1m3ARKqbgpNQiQmb939AK8APBqUKlvUEI9ZH6Uigbmcftp
- a660PxudGGHlFhTk1ZaFdS5zPEVNx5LZBSgXZMjZTptZDxvbYNZBdYswZwqDA2rkkw2l
- VlrA==
-X-Gm-Message-State: AO0yUKXCk5iwGctmRgbtXaEQ74TqkXXq2eEZE2FuuJf+p+IDiuFKQHH6
- MuZtUIBauhYlb+Ybd3y0gXhKUBm8BWSgvNh2e8oEIg==
-X-Google-Smtp-Source: AK7set+RIG4SAYf/qvh73MnYCF/0A7xCb253KhfwHZ9w/wcIDgSyMOHjmS3G++IkFPp+4eGHj7+WISicB+xvkBQ4dJk=
-X-Received: by 2002:ac8:7d03:0:b0:3ba:2848:ea6f with SMTP id
- g3-20020ac87d03000000b003ba2848ea6fmr354736qtb.338.1676498865675; Wed, 15 Feb
- 2023 14:07:45 -0800 (PST)
+ h=mime-version:user-agent:content-transfer-encoding:organization
+ :references:in-reply-to:date:cc:to:from:subject:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bsYrZzYMtnpPy1dLr5xbLMKSM/UlrfB6vQQZ4rqlNLU=;
+ b=14An1Tmnk+uBCgpNh4xMk4dH+7wq7zZflug4KhwPvWsd2R/nuzXO87FV84w6xpa1nI
+ O1sXRTuk8r7IyNjtzFdpdzhaiblJz6rMVV0fKRHMTu6lZkrjZwpWcDh1tmTvdY42jjtB
+ Ox8I+AkGfLMyzuE7EiuzDkd7OapYjfvk4dalfU2VWojhtboMU49L84Frw+K1SPnojGbm
+ 6V5nNwYSripJJVMQ346+SVUvMFpkn2GqBukgJYAAtsYgZETZgbZ/DnkL7xM8sNR4xyzF
+ N5L8UqvRbOdsIqAljBj1iFSqoUeiO1d2OpTRv9FStlIMsHwv074Fi3P8vmWFIoioVCeD
+ U/MQ==
+X-Gm-Message-State: AO0yUKXVIBanHmJpU21fGE29lAbvCHdCi2mJFmDl7txZ1ObBvvzPoJht
+ XO4bFRnLMXXQ1ZLQZPXfds4nTu61pOSH2/dXWMkjTc7W873e29VT6IuMPJ3FcFetzDCP1T2aTkm
+ GvMdKrktTmb4EG+CZcKexn6cLzDUhkcFxzQ==
+X-Received: by 2002:ac8:7f16:0:b0:3b9:b422:4d5b with SMTP id
+ f22-20020ac87f16000000b003b9b4224d5bmr6282649qtk.26.1676502092427; 
+ Wed, 15 Feb 2023 15:01:32 -0800 (PST)
+X-Google-Smtp-Source: AK7set+qnHViHFdBUIjxUI6M3KrFKZ6NirVS+Cp47Y7N9ahccvHsZrp34JkpSRGEGSaqRlksgX+0TA==
+X-Received: by 2002:ac8:7f16:0:b0:3b9:b422:4d5b with SMTP id
+ f22-20020ac87f16000000b003b9b4224d5bmr6282620qtk.26.1676502092198; 
+ Wed, 15 Feb 2023 15:01:32 -0800 (PST)
+Received: from ?IPv6:2600:4040:5c68:6800::feb? ([2600:4040:5c68:6800::feb])
+ by smtp.gmail.com with ESMTPSA id
+ o190-20020a375ac7000000b0073b45004754sm6662405qkb.34.2023.02.15.15.01.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Feb 2023 15:01:31 -0800 (PST)
+Message-ID: <d676862c180af8c5325fb00f0e2e469e6f600835.camel@redhat.com>
+Subject: Re: [PATCH] drm/nouveau/led: explicitly include linux/leds.h
+From: Lyude Paul <lyude@redhat.com>
+To: Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>, Ben Skeggs
+ <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 15 Feb 2023 18:01:30 -0500
+In-Reply-To: <20230215-power_supply-leds-nouveau-v1-1-ea93bfa0ba7e@weissschuh.net>
+References: <20230215-power_supply-leds-nouveau-v1-1-ea93bfa0ba7e@weissschuh.net>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
 MIME-Version: 1.0
-References: <20230203020744.30745-1-joshua@froggi.es>
- <20230203020744.30745-3-joshua@froggi.es>
- <Y9zkef5FjtZ7guVS@intel.com>
- <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
- <0fc18aec-0703-55f4-f635-d09d345e8dc0@amd.com> <Y90l+DY0rSaMvN1U@intel.com>
- <758e5cf6-53e0-567c-c760-5b773bc7a11c@amd.com> <Y90vrEa3/1RbaGOV@intel.com>
- <CA+hFU4wuM_xHniFyRT+jouQ3k_S3UJsRpAtd1Lgx9UVLtrqZrQ@mail.gmail.com>
- <98d1d22a-1c29-5271-1eaf-89c962eb9678@amd.com>
- <CAPj87rP0E17Z8beoDi_c+RdcpyZnCXTrxFkQSJUi0qN2GNoq+w@mail.gmail.com>
- <5288b9ef-ed1f-842f-4fa3-0cc00a1b1188@amd.com>
-In-Reply-To: <5288b9ef-ed1f-842f-4fa3-0cc00a1b1188@amd.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 15 Feb 2023 22:07:34 +0000
-Message-ID: <CAPj87rOfMOchED+CHEaKr=8EXgdbpshmLGz48QnOGSQfK3uzvw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
- drm_colorspace enum
-To: Harry Wentland <harry.wentland@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,100 +86,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
- Pekka Paalanen <ppaalanen@gmail.com>, Uma Shankar <uma.shankar@intel.com>,
- dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
- Vitaly.Prosyak@amd.com
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Feb 2023 at 20:54, Harry Wentland <harry.wentland@amd.com> wrote:
-> On 2/15/23 06:46, Daniel Stone wrote:
-> > On Tue, 14 Feb 2023 at 16:57, Harry Wentland <harry.wentland@amd.com> wrote:
-> >> On 2/14/23 10:49, Sebastian Wick wrote:
-> >> From what I've seen recently I am inclined to favor an incremental
-> >> approach more. The reason is that any API, or portion thereof, is
-> >> useless unless it's enabled full stack. When it isn't it becomes
-> >> dead code quickly, or never really works because we overlooked
-> >> one thing. The colorspace debacle shows how even something as
-> >> simple as extra enum values in KMS APIs shouldn't be added unless
-> >> someone in a canonical upstream project actually uses them. I
-> >> would argue that such a canonical upstream project actually has
-> >> to be a production environment and not something like Weston.
-> >
-> > Just to chime in as well that it is a real production environment;
-> > it's probably actually shipped the most of any compositor by a long
-> > way. It doesn't have much place on the desktop, but it does live in
-> > planes, trains, automobiles, digital signage, kiosks, STBs/TVs, and
-> > about a billion other places you might not have expected.
-> >
->
-> Understood.
->
-> Curious if there's a list of some concrete examples.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-If I was allowed to name them, I'd definitely be doing a much better
-job of promoting it ... but if you've bought a car in the last 7-8
-years, it's much more likely than not that its console display is
-using Weston. Probably about 50% odds that you've flown on a plane
-whose IFE is driven by Weston. You've definitely walked past a lot of
-digital signage advertisements and display walls which are driven by
-Weston. There are a huge number of consumer products (and other modes
-of transport, would you believe?) that are too, but I can't name them
-because it gets too specific.
+Will push to drm-misc-next in a moment
 
-The cars are probably using a 10+ year old (and frankly awful) SoC.
-The display walls are probably using a 6ish-year-old SoC with
-notoriously poor memory bandwidth. Or TVs trying to make 4K UIs fly on
-an ancient (pre-unified-shader) GPU. The hits go on. We do ship things
-on nice and capable new hardware as well, but keeping old hardware
-working with new software stacks is non-negotiable for us, and we have
-to bend over backwards to make that happen.
+On Wed, 2023-02-15 at 01:04 +0000, Thomas Wei=C3=9Fschuh wrote:
+> Instead of relying on an accidental, transitive inclusion of linux/leds.h
+> use it directly.
+>=20
+> Also drop the forware definition of struct led_classdev that is now
+> provided by linux/leds.h.
+>=20
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_led.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_led.h b/drivers/gpu/drm/nouv=
+eau/nouveau_led.h
+> index 21a5775028cc..bc9bc7208da3 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_led.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_led.h
+> @@ -27,7 +27,7 @@
+> =20
+>  #include "nouveau_drv.h"
+> =20
+> -struct led_classdev;
+> +#include <linux/leds.h>
+> =20
+>  struct nouveau_led {
+>  =09struct drm_device *dev;
+>=20
+> ---
+> base-commit: e1c04510f521e853019afeca2a5991a5ef8d6a5b
+> change-id: 20230215-power_supply-leds-nouveau-ff4995ba0794
+>=20
+> Best regards,
 
-> >> We should look at this from a use-case angle, similar to what
-> >> the gamescope guys are doing. Small steps, like:
-> >> 1) Add HDR10 output (PQ, BT.2020) to the display
-> >> 2) Add ability to do sRGB linear blending
-> >> 3) Add ability to do sRGB and PQ linear blending
-> >> 4) Post-blending 3D LUT
-> >> 5) Pre-blending 3D LUT
-> >>
-> >> At each stage the whole stack needs to work together in production.
-> >
-> > Personally, I do think at this stage we probably have enough of an
-> > understanding to be able to work with an intermediate solution. We
-> > just need to think hard about what that intermediate solution is -
-> > making sure that we don't end up in the same tangle of impossible
-> > semantics like the old 'broadcast RGB' / colorspace / HDR properties
-> > which were never thought through - so that it is something we can
-> > build on rather than something we have to work around. But it would be
-> > really good to make HDR10/HDR10+ media and HDR games work on HDR
-> > displays, yeah.
->
-> I have a feeling we'll make some progress here this year. I definitely
-> think the whole HDR/Colour work is on the right track in Weston and
-> Wayland which will hopefully give us a good base to work with over
-> many years.
-
-Yep!
-
-Coming to the point you were making in the other mail - Weston was
-traditionally used as _the_ enablement vehicle for KMS, because we
-cared about using the depth of hardware much more than anyone else
-(e.g. being years ahead on planes), and the vendor who wanted to
-enable it either wanted to enable Weston specifically or just didn't
-have an open userspace stack for it. The other compositors couldn't be
-that vehicle, either because they were more focused on desktop UI, or
-they could just afford to throw the GPU at it and suck up the
-occasional frame hitch / thermal burn / etc. I like to think we had a
-reputation for being pretty thoughtful and careful with our review as
-well, and didn't give it lightly to misguided ideas which caused
-long-term problems.
-
-But we've got a greater diversity in userspace these days, and that's
-no bad thing. If the best vehicle to demonstrate HDR GPU rendering is
-gamescope, then use gamescope as that vehicle. We'll be there if we
-can, and if it makes sense for us, but it's not a requirement.
-
+--=20
 Cheers,
-Daniel
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
