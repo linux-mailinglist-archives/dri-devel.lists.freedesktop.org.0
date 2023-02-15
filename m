@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1026979F4
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 11:35:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B91E6979FA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 11:36:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 153E110EA91;
-	Wed, 15 Feb 2023 10:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3783110EA9D;
+	Wed, 15 Feb 2023 10:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0487710EA91;
- Wed, 15 Feb 2023 10:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676457321; x=1707993321;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=I3zjOzp2OCm6DEdwWuHabSUwtBY9qBsr2AkTtLJdMck=;
- b=AUUzl2Qj39v1KmthOyYsR2/d+C0znPdidSIHq9WOtOHAepqh68xmhOwr
- adFVj3ET/9HfopQyh7MtDbLkxdKhCaNk9YFCErKSgA4rBSPP1XyhHP72o
- 9yjlVH9nA7NNuzxYUa+jUAKUrrR0jC0h9aRJdwWeTxoEWrjUtN76b7NTp
- 0Ura0SGIZpLjfLPRT4JSN1wKtsSBku4MR/qXrSTyZCr4c3biDk4vQYWoN
- EGu5QFYi/woHwp2G+O3Gc6Iq5xbGE0bMmf0E5tGBWPqk0uvmvgB6Mx2H6
- kawQZbqekrhh7539Ndvs4vdIEIm9rQF06boF5Db3xAc9ll5ZdKXx+4Dn0 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="329113039"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="329113039"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2023 02:33:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10621"; a="699909316"
-X-IronPort-AV: E=Sophos;i="5.97,299,1669104000"; d="scan'208";a="699909316"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.55])
- by orsmga008.jf.intel.com with SMTP; 15 Feb 2023 02:33:02 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 15 Feb 2023 12:33:01 +0200
-Date: Wed, 15 Feb 2023 12:33:01 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
- drm_colorspace enum
-Message-ID: <Y+y03W0GWUxSucBW@intel.com>
-References: <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
- <0fc18aec-0703-55f4-f635-d09d345e8dc0@amd.com>
- <Y90l+DY0rSaMvN1U@intel.com>
- <758e5cf6-53e0-567c-c760-5b773bc7a11c@amd.com>
- <Y90vrEa3/1RbaGOV@intel.com>
- <CA+hFU4wuM_xHniFyRT+jouQ3k_S3UJsRpAtd1Lgx9UVLtrqZrQ@mail.gmail.com>
- <98d1d22a-1c29-5271-1eaf-89c962eb9678@amd.com>
- <CA+hFU4y=N3bR-vXXeLP0xTe0-HJPgF_GTbKrb3A9St-z2LignQ@mail.gmail.com>
- <Y+vqu3qGUQayTjd+@intel.com> <20230215120125.59b5965c@eldfell>
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
+ [80.237.130.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD55D10EA98;
+ Wed, 15 Feb 2023 10:36:32 +0000 (UTC)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1pSF9J-0005s3-Ku; Wed, 15 Feb 2023 11:36:29 +0100
+Message-ID: <b829633e-ccc4-7a54-1cad-f29254de1251@leemhuis.info>
+Date: Wed, 15 Feb 2023 11:36:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230215120125.59b5965c@eldfell>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
+Content-Language: en-US, de-DE
+To: Chris Clayton <chris2553@googlemail.com>, Dave Airlie <airlied@gmail.com>
+References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
+ <3ab28896-70e9-6f90-5b97-e5397b06e715@googlemail.com>
+ <a163dd7b-c5d1-a07b-a816-7a2dfd3edfd4@leemhuis.info>
+ <ab1b0f73-6b4e-8602-2999-b7bec25d92db@googlemail.com>
+ <CACAvsv4sOtPjCVnEcKd2RCUqYWxSn5XKyksbS-Bds2qCqyusVw@mail.gmail.com>
+ <1cdb84ac-f7a8-66ba-98fc-3db302b49a5a@googlemail.com>
+ <dab6eb81-db3f-8fa1-84ad-9b40e209514b@googlemail.com>
+ <CACAvsv5iYdF3P8AbyrbYo3zGmYRYhxDWn7WbAR5V9qHpbgBXRA@mail.gmail.com>
+ <1632a9ef-2954-c8f0-cdc9-03157c9d8547@googlemail.com>
+ <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
+ <5cf46df8-0fa2-e9f5-aa8e-7f7f703d96dd@googlemail.com>
+ <f72fe15b-db1d-56dd-aaf6-3cba68a8bf0a@leemhuis.info>
+ <CACO55tvR4ydDOXt=9nbR3n2aFLKrj8zeuGRR_xpezVQBBLrjqg@mail.gmail.com>
+ <a6188878-f84c-0fcc-9509-b9d7ab797f4c@leemhuis.info>
+ <d031f0a5-8d5e-af51-6db6-11844de3eeba@googlemail.com>
+ <CAPM=9tz+wksJTvMi_4Ef7XWezfH0ReN2se189s8Q=obJjHC+Fw@mail.gmail.com>
+ <4e786e22-f17a-da76-5129-8fef0c7c825a@googlemail.com>
+From: "Linux regression tracking #update (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+In-Reply-To: <4e786e22-f17a-da76-5129-8fef0c7c825a@googlemail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1676457392;
+ 6c767029; 
+X-HE-SMSGID: 1pSF9J-0005s3-Ku
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,75 +62,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, ML nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com,
+ Ben Skeggs <skeggsb@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 15, 2023 at 12:01:25PM +0200, Pekka Paalanen wrote:
-> On Tue, 14 Feb 2023 22:10:35 +0200
-> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+On 13.02.23 10:14, Chris Clayton wrote:
+> On 13/02/2023 02:57, Dave Airlie wrote:
+>> On Sun, 12 Feb 2023 at 00:43, Chris Clayton <chris2553@googlemail.com> wrote:
+>>>
+>>>
+>>>
+>>> On 10/02/2023 19:33, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>>> On 10.02.23 20:01, Karol Herbst wrote:
+>>>>> On Fri, Feb 10, 2023 at 7:35 PM Linux regression tracking (Thorsten
+>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
+>>>>>>
+>>>>>> On 08.02.23 09:48, Chris Clayton wrote:
+>>>>>>>
+>>>>>>> I'm assuming  that we are not going to see a fix for this regression before 6.2 is released.
+>>>>>>
+>>>>>> Yeah, looks like it. That's unfortunate, but happens. But there is still
+>>>>>> time to fix it and there is one thing I wonder:
+>>>>>>
+>>>>>> Did any of the nouveau developers look at the netconsole captures Chris
+>>>>>> posted more than a week ago to check if they somehow help to track down
+>>>>>> the root of this problem?
+>>>>>
+>>>>> I did now and I can't spot anything. I think at this point it would
+>>>>> make sense to dump the active tasks/threads via sqsrq keys to see if
+>>>>> any is in a weird state preventing the machine from shutting down.
+>>>>
+>>>> Many thx for looking into it!
+>>>
+>>> Yes, thanks Karol.
+>>>
+>>> Attached is the output from dmesg when this block of code:
+>>>
+>>>         /bin/mount /dev/sda7 /mnt/sda7
+>>>         /bin/mountpoint /proc || /bin/mount /proc
+>>>         /bin/dmesg -w > /mnt/sda7/sysrq.dmesg.log &
+>>>         /bin/echo t > /proc/sysrq-trigger
+>>>         /bin/sleep 1
+>>>         /bin/sync
+>>>         /bin/sleep 1
+>>>         kill $(pidof dmesg)
+>>>         /bin/umount /mnt/sda7
+>>>
+>>> is executed immediately before /sbin/reboot is called as the final step of rebooting my system.
+>>>
+>>> I hope this is what you were looking for, but if not, please let me know what you need
 > 
-> > On Tue, Feb 14, 2023 at 08:45:00PM +0100, Sebastian Wick wrote:
-> 
-> ...
-> 
-> > > We also have to figure out how a user space which doesn't
-> > > know about the new property behaves when another client has set that
-> > > property. If any property which currently might change the pixel
-> > > values is used, we can't expose the entire color pipeline because the
-> > > kernel might have to use some element in it to achieve its magic
-> > > conversion. So essentially you already have this hard device between
-> > > "old" and "new" and you can't use the new stuff incrementally.  
-> > 
-> > That problem exists with any new property. Old userspace and new
-> > userspace may interact badly enought that nothing works right.
-> > In that sense I think these props might even be pretty mundane
-> > as the worst you might get from setting the infoframe wrong is
-> > perhaps wrong colors on your display.
-> > 
-> > To solve that particular problem there has been talk (for years)
-> > about some kind of "reset all" knob to make sure everything is
-> > at a safe default value. I have a feeling there was even some
-> > kind of semi-real proposal in recent times, but maybe I imgained
-> > it?
-> 
-> I've been talking about that too, but I think it all collapsed into
-> "let's just fix all KMS apps to always set all KMS properties" which
-> results in patches like
-> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/952
+> Thanks Dave. [...]
+FWIW, in case anyone strands here in the archives: the msg was
+truncated. The full post can be found in a new thread:
 
-That requires some knowledge about the property in question to
-pick the value. I think for some prop types (enums at least)
-we could guarantee that the first value is always the safe default,
-but for eg. range properties there is no way to know. So doing
-that fully blind is not possible atm.
+https://lore.kernel.org/lkml/e0b80506-b3cf-315b-4327-1b988d86031e@googlemail.com/
 
-I guess one option might be to include a "reset value" in the
-props somehow, and just have everyclient set all unknown props
-to that. But there are of course other options too (reset
-flag to atomic ioctl, etc.).
+Sadly it seems the info "With runpm=0, both reboot and poweroff work on
+my laptop." didn't bring us much further to a solution. :-/ I don't
+really like it, but for regression tracking I'm now putting this on the
+back-burner, as a fix is not in sight.
 
-> 
-> It does not seem to be a serious enough problem for anyone to put in
-> the work. And why would it be, when you can easily fix it in your own
-> project like that Weston example. The Weston example is not even
-> representative, because I did it before I saw any real problems.
-> 
-> Other musings have been in the direction that maybe logind (since it
-> opens DRM devices for you) should save the full KMS state on the very
-> first open after a reboot, and then KMS applications can ask logind
-> what the boot-up state was. This is a variation of "save all KMS state
-> from the moment you launch, and use that as the base if you ever let
-> something else touch KMS in between".
-> 
-> You also never see the problem to begin with, if you never let
-> something else touch KMS in between, so that already makes the problem
-> rare outside of the tiny set of compositor developers.
+#regzbot monitor:
+https://lore.kernel.org/lkml/e0b80506-b3cf-315b-4327-1b988d86031e@googlemail.com/
+#regzbot backburner: hard to debug and apparently rare
+#regzbot ignore-activity
 
-Yeah, it's a pretty rare problem so not much interest I guess.
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+That page also explains what to do if mails like this annoy you.
 
--- 
-Ville Syrjälä
-Intel
+#regzbot ignore-activity
