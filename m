@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B6C698881
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 00:02:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34AA6988EA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 00:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBA0210EC88;
-	Wed, 15 Feb 2023 23:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 613B410EC90;
+	Wed, 15 Feb 2023 23:50:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FF910EC7D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 23:02:33 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 6DC7420416;
- Thu, 16 Feb 2023 00:02:31 +0100 (CET)
-From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Thu, 16 Feb 2023 00:02:25 +0100
-Subject: [PATCH 3/3] drm/msm/dpu: Drop unused qseed_type from catalog dpu_caps
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E2CC10E1C2;
+ Wed, 15 Feb 2023 23:50:32 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id j184so346150pfg.10;
+ Wed, 15 Feb 2023 15:50:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zeIoX4RDWl3f+nhG+Pkar8Woaq/FoxjOB1t6jgPazJQ=;
+ b=l5qD+x9Nq6Q8eFXBnLD2JP5DpZJ5D0HO0afceUtRjxa8Z+s7yb/ay9AlicklsmlEEw
+ 3e4Rj36HY8jLFGQGubTa5jW8tNGAI0hR46V9Chl+bP0tALpancQEy8IHLrrcSKDtjIg2
+ kd6Llo+VeClFPVTTcEKTtD2bMvCfInlONN/36JtjfpQbZ7BwFlCJCIR4rPy2hYbwUsZK
+ zHBOTJlZm2GcXslUCSf4XusKH4awMsXWYun5YQ8smTpEXzovscwAWdc6PYw8DLjWoLIs
+ aezpJuj+RbLreYYAy63wF/LsmoxdyWkKskghzUhBMuKDs2ueRq7s1huiAayMldfdHjZw
+ N9ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zeIoX4RDWl3f+nhG+Pkar8Woaq/FoxjOB1t6jgPazJQ=;
+ b=2x4Fh4DG/ACsPLWuU5cfuTWowEwgOTZZZ/aCJgBhDswkjYlmXQXOj8XvMFstMMgIjW
+ yCH9/HMURiwcSTh2ebQBAtV0kZZLiNlye50/Dq1OtNX9rDqysqCp0YLTqpULZSYKbXwj
+ dfmp9KLWMTFwgbwtbag7jfgwyZrG8Ia/yzcefMPgWBdbDYWhvnGSVZGcYxu5c24GUu1e
+ nb9A54BmVRXxln8zT7Oh5fwt8iZdoDzn3ef+IdaZ+I9dgHgKkAx0bJv5xD1ygA77w8hQ
+ cdSpXUG+gWXKvqYdnGEoOKBbx3wWQfWl9VyR3Pdp25+NGbVvsi7yKeNl00rP16NyQJVg
+ wGkw==
+X-Gm-Message-State: AO0yUKVf4Pj6Au1k1NM1rGgtU49u4wtX96PveVRMFv4/q/VIiYhUgzpk
+ SkCQdEN6ouMkEvliFl9srL5DPVKGGTk=
+X-Google-Smtp-Source: AK7set+S1yWm3qNcB1PUzuuK7xDX0SA6y0sMOop00NqJPMGuJW2NkOnni+n/RHRe/RWoADbNnOcE1A==
+X-Received: by 2002:aa7:973d:0:b0:5a8:be36:65a8 with SMTP id
+ k29-20020aa7973d000000b005a8be3665a8mr3307802pfg.27.1676505031706; 
+ Wed, 15 Feb 2023 15:50:31 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ j14-20020aa7928e000000b0058d8db0e4adsm12628278pfa.171.2023.02.15.15.50.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Feb 2023 15:50:31 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Fix potential invalid ptr free
+Date: Wed, 15 Feb 2023 15:50:48 -0800
+Message-Id: <20230215235048.1166484-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230215-sspp-scaler-version-v1-3-416b1500b85b@somainline.org>
-References: <20230215-sspp-scaler-version-v1-0-416b1500b85b@somainline.org>
-In-Reply-To: <20230215-sspp-scaler-version-v1-0-416b1500b85b@somainline.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Archit Taneja <architt@codeaurora.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, 
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
-X-Mailer: b4 0.12.1
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,150 +68,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SSPP scaler subblk is responsible for reporting its version (via the
-.id field, feature bits on the parent SSPP block, and since recently
-also from reading a register to supersede a read-but-unset version field
-in the catalog), leaving this global qseed_type field logically unused.
-Remove this dead code to lighten the catalog and bringup-overhead.
+From: Rob Clark <robdclark@chromium.org>
 
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+The error path cleanup expects that chain and syncobj are either NULL or
+valid pointers.  But post_deps was not allocated with __GFP_ZERO.
+
+Fixes: ab723b7a992a ("drm/msm: Add syncobj support.")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 12 ------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  2 --
- 2 files changed, 14 deletions(-)
+ drivers/gpu/drm/msm/msm_gem_submit.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index cf053e8f081e..bd57a4cce4a9 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -300,7 +300,6 @@ static const uint32_t wb2_formats[] = {
- static const struct dpu_caps msm8998_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0x7,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V1,
- 	.ubwc_version = DPU_HW_UBWC_VER_10,
- 	.has_src_split = true,
-@@ -327,7 +326,6 @@ static const struct dpu_caps qcm2290_dpu_caps = {
- static const struct dpu_caps sdm845_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
- 	.ubwc_version = DPU_HW_UBWC_VER_20,
- 	.has_src_split = true,
-@@ -343,7 +341,6 @@ static const struct dpu_caps sdm845_dpu_caps = {
- static const struct dpu_caps sc7180_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0x9,
--	.qseed_type = DPU_SSPP_SCALER_QSEED4,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
- 	.ubwc_version = DPU_HW_UBWC_VER_20,
- 	.has_dim_layer = true,
-@@ -355,7 +352,6 @@ static const struct dpu_caps sc7180_dpu_caps = {
- static const struct dpu_caps sm6115_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0x4,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_10,
- 	.has_dim_layer = true,
-@@ -367,7 +363,6 @@ static const struct dpu_caps sm6115_dpu_caps = {
- static const struct dpu_caps sm8150_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_30,
- 	.has_src_split = true,
-@@ -383,7 +378,6 @@ static const struct dpu_caps sm8150_dpu_caps = {
- static const struct dpu_caps sc8180x_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_30,
- 	.has_src_split = true,
-@@ -399,7 +393,6 @@ static const struct dpu_caps sc8180x_dpu_caps = {
- static const struct dpu_caps sc8280xp_dpu_caps = {
- 	.max_mixer_width = 2560,
- 	.max_mixer_blendstages = 11,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_40,
- 	.has_src_split = true,
-@@ -413,7 +406,6 @@ static const struct dpu_caps sc8280xp_dpu_caps = {
- static const struct dpu_caps sm8250_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_40,
- 	.has_src_split = true,
-@@ -427,7 +419,6 @@ static const struct dpu_caps sm8250_dpu_caps = {
- static const struct dpu_caps sm8350_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_40,
- 	.has_src_split = true,
-@@ -441,7 +432,6 @@ static const struct dpu_caps sm8350_dpu_caps = {
- static const struct dpu_caps sm8450_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
--	.qseed_type = DPU_SSPP_SCALER_QSEED4,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_40,
- 	.has_src_split = true,
-@@ -455,7 +445,6 @@ static const struct dpu_caps sm8450_dpu_caps = {
- static const struct dpu_caps sm8550_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0xb,
--	.qseed_type = DPU_SSPP_SCALER_QSEED3LITE,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2, /* TODO: v2.5 */
- 	.ubwc_version = DPU_HW_UBWC_VER_40,
- 	.has_src_split = true,
-@@ -469,7 +458,6 @@ static const struct dpu_caps sm8550_dpu_caps = {
- static const struct dpu_caps sc7280_dpu_caps = {
- 	.max_mixer_width = DEFAULT_DPU_OUTPUT_LINE_WIDTH,
- 	.max_mixer_blendstages = 0x7,
--	.qseed_type = DPU_SSPP_SCALER_QSEED4,
- 	.smart_dma_rev = DPU_SSPP_SMART_DMA_V2,
- 	.ubwc_version = DPU_HW_UBWC_VER_30,
- 	.has_dim_layer = true,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 96ce1766f4a1..0f0332d4c5e3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -390,7 +390,6 @@ struct dpu_rotation_cfg {
-  * @max_mixer_width    max layer mixer line width support.
-  * @max_mixer_blendstages max layer mixer blend stages or
-  *                       supported z order
-- * @qseed_type         qseed2 or qseed3 support.
-  * @smart_dma_rev      Supported version of SmartDMA feature.
-  * @ubwc_version       UBWC feature version (0x0 for not supported)
-  * @has_src_split      source split feature status
-@@ -405,7 +404,6 @@ struct dpu_rotation_cfg {
- struct dpu_caps {
- 	u32 max_mixer_width;
- 	u32 max_mixer_blendstages;
--	u32 qseed_type;
- 	u32 smart_dma_rev;
- 	u32 ubwc_version;
- 	bool has_src_split;
-
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 6503220e5a4b..e4d13540300e 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -640,8 +640,8 @@ static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
+ 	int ret = 0;
+ 	uint32_t i, j;
+ 
+-	post_deps = kmalloc_array(nr_syncobjs, sizeof(*post_deps),
+-	                          GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
++	post_deps = kcalloc(nr_syncobjs, sizeof(*post_deps),
++			    GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
+ 	if (!post_deps)
+ 		return ERR_PTR(-ENOMEM);
+ 
+@@ -656,7 +656,6 @@ static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
+ 		}
+ 
+ 		post_deps[i].point = syncobj_desc.point;
+-		post_deps[i].chain = NULL;
+ 
+ 		if (syncobj_desc.flags) {
+ 			ret = -EINVAL;
 -- 
-2.39.2
+2.39.1
 
