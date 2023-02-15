@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B54C69805A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 17:15:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF73769805C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 17:15:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF01010EAFC;
-	Wed, 15 Feb 2023 16:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CAB10EAFB;
+	Wed, 15 Feb 2023 16:15:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9F410E236;
- Wed, 15 Feb 2023 16:15:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B657410EAFB;
+ Wed, 15 Feb 2023 16:15:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676477707; x=1708013707;
+ t=1676477712; x=1708013712;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=o5ahpK5T7/o9yYCKobDBT3y231WpHzebkC3ym7Te37s=;
- b=bY3xYJDkkGiTCLjg66SSIAXDc/cy9Q7X2ZS5TtSExUb2Q0PFnPD2KT0U
- DJqt0YLPiES0R38GcHnWaXDS8Lu0xgSZXIq+Nd3QZ0FstIMkKFrmOuIOn
- LUg7u+8+nQBQuTIWX2SK28PP+7SCmQ9w+ipmb+zVsE9l+z5Q7jEfvfk32
- Hdym+XuGrb/go3iVItTWYLEz2HHepPJxBgbXOUtC6T3YnUQO4ZX0spcOm
- yCD5xFM9PSvKZYZDUbfQRrIi/CCWZov2XLoAP4jdKwXtlyLqctwOttByA
- LdLTOfUVn1+d+DlHCKRUkvd2WuCc9DN+AXR+MESX+mXtzZwcmgqX6A6eZ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="393870897"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="393870897"
+ bh=n4ovsEqlT6l3tqJByLmbZrFyXkrQBTKpHU8ibleASdU=;
+ b=QwX0o0xa5h930OFKF6BmWF0uNc+EHDRASzlTBRvQLvmimmCr5CcdRJ5x
+ RgbnN27FBD5IienO8nVDVEv9TGqPHMnglT9GXRUDX3m3JMccgeAHQDk36
+ +R3YDa+eYvaXEmKcKcTJ5vJtMMz/zK6CH+Lelcb5yjutT0o5hg+HtWKYs
+ pl3w79GV7KE9K5/H4QIf32eWez4hlQne0elczF7AzdXnss9JfRPuOIiYN
+ rXrz5YJEUwTUttuHO/t4w342kOprzIChYIQnyc134WdiP4rLoixaBcgrv
+ r/AVUtC7Apnp7AiurA1pGIcL1iEL6B1cRG8zCvBpl5c1k/1mxlK4whie6 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="393870932"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="393870932"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2023 08:15:05 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="758472414"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="758472414"
+ 15 Feb 2023 08:15:10 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="758472471"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="758472471"
 Received: from auliel-mobl1.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
  ([10.249.254.14])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2023 08:15:00 -0800
+ 15 Feb 2023 08:15:06 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 07/16] drm/ttm: Reduce the number of used allocation
- orders for TTM pages
-Date: Wed, 15 Feb 2023 17:13:56 +0100
-Message-Id: <20230215161405.187368-8-thomas.hellstrom@linux.intel.com>
+Subject: [RFC PATCH 08/16] drm/ttm: Add a shrinker and shrinker accounting
+Date: Wed, 15 Feb 2023 17:13:57 +0100
+Message-Id: <20230215161405.187368-9-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230215161405.187368-1-thomas.hellstrom@linux.intel.com>
 References: <20230215161405.187368-1-thomas.hellstrom@linux.intel.com>
@@ -72,169 +71,289 @@ Cc: Miaohe Lin <linmiaohe@huawei.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When swapping out, we will split multi-order pages both in order to
-move them to the swap-cache and to be able to return memory to the
-swap cache as soon as possible on a page-by-page basis.
-By reducing the page max order to the system PMD size, we can be nicer
-to the system and avoid splitting gigantic pages. On top of this we also
-include the 64K page size in the page sizes tried, since that appears to
-be a common size for GPU applications.
+Register a TTM system memory-backed object shrinker and add
+accounting for shrinkable and purgeable pages. For the shrinker to work,
+the driver needs to register the bo_shrink callback which is responsible
+for unbinding from GPU and the dma layer if needed. Helpers for that
+callback to actually perform shrinking will be introduced in upcoming
+patches.
 
-Looking forward to when we might be able to swap out PMD size folios
-without splitting, this will also be a benefit.
+Note that we can't lock the ttm_global_mutex from within the shrinker
+scan() function as that might cause a deadlock issue. To fix that, add and
+use a mutex which is used for global device list manipulation only and
+make sure it isn't held when registering the shrinker.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/ttm/ttm_pool.c | 58 ++++++++++++++++++++++++++--------
- 1 file changed, 45 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/ttm/ttm_device.c |  26 ++++---
+ drivers/gpu/drm/ttm/ttm_tt.c     | 112 +++++++++++++++++++++++++++++--
+ include/drm/ttm/ttm_tt.h         |   2 +
+ 3 files changed, 125 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 1cc7591a9542..8787fb6a218b 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -31,6 +31,8 @@
-  * cause they are rather slow compared to alloc_pages+map.
-  */
- 
-+#define pr_fmt(fmt) "[TTM POOL] " fmt
-+
- #include <linux/module.h>
- #include <linux/dma-mapping.h>
- #include <linux/debugfs.h>
-@@ -47,6 +49,18 @@
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index e0a2be3ed13d..ce98752d2d32 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -36,10 +36,10 @@
  
  #include "ttm_module.h"
  
-+#define TTM_MAX_ORDER (PMD_SHIFT - PAGE_SHIFT)
-+#define TTM_64K_ORDER (16 - PAGE_SHIFT)
-+#if (TTM_MAX_ORDER < TTM_64K_ORDER)
-+#undef TTM_MAX_ORDER
-+#define TTM_MAX_ORDER TTM_64K_ORDER
-+#endif
-+#if ((MAX_ORDER - 1) < TTM_MAX_ORDER)
-+#undef TTM_MAX_ORDER
-+#define TTM_MAX_ORDER (MAX_ORDER - 1)
-+#endif
-+#define TTM_DIM_ORDER (TTM_MAX_ORDER + 1)
-+
- /**
-  * struct ttm_pool_dma - Helper object for coherent DMA mappings
-  *
-@@ -65,16 +79,18 @@ module_param(page_pool_size, ulong, 0644);
+-/*
+- * ttm_global_mutex - protecting the global state
+- */
++/* ttm_global_mutex - protects the global state init and fini. */
+ static DEFINE_MUTEX(ttm_global_mutex);
++/* ttm_global_list_mutex - protects the device list. */
++static DEFINE_MUTEX(ttm_global_list_mutex);
+ static unsigned ttm_glob_use_count;
+ struct ttm_global ttm_glob;
+ EXPORT_SYMBOL(ttm_glob);
+@@ -54,6 +54,7 @@ static void ttm_global_release(void)
+ 	if (--ttm_glob_use_count > 0)
+ 		goto out;
  
- static atomic_long_t allocated_pages;
++	ttm_tt_mgr_fini();
+ 	ttm_pool_mgr_fini();
+ 	debugfs_remove(ttm_debugfs_root);
  
--static struct ttm_pool_type global_write_combined[MAX_ORDER];
--static struct ttm_pool_type global_uncached[MAX_ORDER];
-+static struct ttm_pool_type global_write_combined[TTM_DIM_ORDER];
-+static struct ttm_pool_type global_uncached[TTM_DIM_ORDER];
- 
--static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
--static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
-+static struct ttm_pool_type global_dma32_write_combined[TTM_DIM_ORDER];
-+static struct ttm_pool_type global_dma32_uncached[TTM_DIM_ORDER];
- 
- static spinlock_t shrinker_lock;
- static struct list_head shrinker_list;
- static struct shrinker mm_shrinker;
- 
-+static unsigned int ttm_pool_orders[] = {TTM_MAX_ORDER, 0, 0};
-+
- /* Allocate pages of size 1 << order with the given gfp_flags */
- static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
- 					unsigned int order)
-@@ -400,6 +416,17 @@ static void __ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt,
+@@ -102,7 +103,10 @@ static int ttm_global_init(void)
+ 		goto out;
  	}
+ 
++	mutex_lock(&ttm_global_list_mutex);
+ 	INIT_LIST_HEAD(&glob->device_list);
++	mutex_unlock(&ttm_global_list_mutex);
++
+ 	atomic_set(&glob->bo_count, 0);
+ 
+ 	debugfs_create_atomic_t("buffer_objects", 0444, ttm_debugfs_root,
+@@ -135,7 +139,7 @@ long ttm_global_swapout(struct ttm_operation_ctx *ctx,
+ 	struct ttm_device *bdev;
+ 	long ret = 0;
+ 
+-	mutex_lock(&ttm_global_mutex);
++	mutex_lock(&ttm_global_list_mutex);
+ 	list_for_each_entry(bdev, &glob->device_list, device_list) {
+ 		ret = ttm_device_swapout(bdev, ctx, reason);
+ 		if (ret > 0) {
+@@ -143,7 +147,7 @@ long ttm_global_swapout(struct ttm_operation_ctx *ctx,
+ 			break;
+ 		}
+ 	}
+-	mutex_unlock(&ttm_global_mutex);
++	mutex_unlock(&ttm_global_list_mutex);
+ 	return ret;
  }
  
-+static unsigned int ttm_pool_select_order(unsigned int order, pgoff_t num_pages)
+@@ -247,9 +251,9 @@ int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs *funcs,
+ 	spin_lock_init(&bdev->lru_lock);
+ 	INIT_LIST_HEAD(&bdev->pinned);
+ 	bdev->dev_mapping = mapping;
+-	mutex_lock(&ttm_global_mutex);
++	mutex_lock(&ttm_global_list_mutex);
+ 	list_add_tail(&bdev->device_list, &glob->device_list);
+-	mutex_unlock(&ttm_global_mutex);
++	mutex_unlock(&ttm_global_list_mutex);
+ 
+ 	return 0;
+ }
+@@ -260,14 +264,14 @@ void ttm_device_fini(struct ttm_device *bdev)
+ 	struct ttm_resource_manager *man;
+ 	unsigned i;
+ 
++	mutex_lock(&ttm_global_list_mutex);
++	list_del(&bdev->device_list);
++	mutex_unlock(&ttm_global_list_mutex);
++
+ 	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
+ 	ttm_resource_manager_set_used(man, false);
+ 	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
+ 
+-	mutex_lock(&ttm_global_mutex);
+-	list_del(&bdev->device_list);
+-	mutex_unlock(&ttm_global_mutex);
+-
+ 	drain_workqueue(bdev->wq);
+ 	destroy_workqueue(bdev->wq);
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+index 771e5f3c2fee..5a57117c21ec 100644
+--- a/drivers/gpu/drm/ttm/ttm_tt.c
++++ b/drivers/gpu/drm/ttm/ttm_tt.c
+@@ -37,6 +37,7 @@
+ #include <linux/module.h>
+ #include <drm/drm_cache.h>
+ #include <drm/ttm/ttm_bo.h>
++#include <drm/ttm/ttm_pool.h>
+ #include <drm/ttm/ttm_tt.h>
+ 
+ #include "ttm_module.h"
+@@ -54,6 +55,11 @@ module_param_named(dma32_pages_limit, ttm_dma32_pages_limit, ulong, 0644);
+ static atomic_long_t ttm_pages_allocated;
+ static atomic_long_t ttm_dma32_pages_allocated;
+ 
++static long shrinkable_pages;
++static long purgeable_pages;
++static DEFINE_RWLOCK(shrinkable_lock);
++static struct shrinker mm_shrinker;
++
+ static bool ttm_tt_shrinkable(const struct ttm_device *bdev,
+ 			      const struct ttm_tt *tt)
+ {
+@@ -69,6 +75,14 @@ static void ttm_tt_mod_allocated(bool dma32, long value)
+ 		atomic_long_add(value, &ttm_dma32_pages_allocated);
+ }
+ 
++static void ttm_tt_mod_shrinkable_pages(long shrinkable, long purgeable)
 +{
-+	unsigned int *cur_order = ttm_pool_orders;
-+
-+	order = min_t(unsigned int, __fls(num_pages), order);
-+	while (order < *cur_order)
-+		++cur_order;
-+
-+	return *cur_order;
++	write_lock(&shrinkable_lock);
++	shrinkable_pages += shrinkable;
++	purgeable_pages += purgeable;
++	write_unlock(&shrinkable_lock);
 +}
 +
- /**
-  * ttm_pool_alloc - Fill a ttm_tt object
-  *
-@@ -439,9 +466,8 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+ /*
+  * Allocates a ttm structure for the given BO.
+  */
+@@ -352,6 +366,9 @@ int ttm_tt_populate(struct ttm_device *bdev,
+ 		}
+ 	}
+ 
++	if (ttm_tt_shrinkable(bdev, ttm))
++		ttm_tt_mod_shrinkable_pages(ttm->num_pages, 0);
++
+ 	return 0;
+ 
+ error:
+@@ -368,6 +385,13 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
+ 	if (!ttm_tt_is_populated(ttm))
+ 		return;
+ 
++	if (ttm_tt_shrinkable(bdev, ttm)) {
++		if (ttm_tt_purgeable(ttm))
++			ttm_tt_mod_shrinkable_pages(0, -(long)ttm->num_pages);
++		else
++			ttm_tt_mod_shrinkable_pages(-(long)ttm->num_pages, 0);
++	}
++
+ 	if (bdev->funcs->ttm_tt_unpopulate)
+ 		bdev->funcs->ttm_tt_unpopulate(bdev, ttm);
  	else
- 		gfp_flags |= GFP_HIGHUSER;
+@@ -394,11 +418,86 @@ DEFINE_SHOW_ATTRIBUTE(ttm_tt_debugfs_shrink);
  
--	for (order = min_t(unsigned int, MAX_ORDER - 1, __fls(num_pages));
--	     num_pages;
--	     order = min_t(unsigned int, order, __fls(num_pages))) {
-+	order = ttm_pool_select_order(ttm_pool_orders[0], num_pages);
-+	for (; num_pages; order = ttm_pool_select_order(order, num_pages)) {
- 		struct ttm_pool_type *pt;
+ #endif
  
- 		page_caching = tt->caching;
-@@ -558,7 +584,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
++static unsigned long ttm_tt_shrinker_count(struct shrinker *shrink,
++					   struct shrink_control *sc)
++{
++	unsigned long num_pages;
  
- 	if (use_dma_alloc) {
- 		for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
--			for (j = 0; j < MAX_ORDER; ++j)
-+			for (j = 0; j < TTM_DIM_ORDER; ++j)
- 				ttm_pool_type_init(&pool->caching[i].orders[j],
- 						   pool, i, j);
- 	}
-@@ -578,7 +604,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
- 
- 	if (pool->use_dma_alloc) {
- 		for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
--			for (j = 0; j < MAX_ORDER; ++j)
-+			for (j = 0; j < TTM_DIM_ORDER; ++j)
- 				ttm_pool_type_fini(&pool->caching[i].orders[j]);
- 	}
- 
-@@ -632,7 +658,7 @@ static void ttm_pool_debugfs_header(struct seq_file *m)
- 	unsigned int i;
- 
- 	seq_puts(m, "\t ");
--	for (i = 0; i < MAX_ORDER; ++i)
-+	for (i = 0; i < TTM_DIM_ORDER; ++i)
- 		seq_printf(m, " ---%2u---", i);
- 	seq_puts(m, "\n");
- }
-@@ -643,7 +669,7 @@ static void ttm_pool_debugfs_orders(struct ttm_pool_type *pt,
- {
- 	unsigned int i;
- 
--	for (i = 0; i < MAX_ORDER; ++i)
-+	for (i = 0; i < TTM_DIM_ORDER; ++i)
- 		seq_printf(m, " %8u", ttm_pool_type_count(&pt[i]));
- 	seq_puts(m, "\n");
- }
-@@ -749,10 +775,16 @@ int ttm_pool_mgr_init(unsigned long num_pages)
- 	if (!page_pool_size)
- 		page_pool_size = num_pages;
- 
-+	if (TTM_64K_ORDER < TTM_MAX_ORDER)
-+		ttm_pool_orders[1] = TTM_64K_ORDER;
+-/*
+- * ttm_tt_mgr_init - register with the MM shrinker
+- *
+- * Register with the MM shrinker for swapping out BOs.
++	num_pages = get_nr_swap_pages();
++	read_lock(&shrinkable_lock);
++	num_pages = min_t(unsigned long, num_pages, shrinkable_pages);
++	num_pages += purgeable_pages;
++	read_unlock(&shrinkable_lock);
 +
-+	pr_debug("Used orders are %u %u %u\n", ttm_pool_orders[0],
-+		 ttm_pool_orders[1], ttm_pool_orders[2]);
++	return num_pages ? num_pages : SHRINK_EMPTY;
++}
 +
- 	spin_lock_init(&shrinker_lock);
- 	INIT_LIST_HEAD(&shrinker_list);
- 
--	for (i = 0; i < MAX_ORDER; ++i) {
-+	for (i = 0; i < TTM_DIM_ORDER; ++i) {
- 		ttm_pool_type_init(&global_write_combined[i], NULL,
- 				   ttm_write_combined, i);
- 		ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, i);
-@@ -785,7 +817,7 @@ void ttm_pool_mgr_fini(void)
++static unsigned long ttm_tt_shrinker_scan(struct shrinker *shrink,
++					  struct shrink_control *sc)
++{
++	bool is_kswapd = current_is_kswapd();
++	struct ttm_operation_ctx ctx = {
++		.interruptible = false,
++		.no_wait_gpu = !is_kswapd,
++	};
++	unsigned long nr_to_scan, freed = 0;
++	long ret;
++
++	sc->nr_scanned = 0;
++	nr_to_scan = sc->nr_to_scan;
++
++	while (freed < nr_to_scan) {
++		ret = ttm_global_swapout(&ctx, TTM_SHRINK_PURGE);
++		if (ret <= 0)
++			break;
++
++		freed += ret;
++	}
++
++	sc->nr_scanned = freed;
++	if (freed < nr_to_scan)
++		nr_to_scan -= freed;
++	else
++		nr_to_scan = 0;
++	if (!nr_to_scan)
++		return freed ? freed : SHRINK_STOP;
++
++	while (freed < nr_to_scan) {
++		ret = ttm_global_swapout(&ctx, TTM_SHRINK_SWAP);
++		if (ret <= 0)
++			break;
++
++		freed += ret;
++	}
++
++	sc->nr_scanned = freed;
++
++	return freed ? freed : SHRINK_STOP;
++}
++
++/**
++ * ttm_tt_mgr_fini() - Check shrinkable accounting consistensy and remove
++ * the shrinker.
++ */
++void ttm_tt_mgr_fini(void)
++{
++	if (WARN_ON_ONCE(atomic_long_read(&ttm_pages_allocated) ||
++			 atomic_long_read(&ttm_dma32_pages_allocated) ||
++			 shrinkable_pages || purgeable_pages)) {
++		pr_warn("Inconsistent ttm_tt accounting:\n");
++		pr_warn("pages %ld dma32 %ld shrinkable %ld purgeable %ld\n",
++			atomic_long_read(&ttm_pages_allocated),
++			atomic_long_read(&ttm_dma32_pages_allocated),
++			shrinkable_pages, purgeable_pages);
++	}
++
++	unregister_shrinker(&mm_shrinker);
++}
++
++/**
++ * ttm_tt_mgr_init() - Provide watermark limits and register the shrinker.
++ * @num_pages - Number of pages TTM is allowed to pin.
++ * @num_dma32_pages - Number of dma32 pages TTM is allowed to pin.
+  */
+ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages)
  {
- 	unsigned int i;
+@@ -412,6 +511,11 @@ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages)
  
--	for (i = 0; i < MAX_ORDER; ++i) {
-+	for (i = 0; i < TTM_DIM_ORDER; ++i) {
- 		ttm_pool_type_fini(&global_write_combined[i]);
- 		ttm_pool_type_fini(&global_uncached[i]);
+ 	if (!ttm_dma32_pages_limit)
+ 		ttm_dma32_pages_limit = num_dma32_pages;
++
++	mm_shrinker.count_objects = ttm_tt_shrinker_count;
++	mm_shrinker.scan_objects = ttm_tt_shrinker_scan;
++	mm_shrinker.seeks = DEFAULT_SEEKS;
++	(void)register_shrinker(&mm_shrinker, "ttm-objects");
+ }
+ 
+ static void ttm_kmap_iter_tt_map_local(struct ttm_kmap_iter *iter,
+diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+index 627168eba8f6..3f99787e2b93 100644
+--- a/include/drm/ttm/ttm_tt.h
++++ b/include/drm/ttm/ttm_tt.h
+@@ -221,6 +221,8 @@ static inline void ttm_tt_mark_for_clear(struct ttm_tt *ttm)
+ 
+ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages);
+ 
++void ttm_tt_mgr_fini(void);
++
+ struct ttm_kmap_iter *ttm_kmap_iter_tt_init(struct ttm_kmap_iter_tt *iter_tt,
+ 					    struct ttm_tt *tt);
  
 -- 
 2.34.1
