@@ -2,118 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6A1697881
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 09:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F109697922
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Feb 2023 10:40:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38FA910EA6E;
-	Wed, 15 Feb 2023 08:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0036E10EA7D;
+	Wed, 15 Feb 2023 09:40:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2067.outbound.protection.outlook.com [40.107.22.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5C8E10EA6E
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 08:53:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OM9IIMAGr7JBzAfp0VY27Wi6hfBFxQENntkLbUC8VEsr5IUyZd+e9NtShOjI4v19BnjvdOO964jOQfHB7IC+dmvSNGHKmin1hzFSmg50PXHBnQsuCso90eweCkwvRH1osxtshfIBdtJFfrolPu/31FZFtBxsXBTahE/m67p0cO+mxbShghcAo3Oi3wz97b5K04iUkrD+pKFntA+8IyeHtmQM2MCBEd6w8tijybE1cpRFUuT3fKxXBbwZ02cr0hcpsGwl1GuD8F+FqwkLH3weByOKnD+qsoAv/Zfv2MpVwhvn1LLLhP1LIbSboZEIC+t2KHJNTlgR/pi1plTyjx+HVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D/RobdagXr+ITKkW+ZDyR6P2/V7kHyYmDFRAyJ5xexg=;
- b=N88r9uYIXHaZtWREwZ9qi0k/6+4AqNIKDs1h18Nfr82Y5POszhwZ9k6jJvdLjESDQk1E6MbR904TFrNwM4zjOQGLZRJYqim0w8Lk7TpKBoxUYc7yIT5Yg1UBHXwS8I06wJg4HnE8WgdTJVXVJrS5L9/4/Ev744BvfafAdvG9RHU+IXb81fgA8LqL7R5jGf/TBhLf0qS2bRY1E0bRBBc2q6UXgizS9ykIU3eu3i1JSPDnfNtJVcRrJQU9RJyjhCqLsbOYHwPdllCqDLmROW1+A2Rue2W2T0QvEnyGz0yC2sl/Jej4ssnuKSDHP9UOtnoAVJWZdSf8OtJFlnmqXfWrGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D/RobdagXr+ITKkW+ZDyR6P2/V7kHyYmDFRAyJ5xexg=;
- b=DHKg9Mo1Dm1Qk5k7RlDFtBmDOriURwbfuqluLBAaLr6GX8xcVVYt4h7XOh2SEsriZ1N3VIAzc6Ley/X+A5zJggvpSpSNoF7qJGugH6FssdMgPOlhf4mKpp2aWuOFocNEqjTf8hSrwt2AMtu2p4C9H/3O1Uyb4Yd6khehs7RHJgU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DBBPR04MB8011.eurprd04.prod.outlook.com (2603:10a6:10:1ec::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Wed, 15 Feb
- 2023 08:53:17 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::5725:92ec:f43e:f5fc%9]) with mapi id 15.20.6086.026; Wed, 15 Feb 2023
- 08:53:17 +0000
-Message-ID: <f4a1c8eb57f15ed67ebe3effd6d6d9f54dbfb486.camel@nxp.com>
-Subject: Re: [PATCH v3 5/6] drm: lcdif: Add multiple encoders and first
- bridges support
-From: Liu Ying <victor.liu@nxp.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Date: Wed, 15 Feb 2023 16:52:49 +0800
-In-Reply-To: <1893357.taCxCBeP46@steina-w>
-References: <20230213085612.1026538-1-victor.liu@nxp.com>
- <20230213085612.1026538-6-victor.liu@nxp.com> <1893357.taCxCBeP46@steina-w>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG3P274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::23)
- To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E68C10E118;
+ Wed, 15 Feb 2023 09:40:07 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id ml19so46826388ejb.0;
+ Wed, 15 Feb 2023 01:40:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WW5etZFr5gb9SjIRKumGq4b+IgoinikPRFf6ztXrNCI=;
+ b=V3tQSIfzhFyE0BCMgM6M3YOzAgRFrN9Fdfp0f8H6pvpsYDwZ88j8RLsVqfG9k4aAhI
+ Cib7cjoSmKmZ0k+Lv9oepQG9rdYzUVZTEgI+ISww4j4C497dDfh+vIz1s0xbCqO2EL41
+ BJHpMea7Vagg36Y3Vzr5AblknOqG0BZeORBZuLZpFM8fbFIxhDf40FN1Z5JT1mwPtzdv
+ 2E+I9ne/j3HIE7XsH5iwbEmmxZe0+yaQAbVBMzTKphi3JJrHMetcRNoTFR36LSGBkuIZ
+ iXFh5GIjxLR29eIiitBIzjTFG4Wn1Y712dKQV6Q4Tsy4UdATArwislLgeSYZSGzTQg+x
+ JQpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WW5etZFr5gb9SjIRKumGq4b+IgoinikPRFf6ztXrNCI=;
+ b=LecYGNE2IAIykWm23h2UlARz4X9DBLs6LaakeiNF2Yfm8SFf5wxWh+NCs9epMKM/B7
+ L7goWVccDa2eXMJalPuFbTcFSB9lTrOBaeX0qiNlv7YEzZWkgLsslI2Pd2XiQLTg5O3m
+ JqPL0iV3o8JUmaKSnUGD8RYVaN2LYyQyjr+0lc46R9k1N9bp1zmabRUILh5T2N+aLgiL
+ x0KSqMEkme17yhdC0qt0t4+oevPMHp8qKvx4whViro+vP16hhzMsxD+L9DF7y55sr45s
+ L2IEpz6PoBJfqXd3uhVx9hJE2mrPdG92oQSQv/YC01cnpKKAuycj1Cqidsx03ATuI1XU
+ 6NMg==
+X-Gm-Message-State: AO0yUKWnRck806XG+/8GP1M4BIaMhffJwaFaluFXFiqgzwpTAZi/DB+r
+ a4F8m/rsaJIV9pjjnGhK/Ic=
+X-Google-Smtp-Source: AK7set9pssdkTT8EItQYvruO1TSRXqBo0ATP4Hzgqz0NCYMO/7K7uWnhcByMHRIxxJtLu0LybYETaw==
+X-Received: by 2002:a17:906:81d5:b0:8af:5751:badc with SMTP id
+ e21-20020a17090681d500b008af5751badcmr1756205ejx.28.1676454005358; 
+ Wed, 15 Feb 2023 01:40:05 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ z12-20020a17090674cc00b008aac25d8f7fsm9618104ejl.97.2023.02.15.01.40.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Feb 2023 01:40:04 -0800 (PST)
+Date: Wed, 15 Feb 2023 11:40:00 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH 3/3] drm/connector: Deprecate split for BT.2020 in
+ drm_colorspace enum
+Message-ID: <20230215114000.41df70d5@eldfell>
+In-Reply-To: <549abc92-e862-8a6b-d4ad-8cd6cc854591@amd.com>
+References: <20230203020744.30745-1-joshua@froggi.es>
+ <20230203020744.30745-3-joshua@froggi.es>
+ <Y9zkef5FjtZ7guVS@intel.com>
+ <CA+hFU4ymiOg06MQeKLcn5MSrR=BZnOLODdZCFvGUdWqt_ha61A@mail.gmail.com>
+ <0fc18aec-0703-55f4-f635-d09d345e8dc0@amd.com>
+ <Y90l+DY0rSaMvN1U@intel.com>
+ <758e5cf6-53e0-567c-c760-5b773bc7a11c@amd.com>
+ <Y90vrEa3/1RbaGOV@intel.com>
+ <CA+hFU4wuM_xHniFyRT+jouQ3k_S3UJsRpAtd1Lgx9UVLtrqZrQ@mail.gmail.com>
+ <98d1d22a-1c29-5271-1eaf-89c962eb9678@amd.com>
+ <CA+hFU4y=N3bR-vXXeLP0xTe0-HJPgF_GTbKrb3A9St-z2LignQ@mail.gmail.com>
+ <549abc92-e862-8a6b-d4ad-8cd6cc854591@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DBBPR04MB8011:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f630b12-2ef6-4a11-6de4-08db0f3213f3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 77vTwvuXDvsNj3skakrLV7mWPIvd/WzIgGT1Drp0WCmk7X3nCbSn2YZ9MohoV36X+VRPgoqUIaGlFEe/43J2vy1s62bbJawKo4WVLlCI8KSZSWZmYPuL6tKQjd7AN832sFUYdGNOnDii7di41wKelE5sfH1g9gXTcD30d3eGV/X7U7g8sNgMTByrQuU3LyGdKbwtX6mJuTzkTz1vNbqdASADEydziF2ef9Ba7SBmHWYIH4bhuuTeKT9rO+ebXSe1d6HziKZKx4AVGYE2fLY0NJ3n9PEopVtgul5845dqXqyP3tkozYu/8HoS+l9LQBwx+3N0R0hYn8DLy34whvnV/33O8rCc6El4GNBepPOOYy6Z1Dm5ql7CuhRPpFEBnPSVOJ3bKcr0tk50cgFMtSs/+IeLFx/spcXsb+zDtGZx5mLtQahyszu3dM9pv02rUIvX2rofSSR0cXP1oICjgofdyUpfYEZVri2Y+4KZ0WuLKU1OpqEzilsZkRv3BDF2uDGIgJ4qSgYjm8oxr6C+UZiaRBM6YNlSTLRLsX7Bv/7BOItD5ZW7RPBilfMbm5u8XfZv8EIY4QgsYZcGMbED9AaQsHtsaUuqgc2pUIgQLKmQKtEmKoqlrQajARpp1NOMAFO310GsYVDY7AmeeiQb3vYQDZTVsBX8NNinljTkklVqHiKXty3RDKfhr+cADpAu9LuhDZdKHVSb/wPvjl+3l6CXkvqPfB9TY0UvaMyN5XB7uO8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(136003)(346002)(366004)(39860400002)(396003)(451199018)(83380400001)(478600001)(2616005)(52116002)(6486002)(6506007)(6666004)(36756003)(6512007)(186003)(26005)(38100700002)(38350700002)(41300700001)(5660300002)(86362001)(8936002)(7416002)(316002)(8676002)(4326008)(2906002)(66556008)(66476007)(66946007)(99106002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3FxaHczZUc1dUJ4ZlQ0NENnMFNJYjBGVitPSkxEbmlSUGI5R3llamtjMXVX?=
- =?utf-8?B?VmxMeEtiMU8rV3pBNWJNNmdmMTE4cTcxbFlTWWx5QTdTWlZMTnR1WWFxSlhJ?=
- =?utf-8?B?RjB4NHFtSDFYWmh2WVdRdHpVaUN4SHJXNTQreEt0dWE4enJvSFBqRGxBUm9u?=
- =?utf-8?B?TTk4c1JtS2UwOERmNW5yTW1SR091OEtLaEd6cXova1RIQVFza1dtVTVKTEoz?=
- =?utf-8?B?RWdNbTc4WHJIcGtnVjhPWGFBRm15NFVaejNWdjVnT08yU1RaejBHYTV2N1VN?=
- =?utf-8?B?bjZERWtWckhIYXpTL0VnWFpsVzhUa1crUEY0djI0c25lSmRia2ZDd3pybFh5?=
- =?utf-8?B?VTg0NWZHRlhzVVhsbDNPWXYrSm5ydDRuYk9KSzBUV3Vpdm5EcVdLc09Ua0hy?=
- =?utf-8?B?bldEM21COVpVeTE0MGltb1owUlJyeDBjMG9yekdYVVo2dGllT3gvc1RDVzhH?=
- =?utf-8?B?SnYySE5vVVFkY1BlcVZKeTVhdFRnVml6NzRqNkdCWlFINWliNm0xT1puNHU4?=
- =?utf-8?B?bktobXA5NTlISnhTSElMS05lbFNSOHZQa1FCYzhLV0FSN25VSnFOY045aFBk?=
- =?utf-8?B?MW1mdGdPb2ljdjVPSzk1RHM2M3p0NmovN3VFZC9xUWVVK0hINTZDSE8yMFBh?=
- =?utf-8?B?UUxPMmJQZ1Y3dHF1cUZsL2M4YjlnNk5GbHJTOVo5bkhWV2NaN0htLzhxN210?=
- =?utf-8?B?ZExvQlJIZnJHcHRZdDhBaUNUTFdJdmQvL1NaMzVVVHRmcXhhQkxBdHVUMDFh?=
- =?utf-8?B?Y0ZISTZpTDY0aUZpZW9TU0pTRUFvTFZMY2lyeWgyVXhyV2VzdkczVDR4aHNG?=
- =?utf-8?B?WW9CSnhSbE41a0V2Nkt2WW50M2tTamhiZWQzVFNNRnJ1eEl4TGRFYXN4aGJR?=
- =?utf-8?B?N012WjdHeFhiR3A4bmxCVWNNdWUzd3RiRDRUZlppcDRReHFIUjhlSkhpRnU0?=
- =?utf-8?B?aTl3cUorbjg3bGtOaStlYnZXOSswcGZIT3RkTVZuajM4bXhpZitQekswNmpn?=
- =?utf-8?B?Q0F0eW1xUDBFSXZMSWtaSC93R0VReHoyUUZpT2k3eWRwMmNkL2s1RzMrSW9s?=
- =?utf-8?B?U3U5RjR2MDFNNmVNd1hKL3kzbmh3NkljYXQwRnE1aEIzbnUvZy81SGFDa3Jl?=
- =?utf-8?B?TjUxOW1nd3VFeWxyV0ZIZUo0REIycm5UelhGYmVvaWZ5VGp2ekE5ZUE3MjlU?=
- =?utf-8?B?dUhRc0tjc2pvQkNsZlh4N0F3dWV0Q0tPWTdxSDE1bXZHRG9kdTZvUnIrUGlU?=
- =?utf-8?B?a1pHSDczUG80cURCRW03UFpiR0dQRmE3bmxvZ0hPK1RXaHRmdVBBS1QrWWFv?=
- =?utf-8?B?SjE3aHRlWEc0elR5S0tUb2t5WXNTL3NJNEhJL2RoVmV5Qmk3SkJSVngxYXZq?=
- =?utf-8?B?d1dvUTlOZUpqYXFhU0Y4UmhFRzdGdmVQcHFmTG9lczJsLzlsTHpQdTlTdmI1?=
- =?utf-8?B?VnJZYjdHNXFoeXh1d0g2YUpDcExMNkpFVCtZcmVlaVlMeTZjRngrL0tLaFN3?=
- =?utf-8?B?N1QxOUVsbDI5c0dXM1ExaU9nVG4rNFZ2SjFNK05mL0pGL095aDJ1cHZlY3dk?=
- =?utf-8?B?Mkx0MHhFaHVBdnowUi9qVEVjU2xta1RlZHN1SVpNVWZrNEhhMDhVa0FYZkVr?=
- =?utf-8?B?S25XK2twajJRWm5BTXNGb2JXUWU0dm9PaitaT0Zxa2JXUHNQazM4ZlV2VlJG?=
- =?utf-8?B?VEpBT2dRNTdZQllxVWZ5MTBtRUs0S0MxQ1l1eWh0MXo2c1ZFbDM0azlUSXdz?=
- =?utf-8?B?a3UvWWdiYUd0czhlM2IrQS9Dd1JDMDU2WjdrdEwzSGo3OXM2Uk5hQloxcThn?=
- =?utf-8?B?NlptLzI2TjhQUDZEbDgxR3BsRUxwMnFpczMrV1BaRnFmRnh0UmVOVGEvckdZ?=
- =?utf-8?B?dys1MzQraC84Z2g5TEtQc2x0NEpFanpVMHBWaUMxU3Q1MENQQTdNdllqZ0sy?=
- =?utf-8?B?TDA3RElUSDMvWHExRHNwSG1kU09CVGlVbmg0V09hQVpRbTFXRDRuNDFVWDVR?=
- =?utf-8?B?eXB3UTlKdzkvTVVNc2hZQzhZQTVXYUxwVFNxZGRFK0c2ZEN5VEMrNEcva0po?=
- =?utf-8?B?bWJCbVVlM21KZ21aVThXNWs1eElDZ3BoVk92eUNvU001S3FZOFlxbzlUMHBa?=
- =?utf-8?Q?IBdLTj+CrVtxqsGnuAHxm3Wh7?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f630b12-2ef6-4a11-6de4-08db0f3213f3
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Feb 2023 08:53:17.4476 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BoBBgtwqiLpn3iq8ObLrzffY7PV3sJ0v/+rwHo64Kav7BnQ945pQFMyx8UsSZyaxST3WM+UjYSw33E3shRW2BQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB8011
+Content-Type: multipart/signed; boundary="Sig_/07vxxmy176geY0MRGiU3n3n";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,192 +81,390 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
- krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, linux-imx@nxp.com,
- krzysztof.kozlowski+dt@linaro.org, kernel@pengutronix.de,
- LW@karo-electronics.de
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2023-02-15 at 08:54 +0100, Alexander Stein wrote:
-> Hi Liu,
+--Sig_/07vxxmy176geY0MRGiU3n3n
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alexander,
+On Tue, 14 Feb 2023 15:04:52 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-> 
-> thanks for the update.
+> On 2/14/23 14:45, Sebastian Wick wrote:
+> > On Tue, Feb 14, 2023 at 5:57 PM Harry Wentland <harry.wentland@amd.com>=
+ wrote: =20
+> >>
+> >>
+> >>
+> >> On 2/14/23 10:49, Sebastian Wick wrote: =20
+> >>> On Fri, Feb 3, 2023 at 5:00 PM Ville Syrj=C3=A4l=C3=A4
+> >>> <ville.syrjala@linux.intel.com> wrote: =20
+> >>>>
+> >>>> On Fri, Feb 03, 2023 at 10:24:52AM -0500, Harry Wentland wrote: =20
+> >>>>>
+> >>>>>
+> >>>>> On 2/3/23 10:19, Ville Syrj=C3=A4l=C3=A4 wrote: =20
+> >>>>>> On Fri, Feb 03, 2023 at 09:39:42AM -0500, Harry Wentland wrote: =20
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> On 2/3/23 07:59, Sebastian Wick wrote: =20
+> >>>>>>>> On Fri, Feb 3, 2023 at 11:40 AM Ville Syrj=C3=A4l=C3=A4
+> >>>>>>>> <ville.syrjala@linux.intel.com> wrote: =20
+> >>>>>>>>>
+> >>>>>>>>> On Fri, Feb 03, 2023 at 02:07:44AM +0000, Joshua Ashton wrote: =
+=20
+> >>>>>>>>>> Userspace has no way of controlling or knowing the pixel encod=
+ing
+> >>>>>>>>>> currently, so there is no way for it to ever get the right val=
+ues here. =20
+> >>>>>>>>>
+> >>>>>>>>> That applies to a lot of the other values as well (they are
+> >>>>>>>>> explicitly RGB or YCC). The idea was that this property sets the
+> >>>>>>>>> infoframe/MSA/SDP value exactly, and other properties should be
+> >>>>>>>>> added to for use userspace to control the pixel encoding/colors=
+pace
+> >>>>>>>>> conversion(if desired, or userspace just makes sure to
+> >>>>>>>>> directly feed in correct kind of data). =20
+> >>>>>>>>
+> >>>>>>>> I'm all for getting userspace control over pixel encoding but ev=
+en
+> >>>>>>>> then the kernel always knows which pixel encoding is selected and
+> >>>>>>>> which InfoFrame has to be sent. Is there a reason why userspace =
+would
+> >>>>>>>> want to control the variant explicitly to the wrong value?
+> >>>>>>>> =20
+> >>>>>>>
+> >>>>>>> I've asked this before but haven't seen an answer: Is there an ex=
+isting
+> >>>>>>> upstream userspace project that makes use of this property (other=
+ than
+> >>>>>>> what Joshua is working on in gamescope right now)? That would hel=
+p us
+> >>>>>>> understand the intent better. =20
+> >>>>>>
+> >>>>>> The intent was to control the infoframe colorimetry bits,
+> >>>>>> nothing more. No idea what real userspace there was, if any.
+> >>>>>> =20
+> >>>>>>>
+> >>>>>>> I don't think giving userspace explicit control over the exact in=
+foframe
+> >>>>>>> values is the right thing to do. =20
+> >>>>>>
+> >>>>>> Only userspace knows what kind of data it's stuffing into
+> >>>>>> the pixels (and/or how it configures the csc units/etc.) to
+> >>>>>> generate them.
+> >>>>>> =20
+> >>>>>
+> >>>>> Yes, but userspace doesn't control or know whether we drive
+> >>>>> RGB or YCbCr on the wire. In fact, in some cases our driver
+> >>>>> needs to fallback to YCbCr420 for bandwidth reasons. There
+> >>>>> is currently no way for userspace to know that and I don't
+> >>>>> think it makes sense. =20
+> >>>>
+> >>>> People want that control as well for whatever reason. We've
+> >>>> been asked to allow YCbCr 4:4:4 output many times. =20
+> >>>
+> >>> I don't really think it's a question of if we want it but rather how
+> >>> we get there. Harry is completely right that if we would make the
+> >>> subsampling controllable by user space instead of the kernel handling
+> >>> it magically, user space which does not adapt to the new control won't
+> >>> be able to light up some modes which worked before.
+> >>> =20
+> >>
+> >> Thanks for continuing this discussion and touching on the model of how
+> >> we get to where we want to go.
+> >> =20
+> >>> This is obviously a problem and not one we can easily fix. We would
+> >>> need a new cap for user space to signal "I know that I can control
+> >>> bpc, subsampling and compression to lower the bandwidth and light up
+> >>> modes which otherwise fail". That cap would also remove all the
+> >>> properties which require kernel magic to work (that's also what I
+> >>> proposed for my KMS color pipeline API).
+> >>>
+> >>> We all want to expose more of the scanout capability and give user
+> >>> space more control but I don't think an incremental approach works
+> >>> here and we would all do better if we accept that the current API
+> >>> requires kernel magic to work and has a few implicit assumptions baked
+> >>> in.
+> >>>
+> >>> With all that being said, I think the right decision here is to
+> >>>
+> >>> 1. Ignore subsampling for now
+> >>> 2. Let the kernel select YCC or RGB on the cable
+> >>> 3. Let the kernel figure out the conversion between RGB and YCC based
+> >>> on the color space selected
+> >>> 4. Let the kernel send the correct infoframe based on the selected
+> >>> color space and cable encoding
+> >>> 5. Only expose color spaces for which the kernel can do the conversion
+> >>> and send the infoframe =20
+> >>
+> >> I agree. We don't want to break or change existing behavior (that is
+> >> used by userspace) and this will get us far without breaking things.
+> >> =20
+> >>> 6. Work on the new API which is hidden behind a cap
 
-Thanks for the review.
+Hi,
 
-> 
-> Am Montag, 13. Februar 2023, 09:56:11 CET schrieb Liu Ying:
-> > The single LCDIF embedded in i.MX93 SoC may drive multiple displays
-> > simultaneously.  Look at LCDIF output port's remote port parents to
-> > find all enabled first bridges.  Add an encoder for each found
-> > bridge
-> > and attach the bridge to the encoder.  This is a preparation for
-> > adding i.MX93 LCDIF support.
-> > 
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v2->v3:
-> > * No change.
-> > 
-> > v1->v2:
-> > * Split from patch 2/2 in v1. (Marek, Alexander)
-> > * Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
-> > * Drop unneeded 'bridges' member from lcdif_drm_private structure.
-> > 
-> >  drivers/gpu/drm/mxsfb/lcdif_drv.c | 68
-> > +++++++++++++++++++++++++++----
-> >  drivers/gpu/drm/mxsfb/lcdif_drv.h |  4 +-
-> >  drivers/gpu/drm/mxsfb/lcdif_kms.c | 21 ++--------
-> >  3 files changed, 66 insertions(+), 27 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > b/drivers/gpu/drm/mxsfb/lcdif_drv.c index
-> > b5b9a8e273c6..eb6c265fa2fe 100644
-> > --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> > @@ -9,13 +9,16 @@
-> >  #include <linux/dma-mapping.h>
-> >  #include <linux/io.h>
-> >  #include <linux/module.h>
-> > +#include <linux/of.h>
-> >  #include <linux/of_device.h>
-> > +#include <linux/of_graph.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/pm_runtime.h>
-> > 
-> >  #include <drm/drm_atomic_helper.h>
-> >  #include <drm/drm_bridge.h>
-> >  #include <drm/drm_drv.h>
-> > +#include <drm/drm_encoder.h>
-> >  #include <drm/drm_fbdev_generic.h>
-> >  #include <drm/drm_gem_dma_helper.h>
-> >  #include <drm/drm_gem_framebuffer_helper.h>
-> > @@ -38,19 +41,68 @@ static const struct
-> > drm_mode_config_helper_funcs
-> > lcdif_mode_config_helpers = { .atomic_commit_tail =
-> > drm_atomic_helper_commit_tail_rpm,
-> >  };
-> > 
-> > +static const struct drm_encoder_funcs lcdif_encoder_funcs = {
-> > +	.destroy = drm_encoder_cleanup,
-> > +};
-> > +
-> >  static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
-> >  {
-> > -	struct drm_device *drm = lcdif->drm;
-> > +	struct device *dev = lcdif->drm->dev;
-> > +	struct device_node *ep;
-> >  	struct drm_bridge *bridge;
-> >  	int ret;
-> > 
-> > -	bridge = devm_drm_of_get_bridge(drm->dev, drm->dev->of_node, 0,
-> > 0);
-> > -	if (IS_ERR(bridge))
-> > -		return PTR_ERR(bridge);
-> > -
-> > -	ret = drm_bridge_attach(&lcdif->encoder, bridge, NULL, 0);
-> > -	if (ret)
-> > -		return dev_err_probe(drm->dev, ret, "Failed to attach 
-> 
-> bridge\n");
-> > +	for_each_endpoint_of_node(dev->of_node, ep) {
-> > +		struct device_node *remote;
-> > +		struct of_endpoint of_ep;
-> > +		struct drm_encoder *encoder;
-> > +
-> > +		remote = of_graph_get_remote_port_parent(ep);
-> 
-> Is it possible for remote to be NULL?
+I agree on all that, too.
 
-Yes. But, no worries.  Lothar said the check for '!remote' is not
-needed in v1 comment because of_device_is_available() checks that.
+> >>> =20
+> >>
+> >> I assume you mean something like
+> >> https://gitlab.freedesktop.org/pq/color-and-hdr/-/issues/11 =20
+> >=20
+> > Something like that, yes. The main point being a cap which removes a
+> > lot of properties and sets new expectations between user space and
+> > kernel. The actual API is not that important.
+> >  =20
+> >> Above you say that you don't think an incremental approach works
+> >> here. Can you elaborate? =20
+> >=20
+> > Backwards compatibility is really hard. If we add another property to
+> > control e.g. the color range infoframe which doesn't magically convert
+> > colors, we now have to define how it interacts with the existing
+> > property. We also have to figure out how a user space which doesn't
+> > know about the new property behaves when another client has set that
+> > property. If any property which currently might change the pixel
+> > values is used, we can't expose the entire color pipeline because the
+> > kernel might have to use some element in it to achieve its magic
+> > conversion. So essentially you already have this hard device between
+> > "old" and "new" and you can't use the new stuff incrementally.
+> >  =20
+>=20
+> True. If we go toward a new color API that gives userspace explicit
+> control of the entire pipeline it is by definition incompatible with
+> a "legacy" API that touches the same HW.
+>=20
+> >>  From what I've seen recently I am inclined to favor an incremental
+> >> approach more. The reason is that any API, or portion thereof, is
+> >> useless unless it's enabled full stack. When it isn't it becomes
+> >> dead code quickly, or never really works because we overlooked
+> >> one thing. The colorspace debacle shows how even something as
+> >> simple as extra enum values in KMS APIs shouldn't be added unless
+> >> someone in a canonical upstream project actually uses them. I
+> >> would argue that such a canonical upstream project actually has
+> >> to be a production environment and not something like Weston. =20
 
-> 
-> > +		if (!of_device_is_available(remote)) {
-> > +			of_node_put(remote);
-> > +			continue;
-> > +		}
-> > +		of_node_put(remote);
-> > +
-> > +		ret = of_graph_parse_endpoint(ep, &of_ep);
-> > +		if (ret < 0) {
-> > +			dev_err(dev, "Failed to parse endpoint
-> > %pOF\n", 
-> 
-> ep);
-> > +			of_node_put(ep);
-> > +			return ret;
-> > +		}
-> > +
-> > +		if (of_ep.id >= MAX_DISPLAYS) {
-> > +			dev_warn(dev, "invalid endpoint id %u\n", 
-> 
-> of_ep.id);
-> 
-> I would write
-> dev_warn(dev, "ignoring invalid endpoint id %u\n", of_ep.id);
-> just because the parsing continues but this one is skipped.
+That's an interesting opinion about Weston.
 
-Ok, will do that in next version.
+Harry, are you perhaps assuming that Weston refuses to use experimental
+UAPIs from downstream kernels, or where does that come from?
 
-> 
-> > +			continue;
-> > +		}
-> > +
-> > +		bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 
-> 
-> of_ep.id);
-> > +		if (IS_ERR(bridge)) {
-> > +			of_node_put(ep);
-> > +			return dev_err_probe(dev, PTR_ERR(bridge),
-> > +					     "Failed to get bridge 
-> 
-> for endpoint%u\n",
-> > +					     of_ep.id);
-> > +		}
-> > +
-> > +		encoder = &lcdif->encoders[of_ep.id];
-> > +		encoder->possible_crtcs = drm_crtc_mask(&lcdif->crtc);
-> > +		ret = drm_encoder_init(lcdif->drm, encoder, 
-> 
-> &lcdif_encoder_funcs,
-> > +				       DRM_MODE_ENCODER_NONE, NULL);
-> > +		if (ret) {
-> > +			dev_err(dev, "Failed to initialize encoder for 
-> 
-> endpoint%u: %d\n",
-> > +				of_ep.id, ret);
-> > +			of_node_put(ep);
-> > +			return ret;
-> > +		}
-> > +
-> > +		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-> > +		if (ret) {
-> > +			of_node_put(ep);
-> > +			return dev_err_probe(dev, ret,
-> > +					     "Failed to attach 
-> 
-> bridge for endpoint%u\n",
-> > +					     of_ep.id);
-> > +		}
-> 
-> Admittedly I'm not used to the drm API, but do we need to some manual
-> cleanup/
-> revert if some endpoints is e.g. deferred, but previous endpoints
-> already have 
-> been successfully added? e.g. endpoint 0 is added, but adding
-> endpoint 1 
-> fails.
+I think there is a lot of gray area that has not really been discussed
+for Weston's policy. One thing is certain that Weston does not want to
+go against upstream kernel policy, but that's a problem you need to
+solve anyway if you want to use downstream kernel experimental UAPI.
 
-I think the bailout path is safe, because
-drm_mode_config_init_release() is called as the managed release action
-added through drm_mode_config_init(). drm_mode_config_cleanup() would
-clean things up.
+> >=20
+> > I agree that it's very easy to design something that doesn't work in
+> > the real world but weston is a real production environment. Even a new
+> > project can be a real production environment imo. The goals here are
+> > not entirely undefined: we have color transformations and we want to
+> > offload them.
+> >  =20
+> >> I could see us getting to a fully new color pipeline API but
+> >> the only way to do that is with a development model that supports
+> >> it. While upstream needs to be our ultimate goal, a good way
+> >> to bring in new APIs and ensure a full-stack implementation is
+> >> to develop them in a downstream production kernel, alongside
+> >> userspace that makes use of it. Once the implementation is
+> >> proven in the downstream repos it can then go upstream. This
+> >> brings new challenges, though, as things don't get wide
+> >> testing and get out of sync with upstream quickly. The
+> >> alternative is the incremental approach. =20
+> >=20
+> > I also agree pretty much with everything here. My current idea is that
+> > we would add support for the new API in a downstream kernel for at
+> > least VKMS (one real driver probably makes sense as well) while in
+> > parallel developing a user space library for color conversions. That
+> > library might be a rewrite of libplacebo, which in its current form
+> > does all the color conversions we want to do but wasn't designed to
+> > allow for offloading. One of the developers expressed interest in
+> > rewriting the library in rust which would be a good opportunity to
+> > also take offloading into account.
+> >  =20
+>=20
+> Doesn't libplacebo hook into video players, i.e., above the Wayland
+> protocol layer? Is the idea to bring it into a Wayland compositor
+> and teach it how to talk to DRM/KMS?
+>=20
+> I wonder if it makes sense to somehow combine it with libliftoff for HW
+> offloading, since that library is already tackling the problem of
+> deciding whether to offload to KMS.
+>=20
+> > No doubt all of that will take a significant amount of effort and time
+> > but we can still get HDR working in the old model without offloading
+> > and just sRGB and PQ/Rec2020 code paths.
+> >  =20
+>=20
+> I would like to get to some form of HDR including offloading by adding
+> new per-plane LUTs or enumerated transfer functions as "legacy"=20
+> properties. This would likely be much more tailored to specific=20
+> use-cases than what Weston needs but would allow us to enable multi-plane
+> HDR in a more reasonable timeframe on applicable HW. These new
+> properties can educate an all-encompassing new DRM color API.
 
-Regards,
-Liu Ying
+I think Weston should be fine with those legacy style KMS properties.
+The problem might be that the required per-plane operations are
+different than what KMS can express.
 
+I have designed the Weston internals to carry the highest level
+information about an operational element like a curve set to allow
+everything from enumerated fixed curves and down to an arbitrary LUT,
+including falling back to lower level description when necessary. E.g.
+if there is no enumerated curve for something and it doesn't match
+parameterised curve either, Weston can always fall back to a LUT if
+precision is acceptable.
+
+There will not be inference to go from LUT to a higher level
+description, so all that depends on applications using the highest
+level description they can, which is what we are designing into
+color-representation and color-management.
+
+That does pose a challenge for Weston's color pipeline optimiser, but I
+do very much want it to get there. Converting everything into a LUT is
+losing precision and performance.
+
+However.
+
+I am not in any hurry to make use of KMS color pipeline off-loading
+features in Weston. I am approaching the API problem from the
+application direction: what do applications and compositors need from
+the color pipeline, and not how to expose everything of all existing
+hardware. This does mean that it will take a long time before Weston is
+ready to provide guidance on what an off-loading library API should
+look like.
+
+That's my opinion: I need to know what I want before I start asking for
+it. Maybe someone who has a strong background in color science and
+experience with video systems knows what the answer will be, but I
+don't.
+
+Still, I do need to be able to drive a monitor in known configuration
+and correctly, which is why the "Colorspace" property discussion is
+relevant to me right now.
+
+
+Thanks,
+pq
+
+>=20
+> >> We should look at this from a use-case angle, similar to what
+> >> the gamescope guys are doing. Small steps, like:
+> >> 1) Add HDR10 output (PQ, BT.2020) to the display
+> >> 2) Add ability to do sRGB linear blending
+> >> 3) Add ability to do sRGB and PQ linear blending
+> >> 4) Post-blending 3D LUT
+> >> 5) Pre-blending 3D LUT =20
+> >=20
+> > Sure, having a target in sight is a good idea.
+> >  =20
+> >> At each stage the whole stack needs to work together in production.
+> >>
+> >> If we go to a new color pipeline programming model it might
+> >> make sense to enable this as an "experimental" API that is
+> >> under development. I don't know if we've ever done that in
+> >> DRM/KMS. One way to do this might be with a new CONFIG option
+> >> that only exposes the new color pipeline API when enabled and
+> >> defaults to off, alongside a client cap for clients that
+> >> are advertising a desire to use the (experimental) API. =20
+> >=20
+> > Yeah, that's a bit tricky. I also don't know how upstream would like
+> > this approach. Not even sure who to talk to.
+> >  =20
+>=20
+> Agreed, I'm also not sure whether this would fly. airlied or danvet
+> might have an opinion.
+>=20
+> This thought was inspired by "Blink Intents", which is a mechanism
+> how new full-stack features land in the Chromium browsers:
+> https://www.youtube.com/watch?v=3D9cvzZ5J_DTg
+>=20
+> Harry
+>=20
+> >> If we have that we could then look at porting all existing
+> >> use-cases over and verifying them (including IGT tests) before
+> >> moving on to HDR and wide-gamut use-cases. It's a large
+> >> undertaking and while I'm not opposed to it I don't know
+> >> if there are enough people willing to invest a large amount
+> >> of effort to make this happen.
+> >>
+> >> Harry
+> >> =20
+> >>>> The automagic 4:2:0 fallback I think is rather fundementally
+> >>>> incompatible with fancy color management. How would we even
+> >>>> know whether to use eg. BT.2020 vs. BT.709 matrix? In i915
+> >>>> that stuff is just always BT.709 limited range, no questions
+> >>>> asked.
+> >>>>
+> >>>> So I think if userspace wants real color management it's
+> >>>> going to have to set up the whole pipeline. And for that
+> >>>> we need at least one new property to control the RGB->YCbCr
+> >>>> conversion (or to explicitly avoid it).
+> >>>>
+> >>>> And given that the proposed patch just swept all the
+> >>>> non-BT.2020 issues under the rug makes me think no
+> >>>> one has actually come up with any kind of consistent
+> >>>> plan for anything else really.
+> >>>> =20
+> >>>>>
+> >>>>> Userspace needs full control of framebuffer pixel formats,
+> >>>>> as well as control over DEGAMMA, GAMMA, CTM color operations.
+> >>>>> It also needs to be able to select whether to drive the panel
+> >>>>> as sRGB or BT.2020/PQ but it doesn't make sense for it to
+> >>>>> control the pixel encoding on the wire (RGB vs YCbCr).
+> >>>>> =20
+> >>>>>> I really don't want a repeat of the disaster of the
+> >>>>>> 'Broadcast RGB' which has coupled together the infoframe
+> >>>>>> and automagic conversion stuff. And I think this one would
+> >>>>>> be about 100x worse given this property has something
+> >>>>>> to do with actual colorspaces as well.
+> >>>>>> =20
+> >>>>>
+> >>>>> I'm unaware of this disaster. Could you elaborate? =20
+> >>>>
+> >>>> The property now controls both the infoframe stuff (and
+> >>>> whatever super vague stuff DP has for it in MSA) and
+> >>>> full->limited range compression in the display pipeline.
+> >>>> And as a result  there is no way to eg. allow already
+> >>>> limited range input, which is what some people wanted.
+> >>>>
+> >>>> And naturally it's all made a lot more terrible by all
+> >>>> the displays that fail to implement the spec correctly,
+> >>>> but that's another topic.
+> >>>>
+> >>>> --
+> >>>> Ville Syrj=C3=A4l=C3=A4
+> >>>> Intel
+> >>>> =20
+> >>> =20
+> >> =20
+> >  =20
+
+
+--Sig_/07vxxmy176geY0MRGiU3n3n
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPsqHAACgkQI1/ltBGq
+qqen4hAAs7IjrXIruF6q+/3j0dlma9jycPJBTjfbe8WIYnzmjfpvuzP0VjJSfIXn
+NFfN9xVuK618Bd1W4tLcwY5Sab49phUcSvDRzcHk9yV6tqELMDnpLyVSNN5u8ZJM
+y1oawcwhWEAkVVppMaWV0N9bJiZTfVXHQkb2kIWWhoF69isP8/sB6Hty+x25xHZa
+R3ZK2HL0E/NoZcjQP/TJW+om4F9Zh3zFC8VWzUsbt+RejuNyhInXueq0RKfSYlAl
+59muKIEBOUtxE9LsbV/lFwbDxcMkaOdy5GZifUNWWC50LDxM7/P7tS4a3QWCF3Ks
+GoyZYpe0ZJMwRsvMLThGW1gxiYShFlpr44tqWhAO1GZ9O88S1ukAEGrNw/5k/Tfw
+plYcppH0RSjZyKS2CHt0th8usd6+Z8xzG4N1ztN2jHPM+qH/wiHtrHLN01xHm3iM
+EiVbvehhBUfkK15TG+cJ3ZSueT6FSQf0cD2zjwbuQ0TU5GvZK4RP28m11vKgOMC4
+Ovy0LBWOjRG13Ch/E8OVSq9X9tIDoV0Wur6kcpAQiPuHTJ8T9n+gAETOa+KXEQus
+yjSxhAEq2xeruwLsSHoN/eB6GTw9/0B2pxUfdNJqHZqjNlnRLMF+9SfnWr4xay1f
+orpgPQCLFZDPWa/rNQxxafyO2yigeT9OSgN5yLR03a48iK6HFfc=
+=aqK0
+-----END PGP SIGNATURE-----
+
+--Sig_/07vxxmy176geY0MRGiU3n3n--
