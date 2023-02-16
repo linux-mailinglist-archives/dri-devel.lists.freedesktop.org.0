@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875B369932F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 12:34:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8E2699345
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 12:38:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABFD610ED3D;
-	Thu, 16 Feb 2023 11:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9BD10E16B;
+	Thu, 16 Feb 2023 11:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E02F610ED3D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 11:34:48 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id z13so1345410wmp.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 03:34:48 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 699FC10E16B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 11:38:00 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id r28so1082772wra.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 03:38:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=Yp1RqaqEx4nLDef7bB12pxM4tlwpF0/KEPXfIZhswEE=;
- b=L3qzinmfbur+mnzLKb9ovTEORSMfC0u3lgDgDzGjfT67fPz7YAN2Sqid1VXijy4C7l
- AHi3T6v/GKXw+G7vXf1+LttqAnBgs/SVPeK2ttn7Ymz+i6Jor4GcmEoqX6/ri6lpa0e7
- adOda+hN/y2bNUDBSM+evIH7ynzFvjPfJ/QsI=
+ bh=RppuH7t9CsNPlS7I6axVGf0uTubUGr36ppo0ZJdaFLM=;
+ b=CMQiS8cCgdjQt4JWiSl3Nbbi7YckonhLYEAEMG8DDO5FHI+yBXxL7HTxulOHuGqC1r
+ ob0o/in+PXwT4wzhZ2Ewxl0jkA9nVBh38eaRY0k8lAc36T0aUS1/xTcsP+tgrvjKowrS
+ JkPTRAICunJpRvl73NmwK+olV9AlEzNDgb1kY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Yp1RqaqEx4nLDef7bB12pxM4tlwpF0/KEPXfIZhswEE=;
- b=iSjAvHH8U9wNqKTGU6fEGqnG2mRdMQ5mCcJUQWIbWxiURVCBbkQ4RBsMwe30UpiVbT
- L+XY/PPPfdB5lfuweWo0dpm65GJpzAFW0rYUrzaoQ97T3tf8HPp7IVJHygBZ2BNIMeFu
- AGAmBAf27IosDrOGAQ4izD7oNZ1oa0FksoDL+6c7tuQKuxi7MOy9LemuUkBryhNLDzYB
- UleHqXv1VEhM34wsYrr3TTKRHdBj3ZIsWK2x15k8P6UuXNc0AqVm2lG7NMTIrAo0Om6z
- BUH5A/oktyXdZoE8vLoBNMOa7HpP+eqeHmuelLJXzZOxqqV++VoNmH8rim/XOazwSSN4
- JgnQ==
-X-Gm-Message-State: AO0yUKXghKCY+WWDkdUnGVwHBF/M4QS6OxYgjTHYRbufJtz3t9GaJL1V
- FPYcqeog7uYOmRZupS8Jq/WuRQ==
-X-Google-Smtp-Source: AK7set/2YvvrhC0oeIe7rnecGv7Y7H+Vn31+N0FWhSTxPOKyRIHc/Ac8nk9sBmHTtrRh0HF7VyJ+hA==
-X-Received: by 2002:a1c:f418:0:b0:3e0:b1:c12d with SMTP id
- z24-20020a1cf418000000b003e000b1c12dmr5643698wma.1.1676547287283; 
- Thu, 16 Feb 2023 03:34:47 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- k1-20020a7bc401000000b003dc47d458cdsm1435949wmi.15.2023.02.16.03.34.46
+ bh=RppuH7t9CsNPlS7I6axVGf0uTubUGr36ppo0ZJdaFLM=;
+ b=7rvzC98n93pkoh1xxVxlZ/LmQb7Kc0DIleuWwRmKRiwPq2ySurDTljWtCgRvrl3zDV
+ lx1xyBN4/HyDlB0K5k3wbQejul4UEtlMmjJoluLs76+/bbnjiHPgb01n24+MAhweWWxl
+ BOZws3thCCpJI9jA2+KpCJ1fVFCiXLVon4JJwHC42O8AkEAAIm2IcNGa36Ea1RicdGXc
+ bstK/wfCYBeHMUIJxC4717J74MKlcH5evLQ5Pee94JiOffcUB9DByMp7tupcH0H7wBhK
+ Ujsg2K4xqpJAfYIzfHhzIRIrG40L6wf4BaF2cVZghZgMDrHAIUJ7qhmOaU6NBq82w7JW
+ 2Vhw==
+X-Gm-Message-State: AO0yUKWnKjvYv24kLzptnjJY8qv39zWsKT1/Wq/sWkZ5zhX+j3bppxTm
+ kyjyQAR/sSwTDEDZ63POkNHG6MNsY4S9ckvS
+X-Google-Smtp-Source: AK7set/FMcH7iFNgpcuo2fyYqDmjDeFyU1XlLL7Nq+A0dDtkeaJ899ODlzmnEjfkTbuL0/QmzA9Q5w==
+X-Received: by 2002:adf:cf0c:0:b0:2c5:5fdc:26d2 with SMTP id
+ o12-20020adfcf0c000000b002c55fdc26d2mr3125381wrj.6.1676547478862; 
+ Thu, 16 Feb 2023 03:37:58 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ x16-20020a5d60d0000000b002c5640f9bf9sm1261198wrt.85.2023.02.16.03.37.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 03:34:46 -0800 (PST)
-Date: Thu, 16 Feb 2023 12:34:39 +0100
+ Thu, 16 Feb 2023 03:37:58 -0800 (PST)
+Date: Thu, 16 Feb 2023 12:37:50 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: Try to address the drm_debugfs issues
-Message-ID: <Y+4Uz4KM3S9QCDqA@phenom.ffwll.local>
+Subject: Re: [PATCH 3/3] drm/debugfs: remove dev->debugfs_list and
+ debugfs_mutex
+Message-ID: <Y+4Vjn1HRAw4UGp8@phenom.ffwll.local>
 References: <20230209081838.45273-1-christian.koenig@amd.com>
- <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
- <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
- <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
- <cbe1ac86-1d41-bcf7-679b-ad4e2a810361@gmail.com>
+ <20230209081838.45273-4-christian.koenig@amd.com>
+ <Y+4UdBzk6RkQzcsI@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cbe1ac86-1d41-bcf7-679b-ad4e2a810361@gmail.com>
+In-Reply-To: <Y+4UdBzk6RkQzcsI@phenom.ffwll.local>
 X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,175 +73,223 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org, mwen@igalia.com, mairacanal@riseup.net,
- maxime@cerno.tech, wambui.karugax@gmail.com
+Cc: daniel.vetter@ffwll.ch, mcanal@igalia.com, dri-devel@lists.freedesktop.org,
+ mwen@igalia.com, mairacanal@riseup.net, maxime@cerno.tech,
+ wambui.karugax@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 09, 2023 at 03:06:10PM +0100, Christian König wrote:
-> Am 09.02.23 um 14:06 schrieb Maíra Canal:
-> > On 2/9/23 09:13, Christian König wrote:
-> > > Am 09.02.23 um 12:23 schrieb Maíra Canal:
-> > > > On 2/9/23 05:18, Christian König wrote:
-> > > > > Hello everyone,
-> > > > > 
-> > > > > the drm_debugfs has a couple of well known design problems.
-> > > > > 
-> > > > > Especially it wasn't possible to add files between
-> > > > > initializing and registering
-> > > > > of DRM devices since the underlying debugfs directory wasn't
-> > > > > created yet.
-> > > > > 
-> > > > > The resulting necessity of the driver->debugfs_init()
-> > > > > callback function is a
-> > > > > mid-layering which is really frowned on since it creates a horrible
-> > > > > driver->DRM->driver design layering.
-> > > > > 
-> > > > > The recent patch "drm/debugfs: create device-centered
-> > > > > debugfs functions" tried
-> > > > > to address those problem, but doesn't seem to work
-> > > > > correctly. This looks like
-> > > > > a misunderstanding of the call flow around
-> > > > > drm_debugfs_init(), which is called
-> > > > > multiple times, once for the primary and once for the render node.
-> > > > > 
-> > > > > So what happens now is the following:
-> > > > > 
-> > > > > 1. drm_dev_init() initially allocates the drm_minor objects.
-> > > > > 2. ... back to the driver ...
-> > > > > 3. drm_dev_register() is called.
-> > > > > 
-> > > > > 4. drm_debugfs_init() is called for the primary node.
-> > > > > 5. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
-> > > > >     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)()
-> > > > > to add the files
-> > > > >     for the primary node.
-> > > > > 6. The driver->debugfs_init() callback is called to add
-> > > > > debugfs files for the
-> > > > >     primary node.
-> > > > > 7. The added files are consumed and added to the primary
-> > > > > node debugfs directory.
-> > > > > 
-> > > > > 8. drm_debugfs_init() is called for the render node.
-> > > > > 9. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
-> > > > >     drm_atomic_debugfs_init() call drm_debugfs_add_file(s)()
-> > > > > to add the files
-> > > > >     again for the render node.
-> > > > > 10. The driver->debugfs_init() callback is called to add
-> > > > > debugfs files for the
-> > > > >      render node.
-> > > > > 11. The added files are consumed and added to the render
-> > > > > node debugfs directory.
-> > > > > 
-> > > > > 12. Some more files are added through drm_debugfs_add_file().
-> > > > > 13. drm_debugfs_late_register() add the files once more to
-> > > > > the primary node
-> > > > >      debugfs directory.
-> > > > > 14. From this point on files added through
-> > > > > drm_debugfs_add_file() are simply ignored.
-> > > > > 15. ... back to the driver ...
-> > > > > 
-> > > > > Because of this the dev->debugfs_mutex lock is also
-> > > > > completely pointless since
-> > > > > any concurrent use of the interface would just randomly
-> > > > > either add the files to
-> > > > > the primary or render node or just not at all.
-> > > > > 
-> > > > > Even worse is that this implementation nails the coffin for
-> > > > > removing the
-> > > > > driver->debugfs_init() mid-layering because otherwise
-> > > > > drivers can't control
-> > > > > where their debugfs (primary/render node) are actually added.
-> > > > > 
-> > > > > This patch set here now tries to clean this up a bit, but
-> > > > > most likely isn't
-> > > > > fully complete either since I didn't audit every driver/call path.
-> > > > 
-> > > > I tested the patchset on the v3d, vc4 and vkms and all the files
-> > > > are generated
-> > > > as expected, but I'm getting the following errors on dmesg:
-> > > > 
-> > > > [    3.872026] debugfs: File 'v3d_ident' in directory '0'
-> > > > already present!
-> > > > [    3.872064] debugfs: File 'v3d_ident' in directory '128'
-> > > > already present!
-> > > > [    3.872078] debugfs: File 'v3d_regs' in directory '0' already
-> > > > present!
-> > > > [    3.872087] debugfs: File 'v3d_regs' in directory '128'
-> > > > already present!
-> > > > [    3.872097] debugfs: File 'measure_clock' in directory '0'
-> > > > already present!
-> > > > [    3.872105] debugfs: File 'measure_clock' in directory '128'
-> > > > already present!
-> > > > [    3.872116] debugfs: File 'bo_stats' in directory '0' already
-> > > > present!
-> > > > [    3.872124] debugfs: File 'bo_stats' in directory '128'
-> > > > already present!
-> > > > 
-> > > > It looks like the render node is being added twice, since this
-> > > > doesn't happen
-> > > > for vc4 and vkms.
-> > > 
-> > > Thanks for the feedback and yes that's exactly what I meant with
-> > > that I haven't looked into all code paths.
-> > > 
-> > > Could it be that v3d registers it's debugfs files from the
-> > > debugfs_init callback?
+On Thu, Feb 16, 2023 at 12:33:08PM +0100, Daniel Vetter wrote:
+> On Thu, Feb 09, 2023 at 09:18:38AM +0100, Christian König wrote:
+> > The mutex was completely pointless in the first place since any
+> > parallel adding of files to this list would result in random
+> > behavior since the list is filled and consumed multiple times.
 > > 
-> > Although this is true, I'm not sure if this is the reason why the files
-> > are
-> > being registered twice, as this doesn't happen to vc4, and it also uses
-> > the
-> > debugfs_init callback. I believe it is somewhat related to the fact that
-> > v3d is the primary node and the render node.
-> 
-> I see. Thanks for the hint.
-> 
+> > Completely drop that approach and just create the files directly.
 > > 
-> > Best Regards,
-> > - Maíra Canal
+> > This also re-adds the debugfs files to the render node directory and
+> > removes drm_debugfs_late_register().
 > > 
-> > > 
-> > > One alternative would be to just completely nuke support for
-> > > separate render node debugfs files and only add a symlink to the
-> > > primary node. Opinions?
+> > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > ---
+> >  drivers/gpu/drm/drm_debugfs.c     | 32 +++++++------------------------
+> >  drivers/gpu/drm/drm_drv.c         |  3 ---
+> >  drivers/gpu/drm/drm_internal.h    |  5 -----
+> >  drivers/gpu/drm/drm_mode_config.c |  2 --
+> >  include/drm/drm_device.h          | 15 ---------------
+> >  5 files changed, 7 insertions(+), 50 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> > index 558e3a7271a5..a40288e67264 100644
+> > --- a/drivers/gpu/drm/drm_debugfs.c
+> > +++ b/drivers/gpu/drm/drm_debugfs.c
+> > @@ -246,31 +246,9 @@ void drm_debugfs_dev_register(struct drm_device *dev)
+> >  void drm_debugfs_minor_register(struct drm_minor *minor)
+> >  {
+> >  	struct drm_device *dev = minor->dev;
+> > -	struct drm_debugfs_entry *entry, *tmp;
+> >  
+> >  	if (dev->driver->debugfs_init)
+> >  		dev->driver->debugfs_init(minor);
+> > -
+> > -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+> > -		debugfs_create_file(entry->file.name, 0444,
+> > -				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+> > -		list_del(&entry->list);
+> > -	}
+> > -}
+> > -
+> > -void drm_debugfs_late_register(struct drm_device *dev)
+> > -{
+> > -	struct drm_minor *minor = dev->primary;
+> > -	struct drm_debugfs_entry *entry, *tmp;
+> > -
+> > -	if (!minor)
+> > -		return;
+> > -
+> > -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
+> > -		debugfs_create_file(entry->file.name, 0444,
+> > -				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
+> > -		list_del(&entry->list);
+> > -	}
+> >  }
+> >  
+> >  int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
+> > @@ -343,9 +321,13 @@ void drm_debugfs_add_file(struct drm_device *dev, const char *name,
+> >  	entry->file.data = data;
+> >  	entry->dev = dev;
+> >  
+> > -	mutex_lock(&dev->debugfs_mutex);
+> > -	list_add(&entry->list, &dev->debugfs_list);
+> > -	mutex_unlock(&dev->debugfs_mutex);
+> > +	debugfs_create_file(name, 0444, dev->primary->debugfs_root, entry,
+> > +			    &drm_debugfs_entry_fops);
+> > +
+> > +	/* TODO: This should probably only be a symlink */
+> > +	if (dev->render)
+> > +		debugfs_create_file(name, 0444, dev->render->debugfs_root,
+> > +				    entry, &drm_debugfs_entry_fops);
 > 
-> What do you think of this approach? I can't come up with any reason why we
-> should have separate debugfs files for render nodes and I think it is pretty
-> much the same reason you came up with the patch for per device debugfs files
-> instead of per minor.
+> Nope. You are fundamentally missing the point of all this, which is:
+> 
+> - drivers create debugfs files whenever they want to, as long as it's
+>   _before_ drm_dev_register is called.
+> 
+> - drm_dev_register will set them all up.
+> 
+> This is necessary because otherwise you have the potential for some nice
+> oops and stuff when userspace tries to access these files before the
+> driver is ready.
+> 
+> Note that with sysfs all this infrastructure already exists, which is why
+> you can create sysfs files whenever you feel like, and things wont go
+> boom.
+> 
+> So yeah we need the list.
+> 
+> This also means that we really should not create the debugfs directories
+> _before_ drm_dev_register is called. That's just fundamentally not how
+> device interface setup should work:
+> 
+> 1. you allocate stucts and stuff
+> 2. you fully init everything
+> 3. you register interfaces so they become userspace visible
 
-Yeah I think best is to symlink around a bit for compat. I thought we
-where doing that already, and you can't actually create debugfs files on
-render nodes? Or did I only dream about this?
+What I forgot to add: The mutex seems surplus and could probably be
+removed. But we need the mutex once this infra is extracted to other drm
+things like connector/crtc debugfs files, because you can hotplug
+connectors. But maybe the mutex isn't even need in that case (since for a
+single object you still should not multi-thread anything).
+
+So removing the mutex here seems like a reasonable thing to do, but
+funamentally the list and the entire delayed debugfs setup must stay.
+Otherwise we cannot remove the entire debugfs_init midlayer mess without
+creating huge amounts of driver bugs in the init sequencing.
 -Daniel
 
+
+> -Daniel
 > 
-> Regards,
-> Christian.
+> >  }
+> >  EXPORT_SYMBOL(drm_debugfs_add_file);
+> >  
+> > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > index 2cbe028e548c..e7b88b65866c 100644
+> > --- a/drivers/gpu/drm/drm_drv.c
+> > +++ b/drivers/gpu/drm/drm_drv.c
+> > @@ -597,7 +597,6 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
+> >  	mutex_destroy(&dev->clientlist_mutex);
+> >  	mutex_destroy(&dev->filelist_mutex);
+> >  	mutex_destroy(&dev->struct_mutex);
+> > -	mutex_destroy(&dev->debugfs_mutex);
+> >  	drm_legacy_destroy_members(dev);
+> >  }
+> >  
+> > @@ -638,14 +637,12 @@ static int drm_dev_init(struct drm_device *dev,
+> >  	INIT_LIST_HEAD(&dev->filelist_internal);
+> >  	INIT_LIST_HEAD(&dev->clientlist);
+> >  	INIT_LIST_HEAD(&dev->vblank_event_list);
+> > -	INIT_LIST_HEAD(&dev->debugfs_list);
+> >  
+> >  	spin_lock_init(&dev->event_lock);
+> >  	mutex_init(&dev->struct_mutex);
+> >  	mutex_init(&dev->filelist_mutex);
+> >  	mutex_init(&dev->clientlist_mutex);
+> >  	mutex_init(&dev->master_mutex);
+> > -	mutex_init(&dev->debugfs_mutex);
+> >  
+> >  	ret = drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
+> >  	if (ret)
+> > diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> > index 5ff7bf88f162..e215d00ba65c 100644
+> > --- a/drivers/gpu/drm/drm_internal.h
+> > +++ b/drivers/gpu/drm/drm_internal.h
+> > @@ -188,7 +188,6 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+> >  void drm_debugfs_dev_register(struct drm_device *dev);
+> >  void drm_debugfs_minor_register(struct drm_minor *minor);
+> >  void drm_debugfs_cleanup(struct drm_minor *minor);
+> > -void drm_debugfs_late_register(struct drm_device *dev);
+> >  void drm_debugfs_connector_add(struct drm_connector *connector);
+> >  void drm_debugfs_connector_remove(struct drm_connector *connector);
+> >  void drm_debugfs_crtc_add(struct drm_crtc *crtc);
+> > @@ -205,10 +204,6 @@ static inline void drm_debugfs_cleanup(struct drm_minor *minor)
+> >  {
+> >  }
+> >  
+> > -static inline void drm_debugfs_late_register(struct drm_device *dev)
+> > -{
+> > -}
+> > -
+> >  static inline void drm_debugfs_connector_add(struct drm_connector *connector)
+> >  {
+> >  }
+> > diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> > index 87eb591fe9b5..8525ef851540 100644
+> > --- a/drivers/gpu/drm/drm_mode_config.c
+> > +++ b/drivers/gpu/drm/drm_mode_config.c
+> > @@ -54,8 +54,6 @@ int drm_modeset_register_all(struct drm_device *dev)
+> >  	if (ret)
+> >  		goto err_connector;
+> >  
+> > -	drm_debugfs_late_register(dev);
+> > -
+> >  	return 0;
+> >  
+> >  err_connector:
+> > diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> > index 7cf4afae2e79..900ad7478dd8 100644
+> > --- a/include/drm/drm_device.h
+> > +++ b/include/drm/drm_device.h
+> > @@ -311,21 +311,6 @@ struct drm_device {
+> >  	 */
+> >  	struct drm_fb_helper *fb_helper;
+> >  
+> > -	/**
+> > -	 * @debugfs_mutex:
+> > -	 *
+> > -	 * Protects &debugfs_list access.
+> > -	 */
+> > -	struct mutex debugfs_mutex;
+> > -
+> > -	/**
+> > -	 * @debugfs_list:
+> > -	 *
+> > -	 * List of debugfs files to be created by the DRM device. The files
+> > -	 * must be added during drm_dev_register().
+> > -	 */
+> > -	struct list_head debugfs_list;
+> > -
+> >  	/* Everything below here is for legacy driver, never use! */
+> >  	/* private: */
+> >  #if IS_ENABLED(CONFIG_DRM_LEGACY)
+> > -- 
+> > 2.34.1
+> > 
 > 
-> > > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > > 
-> > > > Otherwise, the patchset looks good to me, but maybe Daniel has
-> > > > some other
-> > > > thoughts about it.
-> > > > 
-> > > > Best Regards,
-> > > > - Maíra Canal
-> > > > 
-> > > > > 
-> > > > > Please comment/discuss.
-> > > > > 
-> > > > > Cheers,
-> > > > > Christian.
-> > > > > 
-> > > > > 
-> > > 
-> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
