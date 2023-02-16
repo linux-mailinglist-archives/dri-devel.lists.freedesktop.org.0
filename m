@@ -2,69 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C148D699D3E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 20:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C33699D41
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 20:58:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1CB310E11A;
-	Thu, 16 Feb 2023 19:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1AE10E369;
+	Thu, 16 Feb 2023 19:58:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3AE010E11A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 19:58:04 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- hg24-20020a05600c539800b003e1f5f2a29cso5068154wmb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 11:58:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LN/189C9U5isFxh0jcgZGEFOXpDBqXkGMA4H8O5QOv4=;
- b=ZSQVYi13gf/QzFDltQrz6FxAxqeu0sdZAb3sfbOcQJYrEpVOoWxqdlSemgAzJra8Az
- 5bqtv0XrUwvbZrh5APeJ3K5KkOkVa4da0GEMOfvMmCUzhdBHo6QPYVeoF3dl1NlAZ22i
- aSM9Sg+qRDcJy330D1hSrjm76nisJ7JLC4lL4=
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F49310E365;
+ Thu, 16 Feb 2023 19:58:48 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-15ff0a1f735so3891058fac.5; 
+ Thu, 16 Feb 2023 11:58:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+wLIvE6xm4u8oTRQH7O+F8I+EpLaV56nlo87TiXnIqw=;
+ b=Md6+X8rFjnPd28cBlnklBwLD9NeO40zA/zrhv2IAXBP6ALdRifEV0A0Dh5I4NQ97GY
+ 3q3DafPEngiUcuSezZpag3rFUo36iDdQaPUWvTB0B+vOSWltZczqoy0s2vTxNIgAHsa5
+ Y8hCZmDX6h7K/IcGaMLcsYqTMEURlT1G75SwGqtRy/ZIVGDWo4pjFYIdKWC7Z70qk3kb
+ TzCcUjFxjxLQOPvMZmH7b7GWgUCY5HOoI9fWTHJc7jprNw8pUgb8e9lm9tCXZUGoU9F1
+ orY8J8w3zV1+jVS0RZEKMUGVomKwUg6wB+9+TMTOBfcOwIWGq0bXoh49RO8bN7xeM758
+ B7KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LN/189C9U5isFxh0jcgZGEFOXpDBqXkGMA4H8O5QOv4=;
- b=ISW68yVOMVF4MS01ELfRZIJ2jz7Ce4YLbNBm2kVwTMAg6F+C7oTi/79mLmpFKXC6uh
- D8qLmgOTSBXc7AoWiFrNrsR+CUwxk6166MqYYqsQuw0MEGlXmya3rQudw3e/S2qXp2vF
- qBRWE72vPHnj9c4GJKEyyre8U1+qXQFQJJguuZkP4oq9mp+iD+/E/PWKSFc6KApshWKJ
- a+1jMN25xZeLSTIVTKV2vOYCm1pjNhKBrXkCIH7pPbAORwvoQBdRF5nUJfOkuTRQVOYq
- Imu8R8hl+W11Gw4o4V2C6M8+njC1veHHcer0J6MFoT7sYDUxvj8aXziMj6I+4jUTKg/O
- r5cA==
-X-Gm-Message-State: AO0yUKUpf6O8ymJj/otyEYdKpUJtFYxbYgx0rI7GM5D6CJIwUcDVcD2F
- cyLsxFdya629KruEHL9SuK9tEYuEFveJEROv
-X-Google-Smtp-Source: AK7set+y6bR1yZpNqCx0pWjlHdyb7QgOdA1MX3v80r0baacDCG/pm3LYR2V6rKpnz3V+lfKxkVAqVQ==
-X-Received: by 2002:a1c:f418:0:b0:3e0:b1:c12d with SMTP id
- z24-20020a1cf418000000b003e000b1c12dmr7025722wma.1.1676577483197; 
- Thu, 16 Feb 2023 11:58:03 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- he8-20020a05600c540800b003e208cec49bsm4633275wmb.3.2023.02.16.11.58.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 11:58:02 -0800 (PST)
-Date: Thu, 16 Feb 2023 20:57:55 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: Try to address the drm_debugfs issues
-Message-ID: <Y+6Kwzpc5byUgr2H@phenom.ffwll.local>
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
- <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
- <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
- <cbe1ac86-1d41-bcf7-679b-ad4e2a810361@gmail.com>
- <Y+4Uz4KM3S9QCDqA@phenom.ffwll.local>
- <d53e294b-2447-8692-f4e3-dbc46439b3cf@gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+wLIvE6xm4u8oTRQH7O+F8I+EpLaV56nlo87TiXnIqw=;
+ b=lwkdbuoV8vX50R0gq1xEDOTWOmGvz3mlJ1H7bojp4FLzx0CORgNr01JeD+YU19AOwd
+ oFy9QRPqNgVGfOhcKb+8tdFKfNWaLld8hmyhPDrJaDOj/LQheyHEAz0DrZq+gaC3Efqi
+ fmThIR4ih982wRq56j5wFR0y3LDz9zgZq8QnMXwjQnl++ZdJAfTuTfzwtbJXi+ljw77G
+ zlzHL+SZcBPI6btcWMTrSAY2Bb0a5bwW0rBWSy+1AoRkEdXtBUJeD7OaNPzxfCV5kOJz
+ 0oXOhbgcDABwMyOSp5LfoVdGQBjra5UUBdYKNPFZFQg6AUSJ5zMUvdvcIXfgC6vpOw1b
+ t3ig==
+X-Gm-Message-State: AO0yUKXJgqMdqECe+fH6dHtROQ7vAbIeXp1+M8tkiY/eIgafBVXQYusM
+ SqFgxuISrwZJQm8KRv5+UPSCsIhTgyoUVhKpHsH9EfCr
+X-Google-Smtp-Source: AK7set/qywOXHswoWWwrW4GqMhZ4fpoEok9oOw3WUrSIP3iqyykSTe7qb7pFhC2pZy4/WppongpQ7Yik0f9KSNm11Gs=
+X-Received: by 2002:a05:6870:808d:b0:16e:8a56:d0d2 with SMTP id
+ q13-20020a056870808d00b0016e8a56d0d2mr88302oab.38.1676577527683; Thu, 16 Feb
+ 2023 11:58:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d53e294b-2447-8692-f4e3-dbc46439b3cf@gmail.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+References: <20230210130647.580135-1-tvrtko.ursulin@linux.intel.com>
+ <CAF6AEGto9VMNLJnAs+n5H6MNoVASNasYEu3WhYYkhn5sERg4Fw@mail.gmail.com>
+ <Y+5zyeSncSbsXHWG@intel.com>
+In-Reply-To: <Y+5zyeSncSbsXHWG@intel.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 16 Feb 2023 11:59:07 -0800
+Message-ID: <CAF6AEGs5s2NFoLFJVpsrcGLZUuZxX=H4FAeCzKFzOSdzWzDkAQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [RFC v2 0/5] Waitboost drm syncobj waits
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,181 +67,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org, mwen@igalia.com, mairacanal@riseup.net,
- maxime@cerno.tech, wambui.karugax@gmail.com
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 16, 2023 at 05:31:50PM +0100, Christian König wrote:
-> 
-> 
-> Am 16.02.23 um 12:34 schrieb Daniel Vetter:
-> > On Thu, Feb 09, 2023 at 03:06:10PM +0100, Christian König wrote:
-> > > Am 09.02.23 um 14:06 schrieb Maíra Canal:
-> > > > On 2/9/23 09:13, Christian König wrote:
-> > > > > Am 09.02.23 um 12:23 schrieb Maíra Canal:
-> > > > > > On 2/9/23 05:18, Christian König wrote:
-> > > > > > > Hello everyone,
-> > > > > > > 
-> > > > > > > the drm_debugfs has a couple of well known design problems.
-> > > > > > > 
-> > > > > > > Especially it wasn't possible to add files between
-> > > > > > > initializing and registering
-> > > > > > > of DRM devices since the underlying debugfs directory wasn't
-> > > > > > > created yet.
-> > > > > > > 
-> > > > > > > The resulting necessity of the driver->debugfs_init()
-> > > > > > > callback function is a
-> > > > > > > mid-layering which is really frowned on since it creates a horrible
-> > > > > > > driver->DRM->driver design layering.
-> > > > > > > 
-> > > > > > > The recent patch "drm/debugfs: create device-centered
-> > > > > > > debugfs functions" tried
-> > > > > > > to address those problem, but doesn't seem to work
-> > > > > > > correctly. This looks like
-> > > > > > > a misunderstanding of the call flow around
-> > > > > > > drm_debugfs_init(), which is called
-> > > > > > > multiple times, once for the primary and once for the render node.
-> > > > > > > 
-> > > > > > > So what happens now is the following:
-> > > > > > > 
-> > > > > > > 1. drm_dev_init() initially allocates the drm_minor objects.
-> > > > > > > 2. ... back to the driver ...
-> > > > > > > 3. drm_dev_register() is called.
-> > > > > > > 
-> > > > > > > 4. drm_debugfs_init() is called for the primary node.
-> > > > > > > 5. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
-> > > > > > >      drm_atomic_debugfs_init() call drm_debugfs_add_file(s)()
-> > > > > > > to add the files
-> > > > > > >      for the primary node.
-> > > > > > > 6. The driver->debugfs_init() callback is called to add
-> > > > > > > debugfs files for the
-> > > > > > >      primary node.
-> > > > > > > 7. The added files are consumed and added to the primary
-> > > > > > > node debugfs directory.
-> > > > > > > 
-> > > > > > > 8. drm_debugfs_init() is called for the render node.
-> > > > > > > 9. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
-> > > > > > >      drm_atomic_debugfs_init() call drm_debugfs_add_file(s)()
-> > > > > > > to add the files
-> > > > > > >      again for the render node.
-> > > > > > > 10. The driver->debugfs_init() callback is called to add
-> > > > > > > debugfs files for the
-> > > > > > >       render node.
-> > > > > > > 11. The added files are consumed and added to the render
-> > > > > > > node debugfs directory.
-> > > > > > > 
-> > > > > > > 12. Some more files are added through drm_debugfs_add_file().
-> > > > > > > 13. drm_debugfs_late_register() add the files once more to
-> > > > > > > the primary node
-> > > > > > >       debugfs directory.
-> > > > > > > 14. From this point on files added through
-> > > > > > > drm_debugfs_add_file() are simply ignored.
-> > > > > > > 15. ... back to the driver ...
-> > > > > > > 
-> > > > > > > Because of this the dev->debugfs_mutex lock is also
-> > > > > > > completely pointless since
-> > > > > > > any concurrent use of the interface would just randomly
-> > > > > > > either add the files to
-> > > > > > > the primary or render node or just not at all.
-> > > > > > > 
-> > > > > > > Even worse is that this implementation nails the coffin for
-> > > > > > > removing the
-> > > > > > > driver->debugfs_init() mid-layering because otherwise
-> > > > > > > drivers can't control
-> > > > > > > where their debugfs (primary/render node) are actually added.
-> > > > > > > 
-> > > > > > > This patch set here now tries to clean this up a bit, but
-> > > > > > > most likely isn't
-> > > > > > > fully complete either since I didn't audit every driver/call path.
-> > > > > > I tested the patchset on the v3d, vc4 and vkms and all the files
-> > > > > > are generated
-> > > > > > as expected, but I'm getting the following errors on dmesg:
-> > > > > > 
-> > > > > > [    3.872026] debugfs: File 'v3d_ident' in directory '0'
-> > > > > > already present!
-> > > > > > [    3.872064] debugfs: File 'v3d_ident' in directory '128'
-> > > > > > already present!
-> > > > > > [    3.872078] debugfs: File 'v3d_regs' in directory '0' already
-> > > > > > present!
-> > > > > > [    3.872087] debugfs: File 'v3d_regs' in directory '128'
-> > > > > > already present!
-> > > > > > [    3.872097] debugfs: File 'measure_clock' in directory '0'
-> > > > > > already present!
-> > > > > > [    3.872105] debugfs: File 'measure_clock' in directory '128'
-> > > > > > already present!
-> > > > > > [    3.872116] debugfs: File 'bo_stats' in directory '0' already
-> > > > > > present!
-> > > > > > [    3.872124] debugfs: File 'bo_stats' in directory '128'
-> > > > > > already present!
-> > > > > > 
-> > > > > > It looks like the render node is being added twice, since this
-> > > > > > doesn't happen
-> > > > > > for vc4 and vkms.
-> > > > > Thanks for the feedback and yes that's exactly what I meant with
-> > > > > that I haven't looked into all code paths.
-> > > > > 
-> > > > > Could it be that v3d registers it's debugfs files from the
-> > > > > debugfs_init callback?
-> > > > Although this is true, I'm not sure if this is the reason why the files
-> > > > are
-> > > > being registered twice, as this doesn't happen to vc4, and it also uses
-> > > > the
-> > > > debugfs_init callback. I believe it is somewhat related to the fact that
-> > > > v3d is the primary node and the render node.
-> > > I see. Thanks for the hint.
-> > > 
-> > > > Best Regards,
-> > > > - Maíra Canal
-> > > > 
-> > > > > One alternative would be to just completely nuke support for
-> > > > > separate render node debugfs files and only add a symlink to the
-> > > > > primary node. Opinions?
-> > > What do you think of this approach? I can't come up with any reason why we
-> > > should have separate debugfs files for render nodes and I think it is pretty
-> > > much the same reason you came up with the patch for per device debugfs files
-> > > instead of per minor.
-> > Yeah I think best is to symlink around a bit for compat. I thought we
-> > where doing that already, and you can't actually create debugfs files on
-> > render nodes? Or did I only dream about this?
-> 
-> No, we still have that distinction around unfortunately.
-> 
-> That's why this went boom for me in the first place.
+On Thu, Feb 16, 2023 at 10:20 AM Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+>
+> On Tue, Feb 14, 2023 at 11:14:00AM -0800, Rob Clark wrote:
+> > On Fri, Feb 10, 2023 at 5:07 AM Tvrtko Ursulin
+> > <tvrtko.ursulin@linux.intel.com> wrote:
+> > >
+> > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > >
+> > > In i915 we have this concept of "wait boosting" where we give a priority boost
+> > > for instance to fences which are actively waited upon from userspace. This has
+> > > it's pros and cons and can certainly be discussed at lenght. However fact is
+> > > some workloads really like it.
+> > >
+> > > Problem is that with the arrival of drm syncobj and a new userspace waiting
+> > > entry point it added, the waitboost mechanism was bypassed. Hence I cooked up
+> > > this mini series really (really) quickly to see if some discussion can be had.
+> > >
+> > > It adds a concept of "wait count" to dma fence, which is incremented for every
+> > > explicit dma_fence_enable_sw_signaling and dma_fence_add_wait_callback (like
+> > > dma_fence_add_callback but from explicit/userspace wait paths).
+> >
+> > I was thinking about a similar thing, but in the context of dma_fence
+> > (or rather sync_file) fd poll()ing.  How does the kernel differentiate
+> > between "housekeeping" poll()ers that don't want to trigger boost but
+> > simply know when to do cleanup, and waiters who are waiting with some
+> > urgency.  I think we could use EPOLLPRI for this purpose.
+> >
+> > Not sure how that translates to waits via the syncobj.  But I think we
+> > want to let userspace give some hint about urgent vs housekeeping
+> > waits.
+>
+> Should the hint be on the waits, or should the hints be on the executed
+> context?
 
-I guess time to land that? Or should we do this as part of the conversion
-and just change the new add_file helpers to only instantiate on the
-primary node until all the old users are gone?
--Daniel
+I think it should be on the wait, because different waits may be for
+different purposes.  Ideally this could be exposed at the app API
+level, but I guess first step is to expose it to userspace.
 
-> 
-> Christian.
-> 
-> > -Daniel
-> > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > > > Regards,
-> > > > > Christian.
-> > > > > 
-> > > > > > Otherwise, the patchset looks good to me, but maybe Daniel has
-> > > > > > some other
-> > > > > > thoughts about it.
-> > > > > > 
-> > > > > > Best Regards,
-> > > > > > - Maíra Canal
-> > > > > > 
-> > > > > > > Please comment/discuss.
-> > > > > > > 
-> > > > > > > Cheers,
-> > > > > > > Christian.
-> > > > > > > 
-> > > > > > > 
-> 
+BR,
+-R
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> In the end we need some way to quickly ramp-up the frequency to avoid
+> the execution bubbles.
+>
+> waitboost is trying to guess that, but in some cases it guess wrong
+> and waste power.
+>
+> btw, this is something that other drivers might need:
+>
+> https://gitlab.freedesktop.org/drm/amd/-/issues/1500#note_825883
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+>
+> >
+> > Also, on a related topic: https://lwn.net/Articles/868468/
+> >
+> > BR,
+> > -R
+> >
+> > > Individual drivers can then inspect this via dma_fence_wait_count() and decide
+> > > to wait boost the waits on such fences.
+> > >
+> > > Again, quickly put together and smoke tested only - no guarantees whatsoever and
+> > > I will rely on interested parties to test and report if it even works or how
+> > > well.
+> > >
+> > > v2:
+> > >  * Small fixups based on CI feedback:
+> > >     * Handle decrement correctly for already signalled case while adding callback.
+> > >     * Remove i915 assert which was making sure struct i915_request does not grow.
+> > >  * Split out the i915 patch into three separate functional changes.
+> > >
+> > > Tvrtko Ursulin (5):
+> > >   dma-fence: Track explicit waiters
+> > >   drm/syncobj: Mark syncobj waits as external waiters
+> > >   drm/i915: Waitboost external waits
+> > >   drm/i915: Mark waits as explicit
+> > >   drm/i915: Wait boost requests waited upon by others
+> > >
+> > >  drivers/dma-buf/dma-fence.c               | 102 ++++++++++++++++------
+> > >  drivers/gpu/drm/drm_syncobj.c             |   6 +-
+> > >  drivers/gpu/drm/i915/gt/intel_engine_pm.c |   1 -
+> > >  drivers/gpu/drm/i915/i915_request.c       |  13 ++-
+> > >  include/linux/dma-fence.h                 |  14 +++
+> > >  5 files changed, 101 insertions(+), 35 deletions(-)
+> > >
+> > > --
+> > > 2.34.1
+> > >
