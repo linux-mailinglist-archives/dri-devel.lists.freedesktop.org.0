@@ -2,54 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7F0699A6E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 17:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE474699A7A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 17:49:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7BF610E334;
-	Thu, 16 Feb 2023 16:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7848310EE11;
+	Thu, 16 Feb 2023 16:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 876D810E334
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 16:46:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676565981; x=1708101981;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=TT+k+kLte9bYoGB8KcXy9kC6lsWpHRG7qHOlmWZrmRs=;
- b=To1JIUHBp/z1e4lGNHjN/nwWIMP6WcQoKKsGNYcOYbDtRNkmDggnmqNw
- JYyY9LKhzFHWZM5ZC2RWlQlp3bwcsDTKOMlNs0onQydQWt9lOeumCBmUJ
- 8JczZAkuZ7GUa7bx61Okuq32zJ8d92atvr09mqUITroUWSht9x6F/Uh32
- kppTfj4+/0SSf+EqJuim6HH+EdAP3x2plVnB4T8xZLMHxEA7Kw1u3JJRx
- JhBs/hAQJ80Izc+shOzv80fMNn6Ym636sg93MO2I0fAhHqe8K43/Njl2y
- J7dpCCyVqRL5Y46J85zXypIvoJNyvvPqA18eXJIZ4FEn3PhrcHHHLBdyl w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396432928"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="396432928"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 08:46:17 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="999106130"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="999106130"
-Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.155])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 08:46:14 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Daniel
- Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 3/3] drm/debugfs: remove dev->debugfs_list and
- debugfs_mutex
-In-Reply-To: <f555bda0-80b6-c0bc-566f-0ef49c96da0a@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <20230209081838.45273-4-christian.koenig@amd.com>
- <Y+4UdBzk6RkQzcsI@phenom.ffwll.local>
- <f555bda0-80b6-c0bc-566f-0ef49c96da0a@amd.com>
-Date: Thu, 16 Feb 2023 18:46:11 +0200
-Message-ID: <87sff5zhgs.fsf@intel.com>
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BBF510EE11
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 16:49:05 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id m10so2613451ljp.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 08:49:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bHKHX1HAZBr85iXwo+WtkQELZyFCk6BcVCrttzsLWZU=;
+ b=zak29ERZiQt8Id07KJzutrFccKuEBZa/n53O2dbu5L2/sZ6mWojebQbhZTvmDUcjnp
+ 0ZFrq8l1JsgyqOH/UBUH9NRlfA5iIqSYZM6CWtFEZnCmabWQrXUkQHv1O6KsYdvsCEKw
+ e2xOd4tfdbUtjBHZl5k/ZyfhoLGZYjNYo0Q6A2supNUwxbjY+qvtGk1BPUp8GAEKj0vO
+ E0KsVX7CLDrgIw6j3mt0fBsZzJGip7/FK1kBKKBz7BeK5goIQjW2IkznvdTymyZjWsqR
+ t7pJt4mMEdZQ8M3aHsn/E3dN91vR8mLYn97uaHy5DiX0NT6z07hRM+5LD5X8ZlNXcdyG
+ i0Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bHKHX1HAZBr85iXwo+WtkQELZyFCk6BcVCrttzsLWZU=;
+ b=5cUQJ0xldWjawIBUxM0poNsBUcU9Hv2ddR6PPkHn1fN8g6YY2P0z6IwuxGOkhfrJmk
+ Hiwrk4CUnZAAezPEDZ5V9xmvu8I3R2UGBqgSAN8uN4dwGVlFM6+1IDjw1QxFc+9wrWES
+ HXa8XastNhHy57lPH17ZEqBlbX7TQeaoIz8+NqSp3BLKUCEZe97h+iBiyA9CPdppOdoJ
+ PfmRvDMgJUj2vTRadT/hSlR3K2WRK22eRz8O/KJKnXEaKXG2LH0puDn5IB+I7/pSvU6A
+ uDftqpe9Q0yxrXdPt1VtMX2njOVnDN0Apo3VpDogZQFdpk4sf60Xd4HaTuv9luLe0ASl
+ buPQ==
+X-Gm-Message-State: AO0yUKUDl4ayjjz6b8aynjuSLLodVlm8wcgiwfPhiEStme+yrrSV+S/a
+ w9mN2vY8WKqDXmaFh14Uoyxf9w==
+X-Google-Smtp-Source: AK7set8MsvIGToSTGnh3xHzEOHexpm2Mv0MCDS0pFbnIcUwoVg9VY1ezx/Gcsdy3k2wE6PDGRUYaQg==
+X-Received: by 2002:a05:651c:2220:b0:293:4e08:1aab with SMTP id
+ y32-20020a05651c222000b002934e081aabmr2865284ljq.10.1676566143576; 
+ Thu, 16 Feb 2023 08:49:03 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ o4-20020a2e9444000000b002935284f5a4sm274997ljh.13.2023.02.16.08.49.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Feb 2023 08:49:02 -0800 (PST)
+Message-ID: <e2f5fb1d-b57f-4695-5345-c82faea127b0@linaro.org>
+Date: Thu, 16 Feb 2023 18:49:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v3 20/27] drm/msm/dpu: add dpu_hw_pipe_cfg to
+ dpu_plane_state
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230203182132.1307834-1-dmitry.baryshkov@linaro.org>
+ <20230203182132.1307834-21-dmitry.baryshkov@linaro.org>
+ <8e89bdc2-94ff-63b8-3089-c946e0226cff@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <8e89bdc2-94ff-63b8-3089-c946e0226cff@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,258 +79,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, mcanal@igalia.com, dri-devel@lists.freedesktop.org,
- mwen@igalia.com, mairacanal@riseup.net, maxime@cerno.tech,
- wambui.karugax@gmail.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Feb 2023, Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> Am 16.02.23 um 12:33 schrieb Daniel Vetter:
->> On Thu, Feb 09, 2023 at 09:18:38AM +0100, Christian K=C3=B6nig wrote:
->>> The mutex was completely pointless in the first place since any
->>> parallel adding of files to this list would result in random
->>> behavior since the list is filled and consumed multiple times.
->>>
->>> Completely drop that approach and just create the files directly.
->>>
->>> This also re-adds the debugfs files to the render node directory and
->>> removes drm_debugfs_late_register().
->>>
->>> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->>> ---
->>>   drivers/gpu/drm/drm_debugfs.c     | 32 +++++++------------------------
->>>   drivers/gpu/drm/drm_drv.c         |  3 ---
->>>   drivers/gpu/drm/drm_internal.h    |  5 -----
->>>   drivers/gpu/drm/drm_mode_config.c |  2 --
->>>   include/drm/drm_device.h          | 15 ---------------
->>>   5 files changed, 7 insertions(+), 50 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugf=
-s.c
->>> index 558e3a7271a5..a40288e67264 100644
->>> --- a/drivers/gpu/drm/drm_debugfs.c
->>> +++ b/drivers/gpu/drm/drm_debugfs.c
->>> @@ -246,31 +246,9 @@ void drm_debugfs_dev_register(struct drm_device *d=
-ev)
->>>   void drm_debugfs_minor_register(struct drm_minor *minor)
->>>   {
->>>   	struct drm_device *dev =3D minor->dev;
->>> -	struct drm_debugfs_entry *entry, *tmp;
->>>=20=20=20
->>>   	if (dev->driver->debugfs_init)
->>>   		dev->driver->debugfs_init(minor);
->>> -
->>> -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
->>> -		debugfs_create_file(entry->file.name, 0444,
->>> -				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
->>> -		list_del(&entry->list);
->>> -	}
->>> -}
->>> -
->>> -void drm_debugfs_late_register(struct drm_device *dev)
->>> -{
->>> -	struct drm_minor *minor =3D dev->primary;
->>> -	struct drm_debugfs_entry *entry, *tmp;
->>> -
->>> -	if (!minor)
->>> -		return;
->>> -
->>> -	list_for_each_entry_safe(entry, tmp, &dev->debugfs_list, list) {
->>> -		debugfs_create_file(entry->file.name, 0444,
->>> -				    minor->debugfs_root, entry, &drm_debugfs_entry_fops);
->>> -		list_del(&entry->list);
->>> -	}
->>>   }
->>>=20=20=20
->>>   int drm_debugfs_remove_files(const struct drm_info_list *files, int c=
-ount,
->>> @@ -343,9 +321,13 @@ void drm_debugfs_add_file(struct drm_device *dev, =
-const char *name,
->>>   	entry->file.data =3D data;
->>>   	entry->dev =3D dev;
->>>=20=20=20
->>> -	mutex_lock(&dev->debugfs_mutex);
->>> -	list_add(&entry->list, &dev->debugfs_list);
->>> -	mutex_unlock(&dev->debugfs_mutex);
->>> +	debugfs_create_file(name, 0444, dev->primary->debugfs_root, entry,
->>> +			    &drm_debugfs_entry_fops);
->>> +
->>> +	/* TODO: This should probably only be a symlink */
->>> +	if (dev->render)
->>> +		debugfs_create_file(name, 0444, dev->render->debugfs_root,
->>> +				    entry, &drm_debugfs_entry_fops);
->> Nope. You are fundamentally missing the point of all this, which is:
+On 06/02/2023 21:07, Abhinav Kumar wrote:
+> 
+> 
+> On 2/3/2023 10:21 AM, Dmitry Baryshkov wrote:
+>> Now as all accesses to pipe_cfg and pstate have been cleaned, re-add
+>> struct dpu_hw_pipe_cfg back to dpu_plane_state, so that
+>> dpu_plane_atomic_check() and dpu_plane_atomic_update() do not have a
+>> chance to disagree about src/dst rectangles (currently
+>> dpu_plane_atomic_check() uses unclipped rectangles, while
+>> dpu_plane_atomic_update() uses clipped rectangles calculated by
+>> drm_atomic_helper_check_plane_state()).
 >>
->> - drivers create debugfs files whenever they want to, as long as it's
->>    _before_ drm_dev_register is called.
->>
->> - drm_dev_register will set them all up.
->>
->> This is necessary because otherwise you have the potential for some nice
->> oops and stuff when userspace tries to access these files before the
->> driver is ready.
->>
->> Note that with sysfs all this infrastructure already exists, which is why
->> you can create sysfs files whenever you feel like, and things wont go
->> boom.
->
-> Well Yeah I've considered that, I just don't think it's a good idea for=20
-> debugfs.
->
-> debugfs is meant to be a helper for debugging things and that especially=
-=20
-> includes the time between drm_dev_init() and drm_dev_register() because=20
-> that's where we probe the hardware and try to get it working.
->
-> Not having the debugfs files which allows for things like hardware=20
-> register access and reading internal state during that is a really and I=
-=20
-> mean REALLY bad idea. This is essentially what we have those files for.
+> The title of the patch should now say "add dpu_hw_sspp_cfg"
+> 
+> I have a question on the commit text, why does it say "re-add" and not 
+> "add".
+> 
+> dpu_hw_pipe_cfg/dpu_hw_sspp_cfg was not a part of dpu_plane_state even 
+> before and I dont recall it was removed in this series and then added back.
 
-So you mean you want to have early debugfs so you can have some script
-hammering the debugfs to get info out between init and register during
-probe?
+Ack, I'll fix both items in v4.
 
-I just think registering debugfs before everything is ready is a recipe
-for disaster. All of the debugfs needs to check all the conditions that
-they need across all of the probe stages. It'll be difficult to get it
-right. And you'll get cargo culted checks copy pasted all over the
-place.
+> 
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 64 ++++++++++-------------
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  2 +
+>>   2 files changed, 30 insertions(+), 36 deletions(-)-- 
+With best wishes
+Dmitry
 
-
-BR,
-Jani.
-
-
->
->> So yeah we need the list.
->>
->> This also means that we really should not create the debugfs directories
->> _before_ drm_dev_register is called. That's just fundamentally not how
->> device interface setup should work:
->>
->> 1. you allocate stucts and stuff
->> 2. you fully init everything
->> 3. you register interfaces so they become userspace visible
->
-> How about we create the debugfs directory early and only delay the files=
-=20
-> registered through this drm_debugfs interface until registration time?
->
-> This way drivers can still decide if they want the files available=20
-> immediately or only after registration.
->
-> What drivers currently do is like radeon setting an accel_working flag=20
-> and registering anyway even if halve the hardware doesn't work.
->
-> Regards,
-> Christian.
->
->> -Daniel
->>
->>>   }
->>>   EXPORT_SYMBOL(drm_debugfs_add_file);
->>>=20=20=20
->>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->>> index 2cbe028e548c..e7b88b65866c 100644
->>> --- a/drivers/gpu/drm/drm_drv.c
->>> +++ b/drivers/gpu/drm/drm_drv.c
->>> @@ -597,7 +597,6 @@ static void drm_dev_init_release(struct drm_device =
-*dev, void *res)
->>>   	mutex_destroy(&dev->clientlist_mutex);
->>>   	mutex_destroy(&dev->filelist_mutex);
->>>   	mutex_destroy(&dev->struct_mutex);
->>> -	mutex_destroy(&dev->debugfs_mutex);
->>>   	drm_legacy_destroy_members(dev);
->>>   }
->>>=20=20=20
->>> @@ -638,14 +637,12 @@ static int drm_dev_init(struct drm_device *dev,
->>>   	INIT_LIST_HEAD(&dev->filelist_internal);
->>>   	INIT_LIST_HEAD(&dev->clientlist);
->>>   	INIT_LIST_HEAD(&dev->vblank_event_list);
->>> -	INIT_LIST_HEAD(&dev->debugfs_list);
->>>=20=20=20
->>>   	spin_lock_init(&dev->event_lock);
->>>   	mutex_init(&dev->struct_mutex);
->>>   	mutex_init(&dev->filelist_mutex);
->>>   	mutex_init(&dev->clientlist_mutex);
->>>   	mutex_init(&dev->master_mutex);
->>> -	mutex_init(&dev->debugfs_mutex);
->>>=20=20=20
->>>   	ret =3D drmm_add_action_or_reset(dev, drm_dev_init_release, NULL);
->>>   	if (ret)
->>> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_inter=
-nal.h
->>> index 5ff7bf88f162..e215d00ba65c 100644
->>> --- a/drivers/gpu/drm/drm_internal.h
->>> +++ b/drivers/gpu/drm/drm_internal.h
->>> @@ -188,7 +188,6 @@ int drm_debugfs_init(struct drm_minor *minor, int m=
-inor_id,
->>>   void drm_debugfs_dev_register(struct drm_device *dev);
->>>   void drm_debugfs_minor_register(struct drm_minor *minor);
->>>   void drm_debugfs_cleanup(struct drm_minor *minor);
->>> -void drm_debugfs_late_register(struct drm_device *dev);
->>>   void drm_debugfs_connector_add(struct drm_connector *connector);
->>>   void drm_debugfs_connector_remove(struct drm_connector *connector);
->>>   void drm_debugfs_crtc_add(struct drm_crtc *crtc);
->>> @@ -205,10 +204,6 @@ static inline void drm_debugfs_cleanup(struct drm_=
-minor *minor)
->>>   {
->>>   }
->>>=20=20=20
->>> -static inline void drm_debugfs_late_register(struct drm_device *dev)
->>> -{
->>> -}
->>> -
->>>   static inline void drm_debugfs_connector_add(struct drm_connector *co=
-nnector)
->>>   {
->>>   }
->>> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mo=
-de_config.c
->>> index 87eb591fe9b5..8525ef851540 100644
->>> --- a/drivers/gpu/drm/drm_mode_config.c
->>> +++ b/drivers/gpu/drm/drm_mode_config.c
->>> @@ -54,8 +54,6 @@ int drm_modeset_register_all(struct drm_device *dev)
->>>   	if (ret)
->>>   		goto err_connector;
->>>=20=20=20
->>> -	drm_debugfs_late_register(dev);
->>> -
->>>   	return 0;
->>>=20=20=20
->>>   err_connector:
->>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
->>> index 7cf4afae2e79..900ad7478dd8 100644
->>> --- a/include/drm/drm_device.h
->>> +++ b/include/drm/drm_device.h
->>> @@ -311,21 +311,6 @@ struct drm_device {
->>>   	 */
->>>   	struct drm_fb_helper *fb_helper;
->>>=20=20=20
->>> -	/**
->>> -	 * @debugfs_mutex:
->>> -	 *
->>> -	 * Protects &debugfs_list access.
->>> -	 */
->>> -	struct mutex debugfs_mutex;
->>> -
->>> -	/**
->>> -	 * @debugfs_list:
->>> -	 *
->>> -	 * List of debugfs files to be created by the DRM device. The files
->>> -	 * must be added during drm_dev_register().
->>> -	 */
->>> -	struct list_head debugfs_list;
->>> -
->>>   	/* Everything below here is for legacy driver, never use! */
->>>   	/* private: */
->>>   #if IS_ENABLED(CONFIG_DRM_LEGACY)
->>> --=20
->>> 2.34.1
->>>
->
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
