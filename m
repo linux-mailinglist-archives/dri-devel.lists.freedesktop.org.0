@@ -2,49 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3C7699E22
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 21:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB3B699E2B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 21:46:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F01810EE9B;
-	Thu, 16 Feb 2023 20:45:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7694B10E194;
+	Thu, 16 Feb 2023 20:46:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D21F10EE9B;
- Thu, 16 Feb 2023 20:45:31 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F41310E194
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 20:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676580331; x=1708116331;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=fWQLM36xFe/f8V265Ntfscn/gUeqxgkD8nK1sBPooxY=;
- b=SrUihztvp+Jj6SfxStiK4Byvhkw56/s+uLOCIdp4wEaC+HjGhYn5y46R
- yziAKFFEJApcqLkMZ/4kU4beqpsVFLPzvBG2Ehv7ByvkyZljiaF4k4mFo
- 16uym/famkIIbr/oBqRuSigxpjr4hvcu+Iry+/0N1p539satb/Owz/F2Y
- +wyYHeYEVj0mib4ylJvmlxRKyIRDYDqJEIsheEzaYXP/0G1QNAmsem1OY
- pyu2NG3PUEz0eJTulzMmr9bqttcaawvDUVkivozxjHymZCsByeHtvLpFF
- 4/mIG9jWs6pHqzEb+/Sxe0WiqJG9Yj1faZQ96lutlEV7979TOOe5SpDLK Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="394308504"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="394308504"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 12:45:31 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670312111"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="670312111"
+ t=1676580399; x=1708116399;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=5XGO952p7J79OlOiOumtG7WXvo8d+ppeqjm8EtI4dAw=;
+ b=EAYdZNZo77vLSKJkPMFYITBzOcBoAqDSmfZemHl61nYED54V3j661tjK
+ thPi35gdej2mYNPtvQK423+cNV8RHlge2vzrYkORPq70jI/3JNtAyuFfK
+ xI4GvNWh/Obm1+O1jwvr/1vExKC8LaiEnVl5qaxIb3XBh8zxQ0qoJ9qIl
+ Ywx99m4eELSLEMudstcAHyeGt/R8FThkGq3aihUxBZAJe6ggU/Y+cVJRH
+ UKTzOKwWm+1fiQj1o2PMmS742YxgZQcnxO6j6DDJbr6qw8EjnUICw5iS6
+ QZEj3li1ooZ+YYi+tAwV54wZ1/EX2FvSE8VAnhgugzP5S3aeYnn/AR2JS A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="396511866"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="396511866"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2023 12:46:38 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="813128584"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="813128584"
 Received: from uwah-mobl.ger.corp.intel.com (HELO localhost) ([10.252.63.106])
- by orsmga002-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 12:45:28 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/edid: update non-desktop use also from DisplayID
-Date: Thu, 16 Feb 2023 22:45:01 +0200
-Message-Id: <de75b2edddd7d30216e4dd5699a064dc737688f5.1676580180.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1676580180.git.jani.nikula@intel.com>
-References: <cover.1676580180.git.jani.nikula@intel.com>
-MIME-Version: 1.0
+ by fmsmga001-auth.fm.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 12:46:36 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Yaroslav Boliukin
+ <iam@lach.pw>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/edid: Add Vive Pro 2 to non-desktop list
+In-Reply-To: <88191cc6-e751-daa9-37f5-eda92d541098@collabora.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+References: <20220118170037.14584-1-iam@lach.pw>
+ <5d5a8183-aebc-6660-9cbc-03950f9b14b8@collabora.com>
+ <87v8k5vqg6.fsf@intel.com>
+ <831e7daf-48ae-cea8-a5d2-3786317b3b65@collabora.com>
+ <87sff9vl6j.fsf@intel.com>
+ <b5f6c63e-adf3-38a6-18fb-c92c764c23f3@collabora.com>
+ <d6f66bf7-356a-4bd9-fa21-a3197c0dff50@lach.pw>
+ <88191cc6-e751-daa9-37f5-eda92d541098@collabora.com>
+Date: Thu, 16 Feb 2023 22:46:31 +0200
+Message-ID: <87cz69z6c8.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,65 +66,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- Iaroslav Boliukin <iam@lach.pw>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the DisplayID 2.0 primary use case information to deduce whether
-this is a head-mounted display, and should not be used for desktop.
+On Thu, 16 Feb 2023, Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> On 2/16/23 21:26, Iaroslav Boliukin wrote:
+>> On 2/14/23 12:50, Dmitry Osipenko wrote:
+>>> On 2/13/23 14:50, Jani Nikula wrote:
+>>>> On Mon, 13 Feb 2023, Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>> wrote:
+>>>>> On 2/13/23 12:56, Jani Nikula wrote:
+>>>>>> On Sun, 12 Feb 2023, Dmitry Osipenko
+>>>>>> <dmitry.osipenko@collabora.com> wrote:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> On 1/18/22 20:00, Yaroslav Bolyukin wrote:
+>>>>>>>
+>>>>>>> Add a brief commit message, describing a user-visible effect of this
+>>>>>>> patch. Tell that this change prevents exposing headset as a regular
+>>>>>>> display to the system, while it will work with SteamVR.
+>>>>>>>
+>>>>>>>> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+>>>>>>>> ---
+>>>>>>>> =C2=A0 drivers/gpu/drm/drm_edid.c | 3 ++-
+>>>>>>>> =C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid=
+.c
+>>>>>>>> index 12893e7be..fdb8f0a6f 100644
+>>>>>>>> --- a/drivers/gpu/drm/drm_edid.c
+>>>>>>>> +++ b/drivers/gpu/drm/drm_edid.c
+>>>>>>>> @@ -200,9 +200,10 @@ static const struct edid_quirk {
+>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EDID_QUIRK('V', 'L', 'V', 0x91be, E=
+DID_QUIRK_NON_DESKTOP),
+>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EDID_QUIRK('V', 'L', 'V', 0x91bf, E=
+DID_QUIRK_NON_DESKTOP),
+>>>>>>>> =C2=A0 -=C2=A0=C2=A0=C2=A0 /* HTC Vive and Vive Pro VR Headsets */
+>>>>>>>> +=C2=A0=C2=A0=C2=A0 /* HTC Vive, Vive Pro and Vive Pro 2 VR Headse=
+ts */
+>>>>>>>
+>>>>>>> Nit: I'd keep the original comment, or change it to a generic "HTC =
+VR
+>>>>>>> Headsets" to prevent further comment changes
+>>>>>>>
+>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EDID_QUIRK('H', 'V', 'R', 0xaa01, E=
+DID_QUIRK_NON_DESKTOP),
+>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EDID_QUIRK('H', 'V', 'R', 0xaa02, E=
+DID_QUIRK_NON_DESKTOP),
+>>>>>>>> +=C2=A0=C2=A0=C2=A0 EDID_QUIRK('H', 'V', 'R', 0xaa04, EDID_QUIRK_N=
+ON_DESKTOP),
+>>>>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Oculus Rift DK1, DK2, CV1=
+ and Rift S VR Headsets */
+>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 EDID_QUIRK('O', 'V', 'R', 0x0001, E=
+DID_QUIRK_NON_DESKTOP),
+>>>>>>>>
+>>>>>>>> base-commit: 99613159ad749543621da8238acf1a122880144e
+>>>>>>>
+>>>>>>> Please send the v2 patch with the added EDID for Cosmos VR and the
+>>>>>>> addressed comments. Thanks!
+>>>>>>
+>>>>>> Yeah, we'll need to EDID to check that it doesn't have the Microsoft
+>>>>>> VSDB to indicate non-desktop. See 2869f599c0d8 ("drm/edid: support
+>>>>>> Microsoft extension for HMDs and specialized monitors").
+>>>>>
+>>>>> Do you mean to skip using the EDID_QUIRK_NON_DESKTOP if MS VSDB entry
+>>>>> presents in the EDID?
+>>>>>
+>>>>> These HTC EDIDs don't have MS VSDB, otherwise the quirk wouldn't be
+>>>>> needed.
+>>>>
+>>>> Okay, I didn't know that. I just observed that the original patch was
+>>>> sent before the the MS VSDB parsing was added.
+>>>
+>>> This will be good to mention in the v2 commit message.
+>>>
+>>=20
+>> This headset does support some kind of HMD signalling, however, this is
+>> not a microsoft-specific extension (0xca125c) but part of the DisplayId
+>> spec, "Display Product Primary Use Case" field is set to "7".
 
-Cc: Iaroslav Boliukin <iam@lach.pw>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/drm_edid.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+I just sent patches to hopefully fix this, and make the quirk
+unnecessary [1].
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 3d0a4da661bc..03ad53a1ba82 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -6433,6 +6433,29 @@ static void drm_reset_display_info(struct drm_connector *connector)
- 	info->quirks = 0;
- }
- 
-+static void update_displayid_info(struct drm_connector *connector,
-+				  const struct drm_edid *drm_edid)
-+{
-+	struct drm_display_info *info = &connector->display_info;
-+	const struct displayid_block *block;
-+	struct displayid_iter iter;
-+
-+	displayid_iter_edid_begin(drm_edid, &iter);
-+	displayid_iter_for_each(block, &iter) {
-+		if (displayid_version(&iter) == DISPLAY_ID_STRUCTURE_VER_20 &&
-+		    (displayid_primary_use(&iter) == PRIMARY_USE_HEAD_MOUNTED_VR ||
-+		     displayid_primary_use(&iter) == PRIMARY_USE_HEAD_MOUNTED_AR))
-+			info->non_desktop = true;
-+
-+		/*
-+		 * We're only interested in the base section here, no need to
-+		 * iterate further.
-+		 */
-+		break;
-+	}
-+	displayid_iter_end(&iter);
-+}
-+
- static void update_display_info(struct drm_connector *connector,
- 				const struct drm_edid *drm_edid)
- {
-@@ -6463,6 +6486,8 @@ static void update_display_info(struct drm_connector *connector,
- 	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
- 	drm_parse_cea_ext(connector, drm_edid);
- 
-+	update_displayid_info(connector, drm_edid);
-+
- 	/*
- 	 * Digital sink with "DFP 1.x compliant TMDS" according to EDID 1.3?
- 	 *
--- 
-2.34.1
+BR,
+Jani.
 
+[1] https://patchwork.freedesktop.org/series/114116/
+
+
+>>=20
+>> The problem is, I have no idea what spec I should refer to, as I can't
+>> find this errata in the original spec, and the only reference to this
+>> value I see is in https://git.linuxtv.org/edid-decode.git utility:
+>>=20
+>> https://git.linuxtv.org/edid-decode.git/tree/parse-displayid-block.cpp?r=
+ef=3Daa956e0dd5fb85271dde900ea1ebdda795af7f8b#n1676
+>>=20
+>> I would like to implement this feature, but I need some spec reference.
+>
+> The [1] says it's "VESA DisplayID Standard v2.0", which should be okay
+> to refer, IMO.
+>
+> [1]
+> https://learn.microsoft.com/en-us/windows-hardware/drivers/display/specia=
+lized-monitors-edid-extension
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
