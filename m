@@ -2,117 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C2269A288
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 00:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF76069A28C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 00:45:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A34F10E1A2;
-	Thu, 16 Feb 2023 23:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D1210E3AA;
+	Thu, 16 Feb 2023 23:45:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6592A10E390;
- Thu, 16 Feb 2023 23:44:55 +0000 (UTC)
+ (mail-bn8nam12on2079.outbound.protection.outlook.com [40.107.237.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1023810E1A2;
+ Thu, 16 Feb 2023 23:44:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wh5WeTfadghgHWHm8QnkFXypxRlbgvT83wrby7tSt1z9dppaopV8XcpoTA52kKwz8pXupwUDm4K5PEk2V6UrCm97K9nE1bPnGiPs8mEiLKgfU1HDh7FGx0nG6g1j7DYJLyaXtw5YQoma125s3fbiD7p2/10FYehmwq+zFhttd4k3Ml6wuFGwGs+Y4j7poHgm8pc0NfskcAk7llofo7YyqoORt2rq3VSDG8q+AZBqymmSVAyKpughJDKnlQ6B6GjmG3lJl2SKu63tU8dJqwBhjqxchX9AI6NxMCHBbCaLmtPt62df6wPteIv8cwTBAx2cEaHYOXv0Koc2dBhkpl4Gjg==
+ b=OfiB+G1e1Mx9gRl84/nnbOVipPw/Z8ltWpSrCdDkWvtvtGnak+KNhcJYDK2xiAZgJzow6Y4nYRiG9YeZNWjBFI349rYVv2GNxgkGFpbo+TKpAX2w3XZHiBpWmH4TmJmZuAzfSzEY2GBCjqU74Hc+xQ0upm9qnP4vEnIalP7nm/47ZSQLB5YkMZPuSd0KEy9TkmxU+LEg5276wIWFsb7eynD83cJD3nioRiQIJWqP8tucBod45c2FSsCE/rs/HPvOAy4S/lKDTqJmz2N/vkjbkumcfaTxWn3XbOr16jN9oAUQKa7qVKl/pU2t0XGhn6X50xXSWsSpRJroMleMOHNYWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GDxNfFqddn6doptEGqee7i6OPH3p3s5G/+Sq8oHLGeo=;
- b=eNfvKpfIZMuCwKmd/UPODWPcAiIKFs/KDm8vUU2wd+OKnp/rWQagKhh+MXLdSr9efMplOc+oVRFqpFHjygUeGIVewAZ1xQzdbwRwfGJ2jD3+uoSb/SoQLNfWEWRbJOF0/oa9T9HaHAj5Qwxp872IvBpw+jU9IfzuIxqsM7BlpMvs6v7hp7dIDL3XaHdpysczlV4AkAfdb4Cf8t8xugRxQPbB4lFIN7ankCZBSfw5BUVIJwM1eMDuQR3uRa3MOjObi3eyKSBTEJCMSZYfGmSlOs6PtKQrE+J9j7yhzQxiA/U2uPidxUz+dJGz5Y29deecevAhb9Aq2t2K9ilx/B90Ew==
+ bh=vvyZxWY2fBvL/LnJJeNHidQ1qdFI3oqGpY7SFsMJBPE=;
+ b=MoZIHfp978iXrGUGJMMVKlCSzgDia5WOM4QQMFWwTsWRlTNMqLke50HMRrRsizUgP5wLCBH8wBXaoRa0nrM48opt0oJlaaj4z798NbgMl3ZIzsi6iDz1R+AuHA1tpFsbCSAMT0KVaP0KPs2Z8RaiwJhyp3mpUAmay2L7YPHZ1tySjU6FZVUi+TChonUws3lRAnvhmjiYgOQyz2g8w0zm5/iK4TeqJPsToD2GmfyTcD9Wwo3ewiVzcEg2a4Keh6QwpNPQgnFt4m75XSooUXln/Jh63k2qtm1JP3zeXd6KxnNoZdWYJbwH2cUkOJhVA5KYb7f13QQroWi6SZ+uH1vZgg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GDxNfFqddn6doptEGqee7i6OPH3p3s5G/+Sq8oHLGeo=;
- b=vjpK26cRb4/eQRkqfkzEYe01KF50ri7VL96JGwFLzu6YYotTZ+yy58Yp7wqlf3xzaY3YOILh1NsPEDR3etH4XgKSF6eUfq153r4XSeUiYVaZp3h2BEERGd0eH3w4wQsdxMvPYsKt7QaNq9MGUcbbGUeW6I4TPMwcit/F9uDoRcw=
+ bh=vvyZxWY2fBvL/LnJJeNHidQ1qdFI3oqGpY7SFsMJBPE=;
+ b=WiwB2fS6tu7DgyT+e5RmdweWPctfTO3uMhsB/m+K+Y0qvekEQckOUm8y9xmgqYKmk8vNUwOHD2qSVp5hngftF/Iy4O0Uqb6sXSzjRCdYYd8dwS/+ne0sQufvBAwPL1JMb15vQSkQVeTKSE9JMPJals7MlpUZs62KKqVi6Rf0NF0=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
  by SN7PR12MB7955.namprd12.prod.outlook.com (2603:10b6:806:34d::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Thu, 16 Feb
- 2023 23:44:53 +0000
+ 2023 23:44:55 +0000
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::e6ea:9231:6d39:93da]) by BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::e6ea:9231:6d39:93da%4]) with mapi id 15.20.6111.013; Thu, 16 Feb 2023
- 23:44:52 +0000
-Message-ID: <bcadb2e8-247c-1a3e-c5ef-801dbbcc3286@amd.com>
-Date: Thu, 16 Feb 2023 17:24:08 -0500
+ 23:44:55 +0000
+Message-ID: <3b25bccd-3525-c61a-5764-f27bd3c5d186@amd.com>
+Date: Thu, 16 Feb 2023 17:39:25 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH 02/32] drm/amdkfd: display debug capabilities
+Subject: Re: [PATCH 05/32] drm/amdgpu: setup hw debug registers on driver
+ initialization
 Content-Language: en-US
 To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 References: <20230125195401.4183544-1-jonathan.kim@amd.com>
- <20230125195401.4183544-3-jonathan.kim@amd.com>
+ <20230125195401.4183544-6-jonathan.kim@amd.com>
 From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20230125195401.4183544-3-jonathan.kim@amd.com>
+In-Reply-To: <20230125195401.4183544-6-jonathan.kim@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQXPR0101CA0036.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:15::49) To BN9PR12MB5115.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQXPR0101CA0009.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:15::22) To BN9PR12MB5115.namprd12.prod.outlook.com
  (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SN7PR12MB7955:EE_
-X-MS-Office365-Filtering-Correlation-Id: d6ceb14e-0ff0-4876-18d2-08db1077ccda
+X-MS-Office365-Filtering-Correlation-Id: 6358292a-3361-4962-e5b7-08db1077ce60
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RNf9H57ENi+4E++h9RxU3NKVgUWbBXWU5pvoJ7GSICODV/f/nKuHM876QeQ5UBRfXBb3jkIzn+l8mjmixdAmmAiwzQT3zbKBvtOASsZIKAB+FKxOXtOsdO5Om/8QkKQMpIycbpVkMFHSxdO/+KdfByFdTxD0+4JHL35vSWCKvmzGoGVrP5XcS0/C0xIJQqPxBegUJKfqQnllpvD5kP6sQg39edscADapfLmoNPOLgd/A7Gp7/3FOZLNnQvnIf/B8Vt4dhI39trrOklZMZ4RzJ26aUIeIqbCRmE32tm6x4uRobO0oRViBsPvgbB0f7pFxLYNtcJnswgLrYeYrBg3lxUwUE/7GG0LI3GnwOhWtN59FCEah82/82IPg17gVDxvkQSKW0Zbw6MaA4WbJM9xXB1wbipBL/d/QwhDHjRT8utXO66Myu6yZi2ts006nV6u8n/G0TtDW9WqEFJumUuk46ClV72zOvdtxWOlp6NQkEnebN4nRkpvXn6rADsq4mph9fxsJhzXBq5ylVrQMRWvAZVXyJNycmc0V81d+xOPE0XcLq+FZU8q1zxogJCLXkhFYtZqjHi3CK4W65J3QG43mPNpixO9Tdg2NTggVy0ja/jxX60VubLu7RzZmS3jWrUq0cg60yEuB3WHWukHtXYgIKW+aUcCgA61ZooekQnFjiWxvP+FWFzEiKnv7pO/t+5eZN/UP9kvuXYfrA7C/UvYxDeneCQ3a233TLYzLN+pMMzU=
+X-Microsoft-Antispam-Message-Info: Dxl7a3UpkkfSaDYmGiDaQ35dEHe7DU8L5Bg/tvWux+ahzAt0ritPnFF0SBerLrKaxEEvizUNH7U4C2JfW9kqqs+X44MEs+qSWT/NwzGS51zOlTywuzIT5utpTd6dXshhe3jWFJU4W8HSVoKP64RYyWeX6h5W9GKRg5bvHIjgwKUKGnZY+ybIPXHsDM/XJzu11cPRYNhRdvH77rvlBpRuH2171SJTlFTOM3+6VLzZ9685lK3WdYYbrOFUk5ZBg2/9y61oS50wUBzvVuB5Qu6uJPX6TcCjdMf4W9yjexwTzDv69Zpv3lGJ9muLx+/JbH2eJTulNMbkrk0tocXxDZj0MyO8NbX3spVuf6SmzrMaVbW8cL9jwi0fv+nayyFvG8bYOG1cvA7t3Jub7bNhq2BoyPer4EvAkEkCqIDk1dlNLJmiIVQicNCBmfluJ9flKGOObEWfde77nMxNo/pY0pvE0hbZXeBGVDObKlrIgsVKIQHdinCtbN6UFnD8WGMpzoKF7UySOWKSAFrHvoUntvZQ9sBeQQ3NJVPzxCA+WMOvnV/k+Utv47vyHok7KIt9dmqAxInkFOiNxUNGNgNsb09OLS8T0KtHBVgZvwua8Wnnnwp7HCsWEL8A4DdoHmcnXW5HMoADFRxgf/X3h9A2uij4izzLr/yB4dEIcvapFpIYYlhyeczYcxsRnmSZ+MW9gA0NWURR21mXahrcQAtCjcuKu0RLxmcKR4QJIic30ie+K9o=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(396003)(346002)(366004)(376002)(136003)(451199018)(31686004)(8936002)(2906002)(41300700001)(36756003)(31696002)(5660300002)(44832011)(86362001)(83380400001)(38100700002)(8676002)(478600001)(6486002)(450100002)(26005)(6512007)(186003)(66946007)(66556008)(316002)(66476007)(53546011)(6506007)(2616005)(6666004)(43740500002)(45980500001);
+ SFS:(13230025)(4636009)(39860400002)(396003)(346002)(366004)(376002)(136003)(451199018)(31686004)(8936002)(2906002)(41300700001)(36756003)(30864003)(31696002)(5660300002)(44832011)(86362001)(83380400001)(38100700002)(8676002)(478600001)(6486002)(450100002)(26005)(6512007)(186003)(66946007)(66556008)(316002)(66476007)(53546011)(6506007)(2616005)(6666004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUJQWTR1R0Z2L3J0TDFHL2pyTG9IWjZiOVF1Z3cvczVjdFVWYnhxMmh2a1g0?=
- =?utf-8?B?VzRQNHFNbUV1VUFiMWpqbkRVNldDZzFoeFVpSGpaL2ZWek5Ga1lOc1R4NW1u?=
- =?utf-8?B?S0N3blNDS3FFdVdYM002eStOdTU3R003eDZiTnk2U09sTUpkOFM1MWxEQzg3?=
- =?utf-8?B?K3NwSlo5ZFpCUkJUQ3draXNDRi9FckZlZDJ4NFFWenhZelg5Ym5YdEJGWFF5?=
- =?utf-8?B?MGlvbVg4c1pDRUZXazJxVGxRUnBlOHAwWHlvcDNtbXZ6MkF0YmpSRURSalh6?=
- =?utf-8?B?Rk5jYWMvMnhScVpGbTRia3I2cGhrcjE4Y1o4VGFCRW9nbHJSc1hsMDNGUTEr?=
- =?utf-8?B?ZW5peCswOEh2eVhGYldUREJGTDlLQTVST0pFeit6V2dNNVBPSXVGNTZwdVA3?=
- =?utf-8?B?Wk51aVViM1BCUDFiYXFselNBbjZPUmxPbEVKOS9nRVhLUjE2Q0tDL0JGenJv?=
- =?utf-8?B?OStBNkhQUURMRXJIQlQybmljK1ZoZTl2Z2VKNXk5MERBVlplMFJ0cGRmclI0?=
- =?utf-8?B?VWNqalNBcW1ldlNaVVBxcWRqWlZIbFhHWXlXWWNGYkRSMENBOXNtdnJnSmxJ?=
- =?utf-8?B?VHM2eC84YXhmbUdwSTFEUkJRL1ZuaVRkZ09Pa2crTEFyc1V0eHZWK2dKU1hq?=
- =?utf-8?B?c3crd1hTOTNYVUJHcWxUKzVaOHFHMG5keE9aU3pLdnB5MTdwT0xwV3BSQnpw?=
- =?utf-8?B?Z2xkVWR1VGhXbE9LUG1kMS9JelFEbTJRNWdVU3pXWFNyekNUVmxWM09jZ0FY?=
- =?utf-8?B?ZDhSb2RLdHh0KzBZbzlCVmFyZ2xSZ2dRRXZ0UDZSUFJYc3VrNEVlQkZMUWQ0?=
- =?utf-8?B?cVc2ZjlRN25OdzZYNzFrOHlQMEdGbTcxVnViWVg5SkltbXFYZFBpcTBJYmhL?=
- =?utf-8?B?UEIyU3BSRVZiV0NTL0lUUE40cVdpQTZTYTl1RS8vcjlUbjNsQmo1cmZ1dGdy?=
- =?utf-8?B?SGRLTXhNQXRnUWJSSjRPeEJiNVEyNXNPUjl3ZDN3Y1UwYlZYbjFDMkxDaXI4?=
- =?utf-8?B?NkU3aWVRZUExMWRmL1JTdFlpbTJvdEVBNFBudFFkVnM1bXljb0wwbFR1cE5a?=
- =?utf-8?B?TzR1Y20zVU5OR3l4em5Dekx1NmhsUVlLYmFHL1hVMzdpVzkwMEhxaDNReWRl?=
- =?utf-8?B?UVEweGF2MmtBTndXYXN1OHlKRnB2WEdkeXdvQy80OEd0M1l1ZER0bnloMyti?=
- =?utf-8?B?R3drelVOekc5YzBIR2NYNTdtV3Y2T3hvSENNM3VGQWVYLzJiLzJwWFc0Szhh?=
- =?utf-8?B?R2I5MURUNXhIbkMrWVdWWVorV0pCaFd2b2RnWlByZEhjRWNLUEE3UXQ1cHRV?=
- =?utf-8?B?WW5vTWpiaWxRMklPNFVxWjE0YkJGYVBSWU9XWXJKcXdPMURiV094NFBMdk1H?=
- =?utf-8?B?S0IvUkZJMGNlWWVZWnVDY3hCekNMeGwySzNXZFRKKzYwUFZGVk56RDlITUtM?=
- =?utf-8?B?ek5FUkc2b2UxMW5IUi9tazdZUEZjck43N1dFTVVuN3V6OFJJK3YyTGlEcWFJ?=
- =?utf-8?B?L3RzTmJ4T1dMYlhFMFNEYmhmS1lxWEpxU3hJZ0hnZTZPbEFiU3BUdE1sWnI4?=
- =?utf-8?B?WWVacDVvMWJBVDQzUHQzVk9lbCs2Y2ZSUkVnb1gxUEVhODZNNGlObDZ6M3BT?=
- =?utf-8?B?U201UEYyd0FNRER4aFZaQmVDd09INnY5ZlRVY0YrTmx5ZnowTHBBNnFiemU4?=
- =?utf-8?B?cGZYSXpVamJhR1Ird2NvTEJFVkxHbFlEbDU3bkxEWXh5cTJSN1l4dDFpZDBM?=
- =?utf-8?B?Z2NqV3l1L0VTQWVWVmpCZUFqZ0dueDV0cHlIU2crYW9mRUhhNldVVnl6bmdu?=
- =?utf-8?B?NDV0OVEyb1lFYXpzenplQXp0anVWMGhpaXhxTHBZanpqeTlJTjlIRU1qYUxo?=
- =?utf-8?B?UWxzZkhubWQrV0dsb3pjcTdVOUNLWWZvMC9MR2NlcGJzd2hreGVSNzBQRmgy?=
- =?utf-8?B?clhMcmM5YkcwVE9FZVJuenUrY3B4d28yUU5OSWw5d0dBQUtIdzlqKzloQ0JP?=
- =?utf-8?B?c3JibnRQUTJzNTEvVlFKaFU3dmZVaWVMaFFrRUlXTFNLRko4eEQybTNvNWR1?=
- =?utf-8?B?NUZQdlFEOEg5SVpGci9wY3dwWk91dHJyOVBKNmZVMEpNVXZxY0tndWZKaHZN?=
- =?utf-8?Q?UxkiYfDrxOlg4eKlBUmRKKdBT?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TDlLZkZXQmkvUmhtM2YvVEtnK3JCL21PNDdoV1Q4dm5mMmd4TkVUUnBuTUZY?=
+ =?utf-8?B?M0hlUmJDV3FlVS8wL3pvSHVBZ1diU1pkR0tJWlRRVWlUamhYWkU4MEJ3UmRn?=
+ =?utf-8?B?M0lYM0JTVnF1eXQ4bG5mLytyOEdMOGtYSWM4UVcyaTlBVGFaanBVNkFuOVBM?=
+ =?utf-8?B?cng0UnFQbDVFcXp3bER0V3ZvNFFzRXhmeEFHQzZ1TzJ4K1JKdlBRU2JoY2Nw?=
+ =?utf-8?B?MExNUlVBOVdPaitoc29MUjd2ekVkS3FST09ydUxCL2owenRQV2srTVZhZFVM?=
+ =?utf-8?B?K3IzMXB4VHc0cVlva245cEtRdzZITjlLYjN4QXNvZ3VMS1o0WU05SmpBUTBx?=
+ =?utf-8?B?V3N4QU5MWkV2c1k1RFNDRXhZb3dpaG11N2JSMGJlUVNVV2ZYTXIxcXp6Y2Ri?=
+ =?utf-8?B?eDBqTUJXVzhHZU8zV2N5clpIVkt2Qk5aQWhmNWlxbHNLeml6WEMwbW5nL1hv?=
+ =?utf-8?B?bDZ0MUMxODlWb1RncnBhMDI2MW8rT1hMQ3ltM2JTVlBkenRYVFJycUN4N2hz?=
+ =?utf-8?B?QVFHTFA2VytGRWtvUDhpTTJZSkRNOS95TXVxREN2RExkNW9GaHZUcXRYMExZ?=
+ =?utf-8?B?RnZMUjZTdlppUTR0UGRjb3pWc1R0c3QxNlB2bURERlhmWDZOVkI4L1g3bENu?=
+ =?utf-8?B?dUpCWXBKMWx4SWVRMFZDcW5tam5jbGNuU1A0WEhvVzUyUnA2R1JIT0E2Kzdt?=
+ =?utf-8?B?Y2pmd09HWkE4Y21JUFh6RDEvVzJ0d3JXNXVwYkd2OWFLUDZ1TDNhK2xpM0Z0?=
+ =?utf-8?B?ZklvY0NMV0p1K2xLYVhVdmc1cHJxRnJGUW1KamdwOGFOYUNtbldEUkhYbGh3?=
+ =?utf-8?B?dENKVHF5cUFjbVVFVURuRk1PRXNhaVMwRzYxNXFpU3dPNUtKL3NFOXM2MmZH?=
+ =?utf-8?B?bzBrRytwOU9JeUJUQmo3WWozdWZaaUhSbGNyaEcrNXpuL2RMMTY5NWo5SjBk?=
+ =?utf-8?B?bkQ1Y0pvNHRwR3ZsbGo2Ujhkak9tUE4raHZGWENlWksxQkt3OG0zMTJDa1NM?=
+ =?utf-8?B?OGFmRG9GNGNJZ3JSenVyZ0V6TkJ6Y0tpT01DYjlWNUh6d3o5azNUcDhhZmMv?=
+ =?utf-8?B?U203bjhGOEJicW1NbkdsVkdOTVdJdzRvMUlVckpjNWExL2Z2YkVTSGorb0Zm?=
+ =?utf-8?B?ckdmK1dpREF1VlRDWTlTbGs4Vjh0VGxNdVcvcW8ybC9VT2I5NTJUMHlPbWJ4?=
+ =?utf-8?B?VmdsLzAySFg0T0E3a0tDaU9iRzZheUJKd2VDTkNFalBYQmhwejhlR2ZoNVpJ?=
+ =?utf-8?B?YUwxWVB0bisrWG4xOVVDVlRYbXpxbTNHdkFEbC9Ic2RQYXdKanFsc28zNWJp?=
+ =?utf-8?B?VjdRa2grWkhheml2OGJxcXdzQldtbDZodGgrNi9aemY0bGRaZWNPdDdLSXFZ?=
+ =?utf-8?B?L2pjNFI0amZyNU9YNWtCUVd6cUVVQ1N2WDRZQjhFY3ZkcHp5KzNNOUpiZkJX?=
+ =?utf-8?B?K2UwT3VRUEFDbUpMVG9OK3NQV1oyeWJxY01mOXpUSWhXT1RQaG1LVnY2S1g4?=
+ =?utf-8?B?MmFEM2U1UnY5RS9SK1lpSXhRWEFsaDkvdXA1SGFub0FuUXBKVnNuZTNDdHpj?=
+ =?utf-8?B?YUE5Z0tVcHY3T2dFMDNMbHRlcWlZbGZBc1MyYkQxSnFHNngwSEFSN3RaL0VS?=
+ =?utf-8?B?SlkwU3hrYU5SdVk3c0R5S2pBMm1OcWZsOUNRa042bUVyZ2VSUTh4ZWxpRWlz?=
+ =?utf-8?B?bXExNUtnSEVpdW9manhCdEU4MHFVRnBPV3ZMTWhWZ3FOdGcvZUkyRU1Wclpz?=
+ =?utf-8?B?K2JJS2ZvR0hXVEhaS3lMeVZoUy9rdkJOaFg4SkV3VXFMbVdPVlBNNThRdnVG?=
+ =?utf-8?B?NXhSVHRFZHJqY3BDeTdLbjJEZ0oyc21UZWw5QzZtMTNxMlVYc1BPU2NFbkMr?=
+ =?utf-8?B?VVNvV05DbnpCSmhXRjRpQzRybVR4ajl3Vmd2UHlZSnpsQ3dSeWlrS2pNaGtJ?=
+ =?utf-8?B?VmxndjdrSVFKd2Uzcm8vaVcrOHhrZ2RydmpHeTBpOFN0QjM0TTBBYkZMMyt0?=
+ =?utf-8?B?UkxIbmZPOGZWajhRQlFQS2NuT2ZOWk8xbk5BNzNXQStSYThWK3lKYmU1UmRo?=
+ =?utf-8?B?d2hjZ3FOaXgzbWFkVEZyTHEzUjBsckZ6Znc3bnZCc0VRdW4ydWRnbmFZZVVj?=
+ =?utf-8?Q?E1pe8/X8FnXuRZzGSoIRctqhl?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6ceb14e-0ff0-4876-18d2-08db1077ccda
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6358292a-3361-4962-e5b7-08db1077ce60
 X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 23:44:52.8929 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 23:44:55.4696 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dx0SyolPMfaEABSATmhZAnir2fZCTMykP4cQGS1k6nSr66UVbFlD1xIbCdA+00M3bVh+kQbgR/PYbyCUy4siTw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: YS/zYXC3Z1qObVvvNBffqhfUrJaIEo4KI4ZrKaYsW8EuD/ICcXIhYpPGIT69lankliR1SwTBipWEikparFLLew==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7955
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -129,18 +130,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
 On 2023-01-25 14:53, Jonathan Kim wrote:
-> Expose debug capabilities in the KFD topology node's HSA capabilities and
-> debug properties flags.
+> Add missing debug trap registers references and initialize all debug
+> registers on boot by clearing the hardware exception overrides and the
+> wave allocation ID index.
 >
-> Ensure correct capabilities are exposed based on firmware support.
+> The debugger requires that TTMPs 6 & 7 save the dispatch ID to map
+> waves onto dispatch during compute context inspection.
+> In order to correctly set this up, set the special reserved CP bit by
+> default whenever the MQD is initailized.
 >
-> Flag definitions can be referenced in uapi/linux/kfd_sysfs.h.
->
-> v2: v1 was reviewed but re-requesting review for the following.
-> - remove asic family code name comments in firmware support checking
-> - add gfx11 requirements in fw support checks and debug props and caps
+> v2: leave TRAP_EN set for multi-process debugging as per process disable
+> will be taken care of in later patches.
+> fixup typo in description.
+> enable ttmp setup for dispatch boundary in mqd init for gfx11.
+> add trap on wave start and end registers for gfx11.
 >
 > Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
 
@@ -148,195 +152,340 @@ Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 
 
 > ---
->   drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 101 ++++++++++++++++++++--
->   drivers/gpu/drm/amd/amdkfd/kfd_topology.h |   6 ++
->   include/uapi/linux/kfd_sysfs.h            |  15 ++++
->   3 files changed, 117 insertions(+), 5 deletions(-)
+>   drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c        | 26 +++++++
+>   drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c        |  1 +
+>   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c         | 30 ++++++++
+>   .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c  |  5 ++
+>   .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c  |  5 ++
+>   .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c   |  5 ++
+>   .../include/asic_reg/gc/gc_10_1_0_offset.h    | 14 ++++
+>   .../include/asic_reg/gc/gc_10_1_0_sh_mask.h   | 69 +++++++++++++++++++
+>   .../include/asic_reg/gc/gc_10_3_0_offset.h    | 10 +++
+>   .../include/asic_reg/gc/gc_10_3_0_sh_mask.h   |  4 ++
+>   .../include/asic_reg/gc/gc_11_0_0_sh_mask.h   |  4 ++
+>   11 files changed, 173 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> index 3fdaba56be6f..647a14142da9 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> @@ -551,6 +551,8 @@ static ssize_t node_show(struct kobject *kobj, struct attribute *attr,
->   				      dev->gpu->mec_fw_version);
->   		sysfs_show_32bit_prop(buffer, offs, "capability",
->   				      dev->node_props.capability);
-> +		sysfs_show_64bit_prop(buffer, offs, "debug_prop",
-> +				      dev->node_props.debug_prop);
->   		sysfs_show_32bit_prop(buffer, offs, "sdma_fw_version",
->   				      dev->gpu->sdma_fw_version);
->   		sysfs_show_64bit_prop(buffer, offs, "unique_id",
-> @@ -1865,6 +1867,97 @@ static int kfd_topology_add_device_locked(struct kfd_dev *gpu, uint32_t gpu_id,
->   	return res;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+> index 6983acc456b2..a5faf23805b5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+> @@ -4823,6 +4823,29 @@ static u32 gfx_v10_0_init_pa_sc_tile_steering_override(struct amdgpu_device *ade
+>   
+>   #define DEFAULT_SH_MEM_BASES	(0x6000)
+>   
+> +static void gfx_v10_0_debug_trap_config_init(struct amdgpu_device *adev,
+> +				uint32_t first_vmid,
+> +				uint32_t last_vmid)
+> +{
+> +	uint32_t data;
+> +	uint32_t trap_config_vmid_mask = 0;
+> +	int i;
+> +
+> +	/* Calculate trap config vmid mask */
+> +	for (i = first_vmid; i < last_vmid; i++)
+> +		trap_config_vmid_mask |= (1 << i);
+> +
+> +	data = REG_SET_FIELD(0, SPI_GDBG_TRAP_CONFIG,
+> +			VMID_SEL, trap_config_vmid_mask);
+> +	data = REG_SET_FIELD(data, SPI_GDBG_TRAP_CONFIG,
+> +			TRAP_EN, 1);
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_CONFIG), data);
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
+> +
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_DATA0), 0);
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_DATA1), 0);
+> +}
+> +
+>   static void gfx_v10_0_init_compute_vmid(struct amdgpu_device *adev)
+>   {
+>   	int i;
+> @@ -4854,6 +4877,9 @@ static void gfx_v10_0_init_compute_vmid(struct amdgpu_device *adev)
+>   		WREG32_SOC15_OFFSET(GC, 0, mmGDS_GWS_VMID0, i, 0);
+>   		WREG32_SOC15_OFFSET(GC, 0, mmGDS_OA_VMID0, i, 0);
+>   	}
+> +
+> +	gfx_v10_0_debug_trap_config_init(adev, adev->vm_manager.first_kfd_vmid,
+> +					AMDGPU_NUM_VMID);
 >   }
 >   
-> +static void kfd_topology_set_dbg_firmware_support(struct kfd_topology_device *dev)
-> +{
-> +	bool firmware_supported = true;
-> +
-> +	if (KFD_GC_VERSION(dev->gpu) >= IP_VERSION(11, 0, 0) &&
-> +			KFD_GC_VERSION(dev->gpu) < IP_VERSION(12, 0, 0)) {
-> +		firmware_supported =
-> +			(dev->gpu->adev->mes.sched_version & AMDGPU_MES_VERSION_MASK) >= 9;
-> +		goto out;
-> +	}
-> +
-> +	/*
-> +	 * Note: Any unlisted devices here are assumed to support exception handling.
-> +	 * Add additional checks here as needed.
-> +	 */
-> +	switch (KFD_GC_VERSION(dev->gpu)) {
-> +	case IP_VERSION(9, 0, 1):
-> +		firmware_supported = dev->gpu->mec_fw_version >= 459 + 32768;
-> +		break;
-> +	case IP_VERSION(9, 1, 0):
-> +	case IP_VERSION(9, 2, 1):
-> +	case IP_VERSION(9, 2, 2):
-> +	case IP_VERSION(9, 3, 0):
-> +	case IP_VERSION(9, 4, 0):
-> +		firmware_supported = dev->gpu->mec_fw_version >= 459;
-> +		break;
-> +	case IP_VERSION(9, 4, 1):
-> +		firmware_supported = dev->gpu->mec_fw_version >= 60;
-> +		break;
-> +	case IP_VERSION(9, 4, 2):
-> +		firmware_supported = dev->gpu->mec_fw_version >= 51;
-> +		break;
-> +	case IP_VERSION(10, 1, 10):
-> +	case IP_VERSION(10, 1, 2):
-> +	case IP_VERSION(10, 1, 1):
-> +		firmware_supported = dev->gpu->mec_fw_version >= 144;
-> +		break;
-> +	case IP_VERSION(10, 3, 0):
-> +	case IP_VERSION(10, 3, 2):
-> +	case IP_VERSION(10, 3, 1):
-> +	case IP_VERSION(10, 3, 4):
-> +	case IP_VERSION(10, 3, 5):
-> +		firmware_supported = dev->gpu->mec_fw_version >= 89;
-> +		break;
-> +	case IP_VERSION(10, 1, 3):
-> +	case IP_VERSION(10, 3, 3):
-> +		firmware_supported = false;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +out:
-> +	if (firmware_supported)
-> +		dev->node_props.capability |= HSA_CAP_TRAP_DEBUG_FIRMWARE_SUPPORTED;
-> +}
-> +
-> +static void kfd_topology_set_capabilities(struct kfd_topology_device *dev)
-> +{
-> +	dev->node_props.capability |= ((HSA_CAP_DOORBELL_TYPE_2_0 <<
-> +				HSA_CAP_DOORBELL_TYPE_TOTALBITS_SHIFT) &
-> +				HSA_CAP_DOORBELL_TYPE_TOTALBITS_MASK);
-> +
-> +	dev->node_props.capability |= HSA_CAP_TRAP_DEBUG_SUPPORT |
-> +			HSA_CAP_TRAP_DEBUG_WAVE_LAUNCH_TRAP_OVERRIDE_SUPPORTED |
-> +			HSA_CAP_TRAP_DEBUG_WAVE_LAUNCH_MODE_SUPPORTED;
-> +
-> +	if (KFD_GC_VERSION(dev->gpu) < IP_VERSION(10, 0, 0)) {
-> +		dev->node_props.debug_prop |= HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX9 |
-> +						HSA_DBG_WATCH_ADDR_MASK_HI_BIT;
-> +
-> +		if (KFD_GC_VERSION(dev->gpu) < IP_VERSION(9, 4, 2))
-> +			dev->node_props.debug_prop |=
-> +				HSA_DBG_DISPATCH_INFO_ALWAYS_VALID;
-> +		else
-> +			dev->node_props.capability |=
-> +				HSA_CAP_TRAP_DEBUG_PRECISE_MEMORY_OPERATIONS_SUPPORTED;
-> +	} else {
-> +		dev->node_props.debug_prop |= HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX10 |
-> +					HSA_DBG_WATCH_ADDR_MASK_HI_BIT;
-> +
-> +		if (KFD_GC_VERSION(dev->gpu) < IP_VERSION(11, 0, 0))
-> +			dev->node_props.debug_prop |= HSA_DBG_DISPATCH_INFO_ALWAYS_VALID;
-> +		else
-> +			dev->node_props.capability |=
-> +				HSA_CAP_TRAP_DEBUG_PRECISE_MEMORY_OPERATIONS_SUPPORTED;
-> +	}
-> +
-> +	kfd_topology_set_dbg_firmware_support(dev);
-> +}
-> +
->   int kfd_topology_add_device(struct kfd_dev *gpu)
->   {
->   	uint32_t gpu_id;
-> @@ -1966,13 +2059,11 @@ int kfd_topology_add_device(struct kfd_dev *gpu)
->   			HSA_CAP_DOORBELL_TYPE_TOTALBITS_MASK);
->   		break;
->   	default:
-> -		if (KFD_GC_VERSION(dev->gpu) >= IP_VERSION(9, 0, 1))
-> -			dev->node_props.capability |= ((HSA_CAP_DOORBELL_TYPE_2_0 <<
-> -				HSA_CAP_DOORBELL_TYPE_TOTALBITS_SHIFT) &
-> -				HSA_CAP_DOORBELL_TYPE_TOTALBITS_MASK);
-> -		else
-> +		if (KFD_GC_VERSION(dev->gpu) < IP_VERSION(9, 0, 1))
->   			WARN(1, "Unexpected ASIC family %u",
->   			     dev->gpu->adev->asic_type);
-> +		else
-> +			kfd_topology_set_capabilities(dev);
+>   static void gfx_v10_0_init_gds_vmid(struct amdgpu_device *adev)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+> index c621b2ad7ba3..3ca7a31fb770 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+> @@ -1572,6 +1572,7 @@ static void gfx_v11_0_init_compute_vmid(struct amdgpu_device *adev)
+>   		/* Enable trap for each kfd vmid. */
+>   		data = RREG32_SOC15(GC, 0, regSPI_GDBG_PER_VMID_CNTL);
+>   		data = REG_SET_FIELD(data, SPI_GDBG_PER_VMID_CNTL, TRAP_EN, 1);
+> +		WREG32_SOC15(GC, 0, regSPI_GDBG_PER_VMID_CNTL, data);
 >   	}
+>   	soc21_grbm_select(adev, 0, 0, 0, 0);
+>   	mutex_unlock(&adev->srbm_mutex);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> index 8ad5c03506f2..222fe87161b7 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> @@ -2289,6 +2289,29 @@ static void gfx_v9_0_setup_rb(struct amdgpu_device *adev)
+>   	adev->gfx.config.num_rbs = hweight32(active_rbs);
+>   }
 >   
->   	/*
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-> index fca30d00a9bb..53b9b7bf52ee 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-> @@ -31,6 +31,11 @@
->   
->   #define KFD_TOPOLOGY_PUBLIC_NAME_SIZE 32
->   
-> +#define HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX9	6
-> +#define HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX10	7
-> +#define HSA_DBG_WATCH_ADDR_MASK_HI_BIT  \
-> +			(29 << HSA_DBG_WATCH_ADDR_MASK_HI_BIT_SHIFT)
+> +static void gfx_v9_0_debug_trap_config_init(struct amdgpu_device *adev,
+> +				uint32_t first_vmid,
+> +				uint32_t last_vmid)
+> +{
+> +	uint32_t data;
+> +	uint32_t trap_config_vmid_mask = 0;
+> +	int i;
 > +
->   struct kfd_node_properties {
->   	uint64_t hive_id;
->   	uint32_t cpu_cores_count;
-> @@ -42,6 +47,7 @@ struct kfd_node_properties {
->   	uint32_t cpu_core_id_base;
->   	uint32_t simd_id_base;
->   	uint32_t capability;
-> +	uint64_t debug_prop;
->   	uint32_t max_waves_per_simd;
->   	uint32_t lds_size_in_kb;
->   	uint32_t gds_size_in_kb;
-> diff --git a/include/uapi/linux/kfd_sysfs.h b/include/uapi/linux/kfd_sysfs.h
-> index 3e330f368917..a51b7331e0b4 100644
-> --- a/include/uapi/linux/kfd_sysfs.h
-> +++ b/include/uapi/linux/kfd_sysfs.h
-> @@ -43,6 +43,11 @@
->   #define HSA_CAP_DOORBELL_TYPE_2_0		0x2
->   #define HSA_CAP_AQL_QUEUE_DOUBLE_MAP		0x00004000
->   
-> +#define HSA_CAP_TRAP_DEBUG_SUPPORT              0x00008000
-> +#define HSA_CAP_TRAP_DEBUG_WAVE_LAUNCH_TRAP_OVERRIDE_SUPPORTED  0x00010000
-> +#define HSA_CAP_TRAP_DEBUG_WAVE_LAUNCH_MODE_SUPPORTED           0x00020000
-> +#define HSA_CAP_TRAP_DEBUG_PRECISE_MEMORY_OPERATIONS_SUPPORTED  0x00040000
+> +	/* Calculate trap config vmid mask */
+> +	for (i = first_vmid; i < last_vmid; i++)
+> +		trap_config_vmid_mask |= (1 << i);
 > +
->   /* Old buggy user mode depends on this being 0 */
->   #define HSA_CAP_RESERVED_WAS_SRAM_EDCSUPPORTED	0x00080000
->   
-> @@ -53,8 +58,18 @@
->   #define HSA_CAP_SRAM_EDCSUPPORTED		0x04000000
->   #define HSA_CAP_SVMAPI_SUPPORTED		0x08000000
->   #define HSA_CAP_FLAGS_COHERENTHOSTACCESS	0x10000000
-> +#define HSA_CAP_TRAP_DEBUG_FIRMWARE_SUPPORTED   0x20000000
->   #define HSA_CAP_RESERVED			0xe00f8000
->   
-> +/* debug_prop bits in node properties */
-> +#define HSA_DBG_WATCH_ADDR_MASK_LO_BIT_MASK     0x0000000f
-> +#define HSA_DBG_WATCH_ADDR_MASK_LO_BIT_SHIFT    0
-> +#define HSA_DBG_WATCH_ADDR_MASK_HI_BIT_MASK     0x000003f0
-> +#define HSA_DBG_WATCH_ADDR_MASK_HI_BIT_SHIFT    4
-> +#define HSA_DBG_DISPATCH_INFO_ALWAYS_VALID      0x00000400
-> +#define HSA_DBG_WATCHPOINTS_EXCLUSIVE           0x00000800
-> +#define HSA_DBG_RESERVED                0xfffffffffffff000ull
+> +	data = REG_SET_FIELD(0, SPI_GDBG_TRAP_CONFIG,
+> +			VMID_SEL, trap_config_vmid_mask);
+> +	data = REG_SET_FIELD(data, SPI_GDBG_TRAP_CONFIG,
+> +			TRAP_EN, 1);
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_CONFIG), data);
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
 > +
->   /* Heap types in memory properties */
->   #define HSA_MEM_HEAP_TYPE_SYSTEM	0
->   #define HSA_MEM_HEAP_TYPE_FB_PUBLIC	1
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_DATA0), 0);
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_DATA1), 0);
+> +}
+> +
+>   #define DEFAULT_SH_MEM_BASES	(0x6000)
+>   static void gfx_v9_0_init_compute_vmid(struct amdgpu_device *adev)
+>   {
+> @@ -4565,6 +4588,13 @@ static int gfx_v9_0_late_init(void *handle)
+>   	if (r)
+>   		return r;
+>   
+> +	if (adev->ip_versions[GC_HWIP][0] == IP_VERSION(9, 4, 2))
+> +		gfx_v9_4_2_debug_trap_config_init(adev,
+> +			adev->vm_manager.first_kfd_vmid, AMDGPU_NUM_VMID);
+> +	else
+> +		gfx_v9_0_debug_trap_config_init(adev,
+> +			adev->vm_manager.first_kfd_vmid, AMDGPU_NUM_VMID);
+> +
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
+> index d3e2b6a599a4..cb484ace17de 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c
+> @@ -117,6 +117,11 @@ static void init_mqd(struct mqd_manager *mm, void **mqd,
+>   			1 << CP_HQD_QUANTUM__QUANTUM_SCALE__SHIFT |
+>   			1 << CP_HQD_QUANTUM__QUANTUM_DURATION__SHIFT;
+>   
+> +	/* Set cp_hqd_hq_scheduler0 bit 14 to 1 to have the CP set up the
+> +	 * DISPATCH_PTR.  This is required for the kfd debugger
+> +	 */
+> +	m->cp_hqd_hq_scheduler0 = 1 << 14;
+> +
+>   	if (q->format == KFD_QUEUE_FORMAT_AQL) {
+>   		m->cp_hqd_aql_control =
+>   			1 << CP_HQD_AQL_CONTROL__CONTROL0__SHIFT;
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
+> index 4f6390f3236e..ac7c8fc83c94 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c
+> @@ -143,6 +143,11 @@ static void init_mqd(struct mqd_manager *mm, void **mqd,
+>   			1 << CP_HQD_QUANTUM__QUANTUM_SCALE__SHIFT |
+>   			1 << CP_HQD_QUANTUM__QUANTUM_DURATION__SHIFT;
+>   
+> +	/* Set cp_hqd_hq_scheduler0 bit 14 to 1 to have the CP set up the
+> +	 * DISPATCH_PTR.  This is required for the kfd debugger
+> +	 */
+> +	m->cp_hqd_hq_status0 = 1 << 14;
+> +
+>   	if (q->format == KFD_QUEUE_FORMAT_AQL) {
+>   		m->cp_hqd_aql_control =
+>   			1 << CP_HQD_AQL_CONTROL__CONTROL0__SHIFT;
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
+> index 0778e587a2d6..86f1cf090246 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
+> @@ -164,6 +164,11 @@ static void init_mqd(struct mqd_manager *mm, void **mqd,
+>   			1 << CP_HQD_QUANTUM__QUANTUM_SCALE__SHIFT |
+>   			1 << CP_HQD_QUANTUM__QUANTUM_DURATION__SHIFT;
+>   
+> +	/* Set cp_hqd_hq_scheduler0 bit 14 to 1 to have the CP set up the
+> +	 * DISPATCH_PTR.  This is required for the kfd debugger
+> +	 */
+> +	m->cp_hqd_hq_status0 = 1 << 14;
+> +
+>   	if (q->format == KFD_QUEUE_FORMAT_AQL) {
+>   		m->cp_hqd_aql_control =
+>   			1 << CP_HQD_AQL_CONTROL__CONTROL0__SHIFT;
+> diff --git a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_1_0_offset.h b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_1_0_offset.h
+> index 18d34bbceebe..7d384f86bd67 100644
+> --- a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_1_0_offset.h
+> +++ b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_1_0_offset.h
+> @@ -5190,6 +5190,20 @@
+>   #define mmSPI_WCL_PIPE_PERCENT_CS6_BASE_IDX                                                            0
+>   #define mmSPI_WCL_PIPE_PERCENT_CS7                                                                     0x1f70
+>   #define mmSPI_WCL_PIPE_PERCENT_CS7_BASE_IDX                                                            0
+> +#define mmSPI_GDBG_WAVE_CNTL                                                                           0x1f71
+> +#define mmSPI_GDBG_WAVE_CNTL_BASE_IDX                                                                  0
+> +#define mmSPI_GDBG_TRAP_CONFIG                                                                         0x1f72
+> +#define mmSPI_GDBG_TRAP_CONFIG_BASE_IDX                                                                0
+> +#define mmSPI_GDBG_TRAP_MASK                                                                           0x1f73
+> +#define mmSPI_GDBG_TRAP_MASK_BASE_IDX                                                                  0
+> +#define mmSPI_GDBG_WAVE_CNTL2                                                                          0x1f74
+> +#define mmSPI_GDBG_WAVE_CNTL2_BASE_IDX                                                                 0
+> +#define mmSPI_GDBG_WAVE_CNTL3                                                                          0x1f75
+> +#define mmSPI_GDBG_WAVE_CNTL3_BASE_IDX                                                                 0
+> +#define mmSPI_GDBG_TRAP_DATA0                                                                          0x1f78
+> +#define mmSPI_GDBG_TRAP_DATA0_BASE_IDX                                                                 0
+> +#define mmSPI_GDBG_TRAP_DATA1                                                                          0x1f79
+> +#define mmSPI_GDBG_TRAP_DATA1_BASE_IDX                                                                 0
+>   #define mmSPI_COMPUTE_QUEUE_RESET                                                                      0x1f7b
+>   #define mmSPI_COMPUTE_QUEUE_RESET_BASE_IDX                                                             0
+>   #define mmSPI_RESOURCE_RESERVE_CU_0                                                                    0x1f7c
+> diff --git a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_1_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_1_0_sh_mask.h
+> index 4127896ffcdf..08772ba845b0 100644
+> --- a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_1_0_sh_mask.h
+> +++ b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_1_0_sh_mask.h
+> @@ -19646,6 +19646,75 @@
+>   //SPI_WCL_PIPE_PERCENT_CS7
+>   #define SPI_WCL_PIPE_PERCENT_CS7__VALUE__SHIFT                                                                0x0
+>   #define SPI_WCL_PIPE_PERCENT_CS7__VALUE_MASK                                                                  0x7FL
+> +//SPI_GDBG_WAVE_CNTL
+> +#define SPI_GDBG_WAVE_CNTL__STALL_RA__SHIFT                                                                   0x0
+> +#define SPI_GDBG_WAVE_CNTL__STALL_VMID__SHIFT                                                                 0x1
+> +#define SPI_GDBG_WAVE_CNTL__STALL_RA_MASK                                                                     0x00000001L
+> +#define SPI_GDBG_WAVE_CNTL__STALL_VMID_MASK                                                                   0x0001FFFEL
+> +//SPI_GDBG_TRAP_CONFIG
+> +#define SPI_GDBG_TRAP_CONFIG__ME_SEL__SHIFT                                                                   0x0
+> +#define SPI_GDBG_TRAP_CONFIG__PIPE_SEL__SHIFT                                                                 0x2
+> +#define SPI_GDBG_TRAP_CONFIG__QUEUE_SEL__SHIFT                                                                0x4
+> +#define SPI_GDBG_TRAP_CONFIG__ME_MATCH__SHIFT                                                                 0x7
+> +#define SPI_GDBG_TRAP_CONFIG__PIPE_MATCH__SHIFT                                                               0x8
+> +#define SPI_GDBG_TRAP_CONFIG__QUEUE_MATCH__SHIFT                                                              0x9
+> +#define SPI_GDBG_TRAP_CONFIG__TRAP_EN__SHIFT                                                                  0xf
+> +#define SPI_GDBG_TRAP_CONFIG__VMID_SEL__SHIFT                                                                 0x10
+> +#define SPI_GDBG_TRAP_CONFIG__ME_SEL_MASK                                                                     0x00000003L
+> +#define SPI_GDBG_TRAP_CONFIG__PIPE_SEL_MASK                                                                   0x0000000CL
+> +#define SPI_GDBG_TRAP_CONFIG__QUEUE_SEL_MASK                                                                  0x00000070L
+> +#define SPI_GDBG_TRAP_CONFIG__ME_MATCH_MASK                                                                   0x00000080L
+> +#define SPI_GDBG_TRAP_CONFIG__PIPE_MATCH_MASK                                                                 0x00000100L
+> +#define SPI_GDBG_TRAP_CONFIG__QUEUE_MATCH_MASK                                                                0x00000200L
+> +#define SPI_GDBG_TRAP_CONFIG__TRAP_EN_MASK                                                                    0x00008000L
+> +#define SPI_GDBG_TRAP_CONFIG__VMID_SEL_MASK                                                                   0xFFFF0000L
+> +//SPI_GDBG_TRAP_MASK
+> +#define SPI_GDBG_TRAP_MASK__EXCP_EN__SHIFT                                                                    0x0
+> +#define SPI_GDBG_TRAP_MASK__REPLACE__SHIFT                                                                    0x9
+> +#define SPI_GDBG_TRAP_MASK__EXCP_EN_MASK                                                                      0x01FFL
+> +#define SPI_GDBG_TRAP_MASK__REPLACE_MASK                                                                      0x0200L
+> +//SPI_GDBG_WAVE_CNTL2
+> +#define SPI_GDBG_WAVE_CNTL2__VMID_MASK__SHIFT                                                                 0x0
+> +#define SPI_GDBG_WAVE_CNTL2__MODE__SHIFT                                                                      0x10
+> +#define SPI_GDBG_WAVE_CNTL2__VMID_MASK_MASK                                                                   0x0000FFFFL
+> +#define SPI_GDBG_WAVE_CNTL2__MODE_MASK                                                                        0x00030000L
+> +//SPI_GDBG_WAVE_CNTL3
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_PS__SHIFT                                                                  0x0
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_VS__SHIFT                                                                  0x1
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_GS__SHIFT                                                                  0x2
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_HS__SHIFT                                                                  0x3
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CSG__SHIFT                                                                 0x4
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS0__SHIFT                                                                 0x5
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS1__SHIFT                                                                 0x6
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS2__SHIFT                                                                 0x7
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS3__SHIFT                                                                 0x8
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS4__SHIFT                                                                 0x9
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS5__SHIFT                                                                 0xa
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS6__SHIFT                                                                 0xb
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS7__SHIFT                                                                 0xc
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_DURATION__SHIFT                                                            0xd
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_MULT__SHIFT                                                                0x1c
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_PS_MASK                                                                    0x00000001L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_VS_MASK                                                                    0x00000002L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_GS_MASK                                                                    0x00000004L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_HS_MASK                                                                    0x00000008L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CSG_MASK                                                                   0x00000010L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS0_MASK                                                                   0x00000020L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS1_MASK                                                                   0x00000040L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS2_MASK                                                                   0x00000080L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS3_MASK                                                                   0x00000100L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS4_MASK                                                                   0x00000200L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS5_MASK                                                                   0x00000400L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS6_MASK                                                                   0x00000800L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_CS7_MASK                                                                   0x00001000L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_DURATION_MASK                                                              0x0FFFE000L
+> +#define SPI_GDBG_WAVE_CNTL3__STALL_MULT_MASK                                                                  0x10000000L
+> +//SPI_GDBG_TRAP_DATA0
+> +#define SPI_GDBG_TRAP_DATA0__DATA__SHIFT                                                                      0x0
+> +#define SPI_GDBG_TRAP_DATA0__DATA_MASK                                                                        0xFFFFFFFFL
+> +//SPI_GDBG_TRAP_DATA1
+> +#define SPI_GDBG_TRAP_DATA1__DATA__SHIFT                                                                      0x0
+> +#define SPI_GDBG_TRAP_DATA1__DATA_MASK                                                                        0xFFFFFFFFL
+>   //SPI_COMPUTE_QUEUE_RESET
+>   #define SPI_COMPUTE_QUEUE_RESET__RESET__SHIFT                                                                 0x0
+>   #define SPI_COMPUTE_QUEUE_RESET__RESET_MASK                                                                   0x01L
+> diff --git a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_3_0_offset.h b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_3_0_offset.h
+> index 3973110f149c..d09f1a06f4bf 100644
+> --- a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_3_0_offset.h
+> +++ b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_3_0_offset.h
+> @@ -26,6 +26,8 @@
+>   #define mmSQ_DEBUG_STS_GLOBAL_BASE_IDX                                                                 0
+>   #define mmSQ_DEBUG_STS_GLOBAL2                                                                         0x10B0
+>   #define mmSQ_DEBUG_STS_GLOBAL2_BASE_IDX                                                                0
+> +#define mmSQ_DEBUG                                                                                     0x10B1
+> +#define mmSQ_DEBUG_BASE_IDX                                                                            0
+>   
+>   // addressBlock: gc_sdma0_sdma0dec
+>   // base address: 0x4980
+> @@ -4849,10 +4851,18 @@
+>   #define mmSPI_WCL_PIPE_PERCENT_CS3_BASE_IDX                                                            0
+>   #define mmSPI_GDBG_WAVE_CNTL                                                                           0x1f71
+>   #define mmSPI_GDBG_WAVE_CNTL_BASE_IDX                                                                  0
+> +#define mmSPI_GDBG_TRAP_CONFIG                                                                         0x1f72
+> +#define mmSPI_GDBG_TRAP_CONFIG_BASE_IDX                                                                0
+>   #define mmSPI_GDBG_TRAP_MASK                                                                           0x1f73
+>   #define mmSPI_GDBG_TRAP_MASK_BASE_IDX                                                                  0
+>   #define mmSPI_GDBG_WAVE_CNTL2                                                                          0x1f74
+>   #define mmSPI_GDBG_WAVE_CNTL2_BASE_IDX                                                                 0
+> +#define mmSPI_GDBG_WAVE_CNTL3                                                                          0x1f75
+> +#define mmSPI_GDBG_WAVE_CNTL3_BASE_IDX                                                                 0
+> +#define mmSPI_GDBG_TRAP_DATA0                                                                          0x1f78
+> +#define mmSPI_GDBG_TRAP_DATA0_BASE_IDX                                                                 0
+> +#define mmSPI_GDBG_TRAP_DATA1                                                                          0x1f79
+> +#define mmSPI_GDBG_TRAP_DATA1_BASE_IDX                                                                 0
+>   #define mmSPI_COMPUTE_QUEUE_RESET                                                                      0x1f7b
+>   #define mmSPI_COMPUTE_QUEUE_RESET_BASE_IDX                                                             0
+>   #define mmSPI_RESOURCE_RESERVE_CU_0                                                                    0x1f7c
+> diff --git a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_3_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_3_0_sh_mask.h
+> index d4e8ff22ecb8..fc85aee010fe 100644
+> --- a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_3_0_sh_mask.h
+> +++ b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_10_3_0_sh_mask.h
+> @@ -47853,6 +47853,10 @@
+>   
+>   
+>   // addressBlock: sqind
+> +//SQ_DEBUG
+> +#define SQ_DEBUG__SINGLE_MEMOP_MASK 0x00000001L
+> +#define SQ_DEBUG__SINGLE_MEMOP__SHIFT 0x00000000
+> +
+>   //SQ_DEBUG_STS_GLOBAL
+>   #define SQ_DEBUG_STS_GLOBAL2__FIFO_LEVEL_GFX0_MASK 0x000000ffL
+>   #define SQ_DEBUG_STS_GLOBAL2__FIFO_LEVEL_GFX0__SHIFT 0x00000000
+> diff --git a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_11_0_0_sh_mask.h b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_11_0_0_sh_mask.h
+> index 4f08f90856fc..3088a4a13cb5 100644
+> --- a/drivers/gpu/drm/amd/include/asic_reg/gc/gc_11_0_0_sh_mask.h
+> +++ b/drivers/gpu/drm/amd/include/asic_reg/gc/gc_11_0_0_sh_mask.h
+> @@ -17216,11 +17216,15 @@
+>   #define SPI_GDBG_PER_VMID_CNTL__TRAP_EN__SHIFT                                                                0x3
+>   #define SPI_GDBG_PER_VMID_CNTL__EXCP_EN__SHIFT                                                                0x4
+>   #define SPI_GDBG_PER_VMID_CNTL__EXCP_REPLACE__SHIFT                                                           0xd
+> +#define SPI_GDBG_PER_VMID_CNTL__TRAP_ON_START__SHIFT                                                          0xe
+> +#define SPI_GDBG_PER_VMID_CNTL__TRAP_ON_END__SHIFT                                                            0xf
+>   #define SPI_GDBG_PER_VMID_CNTL__STALL_VMID_MASK                                                               0x00000001L
+>   #define SPI_GDBG_PER_VMID_CNTL__LAUNCH_MODE_MASK                                                              0x00000006L
+>   #define SPI_GDBG_PER_VMID_CNTL__TRAP_EN_MASK                                                                  0x00000008L
+>   #define SPI_GDBG_PER_VMID_CNTL__EXCP_EN_MASK                                                                  0x00001FF0L
+>   #define SPI_GDBG_PER_VMID_CNTL__EXCP_REPLACE_MASK                                                             0x00002000L
+> +#define SPI_GDBG_PER_VMID_CNTL__TRAP_ON_START_MASK                                                            0x00004000L
+> +#define SPI_GDBG_PER_VMID_CNTL__TRAP_ON_END_MASK                                                              0x00008000L
+>   //SPI_COMPUTE_QUEUE_RESET
+>   #define SPI_COMPUTE_QUEUE_RESET__RESET__SHIFT                                                                 0x0
+>   #define SPI_COMPUTE_QUEUE_RESET__RESET_MASK                                                                   0x01L
