@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB7A699469
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 13:34:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 580B3699487
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 13:38:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B908710E173;
-	Thu, 16 Feb 2023 12:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EEDB10ED57;
+	Thu, 16 Feb 2023 12:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6906110E173
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 12:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676550840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qnEebGiYieEAIpFBvmp4/is8Uz9olTVE3UjL/CK2+0c=;
- b=CDu5OChnL2ASD69fR8SLWfKt8U4+yv2SnqJ9qEQIgkjREXkqGiQY06cRLqZyJITFUOtxTD
- Zl8EUhxwNdKSZc9y729rUpBNSMxxM9y/srRTdhqOUeCLK8AvxUo0AiCDhWktGkwBGX2vcl
- RzQ/UxfsYh9rS/6MQxGWXUbvpQ6mhCg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-499-DwHJZwFJOP6nRvS9orhqng-1; Thu, 16 Feb 2023 07:33:57 -0500
-X-MC-Unique: DwHJZwFJOP6nRvS9orhqng-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D348D1C0A58E;
- Thu, 16 Feb 2023 12:33:56 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.135])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 996B0C15BA0;
- Thu, 16 Feb 2023 12:33:56 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 413FF1800097; Thu, 16 Feb 2023 13:33:55 +0100 (CET)
-Date: Thu, 16 Feb 2023 13:33:55 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 17/17] drm/cirrus: Use VGA macro constants to unblank
-Message-ID: <20230216123355.rhleh7ba2h6mzgvm@sirius.home.kraxel.org>
-References: <20230215161517.5113-1-tzimmermann@suse.de>
- <20230215161517.5113-18-tzimmermann@suse.de>
- <20230216113330.rmzmkdvpxdqk2nrd@sirius.home.kraxel.org>
- <306e110d-4d1f-cb9c-6f9b-c8a5ddd48a61@suse.de>
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1913A10ED56
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 12:38:00 +0000 (UTC)
+Received: by mail-qk1-x72f.google.com with SMTP id j22so732193qka.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 04:38:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=JlAXMJ8vFOPSjC0ycO+qIAE3x1seHVU+RmVv9Ao2yj0=;
+ b=yoy7I736Pga4GOkJJTznGpqK8yC/uuCKWEqPqV67qlBQHKeebvfqGTlI5esQkSrxHQ
+ DW71SOR+kehDh2bIicd/sV7HzaOl6Lqdv0YxJJeWaOyxPILScw+lggh+dslT/fF3bAOH
+ lDeOJh6bl+vQU/yZq+/LJrk+gqxf3O4cLPMYCa2pxJyqaSLs3G3G4+GIqMa8BVCJpsgR
+ 2sb+k8zjMovnToDhfxKUZMEgrqM3a74WagHZ6w5CbVC3SEMSPRgqdi473HkXYRZcmD+s
+ RpNToU5fI67uuplAYk0HqdIKgW7fQ15OYnNdFXtrGndLJxNwF7CgfWOsGpZn+6Jn7+lt
+ hfBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JlAXMJ8vFOPSjC0ycO+qIAE3x1seHVU+RmVv9Ao2yj0=;
+ b=e/jQxI4JykTVjqSj56a9CAu239vGyaGXgaDkyLbS0PDQhZCCkxgCbx2T7r6bCwk4HF
+ QyBUmviphFDIL7nmKee179URqnIFLJZ+dpQuFUcbbZ2aZ86EHAWYBxyeeP7GXAeSXfRr
+ /0Y3Cvcsqe4BjctJa+X/AvHGOzI/2yECneW32kYgL+f9fcPMe9wpy8csa/rNrgh+nSGB
+ 1IXMFcqeusd9Aiu6proDuLHUIkuUb5/21FUrAad3kgPcMtLwaeDj+u9TUaoI+tQGV6Gy
+ 9DJ5cvwOSy9rQeMXo9YoiFQmDIm6L/OT1u1MCvEzZBZGdKfeAlgUTRxd5d5wBR5KZJHj
+ FARA==
+X-Gm-Message-State: AO0yUKV9Jskps9XyZB0x9Ty6lRcpPPK9wa6uce6jcNI9U5qiKfGyym5B
+ IC3J9xZxiHfyHeDiib13JvKbqOHPkrM4a34x0XT0Uw==
+X-Google-Smtp-Source: AK7set/VqgwVvloXw4YYmBKSdMzrRfmMMAHyJhBLnNjILORHbpnFRESy6N7n+6P4vHS8+5hUFGL9gvXmjXaFcd1Yxi8=
+X-Received: by 2002:a05:620a:141:b0:71b:637a:f549 with SMTP id
+ e1-20020a05620a014100b0071b637af549mr326701qkn.225.1676551079006; Thu, 16 Feb
+ 2023 04:37:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <306e110d-4d1f-cb9c-6f9b-c8a5ddd48a61@suse.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230215124152.101548-1-contact@emersion.fr>
+ <20230215154123.3f9fefce@eldfell>
+ <ia5oa4sV74Cq0n0T5yDytOheked1Uuxb8CHh7L_Hdi51oIWuWIwOuqWsidJz3LrNdpoQqT7wNBgvSxVfKV-ZbbHLIC6U0aRrae9rVqUUpYg=@emersion.fr>
+ <20230216111110.5d1e8e7d@eldfell>
+ <fDk5M2V_0bRfC6CucNJLDy971yxeJ6UrqzhaDHHp-jCBT16MQowi_i_grjeeHV1y2awJFyFwxolMbkWwcpM3hSKj3s9Jt91VJvQVMhgamao=@emersion.fr>
+In-Reply-To: <fDk5M2V_0bRfC6CucNJLDy971yxeJ6UrqzhaDHHp-jCBT16MQowi_i_grjeeHV1y2awJFyFwxolMbkWwcpM3hSKj3s9Jt91VJvQVMhgamao=@emersion.fr>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 16 Feb 2023 12:37:48 +0000
+Message-ID: <CAPj87rOj7VHib8Uu8pfNtbny6FhKfRN033SYOYWjbZz9WTg14w@mail.gmail.com>
+Subject: Re: [PATCH] drm: document expectations for GETFB2 handles
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,31 +69,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, airlied@redhat.com,
- sam@ravnborg.org
+Cc: Pekka Paalanen <ppaalanen@gmail.com>, daniels@collabora.com,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 16, 2023 at 01:03:02PM +0100, Thomas Zimmermann wrote:
-> Hi,
-> 
-> thanks for taking a look at the patches.
-> 
-> Am 16.02.23 um 12:33 schrieb Gerd Hoffmann:
-> > On Wed, Feb 15, 2023 at 05:15:17PM +0100, Thomas Zimmermann wrote:
-> > > Set the VGA bit for unblanking with macro constants instead of magic
-> > > values. No functional changes.
-> > 
-> > blank/unblank should work simliar to bochs (see commit 250e743915d4),
-> > that is maybe a nice thing to add of you modernize the driver anyway.
-> Yeah, it's the VGA PAS field. [1] But is it really called blanking? PAS
-> controls palette access, but blanking is sounds more like DPMS.
+Hi,
 
-Yes, strictly speaking it is not the same thing. DPMS blank will send
-the monitor into suspend mode which this does not.  On virtual hardware
-there isn't much of a difference though ;)
+On Thu, 16 Feb 2023 at 09:25, Simon Ser <contact@emersion.fr> wrote:
+> On Thursday, February 16th, 2023 at 10:11, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > Btw. does this also mean that if you use GETFB2 to get handle A, you
+> > export that as dmabuf and import in the same open device instance, you
+> > again get handle A?
+>
+> I haven't tested it, but I believe that is correct.
+>
+> > IOW, you should never ever export a dmabuf of what you got with
+> > GETFB2. If one did, one might import it oneself via GBM, breaking all
+> > reference counting. But you also cannot "just leak" the handle A,
+> > because if GBM happens to run on a different DRM device opened
+> > instance, GBM would get a different handle to own.
+> >
+> > That's... err. How is a compositor supposed to do transition animation
+> > from an old FB to its own thing? I guess mmap + glTexImage2D equivalent
+> > to make a copy of the old FB so one can use it as a texture?
+>
+> I think the compositor can export the handle as DMA-BUF, then close the
+> handle immediately. Then go about its business as usual.
 
-take care,
-  Gerd
+Yeah, I think either of those two are the most sensible. We did go
+back and forth over the semantics a few times - part over mail and
+part over IRC - and the eventual conclusion was to match GetFB to make
+it easier for users to transition, but to de-duplicate the handles
+_within_ the call for consistency with the rest of everything else.
+It's not the most pleasant compromise, but eh.
 
+Cheers,
+Daniel
