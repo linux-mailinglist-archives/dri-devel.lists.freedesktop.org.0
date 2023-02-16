@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF036996D5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 15:14:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1900699707
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 15:19:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B645510E2E3;
-	Thu, 16 Feb 2023 14:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62CE410E331;
+	Thu, 16 Feb 2023 14:19:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3531C10E2E3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 14:13:52 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF26510E335
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 14:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676556832; x=1708092832;
+ t=1676557137; x=1708093137;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=x9bUXAEWu3tm5OtvLPmkHQY4v1n/W0vYEDqbRJEGW4g=;
- b=DLdGGgPh8nx7895334tGaGH6Va0CAGOtTQOONSvQdHo97ksPd26XNQcZ
- T0iXp0DXgcIpMxTumZ3BJrauOI8iyO+0OnNDTc7UygoGGJhJ3a+DV+Og2
- z3oIS4+IO9crwZtrKb+QgSTCsXZXhGXrLG5oLtTqj1iMF2TDyCA1piKgB
- z4PxbvUgl88kUDsQcuYXp7sCoyL2OT96tHZZidP9w/c++fwb6ZIOythbN
- FKSyd54p58HcKqUglqIX4GiTLg8Z2zUXJeNqcJLNQCVh0DLUFzWVLI0Kv
- blDWDAzQIrfoA3E/PmwdnDe/r8zIJyAaKulhafIAzpc+c8/ANQ3w/hSQj A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="315404278"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="315404278"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 06:13:51 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="999045925"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="999045925"
+ bh=foOJdnLrjlB3AKnMLabMRdzr+jniTA7Mf8GrC8z58OU=;
+ b=hPKZDOCd5lOIS5/QslbQ/mLdqG5qmAcjlGAjdb9Precx7KyisxjVa9rl
+ W0TFX2YZ4EjtlMoy83A44ATNUWU/Ofzf3DZAGEnsRz9We+wdYMfASMgU3
+ FFKGjsdg1j+Z0MKnsIFS8TZzcoSlIcYRWFWjhmFnRVFl/r5Um6W97Roas
+ iBER2kUMW/rWPt/hPq7MIrNlxOMP895+tA8nPqNtZGUz4GL0+kXRg/BFF
+ TLQvfKiiShXtXCCN2mGoAdizUu/B7ipSiqRmPQLTztegHf5jVrryfttuz
+ IvSRDgs75IXed4oCBCPQqAb2R0MLkQD3NhiaOG3ZhTBH6mShLtCFkcOMC g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="312085804"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="312085804"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2023 06:18:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670136042"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="670136042"
 Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.152.120])
  ([10.249.152.120])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 06:13:47 -0800
-Message-ID: <6f39e97f-bbef-53a2-96d7-db5970142db0@linux.intel.com>
-Date: Thu, 16 Feb 2023 15:13:45 +0100
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2023 06:18:53 -0800
+Message-ID: <eb8eec03-6c03-66ad-1934-1c9602e4235f@linux.intel.com>
+Date: Thu, 16 Feb 2023 15:18:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH v2 2/8] accel/qaic: Add uapi and core driver file
+Subject: Re: [PATCH v2 1/8] accel/qaic: Add documentation for AIC100
+ accelerator driver
+Content-Language: en-US
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
  airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org
 References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
- <1675698105-19025-3-git-send-email-quic_jhugo@quicinc.com>
-Content-Language: en-US
+ <1675698105-19025-2-git-send-email-quic_jhugo@quicinc.com>
+ <ec878cf8-8f27-ba26-788c-e992daad7922@linux.intel.com>
+ <aac704e3-85f8-fe25-c4b9-473b31554670@quicinc.com>
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <1675698105-19025-3-git-send-email-quic_jhugo@quicinc.com>
+In-Reply-To: <aac704e3-85f8-fe25-c4b9-473b31554670@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,1491 +75,900 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 06.02.2023 16:41, Jeffrey Hugo wrote:
-> Add the QAIC driver uapi file and core driver file that binds to the PCIe
-> device.  The core driver file also creates the accel device and manages
-> all the interconnections between the different parts of the driver.
+On 15.02.2023 16:41, Jeffrey Hugo wrote:
+> On 2/14/2023 4:08 AM, Jacek Lawrynowicz wrote:
+>> Hi,
 > 
-> The driver can be built as a module.  If so, it will be called "qaic.ko".
+> Thank you for the review.
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> ---
->  drivers/accel/qaic/qaic.h     | 321 ++++++++++++++++++
->  drivers/accel/qaic/qaic_drv.c | 771 ++++++++++++++++++++++++++++++++++++++++++
->  include/uapi/drm/qaic_accel.h | 283 ++++++++++++++++
->  3 files changed, 1375 insertions(+)
->  create mode 100644 drivers/accel/qaic/qaic.h
->  create mode 100644 drivers/accel/qaic/qaic_drv.c
->  create mode 100644 include/uapi/drm/qaic_accel.h
+>> On 06.02.2023 16:41, Jeffrey Hugo wrote:
+>>> The Qualcomm Cloud AI 100 (AIC100) device is an Artificial Intelligence
+>>> accelerator PCIe card.  It contains a number of components both in the
+>>> SoC and on the card which facilitate running workloads:
+>>>
+>>> QSM: management processor
+>>> NSPs: workload compute units
+>>> DMA Bridge: dedicated data mover for the workloads
+>>> MHI: multiplexed communication channels
+>>> DDR: workload storage and memory
+>>>
+>>> The Linux kernel driver for AIC100 is called "QAIC" and is located in the
+>>> accel subsystem.
+>>>
+>>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+>>> ---
+>>>   Documentation/accel/index.rst       |   1 +
+>>>   Documentation/accel/qaic/aic100.rst | 498 ++++++++++++++++++++++++++++++++++++
+>>>   Documentation/accel/qaic/index.rst  |  13 +
+>>>   Documentation/accel/qaic/qaic.rst   | 169 ++++++++++++
+>>>   4 files changed, 681 insertions(+)
+>>>   create mode 100644 Documentation/accel/qaic/aic100.rst
+>>>   create mode 100644 Documentation/accel/qaic/index.rst
+>>>   create mode 100644 Documentation/accel/qaic/qaic.rst
+>>>
+>>> diff --git a/Documentation/accel/index.rst b/Documentation/accel/index.rst
+>>> index 2b43c9a..e94a016 100644
+>>> --- a/Documentation/accel/index.rst
+>>> +++ b/Documentation/accel/index.rst
+>>> @@ -8,6 +8,7 @@ Compute Accelerators
+>>>      :maxdepth: 1
+>>>        introduction
+>>> +   qaic/index
+>>>     .. only::  subproject and html
+>>>   diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic/aic100.rst
+>>> new file mode 100644
+>>> index 0000000..773aa54
+>>> --- /dev/null
+>>> +++ b/Documentation/accel/qaic/aic100.rst
+>>> @@ -0,0 +1,498 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0-only
+>>> +
+>>> +===============================
+>>> + Qualcomm Cloud AI 100 (AIC100)
+>>> +===============================
+>>> +
+>>> +Overview
+>>> +========
+>>> +
+>>> +The Qualcomm Cloud AI 100/AIC100 family of products (including SA9000P - part of
+>>> +Snapdragon Ride) are PCIe adapter cards which contain a dedicated SoC ASIC for
+>>> +the purpose of efficiently running Artificial Intelligence (AI) Deep Learning
+>>> +inference workloads.  They are AI accelerators.
+>>
+>> There are multiple double spaces in this document like this one above.
 > 
-> diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-> new file mode 100644
-> index 0000000..3f7ea76
-> --- /dev/null
-> +++ b/drivers/accel/qaic/qaic.h
-> @@ -0,0 +1,321 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only
-> + *
-> + * Copyright (c) 2019-2021, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef QAICINTERNAL_H_
+> I presume you are referring to the double space after peroid. Universally, that was the recommended style (APA guidebook, etc) until a little while ago.  Old habits are hard to break.  Will scrub.
+> 
+>>
+>>> +The PCIe interface of AIC100 is capable of PCIe Gen4 speeds over eight lanes
+>>> +(x8).  An individual SoC on a card can have up to 16 NSPs for running workloads.
+>>> +Each SoC has an A53 management CPU.  On card, there can be up to 32 GB of DDR.
+>>> +
+>>> +Multiple AIC100 cards can be hosted in a single system to scale overall
+>>> +performance.
+>>> +
+>>> +Hardware Description
+>>> +====================
+>>> +
+>>> +An AIC100 card consists of an AIC100 SoC, on-card DDR, and a set of misc
+>>> +peripherals (PMICs, etc).
+>>> +
+>>> +An AIC100 card can either be a PCIe HHHL form factor (a traditional PCIe card),
+>>> +or a Dual M.2 card.  Both use PCIe to connect to the host system.
+>>
+>> Dual M.2 card? Is it a single PCB with two M.2 connectors? This requires custom
+>> motherboard with x4 lanes from two connectors combined as a single PCIe device, right?
+> 
+> Yes.  There is a specification for this, although it hasn't gotten widespread adoption.  In addition to more lanes, you also get to draw more power.  Sincle M.2 is around 11W.  Dual M.2 is capped at 25W.
+> 
+> It tends to be a handy form factor for "edge" applications where the physical size and power draw of a "normal" PCIe slot (what you'd find on a regular ATX motherboard) is not desirerable.
+> 
+>>
+>>> +As a PCIe endpoint/adapter, AIC100 uses the standard VendorID(VID)/
+>>> +DeviceID(DID) combination to uniquely identify itself to the host.  AIC100
+>>> +uses the standard Qualcomm VID (0x17cb).  All AIC100 instances use the same
+>>> +AIC100 DID (0xa100).
+>>
+>> Maybe "SKUs" would fit better here then "instances".
+> 
+> Sure.
+> 
+>>
+>>> +AIC100 does not implement FLR (function level reset).
+>>> +
+>>> +AIC100 implements MSI but does not implement MSI-X.  AIC100 requires 17 MSIs to
+>>> +operate (1 for MHI, 16 for the DMA Bridge).
+>>> +
+>>> +As a PCIe device, AIC100 utilizes BARs to provide host interfaces to the device
+>>> +hardware.  AIC100 provides 3, 64-bit BARs.
+>>> +
+>>> +* The first BAR is 4K in size, and exposes the MHI interface to the host.
+>>> +
+>>> +* The second BAR is 2M in size, and exposes the DMA Bridge interface to the
+>>> +  host.
+>>> +
+>>> +* The third BAR is variable in size based on an individual AIC100's
+>>> +  configuration, but defaults to 64K.  This BAR currently has no purpose.
+>>> +
+>>> +From the host perspective, AIC100 has several key hardware components-
+>>
+>> Typo in "components-".
+> 
+> ?
+> You want "components -"?
 
-Please use guard macro that matches the file name: _QAIC_H_
+I meant "components:" but I guess the "-" is part of the format.
 
-> +#define QAICINTERNAL_H_
-> +
-> +#include <linux/interrupt.h>
-> +#include <linux/kref.h>
-> +#include <linux/mhi.h>
-> +#include <linux/mutex.h>
-> +#include <linux/pci.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/srcu.h>
-> +#include <linux/wait.h>
-> +#include <linux/workqueue.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_gem.h>
-> +
-> +#define QAIC_DBC_BASE		0x20000
-> +#define QAIC_DBC_SIZE		0x1000
-> +
-> +#define QAIC_NO_PARTITION	-1
-> +
-> +#define QAIC_DBC_OFF(i)		((i) * QAIC_DBC_SIZE + QAIC_DBC_BASE)
-> +
-> +#define to_qaic_bo(obj) container_of(obj, struct qaic_bo, base)
-> +
-> +extern bool poll_datapath;
-> +
-> +struct qaic_user {
-> +	/* Uniquely identifies this user for the device */
-> +	int			handle;
-> +	struct kref		ref_count;
-> +	/* Char device opened by this user */
-> +	struct qaic_drm_device	*qddev;
-> +	/* Node in list of users that opened this drm device */
-> +	struct list_head	node;
-> +	/* SRCU used to synchronize this user during cleanup */
-> +	struct srcu_struct	qddev_lock;
-> +	atomic_t		chunk_id;
-> +};
-> +
-> +struct dma_bridge_chan {
-> +	/* Pointer to device strcut maintained by driver */
-> +	struct qaic_device	*qdev;
-> +	/* ID of this DMA bridge channel(DBC) */
-> +	unsigned int		id;
-> +	/* Synchronizes access to xfer_list */
-> +	spinlock_t		xfer_lock;
-> +	/* Base address of request queue */
-> +	void			*req_q_base;
-> +	/* Base address of response queue */
-> +	void			*rsp_q_base;
-> +	/*
-> +	 * Base bus address of request queue. Response queue bus address can be
-> +	 * calculated by adding request queue size to this variable
-> +	 */
-> +	dma_addr_t		dma_addr;
-> +	/* Total size of request and response queue in byte */
-> +	u32			total_size;
-> +	/* Capacity of request/response queue */
-> +	u32			nelem;
-> +	/* The user that opened this DBC */
-> +	struct qaic_user	*usr;
-> +	/*
-> +	 * Request ID of next memory handle that goes in request queue. One
-> +	 * memory handle can enqueue more than one request elements, all
-> +	 * this requests that belong to same memory handle have same request ID
-> +	 */
-> +	u16			next_req_id;
-> +	/* TRUE: DBC is in use; FALSE: DBC not in use */
+>>
+>>> +* QSM (QAIC Service Manager)
+>>> +* NSPs (Neural Signal Processor)
+>>> +* DMA Bridge
+>>> +* DDR
+>>> +* MHI (Modem Host Interface)
+>>> +
+>>> +QSM
+>>> +---
+>>> +
+>>> +QAIC Service Manager.  This is an ARM A53 CPU that runs the primary
+>>> +firmware of the card and performs on-card management tasks.  It also
+>>> +communicates with the host via MHI.  Each AIC100 has one of
+>>> +these.
+>>
+>> I would put description of MHI at the top because it is referenced by the QSM description.
+> 
+> Sure.
+> 
+>>
+>>> +NSP
+>>> +---
+>>> +
+>>> +Neural Signal Processor.  Each AIC100 has up to 16 of these.  These are
+>>> +the processors that run the workloads on AIC100.  Each NSP is a Qualcomm Hexagon
+>>> +(Q6) DSP with HVX and HMX.  Each NSP can only run one workload at a time, but
+>>> +multiple NSPs may be assigned to a single workload.  Since each NSP can only run
+>>> +one workload, AIC100 is limited to 16 concurrent workloads.  Workload
+>>> +"scheduling" is under the purview of the host.  AIC100 does not automatically
+>>> +timeslice.
+>>> +
+>>> +DMA Bridge
+>>> +----------
+>>> +
+>>> +The DMA Bridge is custom DMA engine that manages the flow of data
+>>> +in and out of workloads.  AIC100 has one of these.  The DMA Bridge has 16
+>>> +channels, each consisting of a set of request/response FIFOs.  Each active
+>>> +workload is assigned a single DMA Bridge channel.  The DMA Bridge exposes
+>>> +hardware registers to manage the FIFOs (head/tail pointers), but requires host
+>>> +memory to store the FIFOs.
+>>> +
+>>> +DDR
+>>> +---
+>>> +
+>>> +AIC100 has on-card DDR.  In total, an AIC100 can have up to 32 GB of DDR.
+>>> +This DDR is used to store workloads, data for the workloads, and is used by the
+>>> +QSM for managing the device.  NSPs are granted access to sections of the DDR by
+>>> +the QSM.  The host does not have direct access to the DDR, and must make
+>>> +requests to the QSM to transfer data to the DDR.
+>>> +
+>>> +MHI
+>>> +---
+>>> +
+>>> +AIC100 has one MHI interface over PCIe.  MHI itself is documented at
+>>
+>> Please exand MHI acronym.
+> 
+> Its expanded about 40 lines up - "* MHI (Modem Host Interface)".  I generally go by the scheme of expanding an acronym the first time it is used in a document, and then just using the acronym there after.
+> 
+> Do you feel the expansion needs to be duplicated?  It might help when this section is moved to the top.
+> 
 
-Use standard "true"/"false" instead of custom "TRUE"/"FALSE" macros.
-This applies here and in multiple other places in the driver.
+No, it's fine.
 
-> +	bool			in_use;
-> +	/*
-> +	 * Base address of device registers. Used to read/write request and
-> +	 * response queue's head and tail pointer of this DBC.
-> +	 */
-> +	void __iomem		*dbc_base;
-> +	/* Head of list where each node is a memory handle queued in request queue */
-> +	struct list_head	xfer_list;
-> +	/* Synchronizes DBC readers during cleanup */
-> +	struct srcu_struct	ch_lock;
-> +	/*
-> +	 * When this DBC is released, any thread waiting on this wait queue is
-> +	 * woken up
-> +	 */
-> +	wait_queue_head_t	dbc_release;
-> +	/* Head of list where each node is a bo associated with this DBC */
-> +	struct list_head	bo_lists;
-> +	/* The irq line for this DBC.  Used for polling */
-> +	unsigned int		irq;
-> +	/* Polling work item to simulate interrupts */
-> +	struct work_struct	poll_work;
-> +};
-> +
-> +struct qaic_device {
-> +	/* Pointer to base PCI device struct of our physical device */
-> +	struct pci_dev		*pdev;
-> +	/* Mask of all bars of this device */
-> +	int			bars;
-> +	/* Req. ID of request that will be queued next in MHI control device */
-> +	u32			next_seq_num;
-> +	/* Base address of bar 0 */
-> +	void __iomem		*bar_0;
-> +	/* Base address of bar 2 */
-> +	void __iomem		*bar_2;
-> +	/* Controller structure for MHI devices */
-> +	struct mhi_controller	*mhi_cntl;
-> +	/* MHI control channel device */
-> +	struct mhi_device	*cntl_ch;
-> +	/* List of requests queued in MHI control device */
-> +	struct list_head	cntl_xfer_list;
-> +	/* Synchronizes MHI control device transactions and its xfer list */
-> +	struct mutex		cntl_mutex;
-> +	/* Base actual physical representation of drm device */
-> +	struct qaic_drm_device	*base_dev;
-> +	/* Array of DBC struct of this device */
-> +	struct dma_bridge_chan	*dbc;
-> +	/* Work queue for tasks related to MHI control device */
-> +	struct workqueue_struct	*cntl_wq;
-> +	/* Synchronizes all the users of device during cleanup */
-> +	struct srcu_struct	dev_lock;
-> +	/* TRUE: Device under reset; FALSE: Device not under reset */
-> +	bool			in_reset;
-> +	/*
-> +	 * TRUE: A tx MHI transaction has failed and a rx buffer is still queued
-> +	 * in control device. Such a buffer is considered lost rx buffer
-> +	 * FALSE: No rx buffer is lost in control device
-> +	 */
-> +	bool			cntl_lost_buf;
-> +	/* Maximum number of DBC supported by this device */
-> +	u32			num_dbc;
-> +	/* Head in list of drm device created on top of this device */
-> +	struct list_head	qaic_drm_devices;
-> +	/* Synchronizes access of qaic_drm_devices list */
-> +	struct mutex		qaic_drm_devices_mutex;
-> +	/* Generate the CRC of a control message */
-> +	u32 (*gen_crc)(void *msg);
-> +	/* Validate the CRC of a control message */
-> +	bool (*valid_crc)(void *msg);
-> +};
-> +
-> +struct qaic_drm_device {
-> +	/* Pointer to the root device struct driven by this driver */
-> +	struct qaic_device	*qdev;
-> +	/* Node in list of drm devices maintained by root device */
-> +	struct list_head	node;
-> +	/*
-> +	 * The physical device can be partition in number of logical devices.
-> +	 * And each logical device is given a partition id. This member stores
-> +	 * that id. QAIC_NO_PARTITION is a sentinel used to mark that this drm
-> +	 * device is the actual physical device
-> +	 */
-> +	s32			partition_id;
-> +	/*
-> +	 * It points to the user that created this drm device. It is NULL
-> +	 * when this drm device represents the physical device i.e.
-> +	 * partition_id is QAIC_NO_PARTITION
-> +	 */
-> +	struct qaic_user	*owner;
-> +	/* Pointer to the drm device struct of this drm device */
-> +	struct drm_device	*ddev;
-> +	/* Head in list of users who have opened this drm device */
-> +	struct list_head	users;
-> +	/* Synchronizes access to users list */
-> +	struct mutex		users_mutex;
-> +};
-> +
-> +struct qaic_bo {
-> +	struct drm_gem_object	base;
+>>
+>>> +Documentation/mhi/index.rst  MHI is the mechanism the host uses to communicate
+>>> +with the QSM.  Except for workload data via the DMA Bridge, all interaction with
+>>> +he device occurs via MHI.
+>>
+>> Typo in "he device".
+> 
+> Doh.  Will fix.
+> 
+>>
+>>> +High-level Use Flow
+>>> +===================
+>>> +
+>>> +AIC100 is a programmable accelerator typically used for running
+>>> +neural networks in inferencing mode to efficiently perform AI operations.
+>>> +AIC100 is not intended for training neural networks.  AIC100 can be utilitized
+>>
+>> utilitized -> utilized
+> 
+> Sure
+> 
+>>
+>>> +for generic compute workloads.
+>>> +
+>>> +Assuming a user wants to utilize AIC100, they would follow these steps:
+>>> +
+>>> +1. Compile the workload into an ELF targeting the NSP(s)
+>>> +2. Make requests to the QSM to load the workload and related artifacts into the
+>>> +   device DDR
+>>> +3. Make a request to the QSM to activate the workload onto a set of idle NSPs
+>>> +4. Make requests to the DMA Bridge to send input data to the workload to be
+>>> +   processed, and other requests to receive processed output data from the
+>>> +   workload.
+>>> +5. Once the workload is no longer required, make a request to the QSM to
+>>> +   deactivate the workload, thus putting the NSPs back into an idle state.
+>>> +6. Once the workload and related artifacts are no longer needed for future
+>>> +   sessions, make requests to the QSM to unload the data from DDR.  This frees
+>>> +   the DDR to be used by other users.
+>>> +
+>>
+>> Please specify if this is single or multi user device.
+> 
+> It is multi-user.  I will find a way to clarify that.
+> 
+>>
+>>> +Boot Flow
+>>> +=========
+>>> +
+>>> +AIC100 uses a flashless boot flow, derived from Qualcomm MSMs.
+>>
+>> What's MSM?
+> 
+> "Mobile Station Modem".  It is is Qualcomm term from the 80s, and used to describe the "family" Qualcomm phone SoCs.  It used to be that the Model number would be "MSM8660" or "MSM8960", etc.  That has changed a bit in the past few years, but the products are still referred to "MSMs".
+> 
+> It is a common term in the Qualcomm world, and "MSM" is more well known these days than what it stands for.  I don't think expanding it is going to add value.
+> 
 
-Any reason why drm_gem_shmem_object cannot be used as a base?
+OK
 
-> +	/* Scatter/gather table for allocate/imported BO */
-> +	struct sg_table		*sgt;
-> +	/* BO size requested by user. GEM object might be bigger in size. */
-> +	u64			size;
-> +	/* Head in list of slices of this BO */
-> +	struct list_head	slices;
-> +	/* Total nents, for all slices of this BO */
-> +	int			total_slice_nents;
-> +	/*
-> +	 * Direction of transfer. It can assume only two value DMA_TO_DEVICE and
-> +	 * DMA_FROM_DEVICE.
-> +	 */
-> +	int			dir;
-> +	/* The pointer of the DBC which operates on this BO */
-> +	struct dma_bridge_chan	*dbc;
-> +	/* Number of slice that belongs to this buffer */
-> +	u32			nr_slice;
-> +	/* Number of slice that have been transferred by DMA engine */
-> +	u32			nr_slice_xfer_done;
-> +	/* TRUE = BO is queued for execution, FALSE = BO is not queued */
-> +	bool			queued;
-> +	/*
-> +	 * If TRUE then user has attached slicing information to this BO by
-> +	 * calling DRM_IOCTL_QAIC_ATTACH_SLICE_BO ioctl.
-> +	 */
-> +	bool			sliced;
-> +	/* Request ID of this BO if it is queued for execution */
-> +	u16			req_id;
-> +	/* Handle assigned to this BO */
-> +	u32			handle;
-> +	/* Wait on this for completion of DMA transfer of this BO */
-> +	struct completion	xfer_done;
-> +	/*
-> +	 * Node in linked list where head is dbc->xfer_list.
-> +	 * This link list contain BO's that are queued for DMA transfer.
-> +	 */
-> +	struct list_head	xfer_list;
-> +	/*
-> +	 * Node in linked list where head is dbc->bo_lists.
-> +	 * This link list contain BO's that are associated with the DBC it is
-> +	 * linked to.
-> +	 */
-> +	struct list_head	bo_list;
-> +	struct {
-> +		/*
-> +		 * Latest timestamp(ns) at which kernel received a request to
-> +		 * execute this BO
-> +		 */
-> +		u64		req_received_ts;
-> +		/*
-> +		 * Latest timestamp(ns) at which kernel enqueued requests of
-> +		 * this BO for execution in DMA queue
-> +		 */
-> +		u64		req_submit_ts;
-> +		/*
-> +		 * Latest timestamp(ns) at which kernel received a completion
-> +		 * interrupt for requests of this BO
-> +		 */
-> +		u64		req_processed_ts;
-> +		/*
-> +		 * Number of elements already enqueued in DMA queue before
-> +		 * enqueuing requests of this BO
-> +		 */
-> +		u32		queue_level_before;
-> +	} perf_stats;
-> +
-> +};
-> +
-> +struct bo_slice {
-> +	/* Mapped pages */
-> +	struct sg_table		*sgt;
-> +	/* Number of requests required to queue in DMA queue */
-> +	int			nents;
-> +	/* See enum dma_data_direction */
-> +	int			dir;
-> +	/* Actual requests that will be copied in DMA queue */
-> +	struct dbc_req		*reqs;
-> +	struct kref		ref_count;
-> +	/* TRUE: No DMA transfer required */
-> +	bool			no_xfer;
-> +	/* Pointer to the parent BO handle */
-> +	struct qaic_bo		*bo;
-> +	/* Node in list of slices maintained by parent BO */
-> +	struct list_head	slice;
-> +	/* Size of this slice in bytes */
-> +	u64			size;
-> +	/* Offset of this slice in buffer */
-> +	u64			offset;
-> +};
-> +
-> +int get_dbc_req_elem_size(void);
-> +int get_dbc_rsp_elem_size(void);
-> +int get_cntl_version(struct qaic_device *qdev, struct qaic_user *usr,
-> +		     u16 *major, u16 *minor);
-> +int qaic_manage_ioctl(struct drm_device *dev, void *data,
-> +		      struct drm_file *file_priv);
-> +int qaic_execute_ioctl(struct qaic_device *qdev, struct qaic_user *usr,
-> +		       unsigned long arg, bool is_partial);
-> +int qaic_wait_exec_ioctl(struct qaic_device *qdev, struct qaic_user *usr,
-> +			 unsigned long arg);
-> +int qaic_query_ioctl(struct qaic_device *qdev, struct qaic_user *usr,
-> +		     unsigned long arg);
-> +int qaic_data_mmap(struct qaic_device *qdev, struct qaic_user *usr,
-> +		   struct vm_area_struct *vma);
-> +int qaic_data_get_reservation(struct qaic_device *qdev, struct qaic_user *usr,
-> +			      void *data, u32 *partition_id,
-> +			      u16 *remove);
-> +void qaic_mhi_ul_xfer_cb(struct mhi_device *mhi_dev,
-> +			 struct mhi_result *mhi_result);
-> +
-> +void qaic_mhi_dl_xfer_cb(struct mhi_device *mhi_dev,
-> +			 struct mhi_result *mhi_result);
-> +
-> +int qaic_control_open(struct qaic_device *qdev);
-> +void qaic_control_close(struct qaic_device *qdev);
-> +void qaic_release_usr(struct qaic_device *qdev, struct qaic_user *usr);
-> +
-> +irqreturn_t dbc_irq_threaded_fn(int irq, void *data);
-> +irqreturn_t dbc_irq_handler(int irq, void *data);
-> +int disable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr);
-> +void enable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr);
-> +void wakeup_dbc(struct qaic_device *qdev, u32 dbc_id);
-> +void release_dbc(struct qaic_device *qdev, u32 dbc_id);
-> +
-> +void wake_all_cntl(struct qaic_device *qdev);
-> +void qaic_dev_reset_clean_local_state(struct qaic_device *qdev, bool exit_reset);
-> +
-> +struct drm_gem_object *qaic_gem_prime_import(struct drm_device *dev,
-> +					     struct dma_buf *dma_buf);
-> +
-> +int qaic_create_bo_ioctl(struct drm_device *dev, void *data,
-> +			 struct drm_file *file_priv);
-> +int qaic_mmap_bo_ioctl(struct drm_device *dev, void *data,
-> +		       struct drm_file *file_priv);
-> +int qaic_attach_slice_bo_ioctl(struct drm_device *dev, void *data,
-> +			       struct drm_file *file_priv);
-> +int qaic_execute_bo_ioctl(struct drm_device *dev, void *data,
-> +			  struct drm_file *file_priv);
-> +int qaic_partial_execute_bo_ioctl(struct drm_device *dev, void *data,
-> +				  struct drm_file *file_priv);
-> +int qaic_wait_bo_ioctl(struct drm_device *dev, void *data,
-> +		       struct drm_file *file_priv);
-> +int qaic_test_print_bo_ioctl(struct drm_device *dev, void *data,
-> +			     struct drm_file *file_priv);
-> +int qaic_perf_stats_bo_ioctl(struct drm_device *dev, void *data,
-> +			     struct drm_file *file_priv);
-
-You don't need to break these lines. You can use up to 100 columns in the whole driver.
-It will be more readable and checkpatch won't complain.
-
-> +void irq_polling_work(struct work_struct *work);
-> +
-> +#endif /* QAICINTERNAL_H_ */
-> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-> new file mode 100644
-> index 0000000..602a784
-> --- /dev/null
-> +++ b/drivers/accel/qaic/qaic_drv.c
-> @@ -0,0 +1,771 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
-> +/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/idr.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/list.h>
-> +#include <linux/kref.h>
-> +#include <linux/mhi.h>
-> +#include <linux/module.h>
-> +#include <linux/msi.h>
-> +#include <linux/mutex.h>
-> +#include <linux/pci.h>
-> +#include <linux/sched.h>
-
-Is <linux/sched.h> used here?
-Feels like there are couple other unused includes in this file.
-
-> +#include <linux/spinlock.h>
-> +#include <linux/workqueue.h>
-> +#include <linux/wait.h>
-> +#include <drm/drm_accel.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_ioctl.h>
-> +#include <uapi/drm/qaic_accel.h>
-> +
-> +#include "mhi_controller.h"
-> +#include "mhi_qaic_ctrl.h"
-> +#include "qaic.h"
-> +
-> +MODULE_IMPORT_NS(DMA_BUF);
-> +
-> +#define PCI_DEV_AIC100			0xa100
-> +#define QAIC_NAME			"qaic"
-> +#define QAIC_DESC			"Qualcomm Cloud AI Accelerators"
-> +
-> +static unsigned int datapath_polling;
-> +module_param(datapath_polling, uint, 0400);
-> +bool poll_datapath;
-> +
-> +static u16 cntl_major = 5;
-> +static u16 cntl_minor;/* 0 */
-
-Missing space before the comment.
-And also you could convert both vars to macros as they are constants.
-
-> +static bool link_up;
-> +static DEFINE_IDA(qaic_usrs);
-> +
-> +static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id,
-> +				  struct qaic_user *owner);
-> +static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id,
-> +				    struct qaic_user *owner);
-> +
-> +static void free_usr(struct kref *kref)
-> +{
-> +	struct qaic_user *usr = container_of(kref, struct qaic_user, ref_count);
-> +
-> +	cleanup_srcu_struct(&usr->qddev_lock);
-> +	ida_free(&qaic_usrs, usr->handle);
-> +	kfree(usr);
-> +}
-> +
-> +static int qaic_open(struct drm_device *dev, struct drm_file *file)
-> +{
-> +	struct qaic_drm_device *qddev = dev->dev_private;
-> +	struct qaic_device *qdev = qddev->qdev;
-> +	struct qaic_user *usr;
-> +	int rcu_id;
-> +	int ret;
-> +
-> +	rcu_id = srcu_read_lock(&qdev->dev_lock);
-> +	if (qdev->in_reset) {
-> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +		return -ENODEV;
-> +	}
-> +
-> +	usr = kmalloc(sizeof(*usr), GFP_KERNEL);
-> +	if (!usr) {
-> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	usr->handle = ida_alloc(&qaic_usrs, GFP_KERNEL);
-> +	if (usr->handle < 0) {
-> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +		kfree(usr);
-> +		return usr->handle;
-> +	}
-> +	usr->qddev = qddev;
-> +	atomic_set(&usr->chunk_id, 0);
-> +	init_srcu_struct(&usr->qddev_lock);
-> +	kref_init(&usr->ref_count);
-> +
-> +	ret = mutex_lock_interruptible(&qddev->users_mutex);
-> +	if (ret) {
-> +		cleanup_srcu_struct(&usr->qddev_lock);
-> +		kfree(usr);
-> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +		return ret;
-> +	}
-> +
-> +	list_add(&usr->node, &qddev->users);
-> +	mutex_unlock(&qddev->users_mutex);
-> +
-> +	file->driver_priv = usr;
-> +
-> +	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +	return 0;
-> +}
-> +
-> +static void qaic_postclose(struct drm_device *dev, struct drm_file *file)
-> +{
-> +	struct qaic_user *usr = file->driver_priv;
-> +	struct qaic_drm_device *qddev;
-> +	struct qaic_device *qdev;
-> +	int qdev_rcu_id;
-> +	int usr_rcu_id;
-> +	int i;
-> +
-> +	qddev = usr->qddev;
-> +	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
-> +	if (qddev) {
-> +		qdev = qddev->qdev;
-> +		qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
-> +		if (!qdev->in_reset) {
-> +			qaic_release_usr(qdev, usr);
-> +			for (i = 0; i < qdev->num_dbc; ++i)
-> +				if (qdev->dbc[i].usr &&
-> +				    qdev->dbc[i].usr->handle == usr->handle)
-> +					release_dbc(qdev, i);
-> +
-> +			/* Remove child devices */
-> +			if (qddev->partition_id == QAIC_NO_PARTITION)
-> +				qaic_destroy_drm_device(qdev, QAIC_NO_PARTITION, usr);
-> +		}
-> +		srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
-> +
-> +		mutex_lock(&qddev->users_mutex);
-> +		if (!list_empty(&usr->node))
-> +			list_del_init(&usr->node);
-> +		mutex_unlock(&qddev->users_mutex);
-> +	}
-> +
-> +	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
-> +	kref_put(&usr->ref_count, free_usr);
-> +
-> +	file->driver_priv = NULL;
-> +}
-> +
-> +static int qaic_part_dev_ioctl(struct drm_device *dev, void *data,
-> +			       struct drm_file *file_priv)
-> +{
-> +	struct qaic_device *qdev;
-> +	struct qaic_user *usr;
-> +	u32 partition_id;
-> +	int qdev_rcu_id;
-> +	int usr_rcu_id;
-> +	int ret = 0;
-> +	u16 remove;
-> +
-> +	usr = file_priv->driver_priv;
-> +	if (!usr)
-> +		return -EINVAL;
-> +
-> +	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
-> +	if (!usr->qddev) {
-> +		srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
-> +		return -ENODEV;
-> +	}
-> +
-> +	qdev = usr->qddev->qdev;
-> +	if (!qdev) {
-> +		srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
-> +		return -ENODEV;
-> +	}
-> +
-> +	qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
-> +	if (qdev->in_reset) {
-> +		ret = -ENODEV;
-> +		goto out;
-> +	}
-> +
-> +	/* This IOCTL is only supported for base devices. */
-> +	if (usr->qddev->partition_id != QAIC_NO_PARTITION) {
-> +		ret = -ENOTTY;
-> +		goto out;
-> +	}
-> +
-> +	ret = qaic_data_get_reservation(qdev, usr, data, &partition_id,
-> +					&remove);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (remove == 1)
-> +		qaic_destroy_drm_device(qdev, partition_id, usr);
-> +	else
-> +		ret = qaic_create_drm_device(qdev, partition_id, usr);
-> +
-> +out:
-> +	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
-> +	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
-> +
-> +	return ret;
-> +}
-> +
-> +DEFINE_DRM_ACCEL_FOPS(qaic_accel_fops);
-> +
-> +static const struct drm_ioctl_desc qaic_drm_ioctls[] = {
-> +	DRM_IOCTL_DEF_DRV(QAIC_MANAGE, qaic_manage_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_CREATE_BO, qaic_create_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_MMAP_BO, qaic_mmap_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_ATTACH_SLICE_BO, qaic_attach_slice_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_EXECUTE_BO, qaic_execute_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_PARTIAL_EXECUTE_BO, qaic_partial_execute_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_WAIT_BO, qaic_wait_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_PERF_STATS_BO, qaic_perf_stats_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_PART_DEV, qaic_part_dev_ioctl, DRM_RENDER_ALLOW),
-> +};
-> +
-> +static const struct drm_driver qaic_accel_driver = {
-> +	.driver_features	= DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
-> +
-> +	.name			= QAIC_NAME,
-> +	.desc			= QAIC_DESC,
-> +	.date			= "20190618",
-> +
-> +	.fops			= &qaic_accel_fops,
-> +	.open			= qaic_open,
-> +	.postclose		= qaic_postclose,
-> +
-> +	.ioctls			= qaic_drm_ioctls,
-> +	.num_ioctls		= ARRAY_SIZE(qaic_drm_ioctls),
-> +	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> +	.gem_prime_import	= qaic_gem_prime_import,
-> +};
-> +
-> +static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id,
-> +				  struct qaic_user *owner)
-> +{
-> +	struct qaic_drm_device *qddev;
-> +	struct drm_device *ddev;
-> +	struct device *pdev;
-> +	int ret;
-> +
-> +	/*
-> +	 * Partition id QAIC_NO_PARTITION indicates that the device was created
-> +	 * on mhi_probe and id > QAIC_NO_PARTITION indicates a partition
-> +	 * created using IOCTL. So, pdev for primary device is the pci dev and
-> +	 * the parent for partition dev is the primary device.
-> +	 */
-> +	if (partition_id == QAIC_NO_PARTITION)
-> +		pdev = &qdev->pdev->dev;
-> +	else
-> +		pdev = qdev->base_dev->ddev->dev;
-> +
-> +	qddev = kzalloc(sizeof(*qddev), GFP_KERNEL);
-> +	if (!qddev) {
-> +		ret = -ENOMEM;
-> +		goto qddev_fail;
-> +	}
-> +
-> +	ddev = drm_dev_alloc(&qaic_accel_driver, pdev);
-> +	if (IS_ERR(ddev)) {
-> +		ret = PTR_ERR(ddev);
-> +		goto ddev_fail;
-> +	}
-> +
-> +	ddev->dev_private = qddev;
-> +	qddev->ddev = ddev;
-> +
-> +	if (partition_id == QAIC_NO_PARTITION)
-> +		qdev->base_dev = qddev;
-> +	qddev->qdev = qdev;
-> +	qddev->partition_id = partition_id;
-> +	qddev->owner = owner;
-> +	INIT_LIST_HEAD(&qddev->users);
-> +	mutex_init(&qddev->users_mutex);
-> +
-> +	mutex_lock(&qdev->qaic_drm_devices_mutex);
-> +	list_add(&qddev->node, &qdev->qaic_drm_devices);
-> +	mutex_unlock(&qdev->qaic_drm_devices_mutex);
-> +
-> +	ret = drm_dev_register(ddev, 0);
-> +	if (ret) {
-> +		pci_dbg(qdev->pdev, "%s: drm_dev_register failed %d\n", __func__, ret);
-> +		goto drm_reg_fail;
-> +	}
-> +
-> +	return 0;
-> +
-> +drm_reg_fail:
-> +	mutex_destroy(&qddev->users_mutex);
-> +	mutex_lock(&qdev->qaic_drm_devices_mutex);
-> +	list_del(&qddev->node);
-> +	mutex_unlock(&qdev->qaic_drm_devices_mutex);
-> +	if (partition_id == QAIC_NO_PARTITION)
-> +		qdev->base_dev = NULL;
-> +	drm_dev_put(ddev);
-> +ddev_fail:
-> +	kfree(qddev);
-> +qddev_fail:
-> +	return ret;
-> +}
-> +
-> +static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id,
-> +				    struct qaic_user *owner)
-> +{
-> +	struct qaic_drm_device *qddev;
-> +	struct qaic_drm_device *q;
-> +	struct qaic_user *usr;
-> +
-> +	list_for_each_entry_safe(qddev, q, &qdev->qaic_drm_devices, node) {
-> +		/*
-> +		 * Skip devices in case we just want to remove devices
-> +		 * specific to a owner or partition id.
-> +		 *
-> +		 * owner	partition_id	notes
-> +		 * ----------------------------------
-> +		 * NULL		NO_PARTITION	delete base + all derived (qdev
-> +		 *				reset)
-> +		 * !NULL	NO_PARTITION	delete derived devs created by
-> +		 *				owner.
-> +		 * !NULL	>NO_PARTITION	delete derived dev identified by
-> +		 *				the partition id and created by
-> +		 *				owner
-> +		 * NULL		>NO_PARTITION	invalid (no-op)
-> +		 *
-> +		 * if partition_id is any value < QAIC_NO_PARTITION this will be
-> +		 * a no-op.
-> +		 */
-> +		if (owner && owner != qddev->owner)
-> +			continue;
-> +
-> +		if (partition_id != QAIC_NO_PARTITION &&
-> +		    partition_id != qddev->partition_id && !owner)
-> +			continue;
-> +
-> +		/*
-> +		 * Existing users get unresolvable errors till they close FDs.
-> +		 * Need to sync carefully with users calling close().  The
-> +		 * list of users can be modified elsewhere when the lock isn't
-> +		 * held here, but the sync'ing the srcu with the mutex held
-> +		 * could deadlock.  Grab the mutex so that the list will be
-> +		 * unmodified.  The user we get will exist as long as the
-> +		 * lock is held.  Signal that the qcdev is going away, and
-> +		 * grab a reference to the user so they don't go away for
-> +		 * synchronize_srcu().  Then release the mutex to avoid
-> +		 * deadlock and make sure the user has observed the signal.
-> +		 * With the lock released, we cannot maintain any state of the
-> +		 * user list.
-> +		 */
-> +		mutex_lock(&qddev->users_mutex);
-> +		while (!list_empty(&qddev->users)) {
-> +			usr = list_first_entry(&qddev->users, struct qaic_user,
-> +					       node);
-> +			list_del_init(&usr->node);
-> +			kref_get(&usr->ref_count);
-> +			usr->qddev = NULL;
-> +			mutex_unlock(&qddev->users_mutex);
-> +			synchronize_srcu(&usr->qddev_lock);
-> +			kref_put(&usr->ref_count, free_usr);
-> +			mutex_lock(&qddev->users_mutex);
-> +		}
-> +		mutex_unlock(&qddev->users_mutex);
-> +
-> +		if (qddev->ddev) {
-> +			drm_dev_unregister(qddev->ddev);
-> +			drm_dev_put(qddev->ddev);
-> +		}
-> +
-> +		list_del(&qddev->node);
-> +		kfree(qddev);
-> +	}
-> +}
-> +
-> +static int qaic_mhi_probe(struct mhi_device *mhi_dev,
-> +			  const struct mhi_device_id *id)
-> +{
-> +	struct qaic_device *qdev;
-> +	u16 major, minor;
-> +	int ret;
-> +
-> +	/*
-> +	 * Invoking this function indicates that the control channel to the
-> +	 * device is available.  We use that as a signal to indicate that
-> +	 * the device side firmware has booted.  The device side firmware
-> +	 * manages the device resources, so we need to communicate with it
-> +	 * via the control channel in order to utilize the device.  Therefore
-> +	 * we wait until this signal to create the drm dev that userspace will
-> +	 * use to control the device, because without the device side firmware,
-> +	 * userspace can't do anything useful.
-> +	 */
-> +
-> +	qdev = pci_get_drvdata(to_pci_dev(mhi_dev->mhi_cntrl->cntrl_dev));
-> +
-> +	qdev->in_reset = false;
-> +
-> +	dev_set_drvdata(&mhi_dev->dev, qdev);
-> +	qdev->cntl_ch = mhi_dev;
-> +
-> +	ret = qaic_control_open(qdev);
-> +	if (ret) {
-> +		pci_dbg(qdev->pdev, "%s: control_open failed %d\n", __func__, ret);
-> +		goto err;
-> +	}
-> +
-> +	ret = get_cntl_version(qdev, NULL, &major, &minor);
-> +	if (ret || major != cntl_major || minor > cntl_minor) {
-> +		pci_err(qdev->pdev, "%s: Control protocol version (%d.%d) not supported.  Supported version is (%d.%d). Ret: %d\n",
-> +			__func__, major, minor, cntl_major, cntl_minor, ret);
-> +		ret = -EINVAL;
-> +		goto close_control;
-> +	}
-> +
-> +	ret = qaic_create_drm_device(qdev, QAIC_NO_PARTITION, NULL);
-> +
-> +	return ret;
-> +
-> +close_control:
-> +	qaic_control_close(qdev);
-> +err:
-> +	return ret;
-> +}
-> +
-> +static void qaic_mhi_remove(struct mhi_device *mhi_dev)
-> +{
-
-Add a comment here
-
-> +}
-> +
-> +static void qaic_notify_reset(struct qaic_device *qdev)
-> +{
-> +	int i;
-> +
-> +	qdev->in_reset = true;
-> +	/* wake up any waiters to avoid waiting for timeouts at sync */
-> +	wake_all_cntl(qdev);
-> +	for (i = 0; i < qdev->num_dbc; ++i)
-> +		wakeup_dbc(qdev, i);
-> +	synchronize_srcu(&qdev->dev_lock);
-> +}
-> +
-> +void qaic_dev_reset_clean_local_state(struct qaic_device *qdev, bool exit_reset)
-> +{
-> +	int i;
-> +
-> +	qaic_notify_reset(qdev);
-> +
-> +	/* remove drmdevs to prevent new users from coming in */
-> +	if (qdev->base_dev)
-> +		qaic_destroy_drm_device(qdev, QAIC_NO_PARTITION, NULL);
-> +
-> +	/* start tearing things down */
-> +	for (i = 0; i < qdev->num_dbc; ++i)
-> +		release_dbc(qdev, i);
-> +
-> +	if (exit_reset)
-> +		qdev->in_reset = false;
-> +}
-> +
-> +static int qaic_pci_probe(struct pci_dev *pdev,
-> +			  const struct pci_device_id *id)
-
-Please try to simplify this function. Maybe move irq init to separate function.
-It will be more readable and there will less of a error handling spaghetti at the bottom. 
-
-> +{
-> +	int ret;
-> +	int i;
-> +	int mhi_irq;
-> +	struct qaic_device *qdev;
-> +
-> +	qdev = devm_kzalloc(&pdev->dev, sizeof(*qdev), GFP_KERNEL);
-> +	if (!qdev)
-> +		return -ENOMEM;
-> +
-> +	if (id->device == PCI_DEV_AIC100) {
-> +		qdev->num_dbc = 16;
-> +		qdev->dbc = devm_kcalloc(&pdev->dev, qdev->num_dbc, sizeof(*qdev->dbc),
-> +					 GFP_KERNEL);
-> +		if (!qdev->dbc)
-> +			return -ENOMEM;
-> +	}
-> +
-> +	qdev->cntl_wq = alloc_workqueue("qaic_cntl", WQ_UNBOUND, 0);
-> +	if (!qdev->cntl_wq) {
-> +		ret = -ENOMEM;
-> +		goto wq_fail;
-> +	}
-> +	pci_set_drvdata(pdev, qdev);
-> +	qdev->pdev = pdev;
-> +	mutex_init(&qdev->cntl_mutex);
-> +	INIT_LIST_HEAD(&qdev->cntl_xfer_list);
-> +	init_srcu_struct(&qdev->dev_lock);
-> +	INIT_LIST_HEAD(&qdev->qaic_drm_devices);
-> +	mutex_init(&qdev->qaic_drm_devices_mutex);
-> +	for (i = 0; i < qdev->num_dbc; ++i) {
-> +		spin_lock_init(&qdev->dbc[i].xfer_lock);
-> +		qdev->dbc[i].qdev = qdev;
-> +		qdev->dbc[i].id = i;
-> +		INIT_LIST_HEAD(&qdev->dbc[i].xfer_list);
-> +		init_srcu_struct(&qdev->dbc[i].ch_lock);
-> +		init_waitqueue_head(&qdev->dbc[i].dbc_release);
-> +		INIT_LIST_HEAD(&qdev->dbc[i].bo_lists);
-> +	}
-> +
-> +	qdev->bars = pci_select_bars(pdev, IORESOURCE_MEM);
-> +
-> +	/* make sure the device has the expected BARs */
-> +	if (qdev->bars != (BIT(0) | BIT(2) | BIT(4))) {
-> +		pci_dbg(pdev, "%s: expected BARs 0, 2, and 4 not found in device.  Found 0x%x\n",
-> +			__func__, qdev->bars);
-> +		ret = -EINVAL;
-> +		goto bar_fail;
-> +	}
-> +
-> +	ret = pci_enable_device(pdev);
-> +	if (ret)
-> +		goto enable_fail;
-> +
-> +	ret = pci_request_selected_regions(pdev, qdev->bars, "aic100");
-> +	if (ret)
-> +		goto request_regions_fail;
-> +
-> +	pci_set_master(pdev);
-> +
-> +	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
-> +	if (ret)
-> +		goto dma_mask_fail;
-> +	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
-> +	if (ret)
-> +		goto dma_mask_fail;
-> +	ret = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
-> +	if (ret)
-> +		goto dma_mask_fail;
-> +
-> +	qdev->bar_0 = pci_ioremap_bar(pdev, 0);
-> +	if (!qdev->bar_0) {
-> +		ret = -ENOMEM;
-> +		goto ioremap_0_fail;
-> +	}
-> +
-> +	qdev->bar_2 = pci_ioremap_bar(pdev, 2);
-> +	if (!qdev->bar_2) {
-> +		ret = -ENOMEM;
-> +		goto ioremap_2_fail;
-> +	}
-> +
-> +	for (i = 0; i < qdev->num_dbc; ++i)
-> +		qdev->dbc[i].dbc_base = qdev->bar_2 + QAIC_DBC_OFF(i);
-> +
-> +	ret = pci_alloc_irq_vectors(pdev, 1, 32, PCI_IRQ_MSI);
-> +	if (ret < 0)
-> +		goto alloc_irq_fail;
-> +
-> +	if (ret < 32) {
-> +		pci_err(pdev, "%s: Requested 32 MSIs.  Obtained %d MSIs which is less than the 32 required.\n",
-> +			__func__, ret);
-> +		ret = -ENODEV;
-> +		goto invalid_msi_config;
-> +	}
-> +
-> +	mhi_irq = pci_irq_vector(pdev, 0);
-> +	if (mhi_irq < 0) {
-> +		ret = mhi_irq;
-> +		goto get_mhi_irq_fail;
-> +	}
-> +
-> +	for (i = 0; i < qdev->num_dbc; ++i) {
-> +		ret = devm_request_threaded_irq(&pdev->dev,
-> +						pci_irq_vector(pdev, i + 1),
-> +						dbc_irq_handler,
-> +						dbc_irq_threaded_fn,
-> +						IRQF_SHARED,
-> +						"qaic_dbc",
-> +						&qdev->dbc[i]);
-> +		if (ret)
-> +			goto get_dbc_irq_failed;
-> +
-> +		if (poll_datapath) {
-> +			qdev->dbc[i].irq = pci_irq_vector(pdev, i + 1);
-> +			disable_irq_nosync(qdev->dbc[i].irq);
-> +			INIT_WORK(&qdev->dbc[i].poll_work, irq_polling_work);
-> +		}
-> +	}
-> +
-> +	qdev->mhi_cntl = qaic_mhi_register_controller(pdev, qdev->bar_0, mhi_irq);
-> +	if (IS_ERR(qdev->mhi_cntl)) {
-> +		ret = PTR_ERR(qdev->mhi_cntl);
-> +		goto mhi_register_fail;
-> +	}
-> +
-> +	return 0;
-> +
-> +mhi_register_fail:
-> +get_dbc_irq_failed:
-
-I don't think that duplicated goto statements are allowed by the coding style.
-These should be rather named something like err_free_irq.
-See https://www.kernel.org/doc/html/v4.10/process/coding-style.html#centralized-exiting-of-functions
-
-> +	for (i = 0; i < qdev->num_dbc; ++i)
-> +		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i + 1),
-> +			      &qdev->dbc[i]);
-> +get_mhi_irq_fail:
-> +invalid_msi_config:
-> +	pci_free_irq_vectors(pdev);
-> +alloc_irq_fail:
-> +	iounmap(qdev->bar_2);
-> +ioremap_2_fail:
-> +	iounmap(qdev->bar_0);
-> +ioremap_0_fail:
-> +dma_mask_fail:
-> +	pci_clear_master(pdev);
-> +	pci_release_selected_regions(pdev, qdev->bars);
-> +request_regions_fail:
-> +	pci_disable_device(pdev);
-> +enable_fail:
-> +	pci_set_drvdata(pdev, NULL);
-> +bar_fail:
-> +	for (i = 0; i < qdev->num_dbc; ++i)
-> +		cleanup_srcu_struct(&qdev->dbc[i].ch_lock);
-> +	cleanup_srcu_struct(&qdev->dev_lock);
-> +	destroy_workqueue(qdev->cntl_wq);
-> +wq_fail:
-> +	return ret;
-> +}
-> +
-> +static void qaic_pci_remove(struct pci_dev *pdev)
-> +{
-> +	struct qaic_device *qdev = pci_get_drvdata(pdev);
-> +	int i;
-> +
-> +	if (!qdev)
-> +		return;
-> +
-> +	qaic_dev_reset_clean_local_state(qdev, false);
-> +	qaic_mhi_free_controller(qdev->mhi_cntl, link_up);
-> +	for (i = 0; i < qdev->num_dbc; ++i) {
-> +		devm_free_irq(&pdev->dev, pci_irq_vector(pdev, i + 1),
-> +			      &qdev->dbc[i]);
-> +		cleanup_srcu_struct(&qdev->dbc[i].ch_lock);
-> +	}
-> +	destroy_workqueue(qdev->cntl_wq);
-> +	pci_free_irq_vectors(pdev);
-> +	iounmap(qdev->bar_0);
-> +	pci_clear_master(pdev);
-> +	pci_release_selected_regions(pdev, qdev->bars);
-> +	pci_disable_device(pdev);
-> +	pci_set_drvdata(pdev, NULL);
-> +}
-> +
-> +static void qaic_pci_shutdown(struct pci_dev *pdev)
-> +{
-> +	/* see qaic_exit for what link_up is doing */
-> +	link_up = true;
-> +	qaic_pci_remove(pdev);
-> +}
-> +
-> +static pci_ers_result_t qaic_pci_error_detected(struct pci_dev *pdev,
-> +						pci_channel_state_t error)
-> +{
-> +	return PCI_ERS_RESULT_NEED_RESET;
-> +}
-> +
-> +static void qaic_pci_reset_prepare(struct pci_dev *pdev)
-> +{
-> +	struct qaic_device *qdev = pci_get_drvdata(pdev);
-> +
-> +	qaic_notify_reset(qdev);
-> +	qaic_mhi_start_reset(qdev->mhi_cntl);
-> +	qaic_dev_reset_clean_local_state(qdev, false);
-> +}
-> +
-> +static void qaic_pci_reset_done(struct pci_dev *pdev)
-> +{
-> +	struct qaic_device *qdev = pci_get_drvdata(pdev);
-> +
-> +	qdev->in_reset = false;
-> +	qaic_mhi_reset_done(qdev->mhi_cntl);
-> +}
-> +
-> +static const struct mhi_device_id qaic_mhi_match_table[] = {
-> +	{ .chan = "QAIC_CONTROL", },
-> +	{},
-> +};
-> +
-> +static struct mhi_driver qaic_mhi_driver = {
-> +	.id_table = qaic_mhi_match_table,
-> +	.remove = qaic_mhi_remove,
-> +	.probe = qaic_mhi_probe,
-> +	.ul_xfer_cb = qaic_mhi_ul_xfer_cb,
-> +	.dl_xfer_cb = qaic_mhi_dl_xfer_cb,
-> +	.driver = {
-> +		.name = "qaic_mhi",
-> +	},
-> +};
-> +
-> +static const struct pci_device_id qaic_ids[] = {
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_QCOM, PCI_DEV_AIC100), },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(pci, qaic_ids);
-> +
-> +static const struct pci_error_handlers qaic_pci_err_handler = {
-> +	.error_detected = qaic_pci_error_detected,
-> +	.reset_prepare = qaic_pci_reset_prepare,
-> +	.reset_done = qaic_pci_reset_done,
-> +};
-> +
-> +static struct pci_driver qaic_pci_driver = {
-> +	.name = QAIC_NAME,
-> +	.id_table = qaic_ids,
-> +	.probe = qaic_pci_probe,
-> +	.remove = qaic_pci_remove,
-> +	.shutdown = qaic_pci_shutdown,
-> +	.err_handler = &qaic_pci_err_handler,
-> +};
-> +
-> +static int __init qaic_init(void)
-> +{
-> +	int ret;
-> +
-> +	if (datapath_polling)
-> +		poll_datapath = true;
-> +
-> +	ret = mhi_driver_register(&qaic_mhi_driver);
-> +	if (ret) {
-> +		pr_debug("qaic: mhi_driver_register failed %d\n", ret);
-> +		goto free_class;
-> +	}
-> +
-> +	ret = pci_register_driver(&qaic_pci_driver);
-> +	if (ret) {
-> +		pr_debug("qaic: pci_register_driver failed %d\n", ret);
-> +		goto free_mhi;
-> +	}
-> +
-> +	ret = mhi_qaic_ctrl_init();
-> +	if (ret) {
-> +		pr_debug("qaic: mhi_qaic_ctrl_init failed %d\n", ret);
-> +		goto free_pci;
-> +	}
-> +
-> +	return 0;
-> +
-> +free_pci:
-> +	pci_unregister_driver(&qaic_pci_driver);
-> +free_mhi:
-> +	mhi_driver_unregister(&qaic_mhi_driver);
-> +free_class:
-
-This label doesn't free anything. It should be renamed.
-
-> +	return ret;
-> +}
-> +
-> +static void __exit qaic_exit(void)
-> +{
-> +	/*
-> +	 * We assume that qaic_pci_remove() is called due to a hotplug event
-> +	 * which would mean that the link is down, and thus
-> +	 * qaic_mhi_free_controller() should not try to access the device during
-> +	 * cleanup.
-> +	 * We call pci_unregister_driver() below, which also triggers
-> +	 * qaic_pci_remove(), but since this is module exit, we expect the link
-> +	 * to the device to be up, in which case qaic_mhi_free_controller()
-> +	 * should try to access the device during cleanup to put the device in
-> +	 * a sane state.
-> +	 * For that reason, we set link_up here to let qaic_mhi_free_controller
-> +	 * know the expected link state.  Since the module is going to be
-> +	 * removed at the end of this, we don't need to worry about
-> +	 * reinitializing the link_up state after the cleanup is done.
-> +	 */
-> +	link_up = true;
-
-Maybe you could just use pdev->current_state instead of link_up?
-
-> +	mhi_qaic_ctrl_deinit();
-> +	pci_unregister_driver(&qaic_pci_driver);
-> +	mhi_driver_unregister(&qaic_mhi_driver);
-> +}
-> +
-> +module_init(qaic_init);
-> +module_exit(qaic_exit);
-> +
-> +MODULE_AUTHOR(QAIC_DESC " Kernel Driver Team");
-> +MODULE_DESCRIPTION(QAIC_DESC " Accel Driver");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/uapi/drm/qaic_accel.h b/include/uapi/drm/qaic_accel.h
-> new file mode 100644
-> index 0000000..d5fa6f5
-> --- /dev/null
-> +++ b/include/uapi/drm/qaic_accel.h
-> @@ -0,0 +1,283 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note
-> + *
-> + * Copyright (c) 2019-2020, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef QAIC_ACCEL_H_
-> +#define QAIC_ACCEL_H_
-> +
-> +#include <linux/ioctl.h>
-> +#include <linux/types.h>
-
-These two headers should not be needed here.
-
-> +#include "drm.h"
-> +
-> +#if defined(__CPLUSPLUS)
-
-Use lowercase here: __cplusplus
-
-> +extern "C" {
-> +#endif
-> +
-> +#define QAIC_MANAGE_MAX_MSG_LENGTH SZ_4K	/**<
-> +						  * The length(4K) includes len and
-> +						  * count fields of qaic_manage_msg
-> +						  */
-
-I guess these are doxygen style commands but you should be using kernel-doc here.
-See https://docs.kernel.org/doc-guide/kernel-doc.html.
-This can be used to verify the header:
-$ scripts/kernel-doc -v -none include/uapi/drm/qaic_accel.h
-
-> +
-> +enum qaic_sem_flags {
-
-Is there any specific reason for enums if all values are explicitly given?
-
-> +	SEM_INSYNCFENCE =	0x1,
-
-All these enums/defines end up in a global user space namespace.
-I would advise to prefix everything with QAIC_ or DRM_QAIC_ (e.g. QAIC_SEM_INSYNCFENCE)
-to avoid conflicts with other drivers or user space libs.
-
-> +	SEM_OUTSYNCFENCE =	0x2,
-> +};
-> +
-> +enum qaic_sem_cmd {
-> +	SEM_NOP =		0,
-> +	SEM_INIT =		1,
-> +	SEM_INC =		2,
-> +	SEM_DEC =		3,
-> +	SEM_WAIT_EQUAL =	4,
-> +	SEM_WAIT_GT_EQ =	5, /**< Greater than or equal */
-> +	SEM_WAIT_GT_0 =		6, /**< Greater than 0 */
-> +};
-> +
-> +enum qaic_manage_transaction_type {
-> +	TRANS_UNDEFINED =			0,
-> +	TRANS_PASSTHROUGH_FROM_USR =		1,
-> +	TRANS_PASSTHROUGH_TO_USR =		2,
-> +	TRANS_PASSTHROUGH_FROM_DEV =		3,
-> +	TRANS_PASSTHROUGH_TO_DEV =		4,
-> +	TRANS_DMA_XFER_FROM_USR =		5,
-> +	TRANS_DMA_XFER_TO_DEV =			6,
-> +	TRANS_ACTIVATE_FROM_USR =		7,
-> +	TRANS_ACTIVATE_FROM_DEV =		8,
-> +	TRANS_ACTIVATE_TO_DEV =			9,
-> +	TRANS_DEACTIVATE_FROM_USR =		10,
-> +	TRANS_DEACTIVATE_FROM_DEV =		11,
-> +	TRANS_STATUS_FROM_USR =			12,
-> +	TRANS_STATUS_TO_USR =			13,
-> +	TRANS_STATUS_FROM_DEV =			14,
-> +	TRANS_STATUS_TO_DEV =			15,
-> +	TRANS_TERMINATE_FROM_DEV =		16,
-> +	TRANS_TERMINATE_TO_DEV =		17,
-> +	TRANS_DMA_XFER_CONT =			18,
-> +	TRANS_VALIDATE_PARTITION_FROM_DEV =	19,
-> +	TRANS_VALIDATE_PARTITION_TO_DEV =	20,
-> +	TRANS_MAX =				21
-> +};
-> +
-> +struct qaic_manage_trans_hdr {
-> +	__u32 type;	/**< in, value from enum manage_transaction_type */
-> +	__u32 len;	/**< in, length of this transaction, including the header */
-> +};
-> +
-> +struct qaic_manage_trans_passthrough {
-> +	struct qaic_manage_trans_hdr hdr;
-> +	__u8 data[];	/**< in, userspace must encode in little endian */
-> +};
-> +
-> +struct qaic_manage_trans_dma_xfer {
-> +	struct qaic_manage_trans_hdr hdr;
-> +	__u32 tag;	/**< in, device specific */
-> +	__u32 count;	/**< in */
-> +	__u64 addr;	/**< in, address of the data to transferred via DMA */
-> +	__u64 size;	/**< in, length of the data to transferred via DMA */
-> +};
-> +
-> +struct qaic_manage_trans_activate_to_dev {
-> +	struct qaic_manage_trans_hdr hdr;
-> +	__u32 queue_size;	/**<
-> +				  * in, number of elements in DBC request
-> +				  * and respose queue
-> +				  */
-> +	__u32 eventfd;		/**< in */
-> +	__u32 options;		/**< in, device specific */
-> +	__u32 pad;		/**< pad must be 0 */
-> +};
-> +
-> +struct qaic_manage_trans_activate_from_dev {
-> +	struct qaic_manage_trans_hdr hdr;
-> +	__u32 status;	/**< out, status of activate transaction */
-> +	__u32 dbc_id;	/**< out, Identifier of assigned DMA Bridge channel */
-> +	__u64 options;	/**< out */
-> +};
-> +
-> +struct qaic_manage_trans_deactivate {
-> +	struct qaic_manage_trans_hdr hdr;
-> +	__u32 dbc_id;	/**< in, Identifier of assigned DMA Bridge channel */
-> +	__u32 pad;	/**< pad must be 0 */
-> +};
-> +
-> +struct qaic_manage_trans_status_to_dev {
-> +	struct qaic_manage_trans_hdr hdr;
-> +};
-> +
-> +struct qaic_manage_trans_status_from_dev {
-> +	struct qaic_manage_trans_hdr hdr;
-> +	__u16 major;	/**< out, major vesrion of NNC protocol used by device */
-> +	__u16 minor;	/**< out, minor vesrion of NNC protocol used by device */
-
-vesrion -> version
-
-> +	__u32 status;	/**< out, status of query transaction  */
-> +	__u64 status_flags;	/**<
-> +				  * out
-> +				  * 0    : If set then device has CRC check enabled
-> +				  * 1:63 : Unused
-> +				  */
-> +};
-> +
-> +struct qaic_manage_msg {
-> +	__u32 len;	/**< in, Length of valid data - ie sum of all transactions */
-> +	__u32 count;	/**< in, Number of transactions in message */
-> +	__u64 data;	/**< in, Pointer to array of transactions */
-> +};
-> +
-> +struct qaic_create_bo {
-> +	__u64 size;	/**< in, Size of BO in byte */
-> +	__u32 handle;	/**< out, Returned GEM handle for the BO */
-> +	__u32 pad;	/**< pad must be 0 */
-> +};
-> +
-> +struct qaic_mmap_bo {
-> +	__u32 handle;	/**< in, Handle for the BO being mapped. */
-
-The comment is missleading. BO is not mapped by this ioctl().
-
-> +	__u32 pad;	/**< pad must be 0 */
-> +	__u64 offset;	/**<
-> +			  * out, offset into the drm node to use for
-> +			  * subsequent mmap call
-> +			  */
-> +};
-> +
-> +/**
-> + * @brief semaphore command
-> + */
-> +struct qaic_sem {
-> +	__u16 val;	/**< in, Only lower 12 bits are valid */
-> +	__u8  index;	/**< in, Only lower 5 bits are valid */
-> +	__u8  presync;	/**< in, 1 if presync operation, 0 if postsync */
-> +	__u8  cmd;	/**< in, See enum sem_cmd */
-> +	__u8  flags;	/**< in, See sem_flags for valid bits.  All others must be 0 */
-> +	__u16 pad;	/**< pad must be 0 */
-> +};
-> +
-> +struct qaic_attach_slice_entry {
-> +	__u64 size;		/**< in, Size memory to allocate for this BO slice */
-> +	struct qaic_sem	sem0;	/**< in, Must be zero if not valid */
-> +	struct qaic_sem	sem1;	/**< in, Must be zero if not valid */
-> +	struct qaic_sem	sem2;	/**< in, Must be zero if not valid */
-> +	struct qaic_sem	sem3;	/**< in, Must be zero if not valid */
-> +	__u64 dev_addr;		/**< in, Address in device to/from which data is copied */
-> +	__u64 db_addr;		/**< in, Doorbell address */
-> +	__u32 db_data;		/**< in, Data to write to doorbell */
-> +	__u32 db_len;		/**<
-> +				  * in, Doorbell length - 32, 16, or 8 bits.
-> +				  * 0 means doorbell is inactive
-> +				  */
-> +	__u64 offset;		/**< in, Offset from start of buffer */
-> +};
-> +
-> +struct qaic_attach_slice_hdr {
-> +	__u32 count;	/**< in, Number of slices for this BO */
-> +	__u32 dbc_id;	/**< in, Associate this BO with this DMA Bridge channel */
-> +	__u32 handle;	/**< in, Handle of BO to which slicing information is to be attached */
-> +	__u32 dir;	/**< in, Direction of data: 1 = DMA_TO_DEVICE, 2 = DMA_FROM_DEVICE */
-> +	__u64 size;	/**<
-> +			  * in, Total length of BO
-> +			  * If BO is imported (DMABUF/PRIME) then this size
-> +			  * should not exceed the size of DMABUF provided.
-> +			  * If BO is allocated using DRM_IOCTL_QAIC_CREATE_BO
-> +			  * then this size should be exactly same as the size
-> +			  * provided during DRM_IOCTL_QAIC_CREATE_BO.
-> +			  */
-> +};
-> +
-> +struct qaic_attach_slice {
-> +	struct qaic_attach_slice_hdr hdr;
-> +	__u64 data;	/**<
-> +			  * in, Pointer to a buffer which is container of
-> +			  * struct qaic_attach_slice_entry[]
-> +			  */
-> +};
-> +
-> +struct qaic_execute_entry {
-> +	__u32 handle;	/**< in, buffer handle */
-> +	__u32 dir;	/**< in, 1 = to device, 2 = from device */
-> +};
-> +
-> +struct qaic_partial_execute_entry {
-> +	__u32 handle;	/**< in, buffer handle */
-> +	__u32 dir;	/**< in, 1 = to device, 2 = from device */
-> +	__u64 resize;	/**< in, 0 = no resize */
-> +};
-> +
-> +struct qaic_execute_hdr {
-> +	__u32 count;	/**< in, number of executes following this header */
-> +	__u32 dbc_id;	/**< in, Identifier of assigned DMA Bridge channel */
-> +};
-> +
-> +struct qaic_execute {
-> +	struct qaic_execute_hdr hdr;
-> +	__u64 data;	/**< in, qaic_execute_entry or qaic_partial_execute_entry container */
-> +};
-> +
-> +struct qaic_wait {
-> +	__u32 handle;	/**< in, handle to wait on until execute is complete */
-> +	__u32 timeout;	/**< in, timeout for wait(in ms) */
-> +	__u32 dbc_id;	/**< in, Identifier of assigned DMA Bridge channel */
-> +	__u32 pad;	/**< pad must be 0 */
-> +};
-> +
-> +struct qaic_perf_stats_hdr {
-> +	__u16 count;	/**< in, Total number BOs requested */
-> +	__u16 pad;	/**< pad must be 0 */
-> +	__u32 dbc_id;	/**< in, Identifier of assigned DMA Bridge channel */
-> +};
-> +
-> +struct qaic_perf_stats {
-> +	struct qaic_perf_stats_hdr hdr;
-> +	__u64 data;	/**< in, qaic_perf_stats_entry container */
-> +};
-> +
-> +struct qaic_perf_stats_entry {
-> +	__u32 handle;			/**< in, Handle of the memory request */
-> +	__u32 queue_level_before;	/**<
-> +					  * out, Number of elements in queue
-> +					  * before submission given memory request
-> +					  */
-> +	__u32 num_queue_element;	/**<
-> +					  * out, Number of elements to add in the
-> +					  * queue for given memory request
-> +					  */
-> +	__u32 submit_latency_us;	/**<
-> +					  * out, Time taken by kernel to submit
-> +					  * the request to device
-> +					  */
-> +	__u32 device_latency_us;	/**<
-> +					  * out, Time taken by device to execute the
-> +					  * request. 0 if request is not completed
-> +					  */
-> +	__u32 pad;			/**< pad must be 0 */
-> +};
-> +
-> +struct qaic_part_dev {
-> +	__u32 partition_id;	/**< in, reservation id */
-> +	__u16 remove;		/**< in, 1 - Remove device 0 - Create device */
-> +	__u16 pad;		/**< pad must be 0 */
-> +};
-> +
-> +#define DRM_QAIC_MANAGE				0x00
-> +#define DRM_QAIC_CREATE_BO			0x01
-> +#define DRM_QAIC_MMAP_BO			0x02
-
-I know that MMAP_BO ioctl is common in drm drivers but in my opinion it is a very poor name.
-I suggest naming it BO_INFO so in future you could extend it with other bo params besides
-mmap offset. 
-
-> +#define DRM_QAIC_ATTACH_SLICE_BO		0x03
-> +#define DRM_QAIC_EXECUTE_BO			0x04
-> +#define DRM_QAIC_PARTIAL_EXECUTE_BO		0x05
-> +#define DRM_QAIC_WAIT_BO			0x06
-> +#define DRM_QAIC_PERF_STATS_BO			0x07
-> +#define DRM_QAIC_PART_DEV			0x08
-> +
-> +#define DRM_IOCTL_QAIC_MANAGE			DRM_IOWR(DRM_COMMAND_BASE + DRM_QAIC_MANAGE, struct qaic_manage_msg)
-> +#define DRM_IOCTL_QAIC_CREATE_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_QAIC_CREATE_BO,	struct qaic_create_bo)
-> +#define DRM_IOCTL_QAIC_MMAP_BO			DRM_IOWR(DRM_COMMAND_BASE + DRM_QAIC_MMAP_BO, struct qaic_mmap_bo)
-> +#define DRM_IOCTL_QAIC_ATTACH_SLICE_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_QAIC_ATTACH_SLICE_BO, struct qaic_attach_slice)
-> +#define DRM_IOCTL_QAIC_EXECUTE_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_QAIC_EXECUTE_BO,	struct qaic_execute)
-> +#define DRM_IOCTL_QAIC_PARTIAL_EXECUTE_BO	DRM_IOW(DRM_COMMAND_BASE + DRM_QAIC_PARTIAL_EXECUTE_BO,	struct qaic_execute)
-> +#define DRM_IOCTL_QAIC_WAIT_BO			DRM_IOW(DRM_COMMAND_BASE + DRM_QAIC_WAIT_BO, struct qaic_wait)
-> +#define DRM_IOCTL_QAIC_PERF_STATS_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_QAIC_PERF_STATS_BO, struct qaic_perf_stats)
-> +#define DRM_IOCTL_QAIC_PART_DEV			DRM_IOWR(DRM_COMMAND_BASE + DRM_QAIC_PART_DEV, struct qaic_part_dev)
-> +
-> +#if defined(__CPLUSPLUS)
-
-Use lowercase here: __cplusplus
-
-> +}
-> +#endif
-> +
-> +#endif /* QAIC_ACCEL_H_ */
-
-Regards,
-Jacek
-
+>>
+>>> +When AIC100 is first powered on, it begins executing PBL (Primary Bootloader)
+>>> +from ROM.  PBL enumerates the PCIe link, and initializes the BHI (Boot Host
+>>> +Interface) component of MHI.
+>>> +
+>>> +Using BHI, the host points PBL to the location of the SBL (Secondary Bootloader)
+>>> +image.  The PBL pulls the image from the host, validates it, and begins
+>>> +execution of SBL.
+>>> +
+>>> +SBL initializes MHI, and uses MHI to notify the host that the device has entered
+>>> +the SBL stage.  SBL performs a number of operations:
+>>> +
+>>> +* SBL initializes the majority of hardware (anything PBL left uninitialized),
+>>> +  including DDR.
+>>> +* SBL offloads the bootlog to the host.
+>>> +* SBL synchonizes timestamps with the host for future logging.
+>>
+>> synchonizes -> synchronizes
+> 
+> Yep
+> 
+>>
+>>> +* SBL uses the Sahara protocol to obtain the runtime firmware images from the
+>>> +  host.
+>>> +
+>>> +Once SBL has obtained and validated the runtime firmware, it brings the NSPs out
+>>> +of reset, and jumps into the QSM.
+>>> +
+>>> +The QSM uses MHI to notify the host that the device has entered the QSM stage
+>>> +(AMSS in MHI terms).  At this point, the AIC100 device is fully functional, and
+>>> +ready to process workloads.
+>>> +
+>>> +Userspace components
+>>> +====================
+>>> +
+>>> +Compiler
+>>> +--------
+>>> +
+>>> +An open compiler for AIC100 based on upstream LLVM can be found at:
+>>> +https://github.com/quic/software-kit-for-qualcomm-cloud-ai-100-cc
+>>> +
+>>> +Usermode Driver (UMD)
+>>> +---------------------
+>>> +
+>>> +An open UMD that interfaces with the qaic kernel driver can be found at:
+>>> +https://github.com/quic/software-kit-for-qualcomm-cloud-ai-100
+>>
+>> This repo is empty.
+> 
+> Correct.  That was mentioned in the cover letter.  Targeting to post content this week.  Just working through the last steps of our internal process.
+> 
+>>
+>>> +
+>>> +Sahara loader
+>>> +-------------
+>>> +
+>>> +An open implementation of the Sahara protocol called kickstart can be found at:
+>>> +https://github.com/andersson/qdl
+>>> +
+>>> +MHI Channels
+>>> +============
+>>> +
+>>> +AIC100 defines a number of MHI channels for different purposes.  This is a list
+>>> +of the defined channels, and their uses.
+>>> +
+>>> +| QAIC_LOOPBACK
+>>> +| Channels 0/1
+>>
+>> A would use comma or & here.
+> 
+> Intresting.  I can see that.  I think I like "&".  Will do that.
+> 
+>>
+>>> +| Valid for AMSS
+>>> +| Any data sent to the device on this channel is sent back to the host.
+>>> +
+>>> +| QAIC_SAHARA
+>>> +| Channels 2/3
+>>> +| Valid for SBL
+>>> +| Used by SBL to obtain the runtime firmware from the host.
+>>> +
+>>> +| QAIC_DIAG
+>>> +| Channels 4/5
+>>> +| Valid for AMSS
+>>> +| Used to communicate with QSM via the Diag protocol.
+>>> +
+>>> +| QAIC_SSR
+>>> +| Channels 6/7
+>>> +| Valid for AMSS
+>>> +| Used to notify the host of subsystem restart events, and to offload SSR crashdumps.
+>>> +
+>>> +| QAIC_QDSS
+>>> +| Channels 8/9
+>>> +| Valid for AMSS
+>>> +| Used for the Qualcomm Debug Subsystem.
+>>> +
+>>> +| QAIC_CONTROL
+>>> +| Channels 10/11
+>>> +| Valid for AMSS
+>>> +| Used for the Neural Network Control (NNC) protocol.  This is the primary channel between host and QSM for managing workloads.
+>>> +
+>>> +| QAIC_LOGGING
+>>> +| Channels 12/13
+>>> +| Valid for SBL
+>>> +| Used by the SBL to send the bootlog to the host.
+>>> +
+>>> +| QAIC_STATUS
+>>> +| Channels 14/15
+>>> +| Valid for AMSS
+>>> +| Used to notify the host of Reliability, Accessability, Serviceability (RAS) events.
+>>
+>> Accessability -> Accessibility
+> 
+> Got it.
+> 
+>>
+>>> +| QAIC_TELEMETRY
+>>> +| Channels 16/17
+>>> +| Valid for AMSS
+>>> +| Used to get/set power/thermal/etc attributes.
+>>> +
+>>> +| QAIC_DEBUG
+>>> +| Channels 18/19
+>>> +| Valid for AMSS
+>>> +| Not used.
+>>> +
+>>> +| QAIC_TIMESYNC
+>>> +| Channels 20/21
+>>> +| Valid for SBL/AMSS
+>>> +| Used to synchronize timestamps in the device side logs with the host time source.
+>>> +
+>>> +DMA Bridge
+>>> +==========
+>>> +
+>>> +Overview
+>>> +--------
+>>> +
+>>> +The DMA Bridge is one of the main interfaces to the host from the device
+>>> +(the other being MHI).  As part of activating a workload to run on NSPs, the QSM
+>>> +assigns that network a DMA Bridge channel.  A workload's DMA Bridge channel
+>>> +(DBC for short) is solely for the use of that workload and is not shared with
+>>> +other workloads.
+>>> +
+>>> +Each DBC is a pair of FIFOs that manage data in and out of the workload.  One
+>>> +FIFO is the request FIFO.  The other FIFO is the response FIFO.
+>>> +
+>>> +Each DBC contains 4 registers in hardware:
+>>> +
+>>> +* Request FIFO head pointer (offset 0x0).  Read only to the host.  Indicates the
+>>
+>> Read only _by_ the host.
+> 
+> Sure.
+> 
+>>
+>>> +  latest item in the FIFO the device has consumed.
+>>> +* Request FIFO tail pointer (offset 0x4).  Read/write by the host.  Host
+>>> +  increments this register to add new items to the FIFO.
+>>> +* Response FIFO head pointer (offset 0x8).  Read/write by the host.  Indicates
+>>> +  the latest item in the FIFO the host has consumed.
+>>> +* Response FIFO tail pointer (offset 0xc).  Read only to the host.  Device
+>>
+>> Read only _by_ the host.
+> 
+> Sure.
+> 
+>>
+>>> +  increments this register to add new items to the FIFO.
+>>> +
+>>> +The values in each register are indexes in the FIFO.  To get the location of the
+>>> +FIFO element pointed to by the register: FIFO base address + register * element
+>>> +size.
+>>> +
+>>> +DBC registers are exposed to the host via the second BAR.  Each DBC consumes
+>>> +0x1000 of space in the BAR.
+>>
+>> I wouldn't use hex for the sizes. 4KB seems a lot more readable.
+> 
+> Good point.  Will do.
+> 
+>>
+>>> +The actual FIFOs are backed by host memory.  When sending a request to the QSM
+>>> +to activate a network, the host must donate memory to be used for the FIFOs.
+>>> +Due to internal mapping limitations of the device, a single contigious chunk of
+>>
+>> contigious -> contiguous
+> 
+> Got it.
+> 
+>>
+>>> +memory must be provided per DBC, which hosts both FIFOs.  The request FIFO will
+>>> +consume the beginning of the memory chunk, and the response FIFO will consume
+>>> +the end of the memory chunk.
+>>> +
+>>> +Request FIFO
+>>> +------------
+>>> +
+>>> +A request FIFO element has the following structure:
+>>> +
+>>> +| {
+>>> +|    u16 req_id;
+>>> +|    u8  seq_id;
+>>> +|    u8  pcie_dma_cmd;
+>>> +|    u32 reserved;
+>>> +|    u64 pcie_dma_source_addr;
+>>> +|    u64 pcie_dma_dest_addr;
+>>> +|    u32 pcie_dma_len;
+>>> +|    u32 reserved;
+>>> +|    u64 doorbell_addr;
+>>> +|    u8  doorbell_attr;
+>>> +|    u8  reserved;
+>>> +|    u16 reserved;
+>>> +|    u32 doorbell_data;
+>>> +|    u32 sem_cmd0;
+>>> +|    u32 sem_cmd1;
+>>> +|    u32 sem_cmd2;
+>>> +|    u32 sem_cmd3;
+>>> +| }
+>>> +
+>>> +Request field descriptions:
+>>> +
+>>> +| req_id- request ID.  A request FIFO element and a response FIFO element with
+>>> +|         the same request ID refer to the same command.
+>>> +
+>>> +| seq_id- sequence ID within a request.  Ignored by the DMA Bridge.
+>>> +
+>>> +| pcie_dma_cmd- describes the DMA element of this request.
+>>> +|     Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
+>>> +|         and generates a MSI when this request is complete, and QSM
+>>> +|         configures the DMA Bridge to look at this bit.
+>>> +|     Bits(6:5) are reserved.
+>>> +|     Bit(4) is the completion code flag, and indicates that the DMA Bridge
+>>> +|         shall generate a response FIFO element when this request is
+>>> +|         complete.
+>>> +|     Bit(3) indicates if this request is a linked list transfer(0) or a bulk
+>>> +|         transfer(1).
+>>> +|     Bit(2) is reserved.
+>>> +|     Bits(1:0) indicate the type of transfer.  No transfer(0), to device(1),
+>>> +|         from device(2).  Value 3 is illegal.
+>>> +
+>>> +| pcie_dma_source_addr- source address for a bulk transfer, or the address of
+>>> +|         the linked list.
+>>> +
+>>> +| pcie_dma_dest_addr- destination address for a bulk transfer.
+>>> +
+>>> +| pcie_dma_len- length of the bulk transfer.  Note that the size of this field
+>>> +|     limits transfers to 4G in size.
+>>> +
+>>> +| doorbell_addr- address of the doorbell to ring when this request is complete.
+>>> +
+>>> +| doorbell_attr- doorbell attributes.
+>>> +|     Bit(7) indicates if a write to a doorbell is to occur.
+>>> +|     Bits(6:2) are reserved.
+>>> +|     Bits(1:0) contain the encoding of the doorbell length.  0 is 32-bit,
+>>> +|         1 is 16-bit, 2 is 8-bit, 3 is reserved.  The doorbell address
+>>> +|         must be naturally aligned to the specified length.
+>>> +
+>>> +| doorbell_data- data to write to the doorbell.  Only the bits corresponding to
+>>> +|     the doorbell length are valid.
+>>> +
+>>> +| sem_cmdN- semaphore command.
+>>> +|     Bit(31) indicates this semaphore command is enabled.
+>>> +|     Bit(30) is the to-device DMA fence.  Block this request until all
+>>> +|         to-device DMA transfers are complete.
+>>> +|     Bit(29) is the from-device DMA fence.  Block this request until all
+>>> +|         from-device DMA transfers are complete.
+>>> +|     Bits(28:27) are reserved.
+>>> +|     Bits(26:24) are the semaphore command.  0 is NOP.  1 is init with the
+>>> +|         specified value.  2 is increment.  3 is decrement.  4 is wait
+>>> +|         until the semaphore is equal to the specified value.  5 is wait
+>>> +|         until the semaphore is greater or equal to the specified value.
+>>> +|         6 is "P", wait until semaphore is greater than 0, then
+>>> +|         decrement by 1.  7 is reserved.
+>>> +|     Bit(23) is reserved.
+>>> +|     Bit(22) is the semaphore sync.  0 is post sync, which means that the
+>>> +|         semaphore operation is done after the DMA transfer.  1 is
+>>> +|         presync, which gates the DMA transfer.  Only one presync is
+>>> +|         allowed per request.
+>>> +|     Bit(21) is reserved.
+>>> +|     Bits(20:16) is the index of the semaphore to operate on.
+>>> +|     Bits(15:12) are reserved.
+>>> +|     Bits(11:0) are the semaphore value to use in operations.
+>>
+>> It seems to me like structure documentation
+> 
+> Yes.  It can be modeled that way.  However the code comes later so it can't be referenced here yet.  I've got a todo to come back and clean that up once this series is merged.
+> 
+>>
+>>> +Overall, a request is processed in 4 steps:
+>>> +
+>>> +1. If specified, the presync semaphore condition must be true
+>>> +2. If enabled, the DMA transfer occurs
+>>> +3. If specified, the postsync semaphore conditions must be true
+>>> +4. If enabled, the doorbell is written
+>>> +
+>>> +By using the semaphores in conjunction with the workload running on the NSPs,
+>>> +the data pipeline can be synchronized such that the host can queue multiple
+>>> +requests of data for the workload to process, but the DMA Bridge will only copy
+>>> +the data into the memory of the workload when the workload is ready to process
+>>> +the next input.
+>>> +
+>>> +Response FIFO
+>>> +-------------
+>>> +
+>>> +Once a request is fully processed, a response FIFO element is generated if
+>>> +specified in pcie_dma_cmd.  The structure of a response FIFO element:
+>>> +
+>>> +| {
+>>> +|     u16 req_id;
+>>> +|     u16 completion_code;
+>>> +| }
+>>> +
+>>> +req_id- matches the req_id of the request that generated this element.
+>>> +
+>>> +completion_code- status of this request.  0 is success.  non-zero is an error.
+>>> +
+>>> +The DMA Bridge will generate a MSI to the host as a reaction to activity in the
+>>> +response FIFO of a DBC.  The DMA Bridge hardware has an IRQ storm mitigation
+>>> +algorithm, where it will only generate a MSI when the response FIFO transitions
+>>> +from empty to non-empty (unless force MSI is enabled and triggered).  In
+>>> +response to this MSI, the host is expected to drain the response FIFO, and must
+>>> +take care to handle any race conditions between draining the FIFO, and the
+>>> +device inserting elements into the FIFO.
+>>> +
+>>> +Neural Network Control (NNC) Protocol
+>>> +=====================================
+>>> +
+>>> +The NNC protocol is how the host makes requests to the QSM to manage workloads.
+>>> +It uses the QAIC_CONTROL MHI channel.
+>>> +
+>>> +Each NNC request is packaged into a message.  Each message is a series of
+>>> +transactions.  A passthrough type transaction can contain elements known as
+>>> +commands.
+>>> +
+>>> +QSM requires NNC messages be little endian encoded and the fields be naturally
+>>> +aligned.  Since there are 64-bit elements in some NNC messages, 64-bit alignment
+>>> +must be maintained.
+>>> +
+>>> +A message contains a header and then a series of transactions.  A message may be
+>>> +at most 4K in size from QSM to the host.  From the host to the QSM, a message
+>>> +can be at most 64K (maximum size of a single MHI packet), but there is a
+>>> +continuation feature where message N+1 can be marked as a continuation of
+>>> +message N.  This is used for exceedingly large DMA xfer transactions.
+>>> +
+>>> +Transaction descriptions:
+>>> +
+>>> +passthrough- Allows userspace to send an opaque payload directly to the QSM.
+>>> +This is used for NNC commands.  Userspace is responsible for managing
+>>> +the QSM message requirements in the payload
+>>> +
+>>> +dma_xfer- DMA transfer.  Describes an object that the QSM should DMA into the
+>>> +device via address and size tuples.
+>>> +
+>>> +activate- Activate a workload onto NSPs.  The host must provide memory to be
+>>> +used by the DBC.
+>>> +
+>>> +deactivate- Deactivate an active workload and return the NSPs to idle.
+>>> +
+>>> +status- Query the QSM about it's NNC implementation.  Returns the NNC version,
+>>> +and if CRC is used.
+>>> +
+>>> +terminate- Release a user's resources.
+>>> +
+>>> +dma_xfer_cont- Continuation of a previous DMA transfer.  If a DMA transfer
+>>> +cannot be specified in a single message (highly fragmented), this
+>>> +transaction can be used to specify more ranges.
+>>> +
+>>> +validate_partition- Query to QSM to determine if a partition identifier is
+>>> +valid.
+>>> +
+>>> +Each message is tagged with a user id, and a partition id.  The user id allows
+>>> +QSM to track resources, and release them when the user goes away (eg the process
+>>> +crashes).  A partition id identifies the resource partition that QSM manages,
+>>> +which this message applies to.
+>>> +
+>>> +Messages may have CRCs.  Messages should have CRCs applied until the QSM
+>>> +reports via the status transaction that CRCs are not needed.  The QSM on the
+>>> +SA9000P requires CRCs for black channel safing.
+>>> +
+>>> +Subsystem Restart (SSR)
+>>> +=======================
+>>> +
+>>> +SSR is the concept of limiting the impact of an error.  An AIC100 device may
+>>> +have multiple users, each with their own workload running.  If the workload of
+>>> +one user crashes, the fallout of that should be limited to that workload and not
+>>> +impact other workloads.  SSR accomplishes this.
+>>> +
+>>> +If a particular workload crashes, QSM notifies the host via the QAIC_SSR MHI
+>>> +channel.  This notification identifies the workload by it's assigned DBC.  A
+>>> +multi-stage recovery process is then used to cleanup both sides, and get the
+>>> +DBC/NSPs into a working state.
+>>> +
+>>> +When SSR occurs, any state in the workload is lost.  Any inputs that were in
+>>> +process, or queued by not yet serviced, are lost.  The loaded artifacts will
+>>> +remain in on-card DDR, but the host will need to re-activate the workload if
+>>> +it desires to recover the workload.
+>>> +
+>>> +Reliability, Accessability, Serviceability (RAS)
+>>
+>> Accessability -> Accessibility
+> 
+> Got it.
+> 
+>>
+>>> +================================================
+>>> +
+>>> +AIC100 is expected to be deployed in server systems where RAS ideology is
+>>> +applied.  Simply put, RAS is the concept of detecting, classifying, and
+>>> +reporting errors.  While PCIe has AER (Advanced Error Reporting) which factors
+>>> +into RAS, AER does not allow for a device to report details about internal
+>>> +errors.  Therefore, AIC100 implements a custom RAS mechanism.  When a RAS event
+>>> +occurs, QSM will report the event with appropriate details via the QAIC_STATUS
+>>> +MHI channel.  A sysadmin may determine that a particular device needs
+>>> +additional service based on RAS reports.
+>>> +
+>>> +Telemetry
+>>> +=========
+>>> +
+>>> +QSM has the ability to report various physical attributes of the device, and in
+>>> +some cases, to allow the host to control them.  Examples include thermal limits,
+>>> +thermal readings, and power readings.  These items are communicated via the
+>>> +QAIC_TELEMETRY MHI channel
+>>> diff --git a/Documentation/accel/qaic/index.rst b/Documentation/accel/qaic/index.rst
+>>> new file mode 100644
+>>> index 0000000..ad19b88
+>>> --- /dev/null
+>>> +++ b/Documentation/accel/qaic/index.rst
+>>> @@ -0,0 +1,13 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0-only
+>>> +
+>>> +=====================================
+>>> + accel/qaic Qualcomm Cloud AI driver
+>>> +=====================================
+>>> +
+>>> +The accel/qaic driver supports the Qualcomm Cloud AI machine learning
+>>> +accelerator cards.
+>>> +
+>>> +.. toctree::
+>>> +
+>>> +   qaic
+>>> +   aic100
+>>> diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
+>>> new file mode 100644
+>>> index 0000000..b0e7a5f
+>>> --- /dev/null
+>>> +++ b/Documentation/accel/qaic/qaic.rst
+>>> @@ -0,0 +1,169 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0-only
+>>> +
+>>> +=============
+>>> + QAIC driver
+>>> +=============
+>>> +
+>>> +The QAIC driver is the Kernel Mode Driver (KMD) for the AIC100 family of AI
+>>> +accelerator products.
+>>> +
+>>> +Interrupts
+>>> +==========
+>>> +
+>>> +While the AIC100 DMA Bridge hardware implements an IRQ storm mitigation
+>>> +mechanism, it is still possible for an IRQ storm to occur.  A storm can happen
+>>> +if the workload is particularly quick, and the host is responsive.  If the host
+>>> +can drain the response FIFO as quickly as the device can insert elements into
+>>> +it, then the device will frequently transition the response FIFO from empty to
+>>> +non-empty and generate MSIs at a rate equilivelent to the speed of the
+>>
+>> equilivelent -> equivalent
+> 
+> Sure.
+> 
+>>
+>>> +workload's ability to process inputs.  The lprnet (license plate reader network)
+>>> +workload is known to trigger this condition, and can generate in excess of 100k
+>>> +MSIs per second.  It has been observed that most systems cannot tolerate this
+>>> +for long, and will crash due to some form of watchdog due to the overhead of
+>>> +the interrupt controller interrupting the host CPU.
+>>> +
+>>> +To mitigate this issue, the QAIC driver implements specific IRQ handling.  When
+>>> +QAIC receives an IRQ, it disables that line.  This prevents the interrupt
+>>> +controller from interrupting the CPU.  Then AIC drains the FIFO.  Once the FIFO
+>>> +is drained, QAIC implements a "last chance" polling algorithm where QAIC will
+>>> +sleep for a time to see if the workload will generate more activity.  The IRQ
+>>> +line remains disabled during this time.  If no activity is detected, QAIC exits
+>>> +polling mode and reenables the IRQ line.
+>>> +
+>>> +This mitigation in QAIC is very effective.  The same lprnet usecase that
+>>> +generates 100k IRQs per second (per /proc/interrupts) is reduced to roughly 64
+>>> +IRQs over 5 minutes while keeping the host system stable, and having the same
+>>> +workload throughput performance (within run to run noise variation).
+>>> +
+>>> +
+>>> +Neural Network Control (NNC) Protocol
+>>> +=====================================
+>>> +
+>>> +The implementation of NNC is split between the KMD (QAIC) and UMD.  In general
+>>> +QAIC understands how to encode/decode NNC wire protocol, and elements of the
+>>> +protocol which require kernelspace knowledge to process (for example, mapping
+>>
+>> kernelspace is missing a space :P
+>>
+>>> +host memory to device IOVAs).  QAIC understands the structure of a message, and
+>>> +all of the transactions.  QAIC does not understand commands (the payload of a
+>>> +passthrough transaction).
+>>> +
+>>> +QAIC handles and enforces the required little endianness and 64-bit alignment,
+>>> +to the degree that it can.  Since QAIC does not know the contents of a
+>>> +passthrough transaction, it relies on the UMD to saitsfy the requirements.
+>>
+>> saitsfy -> satisfy
+> 
+> Will do.
+> 
+>>
+>>> +The terminate transaction is of particular use to QAIC.  QAIC is not aware of
+>>> +the resources that are loaded onto a device since the majority of that activity
+>>> +occurs within NNC commands.  As a result, QAIC does not have the means to
+>>> +roll back userspace activity.  To ensure that a userspace client's resources
+>>> +are fully released in the case of a process crash, or a bug, QAIC uses the
+>>> +terminate command to let QSM know when a user has gone away, and the resources
+>>> +can be released.
+>>> +
+>>> +QSM can report a version number of the NNC protocol it supports.  This is in the
+>>> +form of a Major number and a Minor number.
+>>> +
+>>> +Major number updates indicate changes to the NNC protocol which impact the
+>>> +message format, or transactions (impacts QAIC).
+>>> +
+>>> +Minor number updates indicate changes to the NNC protocol which impact the
+>>> +commands (does not impact QAIC).
+>>> +
+>>> +uAPI
+>>> +====
+>>> +
+>>> +QAIC defines a number of driver specific IOCTLs as part of the userspace API.
+>>> +This section describes those APIs.
+>>> +
+>>> +DRM_IOCTL_QAIC_MANAGE:
+>>> +This IOCTL allows userspace to send a NNC request to the QSM.  The call will
+>>> +block until a response is received, or the request has timed out.
+>>> +
+>>> +DRM_IOCTL_QAIC_CREATE_BO:
+>>> +This IOCTL allows userspace to allocate a buffer object (BO) which can send or
+>>> +receive data from a workload.  The call will return a GEM handle that
+>>> +represents the allocated buffer.  The BO is not usable until it has been sliced
+>>> +(see DRM_IOCTL_QAIC_ATTACH_SLICE_BO).
+>>> +
+>>> +DRM_IOCTL_QAIC_MMAP_BO:
+>>> +This IOCTL allows userspace to prepare an allocated BO to be mmap'd into the
+>>> +userspace process.
+>>> +
+>>> +DRM_IOCTL_QAIC_ATTACH_SLICE_BO:
+>>> +This IOCTL allows userspace to slice a BO in preparation for sending the BO to
+>>> +the device.  Slicing is the operation of describing what portions of a BO get
+>>> +sent where to a workload.  This requires a set of DMA transfers for the DMA
+>>> +Bridge, and as such, locks the BO to a specific DBC.
+>>> +
+>>> +DRM_IOCTL_QAIC_EXECUTE_BO:
+>>> +This IOCTL allows userspace to submit a set of sliced BOs to the device.  The
+>>> +call is non-blocking.  Success only indicates that the BOs have been queued
+>>> +to the device, but does not guarantee they have been executed.
+>>> +
+>>> +DRM_IOCTL_QAIC_PARTIAL_EXECUTE_BO:
+>>> +This IOCTL operates like DRM_IOCTL_QAIC_EXECUTE_BO, but it allows userspace to
+>>> +shrink the BOs sent to the device for this specific call.  If a BO typically has
+>>> +N inputs, but only a subset of those is available, this IOCTL allows userspace
+>>> +to indicate that only the first M bytes of the BO should be sent to the device
+>>> +to minimize data transfer overhead.  This IOCTL dynamically recomputes the
+>>> +slicing, and therefore has some processing overhead before the BOs can be queued
+>>> +to the device.
+>>> +
+>>> +DRM_IOCTL_QAIC_WAIT_BO:
+>>> +This IOCTL allows userspace to determine when a particular BO has been processed
+>>> +by the device.  The call will block until either the BO has been processed and
+>>> +can be re-queued to the device, or a timeout occurs.
+>>> +
+>>> +DRM_IOCTL_QAIC_PERF_STATS_BO:
+>>> +This IOCTL allows userspace to collect performance statistics on the most
+>>> +recent execution of a BO.  This allows userspace to construct an end to end
+>>> +timeline of the BO processing for a performance analysis.
+>>> +
+>>> +DRM_IOCTL_QAIC_PART_DEV:
+>>> +This IOCTL allows userspace to request a duplicate "shadow device".  This extra
+>>> +accelN device is associated with a specific partition of resources on the AIC100
+>>> +device and can be used for limiting a process to some subset of resources.
+>>> +
+>>> +Userspace Client Isolation
+>>> +==========================
+>>> +
+>>> +AIC100 supports multiple clients.  Multiple DBCs can be consumed by a single
+>>> +client, and multiple clients can each consume one or more DBCs.  Workloads
+>>> +may contain sensistive information therefore only the client that owns the
+>>
+>> sensistive -> sensitive
+> 
+> Will do.
+> 
+>>
+>>> +workload should be allowed to interface with the DBC.
+>>> +
+>>> +Clients are identified by the instance associated with their open().  A client
+>>> +may only use memory they allocate, and DBCs that are assigned to their
+>>> +workloads.  Attempts to access resources assigned to other clients will be
+>>> +rejected.
+>>> +
+>>> +Module parameters
+>>> +=================
+>>> +
+>>> +QAIC supports the following module parameters:
+>>> +
+>>> +**datapath_polling (bool)**
+>>> +
+>>> +Configures QAIC to use a polling thread for datapath events instead of relying
+>>> +on the device interrupts.  Useful for platforms with broken multiMSI.  Must be
+>>> +set at QAIC driver initialization.  Default is 0 (off).
+>>> +
+>>> +**mhi_timeout (int)**
+>>> +
+>>> +Sets the timeout value for MHI operations in milliseconds (ms).  Must be set
+>>> +at the time the driver detects a device.  Default is 2000 (2 seconds).
+>>> +
+>>> +**control_resp_timeout (int)**
+>>> +
+>>> +Sets the timeout value for QSM responses to NNC messages in seconds (s).  Must
+>>> +be set at the time the driver is sending a request to QSM.  Default is 60 (one
+>>> +minute).
+>>> +
+>>> +**wait_exec_default_timeout (int)**
+>>> +
+>>> +Sets the default timeout for the wait_exec ioctl in milliseconds (ms).  Must be
+>>> +set prior to the waic_exec ioctl call.  A value specified in the ioctl call
+>>> +overrides this for that call.  Default is 5000 (5 seconds).
+>>> +
+>>> +**datapath_poll_interval_us (int)**
+>>> +
+>>> +Sets the polling interval in microseconds (us) when datapath polling is active.
+>>> +Takes effect at the next polling interval.  Default is 100 (100 us).
+>>
+>> Cool that you are staring with the documentation :)
+>> I suggest running at least "checkpatch.pl --codespell" on the series as there are many spelling issue.
+> 
+> Thats what happened to checkpatch.  Thanks for pointing out the flag.  I remember it doing spellcheck by default.  Apparently it needs a flag now.  I'll do that going forward.
+> 
+>>
+>> Regards,
+>> Jacek
+>>
+>>
+>>
+> 
