@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11091698AB9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 03:58:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB225698AE4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 04:02:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB5E310E2B2;
-	Thu, 16 Feb 2023 02:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C55710E2D5;
+	Thu, 16 Feb 2023 03:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63B0C10E2D5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 02:58:08 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id 81so670663ybp.5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 18:58:08 -0800 (PST)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7125910E12A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 03:02:44 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id x4so703489ybp.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 19:02:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YyMZCQmaOL1xm4zqLG+BHh0sREN8jgVyVG/p8ktPj+c=;
- b=mBTcMWPuiflyd2oc/5m7tNXF9fuV2y8N6d1q0h1Qj8DIsihq+Rx5Zu3ZxARHaYmuHh
- TyHa1FOKITLUVKOuB4LkvJux8vM8KYSjlSMBMfL3fUwUO4/TxidApfDlRXmyKRYoNp3+
- HKpJIthTDoyScFvmhFvfHnwdn0UcnY7NvkNQVo4vahQFg8AnociLC+3ysCCwm9mvYF+L
- m5Rr4uFetZBqVNS28SPcAR/GLaVUY0eeylDf7gjpVYajIEAYe0a0JeodButx/u7eTcY2
- hZXhgUOMJtBJDE8GCUPktK/RabH20AFq/8/5F0b1OydzjVIye8RX+8T/24MPQ3wjn6IR
- HeXQ==
+ bh=UmfoGNmoydQLu/4gLeD4ecXj20LBp85h/89oL/+L10E=;
+ b=Q/KqDmrg1GbuXRaTxw0oDwkSDjBxP4Ae+nf6X7sbOxXNH0eD0wl8/M6FexUVCbi88W
+ zG2CbhcfEHXgFgPZg1xntAm61fIipkbd5y2y4AHDcvd9/Q45+S0L4PrITYjwN5fnhWl9
+ cluu0f9dhWYoit9BCQsz4c25kC13XVsv/ECcrJK/OBY0Yy9d+VjixjI7KeEI4+u6eutk
+ I0KrrQcpfxCWG4OFz5ILWRHlI9KoYahrIvj9Uw57V9nsJIKSmS64zK7ELoqZyKttAlov
+ HyzQgQtNBCkc0MbCzxDrMcSxmXsTrPWpMKI8PvVsVH6MwUBhhM5TLFdqDhJlsJp4Z2cU
+ rvvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YyMZCQmaOL1xm4zqLG+BHh0sREN8jgVyVG/p8ktPj+c=;
- b=GgI1AyA3eC6RGtIRTGSrGihDtQeIPBp8J+PRR4RouGYywCsLQoDsGuEneACV/O81Xd
- IpDfmhD11Zy/nkUQk/rbm6UrhF1PZo1zQOWfyPxwCWXXxUdbeD4tWe2s+H7MqbW5ilLo
- yEYDFyoeLOGLPjbNGahqaHECSfS9A51QQIBEtf5EMP2QbK7xyf0yKP70D83disc0Jnam
- seqKmkMuKnUH2Csrji96vIESlZB1dXOuxhqaifR3KnvcEqogux1Uv/Q/wNo+u0UExDzt
- DVhkJHJiBTCole6Jmt3Ru2Ce9hnD3dBiRXfbaJ+GvMs73T2W6fCcfohwM3UJh52wVk9+
- nfvg==
-X-Gm-Message-State: AO0yUKWJ4u75nzMNKAcmF4Rr3yPmTYtmfzcx4rbeRQyn944HyAMsap21
- 9gGuUa3WEKYAccSnCC07yRwkKSAVtQsJGIuEY2Jt1Q==
-X-Google-Smtp-Source: AK7set+nmSebDjAkALV0PNZZFrn4v5zED6xwiCkXHS5ZJibfE5G7fjdWSQOZ3GW6NWl5csCf9dRiUjSqbi/Ly8p7fAo=
-X-Received: by 2002:a25:9a49:0:b0:86a:e417:b66e with SMTP id
- r9-20020a259a49000000b0086ae417b66emr531070ybo.382.1676516287570; Wed, 15 Feb
- 2023 18:58:07 -0800 (PST)
+ bh=UmfoGNmoydQLu/4gLeD4ecXj20LBp85h/89oL/+L10E=;
+ b=KZqtiPFglrpVCxCqmvBxPWyS1eZIVL45n+o5MFSVLeVu6FFJ8JGUAFTUz9A3aRZqac
+ my49DyHfdNGsAdUDi5Z1GvBIbnuu9R9kqeDVdJryxq2ic3NQlMG8RMCB3FzUOtTG6qoc
+ oLBrwPaSM+zjAmeU9EaWZ4Ah1xdvwI4AV050mHGSEVEUVosWDlC0Q1EPn+CLjvvAoZZ4
+ fP4pUTX9LExtM7HL0U+Ixg6MUjwBDeFB/yWK0/pd/qvAiBervncom0r9dkX50Jf6AMr6
+ 9A7PjBvt5hE5dkgRdiCNfvN55LHGj1KFNEchnN8blQxbkK3zPxrULRkw8ePra1aSqVaE
+ SVqg==
+X-Gm-Message-State: AO0yUKWjJfYPY6ufmIdptlkioUJSe9sIkZR0QYzp+SWkpdZ0jh2GFugv
+ 4l6IO5qRvQqo4vkxwEp93lwkn+3ypg43VuYNMfCejQ==
+X-Google-Smtp-Source: AK7set+wevyweJgk6/FESwWZUqeOoq8hRyKir3CGjvMKeXHLg9TcJFZU8wMezt7btRCXjLKWkqQ2a5assUlQmuvevrQ=
+X-Received: by 2002:a25:f50c:0:b0:90a:8ba9:3ac3 with SMTP id
+ a12-20020a25f50c000000b0090a8ba93ac3mr509152ybe.333.1676516563474; Wed, 15
+ Feb 2023 19:02:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20230215-sspp-scaler-version-v1-0-416b1500b85b@somainline.org>
- <20230215-sspp-scaler-version-v1-3-416b1500b85b@somainline.org>
-In-Reply-To: <20230215-sspp-scaler-version-v1-3-416b1500b85b@somainline.org>
+In-Reply-To: <20230215-sspp-scaler-version-v1-0-416b1500b85b@somainline.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 16 Feb 2023 04:57:56 +0200
-Message-ID: <CAA8EJpqeVkYyk-RxkODt2wyXy0fhvTgjs-5Ay8R3TV7ddU4zOw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/msm/dpu: Drop unused qseed_type from catalog
- dpu_caps
+Date: Thu, 16 Feb 2023 05:02:32 +0200
+Message-ID: <CAA8EJpqL-Vsq7dbK7tfJAGgg2_nV463QYv5zgvRLx_8T2bsXxA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm/msm/dpu: Initialize SSPP scaler version (from
+ register read)
 To: Marijn Suijten <marijn.suijten@somainline.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,20 +80,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, 16 Feb 2023 at 01:02, Marijn Suijten
 <marijn.suijten@somainline.org> wrote:
 >
-> The SSPP scaler subblk is responsible for reporting its version (via the
-> .id field, feature bits on the parent SSPP block, and since recently
-> also from reading a register to supersede a read-but-unset version field
-> in the catalog), leaving this global qseed_type field logically unused.
-> Remove this dead code to lighten the catalog and bringup-overhead.
+> Random inspection of the SSPP code surfaced that the version field of
+> dpu_scaler_blk was never assigned in the catalog, resulting in wrong
+> codepaths to be taken within dpu_hw_setup_scaler3 based on a 0 version.
+> Rectify this by reading an accurate value from a register (that is not
+> equal to the values represented by DPU_SSPP_SCALER_QSEEDx enum
+> variants) and deleting dead code around QSEED versioning.
 >
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+> Future changes should likely get rid of the distinction between QSEED3
+> and up, as these are now purely determined from the register value.
+> Furthermore implementations could look at the scaler subblk .id field
+> rather than the SSPP feature bits, which currently hold redundant
+> information.
+>
 > ---
+> Marijn Suijten (3):
+>       drm/msm/dpu: Read previously-uninitialized SSPP scaler version from hw
+>       drm/msm/dpu: Drop unused get_scaler_ver callback from SSPP
+>       drm/msm/dpu: Drop unused qseed_type from catalog dpu_caps
+
+The cleanup looks good. However as you are on it, maybe you can also
+add patch 4, dropping DPU_SSPP_SCALER_QSEED3LITE and
+DPU_SSPP_SCALER_QSEED4 in favour of using QSEED3 for all these
+scalers? As we are going to use scaler_version to distinguish between
+them, it would be logical not to duplicate that bit of information
+(not to mention all the possible troubles if scaler_version disagrees
+with the sblk->scaler_blk.id).
+
+>
 >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 12 ------------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  2 --
->  2 files changed, 14 deletions(-)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h |  4 ----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    | 12 ++++++++----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h    |  9 +++------
+>  4 files changed, 11 insertions(+), 26 deletions(-)
+> ---
+> base-commit: 9d9019bcea1aac7eed64a1a4966282b6b7b141c8
+> change-id: 20230215-sspp-scaler-version-19f221585c5e
+>
+> Best regards,
+> --
+> Marijn Suijten <marijn.suijten@somainline.org>
+>
+
 
 -- 
 With best wishes
