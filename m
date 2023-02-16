@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D1E6989A3
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 02:07:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B7D6989A7
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 02:09:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EFC810E05D;
-	Thu, 16 Feb 2023 01:07:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEAD810E0E0;
+	Thu, 16 Feb 2023 01:09:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A66F10E05D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 01:07:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF1D310E0E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 01:09:05 +0000 (UTC)
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
- s=mail; t=1676509649;
- bh=P/SbOyMzlTQLiogl1RKS9/I1ffYT18SGT5g5cIfqd2Y=;
+ s=mail; t=1676509744;
+ bh=V531A1mtpKWQcvrMaihobrwS5e41GRmm87PsL+uN8es=;
  h=From:Date:Subject:To:Cc:From;
- b=uV3znYgrIZwShkNVfjQcRp+ytl9nR0n3bv27zV1ugjoYs6YCkIb/xInp77iNDsPy4
- tz6wrkyMM50lXAPYFc1yEB4Y2UC9IJBELA4EHT1OehaOeZJQgn2acH281RiIFto1Xj
- KwUmAEa+e7Jus3axPfKbRAmVEj7oPhz+2YdjJmAo=
-Date: Thu, 16 Feb 2023 01:07:27 +0000
-Subject: [PATCH] drm/amdgpu: make kobj_type structures constant
+ b=IAUU1a5rRB5i7mH/AWXrxGiTK0pdweZJ/ZyUH86IhKK1qKnsOywScYyyCSa6oUL93
+ SOKRgbGJQaG1ft1dgCMnV8NdEH2Ee1WP4IWpwRNmIT/AGpAcp4U3QRfNdapzT1xrjc
+ +ciEKYDwJgb5boH7DygBQXr8Mtd3c8dLuBvoaWH0=
+Date: Thu, 16 Feb 2023 01:09:00 +0000
+Subject: [PATCH] drm/amdkfd: Make kobj_type structures constant
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230216-kobj_type-amdgpu-v1-1-b382ab606dc7@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAM6B7WMC/x2NwQrCMBAFf6Xs2YUkrR78FRFJmtd2taYhsaKU/
- ruLxxkYZqOKIqh0bjYqeEuVJSnYQ0P95NMIlqhMzrjWOHvixxLut9c3g/0zjnnlLraDgYU5xo4
- 0C76CQ/GpnzRM6zyrzAWDfP6fy3Xff0Q1jYl3AAAA
-To: Alex Deucher <alexander.deucher@amd.com>, 
+Message-Id: <20230216-kobj_type-amdkfd-v1-1-337abb104da2@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIACuC7WMC/x2N0QqDMAwAf0XybKB2IOivjCGJTTXTVWm3sSH++
+ 8Ie7+C4A4pklQJ9dUCWtxbdkkFTVzDOlCZBDcbgnb8437S4bHwfnt9dkB5hiQGJQxelI3atA8u
+ YiiBnSuNsYXqtq8k9S9TP/3O9necPDkizOHcAAAA=
+To: Felix Kuehling <Felix.Kuehling@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
  =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
  "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, 
  Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1676509646; l=2787;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676509741; l=3587;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=P/SbOyMzlTQLiogl1RKS9/I1ffYT18SGT5g5cIfqd2Y=;
- b=NjH37FHMLFd1p1EMnA7Qx7v7EotJR3ho6RIcFLYC+ycLiNGbUWb8S/f01QeZrTlDNaN6tjGbb
- wjaDdczIgnxD1m0GhAmynkfczaMBlOwEHYwPdJW5DQU/y0ZY7RRr6Cd
+ bh=V531A1mtpKWQcvrMaihobrwS5e41GRmm87PsL+uN8es=;
+ b=kYY1zEibQVGvsyoUpN4UBRby0/UOQm81zpCrkVNsQxe2T1/B/coRpFWSAjINXjXTiPCUJdiLx
+ tFZ608D+FmZAxhbPAXGkZ0SrONhyFHxBvYbVm9Lo+ibD7xcZKwhFB7D
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,71 +68,103 @@ modification at runtime.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 10 +++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c      |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_process.c  |  8 ++++----
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 10 +++++-----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-index 1bbd56029a4f..8e04952e5144 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-@@ -704,7 +704,7 @@ static void ip_hw_instance_release(struct kobject *kobj)
- 	kfree(ip_hw_instance);
- }
- 
--static struct kobj_type ip_hw_instance_ktype = {
-+static const struct kobj_type ip_hw_instance_ktype = {
- 	.release = ip_hw_instance_release,
- 	.sysfs_ops = &ip_hw_instance_sysfs_ops,
- 	.default_groups = ip_hw_instance_groups,
-@@ -723,7 +723,7 @@ static void ip_hw_id_release(struct kobject *kobj)
- 	kfree(ip_hw_id);
- }
- 
--static struct kobj_type ip_hw_id_ktype = {
-+static const struct kobj_type ip_hw_id_ktype = {
- 	.release = ip_hw_id_release,
- 	.sysfs_ops = &kobj_sysfs_ops,
- };
-@@ -786,18 +786,18 @@ static const struct sysfs_ops ip_die_entry_sysfs_ops = {
- 	.show = ip_die_entry_attr_show,
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+index 51b1683ac5c1..8d719f90db40 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+@@ -344,7 +344,7 @@ static const struct sysfs_ops kfd_procfs_ops = {
+ 	.show = kfd_procfs_show,
  };
  
--static struct kobj_type ip_die_entry_ktype = {
-+static const struct kobj_type ip_die_entry_ktype = {
- 	.release = ip_die_entry_release,
- 	.sysfs_ops = &ip_die_entry_sysfs_ops,
- 	.default_groups = ip_die_entry_groups,
+-static struct kobj_type procfs_type = {
++static const struct kobj_type procfs_type = {
+ 	.release = kfd_procfs_kobj_release,
+ 	.sysfs_ops = &kfd_procfs_ops,
+ };
+@@ -469,7 +469,7 @@ static const struct sysfs_ops procfs_queue_ops = {
+ 	.show = kfd_procfs_queue_show,
  };
  
--static struct kobj_type die_kobj_ktype = {
-+static const struct kobj_type die_kobj_ktype = {
- 	.release = die_kobj_release,
- 	.sysfs_ops = &kobj_sysfs_ops,
+-static struct kobj_type procfs_queue_type = {
++static const struct kobj_type procfs_queue_type = {
+ 	.sysfs_ops = &procfs_queue_ops,
+ 	.default_groups = procfs_queue_groups,
+ };
+@@ -478,7 +478,7 @@ static const struct sysfs_ops procfs_stats_ops = {
+ 	.show = kfd_procfs_stats_show,
  };
  
--static struct kobj_type ip_discovery_ktype = {
-+static const struct kobj_type ip_discovery_ktype = {
- 	.release = ip_disc_release,
- 	.sysfs_ops = &kobj_sysfs_ops,
+-static struct kobj_type procfs_stats_type = {
++static const struct kobj_type procfs_stats_type = {
+ 	.sysfs_ops = &procfs_stats_ops,
+ 	.release = kfd_procfs_kobj_release,
  };
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-index 4b9e7b050ccd..6d13ce6ec9cc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c
-@@ -228,7 +228,7 @@ static const struct sysfs_ops amdgpu_xgmi_hive_ops = {
- 	.show = amdgpu_xgmi_show_attrs,
+@@ -487,7 +487,7 @@ static const struct sysfs_ops sysfs_counters_ops = {
+ 	.show = kfd_sysfs_counters_show,
  };
  
--struct kobj_type amdgpu_xgmi_hive_type = {
-+static const struct kobj_type amdgpu_xgmi_hive_type = {
- 	.release = amdgpu_xgmi_hive_release,
- 	.sysfs_ops = &amdgpu_xgmi_hive_ops,
- 	.default_groups = amdgpu_xgmi_hive_groups,
+-static struct kobj_type sysfs_counters_type = {
++static const struct kobj_type sysfs_counters_type = {
+ 	.sysfs_ops = &sysfs_counters_ops,
+ 	.release = kfd_procfs_kobj_release,
+ };
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+index 3fdaba56be6f..8e4124dcb6e4 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+@@ -278,7 +278,7 @@ static const struct sysfs_ops sysprops_ops = {
+ 	.show = sysprops_show,
+ };
+ 
+-static struct kobj_type sysprops_type = {
++static const struct kobj_type sysprops_type = {
+ 	.release = kfd_topology_kobj_release,
+ 	.sysfs_ops = &sysprops_ops,
+ };
+@@ -318,7 +318,7 @@ static const struct sysfs_ops iolink_ops = {
+ 	.show = iolink_show,
+ };
+ 
+-static struct kobj_type iolink_type = {
++static const struct kobj_type iolink_type = {
+ 	.release = kfd_topology_kobj_release,
+ 	.sysfs_ops = &iolink_ops,
+ };
+@@ -350,7 +350,7 @@ static const struct sysfs_ops mem_ops = {
+ 	.show = mem_show,
+ };
+ 
+-static struct kobj_type mem_type = {
++static const struct kobj_type mem_type = {
+ 	.release = kfd_topology_kobj_release,
+ 	.sysfs_ops = &mem_ops,
+ };
+@@ -395,7 +395,7 @@ static const struct sysfs_ops cache_ops = {
+ 	.show = kfd_cache_show,
+ };
+ 
+-static struct kobj_type cache_type = {
++static const struct kobj_type cache_type = {
+ 	.release = kfd_topology_kobj_release,
+ 	.sysfs_ops = &cache_ops,
+ };
+@@ -566,7 +566,7 @@ static const struct sysfs_ops node_ops = {
+ 	.show = node_show,
+ };
+ 
+-static struct kobj_type node_type = {
++static const struct kobj_type node_type = {
+ 	.release = kfd_topology_kobj_release,
+ 	.sysfs_ops = &node_ops,
+ };
 
 ---
 base-commit: 033c40a89f55525139fd5b6342281b09b97d05bf
-change-id: 20230216-kobj_type-amdgpu-4d3f0e1e05d4
+change-id: 20230216-kobj_type-amdkfd-abd9fe9ab060
 
 Best regards,
 -- 
