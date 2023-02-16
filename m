@@ -1,119 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2206A69A28B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 00:45:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 307AA69A28D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 00:45:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3867810E390;
-	Thu, 16 Feb 2023 23:45:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAAA10E3AB;
+	Thu, 16 Feb 2023 23:45:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2042.outbound.protection.outlook.com [40.107.237.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD7B010E39F;
- Thu, 16 Feb 2023 23:44:59 +0000 (UTC)
+ (mail-bn8nam12on2080.outbound.protection.outlook.com [40.107.237.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FEC110E390;
+ Thu, 16 Feb 2023 23:45:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D0nivvnkLhH5cOgChzH8VOlHUSKe2tqzv/MY3340lFTOe+vr5kvjZUFpezWVD1c7iCnPDnVRuO5lehZvpZp0HA47SB09wWStreaG216sZ6zF2A7wpNvKPlsFCGkJpMucEj2+j0qg7mV1+CLL1zEnAjZETBUPwYEw1CmeRQ+jo0Mu41E/j2j6ZsqKGD83ydjO3v7oufwn39sQSzjLCiIH+CedRlowFsKyYA+V1wgSZt4dJpotdn+aWnbuiPoplmyi7HFILZg+ZGtykgj54B3YkO7Bsyc6AfXEUHnMOKk9jNoe+4diRhCIngV0gGWK06bVv1oV7gEwVnuoNFqyN3s0TA==
+ b=lqGHedpdGzeKYe9CFfgYUaCgNZ/AiMXUFHQjA9HYtt79YJi/vomDjg2SfIn9lgR9ErMALnT7ynH1tkFSKPDoN0CIREKZ97V8q7QQ6rVu1+lASB17ylzBHd+yxbTjs4evY1s1YXwOksFl/5YMD6I3tcx+Jr7c2/u0RUjc9DbH4/cq0slrPqcL7zkAItg4O5rFm2Pa+DfGsw4hSbOACnnT5PAPG/GAq06EMKu7uuilnvrGQRjy1kbyNlrdUioblttj3Rfnfnh0UBDKAW2rH2BIDfOk8Vd+wKBrTHQNc1mrSAlrQRsNZYPiYMzdC4eae7NzRi9/+zpKzL+d7tCTRr1qVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hvHIFenZv6ciciPOFc6afaGoKrLLfDSWOVkwLV0Zj4o=;
- b=E0079MVRLP1u7AFpQz/rRIIrb8x4QYe0qwIKlYwrTSFBKJ3Tt6ngKXku9ZItl7+eF2TJCH52KWAFGwviwrdm7IDDe46jwcOyR89BI2KYQO082lCvZoZNnVIMwKtmKDq2Qt3uK6M07WzT9zGFDujbYEZe1zRGENe8aMmygcU2pSBag/ki8S4BFWa1Qn0aiq89LwuWVOveL1ak23o6oQpEmNs2HRGS/yOVsDe3r28R4D7GLn8X7LjG460JoDqOzb0UQpC7vFepVw5dLPQGHZjebXRQjbfYOR5idXPMv6iGJwYifMkLlLwt/US9yapCtDWCZwr3XOEKtbkaXHipZ1RsHw==
+ bh=9d4UECbHwDOk75vJMfMFgJLN8pU+WoGloErYr6i0Ows=;
+ b=BAgrvFJcwKOzgO5fjeRp/Y21CXwxUkrNQa5br/y+9Km4/Q2Xdgu9YxzozN4Xcf+ozs7zs2qcrfbthsyuwcmbZylUmbl43fiy4e8Qq5r8z90fvms4tQIAQ0LS6vgxslNRZ6dpUVdqpayglRCL1jMeP1xVcadnSUGnQtUm8ebArXGV+S8nnxpQ6UW4jZTWiNVeboOiB+H96XyOphgW9lvta/ODlPRBVUo6MwkGjltewXfkEt49OXp+WsI61DT0ENQx35FfMuLUERaL8REitMEphwEoAJDinXKX/UpiIFoW7VR6jE1qCQOsjtBKqkHxbwYw5UNEGiCwu6BBhYvg0asGjQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hvHIFenZv6ciciPOFc6afaGoKrLLfDSWOVkwLV0Zj4o=;
- b=oY59vKHeMczb7ZWDpfnYJTUory+7zaJEfV2aHyrKn6BKYT3CWybOdUUgrMJSXupYE613z5czesnyxtH2zSXuh9tK3Lr8tq1tgkXVrq44yE4EsyjMRq3gccpZdA3I67pLXTc7GCZchykwVdI3zTdu1HRDqWgG8NveYbCAGBEGh8Y=
+ bh=9d4UECbHwDOk75vJMfMFgJLN8pU+WoGloErYr6i0Ows=;
+ b=mThY2xVJKhpKuG4zyIa0M0E1YschfZyadpHP5+0f7Ox3k7MrqTGlpxAwnJIhYEVpAqi8lPiOoSCmFkDJtk5o9FAoa5wJUmlBcgm8PoI/UzdMAcqOWPAcnTbZ80oKuHN40o/vEKKHId1gYxaIxOIVwofXOEqhxsz6JchyJHwZNCQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
  by SN7PR12MB7955.namprd12.prod.outlook.com (2603:10b6:806:34d::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Thu, 16 Feb
- 2023 23:44:57 +0000
+ 2023 23:45:00 +0000
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::e6ea:9231:6d39:93da]) by BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::e6ea:9231:6d39:93da%4]) with mapi id 15.20.6111.013; Thu, 16 Feb 2023
- 23:44:57 +0000
-Message-ID: <15d2e27d-1a04-8b42-3a5a-4e7705e6ecf8@amd.com>
-Date: Thu, 16 Feb 2023 17:54:27 -0500
+ 23:45:00 +0000
+Message-ID: <cd1b640c-ba59-4627-ad2f-b9593833598e@amd.com>
+Date: Thu, 16 Feb 2023 18:01:40 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-From: Felix Kuehling <felix.kuehling@amd.com>
-Subject: Re: [PATCH 06/32] drm/amdgpu: add gfx9 hw debug mode enable and
+Subject: Re: [PATCH 07/32] drm/amdgpu: add gfx9.4.1 hw debug mode enable and
  disable calls
+Content-Language: en-US
 To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 References: <20230125195401.4183544-1-jonathan.kim@amd.com>
- <20230125195401.4183544-7-jonathan.kim@amd.com>
-Content-Language: en-US
-In-Reply-To: <20230125195401.4183544-7-jonathan.kim@amd.com>
+ <20230125195401.4183544-8-jonathan.kim@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <20230125195401.4183544-8-jonathan.kim@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0234.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:66::10) To BN9PR12MB5115.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQBPR0101CA0231.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:66::8) To BN9PR12MB5115.namprd12.prod.outlook.com
  (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SN7PR12MB7955:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53d5483f-e66b-4fc0-5dee-08db1077cfb1
+X-MS-Office365-Filtering-Correlation-Id: e50f1ff2-8a00-48bb-7480-08db1077d165
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7eI4WRHsbQQqui4DA36sq3WfrUzVCQW3ekAtRcgZkIozz2qP12vjVtRyeZxhaSqYrnCDs4EBdxkW5jCy5ar9VJ9hs4TbjcvpubMC+mWqsl3mLrK9Y1zp6c7DKrc4cUS27h9HU2F8DVG+ZXaZbd4UY/R+WEkmT2CowGCaXRq2qmvLGpVJkpfI3/pRvbPVlLwvpT+YqOh9kwpH8B1I7pf/CeSweudsCwDVWBsvUqQmevrz9TB8Qoz/KoonJ4ZPIDovO6sgvJZq5yT3Gu0LU9cohD15soiy1NzbCBgV3GhQkHvFoqgmpYgIism9ZkRw54ekORowhPA3SBUBx2UDKIfVTx//xEkTdEGKJrt5vgEzmWXSb5actkW7mKtMsu8b3JpB5USIr5e9NMwmxeG9syIw8CxSiu+URB33Y6TNX2DOZ7euY7ikHdj71o4Ob1Xap5lSyBuM6URF3f84mT53kSdwGBJHCM7c7JuA19JSjXmNJKKjzG7d84QAGmT6ENe99txAdE+OmMQy7QL9lGHf90LPeOTXe9z3n1VD+1gbDTjptdy2zZtO/0k2q3mjmJQPYj4i30paL6u8w+zlzReJrhrFidhI0euhAA6A18I5IX8JKGgAoJjD4/aYArMdDXhoXVoIwn3cpcXcJUwI2oPcxytgIi0Ur9L3F4yem4Q2KPeKusOSVKtP1KIkACO8T2f9n/ymfV+/NoOLW1aDuQrTNixHCtAgChD19AN7QkKnSRSDfVk=
+X-Microsoft-Antispam-Message-Info: EmERD9nDmwFXYm+6na/KFFkPJ+mxCcCO/ZF8yZsCZppztJkZIfF0724plUQEzDra+Zz4JjZjquAXYq5jzxGKjRVIMRdut0GtZIhm9+Y++VHgbFfh0I4M7diCTIzlT7cOTZFwywW4DjDomJOxbdF1N5Yfl84k9xNhV8rbN4+dXxBH0gHpRnqiFtiwnyP5GkI+L9m2vp2ykz6Vx+DSsyr18VjXUjcFgW7z8LjzbifDcBnBbHFTeExsbyzPlitkjVK9w65UgjRgIqk8cvUCbgYwstVKGE6MXEZAIFuQlkvVlsmvruaFFyGVjJLcudHpXMVOnPEAQnXgkTkp+qtVs3ITcv7hnxe9UsW0WTwHbgFvZAKPECwHibt/qQIlZ0rb3cR28Wde4FjV9Ggnc71z5AAaPj7iGkkffRzXpOat0awq37DrqyQNGCNSqRRUyy3vyuHGWgkxFNR00Uun5+cu8cFWTgJY65gslAj55g/VyjCMNerJG5mmhyHwxLeB3z3+Ify35ovuUObi5nh1nhSo2hE00T50rYhGlmBjukma2POKTBVuIt08+Eb8kt/TatcyBqkB7QwhdVtbTtW11xdoOoTl7JE8QxsEiuuORBen+MB+VLxpLW1fzEnoq9xDYbU6qJjMEoL4t1OCZDXYem+Gm2sMQ376GV9ZH5IXejfCPG+vvx2clSWYIPk+1PBxHYEd0k3D08myvvtisw+wcJhatMewJW82SC9tkUZaVWiLOsstDBA=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230025)(4636009)(39860400002)(396003)(346002)(366004)(376002)(136003)(451199018)(31686004)(8936002)(2906002)(41300700001)(36756003)(31696002)(5660300002)(44832011)(86362001)(83380400001)(38100700002)(8676002)(478600001)(6486002)(450100002)(26005)(6512007)(186003)(66946007)(66556008)(316002)(66476007)(53546011)(6506007)(2616005)(6666004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L01vbzFhWStDYy9WQnh0MnQwdzBlWmlUZFJiYmFHQVhMZ3VTem5GYjZ6bThM?=
- =?utf-8?B?S2Rva2REWFZTOXVOQkhaZEpwOWtNRGNvZ1FvaWdjU1VsQnlmTDdYQ3pCc1l6?=
- =?utf-8?B?SXM1eHIyZDJEdDZuVFdUNmpvQitRYzR6NnFEaEx3TFo3THd1YnBISVNyUWJy?=
- =?utf-8?B?SUZDQnBiV0ZkSmpoMjdWYnZmelowZmYwNDZXbDZoTEsrN0d4T0I3OUZaOXJP?=
- =?utf-8?B?a0ZBN3BFd3VIazl3NEVyK2ptVGxHUVJiQjRKTzhOLzR2MWtmanZncm8yME9F?=
- =?utf-8?B?alM5YzgvL2VFc3dDUnlZd0V5b21aRWdlc2pnUEdLajFwaExIcm52TnZvTE5r?=
- =?utf-8?B?b1V5clBXT20wODFqekRheVF2ME9teCs1Y0FZSUU2bXhHL3pqYmpCTm1LS09i?=
- =?utf-8?B?OWxGUU1LSU52OUtiUHVqbUFERUdkRm1jcXltamdOakIyb21UK1FmQm1CeTMw?=
- =?utf-8?B?cWZ1WUNvcHhqSHJjQzBLK2J2dkZtUEZ1YVJuZko0Y0NhVlRLanFBM0NKbHA5?=
- =?utf-8?B?NU5kdkhpVjJLTWd0UXhLVGVEa0JnUXdQTFA1Vnh2TEFaRmcwWHgvTmVka2Vp?=
- =?utf-8?B?cDQzbW9TM3ZXNWxkc2dCeEx2Y2VQamdWWHU5dElMVjFjV0ZxMURrbDczWEcw?=
- =?utf-8?B?ZnlPTW5FZUgzTEp4Z1hNWDdoSkhHdC8reVF5a0VyMTVPYjZIcU05eXFoKzFF?=
- =?utf-8?B?VmtKVHJDclRMd3hIVFY0TFBvd0NpQUpiOHVOU0FrWklsQ2hJZjlOaFZuZzFM?=
- =?utf-8?B?bXkySURRQzVxSnhKZVJKS0twVjUyc1NwYkkxWFYycDA0UmRKNDR1RUVtRjdR?=
- =?utf-8?B?NHBpYkMwYk5aVmRKbi8zUWdJZWQ2R09VRVRybm03MnhtSDJldmxxaUREMlg0?=
- =?utf-8?B?VVBuNWFGMkhjY2tuS1dGcjhPbmNLV2tZTDZoRjE0Wkh6SVBmcEkyZW9BakpB?=
- =?utf-8?B?VEdzUEFNbjZMK2lEZGtuMHp4M3JvY2J2c1gzT29GQTlwWktPRmttSmpDL0xW?=
- =?utf-8?B?V01vVGRNRk56czZYc295VVdwTy9Ec2pBenkwbHllVk15bHJ0VWltOURIZ3pJ?=
- =?utf-8?B?dk85L3FvSjh4SkVtQzU1K0NXbjB5WVZKNEwrdURmZ3h3alNJZ3JrbmlSNlU4?=
- =?utf-8?B?SXBmQjllUnhOWnFvK3JORndldmNyU3g4TDc3T0pBaFl2R0VoTFkzR2Q0MVJk?=
- =?utf-8?B?eGo0TmUwUGJDYkVBUEYvd1BkSHFkVU9GbC9Kb3AxLzlvOTFoTmtwVWd0c2M0?=
- =?utf-8?B?QW5TcHNNOE9XUTBLQmVRWXplaGFPNXpMVWdZbG8ra2VWV3dSS3piKzdOOGtr?=
- =?utf-8?B?bTZIYVk3RUdxTXp4OVg2dkUzeU5EN1pKc2dnWTNPY1B2QXRidjg1V1N3Z25D?=
- =?utf-8?B?M2tSNWc5T0V3b1BJZnMzaDgwcVRuYSswTUU4Q1VPa2ZqZ1JqQzVuZ0l5WjRW?=
- =?utf-8?B?UllaZnVwZE5kMEhuOUFscHMxR21IRWM0WHlRcWVtNkdaWnZIbVRZckpab2Z6?=
- =?utf-8?B?a2Fwb1ZsQ0xwMVJxbEdDVnJHM1E4cU5ZWXNtYjhmeDE1Yml3anlHS2RsQklF?=
- =?utf-8?B?WTZmWjlBZ2YyN0JVR0pocFBCcFg5Nzk2cEhxdDF6UytzWUJJQmhFbnQ4OUhW?=
- =?utf-8?B?YndSa3NxMSttc0xVL1VEODJoOEpUb29wOUJsaXlUVDRDWTlvaHlQL0x1dmpN?=
- =?utf-8?B?QlRVZW5NMEZVRVZIV1RzbWRYRURnRGtXaHAweDBMM1NINEV3U21hanh2N1Zk?=
- =?utf-8?B?SGZwd1p3anlVc01IUGIyRWtGTVZUVDExWTBmY0h1a280b2F0bzJaRmJHaUFa?=
- =?utf-8?B?TDE2SGlQMkRna1pFZ0FqeE9qYmJKODY4QnRlbWNVNVRSdVpwTnA5R0JNWW5T?=
- =?utf-8?B?V1N0RnRjZk9WZXo3WktuSHQzRWxuK0FuVmoxTG5IRW5wSXlJaEVsVk90TGdL?=
- =?utf-8?B?UEJWWkoyM1I2aENNdHE0VlJpRlRwajNGMFZ3ZnY4NzdSU3hmVnpjRnNmTFND?=
- =?utf-8?B?YWp3UFZXdS8xUGtrTTRGZVFENE9IRlVUNm82NURxaWw0L0FHMTRqNlB5SnZr?=
- =?utf-8?B?aHJwTUZnZllJVlJ5RjRWLzIvUFNFNVh5QzhMM1Z2c2doVkZDM2xtMzdYc2Z1?=
- =?utf-8?Q?9SVU9JORntbjs2bscRc45d9Qs?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3NVdTdiaEhUdXpvV2hoRnZmYmFvd0lkT3NEZ2V5cVp3QVlKcUU3TzMrTHl4?=
+ =?utf-8?B?a2tSNVFqNWE0Ty8rNTVOWTNvVTh1SkFrRUNsdmFLU2NoOElVOS9FRHdUNEgw?=
+ =?utf-8?B?STUxVmFiVFFrMnliRzZ4RVV5NDFYdkd2REphTFNGTzVsR2RvZFhxcGxIaXhF?=
+ =?utf-8?B?UUdTYmdQc2M0Yzk4K0U3UnJoZSs4VERibURwWlJ0V0s4UU5YVkt2Ti92OGVj?=
+ =?utf-8?B?Q2d4ZWR5MWlESk1tK2JGY281TFpoSmRFWkRPdnhTeFJZNDFOcnB0c0QweVRG?=
+ =?utf-8?B?Q1RwUU8weENsYkVubDJ2SG1mVnQ4TlB0QlIzcHRmTTJIc2s5K1lNTmlmbVN4?=
+ =?utf-8?B?TTQyNnBMa3BuYnlhVVplVjRUUDhtVG45VEJwNDEzc3JLdDNOYkFIeEpWb01j?=
+ =?utf-8?B?VVZPY1pTNUJxdStJZ3RnbStkanRJSHhNUmx4SE8zYThTVHNPRGxHSGFITUVw?=
+ =?utf-8?B?MzBnbmNycWJ0VHRwZFZzU1B1d0xvcVBYcjljVEZxdmhseXRHNDlHay9rR2pX?=
+ =?utf-8?B?VmVXVUZHNXVFSU9EQlNSUmFFUXpBVTFueWNiY3ZiOWdrNUFJN2Mxd0RaNG5T?=
+ =?utf-8?B?Q1NpdEtQOE9jeHYzYmJHemlzWG4ySWVLYldkYkQwMUR0SldwbUhWNHFoWUs5?=
+ =?utf-8?B?NmtJMnkzVXRWMHNhd1V1bTRFamJsanUycisyd2xyVUVMYUU5WWUvNk5YUjhL?=
+ =?utf-8?B?VHZEWlFXVmtSRkJyUndUTkIxb0dxODFKQ3VTVE5RZ0NwT2Y1Z1JiRUV6Qk03?=
+ =?utf-8?B?Q1grSGQyQWRjSG4rL2JqWU5UeVBpZGpqZUV4akV1eE1TVEtNbTZDMnRJOUFN?=
+ =?utf-8?B?NnUrRjdYZzZ4VVZqRndhVmNpdm1yUWorQmdydjRZbGVwWXNNMUVrVXlOQ1lo?=
+ =?utf-8?B?WkRTWkliWmsvSXhNQjBQVGMyVFE2M2kvY1ljSTBIQWtXbTZlRld3aUwreGpq?=
+ =?utf-8?B?ZFd1cEJ5Z2JmT09qMWU1L05KS2pvYVN6QUE4WnNKQkpLRjl2cnpWWkZXVWZ5?=
+ =?utf-8?B?eERDRHhLd2xTUEJoMDQ4RUNnY29XN1BmU20wZGVoTE1nUStidVdFQTlZYjZ6?=
+ =?utf-8?B?UGN1Y3VZaHdkZTBxUERQVFh2dHhOdTV2dUFycnBTYVdoWTNwMjVZZXA1QUJr?=
+ =?utf-8?B?M20zaHh2dVVVdENnTU4rZytzd2ZzaUxTK2Rub0JQb0NUbmg5elh6OGhoZlB5?=
+ =?utf-8?B?M3cvZ0hoYmhsUk1rVG5SckdndHZtVmVrZUxOSnlaRUtzdFNDZWtNQnc1VHpq?=
+ =?utf-8?B?YVN2TGZNYUJjNm1KRUltcmRobWxwTFd1NUJmRFFMczF1ai9UTWVpRVRGRXhK?=
+ =?utf-8?B?UkNITnpvWVZLRkRnazVsYmkzYy9FdVA1QWxMc1JWbHlpemU5NGxRMUFyK3F5?=
+ =?utf-8?B?cDFDOXNRWlRUVE9aK2Q3dm05djdzQjNGUFlwWGYzaEhKOHk3SEkvTU9FbDRN?=
+ =?utf-8?B?TXROOS9FSjBmY0tRblphUUNSemk4dHpTSmc1RGw0a3RXUi9yUE5xTjFVb3VR?=
+ =?utf-8?B?M2JpUlpON1VZcXU2Z3lkOFdXb1lOMWhQc3o3MWVRczRUSTRpWC81d1R6ck5w?=
+ =?utf-8?B?cDVRa25XY29TUmswWHdubW8wNjN3dHFQUHlydDByeWFzM09maFhSeWJqNllz?=
+ =?utf-8?B?cU1qY3dTTmk3V0M5MzNsOU1aYUJrTEdxMGI0Q25CaFdZWDVNd2c4M0I5M3dr?=
+ =?utf-8?B?cDZHSDlKNHJzOSt2Yk9Yck1wTElFWjBuNkhXQXU5a2NVVW1JYVJOaTRrVHVT?=
+ =?utf-8?B?MExBaVRMTnNjWDFaek81dXI3M3g2bnFMUElhQUFNSCt2cHF6cDhyNE5Ddkls?=
+ =?utf-8?B?TmZWR28vN3BPOHZyMCtxVFpyLzZzS29nK3FYNTdwc2VGRUU4VkRhNkw5LzlJ?=
+ =?utf-8?B?ZVJDbWVtTlFQOXAxMFo2QjVDaXhqZWZRZ2kxY0JqclRuNzhLY1JRbVVNV1Jt?=
+ =?utf-8?B?d2VwS2MxREx4blBDejVPR1F0aHBWYy9KQUxtQ0h5T3IweTBQM3ppRDJNZWNt?=
+ =?utf-8?B?TTBmNTZIOXdnNVVxK1dEYmtoRk91LytJNE5mMTdlRURiMmdKTnA1NFVjQTRv?=
+ =?utf-8?B?Wmd6SGZxZ3F4TTU0d0VsZWVJTWN4WGZ2dENiUDQ4TTcvV0JQdzFzZ2VVcU1S?=
+ =?utf-8?Q?KcSwUcySCXFbiKWEpdkYrZqyo?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53d5483f-e66b-4fc0-5dee-08db1077cfb1
+X-MS-Exchange-CrossTenant-Network-Message-Id: e50f1ff2-8a00-48bb-7480-08db1077d165
 X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 23:44:57.6748 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 23:45:00.5484 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9p9LExHGh9kKJ8ONZC6GBz1d6U3pG+Hw8xHVivJ36Y6gkWeztCL8NA3VM2KN0SIALCPKTag9HkjmiV4c4inKSQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: rWfX54oRRUw+jq2Mmzi9RHpTcgbWmgjVC57DxnxPOQDGDzES6EIg6FRfT+DPe6ylDISWLx+yFKwtJyGmNKx4Zg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7955
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -132,197 +132,241 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 2023-01-25 14:53, Jonathan Kim wrote:
-> Implement the per-device calls to enable or disable HW debug mode for
-> GFX9 prior to GFX9.4.1.
+> On GFX9.4.1, the implicit wait count instruction on s_barrier is
+> disabled by default in the driver during normal operation for
+> performance requirements.
 >
-> GFX9.4.1 and onward will require their own enable/disable sequence as
-> follow on patches.
+> There is a hardware bug in GFX9.4.1 where if the implicit wait count
+> instruction after an s_barrier instruction is disabled, any wave that
+> hits an exception may step over the s_barrier when returning from the
+> trap handler with the barrier logic having no ability to be
+> aware of this, thereby causing other waves to wait at the barrier
+> indefinitely resulting in a shader hang.  This bug has been corrected
+> for GFX9.4.2 and onward.
 >
-> When hardware debug mode setting is requested, waves will inherit
-> these settings in the Shader Processor Input's (SPI) Sequencer Global
-> Block (SQG). This means that the KGD must drain all waves from the SPI
-> into SQG (approximately 96 SPI clock cycles) prior to debug mode setting
-> to ensure that the order of operations that the debugger expects with
-> regards to debug mode setting transaction requests and wave inheritence
-> of that mode is upheld.
+> Since the debugger subscribes to hardware exceptions, in order to avoid
+> this bug, the debugger must enable implicit wait count on s_barrier
+> for a debug session and disable it on detach.
 >
-> Also ensure that exception overrides are reset to their original state
-> prior to debug enable or disable.
+> In order to change this setting in the in the device global SQ_CONFIG
+> register, the GFX pipeline must be idle.  GFX9.4.1 as a compute device
+> will either dispatch work through the compute ring buffers used for
+> image post processing or through the hardware scheduler by the KFD.
 >
-> v2: remove unnecessary static srbm lock renaming.
-> add comments to explain ignored arguments for debug trap enable and
-> disable.
+> Have the KGD suspend and drain the compute ring buffer, then suspend the
+> hardware scheduler and block any future KFD process job requests before
+> changing the implicit wait count setting.  Once set, resume all work.
+>
+> v2: remove flush on kfd suspend as that will be a general fix required
+> outside of this patch series.
+> comment on trap enable/disable ignored variables.
 >
 > Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
 > ---
-> .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c | 93 +++++++++++++++++++
-> .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.h | 9 ++
-> drivers/gpu/drm/amd/amdkfd/kfd_debug.h | 3 +
-> 3 files changed, 105 insertions(+)
+>   drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   3 +
+>   .../drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c   | 118 +++++++++++++++++-
+>   drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c         |   4 +-
+>   3 files changed, 122 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c 
-> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> index e92b93557c13..94a9fd9bd984 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c
-> @@ -646,6 +646,97 @@ int kgd_gfx_v9_wave_control_execute(struct 
-> amdgpu_device *adev,
-> return 0;
-> }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 872450a3a164..3c03e34c194c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1041,6 +1041,9 @@ struct amdgpu_device {
+>   	struct pci_saved_state          *pci_state;
+>   	pci_channel_state_t		pci_channel_state;
+>   
+> +	/* Track auto wait count on s_barrier settings */
+> +	bool				barrier_has_auto_waitcnt;
+> +
+>   	struct amdgpu_reset_control     *reset_cntl;
+>   	uint32_t                        ip_versions[MAX_HWIP][HWIP_MAX_INSTANCE];
+>   
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+> index 4191af5a3f13..d5bb86ccd617 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_arcturus.c
+> @@ -26,6 +26,7 @@
+>   #include "amdgpu.h"
+>   #include "amdgpu_amdkfd.h"
+>   #include "amdgpu_amdkfd_arcturus.h"
+> +#include "amdgpu_reset.h"
+>   #include "sdma0/sdma0_4_2_2_offset.h"
+>   #include "sdma0/sdma0_4_2_2_sh_mask.h"
+>   #include "sdma1/sdma1_4_2_2_offset.h"
+> @@ -48,6 +49,8 @@
+>   #include "amdgpu_amdkfd_gfx_v9.h"
+>   #include "gfxhub_v1_0.h"
+>   #include "mmhub_v9_4.h"
+> +#include "gc/gc_9_0_offset.h"
+> +#include "gc/gc_9_0_sh_mask.h"
+>   
+>   #define HQD_N_REGS 56
+>   #define DUMP_REG(addr) do {				\
+> @@ -276,6 +279,117 @@ int kgd_arcturus_hqd_sdma_destroy(struct amdgpu_device *adev, void *mqd,
+>   	return 0;
+>   }
+>   
 > +/*
-> + * GFX9 helper for wave launch stall requirements on debug trap setting.
-> + *
-> + * vmid:
-> + * Target VMID to stall/unstall.
-> + *
-> + * stall:
-> + * 0-unstall wave launch (enable), 1-stall wave launch (disable).
-> + * After wavefront launch has been stalled, allocated waves must 
-> drain from
-> + * SPI in order for debug trap settings to take effect on those waves.
-> + * This is roughly a ~96 clock cycle wait on SPI where a read on
-> + * SPI_GDBG_WAVE_CNTL translates to ~32 clock cycles.
-> + * KGD_GFX_V9_WAVE_LAUNCH_SPI_DRAIN_LATENCY indicates the number of 
-> reads required.
-> + *
-> + * NOTE: We can afford to clear the entire STALL_VMID field on unstall
-> + * because GFX9.4.1 cannot support multi-process debugging due to trap
-> + * configuration and masking being limited to global scope. Always assume
-> + * single process conditions.
-> +
+> + * Helper used to suspend/resume gfx pipe for image post process work to set
+> + * barrier behaviour.
 > + */
-> +#define KGD_GFX_V9_WAVE_LAUNCH_SPI_DRAIN_LATENCY 3
-> +void kgd_gfx_v9_set_wave_launch_stall(struct amdgpu_device *adev,
-> + uint32_t vmid,
-> + bool stall)
+> +static int suspend_resume_compute_scheduler(struct amdgpu_device *adev, bool suspend)
 > +{
-> + int i;
-> + uint32_t data = RREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_WAVE_CNTL));
+> +	int i, r = 0;
 > +
-> + if (adev->ip_versions[GC_HWIP][0] == IP_VERSION(9, 4, 1))
-> + data = REG_SET_FIELD(data, SPI_GDBG_WAVE_CNTL, STALL_VMID,
-> + stall ? 1 << vmid : 0);
-> + else
-> + data = REG_SET_FIELD(data, SPI_GDBG_WAVE_CNTL, STALL_RA,
-> + stall ? 1 : 0);
+> +	for (i = 0; i < adev->gfx.num_compute_rings; i++) {
+> +		struct amdgpu_ring *ring = &adev->gfx.compute_ring[i];
 > +
-> + WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_WAVE_CNTL), data);
+> +		if (!(ring && ring->sched.thread))
+> +			continue;
 > +
-> + if (!stall)
-> + return;
+> +		/* stop secheduler and drain ring. */
+> +		if (suspend) {
+> +			drm_sched_stop(&ring->sched, NULL);
+> +			r = amdgpu_fence_wait_empty(ring);
+> +			if (r)
+> +				goto out;
+> +		} else {
+> +			drm_sched_start(&ring->sched, false);
+> +		}
+> +	}
 > +
-> + for (i = 0; i < KGD_GFX_V9_WAVE_LAUNCH_SPI_DRAIN_LATENCY; i++)
-> + RREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_WAVE_CNTL));
+> +out:
+> +	/* return on resume or failure to drain rings. */
+> +	if (!suspend || r)
+> +		return r;
+> +
+> +	return amdgpu_device_ip_wait_for_idle(adev, GC_HWIP);
+> +}
+> +
+> +static void set_barrier_auto_waitcnt(struct amdgpu_device *adev, bool enable_waitcnt)
+> +{
+> +	uint32_t data;
+> +
+> +	WRITE_ONCE(adev->barrier_has_auto_waitcnt, enable_waitcnt);
+> +
+> +	if (!down_read_trylock(&adev->reset_domain->sem))
+> +		return;
+> +
+> +	amdgpu_amdkfd_suspend(adev, false);
+> +
+> +	if (suspend_resume_compute_scheduler(adev, true))
+> +		goto out;
+> +
+> +	data = RREG32(SOC15_REG_OFFSET(GC, 0, mmSQ_CONFIG));
+> +	data = REG_SET_FIELD(data, SQ_CONFIG, DISABLE_BARRIER_WAITCNT,
+> +						enable_waitcnt ? 0 : 1);
+
+This could be ..., !enable_waitcnt);
+
+
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSQ_CONFIG), data);
+> +
+> +out:
+> +	suspend_resume_compute_scheduler(adev, false);
+> +
+> +	amdgpu_amdkfd_resume(adev, false);
+> +
+> +	up_read(&adev->reset_domain->sem);
 > +}
 > +
 > +/**
 
-This was flagged by the kernel test robot. Should just be /* because 
-it's not a formal doc comment.
+Use /* here, since this is not a doc comment.
 
 
-> + * restore_dbg_reisters is ignored here but is a general interface 
-> requirement
+> + * restore_dbg_reisters is ignored here but is a general interface requirement
 
-Typo: reisters -> registers
+Typo: registers
 
 
 > + * for devices that support GFXOFF and where the RLC save/restore list
-> + * does not support hw registers for debugging i.e. the driver has to 
-> manually
-> + * initialize the debug mode registers after it has disabled GFX off 
-> during the
+> + * does not support hw registers for debugging i.e. the driver has to manually
+> + * initialize the debug mode registers after it has disabled GFX off during the
 > + * debug session.
 > + */
-> +uint32_t kgd_gfx_v9_enable_debug_trap(struct amdgpu_device *adev,
-> + bool restore_dbg_registers,
-> + uint32_t vmid)
+> +static uint32_t kgd_arcturus_enable_debug_trap(struct amdgpu_device *adev,
+> +				bool restore_dbg_registers,
+> +				uint32_t vmid)
 > +{
-> + mutex_lock(&adev->grbm_idx_mutex);
+> +	mutex_lock(&adev->grbm_idx_mutex);
 > +
-> + kgd_gfx_v9_set_wave_launch_stall(adev, vmid, true);
+> +	kgd_gfx_v9_set_wave_launch_stall(adev, vmid, true);
 > +
-> + WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
+> +	set_barrier_auto_waitcnt(adev, true);
 > +
-> + kgd_gfx_v9_set_wave_launch_stall(adev, vmid, false);
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
 > +
-> + mutex_unlock(&adev->grbm_idx_mutex);
+> +	kgd_gfx_v9_set_wave_launch_stall(adev, vmid, false);
 > +
-> + return 0;
+> +	mutex_unlock(&adev->grbm_idx_mutex);
+> +
+> +	return 0;
 > +}
 > +
 > +/**
 
-Same as above. With those fixed, the patch is
-
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+/*
 
 
-> + * keep_trap_enabled is ignored here but is a general interface 
-> requirement
+> + * keep_trap_enabled is ignored here but is a general interface requirement
 > + * for devices that support multi-process debugging where the performance
 > + * overhead from trap temporary setup needs to be bypassed when the debug
 > + * session has ended.
 > + */
-> +uint32_t kgd_gfx_v9_disable_debug_trap(struct amdgpu_device *adev,
-> + bool keep_trap_enabled,
-> + uint32_t vmid)
+> +static uint32_t kgd_arcturus_disable_debug_trap(struct amdgpu_device *adev,
+> +					bool keep_trap_enabled,
+> +					uint32_t vmid)
 > +{
-> + mutex_lock(&adev->grbm_idx_mutex);
 > +
-> + kgd_gfx_v9_set_wave_launch_stall(adev, vmid, true);
+> +	mutex_lock(&adev->grbm_idx_mutex);
 > +
-> + WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
+> +	kgd_gfx_v9_set_wave_launch_stall(adev, vmid, true);
 > +
-> + kgd_gfx_v9_set_wave_launch_stall(adev, vmid, false);
+> +	set_barrier_auto_waitcnt(adev, false);
 > +
-> + mutex_unlock(&adev->grbm_idx_mutex);
+> +	WREG32(SOC15_REG_OFFSET(GC, 0, mmSPI_GDBG_TRAP_MASK), 0);
 > +
-> + return 0;
+> +	kgd_gfx_v9_set_wave_launch_stall(adev, vmid, false);
+> +
+> +	mutex_unlock(&adev->grbm_idx_mutex);
+> +
+> +	return 0;
 > +}
-> +
-> void kgd_gfx_v9_set_vm_context_page_table_base(struct amdgpu_device *adev,
-> uint32_t vmid, uint64_t page_table_base)
-> {
-> @@ -871,6 +962,8 @@ const struct kfd2kgd_calls gfx_v9_kfd2kgd = {
-> .get_atc_vmid_pasid_mapping_info =
-> kgd_gfx_v9_get_atc_vmid_pasid_mapping_info,
-> .set_vm_context_page_table_base = 
-> kgd_gfx_v9_set_vm_context_page_table_base,
-> + .enable_debug_trap = kgd_gfx_v9_enable_debug_trap,
-> + .disable_debug_trap = kgd_gfx_v9_disable_debug_trap,
-> .get_cu_occupancy = kgd_gfx_v9_get_cu_occupancy,
-> .program_trap_handler_settings = kgd_gfx_v9_program_trap_handler_settings,
-> };
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.h 
-> b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.h
-> index c7ed3bc9053c..d39256162616 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.h
-> @@ -58,3 +58,12 @@ void kgd_gfx_v9_get_cu_occupancy(struct 
-> amdgpu_device *adev, int pasid,
-> int *pasid_wave_cnt, int *max_waves_per_cu);
-> void kgd_gfx_v9_program_trap_handler_settings(struct amdgpu_device *adev,
-> uint32_t vmid, uint64_t tba_addr, uint64_t tma_addr);
-> +void kgd_gfx_v9_set_wave_launch_stall(struct amdgpu_device *adev,
-> + uint32_t vmid,
-> + bool stall);
-> +uint32_t kgd_gfx_v9_enable_debug_trap(struct amdgpu_device *adev,
-> + bool restore_dbg_registers,
-> + uint32_t vmid);
-> +uint32_t kgd_gfx_v9_disable_debug_trap(struct amdgpu_device *adev,
-> + bool keep_trap_enabled,
-> + uint32_t vmid);
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h 
-> b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
-> index b2217eb1399c..8aa7a3ad4e97 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
-> @@ -25,6 +25,9 @@
-> #include "kfd_priv.h"
-> +void kgd_gfx_v9_set_wave_launch_stall(struct amdgpu_device *adev,
-> + uint32_t vmid,
-> + bool stall);
-> int kfd_dbg_trap_disable(struct kfd_process *target);
-> int kfd_dbg_trap_enable(struct kfd_process *target, uint32_t fd,
-> void __user *runtime_info,
+>   const struct kfd2kgd_calls arcturus_kfd2kgd = {
+>   	.program_sh_mem_settings = kgd_gfx_v9_program_sh_mem_settings,
+>   	.set_pasid_vmid_mapping = kgd_gfx_v9_set_pasid_vmid_mapping,
+> @@ -294,6 +408,8 @@ const struct kfd2kgd_calls arcturus_kfd2kgd = {
+>   				kgd_gfx_v9_get_atc_vmid_pasid_mapping_info,
+>   	.set_vm_context_page_table_base =
+>   				kgd_gfx_v9_set_vm_context_page_table_base,
+> +	.enable_debug_trap = kgd_arcturus_enable_debug_trap,
+> +	.disable_debug_trap = kgd_arcturus_disable_debug_trap,
+>   	.get_cu_occupancy = kgd_gfx_v9_get_cu_occupancy,
+> -	.program_trap_handler_settings = kgd_gfx_v9_program_trap_handler_settings
+> +	.program_trap_handler_settings = kgd_gfx_v9_program_trap_handler_settings,
+>   };
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> index 222fe87161b7..56d25a6f1da9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> @@ -2376,8 +2376,8 @@ static void gfx_v9_0_init_sq_config(struct amdgpu_device *adev)
+>   	switch (adev->ip_versions[GC_HWIP][0]) {
+>   	case IP_VERSION(9, 4, 1):
+>   		tmp = RREG32_SOC15(GC, 0, mmSQ_CONFIG);
+> -		tmp = REG_SET_FIELD(tmp, SQ_CONFIG,
+> -					DISABLE_BARRIER_WAITCNT, 1);
+> +		tmp = REG_SET_FIELD(tmp, SQ_CONFIG, DISABLE_BARRIER_WAITCNT,
+> +				READ_ONCE(adev->barrier_has_auto_waitcnt) ? 0 : 1);
+
+This could be ..., !READ_ONCE(adev->barrier_has_auto_waitcnt));
+
+With those nit-picks fixed, the patch is
+
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+
+
+>   		WREG32_SOC15(GC, 0, mmSQ_CONFIG, tmp);
+>   		break;
+>   	default:
