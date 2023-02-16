@@ -1,50 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8E5699A00
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 17:28:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 935F8699A0D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 17:31:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71A8D10EDF2;
-	Thu, 16 Feb 2023 16:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2CE10E06B;
+	Thu, 16 Feb 2023 16:31:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A141010EDF2;
- Thu, 16 Feb 2023 16:27:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676564878; x=1708100878;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=5fjUXgpRPz5HZnnr0E+C/K40w1qyTyq1dm1otnBFoXc=;
- b=DMG8K0xk2OTr9wY81dXb/qwHxEspj6mmY+eEol5nLKt+jVjFvmKBiuhf
- MrCOc3lK5oIFjBYuENgX35jFvzRGTikMIxQ4n0i0hN+txzxlWAiajyYN7
- K1yO1LV1kxMRnIvLp/mZxom34G/MDNNGFTupEj2xiFsAUoimbg5dl0zR/
- VsYpr8A3s+aiRcdNqJFAPPtXdKUX24n3Jp3yH+wHaupcY2rqhNd/EFlae
- 9ZyG441Rz5inkky5Ti5ZaA2LuV5kPJUwhDKDJHdG4ZXCEKP/gyvxOTw+3
- 31K3lCKbvn3LzBgPRmunss4aNM2W1OTnbZ9eS7EzollpNvxUw2qhcyqnB g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="311389372"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="311389372"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 08:27:58 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="794080664"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="794080664"
-Received: from ksushmit-mobl1.gar.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.179])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 08:27:56 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/1] drm: Add a gpu page-table walker helper
-Date: Thu, 16 Feb 2023 17:27:29 +0100
-Message-Id: <20230216162729.219979-2-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230216162729.219979-1-thomas.hellstrom@linux.intel.com>
-References: <20230216162729.219979-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F0CF10E06B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 16:31:54 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id o15so2403375wrc.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 08:31:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jEMZzjzf85lsmHq6eqsYN15umSUmqqkDjPR9zLByQ54=;
+ b=ZxGqavK3dLM2MaP75GFelZsP+wmXD0Qel6u/oPqXV8kWAK6sQJYnZd7Aqb4F8XGL1/
+ zyJDewmSBjvu0NlO26CasB/184BcL8tKYJ3cNdPdPi4FWvTL/o59dwKYAN52V+IvFIot
+ OZgQ3KzWYCmhx7C5J7F3vD4l7zHvPO54JhNAUDnfaeXGEGDCuT2fsH02oowWsOulvQ1x
+ LAIJlKtFSYQ8tW0zoxZVGBcDqm/SkNa1kBAMMZibbMPbkLvwek9gLcrp4qo0fpKiD5e7
+ BDgBqQmJBs8PDhpShk63nBVmX68q3o30ID6KXFae9ecMwa0QBcYZv4IAweuuSQcXDGTJ
+ 4GgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jEMZzjzf85lsmHq6eqsYN15umSUmqqkDjPR9zLByQ54=;
+ b=za6V5q/K+mHxWy2pS5JjH1KMBLLn0Z0j4FdEGSZRGgtpvcgBHww2kGB3dlv+TJ0d9I
+ 1HHEVb5+r4DN6Yr2E78KdpYvbJFlJ57ILVvrRyrON51CIu91gGrPxDangfAap6irvLfK
+ n+c4zXd+58u9umRxPlz/E58RG9aQx2Co6Ow/ZfNRr/F6m43KtcLcLb8x9TylWS7pkC+p
+ HZ89NsuA1wScMa/LI3i3fI1CzdibDnJrGzJXtgY71zzhsdxQHv0fcQhHJS/L6aeiKFd2
+ O0Z23i1Fiu1JULGdJg+h7J3lWNLxuKfdXxG2+SeadIsLwJZQx1nMvVDn7RvjbSOeJBnU
+ 46Pw==
+X-Gm-Message-State: AO0yUKXcFHVxur5x+ykxQC8dEDO5Oey2yiDbYvwbAjmH51WEuERqdH2S
+ T56lM5JFNyA/qMUckwrE+1rLe2cSVJF/HA==
+X-Google-Smtp-Source: AK7set9/Ltis2IktfAIUaLXndU2aE8DhrEcrrd8FHeCBABjcMxWHanCZR+MZ0H2SdVEAyELFSidfHw==
+X-Received: by 2002:a5d:4f81:0:b0:2bf:e443:ea70 with SMTP id
+ d1-20020a5d4f81000000b002bfe443ea70mr4648592wru.1.1676565112830; 
+ Thu, 16 Feb 2023 08:31:52 -0800 (PST)
+Received: from ?IPV6:2a02:908:1256:79a0:431e:b458:66b1:218?
+ ([2a02:908:1256:79a0:431e:b458:66b1:218])
+ by smtp.gmail.com with ESMTPSA id
+ k13-20020adfe3cd000000b002c54a2037d1sm1949890wrm.75.2023.02.16.08.31.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Feb 2023 08:31:52 -0800 (PST)
+Message-ID: <d53e294b-2447-8692-f4e3-dbc46439b3cf@gmail.com>
+Date: Thu, 16 Feb 2023 17:31:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: Try to address the drm_debugfs issues
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20230209081838.45273-1-christian.koenig@amd.com>
+ <0d9c852b-8639-55f4-4ec1-ca24f72d72f7@igalia.com>
+ <4161ae4e-549c-00f6-5f37-f635a9cb775d@gmail.com>
+ <613b9aec-7105-ca2d-13cd-16ddd85a6fda@igalia.com>
+ <cbe1ac86-1d41-bcf7-679b-ad4e2a810361@gmail.com>
+ <Y+4Uz4KM3S9QCDqA@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <Y+4Uz4KM3S9QCDqA@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,373 +80,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: daniel.vetter@ffwll.ch, =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, mwen@igalia.com, mairacanal@riseup.net,
+ maxime@cerno.tech, wambui.karugax@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a gpu page table walker similar in functionality to the cpu page-table
-walker in mm/pagewalk.c. This is made a drm helper in the hope that it
-might prove useful to other drivers, but we could of course make it
-single-driver only and rename the functions initially.
 
-Also if remaining a DRM helper, we should consider making it a helper
-kernel module of its own.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/Makefile      |   1 +
- drivers/gpu/drm/drm_pt_walk.c | 159 +++++++++++++++++++++++++++++++++
- include/drm/drm_pt_walk.h     | 161 ++++++++++++++++++++++++++++++++++
- 3 files changed, 321 insertions(+)
- create mode 100644 drivers/gpu/drm/drm_pt_walk.c
- create mode 100644 include/drm/drm_pt_walk.h
+Am 16.02.23 um 12:34 schrieb Daniel Vetter:
+> On Thu, Feb 09, 2023 at 03:06:10PM +0100, Christian König wrote:
+>> Am 09.02.23 um 14:06 schrieb Maíra Canal:
+>>> On 2/9/23 09:13, Christian König wrote:
+>>>> Am 09.02.23 um 12:23 schrieb Maíra Canal:
+>>>>> On 2/9/23 05:18, Christian König wrote:
+>>>>>> Hello everyone,
+>>>>>>
+>>>>>> the drm_debugfs has a couple of well known design problems.
+>>>>>>
+>>>>>> Especially it wasn't possible to add files between
+>>>>>> initializing and registering
+>>>>>> of DRM devices since the underlying debugfs directory wasn't
+>>>>>> created yet.
+>>>>>>
+>>>>>> The resulting necessity of the driver->debugfs_init()
+>>>>>> callback function is a
+>>>>>> mid-layering which is really frowned on since it creates a horrible
+>>>>>> driver->DRM->driver design layering.
+>>>>>>
+>>>>>> The recent patch "drm/debugfs: create device-centered
+>>>>>> debugfs functions" tried
+>>>>>> to address those problem, but doesn't seem to work
+>>>>>> correctly. This looks like
+>>>>>> a misunderstanding of the call flow around
+>>>>>> drm_debugfs_init(), which is called
+>>>>>> multiple times, once for the primary and once for the render node.
+>>>>>>
+>>>>>> So what happens now is the following:
+>>>>>>
+>>>>>> 1. drm_dev_init() initially allocates the drm_minor objects.
+>>>>>> 2. ... back to the driver ...
+>>>>>> 3. drm_dev_register() is called.
+>>>>>>
+>>>>>> 4. drm_debugfs_init() is called for the primary node.
+>>>>>> 5. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
+>>>>>>      drm_atomic_debugfs_init() call drm_debugfs_add_file(s)()
+>>>>>> to add the files
+>>>>>>      for the primary node.
+>>>>>> 6. The driver->debugfs_init() callback is called to add
+>>>>>> debugfs files for the
+>>>>>>      primary node.
+>>>>>> 7. The added files are consumed and added to the primary
+>>>>>> node debugfs directory.
+>>>>>>
+>>>>>> 8. drm_debugfs_init() is called for the render node.
+>>>>>> 9. drm_framebuffer_debugfs_init(), drm_client_debugfs_init() and
+>>>>>>      drm_atomic_debugfs_init() call drm_debugfs_add_file(s)()
+>>>>>> to add the files
+>>>>>>      again for the render node.
+>>>>>> 10. The driver->debugfs_init() callback is called to add
+>>>>>> debugfs files for the
+>>>>>>       render node.
+>>>>>> 11. The added files are consumed and added to the render
+>>>>>> node debugfs directory.
+>>>>>>
+>>>>>> 12. Some more files are added through drm_debugfs_add_file().
+>>>>>> 13. drm_debugfs_late_register() add the files once more to
+>>>>>> the primary node
+>>>>>>       debugfs directory.
+>>>>>> 14. From this point on files added through
+>>>>>> drm_debugfs_add_file() are simply ignored.
+>>>>>> 15. ... back to the driver ...
+>>>>>>
+>>>>>> Because of this the dev->debugfs_mutex lock is also
+>>>>>> completely pointless since
+>>>>>> any concurrent use of the interface would just randomly
+>>>>>> either add the files to
+>>>>>> the primary or render node or just not at all.
+>>>>>>
+>>>>>> Even worse is that this implementation nails the coffin for
+>>>>>> removing the
+>>>>>> driver->debugfs_init() mid-layering because otherwise
+>>>>>> drivers can't control
+>>>>>> where their debugfs (primary/render node) are actually added.
+>>>>>>
+>>>>>> This patch set here now tries to clean this up a bit, but
+>>>>>> most likely isn't
+>>>>>> fully complete either since I didn't audit every driver/call path.
+>>>>> I tested the patchset on the v3d, vc4 and vkms and all the files
+>>>>> are generated
+>>>>> as expected, but I'm getting the following errors on dmesg:
+>>>>>
+>>>>> [    3.872026] debugfs: File 'v3d_ident' in directory '0'
+>>>>> already present!
+>>>>> [    3.872064] debugfs: File 'v3d_ident' in directory '128'
+>>>>> already present!
+>>>>> [    3.872078] debugfs: File 'v3d_regs' in directory '0' already
+>>>>> present!
+>>>>> [    3.872087] debugfs: File 'v3d_regs' in directory '128'
+>>>>> already present!
+>>>>> [    3.872097] debugfs: File 'measure_clock' in directory '0'
+>>>>> already present!
+>>>>> [    3.872105] debugfs: File 'measure_clock' in directory '128'
+>>>>> already present!
+>>>>> [    3.872116] debugfs: File 'bo_stats' in directory '0' already
+>>>>> present!
+>>>>> [    3.872124] debugfs: File 'bo_stats' in directory '128'
+>>>>> already present!
+>>>>>
+>>>>> It looks like the render node is being added twice, since this
+>>>>> doesn't happen
+>>>>> for vc4 and vkms.
+>>>> Thanks for the feedback and yes that's exactly what I meant with
+>>>> that I haven't looked into all code paths.
+>>>>
+>>>> Could it be that v3d registers it's debugfs files from the
+>>>> debugfs_init callback?
+>>> Although this is true, I'm not sure if this is the reason why the files
+>>> are
+>>> being registered twice, as this doesn't happen to vc4, and it also uses
+>>> the
+>>> debugfs_init callback. I believe it is somewhat related to the fact that
+>>> v3d is the primary node and the render node.
+>> I see. Thanks for the hint.
+>>
+>>> Best Regards,
+>>> - Maíra Canal
+>>>
+>>>> One alternative would be to just completely nuke support for
+>>>> separate render node debugfs files and only add a symlink to the
+>>>> primary node. Opinions?
+>> What do you think of this approach? I can't come up with any reason why we
+>> should have separate debugfs files for render nodes and I think it is pretty
+>> much the same reason you came up with the patch for per device debugfs files
+>> instead of per minor.
+> Yeah I think best is to symlink around a bit for compat. I thought we
+> where doing that already, and you can't actually create debugfs files on
+> render nodes? Or did I only dream about this?
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index ab4460fcd63f..53aae8a4ae99 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -39,6 +39,7 @@ drm-y := \
- 	drm_prime.o \
- 	drm_print.o \
- 	drm_property.o \
-+	drm_pt_walk.o \
- 	drm_syncobj.o \
- 	drm_sysfs.o \
- 	drm_trace_points.o \
-diff --git a/drivers/gpu/drm/drm_pt_walk.c b/drivers/gpu/drm/drm_pt_walk.c
-new file mode 100644
-index 000000000000..1a0b147a3acc
---- /dev/null
-+++ b/drivers/gpu/drm/drm_pt_walk.c
-@@ -0,0 +1,159 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright © 2022 Intel Corporation
-+ */
-+#include <drm/drm_pt_walk.h>
-+
-+/**
-+ * DOC: GPU page-table tree walking.
-+ * The utilities in this file are similar to the CPU page-table walk
-+ * utilities in mm/pagewalk.c. The main difference is that we distinguish
-+ * the various levels of a page-table tree with an unsigned integer rather
-+ * than by name. 0 is the lowest level, and page-tables with level 0 can
-+ * not be directories pointing to lower levels, whereas all other levels
-+ * can. The user of the utilities determines the highest level.
-+ *
-+ * Nomenclature:
-+ * Each struct drm_pt, regardless of level is referred to as a page table, and
-+ * multiple page tables typically form a page table tree with page tables at
-+ * intermediate levels being page directories pointing at page tables at lower
-+ * levels. A shared page table for a given address range is a page-table which
-+ * is neither fully within nor fully outside the address range and that can
-+ * thus be shared by two or more address ranges.
-+ */
-+static u64 drm_pt_addr_end(u64 addr, u64 end, unsigned int level,
-+			   const struct drm_pt_walk *walk)
-+{
-+	u64 size = 1ull << walk->shifts[level];
-+	u64 tmp = round_up(addr + 1, size);
-+
-+	return min_t(u64, tmp, end);
-+}
-+
-+static bool drm_pt_next(pgoff_t *offset, u64 *addr, u64 next, u64 end,
-+			unsigned int level, const struct drm_pt_walk *walk)
-+{
-+	pgoff_t step = 1;
-+
-+	/* Shared pt walk skips to the last pagetable */
-+	if (unlikely(walk->shared_pt_mode)) {
-+		unsigned int shift = walk->shifts[level];
-+		u64 skip_to = round_down(end, 1ull << shift);
-+
-+		if (skip_to > next) {
-+			step += (skip_to - next) >> shift;
-+			next = skip_to;
-+		}
-+	}
-+
-+	*addr = next;
-+	*offset += step;
-+
-+	return next != end;
-+}
-+
-+/**
-+ * drm_pt_walk_range() - Walk a range of a gpu page table tree with callbacks
-+ * for each page-table entry in all levels.
-+ * @parent: The root page table for walk start.
-+ * @level: The root page table level.
-+ * @addr: Virtual address start.
-+ * @end: Virtual address end + 1.
-+ * @walk: Walk info.
-+ *
-+ * Similar to the CPU page-table walker, this is a helper to walk
-+ * a gpu page table and call a provided callback function for each entry.
-+ *
-+ * Return: 0 on success, negative error code on error. The error is
-+ * propagated from the callback and on error the walk is terminated.
-+ */
-+int drm_pt_walk_range(struct drm_pt *parent, unsigned int level,
-+		      u64 addr, u64 end, struct drm_pt_walk *walk)
-+{
-+	pgoff_t offset = drm_pt_offset(addr, level, walk);
-+	struct drm_pt **entries = parent->dir ? parent->dir->entries : NULL;
-+	const struct drm_pt_walk_ops *ops = walk->ops;
-+	enum page_walk_action action;
-+	struct drm_pt *child;
-+	int err = 0;
-+	u64 next;
-+
-+	do {
-+		next = drm_pt_addr_end(addr, end, level, walk);
-+		if (walk->shared_pt_mode && drm_pt_covers(addr, next, level,
-+							  walk))
-+			continue;
-+again:
-+		action = ACTION_SUBTREE;
-+		child = entries ? entries[offset] : NULL;
-+		err = ops->pt_entry(parent, offset, level, addr, next,
-+				    &child, &action, walk);
-+		if (err)
-+			break;
-+
-+		/* Probably not needed yet for gpu pagetable walk. */
-+		if (unlikely(action == ACTION_AGAIN))
-+			goto again;
-+
-+		if (likely(!level || !child || action == ACTION_CONTINUE))
-+			continue;
-+
-+		err = drm_pt_walk_range(child, level - 1, addr, next, walk);
-+
-+		if (!err && ops->pt_post_descend)
-+			err = ops->pt_post_descend(parent, offset, level, addr,
-+						   next, &child, &action, walk);
-+		if (err)
-+			break;
-+
-+	} while (drm_pt_next(&offset, &addr, next, end, level, walk));
-+
-+	return err;
-+}
-+EXPORT_SYMBOL(drm_pt_walk_range);
-+
-+/**
-+ * drm_pt_walk_shared() - Walk shared page tables of a page-table tree.
-+ * @parent: Root page table directory.
-+ * @level: Level of the root.
-+ * @addr: Start address.
-+ * @end: Last address + 1.
-+ * @walk: Walk info.
-+ *
-+ * This function is similar to drm_pt_walk_range() but it skips page tables
-+ * that are private to the range. Since the root (or @parent) page table is
-+ * typically also a shared page table this function is different in that it
-+ * calls the pt_entry callback and the post_descend callback also for the
-+ * root. The root can be detected in the callbacks by checking whether
-+ * parent == *child.
-+ * Walking only the shared page tables is common for unbind-type operations
-+ * where the page-table entries for an address range are cleared or detached
-+ * from the main page-table tree.
-+ *
-+ * Return: 0 on success, negative error code on error: If a callback
-+ * returns an error, the walk will be terminated and the error returned by
-+ * this function.
-+ */
-+int drm_pt_walk_shared(struct drm_pt *parent, unsigned int level,
-+		       u64 addr, u64 end, struct drm_pt_walk *walk)
-+{
-+	const struct drm_pt_walk_ops *ops = walk->ops;
-+	enum page_walk_action action = ACTION_SUBTREE;
-+	struct drm_pt *child = parent;
-+	int err;
-+
-+	walk->shared_pt_mode = true;
-+	err = walk->ops->pt_entry(parent, 0, level + 1, addr, end,
-+				  &child, &action, walk);
-+
-+	if (err || action != ACTION_SUBTREE)
-+		return err;
-+
-+	err = drm_pt_walk_range(parent, level, addr, end, walk);
-+	if (!err && ops->pt_post_descend) {
-+		err = ops->pt_post_descend(parent, 0, level + 1, addr, end,
-+					   &child, &action, walk);
-+	}
-+	return err;
-+}
-+EXPORT_SYMBOL(drm_pt_walk_shared);
-diff --git a/include/drm/drm_pt_walk.h b/include/drm/drm_pt_walk.h
-new file mode 100644
-index 000000000000..64e7a418217c
---- /dev/null
-+++ b/include/drm/drm_pt_walk.h
-@@ -0,0 +1,161 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright © 2022 Intel Corporation
-+ */
-+#ifndef __DRM_PT_WALK__
-+#define __DRM_PT_WALK__
-+
-+#include <linux/pagewalk.h>
-+#include <linux/types.h>
-+
-+struct drm_pt_dir;
-+
-+/**
-+ * struct drm_pt - base class for driver pagetable subclassing.
-+ * @dir: Pointer to an array of children if any.
-+ *
-+ * Drivers could subclass this, and if it's a page-directory, typically
-+ * embed the drm_pt_dir::entries array in the same allocation.
-+ */
-+struct drm_pt {
-+	struct drm_pt_dir *dir;
-+};
-+
-+/**
-+ * struct drm_pt_dir - page directory structure
-+ * @entries: Array holding page directory children.
-+ *
-+ * It is the responsibility of the user to ensure @entries is
-+ * correctly sized.
-+ */
-+struct drm_pt_dir {
-+	struct drm_pt *entries[0];
-+};
-+
-+/**
-+ * struct drm_pt_walk - Embeddable struct for walk parameters
-+ */
-+struct drm_pt_walk {
-+	/** @ops: The walk ops used for the pagewalk */
-+	const struct drm_pt_walk_ops *ops;
-+	/**
-+	 * @shifts: Array of page-table entry shifts used for the
-+	 * different levels, starting out with the leaf level 0
-+	 * page-shift as the first entry. It's legal for this pointer to be
-+	 * changed during the walk.
-+	 */
-+	const u64 *shifts;
-+	/** @max_level: Highest populated level in @sizes */
-+	unsigned int max_level;
-+	/**
-+	 * @shared_pt_mode: Whether to skip all entries that are private
-+	 * to the address range and called only for entries that are
-+	 * shared with other address ranges. Such entries are referred to
-+	 * as shared pagetables.
-+	 */
-+	bool shared_pt_mode;
-+};
-+
-+/**
-+ * typedef drm_pt_entry_fn - gpu page-table-walk callback-function
-+ * @parent: The parent page.table.
-+ * @offset: The offset (number of entries) into the page table.
-+ * @level: The level of @parent.
-+ * @addr: The virtual address.
-+ * @next: The virtual address for the next call, or end address.
-+ * @child: Pointer to pointer to child page-table at this @offset. The
-+ * function may modify the value pointed to if, for example, allocating a
-+ * child page table.
-+ * @action: The walk action to take upon return. See <linux/pagewalk.h>.
-+ * @walk: The walk parameters.
-+ */
-+typedef int (*drm_pt_entry_fn)(struct drm_pt *parent, pgoff_t offset,
-+			       unsigned int level, u64 addr, u64 next,
-+			       struct drm_pt **child,
-+			       enum page_walk_action *action,
-+			       struct drm_pt_walk *walk);
-+
-+/**
-+ * struct drm_pt_walk_ops - Walk callbacks.
-+ */
-+struct drm_pt_walk_ops {
-+	/**
-+	 * @pt_entry: Callback to be called for each page table entry prior
-+	 * to descending to the next level. The returned value of the action
-+	 * function parameter is honored.
-+	 */
-+	drm_pt_entry_fn pt_entry;
-+	/**
-+	 * @pt_post_descend: Callback to be called for each page table entry
-+	 * after return from descending to the next level. The returned value
-+	 * of the action function parameter is ignored.
-+	 */
-+	drm_pt_entry_fn pt_post_descend;
-+};
-+
-+int drm_pt_walk_range(struct drm_pt *parent, unsigned int level,
-+		      u64 addr, u64 end, struct drm_pt_walk *walk);
-+
-+int drm_pt_walk_shared(struct drm_pt *parent, unsigned int level,
-+		       u64 addr, u64 end, struct drm_pt_walk *walk);
-+
-+/**
-+ * drm_pt_covers - Whether the address range covers an entire entry in @level
-+ * @addr: Start of the range.
-+ * @end: End of range + 1.
-+ * @level: Page table level.
-+ * @walk: Page table walk info.
-+ *
-+ * This function is a helper to aid in determining whether a leaf page table
-+ * entry can be inserted at this @level.
-+ *
-+ * Return: Whether the range provided covers exactly an entry at this level.
-+ */
-+static inline bool drm_pt_covers(u64 addr, u64 end, unsigned int level,
-+				 const struct drm_pt_walk *walk)
-+{
-+	u64 pt_size = 1ull << walk->shifts[level];
-+
-+	return end - addr == pt_size && IS_ALIGNED(addr, pt_size);
-+}
-+
-+/**
-+ * drm_pt_num_entries: Number of page-table entries of a given range at this
-+ * level
-+ * @addr: Start address.
-+ * @end: End address.
-+ * @level: Page table level.
-+ * @walk: Walk info.
-+ *
-+ * Return: The number of page table entries at this level between @start and
-+ * @end.
-+ */
-+static inline pgoff_t
-+drm_pt_num_entries(u64 addr, u64 end, unsigned int level,
-+		   const struct drm_pt_walk *walk)
-+{
-+	u64 pt_size = 1ull << walk->shifts[level];
-+
-+	return (round_up(end, pt_size) - round_down(addr, pt_size)) >>
-+		walk->shifts[level];
-+}
-+
-+/**
-+ * drm_pt_offset: Offset of the page-table entry for a given address.
-+ * @addr: The address.
-+ * @level: Page table level.
-+ * @walk: Walk info.
-+ *
-+ * Return: The page table entry offset for the given address in a
-+ * page table with size indicated by @level.
-+ */
-+static inline pgoff_t
-+drm_pt_offset(u64 addr, unsigned int level, const struct drm_pt_walk *walk)
-+{
-+	if (level < walk->max_level)
-+		addr &= ((1ull << walk->shifts[level + 1]) - 1);
-+
-+	return addr >> walk->shifts[level];
-+}
-+
-+#endif
--- 
-2.34.1
+No, we still have that distinction around unfortunately.
+
+That's why this went boom for me in the first place.
+
+Christian.
+
+> -Daniel
+>
+>> Regards,
+>> Christian.
+>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> Otherwise, the patchset looks good to me, but maybe Daniel has
+>>>>> some other
+>>>>> thoughts about it.
+>>>>>
+>>>>> Best Regards,
+>>>>> - Maíra Canal
+>>>>>
+>>>>>> Please comment/discuss.
+>>>>>>
+>>>>>> Cheers,
+>>>>>> Christian.
+>>>>>>
+>>>>>>
 
