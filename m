@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F241699E1E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 21:45:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CAC699E20
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 21:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439F010EEB7;
-	Thu, 16 Feb 2023 20:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22F9710EEC1;
+	Thu, 16 Feb 2023 20:45:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFC7710EE9B;
- Thu, 16 Feb 2023 20:45:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB11B10EEBF;
+ Thu, 16 Feb 2023 20:45:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676580320; x=1708116320;
+ t=1676580326; x=1708116326;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=nnS/v9e58259/I1aUQcopNV89llFsD81bJJrhdsCiho=;
- b=NC2aNFO/gGErV8ZDPPBoT+zjy06L1mBLMD+cX6oG9UgPjvmQ9MsXDrsW
- wpyVB5Xnuva8fqlpa0PpxZmiqnSoovdgnEu2bUtfY3wFOFwl371iVEyRD
- c2DOJpaQB1M53+Gjuqz5i9ykPn9vlg+MTz6+3iFydNNS2PqOncUBCQqsJ
- 7UPZzVIWHYnQZViTljcd+QsxSrpbdG5993qi/8mEVpLiD2aCGv4sSKGaw
- VAomnFlEj7qnHAWKQ2ehu0g55EklArN4TpD2tegHIQ9M7sdaFIIaCa+wV
- XM0uh41Id6l5iHk1Tcq3EIojq+FMZohU5g/3W4EYizcYOAJqcpryAjWnm w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="394308438"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="394308438"
+ bh=KdmrXOQWPiUD5GTaSPQeRMz6QqIKf/6FB8eRwdwrwJw=;
+ b=fJ0Hxv1Dlw0NI2fdmHf/VgBK+JgbbucNsfFEq4FxDCrZBD87YMRDYANN
+ DtN7fV8c3ltEuB+cCuXg016W2UPlHzF6MGrjWWDjDSpfEHPAYIqRHhAfh
+ eYNnShuSwOjCoLn/ucoNwcu805zZyYBIrMk9p5gytLTW61hZ0UpDAFSAp
+ l3is3S+BRsv/OL5hX9pIBRGU+kIs3qJYvhoHh1DnZfAZyvQWOCT+lDA0/
+ 5Vte8yPmfO9LhgQZAYPLnKyIJdS0lCSv3019XtgO8ujkvJZkMBzZgHWFQ
+ aN6XVxVIT5+G9Y7Os1xKjF6L3golhxYJvZ43MJyq7kefG2izyNRJ4YuW6 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="394308460"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="394308460"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 12:45:20 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670312004"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="670312004"
+ 16 Feb 2023 12:45:26 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670312066"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="670312066"
 Received: from uwah-mobl.ger.corp.intel.com (HELO localhost) ([10.252.63.106])
  by orsmga002-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 12:45:17 -0800
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 12:45:23 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/4] drm/displayid: return struct displayid_header from
- validate_displayid()
-Date: Thu, 16 Feb 2023 22:44:59 +0200
-Message-Id: <e840c744d165608a41db5a5e2bd4b0205783c697.1676580180.git.jani.nikula@intel.com>
+Subject: [PATCH 3/4] drm/displayid: provide access to DisplayID version and
+ primary use case
+Date: Thu, 16 Feb 2023 22:45:00 +0200
+Message-Id: <ad8a35c109f97ffe115e6b18e4a132b592f11089.1676580180.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676580180.git.jani.nikula@intel.com>
 References: <cover.1676580180.git.jani.nikula@intel.com>
@@ -64,80 +64,115 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid figuring out the header pointer multiple times.
+The DisplayID structure version and primary use case are stored in the
+DisplayID Base Section. We should be checking them in a number of places
+when parsing the DisplayID blocks. Currently, we completely ignore the
+primary use case, and just look at the block tags without cross-checking
+against structure version.
+
+Store the version and primary use case in the DisplayID iterator, and
+provide accessors to them. In general, the information is needed when
+iterating the blocks, and this is a convenient place to both store and
+retrieve the information during parsing.
+
+Promote using accessors rather than users poking at the iterator
+directly.
 
 Cc: Iaroslav Boliukin <iam@lach.pw>
 Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_displayid.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_displayid.c | 30 ++++++++++++++++++++++++++++++
+ include/drm/drm_displayid.h     | 12 +++++++++++-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
-index 7d03159dc146..0de9b5530393 100644
+index 0de9b5530393..9edc111be7ee 100644
 --- a/drivers/gpu/drm/drm_displayid.c
 +++ b/drivers/gpu/drm/drm_displayid.c
-@@ -20,7 +20,8 @@ displayid_get_header(const u8 *displayid, int length, int index)
- 	return base;
- }
- 
--static int validate_displayid(const u8 *displayid, int length, int idx)
-+static const struct displayid_header *
-+validate_displayid(const u8 *displayid, int length, int idx)
- {
- 	int i, dispid_length;
- 	u8 csum = 0;
-@@ -28,7 +29,7 @@ static int validate_displayid(const u8 *displayid, int length, int idx)
- 
- 	base = displayid_get_header(displayid, length, idx);
- 	if (IS_ERR(base))
--		return PTR_ERR(base);
-+		return base;
- 
- 	DRM_DEBUG_KMS("base revision 0x%x, length %d, %d %d\n",
- 		      base->rev, base->bytes, base->prod_id, base->ext_count);
-@@ -36,16 +37,16 @@ static int validate_displayid(const u8 *displayid, int length, int idx)
- 	/* +1 for DispID checksum */
- 	dispid_length = sizeof(*base) + base->bytes + 1;
- 	if (dispid_length > length - idx)
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 
- 	for (i = 0; i < dispid_length; i++)
- 		csum += displayid[idx + i];
- 	if (csum) {
- 		DRM_NOTE("DisplayID checksum invalid, remainder is %d\n", csum);
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
+@@ -123,6 +123,9 @@ __displayid_iter_next(struct displayid_iter *iter)
  	}
  
--	return 0;
-+	return base;
- }
+ 	for (;;) {
++		/* The first section we encounter is the base section */
++		bool base_section = !iter->section;
++
+ 		iter->section = drm_find_displayid_extension(iter->drm_edid,
+ 							     &iter->length,
+ 							     &iter->idx,
+@@ -132,6 +135,18 @@ __displayid_iter_next(struct displayid_iter *iter)
+ 			return NULL;
+ 		}
  
- static const u8 *drm_find_displayid_extension(const struct drm_edid *drm_edid,
-@@ -54,7 +55,6 @@ static const u8 *drm_find_displayid_extension(const struct drm_edid *drm_edid,
++		/* Save the structure version and primary use case. */
++		if (base_section) {
++			const struct displayid_header *base;
++
++			base = displayid_get_header(iter->section, iter->length,
++						    iter->idx);
++			if (!IS_ERR(base)) {
++				iter->version = base->rev;
++				iter->primary_use = base->prod_id;
++			}
++		}
++
+ 		iter->idx += sizeof(struct displayid_header);
+ 
+ 		block = displayid_iter_block(iter);
+@@ -144,3 +159,18 @@ void displayid_iter_end(struct displayid_iter *iter)
  {
- 	const u8 *displayid = drm_find_edid_extension(drm_edid, DISPLAYID_EXT, ext_index);
- 	const struct displayid_header *base;
--	int ret;
+ 	memset(iter, 0, sizeof(*iter));
+ }
++
++/* DisplayID Structure Version/Revision from the Base Section. */
++u8 displayid_version(const struct displayid_iter *iter)
++{
++	return iter->version;
++}
++
++/*
++ * DisplayID Primary Use Case (2.0+) or Product Type Identifier (1.0-1.3) from
++ * the Base Section.
++ */
++u8 displayid_primary_use(const struct displayid_iter *iter)
++{
++	return iter->primary_use;
++}
+diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+index 49649eb8447e..566497eeb3b8 100644
+--- a/include/drm/drm_displayid.h
++++ b/include/drm/drm_displayid.h
+@@ -139,7 +139,11 @@ struct displayid_vesa_vendor_specific_block {
+ 	u8 mso;
+ } __packed;
  
- 	if (!displayid)
- 		return NULL;
-@@ -63,11 +63,10 @@ static const u8 *drm_find_displayid_extension(const struct drm_edid *drm_edid,
- 	*length = EDID_LENGTH - 1;
- 	*idx = 1;
+-/* DisplayID iteration */
++/*
++ * DisplayID iteration.
++ *
++ * Do not access directly, this is private.
++ */
+ struct displayid_iter {
+ 	const struct drm_edid *drm_edid;
  
--	ret = validate_displayid(displayid, *length, *idx);
--	if (ret)
-+	base = validate_displayid(displayid, *length, *idx);
-+	if (IS_ERR(base))
- 		return NULL;
+@@ -147,6 +151,9 @@ struct displayid_iter {
+ 	int length;
+ 	int idx;
+ 	int ext_index;
++
++	u8 version;
++	u8 primary_use;
+ };
  
--	base = (const struct displayid_header *)&displayid[*idx];
- 	*length = *idx + sizeof(*base) + base->bytes;
+ void displayid_iter_edid_begin(const struct drm_edid *drm_edid,
+@@ -157,4 +164,7 @@ __displayid_iter_next(struct displayid_iter *iter);
+ 	while (((__block) = __displayid_iter_next(__iter)))
+ void displayid_iter_end(struct displayid_iter *iter);
  
- 	return displayid;
++u8 displayid_version(const struct displayid_iter *iter);
++u8 displayid_primary_use(const struct displayid_iter *iter);
++
+ #endif
 -- 
 2.34.1
 
