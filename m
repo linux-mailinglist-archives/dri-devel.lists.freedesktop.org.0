@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A6D16994D5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 13:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C87699535
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 14:08:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 206CA10E16F;
-	Thu, 16 Feb 2023 12:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1BF910ED6D;
+	Thu, 16 Feb 2023 13:08:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E185710E178
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 12:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676551981; x=1708087981;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=STp968vNJjTs7QU1ZnUXo9mg8t5kgUObqdNlZ4ETOKM=;
- b=cBxcW7IqsFzNVmFfrMou/XbLwGh6h9S2xsUr4X/uH6zx9b8jS5hrtazt
- Krr7/xsIA3U9BctdyqN8mKOTW4sNko2TELS8m2BGLjoS5D0i7iKbhDsNn
- xRa7hh6sb46OSM8mRm5TNr+rZ8pHfAKacd+hGUVg2dyxVX9+vLoCghVwW
- pwtGJw8R704d+bImWKvkujcP+typ5hNh5aZ5gvRZZ4NmrSJoP5O91HC4Y
- wtznHDrX6VquT0o7hhFIc9bZ5510EVsaN8/hQI83Y63lzjXchcq1Ko90R
- hP1aHCUc3rLssdDWjHDynU058Tn4GUg2dAKUG8oX+5oZLHoVNSV8TVFWl w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="417929909"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="417929909"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 04:53:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="794013670"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="794013670"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.168])
- by orsmga004.jf.intel.com with SMTP; 16 Feb 2023 04:52:57 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 16 Feb 2023 14:52:51 +0200
-Date: Thu, 16 Feb 2023 14:52:51 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 17/17] drm/cirrus: Use VGA macro constants to unblank
-Message-ID: <Y+4nIxRhF7KF2Qo0@intel.com>
-References: <20230215161517.5113-1-tzimmermann@suse.de>
- <20230215161517.5113-18-tzimmermann@suse.de>
- <20230216113330.rmzmkdvpxdqk2nrd@sirius.home.kraxel.org>
- <306e110d-4d1f-cb9c-6f9b-c8a5ddd48a61@suse.de>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A07D210ED59
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 13:08:51 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 8ABD0660219B;
+ Thu, 16 Feb 2023 13:08:48 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1676552929;
+ bh=1aMvxDh8d3+C/+m2WmV57NMDEipr+R/LGtcHEX+eb0w=;
+ h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+ b=bDnXrSwE0Bt+o5pYbEKkMcaJCFdrIPQl8oEZjJo2QaiwE9jk6bQCwtS/MdxO7iq96
+ icDV3WdrMXQ9CZ25dvrmYvaMhKMBkAimClZ7oYANFD3zD0dO89V23UcWHSD2ub41bN
+ 7uJFzcBP4F6E1uaF5GeBdxmFiTr7CVlQxowFWpQeWGNEtCILN9mX1O9tXmocqkrikR
+ bOY/Yr7hzKyxlYgwM3iDeh0A8+3wRFqWUDIyqTGxkIEGniFafb8clhDJWPjlK6FFyf
+ 2UmDBsw+qtP7yOxigjwkm0Sixspy9BYdhaKYhoIOfTNpT+PUxS0cu878EiVgP2ClpP
+ yRjHSygR12XHw==
+Message-ID: <9f34badc-53b2-1152-2900-8e105feec55b@collabora.com>
+Date: Thu, 16 Feb 2023 14:08:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <306e110d-4d1f-cb9c-6f9b-c8a5ddd48a61@suse.de>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Content-Language: en-US
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+ <e5e9e8dd-a5b6-cfd2-44d6-4d5aa768e56c@collabora.com>
+ <20230127081339.yovxofpboc4gfdgo@sirius.home.kraxel.org>
+ <0081b2c3-56c9-3ed8-b419-5ce8a151999e@collabora.com>
+ <Y+4eYqdH1Xw2OYX5@phenom.ffwll.local>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <Y+4eYqdH1Xw2OYX5@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,58 +60,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- airlied@redhat.com, sam@ravnborg.org
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>, Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Qiang Yu <yuq825@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 16, 2023 at 01:03:02PM +0100, Thomas Zimmermann wrote:
-> Hi,
+Il 16/02/23 13:15, Daniel Vetter ha scritto:
+> On Mon, Jan 30, 2023 at 03:02:10PM +0300, Dmitry Osipenko wrote:
+>> On 1/27/23 11:13, Gerd Hoffmann wrote:
+>>> On Thu, Jan 26, 2023 at 01:55:09AM +0300, Dmitry Osipenko wrote:
+>>>> Hello Thomas and Gerd,
+>>>>
+>>>> On 1/9/23 00:04, Dmitry Osipenko wrote:
+>>>>> This series:
+>>>>>
+>>>>>    1. Makes minor fixes for drm_gem_lru and Panfrost
+>>>>>    2. Brings refactoring for older code
+>>>>>    3. Adds common drm-shmem memory shrinker
+>>>>>    4. Enables shrinker for VirtIO-GPU driver
+>>>>>    5. Switches Panfrost driver to the common shrinker
+>>>>>
+>>>>> Changelog:
+>>>>>
+>>>>> v10:- Rebased on a recent linux-next.
+>>>>>
+>>>>>      - Added Rob's ack to MSM "Prevent blocking within shrinker loop" patch.
+>>>>>
+>>>>>      - Added Steven's ack/r-b/t-b for the Panfrost patches.
+>>>>>
+>>>>>      - Fixed missing export of the new drm_gem_object_evict() function.
+>>>>>
+>>>>>      - Added fixes tags to the first two patches that are making minor fixes,
+>>>>>        for consistency.
+>>>>
+>>>> Do you have comments on this version? Otherwise ack will be appreciated.
+>>>> Thanks in advance!
+>>>
+>>> Don't feel like signing off on the locking changes, I'm not that
+>>> familiar with the drm locking rules.  So someone else looking at them
+>>> would be good.  Otherwise the series and specifically the virtio changes
+>>> look good to me.
+>>>
+>>> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>>
+>> Thomas was looking at the the DRM core changes. I expect he'll ack them.
+>>
+>> Thank you for reviewing the virtio patches!
 > 
-> thanks for taking a look at the patches.
-> 
-> Am 16.02.23 um 12:33 schrieb Gerd Hoffmann:
-> > On Wed, Feb 15, 2023 at 05:15:17PM +0100, Thomas Zimmermann wrote:
-> >> Set the VGA bit for unblanking with macro constants instead of magic
-> >> values. No functional changes.
-> > 
-> > blank/unblank should work simliar to bochs (see commit 250e743915d4),
-> > that is maybe a nice thing to add of you modernize the driver anyway.
-> Yeah, it's the VGA PAS field. [1] But is it really called blanking? PAS 
-> controls palette access, but blanking is sounds more like DPMS.
-
-Why aren't people just using the normal way of flipping the
-screen off bit in sequencer register 01?
-
-
-> 
-> The PAS setting is actually part of the primary plane, so it's current 
-> location in the CRTC code is misleading. I didn't want to change the 
-> driver logic too much, but I guess I'll fix that in the next iteration.
-> 
-> Best regards
-> Thomas
-> 
-> [1] 
-> https://web.stanford.edu/class/cs140/projects/pintos/specs/freevga/vga/attrreg.htm#3C0
-> 
-> > 
-> > take care,
-> >    Gerd
-> > 
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Ivo Totev
-
-
 
 
--- 
-Ville Syrjälä
-Intel
+> I think best-case would be an ack from msm people that this looks good
+> (even better a conversion for msm to start using this).
+> 
+
+Dmitry B, Konrad, can you please help with this one?
+
+Thanks!
+
+Regards,
+Angelo
+
+> Otherwise I think the locking looks reasonable, I think the tricky bits
+> have been moving the dma-buf rules, but if you want I can try to take
+> another in-depth look. But would need to be in 2 weeks since I'm going on
+> vacations, pls ping me on irc if I'm needed.
+> 
+> Otherwise would be great if we can land this soon, so that it can soak the
+> entire linux-next cycle to catch any driver specific issues.
+> -Daniel
+
