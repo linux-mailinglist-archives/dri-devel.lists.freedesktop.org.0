@@ -2,85 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62773699417
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 13:15:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8BA699436
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 13:22:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B3710E128;
-	Thu, 16 Feb 2023 12:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7BDB10ED55;
+	Thu, 16 Feb 2023 12:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A78F310E128
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 12:15:40 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id m14so1611424wrg.13
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 04:15:40 -0800 (PST)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C894810ED55
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 12:22:36 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ f18-20020a7bcd12000000b003e206711347so1529755wmj.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 04:22:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=piaqzgCKFZLQmY10k4IjC7MluutMq0LDizDNTJemOVE=;
- b=ZwmW+/tsxiqhy4Fe8h8o+D+0Y3rKgPhqnPVd3h2SXXjq9GFWsGM/IYJuSGdI/VS12v
- ONNkkDZVd0AjsYVwEKCHys6pJs4ZVXw9sDzzrSQZ72h1ZFRYSu92lypNMVcYe8A7bQeU
- Emw+iqP0l5YYH99k1kkz89QUaXRVbiZ7JWnEk=
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=fMx8BAbpdIXe34VxGByr3BaVtPqvuKphKamIlgh1Bag=;
+ b=jFS5B3ov23EVHiXg76y/Qls8c8kS5y7Lwf3MZM6cvLmcaQoZTqcOyE2eKLGHfKtXzR
+ 2F/4W5eojFzCqnXSm2mPQa/Rn36IMBIoMG9UZCFDJFMCylfIJTvyUuOWSmBbM5VRRpfI
+ j54HBH8FfzB0FGFhORF/3d5khsCliiMapJ2mw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=piaqzgCKFZLQmY10k4IjC7MluutMq0LDizDNTJemOVE=;
- b=RxyyRK7/K1cHL8Ib+GDdc30AHAlqQ3xpZR2MNRc/bTRJG/gjijiAGUzOZdXkXDzMBE
- 1OR/JgflkqMvhMxoFzI4sGp+UT0Oi/JGM2f3qRalCHhwvPiDApoYOFiSaF+2Bsd974mp
- 3puES9h6caiSMmmIc/kh76N2zLwx4AkAP57Y0aB6uzqwptQPaxg7jPpmzF3U60uNzk6t
- cI43hz4gkQRa8UhkWaN58PPKJSP3DRFt3VSdn+WlM6fEuZbWd/8C81QM6FN4OUdCl4o6
- eRJLUG82j5JYjXQaS4DIu9FIZIOxaIF0UxYOwm8aZvMx9YdMnCJkjOV/zZiConev/V8K
- XNxQ==
-X-Gm-Message-State: AO0yUKWFj1T4PmKzW7aco6tVCUe05k2izEAvGOEF49v57CQ1EqlM45DK
- LlgZ3c69z1EewlSobyM25cZR4w==
-X-Google-Smtp-Source: AK7set8htScoYo9KcDutSph1npWSqUrZBvhCgkZbtOlJws9UnAqhqfODu6C0HWh4XJFXcCSIORzQUA==
-X-Received: by 2002:a5d:46d1:0:b0:2bf:de9c:4595 with SMTP id
- g17-20020a5d46d1000000b002bfde9c4595mr3616218wrs.5.1676549739053; 
- Thu, 16 Feb 2023 04:15:39 -0800 (PST)
+ bh=fMx8BAbpdIXe34VxGByr3BaVtPqvuKphKamIlgh1Bag=;
+ b=3+sZOk7xacMDbPYPGmRG2Zbab3RmPKScSN+ldp0X84NyPDqSKaXdEuUyeyJmlBFdEN
+ qhasL7gEp1/oAENzGw7FurYXqdtpYzfjFUXSQC0IsPnN4Ue3c+wPZIRooTxnWptIOGcl
+ r+wDYFf2qXbDYpCzWwuG58dLsTsjFzrBGrzUNVdeiSQgbKGVTfdx1g9ZUjWZ0qGq5gOU
+ Bzth0jlBgi9EHIvQwI4NdyKMkjBw5PeYFDoeR4k5d5xxtob1de797ij0ci5W66u+LjZ3
+ HgK2Q1aBLSYKP3FqAFMmPOp3ZRQmDgDDgH/gEH98s9xrfoUl/6IwPWPqFPuXvHF3rS22
+ AmTQ==
+X-Gm-Message-State: AO0yUKWYux2kGw+4uZ3/7U8WxsG9a8CEHYpJluTFaMNhCKgPDGZGsZHH
+ dSkppMgTpF9oEGtALBoWlgqt2w==
+X-Google-Smtp-Source: AK7set878VoREr295XMcS6wu4BQXtwW3RR2m5A5tx7mG4sonETPT3aTcl3quaxvVHsPvuMSUhQZMXQ==
+X-Received: by 2002:a05:600c:4f46:b0:3db:2922:2b99 with SMTP id
+ m6-20020a05600c4f4600b003db29222b99mr5572712wmq.4.1676550155209; 
+ Thu, 16 Feb 2023 04:22:35 -0800 (PST)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- u11-20020a5d514b000000b002425be3c9e2sm1364716wrt.60.2023.02.16.04.15.38
+ d21-20020a05600c34d500b003daffc2ecdesm5282033wmq.13.2023.02.16.04.22.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 04:15:38 -0800 (PST)
-Date: Thu, 16 Feb 2023 13:15:30 +0100
+ Thu, 16 Feb 2023 04:22:34 -0800 (PST)
+Date: Thu, 16 Feb 2023 13:22:29 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
- Panfrost DRM drivers
-Message-ID: <Y+4eYqdH1Xw2OYX5@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com, virtualization@lists.linux-foundation.org,
- David Airlie <airlied@gmail.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
- <e5e9e8dd-a5b6-cfd2-44d6-4d5aa768e56c@collabora.com>
- <20230127081339.yovxofpboc4gfdgo@sirius.home.kraxel.org>
- <0081b2c3-56c9-3ed8-b419-5ce8a151999e@collabora.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH 1/6] drm/amdgpu: Generalize KFD dmabuf import
+Message-ID: <Y+4gBb3V1uBf3l1c@phenom.ffwll.local>
+References: <cab37a40-9737-1b77-3a3f-87965d4c70b2@amd.com>
+ <9b5b20e0-e04b-f7f6-9459-42d5a4bb44c7@amd.com>
+ <1437874c-4b4b-191f-4486-de6ac69e99cc@amd.com>
+ <19873c87-5d01-30dd-84d2-ced61b236fa0@amd.com>
+ <27d2a3eb-541f-fd5b-6a92-77e49c74d1b4@gmail.com>
+ <e55cc02a-3180-20b9-8255-f95f5910e7fe@amd.com>
+ <bac027e4-0e91-8341-3baa-74520c60c808@amd.com>
+ <b5101ba0-aa12-b3f1-10c0-368dc50ae4ac@amd.com>
+ <8e121589-9e53-9237-6fa3-2a78ecc2dd8a@gmail.com>
+ <9eb1a440-159f-1eb4-d4a7-93cc6beb1682@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0081b2c3-56c9-3ed8-b419-5ce8a151999e@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9eb1a440-159f-1eb4-d4a7-93cc6beb1682@gmail.com>
 X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,72 +80,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
- Sumit Semwal <sumit.semwal@linaro.org>, Steven Price <steven.price@arm.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Sean Paul <sean@poorly.run>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, linux-kernel@vger.kernel.org,
- Qiang Yu <yuq825@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+Cc: "Chen, Xiaogang" <xiaogang.chen@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Felix Kuehling <felix.kuehling@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 30, 2023 at 03:02:10PM +0300, Dmitry Osipenko wrote:
-> On 1/27/23 11:13, Gerd Hoffmann wrote:
-> > On Thu, Jan 26, 2023 at 01:55:09AM +0300, Dmitry Osipenko wrote:
-> >> Hello Thomas and Gerd,
-> >>
-> >> On 1/9/23 00:04, Dmitry Osipenko wrote:
-> >>> This series:
-> >>>
-> >>>   1. Makes minor fixes for drm_gem_lru and Panfrost
-> >>>   2. Brings refactoring for older code
-> >>>   3. Adds common drm-shmem memory shrinker
-> >>>   4. Enables shrinker for VirtIO-GPU driver
-> >>>   5. Switches Panfrost driver to the common shrinker
-> >>>
-> >>> Changelog:
-> >>>
-> >>> v10:- Rebased on a recent linux-next.
-> >>>
-> >>>     - Added Rob's ack to MSM "Prevent blocking within shrinker loop" patch.
-> >>>
-> >>>     - Added Steven's ack/r-b/t-b for the Panfrost patches.
-> >>>
-> >>>     - Fixed missing export of the new drm_gem_object_evict() function.
-> >>>
-> >>>     - Added fixes tags to the first two patches that are making minor fixes,
-> >>>       for consistency.
-> >>
-> >> Do you have comments on this version? Otherwise ack will be appreciated.
-> >> Thanks in advance!
+On Tue, Jan 17, 2023 at 04:06:05AM +0300, Dmitry Osipenko wrote:
+> 16.01.2023 18:11, Christian König пишет:
 > > 
-> > Don't feel like signing off on the locking changes, I'm not that
-> > familiar with the drm locking rules.  So someone else looking at them
-> > would be good.  Otherwise the series and specifically the virtio changes
-> > look good to me.
+> >>>>>
+> >>>>>> mmapping the memory with that new offset should still work. The
+> >>>>>> imported BO is created with ttm_bo_type_sg, and AFAICT ttm_bo_vm.c
+> >>>>>> supports mapping of SG BOs.
+> >>>>>
+> >>>>> Actually it shouldn't. This can go boom really easily.
+> >>>>
+> >>>> OK. I don't think we're doing this, but after Xiaogang raised the
+> >>>> question I went looking through the code whether it's theoretically
+> >>>> possible. I didn't find anything in the code that says that mmapping
+> >>>> imported dmabufs would be prohibited or even dangerous. On the
+> >>>> contrary, I found that ttm_bo_vm explicitly supports mmapping SG BOs.
+> >>>>
+> >>>>
+> >>>>>
+> >>>>> When you have imported a BO the only correct way of to mmap() it is
+> >>>>> to do so on the original exporter.
+> >>>>
+> >>>> That seems sensible, and this is what we do today. That said, if
+> >>>> mmapping an imported BO is dangerous, I'm missing a mechanism to
+> >>>> protect against this. It could be as simple as setting
+> >>>> AMDGPU_GEM_CREATE_NO_CPU_ACCESS in amdgpu_dma_buf_create_obj.
+> >>>
+> >>> At least for the GEM mmap() handler this is double checked very early
+> >>> by looking at obj->import_attach and then either rejecting it or
+> >>> redirecting the request to the DMA-buf file instead.
+> >>
+> >> Can you point me at where this check is? I see a check for
+> >> obj->import_attach in drm_gem_dumb_map_offset. But I can't see how
+> >> this function is called in amdgpu. I don't think it is used at all.
 > > 
-> > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> > Uff, good question! @Thomas and @Dmitry: I clearly remember that one of
+> > you guys was involved in the DRM/GEM mmap cleanup and DMA-buf with
+> > workarounds for the KFD and DMA-buf.
+> > 
+> > What was the final solution to this? I can't find it of hand any more.
 > 
-> Thomas was looking at the the DRM core changes. I expect he'll ack them.
+> I was looking at it. The AMDGPU indeed allows to map imported GEMs, but
+> then touching the mapped area by CPU results in a bus fault. You,
+> Christian, suggested that this an AMDGPU bug that should be fixed by
+> prohibiting the mapping in the first place and I was going to fix it,
+> but then the plan changed from prohibiting the mapping into fixing it.
 > 
-> Thank you for reviewing the virtio patches!
+> The first proposal was to make DRM core to handle the dma-buf mappings
+> for all drivers universally [1]. Then we decided that will be better to
+> prohibit mapping of imported GEMs [2]. In the end, Rob Clark argued that
+> better to implement the [1], otherwise current userspace (Android) will
+> be broken if mapping will be prohibited.
+> 
+> The last question was about the cache syncing of imported dma-bufs, how
+> to ensure that drivers will do the cache maintenance/syncing properly.
+> Rob suggested that it should be a problem for drivers and not for DRM core.
+> 
+> I was going to re-send the [1], but other things were getting priority.
+> It's good that you reminded me about it :) I may re-send it sometime
+> soon if there are no new objections.
+> 
+> [1] https://patchwork.freedesktop.org/patch/487481/
+> 
+> [2]
+> https://lore.kernel.org/all/20220701090240.1896131-1-dmitry.osipenko@collabora.com/
 
-I think best-case would be an ack from msm people that this looks good
-(even better a conversion for msm to start using this).
+Hm I still don't like allowing this in general, because in general it just
+doesn't work.
 
-Otherwise I think the locking looks reasonable, I think the tricky bits
-have been moving the dma-buf rules, but if you want I can try to take
-another in-depth look. But would need to be in 2 weeks since I'm going on
-vacations, pls ping me on irc if I'm needed.
-
-Otherwise would be great if we can land this soon, so that it can soak the
-entire linux-next cycle to catch any driver specific issues.
+I think more like a per-driver opt-in or something might be needed, so
+that drivers which "know" that it's ok to just mmap without coherency can
+allow that. Allowing this in general essentially gives up on the entire
+idea of dma-buf cache flushing completely.
 -Daniel
 -- 
 Daniel Vetter
