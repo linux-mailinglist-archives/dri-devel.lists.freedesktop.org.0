@@ -2,51 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6983E698938
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 01:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCB969899F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 02:05:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F1010E1C2;
-	Thu, 16 Feb 2023 00:23:48 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9BE10E00D;
- Thu, 16 Feb 2023 00:23:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676507026; x=1708043026;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=LcjKVTpoWBOuZ3g30E8RAn5BLgh5Z5qL91JvI7+YNlk=;
- b=ROYBAIhib23KmgDM7nvY/NCAW21yBWtC7rym5HXsoNN5jB64PbK/9/Di
- fP29n1PDI0agvleY12A2tFu/DwX94zkkwJMv+5ZafCz5XcEwAMUhgg5j9
- 8ClslynVq8D3aHjEim2sgpbKDXMzFyUJdPtmjXSmclffhpq4qkmqb5iiv
- KTqNvVHUGF2HF3TwkUVLxLhw8iKMLs6rWNBQdwPYSm3B1urHdmxq3D625
- E+d41+c2KagZwUBUsqfvZtgo13BtWTau9siU1MXAQkuEO2sRQ2sr1uyqw
- KunI2byZoAqrJ9Ez/O3BHSbtfn2wazw8BKhyEzqgwXMCPFdk88oCzIcU6 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="311945702"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; d="scan'208";a="311945702"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2023 16:23:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="843928662"
-X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; d="scan'208";a="843928662"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga005.jf.intel.com with ESMTP; 15 Feb 2023 16:23:32 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v2 2/2] drm/i915: Don't use BAR mappings for ring buffers with
- LLC
-Date: Wed, 15 Feb 2023 16:22:48 -0800
-Message-Id: <20230216002248.1851966-3-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230216002248.1851966-1-John.C.Harrison@Intel.com>
-References: <20230216002248.1851966-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51BF810E004;
+	Thu, 16 Feb 2023 01:05:39 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F237A10E004
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 01:05:36 +0000 (UTC)
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+ s=mail; t=1676509534;
+ bh=IVBAbq+p3hoTXWJlTZmLI/40oSSDdV0kZu4KVH+IXTU=;
+ h=From:Date:Subject:To:Cc:From;
+ b=KZVerghpYl9EniP5JD5JDJPwaYLf0qJbVq/OwA8lTrs48a6VquniofrHaf/nsMg40
+ on7rRTjKRDEq5Ba+udGj0aaFuuQ027fqXPOoOL4rn5HWOBZmSW7V2Ws6AYWdMpmlnk
+ 8NDg8yai1NgjZtZwm6VGUZj8xe9/X2kfrZNcOdRQ=
+Date: Thu, 16 Feb 2023 01:05:30 +0000
+Subject: [PATCH] drm/i915: Make kobj_type structures constant
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20230216-kobj_type-i915-v1-1-ca65c9b93518@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAFmB7WMC/x2NUQqDMBAFryL73YBJMKhXkVKycaurEiWp0iLe3
+ aWfM4/hnZApMWVoixMSHZx5jQL6UUAYfRxIcS8MpjS2NNqpecXp9fltMjS6UnXtkDBYp00DEqH
+ PpDD5GEbJ4r4sIrdEb/7+X7rndd3pJkikdQAAAA==
+To: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676509531; l=1627;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=IVBAbq+p3hoTXWJlTZmLI/40oSSDdV0kZu4KVH+IXTU=;
+ b=aIk/xPnRJGbvs8WW/pbryE5nyXYrxV32q9QWxWXyvNiJdzUCmtbetX0pMdJrPwLDPXagAALvt
+ gskrXgwRwvcDKdJ4nHFUnGBIb3I57Pg+AdOpk3dVby4wF8bw30972kY
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,56 +54,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- DRI-Devel@Lists.FreeDesktop.Org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- stable@vger.kernel.org, John Harrison <John.C.Harrison@Intel.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Since commit ee6d3dd4ed48 ("driver core: make kobj_type constant.")
+the driver core allows the usage of const struct kobj_type.
 
-Direction from hardware is that ring buffers should never be mapped
-via the BAR on systems with LLC. There are too many caching pitfalls
-due to the way BAR accesses are routed. So it is safest to just not
-use it.
+Take advantage of this to constify the structure definitions to prevent
+modification at runtime.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Fixes: 9d80841ea4c9 ("drm/i915: Allow ringbuffers to be bound anywhere")
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.9+
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/gpu/drm/i915/gt/intel_ring.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.c | 2 +-
+ drivers/gpu/drm/i915/gt/sysfs_engines.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c b/drivers/gpu/drm/i915/gt/intel_ring.c
-index fb1d2595392ed..8675ec8ead353 100644
---- a/drivers/gpu/drm/i915/gt/intel_ring.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ring.c
-@@ -53,7 +53,7 @@ int intel_ring_pin(struct intel_ring *ring, struct i915_gem_ww_ctx *ww)
- 	if (unlikely(ret))
- 		goto err_unpin;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
+index 9486dd3bed99..df15b17caf89 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
+@@ -71,7 +71,7 @@ static void kobj_gt_release(struct kobject *kobj)
+ {
+ }
  
--	if (i915_vma_is_map_and_fenceable(vma)) {
-+	if (i915_vma_is_map_and_fenceable(vma) && !HAS_LLC(vma->vm->i915)) {
- 		addr = (void __force *)i915_vma_pin_iomap(vma);
- 	} else {
- 		int type = i915_coherent_map_type(vma->vm->i915, vma->obj, false);
-@@ -98,7 +98,7 @@ void intel_ring_unpin(struct intel_ring *ring)
- 		return;
+-static struct kobj_type kobj_gt_type = {
++static const struct kobj_type kobj_gt_type = {
+ 	.release = kobj_gt_release,
+ 	.sysfs_ops = &kobj_sysfs_ops,
+ 	.default_groups = id_groups,
+diff --git a/drivers/gpu/drm/i915/gt/sysfs_engines.c b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+index f2d9858d827c..b5e0fe5dbf6c 100644
+--- a/drivers/gpu/drm/i915/gt/sysfs_engines.c
++++ b/drivers/gpu/drm/i915/gt/sysfs_engines.c
+@@ -421,7 +421,7 @@ static void kobj_engine_release(struct kobject *kobj)
+ 	kfree(kobj);
+ }
  
- 	i915_vma_unset_ggtt_write(vma);
--	if (i915_vma_is_map_and_fenceable(vma))
-+	if (i915_vma_is_map_and_fenceable(vma) && !HAS_LLC(vma->vm->i915)) {
- 		i915_vma_unpin_iomap(vma);
- 	else
- 		i915_gem_object_unpin_map(vma->obj);
+-static struct kobj_type kobj_engine_type = {
++static const struct kobj_type kobj_engine_type = {
+ 	.release = kobj_engine_release,
+ 	.sysfs_ops = &kobj_sysfs_ops
+ };
+
+---
+base-commit: 033c40a89f55525139fd5b6342281b09b97d05bf
+change-id: 20230216-kobj_type-i915-886bebc36129
+
+Best regards,
 -- 
-2.39.1
+Thomas Weißschuh <linux@weissschuh.net>
 
