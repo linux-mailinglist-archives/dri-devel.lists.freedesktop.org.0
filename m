@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D617D699D24
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 20:46:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C735699D28
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 20:48:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4EE310E368;
-	Thu, 16 Feb 2023 19:46:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC4510E372;
+	Thu, 16 Feb 2023 19:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1616210E368
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 19:46:36 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- o19-20020a05600c379300b003e21af96703so1368023wmr.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 11:46:36 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E80A10E372
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 19:48:14 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ k8-20020a05600c1c8800b003dc57ea0dfeso5119898wms.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 11:48:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sNQg8heKEIkC0fOCcXKLRiB77tJXgkN14tFZ1NhYopk=;
- b=MGi33RwjvLeGcKZ3DPREygI7IsPRh2rJ/BwhcWpmdD/wrBdZWSA4rcph2PH00cx0dn
- Aqa/mMC9ZpU4SLveRGIqSUp3dCDoWwQZGZcNJYYr50K4YlDYLlKz1Q9e14rLz7VevaQY
- D4gZyp1AlqSxhfEX4rdwI8W7VsYNKeGQAorvM=
+ bh=SRA1G/DmUcHToOaDMqKdvCTBThydLs2V2NqUqvxvwmY=;
+ b=ON7vzW1djzc9Oys/fu8MZDZhuHdvZNtCFfF9iHe/NZlrNWG9LLcG9zmebbYk64s3wt
+ 9CNfeKELL+gvAi08KNVJ1U+2O+9y3kcH1WL8xnMpw9fcN42l8kAKY+SAF7Fjvigc2av7
+ Wshq4TaND8EkJX9zak5DT0Oddtyrfnw4Ocgww=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sNQg8heKEIkC0fOCcXKLRiB77tJXgkN14tFZ1NhYopk=;
- b=3PfhFAZztJ2bcPWlkoJH+dVlsZQHthWJbL8P0ybIW3v0UT/NmqQ3xACF1hKwwSgusp
- XgbiVjgIiKVOHK7oyjK/MYzhUeLdeaWu/2S2xeNyNDecxYmjrrlIPtfFzi2k4gxmxVh2
- mamXI9CcvhKDiKuINvPR9PahJyovFqm5G1whPyoPJBC48jt5ZDEi2T75av3Azydcsvo1
- tOiVLWmOTKOKSkNTzg0jCv6iXXG+3FSIK87A8ZdcG/DjmjNlhxj8c0yBKnCp9yQnhUHi
- c1Q6YbdlfHJ/EqQnwikgKK6JuOVj2dQnT21s7OOrrmYHkJrfApdnLlQcIJ+IcedkH0n5
- XAFQ==
-X-Gm-Message-State: AO0yUKXu0nQrOiYfMcdjJdghlBvISpfbORBPtPiDChCtNUmXxFObAdIx
- ZLu4dFnkGsEqUkTjqv9OyFwB2A==
-X-Google-Smtp-Source: AK7set9K3PtG67ak5iRkZK8XM/JWpYr8mKpf+TYxxMa4HxsFeW3yWsQ5tLCQuA2JyMr3PcXRoItX0g==
-X-Received: by 2002:a7b:c3cb:0:b0:3e2:dbb:5627 with SMTP id
- t11-20020a7bc3cb000000b003e20dbb5627mr3152956wmj.3.1676576794467; 
- Thu, 16 Feb 2023 11:46:34 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- bi5-20020a05600c3d8500b003dd9232f036sm6303937wmb.23.2023.02.16.11.46.33
+ bh=SRA1G/DmUcHToOaDMqKdvCTBThydLs2V2NqUqvxvwmY=;
+ b=fR4f+AeDWpv/9LKHaNS4gvgMplgn+CYdKEHbju2B2iqO0BmbHB9q20lONK5lSPhnny
+ rohRVbQfRHL6uOfvQvdxpHcXhHDQDkI63Zmf8Op/sNVWy/3dgj61PHkjmF1v6BxRHWOP
+ wBZSJfgp+m303ffcf04611wSGz4TtEoq6ggiwEhisddYEN8KRDNlZChzykERXjEuTPJA
+ YGMAedj/q528hI3wHUaIqaIm5Z3nucQ4PXYYGVQye3iJG1qt3YFgs1ys/U/kO/LlOM9/
+ FEO6kuo/L7nKoaSnNo3f61gdZPkd26PyM6PKschWXE5xCa04RC3EmdBwDhrBvFHd7hfb
+ 7kWg==
+X-Gm-Message-State: AO0yUKXftE4mCT264J/R+jZqEPH97CM37cfd6lNAuGvN/MriuuCggnCq
+ 29vTmPDRYkHnkw1ASzuIiRMvhg==
+X-Google-Smtp-Source: AK7set/WWHa/gGtclI2mCaExhTfl4pMWh6tU2PPWpa6Mp+2KFajXHmLWZAyy42FUdxgDUOX8DB5ipg==
+X-Received: by 2002:a05:600c:4f46:b0:3db:2922:2b99 with SMTP id
+ m6-20020a05600c4f4600b003db29222b99mr6848579wmq.4.1676576893286; 
+ Thu, 16 Feb 2023 11:48:13 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ x9-20020a05600c21c900b003e11ad0750csm2698390wmj.47.2023.02.16.11.48.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 11:46:33 -0800 (PST)
-Date: Thu, 16 Feb 2023 20:46:32 +0100
+ Thu, 16 Feb 2023 11:48:12 -0800 (PST)
+Date: Thu, 16 Feb 2023 20:48:05 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 1/2] drm: document DRM_IOCTL_PRIME_HANDLE_TO_FD and
- PRIME_FD_TO_HANDLE
-Message-ID: <Y+6IGDbSivtH68Bm@phenom.ffwll.local>
+Subject: Re: [PATCH 2/2] drm: document DRM_IOCTL_GEM_CLOSE
+Message-ID: <Y+6IdQz1MNj9k+8K@phenom.ffwll.local>
 References: <20230216130934.156541-1-contact@emersion.fr>
+ <20230216130934.156541-2-contact@emersion.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230216130934.156541-1-contact@emersion.fr>
+In-Reply-To: <20230216130934.156541-2-contact@emersion.fr>
 X-Operating-System: Linux phenom 5.19.0-2-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,67 +74,56 @@ Cc: Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 16, 2023 at 01:09:41PM +0000, Simon Ser wrote:
+On Thu, Feb 16, 2023 at 01:09:45PM +0000, Simon Ser wrote:
+> This is a bit tricky, because of the ref'counting considerations.
+> See also [1] for more discussion about this topic. Since this is
+> kernel docs, I've decided to elaborate a bit less on the user-space
+> details.
+> 
+> [1]: https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/110
+> 
 > Signed-off-by: Simon Ser <contact@emersion.fr>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: Pekka Paalanen <ppaalanen@gmail.com>
 > Cc: Daniel Stone <daniel@fooishbar.org>
 > ---
->  include/uapi/drm/drm.h | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>  include/uapi/drm/drm.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
 > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 4cb956a52aee..54b2313c8332 100644
+> index 54b2313c8332..4829f1fa9570 100644
 > --- a/include/uapi/drm/drm.h
 > +++ b/include/uapi/drm/drm.h
-> @@ -1012,7 +1012,24 @@ extern "C" {
->  #define DRM_IOCTL_UNLOCK		DRM_IOW( 0x2b, struct drm_lock)
->  #define DRM_IOCTL_FINISH		DRM_IOW( 0x2c, struct drm_lock)
->  
+> @@ -972,6 +972,19 @@ extern "C" {
+>  #define DRM_IOCTL_GET_STATS             DRM_IOR( 0x06, struct drm_stats)
+>  #define DRM_IOCTL_SET_VERSION		DRM_IOWR(0x07, struct drm_set_version)
+>  #define DRM_IOCTL_MODESET_CTL           DRM_IOW(0x08, struct drm_modeset_ctl)
 > +/**
-> + * DRM_IOCTL_PRIME_HANDLE_TO_FD - Convert a GEM handle to a DMA-BUF FD.
+> + * DRM_IOCTL_GEM_CLOSE - Close a GEM handle.
 > + *
-> + * User-space sets &drm_prime_handle.handle with the GEM handle to export and
-> + * &drm_prime_handle.flags, and gets back a DMA-BUF file descriptor in
-> + * &drm_prime_handle.fd.
+> + * GEM handles are not reference-counted by the kernel. User-space is
+> + * responsible for managing their lifetime. For example, if user-space imports
+> + * the same memory object twice on the same DRM file description, the same GEM
+> + * handle is returned by both imports, and user-space needs to ensure
+> + * &DRM_IOCTL_GEM_CLOSE is performed once only. The same situation can happen
+> + * when a memory object is allocated, then exported and imported again on the
+> + * same DRM file description. The &DRM_IOCTL_MODE_GETFB2 IOCTL is an exception
+> + * and always returns fresh new GEM handles even if an existing GEM handle
+> + * already refers to the same memory object before the IOCTL is performed.
 
-I think it'd be good to mention here that export could fail for any number
-of driver specific reason, e.g. because the driver doesn't support dma-buf
-export at all, or it's not supported for this specific gem handle because
-it's a special one. And therefore generic clients need to be able to cope
-with some kind of fallback path ideally.
+I'd duplicate the relevant parts into each ioctl doc too, just to increase
+the chances people notice these caveats. But that's stuf for these other
+patches. for this one:
 
-Also I think it'd be good to mention that export support is announced with
-the DRM_PRIME_CAP_EXPORT flag in the DRM_CAP_PRIME GETCAP ioctl
-capability.
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+btw do the links from on ioctl text to the other work?
+-Daniel
 
 > + */
->  #define DRM_IOCTL_PRIME_HANDLE_TO_FD    DRM_IOWR(0x2d, struct drm_prime_handle)
-> +/**
-> + * DRM_IOCTL_PRIME_FD_TO_HANDLE - Convert a DMA-BUF FD to a GEM handle.
-> + *
-> + * User-space sets &drm_prime_handle.fd with a DMA-BUF file descriptor to
-> + * import, and gets back a GEM handle in &drm_prime_handle.handle.
-> + * &drm_prime_handle.flags is unused.
-
-Same here, some mention that import can fail for any reason (many drivers
-do not support importing to anything else than the exporting device). Also
-DRM_PRIME_CAP_IMPORT for querying.
-
-> + *
-> + * If an existing GEM handle refers to the memory object backing the DMA-BUF,
-> + * that GEM handle is returned.
-
-I think we need to state clearly that this means importers who get unknown
-buffers must have a userspace lookup structure to catch these handle
-deduplications and refcount objects properly.
-
-With these additions: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> + */
->  #define DRM_IOCTL_PRIME_FD_TO_HANDLE    DRM_IOWR(0x2e, struct drm_prime_handle)
->  
->  #define DRM_IOCTL_AGP_ACQUIRE		DRM_IO(  0x30)
+>  #define DRM_IOCTL_GEM_CLOSE		DRM_IOW (0x09, struct drm_gem_close)
+>  #define DRM_IOCTL_GEM_FLINK		DRM_IOWR(0x0a, struct drm_gem_flink)
+>  #define DRM_IOCTL_GEM_OPEN		DRM_IOWR(0x0b, struct drm_gem_open)
 > -- 
 > 2.39.1
 > 
