@@ -1,118 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2143469A285
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 00:44:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C2269A288
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 00:45:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47CEB10E1A1;
-	Thu, 16 Feb 2023 23:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A34F10E1A2;
+	Thu, 16 Feb 2023 23:44:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2088.outbound.protection.outlook.com [40.107.220.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E90CD10E1A1;
- Thu, 16 Feb 2023 23:44:51 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6592A10E390;
+ Thu, 16 Feb 2023 23:44:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zhtk69Nv5jdKKhxsEv6MaAdrAvIXe+VoZva9Kh1uG4Izk2h8UzEwmmhu1r3xJ4PZB3e6IlYiLqP77vXyqPTnAMJVPui/zbGsWdNwljzUKOiFEZXooyYLGyWGA0IZ4QNKX9NQZaJ9+Ax+JK2964K/uMCohf2ypYkaOMEIfl8tVI8kamjERVnact/a9wQnywxcM1dRPZXF0FniglzcXipVecmNw9uJin+tcwiwDY3jUXyiRsHRxadfiWTWszcSB7RjN6z/g1oHpVvi77OzcnPQK+K4PgSGw1UsZODq2ILbYyG8rhfvLDwB52L22HPtpB+SzQveMItboTyGp6K2Q7ZI2w==
+ b=Wh5WeTfadghgHWHm8QnkFXypxRlbgvT83wrby7tSt1z9dppaopV8XcpoTA52kKwz8pXupwUDm4K5PEk2V6UrCm97K9nE1bPnGiPs8mEiLKgfU1HDh7FGx0nG6g1j7DYJLyaXtw5YQoma125s3fbiD7p2/10FYehmwq+zFhttd4k3Ml6wuFGwGs+Y4j7poHgm8pc0NfskcAk7llofo7YyqoORt2rq3VSDG8q+AZBqymmSVAyKpughJDKnlQ6B6GjmG3lJl2SKu63tU8dJqwBhjqxchX9AI6NxMCHBbCaLmtPt62df6wPteIv8cwTBAx2cEaHYOXv0Koc2dBhkpl4Gjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z9Y5K2I5ttzL/ykYwK8L3RCFiH6ZYACn3tLrj5SO0Go=;
- b=ZM35ZRjMuhk/ByodeW88lrVmIpPxYelYa9qpVh8WRuyZP+pin6spPWYt2o3ePguM22ZeD9y0LiDSukxlmscrAr2TM7N7llytVUeJNyFa22QoJMeAwTbi1O9kCeOAU4W8F1r5hYyj9IGIBCjN5arw47qXgiRb9xi9Uky4lBa7NlVIkb+sbntglniqRe7AH2oaqxrlDfkkTkqim1lBdbI6VYhwCApfk3PCPupepyqb2eji0pEnpvkIBDGyWzgYViqFtOHX5ku5uuAaVcmeRiAq0hZEV6CT7u3BIWzgnyuPq++7ZoOM6R7+UOws/8Ytu0FPePwSLqgrxwfAHznxDHVefA==
+ bh=GDxNfFqddn6doptEGqee7i6OPH3p3s5G/+Sq8oHLGeo=;
+ b=eNfvKpfIZMuCwKmd/UPODWPcAiIKFs/KDm8vUU2wd+OKnp/rWQagKhh+MXLdSr9efMplOc+oVRFqpFHjygUeGIVewAZ1xQzdbwRwfGJ2jD3+uoSb/SoQLNfWEWRbJOF0/oa9T9HaHAj5Qwxp872IvBpw+jU9IfzuIxqsM7BlpMvs6v7hp7dIDL3XaHdpysczlV4AkAfdb4Cf8t8xugRxQPbB4lFIN7ankCZBSfw5BUVIJwM1eMDuQR3uRa3MOjObi3eyKSBTEJCMSZYfGmSlOs6PtKQrE+J9j7yhzQxiA/U2uPidxUz+dJGz5Y29deecevAhb9Aq2t2K9ilx/B90Ew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z9Y5K2I5ttzL/ykYwK8L3RCFiH6ZYACn3tLrj5SO0Go=;
- b=bVw66PHfV87NsIsyzi0OvEgjAFAgl7UpbGS7xUIL2heHFx08oaYWWNqZRF3D50RL1PxUqWMBLEN7N2cd0nFHU6+q6CRNHatlkBc6RLiAgy7rnK8g1Wx1nNy2vvsrRP4TeX/WuWwsoxrZ36DoUibmXVxi934TXeUvOPRM/UeeNYo=
+ bh=GDxNfFqddn6doptEGqee7i6OPH3p3s5G/+Sq8oHLGeo=;
+ b=vjpK26cRb4/eQRkqfkzEYe01KF50ri7VL96JGwFLzu6YYotTZ+yy58Yp7wqlf3xzaY3YOILh1NsPEDR3etH4XgKSF6eUfq153r4XSeUiYVaZp3h2BEERGd0eH3w4wQsdxMvPYsKt7QaNq9MGUcbbGUeW6I4TPMwcit/F9uDoRcw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
  by SN7PR12MB7955.namprd12.prod.outlook.com (2603:10b6:806:34d::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Thu, 16 Feb
- 2023 23:44:49 +0000
+ 2023 23:44:53 +0000
 Received: from BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::e6ea:9231:6d39:93da]) by BN9PR12MB5115.namprd12.prod.outlook.com
  ([fe80::e6ea:9231:6d39:93da%4]) with mapi id 15.20.6111.013; Thu, 16 Feb 2023
- 23:44:49 +0000
-Message-ID: <c6c974ad-c4e1-2803-c49f-e826ec47c52e@amd.com>
-Date: Thu, 16 Feb 2023 17:16:25 -0500
+ 23:44:52 +0000
+Message-ID: <bcadb2e8-247c-1a3e-c5ef-801dbbcc3286@amd.com>
+Date: Thu, 16 Feb 2023 17:24:08 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH 01/32] drm/amdkfd: add debug and runtime enable interface
+Subject: Re: [PATCH 02/32] drm/amdkfd: display debug capabilities
+Content-Language: en-US
 To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 References: <20230125195401.4183544-1-jonathan.kim@amd.com>
- <20230125195401.4183544-2-jonathan.kim@amd.com>
-Content-Language: en-US
+ <20230125195401.4183544-3-jonathan.kim@amd.com>
 From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20230125195401.4183544-2-jonathan.kim@amd.com>
+In-Reply-To: <20230125195401.4183544-3-jonathan.kim@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQXPR0101CA0034.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:15::47) To BN9PR12MB5115.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQXPR0101CA0036.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:15::49) To BN9PR12MB5115.namprd12.prod.outlook.com
  (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SN7PR12MB7955:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2dec49c6-888f-4674-ee83-08db1077ca8c
+X-MS-Office365-Filtering-Correlation-Id: d6ceb14e-0ff0-4876-18d2-08db1077ccda
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +O6Kub45znfx4hv85HzsV25e9L1JQ9wunwvrrmvOkIY1jfs6g5D8NuatQrQGtlxLCCuxd2oaop0JzhOQ1234jYiw5mQ70FVhXQCY0MBHHRbsx5v32Ap6ZVtbWh+DgMUq/7Lodm5+KsK02P8ckjlqXQZrKYGXbPmOBmShJI/lZ9vaMTu/2k6KxL3cWE7Nxa/Q4tVvxkYiTzgjWwF3WwXWJpXhtpkCUyCMh9ErN+mYpXvVD98CuxBiZS4Eajz4PalgYUFVqTPC0HQHtvwZXbf0wR5lI+L/PPlfQVVTLBWUgwWRxIVZH33W6cVLr2RTcoNlfUlYiq4/j/IlygbUxQfKwF8I0/sT/2NYuu9OQrHFYk4bVikDAoHlrk4Zw0a9GNZdNTw1ZT/Ju8q1yA+k8jFurXVteM2TGmGSbT8nxHZMIsC/7Gwe+MwwR6UGsY0DwATzA2lVKEUtOHyWwo71eWFFFPuONhHlnR1lqP6L+IeHj0hcr0rTICUqO4ghAaDUZ+L9sFCeZ7GUfXktgrb0U9+xJMrdQqxTi4XXmENe2vIqYu798m/rOER3raF+vh2+z8Zm+hi9ot1J6CZl8duwBtGrew49Hn9RZJdm6fm2CI1ywnaBAcusUPAp+0oZox9cdmWlSomyv+4snHsk4Hr5tYBUeGcfbv2T56BjVW0OT64TnC4//r1moD+hW6dpaB/yaP3ngUjYEijSFvES4353QHIuLhhBNW8LG0dNKik6+ns8yQs=
+X-Microsoft-Antispam-Message-Info: RNf9H57ENi+4E++h9RxU3NKVgUWbBXWU5pvoJ7GSICODV/f/nKuHM876QeQ5UBRfXBb3jkIzn+l8mjmixdAmmAiwzQT3zbKBvtOASsZIKAB+FKxOXtOsdO5Om/8QkKQMpIycbpVkMFHSxdO/+KdfByFdTxD0+4JHL35vSWCKvmzGoGVrP5XcS0/C0xIJQqPxBegUJKfqQnllpvD5kP6sQg39edscADapfLmoNPOLgd/A7Gp7/3FOZLNnQvnIf/B8Vt4dhI39trrOklZMZ4RzJ26aUIeIqbCRmE32tm6x4uRobO0oRViBsPvgbB0f7pFxLYNtcJnswgLrYeYrBg3lxUwUE/7GG0LI3GnwOhWtN59FCEah82/82IPg17gVDxvkQSKW0Zbw6MaA4WbJM9xXB1wbipBL/d/QwhDHjRT8utXO66Myu6yZi2ts006nV6u8n/G0TtDW9WqEFJumUuk46ClV72zOvdtxWOlp6NQkEnebN4nRkpvXn6rADsq4mph9fxsJhzXBq5ylVrQMRWvAZVXyJNycmc0V81d+xOPE0XcLq+FZU8q1zxogJCLXkhFYtZqjHi3CK4W65J3QG43mPNpixO9Tdg2NTggVy0ja/jxX60VubLu7RzZmS3jWrUq0cg60yEuB3WHWukHtXYgIKW+aUcCgA61ZooekQnFjiWxvP+FWFzEiKnv7pO/t+5eZN/UP9kvuXYfrA7C/UvYxDeneCQ3a233TLYzLN+pMMzU=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(396003)(346002)(366004)(376002)(136003)(451199018)(31686004)(8936002)(2906002)(41300700001)(36756003)(30864003)(31696002)(5660300002)(44832011)(86362001)(83380400001)(38100700002)(8676002)(478600001)(6486002)(450100002)(26005)(6512007)(186003)(66946007)(66556008)(316002)(66476007)(53546011)(6506007)(2616005)(6666004)(43740500002)(45980500001);
+ SFS:(13230025)(4636009)(39860400002)(396003)(346002)(366004)(376002)(136003)(451199018)(31686004)(8936002)(2906002)(41300700001)(36756003)(31696002)(5660300002)(44832011)(86362001)(83380400001)(38100700002)(8676002)(478600001)(6486002)(450100002)(26005)(6512007)(186003)(66946007)(66556008)(316002)(66476007)(53546011)(6506007)(2616005)(6666004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWwrUkxuQWc5bnNmSm1aK1VLZ01uNmdEcU9odzd2WUtLRCtLU2lZZjZtREwy?=
- =?utf-8?B?ME9ETzQ4RXNBK2ZBU3oyQ1R2a2IxeFpZbkt2dThlUVpGWnpzeHFUYWpxUE4r?=
- =?utf-8?B?Sk9nMWtQb0tnTTZ3eVFyYUNOTVZwYktZNVJoN1crZGdvRUxWZ0E3Q2k3UFpa?=
- =?utf-8?B?WGZWb0dSakVPdUEvRjRFeXMxakNkakloSzViVUpzQjg0TWZPZjhaeDJobmlN?=
- =?utf-8?B?eVIrdStPcXlYVWxWQVhXTlhzYVhlU0IvVm1ybG16ZmNDVCs2Z0tMS3RrMEJJ?=
- =?utf-8?B?VGpOMGZsenRHa0pmSUI1SzByVVRXb0o3UVVhMUt1TWNPb2JHSkk5U2JFaUlr?=
- =?utf-8?B?bUJmZzFTSjlSRzFpV25wTVArZFN5TTgySmpKek45RGZySjB3cE5FNy8rUENF?=
- =?utf-8?B?NkZOemVJYTIrd3VPbEtmNDcwZ1FZWU8vYnRTOC9GaDd6VGd5VlVWOWZBZ21Y?=
- =?utf-8?B?SzFQUzlSOU1JeW1hTkszdWI0dHVsNC9HSS9EUmVLdWVJeFkyTDNWYU5xZHlG?=
- =?utf-8?B?ejdEeXZ2SVhTaWRYOTYwL3RMbW1pczlSVTQ3VkMrYTFIWnk3aXpSV21pc21V?=
- =?utf-8?B?UnpzSmd2ZkJSaEFaaHlxTFFQdjJ4UXZJUi8vWnhwNlhmK3BzZFdhbUlic2Nr?=
- =?utf-8?B?VmpycVRaTmRuNW1ZQ2Exd1ludStxWTc2d3BXOCtrWC81d1Z4YWRmbzF3WFdv?=
- =?utf-8?B?UGppZlRpNG1UUDRIS0xlSHlubXpmaWsxQWxQbUErNytxMW5TWC84NkN4VldN?=
- =?utf-8?B?Y3YxR3pRS2lyUDJmOUluWnlxNnlsWkFVUTJZYTRXV2QrZDBMSTVkT1YyeHk2?=
- =?utf-8?B?RW8xTTQ2OUtLTkVlQmN6a3M2T1NyN2d0OVR4eXhZSWJ3c1hndWZjc1RZYzVk?=
- =?utf-8?B?Y3pyZHhzZytPWkFjZjdFYTBQcHdzbCtaU1pTc1ZieWxKejh5TVZ2ZDZlUUlt?=
- =?utf-8?B?TVo0WkdlVnlrQzlLZU9pem1ydDNDWkNOZHZLOXljTHdtWFNMZXovSkdTRlFB?=
- =?utf-8?B?ZzhrQUFseXVKelgzd2c2MFNzV1dDd1YwNjFQcEsxT3NENVREZHJUamhwd1Uv?=
- =?utf-8?B?Wk9wd2lhdjFGNWFKL0RkcHdOdzRleHA2bERjYXgwNVRMbmpRcU5oa3RGWFFV?=
- =?utf-8?B?czcrRWhUcEJ0YzA5VTdxMzBDRHJUZG5RS2RBeG4wWXhaMVEwckJ3NE1mWGxM?=
- =?utf-8?B?M2pET0ptc3NaMGx5aWdra2tHM0lOSXRxRmZub3JZZVZZS05hbm9qZnFkc0Zj?=
- =?utf-8?B?OXl4T2IxKy9UZlBWNlZUVFlKNkxjcVdielVZWG1xZEFrc3RwWlFnM2ZaeTRT?=
- =?utf-8?B?TlpLMHRnUzVPNkc2ZHFMbzM3K0k0Szh0UlJ3WEc0bXA2dUEzTVVPd3g2VnhX?=
- =?utf-8?B?RTVSd0RWa1pxcWxrRXlQa0lKTkNib1R0NlMxVjRNaXVEVFBremZQWnV4QjE2?=
- =?utf-8?B?aFBaNHdadWo5TytMR3VRTTRta1hLOXg3a3Juc3llZHk0N3NKSDFSSGhZZFV5?=
- =?utf-8?B?SkwxekQzOWUxaTIvQXJSM1VOU0hKanhtV2JvcXVKdGtZeUJCRFdRSk5VMUhq?=
- =?utf-8?B?Y0pSL0JUZU1PeUt4RXh3MDdSYStHT0JkVU5xaGlPd0U2cHJhdkp1Q1lsVXZj?=
- =?utf-8?B?eGI5aUNJZ0VLUGtUSUFHYmJkWWg5WFJuM1FINW4vL1JsbVFhUWRYRUhUR3ZX?=
- =?utf-8?B?THpvaStEQVpJYWluL0xxbXJpbzJqUEFsRXNFMEZIV0RLRytWVGdnRVFpWWov?=
- =?utf-8?B?V2gxT2ErSDVkMVE3RXhpWGRQVVRxWlFXSlY0NmZvN1o3OHIxaSt0TGJKVU93?=
- =?utf-8?B?WS8rTk9TMlJHczFaUUhNMWVlZk1nZ2pUcm1BZkVPNWc3Y1hVTEZPQWowbTVv?=
- =?utf-8?B?TkJVdjBLNHlkTTBMZTd5dWRrc050SHBsOFdPZS8xQmRuQ2kxRXFlQ1pVZkh1?=
- =?utf-8?B?b0x3VWVnZ0hIVVdtdExjNU9tRGc5aXhQaEpveWRqV0ZsOWVFeXpUVXJJeTVm?=
- =?utf-8?B?VVRkT3g2WDFNb0JLTVZmc0pnSUh5WmpQcDgwQ2JhbXVMbUc1R1dBMkZGb2ZR?=
- =?utf-8?B?WlEycTQrcTNNeW04Q2U2SG9NaURQSXlRaGkzMHB2RTZDYTE5L0wwTHVEWXVH?=
- =?utf-8?Q?+F4U8+c8g4UTh5r+9+ovrkl+M?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUJQWTR1R0Z2L3J0TDFHL2pyTG9IWjZiOVF1Z3cvczVjdFVWYnhxMmh2a1g0?=
+ =?utf-8?B?VzRQNHFNbUV1VUFiMWpqbkRVNldDZzFoeFVpSGpaL2ZWek5Ga1lOc1R4NW1u?=
+ =?utf-8?B?S0N3blNDS3FFdVdYM002eStOdTU3R003eDZiTnk2U09sTUpkOFM1MWxEQzg3?=
+ =?utf-8?B?K3NwSlo5ZFpCUkJUQ3draXNDRi9FckZlZDJ4NFFWenhZelg5Ym5YdEJGWFF5?=
+ =?utf-8?B?MGlvbVg4c1pDRUZXazJxVGxRUnBlOHAwWHlvcDNtbXZ6MkF0YmpSRURSalh6?=
+ =?utf-8?B?Rk5jYWMvMnhScVpGbTRia3I2cGhrcjE4Y1o4VGFCRW9nbHJSc1hsMDNGUTEr?=
+ =?utf-8?B?ZW5peCswOEh2eVhGYldUREJGTDlLQTVST0pFeit6V2dNNVBPSXVGNTZwdVA3?=
+ =?utf-8?B?Wk51aVViM1BCUDFiYXFselNBbjZPUmxPbEVKOS9nRVhLUjE2Q0tDL0JGenJv?=
+ =?utf-8?B?OStBNkhQUURMRXJIQlQybmljK1ZoZTl2Z2VKNXk5MERBVlplMFJ0cGRmclI0?=
+ =?utf-8?B?VWNqalNBcW1ldlNaVVBxcWRqWlZIbFhHWXlXWWNGYkRSMENBOXNtdnJnSmxJ?=
+ =?utf-8?B?VHM2eC84YXhmbUdwSTFEUkJRL1ZuaVRkZ09Pa2crTEFyc1V0eHZWK2dKU1hq?=
+ =?utf-8?B?c3crd1hTOTNYVUJHcWxUKzVaOHFHMG5keE9aU3pLdnB5MTdwT0xwV3BSQnpw?=
+ =?utf-8?B?Z2xkVWR1VGhXbE9LUG1kMS9JelFEbTJRNWdVU3pXWFNyekNUVmxWM09jZ0FY?=
+ =?utf-8?B?ZDhSb2RLdHh0KzBZbzlCVmFyZ2xSZ2dRRXZ0UDZSUFJYc3VrNEVlQkZMUWQ0?=
+ =?utf-8?B?cVc2ZjlRN25OdzZYNzFrOHlQMEdGbTcxVnViWVg5SkltbXFYZFBpcTBJYmhL?=
+ =?utf-8?B?UEIyU3BSRVZiV0NTL0lUUE40cVdpQTZTYTl1RS8vcjlUbjNsQmo1cmZ1dGdy?=
+ =?utf-8?B?SGRLTXhNQXRnUWJSSjRPeEJiNVEyNXNPUjl3ZDN3Y1UwYlZYbjFDMkxDaXI4?=
+ =?utf-8?B?NkU3aWVRZUExMWRmL1JTdFlpbTJvdEVBNFBudFFkVnM1bXljb0wwbFR1cE5a?=
+ =?utf-8?B?TzR1Y20zVU5OR3l4em5Dekx1NmhsUVlLYmFHL1hVMzdpVzkwMEhxaDNReWRl?=
+ =?utf-8?B?UVEweGF2MmtBTndXYXN1OHlKRnB2WEdkeXdvQy80OEd0M1l1ZER0bnloMyti?=
+ =?utf-8?B?R3drelVOekc5YzBIR2NYNTdtV3Y2T3hvSENNM3VGQWVYLzJiLzJwWFc0Szhh?=
+ =?utf-8?B?R2I5MURUNXhIbkMrWVdWWVorV0pCaFd2b2RnWlByZEhjRWNLUEE3UXQ1cHRV?=
+ =?utf-8?B?WW5vTWpiaWxRMklPNFVxWjE0YkJGYVBSWU9XWXJKcXdPMURiV094NFBMdk1H?=
+ =?utf-8?B?S0IvUkZJMGNlWWVZWnVDY3hCekNMeGwySzNXZFRKKzYwUFZGVk56RDlITUtM?=
+ =?utf-8?B?ek5FUkc2b2UxMW5IUi9tazdZUEZjck43N1dFTVVuN3V6OFJJK3YyTGlEcWFJ?=
+ =?utf-8?B?L3RzTmJ4T1dMYlhFMFNEYmhmS1lxWEpxU3hJZ0hnZTZPbEFiU3BUdE1sWnI4?=
+ =?utf-8?B?WWVacDVvMWJBVDQzUHQzVk9lbCs2Y2ZSUkVnb1gxUEVhODZNNGlObDZ6M3BT?=
+ =?utf-8?B?U201UEYyd0FNRER4aFZaQmVDd09INnY5ZlRVY0YrTmx5ZnowTHBBNnFiemU4?=
+ =?utf-8?B?cGZYSXpVamJhR1Ird2NvTEJFVkxHbFlEbDU3bkxEWXh5cTJSN1l4dDFpZDBM?=
+ =?utf-8?B?Z2NqV3l1L0VTQWVWVmpCZUFqZ0dueDV0cHlIU2crYW9mRUhhNldVVnl6bmdu?=
+ =?utf-8?B?NDV0OVEyb1lFYXpzenplQXp0anVWMGhpaXhxTHBZanpqeTlJTjlIRU1qYUxo?=
+ =?utf-8?B?UWxzZkhubWQrV0dsb3pjcTdVOUNLWWZvMC9MR2NlcGJzd2hreGVSNzBQRmgy?=
+ =?utf-8?B?clhMcmM5YkcwVE9FZVJuenUrY3B4d28yUU5OSWw5d0dBQUtIdzlqKzloQ0JP?=
+ =?utf-8?B?c3JibnRQUTJzNTEvVlFKaFU3dmZVaWVMaFFrRUlXTFNLRko4eEQybTNvNWR1?=
+ =?utf-8?B?NUZQdlFEOEg5SVpGci9wY3dwWk91dHJyOVBKNmZVMEpNVXZxY0tndWZKaHZN?=
+ =?utf-8?Q?UxkiYfDrxOlg4eKlBUmRKKdBT?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dec49c6-888f-4674-ee83-08db1077ca8c
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6ceb14e-0ff0-4876-18d2-08db1077ccda
 X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 23:44:49.1255 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2023 23:44:52.8929 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9uTUnQ1y/GW6dsKwhKybBhNEdBOwD8pDmurK75Iw/GtGCo1AgTccqrOOLG34g9dlFfx3L9Tuq2b52LtbZ0aoXA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dx0SyolPMfaEABSATmhZAnir2fZCTMykP4cQGS1k6nSr66UVbFlD1xIbCdA+00M3bVh+kQbgR/PYbyCUy4siTw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7955
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -131,788 +131,212 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 2023-01-25 14:53, Jonathan Kim wrote:
-> Introduce the GPU debug operations interface.
+> Expose debug capabilities in the KFD topology node's HSA capabilities and
+> debug properties flags.
 >
-> For ROCm-GDB to extend the GNU Debugger's ability to inspect the AMD GPU
-> instruction set, provide the necessary interface to allow the debugger
-> to HW debug-mode set and query exceptions per HSA queue, process or
-> device.
+> Ensure correct capabilities are exposed based on firmware support.
 >
-> The runtime_enable interface coordinates exception handling with the
-> HSA runtime.
+> Flag definitions can be referenced in uapi/linux/kfd_sysfs.h.
 >
-> Usage is available in the kern docs at uapi/linux/kfd_ioctl.h.
->
-> v2: was previously reviewed but removed deprecrated wave launch modes
-> (kill and disable).
-> Also remove non-needed dbg flag option.
-> Add revision and subvendor info to debug device snapshot entry.
-> Add trap on wave start and end override option.
+> v2: v1 was reviewed but re-requesting review for the following.
+> - remove asic family code name comments in firmware support checking
+> - add gfx11 requirements in fw support checks and debug props and caps
 >
 > Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c |  48 ++
->   include/uapi/linux/kfd_ioctl.h           | 663 ++++++++++++++++++++++-
->   2 files changed, 710 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> index f79b8e964140..d3b019e64093 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> @@ -2645,6 +2645,48 @@ static int kfd_ioctl_criu(struct file *filep, struct kfd_process *p, void *data)
->   	return ret;
->   }
->   
-> +static int kfd_ioctl_runtime_enable(struct file *filep, struct kfd_process *p, void *data)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int kfd_ioctl_set_debug_trap(struct file *filep, struct kfd_process *p, void *data)
-> +{
-> +	struct kfd_ioctl_dbg_trap_args *args = data;
-> +	int r = 0;
-> +
-> +	if (sched_policy == KFD_SCHED_POLICY_NO_HWS) {
-> +		pr_err("Debugging does not support sched_policy %i", sched_policy);
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (args->op) {
-> +	case KFD_IOC_DBG_TRAP_ENABLE:
-> +	case KFD_IOC_DBG_TRAP_DISABLE:
-> +	case KFD_IOC_DBG_TRAP_SEND_RUNTIME_EVENT:
-> +	case KFD_IOC_DBG_TRAP_SET_EXCEPTIONS_ENABLED:
-> +	case KFD_IOC_DBG_TRAP_SET_WAVE_LAUNCH_OVERRIDE:
-> +	case KFD_IOC_DBG_TRAP_SET_WAVE_LAUNCH_MODE:
-> +	case KFD_IOC_DBG_TRAP_SUSPEND_QUEUES:
-> +	case KFD_IOC_DBG_TRAP_RESUME_QUEUES:
-> +	case KFD_IOC_DBG_TRAP_SET_NODE_ADDRESS_WATCH:
-> +	case KFD_IOC_DBG_TRAP_CLEAR_NODE_ADDRESS_WATCH:
-> +	case KFD_IOC_DBG_TRAP_SET_FLAGS:
-> +	case KFD_IOC_DBG_TRAP_QUERY_DEBUG_EVENT:
-> +	case KFD_IOC_DBG_TRAP_QUERY_EXCEPTION_INFO:
-> +	case KFD_IOC_DBG_TRAP_GET_QUEUE_SNAPSHOT:
-> +	case KFD_IOC_DBG_TRAP_GET_DEVICE_SNAPSHOT:
-> +		pr_warn("Debugging not supported yet\n");
-> +		r = -EACCES;
-> +		break;
-> +	default:
-> +		pr_err("Invalid option: %i\n", args->op);
-> +		r = -EINVAL;
-> +	}
-> +
-> +	return r;
-> +}
-> +
->   #define AMDKFD_IOCTL_DEF(ioctl, _func, _flags) \
->   	[_IOC_NR(ioctl)] = {.cmd = ioctl, .func = _func, .flags = _flags, \
->   			    .cmd_drv = 0, .name = #ioctl}
-> @@ -2754,6 +2796,12 @@ static const struct amdkfd_ioctl_desc amdkfd_ioctls[] = {
->   
->   	AMDKFD_IOCTL_DEF(AMDKFD_IOC_AVAILABLE_MEMORY,
->   			kfd_ioctl_get_available_memory, 0),
-> +
-> +	AMDKFD_IOCTL_DEF(AMDKFD_IOC_RUNTIME_ENABLE,
-> +			kfd_ioctl_runtime_enable, 0),
-> +
-> +	AMDKFD_IOCTL_DEF(AMDKFD_IOC_DBG_TRAP,
-> +			kfd_ioctl_set_debug_trap, 0),
->   };
->   
->   #define AMDKFD_CORE_IOCTL_COUNT	ARRAY_SIZE(amdkfd_ioctls)
-> diff --git a/include/uapi/linux/kfd_ioctl.h b/include/uapi/linux/kfd_ioctl.h
-> index 42b60198b6c5..9ef4eed45c19 100644
-> --- a/include/uapi/linux/kfd_ioctl.h
-> +++ b/include/uapi/linux/kfd_ioctl.h
-> @@ -109,6 +109,32 @@ struct kfd_ioctl_get_available_memory_args {
->   	__u32 pad;
->   };
->   
-> +struct kfd_dbg_device_info_entry {
-> +	__u64 exception_status;
-> +	__u64 lds_base;
-> +	__u64 lds_limit;
-> +	__u64 scratch_base;
-> +	__u64 scratch_limit;
-> +	__u64 gpuvm_base;
-> +	__u64 gpuvm_limit;
-> +	__u32 gpu_id;
-> +	__u32 location_id;
-> +	__u32 vendor_id;
-> +	__u32 device_id;
-> +	__u32 revision_id;
-> +	__u32 subsystem_vendor_id;
-> +	__u32 subsystem_device_id;
-> +	__u32 fw_version;
-> +	__u32 gfx_target_version;
-> +	__u32 simd_count;
-> +	__u32 max_waves_per_simd;
-> +	__u32 array_count;
-> +	__u32 simd_arrays_per_engine;
-> +	__u32 capability;
-> +	__u32 debug_prop;
-> +	__u32 pad;
-> +};
-> +
->   /* For kfd_ioctl_set_memory_policy_args.default_policy and alternate_policy */
->   #define KFD_IOC_CACHE_POLICY_COHERENT 0
->   #define KFD_IOC_CACHE_POLICY_NONCOHERENT 1
-> @@ -766,6 +792,635 @@ struct kfd_ioctl_set_xnack_mode_args {
->   	__s32 xnack_enabled;
->   };
->   
-> +/* Wave launch override modes */
-> +enum kfd_dbg_trap_override_mode {
-> +	KFD_DBG_TRAP_OVERRIDE_OR = 0,
-> +	KFD_DBG_TRAP_OVERRIDE_REPLACE = 1
-> +};
-> +
-> +/* Wave launch overrides */
-> +enum kfd_dbg_trap_mask {
-> +	KFD_DBG_TRAP_MASK_FP_INVALID = 1,
-> +	KFD_DBG_TRAP_MASK_FP_INPUT_DENORMAL = 2,
-> +	KFD_DBG_TRAP_MASK_FP_DIVIDE_BY_ZERO = 4,
-> +	KFD_DBG_TRAP_MASK_FP_OVERFLOW = 8,
-> +	KFD_DBG_TRAP_MASK_FP_UNDERFLOW = 16,
-> +	KFD_DBG_TRAP_MASK_FP_INEXACT = 32,
-> +	KFD_DBG_TRAP_MASK_INT_DIVIDE_BY_ZERO = 64,
-> +	KFD_DBG_TRAP_MASK_DBG_ADDRESS_WATCH = 128,
-> +	KFD_DBG_TRAP_MASK_DBG_MEMORY_VIOLATION = 256,
-> +	KFD_DBG_TRAP_MASK_TRAP_ON_WAVE_START = (1 << 30),
-> +	KFD_DBG_TRAP_MASK_TRAP_ON_WAVE_END = (1 << 31)
-> +};
-> +
-> +/* Wave launch modes */
-> +enum kfd_dbg_trap_wave_launch_mode {
-> +	KFD_DBG_TRAP_WAVE_LAUNCH_MODE_NORMAL = 0,
-> +	KFD_DBG_TRAP_WAVE_LAUNCH_MODE_HALT = 1,
-> +	KFD_DBG_TRAP_WAVE_LAUNCH_MODE_DEBUG = 3
-> +};
-> +
-> +/* Address watch modes */
-> +enum kfd_dbg_trap_address_watch_mode {
-> +	KFD_DBG_TRAP_ADDRESS_WATCH_MODE_READ = 0,
-> +	KFD_DBG_TRAP_ADDRESS_WATCH_MODE_NONREAD = 1,
-> +	KFD_DBG_TRAP_ADDRESS_WATCH_MODE_ATOMIC = 2,
-> +	KFD_DBG_TRAP_ADDRESS_WATCH_MODE_ALL = 3
-> +};
-> +
-> +/* Additional wave settings */
-> +enum kfd_dbg_trap_flags {
-> +	KFD_DBG_TRAP_FLAG_SINGLE_MEM_OP = 1,
-> +};
-> +
-> +/* Trap exceptions */
-> +enum kfd_dbg_trap_exception_code {
-> +	EC_NONE = 0,
-> +	/* per queue */
-> +	EC_QUEUE_WAVE_ABORT = 1,
-> +	EC_QUEUE_WAVE_TRAP = 2,
-> +	EC_QUEUE_WAVE_MATH_ERROR = 3,
-> +	EC_QUEUE_WAVE_ILLEGAL_INSTRUCTION = 4,
-> +	EC_QUEUE_WAVE_MEMORY_VIOLATION = 5,
-> +	EC_QUEUE_WAVE_APERTURE_VIOLATION = 6,
-> +	EC_QUEUE_PACKET_DISPATCH_DIM_INVALID = 16,
-> +	EC_QUEUE_PACKET_DISPATCH_GROUP_SEGMENT_SIZE_INVALID = 17,
-> +	EC_QUEUE_PACKET_DISPATCH_CODE_INVALID = 18,
-> +	EC_QUEUE_PACKET_RESERVED = 19,
-> +	EC_QUEUE_PACKET_UNSUPPORTED = 20,
-> +	EC_QUEUE_PACKET_DISPATCH_WORK_GROUP_SIZE_INVALID = 21,
-> +	EC_QUEUE_PACKET_DISPATCH_REGISTER_INVALID = 22,
-> +	EC_QUEUE_PACKET_VENDOR_UNSUPPORTED = 23,
-> +	EC_QUEUE_PREEMPTION_ERROR = 30,
-> +	EC_QUEUE_NEW = 31,
-> +	/* per device */
-> +	EC_DEVICE_QUEUE_DELETE = 32,
-> +	EC_DEVICE_MEMORY_VIOLATION = 33,
-> +	EC_DEVICE_RAS_ERROR = 34,
-> +	EC_DEVICE_FATAL_HALT = 35,
-> +	EC_DEVICE_NEW = 36,
-> +	/* per process */
-> +	EC_PROCESS_RUNTIME = 48,
-> +	EC_PROCESS_DEVICE_REMOVE = 49,
-> +	EC_MAX
-> +};
-> +
-> +/* Mask generated by ecode in kfd_dbg_trap_exception_code */
-> +#define KFD_EC_MASK(ecode)	(1ULL << (ecode - 1))
-> +
-> +/* Masks for exception code type checks below */
-> +#define KFD_EC_MASK_QUEUE	(KFD_EC_MASK(EC_QUEUE_WAVE_ABORT) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_WAVE_TRAP) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_WAVE_MATH_ERROR) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_WAVE_ILLEGAL_INSTRUCTION) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_WAVE_MEMORY_VIOLATION) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_WAVE_APERTURE_VIOLATION) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_DIM_INVALID) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_GROUP_SEGMENT_SIZE_INVALID) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_CODE_INVALID) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_PACKET_UNSUPPORTED) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_WORK_GROUP_SIZE_INVALID) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_PACKET_DISPATCH_REGISTER_INVALID) |	\
-> +				 KFD_EC_MASK(EC_QUEUE_PACKET_VENDOR_UNSUPPORTED)	|	\
-> +				 KFD_EC_MASK(EC_QUEUE_PREEMPTION_ERROR)	|	\
-> +				 KFD_EC_MASK(EC_QUEUE_NEW))
-> +#define KFD_EC_MASK_DEVICE	(KFD_EC_MASK(EC_DEVICE_QUEUE_DELETE) |		\
-> +				 KFD_EC_MASK(EC_DEVICE_RAS_ERROR) |		\
-> +				 KFD_EC_MASK(EC_DEVICE_FATAL_HALT) |		\
-> +				 KFD_EC_MASK(EC_DEVICE_MEMORY_VIOLATION) |	\
-> +				 KFD_EC_MASK(EC_DEVICE_NEW))
-> +#define KFD_EC_MASK_PROCESS	(KFD_EC_MASK(EC_PROCESS_RUNTIME) |	\
-> +				 KFD_EC_MASK(EC_PROCESS_DEVICE_REMOVE))
-> +
-> +/* Checks for exception code types for KFD search */
-> +#define KFD_DBG_EC_TYPE_IS_QUEUE(ecode)					\
-> +			(!!(KFD_EC_MASK(ecode) & KFD_EC_MASK_QUEUE))
-> +#define KFD_DBG_EC_TYPE_IS_DEVICE(ecode)				\
-> +			(!!(KFD_EC_MASK(ecode) & KFD_EC_MASK_DEVICE))
-> +#define KFD_DBG_EC_TYPE_IS_PROCESS(ecode)				\
-> +			(!!(KFD_EC_MASK(ecode) & KFD_EC_MASK_PROCESS))
-> +
-> +
-> +/* Runtime enable states */
-> +enum kfd_dbg_runtime_state {
-> +	DEBUG_RUNTIME_STATE_DISABLED = 0,
-> +	DEBUG_RUNTIME_STATE_ENABLED = 1,
-> +	DEBUG_RUNTIME_STATE_ENABLED_BUSY = 2,
-> +	DEBUG_RUNTIME_STATE_ENABLED_ERROR = 3
-> +};
-> +
-> +/* Runtime enable status */
-> +struct kfd_runtime_info {
-> +	__u64 r_debug;
-> +	__u32 runtime_state;
-> +	__u32 ttmp_setup;
-> +};
-> +
-> +/* Enable modes for runtime enable */
-> +#define KFD_RUNTIME_ENABLE_MODE_ENABLE_MASK	1
-> +#define KFD_RUNTIME_ENABLE_MODE_TTMP_SAVE_MASK	2
-> +
-> +/**
-> + * kfd_ioctl_runtime_enable_args - Arguments for runtime enable
-> + *
-> + * Coordinates debug exception signalling and debug device enablement with runtime.
-> + *
-> + * @r_debug - pointer to user struct for sharing information between ROCr and the debuggger
-> + * @mode_mask - mask to set mode
-> + *	KFD_RUNTIME_ENABLE_MODE_ENABLE_MASK - enable runtime for debugging, otherwise disable
-> + *	KFD_RUNTIME_ENABLE_MODE_TTMP_SAVE_MASK - enable trap temporary setup (ignore on disable)
-> + *
-> + * Return - 0 on SUCCESS.
-> + *	  - EBUSY if runtime enable call already pending.
-> + *	  - EEXIST if user queues already active prior to call.
-> + *	    If process is debug enabled, runtime enable will enable debug devices and
-> + *	    wait for debugger process to send runtime exception EC_PROCESS_RUNTIME
-> + *	    to unblock - see kfd_ioctl_dbg_trap_args.
-> + *
-> + */
-> +struct kfd_ioctl_runtime_enable_args {
-> +	__u64 r_debug;
-> +	__u32 mode_mask;
-
-As discussed offline, this will get a capabilities_mask field to be 
-returned to ROCr to help with core dumps. Other than that, this patch is
 
 Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 
 
-> +};
-> +
-> +/* Queue information */
-> +struct kfd_queue_snapshot_entry {
-> +	__u64 exception_status;
-> +	__u64 ring_base_address;
-> +	__u64 write_pointer_address;
-> +	__u64 read_pointer_address;
-> +	__u64 ctx_save_restore_address;
-> +	__u32 queue_id;
-> +	__u32 gpu_id;
-> +	__u32 ring_size;
-> +	__u32 queue_type;
-> +	__u32 ctx_save_restore_area_size;
-> +	__u32 reserved;
-> +};
-> +
-> +/* Queue status return for suspend/resume */
-> +#define KFD_DBG_QUEUE_ERROR_BIT		30
-> +#define KFD_DBG_QUEUE_INVALID_BIT	31
-> +#define KFD_DBG_QUEUE_ERROR_MASK	(1 << KFD_DBG_QUEUE_ERROR_BIT)
-> +#define KFD_DBG_QUEUE_INVALID_MASK	(1 << KFD_DBG_QUEUE_INVALID_BIT)
-> +
-> +/* Context save area header information */
-> +struct kfd_context_save_area_header {
-> +	__u32 control_stack_offset;
-> +	__u32 control_stack_size;
-> +	__u32 wave_state_offset;
-> +	__u32 wave_state_size;
-> +	__u32 debug_offset;
-> +	__u32 debug_size;
-> +	__u64 err_payload_addr;
-> +	__u32 err_event_id;
-> +	__u32 reserved1;
-> +};
-> +
-> +/*
-> + * Debug operations
-> + *
-> + * For specifics on usage and return values, see documentation per operation
-> + * below.  Otherwise, generic error returns apply:
-> + *	- ESRCH if the process to debug does not exist.
-> + *
-> + *	- EINVAL (with KFD_IOC_DBG_TRAP_ENABLE exempt) if operation
-> + *		 KFD_IOC_DBG_TRAP_ENABLE has not succeeded prior.
-> + *		 Also returns this error if GPU hardware scheduling is not supported.
-> + *
-> + *	- EPERM (with KFD_IOC_DBG_TRAP_DISABLE exempt) if target process is not
-> + *		 PTRACE_ATTACHED.  KFD_IOC_DBG_TRAP_DISABLE is exempt to allow
-> + *		 clean up of debug mode as long as process is debug enabled.
-> + *
-> + *	- EACCES if any DBG_HW_OP (debug hardware operation) is requested when
-> + *		 AMDKFD_IOC_RUNTIME_ENABLE has not succeeded prior.
-> + *
-> + *	- ENODEV if any GPU does not support debugging on a DBG_HW_OP call.
-> + *
-> + *	- Other errors may be returned when a DBG_HW_OP occurs while the GPU
-> + *	  is in a fatal state.
-> + *
-> + */
-> +enum kfd_dbg_trap_operations {
-> +	KFD_IOC_DBG_TRAP_ENABLE = 0,
-> +	KFD_IOC_DBG_TRAP_DISABLE = 1,
-> +	KFD_IOC_DBG_TRAP_SEND_RUNTIME_EVENT = 2,
-> +	KFD_IOC_DBG_TRAP_SET_EXCEPTIONS_ENABLED = 3,
-> +	KFD_IOC_DBG_TRAP_SET_WAVE_LAUNCH_OVERRIDE = 4,  /* DBG_HW_OP */
-> +	KFD_IOC_DBG_TRAP_SET_WAVE_LAUNCH_MODE = 5,      /* DBG_HW_OP */
-> +	KFD_IOC_DBG_TRAP_SUSPEND_QUEUES = 6,		/* DBG_HW_OP */
-> +	KFD_IOC_DBG_TRAP_RESUME_QUEUES = 7,		/* DBG_HW_OP */
-> +	KFD_IOC_DBG_TRAP_SET_NODE_ADDRESS_WATCH = 8,	/* DBG_HW_OP */
-> +	KFD_IOC_DBG_TRAP_CLEAR_NODE_ADDRESS_WATCH = 9,	/* DBG_HW_OP */
-> +	KFD_IOC_DBG_TRAP_SET_FLAGS = 10,
-> +	KFD_IOC_DBG_TRAP_QUERY_DEBUG_EVENT = 11,
-> +	KFD_IOC_DBG_TRAP_QUERY_EXCEPTION_INFO = 12,
-> +	KFD_IOC_DBG_TRAP_GET_QUEUE_SNAPSHOT = 13,
-> +	KFD_IOC_DBG_TRAP_GET_DEVICE_SNAPSHOT = 14
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_enable_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_ENABLE.
-> + *
-> + *     Enables debug session for target process. Call @op KFD_IOC_DBG_TRAP_DISABLE in
-> + *     kfd_ioctl_dbg_trap_args to disable debug session.
-> + *
-> + *     @exception_mask (IN)	- exceptions to raise to the debugger
-> + *     @rinfo_ptr      (IN)	- pointer to runtime info buffer (see kfd_runtime_info)
-> + *     @rinfo_size     (IN/OUT)	- size of runtime info buffer in bytes
-> + *     @dbg_fd	       (IN)	- fd the KFD will nofify the debugger with of raised
-> + *				  exceptions set in exception_mask.
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *		Copies KFD saved kfd_runtime_info to @rinfo_ptr on enable.
-> + *		Size of kfd_runtime saved by the KFD returned to @rinfo_size.
-> + *            - EBADF if KFD cannot get a reference to dbg_fd.
-> + *            - EFAULT if KFD cannot copy runtime info to rinfo_ptr.
-> + *            - EINVAL if target process is already debug enabled.
-> + *
-> + */
-> +struct kfd_ioctl_dbg_trap_enable_args {
-> +	__u64 exception_mask;
-> +	__u64 rinfo_ptr;
-> +	__u32 rinfo_size;
-> +	__u32 dbg_fd;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_send_runtime_event_args
-> + *
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_SEND_RUNTIME_EVENT.
-> + *     Raises exceptions to runtime.
-> + *
-> + *     @exception_mask (IN) - exceptions to raise to runtime
-> + *     @gpu_id	       (IN) - target device id
-> + *     @queue_id       (IN) - target queue id
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *	      - ENODEV if gpu_id not found.
-> + *		If exception_mask contains EC_PROCESS_RUNTIME, unblocks pending
-> + *		AMDKFD_IOC_RUNTIME_ENABLE call - see kfd_ioctl_runtime_enable_args.
-> + *		All other exceptions are raised to runtime through err_payload_addr.
-> + *		See kfd_context_save_area_header.
-> + */
-> +struct kfd_ioctl_dbg_trap_send_runtime_event_args {
-> +	__u64 exception_mask;
-> +	__u32 gpu_id;
-> +	__u32 queue_id;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_set_exceptions_enabled_args
-> + *
-> + *     Arguments for KFD_IOC_SET_EXCEPTIONS_ENABLED
-> + *     Set new exceptions to be raised to the debugger.
-> + *
-> + *     @exception_mask (IN) - new exceptions to raise the debugger
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + */
-> +struct kfd_ioctl_dbg_trap_set_exceptions_enabled_args {
-> +	__u64 exception_mask;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_set_wave_launch_override_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_SET_WAVE_LAUNCH_OVERRIDE
-> + *     Enable HW exceptions to raise trap.
-> + *
-> + *     @override_mode	     (IN)     - see kfd_dbg_trap_override_mode
-> + *     @enable_mask	     (IN/OUT) - reference kfd_dbg_trap_mask.
-> + *					IN is the override modes requested to be enabled.
-> + *					OUT is referenced in Return below.
-> + *     @support_request_mask (IN/OUT) - reference kfd_dbg_trap_mask.
-> + *					IN is the override modes requested for support check.
-> + *					OUT is referenced in Return below.
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *		Previous enablement is returned in @enable_mask.
-> + *		Actual override support is returned in @support_request_mask.
-> + *	      - EINVAL if override mode is not supported.
-> + *	      - EACCES if trap support requested is not actually supported.
-> + *		i.e. enable_mask (IN) is not a subset of support_request_mask (OUT).
-> + *		Otherwise it is considered a generic error (see kfd_dbg_trap_operations).
-> + */
-> +struct kfd_ioctl_dbg_trap_set_wave_launch_override_args {
-> +	__u32 override_mode;
-> +	__u32 enable_mask;
-> +	__u32 support_request_mask;
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_set_wave_launch_mode_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_SET_WAVE_LAUNCH_MODE
-> + *     Set wave launch mode.
-> + *
-> + *     @mode (IN) - see kfd_dbg_trap_wave_launch_mode
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + */
-> +struct kfd_ioctl_dbg_trap_set_wave_launch_mode_args {
-> +	__u32 launch_mode;
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_suspend_queues_ags
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_SUSPEND_QUEUES
-> + *     Suspend queues.
-> + *
-> + *     @exception_mask	(IN) - raised exceptions to clear
-> + *     @queue_array_ptr (IN) - pointer to array of queue ids (u32 per queue id)
-> + *			       to suspend
-> + *     @num_queues	(IN) - number of queues to suspend in @queue_array_ptr
-> + *     @grace_period	(IN) - wave time allowance before preemption
-> + *			       per 1K GPU clock cycle unit
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Destruction of a suspended queue is blocked until the queue is
-> + *     resumed.  This allows the debugger to access queue information and
-> + *     the its context save area without running into a race condition on
-> + *     queue destruction.
-> + *     Automatically copies per queue context save area header information
-> + *     into the save area base
-> + *     (see kfd_queue_snapshot_entry and kfd_context_save_area_header).
-> + *
-> + *     Return - Number of queues suspended on SUCCESS.
-> + *	.	KFD_DBG_QUEUE_ERROR_MASK and KFD_DBG_QUEUE_INVALID_MASK masked
-> + *		for each queue id in @queue_array_ptr array reports unsuccessful
-> + *		suspend reason.
-> + *		KFD_DBG_QUEUE_ERROR_MASK = HW failure.
-> + *		KFD_DBG_QUEUE_INVALID_MASK = queue does not exist, is new or
-> + *		is being destroyed.
-> + */
-> +struct kfd_ioctl_dbg_trap_suspend_queues_args {
-> +	__u64 exception_mask;
-> +	__u64 queue_array_ptr;
-> +	__u32 num_queues;
-> +	__u32 grace_period;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_resume_queues_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_RESUME_QUEUES
-> + *     Resume queues.
-> + *
-> + *     @queue_array_ptr (IN) - pointer to array of queue ids (u32 per queue id)
-> + *			       to resume
-> + *     @num_queues	(IN) - number of queues to resume in @queue_array_ptr
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - Number of queues resumed on SUCCESS.
-> + *		KFD_DBG_QUEUE_ERROR_MASK and KFD_DBG_QUEUE_INVALID_MASK mask
-> + *		for each queue id in @queue_array_ptr array reports unsuccessful
-> + *		resume reason.
-> + *		KFD_DBG_QUEUE_ERROR_MASK = HW failure.
-> + *		KFD_DBG_QUEUE_INVALID_MASK = queue does not exist.
-> + */
-> +struct kfd_ioctl_dbg_trap_resume_queues_args {
-> +	__u64 queue_array_ptr;
-> +	__u32 num_queues;
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_set_node_address_watch_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_SET_NODE_ADDRESS_WATCH
-> + *     Sets address watch for device.
-> + *
-> + *     @address	(IN)  - watch address to set
-> + *     @mode    (IN)  - see kfd_dbg_trap_address_watch_mode
-> + *     @mask    (IN)  - watch address mask
-> + *     @gpu_id  (IN)  - target gpu to set watch point
-> + *     @id      (OUT) - watch id allocated
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *		Allocated watch ID returned to @id.
-> + *	      - ENODEV if gpu_id not found.
-> + *	      - ENOMEM if watch IDs can be allocated
-> + */
-> +struct kfd_ioctl_dbg_trap_set_node_address_watch_args {
-> +	__u64 address;
-> +	__u32 mode;
-> +	__u32 mask;
-> +	__u32 gpu_id;
-> +	__u32 id;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_clear_node_address_watch_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_CLEAR_NODE_ADDRESS_WATCH
-> + *     Clear address watch for device.
-> + *
-> + *     @gpu_id  (IN)  - target device to clear watch point
-> + *     @id      (IN) - allocated watch id to clear
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *	      - ENODEV if gpu_id not found.
-> + *	      - EINVAL if watch ID has not been allocated.
-> + */
-> +struct kfd_ioctl_dbg_trap_clear_node_address_watch_args {
-> +	__u32 gpu_id;
-> +	__u32 id;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_set_flags_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_SET_FLAGS
-> + *     Sets flags for wave behaviour.
-> + *
-> + *     @flags (IN/OUT) - IN = flags to enable, OUT = flags previously enabled
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *	      - EACCESS if any debug device does not allow flag options.
-> + */
-> +struct kfd_ioctl_dbg_trap_set_flags_args {
-> +	__u32 flags;
-> +	__u32 pad;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_query_debug_event_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_QUERY_DEBUG_EVENT
-> + *
-> + *     Find one or more raised exceptions. This function can return multiple
-> + *     exceptions from a single queue or a single device with one call. To find
-> + *     all raised exceptions, this function must be called repeatedly until it
-> + *     returns -EAGAIN. Returned exceptions can optionally be cleared by
-> + *     setting the corresponding bit in the @exception_mask input parameter.
-> + *     However, clearing an exception prevents retrieving further information
-> + *     about it with KFD_IOC_DBG_TRAP_QUERY_EXCEPTION_INFO.
-> + *
-> + *     @exception_mask (IN/OUT) - exception to clear (IN) and raised (OUT)
-> + *     @gpu_id	       (OUT)    - gpu id of exceptions raised
-> + *     @queue_id       (OUT)    - queue id of exceptions raised
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on raised exception found
-> + *              Raised exceptions found are returned in @exception mask
-> + *              with reported source id returned in @gpu_id or @queue_id.
-> + *            - EAGAIN if no raised exception has been found
-> + */
-> +struct kfd_ioctl_dbg_trap_query_debug_event_args {
-> +	__u64 exception_mask;
-> +	__u32 gpu_id;
-> +	__u32 queue_id;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_query_exception_info_args
-> + *
-> + *     Arguments KFD_IOC_DBG_TRAP_QUERY_EXCEPTION_INFO
-> + *     Get additional info on raised exception.
-> + *
-> + *     @info_ptr	(IN)	 - pointer to exception info buffer to copy to
-> + *     @info_size	(IN/OUT) - exception info buffer size (bytes)
-> + *     @source_id	(IN)     - target gpu or queue id
-> + *     @exception_code	(IN)     - target exception
-> + *     @clear_exception	(IN)     - clear raised @exception_code exception
-> + *				   (0 = false, 1 = true)
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *              If @exception_code is EC_DEVICE_MEMORY_VIOLATION, copy @info_size(OUT)
-> + *		bytes of memory exception data to @info_ptr.
-> + *              If @exception_code is EC_PROCESS_RUNTIME, copy saved
-> + *              kfd_runtime_info to @info_ptr.
-> + *              Actual required @info_ptr size (bytes) is returned in @info_size.
-> + */
-> +struct kfd_ioctl_dbg_trap_query_exception_info_args {
-> +	__u64 info_ptr;
-> +	__u32 info_size;
-> +	__u32 source_id;
-> +	__u32 exception_code;
-> +	__u32 clear_exception;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_get_queue_snapshot_args
-> + *
-> + *     Arguments KFD_IOC_DBG_TRAP_GET_QUEUE_SNAPSHOT
-> + *     Get queue information.
-> + *
-> + *     @exception_mask	 (IN)	  - exceptions raised to clear
-> + *     @snapshot_buf_ptr (IN)	  - queue snapshot entry buffer (see kfd_queue_snapshot_entry)
-> + *     @num_queues	 (IN/OUT) - number of queue snapshot entries
-> + *         The debugger specifies the size of the array allocated in @num_queues.
-> + *         KFD returns the number of queues that actually existed. If this is
-> + *         larger than the size specified by the debugger, KFD will not overflow
-> + *         the array allocated by the debugger.
-> + *
-> + *     @entry_size	 (IN/OUT) - size per entry in bytes
-> + *         The debugger specifies sizeof(struct kfd_queue_snapshot_entry) in
-> + *         @entry_size. KFD returns the number of bytes actually populated per
-> + *         entry. The debugger should use the KFD_IOCTL_MINOR_VERSION to determine,
-> + *         which fields in struct kfd_queue_snapshot_entry are valid. This allows
-> + *         growing the ABI in a backwards compatible manner.
-> + *         Note that entry_size(IN) should still be used to stride the snapshot buffer in the
-> + *         event that it's larger than actual kfd_queue_snapshot_entry.
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *              Copies @num_queues(IN) queue snapshot entries of size @entry_size(IN)
-> + *              into @snapshot_buf_ptr if @num_queues(IN) > 0.
-> + *              Otherwise return @num_queues(OUT) queue snapshot entries that exist.
-> + */
-> +struct kfd_ioctl_dbg_trap_queue_snapshot_args {
-> +	__u64 exception_mask;
-> +	__u64 snapshot_buf_ptr;
-> +	__u32 num_queues;
-> +	__u32 entry_size;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_get_device_snapshot_args
-> + *
-> + *     Arguments for KFD_IOC_DBG_TRAP_GET_DEVICE_SNAPSHOT
-> + *     Get device information.
-> + *
-> + *     @exception_mask	 (IN)	  - exceptions raised to clear
-> + *     @snapshot_buf_ptr (IN)	  - pointer to snapshot buffer (see kfd_dbg_device_info_entry)
-> + *     @num_devices	 (IN/OUT) - number of debug devices to snapshot
-> + *         The debugger specifies the size of the array allocated in @num_devices.
-> + *         KFD returns the number of devices that actually existed. If this is
-> + *         larger than the size specified by the debugger, KFD will not overflow
-> + *         the array allocated by the debugger.
-> + *
-> + *     @entry_size	 (IN/OUT) - size per entry in bytes
-> + *         The debugger specifies sizeof(struct kfd_dbg_device_info_entry) in
-> + *         @entry_size. KFD returns the number of bytes actually populated. The
-> + *         debugger should use KFD_IOCTL_MINOR_VERSION to determine, which fields
-> + *         in struct kfd_dbg_device_info_entry are valid. This allows growing the
-> + *         ABI in a backwards compatible manner.
-> + *         Note that entry_size(IN) should still be used to stride the snapshot buffer in the
-> + *         event that it's larger than actual kfd_dbg_device_info_entry.
-> + *
-> + *     Generic errors apply (see kfd_dbg_trap_operations).
-> + *     Return - 0 on SUCCESS.
-> + *              Copies @num_devices(IN) device snapshot entries of size @entry_size(IN)
-> + *              into @snapshot_buf_ptr if @num_devices(IN) > 0.
-> + *              Otherwise return @num_devices(OUT) queue snapshot entries that exist.
-> + */
-> +struct kfd_ioctl_dbg_trap_device_snapshot_args {
-> +	__u64 exception_mask;
-> +	__u64 snapshot_buf_ptr;
-> +	__u32 num_devices;
-> +	__u32 entry_size;
-> +};
-> +
-> +/**
-> + * kfd_ioctl_dbg_trap_args
-> + *
-> + * Arguments to debug target process.
-> + *
-> + *     @pid - target process to debug
-> + *     @op  - debug operation (see kfd_dbg_trap_operations)
-> + *
-> + *     @op determines which union struct args to use.
-> + *     Refer to kern docs for each kfd_ioctl_dbg_trap_*_args struct.
-> + */
-> +struct kfd_ioctl_dbg_trap_args {
-> +	__u32 pid;
-> +	__u32 op;
-> +
-> +	union {
-> +		struct kfd_ioctl_dbg_trap_enable_args enable;
-> +		struct kfd_ioctl_dbg_trap_send_runtime_event_args send_runtime_event;
-> +		struct kfd_ioctl_dbg_trap_set_exceptions_enabled_args set_exceptions_enabled;
-> +		struct kfd_ioctl_dbg_trap_set_wave_launch_override_args launch_override;
-> +		struct kfd_ioctl_dbg_trap_set_wave_launch_mode_args launch_mode;
-> +		struct kfd_ioctl_dbg_trap_suspend_queues_args suspend_queues;
-> +		struct kfd_ioctl_dbg_trap_resume_queues_args resume_queues;
-> +		struct kfd_ioctl_dbg_trap_set_node_address_watch_args set_node_address_watch;
-> +		struct kfd_ioctl_dbg_trap_clear_node_address_watch_args clear_node_address_watch;
-> +		struct kfd_ioctl_dbg_trap_set_flags_args set_flags;
-> +		struct kfd_ioctl_dbg_trap_query_debug_event_args query_debug_event;
-> +		struct kfd_ioctl_dbg_trap_query_exception_info_args query_exception_info;
-> +		struct kfd_ioctl_dbg_trap_queue_snapshot_args queue_snapshot;
-> +		struct kfd_ioctl_dbg_trap_device_snapshot_args device_snapshot;
-> +	};
-> +};
-> +
->   #define AMDKFD_IOCTL_BASE 'K'
->   #define AMDKFD_IO(nr)			_IO(AMDKFD_IOCTL_BASE, nr)
->   #define AMDKFD_IOR(nr, type)		_IOR(AMDKFD_IOCTL_BASE, nr, type)
-> @@ -877,7 +1532,13 @@ struct kfd_ioctl_set_xnack_mode_args {
->   #define AMDKFD_IOC_AVAILABLE_MEMORY		\
->   		AMDKFD_IOWR(0x23, struct kfd_ioctl_get_available_memory_args)
+> ---
+>   drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 101 ++++++++++++++++++++--
+>   drivers/gpu/drm/amd/amdkfd/kfd_topology.h |   6 ++
+>   include/uapi/linux/kfd_sysfs.h            |  15 ++++
+>   3 files changed, 117 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+> index 3fdaba56be6f..647a14142da9 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+> @@ -551,6 +551,8 @@ static ssize_t node_show(struct kobject *kobj, struct attribute *attr,
+>   				      dev->gpu->mec_fw_version);
+>   		sysfs_show_32bit_prop(buffer, offs, "capability",
+>   				      dev->node_props.capability);
+> +		sysfs_show_64bit_prop(buffer, offs, "debug_prop",
+> +				      dev->node_props.debug_prop);
+>   		sysfs_show_32bit_prop(buffer, offs, "sdma_fw_version",
+>   				      dev->gpu->sdma_fw_version);
+>   		sysfs_show_64bit_prop(buffer, offs, "unique_id",
+> @@ -1865,6 +1867,97 @@ static int kfd_topology_add_device_locked(struct kfd_dev *gpu, uint32_t gpu_id,
+>   	return res;
+>   }
 >   
-> +#define AMDKFD_IOC_RUNTIME_ENABLE		\
-> +		AMDKFD_IOWR(0x24, struct kfd_ioctl_runtime_enable_args)
+> +static void kfd_topology_set_dbg_firmware_support(struct kfd_topology_device *dev)
+> +{
+> +	bool firmware_supported = true;
 > +
-> +#define AMDKFD_IOC_DBG_TRAP			\
-> +		AMDKFD_IOWR(0x25, struct kfd_ioctl_dbg_trap_args)
+> +	if (KFD_GC_VERSION(dev->gpu) >= IP_VERSION(11, 0, 0) &&
+> +			KFD_GC_VERSION(dev->gpu) < IP_VERSION(12, 0, 0)) {
+> +		firmware_supported =
+> +			(dev->gpu->adev->mes.sched_version & AMDGPU_MES_VERSION_MASK) >= 9;
+> +		goto out;
+> +	}
 > +
->   #define AMDKFD_COMMAND_START		0x01
-> -#define AMDKFD_COMMAND_END		0x24
-> +#define AMDKFD_COMMAND_END		0x26
+> +	/*
+> +	 * Note: Any unlisted devices here are assumed to support exception handling.
+> +	 * Add additional checks here as needed.
+> +	 */
+> +	switch (KFD_GC_VERSION(dev->gpu)) {
+> +	case IP_VERSION(9, 0, 1):
+> +		firmware_supported = dev->gpu->mec_fw_version >= 459 + 32768;
+> +		break;
+> +	case IP_VERSION(9, 1, 0):
+> +	case IP_VERSION(9, 2, 1):
+> +	case IP_VERSION(9, 2, 2):
+> +	case IP_VERSION(9, 3, 0):
+> +	case IP_VERSION(9, 4, 0):
+> +		firmware_supported = dev->gpu->mec_fw_version >= 459;
+> +		break;
+> +	case IP_VERSION(9, 4, 1):
+> +		firmware_supported = dev->gpu->mec_fw_version >= 60;
+> +		break;
+> +	case IP_VERSION(9, 4, 2):
+> +		firmware_supported = dev->gpu->mec_fw_version >= 51;
+> +		break;
+> +	case IP_VERSION(10, 1, 10):
+> +	case IP_VERSION(10, 1, 2):
+> +	case IP_VERSION(10, 1, 1):
+> +		firmware_supported = dev->gpu->mec_fw_version >= 144;
+> +		break;
+> +	case IP_VERSION(10, 3, 0):
+> +	case IP_VERSION(10, 3, 2):
+> +	case IP_VERSION(10, 3, 1):
+> +	case IP_VERSION(10, 3, 4):
+> +	case IP_VERSION(10, 3, 5):
+> +		firmware_supported = dev->gpu->mec_fw_version >= 89;
+> +		break;
+> +	case IP_VERSION(10, 1, 3):
+> +	case IP_VERSION(10, 3, 3):
+> +		firmware_supported = false;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +out:
+> +	if (firmware_supported)
+> +		dev->node_props.capability |= HSA_CAP_TRAP_DEBUG_FIRMWARE_SUPPORTED;
+> +}
+> +
+> +static void kfd_topology_set_capabilities(struct kfd_topology_device *dev)
+> +{
+> +	dev->node_props.capability |= ((HSA_CAP_DOORBELL_TYPE_2_0 <<
+> +				HSA_CAP_DOORBELL_TYPE_TOTALBITS_SHIFT) &
+> +				HSA_CAP_DOORBELL_TYPE_TOTALBITS_MASK);
+> +
+> +	dev->node_props.capability |= HSA_CAP_TRAP_DEBUG_SUPPORT |
+> +			HSA_CAP_TRAP_DEBUG_WAVE_LAUNCH_TRAP_OVERRIDE_SUPPORTED |
+> +			HSA_CAP_TRAP_DEBUG_WAVE_LAUNCH_MODE_SUPPORTED;
+> +
+> +	if (KFD_GC_VERSION(dev->gpu) < IP_VERSION(10, 0, 0)) {
+> +		dev->node_props.debug_prop |= HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX9 |
+> +						HSA_DBG_WATCH_ADDR_MASK_HI_BIT;
+> +
+> +		if (KFD_GC_VERSION(dev->gpu) < IP_VERSION(9, 4, 2))
+> +			dev->node_props.debug_prop |=
+> +				HSA_DBG_DISPATCH_INFO_ALWAYS_VALID;
+> +		else
+> +			dev->node_props.capability |=
+> +				HSA_CAP_TRAP_DEBUG_PRECISE_MEMORY_OPERATIONS_SUPPORTED;
+> +	} else {
+> +		dev->node_props.debug_prop |= HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX10 |
+> +					HSA_DBG_WATCH_ADDR_MASK_HI_BIT;
+> +
+> +		if (KFD_GC_VERSION(dev->gpu) < IP_VERSION(11, 0, 0))
+> +			dev->node_props.debug_prop |= HSA_DBG_DISPATCH_INFO_ALWAYS_VALID;
+> +		else
+> +			dev->node_props.capability |=
+> +				HSA_CAP_TRAP_DEBUG_PRECISE_MEMORY_OPERATIONS_SUPPORTED;
+> +	}
+> +
+> +	kfd_topology_set_dbg_firmware_support(dev);
+> +}
+> +
+>   int kfd_topology_add_device(struct kfd_dev *gpu)
+>   {
+>   	uint32_t gpu_id;
+> @@ -1966,13 +2059,11 @@ int kfd_topology_add_device(struct kfd_dev *gpu)
+>   			HSA_CAP_DOORBELL_TYPE_TOTALBITS_MASK);
+>   		break;
+>   	default:
+> -		if (KFD_GC_VERSION(dev->gpu) >= IP_VERSION(9, 0, 1))
+> -			dev->node_props.capability |= ((HSA_CAP_DOORBELL_TYPE_2_0 <<
+> -				HSA_CAP_DOORBELL_TYPE_TOTALBITS_SHIFT) &
+> -				HSA_CAP_DOORBELL_TYPE_TOTALBITS_MASK);
+> -		else
+> +		if (KFD_GC_VERSION(dev->gpu) < IP_VERSION(9, 0, 1))
+>   			WARN(1, "Unexpected ASIC family %u",
+>   			     dev->gpu->adev->asic_type);
+> +		else
+> +			kfd_topology_set_capabilities(dev);
+>   	}
 >   
->   #endif
+>   	/*
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
+> index fca30d00a9bb..53b9b7bf52ee 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
+> @@ -31,6 +31,11 @@
+>   
+>   #define KFD_TOPOLOGY_PUBLIC_NAME_SIZE 32
+>   
+> +#define HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX9	6
+> +#define HSA_DBG_WATCH_ADDR_MASK_LO_BIT_GFX10	7
+> +#define HSA_DBG_WATCH_ADDR_MASK_HI_BIT  \
+> +			(29 << HSA_DBG_WATCH_ADDR_MASK_HI_BIT_SHIFT)
+> +
+>   struct kfd_node_properties {
+>   	uint64_t hive_id;
+>   	uint32_t cpu_cores_count;
+> @@ -42,6 +47,7 @@ struct kfd_node_properties {
+>   	uint32_t cpu_core_id_base;
+>   	uint32_t simd_id_base;
+>   	uint32_t capability;
+> +	uint64_t debug_prop;
+>   	uint32_t max_waves_per_simd;
+>   	uint32_t lds_size_in_kb;
+>   	uint32_t gds_size_in_kb;
+> diff --git a/include/uapi/linux/kfd_sysfs.h b/include/uapi/linux/kfd_sysfs.h
+> index 3e330f368917..a51b7331e0b4 100644
+> --- a/include/uapi/linux/kfd_sysfs.h
+> +++ b/include/uapi/linux/kfd_sysfs.h
+> @@ -43,6 +43,11 @@
+>   #define HSA_CAP_DOORBELL_TYPE_2_0		0x2
+>   #define HSA_CAP_AQL_QUEUE_DOUBLE_MAP		0x00004000
+>   
+> +#define HSA_CAP_TRAP_DEBUG_SUPPORT              0x00008000
+> +#define HSA_CAP_TRAP_DEBUG_WAVE_LAUNCH_TRAP_OVERRIDE_SUPPORTED  0x00010000
+> +#define HSA_CAP_TRAP_DEBUG_WAVE_LAUNCH_MODE_SUPPORTED           0x00020000
+> +#define HSA_CAP_TRAP_DEBUG_PRECISE_MEMORY_OPERATIONS_SUPPORTED  0x00040000
+> +
+>   /* Old buggy user mode depends on this being 0 */
+>   #define HSA_CAP_RESERVED_WAS_SRAM_EDCSUPPORTED	0x00080000
+>   
+> @@ -53,8 +58,18 @@
+>   #define HSA_CAP_SRAM_EDCSUPPORTED		0x04000000
+>   #define HSA_CAP_SVMAPI_SUPPORTED		0x08000000
+>   #define HSA_CAP_FLAGS_COHERENTHOSTACCESS	0x10000000
+> +#define HSA_CAP_TRAP_DEBUG_FIRMWARE_SUPPORTED   0x20000000
+>   #define HSA_CAP_RESERVED			0xe00f8000
+>   
+> +/* debug_prop bits in node properties */
+> +#define HSA_DBG_WATCH_ADDR_MASK_LO_BIT_MASK     0x0000000f
+> +#define HSA_DBG_WATCH_ADDR_MASK_LO_BIT_SHIFT    0
+> +#define HSA_DBG_WATCH_ADDR_MASK_HI_BIT_MASK     0x000003f0
+> +#define HSA_DBG_WATCH_ADDR_MASK_HI_BIT_SHIFT    4
+> +#define HSA_DBG_DISPATCH_INFO_ALWAYS_VALID      0x00000400
+> +#define HSA_DBG_WATCHPOINTS_EXCLUSIVE           0x00000800
+> +#define HSA_DBG_RESERVED                0xfffffffffffff000ull
+> +
+>   /* Heap types in memory properties */
+>   #define HSA_MEM_HEAP_TYPE_SYSTEM	0
+>   #define HSA_MEM_HEAP_TYPE_FB_PUBLIC	1
