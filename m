@@ -2,63 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA60698F64
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 10:11:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD597698F94
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 10:19:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCB0510E0D8;
-	Thu, 16 Feb 2023 09:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63A4310E159;
+	Thu, 16 Feb 2023 09:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CB610E0D8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 09:11:22 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id a9so1204726ljr.13
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 01:11:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=NtJ/t7fbAnL81OyINie/u/q8kziU9uvYuPl/dE8leRs=;
- b=CqCP30L6D45pzRX3UG6uH6mYnX+T/OPHHar0ykGZZzj2sVBxbBLkAWkrO9TZ7Dh88U
- xMnsJovZBB5dZnbjfvUSdyhpZQplcAaKa/hV2QsRVTuC+347mKmV9rtlGrtxvntlZU6J
- C2uOyU3eOieqpK1L8Xm13w/O7qwbJkWL2i3YQ2XDWuhxKrh5E+mzlajju97H1jDfPKex
- I6axI8NvBULOICnQGbqigsI0J+9u1M/kLnRC30nxV2uNBB6AsX7LhUanBSD8LnWhxPf2
- 2lAPfXX6cSQ8YCw4Sy4pj9bGZ/sYughXAangHURumkJq1YxsXBe5EQYx0nS8kSb9OklJ
- E+7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NtJ/t7fbAnL81OyINie/u/q8kziU9uvYuPl/dE8leRs=;
- b=iEmUKmAhxOH2LHTmVyHjNJqYmtcLlJo2MnnFcOcbk3Wc5YxEMyjfMOFiy5y0wkPuDi
- PuIm0x8e+cOowRzcX2n8JApyuG/njwkiH3DMJH+q/MtKpWE8Rh7EH2E7apTl5xs5+F3l
- aF6+EJf3YcljIsop2TruhdsNnuOtVW21p4nlrhfruwzccS5SEmkJDbiU3doenYczt8Rk
- BK+UrjioOCSE/gul/TivNftKXAIUT2XHtE28OUXPAo22lTLK7M1tyj7aoGGCQcprbjDY
- Cs6MLzyTt1Au+4QcxQRwWxQM/pn4yzthuxWfZP7bXBLv8kVCHNOrOlfk0SuNa0VP/qQd
- /53Q==
-X-Gm-Message-State: AO0yUKWdlnhiV2XzyZstFLIbnHVWvjukl2CHIxKCCtLRJ1WwDh2FdyZO
- V5K2DOXktEQHfHLwbhg4TyI=
-X-Google-Smtp-Source: AK7set+ShE5kFEYt1Mif7UI/msKtKrC3I+ma01zcUrMSsbfkT8QbzP0ukGQaBLv9H+/xuVnoD7PQbw==
-X-Received: by 2002:a2e:9c94:0:b0:293:5cce:56ea with SMTP id
- x20-20020a2e9c94000000b002935cce56eamr1414821lji.47.1676538680779; 
- Thu, 16 Feb 2023 01:11:20 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- m21-20020a2e9115000000b00293530f5765sm107543ljg.113.2023.02.16.01.11.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 01:11:20 -0800 (PST)
-Date: Thu, 16 Feb 2023 11:11:10 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>, daniels@collabora.com
-Subject: Re: [PATCH] drm: document expectations for GETFB2 handles
-Message-ID: <20230216111110.5d1e8e7d@eldfell>
-In-Reply-To: <ia5oa4sV74Cq0n0T5yDytOheked1Uuxb8CHh7L_Hdi51oIWuWIwOuqWsidJz3LrNdpoQqT7wNBgvSxVfKV-ZbbHLIC6U0aRrae9rVqUUpYg=@emersion.fr>
-References: <20230215124152.101548-1-contact@emersion.fr>
- <20230215154123.3f9fefce@eldfell>
- <ia5oa4sV74Cq0n0T5yDytOheked1Uuxb8CHh7L_Hdi51oIWuWIwOuqWsidJz3LrNdpoQqT7wNBgvSxVfKV-ZbbHLIC6U0aRrae9rVqUUpYg=@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4057010E159;
+ Thu, 16 Feb 2023 09:19:12 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B68215824A6;
+ Thu, 16 Feb 2023 04:19:08 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Thu, 16 Feb 2023 04:19:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1676539148; x=1676546348; bh=FSdyYVMXE37HjJCMg79L/WM51m8A74dn57Y
+ 7EBrjMmY=; b=RCfWQv4YKYb8QE9kuL0a0p3S9twNDmJKbOViE+Nr7CQLf98Z/j2
+ pdT6msOHDhr4BVmjGbDQNnB+nonb51O6sloF0JKrEpYFOdgL/Im9K9MK2LB0N42Q
+ iR/vKGEERezZjdGib0smFMqQaW5cPVmDxRUV9VNwXppJOOV/8VeFeztKDFYTRsOU
+ QYItK7byS5CnlmIVHbmmTKO2KiNNbR1ul/UYAbzDCso/NkJaHoRNNYqu5Y9eaM6f
+ 1mmscFxHbEzA6XHoPRJRgj9B2Qfh7uKbE5qwNS3Sdlm2u7CZUTtZdXKsOjOiFf+R
+ sOgmqucHBDVKv6Lx9RbNwIhw+YZXfYCJY2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676539148; x=
+ 1676546348; bh=FSdyYVMXE37HjJCMg79L/WM51m8A74dn57Y7EBrjMmY=; b=E
+ 9Wf+CM/gOK1/ElUrlUDz0LEs0zieTliC2qSjvdgISCHi/Zf98i0PXXdts1WcJ8ov
+ Uvp7JE8A5HTMUsyo/oBn4jat437ZFLqemfx0Gcq1opnckF4TRizViDUHd1qS3vqF
+ oNP/N2Xy482U7zmKoO5jhltYjih2AP/Oaw8k1haHVS8ePwoV5qhbKl/vjpsiI8tQ
+ jybHYZLHZhiwu7m255qM2cAd7rvejcFUiPxA6dBjXsQjI3dG2CS5aj8NP0+sA99+
+ +l5mm8c4H4XGtWcZa0nOs89DdPqhmPDlgsm4pRmvDnA1HIXbs35oN8hewnj34Fgw
+ mW9WnF9NwJ7TIpJsvrPbw==
+X-ME-Sender: <xms:DPXtY-wV4Vo45DVtXwd1Aw7pQJRNpE8TFJ4NeFki3K8HmrQ_DbibrA>
+ <xme:DPXtY6R5DhFbkCXJ-tp3kFNE14scY42Z8Uye5tryqwOhgR07UEqZ7zb2JPowEHO7Y
+ JZ_dbb5TXX0nTGxjRk>
+X-ME-Received: <xmr:DPXtYwV7A5ebcnLZ-_1lZL7oKJY6DL0YiC5i8tSKhwiVh7PB-ZRO7rJUivzCv7FTYlv9lcxRdLuCLucZIy2sHt0aNXT-REk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedgtdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeekheejgeeuhfethffgheekhedufeduhfejgfehffekudefgedugffhkeefhfev
+ vdenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:DPXtY0hLgXA0RhxELuNBqVcvfivrTl3YKOQZacdxzZs06_SvXO4-7Q>
+ <xmx:DPXtYwCCUyM2O1pB3VWGT0O5vG0IKme685_p0fmNUtcFd6bD2g2lRA>
+ <xmx:DPXtY1L2QGrqCAShbid-2ad8VzQ95sZEcznmqw4P7E-Y9hjEcvp8sA>
+ <xmx:DPXtYyyWk3BCvDVxvnyg6mdR0nJRNLwjVcw3wt31N8-WZTiFD2tRVA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Feb 2023 04:19:07 -0500 (EST)
+Date: Thu, 16 Feb 2023 10:19:05 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20230216091905.i5wswy4dd74x4br5@houat>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/INvQRH/1JojWMoSejq72wPK";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="pblore63f2xoltr2"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,88 +81,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/INvQRH/1JojWMoSejq72wPK
-Content-Type: text/plain; charset=US-ASCII
+
+--pblore63f2xoltr2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Feb 2023 17:03:54 +0000
-Simon Ser <contact@emersion.fr> wrote:
+Hi Dave, Daniel,
 
-> On Wednesday, February 15th, 2023 at 14:41, Pekka Paalanen <ppaalanen@gma=
-il.com> wrote:
->=20
-> > I didn't know it was at all possible to have different GEM handles
-> > pointing to the same object. DMABUF import is guaranteed to return the
-> > existing GEM handle, right? Why is GETFB2 different? Why does it not
-> > have the same problem as what forced DMABUF import to return existing
-> > handles? =20
->=20
-> drm_gem_prime_fd_to_handle() explicitly checks whether the memory object
-> already has a GEM handle via drm_prime_lookup_buf_handle(). OTOH,
-> drm_mode_getfb() and drm_mode_getfb2_ioctl() just unconditionally call
-> drm_gem_handle_create().
->=20
-> Yes, it's a rather inconsistent detail. A detail which becomes very
-> important when ref'counting and trying not to leak GEM handles from
-> user-space. Fortunately GETFB/GETFB2 usage is pretty seldom.
+Here's this week drm-misc-fixes PR.
 
-I see that GETFB was introduced in
+Maxime
 
-commit f453ba0460742ad027ae0c4c7d61e62817b3e7ef
-Author: Dave Airlie <airlied@redhat.com>
-Date:   Fri Nov 7 14:05:41 2008 -0800
+drm-misc-fixes-2023-02-16:
+Multiple fixes in vc4 to address issues with YUV planes, HDMI and CRTC;
+an invalid page access fix for fbdev, mark dynamic debug as broken, a
+double free and refcounting fix for vmwgfx.
+The following changes since commit 85e26dd5100a182bf8448050427539c0a66ab793:
 
-    DRM: add mode setting support
+  drm/client: fix circular reference counting issue (2023-02-07 09:42:56 +0=
+100)
 
-and I guess GETFB2 just replicated the behaviour for no reason. Was
-that it, Daniel S.? Are there other pitfalls that should be documented?
+are available in the Git repository at:
 
-So it was long before dmabuf was a thing I believe, meaning that any
-dmabuf import problems could not have been known.
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-02-16
 
-Btw. does this also mean that if you use GETFB2 to get handle A, you
-export that as dmabuf and import in the same open device instance, you
-again get handle A?
+for you to fetch changes up to a950b989ea29ab3b38ea7f6e3d2540700a3c54e8:
 
-IOW, you should *never* ever export a dmabuf of what you got with
-GETFB2. If one did, one might import it oneself via GBM, breaking all
-reference counting. But you also cannot "just leak" the handle A,
-because if GBM happens to run on a different DRM device opened
-instance, GBM would get a different handle to own.
+  drm/vmwgfx: Do not drop the reference to the handle too soon (2023-02-14 =
+23:00:09 -0500)
 
-That's... err. How is a compositor supposed to do transition animation
-from an old FB to its own thing? I guess mmap + glTexImage2D equivalent
-to make a copy of the old FB so one can use it as a texture?
+----------------------------------------------------------------
+Multiple fixes in vc4 to address issues with YUV planes, HDMI and CRTC;
+an invalid page access fix for fbdev, mark dynamic debug as broken, a
+double free and refcounting fix for vmwgfx.
 
-Maybe something about this would be good to spell out in the doc?
+----------------------------------------------------------------
+Dave Stevenson (1):
+      drm/vc4: Fix YUV plane handling when planes are in different buffers
 
+Dom Cobley (2):
+      drm/vc4: hdmi: Always enable GCP with AVMUTE cleared
+      drm/vc4: crtc: Increase setup cost in core clock calculation to handl=
+e extreme reduced blanking
 
-Thanks,
-pq
+Jocelyn Falempe (1):
+      drm/ast: Fix start address computation
 
---Sig_/INvQRH/1JojWMoSejq72wPK
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Takashi Iwai (1):
+      fbdev: Fix invalid page access after closing deferred I/O devices
+
+Ville Syrj=E4l=E4 (1):
+      drm: Disable dynamic debug as broken
+
+Zack Rusin (2):
+      drm/vmwgfx: Stop accessing buffer objects which failed init
+      drm/vmwgfx: Do not drop the reference to the handle too soon
+
+ drivers/gpu/drm/Kconfig                 |  3 ++-
+ drivers/gpu/drm/ast/ast_mode.c          |  4 ++--
+ drivers/gpu/drm/vc4/vc4_crtc.c          |  2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c          | 18 +++++++++---------
+ drivers/gpu/drm/vc4/vc4_plane.c         |  6 ++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      | 12 ++++++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |  2 ++
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c     |  8 ++++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c     |  4 +++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_overlay.c |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_shader.c  |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 10 ++++++----
+ drivers/video/fbdev/core/fb_defio.c     | 10 +++++++++-
+ drivers/video/fbdev/core/fbmem.c        |  4 ++++
+ include/linux/fb.h                      |  1 +
+ 15 files changed, 57 insertions(+), 29 deletions(-)
+
+--pblore63f2xoltr2
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPt8y4ACgkQI1/ltBGq
-qqdXNRAAiSTrlOS+r2nnZwB+yT+Dkm0Y4oc7ejwobknzzY6IpkuFoR+5qb9Xaoyp
-VkRcXY9TEMvR3om5gtT11SwNPeER7Wze6X2mB/PmrE4Ta9g3V7TkNVyd3MQ22XUz
-itslYsGEFmICA067hR9XP4TQ6mzbNdN0fTGAu2wAr338oguSr5bNihXdgMmdldol
-6ig/pdGSetLG5r0Uhg/9DUOyUTo68fcI2j2ozV95I11XX2g1FahQ1lC3y5UD1FEL
-8PHdVeCQGt2kczqirpAptlpBaoBJMF6EuyHcJcgKXgwIHSqxPzGKGRCyHzcg23Wv
-vFZOKP4qpQNxuU9Q8eFkTUwfRE3T/GDARPb/SZDa4+XSCVpkc+9yPGwi9Ay1BeWR
-5Vp84nRUrcq/Y6cM8FzPx8KcR1TibJW9oTeqZ+lV5jga75180EpttOpJrV74C/cs
-0pZeId1stgSl+Kex+fb6bTod6SAkGdO2OgVY0lOk6xePGjr2a+dfVk9ADKuxY3Hp
-ljoOSYmJtlsNd2prJchDd6D0IxP6jDSKR5O51zrkJ/EGNOXDuedoQFitatpcT0Rr
-3OjaEY8WAYJH7XVHmYaXOPed7aOP5g4fChGCU3sTe+yGbR24tdULVFpTlMbM5zOf
-1cOTihWX1LJGt8Wx2CrlCNa+giPISMBdSnkrZ18FnyVy28Ix9tI=
-=RCgT
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY+31CQAKCRDj7w1vZxhR
+xWYKAP9zKTtP0atNk+id7Z1vCyatD7YOYByybakTYfv7Qmz2OgEAhvV1BJzkeV7z
+wgJjGf7czsYw+Y2qPW5Tqy2ThToZbw0=
+=SbTH
 -----END PGP SIGNATURE-----
 
---Sig_/INvQRH/1JojWMoSejq72wPK--
+--pblore63f2xoltr2--
