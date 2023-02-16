@@ -2,57 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54080699B27
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 18:21:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A611F699B85
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 18:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 574DE10EE1F;
-	Thu, 16 Feb 2023 17:21:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFB9C10E149;
+	Thu, 16 Feb 2023 17:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA6E410E346
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 17:21:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676568081; x=1708104081;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=dNVMHfU/r/DzOG+MoceUhtdAZ1gs3oDljzYjt9d0AR0=;
- b=WYkIUCtG1SV/axQKtJqQXESD5G7uQwOIP1ynsrOIu4Qetw1y6pz3SqdP
- FmA20A58eDWNPRekkX0BAlSAmje2FFtac/mAg/BCzBauVPvY43/YclQqI
- So3T446upBs3bK2btdKqIDq314BDk7evrVbd+FMMEBwiE8l9W0Fxds7UH
- NE+osDXgAkq9/fNXxNfpqvodHg5JzELfCavPDwQTw45wYyEsxJfmdBXOR
- qO6g7qmARDY1Dh45cTHIHE2vNCtqs9JlvpINuqnw3Hg3m6QE52VWKzTkF
- uvg+5vynZdnKdwY+aCarBpQEW59Lml81C+M3w3fHb3D0oqiZgHhGGWBOw Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333973614"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="333973614"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 09:21:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="663543671"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="663543671"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga007.jf.intel.com with SMTP; 16 Feb 2023 09:20:57 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 16 Feb 2023 19:20:56 +0200
-Date: Thu, 16 Feb 2023 19:20:56 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 17/17] drm/cirrus: Use VGA macro constants to unblank
-Message-ID: <Y+5l+BbN7JjpaQlH@intel.com>
-References: <20230215161517.5113-1-tzimmermann@suse.de>
- <20230215161517.5113-18-tzimmermann@suse.de>
- <20230216113330.rmzmkdvpxdqk2nrd@sirius.home.kraxel.org>
- <306e110d-4d1f-cb9c-6f9b-c8a5ddd48a61@suse.de>
- <Y+4nIxRhF7KF2Qo0@intel.com>
- <ba4daf50-4882-5009-5c68-4385cacfdccb@suse.de>
+X-Greylist: delayed 1552 seconds by postgrey-1.36 at gabe;
+ Thu, 16 Feb 2023 17:47:16 UTC
+Received: from mx0b-00190b01.pphosted.com (mx0b-00190b01.pphosted.com
+ [IPv6:2620:100:9005:57f::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9725810E149;
+ Thu, 16 Feb 2023 17:47:16 +0000 (UTC)
+Received: from pps.filterd (m0122330.ppops.net [127.0.0.1])
+ by mx0b-00190b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31GEZ3Un025145; Thu, 16 Feb 2023 17:21:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=jan2016.eng;
+ bh=po1mytrc3hGhewQZJTcWp8dBR/9WcyX5DTv6Q2tYDWo=;
+ b=WM3f14GuKAHQGpQjNmQZoBbiM2ql3S2f3qF4CYY+mpzMFgjkJIUO7+h0cbg+6uv94Scj
+ yO6rAcSsh8ktrYcQy/wggtZ20DOVb+Uo0TU41stNZg8PQWNLkSXfVNshYIqn+gxNuLU6
+ Gichax9EThpFI9k7UFXnKolhpkrBh9agd0egPL5p2SmvIhxaYGiiq16c+2blYaNUy6CO
+ OM7EdVoPCZYxOQ7hhgZhKHMMn9FdWjJ4nsCkt7fEDgWuCmPwduDH70iqX2b50Uv357oa
+ FDjTu7E1a+nKHOt+Y76iuYTzFYN1gvFTHfY6oAbrP1KfZCkATrzATfJ2HpYyTXnTMD4Y 1Q== 
+Received: from prod-mail-ppoint4
+ (a72-247-45-32.deploy.static.akamaitechnologies.com [72.247.45.32] (may be
+ forged))
+ by mx0b-00190b01.pphosted.com (PPS) with ESMTPS id 3np3j7w1ry-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Feb 2023 17:21:09 +0000
+Received: from pps.filterd (prod-mail-ppoint4.akamai.com [127.0.0.1])
+ by prod-mail-ppoint4.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31GH2bZI003816; Thu, 16 Feb 2023 12:21:08 -0500
+Received: from prod-mail-relay19.dfw02.corp.akamai.com ([172.27.165.173])
+ by prod-mail-ppoint4.akamai.com (PPS) with ESMTP id 3np783pxg5-1;
+ Thu, 16 Feb 2023 12:21:08 -0500
+Received: from [172.19.46.2] (bos-lpa4700a.bos01.corp.akamai.com [172.19.46.2])
+ by prod-mail-relay19.dfw02.corp.akamai.com (Postfix) with ESMTP id 40F1060278; 
+ Thu, 16 Feb 2023 17:21:07 +0000 (GMT)
+Message-ID: <8ca08fba-1120-ca86-6129-0b33afb4a1da@akamai.com>
+Date: Thu, 16 Feb 2023 12:21:06 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ba4daf50-4882-5009-5c68-4385cacfdccb@suse.de>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 20/20] jump_label: RFC - tolerate toggled state
+To: Peter Zijlstra <peterz@infradead.org>, Jim Cromie <jim.cromie@gmail.com>
+References: <20230113193016.749791-1-jim.cromie@gmail.com>
+ <20230113193016.749791-21-jim.cromie@gmail.com>
+ <Y8aNMxHpvZ8qecSc@hirez.programming.kicks-ass.net>
+Content-Language: en-US
+From: Jason Baron <jbaron@akamai.com>
+In-Reply-To: <Y8aNMxHpvZ8qecSc@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-16_13,2023-02-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxscore=0 suspectscore=0
+ phishscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302160150
+X-Proofpoint-ORIG-GUID: erwF1POyva0bWaz2e82KJguAff2y8qIj
+X-Proofpoint-GUID: erwF1POyva0bWaz2e82KJguAff2y8qIj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-16_13,2023-02-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 suspectscore=0
+ spamscore=0 clxscore=1011 bulkscore=0 mlxscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302160150
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,51 +89,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- airlied@redhat.com, sam@ravnborg.org
+Cc: jani.nikula@intel.com, daniel.vetter@ffwll.ch,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, seanpaul@chromium.org,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ intel-gvt-dev@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 16, 2023 at 02:21:43PM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 16.02.23 um 13:52 schrieb Ville Syrjälä:
-> > On Thu, Feb 16, 2023 at 01:03:02PM +0100, Thomas Zimmermann wrote:
-> >> Hi,
-> >>
-> >> thanks for taking a look at the patches.
-> >>
-> >> Am 16.02.23 um 12:33 schrieb Gerd Hoffmann:
-> >>> On Wed, Feb 15, 2023 at 05:15:17PM +0100, Thomas Zimmermann wrote:
-> >>>> Set the VGA bit for unblanking with macro constants instead of magic
-> >>>> values. No functional changes.
-> >>>
-> >>> blank/unblank should work simliar to bochs (see commit 250e743915d4),
-> >>> that is maybe a nice thing to add of you modernize the driver anyway.
-> >> Yeah, it's the VGA PAS field. [1] But is it really called blanking? PAS
-> >> controls palette access, but blanking is sounds more like DPMS.
-> > 
-> > Why aren't people just using the normal way of flipping the
-> > screen off bit in sequencer register 01?
-> 
-> Setting the SD bit in SR01 isn't a bad idea. We can do this as part of 
-> enabling/disabling the plane.
-> 
-> But for PAS, we don't have a choice. It's one of the bazillion obscure 
-> VGA settings and (according to a comment in the source code) we need to 
-> update it for compatibility.
 
-Well, you do need to enable the palette to see something
-other that border color. Not sure tha't a very obscure thing :P
 
-On a related note, the code looks pretty sketchy. It just
-blindly writes to 0x3c0 assuming it is the attribute controller
-index register. But unless you explicitly reset the flip-flop
-it could actually be the data write register instead. That could
-easily happen if the previous access to the attribute controller
-was a read since reads do not toggle the register role.
+On 1/17/23 6:57 AM, Peter Zijlstra wrote:
+> On Fri, Jan 13, 2023 at 12:30:16PM -0700, Jim Cromie wrote:
+>> __jump_label_patch currently will "crash the box" if it finds a
+>> jump_entry not as expected.  ISTM this overly harsh; it doesn't
+>> distinguish between "alternate/opposite" state, and truly
+>> "insane/corrupted".
+>>
+>> The "opposite" (but well-formed) state is a milder mis-initialization
+>> problem, and some less severe mitigation seems practical.  ATM this
+>> just warns about it; a range/enum of outcomes: warn, crash, silence,
+>> ok, fixup-continue, etc, are possible on a case-by-case basis.
+>>
+>> Ive managed to create this mis-initialization condition with
+>> test_dynamic_debug.ko & _submod.ko.  These replicate DRM's regression
+>> on DRM_USE_DYNAMIC_DEBUG=y; drm.debug callsites in drivers/helpers
+>> (dependent modules) are not enabled along with those in drm.ko itself.
+>>
+> 
+>> Ive hit this case a few times, but havent been able to isolate the
+>> when and why.
+>>
+>> warn-only is something of a punt, and I'm still left with remaining
+>> bugs which are likely related; I'm able to toggle the p-flag on
+>> callsites in the submod, but their enablement still doesn't yield
+>> logging activity.
+> 
+> Right; having been in this is state is bad since it will generate
+> inconsistent code-flow. Full on panic *might* not be warranted (as it
+> does for corrupted text) but it is still a fairly bad situation -- so
+> I'm not convinced we want to warn and carry on.
+> 
+> It would be really good to figure out why the site was skipped over and
+> got out of skew.
+> 
+> Given it's all module stuff, the 'obvious' case would be something like
+> a race between adding the new sites and flipping it, but I'm not seeing
+> how -- things are rather crudely serialized by jump_label_mutex.
 
--- 
-Ville Syrjälä
-Intel
+Indeed, looks like dynamic debug introduces a new path in this series to 
+that tries to toggle the jump label sites before they have been 
+initialized, which ends up with the jump label key enabled but only some 
+of the sites in the correct state. Then when the key is subsequently 
+disabled it finds some in the wrong state. I just posted a patch for 
+dynamic debug to use the module callback notifiers so it's ordered 
+properly against jump label.
+
+Note this isn't an issue in the current tree b/c there is no path to 
+toggle the sites currently before they are initialized, but Jim's series 
+here adds such a path.
+
+Thanks,
+
+-Jason
+
+
+> 
+> The only other option I can come up with is that somehow the update
+> condition in jump_label_add_module() is somehow wrong.
+> 
