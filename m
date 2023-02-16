@@ -2,57 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E386997E9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 15:53:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE0169984B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 16:05:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4F8010EDBC;
-	Thu, 16 Feb 2023 14:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 903C410E33F;
+	Thu, 16 Feb 2023 15:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D385C10E31F;
- Thu, 16 Feb 2023 14:53:09 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id bi19so1898456oib.2;
- Thu, 16 Feb 2023 06:53:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pQYLZn0bQAL+yoROTgZjs5gfeNZ6HZmmMBdCUxpu0fU=;
- b=S/t6Rm+/iIWUBvAg+mq74Pn8wXnKGCZmK2vnjgnbpv5UR3w8oH5NKJZwxYFKuClEgU
- 2aLXa6fpACCBr8nzhkE32hDuOTmnGdyKYHT0DBbYoGkY6TzXh1AtaEkD38AtAoxahP+d
- onFMvmSxs1aoywi/2HLYkbRxDqOGx0SURD3YqPy3Z7ki9dXnSk2I1q+PxcTKvHCmtNaK
- zYEoQyasZPenKd0XwdqGOOpYs4J7KH2KXTvaKRlR34Yov3jl8OsnScqguNxyQhRFxEzn
- DRRR+pFcdFMaysgAhaaGhvVlmQap632MfnZbE1Vbr3ax7pBlzwXjP6nql6GQFqngiwJK
- SnyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pQYLZn0bQAL+yoROTgZjs5gfeNZ6HZmmMBdCUxpu0fU=;
- b=z092aveWw75onE1QlhgD6/tGxkoW38vQriwwdVrkBEkrkTJukBTJUAaSzgpzwOGU8E
- xIRoCqGsnLAPdCqXvlwjV+3SBkyehPESBpadbiu18MeZsoRovf+N3xi8eVVkkZp4yFAD
- xepIOOOCCGLvAYYs1ft+YeuKCExR56BgiNz3H7sIfVFgK504FcdxwdzN93XKVG4irgur
- sB/Vbwj/3eTW+7FQ11tUFfziGEzTsD/1uLvi3xnHSvBRIS4IqUSBxTfSnlb6JSQRbgl6
- LetMvBA/Dr96ucOB08cjLfxxb8kKCmVGQg0h4dKptP2ek2O1o/OwWN6qtBgr1KstD3F7
- 8big==
-X-Gm-Message-State: AO0yUKWlRt9Tz+W9Dyqxc6jiCovTs+E2AvYyrDf+y2TDweqSiS2IWwOC
- A9VtQ1qeTZQ/2dD1y/p9paAkIRIjhO6rmHnzeCU=
-X-Google-Smtp-Source: AK7set9+635aGGSGXuMavk+jxtmZTf8z5uamIZF5wF94ONM5UsNDW03w287rSqyPCDuCfLS6m0HCo582oc5Yj18ZayA=
-X-Received: by 2002:a05:6808:2007:b0:35b:d93f:cbc4 with SMTP id
- q7-20020a056808200700b0035bd93fcbc4mr209182oiw.96.1676559189108; Thu, 16 Feb
- 2023 06:53:09 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7050310E33F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 15:04:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676559899; x=1708095899;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=BFdqLxxg9pibzYNvmZ7ksdDne/wIzTtAPpB6bj0CDy0=;
+ b=iTs/VLX5g8Bl5fhzD34Aa8h0NiPDEfWvvs9v90O0L/89SAEse6TGfaXK
+ juVItSQvXy3Z07AcMRYMoV9AYI/L6VJMAJ0WhYQINH9fUjtjuDpiUSHUc
+ OfpDBJFqsO2aItk95qOxp09/Ke/tF1f9obJRmzajcels+kqTTPsMR/19X
+ jdH51RTs4lKjh+aXWVQW5FMWuGiLDoivsmI4btaWSL+WhJVGpuRJO76nQ
+ QU/y8Pyp/UqZ8egYeU4xm+WMtgYll44E6QT5Gg90o2IUYIBsiTNzYgXTl
+ 0IL8JPhxYoIvxhRHY1QS8ffEyL830Up0T1iti02uTr22KvVwq5c9UULi9 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="333907103"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="333907103"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2023 07:04:57 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="733896512"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="733896512"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Feb 2023 07:04:51 -0800
+Date: Thu, 16 Feb 2023 16:04:47 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Oded Gabbay <ogabbay@kernel.org>
+Subject: Re: [PATCH 08/27] habanalabs: add info when FD released while device
+ still in use
+Message-ID: <20230216150447.GJ2849548@linux.intel.com>
+References: <20230212204454.2938561-1-ogabbay@kernel.org>
+ <20230212204454.2938561-8-ogabbay@kernel.org>
+ <20230216122545.GE2849548@linux.intel.com>
+ <CAFCwf13c6T-S2MgwmWJkrQTwdXYDGMK+GG8ZVUjPipsXNrW_ZQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230216102856.11987-1-orlandoch.dev@gmail.com>
-In-Reply-To: <20230216102856.11987-1-orlandoch.dev@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 16 Feb 2023 09:52:57 -0500
-Message-ID: <CADnq5_OMA3+FXwUB5eK=Y3qcGW1xNY6RjQAtywT3_bh6HmJztA@mail.gmail.com>
-Subject: Re: [PATCHv2] drm/amdgpu: register a vga_switcheroo client for
- MacBooks with apple-gmux
-To: Orlando Chamberlain <orlandoch.dev@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFCwf13c6T-S2MgwmWJkrQTwdXYDGMK+GG8ZVUjPipsXNrW_ZQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,99 +60,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aun-Ali Zaidi <admin@kodeit.net>, Evan Quan <evan.quan@amd.com>,
- Pan Xinhui <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Aditya Garg <gargaditya08@live.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Kerem Karabay <kekrby@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tomer Tayar <ttayar@habana.ai>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 16, 2023 at 8:45 AM Orlando Chamberlain
-<orlandoch.dev@gmail.com> wrote:
->
-> Commit 3840c5bcc245 ("drm/amdgpu: disentangle runtime pm and
-> vga_switcheroo") made amdgpu only register a vga_switcheroo client for
-> GPU's with PX, however AMD GPUs in dual gpu Apple Macbooks do need to
-> register, but don't have PX. Instead of AMD's PX, they use apple-gmux.
->
-> Use apple_gmux_detect() to identify these gpus, and
-> pci_is_thunderbolt_attached() to ensure eGPUs connected to Dual GPU
-> Macbooks don't register with vga_switcheroo.
->
-> Fixes: 3840c5bcc245 ("drm/amdgpu: disentangle runtime pm and vga_switcheroo")
-> Link: https://lore.kernel.org/amd-gfx/20230210044826.9834-10-orlandoch.dev@gmail.com/
-> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
+On Thu, Feb 16, 2023 at 04:21:48PM +0200, Oded Gabbay wrote:
+> On Thu, Feb 16, 2023 at 2:25 PM Stanislaw Gruszka
+> <stanislaw.gruszka@linux.intel.com> wrote:
+> >
+> > On Sun, Feb 12, 2023 at 10:44:35PM +0200, Oded Gabbay wrote:
+> > > From: Tomer Tayar <ttayar@habana.ai>
+> > >
+> > > When user closes the device file descriptor, it is checked whether the
+> > > device is still in use, and a message is printed if it is.
+> >
+> > I guess this is only for debugging your user-space component?
+> > Because kernel driver should not make any assumption about
+> > user-space behavior. Closing whenever user wants should be
+> > no problem.
+> First of all, indeed the user can close the device whatever it wants.
+> We don't limit him, but we do need to track the device state, because
+> we can't allow a new user to acquire the device until it is idle (due
+> to h/w limitations).
+> Therefore, this print is not so much for debug, as it is for letting
+> the user know the device wasn't idle after he closed it, and
+> therefore, we are going to reset it to make it idle.
+> So, it is a notification that is important imo.
 
-This needs ifdefs around the apple_gmux stuff so that it will build
-without the gmux support.
+This sounds like something that should be handed in open() with -EAGAIN
+error with eventual message in dmesg. But you know best what info
+is needed by user-space :-)
 
-Alex
+> > > +static void print_device_in_use_info(struct hl_device *hdev, const char *message)
+> > > +{
+> > > +     u32 active_cs_num, dmabuf_export_cnt;
+> > > +     char buf[64], *buf_ptr = buf;
+> > > +     size_t buf_size = sizeof(buf);
+> > > +     bool unknown_reason = true;
+> > > +
+> > > +     active_cs_num = hl_get_active_cs_num(hdev);
+> > > +     if (active_cs_num) {
+> > > +             unknown_reason = false;
+> > > +             compose_device_in_use_info(&buf_ptr, &buf_size, " [%u active CS]", active_cs_num);
+> > > +     }
+> > > +
+> > > +     dmabuf_export_cnt = atomic_read(&hdev->dmabuf_export_cnt);
+> > > +     if (dmabuf_export_cnt) {
+> > > +             unknown_reason = false;
+> > > +             compose_device_in_use_info(&buf_ptr, &buf_size, " [%u exported dma-buf]",
+> > > +                                             dmabuf_export_cnt);
+> > > +     }
+> > > +
+> > > +     if (unknown_reason)
+> > > +             compose_device_in_use_info(&buf_ptr, &buf_size, " [unknown reason]");
+> > > +
+> > > +     dev_notice(hdev->dev, "%s%s\n", message, buf);
+> >
+> > why not print counters directly, i.e. "active cs count %u, dmabuf export count %u" ?
+> Because we wanted to print the specific reason, or unknown reason, and
+> not print all the possible counters in one line, because most of the
+> time most of the counters will be 0.
+> We plan to add more reasons so this helper simplifies the code.
 
-> ---
-> v1->v2: Use apple_gmux_detect()
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 21 ++++++++++++++++-----
->  1 file changed, 16 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 2f28a8c02f64..ef8b996f0622 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -35,6 +35,7 @@
->  #include <linux/devcoredump.h>
->  #include <generated/utsrelease.h>
->  #include <linux/pci-p2pdma.h>
-> +#include <linux/apple-gmux.h>
->
->  #include <drm/drm_aperture.h>
->  #include <drm/drm_atomic_helper.h>
-> @@ -3919,12 +3920,15 @@ int amdgpu_device_init(struct amdgpu_device *adev,
->         if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
->                 vga_client_register(adev->pdev, amdgpu_device_vga_set_decode);
->
-> -       if (amdgpu_device_supports_px(ddev)) {
-> -               px = true;
-> +       px = amdgpu_device_supports_px(ddev);
-> +
-> +       if (px || (!pci_is_thunderbolt_attached(adev->pdev) &&
-> +                               apple_gmux_detect(NULL, NULL)))
->                 vga_switcheroo_register_client(adev->pdev,
->                                                &amdgpu_switcheroo_ops, px);
-> +
-> +       if (px)
->                 vga_switcheroo_init_domain_pm_ops(adev->dev, &adev->vga_pm_domain);
-> -       }
->
->         if (adev->gmc.xgmi.pending_reset)
->                 queue_delayed_work(system_wq, &mgpu_info.delayed_reset_work,
-> @@ -4029,6 +4033,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
->  void amdgpu_device_fini_sw(struct amdgpu_device *adev)
->  {
->         int idx;
-> +       bool px;
->
->         amdgpu_fence_driver_sw_fini(adev);
->         amdgpu_device_ip_fini(adev);
-> @@ -4048,10 +4053,16 @@ void amdgpu_device_fini_sw(struct amdgpu_device *adev)
->
->         kfree(adev->bios);
->         adev->bios = NULL;
-> -       if (amdgpu_device_supports_px(adev_to_drm(adev))) {
-> +
-> +       px = amdgpu_device_supports_px(adev_to_drm(adev));
-> +
-> +       if (px || (!pci_is_thunderbolt_attached(adev->pdev) &&
-> +                               apple_gmux_detect(NULL, NULL)))
->                 vga_switcheroo_unregister_client(adev->pdev);
-> +
-> +       if (px)
->                 vga_switcheroo_fini_domain_pm_ops(adev->dev);
-> -       }
-> +
->         if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
->                 vga_client_unregister(adev->pdev);
->
-> --
-> 2.39.1
->
+Ok, just place replace compose_device_in_use_info() with snprintf().
+I don't think you need custom implementation of snprintf().
+
+> > > +             print_device_in_use_info(hdev, "User process closed FD but device still in use");
+> > >               hl_device_reset(hdev, HL_DRV_RESET_HARD);
+> >
+> > You really need reset here ?
+> Yes, our h/w requires that we reset the device after the user closed
+> it. If the device is not idle after the user closed it, we hard reset
+> it.
+> If it is idle, we do a more graceful reset.
+
+Hmm, ok.
+
+Regards
+Stanislaw
+
