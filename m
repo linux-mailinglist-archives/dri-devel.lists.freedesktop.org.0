@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31CAC699E20
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 21:45:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3C7699E22
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 21:45:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22F9710EEC1;
-	Thu, 16 Feb 2023 20:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F01810EE9B;
+	Thu, 16 Feb 2023 20:45:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB11B10EEBF;
- Thu, 16 Feb 2023 20:45:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D21F10EE9B;
+ Thu, 16 Feb 2023 20:45:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676580326; x=1708116326;
+ t=1676580331; x=1708116331;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KdmrXOQWPiUD5GTaSPQeRMz6QqIKf/6FB8eRwdwrwJw=;
- b=fJ0Hxv1Dlw0NI2fdmHf/VgBK+JgbbucNsfFEq4FxDCrZBD87YMRDYANN
- DtN7fV8c3ltEuB+cCuXg016W2UPlHzF6MGrjWWDjDSpfEHPAYIqRHhAfh
- eYNnShuSwOjCoLn/ucoNwcu805zZyYBIrMk9p5gytLTW61hZ0UpDAFSAp
- l3is3S+BRsv/OL5hX9pIBRGU+kIs3qJYvhoHh1DnZfAZyvQWOCT+lDA0/
- 5Vte8yPmfO9LhgQZAYPLnKyIJdS0lCSv3019XtgO8ujkvJZkMBzZgHWFQ
- aN6XVxVIT5+G9Y7Os1xKjF6L3golhxYJvZ43MJyq7kefG2izyNRJ4YuW6 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="394308460"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="394308460"
+ bh=fWQLM36xFe/f8V265Ntfscn/gUeqxgkD8nK1sBPooxY=;
+ b=SrUihztvp+Jj6SfxStiK4Byvhkw56/s+uLOCIdp4wEaC+HjGhYn5y46R
+ yziAKFFEJApcqLkMZ/4kU4beqpsVFLPzvBG2Ehv7ByvkyZljiaF4k4mFo
+ 16uym/famkIIbr/oBqRuSigxpjr4hvcu+Iry+/0N1p539satb/Owz/F2Y
+ +wyYHeYEVj0mib4ylJvmlxRKyIRDYDqJEIsheEzaYXP/0G1QNAmsem1OY
+ pyu2NG3PUEz0eJTulzMmr9bqttcaawvDUVkivozxjHymZCsByeHtvLpFF
+ 4/mIG9jWs6pHqzEb+/Sxe0WiqJG9Yj1faZQ96lutlEV7979TOOe5SpDLK Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="394308504"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="394308504"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Feb 2023 12:45:26 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670312066"
-X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="670312066"
+ 16 Feb 2023 12:45:31 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670312111"
+X-IronPort-AV: E=Sophos;i="5.97,302,1669104000"; d="scan'208";a="670312111"
 Received: from uwah-mobl.ger.corp.intel.com (HELO localhost) ([10.252.63.106])
  by orsmga002-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 12:45:23 -0800
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2023 12:45:28 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/displayid: provide access to DisplayID version and
- primary use case
-Date: Thu, 16 Feb 2023 22:45:00 +0200
-Message-Id: <ad8a35c109f97ffe115e6b18e4a132b592f11089.1676580180.git.jani.nikula@intel.com>
+Subject: [PATCH 4/4] drm/edid: update non-desktop use also from DisplayID
+Date: Thu, 16 Feb 2023 22:45:01 +0200
+Message-Id: <de75b2edddd7d30216e4dd5699a064dc737688f5.1676580180.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1676580180.git.jani.nikula@intel.com>
 References: <cover.1676580180.git.jani.nikula@intel.com>
@@ -64,115 +63,59 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DisplayID structure version and primary use case are stored in the
-DisplayID Base Section. We should be checking them in a number of places
-when parsing the DisplayID blocks. Currently, we completely ignore the
-primary use case, and just look at the block tags without cross-checking
-against structure version.
-
-Store the version and primary use case in the DisplayID iterator, and
-provide accessors to them. In general, the information is needed when
-iterating the blocks, and this is a convenient place to both store and
-retrieve the information during parsing.
-
-Promote using accessors rather than users poking at the iterator
-directly.
+Use the DisplayID 2.0 primary use case information to deduce whether
+this is a head-mounted display, and should not be used for desktop.
 
 Cc: Iaroslav Boliukin <iam@lach.pw>
 Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_displayid.c | 30 ++++++++++++++++++++++++++++++
- include/drm/drm_displayid.h     | 12 +++++++++++-
- 2 files changed, 41 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_edid.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_displayid.c b/drivers/gpu/drm/drm_displayid.c
-index 0de9b5530393..9edc111be7ee 100644
---- a/drivers/gpu/drm/drm_displayid.c
-+++ b/drivers/gpu/drm/drm_displayid.c
-@@ -123,6 +123,9 @@ __displayid_iter_next(struct displayid_iter *iter)
- 	}
- 
- 	for (;;) {
-+		/* The first section we encounter is the base section */
-+		bool base_section = !iter->section;
-+
- 		iter->section = drm_find_displayid_extension(iter->drm_edid,
- 							     &iter->length,
- 							     &iter->idx,
-@@ -132,6 +135,18 @@ __displayid_iter_next(struct displayid_iter *iter)
- 			return NULL;
- 		}
- 
-+		/* Save the structure version and primary use case. */
-+		if (base_section) {
-+			const struct displayid_header *base;
-+
-+			base = displayid_get_header(iter->section, iter->length,
-+						    iter->idx);
-+			if (!IS_ERR(base)) {
-+				iter->version = base->rev;
-+				iter->primary_use = base->prod_id;
-+			}
-+		}
-+
- 		iter->idx += sizeof(struct displayid_header);
- 
- 		block = displayid_iter_block(iter);
-@@ -144,3 +159,18 @@ void displayid_iter_end(struct displayid_iter *iter)
- {
- 	memset(iter, 0, sizeof(*iter));
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 3d0a4da661bc..03ad53a1ba82 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -6433,6 +6433,29 @@ static void drm_reset_display_info(struct drm_connector *connector)
+ 	info->quirks = 0;
  }
-+
-+/* DisplayID Structure Version/Revision from the Base Section. */
-+u8 displayid_version(const struct displayid_iter *iter)
+ 
++static void update_displayid_info(struct drm_connector *connector,
++				  const struct drm_edid *drm_edid)
 +{
-+	return iter->version;
++	struct drm_display_info *info = &connector->display_info;
++	const struct displayid_block *block;
++	struct displayid_iter iter;
++
++	displayid_iter_edid_begin(drm_edid, &iter);
++	displayid_iter_for_each(block, &iter) {
++		if (displayid_version(&iter) == DISPLAY_ID_STRUCTURE_VER_20 &&
++		    (displayid_primary_use(&iter) == PRIMARY_USE_HEAD_MOUNTED_VR ||
++		     displayid_primary_use(&iter) == PRIMARY_USE_HEAD_MOUNTED_AR))
++			info->non_desktop = true;
++
++		/*
++		 * We're only interested in the base section here, no need to
++		 * iterate further.
++		 */
++		break;
++	}
++	displayid_iter_end(&iter);
 +}
 +
-+/*
-+ * DisplayID Primary Use Case (2.0+) or Product Type Identifier (1.0-1.3) from
-+ * the Base Section.
-+ */
-+u8 displayid_primary_use(const struct displayid_iter *iter)
-+{
-+	return iter->primary_use;
-+}
-diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-index 49649eb8447e..566497eeb3b8 100644
---- a/include/drm/drm_displayid.h
-+++ b/include/drm/drm_displayid.h
-@@ -139,7 +139,11 @@ struct displayid_vesa_vendor_specific_block {
- 	u8 mso;
- } __packed;
+ static void update_display_info(struct drm_connector *connector,
+ 				const struct drm_edid *drm_edid)
+ {
+@@ -6463,6 +6486,8 @@ static void update_display_info(struct drm_connector *connector,
+ 	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
+ 	drm_parse_cea_ext(connector, drm_edid);
  
--/* DisplayID iteration */
-+/*
-+ * DisplayID iteration.
-+ *
-+ * Do not access directly, this is private.
-+ */
- struct displayid_iter {
- 	const struct drm_edid *drm_edid;
- 
-@@ -147,6 +151,9 @@ struct displayid_iter {
- 	int length;
- 	int idx;
- 	int ext_index;
++	update_displayid_info(connector, drm_edid);
 +
-+	u8 version;
-+	u8 primary_use;
- };
- 
- void displayid_iter_edid_begin(const struct drm_edid *drm_edid,
-@@ -157,4 +164,7 @@ __displayid_iter_next(struct displayid_iter *iter);
- 	while (((__block) = __displayid_iter_next(__iter)))
- void displayid_iter_end(struct displayid_iter *iter);
- 
-+u8 displayid_version(const struct displayid_iter *iter);
-+u8 displayid_primary_use(const struct displayid_iter *iter);
-+
- #endif
+ 	/*
+ 	 * Digital sink with "DFP 1.x compliant TMDS" according to EDID 1.3?
+ 	 *
 -- 
 2.34.1
 
