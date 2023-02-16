@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834BC698A7E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 03:23:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52692698AAF
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 03:55:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A53FD10E2BD;
-	Thu, 16 Feb 2023 02:23:53 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1FEE10E2BD
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 02:23:50 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id e75so561992ybh.13
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Feb 2023 18:23:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NT9uNCMBWl794fkp+SMakMeJNNkxNGDXw7tBHf8Uvgo=;
- b=wlNPmA17KOY6pK6YSw5++8aMVTR+4h8QzLMUDAs/l/GgEN8eLFJjblVBAL4l+8UMVo
- VTNvpLOPQe0tCs8ZSBaPmCUh9VK2S35jr9LXhVu57g0MVbUxlVvoBO80fVRTxB/I/RIx
- +akHOGbDrVDLObPLO141W2tYDUHhJog0ukTM/eLTBFppp3LXIP16krE2YUTVKv6nVvB5
- DD3wYChintddtUpp8K+Y/2dZp6OviOiV3/Z2H0iulxFADBwcqMao8Um8A8dyZonyUOaN
- VjBCHyPX3eNae7TtWuiXWoU1BLix/mjHbA701x837guejw8xRKnxIaw7zAdnQbzpzTlX
- e+8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NT9uNCMBWl794fkp+SMakMeJNNkxNGDXw7tBHf8Uvgo=;
- b=sDuNls9o7H411oF3Xr7pgitxI9ZlpHinUxlY9c3IsJzG76YYYDbCqM6JFL315eafi/
- qKFJYA0G162ddI+ZC/sPAmisbsQ4wrxfh01lD7WIgyM1QOMI8B84B9PZiFgjU1+UXh5B
- TE3lxZSTrpQ/j85snC5AWA8FmxR1+EUfNNrYM8QPF++9Inyp7js63xB+bxv262D0DAHw
- MzX5PBO/15r96dO56mEHqMBgndKx4VfOTBC1RLBYeOrj6G858irvZk0qs7UJN7HnBySA
- +DXS4IFZUO4VGKJQmFrv6km0d7qjD+JSKoBUfF1FPVICmRLtdWG9kUg3V5Cm7DBjlZfK
- CEYg==
-X-Gm-Message-State: AO0yUKWetNe0CNCaDR1nWEZYfJrfA+y+YFJve0q2nWZTg0NeckFQ0Do0
- IcSg3aA+Hmhd0FNQhUcDjzt0RsonU2eJtSKLFl4f/g==
-X-Google-Smtp-Source: AK7set+g5Iz6F+qTqpXxLN+bqfm0nIW/gdEpwcM8ofiNU5qAy9sZmhZSKBYet6qwAIKNsRoqh0H5TZPmCHA79wcHMxk=
-X-Received: by 2002:a25:9a49:0:b0:86a:e417:b66e with SMTP id
- r9-20020a259a49000000b0086ae417b66emr520370ybo.382.1676514229770; Wed, 15 Feb
- 2023 18:23:49 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8034610E30D;
+	Thu, 16 Feb 2023 02:55:18 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66F6910E30D;
+ Thu, 16 Feb 2023 02:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676516117; x=1708052117;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=d7opapgYHxV0e1r4lhHkshJnywNZR/QjUzPjOtRV6Tc=;
+ b=GOClUipZcBzeN3jO+UZa9wqcOVb/cgTCIXwwvWSQGItneMtP8I31bBvU
+ LrIAwRNU5DirPPA6pVomNWjUsvsKOHfuN/k7i6MWBxAeBUdS8JmiwFIgi
+ tURIq7lddVqdsdchBsrf37O4xsciMu2A7pAzCwnTufOCQyCGWN5iPoyso
+ os9i1yDUcOGiLl1Mn3iUoMRXlvhEWgyCS4qXoTxyY9Wu3qP0v+NKDhCt7
+ dvWsSytUj7xn4L16LNvuEuvksRB03Y/sg9Yhkh2KvwAQiIl+0sXddftha
+ I4iAFsXkFcIEv/G7w5RCAmn5CGFxFr1GADWUo2/rILbVwtFKw6R1qOqO8 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="315281182"
+X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; d="scan'208";a="315281182"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2023 18:55:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="663300766"
+X-IronPort-AV: E=Sophos;i="5.97,301,1669104000"; d="scan'208";a="663300766"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+ by orsmga007.jf.intel.com with ESMTP; 15 Feb 2023 18:55:14 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pSUQT-0009xh-15;
+ Thu, 16 Feb 2023 02:55:13 +0000
+Date: Thu, 16 Feb 2023 10:54:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: John.C.Harrison@intel.com, Intel-GFX@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915: Don't use BAR mappings for
+ ring buffers with LLC
+Message-ID: <202302161021.TjavhrpH-lkp@intel.com>
+References: <20230216002248.1851966-3-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-References: <20230215-sspp-scaler-version-v1-0-416b1500b85b@somainline.org>
- <20230215-sspp-scaler-version-v1-2-416b1500b85b@somainline.org>
-In-Reply-To: <20230215-sspp-scaler-version-v1-2-416b1500b85b@somainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 16 Feb 2023 04:23:38 +0200
-Message-ID: <CAA8EJpr7v4waXaaahuMq3Ti18Gd-sg4HGSSof=yEX5kC7+CKnA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/msm/dpu: Drop unused get_scaler_ver callback from
- SSPP
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216002248.1851966-3-John.C.Harrison@Intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,35 +60,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Archit Taneja <architt@codeaurora.org>,
- Jami Kettunen <jami.kettunen@somainline.org>, Sean Paul <sean@poorly.run>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Botka <martin.botka@somainline.org>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org, Chandan Uddaraju <chandanu@codeaurora.org>,
- ~postmarketos/upstreaming@lists.sr.ht
+Cc: intel-gfx@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev,
+ stable@vger.kernel.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ DRI-Devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Feb 2023 at 01:02, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
->
-> This pointer callback is never used and should be removed.  The helper
-> _dpu_hw_sspp_get_scaler3_ver function is retained as it is being used by
-> dpu_hw_sspp_init which didn't itself compute _sspp_subblk_offset yet.
->
-> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Hi,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Thank you for the patch! Yet something to improve:
 
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 4 +---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 6 ------
->  2 files changed, 1 insertion(+), 9 deletions(-)
+[auto build test ERROR on drm-tip/drm-tip]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/John-C-Harrison-Intel-com/drm-i915-Don-t-use-stolen-memory-for-ring-buffers-with-LLC/20230216-082552
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230216002248.1851966-3-John.C.Harrison%40Intel.com
+patch subject: [Intel-gfx] [PATCH v2 2/2] drm/i915: Don't use BAR mappings for ring buffers with LLC
+config: i386-randconfig-a011-20230213 (https://download.01.org/0day-ci/archive/20230216/202302161021.TjavhrpH-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/fa748ad303922e4138a246d4db247dfa96e45651
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review John-C-Harrison-Intel-com/drm-i915-Don-t-use-stolen-memory-for-ring-buffers-with-LLC/20230216-082552
+        git checkout fa748ad303922e4138a246d4db247dfa96e45651
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302161021.TjavhrpH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/i915/gt/intel_ring.c: In function 'intel_ring_unpin':
+>> drivers/gpu/drm/i915/gt/intel_ring.c:103:9: error: expected '}' before 'else'
+     103 |         else
+         |         ^~~~
+
+
+vim +103 drivers/gpu/drm/i915/gt/intel_ring.c
+
+2871ea85c119e6f Chris Wilson           2019-10-24   92  
+2871ea85c119e6f Chris Wilson           2019-10-24   93  void intel_ring_unpin(struct intel_ring *ring)
+2871ea85c119e6f Chris Wilson           2019-10-24   94  {
+2871ea85c119e6f Chris Wilson           2019-10-24   95  	struct i915_vma *vma = ring->vma;
+2871ea85c119e6f Chris Wilson           2019-10-24   96  
+2871ea85c119e6f Chris Wilson           2019-10-24   97  	if (!atomic_dec_and_test(&ring->pin_count))
+2871ea85c119e6f Chris Wilson           2019-10-24   98  		return;
+2871ea85c119e6f Chris Wilson           2019-10-24   99  
+2871ea85c119e6f Chris Wilson           2019-10-24  100  	i915_vma_unset_ggtt_write(vma);
+fa748ad303922e4 Daniele Ceraolo Spurio 2023-02-15  101  	if (i915_vma_is_map_and_fenceable(vma) && !HAS_LLC(vma->vm->i915)) {
+2871ea85c119e6f Chris Wilson           2019-10-24  102  		i915_vma_unpin_iomap(vma);
+2871ea85c119e6f Chris Wilson           2019-10-24 @103  	else
+2871ea85c119e6f Chris Wilson           2019-10-24  104  		i915_gem_object_unpin_map(vma->obj);
+2871ea85c119e6f Chris Wilson           2019-10-24  105  
+2871ea85c119e6f Chris Wilson           2019-10-24  106  	i915_vma_make_purgeable(vma);
+a266bf420060043 Chris Wilson           2019-11-18  107  	i915_vma_unpin(vma);
+2871ea85c119e6f Chris Wilson           2019-10-24  108  }
+2871ea85c119e6f Chris Wilson           2019-10-24  109  
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
