@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6840699D83
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 21:19:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72951699DC2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Feb 2023 21:32:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2670F10E199;
-	Thu, 16 Feb 2023 20:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD7510E367;
+	Thu, 16 Feb 2023 20:32:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E735310E373
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 20:18:58 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id z13so2452598wmp.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 12:18:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=gV5rWMpBUKrLaDJeRT3ZsOG2NL5wYWp+tUxeIVGpLe8=;
- b=ayNqAAhtWMvqLaLONdTuEuZviGFivrgfSyq82yZ4SYZMCIIDmZdDXSusEP9oYt4GIp
- 9RSUsAA2yQ9qcAxVoQumy3nrO+Gj0NZr1EHnlXU8s6eAJYatq53RJ48aPIA5U+JiDIq7
- 1k+n396ufxCY7efckWfBpyC5xeGZj+L0i0kEQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gV5rWMpBUKrLaDJeRT3ZsOG2NL5wYWp+tUxeIVGpLe8=;
- b=lN1nTWq+77oe3R33PdIwthhSzq+FUG23H7XtPWFQyohqBhfmtyiFtG3QhgUajKRrSp
- E4iSGx3aAOQmm/I+P3AYe7TgnawJNWwU/hulmJ6ABBYIeabIyr0Y8rQxbGMTNYxgF5Ji
- uAxy0LPSOXAgUJfpeayg5nlf6HBJZ6Z4qO3YEPxD4QBALYJGncknKYyH439sX/xVI8oA
- VnEtlkyMdHu8D946LiMCC+ElCeDWN5qc2MVPJanhqWnBkG2PKsVIlDbTst6tG4eNE+ap
- wW3ez/g2gfxQPKDWL7aPkMJjW+CjASW+65ILjREyUQQWZL+sabz3OeGo5cC5u6sEGfu9
- owDw==
-X-Gm-Message-State: AO0yUKV3qf5tI2IKSdhrgPKr3InEcGtEhcVCr/Pe0xlqGC5CJRyaQxk4
- LZHbxXS4Pri1SHUxTZuLz2zI8g==
-X-Google-Smtp-Source: AK7set8ZvPufhv4LOvsrxJtZZQ3vK1ykDz1T4jGr712q4FvkjTlAKJFxXM0hksOu+sFnWsEPyWW17w==
-X-Received: by 2002:a05:600c:3caa:b0:3dc:5ae4:c13d with SMTP id
- bg42-20020a05600c3caa00b003dc5ae4c13dmr7038314wmb.4.1676578737317; 
- Thu, 16 Feb 2023 12:18:57 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- i3-20020a05600011c300b002c4061a687bsm2261733wrx.31.2023.02.16.12.18.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Feb 2023 12:18:56 -0800 (PST)
-Date: Thu, 16 Feb 2023 21:18:48 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH 0/1] drm: Add a gpu page-table walker
-Message-ID: <Y+6PqOdRf+vu8rZc@phenom.ffwll.local>
-References: <20230216162729.219979-1-thomas.hellstrom@linux.intel.com>
+Received: from mailrelay3-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:402::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0323610E367
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Feb 2023 20:32:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=RwVo/ALcWIpGinZ1s9D75KZF+KPdKYR8FBxJdE2XfKk=;
+ b=sU3kJzbeVFnT7Bi/tJrQIZDCfHjs/ACWr5eOtR1wuHwVP4vg9mBPCrz+oUxO7UwYCuoz9wOqDgOzP
+ E6eE5ywF2lp0nPjZKvnYZFAXURdhz6fMIvBRYtlevw+PO6CnFsv6B8ANF12DV1LctdFYw7bzednVLD
+ BvNQAuo5/CSMVApVVXe+cliHYTgbS74e1d1QLmkSNayCeOwadx0IDoq+7paIiPeoFv1GuvxUGbXOoa
+ zZhEJ+tdZ0gZ1KP2lFeuLvuUL3TKzsqwhXFO/CSj/H1HKwq7dteUjWcRnMYTPUO7GXIW5iIv2+4EFS
+ gAQx7AygFqPhHbJ/4CoAE4QmLB4+9mA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=RwVo/ALcWIpGinZ1s9D75KZF+KPdKYR8FBxJdE2XfKk=;
+ b=pBKQRnGVJo45A/dO+VtmP6xrEVE31OJL10zrQFlkfQE9ivyYcu+FsRzv0R+goBoVAeyZSlTqwHmMw
+ +fDu3VHAQ==
+X-HalOne-ID: 0b10656d-ae39-11ed-be47-ede074c87fad
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay3 (Halon) with ESMTPSA
+ id 0b10656d-ae39-11ed-be47-ede074c87fad;
+ Thu, 16 Feb 2023 20:32:35 +0000 (UTC)
+Date: Thu, 16 Feb 2023 21:32:34 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v4 2/2] gpu/drm/panel: Add Sony TD4353 JDI panel driver
+Message-ID: <Y+6S4o4nfG+XqAsF@ravnborg.org>
+References: <20230119163201.580858-1-konrad.dybcio@linaro.org>
+ <20230119163201.580858-2-konrad.dybcio@linaro.org>
+ <725a5727-fdde-e3ae-a448-2679c5c4c7f4@linaro.org>
+ <CAKMK7uFpc3Kg=Ym6ee_JTZo-0h2ig7Twtf2uwE7oV-1c6YRP=Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230216162729.219979-1-thomas.hellstrom@linux.intel.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
+In-Reply-To: <CAKMK7uFpc3Kg=Ym6ee_JTZo-0h2ig7Twtf2uwE7oV-1c6YRP=Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,65 +59,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, Konrad Dybcio <konrad.dybcio@somainline.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, krzysztof.kozlowski@linaro.org,
+ agross@kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ marijn.suijten@somainline.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 16, 2023 at 05:27:28PM +0100, Thomas Hellström wrote:
-> A slightly unusual cover letter for a single patch.
+On Thu, Feb 16, 2023 at 01:32:22PM +0100, Daniel Vetter wrote:
+> On Thu, 16 Feb 2023 at 12:59, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+> >
+> >
+> >
+> > On 19.01.2023 17:32, Konrad Dybcio wrote:
+> > > From: Konrad Dybcio <konrad.dybcio@somainline.org>
+> > >
+> > > Add support for the Sony TD4353 JDI 2160x1080 display panel used in
+> > > some Sony Xperia XZ2 and XZ2 Compact smartphones. Due to the specifics
+> > > of smartphone manufacturing, it is impossible to retrieve a better name
+> > > for this panel.
+> > >
+> > > This revision adds support for the default 60 Hz configuration, however
+> > > there could possibly be some room for expansion, as the display panels
+> > > used on Sony devices have historically been capable of >2x refresh rate
+> > > overclocking.
+> > >
+> > > Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> > > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> > > Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > > ---
+> > Are there any outstanding issues with this driver, or perhaps I did
+> > not CC some important list? It has gotten very little activity ever
+> > since its initial submission around Sept'22..
 > 
-> The page table walker is currently used by the xe driver only,
-> but the code is generic so we can be good citizens and add it to drm
-> as a helper, for possible use by other drivers,
-> If so we can merge the commit when we merge the xe driver.
-> 
-> The question raised here is
-> *) Should it be a generic drm helper or xe-specific with changed
->    prefixes?
+> Sam is usually picking up panel drivers these days, but maybe we need
+> a bit more help in this area?
+Time for Linux has been low for more than two years now.
+Some life factors such as buying an older house and new responsibilities
+at my $daytime job.
+I may resurface and do something consistent one day, but consider me
+unreliable. Sorry!
 
-I think if there's some other drivers interested in using this, then this
-sounds like a good idea. Maybe more useful if it's also integrated into
-the vm/vma helpers that are being discussed as an optional part?
-
-Maybe some good old sales pitching here to convince people would be good.
-
-Maybe one of the new accel drivers is interested in this too?
-
-> *) If a drm helper, should we use a config option?
-
-I am no fan of Kconfig things tbh. Maybe just include it in the vma
-helpers, or perhaps we want to do a drm-accel-helpers with gem helpers,
-drm/sched, this one here, vm/vma helpers or whatever they will be and so
-on? Kinda like we have modeset helpers.
-
-I'd definitely not go for a Kconfig per individual file, that's just
-excessive.
--Daniel
-
-> 
-> For usage examples, see xe_pt.c
-> https://gitlab.freedesktop.org/drm/xe/kernel/-/blob/drm-xe-next/drivers/gpu/drm/xe/xe_pt.c
-> 
-> Thanks,
-> Thomas
-> 
-> Thomas Hellström (1):
->   drm: Add a gpu page-table walker helper
-> 
->  drivers/gpu/drm/Makefile      |   1 +
->  drivers/gpu/drm/drm_pt_walk.c | 159 +++++++++++++++++++++++++++++++++
->  include/drm/drm_pt_walk.h     | 161 ++++++++++++++++++++++++++++++++++
->  3 files changed, 321 insertions(+)
->  create mode 100644 drivers/gpu/drm/drm_pt_walk.c
->  create mode 100644 include/drm/drm_pt_walk.h
-> 
-> -- 
-> 2.34.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+	Sam
