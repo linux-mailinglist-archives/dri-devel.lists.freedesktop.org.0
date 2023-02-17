@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E8669A7BF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 10:03:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7383E69A7C1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 10:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1A4810E172;
-	Fri, 17 Feb 2023 09:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E23E10EF20;
+	Fri, 17 Feb 2023 09:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A21910E172
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 09:03:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7EFE10EF20
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 09:04:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676624615;
+ s=mimecast20190719; t=1676624663;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BhPN5mXNi0FwgA6Dw1wLPbnc9UnJcdK55RqJoCtSbCM=;
- b=KzdQ1giy8S9nwHE5Csndl5Z1HY2OmJUtEbmK9ZR2FAevwkVGdQOlhdnYoCquXwzujELigL
- klfBrmqpWGJ7Og2XVN/+W6UbtjdMHJbM+cpUJP1TigAX9MCP+Da/JXnMq55daoFv+WqXYs
- ZcqbCa7AFwCa7qecPp+viw5isQzcMMQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=r/Vg/oi7sg0lEBjm9qSqwVJEQFFplyI3DAHqU5zgGyM=;
+ b=JXeLXkEYASJ2sawSgXvcJCO59cBXttxK9A/aNLxiTSB2wVrXpnx6eeQI9v6y5x1FghhoFY
+ CcAWQb7qjlB9ik/jp3gjBKQWUHetnAtkRek0r8dDvblW384z0w2kQrMaA9VXLgPWxIiDqh
+ PSNsCAumK6GpgqHcfB2CMit1FVdkAiI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-596-2BX_OQamMYW7tBCxoeewYA-1; Fri, 17 Feb 2023 04:03:34 -0500
-X-MC-Unique: 2BX_OQamMYW7tBCxoeewYA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bi27-20020a05600c3d9b00b003e1e7d3db06so357089wmb.5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 01:03:33 -0800 (PST)
+ us-mta-96-DGjA0LsTMeqr5poVqfaWwQ-1; Fri, 17 Feb 2023 04:04:19 -0500
+X-MC-Unique: DGjA0LsTMeqr5poVqfaWwQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h8-20020a5d5048000000b002c557db0e0fso26703wrt.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 01:04:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BhPN5mXNi0FwgA6Dw1wLPbnc9UnJcdK55RqJoCtSbCM=;
- b=0huUMxJ1/txz8+sLIUeGpnTYtzku1JPwI9o8YlVGtZxtV7uhcWQPt3d+g2HdSwmh1R
- YU+96zqnrs9LBElT2INdwTPzlpd7y/pYRmvDaLCaHC1pE3S/E0sqDmlT1Ta82EhRIIgN
- NKMSP/mzaVbJG6J/c83p0DiJMO0AwVT4W3VtLg+hs6MgAyiuzE8gNzbDtp2ynKXTxJBz
- JjKx8tg+DN7e+D8lOAvg69GsAXX1XKCVrcwNH8gUy7YRNWmmG4CeqKae4Gmst8xPs/E8
- 3hROyNBipBWHzcZUrx16feD8YaKxfLdUPGKQmeMZWUmHh/n/GDUJhGkjjbT0E/cKbbZk
- MkUw==
-X-Gm-Message-State: AO0yUKXo9T5a5yB1I1O6mAi9VFVzwQ2RNcaALZsQmy70lxLppZwT8k/P
- ZpGSo9Qn6YFwxxSyihjShH00mi69bmYCZJbvOzoQ1H+iwGKN8iXPBTdaaRChpXlmVO8+HOxP+hV
- l2hQx5KWwwhCdYdRweQ8pcYNWKc8+
-X-Received: by 2002:a05:600c:43d5:b0:3e2:1d1e:78d0 with SMTP id
- f21-20020a05600c43d500b003e21d1e78d0mr2417362wmn.22.1676624612972; 
- Fri, 17 Feb 2023 01:03:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set9DaCWKnN1w1UtSO4QwVrREcTxPmS1GlzqesHtTH8itx7pHTxCmH391IDvaQDCHi/hMWPC/XA==
-X-Received: by 2002:a05:600c:43d5:b0:3e2:1d1e:78d0 with SMTP id
- f21-20020a05600c43d500b003e21d1e78d0mr2417345wmn.22.1676624612696; 
- Fri, 17 Feb 2023 01:03:32 -0800 (PST)
+ bh=r/Vg/oi7sg0lEBjm9qSqwVJEQFFplyI3DAHqU5zgGyM=;
+ b=OetJonEPUGJ62uLItAnMIHFL5XXM9DLhsTZmSKMEUstITwxYj/YVAWVXuZyLHB2s3X
+ QHhuVDyPbJWDgKui04AEhcIQ3Cyih2eN0Zky2C7bbRUXdhxbXHgCqdrR5jGIz/itozx+
+ +OdDRpg84kHQGXLgcC9LFBuUF0ownwH9Sbs0comBCj5X2Y7sIpsoZ9eyuCw1ImX173TT
+ GfmktWCsAxanW2zoX9o7yrNeMCv6TCIylpwpgxmFCCGaXmhk/SIJTgb0x17YnRotxO/+
+ 5uwEObv5IzanP1R9FXvxFFbheYLExdmq3hXSBCYgCPjbDxRjMXk7FQIHn7Q0isc+Zk9G
+ JeWg==
+X-Gm-Message-State: AO0yUKWX4vq1QlD6P4L/mkJ0OyTmwtFt1QQ9Xb/oZvwP5s8N9qf0PIQg
+ p6vpgM8XfvMbGngJXtGy0YoGGmKuVlahVmDR0a873SPEsiJADiZp0FTpIWa7tgePQUb4TMtfmVv
+ vXZxdKmAHfM25TFbpH9Xjeuv7VRrz
+X-Received: by 2002:a5d:5274:0:b0:2c5:6c26:1f73 with SMTP id
+ l20-20020a5d5274000000b002c56c261f73mr7413165wrc.20.1676624658127; 
+ Fri, 17 Feb 2023 01:04:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set98GWM304I+yPyS58qtsFdfDQC0E6UdjQSZ+kNzg9KXWfZpJwMOLAHu6SxeCJt3DfODLkCIXA==
+X-Received: by 2002:a5d:5274:0:b0:2c5:6c26:1f73 with SMTP id
+ l20-20020a5d5274000000b002c56c261f73mr7413138wrc.20.1676624657852; 
+ Fri, 17 Feb 2023 01:04:17 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- bi23-20020a05600c3d9700b003e200d3b2d1sm4400599wmb.38.2023.02.17.01.03.32
+ w6-20020a5d6806000000b002c6d0462163sm965896wru.100.2023.02.17.01.04.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 01:03:32 -0800 (PST)
+ Fri, 17 Feb 2023 01:04:17 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, deller@gmx.de, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, geoff@infradead.org, mpe@ellerman.id.au,
  npiggin@gmail.com, christophe.leroy@csgroup.eu
-Subject: Re: [PATCH 10/11] drm: Include <video/cmdline.h> for mode parsing
-In-Reply-To: <20230209135509.7786-11-tzimmermann@suse.de>
+Subject: Re: [PATCH 11/11] drm: Fix comment on mode parsing
+In-Reply-To: <20230209135509.7786-12-tzimmermann@suse.de>
 References: <20230209135509.7786-1-tzimmermann@suse.de>
- <20230209135509.7786-11-tzimmermann@suse.de>
-Date: Fri, 17 Feb 2023 10:03:31 +0100
-Message-ID: <87k00gwtng.fsf@minerva.mail-host-address-is-not-set>
+ <20230209135509.7786-12-tzimmermann@suse.de>
+Date: Fri, 17 Feb 2023 10:04:16 +0100
+Message-ID: <87h6vkwtm7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -90,13 +90,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Include <video/cmdline.h> in drm_connector.c to get video_get_options()
-> and avoid the dependency on <linux/fb.h>. The replaced function
-> fb_get_options() is just a tiny wrapper around video_get_opions(). No
-> functional changes.
->
-> Include <linux/property.h> to get fwnode_handle_put(), which had been
-> provided via <linux/fb.h>.
+> Do not claim that there's a default mode in the video= option parser.
+> if no option string has been given, the parser does nothing.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
