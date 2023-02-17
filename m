@@ -2,68 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E885769B49D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 22:22:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185EE69B492
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 22:20:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2092B10E490;
-	Fri, 17 Feb 2023 21:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1881D10E48A;
+	Fri, 17 Feb 2023 21:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4965E10E490
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 21:22:07 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id o3so3236654lfo.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 13:22:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 812A110E48F
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 21:20:49 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id bg35so23661wmb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 13:20:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nexus-software-ie.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=5R/JMUHvPSazNvX2Y/cVe1EYEqkP1fximqOzEtAx+ss=;
- b=RxaNYkBHuzH5zfxozYK0G8C3W3dtCu+dojqTATTgOxFb37t5b/2fKYUnPwtl7KrHvG
- a5WCc9VM/k6iO3XjLWklDTQs0rHPJEK+tUOsorGgUS3z2USjK/Fte7Xb0cqJwjbbDLR/
- 9XTdHIm0tvLOU2621UDxCwsttL61V6TvF5mNQppqDPqPWffXWjYo0nPM7onoOGtXpZ97
- xRATCNnytP1/jDvVYDDf6nfNYkK8xpco8Zsu8YNEhU1en4OEs1wevtpOkAuxeust3r0e
- JukJySB6JcG9VO+lesCUVXv0D93izS1ulGQ93uhj7WI+GGsxwWyQa5IP2vVK9PO+gwYD
- SV7Q==
+ bh=fG5SLtoM0wtpwjDkO7HF0+tlYQd+noTOTI3vBQPoJo8=;
+ b=w8ncplniUBt+6IvkMo+dy6w8R/fuJs9sZVhA5HsgPWHm6OXkJqlGUVBxceYd3Hzcw/
+ tYiXRJAPhbJ4NCDsAugvq7gWkk6zD+JNDOmHgcrUCrTzlwsWNo8fGpo8BYK/Yx3fDw+7
+ LNiQNmF0pVwC3dURJhPgQ5+XNOipPw6XSAizb2qodYJIGSSRZBa4uqBIiax4lcXrxOy+
+ LM11vZDQ0cfW10hVz47ZEpoJ3EQJgC5F5jb/rps2sFEcz3ObQje9FuCabXb8GGbplUwP
+ N33Kv/mdpn3QGw1Fw2GAgxnSl66LU+c6AqtLyOcSTf7xHaD0W97rwl9O1bXlqX+U5qFT
+ Gatw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5R/JMUHvPSazNvX2Y/cVe1EYEqkP1fximqOzEtAx+ss=;
- b=yauti+MftYZxJBSWs4rB1WoaLatpsY05fqrGY7lwXD+G61tV8yM4mis5zKT9nd1mxf
- 7v3WN59ifQSLqzn1Y26xTCnZaBcAVO3+phjVSaqVO1vJgvxVxLebkD84p5yL/k+Vc/yN
- ariPVSoetT/Mu4nwitKXymtqkOioK10ON08Bw380fhJpxcaxGb7OkgYpH/Ddc0Wvv5Ko
- t1gvvdtZS1hLFc8bs6KRbrhx1XtNWKuHhZIcbKbv4VvUvULePcwc+4f/5Jy9MS559Cdn
- cX+yfgM1HFAaMrRrOCKFUx/Z2D9yGfMLl2bzfrTbY2waMlniSc6tgQG29Aau++uBXqdm
- srFA==
-X-Gm-Message-State: AO0yUKXCOJEOOy9DPbUIj0qZ2hKiseo4BbRnNqaF5aoUqllyaMDd85Bd
- JEGNVizccFAMmFZLRypGSTbVqw==
-X-Google-Smtp-Source: AK7set9poy5qlGBhuSKgj+o7QREEXCJTb8D12job9OEO+QySjlOQ3zLPK923+3800d/HtFq/n5o94w==
-X-Received: by 2002:ac2:42c7:0:b0:4cb:3a60:65c3 with SMTP id
- n7-20020ac242c7000000b004cb3a6065c3mr132948lfl.1.1676668925529; 
- Fri, 17 Feb 2023 13:22:05 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ bh=fG5SLtoM0wtpwjDkO7HF0+tlYQd+noTOTI3vBQPoJo8=;
+ b=1ZOS7RFEb8bU4wP68ZiLtblP0Tk35z9KLmrSSmk5v4o+huKole+lKF/AqWsFCUJgJN
+ BE5p3kufHD3fKbjQPaqsg7GGizGhXsSugaBdOToZ2HhWVDuIgxxzCSKrKbWHW3Bef1ro
+ PLVZ2IuXO03UEC22xovGAU8VVrv8ml5WPPJEVCshkCKONa09hjOnsUSJuwkihqTdK7WL
+ y8y+gf0+OW9qo0/gIVJpiQT0NNXeuEbAbMgIQhyIlsnLKJKNacw2bGYf/v1Ppz+oBOpL
+ fb9c9DoK7FEtE7USN/S3uvUbbR3Io3Oz97Qc+SlbLnU6iZrxN7PYOk8HC13Y5+jf9V+U
+ +h1w==
+X-Gm-Message-State: AO0yUKXiHtcf9mZCykc0httOTUcCEeg8grBlq5RsfUBblB18tFdXZY1v
+ 6OR1+gh1fnzyYhxkVTOe5W/+nA==
+X-Google-Smtp-Source: AK7set9fzwn18p3L36vUlE7QAvIXE1IZGf36C/OC1NkzutJb49RjQizbwoUUn89B5EiLd/COy2eBCw==
+X-Received: by 2002:a05:600c:2a08:b0:3e2:1fa6:f428 with SMTP id
+ w8-20020a05600c2a0800b003e21fa6f428mr3055036wme.15.1676668847653; 
+ Fri, 17 Feb 2023 13:20:47 -0800 (PST)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
  by smtp.gmail.com with ESMTPSA id
- b6-20020ac25626000000b004db25f2c103sm783153lff.86.2023.02.17.13.20.42
+ o9-20020a056000010900b002c54241b4fesm5119375wrx.80.2023.02.17.13.20.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 13:21:19 -0800 (PST)
-Message-ID: <4cbe3a8c-5c6e-407c-c616-c2b08c5a9af2@linaro.org>
-Date: Fri, 17 Feb 2023 23:20:41 +0200
+ Fri, 17 Feb 2023 13:20:47 -0800 (PST)
+Message-ID: <0b3e8c81-b0fb-651b-8688-872f03c68d8f@nexus-software.ie>
+Date: Fri, 17 Feb 2023 21:20:46 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v2 12/14] drm/msm/a6xx: Use "else if" in GPU speedbin rev
- matching
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, agross@kernel.org
-References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
- <20230214173145.2482651-13-konrad.dybcio@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230214173145.2482651-13-konrad.dybcio@linaro.org>
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v2 1/2] dt-bindings: display/msm: dsi-controller-main: Fix
+ deprecated QCM2290 compatible
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org
+References: <20230217111316.306241-1-konrad.dybcio@linaro.org>
+ <c49904be-d842-fc12-a443-17f229d53166@linaro.org>
+ <a4eaccfd-34ba-15f3-033f-165b46c43317@linaro.org>
+ <a158bca2-78bf-5b38-60fe-88118e8b4ad7@linaro.org>
+ <ab35cdcf-53ae-a3f2-fc08-d0f58c51a0ae@linaro.org>
+ <48cb00cd-961c-b72f-fba8-1842d658e289@linaro.org>
+ <d4ffa9f0-797e-7a32-147e-64aa46d7e197@linaro.org>
+ <76de00dc-f128-e609-7f0c-b53161036b97@linaro.org>
+From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <76de00dc-f128-e609-7f0c-b53161036b97@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,26 +86,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/02/2023 19:31, Konrad Dybcio wrote:
-> The GPU can only be one at a time. Turn a series of ifs into if +
-> elseifs to save some CPU cycles.
+On 17/02/2023 21:16, Konrad Dybcio wrote:
+> Correct, but QCM2290 is not supported upstream yet.
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> SM6115 (a different SoC) however is, but it used the qcm2290 compatible
+> as it was a convenient hack to get the DSI host ID recognized based on
+> the (identical-to-qcm2290) base register without additional driver changes.
+> We're now trying to untangle that mess..
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Gand so what we want documented is:
 
-> ---
->   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+compatible = "qcom,qcs2290-dsi-ctrl", qcom,mdss-dsi-ctrl";
+compatible = "qcom,sm6115-dsi-ctrl", qcom,mdss-dsi-ctrl";
 
--- 
-With best wishes
-Dmitry
+with the old compatible = "qcom,dsi-ctrl-6g-qcm2290"; clanger continuing 
+to be deprecated.
 
+---
+bod
