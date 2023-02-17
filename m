@@ -1,58 +1,135 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF8169B023
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 17:03:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BA069B030
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 17:07:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE7810F04D;
-	Fri, 17 Feb 2023 16:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64E2910E1CB;
+	Fri, 17 Feb 2023 16:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4E610E1CB;
- Fri, 17 Feb 2023 16:03:39 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEE510E1CB;
+ Fri, 17 Feb 2023 16:07:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676649820; x=1708185820;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=WiB0X1ihwJUMKWm7e++DwSRhSyNb+C0l2YdUvMZGT6c=;
- b=E6k9PpND+aRMb7dnJcs9oFXuNjfmOaJ9rN8b1rXVMXAE4yli7mQmMDaJ
- e8Vnx7ghkoXAOKoHeKlaYmquQI9tYNi13tsOmgx2IpIOIecK31yKkfe8U
- OPmoBMpjGmvzqAo2PqgT3zO/BJEHKtDB+quLjA/PYRTwZlHsifFngKVv+
- zpReXE+WmQW8ZHagtg+dcq/mSAE8GWST7IhYiz2wBFClvVycXmUvMMyWR
- qXfzbI1muDe9npmupvZw5aFh23QnRpomfrwHxciqGi9WN71GRZfbE/zYP
- 2XLXwwK7Br5C28d0WWQE+XT3j/MBXr/OHTOQKKw1MZH+/ZH3UF6C/qi41 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="396692413"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="396692413"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 08:03:39 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="844619662"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="844619662"
-Received: from scurtin-mobl.ger.corp.intel.com (HELO [10.213.210.155])
- ([10.213.210.155])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 08:03:37 -0800
-Message-ID: <c0663648-5567-2d7a-43b1-dfa043109051@linux.intel.com>
-Date: Fri, 17 Feb 2023 16:03:35 +0000
+ t=1676650050; x=1708186050;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=XEkZSchF4ZjnmEkTCXpesmtvFD7UvuYtf/+v7RSjcV0=;
+ b=cSi2AwH+tY4GZs34Dv4SlV+ZqA0VMEK1gNGSdiTNtAENU1oREnUuXYBS
+ 414quGMflCNL/7JOo/YjUn5NrR4/wYwKOfUD/xJu/xq6ykMPLOsmCOp02
+ 1AMrFrM3CDaN9rq2YVP2GSUm5HoecgdyjI9xWdD8C/GJURwa3X75hSowu
+ 91g8H837tH45Ja4R9eDFaz0+gmbXDm8i0lKtDSx8WldZoRfmUVoQ5N59A
+ A0H9HVfuQNQPmcHiRcNfAv8Q5t9/3kKqHUmjmhJt/Rbl6hIKXGLIDJRjR
+ 1x/nvYN/ofD6hBM7Sp6vfcZTPSp+y4G5IW018faAde2nTFEdwMTlQuP5F w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="312385904"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="312385904"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2023 08:07:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="703003029"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="703003029"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga001.jf.intel.com with ESMTP; 17 Feb 2023 08:07:29 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 17 Feb 2023 08:07:29 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Fri, 17 Feb 2023 08:07:29 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.176)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Fri, 17 Feb 2023 08:07:29 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bLdCdE7Fh9/Tba3qhic57aGRcb3M0wjmCLvM5H9s0+Dwsr0yyGWCbQO/FHaBbitJpO1ex8MjLvVH2rERzuKduP6KzI4VraBU3AtfXbvkOHdM5Gu0hHYJ0Ppl2m7sZgdrC9kTr5JkVCWALMD70rLomyyqIjHB5DRVNKH6r4eGE5LpG3LcEzy/qHAFodNNhxH3k+vZh4iqPVHSE6mFv2JzwICPC8PLj8vssSEfbd/S0jV8nt49uagGnpi7BSwFXCOBE4q9YBwUMsjgV84FL6T9stZfpRrNGF9m06RI7tH/nG844N+dFJ/7XgvRMzrAeimrVaRyL/5UFNlhv0PjfhwGKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IIO4FoTb8LnX3H7+bbPkSqfzmmJoPAgkgTF5GX3L/Kk=;
+ b=S5DmbfJ1GCsrGrhmVpeJMCb5OmYGzwDvy5RD0g0ObxJgMJGP810wTRvJSJ3DTnL8LA+WaO0sRpl927U4XhCLXcMQJXoBMeTI2u1pqBRUj5iEvL6JEj8O/hEuexUmhLFW3lmPAYUc3GegvJyRWn9QWjdG8J6vdz1bgQnRqO485XMWi0iCtOcVjVaz+2w/a7hNRl7f7dNTGQMfVKDlJPu0YzuEB9ThvxMIRkT8s+HG98yrProKeOGzeouZChwlVq/jIChnDPNtaJA5MzUFjWbTX1XkC0StOToYzIMUEFqzNUwJ0yhYsjoGO9BOcV8ToYycJxPQAmK1wnhUtLt7A7CSXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by SA3PR11MB8003.namprd11.prod.outlook.com (2603:10b6:806:2f7::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
+ 2023 16:07:27 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::3bd5:710c:ebab:6158]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::3bd5:710c:ebab:6158%9]) with mapi id 15.20.6086.024; Fri, 17 Feb 2023
+ 16:07:27 +0000
+Date: Fri, 17 Feb 2023 11:07:20 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] drm/i915/guc: avoid FIELD_PREP warning
+Message-ID: <Y++mOIxOQFCmchM5@intel.com>
+References: <20230217124724.1324126-1-arnd@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230217124724.1324126-1-arnd@kernel.org>
+X-ClientProxiedBy: BYAPR07CA0052.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::29) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [RFC v2 0/5] Waitboost drm syncobj waits
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20230210130647.580135-1-tvrtko.ursulin@linux.intel.com>
- <CAF6AEGto9VMNLJnAs+n5H6MNoVASNasYEu3WhYYkhn5sERg4Fw@mail.gmail.com>
- <Y+5zyeSncSbsXHWG@intel.com>
- <7e059e8c-41c3-b56c-26c8-c0e2230616b1@linux.intel.com>
- <CAF6AEGuN2dv+Lsk3R43oPRA9c8ZoMjzCCKR+L41wNT8Sc3TgsQ@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CAF6AEGuN2dv+Lsk3R43oPRA9c8ZoMjzCCKR+L41wNT8Sc3TgsQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|SA3PR11MB8003:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60f5f1c6-ea0f-4856-3cbc-08db1101109b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ChEfS7eHantRjLECByi2Bhp22XN2IQpKSZ5pIV9GBe2Os0HG+bTReuSU7aNPrkQGf3Ro5mk4RhyZ7gE85gnMo9FZizYS09vpgZiklCT4Rgguzq1xfaDPPchLAdmCIyG6o1iIvE/Xwkt0TC+iK/T5xV1zlgnQzZwBTdqrXx41USUwVmb7jRO7n5Bm9mqzQtY7Degm4AnB2Rn6/TJ0S6QbAF6KziZRiBUarjLdZhzi/a7O8mc09II6iHOQU+bOQ2rka+0uSVYpcEktgiIGX3WLZhQR7WbQukvxN1BapDmCnP2K5pVdS8G5yyHhnt06tDjDzckKm6d1S0C9H6u3TLKyaChrxof9goAIVGnDQViUtuT/noh9cfUGtIVki4YGlJn7OvRYy18kB4Jw4Z62cQotvsq/q3qM8Yc3a73gWI0t3PuoPQ8A0UmStDz5hlORfEx5/KjWWehXugwv+kyuy3ypHTlFUjlJgF4P1lRxSA5ED5gkPVxJwK6cw8RVNvRCo7kH6NyM8pusQZst76zM5JuVg7s6Nl63QVF/jWQkYL3tJjdB3SJI/CAGaC3SgDG12LwiDb6ICrkpNnrJdo2/M2HN58R8rggAvQJUnppJABckn1WfhpoU5HgU6UynvdtQbMdBKOQ8KWKyDi7RGgAp/xHvaw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(366004)(136003)(396003)(39860400002)(346002)(376002)(451199018)(44832011)(7416002)(36756003)(5660300002)(83380400001)(6506007)(6486002)(26005)(2616005)(186003)(6512007)(66556008)(6666004)(4326008)(66946007)(82960400001)(38100700002)(8676002)(86362001)(41300700001)(66476007)(478600001)(8936002)(6916009)(54906003)(316002)(2906002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?c6DKaHmP3eFwudk7+bOdC+uBNQJxWhQ8CufNSjbTMReOgGkrQGrqMhu1qy6C?=
+ =?us-ascii?Q?BOOArGJqAstKWqkHx6Vwc8GjQUdNzsdJCIDW0DQHDrTJd5kJf9iwjCqhjLSA?=
+ =?us-ascii?Q?oiKJe31eQe3DBLkIBhSZ6BqpzlHWLtBMbm9nJYQNNMhPc6zdNvB7lN5ChX+g?=
+ =?us-ascii?Q?cLDYowBH5FafyGnPO8qEgvxuS/YG8Sc2D5sCT3U5Bbtz5BPH4t5TE6CZrYTU?=
+ =?us-ascii?Q?6KaGx2hGT32HnP5R0pE78nK+ShJh4vpr+omWwr8UKWXdtfBOwQTqard/E1MS?=
+ =?us-ascii?Q?W5YtZwWMpQ6j/58T4TS3PkDSVLZCdCXekFgWlAO6bvlBPVEaV300pAQUJu3A?=
+ =?us-ascii?Q?aD6oERbsB5414bDJcVwpCcUsA8lDO+0zyPtY2YBywZqXRqv0mGrnE0FJJUMt?=
+ =?us-ascii?Q?JQvDEMTsG9ZRzW240b1F02ah/ZrUp86Wp3BXxkB5C0JIo9db5XXl8pnA2ib7?=
+ =?us-ascii?Q?osS6I0cTJzD6GCwGDnGx8+uuH/FtcQ/UHfFW3T0mVvtB9TXD0cHDhy8dVBzc?=
+ =?us-ascii?Q?aMSQguNYUPeqBuwG1BrY0w/l17AR15kMpQDqkb269nxU9GleZBgmmDiTyoHB?=
+ =?us-ascii?Q?/jJXZOPWflkWfeSHA/x1oLrkLNOrKJPWX0H/X+dz60rFHlFlgHqg2nhmE6/p?=
+ =?us-ascii?Q?T4hzuTmRDiprK1c6Luy2ehxax7mWztyn8L+zimh6efILnsyIpwanWvbaiS+A?=
+ =?us-ascii?Q?fekY0CzdGE0iUrLdvGxl3sAw+DIsvg4/8RQFyge/kvqHfLcGVGSAzW89WHeR?=
+ =?us-ascii?Q?JT0DBQc+vCp+/JV0cBbr0OOlChsD1p5ZoCywaYttzAc/CJZBvwW9Wtg51MWT?=
+ =?us-ascii?Q?nYwUxULsFIt0CgxaxMljENB+0mSUM7VUt0vJ6OSDfGXtYg1irWOF/2pcsM8H?=
+ =?us-ascii?Q?JpMt0X8Ql21YZYwtDFHU0Et6EnrV7yYl5S7Os0tuwxj5DGb4eW1FXCTeXwL9?=
+ =?us-ascii?Q?Ts1PN1DVTZhyhzFQz5mu45FPV2NwtU4hLjkvF3OHId0tJgU0uAnsaCc+uvyU?=
+ =?us-ascii?Q?eSZk2MxhQEX0LbX5LqtS+o+gz6gFOoGc/zAv6ODQVLZb/DWS3O6Jb8jQFXrJ?=
+ =?us-ascii?Q?PA/xr4vzkVDq/FHJDNjXw4PUN8afeEdDYmzp/wWyqyU+Oby69r/nxtqdvkxC?=
+ =?us-ascii?Q?QhVyInlmp4WTj/GS6qT52zEfN4q2GW97OddwbMkRnf+C007qUT4E3PKkLxpZ?=
+ =?us-ascii?Q?X0SVGETcGF5x+gYzEFPHAIbqFOVsNP0teVa4FJP6vvMoPzKGG2joxuBQuHbm?=
+ =?us-ascii?Q?XI/dl1keXa1kbWVCkdIevCqO3sCmMk5w5zgkRhE0c5M3qkBPvuGPztqP/692?=
+ =?us-ascii?Q?ET2Wb1KZ3WecsUPI3XoWpV8Qu8ZywiCgvrzFklWu5XmGRxQf84LqjDR2quWj?=
+ =?us-ascii?Q?ouDIB8Q15QxQOrtqgFh4HBGRUN0wyeWtAy6oz/F/3DE2dGOAygO3zTVrqfnv?=
+ =?us-ascii?Q?ZsNr17tY5inF2u6eG2NIF7o5kGGqh4RID6I+UmSy/XNDmCzhfTsHW+72viUd?=
+ =?us-ascii?Q?dyCcwlhy7lbZKlfYfMxKYwx7Oba/q+QA9X0i9VoGbeHLr4PhAaRGKKzK2vp2?=
+ =?us-ascii?Q?v1GdSjjFp/QXTG/goKM+2TA4VcINsIs3JebVyLX+dgMXIsbohkDyJQFquY/6?=
+ =?us-ascii?Q?dA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60f5f1c6-ea0f-4856-3cbc-08db1101109b
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 16:07:27.7586 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: caIjNIXwnhpjA54/vQzRwR/SahdQe++VTotLlIcYd5t+0MyTecyZaqeaTwJsIkO1YXGYzejLSU9Km+3qDTqhdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB8003
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,178 +142,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rob Clark <robdclark@chromium.org>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, John Harrison <John.C.Harrison@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 17/02/2023 14:55, Rob Clark wrote:
-> On Fri, Feb 17, 2023 at 4:56 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->>
->> On 16/02/2023 18:19, Rodrigo Vivi wrote:
->>> On Tue, Feb 14, 2023 at 11:14:00AM -0800, Rob Clark wrote:
->>>> On Fri, Feb 10, 2023 at 5:07 AM Tvrtko Ursulin
->>>> <tvrtko.ursulin@linux.intel.com> wrote:
->>>>>
->>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>>
->>>>> In i915 we have this concept of "wait boosting" where we give a priority boost
->>>>> for instance to fences which are actively waited upon from userspace. This has
->>>>> it's pros and cons and can certainly be discussed at lenght. However fact is
->>>>> some workloads really like it.
->>>>>
->>>>> Problem is that with the arrival of drm syncobj and a new userspace waiting
->>>>> entry point it added, the waitboost mechanism was bypassed. Hence I cooked up
->>>>> this mini series really (really) quickly to see if some discussion can be had.
->>>>>
->>>>> It adds a concept of "wait count" to dma fence, which is incremented for every
->>>>> explicit dma_fence_enable_sw_signaling and dma_fence_add_wait_callback (like
->>>>> dma_fence_add_callback but from explicit/userspace wait paths).
->>>>
->>>> I was thinking about a similar thing, but in the context of dma_fence
->>>> (or rather sync_file) fd poll()ing.  How does the kernel differentiate
->>>> between "housekeeping" poll()ers that don't want to trigger boost but
->>>> simply know when to do cleanup, and waiters who are waiting with some
->>>> urgency.  I think we could use EPOLLPRI for this purpose.
->>>>
->>>> Not sure how that translates to waits via the syncobj.  But I think we
->>>> want to let userspace give some hint about urgent vs housekeeping
->>>> waits.
->>>
->>> Should the hint be on the waits, or should the hints be on the executed
->>> context?
->>>
->>> In the end we need some way to quickly ramp-up the frequency to avoid
->>> the execution bubbles.
->>>
->>> waitboost is trying to guess that, but in some cases it guess wrong
->>> and waste power.
->>
->> Do we have a list of workloads which shows who benefits and who loses
->> from the current implementation of waitboost?
->>> btw, this is something that other drivers might need:
->>>
->>> https://gitlab.freedesktop.org/drm/amd/-/issues/1500#note_825883
->>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>
->> I have several issues with the context hint if it would directly
->> influence frequency selection in the "more power" direction.
->>
->> First of all, assume a context hint would replace the waitboost. Which
->> applications would need to set it to restore the lost performance and
->> how would they set it?
->>
->> Then I don't even think userspace necessarily knows. Think of a layer
->> like OpenCL. It doesn't really know in advance the profile of
->> submissions vs waits. It depends on the CPU vs GPU speed, so hardware
->> generation, and the actual size of the workload which can be influenced
->> by the application (or user) and not the library.
->>
->> The approach also lends itself well for the "arms race" where every
->> application can say "Me me me, I am the most important workload there is!".
+On Fri, Feb 17, 2023 at 01:46:50PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> since there is discussion happening in two places:
+> With gcc-7 and earlier, there are lots of warnings like
 > 
-> https://gitlab.freedesktop.org/drm/intel/-/issues/8014#note_1777433
+> In file included from <command-line>:0:0:
+> In function '__guc_context_policy_add_priority.isra.66',
+>     inlined from '__guc_context_set_prio.isra.67' at drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:3292:3,
+>     inlined from 'guc_context_set_prio' at drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:3320:2:
+> include/linux/compiler_types.h:399:38: error: call to '__compiletime_assert_631' declared with attribute error: FIELD_PREP: mask is not constant
+>   _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>                                       ^
+> ...
+> drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:2422:3: note: in expansion of macro 'FIELD_PREP'
+>    FIELD_PREP(GUC_KLV_0_KEY, GUC_CONTEXT_POLICIES_KLV_ID_##id) | \
+>    ^~~~~~~~~~
 > 
-> What I think you might want is a ctx boost_mask which lets an app or
-> driver disable certain boost signals/classes.  Where fence waits is
-> one class of boost, but hypothetical other signals like touchscreen
-> (or other) input events could be another class of boost.  A compute
-> workload might be interested in fence wait boosts but could care less
-> about input events.
-
-I think it can only be apps which could have any chance knowing whether 
-their use of a library is latency sensitive or not. Which means new 
-library extensions and their adoption. So I have some strong reservation 
-that route is feasible.
-
-Or we tie with priority which many drivers do. Normal and above gets the 
-boosting and what lowered itself does not (aka SCHED_IDLE/SCHED_BATCH).
-
-Related note is that we lack any external control of our scheduling 
-decisions so we really do suck compared to other scheduling domains like 
-CPU and IO etc.
-
->> The last concern is for me shared with the proposal to expose deadlines
->> or high priority waits as explicit uapi knobs. Both come under the "what
->> application told us it will do" category vs what it actually does. So I
->> think it is slightly weaker than basing decisions of waits.
->>
->> The current waitboost is a bit detached from that problem because when
->> we waitboost for flips we _know_ it is an actual framebuffer in the flip
->> chain. When we waitboost for waits we also know someone is waiting. We
->> are not trusting userspace telling us this will be a buffer in the flip
->> chain or that this is a context which will have a certain duty-cycle.
->>
->> But yes, even if the input is truthful, latter is still only a
->> heuristics because nothing says all waits are important. AFAIU it just
->> happened to work well in the past.
->>
->> I do understand I am effectively arguing for more heuristics, which may
->> sound a bit against the common wisdom. This is because in general I
->> think the logic to do the right thing, be it in the driver or in the
->> firmware, can work best if it has a holistic view. Simply put it needs
->> to have more inputs to the decisions it is making.
->>
->> That is what my series is proposing - adding a common signal of "someone
->> in userspace is waiting". What happens with that signal needs not be
->> defined (promised) in the uapi contract.
->>
->> Say you route it to SLPC logic. It doesn't need to do with it what
->> legacy i915 is doing today. It just needs to do something which works
->> best for majority of workloads. It can even ignore it if that works for it.
->>
->> Finally, back to the immediate problem is when people replace the OpenCL
->> NEO driver with clvk that performance tanks. Because former does waits
->> using i915 specific ioctls and so triggers waitboost, latter waits on
->> syncobj so no waitboost and performance is bad. What short term solution
->> can we come up with? Or we say to not use clvk? I also wonder if other
->> Vulkan based stuff is perhaps missing those easy performance gains..
->>
->> Perhaps strictly speaking Rob's and mine proposal are not mutually
->> exclusive. Yes I could piggy back on his with an "immediate deadline for
->> waits" idea, but they could also be separate concepts if we concluded
->> "someone is waiting" signal is useful to have. Or it takes to long to
->> upstream the full deadline idea.
+> Make sure that GUC_KLV_0_KEY is an unsigned value to avoid the warning.
 > 
-> Let me re-spin my series and add the syncobj wait flag and i915 bits
+> Fixes: 77b6f79df66e ("drm/i915/guc: Update to GuC version 69.0.3")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+> index 58012edd4eb0..4f4f53c42a9c 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h
+> @@ -29,9 +29,9 @@
+>   */
+>  
+>  #define GUC_KLV_LEN_MIN				1u
+> -#define GUC_KLV_0_KEY				(0xffff << 16)
+> -#define GUC_KLV_0_LEN				(0xffff << 0)
+> -#define GUC_KLV_n_VALUE				(0xffffffff << 0)
+> +#define GUC_KLV_0_KEY				(0xffffu << 16)
+> +#define GUC_KLV_0_LEN				(0xffffu << 0)
+> +#define GUC_KLV_n_VALUE				(0xffffffffu << 0)
 
-I think wait flag is questionable unless it is inverted to imply waits 
-which can be de-prioritized (again same parallel with SCHED_IDLE/BATCH). 
-Having a flag which "makes things faster" IMO should require elevated 
-privilege (to avoid the "arms race") at which point I fear it quickly 
-becomes uninteresting.
+what about changing them to GENMASK?
 
-> adapted from your patches..  I think the basic idea of deadlines
-> (which includes "I want it NOW" ;-)) isn't controversial, but the
-> original idea got caught up in some bikeshed (what about compositors
-> that wait on fences in userspace to decide which surfaces to update in
-> the next frame), plus me getting busy and generally not having a good
-> plan for how to leverage this from VM guests (which is becoming
-> increasingly important for CrOS).  I think I can build on some ongoing
-> virtgpu fencing improvement work to solve the latter.  But now that we
-> have a 2nd use-case for this, it makes sense to respin.
-
-Sure, I was looking at the old version already. It is interesting. But 
-also IMO needs quite a bit more work to approach achieving what is 
-implied from the name of the feature. It would need proper deadline 
-based sched job picking, and even then drm sched is mostly just a 
-frontend. So once past runnable status and jobs handed over to backend, 
-without further driver work it probably wouldn't be very effective past 
-very lightly loaded systems.
-
-Then if we fast forward to a world where schedulers perhaps become fully 
-deadline aware (we even had this for i915 few years back) then the 
-question will be does equating waits with immediate deadlines still 
-works. Maybe not too well because we wouldn't have the ability to 
-distinguish between the "someone is waiting" signal from the otherwise 
-propagated deadlines.
-
-Regards,
-
-Tvrtko
+>  
+>  /**
+>   * DOC: GuC Self Config KLVs
+> -- 
+> 2.39.1
+> 
