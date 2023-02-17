@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3850469AB4B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 13:22:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EABA469AB59
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 13:23:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9502B10EF9B;
-	Fri, 17 Feb 2023 12:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF9A10EFAB;
+	Fri, 17 Feb 2023 12:22:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B865310EF8F;
- Fri, 17 Feb 2023 12:22:28 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id l11so4064207edb.11;
- Fri, 17 Feb 2023 04:22:28 -0800 (PST)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC2C210EF8F;
+ Fri, 17 Feb 2023 12:22:29 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id ee31so5079253edb.3;
+ Fri, 17 Feb 2023 04:22:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=VJcYwsYAXbDZie3h/U5uPdvDTCfa7cGCraXZW9wLkas=;
- b=hUCg0aPmbyv/gk2E63rNx99Ln4o1Vj+2jbInxnnyt/IA2gcJRnQh2zkY/Amu14Ocg3
- zF4w25CWhBxbOn50jj8BJtXfXbd+Z+rx+OZ7OHcP4fz2Dm1LjKrcA9DF0KrjyARUNkZ0
- kMrwU7XHyOczrWc1/FzZk+yv/anqTNX6KRDdUHJeXGu+fSagl2KRzDbBmW5J88RZooll
- kP6DarVzdympRsIv03lQ7FqRPh01XjCvN1bAubxbg39Yf0zrKX48CFHK/HkJq3A6ABPy
- 0cPwIOtkLY9tscNaSonG8q7JBcCZHIUls5X2ex50daIbL/OJbY4RC10cXpSDwiLvbPAM
- 3LbA==
+ :reply-to; bh=ji8kYjHLz8PFnojbvPvCd/Vry5lhoqUD8IbEBbwgHho=;
+ b=CeordHYeKOol8kxJbtH2r1TgFs/0pbe/ojiOqmX0oPXqCgGUKMfLnLTqO3Jc2FB3uA
+ 568LMwICuAL0O62tZaDMmW5xfoTvMmj13f+7qArC2As1U2N6VXPlOYDkaYt6ylb6nR8M
+ xW7Vrd9FUtFQgUdWV+sFoTVTYp4MFjKhmb4Js0L9xeiS1cLvGHU8PWWuk0mJBME8Ty6Q
+ 2F8s7RjGWfM5jPNv9CrfUgUE0o9X4hOi/Nq3l8S27jS5sjsDfEv19ANcNRp4HvRo5l7Y
+ yqHFGGJFXH9uXirWXsr8Ml7kEJm58rv63aLHheUS8VpAOeT+6Fy9sAW8OAesvw5ugCrb
+ Vz1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VJcYwsYAXbDZie3h/U5uPdvDTCfa7cGCraXZW9wLkas=;
- b=g03H8goZ7u/ApWqgCkkQLU0S6fGyAW0SgaArDJUzxa4GVudwiaDN0vbDEPmaN77zi2
- DEnLGDFQqDGmbOy/M9Wqapn6mR6V4wv2qnSIzl6JQ8b3+bv3Jz6zZ6aULVv7dhgV/JmU
- JazfCprbwduhZfUbboWsRzJEuv+FerjW9uXL0KXli9AAwcLMXfRe2tVp0nOZ13TyYSpG
- WFS5kJ3qdM5JThg8hEVuqlgr4n590xWHNlvgs9OxQjeXvJG+JNbsLleIYCajlPGYWTgH
- v0jGW/7OG2HjA0wNPEmHWnOw18+d+4g7d4Cz7x5CkMq8yYUa588817WqV7uU4ISn6eiB
- QpVQ==
-X-Gm-Message-State: AO0yUKXotBQlfizXWUhffq4Fosthiqs0Bj8VeHL+D6gNNiTcLdRLqK/x
- bgEgVcqjiRL1EUoAQQnVUelYHgK6CuE=
-X-Google-Smtp-Source: AK7set/xRgVDLhDM/NfJSpcbTUfe+EHoz/mphPMmkLr2MMO5soPB47tNHVQLk/iFxODzRR/IEW1s5A==
-X-Received: by 2002:a17:906:aec9:b0:883:fe6b:814 with SMTP id
- me9-20020a170906aec900b00883fe6b0814mr8985071ejb.37.1676636547184; 
- Fri, 17 Feb 2023 04:22:27 -0800 (PST)
+ bh=ji8kYjHLz8PFnojbvPvCd/Vry5lhoqUD8IbEBbwgHho=;
+ b=LCdpoJA4v3VNmvtOEXk1dCsPEwS3Lhs0j1PCTbc81hygFsZ5uvCF015lYIyh90ZlBq
+ SYuC4rduX1y+pVspKMopMQNcuF102Ym3xoo4xXM6VI4F1OZBlvXZ3uTMqj/Hat5RVdDa
+ BRdjoMBIEp2H1+DjDnPkdnw0sJ9sqnfmjWdXTeeob+zDfM4UInR9ExSdM80NU3XbU+lg
+ l5SGoMkkGgv9Gr2KblFtJcVdc1XOFS5gXQvOP/f2RTvgsei/kyZpFK6m9lgdMkAlhTdB
+ ElxB48+73Ex5rh+H48zPdYkJ0mY9O/xGvoyfBWBGEMNIjiDd6FQaPkhrmswtM0gTNw6N
+ k1QQ==
+X-Gm-Message-State: AO0yUKUcCDTQxxFZl7MUbWwbGIkMWDhcipzM9kOBqXGUMpPb0gCpIyD6
+ /237W4gh6rVsmAkuIN07iI0Tg/s8Srg=
+X-Google-Smtp-Source: AK7set8QO2ooGdV3QI41Au4w6cIuq56LYXW5X+LThCoOWSZ6wfwEZf416YST+oXINHSALeUfNbL4Lw==
+X-Received: by 2002:a17:906:ef8c:b0:8b1:806b:7dbb with SMTP id
+ ze12-20020a170906ef8c00b008b1806b7dbbmr2496212ejb.51.1676636548109; 
+ Fri, 17 Feb 2023 04:22:28 -0800 (PST)
 Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a50c38a000000b004ad75c5c0fdsm1373472edf.18.2023.02.17.04.22.26
+ h10-20020a50c38a000000b004ad75c5c0fdsm1373472edf.18.2023.02.17.04.22.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 04:22:26 -0800 (PST)
+ Fri, 17 Feb 2023 04:22:27 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/7] drm/ttm: Change the parameters of ttm_range_man_init()
- from pages to bytes
-Date: Fri, 17 Feb 2023 13:22:19 +0100
-Message-Id: <20230217122224.29243-2-christian.koenig@amd.com>
+Subject: [PATCH 3/7] drm/ttm: Change the meaning of the fields in the
+ drm_mm_nodes structure from pfn to bytes v3
+Date: Fri, 17 Feb 2023 13:22:20 +0100
+Message-Id: <20230217122224.29243-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230217122224.29243-1-christian.koenig@amd.com>
 References: <20230217122224.29243-1-christian.koenig@amd.com>
@@ -80,141 +80,188 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 
-Change the parameters of ttm_range_man_init_nocheck()
-size from page size to byte size.
-Cleanup the PAGE_SHIFT operation on the depended caller functions.
+Change the ttm_range_man_alloc() allocation from pages to size in bytes.
+Fix the dependent drm_mm_nodes start and size from pages to bytes.
+
+v2 (chk): Change the drm_mm_node usage in amdgpu as well. re-order the
+          patch to be independent of the resource->start change.
+v3 (chk): add some more missing u64 casts
 
 Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 4 ++--
- drivers/gpu/drm/drm_gem_vram_helper.c   | 2 +-
- drivers/gpu/drm/radeon/radeon_ttm.c     | 4 ++--
- drivers/gpu/drm/ttm/ttm_range_manager.c | 8 ++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 2 +-
- include/drm/ttm/ttm_range_manager.h     | 6 +++---
- 6 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   | 15 ++++++------
+ .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |  8 +++----
+ drivers/gpu/drm/i915/i915_scatterlist.c       |  6 ++---
+ drivers/gpu/drm/ttm/ttm_range_manager.c       | 24 +++++++++----------
+ 4 files changed, 27 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index f62e5398e620..77c2da886f5b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -75,10 +75,10 @@ static void amdgpu_ttm_backend_unbind(struct ttm_device *bdev,
- 
- static int amdgpu_ttm_init_on_chip(struct amdgpu_device *adev,
- 				    unsigned int type,
--				    uint64_t size_in_page)
-+				    uint64_t size)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 44367f03316f..d66b5fcbadf2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -116,7 +116,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
+ 			      struct ttm_resource **res)
  {
- 	return ttm_range_man_init(&adev->mman.bdev, type,
--				  false, size_in_page);
-+				  false, size << PAGE_SHIFT);
- }
+ 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
+-	uint32_t num_pages = PFN_UP(tbo->base.size);
+ 	struct ttm_range_mgr_node *node;
+ 	int r;
  
- /**
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index d40b3edb52d0..f70d11e1cd47 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -999,7 +999,7 @@ static int drm_vram_mm_init(struct drm_vram_mm *vmm, struct drm_device *dev,
- 		return ret;
+@@ -134,17 +133,19 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
+ 	if (place->lpfn) {
+ 		spin_lock(&mgr->lock);
+ 		r = drm_mm_insert_node_in_range(&mgr->mm, &node->mm_nodes[0],
+-						num_pages, tbo->page_alignment,
+-						0, place->fpfn, place->lpfn,
++						tbo->base.size,
++						tbo->page_alignment << PAGE_SHIFT, 0,
++						(u64)place->fpfn << PAGE_SHIFT,
++						(u64)place->lpfn << PAGE_SHIFT,
+ 						DRM_MM_INSERT_BEST);
+ 		spin_unlock(&mgr->lock);
+ 		if (unlikely(r))
+ 			goto err_free;
  
- 	ret = ttm_range_man_init(&vmm->bdev, TTM_PL_VRAM,
--				 false, vram_size >> PAGE_SHIFT);
-+				 false, vram_size);
- 	if (ret)
- 		return ret;
+-		node->base.start = node->mm_nodes[0].start;
++		node->base.start = node->mm_nodes[0].start >> PAGE_SHIFT;
+ 	} else {
+ 		node->mm_nodes[0].start = 0;
+-		node->mm_nodes[0].size = PFN_UP(node->base.size);
++		node->mm_nodes[0].size = node->base.size;
+ 		node->base.start = AMDGPU_BO_INVALID_OFFSET;
+ 	}
  
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 67075c85f847..78dd6a87fb65 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -70,13 +70,13 @@ struct radeon_device *radeon_get_rdev(struct ttm_device *bdev)
- static int radeon_ttm_init_vram(struct radeon_device *rdev)
- {
- 	return ttm_range_man_init(&rdev->mman.bdev, TTM_PL_VRAM,
--				  false, rdev->mc.real_vram_size >> PAGE_SHIFT);
-+				  false, rdev->mc.real_vram_size);
- }
+@@ -285,8 +286,8 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
  
- static int radeon_ttm_init_gtt(struct radeon_device *rdev)
- {
- 	return ttm_range_man_init(&rdev->mman.bdev, TTM_PL_TT,
--				  true, rdev->mc.gtt_size >> PAGE_SHIFT);
-+				  true, rdev->mc.gtt_size);
- }
+ 	ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
  
- static void radeon_evict_flags(struct ttm_buffer_object *bo,
+-	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
+-	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
++	start = (AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS) << PAGE_SHIFT;
++	size = adev->gmc.gart_size - start;
+ 	drm_mm_init(&mgr->mm, start, size);
+ 	spin_lock_init(&mgr->lock);
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
+index 5c4f93ee0c57..5c78f0b09351 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
+@@ -94,8 +94,8 @@ static inline void amdgpu_res_first(struct ttm_resource *res,
+ 		while (start >= node->size << PAGE_SHIFT)
+ 			start -= node++->size << PAGE_SHIFT;
+ 
+-		cur->start = (node->start << PAGE_SHIFT) + start;
+-		cur->size = min((node->size << PAGE_SHIFT) - start, size);
++		cur->start = node->start + start;
++		cur->size = min(node->size - start, size);
+ 		cur->remaining = size;
+ 		cur->node = node;
+ 		break;
+@@ -155,8 +155,8 @@ static inline void amdgpu_res_next(struct amdgpu_res_cursor *cur, uint64_t size)
+ 		node = cur->node;
+ 
+ 		cur->node = ++node;
+-		cur->start = node->start << PAGE_SHIFT;
+-		cur->size = min(node->size << PAGE_SHIFT, cur->remaining);
++		cur->start = node->start;
++		cur->size = min(node->size, cur->remaining);
+ 		break;
+ 	default:
+ 		return;
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
+index 756289e43dff..7defda1219d0 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.c
++++ b/drivers/gpu/drm/i915/i915_scatterlist.c
+@@ -94,7 +94,7 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+ 	if (!rsgt)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	i915_refct_sgt_init(rsgt, node->size << PAGE_SHIFT);
++	i915_refct_sgt_init(rsgt, node->size);
+ 	st = &rsgt->table;
+ 	/* restricted by sg_alloc_table */
+ 	if (WARN_ON(overflows_type(DIV_ROUND_UP_ULL(node->size, segment_pages),
+@@ -110,8 +110,8 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
+ 	sg = st->sgl;
+ 	st->nents = 0;
+ 	prev_end = (resource_size_t)-1;
+-	block_size = node->size << PAGE_SHIFT;
+-	offset = node->start << PAGE_SHIFT;
++	block_size = node->size;
++	offset = node->start;
+ 
+ 	while (block_size) {
+ 		u64 len;
 diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index ae11d07eb63a..62fddcc59f02 100644
+index 62fddcc59f02..b8cb72432a2a 100644
 --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
 +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -169,7 +169,7 @@ static const struct ttm_resource_manager_func ttm_range_manager_func = {
-  * @bdev: ttm device
-  * @type: memory manager type
-  * @use_tt: if the memory manager uses tt
-- * @p_size: size of area to be managed in pages.
-+ * @size: size of area to be managed in bytes.
-  *
-  * The range manager is installed for this device in the type slot.
-  *
-@@ -177,7 +177,7 @@ static const struct ttm_resource_manager_func ttm_range_manager_func = {
-  */
- int ttm_range_man_init_nocheck(struct ttm_device *bdev,
- 		       unsigned type, bool use_tt,
--		       unsigned long p_size)
-+		       u64 size)
- {
- 	struct ttm_resource_manager *man;
- 	struct ttm_range_manager *rman;
-@@ -191,9 +191,9 @@ int ttm_range_man_init_nocheck(struct ttm_device *bdev,
- 
- 	man->func = &ttm_range_manager_func;
- 
--	ttm_resource_manager_init(man, bdev, p_size);
-+	ttm_resource_manager_init(man, bdev, size);
- 
--	drm_mm_init(&rman->mm, 0, p_size);
-+	drm_mm_init(&rman->mm, 0, size);
- 	spin_lock_init(&rman->lock);
- 
- 	ttm_set_driver_manager(bdev, type, &rman->manager);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 2588615a2a38..18cf4edea197 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -706,7 +706,7 @@ static int vmw_vram_manager_init(struct vmw_private *dev_priv)
- {
+@@ -64,10 +64,10 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+ 	struct ttm_range_mgr_node *node;
+ 	struct drm_mm *mm = &rman->mm;
+ 	enum drm_mm_insert_mode mode;
+-	unsigned long lpfn;
++	u64 lpfn;
  	int ret;
- 	ret = ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM, false,
--				 dev_priv->vram_size >> PAGE_SHIFT);
-+				 dev_priv->vram_size);
- 	ttm_resource_manager_set_used(ttm_manager_type(&dev_priv->bdev, TTM_PL_VRAM), false);
- 	return ret;
- }
-diff --git a/include/drm/ttm/ttm_range_manager.h b/include/drm/ttm/ttm_range_manager.h
-index 7963b957e9ef..05bffded1b53 100644
---- a/include/drm/ttm/ttm_range_manager.h
-+++ b/include/drm/ttm/ttm_range_manager.h
-@@ -36,15 +36,15 @@ to_ttm_range_mgr_node(struct ttm_resource *res)
  
- int ttm_range_man_init_nocheck(struct ttm_device *bdev,
- 		       unsigned type, bool use_tt,
--		       unsigned long p_size);
-+		       u64 size);
- int ttm_range_man_fini_nocheck(struct ttm_device *bdev,
- 		       unsigned type);
- static __always_inline int ttm_range_man_init(struct ttm_device *bdev,
- 		       unsigned int type, bool use_tt,
--		       unsigned long p_size)
-+		       u64 size)
+-	lpfn = place->lpfn;
++	lpfn = place->lpfn << PAGE_SHIFT;
+ 	if (!lpfn)
+ 		lpfn = man->size;
+ 
+@@ -83,9 +83,10 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+ 
+ 	spin_lock(&rman->lock);
+ 	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
+-					  PFN_UP(node->base.size),
+-					  bo->page_alignment, 0,
+-					  place->fpfn, lpfn, mode);
++					  node->base.size,
++					  bo->page_alignment << PAGE_SHIFT, 0,
++					  (u64)place->fpfn << PAGE_SHIFT, lpfn,
++					  mode);
+ 	spin_unlock(&rman->lock);
+ 
+ 	if (unlikely(ret)) {
+@@ -94,7 +95,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+ 		return ret;
+ 	}
+ 
+-	node->base.start = node->mm_nodes[0].start;
++	node->base.start = node->mm_nodes[0].start >> PAGE_SHIFT;
+ 	*res = &node->base;
+ 	return 0;
+ }
+@@ -119,11 +120,10 @@ static bool ttm_range_man_intersects(struct ttm_resource_manager *man,
+ 				     size_t size)
  {
- 	BUILD_BUG_ON(__builtin_constant_p(type) && type >= TTM_NUM_MEM_TYPES);
--	return ttm_range_man_init_nocheck(bdev, type, use_tt, p_size);
-+	return ttm_range_man_init_nocheck(bdev, type, use_tt, size);
- }
+ 	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
+-	u32 num_pages = PFN_UP(size);
  
- static __always_inline int ttm_range_man_fini(struct ttm_device *bdev,
+ 	/* Don't evict BOs outside of the requested placement range */
+-	if (place->fpfn >= (node->start + num_pages) ||
+-	    (place->lpfn && place->lpfn <= node->start))
++	if (((u64)place->fpfn << PAGE_SHIFT) >= (node->start + size) ||
++	    (place->lpfn && ((u64)place->lpfn << PAGE_SHIFT) <= node->start))
+ 		return false;
+ 
+ 	return true;
+@@ -135,10 +135,10 @@ static bool ttm_range_man_compatible(struct ttm_resource_manager *man,
+ 				     size_t size)
+ {
+ 	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
+-	u32 num_pages = PFN_UP(size);
+ 
+-	if (node->start < place->fpfn ||
+-	    (place->lpfn && (node->start + num_pages) > place->lpfn))
++	if (node->start < (u64)place->fpfn << PAGE_SHIFT ||
++	    (place->lpfn && (node->start + size) >
++	     (u64)place->lpfn << PAGE_SHIFT))
+ 		return false;
+ 
+ 	return true;
 -- 
 2.34.1
 
