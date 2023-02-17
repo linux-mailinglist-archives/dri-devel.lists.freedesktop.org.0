@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488D669A5C6
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 07:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9190169A5C7
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 07:53:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9BC610E3F6;
-	Fri, 17 Feb 2023 06:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A38FD10E3F4;
+	Fri, 17 Feb 2023 06:53:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur04on0604.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe0d::604])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D58E710E3F6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 06:53:16 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2052.outbound.protection.outlook.com [40.107.21.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F32610E3F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 06:53:23 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=js9ly/1aXv87mt4DrP7JMTb3pCeDhC5L9Nk9D+AKklJIJ/lk5tC+EX/HnqT7FwXa3cFbRHA2/INBWQmcg73ezhSbbPjJGAuDQEuM+sNSQyjN97VvFawUsM80PjR6Ww9zc1+De4JluMd5lxexs+Gq3nbLnFUK7iO8oY4PcgGuko0dLnV8R0r0OWWEirMp6pIiuEwaZVzKZJ1QWwpaHljb9F1MCOa9Ajfn7sUEOpWWM9LCowDSYJ8snF0d6CtK16B5R0R/wdxxKD5/oav+gyKMK1y8803eCbBulHWD8mlIjm0Y4PsmzNIXTK5CZZ1SM1BpGw5Pzh+L3RjGex2dlqCzZg==
+ b=IQeraaspLZwA6sbVpIPgVP98luFSXCgJAPbhQDpuIQpf4DwFd5YBmyD2tWAlB1fj/FxtKjmGqVzCPMBIIOgZTfUPtJg/94VQEzAqwJhnTSthidpjvvjW/NjtLYmG/ZxLwA1CGXVT0fpXWOLMo0M4Bf7NATRQ9HoklVxNiIsoKAHTeLfHIVpOuz0CeCPeE2a0o2ODok7IfFFFITfTcTJNCO9e/5F2hImLTeBlNpQ0Kq9r1JttNklE19b4E7XEmBF9h1o+uGCt3W5YCd0lG+wo+hbPP1YsDSIKJy/RuTVKxwf20tTGsPSinK8UKn5ZEMhwWVLGjUPGHcxHbWjLYoJAiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rm+uXIrRFRUERyeKGHyZ+IJuwEHT8DMieRjce/w6qNk=;
- b=BiTrls11YNZtkGjmz1r3fX2K5wsq3zAlX5i3RnB6QE+0JqGjyN4bfjjIHm8ZST+BEbdTV9kQHj4yofhTtLD3KlgTGxp+No4QpbJLCrwpcDIqCSIU0gAr4vNITlqHKymHJcWTgkkXPOyjJE3lnApDVI7x9/IUWZmJySyT/mL6GPeyWtDNd/OAx0yL6txFYXz2fAFxfsWNUXx1YtlXeP/EY+3w1Xe2s6GIfkhO74Ov1BszkEkuJbTeS8/XeavmhJewqE/WTS9f9sig3JUqCRADt71QPwlxWTiHsMtKYO6fN4wWh5okiiL09dkVDF3b7wEcdfWYOtbCm6MqAF5K0Dff/g==
+ bh=XcTqDhdohyQQSQqHWgeTGMrWfiWKhF+XMgLvrmk69T8=;
+ b=Fihk2ckbBpwHVEurZ+DRBM3pQ0KQHy9hRrOEGSZOTQxZvq35P1a+T9GMxJrBIsIa46iHYF/fMQa7n1np2xJ/6G9sH5KI5kILHo+r2JWaIzLLqzp9veGkeeg1FHpyfm5PMQ8I15J8jB4pylpa08pFvGY2dq9CKZkW3kqn3CcJ1FIuIwC1Tws5qiIUccw/6xFpaHHZ6jDq6g7ygIv6CDTxu7qjLrXK5HHW97QsxS9Gd5iRilrLK+lz0phMQydjrysR7QAsS0ritsFsVKxI0f8sulBmf5c/Or13SH6gbnvV3fHfguGn1zL/2IgjC3NzktGOcotrw6BvysO5H9gzCg5W+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rm+uXIrRFRUERyeKGHyZ+IJuwEHT8DMieRjce/w6qNk=;
- b=jUgrHHGcwOwnHx3yFNMcdyIV9Np9m0eSXtvdPd1h+TYmwOUkNrKpPadlIOHBNDqIEWKEVwg0x5CH/KxrWr1K1n3aU3MWZ8ZDdQeiKSqu9O6kc0fuXz/i/ZJI0K1tjHjlRRa/318R7aqJiWHuqyDvz2BlmMsAJsbzhIfmuzfqWl4=
+ bh=XcTqDhdohyQQSQqHWgeTGMrWfiWKhF+XMgLvrmk69T8=;
+ b=sJbooNolrSPoN7aNE/+JlR/qiJ+Yr4b5bsnaMxBujWALES93TPxPD/2QMMsGB7cfxe1/PVdv9Vx+4G2vEckwNXrU82BJc5yD7qGeVDbA/MnatCwUlHJxkw5KELOJoOCjBcO2+sjJNNVOBnJM3zVHwx6jrPCjIRkJj1f+XUSnPR8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM7PR04MB6840.eurprd04.prod.outlook.com (2603:10a6:20b:10f::11)
+ by AS8PR04MB7541.eurprd04.prod.outlook.com (2603:10a6:20b:29a::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
- 2023 06:53:14 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.22; Fri, 17 Feb
+ 2023 06:53:20 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::5725:92ec:f43e:f5fc%9]) with mapi id 15.20.6111.014; Fri, 17 Feb 2023
- 06:53:14 +0000
+ 06:53:19 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 2/6] drm: lcdif: Drop unnecessary NULL pointer check on
- lcdif->bridge
-Date: Fri, 17 Feb 2023 14:54:03 +0800
-Message-Id: <20230217065407.2259731-3-victor.liu@nxp.com>
+Subject: [PATCH v4 3/6] drm: lcdif: Determine bus format and flags in
+ ->atomic_check()
+Date: Fri, 17 Feb 2023 14:54:04 +0800
+Message-Id: <20230217065407.2259731-4-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20230217065407.2259731-1-victor.liu@nxp.com>
 References: <20230217065407.2259731-1-victor.liu@nxp.com>
@@ -56,54 +55,54 @@ X-ClientProxiedBy: SI2PR02CA0033.apcprd02.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM7PR04MB6840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 51ab0cf8-4f8c-4a26-a745-08db10b3a40f
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS8PR04MB7541:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e7d225b-29f2-4601-d0d8-08db10b3a74d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n8d1GnZ2m5rQ35jZiIWBPcdF7F1UDb9+1sM2dpSqHNmqu2VkBpoOt8y+YGbeVYsEYqANAAzNtW9vh4A9d198Lyz6j0H0vjhgY59IMEpMaDSs1LbGbetxbEXu3joB1kgwUe6nmIOVK52J+hTmRAg6i0WTjZrIztaRp4i8aE8iNbEsulQq5rlrj2hi+r5BdDMp2N/KCosywzdcGM3yA1bnm0MyCgDBQyV+zMzTzCHGwCJ+fPeshxR0KPLG5MmgoFDmOBTS4GX9KfPqLE4S+G0KjmHCKtEdqmeTFs5IvLaMaLZu70wJk0baVxlbB55sRh4vSfrsJGHZh4mak02Aog0dTRDfA61rm2zYvVuv+2W37EW2Ijopl4bmEReXBlHlO4vE8Wwc1B0YaaawoOXPT2UzdJoZzkoHpLTs05w03LwpvgMDMsU2Gt2e6h5cXWh/VdZ4Cg+ZN2HYVrYQ2Qt+Icg+tTYCU/gjjmype/FiN5Lejx12Mruh7AaTq5jA8byQ+i3Ao/NQDu1bjRb+k7MtXIxP+XyiVxZgx8t4HK2vpEGe4ZUks1SK271WdklwNBxTRJ3KbM/Gibv9w5Cv0VJCKx563uD0DhOlODx0t2rMIX5xtR4127IiaDiQyQoTUVeCpuJr/KvaJDkbqZSLECDjcTO2tRuetUpAYJZTCIqjA9r5FvvcUYkcXvelud4cCdRZ5GuH96uh30LLoWk0bQHnWJLBdg==
+X-Microsoft-Antispam-Message-Info: GCBfSAc8aX7dEM3D8lIKhstwsV0g5K6DhLMz44OHwldmIjq9va5kfg/YmwGm+jOF7ZsMvQo/9DJbnm/tGuJY9eRLir1G25aHhxSgS5NOkxZrJIKjgRDl8VKz9hVqAw0Py4TKjLvNuqBnWfpLlYm7KttBAoHIcad9kFWo8/3Q9aN330XodZxqbTiKxYQuKhbOV8ODJc8fv4ZxdzuWJgLq1tD6f9hRd3yOXxjxp/LhBfc9gPU0NHeN2po1q0zWcpq+pbzKZ1PVGieApD3QDN9cH706S6cZQ799VQc9moqi3GO9/QUwdTl0dMVgrdNdNiJ7ctRiC5q6On8nET07xG8RR3rjid4dzXeXQrQacdnlHG6KwBbEJS77ru7d7ghY9wvnhKlpU0r20pounWEOhGmJ693gMn4G09LxK0hMUsQlFiARwqF/79Ht9JLHFNfj7dCdP//8ZPK1tuYBXfYRa6Y7914oqQVEfRCibap0ob4iXT3TbGC2vlYvLQo9Mi5oSCR7PnyNNQiHTLH67y8RmEoQD0is9NEVLFOp+NjD24xJCDhd9Q/iHTe25+dVfv9Y/2QulEfLAviRpUIbK4RbKgO0oQ7nS8v22Y+0VV8m4fyxPnVGkSvo2vidOWFcBQDd/MsMXn8C6vK5rxPV8aS+Ffh1/hM8gHAdENRUulXbJLz54jMRvz2uH35Rqp9WEZuC7qocoZ7tWYVqZ6lFG3DanbvdQQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(136003)(366004)(376002)(346002)(396003)(451199018)(36756003)(66946007)(4326008)(8676002)(2906002)(66476007)(66556008)(7416002)(38350700002)(38100700002)(478600001)(1076003)(6486002)(41300700001)(52116002)(316002)(6506007)(6666004)(5660300002)(86362001)(8936002)(83380400001)(26005)(186003)(2616005)(6512007);
+ SFS:(13230025)(4636009)(136003)(366004)(346002)(396003)(376002)(39860400002)(451199018)(186003)(26005)(6486002)(6666004)(478600001)(52116002)(1076003)(6506007)(4326008)(66556008)(66476007)(66946007)(8676002)(7416002)(5660300002)(8936002)(316002)(2906002)(41300700001)(38350700002)(38100700002)(86362001)(6512007)(83380400001)(36756003)(2616005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vU84hCMpHpPheIzeOt+fBU7tcbW7+iZZKXfqxSHAYdVvYeDlwqrUjbdwemuO?=
- =?us-ascii?Q?cT4f5pI0J6hLze/z3qsedBT7nmTaU1xSSbzm8EJzLdAERJFEFhA9WdkQztGi?=
- =?us-ascii?Q?IPgbjoxb0j5gfzhnK8zfAmpcXzM/9r0ND/uI6dB9E0zv5UVb4J76LZKvSdJQ?=
- =?us-ascii?Q?XNAeaJyhpmIIFEBgi1ITI7nlrP/kHvxTBcu1bnblBHSyEu6EIgP5PFsuDVcn?=
- =?us-ascii?Q?A9ZAlxzXfyWF4UCq3H2/U4Ai1lVIEf4oiDYtblwOgShNO25fZ7qwcYkvb+hr?=
- =?us-ascii?Q?GHV+6uK3DzZlQHhfqCIANKcvBudFnBVItqrzslCXn9xTBF7ex1GMGzsfrNN9?=
- =?us-ascii?Q?/Pv+iDQdE13UMgkUtz1jwJSgNKTBiD2jtKgxAuor3rRB4K8fhB0LnF6FUQS8?=
- =?us-ascii?Q?pRMWPpGryOKYgxquY+ulv0X57d8uXgS/pyRRKDdDm9lkhBan9RAvjormNX7N?=
- =?us-ascii?Q?q/vk1UOjSrkNyWCKeYbc6Dy3elTGVjq3zr82R5NdG+HpIP3vgMW1WpvJ71pz?=
- =?us-ascii?Q?H9Qkh4mwdBUh1FQlPGH/I5bkwnPfJceBinxYc4w45R1CGDMPMKBIiKNQ2aR7?=
- =?us-ascii?Q?AFcvDfEMLBppuV0ukvHfD7mL79lE8dSEb0WvEuQo0zDKwTnaFmRUDXXiYJUm?=
- =?us-ascii?Q?fIEhDN2vcJqdpUBcnQzygz0WaViKAbuijrc0bZZ1FbHLKMz3pbnO9j/0qdlv?=
- =?us-ascii?Q?YgZpnjqI4ImYgawhG+XiOsFaxOJ6kopwl9sUZCVacEboV0Y73TIjV0McSMjH?=
- =?us-ascii?Q?pthr9keUVJglyLZ5oWDfRNsTaVD3aQvMK2cz2bwmpn4kHcrNlbZceF01MkGO?=
- =?us-ascii?Q?noPSdbEexnhrAKFDauI58Wi90tuqpBDivogiCHhdwT3dsWc8fMsPz6G+AVNf?=
- =?us-ascii?Q?1whQrO0kiqmeqX7ZCIFkCKIVFt+MSSTzImlxVJTPkXbvPUcYXdY4ij4/vo1L?=
- =?us-ascii?Q?jcdSgOgU87CCqteTZbDzxAGHprsYYQRmE1xUGh9UPy1trx7vMPgt1UJTF6k6?=
- =?us-ascii?Q?c5vS89CM3cLuiU8NZgDR9vfRm0/t/dxUO7DVq3WcV/u9gahYrGBhx3qpmBDP?=
- =?us-ascii?Q?8RwCrELAw7y9QwKivyh11YhpbKXDjkJYb0vMNVfF/AVBmt/CFonbeWF8yswa?=
- =?us-ascii?Q?zgAO2Ku+oeR/pF3/B6LhjVjZgYHGR8jukEpe8dlbcgboPAdP/AfokjaSpj8P?=
- =?us-ascii?Q?XFdEbxPFYYP/yZfgOZ6Pc1svveNrgrHnldsjpbnEFgNh83oDVis1YRpYxvs+?=
- =?us-ascii?Q?qWWmXOXUvcJAu52UfK5QMeh6IaGtK/VdzppsaNZ7M2Jo62uNe+JbvRqTAwoF?=
- =?us-ascii?Q?EmFnnA6CVjIthQYFp5t0m2R/mf9BGgSK21A8X9rQqeRLm+1MRvIMAcGcaGh1?=
- =?us-ascii?Q?WvQ72fu4Ohn9h7LtS01vmgmKFT5A58jRh6LMKUrglVcjfWQZFkwQCnKKKo7Y?=
- =?us-ascii?Q?Kp7qpThsFvr/mHW05JiHA11/r/Jh/h1FyqPOYhDn4xb1PPe3GLZrcB16yw6o?=
- =?us-ascii?Q?UYCi1Fi7BT2LGojCMF18Mabja8wWwruW8/phfo4MqsZnH/TJjjstW5KoVvGl?=
- =?us-ascii?Q?9x3zTm6SuTO5yCYo02VsMlr/y4X4hCMJxzC2O8fX?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nSmV3REnQ66FS7I6kdtPbUbSwz+eZlCrFERDFVk0f+5NuBgUTIVrjFp8D9gV?=
+ =?us-ascii?Q?5hHsCCyZ2KKOagg9ZR6JN9oeo9B3ZaFjJ4VXMOBjVmU650p2TdapCVzaZE/d?=
+ =?us-ascii?Q?T7eTUn5S6QL8L8S8P2Qcr6w3uEroMYBZVhebQG6uhS5bqc77Z7lJW4MfTb96?=
+ =?us-ascii?Q?8/HBuU0b91YAJSesD94qiaNkJ3LqyxT1Ivw40lRgfh6JMiei569BZHd13SKQ?=
+ =?us-ascii?Q?t+GxUN64YvEWZg772ofNkY+9mF6yDh2/50LmQ32dU1Yf/FwFGAkUmv75M6Fz?=
+ =?us-ascii?Q?PfvAQOOcmvsfUARz64pSHllLCGUFWM+n/XS1A9hNTX4JcGgO+K5dTWufpO/N?=
+ =?us-ascii?Q?UIiH/9VVDX29ID9FkDUfnu1vKusECQhBZ0ivACA7FV+lZe/WDATB8yFHuKbu?=
+ =?us-ascii?Q?zc4M+4XxOAK6jMTEW3ouiP96MLkmym3Nst91bD5Tgscu/7qUddbJGgjxPASK?=
+ =?us-ascii?Q?HTaUMhfHNU0ZwTq+q0nSKa5tOl5X3rr9vPxU83xN58XkqR48jcyxlqqXPrUp?=
+ =?us-ascii?Q?E4xM6R1PzqwddxSqGz3JVLP0iuWyq3cVE0H6yG9RLCRy0l+v2yBppXvFcg+7?=
+ =?us-ascii?Q?75mxJtKzBCR63nh0Hp+eGp4PkKNw8oMHU5C0NUoHcGbN8dEAaszUUcebyKci?=
+ =?us-ascii?Q?4qpXsiF8GWnEH+BONHu4uhmnojAne7oEybeU3ifPFseAyWzAED8NKRYYYAOB?=
+ =?us-ascii?Q?1N9Lx0itudM8pdt7ZRdPR0GZ9aVaeyefIGD+wSpGcZRJ5YdvlMlLOg3WV2uF?=
+ =?us-ascii?Q?mfUXkq717ZaZc6/bwAq3EJFi2YqIDuTz2QM9b5JHYHPIHOb+Utu/yfIbRiPp?=
+ =?us-ascii?Q?JofSpInDyVIAwaFBxxgeIU10e8TBBLCuPZ0TIscKBOJ3PLuPahRVxy727Uw+?=
+ =?us-ascii?Q?EzmsMx64dynsdMFa+8j8jFfK8pLlMMkojQWHvS6MiVki+KGzZZOlmHFAfaDE?=
+ =?us-ascii?Q?FUQmV2kXUJlsbQHnptoWI6bVCfTCAICLCER4jmMY/HFLRqmhm9dWGlkjb7G2?=
+ =?us-ascii?Q?J3wnVi58P6QyzSCwLnxMEuOgdJY/MKqdEEbneHD6JLo8hnEr1gudLSmzYEup?=
+ =?us-ascii?Q?I8pCZV7FXKj4vUp2y0gFKoqxtV1+Uk9ZJztvcp619E4jMsNSguiGHWSig48l?=
+ =?us-ascii?Q?+SLT6mUpYEUxHsQd1SKCM+ju1L4c7DLKksOD+ZHBfH7bH3fV5xVyb+k95kae?=
+ =?us-ascii?Q?qilgqmEHU3YgWhfI9ETQtm8MXV2Olq99mqxwaF9FjW+KUBq26WS7WcrD6AUq?=
+ =?us-ascii?Q?e9U9QGl+D2Dv8bOUPJ0i+CdJJxGnMeeyUGd65ctTtCe7wp1OElKcpG+hUkz/?=
+ =?us-ascii?Q?CjqHWKBc6KzNIjbOoEuF+SwvixvaOkf6zElssuaClIkm4OzufxYet0hrQVy7?=
+ =?us-ascii?Q?qRCkVjEb7KxuRkiGJJXz1BKmo7iIjq+UhqqIOWE/DXH7L7wrBK1FHSncDmwC?=
+ =?us-ascii?Q?nuVIB/mrjmji1/Xd2eI7FRPzmYum2FvLJGlKnthkR7YdqbtOkcvt7su+bWEG?=
+ =?us-ascii?Q?sUplLX6ADkUIBaIUf/3VAUJFE2MqPLbHvzdDklEEbC5JMqb9LH17uuHFM3WC?=
+ =?us-ascii?Q?qjrjWqp1XVH09UEv9aQfp0aDMDNB/OtMjmGts0Sf?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51ab0cf8-4f8c-4a26-a745-08db10b3a40f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e7d225b-29f2-4601-d0d8-08db10b3a74d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 06:53:14.3392 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 06:53:19.7017 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kH2srvnDAfQXhA/EEGrqwXutmIevRECFy/nbIn2HG0QcFiczHIzSm9nJmRsB3pUuFBvOMfM7ULsSv0ec2nVu+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6840
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8RM1/WYx8Dx+29H5gZsgHQkY6MLb9NKRjUsmIjyP4BwEmWSwg8kBHy1kArWHWE3w5rGkgVe8gOMK/sFzu8vJdA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7541
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,80 +122,245 @@ Cc: marex@denx.de, alexander.stein@ew.tq-group.com, shawnguo@kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A valid bridge is already found in lcdif_attach_bridge() and set
-to lcdif->bridge, so lcdif->bridge cannot be a NULL pointer. Drop
-the unnecessary NULL pointer check in KMS stage.
+Instead of determining LCDIF output bus format and bus flags in
+->atomic_enable(), do that in ->atomic_check().  This is a
+preparation for the upcoming patch to check consistent bus format
+and bus flags across all first downstream bridges in ->atomic_check().
+New lcdif_crtc_state structure is introduced to cache bus format
+and bus flags states in ->atomic_check() so that they can be read
+in ->atomic_enable().
 
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v3->v4:
-* Add Alexander's R-b tag.
+* Use 'new_{c,p}state' instead of 'new_{crtc,plane}_state'. (Alexander)
+* Simplify lcdif_crtc_reset() by calling lcdif_crtc_atomic_destroy_state().
+  (Alexander)
+* Add '!crtc->state' check in lcdif_crtc_atomic_duplicate_state(). (Alexander)
 
 v2->v3:
 * No change.
 
 v1->v2:
 * Split from patch 2/2 in v1. (Marek, Alexander)
+* Add comment on the 'base' member of lcdif_crtc_state structure to
+  note it should always be the first member. (Lothar)
 
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 33 +++++++++++--------------------
- 1 file changed, 12 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/mxsfb/lcdif_kms.c | 134 ++++++++++++++++++++++--------
+ 1 file changed, 99 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index 262bc43b1079..e54200a9fcb9 100644
+index e54200a9fcb9..d46de433cd8e 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -394,7 +394,7 @@ static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
- 	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
- 	u32 bus_flags = 0;
+@@ -30,6 +30,18 @@
+ #include "lcdif_drv.h"
+ #include "lcdif_regs.h"
  
--	if (lcdif->bridge && lcdif->bridge->timings)
-+	if (lcdif->bridge->timings)
- 		bus_flags = lcdif->bridge->timings->input_bus_flags;
- 	else if (bridge_state)
- 		bus_flags = bridge_state->input_bus_cfg.flags;
-@@ -463,30 +463,21 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
- 	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
- 	struct drm_bridge_state *bridge_state = NULL;
- 	struct drm_device *drm = lcdif->drm;
--	u32 bus_format = 0;
-+	u32 bus_format;
- 	dma_addr_t paddr;
++struct lcdif_crtc_state {
++	struct drm_crtc_state	base;	/* always be the first member */
++	u32			bus_format;
++	u32			bus_flags;
++};
++
++static inline struct lcdif_crtc_state *
++to_lcdif_crtc_state(struct drm_crtc_state *s)
++{
++	return container_of(s, struct lcdif_crtc_state, base);
++}
++
+ /* -----------------------------------------------------------------------------
+  * CRTC
+  */
+@@ -385,48 +397,72 @@ static void lcdif_reset_block(struct lcdif_drm_private *lcdif)
+ 	readl(lcdif->base + LCDC_V8_CTRL);
+ }
  
--	/* If there is a bridge attached to the LCDIF, use its bus format */
--	if (lcdif->bridge) {
--		bridge_state =
--			drm_atomic_get_new_bridge_state(state,
--							lcdif->bridge);
--		if (!bridge_state)
--			bus_format = MEDIA_BUS_FMT_FIXED;
--		else
--			bus_format = bridge_state->input_bus_cfg.format;
+-static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
+-				     struct drm_plane_state *plane_state,
+-				     struct drm_bridge_state *bridge_state,
+-				     const u32 bus_format)
++static void lcdif_crtc_mode_set_nofb(struct drm_crtc_state *crtc_state,
++				     struct drm_plane_state *plane_state)
+ {
+-	struct drm_device *drm = lcdif->crtc.dev;
+-	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+-	u32 bus_flags = 0;
 -
--		if (bus_format == MEDIA_BUS_FMT_FIXED) {
--			dev_warn_once(drm->dev,
--				      "Bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
--				      "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n");
--			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
--		}
--	}
-+	bridge_state = drm_atomic_get_new_bridge_state(state, lcdif->bridge);
-+	if (!bridge_state)
-+		bus_format = MEDIA_BUS_FMT_FIXED;
-+	else
-+		bus_format = bridge_state->input_bus_cfg.format;
+-	if (lcdif->bridge->timings)
+-		bus_flags = lcdif->bridge->timings->input_bus_flags;
+-	else if (bridge_state)
+-		bus_flags = bridge_state->input_bus_cfg.flags;
++	struct lcdif_crtc_state *lcdif_crtc_state = to_lcdif_crtc_state(crtc_state);
++	struct drm_device *drm = crtc_state->crtc->dev;
++	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(drm);
++	struct drm_display_mode *m = &crtc_state->adjusted_mode;
  
--	/* If all else fails, default to RGB888_1X24 */
--	if (!bus_format)
-+	if (bus_format == MEDIA_BUS_FMT_FIXED) {
+ 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
+ 			     m->crtc_clock,
+ 			     (int)(clk_get_rate(lcdif->clk) / 1000));
+ 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Bridge bus_flags: 0x%08X\n",
+-			     bus_flags);
++			     lcdif_crtc_state->bus_flags);
+ 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Mode flags: 0x%08X\n", m->flags);
+ 
+ 	/* Mandatory eLCDIF reset as per the Reference Manual */
+ 	lcdif_reset_block(lcdif);
+ 
+-	lcdif_set_formats(lcdif, plane_state, bus_format);
++	lcdif_set_formats(lcdif, plane_state, lcdif_crtc_state->bus_format);
+ 
+-	lcdif_set_mode(lcdif, bus_flags);
++	lcdif_set_mode(lcdif, lcdif_crtc_state->bus_flags);
+ }
+ 
+ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
+ 				   struct drm_atomic_state *state)
+ {
++	struct drm_device *drm = crtc->dev;
++	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(drm);
+ 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+ 									  crtc);
++	struct lcdif_crtc_state *lcdif_crtc_state = to_lcdif_crtc_state(crtc_state);
+ 	bool has_primary = crtc_state->plane_mask &
+ 			   drm_plane_mask(crtc->primary);
++	struct drm_bridge_state *bridge_state;
++	struct drm_bridge *bridge = lcdif->bridge;
++	int ret;
+ 
+ 	/* The primary plane has to be enabled when the CRTC is active. */
+ 	if (crtc_state->active && !has_primary)
+ 		return -EINVAL;
+ 
+-	return drm_atomic_add_affected_planes(state, crtc);
++	ret = drm_atomic_add_affected_planes(state, crtc);
++	if (ret)
++		return ret;
++
++	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
++	if (!bridge_state)
++		lcdif_crtc_state->bus_format = MEDIA_BUS_FMT_FIXED;
++	else
++		lcdif_crtc_state->bus_format = bridge_state->input_bus_cfg.format;
++
++	if (lcdif_crtc_state->bus_format == MEDIA_BUS_FMT_FIXED) {
 +		dev_warn_once(drm->dev,
 +			      "Bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
 +			      "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n");
- 		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
++		lcdif_crtc_state->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
 +	}
++
++	if (bridge->timings)
++		lcdif_crtc_state->bus_flags = bridge->timings->input_bus_flags;
++	else if (bridge_state)
++		lcdif_crtc_state->bus_flags = bridge_state->input_bus_cfg.flags;
++	else
++		lcdif_crtc_state->bus_flags = 0;
++
++	return 0;
+ }
  
+ static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
+@@ -458,32 +494,18 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+ 				     struct drm_atomic_state *state)
+ {
+ 	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
++	struct drm_crtc_state *new_cstate = drm_atomic_get_new_crtc_state(state, crtc);
+ 	struct drm_plane_state *new_pstate = drm_atomic_get_new_plane_state(state,
+ 									    crtc->primary);
+ 	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+-	struct drm_bridge_state *bridge_state = NULL;
+ 	struct drm_device *drm = lcdif->drm;
+-	u32 bus_format;
+ 	dma_addr_t paddr;
+ 
+-	bridge_state = drm_atomic_get_new_bridge_state(state, lcdif->bridge);
+-	if (!bridge_state)
+-		bus_format = MEDIA_BUS_FMT_FIXED;
+-	else
+-		bus_format = bridge_state->input_bus_cfg.format;
+-
+-	if (bus_format == MEDIA_BUS_FMT_FIXED) {
+-		dev_warn_once(drm->dev,
+-			      "Bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
+-			      "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n");
+-		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+-	}
+-
  	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
  
+ 	pm_runtime_get_sync(drm->dev);
+ 
+-	lcdif_crtc_mode_set_nofb(lcdif, new_pstate, bridge_state, bus_format);
++	lcdif_crtc_mode_set_nofb(new_cstate, new_pstate);
+ 
+ 	/* Write cur_buf as well to avoid an initial corrupt frame */
+ 	paddr = drm_fb_dma_get_gem_addr(new_pstate->fb, new_pstate, 0);
+@@ -520,6 +542,48 @@ static void lcdif_crtc_atomic_disable(struct drm_crtc *crtc,
+ 	pm_runtime_put_sync(drm->dev);
+ }
+ 
++static void lcdif_crtc_atomic_destroy_state(struct drm_crtc *crtc,
++					    struct drm_crtc_state *state)
++{
++	__drm_atomic_helper_crtc_destroy_state(state);
++	kfree(to_lcdif_crtc_state(state));
++}
++
++static void lcdif_crtc_reset(struct drm_crtc *crtc)
++{
++	struct lcdif_crtc_state *state;
++
++	if (crtc->state)
++		lcdif_crtc_atomic_destroy_state(crtc, crtc->state);
++
++	crtc->state = NULL;
++
++	state = kzalloc(sizeof(*state), GFP_KERNEL);
++	if (state)
++		__drm_atomic_helper_crtc_reset(crtc, &state->base);
++}
++
++static struct drm_crtc_state *
++lcdif_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
++{
++	struct lcdif_crtc_state *old = to_lcdif_crtc_state(crtc->state);
++	struct lcdif_crtc_state *new;
++
++	if (WARN_ON(!crtc->state))
++		return NULL;
++
++	new = kzalloc(sizeof(*new), GFP_KERNEL);
++	if (!new)
++		return NULL;
++
++	__drm_atomic_helper_crtc_duplicate_state(crtc, &new->base);
++
++	new->bus_format = old->bus_format;
++	new->bus_flags = old->bus_flags;
++
++	return &new->base;
++}
++
+ static int lcdif_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+@@ -548,12 +612,12 @@ static const struct drm_crtc_helper_funcs lcdif_crtc_helper_funcs = {
+ };
+ 
+ static const struct drm_crtc_funcs lcdif_crtc_funcs = {
+-	.reset = drm_atomic_helper_crtc_reset,
++	.reset = lcdif_crtc_reset,
+ 	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+-	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
++	.atomic_duplicate_state = lcdif_crtc_atomic_duplicate_state,
++	.atomic_destroy_state = lcdif_crtc_atomic_destroy_state,
+ 	.enable_vblank = lcdif_crtc_enable_vblank,
+ 	.disable_vblank = lcdif_crtc_disable_vblank,
+ };
 -- 
 2.37.1
 
