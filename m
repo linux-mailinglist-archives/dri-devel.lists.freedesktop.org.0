@@ -1,56 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7D869AA86
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 12:36:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3F969AA89
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 12:36:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 055D410EF8B;
-	Fri, 17 Feb 2023 11:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEB910E046;
+	Fri, 17 Feb 2023 11:36:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2853910EF8B
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 11:36:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676633786; x=1708169786;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=RcmixLTWrDa6SbLihQKhpM4tPDN0XNAd+MSVj6AW8N4=;
- b=ZFfnsFWyzUcEa+EIjAgnzjueQ3EXthralv+SBCW4Z6Q8r2Jout0hOwY5
- 4ybqZRKdB6+SW9WK/yBDWjExV6XkciXfRzNO5t01jrIKpvLgW07xnYJmY
- OddHokSv7s3lFoN4XU2g6yj8jVUBBaX+BDYJkzBdlaQhio2GxLxrLyvFG
- 9LYzxE320ENBcZ+wo+WC0Mxxlwq1JCdFdTOmrfzsgtHbRQldCKBjGUHDz
- 8H1fmSsV6tfNo3+REfRs//kFvRzCoQaj0XDuE6Ez22ORKLrJ1MdU1sQhN
- c+jBSdKEKBxyciDqq8dbmHLFPorRdfzVeybCjBVMDh1gzzFadFBx3l4B4 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="418188463"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="418188463"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 03:36:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="663846606"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="663846606"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 03:36:23 -0800
-Date: Fri, 17 Feb 2023 12:36:21 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 3/3] drm/debugfs: remove dev->debugfs_list and
- debugfs_mutex
-Message-ID: <20230217113621.GD2862577@linux.intel.com>
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <20230209081838.45273-4-christian.koenig@amd.com>
- <Y+4UdBzk6RkQzcsI@phenom.ffwll.local>
- <20230216163757.GK2849548@linux.intel.com>
- <87lekxzgih.fsf@intel.com>
- <20230217103501.GC2862577@linux.intel.com>
- <871qmozhve.fsf@intel.com>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E879210E046
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 11:36:48 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id t8so979967lft.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 03:36:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sZ1ZgDuA3P/7xbAGGx5EOYOqmYAV/laB2blIXJcdyKQ=;
+ b=TW3uATxonKY5J86lyjHy1JXMRi3EzdAokUzTtBT1nLQ6eXuk8Dz7+jdhRTghChHQVj
+ 3ujR8QtM7gz6Fy5LfYHUBomsJkAl4JGe9I1ovRFX522GIidHZfvzoUqmNjov8AGPrAqK
+ ujFT8T4+pOuSCYr18aps0rY6sbM/4+JXUb7OZ/cpwPXCBWdXz6meDEoqGoQ1TUy8usdM
+ ZoMvqRO66qQkybYIAnkbLWAnQ0pbJp2WCec1LEJxdJcGFYb0BFnqo7lRcjb5vDl3OMLj
+ JqYpryFCZInO4iDA1i8t+DQ79Pc59HXVO+FWe5jDPK7IDqOa/2K9iyz0FJCwQ/GlhShV
+ DO9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sZ1ZgDuA3P/7xbAGGx5EOYOqmYAV/laB2blIXJcdyKQ=;
+ b=liqKlstElElVZIAkMrimWH5M1ji8RHyySSF7CFaWt8hSFOWPawaDymhV9QJre1sbgG
+ 3ih/gYQqab9C4CHNEOp9OQ+ZA8dkzGgsE7/ZHWSEQnbxE5z11eCxHYbju9UCwMEZKwhu
+ hc5LhrjZBMbWw/gXZhdwL2VDEwZJt3iE7+hUijNhSfmkUjSkFwwrprjibl01TLOA+P6p
+ YwAjq82dRbQFm48StyxONmZxJ/HPB9BPOKIsCG7JkCHFxi5NYSL2NBB9Ux/BfCVYk5r1
+ XIALOQHF9zLMXa2fpwXJsDwVJ8/irxBNNc22e7N+Egz2DI8rpSqgKni/kZYjEcCG25S1
+ aaEA==
+X-Gm-Message-State: AO0yUKWfyStG3jDYHrDj4czDw16H9L4wb0Oh+BKmNyU/+Prw2m39VxVX
+ 2qf7CHkaL6Q+QBZR9vdHvIcf0g==
+X-Google-Smtp-Source: AK7set9JXpy1zNlhq7Kt+wDBf9jBmCKvkt/1DfrrqWm6Gm3fV/rslVunYO58LlW1TvHtcyCA+CmnWg==
+X-Received: by 2002:a19:f513:0:b0:4a4:68b7:e71c with SMTP id
+ j19-20020a19f513000000b004a468b7e71cmr367256lfb.6.1676633807219; 
+ Fri, 17 Feb 2023 03:36:47 -0800 (PST)
+Received: from [192.168.1.101] (abxh117.neoplus.adsl.tpnet.pl. [83.9.1.117])
+ by smtp.gmail.com with ESMTPSA id
+ j11-20020ac2550b000000b004dbebb3a6fasm653907lfk.175.2023.02.17.03.36.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Feb 2023 03:36:46 -0800 (PST)
+Message-ID: <ab35cdcf-53ae-a3f2-fc08-d0f58c51a0ae@linaro.org>
+Date: Fri, 17 Feb 2023 12:36:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871qmozhve.fsf@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v2 1/2] dt-bindings: display/msm: dsi-controller-main: Fix
+ deprecated QCM2290 compatible
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org
+References: <20230217111316.306241-1-konrad.dybcio@linaro.org>
+ <c49904be-d842-fc12-a443-17f229d53166@linaro.org>
+ <a4eaccfd-34ba-15f3-033f-165b46c43317@linaro.org>
+ <a158bca2-78bf-5b38-60fe-88118e8b4ad7@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <a158bca2-78bf-5b38-60fe-88118e8b4ad7@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +79,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- mcanal@igalia.com, dri-devel@lists.freedesktop.org, mwen@igalia.com,
- mairacanal@riseup.net, maxime@cerno.tech, daniel.vetter@ffwll.ch,
- wambui.karugax@gmail.com
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 17, 2023 at 12:49:41PM +0200, Jani Nikula wrote:
-> On Fri, 17 Feb 2023, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com> wrote:
-> > On Thu, Feb 16, 2023 at 07:06:46PM +0200, Jani Nikula wrote:
-> >> >
-> >> > But should not this the driver responsibility, call drm_debugfs_add_file()
-> >> > whenever you are ready to handle operations on added file ?
-> >> 
-> >> In theory, yes, but in practice it's pretty hard for a non-trivial
-> >> driver to maintain that all the conditions are met.
-> >
-> > Hmmm... 
-> >
-> >> In i915 we call debugfs register all over the place only after we've
-> >> called drm_dev_register(), because it's the only sane way. But it means
-> >> we need the init and register separated everywhere, instead of init
-> >> adding files to a list to be registered later.
-> >
-> > Isn't this done this way in i915 only because it was not possible
-> > (and still isn't) to call drm_debugfs_create_file() before registration ?
-> >
-> > I think it's should be ok by i915 subsystem to create it's debugfs
-> > files and allow to access to them just after that subsystem init.
-> >
-> > Or there are some complex dependencies between i915 subsystems,
-> > that reading registers from one subsystem will corrupt some
-> > other subsystem that did non finish initialization yet?
+
+
+On 17.02.2023 12:35, Krzysztof Kozlowski wrote:
+> On 17/02/2023 12:32, Konrad Dybcio wrote:
+>>
+>>
+>> On 17.02.2023 12:30, Krzysztof Kozlowski wrote:
+>>> On 17/02/2023 12:13, Konrad Dybcio wrote:
+>>>> SM6115 previously erroneously added just "qcom,dsi-ctrl-6g-qcm2290",
+>>>> without the generic fallback. Fix the deprecated binding to reflect
+>>>> that.
+>>>>
+>>>> Fixes: 0c0f65c6dd44 ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC")
+>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>>> ---
+>>>> Depends on (and should have been a part of):
+>>>>
+>>>> https://lore.kernel.org/linux-arm-msm/20230213121012.1768296-1-konrad.dybcio@linaro.org/
+>>>>
+>>>> v1 -> v2:
+>>>> New patch
+>>>>
+>>>>  .../devicetree/bindings/display/msm/dsi-controller-main.yaml     | 1 -
+>>>>  1 file changed, 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>>> index 41cdb631d305..ee19d780dea8 100644
+>>>> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>>> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>>> @@ -37,7 +37,6 @@ properties:
+>>>>        - items:
+>>>
+>>> If this way stays, drop the items as it is just an enum.
+>>>
+>>>>            - enum:
+>>>>                - qcom,dsi-ctrl-6g-qcm2290
+>>>> -          - const: qcom,mdss-dsi-ctrl
+>>>
+>>> Wasn't then intention to deprecate both - qcm2290 and mdss - when used
+>>> alone?
+>> "qcom,dsi-ctrl-6g-qcm2290", "qcom,mdss-dsi-ctrl"
+>>
+>> was never used. The only upstream usage of the 2290 compat
+>> is in sm6115.dtsi:
+>>
+>> compatible = "qcom,dsi-ctrl-6g-qcm2290";
+>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/qcom/sm6115.dtsi?h=next-20230217#n1221
 > 
-> That's the point. It's really hard to figure it all out. Why bother?
+> I meant, that original commit wanted to deprecate:
+> compatible="qcom,dsi-ctrl-6g-qcm2290";
+> compatible="qcom,mdss-dsi-ctrl";
+> 
+Okay, so what would be the correct resolution?
+Drop this patch and keep 2/2?
 
-I see. 
-
-Just hope we could get something simpler to limit debugfs access
-before registration: unix hidden file, permissions or other way.
-Because current drm_debufs_add_file() implementation looks
-really over convoluted to me.
-
-Regards
-Stanislaw
-
+Konrad
+> Best regards,
+> Krzysztof
+> 
