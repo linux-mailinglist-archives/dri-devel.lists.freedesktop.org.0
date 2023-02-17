@@ -2,69 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC05269A6B7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 09:18:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC1B69A6BD
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 09:19:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49B8910EEFA;
-	Fri, 17 Feb 2023 08:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA9810E43E;
+	Fri, 17 Feb 2023 08:18:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DED210EEFA
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 08:18:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1676621909; x=1708157909;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=FjGA5EgNa4NYOuHwjtG2x3GPMclXf8S24b/yy7KMZGM=;
- b=kSQy9/WNxWzdiCnvPHRnYXmaW8veRWmVJwudaDVXxsvMtEmhMcKdQ71h
- PdDDNfod3VAaL77bpo2vSTPbk7lXaFX4f031pQN0Kyf5sxSDIrNKg0rE2
- cbf7JD8KDWZ+Gk/MLUq9GkxUDbSS8GaqHR+9DBqV8TbynYJSmWQtpYJc0
- q1lPJy4B0XSrQS8Z5AeiDNK1XwhegKiMLcl8lJ+4LrevUlDofyZBWKX4W
- n2qlGV9a4Iy53oGbmbwlhv2zJOnbkQzNWnE1OpEjlH2iLdeJQH3MhYy7M
- 8kM85J/iecFhwKOuUFCSY9P24IDKqMD4P7psFYiEnmW5jjqNbvj+93jYZ Q==;
-X-IronPort-AV: E=Sophos;i="5.97,304,1669071600"; d="scan'208";a="29148279"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 17 Feb 2023 09:18:25 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Fri, 17 Feb 2023 09:18:26 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Fri, 17 Feb 2023 09:18:26 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1676621906; x=1708157906;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=FjGA5EgNa4NYOuHwjtG2x3GPMclXf8S24b/yy7KMZGM=;
- b=UjsfVGJ1VaKZwlcqrObDgkBGxR9tOwzlStTRa58KQ2Zfhauj780BDWQa
- livcGZk9glmf6FXHT2fovqzrd2Y6A73VMw9Huvik6Kr04aBfzxIII2Tyq
- 3AOb789By1KAwKEnql+FptnEeZKWZeinWNZhctdBCFNHXmCl1hbqC+U20
- F/RfY9V6FnAjpGzaCgP8/BrDGcrF+5euzsbWIDW0IMATSeyHr5xPAENLs
- m02f0bGpDXApzvbZnRVnU6s/foeDOAU+SGNgDM+cXKAZzpvTB2sUurYJh
- Y6dIGp/0VzHYs4X0q/ttyQuYDOKFO0BQZI2K9CnnSj2M+MhUWCkCqfvz8 Q==;
-X-IronPort-AV: E=Sophos;i="5.97,304,1669071600"; d="scan'208";a="29148255"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 17 Feb 2023 09:18:04 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFC1C10E439;
+ Fri, 17 Feb 2023 08:18:56 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 346C5280056;
- Fri, 17 Feb 2023 09:18:03 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v4 0/6] drm: lcdif: Add i.MX93 LCDIF support
-Date: Fri, 17 Feb 2023 09:18:00 +0100
-Message-ID: <13207614.uLZWGnKmhe@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230217065407.2259731-1-victor.liu@nxp.com>
-References: <20230217065407.2259731-1-victor.liu@nxp.com>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 346B41FDB1;
+ Fri, 17 Feb 2023 08:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676621935; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ch+F+7eCo/PJGNudGtuNAN+c7OQK5KCwKOoUgQiycZc=;
+ b=Um7qp+R9bXGMH3qsem5no/UR+u7A6YJrgHOnwGVmgR6r14VlKw/rfYo26vhDg/fUIsfKDI
+ T+OBNIy3p4tR5U4Qatft0oLt5AOQgnR/ocM/D8AeB8asMnrj2CxmBLBLseLjbCJ6/EfrP1
+ qzZxS4LiOkCFDmCSnB8m7+LfvQ/CKCA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676621935;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ch+F+7eCo/PJGNudGtuNAN+c7OQK5KCwKOoUgQiycZc=;
+ b=ciGJES4GUVkE2im1ezAnrOwj8Ha5EgY1LIszG6Sot4j0D9tAvXjqTESqTDGckEJixT7hMA
+ 0S0Tdnb72q6dlOAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E5F3113274;
+ Fri, 17 Feb 2023 08:18:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id LvU2N24472PkeQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Feb 2023 08:18:54 +0000
+Message-ID: <a9a85066-6f48-5cc5-550f-b6f301a16b00@suse.de>
+Date: Fri, 17 Feb 2023 09:18:54 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] drm/fb-helper: Remove drm_fb_helper_unprepare() from
+ drm_fb_helper_fini()
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20230216140620.17699-1-tzimmermann@suse.de>
+ <Y+6OCAJ9wyE1PfAw@phenom.ffwll.local>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Y+6OCAJ9wyE1PfAw@phenom.ffwll.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------PB0l0H7GsZYN00xVZ8W6EuRY"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,98 +71,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
- krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, linux-imx@nxp.com,
- krzysztof.kozlowski+dt@linaro.org, kernel@pengutronix.de,
- LW@karo-electronics.de
+Cc: freedreno@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------PB0l0H7GsZYN00xVZ8W6EuRY
+Content-Type: multipart/mixed; boundary="------------M4H0F7TbJNxCTGnxSAcxT4xQ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: javierm@redhat.com, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Message-ID: <a9a85066-6f48-5cc5-550f-b6f301a16b00@suse.de>
+Subject: Re: [PATCH] drm/fb-helper: Remove drm_fb_helper_unprepare() from
+ drm_fb_helper_fini()
+References: <20230216140620.17699-1-tzimmermann@suse.de>
+ <Y+6OCAJ9wyE1PfAw@phenom.ffwll.local>
+In-Reply-To: <Y+6OCAJ9wyE1PfAw@phenom.ffwll.local>
 
-Am Freitag, 17. Februar 2023, 07:54:01 CET schrieb Liu Ying:
-> Hi,
->=20
-> This patch set aims to add i.MX93 LCDIF display controller support
-> in the existing LCDIF DRM driver.  The LCDIF embedded in i.MX93 SoC
-> is essentially the same to those embedded in i.MX8mp SoC.  Through
-> internal bridges, i.MX93 LCDIF may drive a MIPI DSI display or a LVDS
-> display or a parallel display.
->=20
-> Patch 1/6 adds device tree binding support for i.MX93 LCDIF in the
-> existing fsl,lcdif.yaml.
->=20
-> Patch 2/6 drops lcdif->bridge NULL pointer check as a cleanup patch.
->=20
-> Patch 3/6~5/6 prepare for adding i.MX93 LCDIF support step by step.
->=20
-> Patch 6/6 adds i.MX93 LCDIF compatible string as the last step of
-> adding i.MX93 LCDIF support.
+--------------M4H0F7TbJNxCTGnxSAcxT4xQ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Thanks for the series. I could test this on my TQMa93xxLA/MBa93xxCA with a=
-=20
-single LVDS display attached, so no DSI or parallel display. Hence I could =
-not=20
-test the bus format and flags checks, but they look okay.
-So you can add
-Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-to the whole series as well.
+SGkNCg0KQW0gMTYuMDIuMjMgdW0gMjE6MTEgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
+biBUaHUsIEZlYiAxNiwgMjAyMyBhdCAwMzowNjoyMFBNICswMTAwLCBUaG9tYXMgWmltbWVy
+bWFubiB3cm90ZToNCj4+IE1vdmUgZHJtX2ZiX2hlbHBlcl91bnByZXBhcmUoKSBmcm9tIGRy
+bV9mYl9oZWxwZXJfZmluaSgpIGludG8gdGhlDQo+PiBjYWxsaW5nIGZiZGV2IGltcGxlbWVu
+dGF0aW9uLiBBdm9pZHMgYSBwb3NzaWJsZSBzdGFsZSBtdXRleCB3aXRoDQo+PiBnZW5lcmlj
+IGZiZGV2IGNvZGUuDQo+Pg0KPj4gQXMgaW5kaWNhdGVkIGJ5IGl0cyBuYW1lLCBkcm1fZmJf
+aGVscGVyX3ByZXBhcmUoKSBwcmVwYXJlcyBzdHJ1Y3QNCj4+IGRybV9mYl9oZWxwZXIgYmVm
+b3JlIHNldHRpbmcgdXAgdGhlIGZiZGV2IHN1cHBvcnQgd2l0aCBhIGNhbGwgdG8NCj4+IGRy
+bV9mYl9oZWxwZXJfaW5pdCgpLiBJbiBsZWdhY3kgZmJkZXYgZW11bGF0aW9uLCB0aGlzIGhh
+cHBlbnMgbmV4dA0KPj4gdG8gZWFjaCBvdGhlci4gSWYgc3VjY2Vzc2Z1bCwgZHJtX2ZiX2hl
+bHBlcl9maW5pKCkgbGF0ZXIgdGVhciBkb3duDQo+PiB0aGUgZmJkZXYgZGV2aWNlIGFuZCBh
+bHNvIHVucHJlcGFyZSB2aWEgZHJtX2ZiX2hlbHBlcl91bnByZXBhcmUoKS4NCj4+DQo+PiBH
+ZW5lcmljIGZiZGV2IGVtdWxhdGlvbiBwcmVwYXJlcyBzdHJ1Y3QgZHJtX2ZiX2hlbHBlciBp
+bW1lZGlhdGVseQ0KPj4gYWZ0ZXIgYWxsb2NhdGluZyB0aGUgaW5zdGFuY2UuIEl0IG9ubHkg
+Y2FsbHMgZHJtX2ZiX2hlbHBlcl9pbml0KCkNCj4+IGFzIHBhcnQgb2YgcHJvY2Vzc2luZyBh
+IGhvdHBsdWcgZXZlbnQuIElmIHRoZSBob3RwbHVnLWhhbmRsaW5nIGZhaWxzLA0KPj4gaXQg
+cnVucyBkcm1fZmJfaGVscGVyX2ZpbmkoKS4gVGhpcyB1bnByZXBhcmVzIHRoZSBmYi1oZWxw
+ZXIgaW5zdGFuY2UNCj4+IGFuZCB0aGUgbmV4dCBob3RwbHVnIGV2ZW50IHJ1bnMgb24gc3Rh
+bGUgZGF0YS4NCj4+DQo+PiBTb2x2ZSB0aGlzIGJ5IG1vdmluZyBkcm1fZmJfaGVscGVyX3Vu
+cHJlcGFyZSgpIGZyb20gZHJtX2ZiX2hlbHBlcl9maW5pKCkNCj4+IGludG8gdGhlIGZiZGV2
+IGltcGxlbWVudGF0aW9ucy4gQ2FsbCBpdCByaWdodCBiZWZvcmUgZnJlZWluZyB0aGUNCj4+
+IGZiLWhlbHBlciBpbnN0YW5jZS4NCj4+DQo+PiBGaXhlczogNDgyNTc5N2MzNmRhICgiZHJt
+L2ZiLWhlbHBlcjogSW50cm9kdWNlIGRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKCkiKQ0KPj4g
+Q2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gQ2M6IEph
+dmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPj4gQ2M6IE1h
+YXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+DQo+
+PiBDYzogTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPg0KPj4gQ2M6IERhdmlk
+IEFpcmxpZSA8YWlybGllZEBnbWFpbC5jb20+DQo+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFu
+aWVsQGZmd2xsLmNoPg0KPj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcN
+Cj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4NCj4gDQo+IFRoaXMgcmVtaW5kcyBtZSBvZiBhbiBvbGQgcGF0Y2ggSSBqdXN0
+IHJlY2VudGx5IHN0dW1ibGVkIG92ZXIgYWdhaW46DQo+IA0KPiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9kcmktZGV2ZWwvWTNTdDJWSEo3akVtY05Gd0BwaGVub20uZmZ3bGwubG9jYWwv
+DQo+IA0KPiBTaG91bGQgSSByZXN1cnJlY3QgdGhhdCBvbmUgbWF5YmUgYW5kIHNlbmQgaXQg
+b3V0PyBJIHRoaW5rIHRoYXQgYWxzbyB0aWVzDQo+IGEgYml0IGludG8geW91ciBzdG9yeSBo
+ZXJlLg0KDQpJIGRvbid0IHRoaW5rIGl0IHdpbGwgYmUgbmVjZXNzYXJ5LiBJIGJlZ2FuIHRv
+IGNvbnZlcnQgdGhlIGV4aXN0aW5nIA0KZmJkZXYgZW11bGF0aW9uIHRvIG1ha2UgdXNlIG9m
+IGRybV9jbGllbnQsIHdoaWNoIHNob3VsZCByZXNvdmUgYSBudW1iZXIgDQpvZiBwcm9ibGVt
+cy4gSSBleHBlY3QgdG8gcG9zdCB0aGlzIGFmdGVyIHRoZSB2YXJpb3VzIHRyZWVzIGhhdmUg
+bWVyZ2VkIA0KdGhlIHJlY2VudCBjaGFuZ2VzIHRvIGZiZGV2IGhlbHBlcnMuDQoNCkJlc3Qg
+cmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+PiAtLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJtL2Fy
+bWFkYS9hcm1hZGFfZmJkZXYuYyAgICAgIHwgMyArKysNCj4+ICAgZHJpdmVycy9ncHUvZHJt
+L2RybV9mYl9oZWxwZXIuYyAgICAgICAgICAgIHwgMiAtLQ0KPj4gICBkcml2ZXJzL2dwdS9k
+cm0vZHJtX2ZiZGV2X2dlbmVyaWMuYyAgICAgICAgfCAyICsrDQo+PiAgIGRyaXZlcnMvZ3B1
+L2RybS9leHlub3MvZXh5bm9zX2RybV9mYmRldi5jICB8IDMgKystDQo+PiAgIGRyaXZlcnMv
+Z3B1L2RybS9nbWE1MDAvZnJhbWVidWZmZXIuYyAgICAgICB8IDIgKysNCj4+ICAgZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9mYmRldi5jIHwgMSArDQo+PiAgIGRyaXZl
+cnMvZ3B1L2RybS9tc20vbXNtX2ZiZGV2LmMgICAgICAgICAgICB8IDIgKysNCj4+ICAgZHJp
+dmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9mYmRldi5jICAgICAgIHwgMiArKw0KPj4gICBk
+cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9mYi5jICAgICAgICAgfCAyICsrDQo+PiAg
+IGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9mYi5jICAgICAgICAgICAgICAgICB8IDEgKw0KPj4g
+ICAxMCBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0K
+Pj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9mYmRl
+di5jIGIvZHJpdmVycy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfZmJkZXYuYw0KPj4gaW5kZXgg
+MDdlNDEwYzYyYjdhLi4wZTQ0ZjUzZTlmYTQgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vYXJtYWRhL2FybWFkYV9mYmRldi5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+YXJtYWRhL2FybWFkYV9mYmRldi5jDQo+PiBAQCAtMTQ3LDYgKzE0Nyw3IEBAIGludCBhcm1h
+ZGFfZmJkZXZfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPj4gICAgZXJyX2ZiX3Nl
+dHVwOg0KPj4gICAJZHJtX2ZiX2hlbHBlcl9maW5pKGZiaCk7DQo+PiAgICBlcnJfZmJfaGVs
+cGVyOg0KPj4gKwlkcm1fZmJfaGVscGVyX3VucHJlcGFyZShmYmgpOw0KPj4gICAJcHJpdi0+
+ZmJkZXYgPSBOVUxMOw0KPj4gICAJcmV0dXJuIHJldDsNCj4+ICAgfQ0KPj4gQEAgLTE2NCw2
+ICsxNjUsOCBAQCB2b2lkIGFybWFkYV9mYmRldl9maW5pKHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYpDQo+PiAgIAkJaWYgKGZiaC0+ZmIpDQo+PiAgIAkJCWZiaC0+ZmItPmZ1bmNzLT5kZXN0
+cm95KGZiaC0+ZmIpOw0KPj4gICANCj4+ICsJCWRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKGZi
+aCk7DQo+PiArDQo+PiAgIAkJcHJpdi0+ZmJkZXYgPSBOVUxMOw0KPj4gICAJfQ0KPj4gICB9
+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMNCj4+IGluZGV4IDI4YzQyOGU5YzUzMC4u
+YTM5OTk4MDQ3ZjhhIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9o
+ZWxwZXIuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYw0KPj4g
+QEAgLTU5MCw4ICs1OTAsNiBAQCB2b2lkIGRybV9mYl9oZWxwZXJfZmluaShzdHJ1Y3QgZHJt
+X2ZiX2hlbHBlciAqZmJfaGVscGVyKQ0KPiANCj4gSSB0aGluayBpdCB3b3VsZCBiZSBnb29k
+IHRvIHVwZGF0ZSB0aGUga2VybmVsZG9jIG9mIF9pbml0KCkgYW5kIF9maW5pKCkNCj4gaGVy
+ZSB0byBtZW50aW9uIGVhY2ggYW5vdGhlciBsaWtlIHdlIHVzdWFsbHkgZG8gd2l0aCB0aGVz
+ZSBwYWlycy4gU2FtZQ0KPiB3aXRoIHByZXBhcmUvdW5wcmVwYXJlKCkgYWx0aG91Z2ggdGhl
+IGxhdHRlciByZXJmZW5jZXMgX3ByZXBhcmUoKSBhbHJlYWR5Lg0KPiANCj4+ICAgCX0NCj4+
+ICAgCW11dGV4X3VubG9jaygma2VybmVsX2ZiX2hlbHBlcl9sb2NrKTsNCj4+ICAgDQo+PiAt
+CWRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKGZiX2hlbHBlcik7DQo+PiAtDQo+PiAgIAlpZiAo
+IWZiX2hlbHBlci0+Y2xpZW50LmZ1bmNzKQ0KPj4gICAJCWRybV9jbGllbnRfcmVsZWFzZSgm
+ZmJfaGVscGVyLT5jbGllbnQpOw0KPj4gICB9DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2
+X2dlbmVyaWMuYw0KPj4gaW5kZXggMzY1ZjgwNzE3ZmExLi40ZDYzMjVlOTE1NjUgMTAwNjQ0
+DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMuYw0KPj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMNCj4+IEBAIC02NSw2ICs2
+NSw4IEBAIHN0YXRpYyB2b2lkIGRybV9mYmRldl9mYl9kZXN0cm95KHN0cnVjdCBmYl9pbmZv
+ICppbmZvKQ0KPj4gICANCj4+ICAgCWRybV9jbGllbnRfZnJhbWVidWZmZXJfZGVsZXRlKGZi
+X2hlbHBlci0+YnVmZmVyKTsNCj4+ICAgCWRybV9jbGllbnRfcmVsZWFzZSgmZmJfaGVscGVy
+LT5jbGllbnQpOw0KPj4gKw0KPj4gKwlkcm1fZmJfaGVscGVyX3VucHJlcGFyZShmYl9oZWxw
+ZXIpOw0KPj4gICAJa2ZyZWUoZmJfaGVscGVyKTsNCj4+ICAgfQ0KPj4gICANCj4+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZmJkZXYuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9mYmRldi5jDQo+PiBpbmRleCBiODll
+MzNhZjhkYTguLjQ5MjlmZmU1YTA5YSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9leHlub3MvZXh5bm9zX2RybV9mYmRldi5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+ZXh5bm9zL2V4eW5vc19kcm1fZmJkZXYuYw0KPj4gQEAgLTE4Myw4ICsxODMsOCBAQCBpbnQg
+ZXh5bm9zX2RybV9mYmRldl9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+PiAgIA0K
+Pj4gICBlcnJfc2V0dXA6DQo+PiAgIAlkcm1fZmJfaGVscGVyX2ZpbmkoaGVscGVyKTsNCj4+
+IC0NCj4+ICAgZXJyX2luaXQ6DQo+PiArCWRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKGhlbHBl
+cik7DQo+PiAgIAlwcml2YXRlLT5mYl9oZWxwZXIgPSBOVUxMOw0KPj4gICAJa2ZyZWUoZmJk
+ZXYpOw0KPj4gICANCj4+IEBAIC0yMTksNiArMjE5LDcgQEAgdm9pZCBleHlub3NfZHJtX2Zi
+ZGV2X2Zpbmkoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4+ICAgCWZiZGV2ID0gdG9fZXh5
+bm9zX2ZiZGV2KHByaXZhdGUtPmZiX2hlbHBlcik7DQo+PiAgIA0KPj4gICAJZXh5bm9zX2Ry
+bV9mYmRldl9kZXN0cm95KGRldiwgcHJpdmF0ZS0+ZmJfaGVscGVyKTsNCj4+ICsJZHJtX2Zi
+X2hlbHBlcl91bnByZXBhcmUocHJpdmF0ZS0+ZmJfaGVscGVyKTsNCj4+ICAgCWtmcmVlKGZi
+ZGV2KTsNCj4+ICAgCXByaXZhdGUtPmZiX2hlbHBlciA9IE5VTEw7DQo+PiAgIH0NCj4+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2ZyYW1lYnVmZmVyLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vZ21hNTAwL2ZyYW1lYnVmZmVyLmMNCj4+IGluZGV4IDFmMDRjMDdlZTE4
+MC4uZjQ3MWUwY2I3Mjk4IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2dtYTUw
+MC9mcmFtZWJ1ZmZlci5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2ZyYW1l
+YnVmZmVyLmMNCj4+IEBAIC00MjcsNiArNDI3LDcgQEAgaW50IHBzYl9mYmRldl9pbml0KHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+PiAgIGZpbmk6DQo+PiAgIAlkcm1fZmJfaGVscGVy
+X2ZpbmkoZmJfaGVscGVyKTsNCj4+ICAgZnJlZToNCj4+ICsJZHJtX2ZiX2hlbHBlcl91bnBy
+ZXBhcmUoZmJfaGVscGVyKTsNCj4+ICAgCWtmcmVlKGZiX2hlbHBlcik7DQo+PiAgIAlyZXR1
+cm4gcmV0Ow0KPj4gICB9DQo+PiBAQCAtNDM5LDYgKzQ0MCw3IEBAIHN0YXRpYyB2b2lkIHBz
+Yl9mYmRldl9maW5pKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+PiAgIAkJcmV0dXJuOw0K
+Pj4gICANCj4+ICAgCXBzYl9mYmRldl9kZXN0cm95KGRldiwgZGV2X3ByaXYtPmZiX2hlbHBl
+cik7DQo+PiArCWRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKGRldl9wcml2LT5mYl9oZWxwZXIp
+Ow0KPj4gICAJa2ZyZWUoZGV2X3ByaXYtPmZiX2hlbHBlcik7DQo+PiAgIAlkZXZfcHJpdi0+
+ZmJfaGVscGVyID0gTlVMTDsNCj4+ICAgfQ0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZmJkZXYuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2Rpc3BsYXkvaW50ZWxfZmJkZXYuYw0KPj4gaW5kZXggNjExM2Q3NjI3ZDQ1Li45ODAyOTA1
+OWY3MDEgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
+dGVsX2ZiZGV2LmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
+ZWxfZmJkZXYuYw0KPj4gQEAgLTM1Miw2ICszNTIsNyBAQCBzdGF0aWMgdm9pZCBpbnRlbF9m
+YmRldl9kZXN0cm95KHN0cnVjdCBpbnRlbF9mYmRldiAqaWZiZGV2KQ0KPj4gICAJaWYgKGlm
+YmRldi0+ZmIpDQo+PiAgIAkJZHJtX2ZyYW1lYnVmZmVyX3JlbW92ZSgmaWZiZGV2LT5mYi0+
+YmFzZSk7DQo+PiAgIA0KPj4gKwlkcm1fZmJfaGVscGVyX3VucHJlcGFyZSgmaWZiZGV2LT5o
+ZWxwZXIpOw0KPj4gICAJa2ZyZWUoaWZiZGV2KTsNCj4+ICAgfQ0KPj4gICANCj4+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9mYmRldi5jIGIvZHJpdmVycy9ncHUv
+ZHJtL21zbS9tc21fZmJkZXYuYw0KPj4gaW5kZXggOTE1YjIxM2YzYTVjLi5jODA0ZTViYTY4
+MmEgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9mYmRldi5jDQo+
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9mYmRldi5jDQo+PiBAQCAtMTcwLDYg
+KzE3MCw3IEBAIHN0cnVjdCBkcm1fZmJfaGVscGVyICptc21fZmJkZXZfaW5pdChzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2KQ0KPj4gICBmaW5pOg0KPj4gICAJZHJtX2ZiX2hlbHBlcl9maW5p
+KGhlbHBlcik7DQo+PiAgIGZhaWw6DQo+PiArCWRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKGhl
+bHBlcik7DQo+PiAgIAlrZnJlZShmYmRldik7DQo+PiAgIAlyZXR1cm4gTlVMTDsNCj4+ICAg
+fQ0KPj4gQEAgLTE5Niw2ICsxOTcsNyBAQCB2b2lkIG1zbV9mYmRldl9mcmVlKHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYpDQo+PiAgIAkJZHJtX2ZyYW1lYnVmZmVyX3JlbW92ZShmYmRldi0+
+ZmIpOw0KPj4gICAJfQ0KPj4gICANCj4+ICsJZHJtX2ZiX2hlbHBlcl91bnByZXBhcmUoaGVs
+cGVyKTsNCj4+ICAgCWtmcmVlKGZiZGV2KTsNCj4+ICAgDQo+PiAgIAlwcml2LT5mYmRldiA9
+IE5VTEw7DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9m
+YmRldi5jIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9mYmRldi5jDQo+PiBpbmRl
+eCBmYzVmNTJkNTY3YzYuLjg0NDI5NzI4MzQ3ZiAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9vbWFwZHJtL29tYXBfZmJkZXYuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L29tYXBkcm0vb21hcF9mYmRldi5jDQo+PiBAQCAtMjU2LDYgKzI1Niw3IEBAIHZvaWQgb21h
+cF9mYmRldl9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+PiAgIGZpbmk6DQo+PiAg
+IAlkcm1fZmJfaGVscGVyX2ZpbmkoaGVscGVyKTsNCj4+ICAgZmFpbDoNCj4+ICsJZHJtX2Zi
+X2hlbHBlcl91bnByZXBhcmUoaGVscGVyKTsNCj4+ICAgCWtmcmVlKGZiZGV2KTsNCj4+ICAg
+DQo+PiAgIAlkZXZfd2FybihkZXYtPmRldiwgIm9tYXBfZmJkZXZfaW5pdCBmYWlsZWRcbiIp
+Ow0KPj4gQEAgLTI4Niw2ICsyODcsNyBAQCB2b2lkIG9tYXBfZmJkZXZfZmluaShzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2KQ0KPj4gICAJaWYgKGZiZGV2LT5mYikNCj4+ICAgCQlkcm1fZnJh
+bWVidWZmZXJfcmVtb3ZlKGZiZGV2LT5mYik7DQo+PiAgIA0KPj4gKwlkcm1fZmJfaGVscGVy
+X3VucHJlcGFyZShoZWxwZXIpOw0KPj4gICAJa2ZyZWUoZmJkZXYpOw0KPj4gICANCj4+ICAg
+CXByaXYtPmZiZGV2ID0gTlVMTDsNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+cmFkZW9uL3JhZGVvbl9mYi5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZmIu
+Yw0KPj4gaW5kZXggNmU1ZWVkMGUxNTdjLi5jNDgwN2YwYzQzYmMgMTAwNjQ0DQo+PiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9mYi5jDQo+PiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9mYi5jDQo+PiBAQCAtMzY3LDYgKzM2Nyw3IEBAIGlu
+dCByYWRlb25fZmJkZXZfaW5pdChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikNCj4+ICAg
+ZmluaToNCj4+ICAgCWRybV9mYl9oZWxwZXJfZmluaSgmcmZiZGV2LT5oZWxwZXIpOw0KPj4g
+ICBmcmVlOg0KPj4gKwlkcm1fZmJfaGVscGVyX3VucHJlcGFyZSgmcmZiZGV2LT5oZWxwZXIp
+Ow0KPj4gICAJa2ZyZWUocmZiZGV2KTsNCj4+ICAgCXJldHVybiByZXQ7DQo+PiAgIH0NCj4+
+IEBAIC0zNzcsNiArMzc4LDcgQEAgdm9pZCByYWRlb25fZmJkZXZfZmluaShzdHJ1Y3QgcmFk
+ZW9uX2RldmljZSAqcmRldikNCj4+ICAgCQlyZXR1cm47DQo+PiAgIA0KPj4gICAJcmFkZW9u
+X2ZiZGV2X2Rlc3Ryb3kocmRldi0+ZGRldiwgcmRldi0+bW9kZV9pbmZvLnJmYmRldik7DQo+
+PiArCWRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKCZyZGV2LT5tb2RlX2luZm8ucmZiZGV2LT5o
+ZWxwZXIpOw0KPj4gICAJa2ZyZWUocmRldi0+bW9kZV9pbmZvLnJmYmRldik7DQo+PiAgIAly
+ZGV2LT5tb2RlX2luZm8ucmZiZGV2ID0gTlVMTDsNCj4+ICAgfQ0KPj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9mYi5jIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2Zi
+LmMNCj4+IGluZGV4IDE1M2MzOWMzMmM3MS4uYmZlYmUyNzg2ZDYxIDEwMDY0NA0KPj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2ZiLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS90ZWdyYS9mYi5jDQo+PiBAQCAtMzE1LDYgKzMxNSw3IEBAIHN0YXRpYyBzdHJ1Y3QgdGVn
+cmFfZmJkZXYgKnRlZ3JhX2ZiZGV2X2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZHJtKQ0K
+Pj4gICANCj4+ICAgc3RhdGljIHZvaWQgdGVncmFfZmJkZXZfZnJlZShzdHJ1Y3QgdGVncmFf
+ZmJkZXYgKmZiZGV2KQ0KPj4gICB7DQo+PiArCWRybV9mYl9oZWxwZXJfdW5wcmVwYXJlKCZm
+YmRldi0+YmFzZSk7DQo+IA0KPiBPayB0aGlzIG9uZSB0ZWdyYSBjaGFuZ2Ugd2FzIGEgYml0
+IHRyaWNreSwgZHJpdmVycyByZWFsbHkgc2hvdWxkIGp1c3QgdXNlDQo+IGRybW1fL2Rldm1f
+IGZvciBldmVyeXRoaW5nIDotKQ0KPiANCj4gV2l0aCB0aGUga2VybmVsZG9jIGF1Z21lbnRl
+ZDoNCj4gDQo+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZm
+d2xsLmNoPg0KPiANCj4+ICAgCWtmcmVlKGZiZGV2KTsNCj4+ICAgfQ0KPj4gICANCj4+IC0t
+IA0KPj4gMi4zOS4xDQo+Pg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
+Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
+bWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4
+MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-One thing I noticed is that, sometimes it seems that before probing lcdif m=
-y=20
-system completely freezes. Adding some debug output it seems that's during=
-=20
-powering up the IMX93_MEDIABLK_PD_LCDIF power domain there is some race=20
-condition. But adding more more detailed output made the problem go away.
-Did you notice something similar? It might be a red hering though.
+--------------M4H0F7TbJNxCTGnxSAcxT4xQ--
 
-Best regards,
-Alexander
+--------------PB0l0H7GsZYN00xVZ8W6EuRY
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
->=20
-> v3->v4:
-> * Improve warning message when ignoring invalid LCDIF OF endpoint ids in
->   patch 5/6. (Alexander)
-> * Use 'new_{c,p}state' instead of 'new_{crtc,plane}_state' in patch 3/6.
->   (Alexander)
-> * Simplify lcdif_crtc_reset() by calling lcdif_crtc_atomic_destroy_state()
->   in patch 3/6. (Alexander)
-> * Add '!crtc->state' check in lcdif_crtc_atomic_duplicate_state() in patch
-> 3/6. (Alexander)
-> * Collect Alexander's R-b tags on patch 1/6, 2/6 and 6/6.
->=20
-> v2->v3:
-> * Fix a trivial typo in patch 6/6's commit message.
->=20
-> v1->v2:
-> * Add Krzysztof's A-b and Marek's R-b tags on patch 1/6.
-> * Split patch 2/2 in v1 into patch 2/6~6/6 in v2. (Marek, Alexander)
-> * Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
-> * Add comment on the 'base' member of lcdif_crtc_state structure to
->   note it should always be the first member. (Lothar)
-> * Drop unneeded 'bridges' member from lcdif_drm_private structure.
-> * Drop a comment about bridge input bus format from
-> lcdif_crtc_atomic_check().
->=20
-> Liu Ying (6):
->   dt-bindings: lcdif: Add i.MX93 LCDIF support
->   drm: lcdif: Drop unnecessary NULL pointer check on lcdif->bridge
->   drm: lcdif: Determine bus format and flags in ->atomic_check()
->   drm: lcdif: Check consistent bus format and flags across first bridges
->   drm: lcdif: Add multiple encoders and first bridges support
->   drm: lcdif: Add i.MX93 LCDIF compatible string
->=20
->  .../bindings/display/fsl,lcdif.yaml           |   7 +-
->  drivers/gpu/drm/mxsfb/lcdif_drv.c             |  71 ++++++-
->  drivers/gpu/drm/mxsfb/lcdif_drv.h             |   5 +-
->  drivers/gpu/drm/mxsfb/lcdif_kms.c             | 198 ++++++++++++------
->  4 files changed, 206 insertions(+), 75 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPvOG4FAwAAAAAACgkQlh/E3EQov+AU
+Ew//cPBpy7htvHETpgKImsD5EjANgrVrVfxin+UV63Iqhuho3ueqffLIZhCVyV3OgOOFllNwM52e
+mYnNlZ7Fb5y5UzhtGn30yeKsB7rDC20AN+ksE7dE/UPpkF4UzLw53ulzBevF7DJXVx9X4dmx7nA1
+slrGZp9Ri9hvuWNK8O3Hrp8pZjXVfZm20QJfcANsw9nl4vqLnSvPJ65xOR2eW9Lh54NneE5smAXj
+HX75Be/aOfXkdDluT03HeyMFbJdOgOOvcWCHJT8YvTwUMWHexUBxskkNiAsLXZAxLuN5ifXZmjhX
+karofl2M8k0B7qOdwcqCaKxTwbINA3eD8IiRyG/ilR0H1fodt81ZipBCzFUiNI+4eaDSiTP5gegY
+qDvd56Z5dSd8FKQrVfOTN+SOgKEgHu8y4KVUcmPcNDWVjwn6dvkUmcUOY4JyLS5DO1GKi372Y/ap
+eklEO6HDUqALE+e+u2dzQHXvngC6KpBZ7TnjHBinQ7UOylEyNA5hKsFca3n3UpbVzp+L8Id9onWK
+zid2tPEwuNT/nZMGQ2HiIeRTLqzbRxJ8Iy1XiRfAWSYJ9VR5XYTlZbacC8++B/DsFvUolVCOstrE
+pituSkNp+obK2ErB4gtohtwzz425nFeMWFOZlzJwUi++RJUbahtofb0iZDxyBJrOCGlbhqJgJ9GC
+hVw=
+=F1do
+-----END PGP SIGNATURE-----
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+--------------PB0l0H7GsZYN00xVZ8W6EuRY--
