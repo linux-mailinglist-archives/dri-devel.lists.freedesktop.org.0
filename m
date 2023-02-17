@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9342369AE7D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 15:55:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C15B769AED4
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 16:00:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D19210F018;
-	Fri, 17 Feb 2023 14:55:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C97310F019;
+	Fri, 17 Feb 2023 15:00:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B31CF10F016;
- Fri, 17 Feb 2023 14:55:11 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-1718a49f834so1056591fac.8; 
- Fri, 17 Feb 2023 06:55:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=gNw+yfL+IyYUcv+PFO4T1PKkSM22hsxN4ZBBg/aGDAo=;
- b=jCgcHYPrmPRM1YFuWVoicSjZUcyq1JcGEK+twOGeW3VTB34978mPpP1ROIKHAfuOTF
- A5FSd3X5o2QLV0unOaQ6Nd6TFjNPGdfXsucIKQSRKEVV0gBMP2amlVXA22fpTga3lg33
- SwHEm/RaAxhpJl39hKeug83+mzQi9qLFFLR3pR4lqKpt3e32H/ArsaODqoRoZr+Jc0+c
- KDi0P/f0j8D1d+hWBqXjZUmriMUhJ9c+f13TBBrHSrQdlEeVEaloPGhX/VtJ+dYYwCjb
- XzNHguh6NkpSDWGEBmkmPhkSIWMzF+/FhRuyny/jyfWy7JKu6RSZHvCLwRzObCsg+FZn
- JL4Q==
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6022D10F016
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 15:00:35 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id 10so1564761yba.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 07:00:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aAJZVe/vV3cZhcoC/T6LPsbBim3Szyhp2HbhCsQ0IWg=;
+ b=BRIqLQEbheRuNrQkvbOWnTpYkviefY1N7WqRc2n5d1xhWSnQDAvZSdfzixOnlsbozf
+ rL/DtFS+rCH5AEYp2AOqyaEtrx5DHuYhdiyThr9s8UinrUaP4Nz1rt+C8JM1FZB8ibqA
+ g1KX21+r7aMkjLS6cZObmFBGyW22lc+4FDcbu9TxUefwmbIzgVva6xJ6d1IP743M0JRf
+ 3D+SUitLCuNKju7BgcM+j22wxbOVqK14MTsjaUO50co8BLGPp/rsfd2kHXy6pzpKbUDM
+ BwUqw2W3aAJo3zTplXP+ij69l/iDZKro+/aFjZ1gTnHGWHEsD39GdX2qw/lbOdoYitoI
+ +Mdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gNw+yfL+IyYUcv+PFO4T1PKkSM22hsxN4ZBBg/aGDAo=;
- b=rFRww06AIol8sPc5Q9qzC4nTpfLjvsJ938ywPzVjoLfBI7gJZ5RJ68fe/IRhPzkT8m
- Y9oQgnlSFxG8wICa15nY8H8JpO7suZ808fjv0RGKMS2SGFDTEmUM+7nd8tHBjuLL/qrW
- C05jSO4BATJIC6u4/eqFu3FzTFcTfL+rV914b3S6GNi9nTePKfyHooJQDQ9BEi2vUEAJ
- cJjK8Nnu1XgOb8ZdiXG5aDOC3N95ufWgNcZzFdZrPHXTu4rn8oE1S5FkgxZDiXAG2a8k
- lz5Fq+MFWw+OeHJQB4q3CX6bLRmKXxx1m45ofgPLrM9oHKKtWv7XohYqQYuS74qmwfch
- zq7Q==
-X-Gm-Message-State: AO0yUKWqb+ncUYPW9VT9YI5VuW9jfMVDx6YVt4ynmx2bMR6/RXEJDTKa
- hybQoARzvkwbKTi/4LbWJYrzxGYhHpNyoFbrmUU=
-X-Google-Smtp-Source: AK7set/dRZKFJ8avNgbCM1YUaXf2YRkPBGGSIwg3LHZBn+MMwdZWP+Wm8VsGOQOzOgONjkGuu+vRxkbE7xC9WIyXDG4=
-X-Received: by 2002:a05:6870:32d4:b0:16e:5e5a:49da with SMTP id
- r20-20020a05687032d400b0016e5e5a49damr498416oac.58.1676645710753; Fri, 17 Feb
- 2023 06:55:10 -0800 (PST)
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aAJZVe/vV3cZhcoC/T6LPsbBim3Szyhp2HbhCsQ0IWg=;
+ b=qn6r0kfzVtlINZcsSnstlO8hq/5svejFrDiizgoSD78Mtx1oKFkZV+Jws7xnRn5B8H
+ txIR03EAFV6PJHsofL85qUqpBuauJjwpyN5+Df+fkh/0sGLChAQ84uf6y6us64uBmodc
+ WVQYc+4l0CQTWsV0c+/bZVdJE3OIY32TRNCMaX80oVbh760SnJSCYyBK7PtUSB/Yj13h
+ 3BpcijF8z6CvfZrzKTcSC/wZwL2n6q0PmYjyWK/cIlJSId4VpHSJceN9xHD7koZo0hBJ
+ pxwnEXTOER/onio61lwssbY+4UGV4dsd3VgSL8umIV8NILTGJ+t9KzmCPRJXIKn+7TuY
+ M2Qw==
+X-Gm-Message-State: AO0yUKXMBS8I3doj1DP0cf3vS8K0E1Wvjx2G1RbbqCaztrgJ92GYDl85
+ FzwDZtyYXvccrSl2iAFzROfV898y5XWpxug5muAT4A==
+X-Google-Smtp-Source: AK7set/396tCXCL3hs7mfmUDKG5gkI6SJ/hiscL7WZo4zg8jYG8Tfo1g8h2dqp6+4echxmfk/EzFden3uzWm4n+qMfo=
+X-Received: by 2002:a5b:4c8:0:b0:8d5:5d9d:d088 with SMTP id
+ u8-20020a5b04c8000000b008d55d9dd088mr1204549ybp.229.1676646034321; Fri, 17
+ Feb 2023 07:00:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20230210130647.580135-1-tvrtko.ursulin@linux.intel.com>
- <CAF6AEGto9VMNLJnAs+n5H6MNoVASNasYEu3WhYYkhn5sERg4Fw@mail.gmail.com>
- <Y+5zyeSncSbsXHWG@intel.com>
- <7e059e8c-41c3-b56c-26c8-c0e2230616b1@linux.intel.com>
-In-Reply-To: <7e059e8c-41c3-b56c-26c8-c0e2230616b1@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 17 Feb 2023 06:55:30 -0800
-Message-ID: <CAF6AEGuN2dv+Lsk3R43oPRA9c8ZoMjzCCKR+L41wNT8Sc3TgsQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [RFC v2 0/5] Waitboost drm syncobj waits
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20230215-sspp-scaler-version-v1-0-416b1500b85b@somainline.org>
+ <20230215-sspp-scaler-version-v1-1-416b1500b85b@somainline.org>
+ <CAA8EJpq1L32VQ1eQEk2YQWqCwHgdFQfuWPhQx=PmhzXvazLgPA@mail.gmail.com>
+ <20230216083119.6ispk2xhahhzn5sx@SoMainline.org>
+ <305a468a-d792-4f51-5a7a-bf38b9c685eb@linaro.org>
+ <20230216214655.a3ajtegqwattn2rt@SoMainline.org>
+In-Reply-To: <20230216214655.a3ajtegqwattn2rt@SoMainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 17 Feb 2023 17:00:22 +0200
+Message-ID: <CAA8EJpobXPSyEqZQ3zgwSqg6fC7pzQumWR9dDPdmGOemtS-epw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/msm/dpu: Read previously-uninitialized SSPP
+ scaler version from hw
+To: Marijn Suijten <marijn.suijten@somainline.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Archit Taneja <architt@codeaurora.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>, 
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Martin Botka <martin.botka@somainline.org>, 
+ Jami Kettunen <jami.kettunen@somainline.org>, phone-devel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,182 +81,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rob Clark <robdclark@chromium.org>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 17, 2023 at 4:56 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
+On Thu, 16 Feb 2023 at 23:46, Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
 >
->
-> On 16/02/2023 18:19, Rodrigo Vivi wrote:
-> > On Tue, Feb 14, 2023 at 11:14:00AM -0800, Rob Clark wrote:
-> >> On Fri, Feb 10, 2023 at 5:07 AM Tvrtko Ursulin
-> >> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>
-> >>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >>>
-> >>> In i915 we have this concept of "wait boosting" where we give a priority boost
-> >>> for instance to fences which are actively waited upon from userspace. This has
-> >>> it's pros and cons and can certainly be discussed at lenght. However fact is
-> >>> some workloads really like it.
-> >>>
-> >>> Problem is that with the arrival of drm syncobj and a new userspace waiting
-> >>> entry point it added, the waitboost mechanism was bypassed. Hence I cooked up
-> >>> this mini series really (really) quickly to see if some discussion can be had.
-> >>>
-> >>> It adds a concept of "wait count" to dma fence, which is incremented for every
-> >>> explicit dma_fence_enable_sw_signaling and dma_fence_add_wait_callback (like
-> >>> dma_fence_add_callback but from explicit/userspace wait paths).
-> >>
-> >> I was thinking about a similar thing, but in the context of dma_fence
-> >> (or rather sync_file) fd poll()ing.  How does the kernel differentiate
-> >> between "housekeeping" poll()ers that don't want to trigger boost but
-> >> simply know when to do cleanup, and waiters who are waiting with some
-> >> urgency.  I think we could use EPOLLPRI for this purpose.
-> >>
-> >> Not sure how that translates to waits via the syncobj.  But I think we
-> >> want to let userspace give some hint about urgent vs housekeeping
-> >> waits.
+> On 2023-02-16 18:34:43, Dmitry Baryshkov wrote:
+> > On 16/02/2023 10:31, Marijn Suijten wrote:
+> > > On 2023-02-16 04:22:13, Dmitry Baryshkov wrote:
+> > >> On Thu, 16 Feb 2023 at 01:02, Marijn Suijten
+> > >> <marijn.suijten@somainline.org> wrote:
+> > >>>
+> > >>> DPU's catalog never assigned dpu_scaler_blk::version leading to
+> > >>> initialization code in dpu_hw_setup_scaler3 to wander the wrong
+> > >>> codepaths.  Instead of hardcoding the correct QSEED algorithm version,
+> > >>> read it back from a hardware register.
+> > >>>
+> > >>> Note that this register is only available starting with QSEED3, where
+> > >>> 0x1002 corresponds to QSEED3, 0x2004 to QSEED3LITE and 0x3000 to QSEED4.
+> > >>
+> > >> This is not purely accurate. 0x1003 (sdm845) also corresponds to QSEED3.
+> > >> I'd say instead that there are several variations of QSEED3 scalers,
+> > >> where starting from 0x2004 it is called QSEED3LITE and starting from
+> > >> 0x3000 it is called QSEED4.
+> > >
+> > > Good catch, I'll update that.
+> > >
+> > >>> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> > >>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > >>> ---
+> > >>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 --
+> > >>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    | 8 +++++++-
+> > >>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h    | 3 +++
+> > >>>   3 files changed, 10 insertions(+), 3 deletions(-)
+> > >>>
+> > >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > >>> index ddab9caebb18..96ce1766f4a1 100644
+> > >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > >>> @@ -324,11 +324,9 @@ struct dpu_src_blk {
+> > >>>   /**
+> > >>>    * struct dpu_scaler_blk: Scaler information
+> > >>>    * @info:   HW register and features supported by this sub-blk
+> > >>> - * @version: qseed block revision
+> > >>>    */
+> > >>>   struct dpu_scaler_blk {
+> > >>>          DPU_HW_SUBBLK_INFO;
+> > >>> -       u32 version;
+> > >>
+> > >> No. Please keep the version in the scaler subblk.  It is a version of
+> > >> the QSEED (scaler block), not the SSPP's version.
+> > >
+> > > You are right that the new variable in the parent (SSPP) block is
+> > > nondescriptive and should have been named scaler_version.
+> > >
+> > > However.
+> > >
+> > > dpu_scaler_blk is only used as a const static struct in the catalog,
+> > > meaning we cannot (should not!) store a runtime-read register value
+> > > here.  Instead I followed your IRC suggestion to read the register in
+> > > dpu_hw_sspp_init, but my original implementation called
+> > > dpu_hw_get_scaler3_ver in _dpu_hw_sspp_setup_scaler3 where we already
+> > > have access to the subblk_offset, allowing us to delete
+> > > _dpu_hw_sspp_get_scaler3_ver.  Would you rather have that?  We don't
+> > > need the register value anywhere else.
 > >
-> > Should the hint be on the waits, or should the hints be on the executed
-> > context?
+> > After giving it another thought, let's follow the vendor's approach and
+> > store the predefined scaler_version in hw catalog (in dpu_scaler_blk, as
+> > it currently is). This way we can still drop all QSEED3/3LITE/4
+> > crazyness, while keeping the data sane.
+>
+> You want to drop the descriptive #define's, and replace them with magic
+> 0x1002/0x2004/0x3000 and whatever other values we know?
+
+And nothing stops us from adding defines for 0x2004
+(SCALER_VERSION_QSEED3LITE) and 0x3000 (SCALER_VERSION_QSEED4). I'm
+not sure regarding 0x1002: whether it is used on msm8998 and/or sdm630
+too or not.
+
+What I want to remove is the duplication of the information. It was
+too easy to miss that vig_mask has version1, while the dpu_caps has
+version 2. We are going to replace dpu_caps with scaler_version, but
+the problem of having the duplicate still exists. I might have
+suggested settling on the dpu_caps.qseed_type or on the bit in
+dpu_sspp_cfg.features, but it seems that 0x1002 is not represented
+this way. Unless we define something like
+DPU_SSPP_SCALER_QSEED3_SDM660.
+
+> That seems
+> impossible to port without reading back the register value, which we've
+> only done for a handful of SoCs.  I hope I'm misunderstanding you?
+
+Newer vendor dts files provide this value, see the
+"qcom,sde-qseed-scalar-version" property.
+For older platforms we'd have to read the register. See below
+
+> After all the vendor approach (in a random 4.14 kernel I have open now)
+> is to read the register value at runtime but their catalog is also
+> dynamic and built at runtime based on version ranges and register reads,
+> which sometimes is more sensible.  Ours is const.
+
+In later techpacks (since 5.4) they have switched to the property in the DTS.
+
+>
+> > Then _dpu_hw_sspp_get_scaler3_ver() can also be dropped (or you can use
+> > it as a safety guard while doing dpu_hw_sspp init).
+>
+> That (safety guard) is exactly what Abhinav requested against, since the
+> kernel (and our catalog) should be trustworthy.  I'll let you two fight
+> this out and come to a consensus before sending v2.
+
+I'm fine without a fight. Whoever adds a platform is responsible for
+setting a register.
+
+For the reference, as far as I know:
+msm8998 - ??
+(sdm660 - 0x1002)
+sdm845 - 0x1003
+sm8150 - ?
+sc8180x - ?
+sm8250 - 0x3000
+sc7180 - 0x3000
+sm6115 - 0x3000
+qcm2290 - no scaler
+sm8350 - 0x3000
+sc7280 - 0x3000
+sc8280xp - ?, supposedly 0x3001
+sm8450 - 0x3001
+sm8550 - ?, supposedly 0x3002
+
+>
+> > >> There is a block called DS (destination scaler), which can be used to
+> > >> scale the resulting image after the LM. This block also uses the
+> > >> QSEED3(,LITE,4) scaler block.
+> > >
+> > > Is this already supported in mainline, and is it the reason for
+> > > previously having qseed_type globally available?  Is my understanding
+> > > correct that this scaler subblk in the SSPP is merely an interface to
+> > > it, allowing the same hardware to be used from the SSPP for intputs and
+> > > after the LM for outputs?
 > >
-> > In the end we need some way to quickly ramp-up the frequency to avoid
-> > the execution bubbles.
-> >
-> > waitboost is trying to guess that, but in some cases it guess wrong
-> > and waste power.
+> > No, I think qseed_type is a leftover from having the same thing
+> > implemented in three different ways. Maybe because of NIH syndrome?
 >
-> Do we have a list of workloads which shows who benefits and who loses
-> from the current implementation of waitboost?
-> > btw, this is something that other drivers might need:
-> >
-> > https://gitlab.freedesktop.org/drm/amd/-/issues/1500#note_825883
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> Could be, downstream uses it to steer its catalog logic for example
+> (which happens before later reading the version register).
 >
-> I have several issues with the context hint if it would directly
-> influence frequency selection in the "more power" direction.
+> > DS is not supported, it was removed in the commit
+> > b033def8741aab3fb58e4bf6c1d5cd73b3beb357. I do not have a clear usecase
+> > for this block and of course we don't have uABI for it.
 >
-> First of all, assume a context hint would replace the waitboost. Which
-> applications would need to set it to restore the lost performance and
-> how would they set it?
->
-> Then I don't even think userspace necessarily knows. Think of a layer
-> like OpenCL. It doesn't really know in advance the profile of
-> submissions vs waits. It depends on the CPU vs GPU speed, so hardware
-> generation, and the actual size of the workload which can be influenced
-> by the application (or user) and not the library.
->
-> The approach also lends itself well for the "arms race" where every
-> application can say "Me me me, I am the most important workload there is!".
+> Is there no common DRM property to composite at a lower resolution and
+> upscale the final displayed image to match a CRTC/encoder?  I wish I
+> understood the commit message better :)
 
-since there is discussion happening in two places:
+Yes, I don't think there is one.
 
-https://gitlab.freedesktop.org/drm/intel/-/issues/8014#note_1777433
+>
+> > It would still be nice to keep it in the picture though. It was the main
+> > reason for moving scaler code from dpu_hw_sspp to dpu_hw_util.
+>
+> Downstream SDE already has this code moved to sde_hw_util as far as I
+> can see (and SSPP and DS call into it).  But I fully agree as a
+> mostly-oblivious-outsider: it seems like there are a lot of features,
+> hardware blocks and optimizations not implemented, things which I still
+> have no knowledge/experience/understanding of/about.  Let's first focus
+> on making it work _on all relevant SoCs and boards_ though :)
 
-What I think you might want is a ctx boost_mask which lets an app or
-driver disable certain boost signals/classes.  Where fence waits is
-one class of boost, but hypothetical other signals like touchscreen
-(or other) input events could be another class of boost.  A compute
-workload might be interested in fence wait boosts but could care less
-about input events.
+For sure. I pointed to the DS as a reason to have the scaler version
+in the sblk rather than in the sspp instance.
 
-> The last concern is for me shared with the proposal to expose deadlines
-> or high priority waits as explicit uapi knobs. Both come under the "what
-> application told us it will do" category vs what it actually does. So I
-> think it is slightly weaker than basing decisions of waits.
->
-> The current waitboost is a bit detached from that problem because when
-> we waitboost for flips we _know_ it is an actual framebuffer in the flip
-> chain. When we waitboost for waits we also know someone is waiting. We
-> are not trusting userspace telling us this will be a buffer in the flip
-> chain or that this is a context which will have a certain duty-cycle.
->
-> But yes, even if the input is truthful, latter is still only a
-> heuristics because nothing says all waits are important. AFAIU it just
-> happened to work well in the past.
->
-> I do understand I am effectively arguing for more heuristics, which may
-> sound a bit against the common wisdom. This is because in general I
-> think the logic to do the right thing, be it in the driver or in the
-> firmware, can work best if it has a holistic view. Simply put it needs
-> to have more inputs to the decisions it is making.
->
-> That is what my series is proposing - adding a common signal of "someone
-> in userspace is waiting". What happens with that signal needs not be
-> defined (promised) in the uapi contract.
->
-> Say you route it to SLPC logic. It doesn't need to do with it what
-> legacy i915 is doing today. It just needs to do something which works
-> best for majority of workloads. It can even ignore it if that works for it.
->
-> Finally, back to the immediate problem is when people replace the OpenCL
-> NEO driver with clvk that performance tanks. Because former does waits
-> using i915 specific ioctls and so triggers waitboost, latter waits on
-> syncobj so no waitboost and performance is bad. What short term solution
-> can we come up with? Or we say to not use clvk? I also wonder if other
-> Vulkan based stuff is perhaps missing those easy performance gains..
->
-> Perhaps strictly speaking Rob's and mine proposal are not mutually
-> exclusive. Yes I could piggy back on his with an "immediate deadline for
-> waits" idea, but they could also be separate concepts if we concluded
-> "someone is waiting" signal is useful to have. Or it takes to long to
-> upstream the full deadline idea.
-
-Let me re-spin my series and add the syncobj wait flag and i915 bits
-adapted from your patches..  I think the basic idea of deadlines
-(which includes "I want it NOW" ;-)) isn't controversial, but the
-original idea got caught up in some bikeshed (what about compositors
-that wait on fences in userspace to decide which surfaces to update in
-the next frame), plus me getting busy and generally not having a good
-plan for how to leverage this from VM guests (which is becoming
-increasingly important for CrOS).  I think I can build on some ongoing
-virtgpu fencing improvement work to solve the latter.  But now that we
-have a 2nd use-case for this, it makes sense to respin.
-
-BR,
--R
-
-> Regards,
->
-> Tvrtko
->
-> >>
-> >> Also, on a related topic: https://lwn.net/Articles/868468/
-> >>
-> >> BR,
-> >> -R
-> >>
-> >>> Individual drivers can then inspect this via dma_fence_wait_count() and decide
-> >>> to wait boost the waits on such fences.
-> >>>
-> >>> Again, quickly put together and smoke tested only - no guarantees whatsoever and
-> >>> I will rely on interested parties to test and report if it even works or how
-> >>> well.
-> >>>
-> >>> v2:
-> >>>   * Small fixups based on CI feedback:
-> >>>      * Handle decrement correctly for already signalled case while adding callback.
-> >>>      * Remove i915 assert which was making sure struct i915_request does not grow.
-> >>>   * Split out the i915 patch into three separate functional changes.
-> >>>
-> >>> Tvrtko Ursulin (5):
-> >>>    dma-fence: Track explicit waiters
-> >>>    drm/syncobj: Mark syncobj waits as external waiters
-> >>>    drm/i915: Waitboost external waits
-> >>>    drm/i915: Mark waits as explicit
-> >>>    drm/i915: Wait boost requests waited upon by others
-> >>>
-> >>>   drivers/dma-buf/dma-fence.c               | 102 ++++++++++++++++------
-> >>>   drivers/gpu/drm/drm_syncobj.c             |   6 +-
-> >>>   drivers/gpu/drm/i915/gt/intel_engine_pm.c |   1 -
-> >>>   drivers/gpu/drm/i915/i915_request.c       |  13 ++-
-> >>>   include/linux/dma-fence.h                 |  14 +++
-> >>>   5 files changed, 101 insertions(+), 35 deletions(-)
-> >>>
-> >>> --
-> >>> 2.34.1
-> >>>
+-- 
+With best wishes
+Dmitry
