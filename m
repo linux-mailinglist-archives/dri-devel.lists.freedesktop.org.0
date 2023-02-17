@@ -1,74 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15B769AED4
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 16:00:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 104C969AF49
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 16:16:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C97310F019;
-	Fri, 17 Feb 2023 15:00:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6338010E10D;
+	Fri, 17 Feb 2023 15:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6022D10F016
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 15:00:35 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id 10so1564761yba.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 07:00:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aAJZVe/vV3cZhcoC/T6LPsbBim3Szyhp2HbhCsQ0IWg=;
- b=BRIqLQEbheRuNrQkvbOWnTpYkviefY1N7WqRc2n5d1xhWSnQDAvZSdfzixOnlsbozf
- rL/DtFS+rCH5AEYp2AOqyaEtrx5DHuYhdiyThr9s8UinrUaP4Nz1rt+C8JM1FZB8ibqA
- g1KX21+r7aMkjLS6cZObmFBGyW22lc+4FDcbu9TxUefwmbIzgVva6xJ6d1IP743M0JRf
- 3D+SUitLCuNKju7BgcM+j22wxbOVqK14MTsjaUO50co8BLGPp/rsfd2kHXy6pzpKbUDM
- BwUqw2W3aAJo3zTplXP+ij69l/iDZKro+/aFjZ1gTnHGWHEsD39GdX2qw/lbOdoYitoI
- +Mdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aAJZVe/vV3cZhcoC/T6LPsbBim3Szyhp2HbhCsQ0IWg=;
- b=qn6r0kfzVtlINZcsSnstlO8hq/5svejFrDiizgoSD78Mtx1oKFkZV+Jws7xnRn5B8H
- txIR03EAFV6PJHsofL85qUqpBuauJjwpyN5+Df+fkh/0sGLChAQ84uf6y6us64uBmodc
- WVQYc+4l0CQTWsV0c+/bZVdJE3OIY32TRNCMaX80oVbh760SnJSCYyBK7PtUSB/Yj13h
- 3BpcijF8z6CvfZrzKTcSC/wZwL2n6q0PmYjyWK/cIlJSId4VpHSJceN9xHD7koZo0hBJ
- pxwnEXTOER/onio61lwssbY+4UGV4dsd3VgSL8umIV8NILTGJ+t9KzmCPRJXIKn+7TuY
- M2Qw==
-X-Gm-Message-State: AO0yUKXMBS8I3doj1DP0cf3vS8K0E1Wvjx2G1RbbqCaztrgJ92GYDl85
- FzwDZtyYXvccrSl2iAFzROfV898y5XWpxug5muAT4A==
-X-Google-Smtp-Source: AK7set/396tCXCL3hs7mfmUDKG5gkI6SJ/hiscL7WZo4zg8jYG8Tfo1g8h2dqp6+4echxmfk/EzFden3uzWm4n+qMfo=
-X-Received: by 2002:a5b:4c8:0:b0:8d5:5d9d:d088 with SMTP id
- u8-20020a5b04c8000000b008d55d9dd088mr1204549ybp.229.1676646034321; Fri, 17
- Feb 2023 07:00:34 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 476E910E10D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 15:16:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EEA1620224;
+ Fri, 17 Feb 2023 15:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676646995; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=P6H4lMhCRpkIG/vzS08oqW/0Q9cmg7hMMaxPgpucUNI=;
+ b=Elq2cHiafw3mCcMIvg/RzFiy7tIJn9xvvA5sZNlqsW2yILT0aTHr3s84Y71lmoGeXA7yqR
+ xX/RdzmV7/Cau/erG+SltxYYVUa9l8McYhUXeqU1rfTnpnvQORixNr4lWWu/nZLvZ+gLrl
+ ZTgLIbOIscHByZCAU+zBmfl6OQm9nBY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676646995;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=P6H4lMhCRpkIG/vzS08oqW/0Q9cmg7hMMaxPgpucUNI=;
+ b=PxSCgwojh+SxBriHEHp3I2kWawNMwi7lzxlfIkyY9hC5uyfAI9AQKZDel9QziY79VACE2c
+ wCrehEM9oOg+NfBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C59B0138E3;
+ Fri, 17 Feb 2023 15:16:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id o/lIL1Oa72N3MwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Feb 2023 15:16:35 +0000
+Message-ID: <b60c1a7d-8d3f-ca75-edb4-da7c375204d8@suse.de>
+Date: Fri, 17 Feb 2023 16:16:35 +0100
 MIME-Version: 1.0
-References: <20230215-sspp-scaler-version-v1-0-416b1500b85b@somainline.org>
- <20230215-sspp-scaler-version-v1-1-416b1500b85b@somainline.org>
- <CAA8EJpq1L32VQ1eQEk2YQWqCwHgdFQfuWPhQx=PmhzXvazLgPA@mail.gmail.com>
- <20230216083119.6ispk2xhahhzn5sx@SoMainline.org>
- <305a468a-d792-4f51-5a7a-bf38b9c685eb@linaro.org>
- <20230216214655.a3ajtegqwattn2rt@SoMainline.org>
-In-Reply-To: <20230216214655.a3ajtegqwattn2rt@SoMainline.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 17 Feb 2023 17:00:22 +0200
-Message-ID: <CAA8EJpobXPSyEqZQ3zgwSqg6fC7pzQumWR9dDPdmGOemtS-epw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/msm/dpu: Read previously-uninitialized SSPP
- scaler version from hw
-To: Marijn Suijten <marijn.suijten@somainline.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Archit Taneja <architt@codeaurora.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>, 
- Sravanthi Kollukuduru <skolluku@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Martin Botka <martin.botka@somainline.org>, 
- Jami Kettunen <jami.kettunen@somainline.org>, phone-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 6/6] drm/tidss: Implement struct
+ drm_plane_helper_funcs.atomic_enable
+Content-Language: en-US
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, airlied@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, jyri.sarha@iki.fi
+References: <20230209154107.30680-1-tzimmermann@suse.de>
+ <20230209154107.30680-7-tzimmermann@suse.de>
+ <548d8a1b-4820-4825-7700-94c583530056@ideasonboard.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <548d8a1b-4820-4825-7700-94c583530056@ideasonboard.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------1xz0sfMD2shsNJuVyRIrZJEo"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,177 +74,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Feb 2023 at 23:46, Marijn Suijten
-<marijn.suijten@somainline.org> wrote:
->
-> On 2023-02-16 18:34:43, Dmitry Baryshkov wrote:
-> > On 16/02/2023 10:31, Marijn Suijten wrote:
-> > > On 2023-02-16 04:22:13, Dmitry Baryshkov wrote:
-> > >> On Thu, 16 Feb 2023 at 01:02, Marijn Suijten
-> > >> <marijn.suijten@somainline.org> wrote:
-> > >>>
-> > >>> DPU's catalog never assigned dpu_scaler_blk::version leading to
-> > >>> initialization code in dpu_hw_setup_scaler3 to wander the wrong
-> > >>> codepaths.  Instead of hardcoding the correct QSEED algorithm version,
-> > >>> read it back from a hardware register.
-> > >>>
-> > >>> Note that this register is only available starting with QSEED3, where
-> > >>> 0x1002 corresponds to QSEED3, 0x2004 to QSEED3LITE and 0x3000 to QSEED4.
-> > >>
-> > >> This is not purely accurate. 0x1003 (sdm845) also corresponds to QSEED3.
-> > >> I'd say instead that there are several variations of QSEED3 scalers,
-> > >> where starting from 0x2004 it is called QSEED3LITE and starting from
-> > >> 0x3000 it is called QSEED4.
-> > >
-> > > Good catch, I'll update that.
-> > >
-> > >>> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> > >>> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > >>> ---
-> > >>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 2 --
-> > >>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c    | 8 +++++++-
-> > >>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h    | 3 +++
-> > >>>   3 files changed, 10 insertions(+), 3 deletions(-)
-> > >>>
-> > >>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > >>> index ddab9caebb18..96ce1766f4a1 100644
-> > >>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > >>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-> > >>> @@ -324,11 +324,9 @@ struct dpu_src_blk {
-> > >>>   /**
-> > >>>    * struct dpu_scaler_blk: Scaler information
-> > >>>    * @info:   HW register and features supported by this sub-blk
-> > >>> - * @version: qseed block revision
-> > >>>    */
-> > >>>   struct dpu_scaler_blk {
-> > >>>          DPU_HW_SUBBLK_INFO;
-> > >>> -       u32 version;
-> > >>
-> > >> No. Please keep the version in the scaler subblk.  It is a version of
-> > >> the QSEED (scaler block), not the SSPP's version.
-> > >
-> > > You are right that the new variable in the parent (SSPP) block is
-> > > nondescriptive and should have been named scaler_version.
-> > >
-> > > However.
-> > >
-> > > dpu_scaler_blk is only used as a const static struct in the catalog,
-> > > meaning we cannot (should not!) store a runtime-read register value
-> > > here.  Instead I followed your IRC suggestion to read the register in
-> > > dpu_hw_sspp_init, but my original implementation called
-> > > dpu_hw_get_scaler3_ver in _dpu_hw_sspp_setup_scaler3 where we already
-> > > have access to the subblk_offset, allowing us to delete
-> > > _dpu_hw_sspp_get_scaler3_ver.  Would you rather have that?  We don't
-> > > need the register value anywhere else.
-> >
-> > After giving it another thought, let's follow the vendor's approach and
-> > store the predefined scaler_version in hw catalog (in dpu_scaler_blk, as
-> > it currently is). This way we can still drop all QSEED3/3LITE/4
-> > crazyness, while keeping the data sane.
->
-> You want to drop the descriptive #define's, and replace them with magic
-> 0x1002/0x2004/0x3000 and whatever other values we know?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------1xz0sfMD2shsNJuVyRIrZJEo
+Content-Type: multipart/mixed; boundary="------------Xzk5lBsJBZ7Ot3hMiXMN11sl";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, airlied@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, jyri.sarha@iki.fi
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <b60c1a7d-8d3f-ca75-edb4-da7c375204d8@suse.de>
+Subject: Re: [PATCH 6/6] drm/tidss: Implement struct
+ drm_plane_helper_funcs.atomic_enable
+References: <20230209154107.30680-1-tzimmermann@suse.de>
+ <20230209154107.30680-7-tzimmermann@suse.de>
+ <548d8a1b-4820-4825-7700-94c583530056@ideasonboard.com>
+In-Reply-To: <548d8a1b-4820-4825-7700-94c583530056@ideasonboard.com>
 
-And nothing stops us from adding defines for 0x2004
-(SCALER_VERSION_QSEED3LITE) and 0x3000 (SCALER_VERSION_QSEED4). I'm
-not sure regarding 0x1002: whether it is used on msm8998 and/or sdm630
-too or not.
+--------------Xzk5lBsJBZ7Ot3hMiXMN11sl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-What I want to remove is the duplication of the information. It was
-too easy to miss that vig_mask has version1, while the dpu_caps has
-version 2. We are going to replace dpu_caps with scaler_version, but
-the problem of having the duplicate still exists. I might have
-suggested settling on the dpu_caps.qseed_type or on the bit in
-dpu_sspp_cfg.features, but it seems that 0x1002 is not represented
-this way. Unless we define something like
-DPU_SSPP_SCALER_QSEED3_SDM660.
+SGkNCg0KQW0gMTcuMDIuMjMgdW0gMTU6NDIgc2NocmllYiBUb21pIFZhbGtlaW5lbjoNCj4g
+T24gMDkvMDIvMjAyMyAxNzo0MSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+PiBFbmFi
+bGUgdGhlIHByaW1hcnkgcGxhbmUgZm9yIHRpZHNzIGhhcmR3YXJlIHZpYSBhdG9taWNfZW5h
+YmxlLg0KPj4gQXRvbWljIGhlbHBlcnMgaW52b2tlIHRoaXMgY2FsbGJhY2sgb25seSB3aGVu
+IHRoZSBwbGFuZSBiZWNvbWVzDQo+PiBhY3RpdmUuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTog
+VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiAtLS0NCj4+IMKg
+IGRyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19wbGFuZS5jIHwgMTEgKysrKysrKysrKysN
+Cj4+IMKgIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspDQo+Pg0KPj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aWRzcy90aWRzc19wbGFuZS5jIA0KPj4gYi9kcml2
+ZXJzL2dwdS9kcm0vdGlkc3MvdGlkc3NfcGxhbmUuYw0KPj4gaW5kZXggMGIxMjQwNWVkYjQ3
+Li42YmRkNmU0YTk1NWEgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlkc3Mv
+dGlkc3NfcGxhbmUuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RpZHNzL3RpZHNzX3Bs
+YW5lLmMNCj4+IEBAIC0xMjQsNiArMTI0LDE2IEBAIHN0YXRpYyB2b2lkIHRpZHNzX3BsYW5l
+X2F0b21pY191cGRhdGUoc3RydWN0IA0KPj4gZHJtX3BsYW5lICpwbGFuZSwNCj4+IMKgwqDC
+oMKgwqAgaHdfdmlkZW9wb3J0ID0gdG9fdGlkc3NfY3J0YyhuZXdfc3RhdGUtPmNydGMpLT5o
+d192aWRlb3BvcnQ7DQo+PiDCoMKgwqDCoMKgIGRpc3BjX3BsYW5lX3NldHVwKHRpZHNzLT5k
+aXNwYywgdHBsYW5lLT5od19wbGFuZV9pZCwgbmV3X3N0YXRlLCANCj4+IGh3X3ZpZGVvcG9y
+dCk7DQo+PiArfQ0KPj4gKw0KPj4gK3N0YXRpYyB2b2lkIHRpZHNzX3BsYW5lX2F0b21pY19l
+bmFibGUoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0
+ZSkNCj4+ICt7DQo+PiArwqDCoMKgIHN0cnVjdCBkcm1fZGV2aWNlICpkZGV2ID0gcGxhbmUt
+PmRldjsNCj4+ICvCoMKgwqAgc3RydWN0IHRpZHNzX2RldmljZSAqdGlkc3MgPSB0b190aWRz
+cyhkZGV2KTsNCj4+ICvCoMKgwqAgc3RydWN0IHRpZHNzX3BsYW5lICp0cGxhbmUgPSB0b190
+aWRzc19wbGFuZShwbGFuZSk7DQo+PiArDQo+PiArwqDCoMKgIGRldl9kYmcoZGRldi0+ZGV2
+LCAiJXNcbiIsIF9fZnVuY19fKTsNCj4+IMKgwqDCoMKgwqAgZGlzcGNfcGxhbmVfZW5hYmxl
+KHRpZHNzLT5kaXNwYywgdHBsYW5lLT5od19wbGFuZV9pZCwgdHJ1ZSk7DQo+PiDCoCB9DQo+
+PiBAQCAtMTUxLDYgKzE2MSw3IEBAIHN0YXRpYyB2b2lkIGRybV9wbGFuZV9kZXN0cm95KHN0
+cnVjdCBkcm1fcGxhbmUgDQo+PiAqcGxhbmUpDQo+PiDCoCBzdGF0aWMgY29uc3Qgc3RydWN0
+IGRybV9wbGFuZV9oZWxwZXJfZnVuY3MgdGlkc3NfcGxhbmVfaGVscGVyX2Z1bmNzID0gew0K
+Pj4gwqDCoMKgwqDCoCAuYXRvbWljX2NoZWNrID0gdGlkc3NfcGxhbmVfYXRvbWljX2NoZWNr
+LA0KPj4gwqDCoMKgwqDCoCAuYXRvbWljX3VwZGF0ZSA9IHRpZHNzX3BsYW5lX2F0b21pY191
+cGRhdGUsDQo+PiArwqDCoMKgIC5hdG9taWNfZW5hYmxlID0gdGlkc3NfcGxhbmVfYXRvbWlj
+X2VuYWJsZSwNCj4+IMKgwqDCoMKgwqAgLmF0b21pY19kaXNhYmxlID0gdGlkc3NfcGxhbmVf
+YXRvbWljX2Rpc2FibGUsDQo+PiDCoCB9Ow0KPiANCj4gSSBoYXZlbid0IHRlc3RlZCB0aGlz
+LCBidXQgbG9va3MgZmluZSB0byBtZS4NCj4gDQo+IFJldmlld2VkLWJ5OiBUb21pIFZhbGtl
+aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT4NCj4gDQo+IE9uZSB0aG91
+Z2h0LCB0aG91Z2gsIGlzIHRoYXQgd2Ugc3RpbGwgZG8gZGlzcGNfcGxhbmVfZW5hYmxlKGZh
+bHNlKSBpbiANCj4gdGlkc3NfcGxhbmVfYXRvbWljX3VwZGF0ZSgpIHdoZW4gdGhlIHBsYW5l
+IGlzIG5vdCB2aXNpYmxlLiBOb3QgYSANCj4gcHJvYmxlbSwgYnV0IGl0IHdvdWxkIGJlIG5p
+Y2UgdG8gb25seSBlbmFibGUvZGlzYWJsZSB0aGUgcGxhbmUgaW5zaWRlIA0KPiBhdG9taWNf
+ZW5hYmxlL2Rpc2FibGUuDQo+IA0KPiBPciBtYXliZSBpbiBjYXNlcyBsaWtlIHRoaXMgdGhl
+IGRyaXZlciBzaG91bGQgb25seSB1c2UgYXRvbWljX3VwZGF0ZSwgDQo+IGFuZCBkbyBhbGwg
+dGhlIGVuYWJsaW5nIGFuZCBkaXNhYmxpbmcgdGhlcmUuLi4NCg0KSSBhZ3JlZS4gRHJpdmVy
+cyB0aGF0IGhhdmUgY29tcGxleCBlbmFibGUvZGlzYWJsZSBzZW1hbnRpY3Mgc2hvdWxkIA0K
+cHJvYmFibHkgaGFuZGxlIGV2ZXJ5dGhpbmcgaW4gYXRvbWljX3VwZGF0ZS4NCg0KRW5hYmxp
+bmcvZGlzYWJsaW5nIGlzIGN1cnJlbnRseSBjb25uZWN0ZWQgdG8gdGhlIHBsYW5lJ3MgZnJh
+bWVidWZmZXIuIEFzIA0KeW91IHNhaWQsIGl0IHdvdWxkIGJlIG5pY2UgaWYgdGhpcyBjb3Vs
+ZCBiZSB0aWVkIHRvIHZpc2liaWxpdHkgaW5zdGVhZC4gDQpUaGUgcGF0Y2ggd291bGQgYmUg
+dHJpdmlhbCwgYnV0IHNvbWUgZHJpdmVycyBtaWdodCBub3QgbGlrZSB0aGUgY2hhbmdlLiAN
+CkkgZ3Vlc3Mgd2UgY291bGQgZG8gYW4gUkZDIHBhdGNoIGFuZCBnYXRoZXIgb3BpbmlvbnMu
+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+ICDCoFRvbWkNCj4gDQoNCi0tIA0K
+VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
+dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
+cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
+ZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-> That seems
-> impossible to port without reading back the register value, which we've
-> only done for a handful of SoCs.  I hope I'm misunderstanding you?
+--------------Xzk5lBsJBZ7Ot3hMiXMN11sl--
 
-Newer vendor dts files provide this value, see the
-"qcom,sde-qseed-scalar-version" property.
-For older platforms we'd have to read the register. See below
+--------------1xz0sfMD2shsNJuVyRIrZJEo
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> After all the vendor approach (in a random 4.14 kernel I have open now)
-> is to read the register value at runtime but their catalog is also
-> dynamic and built at runtime based on version ranges and register reads,
-> which sometimes is more sensible.  Ours is const.
+-----BEGIN PGP SIGNATURE-----
 
-In later techpacks (since 5.4) they have switched to the property in the DTS.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPvmlMFAwAAAAAACgkQlh/E3EQov+Bc
+dBAAmsJhOKDF6uD66Qyw/4qT+cVz23o6LmsCSaGtq4dAzaJdeE3RRpvqXr2BLjx3u/I1HTvEX1V8
+CZbE6Xv0DKt/ZDSt/jkTZSk9BWx+d8JqsX83twMHBcyi1D2kCBFDX9tG3XBdy8ws4ai7poJQV/5M
+DuAQiJkObc5PHiPRflwsXfK4/eDHnwNkcWgU9eVL7wlL5a2iUY0MEuNVLz7MlpDQzDbOBH1xr86r
+Gd8jDtPkLI+VZndD3MoDBbEu9+ZybsolVuWcsihhPDybZRWsZLxgiM0+7Zzt0/poyPA7fuJnLScl
+d95JW6V5ndMgbxnW4cqglwbp6SJsjLLAedmGs57fmRmBc3OEp7LrA6R+WFQsHkf6mNtSXp+rJVbF
+ERSQnXHCTHmPzJ1W6iyppftGKRNw3hnSmCkPaBl8+zAEXVBDPYQWwxscf2D8lFY+ZkrgZa6bOaJV
+ZKpQ0lt9vDsA8adtIlyrhmNL7dwCEKmF6hHtTQRK1nPkk3Yder3B83MXYptAan8gFJ8My4CM4D14
+JPmiOcp4AOD2Kru8+6OEDeCg74VwiQ7zc45M2i/AemEjSXsmOSxK2pkosr24awHSCeEWYpqlb+Ci
+GmRENICnze17g2+Jj/JNRpKbKovD8WBC0M6sgUd17OSRRVPRpHuESn63BOK0NMsjmRWJtv07TnX0
+nkU=
+=OlB5
+-----END PGP SIGNATURE-----
 
->
-> > Then _dpu_hw_sspp_get_scaler3_ver() can also be dropped (or you can use
-> > it as a safety guard while doing dpu_hw_sspp init).
->
-> That (safety guard) is exactly what Abhinav requested against, since the
-> kernel (and our catalog) should be trustworthy.  I'll let you two fight
-> this out and come to a consensus before sending v2.
-
-I'm fine without a fight. Whoever adds a platform is responsible for
-setting a register.
-
-For the reference, as far as I know:
-msm8998 - ??
-(sdm660 - 0x1002)
-sdm845 - 0x1003
-sm8150 - ?
-sc8180x - ?
-sm8250 - 0x3000
-sc7180 - 0x3000
-sm6115 - 0x3000
-qcm2290 - no scaler
-sm8350 - 0x3000
-sc7280 - 0x3000
-sc8280xp - ?, supposedly 0x3001
-sm8450 - 0x3001
-sm8550 - ?, supposedly 0x3002
-
->
-> > >> There is a block called DS (destination scaler), which can be used to
-> > >> scale the resulting image after the LM. This block also uses the
-> > >> QSEED3(,LITE,4) scaler block.
-> > >
-> > > Is this already supported in mainline, and is it the reason for
-> > > previously having qseed_type globally available?  Is my understanding
-> > > correct that this scaler subblk in the SSPP is merely an interface to
-> > > it, allowing the same hardware to be used from the SSPP for intputs and
-> > > after the LM for outputs?
-> >
-> > No, I think qseed_type is a leftover from having the same thing
-> > implemented in three different ways. Maybe because of NIH syndrome?
->
-> Could be, downstream uses it to steer its catalog logic for example
-> (which happens before later reading the version register).
->
-> > DS is not supported, it was removed in the commit
-> > b033def8741aab3fb58e4bf6c1d5cd73b3beb357. I do not have a clear usecase
-> > for this block and of course we don't have uABI for it.
->
-> Is there no common DRM property to composite at a lower resolution and
-> upscale the final displayed image to match a CRTC/encoder?  I wish I
-> understood the commit message better :)
-
-Yes, I don't think there is one.
-
->
-> > It would still be nice to keep it in the picture though. It was the main
-> > reason for moving scaler code from dpu_hw_sspp to dpu_hw_util.
->
-> Downstream SDE already has this code moved to sde_hw_util as far as I
-> can see (and SSPP and DS call into it).  But I fully agree as a
-> mostly-oblivious-outsider: it seems like there are a lot of features,
-> hardware blocks and optimizations not implemented, things which I still
-> have no knowledge/experience/understanding of/about.  Let's first focus
-> on making it work _on all relevant SoCs and boards_ though :)
-
-For sure. I pointed to the DS as a reason to have the scaler version
-in the sblk rather than in the sspp instance.
-
--- 
-With best wishes
-Dmitry
+--------------1xz0sfMD2shsNJuVyRIrZJEo--
