@@ -2,43 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EA669A42B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 04:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D249C69A4EF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 05:38:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7293810E3E5;
-	Fri, 17 Feb 2023 03:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85ED10E088;
+	Fri, 17 Feb 2023 04:38:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1431310E3E5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 03:13:29 +0000 (UTC)
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
- s=mail; t=1676603605;
- bh=LH/xXQeQJ9b7IeJuEOdjjtQYgBVktXb3iGO/ZdlJOBM=;
- h=From:Date:Subject:To:Cc:From;
- b=KXponZxzed7GavKW502p8mcvKO0FOWeQc0gC3KGhtKnTieSpIzxOGx4RcNwtP9q2V
- Da5TbqsKtmApQqJBCZIBKN4esnXw8ZRd0v6nH3jLrkXTze4QkoBxIvLEzwnSSAgAiO
- O5RBqn0q9mHHXy8IPdxDXuvwncX+BNeBmifOnfwk=
-Date: Fri, 17 Feb 2023 03:13:22 +0000
-Subject: [PATCH] dma-buf: make kobj_type structure constant
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230217-kobj_type-dma-buf-v1-1-b84a3616522c@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIANHw7mMC/x2N4QqCQBAGX0X2dwveCRW9SkTseZ+5ZafcZSjiu
- 7f0cwaG2aggKwpdqo0yvlp0TAbuUFHbS3qANRqTr31Te3fi1xie9886geNbOMwdi4cc5SwuoiH
- rghRwyJLa3so0D4PJKaPT5T+63vb9B9H91jl4AAAA
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1676603602; l=1123;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=LH/xXQeQJ9b7IeJuEOdjjtQYgBVktXb3iGO/ZdlJOBM=;
- b=rrQjbf58nObPJhR+ovNy9W4vuE/7AyhUZbdHvb87cT7IzWpI5BE8fvDeBIg0KoH+pxoX+KbT4
- AUKjKj2iHEEA1TlXGTuWeExpnYQ4BbfzgcccPlk4wjhwdMr80F2E6uM
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9A4E10E088
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 04:38:37 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1508C612CA;
+ Fri, 17 Feb 2023 04:38:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7A529C433D2;
+ Fri, 17 Feb 2023 04:38:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1676608716;
+ bh=lBD+ZV+x7RW/eX53Icvx7ILkWEuCoGjpdQs2LC4GIJE=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=DEvc2+ldxoY1eRm4xROZ/tl8JAOTaeExbBxAhinMVOIoBiSh5mtJGwb/K0LSQMoBr
+ OiyjoKf0Y1oViAJ77gASHQqdb6uoGsgE0T00du8EgHIH0Dx3x8ff4OgHR5as11f3K9
+ Ebp0eiUZORVwpluSX9DW6lRxq5QTPdtY1xL18F8irU95Bq6r6ixi9J4cb+9IOS95ce
+ E2URsqVMbUb4JKnzKErUaTahzl+hhyz/wz/q+xR0oL6avSHMcoBtOOGY9Syr/pH3Ko
+ eQXDvkCxi29YAe/8XXUs+l7jCxOK8WiItWgz3lhjhAz8H4Niy1Rne6sSv01cn8riIL
+ 0x/EzPKnxBlCA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 651A4C1614B; Fri, 17 Feb 2023 04:38:36 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 6.2 final
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tyvvUJiuADGfPznEKCNBmwGzPEKE7Oob_9BduxE6Od4TQ@mail.gmail.com>
+References: <CAPM=9tyvvUJiuADGfPznEKCNBmwGzPEKE7Oob_9BduxE6Od4TQ@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9tyvvUJiuADGfPznEKCNBmwGzPEKE7Oob_9BduxE6Od4TQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2023-02-17
+X-PR-Tracked-Commit-Id: f7597e3c58eeb9ce534993f53c982f2e91e6dd4d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: ec35307e18ba8174e2a3f701956059f6a36f22fb
+Message-Id: <167660871639.4329.3467322456999511365.pr-tracker-bot@kernel.org>
+Date: Fri, 17 Feb 2023 04:38:36 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,43 +62,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org,
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since commit ee6d3dd4ed48 ("driver core: make kobj_type constant.")
-the driver core allows the usage of const struct kobj_type.
+The pull request you sent on Fri, 17 Feb 2023 12:16:34 +1000:
 
-Take advantage of this to constify the structure definition to prevent
-modification at runtime.
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-02-17
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/ec35307e18ba8174e2a3f701956059f6a36f22fb
 
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-index fbf725fae7c1..6cfbbf0720bd 100644
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-@@ -112,7 +112,7 @@ static void dma_buf_sysfs_release(struct kobject *kobj)
- 	kfree(sysfs_entry);
- }
- 
--static struct kobj_type dma_buf_ktype = {
-+static const struct kobj_type dma_buf_ktype = {
- 	.sysfs_ops = &dma_buf_stats_sysfs_ops,
- 	.release = dma_buf_sysfs_release,
- 	.default_groups = dma_buf_stats_default_groups,
+Thank you!
 
----
-base-commit: 3ac88fa4605ec98e545fb3ad0154f575fda2de5f
-change-id: 20230217-kobj_type-dma-buf-a2ea6a8a1de3
-
-Best regards,
 -- 
-Thomas Weißschuh <linux@weissschuh.net>
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
