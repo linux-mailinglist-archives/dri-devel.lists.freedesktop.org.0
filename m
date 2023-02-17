@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1145369AC5D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 14:27:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015E569AC62
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 14:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA4110EFD2;
-	Fri, 17 Feb 2023 13:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F85A10EFC9;
+	Fri, 17 Feb 2023 13:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA0210EFC9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 13:26:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A52010EFC9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 13:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676640417;
+ s=mimecast20190719; t=1676640472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5nN2pkIUHBFG+z0Sr8B2N6bHF0HcFQb8tp1F8SWBhnM=;
- b=HZEf8S+9oISDo7MhvSxsbU/M6CNthhRyjifSN5oTGsbXVtSF/XVAFy5ZHeUiVDVwewKotD
- UgjtuYhZ6kr+wbmfUHZ1WnsEZ4+BkvNYrvtpb/JmQtItT/fARt+9Ql7Ca0+iQ6K64Bzo2c
- HeV+hsrmg5EOFLiTskl1s5Mby88aMZM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kn959pjERWlA4NN9FBj9jpzem6CtQEXiCh01CPZcaQU=;
+ b=hcE7WR68MxGDfMAO6FSqqeij7DxpsIyJjfKHj0GTsn5+ntO0n6U8z9cjtwsZhNe4AL+Zyy
+ LTQX7ER4ybrw7rDoOBTCx/HD6aKFxrCrr9FL4bTpjEfDFyofg8l+njl1mzZLAZyLhbOnY1
+ VFwXoRK4RKRWonixLsGs9YI+A/TkaZo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-211-MJ0-jWr9PiWHeIhAd1VyjA-1; Fri, 17 Feb 2023 08:26:56 -0500
-X-MC-Unique: MJ0-jWr9PiWHeIhAd1VyjA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p30-20020a05600c1d9e00b003dffc7343c3so631404wms.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 05:26:56 -0800 (PST)
+ us-mta-59-I0UW4EivM4CfHBIPhwrWvw-1; Fri, 17 Feb 2023 08:27:42 -0500
+X-MC-Unique: I0UW4EivM4CfHBIPhwrWvw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k2-20020a05600c1c8200b003dd41ad974bso639944wms.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 05:27:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5nN2pkIUHBFG+z0Sr8B2N6bHF0HcFQb8tp1F8SWBhnM=;
- b=KlGp5R0KqdhlVYHJD1kTf0DTI7uVxFB86K0lyjTv+NTTxDI1WA6Wg78mlG96iWiaOJ
- NihFoxVzYNrFX/qQdGc3/6EmsQDiYY9nIkpyr/FEixTRW1vy18PtkiNRSm8ZB/6wXxLk
- 4D207o7q1aUwguhKw3CjoD67hog3DUnPcBXVljbV2MveyUQR4n5FsmQo7Oaq+NZKZo7M
- Y4p0uIvNn8+GvO+vL+4HuscnIBOQeIRVnG53Xvpzx1WJt2FzD52c0qASKUFeUj14avNS
- m4yP42EvBpb2PMNsOoemk8zA019Ojk8ExgtqcHdvIPGYRgnQa6NMjdABEeQr4n/ugB3X
- 9Sow==
-X-Gm-Message-State: AO0yUKVuvJMqZpDaubLRoSDpimjKWoIHpZsGNjggdxx69ZfttX1slPpl
- q4T/MP/1PLx/NQqnfXZhdfjSmNlfNghii6t19fAwwuic/VA9ir6bjkHnom/4NaXGvZ/fU5TZyQJ
- SfmwZM+1qmO/63Gf5pTlu3/X6cPSQ
-X-Received: by 2002:a05:600c:1608:b0:3e0:1a9:b1d7 with SMTP id
- m8-20020a05600c160800b003e001a9b1d7mr151871wmn.19.1676640415273; 
- Fri, 17 Feb 2023 05:26:55 -0800 (PST)
-X-Google-Smtp-Source: AK7set/xiSQHkn/wKuseNGy+j7gGtHia4oH1m+Y30p9/1pNyNDLTd+QhqkC++XtaD4OrqQoP23zKag==
-X-Received: by 2002:a05:600c:1608:b0:3e0:1a9:b1d7 with SMTP id
- m8-20020a05600c160800b003e001a9b1d7mr151862wmn.19.1676640415042; 
- Fri, 17 Feb 2023 05:26:55 -0800 (PST)
+ bh=kn959pjERWlA4NN9FBj9jpzem6CtQEXiCh01CPZcaQU=;
+ b=IvKN3jPgch+G405MO+DNMzOJ5V7Mt29asnFlXiXRfuszEM502+P+sqpbWsvr8qIqSU
+ ibDCY4EPvbj55+ZtaxdUJjivLvF6T4GJTHGLekHoOvUHzo3l8fnmkru85EhT4cY9zxqK
+ //oWoQ5r6ls8vD9zzbtslEWyVBUOGAGMIeu/VHzTIV+tb7h5GsG/kbr2AhsAjd5w+91x
+ chP7zyKtpW1vSGQth0L3fNIAhKlBXarqtzMxBIYXtUvsKY1gzJfIFOH7onsCcRNxZns0
+ 96UdaZ4g4T/IkAPQcjtNTRflFOEnaqWeGwPEQaqdEK+0EfFrDnqbeFjv165dWdzunIV5
+ YndA==
+X-Gm-Message-State: AO0yUKXU9x2p3gJBWdfIoQDFFUX07Zg6RO/bJQQxRo5gxDDhuSz84NZ9
+ y0T7p7SIZTfXxXcAeKEde60DGFubuqlqx1kY30ynCvqMz6v1vEdaY2NtUmMbbsaViCrEWhKsAJg
+ vfq3kvu3h3MYBFBEc8nEKO/mLQYt+
+X-Received: by 2002:a5d:6991:0:b0:2c6:e7f6:49af with SMTP id
+ g17-20020a5d6991000000b002c6e7f649afmr1556174wru.27.1676640461077; 
+ Fri, 17 Feb 2023 05:27:41 -0800 (PST)
+X-Google-Smtp-Source: AK7set9yVkkm9UCCO49jiKgpfSadK+RO9VSBY7lFWa3rTjTG4MwGlSNfyA+xztMuBtzsCBzyDPXl/w==
+X-Received: by 2002:a5d:6991:0:b0:2c6:e7f6:49af with SMTP id
+ g17-20020a5d6991000000b002c6e7f649afmr1556159wru.27.1676640460831; 
+ Fri, 17 Feb 2023 05:27:40 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- v6-20020a05600c214600b003dfe549da4fsm669469wml.18.2023.02.17.05.26.54
+ t10-20020a05600001ca00b002c53f5b13f9sm4172620wrx.0.2023.02.17.05.27.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 05:26:54 -0800 (PST)
+ Fri, 17 Feb 2023 05:27:40 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  airlied@gmail.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, jyri.sarha@iki.fi, tomba@kernel.org
-Subject: Re: [PATCH 4/6] drm/mgag200: Implement struct
- drm_plane_helper_funcs.atomic_enable
-In-Reply-To: <20230209154107.30680-5-tzimmermann@suse.de>
+Subject: Re: [PATCH 5/6] drm/tidss: Remove return values from
+ dispc_plane_{setup, enable}()
+In-Reply-To: <20230209154107.30680-6-tzimmermann@suse.de>
 References: <20230209154107.30680-1-tzimmermann@suse.de>
- <20230209154107.30680-5-tzimmermann@suse.de>
-Date: Fri, 17 Feb 2023 14:26:54 +0100
-Message-ID: <87ilg0ifs1.fsf@minerva.mail-host-address-is-not-set>
+ <20230209154107.30680-6-tzimmermann@suse.de>
+Date: Fri, 17 Feb 2023 14:27:39 +0100
+Message-ID: <87fsb4ifqs.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -89,9 +89,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Enable the primary plane for mgag200 hardware via atomic_enable.
-> Atomic helpers invoke this callback only when the plane becomes
-> active.
+> Calls to dispc_plane_setup() and dispc_plane_enable() cannot fail.
+> Remove the return value.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
