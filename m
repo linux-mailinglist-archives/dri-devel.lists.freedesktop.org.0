@@ -2,67 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE9769A7A5
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 10:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5905369A7AC
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 10:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBA6210E2C6;
-	Fri, 17 Feb 2023 09:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D85F410E2D9;
+	Fri, 17 Feb 2023 09:00:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4979110E172
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 09:00:31 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id er25so1436957edb.6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 01:00:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ekNOF1bkOZQJm/qVwvKNIt0dSpLOM3/k1DSdulZe8LY=;
- b=u0R7xCkg647d+PdFtOjae2NNauQmSugx0nA2CnibFYJNb2TqRH6QZUxXuPoW5E5otf
- 5x0s6r74XqEw2i+BBZpbvEUD4m8tp3h0qZvZ5cSSKfpQnnaN/Q7Uo3IuuRs+Uo4NTXm2
- sBXp8os91H2PSM7ZiKznGecqPLNTZwVOxTSeOdo3bHJlL1eb4l2+ds3nqHt5UjBKiYQu
- dkL4a/Hj84gZjPHoMjW3gax2UOBzw6ME+5HKDVsqezuk2EF9oJAkCIPjky7SdhwrCbbp
- dKFCpCwcljp/4D2fSuabF0pHcEChhlQr/Mudc4RVN7+XHddW94cgrRCtjdy8QqiLALLo
- 1N1w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52ECF10E2D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 09:00:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676624447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=B97UIS8ie9w9KzGcrCkLog9xnQRWw2knn3o4yQp4rpI=;
+ b=MwYIGAWc8S5LqW4Nuv0J7smDVWTC/n6+7Da+Syno07+L6jz0buX/vggwRMuJpDw5yjeGCE
+ s9lUTxwy1+q9++AIKW6/nKA89zG6YbL5SN9l1VkBBHnid5WLPATFXeUUC+fIZ20p9JChn4
+ 6kZeXz42XYbZHWisBPzdfcM2/RyLgoc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-594-iAfde2KGODy-di6m2JyLQg-1; Fri, 17 Feb 2023 04:00:46 -0500
+X-MC-Unique: iAfde2KGODy-di6m2JyLQg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n21-20020a7bcbd5000000b003e21fa60ec1so833735wmi.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 01:00:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ekNOF1bkOZQJm/qVwvKNIt0dSpLOM3/k1DSdulZe8LY=;
- b=2hvZgXkQkzU1YHpBnzTVuFqYa2l38yLwHh6gSedY7Rm023hhfZ9uMJo9aJnnkAkdla
- gn4/sxJdWVsGOIyAQU3x8F4NVd17jXcujdCDqnYj13DsHcuEQHsaPSh3tHO6rj6DUHnJ
- EY7uo5EQSC+fTWapsr4PFaARr13wZVM8KzJVzXLBWHlpm1BX4JV1kSS2V2mMfRVdHRtT
- UnvdgFvhjxsmpLcOE3w4SQXhlvF2ulhT0cBvqU5A8oLsMlwdD9sZs7v75WFeetFhjE8Z
- 0RtqLfF3qSaamB2/MvP1X68S8+oKdyYP+veRq54j1B1G3RHcZhqUFYNDcCffXxJ/bZ/5
- JjWg==
-X-Gm-Message-State: AO0yUKXX1kznm34oH7gB6M2IF23oOqBwUDEpAMOdd8DQpVngRbhGMOSR
- KN9MKaaiMyT5BGJFhNl/zjolmg==
-X-Google-Smtp-Source: AK7set/ELRtrQY+LPmu6Ny5BmCpwfAgT22qZ3hPf7KIQmiUV5HJahas5slRjT0KhbQCmxe6/O4yovw==
-X-Received: by 2002:a17:906:f28b:b0:870:b950:18d4 with SMTP id
- gu11-20020a170906f28b00b00870b95018d4mr34213ejb.5.1676624429688; 
- Fri, 17 Feb 2023 01:00:29 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- gx10-20020a170906f1ca00b007ad69e9d34dsm1877582ejb.54.2023.02.17.01.00.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 01:00:29 -0800 (PST)
-Message-ID: <943daa4a-8101-d5fa-b38e-97aded3e3b4c@linaro.org>
-Date: Fri, 17 Feb 2023 10:00:27 +0100
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=B97UIS8ie9w9KzGcrCkLog9xnQRWw2knn3o4yQp4rpI=;
+ b=5kANjIgVGvOCXPlmCxV2mBE3ChlQ1066j2bn4FtWnp8gaacidqNyFV7ttpNX1EpHap
+ RiiBE0SmtEBvtCaIY3E48vay67t88X0z5kmdxKDIZUm7/Z7Er1HLUVYukh9OmgvoDNUo
+ F1/vN8EMOizF3cQeODIvFfEUAA3FNr6ujgF6n6UQ8T4TOGSGHGFiRhwNR70TeubwbNaK
+ XLsnGcaT4M9FBzD5A9ZzNFU2fO/EeFGa7RmmjEY+alqNFgVeV4B7x7RZ1uNsFPekaxTs
+ j0wt6Vxj2zCGnZq6bXHSFe9VVU9j+BNPUKI/aDbCbjNyEq1k+w3mhraS1uKarDY+Ysem
+ oelg==
+X-Gm-Message-State: AO0yUKW31Hbri+OhUiRTlxQsAMUfdRm1DJKelf88dJHOwOeC367+aUXo
+ M5GLCfe0LhhLA6VcA/FTrUYDCHCkXUL4nalfUBFJ1gH07pwY3B7rxxRK2oVeRwVqIa0rZw0Jdil
+ 7wl6LoR3OcQjaT/I917lGGkSKptjA
+X-Received: by 2002:a5d:5144:0:b0:2c5:5d1d:b244 with SMTP id
+ u4-20020a5d5144000000b002c55d1db244mr7050966wrt.29.1676624445658; 
+ Fri, 17 Feb 2023 01:00:45 -0800 (PST)
+X-Google-Smtp-Source: AK7set+GAEaS+cnDn75pZnbKNpaEwNXZM1nwMs4PYXOVZhHBD2pvwDjNBKmLaq3OkX/jJUVj+CLJgg==
+X-Received: by 2002:a5d:5144:0:b0:2c5:5d1d:b244 with SMTP id
+ u4-20020a5d5144000000b002c55d1db244mr7050941wrt.29.1676624445403; 
+ Fri, 17 Feb 2023 01:00:45 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ f18-20020adff592000000b002c592535838sm3149086wro.2.2023.02.17.01.00.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Feb 2023 01:00:44 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, deller@gmx.de, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, geoff@infradead.org, mpe@ellerman.id.au,
+ npiggin@gmail.com, christophe.leroy@csgroup.eu
+Subject: Re: [PATCH 08/11] fbdev: Handle video= parameter in video/cmdline.c
+In-Reply-To: <20230209135509.7786-9-tzimmermann@suse.de>
+References: <20230209135509.7786-1-tzimmermann@suse.de>
+ <20230209135509.7786-9-tzimmermann@suse.de>
+Date: Fri, 17 Feb 2023 10:00:43 +0100
+Message-ID: <87pma8wts4.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] dt-bindings: display: msm: sm6115-mdss: Fix DSI compatible
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, agross@kernel.org
-References: <20230216131426.3996378-1-konrad.dybcio@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230216131426.3996378-1-konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,45 +83,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/02/2023 14:14, Konrad Dybcio wrote:
-> Since the DSI autodetection is bound to work correctly on 6115 now,
-> switch to using the correct per-SoC + generic fallback compatible
-> combo.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
-> Depends on (and should have been a part of):
-> 
-> https://lore.kernel.org/linux-arm-msm/20230213121012.1768296-1-konrad.dybcio@linaro.org/
->  .../devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml     | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-> index 2491cb100b33..146d3e36d1c9 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-> @@ -40,7 +40,9 @@ patternProperties:
->      type: object
->      properties:
->        compatible:
-> -        const: qcom,dsi-ctrl-6g-qcm2290
-> +        items:
-> +          - const: qcom,sm6115-dsi-ctrl
-> +          - const: qcom,mdss-dsi-ctrl
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-You should rather keep old compatible as deprecated (so oneOf with two
-options - items and const with deprecated).
+> Handle the command-line parameter video= in video/cmdline.c. Implement
+> the fbdev helper fb_get_options() on top. Will allows to handle the
+> kernel parameter in DRM without fbdev dependencies.
+>
+> Note that __video_get_options() has the meaning of its return value
+> inverted compared to fb_get_options(). The new helper returns true if
+> the adapter has been enabled, and false otherwise.
+>
+> There is the ofonly parameter, which disables output for non-OF-based
+> framebuffers. It is only for offb and looks like a workaround. The actual
+> purpose it not clear to me. Use 'video=off' or 'nomodeset' instead.
+>
+
+s/it/is
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+
+[..]
+
+> +#include <linux/fb.h> /* for FB_MAX */
+
+I believe including <uapi/linux/fb.h> is enough here.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 Best regards,
-Krzysztof
+Javier
 
