@@ -2,130 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9A869A78E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 09:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F050269A7A2
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 10:00:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9841710EF11;
-	Fri, 17 Feb 2023 08:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97DD910EF1C;
+	Fri, 17 Feb 2023 09:00:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur04on2097.outbound.protection.outlook.com [40.107.8.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFDD10EF11
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 08:55:29 +0000 (UTC)
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ (mail-ve1eur01on060f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1f::60f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB4E910E2C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 09:00:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=llmvD1mXTHjclzgXIZE3Z/ZJ/hWAlk5S1hnynHcUQNTFCqUn7z40Hq4qObxzNwG0ZGm20DszmI9JLl3A4xjMWkNQfSJ0OozVQtMOZsKhUCmPyxqfpqK8EVuTXUv53TYW0/ylYnGSN/sSyOFnxdIZoH+JkltqvNVk/UJaqWMyqBpjwdaezfbGOLiuUpzbTGTt5ZPotbZlCLshiOb0eQMfBXR3k0e/ziY/loG9gI4dgr5G50PC/0HyqZOTc6aYVQUQFWxkc959vUa+ruiAxm4s/E9Vy5vJFAorfVYOIjZBXpXxlAjK96pQS5hu5fWH93ygVfQIMo5y6zlzkq2nB9NkJg==
+ b=KCebx+VrSGi5H4828SjrhW9UkwvsBAWBup55rpOQx+rautYG18PneOZQWZPuZvHCk/sPZG5vrKcJWv7yziDNSDbLUX6Tp7wSDnwBEY7nDumxD1H2Nq9OYlRHFbA63Ca5rlGQNNtpHHBjY6iK4KazjtNfQTKKC50wcasMGO0+2UUW8B6UoqfUSK3hMsXwF+E49XsZz4Y1az9vtHC5LChU4TVDEKRCgSsEfpMsgdQpXccOb07J4G20HHM+zEBtESHPDCPAKcA7165tnRI/faaiiqGPXGg7ArrSpQQzjdC+0PmdzwAqb9TSj1sTrtc9FyUx7vYM9LdZy2yBXd6KIFkUMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mopu1H85eEVpv9GFJj74EWhLfIGfkDGXsLDrYv8Aczw=;
- b=ksiKqr3wDfD0eCbs9I7so9EKYpwDkkVeIXPLzpPOHS4p1hR7ybrFt9RR1YP/v0Ss00FCB3hs3ETKGb4Ko1DZFKsk3dIGBEePMBj0vgcvGu7nuRVwQjhNnqFA9o8WSclufog+eGZYVyrlEhTpRPhspgm8h3fXjpjwv657UDeW/2AVQEQf4z3h7FJSc3cgs3bkncb/GY1+ZLcERNnexsogn4MJ2QFJXwwZqzvx/gYy8stoTxDf1V9O2HPJSGFrgoXJZksjb60wBuiP0xO2KeLe4dWijNfsBlBbSWTxdyzP+rt9z+YLmiU+fLMOiTKj/+jhKp1h5A55SaR1Pf2366gdmw==
+ bh=yG+kUVBkE1Is+LDXPdrLcA4FrdpPdy0ChNmPtIFUlj8=;
+ b=Voh82WdkjDQr/aixtkk2B94lYc3TUnY6hqhGnmd0iFLkjpBoUyQLbtDAxGf5MeDTP+trE4pd/iY9sNXjtjKGBN/w1P9FmLSWbORQlFBOw8pc4oJckKziPbE9yFWmgZovrg4HAR6MtiJInxbBHroNeQt1Cb3HYcb+wCetXYNauL425hqTpox66iWKMpnmpm6bHdTSM0ZzHwwJkkaUA5AA2ayASLjzKxJfRMAMyYqmV1VE/rubdtQ3I4D9lp6KP1eLYzUjsfv48XOXnxiQd91fMzTJcxHCkfctsXy0G8ZvKp56dnN/SbbeH9uJOLb8PREXHRXcBx1MSkF5Tg9enNHgSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk; s=selector1;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mopu1H85eEVpv9GFJj74EWhLfIGfkDGXsLDrYv8Aczw=;
- b=ACWH2F91HZuEkji0g/1E0SxX8WZgu+9maSnA/0erezcuO6nv+al0b2S3PT7LO04M61hJbo4N2dzMpH/aCXEl20CXGjYnu6Q6B79+iapwJ6g3oIHMj5b5s72DlJUyDthWTm+2+ynI0fNzArsPRIscRsAP+VFqpV6Gc2kUXpBABH4=
+ bh=yG+kUVBkE1Is+LDXPdrLcA4FrdpPdy0ChNmPtIFUlj8=;
+ b=HyuuyYTiImG4Twxnjen5iNgU2zJxQfpqBLVyvQTNa8pQpZ6oIKQUH/L6m5xcXl+pal61khMvZHZGomEK7XTv2tOfJNWoFIjN8jgITQmkEm6u15KGNNeWF6MH7npCyXeVQsQ7ZjWgErMrx04ojIHLEikC3cZV+gqGnvRGNJDO/J4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=prevas.dk;
-Received: from DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:34a::22)
- by DU0PR10MB6953.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:414::21)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by PA4PR04MB9592.eurprd04.prod.outlook.com (2603:10a6:102:271::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.15; Fri, 17 Feb
- 2023 08:55:26 +0000
-Received: from DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::d067:93ef:f184:668a]) by DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::d067:93ef:f184:668a%5]) with mapi id 15.20.6086.026; Fri, 17 Feb 2023
- 08:55:26 +0000
-Message-ID: <25ae1824-4f00-4337-4512-0d8190981fb6@prevas.dk>
-Date: Fri, 17 Feb 2023 09:55:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
-Content-Language: en-US, da
-To: Fabio Estevam <festevam@gmail.com>
-References: <20230126144427.607098-1-jagan@amarulasolutions.com>
- <06e5423f-c022-7a1c-efe0-0f4fbab664c1@prevas.dk>
- <CAMty3ZBRDDnNdmgD5ji11SdCuOcmu3ZyBPyB28cF1aRTyxp+fg@mail.gmail.com>
- <be95e4f7-15a8-ba99-6b39-6f7f0ea71201@prevas.dk>
- <CAMty3ZBNLpV9orVRD897ZeR3Hj9RWOau07b1ZGDUoBRej=Cj-Q@mail.gmail.com>
- <31ccc974-4b01-ae47-9505-626617f07758@denx.de>
- <f6cea911-783c-f59d-503c-1576358ae7cb@prevas.dk>
- <dcc28c36-9b09-ea92-be21-665c6cbf35b3@denx.de>
- <c21ee1e2-b92e-0fad-40bf-91cae9e57f48@prevas.dk>
- <1745c43d-06b4-933b-5dbd-50add565828e@kontron.de>
- <c9dc0b2b-8850-6227-163b-85c53c5d72ef@prevas.dk>
- <12d5568f-c12c-970d-0f78-17d6dc7c0c1d@denx.de>
- <6ceb6866-f8a5-072f-3d86-895024fcec79@prevas.dk>
- <CAOMZO5C1oau7+YAbadD=8ERiNSLi_Z1k3VC9HVmT8aVpQF5hiQ@mail.gmail.com>
-From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-In-Reply-To: <CAOMZO5C1oau7+YAbadD=8ERiNSLi_Z1k3VC9HVmT8aVpQF5hiQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.26; Fri, 17 Feb
+ 2023 09:00:04 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::5725:92ec:f43e:f5fc%9]) with mapi id 15.20.6111.014; Fri, 17 Feb 2023
+ 09:00:04 +0000
+Message-ID: <52b8025ee9b71dfb147127bd1cb2c532d222df3c.camel@nxp.com>
+Subject: Re: [PATCH v4 0/6] drm: lcdif: Add i.MX93 LCDIF support
+From: Liu Ying <victor.liu@nxp.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date: Fri, 17 Feb 2023 16:59:14 +0800
+In-Reply-To: <13207614.uLZWGnKmhe@steina-w>
+References: <20230217065407.2259731-1-victor.liu@nxp.com>
+ <13207614.uLZWGnKmhe@steina-w>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MM0P280CA0025.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:190:a::16) To DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:34a::22)
+X-ClientProxiedBy: SI2P153CA0020.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::19) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR10MB5266:EE_|DU0PR10MB6953:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a4ae21b-4d7e-4bfb-e049-08db10c4b646
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|PA4PR04MB9592:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5cfb225d-6e29-4134-e485-08db10c55bed
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dbhNWMqrVbMa0Mj8JqgobMjP4v8NsZJ4UzmJwVzL7CH6j2x6fsPpRqQZTtZU+BBQTzjQFr552Pjfo6ItZqaPQJbzJxfaE1iNgpPWoZoueRD6e1N0auLsYrc9NTyEg2b8eStpfrNf3ojPkNq1v+pDC5lWaRayhIgL4OI3fkaykopL4vROI2+9b8s8/unQ7d5fgYL3UpSnqMGtMHXKFPqpqNIS64iCeeZU4MisWe0OdydGZ1YE5pPDIS2xa+vzDsnSIUaTcULPfh6mnHo7T0A+z9/MmxG6DRueP3Db7ohDM6XiGdc/ZuUHCnehVtPetPGctlzzIuRzKuDxUQyRpXaiAu/zPk4WFrghn23qApOBPurhlXR2aPhUrp1xjrJYm+ejnJGv0uF455pQ8RheClI+CVlh5PPfC6pRCyBY2olxspaz6+N758n1knfYDZM8xamPlDPYgi5c54LFEq9/kajxEcKAH6OTzAZFXy4CJPN8WSVzeUL4+PkxBG4PHj7RQJDj8PD9EEzGscnLWD/tt7Mdb3MCSZHeZ6sa40aRavN+yniYhq7lFlryFOjLWIr5NVlwgmtgWCgYQW4E/6VsuNTSr8Yucd+V7rZVHUGJRqIiGwmsGIB6DsxAJiKmW2H35lMvK0pHvmLPXSPqcsqvpmmj5YTTYgcck+rUSUbMy6BtP8PqFsGAin+jciwFepifTiFMrb3/uegoUP2YfEgSBt2PTgQ8PDwmjn+zjBcaZn24+w5GUAoQAOkkIMBaZYidLdVtOTU8ECSWd/JNRnB956iCaw==
+X-Microsoft-Antispam-Message-Info: bt4Hc0I0TvvTYk6/zJMKAyWTEclEpWrI9XJ9ltrsQYAEycgE5wJumpMbQCIQKyD7CUgkBsB5yOZA+NZc7T2xhPr3Y59NVN5AlEGSgYY/8+YHAyTKuPtv2HDbKbNL0pG+to8YCUQKYAUr+8nZ8b8Op/QO0jSADmGyMTxHgbonaf7PwaaX3F3rbexVbTSGQHZxIY0D0BrWGBdPFSD55oTaMWlobKFOG/a8kdyYbsYWE6FhSsLtf/ioyPm102bcnZ9uOp6TF0w6VuHK8G7Nt4aLEyh/BUChLMPdxp1A9GYSy+dNibUSPSB9dIlSQSxikA5AqQaHXIKaCJLL2esmrfHJ99395qz58hrcwb1jzQapWUIV8BlcBnPBP2npQNCoM7dN/BUhLGCdyIRAWQVyZIbKfYc4qaAe6m2tZtjn2GDQK0t3ypCNlvsmQuk3961sDZ5dxjvmpvdQmzh/X+Di6RoDBct0dk+mB0QF09smulvUtPaO+6xyOxkZ1ZLcAGu/HXPPrlGcxajh7dSmWd0QHGdbeyl+c5aENlUpeX3gEGA+UfdHjknfChkklQyiMHwMEBzfsXJGZowv1lgTwq8xBgFjDiRKI3nrSBcd0DgWjQsuqco+L55eIHzAtT2hQohePf8rGWIXBuSnyVo89XOq9wrADSTObPGp48gQe9gn4C0McHXMWsvcKrbfcTcVuBiFCLszBEpL8irmx/dwsOu5344Rxw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230025)(396003)(346002)(39850400004)(136003)(366004)(376002)(451199018)(44832011)(86362001)(31696002)(2906002)(38350700002)(38100700002)(31686004)(6486002)(52116002)(6506007)(6512007)(53546011)(54906003)(26005)(186003)(478600001)(36756003)(6916009)(66476007)(66556008)(66946007)(8676002)(83380400001)(4326008)(316002)(6666004)(41300700001)(2616005)(8936002)(8976002)(7416002)(5660300002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(366004)(39860400002)(346002)(136003)(376002)(451199018)(36756003)(41300700001)(7416002)(5660300002)(83380400001)(8936002)(4326008)(2906002)(86362001)(38100700002)(38350700002)(66476007)(66556008)(6486002)(478600001)(6512007)(52116002)(8676002)(316002)(186003)(6666004)(19627235002)(6506007)(26005)(2616005)(66946007);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RmNhWmNJV2F3bjNMVDdLWVdtVkcwSFdJTDFZSXBmL1NPS3I2c0QyOUlzKzhG?=
- =?utf-8?B?RDhscDI2VXE5N3V1enB2MTFKYWI5bjVQby9UM3ljYlY2d3M2azhsMjZZd0p0?=
- =?utf-8?B?endSSkpjbWdVWTRNWTZTVlpGRHIrakZqSmdpc2d3UHdjRXF1UmpUUmtZYVQ1?=
- =?utf-8?B?V1hKV2NueTJLaWYwK1JSVHp1R29saVFvbWo1YzZHd1RCbjkyMW9LMElSNGg5?=
- =?utf-8?B?OVhEcnJKenVpOEdYWTdWZHJqQ2tjbnhCR1Nra1orc0ViMGVLYU9uMTY1Rld6?=
- =?utf-8?B?M2hNN3BlbWdKenZoY1R4WkpCdFNEbHVNV1dmNzZTNDBUNjVVbDBaanhOa1Bi?=
- =?utf-8?B?S0ZxYXdudGlsOE9qQ1VXSTBvM0k2WkJiNXBnL2F1QUZVSDY4TERPWWpDQzRt?=
- =?utf-8?B?U25Td2l3V1dYaDVvT05vRzFtN2lYUzdmT1N3UitxQkJVckVSY0Q2dEJ6TnFv?=
- =?utf-8?B?RFM5MzVoVjRLTVowMlVSMVFlYit4MzdyWnVSZUFmRlUzOSttak50OUVQRkRO?=
- =?utf-8?B?eEl1V25TdmwwWEpWTzRXSCtIczVmakdkcUQxWi8rUU1ScWRodE0zQjhwd2Zi?=
- =?utf-8?B?T0p2UCtsTkJwYkVXOVFhZk1GVVhod01ScXpXMUsxUTBLOTFGUXc0ZHBtU1d6?=
- =?utf-8?B?TXdNQ1YwV0ZzUHBDRHNIUGN3cUxhc3EwRE5ZZGl5ZGdjNnl0UmhMRkNyM0gr?=
- =?utf-8?B?R2hxZGNTOEs0VkVFTnZqcGtQb1dqSWNkS2lhMHFFZ3lteHhvRDNDcDZnTVJX?=
- =?utf-8?B?djdMNlZDbFZyTXJwZzJQcnJ4akp0ZUpEYk9pMWdsS2IrMFMyVyt6ZUVramls?=
- =?utf-8?B?a3lvRWg0QTdMSjVKZ01NZjRWaFVtSUNUb1dLQzRKOTIxdGNrOTdLSXljQW9i?=
- =?utf-8?B?OVlVN1Y1TnlieHFjaSsrVmlDS2pSNUw3aWFyaHhOUEJJcVlaL0xQdG4yUkhI?=
- =?utf-8?B?WnhpUmd6MHFtUFZucUN3QWlEKzI1SGVIdmMxWTlZWFptOVJlbzFWM0NLOW5I?=
- =?utf-8?B?Sy9UUkNqd09wRTdSRk42QUQ5RzlPTzVndk85UFRvaDFuUUV1UjUvdDk1Rjd2?=
- =?utf-8?B?bjJSeUg3YzFNZGtsSTQ5NXRmc1lUM3hpSm1DU0dkSk9hbVcwV3E0V2V4OWV4?=
- =?utf-8?B?MHY3S1lJcUJtTTJ6bUk4VSt4VUdPSGFDNjBIRWNoTGt3bmZKNENvTE9ZR3dL?=
- =?utf-8?B?dHFpTU9tVDdHWXVZSWlaMFlCTlJSWnJYenNPejFRVkE5ektwaFdPYWFNYjRY?=
- =?utf-8?B?RzZEcDlWdmg4SWdncnhpaktSaU0vOXdRNjdrSzhaU21Md25EbVNQN2xkQWp1?=
- =?utf-8?B?K0dqZHY4eUFVQ0VxNDRnTE9KUzVjRUppaXhyR2hhbCtRSWY3Yjk0djgrclhw?=
- =?utf-8?B?YW1OWmpaWG0vQmdOaDBBWjhIaFZpNnZCTC8wYy82Q1dnMEFYNnl1cmpqN3Y5?=
- =?utf-8?B?SmRVcDJrc1Q4bTgrT2pDSjN4ZE44SXlmS1ltUDdhaThuNWMzeVdNVDNzUDJF?=
- =?utf-8?B?QlZZT0txd0Z2VFlqUGVsdHBEMnZXK21WZzZML0dMWG85WFFiVFgvNWd5dWF4?=
- =?utf-8?B?ZXI0VWxibzg1YVRQcm1kSXZvRWhJS2R0MkUrMk1Idlc0T1Rmbk5WL29ENmdP?=
- =?utf-8?B?T3JXY1A2SDBzT2lid3liRytBakE1ZUMyWnIzVDF4TTNadTB2VitYUzI1Q0sv?=
- =?utf-8?B?dTFWVkNhUDcxSXpCU2pzdm14OFpjVTJuM2dJZ0RoUkYxQU5QZ2xML21jTWNE?=
- =?utf-8?B?TEF2WmRrY2JJWjVXVEdTMU9qeXlnbVo4akhWNkJkQkNKN3FYY2dZbDlUbWMx?=
- =?utf-8?B?NG5JNldLRGNQUExnOUtlaHJmRmFySm1uVDY2cXRPdzRWM3Foc2NQK1dSbTJv?=
- =?utf-8?B?KzhHYXVKRWtZTFlTT1Z3enVsTlovZUYxSnVxazZpQmkweC82Rmxma05oOWVs?=
- =?utf-8?B?empwVXFsVURiV1U2WFVSWldkb2FFZE03c3d3SjJSS0tZamRDN2VBWEtxRkVW?=
- =?utf-8?B?Q0F4N2owdkplNkduNnVRMW13WGcrcGQ1TXJmNzdTcjhIT2ZkTUo0d1Vpb2I4?=
- =?utf-8?B?QmFoY1U4MG5rUW1qWGozMWIwT3NGcDRPcXVEMmU2YnhCbHpjWGZhU3hhWTFx?=
- =?utf-8?B?ZTZmSnlpcXd1Y0NVaVArckFwVWNuYVg5WjJUYWswanliQk1oWWU0TUtnQXVm?=
- =?utf-8?B?cXc9PQ==?=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a4ae21b-4d7e-4bfb-e049-08db10c4b646
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR10MB5266.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dmRyeWt6d0xHVXZZVUduME5CbXY0dVlIdGlMamxzbVdNZG83dUdYaXdsR09n?=
+ =?utf-8?B?NTUxU2FEeCtUeFFIK2RNUm5yT0taT3lYc2kvekxCblgxMGFnVmJqdk1Jd3l3?=
+ =?utf-8?B?dURaZk93NHVxTEdsZUo5VmRFSHhaanRQUDN1VkUvd3U5ZHY0aC9Nc1A5c2V1?=
+ =?utf-8?B?Y1pIZ3pNSXBMZnl3Z1FJZE5laXpBYWhhQmt1c3ZKSkE5Q2dKUStXWG5iMlF4?=
+ =?utf-8?B?REpaZ1FsNEV5RElZVmtnMUtROXdCK1krZE9XcXhUSTJSQjZURDM4eTZ3SUFL?=
+ =?utf-8?B?bksrc0ZidFZYZ0IxSU9sRGg3U1Q2RWN6bk1ELys1RUpHNkxhQ2o0WkViNnZQ?=
+ =?utf-8?B?TDJ1RjhBTnVISDlQSTBjZU0waStzUWdKZlU4SlVUQVIzTzZMeG52aDBJdUZ2?=
+ =?utf-8?B?RkdvbUUzTmhUd2hmYndZNExCZFlRWU1JaUhPUHRmZm9rU2NUbG85TVAxa0ht?=
+ =?utf-8?B?Sk5PWXdqV2Vldm9xMGV5RCtPRlB4K1FVM2YzTXE2WlM5YllUalVSRG15OXBJ?=
+ =?utf-8?B?RDZvWHVTU0RMc09QaEN1Umg5UmNLMGJORUFoelVxMTZUZ2VURnl3ZWF2Y0RM?=
+ =?utf-8?B?S29HQ3h5cFVxZ09GMVB5TW16cFNCR2VLdzVXRDRFRzB4aWlON2szNk1pVFdT?=
+ =?utf-8?B?ZWN6bzZyRWFtclZ0bXpQcVV6MVU5NEIzUGNJLzJ5UG96RHRVV1U1MFlXaDMv?=
+ =?utf-8?B?NGZjSVNjNzlQRVJJejl1Zi8xeWk5RDg2bk9oMEl2a0xITnRvL01xK0Zja1JJ?=
+ =?utf-8?B?ejUvRnhiZWdEY3lmVWxMR0g3TGtUYUJhTlh2V3pVN0tJaEtXU0dlM3d0TEoy?=
+ =?utf-8?B?YWlKT3RWTTc3OEtPdzNrVGd2YzBCNHpNL0hmNHl6OUo0SUI1VHh3RHY2b3Qv?=
+ =?utf-8?B?Y0wxRGxJTTZ5cG9JSmdKdUxHYW5KV0JFdW5nRDFVRDhIS0tVOXI5M0lQand6?=
+ =?utf-8?B?dkRKZFRJQ2pxa1pJd3czSFRySkIrdW0yRGtXOUZyZmNINDk3MlpTSlF0YWt4?=
+ =?utf-8?B?ajRRUG1oaDZjSFg2U2JFV0pMVmhrU25mUXR5MVRnVzRqaklud3NOMGdXL0tL?=
+ =?utf-8?B?Qkl0bkpZWklQV3dRMisva3UvUGg4OHY4QVNzQlJGdUNGdllaZ3VMVkc5dlhs?=
+ =?utf-8?B?MEoyZ3BpLzBlS1htVStMTkJGcmVhajlYb0xIcFlUNWRMSUl2TlF2UUs5WTBm?=
+ =?utf-8?B?RlNQSlRrVmxKU3dtVkd1Y1dKRHMxK05pVFFqNTNXdk1oUGNLWU1Icld5amgy?=
+ =?utf-8?B?SmVRNXRWMEJoeW8zb0FwTUlzK0VPY0lpeWJ5d1JuZ3k0cjY1eFI2SFVnYmRs?=
+ =?utf-8?B?ZlVPTTZWNGYvWnI3SFhlblFyTVJjSVpyWVFRMVVyUkV5VnAycisyRzhqMTZp?=
+ =?utf-8?B?SElwQ0hLUW5nUWI1TXo0N1RheEVOLzFrSjhjY2w4K3ZRQ0tQWkNKZ0lCSkRy?=
+ =?utf-8?B?NFR6aC9KVHM1RDJBT3ZTMTQ0S2Nqb2xpRmdYK21FRkNOR2xES3ExdkR0SFR6?=
+ =?utf-8?B?N2JwNHlyLzJYSWduMXA3Y2hlSmlWdytZUDdaVTJTdXhRMUR4eVdrd0l0Qlp2?=
+ =?utf-8?B?SEpEWmcyazd4WklZS2pmSWd2ZmdsUlpXRlJWM0tkMnduTVpMSHNNblU1TXJz?=
+ =?utf-8?B?TlJ6ZWpiUUNPR2Qvc0F3eXhyK3U2QjNPVUJGQWpoeG5kTUN1TFRXclhtS3ls?=
+ =?utf-8?B?WGh6ZzlUcnBWRHdteTVDYzRsQTY2c0NySzV3K2Fva2pnSi9aS1ZhU1RmL1RC?=
+ =?utf-8?B?TEM1MDlZc0ZJRkxQbFJOYjMyVDJncURZVW9OL2k0NTB6aWo0REE5OXB2NXBP?=
+ =?utf-8?B?QVhUSVk3eXIzditkNS9rRWtFN0hUZDhxS0R0bFZ4MTV2REgxY3Qwa3VCQTk1?=
+ =?utf-8?B?eFQ0S1ZGc3RsaHNKNmJqcUFzTmpTdDBKaUlFNGZoWEtVZjIzVW4vSXVmeDlV?=
+ =?utf-8?B?U0libGN1bkowZWZMVWFyU2VVVlBBeEVzMmpkMVpLYmFrT21pMGFjQmFlVDBN?=
+ =?utf-8?B?NlBuZU1ZU1ZsbTh4SnFVZG1nMmc2KzBEbWMvVEpCYm9Qc2l3eXVxbXZuUUpS?=
+ =?utf-8?B?L1NzdWUwOG9GbjM3YUJWci9GY2hLbTl2c2M1T3lqbzgrL25MK0Q5ZUVMYjV2?=
+ =?utf-8?Q?1r/85mJ94uWm1u8exjhb2QHoC?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cfb225d-6e29-4134-e485-08db10c55bed
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 08:55:26.3133 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 09:00:04.1865 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P4FZH207YOR4yQMBXjyad7xM/gwqqvpwfbaY367rE549WGRm29J8hYTyNY7isF0it5hzze2Dl/iQy6vXJzd533+8sbaRbLsoTjD8Q55Lr78=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6953
+X-MS-Exchange-CrossTenant-UserPrincipalName: Aa2R0RtXXCeCJufCXTKJ9F5/RjjwPW8ZIwAnNXVqbkhlpIkB+4NypSEWn9Vf+gkZH+iTwzDrUGmBI9LXAHJQvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9592
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,64 +126,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- matteo.lisi@engicam.com, aford173@gmail.com, dri-devel@lists.freedesktop.org,
- sw0312.kim@samsung.com, linux-imx@nxp.com,
- Frieder Schrempf <frieder.schrempf@kontron.de>, kyungmin.park@samsung.com,
- Jagan Teki <jagan@amarulasolutions.com>, andrzej.hajda@intel.com,
- m.szyprowski@samsung.com, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org, Laurent.pinchart@ideasonboard.com
+Cc: marex@denx.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ krzysztof.kozlowski@linaro.org, robh+dt@kernel.org, linux-imx@nxp.com,
+ krzysztof.kozlowski+dt@linaro.org, kernel@pengutronix.de,
+ LW@karo-electronics.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/02/2023 12.09, Fabio Estevam wrote:
-> Hi Rasmus,
+On Fri, 2023-02-17 at 09:18 +0100, Alexander Stein wrote:
+> Hi Liu,
+
+Hi Alexander,
+
 > 
-> On Tue, Feb 14, 2023 at 7:55 AM Rasmus Villemoes
-> <rasmus.villemoes@prevas.dk> wrote:
+> Am Freitag, 17. Februar 2023, 07:54:01 CET schrieb Liu Ying:
+> > Hi,
+> > 
+> > This patch set aims to add i.MX93 LCDIF display controller support
+> > in the existing LCDIF DRM driver.  The LCDIF embedded in i.MX93 SoC
+> > is essentially the same to those embedded in i.MX8mp SoC.  Through
+> > internal bridges, i.MX93 LCDIF may drive a MIPI DSI display or a LVDS
+> > display or a parallel display.
+> > 
+> > Patch 1/6 adds device tree binding support for i.MX93 LCDIF in the
+> > existing fsl,lcdif.yaml.
+> > 
+> > Patch 2/6 drops lcdif->bridge NULL pointer check as a cleanup patch.
+> > 
+> > Patch 3/6~5/6 prepare for adding i.MX93 LCDIF support step by step.
+> > 
+> > Patch 6/6 adds i.MX93 LCDIF compatible string as the last step of
+> > adding i.MX93 LCDIF support.
 > 
->> Well, the data sheet for the dsi86 says up to 750MHz DSI HS clock, and
->> if the value specified in samsung,burst-clock-frequency is twice the DSI
->> HS clk, I suppose I should be good up to 1.5GHz? I have tried many
->> different values, but I never seem to get anything through; I think I'm
->> missing some piece.
->>
->> So now I've tried to use these patches on the imx8mp-evk with the
->> mipi->hdmi accessory from NXP, just to see if I can ever get any
->> graphics through the mipi interface. And there the story is the same:
->> the adv7535 bridge gets probed, and can read out the edid from the
->> monitor over hdmi. And while the mipi block and the bridge seem to
->> attach to each other, I still don't get any output.
->>
->> Do any of you happen to have this working on the imx8mp-evk, and if so,
->> can you share the .dts updates you've done and how exactly you test the
->> graphics?
+> Thanks for the series. I could test this on my TQMa93xxLA/MBa93xxCA with a 
+> single LVDS display attached, so no DSI or parallel display. Hence I could not 
+> test the bus format and flags checks, but they look okay.
+> So you can add
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> to the whole series as well.
+
+Thanks for your test.
+
 > 
-> I don't have access to an imx8mp-evk, but I tested the ADV7535 MIPI to
-> HDMI daughter card on an imx8mm-evk.
+> One thing I noticed is that, sometimes it seems that before probing lcdif my 
+> system completely freezes. Adding some debug output it seems that's during 
+> powering up the IMX93_MEDIABLK_PD_LCDIF power domain there is some race 
+> condition. But adding more more detailed output made the problem go away.
+> Did you notice something similar? It might be a red hering though.
+
+I don't see system freezing with my i.MX93 11x11 EVK when probing
+lcdif. I did try to boot the system several times. All look ok. This is
+a snippet of dmesg when lcdif probes:
+
+--------------------------8<------------------------------------------
+[    0.753083] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    0.761669] SuperH (H)SCI(F) driver initialized
+[    0.766523] msm_serial: driver initialized
+[    0.780523] printk: console [ttyLP0] enabled0x44380010 (irq = 16,
+base_baud = 1500000) is a FSL_LPUART
+[    0.780523] printk: console [ttyLP0] enabled
+[    0.788928] printk: bootconsole [lpuart32] disabled
+[    0.788928] printk: bootconsole [lpuart32] disabled
+[    0.804632] panel-simple lvds_panel: supply power not found, using
+dummy regulator
+[    0.814741] [drm] Initialized imx-lcdif 1.0.0 20220417 for
+4ae30000.lcd-controller on minor 0
+[    1.195930] Console: switching to colour frame buffer device 160x50
+[    1.218385] imx-lcdif 4ae30000.lcd-controller: [drm] fb0: imx-
+lcdifdrmfb frame buffer device
+[    1.227099] cacheinfo: Unable to detect cache hierarchy for CPU 0
+[    1.236725] loop: module loaded
+--------------------------8<------------------------------------------
+
+~300 milliseconds are consumed by the enablement delay required by the
+"boe,ev121wxm-n10-1850" LVDS panel I use.
+
+Regards,
+Liu Ying
+
 > 
-> Some extra ADV7535 patches were needed. Please check patches 0020-0023
-> and see if they help.
+> Best regards,
+> Alexander
+> 
+> > v3->v4:
+> > * Improve warning message when ignoring invalid LCDIF OF endpoint ids in
+> >   patch 5/6. (Alexander)
+> > * Use 'new_{c,p}state' instead of 'new_{crtc,plane}_state' in patch 3/6.
+> >   (Alexander)
+> > * Simplify lcdif_crtc_reset() by calling lcdif_crtc_atomic_destroy_state()
+> >   in patch 3/6. (Alexander)
+> > * Add '!crtc->state' check in lcdif_crtc_atomic_duplicate_state() in patch
+> > 3/6. (Alexander)
+> > * Collect Alexander's R-b tags on patch 1/6, 2/6 and 6/6.
+> > 
+> > v2->v3:
+> > * Fix a trivial typo in patch 6/6's commit message.
+> > 
+> > v1->v2:
+> > * Add Krzysztof's A-b and Marek's R-b tags on patch 1/6.
+> > * Split patch 2/2 in v1 into patch 2/6~6/6 in v2. (Marek, Alexander)
+> > * Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
+> > * Add comment on the 'base' member of lcdif_crtc_state structure to
+> >   note it should always be the first member. (Lothar)
+> > * Drop unneeded 'bridges' member from lcdif_drm_private structure.
+> > * Drop a comment about bridge input bus format from
+> > lcdif_crtc_atomic_check().
+> > 
+> > Liu Ying (6):
+> >   dt-bindings: lcdif: Add i.MX93 LCDIF support
+> >   drm: lcdif: Drop unnecessary NULL pointer check on lcdif->bridge
+> >   drm: lcdif: Determine bus format and flags in ->atomic_check()
+> >   drm: lcdif: Check consistent bus format and flags across first bridges
+> >   drm: lcdif: Add multiple encoders and first bridges support
+> >   drm: lcdif: Add i.MX93 LCDIF compatible string
+> > 
+> >  .../bindings/display/fsl,lcdif.yaml           |   7 +-
+> >  drivers/gpu/drm/mxsfb/lcdif_drv.c             |  71 ++++++-
+> >  drivers/gpu/drm/mxsfb/lcdif_drv.h             |   5 +-
+> >  drivers/gpu/drm/mxsfb/lcdif_kms.c             | 198 ++++++++++++------
+> >  4 files changed, 206 insertions(+), 75 deletions(-)
+> 
+> 
 
-Thanks, but they don't seem to make a difference.
-
-I've started trying to simply compare registers between the NXP 5.15
-kernel and the imx8mm-dsi-v12 branch with Marek's patch on top. Already
-in MEDIA_BLK_CTRL, 0x32ec0000, there's something interesting:
-
- ## Media Mix Clock Enable Register
--CLK_EN                 0004    0080e133
-+CLK_EN                 0004    00800133
- ## MIPI PHY Control Register
--MIPI_RESET_DIV         0008    40030000
-+MIPI_RESET_DIV         0008    00020000
-
-So with the NXP kernel, there are three bits set in CLK_EN which are not
-set with the "mainline", but those bits are marked reserved in the RM,
-so I have no idea if they are just some RO bits that get set due to some
-other munging. Then there's the MIPI_RESET_DIV register where bits 16
-and 30 do not get set. Of course, there are lots of other differences,
-but perhaps this gives somebody an idea.
-
-Thanks,
-Rasmu
