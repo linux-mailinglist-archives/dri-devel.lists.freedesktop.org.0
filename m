@@ -1,66 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9322969A6CF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 09:23:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362FA69A71D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 09:37:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3047410E439;
-	Fri, 17 Feb 2023 08:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6F9910EF0E;
+	Fri, 17 Feb 2023 08:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B6F310E439
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 08:23:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id CB1CF223E6;
- Fri, 17 Feb 2023 08:23:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676622213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBD210EF0E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 08:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676623071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cJTr+6vXA4+2p5qkT/Em9u250hFddOI48h4G5bRvlSI=;
- b=B/RSp5gPDngulwHJYLq0MB370/++Pnw2vqfsyRyc+zC8VeiAbsJqFatLWh35wxIjF6QK66
- Xd3n0snGK1TKUBP/64AdN+AnMaoyFhi1rKUIawKHrFwSyKbzxqd0aNqRyW0dEtk3LyNGXq
- FJjF3EgCRKhPv5xKHH8g2VruUjhBEPI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676622213;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cJTr+6vXA4+2p5qkT/Em9u250hFddOI48h4G5bRvlSI=;
- b=qDZtyfblXv4cCZKAtquHqujX+FGl0HvE1g+a19CLaua6nVsBHe+xdvIme9VDP2BphzJRGG
- s8Pz1kLy1vDpIyDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3F0E13274;
- Fri, 17 Feb 2023 08:23:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 7Uz+JoU572N1ewAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 17 Feb 2023 08:23:33 +0000
-Message-ID: <ce033e93-10be-050d-1712-63817e7ff4ea@suse.de>
-Date: Fri, 17 Feb 2023 09:23:33 +0100
+ bh=MSzy/8JN5jaVlg7s7Ev+cHsdti/OpYprCjQK25MrEM0=;
+ b=CNgZmlkaWlaYgy2ejei3/tmvRtdQy6MM1s4riwHq5JOwIiAOYcMNzl+FOCXEY/uRASZB8D
+ OHgbDlARMUhTUEm/g64XGE5QPCsoGn4gqlu75VyJHvcJ/P+3OYfEF63XfUyBzhlYrlJS3E
+ cGSkuEhTYIygsl9ZEVkQJ0DeQpsVnKc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-655-XUt09HpFNOauEJWeYn1ulw-1; Fri, 17 Feb 2023 03:37:49 -0500
+X-MC-Unique: XUt09HpFNOauEJWeYn1ulw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bi27-20020a05600c3d9b00b003e1e7d3db06so325583wmb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 00:37:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MSzy/8JN5jaVlg7s7Ev+cHsdti/OpYprCjQK25MrEM0=;
+ b=qwsFVJ0rzZaebLJhXWFDs9ym5ds2f9Rpk0Nanum0ljvZsM6/XhB7caeGmKccgN9yBP
+ GFEh/SfGClq90vTt5yqUvAHCLbfErIUdxIyff9X7m88nbzkLhbrwixRETOF/IaheEWN8
+ sqNlooL+C0ZgV3R/ZoJ7VdVbTkJQXH4P+tbql4NETTbtcTX1j6U2FocGJw2hyYcADQMu
+ OVzP8GD7NxjhOQOd+qb0ghK9sttdKreXTm1PIrC1fKD+cVB5Mmfl9p36lURv0wwcKFeN
+ EnKi1dP4HMJZRkL7A5R8+ZPN7SaNVt3zHNeVuz98yeFoAD8KlimxRqJ1+jop+rWse2p3
+ PfDA==
+X-Gm-Message-State: AO0yUKXE/QZwob5l/+UGWAJhifOQsSNsRPdMnVuJdt7jStTE+v8KwpiW
+ RHKVVUGe7ZEu16zFRf0GnRone5Lg4rRUEwsr753cxtmjiDVL2AGQnT6dzqyfefKyXeBLxOj2gJT
+ lr8OfWJJIVYjupoEH1G+eQo53wNdK
+X-Received: by 2002:a05:600c:16c7:b0:3e2:1e01:803a with SMTP id
+ l7-20020a05600c16c700b003e21e01803amr1933580wmn.9.1676623068628; 
+ Fri, 17 Feb 2023 00:37:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set8mFyGd004x7JjuNSnWDCqg+N00uieOFI0jxDxZPqHUm7LxzesmJkc9kYDEF+RIXwKqhhHhUQ==
+X-Received: by 2002:a05:600c:16c7:b0:3e2:1e01:803a with SMTP id
+ l7-20020a05600c16c700b003e21e01803amr1933569wmn.9.1676623068346; 
+ Fri, 17 Feb 2023 00:37:48 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ x9-20020a05600c21c900b003e11ad0750csm4292183wmj.47.2023.02.17.00.37.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Feb 2023 00:37:47 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, deller@gmx.de, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, geoff@infradead.org, mpe@ellerman.id.au,
+ npiggin@gmail.com, christophe.leroy@csgroup.eu
+Subject: Re: [PATCH 02/11] fbdev: Transfer video= option strings to caller;
+ clarify ownership
+In-Reply-To: <20230209135509.7786-3-tzimmermann@suse.de>
+References: <20230209135509.7786-1-tzimmermann@suse.de>
+ <20230209135509.7786-3-tzimmermann@suse.de>
+Date: Fri, 17 Feb 2023 09:37:46 +0100
+Message-ID: <87a61cy9et.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 17/17] drm/cirrus: Use VGA macro constants to unblank
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20230215161517.5113-1-tzimmermann@suse.de>
- <20230215161517.5113-18-tzimmermann@suse.de>
- <20230216113330.rmzmkdvpxdqk2nrd@sirius.home.kraxel.org>
- <306e110d-4d1f-cb9c-6f9b-c8a5ddd48a61@suse.de> <Y+4nIxRhF7KF2Qo0@intel.com>
- <ba4daf50-4882-5009-5c68-4385cacfdccb@suse.de> <Y+5l+BbN7JjpaQlH@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Y+5l+BbN7JjpaQlH@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YsW0s9xf9q85eWLKVFi5rkwA"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,97 +84,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- airlied@redhat.com, sam@ravnborg.org
+Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YsW0s9xf9q85eWLKVFi5rkwA
-Content-Type: multipart/mixed; boundary="------------IEmghOFXfGw6Pt16ZGvN093k";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Gerd Hoffmann
- <kraxel@redhat.com>, airlied@redhat.com, sam@ravnborg.org
-Message-ID: <ce033e93-10be-050d-1712-63817e7ff4ea@suse.de>
-Subject: Re: [PATCH 17/17] drm/cirrus: Use VGA macro constants to unblank
-References: <20230215161517.5113-1-tzimmermann@suse.de>
- <20230215161517.5113-18-tzimmermann@suse.de>
- <20230216113330.rmzmkdvpxdqk2nrd@sirius.home.kraxel.org>
- <306e110d-4d1f-cb9c-6f9b-c8a5ddd48a61@suse.de> <Y+4nIxRhF7KF2Qo0@intel.com>
- <ba4daf50-4882-5009-5c68-4385cacfdccb@suse.de> <Y+5l+BbN7JjpaQlH@intel.com>
-In-Reply-To: <Y+5l+BbN7JjpaQlH@intel.com>
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
---------------IEmghOFXfGw6Pt16ZGvN093k
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+> In fb_get_options(), always duplicate the returned option string and
+> transfer ownership of the memory to the function's caller.
+>
+> Until now, only the global option string got duplicated and transferred
+> to the caller; the per-driver options were owned by fb_get_options().
+> In the end, it was impossible for the function's caller to detect if
+> it had to release the string's memory buffer. Hence, all calling drivers
+> leak the memory buffer. The leaks have existed ever since, but drivers
+> only call fb_get_option() once as part of module initialization. So the
+> amount of leaked memory is not significant.
+>
+> Fix the semantics of fb_get_option() by unconditionally transferring
+> ownership of the memory buffer to the caller. Later patches can resolve
+> the memory leaks in the fbdev drivers.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-SGkNCg0KQW0gMTYuMDIuMjMgdW0gMTg6MjAgc2NocmllYiBWaWxsZSBTeXJqw6Rsw6Q6DQo+
-IE9uIFRodSwgRmViIDE2LCAyMDIzIGF0IDAyOjIxOjQzUE0gKzAxMDAsIFRob21hcyBaaW1t
-ZXJtYW5uIHdyb3RlOg0KPj4gSGkNCj4+DQo+PiBBbSAxNi4wMi4yMyB1bSAxMzo1MiBzY2hy
-aWViIFZpbGxlIFN5cmrDpGzDpDoNCj4+PiBPbiBUaHUsIEZlYiAxNiwgMjAyMyBhdCAwMTow
-MzowMlBNICswMTAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+Pj4gSGksDQo+Pj4+
-DQo+Pj4+IHRoYW5rcyBmb3IgdGFraW5nIGEgbG9vayBhdCB0aGUgcGF0Y2hlcy4NCj4+Pj4N
-Cj4+Pj4gQW0gMTYuMDIuMjMgdW0gMTI6MzMgc2NocmllYiBHZXJkIEhvZmZtYW5uOg0KPj4+
-Pj4gT24gV2VkLCBGZWIgMTUsIDIwMjMgYXQgMDU6MTU6MTdQTSArMDEwMCwgVGhvbWFzIFpp
-bW1lcm1hbm4gd3JvdGU6DQo+Pj4+Pj4gU2V0IHRoZSBWR0EgYml0IGZvciB1bmJsYW5raW5n
-IHdpdGggbWFjcm8gY29uc3RhbnRzIGluc3RlYWQgb2YgbWFnaWMNCj4+Pj4+PiB2YWx1ZXMu
-IE5vIGZ1bmN0aW9uYWwgY2hhbmdlcy4NCj4+Pj4+DQo+Pj4+PiBibGFuay91bmJsYW5rIHNo
-b3VsZCB3b3JrIHNpbWxpYXIgdG8gYm9jaHMgKHNlZSBjb21taXQgMjUwZTc0MzkxNWQ0KSwN
-Cj4+Pj4+IHRoYXQgaXMgbWF5YmUgYSBuaWNlIHRoaW5nIHRvIGFkZCBvZiB5b3UgbW9kZXJu
-aXplIHRoZSBkcml2ZXIgYW55d2F5Lg0KPj4+PiBZZWFoLCBpdCdzIHRoZSBWR0EgUEFTIGZp
-ZWxkLiBbMV0gQnV0IGlzIGl0IHJlYWxseSBjYWxsZWQgYmxhbmtpbmc/IFBBUw0KPj4+PiBj
-b250cm9scyBwYWxldHRlIGFjY2VzcywgYnV0IGJsYW5raW5nIGlzIHNvdW5kcyBtb3JlIGxp
-a2UgRFBNUy4NCj4+Pg0KPj4+IFdoeSBhcmVuJ3QgcGVvcGxlIGp1c3QgdXNpbmcgdGhlIG5v
-cm1hbCB3YXkgb2YgZmxpcHBpbmcgdGhlDQo+Pj4gc2NyZWVuIG9mZiBiaXQgaW4gc2VxdWVu
-Y2VyIHJlZ2lzdGVyIDAxPw0KPj4NCj4+IFNldHRpbmcgdGhlIFNEIGJpdCBpbiBTUjAxIGlz
-bid0IGEgYmFkIGlkZWEuIFdlIGNhbiBkbyB0aGlzIGFzIHBhcnQgb2YNCj4+IGVuYWJsaW5n
-L2Rpc2FibGluZyB0aGUgcGxhbmUuDQo+Pg0KPj4gQnV0IGZvciBQQVMsIHdlIGRvbid0IGhh
-dmUgYSBjaG9pY2UuIEl0J3Mgb25lIG9mIHRoZSBiYXppbGxpb24gb2JzY3VyZQ0KPj4gVkdB
-IHNldHRpbmdzIGFuZCAoYWNjb3JkaW5nIHRvIGEgY29tbWVudCBpbiB0aGUgc291cmNlIGNv
-ZGUpIHdlIG5lZWQgdG8NCj4+IHVwZGF0ZSBpdCBmb3IgY29tcGF0aWJpbGl0eS4NCj4gDQo+
-IFdlbGwsIHlvdSBkbyBuZWVkIHRvIGVuYWJsZSB0aGUgcGFsZXR0ZSB0byBzZWUgc29tZXRo
-aW5nDQo+IG90aGVyIHRoYXQgYm9yZGVyIGNvbG9yLiBOb3Qgc3VyZSB0aGEndCBhIHZlcnkg
-b2JzY3VyZSB0aGluZyA6UA0KDQpQdW4gaW50ZW5kZWQ/IDpEDQoNCj4gDQo+IE9uIGEgcmVs
-YXRlZCBub3RlLCB0aGUgY29kZSBsb29rcyBwcmV0dHkgc2tldGNoeS4gSXQganVzdA0KPiBi
-bGluZGx5IHdyaXRlcyB0byAweDNjMCBhc3N1bWluZyBpdCBpcyB0aGUgYXR0cmlidXRlIGNv
-bnRyb2xsZXINCj4gaW5kZXggcmVnaXN0ZXIuIEJ1dCB1bmxlc3MgeW91IGV4cGxpY2l0bHkg
-cmVzZXQgdGhlIGZsaXAtZmxvcA0KPiBpdCBjb3VsZCBhY3R1YWxseSBiZSB0aGUgZGF0YSB3
-cml0ZSByZWdpc3RlciBpbnN0ZWFkLiBUaGF0IGNvdWxkDQo+IGVhc2lseSBoYXBwZW4gaWYg
-dGhlIHByZXZpb3VzIGFjY2VzcyB0byB0aGUgYXR0cmlidXRlIGNvbnRyb2xsZXINCj4gd2Fz
-IGEgcmVhZCBzaW5jZSByZWFkcyBkbyBub3QgdG9nZ2xlIHRoZSByZWdpc3RlciByb2xlLg0K
-DQpZZWFoLCB0aGUgYXR0cmlidXRlIGNvbnRyb2xsZXIgaXMgKmZ1biogdG8gd29yayB3aXRo
-LiBJbiB0aGUgbmV4dCANCml0ZXJhdGlvbiwgSSdsbCBwcm9iYWJseSBhZGQgYSBoZWxwZXIg
-dG8gZG8gYWxsIHRoaXM7IHNpbWlsYXIgdG8gYm9jaHMuDQoNCkJlc3QgcmVnYXJkcw0KVGhv
-bWFzDQoNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
-ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVs
-ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xy
-bmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+[...]
 
---------------IEmghOFXfGw6Pt16ZGvN093k--
+> +	if (option) {
+> +		if (options)
+> +			*option = kstrdup(options, GFP_KERNEL);
+> +		else
+> +			*option = NULL;
+> +	}
+>
 
---------------YsW0s9xf9q85eWLKVFi5rkwA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I know the old code wasn't checking if kstrdup() succeeded, but you should
+do it here and let the caller know. And same if (!options). So I guess the
+following check can be added (to be consistent with the rest of the code):
 
------BEGIN PGP SIGNATURE-----
+	if (!*option)
+		retval = 1;
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPvOYUFAwAAAAAACgkQlh/E3EQov+Cu
-xw//fGmZyhdlCmsIbP6RJii4HJCttbCOPlWglHF0k9FtM18O1T2KJNnWrVFFv6a8b9Gp4NEt5ycv
-V6QvxUqAPuPYOn3m0DZRQH/PFwVwwnK9a1fqdNDL/Tb1h9Kuz+BKqwJZVkze2m12jkX1U5pDk1DB
-GSu3INcXJM+NbP2AZX+kbeGgLx+8wstMxeALm/aQY5dx3rsmV5eOX+/VxrIrme4/LrWSwm2zZTZY
-34YX3+gvXiGe3Pz3GSkvQwAQhA9/sZgiHbgIet6GQ7ZL19XQVRz8nTTZvbaTAB4RnDo+/RCFdj1T
-UZlVDQJB3o/2hULBkQ0VKCzioprM2sRnLsacM+rij+OB1grJPAwusJa4gZiEyMhC4Fpoziwc3xZ6
-F8VSpZ++RAVHFNTKD3WIk7D/jCSR+lb4Gd9dkk03uKab8yLgTO65F7KpLG0YuKyFtKL0sUAVObHh
-TEXB0YuleHNcjl5FnhnbKxJXnb4375B6FqMP3X1uujy+vDsBJdDX6ga0ZLVzAGqvTYHjhnWtX12T
-7yAlgzuWIMPTNiuQ/9/0qnZ0rodLjhrtwBCeLGpU2ZLllh/1l3qxsCI/RodrLmGMr/3mmXdTA9Jf
-uYqsDW7DIwYvuFHaTIu9lW2ioEwEqrPUuyHuFRd4lgrYhXCFAO07QR2zfywL3qZUlTc02cJMFt2P
-2dM=
-=G/+9
------END PGP SIGNATURE-----
+>  	return retval;
+>  }
+> -- 
+> 2.39.1
 
---------------YsW0s9xf9q85eWLKVFi5rkwA--
+Best regards,
+Javier
+
