@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABA469AB59
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 13:23:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EE169AB54
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 13:22:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF9A10EFAB;
-	Fri, 17 Feb 2023 12:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE4AD10EFA8;
+	Fri, 17 Feb 2023 12:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC2C210EF8F;
- Fri, 17 Feb 2023 12:22:29 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id ee31so5079253edb.3;
- Fri, 17 Feb 2023 04:22:29 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9E3C10EF97;
+ Fri, 17 Feb 2023 12:22:30 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id cz7so171828edb.12;
+ Fri, 17 Feb 2023 04:22:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ji8kYjHLz8PFnojbvPvCd/Vry5lhoqUD8IbEBbwgHho=;
- b=CeordHYeKOol8kxJbtH2r1TgFs/0pbe/ojiOqmX0oPXqCgGUKMfLnLTqO3Jc2FB3uA
- 568LMwICuAL0O62tZaDMmW5xfoTvMmj13f+7qArC2As1U2N6VXPlOYDkaYt6ylb6nR8M
- xW7Vrd9FUtFQgUdWV+sFoTVTYp4MFjKhmb4Js0L9xeiS1cLvGHU8PWWuk0mJBME8Ty6Q
- 2F8s7RjGWfM5jPNv9CrfUgUE0o9X4hOi/Nq3l8S27jS5sjsDfEv19ANcNRp4HvRo5l7Y
- yqHFGGJFXH9uXirWXsr8Ml7kEJm58rv63aLHheUS8VpAOeT+6Fy9sAW8OAesvw5ugCrb
- Vz1Q==
+ :reply-to; bh=09XFQqjoZ/tRNPw0JyNYEAV5qGxEWMzMNsp85snhmRI=;
+ b=Hzyx06cxLKuP2J+ADXwGq+G7vP+0N77m7mwZca+Iy0nZC6qSFpRMMTpnBbyBxk05GV
+ 6vsxTcdql2ROoVBzYtAFWCGYIpKR2ZVehOuieNamOvVRPP3f+OUDSgX218jfdR/3MMZL
+ OL9koJx6gwp+CJ4VQOnOaIF2pPVwxQTKLsXQ6vbTSkJezq2IC9YATodiZnORckXsqt3J
+ FI0Y5IZud1NRC4RSBOghFsdyaWDFFD7QlA4Mbr0bVLtyZoq/eoCfaW65t4AlCJtKVMfW
+ Yoia6c2NCQTULNyNRMkbzIQ4C2BcvV5b0sjAdI7Jurnnx1sjxZ+Wrl4/F7PobbLrdEhl
+ j7+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ji8kYjHLz8PFnojbvPvCd/Vry5lhoqUD8IbEBbwgHho=;
- b=LCdpoJA4v3VNmvtOEXk1dCsPEwS3Lhs0j1PCTbc81hygFsZ5uvCF015lYIyh90ZlBq
- SYuC4rduX1y+pVspKMopMQNcuF102Ym3xoo4xXM6VI4F1OZBlvXZ3uTMqj/Hat5RVdDa
- BRdjoMBIEp2H1+DjDnPkdnw0sJ9sqnfmjWdXTeeob+zDfM4UInR9ExSdM80NU3XbU+lg
- l5SGoMkkGgv9Gr2KblFtJcVdc1XOFS5gXQvOP/f2RTvgsei/kyZpFK6m9lgdMkAlhTdB
- ElxB48+73Ex5rh+H48zPdYkJ0mY9O/xGvoyfBWBGEMNIjiDd6FQaPkhrmswtM0gTNw6N
- k1QQ==
-X-Gm-Message-State: AO0yUKUcCDTQxxFZl7MUbWwbGIkMWDhcipzM9kOBqXGUMpPb0gCpIyD6
- /237W4gh6rVsmAkuIN07iI0Tg/s8Srg=
-X-Google-Smtp-Source: AK7set8QO2ooGdV3QI41Au4w6cIuq56LYXW5X+LThCoOWSZ6wfwEZf416YST+oXINHSALeUfNbL4Lw==
-X-Received: by 2002:a17:906:ef8c:b0:8b1:806b:7dbb with SMTP id
- ze12-20020a170906ef8c00b008b1806b7dbbmr2496212ejb.51.1676636548109; 
- Fri, 17 Feb 2023 04:22:28 -0800 (PST)
+ bh=09XFQqjoZ/tRNPw0JyNYEAV5qGxEWMzMNsp85snhmRI=;
+ b=buuomGCO3/BNUUj+IMdge2NH8SSIx60bwG/PG10/OdfdzDlFG94i8C4t5Ngs8Np+Aq
+ aewO/5DFBHEhUVmLPX4EyoHBZbv6U+/BO0wj3zdlNGTe5xg4/RZ7thzyah4WnUKcQJVz
+ HaVdsyXTcNU2/sWEatydX0iD1uQr8qHeauwYmS4Bc/VFH9LXwz5/NI7GPV2bF0tcMm+J
+ Rrw4NeY/evWKEZdM7rD5JRFNhnyec7UwAqyHnYtAiNpcdXPe5ragrZsOv1CIUQKpUkhP
+ KE9T7SAeEcV/4YB9Lh1Q3Oo/luPDgTBqwZYi0WlUWqg3do5g/rza5YAhgKU9gld2kBf9
+ 2opg==
+X-Gm-Message-State: AO0yUKW4gJY9q/5sVixFo1Of3wuWkqeNYBSkFwk+V+PxvQyFoiFUiWk4
+ dL8lb/vGizXw3uY9Qh/1WOlLLaP6yKg=
+X-Google-Smtp-Source: AK7set/K7RyjrPEXfcJtzzZ9nO1QonbnJCM7v/QiDNQgpOIeP2n7tgBJJVs8UDMLBycSlcEi5A2QSg==
+X-Received: by 2002:a50:ec90:0:b0:4ac:bab1:feee with SMTP id
+ e16-20020a50ec90000000b004acbab1feeemr1039842edr.24.1676636549137; 
+ Fri, 17 Feb 2023 04:22:29 -0800 (PST)
 Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a50c38a000000b004ad75c5c0fdsm1373472edf.18.2023.02.17.04.22.27
+ h10-20020a50c38a000000b004ad75c5c0fdsm1373472edf.18.2023.02.17.04.22.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 04:22:27 -0800 (PST)
+ Fri, 17 Feb 2023 04:22:28 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/7] drm/ttm: Change the meaning of the fields in the
- drm_mm_nodes structure from pfn to bytes v3
-Date: Fri, 17 Feb 2023 13:22:20 +0100
-Message-Id: <20230217122224.29243-3-christian.koenig@amd.com>
+Subject: [PATCH 4/7] drm/ttm: Change the meaning of resource->start from pfn
+ to bytes v2
+Date: Fri, 17 Feb 2023 13:22:21 +0100
+Message-Id: <20230217122224.29243-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230217122224.29243-1-christian.koenig@amd.com>
 References: <20230217122224.29243-1-christian.koenig@amd.com>
@@ -80,188 +80,542 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 
-Change the ttm_range_man_alloc() allocation from pages to size in bytes.
-Fix the dependent drm_mm_nodes start and size from pages to bytes.
+Change resource->start from pfn to bytes to allow allocating objects
+smaller than a page and adjust all DRM drivers still using this.
 
-v2 (chk): Change the drm_mm_node usage in amdgpu as well. re-order the
-          patch to be independent of the resource->start change.
-v3 (chk): add some more missing u64 casts
+v2 (chk): inline drm_gem_vram_pg_offset(), move amdgpu cursor changes to
+          separate patch, make resource->start 64bit on all platforms,
+          fix missing removals of PAGE_SHIFT.
 
 Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c   | 15 ++++++------
- .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |  8 +++----
- drivers/gpu/drm/i915/i915_scatterlist.c       |  6 ++---
- drivers/gpu/drm/ttm/ttm_range_manager.c       | 24 +++++++++----------
- 4 files changed, 27 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c   |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c      |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c |  7 +++----
+ drivers/gpu/drm/drm_gem_vram_helper.c        | 18 +++++++-----------
+ drivers/gpu/drm/nouveau/nouveau_bo.c         | 13 ++++++-------
+ drivers/gpu/drm/nouveau/nouveau_bo0039.c     |  4 ++--
+ drivers/gpu/drm/nouveau/nouveau_mem.c        | 10 +++++-----
+ drivers/gpu/drm/nouveau/nouveau_ttm.c        |  2 +-
+ drivers/gpu/drm/nouveau/nv17_fence.c         |  2 +-
+ drivers/gpu/drm/nouveau/nv50_fence.c         |  2 +-
+ drivers/gpu/drm/qxl/qxl_drv.h                |  2 +-
+ drivers/gpu/drm/qxl/qxl_object.c             |  2 +-
+ drivers/gpu/drm/qxl/qxl_ttm.c                |  5 ++---
+ drivers/gpu/drm/radeon/radeon_object.c       |  6 +++---
+ drivers/gpu/drm/radeon/radeon_object.h       |  2 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c          | 13 ++++++-------
+ drivers/gpu/drm/radeon/radeon_vm.c           |  2 +-
+ drivers/gpu/drm/ttm/ttm_range_manager.c      |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c           |  4 ++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c          |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c      |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c   |  3 +--
+ include/drm/ttm/ttm_resource.h               |  2 +-
+ 24 files changed, 53 insertions(+), 62 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index 44367f03316f..d66b5fcbadf2 100644
+index d66b5fcbadf2..a48ed9027fee 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -116,7 +116,6 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 			      struct ttm_resource **res)
- {
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
--	uint32_t num_pages = PFN_UP(tbo->base.size);
- 	struct ttm_range_mgr_node *node;
- 	int r;
- 
-@@ -134,17 +133,19 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 	if (place->lpfn) {
- 		spin_lock(&mgr->lock);
- 		r = drm_mm_insert_node_in_range(&mgr->mm, &node->mm_nodes[0],
--						num_pages, tbo->page_alignment,
--						0, place->fpfn, place->lpfn,
-+						tbo->base.size,
-+						tbo->page_alignment << PAGE_SHIFT, 0,
-+						(u64)place->fpfn << PAGE_SHIFT,
-+						(u64)place->lpfn << PAGE_SHIFT,
- 						DRM_MM_INSERT_BEST);
- 		spin_unlock(&mgr->lock);
+@@ -142,7 +142,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
  		if (unlikely(r))
  			goto err_free;
  
--		node->base.start = node->mm_nodes[0].start;
-+		node->base.start = node->mm_nodes[0].start >> PAGE_SHIFT;
+-		node->base.start = node->mm_nodes[0].start >> PAGE_SHIFT;
++		node->base.start = node->mm_nodes[0].start;
  	} else {
  		node->mm_nodes[0].start = 0;
--		node->mm_nodes[0].size = PFN_UP(node->base.size);
-+		node->mm_nodes[0].size = node->base.size;
- 		node->base.start = AMDGPU_BO_INVALID_OFFSET;
+ 		node->mm_nodes[0].size = node->base.size;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 283e8fe608ce..05fc6bda5f58 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1490,8 +1490,8 @@ u64 amdgpu_bo_gpu_offset_no_check(struct amdgpu_bo *bo)
+ 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+ 	uint64_t offset;
+ 
+-	offset = (bo->tbo.resource->start << PAGE_SHIFT) +
+-		 amdgpu_ttm_domain_start(adev, bo->tbo.resource->mem_type);
++	offset = amdgpu_ttm_domain_start(adev, bo->tbo.resource->mem_type);
++	offset += bo->tbo.resource->start;
+ 
+ 	return amdgpu_gmc_sign_extend(offset);
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 77c2da886f5b..9009b5477faa 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -569,7 +569,7 @@ static int amdgpu_ttm_io_mem_reserve(struct ttm_device *bdev,
+ 	case AMDGPU_PL_PREEMPT:
+ 		break;
+ 	case TTM_PL_VRAM:
+-		mem->bus.offset = mem->start << PAGE_SHIFT;
++		mem->bus.offset = mem->start;
+ 		/* check if it's visible */
+ 		if ((mem->bus.offset + bus_size) > adev->gmc.visible_vram_size)
+ 			return -EINVAL;
+@@ -926,7 +926,7 @@ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo)
+ 
+ 	addr = amdgpu_gmc_agp_addr(bo);
+ 	if (addr != AMDGPU_BO_INVALID_OFFSET) {
+-		bo->resource->start = addr >> PAGE_SHIFT;
++		bo->resource->start = addr;
+ 		return 0;
  	}
  
-@@ -285,8 +286,8 @@ int amdgpu_gtt_mgr_init(struct amdgpu_device *adev, uint64_t gtt_size)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+index 9fa1d814508a..5e1e24d3b88e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
+@@ -527,14 +527,13 @@ static int amdgpu_vram_mgr_new(struct ttm_resource_manager *man,
  
- 	ttm_resource_manager_init(man, &adev->mman.bdev, gtt_size);
+ 	vres->base.start = 0;
+ 	list_for_each_entry(block, &vres->blocks, link) {
+-		unsigned long start;
++		uint64_t start;
  
--	start = AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS;
--	size = (adev->gmc.gart_size >> PAGE_SHIFT) - start;
-+	start = (AMDGPU_GTT_MAX_TRANSFER_SIZE * AMDGPU_GTT_NUM_TRANSFER_WINDOWS) << PAGE_SHIFT;
-+	size = adev->gmc.gart_size - start;
- 	drm_mm_init(&mgr->mm, start, size);
- 	spin_lock_init(&mgr->lock);
+ 		start = amdgpu_vram_mgr_block_start(block) +
+ 			amdgpu_vram_mgr_block_size(block);
+-		start >>= PAGE_SHIFT;
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-index 5c4f93ee0c57..5c78f0b09351 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-@@ -94,8 +94,8 @@ static inline void amdgpu_res_first(struct ttm_resource *res,
- 		while (start >= node->size << PAGE_SHIFT)
- 			start -= node++->size << PAGE_SHIFT;
+-		if (start > PFN_UP(vres->base.size))
+-			start -= PFN_UP(vres->base.size);
++		if (start > vres->base.size)
++			start -= vres->base.size;
+ 		else
+ 			start = 0;
+ 		vres->base.start = max(vres->base.start, start);
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index f70d11e1cd47..c69f2f6bd5c4 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -249,16 +249,6 @@ void drm_gem_vram_put(struct drm_gem_vram_object *gbo)
+ }
+ EXPORT_SYMBOL(drm_gem_vram_put);
  
--		cur->start = (node->start << PAGE_SHIFT) + start;
--		cur->size = min((node->size << PAGE_SHIFT) - start, size);
-+		cur->start = node->start + start;
-+		cur->size = min(node->size - start, size);
- 		cur->remaining = size;
- 		cur->node = node;
- 		break;
-@@ -155,8 +155,8 @@ static inline void amdgpu_res_next(struct amdgpu_res_cursor *cur, uint64_t size)
- 		node = cur->node;
+-static u64 drm_gem_vram_pg_offset(struct drm_gem_vram_object *gbo)
+-{
+-	/* Keep TTM behavior for now, remove when drivers are audited */
+-	if (WARN_ON_ONCE(!gbo->bo.resource ||
+-			 gbo->bo.resource->mem_type == TTM_PL_SYSTEM))
+-		return 0;
+-
+-	return gbo->bo.resource->start;
+-}
+-
+ /**
+  * drm_gem_vram_offset() - \
+ 	Returns a GEM VRAM object's offset in video memory
+@@ -275,7 +265,13 @@ s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo)
+ {
+ 	if (WARN_ON_ONCE(!gbo->bo.pin_count))
+ 		return (s64)-ENODEV;
+-	return drm_gem_vram_pg_offset(gbo) << PAGE_SHIFT;
++
++	/* Keep TTM behavior for now, remove when drivers are audited */
++	if (WARN_ON_ONCE(!gbo->bo.resource ||
++			 gbo->bo.resource->mem_type == TTM_PL_SYSTEM))
++		return 0;
++
++	return gbo->bo.resource->start;
+ }
+ EXPORT_SYMBOL(drm_gem_vram_offset);
  
- 		cur->node = ++node;
--		cur->start = node->start << PAGE_SHIFT;
--		cur->size = min(node->size << PAGE_SHIFT, cur->remaining);
-+		cur->start = node->start;
-+		cur->size = min(node->size, cur->remaining);
- 		break;
- 	default:
- 		return;
-diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
-index 756289e43dff..7defda1219d0 100644
---- a/drivers/gpu/drm/i915/i915_scatterlist.c
-+++ b/drivers/gpu/drm/i915/i915_scatterlist.c
-@@ -94,7 +94,7 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
- 	if (!rsgt)
- 		return ERR_PTR(-ENOMEM);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index c2ec91cc845d..89fada6c2e11 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -946,7 +946,7 @@ static void nouveau_bo_move_ntfy(struct ttm_buffer_object *bo,
+ 	}
  
--	i915_refct_sgt_init(rsgt, node->size << PAGE_SHIFT);
-+	i915_refct_sgt_init(rsgt, node->size);
- 	st = &rsgt->table;
- 	/* restricted by sg_alloc_table */
- 	if (WARN_ON(overflows_type(DIV_ROUND_UP_ULL(node->size, segment_pages),
-@@ -110,8 +110,8 @@ struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
- 	sg = st->sgl;
- 	st->nents = 0;
- 	prev_end = (resource_size_t)-1;
--	block_size = node->size << PAGE_SHIFT;
--	offset = node->start << PAGE_SHIFT;
-+	block_size = node->size;
-+	offset = node->start;
+ 	if (new_reg)
+-		nvbo->offset = (new_reg->start << PAGE_SHIFT);
++		nvbo->offset = new_reg->start;
  
- 	while (block_size) {
- 		u64 len;
-diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index 62fddcc59f02..b8cb72432a2a 100644
---- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -64,10 +64,10 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
- 	struct ttm_range_mgr_node *node;
- 	struct drm_mm *mm = &rman->mm;
- 	enum drm_mm_insert_mode mode;
--	unsigned long lpfn;
-+	u64 lpfn;
+ }
+ 
+@@ -957,7 +957,7 @@ nouveau_bo_vm_bind(struct ttm_buffer_object *bo, struct ttm_resource *new_reg,
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+ 	struct drm_device *dev = drm->dev;
+ 	struct nouveau_bo *nvbo = nouveau_bo(bo);
+-	u64 offset = new_reg->start << PAGE_SHIFT;
++	u64 offset = new_reg->start;
+ 
+ 	*new_tile = NULL;
+ 	if (new_reg->mem_type != TTM_PL_VRAM)
+@@ -1118,8 +1118,7 @@ nouveau_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *reg)
+ 	case TTM_PL_TT:
+ #if IS_ENABLED(CONFIG_AGP)
+ 		if (drm->agp.bridge) {
+-			reg->bus.offset = (reg->start << PAGE_SHIFT) +
+-				drm->agp.base;
++			reg->bus.offset = reg->start + drm->agp.base;
+ 			reg->bus.is_iomem = !drm->agp.cma;
+ 			reg->bus.caching = ttm_write_combined;
+ 		}
+@@ -1132,7 +1131,7 @@ nouveau_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *reg)
+ 		}
+ 		fallthrough;	/* tiled memory */
+ 	case TTM_PL_VRAM:
+-		reg->bus.offset = (reg->start << PAGE_SHIFT) +
++		reg->bus.offset = reg->start +
+ 			device->func->resource_addr(device, 1);
+ 		reg->bus.is_iomem = true;
+ 
+@@ -1222,7 +1221,7 @@ vm_fault_t nouveau_ttm_fault_reserve_notify(struct ttm_buffer_object *bo)
+ 	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+ 	struct nouveau_bo *nvbo = nouveau_bo(bo);
+ 	struct nvkm_device *device = nvxx_device(&drm->client.device);
+-	u32 mappable = device->func->resource_size(device, 1) >> PAGE_SHIFT;
++	u32 mappable = device->func->resource_size(device, 1);
+ 	int i, ret;
+ 
+ 	/* as long as the bo isn't in vram, and isn't tiled, we've got
+@@ -1241,7 +1240,7 @@ vm_fault_t nouveau_ttm_fault_reserve_notify(struct ttm_buffer_object *bo)
+ 	} else {
+ 		/* make sure bo is in mappable vram */
+ 		if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_TESLA ||
+-		    bo->resource->start + PFN_UP(bo->resource->size) < mappable)
++		    bo->resource->start + bo->resource->size < mappable)
+ 			return 0;
+ 
+ 		for (i = 0; i < nvbo->placement.num_placement; ++i) {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo0039.c b/drivers/gpu/drm/nouveau/nouveau_bo0039.c
+index e2ce44adaa5c..41197312f82f 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo0039.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo0039.c
+@@ -49,9 +49,9 @@ nv04_bo_move_m2mf(struct nouveau_channel *chan, struct ttm_buffer_object *bo,
+ {
+ 	struct nvif_push *push = chan->chan.push;
+ 	u32 src_ctxdma = nouveau_bo_mem_ctxdma(bo, chan, old_reg);
+-	u32 src_offset = old_reg->start << PAGE_SHIFT;
++	u32 src_offset = old_reg->start;
+ 	u32 dst_ctxdma = nouveau_bo_mem_ctxdma(bo, chan, new_reg);
+-	u32 dst_offset = new_reg->start << PAGE_SHIFT;
++	u32 dst_offset = new_reg->start;
+ 	u32 page_count = PFN_UP(new_reg->size);
  	int ret;
  
--	lpfn = place->lpfn;
-+	lpfn = place->lpfn << PAGE_SHIFT;
- 	if (!lpfn)
- 		lpfn = man->size;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_mem.c b/drivers/gpu/drm/nouveau/nouveau_mem.c
+index 25f31d5169e5..d31cc3b069d8 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_mem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_mem.c
+@@ -158,7 +158,7 @@ nouveau_mem_vram(struct ttm_resource *reg, bool contig, u8 page)
+ 	}
+ 	mutex_unlock(&drm->master.lock);
  
-@@ -83,9 +83,10 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+-	reg->start = mem->mem.addr >> PAGE_SHIFT;
++	reg->start = mem->mem.addr;
+ 	return ret;
+ }
  
- 	spin_lock(&rman->lock);
- 	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
--					  PFN_UP(node->base.size),
--					  bo->page_alignment, 0,
--					  place->fpfn, lpfn, mode);
-+					  node->base.size,
-+					  bo->page_alignment << PAGE_SHIFT, 0,
-+					  (u64)place->fpfn << PAGE_SHIFT, lpfn,
-+					  mode);
- 	spin_unlock(&rman->lock);
+@@ -197,8 +197,8 @@ nouveau_mem_intersects(struct ttm_resource *res,
+ 	u32 num_pages = PFN_UP(size);
  
- 	if (unlikely(ret)) {
-@@ -94,7 +95,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+ 	/* Don't evict BOs outside of the requested placement range */
+-	if (place->fpfn >= (res->start + num_pages) ||
+-	    (place->lpfn && place->lpfn <= res->start))
++	if (place->fpfn >= ((res->start >> PAGE_SHIFT) + num_pages) ||
++	    (place->lpfn && place->lpfn <= (res->start >> PAGE_SHIFT)))
+ 		return false;
+ 
+ 	return true;
+@@ -211,8 +211,8 @@ nouveau_mem_compatible(struct ttm_resource *res,
+ {
+ 	u32 num_pages = PFN_UP(size);
+ 
+-	if (res->start < place->fpfn ||
+-	    (place->lpfn && (res->start + num_pages) > place->lpfn))
++	if ((res->start >> PAGE_SHIFT) < place->fpfn ||
++	    (place->lpfn && ((res->start >> PAGE_SHIFT) + num_pages) > place->lpfn))
+ 		return false;
+ 
+ 	return true;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_ttm.c b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+index 1469a88910e4..2127b98e033a 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_ttm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_ttm.c
+@@ -145,7 +145,7 @@ nv04_gart_manager_new(struct ttm_resource_manager *man,
  		return ret;
  	}
  
--	node->base.start = node->mm_nodes[0].start;
-+	node->base.start = node->mm_nodes[0].start >> PAGE_SHIFT;
+-	(*res)->start = mem->vma[0].addr >> PAGE_SHIFT;
++	(*res)->start = mem->vma[0].addr;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/gpu/drm/nouveau/nv17_fence.c b/drivers/gpu/drm/nouveau/nv17_fence.c
+index 07c2e0878c24..b6567e5f769c 100644
+--- a/drivers/gpu/drm/nouveau/nv17_fence.c
++++ b/drivers/gpu/drm/nouveau/nv17_fence.c
+@@ -79,7 +79,7 @@ nv17_fence_context_new(struct nouveau_channel *chan)
+ 	struct nv10_fence_priv *priv = chan->drm->fence;
+ 	struct ttm_resource *reg = priv->bo->bo.resource;
+ 	struct nv10_fence_chan *fctx;
+-	u32 start = reg->start * PAGE_SIZE;
++	u32 start = reg->start;
+ 	u32 limit = start + priv->bo->bo.base.size - 1;
+ 	int ret = 0;
+ 
+diff --git a/drivers/gpu/drm/nouveau/nv50_fence.c b/drivers/gpu/drm/nouveau/nv50_fence.c
+index ea1e1f480bfe..c3f1df834bb9 100644
+--- a/drivers/gpu/drm/nouveau/nv50_fence.c
++++ b/drivers/gpu/drm/nouveau/nv50_fence.c
+@@ -38,7 +38,7 @@ nv50_fence_context_new(struct nouveau_channel *chan)
+ 	struct nv10_fence_priv *priv = chan->drm->fence;
+ 	struct nv10_fence_chan *fctx;
+ 	struct ttm_resource *reg = priv->bo->bo.resource;
+-	u32 start = reg->start * PAGE_SIZE;
++	u32 start = reg->start;
+ 	u32 limit = start + priv->bo->bo.base.size - 1;
+ 	int ret;
+ 
+diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+index ea993d7162e8..994996e6a623 100644
+--- a/drivers/gpu/drm/qxl/qxl_drv.h
++++ b/drivers/gpu/drm/qxl/qxl_drv.h
+@@ -289,7 +289,7 @@ qxl_bo_physical_address(struct qxl_device *qdev, struct qxl_bo *bo,
+ 
+        /* TODO - need to hold one of the locks to read bo->tbo.resource->start */
+ 
+-	return slot->high_bits | ((bo->tbo.resource->start << PAGE_SHIFT) + offset);
++	return slot->high_bits | (bo->tbo.resource->start + offset);
+ }
+ 
+ /* qxl_display.c */
+diff --git a/drivers/gpu/drm/qxl/qxl_object.c b/drivers/gpu/drm/qxl/qxl_object.c
+index 06a58dad5f5c..657b9995f4f6 100644
+--- a/drivers/gpu/drm/qxl/qxl_object.c
++++ b/drivers/gpu/drm/qxl/qxl_object.c
+@@ -220,7 +220,7 @@ void *qxl_bo_kmap_atomic_page(struct qxl_device *qdev,
+ 	else
+ 		goto fallback;
+ 
+-	offset = bo->tbo.resource->start << PAGE_SHIFT;
++	offset = bo->tbo.resource->start;
+ 	return io_mapping_map_atomic_wc(map, offset + page_offset);
+ fallback:
+ 	if (bo->kptr) {
+diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
+index a92a5b0d4c25..31f96c7d89b4 100644
+--- a/drivers/gpu/drm/qxl/qxl_ttm.c
++++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+@@ -81,13 +81,12 @@ int qxl_ttm_io_mem_reserve(struct ttm_device *bdev,
+ 		return 0;
+ 	case TTM_PL_VRAM:
+ 		mem->bus.is_iomem = true;
+-		mem->bus.offset = (mem->start << PAGE_SHIFT) + qdev->vram_base;
++		mem->bus.offset = mem->start + qdev->vram_base;
+ 		mem->bus.caching = ttm_write_combined;
+ 		break;
+ 	case TTM_PL_PRIV:
+ 		mem->bus.is_iomem = true;
+-		mem->bus.offset = (mem->start << PAGE_SHIFT) +
+-			qdev->surfaceram_base;
++		mem->bus.offset = mem->start + qdev->surfaceram_base;
+ 		mem->bus.caching = ttm_write_combined;
+ 		break;
+ 	default:
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index 10c0fbd9d2b4..83d50c72aeeb 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -588,7 +588,7 @@ int radeon_bo_get_surface_reg(struct radeon_bo *bo)
+ 
+ out:
+ 	radeon_set_surface_reg(rdev, i, bo->tiling_flags, bo->pitch,
+-			       bo->tbo.resource->start << PAGE_SHIFT,
++			       bo->tbo.resource->start,
+ 			       bo->tbo.base.size);
+ 	return 0;
+ }
+@@ -738,7 +738,7 @@ vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+ 		return 0;
+ 
+ 	size = bo->resource->size;
+-	offset = bo->resource->start << PAGE_SHIFT;
++	offset = bo->resource->start;
+ 	if ((offset + size) <= rdev->mc.visible_vram_size)
+ 		return 0;
+ 
+@@ -760,7 +760,7 @@ vm_fault_t radeon_bo_fault_reserve_notify(struct ttm_buffer_object *bo)
+ 		radeon_ttm_placement_from_domain(rbo, RADEON_GEM_DOMAIN_GTT);
+ 		r = ttm_bo_validate(bo, &rbo->placement, &ctx);
+ 	} else if (likely(!r)) {
+-		offset = bo->resource->start << PAGE_SHIFT;
++		offset = bo->resource->start;
+ 		/* this should never happen */
+ 		if ((offset + size) > rdev->mc.visible_vram_size)
+ 			return VM_FAULT_SIGBUS;
+diff --git a/drivers/gpu/drm/radeon/radeon_object.h b/drivers/gpu/drm/radeon/radeon_object.h
+index 0a6ef49e990a..6e0002e08c57 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.h
++++ b/drivers/gpu/drm/radeon/radeon_object.h
+@@ -104,7 +104,7 @@ static inline u64 radeon_bo_gpu_offset(struct radeon_bo *bo)
+ 		break;
+ 	}
+ 
+-	return (bo->tbo.resource->start << PAGE_SHIFT) + start;
++	return bo->tbo.resource->start + start;
+ }
+ 
+ static inline unsigned long radeon_bo_size(struct radeon_bo *bo)
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 78dd6a87fb65..aa8785b6b1e8 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -104,7 +104,7 @@ static void radeon_evict_flags(struct ttm_buffer_object *bo,
+ 		if (rbo->rdev->ring[radeon_copy_ring_index(rbo->rdev)].ready == false)
+ 			radeon_ttm_placement_from_domain(rbo, RADEON_GEM_DOMAIN_CPU);
+ 		else if (rbo->rdev->mc.visible_vram_size < rbo->rdev->mc.real_vram_size &&
+-			 bo->resource->start < (rbo->rdev->mc.visible_vram_size >> PAGE_SHIFT)) {
++			 bo->resource->start < rbo->rdev->mc.visible_vram_size) {
+ 			unsigned fpfn = rbo->rdev->mc.visible_vram_size >> PAGE_SHIFT;
+ 			int i;
+ 
+@@ -149,8 +149,8 @@ static int radeon_move_blit(struct ttm_buffer_object *bo,
+ 
+ 	rdev = radeon_get_rdev(bo->bdev);
+ 	ridx = radeon_copy_ring_index(rdev);
+-	old_start = (u64)old_mem->start << PAGE_SHIFT;
+-	new_start = (u64)new_mem->start << PAGE_SHIFT;
++	old_start = (u64)old_mem->start;
++	new_start = (u64)new_mem->start;
+ 
+ 	switch (old_mem->mem_type) {
+ 	case TTM_PL_VRAM:
+@@ -274,15 +274,14 @@ static int radeon_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resourc
+ #if IS_ENABLED(CONFIG_AGP)
+ 		if (rdev->flags & RADEON_IS_AGP) {
+ 			/* RADEON_IS_AGP is set only if AGP is active */
+-			mem->bus.offset = (mem->start << PAGE_SHIFT) +
+-				rdev->mc.agp_base;
++			mem->bus.offset = mem->start + rdev->mc.agp_base;
+ 			mem->bus.is_iomem = !rdev->agp->cant_use_aperture;
+ 			mem->bus.caching = ttm_write_combined;
+ 		}
+ #endif
+ 		break;
+ 	case TTM_PL_VRAM:
+-		mem->bus.offset = mem->start << PAGE_SHIFT;
++		mem->bus.offset = mem->start;
+ 		/* check if it's visible */
+ 		if ((mem->bus.offset + bus_size) > rdev->mc.visible_vram_size)
+ 			return -EINVAL;
+@@ -443,7 +442,7 @@ static int radeon_ttm_backend_bind(struct ttm_device *bdev,
+ 		flags &= ~RADEON_GART_PAGE_WRITE;
+ 	}
+ 
+-	gtt->offset = (unsigned long)(bo_mem->start << PAGE_SHIFT);
++	gtt->offset = (unsigned long)bo_mem->start;
+ 	if (!ttm->num_pages) {
+ 		WARN(1, "nothing to bind %u pages for mreg %p back %p!\n",
+ 		     ttm->num_pages, bo_mem, ttm);
+diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
+index 987cabbf1318..27ba2f6c4ac5 100644
+--- a/drivers/gpu/drm/radeon/radeon_vm.c
++++ b/drivers/gpu/drm/radeon/radeon_vm.c
+@@ -945,7 +945,7 @@ int radeon_vm_bo_update(struct radeon_device *rdev,
+ 		bo_va->flags &= ~RADEON_VM_PAGE_WRITEABLE;
+ 
+ 	if (mem) {
+-		addr = (u64)mem->start << PAGE_SHIFT;
++		addr = (u64)mem->start;
+ 		if (mem->mem_type != TTM_PL_SYSTEM)
+ 			bo_va->flags |= RADEON_VM_PAGE_VALID;
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
+index b8cb72432a2a..c3cd7c6dd816 100644
+--- a/drivers/gpu/drm/ttm/ttm_range_manager.c
++++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
+@@ -95,7 +95,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
+ 		return ret;
+ 	}
+ 
+-	node->base.start = node->mm_nodes[0].start >> PAGE_SHIFT;
++	node->base.start = node->mm_nodes[0].start;
  	*res = &node->base;
  	return 0;
  }
-@@ -119,11 +120,10 @@ static bool ttm_range_man_intersects(struct ttm_resource_manager *man,
- 				     size_t size)
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index 82094c137855..811e1fb22840 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -188,7 +188,7 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
+ 	 * that situation.
+ 	 */
+ 	if (bo->resource->mem_type == TTM_PL_VRAM &&
+-	    bo->resource->start < PFN_UP(bo->resource->size) &&
++	    bo->resource->start < bo->resource->size &&
+ 	    bo->resource->start > 0 &&
+ 	    buf->tbo.pin_count == 0) {
+ 		ctx.interruptible = false;
+@@ -258,7 +258,7 @@ void vmw_bo_get_guest_ptr(const struct ttm_buffer_object *bo,
  {
- 	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
--	u32 num_pages = PFN_UP(size);
+ 	if (bo->resource->mem_type == TTM_PL_VRAM) {
+ 		ptr->gmrId = SVGA_GMR_FRAMEBUFFER;
+-		ptr->offset = bo->resource->start << PAGE_SHIFT;
++		ptr->offset = bo->resource->start;
+ 	} else {
+ 		ptr->gmrId = bo->resource->start;
+ 		ptr->offset = 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+index 195ff8792e5a..38b08a47199b 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmd.c
+@@ -584,7 +584,7 @@ static int vmw_cmd_emit_dummy_legacy_query(struct vmw_private *dev_priv,
  
- 	/* Don't evict BOs outside of the requested placement range */
--	if (place->fpfn >= (node->start + num_pages) ||
--	    (place->lpfn && place->lpfn <= node->start))
-+	if (((u64)place->fpfn << PAGE_SHIFT) >= (node->start + size) ||
-+	    (place->lpfn && ((u64)place->lpfn << PAGE_SHIFT) <= node->start))
- 		return false;
- 
- 	return true;
-@@ -135,10 +135,10 @@ static bool ttm_range_man_compatible(struct ttm_resource_manager *man,
- 				     size_t size)
- {
- 	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
--	u32 num_pages = PFN_UP(size);
- 
--	if (node->start < place->fpfn ||
--	    (place->lpfn && (node->start + num_pages) > place->lpfn))
-+	if (node->start < (u64)place->fpfn << PAGE_SHIFT ||
-+	    (place->lpfn && (node->start + size) >
-+	     (u64)place->lpfn << PAGE_SHIFT))
- 		return false;
- 
- 	return true;
+ 	if (bo->resource->mem_type == TTM_PL_VRAM) {
+ 		cmd->body.guestResult.gmrId = SVGA_GMR_FRAMEBUFFER;
+-		cmd->body.guestResult.offset = bo->resource->start << PAGE_SHIFT;
++		cmd->body.guestResult.offset = bo->resource->start;
+ 	} else {
+ 		cmd->body.guestResult.gmrId = bo->resource->start;
+ 		cmd->body.guestResult.offset = 0;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index 6b9aa2b4ef54..190ba76a6a97 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -3764,7 +3764,7 @@ static void vmw_apply_relocations(struct vmw_sw_context *sw_context)
+ 		bo = &reloc->vbo->tbo;
+ 		switch (bo->resource->mem_type) {
+ 		case TTM_PL_VRAM:
+-			reloc->location->offset += bo->resource->start << PAGE_SHIFT;
++			reloc->location->offset += bo->resource->start;
+ 			reloc->location->gmrId = SVGA_GMR_FRAMEBUFFER;
+ 			break;
+ 		case VMW_PL_GMR:
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index af8562c95cc3..9476b527b3fd 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -462,8 +462,7 @@ static int vmw_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *
+ 	case VMW_PL_MOB:
+ 		return 0;
+ 	case TTM_PL_VRAM:
+-		mem->bus.offset = (mem->start << PAGE_SHIFT) +
+-			dev_priv->vram_start;
++		mem->bus.offset = mem->start + dev_priv->vram_start;
+ 		mem->bus.is_iomem = true;
+ 		mem->bus.caching = ttm_cached;
+ 		break;
+diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+index 78a226eba953..cf6cd4425354 100644
+--- a/include/drm/ttm/ttm_resource.h
++++ b/include/drm/ttm/ttm_resource.h
+@@ -207,7 +207,7 @@ struct ttm_bus_placement {
+  * buffer object.
+  */
+ struct ttm_resource {
+-	unsigned long start;
++	uint64_t start;
+ 	size_t size;
+ 	uint32_t mem_type;
+ 	uint32_t placement;
 -- 
 2.34.1
 
