@@ -1,66 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8783C69AB5B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 13:23:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E9A69AB56
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 13:23:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 872F810EFC1;
-	Fri, 17 Feb 2023 12:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA9910EFA3;
+	Fri, 17 Feb 2023 12:22:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 882C010EF99;
- Fri, 17 Feb 2023 12:22:31 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id m17so4063892edc.9;
- Fri, 17 Feb 2023 04:22:31 -0800 (PST)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF7210EF9D;
+ Fri, 17 Feb 2023 12:22:32 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id j20so5085204edw.0;
+ Fri, 17 Feb 2023 04:22:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=rexHsYzVpgv7QGvwm4JZRgCynN9IfMSmYFd1wUGPksU=;
- b=lVv8n0SxtKCxBPCwdqQh+1Z2D/SGcrXGS5Sk3eT6nQ38siO/qwXdhrpuGPzRQPxBTR
- wLFDbx9Rr09cBtVE45FvGjslQxGYeyrCghuzOLN/9aZCvUvbRtqHgTUJs9FWp31/ugxm
- hmcfkYih2OGLvq7uXCO1HP/dUrsCclkU3NqyLPnq595XxlK3ezm12tRnXCagVLmOhMAT
- vtAbrLfUTcPBUq1O7PpU1JchJ1u3OlgOrZPGDOgX3Iuo3t6DkE105WkPlconsULL3wEu
- jgXUeisMGds0hvDeoFJn5/dFt7/LuC1aQrmBLaeYdHoAjlBWXGDzDZixitNLqw3A3nxQ
- /9nA==
+ :reply-to; bh=mZHGa2GoczV8SobMBL4eZrxvktxY9/CEPQQFfd9j9c4=;
+ b=jcycg02h19wCD0AO0gHJigbe5K5vEfbGXlMCk1d07z1irJ/ZOrlOD7Mh/TFI633aSA
+ agLLZ6Bi+DvsAsoocoqEWbjrl3BqKDvOQz665461d0rKLRKKXYd5CqGjhExIJFt3gwvk
+ 3mzfIt+RU/ZnQMAHHrjIf+avJL+ip+Gc5L7oa6t+rygoBWnzkU6Rh/R6bfJ3c7T9N/Xf
+ CFfVZjS71bHUytvVT6l86fS6fXLlkHVugVkLXphJocOSwawdFaU+kpqH9HPuJm4ERag3
+ NuEh+B4D/Y6SIUBYUcyJIhcHCEFKgxycCRf7BmdL3rA2v/LPtFP2deCvbfmCX9vyhZ2R
+ 69Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rexHsYzVpgv7QGvwm4JZRgCynN9IfMSmYFd1wUGPksU=;
- b=61bzitWdWA+d8FX1ybtYrqHucSkj+xa98+lY+5/Hrd1ZquFIqeNK3Qv4ybpoSL2Vwx
- QM+FJN4KAreLAsE8U5QYA0praxpjTzCKwnV6KhjDE0Hy027jOrIZMUcmxaCTuqP3j1wR
- beTlFaI/g+nVn4cjQgBegiQ3HFSYslojGEw1Tp85EWE1fWG4XeyErElZY0nSPJQEYvVc
- gJdz4mZrp9SMFwRUGbPNqpfOiTMNCa+7BnoXS1pnp7qRVWwaFX1Ka+h7rhbGirSrNq5b
- P+eUkGBSSmdXFqkVcBi+hXkRUsAqatqxj5816ZOrurShyIvsjZgI0vjSaGWjaIaHwKEX
- CqSw==
-X-Gm-Message-State: AO0yUKUCWbqWSSr8cZVw0iyipM8kY001bBfnB0d7I1iOlz6CANyAXmx9
- efKw66puURsTyoDLhWCUEiFv2aiT180=
-X-Google-Smtp-Source: AK7set//x9AeIoBlUIDuxNBucV1uRwMq4jKtnnHuskCDi122fvB1eD/vo3mdXqeLrgndN/NtOQcLGA==
-X-Received: by 2002:a17:906:edc1:b0:872:6bd0:d2b with SMTP id
- sb1-20020a170906edc100b008726bd00d2bmr9044022ejb.45.1676636550018; 
+ bh=mZHGa2GoczV8SobMBL4eZrxvktxY9/CEPQQFfd9j9c4=;
+ b=lG7XG01Ipxl85vY/qWb49isvsFEteSLtdiLPl8IIUzNl3DqSc+oFtYn+Y/UcRjsWl1
+ S0oNtTsoxbut+Iyn+LPNUxBfPcwLw0Op0BZf80esIPJCxI7Bx6meippHS5KDnOS9d6UF
+ Pzq/FuVRtdDweND+WIvEzdNjcQ/P6jLLdW5bbhJZ3xbK4vY5aGDhoFQAUYXtf1CigB0y
+ 2LeXfBNfgj9Ll9OCmjT2jwdhYkCMown0+V5718AaiYWd97gjfHbPmuz2wLh643g2K9oD
+ /XGj9xhNsqQA5rbdbCiinkPjrP0EKnxddYoR6taXkL1DdUY38JyqBnRnlta+eidXyMKv
+ 0WfA==
+X-Gm-Message-State: AO0yUKXHiNOE1wbOhNvhKnc1TWm0l27oeSc/Na6/kNUY/Dx1D/riycyX
+ QeRdAEqq877k88LftsBZgpHLaeTRkcY=
+X-Google-Smtp-Source: AK7set+bzqbrzO8BdZJIusuJ5fKHriLqL6MVEuG3V2kPEuweIeA+fYvxNjLhOPj1jj8Xu6B4YJTSIg==
+X-Received: by 2002:aa7:ca53:0:b0:4a0:e31a:434 with SMTP id
+ j19-20020aa7ca53000000b004a0e31a0434mr991720edt.27.1676636550928; 
  Fri, 17 Feb 2023 04:22:30 -0800 (PST)
 Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a50c38a000000b004ad75c5c0fdsm1373472edf.18.2023.02.17.04.22.29
+ h10-20020a50c38a000000b004ad75c5c0fdsm1373472edf.18.2023.02.17.04.22.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 04:22:29 -0800 (PST)
+ Fri, 17 Feb 2023 04:22:30 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/7] drm/gem: Remove BUG_ON in drm_gem_private_object_init
-Date: Fri, 17 Feb 2023 13:22:22 +0100
-Message-Id: <20230217122224.29243-5-christian.koenig@amd.com>
+Subject: [PATCH 6/7] drm/amdgpu: Cleanup the GDS, GWS and OA allocations
+Date: Fri, 17 Feb 2023 13:22:23 +0100
+Message-Id: <20230217122224.29243-6-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230217122224.29243-1-christian.koenig@amd.com>
 References: <20230217122224.29243-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,29 +78,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
 
-ttm_resource can allocate size in bytes to support less than page size.
+Change the size of GDS, GWS and OA from pages to bytes.
+The initialized gds_size, gws_size and oa_size in bytes,
+remove PAGE_SHIFT in amdgpu_ttm_init_on_chip().
 
 Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230208090106.9659-1-Amaranath.Somalapuram@amd.com
 ---
- drivers/gpu/drm/drm_gem.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c    | 12 ++++++------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  3 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  3 +--
+ 3 files changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index aa15c52ae182..5a3ca3363f82 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -152,8 +152,6 @@ EXPORT_SYMBOL(drm_gem_object_init);
- void drm_gem_private_object_init(struct drm_device *dev,
- 				 struct drm_gem_object *obj, size_t size)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index c3d9d75143f4..4641b25956fd 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -142,16 +142,16 @@ void amdgpu_job_set_resources(struct amdgpu_job *job, struct amdgpu_bo *gds,
+ 			      struct amdgpu_bo *gws, struct amdgpu_bo *oa)
  {
--	BUG_ON((size & (PAGE_SIZE - 1)) != 0);
--
- 	obj->dev = dev;
- 	obj->filp = NULL;
+ 	if (gds) {
+-		job->gds_base = amdgpu_bo_gpu_offset(gds) >> PAGE_SHIFT;
+-		job->gds_size = amdgpu_bo_size(gds) >> PAGE_SHIFT;
++		job->gds_base = amdgpu_bo_gpu_offset(gds);
++		job->gds_size = amdgpu_bo_size(gds);
+ 	}
+ 	if (gws) {
+-		job->gws_base = amdgpu_bo_gpu_offset(gws) >> PAGE_SHIFT;
+-		job->gws_size = amdgpu_bo_size(gws) >> PAGE_SHIFT;
++		job->gws_base = amdgpu_bo_gpu_offset(gws);
++		job->gws_size = amdgpu_bo_size(gws);
+ 	}
+ 	if (oa) {
+-		job->oa_base = amdgpu_bo_gpu_offset(oa) >> PAGE_SHIFT;
+-		job->oa_size = amdgpu_bo_size(oa) >> PAGE_SHIFT;
++		job->oa_base = amdgpu_bo_gpu_offset(oa);
++		job->oa_size = amdgpu_bo_size(oa);
+ 	}
+ }
  
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index 05fc6bda5f58..d95c61b79b4f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -541,12 +541,11 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+ 	if (bp->domain & (AMDGPU_GEM_DOMAIN_GWS | AMDGPU_GEM_DOMAIN_OA)) {
+ 		/* GWS and OA don't need any alignment. */
+ 		page_align = bp->byte_align;
+-		size <<= PAGE_SHIFT;
+ 
+ 	} else if (bp->domain & AMDGPU_GEM_DOMAIN_GDS) {
+ 		/* Both size and alignment must be a multiple of 4. */
+ 		page_align = ALIGN(bp->byte_align, 4);
+-		size = ALIGN(size, 4) << PAGE_SHIFT;
++		size = ALIGN(size, 4);
+ 	} else {
+ 		/* Memory should be aligned at least to a page size. */
+ 		page_align = ALIGN(bp->byte_align, PAGE_SIZE) >> PAGE_SHIFT;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 9009b5477faa..449b2344af27 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -77,8 +77,7 @@ static int amdgpu_ttm_init_on_chip(struct amdgpu_device *adev,
+ 				    unsigned int type,
+ 				    uint64_t size)
+ {
+-	return ttm_range_man_init(&adev->mman.bdev, type,
+-				  false, size << PAGE_SHIFT);
++	return ttm_range_man_init(&adev->mman.bdev, type, false, size);
+ }
+ 
+ /**
 -- 
 2.34.1
 
