@@ -1,67 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC2169AB5D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 13:23:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F9369AB62
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 13:23:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D2B10EFA7;
-	Fri, 17 Feb 2023 12:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C60F10EF8F;
+	Fri, 17 Feb 2023 12:23:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 634DF10EF9D;
- Fri, 17 Feb 2023 12:22:33 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id eg30so3345920edb.7;
- Fri, 17 Feb 2023 04:22:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=7MGV4uOhAv7nUlPygyecvWiMFfXFksQYblobBmyBXSE=;
- b=DOG25/vIyy9JgVeRdRDVcTMDblKdRctpqnaoEGNntZaAEdX9rJ1lrKYMHkoqUhSf24
- f3LOAcLARZXMjKA/8eDFoqPouMiFf9tAz9q6kyISjH2US8GKbIFOKyRFAmSjChRKl/Dz
- Pd76idK2ipaFt62gql/BVFFltMZCVxms6R4ArjYgHFBzvuKE+Dwr0OHYzgdMolzH1dwG
- J1eyN1Fd6/+E1vOhL3+MxzDqq2JgtWppRaGHoycbcjsVm8XJw0hbAQzO5kZ9kNt6rfJT
- z0p8Wfpmc3DGZ7zi3Fpy05OBite1FjuEKTdl0zIjnbSo0f6HvUu0EHcFtUGqjoz0kWnX
- XjwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7MGV4uOhAv7nUlPygyecvWiMFfXFksQYblobBmyBXSE=;
- b=zX59JTP2O2f+YAsm17JmvCkCRuNze3FPLY3AHZ9l15VKVTsU6cQxJQO40lc/z7dH7F
- dnSfXmy/K5m0he/l8aITdy8B7b3Hpt262L9qrJB8QTw+f41eFAqyVGemEe9Z9Sa85ubu
- pqrYG56wH8VMjhEn6kml55k4iZlJww6pmOysUxUGxxCzmEgL0jYP0zvE07s0PZLx+MB0
- ufq1MxGodPT7s8KOvgBLiCa7QzUWm6Soi/nRJ30tTM0Oi0z2o2kIkrYvTRn1VEc0H+ag
- vN6BzW3ULp+neQ43kQLoPdblzNjtHv7nEgon13TxbrsxCBiG6pxUaIbj1OBKrw/2neEx
- rlqg==
-X-Gm-Message-State: AO0yUKU6jdHQjxAg739Nzbr4f7RSpCEb+H4/ijhb+adD0J9ax6FH8S3N
- /PruLyIGqIUxmNs3r6zaoh8ow8nYnPA=
-X-Google-Smtp-Source: AK7set9/86wC9bqltH0q8Wetly6Ue9Yb04Rlh4awwHDw/L/UhEsF7YUKYUP6J6v7LKoMxe8tijqedQ==
-X-Received: by 2002:a17:906:e10e:b0:8b1:7569:b51a with SMTP id
- gj14-20020a170906e10e00b008b17569b51amr4323657ejb.53.1676636551821; 
- Fri, 17 Feb 2023 04:22:31 -0800 (PST)
-Received: from able.fritz.box (p5b0ea2e7.dip0.t-ipconnect.de. [91.14.162.231])
- by smtp.gmail.com with ESMTPSA id
- h10-20020a50c38a000000b004ad75c5c0fdsm1373472edf.18.2023.02.17.04.22.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 04:22:31 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/ttm: cleanup ttm_range_mgr_node
-Date: Fri, 17 Feb 2023 13:22:24 +0100
-Message-Id: <20230217122224.29243-7-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230217122224.29243-1-christian.koenig@amd.com>
-References: <20230217122224.29243-1-christian.koenig@amd.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1FDC10EF91
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 12:23:51 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AC84D33992;
+ Fri, 17 Feb 2023 12:23:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676636630; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3ddjyR8ugi+S5EIlkCa0m8Ts4ukLHdqO1La6lUfJnoI=;
+ b=wSD0+pq4c8y3/HMH8Nyb0OTN4FQ7YFTLzzgJSOLK7DgGGlnlQ3fmp1X5XPIrCLY5gpigXY
+ Xdbl4uGraYhW+fnEFyJ+8J0vx6q63aQWlH/mp10I0tyOxdXSzTF542n6N7K8LC9zYwQhuH
+ e7iIk+DEMwb6IKXMADDJ4p1xQqbRMrU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676636630;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3ddjyR8ugi+S5EIlkCa0m8Ts4ukLHdqO1La6lUfJnoI=;
+ b=NstaHwo+vCdFmJTjkC3/azoenRagWe35BGJMiekBa0DMrSbQjfzNPrTIbnBQTI6HSyu8F/
+ LekfIzhJwYFYrNBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3549F13274;
+ Fri, 17 Feb 2023 12:23:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id fC0KDNZx72MpZAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Feb 2023 12:23:50 +0000
+Message-ID: <bd44b702-34b5-816f-9ef9-00205a4375d0@suse.de>
+Date: Fri, 17 Feb 2023 13:23:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v10 03/11] drm/gem: Add evict() callback to
+ drm_gem_object_funcs
+Content-Language: en-US
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+ <20230108210445.3948344-4-dmitry.osipenko@collabora.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230108210445.3948344-4-dmitry.osipenko@collabora.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------XgxlqJUeJZ17gdNZZniu83tv"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,193 +87,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We don't need multiple drm_mm nodes any more. Clean that up and remove
-the extra complexity.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------XgxlqJUeJZ17gdNZZniu83tv
+Content-Type: multipart/mixed; boundary="------------vYWkz1BEleRqHYNcrZkuGPM3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Message-ID: <bd44b702-34b5-816f-9ef9-00205a4375d0@suse.de>
+Subject: Re: [PATCH v10 03/11] drm/gem: Add evict() callback to
+ drm_gem_object_funcs
+References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+ <20230108210445.3948344-4-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230108210445.3948344-4-dmitry.osipenko@collabora.com>
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c    | 18 +++++++++---------
- drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h |  2 +-
- drivers/gpu/drm/i915/intel_region_ttm.c        |  2 +-
- drivers/gpu/drm/ttm/ttm_range_manager.c        | 13 ++++++-------
- include/drm/ttm/ttm_range_manager.h            |  6 +++---
- 5 files changed, 20 insertions(+), 21 deletions(-)
+--------------vYWkz1BEleRqHYNcrZkuGPM3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index a48ed9027fee..f128a886a89b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@ -97,7 +97,7 @@ bool amdgpu_gtt_mgr_has_gart_addr(struct ttm_resource *res)
- {
- 	struct ttm_range_mgr_node *node = to_ttm_range_mgr_node(res);
- 
--	return drm_mm_node_allocated(&node->mm_nodes[0]);
-+	return drm_mm_node_allocated(&node->mm_node);
- }
- 
- /**
-@@ -119,7 +119,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 	struct ttm_range_mgr_node *node;
- 	int r;
- 
--	node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
-+	node = kzalloc(sizeof(*node), GFP_KERNEL);
- 	if (!node)
- 		return -ENOMEM;
- 
-@@ -132,7 +132,7 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 
- 	if (place->lpfn) {
- 		spin_lock(&mgr->lock);
--		r = drm_mm_insert_node_in_range(&mgr->mm, &node->mm_nodes[0],
-+		r = drm_mm_insert_node_in_range(&mgr->mm, &node->mm_node,
- 						tbo->base.size,
- 						tbo->page_alignment << PAGE_SHIFT, 0,
- 						(u64)place->fpfn << PAGE_SHIFT,
-@@ -142,10 +142,10 @@ static int amdgpu_gtt_mgr_new(struct ttm_resource_manager *man,
- 		if (unlikely(r))
- 			goto err_free;
- 
--		node->base.start = node->mm_nodes[0].start;
-+		node->base.start = node->mm_node.start;
- 	} else {
--		node->mm_nodes[0].start = 0;
--		node->mm_nodes[0].size = node->base.size;
-+		node->mm_node.start = 0;
-+		node->mm_node.size = node->base.size;
- 		node->base.start = AMDGPU_BO_INVALID_OFFSET;
- 	}
- 
-@@ -173,8 +173,8 @@ static void amdgpu_gtt_mgr_del(struct ttm_resource_manager *man,
- 	struct amdgpu_gtt_mgr *mgr = to_gtt_mgr(man);
- 
- 	spin_lock(&mgr->lock);
--	if (drm_mm_node_allocated(&node->mm_nodes[0]))
--		drm_mm_remove_node(&node->mm_nodes[0]);
-+	if (drm_mm_node_allocated(&node->mm_node))
-+		drm_mm_remove_node(&node->mm_node);
- 	spin_unlock(&mgr->lock);
- 
- 	ttm_resource_fini(man, res);
-@@ -197,7 +197,7 @@ void amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
- 	adev = container_of(mgr, typeof(*adev), mman.gtt_mgr);
- 	spin_lock(&mgr->lock);
- 	drm_mm_for_each_node(mm_node, &mgr->mm) {
--		node = container_of(mm_node, typeof(*node), mm_nodes[0]);
-+		node = container_of(mm_node, typeof(*node), mm_node);
- 		amdgpu_ttm_recover_gart(node->base.bo);
- 	}
- 	spin_unlock(&mgr->lock);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-index 5c78f0b09351..684cd8c0aa27 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_res_cursor.h
-@@ -90,7 +90,7 @@ static inline void amdgpu_res_first(struct ttm_resource *res,
- 		cur->node = block;
- 		break;
- 	case TTM_PL_TT:
--		node = to_ttm_range_mgr_node(res)->mm_nodes;
-+		node = &to_ttm_range_mgr_node(res)->mm_node;
- 		while (start >= node->size << PAGE_SHIFT)
- 			start -= node++->size << PAGE_SHIFT;
- 
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index b7fbd5abb42a..057329d05d0d 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -168,7 +168,7 @@ intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
- 		struct ttm_range_mgr_node *range_node =
- 			to_ttm_range_mgr_node(res);
- 
--		return i915_rsgt_from_mm_node(&range_node->mm_nodes[0],
-+		return i915_rsgt_from_mm_node(&range_node->mm_node,
- 					      mem->region.start,
- 					      page_alignment);
- 	} else {
-diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index c3cd7c6dd816..62eb101e3d33 100644
---- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -71,7 +71,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
- 	if (!lpfn)
- 		lpfn = man->size;
- 
--	node = kzalloc(struct_size(node, mm_nodes, 1), GFP_KERNEL);
-+	node = kzalloc(sizeof(*node), GFP_KERNEL);
- 	if (!node)
- 		return -ENOMEM;
- 
-@@ -82,8 +82,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
- 	ttm_resource_init(bo, place, &node->base);
- 
- 	spin_lock(&rman->lock);
--	ret = drm_mm_insert_node_in_range(mm, &node->mm_nodes[0],
--					  node->base.size,
-+	ret = drm_mm_insert_node_in_range(mm, &node->mm_node, node->base.size,
- 					  bo->page_alignment << PAGE_SHIFT, 0,
- 					  (u64)place->fpfn << PAGE_SHIFT, lpfn,
- 					  mode);
-@@ -95,7 +94,7 @@ static int ttm_range_man_alloc(struct ttm_resource_manager *man,
- 		return ret;
- 	}
- 
--	node->base.start = node->mm_nodes[0].start;
-+	node->base.start = node->mm_node.start;
- 	*res = &node->base;
- 	return 0;
- }
-@@ -107,7 +106,7 @@ static void ttm_range_man_free(struct ttm_resource_manager *man,
- 	struct ttm_range_manager *rman = to_range_manager(man);
- 
- 	spin_lock(&rman->lock);
--	drm_mm_remove_node(&node->mm_nodes[0]);
-+	drm_mm_remove_node(&node->mm_node);
- 	spin_unlock(&rman->lock);
- 
- 	ttm_resource_fini(man, res);
-@@ -119,7 +118,7 @@ static bool ttm_range_man_intersects(struct ttm_resource_manager *man,
- 				     const struct ttm_place *place,
- 				     size_t size)
- {
--	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
-+	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_node;
- 
- 	/* Don't evict BOs outside of the requested placement range */
- 	if (((u64)place->fpfn << PAGE_SHIFT) >= (node->start + size) ||
-@@ -134,7 +133,7 @@ static bool ttm_range_man_compatible(struct ttm_resource_manager *man,
- 				     const struct ttm_place *place,
- 				     size_t size)
- {
--	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_nodes[0];
-+	struct drm_mm_node *node = &to_ttm_range_mgr_node(res)->mm_node;
- 
- 	if (node->start < (u64)place->fpfn << PAGE_SHIFT ||
- 	    (place->lpfn && (node->start + size) >
-diff --git a/include/drm/ttm/ttm_range_manager.h b/include/drm/ttm/ttm_range_manager.h
-index 05bffded1b53..9dc76a51be1f 100644
---- a/include/drm/ttm/ttm_range_manager.h
-+++ b/include/drm/ttm/ttm_range_manager.h
-@@ -11,14 +11,14 @@
-  * struct ttm_range_mgr_node
-  *
-  * @base: base clase we extend
-- * @mm_nodes: MM nodes, usually 1
-+ * @mm_node: MM node
-  *
-  * Extending the ttm_resource object to manage an address space allocation with
-- * one or more drm_mm_nodes.
-+ * a drm_mm_nodes.
-  */
- struct ttm_range_mgr_node {
- 	struct ttm_resource base;
--	struct drm_mm_node mm_nodes[];
-+	struct drm_mm_node mm_node;
- };
- 
- /**
--- 
-2.34.1
+SGkNCg0KQW0gMDguMDEuMjMgdW0gMjI6MDQgc2NocmllYiBEbWl0cnkgT3NpcGVua286DQo+
+IEFkZCBuZXcgY29tbW9uIGV2aWN0KCkgY2FsbGJhY2sgdG8gZHJtX2dlbV9vYmplY3RfZnVu
+Y3MgYW5kIGNvcnJlc3BvbmRpbmcNCj4gZHJtX2dlbV9vYmplY3RfZXZpY3QoKSBoZWxwZXIu
+IFRoaXMgaXMgYSBmaXJzdCBzdGVwIG9uIGEgd2F5IHRvIHByb3ZpZGluZw0KPiBjb21tb24g
+R0VNLXNocmlua2VyIEFQSSBmb3IgRFJNIGRyaXZlcnMuDQo+IA0KPiBTdWdnZXN0ZWQtYnk6
+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBTaWduZWQtb2Zm
+LWJ5OiBEbWl0cnkgT3NpcGVua28gPGRtaXRyeS5vc2lwZW5rb0Bjb2xsYWJvcmEuY29tPg0K
+DQpSZXZpZXdlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
+DQoNCndpdGggbXkgY29tbWVudHMgYmVsb3cgYWRkcmVzc2VkLg0KDQo+IC0tLQ0KPiAgIGRy
+aXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMgfCAxNiArKysrKysrKysrKysrKysrDQo+ICAgaW5j
+bHVkZS9kcm0vZHJtX2dlbS5oICAgICB8IDEyICsrKysrKysrKysrKw0KPiAgIDIgZmlsZXMg
+Y2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jDQo+IGluZGV4
+IGM2YmNhNWFjNmUwZi4uZGJiNDhmYzlkZmYzIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2dlbS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMNCj4g
+QEAgLTE0NzEsMyArMTQ3MSwxOSBAQCBkcm1fZ2VtX2xydV9zY2FuKHN0cnVjdCBkcm1fZ2Vt
+X2xydSAqbHJ1LA0KPiAgIAlyZXR1cm4gZnJlZWQ7DQo+ICAgfQ0KPiAgIEVYUE9SVF9TWU1C
+T0woZHJtX2dlbV9scnVfc2Nhbik7DQo+ICsNCj4gKy8qKg0KPiArICogZHJtX2dlbV9vYmpl
+Y3RfZXZpY3QgLSBoZWxwZXIgdG8gZXZpY3QgYmFja2luZyBwYWdlcyBmb3IgYSBHRU0gb2Jq
+ZWN0DQo+ICsgKiBAb2JqOiBvYmogaW4gcXVlc3Rpb24NCj4gKyAqLw0KPiArYm9vbA0KDQpQ
+bGVhc2UgdXNlIGludCBhbmQgcmV0dXJuIGFuIGVycm5vIGNvZGUuDQoNCk5vIG5ld2xpbmUg
+aGVyZSwgcGxlYXNlLg0KDQo+ICtkcm1fZ2VtX29iamVjdF9ldmljdChzdHJ1Y3QgZHJtX2dl
+bV9vYmplY3QgKm9iaikNCj4gK3sNCj4gKwlkbWFfcmVzdl9hc3NlcnRfaGVsZChvYmotPnJl
+c3YpOw0KPiArDQo+ICsJaWYgKG9iai0+ZnVuY3MtPmV2aWN0KQ0KPiArCQlyZXR1cm4gb2Jq
+LT5mdW5jcy0+ZXZpY3Qob2JqKTsNCj4gKw0KPiArCXJldHVybiBmYWxzZTsNCj4gK30NCj4g
+K0VYUE9SVF9TWU1CT0woZHJtX2dlbV9vYmplY3RfZXZpY3QpOw0KPiBkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9kcm0vZHJtX2dlbS5oIGIvaW5jbHVkZS9kcm0vZHJtX2dlbS5oDQo+IGluZGV4
+IGYxZjAwZmMyZGJhNi4uOGU1YzIyZjI1NjkxIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2Ry
+bS9kcm1fZ2VtLmgNCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2dlbS5oDQo+IEBAIC0xNzIs
+NiArMTcyLDE2IEBAIHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcyB7DQo+ICAgCSAqIFRo
+aXMgaXMgb3B0aW9uYWwgYnV0IG5lY2Vzc2FyeSBmb3IgbW1hcCBzdXBwb3J0Lg0KPiAgIAkg
+Ki8NCj4gICAJY29uc3Qgc3RydWN0IHZtX29wZXJhdGlvbnNfc3RydWN0ICp2bV9vcHM7DQo+
+ICsNCj4gKwkvKioNCj4gKwkgKiBAZXZpY3Q6DQo+ICsJICoNCj4gKwkgKiBFdmljdHMgZ2Vt
+IG9iamVjdCBvdXQgZnJvbSBtZW1vcnkuIFVzZWQgYnkgdGhlIGRybV9nZW1fb2JqZWN0X2V2
+aWN0KCkNCj4gKwkgKiBoZWxwZXIuIFJldHVybnMgdHJ1ZSBvbiBzdWNjZXNzLCBmYWxzZSBv
+dGhlcndpc2UuDQo+ICsJICoNCj4gKwkgKiBUaGlzIGNhbGxiYWNrIGlzIG9wdGlvbmFsLg0K
+PiArCSAqLw0KPiArCWJvb2wgKCpldmljdCkoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmop
+Ow0KDQpUaGlzIHNob3VsZCBiZSBkZWNsYXJlZCBiZXR3ZWVuIG1tYXAgYW5kIGV2aWN0Lg0K
+DQpBZ2FpbiwgcGxlYXNlIHVzZSBpbnQgYW5kIHJldHVybiBhbiBlcnJubyBjb2RlLg0KDQo+
+ICAgfTsNCj4gICANCj4gICAvKioNCj4gQEAgLTQ4MSw0ICs0OTEsNiBAQCB1bnNpZ25lZCBs
+b25nIGRybV9nZW1fbHJ1X3NjYW4oc3RydWN0IGRybV9nZW1fbHJ1ICpscnUsDQo+ICAgCQkJ
+ICAgICAgIHVuc2lnbmVkIGxvbmcgKnJlbWFpbmluZywNCj4gICAJCQkgICAgICAgYm9vbCAo
+KnNocmluaykoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopKTsNCj4gICANCj4gK2Jvb2wg
+ZHJtX2dlbV9vYmplY3RfZXZpY3Qoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOw0KDQpk
+cm1fZ2VtX2V2aWN0KCkgc2hvdWxkIGJlIHRoZSBjb3JyZWN0IG5hbWU7IGxpa2UgZHJtX2dl
+bV92bWFwKCkgYW5kIA0KZHJtX2dlbV9waW4oKSwgZXRjLg0KDQpCZXN0IHJlZ2FyZHMNClRo
+b21hcw0KDQo+ICsNCj4gICAjZW5kaWYgLyogX19EUk1fR0VNX0hfXyAqLw0KDQotLSANClRo
+b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
+YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
+YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
+vGhyZXI6IEl2byBUb3Rldg0K
 
+--------------vYWkz1BEleRqHYNcrZkuGPM3--
+
+--------------XgxlqJUeJZ17gdNZZniu83tv
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPvcdUFAwAAAAAACgkQlh/E3EQov+Cw
+bw/8Dcmr9ufV3Ln2EKd7jQSorGRz4kFZFVHwfHvZ4KQPJ1eUbZU5e5XdNrBvN7EDjZhBFLMhoStb
+JTp8BZm9eq4DLp4uJLDXdKqeqj1Q004RIll7Z3wVHM26tGN7uIjM4SqnWi0NZc43IhJ6AuxRMQZE
+Piq1wMD+JtYJhTmuSn3QkS34Q/YlFlUnsPwVxnXBQW5/78u2F0WH9PXes6hBdTF96HL8CTqCBK10
+5P93U048jeouDF7HbBpj5IWaw006ZZAIW6MOzQoXV4eXOqXpCbzP62ySwh9Nu/nWBAZ8qPtDsAlg
+nuuL1NeziySRR1uTqpVtFNAFJGi3LsVVLiFOrMHoQ8fWtkvpPYg/GPwYzKK+/U8H3HNF2g/pzSb9
+eL0V4CWJgW+PAnH1sFe0xl24+igCoasX658j7E7EIoXV+6ZfP3bqc/320fEewEz1cc7YvngvsCSO
+3WQRyvXOTczS35LntWqHNXdoevJWK7zjC72v/nrku67xDJQIdmFH1SlASeQvseafvPslcwzDaLdt
+YVTSw4UmF34GXzTNq333LmC98aLg33uKLN+h95QihgLo+ytENdh+YJn8w9xSrfM4FPWLSHVJ0Qy5
+4uGOejKID3mLOYtNufOAL0GUT9xrZ6jfaLD5XRaq+pNa5QKrYQWED9R/6Lq3iyRbjgmpcqgzJEYU
+vZA=
+=hjd0
+-----END PGP SIGNATURE-----
+
+--------------XgxlqJUeJZ17gdNZZniu83tv--
