@@ -1,70 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA55769A8D3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 11:05:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4DC69A8F1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 11:14:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E86210EF3A;
-	Fri, 17 Feb 2023 10:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2695E10EF39;
+	Fri, 17 Feb 2023 10:14:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D8810EF3A
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 10:05:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1676628318; x=1708164318;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rDRB4V/WoLVz8zYORx7TuyiPxgZ17+/h0wbi/slU0+g=;
- b=GOW3tJ+xg2BJ8Wxmo9My1h9mjPsSYR1Hpkq09oosnq1hmgPYSsK1GzDV
- wGSk2yxSIG6jHQDDIkWLhsLT3pwG6kay9GjvHdD6j7wEryEvH05EWnzgB
- NNXap3wC6Y1RhT7JsGr5O1MUToObKkLdDPfOBh3rAolJVC2nGiWpx46ZF
- /GXWblzOP89thG3/WDEWIzYxjBvM+f2ghY+Inc3g8klicX4TCA0lPIjuF
- 2yXjmCREqXrnmQ30IexnEYd4YISEkxOU/0I7vbhcamdxhrjI8ipCNPKsM
- 7wIpWtZYlmk9RZxFVGHr3JPqq4Z/LCrrJ1+e+geNrD1w0LjMRfW3evv+8 A==;
-X-IronPort-AV: E=Sophos;i="5.97,304,1669071600"; d="scan'208";a="29152557"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 17 Feb 2023 11:05:16 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Fri, 17 Feb 2023 11:05:16 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Fri, 17 Feb 2023 11:05:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1676628316; x=1708164316;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rDRB4V/WoLVz8zYORx7TuyiPxgZ17+/h0wbi/slU0+g=;
- b=fgu8Srcl2LUVFfApkduI2zcNIoQGJvEV2sdXR2Bg/LtREg4uMnpJJc+O
- gDxCcMtAi+6JKs1wtU9KJEba1x6TqVm1jT59DKHTSl2qfZjAsUDwiLhXt
- E4NM0Tl8WyQl+odIzSw81A3cHXraS4tSoefaNnOXLPyeoo6e9Ssv0nb8E
- IdiK26WLblCmdHlEPc/JNexpHDDnFVuPNRJIJmWkj1ZnQe39j/pK/BfJS
- 8REwPLmZcB+0YZ4w0Isx6FDvgToeAkD5d11yYDFwx1ZwHd9FfVJpgtuto
- 4iGsncfVNUG7ky/PxWyfShFHER13FE5uNJ1fjE65TXTp9AZAVSfZo7I46 A==;
-X-IronPort-AV: E=Sophos;i="5.97,304,1669071600"; d="scan'208";a="29152556"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 17 Feb 2023 11:05:16 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3E7710EF39
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 10:14:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 120AA280056;
- Fri, 17 Feb 2023 11:05:16 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
-Date: Fri, 17 Feb 2023 11:05:15 +0100
-Message-ID: <9068722.CDJkKcVGEf@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <25ae1824-4f00-4337-4512-0d8190981fb6@prevas.dk>
-References: <20230126144427.607098-1-jagan@amarulasolutions.com>
- <CAOMZO5C1oau7+YAbadD=8ERiNSLi_Z1k3VC9HVmT8aVpQF5hiQ@mail.gmail.com>
- <25ae1824-4f00-4337-4512-0d8190981fb6@prevas.dk>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A625D221E0;
+ Fri, 17 Feb 2023 10:14:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676628864; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OtqJr1T+CGP9rb7JA3mT54A5DmAkVc5wZStbP6ZKdqs=;
+ b=lc4kuOcSmIAqEmuJ/PDWb5DK0QequX5eaz+Tw+w1VfJ94NevN7tFqhdJp/O8ZesN1He5Hn
+ aMlFYppVMpmf4cCLDhz6EaxEl6otgdXKXyUMQXrowl3uhdB80e+KD52zJAhv7uKuoo8U2h
+ xUyEjJgL0CaPieYqMcNUL4/iEy+d/tE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676628864;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OtqJr1T+CGP9rb7JA3mT54A5DmAkVc5wZStbP6ZKdqs=;
+ b=Bf7zSj0FmFse2uCZniPCK75nGjDImmQT2Q7Pma1vrXruc3aMa8MMkjP1mNtVHz6qJSypZa
+ K582rW6qBdWNwLDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7BB2B13274;
+ Fri, 17 Feb 2023 10:14:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ekc6HYBT72M4KAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Feb 2023 10:14:24 +0000
+Message-ID: <8e5e9f5c-9793-1986-30a8-02c7aeddbe1c@suse.de>
+Date: Fri, 17 Feb 2023 11:14:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] gpu-drm-tiny-cirrus: Add NULL check of pointer
+ pipe->plane.state->fb in cirrus_pipe_update()
+Content-Language: en-US
+To: Alexander Sapozhnikov <alsp705@gmail.com>
+References: <20230215171549.16305-1-alsp705@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230215171549.16305-1-alsp705@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------W0cMx7MCUswWmTiHclNOFViF"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,79 +70,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Laurent.pinchart@ideasonboard.com, matteo.lisi@engicam.com,
- sw0312.kim@samsung.com, dri-devel@lists.freedesktop.org,
- Frieder Schrempf <frieder.schrempf@kontron.de>, kyungmin.park@samsung.com,
- linux-imx@nxp.com, andrzej.hajda@intel.com, m.szyprowski@samsung.com,
- aford173@gmail.com, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org, Jagan Teki <jagan@amarulasolutions.com>
+Cc: lvc-project@linuxtesting.org, Jani Nikula <jani.nikula@intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 17. Februar 2023, 09:55:22 CET schrieb Rasmus Villemoes:
-> On 14/02/2023 12.09, Fabio Estevam wrote:
-> > Hi Rasmus,
-> >=20
-> > On Tue, Feb 14, 2023 at 7:55 AM Rasmus Villemoes
-> >=20
-> > <rasmus.villemoes@prevas.dk> wrote:
-> >> Well, the data sheet for the dsi86 says up to 750MHz DSI HS clock, and
-> >> if the value specified in samsung,burst-clock-frequency is twice the D=
-SI
-> >> HS clk, I suppose I should be good up to 1.5GHz? I have tried many
-> >> different values, but I never seem to get anything through; I think I'm
-> >> missing some piece.
-> >>=20
-> >> So now I've tried to use these patches on the imx8mp-evk with the
-> >> mipi->hdmi accessory from NXP, just to see if I can ever get any
-> >> graphics through the mipi interface. And there the story is the same:
-> >> the adv7535 bridge gets probed, and can read out the edid from the
-> >> monitor over hdmi. And while the mipi block and the bridge seem to
-> >> attach to each other, I still don't get any output.
-> >>=20
-> >> Do any of you happen to have this working on the imx8mp-evk, and if so,
-> >> can you share the .dts updates you've done and how exactly you test the
-> >> graphics?
-> >=20
-> > I don't have access to an imx8mp-evk, but I tested the ADV7535 MIPI to
-> > HDMI daughter card on an imx8mm-evk.
-> >=20
-> > Some extra ADV7535 patches were needed. Please check patches 0020-0023
-> > and see if they help.
->=20
-> Thanks, but they don't seem to make a difference.
->=20
-> I've started trying to simply compare registers between the NXP 5.15
-> kernel and the imx8mm-dsi-v12 branch with Marek's patch on top. Already
-> in MEDIA_BLK_CTRL, 0x32ec0000, there's something interesting:
->=20
->  ## Media Mix Clock Enable Register
-> -CLK_EN                 0004    0080e133
-> +CLK_EN                 0004    00800133
->  ## MIPI PHY Control Register
-> -MIPI_RESET_DIV         0008    40030000
-> +MIPI_RESET_DIV         0008    00020000
->=20
-> So with the NXP kernel, there are three bits set in CLK_EN which are not
-> set with the "mainline", but those bits are marked reserved in the RM,
-> so I have no idea if they are just some RO bits that get set due to some
-> other munging. Then there's the MIPI_RESET_DIV register where bits 16
-> and 30 do not get set. Of course, there are lots of other differences,
-> but perhaps this gives somebody an idea.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------W0cMx7MCUswWmTiHclNOFViF
+Content-Type: multipart/mixed; boundary="------------DzeF0Y8tHjgIb4CrfqDxM1Zd";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alexander Sapozhnikov <alsp705@gmail.com>
+Cc: linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+ Jani Nikula <jani.nikula@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Message-ID: <8e5e9f5c-9793-1986-30a8-02c7aeddbe1c@suse.de>
+Subject: Re: [PATCH] gpu-drm-tiny-cirrus: Add NULL check of pointer
+ pipe->plane.state->fb in cirrus_pipe_update()
+References: <20230215171549.16305-1-alsp705@gmail.com>
+In-Reply-To: <20230215171549.16305-1-alsp705@gmail.com>
 
-Looking at drivers/soc/imx/imx8m-blk-ctrl.c the bits for MIPI_RESET_DIV are
-16: MIPI_CSI1
-17: MIPI_DSI
-30: MIPI_CSI2
-So i think that's okay here.
+--------------DzeF0Y8tHjgIb4CrfqDxM1Zd
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+SGkNCg0KQW0gMTUuMDIuMjMgdW0gMTg6MTUgc2NocmllYiBBbGV4YW5kZXIgU2Fwb3pobmlr
+b3Y6DQo+IEZyb206IEFsZXhhbmRyIFNhcG96aG5pa292IDxhbHNwNzA1QGdtYWlsLmNvbT4N
+Cj4gDQo+IEFmdGVyIGhhdmluZyBiZWVuIGNvbXBhcmVkIHRvIE5VTEwgdmFsdWUgYXQgY2ly
+cnVzLmM6NDU1LCBwb2ludGVyICdwaXBlLT5wbGFuZS5zdGF0ZS0+ZmInIGlzIHBhc3NlZCBh
+cw0KPiAxc3QgcGFyYW1ldGVyIGluIGNhbGwgdG8gZnVuY3Rpb24gJ2NpcnJ1c19mYl9ibGl0
+X3JlY3QnIGF0IGNpcnJ1cy5jOjQ2MSwgd2hlcmUgaXQgaXMgZGVyZWZlcmVuY2VkIGF0IGNp
+cnJ1cy5jOjMxNi4NCj4gDQo+IEZvdW5kIGJ5IExpbnV4IFZlcmlmaWNhdGlvbiBDZW50ZXIg
+KGxpbnV4dGVzdGluZy5vcmcpIHdpdGggU1ZBQ0UuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBB
+bGV4YW5kciBTYXBvemhuaWtvdiA8YWxzcDcwNUBnbWFpbC5jb20+DQoNClJldmlld2VkLWJ5
+OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KSSdsbCBhZGQg
+eW91IHBhdGNoIHRvIGRybS1taXNjLWZpeGVzLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0K
+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS90aW55L2NpcnJ1cy5jIHwgMiArLQ0KPiAg
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aW55L2NpcnJ1cy5jIGIvZHJpdmVycy9n
+cHUvZHJtL3RpbnkvY2lycnVzLmMNCj4gaW5kZXggNjc4YzJlZi4uZmZhN2U2MSAxMDA2NDQN
+Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3RpbnkvY2lycnVzLmMNCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3RpbnkvY2lycnVzLmMNCj4gQEAgLTQ1NSw3ICs0NTUsNyBAQCBzdGF0aWMg
+dm9pZCBjaXJydXNfcGlwZV91cGRhdGUoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBl
+ICpwaXBlLA0KPiAgIAlpZiAoc3RhdGUtPmZiICYmIGNpcnJ1cy0+Y3BwICE9IGNpcnJ1c19j
+cHAoc3RhdGUtPmZiKSkNCj4gICAJCWNpcnJ1c19tb2RlX3NldChjaXJydXMsICZjcnRjLT5t
+b2RlLCBzdGF0ZS0+ZmIpOw0KPiAgIA0KPiAtCWlmIChkcm1fYXRvbWljX2hlbHBlcl9kYW1h
+Z2VfbWVyZ2VkKG9sZF9zdGF0ZSwgc3RhdGUsICZyZWN0KSkNCj4gKwlpZiAoc3RhdGUtPmZi
+ICYmIGRybV9hdG9taWNfaGVscGVyX2RhbWFnZV9tZXJnZWQob2xkX3N0YXRlLCBzdGF0ZSwg
+JnJlY3QpKQ0KPiAgIAkJY2lycnVzX2ZiX2JsaXRfcmVjdChzdGF0ZS0+ZmIsICZzaGFkb3df
+cGxhbmVfc3RhdGUtPmRhdGFbMF0sICZyZWN0KTsNCj4gICB9DQo+ICAgDQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
+ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
+aHJlcjogSXZvIFRvdGV2DQo=
 
+--------------DzeF0Y8tHjgIb4CrfqDxM1Zd--
 
+--------------W0cMx7MCUswWmTiHclNOFViF
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPvU4AFAwAAAAAACgkQlh/E3EQov+DR
+UxAAg2TaJc4Iu2+Ec6mFTEXu+bRbhitXaDeywYm/EzrluQZuV/MD+xtyVr3VF5NYfnhroMJgTqFK
+hsdGCrnL2jPV15NLX5KyEbVm96uW3VpxxotH4oE5THq+cD5RbJ1cppb9HqpO+yb8CfLvT4wqjWZw
+ZSQJxubcFMjx24qmPvDpvdULuswj6OTyz7NqEiDhUAJiesof8VaHUWStXtR9vzheN1tWfWs/0KLB
+QGNR/SmE1tSdd35RKPE6AmGL8M3Nqbg1Hyt+DCmM4EBfKQjNXSaYP6e3M7UBbhhm404u14gfnDB9
+nb0Q8jq/dFu82FB1wpF5nn+igqt/4SGlgu1pq3qpaBpi1T8IodzfIDXDSIJyuq865tmuPMVkleGr
+9+jJs6Zcj/uaTqADD21aMqfZr4nCHAICS1OJ/ohwhiCkkQjGsCna6mQvnxw9acbstdGXzvl629JY
+1niUk6rl4oM21evQ+GhutD70ICo5TKmzWGkVCsWP1JiLnWZ1jqwtjGaes8SxlFomu9pfdTOWrHfp
+yVIcjz0zVJL/Ly0tgmshoyvnY2yc95CFPSTaqTBRxkMejT4ja6TpDhP5lvxvJ4/ElSs5PTt1owSu
+k4MoM+coTy/Y7D725iDOZOwp7STw6IctFjzd1ax4YaXFyAsgYTc8RimhfLKCpgiSoUk4oBla4Nx4
+vpk=
+=YaT7
+-----END PGP SIGNATURE-----
+
+--------------W0cMx7MCUswWmTiHclNOFViF--
