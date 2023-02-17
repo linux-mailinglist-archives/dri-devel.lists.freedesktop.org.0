@@ -1,70 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2F069B499
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 22:21:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC44E69B4A3
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 22:23:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A526910E48F;
-	Fri, 17 Feb 2023 21:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C686310E4A1;
+	Fri, 17 Feb 2023 21:23:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C2610E490
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 21:21:49 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id e30so2367114ljb.8
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 13:21:49 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8CA510E494
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 21:23:30 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id d24so3167798lfs.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 13:23:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UNF7tXp+rDFBpgfm7W7HzaUWheDtq8ILBFPztgvBbvs=;
- b=pZlOs+03CrxLlGrRLchTKkIleuTn6EB2jn9lOaIxYT8DX+ik9p9685oXrmX2xDjfjg
- Fp4hRadANHpqYFpak+24l5BRNN2m8tncW25I6mvE7Be8cNOs2tHQuL6iVZ5O+UcdJy4x
- tT9VwwuyzNrDCW5gA4AvNsrQCUYWgYaG8YGDFzfvcRiXincMg8PfGd1D16nDvUErlReT
- 8jy7q5KRrxY/erlRlWNvrCQrwCIBDSUyk+zBpTcCu3sKRQCsLsnif3sWfDg28lk4kaG3
- IszWoDWQ/DzSB4Qc1SPth+KzeBPBvG6AbhvUrU9IMse7NZ+iUuBdzQ2mxJ+mGhpMjbQw
- j94g==
+ bh=giMyztqRFKja8+Zwf+y6h9FIEuqpthPiWJnY4CCgAMk=;
+ b=UnlSVCeMmWi4Fe0tQX0SeGUAzOM4BfaNyF7VyR3lU2KBasoP+uqiVB8V0h+eBASK6D
+ BhRiwsAxhW+SjjuighcXsDpNB1WWZnV/G+ew0LEiqaDKbYid4yOUXvvpnDVFsQMFYjOG
+ 7zhh+xijUUr+Na0yRcijoA9gl8VWvc96lOYWLNoLuBdQQOnuUI37oaFM1OBS1UUdg+GJ
+ 2AbVHFZRjxiGdfQ4O9qSbFmAfHsmLpj+sY2RP5SLULo3aZ17Ng4sTO599ecSFmlhsWoM
+ EnntPjIqC7MoPIxVyMJH22Ax7+7W2HBjUr4u/hn3nYfvxrQySenJb90dGUoqfwOh0YCb
+ WToQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UNF7tXp+rDFBpgfm7W7HzaUWheDtq8ILBFPztgvBbvs=;
- b=x8H9eCVdMQdu8fAokNzavCW4vDEk9DJmPnw1BhTYNNifCSIf1VtsHLy7bNYTFlCOmY
- qRV4TlxJ4wFuuoqNMQPvuzgP5ixelMt5/BLEOV8DiJ7ilBrVH5ARqKEIYJYJGh9WjX1A
- Lq1gUR4xI/1p8JFs6/aM91YnpdIvuRbIe6Xn7ZQdrVzku/MQQpFbEn9qBjctiFaHSJe5
- zSOrjOBS7jGc07PLhu3uhBn1H4Z6s339yelI/GXii6qNv7GvVMR7pIMl30MRjTBAVV0t
- B3SpHdwGTMAdKGDfvkhnQHhHFierhXv+IAByvF/6Z5LYBCivc84quBikE7rncYWPEaMh
- 3RWw==
-X-Gm-Message-State: AO0yUKVSdDP1Dl/6rGq/a96Ya4oJpaRQaIaDAF7gpG5hrkjyeQzE6D2w
- LXlftS6waPiufGs5vDZkaGLDoA==
-X-Google-Smtp-Source: AK7set/D8RYxmj47tMkeiKQEuo0Ml3Qb4uYHAiEtN5FzSNUYM0OrrKNZw+t/yjczf65dihKYX8WVSw==
-X-Received: by 2002:a2e:8890:0:b0:290:4e41:429c with SMTP id
- k16-20020a2e8890000000b002904e41429cmr252023lji.4.1676668907515; 
- Fri, 17 Feb 2023 13:21:47 -0800 (PST)
+ bh=giMyztqRFKja8+Zwf+y6h9FIEuqpthPiWJnY4CCgAMk=;
+ b=UsrlRPSoQuJyCXfnyYRw+8w858QS8kyha2zWj+rWIajxL9WCfMOFtN6uUBBvisTmBM
+ CKhVezBAClJd1y4RJx3yR/8RtF2RYx2j+IP0ZbLin+sX432AFKhsc2P1NQDn2zPA2sAD
+ oLRsueyrG7tFjERBcnMlg84X2JGYPEP4GWVcQAwDB9BIirbqIgdteGXTe9uo00sOAwhi
+ Are6Cn1aycpb24nxtVkGsoyZbq2KYfa7Xzdelhy0FtvE3TR5dYVj7se3Vp6rgQLXks3X
+ A5Yg088NkmM2szQ0mpTLa79sWTKHsiLNhrBZrSZFORdeRyPkQvytU7hvSi6s46+lgiIG
+ pb4g==
+X-Gm-Message-State: AO0yUKX+CTOPfIaZssHd5q4nDqFsLSSbEh/3LS+qeep4T7hvn8c9N/0i
+ GQjAV7W9/raFt8mDanJfsrAQ5A==
+X-Google-Smtp-Source: AK7set+qbs0k8IvIUWwm+GXxnhNiNcoHfnb8Iihm8m3SF+0EJQzyZBvPz1ay8Bd4yoV+kZqL0VCW6A==
+X-Received: by 2002:ac2:598e:0:b0:4dc:823c:8127 with SMTP id
+ w14-20020ac2598e000000b004dc823c8127mr1048307lfn.57.1676669008996; 
+ Fri, 17 Feb 2023 13:23:28 -0800 (PST)
 Received: from [192.168.1.101] (abxh184.neoplus.adsl.tpnet.pl. [83.9.1.184])
  by smtp.gmail.com with ESMTPSA id
- g28-20020a2eb5dc000000b002935354161bsm701264ljn.106.2023.02.17.13.21.45
+ b6-20020ac25626000000b004db25f2c103sm783789lff.86.2023.02.17.13.23.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Feb 2023 13:21:47 -0800 (PST)
-Message-ID: <9269c5dd-d97c-e29a-98a9-b42c598ebfc6@linaro.org>
-Date: Fri, 17 Feb 2023 22:21:44 +0100
+ Fri, 17 Feb 2023 13:23:28 -0800 (PST)
+Message-ID: <0989eef7-cd0e-324c-eef9-aa8500197b91@linaro.org>
+Date: Fri, 17 Feb 2023 22:23:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH v2 07/14] drm/msm/a6xx: Add support for A619_holi
+Subject: Re: [PATCH v2 1/2] dt-bindings: display/msm: dsi-controller-main: Fix
+ deprecated QCM2290 compatible
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+To: Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org
-References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
- <20230214173145.2482651-8-konrad.dybcio@linaro.org>
- <8268b4c9-ca5e-4ff3-628c-7e9daaeb16b0@linaro.org>
+References: <20230217111316.306241-1-konrad.dybcio@linaro.org>
+ <c49904be-d842-fc12-a443-17f229d53166@linaro.org>
+ <a4eaccfd-34ba-15f3-033f-165b46c43317@linaro.org>
+ <a158bca2-78bf-5b38-60fe-88118e8b4ad7@linaro.org>
+ <ab35cdcf-53ae-a3f2-fc08-d0f58c51a0ae@linaro.org>
+ <48cb00cd-961c-b72f-fba8-1842d658e289@linaro.org>
+ <d4ffa9f0-797e-7a32-147e-64aa46d7e197@linaro.org>
+ <76de00dc-f128-e609-7f0c-b53161036b97@linaro.org>
+ <0b3e8c81-b0fb-651b-8688-872f03c68d8f@nexus-software.ie>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <8268b4c9-ca5e-4ff3-628c-7e9daaeb16b0@linaro.org>
+In-Reply-To: <0b3e8c81-b0fb-651b-8688-872f03c68d8f@nexus-software.ie>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,168 +86,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Nathan Chancellor <nathan@kernel.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- marijn.suijten@somainline.org, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 17.02.2023 22:19, Dmitry Baryshkov wrote:
-> On 14/02/2023 19:31, Konrad Dybcio wrote:
->> A619_holi is a GMU-less variant of the already-supported A619 GPU.
->> It's present on at least SM4350 (holi) and SM6375 (blair). No mesa
->> changes are required. Add the required kernel-side support for it.
+On 17.02.2023 22:20, Bryan O'Donoghue wrote:
+> On 17/02/2023 21:16, Konrad Dybcio wrote:
+>> Correct, but QCM2290 is not supported upstream yet.
 >>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 37 +++++++++++++++++-----
->>   drivers/gpu/drm/msm/adreno/adreno_device.c | 13 ++++++++
->>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
->>   3 files changed, 47 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> index 75cf94b03c29..c168712a0dc4 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> @@ -614,14 +614,14 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
->>           return;
->>         /* Disable SP clock before programming HWCG registers */
->> -    if (!adreno_has_gmu_wrapper(adreno_gpu))
->> +    if ((!adreno_has_gmu_wrapper(adreno_gpu) || adreno_is_a619_holi(adreno_gpu)))
+>> SM6115 (a different SoC) however is, but it used the qcm2290 compatible
+>> as it was a convenient hack to get the DSI host ID recognized based on
+>> the (identical-to-qcm2290) base register without additional driver changes.
+>> We're now trying to untangle that mess..
 > 
-> Extra parenthesis made me interpret this incorrectly. Maybe you can remove them and spit the condition onto two lines? Because my first interpretation was:
-> if (!(has_gmu_wrapper || a619_holi)).
-Yeah, I agree this is confusing.. will fix.
+> Gand so what we want documented is:
+> 
+> compatible = "qcom,qcs2290-dsi-ctrl", qcom,mdss-dsi-ctrl";
+qcm* yes, this became documented with your original cleanup
+
+> compatible = "qcom,sm6115-dsi-ctrl", qcom,mdss-dsi-ctrl";
+and yes this became documented (well, in the DSI binding) in
+my other patch series and is finished being documented in this one
 
 > 
-> 
->>           gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 1, 0);
->>         for (i = 0; (reg = &adreno_gpu->info->hwcg[i], reg->offset); i++)
->>           gpu_write(gpu, reg->offset, state ? reg->value : 0);
->>         /* Enable SP clock */
->> -    if (!adreno_has_gmu_wrapper(adreno_gpu))
->> +    if ((!adreno_has_gmu_wrapper(adreno_gpu) || adreno_is_a619_holi(adreno_gpu)))
->>           gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 0, 1);
->>         gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
->> @@ -1007,7 +1007,12 @@ static int hw_init(struct msm_gpu *gpu)
->>       }
->>         /* Clear GBIF halt in case GX domain was not collapsed */
->> -    if (a6xx_has_gbif(adreno_gpu)) {
->> +    if (adreno_is_a619_holi(adreno_gpu)) {
->> +        gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
->> +        gpu_write(gpu, 0x18, 0);
->> +        /* Let's make extra sure that the GPU can access the memory.. */
->> +        mb();
->> +    } else if (a6xx_has_gbif(adreno_gpu)) {
->>           gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
->>           gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
->>           /* Let's make extra sure that the GPU can access the memory.. */
->> @@ -1016,6 +1021,9 @@ static int hw_init(struct msm_gpu *gpu)
->>         gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
->>   +    if (adreno_is_a619_holi(adreno_gpu))
->> +        a6xx_sptprac_enable(gmu);
->> +
->>       /*
->>        * Disable the trusted memory range - we don't actually supported secure
->>        * memory rendering at this point in time and we don't want to block off
->> @@ -1293,7 +1301,8 @@ static void a6xx_dump(struct msm_gpu *gpu)
->>   #define GBIF_CLIENT_HALT_MASK    BIT(0)
->>   #define GBIF_ARB_HALT_MASK    BIT(1)
->>   #define VBIF_RESET_ACK_TIMEOUT    100
->> -#define VBIF_RESET_ACK_MASK    0x00f0
->> +#define VBIF_RESET_ACK_MASK    0xF0
->> +#define GPR0_GBIF_HALT_REQUEST    0x1E0
->>     static void a6xx_recover(struct msm_gpu *gpu)
->>   {
->> @@ -1350,10 +1359,16 @@ static void a6xx_recover(struct msm_gpu *gpu)
->>         /* Software-reset the GPU */
->>       if (adreno_has_gmu_wrapper(adreno_gpu)) {
->> -        /* Halt the GX side of GBIF */
->> -        gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, GBIF_GX_HALT_MASK);
->> -        spin_until(gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT_ACK) &
->> -               GBIF_GX_HALT_MASK);
->> +        if (adreno_is_a619_holi(adreno_gpu)) {
->> +            gpu_write(gpu, 0x18, GPR0_GBIF_HALT_REQUEST);
->> +            spin_until((gpu_read(gpu, REG_A6XX_RBBM_VBIF_GX_RESET_STATUS) &
->> +                   (VBIF_RESET_ACK_MASK)) == VBIF_RESET_ACK_MASK);
->> +        } else {
->> +            /* Halt the GX side of GBIF */
->> +            gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, GBIF_GX_HALT_MASK);
->> +            spin_until(gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT_ACK) &
->> +                   GBIF_GX_HALT_MASK);
->> +        }
->>             /* Halt new client requests on GBIF */
->>           gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_CLIENT_HALT_MASK);
->> @@ -1763,6 +1778,9 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
->>           if (ret)
->>               return ret;
->>   +        if (adreno_is_a619_holi(adreno_gpu))
->> +            a6xx_sptprac_enable(gmu);
->> +
->>           mutex_unlock(&a6xx_gpu->gmu.lock);
->>             msm_devfreq_resume(gpu);
->> @@ -1795,6 +1813,9 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
->>             mutex_lock(&a6xx_gpu->gmu.lock);
->>   +        if (adreno_is_a619_holi(adreno_gpu))
->> +            a6xx_sptprac_disable(gmu);
->> +
->>           ret = clk_prepare_enable(gpu->ebi1_clk);
->>           if (ret)
->>               return ret;
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> index 82757f005a1a..71faeb3fd466 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> @@ -264,6 +264,19 @@ static const struct adreno_info gpulist[] = {
->>           .gmem = SZ_512K,
->>           .inactive_period = DRM_MSM_INACTIVE_PERIOD,
->>           .init = a6xx_gpu_init,
->> +    }, {
->> +        .rev = ADRENO_REV(6, 1, 9, 1),
-> 
-> I think this deserves a comment that GMU-enabled sm6350 has patch_id 0 (if I interpreted the vendor dtsi correctly).
-> 
-> Another option might be to actually check for the qcom,gmu presense and add that to the selection conditional.
-We pass the GMU wrapper in qcom,gmu = <>, though perhaps setting
-the holi-ness based on whether it's "qcom,gmu-x.y.z.a" or
-"qcom,gmu-wrapper" would be wiser.. The patch ID is indeterminate
-and I *think* one GMU-wrapper A619 has patch id 0..
+> with the old compatible = "qcom,dsi-ctrl-6g-qcm2290"; clanger continuing to be deprecated.
+correct, we still have to note it but keep it deprecated
 
 Konrad
 > 
->> +        .revn = 619,
->> +        .name = "A619_holi",
->> +        .fw = {
->> +            [ADRENO_FW_SQE] = "a630_sqe.fw",
->> +        },
->> +        .gmem = SZ_512K,
->> +        .inactive_period = DRM_MSM_INACTIVE_PERIOD,
->> +        .quirks = ADRENO_QUIRK_GMU_WRAPPER,
->> +        .init = a6xx_gpu_init,
->> +        .zapfw = "a615_zap.mdt",
->> +        .hwcg = a615_hwcg,
->>       }, {
->>           .rev = ADRENO_REV(6, 1, 9, ANY_ID),
->>           .revn = 619,
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> index 7c5e0a90b5fb..16241368c2e4 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> @@ -252,6 +252,11 @@ static inline int adreno_is_a619(struct adreno_gpu *gpu)
->>       return gpu->revn == 619;
->>   }
->>   +static inline int adreno_is_a619_holi(struct adreno_gpu *gpu)
->> +{
->> +    return adreno_is_a619(gpu) && adreno_has_gmu_wrapper(gpu);
->> +}
->> +
->>   static inline int adreno_is_a630(struct adreno_gpu *gpu)
->>   {
->>       return gpu->revn == 630;
-> 
+> ---
+> bod
