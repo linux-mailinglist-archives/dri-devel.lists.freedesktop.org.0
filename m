@@ -2,67 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0753669A882
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 10:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B9569A88E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 10:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED0F510E1BF;
-	Fri, 17 Feb 2023 09:44:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6945A10E807;
+	Fri, 17 Feb 2023 09:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F76510E1BF
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 09:44:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 23C7E33800;
- Fri, 17 Feb 2023 09:44:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676627064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3dL6/95Fegbbl5slnLaTk5k1Tpgb9eIQT0YaN2Huo9U=;
- b=DgtkVbGzwfbN5G0Ff0QP/ziYrZPEjdGeMmQCd8UomOPJUCLI5lggCv95uTLOWM2BqAXAls
- cCrI5HWs3eWnPpjXs0Nr2MPg/5vKJ8LJxGpt2u1tcYGaJlFPZmL9+8rdWimQ18uAYOhR/H
- tavY4aKjJn0X5X8lW0Ix5jYkothf1yk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676627064;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3dL6/95Fegbbl5slnLaTk5k1Tpgb9eIQT0YaN2Huo9U=;
- b=hqtB/w5byc5ESerWx+fvZr1YA9kuwehkoHQdSpClE8xrXGiEL7VMEioPptKtw1N/q2ZBz/
- sWH0Fdebx5FR3uDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D5A2113274;
- Fri, 17 Feb 2023 09:44:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 1gAtMndM72NvGwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 17 Feb 2023 09:44:23 +0000
-Message-ID: <2c589464-bc37-4138-d9a6-b38cd05e5f99@suse.de>
-Date: Fri, 17 Feb 2023 10:44:23 +0100
-MIME-Version: 1.0
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02on2046.outbound.protection.outlook.com [40.107.96.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92BE510EF3B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 09:47:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mqni6B98cvZqyC2xas9AgQiu6HdO/b5c8bkqThE9zE6CCKggTcwc39tlY97GTGnQ82fj9k5HNULpi8ugC+n0mWtH7Hv+ruBZOqxH1Jeb9HUmtwmVW2P4ViXbQdrzT880xBWSdqOC/0DPwqATYCH34e9ShntOYYcQfvK/VOCtkqquNQ0aqmQYnZocPWxtw2uw0KSOie7hozNG365Owz447iUia9CPB+sCeQQy5ZEfQoxCAWULBaOX+/pfIFKpBwUdYbO5tpmKPF64jAa4aDC4hBZPqBh7htLoLlwJ+msJ/oe9BlfgHDx2yfS2Jy2ldmbPlp9IXgJTXzu/AWMFYW7B6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jrn/0EE9gd0AWa3R1I6j2qJ9knmQ8RF9AE1bCIwlTPg=;
+ b=a3woX/Zqh4DfZRW2A47QKAxI9ZT/sYe2jSMfjAR4Z/uVDOuhwUW3qbExFxilCVLNEzhk8EoihjDsJAQ1up9wux0E0Ikoglxeuti1zt4spitxfVWr2o0B5qdFtq4CNQZMzjjUxNif1nsQfgb1RvQLMx525SHKBYdCqZbd1wAJyfQPRZFDydpY9zalZ8OrDpA7N7a1RgxdhriD7A97xKWDG4Uqr0Oc9lGdGBb6KXC/RRMY9ou+C0wj5UNOM6k5l/NYBOB9J2JlWBy/9jK6I5CK6OQdVaedHxMAwZ25OB8rGqu7PJzHZj+Yi8c14AD1VvTvAPqFKNeZtDm2xgCXDggXUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jrn/0EE9gd0AWa3R1I6j2qJ9knmQ8RF9AE1bCIwlTPg=;
+ b=JRZxlOAKMsFScloqaD8Ty2DK/TqPiPU987XkniwNNWPWkfwfe2X1wzImSen1r0LT6q4d2ivma8wJbxt6ZJAeipIPVSw1JazMwHgqDIgidLfHREgFNCh1Ge5PbO912XwZt3tA7lCspbE474GR/XuEFzBCsa7ggRaCXb8mRSDfo4Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SN7PR12MB7956.namprd12.prod.outlook.com (2603:10b6:806:328::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.24; Fri, 17 Feb
+ 2023 09:47:25 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6111.013; Fri, 17 Feb 2023
+ 09:47:25 +0000
+Message-ID: <9efa30b4-5a6d-91b3-617c-853f0ac0b22e@amd.com>
+Date: Fri, 17 Feb 2023 10:47:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 02/11] fbdev: Transfer video= option strings to caller;
- clarify ownership
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] dma-buf: make kobj_type structure constant
 Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, geoff@infradead.org, mpe@ellerman.id.au,
- npiggin@gmail.com, christophe.leroy@csgroup.eu
-References: <20230209135509.7786-1-tzimmermann@suse.de>
- <20230209135509.7786-3-tzimmermann@suse.de>
- <87a61cy9et.fsf@minerva.mail-host-address-is-not-set>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <87a61cy9et.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ITRwa6yShm5EYQpkqwgyyuqC"
+To: =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230217-kobj_type-dma-buf-v1-1-b84a3616522c@weissschuh.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230217-kobj_type-dma-buf-v1-1-b84a3616522c@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0003.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::13) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB7956:EE_
+X-MS-Office365-Filtering-Correlation-Id: a91e2dea-3241-45f1-e361-08db10cbf97d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2WsyeKPUNWJ/Hr+DZ3HeS1yMhdT9eQmgRpms/2aJ4/DuV0fN8wSKzWOFyNbUHH7jddugFEwgU21DOfGEZyZU6XFUCLtrVTX/OmDsnqw08wIGOx+nUwWUP4+4fTH0aCDK0g5AXNTbb+jrIFtmr9J8+FXTIh3Q9vzVgeRHuQL3sCiDHqymXts9m3YDPw284vVFVqo0qFeU0Hs7zGftJVSdnwmo6Yejk/hvf/F/05GIIe6m1s77aWKvvsMsiSF1UVwra/aJCUstE13py6L805p/O+JPRNemiIGJXT8GgcEGpVh+DdFKK06sa3hiE8SyiTWRg6xBxn7aecDdnePAo5KKZGeGqUAQC7E5J3jTSOZWEo/nfhzLaRuc55keHMU3lvwHxJnDcoggH8iIno7m1XH7UktdbqZC+crsmMe9vCgETQaGzUC/oQnyep1Fi9NUVDwoUNTIJ5ECFLlWxoQdiZszuL7edVdljO41a7PW38Vo+LD+So2WjIUEegJMau7h5+xelRJj5q6QcxIIfbnvdvNVdJ8iSBmAeBzFSfAncuGkzAfgbfvScUKfB1RzE1L+fitcAFJzy9gtO34XLsDZOd0knnetS+a9ntcngfcvC2Lg7lXuguHazW+OV7LOysPB/zG5zaJR/2Sj7n5wdgJz6juebSVtxUSMq44t15BrMH1SVOkzqRjMfVTkRTm3wOxf0+BbHu7pfyXyzCHd8h/bpVpzbC6ET5w1RMTB9jY/IgBRQeQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(396003)(136003)(39860400002)(366004)(346002)(451199018)(2906002)(6666004)(8936002)(31686004)(41300700001)(66556008)(4326008)(66476007)(66946007)(8676002)(316002)(110136005)(5660300002)(6512007)(6486002)(478600001)(36756003)(6506007)(186003)(38100700002)(66574015)(83380400001)(86362001)(31696002)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?My9MV3R1aWlOMi9hTlpRYU1iWVE3U0pKN2dMNTlzZ1VlZmFyY3o0Zk9TV1g2?=
+ =?utf-8?B?K3QveU5CMXNCRElYNmQyVkJCYVI1K1hpTUhpWnNtL3JYb2J3TDRROGZqTUox?=
+ =?utf-8?B?NHkvVFJiUk1oZGJ4cFk1ODhNZ2o0UFB0NHZucTBCNU9EOC84ZGRueEtaN3J3?=
+ =?utf-8?B?cHF5R0pUa0tlbjdWMTFXMkpyRlo2dml6RnVHam9TRUliTlBxNStKQUlmSWVo?=
+ =?utf-8?B?ejhkM09DVGprNnBqNHBZK1p4eHQyYWVPZjZGZ0JldlJodVZoSjc5Y2VicFpC?=
+ =?utf-8?B?N0x0NkVCRDg3NVIvRTduQlBkWG5MZURrTmRQa0xuS0FIcmU0Z0xEOEZ5Wlo1?=
+ =?utf-8?B?ckVXS1M5cHRIZnZSL0ZmWVl2UDk2TVpwL2FyclBUb0RPQk51RkQwd3Z1TGR1?=
+ =?utf-8?B?OUtjUUJ3bjBZbjNGSmd6a2srWjRhV2hEbmNUaHhuVzhnS0FkMGdPMkRSSkNM?=
+ =?utf-8?B?bUtBTGI0ZEJNa0JEMGRCdUorVGlTQ0o5dFVGbGtCazQrcWtUckhsdDVWeXpN?=
+ =?utf-8?B?ZFhqWElaQzVpcEVwMEZpS2ZsTGV4TlIxeHliL0liK3dtYmRHUG02YXd6dXRk?=
+ =?utf-8?B?SUJSN1hZWnkxR1RML2ErdFlyNkU5bDJTcTU5OXV2L09EKytHWUwrd2tyQ25E?=
+ =?utf-8?B?YmQ0OEJuSHpoRXczc3g0b292V0gzS0wyd25tMm91MklRMnhTeGtqMTZYMk03?=
+ =?utf-8?B?V1VybVYrbzBUMGlzcUxUQ0VWajh3MGthK0xjbzB1czlWbjFMMnMrMUJjOU9I?=
+ =?utf-8?B?a3VMbHh4OGZTUDgrdDFtTmFIdC9xVUs1aDEyaWh6dTAvWGRoZkVJM0hVUFhM?=
+ =?utf-8?B?OUFraXY1cUxuZi9MWUNRVk00NzFYdHQ2MmQwU3NOTFVkY0RGSHQwUU5MZGJy?=
+ =?utf-8?B?SkluRDl2R1hsRkxXbml5dU10K0dSQmtyaWJHQy9qa0Jya05PNWdkQ21GRXY5?=
+ =?utf-8?B?Y2o1YS9QR2Z4bHVpemFtc0tGandNRndaMXdEQzNyenhYczFQNXgyTGxvWVhK?=
+ =?utf-8?B?aDFDY2hxLzZrc0l5VnNYV1FIb0tWeFNUci9MQTM1MXkzWHFlVjI4QkdvVWdE?=
+ =?utf-8?B?M0VhMHNQWlp0dDR3VCtOYkhHODh3em1MODRFNXFoY1NJQnVDWU0yaWpWeGFH?=
+ =?utf-8?B?WmhoYWdFdkpmdjBWZy82dGFvdGNOMGhsSTNSQkcvWmFwU0xIT1RvZ3VuYXhE?=
+ =?utf-8?B?bzljL3FHTHY0VlFSVERNMVFzbmpzNkFlR3FoVUpYcHllUVVNakwyZ1ZURFFq?=
+ =?utf-8?B?RmNneU9uZzJ4Sm9WNXI5eUlWSVFJbXo4aGNEZTM2bTBrc1JqSHpGR05vRjVq?=
+ =?utf-8?B?Wlg0eHpkSWJuWjRUNW9CU3ZlOWJLK25pcG4zdGRZS2laUWNsRHpCazNWdG5l?=
+ =?utf-8?B?KzFsdVFhMmd6OGovSm1hUnJyYlhZSG9TYU55MWRWNm15RzJiT3BlVE1ydnZu?=
+ =?utf-8?B?V3lYcktHbjV4ZDF3ampET2ZuUm10ZTE1c2VxdC9UOHREclhPRFhJQ3Y3bTVa?=
+ =?utf-8?B?QTVPZlBBYit2Szlhc2tpOGpSNFluV1YwUEFab2VVaFZlV1Fpa2hvSGFoS1pY?=
+ =?utf-8?B?RzFML3dnaVJvVXFjV0s2bVA5TVc4aXU0VkoycWdka1BYWEdCdlBmaU4zOEhM?=
+ =?utf-8?B?T0RCYU16K3I5TWRrQ0JWQlUxZWJ0UnlKbkd1UHBwQlN3d2FRbTNaRndCWGNm?=
+ =?utf-8?B?ZUFqRVc0TzQrNkZDcmUzK1VhaTNOU1B1ZFQxSWZKV0ZockwrdEN5K2NlaHlJ?=
+ =?utf-8?B?dHhLanVvaHdOSEdGV3FaMERxcVNDb2ZMNi9YTEpPR25xcExvc05SaVZxN2NS?=
+ =?utf-8?B?Y0lhenZwU0liWE1DUGl5cEFhSmNmMVE5OHEyVFRubnFxUVlKRDQ4YitGTVpp?=
+ =?utf-8?B?ZVRpRjFBNGhZYTBXV3RyaHl5NGpkWGRYWE5POG5SY1VxTThmaElKUDkrV3U5?=
+ =?utf-8?B?RCswbkNNTjllcHdrcTJYblFzekY2MHU5SitJTVdydTdEcXhXZWJHZFJZbDQ3?=
+ =?utf-8?B?M0tiMXFucjNqOE4rNlo0YnQ3d2hwb0xWUmhJVDlVOERCUVRiY29Wdml2anFM?=
+ =?utf-8?B?M2pLZG1MYzNhdDFYL2lZa2hnM2Y0RUFGVWxMK0J4UXV6L0pXcVBVbkNMbjJx?=
+ =?utf-8?B?bnlVVFg4UUhLcXBpWnlZS25MSkFBMUlvL1A4aUkxNXB6Ui8vVzdyS3NKSisr?=
+ =?utf-8?Q?tYcki4r2bbt+qgP39Y/qvB9uvujY80Uygfw8UihmHF9m?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a91e2dea-3241-45f1-e361-08db10cbf97d
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 09:47:25.5583 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BgEiSPYFuZkpqQ5n1eLFRCL6WzPcbBW7nkoKlPIU3Dbh9BaLF28zcPEe2cvwMFIK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7956
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,97 +126,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ITRwa6yShm5EYQpkqwgyyuqC
-Content-Type: multipart/mixed; boundary="------------ma8N3q656ZIqoXJqiV7Sx6qs";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
- airlied@gmail.com, deller@gmx.de, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, geoff@infradead.org, mpe@ellerman.id.au,
- npiggin@gmail.com, christophe.leroy@csgroup.eu
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
-Message-ID: <2c589464-bc37-4138-d9a6-b38cd05e5f99@suse.de>
-Subject: Re: [PATCH 02/11] fbdev: Transfer video= option strings to caller;
- clarify ownership
-References: <20230209135509.7786-1-tzimmermann@suse.de>
- <20230209135509.7786-3-tzimmermann@suse.de>
- <87a61cy9et.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87a61cy9et.fsf@minerva.mail-host-address-is-not-set>
+Am 17.02.23 um 04:13 schrieb Thomas Weißschuh:
+> Since commit ee6d3dd4ed48 ("driver core: make kobj_type constant.")
+> the driver core allows the usage of const struct kobj_type.
+>
+> Take advantage of this to constify the structure definition to prevent
+> modification at runtime.
+>
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 
---------------ma8N3q656ZIqoXJqiV7Sx6qs
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-SGkNCg0KQW0gMTcuMDIuMjMgdW0gMDk6Mzcgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cml0
-ZXM6DQo+IA0KPj4gSW4gZmJfZ2V0X29wdGlvbnMoKSwgYWx3YXlzIGR1cGxpY2F0ZSB0aGUg
-cmV0dXJuZWQgb3B0aW9uIHN0cmluZyBhbmQNCj4+IHRyYW5zZmVyIG93bmVyc2hpcCBvZiB0
-aGUgbWVtb3J5IHRvIHRoZSBmdW5jdGlvbidzIGNhbGxlci4NCj4+DQo+PiBVbnRpbCBub3cs
-IG9ubHkgdGhlIGdsb2JhbCBvcHRpb24gc3RyaW5nIGdvdCBkdXBsaWNhdGVkIGFuZCB0cmFu
-c2ZlcnJlZA0KPj4gdG8gdGhlIGNhbGxlcjsgdGhlIHBlci1kcml2ZXIgb3B0aW9ucyB3ZXJl
-IG93bmVkIGJ5IGZiX2dldF9vcHRpb25zKCkuDQo+PiBJbiB0aGUgZW5kLCBpdCB3YXMgaW1w
-b3NzaWJsZSBmb3IgdGhlIGZ1bmN0aW9uJ3MgY2FsbGVyIHRvIGRldGVjdCBpZg0KPj4gaXQg
-aGFkIHRvIHJlbGVhc2UgdGhlIHN0cmluZydzIG1lbW9yeSBidWZmZXIuIEhlbmNlLCBhbGwg
-Y2FsbGluZyBkcml2ZXJzDQo+PiBsZWFrIHRoZSBtZW1vcnkgYnVmZmVyLiBUaGUgbGVha3Mg
-aGF2ZSBleGlzdGVkIGV2ZXIgc2luY2UsIGJ1dCBkcml2ZXJzDQo+PiBvbmx5IGNhbGwgZmJf
-Z2V0X29wdGlvbigpIG9uY2UgYXMgcGFydCBvZiBtb2R1bGUgaW5pdGlhbGl6YXRpb24uIFNv
-IHRoZQ0KPj4gYW1vdW50IG9mIGxlYWtlZCBtZW1vcnkgaXMgbm90IHNpZ25pZmljYW50Lg0K
-Pj4NCj4+IEZpeCB0aGUgc2VtYW50aWNzIG9mIGZiX2dldF9vcHRpb24oKSBieSB1bmNvbmRp
-dGlvbmFsbHkgdHJhbnNmZXJyaW5nDQo+PiBvd25lcnNoaXAgb2YgdGhlIG1lbW9yeSBidWZm
-ZXIgdG8gdGhlIGNhbGxlci4gTGF0ZXIgcGF0Y2hlcyBjYW4gcmVzb2x2ZQ0KPj4gdGhlIG1l
-bW9yeSBsZWFrcyBpbiB0aGUgZmJkZXYgZHJpdmVycy4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPiAN
-Cj4gWy4uLl0NCj4gDQo+PiArCWlmIChvcHRpb24pIHsNCj4+ICsJCWlmIChvcHRpb25zKQ0K
-Pj4gKwkJCSpvcHRpb24gPSBrc3RyZHVwKG9wdGlvbnMsIEdGUF9LRVJORUwpOw0KPj4gKwkJ
-ZWxzZQ0KPj4gKwkJCSpvcHRpb24gPSBOVUxMOw0KPj4gKwl9DQo+Pg0KPiANCj4gSSBrbm93
-IHRoZSBvbGQgY29kZSB3YXNuJ3QgY2hlY2tpbmcgaWYga3N0cmR1cCgpIHN1Y2NlZWRlZCwg
-YnV0IHlvdSBzaG91bGQNCg0KS3N0cmR1cCB1c2VzIGttYWxsb2MsIHdoaWNoIGFscmVhZHkg
-d2FybnMgYWJvdXQgZmFpbGVkIGFsbG9jYXRpb25zLiBJIA0KdGhpbmsgaXQncyBkaXNjb3Vy
-YWdlZCB0byB3YXJuIGFnYWluLiAoV2Fzbid0IHRoZXJlIGEgd2FybmluZyBpbiBzcGFyc2Ug
-DQpvciBjaGVja3BhdGNoPykgIFNvIEknZCByYXRoZXIgbGVhdmUgaXQgYXMgaXMuDQoNCj4g
-ZG8gaXQgaGVyZSBhbmQgbGV0IHRoZSBjYWxsZXIga25vdy4gQW5kIHNhbWUgaWYgKCFvcHRp
-b25zKS4gU28gSSBndWVzcyB0aGUNCj4gZm9sbG93aW5nIGNoZWNrIGNhbiBiZSBhZGRlZCAo
-dG8gYmUgY29uc2lzdGVudCB3aXRoIHRoZSByZXN0IG9mIHRoZSBjb2RlKToNCj4gDQo+IAlp
-ZiAoISpvcHRpb24pDQo+IAkJcmV0dmFsID0gMTsNCg0KV2h5IGlzIHRoYXQgbmVlZGVkIGZv
-ciBjb25zaXN0ZW5jeT8NCg0KUmV0dmFsIGlzIHRoZSBzdGF0ZSBvZiB0aGUgb3V0cHV0OiBl
-bmFibGVkIG9yIG5vdC4gSWYgdGhlcmUgYXJlIG5vIA0Kb3B0aW9ucywgcmV0dmFsIHNob3Vs
-ZCBiZSAwKD1lbmFibGVkKS4gMSg9ZGlzYWJsZWQpIGlzIG9ubHkgc2V0IGJ5IA0KdmlkZW89
-b2ZmIG9yIHRoYXQgb2Zvbmx5IHRoaW5nLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
-IA0KPj4gICAJcmV0dXJuIHJldHZhbDsNCj4+ICAgfQ0KPj4gLS0gDQo+PiAyLjM5LjENCj4g
-DQo+IEJlc3QgcmVnYXJkcywNCj4gSmF2aWVyDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJt
-YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
-cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
-eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
-b3Rldg0K
+I will pick this up for upstreaming through drm-misc-next.
 
---------------ma8N3q656ZIqoXJqiV7Sx6qs--
+Thanks,
+Christian.
 
---------------ITRwa6yShm5EYQpkqwgyyuqC
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> ---
+>   drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> index fbf725fae7c1..6cfbbf0720bd 100644
+> --- a/drivers/dma-buf/dma-buf-sysfs-stats.c
+> +++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+> @@ -112,7 +112,7 @@ static void dma_buf_sysfs_release(struct kobject *kobj)
+>   	kfree(sysfs_entry);
+>   }
+>   
+> -static struct kobj_type dma_buf_ktype = {
+> +static const struct kobj_type dma_buf_ktype = {
+>   	.sysfs_ops = &dma_buf_stats_sysfs_ops,
+>   	.release = dma_buf_sysfs_release,
+>   	.default_groups = dma_buf_stats_default_groups,
+>
+> ---
+> base-commit: 3ac88fa4605ec98e545fb3ad0154f575fda2de5f
+> change-id: 20230217-kobj_type-dma-buf-a2ea6a8a1de3
+>
+> Best regards,
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPvTHcFAwAAAAAACgkQlh/E3EQov+Cz
-aQ//aXm93WpLHkKiD7UBqR5DpHU0R5lVw9TU/Z/4+M9g2KbVBGCH7H+1Ar5siY+BZUVc8SI1/uCN
-5IkuCcIRXWhmFxb1MnqNnmYXd1lyB3bjApFercDBpLsuFoUU8dFW/CvJaHAf+6URjBYKMk/USAAk
-yyyZuIk8rUQiY8O1DxSD7SFAr01H77GZewV2FOMOgKOFX/4LIN0KWbZX1KmHiJdswECDYB7TY7g1
-deG2pf1Kk+TEyu1lgMYK1K97ryCQh78r4zXTSbhoIv/rGR+/RjpgKaS8T9EnNWm5G+ZDlxYloEDf
-qJfMiOWON6DACiJ3GOq93aypKK7pCPaS+dFBF73OjaZSuw4zaeJpAObsFLpzrJyZh+qsCnwLuNKb
-GGhG4VhLdFr2ZBApnFS8bNOeoPFMPQxzQZ8+THjuXRqBVaRYAdILK353QzHYp+gbARNfKGv+Cn/h
-+ItBnw2AiNInX5sYhZz7JccOyK5jyOfbBj2cM/5i67XdGkvWPXvPF60NT5zMKgNNKXIHCEjk96FE
-IyFoFz+isR2ggIuAnNkZg3N3g84jPKN0o7+mAjHdPl7AT3/l2v1cykgYxit7YgZqkXbbR1Yu9alg
-uJNUDozmU4qE4WuWj/mfCkk4apVI0o15n/+azZHfKgcYmH309S7NoRh8GIjRPT9+kn+C9+ACbM3m
-Vws=
-=L+vl
------END PGP SIGNATURE-----
-
---------------ITRwa6yShm5EYQpkqwgyyuqC--
