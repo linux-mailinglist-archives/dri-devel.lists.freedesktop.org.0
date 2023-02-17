@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BB069ACF7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 14:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0082E69AD04
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 14:49:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9F210EFFB;
-	Fri, 17 Feb 2023 13:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF0E10EFFD;
+	Fri, 17 Feb 2023 13:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92AF810EFD5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 13:48:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF9210EFF5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 13:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676641716;
+ s=mimecast20190719; t=1676641719;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cfAnd4OS8K7FlDcC4KqE1N+eZSmvaMlTDnF99DGXOtY=;
- b=fyQXyfTHrj4d1hbz1ltXvQkHSajk6hyS2OYoHBHCxZBv1wCZ5JR4gZ2M8asgeW92gtwh8P
- 3IkubiZWbuLXH+622XHxcff7vXg+IijGlgKyZSXJRsC1lZ9TbsOLCgp4cdrN90AtR6pSw5
- AW4kmh8KzUZcIReF44U4lF8UORqH6UA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=s63r6ewLpHy8dX6pfqzPL7Kskgx+EPYod2Ty9Ts4erk=;
+ b=XSbaPwo12LAB4EfolymFY1np9bhNKEikg7WY5CkRhhFruIcugO1F1cH+Z3XWTrs48q1PHa
+ gHofN2dX0duKcqxbS9ABwOPBRBDv/ZNAzLJp8ClVy6kG+93QD42I513bKT++GbzGNV9peZ
+ Mgxw4BVQJjyYlYmubuuHv2PUgrbqovo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-320-AXzAbioOPYyVM5PkbxOaLg-1; Fri, 17 Feb 2023 08:48:33 -0500
-X-MC-Unique: AXzAbioOPYyVM5PkbxOaLg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- d9-20020a056402400900b004ad062fee5eso1740453eda.17
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 05:48:33 -0800 (PST)
+ us-mta-512-SIUqXxRyOgC0TmOkE54yww-1; Fri, 17 Feb 2023 08:48:38 -0500
+X-MC-Unique: SIUqXxRyOgC0TmOkE54yww-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ q12-20020a056402518c00b004ace822b750so1950487edd.20
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 05:48:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cfAnd4OS8K7FlDcC4KqE1N+eZSmvaMlTDnF99DGXOtY=;
- b=mczlgJY4k+TqoZG9LzEnZiHQmeln+pTD6MsBLET/lqJB7ivKbrBK+NZhs+yYEGDEnu
- BCSSm2Q8Rudxa+UFesjb0WBYClgYf0gbKZNOPrazFOF0tI8jiAE5eNETzGGuV30X4VVv
- bd60mN8nhntFU9t7xZ5njm64Ak5Hs/FaEnEeXvmrr2EL8DfUlq3Q9klw/0n8nx6wYI+S
- vn7mo9BdDhH5wHAWhiGCqllkF4c/AcdFhVD/F2U8Vs2ERCfyzn6G0j31vgI6Rv+pHMIr
- Y9oe9dkRxhGZNTqB2/J5YsW0a/WYGaOS7+4DFMjJZpkrBdX8EuJsBjtCnygvobkgWMI3
- YjCA==
-X-Gm-Message-State: AO0yUKVJY66T2SjcwETunprc797+0MxHBT9/Nq39PzJlA3qJxnlr2lna
- 0x1cCJYajQ9It2d91K+WAQP+CTgigNMy8kzaXBqZRld7/EvQd6pS+WTlH1AsRo+ZxLjV/l8o6cy
- iJW5fsSQzooBrjN542TSvUZP6Mutg
-X-Received: by 2002:a17:907:212d:b0:882:2027:c8e2 with SMTP id
- qo13-20020a170907212d00b008822027c8e2mr103447ejb.56.1676641712434; 
- Fri, 17 Feb 2023 05:48:32 -0800 (PST)
-X-Google-Smtp-Source: AK7set9pimoemSkJ2kQZQvRKaPf0MC6QFTSypVsludSNFNxOV7/3olSpQeL9Z0Z58W/+NW3BXT3ovA==
-X-Received: by 2002:a17:907:212d:b0:882:2027:c8e2 with SMTP id
- qo13-20020a170907212d00b008822027c8e2mr103423ejb.56.1676641712215; 
- Fri, 17 Feb 2023 05:48:32 -0800 (PST)
+ bh=s63r6ewLpHy8dX6pfqzPL7Kskgx+EPYod2Ty9Ts4erk=;
+ b=DiJEeNE0otRAFWcTsNp0+Vl7yFNnNu2SU+DAKdJX5IaKR33SVoORXwP/sxCZIYkmok
+ IOegfJT9E8PHufUgDlj8UzjM/FsU3jcuC4qgeFSKTq/lmcvKzQZJWw31Ra2GplpG/eFe
+ rVUJMAGHxORiAncC53yvZsrLKmKWeOSlfBwEYXskr6ZvGAjaasm7HJfkMdVpqIy1sKC0
+ 2DAUfA2/CteRTtv372RgXGcLOL/SEVZmPyyHIEvS/4XOnPM5wbk2iXEDflaUV7W2u5W5
+ w0P4H2ZUY9H5or47bGY7/cPR3PS9MNSBbwrtbIKAig8k4MZkF4URGH+i10FgcZ18Tyq6
+ H5HQ==
+X-Gm-Message-State: AO0yUKWQhOOaNY0AdrzU/GFYVdLkrR7U+AMdahDgMOFDTnvcX5vuwhZ8
+ Hlt7B7l86TrE4l5K/ZB7sp9wTrL/8LzJ0bBK/SCNCCJqNVwKzC2eYLb4uJpjE2sWYVNSXS6JQGl
+ 0kVNJNH9DYtFDnSvVu7WolMpHNqM6
+X-Received: by 2002:a17:906:9750:b0:8b3:946d:51c8 with SMTP id
+ o16-20020a170906975000b008b3946d51c8mr1973107ejy.29.1676641717145; 
+ Fri, 17 Feb 2023 05:48:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Vb+Eh70SMrWH0gbi9pDuylvuAxYJRJaM1j4o+Rm2VHpNfcVf+Ka0ZZS+k/kpmT6aZ0ke53A==
+X-Received: by 2002:a17:906:9750:b0:8b3:946d:51c8 with SMTP id
+ o16-20020a170906975000b008b3946d51c8mr1973082ejy.29.1676641717002; 
+ Fri, 17 Feb 2023 05:48:37 -0800 (PST)
 Received: from cassiopeiae.. ([2a02:810d:4b3f:de78:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- qn20-20020a170907211400b007a9c3831409sm2145357ejb.137.2023.02.17.05.48.30
+ a15-20020a509b4f000000b004acc7202074sm2288777edj.16.2023.02.17.05.48.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 05:48:31 -0800 (PST)
+ Fri, 17 Feb 2023 05:48:36 -0800 (PST)
 From: Danilo Krummrich <dakr@redhat.com>
 To: airlied@gmail.com, daniel@ffwll.ch, tzimmermann@suse.de,
  mripard@kernel.org, corbet@lwn.net, christian.koenig@amd.com,
  bskeggs@redhat.com, Liam.Howlett@oracle.com, matthew.brost@intel.com,
  boris.brezillon@collabora.com, alexdeucher@gmail.com, ogabbay@kernel.org,
  bagasdotme@gmail.com, willy@infradead.org, jason@jlekstrand.net
-Subject: [PATCH drm-next v2 08/16] drm/nouveau: get vmm via nouveau_cli_vmm()
-Date: Fri, 17 Feb 2023 14:48:12 +0100
-Message-Id: <20230217134820.14672-3-dakr@redhat.com>
+Subject: [PATCH drm-next v2 09/16] drm/nouveau: bo: initialize GEM GPU VA
+ interface
+Date: Fri, 17 Feb 2023 14:48:13 +0100
+Message-Id: <20230217134820.14672-4-dakr@redhat.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230217134422.14116-1-dakr@redhat.com>
 References: <20230217134422.14116-1-dakr@redhat.com>
@@ -93,95 +94,33 @@ Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide a getter function for the client's current vmm context. Since
-we'll add a new (u)vmm context for UMD bindings in subsequent commits,
-this will keep the code clean.
+Initialize the GEM's DRM GPU VA manager interface in preparation for the
+(u)vmm implementation, provided by subsequent commits, to make use of it.
 
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c   | 2 +-
- drivers/gpu/drm/nouveau/nouveau_chan.c | 2 +-
- drivers/gpu/drm/nouveau/nouveau_drv.h  | 9 +++++++++
- drivers/gpu/drm/nouveau/nouveau_gem.c  | 6 +++---
- 4 files changed, 14 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 288eebc70a67..f3039c1f87c9 100644
+index f3039c1f87c9..bf6984c8754c 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -204,7 +204,7 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
- 	struct nouveau_drm *drm = cli->drm;
- 	struct nouveau_bo *nvbo;
- 	struct nvif_mmu *mmu = &cli->mmu;
--	struct nvif_vmm *vmm = cli->svm.cli ? &cli->svm.vmm : &cli->vmm.vmm;
-+	struct nvif_vmm *vmm = &nouveau_cli_vmm(cli)->vmm;
- 	int i, pi = -1;
- 
- 	if (!*size) {
-diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
-index e648ecd0c1a0..1068abe41024 100644
---- a/drivers/gpu/drm/nouveau/nouveau_chan.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
-@@ -148,7 +148,7 @@ nouveau_channel_prep(struct nouveau_drm *drm, struct nvif_device *device,
- 
- 	chan->device = device;
- 	chan->drm = drm;
--	chan->vmm = cli->svm.cli ? &cli->svm : &cli->vmm;
-+	chan->vmm = nouveau_cli_vmm(cli);
- 	atomic_set(&chan->killed, 0);
- 
- 	/* allocate memory for dma push buffer */
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
-index b5de312a523f..81350e685b50 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-@@ -112,6 +112,15 @@ struct nouveau_cli_work {
- 	struct dma_fence_cb cb;
- };
- 
-+static inline struct nouveau_vmm *
-+nouveau_cli_vmm(struct nouveau_cli *cli)
-+{
-+	if (cli->svm.cli)
-+		return &cli->svm;
+@@ -215,11 +215,14 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
+ 	nvbo = kzalloc(sizeof(struct nouveau_bo), GFP_KERNEL);
+ 	if (!nvbo)
+ 		return ERR_PTR(-ENOMEM);
 +
-+	return &cli->vmm;
-+}
+ 	INIT_LIST_HEAD(&nvbo->head);
+ 	INIT_LIST_HEAD(&nvbo->entry);
+ 	INIT_LIST_HEAD(&nvbo->vma_list);
+ 	nvbo->bo.bdev = &drm->ttm.bdev;
+ 
++	drm_gem_gpuva_init(&nvbo->bo.base);
 +
- void nouveau_cli_work_queue(struct nouveau_cli *, struct dma_fence *,
- 			    struct nouveau_cli_work *);
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-index f77e44958037..08689ced4f6a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-@@ -103,7 +103,7 @@ nouveau_gem_object_open(struct drm_gem_object *gem, struct drm_file *file_priv)
- 	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
- 	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
- 	struct device *dev = drm->dev->dev;
--	struct nouveau_vmm *vmm = cli->svm.cli ? &cli->svm : &cli->vmm;
-+	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
- 	struct nouveau_vma *vma;
- 	int ret;
- 
-@@ -180,7 +180,7 @@ nouveau_gem_object_close(struct drm_gem_object *gem, struct drm_file *file_priv)
- 	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
- 	struct nouveau_drm *drm = nouveau_bdev(nvbo->bo.bdev);
- 	struct device *dev = drm->dev->dev;
--	struct nouveau_vmm *vmm = cli->svm.cli ? &cli->svm : & cli->vmm;
-+	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
- 	struct nouveau_vma *vma;
- 	int ret;
- 
-@@ -269,7 +269,7 @@ nouveau_gem_info(struct drm_file *file_priv, struct drm_gem_object *gem,
- {
- 	struct nouveau_cli *cli = nouveau_cli(file_priv);
- 	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
--	struct nouveau_vmm *vmm = cli->svm.cli ? &cli->svm : &cli->vmm;
-+	struct nouveau_vmm *vmm = nouveau_cli_vmm(cli);
- 	struct nouveau_vma *vma;
- 
- 	if (is_power_of_2(nvbo->valid_domains))
+ 	/* This is confusing, and doesn't actually mean we want an uncached
+ 	 * mapping, but is what NOUVEAU_GEM_DOMAIN_COHERENT gets translated
+ 	 * into in nouveau_gem_new().
 -- 
 2.39.1
 
