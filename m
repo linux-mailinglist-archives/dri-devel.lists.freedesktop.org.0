@@ -1,54 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C3869A920
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 11:35:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA2D69A937
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 11:45:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0C1310EF52;
-	Fri, 17 Feb 2023 10:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4A710E02F;
+	Fri, 17 Feb 2023 10:45:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EF2F10EF6F
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 10:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676630113; x=1708166113;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=CdhAXIvYTOKL/PsZqets42lPIRlWgVDbIaVVP5Yek3g=;
- b=HsSyfpzUOhReSSjjbZ1AyQnsQquzPTpIBZ/kk6kbdJgEuRwpo4H4lKSA
- aYXkehKElyMQRYt7Jo2UrPkVhaoAPJB91WhVreDe50z2e5ymNrG0Z79WC
- YWB2Redpckg8BHjV21K+uMWeuGHOLpVxmAxadyla3LWFqryx80Igfq/J4
- GloGHy4JX8f9AjzT4M7JMZ/DEcmpp4O117S9TnUKGC5O1fHjI222m4dNp
- piqDUVExTsNvm3RAZl/gFebAjeqJfGbR/dbvkzX6TiK48cRddyUGn7gL5
- nLIJJOJcMggVL6r+Xg9FzixAJqevx1aBietv4XRnSyf0AoSUDtAWYgCOS A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="394435983"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="394435983"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 02:35:06 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="759311077"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="759311077"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 02:35:03 -0800
-Date: Fri, 17 Feb 2023 11:35:01 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 3/3] drm/debugfs: remove dev->debugfs_list and
- debugfs_mutex
-Message-ID: <20230217103501.GC2862577@linux.intel.com>
-References: <20230209081838.45273-1-christian.koenig@amd.com>
- <20230209081838.45273-4-christian.koenig@amd.com>
- <Y+4UdBzk6RkQzcsI@phenom.ffwll.local>
- <20230216163757.GK2849548@linux.intel.com>
- <87lekxzgih.fsf@intel.com>
+Received: from mailrelay2-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:401::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AC8F10E02F
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 10:45:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=Iq/Jl/8yB9466T9tGIxwfLG5ylTLm+hDRobrHF9ofJQ=;
+ b=Mgsv2s1ZOU0Glc29b02b0NL25a2dw/vWANUS4vOUoC467Dv26O+J1O3YXQCXfb2tcEZCPl66esHKV
+ JFyTRSy4TlMm2pwnhaHwyLIpRwPttUDdE8uGEdsZ62vRnL9O9w65QnipQq71WRIMylk6Rw0REQyyU7
+ zgucbT69AVJNT998DuRHxkkQg2zJr7zgNuJ9VC7Zo9PCSGE1JW1gj7fr2JKO9bVqcuwRHBuqSjf+H1
+ 5ok62Su4yxY3KQpWJ9ROrX9ndHaPW7loN2NWXt+lsxeC4z8WYgZI45Mb0l3XVzLr/7k9Ug7u6wUeEK
+ dzR4opLmzZ1w6gwE9XhgYN/io4aEDFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=Iq/Jl/8yB9466T9tGIxwfLG5ylTLm+hDRobrHF9ofJQ=;
+ b=0kjk8enjO1WJK2bX7JN3kFI2+ExDAz43AcD/L8/lMhMP5CmyjJvC50HWt0v7N3yeVA3hpfyLlZutG
+ iZo9HwvCw==
+X-HalOne-ID: 2d029dc3-aeb0-11ed-9ef3-3df7d73157c4
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay2 (Halon) with ESMTPSA
+ id 2d029dc3-aeb0-11ed-9ef3-3df7d73157c4;
+ Fri, 17 Feb 2023 10:45:23 +0000 (UTC)
+Date: Fri, 17 Feb 2023 11:45:22 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] MAINTAINERS: Add myself as co-maintainer for DRM Panels
+ drivers
+Message-ID: <Y+9awrqcQIOQNeaX@ravnborg.org>
+References: <20230216-topic-drm-panel-upstream-maintainance-v1-1-ae1cf9268217@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87lekxzgih.fsf@intel.com>
+In-Reply-To: <20230216-topic-drm-panel-upstream-maintainance-v1-1-ae1cf9268217@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +57,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- mcanal@igalia.com, dri-devel@lists.freedesktop.org, mwen@igalia.com,
- mairacanal@riseup.net, maxime@cerno.tech, daniel.vetter@ffwll.ch,
- wambui.karugax@gmail.com
+Cc: linux-arm-msm@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 16, 2023 at 07:06:46PM +0200, Jani Nikula wrote:
-> >
-> > But should not this the driver responsibility, call drm_debugfs_add_file()
-> > whenever you are ready to handle operations on added file ?
+On Fri, Feb 17, 2023 at 10:58:15AM +0100, Neil Armstrong wrote:
+> Add myself as co-maintainer for DRM Panel Drivers in order to help
+> reviewing and getting new panels drivers merged.
 > 
-> In theory, yes, but in practice it's pretty hard for a non-trivial
-> driver to maintain that all the conditions are met.
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-Hmmm... 
+Thanks for stepping up!
 
-> In i915 we call debugfs register all over the place only after we've
-> called drm_dev_register(), because it's the only sane way. But it means
-> we need the init and register separated everywhere, instead of init
-> adding files to a list to be registered later.
-
-Isn't this done this way in i915 only because it was not possible
-(and still isn't) to call drm_debugfs_create_file() before registration ?
-
-I think it's should be ok by i915 subsystem to create it's debugfs
-files and allow to access to them just after that subsystem init.
-
-Or there are some complex dependencies between i915 subsystems,
-that reading registers from one subsystem will corrupt some
-other subsystem that did non finish initialization yet?
-
-Regards
-Stanislaw
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index be167c695c64..18fd7548a49b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7043,6 +7043,7 @@ F:	drivers/gpu/drm/xlnx/
+>  
+>  DRM PANEL DRIVERS
+>  M:	Thierry Reding <thierry.reding@gmail.com>
+> +M:	Neil Armstrong <neil.armstrong@linaro.org>
+>  R:	Sam Ravnborg <sam@ravnborg.org>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Maintained
+> 
+> ---
+> base-commit: 9d9019bcea1aac7eed64a1a4966282b6b7b141c8
+> change-id: 20230216-topic-drm-panel-upstream-maintainance-6d5cae28d184
+> 
+> Best regards,
+> -- 
+> Neil Armstrong <neil.armstrong@linaro.org>
