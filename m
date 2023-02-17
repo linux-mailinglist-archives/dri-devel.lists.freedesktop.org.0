@@ -2,107 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C5769A5CE
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 07:53:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D535269A709
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 09:34:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13EDA10E422;
-	Fri, 17 Feb 2023 06:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35FC610E4A6;
+	Fri, 17 Feb 2023 08:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-db3eur04on0611.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe0c::611])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4364910E422
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 06:53:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NTdxHGwV5Xej6VSCQf+q6+4ibNMqSo/QQ4tPQ8DvdtLExKA4KuXgkdbHHtKieIc5AT/cg5oVZl2CuKGboc8cCzSSeIc31ZinAfQ151gM5bRBTiIb99RH9J9us0ohnMkqQpVobGF8oflkwlUwGkB58CckFwvFLJGhvKWwIMdCKumTJuJ4eNVjUJnldP3h9fIqJREJK//ltRnUqWDDrTrTXeao73uyIJY8VZodB/V6gzGgyjhNTipSdioeq939KgUZo6Q3vSePNUVGx5ETtkFb3MOUXMxOVXGqrhasnHkApDOFNtmkj2skF8Xuf5eKtNfbLbO/9ECQIsCviJSgLVD06A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LlUrH3hpx3rLt+nYA/CYaT8zoKu2SwrLq4NRHDueueg=;
- b=ZLZW4qbGP9PHD5iDvUkoHpJTf2UHG73hDbA4xMVOrtYbbkVs86TVvQqfN0xInqu9ghJJKfRdoxtlCMbhK74FgNBmAKIKv7kN2UpZUOj9SLX6YONXnvZmfVz0WEFrmSrNKErlwKr4YcpP1NNcSqdgxrNPzG2cb95PCb+qCYniaxOSgTNlkCrVPZkzyQngpPCZc9LpWX29PxwW7/BbZ/Q1/Ar3WeiL/1v8jh/ARwNPMXy0TKCEnEgSR40MkDIzAioFWVA1lVa0PBTR1RYa80PRa6eAgHG7a96QUMbkPq2G0gni86Qw9iO6ueiF3tj5jjXuaSWq0+v73uYYi6knrX6lXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LlUrH3hpx3rLt+nYA/CYaT8zoKu2SwrLq4NRHDueueg=;
- b=bxWLBjfXAOWHkqnvx1GZpQPu1m3wdDqc0yXuUeBLThIMHTKo4wjcYXnJoEnqHAhflChJYYuaGMYQh5cjzm+xKjNdSDlrHPAPLNn6q3V2UU2KZs490St51iomA/XzJ2ShzSMYnRbMmhxE4gJdLFvz6qeq0MZis+TtdMN1YxI5WZc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM7PR04MB6840.eurprd04.prod.outlook.com (2603:10a6:20b:10f::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.13; Fri, 17 Feb
- 2023 06:53:35 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::5725:92ec:f43e:f5fc]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::5725:92ec:f43e:f5fc%9]) with mapi id 15.20.6111.014; Fri, 17 Feb 2023
- 06:53:35 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 6/6] drm: lcdif: Add i.MX93 LCDIF compatible string
-Date: Fri, 17 Feb 2023 14:54:07 +0800
-Message-Id: <20230217065407.2259731-7-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20230217065407.2259731-1-victor.liu@nxp.com>
-References: <20230217065407.2259731-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0033.apcprd02.prod.outlook.com
- (2603:1096:4:195::20) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+X-Greylist: delayed 550 seconds by postgrey-1.36 at gabe;
+ Fri, 17 Feb 2023 03:37:31 UTC
+Received: from n169-114.mail.139.com (n169-114.mail.139.com [120.232.169.114])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9392A10E3D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 03:37:31 +0000 (UTC)
+X-RM-SPAM-FLAG: 00000000
+Received: from jinpeng_he@139.com ( [125.76.214.122] )
+ by ajax-webmail-lg-appmail-41-11022 (Richmail) with HTTP;
+ Fri, 17 Feb 2023 11:28:08 +0800 (CST)
+Date: Fri, 17 Feb 2023 11:28:08 +0800 (CST)
+From: =?utf-8?B?5L2V6YeR5pyL?= <jinpeng_he@139.com>
+To: bskeggs <bskeggs@redhat.com>
+Message-ID: <2b0e63eee643220-0007d.Richmail.00000295672462578560@139.com>
+Subject: Re: [PULL] nouveau-next
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM7PR04MB6840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7af8050f-fbe6-4c90-4b90-08db10b3b05d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oRV7WFTzAoOfma5MzY6UO2i/a3SPJwidpKCGYg/WoqeZkUFx7Bd1CRDE9iq3titjcgovgt+Le8uXd756oKLAR3hmsHUQQBpW9Xw8zPSmWDyTcYPUJZ2v4Aj48Pac7fc0CxQ/ZLP1iiiwpG5B9EMCxhZvf+LauA3eFW5W1QeQ5IgERPsni90PjgLSdyvTJ0y3fbkqW90Oqmyou9yMaJTh9OvTonTpVO4O/RklmK09tNoEUxsw+pRGGhmYPCnIh+tNvANzhXiF+FAFVlYG4MOXQbGYjViTPhubIUUdAM8fosUDfPE7GXulSMcztIAqIpVKtwCmM5zSXqo04aKpYaUumS/QMaiTx27DxKZv3Xhk6a2+JxeJg94L7nsHdeH5JsJU0+7XArcAn3DACz6lvbSd21VkLPuWn5cgG87T/gPd0KQxdVEwEenT3vxWhjkSAtpGsDcIqABK8bslodREQz34dMQI5HVmK4PiN/RN7EXmZWZKKjF4I3onvSU1fAoCFmYtSWzA9s5A3vB/Vdq5vmrEMVW2nNeirkuXuOA2FqMyhvgavTtS+IfYwaBVOQ76VnAW/AtmvFreOD8VptmlUPfW7qqkULQuEr/ioPGglMkrPli5Jh4D/yNcnJ6tHt3tDDnnp+a47VS8Mg379963pG7/WBvSOwN7JGtVc4KkDYUvgUxiafLG4PWC02zR2m6UrAyDdh6oYcVIVkwgLPayB8ecJg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(136003)(366004)(376002)(346002)(396003)(451199018)(36756003)(66946007)(4326008)(8676002)(2906002)(66476007)(66556008)(7416002)(38350700002)(38100700002)(478600001)(1076003)(6486002)(41300700001)(52116002)(316002)(6506007)(6666004)(5660300002)(86362001)(8936002)(83380400001)(26005)(186003)(2616005)(6512007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?C62RbMy4+fbJ5whwQqtMni3bgGrqJTJYX+1KUlzcNgwAxooOKcfNiL85t2/T?=
- =?us-ascii?Q?/NoghXNCKcHLk3KEibHdpGVJRtWrSfDBYLJrwXvd41qIVGwY6URiKdcBuLmG?=
- =?us-ascii?Q?NINsJT2V36I5vJjY1U4dyjCwLwRByqg1muMmmKJQqZmXXT2rpLQA5GNloMtj?=
- =?us-ascii?Q?AuMKCGJZe14vVgZhqdfFnsg7zCfOjGmc9aw+8NO11km2V1Wha/j0+CpsPiDj?=
- =?us-ascii?Q?+TWXaRDP2rUNrvNhkgAJUpM+/FJLzWzyy1xyvuQlPOTJcg0X0RXwMcjDwMTF?=
- =?us-ascii?Q?1t1mJb/6+BoBN5S5CULPAtRkiLoNQSKHcxyzXQlrGV+ipEfJ2vSkK51YgSLB?=
- =?us-ascii?Q?yTdLBjnvNRbAkMsBwTJiLSnZLE+B4qLZuXzMS8NSKH6/yZTs9NRG789k+P99?=
- =?us-ascii?Q?70xzTixB3a4OXFP4lAeghbGsZwpvBUHt5pRteesNL+X6hEZaOBum3BN7xFFw?=
- =?us-ascii?Q?Pn5DDiBz/aXZ5Sea28uk7e3wVZ5djlRKXO+XV9Z6gqxcFOmqW4VMsDSSmTvI?=
- =?us-ascii?Q?eehUmr60tz/1/O882zkDoqAcQ1cBOSkhTCLX3oqOyDbV4jpVIoe1i56xUwKT?=
- =?us-ascii?Q?6BKTwGIZhVVc+T4A74VibH3b1QFPrGQbqbqd1i16qDnbKqfCIvUL7b0sB3LM?=
- =?us-ascii?Q?n4N8UXAsQVExYI98sfCbi9Y3qyWcXEgvdwXrvCl5s2Ek6KmWGELP3yYt+z96?=
- =?us-ascii?Q?thdUkJuBmwC2z/j5Dn579hiFRCq9wBdrRL/jDURxgELu6ULMknFInsr/j2aH?=
- =?us-ascii?Q?K76hqPxf7/HSBdb2cIOCEvZvOKjjFuQv4KBU9aZpd8FEYAXE6ihETRMwJr+Q?=
- =?us-ascii?Q?anV0aB5HwOcY7nxvMuk0k0dUxOya8xdqAQDw8vUEcxC7qdj61hO5itxaxp7H?=
- =?us-ascii?Q?Z9mHza9ZEyNtnVzPeQ6yl2H7QRBuc/K1bGc5IiIe/lrid+CRiMWoMXPD/Hzs?=
- =?us-ascii?Q?PxiRzdpXbBz7nWSL53VckeyyUcZRNkcPMBfNX37gzitxJ5Nj2PZxwhdmSi6c?=
- =?us-ascii?Q?8o3xX2fxjwC3QyTc5IZEg651OZmNabsCgMV35VUxr0IrPZFZ93VnxEqCHziv?=
- =?us-ascii?Q?8QZ5S6YdADrtdxHfESjeH93nSvXU3F2uFEgJtWpyrpQIVgpJjiInvdtPJkCA?=
- =?us-ascii?Q?JQNe2OAgISaUwlNcjqXEg9l6UaqgrPtNlVWtAfghoKL6SSrJORMyQoya757m?=
- =?us-ascii?Q?HgOkxV/tG9+t6/9Fky+sIS94ASCKeyG0sz5hdEQvVLi708dErqtLych5n2JF?=
- =?us-ascii?Q?5ZwRXJXWqn66t58QGJVd86Lp6D/88fMjpBiL3uoSZ8lQgndA1eP8uuOyYbPZ?=
- =?us-ascii?Q?vqr4EVzP6xai6SLJsmSNtmM3GMFa7hXcTZakEjpZ95BnCXesZ2CDkffi6n00?=
- =?us-ascii?Q?9LdnrnO00OBbtwRCWGPRLZJhKLV5Um7nqnMmG/goTxtVBwvfYK0orNFKawlw?=
- =?us-ascii?Q?B0WEU3GlVDC0Ef2FVs7KF55h+aTXQVv4D0smM0NIokM7CDOODbAaAgqVAva/?=
- =?us-ascii?Q?VVvEMjgUB6c7p/KTaui33WLyDJKHuNC7tuv6HALtTLIpdfHJrkKUXqSTnrVR?=
- =?us-ascii?Q?amMfY8/BD9Gfr6YZKYEEUIgtVty4TEJ7YxSAzRTV?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7af8050f-fbe6-4c90-4b90-08db10b3b05d
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2023 06:53:35.0727 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F0bqszIktnXmPOy0fS1P4UT0vWYqaw4DWlJpSBXmXZFhj+W4YXwW9TN4aamMVHiz3o7mr9CQ/toHdvAaoGKLcw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6840
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_2407_2036736443.1676604488246"
+X-Priority: 3
+X-RM-TRANSID: 2b0e63eee643220-0007d
+X-RM-OA-ENC-TYPE: 0
+X-CLIENT-INFO: X-TIMING=0&X-MASSSENT=0&X-SENSITIVE=0
+X-Mailer: Richmail_Webapp(V2.4.20)
+X-Mailman-Approved-At: Fri, 17 Feb 2023 08:34:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,45 +44,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, alexander.stein@ew.tq-group.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, krzysztof.kozlowski@linaro.org, robh+dt@kernel.org,
- linux-imx@nxp.com, krzysztof.kozlowski+dt@linaro.org, kernel@pengutronix.de,
- LW@karo-electronics.de
+Cc: airlied <airlied@redhat.com>, dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With all previous preparations done to make it possible for the
-single LCDIF embedded in i.MX93 SoC to drive multiple displays
-simultaneously, add i.MX93 LCDIF compatible string as the last
-step of adding i.MX93 LCDIF support.
+------=_Part_2407_2036736443.1676604488246
+Content-Type: text/plain;charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v3->v4:
-* Add Alexander's R-b tag.
 
-v2->v3:
-* Fix a trivial typo in commit message.
 
-v1->v2:
-* Split from patch 2/2 in v1. (Marek, Alexander)
 
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+Dear Ben Skeggs:
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index f1f5caef390a..0eb132cad181 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -249,6 +249,7 @@ static const struct drm_driver lcdif_driver = {
- 
- static const struct of_device_id lcdif_dt_ids[] = {
- 	{ .compatible = "fsl,imx8mp-lcdif" },
-+	{ .compatible = "fsl,imx93-lcdif" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, lcdif_dt_ids);
--- 
-2.37.1
+    When I using GT710 card bsed on kernel version is 4.19.90 ubuntu. the f=
+ollowing error message appeared, I really want to get your help, thank you =
+very much.
+
+
+
+
+
+[   32.191620] nouveau 0000:01:00.0: fifo: CHSW_ERROR 00000002
+
+[   32.197195] nouveau 0000:01:00.0: fifo: FB_FLUSH_TIMEOUT
+
+[   32.202740] nouveau 0000:01:00.0: fifo: CHSW_ERROR 00000002
+
+[   32.208524] nouveau 0000:01:00.0: fifo: CHSW_ERROR 00000002
+
+[   32.214660] nouveau 0000:01:00.0: fifo: CHSW_ERROR 00000002
+
+
+
+
+
+
+
+
+
+
+
+
+
+=E4=BD=95=E9=87=91=E6=9C=8B
+
+
+18240890624@139.com
+
+
+18240890624
+
+
+
+
+
+
+
+=E7=94=B5=E5=AD=90=E5=90=8D=E7=89=87=E6=96=B0=E5=87=BAVIP=E6=A8=A1=E6=9D=BF=
+=E5=95=A6=EF=BC=8C=E5=BF=AB=E6=9D=A5=E4=BD=93=E9=AA=8C>>
+
+
+
+
+=E6=89=AB=E4=B8=80=E6=89=AB,
+
+
+=E5=BF=AB=E9=80=9F=E6=B7=BB=E5=8A=A0=E5=90=8D=E7=89=87=E5=88=B0=E6=89=8B=E6=
+=9C=BA
+
+
+
+
+------=_Part_2407_2036736443.1676604488246
+Content-Type: text/html;charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"font-family: =E5=BE=AE=E8=BD=AF=E9=9B=85=E9=BB=91; font-size:=
+ 16px; color: rgb(0, 0, 0); line-height: 1.5; overflow-wrap: break-word; wo=
+rd-break: break-word;"><br><div style=3D"line-height: 1.5;">Dear&nbsp;<span=
+ style=3D"color: rgb(51, 51, 51); font-family: sans-serif; font-size: 13.33=
+33px;">Ben Skeggs:</span></div><div style=3D"line-height: 1.5; font-family:=
+ &quot;Microsoft YaHei&quot;; font-size: medium;"><font color=3D"#333333" f=
+ace=3D"sans-serif" oldel=3D"1"><span style=3D"font-size: 13.3333px;">&nbsp;=
+ &nbsp; When I using GT710 card bsed on kernel version is 4.19.90 ubuntu.&n=
+bsp;</span></font><span style=3D"color: rgb(51, 51, 51); font-family: sans-=
+serif; font-size: 13.3333px;">the following error message appeared</span><s=
+pan style=3D"font-size: 13.3333px; color: rgb(51, 51, 51); font-family: san=
+s-serif;">, I really want to get your help, thank you very much.</span></di=
+v><div style=3D"line-height: 1.5; font-family: &quot;Microsoft YaHei&quot;;=
+ font-size: medium;"><font color=3D"#333333" face=3D"sans-serif" oldel=3D"1=
+"><span style=3D"font-size: 13.3333px;"><br></span></font></div><div style=
+=3D"line-height: 1.5; font-family: &quot;Microsoft YaHei&quot;; font-size: =
+medium;"><font face=3D"sans-serif" oldel=3D"1"><span style=3D"font-size: 13=
+.3333px;"><div style=3D"line-height: 1.5;"><font color=3D"#333333" oldel=3D=
+"1">[&nbsp; &nbsp;32.191620] nouveau 0000:01:00.0: fifo:&nbsp;</font><font =
+color=3D"#ff0000" oldel=3D"1">CHSW_ERROR 00000002</font></div><div style=3D=
+"line-height: 1.5;"><span style=3D"color: rgb(51, 51, 51);">[&nbsp; &nbsp;3=
+2.197195] nouveau 0000:01:00.0: fifo:&nbsp;</span><font color=3D"#ff0000" o=
+ldel=3D"1">FB_FLUSH_TIMEOUT</font></div><div style=3D"line-height: 1.5; col=
+or: rgb(51, 51, 51);">[&nbsp; &nbsp;32.202740] nouveau 0000:01:00.0: fifo: =
+CHSW_ERROR 00000002</div><div style=3D"line-height: 1.5; color: rgb(51, 51,=
+ 51);">[&nbsp; &nbsp;32.208524] nouveau 0000:01:00.0: fifo: CHSW_ERROR 0000=
+0002</div><div style=3D"line-height: 1.5; color: rgb(51, 51, 51);">[&nbsp; =
+&nbsp;32.214660] nouveau 0000:01:00.0: fifo: CHSW_ERROR 00000002</div></spa=
+n></font></div><br><br><br><br></div><div id=3D"signContainer"><table id=3D=
+"signTable" style=3D"width: 100%; white-space: initial;"><tbody><tr><td id=
+=3D"dzmp_table" style=3D"width:480px;font-family:'Microsoft Yahei',verdana,=
+'Simun';"><div id=3D"signBgContainer" style=3D"background:#fafafa no-repeat=
+;position:relative;height:168px;width:480px;max-width:480px;clear:both;"><d=
+iv style=3D"position:relative;width:480px;max-width: 480px;"><div style=3D"=
+padding:18px 10px 0 10px;float:left"><img name=3D"hideEditorBar" class=3D"a=
+vatar-ry avatar-image" src=3D"/m6/images/global/face.png" style=3D"border-r=
+adius:50%;width:80px;height:80px;" onerror=3D"this.onerror=3Dnull;this.src=
+=3D'/m6/images/global/face.png';" data-mark=3D"empty" id=3D"img_0.490151202=
+81902536"></div><div class=3D"addrClass" style=3D"float: left;color:#666;fo=
+nt-size: 12px;width:320px;"><p style=3D"text-align:left;margin: 0;padding: =
+0;line-height:18px;padding-top: 18px;padding-bottom: 5px;width:365px;font-f=
+amily: 'Microsoft Yahei',verdana,'Simun';"><span style=3D"font-size: 16px;p=
+adding-right: 23px;display: inline-block;line-height: 18px;">=E4=BD=95=E9=
+=87=91=E6=9C=8B</span><span style=3D"font-size: 12px;"></span></p><p class=
+=3D"otherInfo" style=3D"text-align:left;margin: 1px;padding: 0;line-height:=
+22px;width:365px;overflow:hidden;"><i style=3D"background:url(https://appma=
+il.mail.10086.cn/m2015/images/imgsrc/vcard.png) no-repeat 0 0;background-po=
+sition: -30px 0;display:inline-block;float:left;margin-right: 11px;width:15=
+px;height:18px;"></i><span style=3D"font-size:12px;margin: 0;padding: 0;lin=
+e-height:18px;width:91%;display: block;float:left;font-family: 'Microsoft Y=
+ahei',verdana,'Simun';">18240890624@139.com<i class=3D""></i></span></p><p =
+class=3D"otherInfo" style=3D"text-align:left;margin: 1px;padding: 0;line-he=
+ight:22px;width:365px;overflow:hidden;"><i style=3D"background:url(https://=
+appmail.mail.10086.cn/m2015/images/imgsrc/vcard.png) no-repeat 0 0;backgrou=
+nd-position: -45px -2px;display:inline-block;float:left;margin-right: 11px;=
+width:15px;height:18px;"></i><span style=3D"font-size:12px;margin: 0;paddin=
+g: 0;line-height:18px;width:91%;display: block;float:left;font-family: 'Mic=
+rosoft Yahei',verdana,'Simun';">18240890624<i class=3D""></i></span></p></d=
+iv><div style=3D"clear:both"></div></div></div><div contenteditable=3D"fals=
+e" class=3D"v-hidden" style=3D"margin:0;padding: 0;height:24px;line-height:=
+ 24px;" id=3D"openSign"><a href=3D"javascript:;" style=3D"display: none; fl=
+oat: right; font-size: 12px; color: rgb(26, 138, 216); text-decoration: non=
+e; cursor: pointer;"><span style=3D"color: #666;">=E7=94=B5=E5=AD=90=E5=90=
+=8D=E7=89=87=E6=96=B0=E5=87=BAVIP=E6=A8=A1=E6=9D=BF=E5=95=A6=EF=BC=8C</span=
+>=E5=BF=AB=E6=9D=A5=E4=BD=93=E9=AA=8C&gt;&gt;</a></div></td><td id=3D"signI=
+nfoCode" style=3D"width:auto;display:block;padding:0px 8px 8px 8px;vertical=
+-align: top;"><div style=3D"vertical-align:top;"><img rel=3D"signImg_qcode"=
+ name=3D"hideEditorBar" src=3D"https://smsrebuild1.mail.10086.cn/addr_p3_gw=
+/qrcode/ContactsServlet?type=3D3&amp;name2=3DJUU0JUJEJTk1JUU5JTg3JTkxJUU2JT=
+lDJThC&amp;mobile2=3DMTgyNDA4OTA2MjQ=3D&amp;email2=3DMTgyNDA4OTA2MjQlNDAxMz=
+kuY29t" alt=3D"=E6=89=AB=E6=8F=8F=E4=BA=8C=E7=BB=B4=E7=A0=81=E6=B7=BB=E5=8A=
+=A0=E5=90=8D=E7=89=87=E5=88=B0=E6=89=8B=E6=9C=BA" data-mark=3D"empty" id=3D=
+"img_0.7067103985593677"></div><div style=3D"margin-top:5px;margin-bottom:5=
+px;"><p style=3D"width:146px;font-size:12px;color:#444;text-align:center;li=
+ne-height: 1.4;margin:0;">=E6=89=AB=E4=B8=80=E6=89=AB,</p><p style=3D"width=
+:146px;font-size:12px;color:#444;text-align:center;line-height: 1.4;margin:=
+0;">=E5=BF=AB=E9=80=9F=E6=B7=BB=E5=8A=A0=E5=90=8D=E7=89=87=E5=88=B0=E6=89=
+=8B=E6=9C=BA</p></div></td></tr></tbody></table><style contenteditable=3D"f=
+alse">#signContainer{word-wrap:break-word;word-break:break-all;}#signContai=
+ner p{margin:0;}</style></div>
+------=_Part_2407_2036736443.1676604488246--
 
