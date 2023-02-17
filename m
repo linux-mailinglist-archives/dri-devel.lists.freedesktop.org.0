@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83A069A3DE
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 03:25:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5127869A3DB
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 03:25:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF40B10E3C4;
-	Fri, 17 Feb 2023 02:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8761910E3BB;
+	Fri, 17 Feb 2023 02:25:06 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C78910E1A3;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6A210E195;
  Fri, 17 Feb 2023 02:25:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1676600704; x=1708136704;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7J7lRFZPUr3BHW7/m3oEBmgCduD9y0HNKFUPix8KbTs=;
- b=fZXmIHOgfPIeqXI+vyz5Nu+a2Sp7EjhqrQspW6b4Na3jfu7FX6/gfb/i
- TcA7MymdsC861LC2LOjMPESGXsM/xFIIDbnC3S+XgRHAZLoiUpVS3fOMX
- qb0ZlRFsSl8q0rVXIA2FucwPqHCaf0DObJHddsljgUMhwTGy8hQioEb1f
- ACX/2t6PW2laomW1Gfguk2eyWWZ0RQehs/k0yIYfCcmAeGLK8u2hsU4+p
- jofoEgG3md6V4kIMXmWykE/PjgmqCROkpcoum+3EPzIhcFkn0db/wjTEl
- CkLV3EKj0i1hnyMrrvztaz6GYSxu2h7cM+V7F0YaDsQy0ef8nmxsyZPSo A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="334093364"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="334093364"
+ bh=9xJ78ZPjSwZj2s9QdeqUFq5jM7hTALRDfyEnmi9fAbM=;
+ b=nUb2nnGpawPFVP0ROiLzwl7fE0OKoTXtxa18gLr7aKI4AUzdZo0g3Zl1
+ 1PtSOhAQL2XqBV9g8fprt2whzC1jDN6se5VOZhuLNiXDrlX4T5rIto6S4
+ sjiOD+8GA0Cn4stdl26ZAfoOYeBO58QHIaStbncOEsw6ZhhTkucI+xIsK
+ MW1gaeJOjclFUgKi8evXXcAW3VKKpU4Sk/b5Bhy1wc38FypF5EBGPwRzc
+ Xph7XWIYO+i2EzwbtFxtNfSRBlX19Kqdkz2tFgiThw4NSNMaQ+XL0NIJN
+ 0L1LzQ+9NZA4LwayhiGzcTVeqcxfFWFuX4noohxDs+IZ1Wl9eeOwewg+V w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="334093365"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="334093365"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  16 Feb 2023 18:25:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670389085"
-X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="670389085"
+X-IronPort-AV: E=McAfee;i="6500,9779,10623"; a="670389089"
+X-IronPort-AV: E=Sophos;i="5.97,304,1669104000"; d="scan'208";a="670389089"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by orsmga002.jf.intel.com with ESMTP; 16 Feb 2023 18:25:02 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v2 1/3] drm/i915/guc: Fix missing ecodes
-Date: Thu, 16 Feb 2023 18:24:18 -0800
-Message-Id: <20230217022420.2664116-2-John.C.Harrison@Intel.com>
+Subject: [PATCH v2 2/3] drm/i915/guc: Clean up of register capture search
+Date: Thu, 16 Feb 2023 18:24:19 -0800
+Message-Id: <20230217022420.2664116-3-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230217022420.2664116-1-John.C.Harrison@Intel.com>
 References: <20230217022420.2664116-1-John.C.Harrison@Intel.com>
@@ -58,96 +58,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Michael Cheng <michael.cheng@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>, Matthew Auld <matthew.auld@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- DRI-Devel@Lists.FreeDesktop.Org,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Bruce Chang <yu.bruce.chang@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-Error captures are tagged with an 'ecode'. This is a pseduo-unique magic
-number that is meant to distinguish similar seeming bugs with
-different underlying signatures. It is a combination of two ring state
-registers. Unfortunately, the register state being used is only valid
-in execlist mode. In GuC mode, the register state exists in a separate
-list of arbitrary register address/value pairs rather than the named
-entry structure. So, search through that list to find the two exciting
-registers and copy them over to the structure's named members.
-
-v2: if else if instead of if if (Alan)
+The comparison in the search for a matching register capture node was
+not the most readable. It was also assuming that a zero GuC id means
+invalid, which it does not. So remove one invalid term, one redundant
+term and re-format to keep each term on a single line, and only one
+term per line.
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-Fixes: a6f0f9cf330a ("drm/i915/guc: Plumb GuC-capture into gpu_coredump")
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-Cc: Michael Cheng <michael.cheng@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Bruce Chang <yu.bruce.chang@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_capture.c    | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-index 101d44de729b1..36196cbb24c6b 100644
+index 36196cbb24c6b..cf49188db6a6e 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-@@ -1562,6 +1562,27 @@ int intel_guc_capture_print_engine_node(struct drm_i915_error_state_buf *ebuf,
- 
- #endif //CONFIG_DRM_I915_CAPTURE_ERROR
- 
-+static void guc_capture_find_ecode(struct intel_engine_coredump *ee)
-+{
-+	struct gcap_reg_list_info *reginfo;
-+	struct guc_mmio_reg *regs;
-+	i915_reg_t reg_ipehr = RING_IPEHR(0);
-+	i915_reg_t reg_instdone = RING_INSTDONE(0);
-+	int i;
-+
-+	if (!ee->guc_capture_node)
-+		return;
-+
-+	reginfo = ee->guc_capture_node->reginfo + GUC_CAPTURE_LIST_TYPE_ENGINE_INSTANCE;
-+	regs = reginfo->regs;
-+	for (i = 0; i < reginfo->num_regs; i++) {
-+		if (regs[i].offset == reg_ipehr.reg)
-+			ee->ipehr = regs[i].value;
-+		else if (regs[i].offset == reg_instdone.reg)
-+			ee->instdone.instdone = regs[i].value;
-+	}
-+}
-+
- void intel_guc_capture_free_node(struct intel_engine_coredump *ee)
- {
- 	if (!ee || !ee->guc_capture_node)
-@@ -1601,6 +1622,7 @@ void intel_guc_capture_get_matching_node(struct intel_gt *gt,
+@@ -1616,9 +1616,8 @@ void intel_guc_capture_get_matching_node(struct intel_gt *gt,
+ 	list_for_each_entry_safe(n, ntmp, &guc->capture->outlist, link) {
+ 		if (n->eng_inst == GUC_ID_TO_ENGINE_INSTANCE(ee->engine->guc_id) &&
+ 		    n->eng_class == GUC_ID_TO_ENGINE_CLASS(ee->engine->guc_id) &&
+-		    n->guc_id && n->guc_id == ce->guc_id.id &&
+-		    (n->lrca & CTX_GTT_ADDRESS_MASK) && (n->lrca & CTX_GTT_ADDRESS_MASK) ==
+-		    (ce->lrc.lrca & CTX_GTT_ADDRESS_MASK)) {
++		    n->guc_id == ce->guc_id.id &&
++		    (n->lrca & CTX_GTT_ADDRESS_MASK) == (ce->lrc.lrca & CTX_GTT_ADDRESS_MASK)) {
  			list_del(&n->link);
  			ee->guc_capture_node = n;
  			ee->guc_capture = guc->capture;
-+			guc_capture_find_ecode(ee);
- 			return;
- 		}
- 	}
 -- 
 2.39.1
 
