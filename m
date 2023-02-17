@@ -2,54 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D249C69A4EF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 05:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B36D69A597
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 07:26:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85ED10E088;
-	Fri, 17 Feb 2023 04:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E47FC10E3C9;
+	Fri, 17 Feb 2023 06:26:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9A4E10E088
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 04:38:37 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1508C612CA;
- Fri, 17 Feb 2023 04:38:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7A529C433D2;
- Fri, 17 Feb 2023 04:38:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676608716;
- bh=lBD+ZV+x7RW/eX53Icvx7ILkWEuCoGjpdQs2LC4GIJE=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=DEvc2+ldxoY1eRm4xROZ/tl8JAOTaeExbBxAhinMVOIoBiSh5mtJGwb/K0LSQMoBr
- OiyjoKf0Y1oViAJ77gASHQqdb6uoGsgE0T00du8EgHIH0Dx3x8ff4OgHR5as11f3K9
- Ebp0eiUZORVwpluSX9DW6lRxq5QTPdtY1xL18F8irU95Bq6r6ixi9J4cb+9IOS95ce
- E2URsqVMbUb4JKnzKErUaTahzl+hhyz/wz/q+xR0oL6avSHMcoBtOOGY9Syr/pH3Ko
- eQXDvkCxi29YAe/8XXUs+l7jCxOK8WiItWgz3lhjhAz8H4Niy1Rne6sSv01cn8riIL
- 0x/EzPKnxBlCA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 651A4C1614B; Fri, 17 Feb 2023 04:38:36 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.2 final
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tyvvUJiuADGfPznEKCNBmwGzPEKE7Oob_9BduxE6Od4TQ@mail.gmail.com>
-References: <CAPM=9tyvvUJiuADGfPznEKCNBmwGzPEKE7Oob_9BduxE6Od4TQ@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tyvvUJiuADGfPznEKCNBmwGzPEKE7Oob_9BduxE6Od4TQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2023-02-17
-X-PR-Tracked-Commit-Id: f7597e3c58eeb9ce534993f53c982f2e91e6dd4d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ec35307e18ba8174e2a3f701956059f6a36f22fb
-Message-Id: <167660871639.4329.3467322456999511365.pr-tracker-bot@kernel.org>
-Date: Fri, 17 Feb 2023 04:38:36 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from out30-118.freemail.mail.aliyun.com
+ (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39DE10E3C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 06:26:38 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R751e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=6; SR=0;
+ TI=SMTPD_---0VbrJQtt_1676615188; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VbrJQtt_1676615188) by smtp.aliyun-inc.com;
+ Fri, 17 Feb 2023 14:26:34 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: ogabbay@kernel.org
+Subject: [PATCH] habanalabs: make some functions static
+Date: Fri, 17 Feb 2023 14:26:26 +0800
+Message-Id: <20230217062626.63213-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,22 +41,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, osharabi@habana.ai,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 17 Feb 2023 12:16:34 +1000:
+These functions are not used outside the file device.c, so the
+modification is defined as static.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-02-17
+drivers/accel/habanalabs/common/device.c:2641:6: warning: no previous prototype for ‘hl_capture_fw_err’.
+drivers/accel/habanalabs/common/device.c:2619:6: warning: no previous prototype for ‘hl_capture_hw_err’.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ec35307e18ba8174e2a3f701956059f6a36f22fb
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4098
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/accel/habanalabs/common/device.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thank you!
-
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index fefe70bbbede..a5f5ee102823 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -2616,7 +2616,7 @@ void hl_handle_page_fault(struct hl_device *hdev, u64 addr, u16 eng_id, bool is_
+ 		*event_mask |=  HL_NOTIFIER_EVENT_PAGE_FAULT;
+ }
+ 
+-void hl_capture_hw_err(struct hl_device *hdev, u16 event_id)
++static void hl_capture_hw_err(struct hl_device *hdev, u16 event_id)
+ {
+ 	struct hw_err_info *info = &hdev->captured_err_info.hw_err;
+ 
+@@ -2638,7 +2638,7 @@ void hl_handle_critical_hw_err(struct hl_device *hdev, u16 event_id, u64 *event_
+ 		*event_mask |= HL_NOTIFIER_EVENT_CRITICL_HW_ERR;
+ }
+ 
+-void hl_capture_fw_err(struct hl_device *hdev, struct hl_info_fw_err_info *fw_info)
++static void hl_capture_fw_err(struct hl_device *hdev, struct hl_info_fw_err_info *fw_info)
+ {
+ 	struct fw_err_info *info = &hdev->captured_err_info.fw_err;
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.20.1.7.g153144c
+
