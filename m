@@ -2,76 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC0E69B053
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 17:14:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E131B69B064
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Feb 2023 17:15:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91DF310E0A5;
-	Fri, 17 Feb 2023 16:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D452110E1D9;
+	Fri, 17 Feb 2023 16:15:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A79C110E0A5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 16:14:48 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31H6rAd0009536; Fri, 17 Feb 2023 16:14:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=HhnZfmCLymwdEGX0RzKZobcjIkAv4CU0zR4Kz/xuDtM=;
- b=nqsXO8EN9IoMxNdWD+8i0ewprDxHwEs6tnaN722bbabHEAty+5DAvYj2RszWCp7RiKnb
- IOv5Ehrg1f9lW/uQ6W0mtMY3WmIJ39X9ATvHy/yStyMmtIJ35wPI80hyHLG/3flShYQq
- U28XiIEn+exyk9QSKjThhdzZBF/RfF6vWuzbmBQiHlQ/sWsbJC7bfZ1uP6xNXa/XhPao
- 0YGAmYljtJyndwkYei6fhUQvNAYJlnzwG9u0TiQTGQrKrVK4qy7H+EI7D6Blt3+6/0fz
- GnqFKH/2kjLmvbWaYyiZ8AnaLFD/7fuEM6z3rQfRgiRYTH4R5zrU9iTR170/VF5BZP9O aA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nsxe7tcnu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Feb 2023 16:14:42 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31HGEf1t030901
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Feb 2023 16:14:41 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 17 Feb
- 2023 08:14:40 -0800
-Message-ID: <e47d2113-cde3-3e65-a132-391b7c314d5e@quicinc.com>
-Date: Fri, 17 Feb 2023 09:14:40 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2 0/8] QAIC accel driver
-Content-Language: en-US
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>
-References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
- <d1074659-8b6a-0756-9cd6-23a9ddc604d8@quicinc.com>
-In-Reply-To: <d1074659-8b6a-0756-9cd6-23a9ddc604d8@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: aWE76DyEaZRMJM3eKXrWn2i4de8RN2sE
-X-Proofpoint-ORIG-GUID: aWE76DyEaZRMJM3eKXrWn2i4de8RN2sE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-17_10,2023-02-17_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 phishscore=0 adultscore=0 spamscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=777 impostorscore=0 mlxscore=0
- priorityscore=1501 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2212070000 definitions=main-2302170144
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0693810E1D9;
+ Fri, 17 Feb 2023 16:15:35 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 576075C004F;
+ Fri, 17 Feb 2023 11:15:33 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Fri, 17 Feb 2023 11:15:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1676650533; x=1676736933; bh=tleUz3zIP8
+ QkFyed9TDh0JqE4e6vPHKfXik/Tpa7P2A=; b=Iwad271NcLWSK/mSbAeplkyueM
+ AIRurVdo4aMWp4R3HsReutyJ+uhd/1LoUeBfcNSPfpmuDjOcNlrMdXrhduE//szT
+ LtGXHiTQw41sazpZc4vW3YJ/q3isQ9S480h/vEMoYlXHEbJ46S4rnnRDalHYhAAh
+ pTFa51xkyt2FeAVVTT/BfMBCdRMKVppXjqnWcLbO7yvThZXLd7WnJEz/VBtgotUr
+ tBIWwy6fr0G/eluf5oHK5vRAJf+ibwl25xf7veLOYLVjnMm1m980ZfSFLwXoR5Ad
+ cK6HQXlw61Q4XeLPgkAhKQTomPEvSqWBMuf8wgwI1F3NqKIQmEGTPyTy2Hcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1676650533; x=1676736933; bh=tleUz3zIP8QkFyed9TDh0JqE4e6v
+ PHKfXik/Tpa7P2A=; b=hbIbBfXPNzBtvk5bc5ylnttncvE8EukoQnTmWDr5tLSB
+ VE49C6JVVQ16V3ExFn+CcSEmN8WO3idKgvF0txCBn/U6E+PASSfgyWZ2BoaIGipe
+ Yadf3L5T8Yo/HW0HCFXW8vBoF6ZIY7bHJzrLbn+DFaV83TFujI6vp9FTPTUiXptK
+ xG2rxdquimRGSy8nN3O14nClHJOi3NSnjWYdBKUU2+JZWEgzVoLNr6q6dLuAQ/I4
+ Epdbb1JWRhgr2TU+IQKhdoCH/mOFLsQW9Rl9rRXA7K3/84/e3r6rRcXcoXS3o6Of
+ EQ+3MFNm7XP1Xyqvk/cMqhXOyOfGjvaU9g5O32EYWw==
+X-ME-Sender: <xms:JKjvY6AeRLlxXnsCf5olcXo3RSIGuiUVBHxCKYJOpeMVaEq76Eqdgw>
+ <xme:JKjvY0jm-ljLeEgwqGJS4meZ3TEImW97EMsptV7EjfyTrK5btVAa3N9Gwnq4bIUjN
+ nfc17kVTuMzLn61I-k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiledgkeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+ nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+ htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+ teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:JajvY9kUef-VXLovENBb-OOpa5c_oBLnME7LlOKinAUYjyZtTys9LQ>
+ <xmx:JajvY4xCODqVaE8TCjjhXbXpT6F00XXQCuT1X_9KlIMGicujGDxKgg>
+ <xmx:JajvY_ThEVMjhAOhVP16bmpWW9XsYOzeNXbd055bBxD2XGk0uXb2BA>
+ <xmx:JajvY3bV18cpr4ofTn-aJ-BHgR1be5bONKNHMLiyM7pIKrbH2SNCjA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id E246DB60086; Fri, 17 Feb 2023 11:15:32 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
+Mime-Version: 1.0
+Message-Id: <a4c599b3-8dd5-4799-8565-cf07c7e07227@app.fastmail.com>
+In-Reply-To: <c830e0c7-a483-aaf6-cd46-e26c8c414b6b@intel.com>
+References: <20230217124724.1324126-1-arnd@kernel.org>
+ <c830e0c7-a483-aaf6-cd46-e26c8c414b6b@intel.com>
+Date: Fri, 17 Feb 2023 17:15:14 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andrzej Hajda" <andrzej.hajda@intel.com>,
+ "Arnd Bergmann" <arnd@kernel.org>,
+ "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tvrtko.ursulin@linux.intel.com>,
+ "Dave Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>,
+ "Matthew Brost" <matthew.brost@intel.com>,
+ "John Harrison" <John.C.Harrison@Intel.com>,
+ "Michal Wajdeczko" <michal.wajdeczko@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: avoid FIELD_PREP warning
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,22 +91,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com,
- stanislaw.gruszka@linux.intel.com, quic_carlv@quicinc.com,
- jacek.lawrynowicz@linux.intel.com
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/8/2023 3:01 PM, Jeffrey Hugo wrote:
-> On 2/6/2023 8:41 AM, Jeffrey Hugo wrote:
->> Regarding the open userspace (see the documentation patch), the UMD and
->> compiler are a week or so away from being posted in the indicated repos.
->> Just need to polish some documentation.
-> 
-> An update to this, the compiler is now live on github at the link 
-> specified in the documentation patch.
+On Fri, Feb 17, 2023, at 16:38, Andrzej Hajda wrote:
+> On 17.02.2023 13:46, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> With gcc-7 and earlier, there are lots of warnings like
+>> 
+>> In file included from <command-line>:0:0:
+>> In function '__guc_context_policy_add_priority.isra.66',
+>>      inlined from '__guc_context_set_prio.isra.67' at drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:3292:3,
+>>      inlined from 'guc_context_set_prio' at drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:3320:2:
+>> include/linux/compiler_types.h:399:38: error: call to '__compiletime_assert_631' declared with attribute error: FIELD_PREP: mask is not constant
+>>    _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+>>                                        ^
+>> ...
+>> drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:2422:3: note: in expansion of macro 'FIELD_PREP'
+>>     FIELD_PREP(GUC_KLV_0_KEY, GUC_CONTEXT_POLICIES_KLV_ID_##id) | \
+>>     ^~~~~~~~~~
+>> 
+>> Make sure that GUC_KLV_0_KEY is an unsigned value to avoid the warning.
+>
+> Does it mean __builtin_constant_p in gcc7 returns 0 on signed constants?
+> I guess there should be more similar errors.
 
-The UMD is now posted.
+No, it's not as simple as that, I'm not really sure what the underlying
+problem is with the compiler, and this is the only file that triggered
+this particular warning.
 
--Jeff
+There are other cases where old compilers had the reverse problem,
+where they sometimes report a variable to be __builtin_constant_p()==true
+if there is a branch that assigns a constant to it.
+
+I think here it happens because GUC_KLV_0_KEY and GUC_KLV_n_VALUE are
+negative.
+
+   Arnd
