@@ -2,72 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662C669BB0C
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 17:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E83169BB3F
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 18:31:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE6210E514;
-	Sat, 18 Feb 2023 16:47:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D3E10E049;
+	Sat, 18 Feb 2023 17:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1468010E514
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 16:47:48 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id r10so1125139ljd.11
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 08:47:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gRIwjh8WrsGWjWn7axVeyeH9FAGIRGQoBWtwrxs3ajU=;
- b=EUAua//jWcjDpwVjpafTgQD7LfpX1Arg+lyEjVRDEJDoWe7QEkQ0zAeeadb88yGdwX
- l2MuWfiQdxSkwLpjoZSd2vA9XI5rh49iNQl8rUA0faAvYW5Oy+D8iq9mYm/jQXxIe8jh
- t/JMun2iqHWZ4Rg7N/woCBTbBJFyvUXGXTcnQoztzF3Nluw/fcgRHK+lfPirz/YiivF0
- cOz80epj17+hD2llYbOBJLHKU6T5oSpbu7GGhRLAlLNh4xPPCFsq+X2Sz4b8ZNhTLU5i
- NWAXWhjSic2SsOmsbzbm9Dlf7amPdqi7rXJauBXnthOIFgGvXwTi8c3QNv38T24V6rlz
- UnxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gRIwjh8WrsGWjWn7axVeyeH9FAGIRGQoBWtwrxs3ajU=;
- b=0fvn4g/1i0IIGmjuvbxE+PeOiENVDFxEnycWxJ2AH0W0oDEVeaOYlTSBFPK6KDYCAc
- LJLBbwGc8yV9iLDY7pHZJm7Ki6MpDpoeCGlIQlSyqH4Unl8bs7Q8aNJk8F3vtwZXnJwZ
- ICdDi7/JjI/uV/nDXTjx9EOdRiLFcYW621nxLaFccS4gFGvVQtxLemCfWVCpar3EU7f1
- xFAaEfGXGfxA2is8EeleUk2hazpqdfnixF8ZZ44NR0kS29cBegjeue0Dk7whbEx0CjbO
- TpN8j/DYuAvhc+IgsplfcTk41Ym4ldckugy1SQmJNDj3ZynS1al9M2J/aJv502CLQd/Z
- 2ttA==
-X-Gm-Message-State: AO0yUKWMFpNI95p6vio49nzHnLAUT0LjnK23hDPhA0n0nj8eivP7OWFx
- Fy6vpqacLIjXmfibqC/rLbbViw==
-X-Google-Smtp-Source: AK7set/OXOH1DDgJWP8lfFHG2KeZXWV1J3P9XC47RH3bLBj9oaU8SVjDgcVzornUiW8DHFyLUs6xTg==
-X-Received: by 2002:a2e:83c3:0:b0:293:48b8:dcad with SMTP id
- s3-20020a2e83c3000000b0029348b8dcadmr1417632ljh.0.1676738866081; 
- Sat, 18 Feb 2023 08:47:46 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- k21-20020a05651c10b500b002945d119e09sm950834ljn.8.2023.02.18.08.47.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Feb 2023 08:47:45 -0800 (PST)
-Message-ID: <170ee26d-8904-0829-f92e-4ea6678b08eb@linaro.org>
-Date: Sat, 18 Feb 2023 18:47:44 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69DDA10E049;
+ Sat, 18 Feb 2023 17:31:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676741510; x=1708277510;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=57ltjsRejbA7oaU+iaQDdckGjVL6pqCoC7nglpeeqag=;
+ b=ThUZlPvdYlfS11Lc5Pp4gwvIf7s6emxzyCDQiG8pSIoOj76GX8YTUruq
+ PvgI/RtWLVCaJUktoGmAblVVOArracTPgnjw7LcX5OqaDYFq++lRSF0/1
+ 0jWuezuS1IYhBd9vTDY0Lt9hmpGPpH6UjpeqhrqVa4n7VciVh3mXxlqF5
+ vml8D2eTpA88YOHEyKGMy+eK6slwEdxrodtW4cVvMIGspA1BcdHqi7A5X
+ RFivmT8M/0kKNq3LC9t+40fIoBEuuauzSOnKuPjrVL+cO41JS4mbAxLji
+ 5mqd0hAFCglZAkaIer2Y/cEmukfrF0LUTmI/uKJOKml3fkG+5IyT5E+Bn w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="320299187"
+X-IronPort-AV: E=Sophos;i="5.97,307,1669104000"; d="scan'208";a="320299187"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2023 09:31:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10625"; a="620726882"
+X-IronPort-AV: E=Sophos;i="5.97,307,1669104000"; d="scan'208";a="620726882"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga003.jf.intel.com with ESMTP; 18 Feb 2023 09:31:49 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Sat, 18 Feb 2023 09:31:49 -0800
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Sat, 18 Feb 2023 09:31:48 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Sat, 18 Feb 2023 09:31:48 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.176)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Sat, 18 Feb 2023 09:31:48 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lpj8ZRWsAEgJwNpc4LTZwsRLBy/07XjGS77AzRVoRduU2ZQCuOIhdx3rAJU23HMZmbF8cdofW6jkD0SqdTtemn+VB5MELi3vJlgA4CCE1XqYq7zw2h+1iU20hSEm7Nws4SxZqByaIZKbfzthHhNerJvv8RHRdHxccMKFi4LOgUVPZcqxkXfbO6C7ZtMwLWezSrNi9ELZDLnr3ikzFmWoni9j/pxfiCjzPAfh1WUUyWZ7Gnh8WDJdovAS7V+1zwWvx9Pgv1RHpcuVgnq91EBWETxjlFq11YgJGzrF6G2LOt8uXC8iA4/Wx0qAuP8mR7KVMAXLWtwZQ0BBZ9H3U4mxeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=57ltjsRejbA7oaU+iaQDdckGjVL6pqCoC7nglpeeqag=;
+ b=eGOlCXhV7vRRNFo0939ABy3oYLVXDGbdnlraqJBCYBFCROZqkBze49UxKFQc/5xFWzC8C7zHtbdzQXsWFSJhmCUvBk07nzoYPhegkThJLgg+CVDUWT/stAksRern4IP7TyTAbli/WMnshohbGpr578nfgVdANZSMJtD1JQIDBp8DTjo4DnTyiALkPPOVWhpB5+BAoxKtlgk4btItuQD7M35WhWvnS7FjWNu+FFT4FpDUO6xSm9xS6PPQpzljp/bn4lTERQsJnnr49X8y2DCcauvXfnfdkiZl9Y0lJUlHRQho3rZ72Nm2CnttNKXe+FrnHBoOTaRuGn2/zk0vSM5yBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
+ SJ0PR11MB5896.namprd11.prod.outlook.com (2603:10b6:a03:42c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.17; Sat, 18 Feb
+ 2023 17:31:46 +0000
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::4cdb:78a7:917e:88e5]) by DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::4cdb:78a7:917e:88e5%9]) with mapi id 15.20.6111.018; Sat, 18 Feb 2023
+ 17:31:45 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v5 8/8] drm/i915/pxp: Enable PXP with MTL-GSC-CS
+Thread-Topic: [PATCH v5 8/8] drm/i915/pxp: Enable PXP with MTL-GSC-CS
+Thread-Index: AQHZQLy9+JDJxmVEIUSRKyxz9AOTbK7U/EKA
+Date: Sat, 18 Feb 2023 17:31:45 +0000
+Message-ID: <104363e0e8cebf18af47ab5dda0559cb69354fee.camel@intel.com>
+References: <20230214213844.2890382-1-alan.previn.teres.alexis@intel.com>
+ <20230214213844.2890382-9-alan.previn.teres.alexis@intel.com>
+In-Reply-To: <20230214213844.2890382-9-alan.previn.teres.alexis@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|SJ0PR11MB5896:EE_
+x-ms-office365-filtering-correlation-id: a2ca03f0-0276-48c4-726d-08db11d601cd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Jup2F8jjLjpPqBrvNs7Gbv+g0RiAyBFUrs76w/XRf0+oWxI6sfpa6XR2xV0c3boedvBWVaQydPIJ+gmdmMdQ0PRUZECIkl/KAvPeE7NOntaBxBIoOFsDLFewEOy2gFqWxPZ1AM2+PhWBwPFuftwaRr7IiZKHKJtbBEcmSP6sQPYZxxxrEBZU7IXqpDiRW5RCv+EqFVXWvSl2OBTxvbr1vP7MtTk13bG3Bk1i8vi/50n+DtUFTnQMvDJOiUBqQlZANAOqyd4hgFdqWdqwwT1np6ga9huh+vqDJkN6dAQFz/J3Yz7VQ3Kw9kTU6RP/lufZQTS33l3C4vzbjvx/eO1TYFAyym4bGLth93e44vo4Wjaxl4h/UVTH6CeMhUuyH0rnLn/Y9wvaJjJYrGMVuBx6p+k3YRz6YsKnEdd+h3SU0fb7JUhsKLWfjr0dl+p9Op273Vcr2FifaZHKRUTPc4andnfU98FKAnKXltFWg3kQlrlsMWcPe7/Gee3NyntSwpuazZF0AinpvjVss97rJkdDolQOw4B5jzgcCHObLxlCWK8LGDOEruzs6QI80n1tXEJ0pMgP20D1tkGdypAALKFxzZ0c/Y/p/t4pNFyrsjDLVxhU+lOT5LBGuIXBDebO3rhVbmZe3h0mHKkih7HiyUylmmfHEytg5Qk3qDsTkredoxaEntV0EZQsaMLZxDSiJjZmE+6Jo1FQFxWBO3B7lUMpNQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(136003)(366004)(346002)(39860400002)(396003)(376002)(451199018)(38100700002)(122000001)(36756003)(316002)(54906003)(38070700005)(6486002)(82960400001)(478600001)(71200400001)(83380400001)(26005)(4326008)(186003)(6506007)(107886003)(6512007)(2616005)(4744005)(5660300002)(2906002)(8936002)(86362001)(6916009)(41300700001)(66446008)(8676002)(66556008)(91956017)(76116006)(66476007)(66946007)(64756008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OFF4Y1VlZ09SRUZ2MkpHSm1mVWN1cnBGczR5UVFmZWo5RUxwV1RUVFRNbGNT?=
+ =?utf-8?B?bXJnUjZKcFJxbEMxM0Y1K2xaMW9Jb0NzcXhhMk9DR2tHSy9VZlA3NWZaYVFW?=
+ =?utf-8?B?ckdidkZKVkdneEI4cW1sMlp5Z2IvcGFXcktFbTRzUjhpU2o3K3BHcDM2QVdo?=
+ =?utf-8?B?VW82S1MvRWtFTzU4ZzRuRTFpMlA2blRJZXBLajhYb0xmcnArV2wyd2ttVFdF?=
+ =?utf-8?B?d2JVZUp6eU94M1hjU0JaK05vbndqeDd3SGRJbXVTV3lWNG1kd2p1OGVaZ2M0?=
+ =?utf-8?B?S1FzUkdlOFlBd2pMM3NKeWxtNWxyVnBhWDJjWk5vQ1RZb3hBaXhySXROUmI4?=
+ =?utf-8?B?dkJvOGh4czcraVNueGtoS1FpKzhTbGdobnIxN1JqQTcySGtrbDhIVnN5VFJM?=
+ =?utf-8?B?d0NGclo1RHR3KzFtb1l5cGZIM1Q5aTNycU5XZ1lGVTJiQytuRnlRMkcrRVEr?=
+ =?utf-8?B?cDRiQzZxdUpYYUdlMDdmQ2paWVdoSyszN0taSWQ1NEVudTZEaXh6THZSdU5M?=
+ =?utf-8?B?WUxuOWpwa2VLMXh3dTF1WE5aKzR1YkVpQ3IyNk9XRmN1dHFIQUJocjU5TSt4?=
+ =?utf-8?B?Sm9vclI5YXoyQlBqVlNzZjRPNHNKdHZKQStlaDRIMEtPV0pSTEYzQTkvVkZo?=
+ =?utf-8?B?T2hIN1cwYm1ZTDZEM2FZMHJQNUx6R2hUUzdaTkY2NlNuOEt0UjZ5UzlSQTYw?=
+ =?utf-8?B?S0EvWGxxQ2VhUzg3eHVOVUpTY0V2K0RVdjE5dndKZFR0VFNaQ09aZHpDWm1y?=
+ =?utf-8?B?ZEZDdGZoWXJQRUlZS1E4VUlZUnVEY2ZvTUtsNm1tQkhwWHZGQkZhWFpITmFN?=
+ =?utf-8?B?M1FIbkM1cFhWTWJSTXk3RzR2RlUyZHZ4TlY2dFpybk9neW1pMmJjdmtYdDBr?=
+ =?utf-8?B?NmZGd09jMkl4b0MrWGpLNktOV01CRlNvMGd4Nk45cVl4SjUxTi9abGR0MVVa?=
+ =?utf-8?B?R2NGbStDZlBwa21PMWNxUEk0V3Z0OXdsZ2tlNy9ETlR2SWhhL2ZhV1VPQXBL?=
+ =?utf-8?B?UUdSMlU4b0o4RnV0K0tjQ0pCR0lhQzdmUS9pQlBoLzd6MmdFSXkyMGNGSCtF?=
+ =?utf-8?B?MlBwSWhVV3hVN0FKcWhTTXZyVzBJcFBnOFIzSUZsNmhBN1JMUW1lSGthUEph?=
+ =?utf-8?B?dnNXTXRXRGlRYjlMU2pVZ2llQXU3V3NWTDd2dkR0S3lhSFptNVRoMzU5cVJu?=
+ =?utf-8?B?dzAyT1oxMGVNZloyRUZiMGdNYzJ0U0xtNzNTcW5DUXYvV3RGWVJoejhjcnF3?=
+ =?utf-8?B?VkZPOUhqQ2U4UFFXNTFjNnlUbysvLytxMTdIUlNjR2JyeGVCVHV3UWNhdXZI?=
+ =?utf-8?B?WXNmeEYvUGhKd3dma2pBQUhjTzZ3TUZCTlg1dysxOFc5OUdhRzJtQ0pINlA2?=
+ =?utf-8?B?anBFclpldXJvenN3VkFpYW02dVkwTlJDM2h6U282UmVjTmZFRTlNUmpDcEdq?=
+ =?utf-8?B?VmdTakJHZEduNi8vejkxRmVEb1BvZlp1RkR4MDdOV1ViNW5YV2pnemtwcklZ?=
+ =?utf-8?B?SU01ajBtTk83U0dZVTdWK2oxZmgvKytSZm0wMEc4a1Q2SjlzZEwxa2t1WGlN?=
+ =?utf-8?B?blBsRUtUSWxySUlPc25BTXp1UEFlLzJVWVI2aTFGV2p3Z2pGVFlXT1ZVdFdr?=
+ =?utf-8?B?VmNPVHMwQ0ZjNW1sdXhUR0tUVThLYzh3a1dMOWdvNlF0UkZzSExXRVNMbk4v?=
+ =?utf-8?B?UENXY3JxeWFadE1lOEViR2Z2aDdrMEx1bzRMekpTVGdxL2dTUWlicTVFNFh4?=
+ =?utf-8?B?MENTVWpkL2xXek9ReVc2cG1abjBFeUFab0tndkU4UVZBUkRFSi9TRmVYZkZ0?=
+ =?utf-8?B?Z0RXWktVWUFrY3A2dEUyOWlpdUJPWkdYUWNGbzlxb2xCNmk3N0pFUmE0bm5s?=
+ =?utf-8?B?OVFxT2RVKytXOUhobVNuWDlpcHVyd1J5UWdCK0lCWWZBNmlmSW1Ncjl2UDVD?=
+ =?utf-8?B?ZWk3dXNTMFZMcmh1TjVUM2cvZ3h5V2d5V3dtSlJkVldlQkRPMFdjNk1tNzNI?=
+ =?utf-8?B?Mnd4Ky9DSGxwRkZEY3RzMkc5dVJDQk85SEg1cmRxdE13Z0Z1NW0rbkFYei9B?=
+ =?utf-8?B?dVVvMjgwU203Qkx4WVNMMHFDSVdWN0JHSzFtWHZNb2FFbG93UmhNN0h5N25h?=
+ =?utf-8?B?U1B3ZW5OTCt3U2tleDJYOW1ORHBxaXl5SVYxeEtQK2N2YXhIa0FuQmkvVmp0?=
+ =?utf-8?Q?7DQugdz+X1VIu2OXO+LPXIY=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AF6CB52B54D4FD4396F800806B1E7A94@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v2 06/14] drm/msm/gpu: Use dev_pm_opp_set_rate for non-GMU
- GPUs
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, agross@kernel.org
-References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
- <20230214173145.2482651-7-konrad.dybcio@linaro.org>
- <2e129fd6-d4e5-a955-5355-3ca71166fb33@linaro.org>
- <82c84ba4-ca33-3ce0-fe86-efedfce04cda@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <82c84ba4-ca33-3ce0-fe86-efedfce04cda@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2ca03f0-0276-48c4-726d-08db11d601cd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2023 17:31:45.3503 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cFDD++EO/WgODl2HyZYkoZLl67FesisMHGinO6EbyFGHZSB+d2Es6tk9p5RFWQdnf2IyRnZla65mZbn+uCqeu3ESHyj9fFgQFPGpmR2FR1Xz0IdAQAbQA+/dAhtAdCzZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5896
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,113 +161,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Dan Carpenter <error27@gmail.com>,
- Emma Anholt <emma@anholt.net>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>
+Cc: "justonli@chromium.org" <justonli@chromium.org>, "Ceraolo Spurio,
+ Daniele" <daniele.ceraolospurio@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/02/2023 13:04, Konrad Dybcio wrote:
-> 
-> 
-> On 17.02.2023 22:07, Dmitry Baryshkov wrote:
->> On 14/02/2023 19:31, Konrad Dybcio wrote:
->>> Currently we only utilize the OPP table connected to the GPU for
->>> getting (available) frequencies. We do however need to scale the
->>> voltage rail(s) accordingly to ensure that we aren't trying to
->>> run the GPU at 1GHz with a VDD_LOW vote, as that would result in
->>> an otherwise inexplainable hang.
->>>
->>> Tell the OPP framework that we want to scale the "core" clock
->>> and swap out the clk_set_rate to a dev_pm_opp_set_rate in
->>> msm_devfreq_target() to enable usage of required-opps and by
->>> extension proper voltage level/corner scaling.
->>>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/adreno/adreno_gpu.c | 4 ++++
->>>    drivers/gpu/drm/msm/msm_gpu_devfreq.c   | 2 +-
->>>    2 files changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> index ce6b76c45b6f..15e405e4f977 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>> @@ -1047,6 +1047,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>        const char *gpu_name;
->>>        u32 speedbin;
->>>    +    /* This can only be done here, or devm_pm_opp_set_supported_hw will WARN_ON() */
->>> +    if (!IS_ERR(devm_clk_get(dev, "core")))
->>> +        devm_pm_opp_set_clkname(dev, "core");
->>
->> Can we instead move a call to a6xx_set_supported_hw() / check_speed_bin after the adreno_gpu_init() ? It will call msm_gpu_init, which in turn sets gpu->core_clk.
->>
->> Ideally you can call devm_pm_opp_set_clkname() from that function.
-> 
-> 
->> Or maybe completely drop gpu->core_clk and always use devm_pm_opp_set_clk_rate().
-> That would break non-OPP targets, last of which were probably added N=big years ago..
-
-No. In the lack of OPP tables, dev_pm_opp_clk_set_rate() should behave 
-exactly like the clk_set_rate().
-
-> I'm not sure these would still work, as I think we've got rid of some ugly
-> clock getters that were looking for both "core" and "core_clk" etc.
-
-We still support core vs core_clk, see the get_clocks() at msm_gpu.c and 
-then msm_clk_bulk_get_clock(). However we might mimick this function and 
-call devm_pm_opp_set_clkname() with the proper name ("core" or "core_clk").
-
-> 
-> See 8db0b6c7b636376789e356d861c3c6c35dcb6913 for what seems to be the most recent
-> example of non-OPP.
-> 
-> IMX51/53 also have no OPP tables and are using the (AFAIK) now-defunct _clk-suffixed
-> clock-names.
-
-It works, I tested it during this cycle.
-
-> 
-> I'd be more than happy to rip out some of this legacy code and convert it
-> to something modern like OPP, but I'm not sure you guys would like it considering
-> the breakage on (arguably ancient and borderline retired) platforms.
-
-I think, we should try switching to OPP-for-everybody, granted the 
-promise of dev_pm_opp_set_clk_rate() being backwards compatible with 
-bare clk_set_rate().
-
-> 
-> This patch as-is "only" breaks non-OPP a5xx & a6xx (as they have .gpu_busy defined),
-> of which there are none..
-> 
->>
->>> +
->>>        adreno_gpu->funcs = funcs;
->>>        adreno_gpu->info = adreno_info(config->rev);
->>>        adreno_gpu->gmem = adreno_gpu->info->gmem;
->>> diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
->>> index e27dbf12b5e8..ea70c1c32d94 100644
->>> --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
->>> +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
->>> @@ -48,7 +48,7 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
->>>            gpu->funcs->gpu_set_freq(gpu, opp, df->suspended);
->>>            mutex_unlock(&df->lock);
->>>        } else {
->>> -        clk_set_rate(gpu->core_clk, *freq);
->>> +        dev_pm_opp_set_rate(dev, *freq);
->>
->> This is not enough, there are calls to clk_set_rate(gpu->core_clk) in msm_gpu.c which are called from the suspend/resume path.
-> Right, good catch.
-> 
-> Konrad
->>
->>>        }
->>>          dev_pm_opp_put(opp);
->>
-
--- 
-With best wishes
-Dmitry
-
+T24gVHVlLCAyMDIzLTAyLTE0IGF0IDEzOjM4IC0wODAwLCBUZXJlcyBBbGV4aXMsIEFsYW4gUHJl
+dmluIHdyb3RlOg0KPiBFbmFibGUgUFhQIHdpdGggTVRMLUdTQy1DUzogYWRkIHRoZSBoYXNfcHhw
+IGludG8gZGV2aWNlIGluZm8NCj4gYW5kIGluY3JlYXNlIHRoZSB0aW1lb3V0cyBmb3IgbmV3IEdT
+Qy1DUyArIGZpcm13YXJlIHNwZWNzLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQWxhbiBQcmV2aW4g
+PGFsYW4ucHJldmluLnRlcmVzLmFsZXhpc0BpbnRlbC5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9n
+cHUvZHJtL2k5MTUvaTkxNV9wY2kuYyAgICAgICAgICAgICAgfCAxICsNCj4gIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L3B4cC9pbnRlbF9weHBfc2Vzc2lvbi5jIHwgMiArLQ0KPiAgMiBmaWxlcyBjaGFu
+Z2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQphbGFuOnNuaXANCj4gQEAg
+LTQ0LDcgKzQ0LDcgQEAgc3RhdGljIGludCBweHBfd2FpdF9mb3Jfc2Vzc2lvbl9zdGF0ZShzdHJ1
+Y3QgaW50ZWxfcHhwICpweHAsIHUzMiBpZCwgYm9vbCBpbl9wbGENCj4gIAkJCQkgICAgICBLQ1Jf
+U0lQKHB4cC0+a2NyX2Jhc2UpLA0KPiAgCQkJCSAgICAgIG1hc2ssDQo+ICAJCQkJICAgICAgaW5f
+cGxheSA/IG1hc2sgOiAwLA0KPiAtCQkJCSAgICAgIDEwMCk7DQo+ICsJCQkJICAgICAgMjUwKTsN
+Cj4gIA0KPiAgCWludGVsX3J1bnRpbWVfcG1fcHV0KHVuY29yZS0+cnBtLCB3YWtlcmVmKTsNCj4g
+IA0KSSBoYXZlIHRvIG1pcnJvciB0aGlzIHRpbWVvdXQgY2hhbmdlIG9uIHRoZSBweHAtZGVidWdm
+cyBmb3IgZm9yY2VkIHRlYXJkb3duIHRlcm1pbmF0aW9uIChlbHNlIGl0IGltcGFjdHMgMyBvZiB0
+aGUgaWd0LXB4cCB0ZXN0cykuDQo=
