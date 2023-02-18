@@ -1,84 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E67C69B9FB
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 13:26:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B628769BA22
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 14:04:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEA310E1FC;
-	Sat, 18 Feb 2023 12:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0C2A10E4C1;
+	Sat, 18 Feb 2023 13:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCBBA10E201
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 12:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676723157;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RijZqlt6QPxnZ5qsCx6gnldqHryetV8XG7/DeGD2O5Y=;
- b=UT5cEKPmutgk7KsDPAfH9i/IEh31slq4azgIHIgcUFCpKr33cmVBzDqDouMhefyucAaSdQ
- tQK4h2htiTY+Y+YUzepBS5k6lAoSe9LQhChXQ1IXW+8JulYr15CzefJTMiw9XXN1816XML
- AQMMHbgVn5NPfGdmaR8mOqJAqbdU6gM=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-424-dxTIL7TbNQWhIcHBsQecaQ-1; Sat, 18 Feb 2023 07:25:56 -0500
-X-MC-Unique: dxTIL7TbNQWhIcHBsQecaQ-1
-Received: by mail-lj1-f198.google.com with SMTP id
- a41-20020a05651c212900b0029099954a31so140436ljq.3
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 04:25:56 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9909910E4C1
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 13:04:07 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id v11so1185589lft.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 05:04:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3N5WAzbRFEo6T4gVmAxjSh/Vc/Ea58u6XaJqPwHeVh4=;
+ b=U4IXj5fZbsqDGnnIHvFZjApawI7qJL91IjBv5k4Klvpgh7GQl6AdaUil67EYPWWXgo
+ 5qzdpVEqeRX4xOzpvzc4pKf7InKG6AWHme+BkdAoMHe8B+nmo461rqY3zraL5on846DP
+ gJOMYCVgu7xeuo1EPhlyvmP1+X4/D3pcaHvH0jr0X9A81wjmOXkFd2G3Hau5sbrLcsCY
+ r09p4VrVglNWHtBAm4Mzs/dKh8VpV43bBvYLS9ymwCkaq0ZyLAdQTHOzrp0OnTUIFARl
+ rrlN8H7+vUDN+jdo/2gUYb5KHNcW2oOCccSmZkDFRJ+QUwY82MuWqnjAJJtHH+BypEtW
+ Nylw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RijZqlt6QPxnZ5qsCx6gnldqHryetV8XG7/DeGD2O5Y=;
- b=Yf+G55PiTG25OsOI/057NE9liUin5SmQjdf+NkzK9U+h0Xyg0dvYraU6SO1f+f8Jko
- 7oYkyeLeuLotO+jBMKniJkbQ5uv13QArbFK8Q34ryiMbKeylD+CGOY+6wRhYgzc5YsNQ
- guQZnr4HeF3akku2q4zy/Z8c6t0364QECitBly7rkn4LGIR3MpoT/gxphbkr2bmE0FDn
- WFRK5f2COEMsLkS73A9zU8C/XiP7KFvz++DV2BJRdHWuAj3VQLfwL2SU7jgPzGOm4RaE
- snAQ+Tw9dOSMqcQwWqwkPM5tWrWtn3IezGr4psqeWYRJT/qKkMt7Dmr3+6V3igHYiK2m
- lWcA==
-X-Gm-Message-State: AO0yUKWDPf+fnNu3eB6hova7swfFxUDjBMC+BKVBhEsgp2Ie6EeqJstd
- KQBTPwUDrhxn7eIx0enlJInNZ2QJVw/t2MvPxOsT/Xyq5giqRGul5gE74fIb2ejBgM6VqrXWBsy
- R9oZ5BLn6rJWuSXaPXlo6yLjrimfO5oDzS+t7FzvkWomz
-X-Received: by 2002:ac2:46f8:0:b0:4db:38ba:618d with SMTP id
- q24-20020ac246f8000000b004db38ba618dmr1266297lfo.12.1676723154857; 
- Sat, 18 Feb 2023 04:25:54 -0800 (PST)
-X-Google-Smtp-Source: AK7set/Z7L8+b7P0J8LwiD8xHpb8nnAbtyDGwQ25yG4cizIYlJMz2FM+E2DWgrE9e6Ejw2J20Q2KybtR01oL+r0Zquw=
-X-Received: by 2002:ac2:46f8:0:b0:4db:38ba:618d with SMTP id
- q24-20020ac246f8000000b004db38ba618dmr1266288lfo.12.1676723154517; Sat, 18
- Feb 2023 04:25:54 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3N5WAzbRFEo6T4gVmAxjSh/Vc/Ea58u6XaJqPwHeVh4=;
+ b=qzBP7drkubSuNZQclU07C1AE/seILDxMJInos28BSFzzqFlb5W0Q90pk6DooCZl2uP
+ qQLqHPiY+SDCKN1waH/11HrzQ44jsIlxyagYel0yXdUpxHsJp87GMCo9ZH03qs+e41cn
+ PayM9GriSAdxBxPw5etsugOkpvIdyjK30P/SKbla1DwVmJqepGNj7xIP6wo8/mXj189I
+ 3CvDalc8uSOp/xJbFCz+USK6hjq8kDqW13uh/a9IGWHL/MfVc3+lVCaSPYiubZVugYHa
+ f5GqtiPe1zANAsNtPy4Fq9GI9eUxNF9s2g4zfQ7QNskmJrbcU6NgnEuIYopnmKft6f9o
+ Q7IA==
+X-Gm-Message-State: AO0yUKW5mGmk1773eJ4nikvhtDvsTinS7r2s3XM8nQFMfbYdnHgGaZ9V
+ XqTMaEroUzr6sw8TbhF4b3wxsw==
+X-Google-Smtp-Source: AK7set/gnKvtFmRzdwyC6P2wMI81d4vWwm6HjdeC7KtCbMNjaI4FGSQJ3mv5xfpjdnNPaUNiKYztuA==
+X-Received: by 2002:ac2:561b:0:b0:4b5:7096:23ff with SMTP id
+ v27-20020ac2561b000000b004b5709623ffmr1010457lfd.66.1676725445833; 
+ Sat, 18 Feb 2023 05:04:05 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ h18-20020ac250d2000000b004d865c781eesm980042lfm.24.2023.02.18.05.04.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Feb 2023 05:04:05 -0800 (PST)
+Message-ID: <417fe51e-1f35-53d4-0dd7-bbb01d5bd164@linaro.org>
+Date: Sat, 18 Feb 2023 15:04:04 +0200
 MIME-Version: 1.0
-References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
- <CACAvsv4sOtPjCVnEcKd2RCUqYWxSn5XKyksbS-Bds2qCqyusVw@mail.gmail.com>
- <1cdb84ac-f7a8-66ba-98fc-3db302b49a5a@googlemail.com>
- <dab6eb81-db3f-8fa1-84ad-9b40e209514b@googlemail.com>
- <CACAvsv5iYdF3P8AbyrbYo3zGmYRYhxDWn7WbAR5V9qHpbgBXRA@mail.gmail.com>
- <1632a9ef-2954-c8f0-cdc9-03157c9d8547@googlemail.com>
- <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
- <5cf46df8-0fa2-e9f5-aa8e-7f7f703d96dd@googlemail.com>
- <f72fe15b-db1d-56dd-aaf6-3cba68a8bf0a@leemhuis.info>
- <CACO55tvR4ydDOXt=9nbR3n2aFLKrj8zeuGRR_xpezVQBBLrjqg@mail.gmail.com>
- <a6188878-f84c-0fcc-9509-b9d7ab797f4c@leemhuis.info>
- <d031f0a5-8d5e-af51-6db6-11844de3eeba@googlemail.com>
- <CAPM=9tz+wksJTvMi_4Ef7XWezfH0ReN2se189s8Q=obJjHC+Fw@mail.gmail.com>
- <4e786e22-f17a-da76-5129-8fef0c7c825a@googlemail.com>
- <b829633e-ccc4-7a54-1cad-f29254de1251@leemhuis.info>
- <CACO55tsvM07_6mGU3dCgeji0a6B4JJKSDOOBuCHv2Mw3rYbCHg@mail.gmail.com>
- <181bea6a-e501-f5bd-b002-de7a244a921a@googlemail.com>
-In-Reply-To: <181bea6a-e501-f5bd-b002-de7a244a921a@googlemail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Sat, 18 Feb 2023 13:25:42 +0100
-Message-ID: <CACO55tsGXfy9-a-nexvcn7pnDGoEWXMqhiQEBwCDkGyOeT1sXQ@mail.gmail.com>
-Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
-To: Chris Clayton <chris2553@googlemail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v2 07/14] drm/msm/a6xx: Add support for A619_holi
+Content-Language: en-GB
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, agross@kernel.org
+References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
+ <20230214173145.2482651-8-konrad.dybcio@linaro.org>
+ <8268b4c9-ca5e-4ff3-628c-7e9daaeb16b0@linaro.org>
+ <9269c5dd-d97c-e29a-98a9-b42c598ebfc6@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <9269c5dd-d97c-e29a-98a9-b42c598ebfc6@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,131 +79,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- ML nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com,
- Ben Skeggs <skeggsb@gmail.com>
+Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
+ marijn.suijten@somainline.org, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 18, 2023 at 1:22 PM Chris Clayton <chris2553@googlemail.com> wrote:
->
->
->
-> On 15/02/2023 11:09, Karol Herbst wrote:
-> > On Wed, Feb 15, 2023 at 11:36 AM Linux regression tracking #update
-> > (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
-> >>
-> >> On 13.02.23 10:14, Chris Clayton wrote:
-> >>> On 13/02/2023 02:57, Dave Airlie wrote:
-> >>>> On Sun, 12 Feb 2023 at 00:43, Chris Clayton <chris2553@googlemail.com> wrote:
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> On 10/02/2023 19:33, Linux regression tracking (Thorsten Leemhuis) wrote:
-> >>>>>> On 10.02.23 20:01, Karol Herbst wrote:
-> >>>>>>> On Fri, Feb 10, 2023 at 7:35 PM Linux regression tracking (Thorsten
-> >>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
-> >>>>>>>>
-> >>>>>>>> On 08.02.23 09:48, Chris Clayton wrote:
-> >>>>>>>>>
-> >>>>>>>>> I'm assuming  that we are not going to see a fix for this regression before 6.2 is released.
-> >>>>>>>>
-> >>>>>>>> Yeah, looks like it. That's unfortunate, but happens. But there is still
-> >>>>>>>> time to fix it and there is one thing I wonder:
-> >>>>>>>>
-> >>>>>>>> Did any of the nouveau developers look at the netconsole captures Chris
-> >>>>>>>> posted more than a week ago to check if they somehow help to track down
-> >>>>>>>> the root of this problem?
-> >>>>>>>
-> >>>>>>> I did now and I can't spot anything. I think at this point it would
-> >>>>>>> make sense to dump the active tasks/threads via sqsrq keys to see if
-> >>>>>>> any is in a weird state preventing the machine from shutting down.
-> >>>>>>
-> >>>>>> Many thx for looking into it!
-> >>>>>
-> >>>>> Yes, thanks Karol.
-> >>>>>
-> >>>>> Attached is the output from dmesg when this block of code:
-> >>>>>
-> >>>>>         /bin/mount /dev/sda7 /mnt/sda7
-> >>>>>         /bin/mountpoint /proc || /bin/mount /proc
-> >>>>>         /bin/dmesg -w > /mnt/sda7/sysrq.dmesg.log &
-> >>>>>         /bin/echo t > /proc/sysrq-trigger
-> >>>>>         /bin/sleep 1
-> >>>>>         /bin/sync
-> >>>>>         /bin/sleep 1
-> >>>>>         kill $(pidof dmesg)
-> >>>>>         /bin/umount /mnt/sda7
-> >>>>>
-> >>>>> is executed immediately before /sbin/reboot is called as the final step of rebooting my system.
-> >>>>>
-> >>>>> I hope this is what you were looking for, but if not, please let me know what you need
-> >>>
-> >>> Thanks Dave. [...]
-> >> FWIW, in case anyone strands here in the archives: the msg was
-> >> truncated. The full post can be found in a new thread:
-> >>
-> >> https://lore.kernel.org/lkml/e0b80506-b3cf-315b-4327-1b988d86031e@googlemail.com/
-> >>
-> >> Sadly it seems the info "With runpm=0, both reboot and poweroff work on
-> >> my laptop." didn't bring us much further to a solution. :-/ I don't
-> >> really like it, but for regression tracking I'm now putting this on the
-> >> back-burner, as a fix is not in sight.
-> >>
-> >> #regzbot monitor:
-> >> https://lore.kernel.org/lkml/e0b80506-b3cf-315b-4327-1b988d86031e@googlemail.com/
-> >> #regzbot backburner: hard to debug and apparently rare
-> >> #regzbot ignore-activity
-> >>
-> >
-> > yeah.. this bug looks a little annoying. Sadly the only Turing based
-> > laptop I got doesn't work on Nouveau because of firmware related
-> > issues and we probably need to get updated ones from Nvidia here :(
-> >
-> > But it's a bit weird that the kernel doesn't shutdown, because I don't
-> > see anything in the logs which would prevent that from happening.
-> > Unless it's waiting on one of the tasks to complete, but none of them
-> > looked in any way nouveau related.
-> >
-> > If somebody else has any fancy kernel debugging tips here to figure
-> > out why it hangs, that would be very helpful...
-> >
->
-> I think I've figured this out. It's to do with how my system is configured. I do have an initrd, but the only thing on
-> it is the cpu microcode which, it is recommended, should be loaded early. The absence of the NVidia firmare from an
-> initrd doesn't matter because the drivers for the hardware that need to load firmware are all built as modules, So, by
-> the time the devices are configured via udev, the root partition is mounted and the drivers can get at the firmware.
->
-> I've found, by turning on nouveau debug and taking a video of the screen as the system shuts down, that nouveau seems to
-> be trying to run the scrubber very very late in the shutdown process. The problem is that by this time, I think the root
-> partition, and thus the scrubber binary, have become inaccessible.
->
-> I seem to have two choices - either make the firmware accessible on an initrd or unload the module in a shutdown script
-> before the scrubber binary becomes inaccessible. The latter of these is the workaround I have implemented whilst the
-> problem I reported has been under investigation. For simplicity, I think I'll promote my workaround to being the
-> permanent solution.
->
-> So, apologies (and thanks) to everyone whose time I have taken up with this non-bug.
->
+On 17/02/2023 23:21, Konrad Dybcio wrote:
+> 
+> 
+> On 17.02.2023 22:19, Dmitry Baryshkov wrote:
+>> On 14/02/2023 19:31, Konrad Dybcio wrote:
+>>> A619_holi is a GMU-less variant of the already-supported A619 GPU.
+>>> It's present on at least SM4350 (holi) and SM6375 (blair). No mesa
+>>> changes are required. Add the required kernel-side support for it.
+>>>
+>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 37 +++++++++++++++++-----
+>>>    drivers/gpu/drm/msm/adreno/adreno_device.c | 13 ++++++++
+>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
+>>>    3 files changed, 47 insertions(+), 8 deletions(-)
 
-Well.. nouveau shouldn't prevent the system from shutting down if the
-firmware file isn't available. Or at least it should print a
-warning/error. Mind messing with the code a little to see if skipping
-it kind of works? I probably can also come up with a patch by next
-week.
+[...]
 
-> Chris
->
-> >> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> >> --
-> >> Everything you wanna know about Linux kernel regression tracking:
-> >> https://linux-regtracking.leemhuis.info/about/#tldr
-> >> That page also explains what to do if mails like this annoy you.
-> >>
-> >> #regzbot ignore-activity
-> >>
-> >
->
+
+>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>> index 82757f005a1a..71faeb3fd466 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>> @@ -264,6 +264,19 @@ static const struct adreno_info gpulist[] = {
+>>>            .gmem = SZ_512K,
+>>>            .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>>>            .init = a6xx_gpu_init,
+>>> +    }, {
+>>> +        .rev = ADRENO_REV(6, 1, 9, 1),
+>>
+>> I think this deserves a comment that GMU-enabled sm6350 has patch_id 0 (if I interpreted the vendor dtsi correctly).
+>>
+>> Another option might be to actually check for the qcom,gmu presense and add that to the selection conditional.
+> We pass the GMU wrapper in qcom,gmu = <>, though perhaps setting
+> the holi-ness based on whether it's "qcom,gmu-x.y.z.a" or
+> "qcom,gmu-wrapper" would be wiser.. The patch ID is indeterminate
+> and I *think* one GMU-wrapper A619 has patch id 0..
+
+I was not aware that GMU-wrapper also adds a GMU device. In this case, 
+checking the GMU's compatible strings sounds like a logical approach to me.
+
+> 
+> Konrad
+>>
+>>> +        .revn = 619,
+>>> +        .name = "A619_holi",
+>>> +        .fw = {
+>>> +            [ADRENO_FW_SQE] = "a630_sqe.fw",
+>>> +        },
+>>> +        .gmem = SZ_512K,
+>>> +        .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>>> +        .quirks = ADRENO_QUIRK_GMU_WRAPPER,
+>>> +        .init = a6xx_gpu_init,
+>>> +        .zapfw = "a615_zap.mdt",
+>>> +        .hwcg = a615_hwcg,
+>>>        }, {
+>>>            .rev = ADRENO_REV(6, 1, 9, ANY_ID),
+>>>            .revn = 619,
+>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>> index 7c5e0a90b5fb..16241368c2e4 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>> @@ -252,6 +252,11 @@ static inline int adreno_is_a619(struct adreno_gpu *gpu)
+>>>        return gpu->revn == 619;
+>>>    }
+>>>    +static inline int adreno_is_a619_holi(struct adreno_gpu *gpu)
+>>> +{
+>>> +    return adreno_is_a619(gpu) && adreno_has_gmu_wrapper(gpu);
+>>> +}
+>>> +
+>>>    static inline int adreno_is_a630(struct adreno_gpu *gpu)
+>>>    {
+>>>        return gpu->revn == 630;
+>>
+
+-- 
+With best wishes
+Dmitry
 
