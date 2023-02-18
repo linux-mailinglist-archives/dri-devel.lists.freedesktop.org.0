@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6671269BC3F
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 22:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D1269BC3D
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 22:16:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E98CE10E57B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7948A10E579;
 	Sat, 18 Feb 2023 21:16:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8DF610E565;
- Sat, 18 Feb 2023 21:16:02 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id 8so355581pge.10;
- Sat, 18 Feb 2023 13:16:02 -0800 (PST)
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 379BC10E56E;
+ Sat, 18 Feb 2023 21:16:04 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ nb7-20020a17090b35c700b0023058bbd7b2so1389164pjb.0; 
+ Sat, 18 Feb 2023 13:16:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5Jl0bAAXIZTjQ7NsDAeqTzIEhvjQzgg5/X7BsK4u81Y=;
- b=Ypm3OEaEuberWEEJkwjckxIjd/fHXeD+UsK2sNxPfOh4VXSeIeHxGyby2GuFmyckgB
- DPDPfvmi2uvJ7m2w9ZXK3H1Ekv2+II/tBc0aGXy3LefRYqgovm0DXtFUG/3/66OJN4iE
- YqOAZ7tRtVL4IMhiN+VmmAehUqGvglfHf9UTRFLCXJlwg8IMcrNqpT87lm7YhFL2srhA
- /yf3cvPBlakDzzA63dLpzDbxyi8W6tpPJBgG/p8y808RF05uk0cx38i6cB7r5fBCuZdJ
- JXI1niL29wo25W9KmsKxhyFpm2IP/w+0LZnJz4MIoDp2aP//Ap8lQlE41lyS6/oyFtPJ
- 1IUA==
+ bh=9yF21jz9Wf1+ysDiZnumY8mp3PUToyh/n6nr/hm38/k=;
+ b=o3KZu6xCZhOx8yKLO3mCPTkTO6tIsRYmbOCGeJBqVniPc0jFqnNjoHWeefirhtUCQD
+ TMs4eZTOs8KhFyvy1g7Y9zc5kpRNWaU+YjrhCI0IjZKJHAefvOW94v4Dvkm0LEbtvHuu
+ vzxcd1WXm9wrdxUdbR7dY2ZQ2XClD6c5Gn77V1jB543GNPc7fQn2yq5/fobhwsvghKil
+ 2LcGEX1LDJhLA9cS8/Eq6f+d05FvrxWhwhn9n4RxA6yLI8lNL9gy4vMuECMYp3adFLxY
+ jFsUaLS6DZPqaOrW6zXMPOxhyfe3J7t7Zryk/soeD4VzpBWEKQhlxetBTVeAudYUDL07
+ N2HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5Jl0bAAXIZTjQ7NsDAeqTzIEhvjQzgg5/X7BsK4u81Y=;
- b=6mcgwadx7PUNZ6T9A+YrmYypmdlWG0+S4LDB80y4cLepmSHvQnd9hKnRxLSgLsczP7
- VZ2uO3DOLZlTfNlD7YVqER7Fk+UCP2W+JUweMXObT8kLvTMwYpCTmns4u7nU2MsW6tlZ
- LDKG69U8B5r3HLhveN7kdW6LglAXE27Zn8NWaUvCfXScDlelBfoN+aujGtYg6TtdI81T
- tutXLmPI6tepLxxVd2vdEY2h/ZePwoPBY0bZqzQbtlrZNyCxPaELT05BY35UzU+vl8WG
- HaoKdy1/bnM8Hz9ek6olFVmEI2h5ze1BLXD/C5LtlKjqvgSAKCEfGuQSCMlW5VPaCE1z
- AxHg==
-X-Gm-Message-State: AO0yUKUlo6EZGOHxgA/HlDWvNnfcelIxmY1w5YN0W0SUzGLT5tLyg9hU
- a4YZDi9YmEdZd0QkqGlLhi1ax8x0Iuk=
-X-Google-Smtp-Source: AK7set9pC4wrkPL0tafLapsDNCmKgteFtOwdub9yogT8Dwsv0vCa2ZO4cR/0UWRxya11wooq0NMxTA==
-X-Received: by 2002:a05:6a00:4106:b0:5a8:9858:750a with SMTP id
- bu6-20020a056a00410600b005a89858750amr9007439pfb.13.1676754962150; 
- Sat, 18 Feb 2023 13:16:02 -0800 (PST)
+ bh=9yF21jz9Wf1+ysDiZnumY8mp3PUToyh/n6nr/hm38/k=;
+ b=EqCfoeLgCcpvOROepszYjVmt18KPlwjyQ9N3n31vkFbjvVpR7jOapfinGZ55j7bD63
+ CkFsYF5+BcE0dwaoEJEfxRPcba5XmMksYam8R0PzzapgjrrY7dlJLQFOiD+8qFg/POAx
+ h5ebbulY28VYLu4v0Q8BqOqgHm/LL+1TviqJSeVwB8zPOHNKueWUDCHgVNC4o5uvu7Wq
+ mYzJopmV+MTgFx6S++RFnWrM2g36/89hAc8vVG13/k/mYBMYsMaSIdRhS9HebcPNFGlG
+ 55HRjgC1B3FN4bu8+pWjzmGTPl7C4Pa62G1W2is+IcPfQLy4naEMIxxTLeanxatlIf0L
+ /y6Q==
+X-Gm-Message-State: AO0yUKVwZNOTy353wHfkaAd8f1L/HtGkxBdLdhxLDbgscArbQbw973NW
+ nUSSNEcfFX1wVzHH97LuwBzOb/S0Rnc=
+X-Google-Smtp-Source: AK7set/CikEflsQKGjABB3qCsM3+X57SWJofwv3VcrtlhsrKcTwjJR9A6EG4N9La9GuATGYrx2hX2w==
+X-Received: by 2002:a17:902:cf52:b0:19a:7c7d:7180 with SMTP id
+ e18-20020a170902cf5200b0019a7c7d7180mr3479908plg.34.1676754963579; 
+ Sat, 18 Feb 2023 13:16:03 -0800 (PST)
 Received: from localhost (c-73-67-135-195.hsd1.or.comcast.net. [73.67.135.195])
  by smtp.gmail.com with ESMTPSA id
- s26-20020aa78d5a000000b0058dbb5c5038sm4957450pfe.182.2023.02.18.13.16.01
+ i3-20020a170902c28300b0019251e959b1sm5033341pld.262.2023.02.18.13.16.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Feb 2023 13:16:01 -0800 (PST)
+ Sat, 18 Feb 2023 13:16:03 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 10/14] drm/vblank: Add helper to get next vblank time
-Date: Sat, 18 Feb 2023 13:15:53 -0800
-Message-Id: <20230218211608.1630586-11-robdclark@gmail.com>
+Subject: [PATCH v4 11/14] drm/atomic-helper: Set fence deadline for vblank
+Date: Sat, 18 Feb 2023 13:15:54 -0800
+Message-Id: <20230218211608.1630586-12-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230218211608.1630586-1-robdclark@gmail.com>
 References: <20230218211608.1630586-1-robdclark@gmail.com>
@@ -75,7 +76,8 @@ Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, Pekka Paalanen <ppaalanen@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Pekka Paalanen <ppaalanen@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -83,70 +85,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Will be used in the next commit to set a deadline on fences that an
-atomic update is waiting on.
+For an atomic commit updating a single CRTC (ie. a pageflip) calculate
+the next vblank time, and inform the fence(s) of that deadline.
+
+v2: Comment typo fix (danvet)
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/drm_vblank.c | 32 ++++++++++++++++++++++++++++++++
- include/drm/drm_vblank.h     |  1 +
- 2 files changed, 33 insertions(+)
+ drivers/gpu/drm/drm_atomic_helper.c | 36 +++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 2ff31717a3de..caf25ebb34c5 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -980,6 +980,38 @@ u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index d579fd8f7cb8..35a4dc714920 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1511,6 +1511,40 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
  }
- EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+ EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
  
-+/**
-+ * drm_crtc_next_vblank_time - calculate the time of the next vblank
-+ * @crtc: the crtc for which to calculate next vblank time
-+ * @vblanktime: pointer to time to receive the next vblank timestamp.
-+ *
-+ * Calculate the expected time of the next vblank based on time of previous
-+ * vblank and frame duration
++/*
++ * For atomic updates which touch just a single CRTC, calculate the time of the
++ * next vblank, and inform all the fences of the deadline.
 + */
-+int drm_crtc_next_vblank_time(struct drm_crtc *crtc, ktime_t *vblanktime)
++static void set_fence_deadline(struct drm_device *dev,
++			       struct drm_atomic_state *state)
 +{
-+	unsigned int pipe = drm_crtc_index(crtc);
-+	struct drm_vblank_crtc *vblank = &crtc->dev->vblank[pipe];
-+	u64 count;
++	struct drm_crtc *crtc, *wait_crtc = NULL;
++	struct drm_crtc_state *new_crtc_state;
++	struct drm_plane *plane;
++	struct drm_plane_state *new_plane_state;
++	ktime_t vbltime;
++	int i;
 +
-+	if (!vblank->framedur_ns)
-+		return -EINVAL;
++	for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
++		if (wait_crtc)
++			return;
++		wait_crtc = crtc;
++	}
 +
-+	count = drm_vblank_count_and_time(crtc->dev, pipe, vblanktime);
++	/* If no CRTCs updated, then nothing to do: */
++	if (!wait_crtc)
++		return;
 +
-+	/*
-+	 * If we don't get a valid count, then we probably also don't
-+	 * have a valid time:
-+	 */
-+	if (!count)
-+		return -EINVAL;
++	if (drm_crtc_next_vblank_time(wait_crtc, &vbltime))
++		return;
 +
-+	*vblanktime = ktime_add(*vblanktime, ns_to_ktime(vblank->framedur_ns));
-+
-+	return 0;
++	for_each_new_plane_in_state (state, plane, new_plane_state, i) {
++		if (!new_plane_state->fence)
++			continue;
++		dma_fence_set_deadline(new_plane_state->fence, vbltime);
++	}
 +}
-+EXPORT_SYMBOL(drm_crtc_next_vblank_time);
 +
- static void send_vblank_event(struct drm_device *dev,
- 		struct drm_pending_vblank_event *e,
- 		u64 seq, ktime_t now)
-diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
-index 733a3e2d1d10..a63bc2c92f3c 100644
---- a/include/drm/drm_vblank.h
-+++ b/include/drm/drm_vblank.h
-@@ -230,6 +230,7 @@ bool drm_dev_has_vblank(const struct drm_device *dev);
- u64 drm_crtc_vblank_count(struct drm_crtc *crtc);
- u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
- 				   ktime_t *vblanktime);
-+int drm_crtc_next_vblank_time(struct drm_crtc *crtc, ktime_t *vblanktime);
- void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
- 			       struct drm_pending_vblank_event *e);
- void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
+ /**
+  * drm_atomic_helper_wait_for_fences - wait for fences stashed in plane state
+  * @dev: DRM device
+@@ -1540,6 +1574,8 @@ int drm_atomic_helper_wait_for_fences(struct drm_device *dev,
+ 	struct drm_plane_state *new_plane_state;
+ 	int i, ret;
+ 
++	set_fence_deadline(dev, state);
++
+ 	for_each_new_plane_in_state(state, plane, new_plane_state, i) {
+ 		if (!new_plane_state->fence)
+ 			continue;
 -- 
 2.39.1
 
