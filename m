@@ -1,51 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF8869B684
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 00:48:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE70869B750
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 02:06:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE5010E47F;
-	Fri, 17 Feb 2023 23:48:05 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88CD110E05E;
- Fri, 17 Feb 2023 23:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF82210E49C;
+	Sat, 18 Feb 2023 01:06:47 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 530AB10E498;
+ Sat, 18 Feb 2023 01:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676677683; x=1708213683;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=BD+NISiSWRGWfGLMIn5qOeTC2TBwMDzoVonyaEJW9js=;
- b=RS+5wLnWKgw/t3JQB3Gc032anxxYxVF0NSupsfKtVRYZxwRK/g9uvN8i
- 4x3ZMwrlV9/a/Z6QYanFIOqzSzI5Q5Ga7p3sfXsLAE/OTA1f7iLbKKOgy
- OLgiD2Xv+B9vAzewZYeopUrFxk7tJGCf12eJiVrK5eY9XAcQbHMikGByZ
- 49jo4guHeXTl7WGSuhM/foFGdlBNzQVmzwSjO+K7rC/Cd3fhJfs0LqEki
- MLmXktsW3Ympp8Jxjrv71d4I4jg9a4WLVoG9USjJ77zXbpUrdcPU4EO6C
- nEENg1bfQl1RH+UO2xBM6/4kqApOD639VpIt8cYhBYGaFwNfpzXyOaWRN g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="394600973"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="394600973"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2023 15:48:02 -0800
+ t=1676682406; x=1708218406;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yqcTpH8JDrzqr0UESTfYfiiFLiZTLM14iR9yAw77QO8=;
+ b=JaP28DAG029Tj0MnNd60e7Jey7werqIdkCqopd4PsVTSRysBpV7Czdml
+ 6OXnVCNhf+3XNZ6P1GTzwWuEn0FcNL1p+746uBdSpjBt445ByE3p6wVnc
+ nYfeu5HH4Wosmt8ItAjuC1Wfvqux4w2GIfLxH1WHB5UKQs5KL98JMbTSF
+ mh3A4Z/J39aafRchsNUpAEIVj08BDq9MaDQnhieCqam4QXEH91OSZtSlB
+ 9haqUuQ/u5nvgVtn31R+PhQv7q3aMXuP+nY4342CvrbtcFmfXKavObXQE
+ g6X/I5QSHn5gBB3VWaeD9/9GiLMRBs1MH0Hg53DzFHUvDcRw/sFMucbjU Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="396806827"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="396806827"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2023 17:06:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="739427160"
-X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="739427160"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by fmsmga004.fm.intel.com with ESMTP; 17 Feb 2023 15:47:56 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH 2/2] drm/i915/guc: Allow for very slow GuC loading
-Date: Fri, 17 Feb 2023 15:47:15 -0800
-Message-Id: <20230217234715.3609670-3-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230217234715.3609670-1-John.C.Harrison@Intel.com>
-References: <20230217234715.3609670-1-John.C.Harrison@Intel.com>
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="734496298"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="734496298"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+ by fmsmga008.fm.intel.com with ESMTP; 17 Feb 2023 17:06:40 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pTBgV-000BxN-1w;
+ Sat, 18 Feb 2023 01:06:39 +0000
+Date: Sat, 18 Feb 2023 09:05:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+ christian.koenig@amd.com, bskeggs@redhat.com,
+ Liam.Howlett@oracle.com, matthew.brost@intel.com,
+ boris.brezillon@collabora.com, alexdeucher@gmail.com,
+ ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+ jason@jlekstrand.net
+Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <202302180805.b0ab40V5-lkp@intel.com>
+References: <20230217134422.14116-6-dakr@redhat.com>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230217134422.14116-6-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,106 +66,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Danilo Krummrich <dakr@redhat.com>,
+ oe-kbuild-all@lists.linux.dev, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Hi Danilo,
 
-A failure to load the GuC is occasionally observed where the GuC log
-actually showed that the GuC had loaded just fine. The implication
-being that the load just took ever so slightly longer than the 200ms
-timeout. Given that the actual time should be tens of milliseconds at
-the slowest, this should never happen. So far the issue has generally
-been caused by a bad IFWI resulting in low frequencies during boot
-(depsite the KMD requesting max frequency). However, the issue seems
-to happen more often than one would like.
+Thank you for the patch! Perhaps something to improve:
 
-So a) increase the timeout so that the user still gets a working
-system even in the case of slow load. And b) report the frequency
-during the load to see if that is the case of the slow down.
+[auto build test WARNING on 48075a66fca613477ac1969b576a93ef5db0164f]
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 37 +++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 3 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230217-215101
+base:   48075a66fca613477ac1969b576a93ef5db0164f
+patch link:    https://lore.kernel.org/r/20230217134422.14116-6-dakr%40redhat.com
+patch subject: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA mappings
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302180805.b0ab40V5-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/00132cc92b6745cfd51c0d5df4c246a848f2ceaa
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230217-215101
+        git checkout 00132cc92b6745cfd51c0d5df4c246a848f2ceaa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-index 2f5942606913d..72e003f50617d 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
-@@ -12,6 +12,7 @@
- #include "gt/intel_gt.h"
- #include "gt/intel_gt_mcr.h"
- #include "gt/intel_gt_regs.h"
-+#include "gt/intel_rps.h"
- #include "intel_guc_fw.h"
- #include "intel_guc_print.h"
- #include "i915_drv.h"
-@@ -139,9 +140,12 @@ static int guc_wait_ucode(struct intel_guc *guc)
- {
- 	struct intel_gt *gt = guc_to_gt(guc);
- 	struct intel_uncore *uncore = gt->uncore;
-+	ktime_t before, after, delta;
- 	bool success;
- 	u32 status;
--	int ret;
-+	int ret, count;
-+	u64 delta_ms;
-+	u32 before_freq;
- 
- 	/*
- 	 * Wait for the GuC to start up.
-@@ -159,13 +163,32 @@ static int guc_wait_ucode(struct intel_guc *guc)
- 	 * issues to be resolved. In the meantime bump the timeout to
- 	 * 200ms. Even at slowest clock, this should be sufficient. And
- 	 * in the working case, a larger timeout makes no difference.
-+	 *
-+	 * IFWI updates have also been seen to cause sporadic failures due to
-+	 * the requested frequency not being granted and thus the firmware
-+	 * load is attempted at minimum frequency. That can lead to load times
-+	 * in the seconds range. However, there is a limit on how long an
-+	 * individual wait_for() can wait. So wrap it in a loop.
- 	 */
--	ret = wait_for(guc_load_done(uncore, &status, &success), 200);
-+	before_freq = intel_rps_read_actual_frequency(&uncore->gt->rps);
-+	before = ktime_get();
-+	for (count = 0; count < 20; count++) {
-+		ret = wait_for(guc_load_done(uncore, &status, &success), 1000);
-+		if (!ret || !success)
-+			break;
-+
-+		guc_dbg(guc, "load still in progress, count = %d, freq = %dMHz\n",
-+			count, intel_rps_read_actual_frequency(&uncore->gt->rps));
-+	}
-+	after = ktime_get();
-+	delta = ktime_sub(after, before);
-+	delta_ms = ktime_to_ms(delta);
- 	if (ret || !success) {
- 		u32 ukernel = REG_FIELD_GET(GS_UKERNEL_MASK, status);
- 		u32 bootrom = REG_FIELD_GET(GS_BOOTROM_MASK, status);
- 
--		guc_info(guc, "load failed: status = 0x%08X, ret = %d\n", status, ret);
-+		guc_info(guc, "load failed: status = 0x%08X, time = %lldms, freq = %dMHz, ret = %d\n",
-+			 status, delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps), ret);
- 		guc_info(guc, "load failed: status: Reset = %d, BootROM = 0x%02X, UKernel = 0x%02X, MIA = 0x%02X, Auth = 0x%02X\n",
- 			 REG_FIELD_GET(GS_MIA_IN_RESET, status),
- 			 bootrom, ukernel,
-@@ -206,6 +229,14 @@ static int guc_wait_ucode(struct intel_guc *guc)
- 		/* Uncommon/unexpected error, see earlier status code print for details */
- 		if (ret == 0)
- 			ret = -ENXIO;
-+	} else if (delta_ms > 200) {
-+		guc_warn(guc, "excessive init time: %lldms! [freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d]\n",
-+			 delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps),
-+			 before_freq, status, count, ret);
-+	} else {
-+		guc_dbg(guc, "init took %lldms, freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d\n",
-+			delta_ms, intel_rps_read_actual_frequency(&uncore->gt->rps),
-+			before_freq, status, count, ret);
- 	}
- 
- 	return ret;
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302180805.b0ab40V5-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_gpuva_mgr.c:1383:5: warning: no previous prototype for 'drm_gpuva_sm_step' [-Wmissing-prototypes]
+    1383 | int drm_gpuva_sm_step(struct drm_gpuva_op *__op, void *priv)
+         |     ^~~~~~~~~~~~~~~~~
+--
+>> drivers/gpu/drm/drm_gpuva_mgr.c:529: warning: expecting prototype for drm_gpuva_remove_iter(). Prototype was for drm_gpuva_iter_remove() instead
+   drivers/gpu/drm/drm_gpuva_mgr.c:549: warning: Excess function parameter 'addr' description in 'drm_gpuva_insert'
+   drivers/gpu/drm/drm_gpuva_mgr.c:549: warning: Excess function parameter 'range' description in 'drm_gpuva_insert'
+   drivers/gpu/drm/drm_gpuva_mgr.c:765: warning: Excess function parameter 'addr' description in 'drm_gpuva_region_insert'
+   drivers/gpu/drm/drm_gpuva_mgr.c:765: warning: Excess function parameter 'range' description in 'drm_gpuva_region_insert'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1345: warning: Excess function parameter 'ops' description in 'drm_gpuva_sm_unmap'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1589: warning: Function parameter or member 'addr' not described in 'drm_gpuva_prefetch_ops_create'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1589: warning: Function parameter or member 'range' not described in 'drm_gpuva_prefetch_ops_create'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1589: warning: Excess function parameter 'req_addr' description in 'drm_gpuva_prefetch_ops_create'
+   drivers/gpu/drm/drm_gpuva_mgr.c:1589: warning: Excess function parameter 'req_range' description in 'drm_gpuva_prefetch_ops_create'
+
+
+vim +/drm_gpuva_sm_step +1383 drivers/gpu/drm/drm_gpuva_mgr.c
+
+  1382	
+> 1383	int drm_gpuva_sm_step(struct drm_gpuva_op *__op, void *priv)
+  1384	{
+  1385		struct {
+  1386			struct drm_gpuva_manager *mgr;
+  1387			struct drm_gpuva_ops *ops;
+  1388		} *args = priv;
+  1389		struct drm_gpuva_manager *mgr = args->mgr;
+  1390		struct drm_gpuva_ops *ops = args->ops;
+  1391		struct drm_gpuva_op *op;
+  1392	
+  1393		op = gpuva_op_alloc(mgr);
+  1394		if (unlikely(!op))
+  1395			goto err;
+  1396	
+  1397		memcpy(op, __op, sizeof(*op));
+  1398	
+  1399		if (op->op == DRM_GPUVA_OP_REMAP) {
+  1400			struct drm_gpuva_op_remap *__r = &__op->remap;
+  1401			struct drm_gpuva_op_remap *r = &op->remap;
+  1402	
+  1403			r->unmap = kmemdup(__r->unmap, sizeof(*r->unmap),
+  1404					   GFP_KERNEL);
+  1405			if (unlikely(!r->unmap))
+  1406				goto err_free_op;
+  1407	
+  1408			if (__r->prev) {
+  1409				r->prev = kmemdup(__r->prev, sizeof(*r->prev),
+  1410						  GFP_KERNEL);
+  1411				if (unlikely(!r->prev))
+  1412					goto err_free_unmap;
+  1413			}
+  1414	
+  1415			if (__r->next) {
+  1416				r->next = kmemdup(__r->next, sizeof(*r->next),
+  1417						  GFP_KERNEL);
+  1418				if (unlikely(!r->next))
+  1419					goto err_free_prev;
+  1420			}
+  1421		}
+  1422	
+  1423		list_add_tail(&op->entry, &ops->list);
+  1424	
+  1425		return 0;
+  1426	
+  1427	err_free_unmap:
+  1428		kfree(op->remap.unmap);
+  1429	err_free_prev:
+  1430		kfree(op->remap.prev);
+  1431	err_free_op:
+  1432		gpuva_op_free(mgr, op);
+  1433	err:
+  1434		return -ENOMEM;
+  1435	}
+  1436	
+
 -- 
-2.39.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
