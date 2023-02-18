@@ -2,68 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A6469B9AC
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 12:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B37A69B9BA
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 12:23:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E41210E4A7;
-	Sat, 18 Feb 2023 11:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2723110E4AB;
+	Sat, 18 Feb 2023 11:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A6810E4A4
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 11:17:50 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id x8so217134pfn.12
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 03:17:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DSUXhwP2T6y6hqUphQwZzIcqD97JaNMTBQcCPNpA7ZY=;
- b=K1ebpzy7sQJrifSr7e6YnSVeGJ8lDRR1yYZfXCzj4juhrWWGZvln6tIvaFW84W9fZD
- wwL7IzYZEc5IuBLUQ/9hdp5vkMg4XPS+XJ5eNBEEUN8+491hL4ySB+6rQN2X3UgwwSYV
- EAat6KZ08pXwtENkeDMWN8OHzDCPuqNLH2C3E=
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2666E10E4A4
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 11:23:19 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id b1so776968lfs.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 03:23:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zXrmfYPtbD+a4mYWOw7gzX5blmN63cfug46pUteyx84=;
+ b=kzgT7ub+8SeOW/sL4cVFBuzPnNqoM6WqL8uiNYdBNlvtGlgd5lAOwrqaThKyUtzI6q
+ hZPQ++Wa9Bdv294jRq4J9JThEpkCGjTVN/gjjmPdJBTIlwxde9hPV4HU3+iL4zJCiRh7
+ s2aJ0gekWlA7msRBLxF/MznErWfBfNzq/Mz3p8dssISUc70jYCJU1FcC0v5ctD+0KdUX
+ ++eferbxRB4BEpZRn/gvHYPjkeUD88GbtQW7C8PS2zo8EOMuAgDxFCi4rluIgPqPVepn
+ V7+Vrj2qW7APxl6KjZnwP03e9dmotmyN2gGqQn1nuUphnePzLuUcY9T2RSG8YvhrdKSj
+ hEDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DSUXhwP2T6y6hqUphQwZzIcqD97JaNMTBQcCPNpA7ZY=;
- b=nIAEdAXEfZtxtpkyj7/DZLT0iumkMECyyCGtbSOfXsxvZ6yeW9TCYlEh7XLFM9D3Dv
- eWJpUqESJYlCF5mcAYfvmsgEBaso1qw23mYkUhAvuHvKu0LhDsnVyCM9BoADBt/kJYVv
- Dj+Z9OXZ385i5N3oV57Ro2xudRQy/iDfLuJ57m6Knbc/UqLKOGJ5dHXNe3oy8jTQx4eI
- X7YpIEK9MYBvOmViBNYZ3Y/5gcBdD/BFOwvuN4v51HJfjlELAZILMCSVgtRXqORiKlcY
- 9z781RZxavmRq3ZS8H+pj1vQQC03D8eagQu8wmBiYFfsL8XRyLnBZsd8DaA1AQelkGIx
- P3yg==
-X-Gm-Message-State: AO0yUKUXmUdfPAJLAhIebB5y3WSa0g25LlDOmwg48gzrEgUGMF6pplgu
- gLYakvTVLZiYfFO1PXBiOaLsvg==
-X-Google-Smtp-Source: AK7set/t1QPWaM3swLlams/S2tCFO1WlAAg0l17iP2nJ78MPCrsY8PR338sdT9FfB0Tov/MzBtYzLg==
-X-Received: by 2002:a62:528d:0:b0:5a8:808a:d3ce with SMTP id
- g135-20020a62528d000000b005a8808ad3cemr4276103pfb.8.1676719070101; 
- Sat, 18 Feb 2023 03:17:50 -0800 (PST)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:88dd:be84:8f65:fec2])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zXrmfYPtbD+a4mYWOw7gzX5blmN63cfug46pUteyx84=;
+ b=y5Bj/Rlzug8OzL1NihQ62DljYe8PZvvGrs9SSlRMT0Urpj1bYLy6YXxpXKS6uEItOK
+ h++Wwy3TH49/AmP3KVWOzUQXJRhskxm5rYQle/H0bc2hvj2boHeSZl2amdX6GgAPYb6G
+ /Q7CkyZsV8KxyscS1Q1cRuQ2e30C35Az+g3nSCe6Jsy6DacGWWL7eu/OkR8Mbnr6qoHo
+ p+Vckxj2+XdQ4apCMnKQ32U1WWL9zVD6RnbmlMUdHM8jrINT3Hz//zHKR/q/bdsIJUF4
+ biSz8zYMfeRAOk5guZlfGdvtzF42XIbWvuBQVIvrZFr/YgvPfe+6+jmN56pIlHpzwhtl
+ hS9g==
+X-Gm-Message-State: AO0yUKWFv/PKXQG3jxvqj/mzQibSXv5Jfnb7Ss2RWognYdm2KtnC1wT7
+ 4Pecz8vbkEBHK8NOVsH47Chjh5u/nDHScyEu
+X-Google-Smtp-Source: AK7set/2Ym3B0dnJtwcPI9O9DneEz9RDbQ+ZtBmCZopQM4AHFgi7uc2wVb/PGBW+WJcbmcklTCJHtA==
+X-Received: by 2002:a19:a40e:0:b0:4d1:7923:3b92 with SMTP id
+ q14-20020a19a40e000000b004d179233b92mr781116lfc.50.1676719397408; 
+ Sat, 18 Feb 2023 03:23:17 -0800 (PST)
+Received: from [192.168.1.101] (abxh184.neoplus.adsl.tpnet.pl. [83.9.1.184])
  by smtp.gmail.com with ESMTPSA id
- 23-20020aa79157000000b005a8686b72fcsm4457829pfi.75.2023.02.18.03.17.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Feb 2023 03:17:49 -0800 (PST)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Benson Leung <bleung@chromium.org>
-Subject: [PATCH v3 5/5] drm: bridge: Generic GPIO mux driver
-Date: Sat, 18 Feb 2023 19:17:12 +0800
-Message-Id: <20230218111712.2380225-6-treapking@chromium.org>
-X-Mailer: git-send-email 2.39.2.637.g21b0678d19-goog
-In-Reply-To: <20230218111712.2380225-1-treapking@chromium.org>
-References: <20230218111712.2380225-1-treapking@chromium.org>
+ m17-20020ac24ad1000000b004cb1e2f8f4dsm950902lfp.152.2023.02.18.03.23.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Feb 2023 03:23:17 -0800 (PST)
+Message-ID: <fbece9d6-2204-2534-e44f-29c29cc56413@linaro.org>
+Date: Sat, 18 Feb 2023 12:23:15 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v2 1/2] dt-bindings: display/msm: dsi-controller-main: Fix
+ deprecated QCM2290 compatible
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org
+References: <20230217111316.306241-1-konrad.dybcio@linaro.org>
+ <c49904be-d842-fc12-a443-17f229d53166@linaro.org>
+ <a4eaccfd-34ba-15f3-033f-165b46c43317@linaro.org>
+ <a158bca2-78bf-5b38-60fe-88118e8b4ad7@linaro.org>
+ <ab35cdcf-53ae-a3f2-fc08-d0f58c51a0ae@linaro.org>
+ <48cb00cd-961c-b72f-fba8-1842d658e289@linaro.org>
+ <d4ffa9f0-797e-7a32-147e-64aa46d7e197@linaro.org>
+ <e6d397bb-dd5d-8308-eb07-3aeb2589115c@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <e6d397bb-dd5d-8308-eb07-3aeb2589115c@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,303 +84,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chrome-platform@lists.linux.dev, Nicolas Boichat <drinkcat@chromium.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
- devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
- Pin-yen Lin <treapking@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicolas Boichat <drinkcat@chromium.org>
 
-This driver supports single input, 2 output display mux (e.g.
-HDMI mux), that provide its status via a GPIO.
 
-Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+On 18.02.2023 11:14, Krzysztof Kozlowski wrote:
+> On 17/02/2023 22:13, Bryan O'Donoghue wrote:
+>> On 17/02/2023 12:24, Krzysztof Kozlowski wrote:
+>>> First, it would be nice to know what was the intention of Bryan's commit?
+>>
+>> Sorry I've been grazing this thread but, not responding.
+>>
+>> - qcom,dsi-ctrl-6g-qcm2290
+>>
+>> is non-compliant with qcom,socid-dsi-ctrl which is our desired naming 
+>> convention, so that's what the deprecation is about i.e. moving this 
+>> compat to "qcom,qcm2290-dsi-ctrl"
+> 
+> OK, then there was no intention to deprecate qcom,mdss-dsi-ctrl and it
+> should be left as allowed compatible.
+Not sure if we're on the same page.
 
----
+It wasn't intended to deprecate [1] "qcom,qcm2290-dsi-ctrl", "qcom-mdss-dsi-ctrl";
+(newly-introduced in Bryan's cleanup patchset) but it was intended to deprecate
+[2] "qcom,dsi-ctrl-6g-qcm2290"; which was introduced long before that *and* used in
+the 6115 dt (and it still is in linux-next today, as my cleanup hasn't landed yet).
 
-Changes in v3:
-- Added .get_edid callback in generic-gpio-mux driver
+[3] "qcom,dsi-ctrl-6g-qcm2290", "qcom,mdss-dsi-ctrl" was never used (and should never
+be, considering there's a proper compatible [1] now) so adding it to bindings
+didn't solve the undocumented-ness issue. Plus the fallback would have never
+worked back then, as the DSI hw revision check would spit out 2.4.1 or 2.4.
+which is SC7180 or SDM845 and then it would never match the base register, as
+they're waay different.
 
-Changes in v2:
-- Dropped attach/mode_set/enable/disable callbacks
-- Fixed style issues
-- Removed the special case for the HDMI connector
-- Made the driver only read the GPIO status in IRQ handler
-- Rebased to drm-misc-next
-- Update the license: "GPL v2" --> "GPL"
-
- drivers/gpu/drm/bridge/Kconfig            |  10 +
- drivers/gpu/drm/bridge/Makefile           |   1 +
- drivers/gpu/drm/bridge/generic-gpio-mux.c | 222 ++++++++++++++++++++++
- 3 files changed, 233 insertions(+)
- create mode 100644 drivers/gpu/drm/bridge/generic-gpio-mux.c
-
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 12e8f30c65f7..42d7c418e8ff 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -73,6 +73,16 @@ config DRM_FSL_LDB
- 	help
- 	  Support for i.MX8MP DPI-to-LVDS on-SoC encoder.
- 
-+config DRM_GENERIC_GPIO_MUX
-+	tristate "Generic GPIO-controlled mux"
-+	depends on OF
-+	select DRM_KMS_HELPER
-+	help
-+	  This bridge driver models a GPIO-controlled display mux with one
-+	  input, 2 outputs (e.g. an HDMI mux). The hardware decides which output
-+	  is active, reports it as a GPIO, and the driver redirects calls to the
-+	  appropriate downstream bridge (if any).
-+
- config DRM_ITE_IT6505
-         tristate "ITE IT6505 DisplayPort bridge"
-         depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 52f6e8b4a821..4d6d7f63330c 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -4,6 +4,7 @@ obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
- obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
- obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
- obj-$(CONFIG_DRM_FSL_LDB) += fsl-ldb.o
-+obj-$(CONFIG_DRM_GENERIC_GPIO_MUX) += generic-gpio-mux.o
- obj-$(CONFIG_DRM_ITE_IT6505) += ite-it6505.o
- obj-$(CONFIG_DRM_LONTIUM_LT8912B) += lontium-lt8912b.o
- obj-$(CONFIG_DRM_LONTIUM_LT9211) += lontium-lt9211.o
-diff --git a/drivers/gpu/drm/bridge/generic-gpio-mux.c b/drivers/gpu/drm/bridge/generic-gpio-mux.c
-new file mode 100644
-index 000000000000..928edde701fa
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/generic-gpio-mux.c
-@@ -0,0 +1,222 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Generic gpio mux bridge driver
-+ *
-+ * Copyright 2016 Google LLC
-+ */
-+
-+#include <linux/gpio.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_gpio.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_crtc_helper.h>
-+#include <drm/drm_probe_helper.h>
-+
-+struct gpio_display_mux {
-+	struct device *dev;
-+
-+	struct gpio_desc *gpiod_detect;
-+	int detect_irq;
-+	int cur_next;
-+
-+	struct drm_bridge bridge;
-+
-+	struct drm_bridge *next[2];
-+};
-+
-+static inline struct gpio_display_mux *bridge_to_gpio_display_mux(
-+		struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct gpio_display_mux, bridge);
-+}
-+
-+static irqreturn_t gpio_display_mux_det_threaded_handler(int unused, void *data)
-+{
-+	struct gpio_display_mux *mux = data;
-+	int active = gpiod_get_value(mux->gpiod_detect);
-+
-+	if (active < 0) {
-+		dev_err(mux->dev, "Failed to get detect GPIO\n");
-+		return IRQ_HANDLED;
-+	}
-+
-+	dev_dbg(mux->dev, "Interrupt %d!\n", active);
-+	mux->cur_next = active;
-+
-+	if (mux->bridge.dev)
-+		drm_kms_helper_hotplug_event(mux->bridge.dev);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static bool gpio_display_mux_mode_fixup(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				struct drm_display_mode *adjusted_mode)
-+{
-+	struct gpio_display_mux *mux = bridge_to_gpio_display_mux(bridge);
-+	struct drm_bridge *next;
-+
-+	next = mux->next[mux->cur_next];
-+
-+	/* Assume that we have a most one bridge in both downstreams */
-+	if (next && next->funcs->mode_fixup)
-+		return next->funcs->mode_fixup(next, mode, adjusted_mode);
-+
-+	return true;
-+}
-+
-+static struct edid *gpio_display_mux_get_edid(struct drm_bridge *bridge,
-+					      struct drm_connector *connector)
-+{
-+	struct gpio_display_mux *mux = bridge_to_gpio_display_mux(bridge);
-+	struct drm_bridge *next;
-+
-+	next = mux->next[mux->cur_next];
-+
-+	return next->funcs->get_edid(next, connector);
-+}
-+
-+static const struct drm_bridge_funcs gpio_display_mux_bridge_funcs = {
-+	.mode_fixup = gpio_display_mux_mode_fixup,
-+	.get_edid = gpio_display_mux_get_edid,
-+};
-+
-+static int gpio_display_mux_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct gpio_display_mux *mux;
-+	struct device_node *port, *ep, *remote;
-+	int ret;
-+	u32 reg;
-+
-+	mux = devm_kzalloc(dev, sizeof(*mux), GFP_KERNEL);
-+	if (!mux)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, mux);
-+	mux->dev = &pdev->dev;
-+
-+	mux->bridge.of_node = dev->of_node;
-+
-+	mux->gpiod_detect = devm_gpiod_get(dev, "detect", GPIOD_IN);
-+	if (IS_ERR(mux->gpiod_detect))
-+		return PTR_ERR(mux->gpiod_detect);
-+
-+	mux->detect_irq = gpiod_to_irq(mux->gpiod_detect);
-+	if (mux->detect_irq < 0) {
-+		dev_err(dev, "Failed to get output irq %d\n",
-+			mux->detect_irq);
-+		return -ENODEV;
-+	}
-+
-+	port = of_graph_get_port_by_id(dev->of_node, 1);
-+	if (!port) {
-+		dev_err(dev, "Missing output port node\n");
-+		return -EINVAL;
-+	}
-+
-+	for_each_child_of_node(port, ep) {
-+		if (!ep->name || (of_node_cmp(ep->name, "endpoint") != 0)) {
-+			of_node_put(ep);
-+			continue;
-+		}
-+
-+		if (of_property_read_u32(ep, "reg", &reg) < 0 ||
-+		    reg >= ARRAY_SIZE(mux->next)) {
-+			dev_err(dev,
-+				"Missing/invalid reg property for endpoint %s\n",
-+				ep->full_name);
-+			of_node_put(ep);
-+			of_node_put(port);
-+			return -EINVAL;
-+		}
-+
-+		remote = of_graph_get_remote_port_parent(ep);
-+		if (!remote) {
-+			dev_err(dev,
-+				"Missing connector/bridge node for endpoint %s\n",
-+				ep->full_name);
-+			of_node_put(ep);
-+			of_node_put(port);
-+			return -EINVAL;
-+		}
-+
-+		mux->next[reg] = of_drm_find_bridge(remote);
-+		if (!mux->next[reg]) {
-+			dev_err(dev, "Waiting for external bridge %s\n",
-+				remote->name);
-+			of_node_put(ep);
-+			of_node_put(remote);
-+			of_node_put(port);
-+			return -EPROBE_DEFER;
-+		}
-+
-+		of_node_put(remote);
-+	}
-+	of_node_put(port);
-+
-+	/*
-+	 * Because the next bridges are not registered to the drm bridge chain,
-+	 * we have to set DRM_BRIDGE_OP_EDID here and trigger the .get_edid
-+	 * callbacks of the actual connectors.
-+	 */
-+	if (mux->next[0] && mux->next[0]->ops & DRM_BRIDGE_OP_EDID &&
-+	    mux->next[1] && mux->next[1]->ops & DRM_BRIDGE_OP_EDID)
-+		mux->bridge.ops |= DRM_BRIDGE_OP_EDID;
-+
-+	mux->bridge.funcs = &gpio_display_mux_bridge_funcs;
-+	mux->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
-+	drm_bridge_add(&mux->bridge);
-+
-+	ret = devm_request_threaded_irq(dev, mux->detect_irq, NULL,
-+					gpio_display_mux_det_threaded_handler,
-+					IRQF_TRIGGER_RISING |
-+					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+					"gpio-display-mux-det", mux);
-+	if (ret) {
-+		dev_err(dev, "Failed to request MUX_DET threaded irq\n");
-+		goto err_bridge_remove;
-+	}
-+
-+	return 0;
-+
-+err_bridge_remove:
-+	drm_bridge_remove(&mux->bridge);
-+
-+	return ret;
-+}
-+
-+static int gpio_display_mux_remove(struct platform_device *pdev)
-+{
-+	struct gpio_display_mux *mux = platform_get_drvdata(pdev);
-+
-+	disable_irq(mux->detect_irq);
-+	drm_bridge_remove(&mux->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id gpio_display_mux_match[] = {
-+	{ .compatible = "gpio-display-mux", },
-+	{},
-+};
-+
-+struct platform_driver gpio_display_mux_driver = {
-+	.probe = gpio_display_mux_probe,
-+	.remove = gpio_display_mux_remove,
-+	.driver = {
-+		.name = "gpio-display-mux",
-+		.of_match_table = gpio_display_mux_match,
-+	},
-+};
-+
-+module_platform_driver(gpio_display_mux_driver);
-+
-+MODULE_DESCRIPTION("GPIO-controlled display mux");
-+MODULE_AUTHOR("Nicolas Boichat <drinkcat@chromium.org>");
-+MODULE_LICENSE("GPL");
--- 
-2.39.2.637.g21b0678d19-goog
-
+Konrad
+> 
+> Best regards,
+> Krzysztof
+> 
