@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5467A69B96F
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 11:34:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C5169B97A
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 11:45:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B07E10E07D;
-	Sat, 18 Feb 2023 10:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFCDF10E186;
+	Sat, 18 Feb 2023 10:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C25110E04F;
- Sat, 18 Feb 2023 10:33:51 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03BB910E0AD
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 10:45:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A16DB60AEF;
- Sat, 18 Feb 2023 10:33:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 751CDC433EF;
- Sat, 18 Feb 2023 10:33:48 +0000 (UTC)
-Message-ID: <075c7910-89de-1941-4808-bfa6d76bac30@xs4all.nl>
-Date: Sat, 18 Feb 2023 11:33:46 +0100
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 46A1360B42;
+ Sat, 18 Feb 2023 10:45:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2FFFC4339B;
+ Sat, 18 Feb 2023 10:45:05 +0000 (UTC)
+Message-ID: <c70e40fe-6834-2382-ec89-28714a67fd1f@xs4all.nl>
+Date: Sat, 18 Feb 2023 11:45:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH v2 00/21] Enable Colorspace connector property in amdgpu
-To: Pekka Paalanen <ppaalanen@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>
-References: <20230113162428.33874-1-harry.wentland@amd.com>
- <20230207144711.6f70c6eb@eldfell>
+Subject: Re: [PATCH v2 1/9] drm/vc4: Switch to container_of_const
 Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20221207-rpi-hdmi-improvements-v2-0-8ace2d8221ad@cerno.tech>
+ <20221207-rpi-hdmi-improvements-v2-1-8ace2d8221ad@cerno.tech>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230207144711.6f70c6eb@eldfell>
+In-Reply-To: <20221207-rpi-hdmi-improvements-v2-1-8ace2d8221ad@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,216 +48,539 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>,
- amd-gfx@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>,
- dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
- Vitaly.Prosyak@amd.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02/2023 13:47, Pekka Paalanen wrote:
-> On Fri, 13 Jan 2023 11:24:07 -0500
-> Harry Wentland <harry.wentland@amd.com> wrote:
-> 
->> This patchset enables the DP and HDMI infoframe properties
->> in amdgpu.
->>
->> The first two patches are not completely related to the rest. The
->> first patch allows for HDR_OUTPUT_METADATA with EOTFs that are
->> unknown in the kernel.
->>
->> The second one prints a connector's max_bpc as part of the atomic
->> state debugfs print.
->>
->> The following patches rework the connector colorspace code to
->> 1) allow for easy printing of the colorspace in the drm_atomic
->>    state debugfs, and
->> 2) allow drivers to specify the supported colorspaces on a
->>    connector.
->>
->> The rest of the patches deal with the Colorspace enablement
->> in amdgpu.
->>
->> Why do drivers need to specify supported colorspaces? The amdgpu
->> driver needs support for RGB-to-YCbCr conversion when we drive
->> the display in YCbCr. This is currently not implemented for all
->> colorspaces.
->>
->> Since the Colorspace property didn't have an IGT test I added
->> one to kms_hdr. The relevant patchset can be found on the IGT
->> mailing list or on
->> https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/tree/hdr-colorimetry
->>
->> We tested v1 of the patchset and confirmed that the infoframes
->> are as expected for both DP and HDMI when running the IGT
->> colorimetry tests.
->>
->> Open Items
->> ----------
->>
->> A couple comments from Pekka about colorspace documentation are
->> left unaddressed. I hope they won't block merging this set but
->> should still be addressed separately.
->>
->> Pekka's questions really got me thinking of how this colorspace
->> property should be used and working with it more closely with
->> Joshua who is enabling HDR in gamescope made me wonder even more.
->>
->> Uma, is there a (canonical, upstream) userspace that uses this
->> property that I can look at to understand more?
->>
->> One of the key challenges that is currently not addressed is that
->> userspace is expected to pick a colorspace format straight from the
->> list of definitions out of the DP or HDMI spec. But the kernel
->> driver are the ones deciding on the output encoding (RGB, YCBCR444,
->> YCBCR420, etc.). So there is no way for userspace to decide correctly
->> between, for example, BT2020_RGB, BT2020_CYCC, BT2020_YCC.
->>
->> So we end up in a scenario where gamescope sets BT2020_RGB but we
->> output YCBCR444 so have to correct the colorspace value to
->> BT2020_YCC. This in turn breaks the colorspace IGT tests I
->> wrote. I don't think "fixing" the IGT tests to accept this is
->> the right thing to do.
->>
->> The way it stands this patchset allows us to specify the output
->> colorspace on amdgpu and we try to do the right thing, but I don't
->> thing the way the colorspace property is defined is right. We're trying
->> to expose things to userspace that should be under driver control. A
->> much better approach would be to give userspace options for colorspace
->> that are not tied to DP or HDMI specs, i.e., sRGB, BT709, BT2020, etc.,
->> and have the driver do the right thing to fill the infoframe, e.g., by
->> picking BT2020_YCC if the requested colorspace is BT2020 and the
->> is YCBCR444.
-> 
-> Hi Harry,
-> 
-> well explained.
-> 
-> Indeed, if you want to keep the driver in control of the encoding on
-> the monitor cable, then your suggestion seems correct (ignoring the
-> question whether it breaks something existing).
-> 
-> I do recall something about letting userspace control the encoding on
-> the cable though, particularly when it affects performance or quality.
-> E.g. 4:2:0 sub-sampling might be wanted in some cases and unwanted in
-> others. It's a bit similar to bpc. The trade-off may be frame rate or
-> resolution. It might better to know that the hardware cannot do what
-> you ask, than to silently degrade. E.g. if you use sub-pixel rendering,
-> you really do not want 4:2:0.
-> 
-> That's compatible with your suggestion on changing the Colorspace
-> property, I think it would complement it. Cable encoding parameters
-> could be other properties, which might also be on "auto".
-> 
-> If Colorspace property cannot be changed, then options I haven't seen
-> discussed yet are have it force the cable encoding parameters, or
-> another new property replacing it.
-> 
->> If no upstream userspace currently makes use of this property I
->> can make that change, i.e., no longer tie the colorspace property
->> directly to the infoframe and reduce the options to sRGB, BT709,
->> BT601, and BT2020 (and possibly opRGB).
->>
->> v2:
->> - Tested with DP and HDMI analyzers
->> - Confirmed driver will fallback to lower bpc when needed
->> - Dropped hunk to set HDMI AVI infoframe as it was a no-op
->> - Fixed BT.2020 YCbCr colorimetry (JoshuaAshton)
->> - Simplify initialization of supported colorspaces (Jani)
->> - Fix kerneldoc (kernel test robot)
-> 
-> I recall saying this before, but in the series there are occurrences
-> where sRGB is spelled as "RGB". I find that very confusing that "RGB"
-> would imply anything about colorimetry when it's just a color model.
-> 
-> Sometimes it might not be sRGB because the "default RGB" has probably
-> not been sRGB for many years now, depending on monitor settings. See
-> also https://gitlab.freedesktop.org/pq/color-and-hdr/-/issues/17 . Then
-> one might ask the philosophical question whether the signal on the
-> cable is sRGB but it's just the monitor that does a gamut mapping
-> instead.
+Hi Maxime,
 
-FYI: the CTA-861.6 addendum adds support for explicit sRGB or defaultRGB
-signaling. See chapter 8 in that standard.
+On 26/01/2023 14:46, Maxime Ripard wrote:
+> container_of_const() allows to preserve the pointer constness and is
+> thus more flexible than inline functions.
+> 
+> Let's switch all our instances of container_of() to
+> container_of_const().
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/vc4/tests/vc4_mock.h        |  3 ++
+>  drivers/gpu/drm/vc4/tests/vc4_mock_output.c |  4 +-
+>  drivers/gpu/drm/vc4/vc4_bo.c                |  2 +-
+>  drivers/gpu/drm/vc4/vc4_crtc.c              |  4 +-
+>  drivers/gpu/drm/vc4/vc4_dpi.c               |  7 +---
+>  drivers/gpu/drm/vc4/vc4_drv.h               | 65 +++++++++--------------------
+>  drivers/gpu/drm/vc4/vc4_dsi.c               | 19 ++++-----
+>  drivers/gpu/drm/vc4/vc4_gem.c               |  7 ++--
+>  drivers/gpu/drm/vc4/vc4_hdmi.c              |  7 ++--
+>  drivers/gpu/drm/vc4/vc4_hdmi.h              | 16 +++----
+>  drivers/gpu/drm/vc4/vc4_irq.c               |  2 +-
+>  drivers/gpu/drm/vc4/vc4_kms.c               | 16 +++----
+>  drivers/gpu/drm/vc4/vc4_plane.c             |  2 +-
+>  drivers/gpu/drm/vc4/vc4_txp.c               | 12 ++----
+>  drivers/gpu/drm/vc4/vc4_v3d.c               |  2 +-
+>  drivers/gpu/drm/vc4/vc4_vec.c               | 14 ++-----
+>  16 files changed, 65 insertions(+), 117 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock.h b/drivers/gpu/drm/vc4/tests/vc4_mock.h
+> index db8e9a141ef8..2d0b339bd9f3 100644
+> --- a/drivers/gpu/drm/vc4/tests/vc4_mock.h
+> +++ b/drivers/gpu/drm/vc4/tests/vc4_mock.h
+> @@ -43,6 +43,9 @@ struct vc4_dummy_output {
+>  	struct drm_connector connector;
+>  };
+>  
+> +#define encoder_to_vc4_dummy_output(_enc)				\
+> +	container_of_const(_enc, struct vc4_dummy_output, encoder.base)
 
-The colorimetry that video sources us when transmitting RGB over HDMI is
-usually sRGB, except for MacBooks, they use the colorimetry defined in the
-EDID Base Block. And there was no way to signal exactly what a source was
-using, or what a display expects.
+I think it is OKish to do this in a define like this, but...
 
-Strictly speaking the approach MacBooks took was correct, but 1) not all
-hardware can convert sRGB to a custom colorimetry setting, and 2) this
-'requirement' was hidden in a footnote of a very long table in the spec.
+> +
+>  struct vc4_dummy_output *vc4_dummy_output(struct kunit *test,
+>  					  struct drm_device *drm,
+>  					  struct drm_crtc *crtc,
+> diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock_output.c b/drivers/gpu/drm/vc4/tests/vc4_mock_output.c
+> index 8d33be828d9a..6e11fcc9ef45 100644
+> --- a/drivers/gpu/drm/vc4/tests/vc4_mock_output.c
+> +++ b/drivers/gpu/drm/vc4/tests/vc4_mock_output.c
+> @@ -80,7 +80,7 @@ int vc4_mock_atomic_add_output(struct kunit *test,
+>  	crtc = vc4_find_crtc_for_encoder(test, drm, encoder);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc);
+>  
+> -	output = container_of(encoder, struct vc4_dummy_output, encoder.base);
+> +	output = encoder_to_vc4_dummy_output(encoder);
+>  	conn = &output->connector;
+>  	conn_state = drm_atomic_get_connector_state(state, conn);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
+> @@ -126,7 +126,7 @@ int vc4_mock_atomic_del_output(struct kunit *test,
+>  	ret = drm_atomic_set_mode_for_crtc(crtc_state, NULL);
+>  	KUNIT_ASSERT_EQ(test, ret, 0);
+>  
+> -	output = container_of(encoder, struct vc4_dummy_output, encoder.base);
+> +	output = encoder_to_vc4_dummy_output(encoder);
+>  	conn = &output->connector;
+>  	conn_state = drm_atomic_get_connector_state(state, conn);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
+> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+> index 86d629e45307..d0a00ed42cb0 100644
+> --- a/drivers/gpu/drm/vc4/vc4_bo.c
+> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
+> @@ -609,7 +609,7 @@ static void vc4_free_object(struct drm_gem_object *gem_bo)
+>  static void vc4_bo_cache_time_work(struct work_struct *work)
+>  {
+>  	struct vc4_dev *vc4 =
+> -		container_of(work, struct vc4_dev, bo_cache.time_work);
+> +		container_of_const(work, struct vc4_dev, bo_cache.time_work);
 
-In addition, the colorimetry information in the EDID Base Block was usually
-identical or close to that of sRGB, but with extended gamut displays this
-tends to diverge more and more in modern displays.
+...I think this is misleading. It's definitely not const, so switching to
+container_of_const suggests that there is some 'constness' involved, which
+isn't the case. I'd leave this just as 'container_of'. This also reduces the
+size of the patch, since this is done in quite a few places.
 
 Regards,
 
 	Hans
 
-> 
-> 
-> Thanks,
-> pq
-> 
->>
->> Cc: Pekka Paalanen <ppaalanen@gmail.com>
->> Cc: Sebastian Wick <sebastian.wick@redhat.com>
->> Cc: Vitaly.Prosyak@amd.com
->> Cc: Uma Shankar <uma.shankar@intel.com>
->> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
->> Cc: Joshua Ashton <joshua@froggi.es>
->> Cc: Jani Nikula <jani.nikula@linux.intel.com>
->> Cc: Michel Dänzer <michel.daenzer@mailbox.org>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: amd-gfx@lists.freedesktop.org
->>
->> Harry Wentland (16):
->>   drm/display: Don't block HDR_OUTPUT_METADATA on unknown EOTF
->>   drm/connector: print max_requested_bpc in state debugfs
->>   drm/connector: Drop COLORIMETRY_NO_DATA
->>   drm/connector: Convert DRM_MODE_COLORIMETRY to enum
->>   drm/connector: Pull out common create_colorspace_property code
->>   drm/connector: Allow drivers to pass list of supported colorspaces
->>   drm/connector: Print connector colorspace in state debugfs
->>   drm/amd/display: Always pass connector_state to stream validation
->>   drm/amd/display: Register Colorspace property for DP and HDMI
->>   drm/amd/display: Signal mode_changed if colorspace changed
->>   drm/amd/display: Send correct DP colorspace infopacket
->>   drm/amd/display: Add support for explicit BT601_YCC
->>   drm/amd/display: Add debugfs for testing output colorspace
->>   drm/amd/display: Add default case for output_color_space switch
->>   drm/amd/display: Don't restrict bpc to 8 bpc
->>   drm/amd/display: Format input and output CSC matrix
->>
->> Joshua Ashton (5):
->>   drm/amd/display: Always set crtcinfo from create_stream_for_sink
->>   drm/amd/display: Fallback to 2020_YCBCR if the pixel encoding is not
->>     RGB
->>   drm/amd/display: Refactor avi_info_frame colorimetry determination
->>   drm/amd/display: Calculate output_color_space after pixel encoding
->>     adjustment
->>   drm/amd/display: Fix COLOR_SPACE_YCBCR2020_TYPE matrix
->>
->>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  90 ++++++---
->>  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c |  57 ++++++
->>  .../drm/amd/display/dc/core/dc_hw_sequencer.c |  38 ++--
->>  .../gpu/drm/amd/display/dc/core/dc_resource.c |  28 ++-
->>  drivers/gpu/drm/amd/display/dc/inc/hw/dpp.h   |  54 +++--
->>  drivers/gpu/drm/display/drm_hdmi_helper.c     |   8 +-
->>  drivers/gpu/drm/drm_atomic.c                  |   2 +
->>  drivers/gpu/drm/drm_connector.c               | 189 ++++++++++--------
->>  .../gpu/drm/i915/display/intel_connector.c    |   4 +-
->>  drivers/gpu/drm/vc4/vc4_hdmi.c                |   2 +-
->>  include/drm/display/drm_dp.h                  |   2 +-
->>  include/drm/drm_connector.h                   |  57 +++---
->>  12 files changed, 345 insertions(+), 186 deletions(-)
->>
->> --
->> 2.39.0
->>
+>  	struct drm_device *dev = &vc4->base;
+>  
+>  	mutex_lock(&vc4->bo_lock);
+> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+> index cdc0559221f0..4425dc15308d 100644
+> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+> @@ -869,7 +869,7 @@ vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
+>  static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
+>  {
+>  	struct vc4_async_flip_state *flip_state =
+> -		container_of(cb, struct vc4_async_flip_state, cb.seqno);
+> +		container_of_const(cb, struct vc4_async_flip_state, cb.seqno);
+>  	struct vc4_bo *bo = NULL;
+>  
+>  	if (flip_state->old_fb) {
+> @@ -897,7 +897,7 @@ static void vc4_async_page_flip_fence_complete(struct dma_fence *fence,
+>  					       struct dma_fence_cb *cb)
+>  {
+>  	struct vc4_async_flip_state *flip_state =
+> -		container_of(cb, struct vc4_async_flip_state, cb.fence);
+> +		container_of_const(cb, struct vc4_async_flip_state, cb.fence);
+>  
+>  	vc4_async_page_flip_complete(flip_state);
+>  	dma_fence_put(fence);
+> diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
+> index f518d6e59ed6..e68c07d86040 100644
+> --- a/drivers/gpu/drm/vc4/vc4_dpi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
+> @@ -97,11 +97,8 @@ struct vc4_dpi {
+>  	struct debugfs_regset32 regset;
+>  };
+>  
+> -static inline struct vc4_dpi *
+> -to_vc4_dpi(struct drm_encoder *encoder)
+> -{
+> -	return container_of(encoder, struct vc4_dpi, encoder.base);
+> -}
+> +#define to_vc4_dpi(_encoder)						\
+> +	container_of_const(_encoder, struct vc4_dpi, encoder.base)
+>  
+>  #define DPI_READ(offset)								\
+>  	({										\
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index 95069bb16821..e23084f3d6c2 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -232,11 +232,8 @@ struct vc4_dev {
+>  	struct kref bin_bo_kref;
+>  };
+>  
+> -static inline struct vc4_dev *
+> -to_vc4_dev(const struct drm_device *dev)
+> -{
+> -	return container_of(dev, struct vc4_dev, base);
+> -}
+> +#define to_vc4_dev(_dev)			\
+> +	container_of_const(_dev, struct vc4_dev, base)
+>  
+>  struct vc4_bo {
+>  	struct drm_gem_dma_object base;
+> @@ -285,11 +282,8 @@ struct vc4_bo {
+>  	struct mutex madv_lock;
+>  };
+>  
+> -static inline struct vc4_bo *
+> -to_vc4_bo(const struct drm_gem_object *bo)
+> -{
+> -	return container_of(to_drm_gem_dma_obj(bo), struct vc4_bo, base);
+> -}
+> +#define to_vc4_bo(_bo)							\
+> +	container_of_const(to_drm_gem_dma_obj(_bo), struct vc4_bo, base)
+>  
+>  struct vc4_fence {
+>  	struct dma_fence base;
+> @@ -298,11 +292,8 @@ struct vc4_fence {
+>  	uint64_t seqno;
+>  };
+>  
+> -static inline struct vc4_fence *
+> -to_vc4_fence(const struct dma_fence *fence)
+> -{
+> -	return container_of(fence, struct vc4_fence, base);
+> -}
+> +#define to_vc4_fence(_fence)					\
+> +	container_of_const(_fence, struct vc4_fence, base)
+>  
+>  struct vc4_seqno_cb {
+>  	struct work_struct work;
+> @@ -368,11 +359,8 @@ struct vc4_hvs_state {
+>  	} fifo_state[HVS_NUM_CHANNELS];
+>  };
+>  
+> -static inline struct vc4_hvs_state *
+> -to_vc4_hvs_state(const struct drm_private_state *priv)
+> -{
+> -	return container_of(priv, struct vc4_hvs_state, base);
+> -}
+> +#define to_vc4_hvs_state(_state)				\
+> +	container_of_const(_state, struct vc4_hvs_state, base)
+>  
+>  struct vc4_hvs_state *vc4_hvs_get_global_state(struct drm_atomic_state *state);
+>  struct vc4_hvs_state *vc4_hvs_get_old_global_state(const struct drm_atomic_state *state);
+> @@ -382,11 +370,8 @@ struct vc4_plane {
+>  	struct drm_plane base;
+>  };
+>  
+> -static inline struct vc4_plane *
+> -to_vc4_plane(const struct drm_plane *plane)
+> -{
+> -	return container_of(plane, struct vc4_plane, base);
+> -}
+> +#define to_vc4_plane(_plane)					\
+> +	container_of_const(_plane, struct vc4_plane, base)
+>  
+>  enum vc4_scaling_mode {
+>  	VC4_SCALING_NONE,
+> @@ -458,11 +443,8 @@ struct vc4_plane_state {
+>  	u64 membus_load;
+>  };
+>  
+> -static inline struct vc4_plane_state *
+> -to_vc4_plane_state(const struct drm_plane_state *state)
+> -{
+> -	return container_of(state, struct vc4_plane_state, base);
+> -}
+> +#define to_vc4_plane_state(_state)				\
+> +	container_of_const(_state, struct vc4_plane_state, base)
+>  
+>  enum vc4_encoder_type {
+>  	VC4_ENCODER_TYPE_NONE,
+> @@ -489,11 +471,8 @@ struct vc4_encoder {
+>  	void (*post_crtc_powerdown)(struct drm_encoder *encoder, struct drm_atomic_state *state);
+>  };
+>  
+> -static inline struct vc4_encoder *
+> -to_vc4_encoder(const struct drm_encoder *encoder)
+> -{
+> -	return container_of(encoder, struct vc4_encoder, base);
+> -}
+> +#define to_vc4_encoder(_encoder)				\
+> +	container_of_const(_encoder, struct vc4_encoder, base)
+>  
+>  static inline
+>  struct drm_encoder *vc4_find_encoder_by_type(struct drm_device *drm,
+> @@ -591,11 +570,8 @@ struct vc4_crtc {
+>  	unsigned int current_hvs_channel;
+>  };
+>  
+> -static inline struct vc4_crtc *
+> -to_vc4_crtc(const struct drm_crtc *crtc)
+> -{
+> -	return container_of(crtc, struct vc4_crtc, base);
+> -}
+> +#define to_vc4_crtc(_crtc)					\
+> +	container_of_const(_crtc, struct vc4_crtc, base)
+>  
+>  static inline const struct vc4_crtc_data *
+>  vc4_crtc_to_vc4_crtc_data(const struct vc4_crtc *crtc)
+> @@ -608,7 +584,7 @@ vc4_crtc_to_vc4_pv_data(const struct vc4_crtc *crtc)
+>  {
+>  	const struct vc4_crtc_data *data = vc4_crtc_to_vc4_crtc_data(crtc);
+>  
+> -	return container_of(data, struct vc4_pv_data, base);
+> +	return container_of_const(data, struct vc4_pv_data, base);
+>  }
+>  
+>  struct drm_encoder *vc4_get_crtc_encoder(struct drm_crtc *crtc,
+> @@ -636,11 +612,8 @@ struct vc4_crtc_state {
+>  
+>  #define VC4_HVS_CHANNEL_DISABLED ((unsigned int)-1)
+>  
+> -static inline struct vc4_crtc_state *
+> -to_vc4_crtc_state(const struct drm_crtc_state *crtc_state)
+> -{
+> -	return container_of(crtc_state, struct vc4_crtc_state, base);
+> -}
+> +#define to_vc4_crtc_state(_state)				\
+> +	container_of_const(_state, struct vc4_crtc_state, base)
+>  
+>  #define V3D_READ(offset)								\
+>  	({										\
+> diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+> index a5c075f802e4..0923680f2b2b 100644
+> --- a/drivers/gpu/drm/vc4/vc4_dsi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+> @@ -600,19 +600,14 @@ struct vc4_dsi {
+>  	struct debugfs_regset32 regset;
+>  };
+>  
+> -#define host_to_dsi(host) container_of(host, struct vc4_dsi, dsi_host)
+> +#define host_to_dsi(host)					\
+> +	container_of_const(host, struct vc4_dsi, dsi_host)
+>  
+> -static inline struct vc4_dsi *
+> -to_vc4_dsi(struct drm_encoder *encoder)
+> -{
+> -	return container_of(encoder, struct vc4_dsi, encoder.base);
+> -}
+> +#define to_vc4_dsi(_encoder)					\
+> +	container_of_const(_encoder, struct vc4_dsi, encoder.base)
+>  
+> -static inline struct vc4_dsi *
+> -bridge_to_vc4_dsi(struct drm_bridge *bridge)
+> -{
+> -	return container_of(bridge, struct vc4_dsi, bridge);
+> -}
+> +#define bridge_to_vc4_dsi(_bridge)				\
+> +	container_of_const(_bridge, struct vc4_dsi, bridge)
+>  
+>  static inline void
+>  dsi_dma_workaround_write(struct vc4_dsi *dsi, u32 offset, u32 val)
+> @@ -1625,7 +1620,7 @@ static void vc4_dsi_dma_chan_release(void *ptr)
+>  static void vc4_dsi_release(struct kref *kref)
+>  {
+>  	struct vc4_dsi *dsi =
+> -		container_of(kref, struct vc4_dsi, kref);
+> +		container_of_const(kref, struct vc4_dsi, kref);
+>  
+>  	kfree(dsi);
+>  }
+> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+> index 628d40ff3aa1..0cb2e86edbf3 100644
+> --- a/drivers/gpu/drm/vc4/vc4_gem.c
+> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
+> @@ -315,7 +315,7 @@ static void
+>  vc4_reset_work(struct work_struct *work)
+>  {
+>  	struct vc4_dev *vc4 =
+> -		container_of(work, struct vc4_dev, hangcheck.reset_work);
+> +		container_of_const(work, struct vc4_dev, hangcheck.reset_work);
+>  
+>  	vc4_save_hang_state(&vc4->base);
+>  
+> @@ -1039,7 +1039,8 @@ vc4_job_handle_completed(struct vc4_dev *vc4)
+>  
+>  static void vc4_seqno_cb_work(struct work_struct *work)
+>  {
+> -	struct vc4_seqno_cb *cb = container_of(work, struct vc4_seqno_cb, work);
+> +	struct vc4_seqno_cb *cb =
+> +		container_of_const(work, struct vc4_seqno_cb, work);
+>  
+>  	cb->func(cb);
+>  }
+> @@ -1077,7 +1078,7 @@ static void
+>  vc4_job_done_work(struct work_struct *work)
+>  {
+>  	struct vc4_dev *vc4 =
+> -		container_of(work, struct vc4_dev, job_done_work);
+> +		container_of_const(work, struct vc4_dev, job_done_work);
+>  
+>  	vc4_job_handle_completed(vc4);
+>  }
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 14628864487a..b3e7030305ea 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -948,9 +948,10 @@ static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
+>  
+>  static void vc4_hdmi_scrambling_wq(struct work_struct *work)
+>  {
+> -	struct vc4_hdmi *vc4_hdmi = container_of(to_delayed_work(work),
+> -						 struct vc4_hdmi,
+> -						 scrambling_work);
+> +	struct vc4_hdmi *vc4_hdmi =
+> +		container_of_const(to_delayed_work(work),
+> +				   struct vc4_hdmi,
+> +				   scrambling_work);
+>  
+>  	if (drm_scdc_get_scrambling_status(vc4_hdmi->ddc))
+>  		return;
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> index dc3ccd8002a0..5d249ac54cd1 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -223,17 +223,14 @@ struct vc4_hdmi {
+>  	enum vc4_hdmi_output_format output_format;
+>  };
+>  
+> -static inline struct vc4_hdmi *
+> -connector_to_vc4_hdmi(struct drm_connector *connector)
+> -{
+> -	return container_of(connector, struct vc4_hdmi, connector);
+> -}
+> +#define connector_to_vc4_hdmi(_connector)				\
+> +	container_of_const(_connector, struct vc4_hdmi, connector)
+>  
+>  static inline struct vc4_hdmi *
+>  encoder_to_vc4_hdmi(struct drm_encoder *encoder)
+>  {
+>  	struct vc4_encoder *_encoder = to_vc4_encoder(encoder);
+> -	return container_of(_encoder, struct vc4_hdmi, encoder);
+> +	return container_of_const(_encoder, struct vc4_hdmi, encoder);
+>  }
+>  
+>  struct vc4_hdmi_connector_state {
+> @@ -243,11 +240,8 @@ struct vc4_hdmi_connector_state {
+>  	enum vc4_hdmi_output_format	output_format;
+>  };
+>  
+> -static inline struct vc4_hdmi_connector_state *
+> -conn_state_to_vc4_hdmi_conn_state(struct drm_connector_state *conn_state)
+> -{
+> -	return container_of(conn_state, struct vc4_hdmi_connector_state, base);
+> -}
+> +#define conn_state_to_vc4_hdmi_conn_state(_state)			\
+> +	container_of_const(_state, struct vc4_hdmi_connector_state, base)
+>  
+>  void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi,
+>  		       struct vc4_hdmi_connector_state *vc4_conn_state);
+> diff --git a/drivers/gpu/drm/vc4/vc4_irq.c b/drivers/gpu/drm/vc4/vc4_irq.c
+> index 1e6db0121ccd..6408fbd1684e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_irq.c
+> +++ b/drivers/gpu/drm/vc4/vc4_irq.c
+> @@ -63,7 +63,7 @@ static void
+>  vc4_overflow_mem_work(struct work_struct *work)
+>  {
+>  	struct vc4_dev *vc4 =
+> -		container_of(work, struct vc4_dev, overflow_mem_work);
+> +		container_of_const(work, struct vc4_dev, overflow_mem_work);
+>  	struct vc4_bo *bo;
+>  	int bin_bo_slot;
+>  	struct vc4_exec_info *exec;
+> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+> index a7e3d47c50f4..5495f2a94fa9 100644
+> --- a/drivers/gpu/drm/vc4/vc4_kms.c
+> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
+> @@ -31,11 +31,8 @@ struct vc4_ctm_state {
+>  	int fifo;
+>  };
+>  
+> -static struct vc4_ctm_state *
+> -to_vc4_ctm_state(const struct drm_private_state *priv)
+> -{
+> -	return container_of(priv, struct vc4_ctm_state, base);
+> -}
+> +#define to_vc4_ctm_state(_state)				\
+> +	container_of_const(_state, struct vc4_ctm_state, base)
+>  
+>  struct vc4_load_tracker_state {
+>  	struct drm_private_state base;
+> @@ -43,11 +40,8 @@ struct vc4_load_tracker_state {
+>  	u64 membus_load;
+>  };
+>  
+> -static struct vc4_load_tracker_state *
+> -to_vc4_load_tracker_state(const struct drm_private_state *priv)
+> -{
+> -	return container_of(priv, struct vc4_load_tracker_state, base);
+> -}
+> +#define to_vc4_load_tracker_state(_state)				\
+> +	container_of_const(_state, struct vc4_load_tracker_state, base)
+>  
+>  static struct vc4_ctm_state *vc4_get_ctm_state(struct drm_atomic_state *state,
+>  					       struct drm_private_obj *manager)
+> @@ -717,7 +711,7 @@ static void vc4_hvs_channels_destroy_state(struct drm_private_obj *obj,
+>  static void vc4_hvs_channels_print_state(struct drm_printer *p,
+>  					 const struct drm_private_state *state)
+>  {
+> -	struct vc4_hvs_state *hvs_state = to_vc4_hvs_state(state);
+> +	const struct vc4_hvs_state *hvs_state = to_vc4_hvs_state(state);
+>  	unsigned int i;
+>  
+>  	drm_printf(p, "HVS State\n");
+> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+> index dee525bacd4b..f3cb28657973 100644
+> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+> @@ -1333,7 +1333,7 @@ u32 vc4_plane_write_dlist(struct drm_plane *plane, u32 __iomem *dlist)
+>  u32 vc4_plane_dlist_size(const struct drm_plane_state *state)
+>  {
+>  	const struct vc4_plane_state *vc4_state =
+> -		container_of(state, typeof(*vc4_state), base);
+> +		container_of_const(state, typeof(*vc4_state), base);
+>  
+>  	return vc4_state->dlist_count;
+>  }
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> index ef5cab2a3aa9..c5abdec03103 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -168,15 +168,11 @@ struct vc4_txp {
+>  	void __iomem *regs;
+>  };
+>  
+> -static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+> -{
+> -	return container_of(encoder, struct vc4_txp, encoder.base);
+> -}
+> +#define encoder_to_vc4_txp(_encoder)					\
+> +	container_of_const(_encoder, struct vc4_txp, encoder.base)
+>  
+> -static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+> -{
+> -	return container_of(conn, struct vc4_txp, connector.base);
+> -}
+> +#define connector_to_vc4_txp(_connector)				\
+> +	container_of_const(_connector, struct vc4_txp, connector.base)
+>  
+>  static const struct debugfs_reg32 txp_regs[] = {
+>  	VC4_REG32(TXP_DST_PTR),
+> diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
+> index 29a664c8bf44..f48cf1ea48bb 100644
+> --- a/drivers/gpu/drm/vc4/vc4_v3d.c
+> +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+> @@ -349,7 +349,7 @@ int vc4_v3d_bin_bo_get(struct vc4_dev *vc4, bool *used)
+>  
+>  static void bin_bo_release(struct kref *ref)
+>  {
+> -	struct vc4_dev *vc4 = container_of(ref, struct vc4_dev, bin_bo_kref);
+> +	struct vc4_dev *vc4 = container_of_const(ref, struct vc4_dev, bin_bo_kref);
+>  
+>  	if (WARN_ON_ONCE(!vc4->bin_bo))
+>  		return;
+> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
+> index a3782d05cd66..d6e6a1a22eba 100644
+> --- a/drivers/gpu/drm/vc4/vc4_vec.c
+> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
+> @@ -219,17 +219,11 @@ struct vc4_vec {
+>  		writel(val, vec->regs + (offset));					\
+>  	} while (0)
+>  
+> -static inline struct vc4_vec *
+> -encoder_to_vc4_vec(struct drm_encoder *encoder)
+> -{
+> -	return container_of(encoder, struct vc4_vec, encoder.base);
+> -}
+> +#define encoder_to_vc4_vec(_encoder)					\
+> +	container_of_const(_encoder, struct vc4_vec, encoder.base)
+>  
+> -static inline struct vc4_vec *
+> -connector_to_vc4_vec(struct drm_connector *connector)
+> -{
+> -	return container_of(connector, struct vc4_vec, connector);
+> -}
+> +#define connector_to_vc4_vec(_connector)				\
+> +	container_of_const(_connector, struct vc4_vec, connector)
+>  
+>  enum vc4_vec_tv_mode_id {
+>  	VC4_VEC_TV_MODE_NTSC,
 > 
 
