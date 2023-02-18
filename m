@@ -1,72 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B628769BA22
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 14:04:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4075D69BA7C
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 15:49:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0C2A10E4C1;
-	Sat, 18 Feb 2023 13:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 467F510E051;
+	Sat, 18 Feb 2023 14:49:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9909910E4C1
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 13:04:07 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id v11so1185589lft.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 05:04:07 -0800 (PST)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 934B610E051
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 14:49:40 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id cn9so2931575edb.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 06:49:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=3N5WAzbRFEo6T4gVmAxjSh/Vc/Ea58u6XaJqPwHeVh4=;
- b=U4IXj5fZbsqDGnnIHvFZjApawI7qJL91IjBv5k4Klvpgh7GQl6AdaUil67EYPWWXgo
- 5qzdpVEqeRX4xOzpvzc4pKf7InKG6AWHme+BkdAoMHe8B+nmo461rqY3zraL5on846DP
- gJOMYCVgu7xeuo1EPhlyvmP1+X4/D3pcaHvH0jr0X9A81wjmOXkFd2G3Hau5sbrLcsCY
- r09p4VrVglNWHtBAm4Mzs/dKh8VpV43bBvYLS9ymwCkaq0ZyLAdQTHOzrp0OnTUIFARl
- rrlN8H7+vUDN+jdo/2gUYb5KHNcW2oOCccSmZkDFRJ+QUwY82MuWqnjAJJtHH+BypEtW
- Nylw==
+ bh=kpH6WR+bqKoWno46gRZZ6t8aFUv5+bs2I4awyRCR6FA=;
+ b=rEaYZ4lEtjWFBOCo6fKV5jfcQmxL9WR2+GrQ5KF3TotfUhraLpaDLMRbQJWksd56d9
+ vZ3BLN81AjCGswmWZJFs7GRJI7sW1RZgbgRPtuGaYVjM5JFoD8k/Q/g58h5I4BFjfIe/
+ A3cM8iWglxOQJcxB8TmEmmZnWQpSMAkhG3PYE5nBtbWF0h1+jNVwFU9VeaZ/7o8Cfjk4
+ Rz4E32JFDsyqklYYoDOTumGrRVBBF8jvNUPI/kgbscrXWc/7+ZnZwpnhHbIWZDfXCc8U
+ PyYr+Cfwu2MOCQFcwLCbfW02wLNcQ0N1w0OOPHjnFH2HKzXy1zGV4GKYk/pW2BlWomQU
+ siZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3N5WAzbRFEo6T4gVmAxjSh/Vc/Ea58u6XaJqPwHeVh4=;
- b=qzBP7drkubSuNZQclU07C1AE/seILDxMJInos28BSFzzqFlb5W0Q90pk6DooCZl2uP
- qQLqHPiY+SDCKN1waH/11HrzQ44jsIlxyagYel0yXdUpxHsJp87GMCo9ZH03qs+e41cn
- PayM9GriSAdxBxPw5etsugOkpvIdyjK30P/SKbla1DwVmJqepGNj7xIP6wo8/mXj189I
- 3CvDalc8uSOp/xJbFCz+USK6hjq8kDqW13uh/a9IGWHL/MfVc3+lVCaSPYiubZVugYHa
- f5GqtiPe1zANAsNtPy4Fq9GI9eUxNF9s2g4zfQ7QNskmJrbcU6NgnEuIYopnmKft6f9o
- Q7IA==
-X-Gm-Message-State: AO0yUKW5mGmk1773eJ4nikvhtDvsTinS7r2s3XM8nQFMfbYdnHgGaZ9V
- XqTMaEroUzr6sw8TbhF4b3wxsw==
-X-Google-Smtp-Source: AK7set/gnKvtFmRzdwyC6P2wMI81d4vWwm6HjdeC7KtCbMNjaI4FGSQJ3mv5xfpjdnNPaUNiKYztuA==
-X-Received: by 2002:ac2:561b:0:b0:4b5:7096:23ff with SMTP id
- v27-20020ac2561b000000b004b5709623ffmr1010457lfd.66.1676725445833; 
- Sat, 18 Feb 2023 05:04:05 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ bh=kpH6WR+bqKoWno46gRZZ6t8aFUv5+bs2I4awyRCR6FA=;
+ b=ThD5OedBbVYBQ5YVgh+U7FaqPDXH28E7T+8mhl9pxsok1jxizme+JHrpKd8FmTM60g
+ bKe/A3lz1aXwqHsL0gus4vnqllkYJ4FRHKcsBlkSwhc9GwUBGdRzmTxdcTVxymnuZpp2
+ ycZJR1gkyF3T+ZNzIFzL9lMktih7Vp9Pr+GubU8/T4zmnRURAz+wONdx9wttYJl4Q32U
+ ySz33WBWDGGcIbW7rnLEWf99ZjR6LxnMfMz/6FcygVC3p84aYBbqvwS+vFfrJr4u9lZH
+ y1UFOcCtNG3s+dCCUU0uoODfYl06brNJmhIhhQaRNIU5D+L9UBq3q87bTuxDzZCUqakL
+ 8TxQ==
+X-Gm-Message-State: AO0yUKU2QOve7qtR+j1YJ33qfbHCAl2bUcoJF/vqqwZVO9/XbDCUSqDQ
+ 02ZVaR85vzX5oI0ejsm2C2o6cA==
+X-Google-Smtp-Source: AK7set8fMukTd3S6JPnHsMQuo0S3kewjm1iq6LSD9WPiST+l1GpD6Xw8+bBakt04PTvD+qgtgvjSGQ==
+X-Received: by 2002:a17:906:d925:b0:8b1:78b6:4b3c with SMTP id
+ rn5-20020a170906d92500b008b178b64b3cmr6966704ejb.73.1676731779047; 
+ Sat, 18 Feb 2023 06:49:39 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
  by smtp.gmail.com with ESMTPSA id
- h18-20020ac250d2000000b004d865c781eesm980042lfm.24.2023.02.18.05.04.04
+ v30-20020a50d09e000000b004acdef7baaesm3661310edd.96.2023.02.18.06.49.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Feb 2023 05:04:05 -0800 (PST)
-Message-ID: <417fe51e-1f35-53d4-0dd7-bbb01d5bd164@linaro.org>
-Date: Sat, 18 Feb 2023 15:04:04 +0200
+ Sat, 18 Feb 2023 06:49:38 -0800 (PST)
+Message-ID: <9a0245af-b7f3-0874-385b-47c86d6e6a60@linaro.org>
+Date: Sat, 18 Feb 2023 15:49:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v2 07/14] drm/msm/a6xx: Add support for A619_holi
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, agross@kernel.org
-References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
- <20230214173145.2482651-8-konrad.dybcio@linaro.org>
- <8268b4c9-ca5e-4ff3-628c-7e9daaeb16b0@linaro.org>
- <9269c5dd-d97c-e29a-98a9-b42c598ebfc6@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <9269c5dd-d97c-e29a-98a9-b42c598ebfc6@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 1/2] dt-bindings: display/msm: dsi-controller-main: Fix
+ deprecated QCM2290 compatible
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org
+References: <20230217111316.306241-1-konrad.dybcio@linaro.org>
+ <c49904be-d842-fc12-a443-17f229d53166@linaro.org>
+ <a4eaccfd-34ba-15f3-033f-165b46c43317@linaro.org>
+ <a158bca2-78bf-5b38-60fe-88118e8b4ad7@linaro.org>
+ <ab35cdcf-53ae-a3f2-fc08-d0f58c51a0ae@linaro.org>
+ <48cb00cd-961c-b72f-fba8-1842d658e289@linaro.org>
+ <d4ffa9f0-797e-7a32-147e-64aa46d7e197@linaro.org>
+ <e6d397bb-dd5d-8308-eb07-3aeb2589115c@linaro.org>
+ <fbece9d6-2204-2534-e44f-29c29cc56413@linaro.org>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <fbece9d6-2204-2534-e44f-29c29cc56413@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,92 +85,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Nathan Chancellor <nathan@kernel.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- marijn.suijten@somainline.org, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/02/2023 23:21, Konrad Dybcio wrote:
+On 18/02/2023 12:23, Konrad Dybcio wrote:
 > 
 > 
-> On 17.02.2023 22:19, Dmitry Baryshkov wrote:
->> On 14/02/2023 19:31, Konrad Dybcio wrote:
->>> A619_holi is a GMU-less variant of the already-supported A619 GPU.
->>> It's present on at least SM4350 (holi) and SM6375 (blair). No mesa
->>> changes are required. Add the required kernel-side support for it.
+> On 18.02.2023 11:14, Krzysztof Kozlowski wrote:
+>> On 17/02/2023 22:13, Bryan O'Donoghue wrote:
+>>> On 17/02/2023 12:24, Krzysztof Kozlowski wrote:
+>>>> First, it would be nice to know what was the intention of Bryan's commit?
 >>>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 37 +++++++++++++++++-----
->>>    drivers/gpu/drm/msm/adreno/adreno_device.c | 13 ++++++++
->>>    drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
->>>    3 files changed, 47 insertions(+), 8 deletions(-)
-
-[...]
-
-
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> index 82757f005a1a..71faeb3fd466 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->>> @@ -264,6 +264,19 @@ static const struct adreno_info gpulist[] = {
->>>            .gmem = SZ_512K,
->>>            .inactive_period = DRM_MSM_INACTIVE_PERIOD,
->>>            .init = a6xx_gpu_init,
->>> +    }, {
->>> +        .rev = ADRENO_REV(6, 1, 9, 1),
+>>> Sorry I've been grazing this thread but, not responding.
+>>>
+>>> - qcom,dsi-ctrl-6g-qcm2290
+>>>
+>>> is non-compliant with qcom,socid-dsi-ctrl which is our desired naming 
+>>> convention, so that's what the deprecation is about i.e. moving this 
+>>> compat to "qcom,qcm2290-dsi-ctrl"
 >>
->> I think this deserves a comment that GMU-enabled sm6350 has patch_id 0 (if I interpreted the vendor dtsi correctly).
->>
->> Another option might be to actually check for the qcom,gmu presense and add that to the selection conditional.
-> We pass the GMU wrapper in qcom,gmu = <>, though perhaps setting
-> the holi-ness based on whether it's "qcom,gmu-x.y.z.a" or
-> "qcom,gmu-wrapper" would be wiser.. The patch ID is indeterminate
-> and I *think* one GMU-wrapper A619 has patch id 0..
+>> OK, then there was no intention to deprecate qcom,mdss-dsi-ctrl and it
+>> should be left as allowed compatible.
+> Not sure if we're on the same page.
 
-I was not aware that GMU-wrapper also adds a GMU device. In this case, 
-checking the GMU's compatible strings sounds like a logical approach to me.
+We are.
 
 > 
-> Konrad
->>
->>> +        .revn = 619,
->>> +        .name = "A619_holi",
->>> +        .fw = {
->>> +            [ADRENO_FW_SQE] = "a630_sqe.fw",
->>> +        },
->>> +        .gmem = SZ_512K,
->>> +        .inactive_period = DRM_MSM_INACTIVE_PERIOD,
->>> +        .quirks = ADRENO_QUIRK_GMU_WRAPPER,
->>> +        .init = a6xx_gpu_init,
->>> +        .zapfw = "a615_zap.mdt",
->>> +        .hwcg = a615_hwcg,
->>>        }, {
->>>            .rev = ADRENO_REV(6, 1, 9, ANY_ID),
->>>            .revn = 619,
->>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>> index 7c5e0a90b5fb..16241368c2e4 100644
->>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>> @@ -252,6 +252,11 @@ static inline int adreno_is_a619(struct adreno_gpu *gpu)
->>>        return gpu->revn == 619;
->>>    }
->>>    +static inline int adreno_is_a619_holi(struct adreno_gpu *gpu)
->>> +{
->>> +    return adreno_is_a619(gpu) && adreno_has_gmu_wrapper(gpu);
->>> +}
->>> +
->>>    static inline int adreno_is_a630(struct adreno_gpu *gpu)
->>>    {
->>>        return gpu->revn == 630;
->>
+> It wasn't intended to deprecate [1] "qcom,qcm2290-dsi-ctrl", "qcom-mdss-dsi-ctrl";
+> (newly-introduced in Bryan's cleanup patchset) but it was intended to deprecate
+> [2] "qcom,dsi-ctrl-6g-qcm2290"; which was introduced long before that *and* used in
+> the 6115 dt (and it still is in linux-next today, as my cleanup hasn't landed yet).
+> 
+> [3] "qcom,dsi-ctrl-6g-qcm2290", "qcom,mdss-dsi-ctrl" was never used (and should never
+> be, considering there's a proper compatible [1] now) so adding it to bindings
+> didn't solve the undocumented-ness issue. Plus the fallback would have never
+> worked back then, as the DSI hw revision check would spit out 2.4.1 or 2.4.
+> which is SC7180 or SDM845 and then it would never match the base register, as
+> they're waay different.
 
--- 
-With best wishes
-Dmitry
+All these were known. I was asking about "qcom,mdss-dsi-ctrl", because
+the original intention also affects the way we want to keep it now
+(unless there are other reasons).
+
+Best regards,
+Krzysztof
 
