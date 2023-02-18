@@ -2,39 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFBEC69B9D1
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 12:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD4B69B9F4
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 13:22:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F64010E4A4;
-	Sat, 18 Feb 2023 11:33:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B68F10E200;
+	Sat, 18 Feb 2023 12:22:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD26E10E4A4
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 11:33:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2C57760AEF;
- Sat, 18 Feb 2023 11:33:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0B57C433D2;
- Sat, 18 Feb 2023 11:33:45 +0000 (UTC)
-Message-ID: <8802bf80-19a7-4064-0089-12deffad6636@xs4all.nl>
-Date: Sat, 18 Feb 2023 12:33:44 +0100
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1FE310E200;
+ Sat, 18 Feb 2023 12:22:29 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id fd2so2451992edb.2;
+ Sat, 18 Feb 2023 04:22:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vSFhK0gX7xLAjDvAdw5Ub/even+FiWfI7Dc8rnupOLE=;
+ b=CnBvEplv2WTtQW0d4GTeBfKkksECcd8nz6dItfyfYbVPba/xmypBoSCaAWqIggDqJW
+ CEKF9sMAtqIXLzQUDJcoJy883Exs+OIb7jD7nT3LzDetwrxCeIyCo3IL2dx4Fgkb2nnW
+ 2615xl5Q70pYsjrmgYgcXifBgSEkFDfmpYExVKT09qxGHxMOFHpxoE/8zQgxdQ37+Z9Z
+ uEjLi4NYS3AkdWjW5OBf+738yCyTeagFydqcgyd3p5VaiSsg4TzkdrzHJfuYI9DXbTXw
+ O0jal2afwN3LQ/lCkNzNVsh77JZDVHPsgCG8C09T7Wa0Qpva49+67fOXcFCBM9WHBSoi
+ aerQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vSFhK0gX7xLAjDvAdw5Ub/even+FiWfI7Dc8rnupOLE=;
+ b=Y9hLyI1d8BvE1qEXlEfc7+Xx7I0CR++IYwHJxxE34riX5st+Z+rOcxmvuWxW8WE6pd
+ Fc5Kr3O3Xslil/LcXod1Ua+VuDrS4jNC6l6Iz0a8Pce9bw4qkQvQFEFPIQmXioMoTlB+
+ px2rRXQ2C0OpoFmAw0Fb0gPbg+VmVmF03+2ug4WdlcqJB7EPXgMDy9WrGzb3nDjXlkPF
+ TQhsk5hETF9g7AkgJSNgqCSw/T04P1FPhFFXKUg0bD1Aam7jgqeg6ZORAJNohgZiGGgN
+ VYp7WHdELMzm6FwEKkUGOEq3olx/Gs8T2DhBmHSkF58l9gn9FcfILmRPZrGXW5g1UX1W
+ Ca9Q==
+X-Gm-Message-State: AO0yUKXFHX31eu8b0A/X5VFaqUjVQ1Pd1J9M+Wkf0tu1ym+dXxLgsafm
+ JKuuB9RENcWl+9OZh0jdt7g=
+X-Google-Smtp-Source: AK7set8joj7Ao/gmx+ebDbKwbsXBNeMBvonzeqxp071jClpYHAKYIdLsR2ZYh7d/QxWXD4DACj03pA==
+X-Received: by 2002:a17:906:8258:b0:8ae:b008:9b5a with SMTP id
+ f24-20020a170906825800b008aeb0089b5amr2139465ejx.69.1676722948146; 
+ Sat, 18 Feb 2023 04:22:28 -0800 (PST)
+Received: from [192.168.1.10] (97e09f27.skybroadband.com. [151.224.159.39])
+ by smtp.googlemail.com with ESMTPSA id
+ ha13-20020a170906a88d00b008b12823f0f7sm3311971ejb.88.2023.02.18.04.22.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Feb 2023 04:22:27 -0800 (PST)
+Message-ID: <181bea6a-e501-f5bd-b002-de7a244a921a@googlemail.com>
+Date: Sat, 18 Feb 2023 12:22:25 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 3/9] drm/vc4: hdmi: Add Broadcast RGB property to allow
- override of RGB range
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20221207-rpi-hdmi-improvements-v2-0-8ace2d8221ad@cerno.tech>
- <20221207-rpi-hdmi-improvements-v2-3-8ace2d8221ad@cerno.tech>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20221207-rpi-hdmi-improvements-v2-3-8ace2d8221ad@cerno.tech>
+ Thunderbird/102.8.0
+Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
+To: Karol Herbst <kherbst@redhat.com>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
+ <CACAvsv4sOtPjCVnEcKd2RCUqYWxSn5XKyksbS-Bds2qCqyusVw@mail.gmail.com>
+ <1cdb84ac-f7a8-66ba-98fc-3db302b49a5a@googlemail.com>
+ <dab6eb81-db3f-8fa1-84ad-9b40e209514b@googlemail.com>
+ <CACAvsv5iYdF3P8AbyrbYo3zGmYRYhxDWn7WbAR5V9qHpbgBXRA@mail.gmail.com>
+ <1632a9ef-2954-c8f0-cdc9-03157c9d8547@googlemail.com>
+ <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
+ <5cf46df8-0fa2-e9f5-aa8e-7f7f703d96dd@googlemail.com>
+ <f72fe15b-db1d-56dd-aaf6-3cba68a8bf0a@leemhuis.info>
+ <CACO55tvR4ydDOXt=9nbR3n2aFLKrj8zeuGRR_xpezVQBBLrjqg@mail.gmail.com>
+ <a6188878-f84c-0fcc-9509-b9d7ab797f4c@leemhuis.info>
+ <d031f0a5-8d5e-af51-6db6-11844de3eeba@googlemail.com>
+ <CAPM=9tz+wksJTvMi_4Ef7XWezfH0ReN2se189s8Q=obJjHC+Fw@mail.gmail.com>
+ <4e786e22-f17a-da76-5129-8fef0c7c825a@googlemail.com>
+ <b829633e-ccc4-7a54-1cad-f29254de1251@leemhuis.info>
+ <CACO55tsvM07_6mGU3dCgeji0a6B4JJKSDOOBuCHv2Mw3rYbCHg@mail.gmail.com>
+Content-Language: en-GB
+From: Chris Clayton <chris2553@googlemail.com>
+In-Reply-To: <CACO55tsvM07_6mGU3dCgeji0a6B4JJKSDOOBuCHv2Mw3rYbCHg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,303 +91,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: ML nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com,
+ Ben Skeggs <skeggsb@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime, Dave,
 
-On 26/01/2023 14:46, Maxime Ripard wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+On 15/02/2023 11:09, Karol Herbst wrote:
+> On Wed, Feb 15, 2023 at 11:36 AM Linux regression tracking #update
+> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
+>>
+>> On 13.02.23 10:14, Chris Clayton wrote:
+>>> On 13/02/2023 02:57, Dave Airlie wrote:
+>>>> On Sun, 12 Feb 2023 at 00:43, Chris Clayton <chris2553@googlemail.com> wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>>> On 10/02/2023 19:33, Linux regression tracking (Thorsten Leemhuis) wrote:
+>>>>>> On 10.02.23 20:01, Karol Herbst wrote:
+>>>>>>> On Fri, Feb 10, 2023 at 7:35 PM Linux regression tracking (Thorsten
+>>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
+>>>>>>>>
+>>>>>>>> On 08.02.23 09:48, Chris Clayton wrote:
+>>>>>>>>>
+>>>>>>>>> I'm assuming  that we are not going to see a fix for this regression before 6.2 is released.
+>>>>>>>>
+>>>>>>>> Yeah, looks like it. That's unfortunate, but happens. But there is still
+>>>>>>>> time to fix it and there is one thing I wonder:
+>>>>>>>>
+>>>>>>>> Did any of the nouveau developers look at the netconsole captures Chris
+>>>>>>>> posted more than a week ago to check if they somehow help to track down
+>>>>>>>> the root of this problem?
+>>>>>>>
+>>>>>>> I did now and I can't spot anything. I think at this point it would
+>>>>>>> make sense to dump the active tasks/threads via sqsrq keys to see if
+>>>>>>> any is in a weird state preventing the machine from shutting down.
+>>>>>>
+>>>>>> Many thx for looking into it!
+>>>>>
+>>>>> Yes, thanks Karol.
+>>>>>
+>>>>> Attached is the output from dmesg when this block of code:
+>>>>>
+>>>>>         /bin/mount /dev/sda7 /mnt/sda7
+>>>>>         /bin/mountpoint /proc || /bin/mount /proc
+>>>>>         /bin/dmesg -w > /mnt/sda7/sysrq.dmesg.log &
+>>>>>         /bin/echo t > /proc/sysrq-trigger
+>>>>>         /bin/sleep 1
+>>>>>         /bin/sync
+>>>>>         /bin/sleep 1
+>>>>>         kill $(pidof dmesg)
+>>>>>         /bin/umount /mnt/sda7
+>>>>>
+>>>>> is executed immediately before /sbin/reboot is called as the final step of rebooting my system.
+>>>>>
+>>>>> I hope this is what you were looking for, but if not, please let me know what you need
+>>>
+>>> Thanks Dave. [...]
+>> FWIW, in case anyone strands here in the archives: the msg was
+>> truncated. The full post can be found in a new thread:
+>>
+>> https://lore.kernel.org/lkml/e0b80506-b3cf-315b-4327-1b988d86031e@googlemail.com/
+>>
+>> Sadly it seems the info "With runpm=0, both reboot and poweroff work on
+>> my laptop." didn't bring us much further to a solution. :-/ I don't
+>> really like it, but for regression tracking I'm now putting this on the
+>> back-burner, as a fix is not in sight.
+>>
+>> #regzbot monitor:
+>> https://lore.kernel.org/lkml/e0b80506-b3cf-315b-4327-1b988d86031e@googlemail.com/
+>> #regzbot backburner: hard to debug and apparently rare
+>> #regzbot ignore-activity
+>>
 > 
-> Copy Intel's "Broadcast RGB" property semantics to add manual override
-> of the HDMI pixel range for monitors that don't abide by the content
-> of the AVI Infoframe.
-
-Do we have to copy that property as-is?
-
-First of all, I think this should really be a drm-level property, rather than
-a driver property: RGB Quantization Range mismatches are the bane of my life,
-and I think a way to override this would help everyone.
-
-Secondly, I hate the name they came up with: 'Broadcast RGB' is pretty meaningless.
-Can't we stick to something closer to what the CTA-861/HDMI specs use, which is
-'RGB Quantization Range'? So either use that, or just 'RGB Range'.
-
-In addition, 'Limited 16:235' should just be 'Limited' since the actual range
-depends on the bits-per-color-component.
-
+> yeah.. this bug looks a little annoying. Sadly the only Turing based
+> laptop I got doesn't work on Nouveau because of firmware related
+> issues and we probably need to get updated ones from Nvidia here :(
 > 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 97 ++++++++++++++++++++++++++++++++++++++++--
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  9 ++++
->  2 files changed, 102 insertions(+), 4 deletions(-)
+> But it's a bit weird that the kernel doesn't shutdown, because I don't
+> see anything in the logs which would prevent that from happening.
+> Unless it's waiting on one of the tasks to complete, but none of them
+> looked in any way nouveau related.
 > 
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 4b3bf77bb5cd..78749c6fa837 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -150,10 +150,16 @@ static bool vc4_hdmi_mode_needs_scrambling(const struct drm_display_mode *mode,
->  }
->  
->  static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
-> -				       const struct drm_display_mode *mode)
-> +				       struct vc4_hdmi_connector_state *vc4_state)
->  {
-> +	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
->  	struct drm_display_info *display = &vc4_hdmi->connector.display_info;
->  
-> +	if (vc4_state->broadcast_rgb == VC4_HDMI_BROADCAST_RGB_LIMITED)
-> +		return false;
-> +	else if (vc4_state->broadcast_rgb == VC4_HDMI_BROADCAST_RGB_FULL)
-> +		return true;
-> +
->  	return !display->is_hdmi ||
->  		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL;
->  }
-> @@ -524,8 +530,12 @@ static int vc4_hdmi_connector_atomic_check(struct drm_connector *connector,
->  {
->  	struct drm_connector_state *old_state =
->  		drm_atomic_get_old_connector_state(state, connector);
-> +	struct vc4_hdmi_connector_state *old_vc4_state =
-> +		conn_state_to_vc4_hdmi_conn_state(old_state);
->  	struct drm_connector_state *new_state =
->  		drm_atomic_get_new_connector_state(state, connector);
-> +	struct vc4_hdmi_connector_state *new_vc4_state =
-> +		conn_state_to_vc4_hdmi_conn_state(new_state);
->  	struct drm_crtc *crtc = new_state->crtc;
->  
->  	if (!crtc)
-> @@ -558,6 +568,7 @@ static int vc4_hdmi_connector_atomic_check(struct drm_connector *connector,
->  	}
->  
->  	if (old_state->colorspace != new_state->colorspace ||
-> +	    old_vc4_state->broadcast_rgb != new_vc4_state->broadcast_rgb ||
-
-The problem with this is that this will cause a mode change, even though all
-that is necessary is to update the csc matrix and AVI InfoFrame.
-
-I used this code (added just before the 'return 0;' at the end of this function):
-
-        if (old_vc4_state->broadcast_rgb != new_vc4_state->broadcast_rgb) {
-                const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
-
-                old_vc4_state->broadcast_rgb = new_vc4_state->broadcast_rgb;
-                vc4_hdmi_set_avi_infoframe(encoder);
-                if (vc4_hdmi->variant->csc_setup)
-                        vc4_hdmi->variant->csc_setup(vc4_hdmi, old_state, mode);
-        }
-
-I'm certain this is in the wrong place, but I'm not familiar enough with the drm API
-to determine where this should go.
-
-This approach probably applies to the hdr_metadata metadata as well, that too
-doesn't need a mode change.
-
-I see that the i915 driver has a 'fastset' mechanism for changes like this, but
-it is not clear to me how that interacts with the drm API.
-
-I've been playing around with this vc4 driver and it is proving to be very useful
-for debugging all sorts of quantization range bugs in other equipment.
-
-Regards,
-
-	Hans
-
->  	    !drm_connector_atomic_hdr_metadata_equal(old_state, new_state)) {
->  		struct drm_crtc_state *crtc_state;
->  
-> @@ -571,6 +582,49 @@ static int vc4_hdmi_connector_atomic_check(struct drm_connector *connector,
->  	return 0;
->  }
->  
-> +static int vc4_hdmi_connector_get_property(struct drm_connector *connector,
-> +					   const struct drm_connector_state *state,
-> +					   struct drm_property *property,
-> +					   uint64_t *val)
-> +{
-> +	struct drm_device *drm = connector->dev;
-> +	struct vc4_hdmi *vc4_hdmi =
-> +		connector_to_vc4_hdmi(connector);
-> +	const struct vc4_hdmi_connector_state *vc4_conn_state =
-> +		conn_state_to_vc4_hdmi_conn_state(state);
-> +
-> +	if (property == vc4_hdmi->broadcast_rgb_property) {
-> +		*val = vc4_conn_state->broadcast_rgb;
-> +	} else {
-> +		drm_dbg(drm, "Unknown property [PROP:%d:%s]\n",
-> +			property->base.id, property->name);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int vc4_hdmi_connector_set_property(struct drm_connector *connector,
-> +					   struct drm_connector_state *state,
-> +					   struct drm_property *property,
-> +					   uint64_t val)
-> +{
-> +	struct drm_device *drm = connector->dev;
-> +	struct vc4_hdmi *vc4_hdmi =
-> +		connector_to_vc4_hdmi(connector);
-> +	struct vc4_hdmi_connector_state *vc4_conn_state =
-> +		conn_state_to_vc4_hdmi_conn_state(state);
-> +
-> +	if (property == vc4_hdmi->broadcast_rgb_property) {
-> +		vc4_conn_state->broadcast_rgb = val;
-> +		return 0;
-> +	}
-> +
-> +	drm_dbg(drm, "Unknown property [PROP:%d:%s]\n",
-> +		property->base.id, property->name);
-> +	return -EINVAL;
-> +}
-> +
->  static void vc4_hdmi_connector_reset(struct drm_connector *connector)
->  {
->  	struct vc4_hdmi_connector_state *old_state =
-> @@ -590,6 +644,7 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
->  	new_state->base.max_bpc = 8;
->  	new_state->base.max_requested_bpc = 8;
->  	new_state->output_format = VC4_HDMI_OUTPUT_RGB;
-> +	new_state->broadcast_rgb = VC4_HDMI_BROADCAST_RGB_AUTO;
->  	drm_atomic_helper_connector_tv_margins_reset(connector);
->  }
->  
-> @@ -607,6 +662,7 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
->  	new_state->tmds_char_rate = vc4_state->tmds_char_rate;
->  	new_state->output_bpc = vc4_state->output_bpc;
->  	new_state->output_format = vc4_state->output_format;
-> +	new_state->broadcast_rgb = vc4_state->broadcast_rgb;
->  	__drm_atomic_helper_connector_duplicate_state(connector, &new_state->base);
->  
->  	return &new_state->base;
-> @@ -617,6 +673,8 @@ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
->  	.reset = vc4_hdmi_connector_reset,
->  	.atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +	.atomic_get_property = vc4_hdmi_connector_get_property,
-> +	.atomic_set_property = vc4_hdmi_connector_set_property,
->  };
->  
->  static const struct drm_connector_helper_funcs vc4_hdmi_connector_helper_funcs = {
-> @@ -625,6 +683,33 @@ static const struct drm_connector_helper_funcs vc4_hdmi_connector_helper_funcs =
->  	.atomic_check = vc4_hdmi_connector_atomic_check,
->  };
->  
-> +static const struct drm_prop_enum_list broadcast_rgb_names[] = {
-> +	{ VC4_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
-> +	{ VC4_HDMI_BROADCAST_RGB_FULL, "Full" },
-> +	{ VC4_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
-> +};
-> +
-> +static void
-> +vc4_hdmi_attach_broadcast_rgb_property(struct drm_device *dev,
-> +				       struct vc4_hdmi *vc4_hdmi)
-> +{
-> +	struct drm_property *prop = vc4_hdmi->broadcast_rgb_property;
-> +
-> +	if (!prop) {
-> +		prop = drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
-> +						"Broadcast RGB",
-> +						broadcast_rgb_names,
-> +						ARRAY_SIZE(broadcast_rgb_names));
-> +		if (!prop)
-> +			return;
-> +
-> +		vc4_hdmi->broadcast_rgb_property = prop;
-> +	}
-> +
-> +	drm_object_attach_property(&vc4_hdmi->connector.base, prop,
-> +				   VC4_HDMI_BROADCAST_RGB_AUTO);
-> +}
-> +
->  static int vc4_hdmi_connector_init(struct drm_device *dev,
->  				   struct vc4_hdmi *vc4_hdmi)
->  {
-> @@ -671,6 +756,8 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
->  	if (vc4_hdmi->variant->supports_hdr)
->  		drm_connector_attach_hdr_output_metadata_property(connector);
->  
-> +	vc4_hdmi_attach_broadcast_rgb_property(dev, vc4_hdmi);
-> +
->  	drm_connector_attach_encoder(connector, encoder);
->  
->  	return 0;
-> @@ -825,7 +912,7 @@ static void vc4_hdmi_set_avi_infoframe(struct drm_encoder *encoder)
->  
->  	drm_hdmi_avi_infoframe_quant_range(&frame.avi,
->  					   connector, mode,
-> -					   vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode) ?
-> +					   vc4_hdmi_is_full_range_rgb(vc4_hdmi, vc4_state) ?
->  					   HDMI_QUANTIZATION_RANGE_FULL :
->  					   HDMI_QUANTIZATION_RANGE_LIMITED);
->  	drm_hdmi_avi_infoframe_colorimetry(&frame.avi, cstate);
-> @@ -1066,6 +1153,8 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
->  			       struct drm_connector_state *state,
->  			       const struct drm_display_mode *mode)
->  {
-> +	struct vc4_hdmi_connector_state *vc4_state =
-> +		conn_state_to_vc4_hdmi_conn_state(state);
->  	struct drm_device *drm = vc4_hdmi->connector.dev;
->  	unsigned long flags;
->  	u32 csc_ctl;
-> @@ -1079,7 +1168,7 @@ static void vc4_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
->  	csc_ctl = VC4_SET_FIELD(VC4_HD_CSC_CTL_ORDER_BGR,
->  				VC4_HD_CSC_CTL_ORDER);
->  
-> -	if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode)) {
-> +	if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, vc4_state)) {
->  		/* CEA VICs other than #1 requre limited range RGB
->  		 * output unless overridden by an AVI infoframe.
->  		 * Apply a colorspace conversion to squash 0-255 down
-> @@ -1232,7 +1321,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
->  	case VC4_HDMI_OUTPUT_RGB:
->  		if_xbar = 0x354021;
->  
-> -		if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, mode))
-> +		if (!vc4_hdmi_is_full_range_rgb(vc4_hdmi, vc4_state))
->  			vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_limited_rgb);
->  		else
->  			vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_unity);
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index 5d249ac54cd1..89800c48aa24 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -117,6 +117,12 @@ enum vc4_hdmi_output_format {
->  	VC4_HDMI_OUTPUT_YUV420,
->  };
->  
-> +enum vc4_hdmi_broadcast_rgb {
-> +	VC4_HDMI_BROADCAST_RGB_AUTO,
-> +	VC4_HDMI_BROADCAST_RGB_FULL,
-> +	VC4_HDMI_BROADCAST_RGB_LIMITED,
-> +};
-> +
->  /* General HDMI hardware state. */
->  struct vc4_hdmi {
->  	struct vc4_hdmi_audio audio;
-> @@ -129,6 +135,8 @@ struct vc4_hdmi {
->  
->  	struct delayed_work scrambling_work;
->  
-> +	struct drm_property *broadcast_rgb_property;
-> +
->  	struct i2c_adapter *ddc;
->  	void __iomem *hdmicore_regs;
->  	void __iomem *hd_regs;
-> @@ -238,6 +246,7 @@ struct vc4_hdmi_connector_state {
->  	unsigned long long		tmds_char_rate;
->  	unsigned int 			output_bpc;
->  	enum vc4_hdmi_output_format	output_format;
-> +	enum vc4_hdmi_broadcast_rgb	broadcast_rgb;
->  };
->  
->  #define conn_state_to_vc4_hdmi_conn_state(_state)			\
+> If somebody else has any fancy kernel debugging tips here to figure
+> out why it hangs, that would be very helpful...
 > 
 
+I think I've figured this out. It's to do with how my system is configured. I do have an initrd, but the only thing on
+it is the cpu microcode which, it is recommended, should be loaded early. The absence of the NVidia firmare from an
+initrd doesn't matter because the drivers for the hardware that need to load firmware are all built as modules, So, by
+the time the devices are configured via udev, the root partition is mounted and the drivers can get at the firmware.
+
+I've found, by turning on nouveau debug and taking a video of the screen as the system shuts down, that nouveau seems to
+be trying to run the scrubber very very late in the shutdown process. The problem is that by this time, I think the root
+partition, and thus the scrubber binary, have become inaccessible.
+
+I seem to have two choices - either make the firmware accessible on an initrd or unload the module in a shutdown script
+before the scrubber binary becomes inaccessible. The latter of these is the workaround I have implemented whilst the
+problem I reported has been under investigation. For simplicity, I think I'll promote my workaround to being the
+permanent solution.
+
+So, apologies (and thanks) to everyone whose time I have taken up with this non-bug.
+
+Chris
+
+>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+>> --
+>> Everything you wanna know about Linux kernel regression tracking:
+>> https://linux-regtracking.leemhuis.info/about/#tldr
+>> That page also explains what to do if mails like this annoy you.
+>>
+>> #regzbot ignore-activity
+>>
+> 
