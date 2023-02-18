@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0308069B77A
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 02:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B569B7C8
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 03:50:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B47710F104;
-	Sat, 18 Feb 2023 01:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F45110E002;
+	Sat, 18 Feb 2023 02:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DAC610E1FD
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 01:25:51 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id t4so2880331lfr.7
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Feb 2023 17:25:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1Q97BznUv1mfKjh1AZZa0Dw1OPMlC5jT+voBjRu9BfA=;
- b=w390DS6GdepMHP3EzknAMidgDadaDSNKI4SvFVZbxt8Rx3aEYnPzEE+vNrtfKCGdg9
- okwKQY741PRsxAkqG3pMOp1SFqB29L2vpuX8L/PEjNCSlby+fQKhQEY8tMpMUu9ML7s+
- frWD6yg3laPUPr4mYHtNFHviABEyqNs3YdwyZv1n32Qqa8ZSFISWjWQ8FrX7AyY/1n3S
- sj9ichIBUocvw2H9BwnVOuw2Ufd76wNPYyk+0IEsGMic7K2t9DEy9an+T84BZDtmYoxK
- hUKvybxaReh8eqxlfO6vjsClzYR5N6NwFU7gBSAf7mbHRWCQYL9nCNDzsPQdR+N+8C9j
- MFiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1Q97BznUv1mfKjh1AZZa0Dw1OPMlC5jT+voBjRu9BfA=;
- b=Kf2nEtHKUXaKYfOeuOE0N19b/ih2xW3YWC5srsThR361qwWPz7tvz6zgPIcD7QckZ1
- vQK6G5FaTHKGERjpPYe9o7+ljOzl3K2FQqU56RThoLvJfQuMJ6CRE/Jc3GltaCt5+ZcF
- yf60W5c3WhJaTKtakmhZ0Yj1MDoweySDVgi7ZNZeCgn9ZHXtPGUU//qpDpF7EAJn4bsa
- yXI4/bB/Ym8H6QNlPMydQ5eVjtY8sAWwgCyczmydAt36aGXqIffSXT++z4WaSC1IIsNR
- jw/+JSMCefJu48vgLOpRiP4gnhRob7K0MaRepgidCEOsVTHtYLFh4ap/jNslBtOlMjCB
- cOYA==
-X-Gm-Message-State: AO0yUKXdh4OrAlaS5OkcZqnel7t+fjJ7m4DRH4+idLmh4GW3KUuxaPVR
- HYmO9DrzYqqYTBCD9VYFogMtBA==
-X-Google-Smtp-Source: AK7set+U259Fv3cOjrzdzrO1dq6I6qhFUBuTueybdPfOd9TPfviaxg9n6zW4a1vE7/GdvbxYXnyHNw==
-X-Received: by 2002:ac2:50d5:0:b0:4b5:5ddc:da32 with SMTP id
- h21-20020ac250d5000000b004b55ddcda32mr163141lfm.56.1676683549715; 
- Fri, 17 Feb 2023 17:25:49 -0800 (PST)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- j11-20020a19f50b000000b004d85f2acd8esm826414lfb.295.2023.02.17.17.25.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Feb 2023 17:25:49 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 2/2] drm/msm: simplify msm_parse_deps() and
- msm_parse_post_deps()
-Date: Sat, 18 Feb 2023 03:25:46 +0200
-Message-Id: <20230218012546.3655999-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230218012546.3655999-1-dmitry.baryshkov@linaro.org>
-References: <20230218012546.3655999-1-dmitry.baryshkov@linaro.org>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A0AE10E002;
+ Sat, 18 Feb 2023 02:50:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676688621; x=1708224621;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=mCwCBFKM5W10vvViKqJohx198JYrfGaLCfjvdwLgaxo=;
+ b=cZEhlRKCwmHsB962su+LDIjkcy4ATUbdl5MJR6KXbXAfiGV+FmTcBrYw
+ Mg706Q1Ho5CUQIXGkab79BeBYd/g1pjeOO46mBveOLNKFNpisMVl2VqaP
+ ME5nbYzHE7v1nnuHI9jzgGO6s0Ux030B73egxbz/HeJX6n3a9Ww7J3fzA
+ IiYcCmBKDS7mUlLpWEHf4D/NCADYlUFMLVlUzHT3ZCy6gs9um1ybcqAI4
+ Y7hBvSOyWaCM59I+R3kkDPDs0tS2GHJD3v/BDnj1jSi9aoESOPoudQdUZ
+ D0DZIB8l65RxIdO8oypt8YEFheKOlDotQFLqeFHfPsLy+WlgqgA8KlVyj w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="329853833"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="329853833"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Feb 2023 18:50:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10624"; a="759600407"
+X-IronPort-AV: E=Sophos;i="5.97,306,1669104000"; d="scan'208";a="759600407"
+Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
+ by FMSMGA003.fm.intel.com with ESMTP; 17 Feb 2023 18:48:48 -0800
+Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pTDHI-000C2l-1q;
+ Sat, 18 Feb 2023 02:48:44 +0000
+Date: Sat, 18 Feb 2023 10:47:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+ christian.koenig@amd.com, bskeggs@redhat.com,
+ Liam.Howlett@oracle.com, matthew.brost@intel.com,
+ boris.brezillon@collabora.com, alexdeucher@gmail.com,
+ ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+ jason@jlekstrand.net
+Subject: Re: [PATCH drm-next v2 06/16] drm: debugfs: provide infrastructure
+ to dump a DRM GPU VA space
+Message-ID: <202302181014.L0SHo3S1-lkp@intel.com>
+References: <20230217134820.14672-1-dakr@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230217134820.14672-1-dakr@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,274 +66,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Danilo Krummrich <dakr@redhat.com>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify two functions msm_parse_deps() and msm_parse_post_deps():
-extract single item parsing function and clean up error path.
+Hi Danilo,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 196 +++++++++++++++------------
- 1 file changed, 106 insertions(+), 90 deletions(-)
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index a539eb31042f..c64907f0f249 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -546,6 +546,46 @@ struct msm_submit_post_dep {
- 	struct dma_fence_chain *chain;
- };
- 
-+static struct drm_syncobj *msm_parse_dep_one(struct msm_gem_submit *submit,
-+					     struct drm_file *file,
-+					     uint64_t address,
-+					     size_t syncobj_stride)
-+{
-+	struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
-+	struct dma_fence *fence;
-+	struct drm_syncobj *syncobj = NULL;
-+	int ret;
-+
-+	if (copy_from_user(&syncobj_desc,
-+			   u64_to_user_ptr(address),
-+			   min(syncobj_stride, sizeof(syncobj_desc))))
-+		return ERR_PTR(-EFAULT);
-+
-+	if (syncobj_desc.point &&
-+	    !drm_core_check_feature(submit->dev, DRIVER_SYNCOBJ_TIMELINE))
-+		return ERR_PTR(-EOPNOTSUPP);
-+
-+	if (syncobj_desc.flags & ~MSM_SUBMIT_SYNCOBJ_FLAGS)
-+		return ERR_PTR(-EINVAL);
-+
-+	ret = drm_syncobj_find_fence(file, syncobj_desc.handle,
-+				     syncobj_desc.point, 0, &fence);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ret = drm_sched_job_add_dependency(&submit->base, fence);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	if (syncobj_desc.flags & MSM_SUBMIT_SYNCOBJ_RESET) {
-+		syncobj = drm_syncobj_find(file, syncobj_desc.handle);
-+		if (!syncobj)
-+			return ERR_PTR(-EINVAL);
-+	}
-+
-+	return syncobj;
-+}
-+
- static struct drm_syncobj **msm_parse_deps(struct msm_gem_submit *submit,
-                                            struct drm_file *file,
-                                            uint64_t in_syncobjs_addr,
-@@ -553,9 +593,8 @@ static struct drm_syncobj **msm_parse_deps(struct msm_gem_submit *submit,
-                                            size_t syncobj_stride)
- {
- 	struct drm_syncobj **syncobjs = NULL;
--	struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
--	int ret = 0;
--	uint32_t i, j;
-+	int ret;
-+	int i;
- 
- 	syncobjs = kcalloc(nr_in_syncobjs, sizeof(*syncobjs),
- 	                   GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
-@@ -564,54 +603,26 @@ static struct drm_syncobj **msm_parse_deps(struct msm_gem_submit *submit,
- 
- 	for (i = 0; i < nr_in_syncobjs; ++i) {
- 		uint64_t address = in_syncobjs_addr + i * syncobj_stride;
--		struct dma_fence *fence;
-+		struct drm_syncobj *syncobj;
- 
--		if (copy_from_user(&syncobj_desc,
--			           u64_to_user_ptr(address),
--			           min(syncobj_stride, sizeof(syncobj_desc)))) {
--			ret = -EFAULT;
--			break;
--		}
--
--		if (syncobj_desc.point &&
--		    !drm_core_check_feature(submit->dev, DRIVER_SYNCOBJ_TIMELINE)) {
--			ret = -EOPNOTSUPP;
--			break;
-+		syncobj = msm_parse_dep_one(submit, file, address, syncobj_stride);
-+		if (IS_ERR(syncobj)) {
-+			ret = PTR_ERR(syncobj);
-+			goto err;
- 		}
- 
--		if (syncobj_desc.flags & ~MSM_SUBMIT_SYNCOBJ_FLAGS) {
--			ret = -EINVAL;
--			break;
--		}
--
--		ret = drm_syncobj_find_fence(file, syncobj_desc.handle,
--		                             syncobj_desc.point, 0, &fence);
--		if (ret)
--			break;
--
--		ret = drm_sched_job_add_dependency(&submit->base, fence);
--		if (ret)
--			break;
--
--		if (syncobj_desc.flags & MSM_SUBMIT_SYNCOBJ_RESET) {
--			syncobjs[i] =
--				drm_syncobj_find(file, syncobj_desc.handle);
--			if (!syncobjs[i]) {
--				ret = -EINVAL;
--				break;
--			}
--		}
-+		syncobjs[i] = syncobj;
- 	}
- 
--	if (ret) {
--		for (j = 0; j <= i; ++j) {
--			if (syncobjs[j])
--				drm_syncobj_put(syncobjs[j]);
--		}
--		kfree(syncobjs);
--		return ERR_PTR(ret);
--	}
- 	return syncobjs;
-+
-+err:
-+	while (--i >= 0)
-+		if (syncobjs[i])
-+			drm_syncobj_put(syncobjs[i]);
-+	kfree(syncobjs);
-+
-+	return ERR_PTR(ret);
- }
- 
- static void msm_reset_syncobjs(struct drm_syncobj **syncobjs,
-@@ -625,6 +636,43 @@ static void msm_reset_syncobjs(struct drm_syncobj **syncobjs,
- 	}
- }
- 
-+static int msm_parse_post_dep_one(struct drm_device *dev,
-+				  struct drm_file *file,
-+				  uint64_t address,
-+				  size_t syncobj_stride,
-+				  struct msm_submit_post_dep *post_dep)
-+{
-+	struct msm_submit_post_dep *post_deps;
-+	struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
-+
-+	if (copy_from_user(&syncobj_desc,
-+			   u64_to_user_ptr(address),
-+			   min(syncobj_stride, sizeof(syncobj_desc))))
-+		return -EFAULT;
-+
-+	post_dep->point = syncobj_desc.point;
-+
-+	if (syncobj_desc.flags)
-+		return -EINVAL;
-+
-+	if (syncobj_desc.point) {
-+		if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
-+			return -EOPNOTSUPP;
-+
-+		post_dep->chain = dma_fence_chain_alloc();
-+		if (!post_dep->chain)
-+			return -ENOMEM;
-+	}
-+
-+	post_dep->syncobj = drm_syncobj_find(file, syncobj_desc.handle);
-+	if (!post_dep->syncobj) {
-+		dma_fence_chain_free(post_deps->chain);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
-                                                        struct drm_file *file,
-                                                        uint64_t syncobjs_addr,
-@@ -632,9 +680,8 @@ static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
-                                                        size_t syncobj_stride)
- {
- 	struct msm_submit_post_dep *post_deps;
--	struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
- 	int ret = 0;
--	uint32_t i, j;
-+	int i;
- 
- 	post_deps = kcalloc(nr_syncobjs, sizeof(*post_deps),
- 			    GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
-@@ -644,54 +691,23 @@ static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
- 	for (i = 0; i < nr_syncobjs; ++i) {
- 		uint64_t address = syncobjs_addr + i * syncobj_stride;
- 
--		if (copy_from_user(&syncobj_desc,
--			           u64_to_user_ptr(address),
--			           min(syncobj_stride, sizeof(syncobj_desc)))) {
--			ret = -EFAULT;
--			break;
--		}
--
--		post_deps[i].point = syncobj_desc.point;
--
--		if (syncobj_desc.flags) {
--			ret = -EINVAL;
--			break;
--		}
--
--		if (syncobj_desc.point) {
--			if (!drm_core_check_feature(dev,
--			                            DRIVER_SYNCOBJ_TIMELINE)) {
--				ret = -EOPNOTSUPP;
--				break;
--			}
--
--			post_deps[i].chain = dma_fence_chain_alloc();
--			if (!post_deps[i].chain) {
--				ret = -ENOMEM;
--				break;
--			}
--		}
--
--		post_deps[i].syncobj =
--			drm_syncobj_find(file, syncobj_desc.handle);
--		if (!post_deps[i].syncobj) {
--			ret = -EINVAL;
--			break;
--		}
-+		ret = msm_parse_post_dep_one(dev, file, address, syncobj_stride, &post_deps[i]);
-+		if (ret)
-+			goto err;
- 	}
- 
--	if (ret) {
--		for (j = 0; j <= i; ++j) {
--			dma_fence_chain_free(post_deps[j].chain);
--			if (post_deps[j].syncobj)
--				drm_syncobj_put(post_deps[j].syncobj);
--		}
-+	return post_deps;
- 
--		kfree(post_deps);
--		return ERR_PTR(ret);
-+err:
-+	while (--i >= 0) {
-+		dma_fence_chain_free(post_deps[i].chain);
-+		if (post_deps[i].syncobj)
-+			drm_syncobj_put(post_deps[i].syncobj);
- 	}
- 
--	return post_deps;
-+	kfree(post_deps);
-+
-+	return ERR_PTR(ret);
- }
- 
- static void msm_process_post_deps(struct msm_submit_post_dep *post_deps,
+[auto build test WARNING on 48075a66fca613477ac1969b576a93ef5db0164f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230217-215101
+base:   48075a66fca613477ac1969b576a93ef5db0164f
+patch link:    https://lore.kernel.org/r/20230217134820.14672-1-dakr%40redhat.com
+patch subject: [PATCH drm-next v2 06/16] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230218/202302181014.L0SHo3S1-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e1a1c9659baee305780e1ce50c05e53e1d14b245
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers/20230217-215101
+        git checkout e1a1c9659baee305780e1ce50c05e53e1d14b245
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302181014.L0SHo3S1-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
+>> drivers/gpu/drm/drm_debugfs.c:228:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     228 |                            (u64)va->gem.obj, va->gem.offset);
+         |                            ^
+
+
+vim +228 drivers/gpu/drm/drm_debugfs.c
+
+   178	
+   179	/**
+   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+   181	 * @m: pointer to the &seq_file to write
+   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
+   183	 *
+   184	 * Dumps the GPU VA regions and mappings of a given DRM GPU VA manager.
+   185	 *
+   186	 * For each DRM GPU VA space drivers should call this function from their
+   187	 * &drm_info_list's show callback.
+   188	 *
+   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+   190	 */
+   191	int drm_debugfs_gpuva_info(struct seq_file *m,
+   192				   struct drm_gpuva_manager *mgr)
+   193	{
+   194		DRM_GPUVA_ITER(it, mgr);
+   195		DRM_GPUVA_REGION_ITER(__it, mgr);
+   196	
+   197		if (!mgr->name)
+   198			return -ENODEV;
+   199	
+   200		seq_printf(m, "DRM GPU VA space (%s)\n", mgr->name);
+   201		seq_puts  (m, "\n");
+   202		seq_puts  (m, " VA regions  | start              | range              | end                | sparse\n");
+   203		seq_puts  (m, "------------------------------------------------------------------------------------\n");
+   204		seq_printf(m, " VA space    | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
+   205			   mgr->mm_start, mgr->mm_range, mgr->mm_start + mgr->mm_range);
+   206		seq_puts  (m, "-----------------------------------------------------------------------------------\n");
+   207		drm_gpuva_iter_for_each(__it) {
+   208			struct drm_gpuva_region *reg = __it.reg;
+   209	
+   210			if (reg == &mgr->kernel_alloc_region) {
+   211				seq_printf(m, " kernel node | 0x%016llx | 0x%016llx | 0x%016llx |   -\n",
+   212					   reg->va.addr, reg->va.range, reg->va.addr + reg->va.range);
+   213				continue;
+   214			}
+   215	
+   216			seq_printf(m, "             | 0x%016llx | 0x%016llx | 0x%016llx | %s\n",
+   217				   reg->va.addr, reg->va.range, reg->va.addr + reg->va.range,
+   218				   reg->sparse ? "true" : "false");
+   219		}
+   220		seq_puts(m, "\n");
+   221		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+   222		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+   223		drm_gpuva_iter_for_each(it) {
+   224			struct drm_gpuva *va = it.va;
+   225	
+   226			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+   227				   va->va.addr, va->va.range, va->va.addr + va->va.range,
+ > 228				   (u64)va->gem.obj, va->gem.offset);
+   229		}
+   230	
+   231		return 0;
+   232	}
+   233	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+   234	
+
 -- 
-2.39.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
