@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC6369BC4B
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 22:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E7C69BD15
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Feb 2023 22:24:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A53610E588;
-	Sat, 18 Feb 2023 21:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C32810E033;
+	Sat, 18 Feb 2023 21:24:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCAE10E562;
- Sat, 18 Feb 2023 21:16:19 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id e6so1637139plt.4;
- Sat, 18 Feb 2023 13:16:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LJRWjyogOQnJ+5yTXZeR/CA8uKgjfGlQ9M7/4cay494=;
- b=HlVIEobOB1fK4orz/vfjScfvfTmsM2Ff4tRZMVa4xdM5sCf4zF5X+pa/NEvV0jRFap
- d96y+vkl2FVlKyaS9S7zCK5ePnuhaaEY0SmBx5WF6VNh/A+Ddw4lzPwCsRykF7v5tW+G
- j6OTAh+IKDR2F+7ntwLsA2YAPfoL15U9CCJgJRqqpH77DSuZ6QgB7jeDf4EuDi1zovoz
- WqdVKpv8e/55Xn9GYpUy3oewxQ91CfDFS/Ljoeg0C7AuiGQkPCu8IGY7ptZcCfOFyu0F
- 3XanlgorSS20WKL00Ktx8XMMNFwITyfSWzjmfWs+jSzPH1rSFkjSLEdZ6yYHveznktpt
- eclw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LJRWjyogOQnJ+5yTXZeR/CA8uKgjfGlQ9M7/4cay494=;
- b=1YyXN3afO+HCJ1OBAIGMbIjkw81PAgNkAI+a4A/EYR1Pgb0lmMeA+UetIa4DTQOe9F
- jBuhk4M+3J7E73ZZvi/oZ7VLRGpfta/kAFJqQApIf+kubAOd7JOd2ILz1E/Ijp3MKkYj
- fbCNWEAcV+1Nf50S32iV0aFqhgZAzOPTCMLi3ys8CflksIeBKbRpm/hQvoq24Q++bmzH
- DGSfBASDIb74RtbPeBI3dOE6u+LlkszOLz/ylk6dVy1gdcxLCpGscert2taO3B1pNeqx
- FQlAih8XxaIoaARI2AvZRPHh7vUzMjrZMKuQUGDKvVXCZbWZYEnGnqLtAO+YCOOOBNM3
- 0oRA==
-X-Gm-Message-State: AO0yUKXtn9aK8RqQlBFTbfFMj5PI85PdTsL3t8xzhSavvD0CPt7TVp6i
- Q6S9CwWwY6d3ucQoBcAlTxL55485HIE=
-X-Google-Smtp-Source: AK7set/0yqp/q3/jslTp6QxBhdRo+Dy4M24xdmTIftytbmsLtB5hmbelVCK/TX7kEgjPGP3InbTQCA==
-X-Received: by 2002:a17:903:2447:b0:194:5c63:364c with SMTP id
- l7-20020a170903244700b001945c63364cmr1849203pls.62.1676754978760; 
- Sat, 18 Feb 2023 13:16:18 -0800 (PST)
-Received: from localhost (c-73-67-135-195.hsd1.or.comcast.net. [73.67.135.195])
- by smtp.gmail.com with ESMTPSA id
- ji11-20020a170903324b00b0019afb7a02a1sm4785944plb.218.2023.02.18.13.16.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Feb 2023 13:16:18 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B28C10E033
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 21:24:39 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9358DB8074E
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 21:24:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 62141C4339B
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Feb 2023 21:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1676755476;
+ bh=ZZrWJg3/hHaSpCvew8zAyh1mC9aP7RJ+d24CcCcJV+U=;
+ h=From:To:Subject:Date:From;
+ b=nubijjwWhU0JVEUCbrPkctxc2HpO5hVGHGYlI+HI4j9WnuMP3y1ntZlPOAbPrgHhy
+ fKQ2FcLDbtjXB4j6ME2PIe64am5aYNb6wjmEnKlbbAY94zFqbBswcfI2FAG5ivIX6b
+ iHuYuGQDwa6rQMhxAU/3OuK6Eox1t0gazHvbCx7NwvveNyXoO5DkzrzZvTKHi1Ddj4
+ F3BFldXYYyVmipQplDC+msemyxqBH4D87MG4bPrXuAorMauFw6k860293tTBLn/qh3
+ /3TWZHoARCgRNQf5RjVn/WvF/SFP5c4qG1izeqZQW+j3CkfFiyIcZv8ej90UI3nbh3
+ adt54MqdCZH2w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 46160C43143; Sat, 18 Feb 2023 21:24:36 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 14/14] drm/i915: Add deadline based boost support
-Date: Sat, 18 Feb 2023 13:15:57 -0800
-Message-Id: <20230218211608.1630586-15-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230218211608.1630586-1-robdclark@gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
+Subject: [Bug 217058] New: amdgpu resets
+Date: Sat, 18 Feb 2023 21:24:36 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: towo@siduction.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-217058-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,86 +71,296 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217058
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
+            Bug ID: 217058
+           Summary: amdgpu resets
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 6.0.x, 6.1.x, 6.2-rcX
+          Hardware: AMD
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: towo@siduction.org
+        Regression: No
 
-This should probably be re-written by someone who knows the i915
-request/timeline stuff better, to deal with non-immediate deadlines.
-But as-is I think this should be enough to handle the case where
-we want syncobj waits to trigger boost.
+On watching iptv or video with mpv, after some random times, the whole desk=
+top
+resets and im find myself on login screen.
 
- drivers/gpu/drm/i915/i915_driver.c  |  2 +-
- drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+), 1 deletion(-)
+dmesg is showing then:
 
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index cf1c0970ecb4..bd40b7bcb38a 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -1781,7 +1781,7 @@ static const struct drm_driver i915_drm_driver = {
- 	.driver_features =
- 	    DRIVER_GEM |
- 	    DRIVER_RENDER | DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_SYNCOBJ |
--	    DRIVER_SYNCOBJ_TIMELINE,
-+	    DRIVER_SYNCOBJ_TIMELINE | DRIVER_SYNCOBJ_DEADLINE,
- 	.release = i915_driver_release,
- 	.open = i915_driver_open,
- 	.lastclose = i915_driver_lastclose,
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 7503dcb9043b..44491e7e214c 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
- 	return i915_request_enable_breadcrumb(to_request(fence));
- }
- 
-+static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	struct i915_request *rq = to_request(fence);
-+
-+	if (i915_request_completed(rq))
-+		return;
-+
-+	if (i915_request_started(rq))
-+		return;
-+
-+	/*
-+	 * TODO something more clever for deadlines that are in the
-+	 * future.  I think probably track the nearest deadline in
-+	 * rq->timeline and set timer to trigger boost accordingly?
-+	 */
-+
-+	intel_rps_boost(rq);
-+}
-+
- static signed long i915_fence_wait(struct dma_fence *fence,
- 				   bool interruptible,
- 				   signed long timeout)
-@@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
- 	.signaled = i915_fence_signaled,
- 	.wait = i915_fence_wait,
- 	.release = i915_fence_release,
-+	.set_deadline = i915_fence_set_deadline,
- };
- 
- static void irq_execute_cb(struct irq_work *wrk)
--- 
-2.39.1
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu: [mmhub] page fault
+(src_id:0 ring:24 vmid:4 pasid:32781, for process mpv pid 16088 thread mpv:=
+cs0
+pid 16100)
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   in page starting at
+address 0x0000800104364000 from client 0x12 (VMC)
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:
+MMVM_L2_PROTECTION_FAULT_STATUS:0x00405631
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   Faulty UTCL2 client
+ID: VCN0 (0x2b)
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   MORE_FAULTS: 0x1
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   WALKER_ERROR: 0x0
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   PERMISSION_FAULTS:=
+ 0x3
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   MAPPING_ERROR: 0x0
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   RW: 0x0
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu: [mmhub] page fault
+(src_id:0 ring:24 vmid:4 pasid:32781, for process mpv pid 16088 thread mpv:=
+cs0
+pid 16100)
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   in page starting at
+address 0x0000800104369000 from client 0x12 (VMC)
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:
+MMVM_L2_PROTECTION_FAULT_STATUS:0x00000000
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   Faulty UTCL2 client
+ID: unknown (0x0)
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   MORE_FAULTS: 0x0
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   WALKER_ERROR: 0x0
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   PERMISSION_FAULTS:=
+ 0x0
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   MAPPING_ERROR: 0x0
+[Sa Feb 18 21:37:38 2023] amdgpu 0000:0b:00.0: amdgpu:   RW: 0x0
+[Sa Feb 18 21:37:49 2023] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
+vcn_dec_0 timeout, signaled seq=3D81848, emitted seq=3D81850
+[Sa Feb 18 21:37:49 2023] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
+information: process mpv pid 16088 thread mpv:cs0 pid 16100
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: amdgpu: GPU reset begin!
+[Sa Feb 18 21:37:49 2023] [drm] Register(0) [mmUVD_POWER_STATUS] failed to
+reach value 0x00000001 !=3D 0x00000002
+[Sa Feb 18 21:37:49 2023] [drm] Register(0) [mmUVD_RBC_RB_RPTR] failed to r=
+each
+value 0x00000130 !=3D 0x000000d0
+[Sa Feb 18 21:37:49 2023] [drm] Register(0) [mmUVD_POWER_STATUS] failed to
+reach value 0x00000001 !=3D 0x00000002
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: amdgpu: MODE1 reset
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: amdgpu: GPU mode1 reset
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: amdgpu: GPU smu mode1 reset
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0012 address=3D0x467380 flags=3D0x0000]
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0012 address=3D0x4673c0 flags=3D0x0000]
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0012 address=3D0x467400 flags=3D0x0000]
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0012 address=3D0x467440 flags=3D0x0000]
+[Sa Feb 18 21:37:49 2023] amdgpu 0000:0b:00.0: AMD-Vi: Event logged
+[IO_PAGE_FAULT domain=3D0x0012 address=3D0x467480 flags=3D0x0000]
+[Sa Feb 18 21:37:50 2023] amdgpu 0000:0b:00.0: amdgpu: GPU reset succeeded,
+trying to resume
+[Sa Feb 18 21:37:50 2023] [drm] PCIE GART of 512M enabled (table at
+0x00000081FEB00000).
+[Sa Feb 18 21:37:50 2023] [drm] VRAM is lost due to GPU reset!
+[Sa Feb 18 21:37:50 2023] [drm] PSP is resuming...
+[Sa Feb 18 21:37:50 2023] [drm] reserve 0xa00000 from 0x81fd000000 for PSP =
+TMR
+[Sa Feb 18 21:37:50 2023] amdgpu 0000:0b:00.0: amdgpu: RAS: optional ras ta
+ucode is not available
+[Sa Feb 18 21:37:50 2023] amdgpu 0000:0b:00.0: amdgpu: SECUREDISPLAY:
+securedisplay ta ucode is not available
+[Sa Feb 18 21:37:50 2023] amdgpu 0000:0b:00.0: amdgpu: SMU is resuming...
+[Sa Feb 18 21:37:50 2023] amdgpu 0000:0b:00.0: amdgpu: smu driver if versio=
+n =3D
+0x0000000f, smu fw if version =3D 0x00000013, smu fw program =3D 0, version=
+ =3D
+0x003b2a00 (59.42.0)
+[Sa Feb 18 21:37:50 2023] amdgpu 0000:0b:00.0: amdgpu: SMU driver if version
+not matched
+[Sa Feb 18 21:37:50 2023] amdgpu 0000:0b:00.0: amdgpu: use vbios provided
+pptable
+[Sa Feb 18 21:37:50 2023] amdgpu 0000:0b:00.0: amdgpu: SMU is resumed
+successfully!
+[Sa Feb 18 21:37:50 2023] [drm] DMUB hardware initialized: version=3D0x0202=
+0017
+[Sa Feb 18 21:37:51 2023] [drm] kiq ring mec 2 pipe 1 q 0
+[Sa Feb 18 21:37:51 2023] [drm] VCN decode and encode initialized
+successfully(under DPG Mode).
+[Sa Feb 18 21:37:51 2023] [drm] JPEG decode initialized successfully.
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring gfx_0.0.0 uses =
+VM
+inv eng 0 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring comp_1.0.0 uses=
+ VM
+inv eng 1 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring comp_1.1.0 uses=
+ VM
+inv eng 4 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring comp_1.2.0 uses=
+ VM
+inv eng 5 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring comp_1.3.0 uses=
+ VM
+inv eng 6 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring comp_1.0.1 uses=
+ VM
+inv eng 7 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring comp_1.1.1 uses=
+ VM
+inv eng 8 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring comp_1.2.1 uses=
+ VM
+inv eng 9 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring comp_1.3.1 uses=
+ VM
+inv eng 10 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring kiq_2.1.0 uses =
+VM
+inv eng 11 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring sdma0 uses VM i=
+nv
+eng 12 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring sdma1 uses VM i=
+nv
+eng 13 on hub 0
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring vcn_dec_0 uses =
+VM
+inv eng 0 on hub 1
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring vcn_enc_0.0 use=
+s VM
+inv eng 1 on hub 1
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring vcn_enc_0.1 use=
+s VM
+inv eng 4 on hub 1
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: ring jpeg_dec uses VM
+inv eng 5 on hub 1
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: recover vram bo from
+shadow start
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: recover vram bo from
+shadow done
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] amdgpu 0000:0b:00.0: amdgpu: GPU reset(2) succeed=
+ed!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm] Skip scheduling IBs!
+[Sa Feb 18 21:37:51 2023] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to
+initialize parser -125!
+[Sa Feb 18 21:37:51 2023] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERRO=
+R*
+got no status for stream 00000000cf78e5f6 on acrtc0000000056f62870
+[Sa Feb 18 21:37:51 2023] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERRO=
+R*
+got no status for stream 0000000092068d11 on acrtc00000000ee859d94
 
+Kernel i have tryed: 6.0.x, 6.1.x and at the moment 6.2-rc8.
+Grapics: Radeon RX 6600 XT
+CPU: AMD Ryzen 7 2700X
+
+The whole Problem seems VA-API related.
+
+If you need more info, i will give it to you.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
