@@ -1,34 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA9869C01D
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Feb 2023 13:00:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D82D69C02C
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Feb 2023 13:35:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAB710E08C;
-	Sun, 19 Feb 2023 12:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B215110E0EB;
+	Sun, 19 Feb 2023 12:35:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3FC10E08C
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Feb 2023 12:00:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 293C6FB03;
- Sun, 19 Feb 2023 13:00:10 +0100 (CET)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KkTfTTsqszTv; Sun, 19 Feb 2023 13:00:09 +0100 (CET)
-Date: Sun, 19 Feb 2023 13:00:08 +0100
-From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7B4110E0EB
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Feb 2023 12:35:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+ t=1676810143; bh=GD1/ZR4At5h6SM6mQDgIMv9bcXFuYgl0QllZHFJhFuA=;
+ h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+ b=QcF4uatrIQ9ZHKNPdX9+ZZ2KL/OWAuaIBzHBdNcFLX/8V5K6FHn1d21iCfhzZuVuM
+ tub66QftMhU/Q6xUR9OnuYZUAVDo29/H35ibK0ouGDugIW7HdzjTDtOPLzTgiJvdLJ
+ sRI02t2ecH/dV75NIPJGjii+zV+XftncnTTX9AHI=
+Date: Sun, 19 Feb 2023 13:35:42 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
 To: Frank Oltmanns <frank@oltmanns.dev>
 Subject: Re: [PATCH 1/1] drm/panel: st7703: Fix vertical refresh rate of XBD599
-Message-ID: <Y/IPSCeJVyS/sSQT@qwark.sigxcpu.org>
+Message-ID: <20230219123542.yxb5ixe424ig6ofv@core>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+ Frank Oltmanns <frank@oltmanns.dev>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ Purism Kernel Team <kernel@puri.sm>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 References: <20230219114553.288057-1-frank@oltmanns.dev>
  <20230219114553.288057-2-frank@oltmanns.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230219114553.288057-2-frank@oltmanns.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -42,14 +52,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Purism Kernel Team <kernel@puri.sm>,
- Sam Ravnborg <sam@ravnborg.org>, open list <linux-kernel@vger.kernel.org>,
+Cc: Purism Kernel Team <kernel@puri.sm>, Sam Ravnborg <sam@ravnborg.org>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+ open list <linux-kernel@vger.kernel.org>,
  "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
  Thierry Reding <thierry.reding@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 On Sun, Feb 19, 2023 at 12:45:53PM +0100, Frank Oltmanns wrote:
 > Fix the XBD599 panel's slight visual stutter by correcting the pixel
 > clock speed so that the panel's 60Hz vertical refresh rate is met.
@@ -57,6 +67,7 @@ On Sun, Feb 19, 2023 at 12:45:53PM +0100, Frank Oltmanns wrote:
 > Set the clock speed using the underlying formula instead of a magic
 > number. To have a consistent procedure for both panels, set the JH057N
 > panel's clock also as a formula.
+>
 > ---
 >  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
@@ -80,18 +91,24 @@ On Sun, Feb 19, 2023 at 12:45:53PM +0100, Frank Oltmanns wrote:
 >  	.vtotal	     = 1440 + 18 + 10 + 17,
 > -	.clock	     = 69000,
 > +	.clock	     = (720 + 40 + 40 + 40) * (1440 + 18 + 10 + 17) * 60 / 1000,
+
+As for pinephone, A64 can't produce 74.844 MHz precisely, so this will not work.
+
+Better fix is to alter the mode so that clock can be something the only SoC this
+panel is used with can actually produce.
+
+See eg. https://github.com/megous/linux/commit/dd070679d717e7f34af7558563698240a43981a6
+which is tested to actually produce 60Hz by measuring the vsync events against
+the CPU timer.
+
+Your patch will not produce the intended effect.
+
+kind regards,
+	o.
+
 >  	.flags	     = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
 >  	.width_mm    = 68,
 >  	.height_mm   = 136,
-
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
-
-(I've seen your other patches but it will be some days until I can test
-the jh057n00900 panel).
-
-Cheers,
- -- Guido
-
 > -- 
 > 2.39.1
 > 
