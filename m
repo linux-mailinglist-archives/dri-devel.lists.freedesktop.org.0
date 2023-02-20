@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F7F69CAD9
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 13:25:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7BB69CB3D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 13:43:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B25710E115;
-	Mon, 20 Feb 2023 12:25:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB4210E107;
+	Mon, 20 Feb 2023 12:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3066810E115
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 12:25:47 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id o14so1120475wms.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 04:25:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZhuNX7zk4hZihBAY5sZG0csyVV6AYylCGdugAnsAC6c=;
- b=bPba3qLwuP3pL5YFqhCwvExtNWIznWHdFR4XAXSWPf0VlwLp3X4gk+vhiYZBF3OCJB
- +4ozenOOlX3dJ/BMfSl1I7nbv+4Wwr8BGYHqFrEq6/zebScqZhGU7To/OG33/EIlPRT7
- M+9e/UeO0I0d2UIeOy+DsB19ih2wSBOe8cRr0z1lTPt5VdBO5JdBzoebAvZnImBSg23A
- yK4OMN0MfJlj0WW4lStMk5mkiowmWQnxJ7CXOZT7yMuChSPRjKzssAqWKgPqqP6loVUg
- zuJEUUlNrRfJDRKiIE8sEXk2EDL6lrTw+gRTiWg1S6zzPItFUW1sJ/tohDunfoSjrsL8
- biaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZhuNX7zk4hZihBAY5sZG0csyVV6AYylCGdugAnsAC6c=;
- b=XF+uUN8gILOOfpsrEae5e7gp+9SJdJsmKrDqLpR1jXkFu6o8nr2vPgb68cSJ60MCVc
- Em+1UO0f0jKtnosT79+9iaYfQ06EDNMkUAYoTyXMQb4gGTMZ/GDIsSnnfnLcAw0aFSYq
- Eoc1OaftQDgHGtaWUMVMa/PR6Hwbp6J8hWVTRmc+49r9HnLQ4aPRcdoNdvZNOr6tJ9V7
- KN+Jk29i7R/ri53poShK45332IyllpXlDcl3YeJjluxr+FitnqYQLm+dlL2ZQsAOkcP6
- DfMq4cyG6pPweJtp/Zw5CGJqaimgo4g33IchFacokmJp0Sd1CVDAWMqBI3ITN7qeKodg
- YzUA==
-X-Gm-Message-State: AO0yUKXcgbhb57CXtWGLIDdy140wvKfdNxsejhIer0ZTLQScaHNWoG12
- ZHGkYXfOcXjwvPwX7b5ngXYxMg==
-X-Google-Smtp-Source: AK7set8fM14qE0F61S6lht5sfkP3yhezdAmuiQBgst8exmUIwWFYJljR5sQgrg0d08gSACnwp/jIVA==
-X-Received: by 2002:a05:600c:1d9c:b0:3df:9858:c032 with SMTP id
- p28-20020a05600c1d9c00b003df9858c032mr716208wms.7.1676895945499; 
- Mon, 20 Feb 2023 04:25:45 -0800 (PST)
-Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- e16-20020adfe390000000b002c54c8e70b1sm1542169wrm.9.2023.02.20.04.25.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 04:25:44 -0800 (PST)
-Date: Mon, 20 Feb 2023 12:25:42 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Luca Weiss <luca@z3ntu.xyz>
-Subject: Re: [PATCH] backlight: qcom-wled: Add PMI8950 compatible
-Message-ID: <Y/NmxjZgo9V6Enad@aspen.lan>
-References: <20221226-msm8953-6-2-wled-v1-1-e318d4c71d05@z3ntu.xyz>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6732310E107
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 12:43:24 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 27D5C201EE;
+ Mon, 20 Feb 2023 12:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1676897003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JK8bSpPrj8+43nAZuNF/wzFXnug6756mX97bM+ecb2o=;
+ b=QhYFM4xgQwIxFG63m048Gj21crfiS0d6x+QBp4iU+R6Xh42/CO9nzVfdascTesOpaLuMEP
+ tLgKR870LUB5wYhufNUy0aFmcX9xkQTxGPdTqpHl+CyD1J9SIyvFfq7MYVXJ5kiGDK5NGp
+ Bcq4/0NyTdgxLmuZC42hWS/90ADKWKs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1676897003;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JK8bSpPrj8+43nAZuNF/wzFXnug6756mX97bM+ecb2o=;
+ b=LrxA1DkkjLFw4p+ybfRFdGiZBDw14YKS7vYbbmthI5nM68aALPgRRpVgoDnK4cF62hld8q
+ Z9mIH4MGodvGBkBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EEC58134BA;
+ Mon, 20 Feb 2023 12:43:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id +GhxOepq82MqdwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 20 Feb 2023 12:43:22 +0000
+Message-ID: <3e66b990-b5b3-bf6e-8c9a-021863360a10@suse.de>
+Date: Mon, 20 Feb 2023 13:43:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221226-msm8953-6-2-wled-v1-1-e318d4c71d05@z3ntu.xyz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH] drm/fb-helper: Try to protect cleanup against delayed
+ setup
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20230217194757.5991-1-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230217194757.5991-1-daniel.vetter@ffwll.ch>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------FcAs08CLbTrd1fxhIFRF4sjA"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,48 +71,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org, Helge Deller <deller@gmx.de>
+Cc: David Airlie <airlied@linux.ie>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 06, 2023 at 08:58:30PM +0100, Luca Weiss wrote:
-> PMI8950 contains WLED of version 4. Add support for it to the driver.
->
-> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------FcAs08CLbTrd1fxhIFRF4sjA
+Content-Type: multipart/mixed; boundary="------------Yu7xs05zCBmYXfLWRt35oza7";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Message-ID: <3e66b990-b5b3-bf6e-8c9a-021863360a10@suse.de>
+Subject: Re: [PATCH] drm/fb-helper: Try to protect cleanup against delayed
+ setup
+References: <20230217194757.5991-1-daniel.vetter@ffwll.ch>
+In-Reply-To: <20230217194757.5991-1-daniel.vetter@ffwll.ch>
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+--------------Yu7xs05zCBmYXfLWRt35oza7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMTcuMDIuMjMgdW0gMjA6NDcgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBT
+b21lIHZhZ3VlIGV2aWRlbmNlcyBzdWdnZXN0cyB0aGlzIGNhbiBnbyB3cm9uZy4gVHJ5IHRv
+IHByZXZlbnQgaXQgYnkNCj4gaG9sZGluZyB0aGUgcmlnaHQgbXV0ZXggYW5kIGNsZWFyaW5n
+IC0+ZGVmZXJyZWRfc2V0dXAgdG8gbWFrZSBzdXJlIHdlDQo+IGxhdGVyIG9uIGRvbid0IGFj
+Y2lkZW50YWxseSB0cnkgdG8gcmUtcmVnaXN0ZXIgdGhlIGZiZGV2IHdoZW4gdGhlDQo+IGRy
+aXZlciB0aG91Z2h0IGl0IGhhZCBpdCBhbGwgY2xlYW5lZCB1cCBhbHJlYWR5Lg0KPiANCj4g
+djI6IEkgcmVhbGl6ZWQgdGhhdCB0aGlzIGlzIGZ1bmRhbWVudGFsbHkgYnV0Y2hlcmVkLCBh
+bmQgQ0kgY29tcGxhaW5lZA0KPiBhYm91dCBsb2NrZGVwIHNwbGF0cy4gU28gbGltaXQgdGhl
+IGNyaXRpY2FsIHNlY3Rpb24gYWdhaW4gYW5kIGp1c3QgYWRkDQo+IGEgZmV3IG5vdGVzIHdo
+YXQgdGhlIHByb3BlciBmaXggaXMuDQo+IA0KPiBSZWZlcmVuY2VzOiBodHRwczovL2ludGVs
+LWdmeC1jaS4wMS5vcmcvdHJlZS9saW51eC1uZXh0L25leHQtMjAyMDEyMTUvZmktYnl0LWox
+OTAwL2lndEBpOTE1X3BtX3JwbUBtb2R1bGUtcmVsb2FkLmh0bWwNCj4gU2lnbmVkLW9mZi1i
+eTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+DQo+IENjOiBWaWxs
+ZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0KPiBDYzogQ2hy
+aXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+DQo+IENjOiBNYWFydGVuIExh
+bmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPg0KPiBDYzogTWF4
+aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPg0KPiBDYzogVGhvbWFzIFppbW1lcm1h
+bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRA
+bGludXguaWU+DQo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+DQo+IC0t
+LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMgICAgIHwgNiArKysrKysN
+Cj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMuYyB8IDUgKysrKysNCj4g
+ICAyIGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9mYl9oZWxwZXIuYw0KPiBpbmRleCAzZTE3MjYxYTEyYjYuLjI0MTVhMmM3Y2E0NCAxMDA2
+NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYw0KPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+IEBAIC01NDUsNiArNTQ1LDkgQEAg
+RVhQT1JUX1NZTUJPTChkcm1fZmJfaGVscGVyX2FsbG9jX2luZm8pOw0KPiAgICAqIEEgd3Jh
+cHBlciBhcm91bmQgdW5yZWdpc3Rlcl9mcmFtZWJ1ZmZlciwgdG8gcmVsZWFzZSB0aGUgZmJf
+aW5mbw0KPiAgICAqIGZyYW1lYnVmZmVyIGRldmljZS4gVGhpcyBtdXN0IGJlIGNhbGxlZCBi
+ZWZvcmUgcmVsZWFzaW5nIGFsbCByZXNvdXJjZXMgZm9yDQo+ICAgICogQGZiX2hlbHBlciBi
+eSBjYWxsaW5nIGRybV9mYl9oZWxwZXJfZmluaSgpLg0KPiArICoNCj4gKyAqIE5vdGUgdGhh
+dCB0aGlzIGlzIGZ1bmRhbWVudGFsbHkgcmFjeSBvbiBob3R1bmxvYWQgYmVjYXVzZSBpdCBk
+b2VuJ3QgaGFuZGxlDQo+ICsgKiBvcGVuIGZiZGV2IGZpbGUgZGVzY3JpcHRvcnMgYXQgYWxs
+LiBVc2UgZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoKSBpbnN0ZWFkLg0KPiAgICAqLw0KPiAg
+IHZvaWQgZHJtX2ZiX2hlbHBlcl91bnJlZ2lzdGVyX2luZm8oc3RydWN0IGRybV9mYl9oZWxw
+ZXIgKmZiX2hlbHBlcikNCj4gICB7DQo+IEBAIC01NTgsNiArNTYxLDkgQEAgRVhQT1JUX1NZ
+TUJPTChkcm1fZmJfaGVscGVyX3VucmVnaXN0ZXJfaW5mbyk7DQo+ICAgICogQGZiX2hlbHBl
+cjogZHJpdmVyLWFsbG9jYXRlZCBmYmRldiBoZWxwZXIsIGNhbiBiZSBOVUxMDQo+ICAgICoN
+Cj4gICAgKiBUaGlzIGNsZWFucyB1cCBhbGwgcmVtYWluaW5nIHJlc291cmNlcyBhc3NvY2lh
+dGVkIHdpdGggQGZiX2hlbHBlci4NCj4gKyAqDQo+ICsgKiBOb3RlIHRoYXQgdGhpcyBpcyBm
+dW5kYW1lbnRhbGx5IHJhY3kgb24gaG90dW5sb2FkIGJlY2F1c2UgaXQgZG9lbid0IGhhbmRs
+ZQ0KPiArICogb3BlbiBmYmRldiBmaWxlIGRlc2NyaXB0b3JzIGF0IGFsbC4gVXNlIGRybV9m
+YmRldl9nZW5lcmljX3NldHVwKCkgaW5zdGVhZC4NCj4gICAgKi8NCj4gICB2b2lkIGRybV9m
+Yl9oZWxwZXJfZmluaShzdHJ1Y3QgZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVyKQ0KPiAgIHsN
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMNCj4gaW5kZXggMzY1ZjgwNzE3
+ZmExLi4xNjE4MTA5NTkyY2UgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+ZmJkZXZfZ2VuZXJpYy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2Vu
+ZXJpYy5jDQo+IEBAIC0zNDcsNyArMzQ3LDEyIEBAIHN0YXRpYyB2b2lkIGRybV9mYmRldl9j
+bGllbnRfdW5yZWdpc3RlcihzdHJ1Y3QgZHJtX2NsaWVudF9kZXYgKmNsaWVudCkNCj4gICB7
+DQo+ICAgCXN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxwZXIgPSBkcm1fZmJfaGVscGVy
+X2Zyb21fY2xpZW50KGNsaWVudCk7DQo+ICAgDQo+ICsJbXV0ZXhfbG9jaygmZmJfaGVscGVy
+LT5sb2NrKTsNCj4gKwlmYl9oZWxwZXItPmRlZmVycmVkX3NldHVwID0gZmFsc2U7DQo+ICsJ
+bXV0ZXhfdW5sb2NrKCZmYl9oZWxwZXItPmxvY2spOw0KDQpUaGUgdW5yZWdpc3RlciBjb2Rl
+IHJ1bnMgYXMgcGFydCBvZiB0aGUgY2xpZW50IGNsZWFudXAuICBBbmQgdGhlIGNsaWVudCAN
+CmFsc28gZ29lcyB0aHJvdWdoIGEgbnVtYmVyIG9mIGhlbHBlcnMgdGhhdCBoYW5kbGUgZGlz
+cGxheSBob3RwbHVnIGFuZC9vciANCnJlc3RvcmUsIHdoaWNoIGFyZSBhZmZlY3RlZCBieSAt
+PmRlZmVycmVkX3NldHVwLiAgQnV0IGl0J3MgYWxsIG11dHVhbGx5IA0KZXhjbHVzaXZlLiBB
+RkFJQ1Qgbm90aGluZyBydW5zIHBhcmFsbGVsIHRvIHRoZSB1bnJlZ2lzdGVyIGNvZGUuICBT
+ZWUgdGhlIA0KdXNlIG9mIGRldi0+Y2xpZW50bGlzdF9tdXRleCBpbiBkcm1fY2xpZW50LmMu
+ICBUaGUgcGF0Y2ggaXMgbm90IA0KbmVjZXNzYXJ5IElNSE8uDQoNCkJlc3QgcmVnYXJkcw0K
+VGhvbWFzDQoNCj4gKw0KPiAgIAlpZiAoZmJfaGVscGVyLT5pbmZvKSB7DQo+ICsJCS8qIGRy
+bV9mYmRldl9mYl9kZXN0cm95KCkgdGFrZXMgY2FyZSBvZiBjbGVhbnVwICovDQo+ICAgCQlk
+cm1fZmJfaGVscGVyX3VucmVnaXN0ZXJfaW5mbyhmYl9oZWxwZXIpOw0KPiAgIAl9IGVsc2Ug
+ew0KPiAgIAkJZHJtX2NsaWVudF9yZWxlYXNlKCZmYl9oZWxwZXItPmNsaWVudCk7DQoNCi0t
+IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
+U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkg
+TsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOk
+ZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-> ---
-> While adding dt-bindings and dts in a previous series I forgot to add the
-> compatible to the driver. Fix that now.
-> ---
->  drivers/video/backlight/qcom-wled.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> index 527210e85795..5f504883aca5 100644
-> --- a/drivers/video/backlight/qcom-wled.c
-> +++ b/drivers/video/backlight/qcom-wled.c
-> @@ -1731,6 +1731,7 @@ static int wled_remove(struct platform_device *pdev)
->
->  static const struct of_device_id wled_match_table[] = {
->  	{ .compatible = "qcom,pm8941-wled", .data = (void *)3 },
-> +	{ .compatible = "qcom,pmi8950-wled", .data = (void *)4 },
->  	{ .compatible = "qcom,pmi8994-wled", .data = (void *)4 },
->  	{ .compatible = "qcom,pmi8998-wled", .data = (void *)4 },
->  	{ .compatible = "qcom,pm660l-wled", .data = (void *)4 },
->
-> ---
-> base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-> change-id: 20221226-msm8953-6-2-wled-5f966bfa4db3
->
-> Best regards,
-> --
-> Luca Weiss <luca@z3ntu.xyz>
->
+--------------Yu7xs05zCBmYXfLWRt35oza7--
+
+--------------FcAs08CLbTrd1fxhIFRF4sjA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPzauoFAwAAAAAACgkQlh/E3EQov+Bx
+CBAAx0WPoMGlh10H4jxUzuy7yJzNmV1BgLtx9/DuqRhnX1f/3IjPqTfz2eLnnU5z+WEbX/JkDu8z
+HmLV/1oO6/fP7+DNqOjJ2x5yiARRWsznV2X6UmaWk13CqKUmwcuZQUq8CZHLd93j4dxFwr5+tZnB
+redAeAbMPAHHdExtOGDQbULOno9LK9Ll7x3RKgUZVOsa61DnJUToWdSWReFBJvUQrheZr9Xe0VmK
+BDx6E1tx4ivBq4i0rVjefvZGoMjp51Wqe8x/S5LaifzXZXHbJkGwV8lSAr+WMhhX2AeWeoRnF2Im
+myO80MSq5kgbRNofaaD3R0RyjB5wdhw17/Y979xdTrPJrfnIYvA3HED8UcXc5rBkYwEBwbg30Y2v
+jGVRGvk+yxFMaxyMWa7dzl11WgJ+VgEhYtcPAXHYang8dxNAA8Ae8RX4BDwmSlVBdYSJDK3z1tYJ
+thN/6SBSrmOmy3ltAhKWXgIzg0S13vZIC2Eq0Pt4qEZK10xK8xRMfE/chrLKY/KPDmwnCQ6NDX87
+ZrNonIJew1J5g7VKaDLlJRvn+52xbwELQzN7W0r/J8BHtbKo63DzuRXr+wBBsvWY6k517gPlAk5e
+81rXwfVlMmplUe4yNDCDTHVdx6neenDDyrdEzYV8IQOmwGOt2eQfBKLNXiYLvABgY0Ywwl+Y8f8F
+P+w=
+=nVyO
+-----END PGP SIGNATURE-----
+
+--------------FcAs08CLbTrd1fxhIFRF4sjA--
