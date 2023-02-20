@@ -1,59 +1,116 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342CE69D12B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 17:15:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19BC769D12F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 17:16:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADCD610E6E2;
-	Mon, 20 Feb 2023 16:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3560010E18C;
+	Mon, 20 Feb 2023 16:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9438210E6DF;
- Mon, 20 Feb 2023 16:14:58 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id bm20so1008608oib.7;
- Mon, 20 Feb 2023 08:14:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yucdNwlCfsGGEjZdnJPvfOZKmj3CAADyiPAf5hjswZg=;
- b=ZxnDUIK9eHPfiknVqJN5rt64dYRWzqsyM6ai87lOd3rGkYut+gJ/n+6Q60l5pl9X0m
- aA2xVnQMpHNtR7PQ8ZuDMhsvhBxEIA6RVe5PFIYbQHMt5hbHT4I1ZGY3ojxcWR/DON9r
- GtImPbcTfYDxbU1M08ylmtdGi/pU3DvNMyn9R6NvYbuui4FinXluI/67qPQjjefFcY4y
- btiSdrQHL2kv3JuRmJtxS7dpCBcfjo2n+2xcY02Nsbm6CRH6XFbnVzpgWu9oQybHP09j
- SAXeRZCUoim+iykMYQIdC3P3AY5/YPuVOE1HcjfjBHkoZWXNDqneQskNWo5Z0xJsKYRa
- TNMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yucdNwlCfsGGEjZdnJPvfOZKmj3CAADyiPAf5hjswZg=;
- b=U4pcwc7diMmuMBAwcM3sAidIuzCOwMb5rc4bH1wR2dGuX3ceh9IwSCxi28Ss6z+ulY
- T+bBo2yS+YhobJl/OevIWCJ0mNoUKa3fmGzd4Ii+r2qLLNW8q+4QJzpw71RqDmugO26G
- 5Dhhlhetr3x7OxQ/g27LEdApPdrrs7h3uWxOGa2nsJUM2FPkcTHcTYecEuMs+xLwGqKh
- C302S7C0Az70yE6SewZe2gkrJVfl91nptsNKK7J1BoZVBFeP1vlrakZxstDH2zdSWHAf
- 1xVMlqMSIFiKBItbTAPEpy0ZdBdEU9O9S9zDaXDUgnq6ecqmv7HDtKLtAU1PuO9MgiEl
- /gEg==
-X-Gm-Message-State: AO0yUKX2CVH8L2JlJWxMa355+YRgAg1FmJmTFYYYu2dpDzH84B1y9XcE
- ofICmwlzAl0LE7JQqKxDWtrVDBlXNgfntPYUfT0=
-X-Google-Smtp-Source: AK7set+n1QvPydxi+hQlZFC/9h20UVfLJWhf+ldIyg34MhCT3B1Lw/a7cCOBNd9D7mP6aZ3TpheYxEk8RFxISNtjFbE=
-X-Received: by 2002:a05:6808:ec7:b0:364:c0a5:1fcf with SMTP id
- q7-20020a0568080ec700b00364c0a51fcfmr1104755oiv.58.1676909697815; Mon, 20 Feb
- 2023 08:14:57 -0800 (PST)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-db3eur04on2095.outbound.protection.outlook.com [40.107.6.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA62210E18C
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 16:16:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FaoMMvVJ517JGi08ahFsUtQNboWbVV4PfDjYxbOTt2URICruq19rpGrZBH1uOhvwguGhWYF565H9xQmoHvWCpdcKzFoIx9zYEf5ni80AaFzP95za9lsX3s78vtztAievHOaBGN7WJzyty6RmwiZSaGhO2bU2QeAylMrsSKg5fF5vwinEIM14eFdVeP16Et9OL4eco3bbMEwHzOcUYFga/6wKJCfM7ZrcM9eeMW6Rh3flKdmlhUAcqT+Gly5SHSvSp6ZpQObM6mzTsdZQTzdBj/zfNM3TzBHMEVgxra/nHWvdddDZ/yiMNlsoHmfTCFTmvWsd0PBHDr+SkU8RoHku0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LkZ+F5BcXfLK3IoUkskPC001pdv9AHA7bYXvdOT9m6w=;
+ b=UVbkDmTZsDAPkmDxcAe85zSNL94mvyvaBLrXK8XtcH8sJsFkoBguWEdk4Bv0PuSjz9+A/QJpywA5zoLNJj80yXCWpq25oo7t3EL/JoVShhOCQAvqUiCQAUMpqmstud9HUba1eJHFYVToARI2oeiDyJR8TkFMMpg/JYo6eKVLLnoTxwW1KHRDokQNZ4hCGmceoNF1f8bMnHpzBsTEOXSdwrTtPkrHT0nlayc3YwK3AHGtAPtt388T4m+F0oeR97b5HCrSSpALplMj5QmNd8hEknJ1JbTKH6RsUlS6QTxb5lDNALSLZZmnsixGDUIcToEy5wlkzBF7MDKqaHOjq6pZcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=habana.ai; dmarc=pass action=none header.from=habana.ai;
+ dkim=pass header.d=habana.ai; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=habana.ai; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LkZ+F5BcXfLK3IoUkskPC001pdv9AHA7bYXvdOT9m6w=;
+ b=MYMpB4aY53YsT0Dbnd3CKhBZqH5ENll9t6KZVXhou7yeskLifUhGAfJo0jhLJK1zux9ggnUEHDnpsksG/AAtmZI9zSJ+4zA/UPHlcRBAHqoM/7b5RoYBX5GL4/2fwK+6YAdkmQCJhN8aYwFUpQnED/s4POWVFTZc4M1fkLd1fvFEoF0t+v8OCG0TJ8IvSQ3AjFYefIiIn8swKFMi+wp3/NhpXowv/3/SC85N5BddqsTQjHLdWFHiF/U30tVGAHvp4GiZGvIWbZXJDLIbDVt2lDWbYKT4ae0iKBl2Io5OAZ16/8gzBMW5I+GTsOg5dUjaS2bk6W+2rzt7F7ce+djirQ==
+Received: from DU2PR02MB7573.eurprd02.prod.outlook.com (2603:10a6:10:2d8::6)
+ by DU0PR02MB9588.eurprd02.prod.outlook.com (2603:10a6:10:420::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
+ 2023 16:16:26 +0000
+Received: from DU2PR02MB7573.eurprd02.prod.outlook.com
+ ([fe80::46d6:40b:b9:61ca]) by DU2PR02MB7573.eurprd02.prod.outlook.com
+ ([fe80::46d6:40b:b9:61ca%9]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
+ 16:16:26 +0000
+From: Tomer Tayar <ttayar@habana.ai>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: RE: [PATCH 08/27] habanalabs: add info when FD released while device
+ still in use
+Thread-Topic: [PATCH 08/27] habanalabs: add info when FD released while device
+ still in use
+Thread-Index: AQHZPyLsTfgvgpc53EmXP2FILg7rhK7RhU+AgAAgbQCAAAwCgIABTzNggAUIFICAAAT00A==
+Date: Mon, 20 Feb 2023 16:16:26 +0000
+Message-ID: <DU2PR02MB75739E8E32D26DC5A3C674A6D2A49@DU2PR02MB7573.eurprd02.prod.outlook.com>
+References: <20230212204454.2938561-1-ogabbay@kernel.org>
+ <20230212204454.2938561-8-ogabbay@kernel.org>
+ <20230216122545.GE2849548@linux.intel.com>
+ <CAFCwf13c6T-S2MgwmWJkrQTwdXYDGMK+GG8ZVUjPipsXNrW_ZQ@mail.gmail.com>
+ <20230216150447.GJ2849548@linux.intel.com>
+ <DU2PR02MB75734395957E6DC59D387B28D2A19@DU2PR02MB7573.eurprd02.prod.outlook.com>
+ <20230220155443.GF2862577@linux.intel.com>
+In-Reply-To: <20230220155443.GF2862577@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=habana.ai;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DU2PR02MB7573:EE_|DU0PR02MB9588:EE_
+x-ms-office365-filtering-correlation-id: 02c4cb17-fab1-4520-ae22-08db135dd0ec
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: HEZBWTyLZIE8Ap4qj0xGBpAzcAbzBPzgE8jEaRqYMnAEHBC6B/8UWqr7AqDF1Od9cvxTrSIND3Bw87PcIG5O7txFnc5VqEw6zDl5DmccGbwMt/S8luTAWtyD/Q8CfJcI9w2IBhwP4G1iRCGye9JwP7LkcoVmnN9I98z1Zb2f9gG4236/PqviTrauAAvafIUAagZFyhPkOd2BkivhPoxSpGpykHx5Fa9ToP07qgyVbIjM5pDDs85i7o9IpjUq8ViNggiZXVzsUPVeUw0Rx5DdjHqVWhtpsZ27YB6ezdUKUYl9xjlVOq1rLIMrbh/ET6h+JcK+8oHrfq4L+Fc6pV30ZEwwz+vCHC0IoirEGERRRJwKME8hvRUYa9RDQa4AhfOtyMvsR9hFJW/McQEbjwexD2ixXffvyucKKs+QBlQTEm2lLd3/tG281qGCHmeV1kCFRXuNUygLWjAjtP4HaN4QTNCsD4aqD0q6RAAPWpSCAYhNQt11cktA7QuCGG6dF9b13p4qIF84/1iMT0+R8qC6TmV8ESGaSJGiXZlz9+SrWWPm2Fhh3cIgleikKI3/pC5NmQszBuiZT2OPVp6JjLUsx865nIUa/Ca0ykT3QCvTi5BvZ7kM1Exyb/GebTUA1jh4rxq86QxT0m5Mr3Hta613uxDfc3cB61NiihI5izekugU8aTy+vY1IE9sJhI9QoAXK2YJr8Se+K8Wcfx3xB4lq5Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU2PR02MB7573.eurprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(396003)(346002)(39850400004)(366004)(376002)(451199018)(478600001)(54906003)(71200400001)(4744005)(82960400001)(38100700002)(86362001)(122000001)(33656002)(2906002)(38070700005)(316002)(41300700001)(5660300002)(52536014)(55016003)(66476007)(4326008)(8936002)(6916009)(8676002)(66446008)(66556008)(64756008)(66946007)(76116006)(26005)(186003)(53546011)(6506007)(7696005)(9686003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HvTuOde1bp3adDlv1tSbFs2UfxBN/5Rcgpke98lVbMIs0OMINX2j/2zAof3j?=
+ =?us-ascii?Q?M188Wk6bne5m+ucmEcZ0UZG1BTZka2PBmitYdkOs93EFtjXp8h3I6qFsoGYH?=
+ =?us-ascii?Q?rrvUpDtWDS0y5DH5NbtPTeKFkFHB5vjYlnS9zbJ3jCA4QHYZUJJLrVbo+mm0?=
+ =?us-ascii?Q?0qhi069ZHYGhLnOkMATOxqI5znuVmz2Gh9Il6YL1XKmE2+KKeccj7A/SL8n/?=
+ =?us-ascii?Q?XCvJmpxan+RAQxnVhm4SxlRoIAT+DEWm4oChxhojYAyFgKUPB1l5EcqhyM6I?=
+ =?us-ascii?Q?0OYvggry4np+SI9pTRQZhJs9X6TrdxjcqtcGQw54j/HeUwpOmsbXwgJL0qZR?=
+ =?us-ascii?Q?UW+IV2CKGbtgE/By0W3CKsD6KT2UWd0R4aMtvZ7vF9W6lLyZLnbzgr7sMoWK?=
+ =?us-ascii?Q?UpDnHrG7n+3fQsVCXi4rWx7MoqeAFAu/2RmSEY8cCitYwiAj6ByaKfzBMsRt?=
+ =?us-ascii?Q?pKldD0TAljbfwRCkEN7OhyBu+C1/eqDQTsuoisE456j6pz2iWHDIAYpN/upm?=
+ =?us-ascii?Q?TByl0tOV8+rcLgnx51RU3Qi8HPb9Qm1opbP+ocVR/tnwpbVh/jhD4CXhnZUi?=
+ =?us-ascii?Q?PhxEujvEB3SoiWA5XhCZBfNZTuR3LuA3Us+XzPeJDenPXQujdRzrHgkZsDcy?=
+ =?us-ascii?Q?exH2zkb9fjwS3dKiTBMSaVUEK4lgnfrwzFuDbALCIMWH7DiNl4jESlIeTD3N?=
+ =?us-ascii?Q?RIWdNay7yL6/g6klCmmmrkP+pPrHDMh/xPw18xCyfHzMxXT3m4EbezbPpt7E?=
+ =?us-ascii?Q?2sAwt/I2+lNNG02eTV6kFki6VyA3RT+ZGZUE+HY+GeumXqWRNygG4tesnwSg?=
+ =?us-ascii?Q?Mlsudvo6b2m9RAqXfL8iVLu/hGyRywA0BuxUGQYildTv/usohtMOZUk5fDQK?=
+ =?us-ascii?Q?BQR3TGSN3+wtLs9mVjLHaqYRg0KSsPbRE6S5OPu/9q0RRNRiLlfG/RLwTr+3?=
+ =?us-ascii?Q?pqVsQcsDWH/3ePlCXoiayGxnNG+BTCQQ5V5uW9QtV3m+102QHcaFDk126pLJ?=
+ =?us-ascii?Q?uHni6o9gLK3fD4IFh8tucVw49/wYudOtL0DDMeUOxic3VRV9oOlF8GDRJO2o?=
+ =?us-ascii?Q?J7zikTO4N61hNax4iaishkso38XsVM5Esl6aVgXtoPFsydPA0lJFUTlqPhJe?=
+ =?us-ascii?Q?eZ/iiD4+wEEF+mUzCTZ3xbgHiI4p9bvypZC176hbYhqTx/sI+BFyslqdqS3I?=
+ =?us-ascii?Q?dimvlZxm+U54/Nsb49jOz7aXujo8nziBFfS6oluw2FW8Vc+QiAzIrFbW27dD?=
+ =?us-ascii?Q?YnM7Mm+zq86OssaA8i/EJjBi5ou/7ZMfqa5XGwZDFzCnHTJUD6lSw01Ch5bx?=
+ =?us-ascii?Q?li7O+/GcdOlgri1WEMvU3IihYFtjUP9IjfB7ZTIbdjYRQPLE91ZfxuSMy98Q?=
+ =?us-ascii?Q?2jd55a8qTXnXoHsKYTvSt9WhK/LxkYjAwDlT27uNDAv7bDNpYqca73AHncAK?=
+ =?us-ascii?Q?l7sY7bWZ9Z3FLdR1R+IKLnvqsVxgDr6IsyFSxKop7zVi04m7XxYXQ/OYbAnj?=
+ =?us-ascii?Q?ttbvSv7oJ/+8QTf61oJhiLWVZ14uJnm+bIl7hNBc0D1+zi6T68gQTk06sMMb?=
+ =?us-ascii?Q?xojDONjn0+ReaYMwhvQ=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
-In-Reply-To: <20230220105345.70e46fa5@eldfell>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 20 Feb 2023 08:14:47 -0800
-Message-ID: <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: habana.ai
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR02MB7573.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02c4cb17-fab1-4520-ae22-08db135dd0ec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2023 16:16:26.0490 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d4d4539-213c-4ed8-a251-dc9766ba127a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: L65HtKv9MkF7l4WJ9ggDLcGXc4XmiUKIrlbqFVQVQ+ISRLNplCZfkijwNv/qCc41L15QCxXk8lsMptQEzb3V1g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB9588
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,88 +123,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Gustavo Padovan <gustavo@padovan.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Sat, 18 Feb 2023 13:15:49 -0800
-> Rob Clark <robdclark@gmail.com> wrote:
->
-> > From: Rob Clark <robdclark@chromium.org>
+On Thu, Feb 20, 2023 at 17:55 Stanislaw Gruszka <stanislaw.gruszka@linux.in=
+tel.com> wrote:
+> On Fri, Feb 17, 2023 at 11:34:39AM +0000, Tomer Tayar wrote:
+>  >
+> > > Ok, just place replace compose_device_in_use_info() with snprintf().
+> > > I don't think you need custom implementation of snprintf().
 > >
-> > Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
-> > wait (as opposed to a "housekeeping" wait to know when to cleanup after
-> > some work has completed).  Usermode components of GPU driver stacks
-> > often poll() on fence fd's to know when it is safe to do things like
-> > free or reuse a buffer, but they can also poll() on a fence fd when
-> > waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
-> > lets the kernel differentiate these two cases.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
->
-> Hi,
->
-> where would the UAPI documentation of this go?
-> It seems to be missing.
+> > compose_device_in_use_info() was added to handle in a single place the
+> snprintf() return value and the buffer pointer moving.
+> > However, you are correct and it is too much here, as the local buffer s=
+ize is set
+> with a value that should be enough for max possible print.
+> > We will remove compose_device_in_use_info() and use snprintf() directly=
+.
+>=20
+> Actually the safer version would be scnprintf() since for that function
+> return value could not be bigger than passed len. Usage then could be
+> as simple as:
+>=20
+> n +=3D scnprintf(buf + n, len - n, ...);
+> n +=3D scnprintf(buf + n, len - n, ...);
+>=20
+> Regards
+> Stanislaw
 
-Good question, I am not sure.  The poll() man page has a description,
-but my usage doesn't fit that _exactly_ (but OTOH the description is a
-bit vague).
-
-> If a Wayland compositor is polling application fences to know which
-> client buffer to use in its rendering, should the compositor poll with
-> PRI or not? If a compositor polls with PRI, then all fences from all
-> applications would always be PRI. Would that be harmful somehow or
-> would it be beneficial?
-
-I think a compositor would rather use the deadline ioctl and then poll
-without PRI.  Otherwise you are giving an urgency signal to the fence
-signaller which might not necessarily be needed.
-
-The places where I expect PRI to be useful is more in mesa (things
-like glFinish(), readpix, and other similar sorts of blocking APIs)
-
-BR,
--R
-
->
->
-> Thanks,
-> pq
->
-> > ---
-> >  drivers/dma-buf/sync_file.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> > index fb6ca1032885..c30b2085ee0a 100644
-> > --- a/drivers/dma-buf/sync_file.c
-> > +++ b/drivers/dma-buf/sync_file.c
-> > @@ -192,6 +192,14 @@ static __poll_t sync_file_poll(struct file *file, poll_table *wait)
-> >  {
-> >       struct sync_file *sync_file = file->private_data;
-> >
-> > +     /*
-> > +      * The POLLPRI/EPOLLPRI flag can be used to signal that
-> > +      * userspace wants the fence to signal ASAP, express this
-> > +      * as an immediate deadline.
-> > +      */
-> > +     if (poll_requested_events(wait) & EPOLLPRI)
-> > +             dma_fence_set_deadline(sync_file->fence, ktime_get());
-> > +
-> >       poll_wait(file, &sync_file->wq, wait);
-> >
-> >       if (list_empty(&sync_file->cb.node) &&
->
+Sure, we will use it, thanks!=20
