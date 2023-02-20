@@ -2,115 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BC769D12F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 17:16:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C10969D13D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 17:20:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3560010E18C;
-	Mon, 20 Feb 2023 16:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDD2210E6F6;
+	Mon, 20 Feb 2023 16:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-db3eur04on2095.outbound.protection.outlook.com [40.107.6.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA62210E18C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 16:16:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FaoMMvVJ517JGi08ahFsUtQNboWbVV4PfDjYxbOTt2URICruq19rpGrZBH1uOhvwguGhWYF565H9xQmoHvWCpdcKzFoIx9zYEf5ni80AaFzP95za9lsX3s78vtztAievHOaBGN7WJzyty6RmwiZSaGhO2bU2QeAylMrsSKg5fF5vwinEIM14eFdVeP16Et9OL4eco3bbMEwHzOcUYFga/6wKJCfM7ZrcM9eeMW6Rh3flKdmlhUAcqT+Gly5SHSvSp6ZpQObM6mzTsdZQTzdBj/zfNM3TzBHMEVgxra/nHWvdddDZ/yiMNlsoHmfTCFTmvWsd0PBHDr+SkU8RoHku0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LkZ+F5BcXfLK3IoUkskPC001pdv9AHA7bYXvdOT9m6w=;
- b=UVbkDmTZsDAPkmDxcAe85zSNL94mvyvaBLrXK8XtcH8sJsFkoBguWEdk4Bv0PuSjz9+A/QJpywA5zoLNJj80yXCWpq25oo7t3EL/JoVShhOCQAvqUiCQAUMpqmstud9HUba1eJHFYVToARI2oeiDyJR8TkFMMpg/JYo6eKVLLnoTxwW1KHRDokQNZ4hCGmceoNF1f8bMnHpzBsTEOXSdwrTtPkrHT0nlayc3YwK3AHGtAPtt388T4m+F0oeR97b5HCrSSpALplMj5QmNd8hEknJ1JbTKH6RsUlS6QTxb5lDNALSLZZmnsixGDUIcToEy5wlkzBF7MDKqaHOjq6pZcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=habana.ai; dmarc=pass action=none header.from=habana.ai;
- dkim=pass header.d=habana.ai; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=habana.ai; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LkZ+F5BcXfLK3IoUkskPC001pdv9AHA7bYXvdOT9m6w=;
- b=MYMpB4aY53YsT0Dbnd3CKhBZqH5ENll9t6KZVXhou7yeskLifUhGAfJo0jhLJK1zux9ggnUEHDnpsksG/AAtmZI9zSJ+4zA/UPHlcRBAHqoM/7b5RoYBX5GL4/2fwK+6YAdkmQCJhN8aYwFUpQnED/s4POWVFTZc4M1fkLd1fvFEoF0t+v8OCG0TJ8IvSQ3AjFYefIiIn8swKFMi+wp3/NhpXowv/3/SC85N5BddqsTQjHLdWFHiF/U30tVGAHvp4GiZGvIWbZXJDLIbDVt2lDWbYKT4ae0iKBl2Io5OAZ16/8gzBMW5I+GTsOg5dUjaS2bk6W+2rzt7F7ce+djirQ==
-Received: from DU2PR02MB7573.eurprd02.prod.outlook.com (2603:10a6:10:2d8::6)
- by DU0PR02MB9588.eurprd02.prod.outlook.com (2603:10a6:10:420::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
- 2023 16:16:26 +0000
-Received: from DU2PR02MB7573.eurprd02.prod.outlook.com
- ([fe80::46d6:40b:b9:61ca]) by DU2PR02MB7573.eurprd02.prod.outlook.com
- ([fe80::46d6:40b:b9:61ca%9]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
- 16:16:26 +0000
-From: Tomer Tayar <ttayar@habana.ai>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Subject: RE: [PATCH 08/27] habanalabs: add info when FD released while device
- still in use
-Thread-Topic: [PATCH 08/27] habanalabs: add info when FD released while device
- still in use
-Thread-Index: AQHZPyLsTfgvgpc53EmXP2FILg7rhK7RhU+AgAAgbQCAAAwCgIABTzNggAUIFICAAAT00A==
-Date: Mon, 20 Feb 2023 16:16:26 +0000
-Message-ID: <DU2PR02MB75739E8E32D26DC5A3C674A6D2A49@DU2PR02MB7573.eurprd02.prod.outlook.com>
-References: <20230212204454.2938561-1-ogabbay@kernel.org>
- <20230212204454.2938561-8-ogabbay@kernel.org>
- <20230216122545.GE2849548@linux.intel.com>
- <CAFCwf13c6T-S2MgwmWJkrQTwdXYDGMK+GG8ZVUjPipsXNrW_ZQ@mail.gmail.com>
- <20230216150447.GJ2849548@linux.intel.com>
- <DU2PR02MB75734395957E6DC59D387B28D2A19@DU2PR02MB7573.eurprd02.prod.outlook.com>
- <20230220155443.GF2862577@linux.intel.com>
-In-Reply-To: <20230220155443.GF2862577@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=habana.ai;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU2PR02MB7573:EE_|DU0PR02MB9588:EE_
-x-ms-office365-filtering-correlation-id: 02c4cb17-fab1-4520-ae22-08db135dd0ec
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: HEZBWTyLZIE8Ap4qj0xGBpAzcAbzBPzgE8jEaRqYMnAEHBC6B/8UWqr7AqDF1Od9cvxTrSIND3Bw87PcIG5O7txFnc5VqEw6zDl5DmccGbwMt/S8luTAWtyD/Q8CfJcI9w2IBhwP4G1iRCGye9JwP7LkcoVmnN9I98z1Zb2f9gG4236/PqviTrauAAvafIUAagZFyhPkOd2BkivhPoxSpGpykHx5Fa9ToP07qgyVbIjM5pDDs85i7o9IpjUq8ViNggiZXVzsUPVeUw0Rx5DdjHqVWhtpsZ27YB6ezdUKUYl9xjlVOq1rLIMrbh/ET6h+JcK+8oHrfq4L+Fc6pV30ZEwwz+vCHC0IoirEGERRRJwKME8hvRUYa9RDQa4AhfOtyMvsR9hFJW/McQEbjwexD2ixXffvyucKKs+QBlQTEm2lLd3/tG281qGCHmeV1kCFRXuNUygLWjAjtP4HaN4QTNCsD4aqD0q6RAAPWpSCAYhNQt11cktA7QuCGG6dF9b13p4qIF84/1iMT0+R8qC6TmV8ESGaSJGiXZlz9+SrWWPm2Fhh3cIgleikKI3/pC5NmQszBuiZT2OPVp6JjLUsx865nIUa/Ca0ykT3QCvTi5BvZ7kM1Exyb/GebTUA1jh4rxq86QxT0m5Mr3Hta613uxDfc3cB61NiihI5izekugU8aTy+vY1IE9sJhI9QoAXK2YJr8Se+K8Wcfx3xB4lq5Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DU2PR02MB7573.eurprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(136003)(396003)(346002)(39850400004)(366004)(376002)(451199018)(478600001)(54906003)(71200400001)(4744005)(82960400001)(38100700002)(86362001)(122000001)(33656002)(2906002)(38070700005)(316002)(41300700001)(5660300002)(52536014)(55016003)(66476007)(4326008)(8936002)(6916009)(8676002)(66446008)(66556008)(64756008)(66946007)(76116006)(26005)(186003)(53546011)(6506007)(7696005)(9686003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HvTuOde1bp3adDlv1tSbFs2UfxBN/5Rcgpke98lVbMIs0OMINX2j/2zAof3j?=
- =?us-ascii?Q?M188Wk6bne5m+ucmEcZ0UZG1BTZka2PBmitYdkOs93EFtjXp8h3I6qFsoGYH?=
- =?us-ascii?Q?rrvUpDtWDS0y5DH5NbtPTeKFkFHB5vjYlnS9zbJ3jCA4QHYZUJJLrVbo+mm0?=
- =?us-ascii?Q?0qhi069ZHYGhLnOkMATOxqI5znuVmz2Gh9Il6YL1XKmE2+KKeccj7A/SL8n/?=
- =?us-ascii?Q?XCvJmpxan+RAQxnVhm4SxlRoIAT+DEWm4oChxhojYAyFgKUPB1l5EcqhyM6I?=
- =?us-ascii?Q?0OYvggry4np+SI9pTRQZhJs9X6TrdxjcqtcGQw54j/HeUwpOmsbXwgJL0qZR?=
- =?us-ascii?Q?UW+IV2CKGbtgE/By0W3CKsD6KT2UWd0R4aMtvZ7vF9W6lLyZLnbzgr7sMoWK?=
- =?us-ascii?Q?UpDnHrG7n+3fQsVCXi4rWx7MoqeAFAu/2RmSEY8cCitYwiAj6ByaKfzBMsRt?=
- =?us-ascii?Q?pKldD0TAljbfwRCkEN7OhyBu+C1/eqDQTsuoisE456j6pz2iWHDIAYpN/upm?=
- =?us-ascii?Q?TByl0tOV8+rcLgnx51RU3Qi8HPb9Qm1opbP+ocVR/tnwpbVh/jhD4CXhnZUi?=
- =?us-ascii?Q?PhxEujvEB3SoiWA5XhCZBfNZTuR3LuA3Us+XzPeJDenPXQujdRzrHgkZsDcy?=
- =?us-ascii?Q?exH2zkb9fjwS3dKiTBMSaVUEK4lgnfrwzFuDbALCIMWH7DiNl4jESlIeTD3N?=
- =?us-ascii?Q?RIWdNay7yL6/g6klCmmmrkP+pPrHDMh/xPw18xCyfHzMxXT3m4EbezbPpt7E?=
- =?us-ascii?Q?2sAwt/I2+lNNG02eTV6kFki6VyA3RT+ZGZUE+HY+GeumXqWRNygG4tesnwSg?=
- =?us-ascii?Q?Mlsudvo6b2m9RAqXfL8iVLu/hGyRywA0BuxUGQYildTv/usohtMOZUk5fDQK?=
- =?us-ascii?Q?BQR3TGSN3+wtLs9mVjLHaqYRg0KSsPbRE6S5OPu/9q0RRNRiLlfG/RLwTr+3?=
- =?us-ascii?Q?pqVsQcsDWH/3ePlCXoiayGxnNG+BTCQQ5V5uW9QtV3m+102QHcaFDk126pLJ?=
- =?us-ascii?Q?uHni6o9gLK3fD4IFh8tucVw49/wYudOtL0DDMeUOxic3VRV9oOlF8GDRJO2o?=
- =?us-ascii?Q?J7zikTO4N61hNax4iaishkso38XsVM5Esl6aVgXtoPFsydPA0lJFUTlqPhJe?=
- =?us-ascii?Q?eZ/iiD4+wEEF+mUzCTZ3xbgHiI4p9bvypZC176hbYhqTx/sI+BFyslqdqS3I?=
- =?us-ascii?Q?dimvlZxm+U54/Nsb49jOz7aXujo8nziBFfS6oluw2FW8Vc+QiAzIrFbW27dD?=
- =?us-ascii?Q?YnM7Mm+zq86OssaA8i/EJjBi5ou/7ZMfqa5XGwZDFzCnHTJUD6lSw01Ch5bx?=
- =?us-ascii?Q?li7O+/GcdOlgri1WEMvU3IihYFtjUP9IjfB7ZTIbdjYRQPLE91ZfxuSMy98Q?=
- =?us-ascii?Q?2jd55a8qTXnXoHsKYTvSt9WhK/LxkYjAwDlT27uNDAv7bDNpYqca73AHncAK?=
- =?us-ascii?Q?l7sY7bWZ9Z3FLdR1R+IKLnvqsVxgDr6IsyFSxKop7zVi04m7XxYXQ/OYbAnj?=
- =?us-ascii?Q?ttbvSv7oJ/+8QTf61oJhiLWVZ14uJnm+bIl7hNBc0D1+zi6T68gQTk06sMMb?=
- =?us-ascii?Q?xojDONjn0+ReaYMwhvQ=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4F410E6F6;
+ Mon, 20 Feb 2023 16:20:14 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-1720d0c67eeso1777233fac.2; 
+ Mon, 20 Feb 2023 08:20:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/0p3LPNhbtXZVHQ0KXCbO4t7UGZG8cqmR73L2JPywN8=;
+ b=llJs2UEq4nJ44+iP6g74zAtfuY+X6AqSOFJ4K3RGSYpANyPZeIh12hkcIJPp8DsFfr
+ PxynjMHjio2tPN4V/uPpmbQ9BOpMoFg0oMNc1nm+AxSa7s4rWhAA3vJJs4bWI9NVmpdn
+ P+LKvQDeUan+wViUn73qnXAstjRq7dLwhn6nb4Ioqz8I89YPBnhLbbg95x5iYU6zr9Lp
+ 23crzFiT6+mQVkxoOHsS3pb9SLv/25qXXxLt2f2Ul8cApOuLy2J7aHW0fFsmjXL23ISf
+ Fgp3R5acGJVAT4mGwO4Vq8cXR1r9lqZSuMpUtIxhI6IZPXNg5wvPo8C0/N0jm6MufeXa
+ P8yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/0p3LPNhbtXZVHQ0KXCbO4t7UGZG8cqmR73L2JPywN8=;
+ b=3qIt+YjhHTk+OSWZuVCvYYqNXNvZTHKYFlW4tyRet7mk5daOdPn5zXhRo70GlpdPHp
+ qDAW9CFR3tDypOwChbeIx0vxdJK598Q5PQgnYfZl6nDbO4B3WncRkMV4G1bt2UfUaDUk
+ AAYoR4W3d3s/qC6bFlnGxP2nb5kBIera+89MzPQP3s95W3qmAsaGDLSEQ+qYc+9b4BJB
+ 9Wb8en4biJavzyi8hA1KupCWim1YOmOMrcCeSMGlo8zPvnXmD+9o4BAUsmBSG+NHjCYy
+ /Q/pELo24MrfIroAdVvFDOKCDpoAezSePgoRGWtBt8TAKtCTLWr0MRAznASwl73JwtIy
+ 4WAA==
+X-Gm-Message-State: AO0yUKVxur8MGVvgnIa2wRpJRVe7e1gAEYb9mQTUIZ8AgIeE742d24pB
+ F7r8V241/lqzKOqUqgHAaU4KCLhFFO1F6Tttk4poZqZS
+X-Google-Smtp-Source: AK7set/ced+CJ00blev+IgUMPb1g6skEoqdRVPsy6UHvrTHEkAn+0CO4cRQwHrbFrsQy/CV1Ds+no98BIMQEZo4oSMg=
+X-Received: by 2002:a05:6870:32d4:b0:16e:5e5a:49da with SMTP id
+ r20-20020a05687032d400b0016e5e5a49damr1187270oac.58.1676910013598; Mon, 20
+ Feb 2023 08:20:13 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: habana.ai
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR02MB7573.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02c4cb17-fab1-4520-ae22-08db135dd0ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2023 16:16:26.0490 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d4d4539-213c-4ed8-a251-dc9766ba127a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: L65HtKv9MkF7l4WJ9ggDLcGXc4XmiUKIrlbqFVQVQ+ISRLNplCZfkijwNv/qCc41L15QCxXk8lsMptQEzb3V1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB9588
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-10-robdclark@gmail.com>
+ <20230220110553.47ecd504@eldfell>
+In-Reply-To: <20230220110553.47ecd504@eldfell>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 20 Feb 2023 08:20:03 -0800
+Message-ID: <CAF6AEGt0xZavULWDfKfeNA1Ysb9gwdcGSDW-hVB0vLxTzEXK1w@mail.gmail.com>
+Subject: Re: [PATCH v4 09/14] drm/syncobj: Add deadline support for syncobj
+ waits
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,34 +68,284 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 20, 2023 at 17:55 Stanislaw Gruszka <stanislaw.gruszka@linux.in=
-tel.com> wrote:
-> On Fri, Feb 17, 2023 at 11:34:39AM +0000, Tomer Tayar wrote:
->  >
-> > > Ok, just place replace compose_device_in_use_info() with snprintf().
-> > > I don't think you need custom implementation of snprintf().
+On Mon, Feb 20, 2023 at 1:05 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Sat, 18 Feb 2023 13:15:52 -0800
+> Rob Clark <robdclark@gmail.com> wrote:
+>
+> > From: Rob Clark <robdclark@chromium.org>
 > >
-> > compose_device_in_use_info() was added to handle in a single place the
-> snprintf() return value and the buffer pointer moving.
-> > However, you are correct and it is too much here, as the local buffer s=
-ize is set
-> with a value that should be enough for max possible print.
-> > We will remove compose_device_in_use_info() and use snprintf() directly=
-.
->=20
-> Actually the safer version would be scnprintf() since for that function
-> return value could not be bigger than passed len. Usage then could be
-> as simple as:
->=20
-> n +=3D scnprintf(buf + n, len - n, ...);
-> n +=3D scnprintf(buf + n, len - n, ...);
->=20
-> Regards
-> Stanislaw
+> > Add a new flag to let userspace provide a deadline as a hint for syncobj
+> > and timeline waits.  This gives a hint to the driver signaling the
+> > backing fences about how soon userspace needs it to compete work, so it
+> > can addjust GPU frequency accordingly.  An immediate deadline can be
+> > given to provide something equivalent to i915 "wait boost".
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >
+> > I'm a bit on the fence about the addition of the DRM_CAP, but it seems
+> > useful to give userspace a way to probe whether the kernel and driver
+> > supports the new wait flag, especially since we have vk-common code
+> > dealing with syncobjs.  But open to suggestions.
+> >
+> >  drivers/gpu/drm/drm_ioctl.c   |  3 ++
+> >  drivers/gpu/drm/drm_syncobj.c | 59 ++++++++++++++++++++++++++++-------
+> >  include/drm/drm_drv.h         |  6 ++++
+> >  include/uapi/drm/drm.h        | 16 ++++++++--
+> >  4 files changed, 71 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> > index 7c9d66ee917d..1c5c942cf0f9 100644
+> > --- a/drivers/gpu/drm/drm_ioctl.c
+> > +++ b/drivers/gpu/drm/drm_ioctl.c
+> > @@ -254,6 +254,9 @@ static int drm_getcap(struct drm_device *dev, void *data, struct drm_file *file_
+> >       case DRM_CAP_SYNCOBJ_TIMELINE:
+> >               req->value = drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE);
+> >               return 0;
+> > +     case DRM_CAP_SYNCOBJ_DEADLINE:
+> > +             req->value = drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE);
+>
+> Hi,
+>
+> is that a typo for DRIVER_SYNCOBJ_DEADLINE?
 
-Sure, we will use it, thanks!=20
+Ahh, yes, that is a typo.. but I'm thinking of dropping the cap and
+allowing count_handles==0 instead as a way for userspace to probe
+whether the kernel supports the new ioctl flag/fields.
+
+> > +             return 0;
+> >       }
+> >
+> >       /* Other caps only work with KMS drivers */
+> > diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+> > index 0c2be8360525..61cf97972a60 100644
+> > --- a/drivers/gpu/drm/drm_syncobj.c
+> > +++ b/drivers/gpu/drm/drm_syncobj.c
+> > @@ -973,7 +973,8 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+> >                                                 uint32_t count,
+> >                                                 uint32_t flags,
+> >                                                 signed long timeout,
+> > -                                               uint32_t *idx)
+> > +                                               uint32_t *idx,
+> > +                                               ktime_t *deadline)
+> >  {
+> >       struct syncobj_wait_entry *entries;
+> >       struct dma_fence *fence;
+> > @@ -1053,6 +1054,15 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+> >                       drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
+> >       }
+> >
+> > +     if (deadline) {
+> > +             for (i = 0; i < count; ++i) {
+> > +                     fence = entries[i].fence;
+> > +                     if (!fence)
+> > +                             continue;
+> > +                     dma_fence_set_deadline(fence, *deadline);
+> > +             }
+> > +     }
+> > +
+> >       do {
+> >               set_current_state(TASK_INTERRUPTIBLE);
+> >
+> > @@ -1151,7 +1161,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+> >                                 struct drm_file *file_private,
+> >                                 struct drm_syncobj_wait *wait,
+> >                                 struct drm_syncobj_timeline_wait *timeline_wait,
+> > -                               struct drm_syncobj **syncobjs, bool timeline)
+> > +                               struct drm_syncobj **syncobjs, bool timeline,
+> > +                               ktime_t *deadline)
+> >  {
+> >       signed long timeout = 0;
+> >       uint32_t first = ~0;
+> > @@ -1162,7 +1173,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+> >                                                        NULL,
+> >                                                        wait->count_handles,
+> >                                                        wait->flags,
+> > -                                                      timeout, &first);
+> > +                                                      timeout, &first,
+> > +                                                      deadline);
+> >               if (timeout < 0)
+> >                       return timeout;
+> >               wait->first_signaled = first;
+> > @@ -1172,7 +1184,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+> >                                                        u64_to_user_ptr(timeline_wait->points),
+> >                                                        timeline_wait->count_handles,
+> >                                                        timeline_wait->flags,
+> > -                                                      timeout, &first);
+> > +                                                      timeout, &first,
+> > +                                                      deadline);
+> >               if (timeout < 0)
+> >                       return timeout;
+> >               timeline_wait->first_signaled = first;
+> > @@ -1243,13 +1256,20 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+> >  {
+> >       struct drm_syncobj_wait *args = data;
+> >       struct drm_syncobj **syncobjs;
+> > +     unsigned possible_flags;
+> > +     ktime_t t, *tp = NULL;
+> >       int ret = 0;
+> >
+> >       if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+> >               return -EOPNOTSUPP;
+> >
+> > -     if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+> > -                         DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT))
+> > +     possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+> > +                      DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT;
+> > +
+> > +     if (drm_core_check_feature(dev, DRIVER_SYNCOBJ_DEADLINE))
+> > +             possible_flags |= DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
+> > +
+> > +     if (args->flags & ~possible_flags)
+> >               return -EINVAL;
+> >
+> >       if (args->count_handles == 0)
+> > @@ -1262,8 +1282,13 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+> >       if (ret < 0)
+> >               return ret;
+> >
+> > +     if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
+> > +             t = ktime_set(args->deadline_sec, args->deadline_nsec);
+> > +             tp = &t;
+> > +     }
+> > +
+> >       ret = drm_syncobj_array_wait(dev, file_private,
+> > -                                  args, NULL, syncobjs, false);
+> > +                                  args, NULL, syncobjs, false, tp);
+> >
+> >       drm_syncobj_array_free(syncobjs, args->count_handles);
+> >
+> > @@ -1276,14 +1301,21 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+> >  {
+> >       struct drm_syncobj_timeline_wait *args = data;
+> >       struct drm_syncobj **syncobjs;
+> > +     unsigned possible_flags;
+> > +     ktime_t t, *tp = NULL;
+> >       int ret = 0;
+> >
+> >       if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
+> >               return -EOPNOTSUPP;
+> >
+> > -     if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+> > -                         DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+> > -                         DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE))
+> > +     possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+> > +                      DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+> > +                      DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE;
+> > +
+> > +     if (drm_core_check_feature(dev, DRIVER_SYNCOBJ_DEADLINE))
+> > +             possible_flags |= DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
+> > +
+> > +     if (args->flags & ~possible_flags)
+> >               return -EINVAL;
+> >
+> >       if (args->count_handles == 0)
+> > @@ -1296,8 +1328,13 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+> >       if (ret < 0)
+> >               return ret;
+> >
+> > +     if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
+> > +             t = ktime_set(args->deadline_sec, args->deadline_nsec);
+> > +             tp = &t;
+> > +     }
+> > +
+> >       ret = drm_syncobj_array_wait(dev, file_private,
+> > -                                  NULL, args, syncobjs, true);
+> > +                                  NULL, args, syncobjs, true, tp);
+> >
+> >       drm_syncobj_array_free(syncobjs, args->count_handles);
+> >
+> > diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> > index 1d76d0686b03..9aa24f097e22 100644
+> > --- a/include/drm/drm_drv.h
+> > +++ b/include/drm/drm_drv.h
+> > @@ -104,6 +104,12 @@ enum drm_driver_feature {
+> >        * acceleration should be handled by two drivers that are connected using auxiliary bus.
+> >        */
+> >       DRIVER_COMPUTE_ACCEL            = BIT(7),
+> > +     /**
+> > +      * @DRIVER_SYNCOBJ_DEADLINE:
+> > +      *
+> > +      * Driver supports &dma_fence_ops.set_deadline
+> > +      */
+> > +     DRIVER_SYNCOBJ_DEADLINE         = BIT(8),
+> >
+> >       /* IMPORTANT: Below are all the legacy flags, add new ones above. */
+> >
+> > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > index 642808520d92..c6b85bb13810 100644
+> > --- a/include/uapi/drm/drm.h
+> > +++ b/include/uapi/drm/drm.h
+> > @@ -767,6 +767,13 @@ struct drm_gem_open {
+> >   * Documentation/gpu/drm-mm.rst, section "DRM Sync Objects".
+> >   */
+> >  #define DRM_CAP_SYNCOBJ_TIMELINE     0x14
+> > +/**
+> > + * DRM_CAP_SYNCOBJ_DEADLINE
+> > + *
+> > + * If set to 1, the driver supports DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE flag
+> > + * on the SYNCOBJ_TIMELINE_WAIT/SYNCOBJ_WAIT ioctls.
+> > + */
+> > +#define DRM_CAP_SYNCOBJ_DEADLINE     0x15
+> >
+> >  /* DRM_IOCTL_GET_CAP ioctl argument type */
+> >  struct drm_get_cap {
+> > @@ -887,6 +894,7 @@ struct drm_syncobj_transfer {
+> >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
+> >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
+> >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time point to become available */
+> > +#define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadline based to deadline_nsec/sec */
+>
+> Where was the UAPI documentation explaining what a fence deadline is
+> and what it does, again?
+>
+> >  struct drm_syncobj_wait {
+> >       __u64 handles;
+> >       /* absolute timeout */
+> > @@ -894,7 +902,9 @@ struct drm_syncobj_wait {
+> >       __u32 count_handles;
+> >       __u32 flags;
+> >       __u32 first_signaled; /* only valid when not waiting all */
+> > -     __u32 pad;
+> > +     /* Deadline to set on backing fence(s) in CLOCK_MONOTONIC: */
+> > +     __u32 deadline_nsec;
+> > +     __u64 deadline_sec;
+> >  };
+> >
+> >  struct drm_syncobj_timeline_wait {
+> > @@ -906,7 +916,9 @@ struct drm_syncobj_timeline_wait {
+> >       __u32 count_handles;
+> >       __u32 flags;
+> >       __u32 first_signaled; /* only valid when not waiting all */
+> > -     __u32 pad;
+> > +     /* Deadline to set on backing fence(s) in CLOCK_MONOTONIC: */
+> > +     __u32 deadline_nsec;
+> > +     __u64 deadline_sec;
+> >  };
+>
+> It seems inconsistent that these sec,nsec are here unsigned, when in
+> other places they are signed. There is also the question if these need
+> to meet clock_settime() requirements of valid values.
+>
+
+Yes, should have been signed.  But I think Christian has convinced me
+to use 'u64 ns' (absolute monotonic) instead for the sync_file ioctl.
+And it would make sense to use the same here.
+
+BR,
+-R
+
+>
+> Thanks,
+> pq
