@@ -1,70 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FA569C865
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 11:16:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9250469C878
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 11:23:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E67DA10E1BB;
-	Mon, 20 Feb 2023 10:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D23A410E65C;
+	Mon, 20 Feb 2023 10:23:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1488210E1BB
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 10:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1676888206; x=1708424206;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2F6wQMWsfMZl9xIjqvGFKN23H5UpqXNa5nAwW2/Rdc0=;
- b=KZ9y4igNKQxvO5EGwLc9TBCkpUrRQrlG1hDAxnYYUd/H+V4r63LVdDvP
- OvbUhhHvAuN7jeg8iLlPevNCrdFVR2ibZPokNpoqvM7RcnQ9ADtXDrFwq
- lwfxaldRUwEnNNZziMWLpF6yN48REkGHFQRDgwH2imxSveMSEF/kK3jJt
- 8dz4qeIJu31jRSq5HnRZwFvGf7RDFR1KxQAEihwQetelAWtBZOJYTPqFF
- UfzPEHEKz3v9vHS62QSOYEBddqoVMslkPaJgOoa8Ba1/H+lq8yIE4OhvN
- vVk8ODs5+POzy9ZaPMAmQn/QMSlCXu2/09JUZ24f5nDQMluh7iO5dYa2/ w==;
-X-IronPort-AV: E=Sophos;i="5.97,312,1669071600"; d="scan'208";a="29185203"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 20 Feb 2023 11:16:44 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Mon, 20 Feb 2023 11:16:44 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Mon, 20 Feb 2023 11:16:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1676888204; x=1708424204;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=2F6wQMWsfMZl9xIjqvGFKN23H5UpqXNa5nAwW2/Rdc0=;
- b=hQX2B1BC4M5+8xuLPP1XvPAEpGcCMxy6sbsuJkW7RMkwNLBFqVqxPdMB
- InQVwdCba3lYOuzoEkmbjE0abajWqPLHZuy7egr7gVU4xhRHle5Yq2NYp
- 60dycR/H3SoA6umQT0QdR6zDtaRASeBknal4t2byDs4VyxvuHPpgDqkQr
- 9mSvc13GrmEwN0CHFBZgzkAedq83Yz1EYirCrhvwPgXubrUN58u661RYA
- +CrSQWmhI9C0IRh0uoJaXjAILf3qbo9aGBDXccdGNc/ygwW3mCKcUGL+5
- wIriCCN50TG/ut+7uvhYGEkqcbOdS0DPukOlNdWtz+FQ7Pcv5f896SvU2 w==;
-X-IronPort-AV: E=Sophos;i="5.97,312,1669071600"; d="scan'208";a="29185202"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 20 Feb 2023 11:16:44 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id AD3D9280056;
- Mon, 20 Feb 2023 11:16:43 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v4 0/6] drm: lcdif: Add i.MX93 LCDIF support
-Date: Mon, 20 Feb 2023 11:16:41 +0100
-Message-ID: <2871322.e9J7NaK4W3@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <2135575.irdbgypaU6@steina-w>
-References: <20230217065407.2259731-1-victor.liu@nxp.com>
- <52b8025ee9b71dfb147127bd1cb2c532d222df3c.camel@nxp.com>
- <2135575.irdbgypaU6@steina-w>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C51810E65B;
+ Mon, 20 Feb 2023 10:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676888607; x=1708424607;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+moSdz6ykMmhAIG4bd6yOGcwfFNEqIXe0/1tqWXT49k=;
+ b=juE1oWLCl7bOFJal5sbZSr9ZsBTqoS6JS8IUJR92joVLIfw+x2vqJ9x1
+ 5Jw/wmczV+emqfhsFkNjZnEwbWr4uowb026JsMC3aqPFgmDy6In0YWmM5
+ ZD8E9IBy9L6vU1Z76C/OJBYGynXwI193PlO9TidoHmFr4B7ftzDZS4byW
+ lRFtFIjXFabuZrn6JslQsV1K+UN4zDy8uXVfDhQi51y82qreYZ3ZQw+ix
+ Tzl0yCiq0FihNxUL//8ch5ghnX+52sPydI+WS14u/Phk+HFXElXl+oFvr
+ AAf2s0eLN3uSZZdu6VcpB35BSPdUZfcWsUyQt5XvpIrSsfaEbdj+bmQyJ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="418592059"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; d="scan'208";a="418592059"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2023 02:23:26 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="845287022"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; d="scan'208";a="845287022"
+Received: from mochoamo-mobl.ger.corp.intel.com (HELO [10.213.211.126])
+ ([10.213.211.126])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2023 02:23:21 -0800
+Message-ID: <6e05c985-327f-7d6a-af4f-82b97378d0b5@linux.intel.com>
+Date: Mon, 20 Feb 2023 10:23:19 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] drm/gem: Expose the buffer object handle to userspace last
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230214125050.1205394-1-tvrtko.ursulin@linux.intel.com>
+ <f1256a51-5c4d-ab44-3867-931f7d2c0695@amd.com>
+ <767620c4-385f-c0e8-dcb1-513ef4402ad0@linux.intel.com>
+ <b7bb9888-b1d3-0d89-1e4f-bc25475b0071@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <b7bb9888-b1d3-0d89-1e4f-bc25475b0071@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,241 +66,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, devicetree@vger.kernel.org,
- krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
- robh+dt@kernel.org, dri-devel@lists.freedesktop.org, LW@karo-electronics.de,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
+Cc: Rob Clark <robdclark@chromium.org>, lima@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, nouveau@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Herrmann <dh.herrmann@gmail.com>,
+ spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
 
-Am Montag, 20. Februar 2023, 09:55:19 CET schrieb Alexander Stein:
-> Hi Liu,
->=20
-> Am Freitag, 17. Februar 2023, 09:59:14 CET schrieb Liu Ying:
-> > On Fri, 2023-02-17 at 09:18 +0100, Alexander Stein wrote:
-> > > Hi Liu,
-> >=20
-> > Hi Alexander,
-> >=20
-> > > Am Freitag, 17. Februar 2023, 07:54:01 CET schrieb Liu Ying:
-> > > > Hi,
-> > > >=20
-> > > > This patch set aims to add i.MX93 LCDIF display controller support
-> > > > in the existing LCDIF DRM driver.  The LCDIF embedded in i.MX93 SoC
-> > > > is essentially the same to those embedded in i.MX8mp SoC.  Through
-> > > > internal bridges, i.MX93 LCDIF may drive a MIPI DSI display or a LV=
-DS
-> > > > display or a parallel display.
-> > > >=20
-> > > > Patch 1/6 adds device tree binding support for i.MX93 LCDIF in the
-> > > > existing fsl,lcdif.yaml.
-> > > >=20
-> > > > Patch 2/6 drops lcdif->bridge NULL pointer check as a cleanup patch.
-> > > >=20
-> > > > Patch 3/6~5/6 prepare for adding i.MX93 LCDIF support step by step.
-> > > >=20
-> > > > Patch 6/6 adds i.MX93 LCDIF compatible string as the last step of
-> > > > adding i.MX93 LCDIF support.
-> > >=20
-> > > Thanks for the series. I could test this on my TQMa93xxLA/MBa93xxCA w=
-ith
-> > > a
-> > > single LVDS display attached, so no DSI or parallel display. Hence I
-> > > could
-> > > not test the bus format and flags checks, but they look okay.
-> > > So you can add
-> > > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > to the whole series as well.
-> >=20
-> > Thanks for your test.
-> >=20
-> > > One thing I noticed is that, sometimes it seems that before probing
-> > > lcdif
-> > > my system completely freezes. Adding some debug output it seems that's
-> > > during powering up the IMX93_MEDIABLK_PD_LCDIF power domain there is
-> > > some
-> > > race condition. But adding more more detailed output made the problem=
- go
-> > > away. Did you notice something similar? It might be a red hering thou=
-gh.
-> >=20
-> > I don't see system freezing with my i.MX93 11x11 EVK when probing
-> > lcdif. I did try to boot the system several times. All look ok. This is
-> > a snippet of dmesg when lcdif probes:
-> >=20
-> > --------------------------8<------------------------------------------
-> > [    0.753083] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
-> > [    0.761669] SuperH (H)SCI(F) driver initialized
-> > [    0.766523] msm_serial: driver initialized
-> > [    0.780523] printk: console [ttyLP0] enabled0x44380010 (irq =3D 16,
-> > base_baud =3D 1500000) is a FSL_LPUART
-> > [    0.780523] printk: console [ttyLP0] enabled
-> > [    0.788928] printk: bootconsole [lpuart32] disabled
-> > [    0.788928] printk: bootconsole [lpuart32] disabled
-> > [    0.804632] panel-simple lvds_panel: supply power not found, using
-> > dummy regulator
-> > [    0.814741] [drm] Initialized imx-lcdif 1.0.0 20220417 for
-> > 4ae30000.lcd-controller on minor 0
-> > [    1.195930] Console: switching to colour frame buffer device 160x50
-> > [    1.218385] imx-lcdif 4ae30000.lcd-controller: [drm] fb0: imx-
-> > lcdifdrmfb frame buffer device
-> > [    1.227099] cacheinfo: Unable to detect cache hierarchy for CPU 0
-> > [    1.236725] loop: module loaded
-> > --------------------------8<------------------------------------------
-> >=20
-> > ~300 milliseconds are consumed by the enablement delay required by the
-> > "boe,ev121wxm-n10-1850" LVDS panel I use.
->=20
-> It seems you have the drivers compiled in. I use modules in my case and
-> simple-panel as well. But this is unrelated, because lcdif_probe() is yet=
- to
-> be called. Using the debug diff from below I get the following output:
->=20
-> [   16.111197] imx93-blk-ctrl 4ac10000.system-controller:
-> imx93_blk_ctrl_power_on: 1
-> [   16.122491] imx93-blk-ctrl 4ac10000.system-controller:
-> imx93_blk_ctrl_power_on: 2
-> [   16.137766] imx93-blk-ctrl 4ac10000.system-controller:
-> imx93_blk_ctrl_power_on: 3
-> [   16.154905] imx93-blk-ctrl 4ac10000.system-controller:
-> imx93_blk_ctrl_power_on: 4
->=20
-> It seems setting BLK_CLK_EN blocks the whole system, even reading is not
-> possible. I don't have any details on the hardware, but it seems that eit=
-her
-> some clock or power domain is not enabled. This can also happen if I'm
-> loading the lcdif module manually after boot. But I can't detect any
-> differences in / sys/kernel/debug/clk/clk_summary.
+On 20/02/2023 10:01, Christian König wrote:
+> Am 20.02.23 um 10:55 schrieb Tvrtko Ursulin:
+>>
+>> Hi,
+>>
+>> On 14/02/2023 13:59, Christian König wrote:
+>>> Am 14.02.23 um 13:50 schrieb Tvrtko Ursulin:
+>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>
+>>>> Currently drm_gem_handle_create_tail exposes the handle to userspace
+>>>> before the buffer object constructions is complete. This allowing
+>>>> of working against a partially constructed object, which may also be in
+>>>> the process of having its creation fail, can have a range of negative
+>>>> outcomes.
+>>>>
+>>>> A lot of those will depend on what the individual drivers are doing in
+>>>> their obj->funcs->open() callbacks, and also with a common failure mode
+>>>> being -ENOMEM from drm_vma_node_allow.
+>>>>
+>>>> We can make sure none of this can happen by allocating a handle last,
+>>>> although with a downside that more of the function now runs under the
+>>>> dev->object_name_lock.
+>>>>
+>>>> Looking into the individual drivers open() hooks, we have
+>>>> amdgpu_gem_object_open which seems like it could have a potential 
+>>>> security
+>>>> issue without this change.
+>>>>
+>>>> A couple drivers like qxl_gem_object_open and vmw_gem_object_open
+>>>> implement no-op hooks so no impact for them.
+>>>>
+>>>> A bunch of other require a deeper look by individual owners to asses 
+>>>> for
+>>>> impact. Those are lima_gem_object_open, nouveau_gem_object_open,
+>>>> panfrost_gem_open, radeon_gem_object_open and 
+>>>> virtio_gpu_gem_object_open.
+>>>>
+>>>> Putting aside the risk assesment of the above, some common scenarios to
+>>>> think about are along these lines:
+>>>>
+>>>> 1)
+>>>> Userspace closes a handle by speculatively "guessing" it from a second
+>>>> thread.
+>>>>
+>>>> This results in an unreachable buffer object so, a memory leak.
+>>>>
+>>>> 2)
+>>>> Same as 1), but object is in the process of getting closed (failed
+>>>> creation).
+>>>>
+>>>> The second thread is then able to re-cycle the handle and idr_remove 
+>>>> would
+>>>> in the first thread would then remove the handle it does not own 
+>>>> from the
+>>>> idr.
+>>>>
+>>>> 3)
+>>>> Going back to the earlier per driver problem space - individual impact
+>>>> assesment of allowing a second thread to access and operate on a 
+>>>> partially
+>>>> constructed handle / object. (Can something crash? Leak information?)
+>>>>
+>>>> In terms of identifying when the problem started I will tag some 
+>>>> patches
+>>>> as references, but not all, if even any, of them actually point to a
+>>>> broken state. I am just identifying points at which more opportunity 
+>>>> for
+>>>> issues to arise was added.
+>>>
+>>> Yes I've looked into this once as well, but couldn't completely solve 
+>>> it for some reason.
+>>>
+>>> Give me a day or two to get this tested and all the logic swapped 
+>>> back into my head again.
+>>
+>> Managed to recollect what the problem with earlier attempts was?
+> 
+> Nope, that's way to long ago. I can only assume that I ran into problems 
+> with the object_name_lock.
+> 
+> Probably best to double check if that doesn't result in a lock inversion 
+> when somebody grabs the reservation lock in their ->load() callback.
 
-I think I found the cause. It's the maximum clock frequency for media_axi a=
-nd=20
-media_apb. These clocks were not explicitly configured, most probably=20
-exceeding the maximum frequency allowed.
+Hmm I don't immediately follow the connection. But I have only found 
+radeon_driver_load_kms as using the load callback. Is there any lockdep 
+enabled CI for that driver which could tell us if there is a problem there?
 
-Best regards,
-Alexander
+Regards,
 
-> ---8<---
-> diff --git a/drivers/soc/imx/imx93-blk-ctrl.c b/drivers/soc/imx/imx93-blk-
-> ctrl.c
-> index 2c600329436cf..50aeb20ce90dc 100644
-> --- a/drivers/soc/imx/imx93-blk-ctrl.c
-> +++ b/drivers/soc/imx/imx93-blk-ctrl.c
-> @@ -129,12 +129,14 @@ static int imx93_blk_ctrl_power_on(struct
-> generic_pm_domain *genpd)
->  	struct imx93_blk_ctrl *bc =3D domain->bc;
->  	int ret;
->=20
-> +	dev_info(bc->dev, "%s: 1\n", __func__);
->  	ret =3D clk_bulk_prepare_enable(bc->num_clks, bc->clks);
->  	if (ret) {
->  		dev_err(bc->dev, "failed to enable bus clocks\n");
->  		return ret;
->  	}
->=20
-> +	dev_info(bc->dev, "%s: 2\n", __func__);
->  	ret =3D clk_bulk_prepare_enable(data->num_clks, domain->clks);
->  	if (ret) {
->  		clk_bulk_disable_unprepare(bc->num_clks, bc->clks);
-> @@ -142,6 +144,7 @@ static int imx93_blk_ctrl_power_on(struct
-> generic_pm_domain *genpd)
->  		return ret;
->  	}
->=20
-> +	dev_info(bc->dev, "%s: 3\n", __func__);
->  	ret =3D pm_runtime_get_sync(bc->dev);
->  	if (ret < 0) {
->  		pm_runtime_put_noidle(bc->dev);
-> @@ -149,11 +152,15 @@ static int imx93_blk_ctrl_power_on(struct
-> generic_pm_domain *genpd)
->  		goto disable_clk;
->  	}
->=20
-> +	dev_info(bc->dev, "%s: 4\n", __func__);
-> +
->  	/* ungate clk */
->  	regmap_clear_bits(bc->regmap, BLK_CLK_EN, data->clk_mask);
-> +	dev_info(bc->dev, "%s: 5\n", __func__);
->=20
->  	/* release reset */
->  	regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
-> +	dev_info(bc->dev, "%s: 6\n", __func__);
->=20
->  	dev_dbg(bc->dev, "pd_on: name: %s\n", genpd->name);
->=20
->=20
-> ---8<---
->=20
-> Best regards,
-> Alexander
->=20
-> > Regards,
-> > Liu Ying
-> >=20
-> > > Best regards,
-> > > Alexander
-> > >=20
-> > > > v3->v4:
-> > > > * Improve warning message when ignoring invalid LCDIF OF endpoint i=
-ds
-> > > > in
-> > > >=20
-> > > >   patch 5/6. (Alexander)
-> > > >=20
-> > > > * Use 'new_{c,p}state' instead of 'new_{crtc,plane}_state' in patch
-> > > > 3/6.
-> > > >=20
-> > > >   (Alexander)
-> > > >=20
-> > > > * Simplify lcdif_crtc_reset() by calling
-> > > > lcdif_crtc_atomic_destroy_state()
-> > > >=20
-> > > >   in patch 3/6. (Alexander)
-> > > >=20
-> > > > * Add '!crtc->state' check in lcdif_crtc_atomic_duplicate_state() in
-> > > > patch
-> > > > 3/6. (Alexander)
-> > > > * Collect Alexander's R-b tags on patch 1/6, 2/6 and 6/6.
-> > > >=20
-> > > > v2->v3:
-> > > > * Fix a trivial typo in patch 6/6's commit message.
-> > > >=20
-> > > > v1->v2:
-> > > > * Add Krzysztof's A-b and Marek's R-b tags on patch 1/6.
-> > > > * Split patch 2/2 in v1 into patch 2/6~6/6 in v2. (Marek, Alexander)
-> > > > * Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
-> > > > * Add comment on the 'base' member of lcdif_crtc_state structure to
-> > > >=20
-> > > >   note it should always be the first member. (Lothar)
-> > > >=20
-> > > > * Drop unneeded 'bridges' member from lcdif_drm_private structure.
-> > > > * Drop a comment about bridge input bus format from
-> > > > lcdif_crtc_atomic_check().
-> > > >=20
-> > > > Liu Ying (6):
-> > > >   dt-bindings: lcdif: Add i.MX93 LCDIF support
-> > > >   drm: lcdif: Drop unnecessary NULL pointer check on lcdif->bridge
-> > > >   drm: lcdif: Determine bus format and flags in ->atomic_check()
-> > > >   drm: lcdif: Check consistent bus format and flags across first
-> > > >   bridges
-> > > >   drm: lcdif: Add multiple encoders and first bridges support
-> > > >   drm: lcdif: Add i.MX93 LCDIF compatible string
-> > > > =20
-> > > >  .../bindings/display/fsl,lcdif.yaml           |   7 +-
-> > > >  drivers/gpu/drm/mxsfb/lcdif_drv.c             |  71 ++++++-
-> > > >  drivers/gpu/drm/mxsfb/lcdif_drv.h             |   5 +-
-> > > >  drivers/gpu/drm/mxsfb/lcdif_kms.c             | 198
-> > > >  ++++++++++++------
-> > > >  4 files changed, 206 insertions(+), 75 deletions(-)
+Tvrtko
 
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>> Christian.
+>>>
+>>>>
+>>>> References: 304eda32920b ("drm/gem: add hooks to notify driver when 
+>>>> object handle is created/destroyed")
+>>>> References: ca481c9b2a3a ("drm/gem: implement vma access management")
+>>>> References: b39b5394fabc ("drm/gem: Add drm_gem_object_funcs")
+>>>> Cc: dri-devel@lists.freedesktop.org
+>>>> Cc: Rob Clark <robdclark@chromium.org>
+>>>> Cc: Ben Skeggs <bskeggs@redhat.com>
+>>>> Cc: David Herrmann <dh.herrmann@gmail.com>
+>>>> Cc: Noralf Trønnes <noralf@tronnes.org>
+>>>> Cc: David Airlie <airlied@gmail.com>
+>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>>> Cc: amd-gfx@lists.freedesktop.org
+>>>> Cc: lima@lists.freedesktop.org
+>>>> Cc: nouveau@lists.freedesktop.org
+>>>> Cc: Steven Price <steven.price@arm.com>
+>>>> Cc: virtualization@lists.linux-foundation.org
+>>>> Cc: spice-devel@lists.freedesktop.org
+>>>> Cc: Zack Rusin <zackr@vmware.com>
+>>>> ---
+>>>>   drivers/gpu/drm/drm_gem.c | 48 
+>>>> +++++++++++++++++++--------------------
+>>>>   1 file changed, 24 insertions(+), 24 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>>>> index aa15c52ae182..e3d897bca0f2 100644
+>>>> --- a/drivers/gpu/drm/drm_gem.c
+>>>> +++ b/drivers/gpu/drm/drm_gem.c
+>>>> @@ -356,52 +356,52 @@ drm_gem_handle_create_tail(struct drm_file 
+>>>> *file_priv,
+>>>>                  u32 *handlep)
+>>>>   {
+>>>>       struct drm_device *dev = obj->dev;
+>>>> -    u32 handle;
+>>>>       int ret;
+>>>> WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+>>>>       if (obj->handle_count++ == 0)
+>>>>           drm_gem_object_get(obj);
+>>>> +    ret = drm_vma_node_allow(&obj->vma_node, file_priv);
+>>>> +    if (ret)
+>>>> +        goto err_put;
+>>>> +
+>>>> +    if (obj->funcs->open) {
+>>>> +        ret = obj->funcs->open(obj, file_priv);
+>>>> +        if (ret)
+>>>> +            goto err_revoke;
+>>>> +    }
+>>>> +
+>>>>       /*
+>>>> -     * Get the user-visible handle using idr.  Preload and perform
+>>>> -     * allocation under our spinlock.
+>>>> +     * Get the user-visible handle using idr as the _last_ step.
+>>>> +     * Preload and perform allocation under our spinlock.
+>>>>        */
+>>>>       idr_preload(GFP_KERNEL);
+>>>>       spin_lock(&file_priv->table_lock);
+>>>> -
+>>>>       ret = idr_alloc(&file_priv->object_idr, obj, 1, 0, GFP_NOWAIT);
+>>>> -
+>>>>       spin_unlock(&file_priv->table_lock);
+>>>>       idr_preload_end();
+>>>> -    mutex_unlock(&dev->object_name_lock);
+>>>>       if (ret < 0)
+>>>> -        goto err_unref;
+>>>> -
+>>>> -    handle = ret;
+>>>> +        goto err_close;
+>>>> -    ret = drm_vma_node_allow(&obj->vma_node, file_priv);
+>>>> -    if (ret)
+>>>> -        goto err_remove;
+>>>> +    mutex_unlock(&dev->object_name_lock);
+>>>> -    if (obj->funcs->open) {
+>>>> -        ret = obj->funcs->open(obj, file_priv);
+>>>> -        if (ret)
+>>>> -            goto err_revoke;
+>>>> -    }
+>>>> +    *handlep = ret;
+>>>> -    *handlep = handle;
+>>>>       return 0;
+>>>> +err_close:
+>>>> +    if (obj->funcs->close)
+>>>> +        obj->funcs->close(obj, file_priv);
+>>>>   err_revoke:
+>>>>       drm_vma_node_revoke(&obj->vma_node, file_priv);
+>>>> -err_remove:
+>>>> -    spin_lock(&file_priv->table_lock);
+>>>> -    idr_remove(&file_priv->object_idr, handle);
+>>>> -    spin_unlock(&file_priv->table_lock);
+>>>> -err_unref:
+>>>> -    drm_gem_object_handle_put_unlocked(obj);
+>>>> +err_put:
+>>>> +    if (--obj->handle_count == 0)
+>>>> +        drm_gem_object_put(obj);
+>>>> +
+>>>> +    mutex_unlock(&dev->object_name_lock);
+>>>> +
+>>>>       return ret;
+>>>>   }
+>>>
+> 
