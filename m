@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607F769C6E2
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 09:41:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3824669C6F3
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 09:48:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4286310E613;
-	Mon, 20 Feb 2023 08:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C37310E60B;
+	Mon, 20 Feb 2023 08:48:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3AAD10E613
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 08:41:23 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id y140so431061iof.6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 00:41:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YhM9RK9cD4AJ2RC/Ap9FHaybKTgjkZHb1g/aRuA4Axw=;
- b=kswMQz3WeBc+8ATmnrQxgtpi2uoiitfpiI6qLlhxmEW+okOgzNEZd7Ke8wWQuK5H01
- 4EBxEo8W6zH8VVrNVvpvc7EUMJSk6J+ju69ff40ih0nDzLEFCKH38gaNGNvdMwcbuDci
- Zd9RRimOPvzIdACIqY/06mZYOEoPBaSoZex1E=
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECA7F899B3;
+ Mon, 20 Feb 2023 08:48:13 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id z5so383432ljc.8;
+ Mon, 20 Feb 2023 00:48:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qV5Lw5KifcCJ34n5H2SgCrDAtoK4e/v6u9RV+7WDMKo=;
+ b=qYM9dVM71VCa1yx3lx3afU8Si2ccyLfzO62pgum0L+9RUnaiB5gCdCtDaP4QE14xCj
+ edjIXNfKeKXAM0IHnCr8ecEdUPP7cye9QWnIKWeWjelyUPBh/Lp47GfweU2lYfA75K7D
+ wcW40yAPUzkVhVUFIJgEX+cx1TgGTQGOz+qYmzZpKFA+ytpo85tpqgCzn2LUo2ZHUtky
+ UAZ8npHY2U+6GsNNmLlzSKlMHkqSYKJVEuNfA6aKoUP8XlqKDpSzlf1EgZWUty/soWHO
+ PB/4LxNHN9cradyec6tcwiylOizcV3bYSws5YC4e6gqpeiWW+gUs9oDDdpZZcbf7RebQ
+ V2Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YhM9RK9cD4AJ2RC/Ap9FHaybKTgjkZHb1g/aRuA4Axw=;
- b=yFfzJF3ExtqN7ojKwoXII/cHhhGqWVXfii5IczaiKDXAdmCnfRKkemx+AbV0ds4tV9
- XxdpVvsRYUbEguABNn9Klyp2ozVlmUsFr8jkks7ye9zTAbvRKWrlUyDTWbVWRM8GG5EQ
- NV5nakci5tGQlnGH6+pZTyCkhWmoPsdK68cvSxmay6y24ofXUO5lmP85POTojqe/5FW9
- 7X1WLjO26aWszk3VaIQ5Pd4sivBdShTYNOQhhWyCjPssT7qUJRigXEtorcd03JNyttek
- CfHuO5cOmyJBvCQxnjXeguyvOyDWaYBRQA0kR1byEN5bGDegVRKzJSfr9kzBG7XWJlpY
- cnTw==
-X-Gm-Message-State: AO0yUKWm/xVrvhBnf0hnir8lP/0EOyhUSrVi/opcxlI1CHCzIDgXPDgj
- JaRT2ctDVh2twEX5JFVhlMCw7bVf31xhNU+dBRd9iQ==
-X-Google-Smtp-Source: AK7set+BxDCEXvEcpWN6BMD+/231nrKE1Igfho3xtBe9qZTQnQjj5IWzOAp6kv3gzbg47MAGtikfQ50iFLLkSm7XZAg=
-X-Received: by 2002:a02:a990:0:b0:3c4:d689:3e7 with SMTP id
- q16-20020a02a990000000b003c4d68903e7mr734277jam.2.1676882483085; Mon, 20 Feb
- 2023 00:41:23 -0800 (PST)
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qV5Lw5KifcCJ34n5H2SgCrDAtoK4e/v6u9RV+7WDMKo=;
+ b=wlRmLYvQH4+7f4TYX6meBrjvDP39e77AP+YjXEnU3Bo8plCFYqjNrmUP9asKYYfwLc
+ +pxQOZT2EymX0GFnByjfQaTe1N1BEcaJGB6YkRXYjJfRU4YDv1RQDLP0iya1F3yiP53t
+ eLKanNFUL4III6XWD8QrNOYE3jSpkus5paxMk3NL7Cezuyl/vEpKuv1vvNahHc6fpVMA
+ FoS9jVi7TXu1hOv6zlpETghBuAvPnnq2226TuX1grg/knQ9zDuk80ubMk3VqKz7K5lHM
+ PDpmfZekev0jTqzoyAxbkwHm66Bip03RpnendYtCj/HsrkWo/nnEJjnUpz44VMLYmWsE
+ idxQ==
+X-Gm-Message-State: AO0yUKUSBJRUR9IiZ+JnEtb7VALv1GeBl31F0S+Lj0L64Nog7fQwFcaC
+ RKiLOl7VyNsOpnU9A8+mROw=
+X-Google-Smtp-Source: AK7set/Rr6EoOBhFwq77IWkl4T4a8Bkeo4PUk+/Tu6+qvGuXDdiDFhO6mnbj9/rnYFGDM468AoUDZw==
+X-Received: by 2002:a05:651c:220c:b0:290:8289:8cb8 with SMTP id
+ y12-20020a05651c220c00b0029082898cb8mr580292ljq.6.1676882892028; 
+ Mon, 20 Feb 2023 00:48:12 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ f9-20020a05651c02c900b002934febffe4sm52988ljo.128.2023.02.20.00.48.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Feb 2023 00:48:11 -0800 (PST)
+Date: Mon, 20 Feb 2023 10:48:08 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v4 05/14] dma-buf/sync_file: Add SET_DEADLINE ioctl
+Message-ID: <20230220104808.261acfab@eldfell>
+In-Reply-To: <20230218211608.1630586-6-robdclark@gmail.com>
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-6-robdclark@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20230204133040.1236799-1-treapking@chromium.org>
- <20230204133040.1236799-4-treapking@chromium.org>
- <Y+LBzkP+/j6RQ5Jy@ashyti-mobl2.lan>
-In-Reply-To: <Y+LBzkP+/j6RQ5Jy@ashyti-mobl2.lan>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Mon, 20 Feb 2023 16:41:12 +0800
-Message-ID: <CAEXTbpfxJVyL_TT7j1J0tbEjWnzj6JYOrEJZLa14OdHZQhYopg@mail.gmail.com>
-Subject: Re: [PATCH v11 3/9] drm/display: Add Type-C switch helpers
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Content-Type: multipart/alternative; boundary="000000000000bc203905f51da007"
+Content-Type: multipart/signed; boundary="Sig_/Zs=8tBQ+ROU3tBZ1hRIUE2K";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,360 +70,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Thierry Reding <treding@nvidia.com>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
- Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Benson Leung <bleung@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Daniel Scally <djrscally@gmail.com>,
- Prashant Malani <pmalani@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, Gustavo Padovan <gustavo@padovan.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING
+ FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000bc203905f51da007
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Andi,
-
-Thanks for the review.
-
-On Wed, Feb 8, 2023 at 5:25 AM Andi Shyti <andi.shyti@linux.intel.com>
-wrote:
-
-> Hi Pin-yen,
->
-> [...]
->
-> > +static int drm_dp_register_mode_switch(struct device *dev,
-> > +                                    struct fwnode_handle *fwnode,
-> > +                                    struct drm_dp_typec_switch_desc
-> *switch_desc,
-> > +                                    void *data, typec_mux_set_fn_t
-> mux_set)
-> > +{
-> > +     struct drm_dp_typec_port_data *port_data;
-> > +     struct typec_mux_desc mux_desc = {};
-> > +     char name[32];
-> > +     u32 port_num;
-> > +     int ret;
-> > +
-> > +     ret = fwnode_property_read_u32(fwnode, "reg", &port_num);
-> > +     if (ret) {
-> > +             dev_err(dev, "Failed to read reg property: %d\n", ret);
-> > +             return ret;
-> > +     }
-> > +
-> > +     port_data = &switch_desc->typec_ports[port_num];
-> > +     port_data->data = data;
-> > +     port_data->port_num = port_num;
-> > +     port_data->fwnode = fwnode;
-> > +     mux_desc.fwnode = fwnode;
-> > +     mux_desc.drvdata = port_data;
-> > +     snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
-> > +     mux_desc.name = name;
-> > +     mux_desc.set = mux_set;
-> > +
-> > +     port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-> > +     if (IS_ERR(port_data->typec_mux)) {
-> > +             ret = PTR_ERR(port_data->typec_mux);
-> > +             dev_err(dev, "Mode switch register for port %d failed:
-> %d\n",
-> > +                     port_num, ret);
-> > +
-> > +             return ret;
->
-> you don't need this return here...
->
-> > +     }
-> > +
-> > +     return 0;
->
-> Just "return ret;" here.
-
-
-> > +}
-> > +
-> > +/**
-> > + * drm_dp_register_typec_switches() - register Type-C switches
-> > + * @dev: Device that registers Type-C switches
-> > + * @port: Device node for the switch
-> > + * @switch_desc: A Type-C switch descriptor
-> > + * @data: Private data for the switches
-> > + * @mux_set: Callback function for typec_mux_set
-> > + *
-> > + * This function registers USB Type-C switches for DP bridges that can
-> switch
-> > + * the output signal between their output pins.
-> > + *
-> > + * Currently only mode switches are implemented, and the function
-> assumes the
-> > + * given @port device node has endpoints with "mode-switch" property.
-> > + * The port number is determined by the "reg" property of the endpoint.
-> > + */
-> > +int drm_dp_register_typec_switches(struct device *dev, struct
-> fwnode_handle *port,
-> > +                                struct drm_dp_typec_switch_desc
-> *switch_desc,
-> > +                                void *data, typec_mux_set_fn_t mux_set)
-> > +{
-> > +     struct fwnode_handle *sw;
-> > +     int ret;
-> > +
-> > +     fwnode_for_each_child_node(port, sw) {
-> > +             if (fwnode_property_present(sw, "mode-switch"))
-> > +                     switch_desc->num_typec_switches++;
-> > +     }
->
-> no need for brackets here
->
-> > +
-> > +     if (!switch_desc->num_typec_switches) {
-> > +             dev_dbg(dev, "No Type-C switches node found\n");
->
-> dev_warn()?
->
-
-I used dev_dbg here because the users might call this without checking if
-there are mode switch endpoints present, and this is the case for the
-current users (it6505 and anx7625). If we use dev_warn here, there will be
-warnings every time even on use cases without Type-C switches.
-
-Thanks and regards,
-Pin-yen
-
->
-> > +             return 0;
-> > +     }
-> > +
-> > +     switch_desc->typec_ports = devm_kcalloc(
-> > +             dev, switch_desc->num_typec_switches,
-> > +             sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
-> > +
-> > +     if (!switch_desc->typec_ports)
-> > +             return -ENOMEM;
-> > +
-> > +     /* Register switches for each connector. */
-> > +     fwnode_for_each_child_node(port, sw) {
-> > +             if (!fwnode_property_present(sw, "mode-switch"))
-> > +                     continue;
-> > +             ret = drm_dp_register_mode_switch(dev, sw, switch_desc,
-> data, mux_set);
-> > +             if (ret)
-> > +                     goto err_unregister_typec_switches;
-> > +     }
-> > +
-> > +     return 0;
-> > +
-> > +err_unregister_typec_switches:
-> > +     fwnode_handle_put(sw);
-> > +     drm_dp_unregister_typec_switches(switch_desc);
-> > +     dev_err(dev, "Failed to register mode switch: %d\n", ret);
->
-> there is a bit of dmesg spamming. Please choose where you want to
-> print the error, either in this function or in
-> drm_dp_register_mode_switch().
->
-> Andi
->
-> > +     return ret;
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_register_typec_switches);
->
-> [...]
->
-
---000000000000bc203905f51da007
-Content-Type: text/html; charset="UTF-8"
+--Sig_/Zs=8tBQ+ROU3tBZ1hRIUE2K
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Andi,<div><br></div><div>Thanks for th=
-e review.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Feb 8, 2023 at 5:25 AM Andi Shyti &lt;<a href=3D"ma=
-ilto:andi.shyti@linux.intel.com">andi.shyti@linux.intel.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Pin-yen,<br>
-<br>
-[...]<br>
-<br>
-&gt; +static int drm_dp_register_mode_switch(struct device *dev,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct fwnode_hand=
-le *fwnode,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_dp_type=
-c_switch_desc *switch_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *data, typec_=
-mux_set_fn_t mux_set)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_dp_typec_port_data *port_data;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct typec_mux_desc mux_desc =3D {};<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0char name[32];<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 port_num;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int ret;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ret =3D fwnode_property_read_u32(fwnode, &quot;re=
-g&quot;, &amp;port_num);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (ret) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(dev, &quot;Fa=
-iled to read reg property: %d\n&quot;, ret);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0port_data =3D &amp;switch_desc-&gt;typec_ports[po=
-rt_num];<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0port_data-&gt;data =3D data;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0port_data-&gt;port_num =3D port_num;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0port_data-&gt;fwnode =3D fwnode;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0mux_desc.fwnode =3D fwnode;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0mux_desc.drvdata =3D port_data;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0snprintf(name, sizeof(name), &quot;%pfwP-%u&quot;=
-, fwnode, port_num);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0<a href=3D"http://mux_desc.name" rel=3D"noreferre=
-r" target=3D"_blank">mux_desc.name</a> =3D name;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0mux_desc.set =3D mux_set;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0port_data-&gt;typec_mux =3D typec_mux_register(de=
-v, &amp;mux_desc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (IS_ERR(port_data-&gt;typec_mux)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D PTR_ERR(port_=
-data-&gt;typec_mux);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(dev, &quot;Mo=
-de switch register for port %d failed: %d\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0port_num, ret);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
-<br>
-you don&#39;t need this return here...<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
-<br>
-Just &quot;return ret;&quot; here.=C2=A0</blockquote><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">
-<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +/**<br>
-&gt; + * drm_dp_register_typec_switches() - register Type-C switches<br>
-&gt; + * @dev: Device that registers Type-C switches<br>
-&gt; + * @port: Device node for the switch<br>
-&gt; + * @switch_desc: A Type-C switch descriptor<br>
-&gt; + * @data: Private data for the switches<br>
-&gt; + * @mux_set: Callback function for typec_mux_set<br>
-&gt; + *<br>
-&gt; + * This function registers USB Type-C switches for DP bridges that ca=
-n switch<br>
-&gt; + * the output signal between their output pins.<br>
-&gt; + *<br>
-&gt; + * Currently only mode switches are implemented, and the function ass=
-umes the<br>
-&gt; + * given @port device node has endpoints with &quot;mode-switch&quot;=
- property.<br>
-&gt; + * The port number is determined by the &quot;reg&quot; property of t=
-he endpoint.<br>
-&gt; + */<br>
-&gt; +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_=
-handle *port,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct drm_dp_typec_switch_desc =
-*switch_desc,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *data, typec_mux_set_fn_t m=
-ux_set)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct fwnode_handle *sw;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int ret;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fwnode_for_each_child_node(port, sw) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (fwnode_property_p=
-resent(sw, &quot;mode-switch&quot;))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0switch_desc-&gt;num_typec_switches++;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-no need for brackets here<br>
-<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!switch_desc-&gt;num_typec_switches) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_dbg(dev, &quot;No=
- Type-C switches node found\n&quot;);<br>
-<br>
-dev_warn()?<br></blockquote><div><br></div><div>I used dev_dbg here because=
- the users might call this without checking if there are mode switch endpoi=
-nts present, and this is the case for the current users (it6505 and anx7625=
-). If we use dev_warn here, there will be warnings every time even on use c=
-ases without Type-C switches.</div><div><br></div><div>Thanks and regards,<=
-/div><div>Pin-yen</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0switch_desc-&gt;typec_ports =3D devm_kcalloc(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev, switch_desc-&gt;=
-num_typec_switches,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof(struct drm_dp_=
-typec_port_data), GFP_KERNEL);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!switch_desc-&gt;typec_ports)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* Register switches for each connector. */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fwnode_for_each_child_node(port, sw) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!fwnode_property_=
-present(sw, &quot;mode-switch&quot;))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0continue;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_dp_regist=
-er_mode_switch(dev, sw, switch_desc, data, mux_set);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0goto err_unregister_typec_switches;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; +<br>
-&gt; +err_unregister_typec_switches:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fwnode_handle_put(sw);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0drm_dp_unregister_typec_switches(switch_desc);<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0dev_err(dev, &quot;Failed to register mode switch=
-: %d\n&quot;, ret);<br>
-<br>
-there is a bit of dmesg spamming. Please choose where you want to<br>
-print the error, either in this function or in<br>
-drm_dp_register_mode_switch().<br>
-<br>
-Andi<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return ret;<br>
-&gt; +}<br>
-&gt; +EXPORT_SYMBOL(drm_dp_register_typec_switches);<br>
-<br>
-[...]<br>
-</blockquote></div></div>
+On Sat, 18 Feb 2023 13:15:48 -0800
+Rob Clark <robdclark@gmail.com> wrote:
 
---000000000000bc203905f51da007--
+> From: Rob Clark <robdclark@chromium.org>
+>=20
+> The initial purpose is for igt tests, but this would also be useful for
+> compositors that wait until close to vblank deadline to make decisions
+> about which frame to show.
+>=20
+> The igt tests can be found at:
+>=20
+> https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-dea=
+dline
+>=20
+> v2: Clarify the timebase, add link to igt tests
+>=20
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
+>  include/uapi/linux/sync_file.h | 22 ++++++++++++++++++++++
+>  2 files changed, 41 insertions(+)
+>=20
+> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> index af57799c86ce..fb6ca1032885 100644
+> --- a/drivers/dma-buf/sync_file.c
+> +++ b/drivers/dma-buf/sync_file.c
+> @@ -350,6 +350,22 @@ static long sync_file_ioctl_fence_info(struct sync_f=
+ile *sync_file,
+>  	return ret;
+>  }
+> =20
+> +static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
+> +					unsigned long arg)
+> +{
+> +	struct sync_set_deadline ts;
+> +
+> +	if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
+> +		return -EFAULT;
+> +
+> +	if (ts.pad)
+> +		return -EINVAL;
+> +
+> +	dma_fence_set_deadline(sync_file->fence, ktime_set(ts.tv_sec, ts.tv_nse=
+c));
+> +
+> +	return 0;
+> +}
+> +
+>  static long sync_file_ioctl(struct file *file, unsigned int cmd,
+>  			    unsigned long arg)
+>  {
+> @@ -362,6 +378,9 @@ static long sync_file_ioctl(struct file *file, unsign=
+ed int cmd,
+>  	case SYNC_IOC_FILE_INFO:
+>  		return sync_file_ioctl_fence_info(sync_file, arg);
+> =20
+> +	case SYNC_IOC_SET_DEADLINE:
+> +		return sync_file_ioctl_set_deadline(sync_file, arg);
+> +
+>  	default:
+>  		return -ENOTTY;
+>  	}
+> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_fil=
+e.h
+> index ee2dcfb3d660..c8666580816f 100644
+> --- a/include/uapi/linux/sync_file.h
+> +++ b/include/uapi/linux/sync_file.h
+> @@ -67,6 +67,20 @@ struct sync_file_info {
+>  	__u64	sync_fence_info;
+>  };
+> =20
+> +/**
+> + * struct sync_set_deadline - set a deadline on a fence
+> + * @tv_sec:	seconds elapsed since epoch
+> + * @tv_nsec:	nanoseconds elapsed since the time given by the tv_sec
+
+Hi,
+
+should tv_sec,tv_nsec be validated like clock_settime() does?
+
+It requires:
+- tv_sec >=3D 0
+- tv_nsec >=3D 0
+- tv_nsec < 1e9
+
+
+Thanks,
+pq
+
+
+> + * @pad:	must be zero
+> + *
+> + * The timebase for the deadline is CLOCK_MONOTONIC (same as vblank)
+> + */
+> +struct sync_set_deadline {
+> +	__s64	tv_sec;
+> +	__s32	tv_nsec;
+> +	__u32	pad;
+> +};
+> +
+>  #define SYNC_IOC_MAGIC		'>'
+> =20
+>  /**
+> @@ -95,4 +109,12 @@ struct sync_file_info {
+>   */
+>  #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_inf=
+o)
+> =20
+> +
+> +/**
+> + * DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence
+> + *
+> + * Allows userspace to set a deadline on a fence, see dma_fence_set_dead=
+line()
+> + */
+> +#define SYNC_IOC_SET_DEADLINE	_IOW(SYNC_IOC_MAGIC, 5, struct sync_set_de=
+adline)
+> +
+>  #endif /* _UAPI_LINUX_SYNC_H */
+
+
+--Sig_/Zs=8tBQ+ROU3tBZ1hRIUE2K
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPzM8gACgkQI1/ltBGq
+qqcGThAArTvNmspP+NBuhmIe367Uz7E068vGrflxRgHISKGzeiiy8eKI5kxMx/Hq
+kN6DmwMs3DzmAKDHMATNegJ05rhS+casRjndjFHKGk7Qb7rb4AllCjStZPDJznjo
+yWpGpdIl/TIDX17yM5xNM4a6ynbi0S4WDZPbBUfDQdThx9O4j1nNdKjmNBvIwOvn
+V8BrYmQfRtZ80h5+3GDSK87md36T/XzEiLUnu28NG1nPF8wGOV2Oyxjc3gGJC2Tv
+kdHuPNyW20umjKYQr00R0J6gzHJe87dF9B7LkKz/gBm4ibvWgENlfVQLkuqWVr0p
+lGOVgdJDBd1JnoHxf+hpTavWS15dUQvzyaqrfZR8K8HGC9884NJu/dUB266iVICp
+vODamw0fad8APnrRxMZbsWi/orU7PvdS0vGuCmvZAS1cefFDdEIvtYrC9W8szfUb
+1Lt5k3W+3znKnMS9cGoyLkyKfY8JXNOMCZPEpthQZxLlhlQRyDxIXhvrjgu6vcQy
+8UZaQnL5s7BCgpyldB8hdAP1B9FYeMyjKUeD50nys678mkQbrxGb1wjVlozv2mIm
+VnKAV+2ggahmoT5S1XUf1029gda56XmBgyD/v1MTCH5wjd/YQkNiV50kqoHwrLKl
+8AKyVmMK0CHBFsYh0Ld46y+tw1lM45+QxOL2OlXHF6jSZS7iTSs=
+=oowF
+-----END PGP SIGNATURE-----
+
+--Sig_/Zs=8tBQ+ROU3tBZ1hRIUE2K--
