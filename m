@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A3069D0DD
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 16:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E5369D0ED
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 16:49:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5084010E6CB;
-	Mon, 20 Feb 2023 15:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52FA210E68F;
+	Mon, 20 Feb 2023 15:49:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5BF10E67C;
- Mon, 20 Feb 2023 15:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676908006; x=1708444006;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=k4wfezK6AXjJRKoJw8o50JWi2ZFodNHQ5z5zxhTGtJs=;
- b=Nxy/CTo68GN5DSYUlRtJ3kAjuyuKS23fxsXxtvkTtDL+a+PT7NWyCx/j
- yafxBZxOrcRo8myfN2KMnbcBNlZm9gTIgzgiUDYz4np9xRJl5tP6U9tsO
- K/mtvajpxun+VbKrim4M/4SFUDeLRdwWBUFG5cW5AF0vKPZJKg3Ww/nUV
- nV1xhtGnbjSRcujLln/9A8jONYx41KnkmQBGXmRsziRXsHhbII0dfBclW
- xg5X0VIJ+4YIUqWkbgiRLj04AmNONOpy31SgUcJgHobomqL1muOYmjVgj
- YWVZUJRLEQ+PMu8CeqEdD4aF0W/h/5noUksrKepZ+UxsM0nZU+1GTCD5t A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="312060021"
-X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; d="scan'208";a="312060021"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2023 07:46:45 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="916897293"
-X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; d="scan'208";a="916897293"
-Received: from mochoamo-mobl.ger.corp.intel.com (HELO [10.213.211.126])
- ([10.213.211.126])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2023 07:46:41 -0800
-Message-ID: <2716c108-0486-6e27-77e2-efd1fa350f04@linux.intel.com>
-Date: Mon, 20 Feb 2023 15:46:39 +0000
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
+ [IPv6:2607:f8b0:4864:20::e35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD38210E68F
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 15:49:47 +0000 (UTC)
+Received: by mail-vs1-xe35.google.com with SMTP id j14so1163863vse.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 07:49:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=cX0jaes1mpsyM+m1L+sZKXOmtVE9O3IfVCYvasDrc3I=;
+ b=aAN41hbpZfjZkCgJpE84pramc8ntvO5PtuQnCUgk6Gsh7k4xJQFetHansKMutqs0hX
+ ooA5LJKZdxWuG9HN/3f3zB23MTn5VZ0sj8Qif3tzPP1C+OMXa6z/EqsOImTW5ksD1KC3
+ Xg43xNTePfPdCj2hr3/7IAbbiKmblSr5UuZEPqrFwYvyRst4ugL02IMM3UMw9jB2YvI2
+ +n26HcOcj2GiNsa9Q3Y8dUl7k9xdMNODciDU7wjB4KYVqtrbs08J0cl2nVN/gbEsQTK8
+ TtNd00U1jRoKf0RUSLXLsW3MuV+29YXUWNltBy2o7mF75rLGfcfYtnBLDqXbgW28OglD
+ W0HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cX0jaes1mpsyM+m1L+sZKXOmtVE9O3IfVCYvasDrc3I=;
+ b=X8ZkU4enCUl6sEtQkqhF3XnBQjRFygZGlY+Kqn+KOJCLEo4VKQxP2d6M52DrG5eh/Z
+ JqQzk4nvvPlDGILw/nxP6LTJFAnRGm7M2Sk9MhvA88mCCFW5R2aXbiITEqP0MJUEZvQh
+ ArS5V0vav7q0mFsFxFxcxiYWXIS2F7gCYOnhL5OXhQqWhNCORuGEX2oOxDqeWh+PZlu8
+ eG7alno2YGAsRJfTcX9hE17ZCCcD7mPd5hfwQRgdvwHnhA6XaeNyqtGYR0U3/o2STSyV
+ bEfYfPxuCylNY/roVc3RkSEBhV1zFiirP6tlj3dtcqBZNy4CppGWJxPnR74F/Ny8qynD
+ qrKA==
+X-Gm-Message-State: AO0yUKUFtY0bElgutNJx3VwwDRiQ4XxfHo2gCpMc0XpjV1yzNsvbNBqz
+ wzm51bCEVnlEpYcjeN3vFss2rqOF3RZh2UOQooGG4TThLbLkNMlQ
+X-Google-Smtp-Source: AK7set8OXlvP7KLejxIFfBy8kWu8K8dCyrTVdEHwsCgdoUbSjHoea3TQf/aeHEGOOn6ABSbkCV0DZU6c9mlX7LONjGQ=
+X-Received: by 2002:a05:6102:5088:b0:412:6281:6a38 with SMTP id
+ bl8-20020a056102508800b0041262816a38mr288169vsb.48.1676908187029; Mon, 20 Feb
+ 2023 07:49:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4 14/14] drm/i915: Add deadline based boost support
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-15-robdclark@gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230218211608.1630586-15-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230216130934.156541-1-contact@emersion.fr>
+In-Reply-To: <20230216130934.156541-1-contact@emersion.fr>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 20 Feb 2023 15:49:31 +0000
+Message-ID: <CAPY8ntBxsKgoaExW8BhbK8Z1VPY=BPGYdJ_r-K5gYhUwWr32Cw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm: document DRM_IOCTL_PRIME_HANDLE_TO_FD and
+ PRIME_FD_TO_HANDLE
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,96 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, freedreno@lists.freedesktop.org,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Simon
 
-On 18/02/2023 21:15, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+On Thu, 16 Feb 2023 at 13:09, Simon Ser <contact@emersion.fr> wrote:
+>
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Daniel Stone <daniel@fooishbar.org>
 > ---
-> 
-> This should probably be re-written by someone who knows the i915
-> request/timeline stuff better, to deal with non-immediate deadlines.
-> But as-is I think this should be enough to handle the case where
-> we want syncobj waits to trigger boost.
+>  include/uapi/drm/drm.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 4cb956a52aee..54b2313c8332 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -1012,7 +1012,24 @@ extern "C" {
+>  #define DRM_IOCTL_UNLOCK               DRM_IOW( 0x2b, struct drm_lock)
+>  #define DRM_IOCTL_FINISH               DRM_IOW( 0x2c, struct drm_lock)
+>
+> +/**
+> + * DRM_IOCTL_PRIME_HANDLE_TO_FD - Convert a GEM handle to a DMA-BUF FD.
+> + *
+> + * User-space sets &drm_prime_handle.handle with the GEM handle to export and
+> + * &drm_prime_handle.flags, and gets back a DMA-BUF file descriptor in
+> + * &drm_prime_handle.fd.
+> + */
+>  #define DRM_IOCTL_PRIME_HANDLE_TO_FD    DRM_IOWR(0x2d, struct drm_prime_handle)
+> +/**
+> + * DRM_IOCTL_PRIME_FD_TO_HANDLE - Convert a DMA-BUF FD to a GEM handle.
+> + *
+> + * User-space sets &drm_prime_handle.fd with a DMA-BUF file descriptor to
+> + * import, and gets back a GEM handle in &drm_prime_handle.handle.
+> + * &drm_prime_handle.flags is unused.
 
-Yeah, there are endless possibilities. :) But I think it is effectively 
-similar enough to current waitboosting (when waits are done using the 
-i915 specific ioctl). So as a first step I'll try to organize some 
-internal power and performance testing, at least Chromebook focused, to 
-see if modern userspace (syncobj based) even benefits and does not by 
-some chance regress over the board.
+Is it worth explicitly stating that the handle would be released via
+DRM_IOCTL_GEM_CLOSE? I've had userspace developers query how to
+release imported handles in the past.
 
-Regards,
+  Dave
 
-Tvrtko
-
-> 
->   drivers/gpu/drm/i915/i915_driver.c  |  2 +-
->   drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
->   2 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index cf1c0970ecb4..bd40b7bcb38a 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -1781,7 +1781,7 @@ static const struct drm_driver i915_drm_driver = {
->   	.driver_features =
->   	    DRIVER_GEM |
->   	    DRIVER_RENDER | DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_SYNCOBJ |
-> -	    DRIVER_SYNCOBJ_TIMELINE,
-> +	    DRIVER_SYNCOBJ_TIMELINE | DRIVER_SYNCOBJ_DEADLINE,
->   	.release = i915_driver_release,
->   	.open = i915_driver_open,
->   	.lastclose = i915_driver_lastclose,
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 7503dcb9043b..44491e7e214c 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
->   	return i915_request_enable_breadcrumb(to_request(fence));
->   }
->   
-> +static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> +{
-> +	struct i915_request *rq = to_request(fence);
-> +
-> +	if (i915_request_completed(rq))
-> +		return;
-> +
-> +	if (i915_request_started(rq))
-> +		return;
-> +
-> +	/*
-> +	 * TODO something more clever for deadlines that are in the
-> +	 * future.  I think probably track the nearest deadline in
-> +	 * rq->timeline and set timer to trigger boost accordingly?
-> +	 */
-> +
-> +	intel_rps_boost(rq);
-> +}
-> +
->   static signed long i915_fence_wait(struct dma_fence *fence,
->   				   bool interruptible,
->   				   signed long timeout)
-> @@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
->   	.signaled = i915_fence_signaled,
->   	.wait = i915_fence_wait,
->   	.release = i915_fence_release,
-> +	.set_deadline = i915_fence_set_deadline,
->   };
->   
->   static void irq_execute_cb(struct irq_work *wrk)
+> + *
+> + * If an existing GEM handle refers to the memory object backing the DMA-BUF,
+> + * that GEM handle is returned.
+> + */
+>  #define DRM_IOCTL_PRIME_FD_TO_HANDLE    DRM_IOWR(0x2e, struct drm_prime_handle)
+>
+>  #define DRM_IOCTL_AGP_ACQUIRE          DRM_IO(  0x30)
+> --
+> 2.39.1
+>
+>
