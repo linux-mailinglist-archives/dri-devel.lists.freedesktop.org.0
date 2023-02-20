@@ -2,84 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E5169D246
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 18:45:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6620869D1E0
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 18:07:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5B6010E739;
-	Mon, 20 Feb 2023 17:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4294E10E716;
+	Mon, 20 Feb 2023 17:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39FD110E756
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 17:45:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676915145;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p0Izq1sT8yQqR3StJyRIa9aUpeGU1pXLanSYRIGX2E8=;
- b=OFh3U3ukHGrRUHPDEkvtltWQOVvNpt7Bp4bI6FDEdfGX/U0q9WjS5PIJx3V6XoD6cjDdCm
- P7RbYYmMgOpvWZzJvJSZaRuLImVh0AYE3KlUBkj4a3U6DpsL5PTuDfBLH5++cjaHSXCTGG
- XWj/ojQ3n+dDtjYX2u4NADDmqFIqTgw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-320-4WkKV_vLOLWjREQBb2bxPw-1; Mon, 20 Feb 2023 12:45:41 -0500
-X-MC-Unique: 4WkKV_vLOLWjREQBb2bxPw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- da15-20020a056402176f00b004ace822b750so2670281edb.20
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 09:45:41 -0800 (PST)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95DED10E703;
+ Mon, 20 Feb 2023 17:07:34 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1720ea61e29so1860053fac.12; 
+ Mon, 20 Feb 2023 09:07:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6+c6yVEI50BDixiDB9XraGiheD7HZXbfaTAPQnoB+Vc=;
+ b=f5wdj0rWOYF3nmFVq4vDzcPnjamNg979XFTjPKeibaZt+WPvPaYvN+pYqXyZw7Hga4
+ BuisXMVxH3rwcQsveF6Dt+zPfseDmtVogUyYsbsS8/BKhSbwDqVAZaHDphea7p/qpoTK
+ yA6QcnTy0vduSIr6gMSILkOoXHhbZQNMku2CmTNS3ApW/4liOkMVPg3qbpuYOzlx3nog
+ uVqzYJEV8Y3BuSq95wnRgU/gUI5tmoa79tmiTsvkKWhfMyz37vVpThpem4LaniaA9bZf
+ RuobiZKMjTPZ5C1s1MLJxUi11+7O4nApYTW+6MbN9qCE1m5NQWemNRszfpLaeBTDhAA9
+ s2tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=p0Izq1sT8yQqR3StJyRIa9aUpeGU1pXLanSYRIGX2E8=;
- b=aAtdTFrKSQ02a4DyTugWT1Rvz7Z2N9Q6TY+PfYLLRsIToheWxJHvPpiM3ueaR6pUns
- NQ6sOWbwiNpmQ4XgSvZPAMscMAJTUp9EpIcNC76gyxTWEZyr3NbyrB5LnqDJyv/CfccA
- pcleiVIgcVykttj7cNJpLKHp7NO3XAgBfLuXY/TOwHLnLFtviLiT+LPTvhZRi+4FIZlz
- u+sPPsvs3Zrg2nNyt7Lex3qLqBlifiJKLWv7b2EzHnbkyeRxnqvmmNv35BzzMFSMg2ZH
- ciP31PKG0wafeFWs+wB2S9NTAhVvJaVfsC0gvj/zBYl3nOj7Gwx+VbQBgouErc8NfbHL
- gAuA==
-X-Gm-Message-State: AO0yUKUGUDrnI1rd8R2MV8NYjZ5fHipQbNk2ciszPWBeW9nMQj96RJUB
- oPOUr0b+v52pH4EwM1DMfWnedjf+bHECJazUJxXbp9HJ4wHsR/33LojWYqcDVT2iN1yhpz+ewZY
- 0uBocjF579eLibX28mu+9bEHcbj+3
-X-Received: by 2002:a17:907:94c5:b0:8b1:319c:c29c with SMTP id
- dn5-20020a17090794c500b008b1319cc29cmr13659853ejc.70.1676915140665; 
- Mon, 20 Feb 2023 09:45:40 -0800 (PST)
-X-Google-Smtp-Source: AK7set/Ga6rG3Eq1hZqRFlC9SxeuFv04ZCxlmBzWk9HFcUACYcpXem95hxGHCYiEqsp+Ho5tDk/t+w==
-X-Received: by 2002:a17:907:94c5:b0:8b1:319c:c29c with SMTP id
- dn5-20020a17090794c500b008b1319cc29cmr13659833ejc.70.1676915140411; 
- Mon, 20 Feb 2023 09:45:40 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
- by smtp.gmail.com with ESMTPSA id
- f21-20020a170906561500b008d09b900614sm1826220ejq.80.2023.02.20.09.45.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 09:45:39 -0800 (PST)
-Message-ID: <e43f6acc-175d-1031-c4a2-67a6f1741866@redhat.com>
-Date: Mon, 20 Feb 2023 18:06:03 +0100
+ bh=6+c6yVEI50BDixiDB9XraGiheD7HZXbfaTAPQnoB+Vc=;
+ b=SuiTAUmuIHO/ww5BhG55V026A5NJ2jYhboW71nZG/EegtRQyb4RDbDMoAqOK70gZv4
+ NgV58/mpXdXM0UHtNPlt+lnwO/0MMSQVl46qsdQ9YFWugs19GuVWxT3AfnQZ6qREEFNq
+ gKNJvTHe1l1dOYHxSfZPFvN1hCC5CiX6w144K7Xw5SjnQTjW84z8c568xX2k3SMbNj4i
+ sq/qFssx1iWYi0dPcHgXzehnPi3jZqSrzocFt4c7SkqyOXt8pIDZ0wtFa/yFo1Kul1wL
+ fE2x16LAgV5+P/eIC6Qh3dxIgb5yAOlLEbj2uOjljGGoGOX+OpzfwMCsATPyhU4i7FfJ
+ bdsg==
+X-Gm-Message-State: AO0yUKUU9Y8awueC9wzQaGhz0mMjOmTbXty4cjH8nlYy3RQgHXlKlzRT
+ KT9SfmfEgCfbzYATDRIasepGNT9lglKIoo/JGXI=
+X-Google-Smtp-Source: AK7set8k17pKDYs1JnU3CpyPYZCMzAmmAlSrLh5Xc7MRGRhV8Evi88VMFPnwVrfIAaM7irW49z4LdjjLa3QdIvXctY0=
+X-Received: by 2002:a05:6870:32d4:b0:16e:5e5a:49da with SMTP id
+ r20-20020a05687032d400b0016e5e5a49damr1198223oac.58.1676912853693; Mon, 20
+ Feb 2023 09:07:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH drm-next v2 04/16] maple_tree: add flag MT_FLAGS_LOCK_NONE
-To: Matthew Wilcox <willy@infradead.org>
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-5-dakr@redhat.com>
- <Y+/Xn11dfdn7SfBD@casper.infradead.org>
- <3bb02ec3-4d19-9135-cabc-26ed210f7396@redhat.com>
- <Y/ONYhyDCPEYH1ml@casper.infradead.org>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <Y/ONYhyDCPEYH1ml@casper.infradead.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230210130647.580135-1-tvrtko.ursulin@linux.intel.com>
+ <CAF6AEGto9VMNLJnAs+n5H6MNoVASNasYEu3WhYYkhn5sERg4Fw@mail.gmail.com>
+ <Y+5zyeSncSbsXHWG@intel.com>
+ <7e059e8c-41c3-b56c-26c8-c0e2230616b1@linux.intel.com>
+ <CAF6AEGuN2dv+Lsk3R43oPRA9c8ZoMjzCCKR+L41wNT8Sc3TgsQ@mail.gmail.com>
+ <c0663648-5567-2d7a-43b1-dfa043109051@linux.intel.com>
+ <CAF6AEGsGqjbL_tA8x_xwygBccKMP2DTbSy-B5_dEakpQVep8vg@mail.gmail.com>
+ <Y+/ndNIu/kYGiVh5@intel.com>
+ <6832ba1a-c6b0-4631-3b4e-bfcd31d8b59c@linux.intel.com>
+ <CAF6AEGsEq7Pyc6PMenPjufLDzw5VFtLPjZwOXim71DN5J5TcJw@mail.gmail.com>
+ <43aff648-df2d-4fa2-356c-b74f5e3a92e7@linux.intel.com>
+In-Reply-To: <43aff648-df2d-4fa2-356c-b74f5e3a92e7@linux.intel.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 20 Feb 2023 09:07:23 -0800
+Message-ID: <CAF6AEGuSPUeS2zquNn_s78z7tjAwyy0CXJjgo13rp_AYHuBg2g@mail.gmail.com>
+Subject: Re: [Intel-gfx] [RFC v2 0/5] Waitboost drm syncobj waits
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,84 +75,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, bagasdotme@gmail.com, linux-doc@vger.kernel.org,
- nouveau@lists.freedesktop.org, ogabbay@kernel.org, corbet@lwn.net,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
- tzimmermann@suse.de, Liam.Howlett@oracle.com, christian.koenig@amd.com,
- jason@jlekstrand.net
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Rob Clark <robdclark@chromium.org>, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/20/23 16:10, Matthew Wilcox wrote:
-> On Mon, Feb 20, 2023 at 03:00:59PM +0100, Danilo Krummrich wrote:
->> On 2/17/23 20:38, Matthew Wilcox wrote:
->>> On Fri, Feb 17, 2023 at 02:44:10PM +0100, Danilo Krummrich wrote:
->>>> Generic components making use of the maple tree (such as the
->>>> DRM GPUVA Manager) delegate the responsibility of ensuring mutual
->>>> exclusion to their users.
->>>>
->>>> While such components could inherit the concept of an external lock,
->>>> some users might just serialize the access to the component and hence to
->>>> the internal maple tree.
->>>>
->>>> In order to allow such use cases, add a new flag MT_FLAGS_LOCK_NONE to
->>>> indicate not to do any internal lockdep checks.
->>>
->>> I'm really against this change.
->>>
->>> First, we really should check that users have their locking right.
->>> It's bitten us so many times when they get it wrong.
->>
->> In case of the DRM GPUVA manager, some users might serialize the access to
->> the GPUVA manager and hence to it's maple tree instances, e.g. through the
->> drm_gpu_scheduler. In such a case ensuring to hold a lock would be a bit
->> pointless and I wouldn't really know how to "sell" this to potential users
->> of the GPUVA manager.
-> 
-> This is why we like people to use the spinlock embedded in the tree.
-> There's nothing for the user to care about.  If the access really is
-> serialised, acquiring/releasing the uncontended spinlock is a minimal
-> cost compared to all the other things that will happen while modifying
-> the tree.
+On Mon, Feb 20, 2023 at 8:44 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
+>
+>
+> On 20/02/2023 15:52, Rob Clark wrote:
+> > On Mon, Feb 20, 2023 at 3:33 AM Tvrtko Ursulin
+> > <tvrtko.ursulin@linux.intel.com> wrote:
+> >>
+> >>
+> >> On 17/02/2023 20:45, Rodrigo Vivi wrote:
+>
+> [snip]
+>
+> >> Yeah I agree. And as not all media use cases are the same, as are not
+> >> all compute contexts someone somewhere will need to run a series of
+> >> workloads for power and performance numbers. Ideally that someone would
+> >> be the entity for which it makes sense to look at all use cases, from
+> >> server room to client, 3d, media and compute for both. If we could get
+> >> the capability to run this in some automated fashion, akin to CI, we
+> >> would even have a chance to keep making good decisions in the future.
+> >>
+> >> Or we do some one off testing for this instance, but we still need a
+> >> range of workloads and parts to do it properly..
+> >>
+> >>>> I also think the "arms race" scenario isn't really as much of a
+> >>>> problem as you think.  There aren't _that_ many things using the GPU
+> >>>> at the same time (compared to # of things using CPU).   And a lot of
+> >>>> mobile games throttle framerate to avoid draining your battery too
+> >>>> quickly (after all, if your battery is dead you can't keep buying loot
+> >>>> boxes or whatever).
+> >>>
+> >>> Very good point.
+> >>
+> >> On this one I still disagree from the point of view that it does not
+> >> make it good uapi if we allow everyone to select themselves for priority
+> >> handling (one flavour or the other).
+> >
+> > There is plenty of precedent for userspace giving hints to the kernel
+> > about scheduling and freq mgmt.  Like schedutil uclamp stuff.
+> > Although I think that is all based on cgroups.
+>
+> I knew about SCHED_DEADLINE and that it requires CAP_SYS_NICE, but I did
+> not know about uclamp. Quick experiment with uclampset suggests it
+> indeed does not require elevated privilege. If that is indeed so, it is
+> good enough for me as a precedent.
+>
+> It appears to work using sched_setscheduler so maybe could define
+> something similar in i915/xe, per context or per client, not sure.
+>
+> Maybe it would start as a primitive implementation but the uapi would
+> not preclude making it smart(er) afterwards. Or passing along to GuC to
+> do it's thing with it.
+>
+> > In the fence/syncobj case, I think we need per-wait hints.. because
+> > for a single process the driver will be doing both housekeeping waits
+> > and potentially urgent waits.  There may also be some room for some
+> > cgroup or similar knobs to control things like what max priority an
+> > app can ask for, and whether or how aggressively the kernel responds
+> > to the "deadline" hints.  So as far as "arms race", I don't think I'd
+>
+> Per wait hints are okay I guess even with "I am important" in their name
+> if sched_setscheduler allows raising uclamp.min just like that. In which
+> case cgroup limits to mimick cpu uclamp also make sense.
+>
+> > change anything about my "fence deadline" proposal.. but that it might
+> > just be one piece of the overall puzzle.
+>
+> That SCHED_DEADLINE requires CAP_SYS_NICE does not worry you?
 
-I think as for the users of the GPUVA manager we'd have two cases:
+This gets to why the name "fence deadline" is perhaps not the best..
+it really isn't meant to be analogous to SCHED_DEADLINE, but rather
+just a hint to the driver about what userspace is doing.  Maybe we
+just document it more strongly as a hint?
 
-1) Accesses to the manager (and hence the tree) are serialized, no lock 
-needed.
+BR,
+-R
 
-2) Multiple operations on the tree must be locked in order to make them 
-appear atomic.
-
-In either case the embedded spinlock wouldn't be useful, we'd either 
-need an external lock or no lock at all.
-
-If there are any internal reasons why specific tree operations must be 
-mutually excluded (such as those you explain below), wouldn't it make 
-more sense to always have the internal lock and, optionally, allow users 
-to specify an external lock additionally?
-
-> 
->>> Second, having a lock allows us to defragment the slab cache.  The
->>> patches to do that haven't gone anywhere recently, but if we drop the
->>> requirement now, we'll never be able to compact ranges of memory that
->>> have slabs allocated to them.
->>>
->>
->> Not sure if I get that, do you mind explaining a bit how this would affect
->> other users of the maple tree, such as my use case, the GPUVA manager?
-> 
-> When we want to free a slab in order to defragment memory, we need
-> to relocate all the objects allocated within that slab.  To do that
-> for the maple tree node cache, for each node in this particular slab,
-> we'll need to walk up to the top of the tree and lock it.  We can then
-> allocate a new node from a different slab, change the parent to point
-> to the new node and drop the lock.  After an RCU delay, we can free the
-> slab and create a larger contiguous block of memory.
-> 
-> As I said, this is somewhat hypothetical in that there's no current
-> code in the tree to reclaim slabs when we're trying to defragment
-> memory.  And that's because it's hard to do.  The XArray and maple
-> tree were designed to make it possible for their slabs.
-> 
-
+> Regards,
+>
+> Tvrtko
