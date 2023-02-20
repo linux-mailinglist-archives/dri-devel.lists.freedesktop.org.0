@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A68469C790
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 10:19:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2073369C792
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 10:20:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A7F410E62E;
-	Mon, 20 Feb 2023 09:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE5E10E636;
+	Mon, 20 Feb 2023 09:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0359110E62B
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 09:19:48 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0237C10E631
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 09:19:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6C46460C5D;
+ by sin.source.kernel.org (Postfix) with ESMTPS id D5283CE0C54;
+ Mon, 20 Feb 2023 09:19:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B9D1C433EF;
  Mon, 20 Feb 2023 09:19:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81C4C433D2;
- Mon, 20 Feb 2023 09:19:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676884786;
- bh=2O8sD9a7xBazoTiNZMZo6PZWVnfDoFv2nnNrqSB1OFM=;
+ s=k20201202; t=1676884788;
+ bh=xJQ0AkjsnpYr6z64NCxdAH5jCoPRaizPR6h8LevQ8fg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f5MreEAzaBwraZQrVsBQoOn/rEpf/Iv1kqqa1sNyS2XgVfG1TBkmr7uhXLdx7T9Bf
- 0/L2e/BKY7udhnYN40IyxFiiFrfeqZ/vJVxUvBriWOAINDP50EDrPs0N5FgL+mXmAt
- YkFsutIrwcUCCeec6oLsjjBl/rMTb6OMsQQZs1i/vLcFzVopeN746fCC2QOgg0Hv3l
- p9XxtoeUl511dbYVKYFMk4nHisxaqAeZuBOvYDxpfokoYvG4KIgn7lWcUSYnG7yNIs
- FzLgzlKaA5q++1Q3Y4X84bv6DKs36jpOILY1ySeHJC+/Y1bAD47ucKEkZPIchMGQBj
- jySODWXqjkU/g==
+ b=iqGVua3x/DdpFAp4VvxzoHeXLPt18SiQkCoEhB1+Gx/8S6v5a0g+aLybPJdZHa8nV
+ VnxIQf+9myoWa8laIy80y0Bo1z15K8yN0c6Rp2pUq+5RdFUJwdoSkfhbNO+8rc2dje
+ RhQzhEN4qAyCpLG5QsN9gM8Xq9qWLGMe9aU3dJ+/dFd/ucFiK+4nEpzvN1na9ugOm+
+ ybPO/rYx9nzuBLeOZvrXcipSlHPlxUtaILILUWzxZof97ysJwtPHxa+YWtS+lnhI8n
+ H1+gL8louRATOBUgEDkIk9xPK92lA+NO27W4mvDnJ9tlehyhQHkoLWsheogdrFChWj
+ nvRVCOUU+Uyhw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/4] habanalabs: improve readability of engines idle mask print
-Date: Mon, 20 Feb 2023 11:19:37 +0200
-Message-Id: <20230220091939.3467487-2-ogabbay@kernel.org>
+Subject: [PATCH 3/4] habanalabs: change hw_fini to return int to indicate error
+Date: Mon, 20 Feb 2023 11:19:38 +0200
+Message-Id: <20230220091939.3467487-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230220091939.3467487-1-ogabbay@kernel.org>
 References: <20230220091939.3467487-1-ogabbay@kernel.org>
@@ -52,55 +51,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+From: Dafna Hirschfeld <dhirschfeld@habana.ai>
 
-Remove leading zeroes when printing the idle mask to make it clearer.
+We later use cpucp packet for soft reset which might fail
+so we should be able propagate the failure case.
 
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/device.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ drivers/accel/habanalabs/common/habanalabs.h | 2 +-
+ drivers/accel/habanalabs/gaudi/gaudi.c       | 5 +++--
+ drivers/accel/habanalabs/gaudi2/gaudi2.c     | 5 +++--
+ drivers/accel/habanalabs/goya/goya.c         | 5 +++--
+ 4 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index a5f5ee102823..e544d00fe376 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -380,18 +380,17 @@ bool hl_ctrl_device_operational(struct hl_device *hdev,
- static void print_idle_status_mask(struct hl_device *hdev, const char *message,
- 					u64 idle_mask[HL_BUSY_ENGINES_MASK_EXT_SIZE])
- {
--	u32 pad_width[HL_BUSY_ENGINES_MASK_EXT_SIZE] = {};
--
--	BUILD_BUG_ON(HL_BUSY_ENGINES_MASK_EXT_SIZE != 4);
--
--	pad_width[3] = idle_mask[3] ? 16 : 0;
--	pad_width[2] = idle_mask[2] || pad_width[3] ? 16 : 0;
--	pad_width[1] = idle_mask[1] || pad_width[2] ? 16 : 0;
--	pad_width[0] = idle_mask[0] || pad_width[1] ? 16 : 0;
--
--	dev_err(hdev->dev, "%s (mask %0*llx_%0*llx_%0*llx_%0*llx)\n",
--		message, pad_width[3], idle_mask[3], pad_width[2], idle_mask[2],
--		pad_width[1], idle_mask[1], pad_width[0], idle_mask[0]);
-+	if (idle_mask[3])
-+		dev_err(hdev->dev, "%s (mask %#llx_%016llx_%016llx_%016llx)\n",
-+			message, idle_mask[3], idle_mask[2], idle_mask[1], idle_mask[0]);
-+	else if (idle_mask[2])
-+		dev_err(hdev->dev, "%s (mask %#llx_%016llx_%016llx)\n",
-+			message, idle_mask[2], idle_mask[1], idle_mask[0]);
-+	else if (idle_mask[1])
-+		dev_err(hdev->dev, "%s (mask %#llx_%016llx)\n",
-+			message, idle_mask[1], idle_mask[0]);
-+	else
-+		dev_err(hdev->dev, "%s (mask %#llx)\n", message, idle_mask[0]);
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index de4ff525cbcb..597c7f1037d1 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -1576,7 +1576,7 @@ struct hl_asic_funcs {
+ 	int (*sw_init)(struct hl_device *hdev);
+ 	int (*sw_fini)(struct hl_device *hdev);
+ 	int (*hw_init)(struct hl_device *hdev);
+-	void (*hw_fini)(struct hl_device *hdev, bool hard_reset, bool fw_reset);
++	int (*hw_fini)(struct hl_device *hdev, bool hard_reset, bool fw_reset);
+ 	void (*halt_engines)(struct hl_device *hdev, bool hard_reset, bool fw_reset);
+ 	int (*suspend)(struct hl_device *hdev);
+ 	int (*resume)(struct hl_device *hdev);
+diff --git a/drivers/accel/habanalabs/gaudi/gaudi.c b/drivers/accel/habanalabs/gaudi/gaudi.c
+index a276a2a4a46d..26287084a9e0 100644
+--- a/drivers/accel/habanalabs/gaudi/gaudi.c
++++ b/drivers/accel/habanalabs/gaudi/gaudi.c
+@@ -4069,7 +4069,7 @@ static int gaudi_hw_init(struct hl_device *hdev)
+ 	return rc;
  }
  
- static void hpriv_release(struct kref *ref)
+-static void gaudi_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset)
++static int gaudi_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset)
+ {
+ 	struct cpu_dyn_regs *dyn_regs =
+ 			&hdev->fw_loader.dynamic_loader.comm_desc.cpu_dyn_regs;
+@@ -4079,7 +4079,7 @@ static void gaudi_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset
+ 
+ 	if (!hard_reset) {
+ 		dev_err(hdev->dev, "GAUDI doesn't support soft-reset\n");
+-		return;
++		return 0;
+ 	}
+ 
+ 	if (hdev->pldm) {
+@@ -4216,6 +4216,7 @@ static void gaudi_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset
+ 
+ 		hdev->device_cpu_is_halted = false;
+ 	}
++	return 0;
+ }
+ 
+ static int gaudi_suspend(struct hl_device *hdev)
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 2f51a121909b..5a225f23961b 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -5885,7 +5885,7 @@ static void gaudi2_get_soft_rst_done_indication(struct hl_device *hdev, u32 poll
+ 				reg_val);
+ }
+ 
+-static void gaudi2_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset)
++static int gaudi2_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset)
+ {
+ 	struct gaudi2_device *gaudi2 = hdev->asic_specific;
+ 	u32 poll_timeout_us, reset_sleep_ms;
+@@ -5951,7 +5951,7 @@ static void gaudi2_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_rese
+ 		gaudi2_get_soft_rst_done_indication(hdev, poll_timeout_us);
+ 
+ 	if (!gaudi2)
+-		return;
++		return 0;
+ 
+ 	gaudi2->dec_hw_cap_initialized &= ~(HW_CAP_DEC_MASK);
+ 	gaudi2->tpc_hw_cap_initialized &= ~(HW_CAP_TPC_MASK);
+@@ -5978,6 +5978,7 @@ static void gaudi2_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_rese
+ 			HW_CAP_PDMA_MASK | HW_CAP_EDMA_MASK | HW_CAP_MME_MASK |
+ 			HW_CAP_ROT_MASK);
+ 	}
++	return 0;
+ }
+ 
+ static int gaudi2_suspend(struct hl_device *hdev)
+diff --git a/drivers/accel/habanalabs/goya/goya.c b/drivers/accel/habanalabs/goya/goya.c
+index c5a22a8e0957..7a45ab3ca43a 100644
+--- a/drivers/accel/habanalabs/goya/goya.c
++++ b/drivers/accel/habanalabs/goya/goya.c
+@@ -2783,7 +2783,7 @@ static int goya_hw_init(struct hl_device *hdev)
+ 	return rc;
+ }
+ 
+-static void goya_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset)
++static int goya_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset)
+ {
+ 	struct goya_device *goya = hdev->asic_specific;
+ 	u32 reset_timeout_ms, cpu_timeout_ms, status;
+@@ -2839,7 +2839,7 @@ static void goya_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset)
+ 						HW_CAP_GOLDEN | HW_CAP_TPC);
+ 		WREG32(mmGIC_DISTRIBUTOR__5_GICD_SETSPI_NSR,
+ 				GOYA_ASYNC_EVENT_ID_SOFT_RESET);
+-		return;
++		return 0;
+ 	}
+ 
+ 	/* Chicken bit to re-initiate boot sequencer flow */
+@@ -2858,6 +2858,7 @@ static void goya_hw_fini(struct hl_device *hdev, bool hard_reset, bool fw_reset)
+ 
+ 		memset(goya->events_stat, 0, sizeof(goya->events_stat));
+ 	}
++	return 0;
+ }
+ 
+ int goya_suspend(struct hl_device *hdev)
 -- 
 2.25.1
 
