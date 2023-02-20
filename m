@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B1769D4BE
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 21:19:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC93C69D4C3
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 21:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0E410E7A2;
-	Mon, 20 Feb 2023 20:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80CFB10E7AC;
+	Mon, 20 Feb 2023 20:19:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D07D710E7A2;
- Mon, 20 Feb 2023 20:19:30 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id h14so2894806plf.10;
- Mon, 20 Feb 2023 12:19:30 -0800 (PST)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0936110E7A2;
+ Mon, 20 Feb 2023 20:19:31 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id l15so3896988pls.1;
+ Mon, 20 Feb 2023 12:19:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VdB6EdjwMQL5Ibg3VUOmJdReWQo7i7tr5bIvZ40Y+70=;
- b=nN6DNEQkX/s3NAcoshCilQQszrxyjAFA3pfEABOouBtmdv2hr9a8EWn9OyFTTOn1is
- wsp5iZbsB2B25KAj2t5c+u7DMFzqqtYR6ifa6hmq1+2ig4YFIYh7ikNCdQkej1y054ht
- QtbZa8qU4DpXxtjE4YpvEqDU8XNluRXrRHDS+d8Rr8Ev56fIug8fBs1kkGVsa2X9kmk+
- 9Btdy49CeZA3JhAw0PJCEi7LCLD1/Fgg0Dj4LccvZyA9HioaLw//vp5nqpiWo/PFeROp
- slfdJyVloTzyreqVmcEzFxyRto/3TANPyM9OEEIWiWHU3qh8dFWAnkt+sK1bRmZs9Dl5
- jYYw==
+ bh=GH3/jlogTfpFoXcAzPRW2jnyuGq7pnjcvoLksYjq4sE=;
+ b=XfYTZ+By0oTyBykPMBgIQ8w2BaDLmEjDufKm8AVw/lt0U5z5ruHrZUeKTU3szy/M9J
+ CW1diX8EjMccgzM1OAl2X+NeirCyh3D1Kx6Dck3mN/Z8gszeexgGsiTWkz0chz5ez3Dw
+ Rhq/2T4ZKXlQnBY6rImmjZC5vR0QlFtKoo18/tdhF7ZwZI3VmhXRfZQn5cdB+0W3SwKI
+ 7kXy1bEBpUqZaHcNk5AjsXDQFAUaqiPyMQD3VtHdobqID++Qj0MvfTLpLDHz0YR46q0v
+ ET4OLjZq1CjuUeUpfpUGFzLeFovgHKeinXvuEbo6BhPxGtf1KC9R5TXKISMiqHvWfkYu
+ QoHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VdB6EdjwMQL5Ibg3VUOmJdReWQo7i7tr5bIvZ40Y+70=;
- b=vkn6eL+09KAAbM6/ABpOLsSxx2ggHDhNQnGTfMW1MNVv8Rgie4HUqGo7I0CuuXULZ1
- eXWB/Fl7ljEcNTFYmaUtjss8i3jO//0iMJHfz7aR8EZpde0oWGYSsr/bPmcdeRsJjQgj
- g9yGizyhMNmtve4nz9ua/SpefWXadRnnnJqeDTyufdX5EvPXkp72TblABmV/W0QK/8ec
- UqeOmVWSnbkA0sQ6sPek1szw9pp9+OGTqlwne3GajntBqXzwuBIb9B8difHyigcrQka9
- TXh4Jm1lhD8ouRYCvCyolieoGS/UVdJEUQOl8JKkPvxRVwvsqhQrnAY+8b4vZL9V+DwF
- BXBw==
-X-Gm-Message-State: AO0yUKVPdMO9cSi9SQrVYeQnKtbJlfGkO65lNIDpNRfmx5sumkXOFxEL
- H7dhMjUmtlAFelRVe9RCy/9moTa/PuQ=
-X-Google-Smtp-Source: AK7set+10ywClxtJs9TTsbZ74hiuYpYPx64Pje5euev1rRXiuG7LtSR4TdiTx67SOu7mGT/czxhhRw==
-X-Received: by 2002:a17:903:11c4:b0:19a:a43c:41ae with SMTP id
- q4-20020a17090311c400b0019aa43c41aemr5454750plh.25.1676924370134; 
- Mon, 20 Feb 2023 12:19:30 -0800 (PST)
+ bh=GH3/jlogTfpFoXcAzPRW2jnyuGq7pnjcvoLksYjq4sE=;
+ b=s3KCtCcc6n4t7eQSVVtV6Ahx0+Fui6EcTjK/YvgMH/Wvz6Z6PlW9MRZ9YhIDXCRsFE
+ UHNIysPgptaiqa2XMWBkwOXEa23bFhSQrXAydKmq+xuu3nWVLgfeql/uZsbAY765abaB
+ 1Ho7/7AAKyiIdfuMC+UpvPxFMhw4ouxZ7w3n7681d1xbUPuJuInF2ne8IuzI/reCOHqP
+ iVlaFLnw6JGFkilymAHw52hgcVkrkMLGBZkYPFBsqkttoeIV24U54S+fYI8ACv4fBK7f
+ 2cUP7QY/B/njmN9Bt5l13Df33H9jH6Cwzdn6HbwCB9jOYcq31j1B/YgD/z4x3ihPmv9E
+ UEYw==
+X-Gm-Message-State: AO0yUKVCBTZw9gHxsgsBn6Jv5Kac5LNzod1QeC4c5xgmWzTUnMFzaQkV
+ E0mPVWauxyJ/BxRhwV8Kok3gkx7fNdk=
+X-Google-Smtp-Source: AK7set+fguElFY5oww3bY+D+2wek30UW0gFwU5nvlSZIOLpF6/hFgjJZ47PNESsvLMuz2vGeTE14Kg==
+X-Received: by 2002:a17:902:fa0f:b0:19a:73f7:6762 with SMTP id
+ la15-20020a170902fa0f00b0019a73f76762mr4135363plb.52.1676924371334; 
+ Mon, 20 Feb 2023 12:19:31 -0800 (PST)
 Received: from localhost (c-73-67-135-195.hsd1.or.comcast.net. [73.67.135.195])
  by smtp.gmail.com with ESMTPSA id
- p22-20020a170902a41600b001966d94cb2esm3791564plq.288.2023.02.20.12.19.29
+ f8-20020a170902684800b0019aa8149cb3sm8314345pln.219.2023.02.20.12.19.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 12:19:29 -0800 (PST)
+ Mon, 20 Feb 2023 12:19:31 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 08/14] drm/scheduler: Add fence deadline support
-Date: Mon, 20 Feb 2023 12:18:55 -0800
-Message-Id: <20230220201916.1822214-9-robdclark@gmail.com>
+Subject: [PATCH v5 09/14] drm/syncobj: Add deadline support for syncobj waits
+Date: Mon, 20 Feb 2023 12:18:56 -0800
+Message-Id: <20230220201916.1822214-10-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230220201916.1822214-1-robdclark@gmail.com>
 References: <20230220201916.1822214-1-robdclark@gmail.com>
@@ -71,148 +71,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ open list <linux-kernel@vger.kernel.org>, Pekka Paalanen <ppaalanen@gmail.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As the finished fence is the one that is exposed to userspace, and
-therefore the one that other operations, like atomic update, would
-block on, we need to propagate the deadline from from the finished
-fence to the actual hw fence.
+From: Rob Clark <robdclark@chromium.org>
 
-v2: Split into drm_sched_fence_set_parent() (ckoenig)
-v3: Ensure a thread calling drm_sched_fence_set_deadline_finished() sees
-    fence->parent set before drm_sched_fence_set_parent() does this
-    test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT).
+Add a new flag to let userspace provide a deadline as a hint for syncobj
+and timeline waits.  This gives a hint to the driver signaling the
+backing fences about how soon userspace needs it to compete work, so it
+can addjust GPU frequency accordingly.  An immediate deadline can be
+given to provide something equivalent to i915 "wait boost".
+
+v2: Use absolute u64 ns value for deadline hint, drop cap and driver
+    feature flag in favor of allowing count_handles==0 as a way for
+    userspace to probe kernel for support of new flag
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++++++++++++
- drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
- include/drm/gpu_scheduler.h             |  8 +++++
- 3 files changed, 55 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_syncobj.c | 59 +++++++++++++++++++++++++++--------
+ include/uapi/drm/drm.h        |  5 +++
+ 2 files changed, 51 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-index 7fd869520ef2..43e2d4f5fe3b 100644
---- a/drivers/gpu/drm/scheduler/sched_fence.c
-+++ b/drivers/gpu/drm/scheduler/sched_fence.c
-@@ -123,6 +123,37 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
- 	dma_fence_put(&fence->scheduled);
- }
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 0c2be8360525..4f9c3b3906f1 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -973,7 +973,8 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+ 						  uint32_t count,
+ 						  uint32_t flags,
+ 						  signed long timeout,
+-						  uint32_t *idx)
++						  uint32_t *idx,
++						  ktime_t *deadline)
+ {
+ 	struct syncobj_wait_entry *entries;
+ 	struct dma_fence *fence;
+@@ -1053,6 +1054,15 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
+ 			drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
+ 	}
  
-+static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
-+						  ktime_t deadline)
-+{
-+	struct drm_sched_fence *fence = to_drm_sched_fence(f);
-+	struct dma_fence *parent;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&fence->lock, flags);
-+
-+	/* If we already have an earlier deadline, keep it: */
-+	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
-+	    ktime_before(fence->deadline, deadline)) {
-+		spin_unlock_irqrestore(&fence->lock, flags);
-+		return;
++	if (deadline) {
++		for (i = 0; i < count; ++i) {
++			fence = entries[i].fence;
++			if (!fence)
++				continue;
++			dma_fence_set_deadline(fence, *deadline);
++		}
 +	}
 +
-+	fence->deadline = deadline;
-+	set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
+ 	do {
+ 		set_current_state(TASK_INTERRUPTIBLE);
+ 
+@@ -1151,7 +1161,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+ 				  struct drm_file *file_private,
+ 				  struct drm_syncobj_wait *wait,
+ 				  struct drm_syncobj_timeline_wait *timeline_wait,
+-				  struct drm_syncobj **syncobjs, bool timeline)
++				  struct drm_syncobj **syncobjs, bool timeline,
++				  ktime_t *deadline)
+ {
+ 	signed long timeout = 0;
+ 	uint32_t first = ~0;
+@@ -1162,7 +1173,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+ 							 NULL,
+ 							 wait->count_handles,
+ 							 wait->flags,
+-							 timeout, &first);
++							 timeout, &first,
++							 deadline);
+ 		if (timeout < 0)
+ 			return timeout;
+ 		wait->first_signaled = first;
+@@ -1172,7 +1184,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
+ 							 u64_to_user_ptr(timeline_wait->points),
+ 							 timeline_wait->count_handles,
+ 							 timeline_wait->flags,
+-							 timeout, &first);
++							 timeout, &first,
++							 deadline);
+ 		if (timeout < 0)
+ 			return timeout;
+ 		timeline_wait->first_signaled = first;
+@@ -1243,17 +1256,22 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ {
+ 	struct drm_syncobj_wait *args = data;
+ 	struct drm_syncobj **syncobjs;
++	unsigned possible_flags;
++	ktime_t t, *tp = NULL;
+ 	int ret = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+ 
+-	if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+-			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT))
++	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
 +
-+	spin_unlock_irqrestore(&fence->lock, flags);
++	if (args->flags & ~possible_flags)
+ 		return -EINVAL;
+ 
+ 	if (args->count_handles == 0)
+-		return -EINVAL;
++		return 0;
+ 
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+@@ -1262,8 +1280,13 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
++		t = ns_to_ktime(args->deadline_ns);
++		tp = &t;
++	}
 +
-+	/*
-+	 * smp_load_aquire() to ensure that if we are racing another
-+	 * thread calling drm_sched_fence_set_parent(), that we see
-+	 * the parent set before it calls test_bit(HAS_DEADLINE_BIT)
-+	 */
-+	parent = smp_load_acquire(&fence->parent);
-+	if (parent)
-+		dma_fence_set_deadline(parent, deadline);
-+}
+ 	ret = drm_syncobj_array_wait(dev, file_private,
+-				     args, NULL, syncobjs, false);
++				     args, NULL, syncobjs, false, tp);
+ 
+ 	drm_syncobj_array_free(syncobjs, args->count_handles);
+ 
+@@ -1276,18 +1299,23 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ {
+ 	struct drm_syncobj_timeline_wait *args = data;
+ 	struct drm_syncobj **syncobjs;
++	unsigned possible_flags;
++	ktime_t t, *tp = NULL;
+ 	int ret = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
+ 		return -EOPNOTSUPP;
+ 
+-	if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+-			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+-			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE))
++	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE |
++			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
 +
- static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
- 	.get_driver_name = drm_sched_fence_get_driver_name,
- 	.get_timeline_name = drm_sched_fence_get_timeline_name,
-@@ -133,6 +164,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
- 	.get_driver_name = drm_sched_fence_get_driver_name,
- 	.get_timeline_name = drm_sched_fence_get_timeline_name,
- 	.release = drm_sched_fence_release_finished,
-+	.set_deadline = drm_sched_fence_set_deadline_finished,
++	if (args->flags & ~possible_flags)
+ 		return -EINVAL;
+ 
+ 	if (args->count_handles == 0)
+-		return -EINVAL;
++		return -0;
+ 
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+@@ -1296,8 +1324,13 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
++		t = ns_to_ktime(args->deadline_ns);
++		tp = &t;
++	}
++
+ 	ret = drm_syncobj_array_wait(dev, file_private,
+-				     NULL, args, syncobjs, true);
++				     NULL, args, syncobjs, true, tp);
+ 
+ 	drm_syncobj_array_free(syncobjs, args->count_handles);
+ 
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 642808520d92..aefc8cc743e0 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -887,6 +887,7 @@ struct drm_syncobj_transfer {
+ #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
+ #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
+ #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time point to become available */
++#define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadline based to deadline_nsec/sec */
+ struct drm_syncobj_wait {
+ 	__u64 handles;
+ 	/* absolute timeout */
+@@ -895,6 +896,8 @@ struct drm_syncobj_wait {
+ 	__u32 flags;
+ 	__u32 first_signaled; /* only valid when not waiting all */
+ 	__u32 pad;
++	/* Deadline hint to set on backing fence(s) in CLOCK_MONOTONIC: */
++	__u64 deadline_ns;
  };
  
- struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
-@@ -147,6 +179,20 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
- }
- EXPORT_SYMBOL(to_drm_sched_fence);
+ struct drm_syncobj_timeline_wait {
+@@ -907,6 +910,8 @@ struct drm_syncobj_timeline_wait {
+ 	__u32 flags;
+ 	__u32 first_signaled; /* only valid when not waiting all */
+ 	__u32 pad;
++	/* Deadline hint to set on backing fence(s) in CLOCK_MONOTONIC: */
++	__u64 deadline_ns;
+ };
  
-+void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-+				struct dma_fence *fence)
-+{
-+	/*
-+	 * smp_store_release() to ensure another thread racing us
-+	 * in drm_sched_fence_set_deadline_finished() sees the
-+	 * fence's parent set before test_bit()
-+	 */
-+	smp_store_release(&s_fence->parent, dma_fence_get(fence));
-+	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
-+		     &s_fence->finished.flags))
-+		dma_fence_set_deadline(fence, s_fence->deadline);
-+}
-+
- struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
- 					      void *owner)
- {
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 4e6ad6e122bc..007f98c48f8d 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1019,7 +1019,7 @@ static int drm_sched_main(void *param)
- 		drm_sched_fence_scheduled(s_fence);
  
- 		if (!IS_ERR_OR_NULL(fence)) {
--			s_fence->parent = dma_fence_get(fence);
-+			drm_sched_fence_set_parent(s_fence, fence);
- 			/* Drop for original kref_init of the fence */
- 			dma_fence_put(fence);
- 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 9db9e5e504ee..8b31a954a44d 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -280,6 +280,12 @@ struct drm_sched_fence {
-          */
- 	struct dma_fence		finished;
- 
-+	/**
-+	 * @deadline: deadline set on &drm_sched_fence.finished which
-+	 * potentially needs to be propagated to &drm_sched_fence.parent
-+	 */
-+	ktime_t				deadline;
-+
-         /**
-          * @parent: the fence returned by &drm_sched_backend_ops.run_job
-          * when scheduling the job on hardware. We signal the
-@@ -568,6 +574,8 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
- 				   enum drm_sched_priority priority);
- bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
- 
-+void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-+				struct dma_fence *fence);
- struct drm_sched_fence *drm_sched_fence_alloc(
- 	struct drm_sched_entity *s_entity, void *owner);
- void drm_sched_fence_init(struct drm_sched_fence *fence,
 -- 
 2.39.1
 
