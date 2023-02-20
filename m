@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE1469CABF
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 13:22:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F7F69CAD9
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 13:25:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9673C10E0E1;
-	Mon, 20 Feb 2023 12:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B25710E115;
+	Mon, 20 Feb 2023 12:25:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 583C810E0E1;
- Mon, 20 Feb 2023 12:22:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1676895733; x=1708431733;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=E6sDOcX1qXRt0QrbN/D4rkV/vYCpY8ybq78T+WYxVUI=;
- b=RS8doES8FjKgnSWJA9kJ1ZRZgE3trRSj7CZogy57Gto0VdICCnM/1+RR
- H7Gdtnm4hqW//fBDdeQ2CG9YKKBeLuM4YXv4/janqDAcNpLBikmEBER1n
- ETb5U8KeTzLBDLKzhmRDvZ0WYP5M/Yzh6Ty1dJtBfz9u0Ut0xSXP/QOfl
- JtSE2SsHTwvoFN28KSsBX9Y6bRDtnRSPN1/nnxiuJCvFhZNkrm+JZLVu+
- PidOfcPZQJsRmbdUvUCjjNCwRGeBIasOsLmcSsCyax/C1NV8s3jQzqfh5
- RjOvhLcNdlUreUbW0VYYipLwNGd7zak2/WxhzIOLMlMCYI9Y/L4Olnhnl Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="359856005"
-X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; d="scan'208";a="359856005"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2023 04:22:12 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="701652083"
-X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; d="scan'208";a="701652083"
-Received: from mochoamo-mobl.ger.corp.intel.com (HELO [10.213.211.126])
- ([10.213.211.126])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Feb 2023 04:22:10 -0800
-Message-ID: <9fa6b49f-376b-f9e2-bce7-e58b04628822@linux.intel.com>
-Date: Mon, 20 Feb 2023 12:22:08 +0000
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3066810E115
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 12:25:47 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id o14so1120475wms.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 04:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZhuNX7zk4hZihBAY5sZG0csyVV6AYylCGdugAnsAC6c=;
+ b=bPba3qLwuP3pL5YFqhCwvExtNWIznWHdFR4XAXSWPf0VlwLp3X4gk+vhiYZBF3OCJB
+ +4ozenOOlX3dJ/BMfSl1I7nbv+4Wwr8BGYHqFrEq6/zebScqZhGU7To/OG33/EIlPRT7
+ M+9e/UeO0I0d2UIeOy+DsB19ih2wSBOe8cRr0z1lTPt5VdBO5JdBzoebAvZnImBSg23A
+ yK4OMN0MfJlj0WW4lStMk5mkiowmWQnxJ7CXOZT7yMuChSPRjKzssAqWKgPqqP6loVUg
+ zuJEUUlNrRfJDRKiIE8sEXk2EDL6lrTw+gRTiWg1S6zzPItFUW1sJ/tohDunfoSjrsL8
+ biaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZhuNX7zk4hZihBAY5sZG0csyVV6AYylCGdugAnsAC6c=;
+ b=XF+uUN8gILOOfpsrEae5e7gp+9SJdJsmKrDqLpR1jXkFu6o8nr2vPgb68cSJ60MCVc
+ Em+1UO0f0jKtnosT79+9iaYfQ06EDNMkUAYoTyXMQb4gGTMZ/GDIsSnnfnLcAw0aFSYq
+ Eoc1OaftQDgHGtaWUMVMa/PR6Hwbp6J8hWVTRmc+49r9HnLQ4aPRcdoNdvZNOr6tJ9V7
+ KN+Jk29i7R/ri53poShK45332IyllpXlDcl3YeJjluxr+FitnqYQLm+dlL2ZQsAOkcP6
+ DfMq4cyG6pPweJtp/Zw5CGJqaimgo4g33IchFacokmJp0Sd1CVDAWMqBI3ITN7qeKodg
+ YzUA==
+X-Gm-Message-State: AO0yUKXcgbhb57CXtWGLIDdy140wvKfdNxsejhIer0ZTLQScaHNWoG12
+ ZHGkYXfOcXjwvPwX7b5ngXYxMg==
+X-Google-Smtp-Source: AK7set8fM14qE0F61S6lht5sfkP3yhezdAmuiQBgst8exmUIwWFYJljR5sQgrg0d08gSACnwp/jIVA==
+X-Received: by 2002:a05:600c:1d9c:b0:3df:9858:c032 with SMTP id
+ p28-20020a05600c1d9c00b003df9858c032mr716208wms.7.1676895945499; 
+ Mon, 20 Feb 2023 04:25:45 -0800 (PST)
+Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ e16-20020adfe390000000b002c54c8e70b1sm1542169wrm.9.2023.02.20.04.25.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Feb 2023 04:25:44 -0800 (PST)
+Date: Mon, 20 Feb 2023 12:25:42 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Luca Weiss <luca@z3ntu.xyz>
+Subject: Re: [PATCH] backlight: qcom-wled: Add PMI8950 compatible
+Message-ID: <Y/NmxjZgo9V6Enad@aspen.lan>
+References: <20221226-msm8953-6-2-wled-v1-1-e318d4c71d05@z3ntu.xyz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [RFC v2 0/5] Waitboost drm syncobj waits
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20230210130647.580135-1-tvrtko.ursulin@linux.intel.com>
- <CAF6AEGto9VMNLJnAs+n5H6MNoVASNasYEu3WhYYkhn5sERg4Fw@mail.gmail.com>
- <Y+5zyeSncSbsXHWG@intel.com>
- <7e059e8c-41c3-b56c-26c8-c0e2230616b1@linux.intel.com>
- <CAF6AEGuN2dv+Lsk3R43oPRA9c8ZoMjzCCKR+L41wNT8Sc3TgsQ@mail.gmail.com>
- <c0663648-5567-2d7a-43b1-dfa043109051@linux.intel.com>
- <CAF6AEGsGqjbL_tA8x_xwygBccKMP2DTbSy-B5_dEakpQVep8vg@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CAF6AEGsGqjbL_tA8x_xwygBccKMP2DTbSy-B5_dEakpQVep8vg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221226-msm8953-6-2-wled-v1-1-e318d4c71d05@z3ntu.xyz>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +70,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Rob Clark <robdclark@chromium.org>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Andy Gross <agross@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org, Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Feb 06, 2023 at 08:58:30PM +0100, Luca Weiss wrote:
+> PMI8950 contains WLED of version 4. Add support for it to the driver.
+>
+> Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
 
-On 17/02/2023 17:00, Rob Clark wrote:
-> On Fri, Feb 17, 2023 at 8:03 AM Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-[snip]
 
->>> adapted from your patches..  I think the basic idea of deadlines
->>> (which includes "I want it NOW" ;-)) isn't controversial, but the
->>> original idea got caught up in some bikeshed (what about compositors
->>> that wait on fences in userspace to decide which surfaces to update in
->>> the next frame), plus me getting busy and generally not having a good
->>> plan for how to leverage this from VM guests (which is becoming
->>> increasingly important for CrOS).  I think I can build on some ongoing
->>> virtgpu fencing improvement work to solve the latter.  But now that we
->>> have a 2nd use-case for this, it makes sense to respin.
->>
->> Sure, I was looking at the old version already. It is interesting. But
->> also IMO needs quite a bit more work to approach achieving what is
->> implied from the name of the feature. It would need proper deadline
->> based sched job picking, and even then drm sched is mostly just a
->> frontend. So once past runnable status and jobs handed over to backend,
->> without further driver work it probably wouldn't be very effective past
->> very lightly loaded systems.
-> 
-> Yes, but all of that is not part of dma_fence ;-)
-
-:) Okay.
-
-Having said that, do we need a step back to think about whether adding 
-deadline to dma-fences is not making them something too much different 
-to what they were? Going from purely synchronisation primitive more 
-towards scheduling paradigms. Just to brainstorm if there will not be 
-any unintended consequences. I should mention this in your RFC thread 
-actually.
-
-> A pretty common challenging usecase is still the single fullscreen
-> game, where scheduling isn't the problem, but landing at an
-> appropriate GPU freq absolutely is.  (UI workloads are perhaps more
-> interesting from a scheduler standpoint, but they generally aren't
-> challenging from a load/freq standpoint.)
-
-Challenging as in picking the right operating point? Might be latency 
-impacted (and so user perceived UI smoothness) due missing waitboost for 
-anything syncobj related. I don't know if anything to measure that 
-exists currently though. Assuming it is measurable then the question 
-would be is it perceivable.
-> Fwiw, the original motivation of the series was to implement something
-> akin to i915 pageflip boosting without having to abandon the atomic
-> helpers.  (And, I guess it would also let i915 preserve that feature
-> if it switched to atomic helpers.. I'm unsure if there are still other
-> things blocking i915's migration.)
-
-Question for display folks I guess.
-
->> Then if we fast forward to a world where schedulers perhaps become fully
->> deadline aware (we even had this for i915 few years back) then the
->> question will be does equating waits with immediate deadlines still
->> works. Maybe not too well because we wouldn't have the ability to
->> distinguish between the "someone is waiting" signal from the otherwise
->> propagated deadlines.
-> 
-> Is there any other way to handle a wait boost than expressing it as an
-> ASAP deadline?
-
-A leading question or just a question? Nothing springs to my mind at the 
-moment.
-
-Regards,
-
-Tvrtko
+> ---
+> While adding dt-bindings and dts in a previous series I forgot to add the
+> compatible to the driver. Fix that now.
+> ---
+>  drivers/video/backlight/qcom-wled.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> index 527210e85795..5f504883aca5 100644
+> --- a/drivers/video/backlight/qcom-wled.c
+> +++ b/drivers/video/backlight/qcom-wled.c
+> @@ -1731,6 +1731,7 @@ static int wled_remove(struct platform_device *pdev)
+>
+>  static const struct of_device_id wled_match_table[] = {
+>  	{ .compatible = "qcom,pm8941-wled", .data = (void *)3 },
+> +	{ .compatible = "qcom,pmi8950-wled", .data = (void *)4 },
+>  	{ .compatible = "qcom,pmi8994-wled", .data = (void *)4 },
+>  	{ .compatible = "qcom,pmi8998-wled", .data = (void *)4 },
+>  	{ .compatible = "qcom,pm660l-wled", .data = (void *)4 },
+>
+> ---
+> base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+> change-id: 20221226-msm8953-6-2-wled-5f966bfa4db3
+>
+> Best regards,
+> --
+> Luca Weiss <luca@z3ntu.xyz>
+>
