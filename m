@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C29A69F929
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 17:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B167F69F9AD
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 18:09:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2583F10E18E;
-	Wed, 22 Feb 2023 16:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB3310E2D4;
+	Wed, 22 Feb 2023 17:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5313810E18E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 16:40:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677084019;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sKvLH39Md6VFASwNimh3Ijve7a+l/n+mf16qXiFcEQs=;
- b=aORvLsDGstN1t7ngnQpYBasfYdWoXDTzRZI4Ej3Ous/wIXYnrnrB7JzHt1aHzlJeIHqfKt
- kywsywiouyYqg78nJSH2+UYgbjdqaaa2HeYDOgh2wB0M3gG+SLu9mxVO8w7yq0owR7/2hg
- pu2j2wVtEgBaaEV6WlAvIX7lBwkE5DE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-416-E1q3FWvwM021e6EOGkj8RA-1; Wed, 22 Feb 2023 11:40:17 -0500
-X-MC-Unique: E1q3FWvwM021e6EOGkj8RA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- cy28-20020a0564021c9c00b004acc6cf6322so11664420edb.18
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 08:40:17 -0800 (PST)
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Mon, 20 Feb 2023 17:25:49 UTC
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD3110E137
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 17:25:49 +0000 (UTC)
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 5A6EE3F20F
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 17:19:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1676913546;
+ bh=KsFWVKyUTisvLWEBfJHuAqZZOIzRC+wakmOYPwQrXVU=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+ b=FZMzSoeecI91UrA5teqL8d4x6aQbaIiXb6laVlwqHzRU2vioww5CHpvnaQ1oCEGKW
+ iXE+W5kkIjMnKl8MVSgEP3w3QFUeAf9c7InTtYY3YWJkBgn3Vw4CbEMS5ehn3Lvmsj
+ rb/FVr3bQjgJYmenUJSsIbfZ3XUu7GjmYi+U6hMMTd8zIAya4IHoGKx1plBsMNSX4f
+ gYIkyr98FT/4P4jzHnO1jBIrAy48XS19llrrwFAyh5DFGRjkZXcNHfVLo92Db7rLBB
+ c11hHySKzRqHfsOBwwttQHUNNA+qNWELKjfCxam3h3/9FE6OD8mCXPt9dBuuMSUm+Z
+ lg8EcUMXwMzSg==
+Received: by mail-ed1-f70.google.com with SMTP id
+ k12-20020a50c8cc000000b004accf30f6d3so2519954edh.14
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 09:19:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=sKvLH39Md6VFASwNimh3Ijve7a+l/n+mf16qXiFcEQs=;
- b=saQQUmZlMrpRfJ4LhnssrhuK3+RNBz1H76ymSAPWrFhoxAxyt1vUzGMH4o8A9H6Q7H
- aYUoiwe4vdyTORoklIvgc+7gD4X8pSyC1jHv0eAE9hRwBR3cE0TKyf/bVVGBQWvt+EFc
- 7DS+HDus+3VsXwYdmM8P2yCYkv876wRP0CQ2ymXJAVGagNT2yDo+fH5nVeuYT8EDrfCN
- yBC9I3j1W1/19uy62W1fMFeCLHxVOOtwca4NhvIT8Ge7kwBFl/pSB4I3Xy5t87iu35b0
- u5uuC7F1fGiemHTPACyO30YdDR3D1ZC5NeuDM8xQpc9jK8+MjRoCARFh34wZF0FkcXXs
- rcqQ==
-X-Gm-Message-State: AO0yUKV7QtblTNWVKweM/MG2s4GMkHz6vwN/fzL0BF7ECd+1EJ7I7AFs
- 7679ftaKVqjDi6aLlJN7P7NXdOwHsNA1ZVGgjZLaMMrM3JnEfKBcPOlpteIy2UfsFfUyXRFhhgs
- KbxXoW8EwvaB7pGEiTsyeXs5FDuP0
-X-Received: by 2002:a17:906:58c6:b0:8ea:825:a5db with SMTP id
- e6-20020a17090658c600b008ea0825a5dbmr1975997ejs.76.1677084016604; 
- Wed, 22 Feb 2023 08:40:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set8y1aIvy6/M9izm4ZRhyULPWeIfqPOxVNzTRzQDPPo3HY43nOvrd3fmMTJNtsFtgPLgH4e/yw==
-X-Received: by 2002:a17:906:58c6:b0:8ea:825:a5db with SMTP id
- e6-20020a17090658c600b008ea0825a5dbmr1975964ejs.76.1677084016324; 
- Wed, 22 Feb 2023 08:40:16 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ bh=KsFWVKyUTisvLWEBfJHuAqZZOIzRC+wakmOYPwQrXVU=;
+ b=ZFhF0j+GxT0Ylg8YR0qPCqbu4oeWGtM1pS6BVAj6HQqRw4KlWXW6z9RmvA6uL/g7TQ
+ LIvY0KClR+eislNGa8XhEhvnVrgh8yEiVuiwWOotuC7/AWTQ/qIXM8HXzLIi5aE/Dnmt
+ v3TEn0jYUleGxoPDCmBWE+v4agnk4mzRG3ElLjaWoLFzcEQwQ85guOdMnmKFYjzm8vCs
+ HBQ9YM+AeW63SCBW1E9meMyHnrdaR8rF2P9cW+8togNsUqmUIeN5L+RebCQ8ViP4SwDa
+ xAjPelHkJKLz6il8jI/HnXkAqprlNXzN1kxI/z0UI4uVRlD81Br1hAVXWGLW32CKhyPJ
+ Gkvg==
+X-Gm-Message-State: AO0yUKUzgtK0W2X80E30dHn7bzuFRGs5x6guCqIdJUlcCl2lneFzsnfB
+ l7SThOwt9EXeWmrBi3sfYTT/AivxshyJgvz+nHzMshq8UjvFs+FvO1gWnAAgq9bpytaW2/SMaWe
+ CMQl587Sa4N0YBrHzueRijMWZo3bsBFeSP7OsO43C/pSL8A==
+X-Received: by 2002:a05:6402:1151:b0:4ac:beba:dc87 with SMTP id
+ g17-20020a056402115100b004acbebadc87mr1075435edw.0.1676913546121; 
+ Mon, 20 Feb 2023 09:19:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set8Oj7a1xx8jk5ISCHq4+eehJqR5ZQt/ZuPqDE6BQzrZixfjYgaHw5I/qT7NHOl5lv7OxFJ56Q==
+X-Received: by 2002:a05:6402:1151:b0:4ac:beba:dc87 with SMTP id
+ g17-20020a056402115100b004acbebadc87mr1075416edw.0.1676913545790; 
+ Mon, 20 Feb 2023 09:19:05 -0800 (PST)
+Received: from localhost.localdomain
+ (host-79-44-179-55.retail.telecomitalia.it. [79.44.179.55])
  by smtp.gmail.com with ESMTPSA id
- v18-20020a509552000000b004a23558f01fsm3756214eda.43.2023.02.22.08.40.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 08:40:15 -0800 (PST)
-Message-ID: <83755119-083d-7d66-fca0-ca306c841d9c@redhat.com>
-Date: Wed, 22 Feb 2023 17:40:14 +0100
+ ee51-20020a056402293300b004aef6454d6dsm1984489edb.37.2023.02.20.09.19.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Feb 2023 09:19:05 -0800 (PST)
+From: Andrea Righi <andrea.righi@canonical.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/i915/sseu: fix max_subslices array-index-out-of-bounds
+ access
+Date: Mon, 20 Feb 2023 18:18:58 +0100
+Message-Id: <20230220171858.131416-1-andrea.righi@canonical.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
- mappings
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-6-dakr@redhat.com>
- <70ba382f-1559-289a-4922-ca9c371aaf59@amd.com>
- <cc8eeaf4-31e7-98e4-a712-012fc604e985@redhat.com>
- <29ea3705-5634-c204-c1da-d356b6dfbafc@amd.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <29ea3705-5634-c204-c1da-d356b6dfbafc@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 22 Feb 2023 17:09:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,141 +89,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, willy@infradead.org,
- dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
- ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
- tzimmermann@suse.de, Liam.Howlett@oracle.com, Dave Airlie <airlied@redhat.com>,
- bagasdotme@gmail.com, jason@jlekstrand.net
+Cc: intel-gfx@lists.freedesktop.org,
+ Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/22/23 16:14, Christian König wrote:
-> Am 22.02.23 um 16:07 schrieb Danilo Krummrich:
->> On 2/22/23 11:25, Christian König wrote:
->>> Am 17.02.23 um 14:44 schrieb Danilo Krummrich:
->>
->> <snip>
->>
->>>> +/**
->>>> + * DOC: Overview
->>>> + *
->>>> + * The DRM GPU VA Manager, represented by struct drm_gpuva_manager 
->>>> keeps track
->>>> + * of a GPU's virtual address (VA) space and manages the 
->>>> corresponding virtual
->>>> + * mappings represented by &drm_gpuva objects. It also keeps track 
->>>> of the
->>>> + * mapping's backing &drm_gem_object buffers.
->>>> + *
->>>> + * &drm_gem_object buffers maintain a list (and a corresponding 
->>>> list lock) of
->>>> + * &drm_gpuva objects representing all existent GPU VA mappings 
->>>> using this
->>>> + * &drm_gem_object as backing buffer.
->>>> + *
->>>> + * If the &DRM_GPUVA_MANAGER_REGIONS feature is enabled, a GPU VA 
->>>> mapping can
->>>> + * only be created within a previously allocated &drm_gpuva_region, 
->>>> which
->>>> + * represents a reserved portion of the GPU VA space. GPU VA 
->>>> mappings are not
->>>> + * allowed to span over a &drm_gpuva_region's boundary.
->>>> + *
->>>> + * GPU VA regions can also be flagged as sparse, which allows 
->>>> drivers to create
->>>> + * sparse mappings for a whole GPU VA region in order to support 
->>>> Vulkan
->>>> + * 'Sparse Resources'.
->>>
->>> Well since we have now found that there is absolutely no technical 
->>> reason for having those regions could we please drop them?
->>
->> I disagree this was the outcome of our previous discussion.
->>
->> In nouveau I still need them to track the separate sparse page tables 
->> and, as you confirmed previously, Nvidia cards are not the only cards 
->> supporting this feature.
->>
->> The second reason is that with regions we can avoid merging between 
->> buffers, which saves some effort. However, I agree that this argument 
->> by itself probably doesn't hold too much, since you've pointed out in 
->> a previous mail that:
->>
->> <cite>
->> 1) If we merge and decide to only do that inside certain boundaries 
->> then those boundaries needs to be provided and checked against. This 
->> burns quite some CPU cycles
->>
->> 2) If we just merge what we can we might have extra page table updates 
->> which cost time and could result in undesired side effects.
->>
->> 3) If we don't merge at all we have additional housekeeping for the 
->> mappings and maybe hw restrictions.
->> </cite>
->>
->> However, if a driver uses regions to track its separate sparse page 
->> tables anyway it gets 1) for free, which is a nice synergy.
->>
->> I totally agree that regions aren't for everyone though. Hence, I made 
->> them an optional feature and by default regions are disabled. In order 
->> to use them drm_gpuva_manager_init() must be called with the 
->> DRM_GPUVA_MANAGER_REGIONS feature flag.
->>
->> I really would not want to open code regions or have two GPUVA manager 
->> instances in nouveau to track sparse page tables. That would be really 
->> messy, hence I hope we can agree on this to be an optional feature.
-> 
-> I absolutely don't think that this is a good idea then. This separate 
-> handling of sparse page tables is completely Nouveau specific.
+It seems that commit bc3c5e0809ae ("drm/i915/sseu: Don't try to store EU
+mask internally in UAPI format") exposed a potential out-of-bounds
+access, reported by UBSAN as following on a laptop with a gen 11 i915
+card:
 
-Actually, I rely on what you said in a previous mail when I say it's, 
-potentially, not specific to nouveau.
+  UBSAN: array-index-out-of-bounds in drivers/gpu/drm/i915/gt/intel_sseu.c:65:27
+  index 6 is out of range for type 'u16 [6]'
+  CPU: 2 PID: 165 Comm: systemd-udevd Not tainted 6.2.0-9-generic #9-Ubuntu
+  Hardware name: Dell Inc. XPS 13 9300/077Y9N, BIOS 1.11.0 03/22/2022
+  Call Trace:
+   <TASK>
+   show_stack+0x4e/0x61
+   dump_stack_lvl+0x4a/0x6f
+   dump_stack+0x10/0x18
+   ubsan_epilogue+0x9/0x3a
+   __ubsan_handle_out_of_bounds.cold+0x42/0x47
+   gen11_compute_sseu_info+0x121/0x130 [i915]
+   intel_sseu_info_init+0x15d/0x2b0 [i915]
+   intel_gt_init_mmio+0x23/0x40 [i915]
+   i915_driver_mmio_probe+0x129/0x400 [i915]
+   ? intel_gt_probe_all+0x91/0x2e0 [i915]
+   i915_driver_probe+0xe1/0x3f0 [i915]
+   ? drm_privacy_screen_get+0x16d/0x190 [drm]
+   ? acpi_dev_found+0x64/0x80
+   i915_pci_probe+0xac/0x1b0 [i915]
+   ...
 
-<cite>
-This sounds similar to what AMD hw used to have up until gfx8 (I think), 
-basically sparse resources where defined through a separate mechanism to 
-the address resolution of the page tables. I won't rule out that other 
-hardware has similar approaches.
-</cite>
+According to the definition of sseu_dev_info, eu_mask->hsw is limited to
+a maximum of GEN_MAX_SS_PER_HSW_SLICE (6) sub-slices, but
+gen11_sseu_info_init() can potentially set 8 sub-slices, in the
+!IS_JSL_EHL(gt->i915) case.
 
-> 
-> Even when it's optional feature mixing this into the common handling is 
-> exactly what I pointed out as not properly separating between hardware 
-> specific and hardware agnostic functionality.
+Fix this by reserving up to 8 slots for max_subslices in the eu_mask
+struct.
 
-Optionally having regions is *not* a hardware specific concept, drivers 
-might use it for a hardware specific purpose though. Which potentially 
-is is the case for almost every DRM helper.
+Reported-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
+---
+ drivers/gpu/drm/i915/gt/intel_sseu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Drivers can use regions only for the sake of not merging between buffer 
-boundaries as well. Some drivers might prefer this over "never merge" or 
-"always merge", depending on the cost of re-organizing page tables for 
-unnecessary splits/merges, without having the need of tracking separate 
-sparse page tables.
-
-Its just that I think *if* a driver needs to track separate sparse page 
-tables anyways its a nice synergy since then there is no extra cost for 
-getting this optimization.
-
-> 
-> This is exactly the problem we ran into with TTM as well and I've spend 
-> a massive amount of time to clean that up again. >
-
-Admittedly, I don't know what problems you are referring to. However, I 
-don't see which kind of trouble it could cause by allowing drivers to 
-track regions optionally.
-
-> Regards,
-> Christian.
-> 
->>
->>>
->>> I don't really see a need for them any more.
->>>
->>> Regards,
->>> Christian.
->>>
->>
-> 
+diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
+index aa87d3832d60..d7e8c374f153 100644
+--- a/drivers/gpu/drm/i915/gt/intel_sseu.h
++++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
+@@ -27,7 +27,7 @@ struct drm_printer;
+  * is only relevant to pre-Xe_HP platforms (Xe_HP and beyond use the
+  * I915_MAX_SS_FUSE_BITS value below).
+  */
+-#define GEN_MAX_SS_PER_HSW_SLICE	6
++#define GEN_MAX_SS_PER_HSW_SLICE	8
+ 
+ /*
+  * Maximum number of 32-bit registers used by hardware to express the
+-- 
+2.38.1
 
