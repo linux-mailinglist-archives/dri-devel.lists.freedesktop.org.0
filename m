@@ -1,84 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCF069C9D1
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 12:27:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCA669C9F0
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 12:33:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC2F010E690;
-	Mon, 20 Feb 2023 11:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D053410E696;
+	Mon, 20 Feb 2023 11:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C71B10E690
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 11:27:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1676892423;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QITTcF0TgBnVC2t89a+M11n/sxNBaKivZvomAgx8yQQ=;
- b=Jv74FbD4JXneKOm+NYMiTy5lpr4H20n5BYpArQkrY4uCiZoHZ6vvqwYGCwfGJ+mGe+wTn+
- TH0+0Ri9ejwqYk9bZGJgGd5aw3jeP1WsyTWPiHH8hLrRCkDYn5+M8EYdLfhVufFIU2VU/W
- FAgXB3rJzucIg9CYTwZiImkEc5fuCVs=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-495-vVJl9uytOFmWBR0kfGlTSw-1; Mon, 20 Feb 2023 06:27:02 -0500
-X-MC-Unique: vVJl9uytOFmWBR0kfGlTSw-1
-Received: by mail-lj1-f197.google.com with SMTP id
- e2-20020a05651c090200b002934b9b0d4fso307671ljq.16
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 03:27:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QITTcF0TgBnVC2t89a+M11n/sxNBaKivZvomAgx8yQQ=;
- b=bX36cPjJlQfx9OaMzxIWZJMk9OiPDNyqOQ6Yds4I2cyurp2519YRdbZSQlOz2Hotdg
- +fmR4G3iXJLAsVOLUk7o+LxrAV9H1R7RR69d4b3HMb6Y6E903TZw246GYl9OnCDduDBW
- r9LR44CyExpa0ax7mQZEEucQM/Ad405+i+x3oGoSiR+12P6TkOD+Ym00y8hZQwGSdF8y
- 1lXpiNtdaBaGUaN1/gbiwvU8m4WweKiFTn2sFx4CvA64e1h9hLk1mgCiZ0KUV/WMj1d+
- REuBX1Vku5wmq55suq/77FUcPL4oouKbm/62GPMdykTwQcDLI3c0S+IhUrxx+6/TV4GE
- 6udg==
-X-Gm-Message-State: AO0yUKXqy32phCZUPKuMXChrKu8YQotP2Rj8FAdYxuUxCY7GQh3x0UGP
- 92gbhdGlFeXLBXthd0FILsW9zMkRoKjG5FrbMqofncf5xyp0UB7klMZt2YYpYgiKNl089BSw/UQ
- +eGyqpe6EiHHMJd0Cd7mXadM1VYTj3Cv/2K8z8xldWvbi
-X-Received: by 2002:a05:651c:1304:b0:294:751e:30a0 with SMTP id
- u4-20020a05651c130400b00294751e30a0mr556832lja.9.1676892420961; 
- Mon, 20 Feb 2023 03:27:00 -0800 (PST)
-X-Google-Smtp-Source: AK7set/4C6+yoxchfoTjNWJnjnM2hCEqXG3EkpndVmt0f/WEwCJ1cowhjfViNSCDPEa/J6ctx3R+mP/1PPpLwCmCT9c=
-X-Received: by 2002:a05:651c:1304:b0:294:751e:30a0 with SMTP id
- u4-20020a05651c130400b00294751e30a0mr556829lja.9.1676892420634; Mon, 20 Feb
- 2023 03:27:00 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F351410E670;
+ Mon, 20 Feb 2023 11:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676892806; x=1708428806;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Z6F2FvUFHZLPAmYP5ekix2lQhycVf45ybVy3TgplYD0=;
+ b=H4qkUtqWfQMCRP5YPfWnwZj4T3Bm7HBuchLFQS5NaEuX9OALK1CvyVQ1
+ c6maU7fUSMlPbY4dnnnBnFldo8sXiGdttHCakut9wHzzPrKuigfEjJ3Ai
+ UwqE6I1cy9117VCaiEeJRS1DP0b5NvZbHk9mBLqaFJJ6X0LXxqvvfOCyQ
+ keqMO1KfVraHxkgbJtmidbst3RMHfQojc3UUGIsiB0LU3wmUCVsarMPRs
+ bdRIng4mFnRJbO6wIg9sBHRHb+41jOI0t2HMmcbUF06hAXIG5u7QAecoD
+ uPxujXyu5MDSAUUfyEY3ZCEzEAuT26i2zwHzWHJpyVV5Lc0g4dck3GPss w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="333741932"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; d="scan'208";a="333741932"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2023 03:33:22 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10626"; a="701640149"
+X-IronPort-AV: E=Sophos;i="5.97,312,1669104000"; d="scan'208";a="701640149"
+Received: from mochoamo-mobl.ger.corp.intel.com (HELO [10.213.211.126])
+ ([10.213.211.126])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Feb 2023 03:33:20 -0800
+Message-ID: <6832ba1a-c6b0-4631-3b4e-bfcd31d8b59c@linux.intel.com>
+Date: Mon, 20 Feb 2023 11:33:18 +0000
 MIME-Version: 1.0
-References: <b64705e3-2e63-a466-f829-f9568b06766a@googlemail.com>
- <5abbee70-cc84-1528-c3d8-9befd9edd611@googlemail.com>
- <5cf46df8-0fa2-e9f5-aa8e-7f7f703d96dd@googlemail.com>
- <f72fe15b-db1d-56dd-aaf6-3cba68a8bf0a@leemhuis.info>
- <CACO55tvR4ydDOXt=9nbR3n2aFLKrj8zeuGRR_xpezVQBBLrjqg@mail.gmail.com>
- <a6188878-f84c-0fcc-9509-b9d7ab797f4c@leemhuis.info>
- <d031f0a5-8d5e-af51-6db6-11844de3eeba@googlemail.com>
- <CAPM=9tz+wksJTvMi_4Ef7XWezfH0ReN2se189s8Q=obJjHC+Fw@mail.gmail.com>
- <4e786e22-f17a-da76-5129-8fef0c7c825a@googlemail.com>
- <b829633e-ccc4-7a54-1cad-f29254de1251@leemhuis.info>
- <CACO55tsvM07_6mGU3dCgeji0a6B4JJKSDOOBuCHv2Mw3rYbCHg@mail.gmail.com>
- <181bea6a-e501-f5bd-b002-de7a244a921a@googlemail.com>
- <CACO55tsGXfy9-a-nexvcn7pnDGoEWXMqhiQEBwCDkGyOeT1sXQ@mail.gmail.com>
- <dbfc1f77-29f3-7690-c231-55f906a4e7e5@googlemail.com>
- <7f6ec5b3-b5c7-f564-003e-132f112b7cf4@googlemail.com>
- <CACAvsv7Uf5=K44y8YLsiy0aMnc1zvGEQdeDe7RQF=AV+fxxzuQ@mail.gmail.com>
- <c12aa9b8-65a1-0cdf-8948-15309f16b955@googlemail.com>
-In-Reply-To: <c12aa9b8-65a1-0cdf-8948-15309f16b955@googlemail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Mon, 20 Feb 2023 12:26:48 +0100
-Message-ID: <CACO55tvGQdHPnZEMAGPZN3K1nUCV-ruX_QNwSqQAg_z81ab0MA@mail.gmail.com>
-Subject: Re: linux-6.2-rc4+ hangs on poweroff/reboot: Bisected
-To: Chris Clayton <chris2553@googlemail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [RFC v2 0/5] Waitboost drm syncobj waits
+Content-Language: en-US
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Rob Clark <robdclark@gmail.com>
+References: <20230210130647.580135-1-tvrtko.ursulin@linux.intel.com>
+ <CAF6AEGto9VMNLJnAs+n5H6MNoVASNasYEu3WhYYkhn5sERg4Fw@mail.gmail.com>
+ <Y+5zyeSncSbsXHWG@intel.com>
+ <7e059e8c-41c3-b56c-26c8-c0e2230616b1@linux.intel.com>
+ <CAF6AEGuN2dv+Lsk3R43oPRA9c8ZoMjzCCKR+L41wNT8Sc3TgsQ@mail.gmail.com>
+ <c0663648-5567-2d7a-43b1-dfa043109051@linux.intel.com>
+ <CAF6AEGsGqjbL_tA8x_xwygBccKMP2DTbSy-B5_dEakpQVep8vg@mail.gmail.com>
+ <Y+/ndNIu/kYGiVh5@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Y+/ndNIu/kYGiVh5@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,191 +68,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- ML nouveau <nouveau@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, bskeggs@redhat.com,
- Ben Skeggs <skeggsb@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Rob Clark <robdclark@chromium.org>, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 20, 2023 at 11:51 AM Chris Clayton <chris2553@googlemail.com> wrote:
->
->
->
-> On 20/02/2023 05:35, Ben Skeggs wrote:
-> > On Sun, 19 Feb 2023 at 04:55, Chris Clayton <chris2553@googlemail.com> wrote:
-> >>
-> >>
-> >>
-> >> On 18/02/2023 15:19, Chris Clayton wrote:
-> >>>
-> >>>
-> >>> On 18/02/2023 12:25, Karol Herbst wrote:
-> >>>> On Sat, Feb 18, 2023 at 1:22 PM Chris Clayton <chris2553@googlemail.com> wrote:
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> On 15/02/2023 11:09, Karol Herbst wrote:
-> >>>>>> On Wed, Feb 15, 2023 at 11:36 AM Linux regression tracking #update
-> >>>>>> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
-> >>>>>>>
-> >>>>>>> On 13.02.23 10:14, Chris Clayton wrote:
-> >>>>>>>> On 13/02/2023 02:57, Dave Airlie wrote:
-> >>>>>>>>> On Sun, 12 Feb 2023 at 00:43, Chris Clayton <chris2553@googlemail.com> wrote:
-> >>>>>>>>>>
-> >>>>>>>>>>
-> >>>>>>>>>>
-> >>>>>>>>>> On 10/02/2023 19:33, Linux regression tracking (Thorsten Leemhuis) wrote:
-> >>>>>>>>>>> On 10.02.23 20:01, Karol Herbst wrote:
-> >>>>>>>>>>>> On Fri, Feb 10, 2023 at 7:35 PM Linux regression tracking (Thorsten
-> >>>>>>>>>>>> Leemhuis) <regressions@leemhuis.info> wrote:
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> On 08.02.23 09:48, Chris Clayton wrote:
-> >>>>>>>>>>>>>>
-> >>>>>>>>>>>>>> I'm assuming  that we are not going to see a fix for this regression before 6.2 is released.
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> Yeah, looks like it. That's unfortunate, but happens. But there is still
-> >>>>>>>>>>>>> time to fix it and there is one thing I wonder:
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> Did any of the nouveau developers look at the netconsole captures Chris
-> >>>>>>>>>>>>> posted more than a week ago to check if they somehow help to track down
-> >>>>>>>>>>>>> the root of this problem?
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> I did now and I can't spot anything. I think at this point it would
-> >>>>>>>>>>>> make sense to dump the active tasks/threads via sqsrq keys to see if
-> >>>>>>>>>>>> any is in a weird state preventing the machine from shutting down.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Many thx for looking into it!
-> >>>>>>>>>>
-> >>>>>>>>>> Yes, thanks Karol.
-> >>>>>>>>>>
-> >>>>>>>>>> Attached is the output from dmesg when this block of code:
-> >>>>>>>>>>
-> >>>>>>>>>>         /bin/mount /dev/sda7 /mnt/sda7
-> >>>>>>>>>>         /bin/mountpoint /proc || /bin/mount /proc
-> >>>>>>>>>>         /bin/dmesg -w > /mnt/sda7/sysrq.dmesg.log &
-> >>>>>>>>>>         /bin/echo t > /proc/sysrq-trigger
-> >>>>>>>>>>         /bin/sleep 1
-> >>>>>>>>>>         /bin/sync
-> >>>>>>>>>>         /bin/sleep 1
-> >>>>>>>>>>         kill $(pidof dmesg)
-> >>>>>>>>>>         /bin/umount /mnt/sda7
-> >>>>>>>>>>
-> >>>>>>>>>> is executed immediately before /sbin/reboot is called as the final step of rebooting my system.
-> >>>>>>>>>>
-> >>>>>>>>>> I hope this is what you were looking for, but if not, please let me know what you need
-> >>>>>>>>
-> >>>>>>>> Thanks Dave. [...]
-> >>>>>>> FWIW, in case anyone strands here in the archives: the msg was
-> >>>>>>> truncated. The full post can be found in a new thread:
-> >>>>>>>
-> >>>>>>> https://lore.kernel.org/lkml/e0b80506-b3cf-315b-4327-1b988d86031e@googlemail.com/
-> >>>>>>>
-> >>>>>>> Sadly it seems the info "With runpm=0, both reboot and poweroff work on
-> >>>>>>> my laptop." didn't bring us much further to a solution. :-/ I don't
-> >>>>>>> really like it, but for regression tracking I'm now putting this on the
-> >>>>>>> back-burner, as a fix is not in sight.
-> >>>>>>>
-> >>>>>>> #regzbot monitor:
-> >>>>>>> https://lore.kernel.org/lkml/e0b80506-b3cf-315b-4327-1b988d86031e@googlemail.com/
-> >>>>>>> #regzbot backburner: hard to debug and apparently rare
-> >>>>>>> #regzbot ignore-activity
-> >>>>>>>
-> >>>>>>
-> >>>>>> yeah.. this bug looks a little annoying. Sadly the only Turing based
-> >>>>>> laptop I got doesn't work on Nouveau because of firmware related
-> >>>>>> issues and we probably need to get updated ones from Nvidia here :(
-> >>>>>>
-> >>>>>> But it's a bit weird that the kernel doesn't shutdown, because I don't
-> >>>>>> see anything in the logs which would prevent that from happening.
-> >>>>>> Unless it's waiting on one of the tasks to complete, but none of them
-> >>>>>> looked in any way nouveau related.
-> >>>>>>
-> >>>>>> If somebody else has any fancy kernel debugging tips here to figure
-> >>>>>> out why it hangs, that would be very helpful...
-> >>>>>>
-> >>>>>
-> >>>>> I think I've figured this out. It's to do with how my system is configured. I do have an initrd, but the only thing on
-> >>>>> it is the cpu microcode which, it is recommended, should be loaded early. The absence of the NVidia firmare from an
-> >>>>> initrd doesn't matter because the drivers for the hardware that need to load firmware are all built as modules, So, by
-> >>>>> the time the devices are configured via udev, the root partition is mounted and the drivers can get at the firmware.
-> >>>>>
-> >>>>> I've found, by turning on nouveau debug and taking a video of the screen as the system shuts down, that nouveau seems to
-> >>>>> be trying to run the scrubber very very late in the shutdown process. The problem is that by this time, I think the root
-> >>>>> partition, and thus the scrubber binary, have become inaccessible.
-> >>>>>
-> >>>>> I seem to have two choices - either make the firmware accessible on an initrd or unload the module in a shutdown script
-> >>>>> before the scrubber binary becomes inaccessible. The latter of these is the workaround I have implemented whilst the
-> >>>>> problem I reported has been under investigation. For simplicity, I think I'll promote my workaround to being the
-> >>>>> permanent solution.
-> >>>>>
-> >>>>> So, apologies (and thanks) to everyone whose time I have taken up with this non-bug.
-> >>>>>
-> >>>>
-> >>>> Well.. nouveau shouldn't prevent the system from shutting down if the
-> >>>> firmware file isn't available. Or at least it should print a
-> >>>> warning/error. Mind messing with the code a little to see if skipping
-> >>>> it kind of works? I probably can also come up with a patch by next
-> >>>> week.
-> >>>>
-> >>> Well, I'd love to but a quick glance at the code caused me to bump into this obscenity:
-> >>>
-> >>> int
-> >>> gm200_flcn_reset_wait_mem_scrubbing(struct nvkm_falcon *falcon)
-> >>> {
-> >>>         nvkm_falcon_mask(falcon, 0x040, 0x00000000, 0x00000000);
-> >>>
-> >>>         if (nvkm_msec(falcon->owner->device, 10,
-> >>>                 if (!(nvkm_falcon_rd32(falcon, 0x10c) & 0x00000006))
-> >>>                         break;
-> >>>         ) < 0)
-> >>>                 return -ETIMEDOUT;
-> >>>
-> >>>         return 0;
-> >>> }
-> >>>
-> >>> nvkm_msec is #defined to nvkm_usec which in turn is #defined to nvkm_nsec where the loop that the break is related to
-> >>> appears
-> >>
-> >> I think someone who knows the code needs to look at this. What I can confirm is that after a freeze, I waited for 90
-> >> seconds for a timeout to occur, but it didn't.
-> > Hey,
-> >
-> > Are you able to try the attached patch for me please?
-> >
-> > Thanks,
-> > Ben.
-> >
->
-> Thanks Ben.
->
-> Yes, this patch fixes the lockup on reboot and poweroff that I've been seeing on my laptop. As you would expect,
-> offloaded rendering is still working and the discrete GPU is being powered on and off as required.
->
-> Thanks.
->
-> Reported-by: Chris Clayton <chris2553@googlemail.com>
-> Tested-by: Chris Clayton <chris2553@googlemail.com>
->
 
-Ben, did you manage to get push rights to drm-misc by now or should I
-just pick the patch and push it through -fixes?
+On 17/02/2023 20:45, Rodrigo Vivi wrote:
+> On Fri, Feb 17, 2023 at 09:00:49AM -0800, Rob Clark wrote:
+>> On Fri, Feb 17, 2023 at 8:03 AM Tvrtko Ursulin
+>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>
+>>>
+>>> On 17/02/2023 14:55, Rob Clark wrote:
+>>>> On Fri, Feb 17, 2023 at 4:56 AM Tvrtko Ursulin
+>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>
+>>>>>
+>>>>> On 16/02/2023 18:19, Rodrigo Vivi wrote:
+>>>>>> On Tue, Feb 14, 2023 at 11:14:00AM -0800, Rob Clark wrote:
+>>>>>>> On Fri, Feb 10, 2023 at 5:07 AM Tvrtko Ursulin
+>>>>>>> <tvrtko.ursulin@linux.intel.com> wrote:
+>>>>>>>>
+>>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>>>>>
+>>>>>>>> In i915 we have this concept of "wait boosting" where we give a priority boost
+>>>>>>>> for instance to fences which are actively waited upon from userspace. This has
+>>>>>>>> it's pros and cons and can certainly be discussed at lenght. However fact is
+>>>>>>>> some workloads really like it.
+>>>>>>>>
+>>>>>>>> Problem is that with the arrival of drm syncobj and a new userspace waiting
+>>>>>>>> entry point it added, the waitboost mechanism was bypassed. Hence I cooked up
+>>>>>>>> this mini series really (really) quickly to see if some discussion can be had.
+>>>>>>>>
+>>>>>>>> It adds a concept of "wait count" to dma fence, which is incremented for every
+>>>>>>>> explicit dma_fence_enable_sw_signaling and dma_fence_add_wait_callback (like
+>>>>>>>> dma_fence_add_callback but from explicit/userspace wait paths).
+>>>>>>>
+>>>>>>> I was thinking about a similar thing, but in the context of dma_fence
+>>>>>>> (or rather sync_file) fd poll()ing.  How does the kernel differentiate
+>>>>>>> between "housekeeping" poll()ers that don't want to trigger boost but
+>>>>>>> simply know when to do cleanup, and waiters who are waiting with some
+>>>>>>> urgency.  I think we could use EPOLLPRI for this purpose.
+>>>>>>>
+>>>>>>> Not sure how that translates to waits via the syncobj.  But I think we
+>>>>>>> want to let userspace give some hint about urgent vs housekeeping
+>>>>>>> waits.
+>>>>>>
+>>>>>> Should the hint be on the waits, or should the hints be on the executed
+>>>>>> context?
+>>>>>>
+>>>>>> In the end we need some way to quickly ramp-up the frequency to avoid
+>>>>>> the execution bubbles.
+>>>>>>
+>>>>>> waitboost is trying to guess that, but in some cases it guess wrong
+>>>>>> and waste power.
+>>>>>
+>>>>> Do we have a list of workloads which shows who benefits and who loses
+>>>>> from the current implementation of waitboost?
+>>>>>> btw, this is something that other drivers might need:
+>>>>>>
+>>>>>> https://gitlab.freedesktop.org/drm/amd/-/issues/1500#note_825883
+>>>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>>>>
+>>>>> I have several issues with the context hint if it would directly
+>>>>> influence frequency selection in the "more power" direction.
+>>>>>
+>>>>> First of all, assume a context hint would replace the waitboost. Which
+>>>>> applications would need to set it to restore the lost performance and
+>>>>> how would they set it?
+>>>>>
+>>>>> Then I don't even think userspace necessarily knows. Think of a layer
+>>>>> like OpenCL. It doesn't really know in advance the profile of
+>>>>> submissions vs waits. It depends on the CPU vs GPU speed, so hardware
+>>>>> generation, and the actual size of the workload which can be influenced
+>>>>> by the application (or user) and not the library.
+>>>>>
+>>>>> The approach also lends itself well for the "arms race" where every
+>>>>> application can say "Me me me, I am the most important workload there is!".
+>>>>
+>>>> since there is discussion happening in two places:
+>>>>
+>>>> https://gitlab.freedesktop.org/drm/intel/-/issues/8014#note_1777433
+>>>>
+>>>> What I think you might want is a ctx boost_mask which lets an app or
+>>>> driver disable certain boost signals/classes.  Where fence waits is
+>>>> one class of boost, but hypothetical other signals like touchscreen
+>>>> (or other) input events could be another class of boost.  A compute
+>>>> workload might be interested in fence wait boosts but could care less
+>>>> about input events.
+>>>
+>>> I think it can only be apps which could have any chance knowing whether
+>>> their use of a library is latency sensitive or not. Which means new
+>>> library extensions and their adoption. So I have some strong reservation
+>>> that route is feasible.
+>>>
+>>> Or we tie with priority which many drivers do. Normal and above gets the
+>>> boosting and what lowered itself does not (aka SCHED_IDLE/SCHED_BATCH).
+>>
+>> yeah, that sounds reasonable.
+>>
+> 
+> on that gitlab-issue discussion Emma Anholt was against using the priority
+> to influence frequency since that should be more about latency.
+> 
+> or we are talking about something different priority here?
 
-> >>
-> >>
-> >> .> Chris
-> >>>>>
-> >>>>>>> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> >>>>>>> --
-> >>>>>>> Everything you wanna know about Linux kernel regression tracking:
-> >>>>>>> https://linux-regtracking.leemhuis.info/about/#tldr
-> >>>>>>> That page also explains what to do if mails like this annoy you.
-> >>>>>>>
-> >>>>>>> #regzbot ignore-activity
-> >>>>>>>
-> >>>>>>
-> >>>>>
-> >>>>
->
+As Rob already explained - I was suggesting skipping waitboost for 
+contexts which explicitly made themselves low priority. I don't see a 
+controversial angle there.
 
+>>> Related note is that we lack any external control of our scheduling
+>>> decisions so we really do suck compared to other scheduling domains like
+>>> CPU and IO etc.
+>>>
+>>>>> The last concern is for me shared with the proposal to expose deadlines
+>>>>> or high priority waits as explicit uapi knobs. Both come under the "what
+>>>>> application told us it will do" category vs what it actually does. So I
+>>>>> think it is slightly weaker than basing decisions of waits.
+>>>>>
+>>>>> The current waitboost is a bit detached from that problem because when
+>>>>> we waitboost for flips we _know_ it is an actual framebuffer in the flip
+>>>>> chain. When we waitboost for waits we also know someone is waiting. We
+>>>>> are not trusting userspace telling us this will be a buffer in the flip
+>>>>> chain or that this is a context which will have a certain duty-cycle.
+>>>>>
+>>>>> But yes, even if the input is truthful, latter is still only a
+>>>>> heuristics because nothing says all waits are important. AFAIU it just
+>>>>> happened to work well in the past.
+>>>>>
+>>>>> I do understand I am effectively arguing for more heuristics, which may
+>>>>> sound a bit against the common wisdom. This is because in general I
+>>>>> think the logic to do the right thing, be it in the driver or in the
+>>>>> firmware, can work best if it has a holistic view. Simply put it needs
+>>>>> to have more inputs to the decisions it is making.
+>>>>>
+>>>>> That is what my series is proposing - adding a common signal of "someone
+>>>>> in userspace is waiting". What happens with that signal needs not be
+>>>>> defined (promised) in the uapi contract.
+>>>>>
+>>>>> Say you route it to SLPC logic. It doesn't need to do with it what
+>>>>> legacy i915 is doing today. It just needs to do something which works
+>>>>> best for majority of workloads. It can even ignore it if that works for it.
+>>>>>
+>>>>> Finally, back to the immediate problem is when people replace the OpenCL
+>>>>> NEO driver with clvk that performance tanks. Because former does waits
+>>>>> using i915 specific ioctls and so triggers waitboost, latter waits on
+>>>>> syncobj so no waitboost and performance is bad. What short term solution
+>>>>> can we come up with? Or we say to not use clvk? I also wonder if other
+>>>>> Vulkan based stuff is perhaps missing those easy performance gains..
+>>>>>
+>>>>> Perhaps strictly speaking Rob's and mine proposal are not mutually
+>>>>> exclusive. Yes I could piggy back on his with an "immediate deadline for
+>>>>> waits" idea, but they could also be separate concepts if we concluded
+>>>>> "someone is waiting" signal is useful to have. Or it takes to long to
+>>>>> upstream the full deadline idea.
+>>>>
+>>>> Let me re-spin my series and add the syncobj wait flag and i915 bits
+>>>
+>>> I think wait flag is questionable unless it is inverted to imply waits
+>>> which can be de-prioritized (again same parallel with SCHED_IDLE/BATCH).
+>>> Having a flag which "makes things faster" IMO should require elevated
+>>> privilege (to avoid the "arms race") at which point I fear it quickly
+>>> becomes uninteresting.
+>>
+>> I guess you could make the argument in either direction.  Making the
+>> default behavior ramp up clocks could be a power regression.
+> 
+> yeap, exactly the media / video conference case.
+
+Yeah I agree. And as not all media use cases are the same, as are not 
+all compute contexts someone somewhere will need to run a series of 
+workloads for power and performance numbers. Ideally that someone would 
+be the entity for which it makes sense to look at all use cases, from 
+server room to client, 3d, media and compute for both. If we could get 
+the capability to run this in some automated fashion, akin to CI, we 
+would even have a chance to keep making good decisions in the future.
+
+Or we do some one off testing for this instance, but we still need a 
+range of workloads and parts to do it properly..
+
+>> I also think the "arms race" scenario isn't really as much of a
+>> problem as you think.  There aren't _that_ many things using the GPU
+>> at the same time (compared to # of things using CPU).   And a lot of
+>> mobile games throttle framerate to avoid draining your battery too
+>> quickly (after all, if your battery is dead you can't keep buying loot
+>> boxes or whatever).
+> 
+> Very good point.
+
+On this one I still disagree from the point of view that it does not 
+make it good uapi if we allow everyone to select themselves for priority 
+handling (one flavour or the other).
+
+> And in the GPU case they rely a lot on the profiles. Which btw, seems
+> to be the Radeon solution. They boost the freq if the high performance
+> profile is selected and don't care about the execution bubbles if low
+> or mid profiles are selected, or something like that.
+
+Profile as something which controls the waitboost globally? What would 
+be the mechanism for communicating it to the driver?
+
+Also, how would that reconcile the fact waitboost harms some workloads 
+but helps others? If the latter not only improves the performance but 
+also efficiency then assuming "battery" profile must mean "waitboost 
+off" would be leaving battery life on the table. Conversely, if the "on 
+a/c - max performance", would be global "waitboost on", then it could 
+even be possible it wouldn't always be truly best performance if it 
+causes thermal throttling.
+
+Regards,
+
+Tvrtko
