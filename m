@@ -2,62 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D4069C707
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 09:53:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608AC69C70C
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 09:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F6010E60F;
-	Mon, 20 Feb 2023 08:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 724F910E612;
+	Mon, 20 Feb 2023 08:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8AC010E60F;
- Mon, 20 Feb 2023 08:53:51 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id a26so1932517lfk.10;
- Mon, 20 Feb 2023 00:53:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=trdU/6mZ4q/7CXRXpWi9nWU7w+Kvl3oqkNpwnPL/xoY=;
- b=azGbtfYk+TZRcFnh0hwpFLW2w98LQp4ZhJllv0TIkOe7zj8GlJl5S+XpZoTAG4TdBJ
- XHrECHIIuZFxlI0jOGbPIRjLjp29kFnrf8q1QYLHIrRQMDdDVw622BQePfbruj1uInec
- YpnUpDYKU4oBjNs/mswVwX4ydicK6ewSZIxO11or5LYowag9KdyQn3qRlNnJh72UrVjU
- QHFAX1l7Th0hMZXApsOL8Hdfs0GDs8SjifG93E69m2OQDS6XoxzvIVxXxAR3S8TN0tKC
- BmSlEoPkgseU5j5e61AUhgV1etJ/Okhme6ZlLLalSY90UuYasgbWtK59V6AwEaJl/twA
- Nm7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=trdU/6mZ4q/7CXRXpWi9nWU7w+Kvl3oqkNpwnPL/xoY=;
- b=REhJu9FjbJSD9693GNVzx6QXyUPWXDs4ZEiTlStWp03gmmRsb9HxzyEl32WMVzopfl
- ssaHGCelrU1ERieLvv5eQ+4O+7j5b0zGMgnCNdY19K19CCC2aov0Gd9V7fwenGXIgzg+
- KOm/OSh5fToa1E5+WkipEo7rvBwbcyspFJ+G8JwguPGAF8/ITrZS3FQeIMFxyEL7Oy+t
- 7swcYThb5KI/TaX4FSxiGes93/BuzRGQ32IPSKVY+Grfre2Ozp2MBFVD0SiPRW0PLD4f
- tp+2yvM2yvG+sBds/KSgWokTaG4v+34WTTk6ivwaWjfN3WKtOJ92haVtn1MvqGCVoql3
- jxuw==
-X-Gm-Message-State: AO0yUKWIYH4krPBL7E2Axw5++/vkSLV6gw+Zi8F0YJtZhsxxB5N1Krh3
- uUAD3N68K9psnAxiO/S3kqk=
-X-Google-Smtp-Source: AK7set+chHdtsONmBxQKyeY3ayi/UIiPA+HEV1eVQ7sK7gsxB+50rZIjxz2VEjts5QnZPfmkKKBw6w==
-X-Received: by 2002:ac2:5307:0:b0:4b6:f30c:c7a9 with SMTP id
- c7-20020ac25307000000b004b6f30cc7a9mr284863lfh.1.1676883229906; 
- Mon, 20 Feb 2023 00:53:49 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- f25-20020ac25339000000b004d865c781eesm251470lfh.24.2023.02.20.00.53.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 00:53:49 -0800 (PST)
-Date: Mon, 20 Feb 2023 10:53:45 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-Message-ID: <20230220105345.70e46fa5@eldfell>
-In-Reply-To: <20230218211608.1630586-7-robdclark@gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC6BA10E612
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 08:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1676883325; x=1708419325;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0kopjGlyME28slR69d18cD6VZBx6S7ruIoq4XuO/ldc=;
+ b=npw+8OmeihYWqw//hAPPPnrZs+mmXX9fB49JKAEyto2Y2FEGZHjGR69p
+ V1J2aYMxhDUb5j8klsPr6PdPRQKdasZZx6BqEunt3VgmEjRCIKCiEZJ9b
+ WIrt81FZa2Re9rtmWZCdVJdOfnzUoN5ZCKOdJieuM1oSNpjuyANYyMbVS
+ jy6ErrhEZHTpDyOqTxyJUdNQDmD+L3QfATlkbDlxZZEIsyeqru5qGp0Oj
+ nmrSm2vObqe9tHeVz9mOLP3jyS6YAkbMUDDtC0kDcbY1/cOwj/n78k3tc
+ qOcb94CnWarumYancarccyl1mLJmcioax8E0qYXL/Ey3xcAzGnjk82K0H A==;
+X-IronPort-AV: E=Sophos;i="5.97,312,1669071600"; d="scan'208";a="29182153"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 20 Feb 2023 09:55:22 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Mon, 20 Feb 2023 09:55:22 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Mon, 20 Feb 2023 09:55:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1676883323; x=1708419323;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=0kopjGlyME28slR69d18cD6VZBx6S7ruIoq4XuO/ldc=;
+ b=p0IqWZ2c0FLi4zp+tMwwJCU9w1Rxgi0HwpFw1WkYOzDThqYY0/yV35hV
+ ZiXzhD3nBGIlLyCPKGhi2ZyoQM0NlsEnmvcFNefF0NEhtOheQFjc8w7AJ
+ sfD1E90Qo/Rs/l0yY5+wWZN6LCIRHljffGsPg9KkxWM9JeG8033adjLZo
+ FllKD4KCwTNiuqzCcPEu3R8L0IpEDAOIumxq3L8oCKBl3cZaJiErsitk9
+ EvyXvFZT+fxY1MHj5WUx7TdsSY1g2jEpbrq4+5OCiwAHjtBpR5VtNUuwh
+ UF7NAQEW9SzIgxtH5TMZwqWaScwy7WUWnIGPp2H5Pzq9lO9ZgvSyoUXRB g==;
+X-IronPort-AV: E=Sophos;i="5.97,312,1669071600"; d="scan'208";a="29182150"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 20 Feb 2023 09:55:22 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 71EDC280056;
+ Mon, 20 Feb 2023 09:55:21 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v4 0/6] drm: lcdif: Add i.MX93 LCDIF support
+Date: Mon, 20 Feb 2023 09:55:19 +0100
+Message-ID: <2135575.irdbgypaU6@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <52b8025ee9b71dfb147127bd1cb2c532d222df3c.camel@nxp.com>
+References: <20230217065407.2259731-1-victor.liu@nxp.com>
+ <13207614.uLZWGnKmhe@steina-w>
+ <52b8025ee9b71dfb147127bd1cb2c532d222df3c.camel@nxp.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/wnWeB2/6YYExS1Py=pCZ2ib";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,100 +77,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Gustavo Padovan <gustavo@padovan.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: marex@denx.de, devicetree@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ robh+dt@kernel.org, dri-devel@lists.freedesktop.org, LW@karo-electronics.de,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/wnWeB2/6YYExS1Py=pCZ2ib
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Liu,
 
-On Sat, 18 Feb 2023 13:15:49 -0800
-Rob Clark <robdclark@gmail.com> wrote:
-
-> From: Rob Clark <robdclark@chromium.org>
+Am Freitag, 17. Februar 2023, 09:59:14 CET schrieb Liu Ying:
+> On Fri, 2023-02-17 at 09:18 +0100, Alexander Stein wrote:
+> > Hi Liu,
 >=20
-> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
-> wait (as opposed to a "housekeeping" wait to know when to cleanup after
-> some work has completed).  Usermode components of GPU driver stacks
-> often poll() on fence fd's to know when it is safe to do things like
-> free or reuse a buffer, but they can also poll() on a fence fd when
-> waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
-> lets the kernel differentiate these two cases.
+> Hi Alexander,
 >=20
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-
-Hi,
-
-where would the UAPI documentation of this go?
-It seems to be missing.
-
-If a Wayland compositor is polling application fences to know which
-client buffer to use in its rendering, should the compositor poll with
-PRI or not? If a compositor polls with PRI, then all fences from all
-applications would always be PRI. Would that be harmful somehow or
-would it be beneficial?
-
-
-Thanks,
-pq
-
-> ---
->  drivers/dma-buf/sync_file.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> > Am Freitag, 17. Februar 2023, 07:54:01 CET schrieb Liu Ying:
+> > > Hi,
+> > >=20
+> > > This patch set aims to add i.MX93 LCDIF display controller support
+> > > in the existing LCDIF DRM driver.  The LCDIF embedded in i.MX93 SoC
+> > > is essentially the same to those embedded in i.MX8mp SoC.  Through
+> > > internal bridges, i.MX93 LCDIF may drive a MIPI DSI display or a LVDS
+> > > display or a parallel display.
+> > >=20
+> > > Patch 1/6 adds device tree binding support for i.MX93 LCDIF in the
+> > > existing fsl,lcdif.yaml.
+> > >=20
+> > > Patch 2/6 drops lcdif->bridge NULL pointer check as a cleanup patch.
+> > >=20
+> > > Patch 3/6~5/6 prepare for adding i.MX93 LCDIF support step by step.
+> > >=20
+> > > Patch 6/6 adds i.MX93 LCDIF compatible string as the last step of
+> > > adding i.MX93 LCDIF support.
+> >=20
+> > Thanks for the series. I could test this on my TQMa93xxLA/MBa93xxCA wit=
+h a
+> > single LVDS display attached, so no DSI or parallel display. Hence I co=
+uld
+> > not test the bus format and flags checks, but they look okay.
+> > So you can add
+> > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > to the whole series as well.
 >=20
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index fb6ca1032885..c30b2085ee0a 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -192,6 +192,14 @@ static __poll_t sync_file_poll(struct file *file, po=
-ll_table *wait)
->  {
->  	struct sync_file *sync_file =3D file->private_data;
-> =20
-> +	/*
-> +	 * The POLLPRI/EPOLLPRI flag can be used to signal that
-> +	 * userspace wants the fence to signal ASAP, express this
-> +	 * as an immediate deadline.
-> +	 */
-> +	if (poll_requested_events(wait) & EPOLLPRI)
-> +		dma_fence_set_deadline(sync_file->fence, ktime_get());
-> +
->  	poll_wait(file, &sync_file->wq, wait);
-> =20
->  	if (list_empty(&sync_file->cb.node) &&
+> Thanks for your test.
+>=20
+> > One thing I noticed is that, sometimes it seems that before probing lcd=
+if
+> > my system completely freezes. Adding some debug output it seems that's
+> > during powering up the IMX93_MEDIABLK_PD_LCDIF power domain there is so=
+me
+> > race condition. But adding more more detailed output made the problem go
+> > away. Did you notice something similar? It might be a red hering though.
+> I don't see system freezing with my i.MX93 11x11 EVK when probing
+> lcdif. I did try to boot the system several times. All look ok. This is
+> a snippet of dmesg when lcdif probes:
+>=20
+> --------------------------8<------------------------------------------
+> [    0.753083] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+> [    0.761669] SuperH (H)SCI(F) driver initialized
+> [    0.766523] msm_serial: driver initialized
+> [    0.780523] printk: console [ttyLP0] enabled0x44380010 (irq =3D 16,
+> base_baud =3D 1500000) is a FSL_LPUART
+> [    0.780523] printk: console [ttyLP0] enabled
+> [    0.788928] printk: bootconsole [lpuart32] disabled
+> [    0.788928] printk: bootconsole [lpuart32] disabled
+> [    0.804632] panel-simple lvds_panel: supply power not found, using
+> dummy regulator
+> [    0.814741] [drm] Initialized imx-lcdif 1.0.0 20220417 for
+> 4ae30000.lcd-controller on minor 0
+> [    1.195930] Console: switching to colour frame buffer device 160x50
+> [    1.218385] imx-lcdif 4ae30000.lcd-controller: [drm] fb0: imx-
+> lcdifdrmfb frame buffer device
+> [    1.227099] cacheinfo: Unable to detect cache hierarchy for CPU 0
+> [    1.236725] loop: module loaded
+> --------------------------8<------------------------------------------
+>=20
+> ~300 milliseconds are consumed by the enablement delay required by the
+> "boe,ev121wxm-n10-1850" LVDS panel I use.
+
+It seems you have the drivers compiled in. I use modules in my case and=20
+simple-panel as well. But this is unrelated, because lcdif_probe() is yet t=
+o=20
+be called. Using the debug diff from below I get the following output:
+
+[   16.111197] imx93-blk-ctrl 4ac10000.system-controller:=20
+imx93_blk_ctrl_power_on: 1
+[   16.122491] imx93-blk-ctrl 4ac10000.system-controller:=20
+imx93_blk_ctrl_power_on: 2
+[   16.137766] imx93-blk-ctrl 4ac10000.system-controller:=20
+imx93_blk_ctrl_power_on: 3
+[   16.154905] imx93-blk-ctrl 4ac10000.system-controller:=20
+imx93_blk_ctrl_power_on: 4
+
+It seems setting BLK_CLK_EN blocks the whole system, even reading is not=20
+possible. I don't have any details on the hardware, but it seems that eithe=
+r=20
+some clock or power domain is not enabled. This can also happen if I'm load=
+ing=20
+the lcdif module manually after boot. But I can't detect any differences in=
+ /
+sys/kernel/debug/clk/clk_summary.
+
+=2D--8<---
+diff --git a/drivers/soc/imx/imx93-blk-ctrl.c b/drivers/soc/imx/imx93-blk-
+ctrl.c
+index 2c600329436cf..50aeb20ce90dc 100644
+=2D-- a/drivers/soc/imx/imx93-blk-ctrl.c
++++ b/drivers/soc/imx/imx93-blk-ctrl.c
+@@ -129,12 +129,14 @@ static int imx93_blk_ctrl_power_on(struct=20
+generic_pm_domain *genpd)
+ 	struct imx93_blk_ctrl *bc =3D domain->bc;
+ 	int ret;
+=20
++	dev_info(bc->dev, "%s: 1\n", __func__);
+ 	ret =3D clk_bulk_prepare_enable(bc->num_clks, bc->clks);
+ 	if (ret) {
+ 		dev_err(bc->dev, "failed to enable bus clocks\n");
+ 		return ret;
+ 	}
+=20
++	dev_info(bc->dev, "%s: 2\n", __func__);
+ 	ret =3D clk_bulk_prepare_enable(data->num_clks, domain->clks);
+ 	if (ret) {
+ 		clk_bulk_disable_unprepare(bc->num_clks, bc->clks);
+@@ -142,6 +144,7 @@ static int imx93_blk_ctrl_power_on(struct=20
+generic_pm_domain *genpd)
+ 		return ret;
+ 	}
+=20
++	dev_info(bc->dev, "%s: 3\n", __func__);
+ 	ret =3D pm_runtime_get_sync(bc->dev);
+ 	if (ret < 0) {
+ 		pm_runtime_put_noidle(bc->dev);
+@@ -149,11 +152,15 @@ static int imx93_blk_ctrl_power_on(struct=20
+generic_pm_domain *genpd)
+ 		goto disable_clk;
+ 	}
+=20
++	dev_info(bc->dev, "%s: 4\n", __func__);
++
+ 	/* ungate clk */
+ 	regmap_clear_bits(bc->regmap, BLK_CLK_EN, data->clk_mask);
++	dev_info(bc->dev, "%s: 5\n", __func__);
+=20
+ 	/* release reset */
+ 	regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
++	dev_info(bc->dev, "%s: 6\n", __func__);
+=20
+ 	dev_dbg(bc->dev, "pd_on: name: %s\n", genpd->name);
+=20
+
+=2D--8<---
+
+Best regards,
+Alexander
+
+> Regards,
+> Liu Ying
+>=20
+> > Best regards,
+> > Alexander
+> >=20
+> > > v3->v4:
+> > > * Improve warning message when ignoring invalid LCDIF OF endpoint ids=
+ in
+> > >=20
+> > >   patch 5/6. (Alexander)
+> > >=20
+> > > * Use 'new_{c,p}state' instead of 'new_{crtc,plane}_state' in patch 3=
+/6.
+> > >=20
+> > >   (Alexander)
+> > >=20
+> > > * Simplify lcdif_crtc_reset() by calling
+> > > lcdif_crtc_atomic_destroy_state()
+> > >=20
+> > >   in patch 3/6. (Alexander)
+> > >=20
+> > > * Add '!crtc->state' check in lcdif_crtc_atomic_duplicate_state() in
+> > > patch
+> > > 3/6. (Alexander)
+> > > * Collect Alexander's R-b tags on patch 1/6, 2/6 and 6/6.
+> > >=20
+> > > v2->v3:
+> > > * Fix a trivial typo in patch 6/6's commit message.
+> > >=20
+> > > v1->v2:
+> > > * Add Krzysztof's A-b and Marek's R-b tags on patch 1/6.
+> > > * Split patch 2/2 in v1 into patch 2/6~6/6 in v2. (Marek, Alexander)
+> > > * Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
+> > > * Add comment on the 'base' member of lcdif_crtc_state structure to
+> > >=20
+> > >   note it should always be the first member. (Lothar)
+> > >=20
+> > > * Drop unneeded 'bridges' member from lcdif_drm_private structure.
+> > > * Drop a comment about bridge input bus format from
+> > > lcdif_crtc_atomic_check().
+> > >=20
+> > > Liu Ying (6):
+> > >   dt-bindings: lcdif: Add i.MX93 LCDIF support
+> > >   drm: lcdif: Drop unnecessary NULL pointer check on lcdif->bridge
+> > >   drm: lcdif: Determine bus format and flags in ->atomic_check()
+> > >   drm: lcdif: Check consistent bus format and flags across first brid=
+ges
+> > >   drm: lcdif: Add multiple encoders and first bridges support
+> > >   drm: lcdif: Add i.MX93 LCDIF compatible string
+> > > =20
+> > >  .../bindings/display/fsl,lcdif.yaml           |   7 +-
+> > >  drivers/gpu/drm/mxsfb/lcdif_drv.c             |  71 ++++++-
+> > >  drivers/gpu/drm/mxsfb/lcdif_drv.h             |   5 +-
+> > >  drivers/gpu/drm/mxsfb/lcdif_kms.c             | 198 ++++++++++++----=
+=2D-
+> > >  4 files changed, 206 insertions(+), 75 deletions(-)
 
 
---Sig_/wnWeB2/6YYExS1Py=pCZ2ib
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmPzNRoACgkQI1/ltBGq
-qqe77A//VJjJucK06UFHDO7Zu3DgjaELDyU40vdJCa9iz91ZDSzArZnKxVbTGdBk
-yJ+wWbQP/18GcPB49moFu/VY5FZWt8NzAgEGd7phYI7nE9EOoL3yo/8xMMjLAZYS
-lDeBsEDYav7xiCr1Y5y4zM3/pp+9RZWN4VIc3eEFNc+DBZojirvB2dNO7g2JC/Gu
-gmZWfl6UY83SEUEo9jzf7vBQJ+J7lLcsZ/OoL7l8289AF9CRSKOX/01qNc18nhhT
-ZU6P0MoIlJK8CcFMXBvVlo7PkFdayZBELiZUaZb1uBhDCmCcN0jD3rZlYT8knUQ5
-051QX7vJ7fHma9vOu729Rbdy+zAg+k/y2H2NZG9HaKknsbObhbv/GLHr8KXvJCP3
-oUaxw87cx+tR1+WMhGq7wDUIwj59byxURD4T1ZSrGLvodOEk/BoYEaOKOUeicXfp
-XcHhPdOi6mnPr8X34AlZx6PBrcGyHD65NI884dwmkikB1LhMAY9FFOejVje8Gj9a
-ImS22N1SI0EvelgP6QNobhyP4AhYz63FQBKOVH3P11AkbvzBov555LsTt0nkxyyF
-14jExe1mrErutmQo274Km3nnAjq4yg18/oRqNBM1ntS4KIl0EyqIqOcptPELnyKv
-ieAzCXRvgipizQG+wbhAZphPqYtMMpHsSofY8iA0XDSBHQs8O+Y=
-=hARr
------END PGP SIGNATURE-----
-
---Sig_/wnWeB2/6YYExS1Py=pCZ2ib--
