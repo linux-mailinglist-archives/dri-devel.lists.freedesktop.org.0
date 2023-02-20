@@ -1,74 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022F569C857
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 11:12:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FA569C865
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Feb 2023 11:16:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F34310E644;
-	Mon, 20 Feb 2023 10:12:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E67DA10E1BB;
+	Mon, 20 Feb 2023 10:16:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDD610E644
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 10:12:38 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id a26so2188252lfk.10
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 02:12:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yUwOEcP/9DVBcxe0bKGyfVyvNVdmcwpphO5iPjcAR2Y=;
- b=M8OCDBRQNiFgCz8B++bKSbGyIe/Sc8R3/kF/tjGPKh2+7uvCbrlTkduOD00JHqQbV9
- FIBj0A73WTq3yJsNIzu1O0eBT9TLbhW3zyn7LRAVUvjYIYimUP9TcKRLky6oGDNO9Y3H
- lwavTIFxRfhAUZE/gaSmb3um6h/qanP55kyNI+f8Tcr6MwNnOfTXvAUvVO1urZXSxSrX
- xGvjmObFw2ZdIE6RDQm7DyHjX49ib8WNwOfXKQt30Kuo8VZgg/ltzOdOxbumtDOf/Qv3
- DGCJ/8WX0EJzKFgEU5dtoUOwx6uAcd8JjOvjz89d3FvCPlL5zPovy8vWUgbO3k7yxCJ7
- XeIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yUwOEcP/9DVBcxe0bKGyfVyvNVdmcwpphO5iPjcAR2Y=;
- b=fkNBiGSPargBIPkpUZtMR4HJHFlLIqQeIWrzSj1X8FvVjLOjpP1+gey5ZniCY2Orbz
- 5DHdvf59kNtAS2zqzvR8ZK3wjAS7DM2rS1lRNiXQ5C0Wp5QtXivi0cEkYVFlApu+vbC2
- oNsfmi0gNnC+/w6fH5WZ7n5gYDCG5ZpTGBUaXETwS54nvXVbnFI1NpqoPEoKg9Q1B3yo
- kqZq8G8FSeZiSzPrB/ZRXgwKIxH5MfM20CNNC7k+5Ty6koVp/JcTot8JEUG8iDsc0rfx
- sXuvOD6PepHFHDmPQqc0gHqi/ZPJ/p/YmEmwLmSe87l4qZX9YzJG/V0DsUpCZgpKt6/A
- Izug==
-X-Gm-Message-State: AO0yUKX6e+mnAone98P/dJLA5GbTgEMR7Z3lLsIHAddWumMVIrIIPIi4
- eDG2kz0qbsgFHLtlM5vOAvZTSA==
-X-Google-Smtp-Source: AK7set9Eb3oSF53U5AMIrSTg/gwDN6c/gEjlLGQp0XUv4sLxp7wlqjIlD5IraSspSok/CSPFUn5Vsg==
-X-Received: by 2002:a19:ae07:0:b0:4cc:b784:c47e with SMTP id
- f7-20020a19ae07000000b004ccb784c47emr296664lfc.62.1676887956482; 
- Mon, 20 Feb 2023 02:12:36 -0800 (PST)
-Received: from [192.168.1.101] (abxh184.neoplus.adsl.tpnet.pl. [83.9.1.184])
- by smtp.gmail.com with ESMTPSA id
- u15-20020ac24c2f000000b004db4ec844c8sm71941lfq.235.2023.02.20.02.12.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Feb 2023 02:12:36 -0800 (PST)
-Message-ID: <de1ceb35-0b9b-b99d-49f4-f93cc8332032@linaro.org>
-Date: Mon, 20 Feb 2023 11:12:34 +0100
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1488210E1BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 10:16:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1676888206; x=1708424206;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=2F6wQMWsfMZl9xIjqvGFKN23H5UpqXNa5nAwW2/Rdc0=;
+ b=KZ9y4igNKQxvO5EGwLc9TBCkpUrRQrlG1hDAxnYYUd/H+V4r63LVdDvP
+ OvbUhhHvAuN7jeg8iLlPevNCrdFVR2ibZPokNpoqvM7RcnQ9ADtXDrFwq
+ lwfxaldRUwEnNNZziMWLpF6yN48REkGHFQRDgwH2imxSveMSEF/kK3jJt
+ 8dz4qeIJu31jRSq5HnRZwFvGf7RDFR1KxQAEihwQetelAWtBZOJYTPqFF
+ UfzPEHEKz3v9vHS62QSOYEBddqoVMslkPaJgOoa8Ba1/H+lq8yIE4OhvN
+ vVk8ODs5+POzy9ZaPMAmQn/QMSlCXu2/09JUZ24f5nDQMluh7iO5dYa2/ w==;
+X-IronPort-AV: E=Sophos;i="5.97,312,1669071600"; d="scan'208";a="29185203"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 20 Feb 2023 11:16:44 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Mon, 20 Feb 2023 11:16:44 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Mon, 20 Feb 2023 11:16:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1676888204; x=1708424204;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=2F6wQMWsfMZl9xIjqvGFKN23H5UpqXNa5nAwW2/Rdc0=;
+ b=hQX2B1BC4M5+8xuLPP1XvPAEpGcCMxy6sbsuJkW7RMkwNLBFqVqxPdMB
+ InQVwdCba3lYOuzoEkmbjE0abajWqPLHZuy7egr7gVU4xhRHle5Yq2NYp
+ 60dycR/H3SoA6umQT0QdR6zDtaRASeBknal4t2byDs4VyxvuHPpgDqkQr
+ 9mSvc13GrmEwN0CHFBZgzkAedq83Yz1EYirCrhvwPgXubrUN58u661RYA
+ +CrSQWmhI9C0IRh0uoJaXjAILf3qbo9aGBDXccdGNc/ygwW3mCKcUGL+5
+ wIriCCN50TG/ut+7uvhYGEkqcbOdS0DPukOlNdWtz+FQ7Pcv5f896SvU2 w==;
+X-IronPort-AV: E=Sophos;i="5.97,312,1669071600"; d="scan'208";a="29185202"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 20 Feb 2023 11:16:44 +0100
+Received: from steina-w.localnet (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id AD3D9280056;
+ Mon, 20 Feb 2023 11:16:43 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v4 0/6] drm: lcdif: Add i.MX93 LCDIF support
+Date: Mon, 20 Feb 2023 11:16:41 +0100
+Message-ID: <2871322.e9J7NaK4W3@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <2135575.irdbgypaU6@steina-w>
+References: <20230217065407.2259731-1-victor.liu@nxp.com>
+ <52b8025ee9b71dfb147127bd1cb2c532d222df3c.camel@nxp.com>
+ <2135575.irdbgypaU6@steina-w>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 06/14] drm/msm/gpu: Use dev_pm_opp_set_rate for non-GMU
- GPUs
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm@vger.kernel.org, andersson@kernel.org, agross@kernel.org
-References: <20230214173145.2482651-1-konrad.dybcio@linaro.org>
- <20230214173145.2482651-7-konrad.dybcio@linaro.org>
- <2e129fd6-d4e5-a955-5355-3ca71166fb33@linaro.org>
- <82c84ba4-ca33-3ce0-fe86-efedfce04cda@linaro.org>
- <170ee26d-8904-0829-f92e-4ea6678b08eb@linaro.org>
- <cc7a9cce-cd12-0f35-d8f7-933b64bbb34d@linaro.org>
-In-Reply-To: <cc7a9cce-cd12-0f35-d8f7-933b64bbb34d@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,150 +77,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Dan Carpenter <error27@gmail.com>,
- Emma Anholt <emma@anholt.net>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>
+Cc: marex@denx.de, devicetree@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ robh+dt@kernel.org, dri-devel@lists.freedesktop.org, LW@karo-electronics.de,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Liu,
+
+Am Montag, 20. Februar 2023, 09:55:19 CET schrieb Alexander Stein:
+> Hi Liu,
+>=20
+> Am Freitag, 17. Februar 2023, 09:59:14 CET schrieb Liu Ying:
+> > On Fri, 2023-02-17 at 09:18 +0100, Alexander Stein wrote:
+> > > Hi Liu,
+> >=20
+> > Hi Alexander,
+> >=20
+> > > Am Freitag, 17. Februar 2023, 07:54:01 CET schrieb Liu Ying:
+> > > > Hi,
+> > > >=20
+> > > > This patch set aims to add i.MX93 LCDIF display controller support
+> > > > in the existing LCDIF DRM driver.  The LCDIF embedded in i.MX93 SoC
+> > > > is essentially the same to those embedded in i.MX8mp SoC.  Through
+> > > > internal bridges, i.MX93 LCDIF may drive a MIPI DSI display or a LV=
+DS
+> > > > display or a parallel display.
+> > > >=20
+> > > > Patch 1/6 adds device tree binding support for i.MX93 LCDIF in the
+> > > > existing fsl,lcdif.yaml.
+> > > >=20
+> > > > Patch 2/6 drops lcdif->bridge NULL pointer check as a cleanup patch.
+> > > >=20
+> > > > Patch 3/6~5/6 prepare for adding i.MX93 LCDIF support step by step.
+> > > >=20
+> > > > Patch 6/6 adds i.MX93 LCDIF compatible string as the last step of
+> > > > adding i.MX93 LCDIF support.
+> > >=20
+> > > Thanks for the series. I could test this on my TQMa93xxLA/MBa93xxCA w=
+ith
+> > > a
+> > > single LVDS display attached, so no DSI or parallel display. Hence I
+> > > could
+> > > not test the bus format and flags checks, but they look okay.
+> > > So you can add
+> > > Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > to the whole series as well.
+> >=20
+> > Thanks for your test.
+> >=20
+> > > One thing I noticed is that, sometimes it seems that before probing
+> > > lcdif
+> > > my system completely freezes. Adding some debug output it seems that's
+> > > during powering up the IMX93_MEDIABLK_PD_LCDIF power domain there is
+> > > some
+> > > race condition. But adding more more detailed output made the problem=
+ go
+> > > away. Did you notice something similar? It might be a red hering thou=
+gh.
+> >=20
+> > I don't see system freezing with my i.MX93 11x11 EVK when probing
+> > lcdif. I did try to boot the system several times. All look ok. This is
+> > a snippet of dmesg when lcdif probes:
+> >=20
+> > --------------------------8<------------------------------------------
+> > [    0.753083] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+> > [    0.761669] SuperH (H)SCI(F) driver initialized
+> > [    0.766523] msm_serial: driver initialized
+> > [    0.780523] printk: console [ttyLP0] enabled0x44380010 (irq =3D 16,
+> > base_baud =3D 1500000) is a FSL_LPUART
+> > [    0.780523] printk: console [ttyLP0] enabled
+> > [    0.788928] printk: bootconsole [lpuart32] disabled
+> > [    0.788928] printk: bootconsole [lpuart32] disabled
+> > [    0.804632] panel-simple lvds_panel: supply power not found, using
+> > dummy regulator
+> > [    0.814741] [drm] Initialized imx-lcdif 1.0.0 20220417 for
+> > 4ae30000.lcd-controller on minor 0
+> > [    1.195930] Console: switching to colour frame buffer device 160x50
+> > [    1.218385] imx-lcdif 4ae30000.lcd-controller: [drm] fb0: imx-
+> > lcdifdrmfb frame buffer device
+> > [    1.227099] cacheinfo: Unable to detect cache hierarchy for CPU 0
+> > [    1.236725] loop: module loaded
+> > --------------------------8<------------------------------------------
+> >=20
+> > ~300 milliseconds are consumed by the enablement delay required by the
+> > "boe,ev121wxm-n10-1850" LVDS panel I use.
+>=20
+> It seems you have the drivers compiled in. I use modules in my case and
+> simple-panel as well. But this is unrelated, because lcdif_probe() is yet=
+ to
+> be called. Using the debug diff from below I get the following output:
+>=20
+> [   16.111197] imx93-blk-ctrl 4ac10000.system-controller:
+> imx93_blk_ctrl_power_on: 1
+> [   16.122491] imx93-blk-ctrl 4ac10000.system-controller:
+> imx93_blk_ctrl_power_on: 2
+> [   16.137766] imx93-blk-ctrl 4ac10000.system-controller:
+> imx93_blk_ctrl_power_on: 3
+> [   16.154905] imx93-blk-ctrl 4ac10000.system-controller:
+> imx93_blk_ctrl_power_on: 4
+>=20
+> It seems setting BLK_CLK_EN blocks the whole system, even reading is not
+> possible. I don't have any details on the hardware, but it seems that eit=
+her
+> some clock or power domain is not enabled. This can also happen if I'm
+> loading the lcdif module manually after boot. But I can't detect any
+> differences in / sys/kernel/debug/clk/clk_summary.
+
+I think I found the cause. It's the maximum clock frequency for media_axi a=
+nd=20
+media_apb. These clocks were not explicitly configured, most probably=20
+exceeding the maximum frequency allowed.
+
+Best regards,
+Alexander
+
+> ---8<---
+> diff --git a/drivers/soc/imx/imx93-blk-ctrl.c b/drivers/soc/imx/imx93-blk-
+> ctrl.c
+> index 2c600329436cf..50aeb20ce90dc 100644
+> --- a/drivers/soc/imx/imx93-blk-ctrl.c
+> +++ b/drivers/soc/imx/imx93-blk-ctrl.c
+> @@ -129,12 +129,14 @@ static int imx93_blk_ctrl_power_on(struct
+> generic_pm_domain *genpd)
+>  	struct imx93_blk_ctrl *bc =3D domain->bc;
+>  	int ret;
+>=20
+> +	dev_info(bc->dev, "%s: 1\n", __func__);
+>  	ret =3D clk_bulk_prepare_enable(bc->num_clks, bc->clks);
+>  	if (ret) {
+>  		dev_err(bc->dev, "failed to enable bus clocks\n");
+>  		return ret;
+>  	}
+>=20
+> +	dev_info(bc->dev, "%s: 2\n", __func__);
+>  	ret =3D clk_bulk_prepare_enable(data->num_clks, domain->clks);
+>  	if (ret) {
+>  		clk_bulk_disable_unprepare(bc->num_clks, bc->clks);
+> @@ -142,6 +144,7 @@ static int imx93_blk_ctrl_power_on(struct
+> generic_pm_domain *genpd)
+>  		return ret;
+>  	}
+>=20
+> +	dev_info(bc->dev, "%s: 3\n", __func__);
+>  	ret =3D pm_runtime_get_sync(bc->dev);
+>  	if (ret < 0) {
+>  		pm_runtime_put_noidle(bc->dev);
+> @@ -149,11 +152,15 @@ static int imx93_blk_ctrl_power_on(struct
+> generic_pm_domain *genpd)
+>  		goto disable_clk;
+>  	}
+>=20
+> +	dev_info(bc->dev, "%s: 4\n", __func__);
+> +
+>  	/* ungate clk */
+>  	regmap_clear_bits(bc->regmap, BLK_CLK_EN, data->clk_mask);
+> +	dev_info(bc->dev, "%s: 5\n", __func__);
+>=20
+>  	/* release reset */
+>  	regmap_set_bits(bc->regmap, BLK_SFT_RSTN, data->rst_mask);
+> +	dev_info(bc->dev, "%s: 6\n", __func__);
+>=20
+>  	dev_dbg(bc->dev, "pd_on: name: %s\n", genpd->name);
+>=20
+>=20
+> ---8<---
+>=20
+> Best regards,
+> Alexander
+>=20
+> > Regards,
+> > Liu Ying
+> >=20
+> > > Best regards,
+> > > Alexander
+> > >=20
+> > > > v3->v4:
+> > > > * Improve warning message when ignoring invalid LCDIF OF endpoint i=
+ds
+> > > > in
+> > > >=20
+> > > >   patch 5/6. (Alexander)
+> > > >=20
+> > > > * Use 'new_{c,p}state' instead of 'new_{crtc,plane}_state' in patch
+> > > > 3/6.
+> > > >=20
+> > > >   (Alexander)
+> > > >=20
+> > > > * Simplify lcdif_crtc_reset() by calling
+> > > > lcdif_crtc_atomic_destroy_state()
+> > > >=20
+> > > >   in patch 3/6. (Alexander)
+> > > >=20
+> > > > * Add '!crtc->state' check in lcdif_crtc_atomic_duplicate_state() in
+> > > > patch
+> > > > 3/6. (Alexander)
+> > > > * Collect Alexander's R-b tags on patch 1/6, 2/6 and 6/6.
+> > > >=20
+> > > > v2->v3:
+> > > > * Fix a trivial typo in patch 6/6's commit message.
+> > > >=20
+> > > > v1->v2:
+> > > > * Add Krzysztof's A-b and Marek's R-b tags on patch 1/6.
+> > > > * Split patch 2/2 in v1 into patch 2/6~6/6 in v2. (Marek, Alexander)
+> > > > * Drop '!remote ||' from lcdif_attach_bridge(). (Lothar)
+> > > > * Add comment on the 'base' member of lcdif_crtc_state structure to
+> > > >=20
+> > > >   note it should always be the first member. (Lothar)
+> > > >=20
+> > > > * Drop unneeded 'bridges' member from lcdif_drm_private structure.
+> > > > * Drop a comment about bridge input bus format from
+> > > > lcdif_crtc_atomic_check().
+> > > >=20
+> > > > Liu Ying (6):
+> > > >   dt-bindings: lcdif: Add i.MX93 LCDIF support
+> > > >   drm: lcdif: Drop unnecessary NULL pointer check on lcdif->bridge
+> > > >   drm: lcdif: Determine bus format and flags in ->atomic_check()
+> > > >   drm: lcdif: Check consistent bus format and flags across first
+> > > >   bridges
+> > > >   drm: lcdif: Add multiple encoders and first bridges support
+> > > >   drm: lcdif: Add i.MX93 LCDIF compatible string
+> > > > =20
+> > > >  .../bindings/display/fsl,lcdif.yaml           |   7 +-
+> > > >  drivers/gpu/drm/mxsfb/lcdif_drv.c             |  71 ++++++-
+> > > >  drivers/gpu/drm/mxsfb/lcdif_drv.h             |   5 +-
+> > > >  drivers/gpu/drm/mxsfb/lcdif_kms.c             | 198
+> > > >  ++++++++++++------
+> > > >  4 files changed, 206 insertions(+), 75 deletions(-)
 
 
-On 20.02.2023 10:59, Konrad Dybcio wrote:
-> 
-> 
-> On 18.02.2023 17:47, Dmitry Baryshkov wrote:
->> On 18/02/2023 13:04, Konrad Dybcio wrote:
->>>
->>>
->>> On 17.02.2023 22:07, Dmitry Baryshkov wrote:
->>>> On 14/02/2023 19:31, Konrad Dybcio wrote:
->>>>> Currently we only utilize the OPP table connected to the GPU for
->>>>> getting (available) frequencies. We do however need to scale the
->>>>> voltage rail(s) accordingly to ensure that we aren't trying to
->>>>> run the GPU at 1GHz with a VDD_LOW vote, as that would result in
->>>>> an otherwise inexplainable hang.
->>>>>
->>>>> Tell the OPP framework that we want to scale the "core" clock
->>>>> and swap out the clk_set_rate to a dev_pm_opp_set_rate in
->>>>> msm_devfreq_target() to enable usage of required-opps and by
->>>>> extension proper voltage level/corner scaling.
->>>>>
->>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>>> ---
->>>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.c | 4 ++++
->>>>>    drivers/gpu/drm/msm/msm_gpu_devfreq.c   | 2 +-
->>>>>    2 files changed, 5 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>>> index ce6b76c45b6f..15e405e4f977 100644
->>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>>> @@ -1047,6 +1047,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>>>        const char *gpu_name;
->>>>>        u32 speedbin;
->>>>>    +    /* This can only be done here, or devm_pm_opp_set_supported_hw will WARN_ON() */
->>>>> +    if (!IS_ERR(devm_clk_get(dev, "core")))
->>>>> +        devm_pm_opp_set_clkname(dev, "core");
->>>>
->>>> Can we instead move a call to a6xx_set_supported_hw() / check_speed_bin after the adreno_gpu_init() ? It will call msm_gpu_init, which in turn sets gpu->core_clk.
->>>>
->>>> Ideally you can call devm_pm_opp_set_clkname() from that function.
->>>
->>>
->>>> Or maybe completely drop gpu->core_clk and always use devm_pm_opp_set_clk_rate().
->>> That would break non-OPP targets, last of which were probably added N=big years ago..
->>
->> No. In the lack of OPP tables, dev_pm_opp_clk_set_rate() should behave exactly like the clk_set_rate().
-> Not sure if that's what you meant, but if a device lacks OPP,
-> devm_pm_opp_set_rate will return -ENODEV.
-> 
-> If you meant "if we can't find an opp table, behave as if we
-> called clk_set_rate", a discussion on #freedreno with robclark
-> indicates he'd accept getting rid of non-opp code, provided we
-> construct a table if need be, since we have the data required
-> to do so ([FMIN=27MHz, FMAX=fast_rate]).
-Actually.. that's what happens for gpu-pwrlevels users already..
-Well, use>r<, as apq8064 seems to have been the only user of
-that upstream, ever..
-
-And for A2XX it looks like it just unconditionally selects 200
-MHz..
-
-I think this could be simplified to:
-
-if (opp exists)
-    // use opp
-else if (adreno_is_a2xx)
-    dev_pm_opp_add(dev, 200000000, 0) //device, freq_hz, volt_uV
-else if (adreno_is_a320)
-    dev_pm_opp_add(dev, 450000000, 0)
-else
-    // for now the driver sets 200mhz here, but i don't think
-    // it's reasonable to keep carrying that behavior for >a2xx
-    return -EINVAL
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
 
-And then we can yank out all clk_set_rate calls just like that!
-
-Konrad
-> 
->>
->>> I'm not sure these would still work, as I think we've got rid of some ugly
->>> clock getters that were looking for both "core" and "core_clk" etc.
->>
->> We still support core vs core_clk, see the get_clocks() at msm_gpu.c and then msm_clk_bulk_get_clock(). However we might mimick this function and call devm_pm_opp_set_clkname() with the proper name ("core" or "core_clk").
->>
->>>
->>> See 8db0b6c7b636376789e356d861c3c6c35dcb6913 for what seems to be the most recent
->>> example of non-OPP.
->>>
->>> IMX51/53 also have no OPP tables and are using the (AFAIK) now-defunct _clk-suffixed
->>> clock-names.
->>
->> It works, I tested it during this cycle.
-> Oh okay, I had a feeling like that was dropped at one point..
-> 
->>
->>>
->>> I'd be more than happy to rip out some of this legacy code and convert it
->>> to something modern like OPP, but I'm not sure you guys would like it considering
->>> the breakage on (arguably ancient and borderline retired) platforms.
->>
->> I think, we should try switching to OPP-for-everybody, granted the promise of dev_pm_opp_set_clk_rate() being backwards compatible with bare clk_set_rate().
-> It's not, but as I mentioned, we can easily work around that.
-> 
->>
->>>
->>> This patch as-is "only" breaks non-OPP a5xx & a6xx (as they have .gpu_busy defined),
->>> of which there are none..
-> ...but we want to get devfreq everywhere and it's a few LoC away..
-> 
-> Konrad
->>>
->>>>
->>>>> +
->>>>>        adreno_gpu->funcs = funcs;
->>>>>        adreno_gpu->info = adreno_info(config->rev);
->>>>>        adreno_gpu->gmem = adreno_gpu->info->gmem;
->>>>> diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
->>>>> index e27dbf12b5e8..ea70c1c32d94 100644
->>>>> --- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
->>>>> +++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
->>>>> @@ -48,7 +48,7 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
->>>>>            gpu->funcs->gpu_set_freq(gpu, opp, df->suspended);
->>>>>            mutex_unlock(&df->lock);
->>>>>        } else {
->>>>> -        clk_set_rate(gpu->core_clk, *freq);
->>>>> +        dev_pm_opp_set_rate(dev, *freq);
->>>>
->>>> This is not enough, there are calls to clk_set_rate(gpu->core_clk) in msm_gpu.c which are called from the suspend/resume path.
->>> Right, good catch.
->>>
->>> Konrad
->>>>
->>>>>        }
->>>>>          dev_pm_opp_put(opp);
->>>>
->>
