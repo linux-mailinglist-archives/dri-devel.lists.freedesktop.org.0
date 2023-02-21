@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E044269E593
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 18:10:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEAA69E5EA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 18:25:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96A5010E884;
-	Tue, 21 Feb 2023 17:10:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1BD10E353;
+	Tue, 21 Feb 2023 17:25:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0351810E892
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 17:10:00 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id ec43so19505649edb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 09:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=zk1effhT0EXQ9+RxXUxGqQreCCRNF9GeDiBMBfy/NeA=;
- b=XAwkATaMHWEzAGgMy8wnXA4HZjDoflGyrXST0eyyeMcgM4YXZ2pefECK8lB8S4cEBw
- bkbGf4eGf6xh1c80fIMpJCXnjEK5vsHklhQ6Qlb5dV22KfWPkuSidXZp4eFrnfxmCk4L
- ToW9A/i4ncBJtRTb+UPXy0h/3KeAXEjSvcB1Fa/3PI9X7ecNeMji2iF4fzXaEMSgoohm
- lDINowSKVRUQJlzx69r7icUia5MsgXBsJcMJ0b1V38ltlbo9kDzO4Qj0s/y/7anyGRzs
- UW/nPCuSD1ttsVww7ExTj8FHQxor78JrfjbTuknVy7Xs56NYLGsa0QSZOoAvuMLHVMRq
- egcw==
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A59510E8C2;
+ Tue, 21 Feb 2023 17:25:29 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ a14-20020a056830100e00b00690ed91749aso1052788otp.7; 
+ Tue, 21 Feb 2023 09:25:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZUZKbSoFWnuwReSERsoV9Wdb3OjgxSIYogm4tO3N2Ec=;
+ b=FCO2AKwabY6RQETfbchne5LUaaKUFyRuhWeic6UgWM9TYRUqdmEXDWg+YnkSIN7DqN
+ bMKG7zZzrZKez6XUtW4wEgNCNZl+3aSaf1yCtULjfRatInCvE2hyCD+itjyosC7WL35I
+ PYoS6iK/4lVpTnTvAfGqnSaMYCTE4bzGaDjAayRep3N+4fcYigCDz7PAWMSvedSpLR5u
+ LOJyY3cxtECh4FEjdA0gioaCXtUdQUQQA3nkcooqSm5vJ8gqF4clD4ciZ9K4M/y2kmgD
+ 1IuhInRzNKKQ9C7cAYJVlvH+iHFHh+c4kNn7izoXjUiXWQ7ClQ7GWmGlziFPzGaxfCpA
+ BMaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=zk1effhT0EXQ9+RxXUxGqQreCCRNF9GeDiBMBfy/NeA=;
- b=l5AY/KkSTLh6OmeSgR+z2BoizvGSS/VVU+K836SDutWM66fskRkIraYujqDzPfEdCL
- Q/yS14g2npTFhnQARZzTy/CGAF7Er13XiX8epvcNZBtJMdWtrrg1O1w2UF6Sli/2J1zx
- M+gfLD5G7v7CC28f4pM9k1ORY13hY4JuDcswFWND/vJkiH7Ms8EYucCJSWVJHrz4YlaI
- D25UVDg8a2+hIIqvwKWzRwy6CacsQnRSylW6g6we4Jyy0RDFPj1ii9KTHLfFQWkykbDu
- I8MrQJyq4RR4jjJxl7i25FpJNgLCF6v0Fnpm24WKwY/VNLIl9lzRw0jRPPtw7vNQ6RW8
- h3Vw==
-X-Gm-Message-State: AO0yUKUJYouUrQiDmUgVpzFapB8PdYoHWGZCUc6AhX93pjqZhZnR2YmO
- Pi0YxpPcFWIoU1jMJNo0Uqmkvg==
-X-Google-Smtp-Source: AK7set9Q4/MUZHnyOtXbFC1Yu2FeinPg9/TzEfhRznYkpmJY5CzLj9XluOqEYpWqWF2Eu0CKs0QoCA==
-X-Received: by 2002:a17:906:71c2:b0:8b1:3225:66f0 with SMTP id
- i2-20020a17090671c200b008b1322566f0mr11879621ejk.68.1676999399204; 
- Tue, 21 Feb 2023 09:09:59 -0800 (PST)
-Received: from krzk-bin.. ([178.197.216.144]) by smtp.gmail.com with ESMTPSA id
- bj4-20020a170906b04400b008c78fb7206dsm4054416ejb.68.2023.02.21.09.09.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 09:09:58 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: display: bridge: parade,
- ps8622: convert to dtschema
-Date: Tue, 21 Feb 2023 18:09:55 +0100
-Message-Id: <20230221170955.62448-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ bh=ZUZKbSoFWnuwReSERsoV9Wdb3OjgxSIYogm4tO3N2Ec=;
+ b=eSCCAn0TpBE+FX503xU9Dkhrqh8k4NG1GPuBtLFXviobw29meHxvW0lgvHWMKfxFxL
+ oEX8C/vzusukyAZ5gysg6lEhKwXw71UqKS2pIhpsFoXnNfPzScVKZWxApy513UbB3PJL
+ JnpAn8SAU48F/02R42309cP/fUWBqkJmmB9z9nFWKQo/7qyxOi2xzhcwotT4XIkGac+Q
+ b7w30ABHyZEycOP4BRW7BTUEBnC6F3rKadpPtGKDm12jgf9I5PdvbiIp7yjsg54z8BWi
+ nRUloi4VlINw1IZWDAYAPqDRGOQD296nK9m8yQADJYn8GQlFJezkAmTdhom45i7BH2DU
+ R+Pw==
+X-Gm-Message-State: AO0yUKU/5DcOwi550wStUsMCnKGun9idpJDRjxVHEtbszkgHofQN0Fzx
+ NKzlDCejn4f0IyjXmxUvYOXDVlVt6Erz/RWX3Ak=
+X-Google-Smtp-Source: AK7set9vcYOSX5l6mgud8fgzE8JUqk4DUkzH+ZWi+U1jbIq+VbE9nC8KygmQ3cxtQtOiMsmzIWlPynFvftfoLc5ra3o=
+X-Received: by 2002:a05:6830:1c69:b0:690:d1dd:f62a with SMTP id
+ o41-20020a0568301c6900b00690d1ddf62amr292386otg.7.1677000328646; Tue, 21 Feb
+ 2023 09:25:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230220201916.1822214-1-robdclark@gmail.com>
+ <20230220201916.1822214-10-robdclark@gmail.com>
+ <20230221105307.7430c301@eldfell>
+In-Reply-To: <20230221105307.7430c301@eldfell>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 21 Feb 2023 09:25:18 -0800
+Message-ID: <CAF6AEGtd_9JYtPU-AGmZY0My_d48rSSWQiD-efbR2KFxD-+tTA@mail.gmail.com>
+Subject: Re: [PATCH v5 09/14] drm/syncobj: Add deadline support for syncobj
+ waits
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,180 +68,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Parade PS8622/PS8625 DisplayPort to LVDS Converter bindings
-to DT schema.  Changes during conversion: add missing vdd12-supply, used
-by Linux driver.
+On Tue, Feb 21, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Mon, 20 Feb 2023 12:18:56 -0800
+> Rob Clark <robdclark@gmail.com> wrote:
+>
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Add a new flag to let userspace provide a deadline as a hint for syncobj
+> > and timeline waits.  This gives a hint to the driver signaling the
+> > backing fences about how soon userspace needs it to compete work, so it
+> > can addjust GPU frequency accordingly.  An immediate deadline can be
+> > given to provide something equivalent to i915 "wait boost".
+> >
+> > v2: Use absolute u64 ns value for deadline hint, drop cap and driver
+> >     feature flag in favor of allowing count_handles==0 as a way for
+> >     userspace to probe kernel for support of new flag
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/drm_syncobj.c | 59 +++++++++++++++++++++++++++--------
+> >  include/uapi/drm/drm.h        |  5 +++
+> >  2 files changed, 51 insertions(+), 13 deletions(-)
+>
+> ...
+>
+> > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> > index 642808520d92..aefc8cc743e0 100644
+> > --- a/include/uapi/drm/drm.h
+> > +++ b/include/uapi/drm/drm.h
+> > @@ -887,6 +887,7 @@ struct drm_syncobj_transfer {
+> >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
+> >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
+> >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time point to become available */
+> > +#define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadline based to deadline_nsec/sec */
+>
+> Hi,
+>
+> where is the UAPI documentation explaining what is a "fence deadline"
+> and what setting it does here?
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../display/bridge/parade,ps8622.yaml         | 115 ++++++++++++++++++
- .../bindings/display/bridge/ps8622.txt        |  31 -----
- 2 files changed, 115 insertions(+), 31 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/ps8622.txt
+It's with the rest of the drm_syncobj UAPI docs ;-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml b/Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml
-new file mode 100644
-index 000000000000..e6397ac2048b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml
-@@ -0,0 +1,115 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/parade,ps8622.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Parade PS8622/PS8625 DisplayPort to LVDS Converter
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - parade,ps8622
-+      - parade,ps8625
-+
-+  reg:
-+    maxItems: 1
-+
-+  lane-count:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum: [1, 2]
-+    description: Number of DP lanes to use.
-+
-+  use-external-pwm:
-+    type: boolean
-+    description: Backlight will be controlled by an external PWM.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description: GPIO connected to RST_ pin.
-+
-+  sleep-gpios:
-+    maxItems: 1
-+    description: GPIO connected to PD_ pin.
-+
-+  vdd12-supply: true
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Video port for LVDS output.
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Video port for DisplayPort input.
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+  - sleep-gpios
-+  - ports
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          const: parade,ps8622
-+    then:
-+      properties:
-+        lane-count:
-+          const: 1
-+    else:
-+      properties:
-+        lane-count:
-+          const: 2
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        lvds-bridge@48 {
-+            compatible = "parade,ps8625";
-+            reg = <0x48>;
-+            sleep-gpios = <&gpx3 5 GPIO_ACTIVE_HIGH>;
-+            reset-gpios = <&gpy7 7 GPIO_ACTIVE_HIGH>;
-+            lane-count = <2>;
-+            use-external-pwm;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+
-+                    bridge_out: endpoint {
-+                        remote-endpoint = <&panel_in>;
-+                    };
-+                };
-+
-+                port@1 {
-+                    reg = <1>;
-+
-+                    bridge_in: endpoint {
-+                        remote-endpoint = <&dp_out>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/display/bridge/ps8622.txt b/Documentation/devicetree/bindings/display/bridge/ps8622.txt
-deleted file mode 100644
-index c989c3807f2b..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/ps8622.txt
-+++ /dev/null
-@@ -1,31 +0,0 @@
--ps8622-bridge bindings
--
--Required properties:
--	- compatible: "parade,ps8622" or "parade,ps8625"
--	- reg: first i2c address of the bridge
--	- sleep-gpios: OF device-tree gpio specification for PD_ pin.
--	- reset-gpios: OF device-tree gpio specification for RST_ pin.
--
--Optional properties:
--	- lane-count: number of DP lanes to use
--	- use-external-pwm: backlight will be controlled by an external PWM
--	- video interfaces: Device node can contain video interface port
--			    nodes for panel according to [1].
--
--[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
--
--Example:
--	lvds-bridge@48 {
--		compatible = "parade,ps8622";
--		reg = <0x48>;
--		sleep-gpios = <&gpc3 6 1 0 0>;
--		reset-gpios = <&gpc3 1 1 0 0>;
--		lane-count = <1>;
--		ports {
--			port@0 {
--				bridge_out: endpoint {
--					remote-endpoint = <&panel_in>;
--				};
--			};
--		};
--	};
--- 
-2.34.1
+BR,
+-R
 
+> btw. no nsec/sec anymore.
+>
+>
+> Thanks,
+> pq
+>
+>
+> >  struct drm_syncobj_wait {
+> >       __u64 handles;
+> >       /* absolute timeout */
+> > @@ -895,6 +896,8 @@ struct drm_syncobj_wait {
+> >       __u32 flags;
+> >       __u32 first_signaled; /* only valid when not waiting all */
+> >       __u32 pad;
+> > +     /* Deadline hint to set on backing fence(s) in CLOCK_MONOTONIC: */
+> > +     __u64 deadline_ns;
+> >  };
+> >
+> >  struct drm_syncobj_timeline_wait {
+> > @@ -907,6 +910,8 @@ struct drm_syncobj_timeline_wait {
+> >       __u32 flags;
+> >       __u32 first_signaled; /* only valid when not waiting all */
+> >       __u32 pad;
+> > +     /* Deadline hint to set on backing fence(s) in CLOCK_MONOTONIC: */
+> > +     __u64 deadline_ns;
+> >  };
+> >
+> >
+>
