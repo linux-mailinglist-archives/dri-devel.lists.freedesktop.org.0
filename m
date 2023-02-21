@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F8769E393
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:37:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 712BC69E39C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:38:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1507010E0CC;
-	Tue, 21 Feb 2023 15:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 054F710E835;
+	Tue, 21 Feb 2023 15:37:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D96E10E0CC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED0110E0CC
  for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:37:46 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 109EA660219C;
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id EA54066021CD;
  Tue, 21 Feb 2023 15:37:44 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1676993864;
- bh=wLp/MUto4Fbzizbpgz+5YvVMCnz98kh6pK+WbSY6Uzs=;
- h=From:To:Cc:Subject:Date:From;
- b=OTLUP9TgqYt/3GgW20g1l2DK8lfY8HfHvAicX3/PS1xD2HDbzsXOCx8zsuFzQ2N+I
- zWl/bq9sf/e276DEAJVTM/uzUGdz/79qMbY3Fli+So9jb1p4rgc9OAkLPyNrZXLKYb
- A2jwRSVPy2pOlmKzCJRlUE81YP+C6t5aXMjTVmzxCXyZYviEfNnYymJXneVpYPhI3/
- NeYP1bv2kdJn86AN6zWUt5e/+F62akvXwB1Dv8UtL1A+ziBDVS4qEwjfPPnILn+9bT
- kSqcsXXWeGbg2E0GinP+1bbZdTzA9bUvcISZziuFrd/Xmm6n883YvqzRnNNDHb72gC
- Lja9zajOOG1gg==
+ s=mail; t=1676993865;
+ bh=DZyb8vw6qbtsYIBlP4pzm++AodTcvCv6AvAETopyIuw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=IVEXs0YCZUHyAapvJaL7aVXlMFv/vsVn5oMxuyZIvMl/T5zqxgfCYeHhYmO2zTn4P
+ x4O/Ligz1ltjjWbtSD3MfYn5s31rg+XjE7bPD7MLuUfU9k8O13YchbjQq45jh21ZTa
+ LztdlXygiNltijjIgzXHYdvOKIqU4J3+ZDe9zG5MHj6IG9T8YkD133VVKBabn3XU1l
+ hyukQs3LB4LsL5x/o2e0YoZs7FZcnA8w0Pa3VvR0uv1jMx2E3viudreCGS26pvRoxw
+ /JKxEK5nWPMf4Pz/k+y9uqFXsjOtNbmHoAA4cxN9SHYaLddrBDO9o6btnNztpvt/me
+ CqXQtOjT+NW2Q==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: airlied@gmail.com
-Subject: [PATCH v2 00/10] Panfrost: Improve and add MediaTek SoCs support
-Date: Tue, 21 Feb 2023 16:37:30 +0100
-Message-Id: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 01/10] dt-bindings: gpu: mali-bifrost: Add
+ power-domain-names to base schema
+Date: Tue, 21 Feb 2023 16:37:31 +0100
+Message-Id: <20230221153740.1620529-2-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,49 +62,44 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes in v2:
- - Add power-domain-names commit from Chen-Yu to the series
- - Kept sram-supply in base schema, overridden for non-MediaTek
- - Added Reviewed-by tags from Steven Price to the driver commits
-   (as released in reply to v1's cover letter - thanks!)
+From: Chen-Yu Tsai <wenst@chromium.org>
 
-This series adds support for new MediaTek SoCs (MT8186/MT8192/MT8195)
-and improves MT8183 support: since the mtk-regulator-coupler driver
-was picked, it is now useless for Panfrost to look for, and manage,
-two regulators (GPU Vcore and GPU SRAM) on MediaTek;
+In commit a7a596cd3115 ("dt-bindings: gpu: mali-bifrost: Add Mediatek
+MT8183"), "power-domain-names" was added to the mt8183-mali sub-schema,
+but was not added to the base mali-bifrost schema. Because validation
+happens for the base schema and any sub-schemas separately, this causes
+errors to be emitted when validating the MT8183 device trees.
 
-The aforementioned driver will take care of keeping the voltage
-relation (/constraints) of the two regulators on its own when a
-voltage change request is sent to the Vcore, solving the old time
-issue with not working DVFS on Panfrost+MediaTek (due to devfreq
-supporting only single regulator).
+Add power-domain-names to the base schema to silence the error.
 
-In the specific case of MT8183, in order to not break the ABI, it
-was necessary to add a new compatible for enabling DVFS.
+Fixes: a7a596cd3115 ("dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183")
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Alyssa Rosenzweig (3):
-  drm/panfrost: Increase MAX_PM_DOMAINS to 5
-  drm/panfrost: Add the MT8192 GPU ID
-  drm/panfrost: Add mediatek,mt8192-mali compatible
-
-AngeloGioacchino Del Regno (6):
-  dt-bindings: gpu: mali-bifrost: Split out MediaTek power-domains
-    variation
-  dt-bindings: gpu: mali-bifrost: Allow up to 5 power domains for MT8192
-  dt-bindings: gpu: mali-bifrost: Add compatible for MT8195 SoC
-  dt-bindings: gpu: mali-bifrost: Add new MT8183 compatible
-  dt-bindings: gpu: mali-bifrost: Add a compatible for MediaTek MT8186
-  drm/panfrost: Add new compatible for Mali on the MT8183 SoC
-
-Chen-Yu Tsai (1):
-  dt-bindings: gpu: mali-bifrost: Add power-domain-names to base schema
-
- .../bindings/gpu/arm,mali-bifrost.yaml        | 67 ++++++++++++++++++-
- drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       | 28 ++++++++
- drivers/gpu/drm/panfrost/panfrost_gpu.c       |  8 +++
- 4 files changed, 101 insertions(+), 4 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+index 78964c140b46..02699d389be1 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+@@ -65,6 +65,8 @@ properties:
+     minItems: 1
+     maxItems: 3
+ 
++  power-domain-names: true
++
+   resets:
+     minItems: 1
+     maxItems: 3
+@@ -166,6 +168,7 @@ allOf:
+       properties:
+         power-domains:
+           maxItems: 1
++        power-domain-names: false
+         sram-supply: false
+   - if:
+       properties:
 -- 
 2.39.2
 
