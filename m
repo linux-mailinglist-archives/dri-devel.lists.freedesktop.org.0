@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E3169E415
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:58:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD0969E413
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:58:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 999A510E851;
-	Tue, 21 Feb 2023 15:57:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC0510E340;
+	Tue, 21 Feb 2023 15:57:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E091910E84D
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F85C10E326
  for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:57:48 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2576D34CDC;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 49BB35C9AE;
  Tue, 21 Feb 2023 15:57:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1676995067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=qH3j2SvWKegTtQv7au7apTqfSU8zntkslJ7+Uqqw0aA=;
- b=ykeFl1NSKCEdZiuMp80K+frKCyDM+D4pkBUU3ZfvAIIgEdhqsDU08lXK5+jGGktIakdqvB
- MvJ5rUP6aJx6uthus1Mv8MM9XEJ7f0Yvh3YQwscSgrb9NyXpUGm+rauFcjUY41OZW64GEe
- ply6wxAY8Cbdj5+5X4B25C9UafvvdS8=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x4s6dT0ypSpodnB9LR7bc49rr697voco+xpo/d7vfcw=;
+ b=CnxCxxrH5Dz9NZPJBzK0e9+J1oUqfld8I0vt1zME69BRWCsttArsEShYd7ENGmFY6nDy60
+ z8b4c5JMxUoN9mw9m/N3ZNpi8ShJ3L6xSiDrJimDGBgs8v2ScbtZMcM5MGQSGk1y/EYJNM
+ LsyW96jhATzomhOl39OFcljWcu7MEBA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1676995067;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=qH3j2SvWKegTtQv7au7apTqfSU8zntkslJ7+Uqqw0aA=;
- b=BxHjKxu5xExYvrcUmaAHE9NFPfC2TpemNGFJ2iysf/AQFWtv977wE8b1SPHYZCXoxSwBMS
- ClFvotoQdTwGkiAg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x4s6dT0ypSpodnB9LR7bc49rr697voco+xpo/d7vfcw=;
+ b=oQqgCWBrr0OJ7I3isnr1esug7DxKFZtQYyG2nWua0UnBQhLXkKo3ruEr3vHJPqZDobMd74
+ jqVMvuuVDcTG8KAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 009D413481;
- Tue, 21 Feb 2023 15:57:46 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 27E0913A39;
+ Tue, 21 Feb 2023 15:57:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id BszvOvrp9GNOBgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 21 Feb 2023 15:57:46 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id oNjnCPvp9GNOBgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 21 Feb 2023 15:57:47 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, airlied@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 0/4] drm/ast: Use struct ast_device
-Date: Tue, 21 Feb 2023 16:57:41 +0100
-Message-Id: <20230221155745.27484-1-tzimmermann@suse.de>
+Subject: [PATCH 1/4] drm/ast: Remove little-endianism from I/O helpers
+Date: Tue, 21 Feb 2023 16:57:42 +0100
+Message-Id: <20230221155745.27484-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230221155745.27484-1-tzimmermann@suse.de>
+References: <20230221155745.27484-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,33 +71,31 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename struct ast_private to struct ast_device. The old name comes
-from the time when struct drm_device.dev_private was still in use.
-Also update the upcast helper.
+Replace one call to ast_io_write16() with two calls to ast_io_write8()
+in ast_set_index_reg(). The combined 16-bit-wide write of an index
+register and the corresponding data register only works on little-
+endian systems. Write both registers independent from each other.
 
-The renaming touches ast's I/O-helper macros, which generate warnings
-with checkpatch. So fix the I/O helpers in the first two patches of
-this patchset.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_drv.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Tested on AST2100 hardware.
-
-Thomas Zimmermann (4):
-  drm/ast: Remove little-endianism from I/O helpers
-  drm/ast: Rework definition of I/O read and write helpers
-  drm/ast: Rename struct ast_private to struct ast_device
-  drm/ast: Rename to_ast_private() to to_ast_device()
-
- drivers/gpu/drm/ast/ast_dp.c    | 10 ++--
- drivers/gpu/drm/ast/ast_dp501.c | 40 +++++++-------
- drivers/gpu/drm/ast/ast_drv.c   |  2 +-
- drivers/gpu/drm/ast/ast_drv.h   | 84 ++++++++++++-----------------
- drivers/gpu/drm/ast/ast_i2c.c   |  8 +--
- drivers/gpu/drm/ast/ast_main.c  | 24 ++++-----
- drivers/gpu/drm/ast/ast_mm.c    |  4 +-
- drivers/gpu/drm/ast/ast_mode.c  | 78 +++++++++++++--------------
- drivers/gpu/drm/ast/ast_post.c  | 94 ++++++++++++++++-----------------
- 9 files changed, 163 insertions(+), 181 deletions(-)
-
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index d51b81fea9c8..1f46162adb64 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -282,7 +282,9 @@ static inline void ast_set_index_reg(struct ast_private *ast,
+ 				     uint32_t base, uint8_t index,
+ 				     uint8_t val)
+ {
+-	ast_io_write16(ast, base, ((u16)val << 8) | index);
++	ast_io_write8(ast, base, index);
++	++base;
++	ast_io_write8(ast, base, val);
+ }
+ 
+ void ast_set_index_reg_mask(struct ast_private *ast,
 -- 
 2.39.2
 
