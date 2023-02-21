@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE7569E651
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 18:50:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CF969E662
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 18:54:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4881510E0BC;
-	Tue, 21 Feb 2023 17:50:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF31510E8BB;
+	Tue, 21 Feb 2023 17:54:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93C8910E0BC;
- Tue, 21 Feb 2023 17:50:31 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-172242a14d4so4170217fac.9; 
- Tue, 21 Feb 2023 09:50:31 -0800 (PST)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 926B710E8BB;
+ Tue, 21 Feb 2023 17:54:07 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-17235c8dab9so2555823fac.7; 
+ Tue, 21 Feb 2023 09:54:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=O5Jqc/YZjZyQYqTXnIf8R98ssXuoqvkdUho65IcZjEA=;
- b=lbqDpLvU7c7eLGnGV9F/nEWZ38S8/eURJS12sQQcMSScoQAxnnaBIlqOgM3yW7/U76
- 6IZohiU14lbEEt/DRE1VxjjUXZUKHqHFK+CMSJHHk134QvN+sWSHHSdMB4/ApZ8s6RlD
- 1xxadoYMiXtzhhB2Jj/DjoBnrxVflrMBRZG/+APjGhSGZE9+k/17e3QR7bujIxJoVAK9
- jdpV5zFTnBEKYV4f/VWQIBTioCRMs9FnKuShRRuTwUakq5aEBxrKOZwxAXXI/7XBwyYE
- Sjqbj7UIuxYsNu5P546GsW8Ph8AKK0AHdL0CZsgFtaUJFTNLJrVnhCfgvQDei9oU0KO9
- i/Uw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VMKhHmrd8lVSmliqVHExAgWorD/pXxkRRPzGvtF73wg=;
+ b=REEtn8PXtknW4y+6JwJtS9B4rLCRy5IdlJX8uMlYtB7FFFedOYzYTq/GgUwVy/bb7q
+ tM+1bwi/KgXmj/U4wkmFwrh6jpMQdVPSRCv1rQHKfu36P3M1/eOa38cAFmGo2HS0gDxt
+ TKgY4e2BnldR8TUtEEiyg55EEfDITdss4jIDSPFiJcBrU2AC/GKCR8JIMYvXjk2wBjk/
+ 7hxcQLhU2Xnv3iOBkrK+cgRDzcopZztIJRh1q+Oly9r6yLK1vJjxaEqjnLA4EjvayWxf
+ zE23qNdSulwFR02SScgR9bvPvO/GTTzCEH8IrC6tm7VZgw1o0F/Rd3oae0/EgGp6KWwT
+ HfsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=O5Jqc/YZjZyQYqTXnIf8R98ssXuoqvkdUho65IcZjEA=;
- b=eC2xjq7CVAQDHB4AX+j+zflMi+tVeEqDBe9Vcm3bi0zRq24H7XJY4QfRX0ukA0fahS
- XhF2LAHkKwegYLvwcYysGH4O2otvNEMxdMb1tgNFFjdI8h2OHb/Fit80EvXUAoY73EM2
- wtv4zwhvCuDp/V22nbdsO/jd9qJHd52dTvrzCwFqvWLmuHEKmhOemLTrG1tASacD+s0W
- k8smnngsCyoXr4bCyImfz6NFinAIXykLK6q3uvxDOpdIylOsh3ad6SodaAmaiX6UkRpE
- 7dTbUEBgsDKEbUg87fmuzq0ZZk8ATJgGTtpH19rUfxU1I9/kasgW5jAzGYQBxxtiTsM3
- QqCQ==
-X-Gm-Message-State: AO0yUKWAwPHMswjUVnt3ybKpWRlhlEfos0LrK+ixZy6Cav8Xyey+xhhv
- Y5eZHy4CDaGKoieRZuHOizn3tIQhVYcYOoDwWyY=
-X-Google-Smtp-Source: AK7set+C8udISyRUP8+aDUE3orCb6yoqc4T3+xIJp+MByhgBco1zccJSqc5WaC0GBnmbCmGM2wG5NoptBUQRgq6lnlk=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VMKhHmrd8lVSmliqVHExAgWorD/pXxkRRPzGvtF73wg=;
+ b=WsppRuUsMF8hj7ChvbGJkduEAaV2pNhpSxRxrNqSeXC33+zHpJvdCK3ZWJp3xqJM6a
+ qstWo6oKwhE+dLrPYBhZLi85pK2h0J2DwjDwMExFCvNUMm/LrkF7b5Si+WWU0KTT1is2
+ J2A7sgJnwGVDIGrF4oM23+fGdmYBm1oZMoh2rAItTfJdNAC8FmzGZstwgGrLPpM1t/Wl
+ 3O2DGfzi8r03JPvYizkftxuVaEpybzpEOqvYG/Uevmfr+8w9o7HDYxDsX2+3eSh/DEU3
+ cNr57Y5P078jQZcgcqu/etgmevZBEkjlA8PSch6NZO1jUPNzgSwIM7vDGqTHSAopSpyK
+ KmMA==
+X-Gm-Message-State: AO0yUKW1cJ5/7QrcY7G+Rd7YeHXLlqNWpIZYELnRFfYj76LtvXQ8tmN/
+ 0EpBB5G0e/byRVjt2tg0Z+o6BAmUP00JM0mzR9o=
+X-Google-Smtp-Source: AK7set+Z+oPJUCqI/EoSMrVRlg+YMtuXgiK4i/ekz/43uKn112T5GqKqwizp2tik7ddFnI7qZP5oOWulwO0SuN2evZ4=
 X-Received: by 2002:a05:6870:32d4:b0:16e:5e5a:49da with SMTP id
- r20-20020a05687032d400b0016e5e5a49damr1495979oac.58.1677001830435; Tue, 21
- Feb 2023 09:50:30 -0800 (PST)
+ r20-20020a05687032d400b0016e5e5a49damr1496718oac.58.1677002046702; Tue, 21
+ Feb 2023 09:54:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-11-robdclark@gmail.com>
- <20230220110820.595cfa37@eldfell>
- <CAF6AEGuo-vmW4Va9=RH+kH9KgNvR2vzjJ8meO-oty56xjDhjgg@mail.gmail.com>
- <20230221104551.60d44d1c@eldfell> <Y/TAr64SpxO712RB@intel.com>
-In-Reply-To: <Y/TAr64SpxO712RB@intel.com>
+ <20230218211608.1630586-7-robdclark@gmail.com>
+ <20230220105345.70e46fa5@eldfell>
+ <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+ <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
+In-Reply-To: <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
 From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 21 Feb 2023 09:50:20 -0800
-Message-ID: <CAF6AEGumfEeGQQaEoEm4hzJajCOBBTrWxPQ9MTh7jt-Mov2FEQ@mail.gmail.com>
-Subject: Re: [PATCH v4 10/14] drm/vblank: Add helper to get next vblank time
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Date: Tue, 21 Feb 2023 09:53:56 -0800
+Message-ID: <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+To: Luben Tuikov <luben.tuikov@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,162 +71,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
  =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Pekka Paalanen <ppaalanen@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 21, 2023 at 5:01 AM Ville Syrj=C3=A4l=C3=A4
-<ville.syrjala@linux.intel.com> wrote:
+On Tue, Feb 21, 2023 at 8:48 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
 >
-> On Tue, Feb 21, 2023 at 10:45:51AM +0200, Pekka Paalanen wrote:
-> > On Mon, 20 Feb 2023 07:55:41 -0800
-> > Rob Clark <robdclark@gmail.com> wrote:
+> On 2023-02-20 11:14, Rob Clark wrote:
+> > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> >>
+> >> On Sat, 18 Feb 2023 13:15:49 -0800
+> >> Rob Clark <robdclark@gmail.com> wrote:
+> >>
+> >>> From: Rob Clark <robdclark@chromium.org>
+> >>>
+> >>> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
+> >>> wait (as opposed to a "housekeeping" wait to know when to cleanup after
+> >>> some work has completed).  Usermode components of GPU driver stacks
+> >>> often poll() on fence fd's to know when it is safe to do things like
+> >>> free or reuse a buffer, but they can also poll() on a fence fd when
+> >>> waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
+> >>> lets the kernel differentiate these two cases.
+> >>>
+> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>
+> >> Hi,
+> >>
+> >> where would the UAPI documentation of this go?
+> >> It seems to be missing.
 > >
-> > > On Mon, Feb 20, 2023 at 1:08 AM Pekka Paalanen <ppaalanen@gmail.com> =
-wrote:
-> > > >
-> > > > On Sat, 18 Feb 2023 13:15:53 -0800
-> > > > Rob Clark <robdclark@gmail.com> wrote:
-> > > >
-> > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > >
-> > > > > Will be used in the next commit to set a deadline on fences that =
-an
-> > > > > atomic update is waiting on.
-> > > > >
-> > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > ---
-> > > > >  drivers/gpu/drm/drm_vblank.c | 32 ++++++++++++++++++++++++++++++=
-++
-> > > > >  include/drm/drm_vblank.h     |  1 +
-> > > > >  2 files changed, 33 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_v=
-blank.c
-> > > > > index 2ff31717a3de..caf25ebb34c5 100644
-> > > > > --- a/drivers/gpu/drm/drm_vblank.c
-> > > > > +++ b/drivers/gpu/drm/drm_vblank.c
-> > > > > @@ -980,6 +980,38 @@ u64 drm_crtc_vblank_count_and_time(struct dr=
-m_crtc *crtc,
-> > > > >  }
-> > > > >  EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
-> > > > >
-> > > > > +/**
-> > > > > + * drm_crtc_next_vblank_time - calculate the time of the next vb=
-lank
-> > > > > + * @crtc: the crtc for which to calculate next vblank time
-> > > > > + * @vblanktime: pointer to time to receive the next vblank times=
-tamp.
-> > > > > + *
-> > > > > + * Calculate the expected time of the next vblank based on time =
-of previous
-> > > > > + * vblank and frame duration
-> > > >
-> > > > Hi,
-> > > >
-> > > > for VRR this targets the highest frame rate possible for the curren=
-t
-> > > > VRR mode, right?
-> > > >
-> > >
-> > > It is based on vblank->framedur_ns which is in turn based on
-> > > mode->crtc_clock.  Presumably for VRR that ends up being a maximum?
+> > Good question, I am not sure.  The poll() man page has a description,
+> > but my usage doesn't fit that _exactly_ (but OTOH the description is a
+> > bit vague).
 > >
-> > I don't know. :-)
+> >> If a Wayland compositor is polling application fences to know which
+> >> client buffer to use in its rendering, should the compositor poll with
+> >> PRI or not? If a compositor polls with PRI, then all fences from all
+> >> applications would always be PRI. Would that be harmful somehow or
+> >> would it be beneficial?
+> >
+> > I think a compositor would rather use the deadline ioctl and then poll
+> > without PRI.  Otherwise you are giving an urgency signal to the fence
+> > signaller which might not necessarily be needed.
+> >
+> > The places where I expect PRI to be useful is more in mesa (things
+> > like glFinish(), readpix, and other similar sorts of blocking APIs)
+> Hi,
 >
-> At least for i915 this will give you the maximum frame
-> duration.
+> Hmm, but then user-space could do the opposite, namely, submit work as usual--never
+> using the SET_DEADLINE ioctl, and then at the end, poll using (E)POLLPRI. That seems
+> like a possible usage pattern, unintended--maybe, but possible. Do we want to discourage
+> this? Wouldn't SET_DEADLINE be enough? I mean, one can call SET_DEADLINE with the current
+> time, and then wouldn't that be equivalent to (E)POLLPRI?
 
-I suppose one could argue that maximum frame duration is the actual
-deadline.  Anything less is just moar fps, but not going to involve
-stalling until vblank N+1, AFAIU
-
-> Also this does not calculate the the start of vblank, it
-> calculates the start of active video.
-
-Probably something like end of previous frame's video..  might not be
-_exactly_ correct (because some buffering involved), but OTOH on the
-GPU side, I expect the driver to set a timer for a few ms or so before
-the deadline.  So there is some wiggle room.
+Yeah, (E)POLLPRI isn't strictly needed if we have SET_DEADLINE.  It is
+slightly more convenient if you want an immediate deadline (single
+syscall instead of two), but not strictly needed.  OTOH it piggy-backs
+on existing UABI.
 
 BR,
 -R
-
-> >
-> > You need a number of clock cycles in addition to the clock frequency,
-> > and that could still be minimum, maximum, the last realized one, ...
-> >
-> > VRR works by adjusting the front porch length IIRC.
-> >
-> >
-> > Thanks,
-> > pq
-> >
-> > > BR,
-> > > -R
-> > >
-> > >
-> > > >
-> > > > Thanks,
-> > > > pq
-> > > >
-> > > > > + */
-> > > > > +int drm_crtc_next_vblank_time(struct drm_crtc *crtc, ktime_t *vb=
-lanktime)
-> > > > > +{
-> > > > > +     unsigned int pipe =3D drm_crtc_index(crtc);
-> > > > > +     struct drm_vblank_crtc *vblank =3D &crtc->dev->vblank[pipe]=
-;
-> > > > > +     u64 count;
-> > > > > +
-> > > > > +     if (!vblank->framedur_ns)
-> > > > > +             return -EINVAL;
-> > > > > +
-> > > > > +     count =3D drm_vblank_count_and_time(crtc->dev, pipe, vblank=
-time);
-> > > > > +
-> > > > > +     /*
-> > > > > +      * If we don't get a valid count, then we probably also don=
-'t
-> > > > > +      * have a valid time:
-> > > > > +      */
-> > > > > +     if (!count)
-> > > > > +             return -EINVAL;
-> > > > > +
-> > > > > +     *vblanktime =3D ktime_add(*vblanktime, ns_to_ktime(vblank->=
-framedur_ns));
-> > > > > +
-> > > > > +     return 0;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL(drm_crtc_next_vblank_time);
-> > > > > +
-> > > > >  static void send_vblank_event(struct drm_device *dev,
-> > > > >               struct drm_pending_vblank_event *e,
-> > > > >               u64 seq, ktime_t now)
-> > > > > diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
-> > > > > index 733a3e2d1d10..a63bc2c92f3c 100644
-> > > > > --- a/include/drm/drm_vblank.h
-> > > > > +++ b/include/drm/drm_vblank.h
-> > > > > @@ -230,6 +230,7 @@ bool drm_dev_has_vblank(const struct drm_devi=
-ce *dev);
-> > > > >  u64 drm_crtc_vblank_count(struct drm_crtc *crtc);
-> > > > >  u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
-> > > > >                                  ktime_t *vblanktime);
-> > > > > +int drm_crtc_next_vblank_time(struct drm_crtc *crtc, ktime_t *vb=
-lanktime);
-> > > > >  void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
-> > > > >                              struct drm_pending_vblank_event *e);
-> > > > >  void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
-> > > >
-> >
->
->
->
-> --
-> Ville Syrj=C3=A4l=C3=A4
-> Intel
