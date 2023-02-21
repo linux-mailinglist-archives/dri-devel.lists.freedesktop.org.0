@@ -1,60 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C105169E412
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:58:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8333469E41D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 17:01:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E343F10E84D;
-	Tue, 21 Feb 2023 15:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFC7010E174;
+	Tue, 21 Feb 2023 16:01:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20B0C10E326
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:57:49 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D4FA634CDD;
- Tue, 21 Feb 2023 15:57:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1676995067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C173010E174
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 16:01:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1676995312;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZL8WL3TVHT14KVWtKtrH1tFZ5aIm0Z9Q76ZWuET56T8=;
- b=iZOiOt7OH5vm4vICGN2bqUbWOkQXK86f9cc0eEACiNICROLXTqtQlqYSu+uv6dw1u23VoF
- MiaBqzrQ6TuPTGwVtVTI7FEz5FqPdKXUdR6/zrA85QVV1MNrKtm8twXAklAEuTLQM3LEcm
- 0da2qAjwSamEQIokYnkd4sA7dUCRXcM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1676995067;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZL8WL3TVHT14KVWtKtrH1tFZ5aIm0Z9Q76ZWuET56T8=;
- b=koYZ722AmPM/CNMDVvL1Ckvjj+Jb4awA3pOa5SnzWLqyK7KnIB3FPwFnp8uYmVVLB8nRFp
- LxFDcjPOaEAb3YDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ABA8B13A39;
- Tue, 21 Feb 2023 15:57:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yG0PKfvp9GNOBgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 21 Feb 2023 15:57:47 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com, airlied@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 4/4] drm/ast: Rename to_ast_private() to to_ast_device()
-Date: Tue, 21 Feb 2023 16:57:45 +0100
-Message-Id: <20230221155745.27484-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230221155745.27484-1-tzimmermann@suse.de>
-References: <20230221155745.27484-1-tzimmermann@suse.de>
+ bh=9izMAfpyPSC2j4KF6KccqxxHP0NMJSdJ01aiq+ruxRA=;
+ b=FJ48voxx2KTn752GoHc+1bkTZXHOtTuLZ/W13Ercdj+7yPkRX6yBPD13FlOY6EniLHfRrt
+ B7jdRIOf9x8Duiun5EMMx59uoliVbC2N1Td+3u+HtbAskTwP+JKjW0Ka+zEusrZD4Wcaxz
+ 8EAao9tYnmXYHx+MeIznZVJq0dhxKH0=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-124-Kg6l4magO8OCY6hKgfy6Gg-1; Tue, 21 Feb 2023 11:01:51 -0500
+X-MC-Unique: Kg6l4magO8OCY6hKgfy6Gg-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ be12-20020a056a001f0c00b00593e2189278so1966942pfb.19
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 08:01:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9izMAfpyPSC2j4KF6KccqxxHP0NMJSdJ01aiq+ruxRA=;
+ b=Yw57958VriuPmRJNU95SvSOeTP1jNFDVOEdubrj++LEHr2NKRcRgT/CIDkDvmn2iL0
+ PGV7OZabC9F62SdZnpoTLEGa2sYaYiqF2NLOy55uQfRLN8uwoe1cYQ5tsi4kize2Wz2u
+ +7wsuaLB4w/M3cy3fRcTmrDHmnadHF6ovV/JD/Uplq9SjKHMqrHC5j/PmUad0tkbALoY
+ /jfUkRl1ZrNoH/l9ajdMH+vEU8+vRDOXJYqroeoeXTCKYksIhZ08LXLkV+zwVrBQT1hW
+ FXTjnuKetwldJK5Gm+/LoGxARjU7Hagg7K+HDCqhzp+PlWLuzqp7/fIIrdPrODCV+GQI
+ PEkA==
+X-Gm-Message-State: AO0yUKV0d1Ljsqk8U+8yYMLYW7dpNXPQ1szPpM+3hl4cDABfvAgW56hb
+ yVN9ZKC4ZGsTHKEATBVipEVlsosatZUTk7TbSoR6Vm0gbwJhFlbTUcqk5tWYEGMNhRou1tMf/mW
+ C8dlSBzCR6ZvDwFAf4/U9hiv8rwYfTLZN/jsxi4fs+We/
+X-Received: by 2002:a17:90b:2645:b0:237:39b1:7c5f with SMTP id
+ pa5-20020a17090b264500b0023739b17c5fmr9684pjb.96.1676995310468; 
+ Tue, 21 Feb 2023 08:01:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set+7t/vLNHtsxzvT2bollF+HO+l6TckmTWA3PewfgaKv+tlYXZrcfQ/NIzB6QL95XtxeqfTMakmosPDQgkjw3lw=
+X-Received: by 2002:a17:90b:2645:b0:237:39b1:7c5f with SMTP id
+ pa5-20020a17090b264500b0023739b17c5fmr9677pjb.96.1676995310112; Tue, 21 Feb
+ 2023 08:01:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-7-robdclark@gmail.com>
+ <20230220105345.70e46fa5@eldfell>
+ <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+ <20230221103753.205082d3@eldfell>
+In-Reply-To: <20230221103753.205082d3@eldfell>
+From: Sebastian Wick <sebastian.wick@redhat.com>
+Date: Tue, 21 Feb 2023 17:01:36 +0100
+Message-ID: <CA+hFU4xexaHAYsbGm6PdNfVFHBgOS4WiMo=AU0Gi5cYt566aTg@mail.gmail.com>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+To: Pekka Paalanen <ppaalanen@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,466 +79,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The helper to_ast_private() now upcasts to struct ast_device. Rename
-it accordingly. No functional changes.
+On Tue, Feb 21, 2023 at 9:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Mon, 20 Feb 2023 08:14:47 -0800
+> Rob Clark <robdclark@gmail.com> wrote:
+>
+> > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > >
+> > > On Sat, 18 Feb 2023 13:15:49 -0800
+> > > Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > > From: Rob Clark <robdclark@chromium.org>
+> > > >
+> > > > Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
+> > > > wait (as opposed to a "housekeeping" wait to know when to cleanup after
+> > > > some work has completed).  Usermode components of GPU driver stacks
+> > > > often poll() on fence fd's to know when it is safe to do things like
+> > > > free or reuse a buffer, but they can also poll() on a fence fd when
+> > > > waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
+> > > > lets the kernel differentiate these two cases.
+> > > >
+> > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Hi,
+> > >
+> > > where would the UAPI documentation of this go?
+> > > It seems to be missing.
+> >
+> > Good question, I am not sure.  The poll() man page has a description,
+> > but my usage doesn't fit that _exactly_ (but OTOH the description is a
+> > bit vague).
+> >
+> > > If a Wayland compositor is polling application fences to know which
+> > > client buffer to use in its rendering, should the compositor poll with
+> > > PRI or not? If a compositor polls with PRI, then all fences from all
+> > > applications would always be PRI. Would that be harmful somehow or
+> > > would it be beneficial?
+> >
+> > I think a compositor would rather use the deadline ioctl and then poll
+> > without PRI.  Otherwise you are giving an urgency signal to the fence
+> > signaller which might not necessarily be needed.
+> >
+> > The places where I expect PRI to be useful is more in mesa (things
+> > like glFinish(), readpix, and other similar sorts of blocking APIs)
+>
+> Sounds good. Docs... ;-)
+>
+> Hmm, so a compositor should set the deadline when it processes the
+> wl_surface.commit, and not when it actually starts repainting, to give
+> time for the driver to react and the GPU to do some more work. The
+> deadline would be the time when the compositor starts its repaint, so
+> it knows if the buffer is ready or not.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_dp.c    | 10 +++++-----
- drivers/gpu/drm/ast/ast_dp501.c | 20 ++++++++++----------
- drivers/gpu/drm/ast/ast_drv.h   |  2 +-
- drivers/gpu/drm/ast/ast_i2c.c   |  8 ++++----
- drivers/gpu/drm/ast/ast_main.c  |  6 +++---
- drivers/gpu/drm/ast/ast_mode.c  | 30 +++++++++++++++---------------
- drivers/gpu/drm/ast/ast_post.c  | 16 ++++++++--------
- 7 files changed, 46 insertions(+), 46 deletions(-)
+Technically we don't know when the commit is supposed to be shown.
+Just passing a deadline of the next possible deadline however is
+probably a good enough guess for this feature to be useful.
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 9e34297d836d..fbb070f63e36 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -9,7 +9,7 @@
- 
- int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u8 i = 0, j = 0;
- 
- 	/*
-@@ -125,7 +125,7 @@ void ast_dp_launch(struct drm_device *dev, u8 bPower)
- 	u8 bDPTX = 0;
- 	u8 bDPExecute = 1;
- 
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	// S3 come back, need more time to wait BMC ready.
- 	if (bPower)
- 		WaitCount = 300;
-@@ -172,7 +172,7 @@ void ast_dp_launch(struct drm_device *dev, u8 bPower)
- 
- void ast_dp_power_on_off(struct drm_device *dev, bool on)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	// Read and Turn off DP PHY sleep
- 	u8 bE3 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, AST_DP_VIDEO_ENABLE);
- 
-@@ -188,7 +188,7 @@ void ast_dp_power_on_off(struct drm_device *dev, bool on)
- 
- void ast_dp_set_on_off(struct drm_device *dev, bool on)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u8 video_on_off = on;
- 
- 	// Video On/Off
-@@ -208,7 +208,7 @@ void ast_dp_set_on_off(struct drm_device *dev, bool on)
- 
- void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode)
- {
--	struct ast_device *ast = to_ast_private(crtc->dev);
-+	struct ast_device *ast = to_ast_device(crtc->dev);
- 
- 	u32 ulRefreshRateIndex;
- 	u8 ModeIdx;
-diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
-index bb56a1c73968..1bc35a992369 100644
---- a/drivers/gpu/drm/ast/ast_dp501.c
-+++ b/drivers/gpu/drm/ast/ast_dp501.c
-@@ -18,7 +18,7 @@ static void ast_release_firmware(void *data)
- 
- static int ast_load_dp501_microcode(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	int ret;
- 
- 	ret = request_firmware(&ast->dp501_fw, "ast_dp501_fw.bin", dev->dev);
-@@ -106,7 +106,7 @@ static bool wait_fw_ready(struct ast_device *ast)
- 
- static bool ast_write_cmd(struct drm_device *dev, u8 data)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	int retry = 0;
- 	if (wait_nack(ast)) {
- 		send_nack(ast);
-@@ -128,7 +128,7 @@ static bool ast_write_cmd(struct drm_device *dev, u8 data)
- 
- static bool ast_write_data(struct drm_device *dev, u8 data)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 
- 	if (wait_nack(ast)) {
- 		send_nack(ast);
-@@ -146,7 +146,7 @@ static bool ast_write_data(struct drm_device *dev, u8 data)
- #if 0
- static bool ast_read_data(struct drm_device *dev, u8 *data)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u8 tmp;
- 
- 	*data = 0;
-@@ -185,7 +185,7 @@ static u32 get_fw_base(struct ast_device *ast)
- 
- bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u32 i, data;
- 	u32 boot_address;
- 
-@@ -204,7 +204,7 @@ bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size)
- 
- static bool ast_launch_m68k(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u32 i, data, len = 0;
- 	u32 boot_address;
- 	u8 *fw_addr = NULL;
-@@ -274,7 +274,7 @@ static bool ast_launch_m68k(struct drm_device *dev)
- 
- bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u32 i, boot_address, offset, data;
- 	u32 *pEDIDidx;
- 
-@@ -334,7 +334,7 @@ bool ast_dp501_read_edid(struct drm_device *dev, u8 *ediddata)
- 
- static bool ast_init_dvo(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u8 jreg;
- 	u32 data;
- 	ast_write32(ast, 0xf004, 0x1e6e0000);
-@@ -407,7 +407,7 @@ static bool ast_init_dvo(struct drm_device *dev)
- 
- static void ast_init_analog(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u32 data;
- 
- 	/*
-@@ -434,7 +434,7 @@ static void ast_init_analog(struct drm_device *dev)
- 
- void ast_init_3rdtx(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u8 jreg;
- 
- 	if (ast->chip == AST2300 || ast->chip == AST2400) {
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index cf4327019468..a501169cddad 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -210,7 +210,7 @@ struct ast_device {
- 	const struct firmware *dp501_fw;	/* dp501 fw */
- };
- 
--static inline struct ast_device *to_ast_private(struct drm_device *dev)
-+static inline struct ast_device *to_ast_device(struct drm_device *dev)
- {
- 	return container_of(dev, struct ast_device, base);
- }
-diff --git a/drivers/gpu/drm/ast/ast_i2c.c b/drivers/gpu/drm/ast/ast_i2c.c
-index 50a5d93ff0f8..d64045c0b849 100644
---- a/drivers/gpu/drm/ast/ast_i2c.c
-+++ b/drivers/gpu/drm/ast/ast_i2c.c
-@@ -29,7 +29,7 @@
- static void ast_i2c_setsda(void *i2c_priv, int data)
- {
- 	struct ast_i2c_chan *i2c = i2c_priv;
--	struct ast_device *ast = to_ast_private(i2c->dev);
-+	struct ast_device *ast = to_ast_device(i2c->dev);
- 	int i;
- 	u8 ujcrb7, jtemp;
- 
-@@ -45,7 +45,7 @@ static void ast_i2c_setsda(void *i2c_priv, int data)
- static void ast_i2c_setscl(void *i2c_priv, int clock)
- {
- 	struct ast_i2c_chan *i2c = i2c_priv;
--	struct ast_device *ast = to_ast_private(i2c->dev);
-+	struct ast_device *ast = to_ast_device(i2c->dev);
- 	int i;
- 	u8 ujcrb7, jtemp;
- 
-@@ -61,7 +61,7 @@ static void ast_i2c_setscl(void *i2c_priv, int clock)
- static int ast_i2c_getsda(void *i2c_priv)
- {
- 	struct ast_i2c_chan *i2c = i2c_priv;
--	struct ast_device *ast = to_ast_private(i2c->dev);
-+	struct ast_device *ast = to_ast_device(i2c->dev);
- 	uint32_t val, val2, count, pass;
- 
- 	count = 0;
-@@ -83,7 +83,7 @@ static int ast_i2c_getsda(void *i2c_priv)
- static int ast_i2c_getscl(void *i2c_priv)
- {
- 	struct ast_i2c_chan *i2c = i2c_priv;
--	struct ast_device *ast = to_ast_private(i2c->dev);
-+	struct ast_device *ast = to_ast_device(i2c->dev);
- 	uint32_t val, val2, count, pass;
- 
- 	count = 0;
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 6def35a326d6..794ffd4a29c5 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -66,7 +66,7 @@ uint8_t ast_get_index_reg_mask(struct ast_device *ast,
- static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- {
- 	struct device_node *np = dev->dev->of_node;
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	uint32_t data, jregd0, jregd1;
- 
-@@ -122,7 +122,7 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- 
- static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	uint32_t jreg, scu_rev;
- 
-@@ -271,7 +271,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- static int ast_get_dram_info(struct drm_device *dev)
- {
- 	struct device_node *np = dev->dev->of_node;
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	uint32_t mcr_cfg, mcr_scu_mpll, mcr_scu_strap;
- 	uint32_t denum, num, div, ref_pll, dsel;
- 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index a826120fa7b0..36374828f6c8 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -645,7 +645,7 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 						   struct drm_atomic_state *state)
- {
- 	struct drm_device *dev = plane->dev;
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
-@@ -683,7 +683,7 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- static void ast_primary_plane_helper_atomic_enable(struct drm_plane *plane,
- 						   struct drm_atomic_state *state)
- {
--	struct ast_device *ast = to_ast_private(plane->dev);
-+	struct ast_device *ast = to_ast_device(plane->dev);
- 	struct ast_plane *ast_plane = to_ast_plane(plane);
- 
- 	/*
-@@ -699,7 +699,7 @@ static void ast_primary_plane_helper_atomic_enable(struct drm_plane *plane,
- static void ast_primary_plane_helper_atomic_disable(struct drm_plane *plane,
- 						    struct drm_atomic_state *state)
- {
--	struct ast_device *ast = to_ast_private(plane->dev);
-+	struct ast_device *ast = to_ast_device(plane->dev);
- 
- 	ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT, 0x1, 0xdf, 0x20);
- }
-@@ -888,7 +888,7 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
--	struct ast_device *ast = to_ast_private(plane->dev);
-+	struct ast_device *ast = to_ast_device(plane->dev);
- 	struct iosys_map src_map = shadow_plane_state->data[0];
- 	struct drm_rect damage;
- 	const u8 *src = src_map.vaddr; /* TODO: Use mapping abstraction properly */
-@@ -943,7 +943,7 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- static void ast_cursor_plane_helper_atomic_disable(struct drm_plane *plane,
- 						   struct drm_atomic_state *state)
- {
--	struct ast_device *ast = to_ast_private(plane->dev);
-+	struct ast_device *ast = to_ast_device(plane->dev);
- 
- 	ast_set_cursor_enabled(ast, false);
- }
-@@ -1007,7 +1007,7 @@ static int ast_cursor_plane_init(struct ast_device *ast)
- 
- static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- {
--	struct ast_device *ast = to_ast_private(crtc->dev);
-+	struct ast_device *ast = to_ast_device(crtc->dev);
- 	u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
- 	struct ast_crtc_state *ast_state;
- 	const struct drm_format_info *format;
-@@ -1064,7 +1064,7 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- static enum drm_mode_status
- ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *mode)
- {
--	struct ast_device *ast = to_ast_private(crtc->dev);
-+	struct ast_device *ast = to_ast_device(crtc->dev);
- 	enum drm_mode_status status;
- 	uint32_t jtemp;
- 
-@@ -1189,7 +1189,7 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
- 									  crtc);
- 	struct drm_device *dev = crtc->dev;
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
- 	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
- 
-@@ -1214,7 +1214,7 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- static void ast_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
- {
- 	struct drm_device *dev = crtc->dev;
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
- 	struct ast_vbios_mode_info *vbios_mode_info =
-@@ -1236,7 +1236,7 @@ static void ast_crtc_helper_atomic_disable(struct drm_crtc *crtc, struct drm_ato
- {
- 	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
- 	struct drm_device *dev = crtc->dev;
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 
- 	ast_crtc_dpms(crtc, DRM_MODE_DPMS_OFF);
- 
-@@ -1324,7 +1324,7 @@ static const struct drm_crtc_funcs ast_crtc_funcs = {
- 
- static int ast_crtc_init(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct drm_crtc *crtc = &ast->crtc;
- 	int ret;
- 
-@@ -1350,7 +1350,7 @@ static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
- {
- 	struct ast_vga_connector *ast_vga_connector = to_ast_vga_connector(connector);
- 	struct drm_device *dev = connector->dev;
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct edid *edid;
- 	int count;
- 
-@@ -1456,7 +1456,7 @@ static int ast_sil164_connector_helper_get_modes(struct drm_connector *connector
- {
- 	struct ast_sil164_connector *ast_sil164_connector = to_ast_sil164_connector(connector);
- 	struct drm_device *dev = connector->dev;
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct edid *edid;
- 	int count;
- 
-@@ -1733,7 +1733,7 @@ static int ast_astdp_output_init(struct ast_device *ast)
- 
- static void ast_mode_config_helper_atomic_commit_tail(struct drm_atomic_state *state)
- {
--	struct ast_device *ast = to_ast_private(state->dev);
-+	struct ast_device *ast = to_ast_device(state->dev);
- 
- 	/*
- 	 * Concurrent operations could possibly trigger a call to
-@@ -1754,7 +1754,7 @@ static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
- 						       const struct drm_display_mode *mode)
- {
- 	static const unsigned long max_bpp = 4; /* DRM_FORMAT_XRGB8888 */
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	unsigned long fbsize, fbpages, max_fbpages;
- 
- 	max_fbpages = (ast->vram_fb_available) >> PAGE_SHIFT;
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 9b6e2988bc3b..71bb36b865fd 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -39,7 +39,7 @@ static void ast_post_chip_2500(struct drm_device *dev);
- 
- void ast_enable_vga(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 
- 	ast_io_write8(ast, AST_IO_VGA_ENABLE_PORT, 0x01);
- 	ast_io_write8(ast, AST_IO_MISC_PORT_WRITE, 0x01);
-@@ -47,7 +47,7 @@ void ast_enable_vga(struct drm_device *dev)
- 
- void ast_enable_mmio(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 
- 	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x06);
- }
-@@ -55,7 +55,7 @@ void ast_enable_mmio(struct drm_device *dev)
- 
- bool ast_is_vga_enabled(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u8 ch;
- 
- 	ch = ast_io_read8(ast, AST_IO_VGA_ENABLE_PORT);
-@@ -70,7 +70,7 @@ static const u8 extreginfo_ast2300[] = { 0x0f, 0x04, 0x1f, 0xff };
- static void
- ast_set_def_ext_reg(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	u8 i, index, reg;
- 	const u8 *ext_reg_info;
-@@ -273,7 +273,7 @@ static void cbrdlli_ast2150(struct ast_device *ast, int busw)
- 
- static void ast_init_dram_reg(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u8 j;
- 	u32 data, temp, i;
- 	const struct ast_dramstruct *dram_reg_info;
-@@ -366,7 +366,7 @@ static void ast_init_dram_reg(struct drm_device *dev)
- 
- void ast_post_gpu(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	u32 reg;
- 
-@@ -1600,7 +1600,7 @@ static void ddr2_init(struct ast_device *ast, struct ast2300_dram_param *param)
- 
- static void ast_post_chip_2300(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	struct ast2300_dram_param param;
- 	u32 temp;
- 	u8 reg;
-@@ -2066,7 +2066,7 @@ void ast_patch_ahb_2500(struct ast_device *ast)
- 
- void ast_post_chip_2500(struct drm_device *dev)
- {
--	struct ast_device *ast = to_ast_private(dev);
-+	struct ast_device *ast = to_ast_device(dev);
- 	u32 temp;
- 	u8 reg;
- 
--- 
-2.39.2
+One thing that neither API allows us to do is tell the kernel in
+advance when we're going to submit work and what the deadline for it
+is and unfortunately that work is the most timing sensitive.
+
+>
+>
+> Thanks,
+> pq
+>
+>
+> >
+> > BR,
+> > -R
+> >
+> > >
+> > >
+> > > Thanks,
+> > > pq
+> > >
+> > > > ---
+> > > >  drivers/dma-buf/sync_file.c | 8 ++++++++
+> > > >  1 file changed, 8 insertions(+)
+> > > >
+> > > > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> > > > index fb6ca1032885..c30b2085ee0a 100644
+> > > > --- a/drivers/dma-buf/sync_file.c
+> > > > +++ b/drivers/dma-buf/sync_file.c
+> > > > @@ -192,6 +192,14 @@ static __poll_t sync_file_poll(struct file *file, poll_table *wait)
+> > > >  {
+> > > >       struct sync_file *sync_file = file->private_data;
+> > > >
+> > > > +     /*
+> > > > +      * The POLLPRI/EPOLLPRI flag can be used to signal that
+> > > > +      * userspace wants the fence to signal ASAP, express this
+> > > > +      * as an immediate deadline.
+> > > > +      */
+> > > > +     if (poll_requested_events(wait) & EPOLLPRI)
+> > > > +             dma_fence_set_deadline(sync_file->fence, ktime_get());
+> > > > +
+> > > >       poll_wait(file, &sync_file->wq, wait);
+> > > >
+> > > >       if (list_empty(&sync_file->cb.node) &&
+> > >
+>
 
