@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0831169DB61
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 08:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE2A69DC30
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 09:38:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D31F210E031;
-	Tue, 21 Feb 2023 07:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53C3710E121;
+	Tue, 21 Feb 2023 08:38:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37AEB10E010
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 07:42:24 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id s22so4423735lfi.9
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 23:42:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dKtslRZspt8o3Sccdk1DfcCyRNMlDNOBZp6futbzDZU=;
- b=OzU53k4iuJB7XmlE5/JWME6X99P804nLzi+IjCtwjWwLQD9ilB+07YGcTbwnhpTMRG
- HnrSQY86ESKjU0ZrH68wKx38Ez0G72gj4eLc21EeOG9evi4MzLOu6EoJSBFH+1LWUBpJ
- E/uRcE2zn50nS94S8nGj7Nh5UUPLH4zrFRH04rn5M56AKrI1ZKyFkFkXs91iXSAozdzM
- adwGq/M+m5rsHnloEnrIPWTu/rVMJBUBoFfQwXbbWmqlqQ7Vz+C3PBEMuVTcHikkuS9T
- ZGYjU5ofOsJi+o8PQ3QYpwYv1R4TjTRN6YTr3RYomW+DPmbzl527PYnp7tNwANUR0b0X
- SO8A==
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 020C510E10F;
+ Tue, 21 Feb 2023 08:38:05 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id t14so762816ljd.5;
+ Tue, 21 Feb 2023 00:38:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=oXmAWRuzmcV8Elsgdpg1EiI+Ar/Kv6HOxJGHhplNmBg=;
+ b=dacIh5Ip7zWYTo66VddkqH1AfAudtj7gH52ck6kXphg5LwhFeolG9qkrO5LWkYrWyf
+ GqvWuZ2hA54hvbMbl8tRU6otjWwAMQ6bvtvZh5kLtSS4eeg+CaW2UFF77WFdzDI2VO3Y
+ 7jVrXjtT2juixcnwr1x5LiyFghiE/hjVahbY6+YD2FqqWhQD/Z5214mrmCUZvaicui0h
+ 2rO+0B9/MP5IcWzLESsiPdMB/Q2Kus+ed5DtStRFYKTuUj+5PL7G6EstrxrT6Lpxufcs
+ mcutB/4bghXrgFem9w3UcAgEr32cDXDvGDD6JRLy0ibSiJ4WMe9ncBolo7MeuNu73vUq
+ ZFLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dKtslRZspt8o3Sccdk1DfcCyRNMlDNOBZp6futbzDZU=;
- b=i5zqWSnCy77JqpXqkg+7pjvx6xGIhCbJR2qtDcrbPnUAmj1SDvqdJRHiQG+jwhtEIe
- rjugK+DVYSZrKZ3J9RGlnkHMxntgnx1T0agBUzPdaeE4ZQgmRkQeWwXQC6j2fgEyHmZD
- CrP7VyT5+iF4lr8WIPXchQxNWXzeO/qk8nNSqUai78O2u1TCkYWZprfYUdF3jnMnvaM4
- i6gLSxEFDhMlJytZsfyKle2oruQrpyZPuptekHFcFSUjRv7UeQ2lXDZN6EKyYM47pWdk
- W4mYfg5mL4FyxK1vxeSzxW75FcxL/3kIIj4kxNAPRnVIBTQpqbIXKopfQZRyEpN9huBB
- Kn5Q==
-X-Gm-Message-State: AO0yUKV7iz//s0wDCd2fSD2NYM85nCYLl8jSjog3u50/NPWFWH3poLrX
- 3Pf2RVYsSFq9BM3pKoyDIlJawA==
-X-Google-Smtp-Source: AK7set/Du/SmnkG9npmGl15OvCIHvsDH40L2g0ZWC0y8n5am9lawYOEAyJD33dLc5DUYqF78qBuVQw==
-X-Received: by 2002:a05:6512:66:b0:4a4:7be4:9baf with SMTP id
- i6-20020a056512006600b004a47be49bafmr1157741lfo.59.1676965342173; 
- Mon, 20 Feb 2023 23:42:22 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- b17-20020ac25e91000000b00492c663bba2sm1766909lfq.124.2023.02.20.23.42.21
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oXmAWRuzmcV8Elsgdpg1EiI+Ar/Kv6HOxJGHhplNmBg=;
+ b=XnenPPPtmZxankx5ZuGM5FzEUEP8fa9CQ+0S7OHgufn1U1P/1arTwYz7GwbmvoOinK
+ 5/JiZIZv7aGMYczU+JOT70nrky5B77AO3fgKtXGNp69/HgUAS3oozfcRFiEU3D28c6IK
+ taa4kvI8VdeMJhb++tG5UO7Z8Pz6GfkZd5hBPTS/LqNd4lK4OQSkht0tPDvpUKDZYqB+
+ TSRKT8lT9lpaWt7uU5Vpu2+7ZWXYoE5xK3HOG7M24xWOHaSkF6lfcLMorcf91x+P9sJg
+ 5mBGzwleZg/ZgmVgUQbGhV5uvSSAmv+oAtHBeKqio8OYb1YskKqRiTNiZUDFBdl0CJuO
+ DZqQ==
+X-Gm-Message-State: AO0yUKVt0xU8pkhA9OQXgu+chXtiGrySWHmm0YITmpSZWHPQ/Dp0EO7J
+ zBsyFtYVA/onQHD58ndOBIA=
+X-Google-Smtp-Source: AK7set+RqtfaOTqpjveAHIaH/mYBQDFd3HyzVq+YqARYpYETRDSQ5RKHLNE5xPgMIu7o4b3tO9CwXQ==
+X-Received: by 2002:a2e:a1c7:0:b0:293:6037:9850 with SMTP id
+ c7-20020a2ea1c7000000b0029360379850mr1456739ljm.51.1676968683953; 
+ Tue, 21 Feb 2023 00:38:03 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ bd17-20020a05651c169100b002934ed148afsm23315ljb.52.2023.02.21.00.38.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 23:42:21 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [RFC PATCH] drm/msm: tune the devfreq to take into account the load
- history
-Date: Tue, 21 Feb 2023 10:42:21 +0300
-Message-Id: <20230221074221.3650442-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ Tue, 21 Feb 2023 00:38:03 -0800 (PST)
+Date: Tue, 21 Feb 2023 10:37:53 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+Message-ID: <20230221103753.205082d3@eldfell>
+In-Reply-To: <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-7-robdclark@gmail.com>
+ <20230220105345.70e46fa5@eldfell>
+ <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/GOkb+s3y./0Y.sz97vQW68J";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,124 +72,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Rob Clark <robdclark@chromium.org>, Gustavo Padovan <gustavo@padovan.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER
+ SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, "open list:SYNC
+ FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Partially restore the handling of the GPU load history. Accumulate the
-busy_time and and total_time measured in active state during the polling
-period. This results in slightly smoother picture of the GPU frequencies
-(measured on the a530/msm8996, using kmscube in different resolutions).
+--Sig_/GOkb+s3y./0Y.sz97vQW68J
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-A call to msm_devfreq_get_dev_status() from msm_devfreq_active() was
-removed in 69f06a5d854f ("drm/msm: remove explicit devfreq status
-reset"), because dev_pm_qos_update_request() triggered that internally.
-As the commit fadcc3ab1302 ("drm/msm/gpu: Bypass PM QoS constraint for
-idle clamp") removed the calls to dev_pm_qos_update_request(), this
-removal was also reverted.
+On Mon, 20 Feb 2023 08:14:47 -0800
+Rob Clark <robdclark@gmail.com> wrote:
 
-The code doesn't take the frequency into account while accumulating the
-data to keep the code simple for the RFC.
+> On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wro=
+te:
+> >
+> > On Sat, 18 Feb 2023 13:15:49 -0800
+> > Rob Clark <robdclark@gmail.com> wrote:
+> > =20
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
+> > > wait (as opposed to a "housekeeping" wait to know when to cleanup aft=
+er
+> > > some work has completed).  Usermode components of GPU driver stacks
+> > > often poll() on fence fd's to know when it is safe to do things like
+> > > free or reuse a buffer, but they can also poll() on a fence fd when
+> > > waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
+> > > lets the kernel differentiate these two cases.
+> > >
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org> =20
+> >
+> > Hi,
+> >
+> > where would the UAPI documentation of this go?
+> > It seems to be missing. =20
+>=20
+> Good question, I am not sure.  The poll() man page has a description,
+> but my usage doesn't fit that _exactly_ (but OTOH the description is a
+> bit vague).
+>=20
+> > If a Wayland compositor is polling application fences to know which
+> > client buffer to use in its rendering, should the compositor poll with
+> > PRI or not? If a compositor polls with PRI, then all fences from all
+> > applications would always be PRI. Would that be harmful somehow or
+> > would it be beneficial? =20
+>=20
+> I think a compositor would rather use the deadline ioctl and then poll
+> without PRI.  Otherwise you are giving an urgency signal to the fence
+> signaller which might not necessarily be needed.
+>=20
+> The places where I expect PRI to be useful is more in mesa (things
+> like glFinish(), readpix, and other similar sorts of blocking APIs)
 
-Cc: Chia-I Wu <olvaffe@gmail.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_gpu.h         |  3 +++
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 30 ++++++++++++++++++++++++++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
+Sounds good. Docs... ;-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index fc1c0d8611a8..9d1783375dcc 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -156,6 +156,9 @@ struct msm_gpu_devfreq {
- 
- 	/** suspended: tracks if we're suspended */
- 	bool suspended;
-+
-+	/* stats for the current period */
-+	struct devfreq_dev_status status;
- };
- 
- struct msm_gpu {
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index e27dbf12b5e8..92cb022c8628 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -74,7 +74,7 @@ static unsigned long get_freq(struct msm_gpu *gpu)
- 	return clk_get_rate(gpu->core_clk);
- }
- 
--static int msm_devfreq_get_dev_status(struct device *dev,
-+static int msm_devfreq_get_dev_status_int(struct device *dev,
- 		struct devfreq_dev_status *status)
- {
- 	struct msm_gpu *gpu = dev_to_gpu(dev);
-@@ -112,6 +112,22 @@ static int msm_devfreq_get_dev_status(struct device *dev,
- 	return 0;
- }
- 
-+static int msm_devfreq_get_dev_status(struct device *dev,
-+		struct devfreq_dev_status *status)
-+{
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
-+	struct msm_gpu_devfreq *df = &gpu->devfreq;
-+
-+	msm_devfreq_get_dev_status_int(&gpu->pdev->dev, status);
-+	status->busy_time += df->status.busy_time;
-+	status->total_time += df->status.total_time;
-+
-+	df->status.busy_time = 0;
-+	df->status.total_time = 0;
-+
-+	return 0;
-+}
-+
- static int msm_devfreq_get_cur_freq(struct device *dev, unsigned long *freq)
- {
- 	*freq = get_freq(dev_to_gpu(dev));
-@@ -290,6 +306,7 @@ void msm_devfreq_active(struct msm_gpu *gpu)
- 	struct msm_gpu_devfreq *df = &gpu->devfreq;
- 	unsigned int idle_time;
- 	unsigned long target_freq;
-+	struct devfreq_dev_status status;
- 
- 	if (!has_devfreq(gpu))
- 		return;
-@@ -319,6 +336,12 @@ void msm_devfreq_active(struct msm_gpu *gpu)
- 	if (target_freq)
- 		msm_devfreq_target(&gpu->pdev->dev, &target_freq, 0);
- 
-+	/*
-+	 * Reset the polling interval so we aren't inconsistent
-+	 * about freq vs busy/total cycles
-+	 */
-+	msm_devfreq_get_dev_status_int(&gpu->pdev->dev, &status);
-+
- 	mutex_unlock(&df->devfreq->lock);
- 
- 	/*
-@@ -339,6 +362,7 @@ static void msm_devfreq_idle_work(struct kthread_work *work)
- 	struct msm_gpu *gpu = container_of(df, struct msm_gpu, devfreq);
- 	struct msm_drm_private *priv = gpu->dev->dev_private;
- 	unsigned long idle_freq, target_freq = 0;
-+	struct devfreq_dev_status status;
- 
- 	/*
- 	 * Hold devfreq lock to synchronize with get_dev_status()/
-@@ -346,6 +370,10 @@ static void msm_devfreq_idle_work(struct kthread_work *work)
- 	 */
- 	mutex_lock(&df->devfreq->lock);
- 
-+	msm_devfreq_get_dev_status_int(&gpu->pdev->dev, &status);
-+	df->status.busy_time += status.busy_time;
-+	df->status.total_time += status.total_time;
-+
- 	idle_freq = get_freq(gpu);
- 
- 	if (priv->gpu_clamp_to_idle)
--- 
-2.30.2
+Hmm, so a compositor should set the deadline when it processes the
+wl_surface.commit, and not when it actually starts repainting, to give
+time for the driver to react and the GPU to do some more work. The
+deadline would be the time when the compositor starts its repaint, so
+it knows if the buffer is ready or not.
 
+
+Thanks,
+pq
+
+
+>=20
+> BR,
+> -R
+>=20
+> >
+> >
+> > Thanks,
+> > pq
+> > =20
+> > > ---
+> > >  drivers/dma-buf/sync_file.c | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > >
+> > > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> > > index fb6ca1032885..c30b2085ee0a 100644
+> > > --- a/drivers/dma-buf/sync_file.c
+> > > +++ b/drivers/dma-buf/sync_file.c
+> > > @@ -192,6 +192,14 @@ static __poll_t sync_file_poll(struct file *file=
+, poll_table *wait)
+> > >  {
+> > >       struct sync_file *sync_file =3D file->private_data;
+> > >
+> > > +     /*
+> > > +      * The POLLPRI/EPOLLPRI flag can be used to signal that
+> > > +      * userspace wants the fence to signal ASAP, express this
+> > > +      * as an immediate deadline.
+> > > +      */
+> > > +     if (poll_requested_events(wait) & EPOLLPRI)
+> > > +             dma_fence_set_deadline(sync_file->fence, ktime_get());
+> > > +
+> > >       poll_wait(file, &sync_file->wq, wait);
+> > >
+> > >       if (list_empty(&sync_file->cb.node) && =20
+> > =20
+
+
+--Sig_/GOkb+s3y./0Y.sz97vQW68J
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP0guEACgkQI1/ltBGq
+qqf13g//YJ2rnH+E++Hj+BIIexJyigGRb4u4jrJTM5mZ9F5IbwwlyPYI1ave26xA
+E2fQdmTIrob7UZDSU0pjl0rHfGvqDlZVZP8IdhAA1Qwvsw8JUZ8XknppQ4THxMPh
+RgR5+XExivkzqj5L7UZaPb4oYLlp5qCooiS6iIgCI0Dx+cov3zfOGL8DJOFQKGXV
+reume8wVPWdqLS85ALYVHVdiOgWdxd+kw/njtM6lc6DYj3JTmrlEXY5puS60bH9t
+uBbd9AZm+PCKWX3qbxKCxWK8W06xAqaR1ZiCuRMvxN7L4hEbTTrkTIgUEkM2W6cF
+ItT8wY83agbYcCNQJcQ7U3EOGoDY/CKsKAnXNrEKKh3Jpemn3sKwVkIk4KboT4Ke
+mBtKMFrB/DtBGQBSD4Vn2YFSBZg8R5fDlOoMZhbZUltzYBHDOs7U631uVEkia+Mp
+RU2hOSjThTwQpJTTzw6QzrXQdurSUMYP/Wub6jOEH0mTnkCr4ENuR+QfdVeHCt37
+AM0B7KHNlEn40Vn8dbGV7yzUIep87BJWOKFXWhXWIJKQQPW9R6TWms5Xx7c/QbYd
+iwbPR/DBfQb6Huz9Ls8WFN5o8VvAEKQGtjCRn33J35aQYFmDseUbVqCuDv0HIYI+
+fFaaFPBWL+1GhBlITlBWAq5/ow9vvif11bWzStLTowmvoivxyWU=
+=WDHn
+-----END PGP SIGNATURE-----
+
+--Sig_/GOkb+s3y./0Y.sz97vQW68J--
