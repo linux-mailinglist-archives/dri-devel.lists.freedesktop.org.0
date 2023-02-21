@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7882F69E3A7
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:38:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7964269E3C0
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:41:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 793A110E848;
-	Tue, 21 Feb 2023 15:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 306F310E82B;
+	Tue, 21 Feb 2023 15:41:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C262110E847
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:37:54 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E3C9666021D3;
- Tue, 21 Feb 2023 15:37:52 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1676993873;
- bh=d98v4XkYuSdlaBMRVhy8ckf3WPpqfT9gFqNu9PlgtLo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UzrE+LbQ/q/0oEUfdmGWDjpM6NnJzjiNqoBtqiibNwJyOF6/8O7KN8y54F0CMgd9y
- stIgTD8qLHyWnvwds8ShWi8WDhOJdDF8LXMThS8yUsuTwO9XvQfQVafex2aLd3OczH
- WAmHckmNQJcvQhmyKFYTlguwycU553zByLkDfXZ+aSJiuhLiR77aKQk6pS/Lu1sesA
- W1xqD0lj0CWJIjhbpjlBN/1pxG8rP08/Rt78pgudRFgmG8PUOa7rQM6OcJbNnCOXs6
- 6BQAyJzAdFlIxXawaNBxgj800LlZwNc6FMLN0k2sGuxI5QKkBhGtGYygRhnIXmyG3R
- sN4UBYv7JHEfQ==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: airlied@gmail.com
-Subject: [PATCH v2 10/10] drm/panfrost: Add new compatible for Mali on the
- MT8183 SoC
-Date: Tue, 21 Feb 2023 16:37:40 +0100
-Message-Id: <20230221153740.1620529-11-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
-References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com
+ [209.85.161.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A83F10E82B
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:41:27 +0000 (UTC)
+Received: by mail-oo1-f54.google.com with SMTP id
+ b10-20020a4aba0a000000b005200c0d4a2aso550965oop.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 07:41:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yAmFGspOZMSPZfnaoWYmVR2MjZajqXp66cfwHSIQL14=;
+ b=MRe0Uoz6yp4clNqs/JKZO30h9Cml/DltB0Hj99ESNp/UxvngfBwYwDAxjf4G+MdEdW
+ Qir8BINgEpo8D7IfLdJdvFZRGnns3AEfj/5SOnlI8N0qtbTliVyrfPsg5NlhQ5YcPXgB
+ 1KiGk1c2upbQFzRI8WGq6Ke34mE5JWIoSdbRe/jYlNXKI5cz2FgV7XYaiBUmfQjMbj/9
+ 2GZbDAobUbnISQQr8Z9swokU24hmZL2zUJKM0bC483Da2FSeIvtpO3murXpq7sC2ttlK
+ 9HRThMRFmthRQHqcEPu89p/iu1BMPhvgqRsNg66RgbB+551jUoFq7mcRNsOONrz2Fu5K
+ 1x6w==
+X-Gm-Message-State: AO0yUKV7tYn6wgVYiuKaJdKsjRvD8LvW1hT/MBWxHnZOxuLP5KHLznWm
+ VN4MbR6fi/PuolIQ5ySnrw==
+X-Google-Smtp-Source: AK7set85VAFntiNHIDjGtfCC2oOT1/ixiwDzGmV6KZlRV3vcVPs11dYw0ZIvaGYFHStwN8BXxG0AZg==
+X-Received: by 2002:a4a:b6c3:0:b0:51f:e966:e3b7 with SMTP id
+ w3-20020a4ab6c3000000b0051fe966e3b7mr1792287ooo.3.1676994086229; 
+ Tue, 21 Feb 2023 07:41:26 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ bf7-20020a056820174700b0051ff746e2b2sm293867oob.8.2023.02.21.07.41.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 07:41:25 -0800 (PST)
+Received: (nullmailer pid 2586813 invoked by uid 1000);
+ Tue, 21 Feb 2023 15:41:24 -0000
+Date: Tue, 21 Feb 2023 09:41:24 -0600
+From: Rob Herring <robh@kernel.org>
+To: Pin-yen Lin <treapking@chromium.org>
+Subject: Re: [PATCH v3 1/5] dt-bindings: display: bridge: Add ddc-i2c-bus for
+ anx7688
+Message-ID: <20230221154124.GA2584323-robh@kernel.org>
+References: <20230218111712.2380225-1-treapking@chromium.org>
+ <20230218111712.2380225-2-treapking@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230218111712.2380225-2-treapking@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,79 +65,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- krzysztof.kozlowski+dt@linaro.org, wenst@chromium.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Boichat <drinkcat@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Benson Leung <bleung@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Guenter Roeck <groeck@chromium.org>, devicetree@vger.kernel.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, chrome-platform@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "mediatek,mt8183-mali" compatible uses platform data that calls for
-getting (and managing) two regulators ("mali" and "sram") but devfreq
-does not support this usecase, resulting in DVFS not working.
+On Sat, Feb 18, 2023 at 07:17:08PM +0800, Pin-yen Lin wrote:
+> Introduce a optional "ddc-i2c-bus" property for anx7688 bridge. This
+> allows the bridge to register a .get_edid callback.
 
-Since a lot of MediaTek SoCs need to set the voltages for the GPU SRAM
-regulator in a specific relation to the GPU VCORE regulator, a MediaTek
-SoC specific driver was introduced to automatically satisfy, through
-coupling, these constraints: this means that there is at all no need to
-manage both regulators in panfrost but to otherwise just manage the main
-"mali" (-> gpu vcore) regulator instead.
+What's .get_edid? This is a binding and is independent of Linux.
 
-Keeping in mind that we cannot break the ABI, the most sensible route
-(avoiding hacks and uselessly overcomplicated code) to get a MT8183
-node with one power supply was to add a new "mediatek,mt8183b-mali"
-compatible, which effectively deprecates the former.
+> 
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> ---
+> 
+> Changes in v3:
+> - New in v3
+> 
+>  .../bindings/display/bridge/google,cros-ec-anx7688.yaml      | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml b/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+> index a44d025d33bd..9d5ce8172e88 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+> @@ -25,6 +25,10 @@ properties:
+>      maxItems: 1
+>      description: I2C address of the device.
+>  
+> +  ddc-i2c-bus:
+> +    description: phandle link to the I2C controller used for DDC EDID probing
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+No, this belongs in the connector node. The DDC signals are routed to 
+the connector, not the bridge chip.
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 5d25e77e1037..14cdeaeeb5c4 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -654,6 +654,14 @@ static const struct panfrost_compatible amlogic_data = {
- 	.vendor_quirk = panfrost_gpu_amlogic_quirk,
- };
- 
-+/*
-+ * The old data with two power supplies for MT8183 is here only to
-+ * keep retro-compatibility with older devicetrees, as DVFS will
-+ * not work with this one.
-+ *
-+ * On new devicetrees please use the _b variant with a single and
-+ * coupled regulators instead.
-+ */
- static const char * const mediatek_mt8183_supplies[] = { "mali", "sram", NULL };
- static const char * const mediatek_mt8183_pm_domains[] = { "core0", "core1", "core2" };
- static const struct panfrost_compatible mediatek_mt8183_data = {
-@@ -663,6 +671,14 @@ static const struct panfrost_compatible mediatek_mt8183_data = {
- 	.pm_domain_names = mediatek_mt8183_pm_domains,
- };
- 
-+static const char * const mediatek_mt8183_b_supplies[] = { "mali", NULL };
-+static const struct panfrost_compatible mediatek_mt8183_b_data = {
-+	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
-+	.supply_names = mediatek_mt8183_b_supplies,
-+	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
-+	.pm_domain_names = mediatek_mt8183_pm_domains,
-+};
-+
- static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
- static const char * const mediatek_mt8192_pm_domains[] = { "core0", "core1", "core2",
- 							   "core3", "core4" };
-@@ -691,6 +707,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "arm,mali-bifrost", .data = &default_data, },
- 	{ .compatible = "arm,mali-valhall-jm", .data = &default_data, },
- 	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
-+	{ .compatible = "mediatek,mt8183b-mali", .data = &mediatek_mt8183_b_data },
- 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
- 	{}
- };
--- 
-2.39.2
-
+Rob
