@@ -1,64 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C6E69DC6C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 09:53:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D1F69DC78
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 10:01:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FECE10E2DD;
-	Tue, 21 Feb 2023 08:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3872310E3B3;
+	Tue, 21 Feb 2023 09:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9CF010E2DD;
- Tue, 21 Feb 2023 08:53:12 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id a30so3652282ljr.0;
- Tue, 21 Feb 2023 00:53:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=AEjLrRbU07wQYZ0ZI67ekCMILBl/5v5EYiKgA6Atj1I=;
- b=OVcGbtcbYkdrGKtGhQBFsP0w5w/MddBCfR+Oi+1FcIh2wngBwYVt6+VXfhsLFM1sxa
- OxQje6gm9Px25K0Rq3g1iRha+Eg2g7KL4mM//Ue2pFmIeCKMtjiEsBZSJAI5i8EkbF32
- XvH22XwW+lzji4G3uwAJ+JNW3vyChKVaJ5Ko2Oezv9pDpOsAymoNmU2oUgXEEnIFzj/P
- YnqKognbT6DjykjRfmP/dmNa3rYzWzSZ56IZQi173OzomQThTRHlfpshNAoej1uTGqzy
- UVUpLghCWlg6o82EIf4RRSjZ58QYUuO6X0O3A6YdBMXwIwdJ51xJHVriUbpbwvDtN5Bk
- MgBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AEjLrRbU07wQYZ0ZI67ekCMILBl/5v5EYiKgA6Atj1I=;
- b=TSHIAd5GRm0mNVkkxWTn3o6PqKcMC5AD2lsV2NE72VGPgu3cCx4GogC0847tzuBhWP
- QKuy7iaHTPokgCgCYmAggimb9MkUtwnktwf2z6vAgNbx7lxgkXeEw7OeBXk8DWAIRIac
- VhxMfwZUznvPg/Aq/Fw9ZLWx+DhRcNBIhiCqJ2PUB/ma9YVFrqOK4nfLLOZmzgE3fOMS
- 0D57hw72m8WV7H7lqC7P1AU6voQ5I3mSEvU7yjdxCW3Bc1ZSdfwdlkxCP0Rx2RIlxlMc
- Ub91c+meC3iDqYgQ4GBILjpCMCbmhu+s8VfI3ADHPVYDJ2GIZfuMxwLnjB+oRiIfuZie
- I8NQ==
-X-Gm-Message-State: AO0yUKUGd/QDQbZr9PxSRjQ0/edw+J6F1QseCa7wYCYQidRznKiz9M7V
- G8jZPLL7cTkwIhd/lr2NhfA=
-X-Google-Smtp-Source: AK7set8nMhagnPVfESv/9ZlPIxiZKwBCDck0xrEjqBAmURev2zAHQajnYN10WtnCqkHPBcVmZFZvOg==
-X-Received: by 2002:a2e:8e72:0:b0:293:5c90:8517 with SMTP id
- t18-20020a2e8e72000000b002935c908517mr1246405ljk.15.1676969590834; 
- Tue, 21 Feb 2023 00:53:10 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- d17-20020a2e3611000000b00293524fb6b1sm355733lja.74.2023.02.21.00.53.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 00:53:10 -0800 (PST)
-Date: Tue, 21 Feb 2023 10:53:07 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v5 09/14] drm/syncobj: Add deadline support for syncobj
- waits
-Message-ID: <20230221105307.7430c301@eldfell>
-In-Reply-To: <20230220201916.1822214-10-robdclark@gmail.com>
-References: <20230220201916.1822214-1-robdclark@gmail.com>
- <20230220201916.1822214-10-robdclark@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F06710E3B3;
+ Tue, 21 Feb 2023 09:01:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1676970092; x=1708506092;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=dsRybd/64P4CVAO5ROi9YaEUYOfOwpiLG3nNgVfeZEk=;
+ b=aAP67ySkdfUxx/XUjb5JfKwbRu0efG0SuZsELkBpQWKB3ExawfKO077D
+ B6C4Vb3yuLSAHbP6qlQ/vT37tUP6nyEkqNr4PvfXNOdPMPvu0zK29NjHU
+ yM2xu2cf8B+5KpnDrDBpBmvgOL4WSF9HPTtZWzClkoOIpjoCojN+k9GKZ
+ Bd2ddyKInngQi3BV0Lg2SHogQsCKLDIC7EB9vmUQ032Kt1mpn1gCI0Zpe
+ KVhFq5AyiUl2aL/ObwbptvMpVtls5PNS1gPfGTe+gmOyw/CGy2haqYCCp
+ k6sij2YA72wdIDgs5HEzj2rOHIPVPZpr9m9oZUWhm/VgMR3cGy2g1sikT A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="395062797"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; d="scan'208";a="395062797"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2023 01:01:30 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="703957679"
+X-IronPort-AV: E=Sophos;i="5.97,315,1669104000"; d="scan'208";a="703957679"
+Received: from bpop-mobl.ger.corp.intel.com (HELO [10.213.229.230])
+ ([10.213.229.230])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Feb 2023 01:01:27 -0800
+Message-ID: <c5edd07d-1535-9b25-9a48-3d71e5e22b07@linux.intel.com>
+Date: Tue, 21 Feb 2023 09:01:24 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/VSEM3Sqv+X/GOgQntXXiV/x";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] drm/i915/sseu: fix max_subslices
+ array-index-out-of-bounds access
+Content-Language: en-US
+To: Andrea Righi <andrea.righi@canonical.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, "Roper, Matthew D"
+ <matthew.d.roper@intel.com>,
+ Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+References: <20230220171858.131416-1-andrea.righi@canonical.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230220171858.131416-1-andrea.righi@canonical.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,109 +68,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+ Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/VSEM3Sqv+X/GOgQntXXiV/x
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, 20 Feb 2023 12:18:56 -0800
-Rob Clark <robdclark@gmail.com> wrote:
 
-> From: Rob Clark <robdclark@chromium.org>
->=20
-> Add a new flag to let userspace provide a deadline as a hint for syncobj
-> and timeline waits.  This gives a hint to the driver signaling the
-> backing fences about how soon userspace needs it to compete work, so it
-> can addjust GPU frequency accordingly.  An immediate deadline can be
-> given to provide something equivalent to i915 "wait boost".
->=20
-> v2: Use absolute u64 ns value for deadline hint, drop cap and driver
->     feature flag in favor of allowing count_handles=3D=3D0 as a way for
->     userspace to probe kernel for support of new flag
->=20
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+On 20/02/2023 17:18, Andrea Righi wrote:
+> It seems that commit bc3c5e0809ae ("drm/i915/sseu: Don't try to store EU
+> mask internally in UAPI format") exposed a potential out-of-bounds
+> access, reported by UBSAN as following on a laptop with a gen 11 i915
+> card:
+> 
+>    UBSAN: array-index-out-of-bounds in drivers/gpu/drm/i915/gt/intel_sseu.c:65:27
+>    index 6 is out of range for type 'u16 [6]'
+>    CPU: 2 PID: 165 Comm: systemd-udevd Not tainted 6.2.0-9-generic #9-Ubuntu
+>    Hardware name: Dell Inc. XPS 13 9300/077Y9N, BIOS 1.11.0 03/22/2022
+>    Call Trace:
+>     <TASK>
+>     show_stack+0x4e/0x61
+>     dump_stack_lvl+0x4a/0x6f
+>     dump_stack+0x10/0x18
+>     ubsan_epilogue+0x9/0x3a
+>     __ubsan_handle_out_of_bounds.cold+0x42/0x47
+>     gen11_compute_sseu_info+0x121/0x130 [i915]
+>     intel_sseu_info_init+0x15d/0x2b0 [i915]
+>     intel_gt_init_mmio+0x23/0x40 [i915]
+>     i915_driver_mmio_probe+0x129/0x400 [i915]
+>     ? intel_gt_probe_all+0x91/0x2e0 [i915]
+>     i915_driver_probe+0xe1/0x3f0 [i915]
+>     ? drm_privacy_screen_get+0x16d/0x190 [drm]
+>     ? acpi_dev_found+0x64/0x80
+>     i915_pci_probe+0xac/0x1b0 [i915]
+>     ...
+> 
+> According to the definition of sseu_dev_info, eu_mask->hsw is limited to
+> a maximum of GEN_MAX_SS_PER_HSW_SLICE (6) sub-slices, but
+> gen11_sseu_info_init() can potentially set 8 sub-slices, in the
+> !IS_JSL_EHL(gt->i915) case.
+> 
+> Fix this by reserving up to 8 slots for max_subslices in the eu_mask
+> struct.
+> 
+> Reported-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+> Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
+
+Looks like bug was probably introduced in:
+
+Fixes: bc3c5e0809ae ("drm/i915/sseu: Don't try to store EU mask internally in UAPI format")
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Cc: <stable@vger.kernel.org> # v6.0+
+
+Adding Matt to cross-check.
+
+Regards,
+
+Tvrtko
+
 > ---
->  drivers/gpu/drm/drm_syncobj.c | 59 +++++++++++++++++++++++++++--------
->  include/uapi/drm/drm.h        |  5 +++
->  2 files changed, 51 insertions(+), 13 deletions(-)
-
-...
-
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 642808520d92..aefc8cc743e0 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -887,6 +887,7 @@ struct drm_syncobj_transfer {
->  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
->  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
->  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time =
-point to become available */
-> +#define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadl=
-ine based to deadline_nsec/sec */
-
-Hi,
-
-where is the UAPI documentation explaining what is a "fence deadline"
-and what setting it does here?
-
-btw. no nsec/sec anymore.
-
-
-Thanks,
-pq
-
-
->  struct drm_syncobj_wait {
->  	__u64 handles;
->  	/* absolute timeout */
-> @@ -895,6 +896,8 @@ struct drm_syncobj_wait {
->  	__u32 flags;
->  	__u32 first_signaled; /* only valid when not waiting all */
->  	__u32 pad;
-> +	/* Deadline hint to set on backing fence(s) in CLOCK_MONOTONIC: */
-> +	__u64 deadline_ns;
->  };
-> =20
->  struct drm_syncobj_timeline_wait {
-> @@ -907,6 +910,8 @@ struct drm_syncobj_timeline_wait {
->  	__u32 flags;
->  	__u32 first_signaled; /* only valid when not waiting all */
->  	__u32 pad;
-> +	/* Deadline hint to set on backing fence(s) in CLOCK_MONOTONIC: */
-> +	__u64 deadline_ns;
->  };
-> =20
-> =20
-
-
---Sig_/VSEM3Sqv+X/GOgQntXXiV/x
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP0hnMACgkQI1/ltBGq
-qqfUUw//XVeqgeDOtw8oq6xuKdBjOAqnRwLjkzvWi/88co80qy2LH+hR4CUskUUz
-G28RzH6tjsu2yM/WTAs2zpzFWmTC5R0d5pfQytNoqPwXpWsjE3AJdDeT5DYI2b6N
-HTy3B1G23/CmVdky2sl29T/ZUGNXHZdOiZMTEa6pve9l6XGVa3vhZD8+ezOkSTHB
-B8DGAkFnkSXcIaAB9Cr0TBhWvh/vbGhvlcal2WTBJEdD29miP+s1G3GCwCckJ8Ul
-Ruj9+Sj8UjgytllWZld0iIcptQnf2yOrjb2vHb5G5chCHXe4sSDJZJvo3FxV0tdp
-6qMmV7ECTTyX4IJDxU1l0FY6NZLIUV1HYsjRfj3sNKbbJOh4BBWss8dLl3nfiUtF
-4TOqxDohFjaI1EroIrTzmreN5qtDEFEkWc+Kg+0z8qTQXeSWxXn8yAj8AZpoEtZP
-eRm372Z2c0PGjXKIE5PZ5W/KtDaD5JynRHI3ZsK777qkDYzqopuD3/TcC0AU5VyP
-XtFEbUsm9yRGCQNR2qwJrFxDrgKIoHRC2fmAvLxjGK37XtsVD1XYSX0cBWsOqw2s
-jzguoe3iTuwH9o/1fqXvCNzyCtuRB3KsdioQHfxsPr4JulocwkAdwFatQQA9n90v
-kwOZoREmqbO1h1/V1+jz0/Ta7ExkSQdZYZgBaG2u0aeDRHfI6L8=
-=hlmI
------END PGP SIGNATURE-----
-
---Sig_/VSEM3Sqv+X/GOgQntXXiV/x--
+>   drivers/gpu/drm/i915/gt/intel_sseu.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
+> index aa87d3832d60..d7e8c374f153 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_sseu.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
+> @@ -27,7 +27,7 @@ struct drm_printer;
+>    * is only relevant to pre-Xe_HP platforms (Xe_HP and beyond use the
+>    * I915_MAX_SS_FUSE_BITS value below).
+>    */
+> -#define GEN_MAX_SS_PER_HSW_SLICE	6
+> +#define GEN_MAX_SS_PER_HSW_SLICE	8
+>   
+>   /*
+>    * Maximum number of 32-bit registers used by hardware to express the
