@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F162F69E3AD
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:38:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9915669E3AE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:38:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 520EF10E84B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A04A10E84C;
 	Tue, 21 Feb 2023 15:38:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3833F10E835
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:37:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 183FE10E848
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:37:52 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 61588660219C;
- Tue, 21 Feb 2023 15:37:49 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 43EC366021D2;
+ Tue, 21 Feb 2023 15:37:50 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1676993870;
- bh=XZzIf5WhWGCw6ZUak5aUno/dS29XlqQ4V6b5lAMNRT4=;
+ s=mail; t=1676993871;
+ bh=X9j7xcxPWqqju4SwMykvvaoqD5cIUMh5cTk3zCzxcjY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H+Othc8jly/UlZ/H/DYKYH2UsRajWJP5aw6CzokeJLVJtdEBoZthynoP83iLZjADP
- Vq9CEae9R1VtMisaalqSoYE0IvUcRUFRBQFBJVJEmhrhQ4eNWTJqeeuUWuH27UBNwU
- 4I/QgzW1qoOVHRfCrVXmB0IMd5+vOIZCCqVmeld4+LNPTjNAjqmQN/gmnIW31qcNgP
- iOvpAWaRT9jEATqXvjZ+/02fhU/Ik7SW9kk9FBy4Th2+SWqmXlK1wmk24yPDCSUXwo
- mHfIF1LJ3agbpB9T1IuXi8ESMSXkBjbiQodLq1XmhDr0mOYRyT/uA3UpA+X5ce42v5
- yRgIO9n6bKObw==
+ b=U6/pIFVnfCKS+MNTaAAmacRT0UTSPBum3hfbt9pRV5q7VFocDcyxcvGF7XrWAG/i1
+ sLaW/zi3XqfHtI4FiqAifMDCVres/490H6yCUfIFcSH+GkICdjw+mR5o3574fAIcFU
+ ipUSyKZk2vlnvse4k9bNyVHGosdWvWU6wY8d3aC/hpBU6X2fXPj4kiWwfO5LjjWpPV
+ cJI7OVZDogorBXjC7/exwBkjEQKrUCu9Pyijtn5u28Hxx9UMVcZ86KknTb+q/xiCIX
+ WnqOcwvTj4cMnPRtc3pbcNeb3m53bItthzxujx02NyLDUkBRUdIVge7CtiwXy6O1if
+ rs1iIJyaFne5Q==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: airlied@gmail.com
-Subject: [PATCH v2 06/10] dt-bindings: gpu: mali-bifrost: Add a compatible for
- MediaTek MT8186
-Date: Tue, 21 Feb 2023 16:37:36 +0100
-Message-Id: <20230221153740.1620529-7-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 07/10] drm/panfrost: Increase MAX_PM_DOMAINS to 5
+Date: Tue, 21 Feb 2023 16:37:37 +0100
+Message-Id: <20230221153740.1620529-8-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
 References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
@@ -62,29 +61,31 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Get GPU support on MT8186 by adding its compatible.
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 
+Increase the MAX_PM_DOMAINS constant from 3 to 5, to support the
+extra power domains required by the Mali-G57 on the MT8192.
+
+Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_device.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index be18b161959b..43a841d4e94d 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -15,6 +15,11 @@ properties:
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index d9ba68cffb77..b0126b9fbadc 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -23,7 +23,7 @@ struct panfrost_job;
+ struct panfrost_perfcnt;
  
-   compatible:
-     oneOf:
-+      - items:
-+          - enum:
-+              - mediatek,mt8186-mali
-+          - const: mediatek,mt8183b-mali
-+          - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-       - items:
-           - enum:
-               - amlogic,meson-g12a-mali
+ #define NUM_JOB_SLOTS 3
+-#define MAX_PM_DOMAINS 3
++#define MAX_PM_DOMAINS 5
+ 
+ struct panfrost_features {
+ 	u16 id;
 -- 
 2.39.2
 
