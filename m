@@ -1,65 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0461569E201
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 15:08:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ED469E225
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 15:18:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFD810E18A;
-	Tue, 21 Feb 2023 14:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4A710E179;
+	Tue, 21 Feb 2023 14:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C497510E18A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 14:08:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 335D310E179
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 14:18:39 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7C0A3B80EBF
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 14:08:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 46992C433D2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 14:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1676988512;
- bh=6L0FhoM4p1Q8fAr459AR5OmNFDWguTWaQsCVDebcrqs=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Z/4CXq5w1zbsmbPNHIP0EIP1hjbm2ZGQEvRQlkxq8eocUfeVrHB1Y0pCIUTxxdcUg
- 1exrb4K8e9SUMokPRYUnatQ75+3Cn/RTKPfpVIsHHoOn4wiAx/Chiz/SEhMVHLAOvP
- TsQqlbGzadcl+Cx+5e/9GTUL6S4D/jLI/7g9J5TVRrIE+2Hbiqf7OzFc+A9xfMLPl1
- gS/OKMV+vc97g3tYUsY0PskHu2mtq+ZTgslXGPfDulYbRTtRoWNcQuwLRgWpYZeg5r
- k/9FavEVWIkIy/sAw2yRD83z/ZgZAap3cPqcRQEtZrf76/2xrZAXUXhnTx/DqC2rGJ
- 3ABLa6gInqGmw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 02BB3C43144; Tue, 21 Feb 2023 14:08:31 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217065] Linux 6.2.0 - AMDGPU cannot start, ends in a blank
- screen.
-Date: Tue, 21 Feb 2023 14:08:30 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-217065-2300-XOIrfMnwVH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217065-2300@https.bugzilla.kernel.org/>
-References: <bug-217065-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7D22A61018;
+ Tue, 21 Feb 2023 14:18:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F97C433D2;
+ Tue, 21 Feb 2023 14:18:35 +0000 (UTC)
+Message-ID: <9d5346bf-526d-d8ec-d055-175aae429638@xs4all.nl>
+Date: Tue, 21 Feb 2023 15:18:34 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2 1/9] drm/vc4: Switch to container_of_const
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20221207-rpi-hdmi-improvements-v2-0-8ace2d8221ad@cerno.tech>
+ <20221207-rpi-hdmi-improvements-v2-1-8ace2d8221ad@cerno.tech>
+ <c70e40fe-6834-2382-ec89-28714a67fd1f@xs4all.nl>
+ <20230221113834.i3nitxp4soev6cks@houat>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230221113834.i3nitxp4soev6cks@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,23 +47,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217065
+On 2/21/23 12:38, Maxime Ripard wrote:
+> Hi Hans,
+> 
+> On Sat, Feb 18, 2023 at 11:45:04AM +0100, Hans Verkuil wrote:
+>>> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+>>> index 86d629e45307..d0a00ed42cb0 100644
+>>> --- a/drivers/gpu/drm/vc4/vc4_bo.c
+>>> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
+>>> @@ -609,7 +609,7 @@ static void vc4_free_object(struct drm_gem_object *gem_bo)
+>>>  static void vc4_bo_cache_time_work(struct work_struct *work)
+>>>  {
+>>>  	struct vc4_dev *vc4 =
+>>> -		container_of(work, struct vc4_dev, bo_cache.time_work);
+>>> +		container_of_const(work, struct vc4_dev, bo_cache.time_work);
+>>
+>> ...I think this is misleading. It's definitely not const, so switching to
+>> container_of_const suggests that there is some 'constness' involved, which
+>> isn't the case. I'd leave this just as 'container_of'. This also reduces the
+>> size of the patch, since this is done in quite a few places.
+> 
+> The name threw me off too, but it's supposed to keep the argument
+> pointer constness, not always take and return a const pointer. I still
+> believe that it's beneficial since, if the work pointer was ever to
+> change constness, we would have that additional check.
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+If both inner (work) and outer (vc4) pointers are non-const, then there is no sense
+in switching to container_of_const. I don't see it used like that elsewhere
+in the kernel.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+It only makes sense to use it if the inner pointer might be const.
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please report here instead: https://gitlab.freedesktop.org/drm/amd/-/issues
+If the work pointer (in this example) would ever become const, then the
+regular container_of macro would report a warning, that's something that
+was added in commit 7376e561fd2e. So preemptively switching to container_of_const
+appears unnecessary to me.
 
---=20
-You may reply to this email to add a comment.
+Regards,
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+	Hans
