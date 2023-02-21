@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712BC69E39C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:38:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0816C69E398
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 16:37:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054F710E835;
-	Tue, 21 Feb 2023 15:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87BC110E840;
+	Tue, 21 Feb 2023 15:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED0110E0CC
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:37:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A786E10E0CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 15:37:47 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id EA54066021CD;
- Tue, 21 Feb 2023 15:37:44 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id CDB4166021CE;
+ Tue, 21 Feb 2023 15:37:45 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1676993865;
- bh=DZyb8vw6qbtsYIBlP4pzm++AodTcvCv6AvAETopyIuw=;
+ s=mail; t=1676993866;
+ bh=dYSlQLXMyB6AD5hy1+lsca8EHSPk5mj7QuNmBK+ZBoM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IVEXs0YCZUHyAapvJaL7aVXlMFv/vsVn5oMxuyZIvMl/T5zqxgfCYeHhYmO2zTn4P
- x4O/Ligz1ltjjWbtSD3MfYn5s31rg+XjE7bPD7MLuUfU9k8O13YchbjQq45jh21ZTa
- LztdlXygiNltijjIgzXHYdvOKIqU4J3+ZDe9zG5MHj6IG9T8YkD133VVKBabn3XU1l
- hyukQs3LB4LsL5x/o2e0YoZs7FZcnA8w0Pa3VvR0uv1jMx2E3viudreCGS26pvRoxw
- /JKxEK5nWPMf4Pz/k+y9uqFXsjOtNbmHoAA4cxN9SHYaLddrBDO9o6btnNztpvt/me
- CqXQtOjT+NW2Q==
+ b=fruQtiaCFMTjf65J3alfeo62CbcoagqQqYvW554EK9LoXS9Jq6sdepSifhbe9eSCT
+ IAXo3KLtInJZRV1NQWbBeXKRWC0mWHT07qmVMNNv6WYiU4A7yrnesuAIc6oOhgmPM6
+ SbHmDPIjvKdhhEBGdJR3G35/PACkTxb/MnHm8twuGJhNia6fdirTD/65IEd3kcVju9
+ SxUTm+McN27gp5Z6FKgX9+DY+S6ra/n7qrN3gKTOZwWD9GNyTEObNyl/VRwK2VSDCy
+ O7VDCYayuQXWe/ABLKOnd3dhnuiYB/IR4RsdrNAYvLgGNOxXPYN/P6PqpKBPVvlInt
+ R6TyvdcMlrwzg==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: airlied@gmail.com
-Subject: [PATCH v2 01/10] dt-bindings: gpu: mali-bifrost: Add
- power-domain-names to base schema
-Date: Tue, 21 Feb 2023 16:37:31 +0100
-Message-Id: <20230221153740.1620529-2-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v2 02/10] dt-bindings: gpu: mali-bifrost: Split out MediaTek
+ power-domains variation
+Date: Tue, 21 Feb 2023 16:37:32 +0100
+Message-Id: <20230221153740.1620529-3-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
 References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
@@ -62,41 +62,51 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chen-Yu Tsai <wenst@chromium.org>
+In preparation for adding new bindings for new MediaTek SoCs, split out
+the power-domain-names and power-domainsvariation from the `else` in
+the current mediatek,mt8183-mali conditional.
 
-In commit a7a596cd3115 ("dt-bindings: gpu: mali-bifrost: Add Mediatek
-MT8183"), "power-domain-names" was added to the mt8183-mali sub-schema,
-but was not added to the base mali-bifrost schema. Because validation
-happens for the base schema and any sub-schemas separately, this causes
-errors to be emitted when validating the MT8183 device trees.
+The sram-supply part is left in place to be disallowed for anything
+that is not compatible with "mediatek,mt8183-mali" as this regulator
+is MediaTek-specific and it is, and will ever be, used only for this
+specific string due to the addition of the mediatek-regulator-coupler
+driver.
 
-Add power-domain-names to the base schema to silence the error.
-
-Fixes: a7a596cd3115 ("dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183")
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ .../devicetree/bindings/gpu/arm,mali-bifrost.yaml | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 78964c140b46..02699d389be1 100644
+index 02699d389be1..ac174c17e25f 100644
 --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
 +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -65,6 +65,8 @@ properties:
-     minItems: 1
-     maxItems: 3
- 
-+  power-domain-names: true
-+
-   resets:
-     minItems: 1
-     maxItems: 3
-@@ -166,6 +168,7 @@ allOf:
-       properties:
-         power-domains:
-           maxItems: 1
+@@ -145,6 +145,18 @@ allOf:
+         - power-domains
+         - resets
+         - reset-names
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              enum:
++                - mediatek,mt8183-mali
++    then:
++      properties:
++        power-domains:
++          maxItems: 1
 +        power-domain-names: false
+   - if:
+       properties:
+         compatible:
+@@ -166,9 +178,6 @@ allOf:
+         - power-domain-names
+     else:
+       properties:
+-        power-domains:
+-          maxItems: 1
+-        power-domain-names: false
          sram-supply: false
    - if:
        properties:
