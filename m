@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5325369E5FC
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 18:28:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01CE369E605
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Feb 2023 18:31:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 943A810E16A;
-	Tue, 21 Feb 2023 17:28:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DAD210E339;
+	Tue, 21 Feb 2023 17:31:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B04C10E16A;
- Tue, 21 Feb 2023 17:28:44 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id f16so5137077ljq.10;
- Tue, 21 Feb 2023 09:28:44 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C06E10E0BC;
+ Tue, 21 Feb 2023 17:31:25 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id n2so3438983lfb.12;
+ Tue, 21 Feb 2023 09:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2uM2Sqi1LrzmhdYBUsLJKmYqTJHGFd6mwupJ4HuqqlE=;
- b=Bf5IlGK7pRPqSncYXrGgSRNto8ECKIs46Z+9kXBQP4kb6ekBMqmRjlaZac0DPIj8cy
- YKMkhRFQHaclMI9pDWN2Z125WfJY+8E7rNXz+A/L4XnN3GHa+4u/rLJPXHT3qlWGBH2T
- DEwTorkopg0ylpU9lsItsZ+uNbJAO7UXlvqcq2oEJZWb81t+2yuLPH1Yg7MUgnpx5ybL
- 8DU1T6+KPy63SxY42Dsq6+IMHuMFAAgMktYFlhFuTVqAdj994giIwmBWUn9gyzk6dqru
- zxCWEdw7aA5Kx37pKUwuo6G/LAvM8nXVJm4hzYOAkHIH2IYFvdr2H198MtWO3RaZwbSP
- l5Dw==
+ bh=BHPxPc7af3xcCKmcn4S6pyNi701Yy7IJSjSQhJUHjQU=;
+ b=CadMKNfJK8JGU8E4Bpy0eGdSZZB1DhwZ1tF+xJ4Q2iuWgWcjbbXP1v0d6ISqAXJshK
+ Wgw02BB3vKc0qVusbDQgIPU2OloYeTLjCuG9ifer2856pYlwLQMPNrDCT8M62uw8aUPt
+ 6m/RC8UyYAEszFZo3KS0gX0qBBhNH5ZA5p45m4ku8x229OFTVHoTjMEZWL07oYUy2hUt
+ d65CSPmvse1wDdrCjwYCvgQ7nU4xfgCZ+7NXFAiovu9Gm9aTLL8MVp6feCgYpgjYqAbH
+ hzz55iy1aLfbwndNj7vOjz7Yvv6gCzsnP5LQoJx8VGK1dckCr4QmbgWcRwnhgRbeB6B0
+ GHmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2uM2Sqi1LrzmhdYBUsLJKmYqTJHGFd6mwupJ4HuqqlE=;
- b=q/cBTkPwX21xCHT0nQ0Fc07c4wn7ZsS5/SVaVfJv11ve7/bn+UrU0ZFIwCceJXijOB
- t7YpNPuSmn7AMAI5u++BDim1xbDl1nTU0tbn6g5eo8iwSkU1+29RHRqaQPZYMZzUOeQM
- r35BkSk+IICjSduktocGOu+R+dyelLXdT4XiqHiwhoIFgITxv1da17yZ3IOXGrjJyJ61
- m13fO1wQ3F1IfXczA8svyOq9f7AYrvHQPauMxOgwmEebqK27hC5swL4AKMcR8x0bsFOT
- iPlz1UMOH0kwlBBqPLkZVCNhdrwIU/8z6/1VeCT2vy9iqGuNhDOiow9yD6q1QpjdOo8i
- TXlA==
-X-Gm-Message-State: AO0yUKXum/ekLziCrCRS1KKm2w5Ne/TGi1WYbdNAppvn1qDjiHnzA9Ej
- U61P7ttpBW6h9T8gg0IRBARToRVUndgVLt5TqhY=
-X-Google-Smtp-Source: AK7set8HS6OZ9bbuqsGa4opdA0t95yS61MTlL/x4KCdXFKihc5QLWYNVee8A3kxAzcBalZpLLbTKkmmfppkU7fqSbLs=
-X-Received: by 2002:a05:651c:331:b0:293:4fd2:9a59 with SMTP id
- b17-20020a05651c033100b002934fd29a59mr1955516ljp.2.1677000522451; Tue, 21 Feb
- 2023 09:28:42 -0800 (PST)
+ bh=BHPxPc7af3xcCKmcn4S6pyNi701Yy7IJSjSQhJUHjQU=;
+ b=YIPpZvpbjReIgfhB5emOL7xaCkMJ1BTE0m8MDSyvDirBioiAcrzE4oMlWn2SOH/DHQ
+ O1f1Tzb27CX0GVvvjXk4j1PjgiEpGn5sq44sAqlKDQHcma3XZtDY/LWP2O9Ua9iMEJHz
+ GQ4nXbwA9qzUHnRYIN32RvCLnPDpFZyuangd3O8Sgymc44uFz3+2aiNUqQULPDKMSBvD
+ LY2wJl31qhc+mB3oS+X//wtpAObsTG6/Aq5bTpnI7Qtfok0L4a5Ex/ndCcV+XdDdDDro
+ pz3rhGbi+iqmKLY5iL6+T46mYyiWrcM/rhPYRQXVufIQIjrrTuOOIy4Ln1QM2xPEUsOU
+ 61KA==
+X-Gm-Message-State: AO0yUKWBNK2OyQBHiGk3lInxAazUjQy/i7+XQgBPfAG2jpuO7VzZFKoz
+ ElItxgf+Q30/Tt8jyuLFe3fMahmOhWiM2fV9Gsg=
+X-Google-Smtp-Source: AK7set+SUltPHmbuPTc97m8BtyGr6buZ+3NrYgWLEJV8XWv04KS2WDaVDWzkgLvtrvQdIuJUxaBdT7FHd3V91FzYN34=
+X-Received: by 2002:ac2:560e:0:b0:4db:1999:67a4 with SMTP id
+ v14-20020ac2560e000000b004db199967a4mr1879135lfd.5.1677000683844; Tue, 21 Feb
+ 2023 09:31:23 -0800 (PST)
 MIME-Version: 1.0
 References: <20230217122224.29243-1-christian.koenig@amd.com>
- <20230217122224.29243-5-christian.koenig@amd.com>
-In-Reply-To: <20230217122224.29243-5-christian.koenig@amd.com>
+ <20230217122224.29243-7-christian.koenig@amd.com>
+In-Reply-To: <20230217122224.29243-7-christian.koenig@amd.com>
 From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Tue, 21 Feb 2023 17:28:15 +0000
-Message-ID: <CAM0jSHMcUk3x_RdBjG++KCB1rhh=ORVNOUqczWKYcpLsSjG6KQ@mail.gmail.com>
-Subject: Re: [PATCH 5/7] drm/gem: Remove BUG_ON in drm_gem_private_object_init
+Date: Tue, 21 Feb 2023 17:30:56 +0000
+Message-ID: <CAM0jSHO7miHcqreGLA1NUTatW+vRF7m2s+NO9HeXXQqwQYRHGQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 7/7] drm/ttm: cleanup ttm_range_mgr_node
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,36 +75,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Fri, 17 Feb 2023 at 12:23, Christian K=C3=B6nig
 <ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> From: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> We don't need multiple drm_mm nodes any more. Clean that up and remove
+> the extra complexity.
 >
-> ttm_resource can allocate size in bytes to support less than page size.
->
-> Signed-off-by: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20230208090106.9659-1=
--Amaranath.Somalapuram@amd.com
-> ---
->  drivers/gpu/drm/drm_gem.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index aa15c52ae182..5a3ca3363f82 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -152,8 +152,6 @@ EXPORT_SYMBOL(drm_gem_object_init);
->  void drm_gem_private_object_init(struct drm_device *dev,
->                                  struct drm_gem_object *obj, size_t size)
->  {
-> -       BUG_ON((size & (PAGE_SIZE - 1)) !=3D 0);
-> -
-
-There are also some comments in drm_gem_{get, put}_pages referring to
-this exact BUG_ON(), which could do with updating now.
-
->         obj->dev =3D dev;
->         obj->filp =3D NULL;
->
-> --
-> 2.34.1
->
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
