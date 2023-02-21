@@ -2,80 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B167F69F9AD
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 18:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4B969F9B2
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 18:09:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB3310E2D4;
-	Wed, 22 Feb 2023 17:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7534B10EA53;
+	Wed, 22 Feb 2023 17:09:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
- Mon, 20 Feb 2023 17:25:49 UTC
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AD3110E137
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 17:25:49 +0000 (UTC)
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 5A6EE3F20F
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 17:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1676913546;
- bh=KsFWVKyUTisvLWEBfJHuAqZZOIzRC+wakmOYPwQrXVU=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=FZMzSoeecI91UrA5teqL8d4x6aQbaIiXb6laVlwqHzRU2vioww5CHpvnaQ1oCEGKW
- iXE+W5kkIjMnKl8MVSgEP3w3QFUeAf9c7InTtYY3YWJkBgn3Vw4CbEMS5ehn3Lvmsj
- rb/FVr3bQjgJYmenUJSsIbfZ3XUu7GjmYi+U6hMMTd8zIAya4IHoGKx1plBsMNSX4f
- gYIkyr98FT/4P4jzHnO1jBIrAy48XS19llrrwFAyh5DFGRjkZXcNHfVLo92Db7rLBB
- c11hHySKzRqHfsOBwwttQHUNNA+qNWELKjfCxam3h3/9FE6OD8mCXPt9dBuuMSUm+Z
- lg8EcUMXwMzSg==
-Received: by mail-ed1-f70.google.com with SMTP id
- k12-20020a50c8cc000000b004accf30f6d3so2519954edh.14
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 09:19:06 -0800 (PST)
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FC7610E04E
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 01:16:47 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ m3-20020a17090ade0300b00229eec90a7fso2104687pjv.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Feb 2023 17:16:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=51UaoPU/C0/KKF4ZFxyoQ4hLTKIyJZ32r01ujK1PNOs=;
+ b=Yig2kknJSmcFfW97L8SV0DtDNp5GVM1Mwp5L8c6O0+W9I0n7upaXqnjasr9J0X1xSu
+ OUE5Ol8Z5XCOEETOMzRbDaNauPP0KxjMNKKJQWjrxbJqfPUUAaoPLzow3TDfHApx3shX
+ m6weGLE6Vsws8J094vsqHctjV/3sIp8NtcPCDtSqaD5nBZN0cRZntEweMzjwoxY60cEC
+ zq9I46sJs2sPQMV7Xlr7fQN//tP4oYKvn72CP5JbYsee0EcQoX48EkjSSjW44Y5apLLO
+ h8oN6muSCKFJu2ef/Oy6HpqnAqt6ZLifRWohiCW/qNKRVFlGT5t2uCakW/4gajqUJ7s+
+ w6QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KsFWVKyUTisvLWEBfJHuAqZZOIzRC+wakmOYPwQrXVU=;
- b=ZFhF0j+GxT0Ylg8YR0qPCqbu4oeWGtM1pS6BVAj6HQqRw4KlWXW6z9RmvA6uL/g7TQ
- LIvY0KClR+eislNGa8XhEhvnVrgh8yEiVuiwWOotuC7/AWTQ/qIXM8HXzLIi5aE/Dnmt
- v3TEn0jYUleGxoPDCmBWE+v4agnk4mzRG3ElLjaWoLFzcEQwQ85guOdMnmKFYjzm8vCs
- HBQ9YM+AeW63SCBW1E9meMyHnrdaR8rF2P9cW+8togNsUqmUIeN5L+RebCQ8ViP4SwDa
- xAjPelHkJKLz6il8jI/HnXkAqprlNXzN1kxI/z0UI4uVRlD81Br1hAVXWGLW32CKhyPJ
- Gkvg==
-X-Gm-Message-State: AO0yUKUzgtK0W2X80E30dHn7bzuFRGs5x6guCqIdJUlcCl2lneFzsnfB
- l7SThOwt9EXeWmrBi3sfYTT/AivxshyJgvz+nHzMshq8UjvFs+FvO1gWnAAgq9bpytaW2/SMaWe
- CMQl587Sa4N0YBrHzueRijMWZo3bsBFeSP7OsO43C/pSL8A==
-X-Received: by 2002:a05:6402:1151:b0:4ac:beba:dc87 with SMTP id
- g17-20020a056402115100b004acbebadc87mr1075435edw.0.1676913546121; 
- Mon, 20 Feb 2023 09:19:06 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Oj7a1xx8jk5ISCHq4+eehJqR5ZQt/ZuPqDE6BQzrZixfjYgaHw5I/qT7NHOl5lv7OxFJ56Q==
-X-Received: by 2002:a05:6402:1151:b0:4ac:beba:dc87 with SMTP id
- g17-20020a056402115100b004acbebadc87mr1075416edw.0.1676913545790; 
- Mon, 20 Feb 2023 09:19:05 -0800 (PST)
-Received: from localhost.localdomain
- (host-79-44-179-55.retail.telecomitalia.it. [79.44.179.55])
- by smtp.gmail.com with ESMTPSA id
- ee51-20020a056402293300b004aef6454d6dsm1984489edb.37.2023.02.20.09.19.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Feb 2023 09:19:05 -0800 (PST)
-From: Andrea Righi <andrea.righi@canonical.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/i915/sseu: fix max_subslices array-index-out-of-bounds
- access
-Date: Mon, 20 Feb 2023 18:18:58 +0100
-Message-Id: <20230220171858.131416-1-andrea.righi@canonical.com>
-X-Mailer: git-send-email 2.38.1
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=51UaoPU/C0/KKF4ZFxyoQ4hLTKIyJZ32r01ujK1PNOs=;
+ b=uNbYBGD9VkJSL8JigaBX7BdI/XNBAx4Xm2cfDPcWAbLr/Kt3WsCw6c3gug+t/aJtru
+ G14LzK3fkzIlMSoM9c/ANYCHvZB3gH06q8IQQU1NEWFCZvupuVV8aHhDDh+I4Dp7t3v9
+ QgH4MhCdAKiFGdHDpIiCUBCmvAauY8BglCAkZMtUj3drLxqntPrVfa1ILIvgD5mtr6Bp
+ yX+xwiF9wn56c7R/6hVLJjSrzIU/iSwGc18AhXqMlXdL7xRU6n4PtO9bLNnsRjZeeUKC
+ DYEcllkSpKwP/NCu/1pWu72ZNR2fOFllVwVWq2em9jRFQftkfhf5Z5DBvVXLLtWoKsWe
+ QZ3w==
+X-Gm-Message-State: AO0yUKWuFptQLt9UqvrYSKzb5TKAafApBYWyTbE6D1sIi7F8/1kVbFPO
+ NWxhUxdy2THpDZnr1UX+/Pg=
+X-Google-Smtp-Source: AK7set8wykRs1U7+p7ntm5Q4aBh/+/Gvh0uXbKnasmubA2myc1B9A9dVm7ch2hTjzAAJReivMFQpRA==
+X-Received: by 2002:a17:90b:4b0b:b0:233:bc73:a926 with SMTP id
+ lx11-20020a17090b4b0b00b00233bc73a926mr5098300pjb.20.1676942206869; 
+ Mon, 20 Feb 2023 17:16:46 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp.
+ [106.167.171.201]) by smtp.gmail.com with ESMTPSA id
+ gm24-20020a17090b101800b00232cc61e16bsm2153683pjb.35.2023.02.20.17.16.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Feb 2023 17:16:46 -0800 (PST)
+Message-ID: <e2ca05a5-4d49-a1ce-6129-25c2f57d23c7@gmail.com>
+Date: Tue, 21 Feb 2023 10:16:41 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] media: Fix building pdfdocs
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>
+References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
+ <Y+NnRvQ8X04tuurf@pendragon.ideasonboard.com>
+ <20230208121750.1b4ac5cd@coco.lan>
+ <a8a89876-8868-04c6-104b-6be1b6c628c4@ideasonboard.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <a8a89876-8868-04c6-104b-6be1b6c628c4@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Wed, 22 Feb 2023 17:09:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,66 +80,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Emil Renner Berthing <emil.renner.berthing@canonical.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Akira Yokosawa <akiyks@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It seems that commit bc3c5e0809ae ("drm/i915/sseu: Don't try to store EU
-mask internally in UAPI format") exposed a potential out-of-bounds
-access, reported by UBSAN as following on a laptop with a gen 11 i915
-card:
+On Thu, 9 Feb 2023 12:11:19 +0200, Tomi Valkeinen wrote:
+> Hi Daniel, Dave,
+>=20
+> Could you pick this fix to drm-next? The offending commit is there, it =
+was merged via Laurent's "[GIT PULL FOR v6.3] R-Car DU fixes and improvem=
+ents".
+>=20
+> I can also push this to drm-misc-fixes, but the offending commit is not=
+ there yet.
 
-  UBSAN: array-index-out-of-bounds in drivers/gpu/drm/i915/gt/intel_sseu.c:65:27
-  index 6 is out of range for type 'u16 [6]'
-  CPU: 2 PID: 165 Comm: systemd-udevd Not tainted 6.2.0-9-generic #9-Ubuntu
-  Hardware name: Dell Inc. XPS 13 9300/077Y9N, BIOS 1.11.0 03/22/2022
-  Call Trace:
-   <TASK>
-   show_stack+0x4e/0x61
-   dump_stack_lvl+0x4a/0x6f
-   dump_stack+0x10/0x18
-   ubsan_epilogue+0x9/0x3a
-   __ubsan_handle_out_of_bounds.cold+0x42/0x47
-   gen11_compute_sseu_info+0x121/0x130 [i915]
-   intel_sseu_info_init+0x15d/0x2b0 [i915]
-   intel_gt_init_mmio+0x23/0x40 [i915]
-   i915_driver_mmio_probe+0x129/0x400 [i915]
-   ? intel_gt_probe_all+0x91/0x2e0 [i915]
-   i915_driver_probe+0xe1/0x3f0 [i915]
-   ? drm_privacy_screen_get+0x16d/0x190 [drm]
-   ? acpi_dev_found+0x64/0x80
-   i915_pci_probe+0xac/0x1b0 [i915]
-   ...
+Hi,
 
-According to the definition of sseu_dev_info, eu_mask->hsw is limited to
-a maximum of GEN_MAX_SS_PER_HSW_SLICE (6) sub-slices, but
-gen11_sseu_info_init() can potentially set 8 sub-slices, in the
-!IS_JSL_EHL(gt->i915) case.
+I don't see this fix in next-20230220.
 
-Fix this by reserving up to 8 slots for max_subslices in the eu_mask
-struct.
+I'd really appreciate it if it could be upstreamed during the current
+merge window.
 
-Reported-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
-Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
----
- drivers/gpu/drm/i915/gt/intel_sseu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Does anybody care to pick this up?
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
-index aa87d3832d60..d7e8c374f153 100644
---- a/drivers/gpu/drm/i915/gt/intel_sseu.h
-+++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
-@@ -27,7 +27,7 @@ struct drm_printer;
-  * is only relevant to pre-Xe_HP platforms (Xe_HP and beyond use the
-  * I915_MAX_SS_FUSE_BITS value below).
-  */
--#define GEN_MAX_SS_PER_HSW_SLICE	6
-+#define GEN_MAX_SS_PER_HSW_SLICE	8
- 
- /*
-  * Maximum number of 32-bit registers used by hardware to express the
--- 
-2.38.1
+        Thanks, Akira
 
+>=20
+> =C2=A0Tomi
+>=20
+> On 08/02/2023 13:17, Mauro Carvalho Chehab wrote:
+>> Em Wed, 8 Feb 2023 11:11:34 +0200
+>> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+>>
+>>> Hi Tomi,
+>>>
+>>> Thank you for the patch.
+>>>
+>>> On Wed, Feb 08, 2023 at 10:29:16AM +0200, Tomi Valkeinen wrote:
+>>>> Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
+>>>> documatation for a few new RGB formats. For some reason these break =
+the
+>>>
+>>> s/documatation/documentation/
+>>>
+>>>> pdfdocs build, even if the same style seems to work elsewhere in the=
+
+>>>> file.
+>>>>
+>>>> Remove the trailing empty dash lines, which seems to fix the issue.
+>>>>
+>>>> Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
+>>>> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>
+>>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
+com>
+>>>
+>>>> ---
+>>>>
+>>>> Note: the offending patch was merged via drm tree, so we may want to=
+
+>>>> apply the fix to the drm tree also.
+>>>
+>>> Sounds good to me. Mauro, could you ack this patch ?
+>>
+>> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+>>
+>>>
+>>>> =C2=A0 Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 3 ---
+>>>> =C2=A0 1 file changed, 3 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/=
+Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>>>> index d330aeb4d3eb..ea545ed1aeaa 100644
+>>>> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>>>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+>>>> @@ -868,7 +868,6 @@ number of bits for each component.
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`4`
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`3`
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`2`
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * .. _V4L2-PIX-FMT-RGBA1010102:
+>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ``V4L2_PIX_FMT_R=
+GBA1010102``
+>>>> @@ -909,7 +908,6 @@ number of bits for each component.
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`4`
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`3`
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`2`
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * .. _V4L2-PIX-FMT-ARGB2101010:
+>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ``V4L2_PIX_FMT_A=
+RGB2101010``
+>>>> @@ -950,7 +948,6 @@ number of bits for each component.
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`6`
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`5`
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - r\ :sub:`4`
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -
+>>>> =C2=A0 =C2=A0 .. raw:: latex
+>>>> =C2=A0=C2=A0=C2=A0=20
+>>>
+>>
+>>
+>>
+>> Thanks,
+>> Mauro
+>=20
