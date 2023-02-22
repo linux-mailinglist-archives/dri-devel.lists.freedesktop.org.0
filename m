@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233B069EFB7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 08:58:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF48969EFC6
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 09:00:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 665D410E422;
-	Wed, 22 Feb 2023 07:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC61D10E42B;
+	Wed, 22 Feb 2023 08:00:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com
- [IPv6:2607:f8b0:4864:20::931])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 249F210E422
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 07:58:32 +0000 (UTC)
-Received: by mail-ua1-x931.google.com with SMTP id x40so2320559uaf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 23:58:32 -0800 (PST)
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com
+ [IPv6:2607:f8b0:4864:20::92b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 682BC10E42A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 08:00:36 +0000 (UTC)
+Received: by mail-ua1-x92b.google.com with SMTP id d12so2360013uak.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 00:00:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=G9H0xjhxYBLZPbX8nqO91E9hjJ6R+Sm3uDvahoqNPyc=;
- b=DNemaIQH3jRofAK7MbaDUIqc7f3HRn0kIhuSzD7GLxols1+ghLJzjYiSaKSC5aT2oy
- hDKSvR0/2g6fHPRaHu+gFWFCf5vOucJ41X9kBOqAGlWfYzPaU1bMP9Z6tjgosQFsU1bm
- RkZHOBGvtI8b7FGMn2SLXWnLEhVYvSNNU76gI=
+ bh=E/ELBQfN+/3lXdDB7LXB4Z2052sqoav27oBRvmxfX5Y=;
+ b=AT+IRCu07svzL8m3gIIkCn+JEKk2W/8SCpGDCVA+oSKuwo58MRo4ZcEhc6RxVyyV5h
+ SH4xpigfLJChb7OmNwlbmVHd/ccstGcS85QW1xb9r0cVu1WFt+Nf9hV2DweSdhHYdjPX
+ 0Ij/WbhQi5RvciOPshvUX0SJhh8dn1E+l2nQg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=G9H0xjhxYBLZPbX8nqO91E9hjJ6R+Sm3uDvahoqNPyc=;
- b=E2f2cJ5Njc9MkBAa+DrVyMT3ANm8ZOK0h2vV9ulPMzTOWYdw8Z0dl2laEbirIQXXZ+
- ewG9xztV2os0nz/Y3GF0g7VoAuvB+AAWuN8AbKUt2bKj4M0f7vJJ33x/Hkm0UdIOKtQV
- 17ZY9DIBo7LVuZvtAUbvgzqfDSU+ZoL4hfEARnbEqv2nT1ce9kEqBJeR4Ufz6UXtwpfP
- /K7zBFdwEytdta68HofOk4Kpw4X2P825FQqTVEU5raWR9FZSozLMyQmM7xp/8yEnn5gL
- KsKjHoXTndCxzk2qiP3JC4RAEv3N+ILcqANOd/BnmyasngfeTv+wZUQrgGBp4q49rGNu
- gOBA==
-X-Gm-Message-State: AO0yUKUkX5FmZo1t4p+ezptYRdBDTen7Ym5OwglTyUwOzh/k72cHLkzZ
- erVNrVGssbkYrYUjz6j63M3XFC3S446EO/Sj9G2wYQ==
-X-Google-Smtp-Source: AK7set8o2S3rJyKNzdUr4xZ9nrsGuSmtC2Ccm3LZaoX+pcw8mPI/KNjgf7s21ruTldmlELA+TVaMg7TzGpythFAFdbc=
-X-Received: by 2002:ab0:6ed3:0:b0:68b:716e:ed8a with SMTP id
- c19-20020ab06ed3000000b0068b716eed8amr2520250uav.0.1677052711248; Tue, 21 Feb
- 2023 23:58:31 -0800 (PST)
+ bh=E/ELBQfN+/3lXdDB7LXB4Z2052sqoav27oBRvmxfX5Y=;
+ b=TJXZ/1arHEwXcLQdNe+WV2QC77C1+0zl0kfik4ZPRyUNHEg0mM/s25eDM9qeWz7T3G
+ tb/UkTDkn8+zTbLv8iGS43AEyuIh8+VySMiDDQ7FtWmj6oO50jSf0cEs1wU6EtuJmDZC
+ /ppOjP5zRFxnNeRW6o3fOYvMKXL9HESeZk82Pwb+Kpt2coXWH2dK7P5rrGACrMlIcBNZ
+ /eCk8KPHvZZq0uGjrLNEMCKlykE6juPcmuohyCVg77Zz+pSllrDbJ+ey3gJCjP+WuhNy
+ sJ6BwlxOpKrbPo9u/3MbWOBt1xUXTI+NhvmmYUwHyxVILKm68imviIuxRe3C85ZJ2gkD
+ eytQ==
+X-Gm-Message-State: AO0yUKU7XT7NpW2a9dZWIkXHboQVGSeA5rdnNNA1Bu685F2Ix9T+n+W7
+ 9a+piiQZbILC8K5TyvRHQ0HB7w9P7B/vRqyvf+BUWKFCz/MTWhwI
+X-Google-Smtp-Source: AK7set9gHg9xT1t3caYU+/EH6XDWBjScNBL58kOvjAujH1+xQR8y6JHp+iLrLSPt9BTYSv2avB7S3b74hbnrFiwCMsk=
+X-Received: by 2002:a1f:208d:0:b0:3e8:66ce:a639 with SMTP id
+ g135-20020a1f208d000000b003e866cea639mr1301210vkg.2.1677052835469; Wed, 22
+ Feb 2023 00:00:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
- <20230221153740.1620529-3-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230221153740.1620529-3-angelogioacchino.delregno@collabora.com>
+ <20230221153740.1620529-4-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230221153740.1620529-4-angelogioacchino.delregno@collabora.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 22 Feb 2023 15:58:20 +0800
-Message-ID: <CAGXv+5E17b=nT3tquBxA6KkN3XLqNcWHeioeMtDaR+8SQhk8Kg@mail.gmail.com>
-Subject: Re: [PATCH v2 02/10] dt-bindings: gpu: mali-bifrost: Split out
- MediaTek power-domains variation
+Date: Wed, 22 Feb 2023 16:00:24 +0800
+Message-ID: <CAGXv+5EhuZ4oqEc-gK+F8fktFra+0MD5pMi_qzDwnFXxgjUsAg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/10] dt-bindings: gpu: mali-bifrost: Allow up to 5
+ power domains for MT8192
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,61 +74,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> In preparation for adding new bindings for new MediaTek SoCs, split out
-> the power-domain-names and power-domainsvariation from the `else` in
-
-                                          ^ missing space
-
-Otherwise,
+> MediaTek MT8192 (and similar) needs five power domains for the
+> Mali GPU and no sram-supply: change the binding to allow so.
+>
+> Fixes: 5d82e74a97c2 ("dt-bindings: Add compatible for Mali Valhall (JM)")
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-
-> the current mediatek,mt8183-mali conditional.
->
-> The sram-supply part is left in place to be disallowed for anything
-> that is not compatible with "mediatek,mt8183-mali" as this regulator
-> is MediaTek-specific and it is, and will ever be, used only for this
-> specific string due to the addition of the mediatek-regulator-coupler
-> driver.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  .../devicetree/bindings/gpu/arm,mali-bifrost.yaml | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 02699d389be1..ac174c17e25f 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -145,6 +145,18 @@ allOf:
->          - power-domains
->          - resets
->          - reset-names
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - mediatek,mt8183-mali
-> +    then:
-> +      properties:
-> +        power-domains:
-> +          maxItems: 1
-> +        power-domain-names: false
->    - if:
->        properties:
->          compatible:
-> @@ -166,9 +178,6 @@ allOf:
->          - power-domain-names
->      else:
->        properties:
-> -        power-domains:
-> -          maxItems: 1
-> -        power-domain-names: false
->          sram-supply: false
->    - if:
->        properties:
-> --
-> 2.39.2
->
