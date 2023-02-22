@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D264C69EDFE
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 05:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D1E69EE01
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 05:39:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5443F10E1A9;
-	Wed, 22 Feb 2023 04:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C2B10E1AE;
+	Wed, 22 Feb 2023 04:39:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com
- [IPv6:2607:f8b0:4864:20::929])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9343810E1A9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 04:38:48 +0000 (UTC)
-Received: by mail-ua1-x929.google.com with SMTP id f17so2087222uax.7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 20:38:48 -0800 (PST)
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com
+ [IPv6:2607:f8b0:4864:20::e2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FAB510E1AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 04:39:14 +0000 (UTC)
+Received: by mail-vs1-xe2e.google.com with SMTP id f23so6908377vsa.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 20:39:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SjnhtH64eML55ISxgIP0mbjGK87d9wufZ0dMxupwBB8=;
- b=lqrWBFFqj06m2wFc1tGmWC/sZDK+C19hDP4UIu5cVpbUtFfwJOsq8t6KqUwp+puZTM
- xlxcOhBFLwnQEXS/+AJA6bzHgUSP7bhC3Epgdd6YRaOAUCpXfcYDN21kgpjtnuydVfTS
- xmjsDddgoEcBvU3bv1C7mLsikIeNWew45cDD4=
+ bh=GVoxvyPN1nhO1N4WDOubFYF2WsT9Vx0F6vnuM2++yDk=;
+ b=aL/X1/QSvGLZUB2gQzJlQGgNBI0utUwoe+QVxxv47ccsL91gPFsZ8EhrIKAcwkTtl5
+ ydBjo6D40FwxudR7M8CIsAgSmn4szkb4iSQsSHKOznqjBjEFAFopUM8ubJQuGalc73Zb
+ 9O0Cr60WrMikcg0bCxsbDMDeXgTY4ejDaw4gc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=SjnhtH64eML55ISxgIP0mbjGK87d9wufZ0dMxupwBB8=;
- b=rDI+XzaFSYEtCBOV5POPp8uStfWvSBZlX8qpGpAsZuWdzmuReagdbYLGguKmG9zRtH
- 6/Euqkqn4Qj8K8ByWWzXTxC8OT5gLplEj8xNyU2PV3/zRdCBhMcSE3vmCAJNcUe92HLG
- FsQ8RNqds7E2fskS5BUVoRSVrT1e0dGblnjhjqRTk99OkOu22Z0uruLXqRP14p5pa099
- 6vC10hNVZEog0i2FyZbJBSD7fAZelGHoSaZxnlRMGZmEy/2ASBjButoWJzPLKnOu4g+C
- cTpu6BNmJllsC12TIH/u+Taa8a2VSwlSAbygfG8kgPjV6QCqif3Q3OVeaxa74lQ5+8yw
- U/lQ==
-X-Gm-Message-State: AO0yUKWZSRCTOt5KMF+4WAmk4IWT0CXE8nbTJxwvc+mWoswgeOHFS0f1
- T3pgdqkY1sJCyuVrKASVqkx8rKKfmQDrgOXUsxYO2A==
-X-Google-Smtp-Source: AK7set83ZvblSYZh7JNvc7QCFEKUZbLt9LcnNtZrdB1tyX1tEXVX1rHD9xKFOJ5X0MZjFwaqGFlydH4WbQIiF5KY8zE=
-X-Received: by 2002:a1f:208d:0:b0:3e8:66ce:a639 with SMTP id
- g135-20020a1f208d000000b003e866cea639mr1238225vkg.2.1677040727547; Tue, 21
- Feb 2023 20:38:47 -0800 (PST)
+ bh=GVoxvyPN1nhO1N4WDOubFYF2WsT9Vx0F6vnuM2++yDk=;
+ b=2h7DQZ7WJzaW1GzC+NlS6deHZOPb6A7ZeRGPfdyqYjw/N8+72p7DhbuCXGRyTiK+Gi
+ vzu6Yhd9upUyKuJFbGedF0Oc1uR/Z6kc18MtaWNDDK5P3Gg+cFCJ7lnkH4gK1HpJDh1q
+ I3e+yjyXeF209qnUV38iPiuiRqtxhzzxdyKhZ/4OE7ho1lYGc3nFSUNt6oKHkvRgjRdX
+ n0Y705gFoS9X9kRehBeoC7XI7YKf1jNgWVCNfDAD+UexjSg4eKZv+hbG/iVmDsS3XyUp
+ udXyMqFsMxmkPF4rQprrrocoxXHI5+9SaT9RfAsDMVeHzsi4tpviQ0YJ0jpKp5XryLVg
+ ov4w==
+X-Gm-Message-State: AO0yUKWogcysRxpicMSYho0GfPkHTJdEf14F0vbsX9LZqbw39qyGxZ1c
+ Bu21XudhcCAFlZRLL/N+wyX/Qen8TeQjNMHAPjXeEg==
+X-Google-Smtp-Source: AK7set8Svy6X2qVPrDh0/xqnxlJyxoyam0jIuQ00GgQwGtx0+ljaNuLzHxrSOvTRQu+v7FfJ8TiLYQfAUv4WRifKOu0=
+X-Received: by 2002:a05:6102:570b:b0:3fc:58d:f90f with SMTP id
+ dg11-20020a056102570b00b003fc058df90fmr1475672vsb.60.1677040753210; Tue, 21
+ Feb 2023 20:39:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
- <20230221153740.1620529-8-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230221153740.1620529-8-angelogioacchino.delregno@collabora.com>
+ <20230221153740.1620529-10-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230221153740.1620529-10-angelogioacchino.delregno@collabora.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 22 Feb 2023 12:38:36 +0800
-Message-ID: <CAGXv+5FuKJ7ce_tPeOt_+yPw+hZwiiePRHp+QsWBm-sf7UD4Dw@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] drm/panfrost: Increase MAX_PM_DOMAINS to 5
+Date: Wed, 22 Feb 2023 12:39:02 +0800
+Message-ID: <CAGXv+5EJpkzKFJFzuz8d5xNzxwnJ=X+MpvXspUHYCNKB8YRNaQ@mail.gmail.com>
+Subject: Re: [PATCH v2 09/10] drm/panfrost: Add mediatek,
+ mt8192-mali compatible
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,10 +76,12 @@ On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
 >
 > From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 >
-> Increase the MAX_PM_DOMAINS constant from 3 to 5, to support the
-> extra power domains required by the Mali-G57 on the MT8192.
+> Required for Mali-G57 on the Mediatek MT8192 and MT8195, which
+> uses even more power domains than the MT8183 before it.
 >
 > Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> [Angelo: Removed unneeded "sram" supply, added mt8195 to commit description]
+> Co-developed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > Reviewed-by: Steven Price <steven.price@arm.com>
 
