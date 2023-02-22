@@ -1,67 +1,131 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D60169F24D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 10:57:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD0B269F26E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 11:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1C0410E2D9;
-	Wed, 22 Feb 2023 09:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A982D10E928;
+	Wed, 22 Feb 2023 10:05:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8364510E2C6;
- Wed, 22 Feb 2023 09:57:06 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id i9so9100973lfc.6;
- Wed, 22 Feb 2023 01:57:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=kuN6LRtkGhbHCZ4da3565uxXphJdjdeuFluVUGowqGg=;
- b=WzSI+KiBBC3jAwxezARla8d2Qgyg2/BCu7x2e1gD+5Jt4tRGT+idGqXhy0My7enpiR
- Ua1cAPdIZnzSId9ICavmEXeK8iFOw3DGaqW4OYkO7MDswSvgFUbxSV5RyQZBUp+NhAQb
- H8vdQ/F9CEAuJezxVXz04ov3TF2viRO4torx1qvHDQE0WJIRISPv+eh7cd1EN73lZA3n
- JsKEcGIsy4s/paQ5UYsH224lxsmc4QZADdOn9R7ZeTkiyYyiKRlo4rgXxuxUHS8TEYO9
- JGnAYqpnNnEwP51sp0CqYMxuLFILsepb4PCkI85v0dQmphKzAZ5kbMXyycVq4F1ixaVT
- 5TAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kuN6LRtkGhbHCZ4da3565uxXphJdjdeuFluVUGowqGg=;
- b=A4FUMt6NjhJhb2t0bqDmF1Yw1sQHFffawuAgk0y0AGxwODuoNGNcMmeMboFjqkpI8d
- ViTE8ebiuduy/wnzBK8a5lNd6DTR6p7QjdlShFVjN+Q8Xji5Dark5hc+OGMC/rwKPPDh
- XwemVRnKIv8lRHERFcgdLS2wCapMqFbZk0t4BF7MsoDurMi2QwkjmjGn0g5W56ziKWTl
- VSpScFuCYvzltPVD2in+kOO4gpOjOjH3pchZDE3OtdyseCf/GjJI9SmIXX6TxFBfxwc3
- ZbE1nMD2K0I+u7irRefCP4uu1RdQapjzWUhrZj/A/WzIVB3oOMRMpBGiacyGkJG+Pymj
- liug==
-X-Gm-Message-State: AO0yUKWNKB76pVVo1LhWKEcxtJ3d5vhJu2im6g2wqvnF8JbcZefIH+sN
- b50K0THANWAVetbc/DlooyI=
-X-Google-Smtp-Source: AK7set9YnqmGQK8ML+0jSk2KZBE93SkmbSxyMIEtQf8JQcY7ljpNvNJihBoD9Rmdd2N6ye0t55trEg==
-X-Received: by 2002:ac2:491d:0:b0:4c0:2ddc:4559 with SMTP id
- n29-20020ac2491d000000b004c02ddc4559mr2677307lfi.69.1677059824617; 
- Wed, 22 Feb 2023 01:57:04 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- b14-20020ac25e8e000000b004cb1e2f8f4dsm292734lfq.152.2023.02.22.01.57.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 01:57:04 -0800 (PST)
-Date: Wed, 22 Feb 2023 11:57:00 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v4 10/14] drm/vblank: Add helper to get next vblank time
-Message-ID: <20230222115700.138d824c@eldfell>
-In-Reply-To: <CAF6AEGumfEeGQQaEoEm4hzJajCOBBTrWxPQ9MTh7jt-Mov2FEQ@mail.gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-11-robdclark@gmail.com>
- <20230220110820.595cfa37@eldfell>
- <CAF6AEGuo-vmW4Va9=RH+kH9KgNvR2vzjJ8meO-oty56xjDhjgg@mail.gmail.com>
- <20230221104551.60d44d1c@eldfell> <Y/TAr64SpxO712RB@intel.com>
- <CAF6AEGumfEeGQQaEoEm4hzJajCOBBTrWxPQ9MTh7jt-Mov2FEQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur02on2131.outbound.protection.outlook.com [40.107.241.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D01510E1C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 10:05:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KWq8GnJyW7mXNaVpJ236LU1I2enXi2Rwky0A7pmsBp6jyThElfszr8huAWpgzaW47D/n3KChTIaYVNQ+rSo78dqnPSBWr7B8puLiL5TOb7OdyJ+UEN709FyxEs7ocfY50EP+moXmiO7pP6260jq33ydRCL4V3rd1fObvHFzokFbjoBKkkuh1nqOYARTOzkyRGlKZpjaSzWLvW9UW9bKnshtWRf1yLtckeN7iLmfV/28y7WXzyWxA+H+S2wyw7E2MCBDqWWza40TOPfkFh0NIJwiIqPOVBHUK6Pg/v9U232IOIrwDtlWTOc24BbsNgCPAVSqpitT99vwaDm+ZRYagSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XWX1ZjdVSnlx7BuQSMKkyv16mMA9tGbo8R5D1+RXLV4=;
+ b=JyhK5/2BhrWONpIaPE7rznecLwipGyqqN5QfgBbogmkCOEeISCEeBm6ZtGlI+SpHUbByuMJqMzuYVXifRw6gxJCy1wi1AbiJvFAVIqtmkfhGFPY3B9rzF2O7XdDecfBcM1zrw0Lj0xGyrUJ0ciyRo29JwRCDn3558q6xQ945d5GGHUun4fH0vdejADtcs1m2h4beoZk6bJzDBFvZuRSTXXnUD6zN0RUJcjKSjHlxABkDZc7/vd1mnfA44hj7aFL58eqfymyypt547F857LI3yOJtQenYoLy2bY9qVcBAGvn13xYLe0gGE99M9s1KzX265Fp0AW+Pl1xUWVr8H+0hVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XWX1ZjdVSnlx7BuQSMKkyv16mMA9tGbo8R5D1+RXLV4=;
+ b=TJcd2f1o4e+UoQ6lzZv34eL5s8W5j/oLj6khO/cojgbFCP2FqUJgXJmhhh88UUyGxangnFIzm28NIjB9Crj0J8cMwM3s1+nuUd0g/I8tsnJ25MJ4H9j+kUD8DC+7iCdAcHNQDoqLKlBE+p2qv2Hm0i9YJ3WuJpVB/5v1r7RjjJs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by PAWPR10MB7895.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:366::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Wed, 22 Feb
+ 2023 10:05:11 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::59e9:ea90:b6ea:3863]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::59e9:ea90:b6ea:3863%4]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
+ 10:05:11 +0000
+Message-ID: <657fa528-ca01-0c6a-2c2b-bb7f4a95096d@kontron.de>
+Date: Wed, 22 Feb 2023 11:05:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v12 00/18] drm: Add Samsung MIPI DSIM bridge
+Content-Language: en-US
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, Marek Vasut
+ <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>
+References: <20230126144427.607098-1-jagan@amarulasolutions.com>
+ <06e5423f-c022-7a1c-efe0-0f4fbab664c1@prevas.dk>
+ <CAMty3ZBRDDnNdmgD5ji11SdCuOcmu3ZyBPyB28cF1aRTyxp+fg@mail.gmail.com>
+ <be95e4f7-15a8-ba99-6b39-6f7f0ea71201@prevas.dk>
+ <CAMty3ZBNLpV9orVRD897ZeR3Hj9RWOau07b1ZGDUoBRej=Cj-Q@mail.gmail.com>
+ <31ccc974-4b01-ae47-9505-626617f07758@denx.de>
+ <f6cea911-783c-f59d-503c-1576358ae7cb@prevas.dk>
+ <dcc28c36-9b09-ea92-be21-665c6cbf35b3@denx.de>
+ <c21ee1e2-b92e-0fad-40bf-91cae9e57f48@prevas.dk>
+ <1745c43d-06b4-933b-5dbd-50add565828e@kontron.de>
+ <c9dc0b2b-8850-6227-163b-85c53c5d72ef@prevas.dk>
+ <b246aae9-b719-02f9-dd0f-305b74611fab@prevas.dk>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <b246aae9-b719-02f9-dd0f-305b74611fab@prevas.dk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR01CA0099.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::40) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/M7W=iwvhn=7CJcrxtPxEHVQ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|PAWPR10MB7895:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d5229e4-c564-4121-8282-08db14bc48d4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Cg7y1v3P05hAYzjUOSMHoEpGaFByM5QWVOw8NySHDzZ/MNkR581+ouAZ7R+TwJCTvfUA8X7tg8ZI5hRLctZlhw4SPamv7kgCmzh4aHuX3h6QnYMATwIqbj9c35Ska6ENUr53AW673fEpGbAUv3G4Z8lev/f9jDhRJquPEJwwvT4ben+9nlP8ZKDMmL3s90wMvT/W0VChJ+SSjzkg4OXd3Bs2DkDPsQmk01YVCBKPeCQttdNUVkBxIQhrb25nayhh4alHSixHgHlYAS84BUoP3skawAJtb3DJyjWBgywJwNLD+Zcdpna/FIgYQLeICRnTTza56uhzEFN+FN2GA5PFk05vXuXrb6Q/7ERba0sRBjSLgtQQ8OYe8V4nqCkYn0VI8w6wRGDe/aaWHy7+9KFfhoQicBsXngA6OzZpLQSM+dPuHLxLBGZI1ggApAOwb3EMoMbLfR2Bbraowiiuaq/RSyY41+Xuo/g77LEAjSQqos2HvhAkmst0AOvIHowAHQffM69dX+WHyIkxIRgoW9McMzx1EKhgiwampZM6HueLOa8WlyEejG7qtawiUH9BL4bWFE8vhSapMaoVjwhl3rSSDfudZiOvj9P7fiUg4ZO46+RsI/U81kUSEcDltFftK1cGAaw4NfJeCsLxm32+BE6it0n2P36DvykWje0GoxZTCNOMRQc/UcjNlsbgD3hGSXZ1QCGbVHKZq5CczYasTVMMUw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199018)(83380400001)(38100700002)(8936002)(31696002)(86362001)(36756003)(7416002)(2906002)(44832011)(5660300002)(41300700001)(186003)(53546011)(6506007)(6512007)(2616005)(316002)(4326008)(8676002)(110136005)(6486002)(966005)(66476007)(66556008)(66946007)(478600001)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eFBQOUpUS0NjbHg5MkYxajllT050c1dTdkU1Tlh1MHpKRjVFcVV0QWt6MFJp?=
+ =?utf-8?B?MStVNVZ1M2orWkdxT0Y4UVVERzA2NXNXZHJBRS8xVlcxajVJQmMzeURYR1JY?=
+ =?utf-8?B?Mm9yWHZRQUYzMFFFY2N4ZUdDcmpSLzJGZUhOYzNic2xnWlA3RW4zYTZvb0Z2?=
+ =?utf-8?B?NnlaRjQvUjlNY0hwbEpCSmlzZmVIcnNFRWpVV2NTQk93dGh3QUJEdDZjVHpr?=
+ =?utf-8?B?alFUaE0zd3oraG5iRVpJZDlMTUhEWVJBNGJia2hIeVV2RWhQMHBOLyt6aTVa?=
+ =?utf-8?B?MDhCKzAxWXRwYmEyWEtzckZ0U2l6eU4yWnpCVXc3VlpXSml5OXIwNldpdjJ6?=
+ =?utf-8?B?TDk0b080cE0reHhDVDQ0S2R5QlgzdVh1SEp0YjZKbno4M29wOHBSRHNiRlVv?=
+ =?utf-8?B?Z1JxbytMZjlBNWplVFhZU2RWdDJyQXRkUDVCK05qcnBEQThXa3dudnhESVFx?=
+ =?utf-8?B?T2Z6TlIwS0R2THIwSFoya0dVNlp2dm1RTEJzYTFIbDNNZEkzVWljUXpVRWVE?=
+ =?utf-8?B?V1FtQjdGVHFEUlNiYUZzeXNKUWhLZTl6cWhIaDduT043S0pLUjUzbXFhRjha?=
+ =?utf-8?B?M2FvRmowd0JZbDZkSlNlaXhGOWtiSkduZmxmMjZHbU1RNjlZSzQ4enFQcmNP?=
+ =?utf-8?B?NDlmbjhZUW9iVXo5NEhGclZhME8xM0hMeHNScy9WaFRmTzZBQkkvWW91bjM5?=
+ =?utf-8?B?RVAwTlpNY1MrcTJlNnk5dmdVZkgvU3g5MlhZVnhWMXV0V3VwUmVZQzZXVUdB?=
+ =?utf-8?B?cmZISjdHWnFoODdoaGp1TXpqYVVMYWNEWWJTRXl3bnB0YjZOVmk1RkNXN0NU?=
+ =?utf-8?B?ditXQitOYUVCRmlYbXdDM20rMGVNYWZkd2t4aCtMRnRoajhSL0dDckJiNjVt?=
+ =?utf-8?B?YjhUaEp0a0NsTDNWSWtlYWVDQlN1ekZwcEl0cDZ0R3QzMFpzSmpzYUhnMlhE?=
+ =?utf-8?B?bVRRb0ZsZzdPRTRaRWJBNzROWW1UR2tic3hoRGJ1aHVYVlRkVXJOQ1Qzbmxx?=
+ =?utf-8?B?bW1mZ3IvT0xydm55YUtoZzRLS24ydDVkakdIWE5xc21sL3dTU2VhdzNjTzdR?=
+ =?utf-8?B?bEMxWUhKZEIxRVFHUnZSVnNaZldPYTZjdEp1M2V6N1FINzRHUkNCZS9VdDho?=
+ =?utf-8?B?Sm1oRGlicUN5Ty8vU29wRTNJdzN3VnZQbFRmd0ZHLzBmNWxIdFhlQS92TW9P?=
+ =?utf-8?B?ZUs1SGFNcGJlS0tVc21NS3JXTUR4bW5IU3lKMWI2RTZnaEpsMVU1QklVbVB0?=
+ =?utf-8?B?TEQ3dlVnOGkxUlFMbE9QTDdBa08vaGluSEJmTlJzbyswRXVWSng2MjBEWFFo?=
+ =?utf-8?B?UDdJbTZSTjFMU2JIbmU2TWxucFFGdjFQMU84QWVHUmxLc2EwdTl5TTlFWXpY?=
+ =?utf-8?B?Rjk5bFFqRzZocm5BSllhUFhQWGhoc21xZUx1eEIyR3VFT3ZoSWp1WmpwblVR?=
+ =?utf-8?B?N2RoLzMyQ1F1TFY1SW9EUk5ZbGcvQVVGRzRXRnYzVzhVQklUSzFkQ0Z0OWxS?=
+ =?utf-8?B?V1VYa1BWelBWQ2lneG9yNXIxR0oreURIbVpJaG02a1ZrVUswVmxrcDh6Z212?=
+ =?utf-8?B?RHF5SStoVFR6VVhJR3g1WnJGdWZNd2x3aDlkRVJudU1KOHc2a0gvYnVQOW5W?=
+ =?utf-8?B?ZkZvN1BxSHBVZS9mQzZTbS8wSENIZ1p5cFk4OUFSVWxUcUUvSHY3Uy9ZdmlK?=
+ =?utf-8?B?SUE0MDJ6QVExdVJLSTZkQ2RrRUdTNTlOVi82RXEzL1l5RXhpVEZRZG1lTi9p?=
+ =?utf-8?B?bTZWUnpha1ZQdnVtdHMyQlZXTnYzRVhxbHFmcGpOMWQ1NjkrS01kalBnWW8w?=
+ =?utf-8?B?N2JRd2xMWlRQZlZHb3VQdXdzZEoxeDduVDZVaWEycHNZWjhFdUE0UHZkdU4r?=
+ =?utf-8?B?M255Qm15TXRmdkUrbGtmS0Y4dU45YjBrQlVtbzRYdVA5YU9pOUdLZFVtZ211?=
+ =?utf-8?B?SStvNjVLbEFTT3lRN1B5WkViaWNwYjFVblFXbWVqeVg1cUE4VExmWjU1dzA2?=
+ =?utf-8?B?OVpXNmIzUzdpUUFzNVdxQ0hkbGRZKzhZYjFNUWU1a2hzWTluYmMvMWd1U2hJ?=
+ =?utf-8?B?TzZDR2F0VHg1aUNxeXpzN1F6RVhsMEtOL0NEdTd6a1MyMVdZdytYUmkxTWRO?=
+ =?utf-8?B?U1RCMHdlVFo5T3dyUVB2b3hjY0FSRG1pZVdteWx4V3dENldGbHFkamN5dHN5?=
+ =?utf-8?Q?FHAu3jLdMgxJDGeTFti74W1Oa+8X4GrUgVfg6WIiJvD3?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d5229e4-c564-4121-8282-08db14bc48d4
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 10:05:11.2757 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vhPDnqOfxryitTTycZxrOkQxA07dUFB1YS5Dr5B3KGTDfQfqT63gtuQsYQHKk7OZLdXZj2jEdERcMd+7essoVCM9bw8KVJ8XCUGm58wYtx8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7895
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,129 +138,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, matteo.lisi@engicam.com,
+ linux-amarula@amarulasolutions.com, sw0312.kim@samsung.com,
+ dri-devel@lists.freedesktop.org, kyungmin.park@samsung.com,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ m.szyprowski@samsung.com, aford173@gmail.com,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/M7W=iwvhn=7CJcrxtPxEHVQ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 17.02.23 19:22, Rasmus Villemoes wrote:
+> On 07/02/2023 10.09, Rasmus Villemoes wrote:
+> 
+>> I managed to get the whole chain lcdif -> mipi -> bridge -> dp-connector
+>> to probe with these settings
+>>
+> [...]
+>> Now hotplug-detect doesn't work with the current sn65dsi86 driver, but
+>> that's a separate issue; when I boot with a monitor attached, its edid
+>> is correctly read out. But I still don't get any output, and the monitor
+>> says "no signal" - my naive attempt (which has worked fine in other
+>> cases) was to just dd /dev/urandom to /dev/fb0, so I'm clearly missing
+>> some important step.
+> 
+> No idea if it's important, but in the NXP kernel, there's a
+> 
+> 	display-subsystem {
+> 		compatible = "fsl,imx-display-subsystem";
+> 		ports = <&lcdif1_disp>,
+> 			<&lcdif2_disp>,
+> 			<&lcdif3_disp>;
+> 	};
+> 
+> node in imx8mp.dtsi, and when commenting out that node, the graphics
+> ceases to work, even if all the devices in the lcdif->mipi->bridge chain
+> actually probes. However, adding a corresponding node in mainline, which
+> does have a driver for that "fsl,imx-display-subsystem", makes no
+> difference; with or without that, I do get a /dev/fb0 device and the
+> whole chain probes, but again the monitor says no signal.
 
-On Tue, 21 Feb 2023 09:50:20 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+The NXP kernel is completely different. AFAIK it uses the component
+helpers to bundle all subdrivers from a central driver
+(display-subsystem). This is not how the mainline approach using the
+bridge driver interface works. So you can't compare them.
 
-> On Tue, Feb 21, 2023 at 5:01 AM Ville Syrj=C3=A4l=C3=A4
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Tue, Feb 21, 2023 at 10:45:51AM +0200, Pekka Paalanen wrote: =20
-> > > On Mon, 20 Feb 2023 07:55:41 -0800
-> > > Rob Clark <robdclark@gmail.com> wrote:
-> > > =20
-> > > > On Mon, Feb 20, 2023 at 1:08 AM Pekka Paalanen <ppaalanen@gmail.com=
-> wrote: =20
-> > > > >
-> > > > > On Sat, 18 Feb 2023 13:15:53 -0800
-> > > > > Rob Clark <robdclark@gmail.com> wrote:
-> > > > > =20
-> > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > >
-> > > > > > Will be used in the next commit to set a deadline on fences tha=
-t an
-> > > > > > atomic update is waiting on.
-> > > > > >
-> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/drm_vblank.c | 32 ++++++++++++++++++++++++++++=
-++++
-> > > > > >  include/drm/drm_vblank.h     |  1 +
-> > > > > >  2 files changed, 33 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm=
-_vblank.c
-> > > > > > index 2ff31717a3de..caf25ebb34c5 100644
-> > > > > > --- a/drivers/gpu/drm/drm_vblank.c
-> > > > > > +++ b/drivers/gpu/drm/drm_vblank.c
-> > > > > > @@ -980,6 +980,38 @@ u64 drm_crtc_vblank_count_and_time(struct =
-drm_crtc *crtc,
-> > > > > >  }
-> > > > > >  EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
-> > > > > >
-> > > > > > +/**
-> > > > > > + * drm_crtc_next_vblank_time - calculate the time of the next =
-vblank
-> > > > > > + * @crtc: the crtc for which to calculate next vblank time
-> > > > > > + * @vblanktime: pointer to time to receive the next vblank tim=
-estamp.
-> > > > > > + *
-> > > > > > + * Calculate the expected time of the next vblank based on tim=
-e of previous
-> > > > > > + * vblank and frame duration =20
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > for VRR this targets the highest frame rate possible for the curr=
-ent
-> > > > > VRR mode, right?
-> > > > > =20
-> > > >
-> > > > It is based on vblank->framedur_ns which is in turn based on
-> > > > mode->crtc_clock.  Presumably for VRR that ends up being a maximum?=
- =20
-> > >
-> > > I don't know. :-) =20
-> >
-> > At least for i915 this will give you the maximum frame
-> > duration. =20
->=20
-> I suppose one could argue that maximum frame duration is the actual
-> deadline.  Anything less is just moar fps, but not going to involve
-> stalling until vblank N+1, AFAIU
->=20
-> > Also this does not calculate the the start of vblank, it
-> > calculates the start of active video. =20
->=20
-> Probably something like end of previous frame's video..  might not be
-> _exactly_ correct (because some buffering involved), but OTOH on the
-> GPU side, I expect the driver to set a timer for a few ms or so before
-> the deadline.  So there is some wiggle room.
+Did you look at this extensive thread with findings from Adam?
 
-The vblank timestamp is defined to be the time of the first active
-pixel of the frame in the video signal. At least that's the one that
-UAPI carries (when not tearing?). It is not the start of vblank period.
+https://lore.kernel.org/lkml/CAHCN7xJ=N1vWVTBjArskJ59fyaLzmAGWfc0E=_iGizrDNR_Udw@mail.gmail.com/
 
-With VRR, the front porch before the first active pixel can be multiple
-milliseconds. The difference between 144 Hz and 60 Hz is 9.7 ms for
-example.
+It is related to HDMI, but I guess a lot of things are valid for DP, too.
 
-
-Thanks,
-pq
-
---Sig_/M7W=iwvhn=7CJcrxtPxEHVQ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP15uwACgkQI1/ltBGq
-qqcTQQ/+JY9jIHrwOwFSVTo8dQnuLQIKytAtICMIYTksqoyp6zncsjOUCjcrwHT7
-9y+inchbzV67ojc2FwtwSIy8VhprChwqYIWPIoHuEnqLWj5KWpTj6IDx3j1bYSS+
-w5bNtoW5D3Uzqrh56wv9TatDde21d++KWQSIwsUqGIg1YGibTv6Kxq+aUqUrpOOx
-wIWQ7vOW5NW7EHd++EoSy4k5hdpOfPeO+D2ioDDAepnSxz/KCImL5/RYcSNXV3Yn
-hDrgIdV1wELvrqawBMdZMp2mg3fZlzD2j3uz3D98o4/KVqi6A9m8JdKqVlVVeBVq
-R95ExwNR1qaLT9DXISJ94bN/SzKUXWKFKp0Ne0aDYbcOE4FnKL9Ue4/XHRen2Qnk
-f9ElTe/gf837i5wcSMW2LR64x5rvXuDZacQTM3o2r79j+CgWq4DuLHMLaTqrSBKa
-OP6+m6US4OuTW3/Dfhj/kFDDKPmb1LR7lOfzTMDc/E+mmr/7zr3idL9XKboW3gqN
-eQeKLQKSPaGQvJe3QPadil2tKUuGHSZO5njCmPKkrs7IRF10GYvRtiD/qcgSC3kC
-xIeniTr8MbNlUvJAlyWr1BB+Fqo6V7du0ZbBUAAatcvjEvSNkfbjxe/h2Oycavgq
-pPTX7fqdv0T4bMdYa2pwrIUvqNM1CQyFL8h4PsjiX2nFQnJJ0sw=
-=iEiR
------END PGP SIGNATURE-----
-
---Sig_/M7W=iwvhn=7CJcrxtPxEHVQ--
+Anyway, we need to get this series merged. Otherwise we can't work on
+fixing all the other issues on top.
