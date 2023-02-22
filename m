@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C5D69F863
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 16:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2640D69F869
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 16:56:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE63A10EA32;
-	Wed, 22 Feb 2023 15:55:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5131E10EA25;
+	Wed, 22 Feb 2023 15:56:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5779610EA32;
- Wed, 22 Feb 2023 15:55:21 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id f5so1366880qkh.5;
- Wed, 22 Feb 2023 07:55:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=saj3BiOUv8TiUw3L7YFkO0PUJ/tXd3q9uJ49ovUM8sE=;
- b=CmKTWrxIKlz7AVFTXvHeSdE538LnVJ9hef0GchgKdtiu3KSU5PthdxEke4Yza0DhE6
- LCBRXHANN/uH3a9sa84d8Hj+Xk889MqBHP8ndvBbpdcB7thMY3GlA/lZqBWBWzaPmJo0
- Fjqk/rLzUY6L0Gbpy7U23GyqH93ATd4ZU0h3YBmZWObkCvdslWOFysVsCff7lnpsHdAx
- 2WoOdn9Ejdl9VtyN0vLkuswbYdc8A4LlgL3dew+fnwt+ulzkzVYP6FDAPOqs21buZT7J
- PC+UPBwXTzRtfw9ZmtdSaAYqGUK6Yv6f82h26Ir76Juc1Pcs5jdTYdMwiA9isr9nHmIi
- 0fGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=saj3BiOUv8TiUw3L7YFkO0PUJ/tXd3q9uJ49ovUM8sE=;
- b=2kiJW75lluq5tjirhBRth+MG7WYJ8KerWI4paOdZNG1nbe6K29QE0E7cCNJYQJ2s5+
- wbUNrEgiie/gRF3ensHDcp7PNVokI/YzJiAsgouqbX685v50aYps1ocYJCIUP7g8pyL2
- G6a4SdE3jFataB4eDKs/m7dCIlZRIJSxyb811eg5Kw0Yg7q5ACqkkFDeLv2gzNlAB3dm
- DBHs/fi3RP8CGok6uGDrJ+bgpG2OpU7qJR+oKwwqDz836q1aYly1S0VXfdgNrYPNRgWb
- 0FDa4SgrwwyKoR9dAEfp9bV49u4SWzapT372mUnsybryNSlxEgGuApKUYuYo4njqUd88
- K4hw==
-X-Gm-Message-State: AO0yUKWf0/vW5Bs3n3NtevbpyVyzSZWs6yeOFx3XcLJlB1xvP65VKtZC
- Cg+SSwkJHB+WpQl3HYj0taGX2ZWzr5jhcIVjkCw=
-X-Google-Smtp-Source: AK7set8bf6lP1s6ypm6jnpmXdn70rTkn5YmDMmCpMTW3NxWzHOTkop5Jow8BwPhs9IsE+pN9We1E32jaWMhSMe6NUHQ=
-X-Received: by 2002:a05:620a:831a:b0:742:3e52:f855 with SMTP id
- pa26-20020a05620a831a00b007423e52f855mr53039qkn.2.1677081320370; Wed, 22 Feb
- 2023 07:55:20 -0800 (PST)
-MIME-Version: 1.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC4410EA25;
+ Wed, 22 Feb 2023 15:56:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677081364; x=1708617364;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=aWlVChOS42UkpWJgeEJ21XDZB6lv/809UxlYTW78TAY=;
+ b=a7uO77jOZaYW/5B4NjVllVovRyBIzAGR5jytkNaxpunx7O1s9fRVrxCn
+ aRem2/O2EKy/4en+haAs7EPc4F9splxkck1wSqQFsTEA4/zLxoFLl9AXi
+ rC15tvDaKV3AG1DlTB5+PB5lX2s7NjrmW7D8x8/vpvJl13A8RjvPLG5yX
+ ozSWzjJXjbUTw7X1yCesei9oPjF1YhG7gNa1pSybICzvmxbQUiRD8AQ7Z
+ 79GC3o48n+K5S/enxDYtLUhJnTwAo4ao7zh6GuAbULJPkNZ5Vn6bMf8Z8
+ 9BG0mdmFcSqJyQ4d1aKcMNZTONuxLgN2uUp/6Euj9vgRINXYEgJhXI/Sj g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="330687013"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; d="scan'208";a="330687013"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 07:56:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="674146372"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; d="scan'208";a="674146372"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga007.fm.intel.com with SMTP; 22 Feb 2023 07:55:59 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 22 Feb 2023 17:55:58 +0200
+Date: Wed, 22 Feb 2023 17:55:58 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v4 10/14] drm/vblank: Add helper to get next vblank time
+Message-ID: <Y/Y7DvUYH1qUT0co@intel.com>
 References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-4-robdclark@gmail.com>
- <b056a87c-b6b2-25e0-25c7-f7d422793a3e@linux.intel.com>
-In-Reply-To: <b056a87c-b6b2-25e0-25c7-f7d422793a3e@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 22 Feb 2023 07:55:08 -0800
-Message-ID: <CAF6AEGv6vaoV_Rro8zSkwtBVTkeQXLdEOnCNBp_8xbkaxa_nOg@mail.gmail.com>
-Subject: Re: [PATCH v4 03/14] dma-buf/fence-chain: Add fence deadline support
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20230218211608.1630586-11-robdclark@gmail.com>
+ <20230220110820.595cfa37@eldfell>
+ <CAF6AEGuo-vmW4Va9=RH+kH9KgNvR2vzjJ8meO-oty56xjDhjgg@mail.gmail.com>
+ <20230221104551.60d44d1c@eldfell> <Y/TAr64SpxO712RB@intel.com>
+ <CAF6AEGumfEeGQQaEoEm4hzJajCOBBTrWxPQ9MTh7jt-Mov2FEQ@mail.gmail.com>
+ <20230222115700.138d824c@eldfell>
+ <CAF6AEGuK0_GtgXS7REAN=u4YZ7x11FrAxVW4iQcqV7bJdJFv6g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGuK0_GtgXS7REAN=u4YZ7x11FrAxVW4iQcqV7bJdJFv6g@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,89 +69,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
  open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+ Pekka Paalanen <ppaalanen@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 22, 2023 at 2:27 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 18/02/2023 21:15, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
+On Wed, Feb 22, 2023 at 07:44:42AM -0800, Rob Clark wrote:
+> On Wed, Feb 22, 2023 at 1:57 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
 > >
-> > Propagate the deadline to all the fences in the chain.
+> > On Tue, 21 Feb 2023 09:50:20 -0800
+> > Rob Clark <robdclark@gmail.com> wrote:
 > >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for this o=
-ne.
-> > ---
-> >   drivers/dma-buf/dma-fence-chain.c | 13 +++++++++++++
-> >   1 file changed, 13 insertions(+)
+> > > On Tue, Feb 21, 2023 at 5:01 AM Ville Syrjälä
+> > > <ville.syrjala@linux.intel.com> wrote:
+> > > >
+> > > > On Tue, Feb 21, 2023 at 10:45:51AM +0200, Pekka Paalanen wrote:
+> > > > > On Mon, 20 Feb 2023 07:55:41 -0800
+> > > > > Rob Clark <robdclark@gmail.com> wrote:
+> > > > >
+> > > > > > On Mon, Feb 20, 2023 at 1:08 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > > > > > >
+> > > > > > > On Sat, 18 Feb 2023 13:15:53 -0800
+> > > > > > > Rob Clark <robdclark@gmail.com> wrote:
+> > > > > > >
+> > > > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > > > >
+> > > > > > > > Will be used in the next commit to set a deadline on fences that an
+> > > > > > > > atomic update is waiting on.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > > > > ---
+> > > > > > > >  drivers/gpu/drm/drm_vblank.c | 32 ++++++++++++++++++++++++++++++++
+> > > > > > > >  include/drm/drm_vblank.h     |  1 +
+> > > > > > > >  2 files changed, 33 insertions(+)
+> > > > > > > >
+> > > > > > > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> > > > > > > > index 2ff31717a3de..caf25ebb34c5 100644
+> > > > > > > > --- a/drivers/gpu/drm/drm_vblank.c
+> > > > > > > > +++ b/drivers/gpu/drm/drm_vblank.c
+> > > > > > > > @@ -980,6 +980,38 @@ u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+> > > > > > > >  }
+> > > > > > > >  EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+> > > > > > > >
+> > > > > > > > +/**
+> > > > > > > > + * drm_crtc_next_vblank_time - calculate the time of the next vblank
+> > > > > > > > + * @crtc: the crtc for which to calculate next vblank time
+> > > > > > > > + * @vblanktime: pointer to time to receive the next vblank timestamp.
+> > > > > > > > + *
+> > > > > > > > + * Calculate the expected time of the next vblank based on time of previous
+> > > > > > > > + * vblank and frame duration
+> > > > > > >
+> > > > > > > Hi,
+> > > > > > >
+> > > > > > > for VRR this targets the highest frame rate possible for the current
+> > > > > > > VRR mode, right?
+> > > > > > >
+> > > > > >
+> > > > > > It is based on vblank->framedur_ns which is in turn based on
+> > > > > > mode->crtc_clock.  Presumably for VRR that ends up being a maximum?
+> > > > >
+> > > > > I don't know. :-)
+> > > >
+> > > > At least for i915 this will give you the maximum frame
+> > > > duration.
+> > >
+> > > I suppose one could argue that maximum frame duration is the actual
+> > > deadline.  Anything less is just moar fps, but not going to involve
+> > > stalling until vblank N+1, AFAIU
+> > >
+> > > > Also this does not calculate the the start of vblank, it
+> > > > calculates the start of active video.
+> > >
+> > > Probably something like end of previous frame's video..  might not be
+> > > _exactly_ correct (because some buffering involved), but OTOH on the
+> > > GPU side, I expect the driver to set a timer for a few ms or so before
+> > > the deadline.  So there is some wiggle room.
 > >
-> > diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fe=
-nce-chain.c
-> > index a0d920576ba6..4684874af612 100644
-> > --- a/drivers/dma-buf/dma-fence-chain.c
-> > +++ b/drivers/dma-buf/dma-fence-chain.c
-> > @@ -206,6 +206,18 @@ static void dma_fence_chain_release(struct dma_fen=
-ce *fence)
-> >       dma_fence_free(fence);
-> >   }
+> > The vblank timestamp is defined to be the time of the first active
+> > pixel of the frame in the video signal. At least that's the one that
+> > UAPI carries (when not tearing?). It is not the start of vblank period.
 > >
-> > +
-> > +static void dma_fence_chain_set_deadline(struct dma_fence *fence,
-> > +                                      ktime_t deadline)
-> > +{
-> > +     dma_fence_chain_for_each(fence, fence) {
-> > +             struct dma_fence_chain *chain =3D to_dma_fence_chain(fenc=
-e);
-> > +             struct dma_fence *f =3D chain ? chain->fence : fence;
->
-> Low level comment - above two lines could be replaced with:
->
->         struct dma_fence *f =3D dma_fence_chain_contained(fence);
->
-> Although to be fair I am not sure that wouldn't be making it less
-> readable. From the point of view that fence might not be a chain, so
-> dma_fence_chain_contained() reads a bit dodgy as an API.
+> > With VRR, the front porch before the first active pixel can be multiple
+> > milliseconds. The difference between 144 Hz and 60 Hz is 9.7 ms for
+> > example.
+> 
+> What we really want is the deadline for the hw to latch for the next
+> frame.. which as Ville pointed out is definitely before the end of
+> vblank.
+> 
+> Honestly this sort of feature is a lot more critical for the non-VRR
+> case, and VRR is kind of a minority edge case.  So I'd prefer not to
+> get too hung up on VRR.  If there is an easy way for the helpers to
+> detect VRR, I'd be perfectly fine not setting a deadline hint in that
+> case, and let someone who actually has a VRR display figure out how to
+> handle that case.
 
-It does seem to be the canonical way to do it since 18f5fad275ef
-("dma-buf: add dma_fence_chain_contained helper").. looks like I
-missed that when I rebased.  I guess for consistency it's best that I
-use the helper.
+The formula I gave you earlier works for both VRR and non-VRR.
 
-BR,
--R
-
-> Regards,
->
-> Tvrtko
->
-> > +
-> > +             dma_fence_set_deadline(f, deadline);
-> > +     }
-> > +}
-> > +
-> >   const struct dma_fence_ops dma_fence_chain_ops =3D {
-> >       .use_64bit_seqno =3D true,
-> >       .get_driver_name =3D dma_fence_chain_get_driver_name,
-> > @@ -213,6 +225,7 @@ const struct dma_fence_ops dma_fence_chain_ops =3D =
-{
-> >       .enable_signaling =3D dma_fence_chain_enable_signaling,
-> >       .signaled =3D dma_fence_chain_signaled,
-> >       .release =3D dma_fence_chain_release,
-> > +     .set_deadline =3D dma_fence_chain_set_deadline,
-> >   };
-> >   EXPORT_SYMBOL(dma_fence_chain_ops);
-> >
+-- 
+Ville Syrjälä
+Intel
