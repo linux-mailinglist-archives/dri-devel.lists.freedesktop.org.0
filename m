@@ -1,58 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF40669F596
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 14:33:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FBC69F5F0
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 14:54:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 042F310E994;
-	Wed, 22 Feb 2023 13:33:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65FF010E9A5;
+	Wed, 22 Feb 2023 13:54:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2A510E994
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 13:33:16 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66F110E9A5;
+ Wed, 22 Feb 2023 13:54:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677072796; x=1708608796;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=oUD8p7VfQbH5/WucJ/iT0qTWgATjU34Oo2kJqYtBe6c=;
- b=b9FwX46hr3/Y+BTH0hVZsOXv6NhVgK+SnIWCG+v1Y9pGBrEJhptV14j5
- a6K2jCHcbGqE/YemMT2xcASBts3h1zT7M0PfeZ6xDSqJVktpc3Nu8dMPu
- DtjLBZi+5unqUqFBBna9OGR5ce/wLld2St9Iw6QX1mhFNOvf0bTsUw1N7
- xh9PcTimX4n3Vc6b7KUYPoStx7J/hp/qHmuw/cDgV8h58v989IZg2QwqX
- x89o+/kvgLt5qclrKmfRZ/VJ9FfcYRj4DByFtvV/USPMATRmwPQmb93kY
- IDQItFvxk66+voMpeDPM1mJ0tAPz2sz8ulhzAgAugBvb9Pscfm89u+ngI w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="321062440"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="321062440"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2023 05:33:15 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="665349222"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="665349222"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2023 05:33:13 -0800
-Date: Wed, 22 Feb 2023 14:33:11 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 3/3] drm/debugfs: remove dev->debugfs_list and
- debugfs_mutex
-Message-ID: <20230222133311.GA3537031@linux.intel.com>
-References: <20230209081838.45273-4-christian.koenig@amd.com>
- <Y+4UdBzk6RkQzcsI@phenom.ffwll.local>
- <f555bda0-80b6-c0bc-566f-0ef49c96da0a@amd.com>
- <87sff5zhgs.fsf@intel.com>
- <694091b5-dca0-fff5-3dd5-548bfa8733fc@amd.com>
- <87ilg1zgf2.fsf@intel.com> <Y+6JyNNkLdDnxaer@phenom.ffwll.local>
- <4904cea7-3440-1e52-f5ea-71b9069506a6@amd.com>
- <20230217100118.GB2862577@linux.intel.com>
- <Y+/XtJu750cftFuY@phenom.ffwll.local>
+ t=1677074086; x=1708610086;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=pu8KT0HJXdQdCveCdk+Zny18DWgwpPZzitZNIyuPn5k=;
+ b=iAeBe3tAky+Kg1ZOH1bp6OZa5tReREXyzEfawQ99N5v3SWdf1O3vfeqI
+ oFkzzyBTl9RfMsZEnHHdu1OOKdkrn/wUOcEeC1J7ZiL47+21dhZ7jKjC1
+ XYENE89MfzjIl5/0RLD8g2GGptM3LSEh5oiV3gmyryw7pCKQS2ajLHm+o
+ 6+7mZWrzOVXS+55sMSOEOBsQ400SKFrwu+JBf2kRchdblLpPLB8Pvc0oR
+ ekku2IwhRbEriZhW+juOlEiLwrBwncnyJC50iF07YVj1wdKBz5kz1qZB/
+ CF5VBNWI+3TUnkU4jrNxPHA2H17+N56u2mSvPmi1O4b/4J+iYYz8YFGmU w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="395410379"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="395410379"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 05:54:46 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="1001004017"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="1001004017"
+Received: from abibas-mobl.ger.corp.intel.com (HELO [10.249.254.220])
+ ([10.249.254.220])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 05:54:43 -0800
+Message-ID: <b246a499-2d00-32a6-4e75-f31e311afa9a@linux.intel.com>
+Date: Wed, 22 Feb 2023 14:54:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y+/XtJu750cftFuY@phenom.ffwll.local>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [Intel-xe] [PATCH 1/3] drm/suballoc: Introduce a generic
+ suballocation manager
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230216144847.216259-1-thomas.hellstrom@linux.intel.com>
+ <20230216144847.216259-2-thomas.hellstrom@linux.intel.com>
+ <35ba51b1-598e-8c43-0eca-8fd538ef2659@amd.com>
+ <e44a861e-013b-d509-f3a5-b8973186e321@linux.intel.com>
+ <91f82b8e-ff43-8b58-e55f-d1c55f13971f@amd.com>
+ <95abe965-ae03-5213-abb3-92ee908e727c@linux.intel.com>
+ <ad869cfc-baff-2c7a-7bf9-799c5f125aba@amd.com>
+ <6ddd49d2-be2c-3b80-9e77-8cc24cbe64e2@linux.intel.com>
+ <728a932c-d65e-9777-de50-6dd8fe9f5708@amd.com>
+ <1ca4881b-c470-1f59-03c9-edcddbaa7a6a@linux.intel.com>
+ <24ada492-c951-46ad-6771-3af88caf2fb3@linux.intel.com>
+ <592a66a8-2265-ec51-b38e-baf7fd005e6e@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <592a66a8-2265-ec51-b38e-baf7fd005e6e@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,245 +73,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, mcanal@igalia.com, dri-devel@lists.freedesktop.org,
- mwen@igalia.com, mairacanal@riseup.net, wambui.karugax@gmail.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- maxime@cerno.tech
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-xe@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 17, 2023 at 08:38:28PM +0100, Daniel Vetter wrote:
-> > > > > I'm firmly in the camp that debugfs does not need to work under all
-> > > > > conditions, but that it must fail gracefully instead of crashing.
-> > > > Yeah I mean once we talk bring-up, you can just hand-roll the necessary
-> > > > bring debugfs things that you need to work before the driver is ready to
-> > > > do anything.
-> > > > 
-> > > > But bring-up debugfs fun is rather special, same way pre-silicon support
-> > > > tends to be rather special. Shipping that in distros does not sound like a
-> > > > good idea at all to me.
-> > > 
-> > > Yeah, that's indeed a really good point.
-> > > 
-> > > I can't remember how often I had to note that module parameters would also
-> > > be used by end users.
-> > > 
-> > > How about if the create the debugfs directory with a "." as name prefix
-> > > first and then rename it as soon as the device is registered?
-> > 
-> > Good idea. Or the dir could have this drm_dev->unique name and be created
-> > during alloc, and link in minor created during registration. That would
-> > mean minor link is safe to use and unique potentially dangerous before
-> > registration.
-> > 
-> > > Alternatively
-> > > we could clear the i_mode of the directory.
-> > 
-> > I checked that yesterday and this does not prevent to access the file
-> > for root user. Perhaps there is other smart way for blocking
-> > root access in vfs just by modifying some inode field, but just
-> > 'chmod 0000 file' does not prevent that.
-> > 
-> > > If a power user or engineer wants to debug startup problems stuff it should
-> > > be trivial to work around that from userspace, and if people do such things
-> > > they should also know the potential consequences.
-> > 
-> > Fully agree.
-> 
-> So what about a drm module option instead (that taints the kernel as usual
-> for these), which:
-> - registers the debugfs dir right away
-> - registers any debugfs files as soon as they get populated, instead of
->   postponing until drm_dev_register
-> 
-> It would only neatly work with the add_file stuff, but I guess drivers
-> could still hand-roll this if needed.
-> 
-> I think funny games with trying to hide the files while not hiding them is
-> not a great idea, and explicit "I'm debugging stuff, please stand back"
-> knob sounds much better to me.
+Hi,
 
-I prepared debugfs patch that allow to create not accessible directory
-and publish it once everything is ready. I hope it would be accepted
-by Greg KH and we could use it to make drm_debugfs_* simpler.
+On 2/22/23 12:39, Christian König wrote:
+> Hi Thomas,
+>
+> Am 22.02.23 um 12:00 schrieb Thomas Hellström:
+>> Hi, Christian,
+>>
+>> So I resurrected Maarten's previous patch series around this (the 
+>> amdgpu suballocator) slightly modified the code to match the API of 
+>> this patch series, re-introduced the per-allocation alignment as per 
+>> a previous review comment from you on that series, and made 
+>> checkpatch.pl pass mostly, except for pre-existing style problems, 
+>> and added / fixed some comments. No memory corruption seen so far on 
+>> limited Xe testing.
+>>
+>> To move this forward I suggest starting with that as a common drm 
+>> suballocator. I'll post the series later today. We can follow up with 
+>> potential simplifactions lif needed.
+>>
+>> I also made a kunit test also reporting some timing information. Will 
+>> post that as a follow up. Some interesting preliminary conclusions:
+>>
+>> * drm_mm is per se not a cpu hog, If the rb tree processing is 
+>> disabled and the EVICT algorithm is changed from MRU to ring-like LRU 
+>> traversal, it's more or less just as fast as the ring suballocator.
+>>
+>> * With a single ring, and the suballocation buffer never completely 
+>> filled (no sleeps) the amd suballocator is a bit faster per 
+>> allocation / free. (Around 250 ns instead of 350). Allocation is 
+>> slightly slower on the amdgpu one, freeing is faster, mostly due to 
+>> the locking overhead incurred when setting up the fence callbacks, 
+>> and for avoiding irq-disabled processing on the one I proposed.
+>
+> For some more realistic numbers try to signal the fence from another 
+> CPU. Alternative you can invalidate all the CPU read cache lines 
+> touched by the fence callback so that they need to be read in again 
+> from the allocating CPU.
 
-Would be nice if someone could test it and/or comment,
-before I would post it further.
+Fences are signalled using hr-timer driven fake "ring"s, so should 
+probably be distributed among cpus in a pretty realistic way. But anyway 
+I agree results obtained from that kunit test can and should be 
+challenged before we actually use them for improvements.
 
-Thanks
-Stanislaw
+>
+>>
+>> * With multiple rings and varying allocation sizes and signalling 
+>> times creating fragmentation, the picture becomes different as the 
+>> amdgpu allocator starts to sleep/throttle already round 50% - 75% 
+>> fill. The one I proposed between 75% to 90% fill, and once that 
+>> happens, the CPU cost of putting to sleep and waking up should really 
+>> shadow the above numbers.
+>>
+>> So it's really a tradeoff. Where IMO also code size and 
+>> maintainability should play a role.
+>>
+>> Also I looked at the history of the amdgpu allocator originating back 
+>> to Radeon 2012-ish, but couldn't find any commits mentioning fence 
+>> callbacks nor problem with those. Could you point me to that discussion?
+>
+> Uff that was ~10 years ago. I don't think I can find that again.
 
-From 6bb4d38d90428904ac59a2717970697621a32a79 Mon Sep 17 00:00:00 2001
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Date: Tue, 21 Feb 2023 10:39:47 +0100
-Subject: [PATCH] debugfs: introduce support for partially-initialized drivers
+OK, fair enough. But what was the objective reasoning against using 
+fence callbacks for this sort of stuff, was it unforeseen locking 
+problems, caching issues or something else?
 
-The i915 driver, among others, includes multiple subsystems that create
-debugfs files in different parts of the code. It's important that these
-files are not accessed before the driver is fully initialized, as doing
-so could cause issues.
+Thanks,
 
-This patch adds support for creating a debugfs directory that will
-prevent access to its files until a certain point in initialization is
-reached, at which point the driver can signal that it's safe to access
-the directory. This ensures that debugfs files are accessed only when
-it's safe to do so.
-
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- fs/debugfs/inode.c      | 59 ++++++++++++++++++++++++++++++++++++++---
- fs/debugfs/internal.h   |  7 +++++
- include/linux/debugfs.h |  3 +++
- 3 files changed, 66 insertions(+), 3 deletions(-)
-
-diff --git a/fs/debugfs/inode.c b/fs/debugfs/inode.c
-index 2e8e112b1993..04b88a5fab61 100644
---- a/fs/debugfs/inode.c
-+++ b/fs/debugfs/inode.c
-@@ -55,12 +55,23 @@ static int debugfs_setattr(struct user_namespace *mnt_userns,
- 	return simple_setattr(&init_user_ns, dentry, ia);
- }
- 
-+static int debugfs_permission(struct user_namespace *mnt_userns, struct inode *inode, int mask)
-+{
-+	unsigned long priv = (unsigned long) inode->i_private;
-+
-+	if (S_ISDIR(inode->i_mode) && (priv & DEBUGFS_DIR_PREPARING))
-+		return (priv & DEBUGFS_ALLOW_CREATE) ? 0 : -EPERM;
-+
-+	return generic_permission(mnt_userns, inode, mask);
-+}
-+
- static const struct inode_operations debugfs_file_inode_operations = {
- 	.setattr	= debugfs_setattr,
- };
- static const struct inode_operations debugfs_dir_inode_operations = {
- 	.lookup		= simple_lookup,
- 	.setattr	= debugfs_setattr,
-+	.permission	= debugfs_permission,
- };
- static const struct inode_operations debugfs_symlink_inode_operations = {
- 	.get_link	= simple_get_link,
-@@ -340,6 +351,7 @@ EXPORT_SYMBOL_GPL(debugfs_lookup);
- static struct dentry *start_creating(const char *name, struct dentry *parent)
- {
- 	struct dentry *dentry;
-+	unsigned long priv;
- 	int error;
- 
- 	if (!(debugfs_allow & DEBUGFS_ALLOW_API))
-@@ -369,10 +381,20 @@ static struct dentry *start_creating(const char *name, struct dentry *parent)
- 		parent = debugfs_mount->mnt_root;
- 
- 	inode_lock(d_inode(parent));
--	if (unlikely(IS_DEADDIR(d_inode(parent))))
-+	if (unlikely(IS_DEADDIR(d_inode(parent)))) {
- 		dentry = ERR_PTR(-ENOENT);
--	else
-+	} else {
-+		priv = (unsigned long) d_inode(parent)->i_private;
-+
-+		priv |= DEBUGFS_ALLOW_CREATE;
-+		d_inode(parent)->i_private = (void *) priv;
-+
- 		dentry = lookup_one_len(name, parent, strlen(name));
-+
-+		priv &= ~DEBUGFS_ALLOW_CREATE;
-+		d_inode(parent)->i_private = (void *) priv;
-+	}
-+
- 	if (!IS_ERR(dentry) && d_really_is_positive(dentry)) {
- 		if (d_is_dir(dentry))
- 			pr_err("Directory '%s' with parent '%s' already present!\n",
-@@ -585,7 +607,9 @@ EXPORT_SYMBOL_GPL(debugfs_create_file_size);
-  * passed to them could be an error and they don't crash in that case.
-  * Drivers should generally work fine even if debugfs fails to init anyway.
-  */
--struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
-+
-+static struct dentry *__debugfs_create_dir(const char *name, struct dentry *parent,
-+					   bool preparing)
- {
- 	struct dentry *dentry = start_creating(name, parent);
- 	struct inode *inode;
-@@ -605,6 +629,9 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
- 		return failed_creating(dentry);
- 	}
- 
-+	if (preparing)
-+		inode->i_private = (void *) DEBUGFS_DIR_PREPARING;
-+
- 	inode->i_mode = S_IFDIR | S_IRWXU | S_IRUGO | S_IXUGO;
- 	inode->i_op = &debugfs_dir_inode_operations;
- 	inode->i_fop = &simple_dir_operations;
-@@ -616,8 +643,34 @@ struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
- 	fsnotify_mkdir(d_inode(dentry->d_parent), dentry);
- 	return end_creating(dentry);
- }
-+
-+struct dentry *debugfs_create_dir(const char *name, struct dentry *parent)
-+{
-+	return __debugfs_create_dir(name, parent, false);
-+}
- EXPORT_SYMBOL_GPL(debugfs_create_dir);
- 
-+struct dentry *debugfs_prepare_dir(const char *name, struct dentry *parent)
-+{
-+	return __debugfs_create_dir(name, parent, true);
-+}
-+EXPORT_SYMBOL_GPL(debugfs_prepare_dir);
-+
-+void debugfs_publish_dir(struct dentry *dir)
-+{
-+	struct inode *inode;
-+
-+	if (!debugfs_initialized() || IS_ERR(dir))
-+		return;
-+
-+	inode = d_inode(dir);
-+
-+	inode_lock(inode);
-+	inode->i_private = NULL;
-+	inode_unlock(inode);
-+}
-+EXPORT_SYMBOL_GPL(debugfs_publish_dir);
-+
- /**
-  * debugfs_create_automount - create automount point in the debugfs filesystem
-  * @name: a pointer to a string containing the name of the file to create.
-diff --git a/fs/debugfs/internal.h b/fs/debugfs/internal.h
-index 92af8ae31313..47c795756bec 100644
---- a/fs/debugfs/internal.h
-+++ b/fs/debugfs/internal.h
-@@ -33,6 +33,13 @@ struct debugfs_fsdata {
- #define DEBUGFS_ALLOW_API	BIT(0)
- #define DEBUGFS_ALLOW_MOUNT	BIT(1)
- 
-+/*
-+ * Inode private flags that limit access to a directory,
-+ * which may not be fully propagated to the requested files.
-+ */
-+#define DEBUGFS_DIR_PREPARING	BIT(0)
-+#define DEBUGFS_ALLOW_CREATE	BIT(1)
-+
- #ifdef CONFIG_DEBUG_FS_ALLOW_ALL
- #define DEFAULT_DEBUGFS_ALLOW_BITS (DEBUGFS_ALLOW_MOUNT | DEBUGFS_ALLOW_API)
- #endif
-diff --git a/include/linux/debugfs.h b/include/linux/debugfs.h
-index ea2d919fd9c7..8a080270ac1c 100644
---- a/include/linux/debugfs.h
-+++ b/include/linux/debugfs.h
-@@ -86,6 +86,9 @@ void debugfs_create_file_size(const char *name, umode_t mode,
- 
- struct dentry *debugfs_create_dir(const char *name, struct dentry *parent);
- 
-+struct dentry *debugfs_prepare_dir(const char *name, struct dentry *parent);
-+void debugfs_publish_dir(struct dentry *dir);
-+
- struct dentry *debugfs_create_symlink(const char *name, struct dentry *parent,
- 				      const char *dest);
- 
--- 
-2.25.1
+Thomas
 
 
+
+>
+>
+> Regards,
+> Christian.
+>
+>>
+>> Thanks,
+>>
+>> Thomas
+>>
+>>
+>>
+>> On 2/17/23 14:51, Thomas Hellström wrote:
+>>>
+>>> On 2/17/23 14:18, Christian König wrote:
+>>>> Am 17.02.23 um 14:10 schrieb Thomas Hellström:
+>>>>> [SNIP]
+>>>>>>>>>
+>>>>>>>>> Any chance you could do a quick performance comparison? If 
+>>>>>>>>> not, anything against merging this without the amd / radeon 
+>>>>>>>>> changes until we can land a simpler allocator?
+>>>>>>>>
+>>>>>>>> Only if you can stick the allocator inside Xe and not drm, 
+>>>>>>>> cause this seems to be for a different use case than the 
+>>>>>>>> allocators inside radeon/amdgpu.
+>>>>>>>
+>>>>>>> Hmm. No It's allocating in a ring-like fashion as well. Let me 
+>>>>>>> put together a unit test for benchmaking. I think it would be a 
+>>>>>>> failure for the community to end up with three separate 
+>>>>>>> suballocators doing the exact same thing for the same problem, 
+>>>>>>> really.
+>>>>>>
+>>>>>> Well exactly that's the point. Those allocators aren't the same 
+>>>>>> because they handle different problems.
+>>>>>>
+>>>>>> The allocator in radeon is simpler because it only had to deal 
+>>>>>> with a limited number of fence timelines. The one in amdgpu is a 
+>>>>>> bit more complex because of the added complexity for more fence 
+>>>>>> timelines.
+>>>>>>
+>>>>>> We could take the one from amdgpu and use it for radeon and 
+>>>>>> others as well, but the allocator proposed here doesn't even 
+>>>>>> remotely matches the requirements.
+>>>>>
+>>>>> But again, what *are* those missing requirements exactly? What is 
+>>>>> the pathological case you see for the current code?
+>>>>
+>>>> Well very low CPU overhead and don't do anything in a callback.
+>>>
+>>> Well, dma_fence_wait_any() will IIRC register callbacks on all 
+>>> affected fences, although admittedly there is no actual allocator 
+>>> processing in them.
+>>>
+>>>>
+>>>>>
+>>>>> From what I can tell the amdgpu suballocator introduces excessive 
+>>>>> complexity to coalesce waits for fences from the same contexts, 
+>>>>> whereas the present code just frees from the fence callback if the 
+>>>>> fence wasn't already signaled.
+>>>>
+>>>> And this is exactly the design we had previously which we removed 
+>>>> after Dave stumbled over tons of problems with it.
+>>>
+>>> So is the worry that those problems have spilled over in this code 
+>>> then? It's been pretty extensively tested, or is it you should never 
+>>> really use dma-fence callbacks?
+>>>
+>>>>
+>>>>> The fence signalling code that fires that callback is typcally 
+>>>>> always run anyway on scheduler fences.
+>>>>>
+>>>>> The reason we had for not using the amdgpu suballocator as 
+>>>>> originally planned was that this complexity made it very hard for 
+>>>>> us to undertand it and to fix issues we had with it.
+>>>>
+>>>> Well what are those problems? The idea is actually not that 
+>>>> hardware to understand.
+>>>
+>>> We hit memory corruption, and we spent substantially more time 
+>>> trying to debug it than to put together this patch, while never 
+>>> really understanding what  happened, nor why you don't see that with 
+>>> amdgpu.
+>>>
+>>>>
+>>>> We could simplify it massively for the cost of only waiting for the 
+>>>> oldest fence if that helps.
+>>>
+>>> Let me grab the latest version from amdgpu and give it a try again, 
+>>> but yes I think that to make it common code we'll need it simpler 
+>>> (and my personal wish would be to separate the allocator 
+>>> functionality a bit more from the fence waiting, which I guess 
+>>> should be OK if the fence waiting is vastly simplified).
+>>>
+>>> /Thomas
+>>>
+>>>
+>>>>
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> Regards,
+>>>>>
+>>>>> Thomas
+>>>>
+>
