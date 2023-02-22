@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7567A69F7F6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 16:33:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0201E69F82D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 16:37:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C954A10EA19;
-	Wed, 22 Feb 2023 15:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB2F10EA11;
+	Wed, 22 Feb 2023 15:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9E810EA11;
- Wed, 22 Feb 2023 15:33:49 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-17211366c6aso9759296fac.13; 
- Wed, 22 Feb 2023 07:33:49 -0800 (PST)
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAC2410EA08;
+ Wed, 22 Feb 2023 15:37:38 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id bm20so7598074oib.7;
+ Wed, 22 Feb 2023 07:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1nu6rCRx8BzPVvb2CWdzEElkPQah8+J88HELeld+YLA=;
- b=Wphc6qJobqFKX/R9hxLWSRqUYLqCIkBJ9BNT3j7BIJPCaqPpD5iqF5q7gBYESFDmuR
- P4KfGycReyfa77pDknmdWebo6pO0H7/1JnxEDMRkVyAPcoRzQeVfulTcTdKnSVkngPiD
- m0fUIhEw1wgJ0kPtkA7ciybkV8eLzNr06i+6SMV/vfhkGh8bvq2ScmkXqtinejdaywaa
- Exr121oKnAUI1x74ead9IgiWgAz8wXpubPB41OqBPLCWW6yxqb3qG/2J+1RK/Cd8hDEY
- D1w2Wow+hBkgqI5vsVbuC+ee/gAET+FqqAM6SFOl0Gl4EMDbQfQB3l/4POydv0aeQW5i
- utdA==
+ bh=WywXApvBffh1ctyHLIw8PG0A91F5vwxm/kGgQV9IacY=;
+ b=YyGaMffCjHmeb7oKxQ/AjwDRPC3vooJ1hX7KULsqIMrny4Y/ywlqW1K1z0JtQh3GwC
+ 97s0FyywTYTm4lkIxOzjKPqpDpYyNJVdABy708UFF+Tq8xpFeevUCxrlwK9gKxtxTYnj
+ ml/GZk+0PSjXV+nZcQ+EqeFZf3t2YwrK8ukjJM3QWmnbl0HLn4J6p9bNSGDJBk2i+Kni
+ gsM4bVRXRo8uxZ+6jnt9VZrPN60sdmAoiWAMsXCdSi+jGbyOlDwwPoz0hoWG9RWWDq2o
+ rPyhTFvUxgJSOd8LYXiIZnxR4ESA7m34m4+L6jWECPNtD4n+2myWFHygI9HBbNCxbkYM
+ 32gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=1nu6rCRx8BzPVvb2CWdzEElkPQah8+J88HELeld+YLA=;
- b=o4V5rjg+5iNn9WP0bvM3wsf2MscmW2GcEz0T8qb1xBrGdm0/eoKk9+8/PsNyZWiJ2c
- wYRAOypd1eiA/D8uav7kwJfHIvbxf0dJwDiYviHyM+o4tTx5PHOyAp0NqwWEVCzcDu2s
- anPxHQ7vkIkzWuNum5pWz4vhbGXocxq0jY/64Xy6f0tQ8mgtB5vyEKUbtJL2QbC45Jfi
- eU+YZmSQiEcUL6W1UXCPeNgedGB1qgnG7B9c0Z/HUfq9YK6A8clIukS/V8+drITIiABQ
- 3FzbTMW6kx1iyG6qiX5PCISt5qS2ZpQckCm7Y6GNPADlBY3zKH+W6K4ZoHK88YiKOieB
- TGEg==
-X-Gm-Message-State: AO0yUKXLSXEwDGF1bivm0QzNa+FDoavODbxF/xKzpB3JzJpRuh4iNeX2
- U/6SXB8rKXMLJ3VY1ReidI3UU+QnwBRSf4ABwHc=
-X-Google-Smtp-Source: AK7set+gQuDbWafhDm7u6AliJCO35H5q1p5/4Hk9MdyuvDjF06gmwwiuIqwaHVjevQFkdWNAtpfBcKvLTxoDDkTiGfM=
-X-Received: by 2002:a05:6870:808d:b0:16e:8a56:d0d2 with SMTP id
- q13-20020a056870808d00b0016e8a56d0d2mr1360092oab.38.1677080028314; Wed, 22
- Feb 2023 07:33:48 -0800 (PST)
+ bh=WywXApvBffh1ctyHLIw8PG0A91F5vwxm/kGgQV9IacY=;
+ b=uKQWYsW8u3W4K8SWxnl7JjUG1DAG/s4qqbuwbu6dlwaqerwBKhPjYDNR41boV0Gg1z
+ mEXcH75D7pofi2ELJDzjnrHoIJTV4FvxUmN7jeva8Hg+3bLxL10Bfi0tWtktZwVKLwyW
+ DslrjYWrYaCoa3hRMV376oDekSJwcFecq/WzQbvAIN9tLJsDaY+Xt3FdUDQ3ZW5to2zQ
+ tmWS+AOnTsU6U1EpvYVblFNgy3zcHKIWnS74gQqwzENmKKaDMsxMf+GtshxEkvORjwZa
+ gz3YUExNOnUBSxZxA0OMbir3Jk8VYtuwroiqdgmPpf0nrKKBAjnKMvWlGNxxhnqh2yc7
+ E+9A==
+X-Gm-Message-State: AO0yUKVuor+S8uWYVl5wx2tiEIfNifz5Qwz6Jpk6ffopAqX/q/CsXOC3
+ qFP3YRqZwvMs9jRG79bFOi3VkU/sYLX46B110Nk=
+X-Google-Smtp-Source: AK7set+ghT43kUTQU5CnG5qlnodVTbwtuuqgXrxj3sUQu1yp05OKsNhdEtnaHeVnQZ1YffZWQpnePgdKuPg3/NzktWY=
+X-Received: by 2002:a05:6808:16ab:b0:37d:81a9:5103 with SMTP id
+ bb43-20020a05680816ab00b0037d81a95103mr1413444oib.38.1677080257694; Wed, 22
+ Feb 2023 07:37:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20230220201916.1822214-1-robdclark@gmail.com>
- <20230220201916.1822214-10-robdclark@gmail.com>
- <20230221105307.7430c301@eldfell>
- <CAF6AEGtd_9JYtPU-AGmZY0My_d48rSSWQiD-efbR2KFxD-+tTA@mail.gmail.com>
- <20230222120904.5c281652@eldfell> <Y/YhKiuOHiX2LcyL@intel.com>
-In-Reply-To: <Y/YhKiuOHiX2LcyL@intel.com>
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-7-robdclark@gmail.com>
+ <20230220105345.70e46fa5@eldfell>
+ <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+ <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
+ <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
+ <20230222114900.1b6baf95@eldfell>
+In-Reply-To: <20230222114900.1b6baf95@eldfell>
 From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 22 Feb 2023 07:33:37 -0800
-Message-ID: <CAF6AEGsEVFPTfUWQtw1B=QgdusgdqhsU+neShgT5iQn-UrdwjA@mail.gmail.com>
-Subject: Re: [PATCH v5 09/14] drm/syncobj: Add deadline support for syncobj
- waits
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Date: Wed, 22 Feb 2023 07:37:26 -0800
+Message-ID: <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+To: Pekka Paalanen <ppaalanen@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,141 +70,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: Rob Clark <robdclark@chromium.org>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
  =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
  open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Pekka Paalanen <ppaalanen@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
- freedreno@lists.freedesktop.org
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 22, 2023 at 6:06 AM Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
 >
-> On Wed, Feb 22, 2023 at 12:09:04PM +0200, Pekka Paalanen wrote:
-> > On Tue, 21 Feb 2023 09:25:18 -0800
-> > Rob Clark <robdclark@gmail.com> wrote:
-> >
-> > > On Tue, Feb 21, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> > > >
-> > > > On Mon, 20 Feb 2023 12:18:56 -0800
-> > > > Rob Clark <robdclark@gmail.com> wrote:
-> > > >
-> > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > >
-> > > > > Add a new flag to let userspace provide a deadline as a hint for syncobj
-> > > > > and timeline waits.  This gives a hint to the driver signaling the
-> > > > > backing fences about how soon userspace needs it to compete work, so it
-> > > > > can addjust GPU frequency accordingly.  An immediate deadline can be
-> > > > > given to provide something equivalent to i915 "wait boost".
-> > > > >
-> > > > > v2: Use absolute u64 ns value for deadline hint, drop cap and driver
-> > > > >     feature flag in favor of allowing count_handles==0 as a way for
-> > > > >     userspace to probe kernel for support of new flag
-> > > > >
-> > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > ---
-> > > > >  drivers/gpu/drm/drm_syncobj.c | 59 +++++++++++++++++++++++++++--------
-> > > > >  include/uapi/drm/drm.h        |  5 +++
-> > > > >  2 files changed, 51 insertions(+), 13 deletions(-)
-> > > >
-> > > > ...
-> > > >
-> > > > > diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> > > > > index 642808520d92..aefc8cc743e0 100644
-> > > > > --- a/include/uapi/drm/drm.h
-> > > > > +++ b/include/uapi/drm/drm.h
-> > > > > @@ -887,6 +887,7 @@ struct drm_syncobj_transfer {
-> > > > >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
-> > > > >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
-> > > > >  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time point to become available */
-> > > > > +#define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadline based to deadline_nsec/sec */
-> > > >
-> > > > Hi,
-> > > >
-> > > > where is the UAPI documentation explaining what is a "fence deadline"
-> > > > and what setting it does here?
+> On Tue, 21 Feb 2023 09:53:56 -0800
+> Rob Clark <robdclark@gmail.com> wrote:
+>
+> > On Tue, Feb 21, 2023 at 8:48 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
 > > >
-> > > It's with the rest of the drm_syncobj UAPI docs ;-)
+> > > On 2023-02-20 11:14, Rob Clark wrote:
+> > > > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > > >>
+> > > >> On Sat, 18 Feb 2023 13:15:49 -0800
+> > > >> Rob Clark <robdclark@gmail.com> wrote:
+> > > >>
+> > > >>> From: Rob Clark <robdclark@chromium.org>
+> > > >>>
+> > > >>> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an urgent
+> > > >>> wait (as opposed to a "housekeeping" wait to know when to cleanup after
+> > > >>> some work has completed).  Usermode components of GPU driver stacks
+> > > >>> often poll() on fence fd's to know when it is safe to do things like
+> > > >>> free or reuse a buffer, but they can also poll() on a fence fd when
+> > > >>> waiting to read back results from the GPU.  The EPOLLPRI/POLLPRI flag
+> > > >>> lets the kernel differentiate these two cases.
+> > > >>>
+> > > >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > >>
+> > > >> Hi,
+> > > >>
+> > > >> where would the UAPI documentation of this go?
+> > > >> It seems to be missing.
+> > > >
+> > > > Good question, I am not sure.  The poll() man page has a description,
+> > > > but my usage doesn't fit that _exactly_ (but OTOH the description is a
+> > > > bit vague).
+> > > >
+> > > >> If a Wayland compositor is polling application fences to know which
+> > > >> client buffer to use in its rendering, should the compositor poll with
+> > > >> PRI or not? If a compositor polls with PRI, then all fences from all
+> > > >> applications would always be PRI. Would that be harmful somehow or
+> > > >> would it be beneficial?
+> > > >
+> > > > I think a compositor would rather use the deadline ioctl and then poll
+> > > > without PRI.  Otherwise you are giving an urgency signal to the fence
+> > > > signaller which might not necessarily be needed.
+> > > >
+> > > > The places where I expect PRI to be useful is more in mesa (things
+> > > > like glFinish(), readpix, and other similar sorts of blocking APIs)
+> > > Hi,
+> > >
+> > > Hmm, but then user-space could do the opposite, namely, submit work as usual--never
+> > > using the SET_DEADLINE ioctl, and then at the end, poll using (E)POLLPRI. That seems
+> > > like a possible usage pattern, unintended--maybe, but possible. Do we want to discourage
+> > > this? Wouldn't SET_DEADLINE be enough? I mean, one can call SET_DEADLINE with the current
+> > > time, and then wouldn't that be equivalent to (E)POLLPRI?
 > >
-> > Is that https://www.kernel.org/doc/html/latest/driver-api/dma-buf.html#dma-fence-uabi-sync-file ?
-> >
-> > That whole page never mentions e.g. WAIT_AVAILABLE, so at least the
-> > flags are not there. Does not mention syncobj_wait either.
+> > Yeah, (E)POLLPRI isn't strictly needed if we have SET_DEADLINE.  It is
+> > slightly more convenient if you want an immediate deadline (single
+> > syscall instead of two), but not strictly needed.  OTOH it piggy-backs
+> > on existing UABI.
+>
+> In that case, I would be conservative, and not add the POLLPRI
+> semantics. An UAPI addition that is not strictly needed and somewhat
+> unclear if it violates any design principles is best not done, until it
+> is proven to be beneficial.
+>
+> Besides, a Wayland compositor does not necessary need to add the fd
+> to its main event loop for poll. It could just SET_DEADLINE, and then
+> when it renders simply check if the fence passed or not already. Not
+> polling means the compositor does not need to wake up at the moment the
+> fence signals to just record a flag.
 
-Sorry, that was a snarky reference to thin UABI docs about syncobj.
-The kernel side of it is better documented.
+poll(POLLPRI) isn't intended for wayland.. but is a thing I want in
+mesa for fence waits.  I _could_ use SET_DEADLINE but it is two
+syscalls and correspondingly more code ;-)
 
-> probably this:
-> https://docs.kernel.org/gpu/drm-mm.html
->
-> the new one needs to be added there as well.
->
-> >
-> > I could ask where the real non-IGT userspace is or the plan for it,
-> > too, since this is new DRM UAPI.
->
-> yeap, it looks like we need to close on this...
-> https://gitlab.freedesktop.org/drm/intel/-/issues/8014
->
-> I confess I got lost on the many discussions and on how this will
-> be used. Is mesa going to set the deadline based on the vk priority?
->
-> Will this continue to be internal? I didn't get the broader picture
-> I'm afraid...
+> On another matter, if the application uses SET_DEADLINE with one
+> timestamp, and the compositor uses SET_DEADLINE on the same thing with
+> another timestamp, what should happen?
 
-Yes, the plan is to use it from mesa vk-common helpers (and elsewhere
-in mesa if needed).  There is a separate discussion[1] about
-limiting/allowing boost (perhaps based on ctx flag or cgroups) but
-that is more about how drivers react to the deadline hint.  The
-immediate goal of this patch is just to fix the regression mentioned
-in that gitlab issue when using syncobj waits instead of
-DRM_IOCTL_I915_GEM_WAIT
+The expectation is that many deadline hints can be set on a fence.
+The fence signaller should track the soonest deadline.
 
 BR,
 -R
 
-[1] https://www.spinics.net/lists/dri-devel/msg383075.html
-
-> >
-> >
-> > Thanks,
-> > pq
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > > > btw. no nsec/sec anymore.
-> > > >
-> > > >
-> > > > Thanks,
-> > > > pq
-> > > >
-> > > >
-> > > > >  struct drm_syncobj_wait {
-> > > > >       __u64 handles;
-> > > > >       /* absolute timeout */
-> > > > > @@ -895,6 +896,8 @@ struct drm_syncobj_wait {
-> > > > >       __u32 flags;
-> > > > >       __u32 first_signaled; /* only valid when not waiting all */
-> > > > >       __u32 pad;
-> > > > > +     /* Deadline hint to set on backing fence(s) in CLOCK_MONOTONIC: */
-> > > > > +     __u64 deadline_ns;
-> > > > >  };
-> > > > >
-> > > > >  struct drm_syncobj_timeline_wait {
-> > > > > @@ -907,6 +910,8 @@ struct drm_syncobj_timeline_wait {
-> > > > >       __u32 flags;
-> > > > >       __u32 first_signaled; /* only valid when not waiting all */
-> > > > >       __u32 pad;
-> > > > > +     /* Deadline hint to set on backing fence(s) in CLOCK_MONOTONIC: */
-> > > > > +     __u64 deadline_ns;
-> > > > >  };
-> > > > >
-> > > > >
-> > > >
-> >
+> Maybe it's a soft-realtime app whose primary goal is not display, and
+> it needs the result faster than the window server?
+>
+> Maybe SET_DEADLINE should set the deadline only to an earlier timestamp
+> and never later?
 >
 >
+> Thanks,
+> pq
