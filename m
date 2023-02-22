@@ -1,54 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129F369F836
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 16:39:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBD369F846
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 16:45:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B93610EA08;
-	Wed, 22 Feb 2023 15:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A25E610EA14;
+	Wed, 22 Feb 2023 15:44:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 4866 seconds by postgrey-1.36 at gabe;
- Wed, 22 Feb 2023 15:39:10 UTC
-Received: from srv6.fidu.org (srv6.fidu.org [159.69.62.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8294B10EA08;
- Wed, 22 Feb 2023 15:39:10 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 5E251C800A1;
- Wed, 22 Feb 2023 16:39:08 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
-Received: from srv6.fidu.org ([127.0.0.1])
- by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id omRYXuwRoT6b; Wed, 22 Feb 2023 16:39:08 +0100 (CET)
-Received: from [192.168.176.165] (host-88-217-226-44.customer.m-online.net
- [88.217.226.44])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id B3F6FC800A0;
- Wed, 22 Feb 2023 16:39:06 +0100 (CET)
-Message-ID: <647c8ea1-4f3d-1538-a78f-b71122e9c4f9@tuxedocomputers.com>
-Date: Wed, 22 Feb 2023 16:39:06 +0100
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 662A010EA14;
+ Wed, 22 Feb 2023 15:44:54 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-17227cba608so7619108fac.3; 
+ Wed, 22 Feb 2023 07:44:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bw/o2d2K7rGx8jIRXoMyh485ogBh3CzQ8lHjHQHgP88=;
+ b=nVtplwpYOrpmv5auHphbThsB5vUI0Ms3ZskUvJ5lbu1bIFUs5qUoFjhQTperidUve1
+ qkG6ep1wQh8TVXb6pD0amaDuhJtZV/bE1KauKv3c47O547/gyeePedUjF+vp26chdjCU
+ 40vUbKDpkkxBVku3mGZcuuj77kzSFMsYuj/rnCgUut7CtyVk4XMq/mOZ9dDrRYQlMGjM
+ E+kybYipPTshCzloe6tzbxCsSb5pTldvUwqfmvbRDYOt9UqDlBZrtMtHZeJTt+YU/B7O
+ nL38eEKt3L5d3z31wWvYYd8UiXeHUDPmEXyNirUrk3n25ZPBqsIzVNk5FhfpQ5e2homG
+ mGOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bw/o2d2K7rGx8jIRXoMyh485ogBh3CzQ8lHjHQHgP88=;
+ b=XmhFVhezCEiM08FbdzrBZEIzeGJ6ERV3pHkl1OIFfcgXdWaUKntqCvgyZJE/sklPZ6
+ Q3ybQFuPTw1LPc8ZR/pT+4pALiTX1AXTxLiL8oYxK3NjVkJ4b2zPj5XbSJYp/cAYumUq
+ Tb+habj0Xafbl2q6snQuJ2ST4+mVV3HwVqlrP7sBxghX+UaoxGoeaEYIEXnr4xq65cHh
+ 6MZs4p4mhl5mh6tlJwG41vipGLW0maHLGiV+8qAamcPddf5bvd5IcKVogzXfDUNw2WoH
+ c4DL3ygOC773ZuSGHmuZoSVgvJTu/REPiU1E19S/iczvYRMbZ1zwB3elVkxNvbnFIh3Q
+ prhg==
+X-Gm-Message-State: AO0yUKWKgCc4GJjtlALUxUL69yG1mQOomGGdXEDIQ8QsUg/w5u/1wo9d
+ KO07kEIbBGhrzmUvgHFbeHcgIe4qfqPsVVIZxhI=
+X-Google-Smtp-Source: AK7set8HctSnN91X1d+M6rIyfQjt2yhgJ7jTxiClAmw/r44291CstgYZiuPPwA1K5zp2sg+pYAvmX8Bhb4Hlrw+N0Qg=
+X-Received: by 2002:a05:6870:808d:b0:16e:8a56:d0d2 with SMTP id
+ q13-20020a056870808d00b0016e8a56d0d2mr1362645oab.38.1677080693513; Wed, 22
+ Feb 2023 07:44:53 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 0/2] Add quirk to disable PSR 2 on Tongfang PHxTxX1 and
- PHxTQx1
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@gmail.com,
- daniel@ffwll.ch, jose.souza@intel.com, jouni.hogander@intel.com,
- mika.kahola@intel.com, ville.syrjala@linux.intel.com,
- lucas.demarchi@intel.com, Diego.SantaCruz@spinetix.com,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230222141755.1060162-1-wse@tuxedocomputers.com>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20230222141755.1060162-1-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-11-robdclark@gmail.com>
+ <20230220110820.595cfa37@eldfell>
+ <CAF6AEGuo-vmW4Va9=RH+kH9KgNvR2vzjJ8meO-oty56xjDhjgg@mail.gmail.com>
+ <20230221104551.60d44d1c@eldfell> <Y/TAr64SpxO712RB@intel.com>
+ <CAF6AEGumfEeGQQaEoEm4hzJajCOBBTrWxPQ9MTh7jt-Mov2FEQ@mail.gmail.com>
+ <20230222115700.138d824c@eldfell>
+In-Reply-To: <20230222115700.138d824c@eldfell>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 22 Feb 2023 07:44:42 -0800
+Message-ID: <CAF6AEGuK0_GtgXS7REAN=u4YZ7x11FrAxVW4iQcqV7bJdJFv6g@mail.gmail.com>
+Subject: Re: [PATCH v4 10/14] drm/vblank: Add helper to get next vblank time
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,29 +73,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Feb 22, 2023 at 1:57 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>
+> On Tue, 21 Feb 2023 09:50:20 -0800
+> Rob Clark <robdclark@gmail.com> wrote:
+>
+> > On Tue, Feb 21, 2023 at 5:01 AM Ville Syrj=C3=A4l=C3=A4
+> > <ville.syrjala@linux.intel.com> wrote:
+> > >
+> > > On Tue, Feb 21, 2023 at 10:45:51AM +0200, Pekka Paalanen wrote:
+> > > > On Mon, 20 Feb 2023 07:55:41 -0800
+> > > > Rob Clark <robdclark@gmail.com> wrote:
+> > > >
+> > > > > On Mon, Feb 20, 2023 at 1:08 AM Pekka Paalanen <ppaalanen@gmail.c=
+om> wrote:
+> > > > > >
+> > > > > > On Sat, 18 Feb 2023 13:15:53 -0800
+> > > > > > Rob Clark <robdclark@gmail.com> wrote:
+> > > > > >
+> > > > > > > From: Rob Clark <robdclark@chromium.org>
+> > > > > > >
+> > > > > > > Will be used in the next commit to set a deadline on fences t=
+hat an
+> > > > > > > atomic update is waiting on.
+> > > > > > >
+> > > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > > > > > ---
+> > > > > > >  drivers/gpu/drm/drm_vblank.c | 32 ++++++++++++++++++++++++++=
+++++++
+> > > > > > >  include/drm/drm_vblank.h     |  1 +
+> > > > > > >  2 files changed, 33 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/d=
+rm_vblank.c
+> > > > > > > index 2ff31717a3de..caf25ebb34c5 100644
+> > > > > > > --- a/drivers/gpu/drm/drm_vblank.c
+> > > > > > > +++ b/drivers/gpu/drm/drm_vblank.c
+> > > > > > > @@ -980,6 +980,38 @@ u64 drm_crtc_vblank_count_and_time(struc=
+t drm_crtc *crtc,
+> > > > > > >  }
+> > > > > > >  EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+> > > > > > >
+> > > > > > > +/**
+> > > > > > > + * drm_crtc_next_vblank_time - calculate the time of the nex=
+t vblank
+> > > > > > > + * @crtc: the crtc for which to calculate next vblank time
+> > > > > > > + * @vblanktime: pointer to time to receive the next vblank t=
+imestamp.
+> > > > > > > + *
+> > > > > > > + * Calculate the expected time of the next vblank based on t=
+ime of previous
+> > > > > > > + * vblank and frame duration
+> > > > > >
+> > > > > > Hi,
+> > > > > >
+> > > > > > for VRR this targets the highest frame rate possible for the cu=
+rrent
+> > > > > > VRR mode, right?
+> > > > > >
+> > > > >
+> > > > > It is based on vblank->framedur_ns which is in turn based on
+> > > > > mode->crtc_clock.  Presumably for VRR that ends up being a maximu=
+m?
+> > > >
+> > > > I don't know. :-)
+> > >
+> > > At least for i915 this will give you the maximum frame
+> > > duration.
+> >
+> > I suppose one could argue that maximum frame duration is the actual
+> > deadline.  Anything less is just moar fps, but not going to involve
+> > stalling until vblank N+1, AFAIU
+> >
+> > > Also this does not calculate the the start of vblank, it
+> > > calculates the start of active video.
+> >
+> > Probably something like end of previous frame's video..  might not be
+> > _exactly_ correct (because some buffering involved), but OTOH on the
+> > GPU side, I expect the driver to set a timer for a few ms or so before
+> > the deadline.  So there is some wiggle room.
+>
+> The vblank timestamp is defined to be the time of the first active
+> pixel of the frame in the video signal. At least that's the one that
+> UAPI carries (when not tearing?). It is not the start of vblank period.
+>
+> With VRR, the front porch before the first active pixel can be multiple
+> milliseconds. The difference between 144 Hz and 60 Hz is 9.7 ms for
+> example.
 
-Am 22.02.23 um 15:17 schrieb Werner Sembach:
-> On these Barebones PSR 2 is recognized as supported but is very buggy:
-> - Upper third of screen does sometimes not updated, resulting in
-> disappearing cursors or ghosts of already closed Windows saying behind.
-> - Approximately 40 px from the bottom edge a 3 pixel wide strip of randomly
-> colored pixels is flickering.
->
-> PSR 1 is working fine however.
->
-> This patchset introduces a new quirk to disable PSR 2 specifically on known
-> buggy devices and applies it to the Tongfang PHxTxX1 and PHxTQx1 barebones.
->
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> Cc: <stable@vger.kernel.org>
->
->
-Parralel to this there is a patch fixing the root cause of this issue: 
-https://gitlab.freedesktop.org/drm/intel/-/issues/7347#note_1785094
+What we really want is the deadline for the hw to latch for the next
+frame.. which as Ville pointed out is definitely before the end of
+vblank.
 
-So this quirk might only be relevant for stable kernels, depending on when that 
-other patch gets merged.
+Honestly this sort of feature is a lot more critical for the non-VRR
+case, and VRR is kind of a minority edge case.  So I'd prefer not to
+get too hung up on VRR.  If there is an easy way for the helpers to
+detect VRR, I'd be perfectly fine not setting a deadline hint in that
+case, and let someone who actually has a VRR display figure out how to
+handle that case.
 
+BR,
+-R
