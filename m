@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B84C69F625
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 15:09:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 887B769F691
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 15:25:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 573DD10E038;
-	Wed, 22 Feb 2023 14:09:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D68110E9D5;
+	Wed, 22 Feb 2023 14:25:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4E610E038
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 14:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677074956; x=1708610956;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wpLN1gd73bREF0yIjZJYHMzn1mN4hBeaWGTvbEXlUfo=;
- b=T8MtXUL8tmAxovCNyqSVrFv675wr3l+tkdXjIXzmzlhQUS3C3CoqIiTj
- 3k9UcFS8YHKBSlJ8ix7i+NOUVy68ReyMSYvjW2VP7/lt2z9hKOHGIo4QZ
- eI4fMUcQC0Gbb51JcRT1q8fciNnAZaJjnCFVYMqlxNuXrBclTPnohd6yx
- ysdmfSDUWKsc4cnJNCV4sI4NMUPsbS5l67uPsvuErakfWrhkMxc01jl2k
- mk21v168KsodEh98eD3VeTOGcvXbL3FAStvY7fLOLqfdsALmi03c+drrA
- sDbDr1m1FR9S1nGZhDQcH+mvotLNPcSO1Ubbi5Cb7fBd55s5/68yvl8lM w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="313305569"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="313305569"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2023 06:09:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="781446604"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="781446604"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga002.fm.intel.com with ESMTP; 22 Feb 2023 06:09:07 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pUpne-00ARKq-0t; Wed, 22 Feb 2023 16:08:50 +0200
-Date: Wed, 22 Feb 2023 16:08:50 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Subject: Re: [PATCH v12 03/10] drm/display: Add Type-C switch helpers
-Message-ID: <Y/Yh8tBa979G101H@smile.fi.intel.com>
-References: <20230221095054.1868277-1-treapking@chromium.org>
- <20230221095054.1868277-4-treapking@chromium.org>
- <Y/SvhxgjTM2cYZa+@smile.fi.intel.com>
- <CAEXTbpcOA06Cf-niurjM4_3Rx6xa9Pi+fuJHUQCKmwaJL2ibmA@mail.gmail.com>
+X-Greylist: delayed 437 seconds by postgrey-1.36 at gabe;
+ Wed, 22 Feb 2023 14:25:19 UTC
+Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97ED10E9BD;
+ Wed, 22 Feb 2023 14:25:19 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by srv6.fidu.org (Postfix) with ESMTP id 84F9DC800A7;
+ Wed, 22 Feb 2023 15:18:00 +0100 (CET)
+Authentication-Results: srv6.fidu.org (amavisd-new); dkim=pass (1024-bit key)
+ reason="pass (just generated, assumed good)"
+ header.d=tuxedocomputers.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ tuxedocomputers.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from; s=
+ default; t=1677075480; x=1678889881; bh=ujp8UtH/HkS7PA/cnHZUF8LF
+ g6XQmk9qH7vri3P5DdQ=; b=fHH/Yxcvf63Bcaq6ys0nw4zUtAqBHpYn6uB541qX
+ nGalq1BNBLlvNU5mtpuSdqwYdHfuPcsT27B22JjVwCituLLBHO5VWsMnmfNYM6uF
+ fQtO9hXG8IP9dP3+5//M5XAMSR+n+GxV42Cpv2CKIm+7XohWiEhHyByi4HCpknqe
+ h3o=
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+ by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10026)
+ with LMTP id YHOPEZUT_uB0; Wed, 22 Feb 2023 15:18:00 +0100 (CET)
+Received: from wsembach-tuxedo.fritz.box
+ (host-88-217-226-44.customer.m-online.net [88.217.226.44])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by srv6.fidu.org (Postfix) with ESMTPA id 164F1C800A2;
+ Wed, 22 Feb 2023 15:17:59 +0100 (CET)
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@gmail.com,
+ daniel@ffwll.ch, jose.souza@intel.com, jouni.hogander@intel.com,
+ mika.kahola@intel.com, ville.syrjala@linux.intel.com,
+ lucas.demarchi@intel.com, Diego.SantaCruz@spinetix.com,
+ wse@tuxedocomputers.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Add quirk to disable PSR 2 on Tongfang PHxTxX1 and PHxTQx1
+Date: Wed, 22 Feb 2023 15:17:53 +0100
+Message-Id: <20230222141755.1060162-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEXTbpcOA06Cf-niurjM4_3Rx6xa9Pi+fuJHUQCKmwaJL2ibmA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +63,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Robert Foss <rfoss@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
- Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Benson Leung <bleung@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 22, 2023 at 04:53:41PM +0800, Pin-yen Lin wrote:
-> On Tue, Feb 21, 2023 at 7:48 PM Andy Shevchenko
-> > On Tue, Feb 21, 2023 at 05:50:47PM +0800, Pin-yen Lin wrote:
+On these Barebones PSR 2 is recognized as supported but is very buggy:
+- Upper third of screen does sometimes not updated, resulting in
+disappearing cursors or ghosts of already closed Windows saying behind.
+- Approximately 40 px from the bottom edge a 3 pixel wide strip of randomly
+colored pixels is flickering.
 
-...
+PSR 1 is working fine however.
 
-> > >  #include <linux/delay.h>
-> > >  #include <linux/i2c.h>
-> > > +#include <linux/usb/typec_mux.h>
-> >
-> > I don't see users of this.
-> > But a few forward declarations are missing.
-> 
-> I can put a `struct typec_mux_dev;` here, but there is also a usage of
-> typec_mux_set_fn_t.
-> 
-> Should I add the typedef into this header file as well?
+This patchset introduces a new quirk to disable PSR 2 specifically on known
+buggy devices and applies it to the Tongfang PHxTxX1 and PHxTQx1 barebones.
 
-No, inclusion is fine, it's me who didn't notice the type in use.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Cc: <stable@vger.kernel.org>
 
 
