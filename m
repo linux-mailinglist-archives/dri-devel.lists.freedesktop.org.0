@@ -1,67 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4605169F880
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 16:58:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D0469F89D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 17:06:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F8710EA38;
-	Wed, 22 Feb 2023 15:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEA4C10E10D;
+	Wed, 22 Feb 2023 16:06:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C1AE10EA38;
- Wed, 22 Feb 2023 15:58:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677081530; x=1708617530;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=iZgeh6PejqKVO9OjFqtn/n34gkdeyv0JrhZ7KTpx8r0=;
- b=lhiy4fy/yGahleBZr+hDu2Ucttfr0VXwXRK2xAgVS294CAEnVWY7gByh
- qezvEePpURod2VtfH7YsBXV4EAFJfJXGLM1szkCuBvh1jWC85bzFR8kUf
- DnezkBgc9UqlDEp1MReXVjp0XSocWGTpM6xsXCBs/BrKdUG8eOIspK/IZ
- UaYWQiVcsYvkEFHxbStjY8pv8okJKY5QCoXDwdbDzRFRZphnHelEpeZ/V
- aCaeyDqf4r+/GWtaklWwTf6AG3P87PIfdX4K6666eU+wMbwag3XQd+e57
- Oht9o+EICq7nvtgPXpAoEIaDOV56+Jtv3McHm4VJCb2GmdD0kowPPq3LD Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="313334835"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; d="scan'208";a="313334835"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2023 07:58:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="621952690"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; d="scan'208";a="621952690"
-Received: from abibas-mobl.ger.corp.intel.com (HELO [10.249.254.220])
- ([10.249.254.220])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2023 07:58:47 -0800
-Message-ID: <a503558d-e37d-5540-3463-11b9b18bcf76@linux.intel.com>
-Date: Wed, 22 Feb 2023 16:58:45 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA4510E10D
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 16:06:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=NSW16hsq60Yks92NWJu7M+UAPLB9fRTrFGr3d8deLn4=; b=kHbGOtFY/m5d4SCpsnHDsgt1Rn
+ 3zgWYlnC5Dg0VOrbuNKza8kjD8QkMFFDKtERTJLUiCY7zt1Vk09kDe9wJgLFQ2e7rNinEBq99Lagy
+ EMUSiFGgQg49OTT0UaAhEzCmCd/vsd17nYJebtJ132VnEsuewylQtECqG5tpm0VRT5CoJ/tjY0h1n
+ 7BVyAobtZr0zY7ysKTYxDB7jZYv4J2Ra9gws1unwz+bccIXqbq0mrIrIbwocXgUygXJjH3FmoFSDw
+ H46mNiNutjddDhEbAOILzx4ywlzJzsMFSLTE/Dasxwg8w08xRTeulo8hZ2q2nR/4saYkOvSYP3yNB
+ 6LaS52Lw==;
+Received: from [187.36.234.139] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pUrdd-00Awxt-Fx; Wed, 22 Feb 2023 17:06:38 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Melissa Wen <mwen@igalia.com>
+Subject: [PATCH] drm/vgem: Drop struct drm_vgem_gem_object
+Date: Wed, 22 Feb 2023 13:06:17 -0300
+Message-Id: <20230222160617.171429-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [Intel-xe] [PATCH 1/3] drm/suballoc: Introduce a generic
- suballocation manager
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20230216144847.216259-1-thomas.hellstrom@linux.intel.com>
- <20230216144847.216259-2-thomas.hellstrom@linux.intel.com>
- <35ba51b1-598e-8c43-0eca-8fd538ef2659@amd.com>
- <e44a861e-013b-d509-f3a5-b8973186e321@linux.intel.com>
- <91f82b8e-ff43-8b58-e55f-d1c55f13971f@amd.com>
- <95abe965-ae03-5213-abb3-92ee908e727c@linux.intel.com>
- <ad869cfc-baff-2c7a-7bf9-799c5f125aba@amd.com>
- <6ddd49d2-be2c-3b80-9e77-8cc24cbe64e2@linux.intel.com>
- <728a932c-d65e-9777-de50-6dd8fe9f5708@amd.com>
- <1ca4881b-c470-1f59-03c9-edcddbaa7a6a@linux.intel.com>
- <24ada492-c951-46ad-6771-3af88caf2fb3@linux.intel.com>
- <592a66a8-2265-ec51-b38e-baf7fd005e6e@amd.com>
- <b246a499-2d00-32a6-4e75-f31e311afa9a@linux.intel.com>
- <b3c983d9-3359-6686-d01d-e2c01de26bbe@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <b3c983d9-3359-6686-d01d-e2c01de26bbe@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,231 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-xe@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Commit 45d9c8dde4cd ("drm/vgem: use shmem helpers") introduced shmem
+helpers to vgem and with that, removed all uses of the struct
+drm_vgem_gem_object. So, as the struct is no longer used, delete it.
 
-On 2/22/23 15:20, Christian König wrote:
-> Am 22.02.23 um 14:54 schrieb Thomas Hellström:
->> Hi,
->>
->> On 2/22/23 12:39, Christian König wrote:
->>> Hi Thomas,
->>>
->>> Am 22.02.23 um 12:00 schrieb Thomas Hellström:
->>>> Hi, Christian,
->>>>
->>>> So I resurrected Maarten's previous patch series around this (the 
->>>> amdgpu suballocator) slightly modified the code to match the API of 
->>>> this patch series, re-introduced the per-allocation alignment as 
->>>> per a previous review comment from you on that series, and made 
->>>> checkpatch.pl pass mostly, except for pre-existing style problems, 
->>>> and added / fixed some comments. No memory corruption seen so far 
->>>> on limited Xe testing.
->>>>
->>>> To move this forward I suggest starting with that as a common drm 
->>>> suballocator. I'll post the series later today. We can follow up 
->>>> with potential simplifactions lif needed.
->>>>
->>>> I also made a kunit test also reporting some timing information. 
->>>> Will post that as a follow up. Some interesting preliminary 
->>>> conclusions:
->>>>
->>>> * drm_mm is per se not a cpu hog, If the rb tree processing is 
->>>> disabled and the EVICT algorithm is changed from MRU to ring-like 
->>>> LRU traversal, it's more or less just as fast as the ring 
->>>> suballocator.
->>>>
->>>> * With a single ring, and the suballocation buffer never completely 
->>>> filled (no sleeps) the amd suballocator is a bit faster per 
->>>> allocation / free. (Around 250 ns instead of 350). Allocation is 
->>>> slightly slower on the amdgpu one, freeing is faster, mostly due to 
->>>> the locking overhead incurred when setting up the fence callbacks, 
->>>> and for avoiding irq-disabled processing on the one I proposed.
->>>
->>> For some more realistic numbers try to signal the fence from another 
->>> CPU. Alternative you can invalidate all the CPU read cache lines 
->>> touched by the fence callback so that they need to be read in again 
->>> from the allocating CPU.
->>
->> Fences are signalled using hr-timer driven fake "ring"s, so should 
->> probably be distributed among cpus in a pretty realistic way. But 
->> anyway I agree results obtained from that kunit test can and should 
->> be challenged before we actually use them for improvements.
->
-> I would double check that. My expectation is that hr-timers execute by 
-> default on the CPU from which they are started.
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/vgem/vgem_drv.h | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-Hmm, since not using the _PINNED hrtimer flag, I'd expect them to be 
-more distributed but you're right, they weren't. A rather few 
-timer_expires from other cpus only. So figures for signalling on other 
-cpus are, around 500ns for the amdgpu variant, around 900 ns for the 
-fence-callback one. Still, sleeping starts around 50-75% fill with the 
-amdgpu variant.
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.h b/drivers/gpu/drm/vgem/vgem_drv.h
+index 0ed300317f87..34cf63e6fb3d 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.h
++++ b/drivers/gpu/drm/vgem/vgem_drv.h
+@@ -39,17 +39,6 @@ struct vgem_file {
+ 	struct mutex fence_mutex;
+ };
+ 
+-#define to_vgem_bo(x) container_of(x, struct drm_vgem_gem_object, base)
+-struct drm_vgem_gem_object {
+-	struct drm_gem_object base;
+-
+-	struct page **pages;
+-	unsigned int pages_pin_count;
+-	struct mutex pages_lock;
+-
+-	struct sg_table *table;
+-};
+-
+ int vgem_fence_open(struct vgem_file *file);
+ int vgem_fence_attach_ioctl(struct drm_device *dev,
+ 			    void *data,
+-- 
+2.39.2
 
->
->>
->>>
->>>>
->>>> * With multiple rings and varying allocation sizes and signalling 
->>>> times creating fragmentation, the picture becomes different as the 
->>>> amdgpu allocator starts to sleep/throttle already round 50% - 75% 
->>>> fill. The one I proposed between 75% to 90% fill, and once that 
->>>> happens, the CPU cost of putting to sleep and waking up should 
->>>> really shadow the above numbers.
->>>>
->>>> So it's really a tradeoff. Where IMO also code size and 
->>>> maintainability should play a role.
->>>>
->>>> Also I looked at the history of the amdgpu allocator originating 
->>>> back to Radeon 2012-ish, but couldn't find any commits mentioning 
->>>> fence callbacks nor problem with those. Could you point me to that 
->>>> discussion?
->>>
->>> Uff that was ~10 years ago. I don't think I can find that again.
->>
->> OK, fair enough. But what was the objective reasoning against using 
->> fence callbacks for this sort of stuff, was it unforeseen locking 
->> problems, caching issues or something else?
->
-> Well caching line bouncing is one major problem. Also take a look at 
-> the discussion about using list_head in interrupt handlers, that 
-> should be easy to find on LWN.
->
-> The allocator usually manages enough memory so that it never runs into 
-> waiting for anything, only in extreme cases like GPU resets we 
-> actually wait for allocations to be freed.
-
-I guess this varies with the application, but can be remedied with just 
-adding more managed memory if needed.
-
-/Thomas
-
-
->
-> So the only cache lines which is accessed from more than one CPU 
-> should be the signaled flag of the fence.
->
-> With moving list work into the interrupt handler you have at least 3 
-> cache lines which start to bounce between different CPUs.
->
-> Regards,
-> Christian.
->
->>
->> Thanks,
->>
->> Thomas
->>
->>
->>
->>>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Thanks,
->>>>
->>>> Thomas
->>>>
->>>>
->>>>
->>>> On 2/17/23 14:51, Thomas Hellström wrote:
->>>>>
->>>>> On 2/17/23 14:18, Christian König wrote:
->>>>>> Am 17.02.23 um 14:10 schrieb Thomas Hellström:
->>>>>>> [SNIP]
->>>>>>>>>>>
->>>>>>>>>>> Any chance you could do a quick performance comparison? If 
->>>>>>>>>>> not, anything against merging this without the amd / radeon 
->>>>>>>>>>> changes until we can land a simpler allocator?
->>>>>>>>>>
->>>>>>>>>> Only if you can stick the allocator inside Xe and not drm, 
->>>>>>>>>> cause this seems to be for a different use case than the 
->>>>>>>>>> allocators inside radeon/amdgpu.
->>>>>>>>>
->>>>>>>>> Hmm. No It's allocating in a ring-like fashion as well. Let me 
->>>>>>>>> put together a unit test for benchmaking. I think it would be 
->>>>>>>>> a failure for the community to end up with three separate 
->>>>>>>>> suballocators doing the exact same thing for the same problem, 
->>>>>>>>> really.
->>>>>>>>
->>>>>>>> Well exactly that's the point. Those allocators aren't the same 
->>>>>>>> because they handle different problems.
->>>>>>>>
->>>>>>>> The allocator in radeon is simpler because it only had to deal 
->>>>>>>> with a limited number of fence timelines. The one in amdgpu is 
->>>>>>>> a bit more complex because of the added complexity for more 
->>>>>>>> fence timelines.
->>>>>>>>
->>>>>>>> We could take the one from amdgpu and use it for radeon and 
->>>>>>>> others as well, but the allocator proposed here doesn't even 
->>>>>>>> remotely matches the requirements.
->>>>>>>
->>>>>>> But again, what *are* those missing requirements exactly? What 
->>>>>>> is the pathological case you see for the current code?
->>>>>>
->>>>>> Well very low CPU overhead and don't do anything in a callback.
->>>>>
->>>>> Well, dma_fence_wait_any() will IIRC register callbacks on all 
->>>>> affected fences, although admittedly there is no actual allocator 
->>>>> processing in them.
->>>>>
->>>>>>
->>>>>>>
->>>>>>> From what I can tell the amdgpu suballocator introduces 
->>>>>>> excessive complexity to coalesce waits for fences from the same 
->>>>>>> contexts, whereas the present code just frees from the fence 
->>>>>>> callback if the fence wasn't already signaled.
->>>>>>
->>>>>> And this is exactly the design we had previously which we removed 
->>>>>> after Dave stumbled over tons of problems with it.
->>>>>
->>>>> So is the worry that those problems have spilled over in this code 
->>>>> then? It's been pretty extensively tested, or is it you should 
->>>>> never really use dma-fence callbacks?
->>>>>
->>>>>>
->>>>>>> The fence signalling code that fires that callback is typcally 
->>>>>>> always run anyway on scheduler fences.
->>>>>>>
->>>>>>> The reason we had for not using the amdgpu suballocator as 
->>>>>>> originally planned was that this complexity made it very hard 
->>>>>>> for us to undertand it and to fix issues we had with it.
->>>>>>
->>>>>> Well what are those problems? The idea is actually not that 
->>>>>> hardware to understand.
->>>>>
->>>>> We hit memory corruption, and we spent substantially more time 
->>>>> trying to debug it than to put together this patch, while never 
->>>>> really understanding what  happened, nor why you don't see that 
->>>>> with amdgpu.
->>>>>
->>>>>>
->>>>>> We could simplify it massively for the cost of only waiting for 
->>>>>> the oldest fence if that helps.
->>>>>
->>>>> Let me grab the latest version from amdgpu and give it a try 
->>>>> again, but yes I think that to make it common code we'll need it 
->>>>> simpler (and my personal wish would be to separate the allocator 
->>>>> functionality a bit more from the fence waiting, which I guess 
->>>>> should be OK if the fence waiting is vastly simplified).
->>>>>
->>>>> /Thomas
->>>>>
->>>>>
->>>>>>
->>>>>>
->>>>>> Regards,
->>>>>> Christian.
->>>>>>
->>>>>>>
->>>>>>> Regards,
->>>>>>>
->>>>>>> Thomas
->>>>>>
->>>
->
