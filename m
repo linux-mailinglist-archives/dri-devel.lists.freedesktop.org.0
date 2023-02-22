@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FECC69EE5E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 06:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7098669EF19
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 08:07:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63BF610E3F0;
-	Wed, 22 Feb 2023 05:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 088E510E1BE;
+	Wed, 22 Feb 2023 07:07:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB5E910E3E6;
- Wed, 22 Feb 2023 05:33:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677043997; x=1708579997;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=1kHtZgGVVxWbNNIyOu1Cm2mFmUPRXUZpcBfSca00rIE=;
- b=PWWrTlbPoZ3eaIPKRgEY3Lm0KM2gCkpLx3zI0BQkYrPAzIT4gjvEKp/+
- unAZOhhYspKV6HnfWbsTZgRN5SoPrZ+glszMlks440yz1m1kH267nFo86
- lCWlJ9jEwRM/VUdjdceJ9zrxVIHvojkyBEmKbPlJLWEXcFlPMESMHJGv4
- AmGCGR9TRrCva+yqmZRsVZgZE67Bh09G2aIyg4YEfsWtjBqJj/+Rh4rOr
- 5SqWNRbbib2vavkQhGzjNqh9PV5gZXra+KX3QFq9biL711pHhn49u/U1K
- nTX4PAb0IG+vLT3qS7XCR2gfmo2DDuM4/XrnX7FoZ/M2ppg3Zl81uyPjv g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="332843246"
-X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; d="scan'208";a="332843246"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2023 21:33:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="917450593"
-X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; d="scan'208";a="917450593"
-Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.32])
- by fmsmga006.fm.intel.com with ESMTP; 21 Feb 2023 21:33:15 -0800
-From: Suraj Kandpal <suraj.kandpal@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/i915/dsc: Add debugfs entry to validate DSC output
- formats
-Date: Wed, 22 Feb 2023 11:01:53 +0530
-Message-Id: <20230222053153.3658345-8-suraj.kandpal@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230222053153.3658345-1-suraj.kandpal@intel.com>
-References: <20230222053153.3658345-1-suraj.kandpal@intel.com>
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com
+ [IPv6:2607:f8b0:4864:20::936])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6252C10E1BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 07:07:05 +0000 (UTC)
+Received: by mail-ua1-x936.google.com with SMTP id bx14so2269983uab.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 23:07:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qlPwPykFYo8rhIVwD6mBB4FPi0U1mYPcwHgebQEUnaw=;
+ b=VXIAa7FunJm6q3CeB62nQ167gZdQVEQe2WuW1+KVUVZUKVfVSRrsFHRIuvLcvB+WAI
+ BkW2mPJ4C7KTo2uk2BNR5ieJykYAv4X+UkH3enEhjvEHcvm8VjYHwUjN7CBfiAFvp+r3
+ S/1r2W9l9+ur2AMr7PnVyAh/q4cfsy1OA2+z4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qlPwPykFYo8rhIVwD6mBB4FPi0U1mYPcwHgebQEUnaw=;
+ b=2toawd8yerdCHS/SIU3jr5ImW4IS0pZ7riHlulehrDhORxzmzsBJobEL8BL5dUYEFW
+ G7nHwAhwOqD7FONKYVCLpDUyQxy3calrhCGrkln3pRtTj62QjmGUbk2Ry8OmIKmqkoFb
+ oX85tL8Sw4L1vQ5UiDDxWHyIx5XsZw5wN42oXizuQEh3qqHkDI1lkxsXNLZHMf76caPk
+ YTB0nsLZoDRs/v22eIOkcuq4CNCcNBDKcTBZ8XGJJBRPBXWTxBd+/xrqN6BtPumkqUFn
+ wReXNb7/E2hGscaQenhBpBLTk/xEoNmY/Yy/KhOgZqSvERDb0T9zDJUElPSKxPbM+yV8
+ CgeA==
+X-Gm-Message-State: AO0yUKWCPs/QVGp0S3btoV0F6zPmFy1T1xOdRUweDPjhc1zpQCFIV7Ry
+ HlftFVWgo+AWwjVhvk8s2+XkzUiGTNzxvcGlPX6fag==
+X-Google-Smtp-Source: AK7set8LX05PaXjP97oF1G9cF2P3OWsBmaHQhbW//L1C7tUi+Z8JteajDRu6P6E5vLHDtTDlMdm48IpSEsLEbY4UVV4=
+X-Received: by 2002:a1f:208d:0:b0:3e8:66ce:a639 with SMTP id
+ g135-20020a1f208d000000b003e866cea639mr1283824vkg.2.1677049624519; Tue, 21
+ Feb 2023 23:07:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+ <20230221153740.1620529-11-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230221153740.1620529-11-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 22 Feb 2023 15:06:53 +0800
+Message-ID: <CAGXv+5FqZPXaE8tyEFtejsYpKMLzUt5R_QnkbQrDSBM_u7rRYg@mail.gmail.com>
+Subject: Re: [PATCH v2 10/10] drm/panfrost: Add new compatible for Mali on the
+ MT8183 SoC
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,219 +63,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ankit.k.nautiyal@intel.com, uma.shankar@intel.com,
- Swati Sharma <swati2.sharma@intel.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Swati Sharma <swati2.sharma@intel.com>
+On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> The "mediatek,mt8183-mali" compatible uses platform data that calls for
+> getting (and managing) two regulators ("mali" and "sram") but devfreq
+> does not support this usecase, resulting in DVFS not working.
+>
+> Since a lot of MediaTek SoCs need to set the voltages for the GPU SRAM
+> regulator in a specific relation to the GPU VCORE regulator, a MediaTek
+> SoC specific driver was introduced to automatically satisfy, through
+> coupling, these constraints: this means that there is at all no need to
+> manage both regulators in panfrost but to otherwise just manage the main
+> "mali" (-> gpu vcore) regulator instead.
+>
+> Keeping in mind that we cannot break the ABI, the most sensible route
+> (avoiding hacks and uselessly overcomplicated code) to get a MT8183
+> node with one power supply was to add a new "mediatek,mt8183b-mali"
+> compatible, which effectively deprecates the former.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
 
-DSC_Output_Format_Sink_Support entry is added to i915_dsc_fec_support_show
-to depict if sink supports DSC output formats (RGB/YCbCr420/YCbCr444).
-Also, new debugfs entry is created to enforce output format. This is
-required because of our driver policy. For ex. if a mode is supported
-in both RGB and YCbCr420 output formats by the sink, our policy is to
-try RGB first and fall back to YCbCr420, if mode cannot be shown
-using RGB. So, to test other output formats like YCbCr420 or YCbCr444,
-we need a debugfs entry (force_dsc_output_format) to force this
-output format.
-
-v2: -Func name changed to intel_output_format_name() (Jani N)
-    -Return forced o/p format from intel_dp_output_format() (Jani N)
-v3: -output_format_str[] to remain static (Jani N)
-
-Signed-off-by: Swati Sharma <swati2.sharma@intel.com>
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
----
- .../drm/i915/display/intel_crtc_state_dump.c  |  4 +-
- .../drm/i915/display/intel_crtc_state_dump.h  |  2 +
- .../drm/i915/display/intel_display_debugfs.c  | 78 +++++++++++++++++++
- .../drm/i915/display/intel_display_types.h    |  1 +
- drivers/gpu/drm/i915/display/intel_dp.c       |  4 +
- 5 files changed, 87 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-index 2422d6ef5777..45655efc9468 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.c
-@@ -121,7 +121,7 @@ static const char * const output_format_str[] = {
- 	[INTEL_OUTPUT_FORMAT_YCBCR444] = "YCBCR4:4:4",
- };
- 
--static const char *output_formats(enum intel_output_format format)
-+const char *intel_output_format_name(enum intel_output_format format)
- {
- 	if (format >= ARRAY_SIZE(output_format_str))
- 		return "invalid";
-@@ -179,7 +179,7 @@ void intel_crtc_state_dump(const struct intel_crtc_state *pipe_config,
- 		    "active: %s, output_types: %s (0x%x), output format: %s\n",
- 		    str_yes_no(pipe_config->hw.active),
- 		    buf, pipe_config->output_types,
--		    output_formats(pipe_config->output_format));
-+		    intel_output_format_name(pipe_config->output_format));
- 
- 	drm_dbg_kms(&i915->drm,
- 		    "cpu_transcoder: %s, pipe bpp: %i, dithering: %i\n",
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.h b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.h
-index 9399c35b7e5e..780f3f1190d7 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc_state_dump.h
-+++ b/drivers/gpu/drm/i915/display/intel_crtc_state_dump.h
-@@ -8,9 +8,11 @@
- 
- struct intel_crtc_state;
- struct intel_atomic_state;
-+enum intel_output_format;
- 
- void intel_crtc_state_dump(const struct intel_crtc_state *crtc_state,
- 			   struct intel_atomic_state *state,
- 			   const char *context);
-+const char *intel_output_format_name(enum intel_output_format format);
- 
- #endif /* __INTEL_CRTC_STATE_H__ */
-diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-index 49a7c00c0664..7ebac255865f 100644
---- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-@@ -12,6 +12,7 @@
- #include "i915_irq.h"
- #include "i915_reg.h"
- #include "intel_de.h"
-+#include "intel_crtc_state_dump.h"
- #include "intel_display_debugfs.h"
- #include "intel_display_power.h"
- #include "intel_display_power_well.h"
-@@ -1750,6 +1751,13 @@ static int i915_dsc_fec_support_show(struct seq_file *m, void *data)
- 			   str_yes_no(crtc_state->dsc.compression_enable));
- 		seq_printf(m, "DSC_Sink_Support: %s\n",
- 			   str_yes_no(drm_dp_sink_supports_dsc(intel_dp->dsc_dpcd)));
-+		seq_printf(m, "DSC_Output_Format_Sink_Support: RGB: %s YCBCR420: %s YCBCR444: %s\n",
-+			   str_yes_no(drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd,
-+								      DP_DSC_RGB)),
-+			   str_yes_no(drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd,
-+								      DP_DSC_YCbCr420_Native)),
-+			   str_yes_no(drm_dp_dsc_sink_supports_format(intel_dp->dsc_dpcd,
-+								      DP_DSC_YCbCr444)));
- 		seq_printf(m, "Force_DSC_Enable: %s\n",
- 			   str_yes_no(intel_dp->force_dsc_en));
- 		if (!intel_dp_is_edp(intel_dp))
-@@ -1875,6 +1883,73 @@ static const struct file_operations i915_dsc_bpc_fops = {
- 	.write = i915_dsc_bpc_write
- };
- 
-+static int i915_dsc_output_format_show(struct seq_file *m, void *data)
-+{
-+	struct drm_connector *connector = m->private;
-+	struct drm_device *dev = connector->dev;
-+	struct drm_crtc *crtc;
-+	struct intel_crtc_state *crtc_state;
-+	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
-+	int ret;
-+
-+	if (!encoder)
-+		return -ENODEV;
-+
-+	ret = drm_modeset_lock_single_interruptible(&dev->mode_config.connection_mutex);
-+	if (ret)
-+		return ret;
-+
-+	crtc = connector->state->crtc;
-+	if (connector->status != connector_status_connected || !crtc) {
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	crtc_state = to_intel_crtc_state(crtc->state);
-+	seq_printf(m, "DSC_Output_Format: %s\n",
-+		   intel_output_format_name(crtc_state->output_format));
-+
-+out:	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-+
-+	return ret;
-+}
-+
-+static ssize_t i915_dsc_output_format_write(struct file *file,
-+					    const char __user *ubuf,
-+					    size_t len, loff_t *offp)
-+{
-+	struct drm_connector *connector =
-+		((struct seq_file *)file->private_data)->private;
-+	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
-+	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
-+	int dsc_output_format = 0;
-+	int ret;
-+
-+	ret = kstrtoint_from_user(ubuf, len, 0, &dsc_output_format);
-+	if (ret < 0)
-+		return ret;
-+
-+	intel_dp->force_dsc_output_format = dsc_output_format;
-+	*offp += len;
-+
-+	return len;
-+}
-+
-+static int i915_dsc_output_format_open(struct inode *inode,
-+				       struct file *file)
-+{
-+	return single_open(file, i915_dsc_output_format_show, inode->i_private);
-+}
-+
-+static const struct file_operations i915_dsc_output_format_fops = {
-+	.owner = THIS_MODULE,
-+	.open = i915_dsc_output_format_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+	.write = i915_dsc_output_format_write
-+};
-+
- /*
-  * Returns the Current CRTC's bpc.
-  * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/i915_current_bpc
-@@ -1946,6 +2021,9 @@ void intel_connector_debugfs_add(struct intel_connector *intel_connector)
- 
- 		debugfs_create_file("i915_dsc_bpc", 0644, root,
- 				    connector, &i915_dsc_bpc_fops);
-+
-+		debugfs_create_file("i915_dsc_output_format", 0644, root,
-+				    connector, &i915_dsc_output_format_fops);
- 	}
- 
- 	if (connector->connector_type == DRM_MODE_CONNECTOR_DSI ||
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 9ccae7a46020..9f7951b49c42 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1743,6 +1743,7 @@ struct intel_dp {
- 
- 	/* Display stream compression testing */
- 	bool force_dsc_en;
-+	int force_dsc_output_format;
- 	int force_dsc_bpc;
- 
- 	bool hobl_failed;
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 95e9d0365e23..13bb4497b1fe 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -76,6 +76,7 @@
- #include "intel_tc.h"
- #include "intel_vdsc.h"
- #include "intel_vrr.h"
-+#include "intel_crtc_state_dump.h"
- 
- /* DP DSC throughput values used for slice count calculations KPixels/s */
- #define DP_DSC_PEAK_PIXEL_RATE			2720000
-@@ -810,6 +811,9 @@ intel_dp_output_format(struct intel_connector *connector,
- {
- 	struct intel_dp *intel_dp = intel_attached_dp(connector);
- 
-+	if (intel_dp->force_dsc_output_format)
-+		return intel_dp->force_dsc_output_format;
-+
- 	if (!connector->base.ycbcr_420_allowed || !ycbcr_420_output)
- 		return INTEL_OUTPUT_FORMAT_RGB;
- 
--- 
-2.25.1
-
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
