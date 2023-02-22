@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1B769EFCF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 09:02:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9C569EFE6
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 09:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9868810E42A;
-	Wed, 22 Feb 2023 08:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B0D10E42C;
+	Wed, 22 Feb 2023 08:07:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
- [IPv6:2607:f8b0:4864:20::e2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9130A10E42A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 08:01:58 +0000 (UTC)
-Received: by mail-vs1-xe2f.google.com with SMTP id f23so7334200vsa.13
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 00:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Tlzo2IJo5C30mjLFPDclNhtFd2xIEgosfbXcJe2YvVE=;
- b=MeWMKnUvCa5h3wnNxrVJwgGjMGC7euso+9Epxo9WZnMC3zklZnUMAdZ6JmNt6tv94J
- wnGbHnAcop4UQ5kLLD/AngU8vKm9bLOO7c19mmm5R8uwYNy7xW8gjJozc4V+7pdANJmi
- Me6WFN7P7gptD+fkV3vqzODRL+tt7nUGbDd3s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Tlzo2IJo5C30mjLFPDclNhtFd2xIEgosfbXcJe2YvVE=;
- b=udZ5qAIEUn7RK/sKdn9qq3sjPdVa2yUDkL5mE2kWbUDh9xIDBV3yc7aw4ZzGV6LlRM
- WlGBmydA06tIxKSjXxWyNjHrqWZR5UZnN7d4z+o+lidrlceN5nCeZrtLJcjaBDAybmpt
- mxWwuv2XXPQ7V0kW0Ll+4pGF9T7ThMW+2IZy4XLdfe+BvXMNaQb9S4EQHrbapyV5BwBq
- OOZ383vZTHP2J6FfBppPoFPRj6XY7slgIxSxcXiI0J386BHo6S/lGQHJXJAVQ02lckh7
- WI6cGoulW7NugMAC6OIbel94qFpgTZS3iZ1MC6QPQhI+pX2qLLyOAuy4pVb2H/GQ6nU+
- X9/g==
-X-Gm-Message-State: AO0yUKUzvKdNWbacCyM74u1ugSY0Def6bCLgSHrsQ3ES70t//VqdFcIF
- Iv4tqf7fmy4i525GGacvTVKcHOpzBUO1zoai8Thqbw==
-X-Google-Smtp-Source: AK7set/K733MxVsNaWaZ582QR4RHXcNoi9G2ZoQ2+vNsIwgFsMxrfQGCDYAD5F2km2PqCut/v0ZaIlykDJA2RFfbm3I=
-X-Received: by 2002:a05:6102:570b:b0:3fc:58d:f90f with SMTP id
- dg11-20020a056102570b00b003fc058df90fmr1556381vsb.60.1677052917662; Wed, 22
- Feb 2023 00:01:57 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C960310E42C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 08:07:14 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 202494E1;
+ Wed, 22 Feb 2023 09:07:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1677053233;
+ bh=d7GOIS+Ej2KfXope9MuGbfcUaN48P7nxpib4yMiTsKE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jMjyCRA2VF561lAYOHh5lxtmsYU2PZY2BEXL+H2pyjqVmanUEtYlQmIJtUAhiHZ2K
+ ImLg69/XkQhN0Fz/OvWFeMCcfRDBWkF7BomngVqjuCkIbnD4uOvNiF7CMhh6NLMaAC
+ 02N8K8zFsrnwuiSAl6F954li2D9INKKQIZbTp/rE=
+Message-ID: <43324903-96e2-29ef-5a38-01cee2d4b0f0@ideasonboard.com>
+Date: Wed, 22 Feb 2023 10:07:10 +0200
 MIME-Version: 1.0
-References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
- <20230221153740.1620529-6-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230221153740.1620529-6-angelogioacchino.delregno@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 22 Feb 2023 16:01:46 +0800
-Message-ID: <CAGXv+5FJ6ze5tECGMoJT3yALDoSkshQPj0dUy_KwLJoWo9AYCg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] dt-bindings: gpu: mali-bifrost: Add new MT8183
- compatible
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] drm: rcar-du: Don't write unimplemented ESCR and OTAR
+ registers on Gen3
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230222050623.29080-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20230222050623.29080-2-laurent.pinchart+renesas@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230222050623.29080-2-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,22 +52,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Since new platform data was required in Panfrost for getting GPU DVFS
-> finally working on MediaTek SoCs, add a new "mediatek,mt8183b-mali"
-> compatible.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+On 22/02/2023 07:06, Laurent Pinchart wrote:
+> The ESCR and OTAR registers are not present in all DU channels on Gen3
+> SoCs. ESCR only exists in channels that can be routed to an LVDS or
+> DPAD, and OTAR in channels that can be routed to a DPAD. Skip writing
+> those registers for other channels. This replaces the DU gen check, as
+> Gen4 doesn't have LVDS or DPAD outputs.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>   drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 17 +++++++++++++++--
+>   1 file changed, 15 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index 5e552b326162..d6d29be6b4f4 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -298,12 +298,25 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
+>   		escr = params.escr;
+>   	}
+>   
+> -	if (rcdu->info->gen < 4) {
+> +	/*
+> +	 * The ESCR register only exists in DU channels that can output to an
+> +	 * LVDS or DPAT, and the OTAR register in DU channels that can output
+> +	 * to a DPAD.
+> +	 */
+> +	if ((rcdu->info->routes[RCAR_DU_OUTPUT_DPAD0].possible_crtcs |
+> +	     rcdu->info->routes[RCAR_DU_OUTPUT_DPAD1].possible_crtcs |
+> +	     rcdu->info->routes[RCAR_DU_OUTPUT_LVDS0].possible_crtcs |
+> +	     rcdu->info->routes[RCAR_DU_OUTPUT_LVDS1].possible_crtcs) &
+> +	    BIT(rcrtc->index)) {
+>   		dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
+>   
+>   		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
+> +	}
+> +
+> +	if ((rcdu->info->routes[RCAR_DU_OUTPUT_DPAD0].possible_crtcs |
+> +	     rcdu->info->routes[RCAR_DU_OUTPUT_DPAD1].possible_crtcs) &
+> +	    BIT(rcrtc->index))
+>   		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
+> -	}
+>   
+>   	/* Signal polarities */
+>   	dsmr = ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DSMR_VSL : 0)
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
+
