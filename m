@@ -1,118 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906B869F2E6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 11:46:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F1669F311
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 12:00:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8830410E959;
-	Wed, 22 Feb 2023 10:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 630AC10E939;
+	Wed, 22 Feb 2023 11:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2080.outbound.protection.outlook.com [40.107.102.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D41CB10E959;
- Wed, 22 Feb 2023 10:46:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dunOBNYRO0X4roEkZSNRrfPSIYwEeBdfwnLeppYHxvKDE3sBaYoK/608R5NLzQOT0HTaaKfeAomSW90on2gb9K/P2zGzjTuZrzAgqdHnGDGXQhQiJ42IMY8BcD/Z7hxJNsgK9LOz441Plexgjd0Wpmr4L24YfmrZw22W2UidI4J21/qJ1c+4Bq+QTsHfKPgq+P8DmdIoEpZ5/CmyRwMsSVJtR951XLBmF7Ip9KwM2fpEwG2x+ffEyoPvjetGVRkweKAtHPrEGMFyc/txyiS6Bwj+7hZKGte1m8BQgXjh2earTJdUf7lyRMvzvuMlRvQNlf/xn5AoGuFJFNEebcXY8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IocLp5Si+wHCKSufOnqhKpMrx2BJh9lWuBD+7R/o210=;
- b=CSM//U2h/2AW7gc5kzJXB9OuE1DvYIZM/OdptA1BcspBj3CaMLr23R86sQAfs+y/nkD6xgrI+VfXE3bn5YCEayy/+an3ZIlJQGXZhdcYBQdUYXEk2hQNkCx2AysMPCGZke49u3dp131lnhRMYBxVDdtKeoFuerJEU2kFUbWGeFVhffpHrEdNXBt8Qzd6tnRBOHvwcMfa1Yqw04BkktVFUi7vugkjEgG32sgy6Dl+WW139vULqz1Rmg3b+2rwNAhXJv3l+2JZBI7IEKWNoddCKG28EQ139db7oNQjHih9dL9sNH1AudMnTicKGHVEOgENkhyUXX7uCPHwMZIPkIcMiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IocLp5Si+wHCKSufOnqhKpMrx2BJh9lWuBD+7R/o210=;
- b=4Mg/Mu63oX3rA25ZzqgONxgQ+SenFDlV/yrjXFghyB1LKUm3vwj+Mz6rkAAlMuoN53L5qwso6UbIS5lYAZBMmrvYuRNOavovqc/NJlX0wq4U2fScSHtlx/lqwBz7jpGoKoTn+yyRKsEzhh7K2L26Gy8LSiptfV/5dSHpp15ZeH4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- DS0PR12MB7945.namprd12.prod.outlook.com (2603:10b6:8:153::19) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6111.21; Wed, 22 Feb 2023 10:46:46 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::4df2:b32a:e628:c57e]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::4df2:b32a:e628:c57e%7]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
- 10:46:46 +0000
-Message-ID: <a4a72b25-2db3-21c4-c8c0-bb027db59d61@amd.com>
-Date: Wed, 22 Feb 2023 05:46:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-CA
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-12-robdclark@gmail.com>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH v4 11/14] drm/atomic-helper: Set fence deadline for vblank
-In-Reply-To: <20230218211608.1630586-12-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT3PR01CA0041.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:82::21) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 815C910E807;
+ Wed, 22 Feb 2023 11:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677063621; x=1708599621;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=ssHsvDAs7avAToAkWRe+je8PFqBEuovAafEWSy1Z1r8=;
+ b=gFJKyC2oWevttJNAZv+7626mtGo/SR7HHHHSOL6KWUpHABId6wD5+1Az
+ HE5WwlbIPWpshu3BgiMNXNTfNhOPvpKy1s2uollWeft/k202/A5lbjAOl
+ +NO1q9Pq8ksgvB5HWn1mIUA6DAc5iL783hFt3kleCLnMkHR9II/PXv4Qx
+ RTf1F7+39lx28SVC2KDr3yg24zkVH01PiqbvPHmZw34WojSw3U/rVyIve
+ 46BVfKQywl8YqEJiKKhFAAlWcL5nya0lPx3qd2WnkJKxj+aEbw8SIO4dL
+ FH5WRkmKX9Y0+yXyzcw4FJ7QrpKc5FFXUCo8ftqGb0aLU2KLKjtAin7vX A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="395376571"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="395376571"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 03:00:20 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="735866123"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="735866123"
+Received: from abibas-mobl.ger.corp.intel.com (HELO [10.249.254.220])
+ ([10.249.254.220])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 03:00:18 -0800
+Message-ID: <24ada492-c951-46ad-6771-3af88caf2fb3@linux.intel.com>
+Date: Wed, 22 Feb 2023 12:00:16 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|DS0PR12MB7945:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9915105c-e387-4e41-8601-08db14c217ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZTjmXxUL0NABcOuThM7M9Yi+ilRgOHRs7YPP/bcUJhYTa+uNj1YsC5/qRA0bYDdqGdvEUBAbJcfUVO7FqJjsbbY01HKcgpsj59vOXKsqpYIjSQijnAcf+0XQzg8j/32KUA0WkJjb8FLU7IVV8NpbKszaS0d6IljUT490goG+1t7RG9nWre/Ygn3R+GWlqsMjWA14f2fqNtdoAXSHiq8S0MBRlAnXvAneXXEoTbS0FBJu67fw1FejdwLIk50iBJBbc+RYB/TOcz6vvpZ6m2k7Zm9nueEzOKBhqxUv7hsAEV7A31Nde3SKDAsfscyVetxCdJrCpIITJkP19dew2niJ9QMpqgyvlvHkB0OP2PgX27EdEtrbdu6LaUS/R7QJTc0Wcv+SBjHjVkzeLJvMrCyowxAIUkz2yxDOQkRj7MV23+v77AgxJtuh4rcsbhQEdL9L5uZqQ4Oag353XDIDP48NUV5JQbL91fCHEls8rjMUnuSPTQnTh2m1mtA4tNOmhbeCubOwoLYpOappjtFDGcp5NFgYo/MASje8rSg8yAXGC4aPMVS3//Id73LOHAXd+1VkM3Go4AKeKN5tTdxRuCHrw52D+N/VVLyg/4lVRCaL2FkdCQUHagOBzMAHiLyTMGH3VDFfbOPTQqvq0JS5BcRddt5HTMWpen1s/ox8ymBEcE0yItO5MetqAIFzMR3kYl5LvFsldJPCmmL9SwXFVuCzkdUv4/ECslVVhsW9QlwP7Qk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(346002)(396003)(366004)(376002)(136003)(451199018)(66476007)(83380400001)(66556008)(478600001)(6512007)(186003)(53546011)(55236004)(86362001)(6666004)(6506007)(26005)(44832011)(31696002)(36756003)(316002)(66946007)(8676002)(54906003)(2616005)(6486002)(38100700002)(41300700001)(2906002)(8936002)(5660300002)(31686004)(7416002)(4326008)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aEovRFFSL0FINEZPV3F5MHBCSVdQZGhOdXRiZDIwQlNNcGlJNC8rWHpTdFhN?=
- =?utf-8?B?STdHU3ByTmMwck1SbWJDU2pSU3lwSDNvMjZjUksxajFSclpJTUFDT3dCUDdP?=
- =?utf-8?B?MUMyM1ZMS2dFYVdkeTExZXAwZnBvWUd2bi93YUVXVkExczVBMlhrd0Q3N1No?=
- =?utf-8?B?ZVNiUUNpN0RHb2JHdnhGbFNWbUZnR08rcE5yOVdjamRaTWcyVldvWWZ1VkhV?=
- =?utf-8?B?OEViQ2JVWUNudFBRd1VZZWZyazNKOG9iRHBsZjJFZXN6eHhxSnIrcVlNNitQ?=
- =?utf-8?B?U2JjMnlxcUVkeXBueFlnKy9IbXZrcU45VEZDdXhGZ3hsRCs3Y1RwU3lMU2wx?=
- =?utf-8?B?UDZBeSswYVVpb3ZwelYwZjhyeFVkN0FrbGc2ZlBObFZDWVhJUDYrMkd3MGUw?=
- =?utf-8?B?elE3c3dXRldRb1NQam5Kb3ArckNYOWFabzdsOUZrRy90V3pobVRYWGFTZDVS?=
- =?utf-8?B?NE1iZXlkeXFRakVaRWJCZzdma3d6TWFrL3BDd0ZQQXp6UXd0NHNmYzFKNVl3?=
- =?utf-8?B?MEd4czh2MXU2c051R01FbUpvRWNnUmdCcGFpaG15MDFYa3REY29vd3BjU3dN?=
- =?utf-8?B?a0Zhd3NkY1U2ZFpzVnNicExFMithMmF3QitYTW1nY0hldFJwSXRsamYrbk1L?=
- =?utf-8?B?Vm5rak1nc0lJNGJQYlRnOXdaLzE5Q1llVVd5R0xoeGpjYm42ckVkdTVGbnE1?=
- =?utf-8?B?TENmTlpmbWtMTUFUYUlWaHZKOFY0ZndqaWo5endFS1ppRk53S1JvdlVKNzJq?=
- =?utf-8?B?aEwvcGFWOFZZbFNRUHdEUFRwRlFNbEZuNy9zQ1ozQ0dpQWZ1UEluNFIwU2Zn?=
- =?utf-8?B?dER2Q3dub2xOSnFlcnhVa0hZaUxDL0xYUTk0YlRoVHV6c1ViY3cvd2QwSFJU?=
- =?utf-8?B?dGJMaUFkRWJadFlJemNPSU11NW1OVUVnWU1lQjRNVEh1RFZwTi81bXBPRzVt?=
- =?utf-8?B?eXl4aHBYU21ibkVlZnF2YkRpU3N0ejZQZzJ5N1YvZWoyN3BXNWRVQ0xGZnNo?=
- =?utf-8?B?cFVZS1E3Nkw0MENzZzhOUURFK0pieTVpdUFZRVRYaEJ5N2lpSE5JL1NqK2ND?=
- =?utf-8?B?WXdzcTJaY2d6RVo5RjZPUFkrYmtMd3phSktqckIrTTIraExVaWlSSldMelFz?=
- =?utf-8?B?MTVoQ3h1N2w4SEx6S2tpT3F3VWVBcW1kUzdrQkNrRkRkd0N6Q1Y1QUZ1OHdL?=
- =?utf-8?B?K3JwRXl1UDJRMWxFQ2MyN0FOZWVxZVZCcnpKdHhUL1IxTTVBbllhMndQa09z?=
- =?utf-8?B?Z2FHRDJNcjNwdEo4NmdFMklzOUxIMGQ2cUh0Nk9LV3NtQVNqK0ZpQ0lPZ3BO?=
- =?utf-8?B?aHRtWnhneUtJT05oN0RWeTdKSVlkZ3JwN292bmtyL3l1SGljcTJDdWlpRG1k?=
- =?utf-8?B?NHJYOXpMaFZEYlVrbS9TYzk3bWlsdUVSZC80cit5YlEydE5nZVlqdmJNSVkw?=
- =?utf-8?B?REVpdExaNGlROVF6YjNLckYrbXd3Y2dhU2ZxNE1HM2FPRmxMUFIySUdNNUJE?=
- =?utf-8?B?MmNMeTlzbzRya3BNdytqeEY5TUpMRE5YcXR0VWsxNGVsUXF0RUo1VjJYMXlh?=
- =?utf-8?B?RC9aMmJzd1RFTFZmV1lwSW9HVUZzN1QrZHkzS2o0b1FwK28yWDVmalJWYnQy?=
- =?utf-8?B?WFlHRzJGZVhSREN4Sm5QdnQvQk84cWJkZHVjVFV4Y24reEtCUmJvaCtiVURr?=
- =?utf-8?B?dTEzdzlkYWU2UlJEa203MERnQXNUanhlK2RQcFVFdUFzVVdBSTJpQWJ3OE5k?=
- =?utf-8?B?WUpubG8ya1RhTWJyUnRHZjR4elZEYTNwWnRrOW9icTBLL2xPRjBDMmk5VjRW?=
- =?utf-8?B?NnNKSDh5M3ppbTZ1OXVIeHNtTmcyblNWQ2VaOFNxQStEUzUxa0IyWm1Ha0Y1?=
- =?utf-8?B?ZUQ0LzNvZStpNldqUzd2aWpFWDdrbWxyKzJ3aktPaXN3WTVXY2ppYStacFhQ?=
- =?utf-8?B?ajdHRHR3eG90enBBRVdlRmN1dHZ6RzNqZ0tsTHpFcG4wN3NLYkJXaVJMNWxD?=
- =?utf-8?B?WWZ4dkxPd3VlVXFFU2pPUTludUFtL0JMRDZ0bFlmTDdRbDNZaDg4WUpaMU84?=
- =?utf-8?B?YjNWYzhnR2tzbWZKMVduWlBxUDdBUVVsZmk4TkxBOWMwWmJuRzg5QUd6VGMr?=
- =?utf-8?Q?zNbIjeoxec9C33FiL/EIk2Mbf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9915105c-e387-4e41-8601-08db14c217ca
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 10:46:46.0291 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /PqekLzisNGgT7TQm4A5Xg122uu+GrF0nmK7uOQvlsQCB66L70/Yy9y43ps8kwJ0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7945
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [Intel-xe] [PATCH 1/3] drm/suballoc: Introduce a generic
+ suballocation manager
+Content-Language: en-US
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230216144847.216259-1-thomas.hellstrom@linux.intel.com>
+ <20230216144847.216259-2-thomas.hellstrom@linux.intel.com>
+ <35ba51b1-598e-8c43-0eca-8fd538ef2659@amd.com>
+ <e44a861e-013b-d509-f3a5-b8973186e321@linux.intel.com>
+ <91f82b8e-ff43-8b58-e55f-d1c55f13971f@amd.com>
+ <95abe965-ae03-5213-abb3-92ee908e727c@linux.intel.com>
+ <ad869cfc-baff-2c7a-7bf9-799c5f125aba@amd.com>
+ <6ddd49d2-be2c-3b80-9e77-8cc24cbe64e2@linux.intel.com>
+ <728a932c-d65e-9777-de50-6dd8fe9f5708@amd.com>
+ <1ca4881b-c470-1f59-03c9-edcddbaa7a6a@linux.intel.com>
+In-Reply-To: <1ca4881b-c470-1f59-03c9-edcddbaa7a6a@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,98 +71,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, Pekka Paalanen <ppaalanen@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-xe@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-02-18 16:15, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> For an atomic commit updating a single CRTC (ie. a pageflip) calculate
-> the next vblank time, and inform the fence(s) of that deadline.
-> 
-> v2: Comment typo fix (danvet)
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 36 +++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index d579fd8f7cb8..35a4dc714920 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1511,6 +1511,40 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
->  
-> +/*
-> + * For atomic updates which touch just a single CRTC, calculate the time of the
-> + * next vblank, and inform all the fences of the deadline.
-> + */
-> +static void set_fence_deadline(struct drm_device *dev,
-> +			       struct drm_atomic_state *state)
-> +{
-> +	struct drm_crtc *crtc, *wait_crtc = NULL;
-> +	struct drm_crtc_state *new_crtc_state;
-> +	struct drm_plane *plane;
-> +	struct drm_plane_state *new_plane_state;
-> +	ktime_t vbltime;
+Hi, Christian,
 
-I've not looked at the latest language spec, but is AFAIR "vbltime"
-would be uninitialized here. Has this changed?
+So I resurrected Maarten's previous patch series around this (the amdgpu 
+suballocator) slightly modified the code to match the API of this patch 
+series, re-introduced the per-allocation alignment as per a previous 
+review comment from you on that series, and made checkpatch.pl pass 
+mostly, except for pre-existing style problems, and added / fixed some 
+comments. No memory corruption seen so far on limited Xe testing.
 
-> +	int i;
-> +
-> +	for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
-> +		if (wait_crtc)
-> +			return;
-> +		wait_crtc = crtc;
-> +	}
-> +
-> +	/* If no CRTCs updated, then nothing to do: */
-> +	if (!wait_crtc)
-> +		return;
-> +
-> +	if (drm_crtc_next_vblank_time(wait_crtc, &vbltime))
-> +		return;
+To move this forward I suggest starting with that as a common drm 
+suballocator. I'll post the series later today. We can follow up with 
+potential simplifactions lif needed.
 
-We have a problem here in that we're adding the time remaining to the next
-vblank event to an uninitialized local variable. As per my comment on patch 10,
-I'd rather drm_crtc_next_vblank_time() yield the time remaining to the vblank event,
-and we can do the arithmetic locally here in this function.
--- 
-Regards,
-Luben
+I also made a kunit test also reporting some timing information. Will 
+post that as a follow up. Some interesting preliminary conclusions:
 
-> +
-> +	for_each_new_plane_in_state (state, plane, new_plane_state, i) {
-> +		if (!new_plane_state->fence)
-> +			continue;
-> +		dma_fence_set_deadline(new_plane_state->fence, vbltime);
-> +	}
-> +}
-> +
->  /**
->   * drm_atomic_helper_wait_for_fences - wait for fences stashed in plane state
->   * @dev: DRM device
-> @@ -1540,6 +1574,8 @@ int drm_atomic_helper_wait_for_fences(struct drm_device *dev,
->  	struct drm_plane_state *new_plane_state;
->  	int i, ret;
->  
-> +	set_fence_deadline(dev, state);
-> +
->  	for_each_new_plane_in_state(state, plane, new_plane_state, i) {
->  		if (!new_plane_state->fence)
->  			continue;
+* drm_mm is per se not a cpu hog, If the rb tree processing is disabled 
+and the EVICT algorithm is changed from MRU to ring-like LRU traversal, 
+it's more or less just as fast as the ring suballocator.
 
+* With a single ring, and the suballocation buffer never completely 
+filled (no sleeps) the amd suballocator is a bit faster per allocation / 
+free. (Around 250 ns instead of 350). Allocation is slightly slower on 
+the amdgpu one, freeing is faster, mostly due to the locking overhead 
+incurred when setting up the fence callbacks, and for avoiding 
+irq-disabled processing on the one I proposed.
+
+* With multiple rings and varying allocation sizes and signalling times 
+creating fragmentation, the picture becomes different as the amdgpu 
+allocator starts to sleep/throttle already round 50% - 75% fill. The one 
+I proposed between 75% to 90% fill, and once that happens, the CPU cost 
+of putting to sleep and waking up should really shadow the above numbers.
+
+So it's really a tradeoff. Where IMO also code size and maintainability 
+should play a role.
+
+Also I looked at the history of the amdgpu allocator originating back to 
+Radeon 2012-ish, but couldn't find any commits mentioning fence 
+callbacks nor problem with those. Could you point me to that discussion?
+
+Thanks,
+
+Thomas
+
+
+
+On 2/17/23 14:51, Thomas Hellström wrote:
+>
+> On 2/17/23 14:18, Christian König wrote:
+>> Am 17.02.23 um 14:10 schrieb Thomas Hellström:
+>>> [SNIP]
+>>>>>>>
+>>>>>>> Any chance you could do a quick performance comparison? If not, 
+>>>>>>> anything against merging this without the amd / radeon changes 
+>>>>>>> until we can land a simpler allocator?
+>>>>>>
+>>>>>> Only if you can stick the allocator inside Xe and not drm, cause 
+>>>>>> this seems to be for a different use case than the allocators 
+>>>>>> inside radeon/amdgpu.
+>>>>>
+>>>>> Hmm. No It's allocating in a ring-like fashion as well. Let me put 
+>>>>> together a unit test for benchmaking. I think it would be a 
+>>>>> failure for the community to end up with three separate 
+>>>>> suballocators doing the exact same thing for the same problem, 
+>>>>> really.
+>>>>
+>>>> Well exactly that's the point. Those allocators aren't the same 
+>>>> because they handle different problems.
+>>>>
+>>>> The allocator in radeon is simpler because it only had to deal with 
+>>>> a limited number of fence timelines. The one in amdgpu is a bit 
+>>>> more complex because of the added complexity for more fence timelines.
+>>>>
+>>>> We could take the one from amdgpu and use it for radeon and others 
+>>>> as well, but the allocator proposed here doesn't even remotely 
+>>>> matches the requirements.
+>>>
+>>> But again, what *are* those missing requirements exactly? What is 
+>>> the pathological case you see for the current code?
+>>
+>> Well very low CPU overhead and don't do anything in a callback.
+>
+> Well, dma_fence_wait_any() will IIRC register callbacks on all 
+> affected fences, although admittedly there is no actual allocator 
+> processing in them.
+>
+>>
+>>>
+>>> From what I can tell the amdgpu suballocator introduces excessive 
+>>> complexity to coalesce waits for fences from the same contexts, 
+>>> whereas the present code just frees from the fence callback if the 
+>>> fence wasn't already signaled.
+>>
+>> And this is exactly the design we had previously which we removed 
+>> after Dave stumbled over tons of problems with it.
+>
+> So is the worry that those problems have spilled over in this code 
+> then? It's been pretty extensively tested, or is it you should never 
+> really use dma-fence callbacks?
+>
+>>
+>>> The fence signalling code that fires that callback is typcally 
+>>> always run anyway on scheduler fences.
+>>>
+>>> The reason we had for not using the amdgpu suballocator as 
+>>> originally planned was that this complexity made it very hard for us 
+>>> to undertand it and to fix issues we had with it.
+>>
+>> Well what are those problems? The idea is actually not that hardware 
+>> to understand.
+>
+> We hit memory corruption, and we spent substantially more time trying 
+> to debug it than to put together this patch, while never really 
+> understanding what  happened, nor why you don't see that with amdgpu.
+>
+>>
+>> We could simplify it massively for the cost of only waiting for the 
+>> oldest fence if that helps.
+>
+> Let me grab the latest version from amdgpu and give it a try again, 
+> but yes I think that to make it common code we'll need it simpler (and 
+> my personal wish would be to separate the allocator functionality a 
+> bit more from the fence waiting, which I guess should be OK if the 
+> fence waiting is vastly simplified).
+>
+> /Thomas
+>
+>
+>>
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Regards,
+>>>
+>>> Thomas
+>>
