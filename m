@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C91969FDE9
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 22:47:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0726A69FDF0
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 22:47:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA50410E2E6;
-	Wed, 22 Feb 2023 21:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6630110E44B;
+	Wed, 22 Feb 2023 21:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1196010E1EA
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 21:47:15 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id f18so11896992lfa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 13:47:14 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3424110E1ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 21:47:16 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id n2so8608106lfb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 13:47:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=in63kkOlF7AtxceONSVC3/gRevpfU5tcwdwBpL/2KyM=;
- b=KeM5Jd9PP6sKET3tC+jVjGKIxkt9KdvLN5KPtG7FquRbFFmzwM797jZOUYXTAlxQ1E
- AbwP03ooktQuTemzqxedPeJvEoenpub7MMLvo8mWImW2Nb0oezowfCwiI8xHQN28v5p3
- 6Q1OjIYirPMsTtgR5v2AmQoSomFpxBvqJnEM5u7IgI5G7ee+bG1xfJeTIsh9WybKrIM4
- dlBaVoIPgvRLnPA6VnmxbF4i5i6vIwY4FwG7VQ04NsRUmxTpSc12ELP5415qzFoCy2N4
- wTHF4VqT5Wm2ScAjY+VY0RTtmjw1NmIOF7W06aWhUd8EeO+/a09hnYfyFLC0U6HMYbu6
- Y0Sw==
+ :reply-to; bh=x5gYrnK/HoZ6yr2V7D097iQ8J8n4YHC77+UaKju5N+Q=;
+ b=mCXA83T3xKJKmT9QygJN0AwtqgZwHUf51JqgrMK6uXMT4uqQGtpYp7Kzm1HskBBCuN
+ b9bxJYfm6+nPvNJx1MoTHrccycj3nmvkQ7DIkvSW0Vd6emf1mssK5vA6EGE9m9MnMq5F
+ Sn2aWNU4NO5P/P6yuyJYgoCm36H32ouTQXkedZHW7XuuPrbUPZQx0AjGaaMURujWSU/b
+ PTq5k/0q2kruxgBylRk/5uhuc6CNMTqNfwueVzxyfFnD2nbSBbH730kTg/gnLMIb1nql
+ H/Ut+stHWEHuGt0UjDkR+MJ60faPoDQ0ueDKNCc0Tft6HPGlHsDFN+s9HyifWt/T4l22
+ DSXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=in63kkOlF7AtxceONSVC3/gRevpfU5tcwdwBpL/2KyM=;
- b=gQXkDKmmM9e7BgwHSGE9G6Zg0h6jVC/WoB/W8i2fNgRStfw4cvT2C9nKk9Zwt3O3DY
- VvP+Vu33b7eSiNlMYP6PHLzk74ioAZtbOMH0ecQxyHDK1hEY0pCr7jwYtz5wtXqIwoc8
- 1Ro9Nb9sFoR+bhDZNZD9fOxM+0ilw72Gl1aVWMub/PUbzLg+XfJ5b0fYuInEmOyz1PXm
- sRASF/r8fQ3MjHTrOBkBpj864v1iKyB9H/7zcG0NJmFalT2hA6NlDyZmzevqY94gu1Mx
- Msom6LsIkH4rS/t3jiJEuAseS7Ej1cD7B4Y3dz8hr1ExupH2RgFXQ9CIMRInZ63HQx8f
- +Akw==
-X-Gm-Message-State: AO0yUKUVtwokPz9Ky8xNtq8Icdo6Dtap/Lmj51FhH5DDkG4qXT08+Mnu
- WDmf0NiZnscL7h8/S0btJEOG7A==
-X-Google-Smtp-Source: AK7set/zwE4n33DuF1ijWw0Mn7XP5Waf6LKQEsQ6hwBwaQC+FVOvhsxGfJoTJp79xa9ArFb7ogqaFQ==
-X-Received: by 2002:ac2:4e05:0:b0:4dd:9f03:1f7e with SMTP id
- e5-20020ac24e05000000b004dd9f031f7emr1083698lfr.22.1677102433234; 
- Wed, 22 Feb 2023 13:47:13 -0800 (PST)
+ bh=x5gYrnK/HoZ6yr2V7D097iQ8J8n4YHC77+UaKju5N+Q=;
+ b=6QizIP+Hb8/4C46jOSU61xneNuRyTrrp8vqVOw34o0zeBS9pBS+2uUmEovSNNfJsjQ
+ KU9sDHNrDUtsYjrh5A20G5uZNWIGBGodfozyfZYcvieYXAJfuziQPWyw+VBXOkU7zTW2
+ xXT+GKy6f2nOKfecaUSzP4hzZA0DoXvYB4OHyBnp+pmffRiX371YISvmWWuWeHN+ekoS
+ RJV2q1Fvzoi62SNJM7Z17S5CrU7hI5Y3hGdSgFwsCS4n3iJA/vscqojMkyfQx+jwvwxB
+ GYHVbkyiqy6JrgVWxYiJIG8pS6mg/ZQxSuWS3TZryYY6o/Z8iG8EvD2txzE7FGpGCuHr
+ UbkA==
+X-Gm-Message-State: AO0yUKVi2mMZo8Q+TEgSdYznUxqZ4PLM9GhDkbijG4T0SKrNvGe5Lq0X
+ fCDSBfSmFFB1mBmDNNrI4RQong==
+X-Google-Smtp-Source: AK7set/+lF3dODwVLFgl3amm2I081aUvR4UN9D9+nLURObBeko0dQwdABDKYCENPkTDgTS7LqbGI2Q==
+X-Received: by 2002:a19:c507:0:b0:4dd:a019:b4a1 with SMTP id
+ w7-20020a19c507000000b004dda019b4a1mr587844lfe.54.1677102434362; 
+ Wed, 22 Feb 2023 13:47:14 -0800 (PST)
 Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
  by smtp.gmail.com with ESMTPSA id
- c23-20020ac244b7000000b004db5081e3f7sm505126lfm.46.2023.02.22.13.47.12
+ c23-20020ac244b7000000b004db5081e3f7sm505126lfm.46.2023.02.22.13.47.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 13:47:12 -0800 (PST)
+ Wed, 22 Feb 2023 13:47:14 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Wed, 22 Feb 2023 22:47:10 +0100
-Subject: [PATCH 1/5] drm/msm/adreno: Use OPP for every GPU generation
+Date: Wed, 22 Feb 2023 22:47:11 +0100
+Subject: [PATCH 2/5] drm/msm/a2xx: Implement .gpu_busy
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230222-konrad-longbois-next-v1-1-01021425781b@linaro.org>
+Message-Id: <20230222-konrad-longbois-next-v1-2-01021425781b@linaro.org>
 References: <20230222-konrad-longbois-next-v1-0-01021425781b@linaro.org>
 In-Reply-To: <20230222-konrad-longbois-next-v1-0-01021425781b@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -62,11 +62,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677102430; l=6142;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677102430; l=2245;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=XjCTxbeQ2g0wp3MiyX1zJyPLmA7rilIPN/CTVTjyz6M=;
- b=NWCfHrmYdFscaF+ZYcQO7FL3I6ZLWXdqVlElXTGvme3D9qz6OouxYc83qnwpMTuc1El3Yz+FLhWB
- 7FrMDyr3ALLVmn23zBM3AarmXDFJ4QvR3NuDoO98ZEbX4/9vjaRp
+ bh=aOv4GpOcxYV0TegYhJBmwWoY68FI0H+2TrCshMKIIzs=;
+ b=0OCPjYibSX+1IERZyu2BRoD05ys93RHFHJC69kwCa2fK2MoMZ7eN3CZd5G2p2wqPjAYeWIgEKIMK
+ Tb6k+0SdB2SeaUXBlUrMeHAOl8klFw8++PiOSp/d9sF0R3zB5xlD
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,191 +87,62 @@ Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some older GPUs (namely a2xx with no opp tables at all and a320 with
-downstream-remnants gpu pwrlevels) used not to have OPP tables. They
-both however had just one frequency defined, making it extremely easy
-to construct such an OPP table from within the driver if need be.
+Implement gpu_busy based on the downstream msm-3.4 code [1]. This
+allows us to use devfreq on this old old old hardware!
 
-Do so and switch all clk_set_rate calls on core_clk to their OPP
-counterparts.
+[1] https://github.com/LineageOS/android_kernel_sony_apq8064/blob/lineage-16.0/drivers/gpu/msm/adreno_a2xx.c#L1975
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 94 +++++++++++++++------------------
- drivers/gpu/drm/msm/msm_gpu.c           |  4 +-
- drivers/gpu/drm/msm/msm_gpu_devfreq.c   |  2 +-
- 3 files changed, 45 insertions(+), 55 deletions(-)
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index ce6b76c45b6f..9b940c0f063f 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -922,73 +922,50 @@ void adreno_wait_ring(struct msm_ringbuffer *ring, uint32_t ndwords)
- 			ring->id);
+diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+index c67089a7ebc1..6258c98e5a88 100644
+--- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+@@ -481,6 +481,33 @@ a2xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+ 	return aspace;
  }
  
--/* Get legacy powerlevels from qcom,gpu-pwrlevels and populate the opp table */
--static int adreno_get_legacy_pwrlevels(struct device *dev)
--{
--	struct device_node *child, *node;
--	int ret;
--
--	node = of_get_compatible_child(dev->of_node, "qcom,gpu-pwrlevels");
--	if (!node) {
--		DRM_DEV_DEBUG(dev, "Could not find the GPU powerlevels\n");
--		return -ENXIO;
--	}
--
--	for_each_child_of_node(node, child) {
--		unsigned int val;
--
--		ret = of_property_read_u32(child, "qcom,gpu-freq", &val);
--		if (ret)
--			continue;
--
--		/*
--		 * Skip the intentionally bogus clock value found at the bottom
--		 * of most legacy frequency tables
--		 */
--		if (val != 27000000)
--			dev_pm_opp_add(dev, val, 0);
--	}
--
--	of_node_put(node);
--
--	return 0;
--}
--
--static void adreno_get_pwrlevels(struct device *dev,
-+static int adreno_get_pwrlevels(struct device *dev,
- 		struct msm_gpu *gpu)
++/* While the precise size of this field is unknown, it holds at least these three values.. */
++#define PERF_MODE_CNT		GENMASK(2, 0)
++ #define PERF_STATE_RESET	0x0
++ #define PERF_STATE_ENABLE	0x1
++ #define PERF_STATE_FREEZE	0x2
++static u64 a2xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
++{
++	u64 busy_cycles;
++
++	/* Freeze the counter */
++	gpu_write(gpu, REG_A2XX_CP_PERFMON_CNTL, FIELD_PREP(PERF_MODE_CNT, PERF_STATE_FREEZE));
++
++	busy_cycles = gpu_read64(gpu, REG_A2XX_RBBM_PERFCOUNTER1_LO);
++
++	/* Reset the counter */
++	gpu_write(gpu, REG_A2XX_CP_PERFMON_CNTL, FIELD_PREP(PERF_MODE_CNT, PERF_STATE_RESET));
++
++	/* Re-enable the performance monitors */
++	gpu_rmw(gpu, REG_A2XX_RBBM_PM_OVERRIDE2, BIT(6), BIT(6));
++	gpu_write(gpu, REG_A2XX_RBBM_PERFCOUNTER1_SELECT, 1);
++	gpu_write(gpu, REG_A2XX_CP_PERFMON_CNTL, FIELD_PREP(PERF_MODE_CNT, PERF_STATE_ENABLE));
++
++	*out_sample_rate = clk_get_rate(gpu->core_clk);
++
++	return busy_cycles;
++}
++
+ static u32 a2xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
  {
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	unsigned long freq = ULONG_MAX;
- 	struct dev_pm_opp *opp;
- 	int ret;
- 
- 	gpu->fast_rate = 0;
- 
--	/* You down with OPP? */
--	if (!of_find_property(dev->of_node, "operating-points-v2", NULL))
--		ret = adreno_get_legacy_pwrlevels(dev);
--	else {
--		ret = devm_pm_opp_of_add_table(dev);
--		if (ret)
--			DRM_DEV_ERROR(dev, "Unable to set the OPP table\n");
--	}
--
--	if (!ret) {
-+	/* devm_pm_opp_of_add_table may error out but will still create an OPP table */
-+	ret = devm_pm_opp_of_add_table(dev);
-+	if (ret == -ENODEV) {
-+		/* Special cases for ancient hw with ancient DT bindings */
-+		if (adreno_is_a2xx(adreno_gpu)) {
-+			dev_warn(dev, "Unable to find the OPP table. Falling back to 200 MHz.\n");
-+			dev_pm_opp_add(dev, 200000000, 0);
-+			gpu->fast_rate = 200000000;
-+		} else if (adreno_is_a320(adreno_gpu)) {
-+			dev_warn(dev, "Unable to find the OPP table. Falling back to 450 MHz.\n");
-+			dev_pm_opp_add(dev, 450000000, 0);
-+			gpu->fast_rate = 450000000;
-+		} else {
-+			DRM_DEV_ERROR(dev, "Unable to find the OPP table\n");
-+			return -ENODEV;
-+		}
-+	} else if (ret) {
-+		DRM_DEV_ERROR(dev, "Unable to set the OPP table\n");
-+		return ret;
-+	} else {
- 		/* Find the fastest defined rate */
- 		opp = dev_pm_opp_find_freq_floor(dev, &freq);
--		if (!IS_ERR(opp)) {
-+
-+		if (IS_ERR(opp))
-+			return PTR_ERR(opp);
-+		else {
- 			gpu->fast_rate = freq;
- 			dev_pm_opp_put(opp);
- 		}
- 	}
- 
--	if (!gpu->fast_rate) {
--		dev_warn(dev,
--			"Could not find a clock rate. Using a reasonable default\n");
--		/* Pick a suitably safe clock speed for any target */
--		gpu->fast_rate = 200000000;
--	}
--
- 	DBG("fast_rate=%u, slow_rate=27000000", gpu->fast_rate);
-+
-+	return 0;
- }
- 
- int adreno_gpu_ocmem_init(struct device *dev, struct adreno_gpu *adreno_gpu,
-@@ -1046,6 +1023,17 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 	struct adreno_rev *rev = &config->rev;
- 	const char *gpu_name;
- 	u32 speedbin;
-+	int ret;
-+
-+	/* This can only be done here, or devm_pm_opp_set_supported_hw will WARN_ON() */
-+	if (IS_ERR(devm_clk_get(dev, "core"))) {
-+		/*
-+		 * If "core" is absent, go for the legacy clock name.
-+		 * If we got this far in probing, it's a given one of them exists.
-+		 */
-+		devm_pm_opp_set_clkname(dev, "core_clk");
-+	} else
-+		devm_pm_opp_set_clkname(dev, "core");
- 
- 	adreno_gpu->funcs = funcs;
- 	adreno_gpu->info = adreno_info(config->rev);
-@@ -1070,7 +1058,9 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
- 
- 	adreno_gpu_config.nr_rings = nr_rings;
- 
--	adreno_get_pwrlevels(dev, gpu);
-+	ret = adreno_get_pwrlevels(dev, gpu);
-+	if (ret)
-+		return ret;
- 
- 	pm_runtime_set_autosuspend_delay(dev,
- 		adreno_gpu->info->inactive_period);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 380249500325..cdcb00df3f25 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -59,7 +59,7 @@ static int disable_pwrrail(struct msm_gpu *gpu)
- static int enable_clk(struct msm_gpu *gpu)
- {
- 	if (gpu->core_clk && gpu->fast_rate)
--		clk_set_rate(gpu->core_clk, gpu->fast_rate);
-+		dev_pm_opp_set_rate(&gpu->pdev->dev, gpu->fast_rate);
- 
- 	/* Set the RBBM timer rate to 19.2Mhz */
- 	if (gpu->rbbmtimer_clk)
-@@ -78,7 +78,7 @@ static int disable_clk(struct msm_gpu *gpu)
- 	 * will be rounded down to zero anyway so it all works out.
- 	 */
- 	if (gpu->core_clk)
--		clk_set_rate(gpu->core_clk, 27000000);
-+		dev_pm_opp_set_rate(&gpu->pdev->dev, 27000000);
- 
- 	if (gpu->rbbmtimer_clk)
- 		clk_set_rate(gpu->rbbmtimer_clk, 0);
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index e27dbf12b5e8..ea70c1c32d94 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -48,7 +48,7 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
- 		gpu->funcs->gpu_set_freq(gpu, opp, df->suspended);
- 		mutex_unlock(&df->lock);
- 	} else {
--		clk_set_rate(gpu->core_clk, *freq);
-+		dev_pm_opp_set_rate(dev, *freq);
- 	}
- 
- 	dev_pm_opp_put(opp);
+ 	ring->memptrs->rptr = gpu_read(gpu, REG_AXXX_CP_RB_RPTR);
+@@ -502,6 +529,7 @@ static const struct adreno_gpu_funcs funcs = {
+ #if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
+ 		.show = adreno_show,
+ #endif
++		.gpu_busy = a2xx_gpu_busy,
+ 		.gpu_state_get = a2xx_gpu_state_get,
+ 		.gpu_state_put = adreno_gpu_state_put,
+ 		.create_address_space = a2xx_create_address_space,
 
 -- 
 2.39.2
