@@ -1,56 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E3469F0BB
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 09:53:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BA669F111
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 10:13:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 243FB10E426;
-	Wed, 22 Feb 2023 08:53:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 691A310E42F;
+	Wed, 22 Feb 2023 09:13:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C477A10E426
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 08:53:53 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id i202so3019015ioa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 00:53:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WhYDKiCMl5Zg3kFJ82aJeKZFheHJkDNcW1JK/FBeLIU=;
- b=S46TMnd79hmJMjHu6YHoyiQ+If7OYb6jqppE2/V2/h32wVWi6nWdac/dC+ud2JAX82
- ngXeec568GkKEt7Pym7Jw3Ur53NqHZxEiqsqSgImaIuxbIIedIDCislExEzkuJ8FGR8w
- BLGw0ITffNiuHi9XD817RG27FpP7nMDzxmEb8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WhYDKiCMl5Zg3kFJ82aJeKZFheHJkDNcW1JK/FBeLIU=;
- b=GyFLZsOJ6nBGNPSZ49i43Bqbv+UrsSIqCRYFUnmklYd/9gg7qCjtW7Is+YuGtgsZ0w
- fpgZbXVHgEz8z/vNblNgj+Q5+SVjfLU3uHQ/V89zKaNErKyomwghLTOm5gzN8bB2OzUh
- fQs9S8vW6wKoGe5LBmpAE3XV3L7Q0k7G2p3CHngvPutipHC8kH2K5bN+HwVHv2BggOOs
- sQ2bKJTy7jJg0XfpPB0lfTnSbuyj4JU2H/f3DzkkN+9DIeyvo5Tv0BpNZ5A+jKKLWGIk
- GkjAi2rphpqxq0Pc2Vmi4J3fZ65LsKN0aKDA7CAAAA8QxMqKU+Cqlx4ueEhEwXpuiCm6
- o1Rg==
-X-Gm-Message-State: AO0yUKXWizz8MRx2sdqi/50qyOeHcLMk3m3t7eF8Hg0NQDJ0tvQ8Z1bP
- wYd6jMfDXwNJXJvNfCOvUTZtDwM52IKTtzzLfQ+AJQ==
-X-Google-Smtp-Source: AK7set95UIcEr36Pn+YUoHAt17RL/o3ns/Gdh3WG/t/+JidyKPagtbyfa6npb7tZMS4Qzo8ChxlIppfGbWczTO72XBY=
-X-Received: by 2002:a5d:80da:0:b0:71a:5a1f:544c with SMTP id
- h26-20020a5d80da000000b0071a5a1f544cmr4867722ior.5.1677056033042; Wed, 22 Feb
- 2023 00:53:53 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDB3E10E42F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 09:13:49 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9623A66021CF;
+ Wed, 22 Feb 2023 09:13:47 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1677057228;
+ bh=EQcPbGfJMfRIei4Am5Ga2lgUV4SqL9FM6hrNSYWP81M=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Ci/5xPZofV2WGWkOXFeQ2oVFhVnJmStDnJ+1lB2glB7h3NKKb0bfohtHXtJKXc2yX
+ JWVnuiF69Z+OHcCJRhnNa2ACiMYCzBSOy8zvnn6pooaRWfMSZnpSOazVeZdqClc+0G
+ y25SprcuQ75Uh659VUCmWtbl16GzOd1vQwSZ126q0a97ymt/Bno/rmABd5HTPjHFej
+ tiNgim+asQkJ4eXmwVfXy9ow8OgyZX/OAWJw2eQd1I8sHZf5MJcjSXa4wxJT8r7mqb
+ PXbcpQlG+VbDWbC6B4pSwrVwbVGuk1hsDT0ukfvwzMBfUkrryQJxDBqZx/qx7uR7HC
+ Bzqd0ggFXVjHg==
+Message-ID: <88a3fa09-60cb-bb3c-c392-286efd983627@collabora.com>
+Date: Wed, 22 Feb 2023 10:13:45 +0100
 MIME-Version: 1.0
-References: <20230221095054.1868277-1-treapking@chromium.org>
- <20230221095054.1868277-4-treapking@chromium.org>
- <Y/SvhxgjTM2cYZa+@smile.fi.intel.com>
-In-Reply-To: <Y/SvhxgjTM2cYZa+@smile.fi.intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Wed, 22 Feb 2023 16:53:41 +0800
-Message-ID: <CAEXTbpcOA06Cf-niurjM4_3Rx6xa9Pi+fuJHUQCKmwaJL2ibmA@mail.gmail.com>
-Subject: Re: [PATCH v12 03/10] drm/display: Add Type-C switch helpers
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 06/10] dt-bindings: gpu: mali-bifrost: Add a compatible
+ for MediaTek MT8186
+Content-Language: en-US
+To: Chen-Yu Tsai <wenst@chromium.org>
+References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+ <20230221153740.1620529-7-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5Ed-5Nq0zNzCGzez3fnW2yxW7zFx9B6k58Y4yb8P+hvpw@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAGXv+5Ed-5Nq0zNzCGzez3fnW2yxW7zFx9B6k58Y4yb8P+hvpw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,143 +57,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Kees Cook <keescook@chromium.org>,
- Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- Robert Foss <rfoss@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
- Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Benson Leung <bleung@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Il 22/02/23 09:37, Chen-Yu Tsai ha scritto:
+> On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> Get GPU support on MT8186 by adding its compatible.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>> index be18b161959b..43a841d4e94d 100644
+>> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>> @@ -15,6 +15,11 @@ properties:
+>>
+>>     compatible:
+>>       oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - mediatek,mt8186-mali
+>> +          - const: mediatek,mt8183b-mali
+>> +          - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
+> 
+> The MT8186 has Mali-G52 MC2 2EE, while the MT8183 has Mali-G72 MP3.
 
-Thanks for the review.
+Keeping in mind the obvious - which is that G52 and G72 are both Bifrost....
 
-On Tue, Feb 21, 2023 at 7:48 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Tue, Feb 21, 2023 at 05:50:47PM +0800, Pin-yen Lin wrote:
-> > Add helpers to register and unregister Type-C "switches" for bridges
-> > capable of switching their output between two downstream devices.
-> >
-> > The helper registers USB Type-C mode switches when the "mode-switch"
-> > and the "reg" properties are available in Device Tree.
-> >
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
->
-> ...
->
-> > +     fwnode_for_each_typec_mode_switch(port, sw)
-> > +             switch_desc->num_typec_switches++;
-> > +
-> > +     if (!switch_desc->num_typec_switches) {
-> > +             dev_dbg(dev, "No Type-C switches node found\n");
-> > +             return 0;
-> > +     }
->
-> What about
->
-> static inline unsigned int typec_mode_switch_node_count(... *port)
-> {
->         ... *sw;
->         unsigned int count = 0;
->
->         for_each_typec_mode_switch_node(port, sw)
->                 count++;
->
->         return count;
-> }
->
->
-> And then it seems something like
->
->         unsigned int count;
->
->         count = typec_mode_switch_node_count(port);
->         if (!count) {
->                 ...
->         }
->
->         _switches = count;
->
-> ...
->
-> > +     switch_desc->typec_ports = devm_kcalloc(
-> > +             dev, switch_desc->num_typec_switches,
->
-> Strange indentation.
->
-> > +             sizeof(struct drm_dp_typec_port_data), GFP_KERNEL);
->
-> > +
->
-> Redundant blank line.
->
-> > +     if (!switch_desc->typec_ports)
-> > +             return -ENOMEM;
->
-> ...
->
-> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
-> > +{
-> > +     int i;
->
-> unsigned?
->
-> > +     for (i = 0; i < switch_desc->num_typec_switches; i++)
-> > +             typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
-> > +}
->
-> ...
->
-> >  #include <linux/delay.h>
-> >  #include <linux/i2c.h>
-> > +#include <linux/usb/typec_mux.h>
->
-> I don't see users of this.
-> But a few forward declarations are missing.
+> So we actually need a new entry with two power domains.
+> 
 
-I can put a `struct typec_mux_dev;` here, but there is also a usage of
-typec_mux_set_fn_t.
+...This is my node for MT8186:
 
-Should I add the typedef into this header file as well?
+		gpu: gpu@13040000 {
+			compatible = "mediatek,mt8186-mali",
+				     "mediatek,mt8183b-mali",
+				     "arm,mali-bifrost";
+			reg = <0 0x13040000 0 0x4000>;
+
+			clocks = <&mfgsys CLK_MFG_BG3D>;
+			interrupts = <GIC_SPI 276 IRQ_TYPE_LEVEL_HIGH 0>,
+				     <GIC_SPI 275 IRQ_TYPE_LEVEL_HIGH 0>,
+				     <GIC_SPI 274 IRQ_TYPE_LEVEL_HIGH 0>;
+			interrupt-names = "job", "mmu", "gpu";
+			power-domains = <&spm MT8186_POWER_DOMAIN_MFG1>,
+					<&spm MT8186_POWER_DOMAIN_MFG2>,
+					<&spm MT8186_POWER_DOMAIN_MFG3>;
+			power-domain-names = "core0", "core1", "core2";
+
+			/* Please ignore speedbin, that's for another time :-) */
+			nvmem-cells = <&gpu_volt_bin>;
+			nvmem-cell-names = "speed-bin";
+			#cooling-cells = <2>;
+		};
+
+There are three MFG power domains... MFG2 and MFG3 are parents of MFG1, on that
+I agree, but we can avoid adding a new entry just for MT8186 and use the MT8183-b
+one while still being technically correct.
+
+Besides, Mali G52 and Mali G72 are both Bifrost... so I don't think that this
+commit is incorrect. For the sake of simplicity, I would push on getting this
+one picked.
+
+Unless there are any real-strong opinions against...
 
 Regards,
-Pin-yen
->
-> >  #include <drm/display/drm_dp.h>
-> >  #include <drm/drm_connector.h>
->
-> ...
->
-> > +#define fwnode_for_each_typec_mode_switch(port, sw)  \
-> > +     fwnode_for_each_child_node((port), (sw))        \
-> > +             for_each_if(fwnode_property_present((sw), "mode-switch"))
->
-> Please don't use fwnode namespace (see above), something like
->
-> #define for_each_typec_mode_switch_node(port, sw)       \
->         ...
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+Angelo
+
+> Our downstream Mali driver & DT use just that.
+> 
+> ChenYu
+
+
