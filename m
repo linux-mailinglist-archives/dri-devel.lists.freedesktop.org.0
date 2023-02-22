@@ -1,50 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F1A69FA31
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 18:29:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39AC669FA39
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 18:34:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA2D10E2C4;
-	Wed, 22 Feb 2023 17:29:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3F010EA73;
+	Wed, 22 Feb 2023 17:33:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com
- (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C79710EA7A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 17:29:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=RNmnqtVCqYGaOUN1jb1UshkoE8aYBEA0ZPlow5YU0CE=;
- b=PExM6vYSOCqpAqxfUx9jQgMQKrYdqudmlneha8pOrCWJH2qAWOkV2WYwmhb7DNdDyVsQBIJvlaZN1
- HEUATxULQoX+6glsIP2+Zau1sT6wxi5BrJOmK740WX3k3bEo1XiQYExoGPtATVIkRm3c2llZ4w4cjQ
- ro5B6ULgmEBifOkrss1LlUVB7zd2+wS//8jk4XF2HNoM/ULCT/qilMrK/OQkmHLdC7FRjppSycdBae
- KOAfs/txLkazAJ3rhaXeS+d+Ld9vUC4d8BXPmBOVzcZI5RY0eHQwzUE+qF1/mgNh2ff0MAVOJLkmVW
- IenrK7elp5cX4nplRgEJYrP0VOGn5LQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=RNmnqtVCqYGaOUN1jb1UshkoE8aYBEA0ZPlow5YU0CE=;
- b=Xa5nQiPbcWwm1Ue8g3Vc9g3JvcbAFoqNoJ5CwYd+3W/Q2BcdlTlm8fasEg+aMNqtaOZgFdxsFJbgD
- jueZ/8zBw==
-X-HalOne-ID: 6bd646bd-b2d6-11ed-8e82-7703b0afff57
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay5 (Halon) with ESMTPSA
- id 6bd646bd-b2d6-11ed-8e82-7703b0afff57;
- Wed, 22 Feb 2023 17:29:13 +0000 (UTC)
-Date: Wed, 22 Feb 2023 18:29:12 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] dt-bindings: display: Start the info graphics with HS/VS
- change
-Message-ID: <Y/ZQ6D8+Yu76Xgy4@ravnborg.org>
-References: <20230221200407.16531-1-marex@denx.de>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614CF10E3D7;
+ Wed, 22 Feb 2023 17:33:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677087234; x=1708623234;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=dBfK1f9SoIdQd//p3pK+J5jmUGdNq+Hb8SM5LrvByCw=;
+ b=P8lCFfGDPzXNw6pFFWArYMCRDAL/xrwKgHh6jn1SfoC3F8On0TSzfeAD
+ +R4o+pdlmU8KOt9mLNg22EQseMUhkD5M68d83kiBdBUmiYUlzwzr0/H/1
+ nlJLJx0eng5WdqwqH55lPKhqJ5UVfB3bhREVHVrVnKHWF1RXwRMavnJ4m
+ A9WGb/4lmNGfSzA/yEIIp6Sn1HqQdEVI8Ez2IQwfQMWhumB+5v8pmxdgl
+ tYdoAOBU0JL+3okRVBJxXgIkBePMzIhFoImnipiHP5U7853w0BwMiomRa
+ qyk7aI81WAVNeJmLMHiNYNcYhivo5AY3aOAymbqwQXil6Djc3hLliEc6F Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="321129867"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; d="scan'208";a="321129867"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 09:33:47 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="704541133"
+X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; d="scan'208";a="704541133"
+Received: from hhammad-mobl1.ger.corp.intel.com (HELO [10.213.231.87])
+ ([10.213.231.87])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 09:33:43 -0800
+Message-ID: <d7b0614e-2cc3-1180-3571-409204ac5b00@linux.intel.com>
+Date: Wed, 22 Feb 2023 17:33:41 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230221200407.16531-1-marex@denx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4 01/14] dma-buf/dma-fence: Add deadline awareness
+Content-Language: en-US
+To: Rob Clark <robdclark@chromium.org>
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-2-robdclark@gmail.com>
+ <b65a2fe2-6f68-2116-9599-2940e66d166b@linux.intel.com>
+ <21f36640-3229-0b46-31a2-a47efc5be934@amd.com>
+ <b8a16579-4be7-8e14-01e4-9d17c1570c8b@linux.intel.com>
+ <CAJs_Fx61OpgFo_kSLoy+2z8mS=wcdK8eZfQBA6dQm9p0=qLU2g@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CAJs_Fx61OpgFo_kSLoy+2z8mS=wcdK8eZfQBA6dQm9p0=qLU2g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,103 +66,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek.
 
-On Tue, Feb 21, 2023 at 09:04:07PM +0100, Marek Vasut wrote:
-> The VS signal change is synchronized to HS signal change, start the
-> info graphics with that event, instead of having that event occur in
-> the middle of it.
+On 22/02/2023 17:16, Rob Clark wrote:
+> On Wed, Feb 22, 2023 at 9:05 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>>
+>> On 22/02/2023 15:28, Christian König wrote:
+>>> Am 22.02.23 um 11:23 schrieb Tvrtko Ursulin:
+>>>>
+>>>> On 18/02/2023 21:15, Rob Clark wrote:
+>>>>> From: Rob Clark <robdclark@chromium.org>
+>>>>>
+>>>>> Add a way to hint to the fence signaler of an upcoming deadline, such as
+>>>>> vblank, which the fence waiter would prefer not to miss.  This is to aid
+>>>>> the fence signaler in making power management decisions, like boosting
+>>>>> frequency as the deadline approaches and awareness of missing deadlines
+>>>>> so that can be factored in to the frequency scaling.
+>>>>>
+>>>>> v2: Drop dma_fence::deadline and related logic to filter duplicate
+>>>>>       deadlines, to avoid increasing dma_fence size.  The fence-context
+>>>>>       implementation will need similar logic to track deadlines of all
+>>>>>       the fences on the same timeline.  [ckoenig]
+>>>>> v3: Clarify locking wrt. set_deadline callback
+>>>>>
+>>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>>> ---
+>>>>>    drivers/dma-buf/dma-fence.c | 20 ++++++++++++++++++++
+>>>>>    include/linux/dma-fence.h   | 20 ++++++++++++++++++++
+>>>>>    2 files changed, 40 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>>>>> index 0de0482cd36e..763b32627684 100644
+>>>>> --- a/drivers/dma-buf/dma-fence.c
+>>>>> +++ b/drivers/dma-buf/dma-fence.c
+>>>>> @@ -912,6 +912,26 @@ dma_fence_wait_any_timeout(struct dma_fence
+>>>>> **fences, uint32_t count,
+>>>>>    }
+>>>>>    EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+>>>>>    +
+>>>>> +/**
+>>>>> + * dma_fence_set_deadline - set desired fence-wait deadline
+>>>>> + * @fence:    the fence that is to be waited on
+>>>>> + * @deadline: the time by which the waiter hopes for the fence to be
+>>>>> + *            signaled
+>>>>> + *
+>>>>> + * Inform the fence signaler of an upcoming deadline, such as
+>>>>> vblank, by
+>>>>> + * which point the waiter would prefer the fence to be signaled by.
+>>>>> This
+>>>>> + * is intended to give feedback to the fence signaler to aid in power
+>>>>> + * management decisions, such as boosting GPU frequency if a periodic
+>>>>> + * vblank deadline is approaching.
+>>>>> + */
+>>>>> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>>>>> +{
+>>>>> +    if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
+>>>>> +        fence->ops->set_deadline(fence, deadline);
+>>>>> +}
+>>>>> +EXPORT_SYMBOL(dma_fence_set_deadline);
+>>>>> +
+>>>>>    /**
+>>>>>     * dma_fence_describe - Dump fence describtion into seq_file
+>>>>>     * @fence: the 6fence to describe
+>>>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>>>> index 775cdc0b4f24..d77f6591c453 100644
+>>>>> --- a/include/linux/dma-fence.h
+>>>>> +++ b/include/linux/dma-fence.h
+>>>>> @@ -99,6 +99,7 @@ enum dma_fence_flag_bits {
+>>>>>        DMA_FENCE_FLAG_SIGNALED_BIT,
+>>>>>        DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>>>>        DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+>>>>> +    DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
+>>>>
+>>>> Would this bit be better left out from core implementation, given how
+>>>> the approach is the component which implements dma-fence has to track
+>>>> the actual deadline and all?
+>>>>
+>>>> Also taking a step back - are we all okay with starting to expand the
+>>>> relatively simple core synchronisation primitive with side channel
+>>>> data like this? What would be the criteria for what side channel data
+>>>> would be acceptable? Taking note the thing lives outside drivers/gpu/.
+>>>
+>>> I had similar concerns and it took me a moment as well to understand the
+>>> background why this is necessary. I essentially don't see much other
+>>> approach we could do.
+>>>
+>>> Yes, this is GPU/CRTC specific, but we somehow need a common interface
+>>> for communicating it between drivers and that's the dma_fence object as
+>>> far as I can see.
+>>
+>> Yeah I also don't see any other easy options. Just wanted to raise this
+>> as something which probably needs some wider acks.
+>>
+>> Also what about the "low level" part of my question about the reason, or
+>> benefits, of defining the deadline bit in the common layer?
 > 
-> Scope trace of DPI bus with HS/VS active HIGH looks as follows:
->          ________________...__
-> VS...___/__         __        \______...
-> HS...___/  \_______/  \__...__/  \___...
->         ^                        ^
-> 	|                        |
->         |    Used to start here -'
-> 	|
-> 	'--- Start info graphics here
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
+> We could leave DMA_FENCE_FLAG_HAS_DEADLINE_BIT out, but OTOH managing
+> a bitmask that is partially defined in core enum and partially in
+> backend-driver has it's own drawbacks, and it isn't like we are
+> running out of bits.. :shrug:
 
-I recall being annoyed about this before.
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+There is DMA_FENCE_FLAG_USER_BITS onwards which implementations could 
+use to store their stuff?
 
-> ---
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  .../bindings/display/panel/panel-timing.yaml  | 46 +++++++++----------
->  1 file changed, 23 insertions(+), 23 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> index 0d317e61edd8f..aea69b84ca5d8 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-timing.yaml
-> @@ -17,29 +17,29 @@ description: |
->  
->    The parameters are defined as seen in the following illustration.
->  
-> -  +----------+-------------------------------------+----------+-------+
-> -  |          |        ^                            |          |       |
-> -  |          |        |vback_porch                 |          |       |
-> -  |          |        v                            |          |       |
-> -  +----------#######################################----------+-------+
-> -  |          #        ^                            #          |       |
-> -  |          #        |                            #          |       |
-> -  |  hback   #        |                            #  hfront  | hsync |
-> -  |   porch  #        |       hactive              #  porch   |  len  |
-> -  |<-------->#<-------+--------------------------->#<-------->|<----->|
-> -  |          #        |                            #          |       |
-> -  |          #        |vactive                     #          |       |
-> -  |          #        |                            #          |       |
-> -  |          #        v                            #          |       |
-> -  +----------#######################################----------+-------+
-> -  |          |        ^                            |          |       |
-> -  |          |        |vfront_porch                |          |       |
-> -  |          |        v                            |          |       |
-> -  +----------+-------------------------------------+----------+-------+
-> -  |          |        ^                            |          |       |
-> -  |          |        |vsync_len                   |          |       |
-> -  |          |        v                            |          |       |
-> -  +----------+-------------------------------------+----------+-------+
-> +  +-------+----------+-------------------------------------+----------+
-> +  |       |          |        ^                            |          |
-> +  |       |          |        |vsync_len                   |          |
-> +  |       |          |        v                            |          |
-> +  +-------+----------+-------------------------------------+----------+
-> +  |       |          |        ^                            |          |
-> +  |       |          |        |vback_porch                 |          |
-> +  |       |          |        v                            |          |
-> +  +-------+----------#######################################----------+
-> +  |       |          #        ^                            #          |
-> +  |       |          #        |                            #          |
-> +  | hsync |  hback   #        |                            #  hfront  |
-> +  |  len  |   porch  #        |       hactive              #  porch   |
-> +  |<----->|<-------->#<-------+--------------------------->#<-------->|
-> +  |       |          #        |                            #          |
-> +  |       |          #        |vactive                     #          |
-> +  |       |          #        |                            #          |
-> +  |       |          #        v                            #          |
-> +  +-------+----------#######################################----------+
-> +  |       |          |        ^                            |          |
-> +  |       |          |        |vfront_porch                |          |
-> +  |       |          |        v                            |          |
-> +  +-------+----------+-------------------------------------+----------+
->  
->  
->    The following is the panel timings shown with time on the x-axis.
-> -- 
-> 2.39.1
+And if we skip forward to "drm/scheduler: Add fence deadline support" 
+that's the only place bit is used, right? Would it simply work to look 
+at drm_sched_fence->deadline == 0 as bit not set? Or you see a need to 
+interoperate with other fence implementations via that bit somehow?
+
+Regards,
+
+Tvrtko
