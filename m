@@ -1,64 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A8E69F2CF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 11:36:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E90B569F2D2
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 11:37:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2931810E2D6;
-	Wed, 22 Feb 2023 10:36:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 040E210E941;
+	Wed, 22 Feb 2023 10:37:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E61A810E1C0;
- Wed, 22 Feb 2023 10:36:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677062185; x=1708598185;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ofUmRpvhNVTg3+A6hyPOFASnnH8za9ygTzj8N8YfXSk=;
- b=D/jJH3b5mxjsbESOrhJADbGdNryNkN5ht6TZOmPghGueyhBQ3yHW6jzZ
- mvwy9VQxQRotTqmD1xui3nJFhKuthdB35AN0ItIqt2iwZq71+dEyEFire
- 21wyeBK5nOZMw7n7OHSIzvNjWZbIScLczJOGSjKo9fapzh946QPYzLLap
- 3wF4j8RhRlvAsHQqoURxxl4TWcIUKUmVhJBJU8BN1TA5W2GwqPFWHABhL
- mnEz7xFLY6qQoBWvNNY3+AcBzJaM5GfvbaZMMSR4XrkdM8rzUAuPTvKRf
- 7cvC+7b/DTH9mhYSMQALdPpTwKnWa88ZkKchLv4ANZZgtnATOQHcIiKoS Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="321031746"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="321031746"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2023 02:36:25 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="781379853"
-X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; d="scan'208";a="781379853"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.26.51])
- ([10.213.26.51])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2023 02:36:19 -0800
-Message-ID: <50c1806b-f153-da48-ddf4-53923fa90334@intel.com>
-Date: Wed, 22 Feb 2023 11:36:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
-Content-Language: en-US
-To: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
- linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20230118153529.57695-1-andrzej.hajda@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230118153529.57695-1-andrzej.hajda@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2048.outbound.protection.outlook.com [40.107.92.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 779C610E807;
+ Wed, 22 Feb 2023 10:37:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eBd85LQbpo/KDrmTyPsi/Mg7SVsV+5uRUNtR4zwNaqxi7dVBam8worntFQ2w7KHZtSYg5izET5uvK7sPencoA+wAl6JZueOz2qOttYVdLQjpCQfkv/WWrNRDNlNuN90CtHPVD10h5OjVPtDA9nN+w5Pbs1bfHfqadKziYdF4XwGQbBtq0d8iVFI0DREF1mS3IWtunfjjhlOF42ky7Oc8IHu721LwDpvxHGEn+QJ2ru1nmZx382v09J7g4thf3/R+nwg7cZyAxQ38UdEpgWfPeAueAnK1RpoLPeRHInZzMIak1K2NG+oPfj9KYXO9Dr80p922Ho4N0Rb3pGFak7TNAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z8F9LpH+FsDU/MSZscvDSRG8btlTSp7og1S9lJSHu6I=;
+ b=HKZow/z/drVAL3KY/Pm0uEU8QppuAoRVUhqrdsW0q7//edPFB0Djce8G+CL2oDSgLgqPJADDkIziBlLN+kdNxzCSSTbUrviOXbnmDnzZjx7QGYP2yWCF+bafazrO5N3zXcEoRReZudBeY438rJdR/Qe2UK1iJ6d6cLne7qdRJ7fMO/TF3ZK0j8ne2IuiFH2WcLBJAjUwqFVvD+XauzQwI4n6LSK8n0Mjh7CEMfMiGXenkjKeumEzqU5eBgkLQ7v/OW25lpdKrf+cot9k6Pq/j8ezNVrbBkOcuLWDS57Sz4dA15HfVqEmAL0qXyOjFjBjbVDiSPf3P9AFsVWlaU6NAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z8F9LpH+FsDU/MSZscvDSRG8btlTSp7og1S9lJSHu6I=;
+ b=ifRtfmFQ+VJJotVQOCKli1o8SXuizc4ioVHCTE63cIhjyj+Rv+sTCAqd65skK+lDAwyqFrgeWUjpMG0Jn3Y1n7zblKmfjPsBGzTlLNGFcDvpUJDJATcFkjxmmYVBIDs91kqzxrqcNXJ+iWD388QURQJaBBIa7BpwgtfPb5F6NmE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ SA0PR12MB4591.namprd12.prod.outlook.com (2603:10b6:806:9d::23) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6111.21; Wed, 22 Feb 2023 10:37:45 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::4df2:b32a:e628:c57e]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::4df2:b32a:e628:c57e%7]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
+ 10:37:45 +0000
+Message-ID: <7f18a41d-e8e2-52db-2fe3-2463144fc48c@amd.com>
+Date: Wed, 22 Feb 2023 05:37:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-CA
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-11-robdclark@gmail.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+Subject: Re: [PATCH v4 10/14] drm/vblank: Add helper to get next vblank time
+In-Reply-To: <20230218211608.1630586-11-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0115.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d7::24) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|SA0PR12MB4591:EE_
+X-MS-Office365-Filtering-Correlation-Id: af663050-9d1d-48bb-4c0b-08db14c0d570
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ennvmU6ureE4pEhUrJOc/c1jTj5NDRkrzuQP+nAxEfEGc8jXSOPTi2GND988/V4GpbqRvs3oij4NoUl0/tEClAiN7uXSs2IIQbc8VmVheHV9KeJXcfq8UxQycyzHBtoU6jdSN4M3ACoPOeVwdQYiw20oS+NUTsW7Xi1UH9NAD2By6TredMTcoEfGDlIPtp/TvdtarpzbIHn7lOOdUlUtbPcejlYK8J4lUBzO8hKq0NRFdpCAhol4A5K54K8yCN3D5oGiiZUzAvQhKXnU7qkSatkG0WffAVFCh648rhSdebwmYOMl6C8MhOMSR3FVkSMFeNJiv57PL83+e7zROgyPepBVghoNc3ON1hWErCj+wqxhKl9UmKrjTeMmmdz8bbyr7X7MkINWRGuv9YVYq7ij27V3NqdpErBfuswVLPOhhkqjkxLdDl+mkfvW74w+kpgwOBpOiHjJ7icHfIuqyYTcjow848sXxycqUgA/MFBPQ3KLW3xWWD+/yu1kamrevdm9U0AuUMdnG8nhnXwoNHAQ+4PMMQvX3Fv7SeIjAZVhTIbGtHWwHGErUSZFgHJA9bVkufYKp3vaUQ36Eh71jCxSgAA4IyaB4LxH3LO6JcCRYA4SvRTCgy2DqWYGS+9w2915184dOAJ+ObfryiWk/eF3KZAec/cCgxMOSZ60XghYCAWtL0gJje1UP1UztAZA3O6sZS0zaGhOL80xzhJMysYYiLyHcLWyDQI6o9OcK13ad8E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(366004)(346002)(396003)(136003)(376002)(39860400002)(451199018)(8936002)(66476007)(7416002)(44832011)(5660300002)(66556008)(66946007)(4326008)(31696002)(8676002)(86362001)(36756003)(316002)(478600001)(54906003)(83380400001)(41300700001)(6486002)(6506007)(6512007)(53546011)(26005)(55236004)(186003)(2616005)(31686004)(2906002)(38100700002)(6666004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emhpSGVQdG9tMTJaTVI3SldWY3pVRHptc04zWE81RzBRNXpKRkJ5dzQ3K2tN?=
+ =?utf-8?B?b3oyUGFlRm9xUjkwaENjK050QkFlb3FXOGhoZnZMMERzQ1BuTEFGTUdCdW5R?=
+ =?utf-8?B?Zk9Nc3ZQQUFLV3Q4Z3FCWXJwYmlDWkVBNkVobmhhSXhLenk3MVRiY3Vaay9m?=
+ =?utf-8?B?MmtLemE0ZTZUaEwrWlZlUmYvejZmWm10TUZwN0laZVFCQXp5eE5TVGxGZEJO?=
+ =?utf-8?B?ZXhlcEV3ZTZmZVVPc1JDUE5EckwvT3NOblF6cHNSWlh4SE9JTDJkNzNsdExt?=
+ =?utf-8?B?SUhsQjYxMVdFWXlSY2l5d3FLUEtMbEg5QnpVUWxoN2VXdnhFYytJdXp1Wlls?=
+ =?utf-8?B?dTlYWGJpenlnWUhVVCtZVXpZS252MStHcVF3MlJ0d1FCbUE0eGhwTUQvMklm?=
+ =?utf-8?B?Z2tzaVFaOEZLb1Z2WU9hYm5LY3BoY2p6cXhObTVZQm9PdzNjNGdQZVJIcEhJ?=
+ =?utf-8?B?S1ZndDJYRWwxYkVWaitpd0xTZXp3QzRacGQyQXVDdDM1NDBUK3VhN3kwMnky?=
+ =?utf-8?B?Y3l5SEtQYTBmbEh5M0pudy9NT2RPMCtBQ21taVBsdU9aVHIwanZMbmNYb3Fv?=
+ =?utf-8?B?K2oxZ1ZaWDlScmhTZGpobnRXalhlSGxLUkk3U1NGNnNCOVgzbUxDQTU4NHVG?=
+ =?utf-8?B?cDlKK010VEI1YkpaWmZkUnE1NktYMTBCSm55WEYvV3R2TGVxTURVYUdkZWtP?=
+ =?utf-8?B?MlpZZmVxZEc2ZFhnR2RrN1d2L2tCSHoydC83T1M0N3BBeno4Tmt5aGgyK1F0?=
+ =?utf-8?B?UGJFTVBVM1krdFVQY1dWWVY4cTNBVjNPSi9zUEFGNUt3QVRlWVVidENvM3hj?=
+ =?utf-8?B?KzVtR2VZZHdGOXFNNkZyalVPN0VBMEpQSXNIcElaN1lGVVBUSlpYVTVRdGFE?=
+ =?utf-8?B?L0xSSHg5VTJ6QUxVVkNJQm5Idm9EZ3JVbEZJUnVhdm1wczlDalFJODN4S3JX?=
+ =?utf-8?B?MHFWK2dFeE9wMGphcExNMllMWmNRVmQ4OE5OQmc1bVN3clVhbHhSdEk5UHNC?=
+ =?utf-8?B?VmFadExtRllUUnp4enBka0x4QzQ1Z1NQMGwwMlBmVkRQN0hNMSs3REVpYlFh?=
+ =?utf-8?B?bW5zeU5lQVdyaXYrUlJmVnpha0VLeFBqWElEbk5XVmRHODVpaVBkdzF4SDBS?=
+ =?utf-8?B?R1pLWWVHT0dwc1BNRWRMU3dXTGJsUytpdUtqeUh2bkRwK2NpL0RuSkNwa0k5?=
+ =?utf-8?B?TTVEZ25vWkJhNDRSZWdmU2JUTWVhWnowTXpMSTl1R09raWY3M2kyYVo0TGMz?=
+ =?utf-8?B?Tlo3MEZkU2QzNHQwN0JSZm44SXBzL09wa3greUZkeWNBRkF0c3B0NGVhR1dT?=
+ =?utf-8?B?Wmo2RnlpZC9FM3JkNEFYaE5tUTVFRzlFVm05NGVzMXlNQ3J6Mmlmd2dseU9K?=
+ =?utf-8?B?cFBNbEdORXVnQmhpT3pEbzUzcHB0SEdwRVYvQVhwaDMydndyWUN2d0MvSW4z?=
+ =?utf-8?B?bk52NzlYQXovTTVsQTFSZmU0M2wxWGZMdkhrcStxMGxHMmlUaDJUaC9oMzhO?=
+ =?utf-8?B?a0dxOUhNMkNzTlhhNUVWR1lqcVBuMUJOQTlyQUdQOVVTRVVIclViSlQ0RHp5?=
+ =?utf-8?B?RGd0SVBJelpHdzlTdDNMdzN5QWJzZXdsY1pFdGhIemhqdlBqQVFkajVkTG4r?=
+ =?utf-8?B?NmljMDJQMGR6OXZyeEp0YlAydGVuYTlSUnRobWx5czBEVlRqNDRIaUNFUE5H?=
+ =?utf-8?B?cnpVb0xFZDdsZ1NRNUVWU2ZXVnJCLzVnOEV3ek83byt6Nk1yZHJ6eU1oMFpr?=
+ =?utf-8?B?NXU5RnJ6Y1dLRjJIY3I4VjJhaEtiMjF4UVFVY1U1b1hyN1RGeGg4eFFING9z?=
+ =?utf-8?B?VDdLUTVXdFRxNEIrc2J3VERDOHNIY3cvVWhQS3pJYWZFWkptMGdlUnpVK2V6?=
+ =?utf-8?B?dWpiSmJSTVBWd3BKQVVBb1RlbEY0NmhRcS90M3hhenJTUzYvR0dzeTdKRldN?=
+ =?utf-8?B?b3lvZElrZWRJWm5vMlptaWowbDdnK3pLU2VwUmF3OHNjaHdldWNxOTRyQm1y?=
+ =?utf-8?B?dWFNeHc4KzcwUiswclp4a0VSYjh6elV4bS9Sa2p4QlRjaUtoYjlOM29scFJp?=
+ =?utf-8?B?TGdBb082MHl2aHA0OXBXOVpyRFVYb2owQVRPekYwTis0RzdPVTZCVGtCdVdq?=
+ =?utf-8?Q?knveKoqFFMJdQv1OMlHuXoHwC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af663050-9d1d-48bb-4c0b-08db14c0d570
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 10:37:45.1802 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YmxOPa10kj/RscAwq9G+kGG9nOUnPYyBMVtF7suB3o/YCGg2SwfxsrqPyFhYoF2Z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4591
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,131 +125,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2023-02-18 16:15, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Will be used in the next commit to set a deadline on fences that an
+> atomic update is waiting on.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 32 ++++++++++++++++++++++++++++++++
+>  include/drm/drm_vblank.h     |  1 +
+>  2 files changed, 33 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 2ff31717a3de..caf25ebb34c5 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -980,6 +980,38 @@ u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+>  }
+>  EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+>  
+> +/**
+> + * drm_crtc_next_vblank_time - calculate the time of the next vblank
+> + * @crtc: the crtc for which to calculate next vblank time
+> + * @vblanktime: pointer to time to receive the next vblank timestamp.
+> + *
+> + * Calculate the expected time of the next vblank based on time of previous
+> + * vblank and frame duration
+> + */
+> +int drm_crtc_next_vblank_time(struct drm_crtc *crtc, ktime_t *vblanktime)
+> +{
+> +	unsigned int pipe = drm_crtc_index(crtc);
+> +	struct drm_vblank_crtc *vblank = &crtc->dev->vblank[pipe];
+> +	u64 count;
+> +
+> +	if (!vblank->framedur_ns)
+> +		return -EINVAL;
+> +
+> +	count = drm_vblank_count_and_time(crtc->dev, pipe, vblanktime);
+> +
+> +	/*
+> +	 * If we don't get a valid count, then we probably also don't
+> +	 * have a valid time:
+> +	 */
+> +	if (!count)
+> +		return -EINVAL;
+> +
+> +	*vblanktime = ktime_add(*vblanktime, ns_to_ktime(vblank->framedur_ns));
 
-Ping on the series.
-Arnd, Andrew is there anything more I can do to push the process forward?
+I'd rather this not do any arithmetic, i.e. add, and simply return the calculated
+remaining time, i.e. time left--so instead of add, it would simply assign
+the remaining time, and possibly rename the vblanktime to something like "time_to_vblank."
 
-Regards
-Andrzej
+Changing the top comment to "calculate the time remaining to the next vblank".
+-- 
+Regards,
+Luben
 
-
-On 18.01.2023 16:35, Andrzej Hajda wrote:
-> Hi all,
-> 
-> The helper is tiny and there are advices we can live without it, so
-> I want to present few arguments why it would be good to have it:
-> 
-> 1. Code readability/simplification/number of lines:
->    - decreases number of lines,
->    - it often eliminates local variables,
->    - for real examples see patches 3+.
-> 
-> 2. Presence of similar helpers in other somehow related languages/libs:
-> 
-> a) Rust[1]: 'replace' from std::mem module, there is also 'take'
->      helper (__xchg(&x, 0)), which is the same as private helper in
->      i915 - fetch_and_zero, see latest patch.
-> b) C++ [2]: 'exchange' from utility header.
-> 
-> If the idea is OK there are still 2 questions to answer:
-> 
-> 1. Name of the helper, __xchg follows kernel conventions,
->      but for me Rust names are also OK.
-> 2. Where to put the helper:
-> a) as in this patchset include/linux/non-atomic/xchg.h,
->      proposed by Andy Shevchenko,
-> b) include/linux/utils.h ? any better name? Some kind
->      of container for simple helpers.
-> 
-> All __xchg conversions were performed using cocci script,
-> then manually adjusted if necessary.
-> 
-> There is lot of places it can be used in, I have just chosen
-> some of them. I can provide cocci script to detect others (not all),
-> if necessary.
-> 
-> Changes:
-> v2: squashed all __xchg -> __arch_xchg t one patch (Arnd)
-> v3: fixed alpha/xchg_local (lkp@intel.com)
-> v4: adjusted indentation (Heiko)
-> v5: added more __xchg conversions - patches 3-6, added tags
-> 
-> [1]: https://doc.rust-lang.org/std/mem/index.html
-> [2]: https://en.cppreference.com/w/cpp/header/utility
-> 
-> Regards
-> Andrzej
-> 
-> Andrzej Hajda (7):
->    arch: rename all internal names __xchg to __arch_xchg
->    linux/include: add non-atomic version of xchg
->    arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
->    llist: simplify __llist_del_all
->    io_uring: use __xchg if possible
->    qed: use __xchg if possible
->    drm/i915/gt: use __xchg instead of internal helper
-> 
->   arch/alpha/include/asm/cmpxchg.h              | 10 +++++-----
->   arch/arc/include/asm/cmpxchg.h                |  4 ++--
->   arch/arm/include/asm/cmpxchg.h                |  7 ++++---
->   arch/arm/probes/uprobes/core.c                |  8 ++------
->   arch/arm64/include/asm/cmpxchg.h              |  7 +++----
->   arch/arm64/kernel/probes/uprobes.c            |  9 ++-------
->   arch/csky/kernel/probes/uprobes.c             |  9 ++-------
->   arch/hexagon/include/asm/cmpxchg.h            | 10 +++++-----
->   arch/ia64/include/asm/cmpxchg.h               |  2 +-
->   arch/ia64/include/uapi/asm/cmpxchg.h          |  4 ++--
->   arch/loongarch/include/asm/cmpxchg.h          |  4 ++--
->   arch/m68k/include/asm/cmpxchg.h               |  6 +++---
->   arch/mips/include/asm/cmpxchg.h               |  4 ++--
->   arch/mips/kernel/uprobes.c                    | 10 ++--------
->   arch/openrisc/include/asm/cmpxchg.h           | 10 +++++-----
->   arch/parisc/include/asm/cmpxchg.h             |  4 ++--
->   arch/powerpc/include/asm/cmpxchg.h            |  4 ++--
->   arch/powerpc/kernel/uprobes.c                 | 10 ++--------
->   arch/riscv/include/asm/atomic.h               |  2 +-
->   arch/riscv/include/asm/cmpxchg.h              |  4 ++--
->   arch/riscv/kernel/probes/uprobes.c            |  9 ++-------
->   arch/s390/include/asm/cmpxchg.h               |  8 ++++----
->   arch/s390/kernel/uprobes.c                    |  7 ++-----
->   arch/sh/include/asm/cmpxchg.h                 |  4 ++--
->   arch/sparc/include/asm/cmpxchg_32.h           |  4 ++--
->   arch/sparc/include/asm/cmpxchg_64.h           |  6 +++---
->   arch/sparc/kernel/uprobes.c                   |  7 ++-----
->   arch/xtensa/include/asm/cmpxchg.h             |  4 ++--
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
->   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  4 ++--
->   .../drm/i915/gt/intel_execlists_submission.c  |  4 ++--
->   drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 ++--
->   drivers/gpu/drm/i915/gt/intel_gsc.c           |  2 +-
->   drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++--
->   drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
->   drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +++---
->   drivers/gpu/drm/i915/gt/intel_migrate.c       |  2 +-
->   drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
->   drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
->   drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
->   .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
->   drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
->   drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  2 +-
->   drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
->   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  2 +-
->   drivers/gpu/drm/i915/i915_utils.h             |  1 +
->   include/linux/llist.h                         |  6 ++----
->   include/linux/non-atomic/xchg.h               | 19 +++++++++++++++++++
->   include/linux/qed/qed_chain.h                 | 19 +++++++------------
->   io_uring/io_uring.c                           |  7 ++-----
->   io_uring/slist.h                              |  6 ++----
->   51 files changed, 126 insertions(+), 155 deletions(-)
->   create mode 100644 include/linux/non-atomic/xchg.h
-> 
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_crtc_next_vblank_time);
+> +
+>  static void send_vblank_event(struct drm_device *dev,
+>  		struct drm_pending_vblank_event *e,
+>  		u64 seq, ktime_t now)
+> diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+> index 733a3e2d1d10..a63bc2c92f3c 100644
+> --- a/include/drm/drm_vblank.h
+> +++ b/include/drm/drm_vblank.h
+> @@ -230,6 +230,7 @@ bool drm_dev_has_vblank(const struct drm_device *dev);
+>  u64 drm_crtc_vblank_count(struct drm_crtc *crtc);
+>  u64 drm_crtc_vblank_count_and_time(struct drm_crtc *crtc,
+>  				   ktime_t *vblanktime);
+> +int drm_crtc_next_vblank_time(struct drm_crtc *crtc, ktime_t *vblanktime);
+>  void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
+>  			       struct drm_pending_vblank_event *e);
+>  void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
 
