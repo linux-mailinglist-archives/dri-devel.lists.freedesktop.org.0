@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB8969EE59
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 06:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C157669EE5D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 06:33:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22EF10E3E7;
-	Wed, 22 Feb 2023 05:33:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0257710E3EF;
+	Wed, 22 Feb 2023 05:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EB7610E3D9;
- Wed, 22 Feb 2023 05:33:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30BF110E3D9;
+ Wed, 22 Feb 2023 05:33:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677043990; x=1708579990;
+ t=1677043993; x=1708579993;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3eMMqzsx3uLccaAQURzRWwWzRLzBFVlgCt3sOpezKe0=;
- b=RyNvPGgwvJAQwsKcTcNMb5dIg1vdIU+PU4ZUpKHHh9UiZPc4W6Jm66xx
- enKjmctq1wc70RBEhJd80Lt50aQ8eus1qHphvn8mPbo0nc1yXyqMlSQqm
- nDpiQkJ+lZ2pwdJ5xKEFSqhjiBbKFm/w74htcJ/Pmdu6ubVkxxYTg600j
- VOZB7CBVQxAPE39vcp4mCN9PT/lCNCwT9xXbgCZVUjkS1j7RwmM6ZsFcR
- SzeLNJEgNZSvwA/hGSSOIdKDRz26Fed5RlrjIm5mgnioRXkAQTF5fCHqR
- tNTtVe0z06MMlHFxJRbXHG/ZLpjrLEDl6NHQ0hbyAI6B1gXltrLfsDaG4 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="332843218"
-X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; d="scan'208";a="332843218"
+ bh=lKW2lsjkLe3U7wRNBBNS8euAk27+r+bbFB2PhWVLTP4=;
+ b=QGhFfFfjBy8vOLZFIR7QfKa84Glheun/Rx57iTavUJvWxT/3iRLsefnp
+ nAPi555FzDiZV+zRAylwjlIBcxhMwgQY2DKCoft3etbGeivG+JwXL+Gks
+ PDk8KPY2Esr37cCo2tjahY7rcmfZ/N2sl9LYYcCOw/T2q0XJI1NYkR9ls
+ +LHUOG3msx7B81uh+fpzXVKNbJ7Uw5GNGVkD0ZNf8yZBKe3+s2OutE+wj
+ RfpRFwORXADkOIUThV0uY47jzKGomVRDawfNfMC+ej02riti2cDKfJkX6
+ QMHxV4O1yR9O9ORaeT2EAK/T+ivrTVUWMsvhAxBvqSASyRbugbnI9QvwO w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="332843229"
+X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; d="scan'208";a="332843229"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Feb 2023 21:33:10 -0800
+ 21 Feb 2023 21:33:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="917450532"
-X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; d="scan'208";a="917450532"
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="917450558"
+X-IronPort-AV: E=Sophos;i="5.97,317,1669104000"; d="scan'208";a="917450558"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.32])
- by fmsmga006.fm.intel.com with ESMTP; 21 Feb 2023 21:33:07 -0800
+ by fmsmga006.fm.intel.com with ESMTP; 21 Feb 2023 21:33:10 -0800
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/7] drm/i915: Enable YCbCr420 for VDSC
-Date: Wed, 22 Feb 2023 11:01:50 +0530
-Message-Id: <20230222053153.3658345-5-suraj.kandpal@intel.com>
+Subject: [PATCH 5/7] drm/i915/display: Fill in native_420 field
+Date: Wed, 22 Feb 2023 11:01:51 +0530
+Message-Id: <20230222053153.3658345-6-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230222053153.3658345-1-suraj.kandpal@intel.com>
 References: <20230222053153.3658345-1-suraj.kandpal@intel.com>
@@ -57,274 +57,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vandita Kulkarni <Vandita.kulkarni@intel.com>, ankit.k.nautiyal@intel.com,
- uma.shankar@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
+Cc: ankit.k.nautiyal@intel.com, uma.shankar@intel.com,
+ Suraj Kandpal <suraj.kandpal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implementation of VDSC for YCbCr420.
-Add QP tables for 8,10,12 BPC from rc_tables.h in intel_qp_tables.c
-(Derived from C-Model, which is given along with DSC1.2a Spec from Vesa)
-intel_lookup_range_min/max_qp functons need to take into account the
-output format. Based on that appropriate qp table need to be chosen.
-Other rc_parameters need to be set where currently values for 444 format
-is hardcoded in calculate_rc_parameters( ).
-vdsc_cfg struct needs to be filled with output format information, where
-these are hardcoded for 444 format.
-Bspec: 49259
+Now that we have laid the groundwork for YUV420 Enablement
+we fill up native_420 field in vdsc_cfg and add appropriate
+checks wherever required.
 
+---v2
+-adding native_422 field as 0 [Vandita]
+-filling in second_line_bpg_offset, second_line_offset_adj
+and nsl_bpg_offset in vds_cfg when native_420 is true
+
+---v3
+-adding display version check to solve igt issue
+
+--v7
+-remove is_pipe_dsc check as its always true for D14 [Jani]
+
+--v10
+-keep sink capability check [Jani]
+-move from !(x == y  || w == z) to x !=y && w != z [Jani]
+
+--v11
+-avoid native_420 computation if not gen14 [Uma]
+
+Cc: Uma Shankar <uma.shankar@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-Reviewed-by: Vandita Kulkarni <Vandita.kulkarni@intel.com>
 ---
- .../gpu/drm/i915/display/intel_qp_tables.c    | 187 ++++++++++++++++--
- .../gpu/drm/i915/display/intel_qp_tables.h    |   4 +-
- drivers/gpu/drm/i915/display/intel_vdsc.c     |   4 +-
- 3 files changed, 180 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/i915/display/icl_dsi.c    |  2 -
+ drivers/gpu/drm/i915/display/intel_dp.c   |  7 ++-
+ drivers/gpu/drm/i915/display/intel_vdsc.c | 74 ++++++++++++++++++++++-
+ 3 files changed, 75 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_qp_tables.c b/drivers/gpu/drm/i915/display/intel_qp_tables.c
-index 6f8e4ec5c0fb..6e86c0971d24 100644
---- a/drivers/gpu/drm/i915/display/intel_qp_tables.c
-+++ b/drivers/gpu/drm/i915/display/intel_qp_tables.c
-@@ -17,6 +17,15 @@
- /* from BPP 6 to 36 in steps of 0.5 */
- #define RC_RANGE_QP444_12BPC_MAX_NUM_BPP	61
+diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
+index 05e749861658..7065203460d3 100644
+--- a/drivers/gpu/drm/i915/display/icl_dsi.c
++++ b/drivers/gpu/drm/i915/display/icl_dsi.c
+@@ -1534,8 +1534,6 @@ static int gen11_dsi_dsc_compute_config(struct intel_encoder *encoder,
+ 	if (crtc_state->dsc.slice_count > 1)
+ 		crtc_state->dsc.dsc_split = true;
  
-+/* from BPP 6 to 24 in steps of 0.5 */
-+#define RC_RANGE_QP420_8BPC_MAX_NUM_BPP		17
-+
-+/* from BPP 6 to 30 in steps of 0.5 */
-+#define RC_RANGE_QP420_10BPC_MAX_NUM_BPP	23
-+
-+/* from BPP 6 to 36 in steps of 0.5 */
-+#define RC_RANGE_QP420_12BPC_MAX_NUM_BPP	29
-+
- /*
-  * These qp tables are as per the C model
-  * and it has the rows pointing to bpps which increment
-@@ -283,26 +292,182 @@ static const u8 rc_range_maxqp444_12bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP444_12BPC
- 	  11, 11, 10, 10, 10, 10, 10, 9, 9, 8, 8, 8, 8, 8, 7, 7, 6, 6, 6, 6, 5, 5, 4 }
- };
+-	vdsc_cfg->convert_rgb = true;
+-
+ 	/* FIXME: initialize from VBT */
+ 	vdsc_cfg->rc_model_size = DSC_RC_MODEL_SIZE_CONST;
  
--#define PARAM_TABLE(_minmax, _bpc, _row, _col)  do { \
--	if (bpc == (_bpc)) \
--		return rc_range_##_minmax##qp444_##_bpc##bpc[_row][_col]; \
-+static const u8 rc_range_minqp420_8bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_8BPC_MAX_NUM_BPP] = {
-+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 3, 3, 3, 3, 3, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0 },
-+	{ 3, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0 },
-+	{ 3, 3, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
-+	{ 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0 },
-+	{ 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0 },
-+	{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1, 1 },
-+	{ 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 1, 1 },
-+	{ 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 3, 2, 2, 1 },
-+	{ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4, 3, 3, 2, 1 },
-+	{ 9, 8, 8, 7, 7, 7, 7, 7, 7, 6, 5, 5, 4, 3, 3, 3, 2 },
-+	{ 13, 12, 12, 11, 10, 10, 9, 8, 8, 7, 6, 6, 5, 5, 4, 4, 3 }
-+};
-+
-+static const u8 rc_range_maxqp420_8bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_8BPC_MAX_NUM_BPP] = {
-+	{ 4, 4, 3, 3, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 4, 4, 4, 4, 4, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0 },
-+	{ 5, 5, 5, 5, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0 },
-+	{ 6, 6, 6, 6, 6, 5, 4, 3, 2, 2, 2, 1, 1, 1, 1, 0, 0 },
-+	{ 7, 7, 7, 7, 7, 5, 4, 3, 2, 2, 2, 2, 2, 1, 1, 1, 0 },
-+	{ 7, 7, 7, 7, 7, 6, 5, 4, 3, 3, 3, 2, 2, 2, 1, 1, 0 },
-+	{ 7, 7, 7, 7, 7, 6, 5, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1 },
-+	{ 8, 8, 8, 8, 8, 7, 6, 5, 4, 4, 4, 3, 3, 2, 2, 2, 1 },
-+	{ 9, 9, 9, 8, 8, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1 },
-+	{ 10, 10, 9, 9, 9, 8, 7, 6, 5, 5, 5, 4, 4, 3, 3, 2, 2 },
-+	{ 10, 10, 10, 9, 9, 8, 8, 7, 6, 6, 5, 5, 4, 4, 3, 2, 2 },
-+	{ 11, 11, 10, 10, 9, 9, 8, 7, 7, 6, 6, 5, 5, 4, 3, 3, 2 },
-+	{ 11, 11, 11, 10, 9, 9, 9, 8, 7, 7, 6, 5, 5, 4, 4, 3, 2 },
-+	{ 13, 12, 12, 11, 10, 10, 9, 8, 8, 7, 6, 6, 5, 4, 4, 4, 3 },
-+	{ 14, 13, 13, 12, 11, 11, 10, 9, 9, 8, 7, 7, 6, 6, 5, 5, 4 }
-+};
-+
-+static const u8 rc_range_minqp420_10bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_10BPC_MAX_NUM_BPP] = {
-+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 4, 4, 4, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 4, 4, 4, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 5, 5, 5, 4, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 7, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0 },
-+	{ 7, 7, 7, 7, 7, 6, 5, 5, 5, 5, 5, 4, 3, 3, 2, 2, 1, 1, 1, 1, 1, 0, 0 },
-+	{ 7, 7, 7, 7, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 3, 2, 2, 2, 2, 1, 1, 1, 0 },
-+	{ 7, 7, 7, 7, 7, 7, 6, 6, 6, 6, 6, 5, 4, 4, 4, 3, 2, 2, 2, 1, 1, 1, 0 },
-+	{ 7, 7, 7, 7, 7, 7, 7, 7, 6, 6, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 2, 1, 1 },
-+	{ 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1 },
-+	{ 9, 9, 9, 9, 9, 8, 8, 8, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1 },
-+	{ 9, 9, 9, 9, 9, 9, 8, 8, 8, 8, 8, 8, 8, 7, 6, 6, 5, 4, 4, 3, 3, 2, 1 },
-+	{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 8, 8, 7, 7, 6, 5, 4, 4, 3, 3, 2, 1 },
-+	{ 13, 12, 12, 11, 11, 11, 11, 11, 11, 10, 9, 9, 8, 7, 7, 6, 5, 5, 4, 3, 3,
-+	  2, 2 },
-+	{ 17, 16, 16, 15, 14, 14, 13, 12, 12, 11, 10, 10, 10, 9, 8, 8, 7, 6, 6, 5,
-+	  5, 4, 4 }
-+};
-+
-+static const u8 rc_range_maxqp420_10bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_10BPC_MAX_NUM_BPP] = {
-+	{ 8, 8, 7, 6, 4, 4, 3, 3, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 8, 8, 8, 7, 6, 5, 4, 4, 3, 3, 3, 3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 },
-+	{ 9, 9, 9, 8, 8, 7, 6, 5, 4, 3, 3, 3, 3, 3, 2, 1, 1, 1, 0, 0, 0, 0, 0 },
-+	{ 10, 10, 10, 9, 9, 8, 7, 6, 5, 4, 4, 3, 3, 3, 3, 2, 1, 1, 1, 1, 1, 0,
-+	  0 },
-+	{ 11, 11, 11, 10, 10, 8, 7, 6, 5, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1,
-+	  0 },
-+	{ 11, 11, 11, 10, 10, 9, 8, 7, 6, 6, 6, 5, 4, 4, 3, 3, 2, 2, 2, 2, 2, 1,
-+	  1 },
-+	{ 11, 11, 11, 11, 11, 10, 9, 8, 7, 7, 7, 6, 5, 5, 4, 3, 3, 3, 3, 2, 2, 2,
-+	  1 },
-+	{ 12, 12, 12, 12, 12, 11, 10, 9, 8, 8, 8, 7, 6, 5, 5, 4, 3, 3, 3, 2, 2,
-+	  2, 1 },
-+	{ 13, 13, 13, 12, 12, 11, 10, 10, 9, 9, 8, 8, 7, 7, 6, 5, 4, 4, 3, 3, 3,
-+	  2, 2 },
-+	{ 14, 14, 13, 13, 13, 12, 11, 10, 9, 9, 9, 8, 8, 7, 7, 6, 5, 4, 4, 3, 3,
-+	  2, 2 },
-+	{ 14, 14, 14, 13, 13, 12, 12, 11, 10, 10, 9, 9, 8, 8, 7, 6, 5, 5, 4, 4,
-+	  3, 3, 2 },
-+	{ 15, 15, 14, 14, 13, 13, 12, 11, 11, 10, 10, 9, 9, 8, 7, 7, 6, 5, 5, 4,
-+	  4, 3, 2 },
-+	{ 15, 15, 15, 14, 13, 13, 13, 12, 11, 11, 10, 9, 9, 8, 8, 7, 6, 5, 5, 4,
-+	  4, 3, 2 },
-+	{ 17, 16, 16, 15, 14, 14, 13, 12, 12, 11, 10, 10, 9, 8, 8, 7, 6, 6, 5, 4,
-+	  4, 3, 3 },
-+	{ 18, 17, 17, 16, 15, 15, 14, 13, 13, 12, 11, 11, 11, 10, 9, 9, 8, 7, 7,
-+	  6, 6, 5, 5 }
-+};
-+
-+static const u8 rc_range_minqp420_12bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_12BPC_MAX_NUM_BPP] = {
-+	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-+	  0, 0, 0, 0, 0 },
-+	{ 4, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-+	  0, 0, 0, 0, 0 },
-+	{ 9, 8, 8, 7, 7, 6, 5, 5, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 0, 0, 0, 0, 0, 0,
-+	  0, 0, 0, 0, 0 },
-+	{ 10, 9, 9, 8, 8, 8, 7, 7, 6, 6, 6, 5, 5, 4, 4, 3, 2, 2, 1, 1, 1, 0, 0, 0,
-+	  0, 0, 0, 0, 0 },
-+	{ 11, 10, 10, 10, 10, 9, 9, 8, 7, 6, 6, 6, 6, 5, 5, 4, 3, 3, 3, 2, 2, 1,
-+	  0, 0, 0, 0, 0, 0, 0 },
-+	{ 11, 11, 11, 11, 11, 10, 10, 9, 9, 9, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 3, 2,
-+	  1, 1, 0, 0, 0, 0, 0 },
-+	{ 11, 11, 11, 11, 11, 11, 10, 10, 9, 9, 9, 8, 8, 7, 6, 5, 5, 5, 5, 4, 3, 3,
-+	  2, 1, 1, 1, 1, 1, 0 },
-+	{ 11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 9, 8, 8, 8, 7, 6, 6, 5, 4, 4,
-+	  3, 2, 2, 1, 1, 1, 1, 1 },
-+	{ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 10, 10, 9, 9, 8, 8, 7, 7, 6, 5,
-+	  5, 4, 4, 2, 2, 1, 1, 1, 1 },
-+	{ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 10, 10, 9, 9, 8, 8, 7, 7, 6,
-+	  5, 4, 4, 3, 2, 2, 1, 1, 1 },
-+	{ 13, 13, 13, 13, 13, 13, 13, 12, 12, 12, 11, 11, 10, 10, 9, 9, 8, 8, 7, 7,
-+	  6, 5, 4, 3, 3, 2, 2, 1, 1 },
-+	{ 13, 13, 13, 13, 13, 13, 13, 13, 13, 12, 12, 12, 12, 11, 10, 10, 9, 8, 8,
-+	  7, 7, 6, 5, 4, 3, 3, 2, 2, 1 },
-+	{ 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 12, 12, 11, 11, 10, 9, 8, 8,
-+	  7, 7, 6, 5, 4, 4, 3, 2, 2, 1 },
-+	{ 15, 15, 15, 15, 15, 15, 15, 15, 15, 14, 13, 13, 12, 11, 11, 10, 9, 9, 8,
-+	  8, 7, 6, 6, 5, 4, 4, 3, 3, 2 },
-+	{ 21, 20, 20, 19, 18, 18, 17, 16, 16, 15, 14, 14, 14, 13, 12, 12, 11, 10,
-+	  10, 10, 9, 8, 8, 7, 6, 6, 5, 5, 4 }
-+};
-+
-+static const u8 rc_range_maxqp420_12bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_12BPC_MAX_NUM_BPP] = {
-+	{ 11, 10, 9, 8, 6, 6, 5, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0,
-+	  0, 0, 0, 0, 0, 0 },
-+	{ 12, 11, 11, 10, 9, 8, 7, 7, 6, 6, 5, 5, 4, 3, 3, 2, 1, 1, 1, 1, 1, 1,
-+	  1, 0, 0, 0, 0, 0, 0 },
-+	{ 13, 12, 12, 11, 11, 10, 9, 8, 7, 6, 6, 6, 5, 5, 4, 3, 3, 2, 1, 1, 1, 1,
-+	  1, 0, 0, 0, 0, 0, 0 },
-+	{ 14, 13, 13, 12, 12, 11, 10, 9, 8, 7, 7, 6, 6, 5, 5, 4, 3, 3, 2, 2, 2, 1,
-+	  1, 1, 0, 0, 0, 0, 0 },
-+	{ 15, 14, 14, 13, 13, 11, 10, 9, 8, 7, 7, 7, 7, 6, 6, 5, 4, 4, 4, 3, 3, 2,
-+	  1, 1, 1, 0, 0, 0, 0 },
-+	{ 15, 15, 15, 14, 14, 13, 12, 11, 10, 10, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4,
-+	  4, 3, 2, 2, 1, 1, 0, 0, 0 },
-+	{ 15, 15, 15, 15, 15, 14, 13, 12, 11, 11, 11, 10, 9, 8, 7, 6, 6, 6, 6, 5,
-+	  4, 4, 3, 2, 2, 2, 1, 1, 0 },
-+	{ 16, 16, 16, 16, 16, 15, 14, 13, 12, 12, 12, 11, 10, 9, 9, 8, 7, 7, 6, 5,
-+	  5, 4, 3, 3, 2, 2, 2, 1, 1 },
-+	{ 17, 17, 17, 16, 16, 15, 14, 14, 13, 13, 12, 12, 11, 11, 10, 9, 8, 8, 7,
-+	  6, 6, 5, 5, 3, 3, 2, 2, 1, 1 },
-+	{ 18, 18, 17, 17, 17, 16, 15, 14, 13, 13, 13, 12, 12, 11, 11, 10, 9, 8, 8,
-+	  7, 6, 5, 5, 4, 3, 3, 2, 2, 1 },
-+	{ 18, 18, 18, 17, 17, 16, 16, 15, 14, 14, 13, 13, 12, 12, 11, 10, 9, 9, 8,
-+	  8, 7, 6, 5, 4, 4, 3, 3, 2, 2 },
-+	{ 19, 19, 18, 18, 17, 17, 16, 15, 15, 14, 14, 13, 13, 12, 11, 11, 10, 9,
-+	  9, 8, 8, 7, 6, 5, 4, 4, 3, 3, 2 },
-+	{ 19, 19, 19, 18, 17, 17, 17, 16, 15, 15, 14, 13, 13, 12, 12, 11, 10, 9,
-+	  9, 8, 8, 7, 6, 5, 5, 4, 3, 3, 2 },
-+	{ 21, 20, 20, 19, 18, 18, 17, 16, 16, 15, 14, 14, 13, 12, 12, 11, 10, 10,
-+	  9, 9, 8, 7, 7, 6, 5, 5, 4, 4, 3 },
-+	{ 22, 21, 21, 20, 19, 19, 18, 17, 17, 16, 15, 15, 15, 14, 13, 13, 12, 11,
-+	  11, 11, 10, 9, 9, 8, 7, 7, 6, 6, 5 }
-+};
-+
-+#define PARAM_TABLE(_minmax, _bpc, _row, _col, _is_420)  do { \
-+	if (bpc == (_bpc)) {	\
-+		if (_is_420)	\
-+			return rc_range_##_minmax##qp420_##_bpc##bpc[_row][_col]; \
-+		else	\
-+			return rc_range_##_minmax##qp444_##_bpc##bpc[_row][_col]; \
-+	}	\
- } while (0)
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index f2fb3ec2dd99..95e9d0365e23 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -1466,9 +1466,10 @@ static int intel_dp_dsc_compute_params(struct intel_encoder *encoder,
+ 	vdsc_cfg->dsc_version_minor =
+ 		min(intel_dp_source_dsc_version_minor(intel_dp),
+ 		    intel_dp_sink_dsc_version_minor(intel_dp));
+-
+-	vdsc_cfg->convert_rgb = intel_dp->dsc_dpcd[DP_DSC_DEC_COLOR_FORMAT_CAP - DP_DSC_SUPPORT] &
+-		DP_DSC_RGB;
++	if (vdsc_cfg->convert_rgb)
++		vdsc_cfg->convert_rgb =
++			intel_dp->dsc_dpcd[DP_DSC_DEC_COLOR_FORMAT_CAP - DP_DSC_SUPPORT] &
++			DP_DSC_RGB;
  
--u8 intel_lookup_range_min_qp(int bpc, int buf_i, int bpp_i)
-+u8 intel_lookup_range_min_qp(int bpc, int buf_i, int bpp_i, bool is_420)
- {
--	PARAM_TABLE(min, 8, buf_i, bpp_i);
--	PARAM_TABLE(min, 10, buf_i, bpp_i);
--	PARAM_TABLE(min, 12, buf_i, bpp_i);
-+	PARAM_TABLE(min, 8, buf_i, bpp_i, is_420);
-+	PARAM_TABLE(min, 10, buf_i, bpp_i, is_420);
-+	PARAM_TABLE(min, 12, buf_i, bpp_i, is_420);
- 
- 	MISSING_CASE(bpc);
- 	return 0;
- }
- 
--u8 intel_lookup_range_max_qp(int bpc, int buf_i, int bpp_i)
-+u8 intel_lookup_range_max_qp(int bpc, int buf_i, int bpp_i, bool is_420)
- {
--	PARAM_TABLE(max, 8, buf_i, bpp_i);
--	PARAM_TABLE(max, 10, buf_i, bpp_i);
--	PARAM_TABLE(max, 12, buf_i, bpp_i);
-+	PARAM_TABLE(max, 8, buf_i, bpp_i, is_420);
-+	PARAM_TABLE(max, 10, buf_i, bpp_i, is_420);
-+	PARAM_TABLE(max, 12, buf_i, bpp_i, is_420);
- 
- 	MISSING_CASE(bpc);
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/display/intel_qp_tables.h b/drivers/gpu/drm/i915/display/intel_qp_tables.h
-index 9fb3c36bd7c6..a9ff9ca29938 100644
---- a/drivers/gpu/drm/i915/display/intel_qp_tables.h
-+++ b/drivers/gpu/drm/i915/display/intel_qp_tables.h
-@@ -8,7 +8,7 @@
- 
- #include <linux/types.h>
- 
--u8 intel_lookup_range_min_qp(int bpc, int buf_i, int bpp_i);
--u8 intel_lookup_range_max_qp(int bpc, int buf_i, int bpp_i);
-+u8 intel_lookup_range_min_qp(int bpc, int buf_i, int bpp_i, bool is_420);
-+u8 intel_lookup_range_max_qp(int bpc, int buf_i, int bpp_i, bool is_420);
- 
- #endif
+ 	line_buf_depth = drm_dp_dsc_sink_line_buf_depth(intel_dp->dsc_dpcd);
+ 	if (!line_buf_depth) {
 diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
-index 207b2a648d32..ed16f63d6355 100644
+index ed16f63d6355..32997c9773aa 100644
 --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
 +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
-@@ -422,9 +422,9 @@ calculate_rc_params(struct rc_parameters *rc,
- 	for (buf_i = 0; buf_i < DSC_NUM_BUF_RANGES; buf_i++) {
- 		/* Read range_minqp and range_max_qp from qp tables */
- 		rc->rc_range_params[buf_i].range_min_qp =
--			intel_lookup_range_min_qp(bpc, buf_i, bpp_i);
-+			intel_lookup_range_min_qp(bpc, buf_i, bpp_i, vdsc_cfg->native_420);
- 		rc->rc_range_params[buf_i].range_max_qp =
--			intel_lookup_range_max_qp(bpc, buf_i, bpp_i);
-+			intel_lookup_range_max_qp(bpc, buf_i, bpp_i, vdsc_cfg->native_420);
+@@ -460,14 +460,50 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+ 	vdsc_cfg->pic_width = pipe_config->hw.adjusted_mode.crtc_hdisplay;
+ 	vdsc_cfg->slice_width = DIV_ROUND_UP(vdsc_cfg->pic_width,
+ 					     pipe_config->dsc.slice_count);
+-
+-	/* Gen 11 does not support YCbCr */
++	/*
++	 * According to DSC 1.2 specs if colorspace is YCbCr then convert_rgb is 0
++	 * else 1
++	 */
++	vdsc_cfg->convert_rgb = pipe_config->output_format != INTEL_OUTPUT_FORMAT_YCBCR420 &&
++				pipe_config->output_format != INTEL_OUTPUT_FORMAT_YCBCR444;
++
++	if (DISPLAY_VER(dev_priv) >= 14 &&
++	    pipe_config->output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
++		vdsc_cfg->native_420 = true;
++	/* We do not support YcBCr422 as of now */
++	vdsc_cfg->native_422 = false;
+ 	vdsc_cfg->simple_422 = false;
+ 	/* Gen 11 does not support VBR */
+ 	vdsc_cfg->vbr_enable = false;
  
- 		/* Calculate range_bgp_offset */
- 		if (bpp <= 6) {
+ 	/* Gen 11 only supports integral values of bpp */
+ 	vdsc_cfg->bits_per_pixel = compressed_bpp << 4;
++
++	/*
++	 * According to DSC 1.2 specs in Section 4.1 if native_420 is set:
++	 * -We need to double the current bpp.
++	 * -second_line_bpg_offset is 12 in general and equal to 2*(slice_height-1) if slice
++	 * height < 8.
++	 * -second_line_offset_adj is 512 as shown by emperical values to yeild best chroma
++	 * preservation in second line.
++	 * -nsl_bpg_offset is calculated as second_line_offset/slice_height -1 then rounded
++	 * up to 16 fractional bits, we left shift second line offset by 11 to preserve 11
++	 * fractional bits.
++	 */
++	if (vdsc_cfg->native_420) {
++		vdsc_cfg->bits_per_pixel <<= 1;
++
++		if (vdsc_cfg->slice_height >= 8)
++			vdsc_cfg->second_line_bpg_offset = 12;
++		else
++			vdsc_cfg->second_line_bpg_offset =
++				2 * (vdsc_cfg->slice_height - 1);
++
++		vdsc_cfg->second_line_offset_adj = 512;
++		vdsc_cfg->nsl_bpg_offset = DIV_ROUND_UP(vdsc_cfg->second_line_bpg_offset << 11,
++							vdsc_cfg->slice_height - 1);
++	}
++
+ 	vdsc_cfg->bits_per_component = pipe_config->pipe_bpp / 3;
+ 
+ 	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
+@@ -594,8 +630,13 @@ static void intel_dsc_pps_configure(const struct intel_crtc_state *crtc_state)
+ 		DSC_VER_MIN_SHIFT |
+ 		vdsc_cfg->bits_per_component << DSC_BPC_SHIFT |
+ 		vdsc_cfg->line_buf_depth << DSC_LINE_BUF_DEPTH_SHIFT;
+-	if (vdsc_cfg->dsc_version_minor == 2)
++	if (vdsc_cfg->dsc_version_minor == 2) {
+ 		pps_val |= DSC_ALT_ICH_SEL;
++		if (vdsc_cfg->native_420)
++			pps_val |= DSC_NATIVE_420_ENABLE;
++		if (vdsc_cfg->native_422)
++			pps_val |= DSC_NATIVE_422_ENABLE;
++	}
+ 	if (vdsc_cfg->block_pred_enable)
+ 		pps_val |= DSC_BLOCK_PREDICTION;
+ 	if (vdsc_cfg->convert_rgb)
+@@ -906,6 +947,33 @@ static void intel_dsc_pps_configure(const struct intel_crtc_state *crtc_state)
+ 				       pps_val);
+ 	}
+ 
++	if (DISPLAY_VER(dev_priv) >= 14) {
++		/* Populate PICTURE_PARAMETER_SET_17 registers */
++		pps_val = 0;
++		pps_val |= DSC_SL_BPG_OFFSET(vdsc_cfg->second_line_bpg_offset);
++		drm_dbg_kms(&dev_priv->drm, "PPS17 = 0x%08x\n", pps_val);
++		intel_de_write(dev_priv,
++			       MTL_DSC0_PICTURE_PARAMETER_SET_17(pipe),
++			       pps_val);
++		if (crtc_state->dsc.dsc_split)
++			intel_de_write(dev_priv,
++				       MTL_DSC1_PICTURE_PARAMETER_SET_17(pipe),
++				       pps_val);
++
++		/* Populate PICTURE_PARAMETER_SET_18 registers */
++		pps_val = 0;
++		pps_val |= DSC_NSL_BPG_OFFSET(vdsc_cfg->nsl_bpg_offset) |
++			   DSC_SL_OFFSET_ADJ(vdsc_cfg->second_line_offset_adj);
++		drm_dbg_kms(&dev_priv->drm, "PPS18 = 0x%08x\n", pps_val);
++		intel_de_write(dev_priv,
++			       MTL_DSC0_PICTURE_PARAMETER_SET_18(pipe),
++			       pps_val);
++		if (crtc_state->dsc.dsc_split)
++			intel_de_write(dev_priv,
++				       MTL_DSC1_PICTURE_PARAMETER_SET_18(pipe),
++				       pps_val);
++	}
++
+ 	/* Populate the RC_BUF_THRESH registers */
+ 	memset(rc_buf_thresh_dword, 0, sizeof(rc_buf_thresh_dword));
+ 	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
 -- 
 2.25.1
 
