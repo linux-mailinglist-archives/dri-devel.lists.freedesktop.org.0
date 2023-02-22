@@ -2,48 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27BA669F111
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 10:13:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DD069F1CD
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 10:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 691A310E42F;
-	Wed, 22 Feb 2023 09:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33F7310E432;
+	Wed, 22 Feb 2023 09:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDB3E10E42F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 09:13:49 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 9623A66021CF;
- Wed, 22 Feb 2023 09:13:47 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677057228;
- bh=EQcPbGfJMfRIei4Am5Ga2lgUV4SqL9FM6hrNSYWP81M=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Ci/5xPZofV2WGWkOXFeQ2oVFhVnJmStDnJ+1lB2glB7h3NKKb0bfohtHXtJKXc2yX
- JWVnuiF69Z+OHcCJRhnNa2ACiMYCzBSOy8zvnn6pooaRWfMSZnpSOazVeZdqClc+0G
- y25SprcuQ75Uh659VUCmWtbl16GzOd1vQwSZ126q0a97ymt/Bno/rmABd5HTPjHFej
- tiNgim+asQkJ4eXmwVfXy9ow8OgyZX/OAWJw2eQd1I8sHZf5MJcjSXa4wxJT8r7mqb
- PXbcpQlG+VbDWbC6B4pSwrVwbVGuk1hsDT0ukfvwzMBfUkrryQJxDBqZx/qx7uR7HC
- Bzqd0ggFXVjHg==
-Message-ID: <88a3fa09-60cb-bb3c-c392-286efd983627@collabora.com>
-Date: Wed, 22 Feb 2023 10:13:45 +0100
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8637F10E432
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 09:34:52 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id l1so6776917wry.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 01:34:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NRk5F+0/KBJtXy1UGgffMDC3lUYcUK9POoNTTNzoa24=;
+ b=u+urDYkiChNW/YI0+mNXcxcwazZf2oOYqiBgCEV2QRhM9Bj6bxgttGAPIfrpBsmZxB
+ F/vzmmCmy0CmXzapu9KDPiLA9pY7S1B1GBW680gB1ZUGoMoUy99YDtiK57CeqAaY2HDG
+ 0K6bgiYCumaL/dEN8e2MSENFFfv0PQ9lP8dbpE6nD1ZEyuCRN6nDMhxiua2p5l7kkJgh
+ 7fxk/bcZzDt3idskr7rGCw0S6Js/HSnwDHdjcNFVO3Tdji5NuQ4PprVdhfl0lRLFdIbN
+ nBWs7kKgv2X0JbhP42VvRIC5GiSY67juoj1zkN5gTEpZF3ZSitEAYHdksPGLvld9I7Aj
+ k8mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NRk5F+0/KBJtXy1UGgffMDC3lUYcUK9POoNTTNzoa24=;
+ b=6pEsxQRRxpYIhuYht2NcdxuKo1civJn5mXBM2sHqqY/0P096yTo93UenbQ6j0RqOdA
+ DifXK/sfB7AFE8wTSAobX/de/hIvHu2zXP65wd39fPqQCVyg2IgxFJjNRPEWAzdNm1Ii
+ 5lFjrOwnNVVH8+5vK5EXJ7pyUrgE7mVN0jxfJG4CZcK7I5GJCUpqTI2kgr898U8Bznrp
+ OberyZ1sRAEXdHWCKGxdzCjKOWVApDbrD47A6FRFY/+5H2duODozTRMvYcannF46iqNH
+ THZ1j93sylvyHDlT8h+RdD6MGy1z7DbtCuHZpIB6j7Q8rUOmhCZbisGor1iUhCMaUDCT
+ TjCA==
+X-Gm-Message-State: AO0yUKWSCqj7OoUBpgL/neQ4lN7f98KCbU50BKj3/itG5oRCoZlhnc3G
+ mv8/bD8ry83JTUd2zCyUyfZz0Q==
+X-Google-Smtp-Source: AK7set8hSrDxe9qvKyM2TLqTXl2UDNEIhR+MHKT7cLtR99WMCh22GQotZ3MUmWOEuM4/zk8YKoN/yQ==
+X-Received: by 2002:a5d:4d01:0:b0:2c5:4ca0:1abb with SMTP id
+ z1-20020a5d4d01000000b002c54ca01abbmr7295022wrt.60.1677058490952; 
+ Wed, 22 Feb 2023 01:34:50 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ e16-20020adfe390000000b002c54c8e70b1sm7061642wrm.9.2023.02.22.01.34.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Feb 2023 01:34:50 -0800 (PST)
+Message-ID: <f6f91c5f-5013-3c1a-9eac-e87fb7071031@linaro.org>
+Date: Wed, 22 Feb 2023 10:34:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 06/10] dt-bindings: gpu: mali-bifrost: Add a compatible
- for MediaTek MT8186
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: Add Novatek NT36523
+ bindings
 Content-Language: en-US
-To: Chen-Yu Tsai <wenst@chromium.org>
-References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
- <20230221153740.1620529-7-angelogioacchino.delregno@collabora.com>
- <CAGXv+5Ed-5Nq0zNzCGzez3fnW2yxW7zFx9B6k58Y4yb8P+hvpw@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAGXv+5Ed-5Nq0zNzCGzez3fnW2yxW7zFx9B6k58Y4yb8P+hvpw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Jianhua Lu <lujianhua000@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230220121258.10727-1-lujianhua000@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230220121258.10727-1-lujianhua000@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,85 +79,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, phone-devel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 22/02/23 09:37, Chen-Yu Tsai ha scritto:
-> On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> Get GPU support on MT8186 by adding its compatible.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
->> index be18b161959b..43a841d4e94d 100644
->> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
->> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
->> @@ -15,6 +15,11 @@ properties:
->>
->>     compatible:
->>       oneOf:
->> +      - items:
->> +          - enum:
->> +              - mediatek,mt8186-mali
->> +          - const: mediatek,mt8183b-mali
->> +          - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
+On 20/02/2023 13:12, Jianhua Lu wrote:
+> Novatek NT36523 is a display driver IC used to drive DSI panels.
 > 
-> The MT8186 has Mali-G52 MC2 2EE, while the MT8183 has Mali-G72 MP3.
+> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> ---
+> Changes in v2:
+>   - Drop unnecessary description
+>   - dsi0 -> dsi
 
-Keeping in mind the obvious - which is that G52 and G72 are both Bifrost....
 
-> So we actually need a new entry with two power domains.
-> 
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-...This is my node for MT8186:
-
-		gpu: gpu@13040000 {
-			compatible = "mediatek,mt8186-mali",
-				     "mediatek,mt8183b-mali",
-				     "arm,mali-bifrost";
-			reg = <0 0x13040000 0 0x4000>;
-
-			clocks = <&mfgsys CLK_MFG_BG3D>;
-			interrupts = <GIC_SPI 276 IRQ_TYPE_LEVEL_HIGH 0>,
-				     <GIC_SPI 275 IRQ_TYPE_LEVEL_HIGH 0>,
-				     <GIC_SPI 274 IRQ_TYPE_LEVEL_HIGH 0>;
-			interrupt-names = "job", "mmu", "gpu";
-			power-domains = <&spm MT8186_POWER_DOMAIN_MFG1>,
-					<&spm MT8186_POWER_DOMAIN_MFG2>,
-					<&spm MT8186_POWER_DOMAIN_MFG3>;
-			power-domain-names = "core0", "core1", "core2";
-
-			/* Please ignore speedbin, that's for another time :-) */
-			nvmem-cells = <&gpu_volt_bin>;
-			nvmem-cell-names = "speed-bin";
-			#cooling-cells = <2>;
-		};
-
-There are three MFG power domains... MFG2 and MFG3 are parents of MFG1, on that
-I agree, but we can avoid adding a new entry just for MT8186 and use the MT8183-b
-one while still being technically correct.
-
-Besides, Mali G52 and Mali G72 are both Bifrost... so I don't think that this
-commit is incorrect. For the sake of simplicity, I would push on getting this
-one picked.
-
-Unless there are any real-strong opinions against...
-
-Regards,
-Angelo
-
-> Our downstream Mali driver & DT use just that.
-> 
-> ChenYu
-
+Best regards,
+Krzysztof
 
