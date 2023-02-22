@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9C569EFE6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 09:07:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2D569F06E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 09:38:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B0D10E42C;
-	Wed, 22 Feb 2023 08:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1861410E427;
+	Wed, 22 Feb 2023 08:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C960310E42C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 08:07:14 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 202494E1;
- Wed, 22 Feb 2023 09:07:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1677053233;
- bh=d7GOIS+Ej2KfXope9MuGbfcUaN48P7nxpib4yMiTsKE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jMjyCRA2VF561lAYOHh5lxtmsYU2PZY2BEXL+H2pyjqVmanUEtYlQmIJtUAhiHZ2K
- ImLg69/XkQhN0Fz/OvWFeMCcfRDBWkF7BomngVqjuCkIbnD4uOvNiF7CMhh6NLMaAC
- 02N8K8zFsrnwuiSAl6F954li2D9INKKQIZbTp/rE=
-Message-ID: <43324903-96e2-29ef-5a38-01cee2d4b0f0@ideasonboard.com>
-Date: Wed, 22 Feb 2023 10:07:10 +0200
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
+ [IPv6:2607:f8b0:4864:20::e2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1CAA10E427
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 08:37:57 +0000 (UTC)
+Received: by mail-vs1-xe2f.google.com with SMTP id x14so7676954vso.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 00:37:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=sComzmbCpABMxGUkRsCiLtkyNheYwmjw48ljpFz3J24=;
+ b=lj5Wy8MK1mwapRAvUlPMKSor05OyZO5FDMUF3vmS3b4AA19H4/OTNnPn7urBRBWgNH
+ pDCjTxYoDNOOE7BuYRmNwu8P0aIwLJ3yduJkfc4bTH71uQwH93SttIJkswsYVXhj1J2Q
+ T6Ad3ZCsTfC91iXkA1tnIcoklpBf4kIODobuM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sComzmbCpABMxGUkRsCiLtkyNheYwmjw48ljpFz3J24=;
+ b=aAUS517hyzdAHL154MqXjlP+y1hb3Qq+l4dL0DkQ/hbQD7o6UW80vmbITI3QjlaD+O
+ 3N7l6mm9rVZsh+f/EdgarDFvK/TrodGh27XuOLVSeJtDDlBr+p5sFlmqpi8/zcN5wqfH
+ xV5R3MR2iUuvlHlVf7Ro4JX9BDiWqksUH23/tTRlL3AI1qK+a8W7GhitqOL7fDWGJYUT
+ oMMS1NVHg/b4JCNs7/vZmewxpDOwPUzLCDa0PJwnHwYFINGEGMSKsppxUgQB3VBo3+36
+ loZMXJZHuWanlWvfl40oCAIJRqcd/whtXm2JaxqzZo1wjnkbBC4XRYQUnc8gqarB7Sfc
+ G0Ww==
+X-Gm-Message-State: AO0yUKXGqWQBtVp7v6CEyXZjWCqHtJ387tIPq23uScz8zRsVas/Xii8M
+ 2cd9v9oohp4HenHXdqVuqnrdkQn8xOKmOV0I6M++nQ==
+X-Google-Smtp-Source: AK7set9FVEBAsLpdo2AF0VsdpWJoDj/pIevIOUHBKq0lW8mgWZ/QSNKhLwdL5NxD1KgYlkJH1/ua8amP+kkHXYKWlsw=
+X-Received: by 2002:a05:6102:570b:b0:3fc:58d:f90f with SMTP id
+ dg11-20020a056102570b00b003fc058df90fmr1571526vsb.60.1677055076838; Wed, 22
+ Feb 2023 00:37:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 1/2] drm: rcar-du: Don't write unimplemented ESCR and OTAR
- registers on Gen3
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20230222050623.29080-1-laurent.pinchart+renesas@ideasonboard.com>
- <20230222050623.29080-2-laurent.pinchart+renesas@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230222050623.29080-2-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+ <20230221153740.1620529-7-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230221153740.1620529-7-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 22 Feb 2023 16:37:45 +0800
+Message-ID: <CAGXv+5Ed-5Nq0zNzCGzez3fnW2yxW7zFx9B6k58Y4yb8P+hvpw@mail.gmail.com>
+Subject: Re: [PATCH v2 06/10] dt-bindings: gpu: mali-bifrost: Add a compatible
+ for MediaTek MT8186
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,57 +63,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/02/2023 07:06, Laurent Pinchart wrote:
-> The ESCR and OTAR registers are not present in all DU channels on Gen3
-> SoCs. ESCR only exists in channels that can be routed to an LVDS or
-> DPAD, and OTAR in channels that can be routed to a DPAD. Skip writing
-> those registers for other channels. This replaces the DU gen check, as
-> Gen4 doesn't have LVDS or DPAD outputs.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Get GPU support on MT8186 by adding its compatible.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->   drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 17 +++++++++++++++--
->   1 file changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 5e552b326162..d6d29be6b4f4 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -298,12 +298,25 @@ static void rcar_du_crtc_set_display_timing(struct rcar_du_crtc *rcrtc)
->   		escr = params.escr;
->   	}
->   
-> -	if (rcdu->info->gen < 4) {
-> +	/*
-> +	 * The ESCR register only exists in DU channels that can output to an
-> +	 * LVDS or DPAT, and the OTAR register in DU channels that can output
-> +	 * to a DPAD.
-> +	 */
-> +	if ((rcdu->info->routes[RCAR_DU_OUTPUT_DPAD0].possible_crtcs |
-> +	     rcdu->info->routes[RCAR_DU_OUTPUT_DPAD1].possible_crtcs |
-> +	     rcdu->info->routes[RCAR_DU_OUTPUT_LVDS0].possible_crtcs |
-> +	     rcdu->info->routes[RCAR_DU_OUTPUT_LVDS1].possible_crtcs) &
-> +	    BIT(rcrtc->index)) {
->   		dev_dbg(rcrtc->dev->dev, "%s: ESCR 0x%08x\n", __func__, escr);
->   
->   		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? ESCR13 : ESCR02, escr);
-> +	}
-> +
-> +	if ((rcdu->info->routes[RCAR_DU_OUTPUT_DPAD0].possible_crtcs |
-> +	     rcdu->info->routes[RCAR_DU_OUTPUT_DPAD1].possible_crtcs) &
-> +	    BIT(rcrtc->index))
->   		rcar_du_crtc_write(rcrtc, rcrtc->index % 2 ? OTAR13 : OTAR02, 0);
-> -	}
->   
->   	/* Signal polarities */
->   	dsmr = ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? DSMR_VSL : 0)
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> index be18b161959b..43a841d4e94d 100644
+> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> @@ -15,6 +15,11 @@ properties:
+>
+>    compatible:
+>      oneOf:
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt8186-mali
+> +          - const: mediatek,mt8183b-mali
+> +          - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+The MT8186 has Mali-G52 MC2 2EE, while the MT8183 has Mali-G72 MP3.
+So we actually need a new entry with two power domains.
 
-  Tomi
+Our downstream Mali driver & DT use just that.
 
+ChenYu
