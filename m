@@ -1,45 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8730469EF7A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 08:39:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CDA69EFAB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 08:56:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37CF210E3E8;
-	Wed, 22 Feb 2023 07:39:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2088010E423;
+	Wed, 22 Feb 2023 07:55:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7B9E10E3E8
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 07:39:10 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9059D4E1;
- Wed, 22 Feb 2023 08:39:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1677051548;
- bh=t+TMtD5Zn03WHd6qsYl9LuMZ9DpfHfQ3aY7iciJ4+jE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EGYTGnyHxX47k+womJZ3Tf8JAjTVoU5zAifAei9u5eIsc7wKuYR4hAyTceLbIweYd
- tiYytMnRi+kGEm76sNHaPt45bXki5YZzPKAcPAUr8ae538Mdbm6iZZ0iJqlkyb+7En
- XVoGTlDSWv7xaXDv1/tvlJM8tN1Ec4wezlGSdYzU=
-Message-ID: <118bf036-de06-959f-49cc-6de0233100a0@ideasonboard.com>
-Date: Wed, 22 Feb 2023 09:39:05 +0200
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A985310E422
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 07:55:55 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id x34so4469385pjj.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 23:55:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=oBgzLfkXpKOGfd/1eNx8Vyt8q2pJnQcGFP33kaJSZLo=;
+ b=bKcnv4mE5FYO28aQVhL4l7jvPYfuxRvwJx4aDOMpVX7i7lTxPjZ2zeB/msNGjCoAUS
+ 9BWfwGlpf4nOVynX5qpqDIcuFnNCx1ZYDUxfE0cP0TsmymLnw467Im4PI/aPWvfGTOTq
+ fYnOFo4Nyhdr7Pzf7P3ljnJxv/HDvkXFr7eog=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oBgzLfkXpKOGfd/1eNx8Vyt8q2pJnQcGFP33kaJSZLo=;
+ b=vmZKJkISrSNeailnOrf7qKqVghCB6O3CNRlk+Vd7MF069rQL/+1ZlQ66b5+TkTRuQ+
+ aglwjsinaTmT6t5rWGdXgl5y5ZUtxC29qCS1EqfQH5e9oig8HtXMIra9T3uZjOjsSdCF
+ uMqcxbJMbCS1QDGIO53CiMvGDWL8HHe8EVTWnpOyTOc4EPQu1h0wBb6UxXK0PVKDpejq
+ TXyZC9iGCz1d1mkqpkgw/Qn03ACygBI2K2ZLuu95jg6DurMcWfssQFiqTM2r2Dc/TgK6
+ THlUCnTVIdSvCVeC8x5swDZfLbYAR9CEwzYQIJA10Y3VU3BFkuhiHhrLV1W5F6OlFRsY
+ JKwA==
+X-Gm-Message-State: AO0yUKWysMOBFkXZKRPdO3uce6SEcyAyQvyHRIG4sXAPYwdAROiMcgW6
+ 0oX9K3fAX/0Sdp+Re0Z68REa4g==
+X-Google-Smtp-Source: AK7set+DvRSC/UTE3/Bo65NIi9ejlfvJh5OTnIy8q82XRhMInMhg/LrhSdfTTPAcfKctZav/mMZuWQ==
+X-Received: by 2002:a17:903:110e:b0:19c:ac96:223b with SMTP id
+ n14-20020a170903110e00b0019cac96223bmr509904plh.40.1677052555089; 
+ Tue, 21 Feb 2023 23:55:55 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:ddae:8a07:7ed9:423d])
+ by smtp.gmail.com with ESMTPSA id
+ x24-20020a170902821800b001947222676csm5009278pln.249.2023.02.21.23.55.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Feb 2023 23:55:54 -0800 (PST)
+Date: Wed, 22 Feb 2023 15:55:50 +0800
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 00/10] Panfrost: Improve and add MediaTek SoCs support
+Message-ID: <Y/XKhg+wultVbEWW@google.com>
+References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 2/2] drm: rcar-du: Disable alpha blending for DU planes
- used with VSP
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20230222050623.29080-1-laurent.pinchart+renesas@ideasonboard.com>
- <20230222050623.29080-3-laurent.pinchart+renesas@ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230222050623.29080-3-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,36 +67,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/02/2023 07:06, Laurent Pinchart wrote:
-> When the input to a DU channel comes from a VSP, the DU doesn't perform
-> any blending operation. Select XRGB8888 instead of ARGB8888 to ensure
-> that the corresponding registers don't get written with invalid values.
+On Tue, Feb 21, 2023 at 04:37:30PM +0100, AngeloGioacchino Del Regno wrote:
+> Changes in v2:
+>  - Add power-domain-names commit from Chen-Yu to the series
+>  - Kept sram-supply in base schema, overridden for non-MediaTek
+>  - Added Reviewed-by tags from Steven Price to the driver commits
+>    (as released in reply to v1's cover letter - thanks!)
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->   drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> This series adds support for new MediaTek SoCs (MT8186/MT8192/MT8195)
+> and improves MT8183 support: since the mtk-regulator-coupler driver
+> was picked, it is now useless for Panfrost to look for, and manage,
+> two regulators (GPU Vcore and GPU SRAM) on MediaTek;
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> index fe90be51d64e..45c05d0ffc70 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -73,7 +73,7 @@ void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
->   			.src.y2 = mode->vdisplay << 16,
->   			.zpos = 0,
->   		},
-> -		.format = rcar_du_format_info(DRM_FORMAT_ARGB8888),
-> +		.format = rcar_du_format_info(DRM_FORMAT_XRGB8888),
->   		.source = RCAR_DU_PLANE_VSPD1,
->   		.colorkey = 0,
->   	};
+> The aforementioned driver will take care of keeping the voltage
+> relation (/constraints) of the two regulators on its own when a
+> voltage change request is sent to the Vcore, solving the old time
+> issue with not working DVFS on Panfrost+MediaTek (due to devfreq
+> supporting only single regulator).
+> 
+> In the specific case of MT8183, in order to not break the ABI, it
+> was necessary to add a new compatible for enabling DVFS.
+> 
+> Alyssa Rosenzweig (3):
+>   drm/panfrost: Increase MAX_PM_DOMAINS to 5
+>   drm/panfrost: Add the MT8192 GPU ID
+>   drm/panfrost: Add mediatek,mt8192-mali compatible
+> 
+> AngeloGioacchino Del Regno (6):
+>   dt-bindings: gpu: mali-bifrost: Split out MediaTek power-domains
+>     variation
+>   dt-bindings: gpu: mali-bifrost: Allow up to 5 power domains for MT8192
+>   dt-bindings: gpu: mali-bifrost: Add compatible for MT8195 SoC
+>   dt-bindings: gpu: mali-bifrost: Add new MT8183 compatible
+>   dt-bindings: gpu: mali-bifrost: Add a compatible for MediaTek MT8186
+>   drm/panfrost: Add new compatible for Mali on the MT8183 SoC
+> 
+> Chen-Yu Tsai (1):
+>   dt-bindings: gpu: mali-bifrost: Add power-domain-names to base schema
+> 
+>  .../bindings/gpu/arm,mali-bifrost.yaml        | 67 ++++++++++++++++++-
+>  drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       | 28 ++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c       |  8 +++
+>  4 files changed, 101 insertions(+), 4 deletions(-)
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
-  Tomi
-
+on MT8183, MT8186, MT8192, MT8195 with glmark2.
