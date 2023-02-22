@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CDA69EFAB
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 08:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233B069EFB7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Feb 2023 08:58:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2088010E423;
-	Wed, 22 Feb 2023 07:55:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 665D410E422;
+	Wed, 22 Feb 2023 07:58:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A985310E422
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 07:55:55 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id x34so4469385pjj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 23:55:55 -0800 (PST)
+Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com
+ [IPv6:2607:f8b0:4864:20::931])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 249F210E422
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 07:58:32 +0000 (UTC)
+Received: by mail-ua1-x931.google.com with SMTP id x40so2320559uaf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Feb 2023 23:58:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oBgzLfkXpKOGfd/1eNx8Vyt8q2pJnQcGFP33kaJSZLo=;
- b=bKcnv4mE5FYO28aQVhL4l7jvPYfuxRvwJx4aDOMpVX7i7lTxPjZ2zeB/msNGjCoAUS
- 9BWfwGlpf4nOVynX5qpqDIcuFnNCx1ZYDUxfE0cP0TsmymLnw467Im4PI/aPWvfGTOTq
- fYnOFo4Nyhdr7Pzf7P3ljnJxv/HDvkXFr7eog=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=G9H0xjhxYBLZPbX8nqO91E9hjJ6R+Sm3uDvahoqNPyc=;
+ b=DNemaIQH3jRofAK7MbaDUIqc7f3HRn0kIhuSzD7GLxols1+ghLJzjYiSaKSC5aT2oy
+ hDKSvR0/2g6fHPRaHu+gFWFCf5vOucJ41X9kBOqAGlWfYzPaU1bMP9Z6tjgosQFsU1bm
+ RkZHOBGvtI8b7FGMn2SLXWnLEhVYvSNNU76gI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oBgzLfkXpKOGfd/1eNx8Vyt8q2pJnQcGFP33kaJSZLo=;
- b=vmZKJkISrSNeailnOrf7qKqVghCB6O3CNRlk+Vd7MF069rQL/+1ZlQ66b5+TkTRuQ+
- aglwjsinaTmT6t5rWGdXgl5y5ZUtxC29qCS1EqfQH5e9oig8HtXMIra9T3uZjOjsSdCF
- uMqcxbJMbCS1QDGIO53CiMvGDWL8HHe8EVTWnpOyTOc4EPQu1h0wBb6UxXK0PVKDpejq
- TXyZC9iGCz1d1mkqpkgw/Qn03ACygBI2K2ZLuu95jg6DurMcWfssQFiqTM2r2Dc/TgK6
- THlUCnTVIdSvCVeC8x5swDZfLbYAR9CEwzYQIJA10Y3VU3BFkuhiHhrLV1W5F6OlFRsY
- JKwA==
-X-Gm-Message-State: AO0yUKWysMOBFkXZKRPdO3uce6SEcyAyQvyHRIG4sXAPYwdAROiMcgW6
- 0oX9K3fAX/0Sdp+Re0Z68REa4g==
-X-Google-Smtp-Source: AK7set+DvRSC/UTE3/Bo65NIi9ejlfvJh5OTnIy8q82XRhMInMhg/LrhSdfTTPAcfKctZav/mMZuWQ==
-X-Received: by 2002:a17:903:110e:b0:19c:ac96:223b with SMTP id
- n14-20020a170903110e00b0019cac96223bmr509904plh.40.1677052555089; 
- Tue, 21 Feb 2023 23:55:55 -0800 (PST)
-Received: from google.com ([2401:fa00:1:10:ddae:8a07:7ed9:423d])
- by smtp.gmail.com with ESMTPSA id
- x24-20020a170902821800b001947222676csm5009278pln.249.2023.02.21.23.55.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Feb 2023 23:55:54 -0800 (PST)
-Date: Wed, 22 Feb 2023 15:55:50 +0800
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v2 00/10] Panfrost: Improve and add MediaTek SoCs support
-Message-ID: <Y/XKhg+wultVbEWW@google.com>
-References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=G9H0xjhxYBLZPbX8nqO91E9hjJ6R+Sm3uDvahoqNPyc=;
+ b=E2f2cJ5Njc9MkBAa+DrVyMT3ANm8ZOK0h2vV9ulPMzTOWYdw8Z0dl2laEbirIQXXZ+
+ ewG9xztV2os0nz/Y3GF0g7VoAuvB+AAWuN8AbKUt2bKj4M0f7vJJ33x/Hkm0UdIOKtQV
+ 17ZY9DIBo7LVuZvtAUbvgzqfDSU+ZoL4hfEARnbEqv2nT1ce9kEqBJeR4Ufz6UXtwpfP
+ /K7zBFdwEytdta68HofOk4Kpw4X2P825FQqTVEU5raWR9FZSozLMyQmM7xp/8yEnn5gL
+ KsKjHoXTndCxzk2qiP3JC4RAEv3N+ILcqANOd/BnmyasngfeTv+wZUQrgGBp4q49rGNu
+ gOBA==
+X-Gm-Message-State: AO0yUKUkX5FmZo1t4p+ezptYRdBDTen7Ym5OwglTyUwOzh/k72cHLkzZ
+ erVNrVGssbkYrYUjz6j63M3XFC3S446EO/Sj9G2wYQ==
+X-Google-Smtp-Source: AK7set8o2S3rJyKNzdUr4xZ9nrsGuSmtC2Ccm3LZaoX+pcw8mPI/KNjgf7s21ruTldmlELA+TVaMg7TzGpythFAFdbc=
+X-Received: by 2002:ab0:6ed3:0:b0:68b:716e:ed8a with SMTP id
+ c19-20020ab06ed3000000b0068b716eed8amr2520250uav.0.1677052711248; Tue, 21 Feb
+ 2023 23:58:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+ <20230221153740.1620529-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230221153740.1620529-3-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 22 Feb 2023 15:58:20 +0800
+Message-ID: <CAGXv+5E17b=nT3tquBxA6KkN3XLqNcWHeioeMtDaR+8SQhk8Kg@mail.gmail.com>
+Subject: Re: [PATCH v2 02/10] dt-bindings: gpu: mali-bifrost: Split out
+ MediaTek power-domains variation
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,50 +71,64 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 21, 2023 at 04:37:30PM +0100, AngeloGioacchino Del Regno wrote:
-> Changes in v2:
->  - Add power-domain-names commit from Chen-Yu to the series
->  - Kept sram-supply in base schema, overridden for non-MediaTek
->  - Added Reviewed-by tags from Steven Price to the driver commits
->    (as released in reply to v1's cover letter - thanks!)
-> 
-> This series adds support for new MediaTek SoCs (MT8186/MT8192/MT8195)
-> and improves MT8183 support: since the mtk-regulator-coupler driver
-> was picked, it is now useless for Panfrost to look for, and manage,
-> two regulators (GPU Vcore and GPU SRAM) on MediaTek;
-> 
-> The aforementioned driver will take care of keeping the voltage
-> relation (/constraints) of the two regulators on its own when a
-> voltage change request is sent to the Vcore, solving the old time
-> issue with not working DVFS on Panfrost+MediaTek (due to devfreq
-> supporting only single regulator).
-> 
-> In the specific case of MT8183, in order to not break the ABI, it
-> was necessary to add a new compatible for enabling DVFS.
-> 
-> Alyssa Rosenzweig (3):
->   drm/panfrost: Increase MAX_PM_DOMAINS to 5
->   drm/panfrost: Add the MT8192 GPU ID
->   drm/panfrost: Add mediatek,mt8192-mali compatible
-> 
-> AngeloGioacchino Del Regno (6):
->   dt-bindings: gpu: mali-bifrost: Split out MediaTek power-domains
->     variation
->   dt-bindings: gpu: mali-bifrost: Allow up to 5 power domains for MT8192
->   dt-bindings: gpu: mali-bifrost: Add compatible for MT8195 SoC
->   dt-bindings: gpu: mali-bifrost: Add new MT8183 compatible
->   dt-bindings: gpu: mali-bifrost: Add a compatible for MediaTek MT8186
->   drm/panfrost: Add new compatible for Mali on the MT8183 SoC
-> 
-> Chen-Yu Tsai (1):
->   dt-bindings: gpu: mali-bifrost: Add power-domain-names to base schema
-> 
->  .../bindings/gpu/arm,mali-bifrost.yaml        | 67 ++++++++++++++++++-
->  drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       | 28 ++++++++
->  drivers/gpu/drm/panfrost/panfrost_gpu.c       |  8 +++
->  4 files changed, 101 insertions(+), 4 deletions(-)
+On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> In preparation for adding new bindings for new MediaTek SoCs, split out
+> the power-domain-names and power-domainsvariation from the `else` in
 
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+                                          ^ missing space
 
-on MT8183, MT8186, MT8192, MT8195 with glmark2.
+Otherwise,
+
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+
+> the current mediatek,mt8183-mali conditional.
+>
+> The sram-supply part is left in place to be disallowed for anything
+> that is not compatible with "mediatek,mt8183-mali" as this regulator
+> is MediaTek-specific and it is, and will ever be, used only for this
+> specific string due to the addition of the mediatek-regulator-coupler
+> driver.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../devicetree/bindings/gpu/arm,mali-bifrost.yaml | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> index 02699d389be1..ac174c17e25f 100644
+> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> @@ -145,6 +145,18 @@ allOf:
+>          - power-domains
+>          - resets
+>          - reset-names
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - mediatek,mt8183-mali
+> +    then:
+> +      properties:
+> +        power-domains:
+> +          maxItems: 1
+> +        power-domain-names: false
+>    - if:
+>        properties:
+>          compatible:
+> @@ -166,9 +178,6 @@ allOf:
+>          - power-domain-names
+>      else:
+>        properties:
+> -        power-domains:
+> -          maxItems: 1
+> -        power-domain-names: false
+>          sram-supply: false
+>    - if:
+>        properties:
+> --
+> 2.39.2
+>
