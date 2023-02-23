@@ -1,154 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204016A02C8
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 07:27:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AFA6A032A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 08:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 315E310E028;
-	Thu, 23 Feb 2023 06:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1545010EADC;
+	Thu, 23 Feb 2023 07:06:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 790C010E01F;
- Thu, 23 Feb 2023 06:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677133646; x=1708669646;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=OB3ukNz+caK23LfP8HXerSdz6y1odBhTNlgh8/gFcMY=;
- b=LgG2bqkDOAqlbt+RqFDjp9Af33BvVZk1RXgd1yK8NYVsOZTeKfgaHDdX
- +bOVO+uHEs1krLeL3a9DslNChLMTWjAlb2zsw8SKXiV6bpzsGOw62vIl7
- ioQnVmyrLsq27LXpfXP/7PA5z36yK/nPzplKx8aoO/oWuyneRjl/ujyYC
- 1/08BOAevlerzpdZCYvpOKIKP6vjSKGh4tnJEt/H99odJcxwTyDm/VZ0i
- NiUjvqm3S35lA/Rkn7j7NkbIjjQFqgzxVaPiex2tJ+YhrIuz7jDiUNvFD
- gjtm9isuW/Xhoe0qkM7L0AKxOg4leU9aLkLw4FGWWgp7bcObz/I5TIthl w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="331799310"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; d="scan'208";a="331799310"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2023 22:27:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="736222907"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; d="scan'208";a="736222907"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga008.fm.intel.com with ESMTP; 22 Feb 2023 22:27:25 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 22 Feb 2023 22:27:25 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 22 Feb 2023 22:27:25 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 22 Feb 2023 22:27:24 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20624.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::624])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3838010E4B6;
+ Thu, 23 Feb 2023 07:06:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hHMxewYfxVsdBvebpQ8lFPSqdOv2tYqyZ5yDY15UG1Lo4DX8WGQ1lH566vXuUvmib5YscUP9/OIAnffzfVvFs1hQyFUHRP+1VS0OVFTiUyLyIoHdgImgUxErUJadQGuT3oX4wIGCSjJF3U8q9MRDR5+JsxQP0zSUqURp5JsGSrVN0effTg/yNq3NgdZq299jaUiZb4B1mULEBqN/l6HxvcioZzDDATnjXqIFCQKB8QKLYsUvt+y/OmY/gFiAtZVzPRCBiQdry04CfLD7qnHZQsmI4RNPwNH9cRrdGB5sNqmvfGBZn91f10g9dVcXaamSUyzpr9L9oOd2cDhxnaN9DA==
+ b=iaBVVkVmKbIs1YhkIo2Pit1GaQ+/43X5vo/wTD+Yh/PJMTQyekGNERnygshj5B+LOvsQslC2jRPxcXuCHskHcFxs5XjAnciHJiEjQjAVFhDXGxP6pWIallic13cQOIHiNv4usJtGnMCbvzReuJZlkzq6v1nxd+Tc2VIUAXQ6xTf8+kvXQVGxeU5p7DnmDOoLLYlUvTR1q3iafSHxcu254X6OWrXJ2kSF6r+qWmn7HF8nVUVzf/mN4G56kDwfUSaiftfKIH+i/jvucZRTXmXd6wfSoDV7H3ebdS769ssSAvJ7smngC26AutVyTM8b8Jhvv6S74j0E2hVyMkBwvaDn/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OB3ukNz+caK23LfP8HXerSdz6y1odBhTNlgh8/gFcMY=;
- b=lrvgiDWc1olwPLnmqO2c78dg0B7pAhIrFgQn2IN1fPvV9UsnjMrSw6Zpx9OP7ud8Au2ZSDWjgzA7Er7xJO0K+4ztlLmqdifex+9si4VQsZa1P/N0LfESKCbD36LSpndqXXJcM38Uc+MQsd4Lv2T+pEn9lU6ZfBoFxc1fGU1Rud74t2DQ454s0JMnLdGUoTwhAQSU2jzWq4vGOWCIHRbGsHcTtt9DChf8VTt/Q40uzD9OMhACKdvNe8yzHr+f5/4R1Op/i3k0WCff5NHNvqvI6SPAAMVTrdN3LQyt1Fl/YfimS5XYfxbYu9F0emzrpi/F16Sd65xR04j1O1QWS8/p5Q==
+ bh=12hp1L0CE5xXc/fbwY6OdlqjOQE8NxQBiHNdhdTm8RY=;
+ b=g6ZI7qY9z5OqldCzeqtiefoRpFas8REW28yx/q5JbF/1URMZRf/4373Ajgl0d04PRNkZM1qGiJXosE1aZDPCltm465E/2ueIRmFyTgdNDiJXgfx17n/0ejed3vBBQ0PqSykStb+iiNsr1d8SUAlh3cUQAQFc300RaHs9L5tRSZDDBKELNWjovXf36sfjzUcbB7z4HvM05eFfgmpdmOuTAvxR01PFYbrLVJu/OyaTVoXK/2MDxeAkXhlqwbytTpjT9dT1+s9ZmHvUR5MiRUNViy0k8wDEIgl3XNe26IaKhQO7L+jgXlsBYvhDeVAB5nG5B2RGzufPym/QIAuzHDFMWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB6019.namprd11.prod.outlook.com (2603:10b6:8:60::5) by
- CH3PR11MB7764.namprd11.prod.outlook.com (2603:10b6:610:145::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Thu, 23 Feb
- 2023 06:27:12 +0000
-Received: from DM4PR11MB6019.namprd11.prod.outlook.com
- ([fe80::6723:483:53a2:5569]) by DM4PR11MB6019.namprd11.prod.outlook.com
- ([fe80::6723:483:53a2:5569%6]) with mapi id 15.20.6134.019; Thu, 23 Feb 2023
- 06:27:11 +0000
-From: "Hogander, Jouni" <jouni.hogander@intel.com>
-To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "wse@tuxedocomputers.com"
- <wse@tuxedocomputers.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] Apply quirk to disable PSR 2 on Tongfang
- PHxTxX1 and PHxTQx1
-Thread-Topic: [Intel-gfx] [PATCH 2/2] Apply quirk to disable PSR 2 on Tongfang
- PHxTxX1 and PHxTQx1
-Thread-Index: AQHZRsiHNO78TpLnaUWNbEYaLGMxFK7bZqoAgACrfAA=
-Date: Thu, 23 Feb 2023 06:27:11 +0000
-Message-ID: <d254b88a99e0a979efb07d9298afdeb7016f0e0f.camel@intel.com>
-References: <20230222141755.1060162-1-wse@tuxedocomputers.com>
- <20230222141755.1060162-3-wse@tuxedocomputers.com>
- <Y/Z3ZJjYQIKb2LQ0@intel.com>
-In-Reply-To: <Y/Z3ZJjYQIKb2LQ0@intel.com>
-Accept-Language: en-US
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=12hp1L0CE5xXc/fbwY6OdlqjOQE8NxQBiHNdhdTm8RY=;
+ b=26w41dGRXRwS+oJrSryf0kurwbOPlFL8CvbebtJXiD7y1YWUuE0Cr9PG2S10vbT436yMbct5knDnnUzNrPdDpRxoiirs+yqiTO9vwb82EILKzBOX3IpR9hjENpA2/GpwkbhkNDLnhI4IcSBUwmH+actyWDuSn+rnJ83RS9J77ps=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by IA1PR12MB6113.namprd12.prod.outlook.com (2603:10b6:208:3eb::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.19; Thu, 23 Feb
+ 2023 07:06:21 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6134.021; Thu, 23 Feb 2023
+ 07:06:19 +0000
+Message-ID: <7780a9b9-d6bd-6f3f-9c31-aafacb09db1f@amd.com>
+Date: Thu, 23 Feb 2023 08:06:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
+ mappings
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB6019:EE_|CH3PR11MB7764:EE_
-x-ms-office365-filtering-correlation-id: db52d1d3-2f53-4141-2584-08db1566ff54
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Q1u2n2H61gFFXZJSOmNhnDHRput4nBNGbsW9GzXEoGdbX09DcArrrbl8R8r8+enthPmtloCWCaoHp64tl5ddNHzM7/Ov4fISnFB5oj3iwAjj4vW+MOdBI9E6hsZyP+u1x9FPWx64PAuc22ZjtFSx4WqRiLXc8dFUkA1Y2Xks8W2+sZ1833L4CdVmxyVjG0LsrNVFhNRNh6BAX+P2w+pjJDAI0mPBfsYgYv8TEYiGYNr98YQ0IWofzZkDQtY3Lx7Fw8ygbcDatZrMTgvV4RQqC8lgomnYt4tQoW6pV5m/NY7l2fDhZ15SmMZKnklKSMyf9E6xaxATVmlDSItrFlvXTar5Cj11J/kPGyaa/b/7B73uw+HGmwiqRWI8hJhH/T1b5TECBfUAeXQ8/vyjW1kOoqyFURTg2B4UgZVPO83bucsbhIqd6RjHOt1rSpZvH2Sff7W9dWiRH1Pkb1UzhUaCwsFL92oI3REODZIrkuuUQey7oUpjGlb5d1dl9xiOumJbeqEUCFrg+6QLDgRq66+0J/yz+ZwlDK0WKX0v0TVebOVTWmETYALc0hHlTFPHxNDNFwcFF4dpVYquPoK2C+8t3fRJvyXo1wP0GpWNSbi32PxLbFqGd4AquLHB07u9+iaImMi+MTpoTF1UwAmQR2zoIQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB6019.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(6029001)(346002)(366004)(376002)(396003)(39860400002)(136003)(451199018)(38100700002)(8676002)(66946007)(64756008)(66446008)(66556008)(66476007)(76116006)(91956017)(36756003)(122000001)(83380400001)(2616005)(186003)(6512007)(6506007)(26005)(86362001)(110136005)(82960400001)(316002)(478600001)(6486002)(4326008)(966005)(54906003)(71200400001)(38070700005)(5660300002)(2906002)(8936002)(7416002)(41300700001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WjZOUDVnTEN0S1RsQXpwM0FYczhFVmY4YU1ZaGlNZkc5Z0tTWDVDTlpsQWcx?=
- =?utf-8?B?YUxMS3poVGNGR05wMndFR1R4d1o5KzBoYXhhT0YvYUg4Q2Vqdm4zRFBPd1Y0?=
- =?utf-8?B?TEs3YndDUVhhSUlnUllkTjRPS1pEN0luLzFHTWluREdSV1k1UnhYNjVhSjRE?=
- =?utf-8?B?ODdINW9lWGd4aFU0eGJWTFkzcDlUUWFVdUc1RU9YK3poakVBMDZBWDVHYW9y?=
- =?utf-8?B?M0J5RkJlQWl0U1JuWVpPNjVMc09pb1NwVVJtU2ZydVpxM01FcnAyK1laNFdj?=
- =?utf-8?B?S1ZZNE9uWTJSU1M1aWZCdlZiZktBcmxHbDZUV2xKVFRQaENRbDlvbTNOcW1M?=
- =?utf-8?B?SytkRFVCSzhQMkQ2S1VUd1RrYTgvTjh5U1BZU3lRcGJZZzF1MERDdlF1bXNK?=
- =?utf-8?B?RWk5aUZkMkpBWHFsWDl3dmhsaEtLbjBJQ05HQTEwSW1Gd2RnYjczVWQ2QXpr?=
- =?utf-8?B?QUtadThEcG9DV3Y5bU04dmZYZmoxL2VOMExqWm1IYkd2dUYxcG9mdFFKZDA1?=
- =?utf-8?B?eVZFeEt2Z2diS3BHQXFyU0E2bDdsM2l0YU9XZ2JySnp1SnYyWXR5MmUzTTBF?=
- =?utf-8?B?N2ZnOUozaThQYmFZK1FwNTM1T1BtcFgvRDRYZ01qVWovMG1nSnlyRTcrQXE2?=
- =?utf-8?B?MFlPRW8reDQzUnJ3eEFrM1lFZSswZHdIR2FQYTF3Z0JzUUpyaGRpUWN3N1lH?=
- =?utf-8?B?U0plODg3eXluY043bXpJM0tMdGpFbUM5dmcvZ3lwWk9VQTNKUEZGSzdZemFp?=
- =?utf-8?B?ampKTWJRZmorZSt3R1czVVlxQ3hJYUM0Vjcva3NYYmNVZWRtaXdyQTVjR2g4?=
- =?utf-8?B?S0lqdGYxaEVlTFZHRkZZRlQ1eUcvOWtDcllNY1RrMG1GSzRIbkV5dDAreGRa?=
- =?utf-8?B?L0ZCdzFKWlhYaE0rRVBPNnlnb3lWNFNkMWxFeVVkanBId2tiOVRNUTUzbjVw?=
- =?utf-8?B?VVMrbkpUUHBnVWNHM05XTDJMNys2SEQxMHRNSkNIbjJaQ2crN2JuS2gvdGla?=
- =?utf-8?B?TWVLSTFJMTcreE9WUDhQNnlsaFo1UWZJNS9sVkp5T0xYeTdHMlZLWkZWdVNa?=
- =?utf-8?B?R2dKNDFOZ2xkdjE5RXJFN0t1NDF5eUliVjNuTDNyRTA0aDBoN0NVM3hsZHpZ?=
- =?utf-8?B?KzZHL3RNbXpXYnhoOVdGaitrVWlCTk54Z29TbCt5OXVOVERTK0h0clJ1RGZj?=
- =?utf-8?B?UW16RUVBeGpQYlZUL0h0eVdBc1B2SldDdUp0WGIxam55TkNOSC9nNjdpR1BL?=
- =?utf-8?B?c2lOdHdQWjZCYllTdEY5OFRCZjduV21YUjdxZjhIREpxeDQ2TEVUQ0dPUy9w?=
- =?utf-8?B?Y1ZRenViY2xVOERmWDNrQjBuU1cvVmMxS0Y2SjRqVE1pcFQrWm41cW5vQUlt?=
- =?utf-8?B?Tnk5UmZYUzV2eGMwNkhSV01COHk2T1p0VmovM3QyRlBJUktRdGtEdm9wWEJo?=
- =?utf-8?B?Q25vVXY0REk2bGVoUE1vNXpseU1pYnkvY2M4a2ljY0s4NGlkR200Q1U4bG5B?=
- =?utf-8?B?bHFQKzRFRnFBclRmdjluVmdyK01ZTEpUM0laUmo2cXNpRUMxdDNyRkpsNTdG?=
- =?utf-8?B?dFd2R2ZDanVFdURVa05TVnJseXFxVENWMll2Yis4TEVldzRyZk81TkR6dWNt?=
- =?utf-8?B?Wmd1MWhtTEExQVdjb1ZLaWxwWGZ6aXdSZHplNmpmVUlLRjlrZ3lsY2xvVHQy?=
- =?utf-8?B?T09POTFvOWRER3dEdlNwZWxUVERhSU9YcHZMbG9hOXJ5K016VUNiMHlQa0ti?=
- =?utf-8?B?Z0xGMWZSb0ZGSG5pTFZWTWNHTXB3ZXhpNy9qZVV4MXdwbE9jcWtWdmRwNm9P?=
- =?utf-8?B?VFhWQk9lempjcldTR1lrKytzZTFUelFOcGhmQWxwdzNrWk00L1F4eVJDYXZy?=
- =?utf-8?B?MHVsME03RXd0eXFHa1J0bDRWNVczUnQwZjFUeEF0K1c0K0k4MEh0Z2VuOVZW?=
- =?utf-8?B?WE5hWnc2cTFvNnpoU2swZ1M0QXBMd1NSUWZEUFprQnR0VWFLZTNoVW16SFlU?=
- =?utf-8?B?TkFnbHRoUEFUai9kRHdxRUxHU09kK0RIVHB5eG5xaFdWbnRiV1k0ZHh3NU1Q?=
- =?utf-8?B?Y2xVTjNxRDNablZQdlhJZ0tzalZmQWVOa1hYS1owUVZmVC9ldUJET2FwYlR5?=
- =?utf-8?B?TmhzMkZSK3VlemUyaVlXekhzSzRkOHdqQXBaTk10ZVhYdW9uZU1nR0pXaG5u?=
- =?utf-8?B?QVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4482072CBEAA814C9DD8589358117839@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+To: Danilo Krummrich <dakr@redhat.com>
+References: <20230217134422.14116-1-dakr@redhat.com>
+ <20230217134422.14116-6-dakr@redhat.com>
+ <70ba382f-1559-289a-4922-ca9c371aaf59@amd.com>
+ <cc8eeaf4-31e7-98e4-a712-012fc604e985@redhat.com>
+ <29ea3705-5634-c204-c1da-d356b6dfbafc@amd.com>
+ <83755119-083d-7d66-fca0-ca306c841d9c@redhat.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <83755119-083d-7d66-fca0-ca306c841d9c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0016.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::26) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA1PR12MB6113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6afd23c3-edc4-434e-7e13-08db156c76b6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hRzwlwtWXdobZWGkDUSjCk6sfYkX/LQBRC+lTwxTLbvvOTqf24cuZavVHGJbEJ2XCVx3OM0JSpH3aPw8IK1g5P37AZGW/Xblbz6ohxK+aC6VHEcs0nPPCW62VU6P2yNp9AmdbrpFmGsqm0rZwCD3PqbfG6rhsYKksEklPXb3H4DkmCUL+WmmsBZopvUySrDDwVfH0zR+pipZuP+yp62TT3cZs0iWw0N5i3V1SWdUm8FbAo3be7PF4B3H2UQPZAeM1XoTQCjgDKkjWhFTPjqL70QMya00FrvRGHOw8lat9UAUgnLBdsscuz/PrZJS03U6yHiNbmtdFfqqaqPsRzODIDBSjzj5Cm0LYudXzKK/nuiZOR9RsX+g/uHmO8BEjW682mqS7cnJCi3ytaUglrn3ECv4uPqEAkb531In232GLPeuLmXPFX4e+ZU5AXNMxN3k990/eNYuky6XbuPEmJEvSiEYncdKPlpR17xvePcgglSnuNSCS+rzZwoXlBalK2uX0mO51pT4mCkC8LFgj4R5FRRZrIuJtyZIFLvdv/88DzwRLro6Wow82Txthl+AKmlWY1eXgVvvzG0CJDrfiT/ERhHZzdssOfYMe4tw5LNBoJ5sx93Wqj35CuhqLFqadiEdjNe/gPR8YPql6XZByKI+X98baQPdYJZxryE687av0jxk1mMd8AT6Ou6Ng5Ivssv2yKNeIthmo8c7PlTjujp//ryqk+7gXYcUVWUNAX/UWLA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(451199018)(36756003)(83380400001)(66574015)(6506007)(6512007)(53546011)(6486002)(26005)(186003)(478600001)(4326008)(86362001)(2616005)(41300700001)(66556008)(31696002)(8676002)(66946007)(66476007)(6916009)(8936002)(2906002)(5660300002)(38100700002)(6666004)(7416002)(316002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aExpRFdXVUkrMlRIV2x5MzhBaU9Ob2kxU1orM2ZXN1RvUTU3a2ZqdHV2aFNF?=
+ =?utf-8?B?T1FXOWFWU2RwUVNoZ25wV0J5c0RwU0x5VCtJQUg3MU52M2dLNUFJNW5hRHha?=
+ =?utf-8?B?WTE0Q281aWdCTktjQnFpVmdhZ3NLVTBMY3JGMjltb01CMjBMV1ZsU0hEeC9V?=
+ =?utf-8?B?dnQvTVFLbFpHaXhNZ0dLTXMrZWlXVmxXNy82QnQwR01LWHY0NnpVNzZoWUJI?=
+ =?utf-8?B?dkNtZ0pWVUJ5UGZVcTRRSkR0TXhoQWdBRzdsU0ZiY0F5MG1iSWVhS2UyUlFP?=
+ =?utf-8?B?RGJrakpOYTJpU3ZLSDFvUStkcGk3WnVucjJXK0V0VTVWejN4ZjhtUDlCdDhQ?=
+ =?utf-8?B?MjlXZmxlMXJaSE5KYmVpT0t3azJ4MS95VlQzR3luaURhWjBNSElXaUkzVVdJ?=
+ =?utf-8?B?STd0emRiaEJINjF6VThmQjRWRXF6T0JSNlk2NGJkVTJ4ZlR6T0k0SFhnYkR1?=
+ =?utf-8?B?aXA1V0ExSHNmN29pNjg3L1FCTkthcTdxYkx1VVpxeC9MU09nY3dMd2srMjk5?=
+ =?utf-8?B?ai9lbU9XNjJBTjdwYVFIWFIzMFZYWktFNzJlcml4UUxpMnVRUTZ1VlQxaTEz?=
+ =?utf-8?B?ZFJGT1pyUGtOOGdENTduS3NjekVMOUx3bm53L2IxeDRhRUJocFVncjd4bURC?=
+ =?utf-8?B?SUE5Qmc2WTZkL29icDZra1BsRk90a0ZWNDBnWnBkMlNERkdRckdZNm5GalI0?=
+ =?utf-8?B?ek9zV2VyMUR1NjJWa0pOSlczbVd4bUlZT055Q3E1dXpySHA2S1o4SnpkYlRH?=
+ =?utf-8?B?dkltYnFURjQzYzhSamUvYlM4dVZBV2lJZSs3dWlnVkJ2UzhpZDIrdDFISXRD?=
+ =?utf-8?B?bU0zWHhKMUhkWW1IMkxWOThYb2FVYUk4eCtjSGZaZXByK3BIU00zNjltdThv?=
+ =?utf-8?B?Z0dQZC9jS3FsUUxQOFJKTE9ZclRzRGp4Y21xNXExY1U0aG80dW9jMHVsK0li?=
+ =?utf-8?B?NWxZTC9vcnYzSnRqSXYvaDZTTkdnOGlvNTRhVVY0N2dQWGd5WlkwanNKWnQ5?=
+ =?utf-8?B?YytWNUI3bnVhUUlTV01kMlV5Y0lKUm43Z1Z4L3RVOVRYblJBemV6b2lnY1J5?=
+ =?utf-8?B?WkswaDhwbDZGdkxDdzQ0aW12QWxwTkJ1T1ZZZGpwSDBDendDVEd6L3dvK2ND?=
+ =?utf-8?B?cDBLK2IzdEllWW5jeUxqd1lMWUdTVlNwYTU4enFTSkU5cVpUbnVBZzhaYlYr?=
+ =?utf-8?B?RFVUZGpsckh3THJPdkp5Vmc3WU9pUFpCZmlQSVJOdWhJNmd6cDhqV2pRdzIv?=
+ =?utf-8?B?cTAxMlZ3bEs0WFRoZU50R0Uwb0FlODZCZnZSeGJaRi9RNGlxMXNmSWE5N0cv?=
+ =?utf-8?B?bVVxbmpUd0loSDM3VTJHR3hMRmMrK2tlTlRTQzJBRzMySEp2QVBsakNjUTR6?=
+ =?utf-8?B?eXUwSXgvZWVTbHpTelFOT1VmZjRBTUp0OWt6RUpsd3lTT0dXNlplU3hDZGM1?=
+ =?utf-8?B?ampsTFRXK0p2UWpwamFDMnlNUVRrSXZzTzdySEtSOFE0ZWRYRkIrTkpEdkxJ?=
+ =?utf-8?B?TGpHV2VCaHl1b2lRY250eTdaSU5SblVhNUR2bHBEVXdneTJQWFN2emh3SUZP?=
+ =?utf-8?B?My9QbTNnT3JOTzZJZU9EbktlbHJ3K2daTkFFOWJtdDZZdFNQWWNmOWprb3Ev?=
+ =?utf-8?B?LzFIajhkZVRJTU83Smw5VzFkUGFXV1RDQ3h0aEJqRnBNa053cEtTZlVLd2FE?=
+ =?utf-8?B?K2xSUk1ZQjVrZlJXWVg2UmdqdVRyNUR2UUsyc1E5anpnNE1LWmpydk1pU2h6?=
+ =?utf-8?B?T2xLN3VvcGszL1RKWlZ0bWZEcmY5SDZXTm5YN3cyM0FtdTd1N2d3cjNxL1hl?=
+ =?utf-8?B?c3ZIMXlYV0UxTlRjcjB4SGJ3Ym1qNVV2b0dyTk9ValJFSUo0NGNpWnp6cTda?=
+ =?utf-8?B?Q2QvbXVHRERxVmxKUDJtRG00eGZod1djUlpZUFdvdDBKRi9VZWQ3YU5adCtP?=
+ =?utf-8?B?OFYxdDB2Yjl3K3plU0RHOE1Md1JqRHZBUmk0TnM4b2xkM0locFZ1Kzd4dksz?=
+ =?utf-8?B?ZHA5T3FtSEVTSHpTb0hTQjZtV0RFeTlENWRMN3h6SnIydHRKOEw5MHgrOVUv?=
+ =?utf-8?B?OXEybS9GRDlsM2szbVhZNXNMakJYRytJbHM1NUpPVU1UNUVpMmhXVExKUkM2?=
+ =?utf-8?Q?HSIYvlWNbja73LoT7X3bXZlya?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6afd23c3-edc4-434e-7e13-08db156c76b6
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6019.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db52d1d3-2f53-4141-2584-08db1566ff54
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2023 06:27:11.7296 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BVdEy0uOEg54Jrxh6nfzlcxzIFrJ/Uh9md3PdwxPhkcS66fyMdfsmP9CUtBWv5A3vVa/C3+71PlNImto+sf77XGGOCFs3AUj5znoz5ys1gw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7764
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 07:06:19.6942 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F6px0+NpN9VG5b6rvdqS2zHy1+TU3vzyCPcH0f8t7OuZ7PP4ktrpeb9XbyVOU/+j
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,64 +131,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Souza,
- Jose" <jose.souza@intel.com>, "Santa Cruz,
- Diego" <Diego.SantaCruz@spinetix.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Kahola,
- Mika" <mika.kahola@intel.com>
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
+ tzimmermann@suse.de, Liam.Howlett@oracle.com, Dave Airlie <airlied@redhat.com>,
+ bagasdotme@gmail.com, jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIzLTAyLTIyIGF0IDE1OjEzIC0wNTAwLCBSb2RyaWdvIFZpdmkgd3JvdGU6DQo+
-IE9uIFdlZCwgRmViIDIyLCAyMDIzIGF0IDAzOjE3OjU1UE0gKzAxMDAsIFdlcm5lciBTZW1iYWNo
-IHdyb3RlOg0KPiA+IE9uIHRoZXNlIEJhcmVib25lcyBQU1IgMiBpcyByZWNvZ25pemVkIGFzIHN1
-cHBvcnRlZCBidXQgaXMgdmVyeQ0KPiA+IGJ1Z2d5Og0KPiA+IC0gVXBwZXIgdGhpcmQgb2Ygc2Ny
-ZWVuIGRvZXMgc29tZXRpbWVzIG5vdCB1cGRhdGVkLCByZXN1bHRpbmcgaW4NCj4gPiBkaXNhcHBl
-YXJpbmcgY3Vyc29ycyBvciBnaG9zdHMgb2YgYWxyZWFkeSBjbG9zZWQgV2luZG93cyBzYXlpbmcN
-Cj4gPiBiZWhpbmQuDQo+ID4gLSBBcHByb3hpbWF0ZWx5IDQwIHB4IGZyb20gdGhlIGJvdHRvbSBl
-ZGdlIGEgMyBwaXhlbCB3aWRlIHN0cmlwIG9mDQo+ID4gcmFuZG9tbHkNCj4gPiBjb2xvcmVkIHBp
-eGVscyBpcyBmbGlja2VyaW5nLg0KPiA+IA0KPiA+IFBTUiAxIGlzIHdvcmtpbmcgZmluZSBob3dl
-dmVyLg0KPiANCj4gSSB3b25kZXIgaWYgdGhpcyBpcyByZWFsbHkgYWJvdXQgdGhlIHBhbmVsJ3Mg
-UFNSMiBvciBhYm91dCB0aGUNCj4gdXNlcnNwYWNlDQo+IHRoZXJlIG5vdCBtYXJraW5nIHRoZSBk
-aXJ0eWZiPyBJIGtub3cgSSBrbm93Li4uIGl0IGlzIG5vdCB1c2Vyc3BhY2UNCj4gZmF1bHQuLi4N
-Cj4gDQo+IEJ1dCBJIHdvbmRlciBpZiB0aGUgY2FzZSB5b3UgZ290IGhlcmUgaGlnaGxpZ2h0cyB0
-aGUgZmFjdCB0aGF0IHdlDQo+IGhhdmUNCj4gYSBzdWJzdGFudGlhbCBidWcgaW4gdGhlIGk5MTUg
-aXRzZWxmIGluIHJlZ2FyZHMgdG8gUFNSMiBBUEkuDQo+IA0KPiBKb3NlLCBKb3VuaSwgaWRlYXMg
-b24gaG93IHRvIGNoZWNrIHdoYXQgY291bGQgYmUgaGFwcGVuaW5nIGhlcmU/DQoNClRoZXJlIGlz
-IGFscmVhZHkgZml4IGZvciB0aGlzIChUaGFua3MgdG8gV2VybmVyIFNlbWJhY2ggZm9yIHRlc3Rp
-bmcgdGhlDQpwYXRjaCk6DQoNCmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJp
-ZXMvMTE0MjE3Lw0KDQo+IA0KPiBvaCwgYnR3LCBXZXJuZXIsIGRvIHdlIGhhdmUgYW7CoCBvcGVu
-IGdpbGFiIGlzc3VlIGZvciB0aGlzPw0KDQpodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcv
-ZHJtL2ludGVsLy0vaXNzdWVzLzczNDcNCg0KPiANCj4gVGhhbmtzLA0KPiBSb2RyaWdvLg0KPiAN
-Cj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBXZXJuZXIgU2VtYmFjaCA8d3NlQHR1eGVkb2NvbXB1
-dGVycy5jb20+DQo+ID4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPg0KPiA+IC0tLQ0KPiA+
-IMKgZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9xdWlya3MuYyB8IDggKysrKysr
-KysNCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9xdWlya3MuYw0KPiA+
-IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9xdWlya3MuYw0KPiA+IGluZGV4
-IGNlNmQwZmU2NDQ4ZjUuLmVlYjMyZDMxODlmNWMgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9xdWlya3MuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfcXVpcmtzLmMNCj4gPiBAQCAtNjUsNiArNjUsMTAgQEAg
-c3RhdGljIHZvaWQNCj4gPiBxdWlya19ub19wcHNfYmFja2xpZ2h0X3Bvd2VyX2hvb2soc3RydWN0
-IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUpDQo+ID4gwqDCoMKgwqDCoMKgwqDCoGRybV9pbmZvKCZp
-OTE1LT5kcm0sICJBcHBseWluZyBubyBwcHMgYmFja2xpZ2h0IHBvd2VyDQo+ID4gcXVpcmtcbiIp
-Ow0KPiA+IMKgfQ0KPiA+IMKgDQo+ID4gKy8qDQo+ID4gKyAqIFRvbmdmYW5nIFBIeFR4WDEgYW5k
-IFBIeFRReDEgZGV2aWNlcyBoYXZlIHN1cHBvcnQgZm9yIFBTUiAyIGJ1dA0KPiA+IGl0IGlzIGJy
-b2tlbg0KPiA+ICsgKiBvbiBMaW51eC4gUFNSIDEgaG93ZXZlciB3b3JrcyBqdXN0IGZpbmUuDQo+
-ID4gKyAqLw0KPiA+IMKgc3RhdGljIHZvaWQgcXVpcmtfbm9fcHNyMihzdHJ1Y3QgZHJtX2k5MTVf
-cHJpdmF0ZSAqaTkxNSkNCj4gPiDCoHsNCj4gPiDCoMKgwqDCoMKgwqDCoMKgaW50ZWxfc2V0X3F1
-aXJrKGk5MTUsIFFVSVJLX05PX1BTUjIpOw0KPiA+IEBAIC0yMDUsNiArMjA5LDEwIEBAIHN0YXRp
-YyBzdHJ1Y3QgaW50ZWxfcXVpcmsgaW50ZWxfcXVpcmtzW10gPSB7DQo+ID4gwqDCoMKgwqDCoMKg
-wqDCoC8qIEVDUyBMaXZhIFEyICovDQo+ID4gwqDCoMKgwqDCoMKgwqDCoHsgMHgzMTg1LCAweDEw
-MTksIDB4YTk0ZCwgcXVpcmtfaW5jcmVhc2VfZGRpX2Rpc2FibGVkX3RpbWUNCj4gPiB9LA0KPiA+
-IMKgwqDCoMKgwqDCoMKgwqB7IDB4MzE4NCwgMHgxMDE5LCAweGE5NGQsIHF1aXJrX2luY3JlYXNl
-X2RkaV9kaXNhYmxlZF90aW1lDQo+ID4gfSwNCj4gPiArDQo+ID4gK8KgwqDCoMKgwqDCoMKgLyog
-VG9uZ2ZhbmcgUEh4VHhYMSBhbmQgUEh4VFF4MS9UVVhFRE8gSW5maW5pdHlCb29rIDE0IEdlbjYN
-Cj4gPiAqLw0KPiA+ICvCoMKgwqDCoMKgwqDCoHsgMHg5YTQ5LCAweDFkMDUsIDB4MTEwNSwgcXVp
-cmtfbm9fcHNyMiB9LA0KPiA+ICvCoMKgwqDCoMKgwqDCoHsgMHg5YTQ5LCAweDFkMDUsIDB4MTE0
-YywgcXVpcmtfbm9fcHNyMiB9LA0KPiA+IMKgfTsNCj4gPiDCoA0KPiA+IMKgdm9pZCBpbnRlbF9p
-bml0X3F1aXJrcyhzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSkNCj4gPiAtLSANCj4gPiAy
-LjM0LjENCj4gPiANCg0K
+Am 22.02.23 um 17:40 schrieb Danilo Krummrich:
+> On 2/22/23 16:14, Christian König wrote:
+>> Am 22.02.23 um 16:07 schrieb Danilo Krummrich:
+>>> On 2/22/23 11:25, Christian König wrote:
+>>>> Am 17.02.23 um 14:44 schrieb Danilo Krummrich:
+>>>
+>>> <snip>
+>>>
+>>>>> +/**
+>>>>> + * DOC: Overview
+>>>>> + *
+>>>>> + * The DRM GPU VA Manager, represented by struct 
+>>>>> drm_gpuva_manager keeps track
+>>>>> + * of a GPU's virtual address (VA) space and manages the 
+>>>>> corresponding virtual
+>>>>> + * mappings represented by &drm_gpuva objects. It also keeps 
+>>>>> track of the
+>>>>> + * mapping's backing &drm_gem_object buffers.
+>>>>> + *
+>>>>> + * &drm_gem_object buffers maintain a list (and a corresponding 
+>>>>> list lock) of
+>>>>> + * &drm_gpuva objects representing all existent GPU VA mappings 
+>>>>> using this
+>>>>> + * &drm_gem_object as backing buffer.
+>>>>> + *
+>>>>> + * If the &DRM_GPUVA_MANAGER_REGIONS feature is enabled, a GPU VA 
+>>>>> mapping can
+>>>>> + * only be created within a previously allocated 
+>>>>> &drm_gpuva_region, which
+>>>>> + * represents a reserved portion of the GPU VA space. GPU VA 
+>>>>> mappings are not
+>>>>> + * allowed to span over a &drm_gpuva_region's boundary.
+>>>>> + *
+>>>>> + * GPU VA regions can also be flagged as sparse, which allows 
+>>>>> drivers to create
+>>>>> + * sparse mappings for a whole GPU VA region in order to support 
+>>>>> Vulkan
+>>>>> + * 'Sparse Resources'.
+>>>>
+>>>> Well since we have now found that there is absolutely no technical 
+>>>> reason for having those regions could we please drop them?
+>>>
+>>> I disagree this was the outcome of our previous discussion.
+>>>
+>>> In nouveau I still need them to track the separate sparse page 
+>>> tables and, as you confirmed previously, Nvidia cards are not the 
+>>> only cards supporting this feature.
+>>>
+>>> The second reason is that with regions we can avoid merging between 
+>>> buffers, which saves some effort. However, I agree that this 
+>>> argument by itself probably doesn't hold too much, since you've 
+>>> pointed out in a previous mail that:
+>>>
+>>> <cite>
+>>> 1) If we merge and decide to only do that inside certain boundaries 
+>>> then those boundaries needs to be provided and checked against. This 
+>>> burns quite some CPU cycles
+>>>
+>>> 2) If we just merge what we can we might have extra page table 
+>>> updates which cost time and could result in undesired side effects.
+>>>
+>>> 3) If we don't merge at all we have additional housekeeping for the 
+>>> mappings and maybe hw restrictions.
+>>> </cite>
+>>>
+>>> However, if a driver uses regions to track its separate sparse page 
+>>> tables anyway it gets 1) for free, which is a nice synergy.
+>>>
+>>> I totally agree that regions aren't for everyone though. Hence, I 
+>>> made them an optional feature and by default regions are disabled. 
+>>> In order to use them drm_gpuva_manager_init() must be called with 
+>>> the DRM_GPUVA_MANAGER_REGIONS feature flag.
+>>>
+>>> I really would not want to open code regions or have two GPUVA 
+>>> manager instances in nouveau to track sparse page tables. That would 
+>>> be really messy, hence I hope we can agree on this to be an optional 
+>>> feature.
+>>
+>> I absolutely don't think that this is a good idea then. This separate 
+>> handling of sparse page tables is completely Nouveau specific.
+>
+> Actually, I rely on what you said in a previous mail when I say it's, 
+> potentially, not specific to nouveau.
+>
+> <cite>
+> This sounds similar to what AMD hw used to have up until gfx8 (I 
+> think), basically sparse resources where defined through a separate 
+> mechanism to the address resolution of the page tables. I won't rule 
+> out that other hardware has similar approaches.
+> </cite>
+
+Ok, sounds like I didn't made my point here clear: AMD does have that 
+same mechanism for older hw you try to implement here for Nouveau, but 
+we have *abandoned* it because it is to much trouble and especially 
+overhead to support! In other words we have said "Ok we would need two 
+separate components to cleanly handle that, one for newer hw and one for 
+older hw.".
+
+What you now try to do is to write one component which works for both. 
+We have already exercised this idea and came to the conclusion that it's 
+not a good path to go down. So you're basically just repeating our mistake.
+
+I mean if it's just for Nouveau then I would say feel free to do 
+whatever you want, but since this component is supposed to be used by 
+more drivers then I strongly think we need to tackle this from a 
+different side.
+
+>> Even when it's optional feature mixing this into the common handling 
+>> is exactly what I pointed out as not properly separating between 
+>> hardware specific and hardware agnostic functionality.
+>
+> Optionally having regions is *not* a hardware specific concept, 
+> drivers might use it for a hardware specific purpose though. Which 
+> potentially is is the case for almost every DRM helper.
+>
+> Drivers can use regions only for the sake of not merging between 
+> buffer boundaries as well. Some drivers might prefer this over "never 
+> merge" or "always merge", depending on the cost of re-organizing page 
+> tables for unnecessary splits/merges, without having the need of 
+> tracking separate sparse page tables.
+>
+> Its just that I think *if* a driver needs to track separate sparse 
+> page tables anyways its a nice synergy since then there is no extra 
+> cost for getting this optimization.
+
+Well exactly that's the point: I really don't believe that this comes 
+without extra costs.
+
+What we could maybe do is to have an two separate functions, one for 
+updating the data structures and one for merging. When you now call the 
+merging function with a limit you don't get mappings merged over that 
+limit and if you don't call the merging function at all you don't get 
+merges.
+
+But we should have definitely not have the tracking of the ranges inside 
+the common component. This is something separated.
+
+>> This is exactly the problem we ran into with TTM as well and I've 
+>> spend a massive amount of time to clean that up again. >
+>
+> Admittedly, I don't know what problems you are referring to. However, 
+> I don't see which kind of trouble it could cause by allowing drivers 
+> to track regions optionally.
+
+Take a look at my 2020 presentation about TTM on FOSDEM.
+
+Regards,
+Christian.
+
+>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>>>
+>>>> I don't really see a need for them any more.
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>
+>>
+>
+
