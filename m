@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18406A050F
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 10:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 025466A0543
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 10:52:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FFCE10EAEF;
-	Thu, 23 Feb 2023 09:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B0A10E037;
+	Thu, 23 Feb 2023 09:52:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F6C910E4A3;
- Thu, 23 Feb 2023 09:38:27 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id m7so12987952lfj.8;
- Thu, 23 Feb 2023 01:38:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=sPJZBdfYeiYu/pEVqIhxArG88zkDX05D9LrUBcw0tmY=;
- b=oiUx4lyn6HwlWfwtbIkuzYOQpQHwCBEOkvxI6mbne9YnTqZrzK6lOzscy820qCilLr
- Es4GlevUX3jCf60Xs63cZ+w0L0UcDNjcPUQQrtD8VZWcxJlhiUSP0geMFMsDqWbiv4vr
- xJ65sjNhM0B+Sz6bV/f1U4acs9ZJEDlrbCWjSsb3vkdV/QDDIhnEfvLnUdJkbBrcdZQo
- pv+2LjxBEBimaeyI2Q6b5eCYdXEvson0sbFuRcA7bChk/ZMce+toClOTIEv/uQ15jDQ5
- r9KAp+KCWtjpUXhyXlz6vA6XM1IpBfCwwWO2wI7kfItQCaA0m5RKDZsfGxieRH6DHv1h
- qauQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sPJZBdfYeiYu/pEVqIhxArG88zkDX05D9LrUBcw0tmY=;
- b=daUk7YVihbZJsieuNXLcOYR7V9ocGtZ5Mm0p+m1T2A3KP0bZX0vtYqn9TqpYl9lOXL
- sk/37EqDh0y7zl9MSVxkahwaOnzWXAOHV5SZs5OOlOLRwpZfzRQnLFLhjJbxDjaotIzW
- k9OE7B/r1wgWwi/OwGWKdQxOB0YnNRLMVOamb1sYHGnHRdHA5REJEufS6oXoZM79UGqV
- Ep+ZYdo2WnHcOm8XoEoYeP+tevX7sGWnE3U3HkpsKqUUwcRu0seURAzE9EAkZ4Az5h8u
- DqvI4aR1/xylKrECAsI3FYNH87glNKT6Fzsb4cpWtw5vXibQ6l9HLcjMSPx88bYWU2fO
- fH8A==
-X-Gm-Message-State: AO0yUKWOC1kidtwzmQnUd/I3vx2aynyb/SGccuA4EXBit+m7rc7CwodZ
- Wq8512pGXlciwdGZ1KEyFTE=
-X-Google-Smtp-Source: AK7set8Mpr0bKr4ysKLBDdby2vHXHBvOVJd3KSxqCOe2AAvE9AeUhmo4KeI0p+mIVlOGRAJQw8Uz4Q==
-X-Received: by 2002:ac2:491d:0:b0:4c0:2ddc:4559 with SMTP id
- n29-20020ac2491d000000b004c02ddc4559mr4065277lfi.69.1677145104953; 
- Thu, 23 Feb 2023 01:38:24 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- s10-20020a19ad4a000000b004cc5e97d356sm690498lfd.148.2023.02.23.01.38.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 01:38:24 -0800 (PST)
-Date: Thu, 23 Feb 2023 11:38:14 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-Message-ID: <20230223113814.3010cedc@eldfell>
-In-Reply-To: <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
- <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
- <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell>
- <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0BE5F10E037
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 09:52:07 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.133])
+ by gateway (Coremail) with SMTP id _____8AxII9EN_djmhQEAA--.2569S3;
+ Thu, 23 Feb 2023 17:52:04 +0800 (CST)
+Received: from [10.20.42.133] (unknown [10.20.42.133])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxb+Q_N_djApA5AA--.3797S3; 
+ Thu, 23 Feb 2023 17:52:01 +0800 (CST)
+Message-ID: <84796070-7740-eb69-65c0-9a3d8e464a0f@loongson.cn>
+Date: Thu, 23 Feb 2023 17:51:59 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/U5GhkigZ0.xToxt1kXriC3K";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 2/2] dt-bindings: display: Add Loongson display controller
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+References: <20230222165514.684729-1-suijingfeng@loongson.cn>
+ <20230222165514.684729-2-suijingfeng@loongson.cn>
+ <76bc79c9-a892-c43e-1f49-d07b54f52c90@kernel.org>
+Content-Language: en-US
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <76bc79c9-a892-c43e-1f49-d07b54f52c90@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bxb+Q_N_djApA5AA--.3797S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW3WF1UJw43KrW8Cr4xZw43ZFb_yoW7Cr1rpa
+ nrCFsrJF4DtF17A39Yqa48Gr45Zr95AFnrGFsxJw17K3srua4SvayfKF1DXF47JF97Zay0
+ vFW0gaySgFn7A3DanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bfkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2kK
+ e7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
+ 0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280
+ aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
+ xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xF
+ xVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWw
+ C2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_
+ JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJV
+ WUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
+ CTnIWIevJa73UjIFyTuYvjxU4s2-UUUUU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,164 +68,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/U5GhkigZ0.xToxt1kXriC3K
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, 22 Feb 2023 07:37:26 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+On 2023/2/23 02:30, Krzysztof Kozlowski wrote:
+> On 22/02/2023 17:55, suijingfeng wrote:
+>> This patch add a trival DT usages for loongson display controller found
+>> in LS2k1000 SoC.
+> Trivial yet so many things to improve... if you only started from recent
+> kernel tree (since you Cced wrong address, I doubt you did) and bindings
+> you would avoid half of these comments.
 
-> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
-> >
-> > On Tue, 21 Feb 2023 09:53:56 -0800
-> > Rob Clark <robdclark@gmail.com> wrote:
-> > =20
-> > > On Tue, Feb 21, 2023 at 8:48 AM Luben Tuikov <luben.tuikov@amd.com> w=
-rote: =20
-> > > >
-> > > > On 2023-02-20 11:14, Rob Clark wrote: =20
-> > > > > On Mon, Feb 20, 2023 at 12:53 AM Pekka Paalanen <ppaalanen@gmail.=
-com> wrote: =20
-> > > > >>
-> > > > >> On Sat, 18 Feb 2023 13:15:49 -0800
-> > > > >> Rob Clark <robdclark@gmail.com> wrote:
-> > > > >> =20
-> > > > >>> From: Rob Clark <robdclark@chromium.org>
-> > > > >>>
-> > > > >>> Allow userspace to use the EPOLLPRI/POLLPRI flag to indicate an=
- urgent
-> > > > >>> wait (as opposed to a "housekeeping" wait to know when to clean=
-up after
-> > > > >>> some work has completed).  Usermode components of GPU driver st=
-acks
-> > > > >>> often poll() on fence fd's to know when it is safe to do things=
- like
-> > > > >>> free or reuse a buffer, but they can also poll() on a fence fd =
-when
-> > > > >>> waiting to read back results from the GPU.  The EPOLLPRI/POLLPR=
-I flag
-> > > > >>> lets the kernel differentiate these two cases.
-> > > > >>>
-> > > > >>> Signed-off-by: Rob Clark <robdclark@chromium.org> =20
-> > > > >>
-> > > > >> Hi,
-> > > > >>
-> > > > >> where would the UAPI documentation of this go?
-> > > > >> It seems to be missing. =20
-> > > > >
-> > > > > Good question, I am not sure.  The poll() man page has a descript=
-ion,
-> > > > > but my usage doesn't fit that _exactly_ (but OTOH the description=
- is a
-> > > > > bit vague).
-> > > > > =20
-> > > > >> If a Wayland compositor is polling application fences to know wh=
-ich
-> > > > >> client buffer to use in its rendering, should the compositor pol=
-l with
-> > > > >> PRI or not? If a compositor polls with PRI, then all fences from=
- all
-> > > > >> applications would always be PRI. Would that be harmful somehow =
-or
-> > > > >> would it be beneficial? =20
-> > > > >
-> > > > > I think a compositor would rather use the deadline ioctl and then=
- poll
-> > > > > without PRI.  Otherwise you are giving an urgency signal to the f=
-ence
-> > > > > signaller which might not necessarily be needed.
-> > > > >
-> > > > > The places where I expect PRI to be useful is more in mesa (things
-> > > > > like glFinish(), readpix, and other similar sorts of blocking API=
-s) =20
-> > > > Hi,
-> > > >
-> > > > Hmm, but then user-space could do the opposite, namely, submit work=
- as usual--never
-> > > > using the SET_DEADLINE ioctl, and then at the end, poll using (E)PO=
-LLPRI. That seems
-> > > > like a possible usage pattern, unintended--maybe, but possible. Do =
-we want to discourage
-> > > > this? Wouldn't SET_DEADLINE be enough? I mean, one can call SET_DEA=
-DLINE with the current
-> > > > time, and then wouldn't that be equivalent to (E)POLLPRI? =20
-> > >
-> > > Yeah, (E)POLLPRI isn't strictly needed if we have SET_DEADLINE.  It is
-> > > slightly more convenient if you want an immediate deadline (single
-> > > syscall instead of two), but not strictly needed.  OTOH it piggy-backs
-> > > on existing UABI. =20
-> >
-> > In that case, I would be conservative, and not add the POLLPRI
-> > semantics. An UAPI addition that is not strictly needed and somewhat
-> > unclear if it violates any design principles is best not done, until it
-> > is proven to be beneficial.
-> >
-> > Besides, a Wayland compositor does not necessary need to add the fd
-> > to its main event loop for poll. It could just SET_DEADLINE, and then
-> > when it renders simply check if the fence passed or not already. Not
-> > polling means the compositor does not need to wake up at the moment the
-> > fence signals to just record a flag. =20
->=20
-> poll(POLLPRI) isn't intended for wayland.. but is a thing I want in
-> mesa for fence waits.  I _could_ use SET_DEADLINE but it is two
-> syscalls and correspondingly more code ;-)
+Yes, you are right.
 
-But is it actually beneficial? "More code" seems quite irrelevant.
+I will double check the Cced next time, I'm start from drm-tip.
 
-Would there be a hundred or more of those per frame? Or would it be
-always limited to one or two? Or totally depend on what the application
-is doing? Is it a significant impact?
+but Cced using a record before.
 
-> > On another matter, if the application uses SET_DEADLINE with one
-> > timestamp, and the compositor uses SET_DEADLINE on the same thing with
-> > another timestamp, what should happen? =20
->=20
-> The expectation is that many deadline hints can be set on a fence.
-> The fence signaller should track the soonest deadline.
+>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   .../loongson/loongson,display-controller.yaml | 58 +++++++++++++++++++
+>>   1 file changed, 58 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>> new file mode 100644
+>> index 000000000000..98b78f449a80
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+> Filename based on compatible, so "loongson,ls2k1000-dc.yaml"
 
-You need to document that as UAPI, since it is observable to userspace.
-It would be bad if drivers or subsystems would differ in behaviour.
+what if we have more than one SoC,
+
+we have  loongson,ls2k1000-dc, loongson,ls2k2000-dc and loongson,ls2k0500-dc
+
+we will have loongson,ls2k3000-dc in the future, then how should i write 
+this?
+
+I want a single file yaml file include them all.
+
+I'm asking because we don't know which method is good, write three piece 
+of yaml or just one.
+
+Just tell me how to write this, i will follow you instruction.
+
+>> @@ -0,0 +1,58 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
+>>
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Loongson Display Controller Device Tree Bindings
+> Drop "Device Tree Bindings"
+OK,
+>> +
+>> +maintainers:
+>> +  - Sui Jingfeng <suijingfeng@loongson.cn>
+>> +
+>> +description: |+
+> Drop |+
+>
+>> +
+> No need for blank line. Do you see it anywhere else in the bindings?
+OK, acceptable.
+>> +  The display controller is a PCI device, it has two display pipe.
+>> +  For the DC in LS2K1000 each way has a DVO output interface which
+>> +  provide RGB888 signals, vertical & horizontal synchronisations
+>> +  and the pixel clock. Each CRTC is able to support 1920x1080@60Hz,
+>> +  the maximum resolution is 2048x2048 according to the hardware spec.
+>> +
+>> +properties:
+>> +  $nodename:
+>> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
+> Drop nodename.
+
+Are you sure about this?  When i  write this property, I'm reference the 
+ingenic,lcd.yaml .
+
+ingenic,lcd.yaml has nodename too.
+
+If I delete $nodename, then the test results say 
+'^display-controller@[0-9a-f],[0-9a-f]$'  is not of type 'object'.
+
+log is pasted at below.
 
 
-Thanks,
-pq
+make -j$(nproc) ARCH=loongarch 
+CROSS_COMPILE=loongarch64-unknown-linux-gnu- dt_binding_check 
+DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml 
+dtbs_check 
+DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+   LINT    Documentation/devicetree/bindings
+   DTEX 
+Documentation/devicetree/bindings/display/loongson/loongson,display-controller.example.dts
+   CHKDT   Documentation/devicetree/bindings/processed-schema.json
+/home/suijingfeng/UpStream/drm-tip/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml: 
+properties:pattern: '^display-controller@[0-9a-f],[0-9a-f]$' is not of 
+type 'object', 'boolean'
+     from schema $id: http://json-schema.org/draft-07/schema#
+/home/suijingfeng/UpStream/drm-tip/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml: 
+properties: 'pattern' should not be valid under {'$ref': 
+'#/definitions/json-schema-prop-names'}
+     hint: A json-schema keyword was found instead of a DT property name.
+     from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+/home/suijingfeng/UpStream/drm-tip/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml: 
+ignoring, error in schema: properties: pattern
+   DTC_CHK 
+Documentation/devicetree/bindings/display/loongson/loongson,display-controller.example.dtb
 
---Sig_/U5GhkigZ0.xToxt1kXriC3K
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>
+>> +
+>> +  compatible:
+>> +    oneOf:
+> Drop oneOf
+>
+>> +      - items:
+> and items...
+>
+>> +          - enum:
+>> +              - loongson,ls2k1000-dc
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>> +    bus {
+>> +
+> Drop blank line.
+>
+>> +        #address-cells = <3>;
+>> +        #size-cells = <2>;
+>> +        #interrupt-cells = <2>;
+> Why do you need interrupt-cells?
+>
+>> +
+>> +        display-controller@6,0 {
+>> +            compatible = "loongson,ls2k1000-dc";
+>> +            reg = <0x3000 0x0 0x0 0x0 0x0>;> +            interrupts = <28 IRQ_TYPE_LEVEL_LOW>;
+>> +        };
+>> +    };
+>> +
+>> +...
+> Best regards,
+> Krzysztof
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP3NAYACgkQI1/ltBGq
-qqff8A/9G6+OivbsMcWdii/lgqMRuLh9kjfM9HGWCDafIaGcPYGYWlmAngPH21zf
-jGCaxCwxAFwcRiCN90Tcbze65Z/UrrXTBTA5PuFWEeUJtI1i8lX4cdlNvMg+8wrF
-xrNUKKjA3cFC/pFqpncOLnsoWPakhP6N4A3RSGiO0DoUl5q6eWcLNKAxDWyYjQYL
-ACdWZ5KPwufoAXdzjitk6/BSKydF3q5vD9OPO/ENR+HwG1kqgegrXL0SSZbvbgOB
-6G7XJqUkkGZC0IVRyaA2D/oITXtUJbe4D6f8OGRACwZpuDrjd4Lya+mw3KltvbmD
-i5VxTv2NTftKqk3+bZ5kVZ1burNqaQSJdr6ykFN14lqRSw0dnkhAWv9o9auvSoBP
-6PvNjve80mPTJAT/NfWCQjvTXqgJ89XPap9ph+UREjFhty+blpOWAGqYQ2QD03FQ
-/cgYAlNrtR6XMMn1MIBkbmAFNXFrqY6ZGfad3M0FsaJk0fgFq+R7h5Dan4Wzq13G
-0Ys57ORmqbg4iMiKyoX+rTiY7/UUnHi295RjYGIqu+k1mlfhJv2rnVXGctHfyVkF
-OQSwYI5tMdp4/1alPQzYPPnWEnUw1J64/iqlN1MH/rOYTriRLAEHxEW3umzbFVcS
-vtXXGVrA2vQXt2JufGLSfen95D0GzDRO+YOn12g1jvY27xCA4g8=
-=aFdB
------END PGP SIGNATURE-----
-
---Sig_/U5GhkigZ0.xToxt1kXriC3K--
