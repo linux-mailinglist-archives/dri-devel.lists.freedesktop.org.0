@@ -1,72 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E986A0064
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 02:02:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0F66A00AE
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 02:35:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5569D10E078;
-	Thu, 23 Feb 2023 01:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C72A10E1F3;
+	Thu, 23 Feb 2023 01:35:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 955E210E078
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 01:02:39 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id i9so12198899lfc.6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 17:02:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aUt5vaFiY/J1KCTPCZXw/K5A7JAcWXv/cCQm11f+4ro=;
- b=Ch0VGZ+U75F2E2CirtARLx8hxhiBsU9cDaTjVTNpYu9vh2l2DCG7Bc9gqLk46oANI7
- fIqWGQMuJate23sClgAK8oQXtn9mglLbZDjfFc0baMRRnOr7heAdaxBQ3hHXeC6O87iY
- ZNDSveoEo342j38hFdLuGYJDnx2VJpBIyFaMK9dFnQOdGigyCetkynJ42783vJUIT7mo
- 9gDm5luZ1F3K29jwP3PAXMUiId+VXRqS7f0bUKwrYscPRnbbq/BCnC8ECMs4rKObX65l
- IhlZ33XQYeKM3p4RZ5GIS+TRj5O6UzFNeRTdZJqmT2ZTr7HJ97Vciy9BJN434H7anlGd
- qmSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aUt5vaFiY/J1KCTPCZXw/K5A7JAcWXv/cCQm11f+4ro=;
- b=7plDfEkD/n8p2++BGwVk+qsBXhdAHhUrqR8HMH8zbvxVLNec37gUjlFJ8dwG9H9M67
- zlCXn9ljAko6BAq5TaWNOysR9KtNfFce7n9ErTmH1VRf5XDGyRst2z6fKtxTSmlfHR5B
- hjY53qatipppJ24QT5O3Pu74FoSkoG1iAEmlJOTGh4fkAEvNtpUlHpXW0oLx9rilwxM0
- NgkwPsGkmTh+56Y59tUuoH7FKEYvhLfJZBG7ZfaCvcDSnoNDfEcvX/VwyR2DVYgkMptb
- wPv0FZ55twA5K5LThmZcsR/mOTQ9oFfB1uZxw6zi3GouUTPIV8odjTTiKSgqS3JmYZaL
- rgGA==
-X-Gm-Message-State: AO0yUKUYyh2lE621euMB36NzL2quQ9gK4YWNS5hPNE/alUK/6aq9LQiV
- KPJ+PEEPpINJbCUP8leIPAIUow==
-X-Google-Smtp-Source: AK7set/CK9Ov90Csl9IShFHW2HdeuqQpyirSA4ksEniWlvrsIbIQBmOQURoXaT/NNXkxEkm37+k0cA==
-X-Received: by 2002:a05:6512:239b:b0:4a4:68b7:deab with SMTP id
- c27-20020a056512239b00b004a468b7deabmr4136958lfv.7.1677114157363; 
- Wed, 22 Feb 2023 17:02:37 -0800 (PST)
-Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
- by smtp.gmail.com with ESMTPSA id
- y19-20020ac24213000000b004cb35b31b96sm2314974lfh.257.2023.02.22.17.02.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Feb 2023 17:02:36 -0800 (PST)
-Message-ID: <8db1a336-1ba7-202b-8036-f3a522a96ea0@linaro.org>
-Date: Thu, 23 Feb 2023 02:02:35 +0100
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79E9310E477
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 01:35:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677116143; x=1708652143;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=KCrWkhEgSMX/g4sjTiSwnDZzTiu7fbvUZv0pm+Ui4tg=;
+ b=SZ93elBZYgTUb4USdHCFa9dCJZqRzx3jI4S0cCraqd1HxN4GhV36sFMJ
+ JmCZT73sq7wM3xfVLWruAmaoeBlnsMcRGLpGTxNQkfu5gjMGO3I3d785+
+ EJFjbdgicbveEnZ2ubduAaYXuy9aFxA/wNSbGPNwgnDaFlO1jx91gA3+W
+ c7PUTcXA7Jze2UU/cM1/3OdsKYEs7dtuZwc0bKIi2clHXQ7lpOmTmP5os
+ JKrCET9Bupq+RCimbyEofxy3MXWML0NxHXv9YbgDwlDHcv/9ymET9uhnj
+ ytiyGlQFomUNtOYFKG4R19VLD3sQ3AOEsxhfQErRH95MN4jz/+v5ySJSx w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="312714886"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; d="scan'208";a="312714886"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 17:35:42 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="781684650"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; d="scan'208";a="781684650"
+Received: from jekeller-desk.amr.corp.intel.com (HELO
+ jekeller-desk.jekeller.internal) ([10.166.241.1])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 17:35:41 -0800
+From: Jacob Keller <jacob.e.keller@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/rockchip: use struct_size() in vop2_bind
+Date: Wed, 22 Feb 2023 17:35:33 -0800
+Message-Id: <20230223013533.1707706-1-jacob.e.keller@intel.com>
+X-Mailer: git-send-email 2.39.1.405.gd4c25cc71f83
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/5] drm/msm/adreno: Use OPP for every GPU generation
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230222-konrad-longbois-next-v1-0-01021425781b@linaro.org>
- <20230222-konrad-longbois-next-v1-1-01021425781b@linaro.org>
- <6ff7aea6-6535-3f54-b8d2-718d9a38a1be@linaro.org>
- <180a33e7-d7b0-1b7f-9b91-20eb81d377dc@linaro.org>
- <c19b24d0-bb20-37ec-09dc-fb57aa8b4750@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <c19b24d0-bb20-37ec-09dc-fb57aa8b4750@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,145 +56,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Jacob Keller <jacob.e.keller@intel.com>, Sandy Huang <hjc@rock-chips.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use the overflow-protected struct_size() helper macro to compute the
+allocation size of the vop2 data structure.
 
+Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: Heiko Stübner <heiko@sntech.de>
+Cc: David Airlie <airlied@gmail.com>
+---
+I found this while developing a coccinelle script to detect potential places
+where struct_size() would be appropriate.
 
-On 23.02.2023 00:16, Dmitry Baryshkov wrote:
-> On 23/02/2023 00:40, Konrad Dybcio wrote:
->>
->>
->> On 22.02.2023 23:38, Dmitry Baryshkov wrote:
->>> On 22/02/2023 23:47, Konrad Dybcio wrote:
->>>> Some older GPUs (namely a2xx with no opp tables at all and a320 with
->>>> downstream-remnants gpu pwrlevels) used not to have OPP tables. They
->>>> both however had just one frequency defined, making it extremely easy
->>>> to construct such an OPP table from within the driver if need be.
->>>>
->>>> Do so and switch all clk_set_rate calls on core_clk to their OPP
->>>> counterparts.
->>>>
->>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>> ---
->>>>    drivers/gpu/drm/msm/adreno/adreno_gpu.c | 94 +++++++++++++++------------------
->>>>    drivers/gpu/drm/msm/msm_gpu.c           |  4 +-
->>>>    drivers/gpu/drm/msm/msm_gpu_devfreq.c   |  2 +-
->>>>    3 files changed, 45 insertions(+), 55 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>> index ce6b76c45b6f..9b940c0f063f 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>> @@ -922,73 +922,50 @@ void adreno_wait_ring(struct msm_ringbuffer *ring, uint32_t ndwords)
->>>>                ring->id);
->>>>    }
->>>>    -/* Get legacy powerlevels from qcom,gpu-pwrlevels and populate the opp table */
->>>> -static int adreno_get_legacy_pwrlevels(struct device *dev)
->>>> -{
->>>> -    struct device_node *child, *node;
->>>> -    int ret;
->>>> -
->>>> -    node = of_get_compatible_child(dev->of_node, "qcom,gpu-pwrlevels");
->>>> -    if (!node) {
->>>> -        DRM_DEV_DEBUG(dev, "Could not find the GPU powerlevels\n");
->>>> -        return -ENXIO;
->>>> -    }
->>>> -
->>>> -    for_each_child_of_node(node, child) {
->>>> -        unsigned int val;
->>>> -
->>>> -        ret = of_property_read_u32(child, "qcom,gpu-freq", &val);
->>>> -        if (ret)
->>>> -            continue;
->>>> -
->>>> -        /*
->>>> -         * Skip the intentionally bogus clock value found at the bottom
->>>> -         * of most legacy frequency tables
->>>> -         */
->>>> -        if (val != 27000000)
->>>> -            dev_pm_opp_add(dev, val, 0);
->>>> -    }
->>>> -
->>>> -    of_node_put(node);
->>>> -
->>>> -    return 0;
->>>> -}
->>>> -
->>>> -static void adreno_get_pwrlevels(struct device *dev,
->>>> +static int adreno_get_pwrlevels(struct device *dev,
->>>>            struct msm_gpu *gpu)
->>>>    {
->>>> +    struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>>>        unsigned long freq = ULONG_MAX;
->>>>        struct dev_pm_opp *opp;
->>>>        int ret;
->>>>          gpu->fast_rate = 0;
->>>>    -    /* You down with OPP? */
->>>> -    if (!of_find_property(dev->of_node, "operating-points-v2", NULL))
->>>> -        ret = adreno_get_legacy_pwrlevels(dev);
->>>> -    else {
->>>> -        ret = devm_pm_opp_of_add_table(dev);
->>>> -        if (ret)
->>>> -            DRM_DEV_ERROR(dev, "Unable to set the OPP table\n");
->>>> -    }
->>>> -
->>>> -    if (!ret) {
->>>> +    /* devm_pm_opp_of_add_table may error out but will still create an OPP table */
->>>> +    ret = devm_pm_opp_of_add_table(dev);
->>>> +    if (ret == -ENODEV) {
->>>> +        /* Special cases for ancient hw with ancient DT bindings */
->>>> +        if (adreno_is_a2xx(adreno_gpu)) {
->>>> +            dev_warn(dev, "Unable to find the OPP table. Falling back to 200 MHz.\n");
->>>> +            dev_pm_opp_add(dev, 200000000, 0);
->>>> +            gpu->fast_rate = 200000000;
->>>
->>> We can skip setting the fast_rate, dev_pm_opp_find_freq_floor below will get it from our freshly generated opp table.
->> It's not reached in this code path.
-> 
-> I see. I got lost in all the ifs. What do you think about turning it into the main code path, since after this code block we always have a valid OPP table?
-Sounds good!
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Konrad
-> 
->>
->>>
->>>> +        } else if (adreno_is_a320(adreno_gpu)) {
->>>> +            dev_warn(dev, "Unable to find the OPP table. Falling back to 450 MHz.\n");
->>>> +            dev_pm_opp_add(dev, 450000000, 0);
->>>> +            gpu->fast_rate = 450000000;
->>>> +        } else {
->>>> +            DRM_DEV_ERROR(dev, "Unable to find the OPP table\n");
->>>> +            return -ENODEV;
->>>> +        }
->>>> +    } else if (ret) {
->>>> +        DRM_DEV_ERROR(dev, "Unable to set the OPP table\n");
->>>> +        return ret;
->>>> +    } else {
->>>>            /* Find the fastest defined rate */
->>>>            opp = dev_pm_opp_find_freq_floor(dev, &freq);
->>>> -        if (!IS_ERR(opp)) {
->>>> +
->>>> +        if (IS_ERR(opp))
->>>> +            return PTR_ERR(opp);
->>>> +        else {
->>>>                gpu->fast_rate = freq;
->>>>                dev_pm_opp_put(opp);
->>>>            }
->>>>        }
->>>>    -    if (!gpu->fast_rate) {
->>>> -        dev_warn(dev,
->>>> -            "Could not find a clock rate. Using a reasonable default\n");
->>>> -        /* Pick a suitably safe clock speed for any target */
->>>> -        gpu->fast_rate = 200000000;
->>>> -    }
->>>> -
->>>>        DBG("fast_rate=%u, slow_rate=27000000", gpu->fast_rate);
->>>> +
->>>> +    return 0;
->>>>    }
->>>>      int adreno_gpu_ocmem_init(struct device *dev, struct adreno_gpu *adreno_gpu,
-> 
-> 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 0e0012368976..3e5861653b69 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -2655,7 +2655,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+ 		return -ENODEV;
+ 
+ 	/* Allocate vop2 struct and its vop2_win array */
+-	alloc_size = sizeof(*vop2) + sizeof(*vop2->win) * vop2_data->win_size;
++	alloc_size = struct_size(vop2, win, vop2_data->win_size);
+ 	vop2 = devm_kzalloc(dev, alloc_size, GFP_KERNEL);
+ 	if (!vop2)
+ 		return -ENOMEM;
+
+base-commit: 4d5a2cce47a8e1e7119a881a4714f0eee557c1cd
+-- 
+2.39.1.405.gd4c25cc71f83
+
