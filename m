@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E546A0450
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 09:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFFC6A047E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 10:09:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 329C010E4B5;
-	Thu, 23 Feb 2023 08:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD48210E48E;
+	Thu, 23 Feb 2023 09:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1825A10E4B5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 08:59:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1921561627;
- Thu, 23 Feb 2023 08:59:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57AA2C433EF;
- Thu, 23 Feb 2023 08:59:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677142785;
- bh=F0o0cKnSDpDn6p6gfaa0cgORZZdfAcpmNCptMtkWGMo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cWrCNgIUCWybMOAM65p3P8Ow7EW0oV6gLvfnfB/z7oHJ4WQlBpGYoPSjRDxs75i1S
- /y3xaaYRQMn2K71c0cuM61aUdMHwjWbPme53J95CMuedEHrUlaM3mr1jnQFAdlLqGF
- 8V9TlH0NE9pOXcxb9J+90DFGde7JdY8JnkwV7R1PSD35KUKQKgLFjar5ohBDeR8H51
- fZvVOZPXID4zCgXjav67l1hONvzxcmwfIA7sDGupVrVYmOZU/c96qPn5VUbYsTcDZG
- mdVKWcKM2oDD5VN7LHxgfIFWscSc80S1GGrsa98kDfX0rbqfg+Ws/+VF+CmLrfd5IV
- JdWA6tfarKVKQ==
-Message-ID: <53cc20a0-bc9d-a094-13bc-6a5ef78069d1@kernel.org>
-Date: Thu, 23 Feb 2023 09:59:39 +0100
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E59110E48E;
+ Thu, 23 Feb 2023 09:08:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677143335; x=1708679335;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=vi38R69HWUfRY/mfenkVhelSONr9jMelyUuHjfU4TZY=;
+ b=EsaWALlIMCFrhJMPNDjJ7vYcO0EpMoNeQjtg3P3OTsE8xvghBmwJIO5K
+ H1HtKWRxlpBq0VZpAMA119+ukCwt47+kX2KocWb7OPOaRoLK7lg187DUo
+ qUT7uZjZ2Hk+FELn/s3magf9/rfIQ1Ah3GdxOlqVoWJcpTR9D3JcFOpgn
+ lXa8mZ/E8KrtaUI7eMoSIyhHmendQjiw6I/jg7V+SSgX3QuWjLOBZ+4/r
+ OnJQjXW3WzgPAVWYhcN8yCQwtRdKAsPJck/8XhX9J8FI6xbiPhL2Q51II
+ 3acRkJyR8xiMZfINrb87YRMBh2/hCO/Zf7mwMpHOhhTYha703CQcVZVc5 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="395640621"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; d="scan'208";a="395640621"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2023 01:08:54 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="736280901"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; d="scan'208";a="736280901"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.25.22])
+ ([10.213.25.22])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2023 01:08:53 -0800
+Message-ID: <dee15378-e102-3f9b-16f1-bb43f0bb179a@intel.com>
+Date: Thu, 23 Feb 2023 10:08:51 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] Mips: ls2k1000: dts: add the display controller
- device node
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Add engine TLB invalidation
 Content-Language: en-US
-To: suijingfeng <suijingfeng@loongson.cn>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-References: <20230222165514.684729-1-suijingfeng@loongson.cn>
- <f153bb62-ec3c-c16d-5b43-f53b5319c2e6@kernel.org>
- <32a56a81-e9b5-138b-4dff-35c2525cc0b6@loongson.cn>
- <f1cb010c-be28-9b1b-da1f-93d5e2fb213f@kernel.org>
- <6662546a-2c83-71bd-7050-903331201bdc@loongson.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <6662546a-2c83-71bd-7050-903331201bdc@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230217185433.2418370-1-matthew.d.roper@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230217185433.2418370-1-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,88 +62,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/02/2023 09:40, suijingfeng wrote:
+On 17.02.2023 19:54, Matt Roper wrote:
+> MTL's primary GT can continue to use the same engine TLB invalidation
+> programming as past Xe_HP-based platforms.  However the media GT needs
+> some special handling:
+>   * Invalidation registers on the media GT are singleton registers
+>     (unlike the primary GT where they are still MCR).
+>   * Since the GSC is now exposed as an engine, there's a new register to
+>     use for TLB invalidation.  The offset is identical to the compute
+>     engine offset, but this is expected --- compute engines only exist on
+>     the primary GT while the GSC only exists on the media GT.
+>   * Although there's only a single GSC engine instance, it inexplicably
+>     uses bit 1 to request invalidations rather than bit 0.
 > 
-> On 2023/2/23 15:58, Krzysztof Kozlowski wrote:
->> On 23/02/2023 04:19, Sui jingfeng wrote:
->>> Hi,
->>>
->>> On 2023/2/23 02:32, Krzysztof Kozlowski wrote:
->>>> On 22/02/2023 17:55, suijingfeng wrote:
->>>>> The display controller is a pci device, it's pci vendor id is
->>>>> 0x0014, it's pci device id is 0x7a06.
->>>>>
->>>>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
->>>>> ---
->>>>>    .../boot/dts/loongson/loongson64-2k1000.dtsi  | 21 +++++++++++++++++++
->>>>>    1 file changed, 21 insertions(+)
->>>>>
->>>>> diff --git a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->>>>> index 8143a61111e3..a528af3977d9 100644
->>>>> --- a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->>>>> +++ b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
->>>>> @@ -31,6 +31,18 @@ memory@200000 {
->>>>>    			<0x00000001 0x10000000 0x00000001 0xb0000000>; /* 6912 MB at 4352MB */
->>>>>    	};
->>>>>    
->>>>> +	reserved-memory {
->>>>> +		#address-cells = <2>;
->>>>> +		#size-cells = <2>;
->>>>> +		ranges;
->>>>> +
->>>>> +		display_reserved: framebuffer@30000000 {
->>>>> +			compatible = "shared-dma-pool";
->>>>> +			reg = <0x0 0x30000000 0x0 0x04000000>; /* 64M */
->>>>> +			linux,cma-default;
->>>>> +		};
->>>>> +	};
->>>>> +
->>>>>    	cpu_clk: cpu_clk {
->>>>>    		#clock-cells = <0>;
->>>>>    		compatible = "fixed-clock";
->>>>> @@ -198,6 +210,15 @@ sata@8,0 {
->>>>>    				interrupt-parent = <&liointc0>;
->>>>>    			};
->>>>>    
->>>>> +			display-controller@6,0 {
->>>>> +				compatible = "loongson,ls2k1000-dc";
->>>>> +
->>>>> +				reg = <0x3000 0x0 0x0 0x0 0x0>;
->>>>> +				interrupts = <28 IRQ_TYPE_LEVEL_LOW>;
->>>>> +				interrupt-parent = <&liointc0>;
->>>>> +				memory-region = <&display_reserved>;
->>>> NAK.
->>> Err :(,  please give me a chance to explain
->>>> Test your code against the bindings you send.
->>> I can guarantee to you that I test may code more than twice. The code
->>> used to testing is listed at link [1].
->> I wrote - test against the bindings. I don't believe that it was tested.
->> Please paste the output of the testing (dtbs_check).
-
-                                          ^^^^^^^^^^^^
-Do you see this                       ----------^^^^?
-
-But you pasted:
-
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c | 52 ++++++++++++++++-------
+>   drivers/gpu/drm/i915/gt/intel_gt_regs.h   |  1 +
+>   2 files changed, 38 insertions(+), 15 deletions(-)
 > 
-> I *do* run the test against the bindings and the test result say nothing.
-> 
-> I reset my modify today made, then re-run the test again.
-> 
-> I'm telling the truth: the test result say nothing. I paste the log at 
-> below:
-> 
-> make -j$(nproc) ARCH=loongarch 
-> CROSS_COMPILE=loongarch64-unknown-linux-gnu- dt_binding_check 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index f3a91e7f85f7..af8e158fbd84 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -1166,6 +1166,11 @@ static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
+>   		[COPY_ENGINE_CLASS].mcr_reg	  = XEHP_BLT_TLB_INV_CR,
+>   		[COMPUTE_CLASS].mcr_reg		  = XEHP_COMPCTX_TLB_INV_CR,
+>   	};
+> +	static const union intel_engine_tlb_inv_reg xelpmp_regs[] = {
+> +		[VIDEO_DECODE_CLASS].reg	  = GEN12_VD_TLB_INV_CR,
+> +		[VIDEO_ENHANCEMENT_CLASS].reg     = GEN12_VE_TLB_INV_CR,
+> +		[OTHER_CLASS].reg		  = XELPMP_GSC_TLB_INV_CR,
+> +	};
+>   	struct drm_i915_private *i915 = engine->i915;
+>   	const unsigned int instance = engine->instance;
+>   	const unsigned int class = engine->class;
+> @@ -1185,19 +1190,28 @@ static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
+>   	 * 12.00 -> 12.50 transition multi cast handling is required too.
+>   	 */
+>   
+> -	if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 50) ||
+> -	    GRAPHICS_VER_FULL(i915) == IP_VER(12, 55)) {
+> -		regs = xehp_regs;
+> -		num = ARRAY_SIZE(xehp_regs);
+> -	} else if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 0) ||
+> -		   GRAPHICS_VER_FULL(i915) == IP_VER(12, 10)) {
+> -		regs = gen12_regs;
+> -		num = ARRAY_SIZE(gen12_regs);
+> -	} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
+> -		regs = gen8_regs;
+> -		num = ARRAY_SIZE(gen8_regs);
+> -	} else if (GRAPHICS_VER(i915) < 8) {
+> -		return 0;
+> +	if (engine->gt->type == GT_MEDIA) {
+> +		if (MEDIA_VER_FULL(i915) == IP_VER(13, 0)) {
+> +			regs = xelpmp_regs;
+> +			num = ARRAY_SIZE(xelpmp_regs);
+> +		}
 
-This -------------------------------------------^^^^^^^^^^^^
+As I understand currently only GEN13 of media can have GT_MEDIA, so 
+fallback to gt_WARN_ONCE below is expected behavior.
+
+> +	} else {
+> +		if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 71) ||
+
+12.71 is not yet present in i915_pci.c, maybe they should be added 
+together, up to you.
+
+> +		    GRAPHICS_VER_FULL(i915) == IP_VER(12, 70)  > +		    GRAPHICS_VER_FULL(i915) == IP_VER(12, 50) ||
+> +		    GRAPHICS_VER_FULL(i915) == IP_VER(12, 55)) {
+> +			regs = xehp_regs;
+> +			num = ARRAY_SIZE(xehp_regs);
+> +		} else if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 0) ||
+> +			   GRAPHICS_VER_FULL(i915) == IP_VER(12, 10)) {
+> +			regs = gen12_regs;
+> +			num = ARRAY_SIZE(gen12_regs);
+> +		} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
+> +			regs = gen8_regs;
+> +			num = ARRAY_SIZE(gen8_regs);
+> +		} else if (GRAPHICS_VER(i915) < 8) {
+> +			return 0;
+> +		}
+>   	}
+>   
+>   	if (gt_WARN_ONCE(engine->gt, !num,
+> @@ -1212,7 +1226,14 @@ static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
+>   
+>   	reg = regs[class];
+>   
+> -	if (regs == gen8_regs && class == VIDEO_DECODE_CLASS && instance == 1) {
+> +	if (class == OTHER_CLASS) {
+
+Maybe it would be safer:
+	if (regs == xelpmp_regs && class == OTHER_CLASS)
 
 
-Best regards,
-Krzysztof
+> +		/*
+> +		 * There's only a single GSC instance, but it uses register bit
+> +		 * 1 instead of either 0 or OTHER_GSC_INSTANCE.
+> +		 */
+> +		GEM_WARN_ON(instance != OTHER_GSC_INSTANCE);
+> +		val = 1;
+> +	} else if (regs == gen8_regs && class == VIDEO_DECODE_CLASS && instance == 1) {
+>   		reg.reg = GEN8_M2TCR;
+>   		val = 0;
+>   	} else {
+> @@ -1228,7 +1249,8 @@ static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
+>   	if (GRAPHICS_VER(i915) >= 12 &&
+>   	    (engine->class == VIDEO_DECODE_CLASS ||
+>   	     engine->class == VIDEO_ENHANCEMENT_CLASS ||
+> -	     engine->class == COMPUTE_CLASS))
+> +	     engine->class == COMPUTE_CLASS ||
+> +	     engine->class == OTHER_CLASS))
+This is little surprise, I would expect non-masked reg for single 
+instance, but it follows bspec, so OK.
+
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Regards
+Andrzej
+
+>   		engine->tlb_inv.request = _MASKED_BIT_ENABLE(val);
+>   	else
+>   		engine->tlb_inv.request = val;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> index 416976d396ba..423e3e9c564b 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> @@ -1090,6 +1090,7 @@
+>   #define XEHP_BLT_TLB_INV_CR			MCR_REG(0xcee4)
+>   #define GEN12_COMPCTX_TLB_INV_CR		_MMIO(0xcf04)
+>   #define XEHP_COMPCTX_TLB_INV_CR			MCR_REG(0xcf04)
+> +#define XELPMP_GSC_TLB_INV_CR			_MMIO(0xcf04)   /* media GT only */
+>   
+>   #define XEHP_MERT_MOD_CTRL			MCR_REG(0xcf28)
+>   #define RENDER_MOD_CTRL				MCR_REG(0xcf2c)
 
