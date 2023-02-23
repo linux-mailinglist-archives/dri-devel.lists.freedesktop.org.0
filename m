@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC596A00C7
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 02:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93386A00CD
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 02:47:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB1810EAA4;
-	Thu, 23 Feb 2023 01:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A84C910E47F;
+	Thu, 23 Feb 2023 01:47:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4AB310E495
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 01:47:41 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id g8so8742801lfj.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 17:47:41 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A98010EAC4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 01:47:43 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id w27so12515878lfu.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 17:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nxn/W/DZi3qbxg4e9X034UdXsXls711+0gs5673NuBI=;
- b=mCAik50eLZjjGB53EUXjlQ5ftpVIcO95aPBhIKa/11Adc/DTAgpknKq1Sp1NMU+MX2
- LPN/BAwSeR4NHu/IYKaW4gQb3pnWmpO9OU0+EPQTJ0B/uDuky4PjtNTp3j5N0FkfwjpG
- eiAtCMfumMH5/BTUt1x3H9AsXmykakC9N0eHVRGjzVzkLK58G7Bqarhqc9H9KmheUFlS
- cZfRUg/Wesq7FFWT5xU59mbI95pHHXT7eCaSIWBlKzcfeihI/EaTMc33SBNsBW8UEjjB
- sTW89Djj1aZ3tZuaayLZcO6YiHzUerqs2CbL+IC6/mZuZCZ8HBRhAXdRzG2OgkD7heIl
- oRYA==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=mCGO18fFeWFx1/oqatAOPTvgztN8ex2StTWWkNQew7c=;
+ b=UqcUrP62HrsiAt9Q6uCcF6e86j+YbcDvjBn5qnC2A5wInQidrtGebmp12w1PhJijsf
+ eyyLLK+0Rm3o/ycFDsAVvXQrUhPkj2xMqrFkW7yEsYmVAlXyab1/4iezenzh/33xuY4f
+ qO08D8OrbEZsTLr2Hi+HxZ++iooZdvz9tTCCMeCktzMRjEpCNl2lgAUFHcpQezwWShrh
+ bFyLHOsPYMlgsJwEkMRMJKFpeZJSH9PBiPY4/O/dfUl66wOLOhAi0oLCpH6RUurVYfz0
+ LBcVg7pdRIZT6JXurlxjAukXhHn9BDVoNUhMytj/JFr2dKZn5z9f7LzE4iEBt8ElWAJ4
+ zC5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nxn/W/DZi3qbxg4e9X034UdXsXls711+0gs5673NuBI=;
- b=Ly3JMF5AIrXaiB1MeaFcR2qEcOisvEIJ0WtLdTjME05r6LKam1LW2TgTJyjjVmM0x0
- kYTUkjlQNR0mebn33YoqKY4R7k5pH1FKhbpioGR7u6aStxgJyACr9KXJQfUWtL4H3STN
- +5NYWY4I/FDY36wVJYksm2MOxzWITedfVT2jr0H8afg5MFIvfqsMPIINtSrU5GFB/Ydp
- kczoYgUr0LWH9ScddJfEIf6dVFXqWBNzMMzmhvxXDSm7eyvgcgVNMShokd8eSCMe51R4
- wfIjGgi64Q5SFghnFFdGKRXdHpaBH7+ieUwtymdExQ591cJZkTWuVVJhD5lQ8yhD89zd
- pONA==
-X-Gm-Message-State: AO0yUKUZEed9PTSW9ScDe64/wrwwPUEAsKrl9ojFHIaXCKpic2nkI3ij
- vFd6daFzuZvotyzFJpZ3IO+D3B24SR3KxJf1
-X-Google-Smtp-Source: AK7set/yIipOLIpZGix3iM4th6CUQGlXFXdTgXbTsnVX9emoOTi2dQH/cBV6Nyg50Y8Wz7PP6kqF9A==
-X-Received: by 2002:ac2:5fca:0:b0:4db:3890:cb4e with SMTP id
- q10-20020ac25fca000000b004db3890cb4emr3538750lfg.4.1677116859655; 
- Wed, 22 Feb 2023 17:47:39 -0800 (PST)
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mCGO18fFeWFx1/oqatAOPTvgztN8ex2StTWWkNQew7c=;
+ b=yU931Fykui/1tWoVu3awhNBtW5+eplLDSqAe2bvoiIg2KVi1PGx0q9fMwqfVSW4cVr
+ xEwb7tmwaQYzpyfZ86VsYHAM7Xe59SVVI9prE/pm/Fugo1Ew8RrGRmnD+uuSzlwYoDrC
+ 8yKm4SHQD19ED1UF62yjpWrFqF8eF136M7ibSmXeV92WsxeiBgykdeBMYxGs9P6LZmdM
+ V/+6RI3LSaRX2bSiT3JX2KCTIwQKFH8rF50dNyvMHI93ulIDgU0CnwfedAWzjiXLRgQ3
+ E53GNDNPDcBx1FUOQ8rcQOEF0mcAKZdJM3rx6tp4p1Tp48ITvMDpuYdCwAJm5FlbIrfV
+ nIxg==
+X-Gm-Message-State: AO0yUKWbW527SF2zyZd3rE7z+fwwzDSPEp/VTCFN9ViW3l3L0h7y8UFB
+ /YpBIaWanShXOuendJNfA4FzZrh4lgswG1Ud
+X-Google-Smtp-Source: AK7set8xB6MQPyyJqTPpJqKVNCu8vdvqHdvsXstaNqRHFGhNsyhWgBlzm2zLSO/JTK2EEOF8sAaHlA==
+X-Received: by 2002:a05:6512:3988:b0:4a4:68b7:deb7 with SMTP id
+ j8-20020a056512398800b004a468b7deb7mr4160498lfu.19.1677116860797; 
+ Wed, 22 Feb 2023 17:47:40 -0800 (PST)
 Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
  by smtp.gmail.com with ESMTPSA id
- 12-20020ac2482c000000b004dc807b904bsm427376lft.120.2023.02.22.17.47.38
+ 12-20020ac2482c000000b004dc807b904bsm427376lft.120.2023.02.22.17.47.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 17:47:39 -0800 (PST)
+ Wed, 22 Feb 2023 17:47:40 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [PATCH v2 0/6] OPP and devfreq for all Adrenos
-Date: Thu, 23 Feb 2023 02:47:36 +0100
-Message-Id: <20230223-topic-opp-v2-0-24ed24cd7358@linaro.org>
+Date: Thu, 23 Feb 2023 02:47:37 +0100
+Subject: [PATCH v2 1/6] drm/msm/a2xx: Include perf counter reg values in
+ XML
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALjF9mMC/x2NQQrDIBBFrxJm3QGdQBNyldCFmmkcEBVtSyHk7
- hmyfJ/3eQd0bsIdluGAxj/pUrICPQYI0eWdUTZlIEOjIRrxU6oELLWisTxZS35+Thuo711n9M3
- lEPWRvynpWBu/5X8H1td5XsvAkPZwAAAA
+Message-Id: <20230223-topic-opp-v2-1-24ed24cd7358@linaro.org>
+References: <20230223-topic-opp-v2-0-24ed24cd7358@linaro.org>
+In-Reply-To: <20230223-topic-opp-v2-0-24ed24cd7358@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677116858; l=2510;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677116858; l=830;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=qfYEQNocMpdpOTn7eel7AhIAvweJRI9r+7Gb86qiMPo=;
- b=E56dXGGVbqioi2hquaXMAnNHLk/bie6SAc+/Kdk47Bh6BiOLpXxDSBY+nspd3UPHVOQaDR11+OLB
- AxaSlPj5BmPRuDXLcRyhNLVTWYqGL/H0Gs8O7ITG338sFf19M6i/
+ bh=mzjSUO+qHIiKaLiyXFVom/GoyNVpw37b+tvLzQHI5RY=;
+ b=sOt90zAVghwEBEdFaBDhwOmr+WDEq6xWWtPbhadU8HLedLihLtGPgw3G+utNjj5nKzLKe9UXi7Sp
+ /8dBYiuOABV7JJpxXdNZpynZqYX62ZFL3PLs9g7th7h4bt1MOJga
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,67 +88,34 @@ Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v1 -> v2:
+This is a partial merge of [1], subject to be dropped if a header
+update is executed.
 
-- Move a2xx #defines to XML
-- Use dev_pm_opp_find_freq_floor in the common path in [2/6]
-- Clarify a comment in [2/6]
-- Move voting from a5xx to Adreno-wide [6/6]
-- Pick up tags
-
-v1: https://lore.kernel.org/linux-arm-msm/20230222-konrad-longbois-next-v1-0-01021425781b@linaro.org
-
-This series is a combination of [1] and a subset of [2] and some new
-stuff.
-
-With it, devfreq is used on all a2xx-a6xx (including gmu and
-gmu-wrapper) and all clk_set_rate(core clock) calls are dropped in
-favour of dev_pm_opp_set_rate, which - drumroll - lets us scale
-the voltage domain. DT patches making use of that will be sent
-separately.
-
-On top of that, a5xx gets a call to enable icc scaling from the OPP
-tables. No SoCs implementing a2xx have icc support yet and a3/4xx
-SoCs have separate logic for that, which will be updated at a later
-time.
-
-Getting this in for 6.4 early would be appreciated, as that would
-allow for getting GMU wrapper GPUs up (without VDD&icc scaling they
-can only run at lower freqs, which is.. ehhh..)
-
-Changes:
-- a3xx busy: use the _1 counter as per msm-3.x instead of _0
-- a6xx-series-opp: basically rewrite, ensure compat with all gens
-- a2/4xx busy: new patch
-- a5xx icc: new patch
-
-[1] https://lore.kernel.org/linux-arm-msm/20230130093809.2079314-1-konrad.dybcio@linaro.org/
-[2] https://lore.kernel.org/linux-arm-msm/20230214173145.2482651-1-konrad.dybcio@linaro.org/
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/21480/
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
-Konrad Dybcio (6):
-      drm/msm/a2xx: Include perf counter reg values in XML
-      drm/msm/adreno: Use OPP for every GPU generation
-      drm/msm/a2xx: Implement .gpu_busy
-      drm/msm/a3xx: Implement .gpu_busy
-      drm/msm/a4xx: Implement .gpu_busy
-      drm/msm/adreno: Enable optional icc voting from OPP tables
+ drivers/gpu/drm/msm/adreno/a2xx.xml.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- drivers/gpu/drm/msm/adreno/a2xx.xml.h      |  6 ++
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c      | 24 ++++++++
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c      | 11 ++++
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c      | 11 ++++
- drivers/gpu/drm/msm/adreno/adreno_device.c |  4 ++
- drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 99 ++++++++++++++----------------
- drivers/gpu/drm/msm/msm_gpu.c              |  4 +-
- drivers/gpu/drm/msm/msm_gpu_devfreq.c      |  2 +-
- 8 files changed, 104 insertions(+), 57 deletions(-)
----
-base-commit: aaf70d5ad5e2b06a8050c51e278b0c3a14fabef5
-change-id: 20230223-topic-opp-01e7112b867d
+diff --git a/drivers/gpu/drm/msm/adreno/a2xx.xml.h b/drivers/gpu/drm/msm/adreno/a2xx.xml.h
+index afa6023346c4..b85fdc082bc1 100644
+--- a/drivers/gpu/drm/msm/adreno/a2xx.xml.h
++++ b/drivers/gpu/drm/msm/adreno/a2xx.xml.h
+@@ -1060,6 +1060,12 @@ enum a2xx_mh_perfcnt_select {
+ 	AXI_TOTAL_READ_REQUEST_DATA_BEATS = 181,
+ };
+ 
++enum perf_mode_cnt {
++	PERF_STATE_RESET = 0,
++	PERF_STATE_ENABLE = 1,
++	PERF_STATE_FREEZE = 2,
++};
++
+ enum adreno_mmu_clnt_beh {
+ 	BEH_NEVR = 0,
+ 	BEH_TRAN_RNG = 1,
 
-Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+2.39.2
 
