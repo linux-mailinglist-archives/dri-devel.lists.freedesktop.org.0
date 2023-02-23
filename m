@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794986A09E6
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 14:11:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1CF6A0A4C
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 14:15:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71DF110E1FC;
-	Thu, 23 Feb 2023 13:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5D8110E201;
+	Thu, 23 Feb 2023 13:15:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 085BB10E1FC
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 13:10:53 +0000 (UTC)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
- [91.154.32.225])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2DE52E4;
- Thu, 23 Feb 2023 14:10:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1677157852;
- bh=WYy+JIwjACK0ewwdjromDn+ooNvg12hqZ611KgIZSg4=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=DAYm/15WuaNLA/s+g6H/W878t69F1Wig+J58dDyvzoEWL26lQLsmwQ8ZG/vf32NzZ
- Qa1FAXZot+Yyc1o6MzOc14UDNNFtx4v2ltkZgFsAET9UCkT4bghaa4zjc0NA/65CW0
- MemuTKzhEFi9YV7HF3uI/PRrQ5Jl0L69TSJadiz0=
-Message-ID: <029a92fa-d1e0-54da-76b9-a6e1dd65298e@ideasonboard.com>
-Date: Thu, 23 Feb 2023 15:10:48 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08E5B10E201
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 13:15:51 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id A1E136602206;
+ Thu, 23 Feb 2023 13:15:48 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1677158149;
+ bh=Us76hl3M67F4tYLgk1qrZB7e6/ZLVJuaAxtfQ+sOh5s=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=G3BhFgpPjGQDWxS0SJIystijE1dRfuglShVLZeqng66gOtNFf/usYwCEfXh+9eCjc
+ K8E6jEmeA15GBbYMN9fexcAQa+pFXp6P+Ec4x889/Y9c9jRX3OSixJLXLdXmY7lOtR
+ jBzbYMiIigDLLGaGy0GmibUcTJY0tFtCw9agV/sXNSWVS58w2yxv7DAZpCpTfWTC9E
+ ufGps3myqqJrEdhvd635IFaVhI2mBT1pTzRIuxoYVrFycvxlVr/Gd8mvj9m3vqGYo4
+ Oq53Dhn7u6Z0G9DoC0AEe/Hu3rzsrlu8qk5099ZOYF5LM4hmjqxotVrBP3bPSThPkq
+ R5neIsJYFn+Wg==
+Message-ID: <68a91707-78e7-7a39-900f-18ade966befc@collabora.com>
+Date: Thu, 23 Feb 2023 14:15:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 2/7] media: Add Y210, Y212 and Y216 formats
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 06/10] dt-bindings: gpu: mali-bifrost: Add a compatible
+ for MediaTek MT8186
 Content-Language: en-US
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Ming Qian <ming.qian@nxp.com>
-References: <20221221092448.741294-1-tomi.valkeinen+renesas@ideasonboard.com>
- <20221221092448.741294-3-tomi.valkeinen+renesas@ideasonboard.com>
- <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <691e89bd57907c96cbb8e922cb12b1264b31d471.camel@ndufresne.ca>
+To: Chen-Yu Tsai <wenst@chromium.org>
+References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
+ <20230221153740.1620529-7-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5Ed-5Nq0zNzCGzez3fnW2yxW7zFx9B6k58Y4yb8P+hvpw@mail.gmail.com>
+ <88a3fa09-60cb-bb3c-c392-286efd983627@collabora.com>
+ <CAGXv+5H3XMF7ov_WfNFA=HC0frD003MRdVuBOFiBvu8zxE_rwg@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAGXv+5H3XMF7ov_WfNFA=HC0frD003MRdVuBOFiBvu8zxE_rwg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,33 +59,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 22/02/2023 17:28, Nicolas Dufresne wrote:
-> Hi Tomi,
-> 
-> Le mercredi 21 décembre 2022 à 11:24 +0200, Tomi Valkeinen a écrit :
->> Add Y210, Y212 and Y216 formats.
+Il 23/02/23 03:43, Chen-Yu Tsai ha scritto:
+> On Wed, Feb 22, 2023 at 5:13 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
 >>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> ---
->>   .../media/v4l/pixfmt-packed-yuv.rst           | 49 ++++++++++++++++++-
->>   drivers/media/v4l2-core/v4l2-ioctl.c          |  3 ++
->>   include/uapi/linux/videodev2.h                |  8 +++
->>   3 files changed, 58 insertions(+), 2 deletions(-)
+>> Il 22/02/23 09:37, Chen-Yu Tsai ha scritto:
+>>> On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
+>>> <angelogioacchino.delregno@collabora.com> wrote:
+>>>>
+>>>> Get GPU support on MT8186 by adding its compatible.
+>>>>
+>>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>>> ---
+>>>>    Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 +++++
+>>>>    1 file changed, 5 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>>>> index be18b161959b..43a841d4e94d 100644
+>>>> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>>>> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+>>>> @@ -15,6 +15,11 @@ properties:
+>>>>
+>>>>      compatible:
+>>>>        oneOf:
+>>>> +      - items:
+>>>> +          - enum:
+>>>> +              - mediatek,mt8186-mali
+>>>> +          - const: mediatek,mt8183b-mali
+>>>> +          - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
+>>>
+>>> The MT8186 has Mali-G52 MC2 2EE, while the MT8183 has Mali-G72 MP3.
+>>
+>> Keeping in mind the obvious - which is that G52 and G72 are both Bifrost....
+>>
+>>> So we actually need a new entry with two power domains.
+>>>
+>>
+>> ...This is my node for MT8186:
+>>
+>>                  gpu: gpu@13040000 {
+>>                          compatible = "mediatek,mt8186-mali",
+>>                                       "mediatek,mt8183b-mali",
+>>                                       "arm,mali-bifrost";
+>>                          reg = <0 0x13040000 0 0x4000>;
+>>
+>>                          clocks = <&mfgsys CLK_MFG_BG3D>;
+>>                          interrupts = <GIC_SPI 276 IRQ_TYPE_LEVEL_HIGH 0>,
+>>                                       <GIC_SPI 275 IRQ_TYPE_LEVEL_HIGH 0>,
+>>                                       <GIC_SPI 274 IRQ_TYPE_LEVEL_HIGH 0>;
+>>                          interrupt-names = "job", "mmu", "gpu";
+>>                          power-domains = <&spm MT8186_POWER_DOMAIN_MFG1>,
+>>                                          <&spm MT8186_POWER_DOMAIN_MFG2>,
+>>                                          <&spm MT8186_POWER_DOMAIN_MFG3>;
+>>                          power-domain-names = "core0", "core1", "core2";
+>>
+>>                          /* Please ignore speedbin, that's for another time :-) */
+>>                          nvmem-cells = <&gpu_volt_bin>;
+>>                          nvmem-cell-names = "speed-bin";
+>>                          #cooling-cells = <2>;
+>>                  };
+>>
+>> There are three MFG power domains... MFG2 and MFG3 are parents of MFG1, on that
+>> I agree, but we can avoid adding a new entry just for MT8186 and use the MT8183-b
+>> one while still being technically correct.
+>>
+>> Besides, Mali G52 and Mali G72 are both Bifrost... so I don't think that this
+>> commit is incorrect. For the sake of simplicity, I would push on getting this
+>> one picked.
 > 
-> It seems you omitted to update v4l2-common.c, Ming Qian had made a suplicated
-> commit for this, I'll ask him if he can keep the -common changes you forgot.
+> I'm aware. In case it wasn't obvious, Mali-G52 MC2 2EE has 2 cores, while
+> Mali-G72 MP3 has 3 cores. I think that is reason enough to do a new entry.
+> Otherwise you are describing power domains for 3 cores for a GPU that only
+> has two.
+> 
+>> Unless there are any real-strong opinions against...
+> 
+> Yes.
+> 
 
-Ah, I wasn't aware of the format list in that file.
+Ok, I will do that for v3!
 
-I think you refer to the "media: imx-jpeg: Add support for 12 bit 
-extended jpeg" series. Yes, I'm fine if he can add the -common changes 
-there, but I can also send a separate patch. In fact, maybe a separate 
-fix patch is better, so that we can have it merged in the early 6.3 rcs.
+Cheers,
+Angelo
 
-  Tomi
+> ChenYu
+
 
