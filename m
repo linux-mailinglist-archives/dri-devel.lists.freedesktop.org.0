@@ -1,77 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15056A1073
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 20:17:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2632E6A1080
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 20:23:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75B0010E0CF;
-	Thu, 23 Feb 2023 19:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5476410E0DE;
+	Thu, 23 Feb 2023 19:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12F0210E06C;
- Thu, 23 Feb 2023 19:17:45 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31NB45kt012780; Thu, 23 Feb 2023 19:17:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=3dYIwA/4/9A+RLvGcDRtys6zldwoQoCo3Na5NhuLUaE=;
- b=haXPCLGeOGOrJRgcG5kLKeA9SHHKTVsDg1vMimEkQlbNy2uoduwkdpgPAq4e6GQlJ25i
- USMr/yWcGEC+UR4lMFXbI0ISNim//t1eE421UN5BnX9XkSbn5nMwRNlBdUroKIMn67qp
- Jl2h+dYxrUQB83tKNHxXMhSQHui5vW68Iqlm9cfAUZgOGbw1CWe4LFk7bj79WK7BNFRH
- wAJpRFuQkc9nqpKSzreHNkzXey8g0YGHa55SyToZVyOWVhhn6freZsJGKCSrF580uWAm
- MKjeRqxPQt5xVpIjONROcmebQ/rQ6sqdjFAMdwM5SQ/riXce4/se5IZy7hU2qzBLxtoS 1w== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nwyc5jedn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 19:17:33 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31NJHWPC009696
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Feb 2023 19:17:32 GMT
-Received: from [10.110.22.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 23 Feb
- 2023 11:17:32 -0800
-Message-ID: <0daf8821-a228-1180-358b-4e50f36ca4b0@quicinc.com>
-Date: Thu, 23 Feb 2023 11:17:31 -0800
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4A3610E0DE
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 19:23:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677180198; x=1708716198;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=TcSKtnSmpVPLRb9cnLenktQFNSwR+Zw81nlzKZOXx9g=;
+ b=bg0Ps9+3qQZYM9AVdC/Ih+QH/4nctlmixatBrScr6ZK9ZZFHpXaIAhzZ
+ yx2QXMa529IqZD1eEQMBSn5wXwJSs/GQh2sAwMwYTwyEuPSUq+erDCx7K
+ wjN6s2MkX1Ln8wu4sMmST1vYPIzD/q6tzLv1RJX5gAJ2w79jMbLvErzvY
+ c54gZyEaaIkHR/J2B6O5fS/WoS0xUT/qXVyMXd2vtWgXHXMkMgwNVADtj
+ rOfY7GxtyiD6v7GMA/RNpokFtzwIalK0Z3pHy1pr4pakHJCk93rVxWm5R
+ dOSrogEYJyBMA3gSlCrKOiC9kcpPKierkbzt1pHDkzQcvmIbk9dy8/R0v Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="333310097"
+X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; d="scan'208";a="333310097"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Feb 2023 11:23:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="782027210"
+X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; d="scan'208";a="782027210"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 23 Feb 2023 11:23:16 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pVHBT-0001fP-2e;
+ Thu, 23 Feb 2023 19:23:15 +0000
+Date: Fri, 24 Feb 2023 03:22:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, patrik.r.jakobsson@gmail.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: Re: [PATCH 6/7] drm/gma500: Implement client-based fbdev emulation
+Message-ID: <202302240327.EvR0Gx5N-lkp@intel.com>
+References: <20230223121733.12549-7-tzimmermann@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dpu: fix stack smashing in
- dpu_hw_ctl_setup_blendstage
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230223095708.3688148-1-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230223095708.3688148-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: dBsnsPj2ZTQW_Ddf_dn4FAxOYcLnxWGy
-X-Proofpoint-GUID: dBsnsPj2ZTQW_Ddf_dn4FAxOYcLnxWGy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-23_13,2023-02-23_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 suspectscore=0
- phishscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 adultscore=0
- mlxscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302230158
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230223121733.12549-7-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,91 +60,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry
+Hi Thomas,
 
-On 2/23/2023 1:57 AM, Dmitry Baryshkov wrote:
-> The rewritten dpu_hw_ctl_setup_blendstage() can lightly smash the stack
-> when setting the SSPP_NONE pipe. However it was unnoticed until the
-> kernel was tested under AOSP (with some kind of stack protection/check).
-> 
-> This fixes the following backtrace:
-> 
-> Unexpected kernel BRK exception at EL1
-> Internal error: BRK handler: 00000000f20003e8 [#1] PREEMPT SMP
-> Hardware name: Thundercomm Dragonboard 845c (DT)
-> pstate: a0400005 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : dpu_hw_ctl_setup_blendstage+0x26c/0x278 [msm]
-> lr : _dpu_crtc_blend_setup+0x4b4/0x5a0 [msm]
-> sp : ffffffc00bdcb720
-> x29: ffffffc00bdcb720 x28: ffffff8085debac0 x27: 0000000000000002
-> x26: ffffffd74af18320 x25: ffffff8083af75a0 x24: ffffffc00bdcb878
-> x23: 0000000000000001 x22: 0000000000000000 x21: ffffff8085a70000
-> x20: ffffff8083012dc0 x19: 0000000000000001 x18: 0000000000000000
-> x17: 000000040044ffff x16: 045000f4b5593519 x15: 0000000000000000
-> x14: 000000000000000b x13: 0000000000000001 x12: 0000000000000000
-> x11: 0000000000000001 x10: ffffffc00bdcb764 x9 : ffffffd74af06a08
-> x8 : 0000000000000001 x7 : 0000000000000001 x6 : 0000000000000000
-> x5 : ffffffc00bdcb878 x4 : 0000000000000002 x3 : ffffffffffffffff
-> x2 : ffffffc00bdcb878 x1 : 0000000000000000 x0 : 0000000000000002
-> Call trace:
->   dpu_hw_ctl_setup_blendstage+0x26c/0x278 [msm]
->   _dpu_crtc_blend_setup+0x4b4/0x5a0 [msm]
->   dpu_crtc_atomic_begin+0xd8/0x22c [msm]
->   drm_atomic_helper_commit_planes+0x80/0x208 [drm_kms_helper]
->   msm_atomic_commit_tail+0x134/0x6f0 [msm]
->   commit_tail+0xa4/0x1a4 [drm_kms_helper]
->   drm_atomic_helper_commit+0x170/0x184 [drm_kms_helper]
->   drm_atomic_commit+0xac/0xe8
->   drm_mode_atomic_ioctl+0xbf0/0xdac
->   drm_ioctl_kernel+0xc4/0x178
->   drm_ioctl+0x2c8/0x608
->   __arm64_sys_ioctl+0xa8/0xec
->   invoke_syscall+0x44/0x104
->   el0_svc_common.constprop.0+0x44/0xec
->   do_el0_svc+0x38/0x98
->   el0_svc+0x2c/0xb4
->   el0t_64_sync_handler+0xb8/0xbc
->   el0t_64_sync+0x1a0/0x1a4
-> Code: 52800016 52800017 52800018 17ffffc7 (d4207d00)
-> 
-> Fixes: 4488f71f6373 ("drm/msm/dpu: simplify blend configuration")
-> Reported-by: Amit Pundir <amit.pundir@linaro.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> index b88a2f3724e6..6c53ea560ffa 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> @@ -446,7 +446,9 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
->   			 * CTL_LAYER has 3-bit field (and extra bits in EXT register),
->   			 * all EXT registers has 4-bit fields.
->   			 */
-> -			if (cfg->idx == 0) {
-> +			if (cfg->idx == -1) {
-> +				continue;
-> +			} else if (cfg->idx == 0) {
->   				mixercfg[0] |= mix << cfg->shift;
->   				mixercfg[1] |= ext << cfg->ext_shift;
->   			} else {
+I love your patch! Yet something to improve:
 
-Since I had not reviewed the change which introduced this, had a question.
+[auto build test ERROR on linus/master]
+[cannot apply to drm-misc/drm-misc-next v6.2 v6.2-rc8 v6.2-rc7 next-20230223 v6.2 next-20230223]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The issue here is because the shift and ext_shift are -1 for NONE and 
-hence the shift causes overflow?
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-gma500-Remove-unnecessary-include-statements/20230223-202205
+patch link:    https://lore.kernel.org/r/20230223121733.12549-7-tzimmermann%40suse.de
+patch subject: [PATCH 6/7] drm/gma500: Implement client-based fbdev emulation
+config: x86_64-randconfig-a004 (https://download.01.org/0day-ci/archive/20230224/202302240327.EvR0Gx5N-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/d1c984af29e0c5219d353a4772527d233d1c1bcc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Zimmermann/drm-gma500-Remove-unnecessary-include-statements/20230223-202205
+        git checkout d1c984af29e0c5219d353a4772527d233d1c1bcc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-If that was the issue shouldnt we protect all such cases?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302240327.EvR0Gx5N-lkp@intel.com/
 
-So lets say we use SSPP_RGB0, the multirect_index for it will always be 
--1 as it doesnt support smartDMA. What prevents the same issue from 
-hitting in that case? Because you are only checking for idx and not the 
-shifts.
+All error/warnings (new ones prefixed by >>):
 
+   ld: drivers/gpu/drm/gma500/cdv_device.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/cdv_intel_crt.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/cdv_intel_display.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/cdv_intel_dp.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/cdv_intel_hdmi.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/cdv_intel_lvds.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/framebuffer.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/framebuffer.c:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/gem.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/gma_device.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/gma_device.c:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/gma_display.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/gtt.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/intel_bios.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/intel_gmbus.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/intel_i2c.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/mid_bios.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/mmu.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/oaktrail_device.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/oaktrail_crtc.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/oaktrail_hdmi.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/oaktrail_hdmi_i2c.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/oaktrail_lvds.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/oaktrail_lvds_i2c.o: in function `psb_fbdev_setup':
+>> drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/power.o: in function `psb_fbdev_setup':
+   power.c:(.text+0x40): multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/psb_device.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/psb_drv.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/psb_intel_display.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/psb_intel_lvds.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/psb_intel_sdvo.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/psb_lid.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/psb_irq.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+   ld: drivers/gpu/drm/gma500/opregion.o: in function `psb_fbdev_setup':
+   drivers/gpu/drm/gma500/psb_drv.h:621: multiple definition of `psb_fbdev_setup'; drivers/gpu/drm/gma500/backlight.o:drivers/gpu/drm/gma500/psb_drv.h:621: first defined here
+--
+   In file included from drivers/gpu/drm/gma500/backlight.c:14:
+>> drivers/gpu/drm/gma500/psb_drv.h:620:6: warning: no previous prototype for 'psb_fbdev_setup' [-Wmissing-prototypes]
+     620 | void psb_fbdev_setup(struct drm_psb_private *dev_priv)
+         |      ^~~~~~~~~~~~~~~
+
+
+vim +621 drivers/gpu/drm/gma500/psb_drv.h
+
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  610  
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  611  /* framebuffer */
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  612  extern struct drm_framebuffer *psb_framebuffer_create(struct drm_device *dev,
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  613  						      const struct drm_mode_fb_cmd2 *mode_cmd,
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  614  						      struct drm_gem_object *obj);
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  615  
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  616  /* fbdev */
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  617  #if defined(CONFIG_DRM_FBDEV_EMULATION)
+d1c984af29e0c5 Thomas Zimmermann 2023-02-23  618  void psb_fbdev_setup(struct drm_psb_private *dev_priv);
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  619  #else
+d1c984af29e0c5 Thomas Zimmermann 2023-02-23 @620  void psb_fbdev_setup(struct drm_psb_private *dev_priv)
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23 @621  { }
+b0f256f81e3ff9 Thomas Zimmermann 2023-02-23  622  #endif
+5c49fd3aa0ab02 Alan Cox          2011-11-03  623  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
