@@ -1,120 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBA86A0721
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 12:13:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA5E6A0729
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 12:16:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B48BB10EB1C;
-	Thu, 23 Feb 2023 11:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A290B10EB15;
+	Thu, 23 Feb 2023 11:16:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on20601.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eae::601])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D26510EB15;
- Thu, 23 Feb 2023 11:13:24 +0000 (UTC)
+ (mail-bn8nam11on20600.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eae::600])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9359A10E4CC;
+ Thu, 23 Feb 2023 11:16:03 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=esUBT4e+2ZSqZp6H7JdzIQBr8s5o8aUbJOGqnsEOdFypVPGtoyk+2idYBJbwbhf/8wTRlZz4u8d32cf5vp00EbD+hqx8kYhvRL79ysjwXnOW+JguTUQigixglmHSMtnG/HyqUpW91GgW2qSQPS3xMyh3+rLjQi3bcD/XBY+6XkAeiQrmg2JC///FDOSzHCzOrZJFslPFkhXfWCF9Frk3yq1lgPpiEXMYlfdcYdqlOZjfsHe9r4cuX64M3tAPHKBHkpyGo5jWfGvyauPn62Gy3dHj4zE5swx/J+kE6wSZuFsXyOerpchr/5uQcOyMn0ysh5Jzl9zkf370KLJcXNG0kg==
+ b=NbyfC8Y1k6fbtPHLoIPvOzUCCitl7HoEl6Di66hT6fAEpJYFPSEZ87RyUOQiCD+7xIDxiPcoSG93Dr04grg0rSlJzmdF8GreT5jsQQ5tbv1BX4rLayFVk4OHa8beS1TFGDoBRlpDuw0yi0vUjxO1m3lId5EKMbnd6UHJMs5qmvK4gtWZ02lGBXpu839EJA4EB/fL7TP0YWiwTo+WPjmByF4JkdNCmCaBRo7jsPHoRtq7ml4TwrY6CsNaEcm7YuIQBR1IT2KzED3m4zJXuWHdZnL1gJiyaTEcGZwWiY+enzqrLpIE8PPLyeCJ7kFZ3mUpucQjgQXDAS9bSwJUrOiWLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3GabwSA5nwKP+pdmjBG/ebSTeHAYdWDxHi2lbA3Ul00=;
- b=ctEudGlbbcd7ONjj9hEyghmWzcEeg8IQXJpd4vUM3QfEmAmVBmP/UGYV5AjE9BOfXJoF6kq2my06GKvj79MG2oEDY7q3V7P6zf7FDP+mGUiYY4GU59IVjCmFDnoeMn5Eihjl+xJL2e0fJAs4MAeIHCrrYbC4K9O8XRO/5T/RxGR9EV2EQDB11OEZ78X9D7+Lg1WW6f2k8fBgk+eLVOoTZNk4OsDU84TwQ142ATKmq9+GvG/TxMVtcS487cBfy7Jp006NsB2y/KqUcVBGBzNdCo+20OBj00kQ6p5yMidf/rdCS2PppXoZSq2MBgIsTqj7qgM4hDIa4230vUfSQiiGpQ==
+ bh=lIfYu7XRc4DuSrdIIXA5K6YyFkkxEJ2YZGS0l1b2qTk=;
+ b=WRWMD2BgHCsaqYh8ytPn/j/qIslNxUt6oWxWwXa/HSOONyqQ7bpzIpKXzXz+QmpFt8Ej7ti9Xd+hb+AS0baGkCu9VUXEilDSPTa4xU0Z2Y5So5XpPvET8MAzvBlkaCtEymgEtk6d6zLd+K/8TChIN/l8bI5QiJcAwkO5+f+Tsw0dTABRuuHKgmW54jgwI/2v+5PZU8YJXj/exJ0itv0mfpFRtgGsJJzu6kgmdp5A7Vtk4GdrW5eoH21+gEv+qUk6QomJF6Uzd27/HzdlaQTHxXn9SWaKMzMx/jYz6EZmaFB+sanhHWGU67FQyQwE0RJbGBzR+jTXWFjtJxqWYG82RQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3GabwSA5nwKP+pdmjBG/ebSTeHAYdWDxHi2lbA3Ul00=;
- b=u/rr4QfKLhWCNctVxpi2k6X5ILmT7qVdmGM9DTLcyU3v8f61w7W4XnRrBjL6G0xMghurf03NzNk71WEztGYckxXgP/qJQBaerl+0gWKLLN78/v9xKKU1UnLOy+7KBtf99QNQMVugcdiz47G3fkPsoqpj3nzVUyoTuRR6DrNBiD0=
+ bh=lIfYu7XRc4DuSrdIIXA5K6YyFkkxEJ2YZGS0l1b2qTk=;
+ b=rmP9znA2ObuaEUIhC4cH7CGGNvEgQTPZd1q38rf8HyAafmmN6FdNvKOspVIS2Bqqrk8yKXtS7gg2m/s2NZ+E1V6Kk0abkDFfSSpnM6YVT/2Dr0Knv9c9VZtbxJ1I5vLxcpExo6OKLngYxXS/iE9yFi5kY2VCs+VuMsTKN/5UZ8Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
  by PH8PR12MB7109.namprd12.prod.outlook.com (2603:10b6:510:22f::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.20; Thu, 23 Feb
- 2023 11:13:21 +0000
+ 2023 11:16:01 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::2e4f:4041:28be:ba7a]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::2e4f:4041:28be:ba7a%6]) with mapi id 15.20.6134.021; Thu, 23 Feb 2023
- 11:13:20 +0000
-Message-ID: <3e3a8200-5648-659f-10bd-a7e3e1ab14a2@amd.com>
-Date: Thu, 23 Feb 2023 12:13:14 +0100
+ 11:16:00 +0000
+Message-ID: <204ae1e9-de6f-0ab0-6d49-b6451168a384@amd.com>
+Date: Thu, 23 Feb 2023 12:15:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH 1/3] drm/suballoc: Extract amdgpu_sa.c as generic
- suballocation helper
+Subject: Re: [PATCH 2/3] drm/amd: Convert amdgpu to use suballocation helper.
 Content-Language: en-US
 To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
  dri-devel@lists.freedesktop.org
 References: <20230223105747.4719-1-thomas.hellstrom@linux.intel.com>
- <20230223105747.4719-2-thomas.hellstrom@linux.intel.com>
+ <20230223105747.4719-3-thomas.hellstrom@linux.intel.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230223105747.4719-2-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20230223105747.4719-3-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0076.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0113.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::8) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH8PR12MB7109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d686ff1-dddf-4b0f-c0f1-08db158ef85b
+X-MS-Office365-Filtering-Correlation-Id: 37c2048c-fe71-4171-59f1-08db158f582f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XrB59QctUEqrYbAX1hxknpsrzvjHSY2oqqrBcVT3hKBEJIQIgvLVgBULpCOlHuAZdBiXr2a/OgdSiv3UKPVM+KystVRmaK5+8wxNOmvcHcwZyagusGOW4uBUgg0NPkCBNPL1EZvI5nrxsEOAbopM2z95B+Tt1kRZmyQzkb+AzHxIgdtuLeBOnb5/ooIrAgskvxG3wncklX54Gi5BA6Vt9RBu+Z/oU7mweX7P5n6DtnEd992X5AnMvKfjXROOo1TCYtZ97AJYL3gDBy5hy8+eDhl99qOxedFFCRPX/Myqs3kzMQx01mZurhz0rImKcVXqvNk+m4RPKV0WJKdgab7YjLS0WBQUad6JrIdcB+r/KgV5O9ncbajrhlKOE1W+2HGs6HVe5LOiU0h0CpTNWx+PEPfaCiYqiplJOexg41UPXemlzsRbLobOMz9NSqjI8i7GzdH2lUBITYcZOtMGjNsoL9uHgscEVG9+9KA7HrIF90GMRi+TPnkCNvc5JiAVFqRWOZDuus2Ooov/Yolj/p8jkMDnvcXKEn66HD07tFObvXGrcb7rk7sdISTSJ5oA4yqgVqwp4Nqnw5z5mNQOYPZzKz2v5VRl6WlrgIUHjVzdVCkMQatxH3UQ1u3XP5305rfT+Rs4tu19qXH9AnyWEtLI4BhI+JubY7tpHXgFxiy5lqeLXB6YzXnLLMHy7Ndl9wvzm3SWlO9wNmnvgHOWgikPKaxZ6sv0zAFr5Jbyd1+lI3a/Vic8jbjotNCA39mTOfss
+X-Microsoft-Antispam-Message-Info: X3GxaHcDdZCmMU64xYBc5XlMeqRXloB2Mz7snQxZikduZxdniQxUW2ZZojo1rjAKGYLcvHCyiCGEdPjXQDVJQUo6XKuNviSjj7M1htszECdps6FOFcbtqnAoVl7OYAofbRxfIBXu223eSnf4/k+s4BgyNXwT4rJnzD+vsTy8cApxBY4pB656YFn+9UkfIsupprCYWLuuI5ycf7vblBUOLn5gseD3VAkQnz8zLcD2eatW8eCdIlPJ5SZaJGJFj/vnn0g//6xXT8CXnRS6I6HP09rOhKx3KoYDbqLDy9tWcSZX1yx4e5bLbC2J50Xh5L4+OcMGjo2hlUpcH0J3dhzcZVVjX1/1+1xeNY3WMpDU/q2eF17l7bBhbu9DlcV0sdQ38yUzYq/BVZZH1jDuU4alekGEvBWofOfP6XTozYvN2f0mwzKxXmKLA1FdU4IDkFEqJTipeCwwiujg4/xl7+51tzptioRPsKyHcYfN/Rhp6h5fCuPKtH8iQeruXNTt12WtamS74qL5hwaSF0tnCgnzRJXXFzWZCQh7a1vWXzSMBfFi0eV3gxCHVhMRsxwF5OxT/QchMQxS7qf9Av6BLpk1v28liup5++52q9AoxZg2CtaP9ybmJ6ur2iY9Wqyo5O90OhX933UPhp1k4VSENYN5n8sj8QCHOOhMMp0tlLI08Z+xL2NnGjcq6P+6nwFlcdtXX+rQPn4CTmwPwXaeyXX+NV13KTWN2h9Fw8xhOXaRcw0=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(376002)(136003)(366004)(346002)(396003)(451199018)(2616005)(66899018)(2906002)(36756003)(66574015)(66946007)(5660300002)(41300700001)(66476007)(4326008)(66556008)(8676002)(8936002)(30864003)(83380400001)(478600001)(186003)(26005)(6512007)(6506007)(38100700002)(31686004)(6486002)(6666004)(31696002)(316002)(86362001)(54906003)(41533002)(45980500001)(43740500002);
+ SFS:(13230025)(4636009)(39860400002)(376002)(136003)(366004)(346002)(396003)(451199018)(2616005)(2906002)(36756003)(66574015)(66946007)(5660300002)(41300700001)(66476007)(4326008)(66556008)(8676002)(8936002)(30864003)(83380400001)(478600001)(186003)(26005)(6512007)(6506007)(38100700002)(31686004)(6486002)(6666004)(31696002)(316002)(86362001)(54906003)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUtjMzdjeG5rR3pKSVBWRzcxZm5qWjdsOS9tQUNpVVFLbldjdHRXSmorOWIz?=
- =?utf-8?B?SE9QWnJWLzhTeFdRM1ZyTUNsai9aWTU0OHh1emdXeG5WMXMxV0kzRFNHbS9K?=
- =?utf-8?B?SFRFZFR4elVMYUE3SG1FSTQwYXV4ZEFreDRnZm9leDkySVljVVpMNUxUN3Bn?=
- =?utf-8?B?RVdBRDhveUE0Q1JTTmZZQmM0OHdQWEVqYThYZnVYblp5MkJITUZmZnVKU2pB?=
- =?utf-8?B?OXJwNTErRWphRzVuczZsVmtseWdSRldQN2ZWWE5iTnRrNHhwOEs1dnhvK0hQ?=
- =?utf-8?B?L0RlajNhQVlQVlhHdTdheTIzZVZ0RHgxKytVS3p5QzFjUXREMVNJdEs5eWVU?=
- =?utf-8?B?bDkwZk9mbkhCNFJESHZqZEg1Wmh0a1g0KzZCSCtKTWY5SHFTelVMcE9uQW1X?=
- =?utf-8?B?djB0a0c3NFFQT3hoVElnZ1EzdnRwOXNxMy9SN0Z2dUFJTjBKeUk0RjJiUWE0?=
- =?utf-8?B?YzRjNmZiTmlrZGN4RkluNU5Cb3lqYjZLNDQ1MEJjVHpacmVFcUNtM28rS2wx?=
- =?utf-8?B?bXRnRWRMR2dia0RnU2NDUGtqR1NnaHNhVDhPL1IydG9lN0VHbUdmRTNzc2ZU?=
- =?utf-8?B?Z2orSmJWSHZJV3VRODRVUU1WWm9JellidWFXWi84bmxvby9KWEE3YWQzSUoy?=
- =?utf-8?B?cWJRcFlBMUtFRmwvOVVDaW1TcGYrUlE1UTZSU2wxckRCNjkzMVgvYzRXVi9N?=
- =?utf-8?B?U3d1RHE4Y3FMSWpRZXkxSDJlVjFRVHVQSWh2Ny80N0Z4ZEZRSVlrYTJtN3dR?=
- =?utf-8?B?ai9jckRoams4QmxpT2RzQTNzNWd2Uy90MUpkRFI1OEMvUU80NEt1aHJJeGMy?=
- =?utf-8?B?Z21id0RJakZFR2N0eUpMNEFiWnhyUWZoTTc5bkJ6WXJJYnJKT3JZOHRSTXlU?=
- =?utf-8?B?UFppVWo2czVqT1c5aHVoZURMVXJCUGdDeTFMbWlDOHE1bWFUNVE4M2ttSU53?=
- =?utf-8?B?MDBzbUZNaTd2K1V4WHlHemIrNmoyN1UyMm5LWWN2cml5Ty9xNDZ2bzRwMnl6?=
- =?utf-8?B?VXBRN1JTeGFFVFFid0F0VGF3QnF5S1ZqVVNaRVd0amcrcndRelRKcU1WeGps?=
- =?utf-8?B?UXdsTEJJb29RYU1TbW9uY2NTNFJGaGVCb1FQUVBSQ0VwdHlqWWpiaUlDOHJQ?=
- =?utf-8?B?S2RLUUpFdERHSzN2a3RzRm9zQjJmaHQ3YW9UNCtrM0lRQWZVR2hJVEttU1V2?=
- =?utf-8?B?NkRuemhjM01wMTh2RVRXU05aRm8rWTdCdzBoZEYyUzQ5WE9wNUd2d1B5QmVB?=
- =?utf-8?B?UFJPWTlyOEh4bU82ZlZwbjhIdHhRdjNSbFBKeSt5cTcxajRpdmtvOEpDVEFk?=
- =?utf-8?B?OGVxb09URkhyQ21vTmp6TVpWc3dOL2V0eHpvdlA1VERmdExrY1I5T0NzcEp1?=
- =?utf-8?B?SGM4QUdUVGtYRWpacWZLb0ZGU1lYeUZXS05qczBBamhxUnlrVzlnT0g5bjdL?=
- =?utf-8?B?dloyekNRU1Q0dU1VV1ZReStzN2NLdkROWVJnL2QzejJsZkd6Tm5ld2E5OHkv?=
- =?utf-8?B?WUF2TUZ1bXd3TytWOXduKzBveHF5VVlBM3E1TTF1SmVVYUFOQ3I1cGlkY0JZ?=
- =?utf-8?B?cGIwamt5SFhJNWViTXUvQndya1RDTU8yL2xtZ2FYOFlrWWJqWlVxbFpkQVR6?=
- =?utf-8?B?aHM1MEhLTXJiL1dTK2J5YlV1WlBVc0JqbUp4aVFCeHJmcUMrSmdZSWszanhK?=
- =?utf-8?B?Z0ZmMWZabmlLbGRVaXZmVnh5VnpueThaS1NaWEo3SGI1S0xlRXlPdXJZcURm?=
- =?utf-8?B?WlFxYVVpemprZ1F0cmVLek1rem5MUGJZcUUzVzlzUFBoVEpwMHJ5RVVQdnc2?=
- =?utf-8?B?OU1WelU3bDZ1SmhsL2JnNHdlWjR3SXh0NDVWZks4aVN0bmY2bjZBQk03UGhF?=
- =?utf-8?B?RldEanBmbjJMOWNTSHYrSU05TytjdG1Tc2N5THliQkQ5OXRHWU8zRklsNWNk?=
- =?utf-8?B?T3hRL3NTaGo3dnlWRG92clZ0OXdndkZrOENuYjg2cHJKbW9aV1kzQ294UVdO?=
- =?utf-8?B?ME9VTkI2NllOU0tJM25UeVR1OVhHeHIxSWoyZEhtMHN5ei9jOE0yUlY4NGlH?=
- =?utf-8?B?dldzZkx2bEs5blpKTHR2LzFMeTR5ak0vQTJGenNWeHVNMGdiSWJWS2lvZytQ?=
- =?utf-8?Q?2+AcayurnwY9lgB7Kiv/hTDK4?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmViYVNVNk5PdVlDV1JROW9STU9vcjdBUGwzZm9kNFZhNXpQTDQvcTVkOTJB?=
+ =?utf-8?B?VjBaZlVOWTZqSXQySUE1WE5INVRUUHpDaFBkcWhxV2g3bmg4NkhGRnp2RUVy?=
+ =?utf-8?B?WlVCT1NnRDNqb2R0VUYyU0ZMNllORi93S1ZsWVU2OFJPOHF0Wlo5OU1VK24r?=
+ =?utf-8?B?cSszb2NGak1zV0NkekFYMUZ4dkY3UVhpeWRZWXg2YXNPL2FJeVhxQXFCOVBL?=
+ =?utf-8?B?RDFXUmlsQXo1T3E1WHZuZGQ5V042LytSNi92ODRPSjdpb1V6VmFUZEF0eHE0?=
+ =?utf-8?B?eWJOQ1puY0VDdTJZS2FYczJYYTZTRzVhUndheng1NjJxVHI1ckV6ZXFHL2hi?=
+ =?utf-8?B?cHZCWkt1ODdLRHBqMU40ZnRZNTFCTXhTQ0N1VU9Bd2lRYUFJQjdReHBrY25w?=
+ =?utf-8?B?RXovbUZ4VzB2YXlibVRRNm9BODExTTdWcmROWThDWjJIaHl4UHlKUWorbVpW?=
+ =?utf-8?B?VFhGVi9vQlNnYWFyOW5KbXFYSTdDRDJlQ3VHdWdhbml4UzBORW9sbFJRVjRy?=
+ =?utf-8?B?Z2p5dUNBYjVwZXlQUFozK0hNRUx2K29zSmkvdEtwaXRQQlZpNEhvYnJYQ2Vj?=
+ =?utf-8?B?Ky9pQ2k4UVFqbFBGb0k4aWpjV2VkNUV5LzVaZExYVisrYnlnVHIyOUpXY293?=
+ =?utf-8?B?Z3lncC9aZXZFcnY5ZytHZTdRK1ZPSWtIckVxNVdUcm9QWjE1a0pObmdvOTMz?=
+ =?utf-8?B?YjlSd3UrZmlLT25pcDFxeFJFNDFKclNlRzFuWVNoUnBNZENlcUV4NXk5N0Vp?=
+ =?utf-8?B?WExDRjFpRFgvOTZXenlaK3NBcTRPYWFVVVBzR0hLSG5ML1RRSTFxajBzMmds?=
+ =?utf-8?B?M0I0bXg3dWR0M0FoVm9XZGNTS2dmSkN3QnBra2hsd2ZXZDNwL0VMNGMxYncx?=
+ =?utf-8?B?RmVJWDFlZnErRlhCNXRuV0w0SmNjbDZBU29JWTlRNW4xRElWQnYzT3lTM29E?=
+ =?utf-8?B?dGRNNEx4V1RqR2Q2WGxBVnBMTmZwZDZ0UkIwTENDcG80MlFlZ0tBcldyMEY5?=
+ =?utf-8?B?QjdBcHI3TXZER2YyNHUvNEtzOUhkUjBneWVjcmg3Nnc1cU5vamZrbWNWRER5?=
+ =?utf-8?B?aDZ2UE54dXE0OVVRZWdxT2RhdGo1eXZIY2lQSmpFVGJ0QjNDTHYyRlZCUXo5?=
+ =?utf-8?B?NXdRV1Nud1BaRzlZci96eHUxRURrUHh4bXUxbmV0TmUwQlQ5Y0lrNUdnSzZU?=
+ =?utf-8?B?QTljTkkvdlFJekorQks4KzN1NmdtazBud0NycEh4eFRRbVJJWnM1cEYxYjJw?=
+ =?utf-8?B?eUJiTnZwVlU4MVlrSENLM0NJTldNdzNVZEtmckFDRHNIZ1RWSW1ZNUhmNEgx?=
+ =?utf-8?B?WkpGR293U1l3bjBSRit5V0ZjZzQzby9JZk5EZXZETjhlNXpmd2M4dGlvQXFo?=
+ =?utf-8?B?MXF5NitxM0cwSXdWN0xxUnkwWmYxYU9oY0NSTnlodHFtRkh1WS9uTVNFVWdt?=
+ =?utf-8?B?NEp3MEk3SFdNc0pucE1tNTdRRHRjdnFWN2d2a0dGL2Z2TldEZE56eCtYdUNk?=
+ =?utf-8?B?UTkxWDN1SHRzcUlGaUhabzVTUVFnaFVQbWIrdUgrcXZXSzJCNEJoT3VZazdP?=
+ =?utf-8?B?OFBvYWYrQXhXMlVaN1VlNDU4VVFNY2p1T2FWbHBPc0RPSnBvckFHZ0xaaGRa?=
+ =?utf-8?B?TGxNajVwbXZwTU4xaU5RRCs1ZU9DTzF6WFdSUSszMytoQlJBbWtBZjRWV2dk?=
+ =?utf-8?B?SVlTRTZlc2ZDc1FKN2VtdThQb2s5YnlQZE5yUTdoOTJWZ2IyazFyTWZiS3BI?=
+ =?utf-8?B?VnRyaUQvN0FUMTV6b1BOK2tiTzRFNEU4M2labnBDWHRsQ2NFL2VDalhkeUZv?=
+ =?utf-8?B?MkZsblNJdVIvRU9YYUtYeVdrY2RIWmN0YmJ1a2p3VHp2T1llQ21iWmhFMDdX?=
+ =?utf-8?B?b1BQYnpQOVZHY0ZhYjYwTFJUUVpGOFVQMlZnS0x2VVNyKzVIYUEzK0V3V0t6?=
+ =?utf-8?B?aVlpWENOT1JpQXhINmhJTzhqTExGd1ZkRW5UczAyNWdJRW9tcVFsNlNEUGVR?=
+ =?utf-8?B?Q3NoUFE3Q2pka3k1WkZTMUhLS3k0RURoTEc0dkRXMW1xaHZSLzFlVjlnUm00?=
+ =?utf-8?B?MEUzR2VvbTdNMkM5L3pZSVBIWkhuNDFmOC84SzlRZlFXZnJoSElxODRxRDRK?=
+ =?utf-8?Q?l7w0KAwDLZJ7+q7n7Q6r5Fmku?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d686ff1-dddf-4b0f-c0f1-08db158ef85b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37c2048c-fe71-4171-59f1-08db158f582f
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 11:13:20.1546 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2023 11:16:00.8468 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: it5gWnmbpuyb8INaRpAmo+FnKlu4Z4uSbmjEeL7u1rJinQlJk2b83z8lGn7mlEGW
+X-MS-Exchange-CrossTenant-UserPrincipalName: EXEWwaaPUmToi8a3Mk1VR6BO1j3b4eN6t920GnDO/SflpPUL7KmIc+9JXWKppvWo
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7109
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -136,643 +135,559 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Am 23.02.23 um 11:57 schrieb Thomas Hellström:
 > From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 >
-> Suballocating a buffer object is something that is not driver-specific
-> and useful for many drivers.
->
-> Use a slightly modified version of amdgpu_sa.c
->
-> v2:
-> - Style cleanups. (Thomas)
-> - Added / Modified documentation (Thomas)
-> - Use u64 for the sizes and offset. The code dates back to 2012 and
->    using unsigned int will probably soon come back to bite us.
->    We can consider size_t as well for better 32-bit efficiency. (Thomas)
-> - Add and document gfp, intr and align arguments to drm_suballoc_new()
->    (Thomas)
-> - Use drm_printer for debug output (Thomas)
+> Now that we have a generic suballocation helper, Use it in amdgpu.
+> For lines that get moved or changed, also fix up pre-existing style issues.
 >
 > Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > ---
->   drivers/gpu/drm/Kconfig        |   4 +
->   drivers/gpu/drm/Makefile       |   3 +
->   drivers/gpu/drm/drm_suballoc.c | 457 +++++++++++++++++++++++++++++++++
->   include/drm/drm_suballoc.h     | 106 ++++++++
->   4 files changed, 570 insertions(+)
->   create mode 100644 drivers/gpu/drm/drm_suballoc.c
->   create mode 100644 include/drm/drm_suballoc.h
+>   drivers/gpu/drm/Kconfig                    |   1 +
+>   drivers/gpu/drm/amd/amdgpu/Kconfig         |   1 +
+>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  26 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c     |   5 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  23 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |   3 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c     | 324 ++-------------------
+>   7 files changed, 46 insertions(+), 337 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index dc0f94f02a82..8fbe57407c60 100644
+> index 8fbe57407c60..73ddfdf3a894 100644
 > --- a/drivers/gpu/drm/Kconfig
 > +++ b/drivers/gpu/drm/Kconfig
-> @@ -232,6 +232,10 @@ config DRM_GEM_SHMEM_HELPER
->   	help
->   	  Choose this if you need the GEM shmem helper functions
->   
-> +config DRM_SUBALLOC_HELPER
-> +	tristate
-> +	depends on DRM
-> +
->   config DRM_SCHED
->   	tristate
->   	depends on DRM
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index ab4460fcd63f..1e04d135e866 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -88,6 +88,9 @@ obj-$(CONFIG_DRM_GEM_DMA_HELPER) += drm_dma_helper.o
->   drm_shmem_helper-y := drm_gem_shmem_helper.o
->   obj-$(CONFIG_DRM_GEM_SHMEM_HELPER) += drm_shmem_helper.o
->   
-> +drm_suballoc_helper-y := drm_suballoc.o
-> +obj-$(CONFIG_DRM_SUBALLOC_HELPER) += drm_suballoc_helper.o
-> +
->   drm_vram_helper-y := drm_gem_vram_helper.o
->   obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
->   
-> diff --git a/drivers/gpu/drm/drm_suballoc.c b/drivers/gpu/drm/drm_suballoc.c
-> new file mode 100644
-> index 000000000000..057cd19c44ba
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_suballoc.c
-> @@ -0,0 +1,457 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +/*
-> + * Copyright 2011 Red Hat Inc.
-> + * Copyright 2023 Intel Corporation.
-> + * All Rights Reserved.
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the
-> + * "Software"), to deal in the Software without restriction, including
-> + * without limitation the rights to use, copy, modify, merge, publish,
-> + * distribute, sub license, and/or sell copies of the Software, and to
-> + * permit persons to whom the Software is furnished to do so, subject to
-> + * the following conditions:
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
-> + * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
-> + * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-> + * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-> + * USE OR OTHER DEALINGS IN THE SOFTWARE.
-> + *
-> + * The above copyright notice and this permission notice (including the
-> + * next paragraph) shall be included in all copies or substantial portions
-> + * of the Software.
-> + *
-> + */
-> +/*
-> + * Authors:
-> + *    Jerome Glisse <glisse@freedesktop.org>
-> + */
+> @@ -77,6 +77,7 @@ config DRM_KUNIT_TEST
+>   	select DRM_DISPLAY_HELPER
+>   	select DRM_LIB_RANDOM
+>   	select DRM_KMS_HELPER
+> +	select DRM_SUBALLOC_HELPER
+>   	select DRM_BUDDY
+>   	select DRM_EXPORT_FOR_TESTS if m
+>   	select DRM_KUNIT_TEST_HELPERS
 
-We should probably update this or just leave it out.
-
-Apart from that Reviewed-by: Christian König <christian.koenig@amd.com>.
+This looks like it's misplaced, apart from that the patch looks good to me.
 
 Regards,
 Christian.
 
-> +/* Algorithm:
-> + *
-> + * We store the last allocated bo in "hole", we always try to allocate
-> + * after the last allocated bo. Principle is that in a linear GPU ring
-> + * progression was is after last is the oldest bo we allocated and thus
-> + * the first one that should no longer be in use by the GPU.
-> + *
-> + * If it's not the case we skip over the bo after last to the closest
-> + * done bo if such one exist. If none exist and we are not asked to
-> + * block we report failure to allocate.
-> + *
-> + * If we are asked to block we wait on all the oldest fence of all
-> + * rings. We just wait for any of those fence to complete.
-> + */
-> +
+> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> index 5341b6b242c3..0ed12171450b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
+> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> @@ -18,6 +18,7 @@ config DRM_AMDGPU
+>   	select BACKLIGHT_CLASS_DEVICE
+>   	select INTERVAL_TREE
+>   	select DRM_BUDDY
+> +	select DRM_SUBALLOC_HELPER
+>   	# amdgpu depends on ACPI_VIDEO when ACPI is enabled, for select to work
+>   	# ACPI_VIDEO's dependencies must also be selected.
+>   	select INPUT if ACPI
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 164141bc8b4a..dda88090f044 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -424,29 +424,11 @@ struct amdgpu_clock {
+>    * alignment).
+>    */
+>   
+> -#define AMDGPU_SA_NUM_FENCE_LISTS	32
+> -
+>   struct amdgpu_sa_manager {
+> -	wait_queue_head_t	wq;
+> -	struct amdgpu_bo	*bo;
+> -	struct list_head	*hole;
+> -	struct list_head	flist[AMDGPU_SA_NUM_FENCE_LISTS];
+> -	struct list_head	olist;
+> -	unsigned		size;
+> -	uint64_t		gpu_addr;
+> -	void			*cpu_ptr;
+> -	uint32_t		domain;
+> -	uint32_t		align;
+> -};
+> -
+> -/* sub-allocation buffer */
+> -struct amdgpu_sa_bo {
+> -	struct list_head		olist;
+> -	struct list_head		flist;
+> -	struct amdgpu_sa_manager	*manager;
+> -	unsigned			soffset;
+> -	unsigned			eoffset;
+> -	struct dma_fence	        *fence;
+> +	struct drm_suballoc_manager	base;
+> +	struct amdgpu_bo		*bo;
+> +	uint64_t			gpu_addr;
+> +	void				*cpu_ptr;
+>   };
+>   
+>   int amdgpu_fence_slab_init(void);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
+> index bcccc348dbe2..df7eb0b7c4b9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
+> @@ -69,7 +69,7 @@ int amdgpu_ib_get(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+>   
+>   	if (size) {
+>   		r = amdgpu_sa_bo_new(&adev->ib_pools[pool_type],
+> -				      &ib->sa_bo, size, 256);
+> +				     &ib->sa_bo, size);
+>   		if (r) {
+>   			dev_err(adev->dev, "failed to get a new IB (%d)\n", r);
+>   			return r;
+> @@ -309,8 +309,7 @@ int amdgpu_ib_pool_init(struct amdgpu_device *adev)
+>   
+>   	for (i = 0; i < AMDGPU_IB_POOL_MAX; i++) {
+>   		r = amdgpu_sa_bo_manager_init(adev, &adev->ib_pools[i],
+> -					      AMDGPU_IB_POOL_SIZE,
+> -					      AMDGPU_GPU_PAGE_SIZE,
+> +					      AMDGPU_IB_POOL_SIZE, 256,
+>   					      AMDGPU_GEM_DOMAIN_GTT);
+>   		if (r)
+>   			goto error;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> index 93207badf83f..5a85726ce853 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
+> @@ -336,15 +336,22 @@ uint32_t amdgpu_bo_get_preferred_domain(struct amdgpu_device *adev,
+>   /*
+>    * sub allocation
+>    */
+> +static inline struct amdgpu_sa_manager *
+> +to_amdgpu_sa_manager(struct drm_suballoc_manager *manager)
+> +{
+> +	return container_of(manager, struct amdgpu_sa_manager, base);
+> +}
+>   
+> -static inline uint64_t amdgpu_sa_bo_gpu_addr(struct amdgpu_sa_bo *sa_bo)
+> +static inline uint64_t amdgpu_sa_bo_gpu_addr(struct drm_suballoc *sa_bo)
+>   {
+> -	return sa_bo->manager->gpu_addr + sa_bo->soffset;
+> +	return to_amdgpu_sa_manager(sa_bo->manager)->gpu_addr +
+> +		drm_suballoc_soffset(sa_bo);
+>   }
+>   
+> -static inline void * amdgpu_sa_bo_cpu_addr(struct amdgpu_sa_bo *sa_bo)
+> +static inline void *amdgpu_sa_bo_cpu_addr(struct drm_suballoc *sa_bo)
+>   {
+> -	return sa_bo->manager->cpu_ptr + sa_bo->soffset;
+> +	return to_amdgpu_sa_manager(sa_bo->manager)->cpu_ptr +
+> +		drm_suballoc_soffset(sa_bo);
+>   }
+>   
+>   int amdgpu_sa_bo_manager_init(struct amdgpu_device *adev,
+> @@ -355,11 +362,11 @@ void amdgpu_sa_bo_manager_fini(struct amdgpu_device *adev,
+>   int amdgpu_sa_bo_manager_start(struct amdgpu_device *adev,
+>   				      struct amdgpu_sa_manager *sa_manager);
+>   int amdgpu_sa_bo_new(struct amdgpu_sa_manager *sa_manager,
+> -		     struct amdgpu_sa_bo **sa_bo,
+> -		     unsigned size, unsigned align);
+> +		     struct drm_suballoc **sa_bo,
+> +		     unsigned int size);
+>   void amdgpu_sa_bo_free(struct amdgpu_device *adev,
+> -			      struct amdgpu_sa_bo **sa_bo,
+> -			      struct dma_fence *fence);
+> +		       struct drm_suballoc **sa_bo,
+> +		       struct dma_fence *fence);
+>   #if defined(CONFIG_DEBUG_FS)
+>   void amdgpu_sa_bo_dump_debug_info(struct amdgpu_sa_manager *sa_manager,
+>   					 struct seq_file *m);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> index 3989e755a5b4..018f36b10de8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
+> @@ -27,6 +27,7 @@
+>   #include <drm/amdgpu_drm.h>
+>   #include <drm/gpu_scheduler.h>
+>   #include <drm/drm_print.h>
 > +#include <drm/drm_suballoc.h>
-> +#include <drm/drm_print.h>
-> +#include <linux/slab.h>
-> +#include <linux/sched.h>
-> +#include <linux/wait.h>
-> +#include <linux/dma-fence.h>
-> +
-> +static void drm_suballoc_remove_locked(struct drm_suballoc *sa);
-> +static void drm_suballoc_try_free(struct drm_suballoc_manager *sa_manager);
-> +
-> +/**
-> + * drm_suballoc_manager_init() - Initialise the drm_suballoc_manager
-> + * @sa_manager: pointer to the sa_manager
-> + * @size: number of bytes we want to suballocate
-> + * @align: alignment for each suballocated chunk
-> + *
-> + * Prepares the suballocation manager for suballocations.
-> + */
-> +void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
-> +			       u64 size, u64 align)
-> +{
-> +	unsigned int i;
-> +
-> +	if (!align)
-> +		align = 1;
-> +
-> +	/* alignment must be a power of 2 */
-> +	if (WARN_ON_ONCE(align & (align - 1)))
-> +		align = roundup_pow_of_two(align);
-> +
-> +	init_waitqueue_head(&sa_manager->wq);
-> +	sa_manager->size = size;
-> +	sa_manager->align = align;
-> +	sa_manager->hole = &sa_manager->olist;
-> +	INIT_LIST_HEAD(&sa_manager->olist);
-> +	for (i = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
-> +		INIT_LIST_HEAD(&sa_manager->flist[i]);
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_manager_init);
-> +
-> +/**
-> + * drm_suballoc_manager_fini() - Destroy the drm_suballoc_manager
-> + * @sa_manager: pointer to the sa_manager
-> + *
-> + * Cleans up the suballocation manager after use. All fences added
-> + * with drm_suballoc_free() must be signaled, or we cannot clean up
-> + * the entire manager.
-> + */
-> +void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager)
-> +{
-> +	struct drm_suballoc *sa, *tmp;
-> +
-> +	if (!sa_manager->size)
-> +		return;
-> +
-> +	if (!list_empty(&sa_manager->olist)) {
-> +		sa_manager->hole = &sa_manager->olist;
-> +		drm_suballoc_try_free(sa_manager);
-> +		if (!list_empty(&sa_manager->olist))
-> +			DRM_ERROR("sa_manager is not empty, clearing anyway\n");
-> +	}
-> +	list_for_each_entry_safe(sa, tmp, &sa_manager->olist, olist) {
-> +		drm_suballoc_remove_locked(sa);
-> +	}
-> +
-> +	sa_manager->size = 0;
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_manager_fini);
-> +
-> +static void drm_suballoc_remove_locked(struct drm_suballoc *sa)
-> +{
-> +	struct drm_suballoc_manager *sa_manager = sa->manager;
-> +
-> +	if (sa_manager->hole == &sa->olist)
-> +		sa_manager->hole = sa->olist.prev;
-> +
-> +	list_del_init(&sa->olist);
-> +	list_del_init(&sa->flist);
-> +	dma_fence_put(sa->fence);
-> +	kfree(sa);
-> +}
-> +
-> +static void drm_suballoc_try_free(struct drm_suballoc_manager *sa_manager)
-> +{
-> +	struct drm_suballoc *sa, *tmp;
-> +
-> +	if (sa_manager->hole->next == &sa_manager->olist)
-> +		return;
-> +
-> +	sa = list_entry(sa_manager->hole->next, struct drm_suballoc, olist);
-> +	list_for_each_entry_safe_from(sa, tmp, &sa_manager->olist, olist) {
-> +		if (!sa->fence || !dma_fence_is_signaled(sa->fence))
-> +			return;
-> +
-> +		drm_suballoc_remove_locked(sa);
-> +	}
-> +}
-> +
-> +static u64 drm_suballoc_hole_soffset(struct drm_suballoc_manager *sa_manager)
-> +{
-> +	struct list_head *hole = sa_manager->hole;
-> +
-> +	if (hole != &sa_manager->olist)
-> +		return list_entry(hole, struct drm_suballoc, olist)->eoffset;
-> +
-> +	return 0;
-> +}
-> +
-> +static u64 drm_suballoc_hole_eoffset(struct drm_suballoc_manager *sa_manager)
-> +{
-> +	struct list_head *hole = sa_manager->hole;
-> +
-> +	if (hole->next != &sa_manager->olist)
-> +		return list_entry(hole->next, struct drm_suballoc, olist)->soffset;
-> +	return sa_manager->size;
-> +}
-> +
-> +static bool drm_suballoc_try_alloc(struct drm_suballoc_manager *sa_manager,
-> +				   struct drm_suballoc *sa,
-> +				   u64 size, u64 align)
-> +{
-> +	u64 soffset, eoffset, wasted;
-> +
-> +	soffset = drm_suballoc_hole_soffset(sa_manager);
-> +	eoffset = drm_suballoc_hole_eoffset(sa_manager);
-> +	wasted = (align - (soffset % align)) % align;
-> +
-> +	if ((eoffset - soffset) >= (size + wasted)) {
-> +		soffset += wasted;
-> +
-> +		sa->manager = sa_manager;
-> +		sa->soffset = soffset;
-> +		sa->eoffset = soffset + size;
-> +		list_add(&sa->olist, sa_manager->hole);
-> +		INIT_LIST_HEAD(&sa->flist);
-> +		sa_manager->hole = &sa->olist;
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
-> +static bool __drm_suballoc_event(struct drm_suballoc_manager *sa_manager,
-> +				 u64 size, u64 align)
-> +{
-> +	u64 soffset, eoffset, wasted;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
-> +		if (!list_empty(&sa_manager->flist[i]))
-> +			return true;
-> +
-> +	soffset = drm_suballoc_hole_soffset(sa_manager);
-> +	eoffset = drm_suballoc_hole_eoffset(sa_manager);
-> +	wasted = (align - (soffset % align)) % align;
-> +
-> +	return ((eoffset - soffset) >= (size + wasted));
-> +}
-> +
-> +/**
-> + * drm_suballoc_event() - Check if we can stop waiting
-> + * @sa_manager: pointer to the sa_manager
-> + * @size: number of bytes we want to allocate
-> + * @align: alignment we need to match
-> + *
-> + * Return: true if either there is a fence we can wait for or
-> + * enough free memory to satisfy the allocation directly.
-> + * false otherwise.
-> + */
-> +static bool drm_suballoc_event(struct drm_suballoc_manager *sa_manager,
-> +			       u64 size, u64 align)
-> +{
-> +	bool ret;
-> +
-> +	spin_lock(&sa_manager->wq.lock);
-> +	ret = __drm_suballoc_event(sa_manager, size, align);
-> +	spin_unlock(&sa_manager->wq.lock);
-> +	return ret;
-> +}
-> +
-> +static bool drm_suballoc_next_hole(struct drm_suballoc_manager *sa_manager,
-> +				   struct dma_fence **fences,
-> +				   unsigned int *tries)
-> +{
-> +	struct drm_suballoc *best_bo = NULL;
-> +	unsigned int i, best_idx;
-> +	u64 soffset, best, tmp;
-> +
-> +	/* if hole points to the end of the buffer */
-> +	if (sa_manager->hole->next == &sa_manager->olist) {
-> +		/* try again with its beginning */
-> +		sa_manager->hole = &sa_manager->olist;
-> +		return true;
-> +	}
-> +
-> +	soffset = drm_suballoc_hole_soffset(sa_manager);
-> +	/* to handle wrap around we add sa_manager->size */
-> +	best = sa_manager->size * 2;
-> +	/* go over all fence list and try to find the closest sa
-> +	 * of the current last
-> +	 */
-> +	for (i = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i) {
-> +		struct drm_suballoc *sa;
-> +
-> +		fences[i] = NULL;
-> +
-> +		if (list_empty(&sa_manager->flist[i]))
-> +			continue;
-> +
-> +		sa = list_first_entry(&sa_manager->flist[i],
-> +				      struct drm_suballoc, flist);
-> +
-> +		if (!dma_fence_is_signaled(sa->fence)) {
-> +			fences[i] = sa->fence;
-> +			continue;
-> +		}
-> +
-> +		/* limit the number of tries each freelist gets */
-> +		if (tries[i] > 2)
-> +			continue;
-> +
-> +		tmp = sa->soffset;
-> +		if (tmp < soffset) {
-> +			/* wrap around, pretend it's after */
-> +			tmp += sa_manager->size;
-> +		}
-> +		tmp -= soffset;
-> +		if (tmp < best) {
-> +			/* this sa bo is the closest one */
-> +			best = tmp;
-> +			best_idx = i;
-> +			best_bo = sa;
-> +		}
-> +	}
-> +
-> +	if (best_bo) {
-> +		++tries[best_idx];
-> +		sa_manager->hole = best_bo->olist.prev;
-> +
-> +		/*
-> +		 * We know that this one is signaled,
-> +		 * so it's safe to remove it.
-> +		 */
-> +		drm_suballoc_remove_locked(best_bo);
-> +		return true;
-> +	}
-> +	return false;
-> +}
-> +
-> +/**
-> + * drm_suballoc_new() - Make a suballocation.
-> + * @sa_manager: pointer to the sa_manager
-> + * @size: number of bytes we want to suballocate.
-> + * @gfp: gfp flags used for memory allocation. Typically GFP_KERNEL but
-> + *       the argument is provided for suballocations from reclaim context or
-> + *       where the caller wants to avoid pipelining rather than wait for
-> + *       reclaim.
-> + * @intr: Whether to perform waits interruptible. This should typically
-> + *        always be true, unless the caller needs to propagate a
-> + *        non-interruptible context from above layers.
-> + * @align: Alignment. Must not exceed the default manager alignment.
-> + *         If @align is zero, then the manager alignment is used.
-> + *
-> + * Try to make a suballocation of size @size, which will be rounded
-> + * up to the alignment specified in specified in drm_suballoc_manager_init().
-> + *
-> + * Return: a new suballocated bo, or an ERR_PTR.
-> + */
-> +struct drm_suballoc *
-> +drm_suballoc_new(struct drm_suballoc_manager *sa_manager, u64 size,
-> +		 gfp_t gfp, bool intr, u64 align)
-> +{
-> +	struct dma_fence *fences[DRM_SUBALLOC_MAX_QUEUES];
-> +	unsigned int tries[DRM_SUBALLOC_MAX_QUEUES];
-> +	unsigned int count;
-> +	int i, r;
-> +	struct drm_suballoc *sa;
-> +
-> +	if (WARN_ON_ONCE(align > sa_manager->align))
-> +		return ERR_PTR(-EINVAL);
-> +	if (WARN_ON_ONCE(size > sa_manager->size || !size))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	if (!align)
-> +		align = sa_manager->align;
-> +
-> +	sa = kmalloc(sizeof(*sa), gfp);
-> +	if (!sa)
-> +		return ERR_PTR(-ENOMEM);
-> +	sa->manager = sa_manager;
-> +	sa->fence = NULL;
-> +	INIT_LIST_HEAD(&sa->olist);
-> +	INIT_LIST_HEAD(&sa->flist);
-> +
-> +	spin_lock(&sa_manager->wq.lock);
-> +	do {
-> +		for (i = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
-> +			tries[i] = 0;
-> +
-> +		do {
-> +			drm_suballoc_try_free(sa_manager);
-> +
-> +			if (drm_suballoc_try_alloc(sa_manager, sa,
-> +						   size, align)) {
-> +				spin_unlock(&sa_manager->wq.lock);
-> +				return sa;
-> +			}
-> +
-> +			/* see if we can skip over some allocations */
-> +		} while (drm_suballoc_next_hole(sa_manager, fences, tries));
-> +
-> +		for (i = 0, count = 0; i < DRM_SUBALLOC_MAX_QUEUES; ++i)
-> +			if (fences[i])
-> +				fences[count++] = dma_fence_get(fences[i]);
-> +
-> +		if (count) {
-> +			long t;
-> +
-> +			spin_unlock(&sa_manager->wq.lock);
-> +			t = dma_fence_wait_any_timeout(fences, count, intr,
-> +						       MAX_SCHEDULE_TIMEOUT,
-> +						       NULL);
-> +			for (i = 0; i < count; ++i)
-> +				dma_fence_put(fences[i]);
-> +
-> +			r = (t > 0) ? 0 : t;
-> +			spin_lock(&sa_manager->wq.lock);
-> +		} else if (intr) {
-> +			/* if we have nothing to wait for block */
-> +			r = wait_event_interruptible_locked
-> +				(sa_manager->wq,
-> +				 __drm_suballoc_event(sa_manager, size, align));
-> +		} else {
-> +			spin_unlock(&sa_manager->wq.lock);
-> +			wait_event(sa_manager->wq,
-> +				   drm_suballoc_event(sa_manager, size, align));
-> +			r = 0;
-> +			spin_lock(&sa_manager->wq.lock);
-> +		}
-> +	} while (!r);
-> +
-> +	spin_unlock(&sa_manager->wq.lock);
-> +	kfree(sa);
-> +	return ERR_PTR(r);
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_new);
-> +
-> +/**
-> + * drm_suballoc_free - Free a suballocation
-> + * @suballoc: pointer to the suballocation
-> + * @fence: fence that signals when suballocation is idle
-> + *
-> + * Free the suballocation. The suballocation can be re-used after @fence signals.
-> + */
-> +void drm_suballoc_free(struct drm_suballoc *suballoc,
-> +		       struct dma_fence *fence)
-> +{
-> +	struct drm_suballoc_manager *sa_manager;
-> +
-> +	if (!suballoc)
-> +		return;
-> +
-> +	sa_manager = suballoc->manager;
-> +
-> +	spin_lock(&sa_manager->wq.lock);
-> +	if (fence && !dma_fence_is_signaled(fence)) {
-> +		u64 idx;
-> +
-> +		suballoc->fence = dma_fence_get(fence);
-> +		idx = fence->context % DRM_SUBALLOC_MAX_QUEUES;
-> +		list_add_tail(&suballoc->flist, &sa_manager->flist[idx]);
-> +	} else {
-> +		drm_suballoc_remove_locked(suballoc);
-> +	}
-> +	wake_up_all_locked(&sa_manager->wq);
-> +	spin_unlock(&sa_manager->wq.lock);
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_free);
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +void drm_suballoc_dump_debug_info(struct drm_suballoc_manager *sa_manager,
-> +				  struct drm_printer *p, u64 suballoc_base)
-> +{
-> +	struct drm_suballoc *i;
-> +
-> +	spin_lock(&sa_manager->wq.lock);
-> +	list_for_each_entry(i, &sa_manager->olist, olist) {
-> +		u64 soffset = i->soffset;
-> +		u64 eoffset = i->eoffset;
-> +
-> +		if (&i->olist == sa_manager->hole)
-> +			drm_puts(p, ">");
-> +		else
-> +			drm_puts(p, " ");
-> +
-> +		drm_printf(p, "[0x%010llx 0x%010llx] size %8lld",
-> +			   suballoc_base + soffset, suballoc_base + eoffset,
-> +			   eoffset - soffset);
-> +
-> +		if (i->fence)
-> +			drm_printf(p, " protected by 0x%016llx on context %llu",
-> +				   i->fence->seqno, i->fence->context);
-> +
-> +		drm_puts(p, "\n");
-> +	}
-> +	spin_unlock(&sa_manager->wq.lock);
-> +}
-> +EXPORT_SYMBOL(drm_suballoc_dump_debug_info);
-> +#endif
-> +MODULE_AUTHOR("Multiple");
-> +MODULE_DESCRIPTION("Range suballocator helper");
-> +MODULE_LICENSE("Dual MIT/GPL");
-> diff --git a/include/drm/drm_suballoc.h b/include/drm/drm_suballoc.h
-> new file mode 100644
-> index 000000000000..a737f996e5ff
-> --- /dev/null
-> +++ b/include/drm/drm_suballoc.h
-> @@ -0,0 +1,106 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +/*
-> + * Copyright 2011 Red Hat Inc.
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +#ifndef _DRM_SUBALLOC_H_
-> +#define _DRM_SUBALLOC_H_
-> +
-> +#include <drm/drm_mm.h>
-> +
-> +#include <linux/dma-fence.h>
-> +#include <linux/types.h>
-> +
-> +#define DRM_SUBALLOC_MAX_QUEUES 32
-> +/**
-> + * struct drm_suballoc_manager - fenced range allocations
-> + * @wq: Wait queue for sleeping allocations on contention.
-> + * @hole: Pointer to first hole node.
-> + * @olist: List of allocated ranges.
-> + * @flist: Array[fence context hash] of queues of fenced allocated ranges.
-> + * @size: Size of the managed range.
-> + * @align: Default alignment for the managed range.
-> + */
-> +struct drm_suballoc_manager {
-> +	wait_queue_head_t wq;
-> +	struct list_head *hole;
-> +	struct list_head olist;
-> +	struct list_head flist[DRM_SUBALLOC_MAX_QUEUES];
-> +	u64 size;
-> +	u64 align;
-> +};
-> +
-> +/**
-> + * struct drm_suballoc - Sub-allocated range
-> + * @olist: List link for list of allocated ranges.
-> + * @flist: List linkk for the manager fenced allocated ranges queues.
-> + * @manager: The drm_suballoc_manager.
-> + * @soffset: Start offset.
-> + * @eoffset: End offset + 1 so that @eoffset - @soffset = size.
-> + * @dma_fence: The fence protecting the allocation.
-> + */
-> +struct drm_suballoc {
-> +	struct list_head olist;
-> +	struct list_head flist;
-> +	struct drm_suballoc_manager *manager;
-> +	u64 soffset;
-> +	u64 eoffset;
-> +	struct dma_fence *fence;
-> +};
-> +
-> +void drm_suballoc_manager_init(struct drm_suballoc_manager *sa_manager,
-> +			       u64 size, u64 align);
-> +
-> +void drm_suballoc_manager_fini(struct drm_suballoc_manager *sa_manager);
-> +
-> +struct drm_suballoc *
-> +drm_suballoc_new(struct drm_suballoc_manager *sa_manager, u64 size, gfp_t gfp,
-> +		 bool intr, u64 align);
-> +
-> +void drm_suballoc_free(struct drm_suballoc *sa, struct dma_fence *fence);
-> +
-> +/**
-> + * drm_suballoc_soffset - Range start.
-> + * @sa: The struct drm_suballoc.
-> + *
-> + * Return: The start of the allocated range.
-> + */
-> +static inline u64 drm_suballoc_soffset(struct drm_suballoc *sa)
-> +{
-> +	return sa->soffset;
-> +}
-> +
-> +/**
-> + * drm_suballoc_eoffset - Range end.
-> + * @sa: The struct drm_suballoc.
-> + *
-> + * Return: The end of the allocated range + 1.
-> + */
-> +static inline u64 drm_suballoc_eoffset(struct drm_suballoc *sa)
-> +{
-> +	return sa->eoffset;
-> +}
-> +
-> +/**
-> + * drm_suballoc_size - Range size.
-> + * @sa: The struct drm_suballoc.
-> + *
-> + * Return: The size of the allocated range.
-> + */
-> +static inline u64 drm_suballoc_size(struct drm_suballoc *sa)
-> +{
-> +	return sa->eoffset - sa->soffset;
-> +}
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +void drm_suballoc_dump_debug_info(struct drm_suballoc_manager *sa_manager,
-> +				  struct drm_printer *p, u64 suballoc_base);
-> +#else
-> +static inline void
-> +drm_suballoc_dump_debug_info(struct drm_suballoc_manager *sa_manager,
-> +			     struct drm_printer *p, u64 suballoc_base)
-> +{ }
-> +
-> +#endif
-> +
-> +#endif /* _DRM_SUBALLOC_H_ */
+>   
+>   struct amdgpu_device;
+>   struct amdgpu_ring;
+> @@ -92,7 +93,7 @@ enum amdgpu_ib_pool_type {
+>   };
+>   
+>   struct amdgpu_ib {
+> -	struct amdgpu_sa_bo		*sa_bo;
+> +	struct drm_suballoc		*sa_bo;
+>   	uint32_t			length_dw;
+>   	uint64_t			gpu_addr;
+>   	uint32_t			*ptr;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c
+> index 524d10b21041..c6b4337eb20c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c
+> @@ -44,327 +44,63 @@
+>   
+>   #include "amdgpu.h"
+>   
+> -static void amdgpu_sa_bo_remove_locked(struct amdgpu_sa_bo *sa_bo);
+> -static void amdgpu_sa_bo_try_free(struct amdgpu_sa_manager *sa_manager);
+> -
+>   int amdgpu_sa_bo_manager_init(struct amdgpu_device *adev,
+>   			      struct amdgpu_sa_manager *sa_manager,
+> -			      unsigned size, u32 align, u32 domain)
+> +			      unsigned int size, u32 suballoc_align, u32 domain)
+>   {
+> -	int i, r;
+> -
+> -	init_waitqueue_head(&sa_manager->wq);
+> -	sa_manager->bo = NULL;
+> -	sa_manager->size = size;
+> -	sa_manager->domain = domain;
+> -	sa_manager->align = align;
+> -	sa_manager->hole = &sa_manager->olist;
+> -	INIT_LIST_HEAD(&sa_manager->olist);
+> -	for (i = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i)
+> -		INIT_LIST_HEAD(&sa_manager->flist[i]);
+> +	int r;
+>   
+> -	r = amdgpu_bo_create_kernel(adev, size, align, domain, &sa_manager->bo,
+> -				&sa_manager->gpu_addr, &sa_manager->cpu_ptr);
+> +	r = amdgpu_bo_create_kernel(adev, size, AMDGPU_GPU_PAGE_SIZE, domain,
+> +				    &sa_manager->bo, &sa_manager->gpu_addr,
+> +				    &sa_manager->cpu_ptr);
+>   	if (r) {
+>   		dev_err(adev->dev, "(%d) failed to allocate bo for manager\n", r);
+>   		return r;
+>   	}
+>   
+> -	memset(sa_manager->cpu_ptr, 0, sa_manager->size);
+> +	memset(sa_manager->cpu_ptr, 0, size);
+> +	drm_suballoc_manager_init(&sa_manager->base, size, suballoc_align);
+>   	return r;
+>   }
+>   
+>   void amdgpu_sa_bo_manager_fini(struct amdgpu_device *adev,
+>   			       struct amdgpu_sa_manager *sa_manager)
+>   {
+> -	struct amdgpu_sa_bo *sa_bo, *tmp;
+> -
+>   	if (sa_manager->bo == NULL) {
+>   		dev_err(adev->dev, "no bo for sa manager\n");
+>   		return;
+>   	}
+>   
+> -	if (!list_empty(&sa_manager->olist)) {
+> -		sa_manager->hole = &sa_manager->olist,
+> -		amdgpu_sa_bo_try_free(sa_manager);
+> -		if (!list_empty(&sa_manager->olist)) {
+> -			dev_err(adev->dev, "sa_manager is not empty, clearing anyway\n");
+> -		}
+> -	}
+> -	list_for_each_entry_safe(sa_bo, tmp, &sa_manager->olist, olist) {
+> -		amdgpu_sa_bo_remove_locked(sa_bo);
+> -	}
+> +	drm_suballoc_manager_fini(&sa_manager->base);
+>   
+>   	amdgpu_bo_free_kernel(&sa_manager->bo, &sa_manager->gpu_addr, &sa_manager->cpu_ptr);
+> -	sa_manager->size = 0;
+>   }
+>   
+> -static void amdgpu_sa_bo_remove_locked(struct amdgpu_sa_bo *sa_bo)
+> -{
+> -	struct amdgpu_sa_manager *sa_manager = sa_bo->manager;
+> -	if (sa_manager->hole == &sa_bo->olist) {
+> -		sa_manager->hole = sa_bo->olist.prev;
+> -	}
+> -	list_del_init(&sa_bo->olist);
+> -	list_del_init(&sa_bo->flist);
+> -	dma_fence_put(sa_bo->fence);
+> -	kfree(sa_bo);
+> -}
+> -
+> -static void amdgpu_sa_bo_try_free(struct amdgpu_sa_manager *sa_manager)
+> +int amdgpu_sa_bo_new(struct amdgpu_sa_manager *sa_manager,
+> +		     struct drm_suballoc **sa_bo,
+> +		     unsigned int size)
+>   {
+> -	struct amdgpu_sa_bo *sa_bo, *tmp;
+> +	struct drm_suballoc *sa = drm_suballoc_new(&sa_manager->base, size,
+> +						   GFP_KERNEL, true, 0);
+>   
+> -	if (sa_manager->hole->next == &sa_manager->olist)
+> -		return;
+> +	if (IS_ERR(sa)) {
+> +		*sa_bo = NULL;
+>   
+> -	sa_bo = list_entry(sa_manager->hole->next, struct amdgpu_sa_bo, olist);
+> -	list_for_each_entry_safe_from(sa_bo, tmp, &sa_manager->olist, olist) {
+> -		if (sa_bo->fence == NULL ||
+> -		    !dma_fence_is_signaled(sa_bo->fence)) {
+> -			return;
+> -		}
+> -		amdgpu_sa_bo_remove_locked(sa_bo);
+> +		return PTR_ERR(sa);
+>   	}
+> -}
+>   
+> -static inline unsigned amdgpu_sa_bo_hole_soffset(struct amdgpu_sa_manager *sa_manager)
+> -{
+> -	struct list_head *hole = sa_manager->hole;
+> -
+> -	if (hole != &sa_manager->olist) {
+> -		return list_entry(hole, struct amdgpu_sa_bo, olist)->eoffset;
+> -	}
+> +	*sa_bo = sa;
+>   	return 0;
+>   }
+>   
+> -static inline unsigned amdgpu_sa_bo_hole_eoffset(struct amdgpu_sa_manager *sa_manager)
+> -{
+> -	struct list_head *hole = sa_manager->hole;
+> -
+> -	if (hole->next != &sa_manager->olist) {
+> -		return list_entry(hole->next, struct amdgpu_sa_bo, olist)->soffset;
+> -	}
+> -	return sa_manager->size;
+> -}
+> -
+> -static bool amdgpu_sa_bo_try_alloc(struct amdgpu_sa_manager *sa_manager,
+> -				   struct amdgpu_sa_bo *sa_bo,
+> -				   unsigned size, unsigned align)
+> -{
+> -	unsigned soffset, eoffset, wasted;
+> -
+> -	soffset = amdgpu_sa_bo_hole_soffset(sa_manager);
+> -	eoffset = amdgpu_sa_bo_hole_eoffset(sa_manager);
+> -	wasted = (align - (soffset % align)) % align;
+> -
+> -	if ((eoffset - soffset) >= (size + wasted)) {
+> -		soffset += wasted;
+> -
+> -		sa_bo->manager = sa_manager;
+> -		sa_bo->soffset = soffset;
+> -		sa_bo->eoffset = soffset + size;
+> -		list_add(&sa_bo->olist, sa_manager->hole);
+> -		INIT_LIST_HEAD(&sa_bo->flist);
+> -		sa_manager->hole = &sa_bo->olist;
+> -		return true;
+> -	}
+> -	return false;
+> -}
+> -
+> -/**
+> - * amdgpu_sa_event - Check if we can stop waiting
+> - *
+> - * @sa_manager: pointer to the sa_manager
+> - * @size: number of bytes we want to allocate
+> - * @align: alignment we need to match
+> - *
+> - * Check if either there is a fence we can wait for or
+> - * enough free memory to satisfy the allocation directly
+> - */
+> -static bool amdgpu_sa_event(struct amdgpu_sa_manager *sa_manager,
+> -			    unsigned size, unsigned align)
+> -{
+> -	unsigned soffset, eoffset, wasted;
+> -	int i;
+> -
+> -	for (i = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i)
+> -		if (!list_empty(&sa_manager->flist[i]))
+> -			return true;
+> -
+> -	soffset = amdgpu_sa_bo_hole_soffset(sa_manager);
+> -	eoffset = amdgpu_sa_bo_hole_eoffset(sa_manager);
+> -	wasted = (align - (soffset % align)) % align;
+> -
+> -	if ((eoffset - soffset) >= (size + wasted)) {
+> -		return true;
+> -	}
+> -
+> -	return false;
+> -}
+> -
+> -static bool amdgpu_sa_bo_next_hole(struct amdgpu_sa_manager *sa_manager,
+> -				   struct dma_fence **fences,
+> -				   unsigned *tries)
+> -{
+> -	struct amdgpu_sa_bo *best_bo = NULL;
+> -	unsigned i, soffset, best, tmp;
+> -
+> -	/* if hole points to the end of the buffer */
+> -	if (sa_manager->hole->next == &sa_manager->olist) {
+> -		/* try again with its beginning */
+> -		sa_manager->hole = &sa_manager->olist;
+> -		return true;
+> -	}
+> -
+> -	soffset = amdgpu_sa_bo_hole_soffset(sa_manager);
+> -	/* to handle wrap around we add sa_manager->size */
+> -	best = sa_manager->size * 2;
+> -	/* go over all fence list and try to find the closest sa_bo
+> -	 * of the current last
+> -	 */
+> -	for (i = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i) {
+> -		struct amdgpu_sa_bo *sa_bo;
+> -
+> -		fences[i] = NULL;
+> -
+> -		if (list_empty(&sa_manager->flist[i]))
+> -			continue;
+> -
+> -		sa_bo = list_first_entry(&sa_manager->flist[i],
+> -					 struct amdgpu_sa_bo, flist);
+> -
+> -		if (!dma_fence_is_signaled(sa_bo->fence)) {
+> -			fences[i] = sa_bo->fence;
+> -			continue;
+> -		}
+> -
+> -		/* limit the number of tries each ring gets */
+> -		if (tries[i] > 2) {
+> -			continue;
+> -		}
+> -
+> -		tmp = sa_bo->soffset;
+> -		if (tmp < soffset) {
+> -			/* wrap around, pretend it's after */
+> -			tmp += sa_manager->size;
+> -		}
+> -		tmp -= soffset;
+> -		if (tmp < best) {
+> -			/* this sa bo is the closest one */
+> -			best = tmp;
+> -			best_bo = sa_bo;
+> -		}
+> -	}
+> -
+> -	if (best_bo) {
+> -		uint32_t idx = best_bo->fence->context;
+> -
+> -		idx %= AMDGPU_SA_NUM_FENCE_LISTS;
+> -		++tries[idx];
+> -		sa_manager->hole = best_bo->olist.prev;
+> -
+> -		/* we knew that this one is signaled,
+> -		   so it's save to remote it */
+> -		amdgpu_sa_bo_remove_locked(best_bo);
+> -		return true;
+> -	}
+> -	return false;
+> -}
+> -
+> -int amdgpu_sa_bo_new(struct amdgpu_sa_manager *sa_manager,
+> -		     struct amdgpu_sa_bo **sa_bo,
+> -		     unsigned size, unsigned align)
+> -{
+> -	struct dma_fence *fences[AMDGPU_SA_NUM_FENCE_LISTS];
+> -	unsigned tries[AMDGPU_SA_NUM_FENCE_LISTS];
+> -	unsigned count;
+> -	int i, r;
+> -	signed long t;
+> -
+> -	if (WARN_ON_ONCE(align > sa_manager->align))
+> -		return -EINVAL;
+> -
+> -	if (WARN_ON_ONCE(size > sa_manager->size))
+> -		return -EINVAL;
+> -
+> -	*sa_bo = kmalloc(sizeof(struct amdgpu_sa_bo), GFP_KERNEL);
+> -	if (!(*sa_bo))
+> -		return -ENOMEM;
+> -	(*sa_bo)->manager = sa_manager;
+> -	(*sa_bo)->fence = NULL;
+> -	INIT_LIST_HEAD(&(*sa_bo)->olist);
+> -	INIT_LIST_HEAD(&(*sa_bo)->flist);
+> -
+> -	spin_lock(&sa_manager->wq.lock);
+> -	do {
+> -		for (i = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i)
+> -			tries[i] = 0;
+> -
+> -		do {
+> -			amdgpu_sa_bo_try_free(sa_manager);
+> -
+> -			if (amdgpu_sa_bo_try_alloc(sa_manager, *sa_bo,
+> -						   size, align)) {
+> -				spin_unlock(&sa_manager->wq.lock);
+> -				return 0;
+> -			}
+> -
+> -			/* see if we can skip over some allocations */
+> -		} while (amdgpu_sa_bo_next_hole(sa_manager, fences, tries));
+> -
+> -		for (i = 0, count = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i)
+> -			if (fences[i])
+> -				fences[count++] = dma_fence_get(fences[i]);
+> -
+> -		if (count) {
+> -			spin_unlock(&sa_manager->wq.lock);
+> -			t = dma_fence_wait_any_timeout(fences, count, false,
+> -						       MAX_SCHEDULE_TIMEOUT,
+> -						       NULL);
+> -			for (i = 0; i < count; ++i)
+> -				dma_fence_put(fences[i]);
+> -
+> -			r = (t > 0) ? 0 : t;
+> -			spin_lock(&sa_manager->wq.lock);
+> -		} else {
+> -			/* if we have nothing to wait for block */
+> -			r = wait_event_interruptible_locked(
+> -				sa_manager->wq,
+> -				amdgpu_sa_event(sa_manager, size, align)
+> -			);
+> -		}
+> -
+> -	} while (!r);
+> -
+> -	spin_unlock(&sa_manager->wq.lock);
+> -	kfree(*sa_bo);
+> -	*sa_bo = NULL;
+> -	return r;
+> -}
+> -
+> -void amdgpu_sa_bo_free(struct amdgpu_device *adev, struct amdgpu_sa_bo **sa_bo,
+> +void amdgpu_sa_bo_free(struct amdgpu_device *adev, struct drm_suballoc **sa_bo,
+>   		       struct dma_fence *fence)
+>   {
+> -	struct amdgpu_sa_manager *sa_manager;
+> -
+>   	if (sa_bo == NULL || *sa_bo == NULL) {
+>   		return;
+>   	}
+>   
+> -	sa_manager = (*sa_bo)->manager;
+> -	spin_lock(&sa_manager->wq.lock);
+> -	if (fence && !dma_fence_is_signaled(fence)) {
+> -		uint32_t idx;
+> -
+> -		(*sa_bo)->fence = dma_fence_get(fence);
+> -		idx = fence->context % AMDGPU_SA_NUM_FENCE_LISTS;
+> -		list_add_tail(&(*sa_bo)->flist, &sa_manager->flist[idx]);
+> -	} else {
+> -		amdgpu_sa_bo_remove_locked(*sa_bo);
+> -	}
+> -	wake_up_all_locked(&sa_manager->wq);
+> -	spin_unlock(&sa_manager->wq.lock);
+> +	drm_suballoc_free(*sa_bo, fence);
+>   	*sa_bo = NULL;
+>   }
+>   
+> @@ -373,26 +109,8 @@ void amdgpu_sa_bo_free(struct amdgpu_device *adev, struct amdgpu_sa_bo **sa_bo,
+>   void amdgpu_sa_bo_dump_debug_info(struct amdgpu_sa_manager *sa_manager,
+>   				  struct seq_file *m)
+>   {
+> -	struct amdgpu_sa_bo *i;
+> -
+> -	spin_lock(&sa_manager->wq.lock);
+> -	list_for_each_entry(i, &sa_manager->olist, olist) {
+> -		uint64_t soffset = i->soffset + sa_manager->gpu_addr;
+> -		uint64_t eoffset = i->eoffset + sa_manager->gpu_addr;
+> -		if (&i->olist == sa_manager->hole) {
+> -			seq_printf(m, ">");
+> -		} else {
+> -			seq_printf(m, " ");
+> -		}
+> -		seq_printf(m, "[0x%010llx 0x%010llx] size %8lld",
+> -			   soffset, eoffset, eoffset - soffset);
+> +	struct drm_printer p = drm_seq_file_printer(m);
+>   
+> -		if (i->fence)
+> -			seq_printf(m, " protected by 0x%016llx on context %llu",
+> -				   i->fence->seqno, i->fence->context);
+> -
+> -		seq_printf(m, "\n");
+> -	}
+> -	spin_unlock(&sa_manager->wq.lock);
+> +	drm_suballoc_dump_debug_info(&sa_manager->base, &p, sa_manager->gpu_addr);
+>   }
+>   #endif
 
