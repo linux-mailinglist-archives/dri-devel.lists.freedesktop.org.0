@@ -2,34 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D406A28C6
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Feb 2023 11:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B7C6A28C3
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Feb 2023 11:10:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE75C10E168;
-	Sat, 25 Feb 2023 10:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814DB10E125;
+	Sat, 25 Feb 2023 10:10:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 891E110E4C2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 14:28:11 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.133])
- by gateway (Coremail) with SMTP id _____8AxJIT4d_djWSsEAA--.2771S3;
- Thu, 23 Feb 2023 22:28:08 +0800 (CST)
-Received: from [10.20.42.133] (unknown [10.20.42.133])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxG770d_djwLc5AA--.38612S3; 
- Thu, 23 Feb 2023 22:28:04 +0800 (CST)
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 765C810EBC6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 14:55:24 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.41:55278.2038881633
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+ by 189.cn (HERMES) with SMTP id 4A2FD10012C;
+ Thu, 23 Feb 2023 22:55:07 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-698c9d7bb7-jn5ln with ESMTP id
+ 5d1d3203c1d143109fcb888831e6969c for tzimmermann@suse.de; 
+ Thu, 23 Feb 2023 22:55:21 CST
+X-Transaction-ID: 5d1d3203c1d143109fcb888831e6969c
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
 Content-Type: multipart/alternative;
- boundary="------------pY0C8KcqtoAPJP4aPrJ6g9h2"
-Message-ID: <f88b9769-c5d8-78a0-d6f7-686e0b4a428e@loongson.cn>
-Date: Thu, 23 Feb 2023 22:28:04 +0800
+ boundary="------------umbYD8oi4h9dzQad4PFY3gji"
+Message-ID: <57bff06d-8582-6126-3098-7f69906ef7bf@189.cn>
+Date: Thu, 23 Feb 2023 22:55:05 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
 Subject: Re: [PATCH v2] drm: add kms driver for loongson display controller
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, Sui Jingfeng
- <15330273260@189.cn>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Sui jingfeng <suijingfeng@loongson.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
 References: <20230205161724.488421-1-15330273260@189.cn>
@@ -38,27 +46,8 @@ References: <20230205161724.488421-1-15330273260@189.cn>
  <8f9a31fb-edb6-db16-414b-63cc574ce19c@suse.de>
  <96c4eb5b-aa5c-94c7-25b5-e1ea5a2612df@189.cn>
  <2478426e-11fd-de23-2059-e7b7249943c2@suse.de>
-From: suijingfeng <suijingfeng@loongson.cn>
+From: Sui Jingfeng <15330273260@189.cn>
 In-Reply-To: <2478426e-11fd-de23-2059-e7b7249943c2@suse.de>
-X-CM-TRANSID: AQAAf8CxG770d_djwLc5AA--.38612S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvAXoWkGr47JFW7KF1rtF1ruFyDWrg_yoWDCFy7Xo
- WUWr1xAr1rJr1UKr4UJr1UJr15Xr1UJr1DJr1UCry7Jr4UJr1UX347JryUK3y3Jr1rGr1U
- Ar1UJryUXFyUAr1kn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
- J3UbIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26r1j
- 6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4
- IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l
- 84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_Gc
- Wl84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAaw2AFwI0_JF0_Jw1le2I262IYc4CY
- 6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAv7VC0I7IYx2IY67AKxVWUAV
- WUtwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxG
- rwCjr7xvwVCIw2I0I7xG6c02F41lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxV
- WUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
- xVWUAVWUtwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67
- AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
- 42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
- IF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
- WIevJa73UjIFyTuYvjxUw6pBUUUUU
 X-Mailman-Approved-At: Sat, 25 Feb 2023 10:10:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,7 +66,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a multi-part message in MIME format.
---------------pY0C8KcqtoAPJP4aPrJ6g9h2
+--------------umbYD8oi4h9dzQad4PFY3gji
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
@@ -103,18 +92,20 @@ On 2023/2/23 20:49, Thomas Zimmermann wrote:
 > first. And if your driver cannot be used at all without those 
 > features, there's no point in merging the driver until the feature is 
 > ready.
+>
+After you said "It's also ok to to read version information from a status register."
 
-I remember you said "It's also ok to to read version information from a status register."
+I'm thinking this all night, this  sentence strike me.
 
-This  sentence strike me,  consider that our cpu has version and 
-features register.
+Suddenly I remember that our CPU has version and features register.
 
-It is called cpucfg[1] register, it is similar like x86-64's cpuid 
-instruction.
+It is called cpucfg[1] registers, cpucfg is also a instruction on 
+LoongArch, it is similar like x86-64's cpuid instruction.
 
-All LoongArch cpu support cpucfg, besides provide version information,
+All LoongArch cpu support cpucfg, besides provide basic version 
+information,  It is also provided features the per cpu supported.
 
-It is also provided features the cpu supported. for example,
+For example:
 
 LS3A5000 support LSX(128-bit SIMD) and LASX(256-bit SIMD), it has a 
 0x0014c000  as its PRID.
@@ -126,29 +117,31 @@ LS2K1000 LA264 version support LSX(128-bit SIMD) only, it has a
 0x0014a000  as its PRID.
 
 Despite the least significant 8 bit is revision number which suffer from 
-change.
+change,
 
-but the bits 15:8 of the PRID register is unique per CPU,  this 8 bits 
-can be used to
+but bits 15:8 of the PRID register is unique per CPU. This 8 bits can be 
+used to
 
 identify the processor solely.  In fact, this register is also been used 
 by the kernel
 
-side programmer to expose CPU features to userspace(say /proc/cpuinfo)
+side programmer to expose CPU features to userspace(say /proc/cpuinfo).
 
 It is also been used by compiler writer to generate difference code for 
 different CPU.
 
 
-The PRID register is located at the CPU side, not the DC device itself.
+The PRID register is located at the CPU side, not the DC device itself, 
+this is a concern.
 
-but by the time the device driver get loaded, it is guaranteed  can be used.
+But by the time the device driver get loaded, it(cpucfg) is guaranteed  
+can be used.
 
 
 We can use the value read from this register to differentiate whether 
 the host CPU
 
-is a SoC or not.  v4[2] of this patch series already use this method to 
+is a SoC or not.  v4 of this patch series already use this method to 
 differentiate the chips.
 
 The implement code is at lsdc_probe.c. Mips cpus of loongson have the 
@@ -158,9 +151,6 @@ similar prid register.
 [1] 
 https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN#_cpucfg
 
-[2] https://patchwork.freedesktop.org/patch/523409/?series=113566&rev=4
-
->
 >>
 >> this patch is target to providing the generic part of device driver 
 >> support for Loongson integrated graphics.
@@ -194,17 +184,19 @@ https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN#_cpucfg
 >
 > It's better to start small and grow the driver over time.
 >
+
 Yes, I always want upload the most complete version in the past.
 
-but only find it actually not necessary, may be we should  keep the
+but only find it actually not necessary, maybe we should  keep the 
+uncommon chip back.
 
-uncommon chip back. They may bring unnecessary concerns to reviewers.
+They bring unnecessary concerns to reviewers, sorry about that.
 
-Focus on the chips which is most useful is the right way (in a sense 
-that people would like to use most).
+Focus on the chips which is most used maybe better (in a sense that 
+people would like to use most).
 
 
-Emm..., but this depend on the you opinions.
+Emm..., I will respect you opinions.
 
 Would the method(differentiate by the cpu version provide by cpucfg) is 
 acceptable?
@@ -216,7 +208,6 @@ can use upstream kernel.
 
 Because SoC is low cost, A few students and hobbyist may choose them to 
 study programming.
-
 
 > Best regards
 > Thomas
@@ -2950,7 +2941,7 @@ study programming.
 >>>>
 >>>
 >
---------------pY0C8KcqtoAPJP4aPrJ6g9h2
+--------------umbYD8oi4h9dzQad4PFY3gji
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -2996,19 +2987,20 @@ Content-Transfer-Encoding: 8bit
       those features, there's no point in merging the driver until the
       feature is ready.
       <br>
+      <br>
     </blockquote>
-    <pre class="content">
-I remember you said "It's also ok to to read version information from a status register."
+    <pre class="content">After you said "It's also ok to to read version information from a status register."
 </pre>
     <p></p>
-    <p>This  sentence strike me,  consider that our cpu has version and
-      features register.</p>
-    <p>It is called cpucfg[1] register, it is similar like x86-64's
-      cpuid instruction.</p>
-    <p>All LoongArch cpu support cpucfg, besides provide version
-      information,  <br>
+    <p>I'm thinking this all night, this  sentence strike me. <br>
     </p>
-    <p>It is also provided features the cpu supported. for example, <br>
+    <p>Suddenly I remember that our CPU has version and features
+      register.</p>
+    <p>It is called cpucfg[1] registers, cpucfg is also a instruction on
+      LoongArch, it is similar like x86-64's cpuid instruction.</p>
+    <p>All LoongArch cpu support cpucfg, besides provide basic version
+      information,  It is also provided features the per cpu supported.</p>
+    <p>For example: <br>
     </p>
     <p>LS3A5000 support LSX(128-bit SIMD) and LASX(256-bit SIMD), it has
       a  <span class="p_add">0x0014c000  as its PRID.<br>
@@ -3018,14 +3010,13 @@ I remember you said "It's also ok to to read version information from a status r
     <p>LS2K1000 LA264 version support LSX(128-bit SIMD) only, it has a 
       <span class="p_add">0x0014a000  as its PRID.</span></p>
     <p><span class="p_add">Despite the least significant 8 bit is 
-        revision number which suffer from change.</span></p>
-    <p><span class="p_add">but  </span><span class="p_add">the bits
-        15:8 of the PRID register is unique per CPU,  this 8 bits can be
-        used to</span></p>
+        revision number which suffer from change,</span></p>
+    <p><span class="p_add">but </span><span class="p_add"> bits 15:8 of
+        the PRID register is unique per CPU. This 8 bits can be used to</span></p>
     <p><span class="p_add">identify the processor solely.  In fact, this
         register is also been used by the kernel</span></p>
     <p><span class="p_add">side programmer to expose CPU features to
-        userspace(say /proc/cpuinfo)<br>
+        userspace(say /proc/cpuinfo).<br>
       </span></p>
     <p><span class="p_add">It is also been used by compiler writer to
         generate difference code for different CPU.<br>
@@ -3033,34 +3024,31 @@ I remember you said "It's also ok to to read version information from a status r
     <p><span class="p_add"><br>
       </span></p>
     <p><span class="p_add">The PRID register is located at the CPU side,
-        not the DC device itself.<br>
+        not the DC device itself, this is a concern.<br>
       </span></p>
     <p><span class="p_add"></span></p>
-    <p><span class="p_add">but by the time the device driver get loaded,
-        it is guaranteed  can be used.<br>
+    <p><span class="p_add">But by the time the device driver get loaded,
+        it(cpucfg) is guaranteed  can be used.<br>
       </span></p>
     <p><span class="p_add"><br>
       </span></p>
     <p><span class="p_add">We can use the value read from this register
         to differentiate whether the host CPU</span></p>
-    <p><span class="p_add">is a SoC or not.  v4[2] of this patch series
+    <p><span class="p_add">is a SoC or not.  v4 of this patch series
         already use this method to </span><span class="p_add">differentiate
         the chips.</span><span class="p_header"><br>
       </span></p>
-    <p><span class="p_header">The implement code is at lsdc_probe.c.
-        Mips cpus of loongson have the similar prid register. <br>
-      </span></p>
-    <p><span class="p_add"></span></p>
-    <p><span class="p_add"><br>
-      </span></p>
+    <span class="p_header">The implement code is at lsdc_probe.c. Mips
+      cpus of loongson have the similar prid register. </span>
+    <p></p>
+    <p><br>
+    </p>
     <p>[1]
-<a class="moz-txt-link-freetext" href="https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN#_cpucfg">https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN#_cpucfg</a></p>
-    <p>[2]
-      <a class="moz-txt-link-freetext" href="https://patchwork.freedesktop.org/patch/523409/?series=113566&amp;rev=4">https://patchwork.freedesktop.org/patch/523409/?series=113566&amp;rev=4</a><br>
+<a class="moz-txt-link-freetext" href="https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN#_cpucfg">https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN#_cpucfg</a><br>
+      <br>
     </p>
     <blockquote type="cite"
       cite="mid:2478426e-11fd-de23-2059-e7b7249943c2@suse.de">
-      <br>
       <blockquote type="cite">
         <br>
         this patch is target to providing the generic part of device
@@ -3107,19 +3095,20 @@ I remember you said "It's also ok to to read version information from a status r
       <br>
       <br>
     </blockquote>
-    <p>Yes, I always want upload the most complete version in the past. 
-      <br>
-    </p>
-    <p>but only find it actually not necessary, may be we should  keep
-      the</p>
-    <p>uncommon chip back. They may bring unnecessary concerns to
-      reviewers. <br>
-    </p>
-    Focus on the chips which is most useful is the right way (in a sense
-    that people would like to use most). <br>
     <p><br>
     </p>
-    <p>Emm..., but this depend on the you opinions.</p>
+    <p>Yes, I always want upload the most complete version in the past. 
+    </p>
+    <p>but only find it actually not necessary, maybe we should  keep
+      the uncommon chip back. <br>
+    </p>
+    <p>They bring unnecessary concerns to reviewers, sorry about that. <br>
+    </p>
+    Focus on the chips which is most used maybe better (in a sense that
+    people would like to use most). <br>
+    <p><br>
+    </p>
+    <p>Emm..., I will respect you opinions.</p>
     <p>Would the method(<span class="p_add"> differentiate by</span> the
       cpu version provide by cpucfg) is acceptable? <br>
     </p>
@@ -3129,8 +3118,6 @@ I remember you said "It's also ok to to read version information from a status r
       our SoC can use upstream kernel.</p>
     <p>Because SoC is low cost, A few students and hobbyist may choose
       them to study programming.</p>
-    <p>  <br>
-    </p>
     <blockquote type="cite"
       cite="mid:2478426e-11fd-de23-2059-e7b7249943c2@suse.de">Best
       regards
@@ -8636,5 +8623,4 @@ I remember you said "It's also ok to to read version information from a status r
   </body>
 </html>
 
---------------pY0C8KcqtoAPJP4aPrJ6g9h2--
-
+--------------umbYD8oi4h9dzQad4PFY3gji--
