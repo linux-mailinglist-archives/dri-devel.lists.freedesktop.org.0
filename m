@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2686A0816
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 13:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5496A0821
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 13:07:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B09F10EB69;
-	Thu, 23 Feb 2023 12:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE2D10EB4F;
+	Thu, 23 Feb 2023 12:07:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D103010EB69
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 12:07:03 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id b10so1820959ljr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 04:07:03 -0800 (PST)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 956A910EB6F
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 12:07:06 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id g17so775493lfv.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 04:07:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=kU1DhHqljkZnMyZ8L0mfvbfdXEv07yxf2+yc3rbwTBA=;
- b=PYQZM3L2LumSLyw8wcCvEpFKJeoS7thhe/+9xJHxQtEQ4+LobuF5sEKheGM5Bhgv9a
- wbMdwBtRz0l3SS6hA/rhcWf6qMjaYrkGPrV5YgMreAsrt3oE0XzzWYR1PXuoxcyVxJd8
- HHbq8ShTi/kMCc9B8S2NuGipD3j3rBrDAAgh1i52he9oNhp4UcQPk51PF2eUkELBpire
- wwHD5B/5vmh9rwmXtLhJ+NQt+t6Qmh60cnNfjGbtWIVlSV9zw9v4sRZx8SSY/lUTOMrJ
- L3nQnAlfQy1Rfx4iBNKjUxK1tHP++eLtew8HYpB8EImTjZKM+eUdOrgLNxOQl26Fiq0E
- tapg==
+ :reply-to; bh=SZ/xGzExvk13wbA4qbsvWe1ebWJNBnGJT8JbIK1eSfo=;
+ b=GtD3uY6KVcOgkOy/CR8IknJL9LBoGlgXIYEaGeOKc0CRIfEwXT4DtWQO9jXwzMwbPF
+ L2JeagzDKYh5+FsEjmID5ErNMkfMwwbjsnj73bNf/54dcBQLLEEO7y2Qy0ZsHGIgH9pv
+ 1n+GSDq2loo5S+XmYEEuqL7X1JtY8rIXGTP1qKgfu7FPfRRpBVsvzieJfDYmNAlyTx7Z
+ 5+pHzJgt1RbiaabHkywWJ7j0Iy9PKUw60/o8u/wbQK0os3388Ib3aifKtF5ZnIJdrmLc
+ 6PcqOrecwlT6BBgkFsYLLcbLepAYVzOEWfA654vlQTKYk4ucX9WZYRthAjPF4TEaQgK4
+ 6G3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kU1DhHqljkZnMyZ8L0mfvbfdXEv07yxf2+yc3rbwTBA=;
- b=m8cGBeLBIiM+tXs2FtTg0RBaaqzi9cSxngZy1+LVRpQ0kz+W/M0mZAUmscNjs7h5Sd
- cqJW4NXySbqdNfdsdfvUuMq5DapR7YGmIxPz4COn20LzgGYhulj37p8r59WKDYCgi0go
- 6hH8eb22vSTn0iCzqUGcQi4e3S4iHJDq2qe9L4WNx9kIeHj6TTpQEd6dlpkpfvB/yRkV
- /cFPQMDr+YysKvIwp3i/4lphy6C4JhyVOwdcLcm7aaLnLahq64zfjZs3Ub4LutO6BYrq
- 5mGxvWtk5xcmwkTEBydfxnHX1ZYB+nkT/N1fPUV/D9W4e7jXti51bYIQdf6ZMs8i+xPE
- Grig==
-X-Gm-Message-State: AO0yUKVaqXqOeSKYJy05UwKbsOqkZ1aVT4JBa7scXDn+7AA30xPZxejJ
- jLfKWi1V4Cp3icmArTfc/5dKeA==
-X-Google-Smtp-Source: AK7set+VgAFb/5QtFiJTtVw7Lkm+EfmrUhUt6x98C5jyNKNo/8vE0EAKnvJZmYI876jSaQ6jtDZ1Uw==
-X-Received: by 2002:a05:651c:158c:b0:295:9d2c:c5b5 with SMTP id
- h12-20020a05651c158c00b002959d2cc5b5mr1217095ljq.12.1677154023428; 
- Thu, 23 Feb 2023 04:07:03 -0800 (PST)
+ bh=SZ/xGzExvk13wbA4qbsvWe1ebWJNBnGJT8JbIK1eSfo=;
+ b=vcrScnN8bc8eT8mfd+WOpgnhIgA6/hCG8Jhe7yW7uXbbz15k4mbwKWE2KtELb5+HDO
+ irZRkC5vOgRvDvWTSfHEZK+ESYZzXgxMKhyhIkqZfLzWTLpLjhryyG5+etE4TjLj9gjW
+ XknTp7guEtQPWCnUOUvAJYAimlSnUU0BmzncWBANGtZkS/Bb0Bga1ChfFcoUjVgnz74S
+ KMXe0MmLCI3D0iOohPM1hrwykoND0B2P3vDtkkPaHsKH99qkrj+YwGvL/akr40rGl3Vw
+ 8ci0u/4eUI2q9vCbpmGudGOQBr5T/qEDsHNwHuok/vZMiCIS9kmtD/+npPRm+D4CNKcE
+ 2Zww==
+X-Gm-Message-State: AO0yUKU0HiqdGLLM418kGjyja8jSoACfrmnXpp/fiujm36ySwMTsBVBF
+ MXCABl2fzN9qcSFDepcPzdsJdg==
+X-Google-Smtp-Source: AK7set85M6q9Qseas9oAZzSpJrj3R3yandRl8Q//18ZT9N2L1yKHvcS8kTOKNPxbLGdtL+pCZaX0Lw==
+X-Received: by 2002:a19:700d:0:b0:4dc:554b:d27e with SMTP id
+ h13-20020a19700d000000b004dc554bd27emr3475770lfc.65.1677154024955; 
+ Thu, 23 Feb 2023 04:07:04 -0800 (PST)
 Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
  by smtp.gmail.com with ESMTPSA id
- h23-20020a2ea497000000b0029599744c02sm414838lji.75.2023.02.23.04.07.01
+ h23-20020a2ea497000000b0029599744c02sm414838lji.75.2023.02.23.04.07.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 04:07:03 -0800 (PST)
+ Thu, 23 Feb 2023 04:07:04 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Thu, 23 Feb 2023 13:06:46 +0100
-Subject: [PATCH v3 12/15] drm/msm/a6xx: Use "else if" in GPU speedbin rev
- matching
+Date: Thu, 23 Feb 2023 13:06:47 +0100
+Subject: [PATCH v3 13/15] drm/msm/a6xx: Use adreno_is_aXYZ macros in
+ speedbin matching
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230223-topic-gmuwrapper-v3-12-5be55a336819@linaro.org>
+Message-Id: <20230223-topic-gmuwrapper-v3-13-5be55a336819@linaro.org>
 References: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
 In-Reply-To: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -68,11 +68,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Konrad Dybcio <konrad.dybcio@somainline.org>, 
  Akhil P Oommen <quic_akhilpo@quicinc.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677154003; l=1434;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677154003; l=4256;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=diEdpVPV98iDyAF3qtuCIpbTUiF49iB6aIjsVbWV6Sw=;
- b=ZkCJF5gp9SXq5tTFz0avDKLTNJiqFPEk/lO8lIguPILtj3GJe8qp7Dwgbk2fVNK0eKEvODJDTQ+H
- O5dIDuC/BSYaR/lZLPu4xYN+7gJPClPMteoXtQm13k4Gtpt8w4mQ
+ bh=0V7/WcL1MABzv4zFeEQKs26sXQyT+kVWIiROsyIVolM=;
+ b=D9HkDWtlsgD+vquVTDXjCdgIkGfxQXGREpBvyo4fJHN0h6p2nPKn83JtZsrqh0vEaY1HAeDwTV3K
+ dCCpYpXNDdj3E2EvvGzpO//FKJ+LItrMDGREeje+rheuWwsQAJ9R
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,40 +94,119 @@ Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GPU can only be one at a time. Turn a series of ifs into if +
-elseifs to save some CPU cycles.
+Before transitioning to using per-SoC and not per-Adreno speedbin
+fuse values (need another patchset to land elsewhere), a good
+improvement/stopgap solution is to use adreno_is_aXYZ macros in
+place of explicit revision matching. Do so to allow differentiating
+between A619 and A619_holi.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 18 +++++++++---------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h | 14 ++++++++++++--
+ 2 files changed, 21 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index eb24be772934..f694acca931c 100644
+index f694acca931c..d49b649ebecf 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -2222,16 +2222,16 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
- 	if (adreno_cmp_rev(ADRENO_REV(6, 1, 8, ANY_ID), rev))
+@@ -2215,23 +2215,23 @@ static u32 adreno_7c3_get_speed_bin(u32 fuse)
+ 	return UINT_MAX;
+ }
+ 
+-static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
++static u32 fuse_to_supp_hw(struct device *dev, struct adreno_gpu *adreno_gpu, u32 fuse)
+ {
+ 	u32 val = UINT_MAX;
+ 
+-	if (adreno_cmp_rev(ADRENO_REV(6, 1, 8, ANY_ID), rev))
++	if (adreno_is_a618(adreno_gpu))
  		val = a618_get_speed_bin(fuse);
  
--	if (adreno_cmp_rev(ADRENO_REV(6, 1, 9, ANY_ID), rev))
-+	else if (adreno_cmp_rev(ADRENO_REV(6, 1, 9, ANY_ID), rev))
+-	else if (adreno_cmp_rev(ADRENO_REV(6, 1, 9, ANY_ID), rev))
++	else if (adreno_is_a619(adreno_gpu))
  		val = a619_get_speed_bin(fuse);
  
--	if (adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), rev))
-+	else if (adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), rev))
+-	else if (adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), rev))
++	else if (adreno_is_7c3(adreno_gpu))
  		val = adreno_7c3_get_speed_bin(fuse);
  
--	if (adreno_cmp_rev(ADRENO_REV(6, 4, 0, ANY_ID), rev))
-+	else if (adreno_cmp_rev(ADRENO_REV(6, 4, 0, ANY_ID), rev))
+-	else if (adreno_cmp_rev(ADRENO_REV(6, 4, 0, ANY_ID), rev))
++	else if (adreno_is_a640(adreno_gpu))
  		val = a640_get_speed_bin(fuse);
  
--	if (adreno_cmp_rev(ADRENO_REV(6, 5, 0, ANY_ID), rev))
-+	else if (adreno_cmp_rev(ADRENO_REV(6, 5, 0, ANY_ID), rev))
+-	else if (adreno_cmp_rev(ADRENO_REV(6, 5, 0, ANY_ID), rev))
++	else if (adreno_is_a650(adreno_gpu))
  		val = a650_get_speed_bin(fuse);
  
  	if (val == UINT_MAX) {
+@@ -2244,7 +2244,7 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+ 	return (1 << val);
+ }
+ 
+-static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
++static int a6xx_set_supported_hw(struct device *dev, struct adreno_gpu *adreno_gpu)
+ {
+ 	u32 supp_hw;
+ 	u32 speedbin;
+@@ -2263,7 +2263,7 @@ static int a6xx_set_supported_hw(struct device *dev, struct adreno_rev rev)
+ 		return ret;
+ 	}
+ 
+-	supp_hw = fuse_to_supp_hw(dev, rev, speedbin);
++	supp_hw = fuse_to_supp_hw(dev, adreno_gpu, speedbin);
+ 
+ 	ret = devm_pm_opp_set_supported_hw(dev, &supp_hw, 1);
+ 	if (ret)
+@@ -2382,7 +2382,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 	if (!adreno_has_gmu_wrapper(adreno_gpu))
+ 		a6xx_llc_slices_init(pdev, a6xx_gpu);
+ 
+-	ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
++	ret = a6xx_set_supported_hw(&pdev->dev, adreno_gpu);
+ 	if (ret) {
+ 		a6xx_destroy(&(a6xx_gpu->base.base));
+ 		return ERR_PTR(ret);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 27c30a7694f4..da9f45a13b5d 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -268,9 +268,9 @@ static inline int adreno_is_a630(struct adreno_gpu *gpu)
+ 	return gpu->revn == 630;
+ }
+ 
+-static inline int adreno_is_a640_family(struct adreno_gpu *gpu)
++static inline int adreno_is_a640(struct adreno_gpu *gpu)
+ {
+-	return (gpu->revn == 640) || (gpu->revn == 680);
++	return gpu->revn == 640;
+ }
+ 
+ static inline int adreno_is_a650(struct adreno_gpu *gpu)
+@@ -289,6 +289,11 @@ static inline int adreno_is_a660(struct adreno_gpu *gpu)
+ 	return gpu->revn == 660;
+ }
+ 
++static inline int adreno_is_a680(struct adreno_gpu *gpu)
++{
++	return gpu->revn == 680;
++}
++
+ /* check for a615, a616, a618, a619 or any derivatives */
+ static inline int adreno_is_a615_family(struct adreno_gpu *gpu)
+ {
+@@ -306,6 +311,11 @@ static inline int adreno_is_a650_family(struct adreno_gpu *gpu)
+ 	return gpu->revn == 650 || gpu->revn == 620 || adreno_is_a660_family(gpu);
+ }
+ 
++static inline int adreno_is_a640_family(struct adreno_gpu *gpu)
++{
++	return adreno_is_a640(gpu) || adreno_is_a680(gpu);
++}
++
+ u64 adreno_private_address_space_size(struct msm_gpu *gpu);
+ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
+ 		     uint32_t param, uint64_t *value, uint32_t *len);
 
 -- 
 2.39.2
