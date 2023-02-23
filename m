@@ -2,45 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0306A1000
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 20:02:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADBD6A1008
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 20:03:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4299010E04C;
-	Thu, 23 Feb 2023 19:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56DE910E076;
+	Thu, 23 Feb 2023 19:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA06110E04C
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 19:02:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1C6B10E076;
+ Thu, 23 Feb 2023 19:02:59 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
- by srv6.fidu.org (Postfix) with ESMTP id 80A10C8008D
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 20:02:13 +0100 (CET)
+ by srv6.fidu.org (Postfix) with ESMTP id 658D2C8008D;
+ Thu, 23 Feb 2023 20:02:58 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
 Received: from srv6.fidu.org ([127.0.0.1])
  by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id lLGKANEEnV_r for <dri-devel@lists.freedesktop.org>;
- Thu, 23 Feb 2023 20:02:13 +0100 (CET)
+ with LMTP id sTEe5keq6-lp; Thu, 23 Feb 2023 20:02:58 +0100 (CET)
 Received: from [192.168.176.165] (host-88-217-226-44.customer.m-online.net
  [88.217.226.44])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: wse@tuxedocomputers.com)
- by srv6.fidu.org (Postfix) with ESMTPSA id 41D95C8008A
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 20:02:13 +0100 (CET)
-Message-ID: <28a3a285-7f42-1d3c-068e-2ead0c18ea23@tuxedocomputers.com>
-Date: Thu, 23 Feb 2023 20:02:12 +0100
+ by srv6.fidu.org (Postfix) with ESMTPSA id 32B14C8008A;
+ Thu, 23 Feb 2023 20:02:57 +0100 (CET)
+Message-ID: <edafaf88-cf58-8cc0-8466-aa14794e8673@tuxedocomputers.com>
+Date: Thu, 23 Feb 2023 20:02:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
 Subject: Re: [PATCH 0/2] Add quirk to disable PSR 2 on Tongfang PHxTxX1 and
  PHxTQx1
 Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: "Hogander, Jouni" <jouni.hogander@intel.com>,
+ "Souza, Jose" <jose.souza@intel.com>,
+ "Santa Cruz, Diego" <Diego.SantaCruz@spinetix.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "Kahola, Mika" <mika.kahola@intel.com>, "airlied@gmail.com"
+ <airlied@gmail.com>,
+ "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>
 References: <20230222141755.1060162-1-wse@tuxedocomputers.com>
  <9b0e29f15f3e8799256c425f06b36a70ec04522f.camel@intel.com>
  <52f48cb2-ce54-854f-3bec-44c40c6ad07f@tuxedocomputers.com>
-From: Werner Sembach <wse@tuxedocomputers.com>
 In-Reply-To: <52f48cb2-ce54-854f-3bec-44c40c6ad07f@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
