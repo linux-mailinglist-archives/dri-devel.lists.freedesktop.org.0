@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DD76A07ED
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 13:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F2A6A07F8
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 13:06:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 968F710E1F6;
-	Thu, 23 Feb 2023 12:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C2A710EB38;
+	Thu, 23 Feb 2023 12:06:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62CB910E170
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 12:06:46 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id b13so11568926ljf.6
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 04:06:46 -0800 (PST)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5FC010EB38
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 12:06:47 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id e9so10563362ljn.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 04:06:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=QkKPkt6K8I16jd1Wjb3aZsG77PYKiXbGXPYI41OEs9k=;
- b=tAtajSSPzl1mwYWBXR+0tmHgiFeEgpsbv3vhqLZrkDZ160IQbHlKrTLzcDtbPe2GnK
- bUSt4QBfE5L/8YPcXVNvMh/DiCh/LpGR2suG9IBm7TfayIG5sEgH1qQYYvnf97vxbrR3
- PVLptLfbUV+5d8nq0gc60wfgvdbMCh+j7G5yATau85zvJllvgKTcvQUXrtbVhU01NDio
- r4nsGE0G72ZyI4X/WK0RmT9wEIb7WvYe3iFDFOqqFYcXeAiD1AemcBlHptTEQ+CUP748
- AqNO+emEW9ik5UvDYrwwZu2ZVWw/AdNQ8G247lRrSKlKvac/fIVbC0WYzXG6D90WHrND
- RcPQ==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=K4YZhIq9YW/FxqiUeK4bZw1x51EA5wPW9LCdn2zDvdc=;
+ b=OohLjLKJXyjraOAySmUv+UmUZOeAqv0jpujjxE8+ocLORTL2AXpQkvVd5IKmcnbI14
+ SzPbv4PrLCCbBfbotURghv6LoMk+jJH2fADhyx192N1q/Pw0pNNrie1Qw+zFOfad9lx8
+ 79/2kZG9Y70Zy3UT81Cc/xZX89mwyKmN3/6mDTexIXgQ+GY3CGB8BGsd6aMFvA2/07FJ
+ 0RR0DmLmij1wb6xEpWSGuB03PdKUSVcbMYDc+H7nti1MEo1cUGrkE9/zZz3NG77iUwOy
+ dyYs7MreM4JQO50+Af39oL+xwv+Iu0+0pa1K9eLUYA28MLN2qVYzH6q20kuLsNBBZfBv
+ JRCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QkKPkt6K8I16jd1Wjb3aZsG77PYKiXbGXPYI41OEs9k=;
- b=Hw7OFE500fWMpk0/TfaTCz0RzeYO5ICf8WvJfhH+NhhGhvl8J8KgWE60AWyddM+x/7
- q3X/lmyLB65kwoGW7ssmgKGLaWS2MGZUX37u4ipJeSSzaMqgeaWtBWRJUAqrZXCMsXjA
- NiOiFfonSVrQHFFvUKdPz3D32n66Gh2paXIsGC/ShcibO+UiBJ9Y63ogaCsgh0adEpUU
- xVgahuW+xuGeVbCr2UbAhtQRaZ1d/ebZ7HRuPdEEBVdTSgD15VK4N0sgoGFxgNqn6L9T
- TjH8ynO0+ghngXIK649ytdcvhgHJn9f5JXKqz+yIO1UHt0vis+g2eYoh2U2jpQj0W+eg
- nxzg==
-X-Gm-Message-State: AO0yUKVoNUcfdfxJ5usn51ML6WrHrCZZkiZYE+ek0I1/OXHp/sA80ro2
- jRq5jwt5b2V902Exz66DpFzkGA==
-X-Google-Smtp-Source: AK7set+6aMuX+fIwu7TKmnFH2zI+TIWMDx0P1BNXDkNGx33VUkBqKOt28i6yC/SpfOfFe1jifZ62qQ==
-X-Received: by 2002:a2e:7216:0:b0:295:8a9b:d8d6 with SMTP id
- n22-20020a2e7216000000b002958a9bd8d6mr3366493ljc.4.1677154004555; 
- Thu, 23 Feb 2023 04:06:44 -0800 (PST)
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=K4YZhIq9YW/FxqiUeK4bZw1x51EA5wPW9LCdn2zDvdc=;
+ b=vxcvBuDGxjVpXWleyh4tn8RHt5tyJkQpiVVZeVOrJpjVGoUR4VJoI+Y9pCA9rrByS+
+ /o+P01A4BYcKRxYb8fshfuwX5YjcWVSM72hjvptiewtAlunwJZoYe8vwMwyR2XYEnmL6
+ xxyMdt9e/uMTkN5jxAhhKgfC/cxaThcjAvXG2NnNQ3OaBfHtcwLCDIujrH2gdC/Ay5Ti
+ 8FhlI3JiyID0dP1sywJCgocbWZ5j1ulcTv4WGq+g6f360lWGcqKV9ZO0o6BrRmwzlRHV
+ pTcPnU5MgorZImthM8q0g5N0hPi0q0XOX2oVafbEN63zPYEiQEC+GNA2AseiznWgIQ89
+ lfIg==
+X-Gm-Message-State: AO0yUKVlUX09e3UAGJ+cLPa7b3Dhlpor+ViSioLWqr9/kbr0H+bBXi/N
+ nznBTu0B9aOHEUQt8a/8MbM89w==
+X-Google-Smtp-Source: AK7set/IoyMZjZzt4A4lV3MF5z2ACmTHA5JBD9wWI5PQ1ERTAqq4xAvNRkIyljJW3Fmd0z0wwTGnFA==
+X-Received: by 2002:a2e:9c43:0:b0:28b:6f21:d929 with SMTP id
+ t3-20020a2e9c43000000b0028b6f21d929mr3786573ljj.32.1677154006004; 
+ Thu, 23 Feb 2023 04:06:46 -0800 (PST)
 Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
  by smtp.gmail.com with ESMTPSA id
- h23-20020a2ea497000000b0029599744c02sm414838lji.75.2023.02.23.04.06.43
+ h23-20020a2ea497000000b0029599744c02sm414838lji.75.2023.02.23.04.06.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 04:06:44 -0800 (PST)
+ Thu, 23 Feb 2023 04:06:45 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [PATCH v3 00/15] GMU-less A6xx support (A610, A619_holi)
-Date: Thu, 23 Feb 2023 13:06:34 +0100
-Message-Id: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
+Date: Thu, 23 Feb 2023 13:06:35 +0100
+Subject: [PATCH v3 01/15] dt-bindings: display/msm: gpu: Document GMU
+ wrapper-equipped A6xx
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMpW92MC/x2N0QqDMAwAf0XyvIC0Drf9ythDWxMNuFpS3QTx3
- xf2eAfHHVBJhSo8mgOUPlJlyQb+0kCaQh4JZTAG1zrfOudxXYokHN/bV0MppBg7Zr7y0Pe3O1g
- WQyWMGnKaLMzbPJssSiz7//N8necPqATO1ncAAAA=
+Message-Id: <20230223-topic-gmuwrapper-v3-1-5be55a336819@linaro.org>
+References: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
+In-Reply-To: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -68,11 +68,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Konrad Dybcio <konrad.dybcio@somainline.org>, 
  Akhil P Oommen <quic_akhilpo@quicinc.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677154003; l=6803;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677154003; l=3199;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=SrO+tT9dL/Vn3p2tiDM013OqjkJMjRrAWfBDI0HEZLo=;
- b=0TZ4tmSBt1jWJ+b2r+8ZhfTgB1jlxMKBIVSE8fbdBosET7znKqmGYTuujxpBrWgzTTuSvyGRzH40
- /hGS6u/IBLM7pjKrUGaAIEcazqjEroPQR7IGJtDLm/Pk0F6CQ5Tb
+ bh=OIF3FsTi5KZskII9c6hJUDloiyLRqqB5VQtoA0QmTtI=;
+ b=dmENyDnriBzpDTZ/hIUGR6DQxTsH8p61XQNnYXfjQwEfZZ9ngl3L7w9SMdpp+lueOdSvjcYs3NXl
+ 6r1QPtrNAmBbqGp7SUn+vCOg4vhyL0O/ePwkzd4hgzIahrAmm/v0
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,168 +94,111 @@ Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2 -> v3:
-New dependencies:
-- https://lore.kernel.org/linux-arm-msm/20230223-topic-opp-v3-0-5f22163cd1df@linaro.org/T/#t
-- https://lore.kernel.org/linux-arm-msm/20230120172233.1905761-1-konrad.dybcio@linaro.org/
-
-Sidenote: A speedbin rework is in progress, the of_machine_is_compatible
-calls in A619_holi are ugly (but well, necessary..) but they'll be
-replaced with socid matching in this or the next kernel cycle.
-
-Due to the new way of identifying GMU wrapper GPUs, configuring 6350
-to use wrapper would cause the wrong fuse values to be checked, but that
-will be solved by the conversion + the ultimate goal is to use the GMU
-whenever possible with the wrapper left for GMU-less Adrenos and early
-bringup debugging of GMU-equipped ones.
-
-- Ship dt-bindings in this series as we're referencing the compatible now
-
-- "De-staticize" -> "remove static keyword" [3/15]
-
-- Track down all the values in [4/15]
-
-- Add many comments and explanations in [4/15]
-
-- Fix possible return-before-mutex-unlock [5/15]
-
-- Explain the GMU wrapper a bit more in the commit msg [5/15]
-
-- Separate out pm_resume/suspend for GMU-wrapper GPUs to make things
-  cleaner [5/15]
-
-- Don't check if `info` exists, it has to at this point [5/15]
-
-- Assign gpu->info early and clean up following if statements in
-  a6xx_gpu_init [5/15]
-
-- Determine whether we use GMU wrapper based on the GMU compatible
-  instead of a quirk [5/15]
-
-- Use a struct field to annotate whether we're using gmu wrapper so
-  that it can be assigned at runtime (turns out a619 holi-ness cannot
-  be determined by patchid + that will make it easier to test out GMU
-  GPUs without actually turning on the GMU if anybody wants to do so)
-  [5/15]
-
-- Unconditionally hook up gx to the gmu wrapper (otherwise our gpu
-  will not get power) [5/15]
-
-- Don't check for gx domain presence in gmu_wrapper paths, it's
-  guaranteed [5/15]
-
-- Use opp set rate in the gmuwrapper suspend path [5/15]
-
-- Call opp functions on the GPU device and not on the DRM device of
-  mdp4/5/DPU1 half the time (WHOOOOPS!) [5/15]
-
-- Disable the memory clock in a6xx_pm_suspend instead of enabling it
-  (moderate oops) [5/15]
-
-- Call the forgotten clk_bulk_disable_unprepare in a6xx_pm_suspend [5/15]
-
-- Set rate to FMIN (a6xx really doesn't like rate=0 + that's what
-  msm-5.x does anyway) before disabling core clock [5/15]
-
-- pm_runtime_get_sync -> pm_runtime_resume_and_get [5/15]
-
-- Don't annotate no cached BO support with a quirk, as A619_holi is
-  merged into the A619 entry in the big const struct - this means
-  that all GPUs operating in gmu wrapper configuration will be
-  implicitly treated as if they didn't have this feature [7/15]
-
-- Drop OPP rate & icc related patches, they're a part of a separate
-  series now; rebase on it
-
-- Clean up extra parentheses [8/15]
-
-- Identify A619_holi by checking the compatible of its GMU instead
-  of patchlevel [8/15]
-
-- Drop "Fix up A6XX protected registers" - unnecessary, Rob will add
-  a comment explaining why
-
-- Fix existing UBWC values for A680, new patch [10/15]
-
-- Use adreno_is_aXYZ macros in speedbin matching [13/15] - new patch
-
-v2: https://lore.kernel.org/linux-arm-msm/20230214173145.2482651-1-konrad.dybcio@linaro.org/
-
-v1 -> v2:
-- Fix A630 values in [2/14]
-- Fix [6/14] for GMU-equipped GPUs
-
-Link to v1: https://lore.kernel.org/linux-arm-msm/20230126151618.225127-1-konrad.dybcio@linaro.org/
-
-This series concludes my couple-weeks-long suffering of figuring out
-the ins and outs of the "non-standard" A6xx GPUs which feature no GMU.
-
-The GMU functionality is essentially emulated by parting out a
-"GMU wrapper" region, which is essentially just a register space
-within the GPU. It's modeled to be as similar to the actual GMU
-as possible while staying as unnecessary as we can make it - there's
-no IRQs, communicating with a microcontroller, no RPMh communication
-etc. etc. I tried to reuse as much code as possible without making
-a mess where every even line is used for GMU and every odd line is
-used for GMU wrapper..
-
-This series contains:
-- plumbing for non-GMU operation, if-ing out GMU calls based on
-  GMU presence
-- GMU wrapper support
-- A610 support (w/ speedbin)
-- A619 support (w/ speedbin)
-- couple of minor fixes and improvements
-- VDDCX/VDDGX scaling fix for non-GMU GPUs (concerns more than just
-  A6xx)
-- Enablement of opp interconnect properties
-
-A619_holi works perfectly fine using the already-present A619 support
-in mesa. A610 needs more work on that front, but can already replay
-command traces captures on downstream.
-
-NOTE: the "drm/msm/a6xx: Add support for A619_holi" patch contains
-two occurences of 0x18 used in place of a register #define, as it's
-supposed to be RBBM_GPR0_CNTL, but that will only be present after
-mesa-side changes are merged and headers are synced from there.
-
-Speedbin patches depend on:
-https://lore.kernel.org/linux-arm-msm/20230120172233.1905761-1-konrad.dybcio@linaro.org/
+GMU wrapper-equipped A6xx GPUs require clocks and clock-names to be
+specified under the GPU node, just like their older cousins.
+Account for that.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
-Konrad Dybcio (15):
-      dt-bindings: display/msm: gpu: Document GMU wrapper-equipped A6xx
-      dt-bindings: display/msm/gmu: Add GMU wrapper
-      drm/msm/a6xx: Remove static keyword from sptprac en/disable functions
-      drm/msm/a6xx: Extend and explain UBWC config
-      drm/msm/a6xx: Introduce GMU wrapper support
-      drm/msm/a6xx: Remove both GBIF and RBBM GBIF halt on hw init
-      drm/msm/adreno: Disable has_cached_coherent in GMU wrapper configurations
-      drm/msm/a6xx: Add support for A619_holi
-      drm/msm/a6xx: Add A610 support
-      drm/msm/a6xx: Fix A680 highest bank bit value
-      drm/msm/a6xx: Fix some A619 tunables
-      drm/msm/a6xx: Use "else if" in GPU speedbin rev matching
-      drm/msm/a6xx: Use adreno_is_aXYZ macros in speedbin matching
-      drm/msm/a6xx: Add A619_holi speedbin support
-      drm/msm/a6xx: Add A610 speedbin support
+ .../devicetree/bindings/display/msm/gpu.yaml       | 63 ++++++++++++++++++----
+ 1 file changed, 53 insertions(+), 10 deletions(-)
 
- .../devicetree/bindings/display/msm/gmu.yaml       |  49 +-
- .../devicetree/bindings/display/msm/gpu.yaml       |  63 ++-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  57 ++-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   2 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 513 ++++++++++++++++++---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   1 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |  14 +-
- drivers/gpu/drm/msm/adreno/adreno_device.c         |  17 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  33 +-
- 9 files changed, 655 insertions(+), 94 deletions(-)
----
-base-commit: f122501715b5bb8ea340e077401257795b6638a1
-change-id: 20230223-topic-gmuwrapper-b4fff5fd7789
+diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+index d4191cca71fb..e6d3160601bc 100644
+--- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
++++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+@@ -36,10 +36,7 @@ properties:
+ 
+   reg-names:
+     minItems: 1
+-    items:
+-      - const: kgsl_3d0_reg_memory
+-      - const: cx_mem
+-      - const: cx_dbgc
++    maxItems: 3
+ 
+   interrupts:
+     maxItems: 1
+@@ -147,26 +144,72 @@ allOf:
+                 description: GPU Alternative Memory Interface clock
+               - const: gfx3d
+                 description: GPU 3D engine clock
++              - const: gmu
++                description: CX GMU clock
+               - const: rbbmtimer
+                 description: GPU RBBM Timer for Adreno 5xx series
+               - const: rbcpr
+                 description: GPU RB Core Power Reduction clock
++              - const: xo
++                description: GPUCC clocksource clock
+           minItems: 2
+-          maxItems: 7
++          maxItems: 9
+ 
+       required:
+         - clocks
+         - clock-names
++
+   - if:
+       properties:
+         compatible:
+           contains:
+-            pattern: '^qcom,adreno-6[0-9][0-9]\.[0-9]$'
+-
+-    then: # Since Adreno 6xx series clocks should be defined in GMU
++            enum:
++              - qcom,adreno-610.0
++              - qcom,adreno-619.1
++    then:
+       properties:
+-        clocks: false
+-        clock-names: false
++        clock-names:
++          items:
++            - const: core
++              description: GPU Core clock
++            - const: iface
++              description: GPU Interface clock
++            - const: mem_iface
++              description: GPU Memory Interface clock
++            - const: alt_mem_iface
++              description: GPU Alternative Memory Interface clock
++            - const: gmu
++              description: CX GMU clock
++            - const: xo
++              description: GPUCC clocksource clock
++
++        reg-names:
++          minItems: 1
++          items:
++            - const: kgsl_3d0_reg_memory
++            - const: cx_dbgc
++
++      required:
++        - clocks
++        - clock-names
++    else:
++      if:
++        properties:
++          compatible:
++            contains:
++              pattern: '^qcom,adreno-6[0-9][0-9]\.[0-9]$'
++
++      then: # Starting with A6xx, the clocks are usually defined in the GMU node
++        properties:
++          clocks: false
++          clock-names: false
++
++          reg-names:
++            minItems: 1
++            items:
++              - const: kgsl_3d0_reg_memory
++              - const: cx_mem
++              - const: cx_dbgc
+ 
+ examples:
+   - |
 
-Best regards,
 -- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+2.39.2
 
