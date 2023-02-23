@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D129B6A28BE
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Feb 2023 11:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4186A28CA
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Feb 2023 11:10:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1BA10E10B;
-	Sat, 25 Feb 2023 10:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6441310E497;
+	Sat, 25 Feb 2023 10:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 887 seconds by postgrey-1.36 at gabe;
- Thu, 23 Feb 2023 03:09:52 UTC
-Received: from h5.fbrelay.privateemail.com (h5.fbrelay.privateemail.com
- [162.0.218.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E37110E207
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 03:09:52 +0000 (UTC)
-Received: from MTA-12-4.privateemail.com (unknown [198.54.122.141])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by h5.fbrelay.privateemail.com (Postfix) with ESMTPS id 7C9156023A
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 02:55:03 +0000 (UTC)
-Received: from mta-12.privateemail.com (localhost [127.0.0.1])
- by mta-12.privateemail.com (Postfix) with ESMTP id 4ACB218000B0;
- Wed, 22 Feb 2023 21:55:01 -0500 (EST)
-Received: from localhost.localdomain (cpe-66-66-66-125.rochester.res.rr.com
- [66.66.66.125])
- by mta-12.privateemail.com (Postfix) with ESMTPA id DE25E18000A3;
- Wed, 22 Feb 2023 21:54:49 -0500 (EST)
-From: Dylan Le <self@dylanle.dev>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: gpu: add acceleration node section
-Date: Thu, 23 Feb 2023 02:52:52 +0000
-Message-Id: <7799513f0fb5aee27b64752c037980471be669c5.1677120686.git.self@dylanle.dev>
-X-Mailer: git-send-email 2.30.2
+X-Greylist: delayed 485 seconds by postgrey-1.36 at gabe;
+ Thu, 23 Feb 2023 07:15:22 UTC
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C85710EACB
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 07:15:21 +0000 (UTC)
+X-QQ-mid: bizesmtp75t1677135567t3kjq54g
+Received: from localhost.localdomain ( [58.240.82.166])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Thu, 23 Feb 2023 14:59:20 +0800 (CST)
+X-QQ-SSF: 01400000002000I0Z000B00A0000000
+X-QQ-FEAT: +ynUkgUhZJkR9eQJ/nI+SMX4brfSTlyTxBOx61PeeOB0U47PjI8FKsWbVuDlL
+ vFlTnbMWRIjBsweExC4iGsfJC6eo+WGMhnRo8uI/EZm/OaE2sv9b9rI9dUnPzo7A8+vkwHL
+ EmSsV6p2O/MfIr8ZA4loWwHSenXZs//hvHKf8s1rIqS5Qqbqvg+M+fZlmVX1VvlrYSJoIZJ
+ h+a2O0okQXoMTdrBtH6WoYrvGtLKiURV+eFxgvGkzp9/6nmuiFQt92vyhP/H7ug+6PdMKKq
+ nWlF9ITVcWVOVyOryddPaO+YfHYqWFw5OFYXgSsXyHzyg4lRSNJMvLnaCfJgkrkOlhh/X8A
+ Aj3SodCETO0iEucjHFHISIKisidiAYGFZL9NNtyb9CeEyB125cR+yKOr1gALG8CHTrHcHqd
+X-QQ-GoodBg: 2
+From: Meng Tang <tangmeng@uniontech.com>
+To: zackr@vmware.com, linux-graphics-maintainer@vmware.com, airlied@gmail.com,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/vmwgfx: Work around VMW_ALLOC_DMABUF
+Date: Thu, 23 Feb 2023 14:59:18 +0800
+Message-Id: <20230223065918.19644-1-tangmeng@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybglogicsvr:qybglogicsvr7
 X-Mailman-Approved-At: Sat, 25 Feb 2023 10:10:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,47 +51,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dylan Le <self@dylanle.dev>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
+Cc: Meng Tang <tangmeng@uniontech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+A privilege escalation vulnerability was found in vmwgfx driver
+in drivers/gpu/drm/vmwgfx/vmwgfx_drv.c in GPU component of Linux
+kernel with device file '/dev/dri/renderD128 (or Dxxx)'. This flaw
+allows a local attacker with a user account on the system to gain
+privilege, causing a denial of service(DoS).
 
-This patch was initially written for the Linux Kernel Bug Fixing Mentorship
-program. The patch adds a temporarily stubbed section on Acceleration Nodes
-to resolve a documentation warning.
+This vulnerability can be quickly verified by the following code
+logic:
+...
+dri_fd = open("/dev/dri/renderD128", O_RDWR);
+ret = ioctl(dri_fd, 0xC0186441, &arg);
+if (ret == 0) {
+	printf("[*] VMW_ALLOC_DMABUF Success!\n");
+}
+...
 
-This resolves the warning:
-./Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WARNING: undefined label: drm_accel_node
+Submit this commit to fix it.
 
-I would appreciate any feedback on what should be documented here.
-
-Signed-off-by: Dylan Le <self@dylanle.dev>
+Signed-off-by: Meng Tang <tangmeng@uniontech.com>
 ---
- Documentation/gpu/drm-uapi.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index ce47b4292..d25539862 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -175,6 +175,15 @@ other hand, a driver requires shared state between clients which is
- visible to user-space and accessible beyond open-file boundaries, they
- cannot support render nodes.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index bd02cb0e6837..0166f98be9df 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -1244,6 +1244,7 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
+ 						 unsigned long))
+ {
+ 	struct drm_file *file_priv = filp->private_data;
++
+ 	struct drm_device *dev = file_priv->minor->dev;
+ 	unsigned int nr = DRM_IOCTL_NR(cmd);
+ 	unsigned int flags;
+@@ -1263,6 +1264,10 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
+ 			if (!drm_is_current_master(file_priv) &&
+ 			    !capable(CAP_SYS_ADMIN))
+ 				return -EACCES;
++		} else if (nr == DRM_COMMAND_BASE + DRM_VMW_ALLOC_DMABUF) {
++			if (!drm_is_current_master(file_priv) &&
++			    !capable(CAP_SYS_ADMIN))
++				return -EPERM;
+ 		}
  
-+.. _drm_accel_node:
-+
-+Acceleration nodes
-+==================
-+
-+.. note::
-+   There is not any documentation yet need to figure out what this is.
-+
-+
- Device Hot-Unplug
- =================
- 
+ 		if (unlikely(ioctl->cmd != cmd))
 -- 
-2.30.2
+2.20.1
 
