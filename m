@@ -1,58 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7726A0141
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 03:44:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A1A6A017B
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 04:19:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1872210E2C8;
-	Thu, 23 Feb 2023 02:44:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 083B610E4AA;
+	Thu, 23 Feb 2023 03:19:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com
- [IPv6:2607:f8b0:4864:20::e29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C29E910E2C8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 02:44:02 +0000 (UTC)
-Received: by mail-vs1-xe29.google.com with SMTP id f31so12745274vsv.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 18:44:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=glBWgfS+Z8AsJzCa0azp9rra0TmC5WFPpp9wbSwIysQ=;
- b=TlXON0dnZS3i2VneFhuywAEetx5CXx1Yt7HMbvQ90/JuEusyf7pnz6RQIpVd7zC3o0
- n4VlSAzuWvRIT/CCUnkBdl+Zu47u8j1gifDeC4ygpLSlzXO4n8hRdHdU6zHPr8CNCmF6
- xYxOGJMOjTDNqwpbiTnDtDSQcydd71K1J0p4U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=glBWgfS+Z8AsJzCa0azp9rra0TmC5WFPpp9wbSwIysQ=;
- b=4w7cw0qLqL6Ul/94mfYF0K77+d6mU0jwl5Sj7QBdJWdnY/CTTZs7vf5vzZwjtBhoO1
- aBCQESH/jRVvtPSI9BN8Cfjqo65awFzd0GadnajMO4R4ZJndloJ5YM6Ptu7cyvpyjNSw
- gPJ+BsTubBLWpVjiKNDBdsHzGzX4LSCHWdrY0Py3el4apNrPhwwEmljExLxNqhNKQpkS
- lJQdDWbG+0nHa5c2VxxQKUyWp+F8Vw71RA4IVFq/kom4oEU9dcbbz3e6gbWE7I/DL1V9
- tEUuiWladNMVXpA1JTDa6Bp2ApgPfemWrmdLHqOoToc7tA4RdcCwHPT/RoPOCaVu/Fly
- 6Uug==
-X-Gm-Message-State: AO0yUKVrd/CgpQ2v+2g2NzPbU0EAmx7zwYNKJZ6upuww634lL+U9oVea
- tedpDj6lrPequi+2hyzee13gZ+g+59YusN/m3Ltazg==
-X-Google-Smtp-Source: AK7set9FQsaQ4wwwGwa1iJ35QZxS7z/tqpoggFV3jIIY4bRVdaLuYXMbSLMPdYFq5+nMU1dh82/hbSINPKYjn7/TdoE=
-X-Received: by 2002:a05:6102:570b:b0:3fc:58d:f90f with SMTP id
- dg11-20020a056102570b00b003fc058df90fmr2241014vsb.60.1677120241810; Wed, 22
- Feb 2023 18:44:01 -0800 (PST)
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4241210E4AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 03:19:30 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.133])
+ by gateway (Coremail) with SMTP id _____8AxJPxA2_ZjnvUDAA--.2409S3;
+ Thu, 23 Feb 2023 11:19:28 +0800 (CST)
+Received: from [10.20.42.133] (unknown [10.20.42.133])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxOL0+2_ZjXWQ5AA--.38818S3; 
+ Thu, 23 Feb 2023 11:19:26 +0800 (CST)
+Message-ID: <32a56a81-e9b5-138b-4dff-35c2525cc0b6@loongson.cn>
+Date: Thu, 23 Feb 2023 11:19:25 +0800
 MIME-Version: 1.0
-References: <20230221153740.1620529-1-angelogioacchino.delregno@collabora.com>
- <20230221153740.1620529-7-angelogioacchino.delregno@collabora.com>
- <CAGXv+5Ed-5Nq0zNzCGzez3fnW2yxW7zFx9B6k58Y4yb8P+hvpw@mail.gmail.com>
- <88a3fa09-60cb-bb3c-c392-286efd983627@collabora.com>
-In-Reply-To: <88a3fa09-60cb-bb3c-c392-286efd983627@collabora.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 23 Feb 2023 10:43:50 +0800
-Message-ID: <CAGXv+5H3XMF7ov_WfNFA=HC0frD003MRdVuBOFiBvu8zxE_rwg@mail.gmail.com>
-Subject: Re: [PATCH v2 06/10] dt-bindings: gpu: mali-bifrost: Add a compatible
- for MediaTek MT8186
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/2] Mips: ls2k1000: dts: add the display controller
+ device node
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+References: <20230222165514.684729-1-suijingfeng@loongson.cn>
+ <f153bb62-ec3c-c16d-5b43-f53b5319c2e6@kernel.org>
+Content-Language: en-US
+From: Sui jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <f153bb62-ec3c-c16d-5b43-f53b5319c2e6@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8AxOL0+2_ZjXWQ5AA--.38818S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxXF17try5AF4DZw1UJF13Jwb_yoW5ur17pF
+ sxCanxKr4kJF12vr4rXryUJrn3Za95AFyDCrsrKr1Uu3sxZ3Wqvry8JF4FgrWxZr17Ja4j
+ vF1rWr4I9Fn8CaDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bS8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ n4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+ ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E
+ 87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+ AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km
+ 07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r
+ 1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWU
+ JVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r
+ 1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1U
+ YxBIdaVFxhVjvjDU0xZFpf9x07jrpnQUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,88 +68,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 22, 2023 at 5:13 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 22/02/23 09:37, Chen-Yu Tsai ha scritto:
-> > On Tue, Feb 21, 2023 at 11:37 PM AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com> wrote:
-> >>
-> >> Get GPU support on MT8186 by adding its compatible.
-> >>
-> >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> >> ---
-> >>   Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 +++++
-> >>   1 file changed, 5 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> >> index be18b161959b..43a841d4e94d 100644
-> >> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> >> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> >> @@ -15,6 +15,11 @@ properties:
-> >>
-> >>     compatible:
-> >>       oneOf:
-> >> +      - items:
-> >> +          - enum:
-> >> +              - mediatek,mt8186-mali
-> >> +          - const: mediatek,mt8183b-mali
-> >> +          - const: arm,mali-bifrost # Mali Bifrost GPU model/revision is fully discoverable
-> >
-> > The MT8186 has Mali-G52 MC2 2EE, while the MT8183 has Mali-G72 MP3.
->
-> Keeping in mind the obvious - which is that G52 and G72 are both Bifrost....
->
-> > So we actually need a new entry with two power domains.
-> >
->
-> ...This is my node for MT8186:
->
->                 gpu: gpu@13040000 {
->                         compatible = "mediatek,mt8186-mali",
->                                      "mediatek,mt8183b-mali",
->                                      "arm,mali-bifrost";
->                         reg = <0 0x13040000 0 0x4000>;
->
->                         clocks = <&mfgsys CLK_MFG_BG3D>;
->                         interrupts = <GIC_SPI 276 IRQ_TYPE_LEVEL_HIGH 0>,
->                                      <GIC_SPI 275 IRQ_TYPE_LEVEL_HIGH 0>,
->                                      <GIC_SPI 274 IRQ_TYPE_LEVEL_HIGH 0>;
->                         interrupt-names = "job", "mmu", "gpu";
->                         power-domains = <&spm MT8186_POWER_DOMAIN_MFG1>,
->                                         <&spm MT8186_POWER_DOMAIN_MFG2>,
->                                         <&spm MT8186_POWER_DOMAIN_MFG3>;
->                         power-domain-names = "core0", "core1", "core2";
->
->                         /* Please ignore speedbin, that's for another time :-) */
->                         nvmem-cells = <&gpu_volt_bin>;
->                         nvmem-cell-names = "speed-bin";
->                         #cooling-cells = <2>;
->                 };
->
-> There are three MFG power domains... MFG2 and MFG3 are parents of MFG1, on that
-> I agree, but we can avoid adding a new entry just for MT8186 and use the MT8183-b
-> one while still being technically correct.
->
-> Besides, Mali G52 and Mali G72 are both Bifrost... so I don't think that this
-> commit is incorrect. For the sake of simplicity, I would push on getting this
-> one picked.
+Hi,
 
-I'm aware. In case it wasn't obvious, Mali-G52 MC2 2EE has 2 cores, while
-Mali-G72 MP3 has 3 cores. I think that is reason enough to do a new entry.
-Otherwise you are describing power domains for 3 cores for a GPU that only
-has two.
+On 2023/2/23 02:32, Krzysztof Kozlowski wrote:
+> On 22/02/2023 17:55, suijingfeng wrote:
+>> The display controller is a pci device, it's pci vendor id is
+>> 0x0014, it's pci device id is 0x7a06.
+>>
+>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+>> ---
+>>   .../boot/dts/loongson/loongson64-2k1000.dtsi  | 21 +++++++++++++++++++
+>>   1 file changed, 21 insertions(+)
+>>
+>> diff --git a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+>> index 8143a61111e3..a528af3977d9 100644
+>> --- a/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+>> +++ b/arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
+>> @@ -31,6 +31,18 @@ memory@200000 {
+>>   			<0x00000001 0x10000000 0x00000001 0xb0000000>; /* 6912 MB at 4352MB */
+>>   	};
+>>   
+>> +	reserved-memory {
+>> +		#address-cells = <2>;
+>> +		#size-cells = <2>;
+>> +		ranges;
+>> +
+>> +		display_reserved: framebuffer@30000000 {
+>> +			compatible = "shared-dma-pool";
+>> +			reg = <0x0 0x30000000 0x0 0x04000000>; /* 64M */
+>> +			linux,cma-default;
+>> +		};
+>> +	};
+>> +
+>>   	cpu_clk: cpu_clk {
+>>   		#clock-cells = <0>;
+>>   		compatible = "fixed-clock";
+>> @@ -198,6 +210,15 @@ sata@8,0 {
+>>   				interrupt-parent = <&liointc0>;
+>>   			};
+>>   
+>> +			display-controller@6,0 {
+>> +				compatible = "loongson,ls2k1000-dc";
+>> +
+>> +				reg = <0x3000 0x0 0x0 0x0 0x0>;
+>> +				interrupts = <28 IRQ_TYPE_LEVEL_LOW>;
+>> +				interrupt-parent = <&liointc0>;
+>> +				memory-region = <&display_reserved>;
+> NAK.
+Err :(,  please give me a chance to explain
+> Test your code against the bindings you send.
 
-> Unless there are any real-strong opinions against...
+I can guarantee to you that I test may code more than twice. The code 
+used to testing is listed at link [1].
 
-Yes.
+This patchset  mainly used to illustrate how  we made the driver in [1] 
+usable on our SoC platform.
 
-ChenYu
+> It's the same
+> patchset. You basically send something which the same moment is incorrect.
+
+Loongson display controller IP has been integrated in both Loongson
+North Bridge chipset(ls7a1000 and ls7a2000) and Loongson SoCs(ls2k1000
+and ls2k2000 etc), it even has been included in Loongson BMC(ls2k0500 bmc)
+products.
+
+When use this driver on Loongson embedded platform(say ls2k2000, 
+ls2k1000 and ls2k0500)  ,
+
+the PMON/Uboot firmware(my company using pmon most of time) will pass a 
+DT to the kernel.
+
+Different boards will pass different DTs. But when using this driver on 
+Loongson server and
+
+PC platform( ls3c5000/ls3a5000+ls7a1000/ls7a2000), there will no DT 
+supplied. The firmware
+
+and kernel side developer of Loongson choose ACPI+UEFI for such 
+platform, more discussion
+
+can be found at [2]. Therefore, on such a situation we decide to send 
+the patch at separate patchset.
+
+It is not like the arm  and risc-v, as the binding would not be always 
+exits. If we put those patches
+
+into a same patchset, some reviewers would suggest us to revise our code.
+
+To a form that the code *ALWAYS*  probed from the DT, this is not desired.
+
+Besides, the driver code + dt support is petty large, separate it is 
+more easy to review and manage.
+
+
+Finally,  Thanks your kindly guiding and valuable reviews.
+
+
+[1] https://patchwork.freedesktop.org/patch/523409/?series=113566&rev=4
+
+[2] https://lkml.org/lkml/2022/7/15/135
+
+> Best regards,
+> Krzysztof
+
