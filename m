@@ -2,74 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB856A00DB
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 02:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FF66A00E0
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 02:51:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4FB10E499;
-	Thu, 23 Feb 2023 01:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5139210E498;
+	Thu, 23 Feb 2023 01:51:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B76EF10EAC2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 01:47:48 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id s22so12370491lfi.9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 17:47:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Uw9ANW8A0HIEHlu0J95K8GI8spDLrbsMISUzwV0ijx4=;
- b=tQWLe5WcJzNbK/0p370q5JCC8xgYGmEwPZJ1u6Jeop0GH/tTM6fKYVde7vjXHCszdz
- f/ZjfII2Yl+byBaNLDjx0CQfwG3e0seCepo4C4GVKGCVRZmJByOi0FjsUQHZE8NTYyXD
- 6Ipy9iEz8c9OGNaIua1la3+dYcQjQ5wrpAkN9nkNKtGd37SwjHq0fGXCpH1cAOWMCyK7
- LNNwXLk3mMsep1eDtljLQAr/JxPlaTqfaFeiZvMdLEPMmSU8T0ykV/iMy2Sar3KaGFNS
- k8eNDCmuGPhCtt3HlOSqjC+lTp8Wp2DJsdE/BzOuBJTjlKFf+1TDR2RwuybWldBf7YO7
- u4tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Uw9ANW8A0HIEHlu0J95K8GI8spDLrbsMISUzwV0ijx4=;
- b=iQ4XfSPpAr/gKFlWhF2/v7p8goi9Vzfj0CvKSk1+Alq36o2MyfcoAK/X53/pKF0kpG
- ux/mxkkA0XfHHtbwkEB2b0bml01IUXG2j6Gl4VZdPr9QlfWVRnP5OfXpzcoARgGGPXEq
- APsnox0EM9Enm/XaCAwzYUd7iIGtGTnu0Ekzkf7LcGsvQOxDAp6j5g981jIb5aNHJ+DT
- vdpbnpZkaRJzWYsn+5HUl/8neQ2FiZlrXMEGYeB0s8LD3aTqes93N+EMDOKJyAl+QtgX
- 8noDiEsxaGsFNJ8sBYVkcZhDq6spwgS6fYtUioOrJs1OSn/zqDZYAKjO2v694t7/wnqb
- djBA==
-X-Gm-Message-State: AO0yUKUKJmVKbi1xmTRgUJHRW1qwGLa6PFqrWz8/DJvn2hMTBg8znBC1
- VmwTSxkRljyhu3xB8XTwbK8OUaHvmx2Um6cT
-X-Google-Smtp-Source: AK7set9HAxRsGbwERh+lUn3YGqAoTzETv5bCEZ+5Z5csnzzygLG1C8GvwRh/vu7HzJtKMzBd/rQ6vQ==
-X-Received: by 2002:a19:f512:0:b0:4cb:c11:d01f with SMTP id
- j18-20020a19f512000000b004cb0c11d01fmr3528085lfb.22.1677116866864; 
- Wed, 22 Feb 2023 17:47:46 -0800 (PST)
-Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
- by smtp.gmail.com with ESMTPSA id
- 12-20020ac2482c000000b004dc807b904bsm427376lft.120.2023.02.22.17.47.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 17:47:46 -0800 (PST)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Thu, 23 Feb 2023 02:47:42 +0100
-Subject: [PATCH v2 6/6] drm/msm/adreno: Enable optional icc voting from OPP
- tables
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDF7910E498
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 01:51:20 +0000 (UTC)
+Received: from fsav313.sakura.ne.jp (fsav313.sakura.ne.jp [153.120.85.144])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 31N1pDD2024309;
+ Thu, 23 Feb 2023 10:51:13 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav313.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp);
+ Thu, 23 Feb 2023 10:51:13 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 31N1pDqV024305
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 23 Feb 2023 10:51:13 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <3d82949d-9951-abf3-134a-8734ec81af3b@I-love.SAKURA.ne.jp>
+Date: Thu, 23 Feb 2023 10:51:14 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230223-topic-opp-v2-6-24ed24cd7358@linaro.org>
-References: <20230223-topic-opp-v2-0-24ed24cd7358@linaro.org>
-In-Reply-To: <20230223-topic-opp-v2-0-24ed24cd7358@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677116858; l=767;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=lx2DqRTcWzcl/VYcOjFYV+HDGYAZOMxix7RaJuIvTv8=;
- b=mYkZ7qwqRbSRNaoLVDbG+NeuUgSJomROk/h9vglxkqTqHBuqRkB9BIoLFrYD7vD+bXjLGT7PYIoJ
- MeljqooSASz7mlvRrVYqcvglbqNK7hJ+uUF4kGeKVT8KaExP5mtI
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] How is the progress for removing
+ flush_scheduled_work() callers?
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+References: <e170edc2-e5b9-4c8b-4ed3-7e2d7a2850dc@I-love.SAKURA.ne.jp>
+ <877czv2ov8.fsf@intel.com> <Y3TgO7pHo9z9FINO@intel.com>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <Y3TgO7pHo9z9FINO@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,36 +54,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the dev_pm_opp_of_find_icc_paths() call to let the OPP framework
-handle bus voting as part of power level setting.
+On 2022/11/16 22:06, Ville Syrjälä wrote:
+> On Wed, Nov 16, 2022 at 12:08:27PM +0200, Jani Nikula wrote:
+>> On Sun, 06 Nov 2022, Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp> wrote:
+>>> Like commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue() using a
+>>> macro") says, flush_scheduled_work() is dangerous and will be forbidden.
+>>> We are on the way for removing all flush_scheduled_work() callers from
+>>> the kernel, and there are only 4 callers remaining as of linux-20221104.
+>>>
+>>>   drivers/gpu/drm/i915/display/intel_display.c:8997:      flush_scheduled_work();
+>>
+>> Thanks for the reminder, I've pinged folks to get someone working on
+>> this. We do schedule quite a bunch of work, so it's not immediately
+>> obvious (at least to me) what exactly needs flushing.
+> 
+> Here's my earlier cursory analysis of the subject:
+> https://lore.kernel.org/intel-gfx/Yy3byxFrfAfQL9xK@intel.com/
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/gpu/drm/msm/adreno/adreno_device.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Now that a patch for mptscsih.c was proposed as
+https://lkml.kernel.org/r/0b9ebcfb-b647-1381-0653-b54528a64a86@I-love.SAKURA.ne.jp ,
+intel_display.c is going to become the last flush_scheduled_work() user.
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 36f062c7582f..5142a4c72cfc 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -548,6 +548,10 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 		return PTR_ERR(gpu);
- 	}
- 
-+	ret = dev_pm_opp_of_find_icc_paths(dev, NULL);
-+	if (ret)
-+		return ret;
-+
- 	return 0;
- }
- 
+If fixing the hpd disable path takes more time, should we start with moving
+related works from system_wq to a local workqueue dedicated for intel_display.c ?
 
--- 
-2.39.2
+> 
+>>
+>> https://gitlab.freedesktop.org/drm/intel/-/issues/7546
+>>
+>>>   drivers/gpu/drm/i915/gt/selftest_execlists.c:88:        flush_scheduled_work();
+>>
+>> Removed by commit 7d33fd02dd94 ("drm/i915/selftests: Remove
+>> flush_scheduled_work() from live_execlists") in drm-next.
+>>
+>> BR,
+>> Jani.
+>>
+>> -- 
+>> Jani Nikula, Intel Open Source Graphics Center
+> 
 
