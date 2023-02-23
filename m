@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187B76A057B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 10:57:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A83D26A05A3
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 11:09:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF1210E4C5;
-	Thu, 23 Feb 2023 09:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2BC10EB02;
+	Thu, 23 Feb 2023 10:09:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F220910E4A3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 09:57:10 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id j17so10449650ljq.11
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 01:57:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=IXrfXOXzXAnGhXOYy5k/pL1OHE2nAUYxHQGENjE+KGk=;
- b=ohJ0ReUmz5mUYgneH7l3mxg8pMkbyJtTEvBbJCdPMLJ3QiihYV9uXkwJ8ebnfyfcC7
- bivyvVa3n1ZvbWliVMkUyu4/BCOemex76Lp8FLJb/Zsvi/SMUe2aPqT8kdHduQotpH4V
- lbTS+QqSp1eM96oHKRvv0gbfh7abNLZYoTQGzhJD9icpz7RlMPQJt1IvgY0cmveiRYFY
- +iuwztkwjazMUQ4U+G9dKtmP99KYdG1EkHwV98grjgaCJztawJeEvVYpXDnwo19bUwPT
- 49kGh0NHGMJPhp3JDBuGG2vjruyR4FS86UxZtvDjbyltg41z0GecpA7wsDZsjA/fr3FW
- BQcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IXrfXOXzXAnGhXOYy5k/pL1OHE2nAUYxHQGENjE+KGk=;
- b=w/aMPM+h08AkkhJOd3hcdaoY+nfFTcPzJruddnxAOt795fZbSoJsE7iVTFMp0oHQR0
- fD5LqUKcQMq6R4px76ecHb5uej6kopf6WUa+wH5S4rWoRC2ZPg/vS7CpoYTabG8nr26q
- lZ+lpDFBoDpG/nJ5AtZTlNs3BDuz26a003WW7cl62NVGoH2iTM3qnzJyLv8VpLD+KPmL
- k3RvMZk8Ju+RmJc35/vt7tXAQXNOdLpos8GFFppwp8slQ1rt/ZOWyXl0OGgVsj9GO2gD
- amV+Z6vHzd5quPN2738y+NnvHqgXOzPPISIeCxWy6/3u7heYF7YjHwpf4Vdf9h9Zp+rw
- OZug==
-X-Gm-Message-State: AO0yUKXCEvCwyRekuD59o1tee9ZMv9UHav9hePcYytKUU2thgM2++6cB
- SOt7/01blchQFIWjXYhRC1p/JA==
-X-Google-Smtp-Source: AK7set/u7ABMRAHGthgTexmgRYtv8dZVgMlfPuUOuCF93sPp/oGCN5yFbmZ42f7om+exFdsnm4d2PA==
-X-Received: by 2002:a2e:bc0d:0:b0:294:669b:8f97 with SMTP id
- b13-20020a2ebc0d000000b00294669b8f97mr6159337ljf.46.1677146229148; 
- Thu, 23 Feb 2023 01:57:09 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- a18-20020a2eb552000000b002935899fe3fsm602765ljn.116.2023.02.23.01.57.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 01:57:08 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH] drm/msm/dpu: fix stack smashing in dpu_hw_ctl_setup_blendstage
-Date: Thu, 23 Feb 2023 12:57:08 +0300
-Message-Id: <20230223095708.3688148-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC59810EB02
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 10:09:09 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4B0A3615FF;
+ Thu, 23 Feb 2023 10:09:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12E63C433EF;
+ Thu, 23 Feb 2023 10:09:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1677146948;
+ bh=ltP+sqQ59O17JJFCXy0EhCXvNdKIgKqIbNAMj0PypVw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=YCi0EnFWBDgzKvrjBRjBgH8/MnsbEY22udCE488IaaU5CiIrwnq+kcdKiQ7m4yXDJ
+ 3HEOtZMpgb8byjEoyQW/WSK0uToHXdI0nSTTYsLzaVomssyj9Q9lXwyO70VMHnRTiG
+ 9I8Jc0MrU3BiPWt7cxlRfuY2rdyxiCyH9BWpYfEZAZDYWQv+XowV6NV+bJqLOhahMd
+ 3rvGyqugMiVIXAcrMBiKwJzSgQKzw1t2P1/qu8gz5h3pltg5NFzHHBWATG8yi+Ahf0
+ 80JxzFBZT2Xv/ZV7VUqzFLUglxf+Bm/vDQd41ZGKujeE9JzrPYY6NMT7QfQCyghg0q
+ tJfUs83Nm8A3g==
+Message-ID: <bc67a5c3-a844-472a-74bf-f08f49ca99bb@kernel.org>
+Date: Thu, 23 Feb 2023 11:09:01 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 2/2] dt-bindings: display: Add Loongson display controller
+To: suijingfeng <suijingfeng@loongson.cn>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+References: <20230222165514.684729-1-suijingfeng@loongson.cn>
+ <20230222165514.684729-2-suijingfeng@loongson.cn>
+ <76bc79c9-a892-c43e-1f49-d07b54f52c90@kernel.org>
+ <84796070-7740-eb69-65c0-9a3d8e464a0f@loongson.cn>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <84796070-7740-eb69-65c0-9a3d8e464a0f@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,78 +60,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The rewritten dpu_hw_ctl_setup_blendstage() can lightly smash the stack
-when setting the SSPP_NONE pipe. However it was unnoticed until the
-kernel was tested under AOSP (with some kind of stack protection/check).
+On 23/02/2023 10:51, suijingfeng wrote:
+>>> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>>> new file mode 100644
+>>> index 000000000000..98b78f449a80
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>> Filename based on compatible, so "loongson,ls2k1000-dc.yaml"
+> 
+> what if we have more than one SoC,
+> 
+> we have  loongson,ls2k1000-dc, loongson,ls2k2000-dc and loongson,ls2k0500-dc
+> 
+> we will have loongson,ls2k3000-dc in the future, then how should i write 
+> this?
 
-This fixes the following backtrace:
+Then it is fine.
 
-Unexpected kernel BRK exception at EL1
-Internal error: BRK handler: 00000000f20003e8 [#1] PREEMPT SMP
-Hardware name: Thundercomm Dragonboard 845c (DT)
-pstate: a0400005 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : dpu_hw_ctl_setup_blendstage+0x26c/0x278 [msm]
-lr : _dpu_crtc_blend_setup+0x4b4/0x5a0 [msm]
-sp : ffffffc00bdcb720
-x29: ffffffc00bdcb720 x28: ffffff8085debac0 x27: 0000000000000002
-x26: ffffffd74af18320 x25: ffffff8083af75a0 x24: ffffffc00bdcb878
-x23: 0000000000000001 x22: 0000000000000000 x21: ffffff8085a70000
-x20: ffffff8083012dc0 x19: 0000000000000001 x18: 0000000000000000
-x17: 000000040044ffff x16: 045000f4b5593519 x15: 0000000000000000
-x14: 000000000000000b x13: 0000000000000001 x12: 0000000000000000
-x11: 0000000000000001 x10: ffffffc00bdcb764 x9 : ffffffd74af06a08
-x8 : 0000000000000001 x7 : 0000000000000001 x6 : 0000000000000000
-x5 : ffffffc00bdcb878 x4 : 0000000000000002 x3 : ffffffffffffffff
-x2 : ffffffc00bdcb878 x1 : 0000000000000000 x0 : 0000000000000002
-Call trace:
- dpu_hw_ctl_setup_blendstage+0x26c/0x278 [msm]
- _dpu_crtc_blend_setup+0x4b4/0x5a0 [msm]
- dpu_crtc_atomic_begin+0xd8/0x22c [msm]
- drm_atomic_helper_commit_planes+0x80/0x208 [drm_kms_helper]
- msm_atomic_commit_tail+0x134/0x6f0 [msm]
- commit_tail+0xa4/0x1a4 [drm_kms_helper]
- drm_atomic_helper_commit+0x170/0x184 [drm_kms_helper]
- drm_atomic_commit+0xac/0xe8
- drm_mode_atomic_ioctl+0xbf0/0xdac
- drm_ioctl_kernel+0xc4/0x178
- drm_ioctl+0x2c8/0x608
- __arm64_sys_ioctl+0xa8/0xec
- invoke_syscall+0x44/0x104
- el0_svc_common.constprop.0+0x44/0xec
- do_el0_svc+0x38/0x98
- el0_svc+0x2c/0xb4
- el0t_64_sync_handler+0xb8/0xbc
- el0t_64_sync+0x1a0/0x1a4
-Code: 52800016 52800017 52800018 17ffffc7 (d4207d00)
+> 
+> I want a single file yaml file include them all.
+> 
+> I'm asking because we don't know which method is good, write three piece 
+> of yaml or just one.
+> 
+> Just tell me how to write this, i will follow you instruction.
+> 
+>>> @@ -0,0 +1,58 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
+>>>
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Loongson Display Controller Device Tree Bindings
+>> Drop "Device Tree Bindings"
+> OK,
+>>> +
+>>> +maintainers:
+>>> +  - Sui Jingfeng <suijingfeng@loongson.cn>
+>>> +
+>>> +description: |+
+>> Drop |+
+>>
+>>> +
+>> No need for blank line. Do you see it anywhere else in the bindings?
+> OK, acceptable.
+>>> +  The display controller is a PCI device, it has two display pipe.
+>>> +  For the DC in LS2K1000 each way has a DVO output interface which
+>>> +  provide RGB888 signals, vertical & horizontal synchronisations
+>>> +  and the pixel clock. Each CRTC is able to support 1920x1080@60Hz,
+>>> +  the maximum resolution is 2048x2048 according to the hardware spec.
+>>> +
+>>> +properties:
+>>> +  $nodename:
+>>> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
+>> Drop nodename.
+> 
+> Are you sure about this?  When i  write this property, I'm reference the 
+> ingenic,lcd.yaml .
+> 
+> ingenic,lcd.yaml has nodename too.
+> 
+> If I delete $nodename, then the test results say 
+> '^display-controller@[0-9a-f],[0-9a-f]$'  is not of type 'object'.
+> 
+> log is pasted at below.
 
-Fixes: 4488f71f6373 ("drm/msm/dpu: simplify blend configuration")
-Reported-by: Amit Pundir <amit.pundir@linaro.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I meant, drop entire nodename and pattern.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-index b88a2f3724e6..6c53ea560ffa 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-@@ -446,7 +446,9 @@ static void dpu_hw_ctl_setup_blendstage(struct dpu_hw_ctl *ctx,
- 			 * CTL_LAYER has 3-bit field (and extra bits in EXT register),
- 			 * all EXT registers has 4-bit fields.
- 			 */
--			if (cfg->idx == 0) {
-+			if (cfg->idx == -1) {
-+				continue;
-+			} else if (cfg->idx == 0) {
- 				mixercfg[0] |= mix << cfg->shift;
- 				mixercfg[1] |= ext << cfg->ext_shift;
- 			} else {
--- 
-2.30.2
+
+
+Best regards,
+Krzysztof
 
