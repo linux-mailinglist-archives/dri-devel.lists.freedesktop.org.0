@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6A66A081F
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 13:07:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E8D6A0818
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 13:07:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF5310EB6A;
-	Thu, 23 Feb 2023 12:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3883710EB73;
+	Thu, 23 Feb 2023 12:07:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
  [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD88D10EB5F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 12:07:00 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id f16so10556782ljq.10
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 04:07:00 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3906D10EB63
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 12:07:02 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id b13so11569671ljf.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 04:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=17Sj165m9p2RYNMuvknYM96FiMR5+0g8UyAYd2eSrwY=;
- b=OaVrt9YSvRtla+1dIiygzmlR3nNaVMFpvDn384L0qJWtksmJRQUDKCxaZZWVlQCfEC
- yVY/sTl7Z1my97KQY5cLljkTcCh5Hk1vepRrKpPNCuBfYy/njaK8cpcPLZF6P9k23RrX
- /whd3tqZjOeyigL/Piz4Tme2/HxhqOywVC7eefN9C+o45UMgCemRcIaLx7AjDucI2/fH
- aJRFbudDz7f0F7q2soV1Rqw4nVBnaf9hRuLKPWkq3Ewe+zthtl/V3DZBRagdQ3mC9+un
- yeV1cVpGh+DjODjNWd5768OSzpAJoyKiCx96d9mHeUS9JqOOLKta71LvPW/doxbxhdG2
- THaA==
+ :reply-to; bh=lA46aZrh7JCYvUJGH1T5gGM4L2e9gxBI/zaHD8a6wjk=;
+ b=PLe/CyETO2EUnwf+RSH0AasNbKmauRLKJZfVsF/rZ8wTbqYkyXivHaxkJSBIaYklLl
+ mXSEWRAmmedO4u3veoJWGwxXhv31NCGg5EINRW7oYMjvDDb0C2pxZh2vH4K3I2FydbkB
+ kQ4x0eMi9iPBqhrGRCPudufga6EASZ3KsRVi+zD/drx3yp+ayUmrAXVTSxPxMZHbcb47
+ J1FkZ5p9/gW/SeypDB9zoTHhBCxcC3/HGjHZivqQJMWqr2+zITSjqsi1GUdwilbHSTrr
+ seiSQO2J3tRHSV5PVmKSd5+Rfk8sWHO3SdjCNOPls0T6fYRIWVUpTxTYinTjmX8bBsfM
+ yGrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=17Sj165m9p2RYNMuvknYM96FiMR5+0g8UyAYd2eSrwY=;
- b=jmxC+qRA5nu0NvHa9rHJnIJ8HxUU1EgkOCZaI62KutWxTjRg8eAoLmqolXfNZxC5X/
- 1tIafPw+qyEE87TK7o3SLP59t46c6SF687vOZQcu2DzbM/vAExbFJ53tpUjyykSiVU8h
- LE0/h+VuCWL/bYudrs6oWZFkz8NCLgrTrl4ir7v/nKvgBNyR0QfXM7CwXIeY2WN9t7JE
- ClYFb1TYpolTqzjSnvzhV5cM8SNZqqSXWjMUV61Ii+P5+Cm/UZsrGOriIg0eveaMU01f
- cLORh8XkvTXwxDX61tpbqWzmCHROVPPdmC5hM/SVg3IVuQCBArtrd7+x7p5ocXQAe1cQ
- 2E6Q==
-X-Gm-Message-State: AO0yUKWcMcgP49lB31/lfnyxfpBMcwx6q6I6O8Fy7QL6/JuelxxgdqCJ
- /bLtSZIs7GFtXmSvaDQj5QAB3Q==
-X-Google-Smtp-Source: AK7set8MP0MVTI3jKda/9hAxOgPBZ+85qvmspDgfRoXhIC5bbZP+ZlbqQXJvF9pw2sqjfvnn59QQEQ==
-X-Received: by 2002:a2e:7d08:0:b0:293:51ba:24b3 with SMTP id
- y8-20020a2e7d08000000b0029351ba24b3mr4316167ljc.41.1677154020326; 
- Thu, 23 Feb 2023 04:07:00 -0800 (PST)
+ bh=lA46aZrh7JCYvUJGH1T5gGM4L2e9gxBI/zaHD8a6wjk=;
+ b=PWCByoeWB88Bw57zHKWSBwhwbSL5jZYDSHkhBFlTYJt4/vo2FZwPgS/UMn0U8S08Ex
+ rtR00lYzQkBsNKM8VgxddFhVkamJ/ovOB2uLEvtS25d9j6doOtV/RnAfqxKQnYor7XQc
+ gmlwMf4mBhx4e8gimiA3/TLA77HKvBYIGbxxLh7pfCh7UmrLfVtjM1puz6bv4Pwh8myl
+ AesBp5iApXmvD2TYU36D+9AT07IZSuw/IcN8vt4KlzS3Le72332zSjmGR6D4sPJ3mNti
+ VmqCO9ilARKObWD5v5TREbasqrc+wAo+hPwVhBagO2N3HsQaaq7sCnOqfPOKUtGsraJk
+ v8Vg==
+X-Gm-Message-State: AO0yUKVAyd6EMR8Eyke24WD9qGqsg/Do6hUu0kRP+rLRcSyfPUaY5Dcr
+ AAAEHbKqsLUS6RiZYQGJrtJpTw==
+X-Google-Smtp-Source: AK7set+CHgalowyj5yTDwXp4shf4MK+X8mGrcGSXDeYrdxSh4ZT5+FurVuiJmXfm9/N0mVoIX1ckRw==
+X-Received: by 2002:a2e:2a05:0:b0:295:74f5:fca9 with SMTP id
+ q5-20020a2e2a05000000b0029574f5fca9mr4053538ljq.52.1677154021821; 
+ Thu, 23 Feb 2023 04:07:01 -0800 (PST)
 Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
  by smtp.gmail.com with ESMTPSA id
- h23-20020a2ea497000000b0029599744c02sm414838lji.75.2023.02.23.04.06.58
+ h23-20020a2ea497000000b0029599744c02sm414838lji.75.2023.02.23.04.07.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Feb 2023 04:07:00 -0800 (PST)
+ Thu, 23 Feb 2023 04:07:01 -0800 (PST)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Thu, 23 Feb 2023 13:06:44 +0100
-Subject: [PATCH v3 10/15] drm/msm/a6xx: Fix A680 highest bank bit value
+Date: Thu, 23 Feb 2023 13:06:45 +0100
+Subject: [PATCH v3 11/15] drm/msm/a6xx: Fix some A619 tunables
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230223-topic-gmuwrapper-v3-10-5be55a336819@linaro.org>
+Message-Id: <20230223-topic-gmuwrapper-v3-11-5be55a336819@linaro.org>
 References: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
 In-Reply-To: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -67,11 +67,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Konrad Dybcio <konrad.dybcio@somainline.org>, 
  Akhil P Oommen <quic_akhilpo@quicinc.com>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677154003; l=1043;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677154003; l=1537;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=XyF/fIhqGhaqw/LSLnLQoZLpoApnz2Tm2KTMjRETKS0=;
- b=KNcnjoD9rWmy5mT4YH7OnatzxLE4iAZRwnM2y6dLWueGTxPwo3uCMS0NPrLwqJpUq5uh442AJSwo
- cgRHrMA2AlIAq7g9yAw9JnDnekIYxgGTePs30xvYuP3cIFpemrAR
+ bh=hCBgixgGTAon5uyerbD5Cpz3ZfVWUwsgRU6VDM4lbJg=;
+ b=WQwCOMyxeo5kheBgCM0VxNgh17+F1R0MH0YqZl78vG51ejYXErPbseGngBoqhQUd7ZGYqdbrbshh
+ IRG3owX/BkNpZWSzlfYTiqEFhyFPkqvYknqsQDm8L7iv7K5ggZ41
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,39 +93,39 @@ Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to the vendor sources, it's equal to 16, which makes hbb_lo
-equal to 3.
+Adreno 619 expects some tunables to be set differently. Make up for it.
 
-Fixes: 840d10b64dad ("drm: msm: Add 680 gpu to the adreno gpu list")
+Fixes: b7616b5c69e6 ("drm/msm/adreno: Add A619 support")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index b5017c56fa1b..2c4afecdd213 100644
+index 2c4afecdd213..eb24be772934 100644
 --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -885,12 +885,18 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
- 		hbb_lo = 2;
- 	}
+@@ -1206,6 +1206,8 @@ static int hw_init(struct msm_gpu *gpu)
+ 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00200200);
+ 	else if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu))
+ 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00300200);
++	else if (adreno_is_a619(adreno_gpu))
++		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00018000);
+ 	else if (adreno_is_a610(adreno_gpu))
+ 		gpu_write(gpu, REG_A6XX_PC_DBG_ECO_CNTL, 0x00080000);
+ 	else
+@@ -1223,7 +1225,9 @@ static int hw_init(struct msm_gpu *gpu)
+ 	a6xx_set_ubwc_config(gpu);
  
--	if (adreno_is_a640_family(adreno_gpu)) {
-+	if (adreno_is_a640(adreno_gpu)) {
- 		amsbc = 1;
- 		/* HBB = 15 */
- 		hbb_lo = 2;
- 	}
- 
-+	if (adreno_is_a680(adreno_gpu)) {
-+		amsbc = 1;
-+		/* HBB = 16 */
-+		hbb_lo = 3;
-+	}
-+
- 	if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu)) {
- 		amsbc = 1;
- 		/* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
+ 	/* Enable fault detection */
+-	if (adreno_is_a610(adreno_gpu))
++	if (adreno_is_a619(adreno_gpu))
++		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x3fffff);
++	else if (adreno_is_a610(adreno_gpu))
+ 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x3ffff);
+ 	else
+ 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x1fffff);
 
 -- 
 2.39.2
