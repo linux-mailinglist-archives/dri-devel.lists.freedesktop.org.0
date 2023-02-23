@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFDA6A0BE0
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 15:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD0C6A0BFA
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 15:38:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8327410E4C2;
-	Thu, 23 Feb 2023 14:29:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33F3110E4D9;
+	Thu, 23 Feb 2023 14:38:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04BF810E4C2;
- Thu, 23 Feb 2023 14:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677162558; x=1708698558;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+Sb7bmbeI3+1A0OgT3nmYSQRP76z3OFNU2kUF+hXHxM=;
- b=cEdVIPc2hMV2NI/qzvsGrg9qYZycnav1cJKIPA8TfeIeETPfXCIxlhXX
- 29A0QYJye6ZcoRyVT0FCK/fgr5b7nPNGXYglgSnNhc9IssjptmdwRAAOv
- Ty/RE6M0AYV+cMrb1XGMdptJGgMvEzlfOIINvPcq8K00WbZoaHKpr2jMK
- ry5dHFfuli4u/d3e02LW8a22GuMTvvos5lpYQGMC8oJPW3DdDNCx3NaEZ
- yah/CMf++VIhkEFmDIovzGu9s9i3HiURHH16YarZSItyIceu/LWXSDn9L
- Iy7v6tYY1meukKIMzD3IPV+kuFc1E1QuOKr2F/AIQctw11tCQapl58iWG g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="331895873"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; d="scan'208";a="331895873"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2023 06:29:17 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="736367548"
-X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; d="scan'208";a="736367548"
-Received: from skallurr-mobl1.ger.corp.intel.com (HELO [10.249.254.84])
- ([10.249.254.84])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2023 06:29:15 -0800
-Message-ID: <7f105e70-84c5-1836-9602-3cf066a8e75f@linux.intel.com>
-Date: Thu, 23 Feb 2023 15:29:13 +0100
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28D9210E1FE;
+ Thu, 23 Feb 2023 14:37:59 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-172663f1956so6504723fac.12; 
+ Thu, 23 Feb 2023 06:37:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=91YG2q+cEf9LhbeISLNpZdyI5nOapixywyeI+07DoSk=;
+ b=C8+Oz2K2PQEFT700Do/JODe+tg53ln43KdGHS1UC+94rBMsRlci5AeKgRDU1VlwjYc
+ B9AT3MWBpMT3Je0JuXjOjB6iuEz/fhZxN3kE/iMUu+JnKZdoQGqTSAxaK7ZHVEny8Xnx
+ w9O+qwG7TJPEjlTC0wu5NsWUCOkYL1mqKSlLJMnFjPcaoIWCXWhtvG36jmD5xeo9iTtC
+ sgdVOlaEY5wdEG+NYNpCRSt40aAwM79bA2o8BIR7gfDvKA56xrAFvOb1HB76hcK++uyd
+ wN1XdK5Pb8hdWIKCUKKlqnQmZ92TqicYYwBFfbDYWS6d3dr2TSTKGI4sY4g6LuYUMaAa
+ m6uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=91YG2q+cEf9LhbeISLNpZdyI5nOapixywyeI+07DoSk=;
+ b=6BEvQH8w93lcHxU/ezCA3pdsARkg5CBYcUwhY+xAgt6lDgcTWJMb9pXuBu1Hwxq5w2
+ OImloF9zerhsCttVSOithmlI9L9WOwOSSSUA613f5weTVbsHPOpronNGWrfZstvR/LTA
+ v6+wNtdC68k5tPbfjExjD8wKJAAt/OvV6vOnEwmrXYuvdfvi+n78jDYBLXBg+NxkB3OR
+ qGLakDhw6QLRE9ArcSPD+vfhOmOgKaeG2sQhhRL0qie/yahg6gZmX7hKDof/fvAJV5RG
+ 0NtHzmtViOjwcLtweRH9608BRIopdJ4L69vsjKDj51BkAt+teKHcJPIm2aSEL5zFFQkv
+ pNGw==
+X-Gm-Message-State: AO0yUKXlkDjISeGUfjy2wQFeRDu8eVFIFXldvPqw8Li09woHO8LpYwB+
+ jBvnTUBAVwRTc+1XNCNaj42rmbk4yvBYwB+WLQY=
+X-Google-Smtp-Source: AK7set/iTIjGI4DVVf97soJaklnX7qnIM4PXkVT5+cIXHFyAXZ94y+iQ8oEpUWY7kp5i/qwpnX/AMc7SzUm62Nj9jiI=
+X-Received: by 2002:a05:6871:6a0:b0:172:3bf5:2855 with SMTP id
+ l32-20020a05687106a000b001723bf52855mr1127374oao.96.1677163078416; Thu, 23
+ Feb 2023 06:37:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 2/3] drm/amd: Convert amdgpu to use suballocation helper.
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20230223105747.4719-1-thomas.hellstrom@linux.intel.com>
- <20230223105747.4719-3-thomas.hellstrom@linux.intel.com>
- <204ae1e9-de6f-0ab0-6d49-b6451168a384@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <204ae1e9-de6f-0ab0-6d49-b6451168a384@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230217181409.218008-1-arthurgrillo@riseup.net>
+ <20230217181409.218008-4-arthurgrillo@riseup.net>
+In-Reply-To: <20230217181409.218008-4-arthurgrillo@riseup.net>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 23 Feb 2023 09:37:45 -0500
+Message-ID: <CADnq5_Ns_Mtr394uUz1oHFngxM0AHkg-7_572bvcp1iD8j3bsw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/amd/display: Remove unused local variables and
+ function
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,591 +67,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-xe@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>
+Cc: sunpeng.li@amd.com, tales.aparecida@gmail.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, amd-gfx@lists.freedesktop.org,
+ alexander.deucher@amd.com, andrealmeid@riseup.net, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied.  Thanks.
 
-On 2/23/23 12:15, Christian König wrote:
-> Am 23.02.23 um 11:57 schrieb Thomas Hellström:
->> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>
->> Now that we have a generic suballocation helper, Use it in amdgpu.
->> For lines that get moved or changed, also fix up pre-existing style 
->> issues.
->>
->> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Co-developed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/Kconfig                    |   1 +
->>   drivers/gpu/drm/amd/amdgpu/Kconfig         |   1 +
->>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  26 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c     |   5 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  23 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |   3 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c     | 324 ++-------------------
->>   7 files changed, 46 insertions(+), 337 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index 8fbe57407c60..73ddfdf3a894 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -77,6 +77,7 @@ config DRM_KUNIT_TEST
->>       select DRM_DISPLAY_HELPER
->>       select DRM_LIB_RANDOM
->>       select DRM_KMS_HELPER
->> +    select DRM_SUBALLOC_HELPER
->>       select DRM_BUDDY
->>       select DRM_EXPORT_FOR_TESTS if m
->>       select DRM_KUNIT_TEST_HELPERS
+On Fri, Feb 17, 2023 at 1:15 PM Arthur Grillo <arthurgrillo@riseup.net> wrote:
 >
-> This looks like it's misplaced, apart from that the patch looks good 
-> to me.
-
-Looks like a TAB vs spaces issue. The resulting file looks correct. Also 
-added the same select for Radeon in the following patch which was forgotten.
-
-Added your R-B to all patches, even if it wasn't exlicit for this one. 
-Please let me know if I misunderstood that one.
-
-Thanks,
-
-Thomas
-
-
+> Remove a couple of local variables that are only set but never used,
+> also remove an static utility function that is never used in consequence
+> of the variable removal.
 >
-> Regards,
-> Christian.
+> This decrease the number of -Wunused-but-set-variable warnings.
 >
->> diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig 
->> b/drivers/gpu/drm/amd/amdgpu/Kconfig
->> index 5341b6b242c3..0ed12171450b 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
->> +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
->> @@ -18,6 +18,7 @@ config DRM_AMDGPU
->>       select BACKLIGHT_CLASS_DEVICE
->>       select INTERVAL_TREE
->>       select DRM_BUDDY
->> +    select DRM_SUBALLOC_HELPER
->>       # amdgpu depends on ACPI_VIDEO when ACPI is enabled, for select 
->> to work
->>       # ACPI_VIDEO's dependencies must also be selected.
->>       select INPUT if ACPI
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> index 164141bc8b4a..dda88090f044 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
->> @@ -424,29 +424,11 @@ struct amdgpu_clock {
->>    * alignment).
->>    */
->>   -#define AMDGPU_SA_NUM_FENCE_LISTS    32
->> -
->>   struct amdgpu_sa_manager {
->> -    wait_queue_head_t    wq;
->> -    struct amdgpu_bo    *bo;
->> -    struct list_head    *hole;
->> -    struct list_head    flist[AMDGPU_SA_NUM_FENCE_LISTS];
->> -    struct list_head    olist;
->> -    unsigned        size;
->> -    uint64_t        gpu_addr;
->> -    void            *cpu_ptr;
->> -    uint32_t        domain;
->> -    uint32_t        align;
->> -};
->> -
->> -/* sub-allocation buffer */
->> -struct amdgpu_sa_bo {
->> -    struct list_head        olist;
->> -    struct list_head        flist;
->> -    struct amdgpu_sa_manager    *manager;
->> -    unsigned            soffset;
->> -    unsigned            eoffset;
->> -    struct dma_fence            *fence;
->> +    struct drm_suballoc_manager    base;
->> +    struct amdgpu_bo        *bo;
->> +    uint64_t            gpu_addr;
->> +    void                *cpu_ptr;
->>   };
->>     int amdgpu_fence_slab_init(void);
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
->> index bcccc348dbe2..df7eb0b7c4b9 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
->> @@ -69,7 +69,7 @@ int amdgpu_ib_get(struct amdgpu_device *adev, 
->> struct amdgpu_vm *vm,
->>         if (size) {
->>           r = amdgpu_sa_bo_new(&adev->ib_pools[pool_type],
->> -                      &ib->sa_bo, size, 256);
->> +                     &ib->sa_bo, size);
->>           if (r) {
->>               dev_err(adev->dev, "failed to get a new IB (%d)\n", r);
->>               return r;
->> @@ -309,8 +309,7 @@ int amdgpu_ib_pool_init(struct amdgpu_device *adev)
->>         for (i = 0; i < AMDGPU_IB_POOL_MAX; i++) {
->>           r = amdgpu_sa_bo_manager_init(adev, &adev->ib_pools[i],
->> -                          AMDGPU_IB_POOL_SIZE,
->> -                          AMDGPU_GPU_PAGE_SIZE,
->> +                          AMDGPU_IB_POOL_SIZE, 256,
->>                             AMDGPU_GEM_DOMAIN_GTT);
->>           if (r)
->>               goto error;
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
->> index 93207badf83f..5a85726ce853 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.h
->> @@ -336,15 +336,22 @@ uint32_t amdgpu_bo_get_preferred_domain(struct 
->> amdgpu_device *adev,
->>   /*
->>    * sub allocation
->>    */
->> +static inline struct amdgpu_sa_manager *
->> +to_amdgpu_sa_manager(struct drm_suballoc_manager *manager)
->> +{
->> +    return container_of(manager, struct amdgpu_sa_manager, base);
->> +}
->>   -static inline uint64_t amdgpu_sa_bo_gpu_addr(struct amdgpu_sa_bo 
->> *sa_bo)
->> +static inline uint64_t amdgpu_sa_bo_gpu_addr(struct drm_suballoc 
->> *sa_bo)
->>   {
->> -    return sa_bo->manager->gpu_addr + sa_bo->soffset;
->> +    return to_amdgpu_sa_manager(sa_bo->manager)->gpu_addr +
->> +        drm_suballoc_soffset(sa_bo);
->>   }
->>   -static inline void * amdgpu_sa_bo_cpu_addr(struct amdgpu_sa_bo 
->> *sa_bo)
->> +static inline void *amdgpu_sa_bo_cpu_addr(struct drm_suballoc *sa_bo)
->>   {
->> -    return sa_bo->manager->cpu_ptr + sa_bo->soffset;
->> +    return to_amdgpu_sa_manager(sa_bo->manager)->cpu_ptr +
->> +        drm_suballoc_soffset(sa_bo);
->>   }
->>     int amdgpu_sa_bo_manager_init(struct amdgpu_device *adev,
->> @@ -355,11 +362,11 @@ void amdgpu_sa_bo_manager_fini(struct 
->> amdgpu_device *adev,
->>   int amdgpu_sa_bo_manager_start(struct amdgpu_device *adev,
->>                         struct amdgpu_sa_manager *sa_manager);
->>   int amdgpu_sa_bo_new(struct amdgpu_sa_manager *sa_manager,
->> -             struct amdgpu_sa_bo **sa_bo,
->> -             unsigned size, unsigned align);
->> +             struct drm_suballoc **sa_bo,
->> +             unsigned int size);
->>   void amdgpu_sa_bo_free(struct amdgpu_device *adev,
->> -                  struct amdgpu_sa_bo **sa_bo,
->> -                  struct dma_fence *fence);
->> +               struct drm_suballoc **sa_bo,
->> +               struct dma_fence *fence);
->>   #if defined(CONFIG_DEBUG_FS)
->>   void amdgpu_sa_bo_dump_debug_info(struct amdgpu_sa_manager 
->> *sa_manager,
->>                        struct seq_file *m);
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
->> index 3989e755a5b4..018f36b10de8 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
->> @@ -27,6 +27,7 @@
->>   #include <drm/amdgpu_drm.h>
->>   #include <drm/gpu_scheduler.h>
->>   #include <drm/drm_print.h>
->> +#include <drm/drm_suballoc.h>
->>     struct amdgpu_device;
->>   struct amdgpu_ring;
->> @@ -92,7 +93,7 @@ enum amdgpu_ib_pool_type {
->>   };
->>     struct amdgpu_ib {
->> -    struct amdgpu_sa_bo        *sa_bo;
->> +    struct drm_suballoc        *sa_bo;
->>       uint32_t            length_dw;
->>       uint64_t            gpu_addr;
->>       uint32_t            *ptr;
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c
->> index 524d10b21041..c6b4337eb20c 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c
->> @@ -44,327 +44,63 @@
->>     #include "amdgpu.h"
->>   -static void amdgpu_sa_bo_remove_locked(struct amdgpu_sa_bo *sa_bo);
->> -static void amdgpu_sa_bo_try_free(struct amdgpu_sa_manager 
->> *sa_manager);
->> -
->>   int amdgpu_sa_bo_manager_init(struct amdgpu_device *adev,
->>                     struct amdgpu_sa_manager *sa_manager,
->> -                  unsigned size, u32 align, u32 domain)
->> +                  unsigned int size, u32 suballoc_align, u32 domain)
->>   {
->> -    int i, r;
->> -
->> -    init_waitqueue_head(&sa_manager->wq);
->> -    sa_manager->bo = NULL;
->> -    sa_manager->size = size;
->> -    sa_manager->domain = domain;
->> -    sa_manager->align = align;
->> -    sa_manager->hole = &sa_manager->olist;
->> -    INIT_LIST_HEAD(&sa_manager->olist);
->> -    for (i = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i)
->> -        INIT_LIST_HEAD(&sa_manager->flist[i]);
->> +    int r;
->>   -    r = amdgpu_bo_create_kernel(adev, size, align, domain, 
->> &sa_manager->bo,
->> -                &sa_manager->gpu_addr, &sa_manager->cpu_ptr);
->> +    r = amdgpu_bo_create_kernel(adev, size, AMDGPU_GPU_PAGE_SIZE, 
->> domain,
->> +                    &sa_manager->bo, &sa_manager->gpu_addr,
->> +                    &sa_manager->cpu_ptr);
->>       if (r) {
->>           dev_err(adev->dev, "(%d) failed to allocate bo for 
->> manager\n", r);
->>           return r;
->>       }
->>   -    memset(sa_manager->cpu_ptr, 0, sa_manager->size);
->> +    memset(sa_manager->cpu_ptr, 0, size);
->> +    drm_suballoc_manager_init(&sa_manager->base, size, suballoc_align);
->>       return r;
->>   }
->>     void amdgpu_sa_bo_manager_fini(struct amdgpu_device *adev,
->>                      struct amdgpu_sa_manager *sa_manager)
->>   {
->> -    struct amdgpu_sa_bo *sa_bo, *tmp;
->> -
->>       if (sa_manager->bo == NULL) {
->>           dev_err(adev->dev, "no bo for sa manager\n");
->>           return;
->>       }
->>   -    if (!list_empty(&sa_manager->olist)) {
->> -        sa_manager->hole = &sa_manager->olist,
->> -        amdgpu_sa_bo_try_free(sa_manager);
->> -        if (!list_empty(&sa_manager->olist)) {
->> -            dev_err(adev->dev, "sa_manager is not empty, clearing 
->> anyway\n");
->> -        }
->> -    }
->> -    list_for_each_entry_safe(sa_bo, tmp, &sa_manager->olist, olist) {
->> -        amdgpu_sa_bo_remove_locked(sa_bo);
->> -    }
->> +    drm_suballoc_manager_fini(&sa_manager->base);
->>         amdgpu_bo_free_kernel(&sa_manager->bo, &sa_manager->gpu_addr, 
->> &sa_manager->cpu_ptr);
->> -    sa_manager->size = 0;
->>   }
->>   -static void amdgpu_sa_bo_remove_locked(struct amdgpu_sa_bo *sa_bo)
->> -{
->> -    struct amdgpu_sa_manager *sa_manager = sa_bo->manager;
->> -    if (sa_manager->hole == &sa_bo->olist) {
->> -        sa_manager->hole = sa_bo->olist.prev;
->> -    }
->> -    list_del_init(&sa_bo->olist);
->> -    list_del_init(&sa_bo->flist);
->> -    dma_fence_put(sa_bo->fence);
->> -    kfree(sa_bo);
->> -}
->> -
->> -static void amdgpu_sa_bo_try_free(struct amdgpu_sa_manager *sa_manager)
->> +int amdgpu_sa_bo_new(struct amdgpu_sa_manager *sa_manager,
->> +             struct drm_suballoc **sa_bo,
->> +             unsigned int size)
->>   {
->> -    struct amdgpu_sa_bo *sa_bo, *tmp;
->> +    struct drm_suballoc *sa = drm_suballoc_new(&sa_manager->base, size,
->> +                           GFP_KERNEL, true, 0);
->>   -    if (sa_manager->hole->next == &sa_manager->olist)
->> -        return;
->> +    if (IS_ERR(sa)) {
->> +        *sa_bo = NULL;
->>   -    sa_bo = list_entry(sa_manager->hole->next, struct 
->> amdgpu_sa_bo, olist);
->> -    list_for_each_entry_safe_from(sa_bo, tmp, &sa_manager->olist, 
->> olist) {
->> -        if (sa_bo->fence == NULL ||
->> -            !dma_fence_is_signaled(sa_bo->fence)) {
->> -            return;
->> -        }
->> -        amdgpu_sa_bo_remove_locked(sa_bo);
->> +        return PTR_ERR(sa);
->>       }
->> -}
->>   -static inline unsigned amdgpu_sa_bo_hole_soffset(struct 
->> amdgpu_sa_manager *sa_manager)
->> -{
->> -    struct list_head *hole = sa_manager->hole;
->> -
->> -    if (hole != &sa_manager->olist) {
->> -        return list_entry(hole, struct amdgpu_sa_bo, olist)->eoffset;
->> -    }
->> +    *sa_bo = sa;
->>       return 0;
->>   }
->>   -static inline unsigned amdgpu_sa_bo_hole_eoffset(struct 
->> amdgpu_sa_manager *sa_manager)
->> -{
->> -    struct list_head *hole = sa_manager->hole;
->> -
->> -    if (hole->next != &sa_manager->olist) {
->> -        return list_entry(hole->next, struct amdgpu_sa_bo, 
->> olist)->soffset;
->> -    }
->> -    return sa_manager->size;
->> -}
->> -
->> -static bool amdgpu_sa_bo_try_alloc(struct amdgpu_sa_manager 
->> *sa_manager,
->> -                   struct amdgpu_sa_bo *sa_bo,
->> -                   unsigned size, unsigned align)
->> -{
->> -    unsigned soffset, eoffset, wasted;
->> -
->> -    soffset = amdgpu_sa_bo_hole_soffset(sa_manager);
->> -    eoffset = amdgpu_sa_bo_hole_eoffset(sa_manager);
->> -    wasted = (align - (soffset % align)) % align;
->> -
->> -    if ((eoffset - soffset) >= (size + wasted)) {
->> -        soffset += wasted;
->> -
->> -        sa_bo->manager = sa_manager;
->> -        sa_bo->soffset = soffset;
->> -        sa_bo->eoffset = soffset + size;
->> -        list_add(&sa_bo->olist, sa_manager->hole);
->> -        INIT_LIST_HEAD(&sa_bo->flist);
->> -        sa_manager->hole = &sa_bo->olist;
->> -        return true;
->> -    }
->> -    return false;
->> -}
->> -
->> -/**
->> - * amdgpu_sa_event - Check if we can stop waiting
->> - *
->> - * @sa_manager: pointer to the sa_manager
->> - * @size: number of bytes we want to allocate
->> - * @align: alignment we need to match
->> - *
->> - * Check if either there is a fence we can wait for or
->> - * enough free memory to satisfy the allocation directly
->> - */
->> -static bool amdgpu_sa_event(struct amdgpu_sa_manager *sa_manager,
->> -                unsigned size, unsigned align)
->> -{
->> -    unsigned soffset, eoffset, wasted;
->> -    int i;
->> -
->> -    for (i = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i)
->> -        if (!list_empty(&sa_manager->flist[i]))
->> -            return true;
->> -
->> -    soffset = amdgpu_sa_bo_hole_soffset(sa_manager);
->> -    eoffset = amdgpu_sa_bo_hole_eoffset(sa_manager);
->> -    wasted = (align - (soffset % align)) % align;
->> -
->> -    if ((eoffset - soffset) >= (size + wasted)) {
->> -        return true;
->> -    }
->> -
->> -    return false;
->> -}
->> -
->> -static bool amdgpu_sa_bo_next_hole(struct amdgpu_sa_manager 
->> *sa_manager,
->> -                   struct dma_fence **fences,
->> -                   unsigned *tries)
->> -{
->> -    struct amdgpu_sa_bo *best_bo = NULL;
->> -    unsigned i, soffset, best, tmp;
->> -
->> -    /* if hole points to the end of the buffer */
->> -    if (sa_manager->hole->next == &sa_manager->olist) {
->> -        /* try again with its beginning */
->> -        sa_manager->hole = &sa_manager->olist;
->> -        return true;
->> -    }
->> -
->> -    soffset = amdgpu_sa_bo_hole_soffset(sa_manager);
->> -    /* to handle wrap around we add sa_manager->size */
->> -    best = sa_manager->size * 2;
->> -    /* go over all fence list and try to find the closest sa_bo
->> -     * of the current last
->> -     */
->> -    for (i = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i) {
->> -        struct amdgpu_sa_bo *sa_bo;
->> -
->> -        fences[i] = NULL;
->> -
->> -        if (list_empty(&sa_manager->flist[i]))
->> -            continue;
->> -
->> -        sa_bo = list_first_entry(&sa_manager->flist[i],
->> -                     struct amdgpu_sa_bo, flist);
->> -
->> -        if (!dma_fence_is_signaled(sa_bo->fence)) {
->> -            fences[i] = sa_bo->fence;
->> -            continue;
->> -        }
->> -
->> -        /* limit the number of tries each ring gets */
->> -        if (tries[i] > 2) {
->> -            continue;
->> -        }
->> -
->> -        tmp = sa_bo->soffset;
->> -        if (tmp < soffset) {
->> -            /* wrap around, pretend it's after */
->> -            tmp += sa_manager->size;
->> -        }
->> -        tmp -= soffset;
->> -        if (tmp < best) {
->> -            /* this sa bo is the closest one */
->> -            best = tmp;
->> -            best_bo = sa_bo;
->> -        }
->> -    }
->> -
->> -    if (best_bo) {
->> -        uint32_t idx = best_bo->fence->context;
->> -
->> -        idx %= AMDGPU_SA_NUM_FENCE_LISTS;
->> -        ++tries[idx];
->> -        sa_manager->hole = best_bo->olist.prev;
->> -
->> -        /* we knew that this one is signaled,
->> -           so it's save to remote it */
->> -        amdgpu_sa_bo_remove_locked(best_bo);
->> -        return true;
->> -    }
->> -    return false;
->> -}
->> -
->> -int amdgpu_sa_bo_new(struct amdgpu_sa_manager *sa_manager,
->> -             struct amdgpu_sa_bo **sa_bo,
->> -             unsigned size, unsigned align)
->> -{
->> -    struct dma_fence *fences[AMDGPU_SA_NUM_FENCE_LISTS];
->> -    unsigned tries[AMDGPU_SA_NUM_FENCE_LISTS];
->> -    unsigned count;
->> -    int i, r;
->> -    signed long t;
->> -
->> -    if (WARN_ON_ONCE(align > sa_manager->align))
->> -        return -EINVAL;
->> -
->> -    if (WARN_ON_ONCE(size > sa_manager->size))
->> -        return -EINVAL;
->> -
->> -    *sa_bo = kmalloc(sizeof(struct amdgpu_sa_bo), GFP_KERNEL);
->> -    if (!(*sa_bo))
->> -        return -ENOMEM;
->> -    (*sa_bo)->manager = sa_manager;
->> -    (*sa_bo)->fence = NULL;
->> -    INIT_LIST_HEAD(&(*sa_bo)->olist);
->> -    INIT_LIST_HEAD(&(*sa_bo)->flist);
->> -
->> -    spin_lock(&sa_manager->wq.lock);
->> -    do {
->> -        for (i = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i)
->> -            tries[i] = 0;
->> -
->> -        do {
->> -            amdgpu_sa_bo_try_free(sa_manager);
->> -
->> -            if (amdgpu_sa_bo_try_alloc(sa_manager, *sa_bo,
->> -                           size, align)) {
->> -                spin_unlock(&sa_manager->wq.lock);
->> -                return 0;
->> -            }
->> -
->> -            /* see if we can skip over some allocations */
->> -        } while (amdgpu_sa_bo_next_hole(sa_manager, fences, tries));
->> -
->> -        for (i = 0, count = 0; i < AMDGPU_SA_NUM_FENCE_LISTS; ++i)
->> -            if (fences[i])
->> -                fences[count++] = dma_fence_get(fences[i]);
->> -
->> -        if (count) {
->> -            spin_unlock(&sa_manager->wq.lock);
->> -            t = dma_fence_wait_any_timeout(fences, count, false,
->> -                               MAX_SCHEDULE_TIMEOUT,
->> -                               NULL);
->> -            for (i = 0; i < count; ++i)
->> -                dma_fence_put(fences[i]);
->> -
->> -            r = (t > 0) ? 0 : t;
->> -            spin_lock(&sa_manager->wq.lock);
->> -        } else {
->> -            /* if we have nothing to wait for block */
->> -            r = wait_event_interruptible_locked(
->> -                sa_manager->wq,
->> -                amdgpu_sa_event(sa_manager, size, align)
->> -            );
->> -        }
->> -
->> -    } while (!r);
->> -
->> -    spin_unlock(&sa_manager->wq.lock);
->> -    kfree(*sa_bo);
->> -    *sa_bo = NULL;
->> -    return r;
->> -}
->> -
->> -void amdgpu_sa_bo_free(struct amdgpu_device *adev, struct 
->> amdgpu_sa_bo **sa_bo,
->> +void amdgpu_sa_bo_free(struct amdgpu_device *adev, struct 
->> drm_suballoc **sa_bo,
->>                  struct dma_fence *fence)
->>   {
->> -    struct amdgpu_sa_manager *sa_manager;
->> -
->>       if (sa_bo == NULL || *sa_bo == NULL) {
->>           return;
->>       }
->>   -    sa_manager = (*sa_bo)->manager;
->> -    spin_lock(&sa_manager->wq.lock);
->> -    if (fence && !dma_fence_is_signaled(fence)) {
->> -        uint32_t idx;
->> -
->> -        (*sa_bo)->fence = dma_fence_get(fence);
->> -        idx = fence->context % AMDGPU_SA_NUM_FENCE_LISTS;
->> -        list_add_tail(&(*sa_bo)->flist, &sa_manager->flist[idx]);
->> -    } else {
->> -        amdgpu_sa_bo_remove_locked(*sa_bo);
->> -    }
->> -    wake_up_all_locked(&sa_manager->wq);
->> -    spin_unlock(&sa_manager->wq.lock);
->> +    drm_suballoc_free(*sa_bo, fence);
->>       *sa_bo = NULL;
->>   }
->>   @@ -373,26 +109,8 @@ void amdgpu_sa_bo_free(struct amdgpu_device 
->> *adev, struct amdgpu_sa_bo **sa_bo,
->>   void amdgpu_sa_bo_dump_debug_info(struct amdgpu_sa_manager 
->> *sa_manager,
->>                     struct seq_file *m)
->>   {
->> -    struct amdgpu_sa_bo *i;
->> -
->> -    spin_lock(&sa_manager->wq.lock);
->> -    list_for_each_entry(i, &sa_manager->olist, olist) {
->> -        uint64_t soffset = i->soffset + sa_manager->gpu_addr;
->> -        uint64_t eoffset = i->eoffset + sa_manager->gpu_addr;
->> -        if (&i->olist == sa_manager->hole) {
->> -            seq_printf(m, ">");
->> -        } else {
->> -            seq_printf(m, " ");
->> -        }
->> -        seq_printf(m, "[0x%010llx 0x%010llx] size %8lld",
->> -               soffset, eoffset, eoffset - soffset);
->> +    struct drm_printer p = drm_seq_file_printer(m);
->>   -        if (i->fence)
->> -            seq_printf(m, " protected by 0x%016llx on context %llu",
->> -                   i->fence->seqno, i->fence->context);
->> -
->> -        seq_printf(m, "\n");
->> -    }
->> -    spin_unlock(&sa_manager->wq.lock);
->> +    drm_suballoc_dump_debug_info(&sa_manager->base, &p, 
->> sa_manager->gpu_addr);
->>   }
->>   #endif
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>  .../gpu/drm/amd/display/dc/dcn31/dcn31_apg.c  | 41 -------------------
+>  1 file changed, 41 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
+> index 24e9ff65434d..05aac3e444b4 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_apg.c
+> @@ -72,40 +72,6 @@ static void apg31_disable(
+>         REG_UPDATE(APG_CONTROL2, APG_ENABLE, 0);
+>  }
+>
+> -static union audio_cea_channels speakers_to_channels(
+> -       struct audio_speaker_flags speaker_flags)
+> -{
+> -       union audio_cea_channels cea_channels = {0};
+> -
+> -       /* these are one to one */
+> -       cea_channels.channels.FL = speaker_flags.FL_FR;
+> -       cea_channels.channels.FR = speaker_flags.FL_FR;
+> -       cea_channels.channels.LFE = speaker_flags.LFE;
+> -       cea_channels.channels.FC = speaker_flags.FC;
+> -
+> -       /* if Rear Left and Right exist move RC speaker to channel 7
+> -        * otherwise to channel 5
+> -        */
+> -       if (speaker_flags.RL_RR) {
+> -               cea_channels.channels.RL_RC = speaker_flags.RL_RR;
+> -               cea_channels.channels.RR = speaker_flags.RL_RR;
+> -               cea_channels.channels.RC_RLC_FLC = speaker_flags.RC;
+> -       } else {
+> -               cea_channels.channels.RL_RC = speaker_flags.RC;
+> -       }
+> -
+> -       /* FRONT Left Right Center and REAR Left Right Center are exclusive */
+> -       if (speaker_flags.FLC_FRC) {
+> -               cea_channels.channels.RC_RLC_FLC = speaker_flags.FLC_FRC;
+> -               cea_channels.channels.RRC_FRC = speaker_flags.FLC_FRC;
+> -       } else {
+> -               cea_channels.channels.RC_RLC_FLC = speaker_flags.RLC_RRC;
+> -               cea_channels.channels.RRC_FRC = speaker_flags.RLC_RRC;
+> -       }
+> -
+> -       return cea_channels;
+> -}
+> -
+>  static void apg31_se_audio_setup(
+>         struct apg *apg,
+>         unsigned int az_inst,
+> @@ -113,24 +79,17 @@ static void apg31_se_audio_setup(
+>  {
+>         struct dcn31_apg *apg31 = DCN31_APG_FROM_APG(apg);
+>
+> -       uint32_t speakers = 0;
+> -       uint32_t channels = 0;
+> -
+>         ASSERT(audio_info);
+>         /* This should not happen.it does so we don't get BSOD*/
+>         if (audio_info == NULL)
+>                 return;
+>
+> -       speakers = audio_info->flags.info.ALLSPEAKERS;
+> -       channels = speakers_to_channels(audio_info->flags.speaker_flags).all;
+> -
+>         /* DisplayPort only allows for one audio stream with stream ID 0 */
+>         REG_UPDATE(APG_CONTROL2, APG_DP_AUDIO_STREAM_ID, 0);
+>
+>         /* When running in "pair mode", pairs of audio channels have their own enable
+>          * this is for really old audio drivers */
+>         REG_UPDATE(APG_DBG_GEN_CONTROL, APG_DBG_AUDIO_CHANNEL_ENABLE, 0xFF);
+> -       // REG_UPDATE(APG_DBG_GEN_CONTROL, APG_DBG_AUDIO_CHANNEL_ENABLE, channels);
+>
+>         /* Disable forced mem power off */
+>         REG_UPDATE(APG_MEM_PWR, APG_MEM_PWR_FORCE, 0);
+> --
+> 2.39.2
 >
