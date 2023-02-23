@@ -1,76 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E32D6A083C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 13:08:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 682B36A0864
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 13:16:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6418E10E170;
-	Thu, 23 Feb 2023 12:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8670710E2F0;
+	Thu, 23 Feb 2023 12:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4494110E170
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 12:08:44 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id m7so13430690lfj.8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 04:08:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VQn70AP+A3I2sqmjhfgfqL1Y9XTnRaJMCZdiO2SRAdA=;
- b=sRsF5eRVhlmOFCywnN66o4x7hIsjnlo+cWOI++wvBg3w7DbFNASgEvl3i4emeNfmUH
- kKzoEjujEgFiAaYYD7THOVWUlp8iKd6Zpr6CKzVYEsifp9nhIe8JbDP7ohG1qANgSx3H
- gEUo+g45pmRdlJPGeREwrWiYametw2jcpSB/6KviTPtGU8sM0CYf7AM/M9PfggKMBnu4
- VW5XcA+egquL2zQdIc/+fCb0sYxw3dQpDaULAWsK/NePCEh9p6jCJlN/WKr8MBiwN4yt
- wewBTQS7JB1n0lVHjUN1N8Jdpd96QrSTS1ONhNv9K/PcWdTkbleJHCCMjYxnznEv7Pv5
- YBRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VQn70AP+A3I2sqmjhfgfqL1Y9XTnRaJMCZdiO2SRAdA=;
- b=iLbJNSphLz/mwS01xhdt8jX/74XdB9PDJaNBMf7ZGRzrG1I5c0tYkIrtuIxjWwILYb
- UNP9dQJ4VRQaBYd/SmTgSCt2JVby3oQ3R4ovDRY4+YQtxX9jEUXVGQWWvY2ixNqmtdm7
- W5jy4VaYDn90F67UXu4irPDac20s5mXvcmep8DzoI4ETNdywunefoAGd31AMiCGPK1FR
- gegvHnn5XF2LdY5mjECFo/lo/lLmYS4IO9PPguniA5TXp8HyNxXJmDXhr58tAn1+eUaq
- d5KXkcB4+TJZAVRIFlvMKq10RXZhpz55JXmkqr3qRXUJOowubs80hgM42JHgY0kPaqs9
- v9yw==
-X-Gm-Message-State: AO0yUKVxqSmn//frtKHz+UNBQqAMyWmxlcvCIC3H3pI439hmlH4d4s7G
- 7VSe+h1EiQwMDESHhQNUrvassw==
-X-Google-Smtp-Source: AK7set+O7HU38OM6BC/kSjZpEGP7oZyfke11r+upQCHouYa68PvTYy0DG/uzr00PZxqYJE6A8ov2tg==
-X-Received: by 2002:ac2:560f:0:b0:4d5:c96f:f7c7 with SMTP id
- v15-20020ac2560f000000b004d5c96ff7c7mr3460171lfd.23.1677154122485; 
- Thu, 23 Feb 2023 04:08:42 -0800 (PST)
-Received: from [192.168.1.101] (abxi151.neoplus.adsl.tpnet.pl. [83.9.2.151])
- by smtp.gmail.com with ESMTPSA id
- v26-20020ac2593a000000b004dc4d984911sm638214lfi.271.2023.02.23.04.08.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Feb 2023 04:08:42 -0800 (PST)
-Message-ID: <1c4f3f2c-d435-3721-df03-152c6468e0e3@linaro.org>
-Date: Thu, 23 Feb 2023 13:08:40 +0100
+Received: from srv6.fidu.org (srv6.fidu.org [IPv6:2a01:4f8:231:de0::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C34D10E0AD;
+ Thu, 23 Feb 2023 12:16:22 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by srv6.fidu.org (Postfix) with ESMTP id 65698C8008D;
+ Thu, 23 Feb 2023 13:16:20 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at srv6.fidu.org
+Received: from srv6.fidu.org ([127.0.0.1])
+ by localhost (srv6.fidu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id L8LRnpStdvmA; Thu, 23 Feb 2023 13:16:20 +0100 (CET)
+Received: from [192.168.176.165] (host-88-217-226-44.customer.m-online.net
+ [88.217.226.44])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by srv6.fidu.org (Postfix) with ESMTPSA id BEE2EC8008A;
+ Thu, 23 Feb 2023 13:16:18 +0100 (CET)
+Message-ID: <aac0ea4e-ce96-f487-9567-83ad9913b306@tuxedocomputers.com>
+Date: Thu, 23 Feb 2023 13:16:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 01/15] dt-bindings: display/msm: gpu: Document GMU
- wrapper-equipped A6xx
+ Thunderbird/102.7.1
+Subject: Re: [Intel-gfx] [PATCH 2/2] Apply quirk to disable PSR 2 on Tongfang
+ PHxTxX1 and PHxTQx1
+To: "Hogander, Jouni" <jouni.hogander@intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+References: <20230222141755.1060162-1-wse@tuxedocomputers.com>
+ <20230222141755.1060162-3-wse@tuxedocomputers.com>
+ <Y/Z3ZJjYQIKb2LQ0@intel.com>
+ <d254b88a99e0a979efb07d9298afdeb7016f0e0f.camel@intel.com>
 Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-References: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
- <20230223-topic-gmuwrapper-v3-1-5be55a336819@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230223-topic-gmuwrapper-v3-1-5be55a336819@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <d254b88a99e0a979efb07d9298afdeb7016f0e0f.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,79 +57,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Souza,
+ Jose" <jose.souza@intel.com>, "Santa Cruz,
+ Diego" <Diego.SantaCruz@spinetix.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Kahola,
+ Mika" <mika.kahola@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+Am 23.02.23 um 07:27 schrieb Hogander, Jouni:
+> On Wed, 2023-02-22 at 15:13 -0500, Rodrigo Vivi wrote:
+>> On Wed, Feb 22, 2023 at 03:17:55PM +0100, Werner Sembach wrote:
+>>> On these Barebones PSR 2 is recognized as supported but is very
+>>> buggy:
+>>> - Upper third of screen does sometimes not updated, resulting in
+>>> disappearing cursors or ghosts of already closed Windows saying
+>>> behind.
+>>> - Approximately 40 px from the bottom edge a 3 pixel wide strip of
+>>> randomly
+>>> colored pixels is flickering.
+>>>
+>>> PSR 1 is working fine however.
+>> I wonder if this is really about the panel's PSR2 or about the
+>> userspace
+>> there not marking the dirtyfb? I know I know... it is not userspace
+>> fault...
+>>
+>> But I wonder if the case you got here highlights the fact that we
+>> have
+>> a substantial bug in the i915 itself in regards to PSR2 API.
+>>
+>> Jose, Jouni, ideas on how to check what could be happening here?
+> There is already fix for this (Thanks to Werner Sembach for testing the
+> patch):
+>
+> https://patchwork.freedesktop.org/series/114217/
 
-On 23.02.2023 13:06, Konrad Dybcio wrote:
-> GMU wrapper-equipped A6xx GPUs require clocks and clock-names to be
-> specified under the GPU node, just like their older cousins.
-> Account for that.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
-[...]
-> -    then: # Since Adreno 6xx series clocks should be defined in GMU
-> +            enum:
-> +              - qcom,adreno-610.0
-> +              - qcom,adreno-619.1
-Immediate comment: this could be improved by checking
-the compatible of the node referenced in qcom,gmu, but
-frankly - I have no idea how to do this / whether it's
-possible with schema.
+Yes, thanks for creating that patch ^^
 
-Konrad
-> +    then:
->        properties:
-> -        clocks: false
-> -        clock-names: false
-> +        clock-names:
-> +          items:
-> +            - const: core
-> +              description: GPU Core clock
-> +            - const: iface
-> +              description: GPU Interface clock
-> +            - const: mem_iface
-> +              description: GPU Memory Interface clock
-> +            - const: alt_mem_iface
-> +              description: GPU Alternative Memory Interface clock
-> +            - const: gmu
-> +              description: CX GMU clock
-> +            - const: xo
-> +              description: GPUCC clocksource clock
-> +
-> +        reg-names:
-> +          minItems: 1
-> +          items:
-> +            - const: kgsl_3d0_reg_memory
-> +            - const: cx_dbgc
-> +
-> +      required:
-> +        - clocks
-> +        - clock-names
-> +    else:
-> +      if:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              pattern: '^qcom,adreno-6[0-9][0-9]\.[0-9]$'
-> +
-> +      then: # Starting with A6xx, the clocks are usually defined in the GMU node
-> +        properties:
-> +          clocks: false
-> +          clock-names: false
-> +
-> +          reg-names:
-> +            minItems: 1
-> +            items:
-> +              - const: kgsl_3d0_reg_memory
-> +              - const: cx_mem
-> +              - const: cx_dbgc
->  
->  examples:
->    - |
-> 
+I posted this quirk patch just as an possible alternative for stable if that 
+other patch is considered not suitable for it (lets wait and see).
+
+And to get some feedback if something like this could be a viable workaround if 
+similar bugs appear in the future.
+
+>
+>> oh, btw, Werner, do we have an  open gilab issue for this?
+> https://gitlab.freedesktop.org/drm/intel/-/issues/7347
+>
+>> Thanks,
+>> Rodrigo.
+>>
+>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>>> Cc: <stable@vger.kernel.org>
+>>> ---
+>>>   drivers/gpu/drm/i915/display/intel_quirks.c | 8 ++++++++
+>>>   1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c
+>>> b/drivers/gpu/drm/i915/display/intel_quirks.c
+>>> index ce6d0fe6448f5..eeb32d3189f5c 100644
+>>> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
+>>> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+>>> @@ -65,6 +65,10 @@ static void
+>>> quirk_no_pps_backlight_power_hook(struct drm_i915_private *i915)
+>>>          drm_info(&i915->drm, "Applying no pps backlight power
+>>> quirk\n");
+>>>   }
+>>>   
+>>> +/*
+>>> + * Tongfang PHxTxX1 and PHxTQx1 devices have support for PSR 2 but
+>>> it is broken
+>>> + * on Linux. PSR 1 however works just fine.
+>>> + */
+>>>   static void quirk_no_psr2(struct drm_i915_private *i915)
+>>>   {
+>>>          intel_set_quirk(i915, QUIRK_NO_PSR2);
+>>> @@ -205,6 +209,10 @@ static struct intel_quirk intel_quirks[] = {
+>>>          /* ECS Liva Q2 */
+>>>          { 0x3185, 0x1019, 0xa94d, quirk_increase_ddi_disabled_time
+>>> },
+>>>          { 0x3184, 0x1019, 0xa94d, quirk_increase_ddi_disabled_time
+>>> },
+>>> +
+>>> +       /* Tongfang PHxTxX1 and PHxTQx1/TUXEDO InfinityBook 14 Gen6
+>>> */
+>>> +       { 0x9a49, 0x1d05, 0x1105, quirk_no_psr2 },
+>>> +       { 0x9a49, 0x1d05, 0x114c, quirk_no_psr2 },
+>>>   };
+>>>   
+>>>   void intel_init_quirks(struct drm_i915_private *i915)
+>>> -- 
+>>> 2.34.1
+>>>
