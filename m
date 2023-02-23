@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1A36A0BFE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 15:38:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AC76A0C12
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 15:44:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED6F810E4F8;
-	Thu, 23 Feb 2023 14:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD25610E507;
+	Thu, 23 Feb 2023 14:44:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 983CA10E4F0;
- Thu, 23 Feb 2023 14:38:46 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-17264e9b575so6579769fac.9; 
- Thu, 23 Feb 2023 06:38:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=89NsqED1qF/po/TfxBNhjGb/jmRTrx5vpNyDKSLECZo=;
- b=nugu40U/fOag+rkXZn2YUuoTYJqJRiRuCYQg6KWSgX3z6NyJZaPj0S5vywrlIqhbnd
- d6usVAPisI/85pqpaRLofv9SX36rBae78b19JSa8FMG79ZsU4nO1OtT+ob3/hv8YeuI/
- xzYoiRQYrffO2j66iZhcqBEJgjuvDcrgcC56heEyUcesHAsqKXc65Oo1RcSqcpuEwXnu
- 5oO1170mpOn+IwNjtkSSBKyMtMt4pONokRreuQM7J1Ekc2wYN7l7H262kDQQz44SU7le
- Lbwklslo6gREViMLAw/eU29qOLcI/RBujv3PcujGr9t9cklZhLfrjkZKajYKUvkDZg14
- jg9w==
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com
+ [IPv6:2607:f8b0:4864:20::1133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 540B310E507
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 14:44:01 +0000 (UTC)
+Received: by mail-yw1-x1133.google.com with SMTP id
+ 00721157ae682-536cb25982eso171650457b3.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 06:44:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=J/sBV+h1ZZvgBmdh6JHeKYkMRdTQWncyMylaoJIbzas=;
+ b=HvW6IeDHSN1NGL3KNmAKobVCkP9ho7Ht0SSCadvCdBvVVuJDwSQXG39AafDhj+a10t
+ 8dgAVvO7GTmD2ljPa/9xqprqHfUxzr8XX0xOLchcFxmX4xRsFH6Mne7iqNVtUyRpGxIc
+ 9fTNphrWmrxqXzGaKBTf2qMw3sMgV2oXYJtJxp93XlRYhgY/wtWB5bH9qVXhga/V7Rp0
+ I8N8ZEMiD8dbyQStKP+GwB291xDxEimG7dNUX50eXbyRyu8KLrQH+CM8e/ffWVUm4E9j
+ MxZ2oqvBgw89xx4vLzcbvUq5e9riKZCS+Vz/3AKpVbMFYDMKjsV3VsQIFkl39vlPEjGS
+ hOHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=89NsqED1qF/po/TfxBNhjGb/jmRTrx5vpNyDKSLECZo=;
- b=V0QMTZBtc+/XcVQgfzt4VOSFsz2Xwya06qiaM/4BvqQUVAw/78ytMRs/PP1ges1uJ7
- MFIslWfKEaLO/H8LEtoVB6KlzzDa9q0Bas68UsUm6aqVld+aea8nvjyYWMvswr4APO+5
- Fei0o/MBODcA58Fy6SLp6SqK8ixS6d8uLRuzPpE+V9BxgLwPN30glxQa4TJjtm6VTh5r
- WPLPJS/rHCAoOI49HrbYT/EfoXugWD4cr8rtA9HR9Ys8GLYLbwwxg7TH62w4oQRAeiKd
- fptwDgPOMSNbpJC0fRtk5fcTe7JrZFBPTMEiTn5IStn4sNbkRWnoWa67iz7BeY7LvWo0
- ezqw==
-X-Gm-Message-State: AO0yUKWvA15b4OPITMUjmh7docgOgeueywoUSBgU4cxxvrPnzCMWUja/
- Fsk+mEHxxgraD98dqX1RcyTIxMeD6GzuPdIHyto=
-X-Google-Smtp-Source: AK7set+KLT2r3rBnZPapukBmtA/EjG5tO3KzBKTBeiIuotbag24KGdSOJM9a9xWivFfnMxaCddrYo7zKyJPEgzz5YOM=
-X-Received: by 2002:a05:6871:6a0:b0:172:3bf5:2855 with SMTP id
- l32-20020a05687106a000b001723bf52855mr1127648oao.96.1677163125808; Thu, 23
- Feb 2023 06:38:45 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J/sBV+h1ZZvgBmdh6JHeKYkMRdTQWncyMylaoJIbzas=;
+ b=mcNCIoBbAt43Q/T0HhLWhjJlLcqi2kJVjGf9PjY+3Wkt1nkvE+KAvAnpouuVrLcZkv
+ W43/H54HpsdXl/x1J9k9vFEeH3jmXyNR/A+apg9v05NnRmNRRRrnlBUVYw0KKyrBjBZU
+ AVk3DFdNwzA7I8Dfm4jOX8amTzJ0mgX5fAJpDedfe+ZmUrHoBOHaah+DpKd8nI4+y3uQ
+ Z4fxNZk91CEKn6VPbrOCPZ2TOZfu8ogjXVlvn5p0dLwTstsVf5+FVm8rUHdLKrgTju6E
+ utLYZaPVWnxhgYtQrveRAMY9P4dj5y8tgVgXSe40x+S1Z+YUoyhh0PrVW1/GWKlepp0r
+ ORzQ==
+X-Gm-Message-State: AO0yUKWl8QwpbZ+6dWK6q079yeBonJi3J8HH2ye6hceMuKL5GGEprAHG
+ T5drtVHr0rt4Job8FCjGTpIiGED35e/ybnk/CuF5NA==
+X-Google-Smtp-Source: AK7set83ljNH/eisAJHvZkpMcqzeq3GqC+kRYbk6hiv3pAL7kV8MYGW0K4cTumbrjp4STujcKOD5Or2B2g5M+f2b3yQ=
+X-Received: by 2002:a25:908e:0:b0:87a:957b:fd67 with SMTP id
+ t14-20020a25908e000000b0087a957bfd67mr2148272ybl.10.1677163440372; Thu, 23
+ Feb 2023 06:44:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20230217181409.218008-1-arthurgrillo@riseup.net>
- <20230217181409.218008-2-arthurgrillo@riseup.net>
-In-Reply-To: <20230217181409.218008-2-arthurgrillo@riseup.net>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 23 Feb 2023 09:38:33 -0500
-Message-ID: <CADnq5_PP4O4HuZ5GDhRx9m5BV1W7X77f6ciNqXj4k_m3VHeVFg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] drm/amd/display: Fix implicit enum conversion
-To: Arthur Grillo <arthurgrillo@riseup.net>
+References: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
+ <20230223-topic-gmuwrapper-v3-5-5be55a336819@linaro.org>
+In-Reply-To: <20230223-topic-gmuwrapper-v3-5-5be55a336819@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 23 Feb 2023 16:43:49 +0200
+Message-ID: <CAA8EJpptwvxahDL34HCo59Lh9nNjFwiyhru-jYmVHJOLQ7yC7g@mail.gmail.com>
+Subject: Re: [PATCH v3 05/15] drm/msm/a6xx: Introduce GMU wrapper support
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,246 +66,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunpeng.li@amd.com, tales.aparecida@gmail.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, amd-gfx@lists.freedesktop.org,
- alexander.deucher@amd.com, andrealmeid@riseup.net, christian.koenig@amd.com
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch doesn't apply.  Please make sure you are using drm-next or
-linux-next.
-
-Alex
-
-On Fri, Feb 17, 2023 at 1:15 PM Arthur Grillo <arthurgrillo@riseup.net> wro=
-te:
+On Thu, 23 Feb 2023 at 14:06, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
 >
-> Make implicit enum conversion to avoid -Wenum-conversion warning, such
-> as:
+> Some (particularly SMD_RPM, a.k.a non-RPMh) SoCs implement A6XX GPUs
+> but don't implement the associated GMUs. This is due to the fact that
+> the GMU directly pokes at RPMh. Sadly, this means we have to take care
+> of enabling & scaling power rails, clocks and bandwidth ourselves.
 >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn21/display_mode_vba_21.c:=
-4109:88: warning: implicit conversion from =E2=80=98enum <anonymous>=E2=80=
-=99 to =E2=80=98enum odm_combine_mode=E2=80=99 [-Wenum-conversion]
->  4109 |                                                 locals->ODMCombin=
-eEnablePerState[i][k] =3D true;
->       |                                                                  =
-                      ^
+> Reuse existing Adreno-common code and modify the deeply-GMU-infused
+> A6XX code to facilitate these GPUs. This involves if-ing out lots
+> of GMU callbacks and introducing a new type of GMU - GMU wrapper (it's
+> the actual name that Qualcomm uses in their downstream kernels).
 >
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> This is essentially a register region which is convenient to model
+> as a device. We'll use it for managing the GDSCs. The register
+> layout matches the actual GMU_CX/GX regions on the "real GMU" devices
+> and lets us reuse quite a bit of gmu_read/write/rmw calls.
+>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  .../amd/display/dc/dml/dcn20/display_mode_vba_20.c   |  9 +++++----
->  .../amd/display/dc/dml/dcn20/display_mode_vba_20v2.c | 11 ++++++-----
->  .../amd/display/dc/dml/dcn21/display_mode_vba_21.c   | 12 ++++++------
->  3 files changed, 17 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c       |  53 +++++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 244 +++++++++++++++++++++++++---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h       |   1 +
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c |  14 +-
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h     |   6 +
+>  5 files changed, 282 insertions(+), 36 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20=
-.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-> index d3b5b6fedf04..1b47249f01d8 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20.c
-> @@ -26,6 +26,7 @@
->  #include "../display_mode_lib.h"
->  #include "display_mode_vba_20.h"
->  #include "../dml_inline_defs.h"
-> +#include "dml/display_mode_enums.h"
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 90e636dcdd5b..b2c56561cde6 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+
+[skipped]
+
+>  struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>  {
+>         struct msm_drm_private *priv = dev->dev_private;
+> @@ -2063,18 +2235,36 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
 >
->  /*
->   * NOTE:
-> @@ -3897,14 +3898,14 @@ void dml20_ModeSupportAndSystemConfigurationFull(=
-struct display_mode_lib *mode_l
->                                         mode_lib->vba.PlaneRequiredDISPCL=
-KWithODMCombine =3D mode_lib->vba.PixelClock[k] / 2
->                                                         * (1 + mode_lib->=
-vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+>         adreno_gpu->registers = NULL;
 >
-> -                               locals->ODMCombineEnablePerState[i][k] =
-=3D false;
-> +                               locals->ODMCombineEnablePerState[i][k] =
-=3D dm_odm_combine_mode_disabled;
->                                 mode_lib->vba.PlaneRequiredDISPCLK =3D mo=
-de_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
->                                 if (mode_lib->vba.ODMCapability) {
->                                         if (locals->PlaneRequiredDISPCLKW=
-ithoutODMCombine > mode_lib->vba.MaxDispclkRoundedDownToDFSGranularity) {
-> -                                               locals->ODMCombineEnableP=
-erState[i][k] =3D true;
-> +                                               locals->ODMCombineEnableP=
-erState[i][k] =3D dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequir=
-edDISPCLK =3D mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->HActive[k] > D=
-CN20_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] =3D=3D dm_420) {
-> -                                               locals->ODMCombineEnableP=
-erState[i][k] =3D true;
-> +                                               locals->ODMCombineEnableP=
-erState[i][k] =3D dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequir=
-edDISPCLK =3D mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         }
->                                 }
-> @@ -3957,7 +3958,7 @@ void dml20_ModeSupportAndSystemConfigurationFull(st=
-ruct display_mode_lib *mode_l
->                                 locals->RequiredDISPCLK[i][j] =3D 0.0;
->                                 locals->DISPCLK_DPPCLK_Support[i][j] =3D =
-true;
->                                 for (k =3D 0; k <=3D mode_lib->vba.Number=
-OfActivePlanes - 1; k++) {
-> -                                       locals->ODMCombineEnablePerState[=
-i][k] =3D false;
-> +                                       locals->ODMCombineEnablePerState[=
-i][k] =3D dm_odm_combine_mode_disabled;
->                                         if (locals->SwathWidthYSingleDPP[=
-k] <=3D locals->MaximumSwathWidth[k]) {
->                                                 locals->NoOfDPP[i][j][k] =
-=3D 1;
->                                                 locals->RequiredDPPCLK[i]=
-[j][k] =3D locals->MinDPPCLKUsingSingleDPP[k]
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20=
-v2.c b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-> index edd098c7eb92..4781bf82eec6 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn20/display_mode_vba_20v2.c
-> @@ -26,6 +26,7 @@
->  #include "../display_mode_lib.h"
->  #include "display_mode_vba_20v2.h"
->  #include "../dml_inline_defs.h"
-> +#include "dml/display_mode_enums.h"
+> +       /* Check if there is a GMU phandle and set it up */
+> +       node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
+> +       /* FIXME: How do we gracefully handle this? */
+> +       BUG_ON(!node);
+
+I thought that we should fix it, but then I noticed that this code was
+just moved from the part below.
+
+> +
+> +       adreno_gpu->gmu_is_wrapper = of_device_is_compatible(node, "qcom,adreno-gmu-wrapper");
+> +
+>         /*
+>          * We need to know the platform type before calling into adreno_gpu_init
+>          * so that the hw_apriv flag can be correctly set. Snoop into the info
+>          * and grab the revision number
+>          */
+>         info = adreno_info(config->rev);
+> -
+> -       if (info && (info->revn == 650 || info->revn == 660 ||
+> -                       adreno_cmp_rev(ADRENO_REV(6, 3, 5, ANY_ID), info->rev)))
+
+Are we losing A635 here? I don't see it in the condition below.
+
+> +       if (!info)
+> +               return ERR_PTR(-EINVAL);
+> +
+> +       /* Assign these early so that we can use the is_aXYZ helpers */
+> +       /* Numeric revision IDs (e.g. 630) */
+> +       adreno_gpu->revn = info->revn;
+> +       /* New-style ADRENO_REV()-only */
+> +       adreno_gpu->rev = info->rev;
+> +       /* Quirk data */
+> +       adreno_gpu->info = info;
+> +
+> +       if (adreno_is_a650(adreno_gpu) || adreno_is_a660_family(adreno_gpu))
+>                 adreno_gpu->base.hw_apriv = true;
 >
->  /*
->   * NOTE:
-> @@ -4008,17 +4009,17 @@ void dml20v2_ModeSupportAndSystemConfigurationFul=
-l(struct display_mode_lib *mode
->                                         mode_lib->vba.PlaneRequiredDISPCL=
-KWithODMCombine =3D mode_lib->vba.PixelClock[k] / 2
->                                                         * (1 + mode_lib->=
-vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+> -       a6xx_llc_slices_init(pdev, a6xx_gpu);
+> +       /* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+> +       if (!adreno_has_gmu_wrapper(adreno_gpu))
+> +               a6xx_llc_slices_init(pdev, a6xx_gpu);
 >
-> -                               locals->ODMCombineEnablePerState[i][k] =
-=3D false;
-> +                               locals->ODMCombineEnablePerState[i][k] =
-=3D dm_odm_combine_mode_disabled;
->                                 mode_lib->vba.PlaneRequiredDISPCLK =3D mo=
-de_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
->                                 if (mode_lib->vba.ODMCapability) {
->                                         if (locals->PlaneRequiredDISPCLKW=
-ithoutODMCombine > MaxMaxDispclkRoundedDown) {
-> -                                               locals->ODMCombineEnableP=
-erState[i][k] =3D true;
-> +                                               locals->ODMCombineEnableP=
-erState[i][k] =3D dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequir=
-edDISPCLK =3D mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->DSCEnabled[k] =
-&& (locals->HActive[k] > DCN20_MAX_DSC_IMAGE_WIDTH)) {
-> -                                               locals->ODMCombineEnableP=
-erState[i][k] =3D true;
-> +                                               locals->ODMCombineEnableP=
-erState[i][k] =3D dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequir=
-edDISPCLK =3D mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->HActive[k] > D=
-CN20_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] =3D=3D dm_420) {
-> -                                               locals->ODMCombineEnableP=
-erState[i][k] =3D true;
-> +                                               locals->ODMCombineEnableP=
-erState[i][k] =3D dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequir=
-edDISPCLK =3D mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         }
->                                 }
-> @@ -4071,7 +4072,7 @@ void dml20v2_ModeSupportAndSystemConfigurationFull(=
-struct display_mode_lib *mode
->                                 locals->RequiredDISPCLK[i][j] =3D 0.0;
->                                 locals->DISPCLK_DPPCLK_Support[i][j] =3D =
-true;
->                                 for (k =3D 0; k <=3D mode_lib->vba.Number=
-OfActivePlanes - 1; k++) {
-> -                                       locals->ODMCombineEnablePerState[=
-i][k] =3D false;
-> +                                       locals->ODMCombineEnablePerState[=
-i][k] =3D dm_odm_combine_mode_disabled;
->                                         if (locals->SwathWidthYSingleDPP[=
-k] <=3D locals->MaximumSwathWidth[k]) {
->                                                 locals->NoOfDPP[i][j][k] =
-=3D 1;
->                                                 locals->RequiredDPPCLK[i]=
-[j][k] =3D locals->MinDPPCLKUsingSingleDPP[k]
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21=
-.c b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-> index 1d84ae50311d..b7c2844d0cbe 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn21/display_mode_vba_21.c
-> @@ -4102,17 +4102,17 @@ void dml21_ModeSupportAndSystemConfigurationFull(=
-struct display_mode_lib *mode_l
->                                         mode_lib->vba.PlaneRequiredDISPCL=
-KWithODMCombine =3D mode_lib->vba.PixelClock[k] / 2
->                                                         * (1 + mode_lib->=
-vba.DISPCLKDPPCLKDSCCLKDownSpreading / 100.0);
+>         ret = a6xx_set_supported_hw(&pdev->dev, config->rev);
+>         if (ret) {
+> @@ -2082,7 +2272,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>                 return ERR_PTR(ret);
+>         }
 >
-> -                               locals->ODMCombineEnablePerState[i][k] =
-=3D false;
-> +                               locals->ODMCombineEnablePerState[i][k] =
-=3D dm_odm_combine_mode_disabled;
->                                 mode_lib->vba.PlaneRequiredDISPCLK =3D mo=
-de_lib->vba.PlaneRequiredDISPCLKWithoutODMCombine;
->                                 if (mode_lib->vba.ODMCapability) {
->                                         if (locals->PlaneRequiredDISPCLKW=
-ithoutODMCombine > MaxMaxDispclkRoundedDown) {
-> -                                               locals->ODMCombineEnableP=
-erState[i][k] =3D true;
-> +                                               locals->ODMCombineEnableP=
-erState[i][k] =3D dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequir=
-edDISPCLK =3D mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->DSCEnabled[k] =
-&& (locals->HActive[k] > DCN21_MAX_DSC_IMAGE_WIDTH)) {
-> -                                               locals->ODMCombineEnableP=
-erState[i][k] =3D true;
-> +                                               locals->ODMCombineEnableP=
-erState[i][k] =3D dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequir=
-edDISPCLK =3D mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         } else if (locals->HActive[k] > D=
-CN21_MAX_420_IMAGE_WIDTH && locals->OutputFormat[k] =3D=3D dm_420) {
-> -                                               locals->ODMCombineEnableP=
-erState[i][k] =3D true;
-> +                                               locals->ODMCombineEnableP=
-erState[i][k] =3D dm_odm_combine_mode_2to1;
->                                                 mode_lib->vba.PlaneRequir=
-edDISPCLK =3D mode_lib->vba.PlaneRequiredDISPCLKWithODMCombine;
->                                         }
->                                 }
-> @@ -4165,7 +4165,7 @@ void dml21_ModeSupportAndSystemConfigurationFull(st=
-ruct display_mode_lib *mode_l
->                                 locals->RequiredDISPCLK[i][j] =3D 0.0;
->                                 locals->DISPCLK_DPPCLK_Support[i][j] =3D =
-true;
->                                 for (k =3D 0; k <=3D mode_lib->vba.Number=
-OfActivePlanes - 1; k++) {
-> -                                       locals->ODMCombineEnablePerState[=
-i][k] =3D false;
-> +                                       locals->ODMCombineEnablePerState[=
-i][k] =3D dm_odm_combine_mode_disabled;
->                                         if (locals->SwathWidthYSingleDPP[=
-k] <=3D locals->MaximumSwathWidth[k]) {
->                                                 locals->NoOfDPP[i][j][k] =
-=3D 1;
->                                                 locals->RequiredDPPCLK[i]=
-[j][k] =3D locals->MinDPPCLKUsingSingleDPP[k]
-> @@ -5230,7 +5230,7 @@ void dml21_ModeSupportAndSystemConfigurationFull(st=
-ruct display_mode_lib *mode_l
->                         mode_lib->vba.ODMCombineEnabled[k] =3D
->                                         locals->ODMCombineEnablePerState[=
-mode_lib->vba.VoltageLevel][k];
->                 } else {
-> -                       mode_lib->vba.ODMCombineEnabled[k] =3D false;
-> +                       mode_lib->vba.ODMCombineEnabled[k] =3D dm_odm_com=
-bine_mode_disabled;
->                 }
->                 mode_lib->vba.DSCEnabled[k] =3D
->                                 locals->RequiresDSC[mode_lib->vba.Voltage=
-Level][k];
+> -       ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+> +       if (adreno_has_gmu_wrapper(adreno_gpu))
+> +               ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
+> +       else
+> +               ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+>         if (ret) {
+>                 a6xx_destroy(&(a6xx_gpu->base.base));
+>                 return ERR_PTR(ret);
+> @@ -2095,13 +2288,10 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+>         if (adreno_is_a618(adreno_gpu) || adreno_is_7c3(adreno_gpu))
+>                 priv->gpu_clamp_to_idle = true;
+>
+> -       /* Check if there is a GMU phandle and set it up */
+> -       node = of_parse_phandle(pdev->dev.of_node, "qcom,gmu", 0);
+> -
+> -       /* FIXME: How do we gracefully handle this? */
+> -       BUG_ON(!node);
+> -
+> -       ret = a6xx_gmu_init(a6xx_gpu, node);
+> +       if (adreno_has_gmu_wrapper(adreno_gpu))
+> +               ret = a6xx_gmu_wrapper_init(a6xx_gpu, node);
+> +       else
+> +               ret = a6xx_gmu_init(a6xx_gpu, node);
+>         of_node_put(node);
+>         if (ret) {
+>                 a6xx_destroy(&(a6xx_gpu->base.base));
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> index eea2e60ce3b7..51a7656072fa 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> @@ -76,6 +76,7 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
+>  void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state);
+>
+>  int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
+> +int a6xx_gmu_wrapper_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node);
+>  void a6xx_gmu_remove(struct a6xx_gpu *a6xx_gpu);
+>
+>  void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> index b7e217d00a22..e11e8a02ac22 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> @@ -1041,16 +1041,18 @@ struct msm_gpu_state *a6xx_gpu_state_get(struct msm_gpu *gpu)
+>         /* Get the generic state from the adreno core */
+>         adreno_gpu_state_get(gpu, &a6xx_state->base);
+>
+> -       a6xx_get_gmu_registers(gpu, a6xx_state);
+> +       if (!adreno_has_gmu_wrapper(adreno_gpu)) {
+> +               a6xx_get_gmu_registers(gpu, a6xx_state);
+>
+> -       a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
+> -       a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
+> -       a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
+> +               a6xx_state->gmu_log = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.log);
+> +               a6xx_state->gmu_hfi = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.hfi);
+> +               a6xx_state->gmu_debug = a6xx_snapshot_gmu_bo(a6xx_state, &a6xx_gpu->gmu.debug);
+>
+> -       a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
+> +               a6xx_snapshot_gmu_hfi_history(gpu, a6xx_state);
+> +       }
+>
+>         /* If GX isn't on the rest of the data isn't going to be accessible */
+> -       if (!a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+> +       if (!adreno_has_gmu_wrapper(adreno_gpu) && !a6xx_gmu_gx_is_on(&a6xx_gpu->gmu))
+>                 return &a6xx_state->base;
+>
+>         /* Get the banks of indexed registers */
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index b4f9b1343d63..2c0f0ef094cb 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -115,6 +115,7 @@ struct adreno_gpu {
+>          * code (a3xx_gpu.c) and stored in this common location.
+>          */
+>         const unsigned int *reg_offsets;
+> +       bool gmu_is_wrapper;
+>  };
+>  #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+>
+> @@ -145,6 +146,11 @@ struct adreno_platform_config {
+>
+>  bool adreno_cmp_rev(struct adreno_rev rev1, struct adreno_rev rev2);
+>
+> +static inline bool adreno_has_gmu_wrapper(struct adreno_gpu *gpu)
+> +{
+> +       return gpu->gmu_is_wrapper;
+> +}
+> +
+>  static inline bool adreno_is_a2xx(struct adreno_gpu *gpu)
+>  {
+>         return (gpu->revn < 300);
+>
 > --
 > 2.39.2
 >
+
+
+-- 
+With best wishes
+Dmitry
