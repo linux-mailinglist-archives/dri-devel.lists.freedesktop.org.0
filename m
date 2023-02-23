@@ -1,70 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6F26A0204
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 05:25:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B116A027C
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Feb 2023 06:42:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2208910E023;
-	Thu, 23 Feb 2023 04:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D89C110E49D;
+	Thu, 23 Feb 2023 05:42:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 120EB10E023
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Feb 2023 04:25:32 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id y2so7188649pjg.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Feb 2023 20:25:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Q3ZNl1d/IDdtn1I+3dwmbDZpDLv4MJqND4ey2if/fgA=;
- b=RqGHwvVcW8PwbqF2O98wRWbxkbhQjSya+tfeuDebOdNvZH/MylU/j1W5K339+97Ve9
- P7X9zhSTMdulNZxWWVLWwWH5pano1UCpeXHHjSWaH8ohjhsvwbOtZ2uTZ5ElMUgqTSZj
- hSOPZnyCqwlXFF1V3jLGFYMNoCJJ/hMjyiztfXFHR8vIQLUJ+GFGeSSCzcEq9aMryVEs
- swBulBiO6NlLTiJV54gk9Zl41dQ0LIEMDJnkB6wgSBCct84VB9WfPM4fOPH0NTfJvEDi
- 627s2Wcyfp2u/pDjbnZsZF0X/Q2OolGQaTS436RKzwIEGyT9yGIaqcNOiGYS5BCFCmMQ
- c8Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q3ZNl1d/IDdtn1I+3dwmbDZpDLv4MJqND4ey2if/fgA=;
- b=1JTO6KhCKB6aaeAzwDpRZWTnTKbdJRyy6q+d6issvFXgsUSK8z5Qo/lQckK/t1pYd5
- k+XpX6WI9bO3zcd0SFppBDdQ/dWwaNPSTgKzsBqgh85y/R/vlsJl9g48bvrevugCGW3l
- vPJKwHXCX7bOJFqyrEM8g1o6+XbIjfEfqoHV8TcSVSPjOXyyvxY6/lEteEF3FEDejCud
- tyjOAzVilj3pTE/R5zTh6OlqS6dCTgCEvEPodnhTlAO+CLD1CmdKNyjSZKllsCQNmh+x
- Y28YXP4OUMNeeTrA+q1/5j80V5z4gQUhlxBRdM8W8Ew/lU974c0CdT6FQcuUaDnu0GTb
- wZOA==
-X-Gm-Message-State: AO0yUKVJF6oD3GQekNwbnUP3EUdYritFSgDy58/ERsLB18+CIzQYUb9+
- E4g0SQL2cClNBA2hMc3sH6c=
-X-Google-Smtp-Source: AK7set90Z4unxDHw9sSxk1Y2yq2gvKh8QneYxNxenZHS/ayXsLirDIhrhY+0sOC5Btzu5Ji2QcWR1g==
-X-Received: by 2002:a05:6a20:8496:b0:c7:631b:a497 with SMTP id
- u22-20020a056a20849600b000c7631ba497mr4692145pzd.23.1677126331527; 
- Wed, 22 Feb 2023 20:25:31 -0800 (PST)
-Received: from debian.me (subs09a-223-255-225-69.three.co.id. [223.255.225.69])
- by smtp.gmail.com with ESMTPSA id
- e6-20020a62ee06000000b00580fb018e4bsm3793344pfi.211.2023.02.22.20.25.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Feb 2023 20:25:30 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
- id 13636106350; Thu, 23 Feb 2023 11:25:26 +0700 (WIB)
-Date: Thu, 23 Feb 2023 11:25:26 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Dylan Le <self@dylanle.dev>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] Documentation: gpu: add acceleration node section
-Message-ID: <Y/bqtlbnWkKMIJI4@debian.me>
-References: <7799513f0fb5aee27b64752c037980471be669c5.1677120686.git.self@dylanle.dev>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7144910E49D;
+ Thu, 23 Feb 2023 05:42:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677130970; x=1708666970;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=fNthTe0hqtFD5hys4g4BTack0W8Cr5nveuNKNdiA4Ak=;
+ b=mA9Bn5e83oyHqMWfF/2hNu3eFo4hlro4Y9P1ZlyhGZPBFFnTYdZf8B5S
+ DAjtfhZJ6OEcUi8HJN2ySPdPEOa/mXHAi1vbgeLF9IhkBQz6+hDtb9qRK
+ ta7XylkGQHZpNO3Kg6l6lCVMmGirKqSp3xJcp7cRrbuz2c8nIg8jwDNeu
+ VfqY+TwfjZapEdoffcqh1cd8nwx0/tsNQu3hKlgeGH1ZMVxzNJw5beQXS
+ 9JVXwU7neOnoFwWxsBKomrbX0gNtQOpUxp6FzSg4VzB14X9p97JTRubZ/
+ agcpahLWP2H9XhlpLjy+0EA5qB62YW5lAS+TLy7aTy0FMsmSP1B6xfvfM g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="360609745"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
+ d="asc'?scan'208";a="360609745"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2023 21:42:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="674389293"
+X-IronPort-AV: E=Sophos;i="5.97,320,1669104000"; 
+ d="asc'?scan'208";a="674389293"
+Received: from debian-skl.sh.intel.com (HELO debian-skl) ([10.239.159.40])
+ by fmsmga007.fm.intel.com with ESMTP; 22 Feb 2023 21:42:48 -0800
+Date: Thu, 23 Feb 2023 13:41:00 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] i915: fix memory leak with using
+ debugfs_lookup()
+Message-ID: <Y/b8bLx+fbGOWgJx@debian-scheme>
+References: <20230202141309.2293834-1-gregkh@linuxfoundation.org>
+ <Y+Fh2w1Iw3kHp5D+@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="txtJYMaFtpqUbF0X"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="9wh4AwoWCfukJxS4"
 Content-Disposition: inline
-In-Reply-To: <7799513f0fb5aee27b64752c037980471be669c5.1677120686.git.self@dylanle.dev>
+In-Reply-To: <Y+Fh2w1Iw3kHp5D+@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,75 +61,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: intel-gvt-dev@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---txtJYMaFtpqUbF0X
-Content-Type: text/plain; charset=utf-8
+--9wh4AwoWCfukJxS4
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 23, 2023 at 02:52:52AM +0000, Dylan Le wrote:
+On 2023.02.06 15:23:55 -0500, Rodrigo Vivi wrote:
+> On Thu, Feb 02, 2023 at 03:13:09PM +0100, Greg Kroah-Hartman wrote:
+> > When calling debugfs_lookup() the result must have dput() called on it,
+> > otherwise the memory will leak over time.  To make things simpler, just
+> > call debugfs_lookup_and_remove() instead which handles all of the logic
+> > at once.
+> >=20
+> > Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+> > Cc: Zhi Wang <zhi.a.wang@intel.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: intel-gvt-dev@lists.freedesktop.org
+> > Cc: intel-gfx@lists.freedesktop.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 >=20
-> This patch was initially written for the Linux Kernel Bug Fixing Mentorsh=
-ip
-> program. The patch adds a temporarily stubbed section on Acceleration Nod=
-es
-> to resolve a documentation warning.
 >=20
-> This resolves the warning:
-> ./Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WARN=
-ING: undefined label: drm_accel_node
-
-Please write the patch description in imperative mood ("Do foo" instead
-of "This patch does foo").
-
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 >=20
-> I would appreciate any feedback on what should be documented here.
-
-I think above is better placed between the three dashes and diffstat ...
-
-
-> ---
-
-like here.
-
->  Documentation/gpu/drm-uapi.rst | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> Zhenyu or Zhi, could you please propagate this through your gvt branch?
 >=20
 
-> +.. _drm_accel_node:
-> +
-> +Acceleration nodes
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. note::
-> +   There is not any documentation yet need to figure out what this is.
+Sorry I missed this one after I migrated my mail stuff onto new machine..
+Looks good to me.
 
-I'd like to write this stub as generic .. admonition:: block [1] instead,
-with the content which is "This section is empty, add appropriate
-documentation here." or similar.
+Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
 
-[1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#generic-a=
-dmonition
+> >  drivers/gpu/drm/i915/gvt/kvmgt.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gv=
+t/kvmgt.c
+> > index 8ae7039b3683..de675d799c7d 100644
+> > --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> > +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> > @@ -699,7 +699,7 @@ static void intel_vgpu_close_device(struct vfio_dev=
+ice *vfio_dev)
+> > =20
+> >  	clear_bit(INTEL_VGPU_STATUS_ATTACHED, vgpu->status);
+> > =20
+> > -	debugfs_remove(debugfs_lookup(KVMGT_DEBUGFS_FILENAME, vgpu->debugfs));
+> > +	debugfs_lookup_and_remove(KVMGT_DEBUGFS_FILENAME, vgpu->debugfs);
+> > =20
+> >  	kvm_page_track_unregister_notifier(vgpu->vfio_device.kvm,
+> >  					   &vgpu->track_node);
+> > --=20
+> > 2.39.1
+> >=20
 
-Thanks.=20
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---txtJYMaFtpqUbF0X
+--9wh4AwoWCfukJxS4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCY/bqrgAKCRD2uYlJVVFO
-o+FeAP0b2iW2CAj1S1TrJcYRRRBYm4FfoNNv0qW/IOnP0+0YtgEAqSsziM6+WEkh
-GGUj0Juc52PbS9EkGXhiWCs0Ai1Q6AE=
-=C2XA
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCY/b8ZgAKCRCxBBozTXgY
+J2QHAJ4mxXdBrJyJ7kZX42GmAhaFvJCFvwCeLi7grFnnr8QIUCde6A1N/D3zKXQ=
+=VkT4
 -----END PGP SIGNATURE-----
 
---txtJYMaFtpqUbF0X--
+--9wh4AwoWCfukJxS4--
