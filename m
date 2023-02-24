@@ -1,65 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1EF6A1A97
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 11:51:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D68B6A1ABA
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 11:57:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 329B910E5A8;
-	Fri, 24 Feb 2023 10:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A1C10E0C5;
+	Fri, 24 Feb 2023 10:57:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DEED10E0C5;
- Fri, 24 Feb 2023 10:50:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677235857; x=1708771857;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=noOJVEfLjfjFl/8iEsWqjV4iJjt7i8IK2bqJaCilVlY=;
- b=OR8VPi5FrAlSThRFuSp5Y9adIXNg7iBF2UqtxcOq1GIbh5mGeAYB1VwE
- SycYXo+O3CO8LRql0/Wr779re7zuQmr+4P87VcRMFwYFPP5Dqw/kf4MvQ
- vNQKJZroyj8TkQOb6K+AS5ytyn3eDrUsZWluDQGYWBZrXgBN3A7I9gQs/
- lOBFSTaOqnXXZ8YcpKWKLFIWFfVqT89mIStoLgOh6OfDU/XzumC9oqrEo
- 0xXYCUR3ysO/qib2Xmu3+0tgEgILKUTUHwIhs3NGK8S1RI+N9nnWQTN6O
- cJlhAqpxrU6Rsizoqtk84q+ALp+MD/LYbHKwfmf542S7cxlTG9jwVU8Tc A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="313838847"
-X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; d="scan'208";a="313838847"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2023 02:50:57 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="622674319"
-X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; d="scan'208";a="622674319"
-Received: from wmao-mobl.amr.corp.intel.com (HELO [10.212.63.133])
- ([10.212.63.133])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2023 02:50:53 -0800
-Message-ID: <582a9b92-d246-fce2-cf39-539d9a2db17f@linux.intel.com>
-Date: Fri, 24 Feb 2023 10:50:51 +0000
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF1B910E0C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 10:57:44 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l7-20020a05600c4f0700b003e79fa98ce1so1477999wmq.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 02:57:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wUzlOGkuT0rri1NZcy3oPLiyFwjaeCiqRMJCuHFb5ts=;
+ b=dLreh8Yxx9kckvOfZdklyGyT2utdxcqAYoLD3p9a4v83wuopSnCDDCTGaXv54KIEQg
+ HYn16dO3Oc5y2cTr2+l1u+X3s3DwdDED9B9auqLhQKERxmugO+WcUKG/x1Fc61aFEor7
+ 8qYRGkXuBeElYZuzxQHLCLA9wwgSrU5BXVDyPA4bX4ouiLj0HL1nOHCXo5G79sT2CF9r
+ Ok5ISa0ZCDtHrCR1e4D2U12jI16IZrCqvn15mIxIMSBixhPWjr06VZenN7d8NEJ7pc3e
+ OYr4csPS6itxsoPWEepLxbHpDqCnQjhYziAm/UyoHuwfZxFGfRzRU/DfUIh+zaj03QiU
+ VarQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wUzlOGkuT0rri1NZcy3oPLiyFwjaeCiqRMJCuHFb5ts=;
+ b=EIrM7gU0luwaNQa7BP8+NH15I3EPYVujEEgJIyfVpf1LCb9p+632VEZIq1mDieVYO5
+ QjFtxcQqMucA86xDunnvXIifMZG4W8gWQltChKnjYWSezEQqR+UDVuhZrMoji9XMcNHO
+ tTNTI0+FjPsFevPBD8kivG56Ck57JHECuHNsUC9c2rm9e1Dftny855AjrRqAwSEHujW/
+ tzgs3s1Q+2H8JJp7Ftw5icW79/jvPb6ChRoPkftfPwlHDmJoY3FBzlr7g8MvKH44ugQ4
+ Wl3eD5M6cPovJIg9oD2p/9pGlYqAOlP4z+yYbAsCeWFcaDIBw7HdTKUIlXCxheSdW0S6
+ svNQ==
+X-Gm-Message-State: AO0yUKVg7CreosGNBs/J+8WtR9358kFQhiLEbOtWf+NmlZYAjyFyUgaC
+ 6vApMw7nYzwGgHRckUPmNCsF/A==
+X-Google-Smtp-Source: AK7set8ofc+BvKAusfSUZGB0OaFA138AUMJg1kOmeEms6DUeu1XH/pOv+hyOfB0pioS72PKGct/gZA==
+X-Received: by 2002:a7b:c7d4:0:b0:3df:de28:f819 with SMTP id
+ z20-20020a7bc7d4000000b003dfde28f819mr11541352wmk.15.1677236263072; 
+ Fri, 24 Feb 2023 02:57:43 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ j7-20020a05600c42c700b003db012d49b7sm8464475wme.2.2023.02.24.02.57.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Feb 2023 02:57:42 -0800 (PST)
+Message-ID: <f38158f6-5493-5b85-1353-9b75f66ad0d3@linaro.org>
+Date: Fri, 24 Feb 2023 11:57:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+Subject: Re: [PATCH v3 02/11] dt-bindings: gpu: mali-bifrost: Split out
+ MediaTek power-domains variation
 Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
- <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
- <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell>
- <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell>
- <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell>
- <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230224122403.6a088da1@eldfell>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ airlied@gmail.com
+References: <20230223133440.80941-1-angelogioacchino.delregno@collabora.com>
+ <20230223133440.80941-3-angelogioacchino.delregno@collabora.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230223133440.80941-3-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,111 +78,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+ krzysztof.kozlowski+dt@linaro.org, wenst@chromium.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24/02/2023 10:24, Pekka Paalanen wrote:
-> On Fri, 24 Feb 2023 09:41:46 +0000
-> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+On 23/02/2023 14:34, AngeloGioacchino Del Regno wrote:
+> In preparation for adding new bindings for new MediaTek SoCs, split out
+> the power-domain-names and power-domainsvariation from the `else` in
+> the current mediatek,mt8183-mali conditional.
 > 
->> On 24/02/2023 09:26, Pekka Paalanen wrote:
->>> On Thu, 23 Feb 2023 10:51:48 -0800
->>> Rob Clark <robdclark@gmail.com> wrote:
->>>    
->>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>>>>
->>>>> On Wed, 22 Feb 2023 07:37:26 -0800
->>>>> Rob Clark <robdclark@gmail.com> wrote:
->>>>>      
->>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
->>>
->>> ...
->>>    
->>>>>>> On another matter, if the application uses SET_DEADLINE with one
->>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
->>>>>>> another timestamp, what should happen?
->>>>>>
->>>>>> The expectation is that many deadline hints can be set on a fence.
->>>>>> The fence signaller should track the soonest deadline.
->>>>>
->>>>> You need to document that as UAPI, since it is observable to userspace.
->>>>> It would be bad if drivers or subsystems would differ in behaviour.
->>>>>      
->>>>
->>>> It is in the end a hint.  It is about giving the driver more
->>>> information so that it can make better choices.  But the driver is
->>>> even free to ignore it.  So maybe "expectation" is too strong of a
->>>> word.  Rather, any other behavior doesn't really make sense.  But it
->>>> could end up being dictated by how the hw and/or fw works.
->>>
->>> It will stop being a hint once it has been implemented and used in the
->>> wild long enough. The kernel userspace regression rules make sure of
->>> that.
->>
->> Yeah, tricky and maybe a gray area in this case. I think we eluded
->> elsewhere in the thread that renaming the thing might be an option.
->>
->> So maybe instead of deadline, which is a very strong word, use something
->> along the lines of "present time hint", or "signalled time hint"? Maybe
->> reads clumsy. Just throwing some ideas for a start.
+> The sram-supply part is left in place to be disallowed for anything
+> that is not compatible with "mediatek,mt8183-mali" as this regulator
+> is MediaTek-specific and it is, and will ever be, used only for this
+> specific string due to the addition of the mediatek-regulator-coupler
+> driver.
 > 
-> You can try, but I fear that if it ever changes behaviour and
-> someone notices that, it's labelled as a kernel regression. I don't
-> think documentation has ever been the authoritative definition of UABI
-> in Linux, it just guides drivers and userspace towards a common
-> understanding and common usage patterns.
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../devicetree/bindings/gpu/arm,mali-bifrost.yaml | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
 > 
-> So even if the UABI contract is not documented (ugh), you need to be
-> prepared to set the UABI contract through kernel implementation.
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> index 02699d389be1..ac174c17e25f 100644
+> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
+> @@ -145,6 +145,18 @@ allOf:
+>          - power-domains
+>          - resets
+>          - reset-names
+> +  - if:
+> +      not:
 
-To be the devil's advocate it probably wouldn't be an ABI regression but 
-just an regression. Same way as what nice(2) priorities mean hasn't 
-always been the same over the years, I don't think there is a strict 
-contract.
+I think this makes the binding difficult to maintain. You have:
+1. if - amlogic - then - some properties
+2. if - renesas - then - some properties
+3. if - not mediatek - then - something else
+4. if - mediatek - then - some properties
 
-Having said that, it may be different with latency sensitive stuff such 
-as UIs though since it is very observable and can be very painful to users.
+Instead just disallow power domains in each of other variants.
 
-> If you do not document the UABI contract, then different drivers are
-> likely to implement it differently, leading to differing behaviour.
-> Also userspace will invent wild ways to abuse the UABI if there is no
-> documentation guiding it on proper use. If userspace or end users
-> observe different behaviour, that's bad even if it's not a regression.
-> 
-> I don't like the situation either, but it is what it is. UABI stability
-> trumps everything regardless of whether it was documented or not.
-> 
-> I bet userspace is going to use this as a "make it faster, make it
-> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> library that stamps any and all fences with an expired deadline to
-> just squeeze out a little more through some weird side-effect.
-> 
-> Well, that's hopefully overboard in scaring, but in the end, I would
-> like to see UABI documented so I can have a feeling of what it is for
-> and how it was intended to be used. That's all.
+Best regards,
+Krzysztof
 
-We share the same concern. If you read elsewhere in these threads you 
-will notice I have been calling this an "arms race". If the ability to 
-make yourself go faster does not required additional privilege I also 
-worry everyone will do it at which point it becomes pointless. So yes, I 
-do share this concern about exposing any of this as an unprivileged uapi.
-
-Is it possible to limit access to only compositors in some sane way? 
-Sounds tricky when dma-fence should be disconnected from DRM..
-
-Regards,
-
-Tvrtko
