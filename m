@@ -1,71 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8826A1E93
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 16:31:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A543B6A1EA3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 16:35:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9BCB10EC5E;
-	Fri, 24 Feb 2023 15:31:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB3810EC62;
+	Fri, 24 Feb 2023 15:35:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BEBD10EC5E;
- Fri, 24 Feb 2023 15:31:19 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id ee7so41090540edb.2;
- Fri, 24 Feb 2023 07:31:19 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 175B110EC61
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 15:35:20 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id f13so55709368edz.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 07:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lXDQNIM/Va5EbMCqI6+twpMlGTvVzrjYt3Y8rxjXvhc=;
- b=k7gFTmYC+ABoHltWR2NEkYtc1geTbiJvcsxrpqNO9+4AnRtUAwY9FJ7otdEH2Lgmbt
- B9TLcWr7ykyWx6c2P2qaYG1WleTmDrHCFXJWeXsfMYChkIYKI0CIMq578nM2X/RHluov
- cuJx6+7U+ihZhQwy/cHucxEn7BlqiFS4v64JR5txHUgYnzPxycO2QCE4YP5JLQhcrYpE
- tOpIXWuS+cY1Vl3hSGrSVHbFcbIQ2a2tUR2sOVLSnlElhmxFT5VbNJiYM9B9jLItuXOc
- XhWBzOBbo7hdCnesbPtPkKSeVlLP+bqehV8/AURLAriQUjFIM8r0g415Y6Q5xV1euseg
- 4FSA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VzbLUEUjtY0tsDWNS62Tcb+S81iHP1D44kGH0OHXbkA=;
+ b=UUW2cNQxQ9wiI1y1uEIiov8/aAn6pQQMVXzfBkhJVbnD02igAWyzWePL5TL0KIpFXc
+ f06QP9Z9KFOrAD5Ctv6w7WEt4EpGTRp7azcZPWKRgRcy7Rq6bww9dx6TUNU5NGO2rgjk
+ yo4aNdOesMKZr3LRk9rjWzwFngPGaCK+rpUGcmZndXmJb/SCuTPWMP987JyoGPrq687s
+ ZVdvsxSaXkI4Dq/rU97CmzGR6MHk9vwsst50gUNty8yu/Rf8o86l8jy2Z4iYWyKTLm2+
+ qmsbKn9RXvDBmUJKNNwq8NfnVSmnAykvHSw/wUNDR0l1tseozRwukyc+jIcN3OqCKJFh
+ W4xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lXDQNIM/Va5EbMCqI6+twpMlGTvVzrjYt3Y8rxjXvhc=;
- b=h8HD7JWfonKx+gUegjuKWFDy2rg1LwUEHYYE96S2bpHqzi4/zHauhFY7SpTqpB2XSZ
- c6+3FRkkY5oYjrpz0wh8kDjWsJAfCbCCLjRVBrZ0Ofzmup1nwXb2jOva5YoR6q7+J7i9
- vs4tnTDXuOXdQhzJkUmkqwN4C53oFxQEeCIEBBiAZecxmZfAOgDzhW5eZF2oAm7uLqkp
- 0glxfbd1ejJQwpL6k5vYb5dY/LdB9V9NCJ0Ogh2RDdvpYSkmFUMnWHn+uqs7KfB6827v
- yYG97GrlP93Hm0efANoWvVHUo1GIS1gkGjfRf4ddxH+yUvVi0ty2vHW0Eamu7u2yEI+m
- 6PuA==
-X-Gm-Message-State: AO0yUKW8OPyE4ATw9p1tBmnHuR2gt2F+Jlb6bwC6SLHEjXbAmYXhEIrl
- MIGATMHLAdG6grzd8eBWqHY=
-X-Google-Smtp-Source: AK7set/MKaJGPdjkKPadkhDa0B/8nzJlv8JjG6pemMfD0ziDkBPvv1z5vm4FT/dauGmY0+hC4WJS0A==
-X-Received: by 2002:a17:907:97c3:b0:8af:ef00:b853 with SMTP id
- js3-20020a17090797c300b008afef00b853mr30655341ejc.73.1677252677946; 
- Fri, 24 Feb 2023 07:31:17 -0800 (PST)
-Received: from ?IPV6:2a02:908:1256:79a0:35e:38c6:dafc:5dd2?
- ([2a02:908:1256:79a0:35e:38c6:dafc:5dd2])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VzbLUEUjtY0tsDWNS62Tcb+S81iHP1D44kGH0OHXbkA=;
+ b=F0zjEXxbyTJBuvwFWgySa6ySXasEhDGsvNp6Ii8QUgqoFiiinvHwAAmTgQTloRNbAM
+ ucdcWq+6hn1TzZDWsuQzUhgwRKAet3jHILLMzaX5GRO4+SlwH4wJDh6bAzdXJiVNxEMr
+ btrANmH7YZ/bs897UGiM9zfEYfSoiVA7yZ2yXiIxbhtjhDRuVQZtAaiXY0wLHWvCCbNQ
+ dwdlIx8Kb7FGgU/icQSj1Oi8XynrEiXoFZVC2NgeGQiYBpdGKnw1kjqHFUgdZ9Nl60aY
+ ClPFCZfHUSsbXQuRFQvLZ1E6TlafTtG1T43TT5m915TAuOcd7grtvQkRq4ihsPfoPwWF
+ qLfw==
+X-Gm-Message-State: AO0yUKWic/2APcXoYhOLWExsUqqXNIl/i596PF++Wx3BGMzPHBGH+i/H
+ Q345E4LwLdvrbUnaeKvFRKBN0Q89Ffs=
+X-Google-Smtp-Source: AK7set9QwwaNgb3OunBObQ+DvB0YGMDXoLNPjUGf1qbnK8dvMDVSCNC8+t8Bu3sMBeMmTuUP+/sN9w==
+X-Received: by 2002:a17:907:1612:b0:8e4:86ed:7203 with SMTP id
+ hb18-20020a170907161200b008e486ed7203mr144549ejc.11.1677252918233; 
+ Fri, 24 Feb 2023 07:35:18 -0800 (PST)
+Received: from EPUAKYIW03DD.. ([91.123.150.38])
  by smtp.gmail.com with ESMTPSA id
- m8-20020a170906234800b008ee95ccfe06sm1915030eja.119.2023.02.24.07.31.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 07:31:17 -0800 (PST)
-Message-ID: <90b1c9f8-1674-e9ec-e6d8-2fa1967439b3@gmail.com>
-Date: Fri, 24 Feb 2023 16:31:16 +0100
+ kg19-20020a17090776f300b008be0b7242d5sm8441360ejc.90.2023.02.24.07.35.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Feb 2023 07:35:17 -0800 (PST)
+From: Oleksandr Tyshchenko <olekstysh@gmail.com>
+To: xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Subject: [PATCH] drm/virtio: Pass correct device to
+ dma_sync_sgtable_for_device()
+Date: Fri, 24 Feb 2023 17:34:50 +0200
+Message-Id: <20230224153450.526222-1-olekstysh@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: amdgpu didn't start with pci=nocrs parameter, get error "Fatal
- error during GPU init"
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-References: <CABXGCsMbqw2qzWSCDfp3cNrYVJ1oxLv8Aixfm_Dt91x1cvFX4w@mail.gmail.com>
- <a99e6def-68be-3f2b-4e01-ac26cdb80f49@gmail.com>
- <CABXGCsM7JPxtQm6B7vk+ZcXfphgQm=ArJZKiDUdbk9hujyRtmg@mail.gmail.com>
- <43016018-4d0a-94dc-ce93-b4bff2dce71c@gmail.com>
-In-Reply-To: <43016018-4d0a-94dc-ce93-b4bff2dce71c@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,108 +70,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Cc: Juergen Gross <jgross@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 24.02.23 um 13:29 schrieb Christian König:
-> Am 24.02.23 um 09:38 schrieb Mikhail Gavrilov:
->> On Fri, Feb 24, 2023 at 12:13 PM Christian König
->> <ckoenig.leichtzumerken@gmail.com> wrote:
->>> Hi Mikhail,
->>>
->>> this is pretty clearly a problem with the system and/or it's BIOS and
->>> not the GPU hw or the driver.
->>>
->>> The option pci=nocrs makes the kernel ignore additional resource 
->>> windows
->>> the BIOS reports through ACPI. This then most likely leads to problems
->>> with amdgpu because it can't bring up its PCIe resources any more.
->>>
->>> The output of "sudo lspci -vvvv -s $BUSID_OF_AMDGPU" might help
->>> understand the problem
->> I attach both lspci for pci=nocrs and without pci=nocrs.
->>
->> The differences for Cezanne Radeon Vega Series:
->> with pci=nocrs:
->> Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
->> Stepping- SERR- FastB2B- DisINTx-
->> Interrupt: pin A routed to IRQ 255
->> Region 4: I/O ports at e000 [disabled] [size=256]
->> Capabilities: [c0] MSI-X: Enable- Count=4 Masked-
->>
->> Without pci=nocrs:
->> Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
->> Stepping- SERR- FastB2B- DisINTx+
->> Interrupt: pin A routed to IRQ 44
->> Region 4: I/O ports at e000 [size=256]
->> Capabilities: [c0] MSI-X: Enable+ Count=4 Masked-
->>
->>
->> The differences for Navi 22 Radeon 6800M:
->> with pci=nocrs:
->> Control: I/O- Mem- BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr-
->> Stepping- SERR- FastB2B- DisINTx-
->> Interrupt: pin A routed to IRQ 255
->> Region 0: Memory at f800000000 (64-bit, prefetchable) [disabled] 
->> [size=16G]
->> Region 2: Memory at fc00000000 (64-bit, prefetchable) [disabled] 
->> [size=256M]
->> Region 5: Memory at fca00000 (32-bit, non-prefetchable) [disabled] 
->> [size=1M]
->
-> Well that explains it. When the PCI subsystem has to disable the BARs 
-> of the GPU we can't access it any more.
->
-> The only thing we could do is to make sure that the driver at least 
-> fails gracefully.
->
-> Do you still have network access to the box when amdgpu fails to load 
-> and could grab whatevery is in dmesg?
+From: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
 
-Sorry I totally missed that you attached the full dmesg to your original 
-mail.
+The "vdev->dev.parent" should be used instead of "vdev->dev" as a device
+for which to perform the DMA operation in both
+virtio_gpu_cmd_transfer_to_host_2d(3d).
 
-Yeah, the driver did fail gracefully. But then X doesn't come up and 
-then gdm just dies.
+Because the virtio-gpu device "vdev->dev" doesn't really have DMA OPS
+assigned to it, but parent (virtio-pci or virtio-mmio) device
+"vdev->dev.parent" has. The more, the sgtable in question the code is
+trying to sync here was mapped for the parent device (by using its DMA OPS)
+previously at:
+virtio_gpu_object_shmem_init()->drm_gem_shmem_get_pages_sgt()->
+dma_map_sgtable(), so should be synced here for the same parent device.
 
-Sorry there is really nothing we can do here, maybe ping somebody with 
-more ACPI background for help.
+Fixes: b5c9ed70d1a9 ("drm/virtio: Improve DMA API usage for shmem BOs")
+Signed-off-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+---
+This patch fixes the following issue when running on top of Xen with 
+CONFIG_XEN_VIRTIO=y (patch was only tested in Xen environment (ARM64 guest)
+w/ and w/o using Xen grants for virtio):
 
-Regards,
-Christian.
+[    0.830235] [drm] pci: virtio-gpu-pci detected at 0000:00:03.0
+[    0.832078] [drm] features: +virgl +edid -resource_blob -host_visible
+[    0.832084] [drm] features: -context_init
+[    0.837320] [drm] number of scanouts: 1
+[    0.837460] [drm] number of cap sets: 2
+[    0.904372] [drm] cap set 0: id 1, max-version 1, max-size 308
+[    0.905399] [drm] cap set 1: id 2, max-version 2, max-size 696
+[    0.907202] [drm] Initialized virtio_gpu 0.1.0 0 for 0000:00:03.0 on minor 0
+[    0.927241] virtio-pci 0000:00:03.0: [drm] drm_plane_enable_fb_damage_clips() not called
+[    0.927279] Unable to handle kernel paging request at virtual address ffffffffc0053000
+[    0.927284] Mem abort info:
+[    0.927286]   ESR = 0x0000000096000144
+[    0.927289]   EC = 0x25: DABT (current EL), IL = 32 bits
+[    0.927293]   SET = 0, FnV = 0
+[    0.927295]   EA = 0, S1PTW = 0
+[    0.927298]   FSC = 0x04: level 0 translation fault
+[    0.927301] Data abort info:
+[    0.927303]   ISV = 0, ISS = 0x00000144
+[    0.927305]   CM = 1, WnR = 1
+[    0.927308] swapper pgtable: 4k pages, 48-bit VAs, pgdp=000000004127f000
+[    0.927312] [ffffffffc0053000] pgd=0000000000000000, p4d=0000000000000000
+[    0.927323] Internal error: Oops: 0000000096000144 [#1] PREEMPT SMP
+[    0.927329] Modules linked in:
+[    0.927336] CPU: 0 PID: 1 Comm: swapper/0 Tainted: G        W          6.2.0-rc4-yocto-standard #1
+[    0.927343] Hardware name: XENVM-4.18 (DT)
+[    0.927346] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    0.927352] pc : dcache_clean_poc+0x20/0x38
+[    0.927370] lr : arch_sync_dma_for_device+0x24/0x30
+[    0.927379] sp : ffff80000972b3e0
+[    0.927381] x29: ffff80000972b3e0 x28: ffff000001aa8a00 x27: 0000000000000000
+[    0.927389] x26: 0000000000000000 x25: ffff000002815010 x24: 0000000000000000
+[    0.927396] x23: ffff8000090f9078 x22: 0000000000000001 x21: 0000000000000002
+[    0.927403] x20: ffff000002b6b580 x19: 8000000000053000 x18: ffffffffffffffff
+[    0.927410] x17: 0000000000000000 x16: 0000000000000000 x15: ffff80000963b94e
+[    0.927416] x14: 0000000000000001 x13: ffff80000963b93b x12: 64615f616d645f67
+[    0.927423] x11: ffff800009513110 x10: 000000000000000a x9 : ffff80000972b360
+[    0.927430] x8 : ffff8000095130c8 x7 : ffff80000972b150 x6 : 000000000000000c
+[    0.927436] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 000000000000003f
+[    0.927443] x2 : 0000000000000040 x1 : ffffffffc0067000 x0 : ffffffffc0053000
+[    0.927450] Call trace:
+[    0.927452]  dcache_clean_poc+0x20/0x38
+[    0.927459]  dma_direct_sync_sg_for_device+0x124/0x130
+[    0.927466]  dma_sync_sg_for_device+0x64/0xd0
+[    0.927475]  virtio_gpu_cmd_transfer_to_host_2d+0x10c/0x110
+[    0.927483]  virtio_gpu_primary_plane_update+0x340/0x3d0
+[    0.927490]  drm_atomic_helper_commit_planes+0xe8/0x20c
+[    0.927497]  drm_atomic_helper_commit_tail+0x54/0xa0
+[    0.927503]  commit_tail+0x160/0x190
+[    0.927507]  drm_atomic_helper_commit+0x16c/0x180
+[    0.927513]  drm_atomic_commit+0xa8/0xe0
+[    0.927521]  drm_client_modeset_commit_atomic+0x200/0x260
+[    0.927529]  drm_client_modeset_commit_locked+0x5c/0x1a0
+[    0.927536]  drm_client_modeset_commit+0x30/0x60
+[    0.927540]  drm_fb_helper_set_par+0xc8/0x120
+[    0.927548]  fbcon_init+0x3b8/0x510
+[    0.927557]  visual_init+0xb4/0x104
+[    0.927565]  do_bind_con_driver.isra.0+0x1c4/0x394
+[    0.927572]  do_take_over_console+0x144/0x1fc
+[    0.927577]  do_fbcon_takeover+0x6c/0xe4
+[    0.927583]  fbcon_fb_registered+0x1e4/0x1f0
+[    0.927588]  register_framebuffer+0x214/0x310
+[    0.927592]  __drm_fb_helper_initial_config_and_unlock+0x33c/0x540
+[    0.927599]  drm_fb_helper_initial_config+0x4c/0x60
+[    0.927604]  drm_fbdev_client_hotplug+0xc4/0x150
+[    0.927609]  drm_fbdev_generic_setup+0x90/0x154
+[    0.927614]  virtio_gpu_probe+0xc8/0x16c
+[    0.927621]  virtio_dev_probe+0x19c/0x240
+[    0.927629]  really_probe+0xbc/0x2dc
+[    0.927637]  __driver_probe_device+0x78/0xe0
+[    0.927641]  driver_probe_device+0xd8/0x160
+[    0.927645]  __driver_attach+0x94/0x19c
+[    0.927649]  bus_for_each_dev+0x70/0xd0
+[    0.927656]  driver_attach+0x24/0x30
+[    0.927660]  bus_add_driver+0x154/0x20c
+[    0.927664]  driver_register+0x78/0x130
+[    0.927670]  register_virtio_driver+0x24/0x3c
+[    0.927675]  virtio_gpu_driver_init+0x18/0x24
+[    0.927684]  do_one_initcall+0x50/0x1d0
+[    0.927691]  kernel_init_freeable+0x210/0x27c
+[    0.927699]  kernel_init+0x24/0x12c
+[    0.927707]  ret_from_fork+0x10/0x20
+[    0.927716] Code: d2800082 9ac32042 d1000443 8a230000 (d50b7a20)
+[    0.927721] ---[ end trace 0000000000000000 ]---
+[    0.927728] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+[    0.927732] SMP: stopping secondary CPUs
+[    0.927791] Kernel Offset: disabled
+[    0.927794] CPU features: 0x80000,41058100,0000421b
+[    0.927799] Memory Limit: none
+[    1.015063] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
+---
+---
+ drivers/gpu/drm/virtio/virtgpu_vq.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
-> Thanks,
-> Christian.
->
->> AtomicOpsCtl: ReqEn-
->> Capabilities: [a0] MSI: Enable- Count=1/1 Maskable- 64bit+
->> Address: 0000000000000000  Data: 0000
->>
->> Without pci=nocrs:
->> Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
->> Stepping- SERR- FastB2B- DisINTx+
->> Latency: 0, Cache Line Size: 64 bytes
->> Interrupt: pin A routed to IRQ 103
->> Region 0: Memory at f800000000 (64-bit, prefetchable) [size=16G]
->> Region 2: Memory at fc00000000 (64-bit, prefetchable) [size=256M]
->> Region 5: Memory at fca00000 (32-bit, non-prefetchable) [size=1M]
->> AtomicOpsCtl: ReqEn+
->> Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
->> Address: 00000000fee00000  Data: 0000
->>
->>> but I strongly suggest to try a BIOS update first.
->> This is the first thing that was done. And I am afraid no more BIOS 
->> updates.
->> https://rog.asus.com/laptops/rog-strix/2021-rog-strix-g15-advantage-edition-series/helpdesk_bios/ 
->>
->>
->> I also have experience in dealing with manufacturers' tech support.
->> Usually it ends with "we do not provide drivers for Linux".
->>
->
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index a04a9b20896d..1778a2081fd6 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -604,7 +604,7 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
+ 
+ 	if (virtio_gpu_is_shmem(bo) && use_dma_api)
+-		dma_sync_sgtable_for_device(&vgdev->vdev->dev,
++		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
+ 					    bo->base.sgt, DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+@@ -1026,7 +1026,7 @@ void virtio_gpu_cmd_transfer_to_host_3d(struct virtio_gpu_device *vgdev,
+ 	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
+ 
+ 	if (virtio_gpu_is_shmem(bo) && use_dma_api)
+-		dma_sync_sgtable_for_device(&vgdev->vdev->dev,
++		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
+ 					    bo->base.sgt, DMA_TO_DEVICE);
+ 
+ 	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+-- 
+2.34.1
 
