@@ -2,76 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B0D6A1FEE
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 17:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7559C6A201D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 17:56:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65F6089C83;
-	Fri, 24 Feb 2023 16:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9A5510E1E7;
+	Fri, 24 Feb 2023 16:56:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3607989C83
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 16:45:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677257125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=13svcAbhKsbNR6lcnWL8PecfM86J5HXpB/wTf6k/HJg=;
- b=f+DR6jFhaf67jhNig1RYv+Bq/sbFKD/Chy8vdUgbfD0y3DB+uoKs5KlqbFpwp6gjsc/g2T
- Jqe6mW6IOtzyj69UGag6+RJvEFNGMMhqgaIVbFw8qrOBDN8Qd4sA/l0ckwL4HG83DuxTG3
- JaObMBOrDiPeg7xGpXnAXRo3j5DrBms=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-574-UICiMAR1McCRS9N1MoxxdA-1; Fri, 24 Feb 2023 11:45:23 -0500
-X-MC-Unique: UICiMAR1McCRS9N1MoxxdA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- k17-20020ac84751000000b003b9b4ec27c4so7017218qtp.19
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 08:45:23 -0800 (PST)
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ADAF10E1E7;
+ Fri, 24 Feb 2023 16:56:13 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id nf5so13927837qvb.5;
+ Fri, 24 Feb 2023 08:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=NUkUWtrXiLo4qYaXDaVs8ZvydqkJfRfk6fAOlcKEJsw=;
+ b=ezFJGM1hHFN9qCKm9hFFfXns4wrecwjN4nbd6e7Iy7qqaKJk/Chdi+Rtb8j4H8jqND
+ UNqUIuVVm2WoA8nbT55V3d6HcBsuqp9HWgRKsROcmKQF2mGlS5uep2a9df1gE9wwsz5a
+ rJjHWzLD2x6Qx+4a+ABGhlIio5cwrVypG2m5FqtVRpbzI4nCWWq2BF/RpUgW3TGJRhHg
+ qYESw/2Y97h8gxix8daD29qq0yCBrkBmlJSIU68P7M4XFe/Lcb7+SfFjSGZnWZX9t8lk
+ Ai31sEFyGkZySC8pwwv5fi5evtjWgJwuzE2PA62biYYNUZYPFoZBbJCZDJi5VSjDPWa4
+ V13Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=13svcAbhKsbNR6lcnWL8PecfM86J5HXpB/wTf6k/HJg=;
- b=ZDywxrIkrNSY4rSFR1B9osJg6IMIgn+JMGfTMDZlBte1/X6uVLw1rVCsIA2cnXIHAV
- xSaeu49G5sP7jLaNfYp2D2UE8Ve/fXAoiY0KG0wzqVQS4ZLPHiNK/EnhCZwCt28njE17
- Q0KsoTiVINpY5KcTOGeS/I0Rnl/oNAGXuF59/YzfH/zkrNXjXj2bI/5YQKBvaacvOeKD
- eQDoBiHSxZrz9fv8HOKpNC/9jWJAhrcJpbU6IdkhM8OidKTQzFnQ05odmSQCLfTh/UFl
- 6/nQC/ptKI8MlKdpE41M29OjN7w8mP/IiNKvVzjpULaMq0XT6ucNXuQt++RXIr2t2tdV
- +W4w==
-X-Gm-Message-State: AO0yUKXnF3QxdXbQsypItxVYhK8xiFY89dsdd20GXOzYR6CB0eGuRakO
- MjgI/7GQK+8rdUqhq82kW8UykIMYuBUAEGNgo5mqR8CiHi/w53juQV+q2MqZEVPRpfiJr6qzWtU
- D2DSDkl+crym9QR/IVLHaMtAhraiz
-X-Received: by 2002:ac8:5744:0:b0:3bd:dfe:9c1d with SMTP id
- 4-20020ac85744000000b003bd0dfe9c1dmr24611377qtx.59.1677257123552; 
- Fri, 24 Feb 2023 08:45:23 -0800 (PST)
-X-Google-Smtp-Source: AK7set9ab3tb8sJ9dHB9BnRpA5KhvlL1jf3eeYsfFKZ/ZRG9txC27LuVJrseS7PPvfb60RIOXh+Tbw==
-X-Received: by 2002:ac8:5744:0:b0:3bd:dfe:9c1d with SMTP id
- 4-20020ac85744000000b003bd0dfe9c1dmr24611334qtx.59.1677257123231; 
- Fri, 24 Feb 2023 08:45:23 -0800 (PST)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- oq21-20020a05620a611500b0074235fc7a69sm5506113qkn.68.2023.02.24.08.45.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 08:45:22 -0800 (PST)
-From: Tom Rix <trix@redhat.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, ruijing.dong@amd.com,
- Jane.Jian@amd.com, James.Zhu@amd.com, tao.zhou1@amd.com,
- sonny.jiang@amd.com, leo.liu@amd.com
-Subject: [PATCH] drm/amdgpu: remove unused variable ring
-Date: Fri, 24 Feb 2023 11:45:19 -0500
-Message-Id: <20230224164519.2757173-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NUkUWtrXiLo4qYaXDaVs8ZvydqkJfRfk6fAOlcKEJsw=;
+ b=Exdkhbf70/3Q5GXKy0uAyKRJVLWnIrkgwUrCwIOD5iKTdfIjGQQGTdNjju7HWAz2ND
+ S3IKAEBgaVm3WJ0npjTsE6atqHGMX3HKM79ubrcFDDhHdeIeaunENQ3zT/ooXX7x82re
+ K3gBi4YvpiTEG01kuDpqBPXB+TEjT6CrWmCIPh0kMpmduS3AMmWGZFVM5kR8CYx4p3F5
+ 2Vf1M+T8k48fnBWjBSYgcg6HGC32+S93TYzkb1qi12CEMZJqWpKvtubhlldt8KQv/ecp
+ zaA3C9kK8uMscULh2s2jTNPIH7unOnvhFHMsm0FQIhwdWricOrPoOXTFWo8r764AOhUk
+ GHSg==
+X-Gm-Message-State: AO0yUKUauAatYnFkJ/ttWFf+ozeywgsQsOtFxUR+K4/msaU+keieNyy1
+ GjWtznttVxVVBuka9DJ2QEPzhySNa4YI3ZH++oPNLRDN6U4=
+X-Google-Smtp-Source: AK7set94EEqnta+h3dkGqwT3ndEx2n69ozij2dvRR5g/Cc7FrxNSN4SGrdqPR20UJ+49L/Q1ig8TeG2PvrfjbKhEoRw=
+X-Received: by 2002:a05:6214:5e13:b0:56e:a4c0:cf64 with SMTP id
+ li19-20020a0562145e1300b0056ea4c0cf64mr102406qvb.3.1677257772126; Fri, 24 Feb
+ 2023 08:56:12 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Chris Healy <cphealy@gmail.com>
+Date: Fri, 24 Feb 2023 08:56:01 -0800
+Message-ID: <CAFXsbZqnstOLFBrVVa7aFLSGCPNj4VkjExqq1XUoRdUUuBKdog@mail.gmail.com>
+Subject: Re: [PATCH 1/5] drm/msm/adreno: Use OPP for every GPU generation
+To: dmitry.baryshkov@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,41 +61,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: sean@poorly.run, Marek Vasut <marex@denx.de>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>, quic_abhinavk@quicinc.com,
+ konrad.dybcio@linaro.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-building with gcc and W=1 reports
-drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c:81:29: error: variable
-  ‘ring’ set but not used [-Werror=unused-but-set-variable]
-   81 |         struct amdgpu_ring *ring;
-      |                             ^~~~
-
-ring is not used so remove it.
-
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-index 213b43670f23..023a1fffa6a9 100644
---- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
-@@ -78,12 +78,10 @@ static void vcn_v4_0_set_ras_funcs(struct amdgpu_device *adev);
- static int vcn_v4_0_early_init(void *handle)
- {
- 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
--	struct amdgpu_ring *ring;
- 
- 	if (amdgpu_sriov_vf(adev)) {
- 		adev->vcn.harvest_config = VCN_HARVEST_MMSCH;
- 		for (int i = 0; i < adev->vcn.num_vcn_inst; ++i) {
--			ring = &adev->vcn.inst[i].ring_enc[0];
- 			if (amdgpu_vcn_is_disabled_vcn(adev, VCN_ENCODE_RING, i)) {
- 				adev->vcn.harvest_config |= 1 << i;
- 				dev_info(adev->dev, "VCN%d is disabled by hypervisor\n", i);
--- 
-2.27.0
-
+I may be missing something, but looking at the code path for a2xx,
+it's not clear to me how this would work with SoCs with a2xx that
+don't support 200MHz for GPU frequency.  For example, the NXP i.MX51
+requires the A205 GPU to run at 166MHz while the NXP i.MX53 requires
+the A205 GPU to run at 200MHz.
