@@ -2,70 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF2E6A19C5
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 11:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256F56A1A21
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 11:24:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10EFF10E84F;
-	Fri, 24 Feb 2023 10:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25AC210E880;
+	Fri, 24 Feb 2023 10:24:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C114210E84F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 10:16:00 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- t25-20020a1c7719000000b003eb052cc5ccso1326580wmi.4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 02:16:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=EK/pgDUArBGDlWlhMCFaCK72bY1hOVuO3X2s45L1HUw=;
- b=XS8QLB4b2RJCaLW8agzMJqOk0+FJG90O6WobXXNccvnc5zyr7zB25DOu5qZRchPc0M
- ZZbmYY/+2XdvjHgZXPnF7Arl0/IOqd7U150pjvCJcyDBueSWS/FWN4YZrFdQvFGqjSxT
- s4+DWXzmXf9/muGQ9ZjWcD9UsxzXvAILT1/8ObNutwF9QRRVzBYVMJBOFqSvPD8qQ6aN
- n2jrTiAlK2/pO1aUqYLDjnwtECVm8nfcsl3Rnc9rbOBYoIqCWgj7RRBtu3ENHGNYO3GA
- la/L/wWYi/kimn0tiNeSAB5PlAnZwLde+xEfP6mkWLQxnfEm5Cy3MHpUPb8+B4Wttdp/
- vxyg==
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EDCF10E880;
+ Fri, 24 Feb 2023 10:24:09 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id h9so13571565ljq.2;
+ Fri, 24 Feb 2023 02:24:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wDkYu+Ebh7Mfld/mHVRq/UWL9vsWMTRce+Iu+ExRXcQ=;
+ b=evq5P0zcDn8kbjSm2ItbVTOdU2UtNz3mnkM99UeQkXXtxqRQmt+OQ0NrXAU90yj7Kx
+ GHlMEYLVJpR6RELzRwhSlzRgBwfta+m4jSqNhxwYtl4nYOyk9qzlSgdb2AelLpFsatPR
+ SijU3e+3No3PgbPPU/YkqA4zByGnnA+WG/3VSylZuG4yubcjVlENCquRWHS+fQs+hDoM
+ 6xM0C+sSSTdw6QoI0cFhAu8Fc8E1OeJbe9w9lAmIcdjLDKuMpTTR5fBa+USyW+DM7ksy
+ PlSMM39ZHyioQYwgnBLccw7JKX5n0E9xoG3ZSYObw2RahUmYti3GZ+4Zdbn9EXbiVcIT
+ IPbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EK/pgDUArBGDlWlhMCFaCK72bY1hOVuO3X2s45L1HUw=;
- b=KElzRsKpock4PXJMsys1gq8J7nvbcNG/LM5+Wxs7JWkpeOA6YkcTT7vdESX4Wt/H+X
- aDidKc1DBmj4wMEC7xVXQ4LRbRqlxB6btg9UBNWUfyIzWBXZS5fGoKKi5D9GN5Yz91nf
- 8fM9SOjNb82QJfjmtKoh3YzUbafU63QsQhFNOwPAqe2aqHgMQc58qN/AvAvWWJJEqCSb
- MIP0YszSyVwKb8uoFJuuXaudiYeL9P4G/y2wpHzNoecp5uqrTvshfw3iCyGX2K9lvFIT
- 5FP6Z5RZKFYgNwFsquK26Vj0tg9qIntR9bbVIl/GUVuQpfAuFBnhUnrbsXCU53DLXS4k
- KjKw==
-X-Gm-Message-State: AO0yUKXMO1epetq/mr09XOvHSp5Os1kBuLzjVkp65FEfThd7xo5kcgOG
- LfD/QIpZ+j7Lh/1bRqpA5W6ekA==
-X-Google-Smtp-Source: AK7set//sOeJ6yfMcZNqW9A5CgabKnheWeFJx+hUkJlWbpQd1DFPL8N1VUfsNnQ6RDhMmSaYyDmGuA==
-X-Received: by 2002:a05:600c:13d4:b0:3eb:29fe:70df with SMTP id
- e20-20020a05600c13d400b003eb29fe70dfmr347817wmg.35.1677233759199; 
- Fri, 24 Feb 2023 02:15:59 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- c16-20020a05600c0ad000b003e214803343sm2220728wmr.46.2023.02.24.02.15.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 02:15:58 -0800 (PST)
-Message-ID: <f754b5a3-3268-9e97-858c-8aa9e5b8c55c@linaro.org>
-Date: Fri, 24 Feb 2023 11:15:56 +0100
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wDkYu+Ebh7Mfld/mHVRq/UWL9vsWMTRce+Iu+ExRXcQ=;
+ b=F8o0kKmztbWdFFRuJBrQbQnXId9jWVESJyev6JGECv3S9BxlA7tKFFToTvdgJ0diKI
+ q3KrCN+6YxIlJj1MMFCETnG6zjMb2p0qdJ7qCZBO+dpezdRGpq9TacG5NZ40Ok5xw5Rb
+ 96MPjv1+XJNlEjv0WA0GFhnC64SGg2/wf0k7EXBpwxEYFfK/GX38vMcP084HOXON7VzY
+ HgbkCKRFg608LqLoJ8FvlD0jAlyUF3ii8UBSlfgjIYMfBaDna9glqqU0D1ccJ/tIjel0
+ owPRIaeBp61wbVRi7prQpHWSj7rNVATi7nybpHTIQTJyKy8OepN9ErWldZ44uVP1cD5H
+ cY0Q==
+X-Gm-Message-State: AO0yUKUH0Gr4NhhnQ3jttmUWfIZ1g+6GJz79QMbSlErmlrNpPXH86ODT
+ 0jUxwJJHQBMtQklpYD6Wj2U=
+X-Google-Smtp-Source: AK7set+FtLn9Ue95zN2gWLFtDbqtjyIcYeEYUTUMXf4JDBznsvWiI7nTaSB0nhADsvF1lrrBmrClxQ==
+X-Received: by 2002:a2e:a263:0:b0:28d:cca5:2193 with SMTP id
+ k3-20020a2ea263000000b0028dcca52193mr5573592ljm.53.1677234247154; 
+ Fri, 24 Feb 2023 02:24:07 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ s18-20020a2e9c12000000b002945b04e1ebsm1312619lji.94.2023.02.24.02.24.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Feb 2023 02:24:06 -0800 (PST)
+Date: Fri, 24 Feb 2023 12:24:03 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+Message-ID: <20230224122403.6a088da1@eldfell>
+In-Reply-To: <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-7-robdclark@gmail.com>
+ <20230220105345.70e46fa5@eldfell>
+ <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+ <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
+ <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
+ <20230222114900.1b6baf95@eldfell>
+ <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
+ <20230223113814.3010cedc@eldfell>
+ <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
+ <20230224112630.313d7b76@eldfell>
+ <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 01/11] dt-bindings: gpu: mali-bifrost: Add
- power-domain-names to base schema
-Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- airlied@gmail.com
-References: <20230223133440.80941-1-angelogioacchino.delregno@collabora.com>
- <20230223133440.80941-2-angelogioacchino.delregno@collabora.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230223133440.80941-2-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/Wv+B5cSZoeZxnThf_RuXZKn";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,45 +80,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- krzysztof.kozlowski+dt@linaro.org, wenst@chromium.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING
+ FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, "open list:SYNC FILE
+ FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/02/2023 14:34, AngeloGioacchino Del Regno wrote:
-> From: Chen-Yu Tsai <wenst@chromium.org>
-> 
-> In commit a7a596cd3115 ("dt-bindings: gpu: mali-bifrost: Add Mediatek
-> MT8183"), "power-domain-names" was added to the mt8183-mali sub-schema,
-> but was not added to the base mali-bifrost schema. Because validation
-> happens for the base schema and any sub-schemas separately, this causes
-> errors to be emitted when validating the MT8183 device trees.
-> 
-> Add power-domain-names to the base schema to silence the error.
-> 
-> Fixes: a7a596cd3115 ("dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 78964c140b46..02699d389be1 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -65,6 +65,8 @@ properties:
->      minItems: 1
->      maxItems: 3
->  
-> +  power-domain-names: true
+--Sig_/Wv+B5cSZoeZxnThf_RuXZKn
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Symmetric to power-domains, so min/maxItems.
+On Fri, 24 Feb 2023 09:41:46 +0000
+Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+
+> On 24/02/2023 09:26, Pekka Paalanen wrote:
+> > On Thu, 23 Feb 2023 10:51:48 -0800
+> > Rob Clark <robdclark@gmail.com> wrote:
+> >  =20
+> >> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> w=
+rote: =20
+> >>>
+> >>> On Wed, 22 Feb 2023 07:37:26 -0800
+> >>> Rob Clark <robdclark@gmail.com> wrote:
+> >>>    =20
+> >>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com>=
+ wrote: =20
+> >=20
+> > ...
+> >  =20
+> >>>>> On another matter, if the application uses SET_DEADLINE with one
+> >>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing w=
+ith
+> >>>>> another timestamp, what should happen? =20
+> >>>>
+> >>>> The expectation is that many deadline hints can be set on a fence.
+> >>>> The fence signaller should track the soonest deadline. =20
+> >>>
+> >>> You need to document that as UAPI, since it is observable to userspac=
+e.
+> >>> It would be bad if drivers or subsystems would differ in behaviour.
+> >>>    =20
+> >>
+> >> It is in the end a hint.  It is about giving the driver more
+> >> information so that it can make better choices.  But the driver is
+> >> even free to ignore it.  So maybe "expectation" is too strong of a
+> >> word.  Rather, any other behavior doesn't really make sense.  But it
+> >> could end up being dictated by how the hw and/or fw works. =20
+> >=20
+> > It will stop being a hint once it has been implemented and used in the
+> > wild long enough. The kernel userspace regression rules make sure of
+> > that. =20
+>=20
+> Yeah, tricky and maybe a gray area in this case. I think we eluded=20
+> elsewhere in the thread that renaming the thing might be an option.
+>=20
+> So maybe instead of deadline, which is a very strong word, use something=
+=20
+> along the lines of "present time hint", or "signalled time hint"? Maybe=20
+> reads clumsy. Just throwing some ideas for a start.
+
+You can try, but I fear that if it ever changes behaviour and
+someone notices that, it's labelled as a kernel regression. I don't
+think documentation has ever been the authoritative definition of UABI
+in Linux, it just guides drivers and userspace towards a common
+understanding and common usage patterns.
+
+So even if the UABI contract is not documented (ugh), you need to be
+prepared to set the UABI contract through kernel implementation.
+
+If you do not document the UABI contract, then different drivers are
+likely to implement it differently, leading to differing behaviour.
+Also userspace will invent wild ways to abuse the UABI if there is no
+documentation guiding it on proper use. If userspace or end users
+observe different behaviour, that's bad even if it's not a regression.
+
+I don't like the situation either, but it is what it is. UABI stability
+trumps everything regardless of whether it was documented or not.
+
+I bet userspace is going to use this as a "make it faster, make it
+hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
+library that stamps any and all fences with an expired deadline to
+just squeeze out a little more through some weird side-effect.
+
+Well, that's hopefully overboard in scaring, but in the end, I would
+like to see UABI documented so I can have a feeling of what it is for
+and how it was intended to be used. That's all.
 
 
-Best regards,
-Krzysztof
+Thanks,
+pq
 
+--Sig_/Wv+B5cSZoeZxnThf_RuXZKn
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP4kEMACgkQI1/ltBGq
+qqeCRxAAqanpfK5IEJqK3dr5TjSHmce5djy70aOvi5VrtvhiCjlrTYeNzWGWLe6V
+zWvnrJHvvzM9h2YacC0aciEN5vJj5Xd6yVqWsigomejxIHFLkECtf8y4rAf7wtZ5
+Vhg8NfSDlZkvA3hhFJ3fyQeS5pFAgTcUh0Xdpp5QPRwUmn5xf9CpCnXe48VUcBkN
+hPp9m08eAhl3WkGVOhUexQ87MhEhwRKIyP8/bE5oKPLJJ3DuiaqSZnRPp9Wr6dt/
+cMdI4tUfiyis7VPfoHX20LHgyoa74pg+5RWwcym5rYQ8SgC7jlzK7qQymHP6Y0O9
+X3K/WrLozhfwbE8oWzX3DmSvnvGV08xdQDkcJn3ji2yr+clkE45NgUsGuIxcUx+v
+2qbRV0CFh9m8Kgcj7pRgEghEsmn68dQKbe4iqvEKu3NoSiYf4JOEH9dvy4LQgKrO
+Lwc3V4N0byVDCEzLQIZrDI/o7uBGPGDptrS0uxS2PGPAXyuNYUM10IV00yRa4UWv
+eR/rild4lOkBE7PWWSoR9L2vvz8bFoMRkmTh2EAO/vEAL4iHY/fPpA30yVGYWTnA
+PND65L7M/nZK9zsaihacyeI/qcWwvU4HCIbuvKBHaCA3ALw7XEEW+D/E9T7PQc5D
+iwAmZ+Aelf0zTiBwWs42itu6XMQiUXY+XPubhNNtZIymjFVC/FE=
+=rINc
+-----END PGP SIGNATURE-----
+
+--Sig_/Wv+B5cSZoeZxnThf_RuXZKn--
