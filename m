@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A246A22DB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 21:02:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBEC6A22E0
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 21:02:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA1910ED1F;
-	Fri, 24 Feb 2023 20:02:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 738DD10ED3A;
+	Fri, 24 Feb 2023 20:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E45E10ED18;
- Fri, 24 Feb 2023 20:02:25 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- qa18-20020a17090b4fd200b0023750b675f5so3961833pjb.3; 
- Fri, 24 Feb 2023 12:02:25 -0800 (PST)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99FA710ED1A;
+ Fri, 24 Feb 2023 20:02:28 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id ko13so595094plb.13;
+ Fri, 24 Feb 2023 12:02:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0EqwRq/t+KHhVrbIAD1sooBDZlG3nzxQWus7/my7j0s=;
- b=I1dgb0dj7Ry8pPV5H+8x0JzSkv1l7+hzkHhVpi3PsbXQFnB42V9vKdq2xVDbpR5PLd
- hRgi83cakLyMem1WDy0aI7vC+aluruGZsonY+66gM5xCB+nsCr9FQsmLiIt1TowgqrTO
- URg/RG820QIjcNRZHPH5iKv8n+NG12XkAuUbl7c8A9IJBGuGt0n1UjEI7XsSx4gGcffg
- VrqqOvlkj7Rqwb9btPgO1+29UhiaP4sJqD6AfwpPlx8WaMTjns9V8Ohh7ckuWNvcsJN6
- rAsaDspm4YDmXPLUrNFi0pOolOQ7XRYHTaKa5i/fqTcjwHIP00Hdmij3b4u05gDgOjRG
- E7Aw==
+ bh=2hrRR+74wlbtFKJjI1vePCtLY+UXSH6ONksg5TtlCrQ=;
+ b=ZZ7igSSQQDU0uw7AobYmC6Qr4Zo65YgCii7Uk3r1xDlOgBzia1x/39tRKjs/vQao3J
+ b2eJUkqTg2oJ1Snx+IzgUJyoV+oyKFjx/gJiiMJPMl0sc57fHQ+ZxdX+ERugwsR4E8gJ
+ vn8nStB1fy9QCRs8lg02VjxI83xvTHnHODzV26n0/lqzXPteLvq0IdNzXIC6afmAS06h
+ diaGxhAi8VnERtA5/SirCFc9Pqpk87lrQAZz/CQ/2N4U7mRb68lDYcKsCnuMCQpWS42l
+ jCFQFjwMgxPuOCZyOlwdfH2b3m6wYhuM/5T4acp7Vs+4hai5hyQI311Ht7A4Azq3sNMp
+ wm4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0EqwRq/t+KHhVrbIAD1sooBDZlG3nzxQWus7/my7j0s=;
- b=nf/tfXeP2rYTLMYMkx+MZRzc5kH4pkcaiIK/zQnOvlW3bHbmvjdQDVU2MHU03Lojhq
- 3uH85+AQw0G2wXhPoMQQDJf0XjM42v8ZiEVK0dzrPDd+OEixplvasPyrcnrU6P1CrBdw
- 0YiaydvlywGiJX7vU5mCcroPMQtSYGotSXGdy8OLXm/EEu72UlapqcSjElb0j9dL4kbm
- 9w9rLnfKTFJ5lFXvKDQvslFvfmhe8b+7Sm28tniap30Na6u/KvLoyKqfO/LW9HSldP8D
- TV04rkqw3Z5l4ZVjCjmWrEC5NM+u3s5hqS6t8LcIPoMLAXwaAsPGfNA3l5mkeQPhP7fR
- BSSA==
-X-Gm-Message-State: AO0yUKU0REUw0ntGeEqo6gCCITJPG1TXc25fimlQxaCAsxIRndM5PAQc
- Leq+FWkIbQAjl1AZu4dLRd3bl8+Z8R4=
-X-Google-Smtp-Source: AK7set+9kh3rZJdUeXwQTJFcy1but/mDwe+TzZL3CWHxMVLR9vaJ60FohE1K0k1XrEQSPrrppgCSKg==
-X-Received: by 2002:a17:90a:19ce:b0:22c:6d7c:c521 with SMTP id
- 14-20020a17090a19ce00b0022c6d7cc521mr19218117pjj.45.1677268944714; 
- Fri, 24 Feb 2023 12:02:24 -0800 (PST)
+ bh=2hrRR+74wlbtFKJjI1vePCtLY+UXSH6ONksg5TtlCrQ=;
+ b=d/vZ/G9EpIqoXlRCGOuwMCxcctdtRRYbGBprFGcP/oB9xj1MfFU8DSXXfHzLZB0BjP
+ c/8cxAaFXoWA93W6+sCZRzTgFwcDlcYOKtFTufjzoNa6Cg48y7445dmvpl5JLI7H2TIm
+ caYbRWzp3BLInKH5n/OR3tPC+/lN2jrvI8zIKRUeQ5985OzsHP2TAnD1bLzUMLyJmlT7
+ iSbv5NlpKHSIqs8jqXstvWoUt2bF+c4fzM4CQOtj+CihVHiF9AOTbyPB3i3shSKXXq49
+ VoLa6scYNArekPxcsEu5kMC/HIBLQ3LgtjQGq/ARRyoiFXbgr2nihBsyUidwqEk9Tays
+ xFfQ==
+X-Gm-Message-State: AO0yUKXwDTBnAzbMiwsFsSBxoPhdgC8zCVW409QjpEZUKXzw47iRJFQS
+ r1YrHQy9zvbX97iMAR71h1mYq7gl1uU=
+X-Google-Smtp-Source: AK7set/gsBMM5rOoncDiD+qPtbeJXzn8SJFKziYIKVcWGjXtI5uWV2ZZs11iGJWQ9/vcGA6DeHxYvA==
+X-Received: by 2002:a05:6a20:690b:b0:cb:cd69:48d2 with SMTP id
+ q11-20020a056a20690b00b000cbcd6948d2mr12131136pzj.30.1677268947993; 
+ Fri, 24 Feb 2023 12:02:27 -0800 (PST)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- nh12-20020a17090b364c00b002369d3b282csm42992pjb.40.2023.02.24.12.02.23
+ c9-20020aa78e09000000b005a8c90fa306sm6224999pfr.83.2023.02.24.12.02.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 12:02:24 -0800 (PST)
+ Fri, 24 Feb 2023 12:02:27 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 13/15] drm/msm: Add wait-boost support
-Date: Fri, 24 Feb 2023 12:01:41 -0800
-Message-Id: <20230224200155.2510320-14-robdclark@gmail.com>
+Subject: [PATCH v6 14/15] drm/msm/atomic: Switch to vblank_start helper
+Date: Fri, 24 Feb 2023 12:01:42 -0800
+Message-Id: <20230224200155.2510320-15-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230224200155.2510320-1-robdclark@gmail.com>
 References: <20230224200155.2510320-1-robdclark@gmail.com>
@@ -72,139 +71,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+Cc: open list <linux-kernel@vger.kernel.org>,
+ Liu Shixin <liushixin2@huawei.com>, Rob Clark <robdclark@chromium.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Douglas Anderson <dianders@chromium.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Add a way for various userspace waits to signal urgency.
+Drop our custom thing and switch to drm_crtc_next_vblank_start() for
+calculating the time of the start of the next vblank period.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 12 ++++++++----
- drivers/gpu/drm/msm/msm_gem.c |  5 +++++
- include/uapi/drm/msm_drm.h    | 14 ++++++++++++--
- 3 files changed, 25 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 15 ---------------
+ drivers/gpu/drm/msm/msm_atomic.c        |  8 +++++---
+ drivers/gpu/drm/msm/msm_kms.h           |  8 --------
+ 3 files changed, 5 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index aca48c868c14..f6764a86b2da 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -46,6 +46,7 @@
-  * - 1.8.0 - Add MSM_BO_CACHED_COHERENT for supported GPUs (a6xx)
-  * - 1.9.0 - Add MSM_SUBMIT_FENCE_SN_IN
-  * - 1.10.0 - Add MSM_SUBMIT_BO_NO_IMPLICIT
-+ * - 1.11.0 - Add wait boost (MSM_WAIT_FENCE_BOOST, MSM_PREP_BOOST)
-  */
- #define MSM_VERSION_MAJOR	1
- #define MSM_VERSION_MINOR	10
-@@ -899,7 +900,7 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index a683bd9b5a04..43996aecaf8c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -411,20 +411,6 @@ static void dpu_kms_disable_commit(struct msm_kms *kms)
+ 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
  }
  
- static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
--		      ktime_t timeout)
-+		      ktime_t timeout, uint32_t flags)
+-static ktime_t dpu_kms_vsync_time(struct msm_kms *kms, struct drm_crtc *crtc)
+-{
+-	struct drm_encoder *encoder;
+-
+-	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask) {
+-		ktime_t vsync_time;
+-
+-		if (dpu_encoder_vsync_time(encoder, &vsync_time) == 0)
+-			return vsync_time;
+-	}
+-
+-	return ktime_get();
+-}
+-
+ static void dpu_kms_prepare_commit(struct msm_kms *kms,
+ 		struct drm_atomic_state *state)
  {
- 	struct dma_fence *fence;
- 	int ret;
-@@ -929,6 +930,9 @@ static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
- 	if (!fence)
- 		return 0;
+@@ -953,7 +939,6 @@ static const struct msm_kms_funcs kms_funcs = {
+ 	.irq             = dpu_core_irq,
+ 	.enable_commit   = dpu_kms_enable_commit,
+ 	.disable_commit  = dpu_kms_disable_commit,
+-	.vsync_time      = dpu_kms_vsync_time,
+ 	.prepare_commit  = dpu_kms_prepare_commit,
+ 	.flush_commit    = dpu_kms_flush_commit,
+ 	.wait_flush      = dpu_kms_wait_flush,
+diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+index 1686fbb611fd..de7ce17489cc 100644
+--- a/drivers/gpu/drm/msm/msm_atomic.c
++++ b/drivers/gpu/drm/msm/msm_atomic.c
+@@ -186,8 +186,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	struct msm_kms *kms = priv->kms;
+ 	struct drm_crtc *async_crtc = NULL;
+ 	unsigned crtc_mask = get_crtc_mask(state);
+-	bool async = kms->funcs->vsync_time &&
+-			can_do_async(state, &async_crtc);
++	bool async = can_do_async(state, &async_crtc);
  
-+	if (flags & MSM_WAIT_FENCE_BOOST)
-+		dma_fence_set_deadline(fence, ktime_get());
+ 	trace_msm_atomic_commit_tail_start(async, crtc_mask);
+ 
+@@ -231,7 +230,9 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 
+ 			kms->pending_crtc_mask |= crtc_mask;
+ 
+-			vsync_time = kms->funcs->vsync_time(kms, async_crtc);
++			if (!drm_crtc_next_vblank_start(async_crtc, &vsync_time))
++				goto fallback;
 +
- 	ret = dma_fence_wait_timeout(fence, true, timeout_to_jiffies(&timeout));
- 	if (ret == 0) {
- 		ret = -ETIMEDOUT;
-@@ -949,8 +953,8 @@ static int msm_ioctl_wait_fence(struct drm_device *dev, void *data,
- 	struct msm_gpu_submitqueue *queue;
- 	int ret;
+ 			wakeup_time = ktime_sub(vsync_time, ms_to_ktime(1));
  
--	if (args->pad) {
--		DRM_ERROR("invalid pad: %08x\n", args->pad);
-+	if (args->flags & ~MSM_WAIT_FENCE_FLAGS) {
-+		DRM_ERROR("invalid flags: %08x\n", args->flags);
- 		return -EINVAL;
+ 			msm_hrtimer_queue_work(&timer->work, wakeup_time,
+@@ -253,6 +254,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		return;
  	}
  
-@@ -961,7 +965,7 @@ static int msm_ioctl_wait_fence(struct drm_device *dev, void *data,
- 	if (!queue)
- 		return -ENOENT;
++fallback:
+ 	/*
+ 	 * If there is any async flush pending on updated crtcs, fold
+ 	 * them into the current flush.
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index f8ed7588928c..086a3f1ff956 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -59,14 +59,6 @@ struct msm_kms_funcs {
+ 	void (*enable_commit)(struct msm_kms *kms);
+ 	void (*disable_commit)(struct msm_kms *kms);
  
--	ret = wait_fence(queue, args->fence, to_ktime(args->timeout));
-+	ret = wait_fence(queue, args->fence, to_ktime(args->timeout), args->flags);
- 
- 	msm_submitqueue_put(queue);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 1dee0d18abbb..dd4a0d773f6e 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -846,6 +846,11 @@ int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
- 		op & MSM_PREP_NOSYNC ? 0 : timeout_to_jiffies(timeout);
- 	long ret;
- 
-+	if (op & MSM_PREP_BOOST) {
-+		dma_resv_set_deadline(obj->resv, dma_resv_usage_rw(write),
-+				      ktime_get());
-+	}
-+
- 	ret = dma_resv_wait_timeout(obj->resv, dma_resv_usage_rw(write),
- 				    true,  remain);
- 	if (ret == 0)
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 329100016e7c..dbf0d6f43fa9 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -151,8 +151,13 @@ struct drm_msm_gem_info {
- #define MSM_PREP_READ        0x01
- #define MSM_PREP_WRITE       0x02
- #define MSM_PREP_NOSYNC      0x04
-+#define MSM_PREP_BOOST       0x08
- 
--#define MSM_PREP_FLAGS       (MSM_PREP_READ | MSM_PREP_WRITE | MSM_PREP_NOSYNC)
-+#define MSM_PREP_FLAGS       (MSM_PREP_READ | \
-+			      MSM_PREP_WRITE | \
-+			      MSM_PREP_NOSYNC | \
-+			      MSM_PREP_BOOST | \
-+			      0)
- 
- struct drm_msm_gem_cpu_prep {
- 	__u32 handle;         /* in */
-@@ -286,6 +291,11 @@ struct drm_msm_gem_submit {
- 
- };
- 
-+#define MSM_WAIT_FENCE_BOOST	0x00000001
-+#define MSM_WAIT_FENCE_FLAGS	( \
-+		MSM_WAIT_FENCE_BOOST | \
-+		0)
-+
- /* The normal way to synchronize with the GPU is just to CPU_PREP on
-  * a buffer if you need to access it from the CPU (other cmdstream
-  * submission from same or other contexts, PAGE_FLIP ioctl, etc, all
-@@ -295,7 +305,7 @@ struct drm_msm_gem_submit {
-  */
- struct drm_msm_wait_fence {
- 	__u32 fence;          /* in */
--	__u32 pad;
-+	__u32 flags;          /* in, bitmask of MSM_WAIT_FENCE_x */
- 	struct drm_msm_timespec timeout;   /* in */
- 	__u32 queueid;         /* in, submitqueue id */
- };
+-	/**
+-	 * If the kms backend supports async commit, it should implement
+-	 * this method to return the time of the next vsync.  This is
+-	 * used to determine a time slightly before vsync, for the async
+-	 * commit timer to run and complete an async commit.
+-	 */
+-	ktime_t (*vsync_time)(struct msm_kms *kms, struct drm_crtc *crtc);
+-
+ 	/**
+ 	 * Prepare for atomic commit.  This is called after any previous
+ 	 * (async or otherwise) commit has completed.
 -- 
 2.39.1
 
