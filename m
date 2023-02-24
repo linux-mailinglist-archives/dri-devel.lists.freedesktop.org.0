@@ -1,45 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8346A1493
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 02:20:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF7C6A14BB
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 03:00:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A72DD10E07F;
-	Fri, 24 Feb 2023 01:20:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 411AD10E4BA;
+	Fri, 24 Feb 2023 02:00:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A47D10E07F;
- Fri, 24 Feb 2023 01:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677201613; x=1708737613;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Uw2gIuHfWoXyYi//WTRiYCW+wqD6Vh01lb9dxaDg4Gc=;
- b=jYgFv40m59+hY6tGuRMgUyWromAS+tzYBEYxxOminasyAmQFl1RFdum5
- qi5leSpRlIpkqACL24tRkARS7UM+33PHX4K8wVVtvMzkWenKyt57V9uEV
- RV4FiaIvfkFcdcBmGbtg4Bs4rD6rdSX8oyLLhKDvgDPwN6vnkNb9fIgeV
- apGA4WIRjpjEzmSEMFnYsYKR8otInT82hVW3nzvyEqiWgHJcqemqjwvH5
- T6z4oiTwX5g22ABmIszEc4nkca3OrgOw5V38eLNm85J5+r6gsTqjBuuWz
- LXcggIF41GjA/3ZKrEPhFxBMFU4uyQlUVohtacDMIsMuZVDFAnqM2YW0P w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="313760659"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; d="scan'208";a="313760659"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2023 17:20:12 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="761612634"
-X-IronPort-AV: E=Sophos;i="5.97,322,1669104000"; d="scan'208";a="761612634"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2023 17:20:12 -0800
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/mtl: Add engine TLB invalidation
-Date: Thu, 23 Feb 2023 17:20:09 -0800
-Message-Id: <20230224012009.3594691-1-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.39.1
+Received: from out30-119.freemail.mail.aliyun.com
+ (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD5B710E4BA
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 02:00:19 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
+ TI=SMTPD_---0VcLwzdB_1677203996; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VcLwzdB_1677203996) by smtp.aliyun-inc.com;
+ Fri, 24 Feb 2023 10:00:15 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: patrik.r.jakobsson@gmail.com
+Subject: [PATCH v2] drm/gma500: Clean up some inconsistent indenting
+Date: Fri, 24 Feb 2023 09:59:54 +0800
+Message-Id: <20230224015954.68974-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,136 +40,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTL's primary GT can continue to use the same engine TLB invalidation
-programming as past Xe_HP-based platforms.  However the media GT needs
-some special handling:
- * Invalidation registers on the media GT are singleton registers
-   (unlike the primary GT where they are still MCR).
- * Since the GSC is now exposed as an engine, there's a new register to
-   use for TLB invalidation.  The offset is identical to the compute
-   engine offset, but this is expected --- compute engines only exist on
-   the primary GT while the GSC only exists on the media GT.
- * Although there's only a single GSC engine instance, it inexplicably
-   uses bit 1 to request invalidations rather than bit 0.
+No functional modification involved.
 
-v2:
- - Add a 'regs == xelpmp_regs' condition to the GSC instance handling.
-   If the registers change on a future platform, the GSC-specific
-   handling is likely to change as well.  (Andrzej)
+drivers/gpu/drm/gma500/cdv_device.c:218 cdv_errata() warn: inconsistent indenting.
 
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4126
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c | 52 ++++++++++++++++-------
- drivers/gpu/drm/i915/gt/intel_gt_regs.h   |  1 +
- 2 files changed, 38 insertions(+), 15 deletions(-)
+Changes in v2:
+  -Change the subject.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index f3a91e7f85f7..4aa08fac1465 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -1166,6 +1166,11 @@ static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
- 		[COPY_ENGINE_CLASS].mcr_reg	  = XEHP_BLT_TLB_INV_CR,
- 		[COMPUTE_CLASS].mcr_reg		  = XEHP_COMPCTX_TLB_INV_CR,
- 	};
-+	static const union intel_engine_tlb_inv_reg xelpmp_regs[] = {
-+		[VIDEO_DECODE_CLASS].reg	  = GEN12_VD_TLB_INV_CR,
-+		[VIDEO_ENHANCEMENT_CLASS].reg     = GEN12_VE_TLB_INV_CR,
-+		[OTHER_CLASS].reg		  = XELPMP_GSC_TLB_INV_CR,
-+	};
- 	struct drm_i915_private *i915 = engine->i915;
- 	const unsigned int instance = engine->instance;
- 	const unsigned int class = engine->class;
-@@ -1185,19 +1190,28 @@ static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
- 	 * 12.00 -> 12.50 transition multi cast handling is required too.
- 	 */
- 
--	if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 50) ||
--	    GRAPHICS_VER_FULL(i915) == IP_VER(12, 55)) {
--		regs = xehp_regs;
--		num = ARRAY_SIZE(xehp_regs);
--	} else if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 0) ||
--		   GRAPHICS_VER_FULL(i915) == IP_VER(12, 10)) {
--		regs = gen12_regs;
--		num = ARRAY_SIZE(gen12_regs);
--	} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
--		regs = gen8_regs;
--		num = ARRAY_SIZE(gen8_regs);
--	} else if (GRAPHICS_VER(i915) < 8) {
--		return 0;
-+	if (engine->gt->type == GT_MEDIA) {
-+		if (MEDIA_VER_FULL(i915) == IP_VER(13, 0)) {
-+			regs = xelpmp_regs;
-+			num = ARRAY_SIZE(xelpmp_regs);
-+		}
-+	} else {
-+		if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 71) ||
-+		    GRAPHICS_VER_FULL(i915) == IP_VER(12, 70) ||
-+		    GRAPHICS_VER_FULL(i915) == IP_VER(12, 50) ||
-+		    GRAPHICS_VER_FULL(i915) == IP_VER(12, 55)) {
-+			regs = xehp_regs;
-+			num = ARRAY_SIZE(xehp_regs);
-+		} else if (GRAPHICS_VER_FULL(i915) == IP_VER(12, 0) ||
-+			   GRAPHICS_VER_FULL(i915) == IP_VER(12, 10)) {
-+			regs = gen12_regs;
-+			num = ARRAY_SIZE(gen12_regs);
-+		} else if (GRAPHICS_VER(i915) >= 8 && GRAPHICS_VER(i915) <= 11) {
-+			regs = gen8_regs;
-+			num = ARRAY_SIZE(gen8_regs);
-+		} else if (GRAPHICS_VER(i915) < 8) {
-+			return 0;
-+		}
+ drivers/gpu/drm/gma500/cdv_device.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
+index 3e83299113e3..1349ea787ae7 100644
+--- a/drivers/gpu/drm/gma500/cdv_device.c
++++ b/drivers/gpu/drm/gma500/cdv_device.c
+@@ -78,7 +78,8 @@ static u32 cdv_get_max_backlight(struct drm_device *dev)
+ 	if (max == 0) {
+ 		DRM_DEBUG_KMS("LVDS Panel PWM value is 0!\n");
+ 		/* i915 does this, I believe which means that we should not
+-		 * smash PWM control as firmware will take control of it. */
++		 * smash PWM control as firmware will take control of it.
++		 */
+ 		return 1;
  	}
  
- 	if (gt_WARN_ONCE(engine->gt, !num,
-@@ -1212,7 +1226,14 @@ static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
+@@ -149,6 +150,7 @@ static inline u32 CDV_MSG_READ32(int domain, uint port, uint offset)
+ 	int mcr = (0x10<<24) | (port << 16) | (offset << 8);
+ 	uint32_t ret_val = 0;
+ 	struct pci_dev *pci_root = pci_get_domain_bus_and_slot(domain, 0, 0);
++
+ 	pci_write_config_dword(pci_root, 0xD0, mcr);
+ 	pci_read_config_dword(pci_root, 0xD4, &ret_val);
+ 	pci_dev_put(pci_root);
+@@ -160,6 +162,7 @@ static inline void CDV_MSG_WRITE32(int domain, uint port, uint offset,
+ {
+ 	int mcr = (0x11<<24) | (port << 16) | (offset << 8) | 0xF0;
+ 	struct pci_dev *pci_root = pci_get_domain_bus_and_slot(domain, 0, 0);
++
+ 	pci_write_config_dword(pci_root, 0xD4, value);
+ 	pci_write_config_dword(pci_root, 0xD0, mcr);
+ 	pci_dev_put(pci_root);
+@@ -180,10 +183,8 @@ static void cdv_init_pm(struct drm_device *dev)
+ 	int domain = pci_domain_nr(pdev->bus);
+ 	int i;
  
- 	reg = regs[class];
+-	dev_priv->apm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT,
+-							PSB_APMBA) & 0xFFFF;
+-	dev_priv->ospm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT,
+-							PSB_OSPMBA) & 0xFFFF;
++	dev_priv->apm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT, PSB_APMBA) & 0xFFFF;
++	dev_priv->ospm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT, PSB_OSPMBA) & 0xFFFF;
  
--	if (regs == gen8_regs && class == VIDEO_DECODE_CLASS && instance == 1) {
-+	if (regs == xelpmp_regs && class == OTHER_CLASS) {
-+		/*
-+		 * There's only a single GSC instance, but it uses register bit
-+		 * 1 instead of either 0 or OTHER_GSC_INSTANCE.
-+		 */
-+		GEM_WARN_ON(instance != OTHER_GSC_INSTANCE);
-+		val = 1;
-+	} else if (regs == gen8_regs && class == VIDEO_DECODE_CLASS && instance == 1) {
- 		reg.reg = GEN8_M2TCR;
- 		val = 0;
- 	} else {
-@@ -1228,7 +1249,8 @@ static int intel_engine_init_tlb_invalidation(struct intel_engine_cs *engine)
- 	if (GRAPHICS_VER(i915) >= 12 &&
- 	    (engine->class == VIDEO_DECODE_CLASS ||
- 	     engine->class == VIDEO_ENHANCEMENT_CLASS ||
--	     engine->class == COMPUTE_CLASS))
-+	     engine->class == COMPUTE_CLASS ||
-+	     engine->class == OTHER_CLASS))
- 		engine->tlb_inv.request = _MASKED_BIT_ENABLE(val);
- 	else
- 		engine->tlb_inv.request = val;
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 416976d396ba..423e3e9c564b 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -1090,6 +1090,7 @@
- #define XEHP_BLT_TLB_INV_CR			MCR_REG(0xcee4)
- #define GEN12_COMPCTX_TLB_INV_CR		_MMIO(0xcf04)
- #define XEHP_COMPCTX_TLB_INV_CR			MCR_REG(0xcf04)
-+#define XELPMP_GSC_TLB_INV_CR			_MMIO(0xcf04)   /* media GT only */
+ 	/* Power status */
+ 	pwr_cnt = inl(dev_priv->apm_base + PSB_APM_CMD);
+@@ -196,6 +197,7 @@ static void cdv_init_pm(struct drm_device *dev)
+ 	/* Wait for the GPU power */
+ 	for (i = 0; i < 5; i++) {
+ 		u32 pwr_sts = inl(dev_priv->apm_base + PSB_APM_STS);
++
+ 		if ((pwr_sts & PSB_PWRGT_GFX_MASK) == 0)
+ 			return;
+ 		udelay(10);
+@@ -215,7 +217,7 @@ static void cdv_errata(struct drm_device *dev)
+ 	 *	Bonus Launch to work around the issue, by degrading
+ 	 *	performance.
+ 	 */
+-	 CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
++	CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
+ }
  
- #define XEHP_MERT_MOD_CTRL			MCR_REG(0xcf28)
- #define RENDER_MOD_CTRL				MCR_REG(0xcf2c)
+ /**
+@@ -401,20 +403,22 @@ static int cdv_power_up(struct drm_device *dev)
+ 
+ static void cdv_hotplug_work_func(struct work_struct *work)
+ {
+-        struct drm_psb_private *dev_priv = container_of(work, struct drm_psb_private,
++	struct drm_psb_private *dev_priv = container_of(work, struct drm_psb_private,
+ 							hotplug_work);
+ 	struct drm_device *dev = &dev_priv->dev;
+ 
+-        /* Just fire off a uevent and let userspace tell us what to do */
+-        drm_helper_hpd_irq_event(dev);
++	/* Just fire off a uevent and let userspace tell us what to do */
++	drm_helper_hpd_irq_event(dev);
+ }
+ 
+ /* The core driver has received a hotplug IRQ. We are in IRQ context
+-   so extract the needed information and kick off queued processing */
++ * so extract the needed information and kick off queued processing
++ */
+ 
+ static int cdv_hotplug_event(struct drm_device *dev)
+ {
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
++
+ 	schedule_work(&dev_priv->hotplug_work);
+ 	REG_WRITE(PORT_HOTPLUG_STAT, REG_READ(PORT_HOTPLUG_STAT));
+ 	return 1;
+@@ -424,6 +428,7 @@ static void cdv_hotplug_enable(struct drm_device *dev, bool on)
+ {
+ 	if (on) {
+ 		u32 hotplug = REG_READ(PORT_HOTPLUG_EN);
++
+ 		hotplug |= HDMIB_HOTPLUG_INT_EN | HDMIC_HOTPLUG_INT_EN |
+ 			   HDMID_HOTPLUG_INT_EN | CRT_HOTPLUG_INT_EN;
+ 		REG_WRITE(PORT_HOTPLUG_EN, hotplug);
+@@ -549,6 +554,7 @@ static const struct psb_offset cdv_regmap[2] = {
+ static int cdv_chip_setup(struct drm_device *dev)
+ {
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
++
+ 	INIT_WORK(&dev_priv->hotplug_work, cdv_hotplug_work_func);
+ 
+ 	dev_priv->use_msi = true;
 -- 
-2.39.1
+2.20.1.7.g153144c
 
