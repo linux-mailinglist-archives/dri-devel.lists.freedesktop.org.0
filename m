@@ -2,78 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145C06A1C7C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 13:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4DE6A1C87
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 13:57:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87AD10E066;
-	Fri, 24 Feb 2023 12:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDAC510E0D7;
+	Fri, 24 Feb 2023 12:57:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DED1610E066
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 12:54:34 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id bv17so981730wrb.5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 04:54:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sKJQDv4Kif6EGyfqOTg66AyQtr3vwAgyU41TdnYU1ok=;
- b=n5Dy01q6kUixJ9kKRCOGyblC2Dy5qoduTfh5ms/rHvPjmTstlc+RWyu71B8e3+Kotg
- QmDj8qStmtWPrIydTH0Q69pcr7WxYIcDBFZJsIxPzf68qfurepjaOLAOGNu5J+BA7Gpx
- T1KEq1qxa/+NE85nrB151iM3kKRiU/TSTWsBg28N1J0Rl5gaLGqFe4Sa9tmrdk3ceq4q
- jqkx2KfdEyAWleRWkIC3OGm7i4JNcueEmHJ22uhX9+5YbT804eI+mw03dTuRJNTvYl5r
- LZrmao6nugHccwZT0ODuT+3A+1EPR4XRcENjPyC8rZCiMgJ6c14h8+ceCGiazj4j6vn+
- eRHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sKJQDv4Kif6EGyfqOTg66AyQtr3vwAgyU41TdnYU1ok=;
- b=37/JMN9TGGPylVLph4ivwaDu2ONQ2eW1xdUIXyhXzoec09tB9joHPuUW1n/QqHUQ5h
- zNKhgmPuLf6D03lEOjxbhFuGi5DDx8ZHXXsx7CikRlxFzsnLTDDXA2NleBSGmpIlOEWq
- 0aNj7Q0bwfXDdgMVS8yPpdjhaEb+VBPIxOio5q8REFScm6E4tWYA1quRzwfs2em5miQ+
- CsU5Cdb3Rl/jLTmOj3wrkR/BOe+sL595iFyFgJbdRbuZyudoP11YCHWD+pZnwg++a/cx
- MT/OWmbcXEtkoWJrus3PJiDxHDZgXYoGWC1Uf0jnPJcj0bfalauM21zUp2W3T7MnsKU5
- Sd+w==
-X-Gm-Message-State: AO0yUKXkBc4lit1bZGxKGNHn+Fef27wcpa6CbdAMtKGYiGOPE9M/8jou
- ASx5b2gtUrLroI0jKR91Cljt+A==
-X-Google-Smtp-Source: AK7set9YMD34P8T/oGssJCIPFl6P4x2re05kDEPyfm4ulVZnvWLTPtalofrM1ozZ42Xn60QYUEdqhQ==
-X-Received: by 2002:adf:f802:0:b0:2c5:4c7d:53ab with SMTP id
- s2-20020adff802000000b002c54c7d53abmr11060307wrp.20.1677243273310; 
- Fri, 24 Feb 2023 04:54:33 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.216.144])
- by smtp.gmail.com with ESMTPSA id
- d10-20020adfe84a000000b002c71d206329sm1714946wrn.55.2023.02.24.04.54.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Feb 2023 04:54:32 -0800 (PST)
-Message-ID: <3bfa1895-a282-14c2-9710-7e887a5d52ee@linaro.org>
-Date: Fri, 24 Feb 2023 13:54:31 +0100
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9BCB10E0D7
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 12:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1677243447; x=1708779447;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=YPDUeuHHlo3wlJW//buD61dRI7WKES35YA2aXIb2Pjg=;
+ b=Zq++FGP7+aEVBaoPjx5xBrxoDDOXZe/+bBFR3n66wUjKp2SyalCVAsTd
+ 3EjafSjQPeQb5kmatVh7hE+oaRRibck+7FiKK7IeVjgs2kfDZqj6sY5Ow
+ GzlUP30YNriKaaxORNzaX9DJp9MpLJs1G7DJAtuMJ6Sc7aLZHnaIOiaSy
+ 6OT308esINe95CW9/M+qTLF4gi/u7S/1V0+whb966uOqNJHPWb9hNKWR4
+ 284JifZ1WBULnW6V5StOVetuDnjcn6IkQ1NkQ9G1O6JiqkZVDjQ+2Spvb
+ U9s6wXCc0ZBmloCp+H3Swmy9ZfySAalrLY0532lpe09xUo48uRUH6ZC75 Q==;
+X-IronPort-AV: E=Sophos;i="5.97,324,1669071600"; d="scan'208";a="29300464"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 24 Feb 2023 13:57:25 +0100
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Fri, 24 Feb 2023 13:57:24 +0100
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Fri, 24 Feb 2023 13:57:24 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1677243445; x=1708779445;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=YPDUeuHHlo3wlJW//buD61dRI7WKES35YA2aXIb2Pjg=;
+ b=i3e1JPU/POJmrfQTZ8Vj2y4ftwVIjBSXqq416sFTabb4CZ7Yg0B2WK6i
+ jDG4sQ2WV8ysA1+ZdUA2N1m1HCx/T5szCRUVVa4RySuj7gJHfnDWPGRDS
+ w7tzB6R3nBP/KxsWlmVgpKhSVqznAUpHSn+Vu5Gd/5scCjRhXnOFKhYvB
+ aBREqLoZHqqsQSsnmwLT7MUxuH9NyiZi3SEiLo8gbsYKEyc5YfdWryJpu
+ BgfBjnTItBh3AZB7gwlJfi4BGvWo6Ish4o/GHBgDmay5w82gN3T6m5pHo
+ pi2YkJDQR+zTCPZfJ7dJqwgW9KsXap79X5YDbr4QaaaDjmUTUtLKEbuEq w==;
+X-IronPort-AV: E=Sophos;i="5.97,324,1669071600"; d="scan'208";a="29300463"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 24 Feb 2023 13:57:24 +0100
+Received: from steina-w.tq-net.de (unknown [10.123.53.21])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 90029280056;
+ Fri, 24 Feb 2023 13:57:24 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/1] drm: panel: simple: convert LG LB070WV8 fixed mode into
+ display timings
+Date: Fri, 24 Feb 2023 13:57:19 +0100
+Message-Id: <20230224125719.3272098-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 01/15] dt-bindings: display/msm: gpu: Document GMU
- wrapper-equipped A6xx
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-References: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
- <20230223-topic-gmuwrapper-v3-1-5be55a336819@linaro.org>
- <c3376575-c24f-18a3-1d8b-c3d67f072287@linaro.org>
- <a28c4e67-78b4-21b5-7094-9953316576b2@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a28c4e67-78b4-21b5-7094-9953316576b2@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,28 +74,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/02/2023 12:51, Konrad Dybcio wrote:
->>> +    else:
->>> +      if:
->>> +        properties:
->>> +          compatible:
->>> +            contains:
->>> +              pattern: '^qcom,adreno-6[0-9][0-9]\.[0-9]$'
->>> +
->>> +      then: # Starting with A6xx, the clocks are usually defined in the GMU node
->>
->> The comment is not accurate anymore.
-> I'll argue the semantics, they are still "usually" defined
-> in the GMU node..
+At least the pixelclock has a range which can vary. Convert fixed mode
+into display timings so they can be overwritten in DT if necessary.
 
-Ah, usually. It's fine then.
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ drivers/gpu/drm/panel/panel-simple.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 065f378bba9d..5048be54ffd9 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2458,21 +2458,21 @@ static const struct panel_desc lemaker_bl035_rgb_002 = {
+ 	.bus_flags = DRM_BUS_FLAG_DE_LOW,
+ };
+ 
+-static const struct drm_display_mode lg_lb070wv8_mode = {
+-	.clock = 33246,
+-	.hdisplay = 800,
+-	.hsync_start = 800 + 88,
+-	.hsync_end = 800 + 88 + 80,
+-	.htotal = 800 + 88 + 80 + 88,
+-	.vdisplay = 480,
+-	.vsync_start = 480 + 10,
+-	.vsync_end = 480 + 10 + 25,
+-	.vtotal = 480 + 10 + 25 + 10,
++static const struct display_timing lg_lb070wv8_timing = {
++	.pixelclock = { 31950000, 33260000, 34600000 },
++	.hactive = { 800, 800, 800 },
++	.hfront_porch = { 88, 88, 88 },
++	.hback_porch = { 88, 88, 88 },
++	.hsync_len = { 80, 80, 80 },
++	.vactive = { 480, 480, 480 },
++	.vfront_porch = { 10, 10, 10 },
++	.vback_porch = { 10, 10, 10 },
++	.vsync_len = { 25, 25, 25 },
+ };
+ 
+ static const struct panel_desc lg_lb070wv8 = {
+-	.modes = &lg_lb070wv8_mode,
+-	.num_modes = 1,
++	.timings = &lg_lb070wv8_timing,
++	.num_timings = 1,
+ 	.bpc = 8,
+ 	.size = {
+ 		.width = 151,
+-- 
+2.34.1
 
