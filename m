@@ -2,73 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085BB6A2108
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 19:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EB46A2112
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 19:02:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2B0310ECBF;
-	Fri, 24 Feb 2023 18:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4252D10E22D;
+	Fri, 24 Feb 2023 18:02:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E6C010ECA3;
- Fri, 24 Feb 2023 18:00:10 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- g6-20020a056830308600b0068d4b30536aso72150ots.9; 
- Fri, 24 Feb 2023 10:00:10 -0800 (PST)
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B96910E22D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 18:02:30 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id x34so13848289pjj.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 10:02:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kyu+xR8UZP+pOviljY2ZOXLy8SmJsrO7tgRJDWszETo=;
- b=SjkHNAwszKfPoMDG+UlfHPNkKG/Ix2fPcqp4jdnqUVpKt434wwURMEDTFjSHECCAKr
- hgyW7x+gqG7f0SqT40AcMmzxf9xuFm66q1kP/HlfhYPjw3rJRqgisiv6i7hgRj7VAsfO
- bZlgrYV1hdX6WBOLMt5Xtxj2dvW94xZEXtaFowimRxQWYiItf80r4qt/EYhspbG/ahC4
- Z/12+jwZtAXxHN5SxToOxmr2EBdirSTR2gOxkVvkhnomly5yQRO+RAxA0L8Red8Uzdio
- CTV6VdbZBJ+pE3KeflvWBKGzB6tISHg8RsM1oXiyEhSDJn5A45HHmVIephVDE+ywBboV
- nNDw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dIetUbx7EIF3EVZI4uWomKEyBANtRstOQ9q276wzqdo=;
+ b=MH6aam4wwxxCOP8F74s6Ll3IKPas17IyPHqfjrU5DRqREcp574aRJL7kZZuGLwFtVM
+ 5qjwEkw++dNg3OMCh2Mtk6meGfZ10SKB8U9bSt0sReAXqCuRh6EfFKMsMx+c1OC4Pgon
+ wyvgbEPrwlEVV0Ru6arZDsOe/vb+k7/8o0RqOFWHBPQbxxeg9MRI6yg0BjX8HvWZ4JI6
+ Vk8Tlb6Dr9bOk3jtTS3WAGohoRkn3p82EsApeWBwGCjmaO4fkDPz8AbSPi9uGOJTPktK
+ Njh3v40YmDl2P0NXJLECxSCJKbMnE20Pcn+zoMIpaP3w9hWNsgQacWC49zFUwiIuY6Gn
+ +Mdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kyu+xR8UZP+pOviljY2ZOXLy8SmJsrO7tgRJDWszETo=;
- b=YM4EkNIvMANV7QuErn7EUXSZz/ux1jysK5mvKC64e+G3fZmoM6doTlYae80TppDa+w
- xfwTwxbVXyeljlPEqEHnWJ2Ms77iLD83Rv2IGHy9FRoe93J2UAUyXS4deC9t81rx60cc
- 7A7wkPl0ztauzA4FwG42VRXDLgB388Zk6xmvuxAgeG/158EkmZhAqT0lHqRHERuq+eRJ
- mN6GUKdD1nbBqH+/vbrhJq2slFJhX1wPgvPCBEhpWWAD8++WEt/kCK1R+nb76RmhhCZZ
- z6Rzh7JekGhB55jK8CgjtCbuj8HTm/lPtg/K1jlj+YYZu1aIDzaP7JZF6tBD7iXiPlMK
- EZvw==
-X-Gm-Message-State: AO0yUKVfeKf9FG8smSRTJCNgpqhuvvPI7rfrYkPh615VcWf+Q2H4N9ZC
- lheimrNiZaLBBf85WdQ0n1yWacdiHH5E83M1bpc=
-X-Google-Smtp-Source: AK7set/JASt1oqojAXHiDhzXv1JCruI6Psc4ZHESabSlzQPay6v7I4cBgdEY84cuTEJJufR1eLUuocfmK1PT5xVUn28=
-X-Received: by 2002:a05:6830:3359:b0:688:cf52:71c4 with SMTP id
- l25-20020a056830335900b00688cf5271c4mr1780766ott.4.1677261609208; Fri, 24 Feb
- 2023 10:00:09 -0800 (PST)
-MIME-Version: 1.0
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
- <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
- <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell>
- <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell>
- <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell>
- <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell>
- <582a9b92-d246-fce2-cf39-539d9a2db17f@linux.intel.com>
- <20230224130053.3f8939e2@eldfell>
- <c5d046d6-ab8e-2bc7-5110-dba78b91348b@linux.intel.com>
- <74e409dc-b642-779e-a755-b793c378e43a@amd.com>
-In-Reply-To: <74e409dc-b642-779e-a755-b793c378e43a@amd.com>
+ bh=dIetUbx7EIF3EVZI4uWomKEyBANtRstOQ9q276wzqdo=;
+ b=UP2rojrAPfYvfDJtQRSo6Yn59pv9xMEM7Q2xR82mpF8hXpt26k7duSLYW5BK+ePyG3
+ zxdkc6/h9CkSltJmpUX9eRwtwC7rywnCd/cOpzwk1SRSZeI74j1Vq86URreblXesJ5ZV
+ qf5lezakzbRX5lEokDPN2C29OUVDsauXvHgyMvk4e3JE5LnRRbFs8BVflUD2gyHUaedM
+ aeMzQVNgpMd4S3OCYflkPPDUvWFRerakoQr8nGa5e6FUoBwS1GKbEeFwb4HFLXdH8yS3
+ U1a3mqU74S3/yssNm0yg/SPvDgaqr/dlEEzAx70FxQi6CihX5eQmb1uVGKyY9j4c5Qyi
+ U6PQ==
+X-Gm-Message-State: AO0yUKWgBoj9AweIK+01xjPO/qZjIyGIR8MJhMFIZymgQ980JwE4UG9v
+ qRSsQ7SHfnXVDEZhnAhfF0VZIk61Y8I=
+X-Google-Smtp-Source: AK7set9P5Feo6a4/0yoFYK8d+lC8D6mrYWoq7w/KhB+AYtuzYRizJ3vRuhh03PSshTB20wmkY0jxxA==
+X-Received: by 2002:a17:902:ba83:b0:19c:be07:4af2 with SMTP id
+ k3-20020a170902ba8300b0019cbe074af2mr4714336pls.45.1677261749322; 
+ Fri, 24 Feb 2023 10:02:29 -0800 (PST)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ by smtp.gmail.com with ESMTPSA id
+ h5-20020a170902704500b00198ff118fd3sm1108105plt.101.2023.02.24.10.02.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Feb 2023 10:02:28 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 24 Feb 2023 09:59:57 -0800
-Message-ID: <CAF6AEGs_yzEj81yNP3KhmVP9Yo3rwTc5vntEVrm9tHw6+w1G_g@mail.gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-To: Luben Tuikov <luben.tuikov@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: Add option to disable KMS support
+Date: Fri, 24 Feb 2023 10:02:24 -0800
+Message-Id: <20230224180225.2477641-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,169 +68,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Rob Clark <robdclark@chromium.org>, Ryan Neph <ryanneph@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 24, 2023 at 7:27 AM Luben Tuikov <luben.tuikov@amd.com> wrote:
->
-> On 2023-02-24 06:37, Tvrtko Ursulin wrote:
-> >
-> > On 24/02/2023 11:00, Pekka Paalanen wrote:
-> >> On Fri, 24 Feb 2023 10:50:51 +0000
-> >> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> >>
-> >>> On 24/02/2023 10:24, Pekka Paalanen wrote:
-> >>>> On Fri, 24 Feb 2023 09:41:46 +0000
-> >>>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>>
-> >>>>> On 24/02/2023 09:26, Pekka Paalanen wrote:
-> >>>>>> On Thu, 23 Feb 2023 10:51:48 -0800
-> >>>>>> Rob Clark <robdclark@gmail.com> wrote:
-> >>>>>>
-> >>>>>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >>>>>>>>
-> >>>>>>>> On Wed, 22 Feb 2023 07:37:26 -0800
-> >>>>>>>> Rob Clark <robdclark@gmail.com> wrote:
-> >>>>>>>>
-> >>>>>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >>>>>>
-> >>>>>> ...
-> >>>>>>
-> >>>>>>>>>> On another matter, if the application uses SET_DEADLINE with one
-> >>>>>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing with
-> >>>>>>>>>> another timestamp, what should happen?
-> >>>>>>>>>
-> >>>>>>>>> The expectation is that many deadline hints can be set on a fence.
-> >>>>>>>>> The fence signaller should track the soonest deadline.
-> >>>>>>>>
-> >>>>>>>> You need to document that as UAPI, since it is observable to userspace.
-> >>>>>>>> It would be bad if drivers or subsystems would differ in behaviour.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> It is in the end a hint.  It is about giving the driver more
-> >>>>>>> information so that it can make better choices.  But the driver is
-> >>>>>>> even free to ignore it.  So maybe "expectation" is too strong of a
-> >>>>>>> word.  Rather, any other behavior doesn't really make sense.  But it
-> >>>>>>> could end up being dictated by how the hw and/or fw works.
-> >>>>>>
-> >>>>>> It will stop being a hint once it has been implemented and used in the
-> >>>>>> wild long enough. The kernel userspace regression rules make sure of
-> >>>>>> that.
-> >>>>>
-> >>>>> Yeah, tricky and maybe a gray area in this case. I think we eluded
-> >>>>> elsewhere in the thread that renaming the thing might be an option.
-> >>>>>
-> >>>>> So maybe instead of deadline, which is a very strong word, use something
-> >>>>> along the lines of "present time hint", or "signalled time hint"? Maybe
-> >>>>> reads clumsy. Just throwing some ideas for a start.
-> >>>>
-> >>>> You can try, but I fear that if it ever changes behaviour and
-> >>>> someone notices that, it's labelled as a kernel regression. I don't
-> >>>> think documentation has ever been the authoritative definition of UABI
-> >>>> in Linux, it just guides drivers and userspace towards a common
-> >>>> understanding and common usage patterns.
-> >>>>
-> >>>> So even if the UABI contract is not documented (ugh), you need to be
-> >>>> prepared to set the UABI contract through kernel implementation.
-> >>>
-> >>> To be the devil's advocate it probably wouldn't be an ABI regression but
-> >>> just an regression. Same way as what nice(2) priorities mean hasn't
-> >>> always been the same over the years, I don't think there is a strict
-> >>> contract.
-> >>>
-> >>> Having said that, it may be different with latency sensitive stuff such
-> >>> as UIs though since it is very observable and can be very painful to users.
-> >>>
-> >>>> If you do not document the UABI contract, then different drivers are
-> >>>> likely to implement it differently, leading to differing behaviour.
-> >>>> Also userspace will invent wild ways to abuse the UABI if there is no
-> >>>> documentation guiding it on proper use. If userspace or end users
-> >>>> observe different behaviour, that's bad even if it's not a regression.
-> >>>>
-> >>>> I don't like the situation either, but it is what it is. UABI stability
-> >>>> trumps everything regardless of whether it was documented or not.
-> >>>>
-> >>>> I bet userspace is going to use this as a "make it faster, make it
-> >>>> hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> >>>> library that stamps any and all fences with an expired deadline to
-> >>>> just squeeze out a little more through some weird side-effect.
-> >>>>
-> >>>> Well, that's hopefully overboard in scaring, but in the end, I would
-> >>>> like to see UABI documented so I can have a feeling of what it is for
-> >>>> and how it was intended to be used. That's all.
-> >>>
-> >>> We share the same concern. If you read elsewhere in these threads you
-> >>> will notice I have been calling this an "arms race". If the ability to
-> >>> make yourself go faster does not required additional privilege I also
-> >>> worry everyone will do it at which point it becomes pointless. So yes, I
-> >>> do share this concern about exposing any of this as an unprivileged uapi.
-> >>>
-> >>> Is it possible to limit access to only compositors in some sane way?
-> >>> Sounds tricky when dma-fence should be disconnected from DRM..
-> >>
-> >> Maybe it's not that bad in this particular case, because we are talking
-> >> only about boosting GPU clocks which benefits everyone (except
-> >> battery life) and it does not penalize other programs like e.g.
-> >> job priorities do.
-> >
-> > Apart from efficiency that you mentioned, which does not always favor
-> > higher clocks, sometimes thermal budget is also shared between CPU and
-> > GPU. So more GPU clocks can mean fewer CPU clocks. It's really hard to
-> > make optimal choices without the full coordination between both schedulers.
-> >
-> > But that is even not the main point, which is that if everyone sets the
-> > immediate deadline then having the deadline API is a bit pointless. For
-> > instance there is a reason negative nice needs CAP_SYS_ADMIN.
-> >
-> > However Rob has also pointed out the existence of uclamp.min via
-> > sched_setattr which is unprivileged and can influence frequency
-> > selection in the CPU world, so I conceded on that point. If CPU world
-> > has accepted it so can we I guess.
-> >
-> > So IMO we are back to whether we can agree defining it is a hint is good
-> > enough, be in via the name of the ioctl/flag itself or via documentation.
-> >
-> >> Drivers are not going to use the deadline for scheduling priorities,
-> >> right? I don't recall seeing any mention of that.
-> >>
-> >> ...right?
-> >
-> > I wouldn't have thought it would be beneficial to preclude that, or
-> > assume what drivers would do with the info to begin with.
-> >
-> > For instance in i915 we almost had a deadline based scheduler which was
-> > much fairer than the current priority sorted fifo and in an ideal world
-> > we would either revive or re-implement that idea. In which case
-> > considering the fence deadline would naturally slot in and give true
-> > integration with compositor deadlines (not just boost clocks and pray it
-> > helps).
-> How is user-space to decide whether to use ioctl(SET_DEADLINE) or
-> poll(POLLPRI)?
+From: Rob Clark <robdclark@chromium.org>
 
-Implementation of blocking gl/vk/cl APIs, like glFinish() would use
-poll(POLLPRI).  It could also set an immediate deadline and then call
-poll() without POLLPRI.
+Add a build option to disable modesetting support.  This is useful in
+cases where the guest only needs to use the GPU in a headless mode, or
+(such as in the CrOS usage) window surfaces are proxied to a host
+compositor.
 
-Other than compositors which do frame-pacing I expect the main usage
-of either of these is mesa.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/virtio/Kconfig       | 11 +++++++++++
+ drivers/gpu/drm/virtio/Makefile      |  5 ++++-
+ drivers/gpu/drm/virtio/virtgpu_drv.c |  6 +++++-
+ drivers/gpu/drm/virtio/virtgpu_drv.h | 10 ++++++++++
+ drivers/gpu/drm/virtio/virtgpu_kms.c |  6 ++++++
+ 5 files changed, 36 insertions(+), 2 deletions(-)
 
-BR,
--R
+diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
+index 51ec7c3240c9..ea06ff2aa4b4 100644
+--- a/drivers/gpu/drm/virtio/Kconfig
++++ b/drivers/gpu/drm/virtio/Kconfig
+@@ -11,3 +11,14 @@ config DRM_VIRTIO_GPU
+ 	   QEMU based VMMs (like KVM or Xen).
+ 
+ 	   If unsure say M.
++
++config DRM_VIRTIO_GPU_KMS
++	bool "Virtio GPU driver modesetting support"
++	depends on DRM_VIRTIO_GPU
++	default y
++	help
++	   Enable modesetting support for virtio GPU driver.  This can be
++	   disabled in cases where only "headless" usage of the GPU is
++	   required.
++
++	   If unsure, say Y.
+diff --git a/drivers/gpu/drm/virtio/Makefile b/drivers/gpu/drm/virtio/Makefile
+index b99fa4a73b68..24c7ebe87032 100644
+--- a/drivers/gpu/drm/virtio/Makefile
++++ b/drivers/gpu/drm/virtio/Makefile
+@@ -4,8 +4,11 @@
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+ 
+ virtio-gpu-y := virtgpu_drv.o virtgpu_kms.o virtgpu_gem.o virtgpu_vram.o \
+-	virtgpu_display.o virtgpu_vq.o \
++	virtgpu_vq.o \
+ 	virtgpu_fence.o virtgpu_object.o virtgpu_debugfs.o virtgpu_plane.o \
+ 	virtgpu_ioctl.o virtgpu_prime.o virtgpu_trace_points.o
+ 
++virtio-gpu-$(CONFIG_DRM_VIRTIO_GPU_KMS) += \
++	virtgpu_display.o
++
+ obj-$(CONFIG_DRM_VIRTIO_GPU) += virtio-gpu.o
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index ae97b98750b6..9cb7d6dd3da6 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -172,7 +172,11 @@ MODULE_AUTHOR("Alon Levy");
+ DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
+ 
+ static const struct drm_driver driver = {
+-	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC,
++	.driver_features =
++#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
++			DRIVER_MODESET | DRIVER_ATOMIC |
++#endif
++			DRIVER_GEM | DRIVER_RENDER,
+ 	.open = virtio_gpu_driver_open,
+ 	.postclose = virtio_gpu_driver_postclose,
+ 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index af6ffb696086..ffe8faf67247 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -426,8 +426,18 @@ virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
+ 				uint32_t x, uint32_t y);
+ 
+ /* virtgpu_display.c */
++#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
+ int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
++#else
++static inline int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
++{
++	return 0;
++}
++static inline void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev)
++{
++}
++#endif
+ 
+ /* virtgpu_plane.c */
+ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 27b7f14dae89..293e6f0bf133 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -161,9 +161,11 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_VIRGL))
+ 		vgdev->has_virgl_3d = true;
+ #endif
++#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
+ 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID)) {
+ 		vgdev->has_edid = true;
+ 	}
++#endif
+ 	if (virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC)) {
+ 		vgdev->has_indirect = true;
+ 	}
+@@ -218,6 +220,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 		goto err_vbufs;
+ 	}
+ 
++#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
+ 	/* get display info */
+ 	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
+ 			num_scanouts, &num_scanouts);
+@@ -229,6 +232,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 		goto err_scanouts;
+ 	}
+ 	DRM_INFO("number of scanouts: %d\n", num_scanouts);
++#endif
+ 
+ 	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
+ 			num_capsets, &num_capsets);
+@@ -246,10 +250,12 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 		virtio_gpu_get_capsets(vgdev, num_capsets);
+ 	if (vgdev->has_edid)
+ 		virtio_gpu_cmd_get_edids(vgdev);
++#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
+ 	virtio_gpu_cmd_get_display_info(vgdev);
+ 	virtio_gpu_notify(vgdev);
+ 	wait_event_timeout(vgdev->resp_wq, !vgdev->display_info_pending,
+ 			   5 * HZ);
++#endif
+ 	return 0;
+ 
+ err_scanouts:
+-- 
+2.39.1
 
-> --
-> Regards,
-> Luben
->
