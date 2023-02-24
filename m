@@ -2,70 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893A56A18B4
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 10:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF73D6A18BB
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 10:27:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E216810E6AC;
-	Fri, 24 Feb 2023 09:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15A5610E0AE;
+	Fri, 24 Feb 2023 09:27:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 776B010E0AE;
- Fri, 24 Feb 2023 09:26:43 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id s20so16834273lfb.11;
- Fri, 24 Feb 2023 01:26:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=tn4heN+xayUw9CWYDpKV49sFxbJE9AzvhKDPogIlGWk=;
- b=IKlcOFPKkpIHAWPHxnKle3uFn3WD4QwmXkL8sqaE5FNUMIHyr+DBlyBcLbq/Fv/Jw3
- Q/1NaM0pgUfkDRTJg7BFBYyZf8sC2p87BVQ6ngYM3+ukxCpe5w6jsT+XxXx6sdcYlcHz
- BnGcimg0syH0bj38qSO6iGzPo9cTKMho+ij4ubm/GWjf0hj8a+KY4W9Hb0wTnXwnKVTI
- PjjL/6dlg0ulXwQl2abIr44yvVakn9dz6kHx01WXHs7XKks2VqEJFN6u8n6ZDZwCQzwI
- MtGuAiQhBThTXX6LLYU7Ej+BhguWTwCF39ml5FeCgGwDIQ7ZvEd/YYFg9JvBcaM/bfAz
- FCpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tn4heN+xayUw9CWYDpKV49sFxbJE9AzvhKDPogIlGWk=;
- b=QmX/bf6QOYT4W8215ty9mIWQGneTwdLkdT9y7UKy8Fwsd5hGmGjKMbuus7WXXwJIND
- ATNdDRc6lqcinKHAC/NV/POtphNXbbYtorN3u5qwkFUfEbxZaRPgaAR9+0qsUrLLuTu0
- BgJ8vYpcOw/s61AB9MBk5p+akzu9P+l2rs/x35J/A3kLEjIOI6Rd2XoL/ObkIPKplE+s
- iPLfuQp9X2Mfs5ULnelohd0oiSFqrj1GCFLhZHHPFms+1mioDr9DAzozooDQSk2tSKLZ
- OqvqKCI+5tPlSjTIWaEGirVunqBiLhgxAD9yEI2vDtSle6CzzCfBP9dtnH+1EdU7GZ+r
- Kg+w==
-X-Gm-Message-State: AO0yUKUhxbQcNJNqGNljuE9L8fegZyXaBUekrOPNVK63hPMKgocjqc9S
- zDNUyttw+wnE966W8agS40M=
-X-Google-Smtp-Source: AK7set8Edu6TJIEzFp8nO3iN/aWffOHgPnU91xlvxqbHQLnvZm/Xo+5/CWn5cDLMMcJZbfqIKVI3QQ==
-X-Received: by 2002:ac2:4c08:0:b0:4d8:6c17:8a65 with SMTP id
- t8-20020ac24c08000000b004d86c178a65mr5535378lfq.58.1677230801553; 
- Fri, 24 Feb 2023 01:26:41 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- 1-20020ac25681000000b004db25f2c103sm1529997lfr.86.2023.02.24.01.26.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 01:26:41 -0800 (PST)
-Date: Fri, 24 Feb 2023 11:26:30 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-Message-ID: <20230224112630.313d7b76@eldfell>
-In-Reply-To: <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
- <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
- <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell>
- <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell>
- <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78B9B10E0AE;
+ Fri, 24 Feb 2023 09:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677230860; x=1708766860;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=JuW7ijR/INO/aES2eJmXs7as+lY8eyaHJSu+e/d/ZLw=;
+ b=ejroLFF6Ks8kJvL3T6oyOJBt20uXPOieZ82VGkSzCjvRDFR+4RYwXlxP
+ Fq3+f98589jWLuc2d+hJCdib6zWSEZ38XaTbTWcoTH0Qku3nVwDKHSg2y
+ 9jTNQh1oyWjNWXbTdN+WeF7zNKl9iXAPqaLT9nq/on26EtCuENVNrTQHJ
+ TDu20bUkbf0bS76EN2Qt6Aq/Quru4TkOUV0nfclYMlqgbFLgKmTOhfPoP
+ myzoWP7Wl1v5pziN71dDmQvDOmfMDCn/kjZvJQxlmNrSm4qrgIoIMPoJG
+ 4P1g25sK8bgwj+ZJTAf8GT0NK/XfQugS0RrX1dsR3Qv/ofCaovl/ISsfR g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="398169249"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; d="scan'208";a="398169249"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2023 01:27:39 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="815677351"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; d="scan'208";a="815677351"
+Received: from wmao-mobl.amr.corp.intel.com (HELO [10.212.63.133])
+ ([10.212.63.133])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2023 01:27:37 -0800
+Message-ID: <1a055641-3a7d-991f-7b73-04e56c20f6d0@linux.intel.com>
+Date: Fri, 24 Feb 2023 09:27:36 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/uHBSYjb20fW6JX00W0Xc.i_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Apply Wa_14017073508 for MTL
+ SoC Step
+Content-Language: en-US
+To: Badal Nilawar <badal.nilawar@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230223184140.3452853-1-badal.nilawar@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20230223184140.3452853-1-badal.nilawar@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,101 +62,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: matthew.d.roper@intel.com, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/uHBSYjb20fW6JX00W0Xc.i_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 23 Feb 2023 10:51:48 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+On 23/02/2023 18:41, Badal Nilawar wrote:
+> Apply Wa_14017073508 for MTL SoC die A step instead of graphics step.
+> To get the SoC die stepping there is no direct interface so using
+> revid as revid 0 aligns with SoC die A step.
+> 
+> Bspec: 55420
+> 
+> Fixes: 8f70f1ec587d ("drm/i915/mtl: Add Wa_14017073508 for SAMedia")
+> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_pm.c     | 4 ++--
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c | 2 +-
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> index cef3d6f5c34e..4ba3c8c97ccc 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> @@ -29,7 +29,7 @@
+>   static void mtl_media_busy(struct intel_gt *gt)
+>   {
+>   	/* Wa_14017073508: mtl */
+> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
+>   	    gt->type == GT_MEDIA)
 
-> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
-> >
-> > On Wed, 22 Feb 2023 07:37:26 -0800
-> > Rob Clark <robdclark@gmail.com> wrote:
-> > =20
-> > > On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.com> =
-wrote: =20
+Bonus points if you make gt->type == GT_MEDIA the first condition.
 
-...
+Regards,
 
-> > > > On another matter, if the application uses SET_DEADLINE with one
-> > > > timestamp, and the compositor uses SET_DEADLINE on the same thing w=
-ith
-> > > > another timestamp, what should happen? =20
-> > >
-> > > The expectation is that many deadline hints can be set on a fence.
-> > > The fence signaller should track the soonest deadline. =20
-> >
-> > You need to document that as UAPI, since it is observable to userspace.
-> > It would be bad if drivers or subsystems would differ in behaviour.
-> > =20
->=20
-> It is in the end a hint.  It is about giving the driver more
-> information so that it can make better choices.  But the driver is
-> even free to ignore it.  So maybe "expectation" is too strong of a
-> word.  Rather, any other behavior doesn't really make sense.  But it
-> could end up being dictated by how the hw and/or fw works.
+Tvrtko
 
-It will stop being a hint once it has been implemented and used in the
-wild long enough. The kernel userspace regression rules make sure of
-that.
-
-See the topic of implementing triple-buffering in Mutter in order to
-put more work to the GPU in order to have the GPU ramp up clocks in
-order to not miss rendering deadlines. I don't think that patch set has
-landed in Mutter upstream, but I hear distributions in downstream are
-already carrying it.
-
-https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1383
-https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1441
-
-Granted, GPU clocks are just one side of that story it seems, and
-triple-buffering may have other benefits.
-
-If SET_DEADLINE would fix that problem without triple-buffering, it is
-definitely userspace observable, expected and eventually required
-behaviour.
-
-
-Thanks,
-pq
-
---Sig_/uHBSYjb20fW6JX00W0Xc.i_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP4gsYACgkQI1/ltBGq
-qqfZTw/+Lbv76M0E26urQwDLG2JyGPlyP2cGStoEl3g1AGFqwTc4GwQroDY2kntr
-Q/8Ux8jQ3UOsIgdkPji1jYSXMUo3fnzKSaAjHqt60BLDXM05WelYTLuCRJVDd5zM
-E/+TYH45x8wRvZz/BJJl8KW6Lis2izfsS2hHERFKtqHEkiiN+VMvx0Aj5/fcToI4
-OuM79Bblb10aqHVEEuka6TENfJG94jZtpHWvO0JdRtjQnVHSy9AxIR6EdaOnSVXb
-6gAob42KMODAiYpDze8GVIP16VzlWVpFQaVv0XcQkh8SVtpKuwRU6hTOb6uys74Q
-89yh3OUp1BpN4PwIVrhrV6X7VHe0Fb45F//QX6L/bkNUNPq2BujvQRcNrpVD+UOq
-aAMC6nUpRgrQEveqqmWWloicApPcF4tbpcVHWpu+t6edPRquwNN2n8DS5bOhYs+Z
-fHcmaj84jbOPdKXxxauFtq8r4t2du0mKvXTE54+BhWx/IHTf6E5mq3LpydpjPCcD
-X8exj4pRfjmi9juUjaBepDMfoqbh3yvQR/ER0M01By5GOzO3TlHVmtdBfsUzehTI
-uXfmWZWwEqgWPMf285UDEDL4sw697G6E8egllZlyH5Ynp+xOpv/p2QIffwq1AvRL
-uj/MCIiSJDmLmNyA7WuBSyxYYtJahvi+UP7BB80lynbBEnQfhvE=
-=5gOd
------END PGP SIGNATURE-----
-
---Sig_/uHBSYjb20fW6JX00W0Xc.i_--
+>   		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
+>   				  PCODE_MBOX_GT_STATE_MEDIA_BUSY,
+> @@ -39,7 +39,7 @@ static void mtl_media_busy(struct intel_gt *gt)
+>   static void mtl_media_idle(struct intel_gt *gt)
+>   {
+>   	/* Wa_14017073508: mtl */
+> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
+>   	    gt->type == GT_MEDIA)
+>   		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
+>   				  PCODE_MBOX_GT_STATE_MEDIA_NOT_BUSY,
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> index fcf51614f9a4..7429c233ad45 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> @@ -19,7 +19,7 @@ static bool __guc_rc_supported(struct intel_guc *guc)
+>   	 * Do not enable gucrc to avoid additional interrupts which
+>   	 * may disrupt pcode wa.
+>   	 */
+> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
+>   	    gt->type == GT_MEDIA)
+>   		return false;
+>   
