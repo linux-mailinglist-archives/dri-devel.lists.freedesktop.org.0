@@ -2,32 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF7C6A14BB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 03:00:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D8C6A14D4
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 03:16:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411AD10E4BA;
-	Fri, 24 Feb 2023 02:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD1910E4C8;
+	Fri, 24 Feb 2023 02:15:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-119.freemail.mail.aliyun.com
- (out30-119.freemail.mail.aliyun.com [115.124.30.119])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD5B710E4BA
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 02:00:19 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
- TI=SMTPD_---0VcLwzdB_1677203996; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VcLwzdB_1677203996) by smtp.aliyun-inc.com;
- Fri, 24 Feb 2023 10:00:15 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: patrik.r.jakobsson@gmail.com
-Subject: [PATCH v2] drm/gma500: Clean up some inconsistent indenting
-Date: Fri, 24 Feb 2023 09:59:54 +0800
-Message-Id: <20230224015954.68974-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B2B9A10E4C8
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 02:15:55 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.133])
+ by gateway (Coremail) with SMTP id _____8Bx783ZHfhj32wEAA--.3227S3;
+ Fri, 24 Feb 2023 10:15:53 +0800 (CST)
+Received: from [10.20.42.133] (unknown [10.20.42.133])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Axvr7WHfhjfCY6AA--.45207S3; 
+ Fri, 24 Feb 2023 10:15:52 +0800 (CST)
+Message-ID: <d0640075-289a-e5ac-132a-c4fb8e151ad2@loongson.cn>
+Date: Fri, 24 Feb 2023 10:15:50 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v4] drm: add kms driver for loongson display controller
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, suijingfeng
+ <15330273260@189.cn>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230220165130.6297-1-15330273260@189.cn>
+ <ce854840-17d3-9ba1-5cf9-79a5fd2888c6@suse.de>
+From: suijingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <ce854840-17d3-9ba1-5cf9-79a5fd2888c6@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Axvr7WHfhjfCY6AA--.45207S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvdXoW7Gr48Xr1rtw4kXw1DAw47Jwb_yoWkuFb_uw
+ 4DGrs3Zw1jyFs7trWktr45ZryDGrZYqrykAF42vFZIqFnrJF98Arn5JF97Za43u3ySy39x
+ Krn8JFn7ua1q9jkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ A7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7
+ xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAa
+ w2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+ I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2
+ jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
+ AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI
+ 1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
+ Wlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j
+ 6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr
+ 0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUv
+ cSsGvfC2KfnxnUUI43ZEXa7IU8uuWJUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,129 +67,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+Cc: Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No functional modification involved.
 
-drivers/gpu/drm/gma500/cdv_device.c:218 cdv_errata() warn: inconsistent indenting.
+On 2023/2/23 22:07, Thomas Zimmermann wrote:
+>
+> It's the same story all over: you rather want to remove all these 
+> lookup helpers and do a single test before you create the modesetting 
+> pipeline:
+>
+>  if (chip == LS7A2000 && index == 0)
+>     lscd_create_output_ls7a2000_0();
+>  else if (chip == LS7A2000 && index == 1)
+>     lscd_create_output_ls7a2000_1();
+>  else if (chip == LS7A1000 && index == 0)
+>     lscd_create_output_ls7a1000_0();
+>  else if (chip == LS7A1000 && index == 1)
+>     lscd_create_output_ls7a1000_1();
+>  else if (...)
+>     ...
+>
+> There you create the data structures for each pair of chip and index. 
+> If you have functions that can be used by multiple pairs, sharing 
+> those is fine. You might end up with duplicated code, but the overall 
+> design is sound.
+>
+> Your current design will become unmaintainable pretty soon. We already 
+> have several of such drivers.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4126
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
-Changes in v2:
-  -Change the subject.
 
- drivers/gpu/drm/gma500/cdv_device.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+Yes, your are right.
 
-diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
-index 3e83299113e3..1349ea787ae7 100644
---- a/drivers/gpu/drm/gma500/cdv_device.c
-+++ b/drivers/gpu/drm/gma500/cdv_device.c
-@@ -78,7 +78,8 @@ static u32 cdv_get_max_backlight(struct drm_device *dev)
- 	if (max == 0) {
- 		DRM_DEBUG_KMS("LVDS Panel PWM value is 0!\n");
- 		/* i915 does this, I believe which means that we should not
--		 * smash PWM control as firmware will take control of it. */
-+		 * smash PWM control as firmware will take control of it.
-+		 */
- 		return 1;
- 	}
- 
-@@ -149,6 +150,7 @@ static inline u32 CDV_MSG_READ32(int domain, uint port, uint offset)
- 	int mcr = (0x10<<24) | (port << 16) | (offset << 8);
- 	uint32_t ret_val = 0;
- 	struct pci_dev *pci_root = pci_get_domain_bus_and_slot(domain, 0, 0);
-+
- 	pci_write_config_dword(pci_root, 0xD0, mcr);
- 	pci_read_config_dword(pci_root, 0xD4, &ret_val);
- 	pci_dev_put(pci_root);
-@@ -160,6 +162,7 @@ static inline void CDV_MSG_WRITE32(int domain, uint port, uint offset,
- {
- 	int mcr = (0x11<<24) | (port << 16) | (offset << 8) | 0xF0;
- 	struct pci_dev *pci_root = pci_get_domain_bus_and_slot(domain, 0, 0);
-+
- 	pci_write_config_dword(pci_root, 0xD4, value);
- 	pci_write_config_dword(pci_root, 0xD0, mcr);
- 	pci_dev_put(pci_root);
-@@ -180,10 +183,8 @@ static void cdv_init_pm(struct drm_device *dev)
- 	int domain = pci_domain_nr(pdev->bus);
- 	int i;
- 
--	dev_priv->apm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT,
--							PSB_APMBA) & 0xFFFF;
--	dev_priv->ospm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT,
--							PSB_OSPMBA) & 0xFFFF;
-+	dev_priv->apm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT, PSB_APMBA) & 0xFFFF;
-+	dev_priv->ospm_base = CDV_MSG_READ32(domain, PSB_PUNIT_PORT, PSB_OSPMBA) & 0xFFFF;
- 
- 	/* Power status */
- 	pwr_cnt = inl(dev_priv->apm_base + PSB_APM_CMD);
-@@ -196,6 +197,7 @@ static void cdv_init_pm(struct drm_device *dev)
- 	/* Wait for the GPU power */
- 	for (i = 0; i < 5; i++) {
- 		u32 pwr_sts = inl(dev_priv->apm_base + PSB_APM_STS);
-+
- 		if ((pwr_sts & PSB_PWRGT_GFX_MASK) == 0)
- 			return;
- 		udelay(10);
-@@ -215,7 +217,7 @@ static void cdv_errata(struct drm_device *dev)
- 	 *	Bonus Launch to work around the issue, by degrading
- 	 *	performance.
- 	 */
--	 CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
-+	CDV_MSG_WRITE32(pci_domain_nr(pdev->bus), 3, 0x30, 0x08027108);
- }
- 
- /**
-@@ -401,20 +403,22 @@ static int cdv_power_up(struct drm_device *dev)
- 
- static void cdv_hotplug_work_func(struct work_struct *work)
- {
--        struct drm_psb_private *dev_priv = container_of(work, struct drm_psb_private,
-+	struct drm_psb_private *dev_priv = container_of(work, struct drm_psb_private,
- 							hotplug_work);
- 	struct drm_device *dev = &dev_priv->dev;
- 
--        /* Just fire off a uevent and let userspace tell us what to do */
--        drm_helper_hpd_irq_event(dev);
-+	/* Just fire off a uevent and let userspace tell us what to do */
-+	drm_helper_hpd_irq_event(dev);
- }
- 
- /* The core driver has received a hotplug IRQ. We are in IRQ context
--   so extract the needed information and kick off queued processing */
-+ * so extract the needed information and kick off queued processing
-+ */
- 
- static int cdv_hotplug_event(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+
- 	schedule_work(&dev_priv->hotplug_work);
- 	REG_WRITE(PORT_HOTPLUG_STAT, REG_READ(PORT_HOTPLUG_STAT));
- 	return 1;
-@@ -424,6 +428,7 @@ static void cdv_hotplug_enable(struct drm_device *dev, bool on)
- {
- 	if (on) {
- 		u32 hotplug = REG_READ(PORT_HOTPLUG_EN);
-+
- 		hotplug |= HDMIB_HOTPLUG_INT_EN | HDMIC_HOTPLUG_INT_EN |
- 			   HDMID_HOTPLUG_INT_EN | CRT_HOTPLUG_INT_EN;
- 		REG_WRITE(PORT_HOTPLUG_EN, hotplug);
-@@ -549,6 +554,7 @@ static const struct psb_offset cdv_regmap[2] = {
- static int cdv_chip_setup(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+
- 	INIT_WORK(&dev_priv->hotplug_work, cdv_hotplug_work_func);
- 
- 	dev_priv->use_msi = true;
--- 
-2.20.1.7.g153144c
+I'm fear of the duplicated code in the past.
+
+I did not put my attention to the maintainable of the software.
+
+a quick skim through radeon, I find that there also seems have 
+"duplicated" code, this is  a design.
+
+I didn't get it before, now I get it.
 
