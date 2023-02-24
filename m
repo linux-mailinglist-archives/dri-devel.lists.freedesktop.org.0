@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC9B6A1C9E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 14:03:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7C86A1CBB
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 14:08:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8073F10E109;
-	Fri, 24 Feb 2023 13:03:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBBF10E1F0;
+	Fri, 24 Feb 2023 13:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13DD110E0E5;
- Fri, 24 Feb 2023 13:03:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677243819; x=1708779819;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=F3NacRine9jv7nP3PKbhthTDgIOniNBxiN82bZ889yo=;
- b=hJAgrR00AmcVXLyZWQQwcLB+6Hwffw2VJRo7ShgUqs7xR60P2XWV5SR/
- LULlvGGr+723S1/wNuCi2Gjtioo6vUagdv+XXLT44/9Zred3kdBx8tfz9
- 8mK2fVDzdRMVl4Wsyr1RNXgQKz37OsX6GUUESrZUL/BCf4We5FtMXL5au
- 4NyokkMcc7XXCbFlsqZAwPg+XxEYWYHT2SaMIYGYTt8X6f1/XDtFbjIHa
- RLwqbXXdo6BIatdW/DKqDYSyZQ8CuiaNTziLv9hEXV3CPPSyjgMoR2lft
- Quu6LnuNuEAT2nAa0R6eFDuJ4rR1CqPKxRzqcqbu8/fxWIIfUK24G+y0i Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="313104874"
-X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; d="scan'208";a="313104874"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2023 05:03:30 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="741664780"
-X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; d="scan'208";a="741664780"
-Received: from pkacprza-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.56.149])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2023 05:03:28 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Badal Nilawar <badal.nilawar@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Apply Wa_14017073508 for MTL
- SoC Step
-In-Reply-To: <20230223184140.3452853-1-badal.nilawar@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230223184140.3452853-1-badal.nilawar@intel.com>
-Date: Fri, 24 Feb 2023 15:03:25 +0200
-Message-ID: <87lekn2p2a.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57A4810E5B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 13:08:32 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1FBF16602FB6;
+ Fri, 24 Feb 2023 13:08:30 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1677244110;
+ bh=xo1yhPMyDaRz4SOUHsbsxgo14//hh0ZQOfocbNC6veY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HG7SbVCmRnaklGIxLLZ099L6hajqr5lOYvMIJevUkx5q9DdLxc1+srkL5FwkIkOc9
+ gIh6txekjwYdcHBCd8PlmthiS0jFcHJjOxEWPUSQQuB5fC4x8UScMzRMNH8yyEcPxN
+ TSq8kMBt7bc84NaGim7cVvVsZ1U0MEAxTQBOVUMTAJ06ByhGPObyz120YrlGpjtMl9
+ 1q00viChtTV3R82CqSrwejD18qI/QDH0/dcXGJgWYPOg8mfVzBX1Zm4j9lhgpxEurg
+ 2dulDaLggfhytozyqrxYUEVB8o4GSf+qRGNSIKWK1s9MXXMXIOrwkK4B4//s4KufTM
+ 2uUVpfXa7lmxg==
+Message-ID: <61ebdd1a-2737-0516-08fd-3b9aa0ddd4fe@collabora.com>
+Date: Fri, 24 Feb 2023 14:08:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 08/11] drm/panfrost: Add the MT8192 GPU ID
+Content-Language: en-US
+To: Chen-Yu Tsai <wenst@chromium.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>
+References: <20230223133440.80941-1-angelogioacchino.delregno@collabora.com>
+ <20230223133440.80941-9-angelogioacchino.delregno@collabora.com>
+ <CAGXv+5Hzin_5aTqMRRztWbDR64z6_oFOx2hUVnpJBvk9xDzrfw@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAGXv+5Hzin_5aTqMRRztWbDR64z6_oFOx2hUVnpJBvk9xDzrfw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,65 +59,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.d.roper@intel.com, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 24 Feb 2023, Badal Nilawar <badal.nilawar@intel.com> wrote:
-> Apply Wa_14017073508 for MTL SoC die A step instead of graphics step.
-> To get the SoC die stepping there is no direct interface so using
-> revid as revid 0 aligns with SoC die A step.
->
-> Bspec: 55420
->
-> Fixes: 8f70f1ec587d ("drm/i915/mtl: Add Wa_14017073508 for SAMedia")
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt_pm.c     | 4 ++--
->  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index cef3d6f5c34e..4ba3c8c97ccc 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -29,7 +29,7 @@
->  static void mtl_media_busy(struct intel_gt *gt)
->  {
->  	/* Wa_14017073508: mtl */
-> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
-> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
+Il 24/02/23 11:06, Chen-Yu Tsai ha scritto:
+> On Thu, Feb 23, 2023 at 9:35 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+>>
+>> MediaTek MT8192 has a Mali-G57 with a special GPU ID. Add its GPU ID,
+>> but treat it as otherwise identical to a standard Mali-G57.
+>>
+>> We do _not_ fix up the GPU ID here -- userspace needs to be aware of the
+>> special GPU ID, in case we find functional differences between
+>> MediaTek's implementation and the standard Mali-G57 down the line.
+>>
+>> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> Reviewed-by: Steven Price <steven.price@arm.com>
+> 
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> 
+> As previously mentioned, MT8195 Mali G57 has minor revision number 1.
+> Do we need to handle that?
+> 
 
-Using INTEL_REVID() directly is almost certainly the wrong thing to do.
+Maybe something went wrong while sending the reply to the same question on v2?
 
-BR,
-Jani.
+Anyway, from what I can see on my MT8195 machine, it works fine without adding
+any particular handling...
 
->  	    gt->type == GT_MEDIA)
->  		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
->  				  PCODE_MBOX_GT_STATE_MEDIA_BUSY,
-> @@ -39,7 +39,7 @@ static void mtl_media_busy(struct intel_gt *gt)
->  static void mtl_media_idle(struct intel_gt *gt)
->  {
->  	/* Wa_14017073508: mtl */
-> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
-> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
->  	    gt->type == GT_MEDIA)
->  		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
->  				  PCODE_MBOX_GT_STATE_MEDIA_NOT_BUSY,
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-> index fcf51614f9a4..7429c233ad45 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
-> @@ -19,7 +19,7 @@ static bool __guc_rc_supported(struct intel_guc *guc)
->  	 * Do not enable gucrc to avoid additional interrupts which
->  	 * may disrupt pcode wa.
->  	 */
-> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
-> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
->  	    gt->type == GT_MEDIA)
->  		return false;
+Alyssa, Steven,
+are you aware of anything that we should consider?
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Regards,
+Angelo
+
+>> ---
+>>   drivers/gpu/drm/panfrost/panfrost_gpu.c | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_gpu.c b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> index 6452e4e900dd..d28b99732dde 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_gpu.c
+>> @@ -204,6 +204,14 @@ static const struct panfrost_model gpu_models[] = {
+>>
+>>          GPU_MODEL(g57, 0x9001,
+>>                  GPU_REV(g57, 0, 0)),
+>> +
+>> +       /* MediaTek MT8192 has a Mali-G57 with a different GPU ID from the
+>> +        * standard. Arm's driver does not appear to handle this model.
+>> +        * ChromeOS has a hack downstream for it. Treat it as equivalent to
+>> +        * standard Mali-G57 for now.
+>> +        */
+>> +       GPU_MODEL(g57, 0x9003,
+>> +               GPU_REV(g57, 0, 0)),
+>>   };
+>>
+>>   static void panfrost_gpu_init_features(struct panfrost_device *pfdev)
+>> --
+>> 2.39.2
+>>
+
+
