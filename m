@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBEC6A22E0
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 21:02:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6356A22EC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 21:03:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 738DD10ED3A;
-	Fri, 24 Feb 2023 20:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5233310ED07;
+	Fri, 24 Feb 2023 20:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99FA710ED1A;
- Fri, 24 Feb 2023 20:02:28 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id ko13so595094plb.13;
- Fri, 24 Feb 2023 12:02:28 -0800 (PST)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41A9C10ED21;
+ Fri, 24 Feb 2023 20:03:13 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ cp7-20020a17090afb8700b0023756229427so4014536pjb.1; 
+ Fri, 24 Feb 2023 12:03:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2hrRR+74wlbtFKJjI1vePCtLY+UXSH6ONksg5TtlCrQ=;
- b=ZZ7igSSQQDU0uw7AobYmC6Qr4Zo65YgCii7Uk3r1xDlOgBzia1x/39tRKjs/vQao3J
- b2eJUkqTg2oJ1Snx+IzgUJyoV+oyKFjx/gJiiMJPMl0sc57fHQ+ZxdX+ERugwsR4E8gJ
- vn8nStB1fy9QCRs8lg02VjxI83xvTHnHODzV26n0/lqzXPteLvq0IdNzXIC6afmAS06h
- diaGxhAi8VnERtA5/SirCFc9Pqpk87lrQAZz/CQ/2N4U7mRb68lDYcKsCnuMCQpWS42l
- jCFQFjwMgxPuOCZyOlwdfH2b3m6wYhuM/5T4acp7Vs+4hai5hyQI311Ht7A4Azq3sNMp
- wm4g==
+ bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
+ b=MmJRRhMlaxk2Tg561LzgJumOupNCmYxSqE7V/Ec4vvD7vgC4kK8CHIMXMadg+Xn7fz
+ WRhZENogAOymwJlIY3/ReOiPI0zxW8vspbonbRb93B5Q8kxBWWoBRTQ0MKyVDoVKIJwa
+ ufThHyWP8vkdS6gWl7RjDPFM9yNrIjO5d4yS0b+RG146pN6q8ZO96+XVjSdhRWaZ26+J
+ HHOUr2cqCDB4qy3+aT5idFgJyBcp3zw21dthn2udYd881vQ2HwePLZbEh383xwwMTPEh
+ pKfuNef1SIGCQ65/2/Qh1OPqT+MpiDaAFbfHeeY6gPX9MQA+4ExkN//uxnS462CbtA/O
+ B1Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2hrRR+74wlbtFKJjI1vePCtLY+UXSH6ONksg5TtlCrQ=;
- b=d/vZ/G9EpIqoXlRCGOuwMCxcctdtRRYbGBprFGcP/oB9xj1MfFU8DSXXfHzLZB0BjP
- c/8cxAaFXoWA93W6+sCZRzTgFwcDlcYOKtFTufjzoNa6Cg48y7445dmvpl5JLI7H2TIm
- caYbRWzp3BLInKH5n/OR3tPC+/lN2jrvI8zIKRUeQ5985OzsHP2TAnD1bLzUMLyJmlT7
- iSbv5NlpKHSIqs8jqXstvWoUt2bF+c4fzM4CQOtj+CihVHiF9AOTbyPB3i3shSKXXq49
- VoLa6scYNArekPxcsEu5kMC/HIBLQ3LgtjQGq/ARRyoiFXbgr2nihBsyUidwqEk9Tays
- xFfQ==
-X-Gm-Message-State: AO0yUKXwDTBnAzbMiwsFsSBxoPhdgC8zCVW409QjpEZUKXzw47iRJFQS
- r1YrHQy9zvbX97iMAR71h1mYq7gl1uU=
-X-Google-Smtp-Source: AK7set/gsBMM5rOoncDiD+qPtbeJXzn8SJFKziYIKVcWGjXtI5uWV2ZZs11iGJWQ9/vcGA6DeHxYvA==
-X-Received: by 2002:a05:6a20:690b:b0:cb:cd69:48d2 with SMTP id
- q11-20020a056a20690b00b000cbcd6948d2mr12131136pzj.30.1677268947993; 
- Fri, 24 Feb 2023 12:02:27 -0800 (PST)
+ bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
+ b=AsU/qBuFAEiTtw+5OTPS6tN9ifKh0sogy2wDF5KSaV4HCg3FQHkIOmhnRcwu4Lv2ul
+ BJeOIbSNkMXvwLPGd2S/tQd4clK99FY2F523jHCy5LVvBNoVboqw2MlTx117eI/iB/px
+ Rq9bupxKc6BvE2YDVdXcdGixqUYvg04vpNOFTBlUJ+5VQWxT3fEKwU32ug8uGsHTh7g4
+ Y05kznj6tn642TGms/4vibdIJjK29MU9Yyqpe71Vh57Wq7pX//oV8cLZ5fRnK72WT7ou
+ 7nbFR+YJB41kLdGEMY/5lC7x9ddHOwsIHDjylRzviYVtDIYlYQ/cXLiFlZYbwBJjw3/w
+ yOHQ==
+X-Gm-Message-State: AO0yUKUbckw3o4DCvhCBSsGCSpXqivLfNYrQopLM4GA877S3fhiDwyGx
+ inVMop99/oOX6Rnr7tw7NyhCyf7MAkQ=
+X-Google-Smtp-Source: AK7set95tBC99k0jthHkFEIkO7gTyH442ymUGtLpwciZhI446KatM88hJ0Xu7olLG076L8fTPf5nTg==
+X-Received: by 2002:a17:902:fa88:b0:19a:a516:ba46 with SMTP id
+ lc8-20020a170902fa8800b0019aa516ba46mr16886185plb.41.1677268992534; 
+ Fri, 24 Feb 2023 12:03:12 -0800 (PST)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- c9-20020aa78e09000000b005a8c90fa306sm6224999pfr.83.2023.02.24.12.02.27
+ t13-20020a1709028c8d00b0019a96a6543esm8237986plo.184.2023.02.24.12.03.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 12:02:27 -0800 (PST)
+ Fri, 24 Feb 2023 12:03:12 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 14/15] drm/msm/atomic: Switch to vblank_start helper
-Date: Fri, 24 Feb 2023 12:01:42 -0800
-Message-Id: <20230224200155.2510320-15-robdclark@gmail.com>
+Subject: [PATCH v6 15/15] drm/i915: Add deadline based boost support
+Date: Fri, 24 Feb 2023 12:01:43 -0800
+Message-Id: <20230224200155.2510320-16-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230224200155.2510320-1-robdclark@gmail.com>
 References: <20230224200155.2510320-1-robdclark@gmail.com>
@@ -71,120 +72,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: open list <linux-kernel@vger.kernel.org>,
- Liu Shixin <liushixin2@huawei.com>, Rob Clark <robdclark@chromium.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Douglas Anderson <dianders@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+ open list <linux-kernel@vger.kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Drop our custom thing and switch to drm_crtc_next_vblank_start() for
-calculating the time of the start of the next vblank period.
+v2: rebase
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 15 ---------------
- drivers/gpu/drm/msm/msm_atomic.c        |  8 +++++---
- drivers/gpu/drm/msm/msm_kms.h           |  8 --------
- 3 files changed, 5 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index a683bd9b5a04..43996aecaf8c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -411,20 +411,6 @@ static void dpu_kms_disable_commit(struct msm_kms *kms)
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 7503dcb9043b..44491e7e214c 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
+ 	return i915_request_enable_breadcrumb(to_request(fence));
  }
  
--static ktime_t dpu_kms_vsync_time(struct msm_kms *kms, struct drm_crtc *crtc)
--{
--	struct drm_encoder *encoder;
--
--	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask) {
--		ktime_t vsync_time;
--
--		if (dpu_encoder_vsync_time(encoder, &vsync_time) == 0)
--			return vsync_time;
--	}
--
--	return ktime_get();
--}
--
- static void dpu_kms_prepare_commit(struct msm_kms *kms,
- 		struct drm_atomic_state *state)
- {
-@@ -953,7 +939,6 @@ static const struct msm_kms_funcs kms_funcs = {
- 	.irq             = dpu_core_irq,
- 	.enable_commit   = dpu_kms_enable_commit,
- 	.disable_commit  = dpu_kms_disable_commit,
--	.vsync_time      = dpu_kms_vsync_time,
- 	.prepare_commit  = dpu_kms_prepare_commit,
- 	.flush_commit    = dpu_kms_flush_commit,
- 	.wait_flush      = dpu_kms_wait_flush,
-diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-index 1686fbb611fd..de7ce17489cc 100644
---- a/drivers/gpu/drm/msm/msm_atomic.c
-+++ b/drivers/gpu/drm/msm/msm_atomic.c
-@@ -186,8 +186,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 	struct msm_kms *kms = priv->kms;
- 	struct drm_crtc *async_crtc = NULL;
- 	unsigned crtc_mask = get_crtc_mask(state);
--	bool async = kms->funcs->vsync_time &&
--			can_do_async(state, &async_crtc);
-+	bool async = can_do_async(state, &async_crtc);
- 
- 	trace_msm_atomic_commit_tail_start(async, crtc_mask);
- 
-@@ -231,7 +230,9 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 
- 			kms->pending_crtc_mask |= crtc_mask;
- 
--			vsync_time = kms->funcs->vsync_time(kms, async_crtc);
-+			if (!drm_crtc_next_vblank_start(async_crtc, &vsync_time))
-+				goto fallback;
++static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
++{
++	struct i915_request *rq = to_request(fence);
 +
- 			wakeup_time = ktime_sub(vsync_time, ms_to_ktime(1));
++	if (i915_request_completed(rq))
++		return;
++
++	if (i915_request_started(rq))
++		return;
++
++	/*
++	 * TODO something more clever for deadlines that are in the
++	 * future.  I think probably track the nearest deadline in
++	 * rq->timeline and set timer to trigger boost accordingly?
++	 */
++
++	intel_rps_boost(rq);
++}
++
+ static signed long i915_fence_wait(struct dma_fence *fence,
+ 				   bool interruptible,
+ 				   signed long timeout)
+@@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
+ 	.signaled = i915_fence_signaled,
+ 	.wait = i915_fence_wait,
+ 	.release = i915_fence_release,
++	.set_deadline = i915_fence_set_deadline,
+ };
  
- 			msm_hrtimer_queue_work(&timer->work, wakeup_time,
-@@ -253,6 +254,7 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 		return;
- 	}
- 
-+fallback:
- 	/*
- 	 * If there is any async flush pending on updated crtcs, fold
- 	 * them into the current flush.
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index f8ed7588928c..086a3f1ff956 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -59,14 +59,6 @@ struct msm_kms_funcs {
- 	void (*enable_commit)(struct msm_kms *kms);
- 	void (*disable_commit)(struct msm_kms *kms);
- 
--	/**
--	 * If the kms backend supports async commit, it should implement
--	 * this method to return the time of the next vsync.  This is
--	 * used to determine a time slightly before vsync, for the async
--	 * commit timer to run and complete an async commit.
--	 */
--	ktime_t (*vsync_time)(struct msm_kms *kms, struct drm_crtc *crtc);
--
- 	/**
- 	 * Prepare for atomic commit.  This is called after any previous
- 	 * (async or otherwise) commit has completed.
+ static void irq_execute_cb(struct irq_work *wrk)
 -- 
 2.39.1
 
