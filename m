@@ -1,75 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298EE6A1AE9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 12:01:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AF26A1B45
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 12:18:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED89110E878;
-	Fri, 24 Feb 2023 11:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5108A10E0BB;
+	Fri, 24 Feb 2023 11:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BE7610E873;
- Fri, 24 Feb 2023 11:01:06 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id j17so13932581ljq.11;
- Fri, 24 Feb 2023 03:01:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=5AIXFULTyE2NYT6U8vMfNuliXg2sFhN0e4bazCu8yv8=;
- b=m80A7SSUDmTjppc/QxY0xh4gKh5c9j2fqJJ5VGuCBVl+dPqSYp6+8qyYBzRLXTpGbJ
- ZnXvWGDmeWssc3LH+rrERguT5Xy1TJRQHEiD6FWLTUnJ5swL9D9Ce8ChGJCptz7RFIXP
- LAWe+b3npfc7VdM71mMHpS1xsVZZWrPhRWeT+QIuOqau06TR6lGY5aDAniz+MpOSTXjJ
- vMhqW67aDcL51XU+wjOy8MMSvoItFbTjNKFnnG9QHF0LifjJnOvQbrJ6Zq/767LJIrp/
- Bk5/3RWz/365M7nCzWJV2kNcu39L/esSs3sMEULFl6xTAmPAAB12xUMmiUeVkczispx9
- qzVA==
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F31A10E0BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 11:17:59 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id eg37so49638682edb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 03:17:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+Vl8zU8kbmD0NXYO3MpGhm7tTD1vhneNkAGrrsmIsSw=;
+ b=TZz/8/zzgzDt8+hZqJEeX7Y4spNoEB1x53DoiTOqrKyo+9YKWAjJPmHgR5FTbWNGpn
+ GYysbJTX/QKQJ0kGvGNRLHM7Xr0TkoOBmweGm6vATdTeEp4sDTdIFoIfHi4JCryDUP3M
+ cVQ1vtlMCj80ubXLb8QXhY5rp4U01Q1twHhn7qAMcUv6UxWpS7AcmsxuA6ZSKeNE0W/X
+ VmpQvTu632nhPgHDinmsXAJBHA3VfjZnYK+IyHxzcvjjVBImvp18+Hjnl5LvtPXDtJ84
+ 2/+5v/fg59tVkZflqBzK1huB+xnWXfnGK9v0AqIwxJBC94IMofDvU0R0hQQ6VZlNam63
+ 0RLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5AIXFULTyE2NYT6U8vMfNuliXg2sFhN0e4bazCu8yv8=;
- b=EP8OXu4XeZCvGcw+R98Q+WATW+I6EKqnQ4iB783+brqq1r7WWBj0L5EXTMzjhMAYcB
- 4lDQc+UxkW72DRp6STCVoEu4By6sede6P8hrRFpQHH3qfgW9lAKZ581avhTM7vHUYjNj
- xOrDUroLHayJyCJNvw1sc2CKw+Ac2DR9JdeEFe/WTlZrQkhMEQhsiqM3lHmvu4JbK27l
- O7cJMm6Ffd03LBAu3lU7/zIzuJ3Mj7SM8sibhXx3LnRn7vxO3rDX3owN3l/5A3Kkv9IM
- ZIGOlrEfimgCBuY0GpLs8Panjbfdp/OfeXJDSKE5YMM+CWGDGd5EgeaMNM5Cr7cmOkjU
- 4Rhg==
-X-Gm-Message-State: AO0yUKVYiNdxaypqkNA4dEu0fb+6u1fLypMvtSDIdu8GuBtLNbATcwqg
- KVIldx9+uHFDkQhrI0YdPIk=
-X-Google-Smtp-Source: AK7set+u6j5mMjeRrDy3BHmdbX5p1kc2CcLp2kMTojx4ZvP7aK8yrHuABT4+lDMV12C7Cj+kbsY5YQ==
-X-Received: by 2002:a2e:be88:0:b0:293:4d02:98ed with SMTP id
- a8-20020a2ebe88000000b002934d0298edmr6858700ljr.27.1677236464508; 
- Fri, 24 Feb 2023 03:01:04 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- u2-20020a2e9f02000000b0029474e94ac6sm720991ljk.12.2023.02.24.03.01.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 03:01:04 -0800 (PST)
-Date: Fri, 24 Feb 2023 13:00:53 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-Message-ID: <20230224130053.3f8939e2@eldfell>
-In-Reply-To: <582a9b92-d246-fce2-cf39-539d9a2db17f@linux.intel.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
- <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
- <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell>
- <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell>
- <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell>
- <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell>
- <582a9b92-d246-fce2-cf39-539d9a2db17f@linux.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+Vl8zU8kbmD0NXYO3MpGhm7tTD1vhneNkAGrrsmIsSw=;
+ b=JdxA3U98czbXmOT5uf+6mMd8xKmfXIsMUm9x1RkwuxmvrzoR9cUwQEJGPY7auTcAAK
+ wWCBVcdB3fRgUrKF61sCrRLEwvBDfhs4nXnrPGyENc8LyV2brAg3VSD1wTCoobLCJmgH
+ X6do0dTt9s0lwvrMsNk7P8un1wHaAfwINnH8rhluNjAP+xUpHEnOiw9k0zqco+qfuexP
+ S8NBOUGTqaM5Y7nP2wykgXVTzjM11GPk8vkjxckhujqUmBRtbCmWW3sxL5F6jA/JkAVa
+ uxnnsB3tNVsadQFEBHJHZiO/2YebMomsNfnlMLUYtifDjyGtwI+G05+/WVA4OXBRjIZd
+ rkpw==
+X-Gm-Message-State: AO0yUKXyPrehL/w50WulbGcGz1eCpdbrrnfZGMhQWUBC7pomJziZ+nDE
+ xFfcpiclASnprNmi57pQszpGPA==
+X-Google-Smtp-Source: AK7set+4KfFMeGNAYlcsDg1coF14sbqhpIKYYoNl+eBr/MJ1HdQqsV0dLeXgac6Vspjm/49TkSXQJA==
+X-Received: by 2002:a17:906:518d:b0:8b1:78b6:bbd7 with SMTP id
+ y13-20020a170906518d00b008b178b6bbd7mr29255076ejk.10.1677237477989; 
+ Fri, 24 Feb 2023 03:17:57 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.216.144])
+ by smtp.gmail.com with ESMTPSA id
+ i10-20020a170906a28a00b008bda61ff999sm8119127ejz.130.2023.02.24.03.17.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Feb 2023 03:17:57 -0800 (PST)
+Message-ID: <c3376575-c24f-18a3-1d8b-c3d67f072287@linaro.org>
+Date: Fri, 24 Feb 2023 12:17:55 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/I1D.bYM83gCFWxxa.Md9LXG";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3 01/15] dt-bindings: display/msm: gpu: Document GMU
+ wrapper-equipped A6xx
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
+ <20230223-topic-gmuwrapper-v3-1-5be55a336819@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230223-topic-gmuwrapper-v3-1-5be55a336819@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,159 +84,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, "open list:SYNC FILE
- FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/I1D.bYM83gCFWxxa.Md9LXG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 23/02/2023 13:06, Konrad Dybcio wrote:
+> GMU wrapper-equipped A6xx GPUs require clocks and clock-names to be
+> specified under the GPU node, just like their older cousins.
+> Account for that.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  .../devicetree/bindings/display/msm/gpu.yaml       | 63 ++++++++++++++++++----
+>  1 file changed, 53 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> index d4191cca71fb..e6d3160601bc 100644
+> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> @@ -36,10 +36,7 @@ properties:
+>  
+>    reg-names:
+>      minItems: 1
+> -    items:
+> -      - const: kgsl_3d0_reg_memory
+> -      - const: cx_mem
+> -      - const: cx_dbgc
+> +    maxItems: 3
+>  
+>    interrupts:
+>      maxItems: 1
+> @@ -147,26 +144,72 @@ allOf:
+>                  description: GPU Alternative Memory Interface clock
+>                - const: gfx3d
+>                  description: GPU 3D engine clock
+> +              - const: gmu
+> +                description: CX GMU clock
+>                - const: rbbmtimer
+>                  description: GPU RBBM Timer for Adreno 5xx series
+>                - const: rbcpr
+>                  description: GPU RB Core Power Reduction clock
+> +              - const: xo
+> +                description: GPUCC clocksource clock
+>            minItems: 2
+> -          maxItems: 7
+> +          maxItems: 9
 
-On Fri, 24 Feb 2023 10:50:51 +0000
-Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+Your commit says A6xx but this is a3-5xx. I don't understand this change.
 
-> On 24/02/2023 10:24, Pekka Paalanen wrote:
-> > On Fri, 24 Feb 2023 09:41:46 +0000
-> > Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> >  =20
-> >> On 24/02/2023 09:26, Pekka Paalanen wrote: =20
-> >>> On Thu, 23 Feb 2023 10:51:48 -0800
-> >>> Rob Clark <robdclark@gmail.com> wrote:
-> >>>     =20
-> >>>> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.com>=
- wrote: =20
-> >>>>>
-> >>>>> On Wed, 22 Feb 2023 07:37:26 -0800
-> >>>>> Rob Clark <robdclark@gmail.com> wrote:
-> >>>>>       =20
-> >>>>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.co=
-m> wrote: =20
-> >>>
-> >>> ...
-> >>>     =20
-> >>>>>>> On another matter, if the application uses SET_DEADLINE with one
-> >>>>>>> timestamp, and the compositor uses SET_DEADLINE on the same thing=
- with
-> >>>>>>> another timestamp, what should happen? =20
-> >>>>>>
-> >>>>>> The expectation is that many deadline hints can be set on a fence.
-> >>>>>> The fence signaller should track the soonest deadline. =20
-> >>>>>
-> >>>>> You need to document that as UAPI, since it is observable to usersp=
-ace.
-> >>>>> It would be bad if drivers or subsystems would differ in behaviour.
-> >>>>>       =20
-> >>>>
-> >>>> It is in the end a hint.  It is about giving the driver more
-> >>>> information so that it can make better choices.  But the driver is
-> >>>> even free to ignore it.  So maybe "expectation" is too strong of a
-> >>>> word.  Rather, any other behavior doesn't really make sense.  But it
-> >>>> could end up being dictated by how the hw and/or fw works. =20
-> >>>
-> >>> It will stop being a hint once it has been implemented and used in the
-> >>> wild long enough. The kernel userspace regression rules make sure of
-> >>> that. =20
-> >>
-> >> Yeah, tricky and maybe a gray area in this case. I think we eluded
-> >> elsewhere in the thread that renaming the thing might be an option.
-> >>
-> >> So maybe instead of deadline, which is a very strong word, use somethi=
-ng
-> >> along the lines of "present time hint", or "signalled time hint"? Maybe
-> >> reads clumsy. Just throwing some ideas for a start. =20
-> >=20
-> > You can try, but I fear that if it ever changes behaviour and
-> > someone notices that, it's labelled as a kernel regression. I don't
-> > think documentation has ever been the authoritative definition of UABI
-> > in Linux, it just guides drivers and userspace towards a common
-> > understanding and common usage patterns.
-> >=20
-> > So even if the UABI contract is not documented (ugh), you need to be
-> > prepared to set the UABI contract through kernel implementation. =20
->=20
-> To be the devil's advocate it probably wouldn't be an ABI regression but=
-=20
-> just an regression. Same way as what nice(2) priorities mean hasn't=20
-> always been the same over the years, I don't think there is a strict=20
-> contract.
->=20
-> Having said that, it may be different with latency sensitive stuff such=20
-> as UIs though since it is very observable and can be very painful to user=
-s.
->=20
-> > If you do not document the UABI contract, then different drivers are
-> > likely to implement it differently, leading to differing behaviour.
-> > Also userspace will invent wild ways to abuse the UABI if there is no
-> > documentation guiding it on proper use. If userspace or end users
-> > observe different behaviour, that's bad even if it's not a regression.
-> >=20
-> > I don't like the situation either, but it is what it is. UABI stability
-> > trumps everything regardless of whether it was documented or not.
-> >=20
-> > I bet userspace is going to use this as a "make it faster, make it
-> > hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> > library that stamps any and all fences with an expired deadline to
-> > just squeeze out a little more through some weird side-effect.
-> >=20
-> > Well, that's hopefully overboard in scaring, but in the end, I would
-> > like to see UABI documented so I can have a feeling of what it is for
-> > and how it was intended to be used. That's all. =20
->=20
-> We share the same concern. If you read elsewhere in these threads you=20
-> will notice I have been calling this an "arms race". If the ability to=20
-> make yourself go faster does not required additional privilege I also=20
-> worry everyone will do it at which point it becomes pointless. So yes, I=
-=20
-> do share this concern about exposing any of this as an unprivileged uapi.
->=20
-> Is it possible to limit access to only compositors in some sane way?=20
-> Sounds tricky when dma-fence should be disconnected from DRM..
+>  
+>        required:
+>          - clocks
+>          - clock-names
+> +
+>    - if:
+>        properties:
+>          compatible:
+>            contains:
+> -            pattern: '^qcom,adreno-6[0-9][0-9]\.[0-9]$'
+> -
+> -    then: # Since Adreno 6xx series clocks should be defined in GMU
+> +            enum:
+> +              - qcom,adreno-610.0
+> +              - qcom,adreno-619.1
+> +    then:
+>        properties:
+> -        clocks: false
+> -        clock-names: false
+> +        clock-names:
+> +          items:
+> +            - const: core
+> +              description: GPU Core clock
+> +            - const: iface
+> +              description: GPU Interface clock
+> +            - const: mem_iface
+> +              description: GPU Memory Interface clock
+> +            - const: alt_mem_iface
+> +              description: GPU Alternative Memory Interface clock
+> +            - const: gmu
+> +              description: CX GMU clock
+> +            - const: xo
+> +              description: GPUCC clocksource clock
+> +
+> +        reg-names:
+> +          minItems: 1
+> +          items:
+> +            - const: kgsl_3d0_reg_memory
+> +            - const: cx_dbgc
+> +
+> +      required:
+> +        - clocks
+> +        - clock-names
+> +    else:
+> +      if:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              pattern: '^qcom,adreno-6[0-9][0-9]\.[0-9]$'
+> +
+> +      then: # Starting with A6xx, the clocks are usually defined in the GMU node
 
-Maybe it's not that bad in this particular case, because we are talking
-only about boosting GPU clocks which benefits everyone (except
-battery life) and it does not penalize other programs like e.g.
-job priorities do.
-
-Drivers are not going to use the deadline for scheduling priorities,
-right? I don't recall seeing any mention of that.
-
-...right?
+The comment is not accurate anymore.
 
 
-Thanks,
-pq
+Best regards,
+Krzysztof
 
---Sig_/I1D.bYM83gCFWxxa.Md9LXG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP4mOUACgkQI1/ltBGq
-qqc1rQ/9EUIHxQur2LFhPc8dW9al2BKzk9iETv5iymwqPnsiPVwBensxVlYR6H5+
-hKLDJfOE4ka7Lh6t6oazo6vrt+vzRFQjPXdyteTpezf1fqruYrHLyuSU5hJ/TFj+
-WBBRCJhTJ6AfytE+kDgxJFveJgTB2wX0TcjrvY16B/qLeHojQs5ZxWhFaKOOgUGI
-oPFZZM4JGm+/UrNeGloSYL32gXzRv01DTinmoH9Pg6DXOrSQuXJ5MmX5GTjpe2hQ
-+Kaqh6dkCCxHpIoj/A6mnsGVCP3Y/SB3VNE2iTYq2Fn7zssfFu1MbI6ib9rCKRMK
-tS2qQl8PMIUJYkSV+ke65DP0jgQhjPM6t+O6LYqYyx3Fm9/KkbaQExO743WZzhuo
-ZgiIbrfTGJ2NGSGH7hofqRdVTsPF6No905se5M8ohpSnzd675LRuzj3RnzzpvwJG
-2S/1CyBNsqD1dWDrph9S38YhFUGRvFgw0yqWUr1uqT9sT5JslsD6eFxuUtLfBn7N
-jnXqhGeg5gscKYND/uXPPC0IdBqG5kROTL2Md/ushUhVYu8TdW2eXlZE3MFltDg/
-xEz+yv0TQq3JwM9rEPtGMQOTfNQECUnrVMpDmv9iFo8KaSp379Yo9VTQNgP3Df3c
-bjl6l7PxtpsKqYb6aAnMpNiWj8/w+JXq9QEM5Hoa3lFdkYCQgZM=
-=1ihL
------END PGP SIGNATURE-----
-
---Sig_/I1D.bYM83gCFWxxa.Md9LXG--
