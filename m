@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2E46A23EB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 22:42:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE496A23EC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 22:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76A1110E3B4;
-	Fri, 24 Feb 2023 21:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3C810ED38;
+	Fri, 24 Feb 2023 21:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA1DE10E3B4;
- Fri, 24 Feb 2023 21:41:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FF4C10ED2B;
+ Fri, 24 Feb 2023 21:42:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=9O/89xKQoXtVMv1QuGR2Fq+VjTxKJ6+kDaOP7mTVub8=; b=qpsOfSf6LUPEE9JrqsczXO6dVZ
- c57QWi4f1LWf57yy0E5yy+wDZPsJKJWlxHiZTIKGFUI4nM+k/BvKzjllNc3Aci4QwX6nlQ+y6o8+4
- XAAuHuxpFBQXsz/NQzrBjz0Gz7oHAmFWmUVl3Vs6WRLK4KliYy79/sZLsqbqHCGIj7sVjMTo/2WtG
- +MIppz4+sDZrOLwnHw+KceIagXx3FQJAtk6HRcPFuGfGkm1Tve8edD12oZT0RhklVTG+SgSrZKZX8
- c3k15+s1RLqoLDDg1tQP3GSxpoeAnNTxYF3qhpeTiAj5Y+VjgPqnv6fAEe8wQZMmqdIO+7DBhLUGZ
- Q6ux7a5w==;
+ bh=iY5kKj/uyI389skeRqcah0v6Nw8t4ga+c2MtkCEUHrE=; b=HfmEt4C2KwsYjK80ZQkPaiEVYH
+ JA0rbKAtojtPqY8QAl07nbPxyhGuQUNFBsfRv8wwO91n75PmZc+bELXpFqCMqK2Xb8KVFllQlNMba
+ uRui+ouWX+cSONiynSTJNrnyP3M4DzlJrqbChMNuYJJlWa+Q1v/1bIICXuN8WTau58GJQ+n93qgZM
+ RCAlxHROpBrdj2ouCjn4k7b9ADyyFG0TmXS+gUGqmkTw+q7thXrXP3jPus38BeJJFoN5nXFuHKTxv
+ 1xOLesdbSsZnaU+B0SM8ZfUrXfypqHhHb9oNwA5bnCokD/p+QOD35OQ/1IwHbRyx7INue47PsXWdS
+ Mkwvo5ZA==;
 Received: from [187.36.234.139] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pVfp9-00Dulq-9G; Fri, 24 Feb 2023 22:41:51 +0100
+ id 1pVfpD-00Dulq-WE; Fri, 24 Feb 2023 22:41:56 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH 1/2] drm/lima: Use drm_sched_job_add_syncobj_dependency()
-Date: Fri, 24 Feb 2023 18:41:32 -0300
-Message-Id: <20230224214133.411966-1-mcanal@igalia.com>
+Subject: [PATCH 2/2] drm/msm: Use drm_sched_job_add_syncobj_dependency()
+Date: Fri, 24 Feb 2023 18:41:33 -0300
+Message-Id: <20230224214133.411966-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230224214133.411966-1-mcanal@igalia.com>
+References: <20230224214133.411966-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,43 +62,42 @@ Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As lima_gem_add_deps() performs the same steps as
+As msm_parse_deps() performs the same steps as
 drm_sched_job_add_syncobj_dependency(), replace the open-coded
-implementation in Lima in order to simply use the DRM function.
+implementation in msm in order to simply use the DRM function.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/lima/lima_gem.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/msm_gem_submit.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index 0f1ca0b0db49..10252dc11a22 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -277,21 +277,13 @@ static int lima_gem_add_deps(struct drm_file *file, struct lima_submit *submit)
- 	int i, err;
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 73a2ca122c57..d360277809f2 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -550,7 +550,6 @@ static struct drm_syncobj **msm_parse_deps(struct msm_gem_submit *submit,
  
- 	for (i = 0; i < ARRAY_SIZE(submit->in_sync); i++) {
--		struct dma_fence *fence = NULL;
+ 	for (i = 0; i < nr_in_syncobjs; ++i) {
+ 		uint64_t address = in_syncobjs_addr + i * syncobj_stride;
+-		struct dma_fence *fence;
+ 
+ 		if (copy_from_user(&syncobj_desc,
+ 			           u64_to_user_ptr(address),
+@@ -570,12 +569,8 @@ static struct drm_syncobj **msm_parse_deps(struct msm_gem_submit *submit,
+ 			break;
+ 		}
+ 
+-		ret = drm_syncobj_find_fence(file, syncobj_desc.handle,
+-		                             syncobj_desc.point, 0, &fence);
+-		if (ret)
+-			break;
 -
- 		if (!submit->in_sync[i])
- 			continue;
+-		ret = drm_sched_job_add_dependency(&submit->base, fence);
++		ret = drm_sched_job_add_syncobj_dependency(&submit->base, file,
++							   syncobj_desc.handle, syncobj_desc.point);
+ 		if (ret)
+ 			break;
  
--		err = drm_syncobj_find_fence(file, submit->in_sync[i],
--					     0, 0, &fence);
-+		err = drm_sched_job_add_syncobj_dependency(&submit->task->base, file,
-+							   submit->in_sync[i], 0);
- 		if (err)
- 			return err;
--
--		err = drm_sched_job_add_dependency(&submit->task->base, fence);
--		if (err) {
--			dma_fence_put(fence);
--			return err;
--		}
- 	}
- 
- 	return 0;
 -- 
 2.39.2
 
