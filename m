@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102F86A22BE
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 21:02:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDED6A22B9
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 21:02:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53ED810ED03;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB3010ED04;
 	Fri, 24 Feb 2023 20:02:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5B7B10ECFA;
- Fri, 24 Feb 2023 20:02:02 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- z20-20020a17090a8b9400b002372d7f823eso3958957pjn.4; 
- Fri, 24 Feb 2023 12:02:02 -0800 (PST)
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0F510ECFD;
+ Fri, 24 Feb 2023 20:02:04 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id x34so263436pjj.0;
+ Fri, 24 Feb 2023 12:02:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BjpvB6oPPHx1azLHzg6QZzAF+790oeDvTeHTT2aGPnU=;
- b=KVIenKwh8Ra0IYJKT+/nF0y9Cr8kAZkAkoXqA+8kOBiUEf5CM+tN0trf1WKWR/Dik/
- t816aUVYIS+dwzDCsrw2h+mge9bndhFtiG2TKKPUU0etFn0CNu/SaoeTjk2Y9QUGvAX4
- oOaBnzt9jVjPnWLWrca7kkC4UaGhGkB2AJbTpooRjMjPdZZHL6b27k4fX2mTmHO5VoRl
- XM0lGp1zQxd5GIDQOWrkk9lZxYH6PVpatjCY6SX1qCoy+QgpwkORwYZhqFDVWTl0H+Tf
- cfxy0zN1uiEtYST0pPGpqbxtnzl6xljbKT9fPvX8UncCfqbA4Te8EskFDsIUjrMi/Tbt
- DjLQ==
+ bh=MohZmh6ZcfzJn1OmRfs/o8+oM4ZPKLi2FB+4LPpL34o=;
+ b=gBGdyrytMMtai+cnotBNgRYWcmeJ847XewFJda51kAb8/nryk4VPWYeo6WnGeqr/ib
+ Z38zXiOt2/PJaBNCvg4J8afTwkAatILSkWbllJFbchya9js70V1jArUtpb+vMbf/HJQz
+ Piksuw8wgQW0HYiOiOjb3ZlarmynmgNYPnVZYSbh+DcSulVoaUJbM4Z1uMon2TM+hM/h
+ XUuOhPtP8rFevkNUXLE0ul0iQJsF1f01tHxkpRaZKqPabY8u4JtExrgzG74Uk/xhu4y8
+ YsaNjOjrBaQKRI1R46XA9Cj0cGHyVKwC80ge8zynfJ+/CN37pPfFjF7FwmHJO6fyS0xW
+ bVVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BjpvB6oPPHx1azLHzg6QZzAF+790oeDvTeHTT2aGPnU=;
- b=1g4GU5dcoAC+8lWSLSCpEj7/1t/ELcuXgulRWOGWfBT3lrQONv1CD6F1Kaql5uHFT8
- V4sKFVa8C/yvAKIPHd/uwBe6xEoOsuR/FRX5mRH7sOj0+DIo0zE/eVTzv05k85ne1Q1h
- ShbLu39E8FNlrnx4GGzrIFwZHFm+qFlBnQQDRgIy++UQB5QhxSkzGd+tteNvUP8STl2a
- ZZURyfNcDhWqby6iDm1ZCQyyCfSIhy3FyUQ5Tvrbjkjos8WxkX4re+SGyz6fvHuO37SY
- w53Zh47Aw2oqD8wwnusTtQFJwo2JCqsptSEXuKsVI+fiq1pq9Js8qDPkl/OubXojemqq
- 2xOA==
-X-Gm-Message-State: AO0yUKXIDPikg0Ccd+fkQoWDESzGfrWXVVxcO/ARxrthAKa9Oo0U2Ada
- +4Xncy5zFRc9Qg7kMxspM/uSEbnBdWw=
-X-Google-Smtp-Source: AK7set+9rmp1d+NriLvJCoJx2WT3H6tb4kY4AkvBvGlmYmXHcQpGTZTSxGiQ9ZUCe0/7HOWhXegI/w==
-X-Received: by 2002:a17:902:c946:b0:19a:f556:e389 with SMTP id
- i6-20020a170902c94600b0019af556e389mr19042785pla.65.1677268921892; 
- Fri, 24 Feb 2023 12:02:01 -0800 (PST)
+ bh=MohZmh6ZcfzJn1OmRfs/o8+oM4ZPKLi2FB+4LPpL34o=;
+ b=3JjNDrtJX5w/d1nXKy0cibWudR3w8XC8sxIBKXlw4Q5xH5/ecUV+W6Y8HNbKo2GuF/
+ HxP2AwEBNJUs6f4OQgGQtVHQHhYQe5ykR5Gy/hlzBriVI964GXk88H4a5fDxMSJ5j3Dt
+ hmSar/11L8Wfyr09Csl6ImYNCoSMaFYjukCocPeIB2ZeH4p6AbXNHOrCR8WzN5zn1dBa
+ ODOSx9wIYdg2be6ShEZOMd9K7EkqFAUNV1dKzfPGUVeRov2MACv8zQ9HRdVKRYC2iNK4
+ uAumntSkU1m4E2rTfmevNi0sVCZn0DObZh6ZFz9XD74lwZzyJmlSgbIkFn2O2E7ee+3v
+ TkDg==
+X-Gm-Message-State: AO0yUKWfOy6h39CyZc6/ex5RaorwANZ1sDeoPQhTO5vy5LGeQdGIPdS3
+ T389WaQfFXW0pdn/yAOHnK+ixvvSUE0=
+X-Google-Smtp-Source: AK7set/Kb1gXpnZFU2Ydyaifih98zDZ6wbcQF//PkQ/+Dlh0wE5fq6Lk5cn+4EktKB1GNubNLYLuDw==
+X-Received: by 2002:a17:902:d4ce:b0:19a:b6bf:1e16 with SMTP id
+ o14-20020a170902d4ce00b0019ab6bf1e16mr19838114plg.51.1677268923860; 
+ Fri, 24 Feb 2023 12:02:03 -0800 (PST)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- e8-20020a170902744800b0019a8468cbe7sm9762719plt.224.2023.02.24.12.02.01
+ iy15-20020a170903130f00b0019cb131b8a5sm4769703plb.32.2023.02.24.12.02.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Feb 2023 12:02:01 -0800 (PST)
+ Fri, 24 Feb 2023 12:02:03 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 01/15] dma-buf/dma-fence: Add deadline awareness
-Date: Fri, 24 Feb 2023 12:01:29 -0800
-Message-Id: <20230224200155.2510320-2-robdclark@gmail.com>
+Subject: [PATCH v6 02/15] dma-buf/fence-array: Add fence deadline support
+Date: Fri, 24 Feb 2023 12:01:30 -0800
+Message-Id: <20230224200155.2510320-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230224200155.2510320-1-robdclark@gmail.com>
 References: <20230224200155.2510320-1-robdclark@gmail.com>
@@ -90,95 +89,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Add a way to hint to the fence signaler of an upcoming deadline, such as
-vblank, which the fence waiter would prefer not to miss.  This is to aid
-the fence signaler in making power management decisions, like boosting
-frequency as the deadline approaches and awareness of missing deadlines
-so that can be factored in to the frequency scaling.
-
-v2: Drop dma_fence::deadline and related logic to filter duplicate
-    deadlines, to avoid increasing dma_fence size.  The fence-context
-    implementation will need similar logic to track deadlines of all
-    the fences on the same timeline.  [ckoenig]
-v3: Clarify locking wrt. set_deadline callback
-v4: Clarify in docs comment that this is a hint
-v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
+Propagate the deadline to all the fences in the array.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-fence.c | 20 ++++++++++++++++++++
- include/linux/dma-fence.h   | 19 +++++++++++++++++++
- 2 files changed, 39 insertions(+)
+ drivers/dma-buf/dma-fence-array.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 0de0482cd36e..71b2e883f304 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -912,6 +912,26 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index 5c8a7084577b..9b3ce8948351 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -123,12 +123,23 @@ static void dma_fence_array_release(struct dma_fence *fence)
+ 	dma_fence_free(fence);
  }
- EXPORT_SYMBOL(dma_fence_wait_any_timeout);
  
-+/**
-+ * dma_fence_set_deadline - set desired fence-wait deadline hint
-+ * @fence:    the fence that is to be waited on
-+ * @deadline: the time by which the waiter hopes for the fence to be
-+ *            signaled
-+ *
-+ * Give the fence signaler a hint about an upcoming deadline, such as
-+ * vblank, by which point the waiter would prefer the fence to be
-+ * signaled by.  This is intended to give feedback to the fence signaler
-+ * to aid in power management decisions, such as boosting GPU frequency
-+ * if a periodic vblank deadline is approaching but the fence is not
-+ * yet signaled..
-+ */
-+void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
++static void dma_fence_array_set_deadline(struct dma_fence *fence,
++					 ktime_t deadline)
 +{
-+	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-+		fence->ops->set_deadline(fence, deadline);
++	struct dma_fence_array *array = to_dma_fence_array(fence);
++	unsigned i;
++
++	for (i = 0; i < array->num_fences; ++i)
++		dma_fence_set_deadline(array->fences[i], deadline);
 +}
-+EXPORT_SYMBOL(dma_fence_set_deadline);
 +
- /**
-  * dma_fence_describe - Dump fence describtion into seq_file
-  * @fence: the 6fence to describe
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 775cdc0b4f24..f334e37e52bc 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -257,6 +257,23 @@ struct dma_fence_ops {
- 	 */
- 	void (*timeline_value_str)(struct dma_fence *fence,
- 				   char *str, int size);
-+
-+	/**
-+	 * @set_deadline:
-+	 *
-+	 * Callback to allow a fence waiter to inform the fence signaler of
-+	 * an upcoming deadline, such as vblank, by which point the waiter
-+	 * would prefer the fence to be signaled by.  This is intended to
-+	 * give feedback to the fence signaler to aid in power management
-+	 * decisions, such as boosting GPU frequency.
-+	 *
-+	 * This is called without &dma_fence.lock held, it can be called
-+	 * multiple times and from any context.  Locking is up to the callee
-+	 * if it has some state to manage.
-+	 *
-+	 * This callback is optional.
-+	 */
-+	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
+ const struct dma_fence_ops dma_fence_array_ops = {
+ 	.get_driver_name = dma_fence_array_get_driver_name,
+ 	.get_timeline_name = dma_fence_array_get_timeline_name,
+ 	.enable_signaling = dma_fence_array_enable_signaling,
+ 	.signaled = dma_fence_array_signaled,
+ 	.release = dma_fence_array_release,
++	.set_deadline = dma_fence_array_set_deadline,
  };
+ EXPORT_SYMBOL(dma_fence_array_ops);
  
- void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
-@@ -583,6 +600,8 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
- 	return ret < 0 ? ret : 0;
- }
- 
-+void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
-+
- struct dma_fence *dma_fence_get_stub(void);
- struct dma_fence *dma_fence_allocate_private_stub(void);
- u64 dma_fence_context_alloc(unsigned num);
 -- 
 2.39.1
 
