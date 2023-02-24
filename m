@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0EE46A23BB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 22:25:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF986A23BF
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 22:25:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 368E610E5D5;
-	Fri, 24 Feb 2023 21:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F76010ED17;
+	Fri, 24 Feb 2023 21:25:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A6410ED24;
- Fri, 24 Feb 2023 21:24:54 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31OL07tI014893; Fri, 24 Feb 2023 21:24:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=GfHJaRhya+SDZufxKLS9nYd7RFtea+RqedrXZU9xuc0=;
- b=cwH9SBUgtF83UBgnb14z6Oc5caAEAITM1bo50KbtGeo5fMlLiXjRhsVQVliWRhF7ZXD6
- D6mY78YWqn2zZDr/4URFvxzfFEwQMUHUCjHnDHJHROQif+TaaBVFbGPEA2zVh5O1U4+C
- 0tatRU7mz1r0+wml/hwTcF8kZJNLoVizzbGVa5jRAd9/p9KaXU5h9r2NNWLp9vrNTnbL
- zFpL4HS5hPGBN6p8OE3hxHeOJW6uVO1Lo4mihyUmr0CcCAV+6ZJjhw6xQ7fB1H0sarNz
- NWn/2UCENhEKkPuQZsypahV1x5dIJAbugPxSbUw9cZJJR2us4mFqa19QrruyNfla6R0k Xg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ny0q58t12-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Feb 2023 21:24:50 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31OLOntU024471
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Feb 2023 21:24:49 GMT
-Received: from [10.110.89.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 24 Feb
- 2023 13:24:48 -0800
-Message-ID: <5f8621a3-1043-c68a-e305-277ade14b939@quicinc.com>
-Date: Fri, 24 Feb 2023 13:24:47 -0800
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA0410ED17
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 21:25:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KZ2/FpbcHDbGf/3nGkNn1d/aX4RdrWnn4gHJXmj2aRc=; b=OCUyx+bpJVYzrK/fkLIWim9wVR
+ V7k/RVRbBDUZE6wYpseVrNQohD9gjZx5/wmXKToo1nLjCJh/tatC9uF8XZwHjKnEYGEQTWtK4emOs
+ N/tufkGA87hvE8bAyV+OPWnhW4ABWH/n1MR41csgVE/5pBf3hBGBgCq30Q2CMyh6tde53zS+U7X7S
+ YWujLjtn24jJU4yT+C3uPV6zU/UTDmvJ6IhP0zK5Qq2icKUCqqvQRYRn6o9Fs1QFQ401o1ghdtoZs
+ 1RZOeUUcOdbAf39o6lKDNJC3N5+XuMB0Z+Snh/iQG7ukuO1J4OWazhW5AjLR3D2VEbrwbUIfvMUYx
+ jHn/zcug==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pVfZD-00Du6p-9b; Fri, 24 Feb 2023 22:25:23 +0100
+Message-ID: <e171253c-87e6-5c63-c7df-8137ad858879@igalia.com>
+Date: Fri, 24 Feb 2023 18:25:16 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [RFC PATCH 2/2] drm/msm/dsi: use new dpu_dsc_populate_dsc_config()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 4/5] drm/panfrost: Use
+ drm_sched_job_add_syncobj_dependency()
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@gmail.com>,
- <agross@kernel.org>, <andersson@kernel.org>
-References: <1677267647-28672-1-git-send-email-quic_khsieh@quicinc.com>
- <1677267647-28672-3-git-send-email-quic_khsieh@quicinc.com>
- <525078f5-44be-9a75-a737-ddcc6e097700@linaro.org>
- <21623a6d-7f83-5d2c-068c-f600a1834ac9@quicinc.com>
- <54004e9c-256c-15b2-9c55-8bd88ebb0c85@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <54004e9c-256c-15b2-9c55-8bd88ebb0c85@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: At_9zA-2OZsT7Njrp4IM0MNe2kh_yXt_
-X-Proofpoint-ORIG-GUID: At_9zA-2OZsT7Njrp4IM0MNe2kh_yXt_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-24_16,2023-02-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
- bulkscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302240169
+To: Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Rob Clark <robdclark@gmail.com>, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Melissa Wen <mwen@igalia.com>
+References: <20230209124447.467867-1-mcanal@igalia.com>
+ <20230209124447.467867-5-mcanal@igalia.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20230209124447.467867-5-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,48 +65,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marijn.suijten@somainline.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Alyssa Rosenzweig <alyssa@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/24/2023 1:14 PM, Dmitry Baryshkov wrote:
-> On 24/02/2023 23:09, Abhinav Kumar wrote:
->>
->>
->> On 2/24/2023 1:04 PM, Dmitry Baryshkov wrote:
->>> On 24/02/2023 21:40, Kuogee Hsieh wrote:
->>>> use new introduced dpu_dsc_populate_dsc_config() to calculate
->>>> and populate drm_dsc_info instead of hard code value.
->>>
->>> DPU is an optional component, so DSI driver should not depend on the 
->>> DPU driver.
->>>
->>
->> Today, the implicit dependency is already there. Without the DPU DSC 
->> blocks, the DSI cannot operate in compressed mode.
+On 2/9/23 09:44, Maíra Canal wrote:
+> As panfrost_copy_in_sync() performs the same steps as
+> drm_sched_job_add_syncobj_dependency(), replace the open-coded
+> implementation in Panfrost in order to simply use the DRM function.
 > 
-> It can not operate, but one will compile w/o other driver.
+> Reviewed-by: Alyssa Rosenzweig <alyssa@collabora.com>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/gpu/drm/panfrost/panfrost_drv.c | 11 ++---------
+>   1 file changed, 2 insertions(+), 9 deletions(-)
 > 
 
-Ack.
+Applied to drm-misc-next.
 
->>
->> But, from a SW standpoint I agree we can separate this.
->>
->> We can move this one level up to the disp/ or msm/ folder
->>
->> What do you think about that?
-> 
-> I think about drivers/gpu/drm/display/drm_dsc_helper.c
-> 
-
-No, that wont work because of the explanation given in the prev patch.
-
->> -- 
-> With best wishes
-> Dmitry
-> 
+Best Regards,
+- Maíra Canal
