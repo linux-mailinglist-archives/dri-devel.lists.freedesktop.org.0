@@ -2,66 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4DE6A1C87
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 13:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC9B6A1C9E
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Feb 2023 14:03:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDAC510E0D7;
-	Fri, 24 Feb 2023 12:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8073F10E109;
+	Fri, 24 Feb 2023 13:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9BCB10E0D7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Feb 2023 12:57:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1677243447; x=1708779447;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=YPDUeuHHlo3wlJW//buD61dRI7WKES35YA2aXIb2Pjg=;
- b=Zq++FGP7+aEVBaoPjx5xBrxoDDOXZe/+bBFR3n66wUjKp2SyalCVAsTd
- 3EjafSjQPeQb5kmatVh7hE+oaRRibck+7FiKK7IeVjgs2kfDZqj6sY5Ow
- GzlUP30YNriKaaxORNzaX9DJp9MpLJs1G7DJAtuMJ6Sc7aLZHnaIOiaSy
- 6OT308esINe95CW9/M+qTLF4gi/u7S/1V0+whb966uOqNJHPWb9hNKWR4
- 284JifZ1WBULnW6V5StOVetuDnjcn6IkQ1NkQ9G1O6JiqkZVDjQ+2Spvb
- U9s6wXCc0ZBmloCp+H3Swmy9ZfySAalrLY0532lpe09xUo48uRUH6ZC75 Q==;
-X-IronPort-AV: E=Sophos;i="5.97,324,1669071600"; d="scan'208";a="29300464"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 24 Feb 2023 13:57:25 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Fri, 24 Feb 2023 13:57:24 +0100
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Fri, 24 Feb 2023 13:57:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1677243445; x=1708779445;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=YPDUeuHHlo3wlJW//buD61dRI7WKES35YA2aXIb2Pjg=;
- b=i3e1JPU/POJmrfQTZ8Vj2y4ftwVIjBSXqq416sFTabb4CZ7Yg0B2WK6i
- jDG4sQ2WV8ysA1+ZdUA2N1m1HCx/T5szCRUVVa4RySuj7gJHfnDWPGRDS
- w7tzB6R3nBP/KxsWlmVgpKhSVqznAUpHSn+Vu5Gd/5scCjRhXnOFKhYvB
- aBREqLoZHqqsQSsnmwLT7MUxuH9NyiZi3SEiLo8gbsYKEyc5YfdWryJpu
- BgfBjnTItBh3AZB7gwlJfi4BGvWo6Ish4o/GHBgDmay5w82gN3T6m5pHo
- pi2YkJDQR+zTCPZfJ7dJqwgW9KsXap79X5YDbr4QaaaDjmUTUtLKEbuEq w==;
-X-IronPort-AV: E=Sophos;i="5.97,324,1669071600"; d="scan'208";a="29300463"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 24 Feb 2023 13:57:24 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.53.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 90029280056;
- Fri, 24 Feb 2023 13:57:24 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/1] drm: panel: simple: convert LG LB070WV8 fixed mode into
- display timings
-Date: Fri, 24 Feb 2023 13:57:19 +0100
-Message-Id: <20230224125719.3272098-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13DD110E0E5;
+ Fri, 24 Feb 2023 13:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677243819; x=1708779819;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=F3NacRine9jv7nP3PKbhthTDgIOniNBxiN82bZ889yo=;
+ b=hJAgrR00AmcVXLyZWQQwcLB+6Hwffw2VJRo7ShgUqs7xR60P2XWV5SR/
+ LULlvGGr+723S1/wNuCi2Gjtioo6vUagdv+XXLT44/9Zred3kdBx8tfz9
+ 8mK2fVDzdRMVl4Wsyr1RNXgQKz37OsX6GUUESrZUL/BCf4We5FtMXL5au
+ 4NyokkMcc7XXCbFlsqZAwPg+XxEYWYHT2SaMIYGYTt8X6f1/XDtFbjIHa
+ RLwqbXXdo6BIatdW/DKqDYSyZQ8CuiaNTziLv9hEXV3CPPSyjgMoR2lft
+ Quu6LnuNuEAT2nAa0R6eFDuJ4rR1CqPKxRzqcqbu8/fxWIIfUK24G+y0i Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="313104874"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; d="scan'208";a="313104874"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2023 05:03:30 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10630"; a="741664780"
+X-IronPort-AV: E=Sophos;i="5.97,324,1669104000"; d="scan'208";a="741664780"
+Received: from pkacprza-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.149])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2023 05:03:28 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Badal Nilawar <badal.nilawar@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/mtl: Apply Wa_14017073508 for MTL
+ SoC Step
+In-Reply-To: <20230223184140.3452853-1-badal.nilawar@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230223184140.3452853-1-badal.nilawar@intel.com>
+Date: Fri, 24 Feb 2023 15:03:25 +0200
+Message-ID: <87lekn2p2a.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,57 +58,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
+Cc: matthew.d.roper@intel.com, dri-devel@lists.freedesktop.org,
+ rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-At least the pixelclock has a range which can vary. Convert fixed mode
-into display timings so they can be overwritten in DT if necessary.
+On Fri, 24 Feb 2023, Badal Nilawar <badal.nilawar@intel.com> wrote:
+> Apply Wa_14017073508 for MTL SoC die A step instead of graphics step.
+> To get the SoC die stepping there is no direct interface so using
+> revid as revid 0 aligns with SoC die A step.
+>
+> Bspec: 55420
+>
+> Fixes: 8f70f1ec587d ("drm/i915/mtl: Add Wa_14017073508 for SAMedia")
+> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.c     | 4 ++--
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> index cef3d6f5c34e..4ba3c8c97ccc 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> @@ -29,7 +29,7 @@
+>  static void mtl_media_busy(struct intel_gt *gt)
+>  {
+>  	/* Wa_14017073508: mtl */
+> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+Using INTEL_REVID() directly is almost certainly the wrong thing to do.
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 065f378bba9d..5048be54ffd9 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2458,21 +2458,21 @@ static const struct panel_desc lemaker_bl035_rgb_002 = {
- 	.bus_flags = DRM_BUS_FLAG_DE_LOW,
- };
- 
--static const struct drm_display_mode lg_lb070wv8_mode = {
--	.clock = 33246,
--	.hdisplay = 800,
--	.hsync_start = 800 + 88,
--	.hsync_end = 800 + 88 + 80,
--	.htotal = 800 + 88 + 80 + 88,
--	.vdisplay = 480,
--	.vsync_start = 480 + 10,
--	.vsync_end = 480 + 10 + 25,
--	.vtotal = 480 + 10 + 25 + 10,
-+static const struct display_timing lg_lb070wv8_timing = {
-+	.pixelclock = { 31950000, 33260000, 34600000 },
-+	.hactive = { 800, 800, 800 },
-+	.hfront_porch = { 88, 88, 88 },
-+	.hback_porch = { 88, 88, 88 },
-+	.hsync_len = { 80, 80, 80 },
-+	.vactive = { 480, 480, 480 },
-+	.vfront_porch = { 10, 10, 10 },
-+	.vback_porch = { 10, 10, 10 },
-+	.vsync_len = { 25, 25, 25 },
- };
- 
- static const struct panel_desc lg_lb070wv8 = {
--	.modes = &lg_lb070wv8_mode,
--	.num_modes = 1,
-+	.timings = &lg_lb070wv8_timing,
-+	.num_timings = 1,
- 	.bpc = 8,
- 	.size = {
- 		.width = 151,
+BR,
+Jani.
+
+>  	    gt->type == GT_MEDIA)
+>  		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
+>  				  PCODE_MBOX_GT_STATE_MEDIA_BUSY,
+> @@ -39,7 +39,7 @@ static void mtl_media_busy(struct intel_gt *gt)
+>  static void mtl_media_idle(struct intel_gt *gt)
+>  {
+>  	/* Wa_14017073508: mtl */
+> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
+>  	    gt->type == GT_MEDIA)
+>  		snb_pcode_write_p(gt->uncore, PCODE_MBOX_GT_STATE,
+>  				  PCODE_MBOX_GT_STATE_MEDIA_NOT_BUSY,
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> index fcf51614f9a4..7429c233ad45 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c
+> @@ -19,7 +19,7 @@ static bool __guc_rc_supported(struct intel_guc *guc)
+>  	 * Do not enable gucrc to avoid additional interrupts which
+>  	 * may disrupt pcode wa.
+>  	 */
+> -	if (IS_MTL_GRAPHICS_STEP(gt->i915, P, STEP_A0, STEP_B0) &&
+> +	if (IS_METEORLAKE(gt->i915) && INTEL_REVID(gt->i915) == 0 &&
+>  	    gt->type == GT_MEDIA)
+>  		return false;
+
 -- 
-2.34.1
-
+Jani Nikula, Intel Open Source Graphics Center
