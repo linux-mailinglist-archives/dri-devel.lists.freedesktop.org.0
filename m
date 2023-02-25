@@ -2,77 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5B46A2C99
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Feb 2023 00:32:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F866A2C9D
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Feb 2023 00:39:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A10A10E14C;
-	Sat, 25 Feb 2023 23:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3182210E63C;
+	Sat, 25 Feb 2023 23:39:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F92610E14C;
- Sat, 25 Feb 2023 23:32:28 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31PMQ96V019002; Sat, 25 Feb 2023 23:32:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=qKxUEgxKn1JQZFIc+cxQj9F0Q/Ez6zAZNE59y45dtRE=;
- b=JxQa1HeJDmqgBaeaqyUcMm+BAWQ3ls2oF22vSkBup36w5NDVxDcdohjltTghruoHJ2T+
- 6XAI0XL4RLmahQSsHmV0219r9aycdQJCFhsDdW3lYkhaD4cr8wKiLDE4Mm9biM2J2FpN
- r3qNknmeooUCKqKuU3Cdwn6kqUykYVNWpK2g4GUS7PsLHeAcMltreuPIuys+aNAoylld
- BaD92VJTYoqIYgDxS2ooE8DUasuUpV3rXJsQNVJSbQDsCoB+5zYGPw1/Fg0SHSjQbaUR
- 4IQlPr45Sd/rk2RC6PqQy+nt4cEt0yNug8cSEt/lTyCRC1WQgTAROyvNzQouwSs/YxkH DA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ny9bf9kht-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 25 Feb 2023 23:32:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31PNWLUJ026640
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 25 Feb 2023 23:32:21 GMT
-Received: from [10.110.89.76] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Sat, 25 Feb
- 2023 15:32:20 -0800
-Message-ID: <25b28b5d-f0ea-b7cf-2d9c-66e9ff08303b@quicinc.com>
-Date: Sat, 25 Feb 2023 15:32:20 -0800
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95F2310E63C
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Feb 2023 23:39:38 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ x20-20020a17090a8a9400b00233ba727724so8826604pjn.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Feb 2023 15:39:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Pio0uRP/ewoQJQAm/tSRW/tGkbea/TOip01WmAMHVzo=;
+ b=FO5Jb1+wDZrmKC1gE6gtni9QN39RJ74fJZm3VMr582oRKOwFt0N2fK5tXG2Y2NvWXs
+ 3flNlNgc8YSguTXnMZrQyzOrkkP9MOIz+Jv75lhaa81O2rWJgoIN7JhvySJjv+S+6eGG
+ sWWRt5G3DCTGSJSe1oFD8CQzBjOdL1rp15IY1XPJfK68FUrjiB/SZphDLAuZwE58l4jw
+ zuu/SkPOoNrgP+P+/Z2jd02qjZKOaJvxFRZEHsD6INVi/fqrTOFuzrvOTuepwJD63BpL
+ DuXaqqE8f0p5R3WImzdCAEVAUzP2Uu2sLlac16M6mIQlmC8dupzyikNOvJxEnnB46H4K
+ IF3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pio0uRP/ewoQJQAm/tSRW/tGkbea/TOip01WmAMHVzo=;
+ b=H1x0QQm9DtSR+RNQeHWhh0scfA4S/hy5BTfEVLWehByUTBFE2IpOHy6SejqRD0UtBi
+ sute/AzOrCsq8O6vn7/7JxdzhfLgTBJOJSo30f7CGjfYgvfwFgXp3aTIsNz/WDTwJ9zM
+ FV3D4dDVCydcyMjnRkHGrnT3KcbaoYMm78tN3LW8EN0vpmdiuMKopdoe5TIb5pWdMiwJ
+ xJBQKoNWaCYrkWlCVx1A3Rl4mB31m3ZDeIoNqElQgyL2LlY8mjDXGRL0/+QsmrVomqVE
+ HxOBMTjvoi+n+Luzk1kOZfMWfM5Zz209tatqAMKwTO4Kagun+krGdtGdPrg46e06eo9W
+ PcOQ==
+X-Gm-Message-State: AO0yUKWBG6dEvpfvdUzrJodIcDDqJupkqxlvm7NNwSh8aFV2utqP9izw
+ CtCornEy/ICT9qJOS1qNQx4=
+X-Google-Smtp-Source: AK7set89d/ivG7PS04MXWl/22Xdl6Zd0rGjXDVOF53H4hiShuf17qLdp5MNCESTV6PwDgFeKAvng2w==
+X-Received: by 2002:a17:903:8ce:b0:199:3a4a:d702 with SMTP id
+ lk14-20020a17090308ce00b001993a4ad702mr4223586plb.0.1677368378086; 
+ Sat, 25 Feb 2023 15:39:38 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp.
+ [106.167.171.201]) by smtp.gmail.com with ESMTPSA id
+ e6-20020a170902d38600b0019cb8ffd592sm1761602pld.163.2023.02.25.15.39.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Feb 2023 15:39:37 -0800 (PST)
+Message-ID: <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
+Date: Sun, 26 Feb 2023 08:39:32 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 12/50] drm/msm/dpu: fix clocks settings for msm8998
- SSPP blocks
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] media: Fix building pdfdocs
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230211231259.1308718-1-dmitry.baryshkov@linaro.org>
- <20230211231259.1308718-13-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230211231259.1308718-13-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: LD_sWekGQBqXZihEDJmopgBe_qjQiDPq
-X-Proofpoint-ORIG-GUID: LD_sWekGQBqXZihEDJmopgBe_qjQiDPq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-25_14,2023-02-24_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=755
- priorityscore=1501 mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0
- adultscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302250201
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,30 +76,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+[+CC: Jon, linux-doc]
 
-
-On 2/11/2023 3:12 PM, Dmitry Baryshkov wrote:
-> DMA2 and DMA3 planes on msm8998 should use corresponding DMA2 and DMA3
-> clocks rather than CURSOR0/1 clocks (which are used for the CURSOR
-> planes). Correct corresponding SSPP declarations.
+On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
+> Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
+> documatation for a few new RGB formats. For some reason these break the
+> pdfdocs build, even if the same style seems to work elsewhere in the
+> file.
 > 
-> Fixes: 94391a14fc27 ("drm/msm/dpu1: Add MSM8998 to hw catalog")
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> Cc: Jami Kettunen <jami.kettunen@somainline.org>
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Remove the trailing empty dash lines, which seems to fix the issue.
+> 
+> Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
+> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
+
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
+> Note: the offending patch was merged via drm tree, so we may want to
+> apply the fix to the drm tree also.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+So, the offending commit is now in mainline without this fix...
+I believe this build regression -- a real build error of "make pdfdocs"
+-- should be fixed ASAP.
+
+Tomi, Laurent has suggested a typo fix in the Changelog.
+Can you respin ?
+
+Or, Laurent, can you do the fix on your own?
+
+Hopefully, the fix can make v6.3-rc1.
+
+        Thanks, Akira
+
+> 
+>  Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> index d330aeb4d3eb..ea545ed1aeaa 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+> @@ -868,7 +868,6 @@ number of bits for each component.
+>        - r\ :sub:`4`
+>        - r\ :sub:`3`
+>        - r\ :sub:`2`
+> -      -
+>      * .. _V4L2-PIX-FMT-RGBA1010102:
+>  
+>        - ``V4L2_PIX_FMT_RGBA1010102``
+> @@ -909,7 +908,6 @@ number of bits for each component.
+>        - r\ :sub:`4`
+>        - r\ :sub:`3`
+>        - r\ :sub:`2`
+> -      -
+>      * .. _V4L2-PIX-FMT-ARGB2101010:
+>  
+>        - ``V4L2_PIX_FMT_ARGB2101010``
+> @@ -950,7 +948,6 @@ number of bits for each component.
+>        - r\ :sub:`6`
+>        - r\ :sub:`5`
+>        - r\ :sub:`4`
+> -      -
+>  
+>  .. raw:: latex
+>  
