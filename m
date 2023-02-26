@@ -1,69 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F866A2C9D
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Feb 2023 00:39:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4B76A2CAA
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Feb 2023 01:01:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3182210E63C;
-	Sat, 25 Feb 2023 23:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D628810E643;
+	Sun, 26 Feb 2023 00:01:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F2310E63C
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Feb 2023 23:39:38 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- x20-20020a17090a8a9400b00233ba727724so8826604pjn.1
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Feb 2023 15:39:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Pio0uRP/ewoQJQAm/tSRW/tGkbea/TOip01WmAMHVzo=;
- b=FO5Jb1+wDZrmKC1gE6gtni9QN39RJ74fJZm3VMr582oRKOwFt0N2fK5tXG2Y2NvWXs
- 3flNlNgc8YSguTXnMZrQyzOrkkP9MOIz+Jv75lhaa81O2rWJgoIN7JhvySJjv+S+6eGG
- sWWRt5G3DCTGSJSe1oFD8CQzBjOdL1rp15IY1XPJfK68FUrjiB/SZphDLAuZwE58l4jw
- zuu/SkPOoNrgP+P+/Z2jd02qjZKOaJvxFRZEHsD6INVi/fqrTOFuzrvOTuepwJD63BpL
- DuXaqqE8f0p5R3WImzdCAEVAUzP2Uu2sLlac16M6mIQlmC8dupzyikNOvJxEnnB46H4K
- IF3w==
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED77E10E2AB
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Feb 2023 00:01:07 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id n2so3890455lfb.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Feb 2023 16:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NjVLhBPAT9DIYkJC2epy3EtjhT3l2n1ZS1kPjCgoj6c=;
+ b=U8VTd3FkrrdcsT34hgXS5PmfWsOfu9ktb8W1hVtaHF4ZGI7BACBfRTWF7wxn0MgREv
+ 88iSWDUNGSmY3ySUJN3B9eF76qv7b3ghfM8eFwXh9uvCT13VGOR+LjR3WiwvJ8I8egob
+ tQzEUP3tP4+EPW0xIYMmaiagY7cKO6sqEcQ3fUEj2cjybei8Kjkcq/r2YX3tgLfrOChf
+ UtZKWJhH+WdFSK6YhbZXNmQexMoyoi8mkPce/rmE9RR69fjBYPRp+NIEh8AWz2XAjyQv
+ TvhmcP0w/zLx8F8A2kxW2fYavSXpo5GwSX2pXDM0cB9bQvuQS65vMjtFVIba5O82Qm/u
+ wGzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:from:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pio0uRP/ewoQJQAm/tSRW/tGkbea/TOip01WmAMHVzo=;
- b=H1x0QQm9DtSR+RNQeHWhh0scfA4S/hy5BTfEVLWehByUTBFE2IpOHy6SejqRD0UtBi
- sute/AzOrCsq8O6vn7/7JxdzhfLgTBJOJSo30f7CGjfYgvfwFgXp3aTIsNz/WDTwJ9zM
- FV3D4dDVCydcyMjnRkHGrnT3KcbaoYMm78tN3LW8EN0vpmdiuMKopdoe5TIb5pWdMiwJ
- xJBQKoNWaCYrkWlCVx1A3Rl4mB31m3ZDeIoNqElQgyL2LlY8mjDXGRL0/+QsmrVomqVE
- HxOBMTjvoi+n+Luzk1kOZfMWfM5Zz209tatqAMKwTO4Kagun+krGdtGdPrg46e06eo9W
- PcOQ==
-X-Gm-Message-State: AO0yUKWBG6dEvpfvdUzrJodIcDDqJupkqxlvm7NNwSh8aFV2utqP9izw
- CtCornEy/ICT9qJOS1qNQx4=
-X-Google-Smtp-Source: AK7set89d/ivG7PS04MXWl/22Xdl6Zd0rGjXDVOF53H4hiShuf17qLdp5MNCESTV6PwDgFeKAvng2w==
-X-Received: by 2002:a17:903:8ce:b0:199:3a4a:d702 with SMTP id
- lk14-20020a17090308ce00b001993a4ad702mr4223586plb.0.1677368378086; 
- Sat, 25 Feb 2023 15:39:38 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp.
- [106.167.171.201]) by smtp.gmail.com with ESMTPSA id
- e6-20020a170902d38600b0019cb8ffd592sm1761602pld.163.2023.02.25.15.39.35
+ bh=NjVLhBPAT9DIYkJC2epy3EtjhT3l2n1ZS1kPjCgoj6c=;
+ b=QyJCQIAg/piXFP5yEk4JMDCbyflEHNP5bShNc/hfvcWFNWiamPNiofL/ZFntAXKfg1
+ /IQas29dqqUbHtcb1DrviKcHLEj4TMn3DCH92MKILB09HCV5bIYxvBhAA7harPaSbL63
+ ISWVyFt9AJdD2GQ3AvC6XY7J/JaPbFVcusuJ9Y4K1vhUJKYEprlxyN7OACewgsYne+Ec
+ 0uw90fgrljZZCjlrinx7yOzIn7xOm4EemqyVq4QVG9mZRnQm4+uOXsVEs9LQR++whMMf
+ 2iNV0FyKWZtk1S+R7YyFgWOPapn6e3CvmPhakvJH5/lF24lqYCF8qL8NTbPbF5bhJ5H1
+ aX2Q==
+X-Gm-Message-State: AO0yUKU0GFM3HswJ029BMcxi+mxFg4OhdAF9M7++WrU1r2212lyWGQY3
+ 3x1rGoDyNh7QofAclInHGMr9UQ==
+X-Google-Smtp-Source: AK7set+4MeIHwpZRKccsb3cOrj9nC4Wv9xP7wm5S9x9GWXb79gLNJOLhPpqBe4Z3R/6ghV3Ee1ngbg==
+X-Received: by 2002:ac2:547c:0:b0:4db:3605:9bd3 with SMTP id
+ e28-20020ac2547c000000b004db36059bd3mr6691639lfn.17.1677369666174; 
+ Sat, 25 Feb 2023 16:01:06 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ g17-20020ac25391000000b004d6f86c52fcsm350033lfh.193.2023.02.25.16.01.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Feb 2023 15:39:37 -0800 (PST)
-Message-ID: <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
-Date: Sun, 26 Feb 2023 08:39:32 +0900
+ Sat, 25 Feb 2023 16:01:05 -0800 (PST)
+Message-ID: <eca8a9f2-3ae1-25ff-3305-329a6f8db344@linaro.org>
+Date: Sun, 26 Feb 2023 02:01:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] media: Fix building pdfdocs
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Thunderbird/102.7.2
+Subject: Re: [PATCH v2 10/50] drm/msm/dpu: correct sm6115 scaler
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230211231259.1308718-1-dmitry.baryshkov@linaro.org>
+ <20230211231259.1308718-11-dmitry.baryshkov@linaro.org>
+ <6a93947d-496f-1720-0bc6-f0dd86d2ea04@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <6a93947d-496f-1720-0bc6-f0dd86d2ea04@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,74 +78,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[+CC: Jon, linux-doc]
-
-On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
-> Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
-> documatation for a few new RGB formats. For some reason these break the
-> pdfdocs build, even if the same style seems to work elsewhere in the
-> file.
+On 26/02/2023 01:11, Abhinav Kumar wrote:
 > 
-> Remove the trailing empty dash lines, which seems to fix the issue.
 > 
-> Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
-> Reported-by: Akira Yokosawa <akiyks@gmail.com>
-Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
-
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
+> On 2/11/2023 3:12 PM, Dmitry Baryshkov wrote:
+>> QSEED4 is a newer variant of QSEED3LITE, which should be used on
+>> sm6115. Fix the used feature masks.
+>>
+>> Fixes: 100d7ef6995d ("drm/msm/dpu: add support for SM8450")
 > 
-> Note: the offending patch was merged via drm tree, so we may want to
-> apply the fix to the drm tree also.
+> Fixes tag is wrong here. It should be
+> 
+> Fixes: 3581b7062cec ("drm/msm/disp/dpu1: add support for display on 
+> SM6115")
 
-So, the offending commit is now in mainline without this fix...
-I believe this build regression -- a real build error of "make pdfdocs"
--- should be fixed ASAP.
-
-Tomi, Laurent has suggested a typo fix in the Changelog.
-Can you respin ?
-
-Or, Laurent, can you do the fix on your own?
-
-Hopefully, the fix can make v6.3-rc1.
-
-        Thanks, Akira
+Ack, you are correct here.
 
 > 
->  Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 3 ---
->  1 file changed, 3 deletions(-)
+> (please ignore the line break, I will fix it while applying)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> index d330aeb4d3eb..ea545ed1aeaa 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> @@ -868,7 +868,6 @@ number of bits for each component.
->        - r\ :sub:`4`
->        - r\ :sub:`3`
->        - r\ :sub:`2`
-> -      -
->      * .. _V4L2-PIX-FMT-RGBA1010102:
->  
->        - ``V4L2_PIX_FMT_RGBA1010102``
-> @@ -909,7 +908,6 @@ number of bits for each component.
->        - r\ :sub:`4`
->        - r\ :sub:`3`
->        - r\ :sub:`2`
-> -      -
->      * .. _V4L2-PIX-FMT-ARGB2101010:
->  
->        - ``V4L2_PIX_FMT_ARGB2101010``
-> @@ -950,7 +948,6 @@ number of bits for each component.
->        - r\ :sub:`6`
->        - r\ :sub:`5`
->        - r\ :sub:`4`
-> -      -
->  
->  .. raw:: latex
->  
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 9 +++------
+>>   1 file changed, 3 insertions(+), 6 deletions(-)
+>>
+> 
+> Otherwise LGTM,
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+-- 
+With best wishes
+Dmitry
+
