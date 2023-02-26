@@ -1,61 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68ADB6A32F1
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Feb 2023 17:55:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A54656A330E
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Feb 2023 18:03:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC6310E0CC;
-	Sun, 26 Feb 2023 16:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E448510E143;
+	Sun, 26 Feb 2023 17:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 240AB10E0CC
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Feb 2023 16:55:08 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id z2so4368281plf.12
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Feb 2023 08:55:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sladewatkins.net; s=googled;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ql+yDfRUjhQ1hgNI3xy6n4GGh0K0UVaI2xpdn33H+Ic=;
- b=gYQzSACEKh0zs4gFPgAXB6ArGX6MaqkokPlAQwWBJU2qG0PfuRW1zF3JRjMg7Y0Dya
- VuEcDJnPQrsh+Lj0/NiS5IB3blBUckTujvo0LDKo+s5WDq0HYlXoGnf9Ve1jqbCtzt9g
- 6hrZx6WPgWklW2tx/3/MDT3SZDhnQvZOolf0ZRGxovUUp10oswne1b0C08XNOayUnSGC
- JDhWT5Litp5NOPJ3WE4z8qaGdx1yFxOZMu4Xag+gzcDDA37rwM6KYp3/AnY6ViC3Q6ZW
- 3txK+vUt1zYlwUiP7haY6GZSX2TnrL4CiWIlruwDAhscf0NlaBE349I6yMNTILQrCs3H
- ga0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ql+yDfRUjhQ1hgNI3xy6n4GGh0K0UVaI2xpdn33H+Ic=;
- b=yeIMVJm9z7TiX4wLIDNdVZECmVNYuqJQrYCw0T32gXBxAM3kw7xX38kqhrNAHl9FuR
- 33FYrxFfJElu1jSsGJ4rQtkPR5ERB6DdvPoqzvyMZ7YsQurU60xfYG+Sx9N5S5xt/wKC
- DJfIqfkMZ4mSYk4QPDPbb9DZZc4zoGoKNIsXFgShVH5D9fACufSts5lwqNO4IxQMvPOx
- KcZ+Bj0WAzBFGbbrN3qwmtoJIAN4+VMv/bb+mvKUeOxd36sTP6Zy/hsFx5jfU8UUvygS
- 9v6cZ35afGjrYH+Uh9hLibQd9E8kgM2lDIaner8axwJdhR90hOLAY6qJ8My3eCrREBRq
- K1Bg==
-X-Gm-Message-State: AO0yUKUeLwQiNnEKbk2Q3Ij09ULa660CHZhGtO4HXcRZ9Sh6YfWZmGVz
- MuwXT2YiQ/2/qnpFyNfd+AA7jjNw+lzOqbI31wxK9ymaO+Zt/i+jpb4=
-X-Google-Smtp-Source: AK7set9Ikfshxz47YPGsMc6LSpX5SxueLD5B/mdGwn7HOn3xfGsl1Yx4OcF4JUNskEbnN2Ww16qkz8sXhfGraHOUlng=
-X-Received: by 2002:a17:903:2404:b0:19c:9fa5:b68a with SMTP id
- e4-20020a170903240400b0019c9fa5b68amr4699738plo.11.1677430508330; Sun, 26 Feb
- 2023 08:55:08 -0800 (PST)
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9454E10E135
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Feb 2023 17:03:38 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:37836.2141219623
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id EB2791001C8;
+ Mon, 27 Feb 2023 01:03:32 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-698c9d7bb7-c7zbh with ESMTP id
+ a3e86b05dee64dda8f823f9748f334f7 for maarten.lankhorst@linux.intel.com; 
+ Mon, 27 Feb 2023 01:03:34 CST
+X-Transaction-ID: a3e86b05dee64dda8f823f9748f334f7
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+From: suijingfeng <15330273260@189.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, suijingfeng <suijingfeng@loongson.cn>
+Subject: [PATCH v5 1/2] drm: add kms driver for loongson display controller
+Date: Mon, 27 Feb 2023 01:03:29 +0800
+Message-Id: <20230226170330.5560-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230219114553.288057-1-frank@oltmanns.dev>
- <20230219114553.288057-2-frank@oltmanns.dev>
-In-Reply-To: <20230219114553.288057-2-frank@oltmanns.dev>
-From: Slade Watkins <srw@sladewatkins.net>
-Date: Sun, 26 Feb 2023 11:54:57 -0500
-Message-ID: <CA+pv=HPY1HCDJ=sHeg_S7ZusS1RqiYvGOUf2bPVZK7Rq_EfHUg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] drm/panel: st7703: Fix vertical refresh rate of XBD599
-To: frank@oltmanns.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,63 +49,4348 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Purism Kernel Team <kernel@puri.sm>,
- Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>
+Cc: Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 19, 2023 at 6:46=E2=80=AFAM Frank Oltmanns <frank@oltmanns.dev>=
- wrote:
->
-> Fix the XBD599 panel's slight visual stutter by correcting the pixel
-> clock speed so that the panel's 60Hz vertical refresh rate is met.
->
-> Set the clock speed using the underlying formula instead of a magic
-> number. To have a consistent procedure for both panels, set the JH057N
-> panel's clock also as a formula.
-> ---
+From: suijingfeng <suijingfeng@loongson.cn>
 
-Hi Frank,
-Just wanted to let you know that this appears to be missing your Signed-off=
--by:.
+Loongson display controller IP has been integrated in both Loongson
+North Bridge chipset(ls7a1000 and ls7a2000) and Loongson SoCs(ls2k1000
+and ls2k2000 etc), it even has been included in Loongson BMC products.
 
-Thanks,
--- Slade
+This display controller is a PCI device, it has two display pipe. For
+the DC in LS7A1000 and LS2K1000 each way has a DVO output interface
+which provide RGB888 signals, vertical & horizontal synchronisations,
+and the pixel clock. Each CRTC is able to support 1920x1080@60Hz,
+the maximum resolution is 2048x2048 according to the hardware spec.
 
->  drivers/gpu/drm/panel/panel-sitronix-st7703.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/=
-drm/panel/panel-sitronix-st7703.c
-> index 6747ca237ced..cd7d631f7573 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-> @@ -139,7 +139,7 @@ static const struct drm_display_mode jh057n00900_mode=
- =3D {
->         .vsync_start =3D 1440 + 20,
->         .vsync_end   =3D 1440 + 20 + 4,
->         .vtotal      =3D 1440 + 20 + 4 + 12,
-> -       .clock       =3D 75276,
-> +       .clock       =3D (720 + 90 + 20 + 20) * (1440 + 20 + 4 + 12) * 60=
- / 1000,
->         .flags       =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
->         .width_mm    =3D 65,
->         .height_mm   =3D 130,
-> @@ -324,7 +324,7 @@ static const struct drm_display_mode xbd599_mode =3D =
-{
->         .vsync_start =3D 1440 + 18,
->         .vsync_end   =3D 1440 + 18 + 10,
->         .vtotal      =3D 1440 + 18 + 10 + 17,
-> -       .clock       =3D 69000,
-> +       .clock       =3D (720 + 40 + 40 + 40) * (1440 + 18 + 10 + 17) * 6=
-0 / 1000,
->         .flags       =3D DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
->         .width_mm    =3D 68,
->         .height_mm   =3D 136,
-> --
-> 2.39.1
->
+For the DC in LS7A2000, each display pipe is equipped with a built-in
+HDMI encoder which is compliant with HDMI 1.4 specification, thus it
+support 3840x2160@30Hz. The first display pipe is also equipped with
+a transparent vga encoder which is parallel with the HDMI encoder.
+The DC in LS7A2000 is more complete, besides above feature, it has
+two hardware cursors, two hardware vblank counter and two scanout
+position recorders.
+
+ v1 -> v2:
+  1) Use hpd status reg when polling for ls7a2000
+  2) Fix all warnings emerged when compile with W=1
+
+ v2 -> v3:
+  1) Add COMPILE_TEST in Kconfig and make the driver off by default
+  2) Alphabetical sorting headers (Thomas)
+  3) Untangle register access functions as much as possible (Thomas)
+  4) Switch to TTM based memory manager and prefer cached mapping
+     for Loongson SoC (Thomas)
+  5) Add chip id detection method, now all models are distinguishable.
+  6) Revise builtin HDMI phy driver, nearly all main stream mode
+     below 4K@30Hz is tested, this driver supported these mode very
+     well including clone display mode and extend display mode.
+
+ v3 -> v4:
+  1) Quickly fix a small mistake.
+
+ v4 -> v5:
+  1) Drop potential support for Loongson 2K series SoC temporary,
+     Maybe this part should be resend with the dt binding patch
+     in the future.
+  2) Add per display pipe debugfs support to the builtin HDMI encoder.
+  3) Rewrite atomic_update() for hardware cursors(Thomas)
+  4) Rewrite encoder and connector initialization part, untangle it
+     according to the chip(Thomas).
+
+  As a basic KMS driver, the user experience is good enough when using
+  with X server under mate and xfce desktop environment. This dirver is
+  ready to be merged, and We will take the responsibility if there are
+  any bug happen.
+
+Signed-off-by: Li Yi <liyi@loongson.cn>
+Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+Signed-off-by: suijingfeng <15330273260@189.cn>
+---
+ drivers/gpu/drm/Kconfig             |   2 +
+ drivers/gpu/drm/Makefile            |   1 +
+ drivers/gpu/drm/lsdc/Kconfig        |  16 +
+ drivers/gpu/drm/lsdc/Makefile       |  15 +
+ drivers/gpu/drm/lsdc/lsdc_crtc.c    | 374 ++++++++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_debugfs.c | 236 ++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_drv.c     | 529 ++++++++++++++++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_drv.h     | 308 +++++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_i2c.c     | 172 +++++++++
+ drivers/gpu/drm/lsdc/lsdc_irq.c     |  86 +++++
+ drivers/gpu/drm/lsdc/lsdc_output.c  | 570 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_output.h  |  14 +
+ drivers/gpu/drm/lsdc/lsdc_plane.c   | 431 +++++++++++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_pll.c     | 336 ++++++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_pll.h     |  76 ++++
+ drivers/gpu/drm/lsdc/lsdc_probe.c   |  88 +++++
+ drivers/gpu/drm/lsdc/lsdc_regs.h    | 353 +++++++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_ttm.c     | 451 ++++++++++++++++++++++
+ drivers/gpu/drm/lsdc/lsdc_ttm.h     |  64 ++++
+ 19 files changed, 4122 insertions(+)
+ create mode 100644 drivers/gpu/drm/lsdc/Kconfig
+ create mode 100644 drivers/gpu/drm/lsdc/Makefile
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_crtc.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_debugfs.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_drv.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_drv.h
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_i2c.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_irq.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_output.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_output.h
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_plane.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_pll.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_pll.h
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_probe.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_regs.h
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_ttm.c
+ create mode 100644 drivers/gpu/drm/lsdc/lsdc_ttm.h
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index dc0f94f02a82..3baecd48930b 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -367,6 +367,8 @@ source "drivers/gpu/drm/solomon/Kconfig"
+ 
+ source "drivers/gpu/drm/sprd/Kconfig"
+ 
++source "drivers/gpu/drm/lsdc/Kconfig"
++
+ config DRM_HYPERV
+ 	tristate "DRM Support for Hyper-V synthetic video device"
+ 	depends on DRM && PCI && MMU && HYPERV
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index ab4460fcd63f..5a8e2fc8dd5d 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -190,3 +190,4 @@ obj-y			+= gud/
+ obj-$(CONFIG_DRM_HYPERV) += hyperv/
+ obj-y			+= solomon/
+ obj-$(CONFIG_DRM_SPRD) += sprd/
++obj-$(CONFIG_DRM_LSDC) += lsdc/
+diff --git a/drivers/gpu/drm/lsdc/Kconfig b/drivers/gpu/drm/lsdc/Kconfig
+new file mode 100644
+index 000000000000..03ba76c59d6d
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/Kconfig
+@@ -0,0 +1,16 @@
++# SPDX-License-Identifier: GPL-2.0
++
++config DRM_LSDC
++	tristate "DRM support for Loongson Display Controller"
++	depends on DRM && PCI
++	depends on LOONGARCH || MIPS || COMPILE_TEST
++	depends on OF
++	select DRM_KMS_HELPER
++	select DRM_TTM
++	select DRM_TTM_HELPER
++	help
++	  This is a KMS driver for loongson display controller in the
++	  LS7A1000/LS7A2000 bridge chip and LS2K1000/LS2K2000 SoC.
++	  If "M" is selected, the module will be called lsdc.
++
++	  If in doubt, say "N".
+diff --git a/drivers/gpu/drm/lsdc/Makefile b/drivers/gpu/drm/lsdc/Makefile
+new file mode 100644
+index 000000000000..9a7979a949de
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/Makefile
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0
++
++lsdc-y := \
++	lsdc_crtc.o \
++	lsdc_debugfs.o \
++	lsdc_drv.o \
++	lsdc_i2c.o \
++	lsdc_irq.o \
++	lsdc_output.o \
++	lsdc_plane.o \
++	lsdc_pll.o \
++	lsdc_probe.o \
++	lsdc_ttm.o
++
++obj-$(CONFIG_DRM_LSDC) += lsdc.o
+diff --git a/drivers/gpu/drm/lsdc/lsdc_crtc.c b/drivers/gpu/drm/lsdc/lsdc_crtc.c
+new file mode 100644
+index 000000000000..31dae2fdc74c
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_crtc.c
+@@ -0,0 +1,374 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_vblank.h>
++
++#include "lsdc_drv.h"
++
++static u32 lsdc_get_vblank_counter_pipe0(struct drm_crtc *crtc)
++{
++	struct lsdc_device *ldev = to_lsdc(crtc->dev);
++
++	return lsdc_rreg32(ldev, LSDC_CRTC0_VSYNC_COUNTER_REG);
++}
++
++static u32 lsdc_get_vblank_counter_pipe1(struct drm_crtc *crtc)
++{
++	struct lsdc_device *ldev = to_lsdc(crtc->dev);
++
++	return lsdc_rreg32(ldev, LSDC_CRTC1_VSYNC_COUNTER_REG);
++}
++
++static int lsdc_enable_vblank_pipe0(struct drm_crtc *crtc)
++{
++	struct lsdc_device *ldev = to_lsdc(crtc->dev);
++
++	lsdc_ureg32_set(ldev, LSDC_INT_REG, INT_CRTC0_VSYNC_EN);
++
++	return 0;
++}
++
++static void lsdc_disable_vblank_pipe0(struct drm_crtc *crtc)
++{
++	struct lsdc_device *ldev = to_lsdc(crtc->dev);
++
++	lsdc_ureg32_clr(ldev, LSDC_INT_REG, INT_CRTC0_VSYNC_EN);
++}
++
++static int lsdc_enable_vblank_pipe1(struct drm_crtc *crtc)
++{
++	struct lsdc_device *ldev = to_lsdc(crtc->dev);
++
++	lsdc_ureg32_set(ldev, LSDC_INT_REG, INT_CRTC1_VSYNC_EN);
++
++	return 0;
++}
++
++static void lsdc_disable_vblank_pipe1(struct drm_crtc *crtc)
++{
++	struct lsdc_device *ldev = to_lsdc(crtc->dev);
++
++	lsdc_ureg32_clr(ldev, LSDC_INT_REG, INT_CRTC1_VSYNC_EN);
++}
++
++static void lsdc_crtc_reset(struct drm_crtc *crtc)
++{
++	struct drm_device *ddev = crtc->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct lsdc_crtc_state *priv_crtc_state;
++	u32 val = LSDC_PF_XRGB8888 | LSDC_DMA_STEP_64_BYTES | CFG_RESET_N;
++
++	lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, drm_crtc_index(crtc), val);
++
++	if (crtc->state) {
++		priv_crtc_state = to_lsdc_crtc_state(crtc->state);
++		__drm_atomic_helper_crtc_destroy_state(&priv_crtc_state->base);
++		kfree(priv_crtc_state);
++	}
++
++	priv_crtc_state = kzalloc(sizeof(*priv_crtc_state), GFP_KERNEL);
++	if (!priv_crtc_state)
++		return;
++
++	__drm_atomic_helper_crtc_reset(crtc, &priv_crtc_state->base);
++}
++
++static void lsdc_crtc_atomic_destroy_state(struct drm_crtc *crtc,
++					   struct drm_crtc_state *state)
++{
++	struct lsdc_crtc_state *priv_state = to_lsdc_crtc_state(state);
++
++	__drm_atomic_helper_crtc_destroy_state(&priv_state->base);
++
++	kfree(priv_state);
++}
++
++static struct drm_crtc_state *
++lsdc_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
++{
++	struct lsdc_crtc_state *new_priv_state;
++	struct lsdc_crtc_state *old_priv_state;
++
++	new_priv_state = kzalloc(sizeof(*new_priv_state), GFP_KERNEL);
++	if (!new_priv_state)
++		return NULL;
++
++	__drm_atomic_helper_crtc_duplicate_state(crtc, &new_priv_state->base);
++
++	old_priv_state = to_lsdc_crtc_state(crtc->state);
++
++	memcpy(&new_priv_state->pparms, &old_priv_state->pparms,
++	       sizeof(new_priv_state->pparms));
++
++	return &new_priv_state->base;
++}
++
++#define LSDC_CRTC_FUNCS_COMMON(pipe, pfn_get_vblank_counter)                 \
++	.reset = lsdc_crtc_reset,                                            \
++	.destroy = drm_crtc_cleanup,                                         \
++	.set_config = drm_atomic_helper_set_config,                          \
++	.page_flip = drm_atomic_helper_page_flip,                            \
++	.atomic_duplicate_state = lsdc_crtc_atomic_duplicate_state,          \
++	.atomic_destroy_state = lsdc_crtc_atomic_destroy_state,              \
++	.get_vblank_counter = pfn_get_vblank_counter,                        \
++	.enable_vblank = lsdc_enable_vblank_##pipe,                          \
++	.disable_vblank = lsdc_disable_vblank_##pipe,                        \
++	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp
++
++static const struct drm_crtc_funcs lsdc_crtc_funcs_array[2][LSDC_NUM_CRTC] = {
++	{
++		{
++			LSDC_CRTC_FUNCS_COMMON(pipe0, NULL),
++		},
++		{
++			LSDC_CRTC_FUNCS_COMMON(pipe1, NULL),
++		},
++	},
++	{
++		{
++			LSDC_CRTC_FUNCS_COMMON(pipe0, lsdc_get_vblank_counter_pipe0),
++		},
++		{
++			LSDC_CRTC_FUNCS_COMMON(pipe1, lsdc_get_vblank_counter_pipe1),
++		}
++	}
++};
++
++static enum drm_mode_status
++lsdc_crtc_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *mode)
++{
++	struct drm_device *ddev = crtc->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	const struct lsdc_desc *descp = ldev->descp;
++
++	if (mode->hdisplay > descp->max_width)
++		return MODE_BAD_HVALUE;
++	if (mode->vdisplay > descp->max_height)
++		return MODE_BAD_VVALUE;
++
++	if (mode->clock > descp->max_pixel_clk) {
++		drm_dbg(ddev, "mode %dx%d, pixel clock=%d is too high\n",
++			mode->hdisplay, mode->vdisplay, mode->clock);
++		return MODE_CLOCK_HIGH;
++	}
++
++	/* TODO: check RGB565 support, 4 for DRM_FORMAT_XRGB8888 */
++	if ((mode->hdisplay * 4) % descp->pitch_align) {
++		drm_dbg(ddev, "stride align to %u bytes is required\n",
++			descp->pitch_align);
++		return MODE_BAD_WIDTH;
++	}
++
++	return MODE_OK;
++}
++
++static int lsdc_pixpll_atomic_check(struct drm_crtc *crtc,
++				    struct drm_crtc_state *state)
++{
++	struct lsdc_display_pipe *dispipe = crtc_to_display_pipe(crtc);
++	struct lsdc_pll *pixpll = &dispipe->pixpll;
++	const struct lsdc_pixpll_funcs *pfuncs = pixpll->funcs;
++	struct lsdc_crtc_state *priv_state = to_lsdc_crtc_state(state);
++	struct lsdc_pll_parms *pout = &priv_state->pparms;
++	unsigned int clock = state->mode.clock;
++	int ret;
++
++	ret = pfuncs->compute(pixpll, clock, pout);
++	if (ret) {
++		drm_warn(crtc->dev, "Find PLL parms for %ukHz failed\n", clock);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int lsdc_crtc_helper_atomic_check(struct drm_crtc *crtc,
++					 struct drm_atomic_state *state)
++{
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++
++	if (!crtc_state->enable)
++		return 0;
++
++	return lsdc_pixpll_atomic_check(crtc, crtc_state);
++}
++
++static void lsdc_crtc_enable(struct drm_crtc *crtc,
++			     struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = crtc->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	const struct lsdc_desc *descp = ldev->descp;
++	struct lsdc_display_pipe *dispipe = crtc_to_display_pipe(crtc);
++	struct lsdc_pll *pixpll = &dispipe->pixpll;
++	const struct lsdc_pixpll_funcs *clk_func = pixpll->funcs;
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++	struct lsdc_crtc_state *priv_state = to_lsdc_crtc_state(crtc_state);
++	struct drm_display_mode *mode = &crtc_state->mode;
++	unsigned int index = drm_crtc_index(crtc);
++	unsigned int width_in_bytes = mode->crtc_hdisplay * 4;
++	u32 val;
++
++	lsdc_crtc_wreg32(ldev, LSDC_CRTC0_HDISPLAY_REG, index,
++			 (mode->crtc_htotal << 16) | mode->crtc_hdisplay);
++
++	lsdc_crtc_wreg32(ldev, LSDC_CRTC0_VDISPLAY_REG, index,
++			 (mode->crtc_vtotal << 16) | mode->crtc_vdisplay);
++
++	lsdc_crtc_wreg32(ldev, LSDC_CRTC0_HSYNC_REG, index,
++			 (mode->crtc_hsync_end << 16) |
++			 mode->crtc_hsync_start |
++			 CFG_HSYNC_EN);
++
++	lsdc_crtc_wreg32(ldev, LSDC_CRTC0_VSYNC_REG, index,
++			 (mode->crtc_vsync_end << 16) |
++			 mode->crtc_vsync_start |
++			 CFG_VSYNC_EN);
++
++	val = lsdc_crtc_rreg32(ldev, LSDC_CRTC0_CFG_REG, index);
++	/* clear old dma step settings */
++	val &= ~CFG_DMA_STEP_MASK;
++
++	if (descp->chip == CHIP_LS7A2000) {
++		/*
++		 * Using large dma step as much as possible,
++		 * for improve hardware DMA efficiency.
++		 */
++		if (width_in_bytes % 256 == 0)
++			val |= LSDC_DMA_STEP_256_BYTES;
++		else if (width_in_bytes % 128 == 0)
++			val |= LSDC_DMA_STEP_128_BYTES;
++		else if (width_in_bytes % 64 == 0)
++			val |= LSDC_DMA_STEP_64_BYTES;
++		else  /* width_in_bytes % 32 == 0 */
++			val |= LSDC_DMA_STEP_32_BYTES;
++	}
++
++	lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, index, val);
++
++	clk_func->update(pixpll, &priv_state->pparms);
++
++	drm_crtc_vblank_on(crtc);
++
++	lsdc_crtc_ureg32_set(ldev, LSDC_CRTC0_CFG_REG, index, CFG_OUTPUT_EN);
++
++	drm_dbg(ddev, "CRTC-%u enabled: %ux%u\n",
++		index, mode->hdisplay, mode->vdisplay);
++}
++
++static void lsdc_crtc_disable(struct drm_crtc *crtc,
++			      struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = crtc->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	unsigned int i = drm_crtc_index(crtc);
++
++	drm_crtc_wait_one_vblank(crtc);
++	lsdc_crtc_ureg32_clr(ldev, LSDC_CRTC0_CFG_REG, i, CFG_OUTPUT_EN);
++	drm_crtc_vblank_off(crtc);
++
++	drm_dbg(ddev, "CRTC-%u disabled\n", i);
++}
++
++static void lsdc_crtc_atomic_flush(struct drm_crtc *crtc,
++				   struct drm_atomic_state *state)
++{
++	spin_lock_irq(&crtc->dev->event_lock);
++	if (crtc->state->event) {
++		if (drm_crtc_vblank_get(crtc) == 0)
++			drm_crtc_arm_vblank_event(crtc, crtc->state->event);
++		else
++			drm_crtc_send_vblank_event(crtc, crtc->state->event);
++		crtc->state->event = NULL;
++	}
++	spin_unlock_irq(&crtc->dev->event_lock);
++}
++
++static bool lsdc_crtc_get_scanout_position(struct drm_crtc *crtc,
++					   bool in_vblank_irq,
++					   int *vpos,
++					   int *hpos,
++					   ktime_t *stime,
++					   ktime_t *etime,
++					   const struct drm_display_mode *mode)
++{
++	struct drm_device *ddev = crtc->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	unsigned int i = drm_crtc_index(crtc);
++	int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
++	u32 val = 0;
++
++	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
++	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
++
++	vactive_start = vsw + vbp + 1;
++	vactive_end = vactive_start + mode->crtc_vdisplay;
++
++	/* last scan line before VSYNC */
++	vfp_end = mode->crtc_vtotal;
++
++	if (stime)
++		*stime = ktime_get();
++
++	val = lsdc_crtc_rreg32(ldev, LSDC_CRTC0_SCAN_POS_REG, i);
++
++	line = (val & 0xffff);
++
++	if (line < vactive_start)
++		line -= vactive_start;
++	else if (line > vactive_end)
++		line = line - vfp_end - vactive_start;
++	else
++		line -= vactive_start;
++
++	*vpos = line;
++	*hpos = val >> 16;
++
++	if (etime)
++		*etime = ktime_get();
++
++	return true;
++}
++
++static const struct drm_crtc_helper_funcs lsdc_crtc_helper_funcs = {
++	.mode_valid = lsdc_crtc_mode_valid,
++	.atomic_enable = lsdc_crtc_enable,
++	.atomic_disable = lsdc_crtc_disable,
++	.atomic_check = lsdc_crtc_helper_atomic_check,
++	.atomic_flush = lsdc_crtc_atomic_flush,
++	.get_scanout_position = lsdc_crtc_get_scanout_position,
++};
++
++int lsdc_crtc_init(struct drm_device *ddev,
++		   struct drm_crtc *crtc,
++		   struct drm_plane *primary,
++		   struct drm_plane *cursor,
++		   unsigned int i)
++{
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	const struct lsdc_desc *descp = ldev->descp;
++	unsigned int has = descp->has_vblank_counter;
++	int ret;
++
++	ret = drm_crtc_init_with_planes(ddev, crtc, primary, cursor,
++					&lsdc_crtc_funcs_array[has][i],
++					"CRTC-%d", i);
++	if (ret) {
++		drm_err(ddev, "crtc init with planes failed: %d\n", ret);
++		return ret;
++	}
++
++	drm_crtc_helper_add(crtc, &lsdc_crtc_helper_funcs);
++
++	drm_dbg(ddev, "%s initialized %s vblank counter support\n",
++		crtc->name, has ? "with" : "without");
++
++	ret = drm_mode_crtc_set_gamma_size(crtc, 256);
++	if (ret)
++		return ret;
++
++	drm_crtc_enable_color_mgmt(crtc, 0, false, 256);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_debugfs.c b/drivers/gpu/drm/lsdc/lsdc_debugfs.c
+new file mode 100644
+index 000000000000..2d120ca67574
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_debugfs.c
+@@ -0,0 +1,236 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include <drm/drm_debugfs.h>
++#include <drm/drm_gem_vram_helper.h>
++#include <drm/drm_managed.h>
++
++#include "lsdc_drv.h"
++
++#ifdef CONFIG_DEBUG_FS
++
++static int lsdc_identify(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u8 imp, rev;
++
++	loongson_cpu_get_prid(&imp, &rev);
++
++	seq_printf(m, "I'm in %s, running on cpu 0x%x, cpu revision: 0x%x\n",
++		   chip_to_str(ldev->descp->chip), imp, rev);
++
++	return 0;
++}
++
++static int lsdc_show_clock(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct drm_crtc *crtc;
++
++	drm_for_each_crtc(crtc, ddev) {
++		struct lsdc_display_pipe *pipe = crtc_to_display_pipe(crtc);
++		struct lsdc_pll *pixpll = &pipe->pixpll;
++		const struct lsdc_pixpll_funcs *funcs = pixpll->funcs;
++		struct drm_display_mode *mode = &crtc->state->mode;
++		struct lsdc_pll_parms parms;
++		unsigned int out_khz;
++
++		out_khz = funcs->get_clock_rate(pixpll, &parms);
++
++		seq_printf(m, "Display pipe %u: %dx%d\n",
++			   pipe->index, mode->hdisplay, mode->vdisplay);
++
++		seq_printf(m, "Frequency actually output: %u kHz\n", out_khz);
++		seq_printf(m, "Pixel clock required: %d kHz\n", mode->clock);
++		seq_printf(m, "diff: %d kHz\n", out_khz - mode->clock);
++
++		seq_printf(m, "div_ref=%u, loopc=%u, div_out=%u\n",
++			   parms.div_ref, parms.loopc, parms.div_out);
++
++		seq_printf(m, "hsync_start=%d, hsync_end=%d, htotal=%d\n",
++			   mode->hsync_start, mode->hsync_end, mode->htotal);
++		seq_printf(m, "vsync_start=%d, vsync_end=%d, vtotal=%d\n\n",
++			   mode->vsync_start, mode->vsync_end, mode->vtotal);
++	}
++
++	return 0;
++}
++
++static int lsdc_show_mm(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct drm_printer p = drm_seq_file_printer(m);
++
++	drm_mm_print(&ddev->vma_offset_manager->vm_addr_space_mm, &p);
++
++	return 0;
++}
++
++#define REG_DEF(reg) { __stringify_1(LSDC_##reg##_REG), LSDC_##reg##_REG }
++static const struct {
++	const char *name;
++	u32 reg_offset;
++} lsdc_regs_array[] = {
++	REG_DEF(CURSOR0_CFG),
++	REG_DEF(CURSOR0_ADDR_LO),
++	REG_DEF(CURSOR0_ADDR_HI),
++	REG_DEF(CURSOR0_POSITION),
++	REG_DEF(CURSOR0_BG_COLOR),
++	REG_DEF(CURSOR0_FG_COLOR),
++	REG_DEF(CRTC0_CFG),
++	REG_DEF(CRTC0_FB_ORIGIN),
++	REG_DEF(CRTC0_HDISPLAY),
++	REG_DEF(CRTC0_HSYNC),
++	REG_DEF(CRTC0_VDISPLAY),
++	REG_DEF(CRTC0_VSYNC),
++	REG_DEF(CRTC0_GAMMA_INDEX),
++	REG_DEF(CRTC0_GAMMA_DATA),
++	REG_DEF(INT),
++	REG_DEF(CRTC1_CFG),
++	REG_DEF(CRTC1_FB_ORIGIN),
++	REG_DEF(CRTC1_HDISPLAY),
++	REG_DEF(CRTC1_HSYNC),
++	REG_DEF(CRTC1_VDISPLAY),
++	REG_DEF(CRTC1_VSYNC),
++	REG_DEF(CRTC1_GAMMA_INDEX),
++	REG_DEF(CRTC1_GAMMA_DATA),
++};
++
++static int lsdc_show_regs(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(lsdc_regs_array); i++) {
++		u32 offset = lsdc_regs_array[i].reg_offset;
++		const char *name = lsdc_regs_array[i].name;
++
++		seq_printf(m, "%s (0x%04x): 0x%08x\n",
++			   name, offset, lsdc_rreg32(ldev, offset));
++	}
++
++	return 0;
++}
++
++static int lsdc_show_vblank_counter(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++
++	seq_printf(m, "CRTC-0 vblank counter: %08u\n",
++		   lsdc_rreg32(ldev, LSDC_CRTC0_VSYNC_COUNTER_REG));
++
++	seq_printf(m, "CRTC-1 vblank counter: %08u\n",
++		   lsdc_rreg32(ldev, LSDC_CRTC1_VSYNC_COUNTER_REG));
++
++	return 0;
++}
++
++static int lsdc_show_scan_position(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 p0 = lsdc_rreg32(ldev, LSDC_CRTC0_SCAN_POS_REG);
++	u32 p1 = lsdc_rreg32(ldev, LSDC_CRTC1_SCAN_POS_REG);
++
++	seq_printf(m, "CRTC-0: x: %08u, y: %08u\n", p0 >> 16, p0 & 0xFFFF);
++	seq_printf(m, "CRTC-1: x: %08u, y: %08u\n", p1 >> 16, p1 & 0xFFFF);
++
++	return 0;
++}
++
++static int lsdc_show_fb_addr(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 lo, hi;
++	u32 val;
++
++	val = lsdc_rreg32(ldev, LSDC_CRTC0_CFG_REG);
++	if (val & CFG_FB_IN_USING) {
++		lo = lsdc_rreg32(ldev, LSDC_CRTC0_FB1_LO_ADDR_REG);
++		hi = lsdc_rreg32(ldev, LSDC_CRTC0_FB1_HI_ADDR_REG);
++		seq_printf(m, "CRTC-0 using fb1: 0x%x:%x\n", hi, lo);
++	} else {
++		lo = lsdc_rreg32(ldev, LSDC_CRTC0_FB0_LO_ADDR_REG);
++		hi = lsdc_rreg32(ldev, LSDC_CRTC0_FB0_HI_ADDR_REG);
++		seq_printf(m, "CRTC-0 using fb0: 0x%x:%x\n", hi, lo);
++	}
++
++	val = lsdc_rreg32(ldev, LSDC_CRTC1_CFG_REG);
++	if (val & CFG_FB_IN_USING) {
++		lo = lsdc_rreg32(ldev, LSDC_CRTC1_FB1_LO_ADDR_REG);
++		hi = lsdc_rreg32(ldev, LSDC_CRTC1_FB1_HI_ADDR_REG);
++		seq_printf(m, "CRTC-1 using fb1: 0x%x:%x\n", hi, lo);
++	} else {
++		lo = lsdc_rreg32(ldev, LSDC_CRTC1_FB0_LO_ADDR_REG);
++		hi = lsdc_rreg32(ldev, LSDC_CRTC1_FB0_HI_ADDR_REG);
++		seq_printf(m, "CRTC-1 using fb0: 0x%x:%x\n", hi, lo);
++	}
++
++	return 0;
++}
++
++static int lsdc_show_stride(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 stride0 = lsdc_rreg32(ldev, LSDC_CRTC0_STRIDE_REG);
++	u32 stride1 = lsdc_rreg32(ldev, LSDC_CRTC1_STRIDE_REG);
++
++	seq_printf(m, "PIPE-0 stride: %u\n", stride0);
++	seq_printf(m, "PIPE-1 stride: %u\n", stride1);
++
++	return 0;
++}
++
++static int lsdc_trigger_flip_fb(struct seq_file *m, void *arg)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 val;
++
++	val = lsdc_rreg32(ldev, LSDC_CRTC0_CFG_REG);
++	lsdc_wreg32(ldev, LSDC_CRTC0_CFG_REG, val | CFG_PAGE_FLIP);
++	seq_puts(m, "CRTC-0 flip triggered\n");
++
++	val = lsdc_rreg32(ldev, LSDC_CRTC1_CFG_REG);
++	lsdc_wreg32(ldev, LSDC_CRTC1_CFG_REG, val | CFG_PAGE_FLIP);
++	seq_puts(m, "CRTC-1 flip triggered\n");
++
++	return 0;
++}
++
++static struct drm_info_list lsdc_debugfs_list[] = {
++	{ "chip",     lsdc_identify, 0, NULL },
++	{ "clocks",   lsdc_show_clock, 0 },
++	{ "mm",       lsdc_show_mm, 0, NULL },
++	{ "regs",     lsdc_show_regs, 0 },
++	{ "vblanks",  lsdc_show_vblank_counter, 0, NULL },
++	{ "scan_pos", lsdc_show_scan_position, 0, NULL },
++	{ "fb_addr",  lsdc_show_fb_addr, 0, NULL },
++	{ "stride",   lsdc_show_stride, 0, NULL },
++	{ "flip",     lsdc_trigger_flip_fb, 0, NULL },
++};
++
++#endif
++
++void lsdc_debugfs_init(struct drm_minor *minor)
++{
++#ifdef CONFIG_DEBUG_FS
++	drm_debugfs_create_files(lsdc_debugfs_list,
++				 ARRAY_SIZE(lsdc_debugfs_list),
++				 minor->debugfs_root,
++				 minor);
++#endif
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_drv.c b/drivers/gpu/drm/lsdc/lsdc_drv.c
+new file mode 100644
+index 000000000000..8e13a1319b0d
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_drv.c
+@@ -0,0 +1,529 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include <linux/of_address.h>
++#include <linux/pci.h>
++
++#include <drm/drm_aperture.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_fbdev_generic.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_gem_framebuffer_helper.h>
++#include <drm/drm_ioctl.h>
++#include <drm/drm_modeset_helper.h>
++#include <drm/drm_probe_helper.h>
++#include <drm/drm_vblank.h>
++
++#include "lsdc_drv.h"
++#include "lsdc_output.h"
++#include "lsdc_ttm.h"
++
++#define DRIVER_AUTHOR		"Sui Jingfeng <suijingfeng@loongson.cn>"
++#define DRIVER_NAME		"loongson-drm"
++#define DRIVER_DESC		"drm driver for loongson's display controller"
++#define DRIVER_DATE		"20220701"
++#define DRIVER_MAJOR		1
++#define DRIVER_MINOR		0
++#define DRIVER_PATCHLEVEL	0
++
++static const struct lsdc_desc dc_in_ls7a1000 = {
++	.chip = CHIP_LS7A1000,
++	.num_of_crtc = LSDC_NUM_CRTC,
++	.max_pixel_clk = 200000,
++	.max_width = 2048,
++	.max_height = 2048,
++	.num_of_hw_cursor = 1,
++	.hw_cursor_w = 32,
++	.hw_cursor_h = 32,
++	.pitch_align = 256,
++	.mc_bits = 40,
++	.has_vblank_counter = false,
++	.has_scan_pos = true,
++	.has_builtin_i2c = true,
++	.has_vram = true,
++	.has_hpd_reg = false,
++	.is_soc = false,
++};
++
++static const struct lsdc_desc dc_in_ls7a2000 = {
++	.chip = CHIP_LS7A2000,
++	.num_of_crtc = LSDC_NUM_CRTC,
++	.max_pixel_clk = 350000,
++	.max_width = 4096,
++	.max_height = 4096,
++	.num_of_hw_cursor = 2,
++	.hw_cursor_w = 64,
++	.hw_cursor_h = 64,
++	.pitch_align = 64,
++	.mc_bits = 40, /* support 48, but use 40 for backward compatibility */
++	.has_vblank_counter = true,
++	.has_scan_pos = true,
++	.has_builtin_i2c = true,
++	.has_vram = true,
++	.has_hpd_reg = true,
++	.is_soc = false,
++};
++
++const char *chip_to_str(enum loongson_chip_family chip)
++{
++	if (chip == CHIP_LS7A2000)
++		return "LS7A2000";
++
++	if (chip == CHIP_LS7A1000)
++		return "LS7A1000";
++
++	return "unknown";
++}
++
++DEFINE_DRM_GEM_FOPS(lsdc_gem_fops);
++
++static const struct drm_driver lsdc_drm_driver = {
++	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
++	.fops = &lsdc_gem_fops,
++
++	.name = DRIVER_NAME,
++	.desc = DRIVER_DESC,
++	.date = DRIVER_DATE,
++	.major = DRIVER_MAJOR,
++	.minor = DRIVER_MINOR,
++	.patchlevel = DRIVER_PATCHLEVEL,
++
++	.debugfs_init = lsdc_debugfs_init,
++	.dumb_create = lsdc_dumb_create,
++	.dumb_map_offset = lsdc_dumb_map_offset,
++	.gem_prime_mmap = drm_gem_prime_mmap,
++};
++
++static enum drm_mode_status
++lsdc_mode_config_mode_valid(struct drm_device *ddev,
++			    const struct drm_display_mode *mode)
++{
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB8888);
++	u64 min_pitch = drm_format_info_min_pitch(info, 0, mode->hdisplay);
++	u64 fb_size = min_pitch * mode->vdisplay;
++
++	if (fb_size * 3 > ldev->vram_size)
++		return MODE_MEM;
++
++	return MODE_OK;
++}
++
++static const struct drm_mode_config_funcs lsdc_mode_config_funcs = {
++	.fb_create = drm_gem_fb_create,
++	.atomic_check = drm_atomic_helper_check,
++	.atomic_commit = drm_atomic_helper_commit,
++	.mode_valid = lsdc_mode_config_mode_valid,
++};
++
++static int lsdc_modeset_init(struct lsdc_device *ldev,
++			     const struct lsdc_desc *descp)
++{
++	struct drm_device *ddev = &ldev->base;
++	unsigned int num_crtc = descp->num_of_crtc;
++	unsigned int i;
++	int ret;
++
++	for (i = 0; i < num_crtc; i++) {
++		struct lsdc_display_pipe *dispipe = &ldev->dispipe[i];
++		/* we have a index before crtc is initialized */
++		dispipe->index = i;
++
++		ret = lsdc_create_output(ldev, dispipe);
++		if (ret)
++			return ret;
++
++		ldev->num_output++;
++	}
++
++	for (i = 0; i < num_crtc; i++) {
++		struct lsdc_display_pipe *dispipe = &ldev->dispipe[i];
++
++		ret = lsdc_pixpll_init(&dispipe->pixpll, ddev, i);
++		if (ret)
++			return ret;
++
++		ret = lsdc_primary_plane_init(ldev, &dispipe->primary, i);
++		if (ret)
++			return ret;
++
++		ret = lsdc_cursor_plane_init(ldev, &dispipe->cursor, i);
++		if (ret)
++			return ret;
++
++		ret = lsdc_crtc_init(ddev, &dispipe->crtc, &dispipe->primary, &dispipe->cursor, i);
++		if (ret)
++			return ret;
++	}
++
++	drm_mode_config_reset(ddev);
++
++	drm_info(ddev, "modeset init finished, total %u\n", ldev->num_output);
++
++	return 0;
++}
++
++static int lsdc_mode_config_init(struct drm_device *ddev,
++				 const struct lsdc_desc *descp)
++{
++	int ret;
++
++	ret = drmm_mode_config_init(ddev);
++	if (ret)
++		return ret;
++
++	ddev->mode_config.funcs = &lsdc_mode_config_funcs;
++	ddev->mode_config.min_width = 1;
++	ddev->mode_config.min_height = 1;
++	ddev->mode_config.max_width = descp->max_width * LSDC_NUM_CRTC;
++	ddev->mode_config.max_height = descp->max_height * LSDC_NUM_CRTC;
++	ddev->mode_config.preferred_depth = 24;
++	ddev->mode_config.prefer_shadow = descp->has_vram;
++
++	ddev->mode_config.cursor_width = descp->hw_cursor_h;
++	ddev->mode_config.cursor_height = descp->hw_cursor_h;
++
++	if (descp->has_vblank_counter)
++		ddev->max_vblank_count = 0xffffffff;
++
++	return ret;
++}
++
++static const struct lsdc_desc *
++lsdc_detect_chip(struct pci_dev *pdev, const struct pci_device_id *ent)
++{
++	enum loongson_chip_family chip = ent->driver_data;
++
++	if (chip == CHIP_LS7A1000)
++		return &dc_in_ls7a1000;
++
++	if (chip == CHIP_LS7A2000)
++		return &dc_in_ls7a2000;
++
++	return ERR_PTR(-ENODEV);
++}
++
++static int lsdc_get_dedicated_vram(struct lsdc_device *ldev,
++				   const struct lsdc_desc *descp)
++{
++	struct drm_device *ddev = &ldev->base;
++	struct pci_dev *gpu;
++	resource_size_t base, size;
++
++	/*
++	 * The GPU and display controller in LS7A1000/LS7A2000 are separated
++	 * PCIE devices, they are two devices not one. The DC is a pci device,
++	 * but it don't have a dedicate VRAM bar, the BIOS engineer choose to
++	 * assign the VRAM to the gpu device. Sadly, after years application,
++	 * this decision form as a convention for loongson integrate graphics.
++	 * For LS7A1000 and LS7A2000, bar 2 of GPU device contain the VRAM,
++	 * both the GPU and the DC can make use of the VRAM depend on how DRM
++	 * driver is written.
++	 */
++	if (descp->chip == CHIP_LS7A1000)
++		gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A15, NULL);
++	else if (descp->chip == CHIP_LS7A2000)
++		gpu = pci_get_device(PCI_VENDOR_ID_LOONGSON, 0x7A25, NULL);
++
++	if (!gpu) {
++		drm_warn(ddev, "No GPU device found\n");
++		return -ENODEV;
++	}
++
++	base = pci_resource_start(gpu, 2);
++	size = pci_resource_len(gpu, 2);
++
++	ldev->vram_base = base;
++	ldev->vram_size = size;
++
++	drm_info(ddev, "dedicated vram start: 0x%llx, size: %uMB\n",
++		 (u64)base, (u32)(size >> 20));
++
++	return 0;
++}
++
++static int lsdc_of_get_reserved_ram(struct lsdc_device *ldev)
++{
++	struct drm_device *ddev = &ldev->base;
++	unsigned long size = 0;
++	struct device_node *node;
++	struct resource r;
++	int ret;
++
++	node = of_parse_phandle(ddev->dev->of_node, "memory-region", 0);
++	if (!node) {
++		drm_err(ddev, "No memory-region property or no DT, abort\n");
++		return -ENOENT;
++	}
++
++	ret = of_address_to_resource(node, 0, &r);
++	of_node_put(node);
++	if (ret)
++		return ret;
++
++	size = r.end - r.start + 1;
++
++	ldev->vram_base = r.start;
++	ldev->vram_size = size;
++
++	drm_info(ddev, "using VRAM carveout: %lx@%pa\n", size, &r.start);
++
++	return 0;
++}
++
++static struct lsdc_device *
++lsdc_create_device(struct pci_dev *pdev,
++		   const struct pci_device_id *ent,
++		   const struct drm_driver *drv)
++{
++	struct lsdc_device *ldev;
++	struct drm_device *ddev;
++	const struct lsdc_desc *descp;
++	int ret;
++
++	ldev = devm_drm_dev_alloc(&pdev->dev, drv, struct lsdc_device, base);
++	if (IS_ERR(ldev))
++		return ldev;
++
++	ddev = &ldev->base;
++
++	pci_set_drvdata(pdev, ddev);
++
++	descp = lsdc_detect_chip(pdev, ent);
++	if (IS_ERR_OR_NULL(descp)) {
++		drm_err(ddev, "Not known device, the driver need update!\n");
++		return NULL;
++	}
++
++	drm_info(ddev, "%s found, revision: %u", chip_to_str(descp->chip), pdev->revision);
++
++	ldev->descp = descp;
++
++	spin_lock_init(&ldev->reglock);
++
++	/* BAR 0 of the DC device contains registers */
++	ldev->reg_base = pcim_iomap(pdev, 0, 0);
++	if (!ldev->reg_base)
++		return ERR_PTR(-ENODEV);
++
++	if (descp->has_vram)
++		ret = lsdc_get_dedicated_vram(ldev, descp);
++	else
++		ret = lsdc_of_get_reserved_ram(ldev);
++
++	if (ret) {
++		drm_err(ddev, "Init VRAM failed: %d\n", ret);
++		return ERR_PTR(ret);
++	}
++
++	ret = drm_aperture_remove_conflicting_framebuffers(ldev->vram_base,
++							   ldev->vram_size,
++							   false,
++							   drv);
++	if (ret) {
++		drm_err(ddev, "remove firmware framebuffers failed: %d\n", ret);
++		return ERR_PTR(ret);
++	}
++
++	ret = lsdc_ttm_init(ldev);
++	if (ret) {
++		drm_err(ddev, "memory manager init failed: %d\n", ret);
++		return ERR_PTR(ret);
++	}
++
++	ret = lsdc_mode_config_init(ddev, descp);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = lsdc_modeset_init(ldev, descp);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = drm_vblank_init(ddev, descp->num_of_crtc);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = request_threaded_irq(pdev->irq,
++				   lsdc_get_irq_handler(ldev),
++				   lsdc_irq_thread_handler,
++				   IRQF_ONESHOT,
++				   dev_name(ddev->dev),
++				   ddev);
++	if (ret) {
++		drm_err(ddev, "Failed to register lsdc interrupt\n");
++		return ERR_PTR(ret);
++	}
++
++	drm_kms_helper_poll_init(ddev);
++
++	return ldev;
++}
++
++static int lsdc_pci_probe(struct pci_dev *pdev,
++			  const struct pci_device_id *ent)
++{
++	struct drm_device *ddev;
++	struct lsdc_device *ldev;
++	int ret;
++
++	ret = pcim_enable_device(pdev);
++	if (ret)
++		return ret;
++
++	pci_set_master(pdev);
++
++	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
++	if (ret)
++		return ret;
++
++	ldev = lsdc_create_device(pdev, ent, &lsdc_drm_driver);
++	if (IS_ERR(ldev))
++		return PTR_ERR(ldev);
++
++	ddev = &ldev->base;
++
++	ret = drm_dev_register(ddev, 0);
++	if (ret)
++		return ret;
++
++	drm_fbdev_generic_setup(ddev, 32);
++
++	return 0;
++}
++
++static void lsdc_pci_remove(struct pci_dev *pdev)
++{
++	struct drm_device *ddev = pci_get_drvdata(pdev);
++
++	drm_dev_unregister(ddev);
++	drm_atomic_helper_shutdown(ddev);
++}
++
++static int lsdc_drm_freeze(struct drm_device *ddev)
++{
++	int error;
++
++	error = drm_mode_config_helper_suspend(ddev);
++	if (error)
++		return error;
++
++	pci_save_state(to_pci_dev(ddev->dev));
++
++	return 0;
++}
++
++static int lsdc_drm_resume(struct device *dev)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++	struct drm_device *ddev = pci_get_drvdata(pdev);
++
++	return drm_mode_config_helper_resume(ddev);
++}
++
++static int lsdc_pm_freeze(struct device *dev)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++	struct drm_device *ddev = pci_get_drvdata(pdev);
++
++	return lsdc_drm_freeze(ddev);
++}
++
++static int lsdc_pm_thaw(struct device *dev)
++{
++	return lsdc_drm_resume(dev);
++}
++
++static int lsdc_pm_suspend(struct device *dev)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++	int error;
++
++	error = lsdc_pm_freeze(dev);
++	if (error)
++		return error;
++
++	pci_save_state(pdev);
++	/* Shut down the device */
++	pci_disable_device(pdev);
++	pci_set_power_state(pdev, PCI_D3hot);
++
++	return 0;
++}
++
++static int lsdc_pm_resume(struct device *dev)
++{
++	struct pci_dev *pdev = to_pci_dev(dev);
++
++	if (pcim_enable_device(pdev))
++		return -EIO;
++
++	pci_set_power_state(pdev, PCI_D0);
++
++	pci_restore_state(pdev);
++
++	return lsdc_pm_thaw(dev);
++}
++
++static const struct dev_pm_ops lsdc_pm_ops = {
++	.suspend = lsdc_pm_suspend,
++	.resume = lsdc_pm_resume,
++	.freeze = lsdc_pm_freeze,
++	.thaw = lsdc_pm_thaw,
++	.poweroff = lsdc_pm_freeze,
++	.restore = lsdc_pm_resume,
++};
++
++static const struct pci_device_id lsdc_pciid_list[] = {
++	{PCI_VENDOR_ID_LOONGSON, 0x7a06, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_LS7A1000},
++	{PCI_VENDOR_ID_LOONGSON, 0x7a36, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_LS7A2000},
++	{0, 0, 0, 0, 0, 0, 0}
++};
++
++static struct pci_driver lsdc_pci_driver = {
++	.name = DRIVER_NAME,
++	.id_table = lsdc_pciid_list,
++	.probe = lsdc_pci_probe,
++	.remove = lsdc_pci_remove,
++	.driver.pm = &lsdc_pm_ops,
++};
++
++static int __init lsdc_module_init(void)
++{
++	struct pci_dev *pdev = NULL;
++
++	if (drm_firmware_drivers_only())
++		return -ENODEV;
++
++	/*
++	 * Err, it seems wired to write code like below, but our intention
++	 * is don't crash the entire system before we have a proper solution.
++	 * For ls2k1000 there still have a chance to write another DMA helper
++	 * based driver to use if this driver give up the support for it.
++	 * While For ls2k2000, the DC ip in it just basicly same with the one
++	 * in ls7a2000, and write one driver rules them all is desired.
++	 */
++	if (lsdc_is_ls2k1000() || lsdc_is_ls2k2000())
++		return -ENODEV;
++
++	while ((pdev = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, pdev))) {
++		/* Multiple video card workaround */
++		if (pdev->vendor != PCI_VENDOR_ID_LOONGSON) {
++			pr_info("Discrete graphic card detected, abort\n");
++			return 0;
++		}
++	}
++
++	return pci_register_driver(&lsdc_pci_driver);
++}
++module_init(lsdc_module_init);
++
++static void __exit lsdc_module_exit(void)
++{
++	pci_unregister_driver(&lsdc_pci_driver);
++}
++module_exit(lsdc_module_exit);
++
++MODULE_DEVICE_TABLE(pci, lsdc_pciid_list);
++MODULE_AUTHOR(DRIVER_AUTHOR);
++MODULE_DESCRIPTION(DRIVER_DESC);
++MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/lsdc/lsdc_drv.h b/drivers/gpu/drm/lsdc/lsdc_drv.h
+new file mode 100644
+index 000000000000..f4b484bf84b1
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_drv.h
+@@ -0,0 +1,308 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * KMS driver for Loongson display controller
++ * Copyright (C) 2022 Loongson Corporation
++ *
++ * Authors:
++ *      Li Yi <liyi@loongson.cn>
++ *      Sui Jingfeng <suijingfeng@loongson.cn>
++ */
++
++#ifndef __LSDC_DRV_H__
++#define __LSDC_DRV_H__
++
++#include <linux/i2c.h>
++#include <linux/i2c-algo-bit.h>
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_crtc.h>
++#include <drm/drm_device.h>
++#include <drm/drm_encoder.h>
++#include <drm/drm_plane.h>
++#include <drm/ttm/ttm_device.h>
++
++#include "lsdc_pll.h"
++#include "lsdc_regs.h"
++
++#define LSDC_NUM_CRTC           2
++
++/*
++ * The display controller in LS7A2000 integrate three loongson self-made
++ * encoder. Display pipe 0 has a transparent VGA encoder and a HDMI phy,
++ * they are parallel. But the VGA can not controlled by software. You can
++ * disable the CRTC0 but not the VGA. Display pipe 1 has only one HDMI phy.
++ *       ______________________                          _____________
++ *      |             +-----+  |                        |             |
++ *      | CRTC0 -+--> | VGA |  ----> VGA Connector ---> | VGA Monitor |<---+
++ *      |        |    +-----+  |                        |_____________|    |
++ *      |        |             |                         ______________    |
++ *      |        |    +------+ |                        |              |   |
++ *      |        +--> | HDMI | ----> HDMI Connector --> | HDMI Monitor |<--+
++ *      |             +------+ |                        |______________|   |
++ *      |            +------+  |                                           |
++ *      |            | i2c6 |  <-------------------------------------------+
++ *      |            +------+  |
++ *      |                      |
++ *      |    DC in LS7A2000    |
++ *      |                      |
++ *      |            +------+  |
++ *      |            | i2c7 |  <--------------------------------+
++ *      |            +------+  |                                |
++ *      |                      |                          ______|_______
++ *      |            +------+  |                         |              |
++ *      | CRTC1 ---> | HDMI |  ----> HDMI Connector ---> | HDMI Monitor |
++ *      |            +------+  |                         |______________|
++ *      |______________________|
++ *
++ *
++ * The display controller in LS7A1000 integrate two-way DVO, external
++ * encoder(tx chip) is required except connected with dpi(rgb888) panel
++ * directly.
++ *       ___________________                                     _________
++ *      |            -------|                                   |         |
++ *      |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Display |
++ *      |  _   _     -------|        ^             ^            |_________|
++ *      | | | | |  +------+ |        |             |
++ *      | |_| |_|  | i2c6 | <--------+-------------+
++ *      |          +------+ |
++ *      |  DC in LS7A1000   |
++ *      |  _   _   +------+ |
++ *      | | | | |  | i2c7 | <--------+-------------+
++ *      | |_| |_|  +------+ |        |             |             _________
++ *      |            -------|        |             |            |         |
++ *      |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
++ *      |            -------|                                   |_________|
++ *      |___________________|
++ *
++ * LS7A1000 and LS7A2000 are bridge chips, has dedicated Video RAM.
++ * while LS2K2000/LS2K1000 are SoC, they don't have dediacated Video RAM.
++ *
++ * The DC in LS7A1000/LS2K1000 has the pci vendor/device ID: 0x0014:0x7a06
++ * The DC in LS7A2000/LS2K2000 has the pci vendor/device ID: 0x0014:0x7a36
++ *
++ * There is only a 1:1 mapping of crtcs, encoders and connectors for the DC,
++ * display pipe 0 = crtc0 + dvo0 + encoder0 + connector0 + cursor0 + primary0
++ * display pipe 1 = crtc1 + dvo1 + encoder1 + connectro1 + cursor1 + primary1
++ * Each CRTC have two FB address registers.
++ */
++
++enum loongson_chip_family {
++	CHIP_LS7A1000 = 0,  /* North bridge of LS3A3000/LS3A4000/LS3A5000 */
++	CHIP_LS7A2000 = 1,  /* Update version of LS7A1000, with built-in HDMI encoder */
++	CHIP_LAST,
++};
++
++struct lsdc_desc {
++	enum loongson_chip_family chip;
++	u32 num_of_crtc;
++	u32 max_pixel_clk;
++	u32 max_width;
++	u32 max_height;
++	u32 num_of_hw_cursor;
++	u32 hw_cursor_w;
++	u32 hw_cursor_h;
++	u32 pitch_align;  /* DMA alignment constraint */
++	u64 mc_bits;      /* physical address bus bit width */
++	bool has_vblank_counter; /* 32 bit hw vsync counter */
++	bool has_scan_pos;      /* crtc scan position recorder */
++	bool has_builtin_i2c;
++	bool has_vram;
++	bool has_hpd_reg;
++	bool is_soc;
++};
++
++struct lsdc_i2c {
++	struct i2c_adapter adapter;
++	struct i2c_algo_bit_data bit;
++	struct drm_device *ddev;
++	void __iomem *reg_base;
++	void __iomem *dir_reg;
++	void __iomem *dat_reg;
++	/* pin bit mask */
++	u8 sda;
++	u8 scl;
++};
++
++struct lsdc_display_pipe {
++	struct drm_crtc crtc;
++	struct drm_plane primary;
++	struct drm_plane cursor;
++	struct drm_encoder encoder;
++	struct drm_connector connector;
++	struct lsdc_pll pixpll;
++	struct lsdc_i2c *li2c;
++	unsigned int index;
++};
++
++static inline struct lsdc_display_pipe *
++crtc_to_display_pipe(struct drm_crtc *crtc)
++{
++	return container_of(crtc, struct lsdc_display_pipe, crtc);
++}
++
++static inline struct lsdc_display_pipe *
++cursor_to_display_pipe(struct drm_plane *plane)
++{
++	return container_of(plane, struct lsdc_display_pipe, cursor);
++}
++
++static inline struct lsdc_display_pipe *
++connector_to_display_pipe(struct drm_connector *conn)
++{
++	return container_of(conn, struct lsdc_display_pipe, connector);
++}
++
++static inline struct lsdc_display_pipe *
++encoder_to_display_pipe(struct drm_encoder *enc)
++{
++	return container_of(enc, struct lsdc_display_pipe, encoder);
++}
++
++struct lsdc_crtc_state {
++	struct drm_crtc_state base;
++	struct lsdc_pll_parms pparms;
++};
++
++struct lsdc_device {
++	struct drm_device base;
++	struct ttm_device bdev;
++	/* @descp: features description of the DC variant */
++	const struct lsdc_desc *descp;
++
++	/* @reglock: protects concurrent register access */
++	spinlock_t reglock;
++	void __iomem *reg_base;
++	resource_size_t vram_base;
++	resource_size_t vram_size;
++
++	struct lsdc_display_pipe dispipe[LSDC_NUM_CRTC];
++
++	/* @num_output: count the number of active display pipe */
++	unsigned int num_output;
++
++	u32 irq_status;
++};
++
++static inline struct lsdc_device *
++bdev_to_lsdc(struct ttm_device *bdev)
++{
++	return container_of(bdev, struct lsdc_device, bdev);
++}
++
++static inline struct lsdc_device *
++to_lsdc(struct drm_device *ddev)
++{
++	return container_of(ddev, struct lsdc_device, base);
++}
++
++static inline struct lsdc_crtc_state *
++to_lsdc_crtc_state(struct drm_crtc_state *base)
++{
++	return container_of(base, struct lsdc_crtc_state, base);
++}
++
++const char *chip_to_str(enum loongson_chip_family chip);
++
++void lsdc_debugfs_init(struct drm_minor *minor);
++
++int lsdc_crtc_init(struct drm_device *ddev,
++		   struct drm_crtc *crtc,
++		   struct drm_plane *primary,
++		   struct drm_plane *cursor,
++		   unsigned int index);
++
++int lsdc_primary_plane_init(struct lsdc_device *ldev,
++			    struct drm_plane *plane,
++			    unsigned int index);
++
++int lsdc_cursor_plane_init(struct lsdc_device *ldev,
++			   struct drm_plane *plane,
++			   unsigned int index);
++
++irqreturn_t lsdc_irq_thread_handler(int irq, void *arg);
++irq_handler_t lsdc_get_irq_handler(struct lsdc_device *ldev);
++
++static inline u32 lsdc_rreg32(struct lsdc_device *ldev, u32 offset)
++{
++	return readl(ldev->reg_base + offset);
++}
++
++static inline void lsdc_wreg32(struct lsdc_device *ldev, u32 offset, u32 val)
++{
++	writel(val, ldev->reg_base + offset);
++}
++
++static inline void lsdc_ureg32_set(struct lsdc_device *ldev,
++				   u32 offset,
++				   u32 bit)
++{
++	void __iomem *addr = ldev->reg_base + offset;
++	u32 val = readl(addr);
++
++	writel(val | bit, addr);
++}
++
++static inline void lsdc_ureg32_clr(struct lsdc_device *ldev,
++				   u32 offset,
++				   u32 bit)
++{
++	void __iomem *addr = ldev->reg_base + offset;
++	u32 val = readl(addr);
++
++	writel(val & ~bit, addr);
++}
++
++static inline u32 lsdc_pipe_rreg32(struct lsdc_device *ldev,
++				   u32 offset,
++				   u32 pipe)
++{
++	return readl(ldev->reg_base + offset + pipe * CRTC_PIPE_OFFSET);
++}
++
++#define lsdc_hdmi_rreg32 lsdc_pipe_rreg32
++#define lsdc_crtc_rreg32 lsdc_pipe_rreg32
++
++static inline void lsdc_pipe_wreg32(struct lsdc_device *ldev,
++				    u32 offset,
++				    u32 pipe,
++				    u32 val)
++{
++	writel(val, ldev->reg_base + offset + pipe * CRTC_PIPE_OFFSET);
++}
++
++#define lsdc_hdmi_wreg32 lsdc_pipe_wreg32
++#define lsdc_crtc_wreg32 lsdc_pipe_wreg32
++
++static inline void lsdc_crtc_ureg32_set(struct lsdc_device *ldev,
++					u32 offset,
++					u32 pipe,
++					u32 bit)
++{
++	void __iomem *addr;
++	u32 val;
++
++	addr = ldev->reg_base + offset + pipe * CRTC_PIPE_OFFSET;
++	val = readl(addr);
++	writel(val | bit, addr);
++}
++
++static inline void lsdc_crtc_ureg32_clr(struct lsdc_device *ldev,
++					u32 offset,
++					u32 pipe,
++					u32 bit)
++{
++	void __iomem *addr;
++	u32 val;
++
++	addr = ldev->reg_base + offset + pipe * CRTC_PIPE_OFFSET;
++	val = readl(addr);
++	writel(val & ~bit, addr);
++}
++
++/* helpers for chip detection */
++bool lsdc_is_ls2k2000(void);
++bool lsdc_is_ls2k1000(void);
++unsigned int loongson_cpu_get_prid(u8 *impl, u8 *rev);
++
++#endif
+diff --git a/drivers/gpu/drm/lsdc/lsdc_i2c.c b/drivers/gpu/drm/lsdc/lsdc_i2c.c
+new file mode 100644
+index 000000000000..7c5e91c3246a
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_i2c.c
+@@ -0,0 +1,172 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <drm/drm_managed.h>
++
++#include "lsdc_drv.h"
++#include "lsdc_output.h"
++
++/*
++ * ls7a_gpio_i2c_set - set the state of a gpio pin indicated by mask
++ * @mask: gpio pin mask
++ * @state: "0" for low, "1" for high
++ */
++static void ls7a_gpio_i2c_set(struct lsdc_i2c * const li2c, int mask, int state)
++{
++	struct lsdc_device *ldev = to_lsdc(li2c->ddev);
++	unsigned long flags;
++	u8 val;
++
++	spin_lock_irqsave(&ldev->reglock, flags);
++
++	if (state) {
++		/*
++		 * Setting this pin as input directly, write 1 for Input.
++		 * The external pull-up resistor will pull the level up
++		 */
++		val = readb(li2c->dir_reg);
++		val |= mask;
++		writeb(val, li2c->dir_reg);
++	} else {
++		/* First set this pin as output, write 0 for Output */
++		val = readb(li2c->dir_reg);
++		val &= ~mask;
++		writeb(val, li2c->dir_reg);
++
++		/* Then, make this pin output 0 */
++		val = readb(li2c->dat_reg);
++		val &= ~mask;
++		writeb(val, li2c->dat_reg);
++	}
++
++	spin_unlock_irqrestore(&ldev->reglock, flags);
++}
++
++/*
++ * ls7a_gpio_i2c_get - read value back from the gpio pin indicated by mask
++ * @mask: gpio pin mask
++ * return "0" for low, "1" for high
++ */
++static int ls7a_gpio_i2c_get(struct lsdc_i2c * const li2c, int mask)
++{
++	struct lsdc_device *ldev = to_lsdc(li2c->ddev);
++	unsigned long flags;
++	u8 val;
++
++	spin_lock_irqsave(&ldev->reglock, flags);
++
++	/* First set this pin as input */
++	val = readb(li2c->dir_reg);
++	val |= mask;
++	writeb(val, li2c->dir_reg);
++
++	/* Then get level state from this pin */
++	val = readb(li2c->dat_reg);
++
++	spin_unlock_irqrestore(&ldev->reglock, flags);
++
++	return (val & mask) ? 1 : 0;
++}
++
++static void ls7a_i2c_set_sda(void *i2c, int state)
++{
++	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
++	/* set state on the li2c->sda pin */
++	return ls7a_gpio_i2c_set(li2c, li2c->sda, state);
++}
++
++static void ls7a_i2c_set_scl(void *i2c, int state)
++{
++	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
++	/* set state on the li2c->scl pin */
++	return ls7a_gpio_i2c_set(li2c, li2c->scl, state);
++}
++
++static int ls7a_i2c_get_sda(void *i2c)
++{
++	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
++	/* read value from the li2c->sda pin */
++	return ls7a_gpio_i2c_get(li2c, li2c->sda);
++}
++
++static int ls7a_i2c_get_scl(void *i2c)
++{
++	struct lsdc_i2c * const li2c = (struct lsdc_i2c *)i2c;
++	/* read the value from the li2c->scl pin */
++	return ls7a_gpio_i2c_get(li2c, li2c->scl);
++}
++
++static void lsdc_destroy_i2c(struct drm_device *ddev, void *data)
++{
++	struct lsdc_i2c *li2c = (struct lsdc_i2c *)data;
++
++	if (li2c) {
++		i2c_del_adapter(&li2c->adapter);
++		kfree(li2c);
++	}
++}
++
++/*
++ * The DC in ls7a1000/ls7a2000/ls2k2000 have builtin gpio hardware
++ *
++ * @base: gpio reg base
++ * @index: output channel index, 0 for DVO0, 1 for DVO1
++ */
++struct lsdc_i2c *lsdc_create_i2c_chan(struct drm_device *ddev,
++				      void *base,
++				      unsigned int index)
++{
++	struct i2c_adapter *adapter;
++	struct lsdc_i2c *li2c;
++	int ret;
++
++	li2c = kzalloc(sizeof(*li2c), GFP_KERNEL);
++	if (!li2c)
++		return ERR_PTR(-ENOMEM);
++
++	if (index == 0) {
++		li2c->sda = 0x01;  /* pin 0 */
++		li2c->scl = 0x02;  /* pin 1 */
++	} else if (index == 1) {
++		li2c->sda = 0x04;  /* pin 2 */
++		li2c->scl = 0x08;  /* pin 3 */
++	}
++
++	li2c->reg_base = base;
++	li2c->ddev = ddev;
++	li2c->dir_reg = li2c->reg_base + LS7A_DC_GPIO_DIR_REG;
++	li2c->dat_reg = li2c->reg_base + LS7A_DC_GPIO_DAT_REG;
++
++	li2c->bit.setsda = ls7a_i2c_set_sda;
++	li2c->bit.setscl = ls7a_i2c_set_scl;
++	li2c->bit.getsda = ls7a_i2c_get_sda;
++	li2c->bit.getscl = ls7a_i2c_get_scl;
++	li2c->bit.udelay = 5;
++	li2c->bit.timeout = usecs_to_jiffies(2200);
++	li2c->bit.data = li2c;
++
++	adapter = &li2c->adapter;
++	adapter->algo_data = &li2c->bit;
++	adapter->owner = THIS_MODULE;
++	adapter->class = I2C_CLASS_DDC;
++	adapter->dev.parent = ddev->dev;
++	adapter->nr = -1;
++
++	snprintf(adapter->name, sizeof(adapter->name), "lsdc-i2c%u", index);
++
++	i2c_set_adapdata(adapter, li2c);
++
++	ret = i2c_bit_add_bus(adapter);
++	if (ret) {
++		kfree(li2c);
++		return ERR_PTR(ret);
++	}
++
++	ret = drmm_add_action_or_reset(ddev, lsdc_destroy_i2c, li2c);
++	if (ret)
++		return NULL;
++
++	drm_info(ddev, "%s(sda=%u, scl=%u) created for connector-%u\n",
++		 adapter->name, li2c->sda, li2c->scl, index);
++
++	return li2c;
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_irq.c b/drivers/gpu/drm/lsdc/lsdc_irq.c
+new file mode 100644
+index 000000000000..8ed48d5ca9ee
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_irq.c
+@@ -0,0 +1,86 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <drm/drm_vblank.h>
++
++#include "lsdc_drv.h"
++#include "lsdc_regs.h"
++
++/*
++ * For the DC in ls7a2000, clearing interrupt status is achieved by
++ * write "1" to LSDC_INT_REG, For the DC in ls7a1000, ls2k1000,
++ * Interrupt status clear is achieved by write "0" to LSDC_INT_REG.
++ * Two different hardware engineer of Loongson modify it as their will.
++ */
++
++/* For the DC in ls7a2000 */
++static irqreturn_t lsdc_irq_handler(int irq, void *arg)
++{
++	struct drm_device *ddev = arg;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 val;
++
++	/* Read the interrupt status */
++	val = lsdc_rreg32(ldev, LSDC_INT_REG);
++	if ((val & INT_STATUS_MASK) == 0) {
++		drm_warn(ddev, "no interrupt occurs\n");
++		return IRQ_NONE;
++	}
++
++	ldev->irq_status = val;
++
++	/* write "1" to clear the interrupt status */
++	lsdc_wreg32(ldev, LSDC_INT_REG, val);
++
++	return IRQ_WAKE_THREAD;
++}
++
++/* For the DC in ls7a1000 and ls2k1000  */
++static irqreturn_t lsdc_irq_handler_legacy(int irq, void *arg)
++{
++	struct drm_device *ddev = arg;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 val;
++
++	/* Read the interrupt status */
++	val = lsdc_rreg32(ldev, LSDC_INT_REG);
++	if ((val & INT_STATUS_MASK) == 0) {
++		drm_warn(ddev, "no interrupt occurs\n");
++		return IRQ_NONE;
++	}
++
++	ldev->irq_status = val;
++
++	/* write "0" to clear the interrupt status */
++	lsdc_wreg32(ldev, LSDC_INT_REG, val & ~INT_STATUS_MASK);
++
++	return IRQ_WAKE_THREAD;
++}
++
++irq_handler_t lsdc_get_irq_handler(struct lsdc_device *ldev)
++{
++	const struct lsdc_desc *descp = ldev->descp;
++
++	if (descp->chip == CHIP_LS7A2000)
++		return lsdc_irq_handler;
++
++	return lsdc_irq_handler_legacy;
++}
++
++irqreturn_t lsdc_irq_thread_handler(int irq, void *arg)
++{
++	struct drm_device *ddev = arg;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct drm_crtc *crtc;
++
++	if (ldev->irq_status & INT_CRTC0_VSYNC) {
++		crtc = drm_crtc_from_index(ddev, 0);
++		drm_crtc_handle_vblank(crtc);
++	}
++
++	if (ldev->irq_status & INT_CRTC1_VSYNC) {
++		crtc = drm_crtc_from_index(ddev, 1);
++		drm_crtc_handle_vblank(crtc);
++	}
++
++	return IRQ_HANDLED;
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_output.c b/drivers/gpu/drm/lsdc/lsdc_output.c
+new file mode 100644
+index 000000000000..59f71dbb41f3
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_output.c
+@@ -0,0 +1,570 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/delay.h>
++
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_debugfs.h>
++#include <drm/drm_edid.h>
++#include <drm/drm_file.h>
++#include <drm/drm_probe_helper.h>
++
++#include "lsdc_drv.h"
++#include "lsdc_output.h"
++
++static int lsdc_get_modes(struct drm_connector *connector)
++{
++	unsigned int num = 0;
++	struct edid *edid;
++
++	if (connector->ddc) {
++		edid = drm_get_edid(connector, connector->ddc);
++		if (edid) {
++			drm_connector_update_edid_property(connector, edid);
++			num = drm_add_edid_modes(connector, edid);
++			kfree(edid);
++		}
++
++		return num;
++	}
++
++	num = drm_add_modes_noedid(connector, 1920, 1200);
++
++	drm_set_preferred_mode(connector, 1024, 768);
++
++	return num;
++}
++
++static enum drm_connector_status
++lsdc_dpi_connector_detect(struct drm_connector *connector, bool force)
++{
++	struct i2c_adapter *ddc = connector->ddc;
++
++	if (ddc) {
++		if (drm_probe_ddc(ddc))
++			return connector_status_connected;
++	} else {
++		if (connector->connector_type == DRM_MODE_CONNECTOR_DPI)
++			return connector_status_connected;
++	}
++
++	return connector_status_unknown;
++}
++
++static enum drm_connector_status
++lsdc_hdmi_connector_detect(struct drm_connector *connector, bool force)
++{
++	struct lsdc_display_pipe *pipe = connector_to_display_pipe(connector);
++	struct lsdc_device *ldev = to_lsdc(connector->dev);
++	u32 val;
++
++	val = lsdc_rreg32(ldev, LSDC_HDMI_HPD_STATUS_REG);
++
++	if (pipe->index == 0) {
++		if (val & HDMI0_HPD_FLAG)
++			return connector_status_connected;
++	}
++
++	if (pipe->index == 1) {
++		if (val & HDMI1_HPD_FLAG)
++			return connector_status_connected;
++	}
++
++	return connector_status_disconnected;
++}
++
++static enum drm_connector_status
++lsdc_hdmi_vga_connector_detect(struct drm_connector *connector, bool force)
++{
++	struct lsdc_display_pipe *pipe = connector_to_display_pipe(connector);
++	struct drm_device *ddev = connector->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct i2c_adapter *ddc;
++	u32 val;
++
++	val = lsdc_rreg32(ldev, LSDC_HDMI_HPD_STATUS_REG);
++
++	if (pipe->index == 1) {
++		if (val & HDMI1_HPD_FLAG)
++			return connector_status_connected;
++
++		return connector_status_disconnected;
++	}
++
++	if (pipe->index == 0) {
++		if (val & HDMI0_HPD_FLAG)
++			return connector_status_connected;
++
++		ddc = connector->ddc;
++		if (ddc) {
++			if (drm_probe_ddc(ddc))
++				return connector_status_connected;
++
++			return connector_status_disconnected;
++		}
++	}
++
++	return connector_status_unknown;
++}
++
++static struct drm_encoder *
++lsdc_connector_get_best_encoder(struct drm_connector *connector,
++				struct drm_atomic_state *state)
++{
++	struct lsdc_display_pipe *pipe = connector_to_display_pipe(connector);
++
++	return &pipe->encoder;
++}
++
++static const struct drm_connector_helper_funcs lsdc_connector_helpers = {
++	.atomic_best_encoder = lsdc_connector_get_best_encoder,
++	.get_modes = lsdc_get_modes,
++};
++
++static const struct drm_connector_funcs lsdc_dpi_connector_funcs = {
++	.detect = lsdc_dpi_connector_detect,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.reset = drm_atomic_helper_connector_reset,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static const struct drm_connector_funcs
++ls7a2000_hdmi_connector_funcs_array[LSDC_NUM_CRTC] = {
++	{
++		.detect = lsdc_hdmi_vga_connector_detect,
++		.fill_modes = drm_helper_probe_single_connector_modes,
++		.destroy = drm_connector_cleanup,
++		.reset = drm_atomic_helper_connector_reset,
++		.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++		.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++	},
++	{
++		.detect = lsdc_hdmi_connector_detect,
++		.fill_modes = drm_helper_probe_single_connector_modes,
++		.destroy = drm_connector_cleanup,
++		.reset = drm_atomic_helper_connector_reset,
++		.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++		.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++	}
++};
++
++/* Even though some board has only one hdmi on display pipe 1,
++ * We still need hook lsdc_encoder_funcs up on display pipe 0,
++ * This is because we need its reset() callback get called, to
++ * set the LSDC_HDMIx_CTRL_REG using software gpio emulated i2c.
++ * Otherwise, the firmware may set LSDC_HDMIx_CTRL_REG blindly.
++ */
++static void ls7a2000_hdmi_encoder_reset(struct drm_encoder *encoder)
++{
++	struct drm_device *ddev = encoder->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct lsdc_display_pipe *dispipe = encoder_to_display_pipe(encoder);
++	unsigned int index = dispipe->index;
++	u32 val;
++
++	val = lsdc_hdmi_rreg32(ldev, LSDC_HDMI0_PHY_CTRL_REG, index);
++	val &= ~HDMI_PHY_RESET_N;
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_PHY_CTRL_REG, index, val);
++	udelay(9);
++	val |= HDMI_PHY_RESET_N;
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_PHY_CTRL_REG, index, val);
++	udelay(9);
++
++	val = lsdc_hdmi_rreg32(ldev, LSDC_HDMI0_INTF_CTRL_REG, index);
++	val &= ~HW_I2C_EN;
++	val |= HDMI_INTERFACE_EN | HDMI_PACKET_EN;
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_INTF_CTRL_REG, index, val);
++
++	drm_dbg(ddev, "HDMI-%u Reset\n", index);
++}
++
++#ifdef CONFIG_DEBUG_FS
++
++#define LSDC_HDMI_REG(i, reg) {                               \
++	.name = __stringify_1(LSDC_HDMI##i##_##reg##_REG),    \
++	.offset = LSDC_HDMI##i##_##reg##_REG,                 \
++}
++
++static const struct debugfs_reg32 ls7a2000_hdmi_encoder_regs[][9] = {
++	{
++		LSDC_HDMI_REG(0, ZONE),
++		LSDC_HDMI_REG(0, INTF_CTRL),
++		LSDC_HDMI_REG(0, PHY_CTRL),
++		LSDC_HDMI_REG(0, PHY_PLL),
++		LSDC_HDMI_REG(0, AVI_INFO_CRTL),
++		LSDC_HDMI_REG(0, PHY_CAL),
++		LSDC_HDMI_REG(0, AUDIO_PLL_LO),
++		LSDC_HDMI_REG(0, AUDIO_PLL_HI),
++		{NULL, 0},
++	},
++	{
++		LSDC_HDMI_REG(1, ZONE),
++		LSDC_HDMI_REG(1, INTF_CTRL),
++		LSDC_HDMI_REG(1, PHY_CTRL),
++		LSDC_HDMI_REG(1, PHY_PLL),
++		LSDC_HDMI_REG(1, AVI_INFO_CRTL),
++		LSDC_HDMI_REG(1, PHY_CAL),
++		LSDC_HDMI_REG(1, AUDIO_PLL_LO),
++		LSDC_HDMI_REG(1, AUDIO_PLL_HI),
++		{NULL, 0},  /* MUST be {NULL, 0} terminated */
++	},
++};
++
++static int ls7a2000_hdmi_encoder_regs_show(struct seq_file *m, void *data)
++{
++	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *ddev = node->minor->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	const struct debugfs_reg32 *preg;
++
++	preg = (const struct debugfs_reg32 *)node->info_ent->data;
++
++	while (preg->name) {
++		u32 offset = preg->offset;
++
++		seq_printf(m, "%s (0x%04x): 0x%08x\n", preg->name, offset,
++			   lsdc_rreg32(ldev, offset));
++		++preg;
++	}
++
++	return 0;
++}
++
++static const struct drm_info_list ls7a2000_hdmi_debugfs_files[] = {
++	{ "hdmi0_regs", ls7a2000_hdmi_encoder_regs_show, 0, (void *)ls7a2000_hdmi_encoder_regs[0] },
++	{ "hdmi1_regs", ls7a2000_hdmi_encoder_regs_show, 0, (void *)ls7a2000_hdmi_encoder_regs[1] },
++};
++
++static int ls7a2000_hdmi_encoder_late_register(struct drm_encoder *encoder)
++{
++	struct lsdc_display_pipe *dispipe = encoder_to_display_pipe(encoder);
++	struct drm_device *ddev = encoder->dev;
++	struct drm_minor *minor = ddev->primary;
++
++	drm_debugfs_create_files(&ls7a2000_hdmi_debugfs_files[dispipe->index],
++				 1, minor->debugfs_root, minor);
++
++	return 0;
++}
++
++#endif
++
++static const struct drm_encoder_funcs ls7a1000_encoder_funcs = {
++	.destroy = drm_encoder_cleanup,
++};
++
++static const struct drm_encoder_funcs ls7a2000_encoder_funcs = {
++	.reset = ls7a2000_hdmi_encoder_reset,
++	.destroy = drm_encoder_cleanup,
++#ifdef CONFIG_DEBUG_FS
++	.late_register = ls7a2000_hdmi_encoder_late_register,
++#endif
++};
++
++static int ls7a2000_hdmi_set_avi_infoframe(struct drm_encoder *encoder,
++					   struct drm_display_mode *mode)
++{
++	struct lsdc_display_pipe *dispipe = encoder_to_display_pipe(encoder);
++	struct drm_device *ddev = encoder->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	unsigned int index = dispipe->index;
++	struct hdmi_avi_infoframe infoframe;
++	u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
++	unsigned char *ptr = &buffer[HDMI_INFOFRAME_HEADER_SIZE];
++	unsigned int content0, content1, content2, content3;
++	int err;
++
++	err = drm_hdmi_avi_infoframe_from_display_mode(&infoframe, &dispipe->connector, mode);
++	if (err < 0) {
++		drm_err(ddev, "failed to setup AVI infoframe: %d\n", err);
++		return err;
++	}
++
++	/* Fixed infoframe configuration not linked to the mode */
++	infoframe.colorspace = HDMI_COLORSPACE_RGB;
++	infoframe.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
++	infoframe.colorimetry = HDMI_COLORIMETRY_NONE;
++
++	err = hdmi_avi_infoframe_pack(&infoframe, buffer, sizeof(buffer));
++	if (err < 0) {
++		drm_err(ddev, "failed to pack AVI infoframe: %d\n", err);
++			return err;
++	}
++
++	content0 = *(unsigned int *)ptr;
++	content1 = *(ptr + 4);
++	content2 = *(unsigned int *)(ptr + 5);
++	content3 = *(unsigned int *)(ptr + 9);
++
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_AVI_CONTENT0, index, content0);
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_AVI_CONTENT1, index, content1);
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_AVI_CONTENT2, index, content2);
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_AVI_CONTENT3, index, content3);
++
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_AVI_INFO_CRTL_REG, index,
++			 AVI_PKT_ENABLE | AVI_PKT_UPDATE);
++
++	drm_dbg(ddev, "Update HDMI-%u avi infoframe\n", index);
++
++	return 0;
++}
++
++static void ls7a2000_hdmi_atomic_disable(struct drm_encoder *encoder,
++					 struct drm_atomic_state *state)
++{
++	struct lsdc_display_pipe *dispipe = encoder_to_display_pipe(encoder);
++	struct drm_device *ddev = encoder->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	unsigned int index = dispipe->index;
++	u32 val;
++
++	val = lsdc_hdmi_rreg32(ldev, LSDC_HDMI0_PHY_CTRL_REG, index);
++	val &= ~HDMI_PHY_EN;
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_PHY_CTRL_REG, index, val);
++
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_AVI_INFO_CRTL_REG, index, 0);
++
++	drm_dbg(ddev, "HDMI-%u disabled\n", index);
++}
++
++static void ls7a2000_hdmi_atomic_enable(struct drm_encoder *encoder,
++					struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = encoder->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct lsdc_display_pipe *dispipe = encoder_to_display_pipe(encoder);
++	unsigned int index = dispipe->index;
++	u32 val;
++
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_ZONE_REG, index, 0x00400040);
++
++	val = lsdc_hdmi_rreg32(ldev, LSDC_HDMI0_PHY_CTRL_REG, index);
++
++	val |= HDMI_PHY_TERM_STATUS |
++	       HDMI_PHY_TERM_DET_EN |
++	       HDMI_PHY_TERM_H_EN |
++	       HDMI_PHY_TERM_L_EN |
++	       HDMI_PHY_EN;
++
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_PHY_CTRL_REG, index, val);
++
++	val = HDMI_CTL_PERIOD_MODE |
++	      HDMI_AUDIO_EN |
++	      HDMI_PACKET_EN |
++	      HDMI_INTERFACE_EN |
++	      (8 << HDMI_VIDEO_PREAMBLE_SHIFT);
++
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_INTF_CTRL_REG, index, val);
++
++	drm_dbg(ddev, "HDMI-%u enabled\n", index);
++}
++
++/*
++ *  Fout = M * Fin
++ *
++ *  M = (4 * LF) / (IDF * ODF)
++ */
++static void ls7a2000_hdmi_phy_pll_config(struct lsdc_device *ldev,
++					 int fin,
++					 unsigned int index)
++{
++	struct drm_device *ddev = &ldev->base;
++	int count = 0;
++	u32 val;
++
++	/* Firstly, disable phy pll */
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_PHY_PLL_REG, index, 0x0);
++
++	/*
++	 * Most of time, loongson HDMI require M = 10
++	 * for example, 10 = (4 * 40) / (8 * 2)
++	 * here, write "1" to the ODF will get "2"
++	 */
++
++	if (fin >= 170000)
++		val = (16 << HDMI_PLL_IDF_SHIFT) |
++		      (40 << HDMI_PLL_LF_SHIFT) |
++		      (0 << HDMI_PLL_ODF_SHIFT);
++	else
++		val = (8 << HDMI_PLL_IDF_SHIFT) |
++		      (40 << HDMI_PLL_LF_SHIFT) |
++		      (1 << HDMI_PLL_ODF_SHIFT);
++
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_PHY_PLL_REG, index, val | HDMI_PLL_ENABLE);
++
++	udelay(1);
++
++	drm_dbg(ddev, "Fin of HDMI-%u: %d kHz\n", index, fin);
++
++	/* Wait hdmi phy pll lock */
++	do {
++		val = lsdc_hdmi_rreg32(ldev, LSDC_HDMI0_PHY_PLL_REG, index);
++
++		if (val & HDMI_PLL_LOCKED) {
++			drm_dbg(ddev, "Setting HDMI-%u PLL take %d cycles\n",
++				index, count);
++			break;
++		}
++		++count;
++	} while (count < 1000);
++
++	lsdc_hdmi_wreg32(ldev, LSDC_HDMI0_PHY_CAL_REG, index, 0xf000ff0);
++
++	if (count >= 1000)
++		drm_err(ddev, "Setting HDMI-%u PLL failed\n", index);
++}
++
++static void ls7a2000_hdmi_atomic_mode_set(struct drm_encoder *encoder,
++					  struct drm_crtc_state *crtc_state,
++					  struct drm_connector_state *conn_state)
++{
++	struct lsdc_display_pipe *dispipe = encoder_to_display_pipe(encoder);
++	struct drm_device *ddev = encoder->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct drm_display_mode *mode = &crtc_state->mode;
++
++	ls7a2000_hdmi_phy_pll_config(ldev, mode->clock, dispipe->index);
++
++	ls7a2000_hdmi_set_avi_infoframe(encoder, mode);
++
++	drm_dbg(ddev, "HDMI-%u modeset finished\n", dispipe->index);
++}
++
++const struct drm_encoder_helper_funcs ls7a2000_hdmi_encoder_helper_funcs = {
++	.atomic_disable = ls7a2000_hdmi_atomic_disable,
++	.atomic_enable = ls7a2000_hdmi_atomic_enable,
++	.atomic_mode_set = ls7a2000_hdmi_atomic_mode_set,
++};
++
++/*
++ * @index : display pipe index. 0 or 1 for now.
++ */
++static int ls7a2000_output_init(struct lsdc_device *ldev,
++				struct lsdc_display_pipe *dispipe,
++				struct i2c_adapter *ddc)
++{
++	struct drm_device *ddev = &ldev->base;
++	struct drm_encoder *encoder = &dispipe->encoder;
++	struct drm_connector *connector = &dispipe->connector;
++	unsigned int pipe = dispipe->index;
++	int ret;
++
++	ret = drm_encoder_init(ddev,
++			       encoder,
++			       &ls7a2000_encoder_funcs,
++			       DRM_MODE_ENCODER_TMDS,
++			       "encoder-%u",
++			       pipe);
++	if (ret)
++		return ret;
++
++	encoder->possible_crtcs = BIT(dispipe->index);
++
++	/*
++	 * For LS7A2000:
++	 *
++	 * 1) Some board export double hdmi output interface
++	 * 2) Most of board export one vga + hdmi output interface
++	 * 3) still has board export three output(2 hdmi + 1 vga).
++	 *
++	 * So let's hook hdmi helper funcs to all display pipe, don't miss.
++	 * writing hdmi register do no harm, except wasting a few cpu's time
++	 * if the motherboard don't export hdmi interface.
++	 */
++	drm_encoder_helper_add(encoder, &ls7a2000_hdmi_encoder_helper_funcs);
++
++	ret = drm_connector_init_with_ddc(ddev,
++					  connector,
++					  &ls7a2000_hdmi_connector_funcs_array[pipe],
++					  DRM_MODE_CONNECTOR_HDMIA,
++					  ddc);
++	if (ret)
++		return ret;
++
++	drm_info(ddev, "display pipe-%u has HDMI%s\n", pipe, pipe ? "" : " and/or VGA");
++
++	drm_connector_helper_add(connector, &lsdc_connector_helpers);
++
++	drm_connector_attach_encoder(connector, encoder);
++
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
++			    DRM_CONNECTOR_POLL_DISCONNECT;
++
++	connector->interlace_allowed = 0;
++	connector->doublescan_allowed = 0;
++
++	return 0;
++}
++
++static int ls7a1000_output_init(struct lsdc_device *ldev,
++				struct lsdc_display_pipe *dispipe,
++				struct i2c_adapter *ddc)
++{
++	struct drm_device *ddev = &ldev->base;
++	struct drm_encoder *encoder = &dispipe->encoder;
++	struct drm_connector *connector = &dispipe->connector;
++	int ret;
++
++	ret = drm_encoder_init(ddev,
++			       encoder,
++			       &ls7a1000_encoder_funcs,
++			       DRM_MODE_ENCODER_TMDS,
++			       "encoder-%u",
++			       dispipe->index);
++	if (ret)
++		return ret;
++
++	encoder->possible_crtcs = BIT(dispipe->index);
++
++	ret = drm_connector_init_with_ddc(ddev,
++					  connector,
++					  &lsdc_dpi_connector_funcs,
++					  DRM_MODE_CONNECTOR_DPI,
++					  ddc);
++	if (ret)
++		return ret;
++
++	drm_info(ddev, "display pipe-%u has DVO\n", dispipe->index);
++
++	drm_connector_helper_add(connector, &lsdc_connector_helpers);
++
++	drm_connector_attach_encoder(connector, encoder);
++
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT |
++			    DRM_CONNECTOR_POLL_DISCONNECT;
++
++	connector->interlace_allowed = 0;
++	connector->doublescan_allowed = 0;
++
++	return 0;
++}
++
++typedef int (*pfn_output_init_t)(struct lsdc_device *ldev,
++				 struct lsdc_display_pipe *disp,
++				 struct i2c_adapter *ddc);
++
++/* NOTE: keep this as the order listed in loongson_chip_family enum */
++static const pfn_output_init_t lsdc_output_init[CHIP_LAST] = {
++	ls7a1000_output_init,
++	ls7a2000_output_init,
++};
++
++int lsdc_create_output(struct lsdc_device *ldev,
++		       struct lsdc_display_pipe *dispipe)
++{
++	const struct lsdc_desc *descp = ldev->descp;
++	struct i2c_adapter *ddc = NULL;
++	struct lsdc_i2c *li2c;
++
++	if (descp->has_builtin_i2c) {
++		li2c = lsdc_create_i2c_chan(&ldev->base, ldev->reg_base, dispipe->index);
++		if (IS_ERR(li2c))
++			return PTR_ERR(li2c);
++
++		dispipe->li2c = li2c;
++		ddc = &li2c->adapter;
++	}
++
++	/* Output interfaces suffer from changes */
++	return lsdc_output_init[descp->chip](ldev, dispipe, ddc);
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_output.h b/drivers/gpu/drm/lsdc/lsdc_output.h
+new file mode 100644
+index 000000000000..db2d32a60c3d
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_output.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __LSDC_OUTPUT_H__
++#define __LSDC_OUTPUT_H__
++
++#include "lsdc_drv.h"
++
++int lsdc_create_output(struct lsdc_device *ldev, struct lsdc_display_pipe *p);
++
++struct lsdc_i2c *lsdc_create_i2c_chan(struct drm_device *ddev,
++				      void *base,
++				      unsigned int index);
++
++#endif
+diff --git a/drivers/gpu/drm/lsdc/lsdc_plane.c b/drivers/gpu/drm/lsdc/lsdc_plane.c
+new file mode 100644
+index 000000000000..e6714d09fd7a
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_plane.c
+@@ -0,0 +1,431 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_plane_helper.h>
++
++#include "lsdc_drv.h"
++#include "lsdc_regs.h"
++#include "lsdc_ttm.h"
++
++static const u32 lsdc_primary_formats[] = {
++	DRM_FORMAT_XRGB8888,
++};
++
++static const u32 lsdc_cursor_formats[] = {
++	DRM_FORMAT_ARGB8888,
++};
++
++static const u64 lsdc_fb_format_modifiers[] = {
++	DRM_FORMAT_MOD_LINEAR,
++	DRM_FORMAT_MOD_INVALID
++};
++
++static unsigned int lsdc_get_fb_offset(struct drm_framebuffer *fb,
++				       struct drm_plane_state *state,
++				       unsigned int plane)
++{
++	unsigned int offset = fb->offsets[plane];
++
++	offset += fb->format->cpp[plane] * (state->src_x >> 16);
++	offset += fb->pitches[plane] * (state->src_y >> 16);
++
++	return offset;
++}
++
++static int lsdc_check_cursor_plane(struct drm_plane *plane,
++				   struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc *crtc = new_plane_state->crtc;
++	struct drm_crtc_state *new_crtc_state;
++
++	if (!crtc)
++		return 0;
++
++	new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++
++	return drm_atomic_helper_check_plane_state(new_plane_state,
++						   new_crtc_state,
++						   DRM_PLANE_NO_SCALING,
++						   DRM_PLANE_NO_SCALING,
++						   true,
++						   true);
++}
++
++static int lsdc_check_primary_plane(struct drm_plane *plane,
++				    struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc *crtc = new_plane_state->crtc;
++	struct drm_crtc_state *new_crtc_state;
++
++	if (!crtc)
++		return 0;
++
++	new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++
++	return drm_atomic_helper_check_plane_state(new_plane_state,
++						   new_crtc_state,
++						   DRM_PLANE_NO_SCALING,
++						   DRM_PLANE_NO_SCALING,
++						   false,
++						   true);
++}
++
++static void lsdc_update_primary_plane(struct drm_plane *plane,
++				      struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = plane->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc *crtc = new_plane_state->crtc;
++	struct drm_framebuffer *fb = new_plane_state->fb;
++	struct ttm_buffer_object *tbo = to_ttm_bo(fb->obj[0]);
++	unsigned int pipe = drm_crtc_index(crtc);
++	unsigned int fb_offset = lsdc_get_fb_offset(fb, new_plane_state, 0);
++	u64 bo_offset = lsdc_bo_gpu_offset(tbo);
++	u64 fb_addr = ldev->vram_base + bo_offset + fb_offset;
++	u32 stride = fb->pitches[0];
++	u32 cfg;
++	u32 lo, hi;
++
++	if (IS_ERR((void *)bo_offset)) {
++		drm_warn(ddev, "bo not pinned, should not happen\n");
++		return;
++	}
++
++	/* 40-bit width physical address bus */
++	lo = fb_addr & 0xFFFFFFFF;
++	hi = (fb_addr >> 32) & 0xFF;
++
++	cfg = lsdc_crtc_rreg32(ldev, LSDC_CRTC0_CFG_REG, pipe);
++	if (cfg & CFG_FB_IN_USING) {
++		drm_dbg(ddev, "CRTC-%u(FB1) is in using\n", pipe);
++		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB1_LO_ADDR_REG, pipe, lo);
++		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB1_HI_ADDR_REG, pipe, hi);
++	} else {
++		drm_dbg(ddev, "CRTC-%u(FB0) is in using\n", pipe);
++		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB0_LO_ADDR_REG, pipe, lo);
++		lsdc_crtc_wreg32(ldev, LSDC_CRTC0_FB0_HI_ADDR_REG, pipe, hi);
++	}
++
++	drm_dbg(ddev, "CRTC-%u scanout from 0x%llx\n", pipe, fb_addr);
++
++	lsdc_crtc_wreg32(ldev, LSDC_CRTC0_STRIDE_REG, pipe, stride);
++
++	cfg &= ~CFG_PIX_FMT_MASK;
++	cfg |= LSDC_PF_XRGB8888;
++
++	lsdc_crtc_wreg32(ldev, LSDC_CRTC0_CFG_REG, pipe, cfg);
++}
++
++static void lsdc_disable_primary_plane(struct drm_plane *plane,
++				       struct drm_atomic_state *state)
++{
++	/* Do nothing, just prevent call into atomic_update().
++	 * Writing the format as LSDC_PF_NONE can disable the primary,
++	 * But it seems not necessary...
++	 */
++	drm_dbg(plane->dev, "%s disabled\n", plane->name);
++}
++
++static void lsdc_ttm_cleanup_fb(struct drm_plane *plane,
++				struct drm_plane_state *state,
++				unsigned int np)
++{
++	struct drm_gem_object *obj;
++	struct drm_framebuffer *fb = state->fb;
++
++	while (np) {
++		--np;
++		obj = fb->obj[np];
++		if (!obj) {
++			drm_err(plane->dev, "%s: no obj\n", plane->name);
++			continue;
++		}
++		lsdc_bo_unpin(obj);
++	}
++}
++
++static int lsdc_plane_prepare_fb(struct drm_plane *plane,
++				 struct drm_plane_state *new_state)
++{
++	struct drm_framebuffer *fb = new_state->fb;
++	struct ttm_buffer_object *tbo;
++	struct drm_gem_object *obj;
++	unsigned int i;
++	int ret;
++
++	if (!fb)
++		return 0;
++
++	for (i = 0; i < fb->format->num_planes; ++i) {
++		obj = fb->obj[i];
++		if (!obj) {
++			ret = -EINVAL;
++			goto err_ret;
++		}
++		tbo = to_ttm_bo(obj);
++
++		lsdc_bo_set_placement(tbo, LSDC_GEM_DOMAIN_VRAM, TTM_PL_FLAG_CONTIGUOUS);
++
++		ret = lsdc_bo_pin(obj);
++		if (ret)
++			goto err_ret;
++	}
++
++	ret = drm_gem_plane_helper_prepare_fb(plane, new_state);
++	if (ret)
++		goto err_ret;
++
++	return 0;
++
++err_ret:
++	lsdc_ttm_cleanup_fb(plane, new_state, i);
++	return ret;
++}
++
++static void lsdc_plane_cleanup_fb(struct drm_plane *plane,
++				  struct drm_plane_state *old_state)
++{
++	struct drm_framebuffer *fb = old_state->fb;
++
++	if (!fb)
++		return;
++
++	lsdc_ttm_cleanup_fb(plane, old_state, fb->format->num_planes);
++}
++
++static const struct drm_plane_helper_funcs lsdc_primary_plane_helpers = {
++	.prepare_fb = lsdc_plane_prepare_fb,
++	.cleanup_fb = lsdc_plane_cleanup_fb,
++	.atomic_check = lsdc_check_primary_plane,
++	.atomic_update = lsdc_update_primary_plane,
++	.atomic_disable = lsdc_disable_primary_plane,
++};
++
++/*
++ * Update location, format, enable and disable state of the cursor,
++ * For those who have two hardware cursor, cursor 0 is attach it to CRTC-0,
++ * cursor 1 is attached to CRTC-1. Compositing the primary and cursor plane
++ * is automatically done by hardware, the cursor is alway on the top of the
++ * primary, there is no depth property can be set, pretty convenient.
++ */
++static void ls7a1000_atomic_update_cursor(struct drm_plane *plane,
++					  struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = plane->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct lsdc_display_pipe *dispipe = cursor_to_display_pipe(plane);
++	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_framebuffer *cursor_fb = new_plane_state->fb;
++	struct ttm_buffer_object *tbo = to_ttm_bo(cursor_fb->obj[0]);
++	u64 addr = ldev->vram_base + lsdc_bo_gpu_offset(tbo);
++	u32 cfg = CURSOR_FORMAT_ARGB8888;
++	int x = new_plane_state->crtc_x;
++	int y = new_plane_state->crtc_y;
++
++	if (x < 0)
++		x = 0;
++
++	if (y < 0)
++		y = 0;
++
++	lsdc_wreg32(ldev, LSDC_CURSOR0_POSITION_REG, (y << 16) | x);
++
++	lsdc_wreg32(ldev, LSDC_CURSOR0_ADDR_HI_REG, (addr >> 32) & 0xFF);
++	lsdc_wreg32(ldev, LSDC_CURSOR0_ADDR_LO_REG, addr);
++
++	/*
++	 * If bit 4(CURSOR_LOCATION) of LSDC_CURSOR0_CFG_REG is 1, cursor will
++	 * be locate at CRTC-1, if bit 4 of LSDC_CURSOR0_CFG_REG is 0, cursor
++	 * will be locate at CRTC-0. For the old device we made the single hw
++	 * cursor shared by two CRTC. Switch to software cursor is also ok.
++	 */
++	lsdc_wreg32(ldev, LSDC_CURSOR0_CFG_REG, dispipe->index ? cfg | CURSOR_LOCATION : cfg);
++}
++
++static void ls7a1000_atomic_disable_cursor(struct drm_plane *plane,
++					   struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = plane->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 cfg;
++
++	cfg = lsdc_rreg32(ldev, LSDC_CURSOR0_CFG_REG);
++	/* write 0 to cursor format bits, it will be invisiable */
++	cfg &= ~CURSOR_FORMAT_MASK;
++	lsdc_wreg32(ldev, LSDC_CURSOR0_CFG_REG, cfg);
++}
++
++static const struct drm_plane_helper_funcs ls7a1000_plane_helper_cursors = {
++	.prepare_fb = lsdc_plane_prepare_fb,
++	.cleanup_fb = lsdc_plane_cleanup_fb,
++	.atomic_check = lsdc_check_cursor_plane,
++	.atomic_update = ls7a1000_atomic_update_cursor,
++	.atomic_disable = ls7a1000_atomic_disable_cursor,
++};
++
++/* update the format, size and location of the cursor */
++static void lsdc_atomic_update_cursor0(struct drm_plane *plane,
++				       struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = plane->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_framebuffer *cursor_fb = new_plane_state->fb;
++	struct ttm_buffer_object *tbo = to_ttm_bo(cursor_fb->obj[0]);
++	u64 addr = ldev->vram_base + lsdc_bo_gpu_offset(tbo);
++	u32 cfg = CURSOR_FORMAT_ARGB8888 | CURSOR_SIZE_64X64;
++	int x = new_plane_state->crtc_x;
++	int y = new_plane_state->crtc_y;
++
++	if (x < 0)
++		x = 0;
++
++	if (y < 0)
++		y = 0;
++
++	lsdc_wreg32(ldev, LSDC_CURSOR0_POSITION_REG, (y << 16) | x);
++
++	lsdc_wreg32(ldev, LSDC_CURSOR0_ADDR_HI_REG, (addr >> 32) & 0xFF);
++	lsdc_wreg32(ldev, LSDC_CURSOR0_ADDR_LO_REG, addr);
++
++	lsdc_wreg32(ldev, LSDC_CURSOR0_CFG_REG, cfg & ~CURSOR_LOCATION);
++}
++
++/* update the format, size and location of the cursor */
++static void lsdc_atomic_update_cursor1(struct drm_plane *plane,
++				       struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = plane->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state, plane);
++	struct drm_framebuffer *cursor_fb = new_plane_state->fb;
++	struct ttm_buffer_object *tbo = to_ttm_bo(cursor_fb->obj[0]);
++	u64 addr = ldev->vram_base + lsdc_bo_gpu_offset(tbo);
++	u32 cfg = CURSOR_FORMAT_ARGB8888 | CURSOR_SIZE_64X64;
++	int x = new_plane_state->crtc_x;
++	int y = new_plane_state->crtc_y;
++
++	if (x < 0)
++		x = 0;
++
++	if (y < 0)
++		y = 0;
++
++	lsdc_wreg32(ldev, LSDC_CURSOR1_POSITION_REG, (y << 16) | x);
++
++	lsdc_wreg32(ldev, LSDC_CURSOR1_ADDR_HI_REG, (addr >> 32) & 0xFF);
++	lsdc_wreg32(ldev, LSDC_CURSOR1_ADDR_LO_REG, addr);
++
++	lsdc_wreg32(ldev, LSDC_CURSOR1_CFG_REG, cfg | CURSOR_LOCATION);
++}
++
++static void lsdc_atomic_disable_cursor0(struct drm_plane *plane,
++					struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = plane->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 cfg;
++
++	cfg = lsdc_rreg32(ldev, LSDC_CURSOR0_CFG_REG);
++	/* write 0 to cursor format bits, it will be invisiable */
++	cfg &= ~CURSOR_FORMAT_MASK;
++	lsdc_wreg32(ldev, LSDC_CURSOR0_CFG_REG, cfg);
++}
++
++static void lsdc_atomic_disable_cursor1(struct drm_plane *plane,
++					struct drm_atomic_state *state)
++{
++	struct drm_device *ddev = plane->dev;
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	u32 cfg;
++
++	cfg = lsdc_rreg32(ldev, LSDC_CURSOR1_CFG_REG);
++	/* write 0 to cursor format bits, it will be invisiable */
++	cfg &= ~CURSOR_FORMAT_MASK;
++	lsdc_wreg32(ldev, LSDC_CURSOR1_CFG_REG, cfg);
++}
++
++/* for ls7a2000 */
++static const struct drm_plane_helper_funcs lsdc_plane_helper_cursors[2] = {
++	{
++		.prepare_fb = lsdc_plane_prepare_fb,
++		.cleanup_fb = lsdc_plane_cleanup_fb,
++		.atomic_check = lsdc_check_cursor_plane,
++		.atomic_update = lsdc_atomic_update_cursor0,
++		.atomic_disable = lsdc_atomic_disable_cursor0,
++	},
++	{
++		.prepare_fb = lsdc_plane_prepare_fb,
++		.cleanup_fb = lsdc_plane_cleanup_fb,
++		.atomic_check = lsdc_check_cursor_plane,
++		.atomic_update = lsdc_atomic_update_cursor1,
++		.atomic_disable = lsdc_atomic_disable_cursor1,
++	}
++};
++
++static const struct drm_plane_funcs lsdc_plane_funcs = {
++	.update_plane = drm_atomic_helper_update_plane,
++	.disable_plane = drm_atomic_helper_disable_plane,
++	.destroy = drm_plane_cleanup,
++	.reset = drm_atomic_helper_plane_reset,
++	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
++};
++
++int lsdc_primary_plane_init(struct lsdc_device *ldev,
++			    struct drm_plane *plane,
++			    unsigned int index)
++{
++	int ret;
++
++	ret = drm_universal_plane_init(&ldev->base,
++				       plane,
++				       1 << index,
++				       &lsdc_plane_funcs,
++				       lsdc_primary_formats,
++				       ARRAY_SIZE(lsdc_primary_formats),
++				       lsdc_fb_format_modifiers,
++				       DRM_PLANE_TYPE_PRIMARY,
++				       "primary-%u", index);
++	if (ret)
++		return ret;
++
++	drm_plane_helper_add(plane, &lsdc_primary_plane_helpers);
++
++	return 0;
++}
++
++int lsdc_cursor_plane_init(struct lsdc_device *ldev,
++			   struct drm_plane *plane,
++			   unsigned int index)
++{
++	const struct lsdc_desc *descp = ldev->descp;
++	int ret;
++
++	ret = drm_universal_plane_init(&ldev->base,
++				       plane,
++				       1 << index,
++				       &lsdc_plane_funcs,
++				       lsdc_cursor_formats,
++				       ARRAY_SIZE(lsdc_cursor_formats),
++				       lsdc_fb_format_modifiers,
++				       DRM_PLANE_TYPE_CURSOR,
++				       "cursor-%u",
++				       index);
++	if (ret)
++		return ret;
++
++	/* The hw cursor become standard from ls7a2000(including ls2k2000) */
++	if (descp->chip == CHIP_LS7A2000)
++		drm_plane_helper_add(plane, &lsdc_plane_helper_cursors[index]);
++	else
++		drm_plane_helper_add(plane, &ls7a1000_plane_helper_cursors);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_pll.c b/drivers/gpu/drm/lsdc/lsdc_pll.c
+new file mode 100644
+index 000000000000..eaa06fa907f2
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_pll.c
+@@ -0,0 +1,336 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/delay.h>
++
++#include "lsdc_drv.h"
++
++/*
++ * The structure of the pixel PLL register is evolved with times.
++ * All loongson's cpu is little endian.
++ */
++
++/* u64 */
++struct ls7a1000_pixpll_bitmap {
++	/* Byte 0 ~ Byte 3 */
++	unsigned div_out      : 7;   /*  0 : 6     output clock divider  */
++	unsigned __1          : 14;  /*  7 : 20                          */
++	unsigned loopc        : 9;   /* 21 : 29    clock multiplier      */
++	unsigned __2          : 2;   /* 30 : 31                          */
++
++	/* Byte 4 ~ Byte 7 */
++	unsigned div_ref      : 7;   /*  0 : 6     input clock divider   */
++	unsigned locked       : 1;   /*  7         PLL locked status     */
++	unsigned sel_out      : 1;   /*  8         output clk selector   */
++	unsigned __3          : 2;   /*  9 : 10                          */
++	unsigned set_param    : 1;   /*  11        trigger the update    */
++	unsigned bypass       : 1;   /*  12                              */
++	unsigned powerdown    : 1;   /*  13                              */
++	unsigned __4          : 18;  /*  14 : 31                         */
++};
++
++union lsdc_pixpll_bitmap {
++	struct ls7a1000_pixpll_bitmap ls7a1000;
++	u32 dword[4];
++};
++
++struct pixclk_to_pll_parm {
++	/* kHz */
++	unsigned int clock;
++
++	unsigned short width;
++	unsigned short height;
++	unsigned short vrefresh;
++
++	/* Stores parameters for programming the Hardware PLLs */
++	unsigned short div_out;
++	unsigned short loopc;
++	unsigned short div_ref;
++};
++
++/*
++ * Pixel clock to PLL parameters translation table.
++ * Small static cached value to speed up PLL parameters calculation.
++ */
++static const struct pixclk_to_pll_parm pll_param_table[] = {
++	{148500, 1920, 1080, 60,  11, 49,  3},   /* 1920x1080@60Hz */
++						/* 1920x1080@50Hz */
++	{174500, 1920, 1080, 75,  17, 89,  3},   /* 1920x1080@75Hz */
++	{181250, 2560, 1080, 75,  8, 58,  4},   /* 2560x1080@75Hz */
++	{297000, 2560, 1080, 60,  8, 95,  4},   /* 3840x2160@30Hz */
++	{301992, 1920, 1080, 100, 10, 151, 5},
++	{146250, 1680, 1050, 60,  16, 117, 5},   /* 1680x1050@60Hz */
++	{135000, 1280, 1024, 75,  10, 54,  4},   /* 1280x1024@75Hz */
++	{119000, 1680, 1050, 60,  20, 119, 5},   /* 1680x1050@60Hz */
++	{108000, 1600, 900,  60,  15, 81,  5},   /* 1600x900@60Hz  */
++						/* 1280x1024@60Hz */
++						/* 1280x960@60Hz */
++						/* 1152x864@75Hz */
++
++	{106500, 1440, 900,  60,  19, 81,  4},   /* 1440x900@60Hz */
++	{88750,  1440, 900,  60,  16, 71,  5},   /* 1440x900@60Hz */
++	{83500,  1280, 800,  60,  17, 71,  5},   /* 1280x800@60Hz */
++	{71000,  1280, 800,  60,  20, 71,  5},   /* 1280x800@60Hz */
++
++	{74250,  1280, 720,  60,  22, 49,  3},   /* 1280x720@60Hz */
++						/* 1280x720@50Hz */
++
++	{78750,  1024, 768,  75,  16, 63,  5},   /* 1024x768@75Hz */
++	{75000,  1024, 768,  70,  29, 87,  4},   /* 1024x768@70Hz */
++	{65000,  1024, 768,  60,  20, 39,  3},   /* 1024x768@60Hz */
++
++	{51200,  1024, 600,  60,  25, 64,  5},   /* 1024x600@60Hz */
++
++	{57284,  832,  624,  75,  24, 55,  4},   /* 832x624@75Hz */
++	{49500,  800,  600,  75,  40, 99,  5},   /* 800x600@75Hz */
++	{50000,  800,  600,  72,  44, 88,  4},   /* 800x600@72Hz */
++	{40000,  800,  600,  60,  30, 36,  3},   /* 800x600@60Hz */
++	{36000,  800,  600,  56,  50, 72,  4},   /* 800x600@56Hz */
++	{31500,  640,  480,  75,  40, 63,  5},   /* 640x480@75Hz */
++						/* 640x480@73Hz */
++
++	{30240,  640,  480,  67,  62, 75,  4},   /* 640x480@67Hz */
++	{27000,  720,  576,  50,  50, 54,  4},   /* 720x576@60Hz */
++	{25175,  640,  480,  60,  85, 107, 5},   /* 640x480@60Hz */
++	{25200,  640,  480,  60,  50, 63,  5},   /* 640x480@60Hz */
++						/* 720x480@60Hz */
++};
++
++/*
++ * lsdc_pixpll_setup - ioremap the device dependent PLL registers
++ *
++ * @this: point to the object where this function is called from
++ */
++static int lsdc_pixpll_setup(struct lsdc_pll * const this)
++{
++	this->mmio = ioremap(this->reg_base, this->reg_size);
++
++	return 0;
++}
++
++/*
++ * Find a set of pll parameters from a static local table which avoid
++ * computing the pll parameter eachtime a modeset is triggered.
++ *
++ * @this: point to the object where this function is called from
++ * @clock: the desired output pixel clock, the unit is kHz
++ * @pout: point to where the parameters to store if found
++ *
++ * Return 0 if success, return -1 if not found.
++ */
++static int lsdc_pixpll_find(struct lsdc_pll * const this,
++			    unsigned int clock,
++			    struct lsdc_pll_parms *pout)
++{
++	unsigned int num = ARRAY_SIZE(pll_param_table);
++	unsigned int i;
++
++	for (i = 0; i < num; ++i) {
++		if (clock != pll_param_table[i].clock)
++			continue;
++
++		pout->div_ref = pll_param_table[i].div_ref;
++		pout->loopc   = pll_param_table[i].loopc;
++		pout->div_out = pll_param_table[i].div_out;
++
++		return 0;
++	}
++
++	drm_dbg(this->ddev, "pixel clock %u: miss\n", clock);
++
++	return -1;
++}
++
++/*
++ * Find a set of pll parameters which have minimal difference with the
++ * desired pixel clock frequency. It does that by computing all of the
++ * possible combination. Compute the diff and find the combination with
++ * minimal diff.
++ *
++ *  clock_out = refclk / div_ref * loopc / div_out
++ *
++ *  refclk is determined by the oscillator mounted on the motherboard(
++ *  Here is 100MHz in almost all board)
++ *
++ * @this: point to the object from where this function is called
++ * @clock_khz: the desired output pixel clock, the unit is kHz
++ * @pout: point to the out struct of lsdc_pll_parms
++ *
++ *  Return 0 if a parameter is found, otherwise return the error of
++ *  between kHz we wanted and the most closest candidate.
++ */
++static int lsdc_pixpll_compute(struct lsdc_pll * const this,
++			       unsigned int clock_khz,
++			       struct lsdc_pll_parms *pout)
++{
++	const unsigned int tolerance = 1000;
++	unsigned int refclk = this->ref_clock;
++	unsigned int min = tolerance;
++	unsigned int div_out, loopc, div_ref;
++	unsigned int computed;
++
++	if (!lsdc_pixpll_find(this, clock_khz, pout))
++		return 0;
++
++	for (div_out = 6; div_out < 64; div_out++) {
++		for (div_ref = 3; div_ref < 6; div_ref++) {
++			for (loopc = 6; loopc < 161; loopc++) {
++				unsigned int diff;
++
++				if (loopc < 12 * div_ref)
++					continue;
++				if (loopc > 32 * div_ref)
++					continue;
++
++				computed = refclk / div_ref * loopc / div_out;
++
++				if (clock_khz >= computed)
++					diff = clock_khz - computed;
++				else if (clock_khz < computed)
++					diff = computed - clock_khz;
++
++				if (diff < min) {
++					min = diff;
++					pout->div_ref = div_ref;
++					pout->div_out = div_out;
++					pout->loopc = loopc;
++
++					if (diff == 0)
++						return 0;
++				}
++			}
++		}
++	}
++
++	if (min < tolerance)
++		return 0;
++
++	return min;
++}
++
++/*
++ * Update the pll parameters to hardware, target to the pixpll in ls7a1000
++ *
++ * @this: point to the object from which this function is called
++ * @pin: point to the struct of lsdc_pll_parms passed in
++ *
++ * return 0 if successful.
++ */
++static int ls7a1000_pixpll_param_update(struct lsdc_pll * const this,
++					struct lsdc_pll_parms const *pin)
++{
++	void __iomem *reg = this->mmio;
++	unsigned int counter = 0;
++	bool locked;
++	u32 val;
++
++	/* Bypass the software configured PLL, using refclk directly */
++	val = readl(reg + 0x4);
++	val &= ~(1 << 8);
++	writel(val, reg + 0x4);
++
++	/* Powerdown the PLL */
++	val = readl(reg + 0x4);
++	val |= (1 << 13);
++	writel(val, reg + 0x4);
++
++	/* Clear the pll parameters */
++	val = readl(reg + 0x4);
++	val &= ~(1 << 11);
++	writel(val, reg + 0x4);
++
++	/* clear old value & config new value */
++	val = readl(reg + 0x04);
++	val &= ~0x7F;
++	val |= pin->div_ref;        /* div_ref */
++	writel(val, reg + 0x4);
++
++	val = readl(reg);
++	val &= ~0x7f;
++	val |= pin->div_out;        /* div_out */
++
++	val &= ~(0x1ff << 21);
++	val |= pin->loopc << 21;    /* loopc */
++	writel(val, reg);
++
++	/* Set the pll the parameters */
++	val = readl(reg + 0x4);
++	val |= (1 << 11);
++	writel(val, reg + 0x4);
++
++	/* Powerup the PLL */
++	val = readl(reg + 0x4);
++	val &= ~(1 << 13);
++	writel(val, reg + 0x4);
++
++	udelay(1);
++
++	/* Wait the PLL lock */
++	do {
++		val = readl(reg + 0x4);
++		locked = val & 0x80;
++		counter++;
++	} while (!locked && (counter < 2000));
++
++	drm_dbg(this->ddev, "%u loop waited\n", counter);
++
++	/* Switch to the configured pll just now */
++	val = readl(reg + 0x4);
++	val |= (1UL << 8);
++	writel(val, reg + 0x4);
++
++	return 0;
++}
++
++static unsigned int ls7a1000_get_clock_rate(struct lsdc_pll * const this,
++					    struct lsdc_pll_parms *pout)
++{
++	union lsdc_pixpll_bitmap parms;
++	struct ls7a1000_pixpll_bitmap *obj = &parms.ls7a1000;
++	unsigned int out;
++
++	parms.dword[0] = readl(this->mmio);
++	parms.dword[1] = readl(this->mmio + 4);
++	out = this->ref_clock / obj->div_ref * obj->loopc / obj->div_out;
++	if (pout) {
++		pout->div_ref = obj->div_ref;
++		pout->loopc = obj->loopc;
++		pout->div_out = obj->div_out;
++	}
++
++	return out;
++}
++
++static const struct lsdc_pixpll_funcs ls7a1000_pixpll_funcs = {
++	.setup = lsdc_pixpll_setup,
++	.compute = lsdc_pixpll_compute,
++	.update = ls7a1000_pixpll_param_update,
++	.get_clock_rate = ls7a1000_get_clock_rate,
++};
++
++int lsdc_pixpll_init(struct lsdc_pll * const this,
++		     struct drm_device *ddev,
++		     unsigned int index)
++{
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	const struct lsdc_desc *descp = ldev->descp;
++
++	this->ddev = ddev;
++	this->index = index;
++	this->ref_clock = LSDC_PLL_REF_CLK;
++
++	/* LS7A1000, LS7A2000's setting registers is same */
++	if (descp->chip == CHIP_LS7A2000 ||
++	    descp->chip == CHIP_LS7A1000) {
++		if (index == 0)
++			this->reg_base = LS7A1000_CFG_REG_BASE + LS7A1000_PIX_PLL0_REG;
++		else if (index == 1)
++			this->reg_base = LS7A1000_CFG_REG_BASE + LS7A1000_PIX_PLL1_REG;
++		this->reg_size = 8;
++		this->funcs = &ls7a1000_pixpll_funcs;
++	} else {
++		drm_err(ddev, "unknown chip, the driver need update\n");
++		return -ENOENT;
++	}
++
++	return this->funcs->setup(this);
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_pll.h b/drivers/gpu/drm/lsdc/lsdc_pll.h
+new file mode 100644
+index 000000000000..61d11063a909
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_pll.h
+@@ -0,0 +1,76 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __LSDC_PLL_H__
++#define __LSDC_PLL_H__
++
++#include <drm/drm_device.h>
++
++/*
++ * Loongson Pixel PLL hardware structure
++ *
++ * refclk: reference frequency, 100 MHz from external oscillator
++ * outclk: output frequency desired.
++ *
++ *
++ *               L1       Fref                      Fvco     L2
++ * refclk   +-----------+      +------------------+      +---------+   outclk
++ * ---+---> | Prescaler | ---> | Clock Multiplier | ---> | divider | -------->
++ *    |     +-----------+      +------------------+      +---------+     ^
++ *    |           ^                      ^                    ^          |
++ *    |           |                      |                    |          |
++ *    |           |                      |                    |          |
++ *    |        div_ref                 loopc               div_out       |
++ *    |                                                                  |
++ *    +--- sel_out (bypass above software configurable clock if set) ----+
++ *
++ *  sel_out: PLL clock output selector (for debug purpose only).
++ *
++ *  If sel_out == 1, it will take refclk as output directly,
++ *  the L1 Prescaler and the out divider will be bypassed.
++ *
++ *  If sel_out == 0, then outclk = refclk / div_ref * loopc / div_out;
++ *
++ * PLL working requirements:
++ *
++ *  1) 20 MHz <= refclk / div_ref <= 40Mhz
++ *  2) 1.2 GHz <= refclk /div_out * loopc <= 3.2 Ghz
++ */
++
++struct lsdc_pll_parms {
++	unsigned int div_ref;
++	unsigned int loopc;
++	unsigned int div_out;
++};
++
++struct lsdc_pll;
++
++struct lsdc_pixpll_funcs {
++	int (*setup)(struct lsdc_pll * const this);
++	int (*compute)(struct lsdc_pll * const this, unsigned int clock,
++		       struct lsdc_pll_parms *pout);
++	int (*update)(struct lsdc_pll * const this, struct lsdc_pll_parms const *pin);
++	unsigned int (*get_clock_rate)(struct lsdc_pll * const this,
++				       struct lsdc_pll_parms *pout);
++};
++
++struct lsdc_pll {
++	const struct lsdc_pixpll_funcs *funcs;
++	struct drm_device *ddev;
++	void __iomem *mmio;
++
++	/* PLL register offset */
++	u32 reg_base;
++	/* PLL register size in bytes */
++	u32 reg_size;
++
++	/* 100000kHz, fixed on all board found */
++	unsigned int ref_clock;
++
++	unsigned int index;
++};
++
++int lsdc_pixpll_init(struct lsdc_pll * const this,
++		     struct drm_device *ddev,
++		     unsigned int index);
++
++#endif
+diff --git a/drivers/gpu/drm/lsdc/lsdc_probe.c b/drivers/gpu/drm/lsdc/lsdc_probe.c
+new file mode 100644
+index 000000000000..d00e617da70c
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_probe.c
+@@ -0,0 +1,88 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include "lsdc_drv.h"
++
++/*
++ * Processor ID (implementation) values for bits 15:8 of the PRID register.
++ */
++#define LOONGSON_CPU_IMP_MASK           0xff00
++#define LOONGSON_CPU_IMP_SHIFT          8
++
++#define LOONGARCH_CPU_IMP_LS2K1000      0xa0
++#define LOONGARCH_CPU_IMP_LS2K2000      0xb0
++#define LOONGARCH_CPU_IMP_LS3A5000      0xc0
++
++#define LOONGSON_CPU_MIPS_IMP_LS2K      0x61 /* Loongson 2K Mips series SoC */
++
++/*
++ * Particular Revision values for bits 7:0 of the PRID register.
++ */
++#define LOONGSON_CPU_REV_MASK           0x00ff
++
++#define LOONGARCH_CPUCFG_PRID_REG       0x0
++
++unsigned int loongson_cpu_get_prid(u8 *imp, u8 *rev)
++{
++	unsigned int prid = 0;
++
++#if defined(__loongarch__)
++	__asm__ volatile("cpucfg %0, %1\n\t"
++			: "=&r"(prid)
++			: "r"(LOONGARCH_CPUCFG_PRID_REG)
++			);
++#endif
++
++#if defined(__mips__)
++	__asm__ volatile("mfc0\t%0, $15\n\t"
++			: "=r" (prid)
++			);
++#endif
++
++	if (imp)
++		*imp = (prid & LOONGSON_CPU_IMP_MASK) >> LOONGSON_CPU_IMP_SHIFT;
++
++	if (rev)
++		*rev = prid & LOONGSON_CPU_REV_MASK;
++
++	return prid;
++}
++
++/* LS2K2000 has only LoongArch edition (LA364) */
++bool lsdc_is_ls2k2000(void)
++{
++	u8 imp;
++
++	loongson_cpu_get_prid(&imp, NULL);
++
++	if (imp == LOONGARCH_CPU_IMP_LS2K2000)
++		return true;
++
++	return false;
++}
++
++/*
++ * LS2K1000 has loongarch edition(LA264) and mips edition(mips64r2),
++ * The CPU core and instruction set changed, but remain is basically same.
++ */
++bool lsdc_is_ls2k1000(void)
++{
++	u8 imp;
++
++	loongson_cpu_get_prid(&imp, NULL);
++
++#if defined(__mips__)
++	/* LS2K1000 has Mips edition(mips64r2) */
++	if (imp == LOONGSON_CPU_MIPS_IMP_LS2K)
++		return true;
++#endif
++
++#if defined(__loongarch__)
++	/* LS2K1000 has loongarch edition(LA264)
++	 * CPU core and instruction set changed, remains are basically same
++	 */
++	if (imp == LOONGARCH_CPU_IMP_LS2K1000)
++		return true;
++#endif
++
++	return false;
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_regs.h b/drivers/gpu/drm/lsdc/lsdc_regs.h
+new file mode 100644
+index 000000000000..e5ef530ad9de
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_regs.h
+@@ -0,0 +1,353 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __LSDC_REGS_H__
++#define __LSDC_REGS_H__
++
++#include <linux/bitops.h>
++#include <linux/types.h>
++
++/*
++ * PIXEL PLL Reference clock
++ */
++#define LSDC_PLL_REF_CLK                100000           /* kHz */
++
++/*
++ * Those PLL registers are relative to LSxxxxx_CFG_REG_BASE. xxxxx = 7A1000,
++ * 2K1000, 2K2000 etc
++ */
++
++#define LS7A1000_PIX_PLL0_REG           0x04B0
++#define LS7A1000_PIX_PLL1_REG           0x04C0
++#define LS7A1000_CFG_REG_BASE           0x10010000
++
++#define CFG_PIX_FMT_MASK                GENMASK(2, 0)
++
++enum lsdc_pixel_format {
++	LSDC_PF_NONE = 0,
++	LSDC_PF_ARGB4444 = 1,  /* ARGB A:4 bits R/G/B: 4 bits each [16 bits] */
++	LSDC_PF_ARGB1555 = 2,  /* ARGB A:1 bit RGB:15 bits [16 bits] */
++	LSDC_PF_RGB565 = 3,    /* RGB [16 bits] */
++	LSDC_PF_XRGB8888 = 4,  /* XRGB [32 bits] */
++	LSDC_PF_RGBA8888 = 5,  /* ARGB [32 bits] */
++};
++
++/*
++ * Each crtc has two set fb address registers usable, CFG_FB_IN_USING of
++ * LSDC_CRTCx_CFG_REG specify which fb address register is currently
++ * in using by the CRTC. CFG_PAGE_FLIP of LSDC_CRTCx_CFG_REG is used to
++ * trigger the switch which will be finished at the very vblank. If you
++ * want to switch back, set CFG_PAGE_FLIP again.
++ */
++#define CFG_PAGE_FLIP                   BIT(7)
++#define CFG_OUTPUT_EN                   BIT(8)
++/* CRTC0 clone from CRTC1 or CRTC1 clone from CRTC0 using hardware logic */
++#define CFG_PANEL_SWITCH                BIT(9)
++/* Indicate witch fb addr reg is in using, currently */
++#define CFG_FB_IN_USING                 BIT(11)
++#define CFG_GAMMA_EN                    BIT(12)
++
++/* The DC get soft reset if voltage level change from 1 -> 0 */
++#define CFG_RESET_N                     BIT(20)
++
++/* The DMA step of the DC in LS7A2000 is configurable */
++#define CFG_DMA_STEP_MASK              GENMASK(17, 16)
++#define CFG_DMA_STEP_SHIFT             16
++enum lsdc_dma_steps {
++	LSDC_DMA_STEP_256_BYTES = 0 << CFG_DMA_STEP_SHIFT,
++	LSDC_DMA_STEP_128_BYTES = 1 << CFG_DMA_STEP_SHIFT,
++	LSDC_DMA_STEP_64_BYTES = 2 << CFG_DMA_STEP_SHIFT,
++	LSDC_DMA_STEP_32_BYTES = 3 << CFG_DMA_STEP_SHIFT,
++};
++
++#define CFG_HSYNC_EN                    BIT(30)
++#define CFG_HSYNC_INV                   BIT(31)
++#define CFG_VSYNC_EN                    BIT(30)
++#define CFG_VSYNC_INV                   BIT(31)
++
++/******** CRTC0 & DVO0 ********/
++#define LSDC_CRTC0_CFG_REG              0x1240
++
++/*
++ * If FB0_XX_ADDR_REG is in using, we write the address to FB0_XX_ADDR_REG,
++ * if FB1_XX_ADDR_REG is in using, we write the address to FB1_XX_ADDR_REG.
++ * For each CRTC, the switch from using FB0_XX_ADDR_REG to FB1_XX_ADDR_REG
++ * is triggered by set CFG_PAGE_FLIP bit of LSDC_CRTCx_CFG_REG, trigger it
++ * again if you want switch back.
++ */
++#define LSDC_CRTC0_FB0_LO_ADDR_REG      0x1260
++#define LSDC_CRTC0_FB0_HI_ADDR_REG      0x15A0
++#define LSDC_CRTC0_FB1_LO_ADDR_REG      0x1580
++#define LSDC_CRTC0_FB1_HI_ADDR_REG      0x15C0
++#define LSDC_CRTC0_STRIDE_REG           0x1280
++#define LSDC_CRTC0_FB_ORIGIN_REG        0x1300
++
++/* [27:16] total number of pixels, [11:0] Active number of pixels, horizontal */
++#define LSDC_CRTC0_HDISPLAY_REG         0x1400
++/* [12:0] hsync start [28:16] hsync end, 30: hsync enable, 31: hsync invert */
++#define LSDC_CRTC0_HSYNC_REG            0x1420
++/* [27:16] total number of pixels, [11:0] Active number of pixels, vertical */
++#define LSDC_CRTC0_VDISPLAY_REG         0x1480
++/* [12:0] vsync start [28:16] vsync end, 30: vsync enable, 31: vsync invert */
++#define LSDC_CRTC0_VSYNC_REG            0x14A0
++
++#define LSDC_CRTC0_GAMMA_INDEX_REG      0x14E0
++#define LSDC_CRTC0_GAMMA_DATA_REG       0x1500
++
++/******** CTRC1 & DVO1 ********/
++#define LSDC_CRTC1_CFG_REG              0x1250
++#define LSDC_CRTC1_FB0_LO_ADDR_REG      0x1270
++#define LSDC_CRTC1_FB0_HI_ADDR_REG      0x15B0
++#define LSDC_CRTC1_FB1_LO_ADDR_REG      0x1590
++#define LSDC_CRTC1_FB1_HI_ADDR_REG      0x15D0
++#define LSDC_CRTC1_STRIDE_REG           0x1290
++#define LSDC_CRTC1_FB_ORIGIN_REG        0x1310
++#define LSDC_CRTC1_HDISPLAY_REG         0x1410
++#define LSDC_CRTC1_HSYNC_REG            0x1430
++#define LSDC_CRTC1_VDISPLAY_REG         0x1490
++#define LSDC_CRTC1_VSYNC_REG            0x14B0
++#define LSDC_CRTC1_GAMMA_INDEX_REG      0x14F0
++#define LSDC_CRTC1_GAMMA_DATA_REG       0x1510
++
++/*
++ * lsdc hardware which record the scan position of the CRTC
++ * [31:16] : current X position, [15:0] : current Y position
++ */
++#define LSDC_CRTC0_SCAN_POS_REG         0x14C0
++#define LSDC_CRTC1_SCAN_POS_REG         0x14D0
++
++/*
++ * In gross, LSDC_CRTC1_XXX_REG - LSDC_CRTC0_XXX_REG = 0x10,
++ * but not all lsdc registers obay this rule, our hardware
++ * engineers are lack experiance when they are young...
++ */
++#define CRTC_PIPE_OFFSET                0x10
++
++/*
++ * There is only one hardware cursor unit in ls7a1000 and ls2k1000.
++ * While ls7a2000 has two hardware cursor unit.
++ */
++#define CURSOR_FORMAT_MASK              GENMASK(1, 0)
++enum lsdc_cursor_format {
++	CURSOR_FORMAT_DISABLE = 0,
++	CURSOR_FORMAT_MONOCHROME = 1,
++	CURSOR_FORMAT_ARGB8888 = 2,
++};
++
++#define CURSOR_SIZE_64X64               BIT(2)  /* 1: 64x64, 0: 32x32 */
++#define CURSOR_LOCATION                 BIT(4)  /* 1: on CRTC-1, 0: on CRTC-0 */
++
++#define LSDC_CURSOR0_CFG_REG            0x1520
++#define LSDC_CURSOR0_ADDR_LO_REG        0x1530
++#define LSDC_CURSOR0_ADDR_HI_REG        0x15e0
++#define LSDC_CURSOR0_POSITION_REG       0x1540  /* [31:16] Y, [15:0] X */
++#define LSDC_CURSOR0_BG_COLOR_REG       0x1550  /* background color */
++#define LSDC_CURSOR0_FG_COLOR_REG       0x1560  /* foreground color */
++
++#define LSDC_CURSOR1_CFG_REG            0x1670
++#define LSDC_CURSOR1_ADDR_LO_REG        0x1680
++#define LSDC_CURSOR1_ADDR_HI_REG        0x16e0
++#define LSDC_CURSOR1_POSITION_REG       0x1690  /* [31:16] Y, [15:0] X */
++#define LSDC_CURSOR1_BG_COLOR_REG       0x16A0  /* background color */
++#define LSDC_CURSOR1_FG_COLOR_REG       0x16B0  /* foreground color */
++
++/*
++ * DC Interrupt Control Register, 32bit, Address Offset: 1570
++ *
++ * Bits 15:0 inidicate the interrupt status
++ * Bits 31:16 control enable interrupts corresponding to bit 15:0 or not
++ * Write 1 to enable, write 0 to disable
++ *
++ * RF: Read Finished
++ * IDBU: Internal Data Buffer Underflow
++ * IDBFU: Internal Data Buffer Fatal Underflow
++ * CBRF: Cursor Buffer Read Finished Flag, no use.
++ *
++ * +-------+--------------------------+-------+--------+--------+-------+
++ * | 31:27 |         26:16            | 15:11 |   10   |   9    |   8   |
++ * +-------+--------------------------+-------+--------+--------+-------+
++ * |  N/A  | Interrupt Enable Control |  N/A  | IDBFU0 | IDBFU1 | IDBU0 |
++ * +-------+--------------------------+-------+--------+--------+-------+
++ *
++ * +-------+-----+-----+------+--------+--------+--------+--------+
++ * |   7   |  6  |  5  |  4   |   3    |   2    |   1    |   0    |
++ * +-------+-----+-----+------+--------+--------+--------+--------+
++ * | IDBU1 | RF0 | RF1 | CRRF | HSYNC0 | VSYNC0 | HSYNC1 | VSYNC1 |
++ * +-------+-----+-----+------+--------+--------+--------+--------+
++ *
++ * unfortunately, CRTC0's interrupt is mess with CRTC1's interrupt
++ */
++
++#define LSDC_INT_REG                    0x1570
++
++#define INT_CRTC0_VSYNC                 BIT(2)
++#define INT_CRTC0_HSYNC                 BIT(3)
++#define INT_CRTC0_RF                    BIT(6)
++#define INT_CRTC0_IDBU                  BIT(8)
++#define INT_CRTC0_IDBFU                 BIT(10)
++
++#define INT_CRTC1_VSYNC                 BIT(0)
++#define INT_CRTC1_HSYNC                 BIT(1)
++#define INT_CRTC1_RF                    BIT(5)
++#define INT_CRTC1_IDBU                  BIT(7)
++#define INT_CRTC1_IDBFU                 BIT(9)
++
++#define INT_CRTC0_VSYNC_EN              BIT(18)
++#define INT_CRTC0_HSYNC_EN              BIT(19)
++#define INT_CRTC0_RF_EN                 BIT(22)
++#define INT_CRTC0_IDBU_EN               BIT(24)
++#define INT_CRTC0_IDBFU_EN              BIT(26)
++
++#define INT_CRTC1_VSYNC_EN              BIT(16)
++#define INT_CRTC1_HSYNC_EN              BIT(17)
++#define INT_CRTC1_RF_EN                 BIT(21)
++#define INT_CRTC1_IDBU_EN               BIT(23)
++#define INT_CRTC1_IDBFU_EN              BIT(25)
++
++#define INT_STATUS_MASK                 GENMASK(15, 0)
++
++/*
++ * LS7A1000/LS7A2000 have 4 gpios which are used to emulated I2C.
++ * They are under control of the LS7A_DC_GPIO_DAT_REG and LS7A_DC_GPIO_DIR_REG
++ * register, Those GPIOs has no relationship whth the GPIO hardware on the
++ * bridge chip itself. Those offsets are relative to DC register base address
++ *
++ * LS2k1000 don't have those registers, they use hardware i2c or general GPIO
++ * emulated i2c from linux i2c subsystem.
++ *
++ * GPIO data register, address offset: 0x1650
++ *   +---------------+-----------+-----------+
++ *   | 7 | 6 | 5 | 4 |  3  |  2  |  1  |  0  |
++ *   +---------------+-----------+-----------+
++ *   |               |    DVO1   |    DVO0   |
++ *   +      N/A      +-----------+-----------+
++ *   |               | SCL | SDA | SCL | SDA |
++ *   +---------------+-----------+-----------+
++ */
++#define LS7A_DC_GPIO_DAT_REG            0x1650
++
++/*
++ *  GPIO Input/Output direction control register, address offset: 0x1660
++ */
++#define LS7A_DC_GPIO_DIR_REG            0x1660
++
++/*
++ *  LS7A2000 has two built-in HDMI Encoder and one VGA encoder
++ */
++
++/*
++ * Number of continuous packets may be present
++ * in HDMI hblank and vblank zone, should >= 48
++ */
++#define LSDC_HDMI0_ZONE_REG             0x1700
++#define LSDC_HDMI1_ZONE_REG             0x1710
++
++/* HDMI Iterface Control Reg */
++#define HDMI_INTERFACE_EN               BIT(0)
++#define HDMI_PACKET_EN                  BIT(1)
++#define HDMI_AUDIO_EN                   BIT(2)
++/*
++ * Preamble:
++ * Immediately preceding each video data period or data island period is the
++ * preamble. This is a sequence of eight identical control characters that
++ * indicate whether the upcoming data period is a video data period or is a
++ * data island. The values of CTL0, CTL1, CTL2, and CTL3 indicate the type of
++ * data period that follows.
++ */
++#define HDMI_VIDEO_PREAMBLE_MASK        GENMASK(7, 4)
++#define HDMI_VIDEO_PREAMBLE_SHIFT       4
++/* 1: hw i2c, 0: gpio emu i2c, shouldn't put in LSDC_HDMIx_INTF_CTRL_REG */
++#define HW_I2C_EN                       BIT(8)
++#define HDMI_CTL_PERIOD_MODE            BIT(9)
++#define LSDC_HDMI0_INTF_CTRL_REG        0x1720
++#define LSDC_HDMI1_INTF_CTRL_REG        0x1730
++
++#define HDMI_PHY_EN                     BIT(0)
++#define HDMI_PHY_RESET_N                BIT(1)
++#define HDMI_PHY_TERM_L_EN              BIT(8)
++#define HDMI_PHY_TERM_H_EN              BIT(9)
++#define HDMI_PHY_TERM_DET_EN            BIT(10)
++#define HDMI_PHY_TERM_STATUS            BIT(11)
++#define LSDC_HDMI0_PHY_CTRL_REG         0x1800
++#define LSDC_HDMI1_PHY_CTRL_REG         0x1810
++
++/*
++ *  IDF: Input Division Factor
++ *  ODF: Output Division Factor
++ *   LF: Loop Factor
++ *    M: Required Mult
++ *
++ *  +--------------------------------------------------------+
++ *  |     Fin (kHZ)     | M  | IDF | LF | ODF |   Fout(Mhz)  |
++ *  |-------------------+----+-----+----+-----+--------------|
++ *  |  170000 ~ 340000  | 10 | 16  | 40 |  1  | 1700 ~ 3400  |
++ *  |   85000 ~ 170000  | 10 |  8  | 40 |  2  |  850 ~ 1700  |
++ *  |   42500 ~  85000  | 10 |  4  | 40 |  4  |  425 ~ 850   |
++ *  |   21250 ~  42500  | 10 |  2  | 40 |  8  | 212.5 ~ 425  |
++ *  |   20000 ~  21250  | 10 |  1  | 40 | 16  |  200 ~ 212.5 |
++ *  +--------------------------------------------------------+
++ */
++#define LSDC_HDMI0_PHY_PLL_REG          0x1820
++#define LSDC_HDMI1_PHY_PLL_REG          0x1830
++
++/* High level duration need > 1us */
++#define HDMI_PLL_ENABLE                 BIT(0)
++#define HDMI_PLL_LOCKED                 BIT(16)
++/* Bypass the software configured values, using default source from someware */
++#define HDMI_PLL_BYPASS                 BIT(17)
++
++#define HDMI_PLL_IDF_SHIFT              1
++#define HDMI_PLL_IDF_MASK               GENMASK(5, 1)
++#define HDMI_PLL_LF_SHIFT               6
++#define HDMI_PLL_LF_MASK                GENMASK(12, 6)
++#define HDMI_PLL_ODF_SHIFT              13
++#define HDMI_PLL_ODF_MASK               GENMASK(15, 13)
++
++/* LS7A2000/LS2K2000 has hpd status reg, while the two hdmi's status
++ * located at the one register again.
++ */
++#define LSDC_HDMI_HPD_STATUS_REG        0x1BA0
++#define HDMI0_HPD_FLAG                  BIT(0)
++#define HDMI1_HPD_FLAG                  BIT(1)
++
++#define LSDC_HDMI0_PHY_CAL_REG          0x18c0
++#define LSDC_HDMI1_PHY_CAL_REG          0x18d0
++
++/* AVI InfoFrame */
++#define LSDC_HDMI0_AVI_CONTENT0         0x18e0
++#define LSDC_HDMI1_AVI_CONTENT0         0x18f0
++#define LSDC_HDMI0_AVI_CONTENT1         0x1900
++#define LSDC_HDMI1_AVI_CONTENT1         0x1910
++#define LSDC_HDMI0_AVI_CONTENT2         0x1920
++#define LSDC_HDMI1_AVI_CONTENT2         0x1930
++#define LSDC_HDMI0_AVI_CONTENT3         0x1940
++#define LSDC_HDMI1_AVI_CONTENT3         0x1950
++
++/* 1: enable avi infoframe packet, 0: disable avi infoframe packet */
++#define AVI_PKT_ENABLE                  BIT(0)
++/* 1: send one every two frame, 0: send one each frame */
++#define AVI_PKT_SEND_FREQ               BIT(1)
++/*
++ * 1: write 1 to flush avi reg content0 ~ content3 to the packet to be send,
++ * The hardware will clear this bit automatically.
++ */
++#define AVI_PKT_UPDATE                  BIT(2)
++
++#define LSDC_HDMI0_AVI_INFO_CRTL_REG    0x1960
++#define LSDC_HDMI1_AVI_INFO_CRTL_REG    0x1970
++
++/*
++ * LS7A2000 has the hardware which count the number of vblank generated
++ */
++#define LSDC_CRTC0_VSYNC_COUNTER_REG    0x1A00
++#define LSDC_CRTC1_VSYNC_COUNTER_REG    0x1A10
++
++/*
++ * LS7A2000 has the hardware which count the number of vblank generated
++ */
++#define LSDC_HDMI0_AUDIO_PLL_LO_REG     0x1A20
++#define LSDC_HDMI1_AUDIO_PLL_LO_REG     0x1A30
++
++#define LSDC_HDMI0_AUDIO_PLL_HI_REG     0x1A40
++#define LSDC_HDMI1_AUDIO_PLL_HI_REG     0x1A50
++
++#endif
+diff --git a/drivers/gpu/drm/lsdc/lsdc_ttm.c b/drivers/gpu/drm/lsdc/lsdc_ttm.c
+new file mode 100644
+index 000000000000..e6da23b92409
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_ttm.c
+@@ -0,0 +1,451 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include <drm/drm_drv.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_managed.h>
++#include <drm/ttm/ttm_range_manager.h>
++#include <drm/ttm/ttm_tt.h>
++
++#include "lsdc_drv.h"
++#include "lsdc_ttm.h"
++
++static void lsdc_ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *tt)
++{
++	ttm_tt_fini(tt);
++	kfree(tt);
++}
++
++static struct ttm_tt *
++lsdc_ttm_tt_create(struct ttm_buffer_object *bo, uint32_t page_flags)
++{
++	struct ttm_tt *tt;
++	int ret;
++
++	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
++	if (!tt)
++		return NULL;
++
++	ret = ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
++	if (ret < 0) {
++		kfree(tt);
++		return NULL;
++	}
++
++	return tt;
++}
++
++void lsdc_bo_set_placement(struct ttm_buffer_object *tbo, u32 domain, u32 flags)
++{
++	struct lsdc_bo *lbo = to_lsdc_bo(tbo);
++	unsigned int i;
++	unsigned int c = 0;
++
++	lbo->placement.placement = lbo->placements;
++	lbo->placement.busy_placement = lbo->placements;
++
++	if (domain & LSDC_GEM_DOMAIN_VRAM) {
++		lbo->placements[c].mem_type = TTM_PL_VRAM;
++		lbo->placements[c++].flags = flags;
++	}
++
++	if (domain & LSDC_GEM_DOMAIN_SYSTEM || !c) {
++		lbo->placements[c].mem_type = TTM_PL_SYSTEM;
++		lbo->placements[c++].flags = flags;
++	}
++
++	lbo->placement.num_placement = c;
++	lbo->placement.num_busy_placement = c;
++
++	for (i = 0; i < c; ++i) {
++		lbo->placements[i].fpfn = 0;
++		lbo->placements[i].lpfn = 0;
++	}
++}
++
++static void lsdc_bo_evict_flags(struct ttm_buffer_object *tbo,
++				struct ttm_placement *placement)
++{
++	struct lsdc_bo *lbo = to_lsdc_bo(tbo);
++
++	lsdc_bo_set_placement(tbo, LSDC_GEM_DOMAIN_SYSTEM, 0);
++
++	*placement = lbo->placement;
++}
++
++static int lsdc_bo_move(struct ttm_buffer_object *tbo,
++			bool evict,
++			struct ttm_operation_ctx *ctx,
++			struct ttm_resource *new_mem,
++			struct ttm_place *hop)
++{
++	struct lsdc_bo *lbo = to_lsdc_bo(tbo);
++	struct drm_device *ddev = tbo->base.dev;
++
++	if (drm_WARN_ON_ONCE(ddev, lbo->vmap_use_count))
++		goto just_move_it;
++
++	ttm_bo_vunmap(tbo, &lbo->map);
++	/* explicitly clear mapping for next vmap call */
++	iosys_map_clear(&lbo->map);
++
++	drm_dbg(ddev, "%s: evict: %s\n", __func__, evict ? "Yes" : "No");
++
++just_move_it:
++	return ttm_bo_move_memcpy(tbo, ctx, new_mem);
++}
++
++static void lsdc_bo_delete_mem_notify(struct ttm_buffer_object *tbo)
++{
++	struct lsdc_bo *lbo = to_lsdc_bo(tbo);
++	struct drm_device *ddev = tbo->base.dev;
++
++	if (drm_WARN_ON_ONCE(ddev, lbo->vmap_use_count))
++		return;
++
++	ttm_bo_vunmap(tbo, &lbo->map);
++	iosys_map_clear(&lbo->map);
++}
++
++static int lsdc_bo_reserve_io_mem(struct ttm_device *bdev,
++				  struct ttm_resource *mem)
++{
++	struct lsdc_device *ldev = bdev_to_lsdc(bdev);
++	const struct lsdc_desc *descp = ldev->descp;
++
++	switch (mem->mem_type) {
++	case TTM_PL_SYSTEM:
++		/* nothing to do */
++		break;
++	case TTM_PL_VRAM:
++		mem->bus.offset = (mem->start << PAGE_SHIFT) + ldev->vram_base;
++		mem->bus.is_iomem = true;
++		if (descp->is_soc)
++			mem->bus.caching = ttm_cached;
++		else
++			mem->bus.caching = ttm_write_combined;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static struct ttm_device_funcs lsdc_bo_driver = {
++	.ttm_tt_create = lsdc_ttm_tt_create,
++	.ttm_tt_destroy = lsdc_ttm_tt_destroy,
++	.eviction_valuable = ttm_bo_eviction_valuable,
++	.evict_flags = lsdc_bo_evict_flags,
++	.move = lsdc_bo_move,
++	.delete_mem_notify = lsdc_bo_delete_mem_notify,
++	.io_mem_reserve = lsdc_bo_reserve_io_mem,
++};
++
++static void lsdc_bo_free(struct drm_gem_object *gem)
++{
++	struct ttm_buffer_object *tbo = to_ttm_bo(gem);
++
++	ttm_bo_put(tbo);
++}
++
++int lsdc_bo_pin(struct drm_gem_object *gem)
++{
++	struct ttm_buffer_object *tbo = to_ttm_bo(gem);
++	struct lsdc_bo *lbo = to_lsdc_bo(tbo);
++	int ret;
++
++	ret = ttm_bo_reserve(tbo, true, false, NULL);
++	if (ret) {
++		drm_err(gem->dev, "%s: %d\n", __func__, ret);
++		return ret;
++	}
++
++	if (tbo->pin_count == 0) {
++		struct ttm_operation_ctx ctx = { false, false };
++
++		ret = ttm_bo_validate(tbo, &lbo->placement, &ctx);
++		if (ret < 0) {
++			ttm_bo_unreserve(tbo);
++			drm_err(gem->dev, "%s: %d\n", __func__, ret);
++			return ret;
++		}
++	}
++
++	ttm_bo_pin(tbo);
++
++	ttm_bo_unreserve(tbo);
++
++	return ret;
++}
++
++void lsdc_bo_unpin(struct drm_gem_object *gem)
++{
++	struct ttm_buffer_object *tbo = to_ttm_bo(gem);
++	int ret;
++
++	ret = ttm_bo_reserve(tbo, true, false, NULL);
++	if (ret) {
++		drm_err(gem->dev, "%s: bo reserve failed\n", __func__);
++		return;
++	}
++
++	ttm_bo_unpin(tbo);
++	ttm_bo_unreserve(tbo);
++}
++
++static int lsdc_bo_vmap(struct drm_gem_object *gem, struct iosys_map *map)
++{
++	struct drm_device *ddev = gem->dev;
++	struct ttm_buffer_object *tbo = to_ttm_bo(gem);
++	struct lsdc_bo *lbo = to_lsdc_bo(tbo);
++	int ret;
++
++	dma_resv_assert_held(gem->resv);
++
++	if (tbo->pin_count == 0) {
++		struct ttm_operation_ctx ctx = { false, false };
++
++		ret = ttm_bo_validate(tbo, &lbo->placement, &ctx);
++		if (ret < 0)
++			return ret;
++	}
++
++	ttm_bo_pin(tbo);
++
++	if (lbo->vmap_use_count > 0) {
++		drm_dbg(ddev, "%s: already mapped\n", __func__);
++		goto finish;
++	}
++
++	/* Only vmap if the there's no mapping present */
++	if (iosys_map_is_null(&lbo->map)) {
++		ret = ttm_bo_vmap(tbo, &lbo->map);
++		if (ret) {
++			ttm_bo_unpin(tbo);
++			return ret;
++		}
++	}
++
++finish:
++	++lbo->vmap_use_count;
++	*map = lbo->map;
++
++	return 0;
++}
++
++static void lsdc_bo_vunmap(struct drm_gem_object *gem, struct iosys_map *map)
++{
++	struct drm_device *ddev = gem->dev;
++	struct ttm_buffer_object *tbo = to_ttm_bo(gem);
++	struct lsdc_bo *lbo = to_lsdc_bo(tbo);
++
++	dma_resv_assert_held(gem->resv);
++
++	if (drm_WARN_ON_ONCE(ddev, !lbo->vmap_use_count))
++		return;
++
++	if (drm_WARN_ON_ONCE(ddev, !iosys_map_is_equal(&lbo->map, map)))
++		return; /* BUG: map not mapped from this BO */
++
++	if (--lbo->vmap_use_count > 0)
++		return;
++
++	/* We delay the actual unmap operation until the BO gets evicted */
++	ttm_bo_unpin(tbo);
++}
++
++static int lsdc_bo_mmap(struct drm_gem_object *gem,
++			struct vm_area_struct *vma)
++{
++	struct ttm_buffer_object *tbo = to_ttm_bo(gem);
++	int ret;
++
++	ret = ttm_bo_mmap_obj(vma, tbo);
++	if (ret < 0)
++		return ret;
++
++	/*
++	 * ttm has its own object refcounting, so drop gem reference
++	 * to avoid double accounting counting.
++	 */
++	drm_gem_object_put(gem);
++
++	return 0;
++}
++
++static const struct drm_gem_object_funcs lsdc_gem_object_funcs = {
++	.free   = lsdc_bo_free,
++	.pin    = lsdc_bo_pin,
++	.unpin  = lsdc_bo_unpin,
++	.vmap   = lsdc_bo_vmap,
++	.vunmap = lsdc_bo_vunmap,
++	.mmap   = lsdc_bo_mmap,
++};
++
++static void lsdc_bo_destroy(struct ttm_buffer_object *tbo)
++{
++	struct lsdc_bo *lbo = to_lsdc_bo(tbo);
++
++	WARN_ON(lbo->vmap_use_count);
++	WARN_ON(iosys_map_is_set(&lbo->map));
++
++	drm_gem_object_release(&tbo->base);
++
++	kfree(lbo);
++}
++
++static struct lsdc_bo *lsdc_bo_create(struct drm_device *ddev, size_t size)
++{
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	struct ttm_device *bdev = &ldev->bdev;
++	struct lsdc_bo *lbo;
++	struct ttm_buffer_object *tbo;
++	struct drm_gem_object *gem;
++	int ret;
++
++	lbo = kzalloc(sizeof(*lbo), GFP_KERNEL);
++	if (!lbo)
++		return ERR_PTR(-ENOMEM);
++
++	tbo = &lbo->bo;
++	gem = &tbo->base;
++	gem->funcs = &lsdc_gem_object_funcs;
++
++	ret = drm_gem_object_init(ddev, gem, size);
++	if (ret) {
++		kfree(lbo);
++		return ERR_PTR(ret);
++	}
++
++	tbo->bdev = bdev;
++	lsdc_bo_set_placement(tbo, LSDC_GEM_DOMAIN_SYSTEM, 0);
++
++	ret = ttm_bo_init_validate(bdev,
++				   tbo,
++				   ttm_bo_type_device,
++				   &lbo->placement,
++				   0,
++				   false, NULL, NULL,
++				   lsdc_bo_destroy);
++	if (ret)
++		return ERR_PTR(ret);
++
++	return lbo;
++}
++
++u64 lsdc_bo_gpu_offset(struct ttm_buffer_object *tbo)
++{
++	struct ttm_resource *resource = tbo->resource;
++
++	if (WARN_ON_ONCE(!tbo->pin_count))
++		return -ENODEV;
++
++	/* Keep TTM behavior for now, remove when drivers are audited */
++	if (WARN_ON_ONCE(!resource))
++		return 0;
++
++	if (WARN_ON_ONCE(resource->mem_type == TTM_PL_SYSTEM))
++		return 0;
++
++	return resource->start << PAGE_SHIFT;
++}
++
++int lsdc_dumb_create(struct drm_file *file,
++		     struct drm_device *ddev,
++		     struct drm_mode_create_dumb *args)
++{
++	struct lsdc_device *ldev = to_lsdc(ddev);
++	const struct lsdc_desc *descp = ldev->descp;
++	size_t pitch, size;
++	struct lsdc_bo *lbo;
++	struct ttm_buffer_object *tbo;
++	u32 handle;
++	int ret;
++
++	pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
++	pitch = ALIGN(pitch, descp->pitch_align);
++	size = pitch * args->height;
++	size = roundup(size, PAGE_SIZE);
++	if (!size)
++		return -EINVAL;
++
++	lbo = lsdc_bo_create(ddev, size);
++	if (IS_ERR(lbo))
++		return PTR_ERR(lbo);
++
++	tbo = &lbo->bo;
++
++	ret = drm_gem_handle_create(file, &tbo->base, &handle);
++	if (ret)
++		goto err_drm_gem_object_put;
++
++	drm_gem_object_put(&tbo->base);
++
++	drm_dbg(ddev, "stride: %lu, height: %u\n", pitch, args->height);
++
++	args->pitch = pitch;
++	args->size = size;
++	args->handle = handle;
++
++	return 0;
++
++err_drm_gem_object_put:
++	drm_gem_object_put(&tbo->base);
++	return ret;
++}
++
++int lsdc_dumb_map_offset(struct drm_file *file,
++			 struct drm_device *ddev,
++			 u32 handle,
++			 uint64_t *offset)
++{
++	struct drm_gem_object *gem;
++
++	gem = drm_gem_object_lookup(file, handle);
++	if (!gem)
++		return -ENOENT;
++
++	*offset = drm_vma_node_offset_addr(&gem->vma_node);
++
++	drm_gem_object_put(gem);
++
++	return 0;
++}
++
++static void lsdc_ttm_fini(struct drm_device *ddev, void *data)
++{
++	struct lsdc_device *ldev = (struct lsdc_device *)data;
++
++	ttm_range_man_fini(&ldev->bdev, TTM_PL_VRAM);
++	ttm_device_fini(&ldev->bdev);
++}
++
++int lsdc_ttm_init(struct lsdc_device *ldev)
++{
++	struct drm_device *ddev = &ldev->base;
++	unsigned long num_pages;
++	int ret;
++
++	ret = ttm_device_init(&ldev->bdev,
++			      &lsdc_bo_driver,
++			      ddev->dev,
++			      ddev->anon_inode->i_mapping,
++			      ddev->vma_offset_manager,
++			      false,
++			      true);
++	if (ret)
++		return ret;
++
++	num_pages = ldev->vram_size >> PAGE_SHIFT;
++
++	ret = ttm_range_man_init(&ldev->bdev,
++				 TTM_PL_VRAM,
++				 false,
++				 num_pages);
++	if (ret)
++		return ret;
++
++	drm_dbg(ddev, "number of pages: %lu\n", num_pages);
++
++	return drmm_add_action_or_reset(ddev, lsdc_ttm_fini, ldev);
++}
+diff --git a/drivers/gpu/drm/lsdc/lsdc_ttm.h b/drivers/gpu/drm/lsdc/lsdc_ttm.h
+new file mode 100644
+index 000000000000..dd13a4098ca3
+--- /dev/null
++++ b/drivers/gpu/drm/lsdc/lsdc_ttm.h
+@@ -0,0 +1,64 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __LSDC_TTM_H__
++#define __LSDC_TTM_H__
++
++#include <linux/container_of.h>
++#include <linux/iosys-map.h>
++
++#include <drm/drm_gem.h>
++#include <drm/ttm/ttm_bo.h>
++#include <drm/ttm/ttm_placement.h>
++
++#define LSDC_GEM_DOMAIN_SYSTEM          0x1
++#define LSDC_GEM_DOMAIN_GTT             0x2
++#define LSDC_GEM_DOMAIN_VRAM            0x4
++
++struct lsdc_bo {
++	struct ttm_buffer_object bo;
++	struct iosys_map map;
++
++	unsigned int vmap_use_count;
++
++	struct ttm_placement placement;
++	struct ttm_place placements[2];
++};
++
++static inline struct lsdc_bo *
++to_lsdc_bo(struct ttm_buffer_object *tbo)
++{
++	return container_of(tbo, struct lsdc_bo, bo);
++}
++
++static inline struct lsdc_bo *
++gem_to_lsdc_bo(struct drm_gem_object *gem)
++{
++	return container_of(gem, struct lsdc_bo, bo.base);
++}
++
++static inline struct ttm_buffer_object *
++to_ttm_bo(struct drm_gem_object *gem)
++{
++	return container_of(gem, struct ttm_buffer_object, base);
++}
++
++int lsdc_bo_pin(struct drm_gem_object *gem);
++void lsdc_bo_unpin(struct drm_gem_object *gem);
++u64 lsdc_bo_gpu_offset(struct ttm_buffer_object *tbo);
++
++void lsdc_bo_set_placement(struct ttm_buffer_object *tbo,
++			   u32 domain,
++			   u32 flags);
++
++int lsdc_dumb_map_offset(struct drm_file *file,
++			 struct drm_device *dev,
++			 u32 handle,
++			 uint64_t *offset);
++
++int lsdc_dumb_create(struct drm_file *file,
++		     struct drm_device *ddev,
++		     struct drm_mode_create_dumb *args);
++
++int lsdc_ttm_init(struct lsdc_device *ldev);
++
++#endif
+-- 
+2.25.1
+
