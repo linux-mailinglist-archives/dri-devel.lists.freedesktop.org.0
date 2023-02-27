@@ -1,61 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D896A4AA5
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 20:15:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 338936A4AAA
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 20:18:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4F810E2D0;
-	Mon, 27 Feb 2023 19:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9244610E37B;
+	Mon, 27 Feb 2023 19:18:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
- [IPv6:2607:f8b0:4864:20::112f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994EA10E2D0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 19:15:42 +0000 (UTC)
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-536b7ffdd34so204839077b3.6
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 11:15:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3vJ0PEb+cdNY7DG4C7LQ/ErPjGFU907p7f+jGsEX+0Y=;
- b=LPDlavxV0IgkdbK41fkEgVVOAF5S1ar8xXlkMFoeOOdKOKvMfCfiPOTsvGfykIK3P7
- Pbmlp53oSpmt4FPh5qyB14Xne+yuy1OE7icqEiKM9mRT3puzAMX53TspDEHohtZfNIKD
- rvku2OJvpF/XPLBBgOnhigEkDK+3i1luS+reY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3vJ0PEb+cdNY7DG4C7LQ/ErPjGFU907p7f+jGsEX+0Y=;
- b=E1XsYjOsO8V0oxuMHob+QeHXACvND4hl0k1hkB2w2/mCPLCLlIO98xsDVHev0z6PHD
- nyWyxeC5XpNGU44Dy1Dwtdsp2ZnpS+NVhM2OpioreLZAr/zud+b5ajqHTmfa/IdfQWmR
- exV0qDmc9PoW9mnIIwDA0F+d9ZGIcdoQYyNBEQpZR+y6ninFwl7zyhFSBGdDioc5iQwM
- 5dfHB+M2qKdtsBtKRzL8q0R3gx7bvOuvtGhy4j8aOux8FeX/GYM06dD1hDKgcYm9UO2K
- cJQTeA5R9biTxBcuLobZdHQeEJuERtvDfDJJcnM8u/8RaHngVVGVxoWiruhgAvMueOol
- 7Etg==
-X-Gm-Message-State: AO0yUKV5PukkAPoXfbGos1Kf+/qga37diIP7U8/rgfdI2EYt7ERBLPdx
- 8BHLsxGuho4IgYZcYJX7hUer8T7Y6v/nVncTC2WkZw==
-X-Google-Smtp-Source: AK7set+WBush+SD7X8YrWjXfq7TBxgTqfRk6xq+el+E8D/KPl3wAJ0QPXF23UO1RHgty640vs6wpkls4Sab6muTsMjI=
-X-Received: by 2002:a25:5d0c:0:b0:aa2:475c:2982 with SMTP id
- r12-20020a255d0c000000b00aa2475c2982mr882946ybb.1.1677525341640; Mon, 27 Feb
- 2023 11:15:41 -0800 (PST)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2758810E3BC;
+ Mon, 27 Feb 2023 19:18:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677525495; x=1709061495;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=zhoDNkqn5HJvrmCMA6N57hnTN9pQmCFFkcRCNAqzIww=;
+ b=ZtQu4MuLKVTeCI99++1Zj5eo0AutpL0/nYq0JFSTRihtJYI9w8nT0u2o
+ rQmDkZXZkZEJ6YbMTQF7XCDpFnSabP8Vt/Yu5Wd5jEtyFw8y0lPvz3iP5
+ Uj3Z8dKN61mw3kVTGEylHwoAxLz8O38iatJ51kL0zbkuiXxTmWHZCm2PW
+ NVk5pxjYd0q9Jqc8a5hB/BsYKXS31yleqceQ7zV5aQKKxa8tklnOnxr6T
+ m81jHGdNp21HJ9TyDhSzPra17RgDd3H5j5SWDHRTqJAwamL47kU2bmMU1
+ qdCrynTrWkTCvHiaKSl3l30uM0OvRlgdA/sjoTyOyqEHc2GUoeLijKS9n w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="420207543"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="420207543"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 11:18:14 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="1002914932"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="1002914932"
+Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.158])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 11:18:10 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Harry Wentland <harry.wentland@amd.com>, Yaroslav Bolyukin
+ <iam@lach.pw>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] drm/edid: parse DRM VESA dsc bpp target
+In-Reply-To: <a1272944-c090-3670-bccc-339a853e4441@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230226141051.21767-1-iam@lach.pw>
+ <20230226141051.21767-2-iam@lach.pw>
+ <bed5e04a-a0e3-fb80-d75e-cdcd85efe7ab@amd.com> <87356r117t.fsf@intel.com>
+ <a1272944-c090-3670-bccc-339a853e4441@amd.com>
+Date: Mon, 27 Feb 2023 21:18:07 +0200
+Message-ID: <87ttz6zzm8.fsf@intel.com>
 MIME-Version: 1.0
-References: <20230227113925.875425-1-jagan@amarulasolutions.com>
- <20230227113925.875425-5-jagan@amarulasolutions.com>
- <3c2f91d3-0406-7730-d4e4-c94868f23c91@denx.de>
- <CAMty3ZA6_pKiOK6gWq4iQFtKsoxfUgnSFBqkgDBzEp1DcBEt3A@mail.gmail.com>
- <7b59aaf9-1f72-fd9f-29ac-1857ec3f91f3@denx.de>
-In-Reply-To: <7b59aaf9-1f72-fd9f-29ac-1857ec3f91f3@denx.de>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 28 Feb 2023 00:45:30 +0530
-Message-ID: <CAMty3ZC6vqpFfdh2F=KUsAgm_KCksVXBV9ON1csjJd1m+gJpVQ@mail.gmail.com>
-Subject: Re: [PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge
- find helper
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,93 +62,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- Matteo Lisi <matteo.lisi@engicam.com>, Maxime Ripard <maxime@cerno.tech>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Liu, Wenjing" <Wenjing.Liu@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 28, 2023 at 12:38 AM Marek Vasut <marex@denx.de> wrote:
+On Mon, 27 Feb 2023, Harry Wentland <harry.wentland@amd.com> wrote:
+> On 2/27/23 12:12, Jani Nikula wrote:
+>> On Mon, 27 Feb 2023, Harry Wentland <harry.wentland@amd.com> wrote:
+>>> On 2/26/23 09:10, Yaroslav Bolyukin wrote:
+>>>> As per DisplayID v2.0 Errata E9 spec "DSC pass-through timing support"
+>>>> VESA vendor-specific data block may contain target DSC bits per pixel
+>>>> fields
+>>>>
+>>>
+>>> According to the errata this should only apply to VII timings. The way
+>>> it is currently implemented will make it apply to everything which is
+>>> not what we want.
+>>>
+>>> Can we add this field to drm_mode_info instead of drm_display_info and
+>>> set it inside drm_mode_displayid_detailed when parsing a type_7 timing?
+>> 
+>> That's actually difficult to do nicely. I think the patch at hand is
+>> fine, and it's fine to add the information to drm_display_info. It's a
+>> dependency to parsing the modes.
+>> 
+>> How the info will actually be used is a different matter, and obviously
+>> needs to follow the spec. As it is, *this* patch doesn't say anything
+>> about that. But whether it's handled in VII timings parsing or
+>> elsewhere, I still think this part is fine.
+>> 
 >
-> On 2/27/23 20:01, Jagan Teki wrote:
-> > On Tue, Feb 28, 2023 at 12:25 AM Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> On 2/27/23 12:39, Jagan Teki wrote:
-> >>> drm_of_dsi_find_panel_or_bridge is capable of looking up the
-> >>> downstream DSI bridge and panel and trying to add a panel bridge
-> >>> if the panel is found.
-> >>>
-> >>> Replace explicit finding calls with drm_of_dsi_find_panel_or_bridge
-> >>> followed with drmm_panel_bridge_add.
-> >>>
-> >>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> >>> ---
-> >>> Changes for v13, v12, v11:
-> >>> - none
-> >>> Changes for v10:
-> >>> - new patch
-> >>>
-> >>>    drivers/gpu/drm/exynos/exynos_drm_dsi.c | 25 +++++++++++++------------
-> >>>    1 file changed, 13 insertions(+), 12 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> >>> index df15501b1075..12a6dd987e8f 100644
-> >>> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> >>> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> >>> @@ -25,6 +25,7 @@
-> >>>    #include <drm/drm_atomic_helper.h>
-> >>>    #include <drm/drm_bridge.h>
-> >>>    #include <drm/drm_mipi_dsi.h>
-> >>> +#include <drm/drm_of.h>
-> >>>    #include <drm/drm_panel.h>
-> >>>    #include <drm/drm_print.h>
-> >>>    #include <drm/drm_probe_helper.h>
-> >>> @@ -1470,24 +1471,26 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
-> >>>        struct device *dev = dsi->dev;
-> >>>        struct drm_encoder *encoder = &dsi->encoder;
-> >>>        struct drm_device *drm = encoder->dev;
-> >>> +     struct drm_bridge *bridge;
-> >>>        struct drm_panel *panel;
-> >>>        int ret;
-> >>>
-> >>> -     panel = of_drm_find_panel(device->dev.of_node);
-> >>> -     if (!IS_ERR(panel)) {
-> >>> -             dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
-> >>> -     } else {
-> >>> -             dsi->out_bridge = of_drm_find_bridge(device->dev.of_node);
-> >>> -             if (!dsi->out_bridge)
-> >>> -                     dsi->out_bridge = ERR_PTR(-EINVAL);
-> >>> -     }
-> >>
-> >> As far as I understand this from my conversation with Maxime (please put
-> >> him on CC of V15), the change here should instead perform the panel look
-> >> up NOT in exynos_dsi_host_attach() , but in exynos_dsi_bind() , i.e. in
-> >> the component_ops .bind callback . Here is an example of correct
-> >> implementation:
-> >>
-> >> https://cgit.freedesktop.org/drm-misc/tree/drivers/gpu/drm/vc4/vc4_dsi.c#n1805
-> >
-> > But, we don't have component_ops.bind for imx8m case, so where do we
-> > want to place the panel hook?
-> >
-> > Exynos drm drivers are component-based but, imx8mm is not.
+> This patch itself is okay but without further work can't be used by
+> drivers since they don't currently have an indication whether a mode
+> is based on a VII timing.
+
+Right, agreed.
+
+All I'm saying is info->dp_dsc_bpp is the way to pass that info from
+VESA vendor block to mode parsing.
+
+Come to think of it, this patch should probably also rename
+drm_update_mso() and drm_parse_vesa_mso_data() to reflect the more
+generic VESA vendor block parsing instead of just MSO.
+
+BR,
+Jani.
+
 >
-> In 14/18 patch, the same should be added to generic_dsim_register_host()
-> , which is called from the driver .probe() callback, but that is OK.
+> Harry
 >
-> That's ^ is the iMX part.
+>> 
+>> BR,
+>> Jani.
+>> 
+>>>
+>>> Harry
+>>>
+>>>
+>>>> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+>>>> ---
+>>>>  drivers/gpu/drm/drm_edid.c  | 38 +++++++++++++++++++++++++------------
+>>>>  include/drm/drm_connector.h |  6 ++++++
+>>>>  include/drm/drm_displayid.h |  4 ++++
+>>>>  3 files changed, 36 insertions(+), 12 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>>>> index 3d0a4da661bc..aa88ac82cbe0 100644
+>>>> --- a/drivers/gpu/drm/drm_edid.c
+>>>> +++ b/drivers/gpu/drm/drm_edid.c
+>>>> @@ -6338,7 +6338,7 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
+>>>>  	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
+>>>>  		return;
+>>>>  
+>>>> -	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
+>>>> +	if (block->num_bytes < 5) {
+>>>>  		drm_dbg_kms(connector->dev,
+>>>>  			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
+>>>>  			    connector->base.id, connector->name);
+>>>> @@ -6361,24 +6361,37 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
+>>>>  		break;
+>>>>  	}
+>>>>  
+>>>> -	if (!info->mso_stream_count) {
+>>>> -		info->mso_pixel_overlap = 0;
+>>>> -		return;
+>>>> -	}
+>>>> +	info->mso_pixel_overlap = 0;
+>>>> +
+>>>> +	if (info->mso_stream_count) {
+>>>> +		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
+>>>> +
+>>>> +		if (info->mso_pixel_overlap > 8) {
+>>>> +			drm_dbg_kms(connector->dev,
+>>>> +				    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
+>>>> +				    connector->base.id, connector->name,
+>>>> +				    info->mso_pixel_overlap);
+>>>> +			info->mso_pixel_overlap = 8;
+>>>> +		}
+>>>>  
+>>>> -	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
+>>>> -	if (info->mso_pixel_overlap > 8) {
+>>>>  		drm_dbg_kms(connector->dev,
+>>>> -			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
+>>>> +			    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
+>>>>  			    connector->base.id, connector->name,
+>>>> -			    info->mso_pixel_overlap);
+>>>> -		info->mso_pixel_overlap = 8;
+>>>> +			    info->mso_stream_count, info->mso_pixel_overlap);
+>>>> +	}
+>>>> +
+>>>> +	if (block->num_bytes < 7) {
+>>>> +		/* DSC bpp is optional */
+>>>> +		return;
+>>>>  	}
+>>>>  
+>>>> +	info->dp_dsc_bpp = FIELD_GET(DISPLAYID_VESA_DSC_BPP_INT, vesa->dsc_bpp_int) * 16
+>>>> +		+ FIELD_GET(DISPLAYID_VESA_DSC_BPP_FRACT, vesa->dsc_bpp_fract);
+>>>> +
+>>>>  	drm_dbg_kms(connector->dev,
+>>>> -		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
+>>>> +		    "[CONNECTOR:%d:%s] DSC bits per pixel %u\n",
+>>>>  		    connector->base.id, connector->name,
+>>>> -		    info->mso_stream_count, info->mso_pixel_overlap);
+>>>> +		    info->dp_dsc_bpp);
+>>>>  }
+>>>>  
+>>>>  static void drm_update_mso(struct drm_connector *connector,
+>>>> @@ -6425,6 +6438,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
+>>>>  	info->mso_stream_count = 0;
+>>>>  	info->mso_pixel_overlap = 0;
+>>>>  	info->max_dsc_bpp = 0;
+>>>> +	info->dp_dsc_bpp = 0;
+>>>>  
+>>>>  	kfree(info->vics);
+>>>>  	info->vics = NULL;
+>>>> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+>>>> index 7b5048516185..1d01e0146a7f 100644
+>>>> --- a/include/drm/drm_connector.h
+>>>> +++ b/include/drm/drm_connector.h
+>>>> @@ -719,6 +719,12 @@ struct drm_display_info {
+>>>>  	 */
+>>>>  	u32 max_dsc_bpp;
+>>>>  
+>>>> +	/**
+>>>> +	 * @dp_dsc_bpp: DP Display-Stream-Compression (DSC) timing's target
+>>>> +	 * DST bits per pixel in 6.4 fixed point format. 0 means undefined
+>>>> +	 */
+>>>> +	u16 dp_dsc_bpp;
+>>>> +
+>>>>  	/**
+>>>>  	 * @vics: Array of vics_len VICs. Internal to EDID parsing.
+>>>>  	 */
+>>>> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
+>>>> index 49649eb8447e..0fc3afbd1675 100644
+>>>> --- a/include/drm/drm_displayid.h
+>>>> +++ b/include/drm/drm_displayid.h
+>>>> @@ -131,12 +131,16 @@ struct displayid_detailed_timing_block {
+>>>>  
+>>>>  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+>>>>  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+>>>> +#define DISPLAYID_VESA_DSC_BPP_INT	GENMASK(5, 0)
+>>>> +#define DISPLAYID_VESA_DSC_BPP_FRACT	GENMASK(3, 0)
+>>>>  
+>>>>  struct displayid_vesa_vendor_specific_block {
+>>>>  	struct displayid_block base;
+>>>>  	u8 oui[3];
+>>>>  	u8 data_structure_type;
+>>>>  	u8 mso;
+>>>> +	u8 dsc_bpp_int;
+>>>> +	u8 dsc_bpp_fract;
+>>>>  } __packed;
+>>>>  
+>>>>  /* DisplayID iteration */
+>>>
+>> 
+>
 
-Ohh. You mean, we need to find the panel hook separately in two places like
-- bind for exynos
-- probe for imx8mm
-
-If so? how can I find the drm_device pointer in the probe?
-
-Jagan.
+-- 
+Jani Nikula, Intel Open Source Graphics Center
