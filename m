@@ -1,72 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0715E6A3E2A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 10:20:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4EE6A3E75
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 10:34:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A08DF10E394;
-	Mon, 27 Feb 2023 09:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8322610E397;
+	Mon, 27 Feb 2023 09:34:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31CDA10E394
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 09:20:39 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CC7B61F8D4;
- Mon, 27 Feb 2023 09:20:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677489637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wBd7m2KrlfppU2Ipuygy+vwFieaF96NsR9iYEStx6LM=;
- b=KbwCjZgPz3lGGV7WD79xSpz5awt0k8vlLeZ030q7Xn7pjUsSYX0sIF6Y3a/nl2D8SJWWTR
- oYNkN6NfmEKrkgU1O5YJlBRCggwzxxOeqcDfmTy0JYf605MRVQtTWApKz0/GI1xiERXKIQ
- KogICrl3UScF1jYlC7sVipslJ24X4fU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677489637;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wBd7m2KrlfppU2Ipuygy+vwFieaF96NsR9iYEStx6LM=;
- b=ns9P7o013CdySPfLHHMJHAiSPdCN6dMd00a5O13DdQB8h9Qgast+cyIWRU0vrpiZLNFUCj
- 1BolIwKGtXdAsEBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7E11213912;
- Mon, 27 Feb 2023 09:20:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IDLYHeV1/GMrUwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 27 Feb 2023 09:20:37 +0000
-Message-ID: <c9805cb3-33c9-44ea-dab9-ec2f0624588f@suse.de>
-Date: Mon, 27 Feb 2023 10:20:37 +0100
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5F410E397;
+ Mon, 27 Feb 2023 09:34:38 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id bp25so7739580lfb.0;
+ Mon, 27 Feb 2023 01:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KdN6ISH1ECTOoz4cWXA2BXlXONjcORHaPFYKRa+pVyA=;
+ b=L85+1UTI/bqDulPb23afcqDavr5yNobNtYxm4ZdplhrWFGrVlJbWQbfDO4czw1TgMp
+ SNS5DvF7YuC3ZJIiPAWrS2X/VpHd+m2TRZchPA84PxRCgbT2tK0hte8+iOKWSfxgBJqa
+ C9uzw1+uYQZ+rx+35OSUeR5j3Y+mCdSK4cr+vLQ/g68JwGuGS6cw3fMsGpIhu8GI7HTt
+ zHgq7th6BWUw60ENh/SmZ3NsWwdRaI1uLD2uPUAebsuDjbPLEVlrP8JKtEkhF2+mygP/
+ KrvM4VMZMGYzZz0+r0zonYOAakUAieHGpOXR+/zCmi3Fr37+fjtZgi7Cr+5ACt9Ca+cf
+ /kBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KdN6ISH1ECTOoz4cWXA2BXlXONjcORHaPFYKRa+pVyA=;
+ b=MvKVsOv1sMP7IO6IKRFz8sFXtw6Vldj52U8JYBtmtYTqZK8NyfEs5/T755VLmprSth
+ X+K3n3FBsI5+O7p67XuWZJyTzMNF6pcI0vRdlx7/I4il4IHTQLjfZ8FzewcKvDcx/Lyw
+ VRwHLDAhuFHMXCl3U1Y9fGiKEyglxOgkp8xVOA+hXmn2uCcCCVdp4h+qiWNEmNsj9VRt
+ hCwM2xjxPZSEEHt/3cg17ohCTvwuTIRTbflsDxM26pR3/GL12oIaAdYj4GWhCuuL84i/
+ evyrIDOpdroIFgHUsCZkvpDDiVfnAQYS5eo7br+KsWfOYAkEpfHPfc3JyTU6GS8w/LIy
+ QjCA==
+X-Gm-Message-State: AO0yUKU8m9fhiqyemP3JhivEhyJJ28g64sdzH6AIWaS9U+yimJNyldZs
+ qPoT/cxYVcuU9ZGYIIEGphs=
+X-Google-Smtp-Source: AK7set+TTEk+rTlGT07RNeOlX4uO9/xvaUmqXHyMNIbwHb3f/UK95NiScmCiP68viFtD2y7XS0dkrw==
+X-Received: by 2002:a19:7505:0:b0:4dd:9fd8:3a36 with SMTP id
+ y5-20020a197505000000b004dd9fd83a36mr5201386lfe.1.1677490476230; 
+ Mon, 27 Feb 2023 01:34:36 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ w8-20020a05651204c800b004dc7fae3cfcsm844398lfq.75.2023.02.27.01.34.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 01:34:35 -0800 (PST)
+Date: Mon, 27 Feb 2023 11:34:21 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
+Message-ID: <20230227113421.6e31b54d@eldfell>
+In-Reply-To: <CAF6AEGsu666v9iOy2H20-JNkzi4Av0+OtrLBo_3CjRGByUPD0A@mail.gmail.com>
+References: <20230218211608.1630586-1-robdclark@gmail.com>
+ <20230218211608.1630586-7-robdclark@gmail.com>
+ <20230220105345.70e46fa5@eldfell>
+ <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
+ <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
+ <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
+ <20230222114900.1b6baf95@eldfell>
+ <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
+ <20230223113814.3010cedc@eldfell>
+ <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
+ <20230224112630.313d7b76@eldfell>
+ <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
+ <20230224122403.6a088da1@eldfell>
+ <CAF6AEGsu666v9iOy2H20-JNkzi4Av0+OtrLBo_3CjRGByUPD0A@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
- drm_gem_shmem_get_pages_sgt()
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230205125124.2260-1-lina@asahilina.net>
- <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
- <cc1c34c6-18d1-a8c5-bf70-078e7b7205f8@suse.de>
- <e49127fb-abb9-16fc-42bd-2f380d1bd29d@asahilina.net>
- <3d94a119-dc83-aede-fd39-df7a3ee7cdc0@suse.de>
- <ad89998c-0ede-72da-b8e6-fe1de0f009f1@asahilina.net>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <ad89998c-0ede-72da-b8e6-fe1de0f009f1@asahilina.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------mw61RmEhoZvT0AN7NkxZrjoq"
+Content-Type: multipart/signed; boundary="Sig_/Y/v=qEY7+AcackZUaMNyVcp";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,101 +82,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING
+ FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, "open list:SYNC FILE
+ FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------mw61RmEhoZvT0AN7NkxZrjoq
-Content-Type: multipart/mixed; boundary="------------0sdaxXuSWHTgXHOP46gNDTuc";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Asahi Lina <lina@asahilina.net>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>, linux-kernel@vger.kernel.org,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev
-Message-ID: <c9805cb3-33c9-44ea-dab9-ec2f0624588f@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
- drm_gem_shmem_get_pages_sgt()
-References: <20230205125124.2260-1-lina@asahilina.net>
- <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
- <cc1c34c6-18d1-a8c5-bf70-078e7b7205f8@suse.de>
- <e49127fb-abb9-16fc-42bd-2f380d1bd29d@asahilina.net>
- <3d94a119-dc83-aede-fd39-df7a3ee7cdc0@suse.de>
- <ad89998c-0ede-72da-b8e6-fe1de0f009f1@asahilina.net>
-In-Reply-To: <ad89998c-0ede-72da-b8e6-fe1de0f009f1@asahilina.net>
+--Sig_/Y/v=qEY7+AcackZUaMNyVcp
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---------------0sdaxXuSWHTgXHOP46gNDTuc
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Fri, 24 Feb 2023 11:44:53 -0800
+Rob Clark <robdclark@gmail.com> wrote:
 
-SGkNCg0KQW0gMjcuMDIuMjMgdW0gMTA6MDcgc2NocmllYiBBc2FoaSBMaW5hOg0KPiBPbiAy
-Ny8wMi8yMDIzIDE3LjA0LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEhpDQo+Pg0K
-Pj4gQW0gMjcuMDIuMjMgdW0gMDg6NTUgc2NocmllYiBBc2FoaSBMaW5hOg0KPj4+IE9uIDI3
-LzAyLzIwMjMgMTYuNDUsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+PiBIaQ0KPj4+
-Pg0KPj4+PiBBbSAyNS4wMi4yMyB1bSAyMjo1MSBzY2hyaWViIERtaXRyeSBPc2lwZW5rbzoN
-Cj4+Pj4+IE9uIDIvNS8yMyAxNTo1MSwgQXNhaGkgTGluYSB3cm90ZToNCj4+Pj4+PiAtRVhQ
-T1JUX1NZTUJPTF9HUEwoZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0KTsNCj4+Pj4+PiAr
-RVhQT1JUX1NZTUJPTChkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QpOw0KPj4+Pj4NCj4+
-Pj4+IE5vdGUgaXQgd2FzIGEgR1BMIHN5bWJvbC4gSSBleHBlY3QgdGhhdCBhbGwgZHJtLXNo
-bWVtIGV4cG9ydHMgc2hvdWxkIGJlIEdQTC4NCj4+Pj4NCj4+Pj4gUmlnaHQuIEkgZGlkbid0
-IG5vdGljZSB0aGF0IGNoYW5nZSwgYnV0IGl0J3MgcHJvYmFibHkgbm90IGFsbG93ZWQuIFRo
-aXMNCj4+Pj4gbmVlZHMgdG8gYmUgcmV2ZXJ0ZWQgdG8gYSBHUEwgZXhwb3J0DQo+Pj4NCj4+
-PiBJJ20gc29ycnksIHRoaXMgd2FzIG5vdCBpbnRlbnRpb25hbCEgSSB0aGluayBJIHJlbW92
-ZWQgYW5kIHJlLWFkZGVkIHRoZQ0KPj4+IGV4cG9ydCBhcyBwYXJ0IG9mIG1ha2luZyB0aGUg
-d3JhcHBlciBhbmQgZGlkbid0IG5vdGljZSBpdCB1c2VkIHRvIGJlIF9HUEwuLi4NCj4+Pg0K
-Pj4+IERvIHlvdSB3YW50IG1lIHRvIHNlbmQgYSBwYXRjaCB0byBhZGQgaXQgYmFjaz8NCj4+
-DQo+PiBZZXMsIHBsZWFzZSBkby4gVGhlIEZpeGVzIHRhZyBpcw0KPj4NCj4+ICAgICBGaXhl
-czogZGRkZGVkYWEwZGI5ICgiZHJtL3NobWVtLWhlbHBlcjogRml4IGxvY2tpbmcgZm9yDQo+
-PiBkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QoKSIpDQo+Pg0KPj4gVGhpcyBjb21taXQg
-aXMgaW4gZHJtLW1pc2MtbmV4dC1maXhlcy4gQnV0IHRoZSBicmFuY2ggaXMgY2xvc2VkIGFs
-cmVhZHkNCj4+IGFzIHdlJ3JlIGluIHRoZSBtaWRkbGUgb2YgdGhlIG1lcmdlIHdpbmRvdy4g
-SSB0aGluayBpdCdzIGJlc3QgdG8gbWVyZ2UNCj4+IHRoZSBmaXggdGhyb3VnaCBkcm0tbWlz
-Yy1maXhlcyBhZnRlciB0aGUgLXJjMSBocyBiZWVuIHRhZ2dlZC4NCj4gDQo+IFNlbnQhIEkg
-YWxzbyBub3RpY2VkIHRoYXQgdGhlcmUgYXJlIHF1aXRlIGEgZmV3IG90aGVyIG5vbi1HUEwg
-ZXhwb3J0cyBpbg0KPiB0aGUgZmlsZSwgd2l0aCBubyByZWFsIGxvZ2ljIHRoYXQgSSBjYW4g
-c2VlLi4uIEknbSBndWVzc2luZyBtb3N0IG9mDQo+IHRob3NlIHdlcmVuJ3QgaW50ZW50aW9u
-YWwgZWl0aGVyPw0KDQpJIGRvbid0IGtub3cuIE15IGd1ZXNzIGlzIHRoYXQgc29tZSBhdXRo
-b3JzIHVzZWQgRVhQT1JUX1NZTUJPTCgpIG91dCBvZiANCmhhYml0IGFuZCBvdGhlcnMgdXNl
-ZCBFWFBPUlRfU1lNQk9MX0dQTCgpIGludGVudGlvbmFsbHkuIEFuZCBub3csIGl0J3MgDQpj
-aGFvdGljLg0KDQpFdmVuIHRoZSBmaWxlJ3MgaW5pdGlhbCBjb21taXQgMjE5NGE2M2E4MThk
-IGNvbnRhaW5zIGJvdGguIEkgYXNzdW1lIHRoYXQgDQpzb21lIG9mIHRoZSBjb2RlIGhhcyBi
-ZWVuIHRha2VuIGZyb20gdGhlIERNQSBoZWxwZXJzLCB3aGljaCBkYXRlIGJhY2sgDQptdWNo
-IGVhcmxpZXIgd2l0aCBfR1BMLW9ubHkgZXhwb3J0cyAoc2VlIGNvbW1pdCBiOWQ0NzQ1MDA1
-NDYpLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiB+fiBMaW5hDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
-cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
-ZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> On Fri, Feb 24, 2023 at 2:24 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
+e:
+> >
+> > On Fri, 24 Feb 2023 09:41:46 +0000
+> > Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> > =20
+> > > On 24/02/2023 09:26, Pekka Paalanen wrote: =20
+> > > > On Thu, 23 Feb 2023 10:51:48 -0800
+> > > > Rob Clark <robdclark@gmail.com> wrote:
+> > > > =20
+> > > >> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.co=
+m> wrote: =20
+> > > >>>
+> > > >>> On Wed, 22 Feb 2023 07:37:26 -0800
+> > > >>> Rob Clark <robdclark@gmail.com> wrote:
+> > > >>> =20
+> > > >>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.=
+com> wrote: =20
+> > > >
+> > > > ...
+> > > > =20
+> > > >>>>> On another matter, if the application uses SET_DEADLINE with one
+> > > >>>>> timestamp, and the compositor uses SET_DEADLINE on the same thi=
+ng with
+> > > >>>>> another timestamp, what should happen? =20
+> > > >>>>
+> > > >>>> The expectation is that many deadline hints can be set on a fenc=
+e.
+> > > >>>> The fence signaller should track the soonest deadline. =20
+> > > >>>
+> > > >>> You need to document that as UAPI, since it is observable to user=
+space.
+> > > >>> It would be bad if drivers or subsystems would differ in behaviou=
+r.
+> > > >>> =20
+> > > >>
+> > > >> It is in the end a hint.  It is about giving the driver more
+> > > >> information so that it can make better choices.  But the driver is
+> > > >> even free to ignore it.  So maybe "expectation" is too strong of a
+> > > >> word.  Rather, any other behavior doesn't really make sense.  But =
+it
+> > > >> could end up being dictated by how the hw and/or fw works. =20
+> > > >
+> > > > It will stop being a hint once it has been implemented and used in =
+the
+> > > > wild long enough. The kernel userspace regression rules make sure of
+> > > > that. =20
+> > >
+> > > Yeah, tricky and maybe a gray area in this case. I think we eluded
+> > > elsewhere in the thread that renaming the thing might be an option.
+> > >
+> > > So maybe instead of deadline, which is a very strong word, use someth=
+ing
+> > > along the lines of "present time hint", or "signalled time hint"? May=
+be
+> > > reads clumsy. Just throwing some ideas for a start. =20
+> >
+> > You can try, but I fear that if it ever changes behaviour and
+> > someone notices that, it's labelled as a kernel regression. I don't
+> > think documentation has ever been the authoritative definition of UABI
+> > in Linux, it just guides drivers and userspace towards a common
+> > understanding and common usage patterns.
+> >
+> > So even if the UABI contract is not documented (ugh), you need to be
+> > prepared to set the UABI contract through kernel implementation.
+> >
+> > If you do not document the UABI contract, then different drivers are
+> > likely to implement it differently, leading to differing behaviour.
+> > Also userspace will invent wild ways to abuse the UABI if there is no
+> > documentation guiding it on proper use. If userspace or end users
+> > observe different behaviour, that's bad even if it's not a regression.
+> >
+> > I don't like the situation either, but it is what it is. UABI stability
+> > trumps everything regardless of whether it was documented or not.
+> >
+> > I bet userspace is going to use this as a "make it faster, make it
+> > hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
+> > library that stamps any and all fences with an expired deadline to
+> > just squeeze out a little more through some weird side-effect. =20
+>=20
+> Userspace already has various (driver specific) debugfs/sysfs that it
+> can use if it wants to make it hotter and drain batteries faster, so
+> I'm not seeing a strong need to cater to the "turn it up to eleven"
+> crowd here.  And really your point feels like a good reason to _not_
+> document this as anything more than a hint.
 
---------------0sdaxXuSWHTgXHOP46gNDTuc--
+My point is that no matter what you say in documentation or leave
+unsaid, people can and will abuse this by the behaviour it provides
+anyway, like every other UABI.
 
---------------mw61RmEhoZvT0AN7NkxZrjoq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+So why not just document what it is supposed to do? It cannot get any
+worse. Maybe you get lucky instead and people don't abuse it that much
+if they read the docs.
+
+E.g. can it affect GPU job scheduling, can it affect GPU clocks, can it
+affect power consumption, and so on.
+
+> Back in the real world, mobile games are already well aware of the fps
+> vs battery-life (and therefore gameplay) tradeoff.  But what is
+> missing is a way to inform the kernel of userspace's intentions, so
+> that gpu dvfs can make intelligent decisions.  This series is meant to
+> bridge that gap.
+
+Then document that. As long as you document it properly: what you
+expect it to be used for and how.
+
+Or if this is reserved strictly for Mesa drivers, then document that.
+
+You can also stop CC'ing me if you don't want attention to UABI docs. I
+don't read dri-devel@ unless I'm explicitly CC'd nowadays.
+
+
+Thanks,
+pq
+
+--Sig_/Y/v=qEY7+AcackZUaMNyVcp
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP8deUFAwAAAAAACgkQlh/E3EQov+CF
-3A/+KXeeYWnQVaA2xRldLu2bj5JUcD7ELnYIMBq3RuR8rqZ/+Yd0EVkZMsZX9l/uVt/TE2KblDHD
-MdICA2LHUaRqjvqUnsKrxOMMe1rWPATEiTlaSOI0nMZXrsU9DI2WfqJfjMcVLaYcE9rhhROKfDSy
-/8wfGcPqaWENLL9E9NArYJfTYWt6MPmpscCuGMzHefzO0eF5deHHW1b4pi+unyZKVBtlfZjuaiYH
-h2w6dahnLIipum/fOLsNYcPou3HdkDj4T/GEPLDNbmEwuiGqUOOLbr8SsFGl4gEfn1BToDMtBYsD
-OfGdNXRMVoPnR4aqkpOAhBLDEQ4qhYx12/OoMueTh0c4Z4vd6MFq2iUccJI13Vim/L6ax0cInczi
-RkAl7hcF0rYfF4CrDUh2a5aeD0aNxfBYc7pny2HBPup6ITg3AUR7ddGdSWMS+5z9cyi0Mvu+YbFW
-W0l1dWwT8DwX6YDMSlnDThN8pWt8c6uIVdKtbTR9piaLS75CIxG9eFe+bWAhfYy0Lh2BnU3Cbocq
-8stB4KBaV7zgBP7iOp2PqtEJHn7jhWbpIP6bxCIBnSPhMGRkENha+ki4aHuWU6QJYsjkY5FvrHl3
-hykgQ6Jq02qdZFYRGr25tHkwv5iFrDhs3P4BIb1ZWau3aqiKRu+xWZpJHi+ar5qKzmNlgFzo205B
-k1g=
-=CqzL
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP8eR0ACgkQI1/ltBGq
+qqeRhA/+PoC4QNVf4EfGWRdLdkADJL2lKpF3Wtih+/IEBONjWjGySN+uzHnDevqh
+8W2KiV1mC5QNncs/Ako4+u2Op0g5u+RWt+Ny5nU2oQ4cmi40E5axoh/8+h69P+BG
+nByhRgb4z1HrD2VQSdtrDOqbHzWHSknw/nvVu9ZObWqTUs5NrbTUT3RKZFHKhcpP
+0LeM+IBv6YuCMH1lnjhxiK75z9CqZH3c95VfdW0Oi0rHtU/d0pM62QPUkckA3vZh
+o8DiXubBKBiwrGNj2Di16yxpNJEF9Cz0MTnIs3UbjHdjMhBO8pxkoGpKdNIMOsW8
+NP6Ur/Ztxs+Hypa73ljD92g235Dd4TpeR9btRxVqlMuVfFRFaCStjEAIA+WMPo2e
+8qAVgFzV/hCUL5t44fmtCEOcfTFs4+5sC7GniF7tiuoY+1ToTn+xFyIkT/9/65cn
+wXBxN+T0zMioOMx7aaEgJ4IWyWOlllcyr1RUXxB3p2gJY3t7iius2dr/tnGV59a7
+hzW6zwFIczX/zv9huV+qWD94JVoXNu6sLETmruM/tPY5ACjtt0+f4fCOiWP7lgXt
+/YZY/eRkXoNoP0hIFB4qwdvML3MaUogpgKM1CI4kiYkE6ekfDf5yNmz1BJRpb7bR
+BFa0/sGZBrxf6r4Zr6w48ZW/BfZnkrienbL7rmWArIJGyP1sSzU=
+=Jrc/
 -----END PGP SIGNATURE-----
 
---------------mw61RmEhoZvT0AN7NkxZrjoq--
+--Sig_/Y/v=qEY7+AcackZUaMNyVcp--
