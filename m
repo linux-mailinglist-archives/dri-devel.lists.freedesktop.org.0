@@ -2,56 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD106A473A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 17:43:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD376A4763
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 17:56:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAC5C10E1D7;
-	Mon, 27 Feb 2023 16:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC6510E435;
+	Mon, 27 Feb 2023 16:56:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE0F510E1D7
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:43:23 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id o12so28287058edb.9
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 08:43:23 -0800 (PST)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCCB910E1C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:56:36 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id bp19so2945735oib.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 08:56:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hOx+Lx5LmOM09OgXmzxi2LsSdJoGdR3sG6KvTTKaATI=;
- b=a61a7/DIAAPoyHbNLVSSkFweYQQ4MX8oFnrHkdCNCK7SeU6uXbWiPIOV9bgUYjenA/
- kMVBmoaYu1LsJ5/23nPcQcIhTkf01ItUnU5JaCJKnTOS3Z9xr7PUJhG8fbIfKHZhqrHV
- s5qpSFd313YTbTjKE+ND3h+mOFTN8BZLCrr1Tn9xcJH6KtGuKWWycpmvVkOUxfkVBaKl
- LIPhKrAVu23deiKatwAAyO85ezC5JsYihXUKwVdBfADJuyLUAijTk6+WxgSxEbyUa8xi
- UJOZlnyFR3lUl03PwmlPlqFA/+m1R8ou5Nf2WY7NB9cYeFoT5rD1GG+nHXmI1erHYMCL
- cFpg==
+ bh=UFOFhw8IRNqs5cPEOOn1fmt/veQOghOiXH0c0ACn44g=;
+ b=Ihkny839qJsF9eJvYoIxD5wZsPdFIkxSe2idlYePFV7G/ClKpGzvX1tsvulQ526bZs
+ jwhfQQDDdy0W0NyL4gxvnE4D1/BO0CSOhEnRqag/roMIUr+y9H6aDTaA20HwjGsJYJpV
+ aseRMPqIXjL8X/S+wVfgA/OBjiLvEi629ygZDNbzcgaV1TFCrrJAYqmf0zxGG+TcrFb+
+ V/EHim8g3XCqUpz+IdAGbZ1gc9VbdgrIb1OV/Q3v2xTzMvfRvLtzWZKU/yHq3UyN/BzB
+ h74E2WrSACowm/TakUCYDXQvqSXRtDJeRj7HRhgHSDMEB05WFeZvwrGDhIuD/VgdsxQS
+ YnKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=hOx+Lx5LmOM09OgXmzxi2LsSdJoGdR3sG6KvTTKaATI=;
- b=CO0tPv0DnZd+V5U/hJNmWjVL6gA9fhpgAqZ6CH38XH408X6cyBpyC9jKzeLyGREPV+
- nlprAEaOoOnwZ1zFoqKU8HtXgKWtuGcIcD75jrIKLSLIe84DSOaLuGTeOeDEaz/u22xl
- emiH/N+LsIIjU4SK5IJrbLuAcnj3dTGYHjaGZNdrb1kmQQfvYHXEgf1H5t6dJ0Uvhmtn
- rt8hdoOsKyWpm74Fwm+W7ftlVaH6XWBAcprNGbm+efcQN9sWxl0AY9ccqBIE37yJWtHj
- CHpTClum8ZnQ5U+h8skqyLXArgiA1xLQxDF+mcITJSTOoI+QqDwooQ3QdZ+R0WRuiVhJ
- olmQ==
-X-Gm-Message-State: AO0yUKX7qDXgEnh75o+oqbQARlr0MtBIiiPcYw1+dLyQUecGKi3FIYaq
- eV+d5mGQupVA1IGNdpOkeUXFPnrmOetQJmH2yp0=
-X-Google-Smtp-Source: AK7set/MGVEvrtdD63U/g8sFifLNquXgtczaePn8Jsk7sX8vclGD49tHR3zYDQOWmugjaLuMvvH6hC5cijEoGC+SrYA=
-X-Received: by 2002:a17:906:3a58:b0:8b1:78b8:4207 with SMTP id
- a24-20020a1709063a5800b008b178b84207mr1239508ejf.3.1677516202115; Mon, 27 Feb
- 2023 08:43:22 -0800 (PST)
+ bh=UFOFhw8IRNqs5cPEOOn1fmt/veQOghOiXH0c0ACn44g=;
+ b=hMpnDukHwobQzz3d/7OKmKSkTSR/JPoJp7wGrRhL3+yQKAHJ9JZr4nmoVhvkgBy1e6
+ XmpGk1gbg5nZei63+q0ukHXt1jtg+s90sLBfAEGIAZeDhTLWcw7YnQh8WJP89tI3Eerz
+ 8Mc/xMR3Sjb90U3hrVocbmEUvdAvTvSAbU/Qn7/ai9vh8ua06NwhSQITWaE6Es5vFB1Z
+ A3X6ieYhj8Wj3AQID/LSuuTf++YZTJNBz0rVJaYAgu0vYUgXM56kbZ5biNY2oQnjW7gD
+ rnDD8sc87yBE7z4oOYFx8s+twxDYA53B75ft9CkvN/CDB8rq6e1D8yFtIeKVP97vyged
+ bgQg==
+X-Gm-Message-State: AO0yUKX9DobP7Icm8UsWB00S1e2ww8DaugXbX5f51XpdYfPHW6iDx9Am
+ jeV5nqcfroowPwASWPsuWmgbKRRAcGe5VRd/wIM=
+X-Google-Smtp-Source: AK7set9KKDyOAtXfl6ttjcR6L1Q7g1Em64KRPcVyPy0CnlrqZJRRGo704yVg02/SL9WYEkXwyrCt9VRtT9E2YEAE+Wc=
+X-Received: by 2002:a54:409a:0:b0:384:253:642d with SMTP id
+ i26-20020a54409a000000b003840253642dmr3506494oii.3.1677516996023; Mon, 27 Feb
+ 2023 08:56:36 -0800 (PST)
 MIME-Version: 1.0
-References: <7799513f0fb5aee27b64752c037980471be669c5.1677120686.git.self@dylanle.dev>
- <Y/bqtlbnWkKMIJI4@debian.me>
-In-Reply-To: <Y/bqtlbnWkKMIJI4@debian.me>
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Date: Mon, 27 Feb 2023 09:43:11 -0700
-Message-ID: <CAOCk7NrAKZ2G-VbQW3MJUZmkKkO1Ccrs2wo12kg6QHysH-d=Yg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpu: add acceleration node section
-To: Bagas Sanjaya <bagasdotme@gmail.com>, ogabbay@kernel.org
+References: <20230227160114.2799001-1-robdclark@gmail.com>
+ <Y/zXaaFJhi8Q5YRZ@phenom.ffwll.local>
+In-Reply-To: <Y/zXaaFJhi8Q5YRZ@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 27 Feb 2023 08:56:24 -0800
+Message-ID: <CAF6AEGt1fjSVhV03uP2v-jxzwRvZLia+0CZOwxbbS038rAZgzw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/virtio: Add option to disable KMS support
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org, 
+ Chia-I Wu <olvaffe@gmail.com>, Ryan Neph <ryanneph@chromium.org>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Rob Clark <robdclark@chromium.org>, David Airlie <airlied@redhat.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>, 
+ open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,61 +72,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dylan Le <self@dylanle.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Shuah Khan <skhan@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm thinking the drm_file.h reference is broken.  I suspect it should
-reference Documentation/accel/index.rst
+On Mon, Feb 27, 2023 at 8:16 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Feb 27, 2023 at 08:01:13AM -0800, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > Add a build option to disable modesetting support.  This is useful in
+> > cases where the guest only needs to use the GPU in a headless mode, or
+> > (such as in the CrOS usage) window surfaces are proxied to a host
+> > compositor.
+> >
+> > v2: Use more if (IS_ENABLED(...))
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+>
+> This feels a bit much like a worksforus solution. Not objecting to landing
+> this, but would some kind of feature bit on the virtio hw and
+> autodetection in the guest driver side work? Especially if people ever
+> want to get this to a Just Works model with standard distros.
 
-Oded?
+I could probably make this also work if the host advertises zero
+scanouts.  But I don't expect distro's would want to disable this
+option, which is why it is "If unsure, say Y".  The CrOS guest kernel
+already needs a special "virtio-wl" driver, so we are already
+venturing outside of "guest is just a generic distro" territory.
 
-On Wed, Feb 22, 2023 at 9:25 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+BR,
+-R
+
+> Usually the argument for compile option is "binary size", but you're
+> leaving most of the kms stuff in there so that's clearly not it :-)
+> -Daniel
 >
-> On Thu, Feb 23, 2023 at 02:52:52AM +0000, Dylan Le wrote:
-> >
-> > This patch was initially written for the Linux Kernel Bug Fixing Mentorship
-> > program. The patch adds a temporarily stubbed section on Acceleration Nodes
-> > to resolve a documentation warning.
-> >
-> > This resolves the warning:
-> > ./Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WARNING: undefined label: drm_accel_node
->
-> Please write the patch description in imperative mood ("Do foo" instead
-> of "This patch does foo").
->
-> >
-> > I would appreciate any feedback on what should be documented here.
->
-> I think above is better placed between the three dashes and diffstat ...
 >
 >
 > > ---
->
-> like here.
->
-> >  Documentation/gpu/drm-uapi.rst | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
+> >  drivers/gpu/drm/virtio/Kconfig       | 11 +++++++++
+> >  drivers/gpu/drm/virtio/Makefile      |  5 +++-
+> >  drivers/gpu/drm/virtio/virtgpu_drv.c |  6 ++++-
+> >  drivers/gpu/drm/virtio/virtgpu_drv.h | 10 ++++++++
+> >  drivers/gpu/drm/virtio/virtgpu_kms.c | 35 ++++++++++++++++------------
+> >  5 files changed, 50 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
+> > index 51ec7c3240c9..ea06ff2aa4b4 100644
+> > --- a/drivers/gpu/drm/virtio/Kconfig
+> > +++ b/drivers/gpu/drm/virtio/Kconfig
+> > @@ -11,3 +11,14 @@ config DRM_VIRTIO_GPU
+> >          QEMU based VMMs (like KVM or Xen).
+> >
+> >          If unsure say M.
+> > +
+> > +config DRM_VIRTIO_GPU_KMS
+> > +     bool "Virtio GPU driver modesetting support"
+> > +     depends on DRM_VIRTIO_GPU
+> > +     default y
+> > +     help
+> > +        Enable modesetting support for virtio GPU driver.  This can be
+> > +        disabled in cases where only "headless" usage of the GPU is
+> > +        required.
+> > +
+> > +        If unsure, say Y.
+> > diff --git a/drivers/gpu/drm/virtio/Makefile b/drivers/gpu/drm/virtio/Makefile
+> > index b99fa4a73b68..24c7ebe87032 100644
+> > --- a/drivers/gpu/drm/virtio/Makefile
+> > +++ b/drivers/gpu/drm/virtio/Makefile
+> > @@ -4,8 +4,11 @@
+> >  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+> >
+> >  virtio-gpu-y := virtgpu_drv.o virtgpu_kms.o virtgpu_gem.o virtgpu_vram.o \
+> > -     virtgpu_display.o virtgpu_vq.o \
+> > +     virtgpu_vq.o \
+> >       virtgpu_fence.o virtgpu_object.o virtgpu_debugfs.o virtgpu_plane.o \
+> >       virtgpu_ioctl.o virtgpu_prime.o virtgpu_trace_points.o
+> >
+> > +virtio-gpu-$(CONFIG_DRM_VIRTIO_GPU_KMS) += \
+> > +     virtgpu_display.o
+> > +
+> >  obj-$(CONFIG_DRM_VIRTIO_GPU) += virtio-gpu.o
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> > index ae97b98750b6..9cb7d6dd3da6 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> > @@ -172,7 +172,11 @@ MODULE_AUTHOR("Alon Levy");
+> >  DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
+> >
+> >  static const struct drm_driver driver = {
+> > -     .driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC,
+> > +     .driver_features =
+> > +#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
+> > +                     DRIVER_MODESET | DRIVER_ATOMIC |
+> > +#endif
+> > +                     DRIVER_GEM | DRIVER_RENDER,
+> >       .open = virtio_gpu_driver_open,
+> >       .postclose = virtio_gpu_driver_postclose,
+> >
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > index af6ffb696086..ffe8faf67247 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> > @@ -426,8 +426,18 @@ virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
+> >                               uint32_t x, uint32_t y);
+> >
+> >  /* virtgpu_display.c */
+> > +#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
+> >  int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
+> >  void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
+> > +#else
+> > +static inline int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
+> > +{
+> > +     return 0;
+> > +}
+> > +static inline void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev)
+> > +{
+> > +}
+> > +#endif
+> >
+> >  /* virtgpu_plane.c */
+> >  uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc);
+> > diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > index 27b7f14dae89..70d87e653d07 100644
+> > --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+> > @@ -161,7 +161,8 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+> >       if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_VIRGL))
+> >               vgdev->has_virgl_3d = true;
+> >  #endif
+> > -     if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID)) {
+> > +     if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) &&
+> > +         virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID)) {
+> >               vgdev->has_edid = true;
+> >       }
+> >       if (virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC)) {
+> > @@ -218,17 +219,19 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+> >               goto err_vbufs;
+> >       }
+> >
+> > -     /* get display info */
+> > -     virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
+> > -                     num_scanouts, &num_scanouts);
+> > -     vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
+> > -                                 VIRTIO_GPU_MAX_SCANOUTS);
+> > -     if (!vgdev->num_scanouts) {
+> > -             DRM_ERROR("num_scanouts is zero\n");
+> > -             ret = -EINVAL;
+> > -             goto err_scanouts;
+> > +     if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS)) {
+> > +             /* get display info */
+> > +             virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
+> > +                             num_scanouts, &num_scanouts);
+> > +             vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
+> > +                                         VIRTIO_GPU_MAX_SCANOUTS);
+> > +             if (!vgdev->num_scanouts) {
+> > +                     DRM_ERROR("num_scanouts is zero\n");
+> > +                     ret = -EINVAL;
+> > +                     goto err_scanouts;
+> > +             }
+> > +             DRM_INFO("number of scanouts: %d\n", num_scanouts);
+> >       }
+> > -     DRM_INFO("number of scanouts: %d\n", num_scanouts);
+> >
+> >       virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
+> >                       num_capsets, &num_capsets);
+> > @@ -246,10 +249,12 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+> >               virtio_gpu_get_capsets(vgdev, num_capsets);
+> >       if (vgdev->has_edid)
+> >               virtio_gpu_cmd_get_edids(vgdev);
+> > -     virtio_gpu_cmd_get_display_info(vgdev);
+> > -     virtio_gpu_notify(vgdev);
+> > -     wait_event_timeout(vgdev->resp_wq, !vgdev->display_info_pending,
+> > -                        5 * HZ);
+> > +     if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS)) {
+> > +             virtio_gpu_cmd_get_display_info(vgdev);
+> > +             virtio_gpu_notify(vgdev);
+> > +             wait_event_timeout(vgdev->resp_wq, !vgdev->display_info_pending,
+> > +                                5 * HZ);
+> > +     }
+> >       return 0;
+> >
+> >  err_scanouts:
+> > --
+> > 2.39.1
 > >
 >
-> > +.. _drm_accel_node:
-> > +
-> > +Acceleration nodes
-> > +==================
-> > +
-> > +.. note::
-> > +   There is not any documentation yet need to figure out what this is.
->
-> I'd like to write this stub as generic .. admonition:: block [1] instead,
-> with the content which is "This section is empty, add appropriate
-> documentation here." or similar.
->
-> [1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#generic-admonition
->
-> Thanks.
->
 > --
-> An old man doll... just what I always wanted! - Clara
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
