@@ -2,69 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A116A4161
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1336A417A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:12:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B153310E3B6;
-	Mon, 27 Feb 2023 12:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A562510E3CE;
+	Mon, 27 Feb 2023 12:11:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE0710E3B6
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 12:06:58 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- me6-20020a17090b17c600b0023816b0c7ceso1926590pjb.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 04:06:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RrHEMkhyfJhxIny70LQz8hfKlJZxebfX1zWh9JqyY+g=;
- b=Yj28AAZRGZ0QzeoY1TIm9msvcpiSCxy4fSZgwOXT2VeXGJI06XOK23h77Ulc+3TCmM
- rNkgRMyGhy/Nz7m6MzfbagblWRRnEPlUMxlfZpuTFUWsmQ0h4f4Ggcjknk5cExgekM1V
- 2mxPQsnd6vZ73yaEmK5lXoUeDgdRefpT+RJFlw0rjV/ucrLSsFtH+1UC914QT2GIKiD7
- HhF1j6JM5ucV9ro0+h5i8WAnohqQJEIstlZmN8k+z8RilWRb9ciHU1pSttJW920WmSJa
- DG4j4YXLUo/Z5QZVvvN2Yvyn5ebvpdQwUiH2VIF9u2aZH1zyZDo77wOtGG4TpWjBYLCA
- 6KTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RrHEMkhyfJhxIny70LQz8hfKlJZxebfX1zWh9JqyY+g=;
- b=FOD01XRjKq+QqDfrMdNkS/9skAst9o4HvI7NqdHyxh6+oyG/T4m/g9UNYK439B3Io0
- n9jSJbSbUJDoovSLiZenkUWwLt21aJy2R49r1+16/pv2NBiKtLB2LuMIjat0XC75SK8A
- 2xRF90aCAqDvqH6GaoAHCOKABzMBZcE1Q7Wug/QgyLYDn0A6qs5tBM7J4JF2f31FUVa6
- 7mIm0f+Za9VXwNR8evGsXZyyZgUiZLW+uJ26YOzcu+1LN0AqONebfL7oeaO9Qvvn42GA
- spPBS1sepJpq5i1MwLLu5REx+1oTuvkC4pe+Q42WeofamPlqFdv48HUHZLDSD63UC3/L
- QIKA==
-X-Gm-Message-State: AO0yUKXJ0X1Zz19nmd6nzOTEUvnXYK0JOnqr58PP4luNK9lal3ZhN5Px
- WbfRDAZ7DUw1nEfH13ZewWQ=
-X-Google-Smtp-Source: AK7set8NO0asQI/pmISNEICt0Z8cmaKJvOLhp0aqvHqrYnOAzeoc04uOO2eT8MP882N2GR02yXcnAg==
-X-Received: by 2002:a05:6a20:2996:b0:c3:2bef:bd62 with SMTP id
- f22-20020a056a20299600b000c32befbd62mr13007016pzh.1.1677499618113; 
- Mon, 27 Feb 2023 04:06:58 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp.
- [106.167.171.201]) by smtp.gmail.com with ESMTPSA id
- w18-20020aa78592000000b005afda149679sm4210430pfn.179.2023.02.27.04.06.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 04:06:57 -0800 (PST)
-Message-ID: <a0d52b30-265e-056e-0e67-6873d2c3b9ee@gmail.com>
-Date: Mon, 27 Feb 2023 21:06:51 +0900
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A600510E3CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 12:11:57 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 828285C0062;
+ Mon, 27 Feb 2023 07:11:53 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 27 Feb 2023 07:11:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1677499913; x=1677586313; bh=p4dKxgXD9a
+ z25l8x9BnyJkoKpJl5puXIKepVLfJGKGY=; b=sgODnMnrjGbSdSkkdQixXMTtxS
+ 1offZ+r8DRw6rn2YGEqK8RYe2YJkdTSaM7atXfQ2KtdnLCBUXuxDxQTUbA/Jmfsr
+ aCUOCIw1lF8mq3f8elAEqg6LvqpWWyK42rlfdnXn+cHgLJMblhk1GI6fweIk0Orm
+ JPjGn79dCnxsJjnPK1Qb1vyjK3NBVHiIjbL+WbI/uUD4+zC8QY6gjoL7KH52e9r8
+ rh2jOIyld/y59L6ekCPa6+5vuHHjxRzh2JTST8hRIdHCZc6ZwY+pL5ceXfIy+kp1
+ r53AbI7X4VqY9VWF6z5sqaa6i2wcZl1zYD2KeNTwVguzLvzFGjLXICpuGVGw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1677499913; x=1677586313; bh=p4dKxgXD9az25l8x9BnyJkoKpJl5
+ puXIKepVLfJGKGY=; b=F+n3ziSSpm+7P2AJGwBWGnoG9jF+sodTHR7P++L3q3Om
+ 0yYa93pd6Vve5a0XZSXtOdfRWBU8ugB198hawjNHRZ4hBGli6V0yYo6JBcWQlQGL
+ Acf7udgyIT9RJnfzS+3g7ac0wiH9dnd3xQWHazc6ooaYJtIea01uzPYTvHEdkBQW
+ nW/gcFaSv4Vf5feHSGLFqpqXULO55eLlBh3toAPxCGZ09c5GlM/9FBrZTbKT3JR+
+ RQhww4d0aj+bYu7sgfs++OfRJNG91+Vl+IHkNPzq3NXUwup/vMsNhRUc5h0s8edL
+ fjYzLn/pGt3VSSBSWg89uMlydLofrTkDIofX7aHGXg==
+X-ME-Sender: <xms:CJ78Y265SawPnopayCLd-sl3M5d_gzeQO7hbml3R9Qlfwf-_9J7CtQ>
+ <xme:CJ78Y_7jWjXUjiMxWlQlMVe_QxoCNb-8zUxfWNgep4Rg-_6tQVmdGq1qOaf5UjXt8
+ vX2C2oT3poQ_GKwaVw>
+X-ME-Received: <xmr:CJ78Y1efEcoKI0CYGRGtm5d1mOSB18gA9HBo23m2yTFkR9itGpdF2GAtGbIYWdkVodqa4ZLUvaQoO4uBYlBaO0uat6a7Jto>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddgfeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+ ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:CJ78YzJuwHmQbjSEbVVXqsaOAVA_CHwfIahZoJoMwA94DWXZZEAp_Q>
+ <xmx:CJ78Y6KbS-heC-ccw-hmY7KT7bTnJVv6KdHqN0vOtgy4mbysJ1hnpA>
+ <xmx:CJ78Y0xsQ0z5T1peUz9QSIy6RMgFzV9J5iY2mAU2qh2EIXbtZCvAjA>
+ <xmx:CZ78YxrnaJNQWoG0HtDqFau7iyNkG8wGLqfRTkql3kI9LD6FnCPyjg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Feb 2023 07:11:51 -0500 (EST)
+Date: Mon, 27 Feb 2023 13:11:49 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v13 02/18] drm: bridge: panel: Support nodrm case for
+ drmm_panel_bridge_add
+Message-ID: <20230227121149.c3ibajgog3i2s2ek@houat>
+References: <20230227113925.875425-1-jagan@amarulasolutions.com>
+ <20230227113925.875425-3-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] media: Fix building pdfdocs
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
- <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
- <20230226114744.7221f460@coco.lan>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20230226114744.7221f460@coco.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="57cleiwqo4cuwpi6"
+Content-Disposition: inline
+In-Reply-To: <20230227113925.875425-3-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,71 +84,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Airlie <airlied@redhat.com>, linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mauro,
 
-On Sun, 26 Feb 2023 11:47:44 +0100, Mauro Carvalho Chehab wrote:
-> Em Sun, 26 Feb 2023 08:39:32 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
->> [+CC: Jon, linux-doc]
->>
->> On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
->>> Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
->>> documatation for a few new RGB formats. For some reason these break the
->>> pdfdocs build, even if the same style seems to work elsewhere in the
->>> file.
->>>
->>> Remove the trailing empty dash lines, which seems to fix the issue.
->>>
->>> Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
->>> Reported-by: Akira Yokosawa <akiyks@gmail.com>  
->> Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
->>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>> ---
->>>
->>> Note: the offending patch was merged via drm tree, so we may want to
->>> apply the fix to the drm tree also.  
->>
->> So, the offending commit is now in mainline without this fix...
->> I believe this build regression -- a real build error of "make pdfdocs"
->> -- should be fixed ASAP.
->>
->> Tomi, Laurent has suggested a typo fix in the Changelog.
->> Can you respin ?
->>
->> Or, Laurent, can you do the fix on your own?
->>
->> Hopefully, the fix can make v6.3-rc1.
-> 
-> Better to wait for media PR to be handled. There were some changes at
-> the documentation that affected the patch. I guess the bug is gone.
+--57cleiwqo4cuwpi6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You mean the PR at https://lore.kernel.org/lkml/20230226114551.68480d44@coco.lan/ ?
-Unfortunately, it has had no effect on this issue.
+On Mon, Feb 27, 2023 at 05:09:09PM +0530, Jagan Teki wrote:
+> drmm_panel_bridge_add DRM-managed action helper is useful for the bridge
+> which automatically removes the bridge when drm pointer is cleaned.
+>=20
+> Supporting the same on non-component bridges like host DSI bridge requires
+> a drm pointer which is indeed available only when a=A0panel-bridge is fou=
+nd.
+>=20
+> For these use cases, the caller would call the drmm_panel_bridge_add by
+> passing NULL to drm pointer.
+>=20
+> So, assign the bridge->dev to drm pointer for those cases.
+>=20
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> ---
+> Changes for v13:
+> - new patch
+>=20
+> Note: use case on=20
+> "[PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge find h=
+elper"
+>=20
+>  drivers/gpu/drm/bridge/panel.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pane=
+l.c
+> index d4b112911a99..45a0c6671000 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -402,6 +402,13 @@ struct drm_bridge *drmm_panel_bridge_add(struct drm_=
+device *drm,
+>  	if (IS_ERR(bridge))
+>  		return bridge;
+> =20
+> +	/*
+> +	 * For non-component bridges, like host DSI bridge the DRM pointer
+> +	 * can be available only when a panel-bridge is found.
+> +	 */
+> +	if (!drm)
+> +		drm =3D bridge->dev;
+> +
 
-> If not, we'll need to rebase the patch.
+Why can't the caller use bridge->dev?
 
-There was no change in Documentation/userspace-api/media/v4l/pixfmt-rgb.rst,
-so rebase is not needed.
+Also, where did the devm_drm_of_dsi_get_bridge go? I thought you were
+going to convert it to a drm-managed version?
 
-Should this bug survive v6.3-rc1, I guess this fix could go through
-media or doc tree.
+Maxime
 
-Thoughts?
+--57cleiwqo4cuwpi6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-        Thanks, Akira
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> Regards,
-> Mauro
-> 
+iHQEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY/yeBQAKCRDj7w1vZxhR
+xUqCAP9CCAOgIorqAmGMZe9rVDg4/Sb49NR/hR/ajVjwfLJDXAD3VAPHQ5pJt+Nw
+bvu2RnyrkN/NtW+g7i0y9cmRWCBQCw==
+=M4Xm
+-----END PGP SIGNATURE-----
 
+--57cleiwqo4cuwpi6--
