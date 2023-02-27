@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3050B6A3F23
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 11:07:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670906A3F2B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 11:07:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA52610E20A;
-	Mon, 27 Feb 2023 10:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3CB510E3A2;
+	Mon, 27 Feb 2023 10:07:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55F9A10E20A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 10:07:05 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id l1so2512497wry.12
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 02:07:05 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE1D10E3A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 10:07:41 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id e37so3095781wri.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 02:07:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qAMEtyjFDybUtWkpyE6ui7qLzDRJJ6qwM16U5VTuzlg=;
- b=e4tBYEn47Bz7XTq/47q1gAg4ykFpvq98gzdqcMJUJkKWlNHPZ9h/rzex1SoseIKQRF
- VYJFEwDvVBRz7cTK2Cfzu6dqM9fBtoLXH/S4fiNCCn+i+6X7WzO8FLO+ez0/buSL8DL2
- HhpyW9+QVXe3hTM5DqCgk09LjZaWh0USZKDutYXCqmNXVlWkW/aXTiDCjFGUoXsjVdfF
- oqZoSuspvzd4EKLS52srDlSPTtRkAm8qWb6MbadaEdOegQm1JKcaw0EHQNwGZTVAunYX
- lpZIdjozf+vlbWvvcUihfQ1u1KcELVlc72ntGEzUvzhjm84blJgS06n3uvi2F0M5Y1FQ
- mByQ==
+ bh=jnMX1QvB2TAT+d6bBwXqIXUvE0HfNg38gx5xp0MvMKA=;
+ b=j0kwkt5SgEJKfHAWbmCBG9RFTkd8CIloKWFZ4XXSWwHXEI2DFmWxCxaTnTfnWpCyeb
+ QV62H/ZNEjBmn8ccxPqO8XxzTyOzCXtOg4qo6m8827dsQA43jTlLHyDCuEUMuqg2XihF
+ zPBdt+MsXPcvJVjJwPCE+bk6oe2fP5BHGbQtE7Q4N/fFozfPtKPcc0whXMvfEvPlD1LK
+ JD0pLzr+/vQpDHFeggj6kSc1tjk/Z8dRg+u7BTzXYI/ldpOOyrM4RM1EuwrEbSFinJRP
+ HvP6R0ux1DPVxzt91otFq8I5V3ajJbnGgUyB5p6F6Hs+jCVQUOo/JkaDHDD3/r3QZNSE
+ Y4sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qAMEtyjFDybUtWkpyE6ui7qLzDRJJ6qwM16U5VTuzlg=;
- b=XvLSprW2LvIYPZPm6e4kMlr5YE0EkU75KTY6vWTlsIz1PB3w0GdZnim/ZfZAvjTxnN
- 3ZbOoiWeQU257zgJeXRH0wsXSiNud1t6HBJpJTQanrLjyABccnuAmxxzj0EOE0hBkc8U
- KZYivee8tfA7wjk1akIeW2jDvo48Cl1CU37+QQiGb0jUUGa38GVSZR5RI0azIBGxiAX8
- us4Yf24yxrrB5hYrT46IX6lZdAB7WkRjEEG9VSnJ626N5AI/TMI0csDRXmNvWu2TbFKx
- GsIohN3QRBPKmz2j1JPPtWgzI6jqpz3AS3bhfj7F+Z3u6NxTIFT0FvjyEpGBpw/gupY0
- CVTQ==
-X-Gm-Message-State: AO0yUKX/GZA7X3YMXIgyn4GY7cBvmMwNgeG5s9aRysk7JfjuKNhCyQ35
- 2xqf+cwg83Dp6DxkmL9MTXo=
-X-Google-Smtp-Source: AK7set+/ftDBmse6dEgq46GZHTuU3FWLKVD5J/HGxegFqt+baaFGyw9PDDL9gTRiJnuitgx1/F6bOg==
-X-Received: by 2002:a05:6000:15c4:b0:2c5:3fce:423b with SMTP id
- y4-20020a05600015c400b002c53fce423bmr7345353wry.4.1677492423829; 
- Mon, 27 Feb 2023 02:07:03 -0800 (PST)
+ bh=jnMX1QvB2TAT+d6bBwXqIXUvE0HfNg38gx5xp0MvMKA=;
+ b=Vd1OH3XXjnuNyhR50kC4dKx6T1ITy5T9DRcVwWJYbplgKMK+8nd0m3FSxPmjT47ral
+ NBxnyz7pK63eYoUBEIUb6EktWYln9IIpzKjaJYiuARoU9i8TBaEILRVRCF4LvAWEcsvD
+ 4yNm9WEp66+vbhAAaY3aa4R9U2hA6scoHoIiIm6Ty89INtO4YMKOXwLNBtwuuf7vRqXt
+ v/50tJzw+LvZG5P0z0vkXwfSiUBqqRtNeDWSQbH54cvvFBtWaiHnb1In8tdhrqHemqNo
+ TN0UIdoZRynAsBwbxJdhOEeLLkhOJurEkDnwStPCwFIMTLQklMySiVSt8L/s71MFLogb
+ R2Lw==
+X-Gm-Message-State: AO0yUKUUj3qq/gEfzTkqwyZtq4ZGFP3z/TD81AwvlD12n0/UsMG8dhp8
+ rkgN2ixwlWoBQbnwuzCfmzY=
+X-Google-Smtp-Source: AK7set8A/RFwFh8podMXMM5ARoUOWSbyyo9zeJjupddomMttuY/UuYtHi7GPcniDxq6DCLSlWZxXAQ==
+X-Received: by 2002:a05:6000:5c1:b0:2c5:4ca3:d56c with SMTP id
+ bh1-20020a05600005c100b002c54ca3d56cmr5407214wrb.0.1677492459988; 
+ Mon, 27 Feb 2023 02:07:39 -0800 (PST)
 Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- p10-20020a5d458a000000b002c559def236sm6630643wrq.57.2023.02.27.02.07.02
+ bg14-20020a05600c3c8e00b003eb395a8280sm7175794wmb.37.2023.02.27.02.07.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 02:07:02 -0800 (PST)
-Date: Mon, 27 Feb 2023 13:06:59 +0300
+ Mon, 27 Feb 2023 02:07:39 -0800 (PST)
+Date: Mon, 27 Feb 2023 13:07:35 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH] drm: rcar-du: Fix a NULL vs IS_ERR() bug
-Message-ID: <Y/yAw6sHu82OnOWj@kili>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] fbdev: chipsfb: Fix error codes in chipsfb_pci_init()
+Message-ID: <Y/yA53V/rW8g1Zlm@kili>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -67,36 +67,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Yang Yingliang <yangyingliang@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drmm_encoder_alloc() function returns error pointers.  It never
-returns NULL.  Fix the check accordingly.
+The error codes are not set on these error paths.
 
-Fixes: 7a1adbd23990 ("drm: rcar-du: Use drmm_encoder_alloc() to manage encoder")
+Fixes: 145eed48de27 ("fbdev: Remove conflicting devices on PCI bus")
 Signed-off-by: Dan Carpenter <error27@gmail.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/chipsfb.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index b1787be31e92..7ecec7b04a8d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -109,8 +109,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 	renc = drmm_encoder_alloc(&rcdu->ddev, struct rcar_du_encoder, base,
- 				  &rcar_du_encoder_funcs, DRM_MODE_ENCODER_NONE,
- 				  NULL);
--	if (!renc)
--		return -ENOMEM;
-+	if (IS_ERR(renc))
-+		return PTR_ERR(renc);
+diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
+index cc37ec3f8fc1..98398789528a 100644
+--- a/drivers/video/fbdev/chipsfb.c
++++ b/drivers/video/fbdev/chipsfb.c
+@@ -358,16 +358,21 @@ static int chipsfb_pci_init(struct pci_dev *dp, const struct pci_device_id *ent)
+ 	if (rc)
+ 		return rc;
  
- 	renc->output = output;
+-	if (pci_enable_device(dp) < 0) {
++	rc = pci_enable_device(dp);
++	if (rc < 0) {
+ 		dev_err(&dp->dev, "Cannot enable PCI device\n");
+ 		goto err_out;
+ 	}
  
+-	if ((dp->resource[0].flags & IORESOURCE_MEM) == 0)
++	if ((dp->resource[0].flags & IORESOURCE_MEM) == 0) {
++		rc = -EINVAL;
+ 		goto err_disable;
++	}
+ 	addr = pci_resource_start(dp, 0);
+-	if (addr == 0)
++	if (addr == 0) {
++		rc = -EINVAL;
+ 		goto err_disable;
++	}
+ 
+ 	p = framebuffer_alloc(0, &dp->dev);
+ 	if (p == NULL) {
+@@ -417,7 +422,8 @@ static int chipsfb_pci_init(struct pci_dev *dp, const struct pci_device_id *ent)
+ 
+ 	init_chips(p, addr);
+ 
+-	if (register_framebuffer(p) < 0) {
++	rc = register_framebuffer(p);
++	if (rc < 0) {
+ 		dev_err(&dp->dev,"C&T 65550 framebuffer failed to register\n");
+ 		goto err_unmap;
+ 	}
 -- 
 2.39.1
 
