@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08696A4934
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 19:07:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 669A86A495F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 19:15:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D03510E1DA;
-	Mon, 27 Feb 2023 18:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A85510E1DC;
+	Mon, 27 Feb 2023 18:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 237D810E1DA
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 18:06:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677521216;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A0XiMaVk2NRHD3G7gBjNzwZV65APgDc5PN3bQr3CxgQ=;
- b=AVMM4qnTgdNqkCYPMVZKJdAzwJu68r2UvobHcMOvJpjLYUwx4F3uhPLISrRoXDNnWDEJxu
- QUJ++UQa2ZLes116fnJtLH1WNv8jvJUbsWqrYDlDDPvjeRnYoroAWRP2+OrD8r9IET++mR
- qbwYPf+axEqm5hKz8trLOUrsbsqmBhg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-584-xsKvlzbSMLCqXzj1QpnMwQ-1; Mon, 27 Feb 2023 13:06:52 -0500
-X-MC-Unique: xsKvlzbSMLCqXzj1QpnMwQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1FD97802D2E;
- Mon, 27 Feb 2023 18:06:52 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.22.33.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A71062026D4B;
- Mon, 27 Feb 2023 18:06:51 +0000 (UTC)
-Received: by fedora.redhat.com (Postfix, from userid 1000)
- id 40EAF139788; Mon, 27 Feb 2023 13:06:51 -0500 (EST)
-Date: Mon, 27 Feb 2023 13:06:51 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RESEND v2 PATCH] init/do_mounts.c: add virtiofs root fs support
-Message-ID: <Y/zxO9PMaES8SenN@redhat.com>
-References: <20230224143751.36863-1-david@ixit.cz>
- <Y/zSCarxyabSC1Zf@fedora>
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 816D510E1DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 18:14:57 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-536bbef1c5eso199767807b3.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 10:14:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Rxy+Y2Y6v6pAxsX4M9bmO7HAq+Wtxptg2XOED5qngyE=;
+ b=FqHD6yYPFLP+OMan9DhJ4cnOGUTo5PonZon88QuK3w5/o+shEDd0oIvGKRDxaP9lv+
+ +ZTOK3gQgJ5qN5JJ1HROQgVjOXMsxv+2/hOo2H4Rss9WwrMUkcpO36KvhZMs9sxY9onz
+ O8kknlZvw1YB20b6BI1yaiHRi1GJaOas0csgQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Rxy+Y2Y6v6pAxsX4M9bmO7HAq+Wtxptg2XOED5qngyE=;
+ b=AIMDhnxOC8046et8X2+PRe5BQTFd1td12zv42LhpE/8yuqOFiRGhD+WumGATcDEf/4
+ DDREmnFOAwH+tDZYXhLGqshnbYj30IXyZTJKRwvA6OEte0p9fVsb5G/VFdz2/fVCptTg
+ Vr/uP2jqZDaJ/HGFKI89oXQdr98ab4SfmMHN0yI4DivtV9sI/B60VZ3iQUzRfn4LqGtF
+ fKh8LvyKCioHiMqN9AqgyD46ptThAKxIkzCeFzRYpbIUwAWOv8thyyqD6aPlZ0aWJLB/
+ VxPFoIzCvZmW2ES2b5uyGTDCyqMl5jIim2S1N44pi9vQd+ddwXSGaaKi9GeWsNVBceLL
+ h+PQ==
+X-Gm-Message-State: AO0yUKUz4OvqSZ4evCA94S2WCyyx0FeuUou/rijATryJ8rYWAT5WcyX3
+ S4zbvN3ydG6t60PyNT8X8ylRb/0DVZRvryDArrQoSg==
+X-Google-Smtp-Source: AK7set9Kgihi89E2kvY1iYb634VX+GAD9mflwu83cKqJpuK8Jp471A46IgTuNE7qr3UI421J2WIaCdIfoWIaiOhvYDg=
+X-Received: by 2002:a05:6902:4d4:b0:91d:d6ed:6bd2 with SMTP id
+ v20-20020a05690204d400b0091dd6ed6bd2mr10115318ybs.1.1677521696576; Mon, 27
+ Feb 2023 10:14:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y/zSCarxyabSC1Zf@fedora>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+References: <20230227173231.950107-1-jagan@amarulasolutions.com>
+ <20230227173231.950107-2-jagan@amarulasolutions.com>
+ <20230227174727.7by2awmz6pdbffo6@houat>
+In-Reply-To: <20230227174727.7by2awmz6pdbffo6@houat>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 27 Feb 2023 23:44:44 +0530
+Message-ID: <CAMty3ZB+d24DPJTqds9s=0EYBggZZX_9SMwtPfgw0vF0N-m4KA@mail.gmail.com>
+Subject: Re: [PATCH v14 2/3] drm: bridge: panel: Add
+ drmm_panel_bridge_add_nodrm
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,93 +66,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Heidelberg <david@ixit.cz>, Miklos Szeredi <miklos@szeredi.hu>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, wsa+renesas@sang-engineering.com,
- helen.koike@collabora.com, Al Viro <viro@zeniv.linux.org.uk>,
- linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 27, 2023 at 10:53:45AM -0500, Stefan Hajnoczi wrote:
-> On Fri, Feb 24, 2023 at 03:37:51PM +0100, David Heidelberg wrote:
-> > From: Stefan Hajnoczi <stefanha@redhat.com>
-> > 
-> > Make it possible to boot directly from a virtiofs file system with tag
-> > 'myfs' using the following kernel parameters:
-> > 
-> >   rootfstype=virtiofs root=myfs rw
-> > 
-> > Booting directly from virtiofs makes it possible to use a directory on
-> > the host as the root file system.  This is convenient for testing and
-> > situations where manipulating disk image files is cumbersome.
-> > 
-> > Reviewed-by: Helen Koike <helen.koike@collabora.com>
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > Signed-off-by: David Heidelberg <david@ixit.cz>
-> > ---
-> > v2: added Reviewed-by and CCed everyone interested.
-> > 
-> > We have used this option in Mesa3D CI for testing crosvm for
-> > more than one years and it's proven to work reliably.
-> > 
-> > We are working on effort to removing custom patches to be able to do 
-> > automated apply and test of patches from any tree.                              
-> > 
-> > https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/.gitlab-ci/crosvm-runner.sh#L85
-> >  init/do_mounts.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> 
-> Vivek, do you remember where we ended up with boot from virtiofs? I
-> thought a different solution was merged some time ago.
+On Mon, Feb 27, 2023 at 11:17 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Mon, Feb 27, 2023 at 11:02:30PM +0530, Jagan Teki wrote:
+> > drmm_panel_bridge_add_nodrm is an another type of DRM-managed action
+> > helper with nodrm pointer.
+> >
+> > DRM pointer is required to perform DRM-managed action,
+> > - The conventional component-based drm bridges, the DRM pointer can
+> >   access in component ops bind API.
+> > - The non-component-based bridges (like host DSI bridges), the DRM
+> >   pointer can access only when a specific bridge has been found
+> >   via bridge->dev.
+> >
+> > This drmm_panel_bridge_add_nodrm helper exclusively for the
+> > non-component-based bridges.
+> >
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>
+> It's the third or fourth time I'm telling you this, and second time
+> today.
 
-We merged a patch from Christoph Hellwig to support this.
+Apologies for this.
 
-commit f9259be6a9e7c22d92e5a5000913147ae17e8321
-Author: Christoph Hellwig <hch@lst.de>
-Date:   Wed Jul 14 16:23:20 2021 -0400
+>
+> You keep respinning that patch, but the issue lies in the samsung
+> driver. Fix it and you won't need that helper.
 
-    init: allow mounting arbitrary non-blockdevice filesystems as root
+This is where all get' stuck. You mentioned in a previous e-mail was,
 
-Now one should be able to mount virtiofs using following syntax.
+"I'm not quite sure what you mean. You shouldn't retrieve the bridge from
+the attach hook but from the probe / bind ones. If that's not working
+for you, this is a bug in the documentation we should address."
 
-"root=myfs rootfstype=virtiofs rw"
+If I understand correctly this would be the third case from the bridge
+documentation
+https://dri.freedesktop.org/docs/drm/gpu/drm-kms-helpers.html#special-care-with-mipi-dsi-bridges
 
-IIUC, this patch should not be required anymore.
+"The upstream driver uses the component framework and is a MIPI-DSI
+host. The bridge device uses the MIPI-DCS commands to be controlled.
+This is the same situation as above, and can run
+mipi_dsi_host_register() in either its probe or bind hooks."
 
-Thanks
-Vivek
+But the problem here, The samsung-dsim bridge common bridge across
+Exynos and i.MX8MM.
+So, the
+- Upstream Exynos is component-based and
+- Upstream i.MX8MM is non-component-based
 
-> 
-> There is documentation from the virtiofs community here:
-> https://virtio-fs.gitlab.io/howto-boot.html
-> 
-> Stefan
-> 
-> > 
-> > diff --git a/init/do_mounts.c b/init/do_mounts.c
-> > index 811e94daf0a8..11c11abe23d7 100644
-> > --- a/init/do_mounts.c
-> > +++ b/init/do_mounts.c
-> > @@ -578,6 +578,16 @@ void __init mount_root(void)
-> >  			printk(KERN_ERR "VFS: Unable to mount root fs via SMB.\n");
-> >  		return;
-> >  	}
-> > +#endif
-> > +#ifdef CONFIG_VIRTIO_FS
-> > +	if (root_fs_names && !strcmp(root_fs_names, "virtiofs")) {
-> > +		if (!do_mount_root(root_device_name, "virtiofs",
-> > +				   root_mountflags, root_mount_data))
-> > +			return;
-> > +
-> > +		panic("VFS: Unable to mount root fs \"%s\" from virtiofs",
-> > +		      root_device_name);
-> > +	}
-> >  #endif
-> >  	if (ROOT_DEV == 0 && root_device_name && root_fs_names) {
-> >  		if (mount_nodev_root() == 0)
-> > -- 
-> > 2.39.1
-> > 
+With this dual scenario, retrieving the bridge pointer in a bind will
+work for the Exynos case, and retrieving the bridge pointer in bridge.
+attach will work for i.MX8MM. This is what I mentioned deadlock
+scenario in a previous e-mail.
 
+Hope you clear the real issue now.
 
+Thanks,
+Jagan.
