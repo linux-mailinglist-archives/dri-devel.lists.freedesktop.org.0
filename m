@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF6C6A4810
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 18:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C696A4811
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 18:33:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F05A10E1CB;
-	Mon, 27 Feb 2023 17:33:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B2EC10E1DD;
+	Mon, 27 Feb 2023 17:33:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1921E10E1CB
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:33:02 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- me6-20020a17090b17c600b0023816b0c7ceso2916073pjb.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 09:33:02 -0800 (PST)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC24E10E1DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:33:05 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id v11so3957397plz.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 09:33:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=i/lQxEf2TtHUNWLWo3NazK/gJXKzS8+QxqszMeM4eHg=;
- b=SljLYax88JRFlAq7jh76tJzoQUy3YJdcchQ2w2pP89+EK9FOO/0eLn5M8g/DPB2UWq
- wlpv09NmzvTh88SMfYvl+IXDqU+TrNpZ+Hq+1cG1yFizPwkEwUOVqDXr/41ZCT/7bvbM
- L1lhCrVC9+whVMZU93SqypA4bN5smowSF1wDU=
+ bh=OTJItNP0wwoi0zfE13wa5cJIG6qrtf4/sDgikbyAPqk=;
+ b=l8z0K8RF6z/QR3oZloAbcBIWTOOUM4JeNKPYQttp0tWNGC+OCHNTrKRk2GUqV/6Pes
+ uiuMTsStBk0f8ar7FL87W7OYDwuXgfOx7wIzE3s7AOaol2M+NOm5kwx2XJoTPjDIXAkt
+ xz1SqM3gq3xaHzhzvpC+zZ0One/MRLdFp1Dgs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=i/lQxEf2TtHUNWLWo3NazK/gJXKzS8+QxqszMeM4eHg=;
- b=pAX26rC4KDwdnLq6vjGtxY5/nrjQNN1YK5Fj5UB5CjcfqNeObTMLxdlDrUJy3A4GYC
- TgE+eCSAW25DF8UjUyuvp40u390Oq8IXql/5Td70LJxfwf7f60hHO/AEpy8BUvqL9qLK
- Do6HwG/qMYBXBAQAYSf+IEY/tRjETko+nCLKgju0/nbY0RNKH0lQWeCIlKPMNpdPclb2
- klw3cTYRXHnEwG80hub4ONplGtY1JI48HjpRQz1q3Uo3Yaezrvm0OsCRaqxlsbaMAgMK
- wHWUWqQLsSDfDKO4cZdBUsHMlWnHBN441Jhvm7lBO7LrNysLzPscwXGez2gSyFOouQ6s
- izNg==
-X-Gm-Message-State: AO0yUKXr1UCAgUW0dCcYl0TrNkgWqI9SasFd7i14xAVdUBEsMxcJHXmq
- xAMzzMidr5RncH3ODhUwSrTOlg==
-X-Google-Smtp-Source: AK7set8ZFzgn6DEfqVXbC9Ew/4cbHbnSxpcIwRbwbgyYJjkkDPKoiBYh3UY5Vc8lp80jYQMvNCZSRA==
-X-Received: by 2002:a17:90b:3890:b0:233:f990:d646 with SMTP id
- mu16-20020a17090b389000b00233f990d646mr26900495pjb.35.1677519181209; 
- Mon, 27 Feb 2023 09:33:01 -0800 (PST)
+ bh=OTJItNP0wwoi0zfE13wa5cJIG6qrtf4/sDgikbyAPqk=;
+ b=fP7BEqe9kMYah6PU6jysc+TD2FLchHIiHIa6dyvl8leU9c+hHKnbzUhrHC7ntVBg+z
+ 2ykT43DGI42RxTl5D1RSGlqk3PYJN+Fse37g9kbN+fv5Z5OS3ECxGZ6Lt5PbUKwksROK
+ O4X7ionhw/rlIUGYf181x3RrjXTtmpNewxQmIyuZa1pAoSJEnZqlOWpcZOoppBQh3iRJ
+ 90FpD9qAZbxha3lMTuA8jmf8K70Lc8M9pXKp181EjRTZrR1JAVoFKD/3VQL76QyT2N5/
+ O6JJqIG0PRE5CzYqYS3pelQh+L12+xJ7mDWRpMA+XkNevIymNKoEGmvKLUgvpYE/YvTn
+ 1/SQ==
+X-Gm-Message-State: AO0yUKU6LgIuGjwqaJDTTzCSwt4Cg3RfDVR8woA+rL89RP89iYyTLQp7
+ Lm0GoMXvh3E9Mbxe575fIu5igw==
+X-Google-Smtp-Source: AK7set/U0qTPxQReQcNfQCS3IytuDxl3M0P1N3ZmUC87snABCHdGLOuebn4mK2XgGq660pwj6Z0SgA==
+X-Received: by 2002:a05:6a20:b062:b0:cc:f047:afaf with SMTP id
+ dx34-20020a056a20b06200b000ccf047afafmr240390pzb.11.1677519185500; 
+ Mon, 27 Feb 2023 09:33:05 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c00a:a1ce:9be1:7461:c30:b70a])
  by smtp.gmail.com with ESMTPSA id
- a63-20020a639042000000b004fbb48e3e5csm4308881pge.77.2023.02.27.09.32.57
+ a63-20020a639042000000b004fbb48e3e5csm4308881pge.77.2023.02.27.09.33.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 09:33:00 -0800 (PST)
+ Mon, 27 Feb 2023 09:33:04 -0800 (PST)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -55,9 +54,9 @@ To: Maxime Ripard <mripard@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Marek Vasut <marex@denx.de>
-Subject: [PATCH v14 2/3] drm: bridge: panel: Add drmm_panel_bridge_add_nodrm
-Date: Mon, 27 Feb 2023 23:02:30 +0530
-Message-Id: <20230227173231.950107-2-jagan@amarulasolutions.com>
+Subject: [PATCH v14 3/3] drm: bridge: panel: Add drmm_of_dsi_get_bridge helper
+Date: Mon, 27 Feb 2023 23:02:31 +0530
+Message-Id: <20230227173231.950107-3-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230227173231.950107-1-jagan@amarulasolutions.com>
 References: <20230227173231.950107-1-jagan@amarulasolutions.com>
@@ -80,18 +79,15 @@ Cc: linux-amarula <linux-amarula@amarulasolutions.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drmm_panel_bridge_add_nodrm is an another type of DRM-managed action
-helper with nodrm pointer.
+Add devm OF helper to return the next DSI bridge in the chain.
 
-DRM pointer is required to perform DRM-managed action,
-- The conventional component-based drm bridges, the DRM pointer can
-  access in component ops bind API.
-- The non-component-based bridges (like host DSI bridges), the DRM
-  pointer can access only when a specific bridge has been found
-  via bridge->dev.
+Unlike general bridge return helper drmm_of_get_bridge, this
+helper uses the dsi specific panel_or_bridge helper to find the
+next DSI device in the pipeline.
 
-This drmm_panel_bridge_add_nodrm helper exclusively for the
-non-component-based bridges.
+Helper lookup a given child DSI node or a DT node's port and
+endpoint number, find the connected node and return either
+the associated struct drm_panel or drm_bridge device.
 
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
@@ -100,98 +96,83 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
 Changes for v14:
+- add drmm_of_dsi_get_bridge
+Changes for v13, v12, v11:
+- none
+Changes for v10:
 - new patch
 
- drivers/gpu/drm/bridge/panel.c | 48 ++++++++++++++++++++++++++++------
- include/drm/drm_bridge.h       |  1 +
- 2 files changed, 41 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/bridge/panel.c | 32 ++++++++++++++++++++++++++++++++
+ include/drm/drm_bridge.h       |  8 ++++++++
+ 2 files changed, 40 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index e8aae3cdc73d..d235a3843fcb 100644
+index d235a3843fcb..92fc7143a249 100644
 --- a/drivers/gpu/drm/bridge/panel.c
 +++ b/drivers/gpu/drm/bridge/panel.c
-@@ -378,6 +378,22 @@ static void drmm_drm_panel_bridge_release(struct drm_device *drm, void *ptr)
- 	drm_panel_bridge_remove(bridge);
+@@ -531,4 +531,36 @@ struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
  }
+ EXPORT_SYMBOL(drmm_of_get_bridge);
  
-+static struct drm_bridge *
-+drmm_panel_bridge_add_action(struct drm_device *drm, struct drm_panel *panel,
-+			     struct drm_bridge *bridge)
++/**
++ * drmm_of_dsi_get_bridge - Return next DSI bridge in the chain
++ * @np: device tree node containing DSI output ports
++ * @port: port in the device tree node
++ * @endpoint: endpoint in the device tree node
++ *
++ * Given a DT node's port and endpoint number, finds the connected node
++ * and returns the associated DSI bridge if any, or creates and returns
++ * a DSI panel bridge instance if a panel is connected.
++ *
++ * Returns a drmm managed pointer to the DSI bridge if successful, or
++ * an error pointer otherwise.
++ */
++struct drm_bridge *drmm_of_dsi_get_bridge(struct device_node *np,
++					  u32 port, u32 endpoint)
 +{
++	struct drm_bridge *bridge;
++	struct drm_panel *panel;
 +	int ret;
 +
-+	ret = drmm_add_action_or_reset(drm, drmm_drm_panel_bridge_release,
-+				       bridge);
++	ret = drm_of_dsi_find_panel_or_bridge(np, port, endpoint,
++					      &panel, &bridge);
 +	if (ret)
 +		return ERR_PTR(ret);
 +
-+	bridge->pre_enable_prev_first = panel->prepare_prev_first;
++	if (panel)
++		bridge = drmm_panel_bridge_add_nodrm(panel);
 +
 +	return bridge;
 +}
++EXPORT_SYMBOL(drmm_of_dsi_get_bridge);
 +
- /**
-  * drmm_panel_bridge_add - Creates a DRM-managed &drm_bridge and
-  *                         &drm_connector that just calls the
-@@ -394,22 +410,38 @@ struct drm_bridge *drmm_panel_bridge_add(struct drm_device *drm,
- 					 struct drm_panel *panel)
- {
- 	struct drm_bridge *bridge;
--	int ret;
- 
- 	bridge = drm_panel_bridge_add_typed(panel, panel->connector_type);
- 	if (IS_ERR(bridge))
- 		return bridge;
- 
--	ret = drmm_add_action_or_reset(drm, drmm_drm_panel_bridge_release,
--				       bridge);
--	if (ret)
--		return ERR_PTR(ret);
-+	return drmm_panel_bridge_add_action(drm, panel, bridge);
-+}
-+EXPORT_SYMBOL(drmm_panel_bridge_add);
- 
--	bridge->pre_enable_prev_first = panel->prepare_prev_first;
-+/**
-+ * drmm_panel_bridge_add_nodrm - Creates a DRM-managed &drm_bridge and
-+ *				 &drm_connector that just calls the
-+ *				 appropriate functions from &drm_panel
-+ *				 with no @dev.
-+ *
-+ * @panel: The drm_panel being wrapped.  Must be non-NULL.
-+ *
-+ * This is the DRM-managed version of drm_panel_bridge_add() which
-+ * automatically calls drm_panel_bridge_remove() when @dev is cleaned
-+ * up.
-+ */
-+struct drm_bridge *drmm_panel_bridge_add_nodrm(struct drm_panel *panel)
-+{
-+	struct drm_bridge *bridge;
- 
--	return bridge;
-+	bridge = drm_panel_bridge_add_typed(panel, panel->connector_type);
-+	if (IS_ERR(bridge))
-+		return bridge;
-+
-+	return drmm_panel_bridge_add_action(bridge->dev, panel, bridge);
- }
--EXPORT_SYMBOL(drmm_panel_bridge_add);
-+EXPORT_SYMBOL(drmm_panel_bridge_add_nodrm);
- 
- /**
-  * drm_panel_bridge_connector - return the connector for the panel bridge
+ #endif
 diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 42f86327b40a..acc118bab758 100644
+index acc118bab758..a88391cf64b8 100644
 --- a/include/drm/drm_bridge.h
 +++ b/include/drm/drm_bridge.h
-@@ -912,6 +912,7 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
- 						   u32 connector_type);
- struct drm_bridge *drmm_panel_bridge_add(struct drm_device *drm,
- 					     struct drm_panel *panel);
-+struct drm_bridge *drmm_panel_bridge_add_nodrm(struct drm_panel *panel);
- struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
+@@ -932,6 +932,8 @@ struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node
+ 					  u32 port, u32 endpoint);
+ struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm, struct device_node *node,
+ 					  u32 port, u32 endpoint);
++struct drm_bridge *drmm_of_dsi_get_bridge(struct device_node *node,
++					  u32 port, u32 endpoint);
  #else
- static inline bool drm_bridge_is_panel(const struct drm_bridge *bridge)
+ static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
+ 							struct device_node *node,
+@@ -948,6 +950,12 @@ static inline struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+ {
+ 	return ERR_PTR(-ENODEV);
+ }
++
++static inline struct drm_bridge *
++drmm_of_dsi_get_bridge(struct device_node *node, u32 port, u32 endpoint)
++{
++	return ERR_PTR(-ENODEV);
++}
+ #endif
+ 
+ #endif
 -- 
 2.25.1
 
