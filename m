@@ -1,70 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E4B6A3BF1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 09:04:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 530416A3BF2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 09:07:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4E110E350;
-	Mon, 27 Feb 2023 08:04:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B6C610E35B;
+	Mon, 27 Feb 2023 08:07:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6B8D10E350
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 08:04:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 72843219E9;
- Mon, 27 Feb 2023 08:04:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677485091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SL3hNZ1PhZNtjYXOI8bgqaxWiXRExCffqLVe0/4Pqxc=;
- b=EYiafKnwKunGFHSNwIkvCEr09Duztld4s1w87kMdF5qD/Hqyr7XTBJVExnN6SQLs9YIZyl
- +r7WOW9WJsVg5gPYp3PFJmChFjD5CHfs8RAfQMBbgHhuUAtm9Mv9GUbvtQllVw8kxZ+x3y
- GqXQEMxWLL+z3malgFwl4551ntwSVqg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677485091;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SL3hNZ1PhZNtjYXOI8bgqaxWiXRExCffqLVe0/4Pqxc=;
- b=x41VCA+g2/tVofUbCNcy+xuP++d/1K3VGA8wxe43Bh2gaVxoXRMspff0iEGvvMwvOemLw1
- VROaZpp2FxizeoAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3ECF813A43;
- Mon, 27 Feb 2023 08:04:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eG9ADiNk/GPGKwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 27 Feb 2023 08:04:51 +0000
-Message-ID: <3d94a119-dc83-aede-fd39-df7a3ee7cdc0@suse.de>
-Date: Mon, 27 Feb 2023 09:04:50 +0100
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2462210E35B;
+ Mon, 27 Feb 2023 08:07:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677485252; x=1709021252;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=U3Xt04GZAyjq0cRYNKpt5g2RRGxf1W4WCXYH1jVaq74=;
+ b=it8PIc93mjwuARTOYOjVOyqXw9sKoDu/5SgWIJUchnPRe7ePdBlu/IUB
+ +soRh0shoetUTJ1CWbV4dNks/wPxWFQb8spA2FyO/Azh+esNMUommrwmx
+ kA2bSNKBg+25OoR0gXSW6F2HtJCJt4ygosWH4w6r4+KwD7qVjik7tKeXW
+ QvH2KsXUlbTZKbUdW7ZCc3/kEJ0k+uriiq1aEIw9bVaz97m1wQoI7XkVK
+ m89YNI0DbWj/6o36rxBgOjwdJ8RqHJUBWL9bsaXXeztDEh8Q2D06WrhVj
+ uh0ZIGI0c8tANeuG+XQui1CBewNOXrCxem1uBv2MEZGyewLLNIkxmx288 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="314230074"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="314230074"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 00:07:31 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="703935010"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="703935010"
+Received: from flayounx-mobl.ger.corp.intel.com (HELO [10.249.254.249])
+ ([10.249.254.249])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 00:07:29 -0800
+Message-ID: <ec302d85-4b84-fb5e-ff52-2e4183f18b58@linux.intel.com>
+Date: Mon, 27 Feb 2023 09:07:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
- drm_gem_shmem_get_pages_sgt()
+Subject: Re: [PATCH 0/1] drm: Add a gpu page-table walker
 Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230205125124.2260-1-lina@asahilina.net>
- <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
- <cc1c34c6-18d1-a8c5-bf70-078e7b7205f8@suse.de>
- <e49127fb-abb9-16fc-42bd-2f380d1bd29d@asahilina.net>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <e49127fb-abb9-16fc-42bd-2f380d1bd29d@asahilina.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------J1Lb5TSRvy34253xYuFZL0Nn"
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20230216162729.219979-1-thomas.hellstrom@linux.intel.com>
+ <Y+6PqOdRf+vu8rZc@phenom.ffwll.local>
+ <699c33d7-6788-99ab-6787-1cebff0bf70e@linux.intel.com>
+ <CADnq5_Mfp4pCnVcsWn_vMO-hWcMhH_yb8MHccyp_jEL=XxgZNg@mail.gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <CADnq5_Mfp4pCnVcsWn_vMO-hWcMhH_yb8MHccyp_jEL=XxgZNg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,87 +63,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- linux-kernel@vger.kernel.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- asahi@lists.linux.dev
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
+ intel-xe@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------J1Lb5TSRvy34253xYuFZL0Nn
-Content-Type: multipart/mixed; boundary="------------v7YMrJxP0MzJrghKXAGDAzMQ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Asahi Lina <lina@asahilina.net>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev
-Message-ID: <3d94a119-dc83-aede-fd39-df7a3ee7cdc0@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
- drm_gem_shmem_get_pages_sgt()
-References: <20230205125124.2260-1-lina@asahilina.net>
- <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
- <cc1c34c6-18d1-a8c5-bf70-078e7b7205f8@suse.de>
- <e49127fb-abb9-16fc-42bd-2f380d1bd29d@asahilina.net>
-In-Reply-To: <e49127fb-abb9-16fc-42bd-2f380d1bd29d@asahilina.net>
+Hi,
 
---------------v7YMrJxP0MzJrghKXAGDAzMQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 2/23/23 19:50, Alex Deucher wrote:
+> On Thu, Feb 23, 2023 at 10:03 AM Thomas Hellström
+> <thomas.hellstrom@linux.intel.com> wrote:
+>> Hi, Daniel,
+>>
+>> On 2/16/23 21:18, Daniel Vetter wrote:
+>>> On Thu, Feb 16, 2023 at 05:27:28PM +0100, Thomas Hellström wrote:
+>>>> A slightly unusual cover letter for a single patch.
+>>>>
+>>>> The page table walker is currently used by the xe driver only,
+>>>> but the code is generic so we can be good citizens and add it to drm
+>>>> as a helper, for possible use by other drivers,
+>>>> If so we can merge the commit when we merge the xe driver.
+>>>>
+>>>> The question raised here is
+>>>> *) Should it be a generic drm helper or xe-specific with changed
+>>>>      prefixes?
+>>> I think if there's some other drivers interested in using this, then this
+>>> sounds like a good idea. Maybe more useful if it's also integrated into
+>>> the vm/vma helpers that are being discussed as an optional part?
+>>>
+>>> Maybe some good old sales pitching here to convince people would be good.
+>>>
+>>> Maybe one of the new accel drivers is interested in this too?
+>> Thanks for your thoughts on this. Yeah, I think it's a bit awkward to
+>> push for having code generic when there is only one user, and the
+>> prospect of having other drivers rewrite their page-table building code
+>> based on this helper in the near future is probably small. Perhaps more
+>> of interest to new drivers. I think what will happen otherwise is that
+>> during some future cleanup this will be pushed down to xe claiming it's
+>> the only user.
+>>
+>> I wonder whether it might be an idea to maintain a small document where
+>> driver writers can list suggestions for code that could be lifted to
+>> core drm and be reused by others. That way both reviewers and writers of
+>> other drivers can keep an eye on that document and use it to avoid
+>> duplicating code. The procedure would then be to lift it to core drm and
+>> fix up prefixes as soon as we have two or more users.
+>>
+>> Thoughts?
+> FWIW, when we originally wrote the GPU scheduler it was part of
+> amdgpu, but we consciously kept any AMD-isms out of it so it could be
+> lifted up to a core component when another user came along.  Maybe
+> some comments in the top of those files to that effect to maintain the
+> separation.
 
-SGkNCg0KQW0gMjcuMDIuMjMgdW0gMDg6NTUgc2NocmllYiBBc2FoaSBMaW5hOg0KPiBPbiAy
-Ny8wMi8yMDIzIDE2LjQ1LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEhpDQo+Pg0K
-Pj4gQW0gMjUuMDIuMjMgdW0gMjI6NTEgc2NocmllYiBEbWl0cnkgT3NpcGVua286DQo+Pj4g
-T24gMi81LzIzIDE1OjUxLCBBc2FoaSBMaW5hIHdyb3RlOg0KPj4+PiAtRVhQT1JUX1NZTUJP
-TF9HUEwoZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0KTsNCj4+Pj4gK0VYUE9SVF9TWU1C
-T0woZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0KTsNCj4+Pg0KPj4+IE5vdGUgaXQgd2Fz
-IGEgR1BMIHN5bWJvbC4gSSBleHBlY3QgdGhhdCBhbGwgZHJtLXNobWVtIGV4cG9ydHMgc2hv
-dWxkIGJlIEdQTC4NCj4+DQo+PiBSaWdodC4gSSBkaWRuJ3Qgbm90aWNlIHRoYXQgY2hhbmdl
-LCBidXQgaXQncyBwcm9iYWJseSBub3QgYWxsb3dlZC4gVGhpcw0KPj4gbmVlZHMgdG8gYmUg
-cmV2ZXJ0ZWQgdG8gYSBHUEwgZXhwb3J0DQo+IA0KPiBJJ20gc29ycnksIHRoaXMgd2FzIG5v
-dCBpbnRlbnRpb25hbCEgSSB0aGluayBJIHJlbW92ZWQgYW5kIHJlLWFkZGVkIHRoZQ0KPiBl
-eHBvcnQgYXMgcGFydCBvZiBtYWtpbmcgdGhlIHdyYXBwZXIgYW5kIGRpZG4ndCBub3RpY2Ug
-aXQgdXNlZCB0byBiZSBfR1BMLi4uDQo+IA0KPiBEbyB5b3Ugd2FudCBtZSB0byBzZW5kIGEg
-cGF0Y2ggdG8gYWRkIGl0IGJhY2s/DQoNClllcywgcGxlYXNlIGRvLiBUaGUgRml4ZXMgdGFn
-IGlzDQoNCiAgIEZpeGVzOiBkZGRkZWRhYTBkYjkgKCJkcm0vc2htZW0taGVscGVyOiBGaXgg
-bG9ja2luZyBmb3IgDQpkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QoKSIpDQoNClRoaXMg
-Y29tbWl0IGlzIGluIGRybS1taXNjLW5leHQtZml4ZXMuIEJ1dCB0aGUgYnJhbmNoIGlzIGNs
-b3NlZCBhbHJlYWR5IA0KYXMgd2UncmUgaW4gdGhlIG1pZGRsZSBvZiB0aGUgbWVyZ2Ugd2lu
-ZG93LiBJIHRoaW5rIGl0J3MgYmVzdCB0byBtZXJnZSANCnRoZSBmaXggdGhyb3VnaCBkcm0t
-bWlzYy1maXhlcyBhZnRlciB0aGUgLXJjMSBocyBiZWVuIHRhZ2dlZC4NCg0KQmVzdCByZWdh
-cmRzDQpUaG9tYXMNCg0KPiANCj4gfn4gTGluYQ0KDQotLSANClRob21hcyBaaW1tZXJtYW5u
-DQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
-ZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0K
-KEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rl
-dg0K
+Sure. I'll do that. It sounds like we'll keep this in xe for now.
 
---------------v7YMrJxP0MzJrghKXAGDAzMQ--
+Thanks,
 
---------------J1Lb5TSRvy34253xYuFZL0Nn
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+/Thomas
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP8ZCIFAwAAAAAACgkQlh/E3EQov+AT
-sBAAnwuKmArPei56rq2mShl4mx6s6vOVNxdFN3Clr/wzgd0Pjb0VVME0daAlpTmr9IY6hneL+Cqt
-87A7r05pYu6G+yqghRf7d40ZVeioYhiK1allBzmZR0xJlsD7FKKzRm8dI4LJF2OtEj+WPvy4d4Ny
-WXP0P42nWxb+RPS5In+UIDrM7+5XBaJbKWkzU8mhKL1b0Qo8AZRD6zTdHjivkfPmUO8Hk00WFm+X
-f2ijOvzBHMsW77qtxFgASXnNiXQr9qgb+i6SObYBcPihPkMxAQhBVMgwVWh9OERPfs80ixz2Fq1B
-QpcoCLFLHewopdRbdpGgKhhXyt9W4pWJAGb/Y+VN3c6CgZdn1E2p9+w7iq3XYiLb7MmISQzN35bU
-d/RVBnMC7raqkq84ei0f6u15bts4mTFVCrR/28WMAITDuWV/Zm8yOhquojig4I82SPB7SUUcXoXR
-3rfmbKJ6eNbb8oO7BQ+P9cI53ZTxY3/MfyzyXikxl8a+xr5aDKJC52Fk8bsQRKu+x40hbuX8pNzw
-ZD/N/EGrAKTfHaLgMcNsictAjh+730irHOqvGwbg5IWdqMRpyGb01VThfwE+vCbWUT0GYj7rWGOg
-55zFXpvrshMf7UTJqpr8dEOqFmL1aR1pxFxgC66SbGkVebEXwFo4A8fSGMUf+IV81tW/kHYDxt6E
-emU=
-=pxG9
------END PGP SIGNATURE-----
-
---------------J1Lb5TSRvy34253xYuFZL0Nn--
+> Alex
+>
+>
+>> Thomas
+>>
+>>
+>>>> *) If a drm helper, should we use a config option?
+>>> I am no fan of Kconfig things tbh. Maybe just include it in the vma
+>>> helpers, or perhaps we want to do a drm-accel-helpers with gem helpers,
+>>> drm/sched, this one here, vm/vma helpers or whatever they will be and so
+>>> on? Kinda like we have modeset helpers.
+>>>
+>>> I'd definitely not go for a Kconfig per individual file, that's just
+>>> excessive.
+>>> -Daniel
+>>>
+>>>> For usage examples, see xe_pt.c
+>>>> https://gitlab.freedesktop.org/drm/xe/kernel/-/blob/drm-xe-next/drivers/gpu/drm/xe/xe_pt.c
+>>>>
+>>>> Thanks,
+>>>> Thomas
+>>>>
+>>>> Thomas Hellström (1):
+>>>>     drm: Add a gpu page-table walker helper
+>>>>
+>>>>    drivers/gpu/drm/Makefile      |   1 +
+>>>>    drivers/gpu/drm/drm_pt_walk.c | 159 +++++++++++++++++++++++++++++++++
+>>>>    include/drm/drm_pt_walk.h     | 161 ++++++++++++++++++++++++++++++++++
+>>>>    3 files changed, 321 insertions(+)
+>>>>    create mode 100644 drivers/gpu/drm/drm_pt_walk.c
+>>>>    create mode 100644 include/drm/drm_pt_walk.h
+>>>>
+>>>> --
+>>>> 2.34.1
+>>>>
